@@ -54,7 +54,7 @@ int main( int argc, char **argv )
 	aboutData.addAuthor(
 	    "Klaus-Dieter Möller", 0 ,
 	    "kd.moeller@t-online.de" );
-	aboutData.addCredit("Mathias Meßmer", I18N_NOOP("bugs fixes, code improvement"), "bmlmessmer@web.de");  
+	aboutData.addCredit("Matthias Meßmer", I18N_NOOP("bugs fixes, code improvement"), "bmlmessmer@web.de");  
 	aboutData.addCredit("David Vignoni", I18N_NOOP("svg icon"), "david80v@tin.it");
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.

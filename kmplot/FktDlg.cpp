@@ -79,7 +79,7 @@ void FktDlg::slotDelete()
 	else
 	{
 		// only one function to be deleted
-		m_view->parser()->delfkt( m_view->parser()->ixValue(getId( lb_fktliste->text( num ))) );
+		m_view->parser()->delfkt( getId( lb_fktliste->text( num )) );
 	}
 	lb_fktliste->removeItem( num );
 	changed = true;

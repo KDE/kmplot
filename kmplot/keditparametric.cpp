@@ -211,7 +211,6 @@ void KEditParametric::accept()
         added_ufkt->f1_color = tmp_ufkt.f1_color;
         added_ufkt->f2_color = tmp_ufkt.f2_color;
         added_ufkt->integral_color = tmp_ufkt.integral_color;
-	//added_ufkt->parameters = tmp_ufkt.parameters;
         added_ufkt->use_slider = tmp_ufkt.use_slider;
 
         added_ufkt = 0;
@@ -272,7 +271,6 @@ void KEditParametric::accept()
         added_ufkt->integral_color = tmp_ufkt.integral_color;
 	added_ufkt->parameters = tmp_ufkt.parameters;
         added_ufkt->use_slider = tmp_ufkt.use_slider;
-        //added_ufkt->k_liste = tmp_ufkt.k_liste;
 
 	
 	// call inherited method

@@ -353,7 +353,7 @@ int Parser::addfkt(QString str)
         if ( ufkt.begin()->fname.isEmpty() )
         {
                 ufkt.begin()->id = 0;
-                kdDebug() << "ufkt.begin()->id:" << ufkt.begin()->id << endl;
+                //kdDebug() << "ufkt.begin()->id:" << ufkt.begin()->id << endl;
         }
         else
         {
@@ -506,20 +506,31 @@ void Parser::fix_expression(QString &str, int const pos)
 
 void Parser::delfkt( Ufkt *item)
 {
+	kdDebug() << "Deleting id:" << item->id << endl;
         if ( ufkt.count()==1 )
         {
-                kdDebug() << "first item, don't delete" << endl;
+                //kdDebug() << "first item, don't delete" << endl;
 		item->fname="";
         }
         else
         {
-                kdDebug() << "Deleting something... :-)" << endl;
+                //kdDebug() << "Deleting something" << endl;
 		QChar const extstr_c = item->extstr.at(0);
 		uint const id = item->id;
 		delete []item->mem;
                 ufkt.erase(item);
-		if ( extstr_c == 'x' || extstr_c == 'y')
-			delfkt( &ufkt[id] );
+		if ( extstr_c == 'x')
+		{
+			int const ix = ixValue(id+1);
+			if (ix!= -1 && ufkt[ix].extstr.at(0) == 'y')
+				delfkt( &ufkt[ix]);
+		}
+		else if ( extstr_c == 'y')
+		{
+			int const ix = ixValue(id-1);
+			if (ix!= -1 && ufkt[ix].extstr.at(0) == 'x')
+				delfkt( &ufkt[ix]);
+		}
         }
 }
 

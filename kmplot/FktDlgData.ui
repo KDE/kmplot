@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>429</width>
-            <height>351</height>
+            <height>353</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -302,19 +302,19 @@
         <sender>PushButtonDel</sender>
         <signal>clicked()</signal>
         <receiver>FktDlgData</receiver>
-        <slot>ondelete()</slot>
+        <slot>slotDelete()</slot>
     </connection>
     <connection>
         <sender>lb_fktliste</sender>
         <signal>selected(int)</signal>
         <receiver>FktDlgData</receiver>
-        <slot>onedit()</slot>
+        <slot>slotEdit()</slot>
     </connection>
     <connection>
         <sender>lb_fktliste</sender>
         <signal>selectionChanged()</signal>
         <receiver>FktDlgData</receiver>
-        <slot>onHasSelection()</slot>
+        <slot>slotHasSelection()</slot>
     </connection>
     <connection>
         <sender>PushButtonOk</sender>
@@ -332,31 +332,31 @@
         <sender>PushButtonEdit</sender>
         <signal>clicked()</signal>
         <receiver>FktDlgData</receiver>
-        <slot>onedit()</slot>
+        <slot>slotEdit()</slot>
     </connection>
     <connection>
         <sender>PushButtonNewFunction</sender>
         <signal>clicked()</signal>
         <receiver>FktDlgData</receiver>
-        <slot>onNewFunction()</slot>
+        <slot>slotNewFunction()</slot>
     </connection>
     <connection>
         <sender>PushButtonNewParametric</sender>
         <signal>clicked()</signal>
         <receiver>FktDlgData</receiver>
-        <slot>onNewParametric()</slot>
+        <slot>slotNewParametric()</slot>
     </connection>
     <connection>
         <sender>PushButtonNewPolar</sender>
         <signal>clicked()</signal>
         <receiver>FktDlgData</receiver>
-        <slot>onNewPolar()</slot>
+        <slot>slotNewPolar()</slot>
     </connection>
     <connection>
         <sender>pushButtonHelp</sender>
         <signal>clicked()</signal>
         <receiver>FktDlgData</receiver>
-        <slot>onHelp()</slot>
+        <slot>slotHelp()</slot>
     </connection>
 </connections>
 <tabstops>
@@ -371,14 +371,13 @@
     <tabstop>pushButtonHelp</tabstop>
 </tabstops>
 <slots>
-    <slot>onnew()</slot>
-    <slot>ondelete()</slot>
-    <slot>onedit()</slot>
-    <slot>onHasSelection()</slot>
-    <slot>onNewParametric()</slot>
-    <slot>onNewPolar()</slot>
-    <slot>onNewFunction()</slot>
-    <slot access="protected">onHelp()</slot>
+    <slot>slotDelete()</slot>
+    <slot>slotEdit()</slot>
+    <slot>slotHasSelection()</slot>
+    <slot>slotNewParametric()</slot>
+    <slot>slotNewPolar()</slot>
+    <slot>slotNewFunction()</slot>
+    <slot access="protected">slotHelp()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

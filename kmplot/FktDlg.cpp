@@ -37,20 +37,22 @@
 #include "keditparametric.h"
 #include "keditpolar.h"
 #include "MainDlg.h"
+#include "xparser.h"
 
 #include <kdebug.h>
 
 #define Inherited FktDlgData
 
-FktDlg::FktDlg( QWidget* parent, const char* name ) : Inherited( parent, name )
+FktDlg::FktDlg( QWidget* parent, XParser* parser ) : Inherited( parent, "editPlots" )
 {
+	m_parser = parser;
 }
 
 FktDlg::~FktDlg()
 {
 }
 
-void FktDlg::ondelete()
+void FktDlg::slotDelete()
 {
 	int ix, num;
 
@@ -60,29 +62,29 @@ void FktDlg::ondelete()
 	// TODO: delete parametric pair of function
 	ix = getIx( lb_fktliste->text( num ) );
 	chflg = 1;
-	ps.delfkt( ix );
+	m_parser->delfkt( ix );
 	lb_fktliste->removeItem( num );
 	updateView();
 }
 
-void FktDlg::onedit()
+void FktDlg::slotEdit()
 {
 	int num = lb_fktliste->currentItem();
 	int index = getIx( lb_fktliste->text( num ).section( ";", 0, 0) );
 	
 	// find out the function type
-	char prefix = ps.fktext[ index ].extstr.at(0).latin1();
+	char prefix = m_parser->fktext[ index ].extstr.at(0).latin1();
 	
 	switch( prefix )
 	{
 		case 'r':
-			onEditPolar( index, num );
+			slotEditPolar( index, num );
 			break;
 		case 'x':
-			onEditParametric( index, getIx( lb_fktliste->text( num ).section( ";", 1, 1) ), num );
+			slotEditParametric( index, getIx( lb_fktliste->text( num ).section( ";", 1, 1) ), num );
 			break;
 		default:
-			onEditFunction( index, num );
+			slotEditFunction( index, num );
 	}
 	updateView();
 }
@@ -91,12 +93,12 @@ int FktDlg::getIx( const QString f_str )
 {
 	QString fname;
 	QString fstr;
-	for ( int ix = 0; ix < ps.ufanz; ++ix )
+	for ( int ix = 0; ix < m_parser->ufanz; ++ix )
 	{
-		if ( ps.getfkt( ix, fname, fstr ) == -1 )
+		if ( m_parser->getfkt( ix, fname, fstr ) == -1 )
 			continue;
 
-		if ( ps.fktext[ ix ].extstr == f_str )
+		if ( m_parser->fktext[ ix ].extstr == f_str )
 			return ix;
 	}
 	return -1;
@@ -107,14 +109,14 @@ void FktDlg::updateView()
 	( ( MainDlg* ) parentWidget() ) ->view->update();
 }
 
-void FktDlg::onHasSelection()
+void FktDlg::slotHasSelection()
 {
 	bool has_selection = !( lb_fktliste->currentItem() == -1 );
 	PushButtonEdit->setEnabled( has_selection );
 	PushButtonDel->setEnabled( has_selection );
 }
 
-void FktDlg::onEditFunction( int index, int num )
+void FktDlg::slotEditFunction( int index, int num )
 {
 	KEditFunction* editFunction = new KEditFunction( &ps, this );
 	editFunction->initDialog( index );
@@ -125,7 +127,7 @@ void FktDlg::onEditFunction( int index, int num )
 	}
 }
 
-void FktDlg::onEditParametric( int x_index, int y_index, int num )
+void FktDlg::slotEditParametric( int x_index, int y_index, int num )
 {
 	KEditParametric* editParametric = new KEditParametric( &ps, this );
 	editParametric->initDialog( x_index, y_index );
@@ -137,7 +139,7 @@ void FktDlg::onEditParametric( int x_index, int y_index, int num )
 	}
 }
 
-void FktDlg::onEditPolar( int index, int num )
+void FktDlg::slotEditPolar( int index, int num )
 {
 	KEditPolar* editPolar = new KEditPolar( &ps, this );
 	editPolar->initDialog( index );
@@ -148,22 +150,22 @@ void FktDlg::onEditPolar( int index, int num )
 	}
 }
 
-void FktDlg::onNewFunction()
+void FktDlg::slotNewFunction()
 {
-	onEditFunction();
+	slotEditFunction();
 }
 
-void FktDlg::onNewParametric()
+void FktDlg::slotNewParametric()
 {
-	onEditParametric();
+	slotEditParametric();
 }
 
-void FktDlg::onNewPolar()
+void FktDlg::slotNewPolar()
 {
-	onEditPolar();
+	slotEditPolar();
 }
 
-void FktDlg::fillList()
+void FktDlg::getPlots()
 {
 	int index;
 	QString fname, fstr;
@@ -171,23 +173,23 @@ void FktDlg::fillList()
 	lb_fktliste->clear();
 
 	// adding all yet added functions
-	for ( index = 0; index < ps.ufanz; ++index )
+	for ( index = 0; index < m_parser->ufanz; ++index )
 	{
-		if ( ps.getfkt( index, fname, fstr ) == -1 ) continue;
+		if ( m_parser->getfkt( index, fname, fstr ) == -1 ) continue;
 		if( fname[0] == 'y' ) continue;
 		if( fname[0] == 'x' )
 		{
 			QString y_name( fname );
 			y_name[0] = 'y';
-			int y_index = ps.getfix( y_name );
+			int y_index = m_parser->getfix( y_name );
 			if( y_index == -1 ) continue;
-			lb_fktliste->insertItem( ps.fktext[ index ].extstr + ";" + ps.fktext[ y_index ].extstr );
+			lb_fktliste->insertItem( m_parser->fktext[ index ].extstr + ";" + m_parser->fktext[ y_index ].extstr );
 		}
-		else lb_fktliste->insertItem( ps.fktext[ index ].extstr );
+		else lb_fktliste->insertItem( m_parser->fktext[ index ].extstr );
 	}
 }
 
-void  FktDlg::onHelp()
+void  FktDlg::slotHelp()
 {
 	kapp->invokeHelp( "", "kmplot" );
 }

@@ -30,14 +30,10 @@
 #ifndef FktDlg_included
 #define FktDlg_included
 
-// Qt includes
-
-// KDE includes
-
 // locale includes
 #include "FktDlgData.h"
 
-class KEditFunction;
+class XParser;
 
 /** This widget class handles the users function input. 
  * Equations can be added, edited, and removed.
@@ -49,38 +45,38 @@ class FktDlg : public FktDlgData
 
 public:
 	/** 
-	 * The constructor fills the GUI widgets with the content 
-	 * of the parsers members.
-	 *
-	 * If the parser contains no functions, that is especially if this dialog is
-	 * opened for the first time, "f(x)=" is suggested in the edit line.
+	 * The constructor gets the current parser instance
+	 * @param parser current parser instance
 	 */
-	FktDlg( QWidget* parent = NULL, const char* name = NULL );
+	FktDlg( QWidget* parent, XParser* parser );
 	/** And again an empty destructor. */
 	virtual ~FktDlg();
-	
-	void fillList();
+	/// fill the widgets with plots contained in th parser instance
+	void getPlots();
 
 protected slots:
-	void ondelete();
-	void onedit();
-	// void onnew();
-	void onHasSelection();
+	/// Delete selected plot
+	void slotDelete();
+	/// Edit selected Plot
+	void slotEdit();
+	/// Enables/disables actions if the list has a selection
+	void slotHasSelection();
 	
-	// edit the function, index: parser index, num: listbox index
-	void onEditFunction( int index = -1, int num = -1 );
-	void onEditParametric( int x_index = -1, int y_index = -1, int num = -1 );
-	void onEditPolar( int index = -1, int num = -1 );
-	void onNewFunction();
-	void onNewParametric();
-	void onNewPolar();
-	void onHelp();
+	/// edit the plots, index: parser index, num: listbox index
+	void slotEditFunction( int index = -1, int num = -1 );
+	void slotEditParametric( int x_index = -1, int y_index = -1, int num = -1 );
+	void slotEditPolar( int index = -1, int num = -1 );
+	void slotNewFunction();
+	void slotNewParametric();
+	void slotNewPolar();
+	void slotHelp();
 	
 private:
 	int getIx( const QString f_str );
 	void updateView();
 	int chflg;
 	int errflg;
+	XParser* m_parser;
 };
 
 #endif // FktDlg_included

@@ -7,111 +7,111 @@
 	<group name="Coordinate System"> 
 		<entry name="AxesLineWidth" type="Int"> 
 			<label>Axis-line width</label>
-			<default>5</default>
 			<whatsthis>Enter the width of the axis lines.</whatsthis>
+			<default>5</default>
 		</entry> 
 		<entry name="ShowLabel" type="Bool"> 
 			<label>Checked if labels are visible</label>
-			<default>true</default>
 			<whatsthis>Check this box if the labels at the tics should be shown.</whatsthis>
+			<default>true</default>
 		</entry> 
 		<entry name="ShowAxes" type="Bool"> 
 			<label>Checked if axes are visible</label>
-			<default>true</default>
 			<whatsthis>Check this box if axes should be shown.</whatsthis>
+			<default>true</default>
 		</entry> 
 		<entry name="ShowArrows" type="Bool"> 
 			<label>Checked if arrows are visible</label>
-			<default>true</default>
 			<whatsthis>Check this box if axes should have arrows.</whatsthis>
+			<default>true</default>
 		</entry> 
 		<entry name="GridLineWidth" type="Int">
-			<default>1</default>
 			<label>Grid Line Width</label>
 			<whatsthis>Enter the width of the grid lines.</whatsthis>
+			<default>1</default>
 		</entry>
 		<entry name="GridStyle" type="Int">
-			<default>1</default>
 			<label>Grid Style</label>
 			<whatsthis>Choose a suitable grid style.</whatsthis>
+			<default>1</default>
 		</entry>
 		<entry name="ShowFrame" type="Bool"> 
 			<label>Checked if a frame is visible</label>
-			<default>false</default>
 			<whatsthis>Check this box if a frame should be drawn around the plot area.</whatsthis>
+			<default>false</default>
 		</entry> 
 		<entry name="ShowExtraFrame" type="Bool"> 
 			<label>Checked if an extra frame is visible</label>
-			<default>true</default>
 			<whatsthis>Check this box if an extra frame should be drawn around the plot area.</whatsthis>
+			<default>true</default>
 		</entry> 
 		<entry name="TicLength" type="Int">
 			<label>Tic length</label>
-			<default>10</default>
 			<whatsthis>Enter the length of the tic lines</whatsthis>
+			<default>10</default>
 		</entry> 
 		<entry name="TicWidth" type="Int"> 
 			<label>Tic width</label>
-			<default>1</default>
 			<whatsthis>Enter the width of the tic lines.</whatsthis>
+			<default>1</default>
 		</entry> 
 		<entry name="PlotLineWidth" type="Int"> 
 			<label>Plot-line width</label>
-			<default>5</default>
 			<whatsthis>Enter the width of the plot line.</whatsthis>
+			<default>5</default>
 		</entry> 
 		<entry name="XRange" type="Int"> 
 			<label>Predefined x-axis range</label>
-			<default>0</default>
 			<whatsthis>Predefined plot area widths.</whatsthis>
+			<default>0</default>
 		</entry> 
 		<entry name="YRange" type="Int"> 
 			<label>Predefined y-axis range</label>
-			<default>0</default>
 			<whatsthis>Predefined plot area heights.</whatsthis>
+			<default>0</default>
 		</entry> 
 		<entry name="XMin" type="String"> 
 			<label>Left boundary</label>
-			<default>"-2*pi"</default>
 			<whatsthis>Enter the left boundary of the plotting area.</whatsthis>
+			<default>"-2*pi"</default>
 		</entry> 
 		<entry name="XMax" type="String"> 
 			<label>Right boundary</label>
-			<default>"2*pi"</default>
 			<whatsthis>Enter the right boundary of the plotting area.</whatsthis>
+			<default>"2*pi"</default>
 		</entry> 
 		<entry name="YMin" type="String"> 
 			<label>Lower boundary</label>
-			<default>"-2*pi"</default>
 			<whatsthis>Enter the lower boundary of the plotting area.</whatsthis>
+			<default>"-2*pi"</default>
 		</entry> 
 		<entry name="YMax" type="String"> 
 			<label>Upper boundary</label>
-			<default>"2*pi"</default>
 			<whatsthis>Enter the upper boundary of the plotting area.</whatsthis>
+			<default>"2*pi"</default>
 		</entry> 
 	</group>
 	
 	<group name="Scaling">
 		<entry name="XScaling" type="Int"> 
-			<default>8</default>
 			<label>Width of a unit from tic to tic</label>
 			<whatsthis>Enter the width of a unit from tic to tic.</whatsthis>
+			<default>8</default>
 		</entry> 
 		<entry name="YScaling" type="Int"> 
-			<default>8</default>
 			<label>Height of a unit from tic to tic</label>
 			<whatsthis>Enter the height of a unit from tic to tic.</whatsthis>
+			<default>8</default>
 		</entry> 
 		<entry name="XPrinting" type="Int"> 
-			<default>3</default>
 			<label>Printed width of 1 unit</label>
 			<whatsthis>Enter the width of a unit in cm.</whatsthis>
+			<default>3</default>
 		</entry> 
 		<entry name="YPrinting" type="Int"> 
-			<default>3</default>
 			<label>Printed height of 1 unit</label>
 			<whatsthis>Enter the height of a unit in cm.</whatsthis>
+			<default>3</default>
 		</entry> 
 	</group> 
 	
@@ -197,34 +197,34 @@
 		
 	<group name="General">
 		<entry name="stepWidth" type="Double">
-			<default>1.0</default>
 			<label>Step width in pixel</label>
 			<whatsthis>The greater the step width the faster but the less precise the plot is done.</whatsthis>
+			<default>1.0</default>
 		</entry>
 		<entry name="useRelativeStepWidth" type="Bool">
-			<default>true</default>
 			<label>Use relative step width</label>
 			<whatsthis>If relative step width is set to true, the step width will be adapted to the size of the window.</whatsthis>
+			<default>true</default>
 		</entry>
 		<entry name="anglemode" type="Int">
-			<default>0</default>
 			<label>Radians instead of degrees</label>
 			<whatsthis>Check the box if you want to use radians</whatsthis>
+			<default>0</default>
 		</entry>
 		<entry name="backgroundcolor" type="Color">
-			<default>#FFFFFF</default>
 			<label>Background color</label>
 			<whatsthis>The background color for the graph</whatsthis>
+			<default>#FFFFFF</default>
 		</entry>
 		<entry name="zoomInStep" type="Int">
-			<default>20</default>
 			<label>Zoom-in step</label>
 			<whatsthis>The value the zoom-in tool should use</whatsthis>
+			<default>20</default>
 		</entry>
 			<entry name="zoomOutStep" type="Int">
-			<default>25</default>
 			<label>Zoom-out step</label>
 			<whatsthis>The value the zoom-out tool should use</whatsthis>
+			<default>25</default>
 		</entry>		
 	</group>
 </kcfg>

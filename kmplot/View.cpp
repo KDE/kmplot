@@ -365,32 +365,31 @@ void View::plotfkt(int ix, QPainter *pDC)
 				{
 					p2.setX(dgr.Transx(y));
 					p2.setY(dgr.Transy(m_parser->fkt(iy, x)));
-	
 				}
 				else
 				{
 					p2.setX(dgr.Transx(x));
 					p2.setY(dgr.Transy(y));
 				}
-				if ( fktmode!='x' || (fktmode=='x' && y>=dmin && y<=dmax) )
-					if ( dgr.xclipflg || dgr.yclipflg)
-					{
-						if(mflg>=1)
-							p1=p2;
-						else
-						{   
-							pDC->drawLine(p1, p2);
-							p1=p2;
-							mflg=1;
-						}
-					}
-					else
-					{
-						if(mflg<=1)
-							pDC->drawLine(p1, p2);
+				
+				if ( dgr.xclipflg || dgr.yclipflg)
+				{
+					if(mflg>=1)
 						p1=p2;
-						mflg=0;
+					else
+					{   
+						pDC->drawLine(p1, p2);
+						p1=p2;
+						mflg=1;
 					}
+				}
+				else
+				{
+					if(mflg<=1 && (fktmode!='x' || (fktmode=='x' && y>=dmin && y<=dmax) ) ) //the check is for parametric functions
+						pDC->drawLine(p1, p2);
+					p1=p2;
+					mflg=0;
+				}
 
 				if (p_mode==3)
 				{

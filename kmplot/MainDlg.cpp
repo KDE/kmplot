@@ -353,8 +353,11 @@ void MainDlg::slotOpenRecent( const KURL &url )
 {
 	if( !checkModified() ) return;
 	view->init();
-	if ( !kmplotio->load( view->parser(), url.path() ) )
+	if ( !kmplotio->load( view->parser(), url.path() ) ) //if the loading fails
+	{
+		m_recentFiles->removeURL(url ); //remove the file from the recent-opened-file-list
 		return;
+	}
 	view->updateSliders();
 	view->drawPlot();
 	m_filename = url.path();

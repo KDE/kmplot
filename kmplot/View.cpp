@@ -723,13 +723,12 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.setWorldMatrix(wm);
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
 		
-		QString str_tmp;
-		double diffx = (xmax-xmin)*(double)Settings::zoomStep()/200; // == 100*2=200
-		double diffy = (ymax-ymin)*(double)Settings::zoomStep()/200;
+		double diffx = (xmax-xmin)*(double)Settings::zoomInStep()/100;
+		double diffy = (ymax-ymin)*(double)Settings::zoomInStep()/100;
 		
 		if ( diffx < 0.00001 || diffy < 0.00001)
 			return;
-			
+		QString str_tmp;	
 		str_tmp.setNum(real-double(diffx));
 		Settings::setXMin(str_tmp);
 		str_tmp.setNum(real+double(diffx));
@@ -755,13 +754,12 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.setWorldMatrix(wm);
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
 
-		QString str_tmp;
-		double diffx = (xmax-xmin)/((double)Settings::zoomStep()/50);// == 100/2=50
-		double diffy = (ymax-ymin)/((double)Settings::zoomStep()/50);
+		double diffx = (xmax-xmin)*(((double)Settings::zoomOutStep()/100) +1);
+		double diffy = (ymax-ymin)*(((double)Settings::zoomOutStep()/100) +1);
 			
 		if ( diffx > 1000000 || diffy > 1000000)
 			return;
-		
+		QString str_tmp;
 		str_tmp.setNum(real-double(diffx));
 		Settings::setXMin(str_tmp);
 		str_tmp.setNum(real+double(diffx));

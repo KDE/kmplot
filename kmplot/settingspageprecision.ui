@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>SettingsPagePrecision</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,15 +8,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>300</width>
-            <height>339</height>
+            <width>301</width>
+            <height>375</height>
         </rect>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="0" column="0">
             <property name="name">
                 <cstring>groupBox1</cstring>
             </property>
@@ -67,7 +67,7 @@
                 </widget>
             </vbox>
         </widget>
-        <widget class="QButtonGroup">
+        <widget class="QButtonGroup" row="1" column="0">
             <property name="name">
                 <cstring>kcfg_anglemode</cstring>
             </property>
@@ -108,7 +108,7 @@
                 </widget>
             </vbox>
         </widget>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="2" column="0">
             <property name="name">
                 <cstring>groupBox2</cstring>
             </property>
@@ -152,51 +152,7 @@
                 </spacer>
             </hbox>
         </widget>
-        <widget class="QGroupBox">
-            <property name="name">
-                <cstring>groupBox3</cstring>
-            </property>
-            <property name="title">
-                <string>Zoom</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KIntNumInput" row="0" column="1">
-                    <property name="name">
-                        <cstring>kcfg_zoomStep</cstring>
-                    </property>
-                    <property name="value">
-                        <number>25</number>
-                    </property>
-                    <property name="minValue">
-                        <number>1</number>
-                    </property>
-                    <property name="maxValue">
-                        <number>100</number>
-                    </property>
-                    <property name="referencePoint">
-                        <number>5</number>
-                    </property>
-                    <property name="suffix">
-                        <string>%</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel1_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Zoom in/out with:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_zoomStep</cstring>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <spacer>
+        <spacer row="4" column="0">
             <property name="name">
                 <cstring>spacer1</cstring>
             </property>
@@ -213,13 +169,93 @@
                 </size>
             </property>
         </spacer>
-    </vbox>
+        <widget class="QGroupBox" row="3" column="0">
+            <property name="name">
+                <cstring>groupBox3</cstring>
+            </property>
+            <property name="title">
+                <string>Zoom</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Zoom in with:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_zoomStep</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Zoom out with:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>kcfg_zoomStep</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="0" column="1">
+                    <property name="name">
+                        <cstring>kcfg_zoomInStep</cstring>
+                    </property>
+                    <property name="value">
+                        <number>25</number>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="maxValue">
+                        <number>100</number>
+                    </property>
+                    <property name="referencePoint">
+                        <number>5</number>
+                    </property>
+                    <property name="suffix">
+                        <string>%</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>The value the zoom in-tool should use.</string>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="1" column="1">
+                    <property name="name">
+                        <cstring>kcfg_zoomOutStep</cstring>
+                    </property>
+                    <property name="value">
+                        <number>25</number>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="maxValue">
+                        <number>100</number>
+                    </property>
+                    <property name="referencePoint">
+                        <number>5</number>
+                    </property>
+                    <property name="suffix">
+                        <string>%</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>The value the zoom out-tool should use.</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>kcolorbutton.h</includehint>
     <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
 </includehints>

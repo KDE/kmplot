@@ -204,10 +204,15 @@
 			<label>Background color</label>
 			<whatsthis>The background color for the graph</whatsthis>
 		</entry>
-		<entry name="zoomStep" type="Int">
+		<entry name="zoomInStep" type="Int">
+			<default>20</default>
+			<label>Zoom-in step</label>
+			<whatsthis>The value the zoom in-tool should use</whatsthis>
+		</entry>
+			<entry name="zoomOutStep" type="Int">
 			<default>25</default>
-			<label>Zoom step</label>
-			<whatsthis>The value the zoom in/out-tool should use</whatsthis>
-		</entry>	
+			<label>Zoom-out step</label>
+			<whatsthis>The value the zoom out-tool should use</whatsthis>
+		</entry>		
 	</group>
 </kcfg>

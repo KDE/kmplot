@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Comment=KmPlot File
-Comment[af]=KmPlot lêer
 Comment[bg]=Файл KmPlot
 Comment[br]=Restr KmPlot
 Comment[bs]=KmPlot datoteka
@@ -28,13 +27,12 @@ Comment[ru]=Файл KmPlot
 Comment[sk]=Súbor KmPlot
 Comment[sl]=Datoteka KmPlot
 Comment[sr]=Фајл KmPlot-а
-Comment[sr@Latn]=Фајл KmPlot-а
+Comment[sr@Latn]=Fajl KmPlot-a
 Comment[sv]=Kmplot-fil
 Comment[ta]= கேஎம்பிளாட் கோப்பு
 Comment[tg]=Файли KmPlot
 Comment[tr]=KmPlot Dosyası
 Comment[uk]=Файл KmPlot
-Comment[xx]=xxKmPlot Filexx
 Comment[zh_CN]=KmPlot 文件
 Icon=kmplot
 Type=MimeType

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -53,6 +53,8 @@ class SettingsPageFonts;
 class SettingsPagePrecision;
 class SettingsPageScaling;
 
+/** This is the main window of KmPlot.
+ */
 class MainDlg : public KMainWindow
 {
 	Q_OBJECT
@@ -142,22 +144,23 @@ class MainDlg : public KMainWindow
 		void optionsConfigureToolbars();
 		///Update settings when there is a change in the Configure KmPlot dialog
 		void updateSettings();
-		///Calls the common function names dialog
+		/// Calls the common function names dialog.
+		/// @see BezWnd::hideEvent
 		void slotNames();
-		///SLot to change the coordinate systems, shows negative x-values and negative y-values
+		/// Change the coordinate systems, shows negative x-values and negative y-values.
 		void slotCoord1();
-		///SLot to change the coordinate systems, shows positive x-values and negative y-values
+		/// Change the coordinate systems, shows positive x-values and negative y-values.
 		void slotCoord2();
-		///SLot to change the coordinate systems, shows positive x-values and positive y-values
+		/// Change the coordinate systems, shows positive x-values and positive y-values.
 		void slotCoord3();
 		/**
-		* Manages the LineEdit content after returnPressed() is emitted
+		* Manages the LineEdit content after returnPressed() is emitted.
 		* @param the content of the KLineEdit
 		*/
 		void slotQuickEdit( const QString& );
 		
 	protected:
-		/// Quits KmPlot after checking, if modifications shall be saved
+		/// Quits KmPlot after checking if modifications shall be saved.
 		virtual bool queryClose();
 
 };

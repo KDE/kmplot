@@ -32,7 +32,9 @@
 #undef	 GrayScale 
 #include <kprinter.h>
 
-
+/**
+ * This class contains the plots.
+ */
 class View : public QWidget
 {
 	Q_OBJECT
@@ -59,11 +61,11 @@ private:
 	void plotfkt(int, QPainter*);
 	void getMinMax(int koord, QString &mini, QString &maxi);
 	void setpi(QString *);
-    bool root(double *);
+	bool root(double *);
 
 	int csflg,
 	    csmode,
-        rootflg,
+	    rootflg,
 	    fcx, fcy,       		// Position des Fadenkreuzes
 	    w, h;
 

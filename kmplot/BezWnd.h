@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -43,23 +43,23 @@ class BezWnd : public BezWndData
 {
 	Q_OBJECT
 
-public:
-	/** Common constructor. 
-	 * It only sets the main_dlg to parent.
-	 */
-	BezWnd( QWidget* parent = NULL, const char* name = NULL );
-	/** Empty destructor. */
-	virtual ~BezWnd();
-
-protected slots:
-	/** Reimplemented. 
-	 * Sets the KToggleAction view_bezeichnungen to false.
-	 * @see hideEvent, MainDlg::view_bezeichnungen
-	 */
-void hideEvent( QHideEvent * );
-
-private:
-	/** A Pointer to the central class instance */
-	MainDlg *main_dlg;
+	public:
+		/** Common constructor. 
+		* It only sets the main_dlg to parent.
+		*/
+		BezWnd( QWidget* parent = NULL, const char* name = NULL );
+		/** Empty destructor. */
+		virtual ~BezWnd();
+	
+	protected slots:
+		/** Reimplemented. 
+		* Sets the KToggleAction view_bezeichnungen to false.
+		* @see hideEvent, MainDlg::slotNames
+		*/
+		void hideEvent( QHideEvent * );
+	
+	private:
+		/** A Pointer to the central class instance */
+		MainDlg *main_dlg;
 };
 #endif // BezWnd_included

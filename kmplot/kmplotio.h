@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter M�ller
+* Copyright (C) 1998, 1999  Klaus-Dieter Möler
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -29,9 +29,8 @@
 class QString;
 
 /**
-This class manages the file operations load and save
-
-@author Klaus-Dieter Moeller
+This class manages the file operations load and save.
+@author Klaus-Dieter Möller
 */
 class KmPlotIO
 {
@@ -54,12 +53,31 @@ class KmPlotIO
 		static void load( const QString filename );
 	
 	private:
+		/** Esay way to add a tag to the Dom tree
+		 * @param doc The document.
+		 * @param parentTag The parent tag to support encapsulated tags.
+		 * @param tagName The Name of the tag.
+		 * @param The data between the opening and cloding tag.
+		 */
 		static void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
+		/// Reads axes parameters from the node @a n.
+		/// @param n Node containing the options.
 		static void KmPlotIO::parseAxes( const QDomElement &n );
+		/// Reads grid parameters from the node @a n.
+		/// @param n Node containing the options.
 		static void KmPlotIO::parseGrid( const QDomElement &n );
+		/// Reads scale parameters from the node @a n.
+		/// @param n Node containing the options.
 		static void KmPlotIO::parseScale( const QDomElement &n );
+		/// Reads step parameters from the node @a n.
+		/// @param n Node containing the options.
 		static void KmPlotIO::parseStep( const QDomElement &n );
+		/// Reads function parameters from the node @a n.
+		/// @param n Node containing the options.
 		static void KmPlotIO::parseFunction( const QDomElement &n );
+		/// Reads parameter values for a function from the node @a n.
+		/// @param n Node containing the options.
+		/// @param ix Function index in the parser instance
 		static void parseParameters( const QDomElement &n, int ix );
 };
 

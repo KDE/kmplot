@@ -151,8 +151,6 @@ void MainDlg::setupStatusBar()
 }
 
 
-// Slots
-
 bool MainDlg::checkModified()
 {
 	if( m_modified )
@@ -170,6 +168,8 @@ bool MainDlg::checkModified()
 	}
 	return true;
 }
+
+// Slots
 
 void MainDlg::slotOpenNew()
 {

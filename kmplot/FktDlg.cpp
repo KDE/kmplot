@@ -107,7 +107,7 @@ void FktDlg::onapply()
 void FktDlg::onok()
 {
     onapply();
-    onclose();
+    if ( errflg == 0 ) onclose();
 }
 
 void FktDlg::onclose()

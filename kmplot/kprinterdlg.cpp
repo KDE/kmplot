@@ -60,7 +60,7 @@ void KPrinterDlg::setOptions( const QMap<QString, QString>& opts )
 //	kcfg_printHeaderTable->setChecked( Settings::printHeaderTable() );
 }
 
-bool KPrinterDlg::isValid( QString& msg )
+bool KPrinterDlg::isValid( QString& )
 {
 	return true;
 }

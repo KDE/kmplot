@@ -236,7 +236,8 @@ void View::draw(QPaintDevice *dev, int form)
 void View::plotfkt(int ix, QPainter *pDC)
 {	
 	char fktmode, p_mode;
-	int iy, k, ke, mflg;
+	int k, ke, mflg;
+	int iy=0;
 	double x, y, dmin, dmax;
 	QString fname, fstr;
 	QPoint p1, p2;
@@ -1253,24 +1254,29 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 			}
 		}
 		
-		if (x>=dmin && x<=dmax)
+		if ( !isnan(x) && !isnan(y) )
 		{
-			if ( start)
-			{
-				result_x = x;
-				result_y = y;
-				start=false;
-			}
-			else if ( minimum &&y <=result_y) 
-			{
-				result_x = x;
-				result_y = y;
-			}
-			else if ( !minimum && y >=result_y)
-			{
-				result_x = x;
-				result_y = y;
-			}
+		  kdDebug() << "x " << x << endl;
+		  kdDebug() << "y " << y << endl;
+		  if (x>=dmin && x<=dmax)
+		  {
+		    if ( start)
+		    {
+		      result_x = x;
+		      result_y = y;
+		      start=false;
+		    }
+		    else if ( minimum &&y <=result_y)
+		    {
+		      result_x = x;
+		      result_y = y;
+		    }
+		    else if ( !minimum && y >=result_y)
+		    {
+		      result_x = x;
+		      result_y = y;
+		    }
+		  }
 		}
 		if (p_mode==3)
 		{
@@ -1296,6 +1302,19 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 	
 	dmin = int(result_x*1000)/double(1000);
 	dmax = int(result_y*1000)/double(1000);
+	
+	switch (p_mode)
+	{
+	  case 0:
+	    dmax=m_parser->fkt(ix, dmin);
+	    break;
+	  case 1:
+	    dmax=m_parser->a1fkt(ix, dmin);
+	    break;
+	  case 2:
+	    dmax=m_parser->a2fkt(ix, dmin);
+	    break;
+	}
 }
 
 void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_parameter)
@@ -1940,4 +1959,4 @@ bool View::event( QEvent * e )
 		return true;
 	}
 	return QWidget::event(e); //send the information further
-};
+}

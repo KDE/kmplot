@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>KOptDlgData</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>347</width>
-            <height>318</height>
+            <width>313</width>
+            <height>230</height>
         </rect>
     </property>
     <property name="caption">
@@ -25,296 +25,262 @@
         <property name="spacing">
             <number>6</number>
         </property>
+        <widget class="QFrame">
+            <property name="name">
+                <cstring>frame11</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="3" column="0">
+                    <property name="name">
+                        <cstring>textLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Colo&amp;r:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>color_button</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>TextLabel1_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Tic &amp;length:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>ticLength</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="1" column="1">
+                    <property name="name">
+                        <cstring>ticLineWidth</cstring>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>width of the tic lines</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the width of the tic lines in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>TextLabel1_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Tic line width:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>ticLineWidth</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>TextLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Axes line width:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>axesLineWidth</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="0" column="1">
+                    <property name="name">
+                        <cstring>axesLineWidth</cstring>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>width of the axes lines</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the width of the axes line in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="2" column="1">
+                    <property name="name">
+                        <cstring>ticLength</cstring>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>length of the tic lines</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the length of the tic lines in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="KColorButton" row="3" column="1">
+                    <property name="name">
+                        <cstring>color_button</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>color of the lines</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click this button to choose a color for the system of coordinates.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>cb_default</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Save as &amp;default</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+D</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>make this changes to be default</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this if you want to make this settings to be the default values for all future plots.</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>Layout56</cstring>
+                <cstring>layout37</cstring>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <widget class="QLayoutWidget">
+                <widget class="QPushButton">
                     <property name="name">
-                        <cstring>Layout52</cstring>
+                        <cstring>pushButton19</cstring>
                     </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <property name="spacing">
-                            <number>6</number>
-                        </property>
-                        <widget class="QGroupBox">
-                            <property name="name">
-                                <cstring>GroupBox4</cstring>
-                            </property>
-                            <property name="title">
-                                <string>Axes</string>
-                            </property>
-                            <vbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <property name="margin">
-                                    <number>11</number>
-                                </property>
-                                <property name="spacing">
-                                    <number>6</number>
-                                </property>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>TextLabel1</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>&amp;Line width:</string>
-                                    </property>
-                                    <property name="buddy" stdset="0">
-                                        <cstring>le_ad</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="QLayoutWidget">
-                                    <property name="name">
-                                        <cstring>Layout43</cstring>
-                                    </property>
-                                    <hbox>
-                                        <property name="name">
-                                            <cstring>unnamed</cstring>
-                                        </property>
-                                        <property name="margin">
-                                            <number>0</number>
-                                        </property>
-                                        <property name="spacing">
-                                            <number>6</number>
-                                        </property>
-                                        <widget class="QLineEdit">
-                                            <property name="name">
-                                                <cstring>le_ad</cstring>
-                                            </property>
-                                            <property name="minimumSize">
-                                                <size>
-                                                    <width>50</width>
-                                                    <height>0</height>
-                                                </size>
-                                            </property>
-                                            <property name="toolTip" stdset="0">
-                                                <string>Thickness of the Axes line</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel">
-                                            <property name="name">
-                                                <cstring>TextLabel2</cstring>
-                                            </property>
-                                            <property name="text">
-                                                <string>0.1mm</string>
-                                            </property>
-                                        </widget>
-                                    </hbox>
-                                </widget>
-                            </vbox>
-                        </widget>
-                        <widget class="QGroupBox">
-                            <property name="name">
-                                <cstring>GroupBox6</cstring>
-                            </property>
-                            <property name="title">
-                                <string>Tics</string>
-                            </property>
-                            <vbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <property name="margin">
-                                    <number>11</number>
-                                </property>
-                                <property name="spacing">
-                                    <number>6</number>
-                                </property>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>TextLabel1_2</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Width:</string>
-                                    </property>
-                                    <property name="buddy" stdset="0">
-                                        <cstring>le_td</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="QLayoutWidget">
-                                    <property name="name">
-                                        <cstring>Layout44</cstring>
-                                    </property>
-                                    <hbox>
-                                        <property name="name">
-                                            <cstring>unnamed</cstring>
-                                        </property>
-                                        <property name="margin">
-                                            <number>0</number>
-                                        </property>
-                                        <property name="spacing">
-                                            <number>6</number>
-                                        </property>
-                                        <widget class="QLineEdit">
-                                            <property name="name">
-                                                <cstring>le_td</cstring>
-                                            </property>
-                                            <property name="minimumSize">
-                                                <size>
-                                                    <width>50</width>
-                                                    <height>0</height>
-                                                </size>
-                                            </property>
-                                            <property name="toolTip" stdset="0">
-                                                <string>Tic mark line thickness</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel">
-                                            <property name="name">
-                                                <cstring>TextLabel2_2</cstring>
-                                            </property>
-                                            <property name="text">
-                                                <string>0.1mm</string>
-                                            </property>
-                                        </widget>
-                                    </hbox>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>TextLabel1_2_2</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Length:</string>
-                                    </property>
-                                    <property name="buddy" stdset="0">
-                                        <cstring>le_tl</cstring>
-                                    </property>
-                                </widget>
-                                <widget class="QLayoutWidget">
-                                    <property name="name">
-                                        <cstring>Layout45</cstring>
-                                    </property>
-                                    <hbox>
-                                        <property name="name">
-                                            <cstring>unnamed</cstring>
-                                        </property>
-                                        <property name="margin">
-                                            <number>0</number>
-                                        </property>
-                                        <property name="spacing">
-                                            <number>6</number>
-                                        </property>
-                                        <widget class="QLineEdit">
-                                            <property name="name">
-                                                <cstring>le_tl</cstring>
-                                            </property>
-                                            <property name="minimumSize">
-                                                <size>
-                                                    <width>50</width>
-                                                    <height>0</height>
-                                                </size>
-                                            </property>
-                                            <property name="toolTip" stdset="0">
-                                                <string>Tic mark line length</string>
-                                            </property>
-                                        </widget>
-                                        <widget class="QLabel">
-                                            <property name="name">
-                                                <cstring>TextLabel2_2_2</cstring>
-                                            </property>
-                                            <property name="text">
-                                                <string>0.1mm</string>
-                                            </property>
-                                        </widget>
-                                    </hbox>
-                                </widget>
-                            </vbox>
-                        </widget>
-                    </vbox>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Help</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+H</string>
+                    </property>
                 </widget>
-                <widget class="QLayoutWidget">
+                <spacer>
                     <property name="name">
-                        <cstring>Layout54</cstring>
+                        <cstring>spacer16</cstring>
                     </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <property name="spacing">
-                            <number>6</number>
-                        </property>
-                        <widget class="QPushButton">
-                            <property name="name">
-                                <cstring>PushButton1</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;OK</string>
-                            </property>
-                            <property name="default">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="KColorButton">
-                            <property name="name">
-                                <cstring>color_button</cstring>
-                            </property>
-                            <property name="text">
-                                <string></string>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton">
-                            <property name="name">
-                                <cstring>PushButton1_2_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Cancel</string>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>Spacer14</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Vertical</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                        </spacer>
-                    </vbox>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>61</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>PushButton1</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+O</string>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>apply your changes</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to apply your changes to the system of coordinates.</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>PushButton1_2_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>abort without change anything</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to abort this dialog without any changes.</string>
+                    </property>
                 </widget>
             </hbox>
         </widget>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>cb_default</cstring>
-            </property>
-            <property name="text">
-                <string>Save as &amp;default</string>
-            </property>
-        </widget>
-        <spacer>
-            <property name="name">
-                <cstring>Spacer13</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-        </spacer>
     </vbox>
 </widget>
 <connections>
@@ -331,9 +297,28 @@
         <slot>oncancel()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>axesLineWidth</tabstop>
+    <tabstop>ticLineWidth</tabstop>
+    <tabstop>ticLength</tabstop>
+    <tabstop>color_button</tabstop>
+    <tabstop>cb_default</tabstop>
+    <tabstop>PushButton1</tabstop>
+    <tabstop>PushButton1_2_2</tabstop>
+    <tabstop>pushButton19</tabstop>
+</tabstops>
 <slots>
     <slot>oncancel()</slot>
     <slot>onok()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
+</includehints>
 </UI>

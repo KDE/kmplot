@@ -38,12 +38,6 @@ public:
 	KOptDlg( QWidget* parent = NULL, const char* name = NULL );
 	virtual ~KOptDlg();
 
-private:
-
-	int ad,
-	td,
-	tl;
-
 protected slots:
 
 	void onok();

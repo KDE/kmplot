@@ -25,10 +25,10 @@
 
 // Qt includes
 #include <qcheckbox.h>
-#include <qlineedit.h>
 
 // KDE includes
 #include <kcolorbutton.h>
+#include <knuminput.h>
 
 // local includes
 #include "misc.h"
@@ -40,12 +40,9 @@
 
 KOptDlg::KOptDlg( QWidget* parent, const char* name ) : Inherited( parent, name, true )
 {
-	ad = AchsenDicke;
-	td = TeilstrichDicke;
-	tl = TeilstrichLaenge;
-	le_ad->setText( QString::number( ad ) );
-	le_td->setText( QString::number( td ) );
-	le_tl->setText( QString::number( tl ) );
+	axesLineWidth->setValue( AchsenDicke );
+	ticLineWidth->setValue( TeilstrichDicke );
+	ticLength->setValue( TeilstrichLaenge );
 	color_button->setColor( QColor( AchsenFarbe ) );
 }
 
@@ -57,9 +54,9 @@ KOptDlg::~KOptDlg()
 
 void KOptDlg::onok()
 {
-	AchsenDicke = le_ad->text().toInt();
-	TeilstrichDicke = le_td->text().toInt();
-	TeilstrichLaenge = le_tl->text().toInt();
+	AchsenDicke = axesLineWidth->value();
+	TeilstrichDicke = ticLineWidth->value();
+	TeilstrichLaenge = ticLength->value();
 	AchsenFarbe = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>362</width>
-            <height>577</height>
+            <height>579</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -151,10 +151,10 @@ Example: f(x)=x^2</string>
                         <string>Parameter values:</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>customize the plot range</string>
+                        <string>function has a parameter</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Check this button and enter the plot range boundarys below.</string>
+                        <string>Check this button and enter all parameter values below.</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="1" column="1">

@@ -194,7 +194,7 @@ int Parser::idValue(int const ix)
 {
         if ( ix >=0 && ix<(int)ufkt.count() ) // range check
         {
-                if ( !( ufkt.count()==1 && ufkt[0].fname=="" ) )
+                if ( !( ufkt.count()==1 && ufkt[0].fname.isEmpty() ) )
                         return ufkt[ix].id;
         }
         return -1;
@@ -534,7 +534,7 @@ bool Parser::delfkt(int ix)
 uint Parser::countFunctions()
 {
         uint const count = ufkt.count();
-        if (count == 1 && ufkt.begin()->fname == "")
+        if (count == 1 && ufkt.begin()->fname.isEmpty())
                 return 0;
         else
                 return count;

@@ -243,10 +243,11 @@ void MainDlg::tbmode()
 }
 
 void MainDlg::funktionen()
-{	FktDlg fdlg;
-
-    fdlg.exec();
-    view->update();
+{
+    if (!fdlg) fdlg=new FktDlg( this );
+    fdlg->show();
+//    fdlg.exec();
+//    view->update();
 }
 
 void MainDlg::skalierung()

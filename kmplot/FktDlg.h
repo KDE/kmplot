@@ -1,36 +1,38 @@
 #ifndef FktDlg_included
 #define FktDlg_included
 
+// locale includes
 #include "FktDlgData.h"
 #include "AttrDlg.h"
-#include <kapplication.h>
 #include "misc.h"
-#include <qlist.h>
+// Qt includes
+#include <qvaluelist.h>
+// KDE includes
+#include <kapplication.h>
 #include <klocale.h>
-
 
 class FktDlg : public FktDlgData
 {
     Q_OBJECT
 
-protected slots:
-	
-	void onok();
-	void oncancel();
-	void ondelete();
-	void onedit();
-	void ondblclick(int);
-	void onattr();
-
 public:
-
-    FktDlg(QWidget* parent=NULL, const char* name=NULL, bool modal=TRUE);
+    FktDlg( QWidget* parent = NULL, const char* name = NULL );
     virtual ~FktDlg();
 
+protected slots:
+    void onok();
+    void onclose();
+    void ondelete();
+    void onedit();
+    void ondblclick( int );
+    void onattr();
+    void onapply();
+
 private:
-
-	int chflg, errflg, ix;
-	QList <int>fktidx;
-
+    int getIx( const QString f_str );
+    void updateView();
+    int chflg;
+    int errflg;
 };
+
 #endif // FktDlg_included

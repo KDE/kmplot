@@ -28,7 +28,7 @@
 #include <qkeycode.h>
 #include <qdstream.h>
 #include <qfile.h>
-#undef	 GrayScale
+#undef  GrayScale
 #include <kprinter.h>
 #include <qstring.h>
 #include <qpixmap.h>
@@ -40,44 +40,41 @@ class MainDlg : public KMainWindow
     Q_OBJECT
 
 public:
-
-    MainDlg(const char* name=NULL);
-	virtual ~MainDlg();
-
+    MainDlg( const char* name = NULL );
+    virtual ~MainDlg();
+    friend class FktDlg;
 
 public slots:
-
-	void neu();
-	void save();
-	void saveas();
-	void load();
-	void print();
-	void bezeichnungen();
-//	void quit();
-
-	void stbmode();
-	void tbmode();
-	void funktionen();
-	void skalierung();
-	void schrittw();
-	void raster();
-	void achsen();
-	void onachsen1();
-	void onachsen2();
-	void onachsen3();
-//	void about();
-	void hilfe();
-
+    void neu();
+    void save();
+    void saveas();
+    void load();
+    void print();
+    void bezeichnungen();
+    // void quit();
+    void stbmode();
+    void tbmode();
+    void funktionen();
+    void skalierung();
+    void schrittw();
+    void raster();
+    void achsen();
+    void onachsen1();
+    void onachsen2();
+    void onachsen3();
+    // void about();
+    void hilfe();
 
 private:
-	void setupActions();
+    void setupActions();
     void doSave();
-  	void setupStatusBar();
-  	int tbid,
-  	    stbid;
-  	KStatusBar *stbar;
-	KToggleAction *viewToolBar;
-	KToggleAction *viewStatusBar;
-  	View *view;
+    void setupStatusBar();
+    int tbid,
+    stbid;
+    KStatusBar *stbar;
+    KToggleAction *viewToolBar;
+    KToggleAction *viewStatusBar;
+    FktDlg *fdlg;
+    View *view;
 };
 #endif // MainDlg_included

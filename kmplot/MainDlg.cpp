@@ -84,14 +84,14 @@ void MainDlg::setupActions()
 }
 
 void MainDlg::setupStatusBar()
-{
-	stbar = statusBar();
-	stbar->insertFixedItem( "1234567890", 1 );
-	stbar->insertFixedItem( "1234567890", 2 );
-	stbar->insertItem( "", 3, 1 );
-	stbar->changeItem( "", 1 );
-	stbar->changeItem( "", 2 );
-	view->stbar = stbar;
+{   stbar=statusBar();
+	stbar->insertFixedItem("1234567890", 1);
+	stbar->insertFixedItem("1234567890", 2);
+	stbar->insertItem("", 3, 1);
+	stbar->changeItem("", 1);
+	stbar->changeItem("", 2);
+    stbar->setItemAlignment(3, AlignLeft);
+	view->stbar=stbar;
 }
 
 

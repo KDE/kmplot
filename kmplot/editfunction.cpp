@@ -95,6 +95,8 @@ void EditFunction::clearWidgets()
 	
 	// Clear the Antiderivative page
 	editantiderivativepage->precision->setValue( Settings::relativeStepWidth());
+	editantiderivativepage->colorAntiderivative->setColor( editfunctionpage->color->color() );
+	
 }
 
 void EditFunction::setWidgets()
@@ -135,8 +137,8 @@ void EditFunction::setWidgets()
 	if ( m_parser->fktext[ m_index ].anti_mode )
 	{
 		editantiderivativepage->showAntiderivative->setChecked( m_parser->fktext[ m_index ].anti_mode );
-		editantiderivativepage->txtInitX->setValue(m_parser->fktext[ m_index ].startx);
-		editantiderivativepage->txtInitY->setValue(m_parser->fktext[ m_index ].starty);
+		editantiderivativepage->txtInitX->setText(m_parser->fktext[ m_index ].str_startx);
+		editantiderivativepage->txtInitY->setText(m_parser->fktext[ m_index ].str_starty);
 		
 	}
 
@@ -167,6 +169,7 @@ void EditFunction::accept()
 	{
 		m_parser->errmsg();
 		this->raise();
+		showPage(0);
 		editfunctionpage->equation->setFocus();
 		editfunctionpage->equation->selectAll();
 		return;
@@ -182,6 +185,9 @@ void EditFunction::accept()
 		m_parser->fktext[ index ].dmin = m_parser->eval( editfunctionpage->min->text() );
 		if (m_parser->errmsg() != 0)
 		{
+			showPage(0);
+			editfunctionpage->min->setFocus();
+			editfunctionpage->min->selectAll();
 			m_parser->delfkt( index );
 			return;
 		}
@@ -189,12 +195,18 @@ void EditFunction::accept()
 		m_parser->fktext[ index ].dmax = m_parser->eval( editfunctionpage->max->text() );
 		if (m_parser->errmsg() != 0)
 		{
+			showPage(0);
+			editfunctionpage->max->setFocus();
+			editfunctionpage->max->selectAll();
 			m_parser->delfkt( index );
 			return;
 		}
 		if ( m_parser->fktext[ index ].dmin >=  m_parser->fktext[ index ].dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+			showPage(0);
+			editfunctionpage->min->setFocus();
+			editfunctionpage->min->selectAll();
 			m_parser->delfkt( index );
 			return;
 		}
@@ -209,23 +221,42 @@ void EditFunction::accept()
 	
 	if (editantiderivativepage->showAntiderivative->isChecked() )
 	{
-		double initx = editantiderivativepage->txtInitX->value();
-		double inity = editantiderivativepage->txtInitY->value();
-		if ( m_parser->fktext[ index ].dmin!=m_parser->fktext[ index ].dmax && ( initx<m_parser->fktext[ index ].dmin || initx<m_parser->fktext[ index ].dmax) )
+		double initx = m_parser->eval(editantiderivativepage->txtInitX->text());
+		m_parser->fktext[index].startx = initx;
+		m_parser->fktext[index].str_startx = editantiderivativepage->txtInitX->text();
+		if (m_parser->err != 0)
 		{
-			KMessageBox::error(this,i18n("Please insert a initial x-value in the range"));
+			KMessageBox::error(this,i18n("Please insert a valid x-value"));
+			showPage(2);
+			editantiderivativepage->txtInitX->setFocus();
+			editantiderivativepage->txtInitX->selectAll();
 			m_parser->delfkt( index );
 			return;
 		}
-			
 		
-		if ( editfunctionpage->customRange->isChecked() && ( initx < m_parser->fktext[ index ].dmin) )
-			m_parser->fktext[index].startx = m_parser->fktext[index].dmin;
-		else
-			m_parser->fktext[index].startx = initx;
-		
-		m_parser->fktext[index].anti_mode = 1;
+		double inity = m_parser->eval(editantiderivativepage->txtInitY->text());
 		m_parser->fktext[index].starty = inity;
+		m_parser->fktext[index].str_starty = editantiderivativepage->txtInitY->text();
+		if (m_parser->err != 0)
+		{
+			KMessageBox::error(this,i18n("Please insert a valid y-value"));
+			showPage(2);
+			editantiderivativepage->txtInitY->setFocus();
+			editantiderivativepage->txtInitY->selectAll();
+			m_parser->delfkt( index );
+			return;
+		}
+		if ( m_parser->fktext[ index ].dmin!=m_parser->fktext[ index ].dmax && ( initx<m_parser->fktext[ index ].dmin || initx>m_parser->fktext[ index ].dmax) )
+		{
+			KMessageBox::error(this,i18n("Please insert a initial x-value in the range between %1 and %2").arg(m_parser->fktext[ index ].str_dmin, m_parser->fktext[ index ].str_dmax) );
+			showPage(2);
+			editantiderivativepage->txtInitX->setFocus();
+			editantiderivativepage->txtInitX->selectAll();
+			m_parser->delfkt( index );
+			return;
+		}
+
+		m_parser->fktext[index].anti_mode = 1;
 		m_parser->fktext[ index ].anti_color = editantiderivativepage->colorAntiderivative->color().rgb();
 		m_parser->fktext[index].anti_use_precision = editantiderivativepage->customPrecision->isChecked();
 		m_parser->fktext[index].anti_precision = editantiderivativepage->precision->value();

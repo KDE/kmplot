@@ -77,7 +77,7 @@ public:
 		/** Number of parameter values. 
 		 * @see FktExt::k_liste */
 		k_anz; 
-		QString str_dmin, str_dmax ; /// Plot range, input strings.
+		QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
 		double dmin, ///< Custom plot range, lower boundage.
 		dmax, ///< Custom plot range, upper boundage.
 		/** List of parameter values. 

@@ -117,8 +117,8 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 			tag.setAttribute( "anti-width", parser->fktext[ ix ].anti_linewidth );
 			tag.setAttribute( "anti-use-precision", parser->fktext[ ix ].anti_use_precision );
 			tag.setAttribute( "anti-precision", parser->fktext[ ix ].anti_precision );
-			tag.setAttribute( "anti-startx", parser->fktext[ ix ].startx );
-			tag.setAttribute( "anti-starty", parser->fktext[ ix ].starty );
+			tag.setAttribute( "anti-startx", parser->fktext[ ix ].str_startx );
+			tag.setAttribute( "anti-starty", parser->fktext[ ix ].str_starty );
 			tag.setAttribute( "width", parser->fktext[ ix ].linewidth );
 			tag.setAttribute( "color", QColor( parser->fktext[ ix ].color ).name() );
 			
@@ -257,7 +257,11 @@ void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 	parser->fktext[ ix ].anti_use_precision = n.attribute( "anti-use-precision" ).toInt();
 	parser->fktext[ ix ].anti_precision = n.attribute( "anti-precision" ).toInt();
 	parser->fktext[ ix ].f_mode = n.attribute( "visible" ).toInt();
-
+	parser->fktext[ ix ].str_startx = n.attribute( "anti-startx" );
+	parser->fktext[ ix ].startx = parser->eval( parser->fktext[ ix ].str_startx );
+	parser->fktext[ ix ].str_starty = n.attribute( "anti-starty" );
+	parser->fktext[ ix ].starty = parser->eval( parser->fktext[ ix ].str_starty );
+	
 	parser->fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
 	QCString fstr = parser->fktext[ ix ].extstr.utf8();
 	if ( !fstr.isEmpty() )

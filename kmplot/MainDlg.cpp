@@ -145,11 +145,14 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 	
 	//zoom menu
-	KToggleAction * mnuRectangular = new KToggleAction(i18n("&Zoom rectangular") ,0,view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
-	KToggleAction * mnuZoomIn = new KToggleAction(i18n("&Zoom in") ,0,view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
-	KToggleAction * mnuZoomOut = new KToggleAction(i18n("&Zoom out") ,0,view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
-	KToggleAction * mnuZoomCenter = new KToggleAction(i18n("&Center a point") ,0,view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
+	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No zoom") ,0,view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
+	KRadioAction * mnuRectangular = new KRadioAction(i18n("&Zoom rectangular") ,0,view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
+	KRadioAction * mnuZoomIn = new KRadioAction(i18n("&Zoom in") ,0,view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
+	KRadioAction * mnuZoomOut = new KRadioAction(i18n("&Zoom out") ,0,view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
+	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center a point") ,0,view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
 	(void ) new KAction(i18n("&Fit widget to trigonometric functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
+	mnuNoZoom->setExclusiveGroup("zoom_modes");
+	mnuNoZoom->setChecked(true);
 	mnuRectangular->setExclusiveGroup("zoom_modes");
 	mnuZoomIn->setExclusiveGroup("zoom_modes");
 	mnuZoomOut->setExclusiveGroup("zoom_modes");
@@ -480,6 +483,10 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 		view->parser()->delfkt( index );
 		return;
 	}
+	view->parser()->fktext[index].color = view->parser()->fktext[index].color0;
+	view->parser()->fktext[index].f1_color = view->parser()->fktext[index].color0;
+	view->parser()->fktext[index].f2_color = view->parser()->fktext[index].color0;
+	view->parser()->fktext[index].anti_color = view->parser()->fktext[index].color0;
 	view->parser()->fktext[index].f_mode = 1;
 	view->parser()->fktext[index].anti_precision=Settings::relativeStepWidth();
 	view->parser()->fktext[ index ].extstr = f_str;
@@ -494,7 +501,6 @@ void MainDlg::slotCoord1()
 {
 	Settings::setXRange( 0 );
 	Settings::setYRange( 0 );
-	view->getSettings();
 	m_modified = true;
 	view->drawPlot();
 }
@@ -503,7 +509,6 @@ void MainDlg::slotCoord2()
 {
 	Settings::setXRange( 2 );
 	Settings::setYRange( 0 );
-	view->getSettings();
 	m_modified = true;
 	view->drawPlot();
 }
@@ -512,7 +517,6 @@ void MainDlg::slotCoord3()
 {
 	Settings::setXRange( 2 );
 	Settings::setYRange( 2 );
-	view->getSettings();
 	m_modified = true;
 	view->drawPlot();
 }

@@ -13,7 +13,7 @@ TODO
 	* get slope for a x-point
 * Fix the unpolished lines
 * #52887, need to calculate with complex numbers.
-* Replace KFile with KIO in KmplotIO
+* Replace QFile with KIO in KmplotIO
 
 TODO for KDE 3.3
 =========================
@@ -28,6 +28,8 @@ IN PROGRESS
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
 * A mode for zooming. Ability to disable it with kiosk
 * Fix scaling
+* Change icon when zooming
+* Ability to print background color
 
 
 DONE

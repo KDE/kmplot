@@ -91,14 +91,14 @@ void EditFunction::clearWidgets()
 	editfunctionpage->min->clear();
 	editfunctionpage->max->clear();
 	editfunctionpage->lineWidth->setValue( m_parser->dicke0 );
-	editfunctionpage->color->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color );
+	editfunctionpage->color->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color0 );
 	
 	// Clear the Derivatives page
 	editderivativespage->showDerivative1->setChecked( false );
-	editderivativespage->lineWidthDerivative1->setValue( 1 );
+	editderivativespage->lineWidthDerivative1->setValue( editfunctionpage->lineWidth->value() );
 	editderivativespage->colorDerivative1->setColor( editfunctionpage->color->color() );
 	editderivativespage->showDerivative2->setChecked( false );
-	editderivativespage->lineWidthDerivative2->setValue( 1 );
+	editderivativespage->lineWidthDerivative2->setValue( editfunctionpage->lineWidth->value() );
 	editderivativespage->colorDerivative2->setColor( editfunctionpage->color->color() );
 	
 	// Clear the Antiderivative page
@@ -299,7 +299,10 @@ void EditFunction::accept()
 		m_parser->fktext[index].anti_linewidth = editantiderivativepage->lineWidthAntiderivative->value();
 	}
 	else
+	{
 		m_parser->fktext[index].anti_mode = 0;
+		m_parser->fktext[index].anti_color = m_parser->fktext[index].color0; //default color
+	}
 
 	if( editfunctionpage->hide->isChecked() )
 		m_parser->fktext[ index ].f_mode = 0;
@@ -329,7 +332,10 @@ void EditFunction::accept()
 		m_parser->fktext[ index ].f1_color = editderivativespage->colorDerivative1->color().rgb();
 	}
 	else
+	{
 		m_parser->fktext[ index ].f1_mode = 0;
+		m_parser->fktext[index].f1_color = m_parser->fktext[index].color0; //default color
+	}
 	
 	if( editderivativespage->showDerivative2->isChecked() )
 	{
@@ -338,7 +344,10 @@ void EditFunction::accept()
 		m_parser->fktext[ index ].f2_color = editderivativespage->colorDerivative2->color().rgb();
 	}
 	else
+	{
+		m_parser->fktext[index].f1_color = m_parser->fktext[index].color0; //default color
 		m_parser->fktext[ index ].f2_mode = 0;
+	}
 	
 	// call inherited method
 	KDialogBase::accept();

@@ -53,7 +53,8 @@ public:
 	/// Reimplemented.
 	bool isValid( QString& msg );
 	/// The check box for the option.
-	QCheckBox *kcfg_printHeaderTable;
+	QCheckBox *printHeaderTable;
+	QCheckBox *transparent_background;
 };
 
 #endif //kprinterdlg_included

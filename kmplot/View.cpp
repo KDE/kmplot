@@ -32,6 +32,7 @@
 // KDE includes
 #include <kaction.h>
 #include <kapplication.h>
+#include <kglobal.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -89,6 +90,7 @@ View::View(KPopupMenu *m, QWidget* parent, const char* name ) : QWidget( parent,
 	csflg=0;
 	csmode=-1;
 	backgroundcolor = Settings::backgroundcolor();
+	invertColor(backgroundcolor,inverted_backgroundcolor);
 	setBackgroundColor(backgroundcolor);
 	setMouseTracking(TRUE);
 	areaDraw = false;
@@ -159,6 +161,12 @@ void View::draw(QPaintDevice *dev, int form)
 		m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1"; 
 		drawHeaderTable( &DC );
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
+		if ( ( (KPrinter* )dev )->option( "app-kmplot-printbackground" ) == "-1" )
+			DC.fillRect( dgr.GetFrame(),  backgroundcolor); //draw a colored background
+		//DC.end();
+		//((QPixmap *)dev)->fill(QColor("#FF00FF"));
+		//DC.begin(dev);
+		
 	}
 	else if(form==2)								// svg
 	{	ref=QPoint(0, 0);
@@ -176,7 +184,7 @@ void View::draw(QPaintDevice *dev, int form)
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 		DC.end();
 		((QPixmap *)dev)->resize((int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf));
-		((QPixmap *)dev)->fill();
+		((QPixmap *)dev)->fill(backgroundcolor);
 		DC.begin(dev);
 		DC.translate(-dgr.GetFrame().left()*sf, -dgr.GetFrame().top()*sf);
 		DC.scale(sf, sf);
@@ -200,7 +208,7 @@ void View::draw(QPaintDevice *dev, int form)
 	area=DC.xForm(PlotArea);
 	hline.resize(area.width(), 1);
 	vline.resize(1, area.height());
-	stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
+	stepWidth=Settings::relativeStepWidth()*(xmax-xmin)/area.width();
 	
 	isDrawing=true;
 	stop_calculating = false;
@@ -578,7 +586,8 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		return;
 		
 	}
-
+	if ( zoom_mode!=0)
+		return;
 	if( m_popupmenushown>0 && !m_popupmenu->isShown() )
 	{
 		if ( m_popupmenushown==1)
@@ -645,7 +654,23 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
 
 	// Fadenkreuz zeichnen
-	QPen pen((csmode>=0)? m_parser->fktext[csmode].color : 0, 1);
+	QPen pen;
+	switch (cstype)
+	{
+		case 0:
+			pen.setColor( m_parser->fktext[csmode].color);
+			break;
+		case 1:
+			pen.setColor( m_parser->fktext[csmode].f1_color);
+			break;
+		case 2:
+			pen.setColor( m_parser->fktext[csmode].f2_color);
+			break;
+		default:
+			pen.setColor(inverted_backgroundcolor);
+	}
+	if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" has the same color as the background, the "Fadenkreuz" will have the inverted color of background so you can see it easier
+		pen.setColor(inverted_backgroundcolor);
 
 	DC.begin(this);
 	DC.setPen(pen);
@@ -775,7 +800,6 @@ void View::mousePressEvent(QMouseEvent *e)
 		stop_calculating = true;
 		return;
 	}
-	
 	if(e->button()==RightButton) //clicking with the right mouse button
 	{
 		g=tlgy/5.;
@@ -881,6 +905,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				m_minmax->selectItem();
 				stbar->changeItem(m_parser->fktext[ ix ].extstr,4);
 				mouseMoveEvent(e);
+				kdDebug() << "Hello" << endl;
 				return;
 			}
 			if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
@@ -1050,24 +1075,20 @@ void View::getSettings()
 {
 	m_parser->setAngleMode( Settings::anglemode() );
 	m_parser->dicke0 = Settings::gridLineWidth();
-	m_parser->fktext[ 0 ].color = Settings::color0().rgb();
-	m_parser->fktext[ 1 ].color = Settings::color1().rgb();
-	m_parser->fktext[ 2 ].color = Settings::color2().rgb();
-	m_parser->fktext[ 3 ].color = Settings::color3().rgb();
-	m_parser->fktext[ 4 ].color = Settings::color4().rgb();
-	m_parser->fktext[ 5 ].color = Settings::color5().rgb();
-	m_parser->fktext[ 6 ].color = Settings::color6().rgb();
-	m_parser->fktext[ 7 ].color = Settings::color7().rgb();
-	m_parser->fktext[ 8 ].color = Settings::color8().rgb();
-	m_parser->fktext[ 9 ].color = Settings::color9().rgb();
+	m_parser->fktext[ 0 ].color0 = Settings::color0().rgb();
+	m_parser->fktext[ 1 ].color0 = Settings::color1().rgb();
+	m_parser->fktext[ 2 ].color0 = Settings::color2().rgb();
+	m_parser->fktext[ 3 ].color0 = Settings::color3().rgb();
+	m_parser->fktext[ 4 ].color0 = Settings::color4().rgb();
+	m_parser->fktext[ 5 ].color0 = Settings::color5().rgb();
+	m_parser->fktext[ 6 ].color0 = Settings::color6().rgb();
+	m_parser->fktext[ 7 ].color0 = Settings::color7().rgb();
+	m_parser->fktext[ 8 ].color0 = Settings::color8().rgb();
+	m_parser->fktext[ 9 ].color0 = Settings::color9().rgb();
 	
-	for (int i=0;i<10;i++)
-	{
-		m_parser->fktext[i].f1_color = m_parser->fktext[i].color;
-		m_parser->fktext[i].f2_color = m_parser->fktext[i].color;
-		m_parser->fktext[i].anti_color = m_parser->fktext[i].color;
-	}
 	backgroundcolor = Settings::backgroundcolor();
+	invertColor(backgroundcolor,inverted_backgroundcolor);
+	setBackgroundColor(backgroundcolor);
 }
 
 void View::init()
@@ -1699,34 +1720,35 @@ void View::mnuEdit_clicked()
 		drawPlot();
 	}
 }
+void View::mnuNoZoom_clicked()
+{
+	setCursor(Qt::ArrowCursor);
+	zoom_mode = 0;	
+}
 
 void View::mnuRectangular_clicked()
 {
-	if ( zoom_mode == 1)
-		zoom_mode = 0;
-	else
-		zoom_mode = 1;
+	setCursor(Qt::CrossCursor);
+	zoom_mode = 1;
 }
 void View::mnuZoomIn_clicked()
 {
-	if ( zoom_mode == 2)
-		zoom_mode = 0;
-	else
-		zoom_mode = 2;	
+	//QCursor custom( KGlobal::iconLoader()->loadIcon("viewmag+",KIcon::MainToolbar),1,1 );
+	//setCursor(custom);
+	setCursor(Qt::CrossCursor);
+	zoom_mode = 2;	
 }
 void View::mnuZoomOut_clicked()
 {
-	if ( zoom_mode == 3)
-		zoom_mode = 0;
-	else
-		zoom_mode = 3;
+	//QCursor custom( KGlobal::iconLoader()->loadIcon("viewmag+",KIcon::MainToolbar),1,1 );
+	//setCursor(custom);
+	setCursor(Qt::CrossCursor);
+	zoom_mode = 3;
 }
 void View::mnuCenter_clicked()
 {
-	if ( zoom_mode == 5)
-		zoom_mode = 0;
-	else
-		zoom_mode = 5;	
+	setCursor(Qt::PointingHandCursor);
+	zoom_mode = 5;
 }
 void View::mnuTrig_clicked()
 {
@@ -1748,4 +1770,16 @@ void View::mnuTrig_clicked()
 	Settings::setYRange(4); //custom y-range
 	drawPlot(); //update all graphs
 	return;
+}
+void View::invertColor(QColor &org, QColor &inv)
+{
+	int r = org.red()-255;
+	if ( r<0) r=r*-1;
+	int g = org.green()-255;
+	if ( g<0) g=g*-1;
+	int b = org.blue()-255;
+	if ( b<0) b=b*-1;
+	
+	inv.setRgb(r,g,b);
+
 }

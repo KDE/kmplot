@@ -64,7 +64,7 @@ void KEditParametric::clearWidgets()
 	checkBoxRange->setChecked( false );
 	min->clear();
 	max->clear();
-	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color );
+	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color0 );
 }
 
 void KEditParametric::setWidgets()

@@ -63,7 +63,7 @@ void KEditPolar::clearWidgets()
 	min->clear();
 	max->clear();
 	kIntNumInputLineWidth->setValue( m_parser->dicke0 );	
-	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color );
+	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color0 );
 }
 
 void KEditPolar::setWidgets()

@@ -22,6 +22,7 @@
 		</Menu>
 		
 		<Menu name="zoom" noMerge="1"><text>&amp;Zoom</text>
+			<Action name="no_zoom"/>
 			<Action name="zoom_rectangular"/>
 			<Action name="zoom_in"/>
 			<Action name="zoom_out"/>

@@ -79,6 +79,8 @@ class KmPlotIO
 		static void parseFunction( XParser *parser, const QDomElement &n );
 		/// This is the same as parseFunction but is made for old Kmplot-files
 		static void oldParseFunction( XParser *parser, const QDomElement &n );
+		/// This is the same as parseAxes but is made for old Kmplot-files
+		static void oldParseAxes( const QDomElement &n );
 		/// Reads parameter values for a function from the node @a n.
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.

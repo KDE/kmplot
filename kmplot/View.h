@@ -129,6 +129,7 @@ public slots:
 	void mnuRemove_clicked();
 	void mnuEdit_clicked();
 	///Slots for the zoom menu
+	void mnuNoZoom_clicked();
 	void mnuRectangular_clicked();
 	void mnuZoomIn_clicked();
 	void mnuZoomOut_clicked();
@@ -145,7 +146,7 @@ protected slots:
 	void mousePressEvent(QMouseEvent *);
 	/// when a key is pressed and the graph widget has focus
 	void keyPressEvent(QKeyEvent * );
-	
+	/// called when a mouse key is released
 	void mouseReleaseEvent ( QMouseEvent * e );
 
 private:
@@ -158,6 +159,8 @@ private:
 	void setpi(QString *);
 	/// in trace mode checks, if the function is (near by) zero
 	bool root(double *);
+	///return the inverted color
+	void invertColor(QColor &, QColor &);
 	
 	/// The central parser instance.
 	/// @see parser()
@@ -226,6 +229,8 @@ private:
 	bool stop_calculating;
 	/// the background color of the graph
 	QColor backgroundcolor;
+	/// the inverted background color used by the "Fadenkreuz"
+	QColor inverted_backgroundcolor;
 	/// pointer to KMinMax
 	KMinMax *m_minmax;
 	///buffer the current window so all functions don't need to be re-drawed

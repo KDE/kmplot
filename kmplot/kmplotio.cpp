@@ -95,8 +95,9 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 
 	tag = doc.createElement( "scale" );
 
-	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
+	const char* units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4","automatic"};
 	addTag( doc, tag, "tic-x", units[ Settings::xScaling() ] );
+	kdDebug() << units[ Settings::xScaling() ] << endl;
 	addTag( doc, tag, "tic-y", units[ Settings::yScaling() ] );
 	addTag( doc, tag, "print-tic-x", units[ Settings::xPrinting() ] );
 	addTag( doc, tag, "print-tic-y", units[ Settings::yPrinting() ] );
@@ -182,7 +183,7 @@ void KmPlotIO::load( XParser *parser, const QString filename )
 		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
 		{
 			if ( n.nodeName() == "axes" )
-				parseAxes( n.toElement() );
+				oldParseAxes( n.toElement() );
 			if ( n.nodeName() == "grid" )
 				parseGrid( n.toElement() );
 			if ( n.nodeName() == "scale" )
@@ -239,10 +240,10 @@ void KmPlotIO::parseGrid( const QDomElement & n )
 
 int unit2index( const QString unit )
 {
-	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
+	const char* units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4","automatic" };
 	int index = 0;
-	while( ( index < 8 ) && ( unit!= units[ index ] ) ) index ++;
-	if( index == 8 ) index = -1;
+	while( ( index < 9 ) && ( unit!= units[ index ] ) ) index ++;
+	if( index == 9 ) index = -1;
 	return index;
 }
 
@@ -325,6 +326,9 @@ void KmPlotIO::oldParseFunction(  XParser *parser, const QDomElement & n )
 	parser->fktext[ ix ].f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
 	parser->fktext[ ix ].linewidth = n.attribute( "width" ).toInt();
 	parser->fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();
+	parser->fktext[ ix ].f1_color = parser->fktext[ ix ].color;
+	parser->fktext[ ix ].f2_color = parser->fktext[ ix ].color;
+	parser->fktext[ ix ].anti_color = parser->fktext[ ix ].color;
 
 	parser->fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
 	QCString fstr = parser->fktext[ ix ].extstr.utf8();
@@ -339,4 +343,24 @@ void KmPlotIO::oldParseFunction(  XParser *parser, const QDomElement & n )
 		ix = parser->addfkt( str );
 		parser->getext( ix );
 	}
+}
+
+void KmPlotIO::oldParseAxes( const QDomElement &n )
+{
+	Settings::setAxesLineWidth( n.attribute( "width", "1" ).toInt() );
+	Settings::setAxesColor( QColor( n.attribute( "color", "#000000" ) ) );
+	Settings::setTicWidth( n.attribute( "tic-width", "3" ).toInt() );
+	Settings::setTicLength( n.attribute( "tic-length", "10" ).toInt() );
+
+	Settings::setShowAxes( true );
+	Settings::setShowArrows( true );
+	Settings::setShowLabel( true );
+	Settings::setShowFrame( true );
+	Settings::setShowExtraFrame( true );
+	Settings::setXRange( n.namedItem( "xcoord" ).toElement().text().toInt() );
+	Settings::setXMin( n.namedItem( "xmin" ).toElement().text() );
+	Settings::setXMax( n.namedItem( "xmax" ).toElement().text() );
+	Settings::setYRange( n.namedItem( "ycoord" ).toElement().text().toInt() );
+	Settings::setYMin( n.namedItem( "ymin" ).toElement().text() );
+	Settings::setYMax( n.namedItem( "ymax" ).toElement().text() );
 }

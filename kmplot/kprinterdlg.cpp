@@ -42,22 +42,25 @@ KPrinterDlg::KPrinterDlg( QWidget *parent, const char *name )
 	layout->setSpacing( KDialog::spacingHint() );
 
 
-	kcfg_printHeaderTable = new QCheckBox( i18n( "Print header table" ), this );
-	layout->addWidget( kcfg_printHeaderTable );
+	printHeaderTable = new QCheckBox( i18n( "Print header table" ), this );
+	transparent_background = new QCheckBox( i18n( "Transparent background" ), this );
+	layout->addWidget( printHeaderTable );
+	layout->addWidget( transparent_background );
 	layout->addStretch( 1 );
 }
 
 void KPrinterDlg::getOptions( QMap<QString, QString>& opts, bool include_def )
 {
- 	if ( include_def || !kcfg_printHeaderTable->isChecked() )
- 		opts[ "app-kmplot-printtable" ] = ( kcfg_printHeaderTable->isChecked() ? "1" : "-1" );
-//	Settings::setPrintHeaderTable( kcfg_printHeaderTable->isChecked() );
+ 	if ( include_def || !printHeaderTable->isChecked() )
+ 		opts[ "app-kmplot-printtable" ] = ( printHeaderTable->isChecked() ? "1" : "-1" );
+	if ( include_def || !transparent_background->isChecked() )
+		opts[ "app-kmplot-printbackground" ] = ( transparent_background->isChecked() ? "1" : "-1" );
 }
 
 void KPrinterDlg::setOptions( const QMap<QString, QString>& opts )
 {
-	kcfg_printHeaderTable->setChecked( opts[ "app-kmplot-printtable" ] != "-1" );
-//	kcfg_printHeaderTable->setChecked( Settings::printHeaderTable() );
+	printHeaderTable->setChecked( opts[ "app-kmplot-printtable" ] != "-1" );
+	transparent_background->setChecked( opts[ "app-kmplot-printbackground" ] != "-1" );
 }
 
 bool KPrinterDlg::isValid( QString& )

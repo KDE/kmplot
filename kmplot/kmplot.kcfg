@@ -210,13 +210,4 @@
 			<whatsthis>The value the zoom in/out-tool should use</whatsthis>
 		</entry>	
 	</group>
-<!--	
-
-	<group name="KPrinter ">
-		<entry name="printHeaderTable" type="Bool">
-			<default>true</default>
-			<label>print a table with information at the top of the page</label>
-		</entry>
-	</group>
--->
 </kcfg>

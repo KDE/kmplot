@@ -215,6 +215,8 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	QPoint p1, p2;
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
+	iy=0;
+	y=0.0;
 
 	char const fktmode=ufkt->extstr[0].latin1();
 	if(fktmode=='y') return ;
@@ -1161,7 +1163,7 @@ void View::stopDrawing()
 
 void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, double &dmax, QString &str_parameter)
 {
-	double x, y;
+	double x, y = 0;
 	double result_x = 0;
 	double result_y = 0;
 	bool start = true;
@@ -1533,7 +1535,7 @@ void View::keyPressEvent( QKeyEvent * e)
 
 void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double &dmax, QString &str_parameter, QPainter *DC )
 {
-	double x, y;
+	double x, y = 0;
 	float calculated_area=0;
 	int rectheight;
 	areaMin = dmin;

@@ -281,7 +281,7 @@ void KMinMax::cmdFind_clicked()
 	}
 
 	QString fname, fstr;
-	Ufkt *ufkt;
+	Ufkt *ufkt = 0;
 	QString sec_function = function.section('(',0,0);
 
         for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)

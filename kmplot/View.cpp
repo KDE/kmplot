@@ -259,7 +259,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 				else
 					dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 				progressbar->progress->reset();
-				progressbar->progress->setTotalSteps( int((dmax-dmin)/double(dx)/4));
+				progressbar->progress->setTotalSteps ( double((dmax-dmin)/dx)/2 );
 				progressbar->show();
 				x = m_parser->fktext[ix].startx; //the initial x-point
 			}
@@ -776,7 +776,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 					dx = (m_parser->fktext[ix].anti_precision)/1000;
 				else
 					dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
-				progressbar->progress->setTotalSteps( int((dmax-dmin)/double(dx)/4));
+				progressbar->progress->setTotalSteps ( double((dmax-dmin)/dx)/2 );
 				progressbar->show();
 				x = m_parser->fktext[ix].startx; //the initial x-point
 			}
@@ -896,7 +896,7 @@ void View::getYValue(int ix, char p_mode,  double x, double &y)
 			else
 				dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 			progressbar->progress->reset();
-			progressbar->progress->setTotalSteps( int((dmax-dmin)/double(dx)/4));
+			progressbar->progress->setTotalSteps ( double((dmax-dmin)/dx)/2 );
 			progressbar->show();
 			x = m_parser->fktext[ix].startx; //the initial x-point
 
@@ -1037,7 +1037,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 		else
 			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 		progressbar->progress->reset();
-		progressbar->progress->setTotalSteps( int((dmax-dmin)/double(dx)/4));
+		progressbar->progress->setTotalSteps ( double((dmax-dmin)/dx)/2 );
 		progressbar->show();
 		x = m_parser->fktext[ix].startx; //the initial x-point
 	}

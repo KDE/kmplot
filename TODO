@@ -58,3 +58,4 @@ DONE
 * Import parameter values from .txt-files
 * Navigating in trace mode with the keyboard
 * Trace mode with derivatives
+* Fix totalsteps in progressbar

@@ -148,7 +148,7 @@ void MainDlg::saveas()
 			filename += ".fkt"; // use fkt-type as default
 		doSave( filename );
 		m_filename = filename;
-		m_recentFiles->addURL( m_filename );
+		m_recentFiles->addURL( KURL(m_filename) );
 		setCaption( m_filename );
 	}
 }
@@ -353,7 +353,7 @@ void MainDlg::openFile( const QString filename )
 	}
 	
 	m_filename = filename;
-	m_recentFiles->addURL( m_filename );
+	m_recentFiles->addURL( KURL(m_filename) );
 	setCaption( m_filename );
 	view->update();
 }

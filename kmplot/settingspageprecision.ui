@@ -222,7 +222,7 @@
                         <string>%</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>The value the zoom in-tool should use.</string>
+                        <string>The value the zoom-in tool should use.</string>
                     </property>
                 </widget>
                 <widget class="KIntNumInput" row="1" column="1">
@@ -245,7 +245,7 @@
                         <string>%</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>The value the zoom out-tool should use.</string>
+                        <string>The value the zoom-out tool should use.</string>
                     </property>
                 </widget>
             </grid>

@@ -150,6 +150,8 @@ public:
 	static double anglemode();
 	/// sets the angletype. TRUE is radians and FALSE degrees
 	void setAngleMode(int);
+	/// sets the decimal symbol
+	void setDecimalSymbol(const QString );
 
 	QValueVector<Constant> constant;
 	
@@ -232,6 +234,7 @@ public:
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer
 	static double  m_anglemode;
+	QString m_decimalsymbol;
 	
 };
 

@@ -129,13 +129,17 @@ void Parser::setAngleMode(int angle)
 		m_anglemode = M_PI/180;	
 }
 
+void Parser::setDecimalSymbol(const QString c)
+{
+	m_decimalsymbol = c;
+}
+
 double Parser::anglemode()
 {	return m_anglemode;
 }
 
 double Parser::eval(QString str)
 {	double erg;
-
 	stack=new double [stacksize];
 	stkptr=stack;
 	evalflg=1;
@@ -276,6 +280,11 @@ int Parser::addfkt(QString str)
 	{   err=4;
 		return -1;
 	}
+
+	QString str_end = str.mid(p3+3);
+	str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
+	str.truncate(p3+3);
+	str.append(str_end);
 	
 	for(ix=0; ix<ufanz; ++ix)
 	{   if(ufkt[ix].fname.isEmpty())

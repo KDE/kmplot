@@ -542,6 +542,8 @@ void MainDlg::loadConstants()
 		value = conf.readDoubleNumEntry("valueConstant"+tmp,1.23456789);	
 		constant = tmp_constant.at(0).upper().latin1();
 		
+		if ( constant<'A' || constant>'Z')
+			constant = 'A';
 		if ( tmp_constant == " " || value == 1.23456789)
 			return;
 		bool stop = false;

@@ -24,6 +24,7 @@
 */
 
 // KDE includes
+#include <kglobal.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -39,6 +40,7 @@ XParser::XParser()
 	fktext = new FktExt[ UFANZ ];
 	for ( ix = 0; ix < UFANZ; ++ix )
 		fktext[ ix ].color = 0;
+	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
 }
 
 XParser::XParser( int anz, int m_size, int s_size ) : Parser( anz, m_size, s_size )
@@ -48,6 +50,8 @@ XParser::XParser( int anz, int m_size, int s_size ) : Parser( anz, m_size, s_siz
 	fktext = new FktExt[ ufanz ];
 	for ( ix = 0; ix < ufanz; ++ix )
 		fktext[ ix ].color = 0;
+	
+	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
 }
 
 XParser::~XParser()
@@ -189,8 +193,9 @@ char XParser::findFunctionName()
 void XParser::fixFunctionName( QString &str)
 {
 	int p1=str.find('(');
+	int p2=str.find(')');
 	
-	if ( p1==-1 || !str.at(p1+1).isLetter() || str.at(p1+2)!= ')' || str.at(p1+3) != '=')
+	if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1) != '=')
 	{
 		char function_name = findFunctionName();
 		str.prepend("(x)=");

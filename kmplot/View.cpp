@@ -480,7 +480,7 @@ bool View::root(double *x0)
 
 // Slots
 
-void View::paintEvent(QPaintEvent *e)
+void View::paintEvent(QPaintEvent *)
 {   
 	QPainter p;
 	p.begin(this);
@@ -488,7 +488,7 @@ void View::paintEvent(QPaintEvent *e)
 	p.end();
 }
 
-void View::resizeEvent(QResizeEvent *e)
+void View::resizeEvent(QResizeEvent *)
 {
 	buffer.resize(size() );
 	drawPlot();

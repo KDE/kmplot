@@ -368,8 +368,11 @@ void MainDlg::newFunction()
 	EditFunction* editFunction = new EditFunction( view->parser(), this );
 	editFunction->setCaption(i18n( "New Function Plot" ) );
 	editFunction->initDialog();
-	m_modified = editFunction->exec() == QDialog::Accepted;
-	view->drawPlot();
+	if ( editFunction->exec() == QDialog::Accepted )
+	{
+		m_modified = true;
+		view->drawPlot();
+	}
 }
 
 void MainDlg::newParametric()
@@ -377,8 +380,12 @@ void MainDlg::newParametric()
 	KEditParametric* editParametric = new KEditParametric( view->parser(), this );
 	editParametric->setCaption(i18n( "New Parametric Plot"));
 	editParametric->initDialog();
-	m_modified = editParametric->exec() == QDialog::Accepted;
-	view->drawPlot();
+	if ( editParametric->exec() == QDialog::Accepted )
+	{
+		m_modified = true;
+		view->drawPlot();
+	}
+	
 }
 
 void MainDlg::newPolar()
@@ -386,8 +393,12 @@ void MainDlg::newPolar()
 	KEditPolar* editPolar = new KEditPolar( view->parser(), this );
 	editPolar->setCaption(i18n( "New Polar Plot"));
 	editPolar->initDialog();
-	m_modified = editPolar->exec() == QDialog::Accepted;
-	view->drawPlot();
+	if (  editPolar->exec() == QDialog::Accepted )
+	{
+		m_modified = true;
+		view->drawPlot();
+	}
+
 }
 
 void MainDlg::slotEditPlots()
@@ -398,12 +409,15 @@ void MainDlg::slotEditPlots()
 	KmPlotIO::save( view->parser(), tmpName );
 	if( fdlg->exec() == QDialog::Rejected ) 
 	{
-		view->init();
-		KmPlotIO::load( view->parser(), tmpName );
+		if ( fdlg->isChanged() )
+		{
+			view->init();
+			KmPlotIO::load( view->parser(), tmpName );
+			view->drawPlot();
+		}
 	}
-	else m_modified = true;
+	else if ( fdlg->isChanged() ) m_modified = true;
 	QFile::remove( tmpName );
-	view->drawPlot();
 }
 
 void MainDlg::slotQuickEdit(const QString& tmp_f_str )

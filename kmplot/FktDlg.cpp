@@ -74,7 +74,8 @@ void FktDlg::slotDelete()
 		m_parser->delfkt( ix );
 	}
 	lb_fktliste->removeItem( num );
-	//updateView();
+	changed = true;
+	updateView();
 }
 
 void FktDlg::slotEdit()
@@ -91,7 +92,6 @@ void FktDlg::slotEdit()
 		slotEditParametric( index, getIx( lb_fktliste->text( num ).section( ";", 1, 1) ), num );
 	else
 		slotEditFunction( index, num );
-	//updateView();
 }
 
 int FktDlg::getIx( const QString f_str )
@@ -139,6 +139,8 @@ void FktDlg::slotEditFunction( int index, int num )
 	{
 		if( index == -1 ) lb_fktliste->insertItem( editFunction->functionItem() );
 		else lb_fktliste->changeItem( editFunction->functionItem(), num );
+		changed = true;
+		updateView();
 	}
 }
 
@@ -152,6 +154,8 @@ void FktDlg::slotEditParametric( int x_index, int y_index, int num )
 		if( x_index == -1 ) 
 			lb_fktliste->insertItem( editParametric->functionItem() );
 		else lb_fktliste->changeItem( editParametric->functionItem(), num );
+		changed = true;
+		updateView();
 	}
 }
 
@@ -164,6 +168,8 @@ void FktDlg::slotEditPolar( int index, int num )
 	{
 		if( index == -1 ) lb_fktliste->insertItem( editPolar->functionItem() );
 		else lb_fktliste->changeItem( editPolar->functionItem(), num );
+		changed = true;
+		updateView();
 	}
 }
 
@@ -209,4 +215,14 @@ void FktDlg::getPlots()
 void  FktDlg::slotHelp()
 {
 	kapp->invokeHelp( "", "kmplot" );
+}
+
+bool FktDlg::isChanged()
+{
+	return changed;
+}
+
+void FktDlg::showEvent ( QShowEvent * )
+{
+	changed = false;
 }

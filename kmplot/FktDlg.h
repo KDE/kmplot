@@ -56,6 +56,8 @@ public:
 	virtual ~FktDlg();
 	/// Fill the widgets with plots contained in th parser instance.
 	void getPlots();
+	/// Returns true if a function was changed
+	bool isChanged();
 
 protected slots:
 	/// Delete selected plot
@@ -96,8 +98,12 @@ private:
 	void getParamIx( const QString f_str, int &i, int &j );
 	/// Update the view of the main window.
 	void updateView();
+	/// Called when the dialog is showed
+	void showEvent ( QShowEvent * );
 	/// Ponts to the parser instance.
 	XParser* m_parser;
+	/// indicates if a function is changed/added/removed
+	bool changed;
 };
 
 #endif // FktDlg_included

@@ -76,7 +76,7 @@ void KEditParametric::setWidgets()
 	kLineEditXFunction->setText( expression );
 	splitEquation( m_parser->ufkt[ m_y_id ].extstr, name, expression );
 	kLineEditYFunction->setText( expression );
-	checkBoxHide->setChecked( ufkt->f_mode == 0 );
+	checkBoxHide->setChecked( !ufkt->f_mode );
 	if (  ufkt->dmin != ufkt->dmax )
 	{
 		checkBoxRange->setChecked(true);
@@ -105,10 +105,7 @@ void KEditParametric::accept()
         
         Ufkt tmp_ufkt;
 	
-	if( checkBoxHide->isChecked() )
-		tmp_ufkt.f_mode = 0;
-	else
-		tmp_ufkt.f_mode = 1;
+	tmp_ufkt.f_mode = !checkBoxHide->isChecked();
 	
 	if( checkBoxRange->isChecked() )
 	{
@@ -190,7 +187,7 @@ void KEditParametric::accept()
                 added_ufkt =  &m_parser->ufkt.last();
         }
 	
-        //save all settings in the function now when we now no errors have appeared
+        //save all settings in the function now when we know no errors have appeared
         added_ufkt->f_mode = tmp_ufkt.f_mode;
         added_ufkt->f1_mode = tmp_ufkt.f1_mode;
         added_ufkt->f2_mode = tmp_ufkt.f2_mode;

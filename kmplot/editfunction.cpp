@@ -111,7 +111,7 @@ void EditFunction::setWidgets()
 {
 	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_id) ];
 	editfunctionpage->equation->setText( ufkt->extstr );
-	editfunctionpage->hide->setChecked( ufkt->f_mode == 0 );
+	editfunctionpage->hide->setChecked( !ufkt->f_mode);
 	editfunctionpage->lineWidth->setValue( ufkt->linewidth );
 	editfunctionpage->color->setColor( ufkt->color );
 	if (  ufkt->dmin != ufkt->dmax )
@@ -257,10 +257,6 @@ void EditFunction::accept()
 	tmp_ufkt.integral_precision = editintegralpage->precision->value();
 	tmp_ufkt.integral_linewidth = editintegralpage->lineWidth->value();
 
-	/*if( editfunctionpage->hide->isChecked() )
-		tmp_ufkt.f_mode = 0;
-	else
-		tmp_ufkt.f_mode = 1;*/
         tmp_ufkt.f_mode = !editfunctionpage->hide->isChecked();
 	
 	if( editfunctionpage->useSlider->isChecked() )
@@ -282,19 +278,11 @@ void EditFunction::accept()
 			
 	}
 
-	if( editderivativespage->showDerivative1->isChecked() )
-		tmp_ufkt.f1_mode = 1;
-	else
-		tmp_ufkt.f1_mode = 0;
-	
+        tmp_ufkt.f1_mode =  editderivativespage->showDerivative1->isChecked();
 	tmp_ufkt.f1_linewidth = editderivativespage->lineWidthDerivative1->value();
 	tmp_ufkt.f1_color = editderivativespage->colorDerivative1->color().rgb();
 	
-	if( editderivativespage->showDerivative2->isChecked() )
-		tmp_ufkt.f2_mode = 1;
-	else
-		tmp_ufkt.f2_mode = 0;
-
+        tmp_ufkt.f2_mode =  editderivativespage->showDerivative2->isChecked();
 	tmp_ufkt.f2_linewidth = editderivativespage->lineWidthDerivative2->value();
 	tmp_ufkt.f2_color = editderivativespage->colorDerivative2->color().rgb();
 	
@@ -347,6 +335,7 @@ void EditFunction::accept()
                 }
                 added_ufkt =  &m_parser->ufkt.last();
         }
+        //save all settings in the function now when we know no errors have appeared
         added_ufkt->f_mode = tmp_ufkt.f_mode;
         added_ufkt->f1_mode = tmp_ufkt.f1_mode;
         added_ufkt->f2_mode = tmp_ufkt.f2_mode;

@@ -375,26 +375,22 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 		p_mode = 3;
 		function.at(0) =  function.at(0).lower();
 	}
-
-	QString fname, fstr;
-	//bool stop=false;
-	QString sec_function = function.section('(',0,0);
-        
-	//for ( ix = 0; ix < (int)m_view->parser()->ufkt.count() && !stop; ++ix )
-        QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin();
-        for( int ix=0; it!=m_view->parser()->ufkt.end(); ++it)
+	QString const sec_function = function.section('(',0,0);
+        for(QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
 	{
                 if ( it->extstr.section('(',0,0) == sec_function)
-			break;
-                ++ix;
+                {
+                        if ( it->str_parameter.count() == 0)
+                                cmdParameter->hide();
+                        else
+                                cmdParameter->show();
+                        if (parameter.isEmpty() )
+                                parameter = it->str_parameter.first();
+                        break;
+                }
         }
-        --it;
-	if ( it->str_parameter.count() ==0)
- 		cmdParameter->hide();
- 	else
- 		cmdParameter->show();
-	if (parameter.isEmpty() )
-		parameter = it->str_parameter.first();
+        
+
 }
 void KMinMax::cmdParameter_clicked()
 {
@@ -417,23 +413,19 @@ void KMinMax::cmdParameter_clicked()
 		p_mode = 3;
 		function.at(0) =  function.at(0).lower();
 	}
-
-	QString fname, fstr;
-	bool stop=false;
-	QString sec_function = function.section('(',0,0);
-        QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin();
-	//for ( ix = 0; ix < (int)m_view->parser()->fktext.count() && !stop; ++ix )
-        for( int ix=0; it!=m_view->parser()->ufkt.end(); ++it)
+        
+	QString const sec_function = function.section('(',0,0);
+        for(QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
 	{
-		if ( it->extstr.section('(',0,0) == sec_function)
-			stop=true;
+	       if ( it->extstr.section('(',0,0) == sec_function)
+                {
+                        bool ok;
+                        QStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), it->str_parameter, QStringList(parameter),false,&ok,this );
+                        if ( ok)
+                                parameter = result.first();
+                        break;
+                }
 	}
-	--it;
-
-	bool ok;
-	QStringList result = KInputDialog::getItemList(i18n("Choose Parameter"), i18n("Choose a parameter to use:"), it->str_parameter, QStringList(parameter),false,&ok);
-	if ( ok)
-		parameter = *result.begin();
 }
 
 void KMinMax::list_doubleClicked(QListBoxItem *)

@@ -296,14 +296,14 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 			if ( p_mode == 3)
 			{
 				if ( ufkt->integral_use_precision )
-					dx =  ufkt->integral_precision*(dmax-dmin)/(area.width()*10);
-				else
-
-					dx=dx/10;
+					dx =  ufkt->integral_precision*(dmax-dmin)/area.width();
 				progressbar->progress->reset();
 				progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 				progressbar->show();
-				x = ufkt->startx; //the initial x-point
+				x = ufkt->oldx = ufkt->startx; //the initial x-point 
+                                ufkt->oldy = ufkt->starty;
+                                ufkt->oldyprim = ufkt->integral_precision;
+                                paintEvent(0);
 			}
 			else
 				x=dmin;
@@ -336,13 +336,11 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 						break;
 					case 3:
 					{
-						y=m_parser->fkt(ufkt, x);
-						m_parser->euler_method(x, y,ufkt);
+						y = m_parser->euler_method(x, ufkt);
 						if ( int(x*100)%2==0)
 						{
 							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 							progressbar->increase();
-							paintEvent(0);
 						}
 						break;
 					}
@@ -391,12 +389,15 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 						if (x>dmax && p_mode== 3)
 						{
 							forward_direction = false;
-							x = ufkt->startx;
+							x = ufkt->oldx = ufkt->startx;
+                                                        ufkt->oldy = ufkt->starty;
+                                                        ufkt->oldyprim = ufkt->integral_precision;
+                                                        paintEvent(0);
 							mflg=2;
 						}
 					}
 					else
-						x=x-dx; // go backwards	
+						x=x-dx; // go backwards
 				}
 				else
 					x=x+dx;
@@ -1215,12 +1216,15 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 		stop_calculating = false;
 		progressbar->progress->reset();
 		if ( ufkt->integral_use_precision )
-			dx = ufkt->integral_precision*(dmax-dmin)/(area.width()*10);
-		else
-			dx=stepWidth*(dmax-dmin)/(area.width()*10); //the stepwidth must be small for Euler's metod
+			dx = ufkt->integral_precision*(dmax-dmin)/area.width();
+                else
+                        dx = stepWidth*(dmax-dmin)/area.width();
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
-		x = ufkt->startx; //the initial x-point
+                x = ufkt->oldx = ufkt->startx; //the initial x-point 
+                ufkt->oldy = ufkt->starty;
+                ufkt->oldyprim = ufkt->integral_precision;
+                paintEvent(0);
 	}
 	else
 	{
@@ -1259,13 +1263,11 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 			}
 			case 3:
 			{
-				y=m_parser->fkt(ufkt, x);
-				m_parser->euler_method(x, y, ufkt);
+				y = m_parser->euler_method(x, ufkt);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 					progressbar->increase();
-					paintEvent(0);
 				}
 				break;
 			}
@@ -1298,7 +1300,10 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 				if (x>dmax && p_mode== 3)
 				{
 					forward_direction = false;
-					x = ufkt->startx;
+                                        x = ufkt->oldx = ufkt->startx;
+                                        ufkt->oldy = ufkt->starty;
+                                        ufkt->oldyprim = ufkt->integral_precision;
+                                        paintEvent(0);
 				}
 			}
 			else
@@ -1362,9 +1367,9 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, QString &str
 			
 			double dx;
 			if ( ufkt->integral_use_precision )
-				dx = ufkt->integral_precision*(dmax-dmin)/(area.width()/10);
-			else
-				dx=stepWidth*(dmax-dmin)/(area.width()/10); //the stepwidth must be small for Euler's metod
+				dx = ufkt->integral_precision*(dmax-dmin)/area.width();
+                        else
+                                dx=stepWidth*(dmax-dmin)/area.width();
 			
 			stop_calculating = false;
 			isDrawing=true;
@@ -1373,16 +1378,17 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, QString &str
 			progressbar->progress->reset();
 			progressbar->progress->setTotalSteps ((int) double((dmax-dmin)/dx)/2 );
 			progressbar->show();
-			x = ufkt->startx; //the initial x-point
+			x = ufkt->oldx = ufkt->startx; //the initial x-point 
+                        ufkt->oldy = ufkt->starty;
+                        ufkt->oldyprim = ufkt->integral_precision;
+                        paintEvent(0);
 			while (x>=dmin && !stop_calculating && !target_found)
 			{
-				y=m_parser->fkt( ufkt, x );
-				m_parser->euler_method( x, y,ufkt );
+				y = m_parser->euler_method( x, ufkt );
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 					progressbar->increase();
-					paintEvent(0);
 				}
 
 				if ( (x+dx > target && forward_direction) || ( x+dx < target && !forward_direction)) //right x-value is found
@@ -1396,7 +1402,10 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, QString &str
 					if (x>dmax)
 					{
 						forward_direction = false;
-						x = ufkt->startx;
+						x = ufkt->oldx = ufkt->startx;
+                                                ufkt->oldy = ufkt->starty;
+                                                ufkt->oldyprim = ufkt->integral_precision;
+                                                paintEvent(0);
 					}
 				}
 				else
@@ -1585,7 +1594,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	}
 
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
-	{   
+	{
 		dmin=xmin;
 		dmax=xmax;
 	}
@@ -1609,13 +1618,21 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	{
 		stop_calculating = false;
 		if ( ufkt->integral_use_precision )
-			dx = ufkt->integral_precision*(dmax-dmin)/(area.width()*10);
-		else
-			dx=stepWidth*(dmax-dmin)/(area.width()*10); //the stepwidth must be small for Euler's metod
+			dx = ufkt->integral_precision*(dmax-dmin)/area.width();
+                else
+                        dx = stepWidth*(dmax-dmin)/area.width();
 		progressbar->progress->reset();
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
-		x = ufkt->startx; //the initial x-point
+                x = ufkt->oldx = ufkt->startx; //the initial x-point 
+                ufkt->oldy = ufkt->starty;
+                ufkt->oldyprim = ufkt->integral_precision;
+                //paintEvent(0);
+                
+                /*QPainter p;
+                p.begin(this);
+                bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
+                p.end();*/
 	}
 	else
 	{
@@ -1626,7 +1643,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	
 	int const origoy = dgr.Transy(0.0);
 	int const rectwidth = dgr.Transx(dx)- dgr.Transx(0.0)+1; 
-	
+        
 	setCursor(Qt::WaitCursor );
 	isDrawing=true;
 	
@@ -1664,13 +1681,11 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 			}
 			case 3:
 			{
-				y=m_parser->fkt(ufkt, x);
-				m_parser->euler_method(x, y, ufkt);
+				y = m_parser->euler_method(x, ufkt);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 					progressbar->increase();
-					paintEvent(0);
 				}
 				break;
 			}
@@ -1722,7 +1737,10 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 				if (x>dmax && p_mode== 3)
 				{
 					forward_direction = false;
-					x = ufkt->startx;
+					x = ufkt->oldx = ufkt->startx;
+                                        ufkt->oldy = ufkt->starty;
+                                        ufkt->oldyprim = ufkt->integral_precision;
+                                        paintEvent(0);
 				}
 			}
 			else

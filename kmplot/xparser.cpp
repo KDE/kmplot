@@ -188,35 +188,13 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
 	}
 }
 
-void XParser::euler_method(const double x, double &y, const QValueVector<Ufkt>::iterator it)
+double XParser::euler_method(const double x, const QValueVector<Ufkt>::iterator it)
 {
-	// y == the old yprim-value
-	
-	if (x == it->startx ) //the first point we should draw
-	{
-		it->oldy = it->starty;
-		it->oldyprim = it->integral_precision;
-		
-		/*kdDebug() << "*******************" << endl;
-		kdDebug() << "   start-x: " << x << endl;
-		kdDebug() << "   start-y: " << itf->starty << endl;
-		kdDebug() << "*******************" << endl;*/
-		
-		it->oldx = x;
-		y=it->starty;
-		return;
-	}
-	else
-	{
-		double const yprim = y;
-		double const h = x-it->oldx;
-		y = it->oldy + (h *  it->oldyprim);
-		
-		it->oldy = y;
-		it->oldx = x;
-		it->oldyprim = yprim;
-		return;
-	}
+	double const y = it->oldy + ((x-it->oldx) * it->oldyprim);
+	it->oldy = y;
+	it->oldx = x;
+	it->oldyprim = fkt( it, x ); //yprim;
+	return y;
 }
 
 QRgb XParser::defaultColor(int function)

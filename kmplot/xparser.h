@@ -51,7 +51,7 @@ public:
 	/// Evaluates the 2nd dreivative of the function with intex \a ix
 	double a2fkt( Ufkt *, double, double h = 1e-3 );
         /// calculate euler's method when drawing a numeric prime-function
-        void euler_method(const double, double &, const QValueVector<Ufkt>::iterator);
+        double euler_method(const double, const QValueVector<Ufkt>::iterator);
         
         /// Line width default
         int linewidth0;

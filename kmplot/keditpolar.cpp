@@ -71,7 +71,7 @@ void KEditPolar::setWidgets()
 	QString function = ufkt->extstr;
 	function = function.right( function.length()-1 );
 	kLineEditYFunction->setText( function );
-	checkBoxHide->setChecked( ufkt->f_mode == 0 );
+	checkBoxHide->setChecked( !ufkt->f_mode);
 	if (  ufkt->dmin != ufkt->dmax )
 	{
 		checkBoxRange->setChecked( true );
@@ -93,12 +93,8 @@ void KEditPolar::accept()
         else
                 m_parser->fixFunctionName(f_str, XParser::Polar);
         Ufkt tmp_ufkt;  //all settings are saved here until we know that no errors have appeared
-		
-	if( checkBoxHide->isChecked() )
-		tmp_ufkt.f_mode = 0;
-	else
-		tmp_ufkt.f_mode = 1;
 	
+        tmp_ufkt.f_mode = !checkBoxHide->isChecked();
 	if( checkBoxRange->isChecked() )
 	{
 		tmp_ufkt.str_dmin = min->text();
@@ -177,7 +173,7 @@ void KEditPolar::accept()
                 }
                 added_ufkt =  &m_parser->ufkt.last();
         }
-	//save all settings in the function now when we now no errors have appeared
+	//save all settings in the function now when we know no errors have appeared
         added_ufkt->f_mode = tmp_ufkt.f_mode;
         added_ufkt->f1_mode = tmp_ufkt.f1_mode;
         added_ufkt->f2_mode = tmp_ufkt.f2_mode;

@@ -246,11 +246,10 @@ void View::plotfkt(int ix, QPainter *pDC)
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
 
 	fktmode=m_parser->fktext[ix].extstr[0].latin1();
-	if(fktmode!='y')
-	{   
-		dmin=m_parser->fktext[ix].dmin;
-		dmax=m_parser->fktext[ix].dmax;
-	}
+	if(fktmode=='y') return ;
+	
+	dmin=m_parser->fktext[ix].dmin;
+	dmax=m_parser->fktext[ix].dmax;
 	
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
@@ -265,7 +264,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 			dmax=xmax;
 		}
 	}
-		
+	
 	double dx;
 	if(fktmode=='r') 
 		dx=stepWidth*0.05/(dmax-dmin);
@@ -278,9 +277,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 		fname[0]='y';
 		iy=m_parser->getfix(fname);
 		if(iy==-1) 
-			return ;
+			return;
 	}
-	else if(fktmode=='y') return ;
 	
 	p_mode=0;
 	pen.setWidth((int)(m_parser->fktext[ix].linewidth*s) );
@@ -323,7 +321,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 			if ( p_mode != 0 || m_parser->fktext[ix].f_mode) // if not the function is hidden
 				while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
 			{
-				
 				if ( p_mode == 3 && stop_calculating)
 				{
 					p_mode=1;
@@ -368,29 +365,32 @@ void View::plotfkt(int ix, QPainter *pDC)
 				{
 					p2.setX(dgr.Transx(y));
 					p2.setY(dgr.Transy(m_parser->fkt(iy, x)));
+	
 				}
 				else
 				{
 					p2.setX(dgr.Transx(x));
 					p2.setY(dgr.Transy(y));
 				}
-				
-				if(dgr.xclipflg || dgr.yclipflg)
-				{
-					if(mflg>=1) p1=p2;
-					else
-					{   
-						pDC->drawLine(p1, p2); p1=p2;
-						mflg=1;
+				if ( fktmode!='x' || (fktmode=='x' && y>=dmin && y<=dmax) )
+					if ( dgr.xclipflg || dgr.yclipflg)
+					{
+						if(mflg>=1)
+							p1=p2;
+						else
+						{   
+							pDC->drawLine(p1, p2);
+							p1=p2;
+							mflg=1;
+						}
 					}
-				}
-				else
-				{	
-					if(mflg<=1)
-						pDC->drawLine(p1, p2);
-					p1=p2;
-                    			mflg=0;
-				}
+					else
+					{
+						if(mflg<=1)
+							pDC->drawLine(p1, p2);
+						p1=p2;
+						mflg=0;
+					}
 
 				if (p_mode==3)
 				{

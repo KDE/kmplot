@@ -191,9 +191,9 @@ void MainDlg::setupActions()
 	// Popup menu
 	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
 	mnuHide->plug(m_popupmenu);
-	KAction *mnuRemove = new KAction(i18n("&Remove"),0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
+	KAction *mnuRemove = new KAction(i18n("&Remove"),"editdelete", 0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
 	mnuRemove->plug(m_popupmenu);
-	KAction *mnuEdit = new KAction(i18n("&Edit"), 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
+	KAction *mnuEdit = new KAction(i18n("&Edit"),"editplots", 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
 	mnuEdit->plug(m_popupmenu);
 	m_popupmenu->insertSeparator();
 	KAction *mnuCopy = new KAction(i18n("&Copy"), 0,view, SLOT( mnuCopy_clicked() ),actionCollection(),"mnucopy"  );

@@ -68,7 +68,7 @@ void KEditConstant::cmdOK_clicked()
 	{
 		bool found= false;
 		QValueVector<Constant>::iterator it;
-		for(it = m_parser->constant.begin(); it!= m_parser->constant.end() && !found;it++)
+		for(it = m_parser->constant.begin(); it!= m_parser->constant.end() && !found;++it)
 		{
 			if ( it->constant == constant)
 					found = true;

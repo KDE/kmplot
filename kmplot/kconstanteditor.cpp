@@ -45,7 +45,7 @@ KConstantEditor::KConstantEditor(View *v, QWidget *parent, const char *name)
 {
 	QString str_value;
 	QValueVector<Constant>::iterator it;
-	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() ;it++)
+	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() ;++it)
 	{
 		str_value.setNum(it->value);
 		(void) new QListViewItem(varlist, QChar(it->constant), str_value);
@@ -97,7 +97,7 @@ void KConstantEditor::cmdDelete_clicked()
                         }
 	}
 	QValueVector<Constant>::iterator it;
-	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end(); it++)
+	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end(); ++it)
 	{
 		if ( it->constant == constant)
 		{
@@ -145,7 +145,7 @@ void KConstantEditor::cmdDuplicate_clicked()
 	{
 		found = false;
 		QValueVector<Constant>::iterator it;
-		for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;it++)
+		for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;++it)
 		{
 			if ( it->constant == i || i == constant)
 			{
@@ -177,7 +177,7 @@ void KConstantEditor::editConstantSlot()
 	double dvalue = m_view->parser()->eval(value);
 	bool found = false;
 	QValueVector<Constant>::iterator it;
-	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;it++)
+	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;++it)
 	{
 		if ( it->constant == constant)
 		{

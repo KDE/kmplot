@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>388</width>
-            <height>339</height>
+            <height>341</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,195 +19,141 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QFrame" row="0" column="0">
+        <widget class="QPushButton" row="2" column="1">
             <property name="name">
-                <cstring>frame3</cstring>
+                <cstring>cmdDelete</cstring>
             </property>
-            <property name="frameShape">
-                <enum>StyledPanel</enum>
+            <property name="enabled">
+                <bool>false</bool>
             </property>
-            <property name="frameShadow">
-                <enum>Raised</enum>
+            <property name="text">
+                <string>&amp;Delete</string>
             </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KListView" row="0" column="0" rowspan="6" colspan="1">
-                    <column>
-                        <property name="text">
-                            <string>Variable</string>
-                        </property>
-                        <property name="clickable">
-                            <bool>true</bool>
-                        </property>
-                        <property name="resizable">
-                            <bool>true</bool>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Value</string>
-                        </property>
-                        <property name="clickable">
-                            <bool>true</bool>
-                        </property>
-                        <property name="resizable">
-                            <bool>true</bool>
-                        </property>
-                    </column>
-                    <property name="name">
-                        <cstring>varlist</cstring>
-                    </property>
-                    <property name="showSortIndicator">
-                        <bool>true</bool>
-                    </property>
-                    <property name="itemsMovable">
-                        <bool>false</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>List of user-defined constants</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Select a constant to change its value, remove it or duplicate it.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="3" column="1">
-                    <property name="name">
-                        <cstring>cmdDuplicate</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>D&amp;uplicate</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+U</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Duplicate the selected constant</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to Copy the selected constant to another constant. You can choose the new name from a list.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="2" column="1">
-                    <property name="name">
-                        <cstring>cmdDelete</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Delete</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+D</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>delete selected constant</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="1" column="1">
-                    <property name="name">
-                        <cstring>cmdEdit</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Change value</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+C</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Change the value of a user-defined constant</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to edit the value of the selected constant. Its name cannot be changed.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="0" column="1">
-                    <property name="name">
-                        <cstring>cmdNew</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;New</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+N</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Add a new constant</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click this button to add a new constant.</string>
-                    </property>
-                </widget>
-                <spacer row="5" column="1">
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>100</height>
-                        </size>
-                    </property>
-                </spacer>
-            </grid>
+            <property name="accel">
+                <string>Alt+D</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>delete selected constant</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
+            </property>
         </widget>
+        <widget class="QPushButton" row="1" column="1">
+            <property name="name">
+                <cstring>cmdEdit</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="text">
+                <string>&amp;Change value</string>
+            </property>
+            <property name="accel">
+                <string>Alt+C</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Change the value of a user-defined constant</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Click here to edit the value of the selected constant. Its name cannot be changed.</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="3" column="1">
+            <property name="name">
+                <cstring>cmdDuplicate</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="text">
+                <string>D&amp;uplicate</string>
+            </property>
+            <property name="accel">
+                <string>Alt+U</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Duplicate the selected constant</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Click here to Copy the selected constant to another constant. You can choose the new name from a list.</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="0" column="1">
+            <property name="name">
+                <cstring>cmdNew</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;New</string>
+            </property>
+            <property name="accel">
+                <string>Alt+N</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Add a new constant</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Click this button to add a new constant.</string>
+            </property>
+        </widget>
+        <widget class="KListView" row="0" column="0" rowspan="5" colspan="1">
+            <column>
+                <property name="text">
+                    <string>Variable</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Value</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <property name="name">
+                <cstring>varlist</cstring>
+            </property>
+            <property name="showSortIndicator">
+                <bool>true</bool>
+            </property>
+            <property name="itemsMovable">
+                <bool>false</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>List of user-defined constants</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Select a constant to change its value, remove it or duplicate it.</string>
+            </property>
+        </widget>
+        <spacer row="4" column="1">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>147</height>
+                </size>
+            </property>
+        </spacer>
     </grid>
 </widget>
-<connections>
-    <connection>
-        <sender>cmdNew</sender>
-        <signal>clicked()</signal>
-        <receiver>QConstantEditor</receiver>
-        <slot>cmdNew_clicked()</slot>
-    </connection>
-    <connection>
-        <sender>cmdEdit</sender>
-        <signal>clicked()</signal>
-        <receiver>QConstantEditor</receiver>
-        <slot>cmdEdit_clicked()</slot>
-    </connection>
-    <connection>
-        <sender>cmdDelete</sender>
-        <signal>clicked()</signal>
-        <receiver>QConstantEditor</receiver>
-        <slot>cmdDelete_clicked()</slot>
-    </connection>
-    <connection>
-        <sender>varlist</sender>
-        <signal>clicked(QListViewItem*)</signal>
-        <receiver>QConstantEditor</receiver>
-        <slot>varlist_clicked(QListViewItem*)</slot>
-    </connection>
-    <connection>
-        <sender>cmdDuplicate</sender>
-        <signal>clicked()</signal>
-        <receiver>QConstantEditor</receiver>
-        <slot>cmdDuplicate_clicked()</slot>
-    </connection>
-    <connection>
-        <sender>varlist</sender>
-        <signal>doubleClicked(QListViewItem*)</signal>
-        <receiver>QConstantEditor</receiver>
-        <slot>varlist_doubleClicked(QListViewItem*)</slot>
-    </connection>
-</connections>
 <includes>
     <include location="local" impldecl="in implementation">qconstanteditor.ui.h</include>
 </includes>

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>252</width>
-            <height>270</height>
+            <height>272</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,37 +19,50 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget">
+        <widget class="QGroupBox">
             <property name="name">
-                <cstring>layout1</cstring>
+                <cstring>groupBox1</cstring>
             </property>
-            <hbox>
+            <property name="title">
+                <string>Precision</string>
+            </property>
+            <vbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel">
+                <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>textLabel1</cstring>
+                        <cstring>layout1</cstring>
                     </property>
-                    <property name="text">
-                        <string>Precision</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>kcfg_stepWidth</cstring>
-                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Points per pixel:</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>kcfg_stepWidth</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KDoubleNumInput">
+                            <property name="name">
+                                <cstring>kcfg_relativeStepWidth</cstring>
+                            </property>
+                            <property name="value">
+                                <number>1</number>
+                            </property>
+                            <property name="minValue">
+                                <number>0.1</number>
+                            </property>
+                        </widget>
+                    </hbox>
                 </widget>
-                <widget class="KDoubleNumInput">
-                    <property name="name">
-                        <cstring>kcfg_relativeStepWidth</cstring>
-                    </property>
-                    <property name="value">
-                        <number>1</number>
-                    </property>
-                    <property name="minValue">
-                        <number>0.1</number>
-                    </property>
-                </widget>
-            </hbox>
+            </vbox>
         </widget>
         <widget class="QButtonGroup">
             <property name="name">
@@ -100,4 +113,8 @@
     </vbox>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+</includehints>
 </UI>

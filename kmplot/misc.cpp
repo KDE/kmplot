@@ -90,7 +90,7 @@ void getSettings()
 	
 	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
 	
-	tlgxstr = units[ Settings::yScaling() ];
+	tlgxstr = units[ Settings::xScaling() ];
 	tlgx = ps.eval( tlgxstr );
 	tlgystr = units[ Settings::yScaling() ];
 	tlgy = ps.eval( tlgystr );

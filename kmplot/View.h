@@ -128,6 +128,12 @@ public slots:
 	void mnuHide_clicked();
 	void mnuRemove_clicked();
 	void mnuEdit_clicked();
+	///Slots for the zoom menu
+	void mnuRectangular_clicked();
+	void mnuZoomIn_clicked();
+	void mnuZoomOut_clicked();
+	void mnuCenter_clicked();
+	void mnuTrig_clicked();
 
     
 protected slots:

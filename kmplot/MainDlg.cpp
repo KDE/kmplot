@@ -144,8 +144,19 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 	
-	// tools menu
+	//zoom menu
+	KToggleAction * mnuRectangular = new KToggleAction(i18n("&Zoom rectangular") ,0,view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
+	KToggleAction * mnuZoomIn = new KToggleAction(i18n("&Zoom in") ,0,view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
+	KToggleAction * mnuZoomOut = new KToggleAction(i18n("&Zoom out") ,0,view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
+	KToggleAction * mnuZoomCenter = new KToggleAction(i18n("&Center a point") ,0,view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
+	(void ) new KAction(i18n("&Fit widget to trigonometry functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
+	mnuRectangular->setExclusiveGroup("zoom_modes");
+	mnuZoomIn->setExclusiveGroup("zoom_modes");
+	mnuZoomOut->setExclusiveGroup("zoom_modes");
+	mnuZoomCenter->setExclusiveGroup("zoom_modes");
 	
+	
+	// tools menu
 	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
 	mnuHide->plug(m_popupmenu);
 	KAction *mnuRemove = new KAction(i18n("&Remove"),0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );

@@ -921,56 +921,64 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	if ( zoom_mode==4)
 	{
 		zoom_mode=1;
+		if( (e->pos().x() - rectangle_point.x() >= -2) && (e->pos().x() - rectangle_point.x() <= 2) ||
+		     (e->pos().y() - rectangle_point.y() >= -2) && (e->pos().y() - rectangle_point.y() <= 2) )
+		{
+			update();
+			return;
+		}
 		QPainter DC;
 		DC.begin(this);
-		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
-		
+		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );		
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
+
 		QPoint p=DC.xFormDev(e->pos());
-		double real1 = dgr.Transx(p.x() ) ;
-		double real2 = dgr.Transy(p.y() ) ;
+		double real1x = dgr.Transx(p.x() ) ;
+		double real1y = dgr.Transy(p.y() ) ;
+		p=DC.xFormDev(rectangle_point);
+		double real2x = dgr.Transx(p.x() ) ;
+		double real2y = dgr.Transy(p.y() ) ;
+		
 		QString str_tmp;
 		
-		if( real1 < real2  )
+		
+		
+		if( real1x < real2x  )
 		{
-			if( real2 - real1 < 0.00001)
+			if( real2x - real1x < 0.00001)
 			    return;
-			str_tmp.setNum(real1 );
+			str_tmp.setNum(real1x );
 			Settings::setXMin(str_tmp );
-			str_tmp.setNum(real2 );
+			str_tmp.setNum(real2x );
 			Settings::setXMax(str_tmp );
 		}
 		else
-		{	
-			if (real1 - real2 < 0.00001)
+		{
+			if (real1x - real2x < 0.00001)
 				return;
-			str_tmp.setNum(real2 );
+			str_tmp.setNum(real2x );
 			Settings::setXMin(str_tmp );
-			str_tmp.setNum(real1 );
+			str_tmp.setNum(real1x );
 			Settings::setXMax(str_tmp );
 		}
 		
-		p=DC.xFormDev(rectangle_point);
-		real1 = dgr.Transx(p.x() ) ;
-		real2 = dgr.Transy(p.y() ) ;
-		
-		if( real1 < real2 )
+		if( real1y < real2y )
 		{
-			if( real2 - real1 < 0.00001)
+			if( real2y - real1y < 0.00001)
 				return;
-			str_tmp.setNum(real1 );
+			str_tmp.setNum(real1y );
 			Settings::setYMin(str_tmp );
-			str_tmp.setNum(real2);
+			str_tmp.setNum(real2y);
 			Settings::setYMax(str_tmp );
 		}
 		else
 		{
-			if( real1 - real2 < 0.00001)
+			if( real1y - real2y < 0.00001)
 				return;
-			str_tmp.setNum(real2  );
+			str_tmp.setNum(real2y  );
 			Settings::setYMin(str_tmp );
-			str_tmp.setNum(real1 );
+			str_tmp.setNum(real1y );
 			Settings::setYMax(str_tmp );
 		}
 		Settings::setXRange(4); //custom x-range
@@ -1059,7 +1067,6 @@ void View::getSettings()
 		m_parser->fktext[i].f2_color = m_parser->fktext[i].color;
 		m_parser->fktext[i].anti_color = m_parser->fktext[i].color;
 	}
-	stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
 	backgroundcolor = Settings::backgroundcolor();
 }
 
@@ -1286,7 +1293,11 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 void View::keyPressEvent( QKeyEvent * e)
 {
 	if ( zoom_mode == 4) //drawing a rectangle
+	{	
+		zoom_mode = 1;
+		update();
 		return;
+	}
 	
 	if ( e->key() == Qt::Key_A) //disable zoom mode
 		zoom_mode=0;
@@ -1687,4 +1698,54 @@ void View::mnuEdit_clicked()
 	{
 		drawPlot();
 	}
+}
+
+void View::mnuRectangular_clicked()
+{
+	if ( zoom_mode == 1)
+		zoom_mode = 0;
+	else
+		zoom_mode = 1;
+}
+void View::mnuZoomIn_clicked()
+{
+	if ( zoom_mode == 2)
+		zoom_mode = 0;
+	else
+		zoom_mode = 2;	
+}
+void View::mnuZoomOut_clicked()
+{
+	if ( zoom_mode == 3)
+		zoom_mode = 0;
+	else
+		zoom_mode = 3;
+}
+void View::mnuCenter_clicked()
+{
+	if ( zoom_mode == 5)
+		zoom_mode = 0;
+	else
+		zoom_mode = 5;	
+}
+void View::mnuTrig_clicked()
+{
+	if ( Settings::anglemode()==0 ) //radians
+	{
+		Settings::setXMin("-6.152285613" );
+		Settings::setXMax("6.152285613" );
+	}
+	else //degrees
+	{
+		Settings::setXMin("-352.5" );
+		Settings::setXMax("352.5" );
+	}
+		
+	Settings::setYMin("-4");
+	Settings::setYMax("4");
+		
+	Settings::setXRange(4); //custom x-range
+	Settings::setYRange(4); //custom y-range
+	drawPlot(); //update all graphs
+	return;
 }

@@ -15,10 +15,19 @@
 			<Action name="editaxes"/>
 			<Action name="editscaling"/>
 			<Action name="editfonts"/>
-		<Separator />
+			<Separator />
 			<Action name="coord_i"/>
 			<Action name="coord_ii"/>
 			<Action name="coord_iii"/>
+		</Menu>
+		
+		<Menu name="zoom" noMerge="1"><text>&amp;Zoom</text>
+			<Action name="zoom_rectangular"/>
+			<Action name="zoom_in"/>
+			<Action name="zoom_out"/>
+			<Action name="zoom_center"/>
+			<Separator />
+			<Action name="zoom_trig"/>
 		</Menu>
 		<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
 			<Action name="yvalue"/>

@@ -151,7 +151,7 @@ void View::plotfkt( int ix, QPainter *pDC )
 			mflg = 2;
 			for ( x = dmin; x < dmax; x += dx )
 			{
-				int errno = 0;
+				errno = 0;
 				switch ( p_mode )
 				{
 				case 0:

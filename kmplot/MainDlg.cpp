@@ -82,7 +82,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	// create and add the page(s)
 	m_precisionSettings = new SettingsPagePrecision( 0, "precisionSettings" );
 	m_constantsSettings = new KConstantEditor( view, 0, "constantsSettings" );
-	m_settingsDialog->addPage( m_precisionSettings, i18n( "Precision" ), "" );
+	m_settingsDialog->addPage( m_precisionSettings, i18n("General"), "package_settings", i18n("General Settings") );
 	m_settingsDialog->addPage( m_constantsSettings, i18n( "Constants" ), "" ); 
 	// User edited the configuration - update your local copies of the 
 	// configuration data 

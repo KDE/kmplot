@@ -135,11 +135,9 @@ void EditFunction::setWidgets()
 	if ( m_parser->fktext[ m_index ].anti_mode )
 	{
 		editantiderivativepage->showAntiderivative->setChecked( m_parser->fktext[ m_index ].anti_mode );
-		QString tmp;
-		tmp.setNum(m_parser->fktext[ m_index ].starty);
-		editantiderivativepage->txtInitY->setText( tmp );
-		tmp.setNum(m_parser->fktext[ m_index ].startx);
-		editantiderivativepage->txtInitX->setText( tmp );
+		editantiderivativepage->txtInitX->setValue(m_parser->fktext[ m_index ].startx);
+		editantiderivativepage->txtInitY->setValue(m_parser->fktext[ m_index ].starty);
+		
 	}
 
 }
@@ -178,7 +176,7 @@ void EditFunction::accept()
 	
 	if( editfunctionpage->customRange->isChecked() )
 	{
-		// TODO: check empty boundaries and syntax
+		// TODO: check empty boundaries
 		
 		m_parser->fktext[ index ].str_dmin = editfunctionpage->min->text();
 		m_parser->fktext[ index ].dmin = m_parser->eval( editfunctionpage->min->text() );
@@ -194,7 +192,12 @@ void EditFunction::accept()
 			m_parser->delfkt( index );
 			return;
 		}
-		
+		if ( m_parser->fktext[ index ].dmin >=  m_parser->fktext[ index ].dmax)
+		{
+			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+			m_parser->delfkt( index );
+			return;
+		}
 	}
 	else
 	{
@@ -206,21 +209,16 @@ void EditFunction::accept()
 	
 	if (editantiderivativepage->showAntiderivative->isChecked() )
 	{
-		bool result;
-		double initx = editantiderivativepage->txtInitX->text().toDouble(&result);
-		if (!result)
+		double initx = editantiderivativepage->txtInitX->value();
+		double inity = editantiderivativepage->txtInitY->value();
+		if ( m_parser->fktext[ index ].dmin!=m_parser->fktext[ index ].dmax && ( initx<m_parser->fktext[ index ].dmin || initx<m_parser->fktext[ index ].dmax) )
 		{
-			KMessageBox::error(this, i18n("Please insert a valid x-value"));
+			KMessageBox::error(this,i18n("Please insert a initial x-value in the range"));
 			m_parser->delfkt( index );
 			return;
 		}
-		double inity = editantiderivativepage->txtInitY->text().toDouble(&result);
-		if (!result)
-		{
-			KMessageBox::error(this, i18n("Please insert a valid y-value"));
-			m_parser->delfkt( index );
-			return;
-		}
+			
+		
 		if ( editfunctionpage->customRange->isChecked() && ( initx < m_parser->fktext[ index ].dmin) )
 			m_parser->fktext[index].startx = m_parser->fktext[index].dmin;
 		else

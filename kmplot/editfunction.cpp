@@ -67,7 +67,7 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	editintegralpage = new EditIntegralPage( page2 );
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
-		editfunctionpage->listOfSliders->insertItem( QString( "Slider no. %1" ).arg( number +1) );
+		editfunctionpage->listOfSliders->insertItem( i18n( "Slider no. %1" ).arg( number +1) );
 	}
 	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
 	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_clicked(bool) ) );
@@ -76,7 +76,7 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 void EditFunction::initDialog( int index )
 {
 	m_index = index;
-	if( m_index == -1 ) clearWidgets();
+	if( m_index == -1 ) clearWidgets(); //new function, so clear all values
 	else setWidgets();
 	editfunctionpage->equation->setFocus();
 }
@@ -158,10 +158,7 @@ void EditFunction::setWidgets()
 }
 
 void EditFunction::accept()
-{	
-	if( !editfunctionpage->useNoParameter->isChecked() && functionHas2Arguments() && KMessageBox::warningYesNo( this, i18n( "Function has 2 arguments, but you did not specify any parameter values.\nDo you want to continue anyway?" ), i18n( "Missing Parameter Values" ) ) != KMessageBox::Yes )
-		return;
-	
+{
 	QString f_str(functionItem() );
 	int index;
 	if( m_index != -1 )  //when editing a function: 
@@ -169,8 +166,8 @@ void EditFunction::accept()
 		index = m_index; //use the right function-index
 		QString old_fstr = m_parser->ufkt[index].fstr;
 		m_parser->fixFunctionName(f_str,index);
-		if((  (!m_parameter.isEmpty() != 0 && !editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
-			fixFunctionArguments(f_str);
+		if((  (!m_parameter.isEmpty() && editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
+			fixFunctionArguments(f_str); //adding an extra argument for the parameter value
 		m_parser->ufkt[index].fstr = f_str;
 		m_parser->reparse(index); //reparse the funcion
 		if ( m_parser->errmsg() != 0)
@@ -184,11 +181,11 @@ void EditFunction::accept()
 			return;
 		}
 	}
-	else
+	else //creating a new function
 	{
 		m_parser->fixFunctionName(f_str);
-		if((  (!m_parameter.isEmpty() != 0 && !editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
-			fixFunctionArguments(f_str);
+		if((  (!m_parameter.isEmpty() && editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
+			fixFunctionArguments(f_str); //adding an extra argument for the parameter value
 		index = m_parser->addfkt( f_str ); //create a new function otherwise
 	}
 	
@@ -257,17 +254,12 @@ void EditFunction::accept()
 	}
 	else
 	{
+		//the min and max values must be equal so that plotfkt in View uses xmin and xmax instead
 		tmp_fktext.str_dmin ="0";
 		tmp_fktext.dmin = 0;
 		tmp_fktext.str_dmax = "0";
 		tmp_fktext.dmax = 0;
-	}
-	
-	if( editfunctionpage->useSlider->isChecked() )
-		tmp_fktext.use_slider = editfunctionpage->listOfSliders->currentItem();
-	else
-		tmp_fktext.use_slider = -1;
-		
+	}	
 
 	tmp_fktext.linewidth = editfunctionpage->lineWidth->value();
 	tmp_fktext.color = editfunctionpage->color->color().rgb();
@@ -314,7 +306,12 @@ void EditFunction::accept()
 	else
 		tmp_fktext.f_mode = 1;
 	
+	if( editfunctionpage->useSlider->isChecked() )
+		tmp_fktext.use_slider = editfunctionpage->listOfSliders->currentItem(); //specify which slider that will be used
+	else
+		tmp_fktext.use_slider = -1;
 	tmp_fktext.k_anz = 0;
+	
 	if( !m_parameter.isEmpty() )
 	{
 		tmp_fktext.str_parameter = m_parameter;
@@ -349,8 +346,8 @@ void EditFunction::accept()
 	}
 	
 	tmp_fktext.color0 = m_parser->fktext[index].color0;
-	m_parser->fktext[index] = tmp_fktext;
-	editfunctionpage->equation->setText(f_str);
+	m_parser->fktext[index] = tmp_fktext; //save all settings in the function now when we now no errors have appeared
+	editfunctionpage->equation->setText(f_str); //update the function name in FktDlg
 	
 	// call inherited method
 	KDialogBase::accept();

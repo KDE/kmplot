@@ -68,6 +68,7 @@ class EditFunction : public KDialogBase
 		void setWidgets();
 		/// Check, if the function has 2 arguments (function group)
 		bool functionHas2Arguments();
+		/// Adding an extra argument
 		void fixFunctionArguments(QString &);
 		
 		/// Pointer to the parser instance

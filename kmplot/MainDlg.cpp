@@ -5,6 +5,7 @@
 
 MainDlg::MainDlg(const char* name) : KMainWindow(0, name)
 {	init();
+    fdlg = 0;
     view=new View(this);
     setCentralWidget(view);
     setupActions();

@@ -107,12 +107,13 @@ void FktDlg::onapply()
 void FktDlg::onok()
 {
     onapply();
-    hide();
+    onclose();
 }
 
 void FktDlg::onclose()
 {
-    hide();
+    ( ( MainDlg* ) parentWidget() )->fdlg = 0;
+    close( TRUE );
 }
 
 void FktDlg::ondelete()

@@ -142,40 +142,42 @@ void CDiagr::Plot( QPainter* pDC )
 	}
 }
 
-int CDiagr::Transx( double x ) 		// reale x-Koordinate
-{ int xi;                			// transformierte x-Koordinate
+int CDiagr::Transx(double x)		// reale x-Koordinate
+{   int xi;                			// transformierte x-Koordinate
+    static double lastx;            // vorherige x-Koordinate
 
-	if ( x < xmin )
-	{
-		xclipflg = 1;
-		return PlotArea.left();
-	}
-	if ( x > xmax )
-	{
-		xclipflg = 1;
-		return PlotArea.right();
-	}
-	xi = ( int ) ( ox + skx * x );
-	xclipflg = 0;
-	return xi;
+    if(isnan(x))
+    {   xclipflg=1;
+        if(lastx<1. && lastx>-1.) xi=(int)(ox-skx*lastx);
+        else xi=(lastx<0)? PlotArea.left(): PlotArea.right();
+    }
+    else if(isinf(x)==-1){xclipflg=0; xi=PlotArea.left();}
+    else if(isinf(x)==1) {xclipflg=0; xi=PlotArea.right();}
+    else if(x<xmin) {xclipflg=1; xi=PlotArea.left();}
+    else if(x>xmax) {xclipflg=1; xi=PlotArea.right();}
+	else {xclipflg=0; xi=(int)(ox+skx*x);}
+
+    lastx=x;
+    return xi;
 }
 
-int CDiagr::Transy( double y ) 		// reale y-Koordinate
-{ int yi;                     	// transformierte y-Koordinate
+int CDiagr::Transy(double y)		// reale y-Koordinate
+{   int yi;                     	// transformierte y-Koordinate
+    static double lasty;            // vorherige y-Koordinate
 
-	if ( y < ymin )
-	{
-		yclipflg = 1;
-		return PlotArea.bottom();
-	}
-	if ( y > ymax )
-	{
-		yclipflg = 1;
-		return PlotArea.top();
-	}
-	yi = ( int ) ( oy - sky * y );
-	yclipflg = 0;
-	return yi;
+    if(isnan(y))
+    {   yclipflg=1;
+        if(lasty<1. && lasty>-1.) yi=(int)(oy-sky*lasty);
+        else yi=(lasty<0)? PlotArea.bottom(): PlotArea.top();
+    }
+    else if(isinf(y)==-1){yclipflg=0; yi=PlotArea.bottom();}
+    else if(isinf(y)==1) {yclipflg=0; yi=PlotArea.top();}
+    else if(y<ymin) {yclipflg=1; yi=PlotArea.bottom();}
+    else if(y>ymax) {yclipflg=1; yi=PlotArea.top();}
+    else {yclipflg=0; yi=(int)(oy-sky*y);}
+
+    lasty=y;
+    return yi;
 }
 
 double CDiagr::Transx( int x ) 		// Bildschirmkoordinate

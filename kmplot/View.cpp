@@ -182,29 +182,24 @@ void View::plotfkt( int ix, QPainter *pDC )
 					yi = dgr.Transy( y );
 				}
 
-				if ( dgr.xclipflg || dgr.yclipflg )
-				{
-					if ( mflg >= 1 )
-						pDC->moveTo( xi, yi );
+                if(dgr.xclipflg || dgr.yclipflg)
+				{	if(mflg>=1) pDC->moveTo(xi, yi);
 					else
-					{
-						pDC->lineTo( xi, yi );
-						pDC->drawPoint( xi, yi );
-					}
-					mflg = 1;
+                    {   pDC->lineTo(xi, yi);
+                        pDC->drawPoint(xi, yi);
+                        mflg=1;
+                    }
+
 				}
 				else
-				{
-					if ( mflg == 2 )
-						pDC->moveTo( xi, yi );
+				{	if(mflg>1) pDC->moveTo(xi, yi);
 					else
-					{
-						pDC->lineTo( xi, yi );
-						pDC->drawPoint( xi, yi );
-					}
-					mflg = 0;
+                    {   pDC->lineTo(xi, yi);
+                        pDC->drawPoint(xi, yi);
+                    }
+                    mflg=0;
 				}
-			}
+            }
 		}
 		while ( ++k < ke )
 			;

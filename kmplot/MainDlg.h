@@ -190,6 +190,7 @@ class MainDlg : public KMainWindow
 		void getYValue();
 		void findMinimumValue();
 		void findMaximumValue();
+		void graphArea();
 		
 	protected:
 		/// Quits KmPlot after checking if modifications shall be saved.

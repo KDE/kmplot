@@ -143,6 +143,7 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "&Get y-value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
 	( void ) new KAction( i18n( "&Search for minimum value" ), 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
 	( void ) new KAction( i18n( "&Search for maximum value" ), 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
+	( void ) new KAction( i18n( "&Area under a graph" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
 	
 	// help menu
 	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );
@@ -402,7 +403,7 @@ void MainDlg::newPolar()
 
 void MainDlg::slotEditPlots()
 {
-	if ( !fdlg ) fdlg = new FktDlg( this, view->parser() ); // make the dialog only if not already done
+	if ( !fdlg ) fdlg = new FktDlg( this, view->parser() ); // make the dialog only if not allready done
 	fdlg->getPlots();
 	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
 	KmPlotIO::save( view->parser(), tmpName );
@@ -573,8 +574,7 @@ void MainDlg::saveConstants()
 	{
 		tmp.setNum(i+1);
 		conf.writeEntry("nameConstant"+tmp, QString( QChar(view->parser()->constant[i].constant) ) ) ;
-		conf.writeEntry("valueConstant"+tmp, view->parser()->constant[i].value);
-			
+		conf.writeEntry("valueConstant"+tmp, view->parser()->constant[i].value);	
 	}
 }
 
@@ -593,5 +593,11 @@ void MainDlg::findMinimumValue()
 void MainDlg::findMaximumValue()
 {
 	minmaxdlg->init(1);
+	minmaxdlg->show();
+}
+
+void MainDlg::graphArea()
+{
+	minmaxdlg->init(3);
 	minmaxdlg->show();
 }

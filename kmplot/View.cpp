@@ -340,10 +340,9 @@ void View::plotfkt(int ix, QPainter *pDC)
 				}
 				else
 				{	
-					if(mflg>1)
-						p1=p2;
-					else
-		    				pDC->drawLine(p1, p2); p1=p2;
+					if(mflg<=1)
+						pDC->drawLine(p1, p2);
+					p1=p2;
                     			mflg=0;
 				}
 		    
@@ -994,4 +993,133 @@ void View::keyPressEvent( QKeyEvent * e)
 	}
 	mouseMoveEvent(event);
 	delete event;
+}
+
+void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
+{
+	double dx, x, y;
+	QString fname, fstr;
+	QRect p;
+	QPainter pDC(&buffer);
+	int ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
+	pDC.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
+	QColor color = m_parser->fktext[ix].color;
+
+	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
+
+	dx=stepWidth;
+	p.setWidth(dx);
+	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
+	{   
+		dmin=xmin;
+		dmax=xmax;
+	}
+
+	//m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+	bool forward_direction = true;
+	stop_calculating = false;
+	if ( p_mode == 3)
+	{
+		stop_calculating = false;
+		progressbar->progress->reset();
+		progressbar->progress->setTotalSteps( int((dmax-dmin)/(Settings::relativeStepWidth()/(10*0.8))) );
+		progressbar->show();
+		KApplication::kApplication()->processEvents();
+		if ( m_parser->fktext[ix].anti_use_precision )
+			dx = (m_parser->fktext[ix].anti_precision)/1000;
+		else
+			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+		x = m_parser->fktext[ix].startx; //the initial x-point
+	}
+	else
+		x=dmin;
+	while (x>=dmin && x<=dmax)
+	{
+		if ( p_mode == 3 && stop_calculating)
+			return;
+		errno=0;
+		switch(p_mode)
+		{
+			case 0: 
+				y=m_parser->fkt(ix, x);
+				break;
+			
+			case 1:
+			{
+				y=m_parser->a1fkt(ix, x);
+				break;
+			}
+			case 2:
+			{
+				y=m_parser->a2fkt(ix, x);
+				break;
+			}
+			case 3:
+			{
+				y=m_parser->fkt(ix, x);
+				m_parser->euler_method(x, y,ix);
+				if ( int(x*1000)%100==0)
+				{
+					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
+					progressbar->increase();
+					paintEvent(0);
+				}
+				break;
+			}
+		}
+
+		if(errno!=0) continue;	
+		
+		p.setX(dgr.Transx(x));
+		p.setY(dgr.Transy(y));
+		if(dgr.xclipflg || dgr.yclipflg)
+		{
+			if ( y<0)
+			{
+				p.setY(dgr.Transy(ymin));
+				p.setHeight(dgr.Transy(0.0)-p.y() );
+			}
+			else
+			{
+				p.setY(dgr.Transy(ymax));
+				p.setHeight( -1*( p.y()-dgr.Transy(0.0)) );
+			}
+			pDC.fillRect(p,color);
+		}
+		else
+		{
+			p.setWidth(5);
+			if ( y<0)
+			{
+				p.setHeight( dgr.Transy(0.0)-p.y() );
+			}
+			else
+			{
+				p.setHeight(-1*( p.y()-dgr.Transy(0.0)) );
+			}
+			/*kdDebug() << "x:" << p.height() << endl;
+			kdDebug() << "y:" << p.y() << endl;
+			kdDebug() << "*************" << endl;*/
+			pDC.fillRect(p,color);
+		}
+	
+		if (forward_direction)
+		{
+			x=x+dx;
+			if (x>dmax && p_mode== 3)
+			{
+				forward_direction = false;
+				x = m_parser->fktext[ix].startx;
+			}
+		}
+		else
+			x=x-dx; // go backwards
+
+	}
+
+	if (  progressbar->isVisible())
+		progressbar->hide(); // hide the progressbar-widget if it was shown
+	
+	pDC.end();
+	setFocus();
 }

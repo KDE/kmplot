@@ -56,30 +56,40 @@ void KMinMax::init(char m)
 	}
 	
 	m_mode = m;
-	if ( m_mode == 1) //find maximum point
+	if ( m_mode < 2) //find minimum point
 	{
-		setCaption(i18n("Find maximum point"));
 		max->setReadOnly(false);
+		min->setText("");
+		max->setText("");
+		cmdFind->setText("&Find");
+		if ( m_mode == 1) //find maximum point
+			setCaption(i18n("Find maximum point"));
 	}
-	if ( m_mode == 2) //get y-value
+	else if ( m_mode == 2) //get y-value
 	{
 		setCaption(i18n("Get y-value"));
 		max->setReadOnly(true);
 		min->setText("");
 		max->setText("");
+		cmdFind->setText("&Find");
 		lblMin->setText(i18n("X:"));
-		lblMax->setText(i18n("Y:"));
-		
+		lblMax->setText(i18n("Y:"));	
 	}
-	else
+	else if ( m_mode == 3) //area under a graph
 	{
-		QString range;
-		range.setNum(View::xmin);
-		min->setText( range);
-		range.setNum(View::xmax);
-		max->setText(range);
-		max->setReadOnly(false);
-	}
+		setCaption(i18n("Area under a graph"));
+		lblMin->setText(i18n("Draw the area between the x-values"));
+		lblMax->setText(i18n("and"));
+		min->setText("");
+		max->setText("");
+		cmdFind->setText("&Draw");
+	}	
+
+	QString range;
+	range.setNum(View::xmin);
+	min->setText( range);
+	range.setNum(View::xmax);
+	max->setText(range);
 	
 	updateFunctions();
 }
@@ -216,9 +226,12 @@ void KMinMax::cmdFind_clicked()
 		QString tmp;
 		tmp.setNum(dmax);
 		max->setText(tmp);
-		
 	}
-	//QDialog::accept();
+	else if ( m_mode == 3)
+	{
+		m_view->areaUnderGraph(index-1,p_mode,dmin,dmax);
+	}
+	QDialog::accept();
 }
 
 

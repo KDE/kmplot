@@ -24,6 +24,7 @@
 			<Action name="yvalue"/>
 			<Action name="minimumvalue"/>
 			<Action name="maximumvalue"/>
+			<Action name="grapharea"/>
 		</Menu>
         	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
 			<Merge name="StandardToolBarMenuHandler" />

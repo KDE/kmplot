@@ -84,6 +84,8 @@ public:
 	void findMinMaxValue(int, char, bool, double &, double &);
 	/// get a y-value from a x-value
 	void getYValue(int, char, double , double &);
+	/// draw and calculate the area between the graph and the x-axis.
+	void areaUnderGraph(int, char, double &, double &);	
 	
 			
 	/// Returns a pointer to the private parser instance m_parser.

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>398</width>
-            <height>331</height>
+            <width>448</width>
+            <height>355</height>
         </rect>
     </property>
     <property name="caption">
@@ -42,9 +42,6 @@
                 <widget class="QButtonGroup">
                     <property name="name">
                         <cstring>bg_xachse</cstring>
-                    </property>
-                    <property name="frameShape">
-                        <enum>Panel</enum>
                     </property>
                     <property name="title">
                         <string>x-axis</string>
@@ -213,9 +210,6 @@
                 <widget class="QButtonGroup">
                     <property name="name">
                         <cstring>bg_yachse</cstring>
-                    </property>
-                    <property name="frameShape">
-                        <enum>Panel</enum>
                     </property>
                     <property name="title">
                         <string>y-axis</string>
@@ -602,9 +596,6 @@
     <tabstop>PushButton1</tabstop>
     <tabstop>PushButton1_2_2</tabstop>
 </tabstops>
-<includes>
-    <include location="local" impldecl="in implementation">KoordDlgData.ui.h</include>
-</includes>
 <slots>
     <slot>onYChanged()</slot>
     <slot>onXChanged()</slot>

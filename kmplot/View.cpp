@@ -327,7 +327,7 @@ void View::mouseMoveEvent( QMouseEvent *e )
 {
 	char sx[ 20 ], sy[ 20 ];
 
-	if ( csflg == 1 ) 			// Fadenkreuz löschen
+	if ( csflg == 1 )  			// Fadenkreuz löschen
 	{	bitBlt( this, area.left(), fcy, &hline, 0, 0, area.width(), 1 );
 		bitBlt( this, fcx, area.top(), &vline, 0, 0, 1, area.height() );
 		csflg = 0;
@@ -356,7 +356,7 @@ void View::mouseMoveEvent( QMouseEvent *e )
 		sprintf( sx, "  x= %+.2f", csxpos );
 		sprintf( sy, "  y= %+.2f", csypos );
 
-		if ( csflg == 0 ) 		// Hintergrund speichern
+		if ( csflg == 0 )  		// Hintergrund speichern
 		{	bitBlt( &hline, 0, 0, this, area.left(), fcy = ptd.y(), area.width(), 1 );
 			bitBlt( &vline, 0, 0, this, fcx = ptd.x(), area.top(), 1, area.height() );
 

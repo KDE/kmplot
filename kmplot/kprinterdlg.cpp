@@ -1,20 +1,27 @@
-/***************************************************************************
-
-    kmplot/kprinterdlg.cpp  -  PrintDialogPage for kmplot priter pptions
-                             -------------------
-    begin                : 2002-06-21
-    email                : bmlmessmer@web.de
- ***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
-
+/*
+* KmPlot - a math. function plotter for the KDE-Desktop
+*
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+*               2000, 2002 kd.moeller@t-online.de
+*               
+* This file is part of the KDE Project.
+* KmPlot is part of the KDE-EDU Project.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*
+*/
 
 // Qt includes
 #include <qlayout.h>
@@ -27,34 +34,34 @@
 #include "kprinterdlg.h"
 
 KPrinterDlg::KPrinterDlg( QWidget *parent, const char *name )
-        : KPrintDialogPage( parent, name )
+		: KPrintDialogPage( parent, name )
 {
-    setTitle( i18n( "KmPlot Options" ) );
-    QVBoxLayout *layout = new QVBoxLayout( this );
-    layout->setMargin( KDialog::marginHint() );
-    layout->setSpacing( KDialog::spacingHint() );
+	setTitle( i18n( "KmPlot Options" ) );
+	QVBoxLayout *layout = new QVBoxLayout( this );
+	layout->setMargin( KDialog::marginHint() );
+	layout->setSpacing( KDialog::spacingHint() );
 
 
 	m_printtable = new QCheckBox( i18n( "print header table" ), this );
-    m_printtable->setChecked( true );
-    layout->addWidget( m_printtable );
+	m_printtable->setChecked( true );
+	layout->addWidget( m_printtable );
 	layout->addStretch( 1 );
 }
 
-void KPrinterDlg::getOptions( QMap<QString,QString>& opts, bool include_def )
+void KPrinterDlg::getOptions( QMap<QString, QString>& opts, bool include_def )
 {
-    if ( include_def || !m_printtable->isChecked() )
-        opts[ "app-kmplot-printtable" ] = ( m_printtable->isChecked() ? "1" : "-1" );
+	if ( include_def || !m_printtable->isChecked() )
+		opts[ "app-kmplot-printtable" ] = ( m_printtable->isChecked() ? "1" : "-1" );
 }
 
-void KPrinterDlg::setOptions( const QMap<QString,QString>& opts )
+void KPrinterDlg::setOptions( const QMap<QString, QString>& opts )
 {
-    m_printtable->setChecked( opts[ "app-kmplot-printtable" ] != "-1" );
+	m_printtable->setChecked( opts[ "app-kmplot-printtable" ] != "-1" );
 }
 
 bool KPrinterDlg::isValid( QString& msg )
 {
-    return true;
+	return true;
 }
 
 #include "kprinterdlg.moc"

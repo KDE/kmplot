@@ -1,3 +1,28 @@
+/*
+* KmPlot - a math. function plotter for the KDE-Desktop
+*
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+*               2000, 2002 kd.moeller@t-online.de
+*               
+* This file is part of the KDE Project.
+* KmPlot is part of the KDE-EDU Project.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+*
+*/
+
 #ifndef MainDlg_included
 #define MainDlg_included
 
@@ -42,40 +67,40 @@
 
 class MainDlg : public KMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    MainDlg( const char* name = NULL );
-    virtual ~MainDlg();
-    friend class FktDlg;
+	MainDlg( const char* name = NULL );
+	virtual ~MainDlg();
+	friend class FktDlg;
 	friend class BezWnd;
 
 public slots:
-    void neu();
-    void save();
-    void saveas();
-    void load();
-    void print();
-    void bezeichnungen();
-    // void quit();
-    void stbmode();
-    void tbmode();
-    void funktionen();
-    void skalierung();
-    void schrittw();
-    void raster();
-    void achsen();
-    void onachsen1();
-    void onachsen2();
-    void onachsen3();
-    // void about();
-    void hilfe();
+	void neu();
+	void save();
+	void saveas();
+	void load();
+	void print();
+	void bezeichnungen();
+	// void quit();
+	void stbmode();
+	void tbmode();
+	void funktionen();
+	void skalierung();
+	void schrittw();
+	void raster();
+	void achsen();
+	void onachsen1();
+	void onachsen2();
+	void onachsen3();
+	// void about();
+	void hilfe();
 	void slotSettings();
 
 private:
-    void setupActions();
-    void doSave();
-    void setupStatusBar();
+	void setupActions();
+	void doSave();
+	void setupStatusBar();
 	void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
 
 	void parseAxes( const QDomElement &n );
@@ -83,14 +108,14 @@ private:
 	void parseScale( const QDomElement &n );
 	void parseStep( const QDomElement &n );
 	void parseFunction( const QDomElement &n );
-    int tbid,
-    stbid;
-    KStatusBar *stbar;
-    KToggleAction *viewToolBar;
-    KToggleAction *viewStatusBar;
-    FktDlg *fdlg;
+	int tbid,
+	stbid;
+	KStatusBar *stbar;
+	KToggleAction *viewToolBar;
+	KToggleAction *viewStatusBar;
+	FktDlg *fdlg;
 	BezWnd *bez;
 	KToggleAction *view_bezeichnungen;
-    View *view;
+	View *view;
 };
 #endif // MainDlg_included

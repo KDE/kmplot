@@ -33,7 +33,6 @@
 
 // KDE includes
 #include <kaction.h>
-#include <kcmdlineargs.h>
 #include <kfiledialog.h>
 #include <kpopupmenu.h>
 #include <kstandarddirs.h>

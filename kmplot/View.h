@@ -147,7 +147,7 @@ private:
 	/// Gets the greek pi symbol.
 	void setpi(QString *);
 	/// in trace mode checks, if the function is (near by) zero
-	bool root(double *);
+	bool root(double *, Ufkt *);
 	///return the inverted color
 	void invertColor(QColor &, QColor &);
 	/// Restore the mouse cursor when a drawing is finished

@@ -58,7 +58,6 @@
 #include "settingspageprecision.h"
 #include "settingspagescaling.h"
 #include "sliderwindow.h"
-#include "main.cpp"
 
 class XParser;
 class KmPlotIO;
@@ -70,8 +69,8 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *widgetName, QObject *parent,
 	// we need an instance
 	setInstance( KmPlotPartFactory::instance() );
 
-	kdDebug() << "parent->name():" << parent->name() << endl;
-	if ( QString(parent->name()).startsWith("KmPlot") )
+	kdDebug() << "parentWidget->name():" << parentWidget->name() << endl;
+	if ( QString(parentWidget->name()).startsWith("KmPlot") )
 	{
 		setXMLFile("kmplot_part.rc");
 		m_readonly = false;
@@ -755,7 +754,7 @@ KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget, const 
 {
 	// Create an instance of our Part
 	MainDlg* obj = new MainDlg( parentWidget, widgetName, parent, name );
-	//emit objectCreated( obj );
+	emit objectCreated( obj );
 	return obj;
 }
 
@@ -763,12 +762,7 @@ KInstance* KmPlotPartFactory::instance()
 {
 	if( !s_instance )
 	{
-		s_about = new KAboutData("kmplotpart",I18N_NOOP( "KmPlotPart" ),KP_VERSION, description, KAboutData::License_GPL,"(c) 2000-2002, Klaus-Dieter Möller",0,"http://edu.kde.org/kmplot/" );
-		s_about->addAuthor( "Klaus-Dieter Möller", I18N_NOOP( "Original Author" ), "kdmoeller@foni.net" );
-		s_about->addAuthor( "Matthias Meßmer", I18N_NOOP( "GUI" ), "bmlmessmer@web.de" );
-		s_about->addAuthor( "Fredrik Edemar", I18N_NOOP( "Various improvements" ), "f_edemar@linux.se" );
-		s_about->addCredit( "David Vignoni", I18N_NOOP( "svg icon" ), "david80v@tin.it" );
-		s_about->addCredit( "Albert Astals Cid", I18N_NOOP( "command line options, MIME type" ), "tsdgeos@terra.es" );
+		s_about = new KAboutData("kmplot",I18N_NOOP( "KmPlotPart" ), "1");
 		s_instance = new KInstance(s_about);
 	}
 	return s_instance;

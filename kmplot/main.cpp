@@ -28,13 +28,16 @@
  */
 #define KP_VERSION "1.0.9"
 
+// local includes
+#include "kmplot.h"
+
 
 // KDE includes
 #include <kaboutdata.h>
 #include <kapplication.h>
+#include <kcmdlineargs.h>
 
-// local includes
-#include "kmplot.h"
+
 
 static const char description[] =
     I18N_NOOP( "Mathematical function plotter for KDE" );
@@ -75,6 +78,7 @@ int main( int argc, char **argv )
 	w->resize( 450, 400 );
 	w->show();
 	ka.setMainWidget( w );
+	
 	return ka.exec();
 }
 

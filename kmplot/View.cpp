@@ -501,7 +501,7 @@ void View::setpi(QString *s)
 }
 
 
-bool View::root(double *x0)
+bool View::root(double *x0, Ufkt *it)
 {
 	if(rootflg)
 		return FALSE;
@@ -511,12 +511,12 @@ bool View::root(double *x0)
 	double dx=0.1;
 	while(1)
 	{
-		if((yn=fabs(m_parser->fkt(csmode, x-dx))) < y)
+		if((yn=fabs(m_parser->fkt(it, x-dx))) < y)
 		{
 			x-=dx;
 			y=yn;
 		}
-		else if((yn=fabs(m_parser->fkt(csmode, x+dx))) < y)
+		else if((yn=fabs(m_parser->fkt(it, x+dx))) < y)
 		{
 			x+=dx;
 			y=yn;
@@ -614,7 +614,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		DC.setWorldMatrix(wm);
 		ptl=DC.xFormDev(e->pos());
 
-		QValueVector<Ufkt>::iterator it = 0;
+		Ufkt *it = 0;
 		if( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
 		{
 			int const ix = m_parser->ixValue(csmode);
@@ -638,7 +638,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 				if(fabs(csypos)<0.2)
 				{
 					double x0;
-					if(root(&x0))
+					if(root(&x0, it))
 					{
 						QString str="  ";
 						str+=i18n("root");

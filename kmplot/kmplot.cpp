@@ -89,10 +89,15 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	// to automatically save settings if changed: window size, toolbar
 	// position, icon size, etc.
 	setAutoSaveSettings();
-	if (args && args->count() > 0)
+	if (args)
 	{
-		//QString const m_filename = args->url( 0 ).url(-1);
-		load( args->url( 0 ).url(-1) );
+		for (int i=0; i < args->count(); i++ )
+		{
+			if (i==0)
+				load(args->url(0) );
+			else
+				openFileInNewWindow( args->url(i) );
+		}
 	}
 }
 

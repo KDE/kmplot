@@ -64,7 +64,7 @@
                                             <bool>true</bool>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>predefined plot ranges</string>
+                                            <string>Predefined plot ranges</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Select one of the predefined plot ranges.</string>
@@ -81,7 +81,7 @@
                                             <number>1</number>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>predefined plot ranges</string>
+                                            <string>Predefined plot ranges</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Select one of the predefined plot ranges.</string>
@@ -98,7 +98,7 @@
                                             <number>2</number>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>predefined plot ranges</string>
+                                            <string>Predefined plot ranges</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Select one of the predefined plot ranges.</string>
@@ -115,7 +115,7 @@
                                             <number>3</number>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>predefined plot ranges</string>
+                                            <string>Predefined plot ranges</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Select one of the predefined plot ranges.</string>
@@ -164,7 +164,7 @@
                                                     <bool>false</bool>
                                                 </property>
                                                 <property name="toolTip" stdset="0">
-                                                    <string>custom bound of the plot range</string>
+                                                    <string>Custom boundary of the plot range</string>
                                                 </property>
                                                 <property name="whatsThis" stdset="0">
                                                     <string>Enter a valid expression, for instance 2*pi or e/2.</string>
@@ -178,7 +178,7 @@
                                                     <bool>false</bool>
                                                 </property>
                                                 <property name="toolTip" stdset="0">
-                                                    <string>custom bound of the plot range</string>
+                                                    <string>Custom boundary of the plot range</string>
                                                 </property>
                                                 <property name="whatsThis" stdset="0">
                                                     <string>Enter a valid expression, for instance 2*pi or e/2.</string>
@@ -210,7 +210,7 @@
                                             <bool>true</bool>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>predefined plot ranges</string>
+                                            <string>Predefined plot ranges</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Select one of the predefined plot ranges.</string>
@@ -227,7 +227,7 @@
                                             <number>1</number>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>predefined plot ranges</string>
+                                            <string>Predefined plot ranges</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Select one of the predefined plot ranges.</string>
@@ -244,7 +244,7 @@
                                             <number>2</number>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>predefined plot ranges</string>
+                                            <string>Predefined plot ranges</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Select one of the predefined plot ranges.</string>
@@ -261,7 +261,7 @@
                                             <number>3</number>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>predefined plot ranges</string>
+                                            <string>Predefined plot ranges</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Select one of the predefined plot ranges.</string>
@@ -310,7 +310,7 @@
                                                     <bool>false</bool>
                                                 </property>
                                                 <property name="toolTip" stdset="0">
-                                                    <string>custom bound of the plot range</string>
+                                                    <string>Custom boundary of the plot range</string>
                                                 </property>
                                                 <property name="whatsThis" stdset="0">
                                                     <string>Enter a valid expression, for instance 2*pi or e/2.</string>
@@ -324,7 +324,7 @@
                                                     <bool>false</bool>
                                                 </property>
                                                 <property name="toolTip" stdset="0">
-                                                    <string>custom bound of the plot range</string>
+                                                    <string>Custom boundary of the plot range</string>
                                                 </property>
                                                 <property name="whatsThis" stdset="0">
                                                     <string>Enter a valid expression, for instance 2*pi or e/2.</string>
@@ -379,7 +379,7 @@
                                             <cstring>kcfg_TicLength</cstring>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>length of the tic line</string>
+                                            <string>Length of the tic line</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
                                             <string>Enter the length of a tic line.</string>
@@ -419,7 +419,7 @@
                                             <cstring>kcfg_TicWidth</cstring>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>line width</string>
+                                            <string>Line width</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel">
@@ -443,7 +443,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="whatsThis" stdset="0">
-                                    <string>Check this, if lables shall be written to the axes tics.</string>
+                                    <string>Check this, if labels shall be written to the axes tics.</string>
                                 </property>
                             </widget>
                             <widget class="QLayoutWidget" row="1" column="0">
@@ -459,7 +459,7 @@
                                             <cstring>kcfg_AxesLineWidth</cstring>
                                         </property>
                                         <property name="toolTip" stdset="0">
-                                            <string>line width</string>
+                                            <string>Line width</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel">
@@ -495,7 +495,7 @@
                             <string>Grid &amp;Style</string>
                         </property>
                         <property name="toolTip" stdset="0">
-                            <string>available grid styles</string>
+                            <string>Available grid styles</string>
                         </property>
                         <vbox>
                             <property name="name">
@@ -571,7 +571,7 @@
                                     <cstring>kcfg_GridLineWidth</cstring>
                                 </property>
                                 <property name="toolTip" stdset="0">
-                                    <string>width for the gird lines</string>
+                                    <string>Width for the grid lines</string>
                                 </property>
                                 <property name="whatsThis" stdset="0">
                                     <string>Enter the width of the grid lines.</string>

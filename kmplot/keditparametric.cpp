@@ -193,6 +193,7 @@ void KEditParametric::accept()
 	tmp_fktext.use_slider = -1;
 	tmp_fktext.k_anz = 0;
 	
+	tmp_fktext.color0 = m_parser->fktext[index].color0;
 	m_parser->fktext[index] = tmp_fktext;
 	
 	if( m_y_index != -1 )  //when editing a function: 
@@ -223,6 +224,7 @@ void KEditParametric::accept()
 		return;
 	}
 	tmp_fktext.extstr = yFunction();
+	tmp_fktext.color0 = m_parser->fktext[index].color0;
 	m_parser->fktext[index] = tmp_fktext;
 		
 		

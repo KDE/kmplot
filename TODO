@@ -22,14 +22,12 @@ TODO for KDE 3.3
 * Printing (pipesmoker)
       - different paper sizes
 * What-is-this for the new stuff 
-* Delete functions (parametric functions) properly
 
 
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
 * Import parameter values from different file format(.csv, KSpread, OpenOffice) via Koffice (see kde-edu/kig)
-* Basic popup menu for single parametric points.
 
 
 DONE
@@ -73,3 +71,4 @@ DONE
 * Change icon when zooming
 * Ability to print background color
 * Four modes for zooming.
+* Basic popup menu for single parametric points.

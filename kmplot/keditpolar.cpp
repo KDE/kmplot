@@ -110,6 +110,7 @@ void KEditPolar::accept()
 		m_parser->fixFunctionName(f_str);
 		f_str.prepend("r");
 		index = m_parser->addfkt(f_str );
+		kdDebug() << "index: " << index << endl;
 	}
 	
 	if( index == -1 ) 
@@ -178,6 +179,7 @@ void KEditPolar::accept()
 	tmp_fktext.use_slider = -1;
 	tmp_fktext.k_anz=0;
 	
+	tmp_fktext.color0 = m_parser->fktext[index].color0;
 	m_parser->fktext[index] = tmp_fktext;
 	kLineEditYFunction->setText(f_str);
 	

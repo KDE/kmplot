@@ -367,6 +367,7 @@ void EditFunction::accept()
 		return;
 	}
 	
+	tmp_fktext.color0 = m_parser->fktext[index].color0;
 	m_parser->fktext[index] = tmp_fktext;
 	editfunctionpage->equation->setText(f_str);
 	

@@ -825,35 +825,35 @@ void View::mousePressEvent(QMouseEvent *e)
 					m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 				else
 					m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
-				if ( function_type=='x' &&  m_parser->fktext[ix].extstr.contains('t')==1) //parametric plot
+				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].extstr.contains('t')==1) //parametric plot
 				{
 					int y_index = ix+1;
 					if ( y_index == UFANZ)
 						y_index=0;
-					//kdDebug() << "y: " << m_parser->fkt(y_index, csypos) << endl;
-					if (fabs(csxpos-m_parser->fkt(ix, csxpos))< g && fabs(csypos-m_parser->fkt(y_index, csypos))<g )
+					if (fabs(csypos-m_parser->fkt(y_index, csxpos))<g && m_parser->fktext[y_index].extstr.contains('t')==1)
 					{
-						if ( csmode == -1)
-						{
-							csmode=ix;
-							cstype=0;
-							csparam = k;
-							m_popupmenushown = 1;
-						}
-						else
-							m_popupmenushown = 2;
-						QString y_name( m_parser->fktext[y_index].extstr );
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),false);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
-						m_popupmenu->changeTitle(10, m_parser->fktext[ ix ].extstr+";"+y_name);
-						m_popupmenu->exec(QCursor::pos());
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),true);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),true);
-						return;
+							if ( csmode == -1)
+							{
+								csmode=ix;
+								cstype=0;
+								csparam = k;
+								m_popupmenushown = 1;
+							}
+							else
+								m_popupmenushown = 2;
+							QString y_name( m_parser->fktext[y_index].extstr );
+							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),false);
+							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
+							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
+							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
+							m_popupmenu->changeTitle(10, m_parser->fktext[ ix ].extstr+";"+y_name);
+							m_popupmenu->exec(QCursor::pos());
+							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
+							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
+							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),true);
+							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),true);
+							return;
+
 					}
 				}
 				if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)

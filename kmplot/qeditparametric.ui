@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>324</width>
-            <height>434</height>
+            <width>335</width>
+            <height>470</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -26,11 +26,11 @@
     <property name="sizeGripEnabled">
         <bool>true</bool>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="0" column="0">
             <property name="name">
                 <cstring>groupBox1</cstring>
             </property>
@@ -201,7 +201,7 @@ Example: sin(t)</string>
                 </widget>
             </grid>
         </widget>
-        <widget class="QButtonGroup">
+        <widget class="QButtonGroup" row="1" column="0">
             <property name="name">
                 <cstring>buttonGroup1</cstring>
             </property>
@@ -228,87 +228,7 @@ Example: sin(t)</string>
                 </widget>
             </vbox>
         </widget>
-        <widget class="QFrame">
-            <property name="name">
-                <cstring>frame5</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="2" column="0">
-                    <property name="name">
-                        <cstring>textLabel1_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>max:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>max</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>min:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>min</cstring>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>checkBoxRange</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Custom plot t-range:</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>customize the plot range</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Check this button and enter the plot range boundarys below.</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="1" column="1">
-                    <property name="name">
-                        <cstring>min</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>lower boundary of the plot range</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="2" column="1">
-                    <property name="name">
-                        <cstring>max</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>upper boundary of the plot range</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QFrame">
+        <widget class="QFrame" row="3" column="0">
             <property name="name">
                 <cstring>frame6</cstring>
             </property>
@@ -382,7 +302,7 @@ Example: sin(t)</string>
                 </widget>
             </grid>
         </widget>
-        <widget class="QLayoutWidget">
+        <widget class="QLayoutWidget" row="4" column="0">
             <property name="name">
                 <cstring>Layout1</cstring>
             </property>
@@ -466,10 +386,102 @@ Example: sin(t)</string>
                 </widget>
             </hbox>
         </widget>
-    </vbox>
+        <widget class="QFrame" row="2" column="0">
+            <property name="name">
+                <cstring>frame5</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Min:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>min</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="3" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Max:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>max</cstring>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>customMaxRange</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Custom plot maximum t-range:</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>customize the plot maximum range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this button and enter the plot maximum range boundary below.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>customMinRange</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Custom plot minimum t-range:</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>customize the minimum plot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this button and enter the plot mininum range boundary below.</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="3" column="1">
+                    <property name="name">
+                        <cstring>max</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>upper boundary of the plot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>min</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>lower boundary of the plot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <connections>
     <connection>
         <sender>buttonOk</sender>
@@ -482,18 +494,6 @@ Example: sin(t)</string>
         <signal>clicked()</signal>
         <receiver>QEditParametric</receiver>
         <slot>reject()</slot>
-    </connection>
-    <connection>
-        <sender>checkBoxRange</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>min</receiver>
-        <slot>setEnabled(bool)</slot>
-    </connection>
-    <connection>
-        <sender>checkBoxRange</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>max</receiver>
-        <slot>setEnabled(bool)</slot>
     </connection>
     <connection>
         <sender>kLineEditName</sender>
@@ -519,7 +519,7 @@ Example: sin(t)</string>
     <tabstop>kLineEditXFunction</tabstop>
     <tabstop>kLineEditYFunction</tabstop>
     <tabstop>checkBoxHide</tabstop>
-    <tabstop>checkBoxRange</tabstop>
+    <tabstop>customMinRange</tabstop>
     <tabstop>min</tabstop>
     <tabstop>max</tabstop>
     <tabstop>kIntNumInputLineWidth</tabstop>
@@ -533,6 +533,13 @@ Example: sin(t)</string>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
     <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>

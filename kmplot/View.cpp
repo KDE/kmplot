@@ -224,18 +224,19 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	dmin=ufkt->dmin;
 	dmax=ufkt->dmax;
 
-	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
+	if(!ufkt->usecustomxmin)
 	{
-		if(fktmode=='r')
-		{
-			dmin=0.;
-			dmax=2*M_PI;
-		}
-		else
-		{
-			dmin=xmin;
-			dmax=xmax;
-		}
+	  if(fktmode=='r')
+	    dmin=0.;
+	  else
+	    dmin = xmin;
+	}
+	if(!ufkt->usecustomxmax)
+	{
+	  if(fktmode=='r')
+	    dmax=2*M_PI;
+	  else
+	    dmax = xmax;
 	}
 	double dx;
 	if(fktmode=='r')
@@ -628,7 +629,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		if( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
 		{
 			int const ix = m_parser->ixValue(csmode);
-			if (ix!=-1 && ( (m_parser->ufkt[ix].dmin== m_parser->ufkt[ix].dmax)|| (csxpos>m_parser->ufkt[ix].dmin && csxpos<m_parser->ufkt[ix].dmax) ) )
+			if (ix!=-1 && ((!m_parser->ufkt[ix].usecustomxmin) || (m_parser->ufkt[ix].usecustomxmin && csxpos>m_parser->ufkt[ix].dmin)) && ((!m_parser->ufkt[ix].usecustomxmax)||(m_parser->ufkt[ix].usecustomxmax && csxpos<m_parser->ufkt[ix].dmax)) )
 			{
 				it = &m_parser->ufkt[ix];
 				if( it->use_slider == -1 )
@@ -856,6 +857,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		{
 			function_type = it->fstr[0].latin1();
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
+			if (!(((!it->usecustomxmin) || (it->usecustomxmin && csxpos>it->dmin)) && ((!it->usecustomxmax)||(it->usecustomxmax && csxpos<it->dmax)) ))
+			  continue;
 			kdDebug() << "it:" << it->fstr << endl;
 			int k=0;
 			int const ke=it->parameters.count();
@@ -968,6 +971,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		{
 			case 'x': case 'y': case 'r': continue;   // Not possible to catch
 		}
+		if (!(((!it->usecustomxmin) || (it->usecustomxmin && csxpos>it->dmin)) && ((!it->usecustomxmax)||(it->usecustomxmax && csxpos<it->dmax)) ))
+		  continue;
 		int k=0;
 		int const ke=it->parameters.count();
 		do

@@ -152,6 +152,7 @@ class Ufkt
 		f1_color, f2_color, integral_color;
 		int use_slider; ///< -1: none (use list), else: slider number
 		QValueList<ParameterValueItem> parameters; ///< List with parameter for the function
+		bool usecustomxmin, usecustomxmax;
         	// TODO double slider_min, slider_max; ///< extreme values of the slider
 };
 

@@ -160,8 +160,10 @@ bool KmPlotIO::save( const KURL &url )
 			if( !str_parameters.isEmpty() )
 				addTag( doc, tag, "parameterlist", str_parameters.join( ";" ) );
 
-			addTag( doc, tag, "arg-min", it->str_dmin );
-			addTag( doc, tag, "arg-max", it->str_dmax );
+			if (it->usecustomxmin)
+				addTag( doc, tag, "arg-min", it->str_dmin );
+			if (it->usecustomxmax)
+				addTag( doc, tag, "arg-max", it->str_dmax );
 
 			root.appendChild( tag );
 
@@ -279,7 +281,7 @@ bool KmPlotIO::load( const KURL &url )
 				parseGrid( n.toElement() );
 			if ( n.nodeName() == "scale" )
 				parseScale( n.toElement() );
-			if ( n.nodeName() == "function" )
+			if ( n.nodeName() == "function")
 				parseFunction( m_parser, n.toElement() );
 		}
 	}
@@ -337,7 +339,7 @@ void KmPlotIO::parseScale(const QDomElement & n )
 	Settings::setYPrinting(  n.namedItem( "print-tic-y" ).toElement().text().toInt() );
 }
 
-void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
+void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 {
 	QString temp;
 	Ufkt ufkt;
@@ -400,21 +402,29 @@ void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
 		ufkt.integral_precision = ufkt.linewidth;
 	}
 
-
 	ufkt.str_dmin = n.namedItem( "arg-min" ).toElement().text();
 	if( ufkt.str_dmin.isEmpty() )
+	  ufkt.usecustomxmin = false;
+	else
 	{
-		ufkt.str_dmin = "0.0";
-		ufkt.dmin = 0;
+	  ufkt.usecustomxmin = true;
+	  ufkt.dmin = m_parser->eval( ufkt.str_dmin );
+	    
 	}
-	else ufkt.dmin = m_parser->eval( ufkt.str_dmin );
 	ufkt.str_dmax = n.namedItem( "arg-max" ).toElement().text();
 	if( ufkt.str_dmax.isEmpty() )
+	  ufkt.usecustomxmax = false;
+	else
 	{
-		ufkt.str_dmax = "0.0";
-		ufkt.dmax = 0;
+	  ufkt.usecustomxmax = true;
+	  ufkt.dmax = m_parser->eval( ufkt.str_dmax );
 	}
-	else ufkt.dmax = m_parser->eval( ufkt.str_dmax );
+	  
+	if (ufkt.usecustomxmin && ufkt.usecustomxmax && ufkt.str_dmin==ufkt.str_dmax)
+	{
+	  ufkt.usecustomxmin = false;
+	  ufkt.usecustomxmax = false;
+	}
 	
 	ufkt.fstr = n.namedItem( "equation" ).toElement().text();
 	if (MainDlg::oldfileversion)
@@ -458,7 +468,8 @@ void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
 		added_function->integral_color = ufkt.integral_color;
 		added_function->parameters = ufkt.parameters;
 		added_function->use_slider = ufkt.use_slider;
-		//added_function->k_liste = ufkt.k_liste;
+		added_function->usecustomxmin = ufkt.usecustomxmin;
+		added_function->usecustomxmax = ufkt.usecustomxmax;
 	}
 }
 
@@ -498,19 +509,26 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 
 	ufkt.str_dmin = n.namedItem( "arg-min" ).toElement().text();
 	if( ufkt.str_dmin.isEmpty() )
+	  ufkt.usecustomxmin = false;
+	else
 	{
-		ufkt.str_dmin = "0.0";
-		ufkt.dmin = 0;
+	  ufkt.dmin = m_parser->eval( ufkt.str_dmin );
+	  ufkt.usecustomxmin = true;
 	}
-	else ufkt.dmin = m_parser->eval( ufkt.str_dmin );
 	ufkt.str_dmax = n.namedItem( "arg-max" ).toElement().text();
 	if( ufkt.str_dmax.isEmpty() )
+	  ufkt.usecustomxmax = false;
+	else
 	{
-		ufkt.str_dmax = "0.0";
-		ufkt.dmax = 0;
+	  ufkt.dmax = m_parser->eval( ufkt.str_dmax );
+	  ufkt.usecustomxmax = true;
 	}
-	else ufkt.dmax = m_parser->eval( ufkt.str_dmax );
-
+	if (ufkt.usecustomxmin && ufkt.usecustomxmax && ufkt.str_dmin==ufkt.str_dmax)
+	{
+	  ufkt.usecustomxmin = false;
+	  ufkt.usecustomxmax = false;
+	}
+	
 	const QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
 	const int pos = tmp_fstr.find(';');
 	if ( pos == -1 )
@@ -561,7 +579,8 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 		added_function->integral_color = ufkt.integral_color;
 		added_function->parameters = ufkt.parameters;
 		added_function->use_slider = ufkt.use_slider;
-		//added_function->k_liste = ufkt.k_liste;
+		added_function->usecustomxmin = ufkt.usecustomxmin;
+		added_function->usecustomxmax = ufkt.usecustomxmax;
 	}
 }
 

@@ -70,7 +70,9 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 		editfunctionpage->listOfSliders->insertItem( i18n( "Slider no. %1" ).arg( number +1) );
 	}
 	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
-	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_clicked(bool) ) );
+	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_toggled(bool) ) );
+	connect( editfunctionpage->customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
+	connect( editfunctionpage->customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
 }
 
 void EditFunction::initDialog( int id )
@@ -86,7 +88,8 @@ void EditFunction::clearWidgets()
 	// Clear the Function page
 	editfunctionpage->equation->clear();
 	editfunctionpage->hide->setChecked( false );
-	editfunctionpage->customRange->setChecked( false );
+	editfunctionpage->customMinRange->setChecked( false );
+	editfunctionpage->customMaxRange->setChecked( false );
 	editfunctionpage->min->clear();
 	editfunctionpage->max->clear();
 	editfunctionpage->lineWidth->setValue( m_parser->linewidth0 );
@@ -114,14 +117,21 @@ void EditFunction::setWidgets()
 	editfunctionpage->hide->setChecked( !ufkt->f_mode);
 	editfunctionpage->lineWidth->setValue( ufkt->linewidth );
 	editfunctionpage->color->setColor( ufkt->color );
-	if (  ufkt->dmin != ufkt->dmax )
+	
+	if (ufkt->usecustomxmin)
 	{
-		editfunctionpage->customRange->setChecked(true);
-		editfunctionpage->min->setText( ufkt->str_dmin );
-		editfunctionpage->max->setText( ufkt->str_dmax );
+	  editfunctionpage->customMinRange->setChecked(true);
+	  editfunctionpage->min->setText( ufkt->str_dmin );
 	}
 	else
-		editfunctionpage->customRange->setChecked(false);
+	  editfunctionpage->customMinRange->setChecked(false);
+	if (ufkt->usecustomxmax)
+	{
+	  editfunctionpage->customMaxRange->setChecked(true);
+	  editfunctionpage->max->setText( ufkt->str_dmax );
+	}
+	else
+		editfunctionpage->customMaxRange->setChecked(false);
 	
 	m_parameter =  ufkt->parameters;
 	if( ufkt->use_slider == -1 )
@@ -171,27 +181,39 @@ void EditFunction::accept()
 	}
 	
 	Ufkt tmp_ufkt; //all settings are saved here until we know that no errors have appeared
-	if( editfunctionpage->customRange->isChecked() )
+	if( editfunctionpage->customMinRange->isChecked() )
 	{
-		tmp_ufkt.str_dmin = editfunctionpage->min->text();
-		tmp_ufkt.dmin = m_parser->eval( editfunctionpage->min->text() );
-		if (m_parser->parserError() != 0)
-		{
-			showPage(0);
-			editfunctionpage->min->setFocus();
-			editfunctionpage->min->selectAll();
-			return;
-		}
-		tmp_ufkt.str_dmax= editfunctionpage->max->text();
-		tmp_ufkt.dmax = m_parser->eval( editfunctionpage->max->text() );
-		if (m_parser->parserError() != 0)
-		{
-			showPage(0);
-			editfunctionpage->max->setFocus();
-			editfunctionpage->max->selectAll();
-			return;
-		}
-		
+	  tmp_ufkt.usecustomxmin = true;
+	  tmp_ufkt.str_dmin = editfunctionpage->min->text();
+	  tmp_ufkt.dmin = m_parser->eval( editfunctionpage->min->text() );
+	  if (m_parser->parserError() != 0)
+	  {
+	    showPage(0);
+	    editfunctionpage->min->setFocus();
+	    editfunctionpage->min->selectAll();
+	    return;
+	  }
+	}
+	else
+	  tmp_ufkt.usecustomxmin = false;
+	if( editfunctionpage->customMaxRange->isChecked() )
+	{
+	  tmp_ufkt.usecustomxmax = true;
+	  tmp_ufkt.str_dmax= editfunctionpage->max->text();
+	  tmp_ufkt.dmax = m_parser->eval( editfunctionpage->max->text() );
+	  if (m_parser->parserError() != 0)
+	  {
+	    showPage(0);
+	    editfunctionpage->max->setFocus();
+	    editfunctionpage->max->selectAll();
+	    return;
+	  }
+	}
+	else
+	  tmp_ufkt.usecustomxmax = false;
+	
+	if( tmp_ufkt.usecustomxmin && tmp_ufkt.usecustomxmax )
+	{
 		if ( tmp_ufkt.dmin >=  tmp_ufkt.dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
@@ -210,14 +232,6 @@ void EditFunction::accept()
 			return;
 		}
 	}
-	else
-	{
-		//the min and max values must be equal so that plotfkt in View uses xmin and xmax instead
-		tmp_ufkt.str_dmin ="0";
-		tmp_ufkt.dmin = 0;
-		tmp_ufkt.str_dmax = "0";
-		tmp_ufkt.dmax = 0;
-	}	
 
 	tmp_ufkt.linewidth = editfunctionpage->lineWidth->value();
 	tmp_ufkt.color = editfunctionpage->color->color().rgb();
@@ -269,19 +283,15 @@ void EditFunction::accept()
 		else
 		{
 			tmp_ufkt.parameters = m_parameter;
-			/*for( QStringList::Iterator it = m_parameter.begin(); it != m_parameter.end(); ++it )
-			{
-				(*it).value = m_parser->eval(( *it ) ) );
-			}*/
 		}
 			
 	}
 
-        tmp_ufkt.f1_mode =  editderivativespage->showDerivative1->isChecked();
+	tmp_ufkt.f1_mode =  editderivativespage->showDerivative1->isChecked();
 	tmp_ufkt.f1_linewidth = editderivativespage->lineWidthDerivative1->value();
 	tmp_ufkt.f1_color = editderivativespage->colorDerivative1->color().rgb();
 	
-        tmp_ufkt.f2_mode =  editderivativespage->showDerivative2->isChecked();
+	tmp_ufkt.f2_mode =  editderivativespage->showDerivative2->isChecked();
 	tmp_ufkt.f2_linewidth = editderivativespage->lineWidthDerivative2->value();
 	tmp_ufkt.f2_color = editderivativespage->colorDerivative2->color().rgb();
 	
@@ -334,31 +344,33 @@ void EditFunction::accept()
                 added_ufkt =  &m_parser->ufkt.last();
         }
         //save all settings in the function now when we know no errors have appeared
-        added_ufkt->f_mode = tmp_ufkt.f_mode;
-        added_ufkt->f1_mode = tmp_ufkt.f1_mode;
-        added_ufkt->f2_mode = tmp_ufkt.f2_mode;
-        added_ufkt->integral_mode = tmp_ufkt.integral_mode;
-        added_ufkt->integral_use_precision = tmp_ufkt.integral_use_precision;
-        added_ufkt->linewidth = tmp_ufkt.linewidth;
-        added_ufkt->f1_linewidth = tmp_ufkt.f1_linewidth;
-        added_ufkt->f2_linewidth = tmp_ufkt.f2_linewidth;
-        added_ufkt->integral_linewidth = tmp_ufkt.integral_linewidth;
-        added_ufkt->str_dmin = tmp_ufkt.str_dmin;
-        added_ufkt->str_dmax = tmp_ufkt.str_dmax;
-        added_ufkt->dmin = tmp_ufkt.dmin;
-        added_ufkt->dmax = tmp_ufkt.dmax;
-        added_ufkt->str_startx = tmp_ufkt.str_startx;
-        added_ufkt->str_starty = tmp_ufkt.str_starty;
-        added_ufkt->oldx = tmp_ufkt.oldx;
-        added_ufkt->starty = tmp_ufkt.starty;
-        added_ufkt->startx = tmp_ufkt.startx;
-        added_ufkt->integral_precision = tmp_ufkt.integral_precision;
-        added_ufkt->color = tmp_ufkt.color;
-        added_ufkt->f1_color = tmp_ufkt.f1_color;
-        added_ufkt->f2_color = tmp_ufkt.f2_color;
-        added_ufkt->integral_color = tmp_ufkt.integral_color;
-        added_ufkt->parameters = tmp_ufkt.parameters;
-        added_ufkt->use_slider = tmp_ufkt.use_slider;
+	added_ufkt->f_mode = tmp_ufkt.f_mode;
+	added_ufkt->f1_mode = tmp_ufkt.f1_mode;
+	added_ufkt->f2_mode = tmp_ufkt.f2_mode;
+	added_ufkt->integral_mode = tmp_ufkt.integral_mode;
+	added_ufkt->integral_use_precision = tmp_ufkt.integral_use_precision;
+	added_ufkt->linewidth = tmp_ufkt.linewidth;
+	added_ufkt->f1_linewidth = tmp_ufkt.f1_linewidth;
+	added_ufkt->f2_linewidth = tmp_ufkt.f2_linewidth;
+	added_ufkt->integral_linewidth = tmp_ufkt.integral_linewidth;
+	added_ufkt->str_dmin = tmp_ufkt.str_dmin;
+	added_ufkt->str_dmax = tmp_ufkt.str_dmax;
+	added_ufkt->dmin = tmp_ufkt.dmin;
+	added_ufkt->dmax = tmp_ufkt.dmax;
+	added_ufkt->str_startx = tmp_ufkt.str_startx;
+	added_ufkt->str_starty = tmp_ufkt.str_starty;
+	added_ufkt->oldx = tmp_ufkt.oldx;
+	added_ufkt->starty = tmp_ufkt.starty;
+	added_ufkt->startx = tmp_ufkt.startx;
+	added_ufkt->integral_precision = tmp_ufkt.integral_precision;
+	added_ufkt->color = tmp_ufkt.color;
+	added_ufkt->f1_color = tmp_ufkt.f1_color;
+	added_ufkt->f2_color = tmp_ufkt.f2_color;
+	added_ufkt->integral_color = tmp_ufkt.integral_color;
+	added_ufkt->parameters = tmp_ufkt.parameters;
+	added_ufkt->use_slider = tmp_ufkt.use_slider;
+	added_ufkt->usecustomxmin = tmp_ufkt.usecustomxmin;
+	added_ufkt->usecustomxmax = tmp_ufkt.usecustomxmax;
         
 	editfunctionpage->equation->setText(f_str); //update the function name in FktDlg
 	
@@ -388,7 +400,7 @@ void EditFunction::cmdParameter_clicked()
 	KParameterEditor *dlg = new KParameterEditor(m_parser,&m_parameter);
 	dlg->show();
 }
-void EditFunction::noParameter_clicked(bool status)
+void EditFunction::noParameter_toggled(bool status)
 {
 	if (status)
 	{
@@ -396,6 +408,23 @@ void EditFunction::noParameter_clicked(bool status)
 		editfunctionpage->listOfSliders->setEnabled(false);
 	}
 }
+
+void EditFunction::customMinRange_toggled(bool status)
+{
+  if (status)
+    editfunctionpage->min->setEnabled(true);
+  else
+    editfunctionpage->min->setEnabled(false);
+}
+
+void EditFunction::customMaxRange_toggled(bool status)
+{
+  if (status)
+    editfunctionpage->max->setEnabled(true);
+  else
+    editfunctionpage->max->setEnabled(false);
+}
+
 void EditFunction::fixFunctionArguments(QString &f_str)
 {
 	int const openBracket = f_str.find( "(" );

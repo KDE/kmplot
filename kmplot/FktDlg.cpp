@@ -46,9 +46,7 @@
 
 #include <kdebug.h>
 
-#define Inherited FktDlgData
-
-FktDlg::FktDlg( QWidget* parent, View *view ) : Inherited( parent, "editPlots" ), m_view(view)
+FktDlg::FktDlg( QWidget* parent, View *view ) : FktDlgData( parent, "editPlots" ), m_view(view)
 {
 	connect( cmdCopyFunction, SIGNAL( clicked() ), this, SLOT( slotCopyFunction()) );
 	connect( cmdMoveFunction, SIGNAL( clicked() ), this, SLOT( slotMoveFunction()) );

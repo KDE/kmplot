@@ -18,13 +18,19 @@
     <property name="caption">
         <string>Edit Function Plot</string>
     </property>
-    <grid>
+    <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QGroupBox" row="0" column="0">
+        <widget class="QGroupBox">
             <property name="name">
                 <cstring>groupBox1</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>GroupBoxPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
             </property>
             <property name="title">
                 <string>Definition</string>
@@ -66,7 +72,7 @@ Example: f(x)=x^2</string>
                 </widget>
             </vbox>
         </widget>
-        <widget class="QButtonGroup" row="1" column="0">
+        <widget class="QButtonGroup">
             <property name="name">
                 <cstring>buttonGroup1</cstring>
             </property>
@@ -93,178 +99,7 @@ Example: f(x)=x^2</string>
                 </widget>
             </vbox>
         </widget>
-        <spacer row="5" column="0">
-            <property name="name">
-                <cstring>spacer8</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QFrame" row="4" column="0">
-            <property name="name">
-                <cstring>frame6</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>textLabel2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Co&amp;lor:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>color</cstring>
-                    </property>
-                </widget>
-                <widget class="KColorButton" row="1" column="1">
-                    <property name="name">
-                        <cstring>color</cstring>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>color of the plot line</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click this button to choose a color for the plot line.</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel1_3</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Line &amp;width:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>lineWidth</cstring>
-                    </property>
-                </widget>
-                <widget class="KIntNumInput" row="0" column="1">
-                    <property name="name">
-                        <cstring>lineWidth</cstring>
-                    </property>
-                    <property name="minValue">
-                        <number>1</number>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>width of the plot line</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Change the width of the plot line in steps of 0.1mm.</string>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="0" column="2">
-                    <property name="name">
-                        <cstring>TextLabel2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>0.1mm</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QFrame" row="3" column="0">
-            <property name="name">
-                <cstring>frame5</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="2" column="0">
-                    <property name="name">
-                        <cstring>textLabel1_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Ma&amp;x:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>max</cstring>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Min:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>min</cstring>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>customRange</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Custom plot &amp;range:</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>customize the plot range</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Check this button and enter the plot range boundarys below.</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="1" column="1">
-                    <property name="name">
-                        <cstring>min</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>lower boundary of the plot range</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="2" column="1">
-                    <property name="name">
-                        <cstring>max</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>upper boundary of the plot range</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QButtonGroup" row="2" column="0">
+        <widget class="QButtonGroup">
             <property name="name">
                 <cstring>parameterValues</cstring>
             </property>
@@ -324,7 +159,7 @@ Example: f(x)=x^2</string>
                     <property name="enabled">
                         <bool>false</bool>
                     </property>
-                    <property name="text">
+                    <property name="text" stdset="0">
                         <string>Edit List...</string>
                     </property>
                     <property name="toolTip" stdset="0">
@@ -353,23 +188,674 @@ Example: f(x)=x^2</string>
                 </widget>
             </grid>
         </widget>
-    </grid>
+        <widget class="QFrame">
+            <property name="name">
+                <cstring>frame5</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>customMinRange</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Custom plot m&amp;inimum-range:</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>customize the minimum plot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this button and enter the plot range boundarys below.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Min:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>min</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>min</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>lower boundary of the plot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>customMaxRange</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Custom plot m&amp;aximum-range:</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>customize the maximumplot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this button and enter the plot range boundarys below.</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="3" column="1">
+                    <property name="name">
+                        <cstring>max</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>upper boundary of the plot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="3" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Ma&amp;x:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>max</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QFrame">
+            <property name="name">
+                <cstring>frame6</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Co&amp;lor:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>color</cstring>
+                    </property>
+                </widget>
+                <widget class="KColorButton" row="1" column="1">
+                    <property name="name">
+                        <cstring>color</cstring>
+                    </property>
+                    <property name="text" stdset="0">
+                        <string></string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>color of the plot line</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click this button to choose a color for the plot line.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Line &amp;width:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>lineWidth</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="0" column="1">
+                    <property name="name">
+                        <cstring>lineWidth</cstring>
+                    </property>
+                    <property name="minValue" stdset="0">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>width of the plot line</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the width of the plot line in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer8</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
 </widget>
 <customwidgets>
+    <customwidget>
+        <class>KLineEdit</class>
+        <header location="local">klineedit.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+        <signal>destroyed()</signal>
+        <signal>destroyed(QObject*)</signal>
+        <signal>textChanged(const QString&amp;)</signal>
+        <signal>returnPressed()</signal>
+        <signal>lostFocus()</signal>
+        <signal>selectionChanged()</signal>
+        <signal>completionBoxActivated(const QString&amp;)</signal>
+        <signal>returnPressed(const QString&amp;)</signal>
+        <signal>completion(const QString&amp;)</signal>
+        <signal>substringCompletion(const QString&amp;)</signal>
+        <signal>textRotation(KCompletionBase::KeyBindingType)</signal>
+        <signal>completionModeChanged(KGlobalSettings::Completion)</signal>
+        <signal>aboutToShowContextMenu(QPopupMenu*)</signal>
+        <slot access="public" specifier="">deleteLater()</slot>
+        <slot access="private" specifier="">cleanupEventFilter(QObject*)</slot>
+        <slot access="public" specifier="">setEnabled(bool)</slot>
+        <slot access="public" specifier="">setDisabled(bool)</slot>
+        <slot access="public" specifier="">setCaption(const QString&amp;)</slot>
+        <slot access="public" specifier="">setIcon(const QPixmap&amp;)</slot>
+        <slot access="public" specifier="">setIconText(const QString&amp;)</slot>
+        <slot access="public" specifier="">setMouseTracking(bool)</slot>
+        <slot access="public" specifier="">setFocus()</slot>
+        <slot access="public" specifier="">clearFocus()</slot>
+        <slot access="public" specifier="">setUpdatesEnabled(bool)</slot>
+        <slot access="public" specifier="">update()</slot>
+        <slot access="public" specifier="">update(int,int,int,int)</slot>
+        <slot access="public" specifier="">update(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint()</slot>
+        <slot access="public" specifier="">repaint(bool)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;,bool)</slot>
+        <slot access="public" specifier="">show()</slot>
+        <slot access="public" specifier="">hide()</slot>
+        <slot access="public" specifier="">setShown(bool)</slot>
+        <slot access="public" specifier="">setHidden(bool)</slot>
+        <slot access="public" specifier="">iconify()</slot>
+        <slot access="public" specifier="">showMinimized()</slot>
+        <slot access="public" specifier="">showMaximized()</slot>
+        <slot access="public" specifier="">showFullScreen()</slot>
+        <slot access="public" specifier="">showNormal()</slot>
+        <slot access="public" specifier="">polish()</slot>
+        <slot access="public" specifier="">constPolish()</slot>
+        <slot access="public" specifier="">close()</slot>
+        <slot access="public" specifier="">raise()</slot>
+        <slot access="public" specifier="">lower()</slot>
+        <slot access="public" specifier="">stackUnder(QWidget*)</slot>
+        <slot access="public" specifier="">move(int,int)</slot>
+        <slot access="public" specifier="">move(const QPoint&amp;)</slot>
+        <slot access="public" specifier="">resize(int,int)</slot>
+        <slot access="public" specifier="">resize(const QSize&amp;)</slot>
+        <slot access="public" specifier="">setGeometry(int,int,int,int)</slot>
+        <slot access="public" specifier="">setGeometry(const QRect&amp;)</slot>
+        <slot access="public" specifier="">adjustSize()</slot>
+        <slot access="private" specifier="">focusProxyDestroyed()</slot>
+        <slot access="public" specifier="">setText(const QString&amp;)</slot>
+        <slot access="public" specifier="">selectAll()</slot>
+        <slot access="public" specifier="">deselect()</slot>
+        <slot access="public" specifier="">clearValidator()</slot>
+        <slot access="public" specifier="">insert(const QString&amp;)</slot>
+        <slot access="public" specifier="">clear()</slot>
+        <slot access="public" specifier="">undo()</slot>
+        <slot access="public" specifier="">redo()</slot>
+        <slot access="public" specifier="">setMaxLength(int)</slot>
+        <slot access="public" specifier="">setFrame(bool)</slot>
+        <slot access="public" specifier="">setEchoMode(EchoMode)</slot>
+        <slot access="public" specifier="">setReadOnly(bool)</slot>
+        <slot access="public" specifier="">setValidator(const QValidator*)</slot>
+        <slot access="public" specifier="">setFont(const QFont&amp;)</slot>
+        <slot access="public" specifier="">setPalette(const QPalette&amp;)</slot>
+        <slot access="public" specifier="">setSelection(int,int)</slot>
+        <slot access="public" specifier="">setCursorPosition(int)</slot>
+        <slot access="public" specifier="">setAlignment(int)</slot>
+        <slot access="public" specifier="">cut()</slot>
+        <slot access="public" specifier="">copy()</slot>
+        <slot access="public" specifier="">paste()</slot>
+        <slot access="public" specifier="">setDragEnabled(bool)</slot>
+        <slot access="private" specifier="">clipboardChanged()</slot>
+        <slot access="public" specifier="">setReadOnly(bool)</slot>
+        <slot access="public" specifier="">rotateText(KCompletionBase::KeyBindingType)</slot>
+        <slot access="public" specifier="">setCompletedText(const QString&amp;)</slot>
+        <slot access="public" specifier="">setCompletedItems(const QStringList&amp;)</slot>
+        <slot access="public" specifier="">setCompletedItems(const QStringList&amp;,bool)</slot>
+        <slot access="public" specifier="">clear()</slot>
+        <slot access="public" specifier="">setSqueezedText(const QString&amp;)</slot>
+        <slot access="public" specifier="">setText(const QString&amp;)</slot>
+        <slot access="protected" specifier="">makeCompletion(const QString&amp;)</slot>
+        <slot access="protected" specifier="">slotAboutToShow()</slot>
+        <slot access="protected" specifier="">slotCancelled()</slot>
+        <slot access="protected" specifier="">userCancelled(const QString&amp;)</slot>
+        <slot access="private" specifier="">completionMenuActivated(int)</slot>
+        <slot access="private" specifier="">tripleClickTimeout()</slot>
+        <slot access="private" specifier="">slotRestoreSelectionColors()</slot>
+        <slot access="private" specifier="">setTextWorkaround(const QString&amp;)</slot>
+        <property type="CString">name</property>
+        <property type="Bool">enabled</property>
+        <property type="Rect">geometry</property>
+        <property type="SizePolicy">sizePolicy</property>
+        <property type="Size">minimumSize</property>
+        <property type="Size">maximumSize</property>
+        <property type="Size">sizeIncrement</property>
+        <property type="Size">baseSize</property>
+        <property type="Color">paletteForegroundColor</property>
+        <property type="Color">paletteBackgroundColor</property>
+        <property type="Pixmap">paletteBackgroundPixmap</property>
+        <property type="Palette">palette</property>
+        <property type="BackgroundOrigin">backgroundOrigin</property>
+        <property type="Font">font</property>
+        <property type="Cursor">cursor</property>
+        <property type="String">caption</property>
+        <property type="Pixmap">icon</property>
+        <property type="String">iconText</property>
+        <property type="Bool">mouseTracking</property>
+        <property type="FocusPolicy">focusPolicy</property>
+        <property type="Bool">acceptDrops</property>
+        <property type="Shape">frameShape</property>
+        <property type="Shadow">frameShadow</property>
+        <property type="Int">lineWidth</property>
+        <property type="Int">margin</property>
+        <property type="Int">midLineWidth</property>
+        <property type="String">text</property>
+        <property type="Int">maxLength</property>
+        <property type="Bool">frame</property>
+        <property type="EchoMode">echoMode</property>
+        <property type="Int">cursorPosition</property>
+        <property type="Alignment">alignment</property>
+        <property type="Bool">dragEnabled</property>
+        <property type="Bool">readOnly</property>
+        <property type="String">inputMask</property>
+        <property type="Bool">contextMenuEnabled</property>
+        <property type="Bool">urlDropsEnabled</property>
+        <property type="Bool">trapEnterKeyEvent</property>
+        <property type="Bool">enableSqueezedText</property>
+    </customwidget>
+    <customwidget>
+        <class>KColorButton</class>
+        <header location="local">kcolorbutton.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+        <signal>destroyed()</signal>
+        <signal>destroyed(QObject*)</signal>
+        <signal>pressed()</signal>
+        <signal>released()</signal>
+        <signal>clicked()</signal>
+        <signal>toggled(bool)</signal>
+        <signal>stateChanged(int)</signal>
+        <signal>changed(const QColor&amp;)</signal>
+        <slot access="public" specifier="">deleteLater()</slot>
+        <slot access="private" specifier="">cleanupEventFilter(QObject*)</slot>
+        <slot access="public" specifier="">setEnabled(bool)</slot>
+        <slot access="public" specifier="">setDisabled(bool)</slot>
+        <slot access="public" specifier="">setCaption(const QString&amp;)</slot>
+        <slot access="public" specifier="">setIcon(const QPixmap&amp;)</slot>
+        <slot access="public" specifier="">setIconText(const QString&amp;)</slot>
+        <slot access="public" specifier="">setMouseTracking(bool)</slot>
+        <slot access="public" specifier="">setFocus()</slot>
+        <slot access="public" specifier="">clearFocus()</slot>
+        <slot access="public" specifier="">setUpdatesEnabled(bool)</slot>
+        <slot access="public" specifier="">update()</slot>
+        <slot access="public" specifier="">update(int,int,int,int)</slot>
+        <slot access="public" specifier="">update(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint()</slot>
+        <slot access="public" specifier="">repaint(bool)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;,bool)</slot>
+        <slot access="public" specifier="">show()</slot>
+        <slot access="public" specifier="">hide()</slot>
+        <slot access="public" specifier="">setShown(bool)</slot>
+        <slot access="public" specifier="">setHidden(bool)</slot>
+        <slot access="public" specifier="">iconify()</slot>
+        <slot access="public" specifier="">showMinimized()</slot>
+        <slot access="public" specifier="">showMaximized()</slot>
+        <slot access="public" specifier="">showFullScreen()</slot>
+        <slot access="public" specifier="">showNormal()</slot>
+        <slot access="public" specifier="">polish()</slot>
+        <slot access="public" specifier="">constPolish()</slot>
+        <slot access="public" specifier="">close()</slot>
+        <slot access="public" specifier="">raise()</slot>
+        <slot access="public" specifier="">lower()</slot>
+        <slot access="public" specifier="">stackUnder(QWidget*)</slot>
+        <slot access="public" specifier="">move(int,int)</slot>
+        <slot access="public" specifier="">move(const QPoint&amp;)</slot>
+        <slot access="public" specifier="">resize(int,int)</slot>
+        <slot access="public" specifier="">resize(const QSize&amp;)</slot>
+        <slot access="public" specifier="">setGeometry(int,int,int,int)</slot>
+        <slot access="public" specifier="">setGeometry(const QRect&amp;)</slot>
+        <slot access="public" specifier="">adjustSize()</slot>
+        <slot access="private" specifier="">focusProxyDestroyed()</slot>
+        <slot access="public" specifier="">animateClick()</slot>
+        <slot access="public" specifier="">toggle()</slot>
+        <slot access="private" specifier="">animateTimeout()</slot>
+        <slot access="private" specifier="">autoRepeatTimeout()</slot>
+        <slot access="private" specifier="">emulateClick()</slot>
+        <slot access="public" specifier="">setOn(bool)</slot>
+        <slot access="private" specifier="">popupPressed()</slot>
+        <slot access="protected" specifier="">chooseColor()</slot>
+        <property type="CString">name</property>
+        <property type="Bool">enabled</property>
+        <property type="Rect">geometry</property>
+        <property type="SizePolicy">sizePolicy</property>
+        <property type="Size">minimumSize</property>
+        <property type="Size">maximumSize</property>
+        <property type="Size">sizeIncrement</property>
+        <property type="Size">baseSize</property>
+        <property type="Color">paletteForegroundColor</property>
+        <property type="Color">paletteBackgroundColor</property>
+        <property type="Pixmap">paletteBackgroundPixmap</property>
+        <property type="Palette">palette</property>
+        <property type="BackgroundOrigin">backgroundOrigin</property>
+        <property type="Font">font</property>
+        <property type="Cursor">cursor</property>
+        <property type="String">caption</property>
+        <property type="Pixmap">icon</property>
+        <property type="String">iconText</property>
+        <property type="Bool">mouseTracking</property>
+        <property type="FocusPolicy">focusPolicy</property>
+        <property type="Bool">acceptDrops</property>
+        <property type="String">text</property>
+        <property type="Pixmap">pixmap</property>
+        <property type="KeySequence">accel</property>
+        <property type="Bool">autoRepeat</property>
+        <property type="Bool">autoDefault</property>
+        <property type="Bool">default</property>
+        <property type="IconSet">iconSet</property>
+        <property type="Bool">toggleButton</property>
+        <property type="Bool">on</property>
+        <property type="Bool">flat</property>
+        <property type="Bool">autoMask</property>
+        <property type="Color">color</property>
+    </customwidget>
+    <customwidget>
+        <class>KIntNumInput</class>
+        <header location="local">knuminput.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+        <signal>destroyed()</signal>
+        <signal>destroyed(QObject*)</signal>
+        <signal>valueChanged(int)</signal>
+        <signal>relativeValueChanged(double)</signal>
+        <slot access="public" specifier="">deleteLater()</slot>
+        <slot access="private" specifier="">cleanupEventFilter(QObject*)</slot>
+        <slot access="public" specifier="">setEnabled(bool)</slot>
+        <slot access="public" specifier="">setDisabled(bool)</slot>
+        <slot access="public" specifier="">setCaption(const QString&amp;)</slot>
+        <slot access="public" specifier="">setIcon(const QPixmap&amp;)</slot>
+        <slot access="public" specifier="">setIconText(const QString&amp;)</slot>
+        <slot access="public" specifier="">setMouseTracking(bool)</slot>
+        <slot access="public" specifier="">setFocus()</slot>
+        <slot access="public" specifier="">clearFocus()</slot>
+        <slot access="public" specifier="">setUpdatesEnabled(bool)</slot>
+        <slot access="public" specifier="">update()</slot>
+        <slot access="public" specifier="">update(int,int,int,int)</slot>
+        <slot access="public" specifier="">update(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint()</slot>
+        <slot access="public" specifier="">repaint(bool)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;,bool)</slot>
+        <slot access="public" specifier="">show()</slot>
+        <slot access="public" specifier="">hide()</slot>
+        <slot access="public" specifier="">setShown(bool)</slot>
+        <slot access="public" specifier="">setHidden(bool)</slot>
+        <slot access="public" specifier="">iconify()</slot>
+        <slot access="public" specifier="">showMinimized()</slot>
+        <slot access="public" specifier="">showMaximized()</slot>
+        <slot access="public" specifier="">showFullScreen()</slot>
+        <slot access="public" specifier="">showNormal()</slot>
+        <slot access="public" specifier="">polish()</slot>
+        <slot access="public" specifier="">constPolish()</slot>
+        <slot access="public" specifier="">close()</slot>
+        <slot access="public" specifier="">raise()</slot>
+        <slot access="public" specifier="">lower()</slot>
+        <slot access="public" specifier="">stackUnder(QWidget*)</slot>
+        <slot access="public" specifier="">move(int,int)</slot>
+        <slot access="public" specifier="">move(const QPoint&amp;)</slot>
+        <slot access="public" specifier="">resize(int,int)</slot>
+        <slot access="public" specifier="">resize(const QSize&amp;)</slot>
+        <slot access="public" specifier="">setGeometry(int,int,int,int)</slot>
+        <slot access="public" specifier="">setGeometry(const QRect&amp;)</slot>
+        <slot access="public" specifier="">adjustSize()</slot>
+        <slot access="private" specifier="">focusProxyDestroyed()</slot>
+        <slot access="public" specifier="">setValue(int)</slot>
+        <slot access="public" specifier="">setRelativeValue(double)</slot>
+        <slot access="public" specifier="">setReferencePoint(int)</slot>
+        <slot access="public" specifier="">setSuffix(const QString&amp;)</slot>
+        <slot access="public" specifier="">setPrefix(const QString&amp;)</slot>
+        <slot access="public" specifier="">setEditFocus()</slot>
+        <slot access="public" specifier="">setEditFocus(bool)</slot>
+        <slot access="private" specifier="">spinValueChanged(int)</slot>
+        <slot access="private" specifier="">slotEmitRelativeValueChanged(int)</slot>
+        <property type="CString">name</property>
+        <property type="Bool">enabled</property>
+        <property type="Rect">geometry</property>
+        <property type="SizePolicy">sizePolicy</property>
+        <property type="Size">minimumSize</property>
+        <property type="Size">maximumSize</property>
+        <property type="Size">sizeIncrement</property>
+        <property type="Size">baseSize</property>
+        <property type="Color">paletteForegroundColor</property>
+        <property type="Color">paletteBackgroundColor</property>
+        <property type="Pixmap">paletteBackgroundPixmap</property>
+        <property type="Palette">palette</property>
+        <property type="BackgroundOrigin">backgroundOrigin</property>
+        <property type="Font">font</property>
+        <property type="Cursor">cursor</property>
+        <property type="String">caption</property>
+        <property type="Pixmap">icon</property>
+        <property type="String">iconText</property>
+        <property type="Bool">mouseTracking</property>
+        <property type="FocusPolicy">focusPolicy</property>
+        <property type="Bool">acceptDrops</property>
+        <property type="String">label</property>
+        <property type="Int">value</property>
+        <property type="Int">minValue</property>
+        <property type="Int">maxValue</property>
+        <property type="Int">referencePoint</property>
+        <property type="String">suffix</property>
+        <property type="String">prefix</property>
+        <property type="String">specialValueText</property>
+    </customwidget>
+    <customwidget>
+        <class>KPushButton</class>
+        <header location="local">kpushbutton.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+        <signal>destroyed()</signal>
+        <signal>destroyed(QObject*)</signal>
+        <signal>pressed()</signal>
+        <signal>released()</signal>
+        <signal>clicked()</signal>
+        <signal>toggled(bool)</signal>
+        <signal>stateChanged(int)</signal>
+        <slot access="public" specifier="">deleteLater()</slot>
+        <slot access="private" specifier="">cleanupEventFilter(QObject*)</slot>
+        <slot access="public" specifier="">setEnabled(bool)</slot>
+        <slot access="public" specifier="">setDisabled(bool)</slot>
+        <slot access="public" specifier="">setCaption(const QString&amp;)</slot>
+        <slot access="public" specifier="">setIcon(const QPixmap&amp;)</slot>
+        <slot access="public" specifier="">setIconText(const QString&amp;)</slot>
+        <slot access="public" specifier="">setMouseTracking(bool)</slot>
+        <slot access="public" specifier="">setFocus()</slot>
+        <slot access="public" specifier="">clearFocus()</slot>
+        <slot access="public" specifier="">setUpdatesEnabled(bool)</slot>
+        <slot access="public" specifier="">update()</slot>
+        <slot access="public" specifier="">update(int,int,int,int)</slot>
+        <slot access="public" specifier="">update(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint()</slot>
+        <slot access="public" specifier="">repaint(bool)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;,bool)</slot>
+        <slot access="public" specifier="">show()</slot>
+        <slot access="public" specifier="">hide()</slot>
+        <slot access="public" specifier="">setShown(bool)</slot>
+        <slot access="public" specifier="">setHidden(bool)</slot>
+        <slot access="public" specifier="">iconify()</slot>
+        <slot access="public" specifier="">showMinimized()</slot>
+        <slot access="public" specifier="">showMaximized()</slot>
+        <slot access="public" specifier="">showFullScreen()</slot>
+        <slot access="public" specifier="">showNormal()</slot>
+        <slot access="public" specifier="">polish()</slot>
+        <slot access="public" specifier="">constPolish()</slot>
+        <slot access="public" specifier="">close()</slot>
+        <slot access="public" specifier="">raise()</slot>
+        <slot access="public" specifier="">lower()</slot>
+        <slot access="public" specifier="">stackUnder(QWidget*)</slot>
+        <slot access="public" specifier="">move(int,int)</slot>
+        <slot access="public" specifier="">move(const QPoint&amp;)</slot>
+        <slot access="public" specifier="">resize(int,int)</slot>
+        <slot access="public" specifier="">resize(const QSize&amp;)</slot>
+        <slot access="public" specifier="">setGeometry(int,int,int,int)</slot>
+        <slot access="public" specifier="">setGeometry(const QRect&amp;)</slot>
+        <slot access="public" specifier="">adjustSize()</slot>
+        <slot access="private" specifier="">focusProxyDestroyed()</slot>
+        <slot access="public" specifier="">animateClick()</slot>
+        <slot access="public" specifier="">toggle()</slot>
+        <slot access="private" specifier="">animateTimeout()</slot>
+        <slot access="private" specifier="">autoRepeatTimeout()</slot>
+        <slot access="private" specifier="">emulateClick()</slot>
+        <slot access="public" specifier="">setOn(bool)</slot>
+        <slot access="private" specifier="">popupPressed()</slot>
+        <slot access="private" specifier="">slotSettingsChanged(int)</slot>
+        <property type="CString">name</property>
+        <property type="Bool">enabled</property>
+        <property type="Rect">geometry</property>
+        <property type="SizePolicy">sizePolicy</property>
+        <property type="Size">minimumSize</property>
+        <property type="Size">maximumSize</property>
+        <property type="Size">sizeIncrement</property>
+        <property type="Size">baseSize</property>
+        <property type="Color">paletteForegroundColor</property>
+        <property type="Color">paletteBackgroundColor</property>
+        <property type="Pixmap">paletteBackgroundPixmap</property>
+        <property type="Palette">palette</property>
+        <property type="BackgroundOrigin">backgroundOrigin</property>
+        <property type="Font">font</property>
+        <property type="Cursor">cursor</property>
+        <property type="String">caption</property>
+        <property type="Pixmap">icon</property>
+        <property type="String">iconText</property>
+        <property type="Bool">mouseTracking</property>
+        <property type="FocusPolicy">focusPolicy</property>
+        <property type="Bool">acceptDrops</property>
+        <property type="String">text</property>
+        <property type="Pixmap">pixmap</property>
+        <property type="KeySequence">accel</property>
+        <property type="Bool">autoRepeat</property>
+        <property type="Bool">autoDefault</property>
+        <property type="Bool">default</property>
+        <property type="IconSet">iconSet</property>
+        <property type="Bool">toggleButton</property>
+        <property type="Bool">on</property>
+        <property type="Bool">flat</property>
+        <property type="Bool">autoMask</property>
+    </customwidget>
 </customwidgets>
+<images>
+    <image name="image0">
+        <data format="PNG" length="826">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b00000301494441541895b59531681b5718c77f0e377c070e3c810a3a70e0041eac51852e0a19e45134830a1d9a4c69a04bc8928e990a693a640e1d0c8642b08742321894c1507991b484c890902bb8701a047760c3bd21701fe4201dde49b6a41a32b8df72dcbbeffdbefffbbfefbd5b1b0c07cce266ebe667ae2006c3c1dada0cdc3be87d6e6c35b0d692a409d9c7ec8b20d65ae29398d19b1114e7e3de4ce98b3f5e10dc0053cf0951b4506496e1b964bf7ce6c585d9054c62d01d617ca48be0596553cf496d8f2c8b01c5f795fc93904e85ec4c01a152857a5d9175d0b2805c872080f18595ccc1499a10a225d4e2fbc2877786fe81253ab6c04c8d106e09db5d43ab0d146e5c64d1a23938fb98a185cea1c33eecfd9eba49eb427dcb201e245365f2b7b2fb5b4a3a31dcb927178afe07d86901df870fefa4842aed6f6b74ba42e52b4014d580e1eb9cbd9d94de7e4aad16d2f9be02d805f0b5e532f927a1ffcacea1777f122a8105b164a7c25faf323a5d9f1f1fd600e1e5bec59e2d4b5c7ef5209d0ad17b8b31864e57c0b3e0815ac3ee33253ab664a770ff5185d1a1cb8d2267d3e58aa1dc7d2508cbe597d0e74fdd269aaaf0f52d414c4ea3e9762c996869e42560d7a72e41c4799a2586e74f95e8d8151481fa86efbe7b3398ac58b1a2b8527589f15451ad303ac2293542ad6648a796278f13a27185e4c4754310facb98c53a79e19a3fdc1426ff28c3d7399d1f7cb25343eb96106cf83c790ce9c4f2eb831855c55485663327992eb6dc8a6259874ed700b0b793323cccb9ffa842b30d6133e3e75fea989ac15a8b16ca76b746b0b92278d919774c5b6d48a78697fb29bbcf52468742a32120909c24e899ce67beed5be2db01e22d1e9485bb620e47f9ee9e606a21bd3f5d3744c7e7c54d55e87443867d8b554515ac5db4620e8e4f62263170fd1cdee90aad7640141992891b0f367c9adfe4049bb07d3b7022bd8c687c0978f46684ee084150b65ac1fcca94591b7a90a496e4c095164fb016a2b192a497795cc0f84817aebe25f7bf70ccc54a575c555c03f78ffa5fc0570d1f0c076bff0232285a09283782c80000000049454e44ae426082</data>
+    </image>
+</images>
 <connections>
-    <connection>
-        <sender>customRange</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>min</receiver>
-        <slot>setEnabled(bool)</slot>
-    </connection>
-    <connection>
-        <sender>customRange</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>max</receiver>
-        <slot>setEnabled(bool)</slot>
-    </connection>
     <connection>
         <sender>useList</sender>
         <signal>toggled(bool)</signal>
@@ -401,7 +887,7 @@ Example: f(x)=x^2</string>
     <tabstop>useList</tabstop>
     <tabstop>cmdParameter</tabstop>
     <tabstop>listOfSliders</tabstop>
-    <tabstop>customRange</tabstop>
+    <tabstop>customMinRange</tabstop>
     <tabstop>min</tabstop>
     <tabstop>max</tabstop>
     <tabstop>lineWidth</tabstop>
@@ -413,6 +899,11 @@ Example: f(x)=x^2</string>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>knuminput.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
+    <includehint>kintnuminput.h</includehint>
 </includehints>
 </UI>

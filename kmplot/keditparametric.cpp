@@ -44,6 +44,8 @@
 KEditParametric::KEditParametric( XParser* parser, QWidget* parent, const char* name ) : 
 	QEditParametric( parent, name ), m_parser(parser)
 {
+	connect( customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
+	connect( customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
 }
 
 void KEditParametric::initDialog( int x_id, int y_id)
@@ -60,7 +62,8 @@ void KEditParametric::clearWidgets()
 	kLineEditXFunction->clear();
 	kLineEditYFunction->clear();
 	checkBoxHide->setChecked( false );
-	checkBoxRange->setChecked( false );
+  customMinRange->setChecked( false );
+  customMinRange->setChecked( false );
 	min->clear();
 	max->clear();
 	kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
@@ -70,21 +73,29 @@ void KEditParametric::clearWidgets()
 void KEditParametric::setWidgets()
 {
 	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_x_id) ];
-        QString name, expression;
+	QString name, expression;
 	splitEquation( ufkt->fstr, name, expression );
 	kLineEditName->setText( name );
 	kLineEditXFunction->setText( expression );
 	splitEquation( m_parser->ufkt[ m_y_id ].fstr, name, expression );
 	kLineEditYFunction->setText( expression );
 	checkBoxHide->setChecked( !ufkt->f_mode );
-	if (  ufkt->dmin != ufkt->dmax )
+	if (ufkt->usecustomxmin)
 	{
-		checkBoxRange->setChecked(true);
+		customMinRange->setChecked(true);
 		min->setText( ufkt->str_dmin );
+	}
+	else
+		customMinRange->setChecked(false);
+	
+	if (ufkt->usecustomxmax)
+	{
+		customMaxRange->setChecked(true);
 		max->setText( ufkt->str_dmax );
 	}
 	else
-		checkBoxRange->setChecked(false);
+		customMaxRange->setChecked(false);
+	
 	kIntNumInputLineWidth->setValue( ufkt->linewidth );
 	kColorButtonColor->setColor( ufkt->color );
 }
@@ -103,16 +114,17 @@ void KEditParametric::accept()
 	if( kLineEditName->text().isEmpty() )
 	{
 		QString fname;
-		m_parser->fixFunctionName(fname, XParser::ParametricX);
+		m_parser->fixFunctionName(fname, XParser::ParametricX, m_x_id);
 		int const pos = fname.find('(');
 		kLineEditName->setText(fname.mid(1,pos-1));
 	}
 		
-        Ufkt tmp_ufkt;
+  Ufkt tmp_ufkt;
 	tmp_ufkt.f_mode = !checkBoxHide->isChecked();
 	
-	if( checkBoxRange->isChecked() )
+	if( customMinRange->isChecked() )
 	{
+		tmp_ufkt.usecustomxmin = true;
 		tmp_ufkt.str_dmin = min->text();
 		tmp_ufkt.dmin = m_parser->eval( min->text() );
 		if ( m_parser->parserError())
@@ -121,6 +133,13 @@ void KEditParametric::accept()
 			min->selectAll();
 			return;
 		}
+	}
+	else
+		tmp_ufkt.usecustomxmin = false;
+	
+	if( customMaxRange->isChecked() )
+	{
+		tmp_ufkt.usecustomxmax = true;
 		tmp_ufkt.str_dmax = max->text();
 		tmp_ufkt.dmax = m_parser->eval( max->text() );
 		if ( m_parser->parserError())
@@ -129,7 +148,7 @@ void KEditParametric::accept()
 			max->selectAll();
 			return;
 		}
-		if ( tmp_ufkt.dmin >=  tmp_ufkt.dmax)
+		if ( tmp_ufkt.usecustomxmin && tmp_ufkt.dmin >=  tmp_ufkt.dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
 			min->setFocus();
@@ -138,12 +157,7 @@ void KEditParametric::accept()
 		}
 	}
 	else
-	{
-		tmp_ufkt.str_dmin ="0";
-		tmp_ufkt.dmin = 0;
-		tmp_ufkt.str_dmax = "0";
-		tmp_ufkt.dmax = 0;
-	}
+		tmp_ufkt.usecustomxmax = false;
 	
 	tmp_ufkt.linewidth = kIntNumInputLineWidth->value();
 	tmp_ufkt.color = kColorButtonColor->color().rgb();
@@ -216,6 +230,8 @@ void KEditParametric::accept()
         added_ufkt->f2_color = tmp_ufkt.f2_color;
         added_ufkt->integral_color = tmp_ufkt.integral_color;
         added_ufkt->use_slider = tmp_ufkt.use_slider;
+        added_ufkt->usecustomxmin = tmp_ufkt.usecustomxmin;
+        added_ufkt->usecustomxmax = tmp_ufkt.usecustomxmax;
 
         added_ufkt = 0;
         if( m_y_id != -1 )  //when editing a function:
@@ -273,8 +289,10 @@ void KEditParametric::accept()
         added_ufkt->f1_color = tmp_ufkt.f1_color;
         added_ufkt->f2_color = tmp_ufkt.f2_color;
         added_ufkt->integral_color = tmp_ufkt.integral_color;
-	added_ufkt->parameters = tmp_ufkt.parameters;
+        added_ufkt->parameters = tmp_ufkt.parameters;
         added_ufkt->use_slider = tmp_ufkt.use_slider;
+        added_ufkt->usecustomxmin = tmp_ufkt.usecustomxmin;
+        added_ufkt->usecustomxmax = tmp_ufkt.usecustomxmax;
 
 	
 	// call inherited method
@@ -309,4 +327,19 @@ const QString KEditParametric::functionItem()
 void KEditParametric::slotHelp()
 {
 	kapp->invokeHelp( "", "kmplot" );
+}
+void KEditParametric::customMinRange_toggled(bool status)
+{
+	if (status)
+		min->setEnabled(true);
+	else
+		min->setEnabled(false);
+}
+
+void KEditParametric::customMaxRange_toggled(bool status)
+{
+	if (status)
+		max->setEnabled(true);
+	else
+		max->setEnabled(false);
 }

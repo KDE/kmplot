@@ -315,7 +315,7 @@ double Parser::fkt(Ufkt *it, double const x)
 
 int Parser::addfkt(QString str)
 {
-        QString const extstr = str;
+	QString const extstr = str;
 	stkptr=stack=0;
 	err=0;
 	errpos=1;

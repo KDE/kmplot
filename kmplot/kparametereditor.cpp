@@ -53,7 +53,7 @@ KParameterEditor::KParameterEditor(XParser *m, QValueList<ParameterValueItem> *l
 	connect( cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ));
 	connect( cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
 	connect( cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
-        connect( cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
+	connect( cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
 	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( varlist_doubleClicked( QListBoxItem *) ));
 	connect( list, SIGNAL( clicked ( QListBoxItem * ) ), this, SLOT( varlist_clicked(QListBoxItem *  ) ));

@@ -66,7 +66,7 @@ public:
         /// Fill item with default values (e.g color, linewidth )
         void prepareAddingFunction(Ufkt *item);
         
-        /// Interpretates the extended function string
+        /// Interpretates the extended function string (only used by the old file format)
 	bool getext( Ufkt *, const QString );
 	
 	/// Send a function to an other instance of Kmplot. Returns true if it success, otherwise false

@@ -63,6 +63,8 @@ class KEditPolar : public QEditPolar
 		virtual void accept();
 		/// Invokes the helpCenter.
 		void slotHelp();
+		void customMinRange_toggled(bool);
+		void customMaxRange_toggled(bool);
 };
 
 #endif

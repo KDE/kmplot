@@ -85,7 +85,7 @@ class KmPlotIO
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
 		void parseParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
-                
+		
 		/// For KDE 3.3
 		void parseThreeDotThreeParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
 		

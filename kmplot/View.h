@@ -59,7 +59,7 @@ class View : public QWidget, virtual public ViewIface
 	Q_OBJECT
 public:
 	/// Contructor sets up the parser, too.
-	View(bool, bool &, KPopupMenu *, QWidget* parent=NULL, const char* name=NULL );
+  View(bool, bool &, KPopupMenu *, QWidget* parent=NULL, const char* name=NULL );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 

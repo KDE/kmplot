@@ -59,7 +59,11 @@ class EditFunction : public KDialogBase
 		/// Called when the "Change parameter values" is clicked
 		void cmdParameter_clicked();
 		/// Called when the no_parameter-radiobutton is toggled.
-		void noParameter_clicked(bool);
+		void noParameter_toggled(bool);
+		/// Called when customMinRange is toggled.
+		void customMinRange_toggled(bool);
+		/// Called when customMaxRange is toggled.
+		void customMaxRange_toggled(bool);
 	
 	private:
 		/// Clear alls widgets values

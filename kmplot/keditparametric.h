@@ -71,6 +71,8 @@ class KEditParametric : public QEditParametric
 		virtual void accept();
 		/// Invokes the HelpCenter.
 		void slotHelp();
+		void customMaxRange_toggled(bool);
+		void customMinRange_toggled(bool);
 };
 
 #endif

@@ -136,78 +136,92 @@ double XParser::a2fkt( Ufkt *u_item, double x, double h )
 
 void XParser::findFunctionName(QString &function_name, int const id, int const type)
 {
-        char last_character;
-        int pos;
-	if ( type == XParser::Polar || type == XParser::ParametricX || type == XParser::ParametricY)
-                pos=1;
-        else
-                pos=0;
-        for ( ; ; ++pos)
-        {
-                last_character = 'f';
-                for (bool ok=true; last_character<'x'; ++last_character)
-                {
-                        if ( pos==0 && last_character == 'r') continue;
-                        function_name.at(pos)=last_character;
-                        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
-                        {
-                                if (it == ufkt.begin() && it->fname.isEmpty() ) continue;
-                                if ( it->fstr.startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
-                                                ok = false;
-                        }
-                        if ( ok) //a free name was found
-                        {
-                                //kdDebug() << "function_name:" << function_name << endl;
-                                return;
-                        }
-                        ok = true;
-	       }
-               function_name.at(pos)='f';
-               function_name.append('f');
-        }
-        function_name = "e"; //this should never happen
+  char last_character;
+  int pos;
+  if ( function_name.length()==2/*type == XParser::Polar*/ || type == XParser::ParametricX || type == XParser::ParametricY)
+    pos=1;
+  else
+    pos=0;
+  for ( ; ; ++pos)
+  {
+    last_character = 'f';
+    for (bool ok=true; last_character<'x'; ++last_character)
+    {
+      if ( pos==0 && last_character == 'r') continue;
+      function_name.at(pos)=last_character;
+      for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+      {
+        if (it == ufkt.begin() && it->fname.isEmpty() ) continue;
+        if ( it->fstr.startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
+          ok = false;
+      }
+      if ( ok) //a free name was found
+      {
+        //kdDebug() << "function_name:" << function_name << endl;
+        return;
+      }
+      ok = true;
+    }
+    function_name.at(pos)='f';
+    function_name.append('f');
+  }
+  function_name = "e"; //this should never happen
 }
 
 void XParser::fixFunctionName( QString &str, int const type, int const id)
 {
-	int const p1=str.find('(');
-	int const p2=str.find(')');
-	if( p1>0 && str.at(p2+1)=='=')
-	{
-		QString const fname = str.left(p1);
-		for ( QValueVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
-			if (it->fname == fname)
-			{
-				str = str.mid(p1,str.length()-1);
-				QString function_name;
-				if ( type == XParser::Polar )
-				  function_name = "rf";
-				else if ( type == XParser::ParametricX )
-				  function_name = "x";
-				else if ( type == XParser::ParametricY )
-				  function_name = "y";
-				else
-					function_name = "f";
-				findFunctionName(function_name, id, type);
-				str.prepend( function_name );
-				return;
-			}
-	}
-	else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
-	{
-                QString function_name;
-                if ( type == XParser::Polar )
-                        function_name = "rf";
-		else if ( type == XParser::ParametricX )
-		  	function_name = "xf";
-		else if ( type == XParser::ParametricY )
-		  	function_name = "yf";
-                else
-                        function_name = "f";
-                str.prepend("(x)=");
-                findFunctionName(function_name, id, type);
-		str.prepend( function_name );
-	}
+  int p1=str.find('(');
+  int p2=str.find(')');
+  if( p1>=0 && str.at(p2+1)=='=')
+  {
+    if ( type == XParser::Polar && str.at(0)!='r' )
+    {
+      if (str.at(0)=='(')
+      {
+        str.prepend('f');
+        p1++;
+        p2++;
+      }
+      str.prepend('r');
+      p1++;
+      p2++;
+    }
+    QString const fname = str.left(p1);
+    for ( QValueVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
+    {
+      if (it->fname == fname)
+      {
+        str = str.mid(p1,str.length()-1);
+        QString function_name;
+        if ( type == XParser::Polar )
+          function_name = "rf";
+        else if ( type == XParser::ParametricX )
+          function_name = "x";
+        else if ( type == XParser::ParametricY )
+          function_name = "y";
+        else
+          function_name = "f";
+        findFunctionName(function_name, id, type);
+        str.prepend( function_name );
+        return;
+      }
+    }
+  }
+  else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
+  {
+    QString function_name;
+    if ( type == XParser::Polar )
+      function_name = "rf";
+    else if ( type == XParser::ParametricX )
+      function_name = "xf";
+    else if ( type == XParser::ParametricY )
+      function_name = "yf";
+    else
+      function_name = "f";
+    str.prepend("(x)=");
+    findFunctionName(function_name, id, type);
+    str.prepend( function_name );
+  }
 }
 
 double XParser::euler_method(const double x, const QValueVector<Ufkt>::iterator it)
@@ -268,10 +282,8 @@ void XParser::prepareAddingFunction(Ufkt *temp)
         temp->f2_mode = false;
         temp->integral_mode = false;
         temp->integral_precision = Settings::stepWidth();
-        temp->dmin = 0;
-        temp->dmax = 0;
-        temp->str_dmin = "";
-        temp->str_dmax = "";
+        temp->usecustomxmin = false;
+	temp->usecustomxmax = false;
         temp->use_slider = -1;
         //TODO temp->slider_min = 0; temp->slider_max = 50;
 
@@ -651,7 +663,6 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 	  case 'r':
 	  {
 	    fixFunctionName(fstr, XParser::Polar);
-	    kdDebug() << "Hit?" << endl;
 	    break;
 	  }
 	  case 'x':

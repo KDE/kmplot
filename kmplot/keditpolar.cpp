@@ -45,6 +45,8 @@
 KEditPolar::KEditPolar( XParser* parser, QWidget* parent, const char* name ) : 
 	QEditPolar( parent, name ),m_parser(parser)
 {
+	connect( customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
+	connect( customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
 }
 
 void KEditPolar::initDialog( int id )
@@ -58,7 +60,8 @@ void KEditPolar::clearWidgets()
 {
 	kLineEditYFunction->clear();
 	checkBoxHide->setChecked( false );
-	checkBoxRange->setChecked( false );
+	customMinRange->setChecked( false );
+	customMaxRange->setChecked(false);
 	min->clear();
 	max->clear();
 	kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
@@ -72,31 +75,41 @@ void KEditPolar::setWidgets()
 	function = function.right( function.length()-1 );
 	kLineEditYFunction->setText( function );
 	checkBoxHide->setChecked( !ufkt->f_mode);
-	if (  ufkt->dmin != ufkt->dmax )
+	if (ufkt->usecustomxmin)
 	{
-		checkBoxRange->setChecked( true );
+		customMinRange->setChecked(true);
 		min->setText( ufkt->str_dmin );
+	}
+	else
+		customMinRange->setChecked(false);
+	
+	if (ufkt->usecustomxmin)
+	{
+		customMaxRange->setChecked(true);
 		max->setText( ufkt->str_dmax );
 	}
 	else
-		checkBoxRange->setChecked( false );
+		customMaxRange->setChecked(false);
+	
 	kIntNumInputLineWidth->setValue( ufkt->linewidth );
 	kColorButtonColor->setColor( ufkt->color );
 }
 
 void KEditPolar::accept()
 {
-	QString f_str = "r" + kLineEditYFunction->text();
+	QString f_str = /*"r" + */kLineEditYFunction->text();
 
-        if ( m_id!=-1 )
-                m_parser->fixFunctionName(f_str, XParser::Polar, m_id);
-        else
-                m_parser->fixFunctionName(f_str, XParser::Polar);
-        Ufkt tmp_ufkt;  //all settings are saved here until we know that no errors have appeared
+	if ( m_id!=-1 )
+		m_parser->fixFunctionName(f_str, XParser::Polar, m_id);
+	else
+		m_parser->fixFunctionName(f_str, XParser::Polar);
+	Ufkt tmp_ufkt;  //all settings are saved here until we know that no errors have appeared
+
+	tmp_ufkt.f_mode = !checkBoxHide->isChecked();
 	
-        tmp_ufkt.f_mode = !checkBoxHide->isChecked();
-	if( checkBoxRange->isChecked() )
+	if( customMinRange->isChecked() )
 	{
+		tmp_ufkt.usecustomxmin = true;
 		tmp_ufkt.str_dmin = min->text();
 		tmp_ufkt.dmin = m_parser->eval( min->text() );
 		if ( m_parser->parserError() )
@@ -105,6 +118,12 @@ void KEditPolar::accept()
 			min->selectAll();
 			return;
 		}
+	}
+	else
+		tmp_ufkt.usecustomxmin = false;
+	if( customMaxRange->isChecked() )
+	{
+		tmp_ufkt.usecustomxmax = true;
 		tmp_ufkt.str_dmax = max->text();
 		tmp_ufkt.dmax = m_parser->eval( max->text() );
 		if ( m_parser->parserError())
@@ -113,7 +132,7 @@ void KEditPolar::accept()
 			max->selectAll();
 			return;
 		}
-		if ( tmp_ufkt.dmin >=  tmp_ufkt.dmax)
+		if ( tmp_ufkt.usecustomxmin && tmp_ufkt.dmin >=  tmp_ufkt.dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
 			min->setFocus();
@@ -122,21 +141,17 @@ void KEditPolar::accept()
 		}
 	}
 	else
-	{
-		tmp_ufkt.str_dmin ="0";
-		tmp_ufkt.dmin = 0;
-		tmp_ufkt.str_dmax = "0";
-		tmp_ufkt.dmax = 0;
-	}
+		tmp_ufkt.usecustomxmax = false;
+	
 	tmp_ufkt.f1_mode = 0;
 	tmp_ufkt.f2_mode = 0;
 	tmp_ufkt.integral_mode = 0;
 	tmp_ufkt.linewidth = kIntNumInputLineWidth->value();
-        tmp_ufkt.color = kColorButtonColor->color().rgb();
+  tmp_ufkt.color = kColorButtonColor->color().rgb();
 	tmp_ufkt.use_slider = -1;
         
         Ufkt *added_ufkt;
-        if( m_id != -1 )  //when editing a function: 
+        if( m_id != -1 )  //when editing a function:
         {
                 int const ix = m_parser->ixValue(m_id);
                 if ( ix == -1) //The function could have been deleted
@@ -173,33 +188,35 @@ void KEditPolar::accept()
                 added_ufkt =  &m_parser->ufkt.last();
         }
 	//save all settings in the function now when we know no errors have appeared
-        added_ufkt->f_mode = tmp_ufkt.f_mode;
-        added_ufkt->f1_mode = tmp_ufkt.f1_mode;
-        added_ufkt->f2_mode = tmp_ufkt.f2_mode;
-        added_ufkt->integral_mode = tmp_ufkt.integral_mode;
-        added_ufkt->integral_use_precision = tmp_ufkt.integral_use_precision;
-        added_ufkt->linewidth = tmp_ufkt.linewidth;
-        added_ufkt->f1_linewidth = tmp_ufkt.f1_linewidth;
-        added_ufkt->f2_linewidth = tmp_ufkt.f2_linewidth;
-        added_ufkt->integral_linewidth = tmp_ufkt.integral_linewidth;
-        added_ufkt->str_dmin = tmp_ufkt.str_dmin;
-        added_ufkt->str_dmax = tmp_ufkt.str_dmax;
-        added_ufkt->dmin = tmp_ufkt.dmin;
-        added_ufkt->dmax = tmp_ufkt.dmax;
-        added_ufkt->str_startx = tmp_ufkt.str_startx;
-        added_ufkt->str_starty = tmp_ufkt.str_starty;
-        added_ufkt->oldx = tmp_ufkt.oldx;
-        added_ufkt->starty = tmp_ufkt.starty;
-        added_ufkt->startx = tmp_ufkt.startx;
-        added_ufkt->integral_precision = tmp_ufkt.integral_precision;
-        added_ufkt->color = tmp_ufkt.color;
-        added_ufkt->f1_color = tmp_ufkt.f1_color;
-        added_ufkt->f2_color = tmp_ufkt.f2_color;
-        added_ufkt->integral_color = tmp_ufkt.integral_color;
-        added_ufkt->parameters = tmp_ufkt.parameters;
-        added_ufkt->use_slider = tmp_ufkt.use_slider;
-        
-        kLineEditYFunction->setText(f_str); //update the function name in FktDlg
+	added_ufkt->f_mode = tmp_ufkt.f_mode;
+	added_ufkt->f1_mode = tmp_ufkt.f1_mode;
+	added_ufkt->f2_mode = tmp_ufkt.f2_mode;
+	added_ufkt->integral_mode = tmp_ufkt.integral_mode;
+	added_ufkt->integral_use_precision = tmp_ufkt.integral_use_precision;
+	added_ufkt->linewidth = tmp_ufkt.linewidth;
+	added_ufkt->f1_linewidth = tmp_ufkt.f1_linewidth;
+	added_ufkt->f2_linewidth = tmp_ufkt.f2_linewidth;
+	added_ufkt->integral_linewidth = tmp_ufkt.integral_linewidth;
+	added_ufkt->str_dmin = tmp_ufkt.str_dmin;
+	added_ufkt->str_dmax = tmp_ufkt.str_dmax;
+	added_ufkt->dmin = tmp_ufkt.dmin;
+	added_ufkt->dmax = tmp_ufkt.dmax;
+	added_ufkt->str_startx = tmp_ufkt.str_startx;
+	added_ufkt->str_starty = tmp_ufkt.str_starty;
+	added_ufkt->oldx = tmp_ufkt.oldx;
+	added_ufkt->starty = tmp_ufkt.starty;
+	added_ufkt->startx = tmp_ufkt.startx;
+	added_ufkt->integral_precision = tmp_ufkt.integral_precision;
+	added_ufkt->color = tmp_ufkt.color;
+	added_ufkt->f1_color = tmp_ufkt.f1_color;
+	added_ufkt->f2_color = tmp_ufkt.f2_color;
+	added_ufkt->integral_color = tmp_ufkt.integral_color;
+	added_ufkt->parameters = tmp_ufkt.parameters;
+	added_ufkt->use_slider = tmp_ufkt.use_slider;
+	added_ufkt->usecustomxmin = tmp_ufkt.usecustomxmin;
+	added_ufkt->usecustomxmax = tmp_ufkt.usecustomxmax;
+	
+  kLineEditYFunction->setText(f_str); //update the function name in FktDlg
 	// call inherited method
 	QEditPolar::accept();
 }
@@ -212,4 +229,20 @@ const QString KEditPolar::functionItem()
 void KEditPolar::slotHelp()
 {
 	kapp->invokeHelp( "", "kmplot" );
+}
+
+void KEditPolar::customMinRange_toggled(bool status)
+{
+	if (status)
+		min->setEnabled(true);
+	else
+		min->setEnabled(false);
+}
+
+void KEditPolar::customMaxRange_toggled(bool status)
+{
+	if (status)
+		max->setEnabled(true);
+	else
+		max->setEnabled(false);
 }

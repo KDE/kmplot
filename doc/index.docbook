@@ -1,48 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN"
  "dtd/kdex.dtd" [
-  <!ENTITY kmplot '<application>KmPlot</application>'>
-  <!ENTITY kapp "&kmplot;"><!-- replace kmplot here -->
+  <!ENTITY kappname "&kmplot;"><!-- replace kmplot here -->
+  <!ENTITY package "kdeedu">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
-
-
-  <!-- Do not define any other entities; instead, use the entities
-       from kde-genent.entities and $LANG/user.entities. -->
 ]>
-<!-- kdoctemplate v0.8 October 1 1999
-     Minor update to "Credits and Licenses" section on August 24, 2000
-     Removed "Revision history" section on 22 January 2001   -->
-
-<!--
-This template was designed by: David Rugge davidrugge@mindspring.com
-with lots of help from: Eric Bischoff ebisch@cybercable.tm.fr
-and Frederik Fouvry fouvry@sfs.nphil.uni-tuebingen.de
-of the KDE DocBook team.
-
-You may freely use this template for writing any sort of KDE documentation.
-If you have any changes or improvements, please let us know.
-
-In the future, we may want to change from SGML-based DocBook to XML-based
-DocBook. To make this change easier, please be careful :
-- in XML, the case of the <tags> and attributes is relevant ;
-- also, quote all attributes.
-
-Please don't forget to remove all these comments in your final documentation,
-thanks ;-).
--->
-
-<!-- ................................................................ -->
-
 <!-- The language must NOT be changed here. -->
 
 <book lang="&language;">
 
-<!-- This header contains all of the meta-information for the document such
-as Authors, publish date, the abstract, and Keywords -->
-
 <bookinfo>
-<title>The &kapp; Handbook</title>
+<title>The &kmplot; Handbook</title>
 
 <authorgroup>
 <author>
@@ -58,52 +27,22 @@ as Authors, publish date, the abstract, and Keywords -->
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 <copyright>
-<year>2000-2002</year>
+<year>2000</year><year>2001</year><year>2002</year>
 <holder>Klaus-Dieter M&ouml;ller</holder>
 </copyright>
-<!-- Translators: put here the copyright notice of the translation -->
-<!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook
-     and in the FDL itself on how to use it. -->
+
 <legalnotice>&FDLNotice;</legalnotice>
 
-<!-- Date and version information of the documentation
-Don't forget to include this last date and this last revision number, we
-need them for translation coordination !
-Please respect the format of the date (DD/MM/YYYY) and of the version
-(V.MM.LL), it could be used by automation scripts.
-Do NOT change these in the translation. -->
-
-<date>10/02/2002</date>
+<date>2002-02-10</date>
 <releaseinfo>0.4.0</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
 <abstract>
 <para>
-&kmplot; is a mathematical function plotter for the KDE-Desktop.
-It has built in a powerfull parser.
-You can plot different functions simultaneously and combine their function
-terms to build new functions.
-</para>
-<para>
-&kmplot; supports functions with parameters and
-functions in polar coordinates. Several grid modes are possible.
-Plots may be printed with high precision in correct scale.
-</para>
-<para>
-    <inlinemediaobject>
-        <imageobject>
-            <imagedata fileref="edu-logo.png" format="PNG"/>
-        </imageobject>
-    </inlinemediaobject>
-    &kapp; is part of the KDE-EDU Project:
-    <ulink url="http://edu.kde.org/">http://edu.kde.org/</ulink>
+&kmplot; is a mathematical function plotter for the &kde; Desktop.
 </para>
 </abstract>
-
-<!-- This is a set of Keywords for indexing by search engines.
-Please at least include KDE, the KDE package it is in, the name
- of your application, and a few relevant keywords. -->
 
 <keywordset>
 <keyword>KDE</keyword>
@@ -116,53 +55,31 @@ Please at least include KDE, the KDE package it is in, the name
 
 </bookinfo>
 
-<!-- The contents of the documentation begin here.  Label
-each chapter so with the id attribute. This is necessary for two reasons: it
-allows you to easily reference the chapter from other chapters of your
-document, and if there is no ID, the name of the generated HTML files will vary
-from time to time making it hard to manage for maintainers and for the CVS
-system. Any chapter labelled (OPTIONAL) may be left out at the author's
-discretion. Other chapters should not be left out in order to maintain a
-consistent documentation style across all KDE apps. -->
-
 <chapter id="introduction">
 <title>Introduction</title>
 
-<!-- The introduction chapter contains a brief introduction for the
-application that explains what it does and where to report
-problems. Basically a long version of the abstract.  Don't include a
-revision history. (see installation appendix comment) -->
 
 <para>
-&kmplot; is a mathematical function plotter for the KDE-Desktop.
-It has built in a powerfull parser.
+&kmplot; is a mathematical function plotter for the &kde; Desktop.
+It has built in a powerful parser.
 You can plot different functions simultaneously and combine their function
 terms to build new functions.
 </para>
-<para>
-&kmplot; supports functions with parameters and
-functions in polar coordinates. Several grid modes are possible.
-Plots may be printed with high precision in correct scale.
-</para>
+<para>&kmplot; supports functions with parameters and functions in
+polar coordinates. Several grid modes are possible. Plots may be
+printed with high precision in correct scale. </para>
+
 </chapter>
 
-<chapter id="using-kapp">
-<title>Using KMPlot</title>
+<chapter id="using-kmplot">
+<title>Using &kmplot;</title>
 
-<!-- This chapter should tell the user how to use your app. You should use as
-many sections (Chapter, Sect1, Sect3, etc...) as is necessary to fully document
-your application. -->
-
-<para>
-The welcome window lets you choose the type of task by clicking on one of the
- buttons.
-The buttons are labeled with the value omitted in the tasks.
-
-<!-- Note that all graphics should be in .png format. Use no gifs because of
-patent issues. -->
+<para>The welcome window lets you choose the type of task by clicking
+ on one of the  buttons. The buttons are labeled with the value
+ omitted in the tasks.</para>
 
 <screenshot>
-<screeninfo>Here's a screenshot of &kapp;'s welcome window</screeninfo>
+<screeninfo>Here's a screenshot of the &kmplot; welcome window</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="main.png" format="PNG"/>
@@ -172,11 +89,9 @@ patent issues. -->
 	  </textobject>
 	</mediaobject>
 </screenshot>
-</para>
 
-
-<sect1 id="kapp-features">
-<title>More &kapp; features</title>
+<sect1 id="kmplot-features">
+<title>More &kmplot; features</title>
 
 <para>
 ...
@@ -189,42 +104,37 @@ patent issues. -->
 <chapter id="commands">
 <title>Command Reference</title>
 
-<!-- (OPTIONAL, BUT RECOMMENDED) This chapter should list all of the
-application windows and their menubar and toolbar commands for easy reference.
-Also include any keys that have a special function but have no equivalent in the
-menus or toolbars. This may not be necessary for small apps or apps with no tool
-or menu bars. -->
-
-<sect1 id="kapp-mainwindow">
-<title>The main KMPlot window</title>
-
-<!-- Note that all graphics should be in .png format. Use no gifs because of
-patent issues. -->
+<sect1 id="kmplot-mainwindow">
+<title>The main &kmplot; window</title>
 
 <screenshot>
-<screeninfo>Here's a screenshot of &kapp;'s main window</screeninfo>
+<screeninfo>Here's a screenshot of the &kmplot; main window</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="main.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Screenshot</phrase>
+	    <phrase>Here's a screenshot of the &kmplot; main window</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot>
 </sect1>
 
-<sect1 id="functions"><title>Functions</title>
-  <para>
+<sect1 id="functions">
+<title>The <guimenu>Functions</guimenu> Menu</title>
+
+<para>
     This menu entry or tool button opens the Functions Editor.
-    Here you can enter the functions' equations of up to 10 functions or function groups.
-    The parser knows explizit and parametric form.
-    With specific extensions it is possible to add first and second derivation and 
-    to choose values for the function group parameter.
+    Here you can enter the functions' equations of up to 10 functions
+    or function groups. 
+    The parser knows <firstterm>explicit</firstterm> and
+    <firstterm>parametric</firstterm> form.
+    With specific extensions it is possible to add first and second
+    derivation and to choose values for the function group parameter.
   </para>
   <sect2 id="func_syntax"><title>Syntax</title>
     <para>
-    Some syntax rules are to be sticked to:
+    Some syntax rules must be complied with:
     <screen width="20">
       <userinput>
         name(var1[, var2])=term [;extensions]
@@ -236,9 +146,10 @@ patent issues. -->
         <term>name</term>
         <listitem><para>
           The functions name.
-          If the first character is "r" the parser assumes that you use polar coordinates.
-          If the first character is "x" (for instance "xfunc") the parser expects a second
-          function with a leading "y" (here "yfunc") to define the function in 
+          If the first character is "r" the parser assumes that you
+        use polar coordinates. 
+          If the first character is "x" (for instance "xfunc") the
+        parser expects a second           function with a leading "y" (here "yfunc") to define the function in 
           paramtric form.
         </para></listitem>
       </varlistentry>
@@ -279,9 +190,10 @@ patent issues. -->
         <term>A1</term>
         <listitem>
           <para>
-            The graph of the derivative of the function will be drawn additionally with
-            the same color but less line width.
-            This extension has no effect on functions defined in parametric form.
+            The graph of the derivative of the function will be drawn
+            additionally with the same color but less line width. 
+            This extension has no effect on functions defined in
+            parametric form. 
           </para>
         </listitem>
       </varlistentry>
@@ -289,9 +201,10 @@ patent issues. -->
         <term>A2</term>
         <listitem>
           <para>
-            The graph of the second derivative of the function will be drawn additionally with
-            the same color but less line width.
-            This extension has no effect on functions defined in parametric form.
+            The graph of the second derivative of the function will be
+            drawn additionally with the same color but less line width.
+            This extension has no effect on functions defined in
+            parametric form. 
           </para>
         </listitem>
       </varlistentry>
@@ -341,7 +254,7 @@ patent issues. -->
 <title>The Menu Entries</title>
 
 <sect1>
-<title>The File Menu</title>
+<title>The <guimenu>File</guimenu> Menu</title>
 <para>
 <variablelist>
 
@@ -349,14 +262,15 @@ patent issues. -->
   <term>
     <menuchoice>
       <shortcut>
-        <keycombo><keycap>Ctrl</keycap><keycap>n</keycap></keycombo>
+        <keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
       </shortcut>
       <guimenu>File</guimenu>
       <guimenuitem>New</guimenuitem>
     </menuchoice>
   </term>
   <listitem>
-    <para><action>Starts a new Plot by clearing the coordinate system and resetting the function parser.</action></para>
+    <para><action>Starts a new Plot by clearing the coordinate system
+    and resetting the function parser.</action></para> 
   </listitem>
 </varlistentry>
 
@@ -364,7 +278,7 @@ patent issues. -->
   <term>
     <menuchoice>
       <shortcut>
-        <keycombo><keycap>Ctrl</keycap><keycap>s</keycap></keycombo>
+        <keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
       </shortcut>
       <guimenu>File</guimenu>
       <guimenuitem>Save</guimenuitem>
@@ -386,7 +300,7 @@ patent issues. -->
   </term>
   <listitem>
     <para>
-      <action>Saves the document to e specific file</action>
+      <action>Saves the document to a specific file</action>
     </para>
   </listitem>
 </varlistentry>
@@ -395,7 +309,7 @@ patent issues. -->
   <term>
     <menuchoice>
       <shortcut>
-        <keycombo><keycap>Ctrl</keycap><keycap>p</keycap></keycombo>
+        <keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
       </shortcut>
       <guimenu>File</guimenu>
       <guimenuitem>Print</guimenuitem>
@@ -410,14 +324,14 @@ patent issues. -->
   <term>
     <menuchoice>
       <shortcut>
-        <keycombo><keycap>Ctrl</keycap><keycap>q</keycap></keycombo>
+        <keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
       </shortcut>
       <guimenu>File</guimenu>
       <guimenuitem>Quit</guimenuitem>
     </menuchoice>
   </term>
   <listitem>
-    <para><action>Quits</action> &kapp;</para>
+    <para><action>Quits</action> &kmplot;</para>
   </listitem>
 </varlistentry>
 </variablelist>
@@ -426,8 +340,8 @@ patent issues. -->
 </sect1>
 
 <sect1 id="func_menu">
-<title>The Functions Menu</title>
-<para>
+<title>The <guimenu>Functions</guimenu> Menu</title>
+
 <variablelist>
 <varlistentry>
   <term>
@@ -437,22 +351,23 @@ patent issues. -->
     </menuchoice>
   </term>
   <listitem>
-    <para><action>Shows the Functions Dialog Window where you can enter the function equations and
-      some attributes of the plot.</action></para>
+    <para><action>Shows the Functions
+      Dialog Window where you can enter the function equations
+      and some attributes of the plot.</action></para> 
   </listitem>
 </varlistentry>
 
 </variablelist>
-</para>
 </sect1>
 
 <sect1 id="settings_menu">
-<title>The Settings Menu</title>
+<title>The <guimenu>Settings</guimenu> Menu</title>
+
 <para>
-It contains the standard entries for enabling/disabling the toolbar and the statusbar.
-In addition ther are the following options:
+It contains the standard entries for enabling/disabling the toolbar
+and the statusbar. In addition there are the following options:
 </para>
-<para>
+
 <variablelist>
 
 <varlistentry>
@@ -504,88 +419,71 @@ In addition ther are the following options:
 </varlistentry>
 
 </variablelist>
-</para>
+
 </sect1>
 
-<sect1 id="help_menu"><title>The Help Menu</title>
-  <para>
-  ...
-  </para>
+<sect1 id="help_menu">
+<title>The <guimenu>Help</guimenu> Menu</title>
+
+<para>&kmplot; has a standard &kde; <guimenu>Help</guimenu> as described
+below, with one addition:</para>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice><guimenu>Help</guimenu>
+<guimenuitem>Names...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Opens a window with a list of function names, to help you
+remember them.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>The standard &kde; <guimenu>Help</guimenu> entries are:</para>
+
+&help.menu.documentation;
+
 </sect1>
 </chapter>
 
-<chapter id="developers"><title>Developer's Guide to KMPlot</title>
+<chapter id="developers">
+<title>Developer's Guide to &kmplot;</title>
 
-<!-- (OPTIONAL) A Programming/Scripting reference chapter should be
-used for apps that use plugins or that provide their own scripting hooks
-and/or development libraries. -->
-
-<para>
-If you want to contribute &kmplot; feel free to send me a mail
- <email>kd.moeller@t-online.de</email>
-</para>
-
-<!-- Use refentries to describe APIs.  Refentries are fairly complicated and you
-should consult the docbook reference for further details. The example below was
-taken from that reference and shortened a bit for readability. -->
+<para>If you want to contribute &kmplot; feel free to send me a mail
+<email>kd.moeller@t-online.de</email></para>
 
 </chapter>
 
+<!-- 
 <chapter id="faq">
 <title>Questions and Answers</title>
-
-<!-- (OPTIONAL but recommended) This chapter should include all of the silly
-(and not-so-silly) newbie questions that fill up your mailbox. This chapter
-should be reserved for BRIEF questions and answers! If one question uses more
-than a page or so then it should probably be part of the
-"Using this Application" chapter instead. You should use links to
-cross-reference questions to the parts of your documentation that answer them.
-This is also a great place to provide pointers to other FAQ's if your users
-must do some complicated configuration on other programs in order for your
-application work. -->
 
 &reporting.bugs;
 &updating.documentation;
 
-<qandaset id="faqlist">
-<qandaentry>
-<question>
-<para>I got no help pressing the Help-Button in &kapp;?</para>
-</question>
-<answer>
-<para>If you got the Programm from CVS, you must install the doc
- seperately.</para>
-</answer>
-</qandaentry>
-</qandaset>
-</chapter>
+</chapter> -->
 
 <chapter id="credits">
-
-<!-- Include credits for the programmers, documentation writers, and
-contributors here. The license for your software should then be included below
-the credits with a reference to the appropriate license file included in the KDE
-distribution. -->
-
 <title>Credits and License</title>
 
 <para>
-&kapp;
+&kmplot;
 </para>
+
 <para>
 Program copyright 2000-2002 Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>
 </para>
-<para>
-Contributors:
+
 <itemizedlist>
+<title>Contributors</title>
   <listitem>
-    <para>CVS: Robert Gogolok <email>mail@robert-gogoloh.de</email></para>
+    <para><acronym>CVS</acronym>: Robert Gogolok <email>mail@robert-gogoloh.de</email></para>
   </listitem>
   <listitem>
-    <para>Porting GUI to KDE3 and Translating: Matthias Messmer <email>bmlmessmer@web.de</email></para>
+    <para>Porting &GUI; to &kde; 3 and Translating: Matthias Messmer <email>bmlmessmer@web.de</email></para>
   </listitem>
 </itemizedlist>
-</para>
 
 <para>
 Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>
@@ -595,14 +493,6 @@ Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller
 
 &underFDL;               <!-- FDL: do not remove. Commercial development should
  -->
-<!-- replace this with their copyright and either remove it or re-set this.-->
-
-<!-- Determine which license your application is licensed under,
-     and delete all the remaining licenses below:
-
-     (NOTE:  All documentation are licensed under the FDL,
-     regardless of what license the application uses) -->
-
 &underGPL;        	 <!-- GPL License -->
 
 </chapter>
@@ -610,53 +500,14 @@ Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller
 <appendix id="installation">
 <title>Installation</title>
 
-<sect1 id="getting-kmplot">
-<title>How to obtain KMPlot</title>
+&install.intro.documentation;
 
-<para>
-&kmplot; is part of the KDE-EDU project
-<ulink url="http://edu.kde.org">http://edu.kde.org</ulink>.
-</para>
+<para>&kmplot; has it's own homepage at <ulink
+url="http://kmplot.sourceforge.net">SourceForge</ulink>. You can
+also find archives of older versions of &kmplot; there, for example,
+for &kde; 2.x</para>
 
-<sect2 id="getting-packages">
-<title>Source Packages</title>
-
-<para>
-The source-packages can be downloaded from SourceForge
-</para>
-<para>For KDE2 fetch <ulink
- url="http://kmplot.sourceforge.net/">kmPlot Homepage</ulink></para>
-</sect2>
-
-</sect1>
-
-
-<sect1 id="requirements">
-<title>Requirements</title>
-
-<!--
-List any special requirements for your application here. This should include:
-.Libraries or other software that is not included in kdesupport,
-kdelibs, or kdebase.
-.Hardware requirements like amount of RAM, disk space, graphics card
-capabilities, screen resolution, special expansion cards, etc.
-.Operating systems the app will run on. If your app is designed only for a
-specific OS, (you wrote a graphical LILO configurator for example) put this
-information here.
--->
-
-<para>
-In order to successfully use &kmplot;, you need KDE 2.x. The CVS-version is
- made for KDE3.
-</para>
-
-<para>
-Infos about &kmplot; can be found
-on <ulink url="http://edu.kde.org/kmplot">The &kmplot; home
- page</ulink>.
-</para>
-</sect1>
-
+&install.compile.documentation;
 
 </appendix>
 

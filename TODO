@@ -1,12 +1,17 @@
-Last modified: 04/10/2002
+Last modified: 04/13/2002
 
 TODO for KDE 3.1 release:
 =========================
 
   o Function edit Dialog
       - Apply button for edit of more than one function in one go
-      
+
+  o Configure Dialog for global Settings / save as default Checkboxes
+
+  o Porting File save format to xml
+
   o Printing
+      - different paper sizes
       - possibility for omitting the Header
-      
-  o Scaling Concept ? 
+
+  o Scaling Concept ?

@@ -149,7 +149,7 @@ void MainDlg::setupActions()
 	KToggleAction * mnuZoomIn = new KToggleAction(i18n("&Zoom in") ,0,view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
 	KToggleAction * mnuZoomOut = new KToggleAction(i18n("&Zoom out") ,0,view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
 	KToggleAction * mnuZoomCenter = new KToggleAction(i18n("&Center a point") ,0,view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
-	(void ) new KAction(i18n("&Fit widget to trigonometry functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
+	(void ) new KAction(i18n("&Fit widget to trigonometric functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
 	mnuRectangular->setExclusiveGroup("zoom_modes");
 	mnuZoomIn->setExclusiveGroup("zoom_modes");
 	mnuZoomOut->setExclusiveGroup("zoom_modes");

@@ -720,7 +720,7 @@ int Parser::errmsg()
      			break;
        case 11:  KMessageBox::error(0, i18n("Empty function"), "KmPlot");
 		        break;
-       case 12:  KMessageBox::error(0, i18n("The function name isn't allowed to contain capital letters"), "KmPlot");
+       case 12:  KMessageBox::error(0, i18n("The function name is not allowed to contain capital letters"), "KmPlot");
 			break;
 	}
     

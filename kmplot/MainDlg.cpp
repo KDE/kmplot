@@ -128,7 +128,8 @@ void MainDlg::setupActions()
 	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 
-	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
+	KAction *prefs  = KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
+	prefs->setText( i18n( "Configure KmPlot..." ) );
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 

@@ -31,7 +31,6 @@
 #include <kconfigdialog.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
-#include <kkeydialog.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -109,7 +108,7 @@ void MainDlg::setupActions()
 	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
-	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
+	KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 	m_fullScreen = KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), this, "fullscreen");
@@ -491,11 +490,6 @@ void MainDlg::newToolbarConfig()
 {
 	createGUI();
 	applyMainWindowSettings( KGlobal::config(), autoSaveGroup() );
-}
-
-void MainDlg::optionsConfigureKeys()
-{
-  	KKeyDialog::configure(actionCollection());
 }
 
 void MainDlg::optionsConfigureToolbars()

@@ -164,8 +164,6 @@ class MainDlg : public KMainWindow
 		///
 		void newToolbarConfig();
 		///
-		void optionsConfigureKeys();
-		///
 		void optionsConfigureToolbars();
 		///Update settings when there is a change in the Configure KmPlot dialog
 		void updateSettings();

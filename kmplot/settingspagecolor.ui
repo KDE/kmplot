@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>413</width>
-            <height>254</height>
+            <height>256</height>
         </rect>
     </property>
     <property name="caption">
@@ -21,7 +21,7 @@
         </property>
         <widget class="QTabWidget">
             <property name="name">
-                <cstring>tabsColor9</cstring>
+                <cstring>tabs</cstring>
             </property>
             <widget class="QWidget">
                 <property name="name">
@@ -372,7 +372,7 @@
     </vbox>
 </widget>
 <tabstops>
-    <tabstop>tabsColor9</tabstop>
+    <tabstop>tabs</tabstop>
     <tabstop>kcfg_AxesColor</tabstop>
     <tabstop>kcfg_GridColor</tabstop>
     <tabstop>kcfg_Color0</tabstop>

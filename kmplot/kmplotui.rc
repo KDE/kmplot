@@ -10,11 +10,12 @@
 			<Action name="newpolar"/>
 			<Action name="functions"/>
 		</Menu>
-		<Menu name="view">
-			<Action name="axes"/>
-			<Action name="scale"/>
-			<Action name="grid"/>
-			<Action name="step"/>
+		<Menu name="edit">
+			<Action name="editcolors"/>
+			<Action name="editaxes"/>
+			<Action name="editgrid"/>
+			<Action name="editscaling"/>
+			<Action name="editfonts"/>
 		<Separator />
 			<Action name="coord_i"/>
 			<Action name="coord_ii"/>

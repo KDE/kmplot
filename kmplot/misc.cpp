@@ -50,10 +50,8 @@ GitterFarbe;
 bool printtable;		// header table printing option
 
 
-void init()
+void getSettings()
 {
-	int ix;
-
 	mode = ACHSEN | PFEILE | EXTRAHMEN;
 	rsw = 1.;
 
@@ -131,10 +129,15 @@ void init()
 	ps.fktext[ 7 ].farbe0 = Settings::color7().rgb();
 	ps.fktext[ 8 ].farbe0 = Settings::color8().rgb();
 	ps.fktext[ 9 ].farbe0 = Settings::color9().rgb();
-
-	for ( ix = 0; ix < ps.ufanz; ++ix )
-		ps.delfkt( ix );
 	printtable = true;
+}
+
+void init()
+{
+	getSettings();
+
+	for ( int ix = 0; ix < ps.ufanz; ++ix )
+		ps.delfkt( ix );
 }
 
 /*
@@ -151,7 +154,7 @@ bool coordToMinMax( const int koord, double &min, double &max, const QString min
 		break;
 	case 1:
 		min = -5.0;
-		max = 5.5;
+		max = 5.0;
 		break;
 	case 2:
 		min = 0.0;

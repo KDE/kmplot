@@ -67,8 +67,13 @@
 #include "View.h"
 
 
-class KRecentFilesAction;
+class KConfigDialog;
 class KLineEdit;
+class KRecentFilesAction;
+class SettingsPageCoords;
+class SettingsPageColor;
+class SettingsPageFonts;
+class SettingsPageScaling;
 
 class MainDlg : public KMainWindow
 {
@@ -87,6 +92,11 @@ public slots:
 	void doexport();
 	void load();
 	void print();
+	void editColors();
+	void editAxes();
+	void editGrid();
+	void editScaling();
+	void editFonts();
 	void bezeichnungen();
 	void onNewFunction();
 	void onNewParametric();
@@ -130,10 +140,16 @@ private:
 	KConfig* m_config;
 	KLineEdit* m_quickEdit;
 	
+	KConfigDialog* m_settingsDialog;
+	SettingsPageColor* color_settings;
+	SettingsPageCoords* coords_settings;
+	SettingsPageScaling* scaling_settings;
+	SettingsPageFonts* fonts_settings;
+	
 private slots:
 	void newToolbarConfig();
 	void optionsConfigureKeys();
 	void optionsConfigureToolbars();
-
+	void updateSettings();
 };
 #endif // MainDlg_included

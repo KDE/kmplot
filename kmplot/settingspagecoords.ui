@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>420</width>
-            <height>545</height>
+            <height>547</height>
         </rect>
     </property>
     <property name="caption">
@@ -21,7 +21,7 @@
         </property>
         <widget class="QTabWidget">
             <property name="name">
-                <cstring>tabWidget4</cstring>
+                <cstring>tabs</cstring>
             </property>
             <widget class="QWidget">
                 <property name="name">
@@ -665,7 +665,7 @@
     </connection>
 </connections>
 <tabstops>
-    <tabstop>tabWidget4</tabstop>
+    <tabstop>tabs</tabstop>
     <tabstop>radioButton1</tabstop>
     <tabstop>kcfg_XMin</tabstop>
     <tabstop>kcfg_XMax</tabstop>

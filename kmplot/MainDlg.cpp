@@ -27,6 +27,7 @@
 #include <qdom.h>
 #include <qfile.h>
 #include <qtooltip.h>
+#include <qtabwidget.h>
 
 // KDE includes
 #include <kactionclasses.h>
@@ -68,6 +69,22 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	}
 	m_config = kapp->config();
 	m_recentFiles->loadEntries( m_config );
+	
+	// Let's create a Configure Diloag
+	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() ); 
+	color_settings = new SettingsPageColor( 0, "colorSettings" ); 
+	coords_settings = new SettingsPageCoords( 0, "coordsSettings" ); 
+	scaling_settings = new SettingsPageScaling( 0, "scalingSettings" ); 
+	fonts_settings = new SettingsPageFonts( 0, "fontsSettings" ); 
+ 
+	m_settingsDialog->addPage( color_settings, i18n( "Colors" ), "colorize" ); 
+	m_settingsDialog->addPage( coords_settings, i18n( "Coords" ), "coords" ); 
+	m_settingsDialog->addPage( scaling_settings, i18n( "Scaling" ), "scaling" ); 
+	m_settingsDialog->addPage( fonts_settings, i18n( "Fonts" ), "fonts" ); 
+ 
+	// User edited the configuration - update your local copies of the 
+	// configuration data 
+	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
 }
 
 MainDlg::~MainDlg()
@@ -80,44 +97,52 @@ void MainDlg::setupActions()
 	// standard actions
 	KStdAction::openNew( this, SLOT( neu() ), actionCollection() );
 	KStdAction::open( this, SLOT( load() ), actionCollection() );
-	m_recentFiles = KStdAction::openRecent( this, SLOT( openRecent( const KURL& ) ),
-		actionCollection());
+	m_recentFiles = KStdAction::openRecent( this, SLOT( openRecent( const KURL& ) ), actionCollection());
 	KStdAction::print( this, SLOT( print() ), actionCollection() );
 	KStdAction::save( this, SLOT( save() ), actionCollection() );
 	KStdAction::saveAs( this, SLOT( saveas() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 	KStdAction::helpContents( this, SLOT( hilfe() ), actionCollection(), "helpcontents" );
+	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
+	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
+	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
-
+	
 	// KmPLot specific actions
-	( void ) new KAction( i18n( "&Axes..." ), 0, this, SLOT( achsen() ), actionCollection(), "axes" );
-	( void ) new KAction( i18n( "&Scale..." ), 0, this, SLOT( skalierung() ), actionCollection(), "scale" );
-	( void ) new KAction( i18n( "&Grid..." ), 0, this, SLOT( raster() ), actionCollection(), "grid" );
+	// file menu
+	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( doexport() ), actionCollection(), "export");
+	
+	// edit menu
+	( void ) new KAction( i18n( "&Colors..." ), "colorize.png", 0, this, SLOT( editColors() ), actionCollection(), "editcolors" );
+	( void ) new KAction( i18n( "&Axes..." ), "coords.png", 0, this, SLOT( editAxes() ), actionCollection(), "editaxes" );
+	( void ) new KAction( i18n( "&Grid..." ), "coords.png", 0, this, SLOT( editGrid() ), actionCollection(), "editgrid" );
+	( void ) new KAction( i18n( "&Scaling..." ), "scaling", 0, this, SLOT( editScaling() ), actionCollection(), "editscaling" );
+	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, SLOT( editFonts() ), actionCollection(), "editfonts" );
+	
+	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( onachsen1() ), actionCollection(), "coord_i" );
+	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
+	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
+	
 	( void ) new KAction( i18n( "&Step..." ), 0, this, SLOT( schrittw() ), actionCollection(), "step" );
-	view_bezeichnungen = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( bezeichnungen() ), actionCollection(), "names" );
 
+	// functions menu	
 	( void ) new KAction( i18n( "&New Function Plot..." ), 0, this, SLOT( onNewFunction() ), actionCollection(), "newfunction" );
 	( void ) new KAction( i18n( "New Parametric Plot..." ), 0, this, SLOT( onNewParametric() ), actionCollection(), "newparametric" );
 	( void ) new KAction( i18n( "New Polar Plot..." ), 0, this, SLOT( onNewPolar() ), actionCollection(), "newpolar" );
 	( void ) new KAction( i18n( "Edit Functions..." ), "kfkt.png", 0, this, SLOT( funktionen() ), actionCollection(), "functions" );
-	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( onachsen1() ), actionCollection(), "coord_i" );
-	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
-	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
 
-	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( doexport() ), actionCollection(), "export");
+	// help menu
+	view_bezeichnungen = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( bezeichnungen() ), actionCollection(), "names" );
+
 	
 	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( onQuickEdit( const QString& ) ) );
 	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 		"For instance: f(x)=x^2\nFor more options use Functions->Edit Functions... menu." ) );
 	
-	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
-	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
-	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
-
 	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
 }
 
@@ -460,6 +485,38 @@ void MainDlg::print()
 	}
 }
 
+void MainDlg::editColors()
+{
+	m_settingsDialog->showPage( 0 );
+	m_settingsDialog->show();
+}
+
+void MainDlg::editAxes()
+{
+	m_settingsDialog->showPage( 1 );
+	coords_settings->tabs->setCurrentPage( 0 );
+	m_settingsDialog->show();
+}
+
+void MainDlg::editGrid()
+{
+	m_settingsDialog->showPage( 1 );
+	coords_settings->tabs->setCurrentPage( 1 );
+	m_settingsDialog->show();
+}
+
+void MainDlg::editScaling()
+{
+	m_settingsDialog->showPage( 2 );
+	m_settingsDialog->show();
+}
+
+void MainDlg::editFonts()
+{
+	m_settingsDialog->showPage( 3 );
+	m_settingsDialog->show();
+}
+
 void MainDlg::bezeichnungen()
 {
 	if ( !bez )
@@ -525,10 +582,13 @@ void MainDlg::onQuickEdit( const QString& f_str )
 
 void MainDlg::skalierung()
 {
-	SkalDlg skdlg;
+/*	SkalDlg skdlg;
 
 	skdlg.exec();
-	view->update();
+	view->update();*/
+	m_settingsDialog->showPage( 1 );
+	coords_settings->tabs->setCurrentPage( 1 );
+	KConfigDialog::showDialog( "settings" );
 }
 
 void MainDlg::schrittw()
@@ -589,30 +649,16 @@ void MainDlg::hilfe()
 
 void MainDlg::slotSettings()
 {
-	// An instance of your dialog could be already created and could be cached, 
-	// in which case you want to display the cached dialog instead of creating 
+	// An instance of your dialog has already been created and has been cached, 
+	// so we want to display the cached dialog instead of creating 
 	// another one 
-	if ( KConfigDialog::showDialog( "settings" ) ) return; 
- 
-	// KConfigDialog didn't find an instance of this dialog, so lets create it : 
-	KConfigDialog* dialog = new KConfigDialog( this, "settings", Settings::self() ); 
-	SettingsPageColor* color_settings = new SettingsPageColor( 0, "colorSettings" ); 
-	SettingsPageCoords* coords_settings = new SettingsPageCoords( 0, "coordsSettings" ); 
-	SettingsPageScaling* scaling_settings = new SettingsPageScaling( 0, "scalingSettings" ); 
-	SettingsPageFonts* fonts_settings = new SettingsPageFonts( 0, "fontsSettings" ); 
- 
-	dialog->addPage( color_settings, i18n( "Colors" ), "colorize" ); 
-	dialog->addPage( coords_settings, i18n( "Coords" ), "coords" ); 
-	dialog->addPage( scaling_settings, i18n( "Scaling" ), "scaling" ); 
-	dialog->addPage( fonts_settings, i18n( "Fonts" ), "fonts" ); 
- 
-	// User edited the configuration - update your local copies of the 
-	// configuration data 
-	// connect( dialog, SIGNAL(settingsChanged()), this, SLOT(updateConfiguration()) ); 
-	// These Settings are not meant for the current plot but as default for next new plot.
-	// So we dont need to update local member variables...
- 
-	dialog->show();
+	KConfigDialog::showDialog( "settings" );
+}
+
+void MainDlg::updateSettings()
+{
+	getSettings();
+	view->update();
 }
 
 void MainDlg::newToolbarConfig()

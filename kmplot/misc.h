@@ -161,12 +161,18 @@ extern	QRgb AchsenFarbe,
 	/** Color of the grid. */
 	GitterFarbe;
 
-extern bool printtable;
-/**< Header table printing option
+/** Header table printing option
  * @see KPinterDlg
  */
+extern bool printtable;
+ 
+/** Inits all global variables with respect to the global config file @p kc. 
+ */
+void getSettings();
 
-/** Inits all global variables with respect to the global config file @p kc. */
+/** Inits all global variables with respect to the global config file @p kc. 
+ * Resetes the parser @p ps.
+ */
 void init();
 
 /**

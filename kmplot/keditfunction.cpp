@@ -58,6 +58,10 @@ void KEditFunction::initDialog( const FunctionType t, int index, int y_index )
 	else setWidgets();
 }
 
+/**
+ * Only show Widgets related to the function type.
+ * Some WhatsThis texts have to be adjusted, too.
+ */
 void KEditFunction::setVisibleWidgets()
 {
 	switch( m_type )
@@ -107,6 +111,9 @@ void KEditFunction::setVisibleWidgets()
 	updateGeometry();
 }
 
+/**
+ * Clear alls widgets values
+ */
 void KEditFunction::clearWidgets()
 {
 	kLineEditName->clear();
@@ -122,6 +129,9 @@ void KEditFunction::clearWidgets()
 	kColorButtonColor->setColor( "#000000" );
 }
 
+/**
+ * Fill the dialog's widgets with values from the parser
+ */
 void KEditFunction::setWidgets()
 {
 	QString name, expression;
@@ -150,6 +160,9 @@ void KEditFunction::setWidgets()
 	kColorButtonColor->setColor( m_parser->fktext[ m_index ].farbe );
 }
 
+/**
+ * Overwrites the dialog's accept() method to make sure, that the user's input is valid.
+ */
 void KEditFunction::accept()
 {
 	// if we are editing an existing function, first delete the old one
@@ -214,8 +227,10 @@ void KEditFunction::accept()
 	m_parser->fktext[ index ].dicke = kIntNumInputLineWidth->value();
 	m_parser->fktext[ index ].farbe = kColorButtonColor->color().rgb();
 	
+	// call inherited method
 	QEditFunction::accept();
 }
+
 
 QString KEditFunction::newName()
 {
@@ -238,17 +253,23 @@ QString KEditFunction::newName()
 		i++;
 	} while( m_parser->getfix( name.arg( i ) ) != -1 );
 	
-	// cut of prefix again, will be added later again
+	// cut off prefix again, will be added later
 	if( m_type == Parametric || m_type == Polar )
 		name = name.right( name.length()-1 );
 	return name.arg( i );
 }
 
+/**
+ * return the well formed function equation
+ */
 QString KEditFunction::xFunction()
 {
 	return "x" + kLineEditName->text() + "(t)=" + kLineEditXFunction->text();
 }
 
+/**
+ * extract function name and expression from a given expression 
+ */
 void KEditFunction::splitEquation( const QString equation, QString &name, QString &expression )
 {
 	int start = 0;
@@ -259,6 +280,9 @@ void KEditFunction::splitEquation( const QString equation, QString &name, QStrin
 	expression = equation.section( '=', 1, 1 );
 }
 
+/**
+ * return the well formed function equation
+ */
 QString KEditFunction::yFunction()
 {
 	switch( m_type )

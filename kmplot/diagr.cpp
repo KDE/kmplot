@@ -401,7 +401,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 {
 	int const dx=15;
 	int const dy=40;
-	QFont const font=QFont( Settings::axesFont().family(), 40);
+	QFont const font=QFont( Settings::axesFont().family(), Settings::axesFont().pointsize);
 	pDC->setFont(font);
 	int const x=Transx(0.);
 	int const y=Transy(0.);
@@ -426,15 +426,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		if(fabs(ex-M_PI/2.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+=QChar(960)+QString("/2");
+				s+="pi/2";//s+=QChar(960)+QString("/2");
 			else if(n%2 == 0)
 			{
 				if(n==-2 || n==2)
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				else
 				{
 					s=QString().sprintf("%+d", n/2);
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				}
 			}
 			else
@@ -444,15 +444,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		else if(fabs(ex-M_PI/3.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+=QChar(960)+QString("/3");
+				s+="pi/3";//s+=QChar(960)+QString("/3");
 			else if(n%3==0)
 			{
 				if(n==-3 || n==3)
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				else
 				{
 					s=QString().sprintf("%+d", n/3);
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				}
 			}
 			else
@@ -462,15 +462,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		else if(fabs(ex-M_PI/4.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+=QChar(960)+QString("/4");
+				s+="pi/4";//s+=QChar(960)+QString("/4");
 			else if(n%4==0)
 			{
 				if(n==-4 || n==4)
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				else
 				{
 					s=QString().sprintf("%+d", n/4);
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				}
 			}
 			else
@@ -510,15 +510,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		if(fabs(ey-M_PI/2.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+=QChar(960)+QString("/2");
+				s+="pi/2";//s+=QChar(960)+QString("/2");
 			else if(n%2==0)
 			{
 				if(n==-2 || n==2)
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				else
 				{
 					s=QString().sprintf("%+d", n/2);
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				}
 			}
 			else
@@ -531,15 +531,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		else if(fabs(ey-M_PI/3.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+=QChar(960)+QString("/3");
+				s+="pi/3";//s+=QChar(960)+QString("/3");
 			else if(n%3==0)
 			{
 				if(n==-3 || n==3)
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				else
 				{
 					s=QString().sprintf("%+d", n/3);
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				}
 			}
 			else
@@ -552,15 +552,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		else if(fabs(ey-M_PI/4.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+=QChar(960)+QString("/4");
+				s+="pi/4";//s+=QChar(960)+QString("/4");
 			else if(n%4==0)
 			{
 				if(n==-4 || n==4)
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				else
 				{
 					s=QString().sprintf("%+d", n/4);
-					s+=QChar(960);
+					s+="pi";//s+=QChar(960);
 				}
 			}
 			else

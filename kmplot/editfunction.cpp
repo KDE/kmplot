@@ -103,6 +103,7 @@ void EditFunction::clearWidgets()
 	// Clear the Antiderivative page
 	editantiderivativepage->precision->setValue( Settings::relativeStepWidth());
 	editantiderivativepage->colorAntiderivative->setColor( editfunctionpage->color->color() );
+	editantiderivativepage->lineWidthAntiderivative->setValue(editfunctionpage->lineWidth->value());
 	
 }
 
@@ -257,6 +258,9 @@ void EditFunction::accept()
 		tmp_fktext.use_slider = -1;
 	else
 		tmp_fktext.use_slider = editfunctionpage->listOfSliders->currentItem();
+
+	tmp_fktext.linewidth = editfunctionpage->lineWidth->value();
+	tmp_fktext.color = editfunctionpage->color->color().rgb();
 	
 	if (editantiderivativepage->showAntiderivative->isChecked() )
 	{
@@ -305,17 +309,15 @@ void EditFunction::accept()
 		}
 		
 		tmp_fktext.anti_mode = 1;
-		tmp_fktext.anti_color = editantiderivativepage->colorAntiderivative->color().rgb();
-		tmp_fktext.anti_use_precision = editantiderivativepage->customPrecision->isChecked();
-		tmp_fktext.anti_precision = editantiderivativepage->precision->value();
-		tmp_fktext.anti_linewidth = editantiderivativepage->lineWidthAntiderivative->value();
 	}
 	else
-	{
 		tmp_fktext.anti_mode = 0;
-		tmp_fktext.anti_color = m_parser->fktext[index].color0; //default color
-	}
 
+	tmp_fktext.anti_color = editantiderivativepage->colorAntiderivative->color().rgb();
+	tmp_fktext.anti_use_precision = editantiderivativepage->customPrecision->isChecked();
+	tmp_fktext.anti_precision = editantiderivativepage->precision->value();
+	tmp_fktext.anti_linewidth = editantiderivativepage->lineWidthAntiderivative->value();
+	
 	if( editfunctionpage->hide->isChecked() )
 		tmp_fktext.f_mode = 0;
 	else
@@ -332,34 +334,21 @@ void EditFunction::accept()
 		}
 	}
 	
-	tmp_fktext.linewidth = editfunctionpage->lineWidth->value();
-	tmp_fktext.color = editfunctionpage->color->color().rgb();
-	
-	//editfunctionpage->equation->setText(f_str);
-	
 	if( editderivativespage->showDerivative1->isChecked() )
-	{
 		tmp_fktext.f1_mode = 1;
-		tmp_fktext.f1_linewidth = editderivativespage->lineWidthDerivative1->value();
-		tmp_fktext.f1_color = editderivativespage->colorDerivative1->color().rgb();
-	}
 	else
-	{
 		tmp_fktext.f1_mode = 0;
-		tmp_fktext.f1_color = m_parser->fktext[index].color0; //default color
-	}
+	
+	tmp_fktext.f1_linewidth = editderivativespage->lineWidthDerivative1->value();
+	tmp_fktext.f1_color = editderivativespage->colorDerivative1->color().rgb();
 	
 	if( editderivativespage->showDerivative2->isChecked() )
-	{
 		tmp_fktext.f2_mode = 1;
-		tmp_fktext.f2_linewidth = editderivativespage->lineWidthDerivative2->value();
-		tmp_fktext.f2_color = editderivativespage->colorDerivative2->color().rgb();
-	}
 	else
-	{
 		tmp_fktext.f2_mode = 0;
-		tmp_fktext.f1_color = m_parser->fktext[index].color0; //default color
-	}
+
+	tmp_fktext.f2_linewidth = editderivativespage->lineWidthDerivative2->value();
+	tmp_fktext.f2_color = editderivativespage->colorDerivative2->color().rgb();
 	
 	if ( f_str.contains('y') != 0 && ( tmp_fktext.f_mode || tmp_fktext.f1_mode || tmp_fktext.f2_mode) )
 	{

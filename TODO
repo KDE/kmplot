@@ -1,4 +1,4 @@
-Last modified: 06/06/2004
+Last modified: 2004-06-16
 
 TODO
 =========================
@@ -14,18 +14,22 @@ TODO
 * Fix the unpolished lines
 * #52887, need to calculate with complex numbers.
 * Replace QFile with KIO in KmplotIO
+* Popupmenu and tracemode for parametric- and polar functions
 
 TODO for KDE 3.3
 =========================
 * Draw tangents in trace mode (pipesmoker)
 * Printing (pipesmoker)
       - different paper sizes
+* What-is-this for the new stuff 
+* Delete functions (parametric functions) properly
 
 
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
 * Import parameter values from different file format(.csv, KSpread, OpenOffice) via Koffice (see kde-edu/kig)
+* Basic popup menu for single parametric points.
 
 
 DONE

@@ -43,6 +43,7 @@
 
 // local includes
 #include "editfunction.h"
+#include "keditparametric.h"
 #include "kminmax.h"
 #include "settings.h"
 #include "sliderwindow.h"
@@ -360,23 +361,23 @@ void View::plotfkt(int ix, QPainter *pDC)
 				if(errno!=0) continue;
 		
                			if(fktmode=='r')
-				{   
+				{
 					p2.setX(dgr.Transx(y*cos(x)));
 					p2.setY(dgr.Transy(y*sin(x)));
 				}
 				else if(fktmode=='x')
-				{   
+				{
 					p2.setX(dgr.Transx(y));
 					p2.setY(dgr.Transy(m_parser->fkt(iy, x)));
 				}
 				else
-				{   
+				{
 					p2.setX(dgr.Transx(x));
 					p2.setY(dgr.Transy(y));
 				}
 				
 				if(dgr.xclipflg || dgr.yclipflg)
-				{	
+				{
 					if(mflg>=1) p1=p2;
 					else
 					{   
@@ -810,13 +811,12 @@ void View::mousePressEvent(QMouseEvent *e)
 	if(e->button()==RightButton) //clicking with the right mouse button
 	{
 		g=tlgy/5.;
+		char function_type;
 		for(ix=0; ix<m_parser->ufanz; ++ix)
 		{
-			switch(m_parser->fktext[ix].extstr[0].latin1())
-			{
-				case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
-			}
-		
+			function_type = m_parser->fktext[ix].extstr[0].latin1();
+			if ( function_type==0 || function_type=='y' || function_type=='r') 
+				continue;
 			k=0;
 			ke=m_parser->fktext[ix].k_anz;
 			do
@@ -825,6 +825,30 @@ void View::mousePressEvent(QMouseEvent *e)
 					m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 				else
 					m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
+				if ( function_type=='x' &&  m_parser->fktext[ix].extstr.contains('t')==0) //parametric plot
+				{
+					int y_index = ix+1;
+					if ( y_index == UFANZ)
+						y_index=0;
+					//kdDebug() << "y: " << m_parser->fkt(y_index, csypos) << endl;
+					if (fabs(csxpos-m_parser->fkt(ix, csxpos))< g && fabs(csypos-m_parser->fkt(y_index, csypos))<g )
+					{
+						if ( csmode == -1)
+						{
+							csmode=ix;
+							cstype=0;
+							csparam = k;
+							m_popupmenushown = 1;
+						}
+						else
+							m_popupmenushown = 2;
+						QString y_name( m_parser->fktext[y_index].extstr );
+						
+						m_popupmenu->changeTitle(10, m_parser->fktext[ ix ].extstr+";"+y_name);
+						m_popupmenu->exec(QCursor::pos());
+						return;
+					}
+				}
 				if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
 				{
 					if ( csmode == -1)
@@ -832,14 +856,15 @@ void View::mousePressEvent(QMouseEvent *e)
 						csmode=ix;
 						cstype=0;
 						csparam = k;
-						m_popupmenu->changeTitle(10, m_parser->fktext[ ix ].extstr);
 						m_popupmenushown = 1;
 					}
 					else
 						m_popupmenushown = 2;
+					m_popupmenu->changeTitle(10, m_parser->fktext[ ix ].extstr);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
+				
 				if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
 				{
 					if ( csmode == -1)
@@ -847,13 +872,13 @@ void View::mousePressEvent(QMouseEvent *e)
 						csmode=ix;
 						cstype=1;
 						csparam = k;
-						QString function = m_parser->fktext[ ix ].extstr;
-						function = function.left(function.find('(')) + '\'';
-						m_popupmenu->changeTitle(10, function);
 						m_popupmenushown = 1;
 					}
 					else
 						m_popupmenushown = 2;
+					QString function = m_parser->fktext[ ix ].extstr;
+					function = function.left(function.find('(')) + '\'';
+					m_popupmenu->changeTitle(10, function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
@@ -864,13 +889,13 @@ void View::mousePressEvent(QMouseEvent *e)
 						csmode=ix;
 						cstype=2;
 						csparam = k;
-						QString function = m_parser->fktext[ ix ].extstr;
-						function = function.left(function.find('(')) + "\'\'";
-						m_popupmenu->changeTitle(10, function);
 						m_popupmenushown = 1;
 					}
 					else
 						m_popupmenushown = 2;
+					QString function = m_parser->fktext[ ix ].extstr;
+					function = function.left(function.find('(')) + "\'\'";
+					m_popupmenu->changeTitle(10, function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
@@ -912,7 +937,6 @@ void View::mousePressEvent(QMouseEvent *e)
 				m_minmax->selectItem();
 				stbar->changeItem(m_parser->fktext[ ix ].extstr,4);
 				mouseMoveEvent(e);
-				kdDebug() << "Hello" << endl;
 				return;
 			}
 			if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
@@ -1716,6 +1740,14 @@ void View::mnuRemove_clicked()
 {
 	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
 	{
+		char function_type = m_parser->fktext[csmode].extstr[0].latin1();
+		if ( function_type == 'x')
+		{
+			int y_index = csmode+1;
+			if ( y_index == UFANZ)
+				y_index=0;
+			m_parser->delfkt( y_index );
+		}
 		m_parser->delfkt( csmode );
 		drawPlot();
 		m_modified = true;
@@ -1723,13 +1755,32 @@ void View::mnuRemove_clicked()
 }
 void View::mnuEdit_clicked()
 {
-	EditFunction* editFunction = new EditFunction( m_parser, this );
-	editFunction->setCaption(i18n( "Edit Function Plot" ));
-	editFunction->initDialog( csmode );
-	if( editFunction->exec() == QDialog::Accepted )
+	char function_type = m_parser->fktext[csmode].extstr[0].latin1();
+	if ( function_type == 'x')
 	{
-		drawPlot();
-		m_modified = true;
+		int y_index = csmode+1;
+		if ( y_index == UFANZ)
+			y_index=0;
+		KEditParametric* editParametric = new KEditParametric( m_parser, this );
+		editParametric->setCaption(i18n( "New Parametric Plot" ));
+		editParametric->initDialog( csmode,y_index );
+		if( editParametric->exec() == QDialog::Accepted )
+		{
+			drawPlot();
+			m_modified = true;
+		}
+		
+	}
+	else
+	{
+		EditFunction* editFunction = new EditFunction( m_parser, this );
+		editFunction->setCaption(i18n( "Edit Function Plot" ));
+		editFunction->initDialog( csmode );
+		if( editFunction->exec() == QDialog::Accepted )
+		{
+			drawPlot();
+			m_modified = true;
+		}
 	}
 }
 void View::mnuNoZoom_clicked()

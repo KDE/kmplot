@@ -839,7 +839,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		
 	}
 	int ix;
-	double const g=tlgy*double(xmax-xmin)/32;
+	double const g=tlgy*double(xmax-xmin)/(2*double(ymax-ymin));
 	if(e->button()==RightButton) //clicking with the right mouse button
 	{
 		char function_type;

@@ -99,10 +99,10 @@ public:
 	QColor functionF1Color(uint id);
 	QColor functionF2Color(uint id);
 	QColor functionIntColor(uint id);
-	bool setFunctionFColor(QColor color, uint id);
-	bool setFunctionF1Color(QColor color, uint id);
-	bool setFunctionF2Color(QColor color, uint id);
-	bool setFunctionIntColor(QColor color, uint id);
+	bool setFunctionFColor(const QColor &color, uint id);
+	bool setFunctionF1Color(const QColor &color, uint id);
+	bool setFunctionF2Color(const QColor &color, uint id);
+	bool setFunctionIntColor(const QColor &color, uint id);
 	
 	int functionFLineWidth(uint id);
 	int functionF1LineWidth(uint id);

@@ -60,10 +60,10 @@ k_dcop:
 	virtual QColor functionF1Color(uint id) = 0;
 	virtual QColor functionF2Color(uint id) = 0;
 	virtual QColor functionIntColor(uint id) = 0;
-	virtual bool setFunctionFColor(QColor color, uint id) = 0;
-	virtual bool setFunctionF1Color(QColor color, uint id) = 0;
-	virtual bool setFunctionF2Color(QColor color, uint id) = 0;
-	virtual bool setFunctionIntColor(QColor color, uint id) = 0;
+	virtual bool setFunctionFColor(const QColor &color, uint id) = 0;
+	virtual bool setFunctionF1Color(const QColor &color, uint id) = 0;
+	virtual bool setFunctionF2Color(const QColor &color, uint id) = 0;
+	virtual bool setFunctionIntColor(const QColor &color, uint id) = 0;
 	virtual int functionFLineWidth(uint id) = 0;
 	virtual int functionF1LineWidth(uint id) = 0;
 	virtual int functionF2LineWidth(uint id) = 0;

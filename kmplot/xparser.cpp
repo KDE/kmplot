@@ -397,7 +397,7 @@ QColor XParser::functionIntColor(uint id)
 		return QColor();
 	return QColor(ufkt[ix].integral_color);
 }
-bool XParser::setFunctionFColor(QColor color, uint id)
+bool XParser::setFunctionFColor(const QColor &color, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -406,7 +406,7 @@ bool XParser::setFunctionFColor(QColor color, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionF1Color(QColor color, uint id)
+bool XParser::setFunctionF1Color(const QColor &color, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -415,7 +415,7 @@ bool XParser::setFunctionF1Color(QColor color, uint id)
 	m_modified = true;
 	return true;
 }		
-bool XParser::setFunctionF2Color(QColor color, uint id)
+bool XParser::setFunctionF2Color(const QColor &color, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -424,7 +424,7 @@ bool XParser::setFunctionF2Color(QColor color, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionIntColor(QColor color, uint id)
+bool XParser::setFunctionIntColor(const QColor &color, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)

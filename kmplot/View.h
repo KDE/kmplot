@@ -27,6 +27,9 @@
 #define View_included
 #undef	 GrayScale 
 
+// Qt includes
+#include <qpixmap.h>
+
 // KDE includes
 #include <kstatusbar.h>
 #include <kprinter.h>
@@ -34,6 +37,8 @@
 // local includes
 #include "diagr.h"
 #include "errno.h"
+
+class XParser;
 
 
 /**
@@ -45,14 +50,17 @@ class View : public QWidget
 
 public:
 
-	View(QWidget* parent=NULL, const char* name=NULL);
+	View( QWidget* parent=NULL, const char* name=NULL );
 	virtual ~View();
 
 	void draw(QPaintDevice *, int);
 	void drawHeaderTable(QPainter *);
+	void getSettings();
+	void init();
+	
+	XParser* parser();
 
 	KStatusBar *stbar;
-
     
 protected slots:
 
@@ -66,7 +74,12 @@ private:
 	void getMinMax(int koord, QString &mini, QString &maxi);
 	void setpi(QString *);
 	bool root(double *);
-
+	
+	/** The central parser instance
+	 * @see parser
+	 */
+	XParser *m_parser;
+	
 	int csflg,
 	    csmode,
 	    rootflg,
@@ -85,6 +98,8 @@ private:
 	
 	double tlgx, tlgy, drskalx, drskaly;
 	QString tlgxstr, tlgystr, drskalxstr, drskalystr;
+	double relativeStepWidth;  /**< Precision relativly to the size. */
+	double stepWidth; /** Absolute step width */
 	
 	/// current plot range
 	double xmin, xmax, ymin, ymax;

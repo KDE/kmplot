@@ -189,7 +189,7 @@
 	</group>
 		
 	<group name="Precision">
-		<entry name="stepWidth" type="Double">
+		<entry name="relativeStepWidth" type="Double">
 			<default>1.0</default>
 			<label>Step width in pixel</label>
 			<whatsthis>The greater the step width the faster but the less precise the plot is done.</whatsthis>

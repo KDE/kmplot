@@ -33,6 +33,7 @@
 #include "kmplotio.h"
 #include "misc.h"
 #include "settings.h"
+#include "xparser.h"
 
 KmPlotIO::KmPlotIO()
 {
@@ -43,7 +44,7 @@ KmPlotIO::~KmPlotIO()
 {
 }
 
-void KmPlotIO::save( const QString filename )
+void KmPlotIO::save(  XParser *parser, const QString filename )
 {
 	// saving as xml by a QDomDocument
 	QDomDocument doc( "kmpdoc" );
@@ -64,12 +65,20 @@ void KmPlotIO::save( const QString filename )
 	addTag( doc, tag, "show-label", Settings::showLabel() ? "1" : "-1" );
 	addTag( doc, tag, "show-frame", Settings::showExtraFrame() ? "1" : "-1" );
 	addTag( doc, tag, "show-extra-frame", Settings::showExtraFrame() ? "1" : "-1" );
-	addTag( doc, tag, "xmin", xminstr );
-	addTag( doc, tag, "xmax", xmaxstr );
-	addTag( doc, tag, "ymin", yminstr );
-	addTag( doc, tag, "ymax", ymaxstr );
+	
 	addTag( doc, tag, "xcoord", QString::number( Settings::xRange() ) );
+	if( Settings::xRange() == 4 ) // custom plot range
+	{
+		addTag( doc, tag, "xmin", Settings::xMin() );
+		addTag( doc, tag, "xmax", Settings::xMax() );
+	}
+	
 	addTag( doc, tag, "ycoord", QString::number( Settings::yRange() ) );
+	if( Settings::yRange() == 4 ) // custom plot range
+	{
+		addTag( doc, tag, "ymin", Settings::yMin() );
+		addTag( doc, tag, "ymax", Settings::yMax() );
+	}
 
 	root.appendChild( tag );
 
@@ -92,30 +101,28 @@ void KmPlotIO::save( const QString filename )
 	
 	root.appendChild( tag );
 
-	addTag( doc, root, "step", QString::number( rsw ) );
-
-	for ( int ix = 0; ix < ps.ufanz; ix++ )
+	for ( int ix = 0; ix < parser->ufanz; ix++ )
 	{
-		if ( !ps.fktext[ ix ].extstr.isEmpty() )
+		if ( !parser->fktext[ ix ].extstr.isEmpty() )
 		{
 			tag = doc.createElement( "function" );
 
 			tag.setAttribute( "number", ix );
-			tag.setAttribute( "visible", ps.fktext[ ix ].f_mode );
-			tag.setAttribute( "visible-deriv", ps.fktext[ ix ].f1_mode );
-			tag.setAttribute( "visible-2nd-deriv", ps.fktext[ ix ].f2_mode );
-			tag.setAttribute( "width", ps.fktext[ ix ].dicke );
-			tag.setAttribute( "color", QColor( ps.fktext[ ix ].color ).name() );
+			tag.setAttribute( "visible", parser->fktext[ ix ].f_mode );
+			tag.setAttribute( "visible-deriv", parser->fktext[ ix ].f1_mode );
+			tag.setAttribute( "visible-2nd-deriv", parser->fktext[ ix ].f2_mode );
+			tag.setAttribute( "width", parser->fktext[ ix ].dicke );
+			tag.setAttribute( "color", QColor( parser->fktext[ ix ].color ).name() );
 			
-			addTag( doc, tag, "equation", ps.fktext[ ix ].extstr );
+			addTag( doc, tag, "equation", parser->fktext[ ix ].extstr );
 			
-			if( ps.fktext[ ix ].k_anz > 0 )
+			if( parser->fktext[ ix ].k_anz > 0 )
 			{
 				QStringList listOfParameters;
-				for( int k_index = 0; k_index < ps.fktext[ ix ].k_anz; k_index++ )
+				for( int k_index = 0; k_index < parser->fktext[ ix ].k_anz; k_index++ )
 				{
 					listOfParameters += 
-						QString::number( ps.fktext[ ix ].k_liste[ k_index ] );
+						QString::number( parser->fktext[ ix ].k_liste[ k_index ] );
 				}
 				addTag( doc, tag, "parameterlist", listOfParameters.join( "," ) );
 			}
@@ -146,10 +153,8 @@ void KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString 
 	parentTag.appendChild( tag );
 }
 
-void KmPlotIO::load( const QString filename )
+void KmPlotIO::load( XParser *parser, const QString filename )
 {
-	init();
-
 	QDomDocument doc( "kmpdoc" );
 
 	QFile f( filename );
@@ -171,10 +176,8 @@ void KmPlotIO::load( const QString filename )
 			parseGrid( n.toElement() );
 		if ( n.nodeName() == "scale" )
 			parseScale( n.toElement() );
-		if ( n.nodeName() == "step" )
-			parseStep( n.toElement() );
 		if ( n.nodeName() == "function" )
-			parseFunction( n.toElement() );
+			parseFunction( parser, n.toElement() );
 	}
 }
 
@@ -190,12 +193,12 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 	Settings::setShowLabel( n.namedItem( "show-label" ).toElement().text().toInt() == 1 );
 	Settings::setShowFrame( n.namedItem( "show-frame" ).toElement().text().toInt() == 1 );
 	Settings::setShowExtraFrame( n.namedItem( "show-extra-frame" ).toElement().text().toInt() == 1 );
-	xminstr = n.namedItem( "xmin" ).toElement().text();
-	xmaxstr = n.namedItem( "xmax" ).toElement().text();
-	yminstr = n.namedItem( "ymin" ).toElement().text();
-	ymaxstr = n.namedItem( "ymax" ).toElement().text();
 	Settings::setXRange( n.namedItem( "xcoord" ).toElement().text().toInt() );
+	Settings::setXMin( n.namedItem( "xmin" ).toElement().text() );
+	Settings::setXMax( n.namedItem( "xmax" ).toElement().text() );
 	Settings::setYRange( n.namedItem( "ycoord" ).toElement().text().toInt() );
+	Settings::setYMin( n.namedItem( "ymin" ).toElement().text() );
+	Settings::setYMax( n.namedItem( "ymax" ).toElement().text() );
 }
 
 void KmPlotIO::parseGrid( const QDomElement & n )
@@ -224,22 +227,17 @@ void KmPlotIO::parseScale( const QDomElement & n )
 	Settings::setYPrinting( unit2index( n.namedItem( "print-tic-y" ).toElement().text() ) );
 }
 
-void KmPlotIO::parseStep( const QDomElement & n )
-{
-	rsw = n.text().toDouble();
-}
-
-void KmPlotIO::parseFunction( const QDomElement & n )
+void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 {
 	int ix = n.attribute( "number" ).toInt();
-	ps.fktext[ ix ].f_mode = n.attribute( "visible" ).toInt();
-	ps.fktext[ ix ].f1_mode = n.attribute( "visible-deriv" ).toInt();
-	ps.fktext[ ix ].f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
-	ps.fktext[ ix ].dicke = n.attribute( "width" ).toInt();
-	ps.fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();
+	parser->fktext[ ix ].f_mode = n.attribute( "visible" ).toInt();
+	parser->fktext[ ix ].f1_mode = n.attribute( "visible-deriv" ).toInt();
+	parser->fktext[ ix ].f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
+	parser->fktext[ ix ].dicke = n.attribute( "width" ).toInt();
+	parser->fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();
 
-	ps.fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
-	QCString fstr = ps.fktext[ ix ].extstr.utf8();
+	parser->fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
+	QCString fstr = parser->fktext[ ix ].extstr.utf8();
 	if ( !fstr.isEmpty() )
 	{
 		int i = fstr.find( ';' );
@@ -248,21 +246,21 @@ void KmPlotIO::parseFunction( const QDomElement & n )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		ix = ps.addfkt( str );
-		parseParameters( n, ix );
-		ps.getext( ix );
+		ix = parser->addfkt( str );
+		parseParameters( parser, n, ix );
+		parser->getext( ix );
 	}
 }
 
-void KmPlotIO::parseParameters( const QDomElement &n, int ix )
+void KmPlotIO::parseParameters( XParser *parser, const QDomElement &n, int ix )
 {
 	QStringList listOfParameters = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
-	ps.fktext[ ix ].k_anz = 0;
+	parser->fktext[ ix ].k_anz = 0;
 	for( QStringList::Iterator it = listOfParameters.begin(); it != listOfParameters.end(); ++it )
 	{
-		ps.fktext[ ix ].k_liste[ ps.fktext[ ix ].k_anz ] = 
+		parser->fktext[ ix ].k_liste[ parser->fktext[ ix ].k_anz ] = 
 			( *it ).toDouble();
-		ps.fktext[ ix ].k_anz++;
+		parser->fktext[ ix ].k_anz++;
 	}
 	
 }

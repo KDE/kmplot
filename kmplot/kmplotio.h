@@ -27,10 +27,11 @@
 #define KMPLOTIO_H
 
 class QString;
+class XParser;
 
 /**
 This class manages the file operations load and save.
-@author Klaus-Dieter Möller
+@author Klaus-Dieter Möller & Matthias Meßmer
 */
 class KmPlotIO
 {
@@ -44,13 +45,13 @@ class KmPlotIO
 		 * in the filename file
 		 * @param filename name of the file which will be saved
 		 */
-		static void save( const QString filename );
+		static void save( XParser *parser, const QString filename );
 		
 		/**
 		 * Read a kmpdoc xml file to restaure the settings of a previously saved plot
 		 * @param filename name of file which will be opened
 		 */
-		static void load( const QString filename );
+		static void load( XParser *parser, const QString filename );
 	
 	private:
 		/** Esay way to add a tag to the Dom tree
@@ -69,16 +70,13 @@ class KmPlotIO
 		/// Reads scale parameters from the node @a n.
 		/// @param n Node containing the options.
 		static void KmPlotIO::parseScale( const QDomElement &n );
-		/// Reads step parameters from the node @a n.
-		/// @param n Node containing the options.
-		static void KmPlotIO::parseStep( const QDomElement &n );
 		/// Reads function parameters from the node @a n.
 		/// @param n Node containing the options.
-		static void KmPlotIO::parseFunction( const QDomElement &n );
+		static void KmPlotIO::parseFunction( XParser *parser, const QDomElement &n );
 		/// Reads parameter values for a function from the node @a n.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
-		static void parseParameters( const QDomElement &n, int ix );
+		static void parseParameters( XParser *parser, const QDomElement &n, int ix );
 };
 
 #endif

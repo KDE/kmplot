@@ -27,8 +27,6 @@
 #define diagr_included
 
 
-#include "misc.h"
-
 #include <math.h>
 #include <stdio.h>
 

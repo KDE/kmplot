@@ -27,10 +27,13 @@
 #include "settings.h"
 #include "View.h"
 #include "View.moc"
+#include "xparser.h"
 
-
-View::View(QWidget* parent, const char* name) : QWidget(parent, name)
-{   csflg=0;
+View::View( QWidget* parent, const char* name ) : QWidget( parent, name )
+{   
+	m_parser = new XParser( 10, 200, 20 );
+	init();
+	csflg=0;
 	csmode=-1;
 	setBackgroundColor(QColor(255, 255, 255));
 	setMouseTracking(TRUE);
@@ -41,9 +44,13 @@ View::~View()
 {
 }
 
+XParser* View::parser()
+{
+	return m_parser;
+}
 
 void View::draw(QPaintDevice *dev, int form)
-{   int ix, lx, ly;
+{	int ix, lx, ly;
 	float sf;
 	QRect rc;
 	QPainter DC;				// our painter
@@ -119,10 +126,10 @@ void View::draw(QPaintDevice *dev, int form)
 	hline.resize(area.width(), 1);
 	vline.resize(1, area.height());
 
-	sw=rsw*(xmax-xmin)/area.width();
-	for(ix=0; ix<ps.ufanz; ++ix)
+	stepWidth=Settings::relativeStepWidth()*(xmax-xmin)/area.width();
+	for(ix=0; ix<m_parser->ufanz; ++ix)
 	{   
-		if(ps.chkfix(ix)==-1) continue;
+		if(m_parser->chkfix(ix)==-1) continue;
 
 		plotfkt(ix, &DC);
 	}
@@ -139,19 +146,19 @@ void View::plotfkt(int ix, QPainter *pDC)
 	double dx, x, y, dmin, dmax;
 	QString fname, fstr;
 	QPoint p1, p2;
-	QPen pen(ps.fktext[ix].color, (int)(ps.fktext[ix].dicke*s));
+	QPen pen(m_parser->fktext[ix].color, (int)(m_parser->fktext[ix].dicke*s));
 	pen.setCapStyle(Qt::RoundCap);
 
-	if(ix==-1 || ix>=ps.ufanz) return ;	    // ungltiger Index
-	if(ps.fktext[ix].f_mode==0) return ;	// NOPLOT
+	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
+	if(m_parser->fktext[ix].f_mode==0) return ;	// NOPLOT
 
-	dx=sw;
-	fktmode=ps.fktext[ix].extstr[0].latin1();
+	dx=stepWidth;
+	fktmode=m_parser->fktext[ix].extstr[0].latin1();
 
 	if(fktmode!='y')
 	{   
-		dmin=ps.fktext[ix].dmin;
-		dmax=ps.fktext[ix].dmax;
+		dmin=m_parser->fktext[ix].dmin;
+		dmax=m_parser->fktext[ix].dmax;
 	}
 
 	if(dmin==dmax)
@@ -166,12 +173,12 @@ void View::plotfkt(int ix, QPainter *pDC)
 		}
 	}
 
-	if(fktmode=='r') dx=rsw*0.05/(dmax-dmin);
+	if(fktmode=='r') dx=relativeStepWidth*0.05/(dmax-dmin);
 	else if(fktmode=='x')
 	{   
-		ps.getfkt(ix, fname, fstr);
+		m_parser->getfkt(ix, fname, fstr);
 		fname[0]='y';
-		iy=ps.getfix(fname);
+		iy=m_parser->getfix(fname);
 		if(iy==-1) return ;
 	}
 	else if(fktmode=='y') return ;
@@ -181,23 +188,23 @@ void View::plotfkt(int ix, QPainter *pDC)
 	while(1)
 	{   
 		k=0;
-		ke=ps.fktext[ix].k_anz;
+		ke=m_parser->fktext[ix].k_anz;
 		do
 		{   
-			ps.setparameter(ix, ps.fktext[ix].k_liste[k]);
+			m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 			mflg=2;
 			for(x=dmin; x<dmax; x+=dx)
 			{   
 				errno=0;
 
                 switch(p_mode)
-				{  case 0:  y=ps.fkt(ix, x);
+				{  case 0:  y=m_parser->fkt(ix, x);
 					        break;
                             
-				   case 1:  y=ps.a1fkt(ix, x);
+				   case 1:  y=m_parser->a1fkt(ix, x);
 					        break;
                             
-				   case 2:  y=ps.a2fkt(ix, x);
+				   case 2:  y=m_parser->a2fkt(ix, x);
 				}
                 
 				if(errno!=0) continue;
@@ -209,7 +216,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 				else if(fktmode=='x')
 				{   
 					p2.setX(dgr.Transx(y));
-					p2.setY(dgr.Transy(ps.fkt(iy, x)));
+					p2.setY(dgr.Transy(m_parser->fkt(iy, x)));
 				}
 				else
 				{   
@@ -240,11 +247,11 @@ void View::plotfkt(int ix, QPainter *pDC)
 		}
         while(++k<ke);
 
-		if(ps.fktext[ix].f1_mode==1 && p_mode< 1) p_mode=1;
-		else if(ps.fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
+		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) p_mode=1;
+		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
 		else break;
 
-		pen=QPen(ps.fktext[ix].color, 1);
+		pen=QPen(m_parser->fktext[ix].color, 1);
 		pDC->setPen(pen);
 	}
 }
@@ -258,10 +265,12 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->setPen(QPen(black, (int)(5.*s)));
 		pDC->setFont(QFont( Settings::headerTableFont().family(), 30) );
 		puts( Settings::headerTableFont().family().latin1() );
-		QString minStr=xminstr;
-		QString maxStr=xmaxstr;
+		QString minStr = Settings::xMin();
+		QString maxStr = Settings::xMax();
 		getMinMax( Settings::xRange(), minStr, maxStr);
 		alx="[ "+minStr+" | "+maxStr+" ]";
+		minStr = Settings::yMin();
+		maxStr = Settings::yMax();
 		getMinMax( Settings::yRange(), minStr, maxStr);
 		aly="[ "+minStr+" | "+maxStr+" ]";
 		setpi(&alx);
@@ -296,11 +305,11 @@ void View::drawHeaderTable(QPainter *pDC)
 
 		pDC->drawText(0, 300, i18n("Functions:"));
 		pDC->Lineh(0, 320, 700);
-		for(ix=0, ypos=380; ix<ps.ufanz; ++ix)
+		for(ix=0, ypos=380; ix<m_parser->ufanz; ++ix)
 		{  
-			 if(ps.chkfix(ix)==-1) continue;
+			 if(m_parser->chkfix(ix)==-1) continue;
 
-			pDC->drawText(100, ypos, ps.fktext[ix].extstr);
+			pDC->drawText(100, ypos, m_parser->fktext[ix].extstr);
             ypos+=60;
 		}
 		pDC->translate(-60., ypos+100.);
@@ -310,21 +319,24 @@ void View::drawHeaderTable(QPainter *pDC)
 
 
 void View::getMinMax( int koord, QString &mini, QString &maxi )
-{   switch(koord)
-	{  case 0:  mini="-8.0";
-		        maxi="8.0";
-		        break;
-                
-	   case 1:  mini="-5.0";
-		        maxi="5.0";
-		        break;
-
-       case 2:  mini="0.0";
-		        maxi="16.0";
-		        break;
-
-       case 3:  mini="0.0";
-		        maxi="10.0";
+{
+	switch(koord)
+	{  
+		case 0:
+			mini="-8.0";
+			maxi="8.0";
+			break;
+		case 1:  
+			mini="-5.0";
+			maxi="5.0";
+			break;
+		case 2:  
+			mini="0.0";
+			maxi="16.0";
+			break;
+		case 3:  
+			mini="0.0";
+			maxi="10.0";
 	}
 }
 
@@ -347,8 +359,8 @@ bool View::root(double *x0)
     dx=0.1;
     
     while(1)
-    {   if((yn=fabs(ps.fkt(csmode, x-dx))) < y) {x-=dx; y=yn;}
-        else if((yn=fabs(ps.fkt(csmode, x+dx))) < y) {x+=dx; y=yn;}
+    {   if((yn=fabs(m_parser->fkt(csmode, x-dx))) < y) {x-=dx; y=yn;}
+        else if((yn=fabs(m_parser->fkt(csmode, x+dx))) < y) {x+=dx; y=yn;}
         else dx/=10.;
         printf("x=%g,  dx=%g, y=%g\n", x, dx, y);
         if(y<1e-8) {*x0=x; return TRUE;}
@@ -382,8 +394,8 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
 		ptl=DC.xFormDev(e->pos());
-		if((csmode=ps.chkfix(csmode)) >= 0)
-		{   ptl.setY(dgr.Transy(csypos=ps.fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+		if((csmode=m_parser->chkfix(csmode)) >= 0)
+		{   ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
 
             if(fabs(csypos)<0.2)
             {   double x0;
@@ -416,7 +428,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
 
 			// Fadenkreuz zeichnen
-			QPen pen((csmode>=0)? ps.fktext[csmode].color : 0, 1);
+			QPen pen((csmode>=0)? m_parser->fktext[csmode].color : 0, 1);
 
 			DC.begin(this);
 			DC.setPen(pen);
@@ -449,8 +461,8 @@ void View::mousePressEvent(QMouseEvent *e)
 	}
 
 	g=tlgy/5.;
-	for(ix=0; ix<ps.ufanz; ++ix)
-	{   switch(ps.fktext[ix].extstr[0].latin1())
+	for(ix=0; ix<m_parser->ufanz; ++ix)
+	{   switch(m_parser->fktext[ix].extstr[0].latin1())
 		{  case 0:
 		   case 'x':
 		   case 'y':
@@ -458,10 +470,10 @@ void View::mousePressEvent(QMouseEvent *e)
 		}
 
 		k=0;
-		ke=ps.fktext[ix].k_anz;
+		ke=m_parser->fktext[ix].k_anz;
 		do
-		{   ps.setparameter(ix, ps.fktext[ix].k_liste[k]);
-			if(fabs(csypos-ps.fkt(ix, csxpos))< g)
+		{   m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g)
 			{   csmode=ix;
 				mouseMoveEvent(e);
 				return ;
@@ -496,8 +508,8 @@ void View::coordToMinMax( const int koord, const QString minStr, const QString m
 		max = 10.0;
 		break;
 	case 4:
-		min = ps.eval( minStr );
-		max = ps.eval( maxStr );
+		min = m_parser->eval( minStr );
+		max = m_parser->eval( maxStr );
 	}
 }
 
@@ -512,12 +524,36 @@ void View::setScaling()
 	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
 	
 	tlgxstr = units[ Settings::xScaling() ];
-	tlgx = ps.eval( tlgxstr );
+	tlgx = m_parser->eval( tlgxstr );
 	tlgystr = units[ Settings::yScaling() ];
-	tlgy = ps.eval( tlgystr );
+	tlgy = m_parser->eval( tlgystr );
 
 	drskalxstr = units[ Settings::xPrinting() ];
-	drskalx = ps.eval( drskalxstr );
+	drskalx = m_parser->eval( drskalxstr );
 	drskalystr = units[ Settings::yPrinting() ];
-	drskaly = ps.eval( drskalystr );
+	drskaly = m_parser->eval( drskalystr );
 }
+
+void View::getSettings()
+{
+	m_parser->dicke0 = Settings::gridLineWidth();
+	m_parser->fktext[ 0 ].color = Settings::color0().rgb();
+	m_parser->fktext[ 1 ].color = Settings::color1().rgb();
+	m_parser->fktext[ 2 ].color = Settings::color2().rgb();
+	m_parser->fktext[ 3 ].color = Settings::color3().rgb();
+	m_parser->fktext[ 4 ].color = Settings::color4().rgb();
+	m_parser->fktext[ 5 ].color = Settings::color5().rgb();
+	m_parser->fktext[ 6 ].color = Settings::color6().rgb();
+	m_parser->fktext[ 7 ].color = Settings::color7().rgb();
+	m_parser->fktext[ 8 ].color = Settings::color8().rgb();
+	m_parser->fktext[ 9 ].color = Settings::color9().rgb();
+}
+
+void View::init()
+{
+	getSettings();
+
+	for ( int ix = 0; ix < m_parser->ufanz; ++ix )
+		m_parser->delfkt( ix );
+}
+

@@ -28,6 +28,7 @@
 // #include <qpopupmenu.h>
 
 // KDE includes
+#include <kapplication.h>
 #include <kpushbutton.h>
 
 // locale includes
@@ -135,7 +136,7 @@ void FktDlg::slotHasSelection()
 
 void FktDlg::slotEditFunction( int index, int num )
 {
-	KEditFunction* editFunction = new KEditFunction( &ps, this );
+	KEditFunction* editFunction = new KEditFunction( m_parser, this );
 	editFunction->initDialog( index );
 	if( editFunction->exec() == QDialog::Accepted )
 	{
@@ -146,7 +147,7 @@ void FktDlg::slotEditFunction( int index, int num )
 
 void FktDlg::slotEditParametric( int x_index, int y_index, int num )
 {
-	KEditParametric* editParametric = new KEditParametric( &ps, this );
+	KEditParametric* editParametric = new KEditParametric( m_parser, this );
 	editParametric->initDialog( x_index, y_index );
 	if( editParametric->exec() == QDialog::Accepted )
 	{
@@ -158,7 +159,7 @@ void FktDlg::slotEditParametric( int x_index, int y_index, int num )
 
 void FktDlg::slotEditPolar( int index, int num )
 {
-	KEditPolar* editPolar = new KEditPolar( &ps, this );
+	KEditPolar* editPolar = new KEditPolar( m_parser, this );
 	editPolar->initDialog( index );
 	if( editPolar->exec() == QDialog::Accepted )
 	{

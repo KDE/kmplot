@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>420</width>
-            <height>495</height>
+            <height>501</height>
         </rect>
     </property>
     <property name="caption">
@@ -109,7 +109,7 @@
                                             <cstring>radioButton1_5</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>[0 | 10]</string>
+                                            <string>[0 | +10]</string>
                                         </property>
                                         <property name="buttonGroupId">
                                             <number>3</number>
@@ -255,7 +255,7 @@
                                             <cstring>radioButton1_5_2</cstring>
                                         </property>
                                         <property name="text">
-                                            <string>[0 | 10]</string>
+                                            <string>[0 | +10]</string>
                                         </property>
                                         <property name="buttonGroupId">
                                             <number>3</number>

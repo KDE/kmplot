@@ -28,12 +28,15 @@
 #include <qtabwidget.h>
 
 // KDE includes
+#include <kapplication.h>
 #include <kconfigdialog.h>
 #include <kdebug.h>
 #include <kguiitem.h>
 #include <kedittoolbar.h>
 #include <kkeydialog.h>
 #include <klineedit.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 
 // local includes
 #include "keditfunction.h"
@@ -50,10 +53,10 @@
 #include "settingspageprecision.h"
 #include "settingspageprint.h"
 #include "settingspagescaling.h"
+#include "xparser.h"
 
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
-	init();
 	fdlg = 0;
 	bez = 0;
 	view = new View( this );
@@ -66,7 +69,8 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	if (args -> count() > 0) 
 	{
 		m_filename = args -> url( 0 ).url();
-		KmPlotIO::load( m_filename );
+		view->init();
+		KmPlotIO::load( view->parser(), m_filename );
 		view->update();
 	}
 	m_config = kapp->config();
@@ -178,7 +182,7 @@ bool MainDlg::checkModified()
 void MainDlg::slotOpenNew()
 {
 	if( !checkModified() ) return;
-	init(); // set globals to default
+	view->init(); // set globals to default
 	m_filename = ""; // empty filename == new file
 	setCaption( m_filename );
 	view->update();
@@ -192,7 +196,7 @@ void MainDlg::slotSave()
 		slotSaveas();
 	else
 	{
-		KmPlotIO::save( m_filename );
+		KmPlotIO::save( view->parser(), m_filename );
 		m_modified = false;
 	}
 
@@ -209,7 +213,7 @@ void MainDlg::slotSaveas()
 		// check if file exists and overwriting is ok.
 		if( QFile::exists( filename ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( KURL( filename ).fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue ) 
 		{
-			KmPlotIO::save( filename );
+			KmPlotIO::save( view->parser(), filename );
 			m_filename = filename;
 			m_recentFiles->addURL( KURL( m_filename ) );
 			setCaption( m_filename );
@@ -257,7 +261,8 @@ void MainDlg::slotOpen()
 		i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
 	if ( filename.isEmpty() ) return ;
 	m_filename = filename;
-	KmPlotIO::load( filename );
+	view->init();
+	KmPlotIO::load( view->parser(), filename );
 	m_recentFiles->addURL( KURL( m_filename ) );
 	setCaption( m_filename );
 	m_modified = false;
@@ -267,7 +272,8 @@ void MainDlg::slotOpen()
 void MainDlg::slotOpenRecent( const KURL &url )
 {
 	if( !checkModified() ) return;
-	KmPlotIO::load( url.path() );
+	view->init();
+	KmPlotIO::load( view->parser(), url.path() );
 	view->update();
 	m_filename = url.path();
 	setCaption( m_filename );
@@ -345,7 +351,7 @@ void MainDlg::slotNames()
 
 void MainDlg::newFunction()
 {
-	KEditFunction* editFunction = new KEditFunction( &ps, this );
+	KEditFunction* editFunction = new KEditFunction( view->parser(), this );
 	editFunction->initDialog();
 	m_modified = editFunction->exec() == QDialog::Accepted;
 	view->update();
@@ -353,7 +359,7 @@ void MainDlg::newFunction()
 
 void MainDlg::newParametric()
 {
-	KEditParametric* editParametric = new KEditParametric( &ps, this );
+	KEditParametric* editParametric = new KEditParametric( view->parser(), this );
 	editParametric->initDialog();
 	m_modified = editParametric->exec() == QDialog::Accepted;
 	view->update();
@@ -361,7 +367,7 @@ void MainDlg::newParametric()
 
 void MainDlg::newPolar()
 {
-	KEditPolar* editPolar = new KEditPolar( &ps, this );
+	KEditPolar* editPolar = new KEditPolar( view->parser(), this );
 	editPolar->initDialog();
 	m_modified = editPolar->exec() == QDialog::Accepted;
 	view->update();
@@ -369,11 +375,15 @@ void MainDlg::newPolar()
 
 void MainDlg::slotEditPlots()
 {
-	if ( !fdlg ) fdlg = new FktDlg( this, &ps ); // make the dialog only if not allready done
+	if ( !fdlg ) fdlg = new FktDlg( this, view->parser() ); // make the dialog only if not allready done
 	fdlg->getPlots(); // 
 	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
-	KmPlotIO::save( tmpName );
-	if( fdlg->exec() == QDialog::Rejected ) KmPlotIO::load( tmpName );
+	KmPlotIO::save( view->parser(), tmpName );
+	if( fdlg->exec() == QDialog::Rejected ) 
+	{
+		view->init();
+		KmPlotIO::load( view->parser(), tmpName );
+	}
 	else m_modified = true;
 	QFile::remove( tmpName );
 	view->update();
@@ -381,16 +391,16 @@ void MainDlg::slotEditPlots()
 
 void MainDlg::slotQuickEdit( const QString& f_str )
 {
-	int index = ps.addfkt( f_str );
+	int index = view->parser()->addfkt( f_str );
 	if( index == -1 ) 
 	{
-		ps.errmsg();
+		view->parser()->errmsg();
 		m_quickEdit->setFocus();
 		m_quickEdit->selectAll();
 		return;
 	}
-	ps.fktext[ index ].extstr = f_str;
-	ps.getext( index );
+	view->parser()->fktext[ index ].extstr = f_str;
+	view->parser()->getext( index );
 	m_quickEdit->clear();
 	m_modified = true;
 	view->update();
@@ -401,7 +411,7 @@ void MainDlg::slotCoord1()
 {
 	Settings::setXRange( 0 );
 	Settings::setYRange( 0 );
-	getSettings();
+	view->getSettings();
 	m_modified = true;
 	view->update();
 }
@@ -410,7 +420,7 @@ void MainDlg::slotCoord2()
 {
 	Settings::setXRange( 2 );
 	Settings::setYRange( 0 );
-	getSettings();
+	view->getSettings();
 	m_modified = true;
 	view->update();
 }
@@ -419,7 +429,7 @@ void MainDlg::slotCoord3()
 {
 	Settings::setXRange( 2 );
 	Settings::setYRange( 2 );
-	getSettings();
+	view->getSettings();
 	m_modified = true;
 	view->update();
 }
@@ -434,7 +444,7 @@ void MainDlg::slotSettings()
 
 void MainDlg::updateSettings()
 {
-	getSettings();
+	view->getSettings();
 	m_modified = true;
 	view->update();
 }

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -23,13 +23,20 @@
 *
 */
 
-// local includes
-#include "main.h"
+/**
+ * Version string of KmPlot.
+ */
+#define	KP_VERSION	"1.0"
+
 
 // KDE includes
-#include <kcmdlineargs.h>
 #include <kaboutdata.h>
+#include <kapplication.h>
+#include <kcmdlineargs.h>
 #include <klocale.h>
+
+// local includes
+#include "MainDlg.h"
 
 static const char description[] =
     I18N_NOOP( "KmPlot is a mathematical function plotter for the KDE Desktop." );

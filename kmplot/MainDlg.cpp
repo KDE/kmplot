@@ -36,6 +36,7 @@
 #include <kedittoolbar.h>
 #include <kkeydialog.h>
 #include <klineedit.h>
+#include <kmessagebox.h>
 #include <kurl.h>
 
 // local includes
@@ -46,8 +47,9 @@
 #include "settings.h"
 #include "settingspagecolor.h"
 #include "settingspagecoords.h"
-#include "settingspagescaling.h"
 #include "settingspagefonts.h"
+#include "settingspageprecision.h"
+#include "settingspagescaling.h"
 #include "keditfunction.h"
 
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
@@ -76,15 +78,17 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	coords_settings = new SettingsPageCoords( 0, "coordsSettings" ); 
 	scaling_settings = new SettingsPageScaling( 0, "scalingSettings" ); 
 	fonts_settings = new SettingsPageFonts( 0, "fontsSettings" ); 
+	precision_settings = new SettingsPagePrecision( 0, "precisionSettings" );
  
 	m_settingsDialog->addPage( color_settings, i18n( "Colors" ), "colorize" ); 
 	m_settingsDialog->addPage( coords_settings, i18n( "Coords" ), "coords" ); 
 	m_settingsDialog->addPage( scaling_settings, i18n( "Scaling" ), "scaling" ); 
 	m_settingsDialog->addPage( fonts_settings, i18n( "Fonts" ), "fonts" ); 
- 
+	m_settingsDialog->addPage( precision_settings, i18n( "Precision" ), "" ); 
 	// User edited the configuration - update your local copies of the 
 	// configuration data 
 	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	m_modified = false;
 }
 
 MainDlg::~MainDlg()
@@ -121,12 +125,11 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "&Grid..." ), "coords.png", 0, this, SLOT( editGrid() ), actionCollection(), "editgrid" );
 	( void ) new KAction( i18n( "&Scaling..." ), "scaling", 0, this, SLOT( editScaling() ), actionCollection(), "editscaling" );
 	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, SLOT( editFonts() ), actionCollection(), "editfonts" );
+	( void ) new KAction( i18n( "&Precision..." ), 0, this, SLOT( editPrecision() ), actionCollection(), "editprecision" );
 	
 	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( onachsen1() ), actionCollection(), "coord_i" );
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
-	
-	( void ) new KAction( i18n( "&Step..." ), 0, this, SLOT( schrittw() ), actionCollection(), "step" );
 
 	// functions menu	
 	( void ) new KAction( i18n( "&New Function Plot..." ), 0, this, SLOT( onNewFunction() ), actionCollection(), "newfunction" );
@@ -161,12 +164,32 @@ void MainDlg::setupStatusBar()
 
 // Slots
 
+bool MainDlg::checkModified()
+{
+	if( m_modified )
+	{
+		int saveit = KMessageBox::warningYesNoCancel( this, i18n( "The plot has been modified.\n"
+			"Do you want to save it?" ) );
+		switch( saveit )
+		{
+			case KMessageBox::Yes:
+				save();
+				break;
+			case KMessageBox::Cancel:
+				return false;
+		}
+	}
+	return true;
+}
+
 void MainDlg::neu()
 {
+	if( !checkModified() ) return;
 	init(); // set globals to default
 	m_filename = ""; // empty filename == new file
 	setCaption( m_filename );
 	view->update();
+	m_modified = false;
 }
 
 void MainDlg::save()
@@ -174,7 +197,10 @@ void MainDlg::save()
 	if ( m_filename.isEmpty() )            // if there is no file name set yet
 		saveas();
 	else
+	{
 		doSave( m_filename );
+		m_modified = false;
+	}
 
 }
 
@@ -189,6 +215,7 @@ void MainDlg::saveas()
 		m_filename = filename;
 		m_recentFiles->addURL( KURL(m_filename) );
 		setCaption( m_filename );
+		m_modified = false;
 	}
 }
 
@@ -301,6 +328,7 @@ void MainDlg::addTag( QDomDocument &doc, QDomElement &parentTag, const QString t
 
 void MainDlg::load()
 {
+	if( !checkModified() ) return;
 	QString filename = KFileDialog::getOpenFileName( QDir::currentDirPath(), 
 		i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
 	if ( filename.isEmpty() ) return ;
@@ -308,6 +336,7 @@ void MainDlg::load()
 	m_filename = filename;
 	m_recentFiles->addURL( KURL(m_filename) );
 	setCaption( m_filename );
+	m_modified = false;
 }
 
 void MainDlg::openRecent( const KURL &url )
@@ -315,6 +344,7 @@ void MainDlg::openRecent( const KURL &url )
 	openFile( url.path() );
 	m_filename = url.path();
 	setCaption( m_filename );
+	m_modified = false;
 }
 
 
@@ -517,6 +547,12 @@ void MainDlg::editFonts()
 	m_settingsDialog->show();
 }
 
+void MainDlg::editPrecision()
+{
+	m_settingsDialog->showPage( 4 );
+	m_settingsDialog->show();
+}
+
 void MainDlg::bezeichnungen()
 {
 	if ( !bez )
@@ -533,7 +569,7 @@ void MainDlg::onNewFunction()
 {
 	KEditFunction* editFunction = new KEditFunction( &ps, this );
 	editFunction->initDialog( KEditFunction::Function );
-	editFunction->exec();
+	m_modified = editFunction->exec() == QDialog::Accepted;
 	view->update();
 }
 
@@ -541,7 +577,7 @@ void MainDlg::onNewParametric()
 {
 	KEditFunction* editFunction = new KEditFunction( &ps, this );
 	editFunction->initDialog( KEditFunction::Parametric );
-	editFunction->exec();
+	m_modified = editFunction->exec() == QDialog::Accepted;
 	view->update();
 }
 
@@ -549,7 +585,7 @@ void MainDlg::onNewPolar()
 {
 	KEditFunction* editFunction = new KEditFunction( &ps, this );
 	editFunction->initDialog( KEditFunction::Polar );
-	editFunction->exec();
+	m_modified = editFunction->exec() == QDialog::Accepted;
 	view->update();
 }
 
@@ -560,6 +596,7 @@ void MainDlg::funktionen()
 	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
 	doSave( tmpName );
 	if( fdlg->exec() == QDialog::Rejected ) openFile( tmpName );
+	else m_modified = true;
 	QFile::remove( tmpName );
 	view->update();
 }
@@ -577,43 +614,10 @@ void MainDlg::onQuickEdit( const QString& f_str )
 	ps.fktext[ index ].extstr = f_str;;
 	ps.getext( index );
 	m_quickEdit->clear();
+	m_modified = true;
 	view->update();
 }
 
-void MainDlg::skalierung()
-{
-/*	SkalDlg skdlg;
-
-	skdlg.exec();
-	view->update();*/
-	m_settingsDialog->showPage( 1 );
-	coords_settings->tabs->setCurrentPage( 1 );
-	KConfigDialog::showDialog( "settings" );
-}
-
-void MainDlg::schrittw()
-{
-	SwDlg sdlg;
-
-	sdlg.exec();
-	view->update();
-}
-
-void MainDlg::raster()
-{
-	RstDlg rdlg( this, "rdlg" );
-
-	rdlg.exec();
-	view->update();
-}
-
-void MainDlg::achsen()
-{
-	KoordDlg kdlg;
-
-	kdlg.exec();
-	view->update();
-}
 
 void MainDlg::onachsen1()
 {
@@ -658,6 +662,7 @@ void MainDlg::slotSettings()
 void MainDlg::updateSettings()
 {
 	getSettings();
+	m_modified = true;
 	view->update();
 }
 

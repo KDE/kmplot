@@ -73,6 +73,7 @@ class KRecentFilesAction;
 class SettingsPageCoords;
 class SettingsPageColor;
 class SettingsPageFonts;
+class SettingsPagePrecision;
 class SettingsPageScaling;
 
 class MainDlg : public KMainWindow
@@ -97,16 +98,13 @@ public slots:
 	void editGrid();
 	void editScaling();
 	void editFonts();
+	void editPrecision();
 	void bezeichnungen();
 	void onNewFunction();
 	void onNewParametric();
 	void onNewPolar();
 	void funktionen();
 	void onQuickEdit( const QString& );
-	void skalierung();
-	void schrittw();
-	void raster();
-	void achsen();
 	void onachsen1();
 	void onachsen2();
 	void onachsen3();
@@ -126,6 +124,7 @@ private:
 	void parseScale( const QDomElement &n );
 	void parseStep( const QDomElement &n );
 	void parseFunction( const QDomElement &n );
+	bool checkModified();
 	int tbid,
 	stbid;
 	KStatusBar *stbar;
@@ -145,6 +144,7 @@ private:
 	SettingsPageCoords* coords_settings;
 	SettingsPageScaling* scaling_settings;
 	SettingsPageFonts* fonts_settings;
+	SettingsPagePrecision* precision_settings;
 	
 private slots:
 	void newToolbarConfig();

@@ -130,6 +130,9 @@ void getSettings()
 	ps.fktext[ 8 ].farbe0 = Settings::color8().rgb();
 	ps.fktext[ 9 ].farbe0 = Settings::color9().rgb();
 	printtable = true;
+	
+	// precision settings
+	rsw = Settings::stepWidth();
 }
 
 void init()

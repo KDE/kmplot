@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>420</width>
-            <height>547</height>
+            <height>549</height>
         </rect>
     </property>
     <property name="caption">
@@ -378,6 +378,9 @@
                                         <property name="name">
                                             <cstring>kcfg_TicLength</cstring>
                                         </property>
+                                        <property name="minValue">
+                                            <number>1</number>
+                                        </property>
                                         <property name="toolTip" stdset="0">
                                             <string>Length of the tic line</string>
                                         </property>
@@ -418,6 +421,9 @@
                                         <property name="name">
                                             <cstring>kcfg_TicWidth</cstring>
                                         </property>
+                                        <property name="minValue">
+                                            <number>1</number>
+                                        </property>
                                         <property name="toolTip" stdset="0">
                                             <string>Line width</string>
                                         </property>
@@ -457,6 +463,9 @@
                                     <widget class="KIntNumInput">
                                         <property name="name">
                                             <cstring>kcfg_AxesLineWidth</cstring>
+                                        </property>
+                                        <property name="minValue">
+                                            <number>1</number>
                                         </property>
                                         <property name="toolTip" stdset="0">
                                             <string>Line width</string>
@@ -586,6 +595,9 @@
                             <widget class="KIntNumInput">
                                 <property name="name">
                                     <cstring>kcfg_GridLineWidth</cstring>
+                                </property>
+                                <property name="minValue">
+                                    <number>1</number>
                                 </property>
                                 <property name="toolTip" stdset="0">
                                     <string>Width for the grid lines</string>

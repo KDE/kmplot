@@ -13,7 +13,6 @@ TODO
 * Draw tangents in trace mode (pipesmoker)
 * Printing (pipesmoker)
       - different paper sizes
-* Ability to set font size when drawing labels.
 * Use a better(faster!) algorithm for drawing integrals numeric.
 
 IN PROGRESS
@@ -70,3 +69,4 @@ DONE
 * Support for more than 10 parameter values for a function.
 * Improved drawing of integrals (faster!)
 * KPart
+* Ability to set font size when drawing labels.

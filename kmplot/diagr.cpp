@@ -404,7 +404,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 {
 	int const dx=15;
 	int const dy=40;
-	QFont const font=QFont( Settings::axesFont(), 40 );
+	QFont const font=QFont( Settings::axesFont(), Settings::axesFontSize() );
 	pDC->setFont(font);
 	int const x=Transx(0.);
 	int const y=Transy(0.);

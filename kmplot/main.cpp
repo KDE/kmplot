@@ -75,7 +75,6 @@ int main( int argc, char **argv )
 	KApplication ka;
 	KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 	KmPlot *w = new KmPlot( args );
-	w->resize( 450, 400 );
 	w->show();
 	ka.setMainWidget( w );
 	

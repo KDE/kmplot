@@ -255,6 +255,12 @@
                     <property name="text">
                         <string>&amp;Use relative step width</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Use the same precision independent of the window's size</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If relative step width is set to true, the step width will be adapted to the size of the window.</string>
+                    </property>
                 </widget>
             </vbox>
         </widget>

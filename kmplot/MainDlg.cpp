@@ -396,7 +396,7 @@ void MainDlg::editColors()
 
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( colorsDialog, SIGNAL( settingsChanged() ), m_parent, SLOT(updateSettings() ) );
+	connect( colorsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	colorsDialog->show();
 }
 
@@ -408,7 +408,7 @@ void MainDlg::editAxes()
 	coordsDialog->addPage( new SettingsPageCoords( 0, "coordsSettings" ), i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( coordsDialog, SIGNAL( settingsChanged() ), m_parent, SLOT(updateSettings() ) );
+	connect( coordsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	coordsDialog->show();
 }
 
@@ -420,7 +420,7 @@ void MainDlg::editScaling()
 	scalingDialog->addPage( new SettingsPageScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( scalingDialog, SIGNAL( settingsChanged() ), m_parent, SLOT(updateSettings() ) );
+	connect( scalingDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	scalingDialog->show();
 }
 
@@ -432,7 +432,7 @@ void MainDlg::editFonts()
 	fontsDialog->addPage( new SettingsPageFonts( 0, "fontsSettings" ), i18n( "Fonts" ), "fonts", i18n( "Edit Fonts" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( fontsDialog, SIGNAL( settingsChanged() ), m_parent, SLOT(updateSettings() ) );
+	connect( fontsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	fontsDialog->show();
 }
 

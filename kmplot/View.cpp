@@ -396,6 +396,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	if(e->button()!=LeftButton) return ;
 	if(csmode>=0)
 	{   csmode=-1;
+		mouseMoveEvent(e);
 		return ;
 	}
 
@@ -414,6 +415,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		{   ps.setparameter(ix, ps.fktext[ix].k_liste[k]);
 			if(fabs(csypos-ps.fkt(ix, csxpos))< g)
 			{   csmode=ix;
+				mouseMoveEvent(e);
 				return ;
 			}
 		}

@@ -108,6 +108,7 @@ public:
 	                //	6 => Speicherüberlauf
 	                //	7 => Stacküberlauf
 	                //  8 => Funktionsname bereits vergeben
+					//  9 => rekursiver Funktionsaufruf
 	errpos, 		// Fehlerposition
 	ufanz;		    // max. Anzahl benutzer-
 	                // definierter Funktionen

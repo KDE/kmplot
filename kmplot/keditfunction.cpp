@@ -25,6 +25,7 @@
 // Qt includes
 #include <qcheckbox.h>
 #include <qlabel.h>
+#include <qwhatsthis.h>
 
 // KDE includes
 #include <kcolorbutton.h>
@@ -62,12 +63,15 @@ void KEditFunction::setVisibleWidgets()
 	{
 		case Function: 
 			this->setCaption( i18n( "Edit Function Plot" ) );
-			kLineEditXFunction->hide();
 			textLabelX->hide();
 			textLabelXF->hide();
 			textLabelArgX->hide();
+			kLineEditXFunction->hide();
 			textLabelY->setText( "" );
 			textLabelArgY->setText( "(x) = " );
+			QWhatsThis::add( kLineEditYFunction, tr2i18n( "Enter an expression for the function.\n"
+				"The dummy variable is x.\n"
+				"Example: x^2" ) );
 			checkBoxDerivative1->show();
 			checkBoxDerivative2->show();
 			break;
@@ -79,6 +83,9 @@ void KEditFunction::setVisibleWidgets()
 			textLabelArgX->show();
 			textLabelY->setText( "y" );
 			textLabelArgY->setText( "(t) = " );
+			QWhatsThis::add( kLineEditYFunction, tr2i18n( "Enter an expression for the function.\n"
+				"The dummy variable is t.\n"
+				"Example: sin(t)" ) );
 			checkBoxDerivative1->hide();
 			checkBoxDerivative2->hide();
 			break;
@@ -90,6 +97,9 @@ void KEditFunction::setVisibleWidgets()
 			textLabelArgX->hide();
 			textLabelY->setText( "r" );
 			textLabelArgY->setText( "(theta) = " );
+			QWhatsThis::add( kLineEditYFunction, tr2i18n( "Enter an expression for the function.\n"
+				"The dummy variable is theta.\n"
+				"Example: 3*theta" ) );
 			checkBoxDerivative1->show();
 			checkBoxDerivative2->show();
 	}

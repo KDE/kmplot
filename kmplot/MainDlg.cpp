@@ -305,7 +305,7 @@ void MainDlg::slotExport()
 				KTempFile tmp;
 				pic.save( tmp.name(), "SVG");
 				if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-					KMessageBox::error(m_parent, i18n("The url could not be saved") );
+					KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
 				tmp.unlink();
 			}
 		}
@@ -321,7 +321,7 @@ void MainDlg::slotExport()
 				KTempFile tmp;
 				pic.save( tmp.name(), "BMP");
 				if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-					KMessageBox::error(m_parent, i18n("The url could not be saved") );
+					KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
 				tmp.unlink();
 			}
 		}
@@ -337,7 +337,7 @@ void MainDlg::slotExport()
 				KTempFile tmp;
 				pic.save( tmp.name(), "PNG");
 				if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-					KMessageBox::error(m_parent, i18n("The url could not be saved") );
+					KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
 				tmp.unlink();
 			}
 		}

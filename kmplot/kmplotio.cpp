@@ -249,7 +249,7 @@ bool KmPlotIO::load( const KURL &url )
 
 	QDomElement element = doc.documentElement();
 	QString version = element.attribute( "version" );
-	if ( version == QString::null) //an old kmplot-file
+	if ( version.isNull()) //an old kmplot-file
 	{
 		MainDlg::oldfileversion = true;
 		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )

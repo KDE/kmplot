@@ -147,6 +147,7 @@ void KEditFunction::setWidgets()
 	min->setText( m_parser->fktext[ m_index ].str_dmin );
 	max->setText( m_parser->fktext[ m_index ].str_dmax );
 	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_index ].dicke );
+	kColorButtonColor->setColor( m_parser->fktext[ m_index ].farbe );
 }
 
 void KEditFunction::accept()

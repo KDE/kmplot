@@ -50,7 +50,7 @@ KoordDlg::KoordDlg( QWidget* parent, const char* name, bool modal ) : Inherited(
 	kdx = koordx;
 	kdy = koordy;
 	setAxes();
-	cb_beschr->setChecked( mode & BESCHRIFTUNG );
+	cb_beschr->setChecked( mode & LABEL );
 	axesLineWidth->setValue( axesThickness );
 	ticLineWidth->setValue( gradThickness );
 	ticLength->setValue( gradLength );
@@ -158,12 +158,12 @@ void KoordDlg::onok()
 	if ( cb_beschr->isChecked() )
 	{
 		m = 1;
-		mode |= BESCHRIFTUNG;
+		mode |= LABEL;
 	}
 	else
 	{
 		m = 0;
-		mode &= ~BESCHRIFTUNG;
+		mode &= ~LABEL;
 	}
 	
 	axesThickness = axesLineWidth->value();

@@ -72,9 +72,9 @@ void View::draw(QPaintDevice *dev, int form)
 		s=1.;
 	}
 	
-	dgr.RahmenDicke=(uint)(4*s);
+	dgr.borderThickness=(uint)(4*s);
 	dgr.axesThickness=(uint)(axesThickness*s);
-	dgr.GitterDicke=(uint)(GitterDicke*s);
+	dgr.gridThickness=(uint)(gridThickness*s);
 	dgr.gradThickness=(uint)(gradThickness*s);
 	dgr.gradLength=gradLength;
 	dgr.axesColor=axesColor;

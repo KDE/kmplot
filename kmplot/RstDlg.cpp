@@ -40,7 +40,7 @@
 #define Inherited RstDlgData
 
 RstDlg::RstDlg( QWidget* parent, const char* name ) : Inherited( parent, name, true )
-{	le_dicke->setText( QString::number( GitterDicke ) );
+{	le_dicke->setText( QString::number( gridThickness ) );
 	switch ( g_mode )
 	{
 	case 0:
@@ -76,12 +76,12 @@ void RstDlg::onok()
 	else if ( rb_r4->isChecked() )
 		g_mode = 3;
 
-	GitterDicke = le_dicke->text().toInt();
+	gridThickness = le_dicke->text().toInt();
 	gridColor = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )
 	{
-		Settings::setGridLineWidth( GitterDicke );
+		Settings::setGridLineWidth( gridThickness );
 		Settings::setGridStyle( g_mode );
 		Settings::setGridColor( gridColor );
 	}

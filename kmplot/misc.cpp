@@ -18,7 +18,7 @@ koordy,     // 1 => [-5|+5]
 // 2 => [0|+16]
 // 3 => [0|+10]
 axesThickness,
-GitterDicke,
+gridThickness,
 gradThickness,
 gradLength;
 
@@ -102,13 +102,13 @@ void getSettings()
 
 	axesThickness = Settings::axesLineWidth();
 	axesColor = Settings::axesColor().rgb();
-	if ( Settings::showLabel() ) mode |= BESCHRIFTUNG;
+	if ( Settings::showLabel() ) mode |= LABEL;
 	gradThickness = Settings::ticWidth();
 	gradLength = Settings::ticLength();
 
 	// grid settings
 
-	GitterDicke = Settings::gridLineWidth();
+	gridThickness = Settings::gridLineWidth();
 	g_mode = Settings::gridStyle();
 	gridColor = Settings::gridColor().rgb();
 

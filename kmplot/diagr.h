@@ -43,7 +43,7 @@
 #define PFEILE			2		/**< axes with arrows */
 #define RAHMEN			4		/**< visible frame */
 #define	EXTRAHMEN		8		/**< bigger frame */
-#define BESCHRIFTUNG	16		/**< visible labels */ 
+#define LABEL	16		/**< visible labels */ 
 
 #define	LINIENRASTER	1	/**< line grid */
 #define	KREUZRASTER     2	/**< crosses grid */
@@ -78,9 +78,9 @@ public:
 	     axesColor,
          gridColor;
 
-	uint RahmenDicke,
+	uint borderThickness,
 	     axesThickness,
-	     GitterDicke,
+	     gridThickness,
 	     gradThickness,
 	     gradLength,
 	     xclipflg,            	// clipflg wird auf 1 gesetzt, wenn die

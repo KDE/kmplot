@@ -272,7 +272,7 @@ void MainDlg::doSave( QString filename )
 	tag = doc.createElement( "grid" );
 
 	tag.setAttribute( "color", QColor( gridColor ).name() );
-	tag.setAttribute( "width", GitterDicke );
+	tag.setAttribute( "width", gridThickness );
 
 	addTag( doc, tag, "mode", QString::number( g_mode ) );
 
@@ -450,7 +450,7 @@ void MainDlg::parseGrid( const QDomElement & n )
 	kdDebug() << "parsing grid" << endl;
 
 	gridColor = QColor( n.attribute( "color", "#c0c0c0" ) ).rgb();
-	GitterDicke = n.attribute( "width", "1" ).toInt();
+	gridThickness = n.attribute( "width", "1" ).toInt();
 
 	g_mode = n.namedItem( "mode" ).toElement().text().toInt();
 }

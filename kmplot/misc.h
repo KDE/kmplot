@@ -60,7 +60,7 @@ extern int g_mode;
 /** Thickness of the axes lines. */
 extern int	axesThickness,
 	/** Thickness of the grid lines. */
-	GitterDicke,
+	gridThickness,
 	/** Thickness of the tics */
 	gradThickness,
 	/** Length of the tics. */

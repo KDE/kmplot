@@ -42,9 +42,9 @@ CDiagr::CDiagr()
 {   RahmenFarbe=qRgb(0, 0, 0);
 	axesColor=qRgb(0, 0, 0);
 	gridColor=qRgb(192, 192, 192);
-	RahmenDicke=2;
+	borderThickness=2;
 	axesThickness=2;
-	GitterDicke=1;
+	gridThickness=1;
 	gradThickness=1;
 	gradLength=10;
 	mode=0;
@@ -84,7 +84,7 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 		w+=40;
 		h+=40;
 		
-		if(mode&BESCHRIFTUNG)
+		if(mode&LABEL)
 		{	if(xmin>=0.)
 			{   x-=80;
 				w+=80;
@@ -108,11 +108,11 @@ void CDiagr::Skal(double ex, double ey, char g_mode)
 
 
 void CDiagr::Plot(QPainter* pDC)
-{   QPen pen(RahmenFarbe, RahmenDicke);
+{   QPen pen(RahmenFarbe, borderThickness);
     
 	if(g_mode) Raster(pDC);         		        // Raster zeichnen
 	Achsen(pDC);							        // Achsen zeichnen
-	if(mode&BESCHRIFTUNG) Beschriftung(pDC);        // Achsen beschriften
+	if(mode&LABEL) Beschriftung(pDC);        // Achsen beschriften
 	if(mode&(RAHMEN|EXTRAHMEN)) 			        // Rahmen zeichnen
 	{   pDC->setPen(pen);
 		pDC->drawRect(Rahmen);
@@ -265,7 +265,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 void CDiagr::Raster(QPainter* pDC)
 {   int a, b;
 	double d, x, y;
-	QPen pen(gridColor, GitterDicke);
+	QPen pen(gridColor, gridThickness);
 
 	pDC->setPen(pen);
 	if(g_mode==1)                   		// Linienraster

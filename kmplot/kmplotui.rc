@@ -20,6 +20,9 @@
 			<Action name="coord_ii"/>
 			<Action name="coord_iii"/>
 		</Menu>
+		<Menu name="settings">
+			<Action name="fullscreen" />
+		</Menu>
 		<Menu name="help">
 			<Action name="names"/>
 		</Menu>

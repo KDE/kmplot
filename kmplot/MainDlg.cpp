@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -79,6 +79,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	// configuration data 
 	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
 	m_modified = false;
+	setAutoSaveSettings();
 }
 
 MainDlg::~MainDlg()
@@ -100,7 +101,8 @@ void MainDlg::setupActions()
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
-
+	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(),this, "fullscreen");
+	
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
 	
@@ -450,3 +452,10 @@ bool MainDlg::queryClose()
 {
 	return checkModified() && KMainWindow::queryClose();
 }
+
+void MainDlg::slotFullScreen()
+{
+	if ( isFullScreen() ) showNormal();
+	else showFullScreen();
+}
+

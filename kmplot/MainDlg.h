@@ -158,6 +158,8 @@ class MainDlg : public KMainWindow
 		* @param the content of the KLineEdit
 		*/
 		void slotQuickEdit( const QString& );
+		/// Enable or disable fullscreen
+		void slotFullScreen();
 		
 	protected:
 		/// Quits KmPlot after checking if modifications shall be saved.

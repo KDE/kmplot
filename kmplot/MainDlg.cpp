@@ -392,7 +392,7 @@ void MainDlg::print()
 
 	prt.addDialogPage( new KPrinterDlg( this, "KmPlot page" ) );
 
-	if ( prt.setup( this ) )
+	if ( prt.setup( this, i18n("Print function") ) )
 	{
 		prt.setFullPage( true );
 		printtable = prt.option( "app-kmplot-printtable" ) != "-1";

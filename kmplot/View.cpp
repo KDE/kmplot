@@ -109,6 +109,7 @@ View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidg
 	m_popupmenu->insertTitle( "",10);
 	zoom_mode = 0;
 	isDrawing=false;
+	areaDraw = false;
 }
 
 void View::setMinMaxDlg(KMinMax *minmaxdlg)

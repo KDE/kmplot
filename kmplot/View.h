@@ -81,12 +81,13 @@ public:
 	/// Called when the graph should be updated
 	void drawPlot();
 	/// Finding the minimum or maximum value
-	void findMinMaxValue(int, char, bool, double &, double &);
+	void findMinMaxValue(int, char, bool, double &, double &,QString &);
 	/// get a y-value from a x-value
-	void getYValue(int, char, double , double &);
+	void getYValue(int, char, double , double &,QString &);
 	/// draw and calculate the area between the graph and the x-axis.
-	void areaUnderGraph(int, char, double &, double &, QPainter* );
-	
+	void areaUnderGraph(int, char, double &, double &, QString &, QPainter* );
+	/// the calculation was cancelled by the user
+	bool calculationStopped();
 			
 	/// Returns a pointer to the private parser instance m_parser.
 	/// @see m_parser
@@ -102,7 +103,7 @@ public:
 	static double xmax;
 	
 	/// trace mode stuff, must be accessible in KMinMax
-	int csmode;
+	int csmode, csparam;
 	char cstype;
 	
 	/// for areadrawing when printing
@@ -110,6 +111,7 @@ public:
 	int areaIx;
 	char areaPMode;
 	double areaMin, areaMax;
+	QString areaParameter;
 
 public slots:
 	/// Called when the user want to cancel the drawing

@@ -23,6 +23,7 @@
 *
 */
 
+#include <kinputdialog.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -44,6 +45,9 @@ KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
 	m_mode=-1;
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
 	connect( cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));
+	connect( cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
+	connect( list, SIGNAL( highlighted(QListBoxItem*) ), this, SLOT( list_highlighted(QListBoxItem*) ));
+	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( list_doubleClicked(QListBoxItem *) ));
 }
 
 
@@ -68,18 +72,20 @@ void KMinMax::init(char m)
 	else if ( m_mode == 2) //get y-value
 	{
 		setCaption(i18n("Get y-value"));
+		lblMin->setText(i18n("X:"));
+		lblMax->setText(i18n("Y:"));	
 		max->setReadOnly(true);
 		min->setText("");
 		max->setText("");
 		cmdFind->setText("&Find");
-		lblMin->setText(i18n("X:"));
-		lblMax->setText(i18n("Y:"));	
+
 	}
 	else if ( m_mode == 3) //area under a graph
 	{
 		setCaption(i18n("Area under a graph"));
 		lblMin->setText(i18n("Draw the area between the x-values"));
 		lblMax->setText(i18n("and"));
+		max->setReadOnly(false);
 		min->setText("");
 		max->setText("");
 		cmdFind->setText("&Draw");
@@ -110,23 +116,24 @@ void KMinMax::updateFunctions()
 			{
 				QString function (m_view->parser()->fktext[ index ].extstr);
 				int i= function.find('(');
-				function.insert(i,'\'');
+				function.truncate(i);
+				function +="\'";
 				list->insertItem(function );
 			}
 			if ( m_view->parser()->fktext[ index ].f2_mode )//2nd derivative
 			{
 				QString function (m_view->parser()->fktext[ index ].extstr);
 				int i= function.find('(');
-				function.insert(i,"\'\'");
+				function.truncate(i);
+				function +="\'\'";
 				list->insertItem(function );
 			}
 			if ( m_view->parser()->fktext[ index ].anti_mode )//anti derivative
 			{
 				QString function (m_view->parser()->fktext[ index ].extstr);
 				int i= function.find('(');
-				QString tmp = function.left(i);
-				tmp = tmp.upper();
-				function.replace(0,i,tmp);
+				function.truncate(i);
+				function = function.upper();
 				list->insertItem(function );
 			}
 		}
@@ -136,23 +143,30 @@ void KMinMax::updateFunctions()
 
 void KMinMax::selectItem()
 {
+	cmdParameter->hide();
+	parameter="kmplot";
 	if (  m_view->csmode < 0)
 		return;
-	kdDebug() << "cstype: " << (int)m_view->cstype << endl;
+	//kdDebug() << "cstype: " << (int)m_view->cstype << endl;
 	QString function = m_view->parser()->fktext[ m_view->csmode ].extstr;
 	if ( m_view->cstype == 2)
 	{
 		int i= function.find('(');
-		function.remove(i-2,2);
+		function.truncate(i);
+		function +="\'\'";
 	}
 	else if ( m_view->cstype == 1)
 	{
 		int i= function.find('(');
-		function.remove(i-1,1);
+		function.truncate(i);
+		function +="\'";
 	}
-	kdDebug() << "function: " << function << endl;
-	QListBoxItem *item = list->findItem(function);
+	//kdDebug() << "function: " << function << endl;
+	QListBoxItem *item = list->findItem(function,Qt::ExactMatch);
 	list->setSelected(item,true);
+	
+	if (  m_view->parser()->fktext[ m_view->csmode ].k_anz != 0)
+		parameter = m_view->parser()->fktext[ m_view->csmode ].str_parameter[m_view->csparam];
 }
 
 KMinMax::~KMinMax()
@@ -185,8 +199,6 @@ void KMinMax::cmdFind_clicked()
 		}
 	}
 		
-	int index;
-	QString fname, fstr;
 	QString function( list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
@@ -207,36 +219,154 @@ void KMinMax::cmdFind_clicked()
 		function.at(0) =  function.at(0).lower();
 	}	
 	
+	QString fname, fstr;
 	bool stop=false;
+	int index;
+	QString sec_function = function.section('(',0,0);
 	for ( index = 0; index < m_view->parser()->ufanz && !stop; ++index )
 	{
 		if ( m_view->parser()->getfkt( index, fname, fstr ) == -1 ) continue;
-		if ( m_view->parser()->fktext[ index ].extstr == function)
+		if ( m_view->parser()->fktext[ index ].extstr.section('(',0,0) == sec_function)
 			stop=true;
 	}
-
-
+	index--;
+	if ( m_view->parser()->fktext[ index ].k_anz == 0)
+		parameter = "0";
+	else if ( parameter =="kmplot")
+	{
+		KMessageBox::error(this,i18n("You must choose a parameter for that function"));
+		list_highlighted(list->selectedItem() );
+		return;
+	}
+	
+	
 	if ( m_mode == 0)
-		m_view->findMinMaxValue(index-1,p_mode,true,dmin,dmax);
+	{
+		m_view->findMinMaxValue(index,p_mode,true,dmin,dmax,parameter);
+		if ( !m_view->calculationStopped() )
+			KMessageBox::information(this,i18n("Minimum value:\nx: %1\ny: %2").arg(dmin).arg(dmax) );
+	}
 	else if ( m_mode == 1)
-		m_view->findMinMaxValue(index-1,p_mode,false,dmin,dmax);
+	{
+		m_view->findMinMaxValue(index,p_mode,false,dmin,dmax,parameter);
+		if ( !m_view->calculationStopped() )
+			KMessageBox::information(this,i18n("Maximum value:\nx: %1\ny: %2").arg(dmin).arg(dmax));
+	}
 	else if ( m_mode == 2)
 	{
-		m_view->getYValue(index-1,p_mode,dmin,dmax);
-		QString tmp;
-		tmp.setNum(dmax);
-		max->setText(tmp);
+		m_view->getYValue(index,p_mode,dmin,dmax,parameter);
+		if ( !m_view->calculationStopped() )
+		{
+			QString tmp;
+			tmp.setNum(dmax);
+			max->setText(tmp);
+		}
 	}
 	else if ( m_mode == 3)
 	{
 		double dmin_tmp = dmin;
-		m_view->areaUnderGraph(index-1,p_mode,dmin,dmax,0);
-		m_view->setFocus();
-		m_view->update();
-		KMessageBox::information(this,i18n("The area between %1 and %1\nis: %3").arg(dmin_tmp).arg(dmax).arg(dmin));
+		m_view->areaUnderGraph(index,p_mode,dmin,dmax,parameter, 0);
+		if ( !m_view->calculationStopped() )
+		{
+			m_view->setFocus();
+			m_view->update();
+			KMessageBox::information(this,i18n("The area between %1 and %1\nis: %3").arg(dmin_tmp).arg(dmax).arg(dmin));
+		}
 	}
+	
+	if ( m_view->calculationStopped() )
+		KMessageBox::error(this,i18n("The operation was cancelled by the user."));
+	
 	//QDialog::accept();
 }
+void KMinMax::list_highlighted(QListBoxItem* item)
+{
+	if ( !item)
+	{
+		cmdParameter->hide();
+		return;
+	}
+	QString function( list->currentText() );
+	char p_mode = 0;
+	if ( function.contains('\'') == 1)
+	{
+		p_mode = 1;
+		int pos = function.find('\'');
+		function.remove(pos,1);
+	}
+	else if ( function.contains('\'') == 2)
+	{
+		p_mode = 2;
+		int pos = function.find('\'');
+		function.remove(pos,2);
+	}
+	else if ( function.at(0).category() == QChar::Letter_Uppercase)
+	{
+		p_mode = 3;
+		function.at(0) =  function.at(0).lower();
+	}	
+	
+	QString fname, fstr;
+	bool stop=false;
+	int ix;
+	QString sec_function = function.section('(',0,0);
+	for ( ix = 0; ix < m_view->parser()->ufanz && !stop; ++ix )
+	{
+		if ( m_view->parser()->getfkt( ix, fname, fstr ) == -1 ) continue;
+		if ( m_view->parser()->fktext[ ix ].extstr.section('(',0,0) == sec_function)
+			stop=true;
+	}
+	ix--;
+	if ( m_view->parser()->fktext[ ix ].str_parameter.count() ==0)
+		cmdParameter->hide();
+	else
+		cmdParameter->show();
+}
+void KMinMax::cmdParameter_clicked()
+{	
+	QString function( list->currentText() );
+	char p_mode = 0;
+	if ( function.contains('\'') == 1)
+	{
+		p_mode = 1;
+		int pos = function.find('\'');
+		function.remove(pos,1);
+	}
+	else if ( function.contains('\'') == 2)
+	{
+		p_mode = 2;
+		int pos = function.find('\'');
+		function.remove(pos,2);
+	}
+	else if ( function.at(0).category() == QChar::Letter_Uppercase)
+	{
+		p_mode = 3;
+		function.at(0) =  function.at(0).lower();
+	}
+	
+	QString fname, fstr;
+	bool stop=false;
+	int ix;
+	QString sec_function = function.section('(',0,0);
+	for ( ix = 0; ix < m_view->parser()->ufanz && !stop; ++ix )
+	{
+		if ( m_view->parser()->getfkt( ix, fname, fstr ) == -1 ) continue;
+		if ( m_view->parser()->fktext[ ix ].extstr.section('(',0,0) == sec_function)
+			stop=true;
+	}
+	ix--;
 
+	bool ok;
+	QStringList result = KInputDialog::getItemList("Kmplot", i18n("Choose a parameter to use:"), m_view->parser()->fktext[ ix ].str_parameter, QStringList(parameter),false,&ok);
+	if ( ok)
+		parameter = *result.begin();
+}
 
+void KMinMax::list_doubleClicked(QListBoxItem *)
+{
+	if ( list->currentItem() == -1)
+		return;
+	else if( cmdParameter->isShown() )
+		cmdParameter_clicked();
+}
 #include "kminmax.moc"

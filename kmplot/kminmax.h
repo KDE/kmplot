@@ -46,10 +46,14 @@ public:
    
 public slots:
     void cmdFind_clicked();
+    void cmdParameter_clicked();
+    void list_highlighted(QListBoxItem*);
+    void list_doubleClicked(QListBoxItem *);
         
 private:
     View *m_view;
-    char m_mode; //0 = minimum, 1 = maximum, 2 = y-point
+    char m_mode; ///0 = minimum, 1 = maximum, 2 = y-point, 3=drawing area
+    QString parameter;
     
 
 };

@@ -21,7 +21,6 @@ TODO
 * Import parameter values from different file format(.csv, KSpread, OpenOffice)
 * Popup tool menu when right clicking on a graph
 * Draw tangents in trace mode
-* Draw functions with parameters in tool-menu
 
 
 IN PROGRESS
@@ -60,3 +59,4 @@ DONE
 * In tool menu:
 	* area under a graph
 * Printable area-under-graphs
+* Draw functions with parameters in tool-menu

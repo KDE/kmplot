@@ -719,9 +719,9 @@ void View::mousePressEvent(QMouseEvent *e)
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
 
 		QString str_tmp;
-		double diffx = (xmax-xmin)/double(Settings::zoomStep()/50);// == 100/2=50
-		double diffy = (ymax-ymin)/double(Settings::zoomStep()/50);
-		
+		double diffx = (xmax-xmin)/((double)Settings::zoomStep()/50);// == 100/2=50
+		double diffy = (ymax-ymin)/((double)Settings::zoomStep()/50);
+			
 		if ( diffx > 1000000 || diffy > 1000000)
 			return;
 		

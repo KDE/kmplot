@@ -166,9 +166,9 @@ void MainDlg::setupActions()
 	// tools menu
 	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
 	mnuHide->plug(m_popupmenu);
-	KAction *mnuRemove = new KAction(i18n("&Remove"),0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
+	KAction *mnuRemove = new KAction(i18n("&Remove"),"editdelete", 0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
 	mnuRemove->plug(m_popupmenu);
-	KAction *mnuEdit = new KAction(i18n("&Edit"), 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
+	KAction *mnuEdit = new KAction(i18n("&Edit"),"editplots", 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
 	mnuEdit->plug(m_popupmenu);
 
 	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );

@@ -678,7 +678,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 
 			// Fadenkreuz zeichnen
 			QPen pen;
-			if ( cstype == -1)
+			if ( csmode == -1)
 				pen.setColor(inverted_backgroundcolor);
 			else
 			{

@@ -80,48 +80,47 @@ and resetting the function parser.</action></para>
 </sect1>
 
 <sect1 id="a-view-menu">
-<title>The <guimenu>View</guimenu> Menu</title>
+<title>The <guimenu>Edit</guimenu> Menu</title>
 
 <variablelist>
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu><guimenuitem>Axes</guimenuitem>
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Colors...</guimenuitem>
 </menuchoice></term>
 <listitem><para>
-Displays the <guilabel>Coordinate Axes Settings</guilabel> dialog box. See
+Displays the <guilabel>Color Settings</guilabel> dialog box. See
 <xref linkend="configuration"/>.
 </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu><guimenuitem>Scale</guimenuitem>
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Coordinate System...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Displays the <guilabel>Scale
-Settings</guilabel> dialog box. See <xref linkend="configuration"/>.
+<listitem><para>Displays the <guilabel>Coordinate System</guilabel> dialog box. See <xref linkend="configuration"/>.
 </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu><guimenuitem>Grid</guimenuitem>
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Scaling...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Displays the <guilabel>Grid Settings</guilabel> dialog box. See
+<listitem><para>Displays the <guilabel>Scaling Settings</guilabel> dialog box. See
 <xref linkend="configuration"/>.
 </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu><guimenuitem>Step</guimenuitem>
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Fonts...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Displays the <guilabel>Step Settings</guilabel> dialog box. See
+<listitem><para>Displays the <guilabel>Font Settings</guilabel> dialog box. See
 <xref linkend="configuration"/>.
 </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System I</guimenuitem>
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Coordinate System I</guimenuitem>
 </menuchoice></term>
 <listitem><para>Show both positive and negative x- and y-values on the grid.
 </para>
@@ -129,7 +128,7 @@ Settings</guilabel> dialog box. See <xref linkend="configuration"/>.
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System II</guimenuitem>
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Coordinate System II</guimenuitem>
 </menuchoice></term>
 <listitem><para>Show positive and negative y-values, but positive x-values only
 </para>
@@ -137,7 +136,7 @@ Settings</guilabel> dialog box. See <xref linkend="configuration"/>.
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System III</guimenuitem>
+<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Coordinate System III</guimenuitem>
 </menuchoice></term>
 <listitem><para>Show only positive x- and y-values.
 </para>

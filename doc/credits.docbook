@@ -17,13 +17,16 @@ Program copyright 2000-2002 Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.
   <listitem>
     <para>Porting &GUI; to &kde; 3 and Translating: Matthias Messmer <email>bmlmessmer@web.de</email></para>
   </listitem>
+  <listitem>
+    <para>Various improvements: Fredrik Edemar <email>f_edemar@linux.se</email></para>
+  </listitem>  
 </itemizedlist>
 
 <para>
 Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>.
 </para>
 <para>Documentation extended and updated for &kde; 3.2 by &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
-
+<para>Documentation extended and updated for &kde; 3.3 by &Philip.Rodrigues; &Philip.Rodrigues.mail; and Fredrik Edemar <email>f_edemar@linux.se</email>.</para>
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
 &underFDL;               <!-- FDL: do not remove. Commercial development should

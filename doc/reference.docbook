@@ -47,7 +47,7 @@ parser expects a second function with a leading <quote>y</quote> (here
 <term>var2</term> 
 <listitem><para> The function <quote>group parameter</quote>. It must be
 separated from the function's variable by a comma. You can use the group
-parameter to, for example, plot a number of graphs from one function. The parameter values can be selected manually or you can choose to have a slider bar than control one parameter.</para></listitem>
+parameter to, for example, plot a number of graphs from one function. The parameter values can be selected manually or you can choose to have a slider bar that controls one parameter. By changing the value of the slider the value parameter will be changed. The slider can be set to an integer between 0 and 100.</para></listitem>
 </varlistentry>
 <varlistentry>
 <term>term</term>
@@ -160,7 +160,7 @@ argument to sin and the return value of arcsin are in radians.</para>
 
 <para>
 These functions and constants and even all user defined functions can
-be used to determine the axes settings as well. See <xref linkend="the-axes-tab"/>.
+be used to determine the axes settings as well. See <xref linkend="axes-config"/>.
 </para>
 
 </sect1>

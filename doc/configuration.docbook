@@ -8,9 +8,28 @@ from options in the <guimenu>Edit</guimenu> menu, as well. </para>
 <note>
 <para>Settings changed in the &kmplot; configuration dialog become the
 default for &kmplot;, and only take effect when a new plot is started. Settings
-changed in the <guimenu>Edit</guimenu> menu take effect immediately, but do not
+changed in the <guimenu>View</guimenu> menu take effect immediately, but do not
 persist after &kmplot; is exited.</para>
 </note>
+
+<sect1 id="general-config">
+<title><guilabel>General</guilabel> Configuration</title>
+<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first tab you can set calculation-precision, angle-mode (radians and degrees), background color and zoom in and zoom out factors. </para><para>The second tab let you define you own constants.  &kmplot; saves the constains in the same file as KCalc does. That means you can create a constant in  &kmplot;, close the program and load it in KCalc and vice versa.  &kmplot; only supports constant names that consist one capital character and if you in KCalc define a constant name that isn't one character, the name will be truncated. E.g, if you already have the constants "apple" and "ananas" in KCalc, they will be renamed to "A" and "B" in &kmplot;.</para>
+
+<screenshot>
+<screeninfo>Here's a screenshot of the &kmplot; welcome window</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="settingsdlg.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Screenshot</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
+</sect1>
+
 
 <sect1 id="colors-config">
 <title><guilabel>Colors</guilabel> Configuration</title>
@@ -24,8 +43,8 @@ for the graphs of the ten functions allowed in &kmplot;.</para>
 <sect1 id="coords-config">
 <title><guilabel>Coords</guilabel> Configuration</title>
 
-<sect2 id="the-axes-tab">
-<title>The <guilabel>Axes</guilabel> Tab</title>
+<sect2 id="axes-config">
+<title>The <guilabel>Axes</guilabel> Configuration</title>
 <para>
 <variablelist>
 
@@ -85,8 +104,8 @@ to 9.</para>
 
 </sect2>
 
-<sect2 id="the-grid-tab">
-<title>The <guilabel>Grid</guilabel> Tab</title>
+<sect2 id="grid-config">
+<title>The <guilabel>Grid</guilabel> Configuration</title>
 <para>You can set the <guilabel>Grid Style</guilabel> to one of four options:
 <variablelist>
 
@@ -125,8 +144,8 @@ area.</para>
 the lines of the grid.</para>
 </sect2>
 
-<sect2 id="the-fonts-tab">
-<title>The <guilabel>Fonts</guilabel> Tab</title>
+<sect2 id="font-config">
+<title>The <guilabel>Fonts</guilabel> Configuration</title>
 <para><guilabel>Header table</guilabel> sets the font for the information table
 shown in &kmplot; printouts, and <guilabel>Axes labels</guilabel> sets the font
 used for all labels on the axes in the plot area.</para>

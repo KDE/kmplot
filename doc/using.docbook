@@ -18,6 +18,18 @@ don't specify one.</para>
 linkend="reference"/>.
 </para>
 
+<screenshot>
+<screeninfo>Here's a screenshot of the &kmplot; welcome window</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Screenshot</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
 <sect1 id="function-types">
 <title>Function Types</title>
 
@@ -54,18 +66,20 @@ given in appropriate syntax for &kmplot;. See <xref linkend="math-syntax"/>.
 <para>As an example, to draw the graph of y=x<superscript>2</superscript>+2x,
 enter the following into the functions dialog of &kmplot;:
 <screen>
-f(x)=x^2+2*x
+f(x)=x^2+2x
 </screen>
 </para>
 </sect2>
 
 <sect2 id="parametric-functions">
-<title>Parametric Functions</title> <para>Parametric functions are
-those in which the x and y coordinates are defined by separate
-functions of another variable, often called t. To draw a parametric
-function, use <menuchoice><guimenu>Plot</guimenu><guimenuitem>New
-Parametric Plot...</guimenuitem> </menuchoice>.</para>
-
+<title>Parametric Functions</title>
+<para>Parametric functions are those in which the x and y coordinates are
+defined by separate functions of another variable, often called t. To enter a
+parametric function in &kmplot;, follow the procedure as for an explicit
+function, but prefix the name of the function describing the x-coordinate with
+the letter x, and the function describing the y-coordinate with the letter
+y. As with explicit functions, you may use any variable name you wish for the
+parameter. To draw a parametric function, you must go to <guimenu>Functions</guimenu><guimenuitem>New Parametric Plot...</guimenuitem>. A function name will be created automatic if you don't specify one.</para>
 <para>As an example, suppose you want to draw a circle, which has parametric
 equations x=sin(t), y=cos(t). In the &kmplot; functions dialog, do the
 following:
@@ -149,6 +163,7 @@ so that the whole line reads <quote>r(theta)=theta</quote>. Note that
 you can use any name for the theta variable, so
 <quote>r(foo)=foo</quote> would have produced exactly the same output.
 </para>
+
 </sect2>
 
 </sect1>
@@ -273,21 +288,10 @@ linkend="a-tools-menu"/>.</para>
 </varlistentry>
 </variablelist>
 
+
 </sect1>
 
-<!--
-<screenshot>
-<screeninfo>Here's a screenshot of the &kmplot; welcome window</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="main.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>Screenshot</phrase>
-	  </textobject>
-	</mediaobject>
-</screenshot>
--->
+
 </chapter>
 <!--
 Local Variables:

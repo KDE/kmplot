@@ -67,3 +67,16 @@ icons/cr32-app-kmplot.png
 icons/cr48-app-kmplot.png
 icons/Makefile.am
 KmPlot.kdevelop.filelist
+/keditfunction.h
+/keditfunction.cpp
+kmplot/qeditfunction.ui
+/keditfunction2.h
+/keditfunction2.cpp
+/kfunctionedit.h
+/kfunctionedit.cpp
+keditfunction.h
+keditfunction.cpp.c
+kmplot/keditfunction.h
+kmplot/keditfunction.cpp
+/qfunctionlist.h
+/qfunctionlist.cpp

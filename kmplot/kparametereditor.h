@@ -53,7 +53,7 @@ public slots:
     
 private:
     /// Check so that it doesn't exist two equal values
-    bool checkTwoOfIt( QString & text);
+    bool checkTwoOfIt( const QString & text);
     QStringList *m_parameter;
     XParser *m_parser;
 };

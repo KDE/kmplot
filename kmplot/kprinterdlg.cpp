@@ -63,7 +63,7 @@ void KPrinterDlg::setOptions( const QMap<QString, QString>& opts )
 	transparent_background->setChecked( opts[ "app-kmplot-printbackground" ] != "-1" );
 }
 
-bool KPrinterDlg::isValid( QString& )
+bool KPrinterDlg::isValid( const QString& )
 {
 	return true;
 }

@@ -1078,7 +1078,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	}
 }
 
-void View::coordToMinMax( const int koord, const QString minStr, const QString maxStr,
+void View::coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
                           double &min, double &max )
 {
 	switch ( koord )
@@ -1163,7 +1163,7 @@ void View::stopDrawing()
 		stop_calculating = true;
 }
 
-void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, double &dmax, QString &str_parameter)
+void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, double &dmax, const QString &str_parameter)
 {
 	double x, y = 0;
 	double result_x = 0;
@@ -1302,7 +1302,7 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	dmax = int(result_y*1000)/double(1000);
 }
 
-void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, QString &str_parameter)
+void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QString &str_parameter)
 {
 	// TODO: parameter sliders
 	if ( !ufkt->k_liste.isEmpty() )
@@ -1538,7 +1538,7 @@ void View::keyPressEvent( QKeyEvent * e)
 	delete event;
 }
 
-void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double &dmax, QString &str_parameter, QPainter *DC )
+void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double &dmax, const QString &str_parameter, QPainter *DC )
 {
 	double x, y = 0;
 	float calculated_area=0;

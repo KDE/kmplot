@@ -70,11 +70,11 @@ public:
 	/// @see getSettings
 	void init();
 	/// Finding the minimum or maximum value
-	void findMinMaxValue(Ufkt *, char, bool, double &, double &,QString &);
+	void findMinMaxValue(Ufkt *, char, bool, double &, double &,const QString &);
 	/// get a y-value from a x-value
-	void getYValue(Ufkt * , char, double , double &,QString &);
+	void getYValue(Ufkt * , char, double , double &,const QString &);
 	/// draw and calculate the area between the graph and the x-axis.
-	void areaUnderGraph(Ufkt *, char const, double &, double &, QString &, QPainter* );
+	void areaUnderGraph(Ufkt *, char const, double &, double &, const QString &, QPainter* );
 	/// the calculation was cancelled by the user
 	bool isCalculationStopped();
 
@@ -207,7 +207,7 @@ private:
 	*
 	* In the last case @p minstr and @p maxstr are evaluated.
 	*/
-	void coordToMinMax( const int koord, const QString minStr, const QString maxStr,
+	void coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
 	                    double &min, double &max );
 	/// Sets the plot range from Settings
 	void setPlotRange();

@@ -283,7 +283,7 @@ void KParameterEditor::varlist_doubleClicked( QListBoxItem * )
 	cmdEdit_clicked();
 }
 
-bool KParameterEditor::checkTwoOfIt( QString & text)
+bool KParameterEditor::checkTwoOfIt(const QString & text)
 {
 	if ( list->findItem(text,Qt::ExactMatch) == 0)
 		return false;

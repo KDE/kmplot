@@ -28,6 +28,7 @@
  
 // Qt includes
 #include <qstring.h>
+#include <qvaluevector.h>
 
 #ifndef parser_included
 #define parser_included
@@ -38,7 +39,6 @@
 #define	UFANZ		10	///< max. count of user defined functions
 #define	MEMSIZE		200	///< memory size for tokens
 #define	STACKSIZE	50	///< stack depth
-
 
 //@{
 /** Token type. */
@@ -55,6 +55,7 @@
 #define FKT	10	// address to function followes
 #define	UFKT	11      // address to user defined function follows
 #define	ENDE	12      // end of function
+#define	YWERT	13       // get y value
 #define	FANZ	31	// number of mathematical functions in mfkttab[]
 //@}
 
@@ -79,7 +80,33 @@ double coth(double x);
 double arsech(double x);
 double arcosech(double x);
 double arcoth(double x);
+
+double lcos(double x);
+double lsin(double x);
+double ltan(double x);
+
+double lcosh(double x);
+double lsinh(double x);
+double ltanh(double x);
+
+double arccos(double x);
+double arcsin(double x);
+double arctan(double x);
+
 //@}
+
+class Constant
+{
+public:
+	Constant( char c='A', double v=0)
+	{
+	constant = c;
+	value = v;
+	};
+	
+	char constant;
+	double value;
+};
 
 /** @short Parser.
  *
@@ -119,8 +146,13 @@ public:
 	int errmsg();
 	/// ?
 	void setparameter(int ix, double k) {ufkt[ix].k=k;}
+	/// return the angletype
+	static double anglemode();
+	/// sets the angletype. TRUE is radians and FALSE degrees
+	void setAngleMode(int);
 
-
+	QValueVector<Constant> constant;
+	
 	/// Error codes.
 	/**
 	 * The values have following meanings:
@@ -134,12 +166,13 @@ public:
 	 * \li  7 => stack overflow
 	 * \li  8 => function name allready used
 	 * \li  9 => recursive function call
+	 * \li  10 => didn't found the wanted constant
+	* \li   11 => emtpy function
 	 */
 	int err,	
 	errpos, 	///< Position where the error occured.
 	ufanz;		///< Max. count of user defined functions.
 
-protected:
 
 	/** User function. */
 	class Ufkt
@@ -157,11 +190,12 @@ protected:
 		QString fstr;		///< Function expression.
 		int memsize;	 	///< Size of token memory
 		int stacksize;		///< Size of the stack.
-		double k;		///< Function parameter.
-
+		double k,		///< Function parameter.
+		oldy;			///< The last y-value needed for Euler's method
 	}
 	*ufkt; ///< Points to the array of user defined functions.
-
+			
+protected:
 	/** Mathematical function. */
 	struct Mfkt
 	{
@@ -170,7 +204,8 @@ protected:
 	};
 	static Mfkt mfkttab[FANZ];
 
-private:
+//private:
+public:
 
 	void ps_init(int, int, int),
 	heir1(),
@@ -196,6 +231,8 @@ private:
 	ixa;			    // Index der aktuellen Funktion
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer
+	static double  m_anglemode;
+	
 };
 
 #endif	// parser_included

@@ -1,12 +1,14 @@
 bin_PROGRAMS = kmplot
-kmplot_SOURCES = FktDlgData.ui BezWndData.ui xparser.cpp parser.cpp main.cpp diagr.cpp View.cpp  MainDlg.cpp FktDlg.cpp BezWnd.cpp kprinterdlg.cpp settings.kcfgc settingspagecolor.ui settingspagecoords.ui settingspagefonts.ui settingspagescaling.ui settingspageprecision.ui qeditfunction.ui keditfunction.cpp qeditparametric.ui keditparametric.cpp qeditpolar.ui keditpolar.cpp kmplotio.cpp
-kmplot_LDADD   = $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET) $(LIB_KDEPRINT)
 
-EXTRA_DIST = kmplot.desktop BezWnd.h FktDlg.h MainDlg.cpp MainDlg.h View.h diagr.cpp diagr.h parser.h xparser.h kprinterdlg.h qeditfunction.ui keditfunction.h keditparametric.h keditpolar.h kmplotio.h
+kmplot_SOURCES = FktDlgData.ui BezWndData.ui parser.cpp xparser.cpp  main.cpp diagr.cpp View.cpp  MainDlg.cpp FktDlg.cpp BezWnd.cpp kprinterdlg.cpp settings.kcfgc settingspagecolor.ui kconstanteditor.cpp settingspagecoords.ui settingspagefonts.ui settingspagescaling.ui settingspageprecision.ui qeditprimefunction.ui qeditparametric.ui keditparametric.cpp qeditpolar.ui keditpolar.cpp editfunctionpage.ui editderivativespage.ui editantiderivativepage.ui editfunction.cpp qeditconstant.ui qconstanteditor.ui keditconstant.cpp kmplotio.cpp
+
+kmplot_LDADD = $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET) $(LIB_KDEPRINT)
+
+EXTRA_DIST = kmplot.desktop BezWnd.h FktDlg.h MainDlg.cpp MainDlg.h View.h diagr.cpp diagr.h  xparser.h parser.h kprinterdlg.h qeditprimefunction.ui keditparametric.h keditpolar.h keditconstant.h kconstanteditor.h kmplotio.h
 
 xdg_apps_DATA = kmplot.desktop
 
-kde_kcfg_DATA = kmplot.kcfg 
+kde_kcfg_DATA = kmplot.kcfg
 
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)
@@ -28,4 +30,3 @@ messages: rc.cpp
 	if test -n "$$LIST"; then \
 	 $(XGETTEXT) $$LIST -o $(podir)/kmplot.pot; \
 	fi
-

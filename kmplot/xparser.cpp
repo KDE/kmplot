@@ -150,7 +150,7 @@ int XParser::delfkt( int ix )
 
 	fktext[ ix ].f_mode = 1;
 	fktext[ ix ].f1_mode = fktext[ ix ].f2_mode = 0;
-	fktext[ ix ].dicke = dicke0;
+	fktext[ ix ].linewidth = dicke0;
 	fktext[ ix ].k_anz = 0;
 	fktext[ ix ].dmin = fktext[ ix ].dmax = 0.;
 	fktext[ ix ].extstr = ""; //.resize(1);
@@ -166,4 +166,65 @@ double XParser::a1fkt( int ix, double x, double h )
 double XParser::a2fkt( int ix, double x, double h )
 {
 	return ( ufkt[ ix ].fkt( x + h + h ) - 2 * ufkt[ ix ].fkt( x + h ) + ufkt[ ix ].fkt( x ) ) / h / h;
+}
+
+char XParser::findFunctionName()
+{
+	char function_name ='f';
+	for (bool ok=true; function_name< 'z'+1 ;function_name++)
+	{
+		for ( int i = 0; i < ufanz; i++ )
+		{
+			if (fktext[ i ].extstr.at(0) == function_name )
+				if (fktext[ i ].extstr.at(1) == '(' )
+					ok = false;
+		}
+		if ( ok)
+		{
+			return function_name;
+		}
+		ok = true;
+	}
+}
+void XParser::fixFunctionName( QString &str)
+{
+	int p1=str.find('(');
+	
+	if ( p1==-1 || !str.at(p1+1).isLetter() || str.at(p1+2)!= ')' || str.at(p1+3) != '=')
+	{
+		char function_name = findFunctionName();
+		str.prepend("(x)=");
+		str.prepend(function_name);
+	}
+}
+
+
+void XParser::euler_method(double &x, double &y, const int &index)
+{
+	if (x == fktext[index].startx ) //the first point we should draw
+	{
+		ufkt[index].oldy = fktext[index].starty;
+		fktext[index].oldyprim = fktext[index].anti_precision;
+		
+		
+		/*kdDebug() << "*******************" << endl;
+		kdDebug() << "   start-x: " << x << endl;
+		kdDebug() << "   start-y: " << m_parser->fktext[index].starty << endl;
+		kdDebug() << "*******************" << endl;*/
+		
+		fktext[index].oldx = x;
+		y=fktext[index].starty;
+		return;
+	}
+	else
+	{
+		double yprim = y;
+		double h = x-fktext[index].oldx;
+		y = ufkt[index].oldy + (h *  fktext[index].oldyprim);
+		
+		ufkt[index].oldy = y;
+		fktext[index].oldx = x;
+		fktext[index].oldyprim = yprim;
+		return;
+	}
 }

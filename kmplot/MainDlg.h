@@ -54,7 +54,10 @@ class SettingsPageColor;
 class SettingsPageFonts;
 class SettingsPagePrecision;
 class SettingsPageScaling;
+class KConstantEditor;
 class KToggleFullScreenAction;
+
+
 
 /** @short This is the main window of KmPlot.
  *
@@ -77,6 +80,7 @@ class MainDlg : public KMainWindow
 		friend class FktDlg;
 		/// This class needs access to private members, too.
 		friend class BezWnd;
+		static bool test;
 	
 	public slots:
 		/// Implement the color edit dialog
@@ -87,6 +91,8 @@ class MainDlg : public KMainWindow
 		void editScaling();
 		/// Implement the fonts edit dialog
 		void editFonts();
+		/// Implement the constants edit dialog
+		void editConstants();
 		/// Implement the dialog to enter a function plot and its options
 		void newFunction();
 		/// Implement the dialog to enter a parametric plot and its options
@@ -131,8 +137,14 @@ class MainDlg : public KMainWindow
 		KConfigDialog* m_settingsDialog;
 		///The Precision page for the Configure KmPlot dialog
 		SettingsPagePrecision* m_precisionSettings;
+		///The Constants page for the Configure KmPlot constants
+		KConstantEditor* m_constantsSettings;
 		/// The fullscreen action to be plugged/unplegged to the toolbar
 		KToggleFullScreenAction* m_fullScreen;
+		/// Loading the constants by start
+		void loadConstants();
+		/// Loading the constants when closing the program
+		void saveConstants();
 		
 	protected slots:
 		/// Implement the File -> Open action
@@ -177,7 +189,7 @@ class MainDlg : public KMainWindow
 		* Manages the LineEdit content after returnPressed() is emitted.
 		* @param f_str the content of the KLineEdit
 		*/
-		void slotQuickEdit( const QString& f_str );
+		void slotQuickEdit( const QString& tmp_f_str );
 		/// Enable or disable fullscreen
 		void slotFullScreen();
 		

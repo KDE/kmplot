@@ -29,21 +29,26 @@
 #include <math.h>
 
 //KDE includes
+#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
 // local includes
 #include "parser.h"
+#include "settings.h"
+#include "xparser.h"
+
+double Parser::m_anglemode = 0;
 
 /// List of predefined functions.
 Parser::Mfkt Parser::mfkttab[ FANZ ]=
 {
-	{"tanh", tanh},		// Tangens hyperbolicus
-	{"tan", tan}, 		// Tangens
+	{"tanh", ltanh},		// Tangens hyperbolicus
+	{"tan", ltan}, 		// Tangens
 	{"sqrt", sqrt},		// Square root
 	{"sqr", sqr}, 		// Square
-	{"sinh", sinh}, 	// Sinus hyperbolicus
-	{"sin", sin}, 		// Sinus
+	{"sinh", lsinh}, 	// Sinus hyperbolicus
+	{"sin", lsin}, 		// Sinus
 	{"sign", sign},         // Signum
 	{"sech", sech},		// Secans hyperbolicus
 	{"sec", sec},		// Secans
@@ -52,22 +57,22 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 	{"exp", exp}, 		// Exponential function base e
 	{"coth", coth},		// Co-Tangens hyperbolicus
 	{"cot", cot},		// Co-Tangens = 1/tan
-	{"cosh", cosh}, 	// Cosinus hyperbolicus
+	{"cosh", lcosh}, 	// Cosinus hyperbolicus
 	{"cosech", cosech},	// Co-Secans hyperbolicus
 	{"cosec", cosec},	// Co-Secans
-	{"cos", cos}, 		// Cosinus
+	{"cos", lcos}, 		// Cosinus
 	{"artanh", artanh}, 	// Area-tangens hyperbolicus = inverse of tanh
 	{"arsinh", arsinh}, 	// Area-sinus hyperbolicus = inverse of sinh
 	{"arsech", arsech},	// Area-secans hyperbolicus = invers of sech
-	{"arctan", atan},	// Arcus tangens = inverse of tan
-	{"arcsin", asin}, 	// Arcus sinus = inverse of sin
+	{"arctan", arctan},	// Arcus tangens = inverse of tan
+	{"arcsin", arcsin}, 	// Arcus sinus = inverse of sin
 	{"arcsec", arcsec},	// Arcus secans = inverse of sec
 	{"arcoth", arcoth},	// Area-co-tangens hyperbolicus = inverse of coth
 	{"arcosh", arcosh}, 	// Area-cosinus hyperbolicus = inverse of cosh
 	{"arcosech", arcosech},	// Area-co-secans hyperbolicus = inverse of cosech
 	{"arccot", arccot},	// Arcus co-tangens = inverse of cotan
 	{"arccosec", arccosec},	// Arcus co-secans = inverse of cosec
-	{"arccos", acos}, 	// Arcus cosinus = inverse of cos
+	{"arccos", arccos}, 	// Arcus cosinus = inverse of cos
 	{"abs", fabs}		// Absolute value
 };
                                    
@@ -88,7 +93,7 @@ void Parser::ps_init(int anz, int m_size, int s_size)
 	ufanz=anz;
 	memsize=m_size;
 	stacksize=s_size;
-	ufkt=new Ufkt[ufanz];
+		ufkt=new Ufkt[ufanz];
 	evalflg=ixa=0;
 	for(ix=0; ix<ufanz; ++ix)
 	{	ufkt[ix].memsize=memsize;
@@ -116,6 +121,17 @@ Parser::Ufkt::~Ufkt()
 {   delete [] mem;
 }
 
+
+void Parser::setAngleMode(int angle)
+{	if(angle==0)
+		m_anglemode = 1;
+	else
+		m_anglemode = M_PI/180;	
+}
+
+double Parser::anglemode()
+{	return m_anglemode;
+}
 
 double Parser::eval(QString str)
 {	double erg;
@@ -146,7 +162,7 @@ double Parser::Ufkt::fkt(double x)
 	double *pd, (**pf)(double);
 	double erg, *stack, *stkptr;
 	Ufkt **puf;
-
+	
 	mptr=mem;
 	stack=stkptr= new double [stacksize];
 	while(1)
@@ -155,10 +171,10 @@ double Parser::Ufkt::fkt(double x)
 			            *stkptr=*pd++;
 			            mptr=(unsigned char*)pd;
 			            break;
-
            case	XWERT:  *stkptr=x;
 			            break;
-
+           case	YWERT:  *stkptr=oldy;
+			            break;
            case KWERT:  *stkptr=k;
 			            break;
 
@@ -202,8 +218,8 @@ double Parser::Ufkt::fkt(double x)
 			            break;
 
            case ENDE:   erg=*stkptr;
-			            delete [] stack;
-			            return erg;
+				delete [] stack;
+				return erg;
 		}
 	}
 }
@@ -218,26 +234,49 @@ int Parser::getNextIndex()
 
 int Parser::addfkt(QString str)
 {   int ix, p1, p2, p3;
-
+	
 	stkptr=stack=0;
 	err=0;
 	errpos=1;
-	str.remove( " " );
+	str.remove(" " );
 	p1=str.find('(');
 	p2=str.find(',');
 	p3=str.find(")=");
+	
+	//insert '*' when it is needed
+	for(int i=p1+3; i < str.length();i++)
+	{
+		if( (str.at(i).isNumber() || str.at(i).category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) )
+		{
+			str.insert(i,'*');
+		}
+		else if( (str.at(i).isNumber() || str.at(i) == ')' || str.at(i).category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) )
+		{
+			str.insert(i+1,'*');
+			i++;
+		}
+	}
+		
 	if(p1==-1 || p3==-1 || p1>p3)
 	{   err=4;
 		return -1;
 	}
-    
+	if ( p3+2 == str.length()) //empty function
+	{   err=11;
+		return -1;
+	}
 	if(p2==-1 || p2>p3) p2=p3;
 	if(getfix(str.left(p1))!=-1)
 	{   err=8;
 		return -1;
 	}
 	else err=0;
-
+	
+	if (str.mid(p1+1, p2-p1-1) == "e")
+	{   err=4;
+		return -1;
+	}
+	
 	for(ix=0; ix<ufanz; ++ix)
 	{   if(ufkt[ix].fname.isEmpty())
 		{   ufkt[ix].fname=str.left(p1);
@@ -267,6 +306,7 @@ int Parser::addfkt(QString str)
 		return -1;
 	}
 
+	
 	errpos=0;
 	return ix;
 }
@@ -415,7 +455,26 @@ void Parser::primary()
 			return;
 		}
 	}
+	// A constant
+	if(lptr[0] >='A' && lptr[0]<='Z' )
+	{   char tmp[2];
+		tmp[1] = '\0';
+		for( int i = 0; i< (int)constant.size();i++)
+		{	
+			tmp[0] = constant[i].constant;
+			if ( match( tmp) )
+			{
+				addtoken(KONST);
+				addwert(constant[i].value);
+				return;
+			}
 
+		}
+		err = 10;
+		return;
+	}
+	
+		
 	if(match("pi"))
 	{   addtoken(KONST);
 		addwert(M_PI);
@@ -432,7 +491,12 @@ void Parser::primary()
 	{   addtoken(XWERT);
 		return;
 	}
-
+	
+	if(match("y"))
+	{   addtoken(YWERT);
+		return;
+	}
+	
 	if(match(ufkt[ixa].fpar.latin1()))
 	{   addtoken(KWERT);
 		return;
@@ -619,8 +683,13 @@ int Parser::errmsg()
 		                                   "Name of function not free").arg(QString::number(errpos)), "KmPlot");
 		        break;
 	   
-	   case 9:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+       case 9:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
 		                                   "recursive function not allowed").arg(QString::number(errpos)), "KmPlot");
+		        break;
+       case 10:  KMessageBox::error(0, i18n("Couln't found a definied constant at position %1" ).arg(QString::number(errpos)),
+                                                   "KmPlot");
+     			break;
+       case 11:  KMessageBox::error(0, i18n("Empty function"), "KmPlot");
 		        break;
 	}
     
@@ -634,11 +703,9 @@ double sign(double x)
     return 0.;
 }
 
-
 double sqr(double x)
 {   return x*x;
 }
-
 
 double arsinh(double x)
 {   return log(x+sqrt(x*x+1));
@@ -657,54 +724,86 @@ double artanh(double x)
 // sec, cosec, cot and their inverses
 
 double sec(double x)
-{   return (1 / cos(x));
+{   return (1 / cos(x*Parser::anglemode()));
 }
 
 double cosec(double x)
-{   return (1 / sin(x));
+{   return (1 / sin(x*Parser::anglemode()));
 }
 
 double cot(double x)
-{   return (1 / tan(x));
+{   return (1 / tan(x*Parser::anglemode()));
 }
 
 double arcsec(double x)
-{   return acos(1/x);
+{   if ( !Parser::anglemode() ) return ( 1/acos(x)* 180/M_PI );
+    else return acos(1/x);
 }
 
 double arccosec(double x)
-{   return asin(1/x);
+{   return asin(1/x)* 1/Parser::anglemode();
 }
 
 double arccot(double x)
-{   return atan(1/x);
+{   return atan(1/x)* 1/Parser::anglemode();
 }
 
 // sech, cosech, coth and their inverses
 
 
 double sech(double x)
-{   return (1 / cosh(x));
+{   return (1 / cosh(x*Parser::anglemode()));
 }
 
 double cosech(double x)
-{   return (1 / sinh(x));
+{   return (1 / sinh(x*Parser::anglemode()));
 }
 
 double coth(double x)
-{   return (1 / tanh(x));
+{   return (1 / tanh(x*Parser::anglemode()));
 }
 
 double arsech(double x)
-{   return arcosh(1/x);
+{   return arcosh(1/x)* 1/Parser::anglemode();
 }
 
 double arcosech(double x)
-{   return arsinh(1/x);
+{   return arsinh(1/x)* 1/Parser::anglemode();
 }
 
 double arcoth(double x)
-{   return artanh(1/x);
+{   return artanh(1/x)* 1/Parser::anglemode();
 }
 
+//basic trigonometry functions
 
+double lcos(double x)
+{   return cos(x*Parser::anglemode());
+}
+double lsin(double x)
+{   return sin(x*Parser::anglemode());
+}
+double ltan(double x)
+{   return tan(x*Parser::anglemode());
+}
+
+double lcosh(double x)
+{   return cosh(x*Parser::anglemode());
+}
+double lsinh(double x)
+{   return sinh(x*Parser::anglemode());
+}
+double ltanh(double x)
+{   return tanh(x*Parser::anglemode());
+}
+
+double arccos(double x)
+{   return acos(x) * 1/Parser::anglemode();
+}
+double arcsin(double x)
+{   return asin(x)* 1/Parser::anglemode();
+}
+
+double arctan(double x)
+{   return atan(x)* 1/Parser::anglemode();
+}

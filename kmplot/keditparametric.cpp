@@ -77,7 +77,7 @@ void KEditParametric::setWidgets()
 	checkBoxRange->setChecked( m_parser->fktext[ m_x_index ].dmin == m_parser->fktext[ m_x_index ].dmax == 0 );
 	min->setText( m_parser->fktext[ m_x_index ].str_dmin );
 	max->setText( m_parser->fktext[ m_x_index ].str_dmax );
-	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_x_index ].dicke );
+	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_x_index ].linewidth );
 	kColorButtonColor->setColor( m_parser->fktext[ m_x_index ].color );
 }
 
@@ -123,7 +123,7 @@ void KEditParametric::accept()
 		m_parser->fktext[ index ].dmax = m_parser->eval( max->text() );
 	}
 	
-	m_parser->fktext[ index ].dicke = kIntNumInputLineWidth->value();
+	m_parser->fktext[ index ].linewidth = kIntNumInputLineWidth->value();
 	m_parser->fktext[ index ].color = kColorButtonColor->color().rgb();
 	
 	index = m_parser->addfkt( yFunction() );

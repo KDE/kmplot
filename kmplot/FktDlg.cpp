@@ -29,12 +29,13 @@
 
 // KDE includes
 #include <kapplication.h>
+#include <klocale.h>
 #include <kpushbutton.h>
 
 // locale includes
 #include "FktDlg.h"
 #include "FktDlg.moc"
-#include "keditfunction.h"
+#include "editfunction.h"
 #include "keditparametric.h"
 #include "keditpolar.h"
 #include "MainDlg.h"
@@ -84,17 +85,12 @@ void FktDlg::slotEdit()
 	// find out the function type
 	char prefix = m_parser->fktext[ index ].extstr.at(0).latin1();
 	
-	switch( prefix )
-	{
-		case 'r':
-			slotEditPolar( index, num );
-			break;
-		case 'x':
-			slotEditParametric( index, getIx( lb_fktliste->text( num ).section( ";", 1, 1) ), num );
-			break;
-		default:
-			slotEditFunction( index, num );
-	}
+	if ( prefix == 'r')
+		slotEditPolar( index, num );
+	else if ( prefix == 'x')
+		slotEditParametric( index, getIx( lb_fktliste->text( num ).section( ";", 1, 1) ), num );
+	else
+		slotEditFunction( index, num );
 	updateView();
 }
 
@@ -136,7 +132,8 @@ void FktDlg::slotHasSelection()
 
 void FktDlg::slotEditFunction( int index, int num )
 {
-	KEditFunction* editFunction = new KEditFunction( m_parser, this );
+	EditFunction* editFunction = new EditFunction( m_parser, this );
+	if ( index==-1&&num==-1) editFunction->setCaption(i18n( "New Function Plot" ));
 	editFunction->initDialog( index );
 	if( editFunction->exec() == QDialog::Accepted )
 	{
@@ -148,6 +145,7 @@ void FktDlg::slotEditFunction( int index, int num )
 void FktDlg::slotEditParametric( int x_index, int y_index, int num )
 {
 	KEditParametric* editParametric = new KEditParametric( m_parser, this );
+	if ( x_index==-1&&y_index==-1&&num==-1) editParametric->setCaption(i18n( "New Parametric Plot" ));
 	editParametric->initDialog( x_index, y_index );
 	if( editParametric->exec() == QDialog::Accepted )
 	{
@@ -160,6 +158,7 @@ void FktDlg::slotEditParametric( int x_index, int y_index, int num )
 void FktDlg::slotEditPolar( int index, int num )
 {
 	KEditPolar* editPolar = new KEditPolar( m_parser, this );
+	if ( index==-1&&num==-1) editPolar->setCaption(i18n( "New Polar Plot" ));
 	editPolar->initDialog( index );
 	if( editPolar->exec() == QDialog::Accepted )
 	{

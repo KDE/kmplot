@@ -71,7 +71,7 @@ void KEditPolar::setWidgets()
 	checkBoxRange->setChecked( m_parser->fktext[ m_index ].dmin == m_parser->fktext[ m_index ].dmax == 0.0 );
 	min->setText( m_parser->fktext[ m_index ].str_dmin );
 	max->setText( m_parser->fktext[ m_index ].str_dmax );
-	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_index ].dicke );
+	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_index ].linewidth );
 	kColorButtonColor->setColor( m_parser->fktext[ m_index ].color );
 }
 
@@ -108,7 +108,7 @@ void KEditPolar::accept()
 		m_parser->fktext[ index ].dmax = m_parser->eval( max->text() );
 	}
 	
-	m_parser->fktext[ index ].dicke = kIntNumInputLineWidth->value();
+	m_parser->fktext[ index ].linewidth = kIntNumInputLineWidth->value();
 	m_parser->fktext[ index ].color = kColorButtonColor->color().rgb();
 	
 	// call inherited method

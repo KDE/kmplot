@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>SettingsPagePrecision</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>227</width>
-            <height>119</height>
+            <width>252</width>
+            <height>270</height>
         </rect>
     </property>
     <property name="caption">
@@ -32,7 +32,7 @@
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>Step Width</string>
+                        <string>Precision</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>kcfg_stepWidth</cstring>
@@ -48,11 +48,37 @@
                     <property name="minValue">
                         <number>0.1</number>
                     </property>
-                    <property name="suffix">
-                        <string> Pixel</string>
-                    </property>
                 </widget>
             </hbox>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>kcfg_anglemode</cstring>
+            </property>
+            <property name="title">
+                <string>Angle Mode</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>radioButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Radian</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>radioButton2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Degree</string>
+                    </property>
+                </widget>
+            </vbox>
         </widget>
         <spacer>
             <property name="name">
@@ -74,8 +100,4 @@
     </vbox>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-</includehints>
 </UI>

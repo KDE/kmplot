@@ -28,8 +28,11 @@
 
 // Qt includes
 
+#include <kdebug.h>
+
 // local includes
 #include "parser.h"
+#include "settings.h"
 
 /**
  * @short Extended parser class.
@@ -53,31 +56,45 @@ public:
 	double a1fkt( int ix , double, double h = 1e-3 );
 	/// Evaluates the 2nd dreivative of the function with intex \a ix
 	double a2fkt( int, double, double h = 1e-3 );
-	
+	/// calculate euler's method when drawing a numeric prime-function
+	void euler_method(double &, double &, const int &);	
 	/// Line width default
 	int dicke0;
+	
+	///Return an unused functionname
+	char findFunctionName();
+	void fixFunctionName(QString &);
 
 	/// Extended attributes are encapulated in this structure.
 	struct FktExt
 	{
-		char f_mode, ///< \a f_mode == 1: draw the plot.
+		bool f_mode, ///< \a f_mode == 1: draw the plot.
 		f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
-		f2_mode;///< \a f2_mode == 1.  draw the 2nd derivative, too.
-		int dicke, ///< Line width.
+		f2_mode,///< \a f2_mode == 1.  draw the 2nd derivative, too.
+		anti_mode, ///< \a f2_mode == 1.  draw the anti derivative, too.
+		anti_use_precision; ///< The user can specify an unic precision for numeric prime-functions
+		int linewidth,f1_linewidth,f2_linewidth, anti_linewidth, ///< Line width.
 		/** Number of parameter values. 
 		 * @see FktExt::k_liste */
 		k_anz; 
-		QString str_dmin, str_dmax; /// Plot range, input strings.
+		QString str_dmin, str_dmax ; /// Plot range, input strings.
 		double dmin, ///< Custom plot range, lower boundage.
 		dmax, ///< Custom plot range, upper boundage.
 		/** List of parameter values. 
 		 * @see FktExt::k_anz */
-		k_liste[ 10 ];
+		k_liste[ 10 ],
+		oldyprim,  ///< needed for Euler's method, the last y'.value
+		oldx, ///< needed for Euler's method, the last x-value
+		starty,///< startposition forEuler's method, the initial y-value
+		startx, ///< startposition forEuler's method, the initial x-value
+		anti_precision; ///<precision when drawing numeric prime-functions
 		QString extstr; ///< Complete function string including the extensions.
 		QRgb color, ///< current color.
-		color0; ///< Default color.
+		color0, ///< Default color.
+		f1_color, f2_color, anti_color;
 	}
 	*fktext;
+
 };
 
 #endif //xparser_included

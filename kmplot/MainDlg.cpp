@@ -37,11 +37,12 @@
 #include <kmessagebox.h>
 
 // local includes
-#include "keditfunction.h"
+
+#include "editfunction.h"
 #include "keditparametric.h"
 #include "keditpolar.h"
-#include "kmplotio.h"
 #include "kprinterdlg.h"
+#include "kconstanteditor.h"
 #include "MainDlg.h"
 #include "MainDlg.moc"
 #include "settings.h"
@@ -51,6 +52,9 @@
 #include "settingspageprecision.h"
 #include "settingspagescaling.h"
 #include "xparser.h"
+#include "kmplotio.h"
+
+
 
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
@@ -62,6 +66,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	QToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
 	setupActions();
 	setupStatusBar();
+	loadConstants();
 	m_sessionId = sessionId;
 	if (args -> count() > 0) 
 	{
@@ -77,10 +82,12 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() ); 
 	// create and add the page(s)
 	m_precisionSettings = new SettingsPagePrecision( 0, "precisionSettings" );
-	m_settingsDialog->addPage( m_precisionSettings, i18n( "Precision" ), "" ); 
+	m_constantsSettings = new KConstantEditor( view, 0, "constantsSettings" );
+	m_settingsDialog->addPage( m_precisionSettings, i18n( "Precision" ), "" );
+	m_settingsDialog->addPage( m_constantsSettings, i18n( "Constants" ), "" ); 
 	// User edited the configuration - update your local copies of the 
 	// configuration data 
-	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	m_modified = false;
 	setAutoSaveSettings();
 }
@@ -88,6 +95,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 MainDlg::~MainDlg()
 {
 	m_recentFiles->saveEntries( m_config );
+	saveConstants();
 }
 
 void MainDlg::setupActions()
@@ -334,6 +342,12 @@ void MainDlg::editFonts()
 	fontsDialog->show();
 }
 
+void MainDlg::editConstants()
+{
+	QConstantEditor* contsDialog = new QConstantEditor();
+	contsDialog->show();
+}
+
 void MainDlg::slotNames()
 {
 	if ( !bez )
@@ -348,7 +362,8 @@ void MainDlg::slotNames()
 
 void MainDlg::newFunction()
 {
-	KEditFunction* editFunction = new KEditFunction( view->parser(), this );
+	EditFunction* editFunction = new EditFunction( view->parser(), this );
+	editFunction->setCaption(i18n( "New Function Plot" ) );
 	editFunction->initDialog();
 	m_modified = editFunction->exec() == QDialog::Accepted;
 	view->update();
@@ -357,6 +372,7 @@ void MainDlg::newFunction()
 void MainDlg::newParametric()
 {
 	KEditParametric* editParametric = new KEditParametric( view->parser(), this );
+	editParametric->setCaption(i18n( "New Parametric Plot"));
 	editParametric->initDialog();
 	m_modified = editParametric->exec() == QDialog::Accepted;
 	view->update();
@@ -365,6 +381,7 @@ void MainDlg::newParametric()
 void MainDlg::newPolar()
 {
 	KEditPolar* editPolar = new KEditPolar( view->parser(), this );
+	editPolar->setCaption(i18n( "New Polar Plot"));
 	editPolar->initDialog();
 	m_modified = editPolar->exec() == QDialog::Accepted;
 	view->update();
@@ -373,7 +390,7 @@ void MainDlg::newPolar()
 void MainDlg::slotEditPlots()
 {
 	if ( !fdlg ) fdlg = new FktDlg( this, view->parser() ); // make the dialog only if not allready done
-	fdlg->getPlots(); // 
+	fdlg->getPlots();
 	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
 	KmPlotIO::save( view->parser(), tmpName );
 	if( fdlg->exec() == QDialog::Rejected ) 
@@ -386,9 +403,14 @@ void MainDlg::slotEditPlots()
 	view->update();
 }
 
-void MainDlg::slotQuickEdit( const QString& f_str )
+void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 {
+	//creates a valid name for the function if the user has forgotten that
+	QString f_str( tmp_f_str );
+	view->parser()->fixFunctionName(f_str);
+	
 	int index = view->parser()->addfkt( f_str );
+	
 	if( index == -1 ) 
 	{
 		view->parser()->errmsg();
@@ -396,11 +418,13 @@ void MainDlg::slotQuickEdit( const QString& f_str )
 		m_quickEdit->selectAll();
 		return;
 	}
+	view->parser()->fktext[index].anti_mode = 0;
 	view->parser()->fktext[ index ].extstr = f_str;
 	view->parser()->getext( index );
 	m_quickEdit->clear();
 	m_modified = true;
 	view->update();
+	view->parser()->errmsg();
 }
 
 
@@ -484,3 +508,61 @@ void MainDlg::slotFullScreen()
 	}
 }
 
+void MainDlg::loadConstants()
+{
+
+	KSimpleConfig conf ("kcalcrc");
+	conf.setGroup("Constants");
+	QString tmp;
+	QString tmp_constant;
+	char constant;
+	double value;
+	for( int i=0; ;i++)
+	{
+		tmp.setNum(i+1);
+		tmp_constant = conf.readEntry("nameConstant"+tmp," ");
+		value = conf.readDoubleNumEntry("valueConstant"+tmp,1.23456789);	
+		constant = tmp_constant.at(0).latin1();
+		
+		if ( tmp_constant == " " || value == 1.23456789)
+			break;
+		else
+		{
+			bool stop = false;
+			if ( !view->parser()->constant.empty() )
+				for(  ; !stop;constant++)
+				{
+					for( int k = 0; k< (int)view->parser()->constant.size() && !stop;k++)
+					{
+						if (constant != view->parser()->constant[k].constant)
+						{
+							constant = view->parser()->constant[k].constant;
+							stop = true;
+						}
+					}
+					if (constant == 'Z')
+						constant = 'A'-1;
+				}
+			/*kdDebug() << "**************" << endl;
+			kdDebug() << "C:" << constant << endl;
+			kdDebug() << "V:" << value << endl;*/
+			
+			view->parser()->constant.append(Constant(constant, value) );
+		}
+	}
+}
+
+void MainDlg::saveConstants()
+{
+	KSimpleConfig conf ("kcalcrc");
+	conf.deleteGroup("Constants");
+	conf.setGroup("Constants");
+	QString tmp;
+	for( int i = 0; i< (int)view->parser()->constant.size();i++)
+	{
+		tmp.setNum(i+1);
+		conf.writeEntry("nameConstant"+tmp, QString( QChar(view->parser()->constant[i].constant) ) ) ;
+		conf.writeEntry("valueConstant"+tmp, view->parser()->constant[i].value);
+			
+	}
+}

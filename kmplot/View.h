@@ -31,6 +31,7 @@
 #include <qpixmap.h>
 
 // KDE includes
+#include <kdebug.h>
 #include <kstatusbar.h>
 #include <kprinter.h>
 

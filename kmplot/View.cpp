@@ -25,6 +25,7 @@
 
 // KDE includes
 #include <klocale.h>
+#include <kmessagebox.h>
 
 // local includes
 #include "settings.h"
@@ -58,7 +59,6 @@ void View::draw(QPaintDevice *dev, int form)
 	float sf;
 	QRect rc;
 	QPainter DC;				// our painter
-	
 	DC.begin(dev);				// start painting widget
 	rc=DC.viewport();
 	w=rc.width();
@@ -130,7 +130,7 @@ void View::draw(QPaintDevice *dev, int form)
 	hline.resize(area.width(), 1);
 	vline.resize(1, area.height());
 
-	stepWidth=Settings::relativeStepWidth()*(xmax-xmin)/area.width();
+	stepWidth=Settings::relativeStepWidth() * (xmax-xmin)/area.width();
 	for(ix=0; ix<m_parser->ufanz; ++ix)
 	{   
 		if(m_parser->chkfix(ix)==-1) continue;
@@ -144,36 +144,41 @@ void View::draw(QPaintDevice *dev, int form)
 
 
 void View::plotfkt(int ix, QPainter *pDC)
-{   
+{	
 	char fktmode, p_mode;
 	int iy, k, ke, mflg;
 	double dx, x, y, dmin, dmax;
 	QString fname, fstr;
 	QPoint p1, p2;
-	QPen pen(m_parser->fktext[ix].color, (int)(m_parser->fktext[ix].dicke*s));
+	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
 
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
-	if(m_parser->fktext[ix].f_mode==0) return ;	// NOPLOT
+	//if(m_parser->fktext[ix].f_mode==0) return ;	// NOPLOT
 
 	dx=stepWidth;
-	fktmode=m_parser->fktext[ix].extstr[0].latin1();
 	
+	pen.setWidth((int)(m_parser->fktext[ix].linewidth*s) );
+	pen.setColor(m_parser->fktext[ix].color);
+
+	fktmode=m_parser->fktext[ix].extstr[0].latin1();
 	if(fktmode!='y')
 	{   
 		dmin=m_parser->fktext[ix].dmin;
 		dmax=m_parser->fktext[ix].dmax;
 	}
 
-	if(dmin==dmax)
+	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
 		if(fktmode=='r')
 		{   dmin=0.;
 			dmax=2*M_PI;
 		}
 		else
-		{   dmin=xmin;
+		{
+			dmin=xmin;
 			dmax=xmax;
+			
 		}
 	}
 	
@@ -194,23 +199,52 @@ void View::plotfkt(int ix, QPainter *pDC)
 		k=0;
 		ke=m_parser->fktext[ix].k_anz;
 		do
-		{   
+		{
+			
 			m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 			mflg=2;
+			if ( p_mode != 0 ||  m_parser->fktext[ix].f_mode) // if the  
 			for(x=dmin; x<dmax; x+=dx)
-			{   
+			{
 				errno=0;
 
-                switch(p_mode)
-				{  case 0:  y=m_parser->fkt(ix, x);
-					        break;
-                            
-				   case 1:  y=m_parser->a1fkt(ix, x);
-					        break;
-                            
-				   case 2:  y=m_parser->a2fkt(ix, x);
-				}
-                
+				switch(p_mode)
+					{
+					case 0: 
+						y=m_parser->fkt(ix, x);
+						break;
+					
+					case 1:
+					{
+						y=m_parser->a1fkt(ix, x);
+						pen.setWidth((int)(m_parser->fktext[ix].f1_linewidth*s) );
+						pen.setColor(m_parser->fktext[ix].f1_color);
+						pDC->setPen(pen);
+						break;
+					}
+					case 2:
+					{
+						y=m_parser->a2fkt(ix, x);
+						pen.setWidth((int)(m_parser->fktext[ix].f2_linewidth*s) );
+						pen.setColor(m_parser->fktext[ix].f2_color);
+						pDC->setPen(pen);
+						break;
+					}
+					case 3:
+					{
+						pen.setWidth((int)(m_parser->fktext[ix].anti_linewidth*s) );
+						pen.setColor(m_parser->fktext[ix].anti_color);
+						pDC->setPen(pen);
+						if ( m_parser->fktext[ix].anti_use_precision )
+							dx = (m_parser->fktext[ix].anti_precision)/1500;
+					else
+						dx=Settings::relativeStepWidth()/1500; //the stepwith must be small for Euler's metod and not depend on the size on the mainwindow
+					m_parser->euler_method(x, y,ix);
+						break;
+						}
+					}
+					
+
 				if(errno!=0) continue;
                 if(fktmode=='r')
 				{   
@@ -240,23 +274,28 @@ void View::plotfkt(int ix, QPainter *pDC)
 				}
 				else
 				{	
-					if(mflg>1) p1=p2;
+					if(mflg>1)
+						p1=p2;
 					else
-                    {   
-		    	pDC->drawLine(p1, p2); p1=p2;
-                    }
-                    mflg=0;
+		    				pDC->drawLine(p1, p2); p1=p2;
+                    			mflg=0;
 				}
             }
 		}
         while(++k<ke);
-
+	
 		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) p_mode=1;
 		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
+		else if(m_parser->fktext[ix].anti_mode==1 && p_mode< 3)
+		{
+			p_mode=3;
+			dmin = m_parser->fktext[ix].startx; //the initial x-point
+		}
 		else break;
 
-		pen=QPen(m_parser->fktext[ix].color, 1);
-		pDC->setPen(pen);
+		//do we need this?
+		//pen=QPen(m_parser->fktext[ix].color, 50);
+		//pDC->setPen(pen);
 	}
 }
 
@@ -540,6 +579,7 @@ void View::setScaling()
 
 void View::getSettings()
 {
+	m_parser->setAngleMode( Settings::anglemode() );
 	m_parser->dicke0 = Settings::gridLineWidth();
 	m_parser->fktext[ 0 ].color = Settings::color0().rgb();
 	m_parser->fktext[ 1 ].color = Settings::color1().rgb();
@@ -560,4 +600,3 @@ void View::init()
 	for ( int ix = 0; ix < m_parser->ufanz; ++ix )
 		m_parser->delfkt( ix );
 }
-

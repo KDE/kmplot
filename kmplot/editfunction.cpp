@@ -306,22 +306,26 @@ void EditFunction::accept()
 	else
 		tmp_fktext.f_mode = 1;
 	
+	tmp_fktext.k_anz = 0;
 	if( editfunctionpage->useSlider->isChecked() )
 		tmp_fktext.use_slider = editfunctionpage->listOfSliders->currentItem(); //specify which slider that will be used
 	else
-		tmp_fktext.use_slider = -1;
-	tmp_fktext.k_anz = 0;
-	
-	if( !m_parameter.isEmpty() )
 	{
-		tmp_fktext.str_parameter = m_parameter;
-		for( QStringList::Iterator it = m_parameter.begin(); it != m_parameter.end(); ++it )
+		tmp_fktext.use_slider = -1;
+		if ( editfunctionpage->useNoParameter->isChecked() || m_parameter.isEmpty() )
+			m_parameter.clear();
+		else
 		{
-			tmp_fktext.k_liste[ tmp_fktext.k_anz ] = m_parser->eval(( *it ) );
-			tmp_fktext.k_anz++;
+			tmp_fktext.str_parameter = m_parameter;
+			for( QStringList::Iterator it = m_parameter.begin(); it != m_parameter.end(); ++it )
+			{
+				tmp_fktext.k_liste[ tmp_fktext.k_anz ] = m_parser->eval(( *it ) );
+				tmp_fktext.k_anz++;
+			}
 		}
+			
 	}
-	
+
 	if( editderivativespage->showDerivative1->isChecked() )
 		tmp_fktext.f1_mode = 1;
 	else

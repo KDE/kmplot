@@ -48,13 +48,14 @@ class XParser;
 class KMinMax;
 class SliderWindow;
 
+/// The progress-widget in the statusbar which appears when drawing integrals
 class KmPlotProgress: public QWidget
 {
 	public:
 		KmPlotProgress( QWidget* parent = 0, const char* name = 0 );
 		~KmPlotProgress();
 		void increase();
-		
+	
 		KPushButton *button;
 		KProgress *progress;
 };
@@ -117,7 +118,7 @@ public:
 
 	/// Slider controlling parameter values
 	SliderWindow* sliders[ SLIDER_COUNT ];
-	void updateSliders(); //< show only needed sliders
+	void updateSliders(); /// show only needed sliders
 
 public slots:
 	/// Called when the user want to cancel the drawing
@@ -148,7 +149,7 @@ protected slots:
 	void keyPressEvent(QKeyEvent * );
 	/// called when a mouse key is released
 	void mouseReleaseEvent ( QMouseEvent * e );
-	
+	/// Is needed to be reimplement so that the user can stop a preview-drawing
 	bool event( QEvent * e );
 
 private:

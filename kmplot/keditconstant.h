@@ -36,7 +36,6 @@ class KEditConstant : public QEditConstant
 {
 Q_OBJECT
 public:
-    KEditConstant(QWidget *parent = 0, const char *name = 0);
     KEditConstant(XParser *p, char &, QString &,QWidget *parent = 0, const char *name = 0);
 
     ~KEditConstant();
@@ -44,12 +43,14 @@ public:
 public slots:
     void cmdOK_clicked();
     void txtVariable_lostFocus();
+    
 signals:
+    /// called when we are finished
     void finished();
         
 private:
-    char *constant;
-    QString *value;
+    char &constant;
+    QString &value;
     XParser *m_parser;
     
 

@@ -37,18 +37,23 @@ class KConstantEditor : public QConstantEditor
 {
 Q_OBJECT
 public:
-    KConstantEditor(QWidget *parent = 0, const char *name = 0);
     KConstantEditor(View *, QWidget *parent = 0, const char *name = 0);
     ~KConstantEditor();
     
 public slots:
+    /// actions for the buttons
     void cmdNew_clicked();
     void cmdEdit_clicked();
     void cmdDelete_clicked();
+    void cmdDuplicate_clicked();
+    
+    ///actions for the visible constant list
     void varlist_clicked( QListViewItem * item );
     void varlist_doubleClicked( QListViewItem * );
-    void cmdDuplicate_clicked();
+   
+    /// called when a user pressed OK the the new-constant-dialog
     void newConstantSlot();
+    /// called when a user pressed OK the the edit-constant-dialog
     void editConstantSlot();
   
     

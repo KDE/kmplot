@@ -37,7 +37,6 @@ class KParameterEditor : public QParameterEditor
 {
 Q_OBJECT
 public:
-    KParameterEditor(QWidget *parent = 0, const char *name = 0);
     KParameterEditor(XParser *, QStringList *, QWidget *parent = 0, const char *name = 0);
     ~KParameterEditor();
     

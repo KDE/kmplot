@@ -615,21 +615,33 @@ void MainDlg::loadConstants()
 			constant = 'A';
 		if ( tmp_constant == " " || value == 1.23456789)
 			return;
-		bool stop = false;
+		
 		if ( !view->parser()->constant.empty() )
-			for(  ; !stop;constant++)
+		{
+			bool copy_found=false;
+			while (!copy_found)
 			{
-				for( int k = 0; k< (int)view->parser()->constant.size() && !stop;k++)
+				// go through the constant list
+				QValueVector<Constant>::iterator it =  view->parser()->constant.begin();
+				while (it!= view->parser()->constant.end() && !copy_found)
 				{
-					if (constant != view->parser()->constant[k].constant)
-					{
-						constant = view->parser()->constant[k].constant;
-						stop = true;
-					}
+					if (constant == it->constant )
+						copy_found = true;
+					else
+						++it;
 				}
-				if (constant == 'Z')
-					constant = 'A'-1;
+				if ( !copy_found)
+					copy_found = true;
+				else
+				{
+					copy_found = false;
+					if (constant == 'Z')
+						constant = 'A';
+					else
+						constant++;
+				}
 			}
+		}
 		/*kdDebug() << "**************" << endl;
 		kdDebug() << "C:" << constant << endl;
 		kdDebug() << "V:" << value << endl;*/

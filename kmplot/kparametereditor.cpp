@@ -36,11 +36,6 @@
 
 #include "kparametereditor.h"
 
-KParameterEditor::KParameterEditor(QWidget *parent, const char *name)
-				: QParameterEditor(parent, name)
-{
-	
-}
 KParameterEditor::KParameterEditor(XParser *m, QStringList *l, QWidget *parent, const char *name)
 	: QParameterEditor(parent,name, true, Qt::WDestructiveClose), m_parameter(l), m_parser(m)
 {
@@ -70,48 +65,56 @@ KParameterEditor::~KParameterEditor()
 
 void KParameterEditor::cmdNew_clicked()
 {
-	bool ok;
-	QString result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), QString::null, &ok );
-	if ( !ok)
-		return;
-	m_parser->eval( result );
-	if ( m_parser->err != 0 )
+	QString result="";
+	while (1)
 	{
-		m_parser->errmsg();
-		cmdNew_clicked();
-		return;
+		bool ok;
+		result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), result, &ok );
+		if ( !ok)
+			return;
+		m_parser->eval( result );
+		if ( m_parser->err != 0 )
+		{
+			m_parser->errmsg();
+			continue;
+		}
+		if ( checkTwoOfIt(result) )
+		{
+			KMessageBox::error(0,i18n("The value %1 already exists and will therefore not be added.").arg(result));
+			continue;
+		}
+		list->insertItem(result);
+		list->sort();
+		break;
 	}
-	if ( checkTwoOfIt(result) )
-	{
-		KMessageBox::error(0,i18n("The value %1 already exists and will therefore not be added.").arg(result));
-		return;
-	}
-	list->insertItem(result);
-	list->sort();
 }
 
 void KParameterEditor::cmdEdit_clicked()
 {
-	bool ok;
-	QString result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), list->currentText(), &ok );
-	if ( !ok)
-		return;
-	m_parser->eval(result);
-	if ( m_parser->err != 0 && checkTwoOfIt(result))
+	QString result=list->currentText();
+	while (1)
 	{
-		m_parser->errmsg();
-		cmdNew_clicked();
-		return;
+		bool ok;
+		result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), result, &ok );
+		if ( !ok)
+			return;
+		m_parser->eval(result);
+		if ( m_parser->err != 0)
+		{
+			m_parser->errmsg();
+			continue;
+		}
+		if ( checkTwoOfIt(result) )
+		{
+			if( result != list->currentText() )
+				KMessageBox::error(0,i18n("The value %1 already exists.").arg(result));
+			continue;
+		}
+		list->removeItem( list->currentItem());
+		list->insertItem(result);
+		list->sort();
+		break;
 	}
-	if ( checkTwoOfIt(result) )
-	{
-		if( result != list->currentText() )
-			KMessageBox::error(0,i18n("The value %1 already exists.").arg(result));
-		return;
-	}
-	list->removeItem( list->currentItem());
-	list->insertItem(result);
-	list->sort();
 }
 
 void KParameterEditor::cmdDelete_clicked()

@@ -41,11 +41,6 @@
 #include "kconstanteditor.h"
 
 
-KConstantEditor::KConstantEditor(QWidget *parent, const char *name)
-				: QConstantEditor(parent, name)
-{
-	
-}
 KConstantEditor::KConstantEditor(View *v, QWidget *parent, const char *name)
 	: QConstantEditor(parent,name), m_view(v)
 {
@@ -80,7 +75,6 @@ void KConstantEditor::cmdEdit_clicked()
 		
 	KEditConstant *dlg = new KEditConstant(m_view->parser(), constant, value);
 	connect( dlg, SIGNAL( finished() ), this,SLOT(editConstantSlot() ) );
-	dlg->txtConstant->setEnabled(false);
 	dlg->show();
 }
 

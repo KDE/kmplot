@@ -219,7 +219,7 @@ void XParser::fixFunctionName( QString &str, int const index)
 }
 
 
-void  XParser::euler_method(double &x, double &y,const int &index)
+void XParser::euler_method(double &x, double &y,const int &index)
 {
 	// y == the old yprim-value
 	

@@ -363,18 +363,33 @@ void Parser::fix_expression(QString &str, int const pos)
         
         //insert '*' when it is needed
         QChar ch;
+        bool function = false;
         for(uint i=pos; i <  str.length();i++)
         {
                 ch = str.at(i);
+                if ( str.at(i+1)=='(' && ch.category()==QChar::Letter_Lowercase )
+                {
+                        QString str_function(ch);
+                        int n=i-1;
+                        while (n>0 && str.at(n).category() == QChar::Letter_Lowercase )
+                        {
+                                     str_function.prepend(str.at(n));
+                                     --n;
+                        }
+                        if (str_function == "tanh" || str_function == "tan" || str_function =="sqrt" || str_function =="sqr" || str_function =="sin" || str_function =="sinh" || str_function =="sign" || str_function =="sech" || str_function =="sec" || str_function =="log" || str_function =="ln" || str_function =="exp" || str_function =="coth" || str_function =="cot" || str_function =="cosh" || str_function =="cosech" || str_function =="cosec" || str_function =="cos" || str_function =="artanh" || str_function =="arsinh" || str_function =="arsech" || str_function =="arctan" || str_function =="arcsin" || str_function =="arcsec" || str_function =="arcoth" || str_function =="arcosh" || str_function =="arcosech" || str_function =="arccot" || str_function =="arccosec" || str_function =="arccos" || str_function =="abs")
+                                function = true;
+                }
+                else  if (function)
+                        function = false;
+                
                 if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
                         str.insert(i,'*');
-                else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(') )
+                else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(' && !function ) )
                 {
                         str.insert(i+1,'*');
                         i++;
                 }
         }
-        
         QString str_end = str.mid(pos);
         str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
         str.truncate(pos);

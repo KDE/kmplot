@@ -1806,14 +1806,9 @@ void View::mnuRemove_clicked()
 {
 	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
 	{
-		int const ix = m_parser->ixValue(csmode);
-		char const function_type = m_parser->ufkt[ix].extstr[0].latin1();
-		if ( ix == -1)
-			return;
-		if ( function_type == 'x')  // a parametric function
-			m_parser->delfkt(ix ); //remove the y-function
-
-		m_parser->delfkt( ix );
+		Ufkt *ufkt =  &m_parser->ufkt[m_parser->ixValue(csmode)];
+		char const function_type = ufkt->extstr[0].latin1();
+		m_parser->delfkt( ufkt );
 
 		drawPlot();
 		if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' )

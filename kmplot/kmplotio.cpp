@@ -347,7 +347,7 @@ void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
 	ufkt.use_slider = n.attribute( "use-slider" ).toInt();
 
 	temp = n.attribute( "visible-deriv" );
-	if (temp != QString::null)
+	if (!temp.isNull())
 	{
 		ufkt.f1_mode = temp.toInt();
 		ufkt.f1_color = QColor(n.attribute( "deriv-color" )).rgb();
@@ -361,7 +361,7 @@ void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
 	}
 
 	temp = n.attribute( "visible-2nd-deriv" );
-	if (temp != QString::null)
+	if (!temp.isNull())
 	{
 		ufkt.f2_mode = temp.toInt();
 		ufkt.f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
@@ -375,7 +375,7 @@ void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
 	}
 
 	temp = n.attribute( "visible-integral" );
-	if (temp != QString::null)
+	if (!temp.isNull())
 	{
 		ufkt.integral_mode = temp.toInt();
 		ufkt.integral_color = QColor(n.attribute( "integral-color" )).rgb();

@@ -38,6 +38,10 @@
 #include "View.moc"
 #include "xparser.h"
 
+//minimum and maximum x range. Should always be accessible.
+double View::xmin = 0;
+double View::xmax = 0;
+
 KmplotProgress::KmplotProgress( QWidget* parent, const char* name ,WFlags fl) : QWidget( parent, name) 
 {
 	button = new KPushButton(this);
@@ -70,8 +74,10 @@ View::View( QWidget* parent, const char* name ) : QWidget( parent, name , WStati
 	init();
 	csflg=0;
 	csmode=-1;
-	setBackgroundColor(QColor(255, 255, 255));
+	backgroundcolor = Settings::backgroundcolor();
+	setBackgroundColor(backgroundcolor);
 	setMouseTracking(TRUE);
+	stepWidth=0;
 }
 
 
@@ -161,8 +167,8 @@ void View::draw(QPaintDevice *dev, int form)
 	area=DC.xForm(PlotArea);
 	hline.resize(area.width(), 1);
 	vline.resize(1, area.height());
-
-	stepWidth=Settings::relativeStepWidth() * (xmax-xmin)/area.width();
+	if ( stepWidth == 0)
+		stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
 	
 	stop_calculating = false;
 	for(ix=0; ix<m_parser->ufanz && !stop_calculating; ++ix)
@@ -235,12 +241,12 @@ void View::plotfkt(int ix, QPainter *pDC)
 		ke=m_parser->fktext[ix].k_anz;
 		do
 		{
-			
 			m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 			mflg=2;
 			bool forward_direction = true;
 			if ( p_mode == 3)
 			{
+				stop_calculating = false;
 				progressbar->progress->reset();
 				progressbar->progress->setTotalSteps( int((dmax-dmin)/(Settings::relativeStepWidth()/(10*0.8))) );
 				progressbar->show();
@@ -254,13 +260,13 @@ void View::plotfkt(int ix, QPainter *pDC)
 			else
 				x=dmin;
 			if ( p_mode != 0 || m_parser->fktext[ix].f_mode) // if not the function is hidden
-			while (x>=dmin && x<=dmax  && !stop_calculating)
+			while (x>=dmin && x<=dmax)
 			{
-				
+				if ( p_mode == 3 && stop_calculating)
+					return;
 				errno=0;
-
 				switch(p_mode)
-					{
+				{
 					case 0: 
 						y=m_parser->fkt(ix, x);
 						break;
@@ -295,11 +301,11 @@ void View::plotfkt(int ix, QPainter *pDC)
 							paintEvent(0);
 						}
 						break;
-						}
-					}	
+					}
+				}
 
 				if(errno!=0) continue;
-				
+		
                			if(fktmode=='r')
 				{   
 					p2.setX(dgr.Transx(y*cos(x)));
@@ -349,7 +355,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 
             		}
 		}
-        	while(++k<ke && !stop_calculating);
+        	while(++k<ke);
 	
 		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) p_mode=1;
 		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
@@ -490,13 +496,15 @@ void View::paintEvent(QPaintEvent *)
 
 void View::resizeEvent(QResizeEvent *)
 {
+	if ( stepWidth != 0)
+		stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
 	buffer.resize(size() );
 	drawPlot();
 }
 
 void View::drawPlot()
 {
-	buffer.fill();
+	buffer.fill(backgroundcolor);
 	draw(&buffer, 0);
 	QPainter p;
 	p.begin(this);
@@ -675,6 +683,16 @@ void View::getSettings()
 	m_parser->fktext[ 7 ].color = Settings::color7().rgb();
 	m_parser->fktext[ 8 ].color = Settings::color8().rgb();
 	m_parser->fktext[ 9 ].color = Settings::color9().rgb();
+	
+	for (int i=0;i<10;i++)
+	{
+		m_parser->fktext[i].f1_color = m_parser->fktext[i].color;
+		m_parser->fktext[i].f2_color = m_parser->fktext[i].color;
+		m_parser->fktext[i].anti_color = m_parser->fktext[i].color;
+		
+	}
+	stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
+	backgroundcolor = Settings::backgroundcolor();
 }
 
 void View::init()
@@ -690,3 +708,193 @@ void View::progressbar_clicked()
 {
 	stop_calculating = true;
 }
+
+void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, double &dmax)
+{
+	int iy, k, ke, mflg;
+	double dx, x, y, result_x, result_y;
+	QString fname, fstr;
+
+	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
+
+	dx = stepWidth;
+
+	while(1)
+	{   
+		k=0;
+		ke=m_parser->fktext[ix].k_anz;
+		do
+		{
+			
+			m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+			mflg=2;
+			bool forward_direction = true;
+			if ( p_mode == 3)
+			{
+				stop_calculating = false;
+				progressbar->progress->reset();
+				progressbar->progress->setTotalSteps( int((dmax-dmin)/(Settings::relativeStepWidth()/(10*0.8))) );
+				progressbar->show();
+				KApplication::kApplication()->processEvents();
+				if ( m_parser->fktext[ix].anti_use_precision )
+					dx = (m_parser->fktext[ix].anti_precision)/1000;
+				else
+					dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+				x = m_parser->fktext[ix].startx; //the initial x-point
+			}
+			else
+				x=dmin;
+			while (x>=dmin && x<=dmax  && ( p_mode != 3 || !stop_calculating))
+			{
+				
+				errno=0;
+
+				switch(p_mode)
+					{
+					case 0: 
+						y=m_parser->fkt(ix, x);
+						break;
+					
+					case 1:
+					{
+						y=m_parser->a1fkt(ix, x);
+						break;
+					}
+					case 2:
+					{
+						y=m_parser->a2fkt(ix, x);
+						break;
+					}
+					case 3:
+					{
+						y=m_parser->fkt(ix, x);
+						m_parser->euler_method(x, y,ix);
+						if ( int(x*1000)%100==0)
+						{
+							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
+							progressbar->increase();
+							paintEvent(0);
+						}
+						break;
+						}
+					}
+				
+				if ( minimum && (x==dmin || y <result_y) ) 
+				{
+					result_x = x;
+					result_y = y;
+				}
+
+				if ( !minimum && (x==dmin || y >=result_y) )
+				{
+					result_x = x;
+					result_y = y;
+				}
+				
+				if(errno!=0) continue;
+		    
+		    		if (forward_direction)
+		    		{
+					x=x+dx;
+					if (x>dmax && p_mode== 3)
+					{
+						forward_direction = false;
+						x = m_parser->fktext[ix].startx;
+						mflg=2;
+					}
+		    		}
+		    		else
+			    		x=x-dx; // go backwards
+            		}
+		}
+        	while(++k<ke);
+		break;
+	}
+	if (  progressbar->isVisible())
+		progressbar->hide(); // hide the progressbar-widget if it was shown
+	if (minimum)
+		KMessageBox::error(this,i18n("Minumum value:\nx: %1\ny: %2").arg(result_x).arg(result_y) );
+	else
+		KMessageBox::error(this,i18n("Maximum value:\nx: %1\ny: %2").arg(result_x).arg(result_y));
+
+}
+
+void View::getYValue(int ix, char p_mode,  double x, double &y)
+{
+	switch (p_mode)
+	{
+		case 0:
+			y= m_parser->fkt(ix, x);
+			break;
+		case 1:
+			y=m_parser->a1fkt(ix, x);
+			break;
+		case 2:
+			y=m_parser->a2fkt(ix, x);
+			break;
+		case 3:
+			int iy;
+			double dx, dmin, dmax, oldx, real_x;
+			//QString fname, fstr;
+			int getx = x*100;
+		
+			if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
+			
+		
+			if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
+			{   
+				dmin=xmin;
+				dmax=xmax;
+			}
+			dx = stepWidth;
+			bool forward_direction = true;
+			stop_calculating = false;
+			progressbar->progress->reset();
+			progressbar->progress->setTotalSteps( int((dmax-dmin)/(Settings::relativeStepWidth()/(10*0.8))) );
+			progressbar->show();
+			KApplication::kApplication()->processEvents();
+			if ( m_parser->fktext[ix].anti_use_precision )
+				dx = (m_parser->fktext[ix].anti_precision)/1000;
+			else
+				dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+			x = m_parser->fktext[ix].startx; //the initial x-point
+
+			while (x>=dmin && x<=dmax  && ( p_mode != 3 || !stop_calculating))
+			{
+				
+				y=m_parser->fkt(ix, x);
+				m_parser->euler_method(x, y,ix);
+				if ( int(x*1000)%100==0)
+				{
+					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
+					progressbar->increase();
+					paintEvent(0);
+				}
+				
+				if(errno!=0) continue;
+
+				real_x = x;
+				
+				if ( int(x*100)==getx)
+					stop_calculating = true;
+
+				if (forward_direction)
+				{
+					x=x+dx;
+					if (x>dmax && p_mode== 3)
+					{
+						forward_direction = false;
+						x = m_parser->fktext[ix].startx;
+					}
+				}
+				else
+					x=x-dx; // go backwards
+			}
+
+			if (  progressbar->isVisible())
+				progressbar->hide(); // hide the progressbar-widget if it was shown
+			x = real_x;
+			break;
+	}
+}
+

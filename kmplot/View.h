@@ -79,7 +79,12 @@ public:
 	void init();
 	/// Called when the graph should be updated
 	void drawPlot();
-		
+	/// Finding the mimimum or maximum value
+	void findMinMaxValue(int, char, bool, double &, double &);
+	/// get a y-value from a x-value
+	void getYValue(int, char, double , double &);
+	
+			
 	/// Returns a pointer to the private parser instance m_parser.
 	/// @see m_parser
 	XParser* parser();
@@ -89,6 +94,9 @@ public:
 	/// Points to the progressbar.
 	KmplotProgress *progressbar;
 
+	/** Current plot range endge. */
+	static double xmin;
+	static double xmax;
 public slots:
 	/// Called when the user want to cancel the drawing
 	void progressbar_clicked();
@@ -166,8 +174,6 @@ private:
 	void setPlotRange();
 	//@{
 	/** Current plot range endge. */
-	double xmin; 
-	double xmax;
 	double ymin;
 	double ymax;
 	//@}
@@ -181,6 +187,8 @@ private:
 	QPixmap buffer;
 	/// if stop_calculating is true, the user has cancelled drawing of an anti-derivative graph
 	bool stop_calculating;
+	/// the background color of the graph
+	QColor backgroundcolor;
 };
 
 #endif // View_included

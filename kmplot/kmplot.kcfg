@@ -188,7 +188,7 @@
 		</entry>
 	</group>
 		
-	<group name="Precision">
+	<group name="General">
 		<entry name="relativeStepWidth" type="Double">
 			<default>1.0</default>
 			<label>Step width in pixel</label>
@@ -198,6 +198,11 @@
 			<default>0</default>
 			<label>Radians instead of degrees</label>
 			<whatsthis>Check the box if you want to use radians</whatsthis>
+		</entry>
+		<entry name="backgroundcolor" type="Color">
+			<default>#FFFFFF</default>
+			<label>Background color</label>
+			<whatsthis>The background color for the graph</whatsthis>
 		</entry>
 	</group>
 <!--	

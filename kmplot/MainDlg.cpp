@@ -44,6 +44,7 @@
 #include "keditpolar.h"
 #include "kprinterdlg.h"
 #include "kconstanteditor.h"
+#include "kminmax.h"
 #include "MainDlg.h"
 #include "MainDlg.moc"
 #include "settings.h"
@@ -79,9 +80,9 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	// Let's create a Configure Diloag
 	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() ); 
 	// create and add the page(s)
-	m_precisionSettings = new SettingsPagePrecision( 0, "precisionSettings", "precision" );
+	m_generalSettings = new SettingsPagePrecision( 0, "precisionSettings", "precision" );
 	m_constantsSettings = new KConstantEditor( view, 0, "constantsSettings" );
-	m_settingsDialog->addPage( m_precisionSettings, i18n("General"), "package_settings", i18n("General Settings") );
+	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
 	m_settingsDialog->addPage( m_constantsSettings, "Constants", i18n("Constants") ); 
 	// User edited the configuration - update your local copies of the 
 	// configuration data 
@@ -136,7 +137,12 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "New Parametric Plot..." ), "newparametric", 0, this, SLOT( newParametric() ), actionCollection(), "newparametric" );
 	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
-
+	
+	// tools menu
+	( void ) new KAction( i18n( "&Get y-value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
+	( void ) new KAction( i18n( "&Search for minimum value" ), 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
+	( void ) new KAction( i18n( "&Search for maximum value" ), 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
+	
 	// help menu
 	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );
 
@@ -434,7 +440,6 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	m_quickEdit->clear();
 	m_modified = true;
 	view->drawPlot();
-	view->parser()->errmsg();
 }
 
 
@@ -574,4 +579,26 @@ void MainDlg::saveConstants()
 		conf.writeEntry("valueConstant"+tmp, view->parser()->constant[i].value);
 			
 	}
+}
+
+void MainDlg::getYValue()
+{
+	KMinMax *dlg = new KMinMax(view,2);
+	dlg->show();
+	/*double y;
+	double x=5;
+	view->getYValue(0,0,x,y);
+	KMessageBox::error(this,i18n("x: %1\ny: %2").arg((float)x ).arg((float)y ) );*/
+}
+
+void MainDlg::findMinimumValue()
+{
+	KMinMax *dlg = new KMinMax(view,0);
+	dlg->show();
+}
+
+void MainDlg::findMaximumValue()
+{
+	KMinMax *dlg = new KMinMax(view,1);
+	dlg->show();
 }

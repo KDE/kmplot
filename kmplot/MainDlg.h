@@ -129,7 +129,7 @@ class MainDlg : public KMainWindow
 		///A Configure KmPlot dialog instance
 		KConfigDialog* m_settingsDialog;
 		///The Precision page for the Configure KmPlot dialog
-		SettingsPagePrecision* m_precisionSettings;
+		SettingsPagePrecision* m_generalSettings;
 		///The Constants page for the Configure KmPlot constants
 		KConstantEditor* m_constantsSettings;
 		/// The fullscreen action to be plugged/unplegged to the toolbar
@@ -185,6 +185,10 @@ class MainDlg : public KMainWindow
 		void slotQuickEdit( const QString& tmp_f_str );
 		/// Enable or disable fullscreen
 		void slotFullScreen();
+		/// Tools menu
+		void getYValue();
+		void findMinimumValue();
+		void findMaximumValue();
 		
 	protected:
 		/// Quits KmPlot after checking if modifications shall be saved.

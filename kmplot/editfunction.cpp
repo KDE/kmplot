@@ -48,6 +48,7 @@
 // local includes
 #include "editfunction.h"
 #include "editfunction.moc"
+#include "View.h"
 #include "xparser.h"
 #include "editfunctionpage.h"
 #include "editderivativespage.h"
@@ -180,8 +181,6 @@ void EditFunction::accept()
 	
 	if( editfunctionpage->customRange->isChecked() )
 	{
-		// TODO: check empty boundaries
-		
 		m_parser->fktext[ index ].str_dmin = editfunctionpage->min->text();
 		m_parser->fktext[ index ].dmin = m_parser->eval( editfunctionpage->min->text() );
 		if (m_parser->errmsg() != 0)
@@ -205,6 +204,16 @@ void EditFunction::accept()
 		if ( m_parser->fktext[ index ].dmin >=  m_parser->fktext[ index ].dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+			showPage(0);
+			editfunctionpage->min->setFocus();
+			editfunctionpage->min->selectAll();
+			m_parser->delfkt( index );
+			return;
+		}
+		
+		if (  m_parser->fktext[ index ].dmin<View::xmin || m_parser->fktext[ index ].dmax>View::xmax )
+		{
+			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
 			showPage(0);
 			editfunctionpage->min->setFocus();
 			editfunctionpage->min->selectAll();
@@ -249,14 +258,23 @@ void EditFunction::accept()
 		}
 		if ( m_parser->fktext[ index ].dmin!=m_parser->fktext[ index ].dmax && ( initx<m_parser->fktext[ index ].dmin || initx>m_parser->fktext[ index ].dmax) )
 		{
-			KMessageBox::error(this,i18n("Please insert a initial x-value in the range between %1 and %2").arg(m_parser->fktext[ index ].str_dmin, m_parser->fktext[ index ].str_dmax) );
+			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(m_parser->fktext[ index ].dmin).arg( m_parser->fktext[ index ].dmax) );
 			showPage(2);
 			editantiderivativepage->txtInitX->setFocus();
 			editantiderivativepage->txtInitX->selectAll();
 			m_parser->delfkt( index );
 			return;
 		}
-
+		if ( m_parser->fktext[ index ].dmin!=m_parser->fktext[ index ].dmax && ( initx<View::xmin || initx>View::xmax) )
+		{
+			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(View::xmax).arg( View::xmax) );
+			showPage(2);
+			editantiderivativepage->txtInitX->setFocus();
+			editantiderivativepage->txtInitX->selectAll();
+			m_parser->delfkt( index );
+			return;
+		}
+		
 		m_parser->fktext[index].anti_mode = 1;
 		m_parser->fktext[ index ].anti_color = editantiderivativepage->colorAntiderivative->color().rgb();
 		m_parser->fktext[index].anti_use_precision = editantiderivativepage->customPrecision->isChecked();

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kmplot" version="4">
+<kpartgui name="kmplot" version="5">
 	<MenuBar>
 		<Menu name="file">
 			<Action name="export"/>
@@ -19,6 +19,11 @@
 			<Action name="coord_i"/>
 			<Action name="coord_ii"/>
 			<Action name="coord_iii"/>
+		</Menu>
+		<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
+			<Action name="yvalue"/>
+			<Action name="minimumvalue"/>
+			<Action name="maximumvalue"/>
 		</Menu>
         	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
 			<Merge name="StandardToolBarMenuHandler" />

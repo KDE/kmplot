@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>252</width>
-            <height>272</height>
+            <width>292</width>
+            <height>292</height>
         </rect>
     </property>
     <property name="caption">
@@ -93,6 +93,30 @@
                 </widget>
             </vbox>
         </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox2</cstring>
+            </property>
+            <property name="title">
+                <string>Background color</string>
+            </property>
+            <widget class="KColorButton">
+                <property name="name">
+                    <cstring>kcfg_backgroundcolor</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>20</x>
+                        <y>30</y>
+                        <width>69</width>
+                        <height>24</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string></string>
+                </property>
+            </widget>
+        </widget>
         <spacer>
             <property name="name">
                 <cstring>spacer1</cstring>
@@ -106,15 +130,11 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>61</height>
+                    <height>40</height>
                 </size>
             </property>
         </spacer>
     </vbox>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-</includehints>
 </UI>

@@ -16,6 +16,7 @@ TODO
 * A tool-menu:
 	* find "nollställen" ( eng: where the function's value is 0) 
 	* area under a graph
+	* get slope for a x-point
 * Fix the unpolished lines
 * #52887, need to calculate with complex numbers.
 * Import parameter values from different file format (.csv, .txt, KSpread, OpenOffice)
@@ -24,10 +25,6 @@ TODO
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
-* A tool-menu:
-	* maximumvalue
-	* minimumvalue
-	* get the y-value from a x-value
 
 DONE
 =========================
@@ -46,3 +43,10 @@ DONE
 * Parse the new dialog's values.
 * don't freeze at rf(x)=ln(x)
 * Set background color
+* A tool-menu:
+	* maximumvalue
+	* minimumvalue
+	* get the y-value from a x-value
+* Default color for derivatives and anti-derivatives.
+* Range check when adding plot functions.
+* Don't calculate stepWidth if nothing is changed.

@@ -41,7 +41,7 @@ public:
 
 private:
 
-	void setachsen();
+	void setAxes();
 	int wertholen( double&, QLineEdit* );
 
 

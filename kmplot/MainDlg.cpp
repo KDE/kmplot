@@ -256,8 +256,8 @@ void MainDlg::doSave( QString filename )
 
 	tag.setAttribute( "color", QColor( axesColor ).name() );
 	tag.setAttribute( "width", axesThickness );
-	tag.setAttribute( "tic-width", TeilstrichDicke );
-	tag.setAttribute( "tic-legth", TeilstrichLaenge );
+	tag.setAttribute( "tic-width", gradThickness );
+	tag.setAttribute( "tic-legth", gradLength );
 
 	addTag( doc, tag, "mode", QString::number( mode ) );
 	addTag( doc, tag, "xmin", xminstr );
@@ -271,7 +271,7 @@ void MainDlg::doSave( QString filename )
 
 	tag = doc.createElement( "grid" );
 
-	tag.setAttribute( "color", QColor( GitterFarbe ).name() );
+	tag.setAttribute( "color", QColor( gridColor ).name() );
 	tag.setAttribute( "width", GitterDicke );
 
 	addTag( doc, tag, "mode", QString::number( g_mode ) );
@@ -433,8 +433,8 @@ void MainDlg::parseAxes( const QDomElement & n )
 
 	axesThickness = n.attribute( "width", "1" ).toInt();
 	axesColor = QColor( n.attribute( "color", "#000000" ) ).rgb();
-	TeilstrichDicke = n.attribute( "tic-width", "3" ).toInt();
-	TeilstrichLaenge = n.attribute( "tic-length", "10" ).toInt();
+	gradThickness = n.attribute( "tic-width", "3" ).toInt();
+	gradLength = n.attribute( "tic-length", "10" ).toInt();
 
 	mode = n.namedItem( "mode" ).toElement().text().toInt();
 	xminstr = n.namedItem( "xmin" ).toElement().text();
@@ -449,7 +449,7 @@ void MainDlg::parseGrid( const QDomElement & n )
 {
 	kdDebug() << "parsing grid" << endl;
 
-	GitterFarbe = QColor( n.attribute( "color", "#c0c0c0" ) ).rgb();
+	gridColor = QColor( n.attribute( "color", "#c0c0c0" ) ).rgb();
 	GitterDicke = n.attribute( "width", "1" ).toInt();
 
 	g_mode = n.namedItem( "mode" ).toElement().text().toInt();

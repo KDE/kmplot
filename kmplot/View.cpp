@@ -75,10 +75,10 @@ void View::draw(QPaintDevice *dev, int form)
 	dgr.RahmenDicke=(uint)(4*s);
 	dgr.axesThickness=(uint)(axesThickness*s);
 	dgr.GitterDicke=(uint)(GitterDicke*s);
-	dgr.TeilstrichDicke=(uint)(TeilstrichDicke*s);
-	dgr.TeilstrichLaenge=TeilstrichLaenge;
+	dgr.gradThickness=(uint)(gradThickness*s);
+	dgr.gradLength=gradLength;
 	dgr.axesColor=axesColor;
-	dgr.GitterFarbe=GitterFarbe;
+	dgr.gridColor=gridColor;
 	dgr.Skal(tlgx, tlgy, g_mode);
 	
 	dgr.Plot(&DC);

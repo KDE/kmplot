@@ -19,8 +19,8 @@ koordy,     // 1 => [-5|+5]
 // 3 => [0|+10]
 axesThickness,
 GitterDicke,
-TeilstrichDicke,
-TeilstrichLaenge;
+gradThickness,
+gradLength;
 
 double xmin,                      // min. x-Wert
 xmax,                      // max. x-Wert
@@ -45,7 +45,7 @@ drskalystr;             // String für drskaly
 QString font_header, font_axes; // Font family names
 
 QRgb axesColor,
-GitterFarbe;
+gridColor;
 
 bool printtable;		// header table printing option
 
@@ -103,14 +103,14 @@ void getSettings()
 	axesThickness = Settings::axesLineWidth();
 	axesColor = Settings::axesColor().rgb();
 	if ( Settings::showLabel() ) mode |= BESCHRIFTUNG;
-	TeilstrichDicke = Settings::ticWidth();
-	TeilstrichLaenge = Settings::ticLength();
+	gradThickness = Settings::ticWidth();
+	gradLength = Settings::ticLength();
 
 	// grid settings
 
 	GitterDicke = Settings::gridLineWidth();
 	g_mode = Settings::gridStyle();
-	GitterFarbe = Settings::gridColor().rgb();
+	gridColor = Settings::gridColor().rgb();
 
 	// font settings
 	font_header = Settings::headerTableFont().family();

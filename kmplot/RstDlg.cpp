@@ -55,7 +55,7 @@ RstDlg::RstDlg( QWidget* parent, const char* name ) : Inherited( parent, name, t
 	case 3:
 		rb_r4->setChecked( TRUE );
 	}
-	color_button->setColor( QColor( GitterFarbe ) );
+	color_button->setColor( QColor( gridColor ) );
 }
 
 
@@ -77,13 +77,13 @@ void RstDlg::onok()
 		g_mode = 3;
 
 	GitterDicke = le_dicke->text().toInt();
-	GitterFarbe = color_button->color().rgb();
+	gridColor = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )
 	{
 		Settings::setGridLineWidth( GitterDicke );
 		Settings::setGridStyle( g_mode );
-		Settings::setGridColor( GitterFarbe );
+		Settings::setGridColor( gridColor );
 	}
 
 	done( 1 );

@@ -41,12 +41,12 @@ int isinf(double x) { return !finite(x) && x==x; }
 CDiagr::CDiagr()
 {   RahmenFarbe=qRgb(0, 0, 0);
 	axesColor=qRgb(0, 0, 0);
-	GitterFarbe=qRgb(192, 192, 192);
+	gridColor=qRgb(192, 192, 192);
 	RahmenDicke=2;
 	axesThickness=2;
 	GitterDicke=1;
-	TeilstrichDicke=1;
-	TeilstrichLaenge=10;
+	gradThickness=1;
+	gradLength=10;
 	mode=0;
 	g_mode=1;
 	ex=ey=1.;
@@ -195,19 +195,19 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 		}
 	}
 
-	pDC->setPen(QPen(axesColor, TeilstrichDicke));
+	pDC->setPen(QPen(axesColor, gradThickness));
 	if(mode&ACHSEN)
-	{   da=oy-TeilstrichLaenge;
-		db=oy+TeilstrichLaenge;
-		tl=(mode&RAHMEN)? 0: TeilstrichLaenge;
+	{   da=oy-gradLength;
+		db=oy+gradLength;
+		tl=(mode&RAHMEN)? 0: gradLength;
 		d=tsx;
 		if(da<(double)PlotArea.top())
 		{   a=PlotArea.top()-tl;
-			b=PlotArea.top()+TeilstrichLaenge;
+			b=PlotArea.top()+gradLength;
 		}
 		else if(db>(double)PlotArea.bottom())
 		{   b=PlotArea.bottom()+tl;
-			a=PlotArea.bottom()-TeilstrichLaenge;
+			a=PlotArea.bottom()-gradLength;
 		}
 		else
 		{   a=(int)da;
@@ -219,16 +219,16 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 			d+=ex;
 		}
 
-		da=ox-TeilstrichLaenge;
-		db=ox+TeilstrichLaenge;
+		da=ox-gradLength;
+		db=ox+gradLength;
 		d=tsy;
 		if(da<(double)PlotArea.left())
 		{   a=PlotArea.left()-tl;
-			b=PlotArea.left()+TeilstrichLaenge;
+			b=PlotArea.left()+gradLength;
 		}
 		else if(db>(double)PlotArea.right())
 		{   b=PlotArea.right()+tl;
-			a=PlotArea.right()-TeilstrichLaenge;
+			a=PlotArea.right()-gradLength;
 		}
 		else
 		{   a=(int)da;
@@ -241,8 +241,8 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 		}
 	}
 	else if(mode&RAHMEN)
-	{   a=PlotArea.bottom()+TeilstrichLaenge;
-		b=PlotArea.top()-TeilstrichLaenge;
+	{   a=PlotArea.bottom()+gradLength;
+		b=PlotArea.top()-gradLength;
 		d=tsx;
 		while(d<xmd)
 		{   pDC->Linev(Transx(d), PlotArea.bottom(), a);
@@ -250,8 +250,8 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 			d+=ex;
 		}
 
-		a=PlotArea.left()+TeilstrichLaenge;
-		b=PlotArea.right()-TeilstrichLaenge;
+		a=PlotArea.left()+gradLength;
+		b=PlotArea.right()-gradLength;
 		d=tsy;
 		while(d<ymd)
 		{   pDC->Lineh(PlotArea.left(), Transy(d), a);
@@ -265,7 +265,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 void CDiagr::Raster(QPainter* pDC)
 {   int a, b;
 	double d, x, y;
-	QPen pen(GitterFarbe, GitterDicke);
+	QPen pen(gridColor, GitterDicke);
 
 	pDC->setPen(pen);
 	if(g_mode==1)                   		// Linienraster

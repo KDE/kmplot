@@ -41,8 +41,8 @@
 KOptDlg::KOptDlg( QWidget* parent, const char* name ) : Inherited( parent, name, true )
 {
 	axesLineWidth->setValue( axesThickness );
-	ticLineWidth->setValue( TeilstrichDicke );
-	ticLength->setValue( TeilstrichLaenge );
+	ticLineWidth->setValue( gradThickness );
+	ticLength->setValue( gradLength );
 	color_button->setColor( QColor( axesColor ) );
 }
 
@@ -55,15 +55,15 @@ KOptDlg::~KOptDlg()
 void KOptDlg::onok()
 {
 	axesThickness = axesLineWidth->value();
-	TeilstrichDicke = ticLineWidth->value();
-	TeilstrichLaenge = ticLength->value();
+	gradThickness = ticLineWidth->value();
+	gradLength = ticLength->value();
 	axesColor = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )
 	{
 		Settings::setAxesLineWidth( axesThickness );
-		Settings::setTicWidth( TeilstrichDicke );
-		Settings::setTicLength( TeilstrichLaenge );
+		Settings::setTicWidth( gradThickness );
+		Settings::setTicLength( gradLength );
 		Settings::setAxesColor( axesColor );
 	}
 

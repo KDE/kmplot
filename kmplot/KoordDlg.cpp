@@ -49,11 +49,11 @@ KoordDlg::KoordDlg( QWidget* parent, const char* name, bool modal ) : Inherited(
 	le_ymax->setText( ymaxstr );
 	kdx = koordx;
 	kdy = koordy;
-	setachsen();
+	setAxes();
 	cb_beschr->setChecked( mode & BESCHRIFTUNG );
 	axesLineWidth->setValue( axesThickness );
-	ticLineWidth->setValue( TeilstrichDicke );
-	ticLength->setValue( TeilstrichLaenge );
+	ticLineWidth->setValue( gradThickness );
+	ticLength->setValue( gradLength );
 	color_button->setColor( QColor( axesColor ) );
 }
 
@@ -61,7 +61,7 @@ KoordDlg::~KoordDlg()
 {
 }
 
-void KoordDlg::setachsen()
+void KoordDlg::setAxes()
 {
 	bg_xachse->setButton( kdx );
 	bg_yachse->setButton( kdy );
@@ -167,8 +167,8 @@ void KoordDlg::onok()
 	}
 	
 	axesThickness = axesLineWidth->value();
-	TeilstrichDicke = ticLineWidth->value();
-	TeilstrichLaenge = ticLength->value();
+	gradThickness = ticLineWidth->value();
+	gradLength = ticLength->value();
 	axesColor = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )
@@ -181,8 +181,8 @@ void KoordDlg::onok()
 		Settings::setYMax( ymaxstr );
 		Settings::setShowLabel( m == 1 );
 		Settings::setAxesLineWidth( axesThickness );
-		Settings::setTicWidth( TeilstrichDicke );
-		Settings::setTicLength( TeilstrichLaenge );
+		Settings::setTicWidth( gradThickness );
+		Settings::setTicLength( gradLength );
 		Settings::setAxesColor( axesColor );
 	}
 	done( 1 );
@@ -215,13 +215,13 @@ void KoordDlg::yclicked( int iy )
 void KoordDlg::onXChanged()
 {
 	kdx = 4;
-	setachsen();
+	setAxes();
 }
 
 void KoordDlg::onYChanged()
 {
 	kdy = 4;
-	setachsen();
+	setAxes();
 }
 
 void KoordDlg::onHelp()

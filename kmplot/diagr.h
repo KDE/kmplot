@@ -76,13 +76,13 @@ public:
 
     QRgb RahmenFarbe,
 	     axesColor,
-         GitterFarbe;
+         gridColor;
 
 	uint RahmenDicke,
 	     axesThickness,
 	     GitterDicke,
-	     TeilstrichDicke,
-	     TeilstrichLaenge,
+	     gradThickness,
+	     gradLength,
 	     xclipflg,            	// clipflg wird auf 1 gesetzt, wenn die
 	     yclipflg;			    // Koordinaten auﬂerhalb des Diagramms liegen
 

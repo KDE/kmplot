@@ -62,9 +62,9 @@ extern int	axesThickness,
 	/** Thickness of the grid lines. */
 	GitterDicke,
 	/** Thickness of the tics */
-	TeilstrichDicke,
+	gradThickness,
 	/** Length of the tics. */
-	TeilstrichLaenge;
+	gradLength;
 
 /** @name Limits of the coordinate axes
  * These are variables for the handling of the axes' limits.
@@ -156,7 +156,7 @@ extern QString font_header,
 /** Color of the axes. */
 extern	QRgb axesColor,
 	/** Color of the grid. */
-	GitterFarbe;
+	gridColor;
 
 /** Header table printing option
  * @see KPinterDlg

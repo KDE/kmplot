@@ -29,8 +29,10 @@
 // KDE includes
 #include <kapplication.h>
 #include <kcolorbutton.h>
+#include <kmessagebox.h>
 #include <knuminput.h>
 #include <klineedit.h>
+#include <klocale.h>
 
 #include <kdebug.h>
 
@@ -89,6 +91,12 @@ void KEditFunction::setWidgets()
 
 void KEditFunction::accept()
 {
+	if( hasParameters->isChecked() )
+	{
+		if( !functionHas2Arguments() && KMessageBox::warningYesNo( this, i18n( "You entered parameter values, but the function has no 2nd argument. The Definition should look like f(x,k)=k*x^2, for instance.\nDo you want to continue anyway?" ), i18n( "Missing 2nd Argument" ) ) != KMessageBox::Yes ) return;
+	}
+	else if( functionHas2Arguments() && KMessageBox::warningYesNo( this, i18n( "Function has 2 arguments, but you did not specify any parameter values.\nDo you want to continue anyway?" ), i18n( "Missing Parameter Values" ) ) != KMessageBox::Yes ) return;
+	
 	// if we are editing an existing function, first delete the old one
 	if( m_index != -1 ) 
 	{
@@ -151,4 +159,11 @@ const QString KEditFunction::functionItem()
 void KEditFunction::slotHelp()
 {
 	kapp->invokeHelp( "", "kmplot" );
+}
+
+bool KEditFunction::functionHas2Arguments()
+{
+	int openBracket = kLineEditYFunction->text().find( "(" );
+	int closeBracket = kLineEditYFunction->text().find( ")" );
+	return kLineEditYFunction->text().mid( openBracket+1, closeBracket-openBracket-1 ).find( "," ) != -1;
 }

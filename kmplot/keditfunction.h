@@ -45,6 +45,13 @@ class KEditFunction : public QEditFunction
  		*/
 		const QString functionItem();
 	
+	protected slots:
+		/**
+ 		* Overwrites the dialog's accept() method to make sure, that the user's input is valid.
+ 		*/
+		virtual void accept();
+		void slotHelp();
+	
 	private:
 		/**
  		* Clear alls widgets values
@@ -54,15 +61,12 @@ class KEditFunction : public QEditFunction
  		* Fill the dialog's widgets with values from the parser
  		*/
 		void setWidgets();
+		/// Check, if the function has 2 arguments (function group)
+		bool functionHas2Arguments();
+		/// Pointer to the parser instance
 		XParser* m_parser;
+		/// Current function index
 		int m_index;
-		
-	protected slots:
-		/**
- 		* Overwrites the dialog's accept() method to make sure, that the user's input is valid.
- 		*/
-		virtual void accept();
-		void slotHelp();
 };
 
 #endif

@@ -1,35 +1,38 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="kmplot" version="3">
-<MenuBar>
-  <Menu name="file"><text>&amp;File</text>
-  	<Action name="export"/>
-  </Menu>
-  <Menu name="functions"><text>F&amp;unctions</text>
-    <Action name="newfunction"/>
-    <Action name="newparametric"/>
-    <Action name="newpolar"/>
-    <Action name="functions"/>
-  </Menu>
-  <Menu name="view">
-    <Action name="axes"/>
-    <Action name="scale"/>
-    <Action name="grid"/>
-    <Action name="step"/>
-    <Separator />
-    <Action name="coord_i"/>
-    <Action name="coord_ii"/>
-    <Action name="coord_iii"/>
-  </Menu>
-  <Menu name="help">
-    <Action name="names"/>
-  </Menu>
-</MenuBar>
-<ToolBar name="mainToolBar">
-  <Separator />
-  <Action name="functions"/>
-  <Action name="coord_i"/>
-  <Action name="coord_ii"/>
-  <Action name="coord_iii"/>
-  <Action name="helpcontents"/>
-</ToolBar>
+	<MenuBar>
+		<Menu name="file"><text>&amp;File</text>
+			<Action name="export"/>
+		</Menu>
+		<Menu name="functions"><text>F&amp;unctions</text>
+			<Action name="newfunction"/>
+			<Action name="newparametric"/>
+			<Action name="newpolar"/>
+			<Action name="functions"/>
+		</Menu>
+		<Menu name="view">
+			<Action name="axes"/>
+			<Action name="scale"/>
+			<Action name="grid"/>
+			<Action name="step"/>
+		<Separator />
+			<Action name="coord_i"/>
+			<Action name="coord_ii"/>
+			<Action name="coord_iii"/>
+		</Menu>
+		<Menu name="help">
+			<Action name="names"/>
+		</Menu>
+	</MenuBar>
+	
+	<ToolBar name="mainToolBar">
+		<Separator />
+		<Action name="quickedit"/>
+		<Action name="functions"/>
+		<Action name="coord_i"/>
+		<Action name="coord_ii"/>
+		<Action name="coord_iii"/>
+		<Action name="helpcontents"/>
+	</ToolBar>
+
 </kpartgui>

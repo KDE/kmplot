@@ -26,12 +26,15 @@
 // Qt includes
 #include <qdom.h>
 #include <qfile.h>
+#include <qtooltip.h>
 
 // KDE includes
+#include <kactionclasses.h>
 #include <kconfigdialog.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
 #include <kkeydialog.h>
+#include <klineedit.h>
 #include <kurl.h>
 
 // local includes
@@ -53,6 +56,8 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	bez = 0;
 	view = new View( this );
 	setCentralWidget( view );
+	m_quickEdit = new KLineEdit( this );
+	QToolTip::add( m_quickEdit, i18n( "enter a function equation, for instance: f(x)=x^2" ) );
 	setupActions();
 	setupStatusBar();
 	m_sessionId = sessionId;
@@ -103,6 +108,11 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
 
 	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( doexport() ), actionCollection(), "export");
+	
+	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( onQuickEdit( const QString& ) ) );
+	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );
+	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
+		"For instance: f(x)=x^2\nFor more options use Functions->Edit Functions... menu." ) );
 	
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
@@ -497,6 +507,22 @@ void MainDlg::funktionen()
 	view->update();
 }
 
+void MainDlg::onQuickEdit( const QString& f_str )
+{
+	int index = ps.addfkt( f_str );
+	if( index == -1 ) 
+	{
+		ps.errmsg();
+		m_quickEdit->setFocus();
+		m_quickEdit->selectAll();
+		return;
+	}
+	ps.fktext[ index ].extstr = f_str;;
+	ps.getext( index );
+	m_quickEdit->clear();
+	view->update();
+}
+
 void MainDlg::skalierung()
 {
 	SkalDlg skdlg;
@@ -594,6 +620,7 @@ void MainDlg::newToolbarConfig()
     createGUI();
     applyMainWindowSettings( KGlobal::config(), autoSaveGroup() );
 }
+
 void MainDlg::optionsConfigureKeys()
 {
   KKeyDialog::configure(actionCollection());

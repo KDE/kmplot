@@ -68,6 +68,7 @@
 
 
 class KRecentFilesAction;
+class KLineEdit;
 
 class MainDlg : public KMainWindow
 {
@@ -91,6 +92,7 @@ public slots:
 	void onNewParametric();
 	void onNewPolar();
 	void funktionen();
+	void onQuickEdit( const QString& );
 	void skalierung();
 	void schrittw();
 	void raster();
@@ -126,7 +128,8 @@ private:
 	QString m_filename;      // current filename
 	bool m_modified;
 	KConfig* m_config;
-
+	KLineEdit* m_quickEdit;
+	
 private slots:
 	void newToolbarConfig();
 	void optionsConfigureKeys();

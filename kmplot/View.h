@@ -4,7 +4,7 @@
 #include "misc.h"
 #include "diagr.h"
 #include "xparser.h"
-#include <kapp.h>
+#include <kapplication.h>
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <qwidget.h>

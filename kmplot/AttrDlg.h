@@ -2,7 +2,7 @@
 #define AttrDlg_included
 
 #include "AttrDlgData.h"
-#include <kapp.h>
+#include <kapplication.h>
 #include "misc.h"
 #include <kcolordlg.h>
 #include <klocale.h>

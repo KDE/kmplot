@@ -3,7 +3,7 @@
 
 #include "FktDlgData.h"
 #include "AttrDlg.h"
-#include <kapp.h>
+#include <kapplication.h>
 #include "misc.h"
 #include <qlist.h>
 #include <klocale.h>

@@ -2,7 +2,7 @@
 #define SwDlg_included
 
 #include "SwDlgData.h"
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 #include "misc.h"
 #include <qlineedit.h>

@@ -2,7 +2,7 @@
 #define BezWnd_included
 
 #include "BezWndData.h"
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 
 

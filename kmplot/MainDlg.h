@@ -9,7 +9,7 @@
 #include "BezWnd.h"
 #include "misc.h"
 #include "View.h"
-#include <kapp.h>
+#include <kapplication.h>
 #include <kaction.h>
 #include "kconfig.h"
 #include <klocale.h>

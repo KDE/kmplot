@@ -3,7 +3,7 @@
 
 #include "xparser.h"
 #include "diagr.h"
-#include <kapp.h>
+#include <kapplication.h>
 #include <kconfig.h>
 #include <qstring.h>
 #include <qcolor.h>

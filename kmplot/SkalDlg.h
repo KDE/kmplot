@@ -2,7 +2,7 @@
 #define SkalDlg_included
 
 #include "SkalDlgData.h"
-#include <kapp.h>
+#include <kapplication.h>
 #include <klocale.h>
 #include "kmessagebox.h"
 #include "misc.h"

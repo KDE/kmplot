@@ -256,6 +256,22 @@ void KmPlot::fileOpen()
 	}
 }
 
+void KmPlot::fileOpen(const KURL &url)
+{
+	if ( !url.isEmpty())
+	{
+		// About this function, the style guide (
+		// http://developer.kde.org/documentation/standards/kde/style/basics/index.html )
+		// says that it should open a new window if the document is _not_
+		// in its initial state.  This is what we do here..
+		if ( m_part->url().isEmpty() && !isModified() )
+			load( KStandardDirs::realFilePath(url.url()) ); // we open the file in this window...
+		else
+			openFileInNewWindow(url); // we open the file in a new window...
+	}	
+}
+
+
 void KmPlot::openFileInNewWindow(const KURL url)
 {
 	KApplication::startServiceByDesktopName("kmplot",url.url());

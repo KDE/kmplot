@@ -350,7 +350,6 @@ bool MainDlg::openFile()
 	{
 		m_recentFiles->removeURL(m_url ); //remove the file from the recent-opened-file-list
 		m_url = "";
-		kdDebug() << "Hit2?" << endl;
 		return false;
 	}
 	m_currentfile = m_url;

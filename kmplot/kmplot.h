@@ -85,6 +85,7 @@ protected:
 private slots:
 	void fileNew();
 	void fileOpen();
+	void fileOpen(const KURL &url);
 	void optionsShowToolbar();
 	void optionsShowStatusbar();
 	void optionsConfigureKeys();

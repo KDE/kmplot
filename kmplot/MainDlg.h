@@ -167,10 +167,6 @@ class MainDlg : public KMainWindow
 		void slotExport();
 		///Implement the Configure KmPlot dialog
 		void slotSettings();
-		///
-		void newToolbarConfig();
-		///
-		void optionsConfigureToolbars();
 		///Update settings when there is a change in the Configure KmPlot dialog
 		void updateSettings();
 		/// Calls the common function names dialog.

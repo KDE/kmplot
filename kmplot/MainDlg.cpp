@@ -67,8 +67,10 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	view->setMinMaxDlg(minmaxdlg);
 	m_quickEdit = new KLineEdit( this );
 	QToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
-	setupActions();
+	
 	setupStatusBar();
+	setupActions();
+
 	loadConstants();
 	m_sessionId = sessionId;
 	if (args -> count() > 0) 
@@ -94,7 +96,6 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	// configuration data 
 	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	m_modified = false;
-	setAutoSaveSettings();
 }
 
 MainDlg::~MainDlg()
@@ -114,13 +115,10 @@ void MainDlg::setupActions()
 	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
-	KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), actionCollection());
-	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
+
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 	m_fullScreen = KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), this, "fullscreen");
-	
-	createStandardStatusBarAction();
-	setStandardToolBarMenuEnabled(true);
+
 	
 	// KmPLot specific actions
 	// file menu
@@ -193,7 +191,7 @@ void MainDlg::setupActions()
 	mnuArea->plug(m_popupmenu);
 	
 	
-	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
+	setupGUI();
 }
 
 void MainDlg::setupStatusBar()
@@ -534,20 +532,6 @@ void MainDlg::updateSettings()
 	view->getSettings();
 	m_modified = true;
 	view->drawPlot();
-}
-
-void MainDlg::newToolbarConfig()
-{
-	createGUI();
-	applyMainWindowSettings( KGlobal::config(), autoSaveGroup() );
-}
-
-void MainDlg::optionsConfigureToolbars()
-{
-	saveMainWindowSettings( KGlobal::config(), autoSaveGroup() );
-	KEditToolbar dlg(actionCollection());
-	connect(&dlg, SIGNAL(newToolbarConfig()), this, SLOT(newToolbarConfig()));
-	dlg.exec();
 }
 
 bool MainDlg::queryClose()

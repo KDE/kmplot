@@ -608,15 +608,17 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		return;
 	}
 	if(csflg==1)        // Fadenkreuz l�chen
-	{ bitBlt(this, area.left(), fcy, &hline, 0, 0, area.width(), 1);
+	{
+	  	bitBlt(this, area.left(), fcy, &hline, 0, 0, area.width(), 1);
 		bitBlt(this, fcx, area.top(), &vline, 0, 0, 1, area.height());
 		csflg=0;
 	}
-	char sx[20], sy[20];
+	
 	if(area.contains(e->pos()) || (e->button()==Qt::LeftButton && e->state()==Qt::LeftButton && csxpos>xmin && csxpos<xmax))
 	{
 		QPoint ptd, ptl;
 		QPainter DC;
+		bool out_of_bounds = false;
 
 		DC.begin(this);
 		DC.setWindow(0, 0, w, h);
@@ -629,7 +631,6 @@ void View::mouseMoveEvent(QMouseEvent *e)
 			int const ix = m_parser->ixValue(csmode);
 			if (ix!=-1)
 			{
-				//double old_csxpos = csxpos;
 				it = &m_parser->ufkt[ix];
 				if( it->use_slider == -1 )
 				{
@@ -644,34 +645,17 @@ void View::mouseMoveEvent(QMouseEvent *e)
 					ptl.setY(dgr.Transy(csypos=m_parser->a1fkt( it, csxpos=dgr.Transx(ptl.x()) )));
 				else if ( cstype == 2)
 					ptl.setY(dgr.Transy(csypos=m_parser->a2fkt( it, csxpos=dgr.Transx(ptl.x()))));
-				//kdDebug() << "m_parser->fkt( it, csxpos=dgr.Transx(ptl.x()): " << QString::number(m_parser->fkt( it, csxpos=dgr.Transx(ptl.x()))) << endl;
- 				
-// 				if ( csypos<ymin)
-// 				{
-// 				  kdDebug() << "ute_min" << endl;
-// 				  csxpos = old_csxpos;
-// 				  csypos = ymin;
-// 				}
-// 				else if ( csypos>ymax )
-// 				{
-// 				  kdDebug() << "ute_max" << endl;
-// 				  csxpos = old_csxpos;
-// 				  csypos = ymax;
-// 				}
-// 				if (csypos<ymin || csypos>ymax)
-// 				{
-// 				  csxpos=dgr.Transx(ptl.x());
-// 				  csypos=dgr.Transy(ptl.y()-0.1);
-// 				}
-				
-				if(fabs(csypos)<0.2)
+
+				if ( csypos<ymin || csypos>ymax) //the ypoint is not visible
+					out_of_bounds = true;
+				else if(fabs(csypos)<0.2)
 				{
 					double x0;
 					if(root(&x0, it))
 					{
 						QString str="  ";
 						str+=i18n("root");
-						setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+					setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
 						rootflg=true;
 					}
 				}
@@ -689,16 +673,18 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		}
 		ptd=DC.xForm(ptl);
 		DC.end();
-
-		sprintf(sx, "  x= %+.2f", (float)dgr.Transx(ptl.x()));//csxpos);
-		sprintf(sy, "  y= %+.2f", csypos);
+		QString sx, sy;
+		if (out_of_bounds)
+		{
+		  sx = sy = "";
+		}
+		else
+		{
+		  sx.sprintf("  x= %+.2f", (float)dgr.Transx(ptl.x()));//csxpos);
+		  sy.sprintf("  y= %+.2f", csypos);
+		}
 		if(csflg==0)        // Hintergrund speichern
 		{
-			if ( csypos<=ymin || csypos>ymax )
-			{
-			  	kdDebug() << "ute" << endl;
-				return;
-			}
 			bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
 			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
 			// Fadenkreuz zeichnen
@@ -736,15 +722,17 @@ void View::mouseMoveEvent(QMouseEvent *e)
 			DC.end();
 		}
 		csflg=1;
-		setCursor(blankCursor);
+		setCursor(Qt::blankCursor);
+		setStatusBar(sx, 1);
+		setStatusBar(sy, 2);
 	}
 	else
 	{
 		setCursor(arrowCursor);
-		sx[0]=sy[0]=0;
+		setStatusBar("", 1);
+		setStatusBar("", 2);
 	}
-	setStatusBar(sx, 1);
-	setStatusBar(sy, 2);
+	
 }
 
 

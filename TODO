@@ -14,6 +14,8 @@ TODO
 * Printing (pipesmoker)
       - different paper sizes
 * Use a better(faster!) algorithm for drawing integrals numeric.
+* An export dialog where you can set the size and enable/disable monocrome.
+* Move and copy functions to other instances of KmPlot.
 
 IN PROGRESS
 =========================

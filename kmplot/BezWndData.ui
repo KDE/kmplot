@@ -8,268 +8,304 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>166</width>
-            <height>319</height>
+            <width>242</width>
+            <height>381</height>
         </rect>
     </property>
     <property name="caption">
         <string>Names</string>
     </property>
     <property name="toolTip" stdset="0">
+        <string>all predefined names</string>
+    </property>
+    <property name="whatsThis" stdset="0">
         <string>Here you find all predefined names of the kmplot parser.</string>
     </property>
-    <widget class="QGroupBox">
+    <vbox>
         <property name="name">
-            <cstring>GroupBox1</cstring>
+            <cstring>unnamed</cstring>
         </property>
-        <property name="geometry">
-            <rect>
-                <x>11</x>
-                <y>11</y>
-                <width>146</width>
-                <height>240</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>Functions</string>
-        </property>
-        <widget class="QLayoutWidget">
+        <widget class="QGroupBox">
             <property name="name">
-                <cstring>layout4</cstring>
+                <cstring>GroupBox1</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>80</x>
-                    <y>20</y>
-                    <width>60</width>
-                    <height>210</height>
-                </rect>
+            <property name="title">
+                <string>Functions</string>
             </property>
-            <vbox>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout3</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_4</cstring>
+                            </property>
+                            <property name="text">
+                                <string>abs</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>sqr</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3</cstring>
+                            </property>
+                            <property name="text">
+                                <string>exp</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>sin</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>cos</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>tan</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>sinh</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>cosh</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>tanh</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout4</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_3</cstring>
+                            </property>
+                            <property name="text">
+                                <string>sign</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>sqrt</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>ln</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>log</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arcsin</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arccos</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arctan</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arsinh</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arcosh</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>artanh</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox4</cstring>
+            </property>
+            <property name="title">
+                <string>Constants</string>
+            </property>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
                 <widget class="QLabel">
                     <property name="name">
-                        <cstring>TextLabel1_2_3</cstring>
+                        <cstring>TextLabel1_3_2_2_2_2_2_2_2</cstring>
                     </property>
                     <property name="text">
-                        <string>sign</string>
+                        <string>pi</string>
                     </property>
                 </widget>
                 <widget class="QLabel">
                     <property name="name">
-                        <cstring>TextLabel1_2</cstring>
+                        <cstring>TextLabel1_2_2_2_2_2_2_2_2_2</cstring>
                     </property>
                     <property name="text">
-                        <string>sqrt</string>
+                        <string>e</string>
                     </property>
                 </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>ln</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>log</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>arcsin</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_2_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>arccos</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_2_2_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>arctan</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_2_2_2_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>arsinh</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_2_2_2_2_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>arcosh</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_2_2_2_2_2_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>artanh</string>
-                    </property>
-                </widget>
-            </vbox>
+            </hbox>
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout3</cstring>
+                <cstring>layout24</cstring>
             </property>
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>60</width>
-                    <height>210</height>
-                </rect>
-            </property>
-            <vbox>
+            <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel">
+                <spacer>
                     <property name="name">
-                        <cstring>TextLabel1_4</cstring>
+                        <cstring>spacer11</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>21</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>pushButton13</cstring>
                     </property>
                     <property name="text">
-                        <string>abs</string>
+                        <string>&amp;Close</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="QLabel">
+                <spacer>
                     <property name="name">
-                        <cstring>TextLabel1</cstring>
+                        <cstring>spacer12</cstring>
                     </property>
-                    <property name="text">
-                        <string>sqr</string>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
                     </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_3</cstring>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
                     </property>
-                    <property name="text">
-                        <string>exp</string>
+                    <property name="sizeHint">
+                        <size>
+                            <width>21</width>
+                            <height>20</height>
+                        </size>
                     </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_3_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>sin</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_3_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>cos</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_3_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>tan</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_3_2_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>sinh</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_3_2_2_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>cosh</string>
-                    </property>
-                </widget>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1_3_2_2_2_2_2_2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>tanh</string>
-                    </property>
-                </widget>
-            </vbox>
+                </spacer>
+            </hbox>
         </widget>
-    </widget>
-    <widget class="QGroupBox">
-        <property name="name">
-            <cstring>GroupBox4</cstring>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>10</x>
-                <y>260</y>
-                <width>146</width>
-                <height>50</height>
-            </rect>
-        </property>
-        <property name="title">
-            <string>Constants</string>
-        </property>
-        <widget class="QLabel">
-            <property name="name">
-                <cstring>TextLabel1_3_2_2_2_2_2_2_2</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>15</x>
-                    <y>20</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>pi</string>
-            </property>
-        </widget>
-        <widget class="QLabel">
-            <property name="name">
-                <cstring>TextLabel1_2_2_2_2_2_2_2_2_2</cstring>
-            </property>
-            <property name="geometry">
-                <rect>
-                    <x>85</x>
-                    <y>20</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>e</string>
-            </property>
-        </widget>
-    </widget>
+    </vbox>
 </widget>
+<connections>
+    <connection>
+        <sender>pushButton13</sender>
+        <signal>clicked()</signal>
+        <receiver>BezWndData</receiver>
+        <slot>close()</slot>
+    </connection>
+</connections>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

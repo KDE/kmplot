@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>448</width>
+            <width>452</width>
             <height>107</height>
         </rect>
     </property>
@@ -85,10 +85,22 @@
                     <property name="name">
                         <cstring>kcfg_AxesFont</cstring>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>the font for the axis</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select the font you want to use for the axis labels. If you can't see the labels, check that you have enabled "Show labels" in the coordinate setting dialog.</string>
+                    </property>
                 </widget>
                 <widget class="KFontCombo">
                     <property name="name">
                         <cstring>kcfg_HeaderTableFont</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>the font for the header table</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select the font you want to use in the header table. The header table can be included when you are printing a graph.</string>
                     </property>
                 </widget>
             </vbox>

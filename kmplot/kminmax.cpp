@@ -129,7 +129,9 @@ void KMinMax::init(char m)
 		lblMin->setText(i18n("Draw the area between the x-values:"));
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText("&Draw");
-		QToolTip::add( cmdFind, i18n( "Draw the area between the function and the y-axle and show the area in a message box" ) );
+		QToolTip::add( cmdFind, i18n( "Draw the area between the function and the y-axle" ) );
+		QWhatsThis::add(cmdFind,i18n("Draw the area between the function and the y-axle and show the area in a message box."));
+		
 	}
 
 	min->setFocus();

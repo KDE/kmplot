@@ -24,8 +24,8 @@
 */
 
 // Qt includes
-#include <qtooltip.h>
 #include <qslider.h>
+#include <qtooltip.h>
 
 // KDE includes
 #include <kapplication.h>

@@ -73,12 +73,6 @@
                     <property name="enabled">
                         <bool>true</bool>
                     </property>
-                    <property name="toolTip" stdset="0">
-                        <string>lower boundary of the plot range</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
-                    </property>
                 </widget>
                 <widget class="KLineEdit" row="3" column="0">
                     <property name="name">
@@ -86,12 +80,6 @@
                     </property>
                     <property name="enabled">
                         <bool>true</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>upper boundary of the plot range</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
                     </property>
                 </widget>
             </grid>
@@ -114,6 +102,9 @@
                     <property name="toolTip" stdset="0">
                         <string>The available functions you can search in</string>
                     </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Here you can see all available functions you can use. Select one of them.</string>
+                    </property>
                 </widget>
             </grid>
         </widget>
@@ -124,13 +115,25 @@
             <property name="text">
                 <string>&amp;Close</string>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>close the dialog</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Close the dialog and return to the main window.</string>
+            </property>
         </widget>
         <widget class="QPushButton" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>cmdParameter</cstring>
             </property>
             <property name="text">
-                <string>Choose Parameter Value</string>
+                <string>Choose Parameter Value...</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>select the parameter value you want to use</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>If the function has any parameter values you must select it here.</string>
             </property>
         </widget>
     </grid>

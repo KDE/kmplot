@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>SettingsPageScaling</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>370</width>
+            <width>450</width>
             <height>345</height>
         </rect>
     </property>
@@ -131,6 +131,12 @@
                             <property name="name">
                                 <cstring>kcfg_XPrinting</cstring>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>set the x-axis' printing scaling</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>This is similiar to the setting above, but this sets the distance between two x-axis-grids when printing or drawing on the screen.</string>
+                            </property>
                         </widget>
                         <widget class="QLabel" row="4" column="2">
                             <property name="name">
@@ -188,6 +194,12 @@
                             </item>
                             <property name="name">
                                 <cstring>kcfg_XScaling</cstring>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>set the x-axis' scaling</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Choose how many units apart the x-axis tics will be, and therefore, how far apart grid lines will be drawn.</string>
                             </property>
                         </widget>
                     </grid>
@@ -299,6 +311,12 @@
                             <property name="name">
                                 <cstring>kcfg_YPrinting</cstring>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>set the y-axis' scaling</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>This is similiar to the setting above, but this sets the distance between two y-axis-grids when printing or drawing on the screen.</string>
+                            </property>
                         </widget>
                         <widget class="QLabel" row="5" column="2">
                             <property name="name">
@@ -356,6 +374,12 @@
                             </item>
                             <property name="name">
                                 <cstring>kcfg_YScaling</cstring>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>set the y-axis' scaling</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Choose how many units apart the y-axis tics will be, and therefore, how far apart grid lines will be drawn.</string>
                             </property>
                         </widget>
                     </grid>

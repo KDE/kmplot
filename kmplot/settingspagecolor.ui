@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>SettingsPageColor</class>
 <widget class="QWidget">
     <property name="name">
@@ -57,6 +57,12 @@
                                 <property name="text">
                                     <string></string>
                                 </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>select color for the axes</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>Specify the color of the axes. The change will appear as soon as you press the OK button.</string>
+                                </property>
                             </widget>
                             <widget class="KColorButton" row="1" column="1">
                                 <property name="name">
@@ -64,6 +70,12 @@
                                 </property>
                                 <property name="text">
                                     <string></string>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>select color for the grid</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>Specify the color of the grid. The change will appear as soon as you press the OK button.</string>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0">
@@ -132,6 +144,12 @@
                                         <property name="text">
                                             <string></string>
                                         </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 2</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 2. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
+                                        </property>
                                     </widget>
                                     <widget class="KColorButton" row="4" column="1">
                                         <property name="name">
@@ -140,6 +158,12 @@
                                         <property name="text">
                                             <string></string>
                                         </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 5</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 5. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
+                                        </property>
                                     </widget>
                                     <widget class="KColorButton" row="0" column="1">
                                         <property name="name">
@@ -147,6 +171,12 @@
                                         </property>
                                         <property name="text">
                                             <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 1</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 1. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0">
@@ -166,6 +196,12 @@
                                         </property>
                                         <property name="text">
                                             <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 3</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 3. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="2" column="0">
@@ -207,6 +243,12 @@
                                         </property>
                                         <property name="text">
                                             <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 4</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 4. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="4" column="0">
@@ -276,6 +318,12 @@
                                         <property name="text">
                                             <string></string>
                                         </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 9</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 9. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
+                                        </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0">
                                         <property name="name">
@@ -295,6 +343,12 @@
                                         <property name="text">
                                             <string></string>
                                         </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 7</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 7. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
+                                        </property>
                                     </widget>
                                     <widget class="KColorButton" row="2" column="1">
                                         <property name="name">
@@ -303,6 +357,12 @@
                                         <property name="text">
                                             <string></string>
                                         </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 8</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 8. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
+                                        </property>
                                     </widget>
                                     <widget class="KColorButton" row="0" column="1">
                                         <property name="name">
@@ -310,6 +370,12 @@
                                         </property>
                                         <property name="text">
                                             <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 6</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 6. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="3" column="0">
@@ -329,6 +395,12 @@
                                         </property>
                                         <property name="text">
                                             <string></string>
+                                        </property>
+                                        <property name="toolTip" stdset="0">
+                                            <string>the default color for function number 10</string>
+                                        </property>
+                                        <property name="whatsThis" stdset="0">
+                                            <string>The default color for function number 10. Please note that this color settings only affect empy functions, so if you have definied a function at number 1 and you change color here for that number, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="4" column="0">

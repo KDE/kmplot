@@ -151,7 +151,6 @@ void View::plotfkt( int ix, QPainter *pDC )
 			mflg = 2;
 			for ( x = dmin; x < dmax; x += dx )
 			{
-				errno = 0;
 				switch ( p_mode )
 				{
 				case 0:
@@ -163,8 +162,6 @@ void View::plotfkt( int ix, QPainter *pDC )
 				case 2:
 					y = ps.a2fkt( ix, x );
 				}
-				if ( errno != 0 )
-					continue;
 
 				if ( fktmode == 'r' )
 				{

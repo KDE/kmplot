@@ -95,7 +95,7 @@ void KEditParametric::accept()
 		m_y_index = -1;
 	}
 	
-	// find a name not allready used 
+	// find a name not already used 
 	if( kLineEditName->text().isEmpty() )
 		kLineEditName->setText( newName() );
 	

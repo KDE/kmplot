@@ -167,13 +167,13 @@ public:
 	 * \li  5 => too much functions
 	 * \li  6 => memory overflow
 	 * \li  7 => stack overflow
-	 * \li  8 => function name allready used
+	 * \li  8 => function name already used
 	 * \li  9 => recursive function call
 	 * \li  10 => didn't found the wanted constant
 	* \li   11 => emtpy function
 	 */
 	int err,	
-	errpos, 	///< Position where the error occured.
+	errpos, 	///< Position where the error occurred.
 	ufanz;		///< Max. count of user defined functions.
 
 

@@ -97,7 +97,7 @@ void KParameterEditor::cmdEdit_clicked()
 	if ( m_parser->err != 0 )
 	{
 		m_parser->errmsg();
-		//KMessageBox::error( 0, i18n("Please insert a valid paramter value" ) );
+		//KMessageBox::error( 0, i18n("Please insert a valid parameter value" ) );
 		cmdNew_clicked();
 		return;
 	}

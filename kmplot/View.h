@@ -79,7 +79,7 @@ public:
 	void init();
 	/// Called when the graph should be updated
 	void drawPlot();
-	/// Finding the mimimum or maximum value
+	/// Finding the minimum or maximum value
 	void findMinMaxValue(int, char, bool, double &, double &);
 	/// get a y-value from a x-value
 	void getYValue(int, char, double , double &);
@@ -191,7 +191,7 @@ private:
 	bool m_printHeaderTable;
 	///buffer the current window so all functions don't need to be re-drawed
 	QPixmap buffer;
-	/// if stop_calculating is true, the user has cancelled drawing of an anti-derivative graph
+	/// if stop_calculating is true, the user has canceled drawing of an anti-derivative graph
 	bool stop_calculating;
 	/// the background color of the graph
 	QColor backgroundcolor;

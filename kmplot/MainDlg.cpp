@@ -129,7 +129,6 @@ void MainDlg::setupActions()
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
-	m_fullScreen = KStdAction::fullScreen( NULL, NULL, actionCollection(), m_parent, "fullscreen");
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 

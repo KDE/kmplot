@@ -647,7 +647,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 
 				if ( csypos<ymin || csypos>ymax) //the ypoint is not visible
 					out_of_bounds = true;
-				else if(fabs(csypos)<0.2)
+				else if(fabs(dgr.Transy(ptl.y())) < (xmax-xmin)/80)
 				{
 					double x0;
 					if(root(&x0, it))

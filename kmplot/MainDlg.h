@@ -171,9 +171,6 @@ private:
 	SettingsPagePrecision* m_generalSettings;
 	///The Constants page for the Configure KmPlot constants
 	KConstantEditor* m_constantsSettings;
-	/// The fullscreen action to be plugged/unplegged to the toolbar
-	KToggleFullScreenAction* m_fullScreen;
-	/// Loading the constants by start
 
 	/// A dialog used by many tools-menu-items
 	KMinMax *minmaxdlg;

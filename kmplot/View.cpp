@@ -44,7 +44,7 @@ void View::draw(QPaintDevice *dev)
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale(dpi/254., dpi/254.);
 		s*=(254./dpi);
-		if ( printtable ) tabelle(&DC);
+		tabelle(&DC);
         dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode, 1);
         //return;
 	}
@@ -163,56 +163,58 @@ void View::tabelle(QPainter *pDC)
 {	int ix, ypos;
 	QString alx, aly, atx, aty, dfx, dfy;
 
-	pDC->translate(250., 150.);
-	pDC->setPen(QPen(black, (int)(5.*s)));
-	pDC->setFont(QFont("helvetica", 30));
+    if(printtable)
+	{   pDC->translate(250., 150.);
+	    pDC->setPen(QPen(black, (int)(5.*s)));
+	    pDC->setFont(QFont("helvetica", 30));
 
-	QString minStr = xminstr;
-	QString maxStr = xmaxstr;
-	getMinMax( koordx, minStr, maxStr );
-	alx="[ "+minStr+" | "+maxStr+" ]";
-	getMinMax( koordy, minStr, maxStr );
-	aly="[ "+minStr+" | "+maxStr+" ]";
-    setpi(&alx);
-    setpi(&aly);
-	atx="1E  =  "+tlgxstr;
-    setpi(&atx);
-	aty="1E  =  "+tlgystr;
-    setpi(&aty);
-	dfx="1E  =  "+drskalxstr+" cm";
-    setpi(&dfx);
-	dfy="1E  =  "+drskalystr+" cm";
-    setpi(&dfy);
+    	QString minStr = xminstr;
+    	QString maxStr = xmaxstr;
+    	getMinMax( koordx, minStr, maxStr );
+    	alx="[ "+minStr+" | "+maxStr+" ]";
+    	getMinMax( koordy, minStr, maxStr );
+    	aly="[ "+minStr+" | "+maxStr+" ]";
+        setpi(&alx);
+        setpi(&aly);
+    	atx="1E  =  "+tlgxstr;
+        setpi(&atx);
+    	aty="1E  =  "+tlgystr;
+        setpi(&aty);
+    	dfx="1E  =  "+drskalxstr+" cm";
+        setpi(&dfx);
+    	dfy="1E  =  "+drskalystr+" cm";
+        setpi(&dfy);
 
-	pDC->drawRect(0, 0, 1500, 230);
-	pDC->Lineh(0, 100, 1500);
-	pDC->Linev(300, 0, 230);
-	pDC->Linev(700, 0, 230);
-	pDC->Linev(1100, 0, 230);
-	pDC->drawText(0, 0, 300, 100, AlignCenter, i18n("Parameters:"));
-	pDC->drawText(300, 0, 400, 100, AlignCenter, i18n("Plotting Area"));
-	pDC->drawText(700, 0, 400, 100, AlignCenter, i18n("Axes Division"));
-	pDC->drawText(1100, 0, 400, 100, AlignCenter, i18n("Printing Format"));
-	pDC->drawText(0, 100, 300, 65, AlignCenter, i18n("x-Axis:"));
-	pDC->drawText(0, 165, 300, 65, AlignCenter, i18n("y-Axis:"));
-	pDC->drawText(300, 100, 400, 65, AlignCenter, alx);
-	pDC->drawText(300, 165, 400, 65, AlignCenter, aly);
-	pDC->drawText(700, 100, 400, 65, AlignCenter, atx);
-	pDC->drawText(700, 165, 400, 65, AlignCenter, aty);
-	pDC->drawText(1100, 100, 400, 65, AlignCenter, dfx);
-	pDC->drawText(1100, 165, 400, 65, AlignCenter, dfy);
+    	pDC->drawRect(0, 0, 1500, 230);
+    	pDC->Lineh(0, 100, 1500);
+    	pDC->Linev(300, 0, 230);
+    	pDC->Linev(700, 0, 230);
+    	pDC->Linev(1100, 0, 230);
+    	pDC->drawText(0, 0, 300, 100, AlignCenter, i18n("Parameters:"));
+    	pDC->drawText(300, 0, 400, 100, AlignCenter, i18n("Plotting Area"));
+    	pDC->drawText(700, 0, 400, 100, AlignCenter, i18n("Axes Division"));
+    	pDC->drawText(1100, 0, 400, 100, AlignCenter, i18n("Printing Format"));
+    	pDC->drawText(0, 100, 300, 65, AlignCenter, i18n("x-Axis:"));
+    	pDC->drawText(0, 165, 300, 65, AlignCenter, i18n("y-Axis:"));
+    	pDC->drawText(300, 100, 400, 65, AlignCenter, alx);
+    	pDC->drawText(300, 165, 400, 65, AlignCenter, aly);
+    	pDC->drawText(700, 100, 400, 65, AlignCenter, atx);
+    	pDC->drawText(700, 165, 400, 65, AlignCenter, aty);
+    	pDC->drawText(1100, 100, 400, 65, AlignCenter, dfx);
+    	pDC->drawText(1100, 165, 400, 65, AlignCenter, dfy);
 
-	pDC->drawText(0, 300, i18n("Functions:"));
-	pDC->Lineh(0, 320, 700);
-	for(ix=0, ypos=380; ix<ps.ufanz; ++ix)
-	{	if(ps.chkfix(ix)==-1) continue;
+    	pDC->drawText(0, 300, i18n("Functions:"));
+    	pDC->Lineh(0, 320, 700);
+    	for(ix=0, ypos=380; ix<ps.ufanz; ++ix)
+    	{	if(ps.chkfix(ix)==-1) continue;
 
-		pDC->drawText(100, ypos, ps.fktext[ix].extstr);
+    		pDC->drawText(100, ypos, ps.fktext[ix].extstr);
 
-		ypos+=60;
-	}
-
-	pDC->translate(-100., ypos+100.);
+    		ypos+=60;
+    	}
+        pDC->translate(-60., ypos+100.);
+    }
+    else pDC->translate(150., 150.);
 }
 
 void View::getMinMax( int koord, QString &mini, QString &maxi )

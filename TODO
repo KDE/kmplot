@@ -1,11 +1,9 @@
-Last modified: 2004-09-06
+Last modified: 2004-09-26
 
 TODO
 =========================
 * Find bugs
 * More functions?
-* DCOP
-* KParts
 * In tool menu:
 	* find "nollställen" ( en: where the function's value is 0) 
 	* get slope for a x-point
@@ -18,10 +16,10 @@ TODO
 * Ability to set font size when drawing labels.
 * Use a better(faster!) algorithm for drawing integrals numeric.
 
-
 IN PROGRESS
 =========================
 * Import parameter values from different file format(.csv, KSpread, OpenOffice) via Koffice (see kde-edu/kig)
+* DCOP
 
 DONE
 =========================
@@ -70,3 +68,5 @@ DONE
 * Ability to export the parameter values.
 * Support for more than 10 functions.
 * Support for more than 10 parameter values for a function.
+* Improved drawing of integrals (faster!)
+* KPart

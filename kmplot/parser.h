@@ -210,6 +210,7 @@ protected:
 	static Mfkt mfkttab[FANZ];
 
 private:
+        void fix_expression(QString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
 	void ps_init(int, int, int),
 	heir1(),
 	heir2(),

@@ -138,20 +138,7 @@ double Parser::eval(QString str)
 	stkptr=stack;
 	evalflg=1;
 	
-	str.remove(" " );
-        //insert '*' when it is needed
-        QChar ch;
-        for(uint i=0; i <  str.length();i++)
-        {
-                ch = str.at(i);
-                if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
-                        str.insert(i,'*');
-                else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(') )
-                {
-                        str.insert(i+1,'*');
-                        i++;
-                }
-        }
+	fix_expression(str,0);
         
 	if ( str.contains('y')!=0)
 	{
@@ -259,24 +246,11 @@ int Parser::addfkt(QString str)
 	stkptr=stack=0;
 	err=0;
 	errpos=1;
-	str.remove(" " );
 	const int p1=str.find('(');
 	int p2=str.find(',');
 	const int p3=str.find(")=");
 	
-	//insert '*' when it is needed
-        QChar ch;
-	for(uint i=p1+4; i <  str.length();i++)
-	{
-                ch = str.at(i);
-		if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
-			str.insert(i,'*');
-		else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(') )
-		{
-			str.insert(i+1,'*');
-			i++;
-		}
-	}
+        fix_expression(str,p1+4);
         
 	if(p1==-1 || p3==-1 || p1>p3)
 	{   err=4;
@@ -297,11 +271,6 @@ int Parser::addfkt(QString str)
 	{   err=4;
 		return -1;
 	}
-
-	QString str_end = str.mid(p3+3);
-	str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
-	str.truncate(p3+3);
-	str.append(str_end);
 	
 	for(ix=0; ix<ufanz; ++ix)
 	{   if(ufkt[ix].fname.isEmpty())
@@ -335,7 +304,6 @@ int Parser::addfkt(QString str)
 		errpos=lptr-(str.latin1())+1;
 		return -1;
 	}
-
 	
 	errpos=0;
 	return ix;
@@ -347,25 +315,13 @@ void Parser::reparse(int ix)
 	QString str = ufkt[ix].fstr.latin1();
 	err=0;
 	errpos=1;
-	str.remove(" " );
+
 	const int p1=str.find('(');
 	int p2=str.find(',');
 	const int p3=str.find(")=");
 	
-        //insert '*' when it is needed
-        QChar ch;
-        for(uint i=p1+4; i <  str.length();i++)
-        {
-                ch = str.at(i);
-                if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
-                        str.insert(i,'*');
-                else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(') )
-                {
-                        str.insert(i+1,'*');
-                        i++;
-                }
-        }
-		
+        fix_expression(str,p1+4);
+        
 	if(p1==-1 || p3==-1 || p1>p3)
 	{   err=4;
 	return;
@@ -380,11 +336,6 @@ void Parser::reparse(int ix)
 	{   err=4;
 	return;
 	}
-
-	QString str_end = str.mid(p3+3);
-	str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
-	str.truncate(p3+3);
-	str.append(str_end);
 	
 	ufkt[ix].fname=str.left(p1);
 	ufkt[ix].fvar=str.mid(p1+1, p2-p1-1);
@@ -404,6 +355,30 @@ void Parser::reparse(int ix)
 	if(*lptr!=0 && err==0) err=1;		// Syntaxfehler
 	addtoken(ENDE);
 	errpos=0;
+}
+
+void Parser::fix_expression(QString &str, int const pos)
+{
+        str.remove(" " );
+        
+        //insert '*' when it is needed
+        QChar ch;
+        for(uint i=pos; i <  str.length();i++)
+        {
+                ch = str.at(i);
+                if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
+                        str.insert(i,'*');
+                else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(') )
+                {
+                        str.insert(i+1,'*');
+                        i++;
+                }
+        }
+        
+        QString str_end = str.mid(pos);
+        str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
+        str.truncate(pos);
+        str.append(str_end);
 }
 
 int Parser::delfkt(QString name)

@@ -26,6 +26,8 @@
 #ifndef xparser_included
 #define xparser_included
 
+#define SLIDER_COUNT 4
+
 // Qt includes
 
 #include <kdebug.h>
@@ -48,7 +50,7 @@ public:
 	~XParser();
 
 
-	/// Interpretats the extended function string
+	/// Interpretates the extended function string
 	int getext( int );
 	/// Removes the function with index \a ix from the parser.
 	int delfkt( int ix );
@@ -92,10 +94,11 @@ public:
 		QRgb color, ///< current color.
 		color0, ///< Default color.
 		f1_color, f2_color, anti_color;
-		QStringList str_parameter;
+		QStringList str_parameter; ///< List with parameter strings to be parsed with XParser::eval
+		int use_slider; ///< -1: none (use list), else: slieder number
+		double slider_min, slider_max; ///< extreme values of the slider
 	}
 	*fktext;
-
 };
 
 #endif //xparser_included

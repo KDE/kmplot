@@ -39,7 +39,12 @@ XParser::XParser()
 
 	fktext = new FktExt[ UFANZ ];
 	for ( ix = 0; ix < UFANZ; ++ix )
+	{
 		fktext[ ix ].color = 0;
+		// setup slider support
+		fktext[ ix ].slider_min = fktext[ ix ].slider_max = 0.0;
+		fktext[ ix ].use_slider = -1;
+	}
 	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
 }
 
@@ -49,8 +54,12 @@ XParser::XParser( int anz, int m_size, int s_size ) : Parser( anz, m_size, s_siz
 
 	fktext = new FktExt[ ufanz ];
 	for ( ix = 0; ix < ufanz; ++ix )
+	{
 		fktext[ ix ].color = 0;
-	
+		// setup slider support
+		fktext[ ix ].slider_min = fktext[ ix ].slider_max = 0.0;
+		fktext[ ix ].use_slider = -1;
+	}
 	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
 }
 

@@ -25,6 +25,7 @@
 
 // Qt includes
 #include <qtooltip.h>
+#include <qslider.h>
 
 // KDE includes
 #include <kapplication.h>
@@ -34,7 +35,7 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-
+#include <ktoolbar.h>
 
 // local includes
 
@@ -59,7 +60,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	fdlg = 0;
 	view = new View( this );
 	setCentralWidget( view );
- 	view->setFocusPolicy(QWidget::ClickFocus);
+	view->setFocusPolicy(QWidget::ClickFocus);
 	minmaxdlg = new KMinMax(view);
 	view->setMinMaxDlg(minmaxdlg);
 	m_quickEdit = new KLineEdit( this );
@@ -154,20 +155,26 @@ void MainDlg::setupActions()
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 		"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
 	
+	for( int number = 0; number < SLIDER_COUNT; number++ )
+	{
+		KWidgetAction* sliderAction = new KWidgetAction( view->sliders[ number ], i18n( "Slider no. %1" ).arg( number ), 0, this, 0, actionCollection(), QString( "slider%1" ).arg( number ).latin1() );
+		sliderAction->plug( toolBar( "sliders" ) );
+	}
 	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
+	
 }
 
 void MainDlg::setupStatusBar()
 {   
 	stbar=statusBar();
-	stbar->insertFixedItem("1234567890", 1);
-	stbar->insertFixedItem("1234567890", 2);
-	stbar->insertItem("", 3, 1);
-	stbar->changeItem("", 1);
-	stbar->changeItem("", 2);
-	stbar->setItemAlignment(3, AlignLeft);
-	view->progressbar = new KmplotProgress(stbar);
-	view->progressbar->setMaximumHeight(stbar->height()-10);
+	stbar->insertFixedItem( "1234567890", 1 );
+	stbar->insertFixedItem( "1234567890", 2 );
+	stbar->insertItem( "", 3, 1 );
+	stbar->changeItem( "", 1 );
+	stbar->changeItem( "", 2 );
+	stbar->setItemAlignment( 3, AlignLeft );
+	view->progressbar = new KmPlotProgress( stbar );
+	view->progressbar->setMaximumHeight( stbar->height()-10 );
 	connect( view->progressbar->button, SIGNAL (clicked() ), view, SLOT( progressbar_clicked() ) );
 	stbar->addWidget(view->progressbar);
 	view->stbar=stbar;

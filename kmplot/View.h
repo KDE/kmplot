@@ -40,15 +40,17 @@
 // local includes
 #include "diagr.h"
 #include "errno.h"
+#include "xparser.h"
 
 class XParser;
 class KMinMax;
+class QSlider;
 
-class KmplotProgress: public QWidget
+class KmPlotProgress: public QWidget
 {
 	public:
-		KmplotProgress( QWidget* parent = 0, const char* name = 0 );
-		~KmplotProgress();
+		KmPlotProgress( QWidget* parent = 0, const char* name = 0 );
+		~KmPlotProgress();
 		void increase();
 		
 		KPushButton *button;
@@ -78,8 +80,6 @@ public:
 	/// Clears all functions in the parser and gets default settings.
 	/// @see getSettings
 	void init();
-	/// Called when the graph should be updated
-	void drawPlot();
 	/// Finding the minimum or maximum value
 	void findMinMaxValue(int, char, bool, double &, double &,QString &);
 	/// get a y-value from a x-value
@@ -96,7 +96,7 @@ public:
 	/// Points to the status bar.
 	KStatusBar *stbar;
 	/// Points to the progressbar.
-	KmplotProgress *progressbar;
+	KmPlotProgress *progressbar;
 
 	/** Current plot range endge. */
 	static double xmin;
@@ -113,9 +113,14 @@ public:
 	double areaMin, areaMax;
 	QString areaParameter;
 
+	/// Slider controlling parameter values
+	QSlider* sliders[ SLIDER_COUNT ];
+
 public slots:
 	/// Called when the user want to cancel the drawing
 	void progressbar_clicked();
+	/// Called when the graph should be updated
+	void drawPlot();
     
 protected slots:
 	void paintEvent(QPaintEvent *);

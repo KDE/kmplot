@@ -50,5 +50,17 @@
 		<Action name="coord_iii"/>
 		<Action name="helpcontents"/>
 	</ToolBar>
+	<ToolBar name="sliderBar0" position="bottom">
+		<Action name="slider0"/>
+	</ToolBar>
+	<ToolBar name="sliderBar1" position="bottom">
+		<Action name="slider1"/>
+	</ToolBar>
+	<ToolBar name="sliderBar2" position="bottom">
+		<Action name="slider2"/>
+	</ToolBar>
+	<ToolBar name="sliderBar3" position="bottom">
+		<Action name="slider3"/>
+	</ToolBar>
 
 </kpartgui>

@@ -121,6 +121,7 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 			tag.setAttribute( "anti-starty", parser->fktext[ ix ].str_starty );
 			tag.setAttribute( "width", parser->fktext[ ix ].linewidth );
 			tag.setAttribute( "color", QColor( parser->fktext[ ix ].color ).name() );
+			tag.setAttribute( "use-slider", parser->fktext[ ix ].use_slider );
 			
 			addTag( doc, tag, "equation", parser->fktext[ ix ].extstr );
 			
@@ -253,6 +254,7 @@ void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 	parser->fktext[ ix ].startx = parser->eval( parser->fktext[ ix ].str_startx );
 	parser->fktext[ ix ].str_starty = n.attribute( "anti-starty" );
 	parser->fktext[ ix ].starty = parser->eval( parser->fktext[ ix ].str_starty );
+	parser->fktext[ ix ].use_slider = n.attribute( "use-slider" ).toInt();
 	
 	parser->fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
 	QCString fstr = parser->fktext[ ix ].extstr.utf8();

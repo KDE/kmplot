@@ -25,13 +25,15 @@
 
 // Qt includes
 #include <qcheckbox.h>
-#include <qframe.h>
-#include <qlayout.h>
-#include <qvbox.h>
-#include <qstringlist.h>
-
+#include <qcombobox.h>
 #include <qdialog.h>
+#include <qframe.h>
 #include <qlabel.h>
+#include <qlayout.h>
+#include <qradiobutton.h>
+#include <qstringlist.h>
+#include <qvbox.h>
+
 
 // KDE includes
 #include <kapplication.h>
@@ -65,6 +67,10 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	QVBox *page2 = addVBoxPage( i18n("Antiderivative"), i18n( "Antiderivative" ), SmallIcon( "anti_func", 32 ) );
 	editantiderivativepage = new EditAntiderivativePage( page2 );
 	m_parser = parser;
+	for( int number = 0; number < SLIDER_COUNT; number++ )
+	{
+		editfunctionpage->listOfSliders->insertItem( QString( "Slider no. %1" ).arg( number ) );
+	}
 	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
 }
 
@@ -123,6 +129,13 @@ void EditFunction::setWidgets()
 
 	editfunctionpage->lineWidth->setValue( m_parser->fktext[ m_index ].linewidth );
 	editfunctionpage->color->setColor( m_parser->fktext[ m_index ].color );
+	if( m_parser->fktext[ m_index ].use_slider == -1 )
+		editfunctionpage->useList->setChecked( true );
+	else
+	{
+		editfunctionpage->useSlider->setChecked( true );
+		editfunctionpage->listOfSliders->setCurrentItem( m_parser->fktext[ m_index ].use_slider );
+	}
 	
 	editderivativespage->showDerivative1->setChecked( m_parser->fktext[ m_index ].f1_mode );
 	editderivativespage->lineWidthDerivative1->setValue( m_parser->fktext[ m_index ].f1_linewidth );
@@ -227,6 +240,11 @@ void EditFunction::accept()
 		m_parser->fktext[ index ].str_dmax = "0";
 		m_parser->fktext[ index ].dmax = 0;
 	}
+	
+	if( editfunctionpage->useList->isChecked() )
+		m_parser->fktext[ index ].use_slider = -1;
+	else
+		m_parser->fktext[ index ].use_slider = editfunctionpage->listOfSliders->currentItem();
 	
 	if (editantiderivativepage->showAntiderivative->isChecked() )
 	{

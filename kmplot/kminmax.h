@@ -52,7 +52,7 @@ public slots:
         
 private:
     View *m_view;
-    char m_mode; ///0 = minimum, 1 = maximum, 2 = y-point, 3=drawing area
+    char m_mode; //< 0 = minimum, 1 = maximum, 2 = y-point, 3=drawing area
     QString parameter;
     
 

@@ -23,6 +23,12 @@
 *
 */
 
+// Qt includes
+#include <qpicture.h>
+#include <qslider.h>
+#include <qtooltip.h>
+#include <qwhatsthis.h>
+
 // KDE includes
 #include <kapplication.h>
 #include <kiconloader.h>
@@ -30,21 +36,18 @@
 #include <kmessagebox.h>
 #include <kprogress.h> 
 
-#include <qpicture.h>
-
 // local includes
 #include "kminmax.h"
 #include "settings.h"
 #include "View.h"
 #include "View.moc"
-#include "xparser.h"
 
 
 //minimum and maximum x range. Should always be accessible.
 double View::xmin = 0;
 double View::xmax = 0;
 
-KmplotProgress::KmplotProgress( QWidget* parent, const char* name ) : QWidget( parent, name) 
+KmPlotProgress::KmPlotProgress( QWidget* parent, const char* name ) : QWidget( parent, name) 
 {
 	button = new KPushButton(this);
 	button->setPixmap( SmallIcon( "cancel" ) );
@@ -59,16 +62,20 @@ KmplotProgress::KmplotProgress( QWidget* parent, const char* name ) : QWidget( p
 	setMinimumWidth(154);
 }
 
-KmplotProgress::~KmplotProgress()
+KmPlotProgress::~KmPlotProgress()
 {
 }
 
 
-void KmplotProgress::increase()
+void KmPlotProgress::increase()
 {
 	progress->setProgress( progress->progress()+1);
 }
 
+
+/*
+ * View implementation
+ */
 
 View::View(QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() )
 {   
@@ -82,6 +89,14 @@ View::View(QWidget* parent, const char* name ) : QWidget( parent, name , WStatic
 	setMouseTracking(TRUE);
 	stepWidth=0;
 	areaDraw = false;
+	for( int number = 0; number < SLIDER_COUNT; number++ )
+	{
+		sliders[ number ] = new QSlider( 0, 100, 5, 50, Qt::Horizontal, 0, QString( "slider%1" ).arg( number ).latin1() );
+		connect( sliders[ number ], SIGNAL( valueChanged( int ) ), this, SLOT( drawPlot() ) );
+		QWhatsThis::add( sliders[ number ], i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
+		QToolTip::add( sliders[ number ], i18n( "Slider no. %1" ).arg( number ) );
+		sliders[ number ]->setFixedWidth( 100 ); // all slider same width
+	}
 	stop_calculating = false;
 }
 
@@ -251,7 +266,10 @@ void View::plotfkt(int ix, QPainter *pDC)
 		ke=m_parser->fktext[ix].k_anz;
 		do
 		{
-			m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+			if( m_parser->fktext[ ix ].use_slider == -1 )
+				m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+			else
+				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->value() );
 			mflg=2;
 			bool forward_direction = true;
 			if ( p_mode == 3)
@@ -644,7 +662,10 @@ void View::mousePressEvent(QMouseEvent *e)
 		ke=m_parser->fktext[ix].k_anz;
 		do
 		{
-			m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+			if( m_parser->fktext[ ix ].use_slider == -1 )
+				m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+			else
+				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->value() );
 			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
 			{
 				csmode=ix;
@@ -775,6 +796,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 
 	dx = stepWidth;
 
+	// TODO: parameter sliders
 	int i=0;
 	if ( m_parser->fktext[ix].k_anz != 0)
 		for ( QStringList::Iterator it = m_parser->fktext[ix].str_parameter.begin(); it != m_parser->fktext[ix].str_parameter.end(); ++it )
@@ -884,6 +906,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_parameter)
 {	
 	int i=0;
+	// TODO: parameter sliders
 	if ( m_parser->fktext[ix].k_anz != 0)
 		for ( QStringList::Iterator it = m_parser->fktext[ix].str_parameter.begin(); it != m_parser->fktext[ix].str_parameter.end(); ++it )
 	{
@@ -1078,6 +1101,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 	}
 	
 	int i=0;
+	// TODO: parameter sliders
 	if ( m_parser->fktext[ix].k_anz != 0)
 		for ( QStringList::Iterator it = m_parser->fktext[ix].str_parameter.begin(); it != m_parser->fktext[ix].str_parameter.end(); ++it )
 	{

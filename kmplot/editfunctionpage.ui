@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>EditFunctionPage</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,18 +8,18 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>332</width>
-            <height>451</height>
+            <width>314</width>
+            <height>519</height>
         </rect>
     </property>
     <property name="caption">
         <string>Edit Function Plot</string>
     </property>
-    <grid>
+    <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QGroupBox" row="0" column="0">
+        <widget class="QGroupBox">
             <property name="name">
                 <cstring>groupBox1</cstring>
             </property>
@@ -63,7 +63,7 @@ Example: f(x)=x^2</string>
                 </widget>
             </vbox>
         </widget>
-        <widget class="QButtonGroup" row="1" column="0">
+        <widget class="QButtonGroup">
             <property name="name">
                 <cstring>buttonGroup1</cstring>
             </property>
@@ -90,7 +90,79 @@ Example: f(x)=x^2</string>
                 </widget>
             </vbox>
         </widget>
-        <widget class="QFrame" row="3" column="0">
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>parameterValues</cstring>
+            </property>
+            <property name="title">
+                <string>Parameter Values</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KPushButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>cmdParameter</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Edit List...</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Edit the list of parameters</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to open a list of parameter values. Here you can add, remove, and change them.</string>
+                    </property>
+                </widget>
+                <widget class="QComboBox" row="1" column="1">
+                    <property name="name">
+                        <cstring>listOfSliders</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Select a slider</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select one of the sliders to change the parameter value dynamically. The values vary from 0 (left) to 100 (right).</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>useList</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Values from a list</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>read parameter values from a list</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Ckeck this to let KmPlot use parameter values given in a list. Edit this list by clicking the button on the right.</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>useSlider</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Use</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>change parameter value by moving a slider</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this to change the parameter value by moving a slider. Select the slider from the list box on the right. The values vary from 0 (left) to 100 (right).</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QFrame">
             <property name="name">
                 <cstring>frame5</cstring>
             </property>
@@ -133,6 +205,9 @@ Example: f(x)=x^2</string>
                     <property name="text">
                         <string>Custom plot &amp;range:</string>
                     </property>
+                    <property name="accel">
+                        <string>Alt+R</string>
+                    </property>
                     <property name="toolTip" stdset="0">
                         <string>customize the plot range</string>
                     </property>
@@ -170,7 +245,7 @@ Example: f(x)=x^2</string>
                 </widget>
             </grid>
         </widget>
-        <widget class="QFrame" row="4" column="0">
+        <widget class="QFrame">
             <property name="name">
                 <cstring>frame6</cstring>
             </property>
@@ -244,7 +319,7 @@ Example: f(x)=x^2</string>
                 </widget>
             </grid>
         </widget>
-        <spacer row="5" column="0">
+        <spacer>
             <property name="name">
                 <cstring>spacer8</cstring>
             </property>
@@ -261,34 +336,8 @@ Example: f(x)=x^2</string>
                 </size>
             </property>
         </spacer>
-        <widget class="QFrame" row="2" column="0">
-            <property name="name">
-                <cstring>frame5_2</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KPushButton" row="1" column="0">
-                    <property name="name">
-                        <cstring>cmdParameter</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Change parameter values</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-    </grid>
+    </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <connections>
     <connection>
         <sender>customRange</sender>
@@ -300,6 +349,30 @@ Example: f(x)=x^2</string>
         <sender>customRange</sender>
         <signal>toggled(bool)</signal>
         <receiver>max</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>useList</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>cmdParameter</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>useList</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>listOfSliders</receiver>
+        <slot>setDisabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>useSlider</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>cmdParameter</receiver>
+        <slot>setDisabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>useSlider</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>listOfSliders</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
 </connections>
@@ -318,6 +391,12 @@ Example: f(x)=x^2</string>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
+    <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
 </includehints>
 </UI>

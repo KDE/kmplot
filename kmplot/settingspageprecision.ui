@@ -185,7 +185,7 @@
                         <cstring>textLabel1_2</cstring>
                     </property>
                     <property name="text">
-                        <string>Zoom in with:</string>
+                        <string>Zoom in by:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>kcfg_zoomStep</cstring>
@@ -196,7 +196,7 @@
                         <cstring>textLabel1_2_2</cstring>
                     </property>
                     <property name="text">
-                        <string>Zoom out with:</string>
+                        <string>Zoom out by:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>kcfg_zoomStep</cstring>

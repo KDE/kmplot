@@ -45,7 +45,7 @@
 /**
  * Version string of KmPlot.
  */
-#define	KP_VERSION	"0.4"
+#define	KP_VERSION	"1.0"
 
 
 /** The global Config file */

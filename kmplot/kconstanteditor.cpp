@@ -217,3 +217,5 @@ void KConstantEditor::varlist_doubleClicked( QListViewItem * )
 {
 	cmdEdit_clicked();
 }
+
+#include "kconstanteditor.moc"

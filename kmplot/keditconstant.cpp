@@ -82,3 +82,5 @@ void KEditConstant::txtVariable_lostFocus()
 {
     txtConstant->setText( txtConstant->text().upper() );
 }
+
+#include "keditconstant.moc"

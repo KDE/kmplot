@@ -123,7 +123,10 @@ void KmPlot::slotUpdateFullScreen( bool checked)
 bool KmPlot::load(const KURL& url)
 {
 	m_part->openURL( url );
-	return !m_part->url().isEmpty();
+  if (m_part->url().isEmpty())
+    return false;
+  setCaption(url.prettyURL(0, KURL::StripFileProtocol));
+  return true;
 }
 
 void KmPlot::setupActions()
@@ -242,16 +245,16 @@ void KmPlot::fileOpen(const KURL &url)
 		// says that it should open a new window if the document is _not_
 		// in its initial state.  This is what we do here..
 		if ( m_part->url().isEmpty() && !isModified() )
-			load( KStandardDirs::realFilePath(url.url()) ); // we open the file in this window...
+         load( KStandardDirs::realFilePath(url.url())); // we open the file in this window...
 		else
-			openFileInNewWindow(url); // we open the file in a new window...
+         openFileInNewWindow(url); // we open the file in a new window...
 	}	
 }
 
 
 void KmPlot::openFileInNewWindow(const KURL url)
 {
-	KApplication::startServiceByDesktopName("kmplot",url.url());
+ KApplication::startServiceByDesktopName("kmplot",url.url());
 }
 
 bool KmPlot::checkModified()

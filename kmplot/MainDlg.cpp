@@ -275,7 +275,7 @@ void MainDlg::slotSaveas()
 			{
 				m_url = url;
 				m_recentFiles->addURL( url );
-				setWindowCaption( m_url.url() );
+        setWindowCaption( m_url.prettyURL(0, KURL::StripFileProtocol) );
 				m_modified = false;
 			}
 			return;
@@ -353,8 +353,8 @@ bool MainDlg::openFile()
 		return false;
 	}
 	m_currentfile = m_url;
-	m_recentFiles->addURL( m_url  );
-	setWindowCaption( m_url.url() );
+  m_recentFiles->addURL( m_url.prettyURL(0, KURL::StripFileProtocol)  );
+  setWindowCaption( m_url.prettyURL(0, KURL::StripFileProtocol) );
 	m_modified = false;
 	view->updateSliders();
 	view->drawPlot();
@@ -378,12 +378,12 @@ void MainDlg::slotOpenRecent( const KURL &url )
 		m_recentFiles->removeURL(url ); //remove the file from the recent-opened-file-list
 		return;
 	}
+  m_url = m_currentfile = url;
 	m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
+  setWindowCaption( m_url.prettyURL(0, KURL::StripFileProtocol) );
+  m_modified = false;
 	view->updateSliders();
 	view->drawPlot();
-	m_url = url;
-	setWindowCaption( url.url() );
-	m_modified = false;
 }
 
 void MainDlg::slotPrint()

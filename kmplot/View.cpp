@@ -1832,6 +1832,13 @@ void View::mnuRemove_clicked()
 			m_parser->delfkt( y_index ); //remove the y-function
 		}
 		m_parser->delfkt( csmode );
+		if (csmode!=-1) // if trace mode is enabled
+		{
+			csmode=-1;
+			QMouseEvent *event = new QMouseEvent(QMouseEvent::KeyPress,QCursor::pos(),Qt::LeftButton,Qt::LeftButton);
+			mousePressEvent(event); //leave trace mode
+			delete event;
+		}
 		drawPlot();
 		if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' ) 
 			updateSliders();

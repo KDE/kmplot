@@ -957,21 +957,21 @@ int Parser::parserError(bool showMessageBox)
 		                                      "Stack overflow").arg(QString::number(errpos)), "KmPlot");
                         break;
                 case 8:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "Name of function not free").arg(QString::number(errpos)), "KmPlot");
+		                                      "Name of function not free.").arg(QString::number(errpos)), "KmPlot");
                         break;
                 case 9:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "recursive function not allowed").arg(QString::number(errpos)), "KmPlot");
+		                                      "recursive function not allowed.").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 10:  KMessageBox::error(0, i18n("Could not find a defined constant at position %1" ).arg(QString::number(errpos)),
+                case 10:  KMessageBox::error(0, i18n("Could not find a defined constant at position %1." ).arg(QString::number(errpos)),
                                                                 "KmPlot");
                         break;
                 case 11:  KMessageBox::error(0, i18n("Empty function"), "KmPlot");
                         break;
-                case 12:  KMessageBox::error(0, i18n("The function name is not allowed to contain capital letters"), "KmPlot");
+                case 12:  KMessageBox::error(0, i18n("The function name is not allowed to contain capital letters."), "KmPlot");
                         break;
-                case 13:  KMessageBox::error(0, i18n("Function could not be found"), "KmPlot");
+                case 13:  KMessageBox::error(0, i18n("Function could not be found."), "KmPlot");
                         break;
-		case 14:  KMessageBox::error(0, i18n("The expression must not contain user-defined constants"), "KmPlot");
+		case 14:  KMessageBox::error(0, i18n("The expression must not contain user-defined constants."), "KmPlot");
 			break;
 	}
         return err;

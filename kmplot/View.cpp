@@ -327,7 +327,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 					x=dmax+1;
 					continue;
 				}
-				errno=0;
 				switch(p_mode)
 				{
 					case 0: 
@@ -353,8 +352,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 						break;
 					}
 				}
-
-				if(errno!=0) continue;
 		
                			if(fktmode=='r')
 				{
@@ -373,16 +370,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 				}
 				
 				if ( dgr.xclipflg || dgr.yclipflg)
-				{
-					if(mflg>=1)
-						p1=p2;
-					else
-					{   
-						pDC->drawLine(p1, p2);
-						p1=p2;
-						mflg=1;
-					}
-				}
+					p1=p2;
 				else
 				{
 					if(mflg<=1)
@@ -1235,7 +1223,6 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 			x=dmax+1;
 			continue;
 		}
-		errno=0;
 		switch(p_mode)
 		{
 			case 0: 
@@ -1265,7 +1252,6 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 				break;
 			}
 		}
-		if(errno!=0) continue;
 		
 		if (x>=dmin && x<=dmax)
 		{
@@ -1380,8 +1366,6 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 					progressbar->increase();
 					paintEvent(0);
 				}
-				
-				if(errno!=0) continue;
 
 				if ( (x+dx > target && forward_direction) || ( x+dx < target && !forward_direction)) //right x-value is found
 					target_found = true;
@@ -1648,7 +1632,6 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 			break;
 			continue;
 		}
-		errno=0;
 		switch(p_mode)
 		{
 			case 0: 
@@ -1678,38 +1661,29 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 				break;
 			}
 		}
-
-		if(errno!=0) continue;	
 		
 		p.setX(dgr.Transx(x));
 		p.setY(dgr.Transy(y));
 		if (dmin<=x && x<=dmax)
 		{
-			if(dgr.xclipflg || dgr.yclipflg)
+			if( dgr.xclipflg || dgr.yclipflg ) //out of bounds
 			{
-				if ( y<0)
+				if (y>-10e10 && y<10e10)
 				{
-					//p.setY(dgr.Transy(ymin));
-					rectheight = origoy-p.y() ;
+					if ( y<0)
+						rectheight = origoy-p.y() ;
+					else
+						rectheight= -1*( p.y()-origoy);	
+					calculated_area = calculated_area + ( dx*y);
+					DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 				}
-				else
-				{
-					//p.setY(dgr.Transy(ymax));
-					rectheight= -1*( p.y()-origoy) ;
-				}
-				calculated_area = calculated_area + ( dx*y);
-				DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 			}
 			else
 			{
 				if ( y<0)
-				{
 					rectheight =  origoy-p.y();
-				}
 				else
-				{
 					rectheight = -1*( p.y()-origoy);
-				}
 				calculated_area = calculated_area + (dx*y);
 				/*kdDebug() << "Area: " << area << endl;
 				kdDebug() << "x:" << p.height() << endl;

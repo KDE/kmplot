@@ -795,13 +795,11 @@ int Parser::errmsg()
 }
 
 double ln(double x)
-{   if (x>0)
-	return log(x);
+{   return log(x);
 }
 
 double llog(double x)
-{   if (x>0)
-	return log10(x);
+{   return log10(x);
 }
 
 double sign(double x)

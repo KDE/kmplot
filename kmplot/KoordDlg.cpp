@@ -23,18 +23,21 @@
 *
 */
 
-// local includes
-#include "KoordDlg.h"
-#include "KoordDlg.moc"
-#include "settings.h"
-
 // Qt includes
 #include <qbuttongroup.h>
 #include <qlineedit.h>
 #include <qcheckbox.h>
 
 // KDE includes
+#include <kcolorbutton.h>
 #include <kmessagebox.h>
+#include <knuminput.h>
+
+// local includes
+#include "KoordDlg.h"
+#include "KoordDlg.moc"
+#include "settings.h"
+
 
 #define Inherited KoordDlgData
 
@@ -48,6 +51,10 @@ KoordDlg::KoordDlg( QWidget* parent, const char* name, bool modal ) : Inherited(
 	kdy = koordy;
 	setachsen();
 	cb_beschr->setChecked( mode & BESCHRIFTUNG );
+	axesLineWidth->setValue( AchsenDicke );
+	ticLineWidth->setValue( TeilstrichDicke );
+	ticLength->setValue( TeilstrichLaenge );
+	color_button->setColor( QColor( AchsenFarbe ) );
 }
 
 KoordDlg::~KoordDlg()
@@ -158,6 +165,11 @@ void KoordDlg::onok()
 		m = 0;
 		mode &= ~BESCHRIFTUNG;
 	}
+	
+	AchsenDicke = axesLineWidth->value();
+	TeilstrichDicke = ticLineWidth->value();
+	TeilstrichLaenge = ticLength->value();
+	AchsenFarbe = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )
 	{
@@ -168,6 +180,10 @@ void KoordDlg::onok()
 		Settings::setYMin( yminstr );
 		Settings::setYMax( ymaxstr );
 		Settings::setShowLabel( m == 1 );
+		Settings::setAxesLineWidth( AchsenDicke );
+		Settings::setTicWidth( TeilstrichDicke );
+		Settings::setTicLength( TeilstrichLaenge );
+		Settings::setAxesColor( AchsenFarbe );
 	}
 	done( 1 );
 }
@@ -177,12 +193,14 @@ void KoordDlg::oncancel()
 	done( 0 );
 }
 
+/*
 void KoordDlg::onoptions()
 {
 	KOptDlg odlg;
 
 	odlg.exec();
 }
+*/
 
 void KoordDlg::xclicked( int ix )
 {
@@ -204,4 +222,9 @@ void KoordDlg::onYChanged()
 {
 	kdy = 4;
 	setachsen();
+}
+
+void KoordDlg::onHelp()
+{
+	kapp->invokeHelp( "", "kmplot" );
 }

@@ -45,7 +45,7 @@
 #include "settingspagescaling.h"
 #include "settingspagefonts.h"
 
-MainDlg::MainDlg( KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name )
+MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name )
 {
 	init();
 	fdlg = 0;
@@ -54,6 +54,7 @@ MainDlg::MainDlg( KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name 
 	setCentralWidget( view );
 	setupActions();
 	setupStatusBar();
+	m_sessionId = sessionId;
 	if (args -> count() > 0) openFile( args -> url(0).fileName() );
 }
 
@@ -123,7 +124,7 @@ void MainDlg::save()
 	if ( datei.isEmpty() )            // if there is no file name set yet
 		saveas();
 	else
-		doSave();
+		doSave( datei );
 }
 
 void MainDlg::saveas()
@@ -133,13 +134,13 @@ void MainDlg::saveas()
 	{
 		if ( datei.find( "." ) == -1 )            // no file extension
 			datei = datei + ".fkt"; // use fkt-type as default
-		doSave();
+		doSave( datei );
 		setCaption( datei );
 	}
 }
 
 // here the real storing is done...
-void MainDlg::doSave()
+void MainDlg::doSave( QString filename )
 {
 	////////////
 	// save as svg by drawing into a QPicture and saving it as svg
@@ -215,7 +216,7 @@ void MainDlg::doSave()
 		}
 	}
 
-	QFile xmlfile( datei );
+	QFile xmlfile( filename );
 	xmlfile.open( IO_WriteOnly );
 	QTextStream ts( &xmlfile );
 	doc.save( ts, 4 );
@@ -236,15 +237,17 @@ void MainDlg::load()
 	if ( d.isEmpty() )
 		return ;
 	openFile(d);
+	datei = d;
+	setCaption( datei );
 }
 
-void MainDlg::openFile( QString d )
+void MainDlg::openFile( QString filename )
 {
 	init();
 
 	QDomDocument doc( "kmpdoc" );
 
-	QFile f( d );
+	QFile f( filename );
 	if ( !f.open( IO_ReadOnly ) )
 		return ;
 	if ( !doc.setContent( &f ) )
@@ -315,11 +318,6 @@ void MainDlg::openFile( QString d )
 		ymin = ps.eval( yminstr );
 		ymax = ps.eval( ymaxstr );
 	}
-
-
-	datei = d;
-
-	setCaption( datei );
 	view->update();
 }
 
@@ -426,8 +424,13 @@ void MainDlg::bezeichnungen()
 
 void MainDlg::funktionen()
 {
-	if ( !fdlg ) fdlg = new FktDlg( this );
-	fdlg->show();
+	if ( !fdlg ) fdlg = new FktDlg( this ); // make the dialog only if not allready done
+	fdlg->fillList(); // 
+	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
+	doSave( tmpName );
+	if( fdlg->exec() == QDialog::Rejected ) openFile( tmpName );
+	else QFile::remove( tmpName );
+	view->update();
 }
 
 void MainDlg::skalierung()

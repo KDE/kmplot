@@ -42,6 +42,7 @@ protected slots:
 
 	void onok();
 	void oncancel();
+	void onHelp();
 };
 
 #endif // KOptDlg_included

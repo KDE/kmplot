@@ -67,11 +67,12 @@ protected slots:
 
 	void onok();
 	void oncancel();
-	void onoptions();
+//	void onoptions();
 	void xclicked( int );
 	void yclicked( int );
 	void onXChanged();
 	void onYChanged();
+	void onHelp();
 };
 
 #endif // KoordDlg_included

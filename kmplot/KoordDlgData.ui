@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>KoordDlgData</class>
 <widget class="QDialog">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>448</width>
-            <height>355</height>
+            <width>400</width>
+            <height>496</height>
         </rect>
     </property>
     <property name="caption">
@@ -63,6 +63,12 @@
                             <property name="text">
                                 <string>[ -8 | +8 ]</string>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>predefined range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Select one of the predefined axes ranges.</string>
+                            </property>
                         </widget>
                         <widget class="QRadioButton">
                             <property name="name">
@@ -73,6 +79,12 @@
                             </property>
                             <property name="buttonGroupId">
                                 <number>1</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>predefined range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Select one of the predefined axes ranges.</string>
                             </property>
                         </widget>
                         <widget class="QRadioButton">
@@ -85,6 +97,12 @@
                             <property name="buttonGroupId">
                                 <number>2</number>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>predefined range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Select one of the predefined axes ranges.</string>
+                            </property>
                         </widget>
                         <widget class="QRadioButton">
                             <property name="name">
@@ -96,6 +114,12 @@
                             <property name="buttonGroupId">
                                 <number>3</number>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>predefined range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Select one of the predefined axes ranges.</string>
+                            </property>
                         </widget>
                         <widget class="QRadioButton">
                             <property name="name">
@@ -103,6 +127,12 @@
                             </property>
                             <property name="text">
                                 <string>Custom</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>customize the axes range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Check this option to enter custom axes ranges.</string>
                             </property>
                         </widget>
                         <widget class="QLayoutWidget">
@@ -141,14 +171,15 @@
                                                 <string>min:</string>
                                             </property>
                                             <property name="alignment">
-                                                <set>AlignVCenter|AlignRight</set>
-                                            </property>
-                                            <property name="hAlign" stdset="0">
+                                                <set>AlignVCenter</set>
                                             </property>
                                         </widget>
                                         <widget class="QLineEdit">
                                             <property name="name">
                                                 <cstring>le_xmin</cstring>
+                                            </property>
+                                            <property name="enabled">
+                                                <bool>false</bool>
                                             </property>
                                             <property name="sizePolicy">
                                                 <sizepolicy>
@@ -157,6 +188,12 @@
                                                     <horstretch>0</horstretch>
                                                     <verstretch>0</verstretch>
                                                 </sizepolicy>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>left boundary</string>
+                                            </property>
+                                            <property name="whatsThis" stdset="0">
+                                                <string>Enter the left boundary of the x-axis. Parser functions and constants are allowed, too. For instance -sqrt(pi).</string>
                                             </property>
                                         </widget>
                                     </hbox>
@@ -183,14 +220,15 @@
                                                 <string>max:</string>
                                             </property>
                                             <property name="alignment">
-                                                <set>AlignVCenter|AlignRight</set>
-                                            </property>
-                                            <property name="hAlign" stdset="0">
+                                                <set>AlignVCenter</set>
                                             </property>
                                         </widget>
                                         <widget class="QLineEdit">
                                             <property name="name">
                                                 <cstring>le_xmax</cstring>
+                                            </property>
+                                            <property name="enabled">
+                                                <bool>false</bool>
                                             </property>
                                             <property name="sizePolicy">
                                                 <sizepolicy>
@@ -199,6 +237,12 @@
                                                     <horstretch>0</horstretch>
                                                     <verstretch>0</verstretch>
                                                 </sizepolicy>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>right boundary</string>
+                                            </property>
+                                            <property name="whatsThis" stdset="0">
+                                                <string>Enter the right boundary of the x-axis. Parser functions and constants are allowed, too. For instance 2*e.</string>
                                             </property>
                                         </widget>
                                     </hbox>
@@ -234,6 +278,12 @@
                             <property name="buttonGroupId">
                                 <number>0</number>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>predefined range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Select one of the predefined axes ranges.</string>
+                            </property>
                         </widget>
                         <widget class="QRadioButton">
                             <property name="name">
@@ -244,6 +294,12 @@
                             </property>
                             <property name="buttonGroupId">
                                 <number>1</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>predefined range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Select one of the predefined axes ranges.</string>
                             </property>
                         </widget>
                         <widget class="QRadioButton">
@@ -256,6 +312,12 @@
                             <property name="buttonGroupId">
                                 <number>2</number>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>predefined range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Select one of the predefined axes ranges.</string>
+                            </property>
                         </widget>
                         <widget class="QRadioButton">
                             <property name="name">
@@ -267,6 +329,12 @@
                             <property name="buttonGroupId">
                                 <number>3</number>
                             </property>
+                            <property name="toolTip" stdset="0">
+                                <string>predefined range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Select one of the predefined axes ranges.</string>
+                            </property>
                         </widget>
                         <widget class="QRadioButton">
                             <property name="name">
@@ -274,6 +342,12 @@
                             </property>
                             <property name="text">
                                 <string>Custom</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>customize the axes range</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Check this option to enter custom axes ranges.</string>
                             </property>
                         </widget>
                         <widget class="QLayoutWidget">
@@ -312,14 +386,15 @@
                                                 <string>min:</string>
                                             </property>
                                             <property name="alignment">
-                                                <set>AlignVCenter|AlignRight</set>
-                                            </property>
-                                            <property name="hAlign" stdset="0">
+                                                <set>AlignVCenter</set>
                                             </property>
                                         </widget>
                                         <widget class="QLineEdit">
                                             <property name="name">
                                                 <cstring>le_ymin</cstring>
+                                            </property>
+                                            <property name="enabled">
+                                                <bool>false</bool>
                                             </property>
                                             <property name="sizePolicy">
                                                 <sizepolicy>
@@ -328,6 +403,12 @@
                                                     <horstretch>0</horstretch>
                                                     <verstretch>0</verstretch>
                                                 </sizepolicy>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>lower boundary</string>
+                                            </property>
+                                            <property name="whatsThis" stdset="0">
+                                                <string>Enter the lower boundary of the y-axis. Parser functions and constants are allowed, too. For instance -pi^2.</string>
                                             </property>
                                         </widget>
                                     </hbox>
@@ -354,14 +435,15 @@
                                                 <string>max:</string>
                                             </property>
                                             <property name="alignment">
-                                                <set>AlignVCenter|AlignRight</set>
-                                            </property>
-                                            <property name="hAlign" stdset="0">
+                                                <set>AlignVCenter</set>
                                             </property>
                                         </widget>
                                         <widget class="QLineEdit">
                                             <property name="name">
                                                 <cstring>le_ymax</cstring>
+                                            </property>
+                                            <property name="enabled">
+                                                <bool>false</bool>
                                             </property>
                                             <property name="sizePolicy">
                                                 <sizepolicy>
@@ -370,6 +452,12 @@
                                                     <horstretch>0</horstretch>
                                                     <verstretch>0</verstretch>
                                                 </sizepolicy>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>upper boundary</string>
+                                            </property>
+                                            <property name="whatsThis" stdset="0">
+                                                <string>Enter the upper boundary of the y-axis. Parser functions and constants are allowed, too. For instance sin(e).</string>
                                             </property>
                                         </widget>
                                     </hbox>
@@ -380,63 +468,210 @@
                 </widget>
             </hbox>
         </widget>
+        <widget class="QFrame">
+            <property name="name">
+                <cstring>frame11</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="3" column="0">
+                    <property name="name">
+                        <cstring>textLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Colo&amp;r:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>color_button</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>TextLabel1_2_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Tic &amp;length:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>ticLength</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="1" column="1">
+                    <property name="name">
+                        <cstring>ticLineWidth</cstring>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>width of the tic lines</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the width of the tic lines in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>TextLabel1_2_3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Tic line width:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>ticLineWidth</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>TextLabel1_4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Axes line width:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>axesLineWidth</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="0" column="1">
+                    <property name="name">
+                        <cstring>axesLineWidth</cstring>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>width of the axes lines</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the width of the axes line in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="2" column="1">
+                    <property name="name">
+                        <cstring>ticLength</cstring>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>length of the tic lines</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the length of the tic lines in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="KColorButton" row="3" column="1">
+                    <property name="name">
+                        <cstring>color_button</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>color of the lines</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click this button to choose a color for the system of coordinates.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>cb_beschr</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show &amp;labels</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+L</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>label the axes tics</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this box if you want to label the axes tics.</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>cb_default</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Save as &amp;default</string>
+            </property>
+            <property name="accel">
+                <string>Alt+D</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>make this changes to be default</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Check this if you want to make this settings to be the default values for all future plots.</string>
+            </property>
+        </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>Layout14</cstring>
+                <cstring>layout22</cstring>
             </property>
             <hbox>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <widget class="QLayoutWidget">
+                <widget class="QPushButton">
                     <property name="name">
-                        <cstring>Layout11</cstring>
+                        <cstring>pushButton7</cstring>
                     </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <property name="spacing">
-                            <number>6</number>
-                        </property>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>cb_beschr</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Labels</string>
-                            </property>
-                        </widget>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>cb_default</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>0</hsizetype>
-                                    <vsizetype>0</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="text">
-                                <string>Save as &amp;default</string>
-                            </property>
-                        </widget>
-                    </vbox>
+                    <property name="text">
+                        <string>&amp;Help</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+H</string>
+                    </property>
                 </widget>
                 <spacer>
                     <property name="name">
-                        <cstring>Spacer2</cstring>
+                        <cstring>spacer5</cstring>
                     </property>
                     <property name="orientation">
                         <enum>Horizontal</enum>
@@ -444,79 +679,60 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                </spacer>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>Layout12</cstring>
+                    <property name="sizeHint">
+                        <size>
+                            <width>91</width>
+                            <height>21</height>
+                        </size>
                     </property>
-                    <grid>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <property name="spacing">
-                            <number>6</number>
-                        </property>
-                        <widget class="QPushButton" row="0" column="0">
-                            <property name="name">
-                                <cstring>PushButton1_2</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>1</hsizetype>
-                                    <vsizetype>0</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Options...</string>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton" row="0" column="1">
-                            <property name="name">
-                                <cstring>PushButton1</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>1</hsizetype>
-                                    <vsizetype>0</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="text">
-                                <string>&amp;OK</string>
-                            </property>
-                            <property name="default">
-                                <bool>true</bool>
-                            </property>
-                        </widget>
-                        <widget class="QPushButton" row="1" column="1">
-                            <property name="name">
-                                <cstring>PushButton1_2_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Cancel</string>
-                            </property>
-                        </widget>
-                    </grid>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>PushButton1</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+O</string>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>apply your changes</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to apply your changes to the system of coordinates.</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>PushButton1_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>abort without change anything</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to abort this dialog without any changes.</string>
+                    </property>
                 </widget>
             </hbox>
         </widget>
-        <spacer>
-            <property name="name">
-                <cstring>Spacer1</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-        </spacer>
     </vbox>
 </widget>
 <connections>
@@ -525,12 +741,6 @@
         <signal>clicked()</signal>
         <receiver>KoordDlgData</receiver>
         <slot>onok()</slot>
-    </connection>
-    <connection>
-        <sender>PushButton1_2</sender>
-        <signal>clicked()</signal>
-        <receiver>KoordDlgData</receiver>
-        <slot>onoptions()</slot>
     </connection>
     <connection>
         <sender>PushButton1_2_2</sender>
@@ -574,6 +784,36 @@
         <receiver>KoordDlgData</receiver>
         <slot>onYChanged()</slot>
     </connection>
+    <connection>
+        <sender>rb_x5</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>le_xmin</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>rb_x5</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>le_xmax</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>rb_y5</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>le_ymin</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>rb_y5</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>le_ymax</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>pushButton7</sender>
+        <signal>clicked()</signal>
+        <receiver>KoordDlgData</receiver>
+        <slot>onHelp()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>rb_x1</tabstop>
@@ -592,9 +832,9 @@
     <tabstop>le_ymax</tabstop>
     <tabstop>cb_beschr</tabstop>
     <tabstop>cb_default</tabstop>
-    <tabstop>PushButton1_2</tabstop>
     <tabstop>PushButton1</tabstop>
     <tabstop>PushButton1_2_2</tabstop>
+    <tabstop>pushButton7</tabstop>
 </tabstops>
 <slots>
     <slot>onYChanged()</slot>
@@ -604,6 +844,16 @@
     <slot>onoptions()</slot>
     <slot>xclicked( int )</slot>
     <slot>yclicked( int )</slot>
+    <slot>onHelp()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
+</includehints>
 </UI>

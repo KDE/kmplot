@@ -60,10 +60,8 @@ int main( int argc, char **argv )
 
 	KApplication ka;
 	KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
-//	kc = KGlobal::config();
-	MainDlg *w = new MainDlg( args );
+	MainDlg *w = new MainDlg( ka.sessionId(), args );
 	w->resize( 450, 400 );
-	//w->setPalette( QPalette( QColor( 255, 255, 255 ) ) );
 	w->show();
 	ka.setMainWidget( w );
 	return ka.exec();

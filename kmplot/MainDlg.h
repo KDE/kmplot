@@ -71,7 +71,7 @@ class MainDlg : public KMainWindow
 	Q_OBJECT
 
 public:
-	MainDlg( KCmdLineArgs* args, const char* name = NULL );
+	MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name = NULL );
 	virtual ~MainDlg();
 	friend class FktDlg;
 	friend class BezWnd;
@@ -96,7 +96,7 @@ public slots:
 
 private:
 	void setupActions();
-	void doSave();
+	void doSave( QString filename );
 	void setupStatusBar();
 	void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
 	void openFile( QString d );
@@ -113,6 +113,7 @@ private:
 	BezWnd *bez;
 	KToggleAction *view_bezeichnungen;
 	View *view;
+	QString m_sessionId;
 
 private slots:
   void newToolbarConfig();

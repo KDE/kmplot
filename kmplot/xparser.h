@@ -48,12 +48,13 @@ public:
 
 	struct FktExt           // Funktionsattribute:
 	{
-		char f_mode,  		// 1 => Graph von f zeichnen
-		f1_mode, 		// 1 => Graph von f' zeichnen
-		f2_mode;		// 1 => Graph von f" zeichnen
-		int dicke,  		// Stiftdicke
-		k_anz;  		// Länge der Parameterliste
-		double dmin,     	// Definitionsbereich
+		char f_mode,  			// 1 => Graph von f zeichnen
+		f1_mode, 			// 1 => Graph von f' zeichnen
+		f2_mode;			// 1 => Graph von f" zeichnen
+		int dicke,  			// Stiftdicke
+		k_anz;  			// Länge der Parameterliste
+		QString str_dmin, str_dmax;	// Definitionsbereich
+		double dmin,
 		dmax,
 		k_liste[ 10 ];	// Parameterliste
 

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>313</width>
-            <height>230</height>
+            <width>324</width>
+            <height>232</height>
         </rect>
     </property>
     <property name="caption">
@@ -296,6 +296,12 @@
         <receiver>KOptDlgData</receiver>
         <slot>oncancel()</slot>
     </connection>
+    <connection>
+        <sender>pushButton19</sender>
+        <signal>clicked()</signal>
+        <receiver>KOptDlgData</receiver>
+        <slot>onHelp()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>axesLineWidth</tabstop>
@@ -310,6 +316,7 @@
 <slots>
     <slot>oncancel()</slot>
     <slot>onok()</slot>
+    <slot>onHelp()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>

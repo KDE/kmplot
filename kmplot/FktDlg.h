@@ -39,7 +39,6 @@
 
 // locale includes
 #include "FktDlgData.h"
-#include "AttrDlg.h"
 #include "misc.h" 
 
 class KEditFunction;
@@ -63,18 +62,19 @@ public:
 	FktDlg( QWidget* parent = NULL, const char* name = NULL );
 	/** And again an empty destructor. */
 	virtual ~FktDlg();
+	
+	void fillList();
 
 protected slots:
-	void onok();
 	void ondelete();
 	void onedit();
-	void ondblclick( int );
-	void onattr();
-	void onapply();
+	void onnew();
 	void onHasSelection();
-	void onEditFunction();
-	void onEditParametric();
-	void onEditPolar();
+	
+	// edit the function, index: parser index, num: listbox index
+	void onEditFunction( int index = -1, int num = -1 );
+	void onEditParametric( int index = -1, int num = -1 );
+	void onEditPolar( int index = -1, int num = -1 );
 
 private:
 	int getIx( const QString f_str );

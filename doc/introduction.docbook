@@ -22,6 +22,10 @@ functions.</para>
 polar coordinates. Several grid modes are supported. Plots may be
 printed with high precision in the correct scale.</para>
 
+<para>Some numerical an visual features like filling and calculating the area between the plot 
+and the first axis, finding maximum and minumum values, changing function parameters dynamically, 
+and plotting derivatives and integal functions helps educating and learning the realtionship between mathematical functions and their graphical representation in a coordinate system.</para>
+
 </chapter>
 
 

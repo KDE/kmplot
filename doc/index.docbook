@@ -4,6 +4,7 @@
   <!ENTITY kappname "&kmplot;"><!-- replace kmplot here -->
   <!ENTITY package "kdeedu">
   <!ENTITY introduction SYSTEM "introduction.docbook">
+  <!ENTITY firststeps SYSTEM "firststeps.docbook">
   <!ENTITY using SYSTEM "using.docbook">
   <!ENTITY commands SYSTEM "commands.docbook">
   <!ENTITY menu SYSTEM "menu.docbook">
@@ -76,6 +77,7 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 </bookinfo>
 
 &introduction;
+&firststeps;
 &using;
 &configuration;
 &reference;

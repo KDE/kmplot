@@ -608,7 +608,7 @@ void MainDlg::loadConstants()
 
 		if ( constant<'A' || constant>'Z')
 			constant = 'A';
-		if ( tmp_constant.isEmpty() || value == 1.23456789)
+		if ( tmp_constant == " " || value == 1.23456789)
 			return;
 
 		if ( !view->parser()->constant.empty() )

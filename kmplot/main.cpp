@@ -26,7 +26,7 @@
 /**
  * Version string of KmPlot.
  */
-#define	KP_VERSION	"1.0"
+#define	KP_VERSION	"1.0.9"
 
 
 // KDE includes
@@ -59,10 +59,14 @@ int main( int argc, char **argv )
 	    0, 0,
 	    "submit@bugs.kde.org" );
 	aboutData.addAuthor(
-	    "Klaus-Dieter Möller", 0 ,
+	    "Klaus-Dieter Möller", I18N_NOOP( "Original Author" ) ,
 	    "kd.moeller@t-online.de" );
-	aboutData.addCredit("David Vignoni", I18N_NOOP("svg icon"), "david80v@tin.it");
-	aboutData.addCredit("Fredrik Edemar", I18N_NOOP("fullscreen mode"), "08.7683331@telia.com");
+	aboutData.addAuthor(
+	    "Matthias Meßmer", I18N_NOOP( "GUI" ) ,
+	    "bmlmessmer@web.de" );
+	aboutData.addCredit( "David Vignoni", I18N_NOOP( "svg icon" ), "david80v@tin.it" );
+	aboutData.addCredit( "Albert Astals Cid", I18N_NOOP( "command line options, MIME type" ), 0 );
+	aboutData.addCredit( "Fredrik Edemar", I18N_NOOP( "fullscreen mode" ), "08.7683331@telia.com" );
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 

@@ -28,6 +28,7 @@
 
 class QString;
 class XParser;
+class MainDlg;
 
 /** @short This class manages the file operations load and save.
  *

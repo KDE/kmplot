@@ -62,7 +62,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 {
 	fdlg = 0;
 	m_popupmenu = new KPopupMenu(this);
-	view = new View( m_popupmenu, this );
+	view = new View( m_modified, m_popupmenu, this );
 	setCentralWidget( view );
 	view->setFocusPolicy(QWidget::ClickFocus);
 	minmaxdlg = new KMinMax(view);
@@ -257,7 +257,16 @@ void MainDlg::slotSave()
 		slotSaveas();
 	else
 	{
+		if ( !m_modified) //don't save if no changes are made
+			return;
+		
+		if ( oldfileversion)
+		{
+			if ( KMessageBox::warningYesNo( this, i18n( "This file is saved with an old file format. If you save it, you can't open the file with older versions of Kmplot. Are you sure you want to continue?" ) ) == KMessageBox::No)
+				return;
+		}
 		KmPlotIO::save( view->parser(), m_filename );
+		kdDebug() << "saved" << endl;
 		m_modified = false;
 	}
 
@@ -265,6 +274,8 @@ void MainDlg::slotSave()
 
 void MainDlg::slotSaveas()
 {
+	if ( !m_modified) //don't save if no changes are made
+		return;
 	QString filename = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
 	if ( !filename.isEmpty() )
 	{

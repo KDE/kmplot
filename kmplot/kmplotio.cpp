@@ -33,6 +33,7 @@
 
 // local includes
 #include "kmplotio.h"
+#include "MainDlg.h"
 #include "settings.h"
 #include "xparser.h"
 
@@ -97,7 +98,6 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 
 	const char* units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4","automatic"};
 	addTag( doc, tag, "tic-x", units[ Settings::xScaling() ] );
-	kdDebug() << units[ Settings::xScaling() ] << endl;
 	addTag( doc, tag, "tic-y", units[ Settings::yScaling() ] );
 	addTag( doc, tag, "print-tic-x", units[ Settings::xPrinting() ] );
 	addTag( doc, tag, "print-tic-y", units[ Settings::yPrinting() ] );
@@ -180,6 +180,7 @@ void KmPlotIO::load( XParser *parser, const QString filename )
 	QString version = element.attribute( "version" );
 	if ( version == QString::null) //an old kmplot-file
 	{
+		MainDlg::oldfileversion = true;
 		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
 		{
 			if ( n.nodeName() == "axes" )

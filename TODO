@@ -18,7 +18,7 @@ TODO
 TODO for KDE 3.3
 =========================
 * Draw tangents in trace mode (pipesmoker)
-* Import parameter values from different file format(.csv, KSpread, OpenOffice)
+* Import parameter values from different file format(.csv, KSpread, OpenOffice) via Koffice (see kde-edu/kig)
 * Printing (pipesmoker)
       - different paper sizes
 
@@ -26,10 +26,6 @@ TODO for KDE 3.3
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
-* A mode for zooming. Ability to disable it with kiosk
-* Fix scaling
-* Change icon when zooming
-* Ability to print background color
 
 
 DONE
@@ -67,3 +63,9 @@ DONE
 * Version check
 * Load old Kmplot files without crash
 * Popup tool menu when right clicking on a graph
+* Ask the user (yes|no) when he or she saves an old kmplot file
+* Don't save a file if it isn't necessary
+* Fix scaling
+* Change icon when zooming
+* Ability to print background color
+* Four modes for zooming.

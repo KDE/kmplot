@@ -71,7 +71,7 @@ class View : public QWidget
 	Q_OBJECT
 public:
 	/// Contructor sets up the parser, too.
-	View( KPopupMenu *, QWidget* parent=NULL, const char* name=NULL );
+	View( bool &, KPopupMenu *, QWidget* parent=NULL, const char* name=NULL );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 
@@ -244,6 +244,9 @@ private:
 	/// for zoom-mode
 	QPoint rectangle_point;
 	char zoom_mode; ///0=normal 1=rectangular zoom, 2=zoom in, 3=zoom out ,4=drawing a rectangle, 5=center
+	
+	/// true == modifications not saved
+	bool &m_modified;
 };
 
 #endif // View_included

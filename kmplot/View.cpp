@@ -84,7 +84,7 @@ void KmPlotProgress::increase()
  * View implementation
  */
 
-View::View(KPopupMenu *m, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() )
+View::View(bool & mo, KPopupMenu *m, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() ), m_modified(mo)
 {   
 	m_parser = new XParser( 10, 200, 20 );
 
@@ -1686,6 +1686,7 @@ void View::mnuHide_clicked()
 			break;
 	}
 	drawPlot();
+	m_modified = true;
 	if (csmode==-1)
 		return;
 	if ( !m_parser->fktext[csmode ].f_mode && !m_parser->fktext[csmode ].f1_mode && !m_parser->fktext[csmode ].f2_mode) //all graphs for the function are hidden
@@ -1710,6 +1711,7 @@ void View::mnuRemove_clicked()
 	{
 		m_parser->delfkt( csmode );
 		drawPlot();
+		m_modified = true;
 	}
 }
 void View::mnuEdit_clicked()
@@ -1720,6 +1722,7 @@ void View::mnuEdit_clicked()
 	if( editFunction->exec() == QDialog::Accepted )
 	{
 		drawPlot();
+		m_modified = true;
 	}
 }
 void View::mnuNoZoom_clicked()
@@ -1780,5 +1783,4 @@ void View::invertColor(QColor &org, QColor &inv)
 	if ( b<0) b=b*-1;
 	
 	inv.setRgb(r,g,b);
-
 }

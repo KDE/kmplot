@@ -88,10 +88,7 @@ public:
 
 public slots:
 	
-	void save();
-	void saveas();
 	void doexport();
-	void load();
 	void print();
 	void editColors();
 	void editAxes();
@@ -108,10 +105,8 @@ public slots:
 	void onachsen1();
 	void onachsen2();
 	void onachsen3();
-	void hilfe();
-	void slotSettings();
-	void openFile( const QString filename );
-	void openRecent( const KURL &url );
+	
+	
 
 private:
 	void setupActions();
@@ -146,11 +141,25 @@ private:
 	SettingsPageFonts* fonts_settings;
 	SettingsPagePrecision* precision_settings;
 	
-private slots:
+protected slots:
+
+	void slotOpen();
+	///Implement the File -> New action by cleaning the plot area
 	void slotOpenNew();
+	
+	void slotOpenRecent( const KURL &url );
+	///Save a plot i.e. save the function name and all the settings for the plot
+	void slotSave();
+	void slotSaveas();
+	///Implement the Configure KmPlot dialog
+	void slotSettings();
 	void newToolbarConfig();
 	void optionsConfigureKeys();
 	void optionsConfigureToolbars();
 	void updateSettings();
+
+protected:
+	void openFile( const QString filename );
+	
 };
 #endif // MainDlg_included

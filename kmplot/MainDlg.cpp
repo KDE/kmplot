@@ -102,14 +102,13 @@ void MainDlg::setupActions()
 {
 	// standard actions
 	KStdAction::openNew( this, SLOT( slotOpenNew() ), actionCollection() );
-	KStdAction::open( this, SLOT( load() ), actionCollection() );
-	m_recentFiles = KStdAction::openRecent( this, SLOT( openRecent( const KURL& ) ), actionCollection());
+	KStdAction::open( this, SLOT( slotOpen() ), actionCollection() );
+	m_recentFiles = KStdAction::openRecent( this, SLOT( slotOpenRecent( const KURL& ) ), actionCollection());
 	KStdAction::print( this, SLOT( print() ), actionCollection() );
-	KStdAction::save( this, SLOT( save() ), actionCollection() );
-	KStdAction::saveAs( this, SLOT( saveas() ), actionCollection() );
+	KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
+	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
-	KStdAction::helpContents( this, SLOT( hilfe() ), actionCollection(), "helpcontents" );
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
@@ -175,7 +174,7 @@ bool MainDlg::checkModified()
 		switch( saveit )
 		{
 			case KMessageBox::Yes:
-				save();
+				slotSave();
 				break;
 			case KMessageBox::Cancel:
 				return false;
@@ -194,10 +193,10 @@ void MainDlg::slotOpenNew()
 	m_modified = false;
 }
 
-void MainDlg::save()
+void MainDlg::slotSave()
 {
 	if ( m_filename.isEmpty() )            // if there is no file name set yet
-		saveas();
+		slotSaveas();
 	else
 	{
 		doSave( m_filename );
@@ -206,7 +205,7 @@ void MainDlg::save()
 
 }
 
-void MainDlg::saveas()
+void MainDlg::slotSaveas()
 {
 	QString filename = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
 	if ( !filename.isEmpty() )
@@ -226,20 +225,24 @@ void MainDlg::doexport()
 		i18n("*.svg|Scalable Vector Graphics (*.svg)\n*.bmp|Bitmap 180dpi(*.bmp)\n*.png|Bitmap 180dpi (*.png)"),
 		this, i18n("export") );
 	if(!filename.isEmpty())
-	{	if( filename.right(4).lower()==".svg")
-		{	QPicture pic;
+	{	
+		if( filename.right(4).lower()==".svg")
+		{	
+			QPicture pic;
 			view->draw(&pic, 2);
 	        	pic.save( filename, "SVG");
 		}
 		
 		else if( filename.right(4).lower()==".bmp")
-		{	QPixmap pix(100, 100);
+		{	
+			QPixmap pix(100, 100);
 			view->draw(&pix, 3);
 			pix.save( filename, "BMP");
 		}
 		
 		else if( filename.right(4).lower()==".png")
-		{	QPixmap pix(100, 100);
+		{	
+			QPixmap pix(100, 100);
 			view->draw(&pix, 3);
 			pix.save( filename, "PNG");
 		}
@@ -328,7 +331,7 @@ void MainDlg::addTag( QDomDocument &doc, QDomElement &parentTag, const QString t
 	parentTag.appendChild( tag );
 }
 
-void MainDlg::load()
+void MainDlg::slotOpen()
 {
 	if( !checkModified() ) return;
 	QString filename = KFileDialog::getOpenFileName( QDir::currentDirPath(), 
@@ -341,7 +344,7 @@ void MainDlg::load()
 	m_modified = false;
 }
 
-void MainDlg::openRecent( const KURL &url )
+void MainDlg::slotOpenRecent( const KURL &url )
 {
 	if( !checkModified() ) return;
 	openFile( url.path() );
@@ -508,11 +511,13 @@ void MainDlg::parseFunction( const QDomElement & n )
 }
 
 void MainDlg::print()
-{	KPrinter prt( QPrinter::PrinterResolution );
+{	
+	KPrinter prt( QPrinter::PrinterResolution );
 	prt.setResolution(72);
 	prt.addDialogPage( new KPrinterDlg( this, "KmPlot page" ) );
 	if ( prt.setup( this, i18n("Print Function") ) )
-	{	prt.setFullPage(true);
+	{	
+		prt.setFullPage(true);
 		printtable = prt.option( "app-kmplot-printtable" ) != "-1";
 		view->draw(&prt, 1);
 	}
@@ -649,11 +654,6 @@ void MainDlg::onachsen3()
 	view->update();
 }
 
-void MainDlg::hilfe()
-{
-	kapp->invokeHelp( "", "kmplot" );
-}
-
 void MainDlg::slotSettings()
 {
 	// An instance of your dialog has already been created and has been cached, 
@@ -671,19 +671,19 @@ void MainDlg::updateSettings()
 
 void MainDlg::newToolbarConfig()
 {
-    createGUI();
-    applyMainWindowSettings( KGlobal::config(), autoSaveGroup() );
+	createGUI();
+	applyMainWindowSettings( KGlobal::config(), autoSaveGroup() );
 }
 
 void MainDlg::optionsConfigureKeys()
 {
-  KKeyDialog::configure(actionCollection());
+  	KKeyDialog::configure(actionCollection());
 }
 
 void MainDlg::optionsConfigureToolbars()
 {
-    saveMainWindowSettings( KGlobal::config(), autoSaveGroup() );
-    KEditToolbar dlg(actionCollection());
-    connect(&dlg, SIGNAL(newToolbarConfig()), this, SLOT(newToolbarConfig()));
-    dlg.exec();
+	saveMainWindowSettings( KGlobal::config(), autoSaveGroup() );
+	KEditToolbar dlg(actionCollection());
+	connect(&dlg, SIGNAL(newToolbarConfig()), this, SLOT(newToolbarConfig()));
+	dlg.exec();
 }

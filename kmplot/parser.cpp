@@ -143,6 +143,22 @@ double Parser::eval(QString str)
 	stack=new double [stacksize];
 	stkptr=stack;
 	evalflg=1;
+	
+	str.remove(" " );
+	//insert '*' when it is needed
+	for(int i=0; i < (int)str.length();i++)
+	{
+		if( (str.at(i).isNumber() || str.at(i).category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) )
+		{
+			str.insert(i,'*');
+		}
+		else if( (str.at(i).isNumber() || str.at(i) == ')' || str.at(i).category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) )
+		{
+			str.insert(i+1,'*');
+			i++;
+		}
+	}
+	
 	lptr=str.latin1();
 	err=0;
 	heir1();
@@ -296,7 +312,11 @@ int Parser::addfkt(QString str)
 			break;
 		}
 	}
-    
+	if ( ufkt[ix].fname != ufkt[ix].fname.lower() ) //isn't allowed to contain capital letters
+	{
+		err=12;
+		return -1;
+	}
 	if(ix==ufanz)
 	{   err=5;
 		return -1;
@@ -700,6 +720,8 @@ int Parser::errmsg()
      			break;
        case 11:  KMessageBox::error(0, i18n("Empty function"), "KmPlot");
 		        break;
+       case 12:  KMessageBox::error(0, i18n("The function name isn't allowed to contain capital letters"), "KmPlot");
+			break;
 	}
     
 	return err;

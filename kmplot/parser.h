@@ -170,7 +170,8 @@ public:
 	 * \li  8 => function name already used
 	 * \li  9 => recursive function call
 	 * \li  10 => didn't found the wanted constant
-	* \li   11 => emtpy function
+	 * \li   11 => emtpy function
+	 * \li   12 => function name contains a capital letter
 	 */
 	int err,	
 	errpos, 	///< Position where the error occurred.

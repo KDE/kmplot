@@ -289,7 +289,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 				else
 					dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 				progressbar->progress->reset();
-				progressbar->progress->setTotalSteps ( double((dmax-dmin)/dx)/2 );
+				progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 				progressbar->show();
 				x = m_parser->fktext[ix].startx; //the initial x-point
 			}
@@ -684,9 +684,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.begin(this);
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
-		QPoint p=DC.xFormDev(e->pos());
-		p.setX( dgr.Transx(p.x() ) );
-		p.setY( dgr.Transy(p.y() ) );
+		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
+		
 		QString str_tmp;
 		double diffx = (xmax-xmin)*0.4; // == xmax-xmin*0.8/2
 		double diffy = (ymax-ymin)*0.4;
@@ -694,14 +693,15 @@ void View::mousePressEvent(QMouseEvent *e)
 		if ( diffx < 0.00001 || diffy < 0.00001)
 			return;
 			
-		str_tmp.setNum(p.x()-double(diffx));
+		str_tmp.setNum(real-double(diffx));
 		Settings::setXMin(str_tmp);
-		str_tmp.setNum(p.x()+double(diffx));
+		str_tmp.setNum(real+double(diffx));
 		Settings::setXMax(str_tmp);
 		
-		str_tmp.setNum(p.y()-double(diffy));
+		real = dgr.Transy(DC.xFormDev(e->pos()).y());
+		str_tmp.setNum(real-double(diffy));
 		Settings::setYMin(str_tmp);
-		str_tmp.setNum(p.y()+double(diffy));
+		str_tmp.setNum(real+double(diffy));
 		Settings::setYMax(str_tmp);
 		
 		Settings::setXRange(4); //custom x-range
@@ -716,9 +716,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.begin(this);
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
-		QPoint p=DC.xFormDev(e->pos());
-		p.setX( dgr.Transx(p.x() ) );
-		p.setY( dgr.Transy(p.y() ) );
+		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
+
 		QString str_tmp;
 		double diffx = (xmax-xmin)*1.25/2;
 		double diffy = (ymax-ymin)*1.25/2;
@@ -726,14 +725,15 @@ void View::mousePressEvent(QMouseEvent *e)
 		if ( diffx > 1000000 || diffy > 1000000)
 			return;
 		
-		str_tmp.setNum(p.x()-double(diffx));
+		str_tmp.setNum(real-double(diffx));
 		Settings::setXMin(str_tmp);
-		str_tmp.setNum(p.x()+double(diffx));
+		str_tmp.setNum(real+double(diffx));
 		Settings::setXMax(str_tmp);
 		
-		str_tmp.setNum(p.y()-double(diffy));
+		real = dgr.Transy(DC.xFormDev(e->pos()).y());
+		str_tmp.setNum(real-double(diffy));
 		Settings::setYMin(str_tmp);
-		str_tmp.setNum(p.y()+double(diffy));
+		str_tmp.setNum(real+double(diffy));
 		Settings::setYMax(str_tmp);
 		
 		Settings::setXRange(4); //custom x-range
@@ -748,24 +748,20 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.begin(this);
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
-		QPoint p=DC.xFormDev(e->pos());
-		p.setX( dgr.Transx(p.x() ) );
-		p.setY( dgr.Transy(p.y() ) );
+		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
 		QString str_tmp;
 		double diffx = (xmax-xmin)/2;
 		double diffy = (ymax-ymin)/2;
 		
-		if ( diffx > 1000000 || diffy > 1000000)
-			return;
-		
-		str_tmp.setNum(p.x()-double(diffx));
+		str_tmp.setNum(real-double(diffx));
 		Settings::setXMin(str_tmp);
-		str_tmp.setNum(p.x()+double(diffx));
+		str_tmp.setNum(real+double(diffx));
 		Settings::setXMax(str_tmp);
 		
-		str_tmp.setNum(p.y()-double(diffy));
+		real = dgr.Transy(DC.xFormDev(e->pos()).y());
+		str_tmp.setNum(real-double(diffy));
 		Settings::setYMin(str_tmp);
-		str_tmp.setNum(p.y()+double(diffy));
+		str_tmp.setNum(real+double(diffy));
 		Settings::setYMax(str_tmp);
 		
 		Settings::setXRange(4); //custom x-range
@@ -931,50 +927,52 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 		
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
-		QPoint p1=DC.xFormDev(e->pos());
-		p1.setX( dgr.Transx(p1.x() ) );
-		p1.setY( dgr.Transy(p1.y() ) );
-		DC.end();
-		
-		DC.begin(this);
-		DC.setWindow(0, 0, w, h);
-		DC.setWorldMatrix(wm);
-		QPoint p2=DC.xFormDev(rectangle_point);
-		p2.setX( dgr.Transx(p2.x() ) );
-		p2.setY( dgr.Transy(p2.y() ) );
+		QPoint p=DC.xFormDev(e->pos());
+		double real1 = dgr.Transx(p.x() ) ;
+		double real2 = dgr.Transy(p.y() ) ;
 		QString str_tmp;
-		if ( p1.x() == p2.x() || p1.y() == p2.y() )
-			return;
-		if( p1.x() < p2.x()  )
+		
+		if( real1 < real2  )
 		{
-			str_tmp.setNum(p1.x() );
+			if( real2 - real1 < 0.00001)
+			    return;
+			str_tmp.setNum(real1 );
 			Settings::setXMin(str_tmp );
-			str_tmp.setNum(p2.x() );
+			str_tmp.setNum(real2 );
 			Settings::setXMax(str_tmp );
 		}
 		else
-		{
-			str_tmp.setNum(p2.x() );
+		{	
+			if (real1 - real2 < 0.00001)
+				return;
+			str_tmp.setNum(real2 );
 			Settings::setXMin(str_tmp );
-			str_tmp.setNum(p1.x() );
+			str_tmp.setNum(real1 );
 			Settings::setXMax(str_tmp );
 		}
 		
-		if( p1.y() < p2.y() )
+		p=DC.xFormDev(rectangle_point);
+		real1 = dgr.Transx(p.x() ) ;
+		real2 = dgr.Transy(p.y() ) ;
+		
+		if( real1 < real2 )
 		{
-			str_tmp.setNum(p1.y() );
+			if( real2 - real1 < 0.00001)
+				return;
+			str_tmp.setNum(real1 );
 			Settings::setYMin(str_tmp );
-			str_tmp.setNum(p2.y());
+			str_tmp.setNum(real2);
 			Settings::setYMax(str_tmp );
 		}
 		else
 		{
-			str_tmp.setNum(p2.y()  );
+			if( real1 - real2 < 0.00001)
+				return;
+			str_tmp.setNum(real2  );
 			Settings::setYMin(str_tmp );
-			str_tmp.setNum(p1.y() );
+			str_tmp.setNum(real1 );
 			Settings::setYMax(str_tmp );
 		}
-		
 		Settings::setXRange(4); //custom x-range
 		Settings::setYRange(4); //custom y-range
 		drawPlot(); //update all graphs
@@ -1110,7 +1108,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 			dx = (m_parser->fktext[ix].anti_precision)/1000;
 		else
 			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
-		progressbar->progress->setTotalSteps ( double((dmax-dmin)/dx)/2 );
+		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
 		x = m_parser->fktext[ix].startx; //the initial x-point
 	}
@@ -1246,7 +1244,7 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 			else
 				dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 			progressbar->progress->reset();
-			progressbar->progress->setTotalSteps ( double((dmax-dmin)/dx)/2 );
+			progressbar->progress->setTotalSteps ((int) double((dmax-dmin)/dx)/2 );
 			progressbar->show();
 			x = m_parser->fktext[ix].startx; //the initial x-point
 			while (x>=dmin && x<=dmax  && !stop_calculating && !target_found)
@@ -1300,6 +1298,28 @@ void View::keyPressEvent( QKeyEvent * e)
 		zoom_mode=3;
 	else if ( e->key() == Qt::Key_G) //center mode
 		zoom_mode=5;
+	else if ( e->key() == Qt::Key_H) //adapt the widget for trigonometry
+	{
+		if ( Settings::anglemode()==0 ) //radians
+		{
+			Settings::setXMin("-6.152285613" );
+			Settings::setXMax("6.152285613" );
+		}
+		else //degrees
+		{
+			Settings::setXMin("-352.5" );
+			Settings::setXMax("352.5" );
+		}
+		
+		Settings::setYMin("-4");
+		Settings::setYMax("4");
+		
+		Settings::setXRange(4); //custom x-range
+		Settings::setYRange(4); //custom y-range
+		drawPlot(); //update all graphs
+		return;
+	}
+		
 	
 	if (csmode==-1 ) return;
 	
@@ -1474,7 +1494,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 		else
 			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 		progressbar->progress->reset();
-		progressbar->progress->setTotalSteps ( double((dmax-dmin)/dx)/2 );
+		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
 		x = m_parser->fktext[ix].startx; //the initial x-point
 	}

@@ -68,6 +68,8 @@ void KMinMax::init(char m)
 		cmdFind->setText("&Find");
 		if ( m_mode == 1) //find maximum point
 			setCaption(i18n("Find maximum point"));
+		else
+			setCaption(i18n("Find minimum point"));
 	}
 	else if ( m_mode == 2) //get y-value
 	{
@@ -243,19 +245,19 @@ void KMinMax::cmdFind_clicked()
 	if ( m_mode == 0)
 	{
 		m_view->findMinMaxValue(index,p_mode,true,dmin,dmax,parameter);
-		if ( !m_view->calculationStopped() )
+		if ( !m_view->isCalculationStopped() )
 			KMessageBox::information(this,i18n("Minimum value:\nx: %1\ny: %2").arg(dmin).arg(dmax) );
 	}
 	else if ( m_mode == 1)
 	{
 		m_view->findMinMaxValue(index,p_mode,false,dmin,dmax,parameter);
-		if ( !m_view->calculationStopped() )
+		if ( !m_view->isCalculationStopped() )
 			KMessageBox::information(this,i18n("Maximum value:\nx: %1\ny: %2").arg(dmin).arg(dmax));
 	}
 	else if ( m_mode == 2)
 	{
 		m_view->getYValue(index,p_mode,dmin,dmax,parameter);
-		if ( !m_view->calculationStopped() )
+		if ( !m_view->isCalculationStopped() )
 		{
 			QString tmp;
 			tmp.setNum(dmax);
@@ -266,7 +268,7 @@ void KMinMax::cmdFind_clicked()
 	{
 		double dmin_tmp = dmin;
 		m_view->areaUnderGraph(index,p_mode,dmin,dmax,parameter, 0);
-		if ( !m_view->calculationStopped() )
+		if ( !m_view->isCalculationStopped() )
 		{
 			m_view->setFocus();
 			m_view->update();
@@ -274,7 +276,7 @@ void KMinMax::cmdFind_clicked()
 		}
 	}
 	
-	if ( m_view->calculationStopped() )
+	if ( m_view->isCalculationStopped() )
 		KMessageBox::error(this,i18n("The operation was cancelled by the user."));
 	
 	//QDialog::accept();

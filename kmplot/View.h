@@ -33,9 +33,11 @@
 // KDE includes
 #include <kdebug.h>
 #include <kstatusbar.h>
+#include <kpopupmenu.h>
 #include <kprinter.h>
-#include <kpushbutton.h>
 #include <kprogress.h>
+#include <kpushbutton.h>
+
 
 // local includes
 #include "diagr.h"
@@ -69,7 +71,7 @@ class View : public QWidget
 	Q_OBJECT
 public:
 	/// Contructor sets up the parser, too.
-	View( QWidget* parent=NULL, const char* name=NULL );
+	View( KPopupMenu *, QWidget* parent=NULL, const char* name=NULL );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 
@@ -87,8 +89,8 @@ public:
 	/// draw and calculate the area between the graph and the x-axis.
 	void areaUnderGraph(int, char, double &, double &, QString &, QPainter* );
 	/// the calculation was cancelled by the user
-	bool calculationStopped();
-			
+	bool isCalculationStopped();
+
 	/// Returns a pointer to the private parser instance m_parser.
 	/// @see m_parser
 	XParser* parser();
@@ -214,6 +216,12 @@ private:
 	KMinMax *m_minmax;
 	///buffer the current window so all functions don't need to be re-drawed
 	QPixmap buffer;
+	/// the popup menu
+	KPopupMenu *m_popupmenu;
+	/// is set to true if a anti-derivative is calculated
+	bool isDrawing;
+	///status of the popup menu
+	char m_popupmenushown; /// 0==no popup 1==popup 2==popup+trace mode before
 };
 
 #endif // View_included

@@ -34,6 +34,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kpopupmenu.h> 
 #include <kprogress.h> 
 
 // local includes
@@ -77,7 +78,7 @@ void KmPlotProgress::increase()
  * View implementation
  */
 
-View::View(QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() )
+View::View(KPopupMenu *m, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() )
 {   
 	m_parser = new XParser( 10, 200, 20 );
 
@@ -97,7 +98,8 @@ View::View(QWidget* parent, const char* name ) : QWidget( parent, name , WStatic
 		QToolTip::add( sliders[ number ], i18n( "Slider no. %1" ).arg( number ) );
 		sliders[ number ]->setFixedWidth( 100 ); // all slider same width
 	}
-	stop_calculating = false;
+	m_popupmenu = m;
+	m_popupmenushown = 0;
 }
 
 void View::setMinMaxDlg(KMinMax *minmaxdlg)
@@ -196,12 +198,14 @@ void View::draw(QPaintDevice *dev, int form)
 	if ( stepWidth == 0)
 		stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
 	
+	isDrawing=true;
+	stop_calculating = false;
 	for(ix=0; ix<m_parser->ufanz && !stop_calculating; ++ix)
 	{
 		if(m_parser->chkfix(ix)==-1) continue;
 		plotfkt(ix, &DC);
 	}
-	
+	isDrawing=false;
 	csflg=0;
 	DC.end();			// painting done
 
@@ -266,6 +270,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 		ke=m_parser->fktext[ix].k_anz;
 		do
 		{
+			if ( p_mode == 3 && stop_calculating)
+				break;
 			if( m_parser->fktext[ ix ].use_slider == -1 )
 				m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 			else
@@ -274,7 +280,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 			bool forward_direction = true;
 			if ( p_mode == 3)
 			{
-				stop_calculating = false;
 				if ( m_parser->fktext[ix].anti_use_precision )
 					dx = (m_parser->fktext[ix].anti_precision)/1000;
 				else
@@ -383,8 +388,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 			    		x=x-dx; // go backwards
 
             		}
-			if ( p_mode == 3 && stop_calculating)
-				break;
 		}
         	while(++k<ke);
 	
@@ -538,7 +541,6 @@ void View::resizeEvent(QResizeEvent *)
 	if ( stepWidth != 0)
 		stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
 	buffer.resize(size() );
-	stop_calculating = false;
 	drawPlot();
 }
 
@@ -557,7 +559,14 @@ void View::drawPlot()
 
 void View::mouseMoveEvent(QMouseEvent *e)
 {   char sx[20], sy[20];
-
+	
+	if( m_popupmenushown>0 && !m_popupmenu->isShown() )
+	{
+		if ( m_popupmenushown==1)
+			csmode=-1;
+		m_popupmenushown = 0;
+		return;
+	}
 	if(csflg==1)        // Fadenkreuz l�chen
 	{	bitBlt(this, area.left(), fcy, &hline, 0, 0, area.width(), 1);
 		bitBlt(this, fcx, area.top(), &vline, 0, 0, 1, area.height());
@@ -636,21 +645,71 @@ void View::mouseMoveEvent(QMouseEvent *e)
 void View::mousePressEvent(QMouseEvent *e)
 {   int ix, k, ke;
 	double g;
-
-	if ( !stop_calculating) //stop drawing anti-derivatives
+	if ( m_popupmenushown>0)
+		return;
+	
+	if (!stop_calculating && isDrawing) //stop drawing anti-derivatives
 	{
 		stop_calculating = true;
 		return;
 	}
+	
+	if(e->button()==RightButton) //clicking with the right mouse button
+	{
+		g=tlgy/5.;
+		for(ix=0; ix<m_parser->ufanz; ++ix)
+		{
+			switch(m_parser->fktext[ix].extstr[0].latin1())
+			{
+				case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
+			}
+		
+			k=0;
+			ke=m_parser->fktext[ix].k_anz;
+			do
+			{
+				if( m_parser->fktext[ ix ].use_slider == -1 )
+					m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+				else
+					m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->value() );
+				if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
+				{
+					if ( csmode == -1)
+					{
+						csmode=ix;
+						cstype=0;
+						csparam = k;
+						m_popupmenushown = 1;
+					}
+					else
+						m_popupmenushown = 2;
+					m_popupmenu->exec(QCursor::pos());
+					return;
+				}
+				if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
+				{
+					m_popupmenu->exec(QCursor::pos());
+					return;
+				}
+				if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g && m_parser->fktext[ix].f2_mode)
+				{
+					m_popupmenu->exec(QCursor::pos());
+					return;
+				}
+			}
+			while(++k<ke);
+		}
+		return;
+	}
 	if(e->button()!=LeftButton) return ;
-	if(csmode>=0)
+	if(csmode>=0) //disable trace mode if trace mode is enable
 	{
 		csmode=-1;
 		mouseMoveEvent(e);
 		return ;
 	}
 
-	g=tlgy/5.;
+	g=tlgy/5.;  
 	for(ix=0; ix<m_parser->ufanz; ++ix)
 	{
 		switch(m_parser->fktext[ix].extstr[0].latin1())
@@ -810,6 +869,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 		}
 
 	bool forward_direction = true;
+	isDrawing=true;
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
@@ -896,9 +956,10 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 		else
 			x=x-dx; // go backwards
 	}
-
 	if (  progressbar->isVisible())
 		progressbar->hide(); // hide the progressbar-widget if it was shown
+	isDrawing=false;
+	
 	dmin = int(result_x*1000)/double(1000);
 	dmax = int(result_y*1000)/double(1000);
 }
@@ -946,6 +1007,8 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 			}
 			
 			stop_calculating = false;
+			isDrawing=true;
+			bool target_found=false;
 			if ( m_parser->fktext[ix].anti_use_precision )
 				dx = (m_parser->fktext[ix].anti_precision)/1000;
 			else
@@ -954,7 +1017,7 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 			progressbar->progress->setTotalSteps ( double((dmax-dmin)/dx)/2 );
 			progressbar->show();
 			x = m_parser->fktext[ix].startx; //the initial x-point
-			while (x>=dmin && x<=dmax  && !stop_calculating)
+			while (x>=dmin && x<=dmax  && !stop_calculating && !target_found)
 			{
 				y=m_parser->fkt(ix, x);
 				m_parser->euler_method(x, y,ix);
@@ -968,7 +1031,7 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 				if(errno!=0) continue;
 
 				if ( x+dx > target) //right x-value is found
-					stop_calculating = true;
+					target_found = true;
 
 				if (forward_direction)
 				{
@@ -982,10 +1045,10 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 				else
 					x=x-dx; // go backwards
 			}
-
 			if (  progressbar->isVisible())
 				progressbar->hide(); // hide the progressbar-widget if it was shown
 
+			isDrawing=false;
 			break;
 	}
 }
@@ -1114,6 +1177,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 	}
 	
 	bool forward_direction = true;
+	isDrawing=true;
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
@@ -1216,14 +1280,24 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 			x=x-dx; // go backwards
 	}
 	if (  progressbar->isVisible())
+	{
 		progressbar->hide(); // hide the progressbar-widget if it was shown
+		if( stop_calculating)
+		{
+			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
+			stop_calculating=false;
+			return;
+		}	
+	}
+	isDrawing=false;
+	
 	areaDraw=true;
 	areaIx = ix;
 	areaPMode = p_mode;
 	areaMax = dmax;
 	areaParameter = str_parameter;
 	
-	if ( DC->device() == &buffer) //screen
+	if ( DC->device() == &buffer) //draw the graphs to the screen
 	{
 		DC->end();
 		setFocus();
@@ -1237,6 +1311,13 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 		dmin = int(area*1000)/double(1000)*-1; //don't answer with a negative number
 }
 
-bool View::calculationStopped()
-{	return stop_calculating;
+bool View::isCalculationStopped()
+{
+	if ( stop_calculating)
+	{
+		stop_calculating = true;
+		return true;
+	}
+	else
+		return false;
 }

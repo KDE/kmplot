@@ -19,13 +19,13 @@ TODO
 * Fix the unpolished lines
 * #52887, need to calculate with complex numbers.
 * Import parameter values from different file format(.csv, KSpread, OpenOffice)
-* Popup tool menu when right clicking on a graph
 * Draw tangents in trace mode
 
 
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
+* Popup tool menu when right clicking on a graph
 
 
 DONE

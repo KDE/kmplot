@@ -58,7 +58,8 @@
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
 	fdlg = 0;
-	view = new View( this );
+	m_popupmenu = new KPopupMenu(this);
+	view = new View( m_popupmenu, this );
 	setCentralWidget( view );
 	view->setFocusPolicy(QWidget::ClickFocus);
 	minmaxdlg = new KMinMax(view);
@@ -141,10 +142,10 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 	
 	// tools menu
-	( void ) new KAction( i18n( "&Get y-value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
-	( void ) new KAction( i18n( "&Search for minimum value" ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
-	( void ) new KAction( i18n( "&Search for maximum value" ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
-	( void ) new KAction( i18n( "&Area under a graph" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
+	KAction *mnuYValue =  new KAction( i18n( "&Get y-value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
+	KAction *mnuMinValue = new KAction( i18n( "&Search for minimum value" ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
+	KAction *mnuMaxValue = new KAction( i18n( "&Search for maximum value" ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
+	KAction *mnuArea = new KAction( i18n( "&Area under a graph" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
 	
 	// help menu
 	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );
@@ -160,8 +161,17 @@ void MainDlg::setupActions()
 		KWidgetAction* sliderAction = new KWidgetAction( view->sliders[ number ], i18n( "Slider no. %1" ).arg( number ), 0, this, 0, actionCollection(), QString( "slider%1" ).arg( number ).latin1() );
 	}
 	
-	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
+	m_popupmenu->insertItem(i18n("Hide"));
+	m_popupmenu->insertItem(i18n("Remove"));
+	m_popupmenu->insertItem(i18n("Edit"));
+	m_popupmenu->insertSeparator();
+	mnuYValue->plug(m_popupmenu);
+	mnuMinValue->plug(m_popupmenu);
+	mnuMaxValue->plug(m_popupmenu);
+	mnuArea->plug(m_popupmenu);
 	
+	
+	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
 }
 
 void MainDlg::setupStatusBar()

@@ -35,6 +35,7 @@
 #include <kaction.h>
 #include <kcmdlineargs.h>
 #include <kmainwindow.h>
+#include <kpopupmenu.h>
 #include <kstandarddirs.h>
 #include <kfiledialog.h>
 
@@ -141,6 +142,8 @@ class MainDlg : public KMainWindow
 		void saveConstants();
 		/// A dialog used by many tools-menu-items
 		KMinMax *minmaxdlg;
+		
+		KPopupMenu *m_popupmenu;
 		
 	protected slots:
 		/// Implement the File -> Open action

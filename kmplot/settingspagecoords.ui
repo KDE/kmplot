@@ -443,7 +443,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="whatsThis" stdset="0">
-                                    <string>Check this if the axes' tics should be labelled.</string>
+                                    <string>Check this if the axes' tics should be labeled.</string>
                                 </property>
                             </widget>
                             <widget class="QLayoutWidget" row="1" column="0">

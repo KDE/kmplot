@@ -90,6 +90,8 @@ MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name
 
 	// Let's create a Configure Diloag
 	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() );
+	m_settingsDialog->setHelp("general-config");
+	
 	// create and add the page(s)
 	m_generalSettings = new SettingsPagePrecision( 0, "precisionSettings", "precision" );
 	m_constantsSettings = new KConstantEditor( view, 0, "constantsSettings" );
@@ -376,6 +378,7 @@ void MainDlg::editColors()
 {
 	// create a config dialog and add a colors page
 	KConfigDialog* colorsDialog = new KConfigDialog( this, "colors", Settings::self() );
+	colorsDialog->setHelp("color-config");
 	colorsDialog->addPage( new SettingsPageColor( 0, "colorSettings" ), i18n( "Colors" ), "colorize", i18n( "Edit Colors" ) );
 
 	// User edited the configuration - update your local copies of the
@@ -388,6 +391,7 @@ void MainDlg::editAxes()
 {
 	// create a config dialog and add a colors page
 	KConfigDialog* coordsDialog = new KConfigDialog( this, "coords", Settings::self() );
+	coordsDialog->setHelp("axes-config");
 	coordsDialog->addPage( new SettingsPageCoords( 0, "coordsSettings" ), i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
@@ -399,6 +403,7 @@ void MainDlg::editScaling()
 {
 	// create a config dialog and add a colors page
 	KConfigDialog* scalingDialog = new KConfigDialog( this, "scaling", Settings::self() );
+	scalingDialog->setHelp("scaling-config");
 	scalingDialog->addPage( new SettingsPageScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
@@ -410,6 +415,7 @@ void MainDlg::editFonts()
 {
 	// create a config dialog and add a colors page
 	KConfigDialog* fontsDialog = new KConfigDialog( this, "fonts", Settings::self() );
+	fontsDialog->setHelp("font-config");
 	fontsDialog->addPage( new SettingsPageFonts( 0, "fontsSettings" ), i18n( "Fonts" ), "fonts", i18n( "Edit Fonts" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data

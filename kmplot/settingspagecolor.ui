@@ -115,7 +115,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>&amp;Default function colors</string>
+                    <string>&amp;Default Function Colors</string>
                 </attribute>
                 <vbox>
                     <property name="name">

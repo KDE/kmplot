@@ -96,7 +96,7 @@ void MainDlg::setupActions()
 	KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
 	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
-	connect( kapp, SIGNAL( lastWindowClosed() ), this, SLOT( slotQuit() ) );
+	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());

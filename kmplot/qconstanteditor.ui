@@ -154,6 +154,44 @@
         </spacer>
     </grid>
 </widget>
+<connections>
+    <connection>
+        <sender>cmdNew</sender>
+        <signal>clicked()</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>cmdNew_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>cmdEdit</sender>
+        <signal>clicked()</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>cmdEdit_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>cmdDelete</sender>
+        <signal>clicked()</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>cmdDelete_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>varlist</sender>
+        <signal>clicked(QListViewItem*)</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>varlist_clicked(QListViewItem*)</slot>
+    </connection>
+    <connection>
+        <sender>cmdDuplicate</sender>
+        <signal>clicked()</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>cmdDuplicate_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>varlist</sender>
+        <signal>doubleClicked(QListViewItem*)</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>varlist_doubleClicked(QListViewItem*)</slot>
+    </connection>
+</connections>
 <includes>
     <include location="local" impldecl="in implementation">qconstanteditor.ui.h</include>
 </includes>

@@ -30,7 +30,6 @@
 
 // KDE includes
 #include <kcolorbutton.h>
-#include <klocale.h>
 
 // locale includes
 #include "misc.h"	// globals

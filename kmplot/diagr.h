@@ -32,13 +32,7 @@
 #include <math.h>
 #include <stdio.h>
 
-#include <qnamespace.h>
 #include <qpainter.h>
-#include <qpaintdevice.h>
-#include <qcolor.h>
-#include <qpen.h>
-#include <qpoint.h>
-#include <qrect.h>
 
 
 #define	Line				drawLine

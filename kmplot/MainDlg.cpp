@@ -24,20 +24,15 @@
 */
 
 // Qt includes
-#include <qdom.h>
-#include <qfile.h>
 #include <qtooltip.h>
 #include <qtabwidget.h>
 
 // KDE includes
-#include <kactionclasses.h>
 #include <kconfigdialog.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
 #include <kkeydialog.h>
 #include <klineedit.h>
-#include <kmessagebox.h>
-#include <kurl.h>
 
 // local includes
 #include "keditfunction.h"
@@ -46,7 +41,6 @@
 #include "kprinterdlg.h"
 #include "MainDlg.h"
 #include "MainDlg.moc"
-#include "misc.h"
 #include "settings.h"
 #include "settingspagecolor.h"
 #include "settingspagecoords.h"

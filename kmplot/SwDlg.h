@@ -27,8 +27,6 @@
 #define SwDlg_included
 
 #include "SwDlgData.h"
-#include <kapplication.h>
-#include <klocale.h>
 #include "misc.h"
 #include <qlineedit.h>
 

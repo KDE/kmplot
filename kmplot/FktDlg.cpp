@@ -29,7 +29,6 @@
 
 // KDE includes
 #include <kpushbutton.h>
-#include <klineedit.h>
 
 // locale includes
 #include "FktDlg.h"

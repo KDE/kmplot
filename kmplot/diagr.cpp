@@ -24,7 +24,6 @@
 */
 
 //local includes
-#include "misc.h"
 #include "diagr.h"
 
 #ifdef __osf__

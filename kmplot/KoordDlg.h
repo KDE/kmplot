@@ -27,10 +27,7 @@
 #define KoordDlg_included
 
 #include "KoordDlgData.h"
-#include "KOptDlg.h"
-#include "misc.h"
 #include "diagr.h"
-#include <klocale.h>
 
 
 class KoordDlg : public KoordDlgData

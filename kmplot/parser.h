@@ -35,9 +35,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <qstring.h>
 #include <klocale.h>
-#include "kmessagebox.h"
+#include <kmessagebox.h>
 
 
 // Voreinstellungen bei Verwendung des Standardkonstruktors :

@@ -1,21 +1,10 @@
 #ifndef View_included
 #define View_included
 
-#include "misc.h"
 #include "diagr.h"
-#include "xparser.h"
 #include <errno.h>
-#include <kapplication.h>
 #include <kstatusbar.h>
-#include <klocale.h>
-#include <qwidget.h>
-#include <qpaintdevicemetrics.h>
-#include <qpainter.h>
-#include <qpoint.h>
 #undef	 GrayScale 
-#include <qevent.h>
-#include <qstring.h>
-#include <qpixmap.h>
 #include <kprinter.h>
 
 

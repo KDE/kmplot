@@ -27,7 +27,6 @@
 #define xparser_included
 
 #include "parser.h"
-#include <qcolor.h>
 
 
 class XParser : public Parser

@@ -26,9 +26,7 @@
 #ifndef KSETTINGSDIALOG_H
 #define KSETTINGSDIALOG_H
 
-#include <qtabwidget.h>
 
-#include <kdialogbase.h>
 
 class QVBoxLayout;
 class QHBoxLayout;

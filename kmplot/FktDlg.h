@@ -31,15 +31,11 @@
 #define FktDlg_included
 
 // Qt includes
-#include <qvaluelist.h> 
 
 // KDE includes
-#include <kapplication.h>
-#include <klocale.h>
 
 // locale includes
 #include "FktDlgData.h"
-#include "misc.h" 
 
 class KEditFunction;
 

@@ -31,12 +31,9 @@
 #define misc_included
 
 // Qt includes
-#include <qstring.h>
-#include <qcolor.h>
 
 // KDE includes
 #include <kapplication.h>
-#include <kconfig.h>
 
 // local includes
 #include "xparser.h"

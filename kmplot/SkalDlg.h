@@ -27,9 +27,6 @@
 #define SkalDlg_included
 
 #include "SkalDlgData.h"
-#include <kapplication.h>
-#include <klocale.h>
-#include "kmessagebox.h"
 #include "misc.h"
 #include <qcheckbox.h>
 #include <qcombobox.h>

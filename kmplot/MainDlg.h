@@ -27,43 +27,20 @@
 #define MainDlg_included
 
 // Qt includes
-#include <qwidget.h>
-#include <qpaintdevicemetrics.h>
-#include <qpopupmenu.h>
-#include "qcolor.h"
-#include <qkeycode.h>
-#include <qdatastream.h>
-#include <qfile.h>
-#include <qstring.h>
-#include <qpixmap.h>
 #include <qpicture.h>
 
 // KDE includes
-#include <kapplication.h>
 #include <kaction.h>
 #include <kcmdlineargs.h>
-#include <kconfig.h>
-#include <klocale.h>
 #include <kmainwindow.h>
-#include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kfiledialog.h>
-#include <kmenubar.h>
-#include <kprinter.h>
-#include <kstatusbar.h>
-#include <ktoolbar.h>
-#include <kurl.h>
 
 #undef  GrayScale
 
 // local includes
 #include "FktDlg.h"
-#include "KoordDlg.h"
-#include "RstDlg.h"
-#include "SkalDlg.h"
-#include "SwDlg.h"
 #include "BezWnd.h"
-#include "misc.h"
 #include "View.h"
 
 
@@ -112,9 +89,11 @@ private:
 	bool checkModified();
 	int tbid,
 	stbid;
+	///The Statusbar instance
 	KStatusBar *stbar;
 	FktDlg *fdlg;
 	BezWnd *bez;
+	///In the Help menu, this action will display a dialog with the names of the common mathematical functions
 	KToggleAction *view_names;
 	View *view;
 	QString m_sessionId;

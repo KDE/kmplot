@@ -25,7 +25,6 @@
 
 #include "SwDlg.h"
 #include "SwDlg.moc"
-#include "kmessagebox.h"
 
 #define Inherited SwDlgData
 

@@ -31,10 +31,8 @@
 #define main_included
 
 // KDE includes
-#include <kapplication.h>
 
 // local includes
 #include "MainDlg.h"
-#include "misc.h"
 
 #endif // main_include

@@ -158,8 +158,8 @@ void MainDlg::setupActions()
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
 		KWidgetAction* sliderAction = new KWidgetAction( view->sliders[ number ], i18n( "Slider no. %1" ).arg( number ), 0, this, 0, actionCollection(), QString( "slider%1" ).arg( number ).latin1() );
-		sliderAction->plug( toolBar( "sliders" ) );
 	}
+	
 	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
 	
 }

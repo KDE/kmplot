@@ -45,7 +45,7 @@ KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
 	m_mode=-1;
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
 	connect( cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));
-	//connect( cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
+	connect( cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
 	connect( list, SIGNAL( highlighted(QListBoxItem*) ), this, SLOT( list_highlighted(QListBoxItem*) ));
 	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( list_doubleClicked(QListBoxItem *) ));
 }
@@ -143,7 +143,7 @@ void KMinMax::updateFunctions()
 
 void KMinMax::selectItem()
 {
-	//cmdParameter->hide();
+	cmdParameter->hide();
 	parameter="kmplot";
 	if (  m_view->csmode < 0)
 		return;
@@ -283,7 +283,7 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 {
 	if ( !item)
 	{
-		//cmdParameter->hide();
+		cmdParameter->hide();
 		return;
 	}
 	QString function( list->currentText() );
@@ -317,10 +317,10 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 			stop=true;
 	}
 	ix--;
-// 	if ( m_view->parser()->fktext[ ix ].str_parameter.count() ==0)
-// 		cmdParameter->hide();
-// 	else
-// 		cmdParameter->show();
+ 	if ( m_view->parser()->fktext[ ix ].str_parameter.count() ==0)
+ 		cmdParameter->hide();
+ 	else
+ 		cmdParameter->show();
 }
 void KMinMax::cmdParameter_clicked()
 {	
@@ -364,9 +364,9 @@ void KMinMax::cmdParameter_clicked()
 
 void KMinMax::list_doubleClicked(QListBoxItem *)
 {
-// 	if ( list->currentItem() == -1)
-// 		return;
-// 	else if( cmdParameter->isShown() )
-// 		cmdParameter_clicked();
+ 	if ( list->currentItem() == -1)
+ 		return;
+ 	else if( cmdParameter->isShown() )
+ 		cmdParameter_clicked();
 }
 #include "kminmax.moc"

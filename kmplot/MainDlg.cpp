@@ -30,6 +30,7 @@
 // KDE includes
 #include <kconfigdialog.h>
 #include <kdebug.h>
+#include <kguiitem.h>
 #include <kedittoolbar.h>
 #include <kkeydialog.h>
 #include <klineedit.h>
@@ -202,13 +203,18 @@ void MainDlg::slotSaveas()
 	QString filename = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
 	if ( !filename.isEmpty() )
 	{
-		if ( filename.find( "." ) == -1 )            // no file extension
+		if( filename.find( "." ) == -1 )            // no file extension
 			filename += ".fkt"; // use fkt-type as default
-		KmPlotIO::save( filename );
-		m_filename = filename;
-		m_recentFiles->addURL( KURL( m_filename ) );
-		setCaption( m_filename );
-		m_modified = false;
+		
+		// check if file exists and overwriting is ok.
+		if( QFile::exists( filename ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( KURL( filename ).fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue ) 
+		{
+			KmPlotIO::save( filename );
+			m_filename = filename;
+			m_recentFiles->addURL( KURL( m_filename ) );
+			setCaption( m_filename );
+			m_modified = false;
+		}
 	}
 }
 
@@ -218,6 +224,9 @@ void MainDlg::slotExport()
 		this, i18n("export") );
 	if(!filename.isEmpty())
 	{	
+		// check if file exists and overwriting is ok.
+		if( !QFile::exists( filename ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( KURL( filename ).fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Yes ) return;
+		
 		if( filename.right(4).lower()==".svg")
 		{	
 			QPicture pic;

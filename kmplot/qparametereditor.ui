@@ -86,7 +86,7 @@
                         <string>&amp;Close</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>close the dialog</string>
+                        <string>Close the dialog</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Close the window and return to the function dialog.</string>
@@ -137,7 +137,7 @@
                         <string>&amp;Import...</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>import values from a textfile</string>
+                        <string>Import values from a textfile</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Import values from a textfile. Every line in the file is parsed as a value or expression.</string>

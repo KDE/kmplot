@@ -46,6 +46,7 @@
 #include "View.h"
 #include "kminmax.h"
 #include "kmplotio.h"
+#include "MainDlgIface.h"
 
 class KConfigDialog;
 class KLineEdit;
@@ -65,7 +66,7 @@ class KToggleFullScreenAction;
  * Its central widget view contains the parser, accessable via its parser() function.
  * @see View, View::m_parser, View::parser
  */
-class MainDlg : public KMainWindow
+class MainDlg : public KMainWindow, virtual public MainDlgIface
 {
 	Q_OBJECT
 
@@ -109,6 +110,38 @@ class MainDlg : public KMainWindow
 		/// Called when fullscren is enabled/disabled
 		void slotUpdateFullScreen(bool);
 	
+                /// Implement the File -> Open action
+                void slotOpen();
+                ///Implement the File -> New action by cleaning the plot area
+                void slotOpenNew();
+                ///Save a plot i.e. save the function name and all the settings for the plot
+                void slotSave();
+                ///Save a plot and choose a name for it
+                void slotSaveas();
+                ///Call the dialog (an instance of FktDlg) to edit the functions and make changes on them
+                void slotEditPlots();
+                ///Print the current plot
+                void slotPrint();
+                ///Export the current plot as a png, svg or bmp picture
+                void slotExport();
+                ///Implement the Configure KmPlot dialog
+                void slotSettings();
+                /// Calls the common function names dialog.
+                /// @see BezWnd::hideEvent
+                void slotNames();
+                /// Change the coordinate systems, shows negative x-values and negative y-values.
+                void slotCoord1();
+                /// Change the coordinate systems, shows positive x-values and negative y-values.
+                void slotCoord2();
+                /// Change the coordinate systems, shows positive x-values and positive y-values.
+                void slotCoord3();
+                /// Tools menu
+                void getYValue();
+                void findMinimumValue();
+                void findMaximumValue();
+                void graphArea();
+
+                
 	private:
 		/// Settings the standard and non standard actions of the application.
 		void setupActions();
@@ -153,49 +186,19 @@ class MainDlg : public KMainWindow
 		KmPlotIO *kmplotio;
 		
 		
-	protected slots:
-		/// Implement the File -> Open action
-		void slotOpen();
-		///Implement the File -> New action by cleaning the plot area
-		void slotOpenNew();
-		/**
-		* When you click on a File->Open Recent file, it'll open 
-		* @param url name of the url to open
-		*/
-		void slotOpenRecent( const KURL &url );
-		///Save a plot i.e. save the function name and all the settings for the plot
-		void slotSave();
-		///Save a plot and choose a name for it
-		void slotSaveas();
-		///Call the dialog (an instance of FktDlg) to edit the functions and make changes on them
-		void slotEditPlots();
-		///Print the current plot
-		void slotPrint();
-		///Export the current plot as a png, svg or bmp picture
-		void slotExport();
-		///Implement the Configure KmPlot dialog
-		void slotSettings();
-		///Update settings when there is a change in the Configure KmPlot dialog
-		void updateSettings();
-		/// Calls the common function names dialog.
-		/// @see BezWnd::hideEvent
-		void slotNames();
-		/// Change the coordinate systems, shows negative x-values and negative y-values.
-		void slotCoord1();
-		/// Change the coordinate systems, shows positive x-values and negative y-values.
-		void slotCoord2();
-		/// Change the coordinate systems, shows positive x-values and positive y-values.
-		void slotCoord3();
+        protected slots:
+                /**
+                * When you click on a File->Open Recent file, it'll open 
+                * @param url name of the url to open
+                */
+                void slotOpenRecent( const KURL &url );
+                ///Update settings when there is a change in the Configure KmPlot dialog
+                void updateSettings();
 		/**
 		* Manages the LineEdit content after returnPressed() is emitted.
 		* @param f_str the content of the KLineEdit
 		*/
-		void slotQuickEdit( const QString& tmp_f_str );
-		/// Tools menu
-		void getYValue();
-		void findMinimumValue();
-		void findMaximumValue();
-		void graphArea();
+                void slotQuickEdit( const QString& tmp_f_str );
 		
 	protected:
 		/// Quits KmPlot after checking if modifications shall be saved.

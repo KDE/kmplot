@@ -60,7 +60,7 @@ class KmPlotIO;
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg( KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ),  m_recentFiles( 0 ), m_modified(false)
+MainDlg::MainDlg( KCmdLineArgs* args, const char* name ) :  DCOPObject( "MainDlg" ), KMainWindow( 0, name ), m_recentFiles( 0 ), m_modified(false)
 {
 	fdlg = 0;
 	m_popupmenu = new KPopupMenu(this);
@@ -738,7 +738,7 @@ void MainDlg::toggleShowSlider2()
 	else view->sliders[ 2 ]->hide();
 }
 
-void MainDlg::toggleShowSlider3( )
+void MainDlg::toggleShowSlider3()
 {
 	if( !view->sliders[ 3 ]->isShown() ) view->sliders[ 3 ]->show();
 	else view->sliders[ 3 ]->hide();

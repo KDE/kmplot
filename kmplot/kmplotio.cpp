@@ -200,7 +200,7 @@ bool KmPlotIO::save( const KURL &url )
                 QTextStream ts( &xmlfile );
                 doc.save( ts, 4 );
                 xmlfile.close();
-                return true;       
+                return true;
         }
         return true;
  

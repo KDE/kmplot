@@ -73,6 +73,7 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_toggled(bool) ) );
 	connect( editfunctionpage->customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
 	connect( editfunctionpage->customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
+    m_updatedfunction = 0;
 }
 
 void EditFunction::initDialog( int id )
@@ -168,7 +169,7 @@ void EditFunction::setWidgets()
 
 void EditFunction::accept()
 {
-	QString f_str(functionItem() );
+  QString f_str( editfunctionpage->equation->text() );
         
         if ( m_id!=-1 )
                 m_parser->fixFunctionName(f_str, XParser::Function, m_id);
@@ -372,15 +373,15 @@ void EditFunction::accept()
 	added_ufkt->usecustomxmin = tmp_ufkt.usecustomxmin;
 	added_ufkt->usecustomxmax = tmp_ufkt.usecustomxmax;
         
-	editfunctionpage->equation->setText(f_str); //update the function name in FktDlg
+    m_updatedfunction = added_ufkt;
 	
 	// call inherited method
 	KDialogBase::accept();
 }
 
-const QString EditFunction::functionItem()
+Ufkt * EditFunction::functionItem()
 {
-	return editfunctionpage->equation->text();
+    return m_updatedfunction;
 }
 
 void EditFunction::slotHelp()

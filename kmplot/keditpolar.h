@@ -27,6 +27,7 @@
 #define KEDITPOLAR_H
 
 #include "qeditpolar.h"
+#include "xparser.h"
 
 class View;
 class XParser;
@@ -45,8 +46,8 @@ class KEditPolar : public QEditPolar
 		
 		///Fill the dialog widgets with the properties of the parser function number id.
 		void initDialog( int id = -1 );
-		/// Returns the well formed function equation for the listbox in FktDlg.
-		const QString functionItem();
+		/// Returns a pointer to the added/updated function
+		Ufkt * functionItem();
 	
 	private:
 		/// Clear alls widgets values.
@@ -65,6 +66,8 @@ class KEditPolar : public QEditPolar
 		void slotHelp();
 		void customMinRange_toggled(bool);
 		void customMaxRange_toggled(bool);
+		
+		Ufkt *m_updatedfunction;
 };
 
 #endif

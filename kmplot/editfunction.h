@@ -48,8 +48,8 @@ class EditFunction : public KDialogBase
 		virtual ~EditFunction() {};
 		/// Fill the dialog's widgets with the properties of the parser function number index.
 		void initDialog( int id = -1 );
-		/// Returns the well formed function equation for the listbox in FktDlg.
-		const QString functionItem();
+		/// Returns a pointer to the added/updated function
+		Ufkt *functionItem();
 	
 	protected slots:
 		/// Overwrites the dialog's accept() method to make sure, that the user's input is valid.
@@ -84,6 +84,8 @@ class EditFunction : public KDialogBase
 		EditFunctionPage* editfunctionpage;
 		EditDerivativesPage* editderivativespage;
 		EditIntegralPage* editintegralpage;
+
+        Ufkt *m_updatedfunction;
 };
 
 #endif

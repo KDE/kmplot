@@ -47,6 +47,7 @@ KEditPolar::KEditPolar( XParser* parser, QWidget* parent, const char* name ) :
 {
 	connect( customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
 	connect( customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
+	m_updatedfunction = 0;
 }
 
 void KEditPolar::initDialog( int id )
@@ -216,14 +217,15 @@ void KEditPolar::accept()
 	added_ufkt->usecustomxmin = tmp_ufkt.usecustomxmin;
 	added_ufkt->usecustomxmax = tmp_ufkt.usecustomxmax;
 	
-  kLineEditYFunction->setText(f_str); //update the function name in FktDlg
+	m_updatedfunction = added_ufkt;
+	
 	// call inherited method
 	QEditPolar::accept();
 }
 
-const QString KEditPolar::functionItem()
+Ufkt *KEditPolar::functionItem()
 {
-	return kLineEditYFunction->text();
+	return m_updatedfunction;
 }
 
 void KEditPolar::slotHelp()

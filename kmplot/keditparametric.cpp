@@ -46,6 +46,7 @@ KEditParametric::KEditParametric( XParser* parser, QWidget* parent, const char* 
 {
 	connect( customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
 	connect( customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
+	m_updatedfunction = 0;
 }
 
 void KEditParametric::initDialog( int x_id, int y_id)
@@ -179,7 +180,6 @@ void KEditParametric::accept()
                 added_ufkt = &m_parser->ufkt[ix];
                 QString old_fstr = added_ufkt->fstr;
                 added_ufkt->fstr = xFunction();
-                added_ufkt->fstr = added_ufkt->fstr;
                 m_parser->reparse(added_ufkt); //reparse the funcion
                 if ( m_parser->parserError() != 0)
                 {
@@ -239,7 +239,6 @@ void KEditParametric::accept()
                 added_ufkt = &m_parser->ufkt[m_parser->ixValue(m_y_id)];
                 QString old_fstr = added_ufkt->fstr;
                 added_ufkt->fstr = yFunction();
-                added_ufkt->fstr = added_ufkt->fstr;
                 m_parser->reparse(added_ufkt); //reparse the funcion
                 if ( m_parser->parserError() != 0) //when something went wrong:
                 {
@@ -293,6 +292,7 @@ void KEditParametric::accept()
         added_ufkt->use_slider = tmp_ufkt.use_slider;
         added_ufkt->usecustomxmin = tmp_ufkt.usecustomxmin;
         added_ufkt->usecustomxmax = tmp_ufkt.usecustomxmax;
+		m_updatedfunction =  added_ufkt;
 
 	
 	// call inherited method
@@ -319,9 +319,9 @@ QString KEditParametric::yFunction()
 	return "y" + kLineEditName->text() + "(t)=" + kLineEditYFunction->text();
 }
 
-const QString KEditParametric::functionItem()
+Ufkt * KEditParametric::functionItem()
 {
-	return xFunction()+";"+yFunction();
+	return m_updatedfunction;
 }
 
 void KEditParametric::slotHelp()

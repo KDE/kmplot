@@ -27,6 +27,7 @@
 #define KEDITPARAMETRIC_H
 
 #include "qeditparametric.h"
+#include "xparser.h"
 
 class View;
 class XParser;
@@ -45,8 +46,8 @@ class KEditParametric : public QEditParametric
 		
 		/// Fill the dialog's widgets with the properties of the parser function number id.
 		void initDialog( int x_id = -1, int y_id = -1 );
-		/// Returns the well formed function equation for the listbox in FktDlg.
-		const QString functionItem();
+		/// Returns a pointer to the added/inserted y-function, or 0 if the user havn't pressed OK yet
+		Ufkt *functionItem();
 	
 	private:
 		/// Clear alls widgets values
@@ -73,6 +74,8 @@ class KEditParametric : public QEditParametric
 		void slotHelp();
 		void customMaxRange_toggled(bool);
 		void customMinRange_toggled(bool);
+
+		Ufkt *m_updatedfunction;
 };
 
 #endif

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>FktDlgData</class>
 <widget class="QDialog">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>350</width>
-            <height>367</height>
+            <height>369</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -110,7 +110,10 @@
                                 <cstring>PushButtonOk</cstring>
                             </property>
                             <property name="text">
-                                <string>OK</string>
+                                <string>&amp;OK</string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+O</string>
                             </property>
                             <property name="default">
                                 <bool>true</bool>
@@ -165,6 +168,12 @@
                             </property>
                             <property name="sizeType">
                                 <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </size>
                             </property>
                         </spacer>
                     </vbox>

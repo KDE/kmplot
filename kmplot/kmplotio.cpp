@@ -38,7 +38,8 @@
 #include "kmplotio.h"
 #include "MainDlg.h"
 #include "settings.h"
-#include "xparser.h"
+
+class XParser;
 
 KmPlotIO::KmPlotIO()
 {

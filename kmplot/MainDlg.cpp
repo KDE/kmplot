@@ -44,7 +44,6 @@
 #include "keditpolar.h"
 #include "kprinterdlg.h"
 #include "kconstanteditor.h"
-#include "kmplotio.h"
 #include "MainDlg.h"
 #include "MainDlg.moc"
 #include "settings.h"
@@ -54,7 +53,8 @@
 #include "settingspageprecision.h"
 #include "settingspagescaling.h"
 #include "sliderwindow.h"
-#include "xparser.h"
+class XParser;
+class KmPlotIO;
 
 bool MainDlg::oldfileversion;
 

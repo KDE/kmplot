@@ -594,8 +594,7 @@ void View::drawPlot()
 }
 
 void View::mouseMoveEvent(QMouseEvent *e)
-{   char sx[20], sy[20];
-	
+{	
 	if ( isDrawing)
 		return;
 	if (zoom_mode==4 &&  e->stateAfter() != Qt::NoButton)
@@ -612,8 +611,6 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		painter.setBackgroundMode (QPainter::OpaqueMode);
 		painter.setBackgroundColor (Qt::blue);
 		
-		//pen.setStyle(Qt::DotLine);
-		//pen.setPen (QPen (Qt::white, 1, Qt::DotLine));
 		painter.drawRect(rectangle_point.x(), rectangle_point.y(), e->pos().x()-rectangle_point.x(), e->pos().y()-rectangle_point.y());
 		return;
 		
@@ -632,92 +629,103 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		bitBlt(this, fcx, area.top(), &vline, 0, 0, 1, area.height());
 		csflg=0;
 	}
-
+	char sx[20], sy[20];
 	if(area.contains(e->pos()))
-	{   QPoint ptd, ptl;
-	QPainter DC;
-
-	DC.begin(this);
-	DC.setWindow(0, 0, w, h);
-	DC.setWorldMatrix(wm);
-	ptl=DC.xFormDev(e->pos());
-	if((csmode=m_parser->chkfix(csmode)) >= 0)
 	{
-		if( m_parser->fktext[ csmode ].use_slider == -1 )
-			m_parser->setparameter(csmode, m_parser->fktext[csmode].k_liste[csparam]);
-		else
-			m_parser->setparameter(csmode, sliders[ m_parser->fktext[csmode].use_slider ]->slider->value() );
+		QPoint ptd, ptl;
+		QPainter DC;
+
+		DC.begin(this);
+		DC.setWindow(0, 0, w, h);
+		DC.setWorldMatrix(wm);
+		ptl=DC.xFormDev(e->pos());
+	
+		if((csmode=m_parser->chkfix(csmode)) >= 0)
+		{
+			if( m_parser->fktext[ csmode ].use_slider == -1 )
+				m_parser->setparameter(csmode, m_parser->fktext[csmode].k_liste[csparam]);
+			else
+				m_parser->setparameter(csmode, sliders[ m_parser->fktext[csmode].use_slider ]->slider->value() );
 		
-		if ( cstype == 0)
-			ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
-		else if ( cstype == 1)
-			ptl.setY(dgr.Transy(csypos=m_parser->a1fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
-		else if ( cstype == 2)
-			ptl.setY(dgr.Transy(csypos=m_parser->a2fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+			if ( cstype == 0)
+				ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+			else if ( cstype == 1)
+				ptl.setY(dgr.Transy(csypos=m_parser->a1fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+			else if ( cstype == 2)
+				ptl.setY(dgr.Transy(csypos=m_parser->a2fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
 
-		if(fabs(csypos)<0.2)
-		{   double x0;
-		QString str;
-
-		if(root(&x0))
-		{   str="  ";
-		str+=i18n("root");
-		stbar->changeItem(str+QString().sprintf(":  x0= %+.5f", x0), 3);
-		rootflg=1;
-		}
+			if(fabs(csypos)<0.2)
+			{
+				double x0;
+				
+				if(root(&x0))
+				{
+					QString str="  ";
+					str+=i18n("root");
+					stbar->changeItem(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+					rootflg=1;
+				}
+			}
+			else
+			{
+				stbar->changeItem("", 3);
+				rootflg=0;
+			}
 		}
 		else
-		{   stbar->changeItem("", 3);
-		rootflg=0;
+		{
+			csxpos=dgr.Transx(ptl.x());
+			csypos=dgr.Transy(ptl.y());
 		}
+		ptd=DC.xForm(ptl);
+		DC.end();
+
+		sprintf(sx, "  x= %+.2f", (float)dgr.Transx(ptl.x()));//csxpos);
+		sprintf(sy, "  y= %+.2f", csypos);
+
+		if(csflg==0)        // Hintergrund speichern
+		{
+			bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
+			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
+
+			// Fadenkreuz zeichnen
+			QPen pen;
+			if ( cstype == -1)
+				pen.setColor(inverted_backgroundcolor);
+			else
+			{
+				switch (cstype)
+				{
+					case 0:
+						pen.setColor( m_parser->fktext[csmode].color);
+						break;
+					case 1:
+						pen.setColor( m_parser->fktext[csmode].f1_color);
+						break;
+					case 2:
+						pen.setColor( m_parser->fktext[csmode].f2_color);
+						break;
+					default:
+						pen.setColor(inverted_backgroundcolor);
+				}
+				if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" has the same color as the background, the "Fadenkreuz" will have the inverted color of background so you can see it easier
+					pen.setColor(inverted_backgroundcolor);
+			}
+
+			DC.begin(this);
+			DC.setPen(pen);
+			DC.Lineh(area.left(), fcy, area.right());
+			DC.Linev(fcx, area.bottom(), area.top());
+			DC.end();
+		}
+		csflg=1;
+		setCursor(blankCursor);
 	}
 	else
-	{   csxpos=dgr.Transx(ptl.x());
-	csypos=dgr.Transy(ptl.y());
-	}
-	ptd=DC.xForm(ptl);
-	DC.end();
-
-	sprintf(sx, "  x= %+.2f", (float)dgr.Transx(ptl.x()));//csxpos);
-	sprintf(sy, "  y= %+.2f", csypos);
-
-	if(csflg==0)        // Hintergrund speichern
-	{	bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
-	bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
-
-	// Fadenkreuz zeichnen
-	QPen pen;
-	switch (cstype)
 	{
-		case 0:
-			pen.setColor( m_parser->fktext[csmode].color);
-			break;
-		case 1:
-			pen.setColor( m_parser->fktext[csmode].f1_color);
-			break;
-		case 2:
-			pen.setColor( m_parser->fktext[csmode].f2_color);
-			break;
-		default:
-			pen.setColor(inverted_backgroundcolor);
+		setCursor(arrowCursor);
+		sx[0]=sy[0]=0;
 	}
-	if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" has the same color as the background, the "Fadenkreuz" will have the inverted color of background so you can see it easier
-		pen.setColor(inverted_backgroundcolor);
-
-	DC.begin(this);
-	DC.setPen(pen);
-	DC.Lineh(area.left(), fcy, area.right());
-	DC.Linev(fcx, area.bottom(), area.top());
-	DC.end();
-	}
-	csflg=1;
-	setCursor(blankCursor);
-	}
-	else
-	{   setCursor(arrowCursor);
-	sx[0]=sy[0]=0;
-	}
-
 	stbar->changeItem(sx, 1);
 	stbar->changeItem(sy, 2);
 }
@@ -831,10 +839,9 @@ void View::mousePressEvent(QMouseEvent *e)
 		
 	}
 	int ix;
-	double const g=tlgy/5.;	
+	double const g=tlgy*double(xmax-xmin)/32;
 	if(e->button()==RightButton) //clicking with the right mouse button
 	{
-		
 		char function_type;
 		for(ix=0; ix<m_parser->ufanz; ++ix)
 		{
@@ -854,8 +861,10 @@ void View::mousePressEvent(QMouseEvent *e)
 					int y_index = ix+1;
 					if ( y_index == UFANZ)
 						y_index=0;
-					if (fabs(csypos-m_parser->fkt(y_index, csxpos))<g && m_parser->fktext[y_index].extstr.contains('t')==1)
+					if ( fabs(csypos-m_parser->fkt(y_index, csxpos)<g)  && m_parser->fktext[y_index].extstr.contains('t')==1)
 					{
+						
+							
 							if ( csmode == -1)
 							{
 								csmode=ix;
@@ -880,7 +889,7 @@ void View::mousePressEvent(QMouseEvent *e)
 
 					}
 				}
-				if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
+				if( fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
 				{
 					if ( csmode == -1)
 					{
@@ -944,7 +953,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		mouseMoveEvent(e);
 		return ;
 	}
-
+	
 	for(ix=0; ix<m_parser->ufanz; ++ix)
 	{
 		switch(m_parser->fktext[ix].extstr[0].latin1())
@@ -954,6 +963,8 @@ void View::mousePressEvent(QMouseEvent *e)
 	
 		int k=0;
 		int const ke=m_parser->fktext[ix].k_anz;
+
+		
 		do
 		{
 			if( m_parser->fktext[ ix ].use_slider == -1 )

@@ -26,6 +26,7 @@
 // KDE includes
 #include <kcolorbutton.h>
 #include <kdebug.h>
+#include <knuminput.h>
 
 // local includes
 #include "AttrDlg.h"
@@ -37,7 +38,7 @@
 AttrDlg::AttrDlg( const int ix_, QWidget* parent, const char* name ) : Inherited( parent, name, true )
 {
 	ix = ix_;
-	le_dicke->setText( QString::number( ps.fktext[ ix ].dicke ) );
+	le_dicke->setValue( ps.fktext[ ix ].dicke );
 	color_button->setColor( QColor ( ps.fktext[ ix ].farbe ) );
 }
 
@@ -49,7 +50,7 @@ AttrDlg::~AttrDlg()
 
 void AttrDlg::onok()
 {
-	ps.fktext[ ix ].dicke = le_dicke->text().toInt();
+	ps.fktext[ ix ].dicke = le_dicke->value();
 	ps.fktext[ ix ].farbe = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )

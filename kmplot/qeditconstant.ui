@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>252</width>
-            <height>113</height>
+            <height>115</height>
         </rect>
     </property>
     <property name="caption">
@@ -91,10 +91,22 @@
             <property name="maxLength">
                 <number>1</number>
             </property>
+            <property name="toolTip" stdset="0">
+                <string>Name of the constant (only 1 character but "E")</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>Enter the name of the constant here. User defined constant names only have 1 charackter. The constant "E" (Euler number) is reserved.</string>
+            </property>
         </widget>
         <widget class="KLineEdit" row="1" column="1">
             <property name="name">
                 <cstring>txtValue</cstring>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Enter the constant's value here.</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>The value of a constant can an expression, for instance PI/2 or sqrt(2).</string>
             </property>
         </widget>
     </grid>
@@ -120,4 +132,8 @@
     <slot>txtVariable_lostFocus()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+</includehints>
 </UI>

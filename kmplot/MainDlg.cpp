@@ -305,7 +305,7 @@ void MainDlg::slotExport()
 	if(!url.isEmpty())
 	{
                // check if file exists and overwriting is ok.
-               if( KIO::NetAccess::exists(file,false,this ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(file.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
+               if( KIO::NetAccess::exists(url,false,this ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(url.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
 
 		if( url.fileName().right(4).lower()==".svg")
 		{

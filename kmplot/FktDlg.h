@@ -75,6 +75,9 @@ protected slots:
 	void onEditFunction( int index = -1, int num = -1 );
 	void onEditParametric( int x_index = -1, int y_index = -1, int num = -1 );
 	void onEditPolar( int index = -1, int num = -1 );
+	void onNewFunction();
+	void onNewParametric();
+	void onNewPolar();
 
 private:
 	int getIx( const QString f_str );

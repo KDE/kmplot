@@ -24,8 +24,8 @@
 */
 
 // Qt includes
-#include <qpushbutton.h>
-#include <qpopupmenu.h>
+// #include <qpushbutton.h>
+// #include <qpopupmenu.h>
 
 // KDE includes
 #include <kpushbutton.h>
@@ -43,11 +43,11 @@
 
 FktDlg::FktDlg( QWidget* parent, const char* name ) : Inherited( parent, name )
 {
-	QPopupMenu *menu_types = new QPopupMenu( this );
+/*	QPopupMenu *menu_types = new QPopupMenu( this );
 	menu_types->insertItem( i18n( "Function Plot" ), this, SLOT( onEditFunction() ) );
 	menu_types->insertItem( i18n( "Parametric Plot" ), this, SLOT( onEditParametric() ) );
 	menu_types->insertItem( i18n( "Polar Plot" ), this, SLOT( onEditPolar() ) );
-	PushButtonNew->setPopup( menu_types );
+	PushButtonNew->setPopup( menu_types );*/
 	
 	editFunction = 0;
 }
@@ -225,6 +225,21 @@ void FktDlg::onEditPolar( int index, int num )
 		if( index == -1 ) lb_fktliste->insertItem( editFunction->yFunction() );
 		else lb_fktliste->changeItem( editFunction->yFunction(), num );
 	}
+}
+
+void FktDlg::onNewFunction()
+{
+	onEditFunction();
+}
+
+void FktDlg::onNewParametric()
+{
+	onEditParametric();
+}
+
+void FktDlg::onNewPolar()
+{
+	onEditPolar();
 }
 
 void FktDlg::fillList()

@@ -5,6 +5,9 @@
   	<Action name="export"/>
   </Menu>
   <Menu name="functions"><text>F&amp;unctions</text>
+    <Action name="newfunction"/>
+    <Action name="newparametric"/>
+    <Action name="newpolar"/>
     <Action name="functions"/>
   </Menu>
   <Menu name="view">

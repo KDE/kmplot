@@ -87,6 +87,9 @@ public slots:
 	void load();
 	void print();
 	void bezeichnungen();
+	void onNewFunction();
+	void onNewParametric();
+	void onNewPolar();
 	void funktionen();
 	void skalierung();
 	void schrittw();

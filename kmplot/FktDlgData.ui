@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>350</width>
-            <height>256</height>
+            <width>429</width>
+            <height>344</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -45,27 +45,7 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QPushButton" row="1" column="1">
-                    <property name="name">
-                        <cstring>PushButtonNew</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;New</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+N</string>
-                    </property>
-                    <property name="default">
-                        <bool>true</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>define a new function</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to define a new function. There are 3 types of function, explicite given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
-                    </property>
-                </widget>
-                <widget class="QListBox" row="1" column="0" rowspan="5" colspan="1">
+                <widget class="QListBox" row="0" column="0" rowspan="6" colspan="1">
                     <property name="name">
                         <cstring>lb_fktliste</cstring>
                     </property>
@@ -73,7 +53,7 @@
                         <sizepolicy>
                             <hsizetype>7</hsizetype>
                             <vsizetype>7</vsizetype>
-                            <horstretch>1</horstretch>
+                            <horstretch>2</horstretch>
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
@@ -90,29 +70,48 @@
                         <string>Here you see the list of all functions to be plotted.</string>
                     </property>
                 </widget>
-                <spacer row="5" column="1">
+                <widget class="QPushButton" row="0" column="1">
                     <property name="name">
-                        <cstring>Spacer1</cstring>
+                        <cstring>PushButtonNewFunction</cstring>
                     </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
+                    <property name="text">
+                        <string>New &amp;Function Plot...</string>
                     </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>162</height>
-                        </size>
+                    <property name="accel">
+                        <string>Alt+F</string>
                     </property>
-                </spacer>
-                <widget class="QPushButton" row="2" column="1">
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>define a new function</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to define a new function. There are 3 types of function, explicite given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="3" column="1">
                     <property name="name">
                         <cstring>PushButtonEdit</cstring>
                     </property>
                     <property name="enabled">
                         <bool>false</bool>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
                     <property name="text">
                         <string>&amp;Edit</string>
@@ -127,12 +126,20 @@
                         <string>Click here to edit the selected function.</string>
                     </property>
                 </widget>
-                <widget class="QPushButton" row="3" column="1">
+                <widget class="QPushButton" row="4" column="1">
                     <property name="name">
                         <cstring>PushButtonDel</cstring>
                     </property>
                     <property name="enabled">
                         <bool>false</bool>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
                     </property>
                     <property name="text">
                         <string>&amp;Delete</string>
@@ -147,6 +154,79 @@
                         <string>Click here to delete the selected function from the list.</string>
                     </property>
                 </widget>
+                <widget class="QPushButton" row="1" column="1">
+                    <property name="name">
+                        <cstring>PushButtonNewParametric</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>New &amp;Parametric Plot...</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+P</string>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>define a new function</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to define a new function. There are 3 types of function, explicite given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="2" column="1">
+                    <property name="name">
+                        <cstring>PushButtonNewPolar</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>1</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>&amp;New Polar Plot...</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+N</string>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>define a new function</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to define a new function. There are 3 types of function, explicite given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+                    </property>
+                </widget>
+                <spacer row="5" column="1">
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>80</height>
+                        </size>
+                    </property>
+                </spacer>
             </grid>
         </widget>
         <widget class="QLayoutWidget">
@@ -263,10 +343,30 @@
         <receiver>FktDlgData</receiver>
         <slot>onedit()</slot>
     </connection>
+    <connection>
+        <sender>PushButtonNewFunction</sender>
+        <signal>clicked()</signal>
+        <receiver>FktDlgData</receiver>
+        <slot>onNewFunction()</slot>
+    </connection>
+    <connection>
+        <sender>PushButtonNewParametric</sender>
+        <signal>clicked()</signal>
+        <receiver>FktDlgData</receiver>
+        <slot>onNewParametric()</slot>
+    </connection>
+    <connection>
+        <sender>PushButtonNewPolar</sender>
+        <signal>clicked()</signal>
+        <receiver>FktDlgData</receiver>
+        <slot>onNewPolar()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>lb_fktliste</tabstop>
-    <tabstop>PushButtonNew</tabstop>
+    <tabstop>PushButtonNewFunction</tabstop>
+    <tabstop>PushButtonNewParametric</tabstop>
+    <tabstop>PushButtonNewPolar</tabstop>
     <tabstop>PushButtonEdit</tabstop>
     <tabstop>PushButtonDel</tabstop>
     <tabstop>PushButtonOk</tabstop>
@@ -278,6 +378,9 @@
     <slot>ondelete()</slot>
     <slot>onedit()</slot>
     <slot>onHasSelection()</slot>
+    <slot>onNewParametric()</slot>
+    <slot>onNewPolar()</slot>
+    <slot>onNewFunction()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

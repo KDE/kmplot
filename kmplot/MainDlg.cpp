@@ -44,6 +44,7 @@
 #include "settingspagecoords.h"
 #include "settingspagescaling.h"
 #include "settingspagefonts.h"
+#include "keditfunction.h"
 
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
@@ -93,7 +94,10 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "&Step..." ), 0, this, SLOT( schrittw() ), actionCollection(), "step" );
 	view_bezeichnungen = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( bezeichnungen() ), actionCollection(), "names" );
 
-	( void ) new KAction( i18n( "Functions..." ), "kfkt.png", 0, this, SLOT( funktionen() ), actionCollection(), "functions" );
+	( void ) new KAction( i18n( "&New Function Plot..." ), 0, this, SLOT( onNewFunction() ), actionCollection(), "newfunction" );
+	( void ) new KAction( i18n( "New Parametric Plot..." ), 0, this, SLOT( onNewParametric() ), actionCollection(), "newparametric" );
+	( void ) new KAction( i18n( "New Polar Plot..." ), 0, this, SLOT( onNewPolar() ), actionCollection(), "newpolar" );
+	( void ) new KAction( i18n( "Edit Functions..." ), "kfkt.png", 0, this, SLOT( funktionen() ), actionCollection(), "functions" );
 	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( onachsen1() ), actionCollection(), "coord_i" );
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
@@ -135,7 +139,7 @@ void MainDlg::save()
 	if ( m_filename.isEmpty() )            // if there is no file name set yet
 		saveas();
 	else
-		doSave();
+		doSave( m_filename );
 
 }
 
@@ -266,11 +270,16 @@ void MainDlg::load()
 		i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
 	if ( filename.isEmpty() ) return ;
 	openFile( filename );
+	m_filename = filename;
+	m_recentFiles->addURL( KURL(m_filename) );
+	setCaption( m_filename );
 }
 
 void MainDlg::openRecent( const KURL &url )
 {
 	openFile( url.path() );
+	m_filename = url.path();
+	setCaption( m_filename );
 }
 
 
@@ -352,9 +361,6 @@ void MainDlg::openFile( const QString filename )
 		ymax = ps.eval( ymaxstr );
 	}
 	
-	m_filename = filename;
-	m_recentFiles->addURL( KURL(m_filename) );
-	setCaption( m_filename );
 	view->update();
 }
 
@@ -456,6 +462,30 @@ void MainDlg::bezeichnungen()
 		bez->hide();
 }
 
+void MainDlg::onNewFunction()
+{
+	KEditFunction* editFunction = new KEditFunction( &ps, this );
+	editFunction->initDialog( KEditFunction::Function );
+	editFunction->exec();
+	view->update();
+}
+
+void MainDlg::onNewParametric()
+{
+	KEditFunction* editFunction = new KEditFunction( &ps, this );
+	editFunction->initDialog( KEditFunction::Parametric );
+	editFunction->exec();
+	view->update();
+}
+
+void MainDlg::onNewPolar()
+{
+	KEditFunction* editFunction = new KEditFunction( &ps, this );
+	editFunction->initDialog( KEditFunction::Polar );
+	editFunction->exec();
+	view->update();
+}
+
 void MainDlg::funktionen()
 {
 	if ( !fdlg ) fdlg = new FktDlg( this ); // make the dialog only if not allready done
@@ -463,7 +493,7 @@ void MainDlg::funktionen()
 	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
 	doSave( tmpName );
 	if( fdlg->exec() == QDialog::Rejected ) openFile( tmpName );
-	else QFile::remove( tmpName );
+	QFile::remove( tmpName );
 	view->update();
 }
 

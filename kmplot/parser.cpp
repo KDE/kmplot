@@ -381,7 +381,9 @@ void Parser::primary()
 	for(i=0; i<ufanz; ++i)
 	{   if(ufkt[i].fname[0]==0) continue;
 		if(match(ufkt[i].fname.latin1()))
-		{   primary();
+		{   if(i==ixa) {err=9; return;}
+		
+			primary();
 			addtoken(UFKT);
 			addfptr(&ufkt[i]);
 			return;
@@ -589,6 +591,10 @@ int Parser::errmsg()
 
        case 8:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
 		                                   "Name of function not free").arg(QString::number(errpos)), "KmPlot");
+		        break;
+	   
+	   case 9:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                   "recursive function not allowed").arg(QString::number(errpos)), "KmPlot");
 		        break;
 	}
     

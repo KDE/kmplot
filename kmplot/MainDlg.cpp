@@ -73,7 +73,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 		m_filename = args -> url( 0 ).url();
 		view->init();
 		KmPlotIO::load( view->parser(), m_filename );
-		view->update();
+		view->drawPlot();
 	}
 	m_config = kapp->config();
 	m_recentFiles->loadEntries( m_config );
@@ -190,7 +190,7 @@ void MainDlg::slotOpenNew()
 	view->init(); // set globals to default
 	m_filename = ""; // empty filename == new file
 	setCaption( m_filename );
-	view->update();
+	view->drawPlot();
 	m_modified = false;
 	m_recentFiles->setCurrentItem( -1 );
 }
@@ -271,7 +271,7 @@ void MainDlg::slotOpen()
 	m_recentFiles->addURL( KURL( m_filename ) );
 	setCaption( m_filename );
 	m_modified = false;
-	view->update();
+	view->drawPlot();
 }
 
 void MainDlg::slotOpenRecent( const KURL &url )
@@ -279,7 +279,7 @@ void MainDlg::slotOpenRecent( const KURL &url )
 	if( !checkModified() ) return;
 	view->init();
 	KmPlotIO::load( view->parser(), url.path() );
-	view->update();
+	view->drawPlot();
 	m_filename = url.path();
 	setCaption( m_filename );
 	m_modified = false;
@@ -366,7 +366,7 @@ void MainDlg::newFunction()
 	editFunction->setCaption(i18n( "New Function Plot" ) );
 	editFunction->initDialog();
 	m_modified = editFunction->exec() == QDialog::Accepted;
-	view->update();
+	view->drawPlot();
 }
 
 void MainDlg::newParametric()
@@ -375,7 +375,7 @@ void MainDlg::newParametric()
 	editParametric->setCaption(i18n( "New Parametric Plot"));
 	editParametric->initDialog();
 	m_modified = editParametric->exec() == QDialog::Accepted;
-	view->update();
+	view->drawPlot();
 }
 
 void MainDlg::newPolar()
@@ -384,7 +384,7 @@ void MainDlg::newPolar()
 	editPolar->setCaption(i18n( "New Polar Plot"));
 	editPolar->initDialog();
 	m_modified = editPolar->exec() == QDialog::Accepted;
-	view->update();
+	view->drawPlot();
 }
 
 void MainDlg::slotEditPlots()
@@ -400,7 +400,7 @@ void MainDlg::slotEditPlots()
 	}
 	else m_modified = true;
 	QFile::remove( tmpName );
-	view->update();
+	view->drawPlot();
 }
 
 void MainDlg::slotQuickEdit(const QString& tmp_f_str )
@@ -423,7 +423,7 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	view->parser()->getext( index );
 	m_quickEdit->clear();
 	m_modified = true;
-	view->update();
+	view->drawPlot();
 	view->parser()->errmsg();
 }
 
@@ -434,7 +434,7 @@ void MainDlg::slotCoord1()
 	Settings::setYRange( 0 );
 	view->getSettings();
 	m_modified = true;
-	view->update();
+	view->drawPlot();
 }
 
 void MainDlg::slotCoord2()
@@ -443,7 +443,7 @@ void MainDlg::slotCoord2()
 	Settings::setYRange( 0 );
 	view->getSettings();
 	m_modified = true;
-	view->update();
+	view->drawPlot();
 }
 
 void MainDlg::slotCoord3()
@@ -452,7 +452,7 @@ void MainDlg::slotCoord3()
 	Settings::setYRange( 2 );
 	view->getSettings();
 	m_modified = true;
-	view->update();
+	view->drawPlot();
 }
 
 void MainDlg::slotSettings()
@@ -467,7 +467,7 @@ void MainDlg::updateSettings()
 {
 	view->getSettings();
 	m_modified = true;
-	view->update();
+	view->drawPlot();
 }
 
 void MainDlg::newToolbarConfig()

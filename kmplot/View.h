@@ -58,22 +58,27 @@ public:
 	virtual ~View();
 
 	/// Reimplemented to draw all stuff to the view.
-	void draw(QPaintDevice *, int);
+	void draw(QPaintDevice *, int);	
 	/// Getting all relevant settings using KConfig XT class Settings.
 	void getSettings();
 	/// Clears all functions in the parser and gets default settings.
 	/// @see getSettings
 	void init();
-	
+	/// Called when the graph should be updated
+	void drawPlot();
+		
 	/// Returns a pointer to the private parser instance m_parser.
 	/// @see m_parser
 	XParser* parser();
 
 	/// Points to the status bar.
 	KStatusBar *stbar;
+	
+
     
 protected slots:
 	void paintEvent(QPaintEvent *);
+	void resizeEvent(QResizeEvent *);
 	/// Updating the cross hair.
 	void mouseMoveEvent(QMouseEvent *);
 	/// Toggles the trace mode if the cursor is near to a plot.
@@ -155,6 +160,7 @@ private:
 	/// represents the KPrinter option app-kmplot-printtable.
 	/// @see KPrinterDlg
 	bool m_printHeaderTable;
+	QPixmap buffer;
 };
 
 #endif // View_included

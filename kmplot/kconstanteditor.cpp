@@ -210,7 +210,7 @@ void KConstantEditor::editConstantSlot()
 	KmPlotIO::load( m_view->parser(), tmpName );
 	QFile::remove( tmpName );
 	
-	m_view->update();
+	m_view->drawPlot();
 }
 
 void KConstantEditor::varlist_doubleClicked( QListViewItem * )

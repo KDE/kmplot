@@ -120,7 +120,7 @@ void FktDlg::getParamIx( const QString f_str, int &index1, int &index2 )
 
 void FktDlg::updateView()
 {
-	( ( MainDlg* ) parentWidget() ) ->view->update();
+	( ( MainDlg* ) parentWidget() ) ->view->drawPlot();
 }
 
 void FktDlg::slotHasSelection()

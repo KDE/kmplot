@@ -27,13 +27,15 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
+#include <qpicture.h>
+
 // local includes
 #include "settings.h"
 #include "View.h"
 #include "View.moc"
 #include "xparser.h"
 
-View::View( QWidget* parent, const char* name ) : QWidget( parent, name )
+View::View( QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() )
 {   
 	m_parser = new XParser( 10, 200, 20 );
 	init();
@@ -113,6 +115,7 @@ void View::draw(QPaintDevice *dev, int form)
 		DC.translate(-dgr.GetFrame().left()*sf, -dgr.GetFrame().top()*sf);
 		DC.scale(sf, sf);
 		s=1.;
+		
 	}
 	
 	dgr.borderThickness=(uint)(4*s);
@@ -140,6 +143,7 @@ void View::draw(QPaintDevice *dev, int form)
 
 	csflg=0;
 	DC.end();			// painting done
+
 }
 
 
@@ -416,10 +420,29 @@ bool View::root(double *x0)
 
 // Slots
 
-void View::paintEvent(QPaintEvent *)
-{   draw(this, 0);
+void View::paintEvent(QPaintEvent *e)
+{   
+	QPainter p;
+	p.begin(this);
+	bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
+	p.end();
 }
 
+void View::resizeEvent(QResizeEvent *e)
+{
+	buffer.resize(size() );
+	drawPlot();
+}
+
+void View::drawPlot()
+{
+	buffer.fill();
+	draw(&buffer, 0);
+	QPainter p;
+	p.begin(this);
+	bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
+	p.end();	
+}
 
 void View::mouseMoveEvent(QMouseEvent *e)
 {   char sx[20], sy[20];

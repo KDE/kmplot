@@ -58,7 +58,7 @@
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_sessionId(sessionId ), m_recentFiles( 0 )
+MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_sessionId(sessionId ), m_recentFiles( 0 ), m_modified(false)
 {
 	fdlg = 0;
 	m_popupmenu = new KPopupMenu(this);
@@ -98,7 +98,6 @@ MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name
 	// User edited the configuration - update your local copies of the 
 	// configuration data 
 	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
-	m_modified = false;
 }
 
 MainDlg::~MainDlg()

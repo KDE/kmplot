@@ -719,8 +719,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 
 
 void View::mousePressEvent(QMouseEvent *e)
-{   int ix, k, ke;
-	double g;
+{
 	if ( m_popupmenushown>0)
 		return;
 	
@@ -826,18 +825,19 @@ void View::mousePressEvent(QMouseEvent *e)
 		return;
 		
 	}
-	
+	int ix;
+	double const g=tlgy/5.;	
 	if(e->button()==RightButton) //clicking with the right mouse button
 	{
-		g=tlgy/5.;
+		
 		char function_type;
 		for(ix=0; ix<m_parser->ufanz; ++ix)
 		{
 			function_type = m_parser->fktext[ix].extstr[0].latin1();
 			if ( function_type==0 || function_type=='y' || function_type=='r') 
 				continue;
-			k=0;
-			ke=m_parser->fktext[ix].k_anz;
+			int k=0;
+			int const ke=m_parser->fktext[ix].k_anz;
 			do
 			{
 				if( m_parser->fktext[ ix ].use_slider == -1 )
@@ -940,7 +940,6 @@ void View::mousePressEvent(QMouseEvent *e)
 		return ;
 	}
 
-	g=tlgy/5.;  
 	for(ix=0; ix<m_parser->ufanz; ++ix)
 	{
 		switch(m_parser->fktext[ix].extstr[0].latin1())
@@ -948,8 +947,8 @@ void View::mousePressEvent(QMouseEvent *e)
 			case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
 		}
 	
-		k=0;
-		ke=m_parser->fktext[ix].k_anz;
+		int k=0;
+		int const ke=m_parser->fktext[ix].k_anz;
 		do
 		{
 			if( m_parser->fktext[ ix ].use_slider == -1 )
@@ -995,7 +994,6 @@ void View::mousePressEvent(QMouseEvent *e)
 	}
 
 	csmode=-1;
-	//stbar->changeItem("",4);
 }
 
 
@@ -1799,13 +1797,12 @@ void View::mnuRemove_clicked()
 {
 	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
 	{
-		char function_type = m_parser->fktext[csmode].extstr[0].latin1();
-		if ( function_type == 'x')
+		if ( m_parser->fktext[csmode].extstr[0] == 'x')  // a parametric function
 		{
 			int y_index = csmode+1;
 			if ( y_index == UFANZ)
 				y_index=0;
-			m_parser->delfkt( y_index );
+			m_parser->delfkt( y_index ); //remove the y-function
 		}
 		m_parser->delfkt( csmode );
 		drawPlot();
@@ -1814,10 +1811,9 @@ void View::mnuRemove_clicked()
 }
 void View::mnuEdit_clicked()
 {
-	char function_type = m_parser->fktext[csmode].extstr[0].latin1();
-	if ( function_type == 'x')
+	if ( m_parser->fktext[csmode].extstr[0] == 'x') // a parametric function
 	{
-		int y_index = csmode+1;
+		int y_index = csmode+1; //the y-function
 		if ( y_index == UFANZ)
 			y_index=0;
 		KEditParametric* editParametric = new KEditParametric( m_parser, this );
@@ -1830,7 +1826,7 @@ void View::mnuEdit_clicked()
 		}
 		
 	}
-	else
+	else // a plot function
 	{
 		EditFunction* editFunction = new EditFunction( m_parser, this );
 		editFunction->setCaption(i18n( "Edit Function Plot" ));
@@ -1905,19 +1901,19 @@ void View::restoreCursor()
 {
 	switch (zoom_mode)
 	{
-		case 0: 
+		case 0:  //no zoom
 			setCursor(Qt::ArrowCursor);
 			break;
-		case 1: 
+		case 1: //rectangle zoom
 			setCursor(Qt::CrossCursor);
 			break;
-		case 2: 
+		case 2: //zoom in
 			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
 			break;
-		case 3: 
+		case 3: //zoom in
 			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 			break;
-		case 4: 
+		case 4: //center a point
 			setCursor(Qt::PointingHandCursor);
 			break;
 		
@@ -1932,5 +1928,5 @@ bool View::event( QEvent * e )
 		stop_calculating = true;
 		return true;
 	}
-	return QWidget::event(e);
+	return QWidget::event(e); //send the information further
 };

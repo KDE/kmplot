@@ -63,7 +63,7 @@ public:
 	/// Line width default
 	int linewidth0;
 	
-	///Return an unused function name
+	///Return an unused function name if it is needed
 	void fixFunctionName(QString &, int const=-1);
 
 	/// Extended attributes are encapulated in this structure.
@@ -100,6 +100,7 @@ public:
 	*fktext;
 	
 	private:
+		/// finds a free function name 
 		char findFunctionName(int const);
 };
 

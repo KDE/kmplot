@@ -123,7 +123,7 @@ class MainDlg : public KMainWindow
 		/// Central widget of the KMainWindow instance. tralala
 		View *view;
 		/// unique string for tmp file
-		QString m_sessionId;
+		QString const m_sessionId;
 		///The Recent Files action
 		KRecentFilesAction * m_recentFiles;
 		/** Current filename of the current plot
@@ -151,7 +151,7 @@ class MainDlg : public KMainWindow
 		KMinMax *minmaxdlg;
 		/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
 		KPopupMenu *m_popupmenu;
-		
+		/// Loads and saves the user's file.
 		KmPlotIO *kmplotio;
 		
 		

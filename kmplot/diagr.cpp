@@ -223,8 +223,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 	double d, da, db;
 
 	if( Settings::showAxes() )
-	{  // int dx, dy;
-
+	{  
 		pDC->setPen( QPen( axesColor, axesLineWidth ) );
 		pDC->Lineh(PlotArea.left(), b=Transy(0.), a=PlotArea.right());	    // x-Achse
 		if( Settings::showArrows()) 		    			// ARROWS

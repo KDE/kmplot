@@ -218,13 +218,14 @@ void XParser::fixFunctionName( QString &str, int const index)
 }
 
 
-void XParser::euler_method(double &x, double &y, const int &index)
+void  XParser::euler_method(double &x, double &y,const int &index)
 {
+	// y == the old yprim-value
+	
 	if (x == fktext[index].startx ) //the first point we should draw
 	{
 		ufkt[index].oldy = fktext[index].starty;
 		fktext[index].oldyprim = fktext[index].integral_precision;
-		
 		
 		/*kdDebug() << "*******************" << endl;
 		kdDebug() << "   start-x: " << x << endl;
@@ -237,8 +238,8 @@ void XParser::euler_method(double &x, double &y, const int &index)
 	}
 	else
 	{
-		double yprim = y;
-		double h = x-fktext[index].oldx;
+		double const yprim = y;
+		double const h = x-fktext[index].oldx;
 		y = ufkt[index].oldy + (h *  fktext[index].oldyprim);
 		
 		ufkt[index].oldy = y;

@@ -410,9 +410,10 @@ void CDiagr::drawLabels(QPainter* pDC)
 	QString s;
 
 	//pDC->drawText(x-dx, y+dy, 0, 0, Qt::AlignRight|Qt::AlignVCenter|Qt::DontClip, "0");
-	bool draw_next=false;
+	char draw_next=0;
 	QFontMetrics const test(font);
 	int swidth=0;
+
 	for(d=tsx, n=(int)ceil(xmin/ex); d<xmd; d+=ex, ++n)
 	{
 		if(n==0 || fabs(d-xmd)<=1.5*ex)
@@ -439,6 +440,22 @@ void CDiagr::drawLabels(QPainter* pDC)
 			}
 			else
 				continue;
+			swidth = test.width(s);
+			if (  Transx(d)-x<swidth && Transx(d)-x>-swidth && draw_next==0)
+			{
+				draw_next=1;
+				continue;
+			}
+			if (draw_next>0)
+			{
+				if (draw_next==1)
+				{
+					draw_next++;
+					continue;
+				}
+				else
+					draw_next=0;
+			}
 			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
 		}
 		else if(fabs(ex-M_PI/3.)<1e-3)
@@ -457,6 +474,22 @@ void CDiagr::drawLabels(QPainter* pDC)
 			}
 			else
 				continue;
+			swidth = test.width(s);
+			if (  Transx(d)-x<swidth && Transx(d)-x>-swidth && draw_next==0)
+			{
+				draw_next=1;
+				continue;
+			}
+			if (draw_next>0)
+			{
+				if (draw_next==1)
+				{
+					draw_next++;
+					continue;
+				}
+				else
+					draw_next=0;
+			}
 			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
 		}
 		else if(fabs(ex-M_PI/4.)<1e-3)
@@ -475,19 +508,43 @@ void CDiagr::drawLabels(QPainter* pDC)
 			}
 			else
 				continue;
+			swidth = test.width(s);
+			if (  Transx(d)-x<swidth && Transx(d)-x>-swidth && draw_next==0)
+			{
+				draw_next=1;
+				continue;
+			}
+			if (draw_next>0)
+			{
+				if (draw_next==1)
+				{
+					draw_next++;
+					continue;
+				}
+				else
+					draw_next=0;
+			}
 			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
 		}
 		else if((n%5==0 || n==1 || n==-1 || draw_next))
 		{
 			s=QString().sprintf("%+0.3g", n*ex);
 			swidth = test.width(s);
-			if (  Transx(d)-x<swidth && Transx(d)-x>-swidth && !draw_next)
+			if (  Transx(d)-x<swidth && Transx(d)-x>-swidth && draw_next==0)
 			{
-				draw_next=true;
+				draw_next=1;
 				continue;
 			}
-			if (draw_next)
-				draw_next=false;
+			if (draw_next>0)
+			{
+				if (draw_next==1)
+				{
+					draw_next++;
+					continue;
+				}
+				else
+					draw_next=0;
+			}
 			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
 		}
 	}

@@ -165,14 +165,14 @@ void KEditParametric::accept()
 			min->selectAll();
 			return;
 		}
-		
+		/*
 		if (  tmp_fktext.dmin<View::xmin || tmp_fktext.dmax>View::xmax )
 		{
 			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
 			min->setFocus();
 			min->selectAll();
 			return;
-		}
+		}*/
 	}
 	else
 	{

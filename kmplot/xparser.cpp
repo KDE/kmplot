@@ -197,14 +197,20 @@ char XParser::findFunctionName(int const index)
 		}
 		ok = true;
 	}
-	return 'e'; //this should never happen, because the limit of 10 functions
+	return 'e'; //this should never happen, because of the limit of 10 functions
 }
 void XParser::fixFunctionName( QString &str, int const index)
 {
 	int p1=str.find('(');
 	int p2=str.find(')');
-	
-	if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1) != '=')
+	if (str.at(0) == 'r' && str.at(1) == '(')
+	{
+		str.remove(0,1);
+		char function_name = findFunctionName(index);
+		str.prepend(function_name);
+		str.prepend('r');
+	}
+	else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1) != '=')
 	{
 		char function_name = findFunctionName(index);
 		str.prepend("(x)=");

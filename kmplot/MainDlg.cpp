@@ -489,6 +489,12 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	QString f_str( tmp_f_str );
 	view->parser()->fixFunctionName(f_str);
 	
+	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y')
+	{
+		KMessageBox::error( this, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));
+		return;
+	}
+	
 	int index = view->parser()->addfkt( f_str );
 	if (index==-1)
 	{

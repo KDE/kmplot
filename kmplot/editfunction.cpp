@@ -203,6 +203,13 @@ void EditFunction::accept()
 		return;
 	}
 	
+	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y' || f_str.at(0)== 'r')
+	{
+		KMessageBox::error( this, i18n("You can only define plot functions in this dialog"));
+		if( m_index == -1 ) m_parser->delfkt(index);
+		return;
+	}
+	
 	XParser::FktExt tmp_fktext; //all settings are saved here until we know that no errors have appeared
 	tmp_fktext.extstr = f_str;
 	

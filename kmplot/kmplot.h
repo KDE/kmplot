@@ -86,8 +86,6 @@ private slots:
 	void fileNew();
 	void fileOpen();
 	void fileOpen(const KURL &url);
-	void optionsShowToolbar();
-	void optionsShowStatusbar();
 	void optionsConfigureKeys();
 	void optionsConfigureToolbars();
 	void applyNewToolbarConfig();
@@ -116,8 +114,6 @@ private:
 
 private:
 	KParts::ReadOnlyPart *m_part;
-	KToggleAction *m_toolbarAction;
-	KToggleAction *m_statusbarAction;
 	/// The fullscreen action to be plugged/unplegged to the toolbar
 	KToggleFullScreenAction* m_fullScreen;
 	KmPlotProgress *m_progressbar;

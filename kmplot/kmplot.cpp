@@ -47,11 +47,10 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	setXMLFile("kmplot_shell.rc");
 	// then, setup our actions
 	setupActions();
+	
 	// setup the status bar
 	setupStatusBar();
-	// show the status bar
-	optionsShowStatusbar();
-
+	
 	// this routine will find and load our Part.  it finds the Part by
 	// name which is a bad idea usually.. but it's alright in this
 	// case since our Part is made for this Shell
@@ -133,9 +132,9 @@ void KmPlot::setupActions()
 	KStdAction::open(this, SLOT(fileOpen()), actionCollection());
 	KStdAction::quit(kapp, SLOT(quit()), actionCollection());
 
-	m_toolbarAction = KStdAction::showToolbar(this, SLOT(optionsShowToolbar()), actionCollection());
-	m_statusbarAction = KStdAction::showStatusbar(this, SLOT(optionsShowStatusbar()), actionCollection());
-
+	createStandardStatusBarAction();
+	setStandardToolBarMenuEnabled(true);
+	
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 
@@ -192,27 +191,6 @@ void KmPlot::increaseProgressBar()
 {
 	if (m_progressbar)
 		m_progressbar->increase();
-}
-
-
-void KmPlot::optionsShowToolbar()
-{
-	// this is all very cut and paste code for showing/hiding the
-	// toolbar
-	if (m_toolbarAction->isChecked())
-		toolBar()->show();
-	else
-		toolBar()->hide();
-}
-
-void KmPlot::optionsShowStatusbar()
-{
-	// this is all very cut and paste code for showing/hiding the
-	// statusbar
-	if (m_statusbarAction->isChecked())
-		statusBar()->show();
-	else
-		statusBar()->hide();
 }
 
 void KmPlot::optionsConfigureKeys()

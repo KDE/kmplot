@@ -40,10 +40,10 @@ int isinf(double x) { return !finite(x) && x==x; }
 
 CDiagr::CDiagr()
 {   RahmenFarbe=qRgb(0, 0, 0);
-	AchsenFarbe=qRgb(0, 0, 0);
+	axesColor=qRgb(0, 0, 0);
 	GitterFarbe=qRgb(192, 192, 192);
 	RahmenDicke=2;
-	AchsenDicke=2;
+	axesThickness=2;
 	GitterDicke=1;
 	TeilstrichDicke=1;
 	TeilstrichLaenge=10;
@@ -177,7 +177,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 	if(mode&ACHSEN)
 	{   int dx, dy;
 
-		pDC->setPen(QPen(AchsenFarbe, AchsenDicke));
+		pDC->setPen(QPen(axesColor, axesThickness));
 		pDC->Lineh(PlotArea.left(), b=Transy(0.), a=PlotArea.right());	    // x-Achse
 		if(mode&PFEILE && !(mode&RAHMEN) && xmax>0.) 		    			// Pfeile
 		{	dx=40;
@@ -195,7 +195,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 		}
 	}
 
-	pDC->setPen(QPen(AchsenFarbe, TeilstrichDicke));
+	pDC->setPen(QPen(axesColor, TeilstrichDicke));
 	if(mode&ACHSEN)
 	{   da=oy-TeilstrichLaenge;
 		db=oy+TeilstrichLaenge;

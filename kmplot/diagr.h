@@ -75,11 +75,11 @@ public:
            Transy(int);
 
     QRgb RahmenFarbe,
-	     AchsenFarbe,
+	     axesColor,
          GitterFarbe;
 
 	uint RahmenDicke,
-	     AchsenDicke,
+	     axesThickness,
 	     GitterDicke,
 	     TeilstrichDicke,
 	     TeilstrichLaenge,

@@ -51,10 +51,10 @@ KoordDlg::KoordDlg( QWidget* parent, const char* name, bool modal ) : Inherited(
 	kdy = koordy;
 	setachsen();
 	cb_beschr->setChecked( mode & BESCHRIFTUNG );
-	axesLineWidth->setValue( AchsenDicke );
+	axesLineWidth->setValue( axesThickness );
 	ticLineWidth->setValue( TeilstrichDicke );
 	ticLength->setValue( TeilstrichLaenge );
-	color_button->setColor( QColor( AchsenFarbe ) );
+	color_button->setColor( QColor( axesColor ) );
 }
 
 KoordDlg::~KoordDlg()
@@ -166,10 +166,10 @@ void KoordDlg::onok()
 		mode &= ~BESCHRIFTUNG;
 	}
 	
-	AchsenDicke = axesLineWidth->value();
+	axesThickness = axesLineWidth->value();
 	TeilstrichDicke = ticLineWidth->value();
 	TeilstrichLaenge = ticLength->value();
-	AchsenFarbe = color_button->color().rgb();
+	axesColor = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )
 	{
@@ -180,10 +180,10 @@ void KoordDlg::onok()
 		Settings::setYMin( yminstr );
 		Settings::setYMax( ymaxstr );
 		Settings::setShowLabel( m == 1 );
-		Settings::setAxesLineWidth( AchsenDicke );
+		Settings::setAxesLineWidth( axesThickness );
 		Settings::setTicWidth( TeilstrichDicke );
 		Settings::setTicLength( TeilstrichLaenge );
-		Settings::setAxesColor( AchsenFarbe );
+		Settings::setAxesColor( axesColor );
 	}
 	done( 1 );
 }

@@ -58,7 +58,7 @@ extern int g_mode;
 
 
 /** Thickness of the axes lines. */
-extern int	AchsenDicke,
+extern int	axesThickness,
 	/** Thickness of the grid lines. */
 	GitterDicke,
 	/** Thickness of the tics */
@@ -154,7 +154,7 @@ extern QString font_header,
 	font_axes;
 
 /** Color of the axes. */
-extern	QRgb AchsenFarbe,
+extern	QRgb axesColor,
 	/** Color of the grid. */
 	GitterFarbe;
 

@@ -254,8 +254,8 @@ void MainDlg::doSave( QString filename )
 	// the axes tag
 	QDomElement tag = doc.createElement( "axes" );
 
-	tag.setAttribute( "color", QColor( AchsenFarbe ).name() );
-	tag.setAttribute( "width", AchsenDicke );
+	tag.setAttribute( "color", QColor( axesColor ).name() );
+	tag.setAttribute( "width", axesThickness );
 	tag.setAttribute( "tic-width", TeilstrichDicke );
 	tag.setAttribute( "tic-legth", TeilstrichLaenge );
 
@@ -431,8 +431,8 @@ void MainDlg::parseAxes( const QDomElement & n )
 {
 	kdDebug() << "parsing axes" << endl;
 
-	AchsenDicke = n.attribute( "width", "1" ).toInt();
-	AchsenFarbe = QColor( n.attribute( "color", "#000000" ) ).rgb();
+	axesThickness = n.attribute( "width", "1" ).toInt();
+	axesColor = QColor( n.attribute( "color", "#000000" ) ).rgb();
 	TeilstrichDicke = n.attribute( "tic-width", "3" ).toInt();
 	TeilstrichLaenge = n.attribute( "tic-length", "10" ).toInt();
 

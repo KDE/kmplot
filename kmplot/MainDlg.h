@@ -97,11 +97,14 @@ private:
 	KToggleAction *view_names;
 	View *view;
 	QString m_sessionId;
+	///The Recent Files action
 	KRecentFilesAction * m_recentFiles;
 	///Current filename of the current plot
 	QString m_filename;      
 	bool m_modified;
+	///An instance of the application config file
 	KConfig* m_config;
+	///The KLineEdit which is in the toolbar
 	KLineEdit* m_quickEdit;
 	///A Configure KmPlot dialog instance
 	KConfigDialog* m_settingsDialog;
@@ -121,7 +124,11 @@ protected slots:
 	void slotOpen();
 	///Implement the File -> New action by cleaning the plot area
 	void slotOpenNew();
-	///When you click on a File->Open Recent file, it'll open 
+	/**
+	When you click on a File->Open Recent file, it'll open 
+	
+	@param url name of the url to open
+	*/
 	void slotOpenRecent( const KURL &url );
 	///Save a plot i.e. save the function name and all the settings for the plot
 	void slotSave();
@@ -135,8 +142,11 @@ protected slots:
 	void slotExport();
 	///Implement the Configure KmPlot dialog
 	void slotSettings();
+	///
 	void newToolbarConfig();
+	///
 	void optionsConfigureKeys();
+	///
 	void optionsConfigureToolbars();
 	///Update settings when there is a change in the Configure KmPlot dialog
 	void updateSettings();
@@ -148,14 +158,23 @@ protected slots:
 	void slotCoord2();
 	///SLot to change the coordinate systems, shows positive x-values and positive y-values
 	void slotCoord3();
-	///Manages the LineEdit content after returnPressed() is emitted
+	/**
+	Manages the LineEdit content after returnPressed() is emitted
+	@param the content of the KLineEdit
+	*/
 	void slotQuickEdit( const QString& );
 	
 protected:
-	///Read a kmpdoc xml file to restaure the settings of a previously saved plot
+	/**
+	Read a kmpdoc xml file to restaure the settings of a previously saved plot
+	@param filename name of file which will be opened
+	*/
 	void openFile( const QString filename );
-	///Store all information about the current saved plot in a xml file with the .fkt extension in the filename file
-	void doSave( QString filename = "" );
+	/**
+	Store all information about the current saved plot in a xml file with the .fkt extension in the filename file
+	@param filename name of the file which will be saved
+	*/
+	void doSave( const QString filename);
 	
 };
 #endif // MainDlg_included

@@ -17,7 +17,7 @@ int koordx,     // 0 => [-8|+8]
 koordy,     // 1 => [-5|+5]
 // 2 => [0|+16]
 // 3 => [0|+10]
-AchsenDicke,
+axesThickness,
 GitterDicke,
 TeilstrichDicke,
 TeilstrichLaenge;
@@ -44,7 +44,7 @@ drskalystr;             // String für drskaly
 
 QString font_header, font_axes; // Font family names
 
-QRgb AchsenFarbe,
+QRgb axesColor,
 GitterFarbe;
 
 bool printtable;		// header table printing option
@@ -100,8 +100,8 @@ void getSettings()
 	drskalystr = units[ Settings::yPrinting() ];
 	drskaly = ps.eval( drskalystr );
 
-	AchsenDicke = Settings::axesLineWidth();
-	AchsenFarbe = Settings::axesColor().rgb();
+	axesThickness = Settings::axesLineWidth();
+	axesColor = Settings::axesColor().rgb();
 	if ( Settings::showLabel() ) mode |= BESCHRIFTUNG;
 	TeilstrichDicke = Settings::ticWidth();
 	TeilstrichLaenge = Settings::ticLength();

@@ -27,8 +27,6 @@
 #define xparser_included
 
 // Qt includes
-#include <qcolor.h>
-#include <qstring.h>
 
 // local includes
 #include "parser.h"

@@ -25,13 +25,11 @@
 
 // Qt includes
 #include <qtooltip.h>
-#include <qtabwidget.h>
 
 // KDE includes
 #include <kapplication.h>
 #include <kconfigdialog.h>
 #include <kdebug.h>
-#include <kguiitem.h>
 #include <kedittoolbar.h>
 #include <kkeydialog.h>
 #include <klineedit.h>

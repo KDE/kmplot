@@ -26,8 +26,6 @@
 // Qt includes
 #include <qdom.h>
 #include <qfile.h>
-#include <qstring.h>
-#include <qstringlist.h>
 
 // local includes
 #include "kmplotio.h"

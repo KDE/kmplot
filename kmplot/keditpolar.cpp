@@ -24,8 +24,6 @@
 */
 // Qt includes
 #include <qcheckbox.h>
-#include <qlabel.h>
-#include <qwhatsthis.h>
 
 // KDE includes
 #include <kapplication.h>

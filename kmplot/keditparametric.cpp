@@ -63,7 +63,7 @@ void KEditParametric::clearWidgets()
 	checkBoxRange->setChecked( false );
 	min->clear();
 	max->clear();
-	kIntNumInputLineWidth->setValue( m_parser->dicke0 );
+	kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
 	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color0 );
 }
 

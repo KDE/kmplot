@@ -162,7 +162,7 @@ int XParser::delfkt( int ix )
 		return -1;
 
 	fktext[ ix ].f_mode = fktext[ ix ].f1_mode = fktext[ ix ].f2_mode = fktext[ ix ].anti_mode = 0;
-	fktext[ ix ].linewidth = dicke0;
+	fktext[ ix ].linewidth = linewidth0;
 	fktext[ ix ].k_anz = 0;
 	fktext[ ix ].dmin = fktext[ ix ].dmax = 0.;
 	fktext[ ix ].extstr = ""; //.resize(1);

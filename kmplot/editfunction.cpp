@@ -89,7 +89,7 @@ void EditFunction::clearWidgets()
 	editfunctionpage->customRange->setChecked( false );
 	editfunctionpage->min->clear();
 	editfunctionpage->max->clear();
-	editfunctionpage->lineWidth->setValue( m_parser->dicke0 );
+	editfunctionpage->lineWidth->setValue( m_parser->linewidth0 );
 	editfunctionpage->color->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color0 );
 	
 	// Clear the Derivatives page

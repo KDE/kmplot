@@ -61,7 +61,7 @@ public:
 	/// calculate euler's method when drawing a numeric prime-function
 	void euler_method(double &, double &, const int &);	
 	/// Line width default
-	int dicke0;
+	int linewidth0;
 	
 	///Return an unused functionname
 	char findFunctionName();

@@ -1105,7 +1105,7 @@ void View::setScaling()
 void View::getSettings()
 {
 	m_parser->setAngleMode( Settings::anglemode() );
-	m_parser->dicke0 = Settings::gridLineWidth();
+	m_parser->linewidth0 = Settings::gridLineWidth();
 	m_parser->fktext[ 0 ].color0 = Settings::color0().rgb();
 	m_parser->fktext[ 1 ].color0 = Settings::color1().rgb();
 	m_parser->fktext[ 2 ].color0 = Settings::color2().rgb();

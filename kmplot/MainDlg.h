@@ -48,6 +48,7 @@ public:
     MainDlg( const char* name = NULL );
     virtual ~MainDlg();
     friend class FktDlg;
+	friend class BezWnd;
 
 public slots:
     void neu();
@@ -69,6 +70,7 @@ public slots:
     void onachsen3();
     // void about();
     void hilfe();
+	void slotSettings();
 
 private:
     void setupActions();
@@ -87,6 +89,8 @@ private:
     KToggleAction *viewToolBar;
     KToggleAction *viewStatusBar;
     FktDlg *fdlg;
+	BezWnd *bez;
+	KToggleAction *view_bezeichnungen;
     View *view;
 };
 #endif // MainDlg_included

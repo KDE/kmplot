@@ -136,6 +136,8 @@ void KoordDlg::onok()
     {
         kc->setGroup( "Axes" );
 
+		kc->writeEntry( "XCoord", koordx );
+		kc->writeEntry( "YCoord", koordy );
         kc->writeEntry( "Xmin", xminstr );
         kc->writeEntry( "Xmax", xmaxstr );
         kc->writeEntry( "Ymin", yminstr );

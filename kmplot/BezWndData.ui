@@ -1,464 +1,256 @@
-<!DOCTYPE UI><UI>
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
 <class>BezWndData</class>
-<widget>
-    <class>QWidget</class>
-    <property stdset="1">
-        <name>name</name>
+<widget class="QWidget">
+    <property name="name">
         <cstring>BezWndData</cstring>
     </property>
-    <property stdset="1">
-        <name>geometry</name>
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>170</width>
-            <height>280</height>
+            <width>168</width>
+            <height>300</height>
         </rect>
     </property>
-    <property stdset="1">
-        <name>sizePolicy</name>
-        <sizepolicy>
-            <hsizetype>0</hsizetype>
-            <vsizetype>0</vsizetype>
-        </sizepolicy>
-    </property>
-    <property stdset="1">
-        <name>minimumSize</name>
-        <size>
-            <width>170</width>
-            <height>280</height>
-        </size>
-    </property>
-    <property stdset="1">
-        <name>maximumSize</name>
-        <size>
-            <width>170</width>
-            <height>280</height>
-        </size>
-    </property>
-    <property stdset="1">
-        <name>caption</name>
+    <property name="caption">
         <string>Names</string>
     </property>
-    <widget>
-        <class>QGroupBox</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>GroupBox1</cstring>
+    <property name="toolTip" stdset="0">
+        <string>Here you find all predefined names of the kmplot parser.</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
         </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>10</x>
-                <y>10</y>
-                <width>150</width>
-                <height>210</height>
-            </rect>
+        <property name="margin">
+            <number>11</number>
         </property>
-        <property stdset="1">
-            <name>title</name>
-            <string>Functions</string>
+        <property name="spacing">
+            <number>6</number>
         </property>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2</cstring>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox1</cstring>
             </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>90</x>
-                    <y>20</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
+            <property name="title">
+                <string>Functions</string>
             </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>sqrt</string>
-            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
+                </property>
+                <property name="spacing">
+                    <number>25</number>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>Layout1</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>sqr</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3</cstring>
+                            </property>
+                            <property name="text">
+                                <string>exp</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>sin</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>cos</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>tan</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>sinh</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>cosh</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_3_2_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>tanh</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>Layout2</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>sqrt</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>ln</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>log</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arcsin</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arccos</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arctan</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arcsinh</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arccosh</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1_2_2_2_2_2_2_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>arctanh</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+            </hbox>
         </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1</cstring>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>GroupBox4</cstring>
             </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
+            <property name="title">
+                <string>Constants</string>
             </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>sqr</string>
-            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>11</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1_3_2_2_2_2_2_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>pi</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel1_2_2_2_2_2_2_2_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>e</string>
+                    </property>
+                </widget>
+            </hbox>
         </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>90</x>
-                    <y>60</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>log</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_3</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>10</x>
-                    <y>40</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>exp</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>90</x>
-                    <y>40</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>ln</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>90</x>
-                    <y>80</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>arcsin</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_3_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>10</x>
-                    <y>80</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>sin</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>90</x>
-                    <y>100</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>arccos</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_3_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>10</x>
-                    <y>100</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>cos</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>90</x>
-                    <y>120</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>arctan</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_3_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>10</x>
-                    <y>120</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>tan</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2_2_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>90</x>
-                    <y>140</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>arcsinh</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_3_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>10</x>
-                    <y>140</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>sinh</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2_2_2_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>90</x>
-                    <y>160</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>arccosh</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_3_2_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>10</x>
-                    <y>160</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>cosh</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_3_2_2_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>10</x>
-                    <y>180</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>tanh</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2_2_2_2_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>90</x>
-                    <y>180</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>arctanh</string>
-            </property>
-        </widget>
-    </widget>
-    <widget>
-        <class>QGroupBox</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>GroupBox4</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>11</x>
-                <y>225</y>
-                <width>150</width>
-                <height>45</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>title</name>
-            <string>Constants</string>
-        </property>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_3_2_2_2_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>9</x>
-                    <y>15</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>pi</string>
-            </property>
-        </widget>
-        <widget>
-            <class>QLabel</class>
-            <property stdset="1">
-                <name>name</name>
-                <cstring>TextLabel1_2_2_2_2_2_2_2_2_2</cstring>
-            </property>
-            <property stdset="1">
-                <name>geometry</name>
-                <rect>
-                    <x>89</x>
-                    <y>15</y>
-                    <width>50</width>
-                    <height>20</height>
-                </rect>
-            </property>
-            <property stdset="1">
-                <name>text</name>
-                <string>e</string>
-            </property>
-        </widget>
-    </widget>
+    </vbox>
 </widget>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

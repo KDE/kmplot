@@ -11,6 +11,8 @@
     <Action name="scale"/>
     <Action name="grid"/>
     <Action name="step"/>
+    <Separator/>
+    <Action name="configure"/>
   </Menu>
   <Menu name="help">
     <Action name="names"/>

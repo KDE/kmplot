@@ -51,23 +51,66 @@ void init()
 
     QColor tmp_color;
     mode = ACHSEN | PFEILE | EXTRAHMEN;
-    koordx = koordy = 0;
     rsw = 1.;
     datei = "";
 
     // axes defaults
 
     kc->setGroup( "Axes" );
-    xminstr = kc->readEntry( "Xmin", "-8" );
-    xmin = ps.eval( xminstr );
-    xmaxstr = kc->readEntry( "Xmax", "8" );
-    xmax = ps.eval( xmaxstr );
-    yminstr = kc->readEntry( "Ymin", "-8" );
-    ymin = ps.eval( yminstr );
-    ymaxstr = kc->readEntry( "Ymax", "8" );
-    ymax = ps.eval( ymaxstr );
+	koordx = kc->readNumEntry( "XCoord", 0 );
+	koordy = kc->readNumEntry( "YCoord", 0 );
+    xminstr = kc->readEntry( "Xmin", "-2*pi" );
+    xmaxstr = kc->readEntry( "Xmax", "2*pi" );
+    yminstr = kc->readEntry( "Ymin", "-2*pi" );
+    ymaxstr = kc->readEntry( "Ymax", "2*pi" );
 
-    tlgxstr = kc->readEntry( "tlgx", "1" );
+    switch ( koordx )
+    {
+    case 0:
+        xmin = -8.0;
+        xmax = 8.0;
+		break;
+    case 1:
+        xmin = -5.0;
+        xmax = 5.0;
+		break;
+    case 2:
+        xmin = 0.0;
+        xmax = 16.0;
+		break;
+    case 3:
+        xmin = 0.0;
+        xmax = 10.0;
+		break;
+    case 4:
+        xmin = ps.eval( xminstr );
+		xmax = ps.eval( xmaxstr );
+	}
+	
+    switch ( koordy )
+    {
+    case 0:
+        ymin = -8.0;
+        ymax = 8.0;
+		break;
+    case 1:
+        ymin = -5.0;
+        ymax = 5.0;
+		break;
+    case 2:
+        ymin = 0.0;
+        ymax = 16.0;
+		break;
+    case 3:
+        ymin = 0.0;
+        ymax = 10.0;
+		break;
+    case 4:
+        ymin = ps.eval( yminstr );
+		ymax = ps.eval( ymaxstr );
+    }
+
+	tlgxstr = kc->readEntry( "tlgx", "1" );
     tlgx = ps.eval( tlgxstr );
     tlgystr = kc->readEntry( "tlgy", "1" );
     tlgy = ps.eval( tlgystr );

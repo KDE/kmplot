@@ -487,7 +487,7 @@ KFontTab::KFontTab( QWidget* parent, const char* name )
 	KFontTabLayout = new QGridLayout( this, 1, 1, 11, 6, "KFontTabLayout" );
 
 	label_axes = new QLabel( this, "label_axes" );
-	label_axes->setText( trUtf8( "&Axes labels:" ) );
+	label_axes->setText( i18n( "&Axes labels:" ) );
 
 	KFontTabLayout->addWidget( label_axes, 1, 0 );
 
@@ -500,7 +500,7 @@ KFontTab::KFontTab( QWidget* parent, const char* name )
 	KFontTabLayout->addWidget( fc_header, 0, 1 );
 
 	label_header = new QLabel( this, "label_header" );
-	label_header->setText( trUtf8( "Header &table:" ) );
+	label_header->setText( i18n( "Header &table:" ) );
 
 	KFontTabLayout->addWidget( label_header, 0, 0 );
 	QSpacerItem* spacer = new QSpacerItem( 0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding );

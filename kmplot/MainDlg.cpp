@@ -262,7 +262,7 @@ void MainDlg::slotSaveas()
 {
 	if (m_readonly)
 		return;
-	KURL url = KFileDialog::getSaveURL( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
+	const KURL url = KFileDialog::getSaveURL( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
 
 	if ( !url.isEmpty() )
 	{
@@ -273,6 +273,7 @@ void MainDlg::slotSaveas()
 				KMessageBox::error(m_parent, i18n("The file could not be saved") );
 			else
 			{
+				m_url = url;
 				m_recentFiles->addURL( url );
 				setWindowCaption( m_url.url() );
 				m_modified = false;

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>388</width>
-            <height>337</height>
+            <height>339</height>
         </rect>
     </property>
     <property name="caption">
@@ -65,6 +65,12 @@
                     <property name="itemsMovable">
                         <bool>false</bool>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>List of user defined constants</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Select a constant to change it's value, remove it or dublicate it.</string>
+                    </property>
                 </widget>
                 <widget class="QPushButton" row="3" column="1">
                     <property name="name">
@@ -78,6 +84,12 @@
                     </property>
                     <property name="accel">
                         <string>Alt+U</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Dublicate the selected constant</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to Copy the selected constant to another constant. You can choose the new name from a list.</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="2" column="1">
@@ -93,6 +105,13 @@
                     <property name="accel">
                         <string>Alt+D</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>delete selected constant</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to delete the selected constant.
+Only if the constant is not currently used from a plot it can be removed.</string>
+                    </property>
                 </widget>
                 <widget class="QPushButton" row="1" column="1">
                     <property name="name">
@@ -107,6 +126,12 @@
                     <property name="accel">
                         <string>Alt+C</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Change the value of a user defined constant</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to edit the value of the selected constant. Name can't be changed.</string>
+                    </property>
                 </widget>
                 <widget class="QPushButton" row="0" column="1">
                     <property name="name">
@@ -117,6 +142,12 @@
                     </property>
                     <property name="accel">
                         <string>Alt+N</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Add a new constant</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click this button to add a new constant.</string>
                     </property>
                 </widget>
                 <spacer row="5" column="1">
@@ -192,4 +223,7 @@
     <slot>varlist_doubleClicked( QListViewItem * )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistview.h</includehint>
+</includehints>
 </UI>

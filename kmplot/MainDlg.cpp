@@ -419,6 +419,7 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 		return;
 	}
 	view->parser()->fktext[index].anti_mode = 0;
+	view->parser()->fktext[index].anti_use_precision = false;
 	view->parser()->fktext[ index ].extstr = f_str;
 	view->parser()->getext( index );
 	m_quickEdit->clear();
@@ -523,7 +524,6 @@ void MainDlg::loadConstants()
 		tmp_constant = conf.readEntry("nameConstant"+tmp," ");
 		value = conf.readDoubleNumEntry("valueConstant"+tmp,1.23456789);	
 		constant = tmp_constant.at(0).upper().latin1();
-		kdDebug() << constant << endl;
 		
 		if ( tmp_constant == " " || value == 1.23456789)
 			return;
@@ -533,7 +533,6 @@ void MainDlg::loadConstants()
 		if ( !view->parser()->constant.empty() )
 			for(  ; !stop;constant++)
 			{
-				kdDebug() << "constant" << endl;
 				if (constant=='E')
 					constant++;
 				for( int k = 0; k< (int)view->parser()->constant.size() && !stop;k++)

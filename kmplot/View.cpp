@@ -3,6 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
+*               2004       f_edemar@linux.se
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -158,7 +159,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 	pen.setCapStyle(Qt::RoundCap);
 
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
-	//if(m_parser->fktext[ix].f_mode==0) return ;	// NOPLOT
 
 	dx=stepWidth;
 	
@@ -207,9 +207,21 @@ void View::plotfkt(int ix, QPainter *pDC)
 			
 			m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 			mflg=2;
-			if ( p_mode != 0 ||  m_parser->fktext[ix].f_mode) // if the  
-			for(x=dmin; x<dmax; x+=dx)
+			bool forward_direction = true;
+			if ( p_mode == 3)
 			{
+				if ( m_parser->fktext[ix].anti_use_precision )
+					dx = (m_parser->fktext[ix].anti_precision)/100;
+				else
+					dx=Settings::relativeStepWidth()/1000; //the stepwith must be small for Euler's metod and not depend on the size on the mainwindow
+				x = m_parser->fktext[ix].startx; //the initial x-point
+			}
+			else
+				x=dmin;
+			if ( p_mode != 0 || m_parser->fktext[ix].f_mode) // if not the function is hidden
+			while (x>=dmin && x<=dmax )
+			{
+				
 				errno=0;
 
 				switch(p_mode)
@@ -239,10 +251,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 						pen.setWidth((int)(m_parser->fktext[ix].anti_linewidth*s) );
 						pen.setColor(m_parser->fktext[ix].anti_color);
 						pDC->setPen(pen);
-						if ( m_parser->fktext[ix].anti_use_precision )
-							dx = (m_parser->fktext[ix].anti_precision)/1500;
-					else
-						dx=Settings::relativeStepWidth()/1500; //the stepwith must be small for Euler's metod and not depend on the size on the mainwindow
 						y=m_parser->fkt(ix, x);
 						m_parser->euler_method(x, y,ix);
 						break;
@@ -285,17 +293,26 @@ void View::plotfkt(int ix, QPainter *pDC)
 		    				pDC->drawLine(p1, p2); p1=p2;
                     			mflg=0;
 				}
+		    if (forward_direction)
+		    {
+			    x=x+dx;
+			    if (x>dmax && p_mode== 3)
+			    {
+				forward_direction = false;
+			    	x = m_parser->fktext[ix].startx;
+				mflg=2;
+			    }
+		    }
+		    else
+			    x=x-dx; // go backwards
+
             }
 		}
         while(++k<ke);
 	
 		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) p_mode=1;
 		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
-		else if(m_parser->fktext[ix].anti_mode==1 && p_mode< 3)
-		{
-			p_mode=3;
-			dmin = m_parser->fktext[ix].startx; //the initial x-point
-		}
+		else if( m_parser->fktext[ix].anti_mode==1 && p_mode< 3) p_mode=3;
 		else break;
 
 		//do we need this?

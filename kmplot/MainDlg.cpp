@@ -53,7 +53,6 @@
 #include "MainDlg.moc"
 #include "settings.h"
 #include "settingspagecolor.h"
-#include "settingspagecoords.h"
 #include "settingspagefonts.h"
 #include "settingspageprecision.h"
 #include "settingspagescaling.h"
@@ -82,6 +81,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 		new BrowserExtension(this); // better integration with Konqueror
 	}
 	fdlg = 0;
+	coordsDialog = 0;
 	m_popupmenu = new KPopupMenu(parentWidget);
 	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget );
 	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
@@ -134,7 +134,7 @@ void MainDlg::setupActions()
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 
 
-	// KmPLot specific actions
+	// KmPlot specific actions
 	// file menu
 	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( slotExport() ), actionCollection(), "export");
 
@@ -172,14 +172,7 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 
-	// tools menu
-	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
-	mnuHide->plug(m_popupmenu);
-	KAction *mnuRemove = new KAction(i18n("&Remove"),0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
-	mnuRemove->plug(m_popupmenu);
-	KAction *mnuEdit = new KAction(i18n("&Edit"), 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
-	mnuEdit->plug(m_popupmenu);
-
+		// tools menu
 	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
 	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value..." ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
 	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value..." ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
@@ -195,6 +188,18 @@ void MainDlg::setupActions()
 	( void ) new KToggleAction( i18n( "Show Slider 3" ), 0, this, SLOT( toggleShowSlider2() ), actionCollection(), QString( "options_configure_show_slider_2" ).latin1() );
 	( void ) new KToggleAction( i18n( "Show Slider 4" ), 0, this, SLOT( toggleShowSlider3() ), actionCollection(), QString( "options_configure_show_slider_3" ).latin1() );
 
+	// Popup menu
+	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
+	mnuHide->plug(m_popupmenu);
+	KAction *mnuRemove = new KAction(i18n("&Remove"),0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
+	mnuRemove->plug(m_popupmenu);
+	KAction *mnuEdit = new KAction(i18n("&Edit"), 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
+	mnuEdit->plug(m_popupmenu);
+	m_popupmenu->insertSeparator();
+	KAction *mnuCopy = new KAction(i18n("&Copy"), 0,view, SLOT( mnuCopy_clicked() ),actionCollection(),"mnucopy"  );
+	mnuCopy->plug(m_popupmenu);
+	KAction *mnuMove = new KAction(i18n("&Move"), 0,view, SLOT( mnuMove_clicked() ),actionCollection(),"mnumove"  );
+	mnuMove->plug(m_popupmenu);
 	m_popupmenu->insertSeparator();
 	mnuYValue->plug(m_popupmenu);
 	mnuMinValue->plug(m_popupmenu);
@@ -209,13 +214,13 @@ bool MainDlg::checkModified()
 		             "Do you want to save it?" ) );
 		switch( saveit )
 		{
-		case KMessageBox::Yes:
-			slotSave();
-			if ( m_modified) // the user didn't save the file
+			case KMessageBox::Yes:
+				slotSave();
+				if ( m_modified) // the user didn't saved the file
+					return false;
+				break;
+			case KMessageBox::Cancel:
 				return false;
-			break;
-		case KMessageBox::Cancel:
-			return false;
 		}
 	}
 	return true;
@@ -223,6 +228,8 @@ bool MainDlg::checkModified()
 
 void MainDlg::slotCleanWindow()
 {
+	if (m_readonly)
+		return;
 	view->init(); // set globals to default
 	view->updateSliders();
 	view->drawPlot();
@@ -230,7 +237,7 @@ void MainDlg::slotCleanWindow()
 
 void MainDlg::slotSave()
 {
-	if ( !m_modified) //don't save if no changes are made
+	if ( !m_modified || m_readonly) //don't save if no changes are made or readonly is enabled
 		return;
 	if ( m_url.isEmpty() )            // if there is no file name set yet
 		slotSaveas();
@@ -253,6 +260,8 @@ void MainDlg::slotSave()
 
 void MainDlg::slotSaveas()
 {
+	if (m_readonly)
+		return;
 	KURL url = KFileDialog::getSaveURL( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
 
 	if ( !url.isEmpty() )
@@ -336,13 +345,14 @@ void MainDlg::slotExport()
 bool MainDlg::openFile()
 {
 	view->init();
-	if ( !kmplotio->load( m_url ) )
+	if (m_url==m_currentfile || !kmplotio->load( m_url ) )
 	{
 		m_recentFiles->removeURL(m_url ); //remove the file from the recent-opened-file-list
 		m_url = "";
+		kdDebug() << "Hit2?" << endl;
 		return false;
 	}
-
+	m_currentfile = m_url;
 	m_recentFiles->addURL( m_url  );
 	setWindowCaption( m_url.url() );
 	m_modified = false;
@@ -368,6 +378,7 @@ void MainDlg::slotOpenRecent( const KURL &url )
 		m_recentFiles->removeURL(url ); //remove the file from the recent-opened-file-list
 		return;
 	}
+	m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
 	view->updateSliders();
 	view->drawPlot();
 	m_url = url;
@@ -402,20 +413,21 @@ void MainDlg::editColors()
 
 void MainDlg::editAxes()
 {
-	// create a config dialog and add a colors page
-	KConfigDialog* coordsDialog = new KConfigDialog( m_parent, "coords", Settings::self() );
-	coordsDialog->setHelp("axes-config");
-	coordsDialog->addPage( new SettingsPageCoords( 0, "coordsSettings" ), i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) );
-	// User edited the configuration - update your local copies of the
-	// configuration data
-	connect( coordsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+	// create a config dialog and add a axes page
+	if ( !coordsDialog)
+	{
+		coordsDialog = new CoordsConfigDialog( view->parser(), m_parent);
+		// User edited the configuration - update your local copies of the
+		// configuration data
+		connect( coordsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+	}
 	coordsDialog->show();
 }
 
 void MainDlg::editScaling()
 {
-	// create a config dialog and add a colors page
-	KConfigDialog* scalingDialog = new KConfigDialog( m_parent, "scaling", Settings::self() );
+	// create a config dialog and add a scaling page
+	KConfigDialog *scalingDialog = new KConfigDialog( m_parent, "scaling", Settings::self() );
 	scalingDialog->setHelp("scaling-config");
 	scalingDialog->addPage( new SettingsPageScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
 	// User edited the configuration - update your local copies of the
@@ -426,7 +438,7 @@ void MainDlg::editScaling()
 
 void MainDlg::editFonts()
 {
-	// create a config dialog and add a colors page
+	// create a config dialog and add a font page
 	KConfigDialog* fontsDialog = new KConfigDialog( m_parent, "fonts", Settings::self() );
 	fontsDialog->setHelp("font-config");
 	fontsDialog->addPage( new SettingsPageFonts( 0, "fontsSettings" ), i18n( "Fonts" ), "fonts", i18n( "Edit Fonts" ) );

@@ -60,6 +60,11 @@ public:
 	/// Returns true if a function was changed
 	bool isChanged();
 
+public slots:
+	/// Pressed on the "Copy Function.." button
+	void slotCopyFunction();
+	/// Pressed on the "Move Function.." button
+	void slotMoveFunction();
 protected slots:
 	/// Delete selected plot
 	void slotDelete();
@@ -101,6 +106,9 @@ private:
 	void updateView();
 	/// Called when the dialog is showed
 	void showEvent ( QShowEvent * );
+	// /// Send a function to an other instance of Kmplot. Returns true if it success, otherwise false
+	// bool sendFunction();
+	
 	/// Ponts to the parser instance.
 	View* m_view;
 	/// indicates if a function is changed/added/removed

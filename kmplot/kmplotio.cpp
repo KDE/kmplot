@@ -57,7 +57,7 @@ bool KmPlotIO::save( const KURL &url )
 	QDomDocument doc( "kmpdoc" );
 	// the root tag
 	QDomElement root = doc.createElement( "kmpdoc" );
-	root.setAttribute( "version", "1" );
+	root.setAttribute( "version", "2" );
 	doc.appendChild( root );
 
 	// the axes tag
@@ -153,8 +153,12 @@ bool KmPlotIO::save( const KURL &url )
 
 			addTag( doc, tag, "equation", it->extstr );
 
-			if( !it->str_parameter.isEmpty() )
-				addTag( doc, tag, "parameterlist", it->str_parameter.join( "," ) );
+			QStringList str_parameters;
+			for ( QValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
+				str_parameters.append( (*k).expression);
+			
+			if( !str_parameters.isEmpty() )
+				addTag( doc, tag, "parameterlist", str_parameters.join( ";" ) );
 
 			addTag( doc, tag, "arg-min", it->str_dmin );
 			addTag( doc, tag, "arg-max", it->str_dmax );
@@ -264,7 +268,7 @@ bool KmPlotIO::load( const KURL &url )
 				oldParseFunction( m_parser, n.toElement() );
 		}
 	}
-	else if (version == "1")
+	else if (version == "1" || version == "2")
 	{
 		MainDlg::oldfileversion = false;
 		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
@@ -325,14 +329,13 @@ int unit2index( const QString unit )
 }
 
 
-void KmPlotIO::parseScale( const QDomElement & n )
+void KmPlotIO::parseScale(const QDomElement & n )
 {
-	Settings::setXScaling( atoi( n.namedItem( "tic-x" ).toElement().text().latin1() ) );
-	Settings::setYScaling( atoi( n.namedItem( "tic-y" ).toElement().text().latin1() ) );
-	Settings::setXPrinting( atoi( n.namedItem( "print-tic-x" ).toElement().text().latin1() ) );
-	Settings::setYPrinting( atoi( n.namedItem( "print-tic-y" ).toElement().text().latin1() ) );
+	Settings::setXScaling(  n.namedItem( "tic-x" ).toElement().text().toInt()  );
+	Settings::setYScaling(  n.namedItem( "tic-y" ).toElement().text().toInt() );
+	Settings::setXPrinting(  n.namedItem( "print-tic-x" ).toElement().text().toInt()  );
+	Settings::setYPrinting(  n.namedItem( "print-tic-y" ).toElement().text().toInt() );
 }
-
 
 void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
 {
@@ -414,7 +417,10 @@ void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
 	else ufkt.dmax = m_parser->eval( ufkt.str_dmax );
 
 	ufkt.extstr = n.namedItem( "equation" ).toElement().text();
-	parseParameters( m_parser, n, ufkt );
+	if (MainDlg::oldfileversion)
+		parseThreeDotThreeParameters( m_parser, n, ufkt );
+	else
+		parseParameters( m_parser, n, ufkt );
 
 	QCString fstr = ufkt.extstr.utf8();
 	if ( !fstr.isEmpty() )
@@ -450,22 +456,32 @@ void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
 		added_function->f1_color = ufkt.f1_color;
 		added_function->f2_color = ufkt.f2_color;
 		added_function->integral_color = ufkt.integral_color;
-		added_function->str_parameter = ufkt.str_parameter;
+		added_function->parameters = ufkt.parameters;
 		added_function->use_slider = ufkt.use_slider;
-		added_function->k_liste = ufkt.k_liste;
+		//added_function->k_liste = ufkt.k_liste;
 	}
 }
 
 void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
 {
-	ufkt.str_parameter = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
-
-	for( QStringList::Iterator it = ufkt.str_parameter.begin(); it != ufkt.str_parameter.end(); ++it )
-	{
-		ufkt.k_liste.append( m_parser->eval( *it ) );
-	}
-
+	QStringList str_parameters;
+	for ( QValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
+		str_parameters.append( (*it).expression);
+	str_parameters = QStringList::split( ";", n.namedItem( "parameterlist" ).toElement().text() );
+	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
+		ufkt.parameters.append( ParameterValueItem( *it, m_parser->eval( *it ) ));
 }
+
+void KmPlotIO::parseThreeDotThreeParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
+{
+	QStringList str_parameters;
+	for ( QValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
+		str_parameters.append( (*it).expression);
+	str_parameters = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
+	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
+		ufkt.parameters.append( ParameterValueItem( *it, m_parser->eval( *it ) ));
+}
+
 void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 {
 	kdDebug() << "parsing old function" << endl;
@@ -532,9 +548,9 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 		added_function->f1_color = ufkt.f1_color;
 		added_function->f2_color = ufkt.f2_color;
 		added_function->integral_color = ufkt.integral_color;
-		added_function->str_parameter = ufkt.str_parameter;
+		added_function->parameters = ufkt.parameters;
 		added_function->use_slider = ufkt.use_slider;
-		added_function->k_liste = ufkt.k_liste;
+		//added_function->k_liste = ufkt.k_liste;
 	}
 }
 

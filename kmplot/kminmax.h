@@ -37,7 +37,7 @@ class KMinMax : public QMinMax
 {
 Q_OBJECT
 public:
-    KMinMax(QWidget *parent = 0, const char *name = 0);
+    //KMinMax(QWidget *parent = 0, const char *name = 0);
     KMinMax(View *, QWidget *parent = 0, const char *name = 0);
     /// called every time the dialog is opened
     void init(char);

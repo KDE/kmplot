@@ -25,20 +25,17 @@
 
 #include "kmplot.h"
 
+#include <kaction.h>
+#include <kconfig.h>
+#include <kedittoolbar.h>
 #include <kkeydialog.h>
 #include <kfiledialog.h>
-#include <kconfig.h>
-#include <kurl.h>
-
-#include <kedittoolbar.h>
-
-#include <kaction.h>
-#include <kstdaction.h>
-
 #include <klibloader.h>
+#include <klocale.h>
 #include <kmessagebox.h>
 #include <kstatusbar.h>
-#include <klocale.h>
+#include <kstdaction.h>
+#include <kurl.h>
 
 #include "MainDlg.h"
 #include "kmplotprogress.h"
@@ -91,13 +88,19 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	setAutoSaveSettings();
 	if (args)
 	{
+		bool exit = false;
 		for (int i=0; i < args->count(); i++ )
 		{
 			if (i==0)
-				load(args->url(0) );
+			{
+				if (!load(args->url(0) ) )
+					exit = true;
+			}
 			else
 				openFileInNewWindow( args->url(i) );
 		}
+		if (exit)
+			deleteLater(); // couln't open the file, and therefore exit
 	}
 }
 
@@ -118,9 +121,10 @@ void KmPlot::slotUpdateFullScreen( bool checked)
 	}
 }
 
-void KmPlot::load(const KURL& url)
+bool KmPlot::load(const KURL& url)
 {
 	m_part->openURL( url );
+	return !m_part->url().isEmpty();
 }
 
 void KmPlot::setupActions()
@@ -161,7 +165,8 @@ void KmPlot::fileNew()
 	// says that it should open a new window if the document is _not_
 	// in its initial state.  This is what we do here..
 	if ( !m_part->url().isEmpty() || isModified() )
-		KApplication::startServiceByDesktopName("kmplot");
+		//KApplication::startServiceByDesktopName("kmplot");
+		KApplication::kdeinitExec("kmplot");
 }
 
 bool KmPlot::stopProgressBar()
@@ -236,7 +241,7 @@ void KmPlot::fileOpen()
 	// the Open shortcut is pressed (usually CTRL+O) or the Open toolbar
 	// button is clicked
 	KURL const url = KFileDialog::getOpenURL( QDir::currentDirPath(),
-	                 i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
+	                 i18n( "*.fkt|KmPlot Files (*.fkt)\n*.*|All Files" ), this, i18n( "Open" ) );
 
 	if ( !url.isEmpty())
 	{

@@ -63,7 +63,7 @@ public:
 	/**
 	 * Use this method to load whatever file/URL you have
 	 */
-	void load(const KURL& url);
+	bool load(const KURL& url);
 
 protected:
 	/**

@@ -41,6 +41,7 @@
 
 // local includes
 #include "diagr.h"
+#include "Viewiface.h"
 #include "xparser.h"
 
 class XParser;
@@ -53,7 +54,7 @@ class SliderWindow;
  * It is the central widget of MainDlg.
  * @see MainDlg, MainDlg::view
  */
-class View : public QWidget
+class View : public QWidget, virtual public ViewIface
 {
 	Q_OBJECT
 public:
@@ -108,6 +109,8 @@ public slots:
 	/// Called when the graph should be updated
 	void drawPlot();
 	///Slots for the three first items in popup menu
+	void mnuCopy_clicked();
+	void mnuMove_clicked();
 	void mnuHide_clicked();
 	void mnuRemove_clicked();
 	void mnuEdit_clicked();
@@ -118,7 +121,6 @@ public slots:
 	void mnuZoomOut_clicked();
 	void mnuCenter_clicked();
 	void mnuTrig_clicked();
-
 
 protected slots:
 	void paintEvent(QPaintEvent *);
@@ -136,7 +138,6 @@ protected slots:
 
 signals:
 	void setStatusBarText(const QString &);
-
 
 private:
 	/// Print out table with additional information.

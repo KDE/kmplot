@@ -23,40 +23,21 @@
 *
 */
 
-#ifndef KPARAMETEREDITOR_H
-#define KPARAMETEREDITOR_H
+#ifndef VIEWIFACE_H
+#define VIEWIFACE_H
 
-#include "qparametereditor.h"
-#include "xparser.h"
-
-class ParameterValueList;
+#include <dcopobject.h>
 
 /**
 @author Fredrik Edemar
 */
-/// This class handles the parameter values: it can create, remove, edit and import values.
-class KParameterEditor : public QParameterEditor
+/// All functions in ViewIface are accessible with DCOP. For descriptions about the functions, see View.
+class ViewIface : virtual public DCOPObject
 {
-Q_OBJECT
-public:
-    KParameterEditor(XParser *, QValueList<ParameterValueItem> *, QWidget *parent = 0, const char *name = 0);
-    ~KParameterEditor();
-    
-public slots:
-    void cmdNew_clicked();
-    void cmdEdit_clicked();
-    void cmdDelete_clicked();
-    void cmdImport_clicked();
-    void cmdExport_clicked();
-    void varlist_clicked( QListBoxItem *  );
-    void varlist_doubleClicked( QListBoxItem * );
-  
-    
-private:
-    /// Check so that it doesn't exist two equal values
-    bool checkTwoOfIt( const QString & text);
-    QValueList<ParameterValueItem> *m_parameter;
-    XParser *m_parser;
+	K_DCOP
+k_dcop:
+	virtual void stopDrawing() = 0;
+	virtual void drawPlot() = 0;
 };
 
 #endif

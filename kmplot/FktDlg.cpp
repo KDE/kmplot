@@ -30,7 +30,9 @@
 // KDE includes
 #include <kapplication.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 #include <kpushbutton.h>
+#include <qcstring.h>
 
 // locale includes
 #include "FktDlg.h"
@@ -39,6 +41,7 @@
 #include "keditparametric.h"
 #include "keditpolar.h"
 #include "MainDlg.h"
+#include "parseriface.h"
 #include "xparser.h"
 
 #include <kdebug.h>
@@ -47,6 +50,8 @@
 
 FktDlg::FktDlg( QWidget* parent, View *view ) : Inherited( parent, "editPlots" ), m_view(view)
 {
+	connect( cmdCopyFunction, SIGNAL( clicked() ), this, SLOT( slotCopyFunction()) );
+	connect( cmdMoveFunction, SIGNAL( clicked() ), this, SLOT( slotMoveFunction()) );
 }
 
 FktDlg::~FktDlg()
@@ -66,17 +71,15 @@ void FktDlg::slotDelete()
 	if( lb_fktliste->text( num )[0] == 'x' )
 	{
 		// Delete pair of parametric function
-		int const ix = m_view->parser()->ixValue( getParamId( lb_fktliste->text( num ) ) );
-                if ( ix == -1)
+		int const id = getParamId( lb_fktliste->text( num ));
+                if ( id == -1)
                         return;
-                m_view->parser()->delfkt( ix+1 );
-                m_view->parser()->delfkt( ix );
+		m_view->parser()->delfkt(id);
 	}
-	else 
+	else
 	{
 		// only one function to be deleted
 		m_view->parser()->delfkt( m_view->parser()->ixValue(getId( lb_fktliste->text( num ))) );
-                
 	}
 	lb_fktliste->removeItem( num );
 	changed = true;
@@ -133,9 +136,11 @@ void FktDlg::updateView()
 
 void FktDlg::slotHasSelection()
 {
-	bool has_selection = !( lb_fktliste->currentItem() == -1 );
+	bool const has_selection = !( lb_fktliste->currentItem() == -1 );
 	PushButtonEdit->setEnabled( has_selection );
 	PushButtonDel->setEnabled( has_selection );
+	cmdCopyFunction->setEnabled( has_selection );
+	cmdMoveFunction->setEnabled( has_selection );
 }
 
 void FktDlg::slotEditFunction( int id, int num )
@@ -231,4 +236,49 @@ bool FktDlg::isChanged()
 void FktDlg::showEvent ( QShowEvent * )
 {
 	changed = false;
+}
+
+void FktDlg::slotCopyFunction()
+{
+	int num;
+	if ( ( num = lb_fktliste->currentItem() )== -1)
+	{
+		cmdCopyFunction->setEnabled(false);
+		return;
+	}
+	QString const fstr = lb_fktliste->text(num);
+	if( fstr.at(0) == 'x' )
+	{
+		int const id = getParamId( lb_fktliste->text( num ));
+		if ( !m_view->parser()->sendFunction(id) )
+			return;
+		m_view->parser()->sendFunction(id+1);
+	}
+	else
+		m_view->parser()->sendFunction(getId(fstr));
+}
+
+void FktDlg::slotMoveFunction()
+{
+	int num;
+	if ( ( num = lb_fktliste->currentItem() )== -1)
+	{
+		cmdCopyFunction->setEnabled(false);
+		return;
+	}
+	QString const fstr = lb_fktliste->text(num);
+	if( fstr.at(0) == 'x' )
+	{
+		int const id = getParamId( lb_fktliste->text( num ));
+		if ( !m_view->parser()->sendFunction(id) )
+			return;
+		if ( m_view->parser()->sendFunction(id+1) )
+			return;
+	}
+	else
+		if ( !m_view->parser()->sendFunction(getId( lb_fktliste->text( lb_fktliste->currentItem())) ) )
+			return;
+	
+	
+	slotDelete();
 }

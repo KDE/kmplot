@@ -211,9 +211,8 @@ void KEditParametric::accept()
         added_ufkt->f1_color = tmp_ufkt.f1_color;
         added_ufkt->f2_color = tmp_ufkt.f2_color;
         added_ufkt->integral_color = tmp_ufkt.integral_color;
-        added_ufkt->str_parameter = tmp_ufkt.str_parameter;
+	//added_ufkt->parameters = tmp_ufkt.parameters;
         added_ufkt->use_slider = tmp_ufkt.use_slider;
-        added_ufkt->k_liste = tmp_ufkt.k_liste;
 
         added_ufkt = 0;
         if( m_y_id != -1 )  //when editing a function: 
@@ -235,7 +234,7 @@ void KEditParametric::accept()
         }
         else
         {
-                int const id = m_parser->addfkt( yFunction() ); 
+                int const id = m_parser->addfkt( yFunction() );
                 if( id == -1 ) 
                 {
                         m_parser->parserError();
@@ -271,9 +270,9 @@ void KEditParametric::accept()
         added_ufkt->f1_color = tmp_ufkt.f1_color;
         added_ufkt->f2_color = tmp_ufkt.f2_color;
         added_ufkt->integral_color = tmp_ufkt.integral_color;
-        added_ufkt->str_parameter = tmp_ufkt.str_parameter;
+	added_ufkt->parameters = tmp_ufkt.parameters;
         added_ufkt->use_slider = tmp_ufkt.use_slider;
-        added_ufkt->k_liste = tmp_ufkt.k_liste;
+        //added_ufkt->k_liste = tmp_ufkt.k_liste;
 
 	
 	// call inherited method

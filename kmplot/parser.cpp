@@ -87,9 +87,10 @@ Ufkt::~Ufkt()
 }
 
 
-Parser::Parser( int m_size, int s_size )
-        : memsize(m_size), stacksize(s_size)
-{   ps_init();
+Parser::Parser()
+	: memsize(MEMSIZE), stacksize(STACKSIZE)
+{
+	ps_init();
 }
 
 
@@ -170,6 +171,13 @@ double Parser::eval(QString str)
                 delete []stack;
 		return 0;
 	}
+	for (uint i=0;i<str.length();i++ )
+		if (str.at(i).category() == QChar::Letter_Uppercase)
+		{
+			err=14;
+			delete []stack;
+			return 0;
+		}
 	
 	lptr=str.latin1();
 	err=0;
@@ -329,7 +337,7 @@ int Parser::addfkt(QString str)
 	}
 	if(p2==-1 || p2>p3) p2=p3;
 	
-        if( getfix(str.left(p1)) )
+	if( fnameToId(str.left(p1))!=-1 )
 	{
                 err=8;
 		return -1;
@@ -350,7 +358,10 @@ int Parser::addfkt(QString str)
         else
         {
                 Ufkt temp;
-                temp.id = getNewId();
+		if ( temp.extstr.at(0) == 'y')
+			temp.id = ufkt.last().id; //the function belongs to the last inserted function
+		else
+                	temp.id = getNewId();
                 temp.mem=new unsigned char [memsize];
                 ufkt.append(temp );
         }
@@ -505,30 +516,32 @@ void Parser::fix_expression(QString &str, int const pos)
         //kdDebug() << "str:" << str << endl;
 }
 
-void Parser::delfkt( QValueVector<Ufkt>::iterator item)
+void Parser::delfkt( Ufkt *item)
 {
         if ( ufkt.count()==1 )
         {
                 kdDebug() << "first item, don't delete" << endl;
-                ufkt.first().fname="";
+		item->fname="";
         }
         else
         {
                 kdDebug() << "Deleting something... :-)" << endl;
-                delete [](*item).mem;
+		QChar const extstr_c = item->extstr.at(0);
+		uint const id = item->id;
+		delete []item->mem;
                 ufkt.erase(item);
+		if ( extstr_c == 'x' || extstr_c == 'y')
+			delfkt( &ufkt[id] );
         }
 }
 
-bool Parser::delfkt(int ix)
+bool Parser::delfkt(uint id)
 {
-        if ( ix >=0 && ix<(int)ufkt.count() ) // range check
-        {
-                delfkt( &ufkt[ix] );
-                return true;
-        }
-        else
-                return false;
+	int ix = ixValue(id);
+	if ( ix == -1)
+		return false;
+	delfkt( &ufkt[ix] );
+	return true;
 }
 
 uint Parser::countFunctions()
@@ -643,7 +656,6 @@ void Parser::heir4()
 
 void Parser::primary()
 {
-
 	if(match("("))
 	{
                 heir1();
@@ -651,7 +663,6 @@ void Parser::primary()
                         err=2;	// fehlende Klammer
 		return;
 	}
-        
         int i;
         for(i=0; i<FANZ; ++i)
         {
@@ -663,7 +674,6 @@ void Parser::primary()
                         return;
                 }
         }
-
         for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
                 if(QString(lptr)=="pi" || QString(lptr)=="e") continue;
@@ -678,7 +688,6 @@ void Parser::primary()
 			primary();
 			addtoken(UFKT);
                         addfptr( it->id );
-                        kdDebug() << "Hit?" << endl;
 			return;
 		}
 	}
@@ -895,14 +904,14 @@ void Parser::addfptr(uint id)
 }
 
 
-bool Parser::getfix(QString name)
+int Parser::fnameToId(const QString &name)
 {
         for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
                 if(name==it->fname)
-                        return true;
+                        return it->id;
 	}
-	return false;     // Name nicht bekannt
+	return -1;     // Name nicht bekannt
 }
 
 
@@ -948,6 +957,8 @@ int Parser::parserError(bool showMessageBox)
                         break;
                 case 13:  KMessageBox::error(0, i18n("Function could not be found"), "KmPlot");
                         break;
+		case 14:  KMessageBox::error(0, i18n("Evalation expression may not use user definded constants"), "KmPlot");
+			break;
 	}
         return err;
 }

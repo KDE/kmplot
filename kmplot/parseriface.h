@@ -1,0 +1,80 @@
+/*
+* KmPlot - a math. function plotter for the KDE-Desktop
+*
+* Copyright (C) 2004  Fredrik Edemar
+*                     f_edemar@linux.se
+*               
+* This file is part of the KDE Project.
+* KmPlot is part of the KDE-EDU Project.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*
+*/
+
+#ifndef XPARSERIFACE_H
+#define XPARSERIFACE_H
+
+#include <dcopobject.h>
+#include <qcolor.h>
+#include <qstringlist.h>
+
+/**
+@author Fredrik Edemar
+*/
+/// All functions in ParserIface are accessible with DCOP. For descriptions about the functions, see Parser.
+class ParserIface : virtual public DCOPObject
+{
+	K_DCOP
+k_dcop:
+	virtual int addFunction(QString f_str) = 0;
+	virtual bool addFunction(QString extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, QString str_dmin, QString str_dmax, QString str_startx, QString str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider) = 0;
+	virtual bool delfkt(uint id) = 0;
+	virtual bool setFunctionExpression(QString f_str, uint id) = 0;
+	virtual uint countFunctions() = 0;
+	virtual QStringList listFunctionNames() = 0;
+	virtual int fnameToId(const QString &name) = 0;
+	virtual double fkt(uint id, double x) = 0;
+	virtual bool functionFVisible(uint id) = 0;
+	virtual bool functionF1Visible(uint id) = 0;
+	virtual bool functionF2Visible(uint id) = 0;
+	virtual bool functionIntVisible(uint id) = 0;
+	virtual bool setFunctionFVisible(bool visible, uint id) = 0;
+	virtual bool setFunctionF1Visible(bool visible, uint id) = 0;
+	virtual bool setFunctionF2Visible(bool visible, uint id) = 0;
+	virtual bool setFunctionIntVisible(bool visible, uint id) = 0;
+	virtual QString functionFstr(uint id) = 0;
+	virtual QString functionExtstr(uint id) = 0;
+	virtual QColor functionFColor(uint id) = 0;
+	virtual QColor functionF1Color(uint id) = 0;
+	virtual QColor functionF2Color(uint id) = 0;
+	virtual QColor functionIntColor(uint id) = 0;
+	virtual bool setFunctionFColor(QColor color, uint id) = 0;
+	virtual bool setFunctionF1Color(QColor color, uint id) = 0;
+	virtual bool setFunctionF2Color(QColor color, uint id) = 0;
+	virtual bool setFunctionIntColor(QColor color, uint id) = 0;
+	virtual int functionFLineWidth(uint id) = 0;
+	virtual int functionF1LineWidth(uint id) = 0;
+	virtual int functionF2LineWidth(uint id) = 0;
+	virtual int functionIntLineWidth(uint id) = 0;
+	virtual bool setFunctionFLineWidth(int linewidth, uint id) = 0;
+	virtual bool setFunctionF1LineWidth(int linewidth, uint id) = 0;
+	virtual bool setFunctionF2LineWidth(int linewidth, uint id) = 0;
+	virtual bool setFunctionIntLineWidth(int linewidth, uint id) = 0;
+	virtual QStringList functionParameterList(uint id) = 0;
+	virtual bool functionAddParameter(QString new_parameter, uint id) = 0;
+	virtual bool functionRemoveParameter(QString remove_parameter, uint id) = 0;
+};
+
+#endif

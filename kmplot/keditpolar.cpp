@@ -197,9 +197,9 @@ void KEditPolar::accept()
         added_ufkt->f1_color = tmp_ufkt.f1_color;
         added_ufkt->f2_color = tmp_ufkt.f2_color;
         added_ufkt->integral_color = tmp_ufkt.integral_color;
-        added_ufkt->str_parameter = tmp_ufkt.str_parameter;
+        added_ufkt->parameters = tmp_ufkt.parameters;
         added_ufkt->use_slider = tmp_ufkt.use_slider;
-        added_ufkt->k_liste = tmp_ufkt.k_liste;
+        //added_ufkt->k_liste = tmp_ufkt.k_liste;
         
         kLineEditYFunction->setText(f_str); //update the function name in FktDlg
 	// call inherited method

@@ -86,6 +86,9 @@ class KmPlotIO
 		/// @param ix Function index in the parser instance
 		void parseParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
                 
+		/// For KDE 3.3
+		void parseThreeDotThreeParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
+		
                 ///For KDE <3.3
                 /// This is the same as parseScale but is made for old Kmplot-files
                 void oldParseScale( const QDomElement & n );

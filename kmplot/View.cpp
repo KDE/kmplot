@@ -56,9 +56,9 @@ double View::xmin = 0;
 double View::xmax = 0;
 
 
-View::View(bool const r, bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
+View::View(bool const r, bool &mo, KPopupMenu *p, QWidget* parent, const char* name ) : DCOPObject("View"), QWidget( parent, name , WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
 {
-	m_parser = new XParser(MEMSIZE, STACKSIZE );
+	m_parser = new XParser(mo);
 	init();
 	csflg=0;
 	csmode=-1;
@@ -256,12 +256,10 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	pen.setColor(ufkt->color);
 	pDC->setPen(pen);
 
-
 	while(1)
 	{
-
 		k=0;
-		ke=ufkt->k_liste.count();
+		ke=ufkt->parameters.count();
 		do
 		{
 			kdDebug() << "drawing " << ufkt->id << endl;
@@ -269,8 +267,8 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 				break;
 			if( ufkt->use_slider == -1 )
 			{
-				if ( !ufkt->k_liste.isEmpty() )
-					ufkt->setParameter( ufkt->k_liste[k] );
+				if ( !ufkt->parameters.isEmpty() )
+					ufkt->setParameter( ufkt->parameters[k].value );
 			}
 			else
 				ufkt->setParameter( sliders[ ufkt->use_slider ]->slider->value() );
@@ -348,14 +346,14 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 
 					if ( dgr.xclipflg || dgr.yclipflg )
 					{
-						if(mflg>=1)
+						//if(mflg>=1)
 							p1=p2;
-						else
+						/*else
 						{
 							pDC->drawLine(p1, p2);
 							p1=p2;
 							mflg=1;
-						}
+						}*/
 					}
 					else
 					{
@@ -634,8 +632,8 @@ void View::mouseMoveEvent(QMouseEvent *e)
 				it = &m_parser->ufkt[ix];
 				if( it->use_slider == -1 )
 				{
-					if( it->k_liste.isEmpty() )
-						it->setParameter( it->k_liste[csparam] );
+					if( it->parameters.isEmpty() )
+						it->setParameter( it->parameters[csparam].value );
 				}
 				else
 					it->setParameter(sliders[ it->use_slider ]->slider->value() );
@@ -842,13 +840,13 @@ void View::mousePressEvent(QMouseEvent *e)
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
 			kdDebug() << "it:" << it->extstr << endl;
 			int k=0;
-			int const ke=it->k_liste.count();
+			int const ke=it->parameters.count();
 			do
 			{
 				if( it->use_slider == -1 )
 				{
-					if ( !it->k_liste.isEmpty())
-						it->setParameter(it->k_liste[k]);
+					if ( !it->parameters.isEmpty())
+						it->setParameter(it->parameters[k].value);
 				}
 				else
 					it->setParameter(sliders[ it->use_slider ]->slider->value() );
@@ -952,13 +950,13 @@ void View::mousePressEvent(QMouseEvent *e)
 		}
 
 		int k=0;
-		int const ke=it->k_liste.count();
+		int const ke=it->parameters.count();
 		do
 		{
 			if( it->use_slider == -1 )
 			{
-				if ( !it->k_liste.isEmpty() )
-					it->setParameter( it->k_liste[k]);
+				if ( !it->parameters.isEmpty() )
+					it->setParameter( it->parameters[k].value );
 			}
 			else
 				it->setParameter(sliders[ it->use_slider ]->slider->value() );
@@ -1171,17 +1169,15 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	bool start = true;
 
 	// TODO: parameter sliders
-	if ( !ufkt->k_liste.isEmpty() )
+	if ( !ufkt->parameters.isEmpty() )
 	{
-		int i=0;
-		for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
+		for ( QValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
-			if ( *it == str_parameter)
+			if ( (*it).expression == str_parameter)
 			{
-				ufkt->setParameter(ufkt->k_liste[i]);
+				ufkt->setParameter( (*it).value );
 				break;
 			}
-			i++;
 		}
 	}
 
@@ -1305,17 +1301,15 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QString &str_parameter)
 {
 	// TODO: parameter sliders
-	if ( !ufkt->k_liste.isEmpty() )
+	if ( !ufkt->parameters.isEmpty() )
 	{
-		int i=0;
-		for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
+		for ( QValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
-			if ( *it == str_parameter)
+			if ( (*it).expression == str_parameter)
 			{
-				ufkt->setParameter(ufkt->k_liste[i]);
+				ufkt->setParameter((*it).value);
 				break;
 			}
-			i++;
 		}
 	}
 
@@ -1422,7 +1416,7 @@ void View::keyPressEvent( QKeyEvent * e)
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
 		QValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
-		int const ke=it->k_liste.count();
+		int const ke=it->parameters.count();
 		if (ke>0)
 		{
 			csparam++;
@@ -1577,17 +1571,15 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	}
 
 	// TODO: parameter sliders
-	if ( !ufkt->k_liste.isEmpty() )
+	if ( !ufkt->parameters.isEmpty() )
 	{
-		int i=0;
-		for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
+		for ( QValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
-			if ( *it == str_parameter)
+			if ( (*it).expression == str_parameter)
 			{
-				ufkt->setParameter(ufkt->k_liste[i]);
+				ufkt->setParameter((*it).value);
 				break;
 			}
-			i++;
 		}
 	}
 	double dx;
@@ -1640,27 +1632,23 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		}
 		switch(p_mode)
 		{
-		case 0:
-			y=m_parser->fkt( ufkt, x);
-			break;
-
-		case 1:
-			{
+			case 0:
+				y=m_parser->fkt( ufkt, x);
+				break;
+	
+			case 1:
 				y=m_parser->a1fkt( ufkt, x);
 				break;
-			}
-		case 2:
-			{
+			case 2:
 				y=m_parser->a2fkt( ufkt, x);
 				break;
-			}
-		case 3:
+			case 3:
 			{
 				y = m_parser->euler_method(x, ufkt);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
-					increaseProgressBar();
+						increaseProgressBar();
 				}
 				break;
 			}
@@ -1862,6 +1850,23 @@ void View::mnuEdit_clicked()
 		}
 	}
 }
+
+void View::mnuCopy_clicked()
+{
+	if ( m_parser->sendFunction(csmode) )
+		m_modified = true;
+}
+
+void View::mnuMove_clicked()
+{
+	if ( m_parser->sendFunction(csmode) )
+	{
+		m_parser->delfkt(csmode);
+		drawPlot();
+		m_modified = true;
+	}
+}
+
 void View::mnuNoZoom_clicked()
 {
 	setCursor(Qt::ArrowCursor);
@@ -1925,24 +1930,22 @@ void View::restoreCursor()
 {
 	switch (zoom_mode)
 	{
-	case 0:  //no zoom
-		setCursor(Qt::ArrowCursor);
-		break;
-	case 1: //rectangle zoom
-		setCursor(Qt::CrossCursor);
-		break;
-	case 2: //zoom in
-		setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
-		break;
-	case 3: //zoom in
-		setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
-		break;
-	case 5: //center a point
-		setCursor(Qt::PointingHandCursor);
-		break;
-
+		case 0:  //no zoom
+			setCursor(Qt::ArrowCursor);
+			break;
+		case 1: //rectangle zoom
+			setCursor(Qt::CrossCursor);
+			break;
+		case 2: //zoom in
+			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+			break;
+		case 3: //zoom in
+			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
+			break;
+		case 5: //center a point
+			setCursor(Qt::PointingHandCursor);
+			break;
 	}
-
 }
 
 bool View::event( QEvent * e )

@@ -36,15 +36,17 @@
 #include <kurl.h>
 #include <qfile.h>
 #include <qtextstream.h>
-
+#include <qvaluelist.h>
 
 #include "kparametereditor.h"
 
-KParameterEditor::KParameterEditor(XParser *m, QStringList *l, QWidget *parent, const char *name)
+class ParameterValueList;
+
+KParameterEditor::KParameterEditor(XParser *m, QValueList<ParameterValueItem> *l, QWidget *parent, const char *name)
 	: QParameterEditor(parent,name, true, Qt::WDestructiveClose), m_parameter(l), m_parser(m)
 {
-  	for ( QStringList::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
-		list->insertItem(*it);
+	for (  QValueList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
+		list->insertItem( (*it).expression );
 	list->sort();
 	
 	connect( cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
@@ -61,10 +63,12 @@ KParameterEditor::KParameterEditor(XParser *m, QStringList *l, QWidget *parent, 
 KParameterEditor::~KParameterEditor()
 {
 	m_parameter->clear();
+	QString item_text;
 	for (int i = 0; (uint)i <= list->count();i++)
 	{
-		if ( !list->text(i).isEmpty() )
-			m_parameter->append(list->text(i));
+		item_text = list->text(i);
+		if ( !item_text.isEmpty() )
+			m_parameter->append( ParameterValueItem(item_text, m_parser->eval( item_text)) );
 	}
 }
 

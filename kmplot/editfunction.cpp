@@ -123,9 +123,9 @@ void EditFunction::setWidgets()
 	else
 		editfunctionpage->customRange->setChecked(false);
 	
-	m_parameter =  ufkt->str_parameter;
+	m_parameter =  ufkt->parameters;
 	if( ufkt->use_slider == -1 )
-		if ( ufkt->k_liste.isEmpty() )
+		if ( ufkt->parameters.isEmpty() )
 			editfunctionpage->useNoParameter->setChecked( true );
 		else	
 			editfunctionpage->useList->setChecked( true );
@@ -268,12 +268,11 @@ void EditFunction::accept()
 			m_parameter.clear();
 		else
 		{
-			tmp_ufkt.str_parameter = m_parameter;
-                        tmp_ufkt.k_liste.clear();
-			for( QStringList::Iterator it = m_parameter.begin(); it != m_parameter.end(); ++it )
+			tmp_ufkt.parameters = m_parameter;
+			/*for( QStringList::Iterator it = m_parameter.begin(); it != m_parameter.end(); ++it )
 			{
-                                tmp_ufkt.k_liste.append(m_parser->eval(( *it ) ) );
-			}
+				(*it).value = m_parser->eval(( *it ) ) );
+			}*/
 		}
 			
 	}
@@ -359,9 +358,8 @@ void EditFunction::accept()
         added_ufkt->f1_color = tmp_ufkt.f1_color;
         added_ufkt->f2_color = tmp_ufkt.f2_color;
         added_ufkt->integral_color = tmp_ufkt.integral_color;
-        added_ufkt->str_parameter = tmp_ufkt.str_parameter;
+        added_ufkt->parameters = tmp_ufkt.parameters;
         added_ufkt->use_slider = tmp_ufkt.use_slider;
-        added_ufkt->k_liste = tmp_ufkt.k_liste;
         
 	editfunctionpage->equation->setText(f_str); //update the function name in FktDlg
 	

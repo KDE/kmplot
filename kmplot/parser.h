@@ -28,9 +28,9 @@
  
 // Qt includes
 #include <qstring.h>
-//#include <qvaluelist.h>
 #include <qvaluevector.h>
 
+#include "parseriface.h"
 
 #ifndef parser_included
 #define parser_included
@@ -95,7 +95,67 @@ double arccos(double x);
 double arcsin(double x);
 double arctan(double x);
 
-//@}
+/// A parameter expression and value
+class ParameterValueItem
+{
+	public:
+		ParameterValueItem(const QString &e, double v)
+		{
+			expression = e;
+			value = v;
+		};
+		ParameterValueItem() {;};
+		QString expression;
+		double value;
+};
+
+
+/** Here are all atitrbutes for a function stored. */
+class Ufkt
+{
+	public:
+		Ufkt();
+		~Ufkt();
+		/// Sets the parameter 
+		void setParameter(double const &p) {k = p; };
+        
+		uint id;
+		unsigned char *mem;     ///< Pointer to the allocated memory for the tokens.
+		unsigned char *mptr;    ///< Pointer to the token.
+		QString fname;          ///< Name of the function.
+		QString fvar;           ///< Dummy variable.
+		QString fpar;           ///< Parameter.
+		QString fstr;           ///< Function expression.
+		int memsize;            ///< Size of token memory
+		int stacksize;          ///< Size of the stack.
+		double k,               ///< Function parameter.
+		oldy;                   ///< The last y-value needed for Euler's method
+        
+		bool f_mode, ///< \a f_mode == 1: draw the plot.
+		f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
+		f2_mode,///< \a f2_mode == 1.  draw the 2nd derivative, too.
+		integral_mode, ///< \a f2_mode == 1.  draw the integral, too.
+		integral_use_precision; ///< The user can specify an unic precision for numeric prime-functions
+		int linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width.
+		/** Number of parameter values. 
+		* @see FktExt::k_liste */
+		QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
+		double dmin, ///< Custom plot range, lower boundage.
+		dmax, ///< Custom plot range, upper boundage.
+		/** List of parameter values. 
+		* @see FktExt::k_anz */
+		oldyprim,  ///< needed for Euler's method, the last y'.value
+		oldx, ///< needed for Euler's method, the last x-value
+		starty,///< startposition for Euler's method, the initial y-value
+		startx, ///< startposition for Euler's method, the initial x-value last y'.valuenitial x-value last y'.valuenitial x-value
+		integral_precision; ///<precision when drawing numeric prime-functions
+		QString extstr; ///< Complete function string including the extensions.
+		QRgb color, ///< current color.
+		f1_color, f2_color, integral_color;
+		int use_slider; ///< -1: none (use list), else: slider number
+		QValueList<ParameterValueItem> parameters; ///< List with parameter for the function
+        	// TODO double slider_min, slider_max; ///< extreme values of the slider
+};
 
 class Constant
 {
@@ -110,81 +170,33 @@ public:
 	double value;
 };
 
-/** Here are all atitrbutes for a function stored. */
-class Ufkt
-{
-public:
-        Ufkt();
-        ~Ufkt();
-        void setParameter(double const &p) {k = p; };
-        
-        uint id;
-        unsigned char *mem;     ///< Pointer to the allocated memory for the tokens.
-        unsigned char *mptr;    ///< Pointer to the token.
-        QString fname;          ///< Name of the function.
-        QString fvar;           ///< Dummy variable.
-        QString fpar;           ///< Parameter.
-        QString fstr;           ///< Function expression.
-        int memsize;            ///< Size of token memory
-        int stacksize;          ///< Size of the stack.
-        double k,               ///< Function parameter.
-        oldy;                   ///< The last y-value needed for Euler's method
-        
-        bool f_mode, ///< \a f_mode == 1: draw the plot.
-        f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
-        f2_mode,///< \a f2_mode == 1.  draw the 2nd derivative, too.
-        integral_mode, ///< \a f2_mode == 1.  draw the integral, too.
-        integral_use_precision; ///< The user can specify an unic precision for numeric prime-functions
-        int linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width.
-        /** Number of parameter values. 
-        * @see FktExt::k_liste */
-        QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
-        double dmin, ///< Custom plot range, lower boundage.
-        dmax, ///< Custom plot range, upper boundage.
-        /** List of parameter values. 
-        * @see FktExt::k_anz */
-        oldyprim,  ///< needed for Euler's method, the last y'.value
-        oldx, ///< needed for Euler's method, the last x-value
-        starty,///< startposition for Euler's method, the initial y-value
-        startx, ///< startposition for Euler's method, the initial x-value last y'.valuenitial x-value last y'.valuenitial x-value
-        integral_precision; ///<precision when drawing numeric prime-functions
-        QString extstr; ///< Complete function string including the extensions.
-        QRgb color, ///< current color.
-        f1_color, f2_color, integral_color;
-        QStringList str_parameter; ///< List with parameter strings to be parsed with XParser::eval
-        int use_slider; ///< -1: none (use list), else: slieder number
-        QValueList<double > k_liste;
-        // TODO double slider_min, slider_max; ///< extreme values of the slider
-};
-
-
 /** @short Parser.
  *
  * Tokenizes a function equation to be evaluated.
  */
-class Parser
+class Parser : virtual public ParserIface
 {
 public:
-	Parser(int, int);
+	Parser();
 	~Parser();
-        
+	
         /// Returns the result of a calculation
         double fkt(Ufkt *it, double const x);
         double fkt(uint id, double const x);
-        
+	
 	/// Evaluates the given expression.
 	double eval(QString);
 	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
 	int addfkt(QString);
-        /// Removes the function with the given index.
-	bool delfkt(int);
-        void delfkt(QValueVector<Ufkt>::iterator );
-        
-	/// Returns true if the function "name" exists, otherwise it returns false
-	bool getfix(QString name);
+        /// Removes the function with the given id.
+	bool delfkt(uint id);
+        void delfkt( Ufkt *item);
+	
+	/// Returns the ID-number of the function "name". If the function couldn't be found, -1 is returned.
+	int fnameToId(const QString &name);
 	/// Returns the current error value. If showMessageBox is true, an error message box will appear if an error was found
 	int parserError(bool showMessageBox=TRUE);
-                
+	
 	/// return the angletype
 	static double anglemode();
 	/// Sets the angletype. TRUE is radians and FALSE degrees
@@ -195,7 +207,7 @@ public:
         /// reparse the function. It also do a grammer check for the expression
 	void reparse(int ix);
         void reparse(Ufkt *item);
-        
+	
         uint getNewId(); /// Returns the next ID-number
         int idValue(int const ix); /// Converts an index-value to an ID-number
         int ixValue(uint const id);/// Converts an ID-numer to an index-value
@@ -203,8 +215,7 @@ public:
 
 	QValueVector<Constant> constant;
         QValueVector<Ufkt> ufkt;///< Points to the array of user defined functions.
-        
-			
+
 protected:
 	/** Mathematical function. */
 	struct Mfkt
@@ -213,7 +224,7 @@ protected:
 		double (*mfadr)(double);
 	};
 	static Mfkt mfkttab[FANZ];
-        
+	
         int err, 
         errpos;         ///< Position where the error occurred.
         /// Error codes.
@@ -232,6 +243,8 @@ protected:
          * \li  10 => didn't found the wanted constant
          * \li   11 => emtpy function
          * \li   12 => function name contains a capital letter
+	 * \li   13 => function could not be found
+	 * \li   14 => evalation expression may not use user definded constants
          */
 
 private:

@@ -36,14 +36,8 @@
 #include "kminmax.h"
 #include "xparser.h"
 
-KMinMax::KMinMax(QWidget *parent, const char *name)
- : QMinMax(parent, name)
-{
-}
-
-
 KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
-	: QMinMax(parent, name), m_view(v)
+	: QMinMax(parent, name, true), m_view(v)
 {
 	m_mode=-1;
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
@@ -210,8 +204,8 @@ void KMinMax::selectItem()
 	QListBoxItem *item = list->findItem(function,Qt::ExactMatch);
 	list->setSelected(item,true);
 
-	if (  !ufkt->k_liste.isEmpty() )
-		parameter = ufkt->str_parameter[m_view->csparam];
+	if (  !ufkt->parameters.isEmpty() )
+		parameter = ufkt->parameters[m_view->csparam].expression;
 }
 
 KMinMax::~KMinMax()
@@ -298,7 +292,7 @@ void KMinMax::cmdFind_clicked()
                 return;
         }
         
-	if ( ufkt->k_liste.isEmpty() )
+	if ( ufkt->parameters.isEmpty() )
 		parameter = "0";
 	else if ( parameter.isEmpty())
 	{
@@ -346,8 +340,6 @@ void KMinMax::cmdFind_clicked()
 
 	if ( m_view->isCalculationStopped() )
 		KMessageBox::error(this,i18n("The operation was cancelled by the user."));
-
-	//QDialog::accept();
 }
 void KMinMax::list_highlighted(QListBoxItem* item)
 {
@@ -380,12 +372,12 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 	{
                 if ( it->extstr.section('(',0,0) == sec_function)
                 {
-                        if ( it->str_parameter.count() == 0)
+                        if ( it->parameters.count() == 0)
                                 cmdParameter->hide();
                         else
                                 cmdParameter->show();
                         if (parameter.isEmpty() )
-                                parameter = it->str_parameter.first();
+                                parameter = it->parameters.first().expression;
                         break;
                 }
         }
@@ -418,9 +410,12 @@ void KMinMax::cmdParameter_clicked()
         for(QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
 	{
 	       if ( it->extstr.section('(',0,0) == sec_function)
-                {
+               {
+			QStringList str_parameters;
+		        for ( QValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
+			       str_parameters.append( (*k).expression);
                         bool ok;
-                        QStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), it->str_parameter, QStringList(parameter),false,&ok,this );
+                        QStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), str_parameters, QStringList(parameter),false,&ok,this );
                         if ( ok)
                                 parameter = result.first();
                         break;

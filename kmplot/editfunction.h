@@ -75,7 +75,7 @@ class EditFunction : public KDialogBase
 		XParser* m_parser;
 		/// Current function index
 		int m_id;
-		QStringList m_parameter;
+		QValueList<ParameterValueItem> m_parameter;
 		
 		EditFunctionPage* editfunctionpage;
 		EditDerivativesPage* editderivativespage;

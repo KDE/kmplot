@@ -43,6 +43,7 @@
 #undef  GrayScale
 
 // local includes
+#include "coordsconfigdialog.h"
 #include "FktDlg.h"
 #include "View.h"
 #include "kminmax.h"
@@ -52,7 +53,6 @@
 class KConfigDialog;
 class KLineEdit;
 class KRecentFilesAction;
-class SettingsPageCoords;
 class SettingsPageColor;
 class SettingsPageFonts;
 class SettingsPagePrecision;
@@ -112,9 +112,7 @@ public slots:
 	void toggleShowSlider1();
 	void toggleShowSlider2();
 	void toggleShowSlider3();
-
-	/// Implement the File -> Open action
-	//void slotOpen();
+	
 	///Implement the File -> New action by cleaning the plot area
 	void slotCleanWindow();
 	///Save a plot i.e. save the function name and all the settings for the plot
@@ -188,6 +186,10 @@ private:
 	bool m_readonly;
 	/// MainDlg's parent widget
 	QWidget *m_parent;
+	/// Current file
+	KURL m_currentfile;
+	/// The axes config dialogs
+	CoordsConfigDialog* coordsDialog;
 
 protected slots:
 	/**

@@ -23,40 +23,33 @@
 *
 */
 
-#ifndef KPARAMETEREDITOR_H
-#define KPARAMETEREDITOR_H
+#ifndef COORDSCONFIGDIALOG_H
+#define COORDSCONFIGDIALOG_H
 
-#include "qparametereditor.h"
+#include <kconfigdialog.h>
+
 #include "xparser.h"
 
-class ParameterValueList;
+class SettingsPageCoords;
 
 /**
 @author Fredrik Edemar
 */
-/// This class handles the parameter values: it can create, remove, edit and import values.
-class KParameterEditor : public QParameterEditor
+/// 
+class CoordsConfigDialog : public KConfigDialog
 {
-Q_OBJECT
-public:
-    KParameterEditor(XParser *, QValueList<ParameterValueItem> *, QWidget *parent = 0, const char *name = 0);
-    ~KParameterEditor();
-    
-public slots:
-    void cmdNew_clicked();
-    void cmdEdit_clicked();
-    void cmdDelete_clicked();
-    void cmdImport_clicked();
-    void cmdExport_clicked();
-    void varlist_clicked( QListBoxItem *  );
-    void varlist_doubleClicked( QListBoxItem * );
-  
-    
-private:
-    /// Check so that it doesn't exist two equal values
-    bool checkTwoOfIt( const QString & text);
-    QValueList<ParameterValueItem> *m_parameter;
-    XParser *m_parser;
+	Q_OBJECT
+	public:
+		CoordsConfigDialog(XParser *p, QWidget *parent = 0);
+		~CoordsConfigDialog();
+	protected slots:
+		virtual void slotOk();
+		virtual void slotApply();
+	private:
+		bool eval();
+		
+		Parser *m_parser;
+		SettingsPageCoords* configAxesDialog;
 };
 
 #endif

@@ -24,14 +24,17 @@
 */
 
 // KDE includes
+#include <dcopclient.h>
+#include <kapplication.h>
 #include <kglobal.h>
+#include <kinputdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
 // local includes
 #include "xparser.h"
 
-XParser::XParser( int m_size, int s_size ) : Parser( m_size, s_size )
+XParser::XParser(bool &mo) : DCOPObject("Parser"), Parser(), m_modified(mo)
 {
         // setup slider support
 	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
@@ -44,7 +47,7 @@ XParser::~XParser()
 int XParser::getext( Ufkt *item )
 {
 	int errflg = 0, p1, p2, p3, pe;
-	QCString str, tstr;
+	QString str, tstr;
 
 	if ( item->extstr.find( ';' ) == -1 )
 		return 0;
@@ -107,7 +110,7 @@ int XParser::getext( Ufkt *item )
 
 			tstr = str.left( p2++ );
 			str = str.mid( p2, 1000 );
-			item->k_liste.append( eval( tstr ) );
+			item->parameters.append( ParameterValueItem(tstr, eval( tstr )) );
 			if ( err )
 			{
 				errflg = 1;
@@ -175,7 +178,22 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
 {
 	int const p1=str.find('(');
 	int const p2=str.find(')');
-	if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 ) != '=')
+	
+	if( p1>0)
+	{
+		QString const fname = str.left(p1);
+		for ( QValueVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
+			if (it->fname == fname)
+			{
+				str = str.mid(p1,str.length()-1);
+				QString function_name = "f";
+				findFunctionName(function_name, id, type);
+				str.prepend( function_name );
+				return;
+			}
+	}
+	
+	if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
 	{
                 QString function_name;
                 if ( type == XParser::Polar )
@@ -258,4 +276,418 @@ int XParser::getNextIndex()
 {
         //return ufkt.count();
         return getNewId();
+}
+
+QStringList XParser::listFunctionNames()
+{
+	QStringList list;
+	for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+	{
+		list.append(it->fname);
+	}
+	return list;	
+}
+
+bool XParser::functionFVisible(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	return ufkt[ix].f_mode;
+}
+bool XParser::functionF1Visible(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	return ufkt[ix].f1_mode;
+}
+bool XParser::functionF2Visible(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	return ufkt[ix].f2_mode;
+}
+bool XParser::functionIntVisible(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	return ufkt[ix].integral_mode;
+}
+
+bool XParser::setFunctionFVisible(bool visible, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].f_mode = visible;
+	m_modified = true;
+	return true;
+}
+bool XParser::setFunctionF1Visible(bool visible, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].f1_mode = visible;
+	m_modified = true;
+	return true;
+}
+bool XParser::setFunctionF2Visible(bool visible, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].f2_mode = visible;
+	m_modified = true;
+	return true;
+}
+bool XParser::setFunctionIntVisible(bool visible, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].integral_mode = visible;
+	m_modified = true;
+	return true;
+}
+
+QString XParser::functionFstr(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return "";
+	return ufkt[ix].fstr;
+}
+QString XParser::functionExtstr(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return "";
+	return ufkt[ix].extstr;
+}
+
+QColor XParser::functionFColor(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return QColor();
+	return QColor(ufkt[ix].color);
+}
+QColor XParser::functionF1Color(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return QColor();
+	return QColor(ufkt[ix].f1_color);
+}
+QColor XParser::functionF2Color(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return QColor();
+	return QColor(ufkt[ix].f2_color);
+}
+QColor XParser::functionIntColor(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return QColor();
+	return QColor(ufkt[ix].integral_color);
+}
+bool XParser::setFunctionFColor(QColor color, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].color = color.rgb();
+	m_modified = true;
+	return true;
+}
+bool XParser::setFunctionF1Color(QColor color, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].color = color.rgb();
+	m_modified = true;
+	return true;
+}		
+bool XParser::setFunctionF2Color(QColor color, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].color = color.rgb();
+	m_modified = true;
+	return true;
+}
+bool XParser::setFunctionIntColor(QColor color, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].color = color.rgb();
+	m_modified = true;
+	return true;
+}
+
+int XParser::functionFLineWidth(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return 0;
+	return ufkt[ix].linewidth;
+}
+int XParser::functionF1LineWidth(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return int();
+	return ufkt[ix].f1_linewidth;
+}
+int XParser::functionF2LineWidth(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return int();
+	return ufkt[ix].f2_linewidth;
+}
+int XParser::functionIntLineWidth(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return int();
+	return ufkt[ix].integral_linewidth;
+}
+bool XParser::setFunctionFLineWidth(int linewidth, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].linewidth = linewidth;
+	m_modified = true;
+	return true;
+}
+bool XParser::setFunctionF1LineWidth(int linewidth, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].f1_linewidth = linewidth;
+	m_modified = true;
+	return true;
+}		
+bool XParser::setFunctionF2LineWidth(int linewidth, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].f2_linewidth = linewidth;
+	m_modified = true;
+	return true;
+}
+bool XParser::setFunctionIntLineWidth(int linewidth, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	ufkt[ix].integral_linewidth = linewidth;
+	m_modified = true;
+	return true;
+}
+
+QStringList XParser::functionParameterList(uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return QStringList();
+	Ufkt *item = &ufkt[ix];
+	QStringList str_parameter;
+	for ( QValueList<ParameterValueItem>::iterator it = item->parameters.begin(); it != item->parameters.end(); it++)
+		str_parameter.append( (*it).expression);
+	return str_parameter;
+}
+bool XParser::functionAddParameter(QString new_parameter, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	Ufkt *tmp_ufkt = &ufkt[ix];
+	for ( QValueList<ParameterValueItem>::iterator it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); it++)
+		if ( (*it).expression == new_parameter) //check if the parameter already exists
+			return false;
+
+	double const result = eval(new_parameter);
+	if ( parserError(false) != 0)
+		return false;
+	tmp_ufkt->parameters.append( ParameterValueItem(new_parameter,result) );
+	m_modified = true;
+	return true;
+}
+bool XParser::functionRemoveParameter(QString remove_parameter, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	Ufkt *tmp_ufkt = &ufkt[ix];
+	
+	bool found = false;
+	QValueList<ParameterValueItem>::iterator it;
+	for ( it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); it++)
+		if ( (*it).expression == remove_parameter) //check if the parameter already exists
+		{
+			found = true;
+			break;
+		}
+	if (!found)
+		return false;
+	tmp_ufkt->parameters.remove(it);
+	m_modified = true;
+	return true;
+}
+int XParser::addFunction(QString f_str)
+{
+	fixFunctionName(f_str);
+	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y') //TODO: Make it possible to define parametric functions
+		return -1;
+	if  ( f_str.contains('y') != 0)
+		return -1;
+
+	int const id = addfkt( f_str );
+	if (id==-1)
+		return -1;
+	Ufkt *tmp_ufkt = &ufkt.last();
+	prepareAddingFunction(tmp_ufkt);
+	if ( getext( tmp_ufkt ) == -1)
+	{
+		Parser::delfkt( tmp_ufkt );
+		return -1;
+	}
+	m_modified = true;
+	return id;
+}
+
+bool XParser::addFunction(QString extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, QString str_dmin, QString str_dmax, QString str_startx, QString str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider)
+{
+	fixFunctionName(extstr);
+	int const id = addfkt( extstr );
+	if ( id==-1 )
+		return false;
+	Ufkt *added_function = &ufkt.last();
+	added_function->extstr = extstr;
+	added_function->f_mode = f_mode;
+	added_function->f1_mode = f1_mode;
+	added_function->f2_mode = f2_mode;
+	added_function->integral_mode = integral_mode;
+	added_function->integral_use_precision = integral_use_precision;
+	added_function->linewidth = linewidth;
+	added_function->f1_linewidth = f1_linewidth;
+	added_function->f2_linewidth = f2_linewidth;
+	added_function->integral_linewidth = integral_linewidth;
+	added_function->str_dmin = str_dmin;
+	added_function->str_dmax = str_dmax;
+	added_function->dmin = eval(str_dmin);
+	added_function->dmax = eval(str_dmax);
+	added_function->str_startx = str_startx;
+	added_function->str_starty = str_starty;
+	if ( !str_starty.isEmpty() )
+		added_function->starty = eval(str_starty);
+	if ( !str_startx.isEmpty() )
+		added_function->startx = eval(str_startx);
+	added_function->oldx = 0;
+	added_function->integral_precision = integral_precision;
+	added_function->color = color;
+	added_function->f1_color = f1_color;
+	added_function->f2_color = f2_color;
+	added_function->integral_color = integral_color;
+	added_function->use_slider = use_slider;
+	for( QStringList::Iterator it = str_parameter.begin(); it != str_parameter.end(); ++it )
+	{
+		double result = eval(*it);
+		if ( parserError(false) != 0)
+			continue;
+		added_function->parameters.append( ParameterValueItem(*it, result ) );
+	}
+	m_modified = true;
+	return true;
+}
+
+bool XParser::setFunctionExpression(QString f_str, uint id)
+{
+	int const ix = ixValue(id);
+	if (ix==-1)
+		return false;
+	Ufkt *tmp_ufkt = &ufkt[ix];
+	QString const old_fstr = tmp_ufkt->fstr;
+	QString const fstr_begin = tmp_ufkt->fstr.left(tmp_ufkt->fstr.find('=')+1);
+	tmp_ufkt->fstr = fstr_begin+f_str;
+	reparse(tmp_ufkt);
+	if ( parserError(false) != 0)
+	{
+		tmp_ufkt->fstr = old_fstr;
+		reparse(tmp_ufkt);
+		return false;
+	}
+	return true;
+}
+
+bool XParser::sendFunction(int id)
+{
+	QCStringList cstr_list = kapp->dcopClient()->registeredApplications();
+	QStringList str_list;
+	for ( QCStringList::iterator it = cstr_list.begin(); it!=cstr_list.end();++it )
+		if ( QString(*it).startsWith("kmplot") && *it!=kapp->dcopClient()->appId() )
+			str_list.append(*it);
+	if ( str_list.isEmpty() )
+	{
+		KMessageBox::error(0, i18n("There are no other Kmplot instances running"));
+		return false;
+	}
+	
+	//Ufkt *ufkt = &->ufkt[->ixValue(getId( lb_fktliste->text( lb_fktliste->currentItem() )))];
+	Ufkt *item = &ufkt[ixValue(id)];
+	
+	QString str_result;
+	if (item->fname.at(0) != 'y')
+	{
+		bool ok;
+		str_result = KInputDialog::getItem(i18n("kmplot"), i18n("Choose which KmPlot instance\nyou want to copy the function to:"), str_list, 0, false, &ok);
+		if (!ok)
+			return false;
+		if (item->fname.at(0) == 'x')
+			m_tmpdcopclient = str_result;
+	}
+	else
+		str_result = m_tmpdcopclient;
+	
+	QByteArray parameters;
+	QDataStream arg( parameters, IO_WriteOnly);
+
+	QStringList str_parameters;
+	for ( QValueList<ParameterValueItem>::Iterator it = item->parameters.begin(); it != item->parameters.end(); ++it )
+		str_parameters.append( (*it).expression);
+	arg << item->extstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << item->str_dmin << item->str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
+	QByteArray replay_data;
+	QCString replay_type;
+	bool ok = kapp->dcopClient()->call( str_result.utf8(), "Parser", "addFunction(QString,bool,bool,bool,bool,bool,int,int,int,int,QString,QString,QString,QString,double,QRgb,QRgb,QRgb,QRgb,QStringList,bool)", parameters, replay_type, replay_data, false);
+	if (!ok)
+	{
+		KMessageBox::error(0, i18n("An error appeared during the transfer"));
+		return false;
+	}
+
+	QDataStream replay_arg(replay_data, IO_ReadOnly);
+	bool result;
+	replay_arg >> result;
+	if (!result)
+	{
+		KMessageBox::error(0, i18n("An error appeared during the transfer"));
+		return false;
+	}
+	
+	kapp->dcopClient()->send(str_result.utf8(), "View","drawPlot()",QByteArray() ); //update the other window
+	return true;
 }

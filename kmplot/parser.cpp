@@ -237,18 +237,18 @@ int Parser::getNextIndex()
 }
 
 int Parser::addfkt(QString str)
-{   int ix, p1, p2, p3;
+{   int ix;
 	
 	stkptr=stack=0;
 	err=0;
 	errpos=1;
 	str.remove(" " );
-	p1=str.find('(');
-	p2=str.find(',');
-	p3=str.find(")=");
+	const int p1=str.find('(');
+	int p2=str.find(',');
+	const int p3=str.find(")=");
 	
 	//insert '*' when it is needed
-	for(int i=p1+3; i < str.length();i++)
+	for(int i=p1+3; i < (int) str.length();i++)
 	{
 		if( (str.at(i).isNumber() || str.at(i).category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) )
 		{
@@ -265,7 +265,7 @@ int Parser::addfkt(QString str)
 	{   err=4;
 		return -1;
 	}
-	if ( p3+2 == str.length()) //empty function
+	if ( p3+2 == (int) str.length()) //empty function
 	{   err=11;
 		return -1;
 	}

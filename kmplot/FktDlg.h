@@ -84,7 +84,6 @@ private:
 	void updateView();
 	int chflg;
 	int errflg;
-	KEditFunction *editFunction;
 };
 
 #endif // FktDlg_included

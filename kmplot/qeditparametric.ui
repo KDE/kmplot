@@ -1,15 +1,15 @@
 <!DOCTYPE UI><UI version="3.2" stdsetdef="1">
-<class>QEditFunction</class>
+<class>QEditParametric</class>
 <widget class="QDialog">
     <property name="name">
-        <cstring>QEditFunction</cstring>
+        <cstring>QEditParametric</cstring>
     </property>
     <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
             <width>293</width>
-            <height>453</height>
+            <height>432</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -21,7 +21,7 @@
         </sizepolicy>
     </property>
     <property name="caption">
-        <string>Edit Function Plot</string>
+        <string>Edit Parametric Plot</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>true</bool>
@@ -37,22 +37,103 @@
             <property name="title">
                 <string>Definition</string>
             </property>
-            <vbox>
+            <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel">
+                <widget class="QLabel" row="0" column="0">
                     <property name="name">
-                        <cstring>textLabel1_4</cstring>
+                        <cstring>textLabel4</cstring>
                     </property>
                     <property name="text">
-                        <string>Equation:</string>
+                        <string>Name:</string>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignVCenter|AlignRight</set>
                     </property>
                     <property name="buddy" stdset="0">
-                        <cstring>kLineEditYFunction</cstring>
+                        <cstring>kLineEditName</cstring>
                     </property>
                 </widget>
-                <widget class="KLineEdit">
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>kLineEditXFunction</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>enter an expression</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter an expression for the function.
+The dummy variable is t.
+Example: cos(t)</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="0" column="1">
+                    <property name="name">
+                        <cstring>kLineEditName</cstring>
+                    </property>
+                    <property name="text">
+                        <string>f</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>name of the function</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter the name of the function.
+The name of a function must be unique. If you leave this line empty KmPlot will set a default name. You can change it later.</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="2" column="0">
+                    <property name="name">
+                        <cstring>layout9</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="spacing">
+                            <number>0</number>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabelY</cstring>
+                            </property>
+                            <property name="text">
+                                <string>y</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabelYF</cstring>
+                            </property>
+                            <property name="font">
+                                <font>
+                                    <bold>1</bold>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>f</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabelArgY</cstring>
+                            </property>
+                            <property name="text">
+                                <string>(t) =</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="KLineEdit" row="2" column="1">
                     <property name="name">
                         <cstring>kLineEditYFunction</cstring>
                     </property>
@@ -65,14 +146,60 @@
                         </sizepolicy>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>enter an equation, for instance f(x)=x^2</string>
+                        <string>enter an expression</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Enter an equation for the function.
-Example: f(x)=x^2</string>
+                        <string>Enter an expression for the function.
+The dummy variable is t.
+Example: sin(t)</string>
                     </property>
                 </widget>
-            </vbox>
+                <widget class="QLayoutWidget" row="1" column="0">
+                    <property name="name">
+                        <cstring>layout8</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>0</number>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabelX</cstring>
+                            </property>
+                            <property name="text">
+                                <string>x</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabelXF</cstring>
+                            </property>
+                            <property name="font">
+                                <font>
+                                    <bold>1</bold>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>f</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabelArgX</cstring>
+                            </property>
+                            <property name="text">
+                                <string>(t) =</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </grid>
         </widget>
         <widget class="QButtonGroup">
             <property name="name">
@@ -97,34 +224,6 @@ Example: f(x)=x^2</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Check this box if you want to hide the plot of the function.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>checkBoxDerivative1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>show 1st Derivative</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>show first derivative</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>If this box is checked, the first derivative will be plotted, too.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>checkBoxDerivative2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>show 2nd Derivative</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>show second derivative</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>If this box is checked, the first derivative will be plotted, too.</string>
                     </property>
                 </widget>
             </vbox>
@@ -379,13 +478,13 @@ Example: f(x)=x^2</string>
     <connection>
         <sender>buttonOk</sender>
         <signal>clicked()</signal>
-        <receiver>QEditFunction</receiver>
+        <receiver>QEditParametric</receiver>
         <slot>accept()</slot>
     </connection>
     <connection>
         <sender>buttonCancel</sender>
         <signal>clicked()</signal>
-        <receiver>QEditFunction</receiver>
+        <receiver>QEditParametric</receiver>
         <slot>reject()</slot>
     </connection>
     <connection>
@@ -400,12 +499,24 @@ Example: f(x)=x^2</string>
         <receiver>max</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
+    <connection>
+        <sender>kLineEditName</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>textLabelXF</receiver>
+        <slot>setText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>kLineEditName</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>textLabelYF</receiver>
+        <slot>setText(const QString&amp;)</slot>
+    </connection>
 </connections>
 <tabstops>
+    <tabstop>kLineEditName</tabstop>
+    <tabstop>kLineEditXFunction</tabstop>
     <tabstop>kLineEditYFunction</tabstop>
     <tabstop>checkBoxHide</tabstop>
-    <tabstop>checkBoxDerivative1</tabstop>
-    <tabstop>checkBoxDerivative2</tabstop>
     <tabstop>checkBoxRange</tabstop>
     <tabstop>min</tabstop>
     <tabstop>max</tabstop>
@@ -417,6 +528,8 @@ Example: f(x)=x^2</string>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>

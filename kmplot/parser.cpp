@@ -190,6 +190,13 @@ double Parser::Ufkt::fkt(double x)
 	}
 }
 
+int Parser::getNextIndex()
+{
+	int ix = 0;
+	while( ( ix < ufanz ) && !ufkt[ ix ].fname.isEmpty() ) ix++;
+	if( ix == ufanz ) ix = -1;
+	return ix;
+}
 
 int Parser::addfkt(QString str)
 {   int ix, p1, p2, p3;

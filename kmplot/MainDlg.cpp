@@ -40,17 +40,19 @@
 #include <kurl.h>
 
 // local includes
+#include "keditfunction.h"
+#include "keditparametric.h"
+#include "keditpolar.h"
+#include "kprinterdlg.h"
 #include "MainDlg.h"
 #include "MainDlg.moc"
 #include "misc.h"
-#include "kprinterdlg.h"
 #include "settings.h"
 #include "settingspagecolor.h"
 #include "settingspagecoords.h"
 #include "settingspagefonts.h"
 #include "settingspageprecision.h"
 #include "settingspagescaling.h"
-#include "keditfunction.h"
 
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
@@ -132,10 +134,10 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
 
 	// functions menu	
-	( void ) new KAction( i18n( "&New Function Plot..." ), 0, this, SLOT( onNewFunction() ), actionCollection(), "newfunction" );
+	( void ) new KAction( i18n( "&New Function Plot..." ), "kfkt.png", 0, this, SLOT( onNewFunction() ), actionCollection(), "newfunction" );
 	( void ) new KAction( i18n( "New Parametric Plot..." ), 0, this, SLOT( onNewParametric() ), actionCollection(), "newparametric" );
 	( void ) new KAction( i18n( "New Polar Plot..." ), 0, this, SLOT( onNewPolar() ), actionCollection(), "newpolar" );
-	( void ) new KAction( i18n( "Edit Functions..." ), "kfkt.png", 0, this, SLOT( funktionen() ), actionCollection(), "functions" );
+	( void ) new KAction( i18n( "Edit Functions..." ), 0, this, SLOT( funktionen() ), actionCollection(), "functions" );
 
 	// help menu
 	view_bezeichnungen = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( bezeichnungen() ), actionCollection(), "names" );
@@ -569,24 +571,24 @@ void MainDlg::bezeichnungen()
 void MainDlg::onNewFunction()
 {
 	KEditFunction* editFunction = new KEditFunction( &ps, this );
-	editFunction->initDialog( KEditFunction::Function );
+	editFunction->initDialog();
 	m_modified = editFunction->exec() == QDialog::Accepted;
 	view->update();
 }
 
 void MainDlg::onNewParametric()
 {
-	KEditFunction* editFunction = new KEditFunction( &ps, this );
-	editFunction->initDialog( KEditFunction::Parametric );
-	m_modified = editFunction->exec() == QDialog::Accepted;
+	KEditParametric* editParametric = new KEditParametric( &ps, this );
+	editParametric->initDialog();
+	m_modified = editParametric->exec() == QDialog::Accepted;
 	view->update();
 }
 
 void MainDlg::onNewPolar()
 {
-	KEditFunction* editFunction = new KEditFunction( &ps, this );
-	editFunction->initDialog( KEditFunction::Polar );
-	m_modified = editFunction->exec() == QDialog::Accepted;
+	KEditPolar* editPolar = new KEditPolar( &ps, this );
+	editPolar->initDialog();
+	m_modified = editPolar->exec() == QDialog::Accepted;
 	view->update();
 }
 

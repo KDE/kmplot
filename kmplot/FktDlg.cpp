@@ -34,8 +34,10 @@
 // locale includes
 #include "FktDlg.h"
 #include "FktDlg.moc"
-#include "MainDlg.h"
 #include "keditfunction.h"
+#include "keditparametric.h"
+#include "keditpolar.h"
+#include "MainDlg.h"
 
 #include <kdebug.h>
 
@@ -43,90 +45,11 @@
 
 FktDlg::FktDlg( QWidget* parent, const char* name ) : Inherited( parent, name )
 {
-/*	QPopupMenu *menu_types = new QPopupMenu( this );
-	menu_types->insertItem( i18n( "Function Plot" ), this, SLOT( onEditFunction() ) );
-	menu_types->insertItem( i18n( "Parametric Plot" ), this, SLOT( onEditParametric() ) );
-	menu_types->insertItem( i18n( "Polar Plot" ), this, SLOT( onEditPolar() ) );
-	PushButtonNew->setPopup( menu_types );*/
-	
-	editFunction = 0;
 }
 
 FktDlg::~FktDlg()
 {
 }
-
-// Slots
-
-// void FktDlg::onnew()
-// {
-// 	int ix;
-// 	char c0;
-// 	QString fname, fstr, str;
-// 
-// //	fstr = le_fktstr->text();
-// 	if ( !fstr.isEmpty() )
-// 	{
-// 		// left from semicolon is function equation
-// 		int i = fstr.find( ';' );
-// 
-// 		if ( i == -1 )
-// 			str = fstr;
-// 		else
-// 			str = fstr.left( i );
-// 
-// 		// test the function equation syntax
-// 		ix = ps.addfkt( str );
-// 		if ( ix == -1 )
-// 		{
-// 			ps.errmsg();
-// 			errflg = 1;
-// 			return ;
-// 		}
-// 
-// 		// handle the extensions
-// 		ps.fktext[ ix ].extstr = fstr;
-// 		// test the extension syntax
-// 		if ( ps.getext( ix ) == -1 )
-// 		{
-// 			errflg = 1;
-// 			return ;
-// 		}
-// 
-// 		// handle parametric functions: xf(t), yf(t)
-// 		if ( ( c0 = fstr[ 0 ].latin1() ) == 'x' )
-// 		{
-// 			ps.getfkt( ix, fname, str );
-// 			fname[ 0 ] = 'y';
-// 			if ( ps.getfix( fname ) == -1 )
-// 			{
-// 				int p;
-// 
-// 				lb_fktliste->insertItem( fstr );
-// 				// fktidx.append( lb_fktliste->currentItem() );
-// 				p = fstr.find( '=' );
-// 				fstr = fstr.left( p + 1 );
-// 				fstr[ 0 ] = 'y';
-// /*				le_fktstr->setText( fstr );
-// 				le_fktstr->setFocus();
-// 				le_fktstr->deselect();
-// */				return ;
-// 			}
-// 		}
-// 		else if ( c0 == 'y' )
-// 		{
-// 			if ( ps.getfkt( ix, fname, str ) != -1 )
-// 			{
-// 				fname[ 0 ] = 'x';
-// 				ix = ps.getfix( fname );
-// 			}
-// 		}
-// 		lb_fktliste->insertItem( fstr );
-// //		le_fktstr->clear();
-// 	}
-// 	errflg = 0;
-// 	updateView();
-// }
 
 void FktDlg::ondelete()
 {
@@ -135,6 +58,7 @@ void FktDlg::ondelete()
 	if ( ( num = lb_fktliste->currentItem() ) == -1 )
 		return ;
 
+	// TODO: delete parametric pair of function
 	ix = getIx( lb_fktliste->text( num ) );
 	chflg = 1;
 	ps.delfkt( ix );
@@ -146,8 +70,6 @@ void FktDlg::onedit()
 {
 	int num = lb_fktliste->currentItem();
 	int index = getIx( lb_fktliste->text( num ).section( ";", 0, 0) );
-	
-	if( !editFunction ) editFunction = new KEditFunction( &ps, this );
 	
 	// find out the function type
 	char prefix = ps.fktext[ index ].extstr.at(0).latin1();
@@ -195,35 +117,35 @@ void FktDlg::onHasSelection()
 
 void FktDlg::onEditFunction( int index, int num )
 {
-	if( !editFunction ) editFunction = new KEditFunction( &ps, this );
-	editFunction->initDialog( KEditFunction::Function, index );
+	KEditFunction* editFunction = new KEditFunction( &ps, this );
+	editFunction->initDialog( index );
 	if( editFunction->exec() == QDialog::Accepted )
 	{
-		if( index == -1 ) lb_fktliste->insertItem( editFunction->yFunction() );
-		else lb_fktliste->changeItem( editFunction->yFunction(), num );
+		if( index == -1 ) lb_fktliste->insertItem( editFunction->functionItem() );
+		else lb_fktliste->changeItem( editFunction->functionItem(), num );
 	}
 }
 
 void FktDlg::onEditParametric( int x_index, int y_index, int num )
 {
-	if( !editFunction ) editFunction = new KEditFunction( &ps, this );
-	editFunction->initDialog( KEditFunction::Parametric, x_index, y_index );
-	if( editFunction->exec() == QDialog::Accepted )
+	KEditParametric* editParametric = new KEditParametric( &ps, this );
+	editParametric->initDialog( x_index, y_index );
+	if( editParametric->exec() == QDialog::Accepted )
 	{
 		if( x_index == -1 ) 
-			lb_fktliste->insertItem( editFunction->xFunction() + ";" + editFunction->yFunction() );
-		else lb_fktliste->changeItem( editFunction->xFunction() + ";" + editFunction->yFunction(), num );
+			lb_fktliste->insertItem( editParametric->functionItem() );
+		else lb_fktliste->changeItem( editParametric->functionItem(), num );
 	}
 }
 
 void FktDlg::onEditPolar( int index, int num )
 {
-	if( !editFunction ) editFunction = new KEditFunction( &ps, this );
-	editFunction->initDialog( KEditFunction::Polar, index );
-	if( editFunction->exec() == QDialog::Accepted )
+	KEditPolar* editPolar = new KEditPolar( &ps, this );
+	editPolar->initDialog( index );
+	if( editPolar->exec() == QDialog::Accepted )
 	{
-		if( index == -1 ) lb_fktliste->insertItem( editFunction->yFunction() );
-		else lb_fktliste->changeItem( editFunction->yFunction(), num );
+		if( index == -1 ) lb_fktliste->insertItem( editPolar->functionItem() );
+		else lb_fktliste->changeItem( editPolar->functionItem(), num );
 	}
 }
 

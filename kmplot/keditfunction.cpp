@@ -48,67 +48,11 @@ KEditFunction::KEditFunction( XParser* parser, QWidget* parent, const char* name
 /**
  * Fill the dialog's widgets with the properties of the parser function number index.
  */
-void KEditFunction::initDialog( const FunctionType t, int index, int y_index )
+void KEditFunction::initDialog( int index )
 {
-	m_type = t;
 	m_index = index;
-	m_y_index = y_index;
-	setVisibleWidgets();
 	if( m_index == -1 ) clearWidgets();
 	else setWidgets();
-}
-
-/**
- * Only show Widgets related to the function type.
- * Some WhatsThis texts have to be adjusted, too.
- */
-void KEditFunction::setVisibleWidgets()
-{
-	switch( m_type )
-	{
-		case Function: 
-			this->setCaption( i18n( "Edit Function Plot" ) );
-			textLabelX->hide();
-			textLabelXF->hide();
-			textLabelArgX->hide();
-			kLineEditXFunction->hide();
-			textLabelY->setText( "" );
-			textLabelArgY->setText( "(x) = " );
-			QWhatsThis::add( kLineEditYFunction, tr2i18n( "Enter an expression for the function.\n"
-				"The dummy variable is x.\n"
-				"Example: x^2" ) );
-			checkBoxDerivative1->show();
-			checkBoxDerivative2->show();
-			break;
-		case Parametric: 
-			this->setCaption( i18n( "Edit Parametric Plot" ) );
-			kLineEditXFunction->show();
-			textLabelX->show();
-			textLabelXF->show();
-			textLabelArgX->show();
-			textLabelY->setText( "y" );
-			textLabelArgY->setText( "(t) = " );
-			QWhatsThis::add( kLineEditYFunction, tr2i18n( "Enter an expression for the function.\n"
-				"The dummy variable is t.\n"
-				"Example: sin(t)" ) );
-			checkBoxDerivative1->hide();
-			checkBoxDerivative2->hide();
-			break;
-		case Polar: 
-			this->setCaption( i18n( "Edit Polar Plot" ) );
-			kLineEditXFunction->hide();
-			textLabelX->hide();
-			textLabelXF->hide();
-			textLabelArgX->hide();
-			textLabelY->setText( "r" );
-			textLabelArgY->setText( "(theta) = " );
-			QWhatsThis::add( kLineEditYFunction, tr2i18n( "Enter an expression for the function.\n"
-				"The dummy variable is theta.\n"
-				"Example: 3*theta" ) );
-			checkBoxDerivative1->show();
-			checkBoxDerivative2->show();
-	}
-	updateGeometry();
 }
 
 /**
@@ -116,8 +60,6 @@ void KEditFunction::setVisibleWidgets()
  */
 void KEditFunction::clearWidgets()
 {
-	kLineEditName->clear();
-	kLineEditXFunction->clear();
 	kLineEditYFunction->clear();
 	checkBoxHide->setChecked( false );
 	checkBoxDerivative1->setChecked( false );
@@ -126,7 +68,7 @@ void KEditFunction::clearWidgets()
 	min->clear();
 	max->clear();
 	kIntNumInputLineWidth->setValue( m_parser->dicke0 );	
-	kColorButtonColor->setColor( "#000000" );
+	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].farbe0 );
 }
 
 /**
@@ -134,24 +76,9 @@ void KEditFunction::clearWidgets()
  */
 void KEditFunction::setWidgets()
 {
-	QString name, expression;
-	splitEquation( m_parser->fktext[ m_index ].extstr, name, expression );
-	switch( m_type )
-	{
-		case Function:
-			checkBoxDerivative1->setChecked( m_parser->fktext[ m_index ].f1_mode == 1 );
-			checkBoxDerivative2->setChecked( m_parser->fktext[ m_index ].f2_mode == 1 );
-		case Polar:
-			kLineEditName->setText( name );
-			kLineEditYFunction->setText( expression );
-			break;
-		case Parametric:
-			kLineEditName->setText( name );
-			kLineEditXFunction->setText( expression );
-			splitEquation( m_parser->fktext[ m_y_index ].extstr, name, expression );
-			kLineEditYFunction->setText( expression );
-			break;
-	}
+	kLineEditYFunction->setText( m_parser->fktext[ m_index ].extstr );
+	checkBoxDerivative1->setChecked( m_parser->fktext[ m_index ].f1_mode == 1 );
+	checkBoxDerivative2->setChecked( m_parser->fktext[ m_index ].f2_mode == 1 );
 	checkBoxHide->setChecked( m_parser->fktext[ m_index ].f_mode == 0 );
 	checkBoxRange->setChecked( m_parser->fktext[ m_index ].dmin == m_parser->fktext[ m_index ].dmax == 0 );
 	min->setText( m_parser->fktext[ m_index ].str_dmin );
@@ -171,17 +98,8 @@ void KEditFunction::accept()
 		m_parser->delfkt( m_index );
 		m_index = -1;
 	}
-	if( m_y_index != -1 ) 
-	{
-		m_parser->delfkt( m_y_index );
-		m_y_index = -1;
-	}
 	
-	// find a name not allready used 
-	if( kLineEditName->text().isEmpty() )
-		kLineEditName->setText( newName() );
-	
-	int index = m_parser->addfkt( yFunction() );
+	int index = m_parser->addfkt( functionItem() );
 	if( index == -1 ) 
 	{
 		m_parser->errmsg();
@@ -190,23 +108,8 @@ void KEditFunction::accept()
 		kLineEditYFunction->selectAll();
 		return;
 	}
-	m_parser->fktext[ index ].extstr = yFunction();
+	m_parser->fktext[ index ].extstr = functionItem();
 	m_parser->getext( index );
-	
-	if( kLineEditXFunction->isVisible() )
-	{ 
-		index = m_parser->addfkt( xFunction() );
-		if( index == -1 ) 
-		{
-			m_parser->errmsg();
-			this->raise();
-			kLineEditXFunction->setFocus();
-			kLineEditXFunction->selectAll();
-			return;
-		}
-		m_parser->fktext[ index ].extstr = xFunction();
-		m_parser->getext( index );
-	}
 	
 	if( checkBoxHide->isChecked() )
 		m_parser->fktext[ index ].f_mode = 0;
@@ -231,67 +134,10 @@ void KEditFunction::accept()
 	QEditFunction::accept();
 }
 
-
-QString KEditFunction::newName()
-{
-	int i = 0;
-	QString name;
-	// prepend the correct prefix
-	switch( m_type )
-	{
-		case Function:
-			name = "f%1";
-			break;
-		case Parametric:
-			name = "xf%1";
-			break;
-		case Polar:
-			name = "rf%1";
-	}
-	do
-	{
-		i++;
-	} while( m_parser->getfix( name.arg( i ) ) != -1 );
-	
-	// cut off prefix again, will be added later
-	if( m_type == Parametric || m_type == Polar )
-		name = name.right( name.length()-1 );
-	return name.arg( i );
-}
-
 /**
- * return the well formed function equation
+ * return the well formed function equation for the listbox in FktDlg
  */
-QString KEditFunction::xFunction()
+const QString KEditFunction::functionItem()
 {
-	return "x" + kLineEditName->text() + "(t)=" + kLineEditXFunction->text();
-}
-
-/**
- * extract function name and expression from a given expression 
- */
-void KEditFunction::splitEquation( const QString equation, QString &name, QString &expression )
-{
-	int start = 0;
-	if( equation[ 0 ] == 'r' || equation[ 0 ] == 'x' || equation[ 0 ] == 'y' ) start++;
-	int length = equation.find( '(' ) - start;
-	name = equation.mid( start, length );
-	
-	expression = equation.section( '=', 1, 1 );
-}
-
-/**
- * return the well formed function equation
- */
-QString KEditFunction::yFunction()
-{
-	switch( m_type )
-	{
-		case Function:
-			return kLineEditName->text() + "(x)=" + kLineEditYFunction->text();
-		case Parametric:
-			return "y" + kLineEditName->text() + "(t)=" + kLineEditYFunction->text();
-		case Polar:
-			return "r" + kLineEditName->text() + "(theta)=" + kLineEditYFunction->text();
-	}
+	return kLineEditYFunction->text();
 }

@@ -91,26 +91,28 @@ public:
 	int delfkt(int);
 	int	chkfix(int),
 	getfkt(int, QString&, QString&),
-	getfix(QString),
-	errmsg();
+	getfix(QString);
+	int getNextIndex();
+	int errmsg();
 
 	void setparameter(int ix, double k) {ufkt[ix].k=k;}
 
 	~Parser();
 
-	int	err, 		// Fehlercode:
-	                // 	0 => parse erfolgreich
-	                //	1 => Syntaxfehler
-	                //	2 => fehlende Klammer
-	                //	3 => Funktion nicht bekannt
-	                //	4 => ungültige Funktionsvariable
-	                //	5 => zu viele Funktionen
-	                //	6 => Speicherüberlauf
-	                //	7 => Stacküberlauf
-	                //  8 => Funktionsname bereits vergeben
-					//  9 => rekursiver Funktionsaufruf
-	errpos, 		// Fehlerposition
-	ufanz;		    // max. Anzahl benutzer-
+	int err,	// Fehlercodes:
+			// 0 => parse erfolgreich
+			// 1 => Syntaxfehler
+			// 2 => fehlende Klammer
+			// 3 => Funktion nicht bekannt
+			// 4 => ungültige Funktionsvariable
+			// 5 => zu viele Funktionen
+			// 6 => Speicherüberlauf
+			// 7 => Stacküberlauf
+			// 8 => Funktionsname bereits vergeben
+			//  9 => rekursiver Funktionsaufruf
+			
+	errpos, 	// Fehlerposition
+	ufanz;		// max. Anzahl benutzer-
 	                // definierter Funktionen
 
 protected:

@@ -37,22 +37,14 @@ class KEditFunction : public QEditFunction
 		KEditFunction( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
 		virtual ~KEditFunction() {};
 		
-		enum FunctionType { Function, Parametric, Polar };
-	
-		void initDialog( const FunctionType t, int index = -1, int y_index = -1 );
-//		void setFunction( int index );
-		QString xFunction();
-		QString yFunction();
+		void initDialog( int index = -1 );
+		const QString functionItem();
 	
 	private:
-		void setVisibleWidgets();
 		void clearWidgets();
 		void setWidgets();
-		QString newName();
-		void splitEquation( const QString equation, QString &name, QString &expression );
-		FunctionType m_type;
 		XParser* m_parser;
-		int m_index, m_y_index;
+		int m_index;
 		
 	protected:
 		virtual void accept();

@@ -30,7 +30,7 @@
 	<ToolBar name="mainToolBar">
 		<Separator />
 		<Action name="quickedit"/>
-		<Action name="functions"/>
+		<Action name="newfunction"/>
 		<Action name="coord_i"/>
 		<Action name="coord_ii"/>
 		<Action name="coord_iii"/>

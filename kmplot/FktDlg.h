@@ -68,12 +68,12 @@ public:
 protected slots:
 	void ondelete();
 	void onedit();
-	void onnew();
+	// void onnew();
 	void onHasSelection();
 	
 	// edit the function, index: parser index, num: listbox index
 	void onEditFunction( int index = -1, int num = -1 );
-	void onEditParametric( int index = -1, int num = -1 );
+	void onEditParametric( int x_index = -1, int y_index = -1, int num = -1 );
 	void onEditPolar( int index = -1, int num = -1 );
 
 private:

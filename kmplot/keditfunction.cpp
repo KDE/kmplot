@@ -48,10 +48,11 @@ KEditFunction::KEditFunction( XParser* parser, QWidget* parent, const char* name
 /**
  * Fill the dialog's widgets with the properties of the parser function number index.
  */
-void KEditFunction::initDialog( const FunctionType t, int index )
+void KEditFunction::initDialog( const FunctionType t, int index, int y_index )
 {
 	m_type = t;
 	m_index = index;
+	m_y_index = y_index;
 	setVisibleWidgets();
 	if( m_index == -1 ) clearWidgets();
 	else setWidgets();
@@ -135,6 +136,10 @@ void KEditFunction::setWidgets()
 			kLineEditYFunction->setText( expression );
 			break;
 		case Parametric:
+			kLineEditName->setText( name );
+			kLineEditXFunction->setText( expression );
+			splitEquation( m_parser->fktext[ m_y_index ].extstr, name, expression );
+			kLineEditYFunction->setText( expression );
 			break;
 	}
 	checkBoxHide->setChecked( m_parser->fktext[ m_index ].f_mode == 0 );
@@ -151,6 +156,11 @@ void KEditFunction::accept()
 	{
 		m_parser->delfkt( m_index );
 		m_index = -1;
+	}
+	if( m_y_index != -1 ) 
+	{
+		m_parser->delfkt( m_y_index );
+		m_y_index = -1;
 	}
 	
 	// find a name not allready used 

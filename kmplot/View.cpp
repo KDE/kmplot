@@ -23,6 +23,8 @@
 *
 */
 
+// local includes
+#include "settings.h"
 #include "View.h"
 #include "View.moc"
 
@@ -102,9 +104,9 @@ void View::draw(QPaintDevice *dev, int form)
 	dgr.gridThickness=(uint)(gridThickness*s);
 	dgr.gradThickness=(uint)(gradThickness*s);
 	dgr.gradLength=gradLength;
-	dgr.axesColor=axesColor;
-	dgr.gridColor=gridColor;
-	dgr.Skal(tlgx, tlgy, g_mode);
+	dgr.axesColor = Settings::axesColor().rgb();
+	dgr.gridColor=Settings::gridColor().rgb();
+	dgr.Skal( tlgx, tlgy );
 	
 	dgr.Plot(&DC);
 	PlotArea=dgr.GetPlotArea();

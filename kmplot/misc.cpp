@@ -34,8 +34,8 @@ KApplication *ka;
 
 XParser ps( 10, 200, 20 );
 
-int mode,     // Diagrammodus
-g_mode;  // grid style
+int mode;     // Diagrammodus
+// g_mode;  // grid style
 
 int koordx,     // 0 => [-8|+8]
 koordy,     // 1 => [-5|+5]
@@ -67,9 +67,6 @@ drskalxstr,               // String fr drskalx
 drskalystr;             // String fr drskaly
 
 QString font_header, font_axes; // Font family names
-
-QRgb axesColor,
-gridColor;
 
 bool printtable;		// header table printing option
 
@@ -125,7 +122,6 @@ void getSettings()
 	drskaly = ps.eval( drskalystr );
 
 	axesThickness = Settings::axesLineWidth();
-	axesColor = Settings::axesColor().rgb();
 	if ( Settings::showLabel() ) mode |= LABEL;
 	gradThickness = Settings::ticWidth();
 	gradLength = Settings::ticLength();
@@ -133,8 +129,6 @@ void getSettings()
 	// grid settings
 
 	gridThickness = Settings::gridLineWidth();
-	g_mode = Settings::gridStyle();
-	gridColor = Settings::gridColor().rgb();
 
 	// font settings
 	font_header = Settings::headerTableFont().family();

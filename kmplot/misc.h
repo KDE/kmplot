@@ -44,17 +44,14 @@
  */
 #define	KP_VERSION	"1.0"
 
-
-/** The global Config file */
-extern KConfig *kc;
-
 /** The parser instance */
 extern XParser	ps;
 
 /** Diagram mode */
 extern int mode;
+
 /** Grid mode */
-extern int g_mode;
+// extern int g_mode;
 
 
 /** Thickness of the axes lines. */
@@ -152,11 +149,6 @@ extern QString font_header,
 	 * @see KPrinterDlg
 	 */
 	font_axes;
-
-/** Color of the axes. */
-extern	QRgb axesColor,
-	/** Color of the grid. */
-	gridColor;
 
 /** Header table printing option
  * @see KPinterDlg

@@ -63,7 +63,7 @@ public:
 	               double ymin, double ymax,
 	               char mode);
 
-	void Skal(double ex, double ey, char g_mode);	
+	void Skal(double ex, double ey );	
 	void Plot(QPainter* pDC);
 	QRect GetPlotArea() {return PlotArea;}
 	QRect GetFrame() {return Rahmen;}
@@ -74,9 +74,9 @@ public:
     double Transx(int),
            Transy(int);
 
-    QRgb RahmenFarbe,
-	     axesColor,
-         gridColor;
+	QRgb RahmenFarbe;
+	QRgb axesColor;
+	QRgb gridColor;
 
 	uint borderThickness,
 	     axesThickness,
@@ -92,8 +92,8 @@ private:
 	void Achsen(QPainter*);
 	void Raster(QPainter*);
 	void Beschriftung(QPainter*);
-	char mode,
-	     g_mode;
+	char mode;
+	int g_mode;
 
 	double xmin, xmax,      // x-Wertebereich
 	ymin, ymax,             // y-Wertebereich

@@ -25,6 +25,7 @@
 
 //local includes
 #include "diagr.h"
+#include "settings.h"
 
 #ifdef __osf__
 #include <nan.h>
@@ -49,7 +50,7 @@ CDiagr::CDiagr()
 	gradThickness=1;
 	gradLength=10;
 	mode=0;
-	g_mode=1;
+	g_mode = Settings::gridStyle();
 	ex=ey=1.;
 }
 
@@ -99,11 +100,11 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 }
 
 
-void CDiagr::Skal(double ex, double ey, char g_mode)
+void CDiagr::Skal( double ex, double ey )
 {   
 	CDiagr::ex=ex;
 	CDiagr::ey=ey;
-	CDiagr::g_mode=g_mode;
+	g_mode = Settings::gridStyle();
 	tsx=ceil(xmin/ex)*ex;
 	tsy=ceil(ymin/ey)*ey;
 }

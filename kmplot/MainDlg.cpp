@@ -125,7 +125,7 @@ void MainDlg::save()
 }
 
 void MainDlg::saveas()
-{   datei=KFileDialog::getSaveFileName(QDir::currentDirPath(), i18n( "*.fkt|KmPlot files (*.fkt)\n*.svg|Scalable Vector Graphics (*.svg)\n*|All files" ), this, i18n( "Save as..." ));
+{   datei=KFileDialog::getSaveFileName(QDir::currentDirPath(), i18n( "*.fkt|KmPlot files (*.fkt)\n*.svg|Scalable Vector Graphics (*.svg)\n*|All files" ), this, i18n( "Save As..." ));
     if(!datei.isEmpty())
     {   if(datei.find(".")==-1) datei=datei+".fkt";
         doSave();

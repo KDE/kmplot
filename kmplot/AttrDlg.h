@@ -35,7 +35,7 @@
 
 // KDE includes
 #include <kapplication.h>
-#include <kcolordlg.h>
+#include <kcolordialog.h>
 #include <klocale.h>
 
 // local includes

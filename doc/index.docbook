@@ -39,23 +39,17 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-02-10</date>
-<releaseinfo>0.04.00</releaseinfo>
+<date>2002-10-08</date>
+<releaseinfo>1.0</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
 <abstract>
 <para>&kmplot; is a mathematical function plotter for the &kde;
-Desktop.
-
-
-<inlinemediaobject>
-<imageobject>
-<imagedata fileref="edu-logo.png" format="PNG"/>
-</imageobject>
-</inlinemediaobject>
-
-&kmplot; is part of the KDE-EDU Project: <ulink
+Desktop. <inlinemediaobject><imageobject><imagedata
+fileref="edu-logo.png"
+format="PNG"/></imageobject></inlinemediaobject> &kmplot; is part of
+the KDE-EDU Project: <ulink
 url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 
 

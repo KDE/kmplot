@@ -1,8 +1,7 @@
 <chapter id="using-kmplot">
 <title>Using &kmplot;</title>
 
-<para>
-</para>
+<para></para>
 
 <screenshot>
 <screeninfo>Here's a screenshot of the &kmplot; welcome window</screeninfo>
@@ -16,6 +15,7 @@
 	</mediaobject>
 </screenshot>
 
+<!-- 
 <sect1 id="kmplot-features">
 <title>More &kmplot; features</title>
 
@@ -24,6 +24,7 @@
 </para>
 
 </sect1>
+-->
 
 </chapter>
 

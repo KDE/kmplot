@@ -2,6 +2,12 @@
 #include "MainDlg.h"
 #include "MainDlg.moc"
 
+// Qt includes
+#include <qdom.h>
+#include <qfile.h>
+
+// KDE includes
+#include <kdebug.h>
 
 MainDlg::MainDlg(const char* name) : KMainWindow(0, name)
 {	init();
@@ -63,7 +69,8 @@ void MainDlg::neu()
 }
 
 void MainDlg::doSave()
-{   if(datei.isEmpty()) return;
+{   
+    if(datei.isEmpty()) return;
 
     if(datei.find(".svg")!=-1)
     {   QPicture pic;
@@ -72,6 +79,65 @@ void MainDlg::doSave()
         pic.save(datei, "svg");
         return;
     }
+
+    QDomDocument doc( "kmpdoc" );
+    QDomElement root = doc.createElement( "kmpdoc" );
+    doc.appendChild( root );
+
+    QDomElement tag = doc.createElement( "axes" );
+
+	tag.setAttribute( "mode", mode );
+	tag.setAttribute( "grid-mode", g_mode );
+	tag.setAttribute( "color", QColor(AchsenFarbe).name() );
+	tag.setAttribute( "width", AchsenDicke );
+	tag.setAttribute( "tic-width", TeilstrichDicke );
+	tag.setAttribute( "tic-legth", TeilstrichLaenge );
+
+	addTag( doc, tag, "xmin", xminstr );
+	addTag( doc, tag, "xmax", xmaxstr );
+	addTag( doc, tag, "ymin", yminstr );
+	addTag( doc, tag, "ymax", ymaxstr );
+	addTag( doc, tag, "xcoord", QString::number( koordx ) );
+	addTag( doc, tag, "ycoord", QString::number( koordy ) );
+	
+    root.appendChild( tag );
+
+	tag = doc.createElement( "scale" );
+
+	addTag( doc, tag, "tic-x", tlgxstr );
+	addTag( doc, tag, "tic-y", tlgystr );
+	addTag( doc, tag, "print-tic-x", drskalxstr );
+	addTag( doc, tag, "print-tic-y", drskalystr );
+	
+	root.appendChild( tag );
+	
+	addTag( doc, root, "step", QString::number( rsw ) );
+
+	for(int ix=0; ix<ps.ufanz; ix++)
+    {   
+		if( !ps.fktext[ix].extstr.isEmpty() )
+        {
+            tag = doc.createElement( "function" );
+			
+			tag.setAttribute( "number", ix );
+			tag.setAttribute( "visible", ps.fktext[ix].f_mode );
+			tag.setAttribute( "visible-deriv", ps.fktext[ix].f1_mode );
+			tag.setAttribute( "visible-2nd-deriv", ps.fktext[ix].f2_mode );
+			tag.setAttribute( "width", ps.fktext[ix].dicke );
+			tag.setAttribute( "color", QColor(ps.fktext[ix].farbe).name() );
+			
+			addTag( doc, tag, "equation", ps.fktext[ix].extstr );
+
+			root.appendChild( tag );
+        }
+    }
+	
+    QFile xmlfile( datei+".xml" );
+    xmlfile.open( IO_WriteOnly );
+    QTextStream ts( &xmlfile );  
+    doc.save( ts, 4 );
+    xmlfile.close();
+
 
     KConfig file(datei);
     file.setGroup("Axes");
@@ -125,6 +191,15 @@ void MainDlg::doSave()
     file.sync();
 }
 
+void MainDlg::addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue )
+{
+	QDomElement tag = doc.createElement( tagName );
+    QDomText value = doc.createTextNode( tagValue );
+    tag.appendChild( value );
+    parentTag.appendChild( tag );
+}
+	
+
 void MainDlg::save()
 {   if(datei.isEmpty()) saveas();
     else doSave();
@@ -146,7 +221,33 @@ void MainDlg::load()
     if(d.isEmpty()) return;
 
     init();
-    datei=d;
+
+	QDomDocument doc( "kmpdoc" );
+
+	QFile f( d+".xml" );
+  	if ( !f.open( IO_ReadOnly ) )
+		return;
+	if ( !doc.setContent( &f ) ) 
+	{
+		f.close();
+		return;
+	}
+	f.close();
+    
+	kdDebug() << doc.toString() << endl;
+
+	 QDomElement element = doc.documentElement();
+    for( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
+    {
+		kdDebug() <<  n.nodeName() << endl;
+		if ( n.nodeName()=="axes" ) parseAxes( n.toElement() );
+		if ( n.nodeName()=="grid" ) parseGrid( n.toElement() );
+		if ( n.nodeName()=="scale" ) parseScale( n.toElement()  );
+		if ( n.nodeName()=="step" ) parseStep( n.toElement() );
+		if ( n.nodeName()=="function" ) parseFunction( n.toElement() );
+    }
+    
+	datei=d;
     KConfig file(datei);
     if(file.hasGroup("Axes"))
     {   file.setGroup("Axes");
@@ -162,7 +263,7 @@ void MainDlg::load()
         koordx=file.readNumEntry("Coord X");
         koordy=file.readNumEntry("Coord Y");
         AchsenDicke=file.readNumEntry("Axes Width");
-        AchsenFarbe=file.readColorEntry("Color").rgb();
+        //AchsenFarbe=file.readColorEntry("Color").rgb();
         TeilstrichDicke=file.readNumEntry("Tic Width");
         TeilstrichLaenge=file.readNumEntry("Tic Length");
     }
@@ -216,6 +317,40 @@ void MainDlg::load()
     }
     setCaption(datei);
     view->update();
+}
+
+void MainDlg::parseAxes( const QDomElement &n )
+{
+	kdDebug() << "parsing axes" << endl;
+	mode = n.attribute( "mode", QString::number(ACHSEN | PFEILE | EXTRAHMEN) ).toInt();
+	g_mode = n.attribute( "grid-mode", "1" ).toInt();
+	AchsenDicke = n.attribute( "width", "1" ).toInt();
+	AchsenFarbe = QColor( n.attribute( "color", "#000000" ) ).rgb();
+	TeilstrichDicke = n.attribute( "tic-width", "3" ).toInt();
+	TeilstrichLaenge = n.attribute( "tic-length", "10" ). toInt();
+
+	xminstr = n.namedItem( "xmin" ).toElement().text();
+	kdDebug() << "xminstr: "+xminstr << endl;
+}
+
+void MainDlg::parseGrid( const QDomElement &n )
+{
+	kdDebug() << "parsing grid" << endl;
+}
+
+void MainDlg::parseScale( const QDomElement &n )
+{
+	kdDebug() << "parsing scale" << endl;
+}
+
+void MainDlg::parseStep( const QDomElement &n )
+{
+	kdDebug() << "parsing step" << endl;
+}
+
+void MainDlg::parseFunction( const QDomElement &n )
+{
+	kdDebug() << "parsing function" << endl;
 }
 
 void MainDlg::print()

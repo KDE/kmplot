@@ -106,7 +106,7 @@ void MainDlg::setupActions()
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
-	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(),this, "fullscreen");
+	m_fullScreen = KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), this, "fullscreen");
 	
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
@@ -474,7 +474,15 @@ bool MainDlg::queryClose()
 
 void MainDlg::slotFullScreen()
 {
-	if ( isFullScreen() ) showNormal();
-	else showFullScreen();
+	if ( isFullScreen() ) 
+	{
+		showNormal();
+		m_fullScreen->unplug( toolBar( "mainToolBar" ) );
+	}
+	else 
+	{
+		showFullScreen();
+		m_fullScreen->plug( toolBar( "mainToolBar" ) );
+	}
 }
 

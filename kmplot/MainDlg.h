@@ -54,6 +54,7 @@ class SettingsPageColor;
 class SettingsPageFonts;
 class SettingsPagePrecision;
 class SettingsPageScaling;
+class KToggleFullScreenAction;
 
 /** @short This is the main window of KmPlot.
  *
@@ -130,6 +131,8 @@ class MainDlg : public KMainWindow
 		KConfigDialog* m_settingsDialog;
 		///The Precision page for the Configure KmPlot dialog
 		SettingsPagePrecision* m_precisionSettings;
+		/// The fullscreen action to be plugged/unplegged to the toolbar
+		KToggleFullScreenAction* m_fullScreen;
 		
 	protected slots:
 		/// Implement the File -> Open action

@@ -124,6 +124,8 @@ void KParameterEditor::cmdImport_clicked()
 		for( int i=1; !stream.atEnd();i++ )
 		{
 			line = stream.readLine();
+			if (line.isEmpty())
+				continue;
 			m_parser->eval( line );
 			if ( m_parser->err == 0 )
 			{

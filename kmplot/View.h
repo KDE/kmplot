@@ -148,6 +148,8 @@ protected slots:
 	void keyPressEvent(QKeyEvent * );
 	/// called when a mouse key is released
 	void mouseReleaseEvent ( QMouseEvent * e );
+	
+	bool event( QEvent * e );
 
 private:
 	/// Print out table with additional information.
@@ -161,6 +163,8 @@ private:
 	bool root(double *);
 	///return the inverted color
 	void invertColor(QColor &, QColor &);
+	/// Restore the mouse cursor when a drawing is finished
+	void restoreCursor();
 	
 	/// The central parser instance.
 	/// @see parser()
@@ -244,9 +248,9 @@ private:
 	/// for zoom-mode
 	QPoint rectangle_point;
 	char zoom_mode; ///0=normal 1=rectangular zoom, 2=zoom in, 3=zoom out ,4=drawing a rectangle, 5=center
-	
 	/// true == modifications not saved
 	bool &m_modified;
+	
 };
 
 #endif // View_included

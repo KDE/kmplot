@@ -96,7 +96,6 @@ View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidg
 	invertColor(backgroundcolor,inverted_backgroundcolor);
 	setBackgroundColor(backgroundcolor);
 	setMouseTracking(TRUE);
-	areaDraw = false;
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
 		sliders[ number ] = new SliderWindow( this, QString( "slider%1" ).arg( number ).latin1(), false, Qt::WStyle_Tool-Qt::WStyle_Maximize );
@@ -109,6 +108,7 @@ View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidg
 	m_popupmenushown = 0;
 	m_popupmenu->insertTitle( "",10);
 	zoom_mode = 0;
+	isDrawing=false;
 }
 
 void View::setMinMaxDlg(KMinMax *minmaxdlg)
@@ -203,7 +203,10 @@ void View::draw(QPaintDevice *dev, int form)
 	dgr.Skal( tlgx, tlgy );
 	
 	if ( form!=0 && areaDraw)
+	{
 		areaUnderGraph(areaIx, areaPMode, areaMin,areaMax, areaParameter, &DC);
+		areaDraw = false;
+	}
 	
 	dgr.Plot(&DC);
 	PlotArea=dgr.GetPlotArea();
@@ -213,6 +216,7 @@ void View::draw(QPaintDevice *dev, int form)
 	stepWidth=Settings::relativeStepWidth()*(xmax-xmin)/area.width();
 	
 	isDrawing=true;
+	setCursor(Qt::WaitCursor );
 	stop_calculating = false;
 	for(ix=0; ix<m_parser->ufanz && !stop_calculating; ++ix)
 	{
@@ -220,9 +224,9 @@ void View::draw(QPaintDevice *dev, int form)
 		plotfkt(ix, &DC);
 	}
 	isDrawing=false;
+	restoreCursor();
 	csflg=0;
 	DC.end();			// painting done
-
 }
 
 
@@ -239,9 +243,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
 	
 	dx=stepWidth;
-	
-	pen.setWidth((int)(m_parser->fktext[ix].linewidth*s) );
-	pen.setColor(m_parser->fktext[ix].color);
 
 	fktmode=m_parser->fktext[ix].extstr[0].latin1();
 	if(fktmode!='y')
@@ -277,6 +278,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 	else if(fktmode=='y') return ;
 	
 	p_mode=0;
+	pen.setWidth((int)(m_parser->fktext[ix].linewidth*s) );
+	pen.setColor(m_parser->fktext[ix].color);
 	pDC->setPen(pen);
 	while(1)
 	{  
@@ -291,14 +294,13 @@ void View::plotfkt(int ix, QPainter *pDC)
 			else
 				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
 			mflg=2;
-			bool forward_direction = true;
 			
 			if ( p_mode == 3)
 			{
 				if ( m_parser->fktext[ix].integral_use_precision )
-					dx = (m_parser->fktext[ix].integral_precision)/1000;
+					dx = (m_parser->fktext[ix].integral_precision)/100;
 				else
-					dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+					dx=Settings::relativeStepWidth()/100; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 				progressbar->progress->reset();
 				progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 				progressbar->show();
@@ -306,15 +308,19 @@ void View::plotfkt(int ix, QPainter *pDC)
 			}
 			else
 				x=dmin;
-			
-			
+			bool forward_direction;
+			if (dmin<0 && dmax<0)
+				forward_direction = false;
+			else
+				forward_direction = true;
 			
 			if ( p_mode != 0 || m_parser->fktext[ix].f_mode) // if not the function is hidden
-			while (x>=dmin && x<=dmax)
+				while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
 			{
 				
 				if ( p_mode == 3 && stop_calculating)
 				{
+					p_mode=1;
 					x=dmax+1;
 					continue;
 				}
@@ -326,26 +332,13 @@ void View::plotfkt(int ix, QPainter *pDC)
 						break;
 					
 					case 1:
-					{
 						y=m_parser->a1fkt(ix, x);
-						pen.setWidth((int)(m_parser->fktext[ix].f1_linewidth*s) );
-						pen.setColor(m_parser->fktext[ix].f1_color);
-						pDC->setPen(pen);
 						break;
-					}
 					case 2:
-					{
 						y=m_parser->a2fkt(ix, x);
-						pen.setWidth((int)(m_parser->fktext[ix].f2_linewidth*s) );
-						pen.setColor(m_parser->fktext[ix].f2_color);
-						pDC->setPen(pen);
 						break;
-					}
 					case 3:
 					{
-						pen.setWidth((int)(m_parser->fktext[ix].integral_linewidth*s) );
-						pen.setColor(m_parser->fktext[ix].integral_color);
-						pDC->setPen(pen);
 						y=m_parser->fkt(ix, x);
 						m_parser->euler_method(x, y,ix);
 						if ( int(x*100)%2==0)
@@ -392,41 +385,57 @@ void View::plotfkt(int ix, QPainter *pDC)
 					p1=p2;
                     			mflg=0;
 				}
-		    
-		    		if (forward_direction)
-		    		{
-					x=x+dx;
-					if (x>dmax && p_mode== 3)
-					{
-						forward_direction = false;
-						x = m_parser->fktext[ix].startx;
-						mflg=2;
-					}
-		    		}
-		    		else
-			    		x=x-dx; // go backwards
 
+				if (p_mode==3)
+				{
+					if ( forward_direction)
+					{
+						x=x+dx;
+						if (x>dmax && p_mode== 3)
+						{
+							forward_direction = false;
+							x = m_parser->fktext[ix].startx;
+							mflg=2;
+						}
+					}
+					else
+						x=x-dx; // go backwards	
+				}
+				else
+					x=x+dx;
             		}
 		}
         	while(++k<ke);
 	
-		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) p_mode=1;
-		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
-		else if( m_parser->fktext[ix].integral_mode==1 && p_mode< 3) p_mode=3;
-		else break;
+		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) //draw the 1st derivative
+		{
+			p_mode=1;
+			pen.setWidth((int)(m_parser->fktext[ix].f1_linewidth*s) );
+			pen.setColor(m_parser->fktext[ix].f1_color);
+			pDC->setPen(pen);
+		}
+		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) //draw the 2nd derivative
+		{
+			p_mode=2;
+			pen.setWidth((int)(m_parser->fktext[ix].f2_linewidth*s) );
+			pen.setColor(m_parser->fktext[ix].f2_color);
+			pDC->setPen(pen);
+		}
+		else if( m_parser->fktext[ix].integral_mode==1 && p_mode< 3) //draw the integral
+		{
+			p_mode=3;
+			pen.setWidth((int)(m_parser->fktext[ix].integral_linewidth*s) );
+			pen.setColor(m_parser->fktext[ix].integral_color);
+			pDC->setPen(pen);
+		}
+		else break; //otherwise stop
 
-		//do we need this?
-		//pen=QPen(m_parser->fktext[ix].color, 50);
-		//pDC->setPen(pen);
 	}
 	if (  progressbar->isVisible())
 	{
 		progressbar->hide(); // hide the progressbar-widget if it was shown
 		if( stop_calculating)
-		{
 			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
-			stop_calculating=false;
-		}
 	}
 	
 }
@@ -557,6 +566,11 @@ void View::paintEvent(QPaintEvent *)
 
 void View::resizeEvent(QResizeEvent *)
 {
+	if (isDrawing) //stop drawing integrals
+	{
+		stop_calculating = true; //stop drawing
+		return;
+	}
 	buffer.resize(size() );
 	drawPlot();
 }
@@ -566,17 +580,18 @@ void View::drawPlot()
 	if( m_minmax->isShown() )
 		m_minmax->updateFunctions();
 	buffer.fill(backgroundcolor);
-	areaDraw = false;
 	draw(&buffer, 0);
 	QPainter p;
 	p.begin(this);
 	bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
-	p.end();	
+	p.end();
 }
 
 void View::mouseMoveEvent(QMouseEvent *e)
 {   char sx[20], sy[20];
 	
+	if ( isDrawing)
+		return;
 	if (zoom_mode==4 &&  e->stateAfter() != Qt::NoButton)
 	{
 		QPainter p;
@@ -585,9 +600,14 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		p.end();
 		
 		QPainter painter(this);
-		QPen pen;
-		pen.setStyle(Qt::DotLine);
+		QPen pen(Qt::white, 1, Qt::DotLine);
+		painter.setRasterOp (Qt::XorROP);
 		painter.setPen(pen);
+		painter.setBackgroundMode (QPainter::OpaqueMode);
+		painter.setBackgroundColor (Qt::blue);
+		
+		//pen.setStyle(Qt::DotLine);
+		//pen.setPen (QPen (Qt::white, 1, Qt::DotLine));
 		painter.drawRect(rectangle_point.x(), rectangle_point.y(), e->pos().x()-rectangle_point.x(), e->pos().y()-rectangle_point.y());
 		return;
 		
@@ -703,9 +723,9 @@ void View::mousePressEvent(QMouseEvent *e)
 	if ( m_popupmenushown>0)
 		return;
 	
-	if (!stop_calculating && isDrawing) //stop drawing integrals
+	if (isDrawing)
 	{
-		stop_calculating = true;
+		stop_calculating = true; //stop drawing
 		return;
 	}
 	
@@ -913,6 +933,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	if(csmode>=0) //disable trace mode if trace mode is enable
 	{
 		csmode=-1;
+		stbar->changeItem("",3);
 		stbar->changeItem("",4);
 		mouseMoveEvent(e);
 		return ;
@@ -973,7 +994,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	}
 
 	csmode=-1;
-	stbar->changeItem("",4);
+	//stbar->changeItem("",4);
 }
 
 
@@ -990,7 +1011,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 		}
 		QPainter DC;
 		DC.begin(this);
-		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );		
+		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
 
@@ -1001,10 +1022,13 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 		double real2x = dgr.Transx(p.x() ) ;
 		double real2y = dgr.Transy(p.y() ) ;
 		
+		
+		if ( real1x>xmax || real2x>xmax || real1x<xmin  || real2x<xmin  || 
+		     real1y>ymax || real2y>ymax || real1y<ymin  || real2y<ymin )
+			return; //out of bounds
+		
 		QString str_tmp;
-		
-		
-		
+		//setting new x-boundaries
 		if( real1x < real2x  )
 		{
 			if( real2x - real1x < 0.00001)
@@ -1023,7 +1047,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 			str_tmp.setNum(real1x );
 			Settings::setXMax(str_tmp );
 		}
-		
+		//setting new y-boundaries
 		if( real1y < real2y )
 		{
 			if( real2y - real1y < 0.00001)
@@ -1164,26 +1188,33 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 			i++;
 		}
 
-	bool forward_direction = true;
 	isDrawing=true;
+	setCursor(Qt::WaitCursor );
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
 		progressbar->progress->reset();
 		if ( m_parser->fktext[ix].integral_use_precision )
-			dx = (m_parser->fktext[ix].integral_precision)/1000;
+			dx = (m_parser->fktext[ix].integral_precision)/100;
 		else
-			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+			dx=Settings::relativeStepWidth()/100; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
 		x = m_parser->fktext[ix].startx; //the initial x-point
 	}
 	else
 		x=dmin;
-	while (x>=dmin && x<=dmax)
+	
+	bool forward_direction;
+	if (dmin<0 && dmax<0)
+		forward_direction = false;
+	else
+		forward_direction = true;
+	while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
 	{
 		if ( p_mode == 3 && stop_calculating)
 		{
+			p_mode = 1;
 			x=dmax+1;
 			continue;
 		}
@@ -1220,25 +1251,26 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 		}
 		if(errno!=0) continue;
 		
-		if ( y>=ymin &&y<=ymax)
-		{
-			if ( start)
+		if (dmin<=x && x<=dmax)
+			if ( y>=ymin &&y<=ymax)
 			{
-				result_x = x;
-				result_y = y;
-				start=false;
+				if ( start)
+				{
+					result_x = x;
+					result_y = y;
+					start=false;
+				}
+				else if ( minimum &&y <=result_y) 
+				{
+					result_x = x;
+					result_y = y;
+				}
+				else if ( !minimum && y >=result_y)
+				{
+					result_x = x;
+					result_y = y;
+				}
 			}
-			else if ( minimum &&y <=result_y) 
-			{
-				result_x = x;
-				result_y = y;
-			}
-			else if ( !minimum && y >=result_y)
-			{
-				result_x = x;
-				result_y = y;
-			}
-		}
 	
 		if (forward_direction)
 		{
@@ -1255,6 +1287,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 	if (  progressbar->isVisible())
 		progressbar->hide(); // hide the progressbar-widget if it was shown
 	isDrawing=false;
+	restoreCursor();
 	
 	dmin = int(result_x*1000)/double(1000);
 	dmax = int(result_y*1000)/double(1000);
@@ -1287,14 +1320,17 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 			y=m_parser->a2fkt(ix, x);
 			break;
 		case 3:
-			
 			if(ix==-1 || ix>=m_parser->ufanz) return;  // ungltiger Index
 		
 			double dmin = m_parser->fktext[ix].dmin;
 			double dmax = m_parser->fktext[ix].dmax;
 			double dx = stepWidth;
-			bool forward_direction = true;
 			const double target = x; //this is the x-value the user had chosen
+			bool forward_direction;
+			if ( target>=0)
+				forward_direction = true;
+			else
+				forward_direction = false;
 			
 			if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 			{   
@@ -1304,16 +1340,17 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 			
 			stop_calculating = false;
 			isDrawing=true;
+			setCursor(Qt::WaitCursor );
 			bool target_found=false;
 			if ( m_parser->fktext[ix].integral_use_precision )
-				dx = (m_parser->fktext[ix].integral_precision)/1000;
+				dx = (m_parser->fktext[ix].integral_precision)/100;
 			else
-				dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+				dx=Settings::relativeStepWidth()/100; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 			progressbar->progress->reset();
 			progressbar->progress->setTotalSteps ((int) double((dmax-dmin)/dx)/2 );
 			progressbar->show();
 			x = m_parser->fktext[ix].startx; //the initial x-point
-			while (x>=dmin && x<=dmax  && !stop_calculating && !target_found)
+			while (x>=dmin && !stop_calculating && !target_found)
 			{
 				y=m_parser->fkt(ix, x);
 				m_parser->euler_method(x, y,ix);
@@ -1326,8 +1363,10 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 				
 				if(errno!=0) continue;
 
-				if ( x+dx > target) //right x-value is found
+				if ( (x+dx > target && forward_direction) || ( x+dx < target && !forward_direction)) //right x-value is found
 					target_found = true;
+
+
 
 				if (forward_direction)
 				{
@@ -1345,6 +1384,7 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 				progressbar->hide(); // hide the progressbar-widget if it was shown
 
 			isDrawing=false;
+			restoreCursor();
 			break;
 	}
 }
@@ -1356,40 +1396,13 @@ void View::keyPressEvent( QKeyEvent * e)
 		zoom_mode = 1;
 		update();
 		return;
-	}
+	}		
 	
-	/*if ( e->key() == Qt::Key_A) //disable zoom mode
-		zoom_mode=0;
-	else if ( e->key() == Qt::Key_S) //rectangular zoom mode
-		zoom_mode=1;
-	else if ( e->key() == Qt::Key_D) //zoom in mode
-		zoom_mode=2;
-	else if ( e->key() == Qt::Key_F) //zoom out mode
-		zoom_mode=3;
-	else if ( e->key() == Qt::Key_G) //center mode
-		zoom_mode=5;
-	else if ( e->key() == Qt::Key_H) //adapt the widget for trigonometry
+	if (isDrawing)
 	{
-		if ( Settings::anglemode()==0 ) //radians
-		{
-			Settings::setXMin("-6.152285613" );
-			Settings::setXMax("6.152285613" );
-		}
-		else //degrees
-		{
-			Settings::setXMin("-352.5" );
-			Settings::setXMax("352.5" );
-		}
-		
-		Settings::setYMin("-4");
-		Settings::setYMax("4");
-		
-		Settings::setXRange(4); //custom x-range
-		Settings::setYRange(4); //custom y-range
-		drawPlot(); //update all graphs
+		stop_calculating=true;
 		return;
-}*/
-		
+	}
 	
 	if (csmode==-1 ) return;
 	
@@ -1398,66 +1411,88 @@ void View::keyPressEvent( QKeyEvent * e)
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx-1,fcy-1),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Right )
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
-	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
+	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-		int ix=csmode;
-		char mode = cstype;
-		bool start=true;
 		
+		int const ke=m_parser->fktext[csmode].k_anz;
+		if (ke)
+			while(1)
+			{
+				csparam++;
+				if (csparam >= ke)
+					csparam=-1;
+				else
+					break;
+			}
+		
+		int const old_csmode=csmode;
+		char const old_cstype = cstype;
+		bool start = true;
+		bool found = false;
+		if (csparam==0)
 		while ( csmode<m_parser->ufanz )
-		{   
-			if ( ix==csmode && mode==cstype)
-				if (start) start=false;
-			else break;
-			switch(m_parser->fktext[ix].extstr[0].latin1())
+		{
+			if ( old_csmode==csmode && !start)
+			{
+				cstype=old_cstype;
+				break;
+			}
+			kdDebug() << "csmode: " << csmode << endl;
+			switch(m_parser->fktext[csmode].extstr[0].latin1())
 			{  	case 0:
 				case 'x':
 				case 'y':
 				case 'r':
+					break;
+				default:
 				{
-					if ( csmode == m_parser->ufanz-2)
-						csmode=0;
-					else
-						csmode++;
-					if ( m_parser->fktext[csmode].f_mode) break;
-					continue;
+					for (cstype=0;cstype<3;cstype++) //going through the function, the first and the second derivative
+					{
+						if (start)
+						{
+							if ( cstype==2)
+								cstype=0;
+							else
+								cstype=old_cstype+1;
+							start=false;
+						}
+						kdDebug() << "   cstype: " << (int)cstype << endl;
+						switch (cstype)
+						{
+							case (0):
+								if ( m_parser->fktext[csmode].f_mode )
+									found=true;
+								break;
+								
+							case (1):
+								if ( m_parser->fktext[csmode].f1_mode )
+									found=true;
+								break;
+							case (2):
+								if ( m_parser->fktext[csmode].f2_mode )
+									found=true;
+								break;
+						}
+						if (found)
+							break;
+					}
+					break;
 				}
 			}
-			cstype++;
-			
-			if ( cstype == 1)
-				if ( m_parser->fktext[csmode].f1_mode ) break;
-			else cstype++;
-
-			if ( cstype == 2 )
-				if ( m_parser->fktext[csmode].f2_mode ) break;
-			else cstype++;
-
-			cstype=0;
-			if ( csmode == m_parser->ufanz-2)
+			if (found)
+				break;
+			if ( csmode == m_parser->ufanz-1)
 				csmode=0;
 			else
 				csmode++;
-			if ( m_parser->fktext[csmode].f_mode) break;
 		}
 		
-		/*kdDebug() << "csmode: " << (int)csmode << endl;
-		kdDebug() << "cstype: " << (int)cstype << endl;*/
+		kdDebug() << "************************" << endl;
+		kdDebug() << "csmode: " << (int)csmode << endl;
+		kdDebug() << "cstype: " << (int)cstype << endl;
+		kdDebug() << "csparam: " << csparam << endl;
 		
-		int k=csparam;
-		int const ke=m_parser->fktext[csmode].k_anz;
-		do
-		{
-			if ( ++k >= ke)
-				k=0;
-			
-			csparam = k;
-			
-			if (k==csparam)
-				break;
-		}
-		while(1);
-		
+		//change function in the statusbar
 		switch (cstype )
 		{
 			case 0:
@@ -1500,13 +1535,12 @@ void View::keyPressEvent( QKeyEvent * e)
 
 void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QString &str_parameter, QPainter *DC)
 {
-	double dx, x, y;
-	float area=0;
+	double x, y;
+	float calculated_area=0;
 	int rectwidth, rectheight;
 	QString fname, fstr;
 	areaMin = dmin;
 	QPoint p;
-	int ly;
 	QColor color;
 	switch(p_mode)
 	{
@@ -1525,16 +1559,19 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 	}
 	if ( DC == 0) //screen
 	{
+		int ly;
 		buffer.fill(backgroundcolor);
 		DC = new QPainter(&buffer);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC->scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
 	}
 
-	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
+	if(ix==-1 || ix>=m_parser->ufanz) return ;    // ungltiger Index
 
-	dx=stepWidth;
-	rectwidth = dgr.GetPlotArea().width()/200;
+	int const origoy = dgr.Transy(0.0);
+	double dx=stepWidth;
+	rectwidth = dgr.Transx(dx)- dgr.Transx(0.0); 
+
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
 		dmin=xmin;
@@ -1553,16 +1590,16 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 		}
 		i++;
 	}
-	
-	bool forward_direction = true;
 	isDrawing=true;
+	setCursor(Qt::WaitCursor );
+	
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
 		if ( m_parser->fktext[ix].integral_use_precision )
-			dx = (m_parser->fktext[ix].integral_precision)/1000;
+			dx = (m_parser->fktext[ix].integral_precision)/100;
 		else
-			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+			dx=Settings::relativeStepWidth()/100; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 		progressbar->progress->reset();
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
@@ -1570,11 +1607,18 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 	}
 	else
 		x=dmin;
-	while (x>=dmin && x<=dmax)
+	bool forward_direction;
+	if (dmin<0 && dmax<0)
+		forward_direction = false;
+	else
+		forward_direction = true;
+	while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
 	{
 		if ( p_mode == 3 && stop_calculating)
 		{
+			p_mode=1;
 			x=dmax+1;
+			break;
 			continue;
 		}
 		errno=0;
@@ -1612,50 +1656,58 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 		
 		p.setX(dgr.Transx(x));
 		p.setY(dgr.Transy(y));
-		if(dgr.xclipflg || dgr.yclipflg)
+		if (dmin<=x && x<=dmax)
 		{
-			if ( y<0)
+			if(dgr.xclipflg || dgr.yclipflg)
 			{
-				//p.setY(dgr.Transy(ymin));
-				rectheight = dgr.Transy(0.0)-p.y() ;
+				if ( y<0)
+				{
+					//p.setY(dgr.Transy(ymin));
+					rectheight = origoy-p.y() ;
+				}
+				else
+				{
+					//p.setY(dgr.Transy(ymax));
+					rectheight= -1*( p.y()-origoy) ;
+				}
+				calculated_area = calculated_area + ( dx*y);
+				DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 			}
 			else
 			{
-				//p.setY(dgr.Transy(ymax));
-				rectheight= -1*( p.y()-dgr.Transy(0.0)) ;
+				if ( y<0)
+				{
+					rectheight =  origoy-p.y();
+				}
+				else
+				{
+					rectheight = -1*( p.y()-origoy);
+				}
+				calculated_area = calculated_area + (dx*y);
+				/*kdDebug() << "Area: " << area << endl;
+				kdDebug() << "x:" << p.height() << endl;
+				kdDebug() << "y:" << p.y() << endl;
+				kdDebug() << "*************" << endl;*/
+				DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 			}
-			area = area + ( dx*y);
-			DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
-		}
-		else
-		{
-			if ( y<0)
-			{
-				rectheight =  dgr.Transy(0.0)-p.y();
-			}
-			else
-			{
-				rectheight = -1*( p.y()-dgr.Transy(0.0));
-			}
-			area = area + (dx*y);
-			/*kdDebug() << "Area: " << area << endl;
-			kdDebug() << "x:" << p.height() << endl;
-			kdDebug() << "y:" << p.y() << endl;
-			kdDebug() << "*************" << endl;*/
-			DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 		}
 	
-		if (forward_direction)
+		if (p_mode==3)
 		{
-			x=x+dx;
-			if (x>dmax && p_mode== 3)
+			if ( forward_direction)
 			{
-				forward_direction = false;
-				x = m_parser->fktext[ix].startx;
+				x=x+dx;
+				if (x>dmax && p_mode== 3)
+				{
+					forward_direction = false;
+					x = m_parser->fktext[ix].startx;
+				}
 			}
+			else
+				x=x-dx; // go backwards	
 		}
 		else
-			x=x-dx; // go backwards
+			x=x+dx;
 	}
 	if (  progressbar->isVisible())
 	{
@@ -1663,13 +1715,13 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 		if( stop_calculating)
 		{
 			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
-			stop_calculating=false;
 			return;
 		}	
 	}
 	isDrawing=false;
+	restoreCursor();
 	
-	areaDraw=true;
+	
 	areaIx = ix;
 	areaPMode = p_mode;
 	areaMax = dmax;
@@ -1677,23 +1729,24 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 	
 	if ( DC->device() == &buffer) //draw the graphs to the screen
 	{
+		areaDraw=true;
 		DC->end();
 		setFocus();
 		update();
 		draw(&buffer,0);
 	}
 	
-	if ( area>0)
-		dmin = int(area*1000)/double(1000);
+	if ( calculated_area>0)
+		dmin = int(calculated_area*1000)/double(1000);
 	else
-		dmin = int(area*1000)/double(1000)*-1; //don't answer with a negative number
+		dmin = int(calculated_area*1000)/double(1000)*-1; //don't answer with a negative number
 }
 
 bool View::isCalculationStopped()
 {
 	if ( stop_calculating)
 	{
-		stop_calculating = true;
+		stop_calculating = false;
 		return true;
 	}
 	else
@@ -1847,3 +1900,36 @@ void View::invertColor(QColor &org, QColor &inv)
 	
 	inv.setRgb(r,g,b);
 }
+void View::restoreCursor()
+{
+	switch (zoom_mode)
+	{
+		case 0: 
+			setCursor(Qt::ArrowCursor);
+			break;
+		case 1: 
+			setCursor(Qt::CrossCursor);
+			break;
+		case 2: 
+			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+			break;
+		case 3: 
+			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
+			break;
+		case 4: 
+			setCursor(Qt::PointingHandCursor);
+			break;
+		
+	}
+	
+}
+
+bool View::event( QEvent * e )
+{
+	if ( e->type() == QEvent::WindowDeactivate && isDrawing)
+	{
+		stop_calculating = true;
+		return true;
+	}
+	return QWidget::event(e);
+};

@@ -35,12 +35,16 @@
 
 #ifdef USE_SOLARIS
 #include <ieeefp.h>
-int isinf(double x) { return !finite(x) && x==x; }
+int isinf(double x)
+{
+	return !finite(x) && x==x;
+}
 #endif
 
+#include <kdebug.h>
 
 CDiagr::CDiagr()
-{   
+{
 	frameColor=qRgb(0, 0, 0);
 	axesColor=qRgb(0, 0, 0);
 	gridColor=qRgb(192, 192, 192);
@@ -55,8 +59,7 @@ CDiagr::CDiagr()
 
 
 CDiagr::~CDiagr()
-{
-}
+{}
 
 void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
                     int lx, int ly, 			// Achsenl�gen
@@ -65,7 +68,7 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 {	int x, y, h, w;
 
 	CDiagr::xmin=xmin;                  // globale Variablen setzen
-	CDiagr::xmax=xmax;	
+	CDiagr::xmax=xmax;
 	CDiagr::ymin=ymin;
 	CDiagr::ymax=ymax;
 	xmd=xmax+1e-6;
@@ -78,19 +81,14 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 	oy=Ref.y()+sky*ymax+0.5;
 	PlotArea.setRect(x=Ref.x(), y=Ref.y(), w=lx, h=ly);
 	if( Settings::showExtraFrame() )
-	{	x-=20;
+	{
+		x-=20;
 		y-=20;
 		w+=40;
 		h+=40;
-		
-		if( Settings::showLabel() )
-		{	if(xmin>=0.)
-			{   x-=80;
-				w+=80;
-			}
-                
-			if(ymin>=0.) h+=60;
-		}
+
+		if( Settings::showLabel() && ymin>=0. )
+				h+=60;
 	}
 
 	m_frame.setRect(x, y, w, h);
@@ -98,7 +96,7 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 
 
 void CDiagr::Skal( double ex, double ey )
-{   
+{
 	CDiagr::ex=ex;
 	CDiagr::ey=ey;
 	g_mode = Settings::gridStyle();
@@ -108,15 +106,16 @@ void CDiagr::Skal( double ex, double ey )
 
 
 void CDiagr::Plot(QPainter* pDC)
-{   
+{
 	QPen pen(frameColor, borderThickness);
-    
-	if( g_mode != GRID_NONE ) drawGrid( pDC ); // draw the grid
+
+	if( g_mode != GRID_NONE )
+		drawGrid( pDC ); // draw the grid
 	drawAxes( pDC ); // draw the axes
-	if( Settings::showLabel() ) 
+	if( Settings::showLabel() )
 		drawLabels(pDC);        // Achsen beschriften
 	if( Settings::showFrame() || Settings::showExtraFrame() )// FRAME zeichnen
-	{   
+	{
 		pDC->setPen(pen);
 		pDC->drawRect(m_frame);
 	}
@@ -125,41 +124,87 @@ void CDiagr::Plot(QPainter* pDC)
 
 int CDiagr::Transx( double x )		// reale x-Koordinate
 {   int xi;                			// transformierte x-Koordinate
-    static double lastx;            // vorherige x-Koordinate
+	static double lastx;            // vorherige x-Koordinate
 
-    if(isnan(x))
-    {   xclipflg=1;
-        if(lastx<1. && lastx>-1.) xi=(int)(ox-skx*lastx);
-        else xi=(lastx<0)? PlotArea.left(): PlotArea.right();
-    }
-    else if(isinf(x)==-1){xclipflg=0; xi=PlotArea.left();}
-    else if(isinf(x)==1) {xclipflg=0; xi=PlotArea.right();}
-    else if(x<xmin) {xclipflg=1; xi=PlotArea.left();}
-    else if(x>xmax) {xclipflg=1; xi=PlotArea.right();}
-	else {xclipflg=0; xi=(int)(ox+skx*x);}
+	if(isnan(x))
+	{
+		xclipflg=1;
+		if(lastx<1. && lastx>-1.)
+			xi=(int)(ox-skx*lastx);
+		else
+			xi=(lastx<0)? PlotArea.left(): PlotArea.right();
+	}
+	else if(isinf(x)==-1)
+	{
+		xclipflg=0;
+		xi=PlotArea.left();
+	}
+	else if(isinf(x)==1)
+	{
+		xclipflg=0;
+		xi=PlotArea.right();
+	}
+	else if(x<xmin)
+	{
+		xclipflg=1;
+		xi=PlotArea.left();
+	}
+	else if(x>xmax)
+	{
+		xclipflg=1;
+		xi=PlotArea.right();
+	}
+	else
+	{
+		xclipflg=0;
+		xi=(int)(ox+skx*x);
+	}
 
-    lastx=x;
-    return xi;
+	lastx=x;
+	return xi;
 }
 
 
 int CDiagr::Transy(double y)		// reale y-Koordinate
 {   int yi;                     	// transformierte y-Koordinate
-    static double lasty;            // vorherige y-Koordinate
+	static double lasty;            // vorherige y-Koordinate
 
-    if(isnan(y))
-    {   yclipflg=1;
-        if(lasty<1. && lasty>-1.) yi=(int)(oy-sky*lasty);
-        else yi=(lasty<0)? PlotArea.bottom(): PlotArea.top();
-    }
-    else if(isinf(y)==-1){yclipflg=0; yi=PlotArea.bottom();}
-    else if(isinf(y)==1) {yclipflg=0; yi=PlotArea.top();}
-    else if(y<ymin) {yclipflg=1; yi=PlotArea.bottom();}
-    else if(y>ymax) {yclipflg=1; yi=PlotArea.top();}
-    else {yclipflg=0; yi=(int)(oy-sky*y);}
+	if(isnan(y))
+	{
+		yclipflg=1;
+		if(lasty<1. && lasty>-1.)
+			yi=(int)(oy-sky*lasty);
+		else
+			yi=(lasty<0)? PlotArea.bottom(): PlotArea.top();
+	}
+	else if(isinf(y)==-1)
+	{
+		yclipflg=0;
+		yi=PlotArea.bottom();
+	}
+	else if(isinf(y)==1)
+	{
+		yclipflg=0;
+		yi=PlotArea.top();
+	}
+	else if(y<ymin)
+	{
+		yclipflg=1;
+		yi=PlotArea.bottom();
+	}
+	else if(y>ymax)
+	{
+		yclipflg=1;
+		yi=PlotArea.top();
+	}
+	else
+	{
+		yclipflg=0;
+		yi=(int)(oy-sky*y);
+	}
 
-    lasty=y;
-    return yi;
+	lasty=y;
+	return yi;
 }
 
 
@@ -178,21 +223,21 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 	double d, da, db;
 
 	if( Settings::showAxes() )
-	{   int dx, dy;
+	{  // int dx, dy;
 
 		pDC->setPen( QPen( axesColor, axesLineWidth ) );
 		pDC->Lineh(PlotArea.left(), b=Transy(0.), a=PlotArea.right());	    // x-Achse
-		if( Settings::showArrows() && /* !Settings::showFrame() && */ xmax>0.) 		    			// ARROWS
-		{	dx=40;
-			dy=15;
+		if( Settings::showArrows()) 		    			// ARROWS
+		{	int const dx=40;
+			int const dy=15;
 			pDC->Line(a, b, a-dx, b+dy);
 			pDC->Line(a, b, a-dx, b-dy);
 		}
-        
+
 		pDC->Linev(a=Transx(0.), PlotArea.bottom(), b=PlotArea.top()); 	    // y-Achse
-		if( Settings::showArrows() && /* !Settings::showFrame() && */ ymax> 0.)   					// ARROWS
-		{	dx=15;
-			dy=40;
+		if( Settings::showArrows() )   					// ARROWS
+		{	int const dx=15;
+			int const dy=40;
 			pDC->Line(a, b, a-dx, b+dy);
 			pDC->Line(a, b, a+dx, b+dy);
 		}
@@ -200,25 +245,30 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 
 	pDC->setPen( QPen( axesColor, ticWidth ) );
 	if( Settings::showAxes() )
-	{   da=oy-ticLength;
+	{
+		da=oy-ticLength;
 		db=oy+ticLength;
 		tl= Settings::showFrame()? 0: ticLength;
 		d=tsx;
 		if(da<(double)PlotArea.top())
-		{   a=PlotArea.top()-tl;
+		{
+			a=PlotArea.top()-tl;
 			b=PlotArea.top()+ticLength;
 		}
 		else if(db>(double)PlotArea.bottom())
-		{   b=PlotArea.bottom()+tl;
+		{
+			b=PlotArea.bottom()+tl;
 			a=PlotArea.bottom()-ticLength;
 		}
 		else
-		{   a=(int)da;
+		{
+			a=(int)da;
 			b=(int)db;
 		}
-        
+
 		while(d<xmd-ex/2.)
-		{   pDC->Linev(Transx(d), a, b);
+		{
+			pDC->Linev(Transx(d), a, b);
 			d+=ex;
 		}
 
@@ -226,29 +276,35 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 		db=ox+ticLength;
 		d=tsy;
 		if(da<(double)PlotArea.left())
-		{   a=PlotArea.left()-tl;
+		{
+			a=PlotArea.left()-tl;
 			b=PlotArea.left()+ticLength;
 		}
 		else if(db>(double)PlotArea.right())
-		{   b=PlotArea.right()+tl;
+		{
+			b=PlotArea.right()+tl;
 			a=PlotArea.right()-ticLength;
 		}
 		else
-		{   a=(int)da;
+		{
+			a=(int)da;
 			b=(int)db;
 		}
-        
+
 		while(d<ymd-ey/2.)
-		{   pDC->Lineh(a, Transy(d), b);
+		{
+			pDC->Lineh(a, Transy(d), b);
 			d+=ey;
 		}
 	}
 	else if( Settings::showFrame() )
-	{   a=PlotArea.bottom()+ticLength;
+	{
+		a=PlotArea.bottom()+ticLength;
 		b=PlotArea.top()-ticLength;
 		d=tsx;
 		while(d<xmd)
-		{   pDC->Linev(Transx(d), PlotArea.bottom(), a);
+		{
+			pDC->Linev(Transx(d), PlotArea.bottom(), a);
 			pDC->Linev(Transx(d), PlotArea.top(), b);
 			d+=ex;
 		}
@@ -257,7 +313,8 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 		b=PlotArea.right()-ticLength;
 		d=tsy;
 		while(d<ymd)
-		{   pDC->Lineh(PlotArea.left(), Transy(d), a);
+		{
+			pDC->Lineh(PlotArea.left(), Transy(d), a);
 			pDC->Lineh(PlotArea.right(), Transy(d), b);
 			d+=ey;
 		}
@@ -266,54 +323,61 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 
 
 void CDiagr::drawGrid( QPainter* pDC )
-{   
+{
 	int a, b;
 	double d, x, y;
 	QPen pen( gridColor, gridLineWidth );
 
 	pDC->setPen(pen);
 	if( g_mode==GRID_LINES )
-	{	d=tsx;
+	{
+		d=tsx;
 		while(d<xmd)
-		{   pDC->Linev(Transx(d), PlotArea.bottom(), PlotArea.top());
+		{
+			pDC->Linev(Transx(d), PlotArea.bottom(), PlotArea.top());
 			d+=ex;
 		}
 		d=tsy;
 		while(d<ymd)
-		{   pDC->Lineh(PlotArea.left(), Transy(d), PlotArea.right());
+		{
+			pDC->Lineh(PlotArea.left(), Transy(d), PlotArea.right());
 			d+=ey;
 		}
 	}
 	else if( g_mode==GRID_CROSSES )
-	{	int dx, dy;
+	{
+		int const dx = 5;
+		int const dy = 5;
 
-		dx=5;
-		dy=5;
 		for(x=tsx; x<xmd; x+=ex)
-		{   a=Transx(x);
+		{
+			a=Transx(x);
 			for(y=tsy; y<ymd; y+=ey)
-			{   b=Transy(y);
+			{
+				b=Transy(y);
 				pDC->Lineh(a-dx, b, a+dx);
 				pDC->Linev(a, b-dy, b+dy);
 			}
 		}
 	}
 	else if( g_mode==GRID_POLAR )
-	{	int x1, y1, x2, y2, dr, d2r, xm;
-		double c, w;
-		QRect rc=PlotArea;
+	{
+		int y2;
+		double w;
+		QRect const rc=PlotArea;
 
 		pDC->setClipRect(pDC->xForm(rc));
-		c=hypot(xmd*skx, ymd*sky);
-		xm=(int)(c+ox);
-		dr=(int)(skx*ex);
-		d2r=(int)(2.*skx*ex);
-		x1=(int)ox-dr;
-		y1=(int)oy-dr;
-		x2=y2=d2r;
+		double const c=hypot(xmd*skx, ymd*sky);
+		int const xm=(int)(c+ox);
+		int const dr=(int)(skx*ex);
+		int const d2r=(int)(2.*skx*ex);
+		int x1=(int)ox-dr;
+		int y1=(int)oy-dr;
+		int x2=y2=d2r;
 
 		do
-		{   pDC->drawEllipse(x1, y1, x2, y2);
+		{
+			pDC->drawEllipse(x1, y1, x2, y2);
 			x1-=dr;
 			y1-=dr;
 			x2+=d2r;
@@ -324,7 +388,8 @@ void CDiagr::drawGrid( QPainter* pDC )
 		x1=(int)ox;
 		y1=(int)oy;
 		for(w=0.; w<2.*M_PI; w+=M_PI/12.)
-		{   x2=(int)(ox+c*cos(w));
+		{
+			x2=(int)(ox+c*cos(w));
 			y2=(int)(oy+c*sin(w));
 			pDC->Line(x1, y1, x2, y2);
 		}
@@ -334,120 +399,192 @@ void CDiagr::drawGrid( QPainter* pDC )
 
 
 void CDiagr::drawLabels(QPainter* pDC)
-{   int dx, dy, n, x, y;
-	double d;
-	QString s;
-	QFont font;
-
-	dx=15;
-	dy=40;
-	font=QFont( Settings::axesFont().family(), 40);
+{
+	int const dx=15;
+	int const dy=40;
+	QFont const font=QFont( Settings::axesFont().family(), 40);
 	pDC->setFont(font);
-	x=Transx(0.);
-	y=Transy(0.);
-	pDC->drawText(x-dx, y+dy, 0, 0, Qt::AlignRight|Qt::AlignVCenter|Qt::DontClip, "0");
-    for(d=tsx, n=(int)ceil(xmin/ex); d<xmd; d+=ex, ++n)
-	{   if(n==0 || fabs(d-xmd)<=1.5*ex) continue;
+	int const x=Transx(0.);
+	int const y=Transy(0.);
+	double d;
+	int n;
+	QString s;
 
-		if(n<0) s="-";
-		else s="+";
+	//pDC->drawText(x-dx, y+dy, 0, 0, Qt::AlignRight|Qt::AlignVCenter|Qt::DontClip, "0");
+	bool draw_next=false;
+	QFontMetrics const test(font);
+	int swidth=0;
+	for(d=tsx, n=(int)ceil(xmin/ex); d<xmd; d+=ex, ++n)
+	{
+		if(n==0 || fabs(d-xmd)<=1.5*ex)
+			continue;
+
+
+		if(n<0)
+			s="-";
+		else
+			s="+";
 		if(fabs(ex-M_PI/2.)<1e-3)
-		{   if(n==-1 || n==1) s+=QChar(960)+QString("/2");
+		{
+			if(n==-1 || n==1)
+				s+=QChar(960)+QString("/2");
 			else if(n%2 == 0)
-			{   if(n==-2 || n==2) s+=QChar(960);
+			{
+				if(n==-2 || n==2)
+					s+=QChar(960);
 				else
-				{   s=QString().sprintf("%+d", n/2);
+				{
+					s=QString().sprintf("%+d", n/2);
 					s+=QChar(960);
 				}
 			}
-			else continue;
+			else
+				continue;
 			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
 		}
-
 		else if(fabs(ex-M_PI/3.)<1e-3)
-		{   if(n==-1 || n==1) s+=QChar(960)+QString("/3");
+		{
+			if(n==-1 || n==1)
+				s+=QChar(960)+QString("/3");
 			else if(n%3==0)
-			{   if(n==-3 || n==3) s+=QChar(960);
+			{
+				if(n==-3 || n==3)
+					s+=QChar(960);
 				else
-				{   s=QString().sprintf("%+d", n/3);
+				{
+					s=QString().sprintf("%+d", n/3);
 					s+=QChar(960);
 				}
 			}
-			else continue;
+			else
+				continue;
 			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
 		}
-
 		else if(fabs(ex-M_PI/4.)<1e-3)
-		{   if(n==-1 || n==1) s+=QChar(960)+QString("/4");
+		{
+			if(n==-1 || n==1)
+				s+=QChar(960)+QString("/4");
 			else if(n%4==0)
-			{   if(n==-4 || n==4) s+=QChar(960);
+			{
+				if(n==-4 || n==4)
+					s+=QChar(960);
 				else
-				{   s=QString().sprintf("%+d", n/4);
+				{
+					s=QString().sprintf("%+d", n/4);
 					s+=QChar(960);
 				}
 			}
-			else continue;
+			else
+				continue;
 			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
 		}
-
-		else if((n%5==0 || n==1 || n==-1))
-		{   s=QString().sprintf("%+0.3g", n*ex);
+		else if((n%5==0 || n==1 || n==-1 || draw_next))
+		{
+			s=QString().sprintf("%+0.3g", n*ex);
+			swidth = test.width(s);
+			if (  Transx(d)-x<swidth && Transx(d)-x>-swidth && !draw_next)
+			{
+				draw_next=true;
+				continue;
+			}
+			if (draw_next)
+				draw_next=false;
 			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
 		}
 	}
-    
-	if(xmax>0) pDC->drawText(Transx(xmax)-dx, y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, "x");
+
+	if(ymax<0 && xmax<0)
+		pDC->drawText(Transx(xmax)-(4*dx), y+(dy-20), 0, 0, Qt::AlignCenter|Qt::DontClip, "x");
+	else
+		pDC->drawText(Transx(xmax)-dx, y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, "x");
 
 	for(d=tsy, n=(int)ceil(ymin/ey); d<ymd; d+=ey, ++n)
-	{   if(n==0 || fabs(d-ymd)<=1.5*ey) continue;
+	{
+		if(n==0 || fabs(d-ymd)<=1.5*ey)
+			continue;
 
-		if(n<0) s="-";
-		else s="+";
-        
+		if(n<0)
+			s="-";
+		else
+			s="+";
+
 		if(fabs(ey-M_PI/2.)<1e-3)
-		{   if(n==-1 || n==1) s+=QChar(960)+QString("/2");
+		{
+			if(n==-1 || n==1)
+				s+=QChar(960)+QString("/2");
 			else if(n%2==0)
-			{   if(n==-2 || n==2) s+=QChar(960);
+			{
+				if(n==-2 || n==2)
+					s+=QChar(960);
 				else
-				{   s=QString().sprintf("%+d", n/2);
+				{
+					s=QString().sprintf("%+d", n/2);
 					s+=QChar(960);
 				}
 			}
-			else continue;
-			pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
+			else
+				continue;
+			if (xmin>=0)
+				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::DontClip, s);
+			else
+				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
 		}
-
 		else if(fabs(ey-M_PI/3.)<1e-3)
-		{   if(n==-1 || n==1) s+=QChar(960)+QString("/3");
+		{
+			if(n==-1 || n==1)
+				s+=QChar(960)+QString("/3");
 			else if(n%3==0)
-			{   if(n==-3 || n==3) s+=QChar(960);
+			{
+				if(n==-3 || n==3)
+					s+=QChar(960);
 				else
-				{   s=QString().sprintf("%+d", n/3);
+				{
+					s=QString().sprintf("%+d", n/3);
 					s+=QChar(960);
 				}
 			}
-			else continue;
-			pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
+			else
+				continue;
+			if (xmin>=0)
+				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::DontClip, s);
+			else
+				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
 		}
-
 		else if(fabs(ey-M_PI/4.)<1e-3)
-		{   if(n==-1 || n==1) s+=QChar(960)+QString("/4");
+		{
+			if(n==-1 || n==1)
+				s+=QChar(960)+QString("/4");
 			else if(n%4==0)
-			{   if(n==-4 || n==4) s+=QChar(960);
+			{
+				if(n==-4 || n==4)
+					s+=QChar(960);
 				else
-				{   s=QString().sprintf("%+d", n/4);
+				{
+					s=QString().sprintf("%+d", n/4);
 					s+=QChar(960);
 				}
 			}
-			else continue;
-			pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
+			else
+				continue;
+			if (xmin>=0)
+				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::DontClip, s);
+			else
+				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
 		}
-
 		else if((n%5==0 || n==1 || n==-1))
-		{   s=QString().sprintf("%+0.3g", n*ey);
-			pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
+		{
+			s=QString().sprintf("%+0.3g", n*ey);
+			if (xmin>=0)
+				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::DontClip, s);
+			else
+				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
 		}
 	}
-    
-	if(ymax>0) pDC->drawText(x-dx, Transy(ymax)+dy, 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, "y");
+
+	if(ymax<0 && xmax<0)
+		pDC->drawText(x-dx, Transy(ymax)+(2*dy), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, "y");
+	else if (xmin>0)
+		pDC->drawText(x-(2*dx), Transy(ymax)+dy, 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, "y");
+	else
+		pDC->drawText(x-dx, Transy(ymax)+dy, 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, "y");
 }

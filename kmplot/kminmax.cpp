@@ -54,6 +54,8 @@ void KMinMax::init(char m)
 {
 	if ( m_mode==m)
 	{
+		if ( m_mode == 2) //get y-value
+			max->setText("");
 		updateFunctions();
 		return;
 	}
@@ -81,7 +83,7 @@ void KMinMax::init(char m)
 		max->setReadOnly(true);
 		min->setText("");
 		max->setText("");
-		cmdFind->setText("&Find");
+		cmdFind->setText("&Calculate");
 
 	}
 	else if ( m_mode == 3) //area under a graph

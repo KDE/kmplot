@@ -147,11 +147,11 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 	
 	//zoom menu
-	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,0,view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
-	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &Rectangular"), "viewmagfit", 0,view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
-	KRadioAction * mnuZoomIn = new KRadioAction(i18n("Zoom &<in"), "viewmag+", 0,view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
-	KRadioAction * mnuZoomOut = new KRadioAction(i18n("Zoom &Out"), "viewmag-", 0,view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
-	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center Point") ,0,view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
+	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,"CTRL+0",view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
+	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &Rectangular"), "viewmagfit", "CTRL+1",view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
+	KRadioAction * mnuZoomIn = new KRadioAction(i18n("Zoom &In"), "viewmag+", "CTRL+2",view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
+	KRadioAction * mnuZoomOut = new KRadioAction(i18n("Zoom &Out"), "viewmag-", "CTRL+3",view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
+	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center Point") ,"CTRL+4",view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
 	(void ) new KAction(i18n("&Fit Widget to Trigonometric Functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
 	mnuNoZoom->setExclusiveGroup("zoom_modes");
 	mnuNoZoom->setChecked(true);

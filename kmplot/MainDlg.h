@@ -113,5 +113,11 @@ private:
 	BezWnd *bez;
 	KToggleAction *view_bezeichnungen;
 	View *view;
+
+private slots:
+  void newToolbarConfig();
+  void optionsConfigureKeys();
+  void optionsConfigureToolbars();
+
 };
 #endif // MainDlg_included

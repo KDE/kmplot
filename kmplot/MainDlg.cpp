@@ -29,6 +29,8 @@
 
 // KDE includes
 #include <kdebug.h>
+#include <kedittoolbar.h>
+#include <kkeydialog.h>
 
 // local includes
 #include "MainDlg.h"
@@ -78,8 +80,10 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( onachsen1() ), actionCollection(), "coord_i" );
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
-
-	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection(), "configure" );
+  
+  KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
+  KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
+ KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection(), "configure" );
 
 	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
 }
@@ -484,4 +488,22 @@ void MainDlg::slotSettings()
 {
 	KSettingsDlg * settings_dlg = new KSettingsDlg( this, "settings_dlg" );
 	settings_dlg->exec();
+}
+
+void MainDlg::newToolbarConfig()
+{
+    createGUI();
+    applyMainWindowSettings( KGlobal::config(), autoSaveGroup() );
+}
+void MainDlg::optionsConfigureKeys()
+{
+  KKeyDialog::configureKeys(actionCollection(), "kmplotui.rc");
+}
+
+void MainDlg::optionsConfigureToolbars()
+{
+    saveMainWindowSettings( KGlobal::config(), autoSaveGroup() );
+    KEditToolbar dlg(actionCollection());
+    connect(&dlg, SIGNAL(newToolbarConfig()), this, SLOT(newToolbarConfig()));
+    dlg.exec();
 }

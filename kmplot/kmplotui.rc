@@ -6,13 +6,11 @@
   <Menu name="functions"><text>F&amp;unctions</text>
     <Action name="functions"/>
   </Menu>
-  <Menu name="settings">
+  <Menu name="view">
     <Action name="axes"/>
     <Action name="scale"/>
     <Action name="grid"/>
     <Action name="step"/>
-    <Separator/>
-    <Action name="configure"/>
   </Menu>
   <Menu name="help">
     <Action name="names"/>

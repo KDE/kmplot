@@ -52,6 +52,7 @@ bool CoordsConfigDialog::evalX()
 	m_parser->eval( configAxesDialog->kcfg_XMax->text() );
 	if ( m_parser->parserError()!=0 )
 		return false;
+	return true;
 }
 bool CoordsConfigDialog::evalY()
 {

@@ -45,7 +45,7 @@
 #include "settingspagescaling.h"
 #include "settingspagefonts.h"
 
-MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name )
+MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
 	init();
 	fdlg = 0;
@@ -55,11 +55,18 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	setupActions();
 	setupStatusBar();
 	m_sessionId = sessionId;
-	if (args -> count() > 0) openFile( args -> url(0).fileName() );
+	if (args -> count() > 0) 
+	{
+		m_filename = args -> url( 0 ).url();
+		openFile( m_filename );
+	}
+	m_config = kapp->config();
+	m_recentFiles->loadEntries( m_config );
 }
 
 MainDlg::~MainDlg()
 {
+	m_recentFiles->saveEntries( m_config );
 }
 
 void MainDlg::setupActions()
@@ -67,6 +74,8 @@ void MainDlg::setupActions()
 	// standard actions
 	KStdAction::openNew( this, SLOT( neu() ), actionCollection() );
 	KStdAction::open( this, SLOT( load() ), actionCollection() );
+	m_recentFiles = KStdAction::openRecent( this, SLOT( openRecent( const KURL& ) ),
+		actionCollection());
 	KStdAction::print( this, SLOT( print() ), actionCollection() );
 	KStdAction::save( this, SLOT( save() ), actionCollection() );
 	KStdAction::saveAs( this, SLOT( saveas() ), actionCollection() );
@@ -89,7 +98,7 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
 
-	( void ) new KAction( i18n( "&export..." ), 0, this, SLOT( doexport() ), actionCollection(), "export");
+	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( doexport() ), actionCollection(), "export");
 	
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
@@ -116,52 +125,55 @@ void MainDlg::setupStatusBar()
 void MainDlg::neu()
 {
 	init(); // set globals to default
-	datei = ""; // empty filename == new file
-	setCaption( datei );
+	m_filename = ""; // empty filename == new file
+	setCaption( m_filename );
 	view->update();
 }
 
 void MainDlg::save()
 {
-	if ( datei.isEmpty() )            // if there is no file name set yet
+	if ( m_filename.isEmpty() )            // if there is no file name set yet
 		saveas();
 	else
-		doSave( datei );
+		doSave();
+
 }
 
 void MainDlg::saveas()
 {
-	datei = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
-	if ( !datei.isEmpty() )
+	QString filename = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
+	if ( !filename.isEmpty() )
 	{
-		if ( datei.find( "." ) == -1 )            // no file extension
-			datei = datei + ".fkt"; // use fkt-type as default
-		doSave( datei );
-		setCaption( datei );
+		if ( filename.find( "." ) == -1 )            // no file extension
+			filename += ".fkt"; // use fkt-type as default
+		doSave( filename );
+		m_filename = filename;
+		m_recentFiles->addURL( m_filename );
+		setCaption( m_filename );
 	}
 }
 
 void MainDlg::doexport()
-{	datei=KFileDialog::getSaveFileName(QDir::currentDirPath(), i18n("*.svg|(Scalable Vector Graphics)\n*.bmp|(bmp-Bitmap 180dpi)\n*.png|(png-Bitmap 180dpi)"), this, i18n("export"));
-	if(!datei.isEmpty())
-	{	if(datei.right(4).lower()==".svg")
-	    {	QPicture pic;
+{	QString filename = KFileDialog::getSaveFileName(QDir::currentDirPath(), 
+		i18n("*.svg|Scalable Vector Graphics (*.svg)\n*.bmp|Bitmap 180dpi(*.bmp)\n*.png|Bitmap 180dpi (*.png)"),
+		this, i18n("export") );
+	if(!filename.isEmpty())
+	{	if( filename.right(4).lower()==".svg")
+		{	QPicture pic;
 			view->draw(&pic, 2);
-	        pic.save(datei, "SVG");
-	    }
-		
-		else if(datei.right(4).lower()==".bmp")
-		{	QPixmap pix(100, 100);
-		
-			view->draw(&pix, 3);
-	        pix.save(datei, "BMP");
+	        	pic.save( filename, "SVG");
 		}
 		
-		else if(datei.right(4).lower()==".png")
+		else if( filename.right(4).lower()==".bmp")
 		{	QPixmap pix(100, 100);
-		
 			view->draw(&pix, 3);
-	        pix.save(datei, "PNG");
+			pix.save( filename, "BMP");
+		}
+		
+		else if( filename.right(4).lower()==".png")
+		{	QPixmap pix(100, 100);
+			view->draw(&pix, 3);
+			pix.save( filename, "PNG");
 		}
 	}
 }
@@ -250,15 +262,19 @@ void MainDlg::addTag( QDomDocument &doc, QDomElement &parentTag, const QString t
 
 void MainDlg::load()
 {
-	QString d = KFileDialog::getOpenFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
-	if ( d.isEmpty() )
-		return ;
-	openFile(d);
-	datei = d;
-	setCaption( datei );
+	QString filename = KFileDialog::getOpenFileName( QDir::currentDirPath(), 
+		i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
+	if ( filename.isEmpty() ) return ;
+	openFile( filename );
 }
 
-void MainDlg::openFile( QString filename )
+void MainDlg::openRecent( const KURL &url )
+{
+	openFile( url.path() );
+}
+
+
+void MainDlg::openFile( const QString filename )
 {
 	init();
 
@@ -335,6 +351,10 @@ void MainDlg::openFile( QString filename )
 		ymin = ps.eval( yminstr );
 		ymax = ps.eval( ymaxstr );
 	}
+	
+	m_filename = filename;
+	m_recentFiles->addURL( m_filename );
+	setCaption( m_filename );
 	view->update();
 }
 

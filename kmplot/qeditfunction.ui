@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>293</width>
-            <height>488</height>
+            <height>490</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -358,7 +358,7 @@ Example: x^2</string>
                         <string>Colo&amp;r:</string>
                     </property>
                     <property name="buddy" stdset="0">
-                        <cstring>color_button</cstring>
+                        <cstring>kColorButtonColor</cstring>
                     </property>
                 </widget>
                 <widget class="KColorButton" row="1" column="1">
@@ -383,7 +383,7 @@ Example: x^2</string>
                         <string>Line &amp;width:</string>
                     </property>
                     <property name="buddy" stdset="0">
-                        <cstring>le_dicke</cstring>
+                        <cstring>kIntNumInputLineWidth</cstring>
                     </property>
                 </widget>
                 <widget class="KIntNumInput" row="0" column="1">

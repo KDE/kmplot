@@ -1,5 +1,6 @@
 // KDE includes
 #include <kmessagebox.h>
+#include <kurl.h>
 
 // local includes
 #include "misc.h"
@@ -32,8 +33,7 @@ tlgy,       // y-Achsenteilung
 drskalx,       // x-Ausdruckskalierung
 drskaly;     // y-Ausdruckskalierung
 
-QString datei,      // Dateiname
-xminstr,      // String für xmind
+QString xminstr,      // String für xmind
 xmaxstr,      // String für xmaxd
 yminstr,      // String für ymind
 ymaxstr,      // String für ymaxd
@@ -56,7 +56,6 @@ void init()
 
 	mode = ACHSEN | PFEILE | EXTRAHMEN;
 	rsw = 1.;
-	datei = "";
 
 	// axes settings
 	

@@ -13,7 +13,6 @@
 #include <qpainter.h>
 #include <qpoint.h>
 #undef	 GrayScale 
-//#include <qprinter.h>
 #include <qevent.h>
 #include <qstring.h>
 #include <qpixmap.h>

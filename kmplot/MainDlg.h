@@ -42,18 +42,19 @@
 #include <kapplication.h>
 #include <kaction.h>
 #include <kcmdlineargs.h>
-#include "kconfig.h"
+#include <kconfig.h>
 #include <klocale.h>
 #include <kmainwindow.h>
+#include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include "kfiledialog.h"
+#include <kfiledialog.h>
 #include <kmenubar.h>
-#include <ktoolbar.h>
-#include <kstatusbar.h>
-#include "kmessagebox.h"
-#include "kurl.h"
-#undef  GrayScale
 #include <kprinter.h>
+#include <kstatusbar.h>
+#include <ktoolbar.h>
+#include <kurl.h>
+
+#undef  GrayScale
 
 // local includes
 #include "FktDlg.h"
@@ -65,6 +66,8 @@
 #include "misc.h"
 #include "View.h"
 
+
+class KRecentFilesAction;
 
 class MainDlg : public KMainWindow
 {
@@ -94,13 +97,14 @@ public slots:
 	void onachsen3();
 	void hilfe();
 	void slotSettings();
+	void openFile( const QString filename );
+	void openRecent( const KURL &url );
 
 private:
 	void setupActions();
-	void doSave( QString filename );
+	void doSave( QString filename = "" );
 	void setupStatusBar();
 	void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
-	void openFile( QString d );
 
 	void parseAxes( const QDomElement &n );
 	void parseGrid( const QDomElement &n );
@@ -115,11 +119,15 @@ private:
 	KToggleAction *view_bezeichnungen;
 	View *view;
 	QString m_sessionId;
+	KRecentFilesAction * m_recentFiles;
+	QString m_filename;      // current filename
+	bool m_modified;
+	KConfig* m_config;
 
 private slots:
-  void newToolbarConfig();
-  void optionsConfigureKeys();
-  void optionsConfigureToolbars();
+	void newToolbarConfig();
+	void optionsConfigureKeys();
+	void optionsConfigureToolbars();
 
 };
 #endif // MainDlg_included

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>324</width>
-            <height>465</height>
+            <height>467</height>
         </rect>
     </property>
     <property name="caption">
@@ -313,8 +313,6 @@ Example: f(x)=x^2</string>
         </widget>
     </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <connections>
     <connection>
         <sender>customRange</sender>
@@ -326,6 +324,12 @@ Example: f(x)=x^2</string>
         <sender>customRange</sender>
         <signal>toggled(bool)</signal>
         <receiver>max</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>hasParameters</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>cmdParameter</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
 </connections>
@@ -345,6 +349,12 @@ Example: f(x)=x^2</string>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
     <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

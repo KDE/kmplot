@@ -1,14 +1,19 @@
 #ifndef MainDlg_included
 #define MainDlg_included
 
-#include "FktDlg.h"
-#include "KoordDlg.h"
-#include "RstDlg.h"
-#include "SkalDlg.h"
-#include "SwDlg.h"
-#include "BezWnd.h"
-#include "misc.h"
-#include "View.h"
+// Qt includes
+#include <qwidget.h>
+#include <qpdevmet.h>
+#include <qpopmenu.h>
+#include "qcolor.h"
+#include <qkeycode.h>
+#include <qdstream.h>
+#include <qfile.h>
+#include <qstring.h>
+#include <qpixmap.h>
+#include <qpicture.h>
+
+// KDE includes
 #include <kapplication.h>
 #include <kaction.h>
 #include "kconfig.h"
@@ -21,18 +26,18 @@
 #include <kstatusbar.h>
 #include "kmessagebox.h"
 #include "kurl.h"
-#include <qwidget.h>
-#include <qpdevmet.h>
-#include <qpopmenu.h>
-#include "qcolor.h"
-#include <qkeycode.h>
-#include <qdstream.h>
-#include <qfile.h>
 #undef  GrayScale
 #include <kprinter.h>
-#include <qstring.h>
-#include <qpixmap.h>
-#include <qpicture.h>
+
+// local includes
+#include "FktDlg.h"
+#include "KoordDlg.h"
+#include "RstDlg.h"
+#include "SkalDlg.h"
+#include "SwDlg.h"
+#include "BezWnd.h"
+#include "misc.h"
+#include "View.h"
 
 
 class MainDlg : public KMainWindow
@@ -69,6 +74,13 @@ private:
     void setupActions();
     void doSave();
     void setupStatusBar();
+	void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
+
+	void parseAxes( const QDomElement &n );
+	void parseGrid( const QDomElement &n );
+	void parseScale( const QDomElement &n );
+	void parseStep( const QDomElement &n );
+	void parseFunction( const QDomElement &n );
     int tbid,
     stbid;
     KStatusBar *stbar;

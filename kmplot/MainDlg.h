@@ -28,11 +28,11 @@
 
 // Qt includes
 #include <qwidget.h>
-#include <qpdevmet.h>
-#include <qpopmenu.h>
+#include <qpaintdevicemetrics.h>
+#include <qpopupmenu.h>
 #include "qcolor.h"
 #include <qkeycode.h>
-#include <qdstream.h>
+#include <qdatastream.h>
 #include <qfile.h>
 #include <qstring.h>
 #include <qpixmap.h>

@@ -33,6 +33,11 @@
 #define isinf(x) IsINF(X)
 #endif
 
+#ifdef USE_SOLARIS
+#include <ieeefp.h>
+int isinf(double x) { return !finite(x) && x==x; }
+#endif
+
 CDiagr::CDiagr()
 {
 	RahmenFarbe = qRgb( 0, 0, 0 );

@@ -76,7 +76,7 @@ void MainDlg::neu()
 
 void MainDlg::save()
 {
-    if ( datei.isEmpty() ) // if there is no file name set yet
+    if ( datei.isEmpty() )     // if there is no file name set yet
         saveas();
     else
         doSave();
@@ -84,10 +84,10 @@ void MainDlg::save()
 
 void MainDlg::saveas()
 {
-    datei = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot files (*.fkt)\n*.svg|Scalable Vector Graphics (*.svg)\n*.xml|XML files (*.xml)\n*|All files" ), this, i18n( "Save As..." ) );
+    datei = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot files (*.fkt)\n*|All files" ), this, i18n( "Save as..." ) );
     if ( !datei.isEmpty() )
     {
-        if ( datei.find( "." ) == -1 ) // no file extension
+        if ( datei.find( "." ) == -1 )     // no file extension
             datei = datei + ".fkt"; // use fkt-type as default
         doSave();
         setCaption( datei );
@@ -97,141 +97,138 @@ void MainDlg::saveas()
 // here the real storing is done...
 void MainDlg::doSave()
 {
-	////////////
-	// save as svg by drawing into a QPicture and saving it as svg
-    if ( datei.right( 4 ).lower() == ".svg" )
-    {
-        QPicture pic;
-        view->draw( &pic );
-        pic.save( datei, "svg" );
-        return ;
-    }
-
-	///////////
-	// saving as xml by a QDomDocument
-	if ( datei.right( 4 ).lower() == ".xml" )
-    {
-        QDomDocument doc( "kmpdoc" );
-		// the root tag
-		QDomElement root = doc.createElement( "kmpdoc" );
-        doc.appendChild( root );
-
-		// the axes tag
-		QDomElement tag = doc.createElement( "axes" );
-
-        tag.setAttribute( "color", QColor( AchsenFarbe ).name() );
-        tag.setAttribute( "width", AchsenDicke );
-        tag.setAttribute( "tic-width", TeilstrichDicke );
-        tag.setAttribute( "tic-legth", TeilstrichLaenge );
-
-		addTag( doc, tag, "mode", QString::number( mode ) );
-        addTag( doc, tag, "xmin", xminstr );
-        addTag( doc, tag, "xmax", xmaxstr );
-        addTag( doc, tag, "ymin", yminstr );
-        addTag( doc, tag, "ymax", ymaxstr );
-        addTag( doc, tag, "xcoord", QString::number( koordx ) );
-        addTag( doc, tag, "ycoord", QString::number( koordy ) );
-
-        root.appendChild( tag );
-
-		tag = doc.createElement( "grid" );
-
-		tag.setAttribute( "color", QColor( GitterFarbe ).name() );
-		tag.setAttribute( "width", GitterDicke );
-    
-		addTag( doc, tag, "mode", QString::number( g_mode ) );
-		
-		root.appendChild( tag );
-		
-		tag = doc.createElement( "scale" );
-
-        addTag( doc, tag, "tic-x", tlgxstr );
-        addTag( doc, tag, "tic-y", tlgystr );
-        addTag( doc, tag, "print-tic-x", drskalxstr );
-        addTag( doc, tag, "print-tic-y", drskalystr );
-
-        root.appendChild( tag );
-
-        addTag( doc, root, "step", QString::number( rsw ) );
-
-        for ( int ix = 0; ix < ps.ufanz; ix++ )
+    ////////////
+    // save as svg by drawing into a QPicture and saving it as svg
+    /*    if ( datei.right( 4 ).lower() == ".svg" )
         {
-            if ( !ps.fktext[ ix ].extstr.isEmpty() )
-            {
-                tag = doc.createElement( "function" );
+            QPicture pic;
+            view->draw( &pic );
+            pic.save( datei, "svg" );
+            return ;
+        }*/
 
-                tag.setAttribute( "number", ix );
-                tag.setAttribute( "visible", ps.fktext[ ix ].f_mode );
-                tag.setAttribute( "visible-deriv", ps.fktext[ ix ].f1_mode );
-                tag.setAttribute( "visible-2nd-deriv", ps.fktext[ ix ].f2_mode );
-                tag.setAttribute( "width", ps.fktext[ ix ].dicke );
-                tag.setAttribute( "color", QColor( ps.fktext[ ix ].farbe ).name() );
+    ///////////
+    // saving as xml by a QDomDocument
+    QDomDocument doc( "kmpdoc" );
+    // the root tag
+    QDomElement root = doc.createElement( "kmpdoc" );
+    doc.appendChild( root );
 
-                addTag( doc, tag, "equation", ps.fktext[ ix ].extstr );
+    // the axes tag
+    QDomElement tag = doc.createElement( "axes" );
 
-                root.appendChild( tag );
-            }
-        }
+    tag.setAttribute( "color", QColor( AchsenFarbe ).name() );
+    tag.setAttribute( "width", AchsenDicke );
+    tag.setAttribute( "tic-width", TeilstrichDicke );
+    tag.setAttribute( "tic-legth", TeilstrichLaenge );
 
-        QFile xmlfile( datei );
-        xmlfile.open( IO_WriteOnly );
-        QTextStream ts( &xmlfile );
-        doc.save( ts, 4 );
-        xmlfile.close();
-        return ;
-    }
+    addTag( doc, tag, "mode", QString::number( mode ) );
+    addTag( doc, tag, "xmin", xminstr );
+    addTag( doc, tag, "xmax", xmaxstr );
+    addTag( doc, tag, "ymin", yminstr );
+    addTag( doc, tag, "ymax", ymaxstr );
+    addTag( doc, tag, "xcoord", QString::number( koordx ) );
+    addTag( doc, tag, "ycoord", QString::number( koordy ) );
 
-    KConfig file( datei );
-    file.setGroup( "Axes" );
-    file.writeEntry( "Mode", mode );
-    file.writeEntry( "Xmin", xmin );
-    file.writeEntry( "Xmax", xmax );
-    file.writeEntry( "Ymin", ymin );
-    file.writeEntry( "Ymax", ymax );
-    file.writeEntry( "Xmin String", xminstr );
-    file.writeEntry( "Xmax String", xmaxstr );
-    file.writeEntry( "Ymin String", yminstr );
-    file.writeEntry( "Ymax String", ymaxstr );
-    file.writeEntry( "Coord X", koordx );
-    file.writeEntry( "Coord Y", koordy );
-    file.writeEntry( "Axes Width", AchsenDicke );
-    file.writeEntry( "Color", QColor( AchsenFarbe ) );
-    file.writeEntry( "Tic Width", TeilstrichDicke );
-    file.writeEntry( "Tic Length", TeilstrichLaenge );
+    root.appendChild( tag );
 
-    file.setGroup( "Grid" );
-    file.writeEntry( "Mode", g_mode );
-    file.writeEntry( "Line Width", GitterDicke );
-    file.writeEntry( "Color", QColor( GitterFarbe ) );
+    tag = doc.createElement( "grid" );
 
-    file.setGroup( "Scale" );
-    file.writeEntry( "tlgx", tlgx );
-    file.writeEntry( "tlgy", tlgy );
-    file.writeEntry( "tlgxstr", tlgxstr );
-    file.writeEntry( "tlgystr", tlgystr );
-    file.writeEntry( "drskalx", drskalx );
-    file.writeEntry( "drskaly", drskaly );
-    file.writeEntry( "drskalxstr", drskalxstr );
-    file.writeEntry( "drskalystr", drskalystr );
-	
-    file.setGroup( "Step" );
-    file.writeEntry( "rsw", rsw );
+    tag.setAttribute( "color", QColor( GitterFarbe ).name() );
+    tag.setAttribute( "width", GitterDicke );
+
+    addTag( doc, tag, "mode", QString::number( g_mode ) );
+
+    root.appendChild( tag );
+
+    tag = doc.createElement( "scale" );
+
+    addTag( doc, tag, "tic-x", tlgxstr );
+    addTag( doc, tag, "tic-y", tlgystr );
+    addTag( doc, tag, "print-tic-x", drskalxstr );
+    addTag( doc, tag, "print-tic-y", drskalystr );
+
+    root.appendChild( tag );
+
+    addTag( doc, root, "step", QString::number( rsw ) );
 
     for ( int ix = 0; ix < ps.ufanz; ix++ )
     {
         if ( !ps.fktext[ ix ].extstr.isEmpty() )
         {
-            QString groupname = QString( "Function%1" ).arg( ix );
-            file.setGroup( groupname );
-            file.writeEntry( "Equation", ps.fktext[ ix ].extstr );
-            file.writeEntry( "Visible", ps.fktext[ ix ].f_mode );
-            file.writeEntry( "Visible Derivative", ps.fktext[ ix ].f1_mode );
-            file.writeEntry( "Visible 2nd Derivative", ps.fktext[ ix ].f2_mode );
-            file.writeEntry( "Line Width", ps.fktext[ ix ].dicke );
-            file.writeEntry( "Color", QColor( ps.fktext[ ix ].farbe ) );
+            tag = doc.createElement( "function" );
+
+            tag.setAttribute( "number", ix );
+            tag.setAttribute( "visible", ps.fktext[ ix ].f_mode );
+            tag.setAttribute( "visible-deriv", ps.fktext[ ix ].f1_mode );
+            tag.setAttribute( "visible-2nd-deriv", ps.fktext[ ix ].f2_mode );
+            tag.setAttribute( "width", ps.fktext[ ix ].dicke );
+            tag.setAttribute( "color", QColor( ps.fktext[ ix ].farbe ).name() );
+
+            addTag( doc, tag, "equation", ps.fktext[ ix ].extstr );
+
+            root.appendChild( tag );
         }
     }
-    file.sync();
+
+    QFile xmlfile( datei );
+    xmlfile.open( IO_WriteOnly );
+    QTextStream ts( &xmlfile );
+    doc.save( ts, 4 );
+    xmlfile.close();
+
+    /*	KConfig file( datei );
+        file.setGroup( "Axes" );
+        file.writeEntry( "Mode", mode );
+        file.writeEntry( "Xmin", xmin );
+        file.writeEntry( "Xmax", xmax );
+        file.writeEntry( "Ymin", ymin );
+        file.writeEntry( "Ymax", ymax );
+        file.writeEntry( "Xmin String", xminstr );
+        file.writeEntry( "Xmax String", xmaxstr );
+        file.writeEntry( "Ymin String", yminstr );
+        file.writeEntry( "Ymax String", ymaxstr );
+        file.writeEntry( "Coord X", koordx );
+        file.writeEntry( "Coord Y", koordy );
+        file.writeEntry( "Axes Width", AchsenDicke );
+        file.writeEntry( "Color", QColor( AchsenFarbe ) );
+        file.writeEntry( "Tic Width", TeilstrichDicke );
+        file.writeEntry( "Tic Length", TeilstrichLaenge );
+     
+        file.setGroup( "Grid" );
+        file.writeEntry( "Mode", g_mode );
+        file.writeEntry( "Line Width", GitterDicke );
+        file.writeEntry( "Color", QColor( GitterFarbe ) );
+     
+        file.setGroup( "Scale" );
+        file.writeEntry( "tlgx", tlgx );
+        file.writeEntry( "tlgy", tlgy );
+        file.writeEntry( "tlgxstr", tlgxstr );
+        file.writeEntry( "tlgystr", tlgystr );
+        file.writeEntry( "drskalx", drskalx );
+        file.writeEntry( "drskaly", drskaly );
+        file.writeEntry( "drskalxstr", drskalxstr );
+        file.writeEntry( "drskalystr", drskalystr );
+    	
+        file.setGroup( "Step" );
+        file.writeEntry( "rsw", rsw );
+     
+        for ( int ix = 0; ix < ps.ufanz; ix++ )
+        {
+            if ( !ps.fktext[ ix ].extstr.isEmpty() )
+            {
+                QString groupname = QString( "Function%1" ).arg( ix );
+                file.setGroup( groupname );
+                file.writeEntry( "Equation", ps.fktext[ ix ].extstr );
+                file.writeEntry( "Visible", ps.fktext[ ix ].f_mode );
+                file.writeEntry( "Visible Derivative", ps.fktext[ ix ].f1_mode );
+                file.writeEntry( "Visible 2nd Derivative", ps.fktext[ ix ].f2_mode );
+                file.writeEntry( "Line Width", ps.fktext[ ix ].dicke );
+                file.writeEntry( "Color", QColor( ps.fktext[ ix ].farbe ) );
+            }
+        }
+        file.sync();
+    */
 }
 
 void MainDlg::addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue )
@@ -244,9 +241,7 @@ void MainDlg::addTag( QDomDocument &doc, QDomElement &parentTag, const QString t
 
 void MainDlg::load()
 {
-    QString d;
-
-    d = KFileDialog::getOpenFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot files (*.fkt)\n*.xml|XML files (*.xml)\n*|return All files" ), this, i18n( "Open..." ) );
+    QString d = KFileDialog::getOpenFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot files (*.fkt)\n*|All files" ), this, i18n( "Open..." ) );
     if ( d.isEmpty() )
         return ;
 
@@ -254,7 +249,7 @@ void MainDlg::load()
 
     QDomDocument doc( "kmpdoc" );
 
-    QFile f( d + ".xml" );
+    QFile f( d );
     if ( !f.open( IO_ReadOnly ) )
         return ;
     if ( !doc.setContent( &f ) )
@@ -264,12 +259,9 @@ void MainDlg::load()
     }
     f.close();
 
-    kdDebug() << doc.toString() << endl;
-
     QDomElement element = doc.documentElement();
     for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
     {
-        kdDebug() << n.nodeName() << endl;
         if ( n.nodeName() == "axes" )
             parseAxes( n.toElement() );
         if ( n.nodeName() == "grid" )
@@ -283,38 +275,39 @@ void MainDlg::load()
     }
 
     datei = d;
-    KConfig file( datei );
+    /*	KConfig file( datei );
 
-    if(file.hasGroup("Axes"))
-    {   file.setGroup("Axes");
+    if ( file.hasGroup( "Axes" ) )
+{
+        file.setGroup( "Axes" );
 
-        mode=file.readUnsignedNumEntry("Mode");
-        xmin=file.readDoubleNumEntry("Xmin", -8.0);
-        xmax=file.readDoubleNumEntry("Xmax", 8.0);
-        ymin=file.readDoubleNumEntry("Ymin", -8.0);
-        ymax=file.readDoubleNumEntry("Ymax", 8.0);
-        xminstr=file.readEntry("Xmin String");
-        xmaxstr=file.readEntry("Xmax String");
-        yminstr=file.readEntry("Ymin String");
-        ymaxstr=file.readEntry("Ymax String");
-        koordx=file.readNumEntry("Coord X");
-        koordy=file.readNumEntry("Coord Y");
-        AchsenDicke=file.readNumEntry("Axes Width");
-        AchsenFarbe=file.readColorEntry("Color").rgb();
-        TeilstrichDicke=file.readNumEntry("Tic Width");
-        TeilstrichLaenge=file.readNumEntry("Tic Length");
-    }
+        mode = file.readUnsignedNumEntry( "Mode" );
+        xmin = file.readDoubleNumEntry( "Xmin", -8.0 );
+        xmax = file.readDoubleNumEntry( "Xmax", 8.0 );
+        ymin = file.readDoubleNumEntry( "Ymin", -8.0 );
+        ymax = file.readDoubleNumEntry( "Ymax", 8.0 );
+        xminstr = file.readEntry( "Xmin String" );
+        xmaxstr = file.readEntry( "Xmax String" );
+        yminstr = file.readEntry( "Ymin String" );
+        ymaxstr = file.readEntry( "Ymax String" );
+        koordx = file.readNumEntry( "Coord X" );
+        koordy = file.readNumEntry( "Coord Y" );
+        AchsenDicke = file.readNumEntry( "Axes Width" );
+        AchsenFarbe = file.readColorEntry( "Color" ).rgb();
+        TeilstrichDicke = file.readNumEntry( "Tic Width" );
+        TeilstrichLaenge = file.readNumEntry( "Tic Length" );
+}
 
     if ( file.hasGroup( "Grid" ) )
-    {
+{
         file.setGroup( "Grid" );
         GitterFarbe = file.readColorEntry( "Color" ).rgb();
         g_mode = file.readUnsignedNumEntry( "Mode" );
         GitterDicke = file.readNumEntry( "Line Width" );
-    }
+}
 
     if ( file.hasGroup( "Scale" ) )
-    {
+{
         file.setGroup( "Scale" );
         tlgx = file.readDoubleNumEntry( "tlgx" );
         tlgy = file.readDoubleNumEntry( "tlgy" );
@@ -324,10 +317,10 @@ void MainDlg::load()
         drskaly = file.readDoubleNumEntry( "drskaly" );
         drskalxstr = file.readEntry( "drskalxstr" );
         drskalystr = file.readEntry( "drskalystr" );
-    }
+}
 
     for ( int ix = 0; ix < ps.ufanz; ix++ )
-    {
+{
         QString groupname = QString( "Function%1" ).arg( ix );
         if ( file.hasGroup( groupname ) )
         {
@@ -353,7 +346,8 @@ void MainDlg::load()
             }
         }
 
-    }
+}
+    */
     setCaption( datei );
     view->update();
 }
@@ -361,34 +355,90 @@ void MainDlg::load()
 void MainDlg::parseAxes( const QDomElement &n )
 {
     kdDebug() << "parsing axes" << endl;
-    mode = n.attribute( "mode", QString::number( ACHSEN | PFEILE | EXTRAHMEN ) ).toInt();
-    g_mode = n.attribute( "grid-mode", "1" ).toInt();
+
     AchsenDicke = n.attribute( "width", "1" ).toInt();
     AchsenFarbe = QColor( n.attribute( "color", "#000000" ) ).rgb();
     TeilstrichDicke = n.attribute( "tic-width", "3" ).toInt();
-    TeilstrichLaenge = n.attribute( "tic-length", "10" ). toInt();
+    TeilstrichLaenge = n.attribute( "tic-length", "10" ).toInt();
 
+    mode = n.namedItem( "mode" ).toElement().text().toInt();
     xminstr = n.namedItem( "xmin" ).toElement().text();
     xmaxstr = n.namedItem( "xmax" ).toElement().text();
     yminstr = n.namedItem( "ymin" ).toElement().text();
     ymaxstr = n.namedItem( "ymax" ).toElement().text();
-    xmin = xminstr.toDouble();
-    xmax = xmaxstr.toDouble();
-    ymin = yminstr.toDouble();
-    ymax = ymaxstr.toDouble();
 
     koordx = n.namedItem( "xcoord" ).toElement().text().toInt();
+    switch ( koordx )
+    {
+    case 0:
+        xmin = -8.0;
+        xmax = 8.0;
+        break;
+    case 1:
+        xmin = -5.0;
+        xmax = 5.5;
+        break;
+    case 2:
+        xmin = 0.0;
+        xmax = 16.0;
+        break;
+    case 3:
+        xmin = 0.0;
+        xmax = 10.0;
+        break;
+    case 4:
+        xmin = xminstr.toDouble();
+        xmax = xmaxstr.toDouble();
+    }
+
     koordy = n.namedItem( "ycoord" ).toElement().text().toInt();
+    switch ( koordy )
+    {
+    case 0:
+        ymin = -8.0;
+        ymax = 8.0;
+        break;
+    case 1:
+        ymin = -5.0;
+        ymax = 5.5;
+        break;
+    case 2:
+        ymin = 0.0;
+        ymax = 16.0;
+        break;
+    case 3:
+        ymin = 0.0;
+        ymax = 10.0;
+        break;
+    case 4:
+        ymin = yminstr.toDouble();
+        ymax = ymaxstr.toDouble();
+    }
 }
 
 void MainDlg::parseGrid( const QDomElement &n )
 {
     kdDebug() << "parsing grid" << endl;
+
+    GitterFarbe = QColor( n.attribute( "color", "#c0c0c0" ) ).rgb();
+    GitterDicke = n.attribute( "width", "1" ).toInt();
+
+    g_mode = n.namedItem( "mode" ).toElement().text().toInt();
 }
 
 void MainDlg::parseScale( const QDomElement &n )
 {
     kdDebug() << "parsing scale" << endl;
+
+    tlgxstr = n.namedItem( "tic-x" ).toElement().text();
+    tlgystr = n.namedItem( "tic-y" ).toElement().text();
+    drskalxstr = n.namedItem( "print-tic-x" ).toElement().text();
+    drskalystr = n.namedItem( "print-tic-y" ).toElement().text();
+
+    tlgx = ps.eval( tlgxstr );
+    tlgy = ps.eval( tlgystr );
+    drskalx = ps.eval( drskalxstr );
+    drskaly = ps.eval( drskalystr );
 }
 
 void MainDlg::parseStep( const QDomElement &n )
@@ -400,18 +450,39 @@ void MainDlg::parseStep( const QDomElement &n )
 void MainDlg::parseFunction( const QDomElement &n )
 {
     kdDebug() << "parsing function" << endl;
+
+    int ix = n.attribute( "number" ).toInt();
+    ps.fktext[ ix ].f_mode = n.attribute( "visible" ).toInt();
+    ps.fktext[ ix ].f1_mode = n.attribute( "visible-deriv" ).toInt();
+    ps.fktext[ ix ].f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
+    ps.fktext[ ix ].dicke = n.attribute( "width" ).toInt();
+    ps.fktext[ ix ].farbe = QColor( n.attribute( "color" ) ).rgb();
+
+    ps.fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
+    QCString fstr = ps.fktext[ ix ].extstr.utf8();
+    if ( !fstr.isEmpty() )
+    {
+        int i = fstr.find( ';' );
+        QCString str;
+        if ( i == -1 )
+            str = fstr;
+        else
+            str = fstr.left( i );
+        ix = ps.addfkt( str );
+        ps.getext( ix );
+    }
 }
 
 void MainDlg::print()
 {
     KPrinter prt( QPrinter::PrinterResolution );
 
-	prt.addDialogPage( new KPrinterDlg );
+    prt.addDialogPage( new KPrinterDlg );
 
-	if ( prt.setup( this ) )
+    if ( prt.setup( this ) )
     {
         prt.setFullPage( true );
-		printtable = prt.option( "app-kmplot-printtable" ) == "1";		
+        printtable = prt.option( "app-kmplot-printtable" ) == "1";
         view->draw( &prt );
     }
 }
@@ -483,8 +554,8 @@ void MainDlg::achsen()
 void MainDlg::onachsen1()
 {
     koordx = koordy = 0;
-//    xminstr = yminstr = "-8";
-//    xmaxstr = ymaxstr = "8";
+    //    xminstr = yminstr = "-8";
+    //    xmaxstr = ymaxstr = "8";
     xmin = ymin = -8.;
     xmax = ymax = 8.;
     /*tlgx=tlgy=1.;
@@ -498,10 +569,10 @@ void MainDlg::onachsen2()
 {
     koordx = 2;
     koordy = 0;
-//    xminstr = "0";
-//    yminstr = "-8";
-//    xmaxstr = "16";
-//    ymaxstr = "8";
+    //    xminstr = "0";
+    //    yminstr = "-8";
+    //    xmaxstr = "16";
+    //    ymaxstr = "8";
     xmin = 0.;
     ymin = -8.;
     xmax = 16.;
@@ -516,8 +587,8 @@ void MainDlg::onachsen2()
 void MainDlg::onachsen3()
 {
     koordx = koordy = 2;
-//    xminstr = yminstr = "0";
-//    xmaxstr = ymaxstr = "16";
+    //    xminstr = yminstr = "0";
+    //    xmaxstr = ymaxstr = "16";
     xmin = ymin = 0.;
     xmax = ymax = 16.;
     /*tlgx=tlgy=1.;

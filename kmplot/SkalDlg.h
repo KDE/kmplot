@@ -16,22 +16,22 @@ class SkalDlg : public SkalDlgData
 
 public:
 
-    SkalDlg(QWidget* parent=NULL, const char* name=NULL, bool modal=TRUE);
+    SkalDlg( QWidget* parent = NULL, const char* name = NULL, bool modal = TRUE );
     virtual ~SkalDlg();
 
 private:
 
-	int wertholen(double&, QComboBox*);
-	
-	int errflg;
-	
-	
+    int wertholen( double&, QComboBox* );
+
+    int errflg;
+
+
 protected slots:
-	
-	void onok();
-	void oncancel();
-    void onxtlgactivated(int);
-    void onytlgactivated(int);
+
+    void onok();
+    void oncancel();
+    void onxtlgactivated( int );
+    void onytlgactivated( int );
 
 };
 

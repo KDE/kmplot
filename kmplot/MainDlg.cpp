@@ -51,7 +51,6 @@
 #include "settingspagecoords.h"
 #include "settingspagefonts.h"
 #include "settingspageprecision.h"
-#include "settingspageprint.h"
 #include "settingspagescaling.h"
 #include "xparser.h"
 

@@ -31,7 +31,6 @@
 
 // local includes
 #include "kmplotio.h"
-#include "misc.h"
 #include "settings.h"
 #include "xparser.h"
 

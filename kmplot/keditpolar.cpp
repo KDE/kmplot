@@ -164,6 +164,7 @@ void KEditPolar::accept()
 	tmp_fktext.linewidth = kIntNumInputLineWidth->value();
 	tmp_fktext.color = kColorButtonColor->color().rgb();
 	tmp_fktext.use_slider = -1;
+	tmp_fktext.k_anz=0;
 	
 	m_parser->fktext[index] = tmp_fktext;
 	

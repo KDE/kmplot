@@ -1,3 +1,6 @@
+// KDE includes
+#include <kmessagebox.h>
+
 // local includes
 #include "misc.h"
 
@@ -39,6 +42,8 @@ tlgystr,                 // String für tlgy
 drskalxstr,              // String für drskalx
 drskalystr;             // String für drskaly
 
+QString font_header, font_axes; // Font family names
+
 QRgb AchsenFarbe,
 GitterFarbe;
 
@@ -64,52 +69,24 @@ void init()
     yminstr = kc->readEntry( "Ymin", "-2*pi" );
     ymaxstr = kc->readEntry( "Ymax", "2*pi" );
 
-    switch ( koordx )
-    {
-    case 0:
-        xmin = -8.0;
-        xmax = 8.0;
-		break;
-    case 1:
-        xmin = -5.0;
-        xmax = 5.0;
-		break;
-    case 2:
-        xmin = 0.0;
-        xmax = 16.0;
-		break;
-    case 3:
-        xmin = 0.0;
-        xmax = 10.0;
-		break;
-    case 4:
-        xmin = ps.eval( xminstr );
-		xmax = ps.eval( xmaxstr );
+	if ( !coordToMinMax( koordx, xmin, xmax, xminstr, xmaxstr ) )
+	{
+		KMessageBox::error( 0, i18n( "Config file x-axis entry corrupt.\n"
+					"Fall back to system defaults.\nCall Settings->Configure KmPlot..." ) );
+		xminstr = "-2*pi";
+		xmaxstr = "2*pi";
+		koordx=0;
+		coordToMinMax( koordx, xmin, xmax, xminstr, xmaxstr );
 	}
-	
-    switch ( koordy )
-    {
-    case 0:
-        ymin = -8.0;
-        ymax = 8.0;
-		break;
-    case 1:
-        ymin = -5.0;
-        ymax = 5.0;
-		break;
-    case 2:
-        ymin = 0.0;
-        ymax = 16.0;
-		break;
-    case 3:
-        ymin = 0.0;
-        ymax = 10.0;
-		break;
-    case 4:
-        ymin = ps.eval( yminstr );
-		ymax = ps.eval( ymaxstr );
-    }
-
+	if ( !coordToMinMax( koordy, ymin, ymax, yminstr, ymaxstr ) )
+	{
+		KMessageBox::error( 0, i18n( "Config file y-axis entry corrupt.\n"
+					"Fall back to system defaults.\nCall Settings->Configure KmPlot..." ) );
+		yminstr = "-2*pi";
+		ymaxstr = "2*pi";
+		koordy=0;
+		coordToMinMax( koordy, ymin, ymax, yminstr, ymaxstr );
+	}
 	tlgxstr = kc->readEntry( "tlgx", "1" );
     tlgx = ps.eval( tlgxstr );
     tlgystr = kc->readEntry( "tlgy", "1" );
@@ -135,6 +112,19 @@ void init()
     g_mode = kc->readNumEntry( "Mode", 1 );
     tmp_color.setRgb( 192, 192, 192 );
     GitterFarbe = kc->readColorEntry( "Color", &tmp_color ).rgb();
+
+	// font defaults
+	if (kc->hasGroup("Fonts"))
+	{
+		kc->setGroup("Fonts");
+		font_header = kc->readEntry( "Header Table", "Helvetica" );
+		font_axes = kc->readEntry( "Axes", "Helvetica" );
+	}
+	else
+	{
+		font_header = "Helvetica";
+		font_axes = "Helvetica";
+	}
 
     // graph defaults
 
@@ -164,3 +154,38 @@ void init()
         ps.delfkt( ix );
 	printtable = true;
 }
+
+/*
+ * evaluates the predefined axes settings (kkordx/y)
+ */
+bool coordToMinMax( const int koord, double &min, double &max, const QString minStr, const QString maxStr )
+{
+	bool ok = true;
+	switch ( koord )
+	{
+	case 0:
+		min = -8.0;
+		max = 8.0;
+		break;
+	case 1:
+		min = -5.0;
+		max = 5.5;
+		break;
+	case 2:
+		min = 0.0;
+		max = 16.0;
+		break;
+	case 3:
+		min = 0.0;
+		max = 10.0;
+		break;
+	case 4:
+		min = ps.eval( minStr );
+		ok = ps.err == 0;
+		max = ps.eval( maxStr );
+		ok &= ps.err == 0;
+	}
+	ok &= min<max;
+	return ok;
+}
+

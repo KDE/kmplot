@@ -34,6 +34,7 @@ class QComboBox;
 class QString;
 
 class KColorButton;
+class KFontCombo;
 
 class KColorPage : public QTabWidget
 {
@@ -136,6 +137,23 @@ protected:
     QHBoxLayout* Layout20;
 };
 
+class KFontTab : public QWidget
+{ 
+    Q_OBJECT
+
+public:
+    KFontTab( QWidget* parent = 0, const char* name = 0 );
+
+    QLabel* label_axes;
+    KFontCombo* fc_axes;
+    KFontCombo* fc_header;
+    QLabel* label_header;
+
+
+protected:
+    QGridLayout* KFontTabLayout;
+};
+
 class KCoordsPage : public QTabWidget
 {
     Q_OBJECT
@@ -150,6 +168,7 @@ public:
 private:
     KAxesTab *axes_tab;
     KGridTab *grid_tab;
+	KFontTab *font_tab;
 };
 
 class KScalingPage : public QWidget

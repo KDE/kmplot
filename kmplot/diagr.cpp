@@ -1,3 +1,5 @@
+//local includes
+#include "misc.h"
 #include "diagr.h"
 
 
@@ -241,7 +243,7 @@ void CDiagr::Beschriftung(QPainter* pDC)
     	
     if(prt==1) {dx=20; dy=40; h=30;}
     else {dx=5; dy=10; h=11;}
-    font=QFont("helvetica", h);
+    font=QFont(font_axes, h);
     pDC->setFont(font);
 	x=Transx(0.);
 	y=Transy(0.);

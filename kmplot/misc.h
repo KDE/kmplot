@@ -48,6 +48,8 @@ extern QString datei,		// Dateiname
     		drskalxstr,     // String für drskalx
     		drskalystr;     // String für drskaly
 
+extern QString font_header, font_axes; // Font family names
+
 extern	QRgb AchsenFarbe,
 	     GitterFarbe;
 
@@ -55,6 +57,11 @@ extern bool printtable;		// header table printing option
 
 void 	init();				// Initialisierung
 
+/*
+ * evaluates the predefined axes settings (kkordx/y)
+ * @result true, if the evaluation of the strings was successful
+ */
+bool coordToMinMax( const int koord, double &min, double &max, const QString minStr, const QString maxStr );
 
 //void getdefaults();
 //void putdefaults();

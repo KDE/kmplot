@@ -34,6 +34,7 @@ email                : bmlmessmer@web.de
 #include <kaction.h>
 #include <kcolorbutton.h>
 #include <kconfig.h>
+#include <kfontcombo.h>
 #include <kiconloader.h>
 #include <klocale.h>
 
@@ -417,7 +418,7 @@ KGridTab::KGridTab( QWidget* parent, const char* name )
     KGridTabLayout = new QVBoxLayout( this, 11, 6, "KGridTabLayout" );
 
     bg_raster = new QButtonGroup( this, "bg_raster" );
-    bg_raster->setFrameShape( QButtonGroup::Panel );
+//    bg_raster->setFrameShape( QButtonGroup::Panel );
     bg_raster->setTitle( i18n( "Grid Style" ) );
     bg_raster->setColumnLayout( 0, Qt::Vertical );
     bg_raster->layout() ->setSpacing( 6 );
@@ -466,6 +467,37 @@ KGridTab::KGridTab( QWidget* parent, const char* name )
     KGridTabLayout->addItem( spacer_2 );
 }
 
+KFontTab::KFontTab( QWidget* parent,  const char* name )
+    : QWidget( parent, name )
+{
+    KFontTabLayout = new QGridLayout( this, 1, 1, 11, 6, "KFontTabLayout"); 
+
+    label_axes = new QLabel( this, "label_axes" );
+    label_axes->setText( trUtf8( "&Axes Labels:" ) );
+
+    KFontTabLayout->addWidget( label_axes, 1, 0 );
+
+    fc_axes = new KFontCombo( this, "fc_axes" );
+
+    KFontTabLayout->addWidget( fc_axes, 1, 1 );
+
+    fc_header = new KFontCombo( this, "fc_header" );
+
+    KFontTabLayout->addWidget( fc_header, 0, 1 );
+
+    label_header = new QLabel( this, "label_header" );
+    label_header->setText( trUtf8( "Header &Table:" ) );
+
+    KFontTabLayout->addWidget( label_header, 0, 0 );
+    QSpacerItem* spacer = new QSpacerItem( 0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding );
+    KFontTabLayout->addItem( spacer, 2, 1 );
+
+    // buddies
+    label_axes->setBuddy( fc_axes );
+    label_header->setBuddy( fc_header );
+}
+
+	
 KCoordsPage::KCoordsPage( QWidget *parent, const char *name )
         : QTabWidget ( parent, name )
 {
@@ -474,6 +506,9 @@ KCoordsPage::KCoordsPage( QWidget *parent, const char *name )
 
     grid_tab = new KGridTab( this, "grid_tab" );
     addTab( grid_tab, i18n( "Grid" ) );
+
+	font_tab = new KFontTab( this, "font_tab" );
+	addTab( font_tab, i18n( "Fonts" ) );
 
     // Load actual defaults from ConfigFile
     loadSettings();
@@ -525,6 +560,19 @@ void KCoordsPage::loadSettings()
 		axes_tab->le_td->setText( "3" );
 		axes_tab->le_tl->setText( "10" );
     }
+
+	if (kc->hasGroup("Fonts"))
+	{
+		kc->setGroup("Fonts");
+		font_tab->fc_header->setCurrentFont( kc->readEntry( "Header Table", "Helvetica" ));
+		font_tab->fc_axes->setCurrentFont( kc->readEntry( "Axes", "Helvetica" ));
+	}
+	else
+	{
+		font_tab->fc_header->setCurrentFont( "Helvetica" );
+		font_tab->fc_axes->setCurrentFont( "Helvetica" );
+	}
+
 }
 
 void KCoordsPage::applySettings()
@@ -557,6 +605,10 @@ void KCoordsPage::applySettings()
 	kc->writeEntry( "Tic Width", axes_tab->le_td->text().toInt() );
 	kc->writeEntry( "Tic Length", axes_tab->le_tl->text().toInt() );
 
+	kc->setGroup( "Fonts");
+	kc->writeEntry( "Header Table", font_tab->fc_header->currentText() );
+	kc->writeEntry( "Axes", font_tab->fc_axes->currentText() );
+
     kc->sync();
 }
 
@@ -577,6 +629,9 @@ void KCoordsPage::defaults()
 	axes_tab->le_ad->setText( "5" );
 	axes_tab->le_td->setText( "3" );
 	axes_tab->le_tl->setText( "10" );
+
+	font_tab->fc_header->setCurrentFont( "Helvetica" );
+	font_tab->fc_axes->setCurrentFont( "Helvetica" );
 }
 
 KScalingPage::KScalingPage( QWidget* parent, const char* name )
@@ -743,17 +798,17 @@ void KScalingPage::loadSettings()
 {
     if ( kc->hasGroup( "Axes" ) )
     {
-        cb_xtlg->insertItem( kc->readEntry( "tlgx", "1" ), 0 );
-        cb_ytlg->insertItem( kc->readEntry( "tlgy", "1" ), 0 );
-        cb_xdruck->insertItem( kc->readEntry( "drskalx", "1" ), 0 );
-        cb_ydruck->insertItem( kc->readEntry( "drskaly", "1" ), 0 );
+        cb_xtlg->setCurrentText( kc->readEntry( "tlgx", "1" ) );
+        cb_ytlg->setCurrentText( kc->readEntry( "tlgy", "1" ) );
+        cb_xdruck->setCurrentText( kc->readEntry( "drskalx", "1" ) );
+        cb_ydruck->setCurrentText( kc->readEntry( "drskaly", "1" ) );
     }
     else
     {
-        cb_xtlg->insertItem( "1", 0 );
-        cb_ytlg->insertItem( "1", 0 );
-        cb_xdruck->insertItem( "1", 0 );
-        cb_ydruck->insertItem( "1", 0 );
+        cb_xtlg->setCurrentText( "1" );
+        cb_ytlg->setCurrentText( "1" );
+        cb_xdruck->setCurrentText( "1" );
+        cb_ydruck->setCurrentText( "1" );
     }
 }
 
@@ -770,10 +825,10 @@ void KScalingPage::applySettings()
 
 void KScalingPage::defaults()
 {
-    cb_xtlg->insertItem( "1", 0 );
-    cb_ytlg->insertItem( "1", 0 );
-    cb_xdruck->insertItem( "1", 0 );
-    cb_ydruck->insertItem( "1", 0 );
+    cb_xtlg->setCurrentText( "1" );
+    cb_ytlg->setCurrentText( "1" );
+    cb_xdruck->setCurrentText( "1" );
+    cb_ydruck->setCurrentText( "1" );
 }
 
 ////////////////

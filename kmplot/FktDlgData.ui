@@ -46,9 +46,6 @@
                     <property name="text">
                         <string>&amp;Help</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+H</string>
-                    </property>
                 </widget>
                 <spacer>
                     <property name="name">
@@ -74,9 +71,6 @@
                     <property name="text">
                         <string>&amp;OK</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+O</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>apply the changes and close the dialog</string>
                     </property>
@@ -90,9 +84,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;Cancel</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+C</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>cancel without any changes</string>
@@ -157,9 +148,6 @@
                     <property name="text">
                         <string>New &amp;Function Plot...</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+F</string>
-                    </property>
                     <property name="default">
                         <bool>true</bool>
                     </property>
@@ -205,9 +193,6 @@
                     <property name="text">
                         <string>&amp;Delete</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+D</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>delete the selected function</string>
                     </property>
@@ -230,9 +215,6 @@
                     <property name="text">
                         <string>New &amp;Parametric Plot...</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+P</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>define a new function</string>
                     </property>
@@ -254,9 +236,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;New Polar Plot...</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+N</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>define a new function</string>
@@ -282,9 +261,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;Edit</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+E</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>edit the selected function</string>

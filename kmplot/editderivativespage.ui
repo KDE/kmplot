@@ -93,9 +93,6 @@
                     <property name="text">
                         <string>show &amp;1st Derivative</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+1</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>show first derivative</string>
                     </property>
@@ -200,9 +197,6 @@
                     </property>
                     <property name="text">
                         <string>show &amp;2nd Derivative</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+2</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>show second derivative</string>

@@ -29,9 +29,6 @@
             <property name="text">
                 <string>&amp;Delete</string>
             </property>
-            <property name="accel">
-                <string>Alt+D</string>
-            </property>
             <property name="toolTip" stdset="0">
                 <string>delete selected constant</string>
             </property>
@@ -48,9 +45,6 @@
             </property>
             <property name="text">
                 <string>&amp;Change value</string>
-            </property>
-            <property name="accel">
-                <string>Alt+C</string>
             </property>
             <property name="toolTip" stdset="0">
                 <string>Change the value of a user-defined constant</string>
@@ -69,9 +63,6 @@
             <property name="text">
                 <string>D&amp;uplicate</string>
             </property>
-            <property name="accel">
-                <string>Alt+U</string>
-            </property>
             <property name="toolTip" stdset="0">
                 <string>Duplicate the selected constant</string>
             </property>
@@ -85,9 +76,6 @@
             </property>
             <property name="text">
                 <string>&amp;New</string>
-            </property>
-            <property name="accel">
-                <string>Alt+N</string>
             </property>
             <property name="toolTip" stdset="0">
                 <string>Add a new constant</string>

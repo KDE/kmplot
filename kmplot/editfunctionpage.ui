@@ -81,9 +81,6 @@ Example: f(x)=x^2</string>
                     <property name="text">
                         <string>&amp;Hide</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+H</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>hide the plot</string>
                     </property>
@@ -135,9 +132,6 @@ Example: f(x)=x^2</string>
                     </property>
                     <property name="text">
                         <string>Custom plot &amp;range:</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+R</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>customize the plot range</string>

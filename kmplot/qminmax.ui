@@ -26,9 +26,6 @@
             <property name="text">
                 <string>&amp;Find</string>
             </property>
-            <property name="accel">
-                <string>Alt+F</string>
-            </property>
         </widget>
         <widget class="KPushButton" row="2" column="1">
             <property name="name">
@@ -36,9 +33,6 @@
             </property>
             <property name="text">
                 <string>&amp;Close</string>
-            </property>
-            <property name="accel">
-                <string>Alt+C</string>
             </property>
         </widget>
         <widget class="QFrame" row="0" column="0" rowspan="1" colspan="2">

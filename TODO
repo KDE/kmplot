@@ -1,13 +1,8 @@
-Last modified: 05/22/2004
+Last modified: 06/06/2004
 
 TODO
 =========================
-
-* Printing
-      - different paper sizes (moved to 3.2)
-* Scaling Concept ? (fine now ?)
 * KOptDlg* obsolete
-* A mode for zooming. Ability to disable it with kiosk
 * Fix scaling (pipesmoker?)
 * Polish the UI
 * Find bugs
@@ -19,15 +14,20 @@ TODO
 	* get slope for a x-point
 * Fix the unpolished lines
 * #52887, need to calculate with complex numbers.
-* Import parameter values from different file format(.csv, KSpread, OpenOffice)
-* Draw tangents in trace mode
 * Replace KFile with KIO in KmplotIO
+
+TODO for KDE 3.3
+=========================
+* Draw tangents in trace mode (pipesmoker)
+* Import parameter values from different file format(.csv, KSpread, OpenOffice)
+* A mode for zooming. Ability to disable it with kiosk
+* Printing (pipesmoker)
+      - different paper sizes
 
 
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
-* Popup tool menu when right clicking on a graph
 
 
 DONE
@@ -64,3 +64,4 @@ DONE
 * Draw functions with parameters in tool-menu
 * Version check
 * Load old Kmplot files without crash
+* Popup tool menu when right clicking on a graph

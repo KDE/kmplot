@@ -583,6 +583,11 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	ptl=DC.xFormDev(e->pos());
 	if((csmode=m_parser->chkfix(csmode)) >= 0)
 	{
+		if( m_parser->fktext[ csmode ].use_slider == -1 )
+			m_parser->setparameter(csmode, m_parser->fktext[csmode].k_liste[csparam]);
+		else
+			m_parser->setparameter(csmode, sliders[ m_parser->fktext[csmode].use_slider ]->value() );
+		
 		if ( cstype == 0)
 			ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
 		else if ( cstype == 1)
@@ -1141,6 +1146,21 @@ void View::keyPressEvent( QKeyEvent * e)
 		
 		/*kdDebug() << "csmode: " << (int)csmode << endl;
 		kdDebug() << "cstype: " << (int)cstype << endl;*/
+		
+		int k=csparam;
+		int const ke=m_parser->fktext[csmode].k_anz;
+		do
+		{
+			if ( ++k >= ke)
+				k=0;
+			
+			csparam = k;
+			
+			if (k==csparam)
+				break;
+		}
+		while(1);
+		
 		switch (cstype )
 		{
 			case 0:
@@ -1162,6 +1182,13 @@ void View::keyPressEvent( QKeyEvent * e)
 			}
 		}
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
+	}
+	else if ( e->key() == Qt::Key_Space  )
+	{
+		event = new QMouseEvent(QEvent::MouseButtonPress,QCursor::pos(),Qt::RightButton,Qt::RightButton);
+		mousePressEvent(event);
+		delete event;
+		return;
 	}
 	else
 	{
@@ -1390,6 +1417,23 @@ void View::mnuHide_clicked()
 			break;
 	}
 	drawPlot();
+	if (csmode==-1)
+		return;
+	if ( !m_parser->fktext[csmode ].f_mode && !m_parser->fktext[csmode ].f1_mode && !m_parser->fktext[csmode ].f2_mode) //all graphs for the function are hidden
+	{
+		csmode=-1;
+		QMouseEvent *event = new QMouseEvent(QMouseEvent::KeyPress,QCursor::pos(),Qt::LeftButton,Qt::LeftButton);
+		mousePressEvent(event); //leave trace mode
+		delete event;
+		return;
+	}
+	else
+	{
+		QKeyEvent *event = new QKeyEvent(QKeyEvent::KeyPress,Qt::Key_Up ,Qt::Key_Up ,0);
+		keyPressEvent(event); //change selected graph
+		delete event;
+		return;	
+	}
 }
 void View::mnuRemove_clicked()
 {

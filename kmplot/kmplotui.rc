@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kmplot" version="0.3">
+<kpartgui name="kmplot" version="3">
 <MenuBar>
   <Menu name="file"><text>&amp;File</text>
   </Menu>

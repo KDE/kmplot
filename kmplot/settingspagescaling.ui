@@ -135,7 +135,7 @@
                                 <string>set the x-axis' printing scaling</string>
                             </property>
                             <property name="whatsThis" stdset="0">
-                                <string>This is similiar to the setting above, but this sets the distance between two x-axis-grids when printing or drawing on the screen.</string>
+                                <string>This is similar to the setting above, but this sets the distance between two x-axis-grids when printing or drawing on the screen.</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="4" column="2">
@@ -315,7 +315,7 @@
                                 <string>set the y-axis' scaling</string>
                             </property>
                             <property name="whatsThis" stdset="0">
-                                <string>This is similiar to the setting above, but this sets the distance between two y-axis-grids when printing or drawing on the screen.</string>
+                                <string>This is similar to the setting above, but this sets the distance between two y-axis-grids when printing or drawing on the screen.</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="5" column="2">

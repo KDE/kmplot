@@ -105,11 +105,11 @@ void KMinMax::init(char m)
 		QToolTip::add(min,i18n("lower boundary of the plot range"));
 		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		QToolTip::add(max,i18n("No returned y-value yet"));
-		QWhatsThis::add(max,i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-valute, press the Calculate button "));
+		QWhatsThis::add(max,i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
 		
 		cmdFind->setText("&Calculate");
 		QToolTip::add( cmdFind, i18n( "Get the y-value from the x-value you typed" ) );
-		QWhatsThis::add(cmdFind,i18n("Get the y-value from the x-value you typed and show it in the y-value box"));
+		QWhatsThis::add(cmdFind,i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
 
 	}
 	else if ( m_mode == 3) //area under a graph
@@ -129,8 +129,8 @@ void KMinMax::init(char m)
 		lblMin->setText(i18n("Draw the area between the x-values:"));
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText("&Draw");
-		QToolTip::add( cmdFind, i18n( "Draw the area between the function and the y-axle" ) );
-		QWhatsThis::add(cmdFind,i18n("Draw the area between the function and the y-axle and show the area in a message box."));
+		QToolTip::add( cmdFind, i18n( "Draw the area between the function and the y-axis" ) );
+		QWhatsThis::add(cmdFind,i18n("Draw the area between the function and the y-axis and show the area in a message box."));
 		
 	}
 
@@ -316,7 +316,7 @@ void KMinMax::cmdFind_clicked()
 			max->setText(tmp);
 		}
 		QToolTip::add(max,i18n("The returned y-value"));
-		QWhatsThis::add(max,i18n("Here you see the result of the caluclation: the returned y-value you got from the x-value in the textbox above"));
+		QWhatsThis::add(max,i18n("Here you see the result of the calculation: the returned y-value you got from the x-value in the textbox above"));
 	}
 	else if ( m_mode == 3)
 	{

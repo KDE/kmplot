@@ -16,14 +16,14 @@ View::~View()
 
 
 void View::draw(QPaintDevice *dev, int form)
-{   int ix, lx, ly, w2;
+{   int ix, lx, ly;
 	float sf;
 	QRect rc;
 	QPainter DC;				// our painter
 	
 	DC.begin(dev);				// start painting widget
 	rc=DC.viewport();
-	w=w2=rc.width();
+	w=rc.width();
 	h=rc.height();
 	
 	if(form==0)										// screen
@@ -87,7 +87,7 @@ void View::draw(QPaintDevice *dev, int form)
 	hline.resize(area.width(), 1);
 	vline.resize(1, area.height());
 
-	sw=rsw*(xmax-xmin)/w2;
+	sw=rsw*(xmax-xmin)/area.width();
 	for(ix=0; ix<ps.ufanz; ++ix)
 	{   if(ps.chkfix(ix)==-1) continue;
 

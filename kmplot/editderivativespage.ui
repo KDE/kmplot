@@ -1,0 +1,282 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>EditDerivativesPage</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>EditDerivativesPage</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>323</width>
+            <height>255</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Edit Derivatives</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QFrame">
+            <property name="name">
+                <cstring>grp1der</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KColorButton" row="2" column="1">
+                    <property name="name">
+                        <cstring>colorDerivative1</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>color of the plot line</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click this button to choose a color for the plot line.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>textLabel2_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Color:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>colorDerivative1</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="1" column="1">
+                    <property name="name">
+                        <cstring>lineWidthDerivative1</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>width of the plot line</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the width of the plot line in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>showDerivative1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>show &amp;1st Derivative</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+1</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>show first derivative</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If this box is checked, the first derivative will be plotted, too.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_3_2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Line width:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>lineWidthDerivative1</cstring>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QFrame">
+            <property name="name">
+                <cstring>grp2der</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>textLabel2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Colo&amp;r:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>colorDerivative2</cstring>
+                    </property>
+                </widget>
+                <widget class="KColorButton" row="2" column="1">
+                    <property name="name">
+                        <cstring>colorDerivative2</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>color of the plot line</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click this button to choose a color for the plot line.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_3_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Line &amp;width:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>lineWidthDerivative2</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="1" column="1">
+                    <property name="name">
+                        <cstring>lineWidthDerivative2</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>width of the plot line</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the width of the plot line in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>showDerivative2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>show &amp;2nd Derivative</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+2</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>show second derivative</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>If this box is checked, the first derivative will be plotted, too.</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer6</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>110</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>showDerivative1</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>lineWidthDerivative1</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>showDerivative1</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>colorDerivative1</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>showDerivative2</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>lineWidthDerivative2</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>showDerivative2</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>colorDerivative2</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>showDerivative1</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>textLabel1_3_2_2</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+</connections>
+<tabstops>
+    <tabstop>showDerivative1</tabstop>
+    <tabstop>lineWidthDerivative1</tabstop>
+    <tabstop>colorDerivative1</tabstop>
+    <tabstop>showDerivative2</tabstop>
+    <tabstop>lineWidthDerivative2</tabstop>
+    <tabstop>colorDerivative2</tabstop>
+</tabstops>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+</includehints>
+</UI>

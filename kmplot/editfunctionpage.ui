@@ -1,0 +1,365 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>EditFunctionPage</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>EditFunctionPage</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>312</width>
+            <height>465</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Edit Function Plot</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox1</cstring>
+            </property>
+            <property name="title">
+                <string>Definition</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel1_4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Equation:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>equation</cstring>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>equation</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>enter an equation, for instance f(x)=x^2</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter an equation for the function.
+Example: f(x)=x^2</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>buttonGroup1</cstring>
+            </property>
+            <property name="title">
+                <string>Extensions</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>hide</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Hide</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+H</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>hide the plot</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this box if you want to hide the plot of the function.</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QFrame">
+            <property name="name">
+                <cstring>frame5_2</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>hasParameters</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Parameter values:</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+P</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>function has a parameter</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this button and enter all parameter values below.</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>parameters</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>comma seperated list of parameter values</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter a comma seperated list of parameter values.
+The function needs two arguments. The second argument will get all values in this list.
+Example: f(x,k)=k*x^2</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QFrame">
+            <property name="name">
+                <cstring>frame5</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>ma&amp;x:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>max</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;min:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>min</cstring>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>customRange</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Custom plot &amp;range:</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+R</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>customize the plot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this button and enter the plot range boundarys below.</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="1" column="1">
+                    <property name="name">
+                        <cstring>min</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>lower boundary of the plot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="2" column="1">
+                    <property name="name">
+                        <cstring>max</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>upper boundary of the plot range</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QFrame">
+            <property name="name">
+                <cstring>frame6</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="1" column="0">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Co&amp;lor:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>color</cstring>
+                    </property>
+                </widget>
+                <widget class="KColorButton" row="1" column="1">
+                    <property name="name">
+                        <cstring>color</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>color of the plot line</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click this button to choose a color for the plot line.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1_3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Line &amp;width:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>lineWidth</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="0" column="1">
+                    <property name="name">
+                        <cstring>lineWidth</cstring>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>width of the plot line</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Change the width of the plot line in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer8</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>customRange</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>min</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>customRange</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>max</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>hasParameters</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>parameters</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+</connections>
+<tabstops>
+    <tabstop>equation</tabstop>
+    <tabstop>hide</tabstop>
+    <tabstop>hasParameters</tabstop>
+    <tabstop>parameters</tabstop>
+    <tabstop>customRange</tabstop>
+    <tabstop>min</tabstop>
+    <tabstop>max</tabstop>
+    <tabstop>lineWidth</tabstop>
+    <tabstop>color</tabstop>
+</tabstops>
+<includes>
+    <include location="local" impldecl="in implementation">editfunctionpage.ui.h</include>
+</includes>
+<slots>
+    <slot>slotHelp()</slot>
+    <slot>customRange_toggled( bool )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>knuminput.h</includehint>
+</includehints>
+</UI>

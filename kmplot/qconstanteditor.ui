@@ -1,0 +1,195 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>QConstantEditor</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>QConstantEditor</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>388</width>
+            <height>337</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Constant editor</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QFrame" row="0" column="0">
+            <property name="name">
+                <cstring>frame3</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KListView" row="0" column="0" rowspan="6" colspan="1">
+                    <column>
+                        <property name="text">
+                            <string>Variable</string>
+                        </property>
+                        <property name="clickable">
+                            <bool>true</bool>
+                        </property>
+                        <property name="resizable">
+                            <bool>true</bool>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Value</string>
+                        </property>
+                        <property name="clickable">
+                            <bool>true</bool>
+                        </property>
+                        <property name="resizable">
+                            <bool>true</bool>
+                        </property>
+                    </column>
+                    <property name="name">
+                        <cstring>varlist</cstring>
+                    </property>
+                    <property name="showSortIndicator">
+                        <bool>true</bool>
+                    </property>
+                    <property name="itemsMovable">
+                        <bool>false</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="3" column="1">
+                    <property name="name">
+                        <cstring>cmdDuplicate</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="text">
+                        <string>D&amp;uplicate</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+U</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="2" column="1">
+                    <property name="name">
+                        <cstring>cmdDelete</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Delete</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+D</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="1" column="1">
+                    <property name="name">
+                        <cstring>cmdEdit</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Change value</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>cmdNew</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;New</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+N</string>
+                    </property>
+                </widget>
+                <spacer row="5" column="1">
+                    <property name="name">
+                        <cstring>spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>100</height>
+                        </size>
+                    </property>
+                </spacer>
+            </grid>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>cmdNew</sender>
+        <signal>clicked()</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>cmdNew_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>cmdEdit</sender>
+        <signal>clicked()</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>cmdEdit_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>cmdDelete</sender>
+        <signal>clicked()</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>cmdDelete_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>varlist</sender>
+        <signal>clicked(QListViewItem*)</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>varlist_clicked(QListViewItem*)</slot>
+    </connection>
+    <connection>
+        <sender>cmdDuplicate</sender>
+        <signal>clicked()</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>cmdDuplicate_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>varlist</sender>
+        <signal>doubleClicked(QListViewItem*)</signal>
+        <receiver>QConstantEditor</receiver>
+        <slot>varlist_doubleClicked(QListViewItem*)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">qconstanteditor.ui.h</include>
+</includes>
+<slots>
+    <slot>cmdCancel_clicked()</slot>
+    <slot>cmdNew_clicked()</slot>
+    <slot>cmdEdit_clicked()</slot>
+    <slot>cmdDelete_clicked()</slot>
+    <slot>varlist_clicked( QListViewItem * item )</slot>
+    <slot>cmdDuplicate_clicked()</slot>
+    <slot>newNewConstantSlot()</slot>
+    <slot>varlist_doubleClicked( QListViewItem * )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

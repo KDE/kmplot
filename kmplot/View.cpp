@@ -687,8 +687,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
 		
 		QString str_tmp;
-		double diffx = (xmax-xmin)*0.4; // == xmax-xmin*0.8/2
-		double diffy = (ymax-ymin)*0.4;
+		double diffx = (xmax-xmin)*(double)Settings::zoomStep()/200; // == 100*2=200
+		double diffy = (ymax-ymin)*(double)Settings::zoomStep()/200;
 		
 		if ( diffx < 0.00001 || diffy < 0.00001)
 			return;
@@ -719,8 +719,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
 
 		QString str_tmp;
-		double diffx = (xmax-xmin)*1.25/2;
-		double diffy = (ymax-ymin)*1.25/2;
+		double diffx = (xmax-xmin)/double(Settings::zoomStep()/50);// == 100/2=50
+		double diffy = (ymax-ymin)/double(Settings::zoomStep()/50);
 		
 		if ( diffx > 1000000 || diffy > 1000000)
 			return;
@@ -1299,7 +1299,7 @@ void View::keyPressEvent( QKeyEvent * e)
 		return;
 	}
 	
-	if ( e->key() == Qt::Key_A) //disable zoom mode
+	/*if ( e->key() == Qt::Key_A) //disable zoom mode
 		zoom_mode=0;
 	else if ( e->key() == Qt::Key_S) //rectangular zoom mode
 		zoom_mode=1;
@@ -1329,7 +1329,7 @@ void View::keyPressEvent( QKeyEvent * e)
 		Settings::setYRange(4); //custom y-range
 		drawPlot(); //update all graphs
 		return;
-	}
+}*/
 		
 	
 	if (csmode==-1 ) return;

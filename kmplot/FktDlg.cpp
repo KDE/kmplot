@@ -97,7 +97,7 @@ void FktDlg::slotEdit()
 	int const id = getId( lb_fktliste->currentText().section( ";", 0, 0) ) ;
 	
 	// find out the function type
-	char const prefix = m_view->parser()->ufkt[ m_view->parser()->ixValue(id) ].extstr.at(0).latin1();
+	char const prefix = m_view->parser()->ufkt[ m_view->parser()->ixValue(id) ].fstr.at(0).latin1();
 	
 	if ( prefix == 'r')
 		slotEditPolar( id, num );
@@ -111,7 +111,7 @@ int FktDlg::getId( const QString &f_str )
 {
         for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
-		if ( it->extstr == f_str )
+		if ( it->fstr == f_str )
 			return it->id;
 	}
 	return -1;
@@ -211,14 +211,14 @@ void FktDlg::getPlots()
 	// adding all yet added functions
         for( QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it != m_view->parser()->ufkt.end(); ++it)
 	{
-                if( it->fname.isEmpty() || it->extstr[0] == 'y' ) continue;
-		if( it->extstr[0] == 'x' )
+                if( it->fname.isEmpty() || it->fstr[0] == 'y' ) continue;
+		if( it->fstr[0] == 'x' )
 		{
-                        QString y = it->extstr;
+                        QString y = it->fstr;
                         ++it;
-			lb_fktliste->insertItem( y + ";" + it->extstr );
+			lb_fktliste->insertItem( y + ";" + it->fstr );
 		}
-		else lb_fktliste->insertItem( it->extstr );
+		else lb_fktliste->insertItem( it->fstr );
 	}
         lb_fktliste->sort();
 }

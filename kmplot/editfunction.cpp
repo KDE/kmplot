@@ -110,7 +110,7 @@ void EditFunction::clearWidgets()
 void EditFunction::setWidgets()
 {
 	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_id) ];
-	editfunctionpage->equation->setText( ufkt->extstr );
+	editfunctionpage->equation->setText( ufkt->fstr );
 	editfunctionpage->hide->setChecked( !ufkt->f_mode);
 	editfunctionpage->lineWidth->setValue( ufkt->linewidth );
 	editfunctionpage->color->setColor( ufkt->color );
@@ -305,7 +305,6 @@ void EditFunction::accept()
                 if((  (!m_parameter.isEmpty() && editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
                         fixFunctionArguments(f_str); //adding an extra argument for the parameter value
                 added_ufkt->fstr = f_str;
-                added_ufkt->extstr = f_str;
                 m_parser->reparse(added_ufkt); //reparse the funcion
                 if ( m_parser->parserError() != 0)
                 {

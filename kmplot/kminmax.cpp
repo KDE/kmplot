@@ -145,10 +145,10 @@ void KMinMax::updateFunctions()
 		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r')
 		{
 			if ( it->f_mode )
-				list->insertItem(it->extstr);
+				list->insertItem(it->fstr);
 			if ( it->f1_mode ) //1st derivative
 			{
-				QString function (it->extstr);
+				QString function (it->fstr);
 				int i= function.find('(');
 				function.truncate(i);
 				function +="\'";
@@ -156,7 +156,7 @@ void KMinMax::updateFunctions()
 			}
 			if ( it->f2_mode )//2nd derivative
 			{
-				QString function (it->extstr);
+				QString function (it->fstr);
 				int i= function.find('(');
 				function.truncate(i);
 				function +="\'\'";
@@ -164,7 +164,7 @@ void KMinMax::updateFunctions()
 			}
 			if ( it->integral_mode )//integral
 			{
-				QString function (it->extstr);
+				QString function (it->fstr);
 				int i= function.find('(');
 				function.truncate(i);
 				function = function.upper();
@@ -187,7 +187,7 @@ void KMinMax::selectItem()
 		return;
 	//kdDebug() << "cstype: " << (int)m_view->cstype << endl;
         Ufkt *ufkt = &m_view->parser()->ufkt[m_view->parser()->ixValue(m_view->csmode)];
-	QString function = ufkt->extstr;
+	QString function = ufkt->fstr;
 	if ( m_view->cstype == 2)
 	{
 		int i= function.find('(');
@@ -280,7 +280,7 @@ void KMinMax::cmdFind_clicked()
 
         for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
-		if ( it->extstr.section('(',0,0) == sec_function)
+		if ( it->fstr.section('(',0,0) == sec_function)
                 {
                         ufkt = it;
 			break;
@@ -370,7 +370,7 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 	QString const sec_function = function.section('(',0,0);
         for(QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
 	{
-                if ( it->extstr.section('(',0,0) == sec_function)
+                if ( it->fstr.section('(',0,0) == sec_function)
                 {
                         if ( it->parameters.count() == 0)
                                 cmdParameter->hide();
@@ -409,7 +409,7 @@ void KMinMax::cmdParameter_clicked()
 	QString const sec_function = function.section('(',0,0);
         for(QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
 	{
-	       if ( it->extstr.section('(',0,0) == sec_function)
+	       if ( it->fstr.section('(',0,0) == sec_function)
                {
 			QStringList str_parameters;
 		        for ( QValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )

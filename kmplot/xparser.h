@@ -67,7 +67,7 @@ public:
         void prepareAddingFunction(Ufkt *item);
         
         /// Interpretates the extended function string
-        int getext( Ufkt * );
+	bool getext( Ufkt *, const QString );
 	
 	/// Send a function to an other instance of Kmplot. Returns true if it success, otherwise false
 	bool sendFunction(int id, const QString &dcopclient_target="");
@@ -88,10 +88,9 @@ public:
 	bool setFunctionF2Visible(bool visible, uint id);
 	bool setFunctionIntVisible(bool visible, uint id);
 	
-	/// Returns the expression of a function, or an empty string if the function couldn't be found
-	QString functionFstr(uint id);
+	/// Returns the function expression, or an empty string if the function couldn't be found
+	QString functionStr(uint id);
 	/// Returns the complete function string including the extensions of a function, or an empty string if the function couldn't be found
-	QString functionExtstr(uint id);
 	
 	/// Get the color of a graph
 	QColor functionFColor(uint id);

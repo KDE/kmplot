@@ -71,10 +71,10 @@ void KEditParametric::setWidgets()
 {
 	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_x_id) ];
         QString name, expression;
-	splitEquation( ufkt->extstr, name, expression );
+	splitEquation( ufkt->fstr, name, expression );
 	kLineEditName->setText( name );
 	kLineEditXFunction->setText( expression );
-	splitEquation( m_parser->ufkt[ m_y_id ].extstr, name, expression );
+	splitEquation( m_parser->ufkt[ m_y_id ].fstr, name, expression );
 	kLineEditYFunction->setText( expression );
 	checkBoxHide->setChecked( !ufkt->f_mode );
 	if (  ufkt->dmin != ufkt->dmax )
@@ -165,7 +165,7 @@ void KEditParametric::accept()
                 added_ufkt = &m_parser->ufkt[ix];
                 QString old_fstr = added_ufkt->fstr;
                 added_ufkt->fstr = xFunction();
-                added_ufkt->extstr = added_ufkt->fstr;
+                added_ufkt->fstr = added_ufkt->fstr;
                 m_parser->reparse(added_ufkt); //reparse the funcion
                 if ( m_parser->parserError() != 0)
                 {
@@ -223,7 +223,7 @@ void KEditParametric::accept()
                 added_ufkt = &m_parser->ufkt[m_parser->ixValue(m_y_id)];
                 QString old_fstr = added_ufkt->fstr;
                 added_ufkt->fstr = yFunction();
-                added_ufkt->extstr = added_ufkt->fstr;
+                added_ufkt->fstr = added_ufkt->fstr;
                 m_parser->reparse(added_ufkt); //reparse the funcion
                 if ( m_parser->parserError() != 0) //when something went wrong:
                 {

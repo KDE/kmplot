@@ -44,76 +44,70 @@ XParser::~XParser()
 {
 }
 
-int XParser::getext( Ufkt *item )
+bool XParser::getext( Ufkt *item, const QString fstr )
 {
-	int errflg = 0, p1, p2, p3, pe;
-	QString str, tstr;
-
-	if ( item->extstr.find( ';' ) == -1 )
-		return 0;
-
-	pe = item->extstr.length();
-	if ( item->extstr.find( 'N' ) != -1 )
-		item->f_mode = 0;
+  	bool errflg = false;
+   	int p1, p2, p3, pe;
+	QString tstr;
+	pe = fstr.length();
+	if ( fstr.find( 'N' ) != -1 )
+		item->f_mode = false;
 	else
 	{
-		if ( item->extstr.find( "A1" ) != -1 )
-			item->f1_mode = 1;
-		if ( item->extstr.find( "A2" ) != -1 )
-			item->f2_mode = 1;
+		if ( fstr.find( "A1" ) != -1 )
+			item->f1_mode = true;
+		if ( fstr.find( "A2" ) != -1 )
+			item->f2_mode = true;
 	}
-	switch ( item->extstr[ 0 ].latin1() )
+	switch ( fstr[0].latin1() )
 	{
-	case 'x':
-	case 'y':
-	case 'r':
-		item->f1_mode = item->f2_mode = 0;
+	  case 'x':
+	  case 'y':
+	  case 'r':
+	    item->f1_mode = item->f2_mode = false;
 	}
 
-	p1 = item->extstr.find( "D[" );
+	p1 = fstr.find( "D[" );
 	if ( p1 != -1 )
 	{
 		p1 += 2;
-		str = ( item->extstr.mid( p1, pe - p1 ) ).latin1();
-		p2 = str.find( ',' );
-		p3 = str.find( ']' );
+		const QString str = fstr.mid( p1, pe - p1);
+		p2 = str.find(',');
+		p3 = str.find(']');
 		if ( p2 > 0 && p2 < p3 )
 		{
 			tstr = str.left( p2 );
 			item->dmin = eval( tstr );
-			if ( err )
-				errflg = 1;
+			if ( parserError(false) )
+				errflg = true;
 			tstr = str.mid( p2 + 1, p3 - p2 - 1 );
 			item->dmax = eval( tstr );
-			if ( err )
-				errflg = 1;
+			if ( parserError(false) )
+				errflg = true;
 			if ( item->dmin > item->dmax )
-				errflg = 1;
+				errflg = true;
 		}
 		else
-			errflg = 1;
+			errflg = true;
 	}
-
-	p1 = item->extstr.find( "P[" );
+	p1 = fstr.find( "P[" );
 	if ( p1 != -1 )
 	{
 		int i = 0;
-
 		p1 += 2;
-		str = ( item->extstr.mid( p1, 1000 ) ).latin1();
+		QString str = fstr.mid( p1, 1000);
 		p3 = str.find( ']' );
 		do
 		{
 			p2 = str.find( ',' );
 			if ( p2 == -1 || p2 > p3 )
 				p2 = p3;
-
 			tstr = str.left( p2++ );
 			str = str.mid( p2, 1000 );
 			item->parameters.append( ParameterValueItem(tstr, eval( tstr )) );
-			if ( err )
+			if ( parserError(false) )
 			{
-				errflg = 1;
+				errflg = true;
 				break;
 			}
 			p3 -= p2;
@@ -124,10 +118,10 @@ int XParser::getext( Ufkt *item )
 	if ( errflg )
 	{
 		KMessageBox::error( 0, i18n( "Error in extension." ) );
-		return -1;
+		return false;
 	}
 	else
-		return 0;
+		return true;
 }
 
 double XParser::a1fkt( Ufkt *u_item, double x, double h )
@@ -158,7 +152,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
                         for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                         {
                                 if (it == ufkt.begin() && it->fname.isEmpty() ) continue;
-                                if ( it->extstr.startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
+                                if ( it->fstr.startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
                                                 ok = false;
                         }
                         if ( ok) //a free name was found
@@ -364,19 +358,12 @@ bool XParser::setFunctionIntVisible(bool visible, uint id)
 	return true;
 }
 
-QString XParser::functionFstr(uint id)
+QString XParser::functionStr(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
 		return "";
 	return ufkt[ix].fstr;
-}
-QString XParser::functionExtstr(uint id)
-{
-	int const ix = ixValue(id);
-	if (ix==-1)
-		return "";
-	return ufkt[ix].extstr;
 }
 
 QColor XParser::functionFColor(uint id)
@@ -633,18 +620,21 @@ bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 int XParser::addFunction(const QString &f_str)
 {
 	QString added_function(f_str);
+	int const pos = added_function.find(';');
+	if (pos!=-1)
+	  added_function = added_function.left(pos);
+	
 	fixFunctionName(added_function);
 	if ( added_function.at(0)== 'x' || added_function.at(0)== 'y') //TODO: Make it possible to define parametric functions
 		return -1;
 	if  ( added_function.contains('y') != 0)
 		return -1;
-
 	int const id = addfkt( added_function );
 	if (id==-1)
 		return -1;
 	Ufkt *tmp_ufkt = &ufkt.last();
 	prepareAddingFunction(tmp_ufkt);
-	if ( getext( tmp_ufkt ) == -1)
+	if ( pos!=-1 && !getext( tmp_ufkt, f_str ) )
 	{
 		Parser::delfkt( tmp_ufkt );
 		return -1;
@@ -653,9 +643,9 @@ int XParser::addFunction(const QString &f_str)
 	return id;
 }
 
-bool XParser::addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider)
+bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider)
 {
-	QString fstr(extstr);
+	QString fstr(fstr_const);
 	switch ( fstr.at(0).latin1() )
 	{
 	  case 'r':
@@ -678,7 +668,6 @@ bool XParser::addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool
 	if ( id==-1 )
 		return false;
 	Ufkt *added_function = &ufkt.last();
-	added_function->extstr = fstr;
 	added_function->f_mode = f_mode;
 	added_function->f1_mode = f1_mode;
 	added_function->f2_mode = f2_mode;
@@ -769,7 +758,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	QStringList str_parameters;
 	for ( QValueList<ParameterValueItem>::Iterator it = item->parameters.begin(); it != item->parameters.end(); ++it )
 	  	str_parameters.append( (*it).expression);
-	arg << item->extstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << item->str_dmin << item->str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
+	arg << item->fstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << item->str_dmin << item->str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
 	QByteArray replay_data;
 	QCString replay_type;
 	bool ok = kapp->dcopClient()->call( str_result.utf8(), "Parser", "addFunction(QString,bool,bool,bool,bool,bool,int,int,int,int,QString,QString,QString,QString,double,QRgb,QRgb,QRgb,QRgb,QStringList,bool)", parameters, replay_type, replay_data, false);

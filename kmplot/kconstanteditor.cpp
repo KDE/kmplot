@@ -88,7 +88,7 @@ void KConstantEditor::cmdDelete_clicked()
         
         for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
-		str =  it->extstr;
+		str =  it->fstr;
 		for (int i=str.find(')'); (uint)i<str.length();i++)
 			if ( str.at(i) == constant )
                         {

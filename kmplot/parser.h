@@ -149,7 +149,6 @@ class Ufkt
 		starty,///< startposition for Euler's method, the initial y-value
 		startx, ///< startposition for Euler's method, the initial x-value last y'.valuenitial x-value last y'.valuenitial x-value
 		integral_precision; ///<precision when drawing numeric prime-functions
-		QString extstr; ///< Complete function string including the extensions.
 		QRgb color, ///< current color.
 		f1_color, f2_color, integral_color;
 		int use_slider; ///< -1: none (use list), else: slider number
@@ -216,7 +215,7 @@ public:
 	QValueVector<Constant> constant;
         QValueVector<Ufkt> ufkt;///< Points to the array of user defined functions.
 
-protected:
+private:
 	/** Mathematical function. */
 	struct Mfkt
 	{
@@ -225,29 +224,29 @@ protected:
 	};
 	static Mfkt mfkttab[FANZ];
 	
-        int err, 
-        errpos;         ///< Position where the error occurred.
-        /// Error codes.
+	/// Error codes:
         /**
          * The values have following meanings:
-         * \li  0 => parse success
-         * \li  1 => syntax error
-         * \li  2 => missing bracket
-         * \li  3 => function unknown
-         * \li  4 => function variable not valid
-         * \li  5 => too much functions
-         * \li  6 => memory overflow
-         * \li  7 => stack overflow
-         * \li  8 => function name already used
-         * \li  9 => recursive function call
-         * \li  10 => didn't found the wanted constant
-         * \li   11 => emtpy function
-         * \li   12 => function name contains a capital letter
+	 * \li  0 => parse success
+	 * \li  1 => syntax error
+	 * \li  2 => missing bracket
+	 * \li  3 => function unknown
+	 * \li  4 => function variable not valid
+	 * \li  5 => too much functions
+	 * \li  6 => memory overflow
+	 * \li  7 => stack overflow
+	 * \li  8 => function name already used
+	 * \li  9 => recursive function call
+	 * \li  10 => didn't found the wanted constant
+	 * \li   11 => emtpy function
+	 * \li   12 => function name contains a capital letter
 	 * \li   13 => function could not be found
 	 * \li   14 => evalation expression may not use user definded constants
-         */
+	 */
+	int err;
+	///  Position where the error occurred.
+        int errpos;
 
-private:
         void fix_expression(QString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
         
 	void ps_init(),

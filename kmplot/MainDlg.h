@@ -200,9 +200,9 @@ protected slots:
 	void updateSettings();
 	/**
 	* Manages the LineEdit content after returnPressed() is emitted.
-	* @param f_str the content of the KLineEdit
+	 * @param f_str_const the content of the KLineEdit
 	*/
-	void slotQuickEdit( const QString& tmp_f_str );
+	void slotQuickEdit( const QString& f_str_const );
 
 	void setReadOnlyStatusBarText(const QString &);
 

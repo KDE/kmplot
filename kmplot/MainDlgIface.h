@@ -51,7 +51,6 @@ k_dcop:
 	virtual void toggleShowSlider1() = 0;
 	virtual void toggleShowSlider2() = 0;
 	virtual void toggleShowSlider3() = 0;
-	// virtual void slotCleanWindow() = 0;
 	virtual void slotSave() = 0;
 	virtual void slotSaveas() = 0;
 	virtual void slotEditPlots() = 0;

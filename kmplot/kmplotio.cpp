@@ -116,7 +116,7 @@ bool KmPlotIO::save( const KURL &url )
 
 	for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
-		if ( !it->extstr.isEmpty() )
+		if ( !it->fstr.isEmpty() )
 		{
 			tag = doc.createElement( "function" );
 
@@ -151,7 +151,7 @@ bool KmPlotIO::save( const KURL &url )
 				tag.setAttribute( "integral-starty", it->str_starty );
 			}
 
-			addTag( doc, tag, "equation", it->extstr );
+			addTag( doc, tag, "equation", it->fstr );
 
 			QStringList str_parameters;
 			for ( QValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
@@ -415,14 +415,14 @@ void KmPlotIO::parseFunction(  XParser *m_parser, const QDomElement & n )
 		ufkt.dmax = 0;
 	}
 	else ufkt.dmax = m_parser->eval( ufkt.str_dmax );
-
-	ufkt.extstr = n.namedItem( "equation" ).toElement().text();
+	
+	ufkt.fstr = n.namedItem( "equation" ).toElement().text();
 	if (MainDlg::oldfileversion)
 		parseThreeDotThreeParameters( m_parser, n, ufkt );
 	else
 		parseParameters( m_parser, n, ufkt );
 
-	QCString fstr = ufkt.extstr.utf8();
+	QString fstr = ufkt.fstr;
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.find( ';' );
@@ -511,10 +511,21 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	}
 	else ufkt.dmax = m_parser->eval( ufkt.str_dmax );
 
-	ufkt.extstr = n.namedItem( "equation" ).toElement().text();
-	m_parser->getext( &ufkt );
+	const QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
+	const int pos = tmp_fstr.find(';');
+	if ( pos == -1 )
+	  ufkt.fstr = tmp_fstr;
+	else
+	{
+	  ufkt.fstr = tmp_fstr.left(pos);
+	  if ( !m_parser->getext( &ufkt, tmp_fstr) )
+	  {
+	    KMessageBox::error(0,i18n("The function %1 could not be loaded").arg(ufkt.fstr));
+	    return;
+	  }
+	}
 
-	QCString fstr = ufkt.extstr.utf8();
+	QString fstr = ufkt.fstr;
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.find( ';' );

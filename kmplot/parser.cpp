@@ -358,7 +358,7 @@ int Parser::addfkt(QString str)
         else
         {
                 Ufkt temp;
-		if ( temp.extstr.at(0) == 'y')
+		if ( temp.fstr.at(0) == 'y')
 			temp.id = ufkt.last().id; //the function belongs to the last inserted function
 		else
                 	temp.id = getNewId();
@@ -367,7 +367,7 @@ int Parser::addfkt(QString str)
         }
         QString const fname = str.left(p1);
         Ufkt *temp = &ufkt.last();
-        temp->fstr=str;
+	temp->fstr=extstr;
         temp->mptr = 0;
         temp->memsize=memsize;
         temp->stacksize=stacksize;
@@ -375,7 +375,6 @@ int Parser::addfkt(QString str)
         temp->fvar=str.mid(p1+1, p2-p1-1);
         if(p2<p3) temp->fpar=str.mid(p2+1, p3-p2-1);
         else temp->fpar="";      //.resize(1);
-        temp->extstr = extstr;
         
         kdDebug() << "temp.id:" << temp->id << endl;
         
@@ -515,20 +514,20 @@ void Parser::delfkt( Ufkt *item)
         else
         {
                 //kdDebug() << "Deleting something" << endl;
-		QChar const extstr_c = item->extstr.at(0);
+		QChar const extstr_c = item->fstr.at(0);
 		uint const id = item->id;
 		delete []item->mem;
                 ufkt.erase(item);
 		if ( extstr_c == 'x')
 		{
 			int const ix = ixValue(id+1);
-			if (ix!= -1 && ufkt[ix].extstr.at(0) == 'y')
+			if (ix!= -1 && ufkt[ix].fstr.at(0) == 'y')
 				delfkt( &ufkt[ix]);
 		}
 		else if ( extstr_c == 'y')
 		{
 			int const ix = ixValue(id-1);
-			if (ix!= -1 && ufkt[ix].extstr.at(0) == 'x')
+			if (ix!= -1 && ufkt[ix].fstr.at(0) == 'x')
 				delfkt( &ufkt[ix]);
 		}
         }

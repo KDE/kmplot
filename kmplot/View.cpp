@@ -218,7 +218,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	iy=0;
 	y=0.0;
 
-	char const fktmode=ufkt->extstr[0].latin1();
+	char const fktmode=ufkt->fstr[0].latin1();
 	if(fktmode=='y') return ;
 
 	dmin=ufkt->dmin;
@@ -469,7 +469,7 @@ void View::drawHeaderTable(QPainter *pDC)
 		//for(uint ix=0; ix<m_parser->countFunctions() && !stop_calculating; ++ix)
 		for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
 		{
-			pDC->drawText(100, ypos, it->extstr);
+			pDC->drawText(100, ypos, it->fstr);
 			ypos+=60;
 		}
 		pDC->translate(-60., ypos+100.);
@@ -836,9 +836,9 @@ void View::mousePressEvent(QMouseEvent *e)
 		char function_type;
 		for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 		{
-			function_type = it->extstr[0].latin1();
+			function_type = it->fstr[0].latin1();
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
-			kdDebug() << "it:" << it->extstr << endl;
+			kdDebug() << "it:" << it->fstr << endl;
 			int k=0;
 			int const ke=it->parameters.count();
 			do
@@ -851,10 +851,10 @@ void View::mousePressEvent(QMouseEvent *e)
 				else
 					it->setParameter(sliders[ it->use_slider ]->slider->value() );
 
-				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->extstr.contains('t')==1) //parametric plot
+				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.contains('t')==1) //parametric plot
 				{
 					QValueVector<Ufkt>::iterator ufkt_y = it+1;
-					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->extstr.contains('t')==1)
+					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->fstr.contains('t')==1)
 					{
 						if ( csmode == -1)
 						{
@@ -865,12 +865,12 @@ void View::mousePressEvent(QMouseEvent *e)
 						}
 						else
 							m_popupmenushown = 2;
-						QString y_name( ufkt_y->extstr );
+						QString y_name( ufkt_y->fstr );
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),false);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
-						m_popupmenu->changeTitle(10,ufkt_y->extstr+";"+y_name);
+						m_popupmenu->changeTitle(10,ufkt_y->fstr+";"+y_name);
 						m_popupmenu->exec(QCursor::pos());
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
@@ -890,7 +890,7 @@ void View::mousePressEvent(QMouseEvent *e)
 					}
 					else
 						m_popupmenushown = 2;
-					m_popupmenu->changeTitle(10, it->extstr);
+					m_popupmenu->changeTitle(10, it->fstr);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
@@ -905,7 +905,7 @@ void View::mousePressEvent(QMouseEvent *e)
 					}
 					else
 						m_popupmenushown = 2;
-					QString function = it->extstr;
+					QString function = it->fstr;
 					function = function.left(function.find('(')) + '\'';
 					m_popupmenu->changeTitle(10, function);
 					m_popupmenu->exec(QCursor::pos());
@@ -922,7 +922,7 @@ void View::mousePressEvent(QMouseEvent *e)
 					}
 					else
 						m_popupmenushown = 2;
-					QString function = it->extstr;
+					QString function = it->fstr;
 					function = function.left(function.find('(')) + "\'\'";
 					m_popupmenu->changeTitle(10, function);
 					m_popupmenu->exec(QCursor::pos());
@@ -946,7 +946,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	{
 		if (it->fname.isEmpty() )
 			continue;
-		switch(it->extstr[0].latin1())
+		switch(it->fstr[0].latin1())
 		{
 			case 'x': case 'y': case 'r': continue;   // Not possible to catch
 		}
@@ -967,7 +967,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				cstype=0;
 				csparam = k;
 				m_minmax->selectItem();
-				setStatusBar(it->extstr,4);
+				setStatusBar(it->fstr,4);
 				mouseMoveEvent(e);
 				return;
 			}
@@ -977,7 +977,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				cstype=1;
 				csparam = k;
 				m_minmax->selectItem();
-				QString function = it->extstr;
+				QString function = it->fstr;
 				function = function.left(function.find('(')) + '\'';
 				setStatusBar(function,4);
 				mouseMoveEvent(e);
@@ -989,7 +989,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				cstype=2;
 				csparam = k;
 				m_minmax->selectItem();
-				QString function = it->extstr;
+				QString function = it->fstr;
 				function = function.left(function.find('(')) + "\'\'";
 				setStatusBar(function,4);
 				mouseMoveEvent(e);
@@ -1455,7 +1455,7 @@ void View::keyPressEvent( QKeyEvent * e)
 					break;
 				}
 				kdDebug() << "csmode: " << csmode << endl;
-				switch(it->extstr[0].latin1())
+				switch(it->fstr[0].latin1())
 				{
 				case 'x':
 				case 'y':
@@ -1513,18 +1513,18 @@ void View::keyPressEvent( QKeyEvent * e)
 		switch (cstype )
 {
 		case 0:
-			setStatusBar(it->extstr,4);
+			setStatusBar(it->fstr,4);
 			break;
 		case 1:
 			{
-				QString function = it->extstr;
+				QString function = it->fstr;
 				function = function.left(function.find('(')) + '\'';
 				setStatusBar(function,4);
 				break;
 			}
 		case 2:
 			{
-				QString function = it->extstr;
+				QString function = it->fstr;
 				function = function.left(function.find('(')) + "\'\'";
 				setStatusBar(function,4);
 				break;
@@ -1824,7 +1824,7 @@ void View::mnuRemove_clicked()
 	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
 	{
 		Ufkt *ufkt =  &m_parser->ufkt[m_parser->ixValue(csmode)];
-		char const function_type = ufkt->extstr[0].latin1();
+		char const function_type = ufkt->fstr[0].latin1();
 		m_parser->delfkt( ufkt );
 
 		drawPlot();
@@ -1835,7 +1835,7 @@ void View::mnuRemove_clicked()
 }
 void View::mnuEdit_clicked()
 {
-	if ( m_parser->ufkt[m_parser->ixValue(csmode)].extstr[0] == 'x') // a parametric function
+	if ( m_parser->ufkt[m_parser->ixValue(csmode)].fstr[0] == 'x') // a parametric function
 	{
 		int y_index = csmode+1; //the y-function
 		if ( y_index == (int)m_parser->countFunctions())
@@ -1911,22 +1911,20 @@ void View::mnuTrig_clicked()
 {
 	if ( Settings::anglemode()==0 ) //radians
 	{
-		Settings::setXMin("-6.152285613" );
-		Settings::setXMax("6.152285613" );
+	  Settings::setXMin("-(47/24)pi");
+	  Settings::setXMax("(47/24)pi");
 	}
 	else //degrees
 	{
 		Settings::setXMin("-352.5" );
 		Settings::setXMax("352.5" );
 	}
-
 	Settings::setYMin("-4");
 	Settings::setYMax("4");
 
 	Settings::setXRange(4); //custom x-range
 	Settings::setYRange(4); //custom y-range
 	drawPlot(); //update all graphs
-	return;
 }
 void View::invertColor(QColor &org, QColor &inv)
 {

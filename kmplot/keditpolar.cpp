@@ -68,7 +68,7 @@ void KEditPolar::clearWidgets()
 void KEditPolar::setWidgets()
 {
         Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_id) ];
-	QString function = ufkt->extstr;
+	QString function = ufkt->fstr;
 	function = function.right( function.length()-1 );
 	kLineEditYFunction->setText( function );
 	checkBoxHide->setChecked( !ufkt->f_mode);
@@ -147,7 +147,6 @@ void KEditPolar::accept()
                 added_ufkt =  &m_parser->ufkt[ix];
                 QString const old_fstr = added_ufkt->fstr;
                 added_ufkt->fstr = f_str;
-                added_ufkt->extstr = f_str;
                 m_parser->reparse(added_ufkt); //reparse the funcion
                 if ( m_parser->parserError() != 0)
                 {

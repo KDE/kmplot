@@ -33,7 +33,7 @@
 /**
 @author Fredrik Edemar
 */
-/// All functions in ParserIface are accessible with DCOP. For descriptions about the functions, see Parser.
+/// All functions in ParserIface are accessible with DCOP. For descriptions about the functions, see Parser and XParser.
 class ParserIface : virtual public DCOPObject
 {
 	K_DCOP
@@ -55,8 +55,7 @@ k_dcop:
 	virtual bool setFunctionF1Visible(bool visible, uint id) = 0;
 	virtual bool setFunctionF2Visible(bool visible, uint id) = 0;
 	virtual bool setFunctionIntVisible(bool visible, uint id) = 0;
-	virtual QString functionFstr(uint id) = 0;
-	virtual QString functionExtstr(uint id) = 0;
+	virtual QString functionStr(uint id) = 0;
 	virtual QColor functionFColor(uint id) = 0;
 	virtual QColor functionF1Color(uint id) = 0;
 	virtual QColor functionF2Color(uint id) = 0;
@@ -76,14 +75,15 @@ k_dcop:
 	virtual QStringList functionParameterList(uint id) = 0;
 	virtual bool functionAddParameter(const QString &new_parameter, uint id) = 0;
 	virtual bool functionRemoveParameter(const QString &remove_parameter, uint id) = 0;
-	virtual bool setFunctionMinValue(const QString &min, uint id) = 0;
-	virtual bool setFunctionMaxValue(const QString &max, uint id) = 0;
 	virtual QString functionMinValue(uint id) = 0;
 	virtual QString functionMaxValue(uint id) = 0;
-	virtual bool setFunctionStartXValue(const QString &min, uint id) = 0;
-	virtual bool setFunctionStartYValue(const QString &max, uint id) = 0;
+	virtual bool setFunctionMinValue(const QString &min, uint id) = 0;
+	virtual bool setFunctionMaxValue(const QString &max, uint id) = 0;
 	virtual QString functionStartXValue(uint id) = 0;
 	virtual QString functionStartYValue(uint id) = 0;
+	virtual bool setFunctionStartXValue(const QString &x, uint id) = 0;
+	virtual bool setFunctionStartYValue(const QString &y, uint id) = 0;
+
 };
 
 #endif

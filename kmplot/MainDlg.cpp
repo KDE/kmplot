@@ -521,10 +521,13 @@ void MainDlg::slotEditPlots()
 	tmpfile.unlink();
 }
 
-void MainDlg::slotQuickEdit(const QString& tmp_f_str )
+void MainDlg::slotQuickEdit(const QString& f_str_const )
 {
 	//creates a valid name for the function if the user has forgotten that
-	QString f_str( tmp_f_str );
+  	QString f_str( f_str_const );
+	int const pos = f_str_const.find(';');
+	if (pos!=-1)
+	  f_str = f_str.left(pos);
 	if (f_str.at(0)=='r')
 	  	view->parser()->fixFunctionName(f_str, XParser::Polar);
 	else
@@ -553,7 +556,7 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	Ufkt *ufkt = &view->parser()->ufkt.last();
 	view->parser()->prepareAddingFunction(ufkt);
 
-	if ( view->parser()->getext( ufkt ) == -1)
+	if ( pos!=-1 && !view->parser()->getext(ufkt, QString(f_str_const)))
 	{
 		m_quickEdit->setFocus();
 		m_quickEdit->selectAll();
@@ -609,23 +612,34 @@ void MainDlg::loadConstants()
 {
 
 	KSimpleConfig conf ("kcalcrc");
-	conf.setGroup("Constants");
+	conf.setGroup("UserConstants");
 	QString tmp;
 	QString tmp_constant;
+	QString tmp_value;
 	char constant;
 	double value;
 	for( int i=0; ;i++)
 	{
-		tmp.setNum(i+1);
+		tmp.setNum(i);
 		tmp_constant = conf.readEntry("nameConstant"+tmp," ");
-		value = conf.readDoubleNumEntry("valueConstant"+tmp,1.23456789);
-		constant = tmp_constant.at(0).upper().latin1();
+		
+ 		//value = conf.readDoubleNumEntry("valueConstant"+tmp,1.23456789);
+		tmp_value = conf.readEntry("valueConstant"+tmp," ");
+		kdDebug() << "konstant: " << tmp_constant.latin1() << endl;
+		kdDebug() << "value: " << value << endl;
+		kdDebug() << "**************" << endl;
+		
+		if ( tmp_constant == " " || tmp_constant == " ")
+		  return;
+		
+ 		constant = tmp_constant.at(0).upper().latin1();
 
 		if ( constant<'A' || constant>'Z')
 			constant = 'A';
-		if ( tmp_constant == " " || value == 1.23456789)
-			return;
-
+		value = view->parser()->eval(tmp_value);
+		if ( view->parser()->parserError(false) ) //couln't parse the value
+		  continue;
+		
 		if ( !view->parser()->constant.empty() )
 		{
 			bool copy_found=false;
@@ -664,11 +678,11 @@ void MainDlg::saveConstants()
 {
 	KSimpleConfig conf ("kcalcrc");
 	conf.deleteGroup("Constants");
-	conf.setGroup("Constants");
+	conf.setGroup("UserConstants");
 	QString tmp;
 	for( int i = 0; i< (int)view->parser()->constant.size();i++)
 	{
-		tmp.setNum(i+1);
+		tmp.setNum(i);
 		conf.writeEntry("nameConstant"+tmp, QString( QChar(view->parser()->constant[i].constant) ) ) ;
 		conf.writeEntry("valueConstant"+tmp, view->parser()->constant[i].value);
 	}

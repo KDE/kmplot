@@ -73,15 +73,17 @@ MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name
 	setupStatusBar();
 	setupActions();
 	loadConstants();
-	
+	kmplotio = new KmPlotIO();
 	if (args -> count() > 0) 
 	{
 		m_filename = args -> url( 0 ).url(-1);
 		m_filename.remove(0,5); //removing "file:" from the filename. Otherwise QFile won't load the file.
-		KmPlotIO::load( view->parser(), m_filename );
-		setCaption( m_filename );
-		view->updateSliders();
-		view->drawPlot();
+		if (kmplotio->load( view->parser(), m_filename ) )
+		{
+			setCaption( m_filename );
+			view->updateSliders();
+			view->drawPlot();
+		}
 	}
 	m_config = kapp->config();
 	m_recentFiles->loadEntries( m_config );
@@ -103,6 +105,7 @@ MainDlg::~MainDlg()
 {
 	m_recentFiles->saveEntries( m_config );
 	saveConstants();
+	delete kmplotio;
 }
 
 void MainDlg::setupActions()
@@ -264,7 +267,7 @@ void MainDlg::slotSave()
 			if ( KMessageBox::warningYesNo( this, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of Kmplot. Are you sure you want to continue?" ) ) == KMessageBox::No)
 				return;
 		}
-		KmPlotIO::save( view->parser(), m_filename );
+		kmplotio->save( view->parser(), m_filename );
 		kdDebug() << "saved" << endl;
 		m_modified = false;
 	}
@@ -284,7 +287,7 @@ void MainDlg::slotSaveas()
 		// check if file exists and overwriting is ok.
 		if( !QFile::exists( filename ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( KURL( filename ).fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue ) 
 		{
-			KmPlotIO::save( view->parser(), filename );
+			kmplotio->save( view->parser(), filename );
 			m_filename = filename;
 			m_recentFiles->addURL( KURL( m_filename ) );
 			setCaption( m_filename );
@@ -331,9 +334,10 @@ void MainDlg::slotOpen()
 	QString filename = KFileDialog::getOpenFileName( QDir::currentDirPath(), 
 		i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
 	if ( filename.isEmpty() ) return ;
-	m_filename = filename;
 	view->init();
-	KmPlotIO::load( view->parser(), filename );
+	if ( !kmplotio->load( view->parser(), filename ) )
+		return;
+	m_filename = filename;
 	m_recentFiles->addURL( KURL( m_filename ) );
 	setCaption( m_filename );
 	m_modified = false;
@@ -345,7 +349,8 @@ void MainDlg::slotOpenRecent( const KURL &url )
 {
 	if( !checkModified() ) return;
 	view->init();
-	KmPlotIO::load( view->parser(), url.path() );
+	if ( !kmplotio->load( view->parser(), url.path() ) )
+		return;
 	view->updateSliders();
 	view->drawPlot();
 	m_filename = url.path();
@@ -465,13 +470,13 @@ void MainDlg::slotEditPlots()
 	if ( !fdlg ) fdlg = new FktDlg( this, view->parser() ); // make the dialog only if not allready done
 	fdlg->getPlots();
 	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
-	KmPlotIO::save( view->parser(), tmpName );
+	kmplotio->save( view->parser(), tmpName );
 	if( fdlg->exec() == QDialog::Rejected ) 
 	{
 		if ( fdlg->isChanged() )
 		{
 			view->init();
-			KmPlotIO::load( view->parser(), tmpName );
+			kmplotio->load( view->parser(), tmpName );
 			view->drawPlot();
 		}
 	}

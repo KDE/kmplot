@@ -45,7 +45,7 @@
 #include "FktDlg.h"
 #include "View.h"
 #include "kminmax.h"
-
+#include "kmplotio.h"
 
 class KConfigDialog;
 class KLineEdit;
@@ -151,6 +151,8 @@ class MainDlg : public KMainWindow
 		KMinMax *minmaxdlg;
 		/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
 		KPopupMenu *m_popupmenu;
+		
+		KmPlotIO *kmplotio;
 		
 		
 	protected slots:

@@ -62,9 +62,10 @@ int main( int argc, char **argv )
 	aboutData.addAuthor(
 	    "Matthias Meßmer", I18N_NOOP( "GUI" ) ,
 	    "bmlmessmer@web.de" );
+	aboutData.addAuthor( "Fredrik Edemar", I18N_NOOP( "Various improvements" ), "f_edemar@linux.se" );
 	aboutData.addCredit( "David Vignoni", I18N_NOOP( "svg icon" ), "david80v@tin.it" );
 	aboutData.addCredit( "Albert Astals Cid", I18N_NOOP( "command line options, MIME type" ), "tsdgeos@terra.es" );
-	aboutData.addCredit( "Fredrik Edemar", I18N_NOOP( "fullscreen mode" ), "08.7683331@telia.com" );
+	
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 

@@ -182,16 +182,20 @@ void KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString 
 	parentTag.appendChild( tag );
 }
 
-void KmPlotIO::load( XParser *parser, const QString filename )
+bool KmPlotIO::load( XParser *parser, const QString filename )
 {
 	QDomDocument doc( "kmpdoc" );
 	QFile f( filename );
 	if ( !f.open( IO_ReadOnly ) )
-		return ;
+	{
+		KMessageBox::error(0,i18n("An error appeared when opening this file"));
+		return false;
+	}
 	if ( !doc.setContent( &f ) )
 	{
+		KMessageBox::error(0,i18n("The file could not be loaded"));
 		f.close();
-		return ;
+		return false;
 	}
 	f.close();
 
@@ -228,6 +232,7 @@ void KmPlotIO::load( XParser *parser, const QString filename )
 	}
 	else
 		KMessageBox::error(0,i18n("The file had an unknown version number"));
+	return true;
 }
 
 void KmPlotIO::parseAxes( const QDomElement &n )
@@ -374,7 +379,7 @@ void KmPlotIO::parseParameters( XParser *parser, const QDomElement &n, int ix )
 }
 void KmPlotIO::oldParseFunction(  XParser *parser, const QDomElement & n )
 {
-	kdDebug() << "parsing function" << endl;
+	kdDebug() << "parsing old function" << endl;
 
 	int ix = n.attribute( "number" ).toInt();
 	parser->fktext[ ix ].f_mode = n.attribute( "visible" ).toInt();

@@ -62,7 +62,7 @@ parser expects a second function with a leading <quote>y</quote> (here
 <varlistentry>
 <term>var2</term>
 <listitem><para>
-The function group parameter. It must be seperated by a comma.
+The function group parameter. It must be separated by a comma.
 </para></listitem>
 </varlistentry>
 <varlistentry>

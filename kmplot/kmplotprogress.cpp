@@ -52,4 +52,5 @@ void KmPlotProgress::increase()
 {
  progress->setProgress( progress->progress()+1);
 }
+
 #include "kmplotprogress.moc"

@@ -511,7 +511,7 @@ bool Parser::delfkt( Ufkt *item)
 		if (it1==item)
 			continue;
 		for(QValueList<int>::iterator it2=it1->dep.begin(); it2!=it1->dep.end(); ++it2)
-			if (*it2==item->id)
+			if ( (uint)*it2 == item->id )
 				it2 = it1->dep.erase(it2);
 	}
 	

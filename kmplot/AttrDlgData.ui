@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>282</width>
-            <height>170</height>
+            <width>293</width>
+            <height>172</height>
         </rect>
     </property>
     <property name="caption">
@@ -44,7 +44,7 @@
                         <cstring>textLabel2</cstring>
                     </property>
                     <property name="text">
-                        <string>C&amp;olor:</string>
+                        <string>Colo&amp;r:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>color_button</cstring>
@@ -86,7 +86,7 @@
                         <string>width of the plot line</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Chenge the width of the plot line in steps of 0.1mm.</string>
+                        <string>Change the width of the plot line in steps of 0.1mm.</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="0" column="2">
@@ -210,6 +210,14 @@
         <slot>oncancel()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>le_dicke</tabstop>
+    <tabstop>color_button</tabstop>
+    <tabstop>cb_default</tabstop>
+    <tabstop>PushButton1</tabstop>
+    <tabstop>PushButton1_2_2</tabstop>
+    <tabstop>pushButton12</tabstop>
+</tabstops>
 <slots>
     <slot>oncancel()</slot>
     <slot>onfarbe()</slot>

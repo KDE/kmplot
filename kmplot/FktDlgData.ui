@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>363</width>
-            <height>443</height>
+            <height>445</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -301,13 +301,13 @@
     </connection>
 </connections>
 <tabstops>
-    <tabstop>PushButtonOk</tabstop>
-    <tabstop>PushButtonApply</tabstop>
-    <tabstop>PushButtonEdit</tabstop>
-    <tabstop>PushButtonAttr</tabstop>
-    <tabstop>PushButtonDel</tabstop>
     <tabstop>le_fktstr</tabstop>
     <tabstop>lb_fktliste</tabstop>
+    <tabstop>PushButtonApply</tabstop>
+    <tabstop>PushButtonEdit</tabstop>
+    <tabstop>PushButtonDel</tabstop>
+    <tabstop>PushButtonAttr</tabstop>
+    <tabstop>PushButtonOk</tabstop>
 </tabstops>
 <slots>
     <slot>onapply()</slot>

@@ -1,5 +1,5 @@
 SUBDIRS = kmplot pics icons
 
-EXTRA_DIST = kpercentage.kdevprj
+EXTRA_DIST = KmPlot.kdevelop KmPlot.kdevelop.filelist TODO
 
 AUTOMAKE_OPTIONS = foreign

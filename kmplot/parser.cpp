@@ -139,19 +139,20 @@ double Parser::eval(QString str)
 	evalflg=1;
 	
 	str.remove(" " );
-	//insert '*' when it is needed
-	for(int i=0; i < (int)str.length();i++)
-	{
-		if( (str.at(i).isNumber() || str.at(i).category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) )
-		{
-			str.insert(i,'*');
-		}
-		else if( (str.at(i).isNumber() || str.at(i) == ')' || str.at(i).category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) )
-		{
-			str.insert(i+1,'*');
-			i++;
-		}
-	}
+        //insert '*' when it is needed
+        QChar ch;
+        for(uint i=0; i <  str.length();i++)
+        {
+                ch = str.at(i);
+                if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
+                        str.insert(i,'*');
+                else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(') )
+                {
+                        str.insert(i+1,'*');
+                        i++;
+                }
+        }
+        
 	if ( str.contains('y')!=0)
 	{
 		err=9;
@@ -264,17 +265,19 @@ int Parser::addfkt(QString str)
 	const int p3=str.find(")=");
 	
 	//insert '*' when it is needed
-	for(int i=p1+3; i < (int) str.length();i++)
+        QChar ch;
+	for(uint i=p1+4; i <  str.length();i++)
 	{
-		if( (str.at(i).isNumber() || str.at(i).category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) )
+                ch = str.at(i);
+		if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
 			str.insert(i,'*');
-		else if( (str.at(i).isNumber() || str.at(i) == ')' || str.at(i).category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) )
+		else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(') )
 		{
 			str.insert(i+1,'*');
 			i++;
 		}
 	}
-		
+        
 	if(p1==-1 || p3==-1 || p1>p3)
 	{   err=4;
 		return -1;
@@ -349,19 +352,19 @@ void Parser::reparse(int ix)
 	int p2=str.find(',');
 	const int p3=str.find(")=");
 	
-	//insert '*' when it is needed
-	for(int i=p1+3; i < (int) str.length();i++)
-	{
-		if( (str.at(i).isNumber() || str.at(i).category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) )
-		{
-			str.insert(i,'*');
-		}
-		else if( (str.at(i).isNumber() || str.at(i) == ')' || str.at(i).category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) )
-		{
-			str.insert(i+1,'*');
-			i++;
-		}
-	}
+        //insert '*' when it is needed
+        QChar ch;
+        for(uint i=p1+4; i <  str.length();i++)
+        {
+                ch = str.at(i);
+                if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
+                        str.insert(i,'*');
+                else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(') )
+                {
+                        str.insert(i+1,'*');
+                        i++;
+                }
+        }
 		
 	if(p1==-1 || p3==-1 || p1>p3)
 	{   err=4;

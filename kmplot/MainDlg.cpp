@@ -776,11 +776,11 @@ KInstance* KmPlotPartFactory::instance()
 
 extern "C"
 {
-	void* init_libkmplotpart()
+	KDE_EXPORT void* init_libkmplotpart()
 	{
 		return new KmPlotPartFactory;
 	}
-};
+}
 
 
 /// BrowserExtension class

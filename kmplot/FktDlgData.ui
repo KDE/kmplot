@@ -285,7 +285,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>&amp;Copy function...</string>
+                        <string>&amp;Copy Function...</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>define a new function</string>
@@ -310,7 +310,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>&amp;Move function...</string>
+                        <string>&amp;Move Function...</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>define a new function</string>

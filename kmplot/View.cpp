@@ -239,7 +239,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 							dx = (m_parser->fktext[ix].anti_precision)/1500;
 					else
 						dx=Settings::relativeStepWidth()/1500; //the stepwith must be small for Euler's metod and not depend on the size on the mainwindow
-					m_parser->euler_method(x, y,ix);
+						y=m_parser->fkt(ix, x);
+						m_parser->euler_method(x, y,ix);
 						break;
 						}
 					}

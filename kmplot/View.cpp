@@ -688,15 +688,20 @@ void View::mousePressEvent(QMouseEvent *e)
 		p.setX( dgr.Transx(p.x() ) );
 		p.setY( dgr.Transy(p.y() ) );
 		QString str_tmp;
+		double diffx = (xmax-xmin)*0.4; // == xmax-xmin*0.8/2
+		double diffy = (ymax-ymin)*0.4;
 		
-		str_tmp.setNum(p.x()-double(xmax-xmin)*0.1);
+		if ( diffx < 0.00001 || diffy < 0.00001)
+			return;
+			
+		str_tmp.setNum(p.x()-double(diffx));
 		Settings::setXMin(str_tmp);
-		str_tmp.setNum(p.x()+double(xmax-xmin)*0.1);
+		str_tmp.setNum(p.x()+double(diffx));
 		Settings::setXMax(str_tmp);
 		
-		str_tmp.setNum(p.y()-double(ymax-ymin)*0.1);
+		str_tmp.setNum(p.y()-double(diffy));
 		Settings::setYMin(str_tmp);
-		str_tmp.setNum(p.y()+double(ymax-ymin)*0.1);
+		str_tmp.setNum(p.y()+double(diffy));
 		Settings::setYMax(str_tmp);
 		
 		Settings::setXRange(4); //custom x-range
@@ -714,17 +719,21 @@ void View::mousePressEvent(QMouseEvent *e)
 		QPoint p=DC.xFormDev(e->pos());
 		p.setX( dgr.Transx(p.x() ) );
 		p.setY( dgr.Transy(p.y() ) );
-		
 		QString str_tmp;
+		double diffx = (xmax-xmin)*1.25/2;
+		double diffy = (ymax-ymin)*1.25/2;
 		
-		str_tmp.setNum(p.x()-double(xmax-xmin)/0.4);
+		if ( diffx > 1000000 || diffy > 1000000)
+			return;
+		
+		str_tmp.setNum(p.x()-double(diffx));
 		Settings::setXMin(str_tmp);
-		str_tmp.setNum(p.x()+double(xmax-xmin)/0.4);
+		str_tmp.setNum(p.x()+double(diffx));
 		Settings::setXMax(str_tmp);
 		
-		str_tmp.setNum(p.y()-double(ymax-ymin)/0.4);
+		str_tmp.setNum(p.y()-double(diffy));
 		Settings::setYMin(str_tmp);
-		str_tmp.setNum(p.y()+double(ymax-ymin)/0.4);
+		str_tmp.setNum(p.y()+double(diffy));
 		Settings::setYMax(str_tmp);
 		
 		Settings::setXRange(4); //custom x-range
@@ -886,6 +895,8 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 		zoom_mode=1;
 		QPainter DC;
 		DC.begin(this);
+		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
+		
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
 		QPoint p1=DC.xFormDev(e->pos());
@@ -900,7 +911,8 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 		p2.setX( dgr.Transx(p2.x() ) );
 		p2.setY( dgr.Transy(p2.y() ) );
 		QString str_tmp;
-		
+		if ( p1.x() == p2.x() || p1.y() == p2.y() )
+			return;
 		if( p1.x() < p2.x()  )
 		{
 			str_tmp.setNum(p1.x() );
@@ -930,6 +942,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 			str_tmp.setNum(p1.y() );
 			Settings::setYMax(str_tmp );
 		}
+		
 		Settings::setXRange(4); //custom x-range
 		Settings::setYRange(4); //custom y-range
 		drawPlot(); //update all graphs

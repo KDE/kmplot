@@ -158,7 +158,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 
 	dx=stepWidth;
 	fktmode=m_parser->fktext[ix].extstr[0].latin1();
-
+	
 	if(fktmode!='y')
 	{   
 		dmin=m_parser->fktext[ix].dmin;
@@ -176,8 +176,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 			dmax=xmax;
 		}
 	}
-
-	if(fktmode=='r') dx=relativeStepWidth*0.05/(dmax-dmin);
+	
+	if(fktmode=='r') dx=Settings::relativeStepWidth()*0.05/(dmax-dmin);
 	else if(fktmode=='x')
 	{   
 		m_parser->getfkt(ix, fname, fstr);

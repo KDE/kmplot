@@ -9,7 +9,7 @@
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <qwidget.h>
-#include <qpdevmet.h>
+#include <qpaintdevicemetrics.h>
 #include <qpainter.h>
 #include <qpoint.h>
 #undef	 GrayScale 

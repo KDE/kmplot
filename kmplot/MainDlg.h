@@ -83,7 +83,6 @@ public slots:
 	void load();
 	void print();
 	void bezeichnungen();
-	// void quit();
 	void funktionen();
 	void skalierung();
 	void schrittw();
@@ -92,8 +91,6 @@ public slots:
 	void onachsen1();
 	void onachsen2();
 	void onachsen3();
-	// void about();
-	void hilfe();
 	void slotSettings();
 
 private:

@@ -66,7 +66,6 @@ void MainDlg::setupActions()
 	KStdAction::saveAs( this, SLOT( saveas() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
-	KStdAction::helpContents( this, SLOT( hilfe() ), actionCollection(), "helpcontents" );
 
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
@@ -483,11 +482,6 @@ void MainDlg::onachsen3()
 	xmin = ymin = 0.;
 	xmax = ymax = 16.;
 	view->update();
-}
-
-void MainDlg::hilfe()
-{
-	kapp->invokeHelp( "", "kmplot" );
 }
 
 void MainDlg::slotSettings()

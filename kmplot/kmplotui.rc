@@ -11,6 +11,10 @@
     <Action name="scale"/>
     <Action name="grid"/>
     <Action name="step"/>
+    <Separator />
+    <Action name="coord_i"/>
+    <Action name="coord_ii"/>
+    <Action name="coord_iii"/>
   </Menu>
   <Menu name="help">
     <Action name="names"/>

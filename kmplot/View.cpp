@@ -204,24 +204,26 @@ void View::plotfkt(int ix, QPainter *pDC)
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
 		if(fktmode=='r')
-		{   dmin=0.;
+		{   
+			dmin=0.;
 			dmax=2*M_PI;
 		}
 		else
 		{
 			dmin=xmin;
 			dmax=xmax;
-			
 		}
 	}
 	
-	if(fktmode=='r') dx=Settings::relativeStepWidth()*0.05/(dmax-dmin);
+	if(fktmode=='r') 
+		dx=Settings::relativeStepWidth()*0.05/(dmax-dmin);
 	else if(fktmode=='x')
 	{   
 		m_parser->getfkt(ix, fname, fstr);
 		fname[0]='y';
 		iy=m_parser->getfix(fname);
-		if(iy==-1) return ;
+		if(iy==-1) 
+			return ;
 	}
 	else if(fktmode=='y') return ;
 
@@ -294,11 +296,11 @@ void View::plotfkt(int ix, QPainter *pDC)
 						}
 						break;
 						}
-					}
-					
+					}	
 
 				if(errno!=0) continue;
-                if(fktmode=='r')
+				
+               			if(fktmode=='r')
 				{   
 					p2.setX(dgr.Transx(y*cos(x)));
 					p2.setY(dgr.Transy(y*sin(x)));
@@ -318,11 +320,10 @@ void View::plotfkt(int ix, QPainter *pDC)
 				{	
 					if(mflg>=1) p1=p2;
 					else
-                    {   
-		    	pDC->drawLine(p1, p2); p1=p2;
-                        mflg=1;
-                    }
-
+					{   
+						pDC->drawLine(p1, p2); p1=p2;
+						mflg=1;
+					}
 				}
 				else
 				{	
@@ -332,22 +333,23 @@ void View::plotfkt(int ix, QPainter *pDC)
 		    				pDC->drawLine(p1, p2); p1=p2;
                     			mflg=0;
 				}
-		    if (forward_direction)
-		    {
-			    x=x+dx;
-			    if (x>dmax && p_mode== 3)
-			    {
-				forward_direction = false;
-			    	x = m_parser->fktext[ix].startx;
-				mflg=2;
-			    }
-		    }
-		    else
-			    x=x-dx; // go backwards
+		    
+		    		if (forward_direction)
+		    		{
+					x=x+dx;
+					if (x>dmax && p_mode== 3)
+					{
+						forward_direction = false;
+						x = m_parser->fktext[ix].startx;
+						mflg=2;
+					}
+		    		}
+		    		else
+			    		x=x-dx; // go backwards
 
-            }
+            		}
 		}
-        while(++k<ke && !stop_calculating);
+        	while(++k<ke && !stop_calculating);
 	
 		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) p_mode=1;
 		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
@@ -358,7 +360,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 		//pen=QPen(m_parser->fktext[ix].color, 50);
 		//pDC->setPen(pen);
 	}
-	if (  progressbar.isVisible())
+	if (  progressbar->isVisible())
 		progressbar->hide(); // hide the progressbar-widget if it was shown
 }
 

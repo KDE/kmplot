@@ -180,7 +180,7 @@ private:
 	///buffer the current window so all functions don't need to be re-drawed
 	QPixmap buffer;
 	/// if stop_calculating is true, the user has cancelled drawing of an anti-derivative graph
-	bool stop_calculating:
+	bool stop_calculating;
 };
 
 #endif // View_included

@@ -199,12 +199,12 @@ coordinate axes and also in the status bar at the bottom edge of the main window
 </para>
 <para>
 You can trace the functions values more precisely by clicking onto or next to a 
-graph. The cross hair then will be catched and be colored in the same color as the 
+graph. The cross hair then will be caught and be colored in the same color as the 
 graph. A second click anywhere in the window will leave this trace mode.
 </para>
 <para>
 Please notice that tracing is only possible with explicitly given functions.
-The coordinates are allways displayed according to cartesian system of coordinates.
+The coordinates are always displayed according to cartesian system of coordinates.
 Neither parametric functions, nor functions given in polar coordinates, 
 nor derivatives can not be traced this way.
 </para>

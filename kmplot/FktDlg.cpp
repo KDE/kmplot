@@ -74,12 +74,14 @@ void FktDlg::slotDelete()
 		int const id = getParamId( lb_fktliste->text( num ));
                 if ( id == -1)
                         return;
-		m_view->parser()->delfkt(id);
+		if ( m_view->parser()->delfkt(id))
+		  return;
 	}
 	else
 	{
 		// only one function to be deleted
-		m_view->parser()->delfkt( getId( lb_fktliste->text( num )) );
+	 	if (!m_view->parser()->delfkt( getId( lb_fktliste->text( num )) ) )
+		  return;
 	}
 	lb_fktliste->removeItem( num );
 	changed = true;

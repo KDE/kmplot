@@ -130,6 +130,7 @@ class Ufkt
 		int stacksize;          ///< Size of the stack.
 		double k,               ///< Function parameter.
 		oldy;                   ///< The last y-value needed for Euler's method
+		QValueList<int> dep;   /// A list with all functions this function depends on
         
 		bool f_mode, ///< \a f_mode == 1: draw the plot.
 		f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
@@ -189,7 +190,7 @@ public:
 	int addfkt(QString);
         /// Removes the function with the given id.
 	bool delfkt(uint id);
-        void delfkt( Ufkt *item);
+        bool delfkt( Ufkt *item);
 	
 	/// Returns the ID-number of the function "name". If the function couldn't be found, -1 is returned.
 	int fnameToId(const QString &name);

@@ -503,9 +503,23 @@ void Parser::fix_expression(QString &str, int const pos)
         //kdDebug() << "str:" << str << endl;
 }
 
-void Parser::delfkt( Ufkt *item)
+bool Parser::delfkt( Ufkt *item)
 {
 	kdDebug() << "Deleting id:" << item->id << endl;
+	if (!item->dep.isEmpty())
+	{
+	  KMessageBox::error(0,i18n("This function is depending on an other function"));
+	  return false;
+	}
+	for(QValueVector<Ufkt>::iterator it1=ufkt.begin(); it1!=ufkt.end(); ++it1)
+	{
+		if (it1==item)
+			continue;
+		for(QValueList<int>::iterator it2=it1->dep.begin(); it2!=it1->dep.end(); ++it2)
+			if (*it2==item->id)
+				it2 = it1->dep.erase(it2);
+	}
+	
         if ( ufkt.count()==1 )
         {
                 //kdDebug() << "first item, don't delete" << endl;
@@ -531,15 +545,16 @@ void Parser::delfkt( Ufkt *item)
 				delfkt( &ufkt[ix]);
 		}
         }
+	return true;
 }
 
 bool Parser::delfkt(uint id)
 {
 	int ix = ixValue(id);
-	if ( ix == -1)
+	if ( ix!=-1 && delfkt(&ufkt[ix]))
+	  	return true;
+	else
 		return false;
-	delfkt( &ufkt[ix] );
-	return true;
 }
 
 uint Parser::countFunctions()
@@ -686,6 +701,7 @@ void Parser::primary()
 			primary();
 			addtoken(UFKT);
                         addfptr( it->id );
+			it->dep.append(current_item->id);
 			return;
 		}
 	}

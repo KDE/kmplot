@@ -610,7 +610,6 @@ void MainDlg::updateSettings()
 
 void MainDlg::loadConstants()
 {
-
 	KSimpleConfig conf ("kcalcrc");
 	conf.setGroup("UserConstants");
 	QString tmp;
@@ -622,12 +621,10 @@ void MainDlg::loadConstants()
 	{
 		tmp.setNum(i);
 		tmp_constant = conf.readEntry("nameConstant"+tmp," ");
-		
- 		//value = conf.readDoubleNumEntry("valueConstant"+tmp,1.23456789);
 		tmp_value = conf.readEntry("valueConstant"+tmp," ");
-		kdDebug() << "konstant: " << tmp_constant.latin1() << endl;
-		kdDebug() << "value: " << value << endl;
-		kdDebug() << "**************" << endl;
+// 		kdDebug() << "konstant: " << tmp_constant.latin1() << endl;
+// 		kdDebug() << "value: " << value << endl;
+// 		kdDebug() << "**************" << endl;
 		
 		if ( tmp_constant == " " || tmp_constant == " ")
 		  return;

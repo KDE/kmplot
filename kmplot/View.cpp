@@ -613,7 +613,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		csflg=0;
 	}
 	char sx[20], sy[20];
-	if(area.contains(e->pos()))
+	if(area.contains(e->pos()) || (e->button()==Qt::LeftButton && e->state()==Qt::LeftButton && csxpos>xmin && csxpos<xmax))
 	{
 		QPoint ptd, ptl;
 		QPainter DC;
@@ -629,6 +629,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 			int const ix = m_parser->ixValue(csmode);
 			if (ix!=-1)
 			{
+				//double old_csxpos = csxpos;
 				it = &m_parser->ufkt[ix];
 				if( it->use_slider == -1 )
 				{
@@ -643,7 +644,26 @@ void View::mouseMoveEvent(QMouseEvent *e)
 					ptl.setY(dgr.Transy(csypos=m_parser->a1fkt( it, csxpos=dgr.Transx(ptl.x()) )));
 				else if ( cstype == 2)
 					ptl.setY(dgr.Transy(csypos=m_parser->a2fkt( it, csxpos=dgr.Transx(ptl.x()))));
-
+				//kdDebug() << "m_parser->fkt( it, csxpos=dgr.Transx(ptl.x()): " << QString::number(m_parser->fkt( it, csxpos=dgr.Transx(ptl.x()))) << endl;
+ 				
+// 				if ( csypos<ymin)
+// 				{
+// 				  kdDebug() << "ute_min" << endl;
+// 				  csxpos = old_csxpos;
+// 				  csypos = ymin;
+// 				}
+// 				else if ( csypos>ymax )
+// 				{
+// 				  kdDebug() << "ute_max" << endl;
+// 				  csxpos = old_csxpos;
+// 				  csypos = ymax;
+// 				}
+// 				if (csypos<ymin || csypos>ymax)
+// 				{
+// 				  csxpos=dgr.Transx(ptl.x());
+// 				  csypos=dgr.Transy(ptl.y()-0.1);
+// 				}
+				
 				if(fabs(csypos)<0.2)
 				{
 					double x0;
@@ -674,6 +694,11 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		sprintf(sy, "  y= %+.2f", csypos);
 		if(csflg==0)        // Hintergrund speichern
 		{
+			if ( csypos<=ymin || csypos>ymax )
+			{
+			  	kdDebug() << "ute" << endl;
+				return;
+			}
 			bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
 			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
 			// Fadenkreuz zeichnen
@@ -1825,7 +1850,8 @@ void View::mnuRemove_clicked()
 	{
 		Ufkt *ufkt =  &m_parser->ufkt[m_parser->ixValue(csmode)];
 		char const function_type = ufkt->fstr[0].latin1();
-		m_parser->delfkt( ufkt );
+		if (!m_parser->delfkt( ufkt ))
+		  return;
 
 		if (csmode!=-1) // if trace mode is enabled
 		{
@@ -1882,7 +1908,8 @@ void View::mnuMove_clicked()
 {
 	if ( m_parser->sendFunction(csmode) )
 	{
-		m_parser->delfkt(csmode);
+	  	if (!m_parser->delfkt(csmode) )
+		  return;
 		drawPlot();
 		m_modified = true;
 	}

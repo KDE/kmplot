@@ -58,7 +58,6 @@
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
 	fdlg = 0;
-	bez = 0;
 	view = new View( this );
 	setCentralWidget( view );
 	m_quickEdit = new KLineEdit( this );
@@ -80,7 +79,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	// Let's create a Configure Diloag
 	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() ); 
 	// create and add the page(s)
-	m_precisionSettings = new SettingsPagePrecision( 0, "precisionSettings" );
+	m_precisionSettings = new SettingsPagePrecision( 0, "precisionSettings", "precision" );
 	m_constantsSettings = new KConstantEditor( view, 0, "constantsSettings" );
 	m_settingsDialog->addPage( m_precisionSettings, i18n("General"), "package_settings", i18n("General Settings") );
 	m_settingsDialog->addPage( m_constantsSettings, "Constants", i18n("Constants") ); 
@@ -139,7 +138,7 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 
 	// help menu
-	view_names = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( slotNames() ), actionCollection(), "names" );
+	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );
 
 	
 	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
@@ -353,14 +352,7 @@ void MainDlg::editConstants()
 
 void MainDlg::slotNames()
 {
-	if ( !bez )
-		bez = new BezWnd( this, "bez" );
-	if ( view_names->isChecked() )
-	{
-		bez->show();
-	}
-	else
-		bez->hide();
+	kapp->invokeHelp( "func-predefined", "kmplot" );	
 }
 
 void MainDlg::newFunction()

@@ -42,7 +42,6 @@
 
 // local includes
 #include "FktDlg.h"
-#include "BezWnd.h"
 #include "View.h"
 
 
@@ -112,11 +111,6 @@ class MainDlg : public KMainWindow
 		KStatusBar *stbar;
 		/// Cached dialog to edit all functions
 		FktDlg *fdlg;
-		/// Cached window with all predefined function names
-		BezWnd *bez;
-		/** In the Help menu, this action will display a dialog 
-		 *  with the names of the common mathematical functions */
-		KToggleAction *view_names;
 		/// Central widget of the KMainWindow instance. tralala
 		View *view;
 		/// unique string for tmp file

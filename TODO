@@ -15,7 +15,6 @@ TODO
 * Draw tangents in trace mode (pipesmoker)
 * Printing (pipesmoker)
       - different paper sizes
-* Ability to export the parameter values.
 
 
 IN PROGRESS
@@ -65,4 +64,5 @@ DONE
 * Four modes for zooming.
 * Basic popup menu for single parametric points.
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
-* Replace QFile with KIO in KmplotIO
+* Replace QFile with KIO in KmplotIO.
+* Ability to export the parameter values.

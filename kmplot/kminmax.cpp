@@ -29,6 +29,10 @@
 #include <kmessagebox.h>
 #include <kpushbutton.h>
 
+#include <qtooltip.h>
+#include <qwhatsthis.h> 
+
+
 #include "kminmax.h"
 #include "xparser.h"
 
@@ -72,10 +76,23 @@ void KMinMax::init(char m)
 		lblMin->setText(i18n("Search between the x-value:"));
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText("&Find");
+		QToolTip::add(min,i18n("lower boundary of the plot range"));
+		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		QToolTip::add(max,i18n("upper boundary of the plot range"));
+		QWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		
 		if ( m_mode == 1) //find maximum point
+		{
 			setCaption(i18n("Find Maximum Point"));
+			QToolTip::add( cmdFind, i18n( "Search for the maximum point in the range you specified" ) );
+			QWhatsThis::add(cmdFind,i18n("Search for the highest y-value in the x-range you specified and show the result in a message box."));
+		}
 		else
+		{
 			setCaption(i18n("Find Minimum Point"));
+			QToolTip::add( cmdFind, i18n( "Search for the minimum point in the range you specified" ) );
+			QWhatsThis::add(cmdFind,i18n("Search for the lowest y-value in the x-range you specified and show the result in a message box."));
+		}
 	}
 	else if ( m_mode == 2) //get y-value
 	{
@@ -85,7 +102,14 @@ void KMinMax::init(char m)
 		max->setReadOnly(true);
 		min->setText("");
 		max->setText("");
+		QToolTip::add(min,i18n("lower boundary of the plot range"));
+		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		QToolTip::add(max,i18n("No returned y-value yet"));
+		QWhatsThis::add(max,i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-valute, press the Calculate button "));
+		
 		cmdFind->setText("&Calculate");
+		QToolTip::add( cmdFind, i18n( "Get the y-value from the x-value you typed" ) );
+		QWhatsThis::add(cmdFind,i18n("Get the y-value from the x-value you typed and show it in the y-value box"));
 
 	}
 	else if ( m_mode == 3) //area under a graph
@@ -96,10 +120,16 @@ void KMinMax::init(char m)
 		min->setText( range);
 		range.setNum(View::xmax);
 		max->setText(range);
+		QToolTip::add(min,i18n("lower boundary of the plot range"));
+		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		QToolTip::add(max,i18n("upper boundary of the plot range"));
+		QWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		
 		setCaption(i18n("Area Under Graph"));
 		lblMin->setText(i18n("Draw the area between the x-values:"));
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText("&Draw");
+		QToolTip::add( cmdFind, i18n( "Draw the area between the function and the y-axle and show the area in a message box" ) );
 	}
 
 	min->setFocus();
@@ -283,6 +313,8 @@ void KMinMax::cmdFind_clicked()
 			tmp.setNum(dmax);
 			max->setText(tmp);
 		}
+		QToolTip::add(max,i18n("The returned y-value"));
+		QWhatsThis::add(max,i18n("Here you see the result of the caluclation: the returned y-value you got from the x-value in the textbox above"));
 	}
 	else if ( m_mode == 3)
 	{

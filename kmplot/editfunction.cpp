@@ -299,7 +299,7 @@ void EditFunction::accept()
 			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
-		if ( tmp_fktext.dmin!=tmp_fktext.dmax && ( initx<tmp_fktext.dmin || initx>tmp_fktext.dmax) )
+		/*if ( tmp_fktext.dmin!=tmp_fktext.dmax && ( initx<tmp_fktext.dmin || initx>tmp_fktext.dmax) )
 		{
 			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(tmp_fktext.dmin).arg( tmp_fktext.dmax) );
 			showPage(2);
@@ -307,16 +307,7 @@ void EditFunction::accept()
 			editintegralpage->txtInitX->selectAll();
 			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
-		}
-		if ( tmp_fktext.dmin!=tmp_fktext.dmax && ( initx<View::xmin || initx>View::xmax) )
-		{
-			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(View::xmax).arg( View::xmax) );
-			showPage(2);
-			editintegralpage->txtInitX->setFocus();
-			editintegralpage->txtInitX->selectAll();
-			if( m_index == -1 ) m_parser->delfkt(index);
-			return;
-		}
+		}*/
 		
 		tmp_fktext.integral_mode = 1;
 	}

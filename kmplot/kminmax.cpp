@@ -203,8 +203,24 @@ void KMinMax::cmdFind_clicked()
 			max->selectAll();
 			return;
 		}
-	}
+		if ( dmin >=  dmax)
+		{
+			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+			min->setFocus();
+			min->selectAll();
+			return;
+		}
 		
+		if (  dmin<View::xmin || dmax>View::xmax )
+		{
+			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
+			min->setFocus();
+			min->selectAll();
+			return;
+		}
+	}
+	
+	
 	QString function( list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)

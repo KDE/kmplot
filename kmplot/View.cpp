@@ -168,11 +168,11 @@ void View::draw(QPaintDevice *dev, int form)
 	dgr.axesColor = Settings::axesColor().rgb();
 	dgr.gridColor=Settings::gridColor().rgb();
 	dgr.Skal( tlgx, tlgy );
+	dgr.Plot(&DC);
 	
 	if ( form!=0 && areaDraw)
 		areaUnderGraph(areaIx, areaPMode, areaMin,areaMax, &DC);
 	
-	dgr.Plot(&DC);
 	PlotArea=dgr.GetPlotArea();
 	area=DC.xForm(PlotArea);
 	hline.resize(area.width(), 1);
@@ -202,7 +202,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 	pen.setCapStyle(Qt::RoundCap);
 
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
-
+	
 	dx=stepWidth;
 	
 	pen.setWidth((int)(m_parser->fktext[ix].linewidth*s) );
@@ -1016,40 +1016,29 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QPai
 	areaMin = dmin;
 	QPoint p;
 	int ly;
-	QColor color = m_parser->fktext[ix].color;
-	if ( DC == 0)
+	QColor color;
+	switch(p_mode)
+	{
+		case 0: 
+			color = m_parser->fktext[ix].color;
+			break;
+		case 1:
+			color = m_parser->fktext[ix].f1_color;
+			break;
+		case 2:
+			color = m_parser->fktext[ix].f2_color;
+			break;
+		case 3:
+			color = m_parser->fktext[ix].anti_color;
+			break;
+	}
+	if ( DC == 0) //screen
 	{
 		buffer.fill(backgroundcolor);
 		DC = new QPainter(&buffer);
-		//DC->begin(&buffer);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC->scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
 	}
-	/*switch (form)
-	{
-		case 0:
-		{
-			ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
-			DC.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
-			break;
-		}
-		case 3:
-		{
-			double sf=180./254.;// 180dpi
-			ref=QPoint(0, 0);
-			//lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
-			//ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
-			//dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
-			//DC.end();
-			((QPixmap *)dev)->resize((int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf));
-			((QPixmap *)dev)->fill();
-			//DC.begin(dev);
-			//DC.translate(-dgr.GetFrame().left()*sf, -dgr.GetFrame().top()*sf);
-			DC.scale(sf, sf);
-			//s=1.;		
-			break;
-		}
-	}*/
 
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
 
@@ -1061,7 +1050,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QPai
 		dmax=xmax;
 	}
 	
-	//m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+	//m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]); //TODO: parameters!
 	bool forward_direction = true;
 	if ( p_mode == 3)
 	{
@@ -1132,7 +1121,6 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QPai
 				rectheight= -1*( p.y()-dgr.Transy(0.0)) ;
 			}
 			area = area + ( dx*y);
-			//kdDebug() << "Area1: " << area << endl;
 			DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 		}
 		else
@@ -1146,7 +1134,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QPai
 				rectheight = -1*( p.y()-dgr.Transy(0.0));
 			}
 			area = area + (dx*y);
-			/*kdDebug() << "Area2: " << area << endl;
+			/*kdDebug() << "Area: " << area << endl;
 			kdDebug() << "x:" << p.height() << endl;
 			kdDebug() << "y:" << p.y() << endl;
 			kdDebug() << "*************" << endl;*/
@@ -1167,24 +1155,18 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QPai
 	}
 	if (  progressbar->isVisible())
 		progressbar->hide(); // hide the progressbar-widget if it was shown
-	if ( DC->device() == &buffer)
+	if ( DC->device() == &buffer) //screen
 	{
 		DC->end();
-		kdDebug() << "Hello" << endl;
+		setFocus();
+		update();
 		draw(&buffer,0);
 	}
 	
 	if ( area>0)
 		dmin = int(area*1000)/double(1000);
 	else
-		dmin = int(area*1000)/double(1000)*-1;
-	/*QPainter qp;
-	qp.begin(&tmp_buffer);
-	bitBlt( &buffer, 0, 0, &tmp_buffer, 0, 0, width(), height(),Qt::AndROP, true  );//Qt::AndROP
-	qp.end();*/
-	
-	//if ( dev == 0)
-	//	draw(&buffer,0);
+		dmin = int(area*1000)/double(1000)*-1; //don't answer with a negative number
 	areaDraw=true;
 	areaIx = ix;
 	areaPMode = p_mode;

@@ -80,3 +80,10 @@ kmplot/keditfunction.h
 kmplot/keditfunction.cpp
 /qfunctionlist.h
 /qfunctionlist.cpp
+kmplot/settingspageprecision.ui
+kmplot/keditparametric.cpp
+kmplot/keditparametric.h
+kmplot/keditpolar.cpp
+kmplot/keditpolar.h
+kmplot/qeditparametric.ui
+kmplot/qeditpolar.ui

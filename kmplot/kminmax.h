@@ -32,22 +32,30 @@
 /**
 @author Fredrik Edemar
 */
+/// KMinMax handles all the dialogs for the items in the tool-menu.
 class KMinMax : public QMinMax
 {
 Q_OBJECT
 public:
     KMinMax(QWidget *parent = 0, const char *name = 0);
     KMinMax(View *, QWidget *parent = 0, const char *name = 0);
+    /// called every time the dialog is opened
     void init(char);
+    /// update the list with functions
     void updateFunctions();
+    /// select the right function when using the popup menu to show the dialog
     void selectItem();
 
     ~KMinMax();
    
 public slots:
+    /// the user has pressen the find/caluclate/draw button
     void cmdFind_clicked();
+    /// the selecting a function that uses parameter function from a list the user can choose which paramater value he/she wants to use
     void cmdParameter_clicked();
+    /// the button for changing the selected parameter value
     void list_highlighted(QListBoxItem*);
+    /// call cmdParameter_clicked() if parameter values is enabled for that function
     void list_doubleClicked(QListBoxItem *);
         
 private:

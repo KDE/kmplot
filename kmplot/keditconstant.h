@@ -32,12 +32,12 @@
 /**
 @author Fredrik Edemar
 */
+/// A small dialog for creating an editing constants
 class KEditConstant : public QEditConstant
 {
 Q_OBJECT
 public:
     KEditConstant(XParser *p, char &, QString &,QWidget *parent = 0, const char *name = 0);
-
     ~KEditConstant();
    
 public slots:

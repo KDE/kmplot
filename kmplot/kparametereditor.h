@@ -33,6 +33,7 @@
 /**
 @author Fredrik Edemar
 */
+/// This class handles the parameter values: it can create, remove, edit and import values.
 class KParameterEditor : public QParameterEditor
 {
 Q_OBJECT

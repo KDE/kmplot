@@ -33,6 +33,7 @@
 /**
 @author Fredrik Edemar
 */
+/// Handles all the constants.
 class KConstantEditor : public QConstantEditor
 {
 Q_OBJECT

@@ -51,6 +51,7 @@ KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
 	connect( cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
 	connect( list, SIGNAL( highlighted(QListBoxItem*) ), this, SLOT( list_highlighted(QListBoxItem*) ));
 	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( list_doubleClicked(QListBoxItem *) ));
+	parameter="";
 }
 
 
@@ -140,6 +141,8 @@ void KMinMax::init(char m)
 
 void KMinMax::updateFunctions()
 {
+	QString const selected_item(list->currentText() );
+	
 	list->clear();
 	int index;
 	QString fname, fstr;
@@ -177,12 +180,16 @@ void KMinMax::updateFunctions()
 		}
 	}
 	selectItem();
+	QListBoxItem *found_item = list->findItem(selected_item,Qt::ExactMatch);
+	if ( found_item && m_view->csmode < 0)
+	{
+		list->setSelected(found_item,true);
+	}
 }
 
 void KMinMax::selectItem()
 {
 	cmdParameter->hide();
-	parameter="kmplot";
 	if (  m_view->csmode < 0)
 		return;
 	//kdDebug() << "cstype: " << (int)m_view->cstype << endl;
@@ -286,7 +293,7 @@ void KMinMax::cmdFind_clicked()
 	index--;
 	if ( m_view->parser()->fktext[ index ].k_anz == 0)
 		parameter = "0";
-	else if ( parameter =="kmplot")
+	else if ( parameter.isEmpty())
 	{
 		KMessageBox::error(this,i18n("You must choose a parameter for that function"));
 		list_highlighted(list->selectedItem() );
@@ -373,10 +380,12 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 			stop=true;
 	}
 	ix--;
- 	if ( m_view->parser()->fktext[ ix ].str_parameter.count() ==0)
+	if ( m_view->parser()->fktext[ ix ].str_parameter.count() ==0)
  		cmdParameter->hide();
  	else
  		cmdParameter->show();
+	if (parameter.isEmpty() )
+		parameter = m_view->parser()->fktext[ ix ].str_parameter.first();
 }
 void KMinMax::cmdParameter_clicked()
 {

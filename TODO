@@ -2,12 +2,10 @@ Last modified: 2004-06-16
 
 TODO
 =========================
-* KOptDlg* obsolete
-* Polish the UI
 * Find bugs
 * More functions?
 * DCOP
-* KPart
+* KParts
 * In tool menu:
 	* find "nollställen" ( eng: where the function's value is 0) 
 	* get slope for a x-point
@@ -15,20 +13,14 @@ TODO
 * #52887, need to calculate with complex numbers.
 * Replace QFile with KIO in KmplotIO
 * Popupmenu and tracemode for parametric- and polar functions
-
-TODO for KDE 3.3
-=========================
 * Draw tangents in trace mode (pipesmoker)
 * Printing (pipesmoker)
       - different paper sizes
-* What-is-this for the new stuff 
 
 
 IN PROGRESS
 =========================
-* Configure Dialog for global Settings / save as default Checkboxes (Started)
 * Import parameter values from different file format(.csv, KSpread, OpenOffice) via Koffice (see kde-edu/kig)
-
 
 DONE
 =========================
@@ -72,3 +64,4 @@ DONE
 * Ability to print background color
 * Four modes for zooming.
 * Basic popup menu for single parametric points.
+* Configure Dialog for global Settings / save as default Checkboxes (Started)

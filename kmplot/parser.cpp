@@ -272,9 +272,7 @@ int Parser::addfkt(QString str)
 	for(int i=p1+3; i < (int) str.length();i++)
 	{
 		if( (str.at(i).isNumber() || str.at(i).category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) )
-		{
 			str.insert(i,'*');
-		}
 		else if( (str.at(i).isNumber() || str.at(i) == ')' || str.at(i).category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) )
 		{
 			str.insert(i+1,'*');

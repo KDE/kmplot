@@ -41,6 +41,6 @@ BezWnd::~BezWnd()
 
 void BezWnd::hideEvent( QHideEvent * )
 {
-	main_dlg->view_bezeichnungen->setChecked( false );
+	main_dlg->view_names->setChecked( false );
 }
 

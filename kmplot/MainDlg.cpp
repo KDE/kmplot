@@ -104,7 +104,7 @@ void MainDlg::setupActions()
 	KStdAction::openNew( this, SLOT( slotOpenNew() ), actionCollection() );
 	KStdAction::open( this, SLOT( slotOpen() ), actionCollection() );
 	m_recentFiles = KStdAction::openRecent( this, SLOT( slotOpenRecent( const KURL& ) ), actionCollection());
-	KStdAction::print( this, SLOT( print() ), actionCollection() );
+	KStdAction::print( this, SLOT( slotPrint() ), actionCollection() );
 	KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
 	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
@@ -118,7 +118,7 @@ void MainDlg::setupActions()
 	
 	// KmPLot specific actions
 	// file menu
-	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( doexport() ), actionCollection(), "export");
+	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( slotExport() ), actionCollection(), "export");
 	
 	// edit menu
 	( void ) new KAction( i18n( "&Colors..." ), "colorize.png", 0, this, SLOT( editColors() ), actionCollection(), "editcolors" );
@@ -136,10 +136,10 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "&New Function Plot..." ), "kfkt.png", 0, this, SLOT( onNewFunction() ), actionCollection(), "newfunction" );
 	( void ) new KAction( i18n( "New Parametric Plot..." ), 0, this, SLOT( onNewParametric() ), actionCollection(), "newparametric" );
 	( void ) new KAction( i18n( "New Polar Plot..." ), 0, this, SLOT( onNewPolar() ), actionCollection(), "newpolar" );
-	( void ) new KAction( i18n( "Edit Functions..." ), 0, this, SLOT( funktionen() ), actionCollection(), "functions" );
+	( void ) new KAction( i18n( "Edit Functions..." ), 0, this, SLOT( slotEditFunctions() ), actionCollection(), "functions" );
 
 	// help menu
-	view_bezeichnungen = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( bezeichnungen() ), actionCollection(), "names" );
+	view_names = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( slotNames() ), actionCollection(), "names" );
 
 	
 	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( onQuickEdit( const QString& ) ) );
@@ -220,7 +220,7 @@ void MainDlg::slotSaveas()
 	}
 }
 
-void MainDlg::doexport()
+void MainDlg::slotExport()
 {	QString filename = KFileDialog::getSaveFileName(QDir::currentDirPath(), 
 		i18n("*.svg|Scalable Vector Graphics (*.svg)\n*.bmp|Bitmap 180dpi(*.bmp)\n*.png|Bitmap 180dpi (*.png)"),
 		this, i18n("export") );
@@ -510,7 +510,7 @@ void MainDlg::parseFunction( const QDomElement & n )
 	}
 }
 
-void MainDlg::print()
+void MainDlg::slotPrint()
 {	
 	KPrinter prt( QPrinter::PrinterResolution );
 	prt.setResolution(72);
@@ -561,11 +561,11 @@ void MainDlg::editPrecision()
 	m_settingsDialog->show();
 }
 
-void MainDlg::bezeichnungen()
+void MainDlg::slotNames()
 {
 	if ( !bez )
 		bez = new BezWnd( this, "bez" );
-	if ( view_bezeichnungen->isChecked() )
+	if ( view_names->isChecked() )
 	{
 		bez->show();
 	}
@@ -597,7 +597,7 @@ void MainDlg::onNewPolar()
 	view->update();
 }
 
-void MainDlg::funktionen()
+void MainDlg::slotEditFunctions()
 {
 	if ( !fdlg ) fdlg = new FktDlg( this ); // make the dialog only if not allready done
 	fdlg->fillList(); // 

@@ -88,19 +88,15 @@ public:
 
 public slots:
 	
-	void doexport();
-	void print();
 	void editColors();
 	void editAxes();
 	void editGrid();
 	void editScaling();
 	void editFonts();
 	void editPrecision();
-	void bezeichnungen();
 	void onNewFunction();
 	void onNewParametric();
 	void onNewPolar();
-	void funktionen();
 	void onQuickEdit( const QString& );
 	void onachsen1();
 	void onachsen2();
@@ -125,7 +121,7 @@ private:
 	KStatusBar *stbar;
 	FktDlg *fdlg;
 	BezWnd *bez;
-	KToggleAction *view_bezeichnungen;
+	KToggleAction *view_names;
 	View *view;
 	QString m_sessionId;
 	KRecentFilesAction * m_recentFiles;
@@ -133,7 +129,7 @@ private:
 	bool m_modified;
 	KConfig* m_config;
 	KLineEdit* m_quickEdit;
-	
+	///A Configure KmPlot dialog instance
 	KConfigDialog* m_settingsDialog;
 	SettingsPageColor* color_settings;
 	SettingsPageCoords* coords_settings;
@@ -146,17 +142,27 @@ protected slots:
 	void slotOpen();
 	///Implement the File -> New action by cleaning the plot area
 	void slotOpenNew();
-	
+	///When you click on a File->Open Recent file, it'll open 
 	void slotOpenRecent( const KURL &url );
 	///Save a plot i.e. save the function name and all the settings for the plot
 	void slotSave();
+	///Save a plot and choose a name for it
 	void slotSaveas();
+	///Call the dialog (an instance of FktDlg) to edit the functions and make changes on them
+	void slotEditFunctions();
+	///Print the current plot
+	void slotPrint();
+	///Export the current plot as a png, svg or bmp picture
+	void slotExport();
 	///Implement the Configure KmPlot dialog
 	void slotSettings();
 	void newToolbarConfig();
 	void optionsConfigureKeys();
 	void optionsConfigureToolbars();
+	///Update settings when there is a change in the Configure KmPlot dialog
 	void updateSettings();
+	///Calls the common function names dialog
+	void slotNames();
 
 protected:
 	void openFile( const QString filename );

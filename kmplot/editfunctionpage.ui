@@ -146,7 +146,7 @@ Example: f(x)=x^2</string>
                         <string>read parameter values from a list</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Ckeck this to let KmPlot use parameter values given in a list. Edit this list by clicking the button on the right.</string>
+                        <string>Check this to let KmPlot use parameter values given in a list. Edit this list by clicking the button on the right.</string>
                     </property>
                 </widget>
                 <widget class="QRadioButton" row="1" column="0">

@@ -11,11 +11,11 @@ TODO
 	* get slope for a x-point
 * Fix the unpolished lines
 * #52887, need to calculate with complex numbers.
-* Replace QFile with KIO in KmplotIO
 * Popupmenu and tracemode for parametric- and polar functions
 * Draw tangents in trace mode (pipesmoker)
 * Printing (pipesmoker)
       - different paper sizes
+* Ability to export the parameter values.
 
 
 IN PROGRESS
@@ -65,3 +65,4 @@ DONE
 * Four modes for zooming.
 * Basic popup menu for single parametric points.
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
+* Replace QFile with KIO in KmplotIO

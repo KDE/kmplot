@@ -49,14 +49,14 @@ class KmPlotIO
 		 * @param parser points to the parser instance.
 		 * @param filename Name of the file which will be saved.
 		 */
-		bool save( XParser *parser, const KURL &file );
+		bool save( XParser *parser, const KURL &url );
 		
 		/**
 		 * Read a kmpdoc xml file to restaure the settings of a previously saved plot
 		 * @param parser points to the parser instance.
 		 * @param filename name of file which will be opened
 		 */
-		bool load( XParser *parser, const QString filename );
+		bool load( XParser *parser, const KURL &url );
 	
 	private:
 		/** Esay way to add a tag to the Dom tree

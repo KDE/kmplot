@@ -27,12 +27,16 @@
 #include <kdebug.h>
 #include <kfiledialog.h>
 #include <kinputdialog.h>
+#include <kio/netaccess.h>
 #include <klistbox.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
+#include <ktempfile.h>
+#include <kurl.h>
 #include <qfile.h>
 #include <qtextstream.h>
+
 
 #include "kparametereditor.h"
 
@@ -125,12 +129,31 @@ void KParameterEditor::cmdDelete_clicked()
 
 void KParameterEditor::cmdImport_clicked()
 {
-	QString filename = KFileDialog::getOpenFileName( QString::null,i18n("*.txt|Plain Text File "));
-	if ( filename.isEmpty() )
+	KURL url = KFileDialog::getOpenURL( QString::null,i18n("*.txt|Plain Text File "));
+	if ( url.isEmpty() )
 		return;
-	
+        
+        if (!KIO::NetAccess::exists(url,true,this) )
+        {
+                KMessageBox::error(0,i18n("The file doesn't exist."));
+                return;
+        }
+        
 	bool verbose = false;
-	QFile file(filename);
+        QFile file;
+        QString tmpfile;
+        if ( !url.isLocalFile() )
+        {
+                if ( !KIO::NetAccess::download(url, tmpfile, this) )
+                {
+                        KMessageBox::error(0,i18n("An error appeared when opening this file"));
+                        return;
+                }
+                file.setName(tmpfile);
+        }
+        else
+                file.setName(url.fileName());
+	
 	if ( file.open(IO_ReadOnly) )
 	{
 		QTextStream stream(&file);
@@ -154,6 +177,7 @@ void KParameterEditor::cmdImport_clicked()
 				if ( KMessageBox::warningYesNo(this,i18n("Line %1 is not a valid parameter value and will therefore not be included. Do you want to continue?").arg(i) ) == KMessageBox::No)
 				{
 					file.close();
+                                        KIO::NetAccess::removeTempFile( tmpfile );
 					return;
 				}
 				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?") ) == KMessageBox::No)
@@ -164,6 +188,8 @@ void KParameterEditor::cmdImport_clicked()
 	}
 	else
 		KMessageBox::error(0,i18n("An error appeared when opening this file"));
+        
+        KIO::NetAccess::removeTempFile( tmpfile );
 }
 
 void KParameterEditor::varlist_clicked( QListBoxItem * item )

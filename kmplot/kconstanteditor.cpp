@@ -31,7 +31,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <qfile.h>
 #include <qpushbutton.h>
 #include <qstringlist.h>
 #include <qvaluevector.h>

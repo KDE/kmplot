@@ -60,7 +60,7 @@ class KmPlotIO;
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_sessionId(sessionId ), m_recentFiles( 0 ), m_modified(false)
+MainDlg::MainDlg( KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ),  m_recentFiles( 0 ), m_modified(false)
 {
 	fdlg = 0;
 	m_popupmenu = new KPopupMenu(this);
@@ -79,8 +79,7 @@ MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name
 	if (args -> count() > 0)
 	{
 		m_filename = args -> url( 0 ).url(-1);
-		m_filename.remove(0,5); //removing "file:" from the filename. Otherwise QFile won't load the file.
-		if (kmplotio->load( view->parser(), m_filename ) )
+		if (kmplotio->load( view->parser(), KURL(m_filename) ) )
 		{
 			setCaption( m_filename );
 			view->updateSliders();
@@ -187,16 +186,10 @@ void MainDlg::setupActions()
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 		"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
 
-	/*for( int number = 0; number < SLIDER_COUNT; number++ )
-	{
-		( void ) new KToggleAction( i18n( "Show Slider %1" ).arg( number ), 0, this, SLOT( toggleShowSlider( bool ) ), actionCollection(), QString( "options_configure_show_slider_%1" ).arg( number ).latin1() );
-}*/
 	( void ) new KToggleAction( i18n( "Show Slider 1" ), 0, this, SLOT( toggleShowSlider0() ), actionCollection(), QString( "options_configure_show_slider_0" ).latin1() );
 	( void ) new KToggleAction( i18n( "Show Slider 2" ), 0, this, SLOT( toggleShowSlider1() ), actionCollection(), QString( "options_configure_show_slider_1" ).latin1() );
 	( void ) new KToggleAction( i18n( "Show Slider 3" ), 0, this, SLOT( toggleShowSlider2() ), actionCollection(), QString( "options_configure_show_slider_2" ).latin1() );
 	( void ) new KToggleAction( i18n( "Show Slider 4" ), 0, this, SLOT( toggleShowSlider3() ), actionCollection(), QString( "options_configure_show_slider_3" ).latin1() );
-
-
 
 	m_popupmenu->insertSeparator();
 	mnuYValue->plug(m_popupmenu);
@@ -261,6 +254,8 @@ void MainDlg::slotOpenNew()
 
 void MainDlg::slotSave()
 {
+        if ( !m_modified) //don't save if no changes are made
+                return;
 	if ( m_filename.isEmpty() )            // if there is no file name set yet
 		slotSaveas();
 	else
@@ -282,8 +277,6 @@ void MainDlg::slotSave()
 
 void MainDlg::slotSaveas()
 {
-	if ( !m_modified) //don't save if no changes are made
-		return;
 	KURL file = KFileDialog::getSaveURL( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
         
 	if ( !file.isEmpty() )
@@ -312,7 +305,7 @@ void MainDlg::slotExport()
 	if(!file.isEmpty())
 	{
 		// check if file exists and overwriting is ok.
-		if( KIO::NetAccess::exists(file,false,this ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(file.fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
+		if( KIO::NetAccess::exists(file,false,this ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(file.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
 
 		if( file.fileName().right(4).lower()==".svg")
 		{
@@ -367,14 +360,15 @@ void MainDlg::slotExport()
 void MainDlg::slotOpen()
 {
 	if( !checkModified() ) return;
-	QString filename = KFileDialog::getOpenFileName( QDir::currentDirPath(),
+	KURL file = KFileDialog::getOpenURL( QDir::currentDirPath(),
 		i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
-	if ( filename.isEmpty() ) return ;
+	if ( file.isEmpty() )
+                return;
 	view->init();
-	if ( !kmplotio->load( view->parser(), filename ) )
+	if ( !kmplotio->load( view->parser(), file ) )
 		return;
-	m_filename = filename;
-	m_recentFiles->addURL( KURL( m_filename ) );
+	m_filename = file.url();
+	m_recentFiles->addURL( file  );
 	setCaption( m_filename );
 	m_modified = false;
 	view->updateSliders();
@@ -385,7 +379,7 @@ void MainDlg::slotOpenRecent( const KURL &url )
 {
 	if( !checkModified() ) return;
 	view->init();
-	if ( !kmplotio->load( view->parser(), url.path() ) ) //if the loading fails
+	if ( !kmplotio->load( view->parser(), url ) ) //if the loading fails
 	{
 		m_recentFiles->removeURL(url ); //remove the file from the recent-opened-file-list
 		return;
@@ -512,23 +506,24 @@ void MainDlg::slotEditPlots()
 {
 	if ( !fdlg ) fdlg = new FktDlg( this, view->parser() ); // make the dialog only if not allready done
 	fdlg->getPlots();
-	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
-	kmplotio->save( view->parser(), tmpName );
+        KTempFile tmpfile;
+	kmplotio->save( view->parser(), tmpfile.name() );
 	if( fdlg->exec() == QDialog::Rejected )
 	{
 		if ( fdlg->isChanged() )
 		{
 			view->init();
-			kmplotio->load( view->parser(), tmpName );
+			kmplotio->load( view->parser(), tmpfile.name() );
 			view->drawPlot();
 		}
 	}
-	else if ( fdlg->isChanged() )
-	{
-		view->updateSliders();
-		m_modified = true;
-	}
-	QFile::remove( tmpName );
+        else if ( fdlg->isChanged() )
+        {
+                view->updateSliders();
+                m_modified = true;
+        }
+        tmpfile.unlink();
+        
 }
 
 void MainDlg::slotQuickEdit(const QString& tmp_f_str )

@@ -71,7 +71,7 @@ int main( int argc, char **argv )
 
 	KApplication ka;
 	KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
-	MainDlg *w = new MainDlg( ka.sessionId(), args );
+	MainDlg *w = new MainDlg( args );
 	w->resize( 450, 400 );
 	w->show();
 	ka.setMainWidget( w );

@@ -52,7 +52,7 @@ KmPlotIO::~KmPlotIO()
 {
 }
 
-bool KmPlotIO::save(  XParser *parser, const KURL &file )
+bool KmPlotIO::save(  XParser *parser, const KURL &url )
 {
 	// saving as xml by a QDomDocument
 	QDomDocument doc( "kmpdoc" );
@@ -170,8 +170,7 @@ bool KmPlotIO::save(  XParser *parser, const KURL &file )
 	root.appendChild( tag );
 
         QFile xmlfile;
-       
-        if (!file.isLocalFile() )
+        if (!url.isLocalFile() )
         {
                  KTempFile tmpfile;
                  xmlfile.setName(tmpfile.name() );
@@ -184,7 +183,7 @@ bool KmPlotIO::save(  XParser *parser, const KURL &file )
                  doc.save( ts, 4 );
                  xmlfile.close();
                  
-                 if ( !KIO::NetAccess::upload(tmpfile.name(), file,0))
+                 if ( !KIO::NetAccess::upload(tmpfile.name(), url,0))
                  {
                         tmpfile.unlink();
                         return false; 
@@ -193,7 +192,7 @@ bool KmPlotIO::save(  XParser *parser, const KURL &file )
         }
         else
         {
-                xmlfile.setName(file.fileName() );
+                xmlfile.setName(url.prettyURL(0,KURL::StripFileProtocol)  );
                 if (!xmlfile.open( IO_WriteOnly ) )
                         return false;
                 QTextStream ts( &xmlfile );
@@ -212,10 +211,28 @@ void KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString 
 	parentTag.appendChild( tag );
 }
 
-bool KmPlotIO::load( XParser *parser, const QString filename )
+bool KmPlotIO::load( XParser *parser, const KURL &url )
 {
 	QDomDocument doc( "kmpdoc" );
-	QFile f( filename );
+        QFile f;
+        if ( !url.isLocalFile() )
+        {
+                if( !KIO::NetAccess::exists( url, true, 0 ) )
+                {
+                        KMessageBox::error(0,i18n("The file doesn't exist."));
+                        return false;
+                }
+                QString tmpfile;
+                if( !KIO::NetAccess::download( url, tmpfile, 0 ) )
+                {
+                        KMessageBox::error(0,i18n("An error appeared when opening this file"));
+                        return false;
+                }
+                f.setName(tmpfile);
+        }
+        else
+	       f.setName( url.prettyURL(0,KURL::StripFileProtocol) );
+        
 	if ( !f.open( IO_ReadOnly ) )
 	{
 		KMessageBox::error(0,i18n("An error appeared when opening this file"));
@@ -262,6 +279,9 @@ bool KmPlotIO::load( XParser *parser, const QString filename )
 	}
 	else
 		KMessageBox::error(0,i18n("The file had an unknown version number"));
+                
+        if ( !url.isLocalFile() )
+                KIO::NetAccess::removeTempFile( f.name() );
 	return true;
 }
 

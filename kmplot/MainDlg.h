@@ -74,7 +74,7 @@ class MainDlg : public KMainWindow
 		 * @param args containing a filename to be plot on startup.
 		 * @param name
 		 */
-		MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name = NULL );
+		MainDlg( KCmdLineArgs* args, const char* name = NULL );
 		/// Cleaning up a bit.
 		virtual ~MainDlg();
 		/// This class needs access to private members, too.
@@ -116,16 +116,12 @@ class MainDlg : public KMainWindow
 		void setupStatusBar();
 		/// Asks the user and returns true if modified data shall be dicarded.
 		bool checkModified();
-		int tbid,
-		stbid;
 		/// The Statusbar instance
 		KStatusBar *stbar;
 		/// Cached dialog to edit all functions
 		FktDlg *fdlg;
 		/// Central widget of the KMainWindow instance. tralala
 		View *view;
-		/// unique string for tmp file
-		QString const m_sessionId;
 		///The Recent Files action
 		KRecentFilesAction * m_recentFiles;
 		/** Current filename of the current plot

@@ -104,7 +104,7 @@ Example: f(x)=x^2</string>
                         <cstring>checkBoxDerivative1</cstring>
                     </property>
                     <property name="text">
-                        <string>show 1st Derivative</string>
+                        <string>Show 1st derivative</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>show first derivative</string>
@@ -118,7 +118,7 @@ Example: f(x)=x^2</string>
                         <cstring>checkBoxDerivative2</cstring>
                     </property>
                     <property name="text">
-                        <string>show 2nd Derivative</string>
+                        <string>Show 2nd derivative</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>show second derivative</string>
@@ -194,7 +194,7 @@ Example: f(x,k)=k*x^2</string>
                         <cstring>textLabel1_2</cstring>
                     </property>
                     <property name="text">
-                        <string>max:</string>
+                        <string>Max:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>max</cstring>
@@ -205,7 +205,7 @@ Example: f(x,k)=k*x^2</string>
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>min:</string>
+                        <string>Min:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>min</cstring>

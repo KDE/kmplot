@@ -98,7 +98,7 @@
                 <cstring>groupBox2</cstring>
             </property>
             <property name="title">
-                <string>Background color</string>
+                <string>Background Color</string>
             </property>
             <widget class="KColorButton">
                 <property name="name">

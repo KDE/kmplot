@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Constant editor</string>
+        <string>Constant Editor</string>
     </property>
     <grid>
         <property name="name">
@@ -44,7 +44,7 @@
                 <bool>false</bool>
             </property>
             <property name="text">
-                <string>&amp;Change value</string>
+                <string>&amp;Change Value</string>
             </property>
             <property name="toolTip" stdset="0">
                 <string>Change the value of a user-defined constant</string>

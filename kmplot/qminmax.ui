@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Find minimum point</string>
+        <string>Find Minimum Point</string>
     </property>
     <grid>
         <property name="name">
@@ -49,7 +49,7 @@
                         <cstring>lblMin</cstring>
                     </property>
                     <property name="text">
-                        <string>Search between the x-value</string>
+                        <string>Search between the x-value:</string>
                     </property>
                     <property name="alignment">
                         <set>AlignCenter</set>
@@ -60,7 +60,7 @@
                         <cstring>lblMax</cstring>
                     </property>
                     <property name="text">
-                        <string>and</string>
+                        <string>and:</string>
                     </property>
                     <property name="alignment">
                         <set>AlignCenter</set>
@@ -133,7 +133,7 @@
                 <cstring>cmdParameter</cstring>
             </property>
             <property name="text">
-                <string>Choose parameter-value</string>
+                <string>Choose Parameter Value</string>
             </property>
         </widget>
     </grid>

@@ -125,7 +125,7 @@ Example: loop(angle)=ln(angle)</string>
                         <cstring>textLabel1_2</cstring>
                     </property>
                     <property name="text">
-                        <string>max:</string>
+                        <string>Max:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>max</cstring>
@@ -136,7 +136,7 @@ Example: loop(angle)=ln(angle)</string>
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>min:</string>
+                        <string>Min:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>min</cstring>

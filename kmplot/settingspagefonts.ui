@@ -46,7 +46,7 @@
                 <cstring>textLabel11</cstring>
             </property>
             <property name="text">
-                <string>&amp;Header Table</string>
+                <string>&amp;Header table:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>kcfg_HeaderTableFont</cstring>
@@ -57,7 +57,7 @@
                 <cstring>textLabel10</cstring>
             </property>
             <property name="text">
-                <string>Axis &amp;Labels</string>
+                <string>Axis &amp;labels:</string>
             </property>
             <property name="buddy" stdset="0">
                 <cstring>kcfg_AxesFont</cstring>

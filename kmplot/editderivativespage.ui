@@ -91,10 +91,10 @@
                         <cstring>showDerivative1</cstring>
                     </property>
                     <property name="text">
-                        <string>show &amp;1st Derivative</string>
+                        <string>Show &amp;1st Derivative</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>show first derivative</string>
+                        <string>Show first derivative</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>If this box is checked, the first derivative will be plotted, too.</string>
@@ -196,10 +196,10 @@
                         <cstring>showDerivative2</cstring>
                     </property>
                     <property name="text">
-                        <string>show &amp;2nd Derivative</string>
+                        <string>Show &amp;2nd Derivative</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>show second derivative</string>
+                        <string>Show second derivative</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>If this box is checked, the first derivative will be plotted, too.</string>

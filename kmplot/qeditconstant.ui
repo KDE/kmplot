@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Edit constant</string>
+        <string>Edit Constant</string>
     </property>
     <property name="modal">
         <bool>true</bool>
@@ -48,10 +48,13 @@
                 </property>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>cmdCancel</cstring>
+                        <cstring>cmdOK</cstring>
                     </property>
                     <property name="text">
-                        <string>Cancel</string>
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
                     </property>
                 </widget>
                 <spacer>
@@ -73,13 +76,10 @@
                 </spacer>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>cmdOK</cstring>
+                        <cstring>cmdCancel</cstring>
                     </property>
                     <property name="text">
-                        <string>OK</string>
-                    </property>
-                    <property name="default">
-                        <bool>true</bool>
+                        <string>&amp;Cancel</string>
                     </property>
                 </widget>
             </hbox>

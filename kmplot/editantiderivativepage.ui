@@ -24,7 +24,7 @@
                 <cstring>showAntiderivative</cstring>
             </property>
             <property name="text">
-                <string>Show Antiderivative</string>
+                <string>Show antiderivative</string>
             </property>
             <property name="toolTip" stdset="0">
                 <string>hide the plot</string>
@@ -125,7 +125,7 @@
                         <cstring>customPrecision</cstring>
                     </property>
                     <property name="text">
-                        <string>Custom &amp;Precision</string>
+                        <string>Custom &amp;precision</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>customize the precision</string>

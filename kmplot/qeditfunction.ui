@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>293</width>
-            <height>453</height>
+            <height>455</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -400,6 +400,12 @@ Example: f(x)=x^2</string>
         <receiver>max</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
+    <connection>
+        <sender>buttonHelp</sender>
+        <signal>clicked()</signal>
+        <receiver>QEditFunction</receiver>
+        <slot>slotHelp()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>kLineEditYFunction</tabstop>
@@ -415,6 +421,9 @@ Example: f(x)=x^2</string>
     <tabstop>buttonCancel</tabstop>
     <tabstop>buttonHelp</tabstop>
 </tabstops>
+<slots>
+    <slot>slotHelp()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>282</width>
-            <height>397</height>
+            <height>399</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -377,6 +377,12 @@ Example: loop(angle)=ln(angle)</string>
         <receiver>max</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
+    <connection>
+        <sender>buttonHelp</sender>
+        <signal>clicked()</signal>
+        <receiver>QEditPolar</receiver>
+        <slot>slotHelp()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>kLineEditYFunction</tabstop>
@@ -390,6 +396,9 @@ Example: loop(angle)=ln(angle)</string>
     <tabstop>buttonCancel</tabstop>
     <tabstop>buttonHelp</tabstop>
 </tabstops>
+<slots>
+    <slot>slotHelp()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>

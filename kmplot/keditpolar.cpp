@@ -28,6 +28,7 @@
 #include <qwhatsthis.h>
 
 // KDE includes
+#include <kapplication.h>
 #include <kcolorbutton.h>
 #include <knuminput.h>
 #include <klineedit.h>
@@ -66,7 +67,7 @@ void KEditPolar::clearWidgets()
 	min->clear();
 	max->clear();
 	kIntNumInputLineWidth->setValue( m_parser->dicke0 );	
-	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].farbe0 );
+	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].farbe );
 }
 
 /**
@@ -134,4 +135,9 @@ void KEditPolar::accept()
 const QString KEditPolar::functionItem()
 {
 	return "r" + kLineEditYFunction->text();
+}
+
+void KEditPolar::slotHelp()
+{
+	kapp->invokeHelp( "", "kmplot" );
 }

@@ -50,8 +50,9 @@ class KEditParametric : public QEditParametric
 		XParser* m_parser;
 		int m_x_index, m_y_index;
 		
-	protected:
+	protected slots:
 		virtual void accept();
+		void slotHelp();
 };
 
 #endif

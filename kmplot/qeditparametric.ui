@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>293</width>
-            <height>432</height>
+            <height>434</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -511,6 +511,12 @@ Example: sin(t)</string>
         <receiver>textLabelYF</receiver>
         <slot>setText(const QString&amp;)</slot>
     </connection>
+    <connection>
+        <sender>buttonHelp</sender>
+        <signal>clicked()</signal>
+        <receiver>QEditParametric</receiver>
+        <slot>slotHelp()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>kLineEditName</tabstop>
@@ -526,6 +532,9 @@ Example: sin(t)</string>
     <tabstop>buttonCancel</tabstop>
     <tabstop>buttonHelp</tabstop>
 </tabstops>
+<slots>
+    <slot>slotHelp()</slot>
+</slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>

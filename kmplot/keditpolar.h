@@ -47,8 +47,9 @@ class KEditPolar : public QEditPolar
 		XParser* m_parser;
 		int m_index;
 		
-	protected:
+	protected slots:
 		virtual void accept();
+		void slotHelp();
 };
 
 #endif

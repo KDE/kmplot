@@ -76,14 +76,13 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 	{"abs", fabs}		// Absolute value
 };
                                    
-Parser::Parser( int anz, int m_size, int s_size )
-{   ps_init( anz, m_size, s_size );
+Parser::Parser( int m_size, int s_size )
+{   ps_init( m_size, s_size );
 }
 
 
-void Parser::ps_init(int anz, int m_size, int s_size)
+void Parser::ps_init(int m_size, int s_size)
 {
-	ufanz=anz;
 	memsize=m_size;
 	stacksize=s_size;
 	evalflg=ixa=0;
@@ -91,18 +90,20 @@ void Parser::ps_init(int anz, int m_size, int s_size)
         temp.memsize=memsize;
         temp.stacksize=stacksize;
         temp.fname = temp.fvar = temp.fpar = temp.fstr = "";
-        for(int ix=0; ix<ufanz; ++ix)
-        {
-                temp.mem=new unsigned char [memsize];
-                ufkt.append(temp );
-        }
+
+        temp.mem=new unsigned char [memsize];
+        ufkt.append(temp );
 }
 
 
 Parser::~Parser()
 {
+        kdDebug() << "Exiting......" << endl;
         for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        {
+                kdDebug() << "Deleting something... :-)" << endl;
                 delete [](*it).mem;
+        }
 }
 
 
@@ -232,23 +233,15 @@ double Parser::Ufkt::fkt(double x)
 	}
 }
 
-int Parser::getNextIndex()
-{
-	int ix = 0;
-	while( ( ix < ufanz ) && !ufkt[ ix ].fname.isEmpty() ) ix++;
-	if( ix == ufanz ) ix = -1;
-	return ix;
-}
-
 int Parser::addfkt(QString str)
-{   int ix;
-	
+{
 	stkptr=stack=0;
 	err=0;
 	errpos=1;
 	const int p1=str.find('(');
 	int p2=str.find(',');
 	const int p3=str.find(")=");
+        
 	
         fix_expression(str,p1+4);
         
@@ -261,34 +254,55 @@ int Parser::addfkt(QString str)
 		return -1;
 	}
 	if(p2==-1 || p2>p3) p2=p3;
-	if(getfix(str.left(p1))!=-1)
-	{   err=8;
+	
+        if( getfix(str.left(p1)) )
+	{
+                err=8;
 		return -1;
 	}
-	else err=0;
+	else
+                err=0;
 	
 	if (str.mid(p1+1, p2-p1-1) == "e")
 	{   err=4;
 		return -1;
 	}
-	
-	for(ix=0; ix<ufanz; ++ix)
-	{   if(ufkt[ix].fname.isEmpty())
-		{   ufkt[ix].fname=str.left(p1);
-			ufkt[ix].fvar=str.mid(p1+1, p2-p1-1);
-			ufkt[ix].fstr=str;
-			if(p2<p3) ufkt[ix].fpar=str.mid(p2+1, p3-p2-1);
-			else ufkt[ix].fpar="";      //.resize(1);
-			break;
-		}
-	}
-	if(ix==ufanz)
-	{   err=5;
-		return -1;
-	}	// zu viele Funktionen
-	
-	if ( ufkt[ix].fname != ufkt[ix].fname.lower() ) //isn't allowed to contain capital letters
+        int ix;
+        if ( ufkt.begin()->fname.isEmpty() )
+        {
+                ufkt.begin()->fname=str.left(p1);
+                ufkt.begin()->fvar=str.mid(p1+1, p2-p1-1);
+                ufkt.begin()->fstr=str;
+                if(p2<p3) ufkt.begin()->fpar=str.mid(p2+1, p3-p2-1);
+                else ufkt.begin()->fpar="";      //.resize(1);
+                ix = 0;
+        }
+        else
+        {
+                
+                Ufkt temp;
+                temp.memsize=memsize;
+                temp.stacksize=stacksize;
+                temp.mem=new unsigned char [memsize];
+                temp.fname=str.left(p1);
+                temp.fvar=str.mid(p1+1, p2-p1-1);
+                temp.fstr=str;
+                if(p2<p3) temp.fpar=str.mid(p2+1, p3-p2-1);
+                else temp.fpar="";
+                
+                ufkt.append(temp );
+                ix = ufkt.count()-1;
+        }
+        Ufkt *temp = &ufkt[ix];
+	if ( temp->fname != temp->fname.lower() ) //isn't allowed to contain capital letters
 	{
+                if (ufkt.count() == 1)
+                        ufkt.begin()->fname="";  //.resize(1);
+                else
+                {
+                        delete []ufkt.last().mem;
+                        ufkt.pop_back();
+                }
 		err=12;
 		return -1;
 	}
@@ -300,14 +314,22 @@ int Parser::addfkt(QString str)
 	addtoken(ENDE);
 
 	if(err!=0)
-	{   ufkt[ix].fname="";  //.resize(1);
-		errpos=lptr-(str.latin1())+1;
+	{
+                errpos=lptr-(str.latin1())+1;
+                if (ufkt.count() == 1)
+                        ufkt.begin()->fname="";  //.resize(1);
+                else
+                {
+                        delete []ufkt.last().mem;
+                        ufkt.pop_back();
+                }
 		return -1;
 	}
 	
 	errpos=0;
 	return ix;
 }
+
 
 void Parser::reparse(int ix)
 {
@@ -378,6 +400,15 @@ void Parser::fix_expression(QString &str, int const pos)
                         }
                         if (str_function == "tanh" || str_function == "tan" || str_function =="sqrt" || str_function =="sqr" || str_function =="sin" || str_function =="sinh" || str_function =="sign" || str_function =="sech" || str_function =="sec" || str_function =="log" || str_function =="ln" || str_function =="exp" || str_function =="coth" || str_function =="cot" || str_function =="cosh" || str_function =="cosech" || str_function =="cosec" || str_function =="cos" || str_function =="artanh" || str_function =="arsinh" || str_function =="arsech" || str_function =="arctan" || str_function =="arcsin" || str_function =="arcsec" || str_function =="arcoth" || str_function =="arcosh" || str_function =="arcosech" || str_function =="arccot" || str_function =="arccosec" || str_function =="arccos" || str_function =="abs")
                                 function = true;
+                        else
+                                for( QValueVector<XParser::Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                                {
+                                        for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
+                                        {
+                                                if ( it->fname == str.mid(j,i-j+1) )
+                                                        function = true;
+                                        }
+                                }
                 }
                 else  if (function)
                         function = false;
@@ -396,33 +427,31 @@ void Parser::fix_expression(QString &str, int const pos)
         str.append(str_end);
 }
 
-int Parser::delfkt(QString name)
-{   int ix;
-
-	ix=getfix(name);
-	if(ix!=-1) ufkt[ix].fname="";   //.resize(1);	// Name l�chen
-	return ix;
+void Parser::delfkt( QValueVector<Parser::Ufkt>::iterator item)
+{
+        if ( ufkt.count()==1 )
+        {
+                kdDebug() << "first item, don't delete" << endl;
+                ufkt.first().fname="";
+        }
+        else
+        {
+                kdDebug() << "Deleting something... :-)" << endl;
+                delete [](*item).mem;
+                ufkt.erase(item);
+        }
 }
 
-
-int Parser::delfkt(int ix)
-{   if(ix<0 || ix>=ufanz) return -1;	// ungltiger Index
-
-	ufkt[ix].fname="";      //.resize(1);			// Name l�chen
-	return ix;
+bool Parser::delfkt(int ix)
+{
+        if ( ix >=0 && ix<(int)ufkt.count() ) // range check
+        {
+                delfkt( &ufkt[ix] );
+                return true;
+        }
+        else
+                return false;
 }
-
-
-double Parser::fkt(QString name, double x)
-{   int ix;
-
-	ix=getfix(name);
-	if(ix==-1) return 0.;
-
-	return ufkt[ix].fkt(x);
-}
-
-
 void Parser::heir1()
 {   char c;
 
@@ -509,7 +538,8 @@ void Parser::heir4()
 
 
 void Parser::primary()
-{   char *p;
+{
+        char *p;
 	int i;
 	double w;
 
@@ -528,16 +558,26 @@ void Parser::primary()
 		}
 	}
 
-	for(i=0; i<ufanz; ++i)
-	{   if(ufkt[i].fname[0]==0) continue;
-		if(match(ufkt[i].fname.latin1()))
-		{   if(i==ixa) {err=9; return;}
-		
+        i=0;
+        for( QValueVector<XParser::Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+	{
+                if(it->fname[0]==0) continue;
+		if( match(it->fname.latin1()) )
+		{
+                        if(i==ixa)
+                        {
+                                if (i==ixa)
+                                {
+                                        err=9;
+                                        return;
+                                }
+                        }
 			primary();
 			addtoken(UFKT);
-			addfptr(&ufkt[i]);
+                        addfptr(it);
 			return;
 		}
+                ++i;
 	}
 	// A constant
 	if(lptr[0] >='A' && lptr[0]<='Z' )
@@ -588,11 +628,15 @@ void Parser::primary()
 
 	w=strtod(lptr, &p);
 	if(lptr!=p)
-	{   lptr=p;
+	{
+                lptr=p;
 		addtoken(KONST);
 		addwert(w);
 	}
-	else err=1;				// Syntax-Fehler
+	else
+        {
+                err=1;				// Syntax-Fehler
+        }
 }
 
 
@@ -705,31 +749,14 @@ void Parser::addfptr(Ufkt *adr)
 }
 
 
-int Parser::chkfix(int ix)
-{   if(ix<0 || ix>=ufanz) return -1;		// ungltiger Index
-	if(ufkt[ix].fname.isEmpty()) return -1;	// keine Funktion
-	return ix;
-}
-
-
-int Parser::getfkt(int ix, QString& name, QString& str)
-{   if(ix<0 || ix>=ufanz) return -1;		// ungltiger Index
-	if(ufkt[ix].fname.isEmpty()) return -1;	// keine Funktion
-	name=ufkt[ix].fname.copy();
-	str=ufkt[ix].fstr.copy();
-	return ix;
-}
-
-
-int Parser::getfix(QString name)
-{   int ix;
-
-	err=0;
-	for(ix=0; ix<ufanz; ++ix)
-	{   if(name==ufkt[ix].fname) return ix;
+bool Parser::getfix(QString name)
+{
+        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+	{
+                if(name==it->fname)
+                        return true;
 	}
-	err=3;					// Name nicht bekannt
-	return -1;
+	return false;     // Name nicht bekannt
 }
 
 

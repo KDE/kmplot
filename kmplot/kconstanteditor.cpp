@@ -81,18 +81,16 @@ void KConstantEditor::cmdDelete_clicked()
 {
 	if ( !varlist->currentItem() )
 		return;
-	int index;
+
 	QString fname, fstr, str;
 	bool stop = false;
 	constant = varlist->currentItem()->text(0).at(0).latin1();
 	value = varlist->currentItem()->text(1);
 	
-	
-	
-	for ( index = 0; index < m_view->parser()->ufanz  && !stop; ++index )
+        //for ( index = 0; index < m_view->parser()->fktext.count() && !stop; ++index )
+        for( QValueVector<XParser::FktExt>::iterator it =  m_view->parser()->fktext.begin(); it !=  m_view->parser()->fktext.end(); ++it)
 	{
-		if ( m_view->parser()->getfkt( index, fname, fstr ) == -1 ) continue;
-		str =  m_view->parser()->fktext[ index ].extstr ;
+		str =  it->extstr;
 		for (int i=str.find(')'); (uint)i<str.length() && !stop;i++)
 			if ( str.at(i) == constant )
 				stop = true;
@@ -208,11 +206,14 @@ void KConstantEditor::editConstantSlot()
 		item->setText(1,value);
 	
 	QString fname, fstr;
-	for ( int index = 0; index < m_view->parser()->ufanz; ++index )
+        //for ( uint index = 0; index < m_view->parser()->fktext.count(); ++index )
+
+        int index = 0;
+        for( QValueVector<Parser::Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
-		if ( m_view->parser()->getfkt( index, fname, fstr ) == -1 ) continue;
-		if( fstr.contains(constant)!=0 )
+		if( it->fstr.contains(constant)!=0 )
 			m_view->parser()->reparse(index); //reparsing the function
+                ++index;
 	}
 	
 	m_view->drawPlot();

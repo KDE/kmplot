@@ -1,4 +1,4 @@
-Last modified: 2004-06-16
+Last modified: 2004-09-06
 
 TODO
 =========================
@@ -7,7 +7,7 @@ TODO
 * DCOP
 * KParts
 * In tool menu:
-	* find "nollställen" ( eng: where the function's value is 0) 
+	* find "nollställen" ( en: where the function's value is 0) 
 	* get slope for a x-point
 * Fix the unpolished lines
 * #52887, need to calculate with complex numbers.
@@ -66,3 +66,5 @@ DONE
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
 * Replace QFile with KIO in KmplotIO.
 * Ability to export the parameter values.
+* Support for more than 10 functions.
+* Support for more than 10 parameter values for a function.

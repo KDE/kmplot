@@ -60,22 +60,23 @@ void FktDlg::slotDelete()
 		PushButtonDel->setEnabled(false);
 		return;
 	}
-	int ix, num;
+	int num;
 	if ( ( num = lb_fktliste->currentItem() ) == -1 ) return ;
 	
 	if( lb_fktliste->text( num )[0] == 'x' )
 	{
 		// Delete pair of parametric function
-		int i, j;
-		getParamIx( lb_fktliste->text( num ), i, j );
-		m_parser->delfkt( i );
-		m_parser->delfkt( j );
+		int const i = getParamIx( lb_fktliste->text( num ) );
+                if ( i == -1)
+                        return;
+                m_parser->delfkt( i+1 );
+                m_parser->delfkt( i );
 	}
 	else 
 	{
 		// only one function to be deleted
-		ix = getIx( lb_fktliste->text( num ) );
-		m_parser->delfkt( ix );
+		m_parser->delfkt( getIx( lb_fktliste->text( num ) ) );
+                
 	}
 	lb_fktliste->removeItem( num );
 	changed = true;
@@ -89,11 +90,11 @@ void FktDlg::slotEdit()
 		PushButtonEdit->setEnabled(false);
 		return;
 	}
-	int num = lb_fktliste->currentItem();
-	int index = getIx( lb_fktliste->text( num ).section( ";", 0, 0) );
+	int const num = lb_fktliste->currentItem();
+	int index = getIx( lb_fktliste->currentText().section( ";", 0, 0) );
 	
 	// find out the function type
-	char prefix = m_parser->fktext[ index ].extstr.at(0).latin1();
+	char const prefix = m_parser->fktext[ index ].extstr.at(0).latin1();
 	
 	if ( prefix == 'r')
 		slotEditPolar( index, num );
@@ -103,28 +104,29 @@ void FktDlg::slotEdit()
 		slotEditFunction( index, num );
 }
 
-int FktDlg::getIx( const QString f_str )
+int FktDlg::getIx( const QString &f_str )
 {
-	QString fname;
-	QString fstr;
-	for ( int ix = 0; ix < m_parser->ufanz; ++ix )
+        int ix=0;
+        for( QValueVector<XParser::FktExt>::iterator it =  m_parser->fktext.begin(); it !=  m_parser->fktext.end(); ++it)
 	{
-		if ( m_parser->getfkt( ix, fname, fstr ) == -1 )
-			continue;
-
-		if ( m_parser->fktext[ ix ].extstr == f_str )
+		if ( it->extstr == f_str )
 			return ix;
+                ++ix;
 	}
 	return -1;
 }
 
-void FktDlg::getParamIx( const QString f_str, int &index1, int &index2 )
+int FktDlg::getParamIx( const QString &f_str)
 {
-	QString fname = f_str.section( "(", 0, 0 );
-	index1 = m_parser->getfix( fname );
-	if( fname[0] == 'x' ) fname[0] = 'y';
-	else fname[0] = 'x';
-	index2 = m_parser->getfix( fname );
+	QString const fname = f_str.section( "(", 0, 0 );
+        int ix=0;
+        for( QValueVector<Parser::Ufkt>::iterator it =  m_parser->ufkt.begin(); it !=  m_parser->ufkt.end(); ++it)
+        {
+                if ( it->fname == fname )
+                        return ix;
+                ++ix;
+        }
+        return -1;
 }
 
 void FktDlg::updateView()
@@ -199,25 +201,19 @@ void FktDlg::slotNewPolar()
 
 void FktDlg::getPlots()
 {
-	int index;
-	QString fname, fstr;
-
 	lb_fktliste->clear();
 
 	// adding all yet added functions
-	for ( index = 0; index < m_parser->ufanz; ++index )
+        for( QValueVector<XParser::FktExt>::iterator it = m_parser->fktext.begin(); it != m_parser->fktext.end(); ++it)
 	{
-		if ( m_parser->getfkt( index, fname, fstr ) == -1 ) continue;
-		if( fname[0] == 'y' ) continue;
-		if( fname[0] == 'x' )
+                if( it->extstr[0] == 'y' ) continue;
+		if( it->extstr[0] == 'x' )
 		{
-			QString y_name( fname );
-			y_name[0] = 'y';
-			int y_index = m_parser->getfix( y_name );
-			if( y_index == -1 ) continue;
-			lb_fktliste->insertItem( m_parser->fktext[ index ].extstr + ";" + m_parser->fktext[ y_index ].extstr );
+                        QString y = it->extstr;
+                        ++it;
+			lb_fktliste->insertItem( y + ";" + it->extstr );
 		}
-		else lb_fktliste->insertItem( m_parser->fktext[ index ].extstr );
+		else lb_fktliste->insertItem( it->extstr );
 	}
 }
 

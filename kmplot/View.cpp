@@ -87,8 +87,7 @@ void KmPlotProgress::increase()
 
 View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() ), m_popupmenu(p), m_modified(mo)
 {   
-	m_parser = new XParser( UFANZ, MEMSIZE, STACKSIZE );
-
+	m_parser = new XParser(MEMSIZE, STACKSIZE );
 	init();
 	csflg=0;
 	csmode=-1;
@@ -128,7 +127,7 @@ XParser* View::parser()
 }
 
 void View::draw(QPaintDevice *dev, int form)
-{	int ix, lx, ly;
+{	int lx, ly;
 	float sf;
 	QRect rc;
 	QPainter DC;				// our painter
@@ -169,7 +168,6 @@ void View::draw(QPaintDevice *dev, int form)
 		//DC.end();
 		//((QPixmap *)dev)->fill(QColor("#FF00FF"));
 		//DC.begin(dev);
-		
 	}
 	else if(form==2)								// svg
 	{	ref=QPoint(0, 0);
@@ -221,11 +219,10 @@ void View::draw(QPaintDevice *dev, int form)
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
 	stop_calculating = false;
-	for(ix=0; ix<m_parser->ufanz && !stop_calculating; ++ix)
-	{
-		if(m_parser->chkfix(ix)==-1) continue;
+        
+        for(uint ix=0; ix<m_parser->fktext.count() && !stop_calculating; ++ix)
 		plotfkt(ix, &DC);
-	}
+
 	isDrawing=false;
 	restoreCursor();
 	csflg=0;
@@ -233,24 +230,25 @@ void View::draw(QPaintDevice *dev, int form)
 }
 
 
-void View::plotfkt(int ix, QPainter *pDC)
+void View::plotfkt(int const ix, QPainter *pDC)
 {	
-	char fktmode, p_mode;
+	char p_mode;
 	int iy, k, ke, mflg;
 	double x, y, dmin, dmax;
-	QString fname, fstr;
 	QPoint p1, p2;
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
 
-	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
-
-	fktmode=m_parser->fktext[ix].extstr[0].latin1();
+        
+        QValueVector<Parser::Ufkt>::iterator ufkt = &m_parser->ufkt[ix];
+        QValueVector<XParser::FktExt>::iterator fktext = &m_parser->fktext[ix];
+        
+	char const fktmode=fktext->extstr[0].latin1();
 	if(fktmode=='y') return ;
 	
-	dmin=m_parser->fktext[ix].dmin;
-	dmax=m_parser->fktext[ix].dmax;
-	
+	dmin=fktext->dmin;
+	dmax=fktext->dmax;
+        
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
 		if(fktmode=='r')
@@ -264,7 +262,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 			dmax=xmax;
 		}
 	}
-	
 	double dx;
 	if(fktmode=='r') 
 		dx=stepWidth*0.05/(dmax-dmin);
@@ -272,53 +269,55 @@ void View::plotfkt(int ix, QPainter *pDC)
 		dx=stepWidth*(dmax-dmin)/area.width();
 	
 	if(fktmode=='x')
-	{   
-		m_parser->getfkt(ix, fname, fstr);
-		fname[0]='y';
-		iy=m_parser->getfix(fname);
-		if(iy==-1) 
-			return;
-	}
-	
+                iy = ix+1;
 	p_mode=0;
-	pen.setWidth((int)(m_parser->fktext[ix].linewidth*s) );
-	pen.setColor(m_parser->fktext[ix].color);
+	pen.setWidth((int)(fktext->linewidth*s) );
+	pen.setColor(fktext->color);
 	pDC->setPen(pen);
+        
+        
 	while(1)
-	{  
+	{
+                
 		k=0;
-		ke=m_parser->fktext[ix].k_anz;
+		ke=fktext->k_liste.count();
 		do
-		{ 
+		{
+                        //kdDebug() << "drawing " << ix << endl;
 			if ( p_mode == 3 && stop_calculating)
 				break;
-			if( m_parser->fktext[ ix ].use_slider == -1 )
-				m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+                        
+			if( fktext->use_slider == -1 )
+                        {
+                                if ( !fktext->k_liste.isEmpty() )
+				    ufkt->setParameter( fktext->k_liste[k] );
+                        }
 			else
-				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
+				ufkt->setParameter( sliders[ fktext->use_slider ]->slider->value() );
+     
 			mflg=2;
-			
 			if ( p_mode == 3)
 			{
-				if ( m_parser->fktext[ix].integral_use_precision )
-					dx =  m_parser->fktext[ix].integral_precision*(dmax-dmin)/(area.width()*10);
+				if ( fktext->integral_use_precision )
+					dx =  fktext->integral_precision*(dmax-dmin)/(area.width()*10);
 				else
 
 					dx=dx/10;
 				progressbar->progress->reset();
 				progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 				progressbar->show();
-				x = m_parser->fktext[ix].startx; //the initial x-point
+				x = fktext->startx; //the initial x-point
 			}
 			else
 				x=dmin;
 			bool forward_direction;
+
 			if (dmin<0 && dmax<0)
 				forward_direction = false;
 			else
 				forward_direction = true;
-			
-			if ( p_mode != 0 || m_parser->fktext[ix].f_mode) // if not the function is hidden
+                                
+			if ( p_mode != 0 || fktext->f_mode) // if not the function is hidden
 				while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
 			{
 				if ( p_mode == 3 && stop_calculating)
@@ -330,7 +329,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 				switch(p_mode)
 				{
 					case 0: 
-						y=m_parser->fkt(ix, x);
+						y=ufkt->fkt(x);
 						break;
 					
 					case 1:
@@ -341,7 +340,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 						break;
 					case 3:
 					{
-						y=m_parser->fkt(ix, x);
+						y=ufkt->fkt(x);
 						m_parser->euler_method(x, y,ix);
 						if ( int(x*100)%2==0)
 						{
@@ -396,7 +395,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 						if (x>dmax && p_mode== 3)
 						{
 							forward_direction = false;
-							x = m_parser->fktext[ix].startx;
+							x = fktext->startx;
 							mflg=2;
 						}
 					}
@@ -409,30 +408,31 @@ void View::plotfkt(int ix, QPainter *pDC)
 		}
         	while(++k<ke);
 	
-		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) //draw the 1st derivative
+		if(fktext->f1_mode==1 && p_mode< 1) //draw the 1st derivative
 		{
 			p_mode=1;
-			pen.setWidth((int)(m_parser->fktext[ix].f1_linewidth*s) );
-			pen.setColor(m_parser->fktext[ix].f1_color);
+			pen.setWidth((int)(fktext->f1_linewidth*s) );
+			pen.setColor(fktext->f1_color);
 			pDC->setPen(pen);
 		}
-		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) //draw the 2nd derivative
+		else if(fktext->f2_mode==1 && p_mode< 2) //draw the 2nd derivative
 		{
 			p_mode=2;
-			pen.setWidth((int)(m_parser->fktext[ix].f2_linewidth*s) );
-			pen.setColor(m_parser->fktext[ix].f2_color);
+			pen.setWidth((int)(fktext->f2_linewidth*s) );
+			pen.setColor(fktext->f2_color);
 			pDC->setPen(pen);
 		}
-		else if( m_parser->fktext[ix].integral_mode==1 && p_mode< 3) //draw the integral
+		else if( fktext->integral_mode==1 && p_mode< 3) //draw the integral
 		{
 			p_mode=3;
-			pen.setWidth((int)(m_parser->fktext[ix].integral_linewidth*s) );
-			pen.setColor(m_parser->fktext[ix].integral_color);
+			pen.setWidth((int)(fktext->integral_linewidth*s) );
+			pen.setColor(fktext->integral_color);
 			pDC->setPen(pen);
 		}
 		else break; //otherwise stop
 
 	}
+
 	if (  progressbar->isVisible())
 	{
 		progressbar->hide(); // hide the progressbar-widget if it was shown
@@ -443,7 +443,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 }
 
 void View::drawHeaderTable(QPainter *pDC)
-{   int ix, ypos;
+{
 	QString alx, aly, atx, aty, dfx, dfy;
 	
 	if( m_printHeaderTable )
@@ -492,9 +492,9 @@ void View::drawHeaderTable(QPainter *pDC)
 
 		pDC->drawText(0, 300, i18n("Functions:"));
 		pDC->Lineh(0, 320, 700);
-		for(ix=0, ypos=380; ix<m_parser->ufanz; ++ix)
+                int ypos = 380;
+                for(uint ix=0; ix<m_parser->fktext.count() && !stop_calculating; ++ix)
 		{
-			if(m_parser->chkfix(ix)==-1) continue;
 			pDC->drawText(100, ypos, m_parser->fktext[ix].extstr);
 			ypos+=60;
 		}
@@ -636,12 +636,16 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		DC.setWorldMatrix(wm);
 		ptl=DC.xFormDev(e->pos());
 	
-		if((csmode=m_parser->chkfix(csmode)) >= 0)
+		if( csmode >= 0 && csmode <= (int)m_parser->fktext.count() )
 		{
-			if( m_parser->fktext[ csmode ].use_slider == -1 )
-				m_parser->setparameter(csmode, m_parser->fktext[csmode].k_liste[csparam]);
+                        if( m_parser->fktext[ csmode ].use_slider == -1 )
+                        {
+			     if( !m_parser->fktext[csmode].k_liste.isEmpty() )
+			             m_parser->setParameter(csmode, m_parser->fktext[csmode].k_liste[csparam]);
+                        }
 			else
-				m_parser->setparameter(csmode, sliders[ m_parser->fktext[csmode].use_slider ]->slider->value() );
+			     m_parser->setParameter(csmode, sliders[ m_parser->fktext[csmode].use_slider ]->slider->value() );
+                                    
 			if ( cstype == 0)
 				ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
 			else if ( cstype == 1)
@@ -837,29 +841,31 @@ void View::mousePressEvent(QMouseEvent *e)
 		return;
 		
 	}
-	int ix;
+	uint ix;
 	double const g=tlgy*double(xmax-xmin)/(2*double(ymax-ymin));
 	if(e->button()==RightButton) //clicking with the right mouse button
 	{
 		char function_type;
-		for(ix=0; ix<m_parser->ufanz; ++ix)
+		for(ix=0; ix</*m_parser->ufanz*/m_parser->fktext.count(); ++ix)
 		{
 			function_type = m_parser->fktext[ix].extstr[0].latin1();
 			if ( function_type==0 || function_type=='y' || function_type=='r') 
 				continue;
 			int k=0;
-			int const ke=m_parser->fktext[ix].k_anz;
+			int const ke=m_parser->fktext[ix].k_liste.count();
 			do
 			{
 				if( m_parser->fktext[ ix ].use_slider == -1 )
-					m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+                                {
+                                        if ( !m_parser->fktext[ix].k_liste.isEmpty())
+					   m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[k]);
+                                }
 				else
-					m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
+					m_parser->setParameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
+                                           
 				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].extstr.contains('t')==1) //parametric plot
 				{
-					int y_index = ix+1;
-					if ( y_index == UFANZ)
-						y_index=0;
+					uint y_index = ix+1;
 					if ( fabs(csypos-m_parser->fkt(y_index, csxpos)<g)  && m_parser->fktext[y_index].extstr.contains('t')==1)
 					{
 						
@@ -953,7 +959,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		return ;
 	}
 	
-	for(ix=0; ix<m_parser->ufanz; ++ix)
+	for(ix=0; ix</*m_parser->ufanz*/m_parser->fktext.count(); ++ix)
 	{
 		switch(m_parser->fktext[ix].extstr[0].latin1())
 		{
@@ -961,15 +967,16 @@ void View::mousePressEvent(QMouseEvent *e)
 		}
 	
 		int k=0;
-		int const ke=m_parser->fktext[ix].k_anz;
-
-		
+		int const ke=m_parser->fktext[ix].k_liste.count();
 		do
 		{
 			if( m_parser->fktext[ ix ].use_slider == -1 )
-				m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+                        {
+                                if ( !m_parser->fktext[ix].k_liste.isEmpty() )
+				    m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[k]);
+                        }
 			else
-				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
+				m_parser->setParameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
 			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
 			{
 				csmode=ix;
@@ -1149,16 +1156,6 @@ void View::getSettings()
 {
 	m_parser->setAngleMode( Settings::anglemode() );
 	m_parser->linewidth0 = Settings::gridLineWidth();
-	m_parser->fktext[ 0 ].color0 = Settings::color0().rgb();
-	m_parser->fktext[ 1 ].color0 = Settings::color1().rgb();
-	m_parser->fktext[ 2 ].color0 = Settings::color2().rgb();
-	m_parser->fktext[ 3 ].color0 = Settings::color3().rgb();
-	m_parser->fktext[ 4 ].color0 = Settings::color4().rgb();
-	m_parser->fktext[ 5 ].color0 = Settings::color5().rgb();
-	m_parser->fktext[ 6 ].color0 = Settings::color6().rgb();
-	m_parser->fktext[ 7 ].color0 = Settings::color7().rgb();
-	m_parser->fktext[ 8 ].color0 = Settings::color8().rgb();
-	m_parser->fktext[ 9 ].color0 = Settings::color9().rgb();
 	
 	backgroundcolor = Settings::backgroundcolor();
 	invertColor(backgroundcolor,inverted_backgroundcolor);
@@ -1168,9 +1165,15 @@ void View::getSettings()
 void View::init()
 {
 	getSettings();
-
-	for ( int ix = 0; ix < m_parser->ufanz; ++ix )
-		m_parser->delfkt( ix );
+        
+        if ( m_parser->fktext.isEmpty() )
+                return;
+        QValueVector<Parser::Ufkt>::iterator it = m_parser->ufkt.begin();
+        it->fname="";
+        while ( m_parser->ufkt.count() > 1)
+            m_parser->Parser::delfkt( &m_parser->ufkt.last() );
+            
+        m_parser->fktext.clear();
 }
 
 
@@ -1185,16 +1188,16 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 	double result_x = 0;
 	double result_y = 0;
 	bool start = true;
-	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
+	if(ix==-1 || ix>=(int)m_parser->fktext.count() ) return ;	    // ungltiger Index
 
 	// TODO: parameter sliders
 	int i=0;
-	if ( m_parser->fktext[ix].k_anz != 0)
+	if ( !m_parser->fktext[ix].k_liste.isEmpty())
 		for ( QStringList::Iterator it = m_parser->fktext[ix].str_parameter.begin(); it != m_parser->fktext[ix].str_parameter.end(); ++it )
 		{
 			if ( *it == str_parameter)
 			{
-				m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[i]);
+				m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[i]);
 				break;
 			}
 			i++;
@@ -1314,12 +1317,12 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 {	
 	int i=0;
 	// TODO: parameter sliders
-	if ( m_parser->fktext[ix].k_anz != 0)
+	if ( !m_parser->fktext[ix].k_liste.isEmpty() )
 		for ( QStringList::Iterator it = m_parser->fktext[ix].str_parameter.begin(); it != m_parser->fktext[ix].str_parameter.end(); ++it )
 	{
 		if ( *it == str_parameter)
 		{
-			m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[i]);
+			m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[i]);
 			break;
 		}
 		i++;
@@ -1337,7 +1340,7 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 			y=m_parser->a2fkt(ix, x);
 			break;
 		case 3:
-			if(ix==-1 || ix>=m_parser->ufanz) return;  // ungltiger Index
+			if( ix==-1 || ix>=(int)m_parser->fktext.count() ) return;  // ungltiger Index
 		
 			double dmin = m_parser->fktext[ix].dmin;
 			double dmax = m_parser->fktext[ix].dmax;
@@ -1429,8 +1432,7 @@ void View::keyPressEvent( QKeyEvent * e)
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-		
-		int const ke=m_parser->fktext[csmode].k_anz;
+		int const ke=m_parser->fktext[csmode].k_liste.count();
 		if (ke)
 			while(1)
 			{
@@ -1446,7 +1448,7 @@ void View::keyPressEvent( QKeyEvent * e)
 		bool start = true;
 		bool found = false;
 		if (csparam==0)
-		while ( csmode<m_parser->ufanz )
+		while ( csmode<(int)m_parser->fktext.count() )
 		{
 			if ( old_csmode==csmode && !start)
 			{
@@ -1497,7 +1499,7 @@ void View::keyPressEvent( QKeyEvent * e)
 			}
 			if (found)
 				break;
-			if ( csmode == m_parser->ufanz-1)
+			if ( (uint)csmode == m_parser->fktext.count()-1 )
 				csmode=0;
 			else
 				csmode++;
@@ -1554,7 +1556,6 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 	double x, y;
 	float calculated_area=0;
 	int rectheight;
-	QString fname, fstr;
 	areaMin = dmin;
 	QPoint p;
 	QColor color;
@@ -1582,7 +1583,7 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 		DC->scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
 	}
 
-	if(ix==-1 || ix>=m_parser->ufanz) return ;    // ungltiger Index
+	if(ix==-1 || ix>= (int)m_parser->fktext.count() ) return ;    // ungltiger Index
 
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
@@ -1592,12 +1593,12 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 	
 	int i=0;
 	// TODO: parameter sliders
-	if ( m_parser->fktext[ix].k_anz != 0)
+	if ( !m_parser->fktext[ix].k_liste.isEmpty() )
 		for ( QStringList::Iterator it = m_parser->fktext[ix].str_parameter.begin(); it != m_parser->fktext[ix].str_parameter.end(); ++it )
 	{
 		if ( *it == str_parameter)
 		{
-			m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[i]);
+			m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[i]);
 			break;
 		}
 		i++;
@@ -1779,7 +1780,7 @@ void View::updateSliders()
 {
 	for( int number = 0; number < SLIDER_COUNT; number++)
 		sliders[ number ]->hide();
-	for( int index = 0; index < m_parser->ufanz; index++ )
+	for( uint index = 0; index < m_parser->fktext.count(); index++ )
 		if( m_parser->fktext[ index ].use_slider > -1  &&  (m_parser->fktext[ index ].f_mode ||  m_parser->fktext[index].f1_mode || m_parser->fktext[ index ].f2_mode || m_parser->fktext[ index ].integral_mode))
 			sliders[ m_parser->fktext[ index ].use_slider ]->show();
 }
@@ -1825,13 +1826,10 @@ void View::mnuRemove_clicked()
 	{
 		char const function_type = m_parser->fktext[csmode].extstr[0].latin1();
 		if ( function_type == 'x')  // a parametric function
-		{
-			int y_index = csmode+1;
-			if ( y_index == UFANZ)
-				y_index=0;
-			m_parser->delfkt( y_index ); //remove the y-function
-		}
+                        m_parser->delfkt( csmode+1 ); //remove the y-function
+                
 		m_parser->delfkt( csmode );
+                        
 		drawPlot();
 		if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' ) 
 			updateSliders();
@@ -1843,7 +1841,7 @@ void View::mnuEdit_clicked()
 	if ( m_parser->fktext[csmode].extstr[0] == 'x') // a parametric function
 	{
 		int y_index = csmode+1; //the y-function
-		if ( y_index == UFANZ)
+		if ( y_index == (int)m_parser->fktext.count())
 			y_index=0;
 		KEditParametric* editParametric = new KEditParametric( m_parser, this );
 		editParametric->setCaption(i18n( "New Parametric Plot" ));

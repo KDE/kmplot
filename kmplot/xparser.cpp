@@ -31,17 +31,9 @@
 // local includes
 #include "xparser.h"
 
-XParser::XParser( int anz, int m_size, int s_size ) : Parser( anz, m_size, s_size )
+XParser::XParser( int m_size, int s_size ) : Parser( m_size, s_size )
 {
-        
-        FktExt temp;
-        temp.color = 0;
-        
         // setup slider support
-        //TODO fktext[ ix ].slider_min = fktext[ ix ].slider_max = 0.0;
-        temp.use_slider = -1;
-        for ( int ix = 0; ix < UFANZ; ++ix )
-                fktext.append(temp );
 	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
 }
 
@@ -115,7 +107,7 @@ int XParser::getext( int ix )
 
 			tstr = str.left( p2++ );
 			str = str.mid( p2, 1000 );
-			fktext[ ix ].k_liste[ i++ ] = eval( tstr );
+			fktext[ ix ].k_liste.append( eval( tstr ) );
 			if ( err )
 			{
 				errflg = 1;
@@ -124,31 +116,31 @@ int XParser::getext( int ix )
 			p3 -= p2;
 		}
 		while ( p3 > 0 && i < 10 );
-		fktext[ ix ].k_anz = i;
 	}
 
 	if ( errflg )
 	{
 		KMessageBox::error( 0, i18n( "Error in extension." ) );
-		delfkt( ix );
 		return -1;
 	}
 	else
 		return 0;
 }
 
-int XParser::delfkt( int ix )
+void XParser::delfkt( Ufkt *u_item, FktExt *f_item)
 {
-	if ( Parser::delfkt( ix ) == -1 )
-		return -1;
+        Parser::delfkt(u_item);
+        fktext.erase( f_item);
+}
 
-	fktext[ ix ].f_mode = fktext[ ix ].f1_mode = fktext[ ix ].f2_mode = fktext[ ix ].integral_mode = 0;
-	fktext[ ix ].linewidth = linewidth0;
-	fktext[ ix ].k_anz = 0;
-	fktext[ ix ].dmin = fktext[ ix ].dmax = 0.;
-	fktext[ ix ].extstr = ""; //.resize(1);
-	fktext[ ix ].use_slider=-1;
-	return ix;
+
+bool XParser::delfkt( int ix )
+{
+        if( ix<0 && ix>=int(fktext.count()) )
+                return false;
+        Parser::delfkt( ix );
+        fktext.erase( &fktext[ix]);
+        return true;
 }
 
 double XParser::a1fkt( int ix, double x, double h )
@@ -161,41 +153,51 @@ double XParser::a2fkt( int ix, double x, double h )
 	return ( ufkt[ ix ].fkt( x + h + h ) - 2 * ufkt[ ix ].fkt( x + h ) + ufkt[ ix ].fkt( x ) ) / h / h;
 }
 
-char XParser::findFunctionName(int const index)
+QString XParser::findFunctionName(int const index)
 {
-	char function_name ='f';
-	for (bool ok=true; function_name< 'x';function_name++)
-	{
-		for ( int i = 0; i < ufanz; i++ )
-		{
-			if (fktext[ i ].extstr.at(0) == function_name && i!=index) //check if 
-				if (fktext[ i ].extstr.at(1) == '(' ) //and the function name is one letter
-					ok = false;
-		}
-		if ( ok) //free name
-		{
-			return function_name;
-		}
-		ok = true;
-	}
-	return 'e'; //this should never happen, because of the limit of 10 functions
+	QString function_name("f");
+        char last_character;
+        for (int pos=0; ; ++pos)
+        {
+                last_character = 'f';
+                for (bool ok=true; last_character<'x'; ++last_character)
+                {
+                        if ( pos==0 && last_character == 'r') continue;
+                        int i = 0;
+                        function_name.at(pos)=last_character;
+                        for( QValueVector<FktExt>::iterator it = fktext.begin(); it != fktext.end(); ++it)
+                        {
+                                if ( it->extstr.startsWith(function_name+'(') && i!=index) //check if 
+                                                ok = false;
+                                ++i;
+                        }
+                        if ( ok) //free name
+                        {
+                                //kdDebug() << "function_name:" << function_name << endl;
+                                return function_name;
+                        }
+                        ok = true;
+	       }
+               function_name.at(pos)='f';
+               function_name.append('f');
+        }
+        function_name = "e";
+        return function_name; //this should never happen
 }
-void XParser::fixFunctionName( QString &str, int const index)
+void XParser::fixFunctionName( QString &str, int const type, int const index)
 {
-	int p1=str.find('(');
-	int p2=str.find(')');
+	int const p1=str.find('(');
+	int const p2=str.find(')');
 	if (str.at(0) == 'r' && str.at(1) == '(')
 	{
 		str.remove(0,1);
-		char function_name = findFunctionName(index);
-		str.prepend(function_name);
+		str.prepend( findFunctionName(index) );
 		str.prepend('r');
 	}
 	else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1) != '=')
 	{
-		char function_name = findFunctionName(index);
 		str.prepend("(x)=");
-		str.prepend(function_name);
+		str.prepend( findFunctionName(index) );
 	}
 }
 
@@ -229,4 +231,66 @@ void XParser::euler_method(double &x, double &y,const int &index)
 		fktext[index].oldyprim = yprim;
 		return;
 	}
+}
+
+QRgb XParser::defaultColor(int function)
+{
+        switch ( function )
+        {
+                case 1:
+                        return Settings::color0().rgb();
+                        break;
+                case 2:
+                        return Settings::color1().rgb();
+                        break;
+                case 3:
+                        return Settings::color2().rgb();
+                        break;
+                case 4:
+                        return Settings::color3().rgb();
+                        break;
+                case 5:
+                        return Settings::color4().rgb();
+                        break;
+                case 6:
+                        return Settings::color5().rgb();
+                        break;
+                case 7:
+                        return Settings::color6().rgb();
+                        break;
+                case 8:
+                        return Settings::color7().rgb();
+                        break;
+                case 9:
+                        return Settings::color8().rgb();
+                        break;
+                case 10:
+                        return Settings::color9().rgb();
+                        break;
+                default:
+                        return Settings::color0().rgb();
+                        break;
+        }
+}
+
+void XParser::prepareAddingFktExtFunction(FktExt &temp)
+{
+        temp.color = temp.f1_color = temp.f2_color = temp.integral_color = defaultColor(fktext.count()+1 );
+        temp.linewidth = temp.f1_linewidth = temp.f2_linewidth = temp.integral_linewidth = linewidth0;
+        temp.f_mode = true;
+        temp.f1_mode = false;
+        temp.f2_mode = false;
+        temp.integral_mode = false;
+        temp.integral_precision = Settings::relativeStepWidth();
+        temp.dmin = 0;
+        temp.dmax = 0;
+        temp.str_dmin = "";
+        temp.str_dmax = "";
+        temp.use_slider = -1;
+        //TODO temp.slider_min = 0; temp.slider_max = 50;
+
+}
+int XParser::getNextIndex()
+{
+        return fktext.count();
 }

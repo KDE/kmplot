@@ -144,40 +144,41 @@ void KMinMax::updateFunctions()
 	QString const selected_item(list->currentText() );
 	
 	list->clear();
-	int index;
-	QString fname, fstr;
-	for ( index = 0; index < m_view->parser()->ufanz; ++index )
+
+        //for ( uint index = 0; index < m_view->parser()->fktext.count(); ++index )
+        QValueVector<XParser::Ufkt>::iterator ufkt =  m_view->parser()->ufkt.begin();
+        for( QValueVector<XParser::FktExt>::iterator it =  m_view->parser()->fktext.begin(); it !=  m_view->parser()->fktext.end(); ++it)
 	{
-		if ( m_view->parser()->getfkt( index, fname, fstr ) == -1 ) continue;
-		if( fname[0] != 'x'  && fname[0] != 'y' && fname[0] != 'r')
+		if( ufkt->fname[0] != 'x' && ufkt->fname[0] != 'y' && ufkt->fname[0] != 'r')
 		{
-			if ( m_view->parser()->fktext[ index ].f_mode )
-				list->insertItem(m_view->parser()->fktext[ index ].extstr);
-			if ( m_view->parser()->fktext[ index ].f1_mode ) //1st derivative
+			if ( it->f_mode )
+				list->insertItem(it->extstr);
+			if ( it->f1_mode ) //1st derivative
 			{
-				QString function (m_view->parser()->fktext[ index ].extstr);
+				QString function (it->extstr);
 				int i= function.find('(');
 				function.truncate(i);
 				function +="\'";
 				list->insertItem(function );
 			}
-			if ( m_view->parser()->fktext[ index ].f2_mode )//2nd derivative
+			if ( it->f2_mode )//2nd derivative
 			{
-				QString function (m_view->parser()->fktext[ index ].extstr);
+				QString function (it->extstr);
 				int i= function.find('(');
 				function.truncate(i);
 				function +="\'\'";
 				list->insertItem(function );
 			}
-			if ( m_view->parser()->fktext[ index ].integral_mode )//integral
+			if ( it->integral_mode )//integral
 			{
-				QString function (m_view->parser()->fktext[ index ].extstr);
+				QString function (it->extstr);
 				int i= function.find('(');
 				function.truncate(i);
 				function = function.upper();
 				list->insertItem(function );
 			}
 		}
+                ++ufkt;
 	}
 	selectItem();
 	QListBoxItem *found_item = list->findItem(selected_item,Qt::ExactMatch);
@@ -210,7 +211,7 @@ void KMinMax::selectItem()
 	QListBoxItem *item = list->findItem(function,Qt::ExactMatch);
 	list->setSelected(item,true);
 
-	if (  m_view->parser()->fktext[ m_view->csmode ].k_anz != 0)
+	if (  !m_view->parser()->fktext[ m_view->csmode ].k_liste.isEmpty() )
 		parameter = m_view->parser()->fktext[ m_view->csmode ].str_parameter[m_view->csparam];
 }
 
@@ -284,14 +285,14 @@ void KMinMax::cmdFind_clicked()
 	bool stop=false;
 	int index;
 	QString sec_function = function.section('(',0,0);
-	for ( index = 0; index < m_view->parser()->ufanz && !stop; ++index )
+
+	for ( index = 0; index < (int)m_view->parser()->fktext.count() && !stop; ++index )
 	{
-		if ( m_view->parser()->getfkt( index, fname, fstr ) == -1 ) continue;
 		if ( m_view->parser()->fktext[ index ].extstr.section('(',0,0) == sec_function)
 			stop=true;
 	}
 	index--;
-	if ( m_view->parser()->fktext[ index ].k_anz == 0)
+	if ( m_view->parser()->fktext[ index ].k_liste.isEmpty() )
 		parameter = "0";
 	else if ( parameter.isEmpty())
 	{
@@ -373,9 +374,8 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 	bool stop=false;
 	int ix;
 	QString sec_function = function.section('(',0,0);
-	for ( ix = 0; ix < m_view->parser()->ufanz && !stop; ++ix )
+	for ( ix = 0; ix < (int)m_view->parser()->fktext.count() && !stop; ++ix )
 	{
-		if ( m_view->parser()->getfkt( ix, fname, fstr ) == -1 ) continue;
 		if ( m_view->parser()->fktext[ ix ].extstr.section('(',0,0) == sec_function)
 			stop=true;
 	}
@@ -413,9 +413,8 @@ void KMinMax::cmdParameter_clicked()
 	bool stop=false;
 	int ix;
 	QString sec_function = function.section('(',0,0);
-	for ( ix = 0; ix < m_view->parser()->ufanz && !stop; ++ix )
+	for ( ix = 0; ix < (int)m_view->parser()->fktext.count() && !stop; ++ix )
 	{
-		if ( m_view->parser()->getfkt( ix, fname, fstr ) == -1 ) continue;
 		if ( m_view->parser()->fktext[ ix ].extstr.section('(',0,0) == sec_function)
 			stop=true;
 	}

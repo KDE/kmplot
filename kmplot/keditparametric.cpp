@@ -64,7 +64,7 @@ void KEditParametric::clearWidgets()
 	min->clear();
 	max->clear();
 	kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
-	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color0 );
+	kColorButtonColor->setColor( m_parser->defaultColor(m_parser->getNextIndex() ) );
 }
 
 void KEditParametric::setWidgets()
@@ -121,81 +121,82 @@ void KEditParametric::accept()
 		}
 	}
 	else
+        {
 		index = m_parser->addfkt(xFunction() );
+                if( index == -1 ) 
+                {
+                        m_parser->errmsg();
+                        this->raise();
+                        kLineEditXFunction->setFocus();
+                        kLineEditXFunction->selectAll();
+                        return;
+                }       
+        }
 	
-	if( index == -1 ) 
-	{
-		m_parser->errmsg();
-		this->raise();
-		kLineEditXFunction->setFocus();
-		kLineEditXFunction->selectAll();
-		return;
-	}	
 
-	XParser::FktExt tmp_fktext;
-	tmp_fktext.extstr = xFunction();
+
+	XParser::FktExt fktext_x;
+	fktext_x.extstr = xFunction();
 	
 	if( checkBoxHide->isChecked() )
-		tmp_fktext.f_mode = 0;
+		fktext_x.f_mode = 0;
 	else
-		tmp_fktext.f_mode = 1;
+		fktext_x.f_mode = 1;
 	
 	if( checkBoxRange->isChecked() )
 	{
-		tmp_fktext.str_dmin = min->text();
-		tmp_fktext.dmin = m_parser->eval( min->text() );
+		fktext_x.str_dmin = min->text();
+		fktext_x.dmin = m_parser->eval( min->text() );
 		if ( m_parser->errmsg())
 		{
 			min->setFocus();
 			min->selectAll();
 			return;
 		}
-		tmp_fktext.str_dmax = max->text();
-		tmp_fktext.dmax = m_parser->eval( max->text() );
+		fktext_x.str_dmax = max->text();
+		fktext_x.dmax = m_parser->eval( max->text() );
 		if ( m_parser->errmsg())
 		{
 			max->setFocus();
 			max->selectAll();
 			return;
 		}
-		if ( tmp_fktext.dmin >=  tmp_fktext.dmax)
+		if ( fktext_x.dmin >=  fktext_x.dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
 			min->setFocus();
 			min->selectAll();
 			return;
 		}
-		/*
-		if (  tmp_fktext.dmin<View::xmin || tmp_fktext.dmax>View::xmax )
-		{
-			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
-			min->setFocus();
-			min->selectAll();
-			return;
-		}*/
 	}
 	else
 	{
-		tmp_fktext.str_dmin ="0";
-		tmp_fktext.dmin = 0;
-		tmp_fktext.str_dmax = "0";
-		tmp_fktext.dmax = 0;
+		fktext_x.str_dmin ="0";
+		fktext_x.dmin = 0;
+		fktext_x.str_dmax = "0";
+		fktext_x.dmax = 0;
 	}
 	
-	tmp_fktext.linewidth = kIntNumInputLineWidth->value();
-	tmp_fktext.color = kColorButtonColor->color().rgb();
-	tmp_fktext.f1_color = tmp_fktext.color;
-	tmp_fktext.f2_color = tmp_fktext.color;
-	tmp_fktext.integral_color = tmp_fktext.color;
-	tmp_fktext.integral_mode = 0;
-	tmp_fktext.f1_mode = 0;
-	tmp_fktext.f2_mode = 0;
-	tmp_fktext.use_slider = -1;
-	tmp_fktext.k_anz = 0;
+	fktext_x.linewidth = kIntNumInputLineWidth->value();
+	fktext_x.color = kColorButtonColor->color().rgb();
+	fktext_x.f1_color = fktext_x.f2_color = fktext_x.integral_color = fktext_x.color;
+	fktext_x.integral_mode = 0;
+	fktext_x.f1_mode = fktext_x.f1_mode;
+	fktext_x.f2_mode = 0;
+	fktext_x.use_slider = -1;
 	
-	tmp_fktext.color0 = m_parser->fktext[index].color0;
-	m_parser->fktext[index] = tmp_fktext;
+	//fktext_x.color0 = m_parser->fktext[index].color0; ///Should we change the default color?
+        
+        //save all settings in the function now when we now no errors have appeared
+        if( m_x_index == -1 )
+                m_parser->fktext.append(fktext_x);
+        else
+                m_parser->fktext[index] = fktext_x;
 	
+        XParser::FktExt fktext_y;
+        fktext_y = fktext_x;
+        fktext_y.extstr = yFunction();  
+                
 	if( m_y_index != -1 )  //when editing a function: 
 	{
 		index = m_y_index; //use the right function-index
@@ -223,13 +224,18 @@ void KEditParametric::accept()
 		kLineEditYFunction->selectAll();
 		return;
 	}
-	tmp_fktext.extstr = yFunction();
-	tmp_fktext.color0 = m_parser->fktext[index].color0;
-	m_parser->fktext[index] = tmp_fktext;
+	fktext_y.extstr = yFunction();
+	//fktext_y.color0 = m_parser->fktext[index].color0; ///Should we change the default color?
+        
+         //save all settings in the function now when we now no errors have appeared
+        if( m_y_index == -1 )
+                m_parser->fktext.append(fktext_y);
+        else
+                m_parser->fktext[index] = fktext_y;
 		
 		
 	// call inherited method
-	QEditParametric::accept();
+	QEditParametric::accept(); //update the function name in FktDlg
 }
 
 
@@ -239,11 +245,12 @@ QString KEditParametric::newName()
 	QString name;
 	// prepend the correct prefix
 	name = "xf%1";
-	do
+	/*do
 	{
 		i++;
-	} while( m_parser->getfix( name.arg( i ) ) != -1 );
-	
+	}
+        while( m_parser->getfix( name.arg( i ) ) != -1 );
+	*/
 	// cut off prefix again, will be added later
 	name = name.right( name.length()-1 );
 	return name.arg( i );

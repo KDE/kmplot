@@ -37,7 +37,6 @@
 
 // Voreinstellungen bei Verwendung des Standardkonstruktors :
 
-#define	UFANZ		10	///< max. count of user defined functions
 #define	MEMSIZE		200	///< memory size for tokens
 #define	STACKSIZE	50	///< stack depth
 
@@ -118,34 +117,26 @@ public:
 class Parser
 {
 public:
-	Parser(int, int, int);
+	Parser(int, int);
 	~Parser();
-	
+        
 	/// Evaluates the given expression.
 	double eval(QString);
-	/// Evaluates the function with the given name at the position.
-	double fkt(QString, double);
 	/// Evaluates the function with the given index at the position.
 	double fkt(int ix, double x) {return ufkt[ix].fkt(x);}
 	/// Adds a user defined function with the given equation.
 	int addfkt(QString);
-	/// Removes the function with the given name.
-	int delfkt(QString);
+
 	/// Removes the function with the given index.
-	int delfkt(int);
-	/// Returns name and expression of the function with the given index.
-	int getfkt(int, QString&, QString&);
-	/// Checks, if at the given index a function is stored.
-	int chkfix(int);
+	bool delfkt(int);
+        
 	/// Returns the index of the function with the given name.
-	int getfix(QString);
-	/// Returns the lowest index in the array of user defined functions which is empty, 
-	/// or -1, if the array is full.
-	int getNextIndex();
+	bool getfix(QString);
+        
 	/// Shows an error message box.
 	int errmsg();
 	/// ?
-	void setparameter(int ix, double k) {ufkt[ix].k=k;}
+	void setParameter(int ix, double k) {ufkt[ix].k=k;}
 	/// return the angletype
 	static double anglemode();
 	/// sets the angletype. TRUE is radians and FALSE degrees
@@ -175,16 +166,17 @@ public:
 	 * \li   12 => function name contains a capital letter
 	 */
 	int err,	
-	errpos, 	///< Position where the error occurred.
-	ufanz;		///< Max. count of user defined functions.
+	errpos; 	///< Position where the error occurred.
 
 
-	/** User function. */
+        /** User function. */
 	class Ufkt
 	{
 	public:
 		Ufkt();
 		~Ufkt();
+
+                void setParameter(double const &p) {k = p; };
 		double	fkt(double);	///< User defined function.
 
 		unsigned char *mem;	///< Pointer to the allocated memory for the tokens.
@@ -197,8 +189,11 @@ public:
 		int stacksize;		///< Size of the stack.
 		double k,		///< Function parameter.
 		oldy;			///< The last y-value needed for Euler's method
-	};
+        };
         QValueVector<Ufkt> ufkt;///< Points to the array of user defined functions.
+        
+        /// Removes the function
+        void delfkt(QValueVector<Parser::Ufkt>::iterator );
 			
 protected:
 	/** Mathematical function. */
@@ -211,7 +206,7 @@ protected:
 
 private:
         void fix_expression(QString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
-	void ps_init(int, int, int),
+	void ps_init(int, int),
 	heir1(),
 	heir2(),
 	heir3(),

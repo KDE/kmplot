@@ -113,51 +113,52 @@ bool KmPlotIO::save(  XParser *parser, const KURL &url )
 	addTag( doc, tag, "print-tic-y", temp);
 	
 	root.appendChild( tag );
-
-	for ( int ix = 0; ix < parser->ufanz; ix++ )
+        
+        
+        for( QValueVector<XParser::FktExt>::iterator it = parser->fktext.begin(); it != parser->fktext.end(); ++it)
 	{
-		if ( !parser->fktext[ ix ].extstr.isEmpty() )
+		if ( !it->extstr.isEmpty() )
 		{
 			tag = doc.createElement( "function" );
 
-			tag.setAttribute( "number", ix );
-			tag.setAttribute( "visible", parser->fktext[ ix ].f_mode );
-			tag.setAttribute( "color", QColor( parser->fktext[ ix ].color ).name() );
-			tag.setAttribute( "width", parser->fktext[ ix ].linewidth );
-			tag.setAttribute( "use-slider", parser->fktext[ ix ].use_slider );
+			//tag.setAttribute( "number", ix );
+			tag.setAttribute( "visible", it->f_mode );
+			tag.setAttribute( "color", QColor( it->color ).name() );
+			tag.setAttribute( "width", it->linewidth );
+			tag.setAttribute( "use-slider", it->use_slider );
 			
-			if ( parser->fktext[ ix ].f1_mode)
+			if ( it->f1_mode)
 			{
-				tag.setAttribute( "visible-deriv", parser->fktext[ ix ].f1_mode );
-				tag.setAttribute( "deriv-color", QColor( parser->fktext[ ix ].f1_color ).name() );
-				tag.setAttribute( "deriv-width", parser->fktext[ ix ].f1_linewidth );	
+				tag.setAttribute( "visible-deriv", it->f1_mode );
+				tag.setAttribute( "deriv-color", QColor( it->f1_color ).name() );
+				tag.setAttribute( "deriv-width", it->f1_linewidth );	
 			}
 			
-			if ( parser->fktext[ ix ].f2_mode)
+			if ( it->f2_mode)
 			{
-				tag.setAttribute( "visible-2nd-deriv", parser->fktext[ ix ].f2_mode );
-				tag.setAttribute( "deriv2nd-color", QColor( parser->fktext[ ix ].f2_color ).name() );
-				tag.setAttribute( "deriv2nd-width", parser->fktext[ ix ].f2_linewidth );
+				tag.setAttribute( "visible-2nd-deriv", it->f2_mode );
+				tag.setAttribute( "deriv2nd-color", QColor( it->f2_color ).name() );
+				tag.setAttribute( "deriv2nd-width", it->f2_linewidth );
 			}
 			
-			if ( parser->fktext[ ix ].integral_mode)
+			if ( it->integral_mode)
 			{
 				tag.setAttribute( "visible-integral", "1" );
-				tag.setAttribute( "integral-color", QColor( parser->fktext[ ix ].integral_color ).name() );
-				tag.setAttribute( "integral-width", parser->fktext[ ix ].integral_linewidth );
-				tag.setAttribute( "integral-use-precision", parser->fktext[ ix ].integral_use_precision );
-				tag.setAttribute( "integral-precision", parser->fktext[ ix ].integral_precision );
-				tag.setAttribute( "integral-startx", parser->fktext[ ix ].str_startx );
-				tag.setAttribute( "integral-starty", parser->fktext[ ix ].str_starty );
+				tag.setAttribute( "integral-color", QColor( it->integral_color ).name() );
+				tag.setAttribute( "integral-width", it->integral_linewidth );
+				tag.setAttribute( "integral-use-precision", it->integral_use_precision );
+				tag.setAttribute( "integral-precision", it->integral_precision );
+				tag.setAttribute( "integral-startx", it->str_startx );
+				tag.setAttribute( "integral-starty", it->str_starty );
 			}
 			
-			addTag( doc, tag, "equation", parser->fktext[ ix ].extstr );
+			addTag( doc, tag, "equation", it->extstr );
 			
-			if( parser->fktext[ ix ].k_anz > 0 )
-				addTag( doc, tag, "parameterlist", parser->fktext[ ix ].str_parameter.join( "," ) );
+			if( !it->str_parameter.isEmpty() )
+				addTag( doc, tag, "parameterlist", it->str_parameter.join( "," ) );
 			
-			addTag( doc, tag, "arg-min", parser->fktext[ ix ].str_dmin );
-			addTag( doc, tag, "arg-max", parser->fktext[ ix ].str_dmax );
+			addTag( doc, tag, "arg-min", it->str_dmin );
+			addTag( doc, tag, "arg-max", it->str_dmax );
 						
 			root.appendChild( tag );
 			
@@ -335,66 +336,88 @@ void KmPlotIO::parseScale( const QDomElement & n )
 
 void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 {
-	int ix = n.attribute( "number" ).toInt();
+	//int ix = n.attribute( "number" ).toInt();
 	QString temp;
-	parser->fktext[ ix ].f_mode = n.attribute( "visible" ).toInt();
-	parser->fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();
-	parser->fktext[ ix ].linewidth = n.attribute( "width" ).toInt();
-	parser->fktext[ ix ].use_slider = n.attribute( "use-slider" ).toInt();
+        XParser::FktExt fktext;
+        int const next_index=parser->getNextIndex()+1;
+        
+	fktext.f_mode = n.attribute( "visible" ).toInt();
+	fktext.color = QColor( n.attribute( "color" ) ).rgb();
+	fktext.linewidth = n.attribute( "width" ).toInt();
+	fktext.use_slider = n.attribute( "use-slider" ).toInt();
 	
 	temp = n.attribute( "visible-deriv" );
 	if (temp != QString::null)
 	{
-		parser->fktext[ ix ].f1_mode = temp.toInt();
-		parser->fktext[ ix ].f1_color = QColor(n.attribute( "deriv-color" )).rgb();
-		parser->fktext[ ix ].f1_linewidth = n.attribute( "deriv-width" ).toInt();
+		fktext.f1_mode = temp.toInt();
+		fktext.f1_color = QColor(n.attribute( "deriv-color" )).rgb();
+		fktext.f1_linewidth = n.attribute( "deriv-width" ).toInt();
 	}
 	else
 	{
-		parser->fktext[ ix ].f1_mode = 0;
-		parser->fktext[ ix ].f1_color = parser->fktext[ ix ].color0;
-		parser->fktext[ ix ].f1_linewidth = parser->linewidth0;
+		fktext.f1_mode = 0;
+		fktext.f1_color = parser->defaultColor(next_index);
+		fktext.f1_linewidth = parser->linewidth0;
 	}
 		
 	temp = n.attribute( "visible-2nd-deriv" );
 	if (temp != QString::null)
 	{
-		parser->fktext[ ix ].f2_mode = temp.toInt();
-		parser->fktext[ ix ].f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
-		parser->fktext[ ix ].f2_linewidth = n.attribute( "deriv2nd-width" ).toInt();
+		fktext.f2_mode = temp.toInt();
+		fktext.f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
+		fktext.f2_linewidth = n.attribute( "deriv2nd-width" ).toInt();
 	}
 	else
 	{
-		parser->fktext[ ix ].f2_mode = 0;
-		parser->fktext[ ix ].f2_color = parser->fktext[ ix ].color0;
-		parser->fktext[ ix ].f2_linewidth = parser->linewidth0;
+		fktext.f2_mode = 0;
+		fktext.f2_color = parser->defaultColor(next_index);
+		fktext.f2_linewidth = parser->linewidth0;
 	}
 	
 	temp = n.attribute( "visible-integral" );
 	if (temp != QString::null)
 	{
-		parser->fktext[ ix ].integral_mode = temp.toInt();
-		parser->fktext[ ix ].integral_color = QColor(n.attribute( "integral-color" )).rgb();
-		parser->fktext[ ix ].integral_linewidth = n.attribute( "integral-width" ).toInt();
-		parser->fktext[ ix ].integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
-		parser->fktext[ ix ].integral_precision = n.attribute( "integral-precision" ).toInt();
-		parser->fktext[ ix ].str_startx = n.attribute( "integral-startx" );
-		parser->fktext[ ix ].startx = parser->eval( parser->fktext[ ix ].str_startx );
-		parser->fktext[ ix ].str_starty = n.attribute( "integral-starty" );
-		parser->fktext[ ix ].starty = parser->eval( parser->fktext[ ix ].str_starty );
+		fktext.integral_mode = temp.toInt();
+		fktext.integral_color = QColor(n.attribute( "integral-color" )).rgb();
+		fktext.integral_linewidth = n.attribute( "integral-width" ).toInt();
+		fktext.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
+		fktext.integral_precision = n.attribute( "integral-precision" ).toInt();
+		fktext.str_startx = n.attribute( "integral-startx" );
+		fktext.startx = parser->eval( fktext.str_startx );
+		fktext.str_starty = n.attribute( "integral-starty" );
+		fktext.starty = parser->eval( fktext.str_starty );
 		
 	}
 	else
 	{
-		parser->fktext[ ix ].integral_mode = 0;
-		parser->fktext[ ix ].integral_color = parser->fktext[ ix ].color0;
-		parser->fktext[ ix ].integral_linewidth = parser->linewidth0;
-		parser->fktext[ ix ].integral_use_precision = 0;
-		parser->fktext[ ix ].integral_precision = parser->fktext[ ix ].linewidth;
+		fktext.integral_mode = 0;
+		fktext.integral_color = parser->defaultColor(next_index);
+		fktext.integral_linewidth = parser->linewidth0;
+		fktext.integral_use_precision = 0;
+		fktext.integral_precision = fktext.linewidth;
 	}
 	
-	parser->fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
-	QCString fstr = parser->fktext[ ix ].extstr.utf8();
+        
+        fktext.str_dmin = n.namedItem( "arg-min" ).toElement().text();
+        if( fktext.str_dmin.isEmpty() )
+        {
+                fktext.str_dmin = "0.0";
+                fktext.dmin = 0;
+                }
+        else fktext.dmin = parser->eval( fktext.str_dmin );
+        fktext.str_dmax = n.namedItem( "arg-max" ).toElement().text();
+        if( fktext.str_dmax.isEmpty() )
+        {
+                fktext.str_dmax = "0.0";
+                fktext.dmax = 0;
+        }
+        else fktext.dmax = parser->eval( fktext.str_dmax );
+        
+	fktext.extstr = n.namedItem( "equation" ).toElement().text();
+        parseParameters( parser, n, fktext );
+        parser->fktext.append(fktext );
+        
+	QCString fstr = fktext.extstr.utf8();
 	if ( !fstr.isEmpty() )
 	{
 		int i = fstr.find( ';' );
@@ -404,27 +427,18 @@ void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 		else
 			str = fstr.left( i );
 		QString f_str (str);
-		ix = parser->addfkt( str );
-		parseParameters( parser, n, ix );
-		parser->getext( ix );
-	}
-	parser->fktext[ ix ].str_dmin = n.namedItem( "arg-min" ).toElement().text();
-	if( parser->fktext[ ix ].str_dmin.isEmpty() ) parser->fktext[ ix ].str_dmin = "0.0";
-	else parser->fktext[ ix ].dmin = parser->eval( parser->fktext[ ix ].str_dmin );
-	parser->fktext[ ix ].str_dmax = n.namedItem( "arg-max" ).toElement().text();
-	if( parser->fktext[ ix ].str_dmax.isEmpty() ) parser->fktext[ ix ].str_dmax = "0.0";
-	else parser->fktext[ ix ].dmax = parser->eval( parser->fktext[ ix ].str_dmax );
+		int ix = parser->addfkt( str );
+                parser->getext( ix );
+	}  
 }
 
-void KmPlotIO::parseParameters( XParser *parser, const QDomElement &n, int ix )
+void KmPlotIO::parseParameters( XParser *parser, const QDomElement &n, XParser::FktExt &fktext  )
 {
-	parser->fktext[ ix ].str_parameter = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
+	fktext.str_parameter = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
 	
-	parser->fktext[ ix ].k_anz = 0;
-	for( QStringList::Iterator it = parser->fktext[ ix ].str_parameter.begin(); it != parser->fktext[ ix ].str_parameter.end(); ++it )
+	for( QStringList::Iterator it = fktext.str_parameter.begin(); it != fktext.str_parameter.end(); ++it )
 	{
-		parser->fktext[ ix ].k_liste[ parser->fktext[ ix ].k_anz ] = parser->eval( *it );
-		parser->fktext[ ix ].k_anz++;
+		fktext.k_liste.append( parser->eval( *it ) );
 	}
 	
 }
@@ -432,18 +446,35 @@ void KmPlotIO::oldParseFunction(  XParser *parser, const QDomElement & n )
 {
 	kdDebug() << "parsing old function" << endl;
 
-	int ix = n.attribute( "number" ).toInt();
-	parser->fktext[ ix ].f_mode = n.attribute( "visible" ).toInt();
-	parser->fktext[ ix ].f1_mode = n.attribute( "visible-deriv" ).toInt();
-	parser->fktext[ ix ].f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
-	parser->fktext[ ix ].linewidth = n.attribute( "width" ).toInt();
-	parser->fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();
-	parser->fktext[ ix ].f1_color = parser->fktext[ ix ].color;
-	parser->fktext[ ix ].f2_color = parser->fktext[ ix ].color;
-	parser->fktext[ ix ].integral_color = parser->fktext[ ix ].color;
+        XParser::FktExt fktext;
+	//int ix = n.attribute( "number" ).toInt();
+	fktext.f_mode = n.attribute( "visible" ).toInt();
+	fktext.f1_mode = n.attribute( "visible-deriv" ).toInt();
+	fktext.f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
+        fktext.f2_mode = 0;
+	fktext.linewidth = n.attribute( "width" ).toInt();
+        fktext.use_slider = -1;
+	fktext.color = fktext.f1_color = fktext.f2_color = fktext.integral_color = QColor( n.attribute( "color" ) ).rgb();
 
-	parser->fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
-	QCString fstr = parser->fktext[ ix ].extstr.utf8();
+        fktext.str_dmin = n.namedItem( "arg-min" ).toElement().text();
+        if( fktext.str_dmin.isEmpty() )
+        {
+                fktext.str_dmin = "0.0";
+                fktext.dmin = 0;
+        }
+        else fktext.dmin = parser->eval( fktext.str_dmin );
+        fktext.str_dmax = n.namedItem( "arg-max" ).toElement().text();
+        if( fktext.str_dmax.isEmpty() )
+        {
+                fktext.str_dmax = "0.0";
+                fktext.dmax = 0;
+        }
+        else fktext.dmax = parser->eval( fktext.str_dmax );
+        
+	fktext.extstr = n.namedItem( "equation" ).toElement().text();
+        parser->fktext.append(fktext );
+        
+	QCString fstr = fktext.extstr.utf8();
 	if ( !fstr.isEmpty() )
 	{
 		int i = fstr.find( ';' );
@@ -452,8 +483,8 @@ void KmPlotIO::oldParseFunction(  XParser *parser, const QDomElement & n )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		ix = parser->addfkt( str );
-		parser->getext( ix );
+		int ix = parser->addfkt( str );
+                parser->getext( ix );
 	}
 }
 

@@ -27,6 +27,7 @@
 #define KMPLOTIO_H
 
 #include <kurl.h>
+#include "xparser.h"
 
 class QString;
 class XParser;
@@ -89,7 +90,7 @@ class KmPlotIO
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
-		void parseParameters( XParser *parser, const QDomElement &n, int ix );
+		void parseParameters( XParser *parser, const QDomElement &n, XParser::FktExt &fktext);
 };
 
 #endif

@@ -76,7 +76,7 @@ public:
 	virtual ~View();
 
 	/// Reimplemented to draw all stuff to the view.
-	void draw(QPaintDevice *, int);	
+	void draw(QPaintDevice *, int const);
 	/// Getting all relevant settings using KConfig XT class Settings.
 	void getSettings();
 	/// Clears all functions in the parser and gets default settings.

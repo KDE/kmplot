@@ -93,9 +93,9 @@ protected slots:
 	
 private:
 	/// Looks up the index of \a f_str in the parser instance.
-	int getIx( const QString f_str );
+	int getIx( const QString &f_str );
 	/// Looks up the indices of the parametric pair of function.
-	void getParamIx( const QString f_str, int &i, int &j );
+	int getParamIx( const QString &f_str );
 	/// Update the view of the main window.
 	void updateView();
 	/// Called when the dialog is showed

@@ -44,26 +44,30 @@
 class XParser : public Parser
 {
 public:
-	XParser( int anz, int m_size, int s_size );
+	XParser(int m_size, int s_size );
 	~XParser();
-
 
 	/// Interpretates the extended function string
 	int getext( int );
 	/// Removes the function with index \a ix from the parser.
-	int delfkt( int ix );
+	bool delfkt( int ix );
 	/// Evaluates the 1st dreivative of the function with intex \a ix
 	double a1fkt( int ix , double, double h = 1e-3 );
 	/// Evaluates the 2nd dreivative of the function with intex \a ix
 	double a2fkt( int, double, double h = 1e-3 );
 	/// calculate euler's method when drawing a numeric prime-function
-	void euler_method(double &, double &, const int &);	
+	void euler_method(double &, double &, const int &);
 	/// Line width default
 	int linewidth0;
+        QRgb defaultColor(int function);
 	
-	///Return an unused function name if it is needed
-	void fixFunctionName(QString &, int const=-1);
-
+        enum { Function, Polar, Parametric }; ///types of functions
+	///Returns an unused function name if it is needed
+	void fixFunctionName(QString &, int const = XParser::Function , int const=-1);
+        /// Returns the index for the next function.
+        int getNextIndex();
+        
+        
         /// Extended attributes are encapulated in this structure.
 	struct FktExt
 	{
@@ -72,16 +76,14 @@ public:
 		f2_mode,///< \a f2_mode == 1.  draw the 2nd derivative, too.
 		integral_mode, ///< \a f2_mode == 1.  draw the integral, too.
 		integral_use_precision; ///< The user can specify an unic precision for numeric prime-functions
-		int linewidth,f1_linewidth,f2_linewidth, integral_linewidth, ///< Line width.
+		int linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width.
 		/** Number of parameter values. 
 		 * @see FktExt::k_liste */
-		k_anz; 
 		QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
 		double dmin, ///< Custom plot range, lower boundage.
 		dmax, ///< Custom plot range, upper boundage.
 		/** List of parameter values. 
 		 * @see FktExt::k_anz */
-		k_liste[ 10 ],
 		oldyprim,  ///< needed for Euler's method, the last y'.value
 		oldx, ///< needed for Euler's method, the last x-value
 		starty,///< startposition forEuler's method, the initial y-value
@@ -89,17 +91,21 @@ public:
 		integral_precision; ///<precision when drawing numeric prime-functions
 		QString extstr; ///< Complete function string including the extensions.
 		QRgb color, ///< current color.
-		color0, ///< Default color.
 		f1_color, f2_color, integral_color;
 		QStringList str_parameter; ///< List with parameter strings to be parsed with XParser::eval
 		int use_slider; ///< -1: none (use list), else: slieder number
+                QValueList<double > k_liste;
 		// TODO double slider_min, slider_max; ///< extreme values of the slider
         };
         QValueVector<FktExt> fktext;
-	
-	private:
-		/// finds a free function name 
-		char findFunctionName(int const);
+        void prepareAddingFktExtFunction(FktExt &);
+        
+        
+        void delfkt( Ufkt *u_item, FktExt *f_item);
+private:
+        
+	/// finds a free function name 
+	QString findFunctionName(int const);
 };
 
 #endif //xparser_included

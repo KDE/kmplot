@@ -239,7 +239,6 @@ bool MainDlg::checkModified()
 }
 
 // Slots
-
 void MainDlg::slotOpenNew()
 {
 	if( !checkModified() ) return;
@@ -531,13 +530,12 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	//creates a valid name for the function if the user has forgotten that
 	QString f_str( tmp_f_str );
 	view->parser()->fixFunctionName(f_str);
-
+        
 	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y')
 	{
 		KMessageBox::error( this, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));
 		return;
 	}
-
 	int index = view->parser()->addfkt( f_str );
 	if (index==-1)
 	{
@@ -554,17 +552,18 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 		view->parser()->delfkt( index );
 		return;
 	}
-	view->parser()->fktext[index].color = view->parser()->fktext[index].color0;
-	view->parser()->fktext[index].f1_color = view->parser()->fktext[index].color0;
-	view->parser()->fktext[index].f2_color = view->parser()->fktext[index].color0;
-	view->parser()->fktext[index].integral_color = view->parser()->fktext[index].color0;
-	view->parser()->fktext[index].f1_linewidth = view->parser()->fktext[index].linewidth;
-	view->parser()->fktext[index].f2_linewidth = view->parser()->fktext[index].linewidth;
-	view->parser()->fktext[index].integral_linewidth = view->parser()->fktext[index].linewidth;
-	view->parser()->fktext[index].f_mode = 1;
-	view->parser()->fktext[index].integral_precision=Settings::relativeStepWidth();
-	view->parser()->fktext[index].extstr = f_str;
-	view->parser()->getext( index );
+        
+        XParser::FktExt fktext;
+        view->parser()->prepareAddingFktExtFunction(fktext);
+        fktext.extstr = f_str;
+        view->parser()->fktext.append(fktext );
+         
+	if ( view->parser()->getext( index ) == -1)
+        {
+                m_quickEdit->setFocus();
+                m_quickEdit->selectAll();
+                view->parser()->delfkt( index );
+        }
 	m_quickEdit->clear();
         m_modified = true;
 	view->drawPlot();

@@ -62,7 +62,7 @@ void KEditPolar::clearWidgets()
 	min->clear();
 	max->clear();
 	kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
-	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color0 );
+	kColorButtonColor->setColor( m_parser->defaultColor(m_parser->getNextIndex() ) );
 }
 
 void KEditPolar::setWidgets()
@@ -90,7 +90,7 @@ void KEditPolar::accept()
 	if( m_index != -1 )  //when editing a function: 
 	{
 		index = m_index; //use the right function-index
-		m_parser->fixFunctionName(f_str,index);
+		m_parser->fixFunctionName(f_str, XParser::Polar, index);
 		f_str.prepend("r");
 		QString old_fstr = m_parser->ufkt[index].fstr;
 		m_parser->ufkt[index].fstr = f_str;
@@ -107,20 +107,21 @@ void KEditPolar::accept()
 	}
 	else
 	{
-		m_parser->fixFunctionName(f_str);
+		m_parser->fixFunctionName(f_str, XParser::Polar);
 		f_str.prepend("r");
 		index = m_parser->addfkt(f_str );
 		kdDebug() << "index: " << index << endl;
+                
+                if( index == -1 ) 
+                {
+                        m_parser->errmsg();
+                        this->raise();
+                        kLineEditYFunction->setFocus();
+                        kLineEditYFunction->selectAll();
+                        return;
+                }
 	}
-	
-	if( index == -1 ) 
-	{
-		m_parser->errmsg();
-		this->raise();
-		kLineEditYFunction->setFocus();
-		kLineEditYFunction->selectAll();
-		return;
-	}
+
 	XParser::FktExt tmp_fktext; //all settings are saved here until we know that no errors have appeared
 	tmp_fktext.extstr = f_str;
 		
@@ -157,15 +158,6 @@ void KEditPolar::accept()
 			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
-		
-		/*if (  tmp_fktext.dmin<View::xmin || tmp_fktext.dmax>View::xmax )
-		{
-			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
-			min->setFocus();
-			min->selectAll();
-			if( m_index == -1 ) m_parser->delfkt(index);
-			return;
-		}*/
 	}
 	else
 	{
@@ -180,13 +172,17 @@ void KEditPolar::accept()
 	tmp_fktext.linewidth = kIntNumInputLineWidth->value();
 	tmp_fktext.color = kColorButtonColor->color().rgb();
 	tmp_fktext.use_slider = -1;
-	tmp_fktext.k_anz=0;
 	
-	tmp_fktext.color0 = m_parser->fktext[index].color0;
-	m_parser->fktext[index] = tmp_fktext;
-	kLineEditYFunction->setText(f_str);
+	//tmp_fktext.color0 = m_parser->fktext[index].color0; ///Should we change the default color?
+        
+        //save all settings in the function now when we now no errors have appeared
+        if( m_index == -1 )
+                m_parser->fktext.append(tmp_fktext);
+        else
+                m_parser->fktext[index] = tmp_fktext; 
 	
-	
+        
+        kLineEditYFunction->setText(f_str); //update the function name in FktDlg
 	// call inherited method
 	QEditPolar::accept();
 }

@@ -385,7 +385,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 				}
 				else
 				{
-					if(mflg<=1 && (fktmode!='x' || (fktmode=='x' && y>=dmin && y<=dmax) ) ) //the check is for parametric functions
+					if(mflg<=1)
 						pDC->drawLine(p1, p2);
 					p1=p2;
 					mflg=0;

@@ -158,14 +158,14 @@ void KEditPolar::accept()
 			return;
 		}
 		
-		if (  tmp_fktext.dmin<View::xmin || tmp_fktext.dmax>View::xmax )
+		/*if (  tmp_fktext.dmin<View::xmin || tmp_fktext.dmax>View::xmax )
 		{
 			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
 			min->setFocus();
 			min->selectAll();
 			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
-		}
+		}*/
 	}
 	else
 	{
@@ -174,6 +174,9 @@ void KEditPolar::accept()
 		tmp_fktext.str_dmax = "0";
 		tmp_fktext.dmax = 0;
 	}
+	tmp_fktext.f1_mode = 0;
+	tmp_fktext.f2_mode = 0;
+	tmp_fktext.integral_mode = 0;
 	tmp_fktext.linewidth = kIntNumInputLineWidth->value();
 	tmp_fktext.color = kColorButtonColor->color().rgb();
 	tmp_fktext.use_slider = -1;

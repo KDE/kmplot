@@ -28,13 +28,14 @@
  
 // Qt includes
 #include <qstring.h>
+//#include <qvaluelist.h>
 #include <qvaluevector.h>
+
 
 #ifndef parser_included
 #define parser_included
 
 // Voreinstellungen bei Verwendung des Standardkonstruktors :
-
 
 #define	UFANZ		10	///< max. count of user defined functions
 #define	MEMSIZE		200	///< memory size for tokens
@@ -117,10 +118,7 @@ public:
 class Parser
 {
 public:
-
-	Parser();
 	Parser(int, int, int);
-
 	~Parser();
 	
 	/// Evaluates the given expression.
@@ -199,8 +197,8 @@ public:
 		int stacksize;		///< Size of the stack.
 		double k,		///< Function parameter.
 		oldy;			///< The last y-value needed for Euler's method
-	}
-	*ufkt; ///< Points to the array of user defined functions.
+	};
+        QValueVector<Ufkt> ufkt;///< Points to the array of user defined functions.
 			
 protected:
 	/** Mathematical function. */

@@ -87,7 +87,7 @@ void KmPlotProgress::increase()
 
 View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() ), m_popupmenu(p), m_modified(mo)
 {   
-	m_parser = new XParser( 10, 200, 20 );
+	m_parser = new XParser( UFANZ, MEMSIZE, STACKSIZE );
 
 	init();
 	csflg=0;

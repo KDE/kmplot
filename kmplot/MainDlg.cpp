@@ -546,7 +546,6 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 		m_quickEdit->selectAll();
 		return;
 	}
-
 	if  ( f_str.contains('y') != 0)
 	{
 		KMessageBox::error( this, i18n( "Recursive function is not allowed"));
@@ -567,7 +566,7 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	view->parser()->fktext[index].extstr = f_str;
 	view->parser()->getext( index );
 	m_quickEdit->clear();
-	m_modified = true;
+        m_modified = true;
 	view->drawPlot();
 }
 

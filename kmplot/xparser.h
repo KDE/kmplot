@@ -29,8 +29,6 @@
 #define SLIDER_COUNT 4
 
 // Qt includes
-#include <qvaluelist.h>
-
 #include <kdebug.h>
 
 // local includes
@@ -46,7 +44,6 @@
 class XParser : public Parser
 {
 public:
-	XParser();
 	XParser( int anz, int m_size, int s_size );
 	~XParser();
 
@@ -98,8 +95,7 @@ public:
 		int use_slider; ///< -1: none (use list), else: slieder number
 		// TODO double slider_min, slider_max; ///< extreme values of the slider
         };
-	//*fktext;
-        QValueList<FktExt> fktext;
+        QValueVector<FktExt> fktext;
 	
 	private:
 		/// finds a free function name 

@@ -76,39 +76,33 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 	{"abs", fabs}		// Absolute value
 };
                                    
-
-Parser::Parser()
-{   ps_init( UFANZ, MEMSIZE, STACKSIZE );
-}
-
-
 Parser::Parser( int anz, int m_size, int s_size )
 {   ps_init( anz, m_size, s_size );
 }
 
 
 void Parser::ps_init(int anz, int m_size, int s_size)
-{	int ix;
-
+{
 	ufanz=anz;
 	memsize=m_size;
 	stacksize=s_size;
-	ufkt=new Ufkt[ufanz];
 	evalflg=ixa=0;
-	for(ix=0; ix<ufanz; ++ix)
-	{	ufkt[ix].memsize=memsize;
-		ufkt[ix].stacksize=stacksize;
-		ufkt[ix].fname="";      //.resize(1);
-		ufkt[ix].fvar="";       //.resize(1);
-		ufkt[ix].fpar="";       //.resize(1);
-		ufkt[ix].fstr="";       //.resize(1);
-		ufkt[ix].mem=new unsigned char [memsize];
-	}
+        Ufkt temp;
+        temp.memsize=memsize;
+        temp.stacksize=stacksize;
+        temp.fname = temp.fvar = temp.fpar = temp.fstr = "";
+        for(int ix=0; ix<ufanz; ++ix)
+        {
+                temp.mem=new unsigned char [memsize];
+                ufkt.append(temp );
+        }
 }
 
 
 Parser::~Parser()
-{   delete [] ufkt;
+{
+        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                delete [](*it).mem;
 }
 
 
@@ -118,9 +112,8 @@ Parser::Ufkt::Ufkt()
 
 
 Parser::Ufkt::~Ufkt()
-{   delete [] mem;
+{
 }
-
 
 void Parser::setAngleMode(int angle)
 {	if(angle==0)
@@ -139,7 +132,8 @@ double Parser::anglemode()
 }
 
 double Parser::eval(QString str)
-{	double erg;
+{
+        double erg;
 	stack=new double [stacksize];
 	stkptr=stack;
 	evalflg=1;
@@ -161,6 +155,7 @@ double Parser::eval(QString str)
 	if ( str.contains('y')!=0)
 	{
 		err=9;
+                delete []stack;
 		return 0;
 	}
 	
@@ -172,7 +167,7 @@ double Parser::eval(QString str)
 	erg=*stkptr;
 	delete [] stack;
 	if(err==0)
-	{	errpos=0;
+	{      errpos=0;
 		return erg;
 	}
 	else

@@ -37,7 +37,7 @@
 #include "xparser.h"
 
 KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
-	: QMinMax(parent, name, true), m_view(v)
+	: QMinMax(parent, name), m_view(v)
 {
 	m_mode=-1;
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
@@ -136,16 +136,15 @@ void KMinMax::init(char m)
 void KMinMax::updateFunctions()
 {
 	QString const selected_item(list->currentText() );
-	
 	list->clear();
 
-        //for ( uint index = 0; index < m_view->parser()->fktext.count(); ++index )
         for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
-		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r')
+		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r' && !it->fname.isEmpty())
 		{
 			if ( it->f_mode )
 				list->insertItem(it->fstr);
+
 			if ( it->f1_mode ) //1st derivative
 			{
 				QString function (it->fstr);
@@ -172,12 +171,15 @@ void KMinMax::updateFunctions()
 			}
 		}
 	}
+	list->sort();
+	if (list->count()==0) //empty list
+		cmdFind->setEnabled(false);
+	else
+		cmdFind->setEnabled(true);
 	selectItem();
 	QListBoxItem *found_item = list->findItem(selected_item,Qt::ExactMatch);
 	if ( found_item && m_view->csmode < 0)
-	{
 		list->setSelected(found_item,true);
-	}
 }
 
 void KMinMax::selectItem()
@@ -381,8 +383,6 @@ void KMinMax::list_highlighted(QListBoxItem* item)
                         break;
                 }
         }
-        
-
 }
 void KMinMax::cmdParameter_clicked()
 {

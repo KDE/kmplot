@@ -87,7 +87,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 	setWidget( view );
 	view->setFocusPolicy(QWidget::ClickFocus);
-	minmaxdlg = new KMinMax(view);
+	minmaxdlg = new KMinMax(view, m_parent);
 	view->setMinMaxDlg(minmaxdlg);
 	m_quickEdit = new KLineEdit( parentWidget );
 	m_quickEdit->setFocus();

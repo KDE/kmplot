@@ -26,7 +26,7 @@
 /**
  * Version string of KmPlot.
  */
-#define KP_VERSION "1.0.9"
+#define KP_VERSION "1.2.0"
 
 // local includes
 #include "kmplot.h"

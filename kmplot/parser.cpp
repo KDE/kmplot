@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -31,43 +31,42 @@
 
 
 //	Bezeichnungen und Adressen
-//	der möglichen math. Funktionen :
+//	der mï¿½lichen math. Funktionen :
 
-Parser::Mfkt Parser::mfkttab[FANZ]={{"abs", fabs},          // Absolutbetrag
-                                    {"sign", sign},         // Signum
-                                    {"sqrt", sqrt}, 	    // Quadratwurzel
-                                    {"sqr", sqr}, 			// Quadrat
-                                    {"exp", exp}, 			// e-Funktion
-                                    {"ln", log}, 			// nat. Logarithmus
-                                    {"log", log10}, 		// 10-er Logarithmus
-                                    {"sinh", sinh}, 		// Sinushyperbolikus
-                                    {"cosh", cosh}, 		// Cosinushyperbolikus
-                                    {"tanh", tanh}, 		// Tangenshyperbolikus
-                                    {"sin", sin}, 			// Sinus
-                                    {"cos", cos}, 			// Cosinus
-                                    {"tan", tan}, 			// Tangens
-                                    {"arsinh", arsinh}, 	// Area-Sinushyperbolikus
-                                    {"arcosh", arcosh}, 	// Area-Cosinushyperbolikus
-                                    {"artanh", artanh}, 	// Area-Tangenshyperbolikus
-                                    {"arcsin", asin}, 		// Arcussinus
-                                    {"arccos", acos}, 		// Arcuscosinus
-                                    {"arctan", atan},		// Arcustangens
-				    
-				    {"cosec", cosec},
-				    {"sec", sec},
-				    {"cot", cot},
-				    {"arccosec", arccosec},
-				    {"arcsec", arcsec},
-				    {"arccot", arccot},
-				    
-    				    {"cosech", cosech},
-				    {"sech", sech},
-				    {"coth", coth},
-				    {"arcosech", arcosech},
-				    {"arsech", arsech},
-				    {"arcoth", arcoth}
-
-                                   };		
+Parser::Mfkt Parser::mfkttab[FANZ]=
+{
+	{"tanh", tanh}, 		// Tangenshyperbolikus
+	{"tan", tan}, 			// Tangens
+	{"sqrt", sqrt}, 	    // Quadratwurzel
+	{"sqr", sqr}, 			// Quadrat
+	{"sinh", sinh}, 		// Sinushyperbolikus
+	{"sin", sin}, 			// Sinus
+	{"sign", sign},         // Signum
+	{"sech", sech},
+	{"sec", sec},
+	{"log", log10}, 		// 10-er Logarithmus
+	{"ln", log}, 			// nat. Logarithmus
+	{"exp", exp}, 			// e-Funktion
+	{"coth", coth},
+	{"cot", cot},
+	{"cosh", cosh}, 		// Cosinushyperbolikus
+	{"cosech", cosech},
+	{"cosec", cosec},
+	{"cos", cos}, 			// Cosinus
+	{"artanh", artanh}, 	// Area-Tangenshyperbolikus
+	{"arsinh", arsinh}, 	// Area-Sinushyperbolikus
+	{"arsech", arsech},
+	{"arctan", atan},		// Arcustangens
+	{"arcsin", asin}, 		// Arcussinus
+	{"arcsec", arcsec},
+	{"arcoth", arcoth},
+	{"arcosh", arcosh}, 	// Area-Cosinushyperbolikus
+	{"arcosech", arcosech},
+	{"arccot", arccot},
+	{"arccosec", arccosec},
+	{"arccos", acos}, 		// Arcuscosinus
+	{"abs", fabs}          // Absolutbetrag
+};
                                    
 
 Parser::Parser()
@@ -273,15 +272,15 @@ int Parser::delfkt(QString name)
 {   int ix;
 
 	ix=getfix(name);
-	if(ix!=-1) ufkt[ix].fname="";   //.resize(1);	// Name löschen
+	if(ix!=-1) ufkt[ix].fname="";   //.resize(1);	// Name lï¿½chen
 	return ix;
 }
 
 
 int Parser::delfkt(int ix)
-{   if(ix<0 || ix>=ufanz) return -1;	// ungültiger Index
+{   if(ix<0 || ix>=ufanz) return -1;	// ungltiger Index
 
-	ufkt[ix].fname="";      //.resize(1);			// Name löschen
+	ufkt[ix].fname="";      //.resize(1);			// Name lï¿½chen
 	return ix;
 }
 
@@ -555,14 +554,14 @@ void Parser::addfptr(Ufkt *adr)
 
 
 int Parser::chkfix(int ix)
-{   if(ix<0 || ix>=ufanz) return -1;		// ungültiger Index
+{   if(ix<0 || ix>=ufanz) return -1;		// ungltiger Index
 	if(ufkt[ix].fname.isEmpty()) return -1;	// keine Funktion
 	return ix;
 }
 
 
 int Parser::getfkt(int ix, QString& name, QString& str)
-{   if(ix<0 || ix>=ufanz) return -1;		// ungültiger Index
+{   if(ix<0 || ix>=ufanz) return -1;		// ungltiger Index
 	if(ufkt[ix].fname.isEmpty()) return -1;	// keine Funktion
 	name=ufkt[ix].fname.copy();
 	str=ufkt[ix].fstr.copy();

@@ -261,7 +261,7 @@ void MainDlg::slotSave()
 		
 		if ( oldfileversion)
 		{
-			if ( KMessageBox::warningYesNo( this, i18n( "This file is saved with an old file format. If you save it, you can't open the file with older versions of Kmplot. Are you sure you want to continue?" ) ) == KMessageBox::No)
+			if ( KMessageBox::warningYesNo( this, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of Kmplot. Are you sure you want to continue?" ) ) == KMessageBox::No)
 				return;
 		}
 		KmPlotIO::save( view->parser(), m_filename );

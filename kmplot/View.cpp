@@ -327,7 +327,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 					x=dmax+1;
 					continue;
 				}
-				errno=0;
 				switch(p_mode)
 				{
 					case 0: 
@@ -353,8 +352,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 						break;
 					}
 				}
-
-				if(errno!=0) continue;
 		
                			if(fktmode=='r')
 				{
@@ -1235,7 +1232,6 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 			x=dmax+1;
 			continue;
 		}
-		errno=0;
 		switch(p_mode)
 		{
 			case 0: 
@@ -1265,7 +1261,6 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 				break;
 			}
 		}
-		if(errno!=0) continue;
 		
 		if (x>=dmin && x<=dmax)
 		{
@@ -1380,8 +1375,6 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 					progressbar->increase();
 					paintEvent(0);
 				}
-				
-				if(errno!=0) continue;
 
 				if ( (x+dx > target && forward_direction) || ( x+dx < target && !forward_direction)) //right x-value is found
 					target_found = true;
@@ -1648,7 +1641,6 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 			break;
 			continue;
 		}
-		errno=0;
 		switch(p_mode)
 		{
 			case 0: 
@@ -1678,8 +1670,6 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 				break;
 			}
 		}
-
-		if(errno!=0) continue;	
 		
 		p.setX(dgr.Transx(x));
 		p.setY(dgr.Transy(y));

@@ -75,7 +75,4 @@ void KOptDlg::oncancel()
 	done( 0 );
 }
 
-void KOptDlg::onHelp()
-{
-	kapp->invokeHelp( "", "kmplot" );
-}
+

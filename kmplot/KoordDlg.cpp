@@ -67,7 +67,7 @@ void KoordDlg::setAxes()
 	bg_yachse->setButton( kdy );
 }
 
-int KoordDlg::wertholen( double& w, QLineEdit *le )
+int KoordDlg::getValue( double& w, QLineEdit *le )
 {
 	w = ps.eval( le->text() );
 	if ( ps.err != 0 )
@@ -105,9 +105,9 @@ void KoordDlg::onok()
 		mxmax = 10.0;
 		break;
 	case 4:
-		if ( wertholen( mxmin, le_xmin ) != 0 )
+		if ( getValue( mxmin, le_xmin ) != 0 )
 			return ;
-		if ( wertholen( mxmax, le_xmax ) != 0 )
+		if ( getValue( mxmax, le_xmax ) != 0 )
 			return ;
 		if ( mxmin >= mxmax )
 		{
@@ -135,9 +135,9 @@ void KoordDlg::onok()
 		mymax = 10.0;
 		break;
 	case 4:
-		if ( wertholen( mymin, le_ymin ) != 0 )
+		if ( getValue( mymin, le_ymin ) != 0 )
 			return ;
-		if ( wertholen( mymax, le_ymax ) != 0 )
+		if ( getValue( mymax, le_ymax ) != 0 )
 			return ;
 		if ( mymin >= mymax )
 		{

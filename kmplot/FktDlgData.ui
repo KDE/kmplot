@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>429</width>
-            <height>346</height>
+            <height>349</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -352,6 +352,12 @@
         <receiver>FktDlgData</receiver>
         <slot>onNewPolar()</slot>
     </connection>
+    <connection>
+        <sender>pushButtonHelp</sender>
+        <signal>clicked()</signal>
+        <receiver>FktDlgData</receiver>
+        <slot>onHelp()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>lb_fktliste</tabstop>
@@ -372,6 +378,7 @@
     <slot>onNewParametric()</slot>
     <slot>onNewPolar()</slot>
     <slot>onNewFunction()</slot>
+    <slot access="protected">onHelp()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

@@ -42,7 +42,10 @@ public:
 private:
 
 	void setAxes();
-	int wertholen( double&, QLineEdit* );
+	/**
+	Get the value for the axes range from the dialog
+	*/
+	int getValue( double&, QLineEdit* );
 
 
 	int errflg,

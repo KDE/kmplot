@@ -74,7 +74,8 @@ protected slots:
 	void onNewFunction();
 	void onNewParametric();
 	void onNewPolar();
-
+	void onHelp();
+	
 private:
 	int getIx( const QString f_str );
 	void updateView();

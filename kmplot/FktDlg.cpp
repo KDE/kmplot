@@ -186,3 +186,8 @@ void FktDlg::fillList()
 		else lb_fktliste->insertItem( ps.fktext[ index ].extstr );
 	}
 }
+
+void  FktDlg::onHelp()
+{
+	kapp->invokeHelp( "", "kmplot" );
+}

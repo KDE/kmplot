@@ -1,14 +1,14 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="kmplot" version="3">
 	<MenuBar>
-		<Menu name="file"><text>&amp;File</text>
+		<Menu name="file">
 			<Action name="export"/>
 		</Menu>
-		<Menu name="functions"><text>F&amp;unctions</text>
+		<Menu name="functions"><text>&amp;Plot</text>
 			<Action name="newfunction"/>
 			<Action name="newparametric"/>
 			<Action name="newpolar"/>
-			<Action name="functions"/>
+			<Action name="editplots"/>
 		</Menu>
 		<Menu name="edit">
 			<Action name="editcolors"/>

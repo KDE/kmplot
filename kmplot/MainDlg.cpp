@@ -72,17 +72,9 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	
 	// Let's create a Configure Diloag
 	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() ); 
-// 	color_settings = new SettingsPageColor( 0, "colorSettings" ); 
-// 	coords_settings = new SettingsPageCoords( 0, "coordsSettings" ); 
-// 	scaling_settings = new SettingsPageScaling( 0, "scalingSettings" ); 
-// 	fonts_settings = new SettingsPageFonts( 0, "fontsSettings" ); 
-	precision_settings = new SettingsPagePrecision( 0, "precisionSettings" );
- 
-/*	m_settingsDialog->addPage( color_settings, i18n( "Colors" ), "colorize" ); 
-	m_settingsDialog->addPage( coords_settings, i18n( "Coords" ), "coords" ); 
-	m_settingsDialog->addPage( scaling_settings, i18n( "Scaling" ), "scaling" ); 
-	m_settingsDialog->addPage( fonts_settings, i18n( "Fonts" ), "fonts" ); */
-	m_settingsDialog->addPage( precision_settings, i18n( "Precision" ), "" ); 
+	// create and add the page(s)
+	m_precisionSettings = new SettingsPagePrecision( 0, "precisionSettings" );
+	m_settingsDialog->addPage( m_precisionSettings, i18n( "Precision" ), "" ); 
 	// User edited the configuration - update your local copies of the 
 	// configuration data 
 	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
@@ -104,7 +96,7 @@ void MainDlg::setupActions()
 	KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
 	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
-	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
+	connect( kapp, SIGNAL( lastWindowClosed() ), this, SLOT( slotQuit() ) );
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
@@ -129,10 +121,10 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( slotCoord3() ), actionCollection(), "coord_iii" );
 
 	// functions menu	
-	( void ) new KAction( i18n( "&New Function Plot..." ), "kfkt.png", 0, this, SLOT( onNewFunction() ), actionCollection(), "newfunction" );
-	( void ) new KAction( i18n( "New Parametric Plot..." ), 0, this, SLOT( onNewParametric() ), actionCollection(), "newparametric" );
-	( void ) new KAction( i18n( "New Polar Plot..." ), 0, this, SLOT( onNewPolar() ), actionCollection(), "newpolar" );
-	( void ) new KAction( i18n( "Edit Functions..." ), 0, this, SLOT( slotEditFunctions() ), actionCollection(), "functions" );
+	( void ) new KAction( i18n( "&New Function Plot..." ), "kfkt.png", 0, this, SLOT( newFunction() ), actionCollection(), "newfunction" );
+	( void ) new KAction( i18n( "New Parametric Plot..." ), 0, this, SLOT( newParametric() ), actionCollection(), "newparametric" );
+	( void ) new KAction( i18n( "New Polar Plot..." ), 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
+	( void ) new KAction( i18n( "Edit Plots..." ), 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 
 	// help menu
 	view_names = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( slotNames() ), actionCollection(), "names" );
@@ -141,7 +133,7 @@ void MainDlg::setupActions()
 	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
 	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
-		"For instance: f(x)=x^2\nFor more options use Functions->Edit Functions... menu." ) );
+		"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
 	
 	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
 }
@@ -339,7 +331,7 @@ void MainDlg::slotNames()
 		bez->hide();
 }
 
-void MainDlg::onNewFunction()
+void MainDlg::newFunction()
 {
 	KEditFunction* editFunction = new KEditFunction( &ps, this );
 	editFunction->initDialog();
@@ -347,7 +339,7 @@ void MainDlg::onNewFunction()
 	view->update();
 }
 
-void MainDlg::onNewParametric()
+void MainDlg::newParametric()
 {
 	KEditParametric* editParametric = new KEditParametric( &ps, this );
 	editParametric->initDialog();
@@ -355,7 +347,7 @@ void MainDlg::onNewParametric()
 	view->update();
 }
 
-void MainDlg::onNewPolar()
+void MainDlg::newPolar()
 {
 	KEditPolar* editPolar = new KEditPolar( &ps, this );
 	editPolar->initDialog();
@@ -363,7 +355,7 @@ void MainDlg::onNewPolar()
 	view->update();
 }
 
-void MainDlg::slotEditFunctions()
+void MainDlg::slotEditPlots()
 {
 	if ( !fdlg ) fdlg = new FktDlg( this ); // make the dialog only if not allready done
 	fdlg->fillList(); // 
@@ -452,4 +444,9 @@ void MainDlg::optionsConfigureToolbars()
 	KEditToolbar dlg(actionCollection());
 	connect(&dlg, SIGNAL(newToolbarConfig()), this, SLOT(newToolbarConfig()));
 	dlg.exec();
+}
+
+bool MainDlg::queryClose()
+{
+	return checkModified() && KMainWindow::queryClose();
 }

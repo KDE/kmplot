@@ -57,103 +57,109 @@ class MainDlg : public KMainWindow
 {
 	Q_OBJECT
 
-public:
-	MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name = NULL );
-	virtual ~MainDlg();
-	friend class FktDlg;
-	friend class BezWnd;
+	public:
+		MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name = NULL );
+		virtual ~MainDlg();
+		friend class FktDlg;
+		friend class BezWnd;
+	
+	public slots:
+		/// Implement the color edit dialog
+		void editColors();
+		/// Implement the coordinate system edit dialog
+		void editAxes();
+		/// Implement the scaling edit dialog
+		void editScaling();
+		/// Implement the fonts edit dialog
+		void editFonts();
+		/// Implement the dialog to enter a function plot and its options
+		void newFunction();
+		/// Implement the dialog to enter a parametric plot and its options
+		void newParametric();
+		/// Implement the dialog to enter a polar plot and its options
+		void newPolar();
+	
+	private:
+		void setupActions();
+		
+		void setupStatusBar();
+		bool checkModified();
+		int tbid,
+		stbid;
+		///The Statusbar instance
+		KStatusBar *stbar;
+		FktDlg *fdlg;
+		BezWnd *bez;
+		/** In the Help menu, this action will display a dialog 
+		 *  with the names of the common mathematical functions */
+		KToggleAction *view_names;
+		View *view;
+		/// unique string for tmp file
+		QString m_sessionId;
+		///The Recent Files action
+		KRecentFilesAction * m_recentFiles;
+		/** Current filename of the current plot
+		 *  isEmpty() == not yet saved */
+		QString m_filename;      
+		/// true == modifications not saved
+		bool m_modified;
+		///An instance of the application config file
+		KConfig* m_config;
+		///The KLineEdit which is in the toolbar
+		KLineEdit* m_quickEdit;
+		///A Configure KmPlot dialog instance
+		KConfigDialog* m_settingsDialog;
+		///The Precision page for the Configure KmPlot dialog
+		SettingsPagePrecision* m_precisionSettings;
+		
+	protected slots:
+		/// Implement the File -> Open action
+		void slotOpen();
+		///Implement the File -> New action by cleaning the plot area
+		void slotOpenNew();
+		/**
+		* When you click on a File->Open Recent file, it'll open 
+		* @param url name of the url to open
+		*/
+		void slotOpenRecent( const KURL &url );
+		///Save a plot i.e. save the function name and all the settings for the plot
+		void slotSave();
+		///Save a plot and choose a name for it
+		void slotSaveas();
+		///Call the dialog (an instance of FktDlg) to edit the functions and make changes on them
+		void slotEditPlots();
+		///Print the current plot
+		void slotPrint();
+		///Export the current plot as a png, svg or bmp picture
+		void slotExport();
+		///Implement the Configure KmPlot dialog
+		void slotSettings();
+		///
+		void newToolbarConfig();
+		///
+		void optionsConfigureKeys();
+		///
+		void optionsConfigureToolbars();
+		///Update settings when there is a change in the Configure KmPlot dialog
+		void updateSettings();
+		///Calls the common function names dialog
+		void slotNames();
+		///SLot to change the coordinate systems, shows negative x-values and negative y-values
+		void slotCoord1();
+		///SLot to change the coordinate systems, shows positive x-values and negative y-values
+		void slotCoord2();
+		///SLot to change the coordinate systems, shows positive x-values and positive y-values
+		void slotCoord3();
+		/**
+		* Manages the LineEdit content after returnPressed() is emitted
+		* @param the content of the KLineEdit
+		*/
+		void slotQuickEdit( const QString& );
+		
+	protected:
+		/// Quits KmPlot after checking, if modifications shall be saved
+		virtual bool queryClose();
 
-public slots:
-	
-	void editColors();
-	void editAxes();
-	void editScaling();
-	void editFonts();
-	void onNewFunction();
-	void onNewParametric();
-	void onNewPolar();
-
-private:
-	void setupActions();
-	
-	void setupStatusBar();
-	bool checkModified();
-	int tbid,
-	stbid;
-	///The Statusbar instance
-	KStatusBar *stbar;
-	FktDlg *fdlg;
-	BezWnd *bez;
-	///In the Help menu, this action will display a dialog with the names of the common mathematical functions
-	KToggleAction *view_names;
-	View *view;
-	QString m_sessionId;
-	///The Recent Files action
-	KRecentFilesAction * m_recentFiles;
-	///Current filename of the current plot
-	QString m_filename;      
-	bool m_modified;
-	///An instance of the application config file
-	KConfig* m_config;
-	///The KLineEdit which is in the toolbar
-	KLineEdit* m_quickEdit;
-	///A Configure KmPlot dialog instance
-	KConfigDialog* m_settingsDialog;
-	///The Colors tab for the Configure KmPlot dialog
-	SettingsPageColor* color_settings;
-	///The Coordinates tab for the Configure KmPlot dialog
-	SettingsPageCoords* coords_settings;
-	///The Scaling tab  for the Configure KmPlot dialog
-	SettingsPageScaling* scaling_settings;
-	///The Fonts tab for the Configure KmPlot dialog
-	SettingsPageFonts* fonts_settings;
-	///The Precision page for the Configure KmPlot dialog
-	SettingsPagePrecision* precision_settings;
-	
-protected slots:
-
-	void slotOpen();
-	///Implement the File -> New action by cleaning the plot area
-	void slotOpenNew();
-	/**
-	When you click on a File->Open Recent file, it'll open 
-	
-	@param url name of the url to open
-	*/
-	void slotOpenRecent( const KURL &url );
-	///Save a plot i.e. save the function name and all the settings for the plot
-	void slotSave();
-	///Save a plot and choose a name for it
-	void slotSaveas();
-	///Call the dialog (an instance of FktDlg) to edit the functions and make changes on them
-	void slotEditFunctions();
-	///Print the current plot
-	void slotPrint();
-	///Export the current plot as a png, svg or bmp picture
-	void slotExport();
-	///Implement the Configure KmPlot dialog
-	void slotSettings();
-	///
-	void newToolbarConfig();
-	///
-	void optionsConfigureKeys();
-	///
-	void optionsConfigureToolbars();
-	///Update settings when there is a change in the Configure KmPlot dialog
-	void updateSettings();
-	///Calls the common function names dialog
-	void slotNames();
-	///SLot to change the coordinate systems, shows negative x-values and negative y-values
-	void slotCoord1();
-	///SLot to change the coordinate systems, shows positive x-values and negative y-values
-	void slotCoord2();
-	///SLot to change the coordinate systems, shows positive x-values and positive y-values
-	void slotCoord3();
-	/**
-	Manages the LineEdit content after returnPressed() is emitted
-	@param the content of the KLineEdit
-	*/
-	void slotQuickEdit( const QString& );
 };
 
 #endif // MainDlg_included

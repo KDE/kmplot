@@ -131,7 +131,11 @@ void KParameterEditor::cmdImport_clicked()
 				list->sort();
 			}
 			else
-				KMessageBox::error(this,i18n("Line %1 is not a valid parameter value and will therefore not be included").arg(i) );
+				if ( KMessageBox::warningYesNo(this,i18n("Line %1 is not a valid parameter value and will therefore not be included. Do you want to continue?").arg(i) ) == KMessageBox::No)
+				{
+					file.close();
+					return;
+				}
 		}
 		file.close();
 	}

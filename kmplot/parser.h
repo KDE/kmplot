@@ -37,7 +37,7 @@
 
 // Voreinstellungen bei Verwendung des Standardkonstruktors :
 
-#define	MEMSIZE		200	///< memory size for tokens
+#define	MEMSIZE		500	///< memory size for tokens
 #define	STACKSIZE	50	///< stack depth
 
 //@{
@@ -126,8 +126,6 @@ class Ufkt
 		QString fvar;           ///< Dummy variable.
 		QString fpar;           ///< Parameter.
 		QString fstr;           ///< Function expression.
-		int memsize;            ///< Size of token memory
-		int stacksize;          ///< Size of the stack.
 		double k,               ///< Function parameter.
 		oldy;                   ///< The last y-value needed for Euler's method
 		QValueList<int> dep;   /// A list with all functions this function depends on
@@ -261,9 +259,6 @@ private:
 	addfptr(double(*)(double)),
 	addfptr(uint );
 	int match(const char*);
-
-        int  const   memsize,        // Gr�e des Tokenspeichers
-        stacksize;// Gr�e des Stack
         
 	unsigned
 	char evalflg, 		// 0 => String wird tokenisiert

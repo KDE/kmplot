@@ -8,15 +8,15 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>413</width>
-            <height>256</height>
+            <width>415</width>
+            <height>257</height>
         </rect>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QTabWidget">
+        <widget class="QTabWidget" row="0" column="0">
             <property name="name">
                 <cstring>tabs</cstring>
             </property>
@@ -115,7 +115,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>&amp;Functions</string>
+                    <string>&amp;Default function colors</string>
                 </attribute>
                 <vbox>
                     <property name="name">
@@ -438,7 +438,7 @@
                 </vbox>
             </widget>
         </widget>
-    </vbox>
+    </grid>
 </widget>
 <tabstops>
     <tabstop>tabs</tabstop>

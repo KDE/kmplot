@@ -88,7 +88,6 @@ Ufkt::~Ufkt()
 
 
 Parser::Parser()
-	: memsize(MEMSIZE), stacksize(STACKSIZE)
 {
 	ps_init();
 }
@@ -98,10 +97,8 @@ void Parser::ps_init()
 {
 	evalflg=0;
         Ufkt temp;
-        temp.memsize=memsize;
-        temp.stacksize=stacksize;
         temp.fname = temp.fvar = temp.fpar = temp.fstr = "";
-        temp.mem=new unsigned char [memsize];
+        temp.mem=new unsigned char [MEMSIZE];
         ufkt.append(temp );
         current_item = ufkt.begin();
 }
@@ -159,7 +156,7 @@ uint Parser::getNewId()
 
 double Parser::eval(QString str)
 {
-	stack=new double [stacksize];
+	stack=new double [STACKSIZE];
 	stkptr=stack;
 	evalflg=1;
 	
@@ -238,7 +235,7 @@ double Parser::fkt(Ufkt *it, double const x)
         double *stack, *stkptr;
 	uint *puf;
 	it->mptr=it->mem;
-	stack=stkptr= new double [stacksize];
+	stack=stkptr= new double [STACKSIZE];
 
 	while(1)
 	{
@@ -362,15 +359,13 @@ int Parser::addfkt(QString str)
 			temp.id = ufkt.last().id; //the function belongs to the last inserted function
 		else
                 	temp.id = getNewId();
-                temp.mem=new unsigned char [memsize];
+                temp.mem=new unsigned char [MEMSIZE];
                 ufkt.append(temp );
         }
         QString const fname = str.left(p1);
         Ufkt *temp = &ufkt.last();
 	temp->fstr=extstr;
         temp->mptr = 0;
-        temp->memsize=memsize;
-        temp->stacksize=stacksize;
         temp->fname=fname;
         temp->fvar=str.mid(p1+1, p2-p1-1);
         if(p2<p3) temp->fpar=str.mid(p2+1, p3-p2-1);
@@ -793,7 +788,7 @@ int Parser::match(const char *lit)
 
 void Parser::addtoken(unsigned char token)
 {
-        if(stkptr>=stack+stacksize-1)
+        if(stkptr>=stack+STACKSIZE-1)
 	{
                 err=7;
 		return;
@@ -801,7 +796,7 @@ void Parser::addtoken(unsigned char token)
 
 	if(evalflg==0)
 	{
-                if(mptr>=&mem[memsize-10])
+                if(mptr>=&mem[MEMSIZE-10])
                         err=6;
 		else
                         *mptr++=token;
@@ -863,7 +858,7 @@ void Parser::addwert(double x)
 
 	if(evalflg==0)
 	{
-                if(mptr>=&mem[memsize-10])
+                if(mptr>=&mem[MEMSIZE-10])
                         err=6;
 		else
 		{
@@ -881,7 +876,7 @@ void Parser::addfptr(double(*fadr)(double))
         double (**pf)(double)=(double(**)(double))mptr;
         if( evalflg==0 )
         {
-        if( mptr>=&mem[memsize-10] )
+        if( mptr>=&mem[MEMSIZE-10] )
                 err=6;
         else
                 {
@@ -899,7 +894,7 @@ void Parser::addfptr(uint id)
         uint *p=(uint*)mptr;
         if(evalflg==0)
 	{
-                if(mptr>=&mem[memsize-10]) err=6;
+                if(mptr>=&mem[MEMSIZE-10]) err=6;
 		else
 		{
                         *p++=id;

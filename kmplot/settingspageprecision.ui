@@ -88,9 +88,6 @@
                     <property name="text">
                         <string>&amp;Radian</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+R</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>Trigonometric functions use radian mode for angles.</string>
                     </property>
@@ -104,9 +101,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;Degree</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+D</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Trigonometric functions use degree mode for angles.</string>

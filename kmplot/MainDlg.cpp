@@ -62,7 +62,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	view = new View( this );
 	setCentralWidget( view );
 	m_quickEdit = new KLineEdit( this );
-	QToolTip::add( m_quickEdit, i18n( "enter a function equation, for instance: f(x)=x^2" ) );
+	QToolTip::add( m_quickEdit, i18n( "enter a function equation, for example: f(x)=x^2" ) );
 	setupActions();
 	setupStatusBar();
 	m_sessionId = sessionId;
@@ -128,9 +128,9 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, SLOT( editFonts() ), actionCollection(), "editfonts" );
 	( void ) new KAction( i18n( "&Precision..." ), 0, this, SLOT( editPrecision() ), actionCollection(), "editprecision" );
 	
-	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( onachsen1() ), actionCollection(), "coord_i" );
-	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
-	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
+	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( slotCoord1() ), actionCollection(), "coord_i" );
+	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( slotCoord2() ), actionCollection(), "coord_ii" );
+	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( slotCoord3() ), actionCollection(), "coord_iii" );
 
 	// functions menu	
 	( void ) new KAction( i18n( "&New Function Plot..." ), "kfkt.png", 0, this, SLOT( onNewFunction() ), actionCollection(), "newfunction" );
@@ -142,7 +142,7 @@ void MainDlg::setupActions()
 	view_names = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( slotNames() ), actionCollection(), "names" );
 
 	
-	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( onQuickEdit( const QString& ) ) );
+	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
 	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 		"For instance: f(x)=x^2\nFor more options use Functions->Edit Functions... menu." ) );
@@ -249,8 +249,6 @@ void MainDlg::slotExport()
 	}
 }
 
-
-// here the real storing is done...
 void MainDlg::doSave( QString filename )
 {
 	// saving as xml by a QDomDocument
@@ -609,7 +607,7 @@ void MainDlg::slotEditFunctions()
 	view->update();
 }
 
-void MainDlg::onQuickEdit( const QString& f_str )
+void MainDlg::slotQuickEdit( const QString& f_str )
 {
 	int index = ps.addfkt( f_str );
 	if( index == -1 ) 
@@ -619,7 +617,7 @@ void MainDlg::onQuickEdit( const QString& f_str )
 		m_quickEdit->selectAll();
 		return;
 	}
-	ps.fktext[ index ].extstr = f_str;;
+	ps.fktext[ index ].extstr = f_str;
 	ps.getext( index );
 	m_quickEdit->clear();
 	m_modified = true;
@@ -627,7 +625,7 @@ void MainDlg::onQuickEdit( const QString& f_str )
 }
 
 
-void MainDlg::onachsen1()
+void MainDlg::slotCoord1()
 {
 	Settings::setXRange( 0 );
 	Settings::setYRange( 0 );
@@ -636,7 +634,7 @@ void MainDlg::onachsen1()
 	view->update();
 }
 
-void MainDlg::onachsen2()
+void MainDlg::slotCoord2()
 {
 	Settings::setXRange( 2 );
 	Settings::setYRange( 0 );
@@ -645,7 +643,7 @@ void MainDlg::onachsen2()
 	view->update();
 }
 
-void MainDlg::onachsen3()
+void MainDlg::slotCoord3()
 {
 	Settings::setXRange( 2 );
 	Settings::setYRange( 2 );

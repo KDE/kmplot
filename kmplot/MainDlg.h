@@ -97,16 +97,10 @@ public slots:
 	void onNewFunction();
 	void onNewParametric();
 	void onNewPolar();
-	void onQuickEdit( const QString& );
-	void onachsen1();
-	void onachsen2();
-	void onachsen3();
-	
-	
 
 private:
 	void setupActions();
-	void doSave( QString filename = "" );
+	
 	void setupStatusBar();
 	void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
 
@@ -125,16 +119,22 @@ private:
 	View *view;
 	QString m_sessionId;
 	KRecentFilesAction * m_recentFiles;
-	QString m_filename;      // current filename
+	///Current filename of the current plot
+	QString m_filename;      
 	bool m_modified;
 	KConfig* m_config;
 	KLineEdit* m_quickEdit;
 	///A Configure KmPlot dialog instance
 	KConfigDialog* m_settingsDialog;
+	///The Colors tab for the Configure KmPlot dialog
 	SettingsPageColor* color_settings;
+	///The Coordinates tab for the Configure KmPlot dialog
 	SettingsPageCoords* coords_settings;
+	///The Scaling tab  for the Configure KmPlot dialog
 	SettingsPageScaling* scaling_settings;
+	///The Fonts tab for the Configure KmPlot dialog
 	SettingsPageFonts* fonts_settings;
+	///The Precision page for the Configure KmPlot dialog
 	SettingsPagePrecision* precision_settings;
 	
 protected slots:
@@ -163,9 +163,20 @@ protected slots:
 	void updateSettings();
 	///Calls the common function names dialog
 	void slotNames();
-
+	///SLot to change the coordinate systems, shows negative x-values and negative y-values
+	void slotCoord1();
+	///SLot to change the coordinate systems, shows positive x-values and negative y-values
+	void slotCoord2();
+	///SLot to change the coordinate systems, shows positive x-values and positive y-values
+	void slotCoord3();
+	///Manages the LineEdit content after returnPressed() is emitted
+	void slotQuickEdit( const QString& );
+	
 protected:
+	///Read a kmpdoc xml file to restaure the settings of a previously saved plot
 	void openFile( const QString filename );
+	///Store all information about the current saved plot in a xml file with the .fkt extension in the filename file
+	void doSave( QString filename = "" );
 	
 };
 #endif // MainDlg_included

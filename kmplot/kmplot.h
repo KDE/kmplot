@@ -23,8 +23,8 @@
 *
 */
 
-#ifndef _KMPLOT_H_
-#define _KMPLOT_H_
+#ifndef KMPLOT_H_
+#define KMPLOT_H_
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -123,4 +123,4 @@ private:
 	KmPlotProgress *m_progressbar;
 };
 
-#endif // _KMPLOT_H_
+#endif // KMPLOT_H_

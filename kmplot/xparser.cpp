@@ -499,6 +499,78 @@ bool XParser::setFunctionIntLineWidth(int linewidth, uint id)
 	return true;
 }
 
+QString XParser::functionMinValue(uint id)
+{
+  int const ix = ixValue(id);
+  if (ix==-1)
+    return int();
+  return ufkt[ix].str_dmin;
+}
+
+bool XParser::setFunctionMinValue(const QString &min, uint id)
+{
+  int const ix = ixValue(id);
+  if (ix==-1)
+    return false;
+  ufkt[ix].str_dmin = min;
+  m_modified = true;
+  return true;
+}
+
+QString XParser::functionMaxValue(uint id)
+{
+  int const ix = ixValue(id);
+  if (ix==-1)
+    return int();
+  return ufkt[ix].str_dmax;
+}
+
+bool XParser::setFunctionMaxValue(const QString &max, uint id)
+{
+  int const ix = ixValue(id);
+  if (ix==-1)
+    return false;
+  ufkt[ix].str_dmax = max;
+  m_modified = true;
+  return true;
+}
+
+QString XParser::functionStartXValue(uint id)
+{
+  int const ix = ixValue(id);
+  if (ix==-1)
+    return int();
+  return ufkt[ix].str_startx;
+}
+
+bool XParser::setFunctionStartXValue(const QString &x, uint id)
+{
+  int const ix = ixValue(id);
+  if (ix==-1)
+    return false;
+  ufkt[ix].str_startx = x;
+  m_modified = true;
+  return true;
+}
+
+QString XParser::functionStartYValue(uint id)
+{
+  int const ix = ixValue(id);
+  if (ix==-1)
+    return int();
+  return ufkt[ix].str_starty;
+}
+
+bool XParser::setFunctionStartYValue(const QString &y, uint id)
+{
+  int const ix = ixValue(id);
+  if (ix==-1)
+    return false;
+  ufkt[ix].str_starty = y;
+  m_modified = true;
+  return true;
+}
+
 QStringList XParser::functionParameterList(uint id)
 {
 	int const ix = ixValue(id);

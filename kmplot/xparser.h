@@ -77,37 +77,39 @@ public:
 	/// Returns a list with all functions
 	QStringList listFunctionNames();
 
-	/// Returns true if the function is visible, otherwise false
+	/// Returns true if the graph is visible, otherwise false.
 	bool functionFVisible(uint id);
-	/// Returns true if the first derivative of the function is visible, otherwise false
 	bool functionF1Visible(uint id);
-	/// Returns true if the second derivative of the function is visible, otherwise false
 	bool functionF2Visible(uint id);
-	/// Returns true if the integral of the function is visible, otherwise false
 	bool functionIntVisible(uint id);
-	/// Returns the expression of a function, or an empty string if the function couldn't be found
-	QString functionFstr(uint id);
-	/// Returns the complete function string including the extensions of a function, or an empty string if the function couldn't be found
-	QString functionExtstr(uint id);
-
+	/// Set the visible of the function. Returns true if it succeeds, otherwise false.
 	bool setFunctionFVisible(bool visible, uint id);
 	bool setFunctionF1Visible(bool visible, uint id);
 	bool setFunctionF2Visible(bool visible, uint id);
 	bool setFunctionIntVisible(bool visible, uint id);
 	
+	/// Returns the expression of a function, or an empty string if the function couldn't be found
+	QString functionFstr(uint id);
+	/// Returns the complete function string including the extensions of a function, or an empty string if the function couldn't be found
+	QString functionExtstr(uint id);
+	
+	/// Get the color of a graph
 	QColor functionFColor(uint id);
 	QColor functionF1Color(uint id);
 	QColor functionF2Color(uint id);
 	QColor functionIntColor(uint id);
+	/// Set the color of a graph. Returns true if it succeeds, otherwise false.
 	bool setFunctionFColor(const QColor &color, uint id);
 	bool setFunctionF1Color(const QColor &color, uint id);
 	bool setFunctionF2Color(const QColor &color, uint id);
 	bool setFunctionIntColor(const QColor &color, uint id);
 	
+	/// Get the line width of a graph
 	int functionFLineWidth(uint id);
 	int functionF1LineWidth(uint id);
 	int functionF2LineWidth(uint id);
 	int functionIntLineWidth(uint id);
+	/// Set the line width of a graph. Returns true if it succeeds, otherwise false.
 	bool setFunctionFLineWidth(int linewidth, uint id);
 	bool setFunctionF1LineWidth(int linewidth, uint id);
 	bool setFunctionF2LineWidth(int linewidth, uint id);
@@ -121,6 +123,19 @@ public:
 	bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider);
 	bool setFunctionExpression(const QString &f_str, uint id);
 	
+	/// Get the min and max value of a graph
+	QString functionMinValue(uint id);
+	QString functionMaxValue(uint id);
+	/// Set the min and max values of a graph. Returns true if it succeeds, otherwise false.
+	bool setFunctionMinValue(const QString &min, uint id);
+	bool setFunctionMaxValue(const QString &max, uint id);
+	
+	/// Get the startx and starty value of a graph
+	QString functionStartXValue(uint id);
+	QString functionStartYValue(uint id);
+	/// Set the startx and starty values of a graph. Returns true if it succeeds, otherwise false.
+	bool setFunctionStartXValue(const QString &x, uint id);
+	bool setFunctionStartYValue(const QString &y, uint id);
 private:
         
 	/// finds a free function name 

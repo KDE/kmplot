@@ -76,7 +76,14 @@ k_dcop:
 	virtual QStringList functionParameterList(uint id) = 0;
 	virtual bool functionAddParameter(const QString &new_parameter, uint id) = 0;
 	virtual bool functionRemoveParameter(const QString &remove_parameter, uint id) = 0;
-	/// TODO: min and max values, startx, starty
+	virtual bool setFunctionMinValue(const QString &min, uint id) = 0;
+	virtual bool setFunctionMaxValue(const QString &max, uint id) = 0;
+	virtual QString functionMinValue(uint id) = 0;
+	virtual QString functionMaxValue(uint id) = 0;
+	virtual bool setFunctionStartXValue(const QString &min, uint id) = 0;
+	virtual bool setFunctionStartYValue(const QString &max, uint id) = 0;
+	virtual QString functionStartXValue(uint id) = 0;
+	virtual QString functionStartYValue(uint id) = 0;
 };
 
 #endif

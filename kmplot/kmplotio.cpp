@@ -112,7 +112,7 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 			tag.setAttribute( "visible-2nd-deriv", parser->fktext[ ix ].f2_mode );
 			tag.setAttribute( "deriv2nd-color", QColor( parser->fktext[ ix ].f2_color ).name() );
 			tag.setAttribute( "deriv2nd-width", parser->fktext[ ix ].f2_linewidth );
-			tag.setAttribute( "anti-deriv", parser->fktext[ ix ].anti_mode );
+			tag.setAttribute( "visible-deriv", parser->fktext[ ix ].anti_mode );
 			tag.setAttribute( "anti-color", QColor( parser->fktext[ ix ].anti_color ).name() );
 			tag.setAttribute( "anti-width", parser->fktext[ ix ].anti_linewidth );
 			tag.setAttribute( "anti-use-precision", parser->fktext[ ix ].anti_use_precision );
@@ -242,7 +242,7 @@ void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 	parser->fktext[ ix ].f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
 	parser->fktext[ ix ].f1_color = QColor(n.attribute( "deriv-color" )).rgb();
 	parser->fktext[ ix ].anti_color = QColor(n.attribute( "anti-color" )).rgb();
-	parser->fktext[ ix ].anti_mode = n.attribute( "anti-deriv" ).toInt();
+	parser->fktext[ ix ].anti_mode = n.attribute( "visible-deriv" ).toInt();
 	parser->fktext[ ix ].f1_linewidth = n.attribute( "deriv-width" ).toInt();
 	parser->fktext[ ix ].f1_mode = n.attribute( "visible-deriv" ).toInt();
 	parser->fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();

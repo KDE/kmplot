@@ -110,6 +110,8 @@ void KEditPolar::accept()
 	
 	m_parser->fktext[ index ].linewidth = kIntNumInputLineWidth->value();
 	m_parser->fktext[ index ].color = kColorButtonColor->color().rgb();
+	m_parser->fktext[ index ].anti_mode = 0;
+	m_parser->fktext[ index ].anti_use_precision = false;
 	
 	// call inherited method
 	QEditPolar::accept();

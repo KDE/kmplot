@@ -3,7 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
-*               
+*
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
 *
@@ -11,12 +11,12 @@
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or
 * (at your option) any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -47,6 +47,7 @@
 #include <kfontcombo.h>
 #include <kiconloader.h>
 #include <klocale.h>
+#include <knumvalidator.h>
 
 #include <kdebug.h>
 
@@ -352,6 +353,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 
 	Layout16 = new QGridLayout( 0, 1, 1, 0, 6, "Layout16" );
 
+        KIntValidator *validator =  new KIntValidator( this );
 	TextLabel1_2_3 = new QLabel( this, "TextLabel1_2_3" );
 	TextLabel1_2_3->setText( i18n( "&Tic width:" ) );
 
@@ -360,6 +362,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	Layout13 = new QHBoxLayout( 0, 0, 6, "Layout13" );
 
 	le_td = new QLineEdit( this, "le_td" );
+        le_td->setValidator( validator );
 	le_td->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 0, ( QSizePolicy::SizeType ) 0, 0, 0, le_td->sizePolicy().hasHeightForWidth() ) );
 	le_td->setMinimumSize( QSize( 80, 0 ) );
 	QToolTip::add
@@ -380,6 +383,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	Layout14 = new QHBoxLayout( 0, 0, 6, "Layout14" );
 
 	le_tl = new QLineEdit( this, "le_tl" );
+        le_tl->setValidator( validator );
 	le_tl->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 0, ( QSizePolicy::SizeType ) 0, 0, 0, le_tl->sizePolicy().hasHeightForWidth() ) );
 	le_tl->setMinimumSize( QSize( 80, 0 ) );
 	QToolTip::add
@@ -400,6 +404,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	Layout12 = new QHBoxLayout( 0, 0, 6, "Layout12" );
 
 	le_ad = new QLineEdit( this, "le_ad" );
+        le_ad->setValidator( validator );
 	le_ad->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 0, ( QSizePolicy::SizeType ) 0, 0, 0, le_ad->sizePolicy().hasHeightForWidth() ) );
 	le_ad->setMinimumSize( QSize( 80, 0 ) );
 	QToolTip::add

@@ -248,7 +248,7 @@ void View::tabelle( QPainter *pDC )
 		pDC->Linev( 1100, 0, 230 );
 		pDC->drawText( 0, 0, 300, 100, AlignCenter, i18n( "Parameters:" ) );
 		pDC->drawText( 300, 0, 400, 100, AlignCenter, i18n( "Plotting Area" ) );
-		pDC->drawText( 700, 0, 400, 100, AlignCenter, i18n( "Axes Division" ) );
+		pDC->drawText( 700, 0, 400, 100, AlignCenter, i18n( "Axis Division" ) );
 		pDC->drawText( 1100, 0, 400, 100, AlignCenter, i18n( "Printing Format" ) );
 		pDC->drawText( 0, 100, 300, 65, AlignCenter, i18n( "x-Axis:" ) );
 		pDC->drawText( 0, 165, 300, 65, AlignCenter, i18n( "y-Axis:" ) );

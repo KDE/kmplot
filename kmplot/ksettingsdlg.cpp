@@ -397,7 +397,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	Layout16->addLayout( Layout14, 3, 1 );
 
 	TextLabel1_4 = new QLabel( this, "TextLabel1_4" );
-	TextLabel1_4->setText( i18n( "&Axes line width:" ) );
+	TextLabel1_4->setText( i18n( "&Axis-line width:" ) );
 
 	Layout16->addWidget( TextLabel1_4, 0, 0 );
 
@@ -408,7 +408,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	le_ad->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 0, ( QSizePolicy::SizeType ) 0, 0, 0, le_ad->sizePolicy().hasHeightForWidth() ) );
 	le_ad->setMinimumSize( QSize( 80, 0 ) );
 	QToolTip::add
-		( le_ad, i18n( "Thickness of the axes line" ) );
+		( le_ad, i18n( "Thickness of the axis lines" ) );
 	Layout12->addWidget( le_ad );
 
 	TextLabel2 = new QLabel( this, "TextLabel2" );
@@ -492,7 +492,7 @@ KFontTab::KFontTab( QWidget* parent, const char* name )
 	KFontTabLayout = new QGridLayout( this, 1, 1, 11, 6, "KFontTabLayout" );
 
 	label_axes = new QLabel( this, "label_axes" );
-	label_axes->setText( i18n( "&Axes labels:" ) );
+	label_axes->setText( i18n( "&Axis labels:" ) );
 
 	KFontTabLayout->addWidget( label_axes, 1, 0 );
 

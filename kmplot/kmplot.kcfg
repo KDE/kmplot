@@ -6,14 +6,14 @@
 
 	<group name="Axes"> 
 		<entry name="AxesLineWidth" type="Int"> 
-			<label>Axes line width</label>
+			<label>Axis-line width</label>
 			<default>5</default>
-			<whatsthis>Enter the width of the axes line.</whatsthis>
+			<whatsthis>Enter the width of the axis lines.</whatsthis>
 		</entry> 
 		<entry name="ShowLabel" type="Bool"> 
 			<label>Checked if labels are visible</label>
 			<default>true</default>
-			<whatsthis>Check this box if the lables at the tics should be shown.</whatsthis>
+			<whatsthis>Check this box if the labels at the tics should be shown.</whatsthis>
 		</entry> 
 		<entry name="TicLength" type="Int"> 
 			<label>Tic length</label>
@@ -26,7 +26,7 @@
 			<whatsthis>Enter the width of the tic lines.</whatsthis>
 		</entry> 
 		<entry name="PlotLineWidth" type="Int"> 
-			<label>Plot line width</label>
+			<label>Plot-line width</label>
 			<default>5</default>
 			<whatsthis>Enter the width of the plot line.</whatsthis>
 		</entry> 
@@ -84,8 +84,8 @@
 	
 	<group name="Fonts">
 		<entry name="AxesFont" type="Font">
-			<label>Font of the axes labels</label>
-			<whatsthis>Choose a font for the axes labels.</whatsthis>
+			<label>Font of the axis labels</label>
+			<whatsthis>Choose a font for the axis labels.</whatsthis>
 		</entry> 
 		<entry name="HeaderTableFont" type="Font"> 
 			<label>Font of the printed header table</label>
@@ -95,8 +95,8 @@
 	
 	<group name="Colors">
 		<entry name="AxesColor" type="Color"> 
-			<label>Axes line color</label>
-			<whatsthis>Enter the color of the axes line.</whatsthis>
+			<label>Axis-line color</label>
+			<whatsthis>Enter the color of the axis lines.</whatsthis>
 		</entry> 
 		<entry name="GridColor" type="Color">
 			<label>Grid Color</label>

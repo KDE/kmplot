@@ -582,7 +582,7 @@ int Parser::errmsg()
 		        break;
 
        case 6:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "Token memory overflow").arg(QString::number(errpos)), "KmPlot");
+		                                   "Token-memory overflow").arg(QString::number(errpos)), "KmPlot");
 		        break;
 
        case 7:  KMessageBox::error(0, i18n("Parser error at position %1:\n"

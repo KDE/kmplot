@@ -120,7 +120,7 @@
                         <string>more options</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click here to change further attributes of the selcted function.</string>
+                        <string>Click here to change further attributes of the selected function.</string>
                     </property>
                 </widget>
                 <widget class="QListBox" row="1" column="0" rowspan="5" colspan="1">
@@ -202,7 +202,7 @@
                         <string>delete the selected function</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click here to delete the selcted function from the list.</string>
+                        <string>Click here to delete the selected function from the list.</string>
                     </property>
                 </widget>
             </grid>

@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Axes Settings</string>
+        <string>Axis Settings</string>
     </property>
     <vbox>
         <property name="name">
@@ -99,7 +99,7 @@
                         <cstring>TextLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Axes line width:</string>
+                        <string>&amp;Axis line width:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>axesLineWidth</cstring>
@@ -113,10 +113,10 @@
                         <number>1</number>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>width of the axes lines</string>
+                        <string>width of the axis lines</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Change the width of the axes line in steps of 0.1mm.</string>
+                        <string>Change the width of the axis lines in steps of 0.1mm.</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="1" column="2">
@@ -273,10 +273,10 @@
                         <string>Alt+C</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>abort without change anything</string>
+                        <string>Close dialog without changing anything</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click here to abort this dialog without any changes.</string>
+                        <string>Click here to close this dialog and lose all changes.</string>
                     </property>
                 </widget>
             </hbox>

@@ -15,7 +15,7 @@
 			<default>true</default>
 			<whatsthis>Check this box if the labels at the tics should be shown.</whatsthis>
 		</entry> 
-		<entry name="TicLength" type="Int"> 
+		<entry name="TicLength" type="Int">
 			<label>Tic length</label>
 			<default>10</default>
 			<whatsthis>Enter the length of the tic lines</whatsthis>

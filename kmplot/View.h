@@ -45,7 +45,7 @@ public:
 	virtual ~View();
 
 	void draw(QPaintDevice *, int);
-	void tabelle(QPainter *);
+	void drawHeaderTable(QPainter *);
 
 	KStatusBar *stbar;
 
@@ -78,7 +78,23 @@ private:
 	QPixmap hline,
 			vline;
 	QWMatrix wm;
-
+	
+	/// current plot range
+	double xmin, xmax, ymin, ymax;
+	/** Handle predefiend axes ranges.
+	*
+	* @p koord can have the values 0 to 4 which have the following meanings: 
+	* @li 0: -8..8
+	* @li 1: -5..5
+	* @li 2: 0..16
+	* @li 3: 0..10
+	* @li 4: custom
+	*
+	* In the last case @p minstr and @p maxstr are evaluated.
+	*/ 
+	void coordToMinMax( const int koord, const QString minStr, const QString maxStr, 
+		double &min, double &max );
+	void setPlotRange();
 };
 
 #endif // View_included

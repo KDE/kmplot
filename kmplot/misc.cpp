@@ -22,6 +22,7 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 *
 */
+
 // KDE includes
 #include <kmessagebox.h>
 #include <kurl.h>
@@ -36,18 +37,7 @@ XParser ps( 10, 200, 20 );
 
 int mode;     // Diagrammodus
 
-int koordx,     // 0 => [-8|+8]
-koordy,     // 1 => [-5|+5]
-// 2 => [0|+16]
-// 3 => [0|+10]
-gradThickness,
-gradLength;
-
-double xmin,                      // min. x-Wert
-xmax,                      // max. x-Wert
-ymin,                   // min. y-Wert
-ymax,                   // max. y-Wert
-sw,       // Schrittweite
+double sw,       // Schrittweite
 rsw,       // rel. Schrittweite
 tlgx,       // x-Achsenteilung
 tlgy,       // y-Achsenteilung
@@ -63,7 +53,7 @@ tlgystr,                  // String fr tlgy
 drskalxstr,               // String fr drskalx
 drskalystr;             // String fr drskaly
 
-QString font_header, font_axes; // Font family names
+QString font_header; // Font family names
 
 bool printtable;		// header table printing option
 
@@ -75,8 +65,6 @@ void getSettings()
 
 	// axes settings
 	
-	koordx = Settings::xRange();
-	koordy = Settings::yRange();
 	xminstr = Settings::xMin();
 	xmaxstr = Settings::xMax();
 	yminstr = Settings::yMin();
@@ -87,25 +75,6 @@ void getSettings()
 	if( yminstr.isEmpty() ) yminstr = "-2*pi";
 	if( ymaxstr.isEmpty() ) ymaxstr = "2*pi";
 
-	if ( !coordToMinMax( koordx, xmin, xmax, xminstr, xmaxstr ) )
-	{
-		KMessageBox::error( 0, i18n( "Config file x-axis entry corrupt.\n"
-		                             "Fall back to system defaults.\nCall Settings->Configure KmPlot..." ) );
-		xminstr = "-2*pi";
-		xmaxstr = "2*pi";
-		koordx = 0;
-		coordToMinMax( koordx, xmin, xmax, xminstr, xmaxstr );
-	}
-	if ( !coordToMinMax( koordy, ymin, ymax, yminstr, ymaxstr ) )
-	{
-		KMessageBox::error( 0, i18n( "Config file y-axis entry corrupt.\n"
-		                             "Fall back to system defaults.\nCall Settings->Configure KmPlot..." ) );
-		yminstr = "-2*pi";
-		ymaxstr = "2*pi";
-		koordy = 0;
-		coordToMinMax( koordy, ymin, ymax, yminstr, ymaxstr );
-	}
-	
 	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
 	
 	tlgxstr = units[ Settings::xScaling() ];
@@ -119,10 +88,6 @@ void getSettings()
 	drskaly = ps.eval( drskalystr );
 
 	if ( Settings::showLabel() ) mode |= LABEL;
-
-	// font settings
-	font_header = Settings::headerTableFont().family();
-	font_axes = Settings::axesFont().family();
 
 	// graph settings
 
@@ -150,38 +115,3 @@ void init()
 	for ( int ix = 0; ix < ps.ufanz; ++ix )
 		ps.delfkt( ix );
 }
-
-/*
- * evaluates the predefined axes settings (kkordx/y)
- */
-bool coordToMinMax( const int koord, double &min, double &max, const QString minStr, const QString maxStr )
-{
-	bool ok = true;
-	switch ( koord )
-	{
-	case 0:
-		min = -8.0;
-		max = 8.0;
-		break;
-	case 1:
-		min = -5.0;
-		max = 5.0;
-		break;
-	case 2:
-		min = 0.0;
-		max = 16.0;
-		break;
-	case 3:
-		min = 0.0;
-		max = 10.0;
-		break;
-	case 4:
-		min = ps.eval( minStr );
-		ok = ps.err == 0;
-		max = ps.eval( maxStr );
-		ok &= ps.err == 0;
-	}
-	ok &= min < max;
-	return ok;
-}
-

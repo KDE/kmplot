@@ -50,31 +50,6 @@ extern XParser	ps;
 /** Diagram mode */
 extern int mode;
 
-/** @name Limits of the coordinate axes
- * These are variables for the handling of the axes' limits.
- *
- * @p koordx and @p koordy can have the values 0 to 4 which have the following meanings: 
- * @li 0: -8..8
- * @li 1: -5..5
- * @li 2: 0..16
- * @li 3: 0..10
- * @li 4: custom
- * 
- * In the last case @p xminstr, @p xmaxstr, @p yminstr, and @p ymaxstr are evaluates.
- *
- * @see coordToMinMax()
- */ 
-//@{
-extern	int koordx,
-	koordy;
-/** Left edge of the x-axis. */
-extern	double xmin,
-	/** Right edge of the x-axis. */
-	xmax,
-	/** Bottom edge of the y-axis. */
-	ymin,
-	/** Top edge of the y-axis. */
-	ymax;
 /** If \p koordx is 4 (custom) this string will be evaluated by the Parser \p ps,
  * and the result is stored in \p xmin. */
 extern QString	xminstr,
@@ -126,27 +101,11 @@ extern QString //dataFile,
 	drskalxstr,
 	drskalystr;
 
-/**
- * Font family name for the header table.
- * @see KPrinterDlg
- */
-extern QString font_header,
-	/**
-	 * Font family name for the axes' labels.
-	 * @see KPrinterDlg
-	 */
-	font_axes;
-
 /** Header table printing option
  * @see KPinterDlg
  */
 extern bool printtable;
  
-/**
- * Converting 
- */
-bool coordToMinMax( const int koord, double &min, double &max, const QString minStr = "", const QString maxStr = "" );
-
 /** Inits all global variables with respect to the global config file @p kc. 
  */
 void getSettings();
@@ -155,11 +114,5 @@ void getSettings();
  * Resetes the parser @p ps.
  */
 void init();
-
-/**
- * Evaluation of the predefined axes settings (kkordx/y).
- * @result true, if the evaluation of the strings was successful.
- */
-bool coordToMinMax( const int koord, double &min, double &max, const QString minStr, const QString maxStr );
 
 #endif	// misc_included

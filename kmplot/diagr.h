@@ -57,7 +57,7 @@ public:
 	CDiagr();
 	~CDiagr();
 
-	void	Create(QPoint Ref,
+	void Create(QPoint Ref,
 	               int lx, int ly,
 	               double xmin, double xmax,
 	               double ymin, double ymax,
@@ -68,11 +68,11 @@ public:
 	QRect GetPlotArea() {return PlotArea;}
 	QRect GetFrame() {return Rahmen;}
 
-    int	Transx(double),
-    	Transy(double);
+	int Transx(double);
+	int Transy(double);
 
-    double Transx(int),
-           Transy(int);
+	double Transx(int);
+	double Transy(int);
 
 	QRgb RahmenFarbe;
 	QRgb axesColor;

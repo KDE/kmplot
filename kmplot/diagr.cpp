@@ -344,7 +344,7 @@ void CDiagr::Beschriftung(QPainter* pDC)
 
 	dx=15;
 	dy=40;
-	font=QFont(font_axes, 40);
+	font=QFont( Settings::axesFont().family(), 40);
 	pDC->setFont(font);
 	x=Transx(0.);
 	y=Transy(0.);

@@ -204,7 +204,7 @@ void MainDlg::slotSaveas()
 			filename += ".fkt"; // use fkt-type as default
 		KmPlotIO::save( filename );
 		m_filename = filename;
-		m_recentFiles->addURL( KURL(m_filename) );
+		m_recentFiles->addURL( KURL( m_filename ) );
 		setCaption( m_filename );
 		m_modified = false;
 	}

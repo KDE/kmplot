@@ -64,8 +64,8 @@ void KmPlotIO::save( const QString filename )
 	addTag( doc, tag, "xmax", xmaxstr );
 	addTag( doc, tag, "ymin", yminstr );
 	addTag( doc, tag, "ymax", ymaxstr );
-	addTag( doc, tag, "xcoord", QString::number( koordx ) );
-	addTag( doc, tag, "ycoord", QString::number( koordy ) );
+	addTag( doc, tag, "xcoord", QString::number( Settings::xRange() ) );
+	addTag( doc, tag, "ycoord", QString::number( Settings::yRange() ) );
 
 	root.appendChild( tag );
 
@@ -84,7 +84,7 @@ void KmPlotIO::save( const QString filename )
 	addTag( doc, tag, "tic-y", tlgystr );
 	addTag( doc, tag, "print-tic-x", drskalxstr );
 	addTag( doc, tag, "print-tic-y", drskalystr );
-
+	
 	root.appendChild( tag );
 
 	addTag( doc, root, "step", QString::number( rsw ) );
@@ -119,6 +119,12 @@ void KmPlotIO::save( const QString filename )
 			
 		}
 	}
+	
+	tag = doc.createElement( "fonts" );
+	addTag( doc, tag, "axes-font", Settings::axesFont().family() );
+	addTag( doc, tag, "header-table-font", Settings::headerTableFont().family() );
+	root.appendChild( tag );
+
 
 	QFile xmlfile( filename );
 	xmlfile.open( IO_WriteOnly );
@@ -165,53 +171,6 @@ void KmPlotIO::load( const QString filename )
 		if ( n.nodeName() == "function" )
 			parseFunction( n.toElement() );
 	}
-
-	///////////
-	// postprocessing loading
-	switch ( koordx )
-	{
-	case 0:
-		xmin = -8.0;
-		xmax = 8.0;
-		break;
-	case 1:
-		xmin = -5.0;
-		xmax = 5.5;
-		break;
-	case 2:
-		xmin = 0.0;
-		xmax = 16.0;
-		break;
-	case 3:
-		xmin = 0.0;
-		xmax = 10.0;
-		break;
-	case 4:
-		xmin = ps.eval( xminstr );
-		xmax = ps.eval( xmaxstr );
-	}
-	switch ( koordy )
-	{
-	case 0:
-		ymin = -8.0;
-		ymax = 8.0;
-		break;
-	case 1:
-		ymin = -5.0;
-		ymax = 5.5;
-		break;
-	case 2:
-		ymin = 0.0;
-		ymax = 16.0;
-		break;
-	case 3:
-		ymin = 0.0;
-		ymax = 10.0;
-		break;
-	case 4:
-		ymin = ps.eval( yminstr );
-		ymax = ps.eval( ymaxstr );
-	}
 }
 
 void KmPlotIO::parseAxes( const QDomElement &n )
@@ -226,8 +185,8 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 	xmaxstr = n.namedItem( "xmax" ).toElement().text();
 	yminstr = n.namedItem( "ymin" ).toElement().text();
 	ymaxstr = n.namedItem( "ymax" ).toElement().text();
-	koordx = n.namedItem( "xcoord" ).toElement().text().toInt();
-	koordy = n.namedItem( "ycoord" ).toElement().text().toInt();
+	Settings::setXRange( n.namedItem( "xcoord" ).toElement().text().toInt() );
+	Settings::setYRange( n.namedItem( "ycoord" ).toElement().text().toInt() );
 }
 
 void KmPlotIO::parseGrid( const QDomElement & n )

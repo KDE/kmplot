@@ -73,10 +73,10 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_clicked(bool) ) );
 }
 
-void EditFunction::initDialog( int index )
+void EditFunction::initDialog( int id )
 {
-	m_index = index;
-	if( m_index == -1 ) clearWidgets(); //new function, so clear all values
+	m_id = id;
+	if( m_id == -1 ) clearWidgets(); //new function, so clear all values
 	else setWidgets();
 	editfunctionpage->equation->setFocus();
 }
@@ -110,47 +110,47 @@ void EditFunction::clearWidgets()
 void EditFunction::setWidgets()
 {
 	
-	editfunctionpage->equation->setText( m_parser->fktext[ m_index ].extstr );
-	editfunctionpage->hide->setChecked( m_parser->fktext[ m_index ].f_mode == 0 );
-	editfunctionpage->lineWidth->setValue( m_parser->fktext[ m_index ].linewidth );
-	editfunctionpage->color->setColor( m_parser->fktext[ m_index ].color );
-	if (  m_parser->fktext[ m_index ].dmin != m_parser->fktext[ m_index ].dmax )
+	editfunctionpage->equation->setText( m_parser->fktext[ m_id ].extstr );
+	editfunctionpage->hide->setChecked( m_parser->fktext[ m_id ].f_mode == 0 );
+	editfunctionpage->lineWidth->setValue( m_parser->fktext[ m_id ].linewidth );
+	editfunctionpage->color->setColor( m_parser->fktext[ m_id ].color );
+	if (  m_parser->fktext[ m_id ].dmin != m_parser->fktext[ m_id ].dmax )
 	{
 		editfunctionpage->customRange->setChecked(true);
-		editfunctionpage->min->setText( m_parser->fktext[ m_index ].str_dmin );
-		editfunctionpage->max->setText( m_parser->fktext[ m_index ].str_dmax );
+		editfunctionpage->min->setText( m_parser->fktext[ m_id ].str_dmin );
+		editfunctionpage->max->setText( m_parser->fktext[ m_id ].str_dmax );
 	}
 	else
 		editfunctionpage->customRange->setChecked(false);
 	
-	m_parameter =  m_parser->fktext[ m_index ].str_parameter;
-	if( m_parser->fktext[ m_index ].use_slider == -1 )
-		if ( m_parser->fktext[ m_index ].k_liste.isEmpty() )
+	m_parameter =  m_parser->fktext[ m_id ].str_parameter;
+	if( m_parser->fktext[ m_id ].use_slider == -1 )
+		if ( m_parser->fktext[ m_id ].k_liste.isEmpty() )
 			editfunctionpage->useNoParameter->setChecked( true );
 		else	
 			editfunctionpage->useList->setChecked( true );
 	else
 	{
 		editfunctionpage->useSlider->setChecked( true );
-		editfunctionpage->listOfSliders->setCurrentItem( m_parser->fktext[ m_index ].use_slider );
+		editfunctionpage->listOfSliders->setCurrentItem( m_parser->fktext[ m_id ].use_slider );
 	}
 	
-	editderivativespage->showDerivative1->setChecked( m_parser->fktext[ m_index ].f1_mode );
-	editderivativespage->lineWidthDerivative1->setValue( m_parser->fktext[ m_index ].f1_linewidth );
-	editderivativespage->colorDerivative1->setColor( m_parser->fktext[ m_index ].f1_color );
-	editderivativespage->showDerivative2->setChecked( m_parser->fktext[ m_index ].f2_mode );
-	editderivativespage->lineWidthDerivative2->setValue( m_parser->fktext[ m_index ].f2_linewidth );
-	editderivativespage->colorDerivative2->setColor( m_parser->fktext[ m_index ].f2_color );
-	editintegralpage->precision->setValue( m_parser->fktext[ m_index ].integral_precision );
-	editintegralpage->lineWidth->setValue( m_parser->fktext[ m_index ].integral_linewidth );
-	editintegralpage->color->setColor( m_parser->fktext[ m_index ].integral_color );
+	editderivativespage->showDerivative1->setChecked( m_parser->fktext[ m_id ].f1_mode );
+	editderivativespage->lineWidthDerivative1->setValue( m_parser->fktext[ m_id ].f1_linewidth );
+	editderivativespage->colorDerivative1->setColor( m_parser->fktext[ m_id ].f1_color );
+	editderivativespage->showDerivative2->setChecked( m_parser->fktext[ m_id ].f2_mode );
+	editderivativespage->lineWidthDerivative2->setValue( m_parser->fktext[ m_id ].f2_linewidth );
+	editderivativespage->colorDerivative2->setColor( m_parser->fktext[ m_id ].f2_color );
+	editintegralpage->precision->setValue( m_parser->fktext[ m_id ].integral_precision );
+	editintegralpage->lineWidth->setValue( m_parser->fktext[ m_id ].integral_linewidth );
+	editintegralpage->color->setColor( m_parser->fktext[ m_id ].integral_color );
 	
-	if ( m_parser->fktext[ m_index ].integral_mode )
+	if ( m_parser->fktext[ m_id ].integral_mode )
 	{
-		editintegralpage->showIntegral->setChecked( m_parser->fktext[ m_index ].integral_mode );
-		editintegralpage->customPrecision->setChecked( m_parser->fktext[ m_index ].integral_use_precision );
-		editintegralpage->txtInitX->setText(m_parser->fktext[ m_index ].str_startx);
-		editintegralpage->txtInitY->setText(m_parser->fktext[ m_index ].str_starty);
+		editintegralpage->showIntegral->setChecked( m_parser->fktext[ m_id ].integral_mode );
+		editintegralpage->customPrecision->setChecked( m_parser->fktext[ m_id ].integral_use_precision );
+		editintegralpage->txtInitX->setText(m_parser->fktext[ m_id ].str_startx);
+		editintegralpage->txtInitY->setText(m_parser->fktext[ m_id ].str_starty);
 		
 	}
 
@@ -159,20 +159,28 @@ void EditFunction::setWidgets()
 void EditFunction::accept()
 {
 	QString f_str(functionItem() );
-	int index;
-	if( m_index != -1 )  //when editing a function: 
+	int id;
+        Parser::Ufkt *tmp_ufkt;
+	if( m_id != -1 )  //when editing a function: 
 	{
-		index = m_index; //use the right function-index
-		QString const old_fstr = m_parser->ufkt[index].fstr;
-		m_parser->fixFunctionName(f_str, XParser::Function, index);
+                int const ix = m_parser->ixValue(m_id);
+                if ( ix == -1) //The function could have been deleted
+                {
+                        KMessageBox::error(this,i18n("Function could not be found"));
+                        return;
+                }
+                tmp_ufkt =  &m_parser->ufkt[ix];
+                id = m_id; //use the right function-id
+		QString const old_fstr = tmp_ufkt->fstr;
+		m_parser->fixFunctionName(f_str, XParser::Function, m_id);
 		if((  (!m_parameter.isEmpty() && editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
 			fixFunctionArguments(f_str); //adding an extra argument for the parameter value
-		m_parser->ufkt[index].fstr = f_str;
-		m_parser->reparse(index); //reparse the funcion
+		tmp_ufkt->fstr = f_str;
+		m_parser->reparse(tmp_ufkt); //reparse the funcion
 		if ( m_parser->errmsg() != 0)
 		{
-			m_parser->ufkt[index].fstr = old_fstr;
-			m_parser->reparse(index); 
+			tmp_ufkt->fstr = old_fstr;
+			m_parser->reparse(tmp_ufkt); 
 			this->raise();
 			showPage(0);
 			editfunctionpage->equation->setFocus();
@@ -185,9 +193,8 @@ void EditFunction::accept()
 		m_parser->fixFunctionName(f_str, XParser::Function);
 		if((  (!m_parameter.isEmpty() && editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
 			fixFunctionArguments(f_str); //adding an extra argument for the parameter value
-		index = m_parser->addfkt( f_str ); //create a new function otherwise
-                
-                if( index == -1) 
+		id = m_parser->addfkt( f_str ); //create a new function otherwise
+                if( id == -1)
                 {
                         m_parser->errmsg();
                         this->raise();
@@ -196,12 +203,13 @@ void EditFunction::accept()
                         editfunctionpage->equation->selectAll();
                         return;
                 }
+                tmp_ufkt =  &m_parser->ufkt.last();
 	}
 	
 	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y' || f_str.at(0)== 'r')
 	{
 		KMessageBox::error( this, i18n("You can only define plot functions in this dialog"));
-		if( m_index == -1 ) m_parser->Parser::delfkt( &m_parser->ufkt[index] );
+		if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
 		return;
 	}
 	
@@ -218,7 +226,7 @@ void EditFunction::accept()
 			showPage(0);
 			editfunctionpage->min->setFocus();
 			editfunctionpage->min->selectAll();
-			if( m_index == -1 ) m_parser->Parser::delfkt( &m_parser->ufkt[index] );
+			if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
 			return;
 		}
 		tmp_fktext.str_dmax= editfunctionpage->max->text();
@@ -228,7 +236,7 @@ void EditFunction::accept()
 			showPage(0);
 			editfunctionpage->max->setFocus();
 			editfunctionpage->max->selectAll();
-			if( m_index == -1 ) m_parser->Parser::delfkt( &m_parser->ufkt[index] );
+			if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
 			return;
 		}
 		
@@ -238,7 +246,7 @@ void EditFunction::accept()
 			showPage(0);
 			editfunctionpage->min->setFocus();
 			editfunctionpage->min->selectAll();
-                        if( m_index == -1 ) m_parser->Parser::delfkt( &m_parser->ufkt[index] );
+                        if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
 			return;
 		}
 		
@@ -248,7 +256,7 @@ void EditFunction::accept()
 			showPage(0);
 			editfunctionpage->min->setFocus();
 			editfunctionpage->min->selectAll();
-			if( m_index == -1 ) m_parser->Parser::delfkt( &m_parser->ufkt[index] );
+			if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
 			return;
 		}
 	}
@@ -275,7 +283,7 @@ void EditFunction::accept()
 			showPage(2);
 			editintegralpage->txtInitX->setFocus();
 			editintegralpage->txtInitX->selectAll();
-			if( m_index == -1 ) m_parser->Parser::delfkt( &m_parser->ufkt[index] );
+			if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
 			return;
 		}
 		
@@ -288,7 +296,7 @@ void EditFunction::accept()
 			showPage(2);
 			editintegralpage->txtInitY->setFocus();
 			editintegralpage->txtInitY->selectAll();
-			if( m_index == -1 ) m_parser->Parser::delfkt( &m_parser->ufkt[index] );
+			if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
 			return;
 		}
 		tmp_fktext.integral_mode = 1;
@@ -346,27 +354,20 @@ void EditFunction::accept()
 	if ( f_str.contains('y') != 0 && ( tmp_fktext.f_mode || tmp_fktext.f1_mode || tmp_fktext.f2_mode) )
 	{
 		KMessageBox::error( this, i18n( "Recursive function is only allowed when drawing integral graphs") );
-		if( m_index == -1 ) m_parser->Parser::delfkt( &m_parser->ufkt[index] );
+		if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
 		return;
-	}
-        
-        //tmp_fktext.color0 = m_parser->fktext[index].color0; ///Should we change the default color?
-                
-        if( m_index == -1 )
-                m_parser->fktext.append(tmp_fktext);
-        else
-                m_parser->fktext[index] = tmp_fktext ; //save all settings in the function now when we now no errors have appeared
-        
-        if ( m_parser->getext( index ) == -1)
-        {
-                this->raise();
-                showPage(0);
-                editfunctionpage->equation->setFocus();
-                editfunctionpage->equation->selectAll();
-                if( m_index == -1 ) m_parser->delfkt(  m_parser->ufkt.end(), m_parser->fktext.end() );
-                return;
         }
-        
+
+        if( m_id == -1 )
+        {
+                tmp_fktext.id = tmp_ufkt->id;
+                m_parser->fktext.append(tmp_fktext);
+        }
+        else
+        {
+                tmp_fktext.id = id;
+                m_parser->fktext[m_parser->ixValue(id)] = tmp_fktext ; //save all settings in the function now when we now no errors have appeared
+        }
 	editfunctionpage->equation->setText(f_str); //update the function name in FktDlg
 	
 	// call inherited method

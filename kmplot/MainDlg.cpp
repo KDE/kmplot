@@ -536,8 +536,8 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 		KMessageBox::error( this, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));
 		return;
 	}
-	int index = view->parser()->addfkt( f_str );
-	if (index==-1)
+	int const id = view->parser()->addfkt( f_str );
+	if (id==-1)
 	{
 		view->parser()->errmsg();
 		m_quickEdit->setFocus();
@@ -549,20 +549,21 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 		KMessageBox::error( this, i18n( "Recursive function is not allowed"));
 		m_quickEdit->setFocus();
 		m_quickEdit->selectAll();
-		view->parser()->delfkt( index );
+		view->parser()->delfkt( view->parser()->ixValue(id) );
 		return;
 	}
         
         XParser::FktExt fktext;
         view->parser()->prepareAddingFktExtFunction(fktext);
         fktext.extstr = f_str;
+        fktext.id = id;
         view->parser()->fktext.append(fktext );
          
-	if ( view->parser()->getext( index ) == -1)
+	if ( view->parser()->getext( &fktext ) == -1)
         {
                 m_quickEdit->setFocus();
                 m_quickEdit->selectAll();
-                view->parser()->delfkt( index );
+                view->parser()->delfkt( view->parser()->ixValue(id) );
         }
 	m_quickEdit->clear();
         m_modified = true;

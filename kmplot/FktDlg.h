@@ -71,17 +71,17 @@ protected slots:
 	/// @param index Function index of the parser instance.
 	/// @param num Listbox index
 	/// @see KEditFunction
-	void slotEditFunction( int index = -1, int num = -1 );
+	void slotEditFunction( int id = -1, int num = -1 );
 	/// Edit a parametric plot.
 	/// @param x_index, y_index Function index of the parser instance.
 	/// @param num Listbox index
 	/// @see KEditParametric
-	void slotEditParametric( int x_index = -1, int y_index = -1, int num = -1 );
+	void slotEditParametric( int x_id = -1, int y_id = -1, int num = -1 );
 	/// Edit a polar plot.
 	/// @param index Function index of the parser instance.
 	/// @param num Listbox index
 	/// @see KEditPolar
-	void slotEditPolar( int index = -1, int num = -1 );
+	void slotEditPolar( int id = -1, int num = -1 );
 	/// Edit a new function plot.
 	void slotNewFunction();
 	/// Edit a new parametric plot.
@@ -92,10 +92,10 @@ protected slots:
 	void slotHelp();
 	
 private:
-	/// Looks up the index of \a f_str in the parser instance.
-	int getIx( const QString &f_str );
+	/// Looks up the id of \a f_str in the parser instance.
+	int getId( const QString &f_str );
 	/// Looks up the indices of the parametric pair of function.
-	int getParamIx( const QString &f_str );
+	int getParamId( const QString &f_str );
 	/// Update the view of the main window.
 	void updateView();
 	/// Called when the dialog is showed

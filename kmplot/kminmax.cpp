@@ -146,7 +146,7 @@ void KMinMax::updateFunctions()
 	list->clear();
 
         //for ( uint index = 0; index < m_view->parser()->fktext.count(); ++index )
-        QValueVector<XParser::Ufkt>::iterator ufkt =  m_view->parser()->ufkt.begin();
+        QValueVector<Parser::Ufkt>::iterator ufkt =  m_view->parser()->ufkt.begin();
         for( QValueVector<XParser::FktExt>::iterator it =  m_view->parser()->fktext.begin(); it !=  m_view->parser()->fktext.end(); ++it)
 	{
 		if( ufkt->fname[0] != 'x' && ufkt->fname[0] != 'y' && ufkt->fname[0] != 'r')
@@ -194,7 +194,8 @@ void KMinMax::selectItem()
 	if (  m_view->csmode < 0)
 		return;
 	//kdDebug() << "cstype: " << (int)m_view->cstype << endl;
-	QString function = m_view->parser()->fktext[ m_view->csmode ].extstr;
+        XParser::FktExt *fktext = &m_view->parser()->fktext[m_view->parser()->ixValue(m_view->csmode)];
+	QString function = fktext->extstr;
 	if ( m_view->cstype == 2)
 	{
 		int i= function.find('(');
@@ -211,8 +212,8 @@ void KMinMax::selectItem()
 	QListBoxItem *item = list->findItem(function,Qt::ExactMatch);
 	list->setSelected(item,true);
 
-	if (  !m_view->parser()->fktext[ m_view->csmode ].k_liste.isEmpty() )
-		parameter = m_view->parser()->fktext[ m_view->csmode ].str_parameter[m_view->csparam];
+	if (  !fktext->k_liste.isEmpty() )
+		parameter = fktext->str_parameter[m_view->csparam];
 }
 
 KMinMax::~KMinMax()
@@ -282,17 +283,24 @@ void KMinMax::cmdFind_clicked()
 	}
 
 	QString fname, fstr;
-	bool stop=false;
-	int index;
+	XParser::FktExt *fktext;
 	QString sec_function = function.section('(',0,0);
 
-	for ( index = 0; index < (int)m_view->parser()->fktext.count() && !stop; ++index )
+        for( QValueVector<XParser::FktExt>::iterator it =  m_view->parser()->fktext.begin(); it !=  m_view->parser()->fktext.end(); ++it)        
 	{
-		if ( m_view->parser()->fktext[ index ].extstr.section('(',0,0) == sec_function)
-			stop=true;
+		if ( it->extstr.section('(',0,0) == sec_function)
+                {
+                        fktext = it;
+			break;
+                }
 	}
-	index--;
-	if ( m_view->parser()->fktext[ index ].k_liste.isEmpty() )
+        if ( !fktext)
+        {
+                KMessageBox::error(this,i18n("Function could not be found"));
+                return;
+        }
+        
+	if ( fktext->k_liste.isEmpty() )
 		parameter = "0";
 	else if ( parameter.isEmpty())
 	{
@@ -304,19 +312,19 @@ void KMinMax::cmdFind_clicked()
 
 	if ( m_mode == 0)
 	{
-		m_view->findMinMaxValue(index,p_mode,true,dmin,dmax,parameter);
+		m_view->findMinMaxValue(fktext,p_mode,true,dmin,dmax,parameter);
 		if ( !m_view->isCalculationStopped() )
 			KMessageBox::information(this,i18n("Minimum value:\nx: %1\ny: %2").arg(dmin).arg(dmax) );
 	}
 	else if ( m_mode == 1)
 	{
-		m_view->findMinMaxValue(index,p_mode,false,dmin,dmax,parameter);
+		m_view->findMinMaxValue(fktext,p_mode,false,dmin,dmax,parameter);
 		if ( !m_view->isCalculationStopped() )
 			KMessageBox::information(this,i18n("Maximum value:\nx: %1\ny: %2").arg(dmin).arg(dmax));
 	}
 	else if ( m_mode == 2)
 	{
-		m_view->getYValue(index,p_mode,dmin,dmax,parameter);
+		m_view->getYValue(fktext,p_mode,dmin,dmax,parameter);
 		if ( !m_view->isCalculationStopped() )
 		{
 			QString tmp;
@@ -329,7 +337,7 @@ void KMinMax::cmdFind_clicked()
 	else if ( m_mode == 3)
 	{
 		double dmin_tmp = dmin;
-		m_view->areaUnderGraph(index,p_mode,dmin,dmax,parameter, 0);
+		m_view->areaUnderGraph(fktext,p_mode,dmin,dmax,parameter, 0);
 		if ( !m_view->isCalculationStopped() )
 		{
 			m_view->setFocus();

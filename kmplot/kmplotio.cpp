@@ -336,7 +336,6 @@ void KmPlotIO::parseScale( const QDomElement & n )
 
 void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 {
-	//int ix = n.attribute( "number" ).toInt();
 	QString temp;
         XParser::FktExt fktext;
         int const next_index=parser->getNextIndex()+1;
@@ -420,15 +419,14 @@ void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 	QCString fstr = fktext.extstr.utf8();
 	if ( !fstr.isEmpty() )
 	{
-		int i = fstr.find( ';' );
-		QCString str;
+		int const i = fstr.find( ';' );
+		QString str;
 		if ( i == -1 )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		QString f_str (str);
-		int ix = parser->addfkt( str );
-                parser->getext( ix );
+		int const id = parser->addfkt( str );
+                parser->fktext.last().id = id;
 	}  
 }
 
@@ -483,8 +481,9 @@ void KmPlotIO::oldParseFunction(  XParser *parser, const QDomElement & n )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		int ix = parser->addfkt( str );
-                parser->getext( ix );
+		int const id = parser->addfkt( str );
+                parser->getext(  parser->fktext.end() );
+                parser->fktext.end()->id = id;
 	}
 }
 

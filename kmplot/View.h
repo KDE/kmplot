@@ -83,11 +83,11 @@ public:
 	/// @see getSettings
 	void init();
 	/// Finding the minimum or maximum value
-	void findMinMaxValue(int, char, bool, double &, double &,QString &);
+	void findMinMaxValue(XParser::FktExt *, char, bool, double &, double &,QString &);
 	/// get a y-value from a x-value
-	void getYValue(int, char, double , double &,QString &);
+	void getYValue(XParser::FktExt *, char, double , double &,QString &);
 	/// draw and calculate the area between the graph and the x-axis.
-	void areaUnderGraph(int const, char const, double &, double &, QString &, QPainter* );
+	void areaUnderGraph(XParser::FktExt *, char const, double &, double &, QString &, QPainter* );
 	/// the calculation was cancelled by the user
 	bool isCalculationStopped();
 
@@ -110,7 +110,7 @@ public:
 	
 	/// for areadrawing when printing
 	bool areaDraw;
-	int areaIx;
+	XParser::FktExt * areaFktext;
 	char areaPMode;
 	double areaMin, areaMax;
 	QString areaParameter;
@@ -156,7 +156,7 @@ private:
 	/// Only for printing.
 	void drawHeaderTable(QPainter *);
 	/// Draw the function plots.
-	void plotfkt(int, QPainter*);
+	void plotfkt(QValueVector<XParser::FktExt>::iterator, QPainter*);
 	/// Gets the greek pi symbol.
 	void setpi(QString *);
 	/// in trace mode checks, if the function is (near by) zero

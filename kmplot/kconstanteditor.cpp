@@ -82,31 +82,25 @@ void KConstantEditor::cmdDelete_clicked()
 	if ( !varlist->currentItem() )
 		return;
 
-	QString fname, fstr, str;
-	bool stop = false;
 	constant = varlist->currentItem()->text(0).at(0).latin1();
 	value = varlist->currentItem()->text(1);
-	
-        //for ( index = 0; index < m_view->parser()->fktext.count() && !stop; ++index )
+	QString str;
+        
         for( QValueVector<XParser::FktExt>::iterator it =  m_view->parser()->fktext.begin(); it !=  m_view->parser()->fktext.end(); ++it)
 	{
 		str =  it->extstr;
-		for (int i=str.find(')'); (uint)i<str.length() && !stop;i++)
+		for (int i=str.find(')'); (uint)i<str.length();i++)
 			if ( str.at(i) == constant )
-				stop = true;
+                        {
+			     KMessageBox::error(this, i18n("A function uses this constant; therefore, it cannot be removed."));
+                             return;
+                        }
 	}
-	if (stop)
-	{
-		KMessageBox::error(this, i18n("A function uses this constant; therefore, it cannot be removed."));
-		return;
-	}
-	
 	QValueVector<Constant>::iterator it;
-	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !stop;it++)
+	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end(); it++)
 	{
 		if ( it->constant == constant)
 		{
-			
 			if (  it++ == m_view->parser()->constant.end())
 				m_view->parser()->constant.pop_back();
 			else
@@ -114,13 +108,9 @@ void KConstantEditor::cmdDelete_clicked()
 				it--;
 				m_view->parser()->constant.erase(it++);
 			}
-			stop = true;
+			KMessageBox::error(this, i18n("The item could not be found."));
+                        return;
 		}
-	}
-	if (!stop)
-	{
-		KMessageBox::error(this, i18n("The item could not be found."));
-		return;
 	}
 	
 	delete varlist->findItem(QChar(constant), 0); //removes the item from the constant list
@@ -205,7 +195,7 @@ void KConstantEditor::editConstantSlot()
 	if (item!=0)
 		item->setText(1,value);
 	
-	QString fname, fstr;
+	//QString fname, fstr;
         //for ( uint index = 0; index < m_view->parser()->fktext.count(); ++index )
 
         int index = 0;

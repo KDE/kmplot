@@ -77,22 +77,21 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 };
                                    
 Parser::Parser( int m_size, int s_size )
-{   ps_init( m_size, s_size );
+        : memsize(m_size), stacksize(s_size)
+{   ps_init();
 }
 
 
-void Parser::ps_init(int m_size, int s_size)
+void Parser::ps_init()
 {
-	memsize=m_size;
-	stacksize=s_size;
-	evalflg=ixa=0;
+	evalflg=0;
         Ufkt temp;
         temp.memsize=memsize;
         temp.stacksize=stacksize;
         temp.fname = temp.fvar = temp.fpar = temp.fstr = "";
-
         temp.mem=new unsigned char [memsize];
         ufkt.append(temp );
+        current_item = ufkt.begin();
 }
 
 
@@ -106,18 +105,17 @@ Parser::~Parser()
         }
 }
 
-
 Parser::Ufkt::Ufkt()
 {
 }
-
 
 Parser::Ufkt::~Ufkt()
 {
 }
 
 void Parser::setAngleMode(int angle)
-{	if(angle==0)
+{
+        if(angle==0)
 		m_anglemode = 1;
 	else
 		m_anglemode = M_PI/180;	
@@ -129,12 +127,34 @@ void Parser::setDecimalSymbol(const QString c)
 }
 
 double Parser::anglemode()
-{	return m_anglemode;
+{
+        return m_anglemode;
+}
+
+
+uint Parser::getNewId()
+{
+        uint i = 0;
+        bool found = false;
+        while (1 )
+        {
+                found = false;
+                for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                {
+                        if (it->id == i && !it->fname.isEmpty())
+                        {
+                                found = true;
+                                break;
+                        }
+                }
+                if (!found)
+                        return i;
+                ++i;
+        }
 }
 
 double Parser::eval(QString str)
 {
-        double erg;
 	stack=new double [stacksize];
 	stkptr=stack;
 	evalflg=1;
@@ -153,84 +173,136 @@ double Parser::eval(QString str)
 	heir1();
 	if(*lptr!=0 && err==0) err=1;
 	evalflg=0;
-	erg=*stkptr;
+	double const erg=*stkptr;
 	delete [] stack;
 	if(err==0)
-	{      errpos=0;
+	{
+                errpos=0;
 		return erg;
 	}
 	else
-	{	errpos=lptr-(str.latin1())+1;
+	{
+                errpos=lptr-(str.latin1())+1;
 		return 0.;
 	}
 }
 
+int Parser::idValue(int const ix)
+{
+        if ( ix >=0 && ix<(int)ufkt.count() ) // range check
+        {
+                if ( !( ufkt.count()==1 && ufkt[0].fname=="" ) )
+                        return ufkt[ix].id;
+        }
+        return -1;
 
-double Parser::Ufkt::fkt(double x)
-{	unsigned char token;
+}
+
+int Parser::ixValue(uint const id)
+{
+        int ix=0;
+        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        {
+                if ( it->id ==id)
+                        return ix;
+                ix++;
+        }
+        return -1;
+}
+
+double Parser::fkt(uint const id, double const x)
+{
+        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        {
+                if ( it->id == id)
+                        return fkt(it,x);
+        }
+        err=13;
+        return 0;
+}
+
+double Parser::fkt(Ufkt *it, double const x)
+{
 	double *pd, (**pf)(double);
-	double erg, *stack, *stkptr;
-	Ufkt **puf;
-	
-	mptr=mem;
+        double *stack, *stkptr;
+	uint *puf;
+	it->mptr=it->mem;
 	stack=stkptr= new double [stacksize];
+
 	while(1)
-	{   switch(token=*mptr++)
-	{  case	KONST:  pd=(double*)mptr;
-			            *stkptr=*pd++;
-				    mptr=(unsigned char*)pd;
-				    break;
-           case	XWERT:  *stkptr=x;
-			            break;
-           case	YWERT:  *stkptr=oldy;
-			            break;
-           case KWERT:  *stkptr=k;
-			            break;
-
-           case PUSH:   ++stkptr;
-			            break;
-
-           case PLUS:   stkptr[-1]+=*stkptr;
-			            --stkptr;
-			            break;
-
-           case MINUS:  stkptr[-1]-=*stkptr;
-			            --stkptr;
-			            break;
-
-           case MULT:   stkptr[-1]*=*stkptr;
-			            --stkptr;
-			            break;
-
-           case DIV:    if(*stkptr==0.)*(--stkptr)=HUGE_VAL;
-			            else
-			            {   stkptr[-1]/=*stkptr;
-				            --stkptr;
-			            }
-			            break;
-
-           case POW:    stkptr[-1]=pow(*(stkptr-1), *stkptr);
-			            --stkptr;
-			            break;
-
-           case NEG:    *stkptr=-*stkptr;
-			            break;
-
-           case	FKT:    pf=(double(**)(double))mptr;
-			            *stkptr=(*pf++)(*stkptr);
-			            mptr=(unsigned char*)pf;
-			            break;
-
-           case UFKT:   puf=(Ufkt**)mptr;
-			            *stkptr=(*puf++)->fkt(*stkptr);
-			            mptr=(unsigned char*)puf;
-			            break;
-
-           case ENDE:   erg=*stkptr;
-				delete [] stack;
-				return erg;
-		}
-	}
+	{
+                switch(*it->mptr++)
+                {
+                        case KONST:
+                                pd=(double*)it->mptr;
+                                *stkptr=*pd++;
+                                it->mptr=(unsigned char*)pd;
+                                break;
+                        case XWERT:
+                                *stkptr=x;
+                                break;
+                        case YWERT:
+                                *stkptr=it->oldy;
+                                break;
+                        case KWERT:
+                                *stkptr=it->k;
+                                break;
+                        case PUSH:
+                                ++stkptr;
+                                break;
+                        case PLUS:
+                                stkptr[-1]+=*stkptr;
+                                --stkptr;
+                                break;
+                        case MINUS:
+                                stkptr[-1]-=*stkptr;
+                                --stkptr;
+                                break;
+                        case MULT:
+                                stkptr[-1]*=*stkptr;
+                                --stkptr;
+                                break;
+                        case DIV:
+                                if(*stkptr==0.)*(--stkptr)=HUGE_VAL;
+                                else
+                                {
+                                        stkptr[-1]/=*stkptr;
+                                        --stkptr;
+                                }
+                                break;
+                        case POW:
+                                stkptr[-1]=pow(*(stkptr-1), *stkptr);
+                                --stkptr;
+                                break;
+                        case NEG:
+                                *stkptr=-*stkptr;
+                                break;
+                        case FKT:
+                                pf=(double(**)(double))it->mptr;
+                                *stkptr=(*pf++)(*stkptr);
+                                it->mptr=(unsigned char*)pf;
+                                break;
+                        case UFKT:
+                        {
+                                puf=(uint*)it->mptr;
+                                uint id = *puf++;
+                                for( QValueVector<XParser::Ufkt>::iterator ite = ufkt.begin(); ite != ufkt.end(); ++ite)
+                                {
+                                        if ( ite->id == id)
+                                        {
+                                                *stkptr=fkt(ite, *stkptr);
+                                                break;
+                                        }
+                                }
+                                it->mptr=(unsigned char*)puf;
+                                break;
+                        }
+                        case ENDE:
+                                double const erg=*stkptr;
+                                delete [] stack;
+                                return erg;
+                }
+        }
 }
 
 int Parser::addfkt(QString str)
@@ -241,8 +313,7 @@ int Parser::addfkt(QString str)
 	const int p1=str.find('(');
 	int p2=str.find(',');
 	const int p3=str.find(")=");
-        
-	
+        kdDebug() << "Hit?" << endl;
         fix_expression(str,p1+4);
         
 	if(p1==-1 || p3==-1 || p1>p3)
@@ -267,33 +338,55 @@ int Parser::addfkt(QString str)
 	{   err=4;
 		return -1;
 	}
-        int ix;
+        
+        QString const fname = str.left(p1);
+        
+        /*if ( fname=="e" )
+        {
+                err=13;
+                return;
+        }
+        else if ( fname=="pi" )
+        {
+                err=14;
+                return;
+        }*/
+        
         if ( ufkt.begin()->fname.isEmpty() )
         {
-                ufkt.begin()->fname=str.left(p1);
+                ufkt.begin()->fname=fname;
                 ufkt.begin()->fvar=str.mid(p1+1, p2-p1-1);
                 ufkt.begin()->fstr=str;
+                ufkt.begin()->mptr = 0;
+                ufkt.begin()->id = 0;
+                ufkt.begin()->memsize=memsize;
+                ufkt.begin()->stacksize=stacksize;
+                kdDebug() << "ufkt.begin()->id:" << ufkt.begin()->id << endl;
+                
                 if(p2<p3) ufkt.begin()->fpar=str.mid(p2+1, p3-p2-1);
                 else ufkt.begin()->fpar="";      //.resize(1);
-                ix = 0;
+                //ix = 0;
         }
         else
         {
-                
                 Ufkt temp;
                 temp.memsize=memsize;
                 temp.stacksize=stacksize;
-                temp.mem=new unsigned char [memsize];
-                temp.fname=str.left(p1);
+                temp.fname=fname;
                 temp.fvar=str.mid(p1+1, p2-p1-1);
                 temp.fstr=str;
+                temp.mptr = 0;
+                temp.id = getNewId();
+                temp.mem=new unsigned char [memsize];
+
                 if(p2<p3) temp.fpar=str.mid(p2+1, p3-p2-1);
                 else temp.fpar="";
-                
                 ufkt.append(temp );
-                ix = ufkt.count()-1;
+                //ix = ufkt.count()-1;
         }
-        Ufkt *temp = &ufkt[ix];
+        Ufkt *temp = &ufkt.last();
+        kdDebug() << "temp.id:" << temp->id << endl;
+        
 	if ( temp->fname != temp->fname.lower() ) //isn't allowed to contain capital letters
 	{
                 if (ufkt.count() == 1)
@@ -306,13 +399,12 @@ int Parser::addfkt(QString str)
 		err=12;
 		return -1;
 	}
-	ixa=ix;
-	mem=mptr=ufkt[ix].mem;
+        current_item = temp;
+	mem=mptr=temp->mem;
 	lptr=(str.latin1())+p3+2;
 	heir1();
 	if(*lptr!=0 && err==0) err=1;		// Syntaxfehler
 	addtoken(ENDE);
-
 	if(err!=0)
 	{
                 errpos=lptr-(str.latin1())+1;
@@ -325,16 +417,19 @@ int Parser::addfkt(QString str)
                 }
 		return -1;
 	}
-	
 	errpos=0;
-	return ix;
+	return temp->id; //return the unique ID-number for the function
 }
-
 
 void Parser::reparse(int ix)
 {
-	kdDebug() << "Reparsing: " << ufkt[ix].fstr << endl;
-	QString str = ufkt[ix].fstr.latin1();
+        reparse( &ufkt[ix] );
+}
+
+void Parser::reparse(Ufkt *item)
+{
+	kdDebug() << "Reparsing: " << item->fstr << endl;
+	QString str = item->fstr.latin1();
 	err=0;
 	errpos=1;
 
@@ -359,19 +454,20 @@ void Parser::reparse(int ix)
 	return;
 	}
 	
-	ufkt[ix].fname=str.left(p1);
-	ufkt[ix].fvar=str.mid(p1+1, p2-p1-1);
-	if(p2<p3) ufkt[ix].fpar=str.mid(p2+1, p3-p2-1);
-	else ufkt[ix].fpar="";
+	item->fname=str.left(p1);
+	item->fvar=str.mid(p1+1, p2-p1-1);
+	if(p2<p3) item->fpar=str.mid(p2+1, p3-p2-1);
+	else item->fpar="";
 	
-	if ( ufkt[ix].fname != ufkt[ix].fname.lower() ) //isn't allowed to contain capital letters
+	if ( item->fname != item->fname.lower() ) //isn't allowed to contain capital letters
 	{
 		err=12;
 		return;
 	}
 	
-	ixa=ix;
-	mem=mptr=ufkt[ix].mem;
+	//ixa=ix;
+        current_item = item;
+	mem=mptr=item->mem;
 	lptr=(str.latin1())+p3+2;
 	heir1();
 	if(*lptr!=0 && err==0) err=1;		// Syntaxfehler
@@ -425,6 +521,7 @@ void Parser::fix_expression(QString &str, int const pos)
         str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
         str.truncate(pos);
         str.append(str_end);
+        //kdDebug() << "str:" << str << endl;
 }
 
 void Parser::delfkt( QValueVector<Parser::Ufkt>::iterator item)
@@ -452,86 +549,103 @@ bool Parser::delfkt(int ix)
         else
                 return false;
 }
-void Parser::heir1()
-{   char c;
 
+void Parser::heir1()
+{
+        char c;
 	heir2();
 	if(err!=0) return ;
 
 	while(1)
-	{   switch(c=*lptr)
-		{  default:     return ;
+	{
+                switch(c=*lptr)
+		{
+                        default:
+                                return ;
 
-           case ' ':    ++lptr;
-			            continue;
-
-           case '+':
-           case '-':    ++lptr;
-			            addtoken(PUSH);
-			            heir2();
-			            if(err!=0) return ;
+                        case ' ':
+                                ++lptr;
+                                continue;
+                        case '+':
+                        case '-':
+                                ++lptr;
+                                addtoken(PUSH);
+                                heir2();
+                                if(err!=0)
+                                        return;
 		}
-
 		switch(c)
-		{  case '+':    addtoken(PLUS);
-			            break;
-
-           case '-':    addtoken(MINUS);
+		{
+                        case '+':
+                                addtoken(PLUS);
+                                break;
+                        case '-':
+                        addtoken(MINUS);
 		}
 	}
 }
 
 
 void Parser::heir2()
-{   if(match("-"))
-	{   heir2();
-		if(err!=0) return;
-
+{
+        if(match("-"))
+	{
+                heir2();
+		if(err!=0)
+                        return;
 		addtoken(NEG);
 	}
-
-	else heir3();
+	else
+                heir3();
 }
 
 
 void Parser::heir3()
-{   char c;
-
+{
+        char c;
 	heir4();
-	if(err!=0) return;
-
+	if(err!=0)
+                return;
 	while(1)
-	{   switch(c=*lptr)
-		{  default:     return ;
-
-           case ' ':    ++lptr;
-			            continue;
-
-           case '*':
-		   case '/':    ++lptr;
-			            addtoken(PUSH);
-			            heir4();
-			            if(err!=0) return ;
-		}
-
+	{
+                switch(c=*lptr)
+		{
+                        default:
+                                return;
+                        case ' ':
+                                ++lptr;
+                                continue;
+                        case '*':
+                        case '/':
+                                ++lptr;
+                                addtoken(PUSH);
+                                heir4();
+                                if(err!=0)
+                                        return ;
+		      }
 		switch(c)
-		{  case '*':    addtoken(MULT);
-			            break;
-
-           case '/':    addtoken(DIV);
+		{
+                        case '*':
+                                addtoken(MULT);
+                                break;
+                        case '/':
+                                addtoken(DIV);
 		}
 	}
 }
 
 
 void Parser::heir4()
-{   primary();
-	if(err!=0) return;
-
+{
+        primary();
+	if(err!=0)
+                return;
 	while(match("^"))
-	{   addtoken(PUSH);
+	{
+                addtoken(PUSH);
 		primary();
-		if(err!=0) return;
+		if(err!=0)
+                        return;
 		addtoken(POW);
 	}
 }
@@ -539,94 +653,100 @@ void Parser::heir4()
 
 void Parser::primary()
 {
-        char *p;
-	int i;
-	double w;
 
 	if(match("("))
-	{   heir1();
-		if(match(")")==0) err=2;	// fehlende Klammer
+	{
+                heir1();
+		if(match(")")==0)
+                        err=2;	// fehlende Klammer
 		return;
 	}
+        
+        int i;
+        for(i=0; i<FANZ; ++i)
+        {
+                if(match(mfkttab[i].mfstr))
+                {
+                        primary();
+                        addtoken(FKT);
+                        addfptr(mfkttab[i].mfadr);
+                        return;
+                }
+        }
 
-	for(i=0; i<FANZ; ++i)
-	{   if(match(mfkttab[i].mfstr))
-		{   primary();
-			addtoken(FKT);
-			addfptr(mfkttab[i].mfadr);
-			return;
-		}
-	}
-
-        i=0;
         for( QValueVector<XParser::Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
-                if(it->fname[0]==0) continue;
+                if(QString(lptr)=="pi" || QString(lptr)=="e") continue;
+
 		if( match(it->fname.latin1()) )
 		{
-                        if(i==ixa)
+                        //if(it==&ufkt[ixa])
+                        if (it == current_item);
                         {
-                                if (i==ixa)
-                                {
-                                        err=9;
-                                        return;
-                                }
+                                err=9;
+                                return;
                         }
 			primary();
 			addtoken(UFKT);
-                        addfptr(it);
+                        addfptr( it->id );
 			return;
 		}
-                ++i;
 	}
+        
 	// A constant
 	if(lptr[0] >='A' && lptr[0]<='Z' )
-	{   char tmp[2];
-	tmp[1] = '\0';
-	for( int i = 0; i< (int)constant.size();i++)
-	{	
-		tmp[0] = constant[i].constant;
-		if ( match( tmp) )
-		{
-			addtoken(KONST);
-			addwert(constant[i].value);
-			return;
-		}
-
+	{
+                char tmp[2];
+                tmp[1] = '\0';
+                for( i = 0; i< (int)constant.size();i++)
+                {
+                        tmp[0] = constant[i].constant;
+                        if ( match( tmp) )
+                        {
+                                addtoken(KONST);
+                                addwert(constant[i].value);
+                                return;
+                        }
+	       }
+	       err = 10;
+	       return;
 	}
-	err = 10;
-	return;
-	}
-	
-		
+        
 	if(match("pi"))
-	{   addtoken(KONST);
+	{
+                addtoken(KONST);
 		addwert(M_PI);
 		return;
 	}
 
 	if(match("e"))
-	{   addtoken(KONST);
+	{
+                addtoken(KONST);
 		addwert(M_E);
 		return;
 	}
-
-	if(match(ufkt[ixa].fvar.latin1()))
-	{   addtoken(XWERT);
+	//if(match(ufkt[ixa].fvar.latin1()))
+        if(match(current_item->fvar.latin1())) 
+	{
+                addtoken(XWERT);
 		return;
 	}
 	
 	if(match("y"))
-	{   addtoken(YWERT);
+	{
+                addtoken(YWERT);
 		return;
 	}
 	
-	if(match(ufkt[ixa].fpar.latin1()))
-	{   addtoken(KWERT);
+	//if(match(ufkt[ixa].fpar.latin1()))
+        if(match(current_item->fpar.latin1()))
+	{
+                addtoken(KWERT);
 		return;
 	}
 
-	w=strtod(lptr, &p);
+        char *p;
+	double const w=strtod(lptr, &p);
 	if(lptr!=p)
 	{
                 lptr=p;
@@ -634,21 +754,24 @@ void Parser::primary()
 		addwert(w);
 	}
 	else
-        {
                 err=1;				// Syntax-Fehler
-        }
 }
 
 
 int Parser::match(const char *lit)
-{   const char *p;
+{
 
-	if(*lit==0) return 0;
-    
-	while(*lptr==' ') ++lptr;
+        const char *p;
+	if(*lit==0)
+                return 0;
+	while(*lptr==' ')
+                ++lptr;
 	p=lptr;
+
 	while(*lit)
-	{   if(*lit++!=*p++) return 0;
+	{
+                if(*lit++!=*p++)
+                        return 0;
 	}
 	lptr=p;
 	return 1;
@@ -656,96 +779,129 @@ int Parser::match(const char *lit)
 
 
 void Parser::addtoken(unsigned char token)
-{   if(stkptr>=stack+stacksize-1)
-	{   err=7;
+{
+        if(stkptr>=stack+stacksize-1)
+	{
+                err=7;
 		return;
 	}
 
 	if(evalflg==0)
-	{   if(mptr>=&mem[memsize-10]) err=6;
-		else *mptr++=token;
+	{
+                if(mptr>=&mem[memsize-10])
+                        err=6;
+		else
+                        *mptr++=token;
         
 		switch(token)
-		{  case PUSH:   ++stkptr;
-			            break;
-
-           case PLUS:
-		   case MINUS:
-		   case MULT:
-		   case DIV:
-		   case POW:    --stkptr;
+		{
+                        case PUSH:
+                                ++stkptr;
+                                break;
+                        case PLUS:
+                        case MINUS:
+                        case MULT:
+                        case DIV:
+                        case POW:
+                                --stkptr;
 		}
 	}
 	else switch(token)
-	{  case PUSH:   ++stkptr;
-			        break;
+	{
+                case PUSH:
+                        ++stkptr;
+                        break;
+                case PLUS:
+                        stkptr[-1]+=*stkptr;
+                        --stkptr;
+                        break;
 
-       case PLUS:   stkptr[-1]+=*stkptr;
-			        --stkptr;
-			        break;
-
-       case MINUS:  stkptr[-1]-=*stkptr;
-			        --stkptr;
-			        break;
-
-       case MULT:   stkptr[-1]*=*stkptr;
-			        --stkptr;
-			        break;
-
-       case DIV:    if(*stkptr==0.) *(--stkptr)=HUGE_VAL;
-			        else
-			        {   stkptr[-1]/=*stkptr;
-				        --stkptr;
-			        }
-			        break;
-
-       case POW:    stkptr[-1]=pow(*(stkptr-1), *stkptr);
-			        --stkptr;
-			        break;
-	   case NEG:    *stkptr=-*stkptr;
+                case MINUS:
+                        stkptr[-1]-=*stkptr;
+                        --stkptr;
+                        break;
+                case MULT:
+                        stkptr[-1]*=*stkptr;
+			--stkptr;
+			break;
+                case DIV:
+                        if(*stkptr==0.)
+                                *(--stkptr)=HUGE_VAL;
+                        else
+			{
+                                stkptr[-1]/=*stkptr;
+				--stkptr;
+			}
+			     break;
+                
+                case POW:
+                        stkptr[-1]=pow(*(stkptr-1), *stkptr);
+                        --stkptr;
+                        break;
+	       case NEG:
+                        *stkptr=-*stkptr;
 	}
 }
 
 
 void Parser::addwert(double x)
-{   double *pd=(double*)mptr;
+{
+        double *pd=(double*)mptr;
 
 	if(evalflg==0)
-	{   if(mptr>=&mem[memsize-10]) err=6;
+	{
+                if(mptr>=&mem[memsize-10])
+                        err=6;
 		else
-		{   *pd++=x;
+		{
+                        *pd++=x;
 			mptr=(unsigned char*)pd;
 		}
 	}
-	else *stkptr=x;
+	else
+                *stkptr=x;
 }
 
 
 void Parser::addfptr(double(*fadr)(double))
-{   double (**pf)(double)=(double(**)(double))mptr;
-
-	if(evalflg==0)
-	{   if(mptr>=&mem[memsize-10]) err=6;
-		else
-		{   *pf++=fadr;
-			mptr=(unsigned char*)pf;
-		}
-	}
-	else *stkptr=(*fadr)(*stkptr);
+{
+        double (**pf)(double)=(double(**)(double))mptr;
+        if( evalflg==0 )
+        {
+        if( mptr>=&mem[memsize-10] )
+                err=6;
+        else
+                {
+                        *pf++=fadr;
+                        mptr=(unsigned char*)pf;
+                }
+        }
+        else
+                *stkptr=(*fadr)(*stkptr);
 }
 
 
-void Parser::addfptr(Ufkt *adr)
-{   Ufkt **p=(Ufkt**)mptr;
-
-	if(evalflg==0)
-	{   if(mptr>=&mem[memsize-10]) err=6;
+void Parser::addfptr(uint id)
+{
+        uint *p=(uint*)mptr;
+        if(evalflg==0)
+	{
+                if(mptr>=&mem[memsize-10]) err=6;
 		else
-		{   *p++=adr;
+		{
+                        *p++=id;
 			mptr=(unsigned char*)p;
 		}
 	}
-	else *stkptr=adr->fkt(*stkptr);
+	else
+        {
+                for( QValueVector<XParser::Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                        if ( it->id == id)
+                        {
+                                *stkptr=fkt(it, *stkptr);
+                                break;
+                        }
+        }
 }
 
 
@@ -761,134 +917,152 @@ bool Parser::getfix(QString name)
 
 
 int Parser::errmsg()
-{   switch(err)
-	{  case 1:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "Syntax error").arg(QString::number(errpos)), "KmPlot");
-		        break;
-
-       case 2:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "Missing parenthesis").arg(QString::number(errpos)), "KmPlot");
-		        break;
-
-       case 3:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "Function name unknown").arg(QString::number(errpos)), "KmPlot");
-		        break;
-
-       case 4:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "Void function variable").arg(QString::number(errpos)), "KmPlot");
-		        break;
-
-       case 5:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "Too many functions").arg(QString::number(errpos)), "KmPlot");
-		        break;
-
-       case 6:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "Token-memory overflow").arg(QString::number(errpos)), "KmPlot");
-		        break;
-
-       case 7:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "Stack overflow").arg(QString::number(errpos)), "KmPlot");
-		        break;
-
-       case 8:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "Name of function not free").arg(QString::number(errpos)), "KmPlot");
-		        break;
-	   
-       case 9:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                   "recursive function not allowed").arg(QString::number(errpos)), "KmPlot");
-		        break;
-       case 10:  KMessageBox::error(0, i18n("Could not find a defined constant at position %1" ).arg(QString::number(errpos)),
-                                                   "KmPlot");
-     			break;
-       case 11:  KMessageBox::error(0, i18n("Empty function"), "KmPlot");
-		        break;
-       case 12:  KMessageBox::error(0, i18n("The function name is not allowed to contain capital letters"), "KmPlot");
-			break;
+{
+        switch(err)
+	{
+                case 1:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                      "Syntax error").arg(QString::number(errpos)), "KmPlot");
+                        break;
+                case 2:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                      "Missing parenthesis").arg(QString::number(errpos)), "KmPlot");
+                        break;
+                case 3:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                      "Function name unknown").arg(QString::number(errpos)), "KmPlot");
+                        break;
+                case 4:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                      "Void function variable").arg(QString::number(errpos)), "KmPlot");
+                        break;
+                case 5:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                      "Too many functions").arg(QString::number(errpos)), "KmPlot");
+                        break;
+                case 6:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                      "Token-memory overflow").arg(QString::number(errpos)), "KmPlot");
+                        break;
+                case 7:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                      "Stack overflow").arg(QString::number(errpos)), "KmPlot");
+                        break;
+                case 8:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                      "Name of function not free").arg(QString::number(errpos)), "KmPlot");
+                        break;
+                case 9:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+		                                      "recursive function not allowed").arg(QString::number(errpos)), "KmPlot");
+                        break;
+                case 10:  KMessageBox::error(0, i18n("Could not find a defined constant at position %1" ).arg(QString::number(errpos)),
+                                                                "KmPlot");
+                        break;
+                case 11:  KMessageBox::error(0, i18n("Empty function"), "KmPlot");
+                        break;
+                case 12:  KMessageBox::error(0, i18n("The function name is not allowed to contain capital letters"), "KmPlot");
+                        break;
+                case 13:  KMessageBox::error(0, i18n("Function could not be found"), "KmPlot");
+                        break;
 	}
-    
-	return err;
+        return err;
 }
 
 double ln(double x)
-{   return log(x);
+{
+        return log(x);
 }
 
 double llog(double x)
-{   return log10(x);
+{
+        return log10(x);
 }
 
 double sign(double x)
-{   if(x<0.) return -1.;
-    else if(x>0.) return 1.;
-    return 0.;
+{
+        if(x<0.)
+                return -1.;
+        else
+                if(x>0.)
+                        return 1.;
+        return 0.;
 }
 
 double sqr(double x)
-{   return x*x;
+{
+        return x*x;
 }
 
 double arsinh(double x)
-{   return log(x+sqrt(x*x+1));
+{
+        return log(x+sqrt(x*x+1));
 }
 
 
 double arcosh(double x)
-{   return log(x+sqrt(x*x-1));
+{
+        return log(x+sqrt(x*x-1));
 }
 
 
 double artanh(double x)
-{   return log((1+x)/(1-x))/2;
+{
+        return log((1+x)/(1-x))/2;
 }
 
 // sec, cosec, cot and their inverses
 
 double sec(double x)
-{   return (1 / cos(x*Parser::anglemode()));
+{
+        return (1 / cos(x*Parser::anglemode()));
 }
 
 double cosec(double x)
-{   return (1 / sin(x*Parser::anglemode()));
+{
+        return (1 / sin(x*Parser::anglemode()));
 }
 
 double cot(double x)
-{   return (1 / tan(x*Parser::anglemode()));
+{
+        return (1 / tan(x*Parser::anglemode()));
 }
 
 double arcsec(double x)
-{   if ( !Parser::anglemode() ) return ( 1/acos(x)* 180/M_PI );
-    else return acos(1/x);
+{
+        if ( !Parser::anglemode() )
+                return ( 1/acos(x)* 180/M_PI );
+        else
+                return acos(1/x);
 }
 
 double arccosec(double x)
-{   return asin(1/x)* 1/Parser::anglemode();
+{
+        return asin(1/x)* 1/Parser::anglemode();
 }
 
 double arccot(double x)
-{   return atan(1/x)* 1/Parser::anglemode();
+{
+        return atan(1/x)* 1/Parser::anglemode();
 }
 
 // sech, cosech, coth and their inverses
 
 
 double sech(double x)
-{   return (1 / cosh(x*Parser::anglemode()));
+{
+        return (1 / cosh(x*Parser::anglemode()));
 }
 
 double cosech(double x)
-{   return (1 / sinh(x*Parser::anglemode()));
+{
+        return (1 / sinh(x*Parser::anglemode()));
 }
 
 double coth(double x)
-{   return (1 / tanh(x*Parser::anglemode()));
+{
+        return (1 / tanh(x*Parser::anglemode()));
 }
 
 double arsech(double x)
-{   return arcosh(1/x)* 1/Parser::anglemode();
+{
+        return arcosh(1/x)* 1/Parser::anglemode();
 }
 
 double arcosech(double x)
-{   return arsinh(1/x)* 1/Parser::anglemode();
+{
+        return arsinh(1/x)* 1/Parser::anglemode();
 }
 
 double arcoth(double x)
@@ -898,32 +1072,41 @@ double arcoth(double x)
 //basic trigonometry functions
 
 double lcos(double x)
-{   return cos(x*Parser::anglemode());
+{
+        return cos(x*Parser::anglemode());
 }
 double lsin(double x)
-{   return sin(x*Parser::anglemode());
+{
+        return sin(x*Parser::anglemode());
 }
 double ltan(double x)
-{   return tan(x*Parser::anglemode());
+{
+        return tan(x*Parser::anglemode());
 }
 
 double lcosh(double x)
-{   return cosh(x*Parser::anglemode());
+{
+        return cosh(x*Parser::anglemode());
 }
 double lsinh(double x)
-{   return sinh(x*Parser::anglemode());
+{
+        return sinh(x*Parser::anglemode());
 }
 double ltanh(double x)
-{   return tanh(x*Parser::anglemode());
+{
+        return tanh(x*Parser::anglemode());
 }
 
 double arccos(double x)
-{   return acos(x) * 1/Parser::anglemode();
+{
+        return acos(x) * 1/Parser::anglemode();
 }
 double arcsin(double x)
-{   return asin(x)* 1/Parser::anglemode();
+{
+        return asin(x)* 1/Parser::anglemode();
 }
 
 double arctan(double x)
-{   return atan(x)* 1/Parser::anglemode();
+{
+        return atan(x)* 1/Parser::anglemode();
 }

@@ -43,8 +43,8 @@ class KEditPolar : public QEditPolar
 		/// Nothing special to do.
 		virtual ~KEditPolar() {};
 		
-		///Fill the dialog widgets with the properties of the parser function number index.
-		void initDialog( int index = -1 );
+		///Fill the dialog widgets with the properties of the parser function number id.
+		void initDialog( int id = -1 );
 		/// Returns the well formed function equation for the listbox in FktDlg.
 		const QString functionItem();
 	
@@ -55,8 +55,8 @@ class KEditPolar : public QEditPolar
 		void setWidgets();
 		/// Pointer to the parser instance.
 		XParser* m_parser;
-		/// Current function index.
-		int m_index;
+		/// Current function id.
+		int m_id;
 		
 	protected slots:
 		/// Overwrites the dialog's accept() method to make sure, that the user's input is valid.

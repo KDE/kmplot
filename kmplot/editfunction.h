@@ -47,7 +47,7 @@ class EditFunction : public KDialogBase
 		/// Nothing special to do.
 		virtual ~EditFunction() {};
 		/// Fill the dialog's widgets with the properties of the parser function number index.
-		void initDialog( int index = -1 );
+		void initDialog( int id = -1 );
 		/// Returns the well formed function equation for the listbox in FktDlg.
 		const QString functionItem();
 	
@@ -74,7 +74,7 @@ class EditFunction : public KDialogBase
 		/// Pointer to the parser instance
 		XParser* m_parser;
 		/// Current function index
-		int m_index;
+		int m_id;
 		QStringList m_parameter;
 		
 		EditFunctionPage* editfunctionpage;

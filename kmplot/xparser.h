@@ -46,17 +46,13 @@ class XParser : public Parser
 public:
 	XParser(int m_size, int s_size );
 	~XParser();
-
-	/// Interpretates the extended function string
-	int getext( int );
+        
 	/// Removes the function with index \a ix from the parser.
 	bool delfkt( int ix );
 	/// Evaluates the 1st dreivative of the function with intex \a ix
-	double a1fkt( int ix , double, double h = 1e-3 );
+	double a1fkt( Ufkt *u_item , double, double h = 1e-3 );
 	/// Evaluates the 2nd dreivative of the function with intex \a ix
-	double a2fkt( int, double, double h = 1e-3 );
-	/// calculate euler's method when drawing a numeric prime-function
-	void euler_method(double &, double &, const int &);
+	double a2fkt( Ufkt *, double, double h = 1e-3 );
 	/// Line width default
 	int linewidth0;
         QRgb defaultColor(int function);
@@ -84,11 +80,11 @@ public:
 		dmax, ///< Custom plot range, upper boundage.
 		/** List of parameter values. 
 		 * @see FktExt::k_anz */
-		oldyprim,  ///< needed for Euler's method, the last y'.value
+                oldyprim,  ///< needed for Euler's method, the last y'.value
 		oldx, ///< needed for Euler's method, the last x-value
-		starty,///< startposition forEuler's method, the initial y-value
-		startx, ///< startposition forEuler's method, the initial x-value
-		integral_precision; ///<precision when drawing numeric prime-functions
+		starty,///< startposition for Euler's method, the initial y-value
+                startx, ///< startposition for Euler's method, the initial x-value last y'.valuenitial x-value last y'.valuenitial x-value
+                integral_precision; ///<precision when drawing numeric prime-functions
 		QString extstr; ///< Complete function string including the extensions.
 		QRgb color, ///< current color.
 		f1_color, f2_color, integral_color;
@@ -96,12 +92,20 @@ public:
 		int use_slider; ///< -1: none (use list), else: slieder number
                 QValueList<double > k_liste;
 		// TODO double slider_min, slider_max; ///< extreme values of the slider
+                uint id;
         };
         QValueVector<FktExt> fktext;
         void prepareAddingFktExtFunction(FktExt &);
         
+        /// Evaluates the function with the given index at the position.
         
         void delfkt( Ufkt *u_item, FktExt *f_item);
+        
+        /// Interpretates the extended function string
+        int getext( FktExt * );
+        
+        /// calculate euler's method when drawing a numeric prime-function
+        void euler_method(const double, double &, const QValueVector<Ufkt>::iterator, const QValueVector<FktExt>::iterator);
 private:
         
 	/// finds a free function name 
@@ -109,4 +113,3 @@ private:
 };
 
 #endif //xparser_included
-

@@ -79,18 +79,21 @@ class KmPlotIO
 		/// Reads function parameters from the node @a n.
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
-		/// This is the same as parseScale but is made for old Kmplot-files
-		void oldParseScale( const QDomElement & n );
 		void parseFunction( XParser *parser, const QDomElement &n );
-		/// This is the same as parseFunction but is made for old Kmplot-files
-		void oldParseFunction( XParser *parser, const QDomElement &n );
-		/// This is the same as parseAxes but is made for old Kmplot-files
-		void oldParseAxes( const QDomElement &n );
 		/// Reads parameter values for a function from the node @a n.
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
 		void parseParameters( XParser *parser, const QDomElement &n, XParser::FktExt &fktext);
+                
+                ///For KDE <3.3
+                /// This is the same as parseScale but is made for old Kmplot-files
+                void oldParseScale( const QDomElement & n );
+                /// This is the same as parseFunction but is made for old Kmplot-files
+                void oldParseFunction( XParser *parser, const QDomElement &n );
+                /// This is the same as parseAxes but is made for old Kmplot-files
+                void oldParseAxes( const QDomElement &n );
+                
 };
 
 #endif

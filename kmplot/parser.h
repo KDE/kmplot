@@ -122,21 +122,16 @@ public:
         
 	/// Evaluates the given expression.
 	double eval(QString);
-	/// Evaluates the function with the given index at the position.
-	double fkt(int ix, double x) {return ufkt[ix].fkt(x);}
 	/// Adds a user defined function with the given equation.
 	int addfkt(QString);
-
 	/// Removes the function with the given index.
 	bool delfkt(int);
-        
 	/// Returns the index of the function with the given name.
 	bool getfix(QString);
-        
 	/// Shows an error message box.
 	int errmsg();
 	/// ?
-	void setParameter(int ix, double k) {ufkt[ix].k=k;}
+	//void setParameter(int ix, double k) {ufkt[ix].k=k;}
 	/// return the angletype
 	static double anglemode();
 	/// sets the angletype. TRUE is radians and FALSE degrees
@@ -145,6 +140,11 @@ public:
 	void setDecimalSymbol(const QString );
 	/// Reparse the function. It also do a grammer check for the expression which you set before calling the function with this.ufkt[ix].fstr
 	void reparse(int ix);
+        
+        uint getNewId();
+        
+        int idValue(int const ix);
+        int ixValue(uint const id);
 
 	QValueVector<Constant> constant;
 	
@@ -175,10 +175,9 @@ public:
 	public:
 		Ufkt();
 		~Ufkt();
-
                 void setParameter(double const &p) {k = p; };
-		double	fkt(double);	///< User defined function.
-
+                
+                uint id;
 		unsigned char *mem;	///< Pointer to the allocated memory for the tokens.
 		unsigned char *mptr;	///< Pointer to the token.
 		QString	fname; 	        ///< Name of the function.
@@ -194,6 +193,11 @@ public:
         
         /// Removes the function
         void delfkt(QValueVector<Parser::Ufkt>::iterator );
+        
+        double fkt(Ufkt *it, double const x);
+        double fkt(uint i, double const x);
+        
+        void reparse(Ufkt *item);
 			
 protected:
 	/** Mathematical function. */
@@ -206,7 +210,7 @@ protected:
 
 private:
         void fix_expression(QString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
-	void ps_init(int, int),
+	void ps_init(),
 	heir1(),
 	heir2(),
 	heir3(),
@@ -215,9 +219,12 @@ private:
 	addtoken(unsigned char),
 	addwert(double),
 	addfptr(double(*)(double)),
-	addfptr(Ufkt*);
+	addfptr(uint );
 	int match(const char*);
 
+        int  const   memsize,        // Gr�e des Tokenspeichers
+        stacksize;// Gr�e des Stack
+        
 	unsigned
 	char evalflg, 		// 0 => String wird tokenisiert
 	                    // 1 => String wird direkt ausgewertet
@@ -225,9 +232,7 @@ private:
 	*mptr;			    // Zeiger fr Token
 	const
 	char *lptr;			// Zeiger fr Funktions-String
-	int	memsize,        // Gr�e des Tokenspeichers
-	stacksize,          // Gr�e des Stack
-	ixa;			    // Index der aktuellen Funktion
+        Ufkt *current_item; // Pointer to the current function
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer
 	static double  m_anglemode;

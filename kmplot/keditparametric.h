@@ -43,8 +43,8 @@ class KEditParametric : public QEditParametric
 		/// Nothing special to do.
 		virtual ~KEditParametric() {};
 		
-		/// Fill the dialog's widgets with the properties of the parser function number index.
-		void initDialog( int index = -1, int y_index = -1 );
+		/// Fill the dialog's widgets with the properties of the parser function number id.
+		void initDialog( int x_id = -1, int y_id = -1 );
 		/// Returns the well formed function equation for the listbox in FktDlg.
 		const QString functionItem();
 	
@@ -65,7 +65,7 @@ class KEditParametric : public QEditParametric
 		XParser* m_parser;
 		//@{
 		/// Current function indices.
-		int m_x_index, m_y_index;
+		int m_x_id, m_y_id;
 		//@}
 		
 	protected slots:

@@ -66,16 +66,16 @@ void FktDlg::slotDelete()
 	if( lb_fktliste->text( num )[0] == 'x' )
 	{
 		// Delete pair of parametric function
-		int const i = getParamIx( lb_fktliste->text( num ) );
-                if ( i == -1)
+		int const ix = m_parser->ixValue( getParamId( lb_fktliste->text( num ) ) );
+                if ( ix == -1)
                         return;
-                m_parser->delfkt( i+1 );
-                m_parser->delfkt( i );
+                m_parser->delfkt( ix+1 );
+                m_parser->delfkt( ix );
 	}
 	else 
 	{
 		// only one function to be deleted
-		m_parser->delfkt( getIx( lb_fktliste->text( num ) ) );
+		m_parser->delfkt( m_parser->ixValue(getId( lb_fktliste->text( num ))) );
                 
 	}
 	lb_fktliste->removeItem( num );
@@ -91,40 +91,36 @@ void FktDlg::slotEdit()
 		return;
 	}
 	int const num = lb_fktliste->currentItem();
-	int index = getIx( lb_fktliste->currentText().section( ";", 0, 0) );
+	int const id = getId( lb_fktliste->currentText().section( ";", 0, 0) ) ;
 	
 	// find out the function type
-	char const prefix = m_parser->fktext[ index ].extstr.at(0).latin1();
+	char const prefix = m_parser->fktext[ m_parser->ixValue(id) ].extstr.at(0).latin1();
 	
 	if ( prefix == 'r')
-		slotEditPolar( index, num );
+		slotEditPolar( id, num );
 	else if ( prefix == 'x')
-		slotEditParametric( index, getIx( lb_fktliste->text( num ).section( ";", 1, 1) ), num );
+		slotEditParametric( id, m_parser->ixValue(getId( lb_fktliste->text( num ).section( ";", 1, 1) )), num );
 	else
-		slotEditFunction( index, num );
+		slotEditFunction( id, num );
 }
 
-int FktDlg::getIx( const QString &f_str )
+int FktDlg::getId( const QString &f_str )
 {
-        int ix=0;
         for( QValueVector<XParser::FktExt>::iterator it =  m_parser->fktext.begin(); it !=  m_parser->fktext.end(); ++it)
 	{
 		if ( it->extstr == f_str )
-			return ix;
-                ++ix;
+			return it->id;
 	}
 	return -1;
 }
 
-int FktDlg::getParamIx( const QString &f_str)
+int FktDlg::getParamId( const QString &f_str)
 {
 	QString const fname = f_str.section( "(", 0, 0 );
-        int ix=0;
         for( QValueVector<Parser::Ufkt>::iterator it =  m_parser->ufkt.begin(); it !=  m_parser->ufkt.end(); ++it)
         {
                 if ( it->fname == fname )
-                        return ix;
-                ++ix;
+                        return it->id;
         }
         return -1;
 }
@@ -141,43 +137,43 @@ void FktDlg::slotHasSelection()
 	PushButtonDel->setEnabled( has_selection );
 }
 
-void FktDlg::slotEditFunction( int index, int num )
+void FktDlg::slotEditFunction( int id, int num )
 {
 	EditFunction* editFunction = new EditFunction( m_parser, this );
-	if ( index==-1&&num==-1) editFunction->setCaption(i18n( "New Function Plot" ));
+	if ( id==-1&&num==-1) editFunction->setCaption(i18n( "New Function Plot" ));
 	else editFunction->setCaption(i18n( "Edit Function Plot" ));
-	editFunction->initDialog( index );
+	editFunction->initDialog( id );
 	if( editFunction->exec() == QDialog::Accepted )
 	{
-		if( index == -1 ) lb_fktliste->insertItem( editFunction->functionItem() ); //a new function
+		if( id == -1 ) lb_fktliste->insertItem( editFunction->functionItem() ); //a new function
 		else lb_fktliste->changeItem( editFunction->functionItem(), num ); //changed a function
 		changed = true;
 		updateView();
 	}
 }
 
-void FktDlg::slotEditParametric( int x_index, int y_index, int num )
+void FktDlg::slotEditParametric( int x_id, int y_id, int num )
 {
 	KEditParametric* editParametric = new KEditParametric( m_parser, this );
-	if ( x_index==-1&&y_index==-1&&num==-1) editParametric->setCaption(i18n( "New Parametric Plot" ));
-	editParametric->initDialog( x_index, y_index );
+	if ( x_id==-1&&y_id==-1&&num==-1) editParametric->setCaption(i18n( "New Parametric Plot" ));
+	editParametric->initDialog( x_id, y_id );
 	if( editParametric->exec() == QDialog::Accepted )
 	{
-		if( x_index == -1 ) lb_fktliste->insertItem( editParametric->functionItem() ); //a new function
+		if( x_id == -1 ) lb_fktliste->insertItem( editParametric->functionItem() ); //a new function
 		else lb_fktliste->changeItem( editParametric->functionItem(), num ); //changed a function
 		changed = true;
 		updateView();
 	}
 }
 
-void FktDlg::slotEditPolar( int index, int num )
+void FktDlg::slotEditPolar( int id, int num )
 {
 	KEditPolar* editPolar = new KEditPolar( m_parser, this );
-	if ( index==-1&&num==-1) editPolar->setCaption(i18n( "New Polar Plot" ));
-	editPolar->initDialog( index );
+	if ( id==-1&&num==-1) editPolar->setCaption(i18n( "New Polar Plot" ));
+	editPolar->initDialog( id );
 	if( editPolar->exec() == QDialog::Accepted )
 	{
-		if( index == -1 ) lb_fktliste->insertItem( editPolar->functionItem() ); //a new function
+		if( id == -1 ) lb_fktliste->insertItem( editPolar->functionItem() ); //a new function
 		else lb_fktliste->changeItem( editPolar->functionItem(), num ); //changed a function
 		changed = true;
 		updateView();

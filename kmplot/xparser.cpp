@@ -41,63 +41,63 @@ XParser::~XParser()
 {
 }
 
-int XParser::getext( int ix )
+int XParser::getext( FktExt *f_item )
 {
 	int errflg = 0, p1, p2, p3, pe;
 	QCString str, tstr;
 
-	if ( fktext[ ix ].extstr.find( ';' ) == -1 )
+	if ( f_item->extstr.find( ';' ) == -1 )
 		return 0;
 
-	pe = fktext[ ix ].extstr.length();
-	if ( fktext[ ix ].extstr.find( 'N' ) != -1 )
-		fktext[ ix ].f_mode = 0;
+	pe = f_item->extstr.length();
+	if ( f_item->extstr.find( 'N' ) != -1 )
+		f_item->f_mode = 0;
 	else
 	{
-		if ( fktext[ ix ].extstr.find( "A1" ) != -1 )
-			fktext[ ix ].f1_mode = 1;
-		if ( fktext[ ix ].extstr.find( "A2" ) != -1 )
-			fktext[ ix ].f2_mode = 1;
+		if ( f_item->extstr.find( "A1" ) != -1 )
+			f_item->f1_mode = 1;
+		if ( f_item->extstr.find( "A2" ) != -1 )
+			f_item->f2_mode = 1;
 	}
-	switch ( fktext[ ix ].extstr[ 0 ].latin1() )
+	switch ( f_item->extstr[ 0 ].latin1() )
 	{
 	case 'x':
 	case 'y':
 	case 'r':
-		fktext[ ix ].f1_mode = fktext[ ix ].f2_mode = 0;
+		f_item->f1_mode = f_item->f2_mode = 0;
 	}
 
-	p1 = fktext[ ix ].extstr.find( "D[" );
+	p1 = f_item->extstr.find( "D[" );
 	if ( p1 != -1 )
 	{
 		p1 += 2;
-		str = ( fktext[ ix ].extstr.mid( p1, pe - p1 ) ).latin1();
+		str = ( f_item->extstr.mid( p1, pe - p1 ) ).latin1();
 		p2 = str.find( ',' );
 		p3 = str.find( ']' );
 		if ( p2 > 0 && p2 < p3 )
 		{
 			tstr = str.left( p2 );
-			fktext[ ix ].dmin = eval( tstr );
+			f_item->dmin = eval( tstr );
 			if ( err )
 				errflg = 1;
 			tstr = str.mid( p2 + 1, p3 - p2 - 1 );
-			fktext[ ix ].dmax = eval( tstr );
+			f_item->dmax = eval( tstr );
 			if ( err )
 				errflg = 1;
-			if ( fktext[ ix ].dmin > fktext[ ix ].dmax )
+			if ( f_item->dmin > f_item->dmax )
 				errflg = 1;
 		}
 		else
 			errflg = 1;
 	}
 
-	p1 = fktext[ ix ].extstr.find( "P[" );
+	p1 = f_item->extstr.find( "P[" );
 	if ( p1 != -1 )
 	{
 		int i = 0;
 
 		p1 += 2;
-		str = ( fktext[ ix ].extstr.mid( p1, 1000 ) ).latin1();
+		str = ( f_item->extstr.mid( p1, 1000 ) ).latin1();
 		p3 = str.find( ']' );
 		do
 		{
@@ -107,7 +107,7 @@ int XParser::getext( int ix )
 
 			tstr = str.left( p2++ );
 			str = str.mid( p2, 1000 );
-			fktext[ ix ].k_liste.append( eval( tstr ) );
+			f_item->k_liste.append( eval( tstr ) );
 			if ( err )
 			{
 				errflg = 1;
@@ -133,7 +133,6 @@ void XParser::delfkt( Ufkt *u_item, FktExt *f_item)
         fktext.erase( f_item);
 }
 
-
 bool XParser::delfkt( int ix )
 {
         if( ix<0 && ix>=int(fktext.count()) )
@@ -143,17 +142,17 @@ bool XParser::delfkt( int ix )
         return true;
 }
 
-double XParser::a1fkt( int ix, double x, double h )
+double XParser::a1fkt( Ufkt *u_item, double x, double h )
 {
-	return ( ufkt[ ix ].fkt( x + h ) - ufkt[ ix ].fkt( x ) ) / h;
+	return ( fkt(u_item, x + h ) - fkt( u_item, x ) ) / h;
 }
 
-double XParser::a2fkt( int ix, double x, double h )
+double XParser::a2fkt( Ufkt *u_item, double x, double h )
 {
-	return ( ufkt[ ix ].fkt( x + h + h ) - 2 * ufkt[ ix ].fkt( x + h ) + ufkt[ ix ].fkt( x ) ) / h / h;
+	return ( fkt( u_item, x + h + h ) - 2 * fkt( u_item, x + h ) + fkt( u_item, x ) ) / h / h;
 }
 
-QString XParser::findFunctionName(int const index)
+QString XParser::findFunctionName(int const id)
 {
 	QString function_name("f");
         char last_character;
@@ -163,13 +162,11 @@ QString XParser::findFunctionName(int const index)
                 for (bool ok=true; last_character<'x'; ++last_character)
                 {
                         if ( pos==0 && last_character == 'r') continue;
-                        int i = 0;
                         function_name.at(pos)=last_character;
                         for( QValueVector<FktExt>::iterator it = fktext.begin(); it != fktext.end(); ++it)
                         {
-                                if ( it->extstr.startsWith(function_name+'(') && i!=index) //check if 
+                                if ( it->extstr.startsWith(function_name+'(') && it->id!=id) //check if 
                                                 ok = false;
-                                ++i;
                         }
                         if ( ok) //free name
                         {
@@ -184,51 +181,51 @@ QString XParser::findFunctionName(int const index)
         function_name = "e";
         return function_name; //this should never happen
 }
-void XParser::fixFunctionName( QString &str, int const type, int const index)
+
+void XParser::fixFunctionName( QString &str, int const type, int const id)
 {
 	int const p1=str.find('(');
 	int const p2=str.find(')');
 	if (str.at(0) == 'r' && str.at(1) == '(')
 	{
 		str.remove(0,1);
-		str.prepend( findFunctionName(index) );
+		str.prepend( findFunctionName(id) );
 		str.prepend('r');
 	}
 	else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1) != '=')
 	{
 		str.prepend("(x)=");
-		str.prepend( findFunctionName(index) );
+		str.prepend( findFunctionName(id) );
 	}
 }
 
-
-void XParser::euler_method(double &x, double &y,const int &index)
+void XParser::euler_method(const double x, double &y, const QValueVector<Ufkt>::iterator itu, const QValueVector<FktExt>::iterator itf)
 {
 	// y == the old yprim-value
 	
-	if (x == fktext[index].startx ) //the first point we should draw
+	if (x == itf->startx ) //the first point we should draw
 	{
-		ufkt[index].oldy = fktext[index].starty;
-		fktext[index].oldyprim = fktext[index].integral_precision;
+		itu->oldy = itf->starty;
+		itf->oldyprim = itf->integral_precision;
 		
 		/*kdDebug() << "*******************" << endl;
 		kdDebug() << "   start-x: " << x << endl;
-		kdDebug() << "   start-y: " << m_parser->fktext[index].starty << endl;
+		kdDebug() << "   start-y: " << itf->starty << endl;
 		kdDebug() << "*******************" << endl;*/
 		
-		fktext[index].oldx = x;
-		y=fktext[index].starty;
+		itf->oldx = x;
+		y=itf->starty;
 		return;
 	}
 	else
 	{
 		double const yprim = y;
-		double const h = x-fktext[index].oldx;
-		y = ufkt[index].oldy + (h *  fktext[index].oldyprim);
+		double const h = x-itf->oldx;
+		y = itu->oldy + (h *  itf->oldyprim);
 		
-		ufkt[index].oldy = y;
-		fktext[index].oldx = x;
-		fktext[index].oldyprim = yprim;
+		itu->oldy = y;
+		itf->oldx = x;
+		itf->oldyprim = yprim;
 		return;
 	}
 }

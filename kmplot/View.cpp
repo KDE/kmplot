@@ -203,7 +203,7 @@ void View::draw(QPaintDevice *dev, int form)
 	
 	if ( form!=0 && areaDraw)
 	{
-		areaUnderGraph(areaIx, areaPMode, areaMin,areaMax, areaParameter, &DC);
+		areaUnderGraph(areaFktext, areaPMode, areaMin,areaMax, areaParameter, &DC);
 		areaDraw = false;
 		if (stop_calculating)
 			return;
@@ -220,8 +220,9 @@ void View::draw(QPaintDevice *dev, int form)
 	setCursor(Qt::WaitCursor );
 	stop_calculating = false;
         
-        for(uint ix=0; ix<m_parser->fktext.count() && !stop_calculating; ++ix)
-		plotfkt(ix, &DC);
+        //for(uint ix=0; ix<m_parser->fktext.count() && !stop_calculating; ++ix)
+        for(QValueVector<XParser::FktExt>::iterator fktext=m_parser->fktext.begin(); fktext!=m_parser->fktext.end() && !stop_calculating; ++fktext)
+		plotfkt(fktext, &DC);
 
 	isDrawing=false;
 	restoreCursor();
@@ -230,7 +231,7 @@ void View::draw(QPaintDevice *dev, int form)
 }
 
 
-void View::plotfkt(int const ix, QPainter *pDC)
+void View::plotfkt(QValueVector<XParser::FktExt>::iterator fktext, QPainter *pDC)
 {	
 	char p_mode;
 	int iy, k, ke, mflg;
@@ -239,9 +240,7 @@ void View::plotfkt(int const ix, QPainter *pDC)
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
 
-        
-        QValueVector<Parser::Ufkt>::iterator ufkt = &m_parser->ufkt[ix];
-        QValueVector<XParser::FktExt>::iterator fktext = &m_parser->fktext[ix];
+        Parser::Ufkt *ufkt = &m_parser->ufkt[m_parser->ixValue(fktext->id)];
         
 	char const fktmode=fktext->extstr[0].latin1();
 	if(fktmode=='y') return ;
@@ -269,7 +268,7 @@ void View::plotfkt(int const ix, QPainter *pDC)
 		dx=stepWidth*(dmax-dmin)/area.width();
 	
 	if(fktmode=='x')
-                iy = ix+1;
+                iy = m_parser->ixValue(fktext->id)+1;
 	p_mode=0;
 	pen.setWidth((int)(fktext->linewidth*s) );
 	pen.setColor(fktext->color);
@@ -283,10 +282,10 @@ void View::plotfkt(int const ix, QPainter *pDC)
 		ke=fktext->k_liste.count();
 		do
 		{
-                        //kdDebug() << "drawing " << ix << endl;
+                        kdDebug() << "drawing " << ufkt->id << endl;
+                        
 			if ( p_mode == 3 && stop_calculating)
 				break;
-                        
 			if( fktext->use_slider == -1 )
                         {
                                 if ( !fktext->k_liste.isEmpty() )
@@ -328,20 +327,19 @@ void View::plotfkt(int const ix, QPainter *pDC)
 				}
 				switch(p_mode)
 				{
-					case 0: 
-						y=ufkt->fkt(x);
+					case 0:
+						y=m_parser->fkt(ufkt, x);
 						break;
-					
 					case 1:
-						y=m_parser->a1fkt(ix, x);
+						y=m_parser->a1fkt(ufkt, x);
 						break;
 					case 2:
-						y=m_parser->a2fkt(ix, x);
+						y=m_parser->a2fkt(ufkt, x);
 						break;
 					case 3:
 					{
-						y=ufkt->fkt(x);
-						m_parser->euler_method(x, y,ix);
+						y=m_parser->fkt(ufkt, x);
+						m_parser->euler_method(x, y,ufkt, fktext);
 						if ( int(x*100)%2==0)
 						{
 							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -373,7 +371,7 @@ void View::plotfkt(int const ix, QPainter *pDC)
 					if(mflg>=1)
 						p1=p2;
 					else
-					{   
+					{
 						pDC->drawLine(p1, p2);
 						p1=p2;
 						mflg=1;
@@ -407,7 +405,7 @@ void View::plotfkt(int const ix, QPainter *pDC)
             		}
 		}
         	while(++k<ke);
-	
+       
 		if(fktext->f1_mode==1 && p_mode< 1) //draw the 1st derivative
 		{
 			p_mode=1;
@@ -430,7 +428,6 @@ void View::plotfkt(int const ix, QPainter *pDC)
 			pDC->setPen(pen);
 		}
 		else break; //otherwise stop
-
 	}
 
 	if (  progressbar->isVisible())
@@ -536,23 +533,38 @@ void View::setpi(QString *s)
 
 
 bool View::root(double *x0)
-{   double x, y, yn, dx;
-
-    if(rootflg==1) return FALSE;
-    
-    x=csxpos;
-    y=fabs(csypos);
-    dx=0.1;
-    
-    while(1)
-    {   if((yn=fabs(m_parser->fkt(csmode, x-dx))) < y) {x-=dx; y=yn;}
-        else if((yn=fabs(m_parser->fkt(csmode, x+dx))) < y) {x+=dx; y=yn;}
-        else dx/=10.;
-        printf("x=%g,  dx=%g, y=%g\n", x, dx, y);
-        if(y<1e-8) {*x0=x; return TRUE;}
-        if(fabs(dx)<1e-8) return FALSE;
-        if(x<xmin || x>xmax) return FALSE;
-    }
+{
+        double x, y, yn, dx;
+        if(rootflg==1)
+                return FALSE;
+        x=csxpos;
+        y=fabs(csypos);
+        dx=0.1;
+        int const ix = m_parser->ixValue(csmode);
+        while(1)
+        {
+                if((yn=fabs(m_parser->fkt(ix, x-dx))) < y)
+                {       x-=dx;
+                        y=yn;
+                }
+                else if((yn=fabs(m_parser->fkt(ix, x+dx))) < y)
+                {
+                        x+=dx;
+                        y=yn;
+                }
+                else
+                        dx/=10.;
+                printf("x=%g,  dx=%g, y=%g\n", x, dx, y);
+                if(y<1e-8)
+                {
+                        *x0=x;
+                        return TRUE;
+                }
+                if(fabs(dx)<1e-8)
+                        return FALSE;
+                if(x<xmin || x>xmax)
+                        return FALSE;
+        }
 }
 
 
@@ -590,7 +602,7 @@ void View::drawPlot()
 }
 
 void View::mouseMoveEvent(QMouseEvent *e)
-{	
+{
 	if ( isDrawing)
 		return;
 	if (zoom_mode==4 &&  e->stateAfter() != Qt::NoButton)
@@ -635,41 +647,48 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
 		ptl=DC.xFormDev(e->pos());
-	
+                
+                QValueVector<Parser::Ufkt>::iterator itu = 0;
+                QValueVector<XParser::FktExt>::iterator itf = 0;
+                
 		if( csmode >= 0 && csmode <= (int)m_parser->fktext.count() )
 		{
-                        if( m_parser->fktext[ csmode ].use_slider == -1 )
+                        int const ix = m_parser->ixValue(csmode);
+                        if (ix!=-1)
                         {
-			     if( !m_parser->fktext[csmode].k_liste.isEmpty() )
-			             m_parser->setParameter(csmode, m_parser->fktext[csmode].k_liste[csparam]);
+                                itu = &m_parser->ufkt[ix];
+                                itf = &m_parser->fktext[ix];
+                                if( m_parser->fktext[ csmode ].use_slider == -1 )
+                                {
+                                        if( !m_parser->fktext[csmode].k_liste.isEmpty() )
+			                     m_parser->ufkt[csmode].setParameter(m_parser->fktext[csmode].k_liste[csparam]);
+                                }
+                                else
+                                        m_parser->ufkt[csmode].setParameter(sliders[ m_parser->fktext[csmode].use_slider ]->slider->value() );
+                                if ( cstype == 0)
+                                        ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+                                else if ( cstype == 1)
+                                        ptl.setY(dgr.Transy(csypos=m_parser->a1fkt( &m_parser->ufkt[csmode], csxpos=dgr.Transx(ptl.x()) )));
+                                else if ( cstype == 2)
+                                        ptl.setY(dgr.Transy(csypos=m_parser->a2fkt(&m_parser->ufkt[csmode], csxpos=dgr.Transx(ptl.x()))));
+        
+                                if(fabs(csypos)<0.2)
+                                {
+                                        double x0;
+                                        if(root(&x0))
+                                        {
+                                                QString str="  ";
+                                                str+=i18n("root");
+                                                stbar->changeItem(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+                                                rootflg=1;
+                                        }
+                                }
                         }
-			else
-			     m_parser->setParameter(csmode, sliders[ m_parser->fktext[csmode].use_slider ]->slider->value() );
-                                    
-			if ( cstype == 0)
-				ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
-			else if ( cstype == 1)
-				ptl.setY(dgr.Transy(csypos=m_parser->a1fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
-			else if ( cstype == 2)
-				ptl.setY(dgr.Transy(csypos=m_parser->a2fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
-
-			if(fabs(csypos)<0.2)
-			{
-				double x0;
-				
-				if(root(&x0))
-				{
-					QString str="  ";
-					str+=i18n("root");
-					stbar->changeItem(str+QString().sprintf(":  x0= %+.5f", x0), 3);
-					rootflg=1;
-				}
-			}
-			else
-			{
-				stbar->changeItem("", 3);
-				rootflg=0;
-			}
+                        else
+                        {
+                                stbar->changeItem("", 3);
+                                rootflg=0;
+                        }
 		}
 		else
 		{
@@ -698,15 +717,13 @@ void View::mouseMoveEvent(QMouseEvent *e)
 				    switch (cstype)
 				    {
 					   case 0:
-                                                {
-						  pen.setColor( m_parser->fktext[csmode].color);
+						  pen.setColor( itf->color);
 						  break;
-                                                }
 					   case 1:
-						  pen.setColor( m_parser->fktext[csmode].f1_color);
+						  pen.setColor( itf->f1_color);
 						  break;
 					   case 2:
-						  pen.setColor( m_parser->fktext[csmode].f2_color);
+						  pen.setColor( itf->f2_color);
 						  break;
 					   default:
 						  pen.setColor(inverted_backgroundcolor);
@@ -841,104 +858,103 @@ void View::mousePressEvent(QMouseEvent *e)
 		return;
 		
 	}
-	uint ix;
 	double const g=tlgy*double(xmax-xmin)/(2*double(ymax-ymin));
 	if(e->button()==RightButton) //clicking with the right mouse button
 	{
 		char function_type;
-		for(ix=0; ix</*m_parser->ufanz*/m_parser->fktext.count(); ++ix)
-		{
-			function_type = m_parser->fktext[ix].extstr[0].latin1();
+                QValueVector<Parser::Ufkt>::iterator itu = m_parser->ufkt.begin();
+                for( QValueVector<XParser::FktExt>::iterator itf = m_parser->fktext.begin(); itf != m_parser->fktext.end(); ++itf)
+                {
+                        
+			function_type = itf->extstr[0].latin1();
 			if ( function_type==0 || function_type=='y' || function_type=='r') 
 				continue;
 			int k=0;
-			int const ke=m_parser->fktext[ix].k_liste.count();
+			int const ke=itf->k_liste.count();
 			do
 			{
-				if( m_parser->fktext[ ix ].use_slider == -1 )
+				if( itf->use_slider == -1 )
                                 {
-                                        if ( !m_parser->fktext[ix].k_liste.isEmpty())
-					   m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[k]);
+                                        if ( !itf->k_liste.isEmpty())
+					   itu->setParameter(itf->k_liste[k]);
                                 }
 				else
-					m_parser->setParameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
+					itu->setParameter(sliders[ itf->use_slider ]->slider->value() );
                                            
-				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].extstr.contains('t')==1) //parametric plot
+				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(itu, csxpos))< g && itf->extstr.contains('t')==1) //parametric plot
 				{
-					uint y_index = ix+1;
-					if ( fabs(csypos-m_parser->fkt(y_index, csxpos)<g)  && m_parser->fktext[y_index].extstr.contains('t')==1)
+                                        QValueVector<Parser::Ufkt>::iterator ufkt_y = itu+1;
+                                        QValueVector<XParser::FktExt>::iterator fktext_y = itf+1;
+					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && fktext_y->extstr.contains('t')==1)
 					{
-						
-							
 							if ( csmode == -1)
 							{
-								csmode=ix;
+								csmode=itu->id;
 								cstype=0;
 								csparam = k;
 								m_popupmenushown = 1;
 							}
 							else
 								m_popupmenushown = 2;
-							QString y_name( m_parser->fktext[y_index].extstr );
+							QString y_name( fktext_y->extstr );
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),false);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
-							m_popupmenu->changeTitle(10, m_parser->fktext[ ix ].extstr+";"+y_name);
+							m_popupmenu->changeTitle(10,fktext_y->extstr+";"+y_name);
 							m_popupmenu->exec(QCursor::pos());
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),true);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),true);
 							return;
-
 					}
 				}
-				if( fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
+				if( fabs(csypos-m_parser->fkt(itu, csxpos))< g && itf->f_mode)
 				{
 					if ( csmode == -1)
 					{
-						csmode=ix;
+						csmode=itu->id;
 						cstype=0;
 						csparam = k;
 						m_popupmenushown = 1;
 					}
 					else
 						m_popupmenushown = 2;
-					m_popupmenu->changeTitle(10, m_parser->fktext[ ix ].extstr);
+					m_popupmenu->changeTitle(10, itf->extstr);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
 				
-				if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
+				if(fabs(csypos-m_parser->a1fkt( itu, csxpos))< g && itf->f1_mode)
 				{
 					if ( csmode == -1)
 					{
-						csmode=ix;
+						csmode=itu->id;
 						cstype=1;
 						csparam = k;
 						m_popupmenushown = 1;
 					}
 					else
 						m_popupmenushown = 2;
-					QString function = m_parser->fktext[ ix ].extstr;
+					QString function = itf->extstr;
 					function = function.left(function.find('(')) + '\'';
 					m_popupmenu->changeTitle(10, function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
-				if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g && m_parser->fktext[ix].f2_mode)
+				if(fabs(csypos-m_parser->a2fkt(itu, csxpos))< g && itf->f2_mode)
 				{
 					if ( csmode == -1)
 					{
-						csmode=ix;
+						csmode=itu->id;
 						cstype=2;
 						csparam = k;
 						m_popupmenushown = 1;
 					}
 					else
 						m_popupmenushown = 2;
-					QString function = m_parser->fktext[ ix ].extstr;
+					QString function = itf->extstr;
 					function = function.left(function.find('(')) + "\'\'";
 					m_popupmenu->changeTitle(10, function);
 					m_popupmenu->exec(QCursor::pos());
@@ -946,6 +962,8 @@ void View::mousePressEvent(QMouseEvent *e)
 				}
 			}
 			while(++k<ke);
+                        
+                        ++itu;
 		}
 		return;
 	}
@@ -958,54 +976,54 @@ void View::mousePressEvent(QMouseEvent *e)
 		mouseMoveEvent(e);
 		return ;
 	}
-	
-	for(ix=0; ix</*m_parser->ufanz*/m_parser->fktext.count(); ++ix)
+        QValueVector<Parser::Ufkt>::iterator itu = m_parser->ufkt.begin();
+        for( QValueVector<XParser::FktExt>::iterator itf = m_parser->fktext.begin(); itf != m_parser->fktext.end(); ++itf)
 	{
-		switch(m_parser->fktext[ix].extstr[0].latin1())
+		switch(itf->extstr[0].latin1())
 		{
 			case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
 		}
 	
 		int k=0;
-		int const ke=m_parser->fktext[ix].k_liste.count();
+		int const ke=itf->k_liste.count();
 		do
 		{
-			if( m_parser->fktext[ ix ].use_slider == -1 )
+			if( itf->use_slider == -1 )
                         {
-                                if ( !m_parser->fktext[ix].k_liste.isEmpty() )
-				    m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[k]);
+                                if ( !itf->k_liste.isEmpty() )
+				     itu->setParameter( itf->k_liste[k]);
                         }
 			else
-				m_parser->setParameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
-			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
+				itu->setParameter(sliders[ itf->use_slider ]->slider->value() );
+			if(fabs(csypos-m_parser->fkt(itu, csxpos))< g && itf->f_mode)
 			{
-				csmode=ix;
+				csmode=itu->id;
 				cstype=0;
 				csparam = k;
 				m_minmax->selectItem();
-				stbar->changeItem(m_parser->fktext[ ix ].extstr,4);
+				stbar->changeItem( itf->extstr,4);
 				mouseMoveEvent(e);
 				return;
 			}
-			if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
+			if(fabs(csypos-m_parser->a1fkt( itu, csxpos))< g && itf->f1_mode)
 			{
-				csmode=ix;
+				csmode=itu->id;
 				cstype=1;
 				csparam = k;
 				m_minmax->selectItem();
-				QString function = m_parser->fktext[ ix ].extstr;
+				QString function = itf->extstr;
 				function = function.left(function.find('(')) + '\'';
 				stbar->changeItem(function,4);
 				mouseMoveEvent(e);
 				return;
 			}
-			if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g && m_parser->fktext[ix].f2_mode)
+			if(fabs(csypos-m_parser->a2fkt(itu, csxpos))< g && itf->f2_mode)
 			{
-				csmode=ix;
+				csmode=itu->id;
 				cstype=2;
 				csparam = k;
 				m_minmax->selectItem();
-				QString function = m_parser->fktext[ ix ].extstr;
+				QString function = itf->extstr;
 				function = function.left(function.find('(')) + "\'\'";
 				stbar->changeItem(function,4);
 				mouseMoveEvent(e);
@@ -1013,6 +1031,8 @@ void View::mousePressEvent(QMouseEvent *e)
 			}
 		}
 		while(++k<ke);
+                
+                ++itu;
 	}
 
 	csmode=-1;
@@ -1182,26 +1202,28 @@ void View::progressbar_clicked()
 	stop_calculating = true;
 }
 
-void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, double &dmax, QString &str_parameter)
+void View::findMinMaxValue(XParser::FktExt *fktext, char p_mode, bool minimum, double &dmin, double &dmax, QString &str_parameter)
 {
+        Parser::Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(fktext->id) ];
 	double x, y;
 	double result_x = 0;
 	double result_y = 0;
 	bool start = true;
-	if(ix==-1 || ix>=(int)m_parser->fktext.count() ) return ;	    // ungltiger Index
 
-	// TODO: parameter sliders
-	int i=0;
-	if ( !m_parser->fktext[ix].k_liste.isEmpty())
-		for ( QStringList::Iterator it = m_parser->fktext[ix].str_parameter.begin(); it != m_parser->fktext[ix].str_parameter.end(); ++it )
-		{
-			if ( *it == str_parameter)
-			{
-				m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[i]);
-				break;
-			}
-			i++;
-		}
+        // TODO: parameter sliders
+        if ( !fktext->k_liste.isEmpty() )
+        {
+                int i=0;
+                for ( QStringList::Iterator it = fktext->str_parameter.begin(); it != fktext->str_parameter.end(); ++it )
+                {
+                      if ( *it == str_parameter)
+                      {
+                             ufkt->setParameter(fktext->k_liste[i]);
+                             break;
+                      }
+                      i++;
+                }
+        }
 
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
@@ -1211,13 +1233,13 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 	{
 		stop_calculating = false;
 		progressbar->progress->reset();
-		if ( m_parser->fktext[ix].integral_use_precision )
-			dx = m_parser->fktext[ix].integral_precision*(dmax-dmin)/(area.width()*10);
+		if ( fktext->integral_use_precision )
+			dx = fktext->integral_precision*(dmax-dmin)/(area.width()*10);
 		else
 			dx=stepWidth*(dmax-dmin)/(area.width()*10); //the stepwidth must be small for Euler's metod
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
-		x = m_parser->fktext[ix].startx; //the initial x-point
+		x = fktext->startx; //the initial x-point
 	}
 	else
 	{
@@ -1241,23 +1263,23 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 		switch(p_mode)
 		{
 			case 0: 
-				y=m_parser->fkt(ix, x);
+				y=m_parser->fkt(ufkt, x);
 				break;
 			
 			case 1:
 			{
-				y=m_parser->a1fkt(ix, x);
+				y=m_parser->a1fkt( ufkt, x);
 				break;
 			}
 			case 2:
 			{
-				y=m_parser->a2fkt(ix, x);
+				y=m_parser->a2fkt(ufkt, x);
 				break;
 			}
 			case 3:
 			{
-				y=m_parser->fkt(ix, x);
-				m_parser->euler_method(x, y,ix);
+				y=m_parser->fkt(ufkt, x);
+				m_parser->euler_method(x, y, ufkt, fktext);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -1295,7 +1317,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 				if (x>dmax && p_mode== 3)
 				{
 					forward_direction = false;
-					x = m_parser->fktext[ix].startx;
+					x = fktext->startx;
 				}
 			}
 			else
@@ -1313,37 +1335,38 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 	dmax = int(result_y*1000)/double(1000);
 }
 
-void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_parameter)
-{	
-	int i=0;
+void View::getYValue(XParser::FktExt *fktext, char p_mode,  double x, double &y, QString &str_parameter)
+{
+        Parser::Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(fktext->id) ];
 	// TODO: parameter sliders
-	if ( !m_parser->fktext[ix].k_liste.isEmpty() )
-		for ( QStringList::Iterator it = m_parser->fktext[ix].str_parameter.begin(); it != m_parser->fktext[ix].str_parameter.end(); ++it )
-	{
-		if ( *it == str_parameter)
-		{
-			m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[i]);
-			break;
-		}
-		i++;
-	}
+	if ( !fktext->k_liste.isEmpty() )
+        {
+                int i=0;
+                for ( QStringList::Iterator it = fktext->str_parameter.begin(); it != fktext->str_parameter.end(); ++it )
+                {
+		      if ( *it == str_parameter)
+		      {
+			     ufkt->setParameter(fktext->k_liste[i]);
+			     break;
+		      }
+		      i++;
+                }
+        }
 	
 	switch (p_mode)
 	{
 		case 0:
-			y= m_parser->fkt(ix, x);
+			y= m_parser->fkt(ufkt, x);
 			break;
 		case 1:
-			y=m_parser->a1fkt(ix, x);
+			y=m_parser->a1fkt( ufkt, x);
 			break;
 		case 2:
-			y=m_parser->a2fkt(ix, x);
+			y=m_parser->a2fkt( ufkt, x);
 			break;
 		case 3:
-			if( ix==-1 || ix>=(int)m_parser->fktext.count() ) return;  // ungltiger Index
-		
-			double dmin = m_parser->fktext[ix].dmin;
-			double dmax = m_parser->fktext[ix].dmax;
+			double dmin = fktext->dmin;
+			double dmax = fktext->dmax;
 			const double target = x; //this is the x-value the user had chosen
 			bool forward_direction;
 			if ( target>=0)
@@ -1352,14 +1375,14 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 				forward_direction = false;
 			
 			if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
-			{   
+			{
 				dmin=xmin;
 				dmax=xmax;
 			}
 			
 			double dx;
-			if ( m_parser->fktext[ix].integral_use_precision )
-				dx = m_parser->fktext[ix].integral_precision*(dmax-dmin)/(area.width()/10);
+			if ( fktext->integral_use_precision )
+				dx = fktext->integral_precision*(dmax-dmin)/(area.width()/10);
 			else
 				dx=stepWidth*(dmax-dmin)/(area.width()/10); //the stepwidth must be small for Euler's metod
 			
@@ -1370,11 +1393,11 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 			progressbar->progress->reset();
 			progressbar->progress->setTotalSteps ((int) double((dmax-dmin)/dx)/2 );
 			progressbar->show();
-			x = m_parser->fktext[ix].startx; //the initial x-point
+			x = fktext->startx; //the initial x-point
 			while (x>=dmin && !stop_calculating && !target_found)
 			{
-				y=m_parser->fkt(ix, x);
-				m_parser->euler_method(x, y,ix);
+				y=m_parser->fkt(ufkt, x);
+				m_parser->euler_method(x, y,ufkt, fktext);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -1393,7 +1416,7 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 					if (x>dmax)
 					{
 						forward_direction = false;
-						x = m_parser->fktext[ix].startx;
+						x = fktext->startx;
 					}
 				}
 				else
@@ -1432,77 +1455,75 @@ void View::keyPressEvent( QKeyEvent * e)
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-		int const ke=m_parser->fktext[csmode].k_liste.count();
-		if (ke)
-			while(1)
-			{
-				csparam++;
-				if (csparam >= ke)
-					csparam=-1;
-				else
-					break;
-			}
-		
-		int const old_csmode=csmode;
-		char const old_cstype = cstype;
-		bool start = true;
-		bool found = false;
+                QValueVector<XParser::FktExt>::iterator it = &m_parser->fktext[m_parser->ixValue(csmode)];
+		int const ke=it->k_liste.count();
+                if (ke>0)
+                {
+                        csparam++;
+			if (csparam >= ke)
+				csparam=0;
+                }
 		if (csparam==0)
-		while ( csmode<(int)m_parser->fktext.count() )
-		{
-			if ( old_csmode==csmode && !start)
-			{
-				cstype=old_cstype;
-				break;
-			}
-			kdDebug() << "csmode: " << csmode << endl;
-			switch(m_parser->fktext[csmode].extstr[0].latin1())
-			{  	case 0:
-				case 'x':
-				case 'y':
-				case 'r':
-					break;
-				default:
-				{
-					for (cstype=0;cstype<3;cstype++) //going through the function, the first and the second derivative
-					{
-						if (start)
-						{
-							if ( cstype==2)
-								cstype=0;
-							else
-								cstype=old_cstype+1;
-							start=false;
-						}
-						kdDebug() << "   cstype: " << (int)cstype << endl;
-						switch (cstype)
-						{
-							case (0):
-								if ( m_parser->fktext[csmode].f_mode )
-									found=true;
-								break;
-								
-							case (1):
-								if ( m_parser->fktext[csmode].f1_mode )
-									found=true;
-								break;
-							case (2):
-								if ( m_parser->fktext[csmode].f2_mode )
-									found=true;
-								break;
-						}
-						if (found)
-							break;
-					}
-					break;
-				}
-			}
-			if (found)
-				break;
-			if ( (uint)csmode == m_parser->fktext.count()-1 )
-				csmode=0;
-			else
-				csmode++;
+                {
+                        int const old_csmode=csmode;
+                        char const old_cstype = cstype;
+                        bool start = true;
+                        bool found = false;
+                        while ( 1 )
+                        {
+                                if ( old_csmode==csmode && !start)
+                                {
+                                        cstype=old_cstype;
+                                        break;
+                                }
+                                kdDebug() << "csmode: " << csmode << endl;
+                                switch(m_parser->fktext[csmode].extstr[0].latin1())
+                                {
+                                        case 'x':
+                                        case 'y':
+                                        case 'r':
+                                                break;
+				    default:
+				    {
+					   for (cstype=0;cstype<3;cstype++) //going through the function, the first and the second derivative
+					   {
+						  if (start)
+						  {
+							 if ( cstype==2)
+								        cstype=0;
+							 else
+								        cstype=old_cstype+1;
+							 start=false;
+						  }
+						  kdDebug() << "   cstype: " << (int)cstype << endl;
+						  switch (cstype)
+						  {
+							 case (0):
+								        if ( m_parser->fktext[csmode].f_mode )
+									       found=true;
+								        break;
+							 case (1):
+								        if ( m_parser->fktext[csmode].f1_mode )
+									       found=true;
+								        break;
+							 case (2):
+								        if ( m_parser->fktext[csmode].f2_mode )
+									       found=true;
+								        break;
+						  }
+						  if (found)
+							 break;
+					   }
+					   break;
+				    }
+			     }
+			     if (found)
+				    break;
+                                
+                             if ( ++it == m_parser->fktext.end())
+                                it = m_parser->fktext.begin();
+                             csmode = it->id;
+                        }
 		}
 		
 		kdDebug() << "************************" << endl;
@@ -1521,8 +1542,8 @@ void View::keyPressEvent( QKeyEvent * e)
 				QString function = m_parser->fktext[ csmode ].extstr;
 				function = function.left(function.find('(')) + '\'';
 				stbar->changeItem(function,4);
+                                break;
 			}
-				break;
 			case 2:
 			{
 				QString function = m_parser->fktext[ csmode ].extstr;
@@ -1551,8 +1572,9 @@ void View::keyPressEvent( QKeyEvent * e)
 	delete event;
 }
 
-void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double &dmax, QString &str_parameter, QPainter *DC)
+void View::areaUnderGraph(XParser::FktExt *fktext, char const p_mode,  double &dmin, double &dmax, QString &str_parameter, QPainter *DC)
 {
+        Parser::Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(fktext->id) ];
 	double x, y;
 	float calculated_area=0;
 	int rectheight;
@@ -1562,16 +1584,16 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 	switch(p_mode)
 	{
 		case 0: 
-			color = m_parser->fktext[ix].color;
+			color = fktext->color;
 			break;
 		case 1:
-			color = m_parser->fktext[ix].f1_color;
+			color = fktext->f1_color;
 			break;
 		case 2:
-			color = m_parser->fktext[ix].f2_color;
+			color = fktext->f2_color;
 			break;
 		case 3:
-			color = m_parser->fktext[ix].integral_color;
+			color = fktext->integral_color;
 			break;
 	}
 	if ( DC == 0) //screen
@@ -1583,38 +1605,38 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 		DC->scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
 	}
 
-	if(ix==-1 || ix>= (int)m_parser->fktext.count() ) return ;    // ungltiger Index
-
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
 		dmin=xmin;
 		dmax=xmax;
 	}
 	
-	int i=0;
-	// TODO: parameter sliders
-	if ( !m_parser->fktext[ix].k_liste.isEmpty() )
-		for ( QStringList::Iterator it = m_parser->fktext[ix].str_parameter.begin(); it != m_parser->fktext[ix].str_parameter.end(); ++it )
-	{
-		if ( *it == str_parameter)
-		{
-			m_parser->setParameter(ix, m_parser->fktext[ix].k_liste[i]);
-			break;
-		}
-		i++;
-	}
+        // TODO: parameter sliders
+        if ( !fktext->k_liste.isEmpty() )
+        {
+                int i=0;
+                for ( QStringList::Iterator it = fktext->str_parameter.begin(); it != fktext->str_parameter.end(); ++it )
+                {
+                      if ( *it == str_parameter)
+                      {
+                             ufkt->setParameter(fktext->k_liste[i]);
+                             break;
+                      }
+                      i++;
+                }
+        }
 	double dx;
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
-		if ( m_parser->fktext[ix].integral_use_precision )
-			dx = m_parser->fktext[ix].integral_precision*(dmax-dmin)/(area.width()*10);
+		if ( fktext->integral_use_precision )
+			dx = fktext->integral_precision*(dmax-dmin)/(area.width()*10);
 		else
 			dx=stepWidth*(dmax-dmin)/(area.width()*10); //the stepwidth must be small for Euler's metod
 		progressbar->progress->reset();
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
-		x = m_parser->fktext[ix].startx; //the initial x-point
+		x = fktext->startx; //the initial x-point
 	}
 	else
 	{
@@ -1648,23 +1670,23 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 		switch(p_mode)
 		{
 			case 0: 
-				y=m_parser->fkt(ix, x);
+				y=m_parser->fkt( ufkt, x);
 				break;
 			
 			case 1:
 			{
-				y=m_parser->a1fkt(ix, x);
+				y=m_parser->a1fkt( ufkt, x);
 				break;
 			}
 			case 2:
 			{
-				y=m_parser->a2fkt(ix, x);
+				y=m_parser->a2fkt( ufkt, x);
 				break;
 			}
 			case 3:
 			{
-				y=m_parser->fkt(ix, x);
-				m_parser->euler_method(x, y,ix);
+				y=m_parser->fkt(ufkt, x);
+				m_parser->euler_method(x, y, ufkt, fktext);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -1721,7 +1743,7 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 				if (x>dmax && p_mode== 3)
 				{
 					forward_direction = false;
-					x = m_parser->fktext[ix].startx;
+					x = fktext->startx;
 				}
 			}
 			else
@@ -1745,7 +1767,7 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 	restoreCursor();
 	
 	
-	areaIx = ix;
+	areaFktext = fktext;
 	areaPMode = p_mode;
 	areaMax = dmax;
 	areaParameter = str_parameter;
@@ -1825,10 +1847,13 @@ void View::mnuRemove_clicked()
 	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
 	{
 		char const function_type = m_parser->fktext[csmode].extstr[0].latin1();
+                int const ix = m_parser->ixValue(csmode);
+                if ( ix == -1)
+                        return;
 		if ( function_type == 'x')  // a parametric function
-                        m_parser->delfkt( csmode+1 ); //remove the y-function
+                        m_parser->delfkt(ix ); //remove the y-function
                 
-		m_parser->delfkt( csmode );
+		m_parser->delfkt( ix );
                         
 		drawPlot();
 		if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' ) 

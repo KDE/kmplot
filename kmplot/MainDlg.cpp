@@ -1,8 +1,8 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möler
-*               2000, 2002 kd.moeller@t-online.de
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+*               2000, 2002 kdmoeller@foni.net
 *
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -144,9 +144,9 @@ void MainDlg::setupActions()
 	
 	//zoom menu
 	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No zoom") ,0,view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
-	KRadioAction * mnuRectangular = new KRadioAction(i18n("&Zoom rectangular") ,0,view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
-	KRadioAction * mnuZoomIn = new KRadioAction(i18n("&Zoom in") ,0,view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
-	KRadioAction * mnuZoomOut = new KRadioAction(i18n("&Zoom out") ,0,view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
+	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &rectangular"), "viewmagfit", 0,view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
+	KRadioAction * mnuZoomIn = new KRadioAction(i18n("Zoom &in"), "viewmag+", 0,view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
+	KRadioAction * mnuZoomOut = new KRadioAction(i18n("Zoom &out"), "viewmag-", 0,view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
 	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center a point") ,0,view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
 	(void ) new KAction(i18n("&Fit widget to trigonometric functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
 	mnuNoZoom->setExclusiveGroup("zoom_modes");
@@ -179,18 +179,17 @@ void MainDlg::setupActions()
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 		"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
 	
-/*	for( int number = 0; number < SLIDER_COUNT; number++ )
+	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
-		( void ) = new KWidgetAction( i18n( "Show Slider %1" ).arg( number ), 0, view, SLOT( view->sliders[ number ]->slider, i18n( "Slider no. %1" ).arg( number ), 0, this, 0, actionCollection(), QString( "slider%1" ).arg( number ).latin1() );
-	}*/
+		( void ) new KToggleAction( i18n( "Show Slider %1" ).arg( number ), 0, this, SLOT( toggleShowSlider( bool ) ), actionCollection(), QString( "options_configure_show_slider_%1" ).arg( number ).latin1() );
+	}
 	
 	m_popupmenu->insertSeparator();
 	mnuYValue->plug(m_popupmenu);
 	mnuMinValue->plug(m_popupmenu);
 	mnuMaxValue->plug(m_popupmenu);
 	mnuArea->plug(m_popupmenu);
-	
-	
+
 	setupGUI();
 }
 
@@ -632,4 +631,28 @@ void MainDlg::graphArea()
 {
 	minmaxdlg->init(3);
 	minmaxdlg->show();
+}
+
+void MainDlg::toggleShowSlider0( bool checked )
+{
+	if( checked ) view->sliders[ 0 ]->show();
+	else view->sliders[ 0 ]->hide();
+}
+
+void MainDlg::toggleShowSlider1( bool checked )
+{
+	if( checked ) view->sliders[ 1 ]->show();
+	else view->sliders[ 1 ]->hide();
+}
+
+void MainDlg::toggleShowSlider2( bool checked )
+{
+	if( checked ) view->sliders[ 2 ]->show();
+	else view->sliders[ 2 ]->hide();
+}
+
+void MainDlg::toggleShowSlider3( bool checked )
+{
+	if( checked ) view->sliders[ 3 ]->show();
+	else view->sliders[ 3 ]->hide();
 }

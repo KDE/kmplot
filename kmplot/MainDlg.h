@@ -99,6 +99,11 @@ class MainDlg : public KMainWindow
 		void newParametric();
 		/// Implement the dialog to enter a polar plot and its options
 		void newPolar();
+		/// Show/hide parameter slider windows
+		void toggleShowSlider0( bool checked );
+		void toggleShowSlider1( bool checked );
+		void toggleShowSlider2( bool checked );
+		void toggleShowSlider3( bool checked );
 	
 	private:
 		/// Settings the standard and non standard actions of the application.

@@ -24,6 +24,8 @@
 */
 
 // Qt includes
+#include <qbitmap.h>
+#include <qcursor.h>
 #include <qpicture.h>
 #include <qslider.h>
 #include <qtooltip.h>
@@ -1733,16 +1735,13 @@ void View::mnuRectangular_clicked()
 }
 void View::mnuZoomIn_clicked()
 {
-	//QCursor custom( KGlobal::iconLoader()->loadIcon("viewmag+",KIcon::MainToolbar),1,1 );
-	//setCursor(custom);
-	setCursor(Qt::CrossCursor);
+	setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
 	zoom_mode = 2;	
 }
+
 void View::mnuZoomOut_clicked()
 {
-	//QCursor custom( KGlobal::iconLoader()->loadIcon("viewmag+",KIcon::MainToolbar),1,1 );
-	//setCursor(custom);
-	setCursor(Qt::CrossCursor);
+	setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 	zoom_mode = 3;
 }
 void View::mnuCenter_clicked()

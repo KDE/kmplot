@@ -39,6 +39,12 @@
         	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
 			<Merge name="StandardToolBarMenuHandler" />
 			<Action name="options_show_statusbar"/>
+			<Menu name="ShowSliders"><text>Show S&amp;liders</text>
+				<Action name="options_configure_show_slider_0"/>
+				<Action name="options_configure_show_slider_1"/>
+				<Action name="options_configure_show_slider_2"/>
+				<Action name="options_configure_show_slider_3"/>
+			</Menu>
 			<Separator />
 			<Action name="fullscreen"/>
 			<Separator/>

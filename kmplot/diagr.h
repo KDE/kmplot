@@ -167,7 +167,7 @@ public:
 	TeilstrichLaenge,
 	/** Offset of the frame. */
 	RahmenOffset,
-	/** This Flag is set to 1 if the coordinate doesnt fit into the plotting area.
+	/** This Flag is set to 1 if the coordinate doesn't fit into the plotting area.
 	 * @see */
 	xclipflg,            	// clipflg wird auf 1 gesetzt, wenn die
 	yclipflg;			// Koordinaten auﬂerhalb des Diagramms liegen

@@ -87,7 +87,7 @@ public:
 	friend class BezWnd;
 
 public slots:
-	void neu();
+	
 	void save();
 	void saveas();
 	void doexport();
@@ -147,6 +147,7 @@ private:
 	SettingsPagePrecision* precision_settings;
 	
 private slots:
+	void slotOpenNew();
 	void newToolbarConfig();
 	void optionsConfigureKeys();
 	void optionsConfigureToolbars();

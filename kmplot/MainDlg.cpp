@@ -101,7 +101,7 @@ MainDlg::~MainDlg()
 void MainDlg::setupActions()
 {
 	// standard actions
-	KStdAction::openNew( this, SLOT( neu() ), actionCollection() );
+	KStdAction::openNew( this, SLOT( slotOpenNew() ), actionCollection() );
 	KStdAction::open( this, SLOT( load() ), actionCollection() );
 	m_recentFiles = KStdAction::openRecent( this, SLOT( openRecent( const KURL& ) ), actionCollection());
 	KStdAction::print( this, SLOT( print() ), actionCollection() );
@@ -184,7 +184,7 @@ bool MainDlg::checkModified()
 	return true;
 }
 
-void MainDlg::neu()
+void MainDlg::slotOpenNew()
 {
 	if( !checkModified() ) return;
 	init(); // set globals to default

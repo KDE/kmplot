@@ -33,14 +33,14 @@ tlgy,       // y-Achsenteilung
 drskalx,       // x-Ausdruckskalierung
 drskaly;     // y-Ausdruckskalierung
 
-QString xminstr,      // String für xmind
-xmaxstr,      // String für xmaxd
-yminstr,      // String für ymind
-ymaxstr,      // String für ymaxd
-tlgxstr,                  // String für tlgx
-tlgystr,                  // String für tlgy
-drskalxstr,               // String für drskalx
-drskalystr;             // String für drskaly
+QString xminstr,      // String fr xmind
+xmaxstr,      // String fr xmaxd
+yminstr,      // String fr ymind
+ymaxstr,      // String fr ymaxd
+tlgxstr,                  // String fr tlgx
+tlgystr,                  // String fr tlgy
+drskalxstr,               // String fr drskalx
+drskalystr;             // String fr drskaly
 
 QString font_header, font_axes; // Font family names
 
@@ -52,7 +52,7 @@ bool printtable;		// header table printing option
 
 void getSettings()
 {
-	mode = ACHSEN | PFEILE | EXTRAHMEN;
+	mode = AXES | PFEILE | EXTRAHMEN;
 	rsw = 1.;
 
 	// axes settings
@@ -119,16 +119,16 @@ void getSettings()
 	// graph settings
 
 	ps.dicke0 = Settings::gridLineWidth();
-	ps.fktext[ 0 ].farbe = Settings::color0().rgb();
-	ps.fktext[ 1 ].farbe = Settings::color1().rgb();
-	ps.fktext[ 2 ].farbe = Settings::color2().rgb();
-	ps.fktext[ 3 ].farbe = Settings::color3().rgb();
-	ps.fktext[ 4 ].farbe = Settings::color4().rgb();
-	ps.fktext[ 5 ].farbe = Settings::color5().rgb();
-	ps.fktext[ 6 ].farbe = Settings::color6().rgb();
-	ps.fktext[ 7 ].farbe = Settings::color7().rgb();
-	ps.fktext[ 8 ].farbe = Settings::color8().rgb();
-	ps.fktext[ 9 ].farbe = Settings::color9().rgb();
+	ps.fktext[ 0 ].color = Settings::color0().rgb();
+	ps.fktext[ 1 ].color = Settings::color1().rgb();
+	ps.fktext[ 2 ].color = Settings::color2().rgb();
+	ps.fktext[ 3 ].color = Settings::color3().rgb();
+	ps.fktext[ 4 ].color = Settings::color4().rgb();
+	ps.fktext[ 5 ].color = Settings::color5().rgb();
+	ps.fktext[ 6 ].color = Settings::color6().rgb();
+	ps.fktext[ 7 ].color = Settings::color7().rgb();
+	ps.fktext[ 8 ].color = Settings::color8().rgb();
+	ps.fktext[ 9 ].color = Settings::color9().rgb();
 	printtable = true;
 	
 	// precision settings

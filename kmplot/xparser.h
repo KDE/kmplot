@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -43,7 +43,7 @@ public:
 
 	~XParser();
 
-	int dicke0;				// Linienstärke Voreinstellung
+	int dicke0;				// Linienstï¿½ke Voreinstellung
 
 	struct FktExt           // Funktionsattribute:
 	{
@@ -51,15 +51,15 @@ public:
 		f1_mode, 			// 1 => Graph von f' zeichnen
 		f2_mode;			// 1 => Graph von f" zeichnen
 		int dicke,  			// Stiftdicke
-		k_anz;  			// Länge der Parameterliste
+		k_anz;  			// Lï¿½ge der Parameterliste
 		QString str_dmin, str_dmax;	// Definitionsbereich
 		double dmin,
 		dmax,
 		k_liste[ 10 ];	// Parameterliste
 
-		QString extstr;     // vollständiger Eingabeterm
-		QRgb farbe,          // Farbe des Graphen
-		farbe0;		// Farbvoreinstellung
+		QString extstr;     // vollstï¿½diger Eingabeterm
+		QRgb color,          // color des Graphen
+		color0;		// Farbvoreinstellung
 	}
 	*fktext;
 };

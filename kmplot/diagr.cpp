@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -58,7 +58,7 @@ CDiagr::~CDiagr()
 }
 
 void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
-                    int lx, int ly, 			// Achsenlängen
+                    int lx, int ly, 			// Achsenlï¿½gen
                     double xmin, double xmax,   // x-Wertebereich
                     double ymin, double ymax, 	// y-Wertebereich
                     char mode) 					// Modus (Achsen, Pfeile, Rahmen)
@@ -174,7 +174,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 {	int a, b, tl;
 	double d, da, db;
 
-	if(mode&ACHSEN)
+	if(mode&AXES)
 	{   int dx, dy;
 
 		pDC->setPen(QPen(axesColor, axesThickness));
@@ -196,7 +196,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 	}
 
 	pDC->setPen(QPen(axesColor, gradThickness));
-	if(mode&ACHSEN)
+	if(mode&AXES)
 	{   da=oy-gradLength;
 		db=oy+gradLength;
 		tl=(mode&RAHMEN)? 0: gradLength;

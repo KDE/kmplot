@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -39,7 +39,7 @@
 #define	Lineh(x1, y, x2)	drawLine(x1, y, x2, y)
 #define Linev(x, y1, y2)	drawLine(x, y1, x, y2) 
 
-#define	ACHSEN			1		/**< visible axes */
+#define	AXES			1		/**< visible axes */
 #define PFEILE			2		/**< axes with arrows */
 #define RAHMEN			4		/**< visible frame */
 #define	EXTRAHMEN		8		/**< bigger frame */
@@ -84,7 +84,7 @@ public:
 	     gradThickness,
 	     gradLength,
 	     xclipflg,            	// clipflg wird auf 1 gesetzt, wenn die
-	     yclipflg;			    // Koordinaten außerhalb des Diagramms liegen
+	     yclipflg;			    // Koordinaten auï¿½rhalb des Diagramms liegen
 
          
 private:

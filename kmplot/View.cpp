@@ -105,10 +105,10 @@ void View::plotfkt(int ix, QPainter *pDC)
 	double dx, x, y, dmin, dmax;
 	QString fname, fstr;
 	QPoint p1, p2;
-	QPen pen(ps.fktext[ix].farbe, (int)(ps.fktext[ix].dicke*s));
+	QPen pen(ps.fktext[ix].color, (int)(ps.fktext[ix].dicke*s));
 	pen.setCapStyle(Qt::RoundCap);
 
-	if(ix==-1 || ix>=ps.ufanz) return ;	    // ungültiger Index
+	if(ix==-1 || ix>=ps.ufanz) return ;	    // ungltiger Index
 	if(ps.fktext[ix].f_mode==0) return ;	// NOPLOT
 
 	dx=sw;
@@ -197,7 +197,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 		else if(ps.fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
 		else break;
 
-		pen=QPen(ps.fktext[ix].farbe, 1);
+		pen=QPen(ps.fktext[ix].color, 1);
 		pDC->setPen(pen);
 	}
 }
@@ -320,7 +320,7 @@ void View::paintEvent(QPaintEvent *)
 void View::mouseMoveEvent(QMouseEvent *e)
 {   char sx[20], sy[20];
 
-	if(csflg==1)        // Fadenkreuz löschen
+	if(csflg==1)        // Fadenkreuz lï¿½chen
 	{	bitBlt(this, area.left(), fcy, &hline, 0, 0, area.width(), 1);
 		bitBlt(this, fcx, area.top(), &vline, 0, 0, 1, area.height());
 		csflg=0;
@@ -368,7 +368,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
 
 			// Fadenkreuz zeichnen
-			QPen pen((csmode>=0)? ps.fktext[csmode].farbe : 0, 1);
+			QPen pen((csmode>=0)? ps.fktext[csmode].color : 0, 1);
 
 			DC.begin(this);
 			DC.setPen(pen);
@@ -406,7 +406,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		{  case 0:
 		   case 'x':
 		   case 'y':
-		   case 'r':    continue;   // Fangen nicht möglich
+		   case 'r':    continue;   // Fangen nicht mï¿½lich
 		}
 
 		k=0;

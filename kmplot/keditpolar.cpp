@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -46,9 +46,6 @@ KEditPolar::KEditPolar( XParser* parser, QWidget* parent, const char* name ) :
 	m_parser = parser;
 }
 
-/**
- * Fill the dialog's widgets with the properties of the parser function number index.
- */
 void KEditPolar::initDialog( int index )
 {
 	m_index = index;
@@ -56,9 +53,6 @@ void KEditPolar::initDialog( int index )
 	else setWidgets();
 }
 
-/**
- * Clear alls widgets values
- */
 void KEditPolar::clearWidgets()
 {
 	kLineEditYFunction->clear();
@@ -67,12 +61,9 @@ void KEditPolar::clearWidgets()
 	min->clear();
 	max->clear();
 	kIntNumInputLineWidth->setValue( m_parser->dicke0 );	
-	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].farbe );
+	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color );
 }
 
-/**
- * Fill the dialog's widgets with values from the parser
- */
 void KEditPolar::setWidgets()
 {
 	QString function = m_parser->fktext[ m_index ].extstr;
@@ -83,12 +74,9 @@ void KEditPolar::setWidgets()
 	min->setText( m_parser->fktext[ m_index ].str_dmin );
 	max->setText( m_parser->fktext[ m_index ].str_dmax );
 	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_index ].dicke );
-	kColorButtonColor->setColor( m_parser->fktext[ m_index ].farbe );
+	kColorButtonColor->setColor( m_parser->fktext[ m_index ].color );
 }
 
-/**
- * Overwrites the dialog's accept() method to make sure, that the user's input is valid.
- */
 void KEditPolar::accept()
 {
 	// if we are editing an existing function, first delete the old one
@@ -123,15 +111,12 @@ void KEditPolar::accept()
 	}
 	
 	m_parser->fktext[ index ].dicke = kIntNumInputLineWidth->value();
-	m_parser->fktext[ index ].farbe = kColorButtonColor->color().rgb();
+	m_parser->fktext[ index ].color = kColorButtonColor->color().rgb();
 	
 	// call inherited method
 	QEditPolar::accept();
 }
 
-/**
- * return the well formed function equation
- */
 const QString KEditPolar::functionItem()
 {
 	return "r" + kLineEditYFunction->text();

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -70,7 +70,7 @@ void KEditFunction::clearWidgets()
 	min->clear();
 	max->clear();
 	kIntNumInputLineWidth->setValue( m_parser->dicke0 );	
-	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].farbe );
+	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color );
 }
 
 /**
@@ -93,7 +93,7 @@ void KEditFunction::setWidgets()
 	min->setText( m_parser->fktext[ m_index ].str_dmin );
 	max->setText( m_parser->fktext[ m_index ].str_dmax );
 	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_index ].dicke );
-	kColorButtonColor->setColor( m_parser->fktext[ m_index ].farbe );
+	kColorButtonColor->setColor( m_parser->fktext[ m_index ].color );
 }
 
 /**
@@ -149,7 +149,7 @@ void KEditFunction::accept()
 	}
 	
 	m_parser->fktext[ index ].dicke = kIntNumInputLineWidth->value();
-	m_parser->fktext[ index ].farbe = kColorButtonColor->color().rgb();
+	m_parser->fktext[ index ].color = kColorButtonColor->color().rgb();
 	
 	// call inherited method
 	QEditFunction::accept();

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -35,7 +35,7 @@ XParser::XParser()
 
 	fktext = new FktExt[ UFANZ ];
 	for ( ix = 0; ix < UFANZ; ++ix )
-		fktext[ ix ].farbe = 0;
+		fktext[ ix ].color = 0;
 }
 
 XParser::XParser( int anz, int m_size, int s_size ) : Parser( anz, m_size, s_size )
@@ -44,7 +44,7 @@ XParser::XParser( int anz, int m_size, int s_size ) : Parser( anz, m_size, s_siz
 
 	fktext = new FktExt[ ufanz ];
 	for ( ix = 0; ix < ufanz; ++ix )
-		fktext[ ix ].farbe = 0;
+		fktext[ ix ].color = 0;
 }
 
 XParser::~XParser()
@@ -151,7 +151,7 @@ int XParser::delfkt( int ix )
 	fktext[ ix ].k_anz = 0;
 	fktext[ ix ].dmin = fktext[ ix ].dmax = 0.;
 	fktext[ ix ].extstr = ""; //.resize(1);
-//	fktext[ ix ].farbe = fktext[ ix ].farbe0;
+//	fktext[ ix ].color = fktext[ ix ].color0;
 	return ix;
 }
 

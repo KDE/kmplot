@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -99,7 +99,7 @@ void KmPlotIO::save( const QString filename )
 			tag.setAttribute( "visible-deriv", ps.fktext[ ix ].f1_mode );
 			tag.setAttribute( "visible-2nd-deriv", ps.fktext[ ix ].f2_mode );
 			tag.setAttribute( "width", ps.fktext[ ix ].dicke );
-			tag.setAttribute( "color", QColor( ps.fktext[ ix ].farbe ).name() );
+			tag.setAttribute( "color", QColor( ps.fktext[ ix ].color ).name() );
 			
 			addTag( doc, tag, "equation", ps.fktext[ ix ].extstr );
 			
@@ -262,7 +262,7 @@ void KmPlotIO::parseFunction( const QDomElement & n )
 	ps.fktext[ ix ].f1_mode = n.attribute( "visible-deriv" ).toInt();
 	ps.fktext[ ix ].f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
 	ps.fktext[ ix ].dicke = n.attribute( "width" ).toInt();
-	ps.fktext[ ix ].farbe = QColor( n.attribute( "color" ) ).rgb();
+	ps.fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();
 
 	ps.fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
 	QCString fstr = ps.fktext[ ix ].extstr.utf8();

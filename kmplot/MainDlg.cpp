@@ -64,7 +64,7 @@ class KmPlotIO;
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg(QWidget *parentWidget, const char *widgetName, QObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent, name ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
+MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent, name ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
 {
 	// we need an instance
 	setInstance( KmPlotPartFactory::instance() );
@@ -750,7 +750,7 @@ KmPlotPartFactory::~KmPlotPartFactory()
 
 KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
         QObject *parent, const char *name,
-        const char *classname, const QStringList & args)
+        const char *, const QStringList & )
 {
 	// Create an instance of our Part
 	MainDlg* obj = new MainDlg( parentWidget, widgetName, parent, name );

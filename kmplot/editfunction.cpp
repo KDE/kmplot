@@ -101,7 +101,7 @@ void EditFunction::clearWidgets()
 	editderivativespage->colorDerivative2->setColor( editfunctionpage->color->color() );
 
 	// Clear the Integral page
-	editintegralpage->precision->setValue( Settings::relativeStepWidth());
+	editintegralpage->precision->setValue( Settings::stepWidth());
 	editintegralpage->color->setColor( editfunctionpage->color->color() );
 	editintegralpage->lineWidth->setValue(editfunctionpage->lineWidth->value());
 	

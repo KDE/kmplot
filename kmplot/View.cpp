@@ -191,7 +191,7 @@ void View::draw(QPaintDevice *dev, int form)
 	area=DC.xForm(PlotArea);
 	hline.resize(area.width(), 1);
 	vline.resize(1, area.height());
-	stepWidth=Settings::relativeStepWidth();
+	stepWidth=Settings::stepWidth();
 
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
@@ -239,9 +239,15 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	}
 	double dx;
 	if(fktmode=='r')
-		dx=stepWidth*0.05/(dmax-dmin);
+		if ( Settings::useRelativeStepWidth() )
+			dx=stepWidth*0.05/(dmax-dmin);
+		else
+			dx=stepWidth;
 	else
-		dx=stepWidth*(dmax-dmin)/area.width();
+		if ( Settings::useRelativeStepWidth() )
+			dx=stepWidth*(dmax-dmin)/area.width();
+		else
+			dx=stepWidth;
 
 	if(fktmode=='x')
 		iy = m_parser->ixValue(ufkt->id)+1;
@@ -273,7 +279,10 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 			if ( p_mode == 3)
 			{
 				if ( ufkt->integral_use_precision )
-					dx =  ufkt->integral_precision*(dmax-dmin)/area.width();
+					if ( Settings::useRelativeStepWidth() )
+						dx =  ufkt->integral_precision*(dmax-dmin)/area.width();
+					else
+						dx =  ufkt->integral_precision;
 				startProgressBar((int)double((dmax-dmin)/dx)/2);
 				x = ufkt->oldx = ufkt->startx; //the initial x-point
 				ufkt->oldy = ufkt->starty;
@@ -711,8 +720,6 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		setCursor(arrowCursor);
 		sx[0]=sy[0]=0;
 	}
-	//stbar->changeItem(sx, 1);
-	//stbar->changeItem(sy, 2);
 	setStatusBar(sx, 1);
 	setStatusBar(sy, 2);
 }
@@ -932,8 +939,6 @@ void View::mousePressEvent(QMouseEvent *e)
 	if(csmode>=0) //disable trace mode if trace mode is enable
 	{
 		csmode=-1;
-		/*stbar->changeItem("",3);
-		stbar->changeItem("",4);*/
 		setStatusBar("",3);
 		setStatusBar("",4);
 		mouseMoveEvent(e);
@@ -943,7 +948,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	{
 		switch(it->extstr[0].latin1())
 		{
-case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
+			case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
 		}
 
 		int k=0;
@@ -963,7 +968,6 @@ case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
 				cstype=0;
 				csparam = k;
 				m_minmax->selectItem();
-				//stbar->changeItem( it->extstr,4);
 				setStatusBar(it->extstr,4);
 				mouseMoveEvent(e);
 				return;
@@ -976,7 +980,6 @@ case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
 				m_minmax->selectItem();
 				QString function = it->extstr;
 				function = function.left(function.find('(')) + '\'';
-				//stbar->changeItem(function,4);
 				setStatusBar(function,4);
 				mouseMoveEvent(e);
 				return;
@@ -989,7 +992,6 @@ case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
 				m_minmax->selectItem();
 				QString function = it->extstr;
 				function = function.left(function.find('(')) + "\'\'";
-				//stbar->changeItem(function,4);
 				setStatusBar(function,4);
 				mouseMoveEvent(e);
 				return;
@@ -1191,9 +1193,15 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	{
 		stop_calculating = false;
 		if ( ufkt->integral_use_precision )
-			dx = ufkt->integral_precision*(dmax-dmin)/area.width();
+			if ( ufkt->integral_use_precision )
+				dx = ufkt->integral_precision*(dmax-dmin)/area.width();
+			else
+				dx = ufkt->integral_precision;
 		else
-			dx = stepWidth*(dmax-dmin)/area.width();
+			if ( ufkt->integral_use_precision )
+				dx = stepWidth*(dmax-dmin)/area.width();
+			else
+				dx = stepWidth;
 		startProgressBar((int)double((dmax-dmin)/dx)/2);
 		x = ufkt->oldx = ufkt->startx; //the initial x-point
 		ufkt->oldy = ufkt->starty;
@@ -1493,14 +1501,12 @@ void View::keyPressEvent( QKeyEvent * e)
 		switch (cstype )
 {
 		case 0:
-			//stbar->changeItem(it->extstr,4);
 			setStatusBar(it->extstr,4);
 			break;
 		case 1:
 			{
 				QString function = it->extstr;
 				function = function.left(function.find('(')) + '\'';
-				//stbar->changeItem(function,4);
 				setStatusBar(function,4);
 				break;
 			}
@@ -1508,7 +1514,6 @@ void View::keyPressEvent( QKeyEvent * e)
 			{
 				QString function = it->extstr;
 				function = function.left(function.find('(')) + "\'\'";
-				//stbar->changeItem(function,4);
 				setStatusBar(function,4);
 				break;
 			}

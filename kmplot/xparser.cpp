@@ -245,7 +245,7 @@ void XParser::prepareAddingFunction(Ufkt *temp)
         temp->f1_mode = false;
         temp->f2_mode = false;
         temp->integral_mode = false;
-        temp->integral_precision = Settings::relativeStepWidth();
+        temp->integral_precision = Settings::stepWidth();
         temp->dmin = 0;
         temp->dmax = 0;
         temp->str_dmin = "";

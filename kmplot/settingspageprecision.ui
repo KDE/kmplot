@@ -9,149 +9,13 @@
             <x>0</x>
             <y>0</y>
             <width>301</width>
-            <height>375</height>
+            <height>401</height>
         </rect>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QGroupBox" row="0" column="0">
-            <property name="name">
-                <cstring>groupBox1</cstring>
-            </property>
-            <property name="title">
-                <string>Precision</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLayoutWidget">
-                    <property name="name">
-                        <cstring>layout1</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel1</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;Points per pixel:</string>
-                            </property>
-                            <property name="buddy" stdset="0">
-                                <cstring>kcfg_relativeStepWidth</cstring>
-                            </property>
-                        </widget>
-                        <widget class="KDoubleNumInput">
-                            <property name="name">
-                                <cstring>kcfg_relativeStepWidth</cstring>
-                            </property>
-                            <property name="value">
-                                <number>1</number>
-                            </property>
-                            <property name="minValue">
-                                <number>0.1</number>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>How many points per pixel shall be calculated.</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Enter the amount of points per pixel which shall be calculated. For slow computers or very complex plots use higher values.</string>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QButtonGroup" row="1" column="0">
-            <property name="name">
-                <cstring>kcfg_anglemode</cstring>
-            </property>
-            <property name="title">
-                <string>Angle Mode</string>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QRadioButton">
-                    <property name="name">
-                        <cstring>radioButton1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Radian</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Trigonometric functions use radian mode for angles.</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Check this button to use radian mode to measure angles. This is important for trigonometric functions only.</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton">
-                    <property name="name">
-                        <cstring>radioButton2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Degree</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Trigonometric functions use degree mode for angles.</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Check this button to use degree mode to measure angles. This is important for trigonometric functions only.</string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QGroupBox" row="2" column="0">
-            <property name="name">
-                <cstring>groupBox2</cstring>
-            </property>
-            <property name="title">
-                <string>Background Color</string>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KColorButton">
-                    <property name="name">
-                        <cstring>kcfg_backgroundcolor</cstring>
-                    </property>
-                    <property name="text">
-                        <string></string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Color for the plot area behind the grid.</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click on the button the choose the color of the background. This option has no effect on printing nor export.</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>81</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-            </hbox>
-        </widget>
         <spacer row="4" column="0">
             <property name="name">
                 <cstring>spacer1</cstring>
@@ -249,6 +113,150 @@
                     </property>
                 </widget>
             </grid>
+        </widget>
+        <widget class="QGroupBox" row="2" column="0">
+            <property name="name">
+                <cstring>groupBox2</cstring>
+            </property>
+            <property name="title">
+                <string>Background Color</string>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KColorButton">
+                    <property name="name">
+                        <cstring>kcfg_backgroundcolor</cstring>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Color for the plot area behind the grid.</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click on the button the choose the color of the background. This option has no effect on printing nor export.</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>81</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QButtonGroup" row="1" column="0">
+            <property name="name">
+                <cstring>kcfg_anglemode</cstring>
+            </property>
+            <property name="title">
+                <string>Angle Mode</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>radioButton1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Radian</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Trigonometric functions use radian mode for angles.</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this button to use radian mode to measure angles. This is important for trigonometric functions only.</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>radioButton2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Degree</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Trigonometric functions use degree mode for angles.</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this button to use degree mode to measure angles. This is important for trigonometric functions only.</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox" row="0" column="0">
+            <property name="name">
+                <cstring>groupBox1</cstring>
+            </property>
+            <property name="title">
+                <string>Precision</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout1</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Points per pixel:</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>kcfg_relativeStepWidth</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KDoubleNumInput">
+                            <property name="name">
+                                <cstring>kcfg_stepWidth</cstring>
+                            </property>
+                            <property name="value">
+                                <number>1</number>
+                            </property>
+                            <property name="minValue">
+                                <number>0.1</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>How many points per pixel shall be calculated.</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Enter the amount of points per pixel which shall be calculated. For slow computers or very complex plots use higher values.</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>kcfg_useRelativeStepWidth</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Use relative step width</string>
+                    </property>
+                </widget>
+            </vbox>
         </widget>
     </grid>
 </widget>

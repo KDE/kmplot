@@ -23,6 +23,10 @@
 *
 */
 
+/** @file diagr.h
+ * @brief contains the CDiagr class; View has a member of this class
+ */
+
 #ifndef diagr_included
 #define diagr_included
 
@@ -124,7 +128,7 @@ public:
 	{
 		return Rahmen;
 	}
-	/** @name Coordinate Transformation */
+	/** @defgroup group_trans Coordinate Transformation */
 	//@{
 	/** Calculating the device coordinates (Pixel) for a given "real" coordinate. */
 	int	Transx( double ),
@@ -146,12 +150,25 @@ public:
 	 * @see misc::GitterFarbe */
 	GitterFarbe;
 
+	/** Same as in misc.h. 
+	 * @see misc::Rahmendick */
 	uint RahmenDicke,
+	/** Same as in misc.h. 
+	 * @see misc::AchsenDicke */
 	AchsenDicke,
+	/** Same as in misc.h. 
+	 * @see misc::GitterDicke */
 	GitterDicke,
+	/** Same as in misc.h. 
+	 * @see misc::TeilstrichDicke */
 	TeilstrichDicke,
+	/** Same as in misc.h. 
+	 * @see misc::TeilstrichLaenge */
 	TeilstrichLaenge,
+	/** Offset of the frame. */
 	RahmenOffset,
+	/** This Flag is set to 1 if the coordinate doesnt fit into the plotting area.
+	 * @see */
 	xclipflg,            	// clipflg wird auf 1 gesetzt, wenn die
 	yclipflg;			// Koordinaten auﬂerhalb des Diagramms liegen
 

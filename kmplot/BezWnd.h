@@ -23,6 +23,10 @@
 *
 */
 
+/** @file BezWnd.h
+ * @brief Showing predefined function names and constants (BezWnd).
+ */
+
 #ifndef BezWnd_included
 #define BezWnd_included
 
@@ -30,17 +34,32 @@
 
 class MainDlg;
 
+/**
+ * This Widget shows a list of predefined functions and constants of the implemented math parser.
+ * Its connected to a KToggleAction verw_bezeichnungen of the main widget.
+ * @see hideEvent, MainDlg::view_bezeichnungen
+ */
 class BezWnd : public BezWndData
 {
 	Q_OBJECT
 
 public:
+	/** Common constructor. 
+	 * It only sets the main_dlg to parent.
+	 */
 	BezWnd( QWidget* parent = NULL, const char* name = NULL );
+	/** Empty destructor. */
 	virtual ~BezWnd();
 
 protected slots:
-	void hideEvent( QHideEvent * );
+	/** Reimplemented. 
+	 * Sets the KToggleAction view_bezeichnungen to false.
+	 * @see hideEvent, MainDlg::view_bezeichnungen
+	 */
+void hideEvent( QHideEvent * );
+
 private:
+	/** A Pointer to the central class instance */
 	MainDlg *main_dlg;
 };
 #endif // BezWnd_included

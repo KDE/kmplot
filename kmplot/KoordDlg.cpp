@@ -29,9 +29,10 @@
 
 // Qt includes
 #include <qbuttongroup.h>
+#include <qlineedit.h>
+#include <qcheckbox.h>
 
 // KDE includes
-#include <kdebug.h>
 #include <kmessagebox.h>
 
 #define Inherited KoordDlgData

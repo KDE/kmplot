@@ -23,6 +23,10 @@
 *
 */
 
+/** @file FktDlg.h
+ * @brief Contains the FktDlg class. Entering and editing functions equation and attributes.
+ */
+
 #ifndef FktDlg_included
 #define FktDlg_included
 
@@ -36,12 +40,24 @@
 #include <kapplication.h>
 #include <klocale.h>
 
+/** This widget class handles the users function input. 
+ * Equations can be added, edited, and removed.
+ * An attribute settings dialog can be requested.
+ */
 class FktDlg : public FktDlgData
 {
 	Q_OBJECT
 
 public:
+	/** 
+	 * The constructor fills the GUI widgets with the content 
+	 * of the parsers members.
+	 *
+	 * If the parser contains no functions, that is especially if this dialog is
+	 * opened for the first time, "f(x)=" is suggested in the edit line.
+	 */
 	FktDlg( QWidget* parent = NULL, const char* name = NULL );
+	/** And again an empty destructor. */
 	virtual ~FktDlg();
 
 protected slots:

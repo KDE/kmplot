@@ -23,6 +23,9 @@
 *
 */
 
+/** @file AttrDlg.h
+ * @brief contains the AttrDlg class, a dialog for the attributes of the functions.
+ */
 #ifndef AttrDlg_included
 #define AttrDlg_included
 
@@ -52,7 +55,7 @@ public:
 	 * The constructor gets the common parameters.
 	 * The modal flag is set to true by default.
 	 */
-	AttrDlg( QWidget* parent = NULL, const char* name = NULL, bool modal = TRUE );
+	AttrDlg( const int ix_, QWidget* parent = NULL, const char* name = NULL );
 	/** The destructor does nothing special */
 	virtual ~AttrDlg();
 
@@ -65,7 +68,7 @@ public:
 private:
 
 	/** Temporary instance of the chosen color. */
-	QColor farbe;
+	//QColor farbe;
 
 
 protected slots:
@@ -86,10 +89,10 @@ protected slots:
 	 * Calls a sub-dialog for the color setting.
 	 * @todo Port to KColorButton 
 	 */
-	void onfarbe();
+	//void onfarbe();
 
 	/** Here some additional initialization is done. */
-	virtual	void show();
+	// virtual	void show();
 
 };
 

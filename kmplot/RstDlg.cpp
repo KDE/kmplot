@@ -23,15 +23,24 @@
 *
 */
 
-// local includes
+// Qt includes
+#include <qlineedit.h>
+#include <qcheckbox.h>
+#include <qradiobutton.h>
+
+// KDE includes
+#include <kcolorbutton.h>
+#include <klocale.h>
+
+// locale includes
+#include "misc.h"	// globals
 #include "RstDlg.h"
 #include "RstDlg.moc"
 
-
 #define Inherited RstDlgData
 
-RstDlg::RstDlg( QWidget* parent, const char* name, bool modal ) : Inherited( parent, name, modal )
-{	//setCaption( i18n("Raster") );
+RstDlg::RstDlg( QWidget* parent, const char* name ) : Inherited( parent, name, true )
+{	le_dicke->setText( QString::number( GitterDicke ) );
 	switch ( g_mode )
 	{
 	case 0:
@@ -46,7 +55,7 @@ RstDlg::RstDlg( QWidget* parent, const char* name, bool modal ) : Inherited( par
 	case 3:
 		rb_r4->setChecked( TRUE );
 	}
-	farbe.setRgb( GitterFarbe );
+	color_button->setColor( QColor( GitterFarbe ) );
 }
 
 
@@ -58,8 +67,6 @@ RstDlg::~RstDlg()
 
 void RstDlg::onok()
 {
-	QString str;
-
 	if ( rb_r1->isChecked() )
 		g_mode = 0;
 	else if ( rb_r2->isChecked() )
@@ -68,9 +75,9 @@ void RstDlg::onok()
 		g_mode = 2;
 	else if ( rb_r4->isChecked() )
 		g_mode = 3;
-	str = le_dicke->text();
-	GitterDicke = str.toInt();
-	GitterFarbe = farbe.rgb();
+
+	GitterDicke = le_dicke->text().toInt();
+	GitterFarbe = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )
 	{
@@ -78,7 +85,7 @@ void RstDlg::onok()
 
 		kc->writeEntry( "Line Width", GitterDicke );
 		kc->writeEntry( "Mode", g_mode );
-		kc->writeEntry( "Color", farbe );
+		kc->writeEntry( "Color", QColor( GitterFarbe ) );
 		kc->sync();
 	}
 
@@ -88,20 +95,4 @@ void RstDlg::onok()
 void RstDlg::oncancel()
 {
 	done( 0 );
-}
-
-void RstDlg::onfarbe()
-{
-	KColorDialog cdlg;
-
-	cdlg.setColor( farbe );
-	cdlg.getColor( farbe );
-}
-
-void RstDlg::show()
-{
-	QString str;
-
-	le_dicke->setText( str.setNum( GitterDicke ) );
-	QDialog::show();
 }

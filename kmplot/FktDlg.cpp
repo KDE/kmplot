@@ -36,19 +36,21 @@ FktDlg::FktDlg( QWidget* parent, const char* name ) : Inherited( parent, name )
 	QString fname, fstr;
 
 	lb_fktliste->clear();
-	// fktidx.clear();
 
+	// adding all yet added functions
 	for ( ix = 0; ix < ps.ufanz; ++ix )
 	{
 		if ( ps.getfkt( ix, fname, fstr ) == -1 )
 			continue;
 
 		lb_fktliste->insertItem( ps.fktext[ ix ].extstr );
-		// fktidx.append( ix );
 	}
 
-	le_fktstr->setText( "f(x)=" );
-	le_fktstr->selectAll();
+	if ( lb_fktliste->count() == 0 ) 
+	{
+		le_fktstr->setText( "f(x)=" ); // perhaps a good starting point
+		le_fktstr->selectAll();
+	}
 	le_fktstr->setFocus();
 }
 
@@ -180,15 +182,12 @@ void FktDlg::ondblclick( int )
 
 void FktDlg::onattr()
 {
-	int num;
-	AttrDlg attr;
-
-	if ( ( num = lb_fktliste->currentItem() ) == -1 )
+	// is anything selected?
+	if ( lb_fktliste->currentItem() == -1 )
 		return ;
 
 	le_fktstr->clear();
-	// attr.ix = ( int ) fktidx[ num ];
-	attr.ix = getIx( lb_fktliste->text( num ) );
+	AttrDlg attr( getIx( lb_fktliste->currentText() ) , this, "attr" );
 	chflg = 1;
 	attr.exec();
 	updateView();

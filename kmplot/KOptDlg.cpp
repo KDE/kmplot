@@ -23,24 +23,29 @@
 *
 */
 
+// Qt includes
+#include <qcheckbox.h>
+#include <qlineedit.h>
+
+// KDE includes
+#include <kcolorbutton.h>
+
 // local includes
+#include "misc.h"
 #include "KOptDlg.h"
 #include "KOptDlg.moc"
 
-
 #define Inherited KOptDlgData
 
-KOptDlg::KOptDlg( QWidget* parent, const char* name, bool modal ) : Inherited( parent, name, modal )
+KOptDlg::KOptDlg( QWidget* parent, const char* name ) : Inherited( parent, name, true )
 {
-	QString str;
-
 	ad = AchsenDicke;
 	td = TeilstrichDicke;
 	tl = TeilstrichLaenge;
-	le_ad->setText( str.setNum( ad ) );
-	le_td->setText( str.setNum( td ) );
-	le_tl->setText( str.setNum( tl ) );
-	farbe.setRgb( AchsenFarbe );
+	le_ad->setText( QString::number( ad ) );
+	le_td->setText( QString::number( td ) );
+	le_tl->setText( QString::number( tl ) );
+	color_button->setColor( QColor( AchsenFarbe ) );
 }
 
 KOptDlg::~KOptDlg()
@@ -51,27 +56,19 @@ KOptDlg::~KOptDlg()
 
 void KOptDlg::onok()
 {
-	QString str;
-
-	str = le_ad->text();
-	ad = str.toInt();
-	str = le_td->text();
-	td = str.toInt();
-	str = le_tl->text();
-	tl = str.toInt();
-	AchsenDicke = ad;
-	TeilstrichDicke = td;
-	TeilstrichLaenge = tl;
-	AchsenFarbe = farbe.rgb();
+	AchsenDicke = le_ad->text().toInt();
+	TeilstrichDicke = le_td->text().toInt();
+	TeilstrichLaenge = le_tl->text().toInt();
+	AchsenFarbe = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )
 	{
 		kc->setGroup( "Axes" );
 
-		kc->writeEntry( "Axes Width", ad );
-		kc->writeEntry( "Tic Width", td );
-		kc->writeEntry( "Tic Length", tl );
-		kc->writeEntry( "Color", farbe );
+		kc->writeEntry( "Axes Width", AchsenDicke );
+		kc->writeEntry( "Tic Width", TeilstrichDicke );
+		kc->writeEntry( "Tic Length", TeilstrichLaenge );
+		kc->writeEntry( "Color", QColor( AchsenFarbe ) );
 		kc->sync();
 	}
 
@@ -81,12 +78,4 @@ void KOptDlg::onok()
 void KOptDlg::oncancel()
 {
 	done( 0 );
-}
-
-void KOptDlg::onfarbe()
-{
-	KColorDialog cdlg;
-
-	cdlg.setColor( farbe );
-	cdlg.getColor( farbe );
 }

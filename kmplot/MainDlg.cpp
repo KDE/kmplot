@@ -449,7 +449,7 @@ void MainDlg::schrittw()
 
 void MainDlg::raster()
 {
-	RstDlg rdlg;
+	RstDlg rdlg( this, "rdlg" );
 
 	rdlg.exec();
 	view->update();

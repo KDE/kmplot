@@ -1,189 +1,147 @@
-<!DOCTYPE UI><UI>
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
 <class>AttrDlgData</class>
-<widget>
-    <class>QDialog</class>
-    <property stdset="1">
-        <name>name</name>
+<widget class="QDialog">
+    <property name="name">
         <cstring>AttrDlgData</cstring>
     </property>
-    <property stdset="1">
-        <name>geometry</name>
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>225</width>
-            <height>160</height>
+            <width>256</width>
+            <height>166</height>
         </rect>
     </property>
-    <property stdset="1">
-        <name>sizePolicy</name>
-        <sizepolicy>
-            <hsizetype>0</hsizetype>
-            <vsizetype>0</vsizetype>
-        </sizepolicy>
-    </property>
-    <property stdset="1">
-        <name>minimumSize</name>
-        <size>
-            <width>225</width>
-            <height>160</height>
-        </size>
-    </property>
-    <property stdset="1">
-        <name>maximumSize</name>
-        <size>
-            <width>225</width>
-            <height>160</height>
-        </size>
-    </property>
-    <property stdset="1">
-        <name>caption</name>
+    <property name="caption">
         <string>Function Attributes</string>
     </property>
-    <widget>
-        <class>QLineEdit</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>le_dicke</cstring>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
         </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>20</x>
-                <y>65</y>
-                <width>40</width>
-                <height>25</height>
-            </rect>
+        <property name="margin">
+            <number>11</number>
         </property>
-    </widget>
-    <widget>
-        <class>QLabel</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>TextLabel2</cstring>
+        <property name="spacing">
+            <number>6</number>
         </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>65</x>
-                <y>65</y>
-                <width>46</width>
-                <height>26</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>0.1mm</string>
-        </property>
-    </widget>
-    <widget>
-        <class>QPushButton</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>PushButton1</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>125</x>
-                <y>15</y>
-                <width>80</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>OK</string>
-        </property>
-        <property stdset="1">
-            <name>default</name>
-            <bool>true</bool>
-        </property>
-    </widget>
-    <widget>
-        <class>QPushButton</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>PushButton1_2_2</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>125</x>
-                <y>85</y>
-                <width>80</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>Cancel</string>
-        </property>
-    </widget>
-    <widget>
-        <class>QCheckBox</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>cb_default</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>20</x>
-                <y>125</y>
-                <width>190</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>Save as &amp;default</string>
-        </property>
-    </widget>
-    <widget>
-        <class>QLabel</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>TextLabel1</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>20</x>
-                <y>40</y>
-                <width>80</width>
-                <height>20</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>Line &amp;width</string>
-        </property>
-        <property>
-            <name>buddy</name>
-            <cstring>le_dicke</cstring>
-        </property>
-    </widget>
-    <widget>
-        <class>QPushButton</class>
-        <property stdset="1">
-            <name>name</name>
-            <cstring>PushButton1_2</cstring>
-        </property>
-        <property stdset="1">
-            <name>geometry</name>
-            <rect>
-                <x>125</x>
-                <y>50</y>
-                <width>80</width>
-                <height>25</height>
-            </rect>
-        </property>
-        <property stdset="1">
-            <name>text</name>
-            <string>C&amp;olor</string>
-        </property>
-    </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>Layout4</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>GroupBox1</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Line Width</string>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>11</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>le_dicke</cstring>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>55</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>0.1mm</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>Layout3</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>PushButton1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>OK</string>
+                            </property>
+                            <property name="default">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="KColorButton">
+                            <property name="name">
+                                <cstring>color_button</cstring>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>PushButton1_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Cancel</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>cb_default</cstring>
+            </property>
+            <property name="text">
+                <string>Save as &amp;default</string>
+            </property>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>Spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+        </spacer>
+    </vbox>
 </widget>
 <connections>
     <connection>
@@ -193,19 +151,16 @@
         <slot>onok()</slot>
     </connection>
     <connection>
-        <sender>PushButton1_2</sender>
-        <signal>clicked()</signal>
-        <receiver>AttrDlgData</receiver>
-        <slot>onfarbe()</slot>
-    </connection>
-    <connection>
         <sender>PushButton1_2_2</sender>
         <signal>clicked()</signal>
         <receiver>AttrDlgData</receiver>
         <slot>oncancel()</slot>
     </connection>
-    <slot access="public">oncancel()</slot>
-    <slot access="public">onfarbe()</slot>
-    <slot access="public">onok()</slot>
 </connections>
+<slots>
+    <slot>oncancel()</slot>
+    <slot>onfarbe()</slot>
+    <slot>onok()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

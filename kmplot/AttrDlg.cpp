@@ -23,14 +23,21 @@
 *
 */
 
+// KDE includes
+#include <kcolorbutton.h>
+#include <kdebug.h>
+
 // local includes
 #include "AttrDlg.h"
 #include "AttrDlg.moc"
 
 #define Inherited AttrDlgData
 
-AttrDlg::AttrDlg( QWidget* parent, const char* name, bool modal ) : Inherited( parent, name, modal )
+AttrDlg::AttrDlg( const int ix_, QWidget* parent, const char* name ) : Inherited( parent, name, true )
 {
+	ix = ix_;
+	le_dicke->setText( QString::number( ps.fktext[ ix ].dicke ) );
+	color_button->setColor( QColor ( ps.fktext[ ix ].farbe ) );
 }
 
 AttrDlg::~AttrDlg()
@@ -41,11 +48,8 @@ AttrDlg::~AttrDlg()
 
 void AttrDlg::onok()
 {
-	QString str;
-
-	str = le_dicke->text();
-	ps.fktext[ ix ].dicke = str.toInt();
-	ps.fktext[ ix ].farbe = farbe.rgb();
+	ps.fktext[ ix ].dicke = le_dicke->text().toInt();
+	ps.fktext[ ix ].farbe = color_button->color().rgb();
 
 	if ( cb_default->isChecked() )
 	{
@@ -54,7 +58,7 @@ void AttrDlg::onok()
 		kc->setGroup( "Graphs" );
 		kc->writeEntry( "Line Width", ps.fktext[ ix ].dicke );
 		sprintf( s, "Color%c", '0' + ix );
-		kc->writeEntry( s, farbe );
+		kc->writeEntry( s, color_button->color() );
 		kc->sync();
 	}
 
@@ -66,6 +70,7 @@ void AttrDlg::oncancel()
 	done( 0 );
 }
 
+/*
 void AttrDlg::onfarbe()
 {
 	KColorDialog cdlg;
@@ -73,12 +78,12 @@ void AttrDlg::onfarbe()
 	cdlg.setColor( farbe );
 	cdlg.getColor( farbe );
 }
+*/
 
+/*
 void AttrDlg::show()
 {
-	QString str;
-
-	le_dicke->setText( str.setNum( ps.fktext[ ix ].dicke ) );
-	farbe.setRgb( ps.fktext[ ix ].farbe );
+	// farbe.setRgb( ps.fktext[ ix ].farbe );
 	QDialog::show();
 }
+*/

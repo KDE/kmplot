@@ -120,7 +120,7 @@ void MainDlg::save()
 
 void MainDlg::saveas()
 {
-	datei = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot files (*.fkt)\n*|All files" ), this, i18n( "Save As" ) );
+	datei = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
 	if ( !datei.isEmpty() )
 	{
 		if ( datei.find( "." ) == -1 )            // no file extension
@@ -224,7 +224,7 @@ void MainDlg::addTag( QDomDocument &doc, QDomElement &parentTag, const QString t
 
 void MainDlg::load()
 {
-	QString d = KFileDialog::getOpenFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot files (*.fkt)\n*|All files" ), this, i18n( "Open" ) );
+	QString d = KFileDialog::getOpenFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
 	if ( d.isEmpty() )
 		return ;
 

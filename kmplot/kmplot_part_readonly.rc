@@ -38,6 +38,8 @@
 				<Action name="options_configure_show_slider_2"/>
 				<Action name="options_configure_show_slider_3"/>
 			</Menu>
+			<Separator/>
+			<Action name="options_configure"/>
 		</Menu>
 		<Menu name="help"><text>&amp;Help</text>
 			<Action name="names"/>

@@ -99,7 +99,7 @@ View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidg
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
 		sliders[ number ] = new SliderWindow( this, QString( "slider%1" ).arg( number ).latin1(), false, Qt::WStyle_Tool-Qt::WStyle_Maximize );
-		sliders[ number ]->setCaption( i18n( "Slider %1" ).arg( number ) );
+		sliders[ number ]->setCaption( i18n( "Slider %1" ).arg( number+1 ) );
 		connect( sliders[ number ]->slider, SIGNAL( valueChanged( int ) ), this, SLOT( drawPlot() ) );
 		QWhatsThis::add( sliders[ number ]->slider, i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
 		QToolTip::add( sliders[ number ]->slider, i18n( "Slider no. %1" ).arg( number ) );
@@ -1785,9 +1785,11 @@ bool View::isCalculationStopped()
 
 void View::updateSliders()
 {
-	for( int number = 0; number < SLIDER_COUNT; number++ ) sliders[ number ]->hide();
+	for( int number = 0; number < SLIDER_COUNT; number++)
+		sliders[ number ]->hide();
 	for( int index = 0; index < m_parser->ufanz; index++ )
-		if( m_parser->fktext[ index ].use_slider > -1 ) sliders[ m_parser->fktext[ index ].use_slider ]->show();
+		if( m_parser->fktext[ index ].use_slider > -1  &&  (m_parser->fktext[ index ].f_mode ||  m_parser->fktext[index].f1_mode || m_parser->fktext[ index ].f2_mode || m_parser->fktext[ index ].integral_mode))
+			sliders[ m_parser->fktext[ index ].use_slider ]->show();
 }
 
 void View::mnuHide_clicked()
@@ -1806,6 +1808,7 @@ void View::mnuHide_clicked()
 	}
 	drawPlot();
 	m_modified = true;
+	updateSliders();
 	if (csmode==-1)
 		return;
 	if ( !m_parser->fktext[csmode ].f_mode && !m_parser->fktext[csmode ].f1_mode && !m_parser->fktext[csmode ].f2_mode) //all graphs for the function are hidden
@@ -1828,7 +1831,8 @@ void View::mnuRemove_clicked()
 {
 	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
 	{
-		if ( m_parser->fktext[csmode].extstr[0] == 'x')  // a parametric function
+		char const function_type = m_parser->fktext[csmode].extstr[0].latin1();
+		if ( function_type == 'x')  // a parametric function
 		{
 			int y_index = csmode+1;
 			if ( y_index == UFANZ)
@@ -1837,6 +1841,8 @@ void View::mnuRemove_clicked()
 		}
 		m_parser->delfkt( csmode );
 		drawPlot();
+		if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' ) 
+			updateSliders();
 		m_modified = true;
 	}
 }
@@ -1865,6 +1871,7 @@ void View::mnuEdit_clicked()
 		if( editFunction->exec() == QDialog::Accepted )
 		{
 			drawPlot();
+			updateSliders();
 			m_modified = true;
 		}
 	}

@@ -67,7 +67,7 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	editintegralpage = new EditIntegralPage( page2 );
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
-		editfunctionpage->listOfSliders->insertItem( QString( "Slider no. %1" ).arg( number ) );
+		editfunctionpage->listOfSliders->insertItem( QString( "Slider no. %1" ).arg( number +1) );
 	}
 	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
 	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_clicked(bool) ) );
@@ -169,7 +169,7 @@ void EditFunction::accept()
 		index = m_index; //use the right function-index
 		QString old_fstr = m_parser->ufkt[index].fstr;
 		m_parser->fixFunctionName(f_str,index);
-		if( !m_parameter.isEmpty() != 0 && !functionHas2Arguments() && !editfunctionpage->useNoParameter->isChecked() )
+		if((  (!m_parameter.isEmpty() != 0 && !editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
 			fixFunctionArguments(f_str);
 		m_parser->ufkt[index].fstr = f_str;
 		m_parser->reparse(index); //reparse the funcion
@@ -187,7 +187,7 @@ void EditFunction::accept()
 	else
 	{
 		m_parser->fixFunctionName(f_str);
-		if( !m_parameter.isEmpty() != 0 && !functionHas2Arguments() && !editfunctionpage->useNoParameter->isChecked() )
+		if((  (!m_parameter.isEmpty() != 0 && !editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
 			fixFunctionArguments(f_str);
 		index = m_parser->addfkt( f_str ); //create a new function otherwise
 	}

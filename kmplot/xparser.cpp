@@ -166,6 +166,7 @@ int XParser::delfkt( int ix )
 	fktext[ ix ].k_anz = 0;
 	fktext[ ix ].dmin = fktext[ ix ].dmax = 0.;
 	fktext[ ix ].extstr = ""; //.resize(1);
+	fktext[ ix ].use_slider=-1;
 	return ix;
 }
 

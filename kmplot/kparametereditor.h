@@ -50,7 +50,9 @@ public slots:
     void varlist_doubleClicked( QListBoxItem * );
   
     
-private:   
+private:
+    /// Check so that it doesn't exist two equal values
+    bool checkTwoOfIt( QString & text);
     QStringList *m_parameter;
     XParser *m_parser;
 };

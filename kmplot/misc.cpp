@@ -119,16 +119,16 @@ void getSettings()
 	// graph settings
 
 	ps.dicke0 = Settings::gridLineWidth();
-	ps.fktext[ 0 ].farbe0 = Settings::color0().rgb();
-	ps.fktext[ 1 ].farbe0 = Settings::color1().rgb();
-	ps.fktext[ 2 ].farbe0 = Settings::color2().rgb();
-	ps.fktext[ 3 ].farbe0 = Settings::color3().rgb();
-	ps.fktext[ 4 ].farbe0 = Settings::color4().rgb();
-	ps.fktext[ 5 ].farbe0 = Settings::color5().rgb();
-	ps.fktext[ 6 ].farbe0 = Settings::color6().rgb();
-	ps.fktext[ 7 ].farbe0 = Settings::color7().rgb();
-	ps.fktext[ 8 ].farbe0 = Settings::color8().rgb();
-	ps.fktext[ 9 ].farbe0 = Settings::color9().rgb();
+	ps.fktext[ 0 ].farbe = Settings::color0().rgb();
+	ps.fktext[ 1 ].farbe = Settings::color1().rgb();
+	ps.fktext[ 2 ].farbe = Settings::color2().rgb();
+	ps.fktext[ 3 ].farbe = Settings::color3().rgb();
+	ps.fktext[ 4 ].farbe = Settings::color4().rgb();
+	ps.fktext[ 5 ].farbe = Settings::color5().rgb();
+	ps.fktext[ 6 ].farbe = Settings::color6().rgb();
+	ps.fktext[ 7 ].farbe = Settings::color7().rgb();
+	ps.fktext[ 8 ].farbe = Settings::color8().rgb();
+	ps.fktext[ 9 ].farbe = Settings::color9().rgb();
 	printtable = true;
 	
 	// precision settings

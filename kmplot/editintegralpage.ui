@@ -140,7 +140,7 @@
                         <string>Custom &amp;precision</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>customize the precision</string>
+                        <string>Customize the precision</string>
                     </property>
                 </widget>
             </grid>

@@ -430,7 +430,7 @@ Example: sin(t)</string>
                         <string>Custom plot maximum t-range:</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>customize the plot maximum range</string>
+                        <string>Customize the maximum plot range</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Check this button and enter the plot maximum range boundary below.</string>
@@ -444,10 +444,10 @@ Example: sin(t)</string>
                         <string>Custom plot minimum t-range:</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>customize the minimum plot range</string>
+                        <string>Customize the minimum plot range</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Check this button and enter the plot mininum range boundary below.</string>
+                        <string>Check this button and enter the plot minimum range boundary below.</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="3" column="1">

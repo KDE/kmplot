@@ -210,7 +210,7 @@ Example: f(x)=x^2</string>
                         <string>Custom plot m&amp;inimum-range:</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>customize the minimum plot range</string>
+                        <string>Customize the minimum plot range</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Check this button and enter the plot range boundarys below.</string>
@@ -249,7 +249,7 @@ Example: f(x)=x^2</string>
                         <string>Custom plot m&amp;aximum-range:</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>customize the maximumplot range</string>
+                        <string>Customize the maximum plot range</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Check this button and enter the plot range boundarys below.</string>

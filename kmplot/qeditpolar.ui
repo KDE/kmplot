@@ -336,7 +336,7 @@ Example: loop(angle)=ln(angle)</string>
                         <string>Custom plot minimum r-range:</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>customize the plot range</string>
+                        <string>Customize the plot range</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Check this button and enter the plot minimum range boundary below.</string>
@@ -350,7 +350,7 @@ Example: loop(angle)=ln(angle)</string>
                         <string>Custom plot maximum r-range:</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>customize the plot maximum range</string>
+                        <string>Customize the maximum plot range</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Check this button and enter the plot maximum range boundary below.</string>

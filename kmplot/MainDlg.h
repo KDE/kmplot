@@ -80,6 +80,7 @@ public slots:
 	void neu();
 	void save();
 	void saveas();
+	void doexport();
 	void load();
 	void print();
 	void bezeichnungen();

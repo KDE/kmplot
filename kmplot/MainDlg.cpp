@@ -89,6 +89,8 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
 
+	( void ) new KAction( i18n( "&export..." ), 0, this, SLOT( doexport() ), actionCollection(), "export");
+	
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
@@ -139,20 +141,35 @@ void MainDlg::saveas()
 	}
 }
 
+void MainDlg::doexport()
+{	datei=KFileDialog::getSaveFileName(QDir::currentDirPath(), i18n("*.svg|(Scalable Vector Graphics)\n*.bmp|(bmp-Bitmap 180dpi)\n*.png|(png-Bitmap 180dpi)"), this, i18n("export"));
+	if(!datei.isEmpty())
+	{	if(datei.right(4).lower()==".svg")
+	    {	QPicture pic;
+			view->draw(&pic, 2);
+	        pic.save(datei, "SVG");
+	    }
+		
+		else if(datei.right(4).lower()==".bmp")
+		{	QPixmap pix(100, 100);
+		
+			view->draw(&pix, 3);
+	        pix.save(datei, "BMP");
+		}
+		
+		else if(datei.right(4).lower()==".png")
+		{	QPixmap pix(100, 100);
+		
+			view->draw(&pix, 3);
+	        pix.save(datei, "PNG");
+		}
+	}
+}
+
+
 // here the real storing is done...
 void MainDlg::doSave( QString filename )
 {
-	////////////
-	// save as svg by drawing into a QPicture and saving it as svg
-	/*    if ( datei.right( 4 ).lower() == ".svg" )
-	    {
-	        QPicture pic;
-	        view->draw( &pic );
-	        pic.save( datei, "svg" );
-	        return ;
-	    }*/
-
-	///////////
 	// saving as xml by a QDomDocument
 	QDomDocument doc( "kmpdoc" );
 	// the root tag
@@ -397,16 +414,13 @@ void MainDlg::parseFunction( const QDomElement & n )
 }
 
 void MainDlg::print()
-{
-	KPrinter prt( QPrinter::PrinterResolution );
-
+{	KPrinter prt( QPrinter::PrinterResolution );
+	prt.setResolution(72);
 	prt.addDialogPage( new KPrinterDlg( this, "KmPlot page" ) );
-
 	if ( prt.setup( this, i18n("Print Function") ) )
-	{
-		prt.setFullPage( true );
+	{	prt.setFullPage(true);
 		printtable = prt.option( "app-kmplot-printtable" ) != "-1";
-		view->draw( &prt );
+		view->draw(&prt, 1);
 	}
 }
 

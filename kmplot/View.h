@@ -4,19 +4,21 @@
 #include "misc.h"
 #include "diagr.h"
 #include "xparser.h"
+#include <errno.h>
 #include <kapplication.h>
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <qwidget.h>
-#include <qpaintdevicemetrics.h>
+#include <qpdevmet.h>
 #include <qpainter.h>
-#undef	 GrayScale
+#include <qpoint.h>
+#undef	 GrayScale 
 //#include <qprinter.h>
 #include <qevent.h>
 #include <qstring.h>
 #include <qpixmap.h>
-
 #include <kprinter.h>
+
 
 class View : public QWidget
 {
@@ -24,42 +26,44 @@ class View : public QWidget
 
 public:
 
-	View( QWidget* parent = NULL, const char* name = NULL );
+	View(QWidget* parent=NULL, const char* name=NULL);
 	virtual ~View();
 
-	void draw( QPaintDevice * );
-	void tabelle( QPainter * );
+	void draw(QPaintDevice *, int);
+	void tabelle(QPainter *);
 
 	KStatusBar *stbar;
 
+    
 protected slots:
 
-	void paintEvent( QPaintEvent * );
-	void mouseMoveEvent( QMouseEvent * );
-	void mousePressEvent( QMouseEvent * );
+	void paintEvent(QPaintEvent *);
+	void mouseMoveEvent(QMouseEvent *);
+	void mousePressEvent(QMouseEvent *);
 
 
 private:
-	void plotfkt( int, QPainter* );
-	void getMinMax( int koord, QString &mini, QString &maxi );
-	void setpi( QString * );
+	void plotfkt(int, QPainter*);
+	void getMinMax(int koord, QString &mini, QString &maxi);
+	void setpi(QString *);
     bool root(double *);
 
 	int csflg,
 	    csmode,
         rootflg,
-	    fcx, fcy,       // Position des Fadenkreuzes
+	    fcx, fcy,       		// Position des Fadenkreuzes
 	    w, h;
 
 	float s,
-	csxpos, csypos;	    // Position des Fadenkreuzes
-	CDiagr dgr;
+	      csxpos, csypos;	    // Position des Fadenkreuzes
+    CDiagr dgr;
 	QPoint ref;
 	QRect area,
-	PlotArea;
+		  PlotArea;
 	QPixmap hline,
-	vline;
+			vline;
+	QWMatrix wm;
 
 };
-#endif // View_included
 
+#endif // View_included

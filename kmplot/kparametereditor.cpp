@@ -69,13 +69,14 @@ KParameterEditor::~KParameterEditor()
 void KParameterEditor::cmdNew_clicked()
 {
 	bool ok;
-	QString result = KInputDialog::getText("Kmplot", i18n("Choose a new parameter value"),QString::null, &ok);
+	QString result = KInputDialog::getText( "Kmplot", i18n( "Enter a new parameter value:" ), QString::null, &ok );
 	if ( !ok)
 		return;
-	m_parser->eval(result);
-	if (m_parser->err != 0)
+	m_parser->eval( result );
+	if ( m_parser->err != 0 )
 	{
-		KMessageBox::error(0, i18n("Please insert a valid paramter value") );
+		m_parser->errmsg();
+		// KMessageBox::error( 0, i18n( "Please insert a valid paramter value!" ) );
 		cmdNew_clicked();
 		return;
 	}
@@ -86,13 +87,14 @@ void KParameterEditor::cmdNew_clicked()
 void KParameterEditor::cmdEdit_clicked()
 {
 	bool ok;
-	QString result = KInputDialog::getText("Kmplot", i18n("Choose a new parameter value"),QString::null, &ok);
+	QString result = KInputDialog::getText( "Kmplot", i18n( "Enter a new parameter value:" ), QString::null, &ok );
 	if ( !ok)
 		return;
 	m_parser->eval(result);
-	if (m_parser->err != 0)
+	if ( m_parser->err != 0 )
 	{
-		KMessageBox::error(0, i18n("Please insert a valid paramter value") );
+		m_parser->errmsg();
+		//KMessageBox::error( 0, i18n("Please insert a valid paramter value" ) );
 		cmdNew_clicked();
 		return;
 	}

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter M�ler
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -32,7 +32,6 @@
 
 // local includes
 #include "kprinterdlg.h"
-// #include "settings.h"
 
 KPrinterDlg::KPrinterDlg( QWidget *parent, const char *name )
 		: KPrintDialogPage( parent, name )

@@ -68,41 +68,52 @@ public:
 	QRect GetPlotArea() {return PlotArea;}
 	QRect GetFrame() {return m_frame;}
 
+	/** @name Trnsformations 
+	 * These functions convert real coordinates to pixel coordinates and vice versa.
+	 */
+	//@{
 	int Transx(double);
 	int Transy(double);
-
 	double Transx(int);
 	double Transy(int);
+	//@}
+	
+	QRgb frameColor;	///< color of the border frame
+	QRgb axesColor;		///< color of the axes
+	QRgb gridColor;		///< color of the grid
 
-	QRgb frameColor;
-	QRgb axesColor;
-	QRgb gridColor;
-
-	uint borderThickness,
-	     axesLineWidth,
-	     gridLineWidth,
-	     ticWidth,
-	     ticLength,
-	     xclipflg,            	/// clipflg is set to 1 if the plot is out of the plot aerea.
-	     yclipflg;
+	uint borderThickness,	///< current line width for the border frame
+	     axesLineWidth,	///< current line width for the axes
+	     gridLineWidth,	///< current line width for the grid
+	     ticWidth,		///< current line width for the tics
+	     ticLength,		///< current length of the tic lines
+	     
+	     xclipflg,		///< clipflg is set to 1 if the plot is out of the plot aerea.
+	     yclipflg;		///< clipflg is set to 1 if the plot is out of the plot aerea.
 
          
 private:
 
+	/// Draw the coordinate axes.
 	void drawAxes(QPainter*);
+	/// Draw the grid.
 	void drawGrid( QPainter* );
+	/// Write labels.
 	void drawLabels(QPainter*);
+	/// Current grid style.
 	int g_mode;
 
-	double xmin, xmax,      /// x range
-	ymin, ymax,             /// y range
-	xmd, ymd,     	        /// x/y clip boundage
-	ex, ey,     	        /// x/y axes units
-	tsx, tsy,     	        /// Position of the first tic
-	ox, oy,                 /// screen coordinates of the coordinate system origin
-	skx, sky;               /// scale factors
-	QRect	PlotArea, /// plot area
-	m_frame; /// frame around the plot
+	double xmin,		///< x range minimum 
+	xmax,      		///< x range maximum
+	ymin,			///< y range minimum
+	ymax,			///< y range maximum
+	xmd, ymd,     	        ///< x/y clip boundage
+	ex, ey,     	        ///< x/y axes units
+	tsx, tsy,     	        ///< Position of the first tic
+	ox, oy,                 ///< screen coordinates of the coordinate system origin
+	skx, sky;               ///< scale factors
+	QRect	PlotArea, 	///< plot area
+	m_frame; 		///< frame around the plot
 };
 
 #endif // diagr_included

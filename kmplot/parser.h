@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -23,55 +23,45 @@
 *
 */
 
-//	Die Funktion parse tokenisiert den als String übergebenen
+//	Die Funktion parse tokenisiert den als String bergebenen
 //	Funktionsterm im Speicherbereich ab mem.
 //
 //						KDM  2.5.95
 
+// Qt includes
+#include <qstring.h>
 
 #ifndef parser_included
 #define parser_included
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-
-
 // Voreinstellungen bei Verwendung des Standardkonstruktors :
 
 #define	UFANZ		10	// max. Anzahl benutzerdefinierter Funktionen
-#define	MEMSIZE		200	// Speichergröße für Token
+#define	MEMSIZE		200	// Speichergrï¿½e fr Token
 #define	STACKSIZE	50	// Stacktiefe
 
 
 //	Token-Liste :
-
 #define KONST	0       // es folgt ein double-Wert
 #define	XWERT	1       // x-Wert holen
-#define KWERT   2		// Funktionsparameter holen
+#define KWERT   2	// Funktionsparameter holen
 #define	PUSH	3       // Wert auf Stack
 #define	PLUS	4       // Addition
 #define	MINUS	5       // Subtraktion
 #define	MULT	6       // Multiplikation
-#define	DIV		7       // Division
-#define	POW		8       // Potenzieren
-#define NEG		9		// Negieren
-#define FKT		10		// es folgt eine Funktionsadresse
-#define	UFKT	11      // es folgt eine Adresse auf eine
-// benutzerdefinierte Funktion
+#define	DIV	7       // Division
+#define	POW	8       // Potenzieren
+#define NEG	9	// Negieren
+#define FKT	10	// es folgt eine Funktionsadresse
+#define	UFKT	11      // es folgt eine Adresse auf eine benutzerdefinierte Funktion
 #define	ENDE	12      // Funktionsende
+#define	FANZ	31	// Anzahl der math. Funktionen in mfkttab[]
 
-#define	FANZ	31		// Anzahl der math. Funktionen
-// in mfkttab[]
-
-
-double sign(double x),
-sqr(double x),
-arsinh(double x),
-arcosh(double x),
-artanh(double x);
+double sign(double x);
+double sqr(double x);
+double arsinh(double x);
+double arcosh(double x);
+double artanh(double x);
 
 double sec(double x);
 double cosec(double x);
@@ -87,6 +77,9 @@ double arsech(double x);
 double arcosech(double x);
 double arcoth(double x);
 
+/** @short Parser.
+ *
+ */
 class Parser
 {
 public:
@@ -116,10 +109,10 @@ public:
 			// 1 => Syntaxfehler
 			// 2 => fehlende Klammer
 			// 3 => Funktion nicht bekannt
-			// 4 => ungültige Funktionsvariable
+			// 4 => ungltige Funktionsvariable
 			// 5 => zu viele Funktionen
-			// 6 => Speicherüberlauf
-			// 7 => Stacküberlauf
+			// 6 => Speicherberlauf
+			// 7 => Stackberlauf
 			// 8 => Funktionsname bereits vergeben
 			//  9 => rekursiver Funktionsaufruf
 			
@@ -146,8 +139,8 @@ protected:
 		fvar, 		            // Funktionsvariable
 		fpar, 		            // Parameter
 		fstr;		            // Funktionsterm
-		int	memsize, 	        // Größe des Tokenspeichers
-		stacksize;	            // Größe des Stack
+		int	memsize, 	        // Grï¿½e des Tokenspeichers
+		stacksize;	            // Grï¿½e des Stack
 		double	k;		        // Funktionsparameter
 
 	}
@@ -176,12 +169,12 @@ private:
 	unsigned
 	char evalflg, 		// 0 => String wird tokenisiert
 	                    // 1 => String wird direkt ausgewertet
-	*mem, 			    // Zeiger auf Speicher für Token
-	*mptr;			    // Zeiger für Token
+	*mem, 			    // Zeiger auf Speicher fr Token
+	*mptr;			    // Zeiger fr Token
 	const
-	char *lptr;			// Zeiger für Funktions-String
-	int	memsize,        // Größe des Tokenspeichers
-	stacksize,          // Größe des Stack
+	char *lptr;			// Zeiger fr Funktions-String
+	int	memsize,        // Grï¿½e des Tokenspeichers
+	stacksize,          // Grï¿½e des Stack
 	ixa;			    // Index der aktuellen Funktion
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer

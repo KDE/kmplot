@@ -42,35 +42,47 @@ class XParser;
 
 
 /**
- * This class contains the plots.
+ * @short This class contains the plots. It is the central widget of MainDlg.
+ *
+ * @see MainDlg, MainDlg::view
  */
 class View : public QWidget
 {
 	Q_OBJECT
-
 public:
-
 	View( QWidget* parent=NULL, const char* name=NULL );
 	virtual ~View();
 
+	/// Reimplemented to draw all stuff to the view.
 	void draw(QPaintDevice *, int);
-	void drawHeaderTable(QPainter *);
+	/// Getting all relevant settings using KConfig XT class Settings.
 	void getSettings();
+	/// Clears all functions in the parser and gets default settings.
+	/// @see getSettings
 	void init();
 	
+	/// Returns a pointer to the private parser instance m_parser.
+	/// @see m_parser
 	XParser* parser();
 
+	/// Points to the status bar.
 	KStatusBar *stbar;
     
 protected slots:
-
+	/// 
 	void paintEvent(QPaintEvent *);
+	/// Updating the cross hair.
 	void mouseMoveEvent(QMouseEvent *);
+	/// Toggles the trace mode if the cursor is near to a plot.
 	void mousePressEvent(QMouseEvent *);
 
-
 private:
+	/// Print out table with additional information.
+	/// Only for printing.
+	void drawHeaderTable(QPainter *);
+	/// Praw the plots.
 	void plotfkt(int, QPainter*);
+	/// 
 	void getMinMax(int koord, QString &mini, QString &maxi);
 	void setpi(QString *);
 	bool root(double *);
@@ -83,12 +95,15 @@ private:
 	int csflg,
 	    csmode,
 	    rootflg,
-	    fcx, fcy,       		// Position des Fadenkreuzes
+	    fcx,	///< x-position of the crosshais (pixel)
+	    fcy,	///< y-position of the crosshais (pixel)
 	    w, h;
 
 	float s,
-	      csxpos, csypos;	    // Position des Fadenkreuzes
-    CDiagr dgr;
+	      csxpos,	///< y-position of the cross hair (real coordinates)
+	      csypos;	///< x-position of the cross hair (real coordinates)
+	
+	CDiagr dgr;	///< Coordinate system 
 	QPoint ref;
 	QRect area,
 		  PlotArea;
@@ -98,7 +113,7 @@ private:
 	
 	double tlgx, tlgy, drskalx, drskaly;
 	QString tlgxstr, tlgystr, drskalxstr, drskalystr;
-	double relativeStepWidth;  /**< Precision relativly to the size. */
+	double relativeStepWidth;  /** Precision relativly to the size. */
 	double stepWidth; /** Absolute step width */
 	
 	/// current plot range
@@ -118,6 +133,8 @@ private:
 		double &min, double &max );
 	void setPlotRange();
 	void setScaling();
+	/// represents the KPrinter option app-kmplot-printtable.
+	/// @see KPrinterDlg
 	bool m_printHeaderTable;
 };
 

@@ -23,9 +23,12 @@
 *
 */
 
-#include "xparser.h"
+// KDE includes
+#include <klocale.h>
+#include <kmessagebox.h>
 
-#include "kmessagebox.h"
+// local includes
+#include "xparser.h"
 
 
 

@@ -23,6 +23,9 @@
 *
 */
 
+// KDE includes
+#include <klocale.h>
+
 // local includes
 #include "settings.h"
 #include "View.h"

@@ -53,14 +53,23 @@ class SettingsPageFonts;
 class SettingsPagePrecision;
 class SettingsPageScaling;
 
-/** This is the main window of KmPlot.
+/** @short This is the main window of KmPlot.
+ *
+ * Its central widget view contains the parser, accessable via its parser() function.
+ *
+ * @see View, View::m_parser, View::parser
  */
 class MainDlg : public KMainWindow
 {
 	Q_OBJECT
 
 	public:
+		/** @param sessionId used for the name of a temporary file.
+		 * @param args containing a filename to be plot on startup.
+		 * @param name
+		 */
 		MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name = NULL );
+		/// Cleaning up a bit.
 		virtual ~MainDlg();
 		friend class FktDlg;
 		friend class BezWnd;
@@ -82,19 +91,24 @@ class MainDlg : public KMainWindow
 		void newPolar();
 	
 	private:
+		/// Settings the standard and non standard actions of the application.
 		void setupActions();
-		
+		/// Predefines some space for coordinate information of the plot
 		void setupStatusBar();
+		/// Asks the user and returns true if modified data shall be dicarded.
 		bool checkModified();
 		int tbid,
 		stbid;
-		///The Statusbar instance
+		/// The Statusbar instance
 		KStatusBar *stbar;
+		/// Cached dialog to edit all functions
 		FktDlg *fdlg;
+		/// Cached window with all predefined function names
 		BezWnd *bez;
 		/** In the Help menu, this action will display a dialog 
 		 *  with the names of the common mathematical functions */
 		KToggleAction *view_names;
+		/// Central widget of the KMainWindow instance. tralala
 		View *view;
 		/// unique string for tmp file
 		QString m_sessionId;

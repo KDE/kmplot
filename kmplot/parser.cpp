@@ -23,64 +23,67 @@
 *
 */
 
+// standard c(++) includes
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
 
+//KDE includes
+#include <klocale.h>
+#include <kmessagebox.h>
+
+// local includes
 #include "parser.h"
 
-//#define M_PI	3.14159265358979
-//#define M_E	2.71828182845905
-
-
-//	Bezeichnungen und Adressen
-//	der m�lichen math. Funktionen :
-
-Parser::Mfkt Parser::mfkttab[FANZ]=
+/// List of predefined functions.
+Parser::Mfkt Parser::mfkttab[ FANZ ]=
 {
-	{"tanh", tanh}, 		// Tangenshyperbolikus
-	{"tan", tan}, 			// Tangens
-	{"sqrt", sqrt}, 	    // Quadratwurzel
-	{"sqr", sqr}, 			// Quadrat
-	{"sinh", sinh}, 		// Sinushyperbolikus
-	{"sin", sin}, 			// Sinus
+	{"tanh", tanh},		// Tangens hyperbolicus
+	{"tan", tan}, 		// Tangens
+	{"sqrt", sqrt},		// Square root
+	{"sqr", sqr}, 		// Square
+	{"sinh", sinh}, 	// Sinus hyperbolicus
+	{"sin", sin}, 		// Sinus
 	{"sign", sign},         // Signum
-	{"sech", sech},
-	{"sec", sec},
-	{"log", log10}, 		// 10-er Logarithmus
-	{"ln", log}, 			// nat. Logarithmus
-	{"exp", exp}, 			// e-Funktion
-	{"coth", coth},
-	{"cot", cot},
-	{"cosh", cosh}, 		// Cosinushyperbolikus
-	{"cosech", cosech},
-	{"cosec", cosec},
-	{"cos", cos}, 			// Cosinus
-	{"artanh", artanh}, 	// Area-Tangenshyperbolikus
-	{"arsinh", arsinh}, 	// Area-Sinushyperbolikus
-	{"arsech", arsech},
-	{"arctan", atan},		// Arcustangens
-	{"arcsin", asin}, 		// Arcussinus
-	{"arcsec", arcsec},
-	{"arcoth", arcoth},
-	{"arcosh", arcosh}, 	// Area-Cosinushyperbolikus
-	{"arcosech", arcosech},
-	{"arccot", arccot},
-	{"arccosec", arccosec},
-	{"arccos", acos}, 		// Arcuscosinus
-	{"abs", fabs}          // Absolutbetrag
+	{"sech", sech},		// Secans hyperbolicus
+	{"sec", sec},		// Secans
+	{"log", log10}, 	// Logarithm base 10
+	{"ln", log}, 		// Logarithm base e
+	{"exp", exp}, 		// Exponential function base e
+	{"coth", coth},		// Co-Tangens hyperbolicus
+	{"cot", cot},		// Co-Tangens = 1/tan
+	{"cosh", cosh}, 	// Cosinus hyperbolicus
+	{"cosech", cosech},	// Co-Secans hyperbolicus
+	{"cosec", cosec},	// Co-Secans
+	{"cos", cos}, 		// Cosinus
+	{"artanh", artanh}, 	// Area-tangens hyperbolicus = inverse of tanh
+	{"arsinh", arsinh}, 	// Area-sinus hyperbolicus = inverse of sinh
+	{"arsech", arsech},	// Area-secans hyperbolicus = invers of sech
+	{"arctan", atan},	// Arcus tangens = inverse of tan
+	{"arcsin", asin}, 	// Arcus sinus = inverse of sin
+	{"arcsec", arcsec},	// Arcus secans = inverse of sec
+	{"arcoth", arcoth},	// Area-co-tangens hyperbolicus = inverse of coth
+	{"arcosh", arcosh}, 	// Area-cosinus hyperbolicus = inverse of cosh
+	{"arcosech", arcosech},	// Area-co-secans hyperbolicus = inverse of cosech
+	{"arccot", arccot},	// Arcus co-tangens = inverse of cotan
+	{"arccosec", arccosec},	// Arcus co-secans = inverse of cosec
+	{"arccos", acos}, 	// Arcus cosinus = inverse of cos
+	{"abs", fabs}		// Absolute value
 };
                                    
 
 Parser::Parser()
-{   ps_init(UFANZ, MEMSIZE, STACKSIZE);
+{   ps_init( UFANZ, MEMSIZE, STACKSIZE );
 }
 
 
-Parser::Parser(int anz, int m_size, int s_size)
-{   ps_init(anz, m_size, s_size);
+Parser::Parser( int anz, int m_size, int s_size )
+{   ps_init( anz, m_size, s_size );
 }
 
 
 void Parser::ps_init(int anz, int m_size, int s_size)
-{   int ix;
+{	int ix;
 
 	ufanz=anz;
 	memsize=m_size;
@@ -88,7 +91,7 @@ void Parser::ps_init(int anz, int m_size, int s_size)
 	ufkt=new Ufkt[ufanz];
 	evalflg=ixa=0;
 	for(ix=0; ix<ufanz; ++ix)
-	{   ufkt[ix].memsize=memsize;
+	{	ufkt[ix].memsize=memsize;
 		ufkt[ix].stacksize=stacksize;
 		ufkt[ix].fname="";      //.resize(1);
 		ufkt[ix].fvar="";       //.resize(1);
@@ -115,7 +118,7 @@ Parser::Ufkt::~Ufkt()
 
 
 double Parser::eval(QString str)
-{   double erg;
+{	double erg;
 
 	stack=new double [stacksize];
 	stkptr=stack;
@@ -128,19 +131,19 @@ double Parser::eval(QString str)
 	erg=*stkptr;
 	delete [] stack;
 	if(err==0)
-	{   errpos=0;
+	{	errpos=0;
 		return erg;
 	}
 	else
-	{   errpos=lptr-(str.latin1())+1;
+	{	errpos=lptr-(str.latin1())+1;
 		return 0.;
 	}
 }
 
 
 double Parser::Ufkt::fkt(double x)
-{   unsigned char token;
-    double *pd, (**pf)(double);
+{	unsigned char token;
+	double *pd, (**pf)(double);
 	double erg, *stack, *stkptr;
 	Ufkt **puf;
 

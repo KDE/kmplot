@@ -32,16 +32,24 @@
 // KDE includes
 #include <kdeprint/kprintdialogpage.h>
 
+/**
+ * A dialog page for the print dialog.
+ * It manages the option to print or not to print the header table with addition plot information.
+ * It is linked to the app-kmplot-printtable entry in the kmplotrc.
+ */
 class KPrinterDlg : public KPrintDialogPage
 {
 	Q_OBJECT
 public:
 	KPrinterDlg( QWidget *parent = 0, const char *name = 0 );
 
-	//reimplement virtual functions
+	/// Reimplemented.
 	void getOptions( QMap<QString, QString>& opts, bool include_def = false );
+	/// Reimplemented.
 	void setOptions( const QMap<QString, QString>& opts );
+	/// Reimplemented.
 	bool isValid( QString& msg );
+	/// The check box for the option.
 	QCheckBox *kcfg_printHeaderTable;
 };
 

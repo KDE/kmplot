@@ -26,10 +26,17 @@
 #ifndef xparser_included
 #define xparser_included
 
+// Qt includes
+#include <qcolor.h>
+#include <qstring.h>
+
+// local includes
 #include "parser.h"
 
 /**
- * This class extends the parser class to support dirvativatives, 
+ * @short Extended parser class.
+ *
+ * This class extends the parser class to support derivatives, 
  * draw options like color and line width and so on.
  */
 class XParser : public Parser

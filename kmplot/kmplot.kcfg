@@ -3,8 +3,8 @@
 <kcfg> 
   
 	<kcfgfile name="kmplotrc"/> 
-
-	<group name="Axes"> 
+	
+	<group name="Coordinate System"> 
 		<entry name="AxesLineWidth" type="Int"> 
 			<label>Axis-line width</label>
 			<default>5</default>
@@ -14,6 +14,36 @@
 			<label>Checked if labels are visible</label>
 			<default>true</default>
 			<whatsthis>Check this box if the labels at the tics should be shown.</whatsthis>
+		</entry> 
+		<entry name="ShowAxes" type="Bool"> 
+			<label>Checked if axes are visible</label>
+			<default>true</default>
+			<whatsthis>Check this box if axes should be shown.</whatsthis>
+		</entry> 
+		<entry name="ShowArrows" type="Bool"> 
+			<label>Checked if arrows are visible</label>
+			<default>true</default>
+			<whatsthis>Check this box if axes should be have arrows.</whatsthis>
+		</entry> 
+		<entry name="GridLineWidth" type="Int">
+			<default>1</default>
+			<label>Grid Line Width</label>
+			<whatsthis>Enter the width of the grid lines.</whatsthis>
+		</entry>
+		<entry name="GridStyle" type="Int">
+			<default>1</default>
+			<label>Grid Style</label>
+			<whatsthis>Choose a suitable grid style.</whatsthis>
+		</entry>
+		<entry name="ShowFrame" type="Bool"> 
+			<label>Checked if a frame is visible</label>
+			<default>false</default>
+			<whatsthis>Check this box if a frame should be drawn around the plot area.</whatsthis>
+		</entry> 
+		<entry name="ShowExtraFrame" type="Bool"> 
+			<label>Checked if an extra frame is visible</label>
+			<default>true</default>
+			<whatsthis>Check this box if an extra frame should be drawn around the plot area.</whatsthis>
 		</entry> 
 		<entry name="TicLength" type="Int">
 			<label>Tic length</label>
@@ -60,6 +90,9 @@
 			<default>"2*pi"</default>
 			<whatsthis>Enter the upper boundary of the plotting area.</whatsthis>
 		</entry> 
+	</group>
+	
+	<group name="Scaling">
 		<entry name="XScaling" type="Int"> 
 			<default>3</default>
 			<label>Width of a unit from tic to tic</label>
@@ -154,20 +187,7 @@
 			<default>#000000</default>
 		</entry>
 	</group>
-	
-	<group name="Grid">
-		<entry name="GridLineWidth" type="Int">
-			<default>1</default>
-			<label>Grid Line Width</label>
-			<whatsthis>Enter the width of the grid lines.</whatsthis>
-		</entry>
-		<entry name="GridStyle" type="Int">
-			<default>1</default>
-			<label>Grid Style</label>
-			<whatsthis>Choose a suitable grid style.</whatsthis>
-		</entry>
-	</group>
-	
+		
 	<group name="Precision">
 		<entry name="stepWidth" type="Double">
 			<default>1.0</default>
@@ -175,4 +195,13 @@
 			<whatsthis>The greater the step width the faster but the less precise the plot is done.</whatsthis>
 		</entry>
 	</group>
+<!--	
+
+	<group name="KPrinter ">
+		<entry name="printHeaderTable" type="Bool">
+			<default>true</default>
+			<label>print a table with information at the top of the page</label>
+		</entry>
+	</group>
+-->
 </kcfg>

@@ -35,8 +35,6 @@ KApplication *ka;
 
 XParser ps( 10, 200, 20 );
 
-int mode;     // Diagrammodus
-
 double sw,       // Schrittweite
 rsw,       // rel. Schrittweite
 tlgx,       // x-Achsenteilung
@@ -55,12 +53,8 @@ drskalystr;             // String fr drskaly
 
 QString font_header; // Font family names
 
-bool printtable;		// header table printing option
-
-
 void getSettings()
 {
-	mode = AXES | ARROWS | EXTFRAME;
 	rsw = 1.;
 
 	// axes settings
@@ -75,8 +69,6 @@ void getSettings()
 	if( yminstr.isEmpty() ) yminstr = "-2*pi";
 	if( ymaxstr.isEmpty() ) ymaxstr = "2*pi";
 
-	if ( Settings::showLabel() ) mode |= LABEL;
-
 	// graph settings
 
 	ps.dicke0 = Settings::gridLineWidth();
@@ -90,7 +82,6 @@ void getSettings()
 	ps.fktext[ 7 ].color = Settings::color7().rgb();
 	ps.fktext[ 8 ].color = Settings::color8().rgb();
 	ps.fktext[ 9 ].color = Settings::color9().rgb();
-	printtable = true;
 	
 	// precision settings
 	rsw = Settings::stepWidth();

@@ -25,12 +25,16 @@
 
 #ifndef View_included
 #define View_included
-
-#include "diagr.h"
-#include <errno.h>
-#include <kstatusbar.h>
 #undef	 GrayScale 
+
+// KDE includes
+#include <kstatusbar.h>
 #include <kprinter.h>
+
+// local includes
+#include "diagr.h"
+#include "errno.h"
+
 
 /**
  * This class contains the plots.
@@ -99,6 +103,7 @@ private:
 		double &min, double &max );
 	void setPlotRange();
 	void setScaling();
+	bool m_printHeaderTable;
 };
 
 #endif // View_included

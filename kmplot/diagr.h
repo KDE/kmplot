@@ -39,17 +39,20 @@
 #define	Lineh(x1, y, x2)	drawLine(x1, y, x2, y)
 #define Linev(x, y1, y2)	drawLine(x, y1, x, y2) 
 
-#define	AXES			1		/**< visible axes */
-#define ARROWS			2		/**< axes with arrows */
-#define FRAME			4		/**< visible frame */
-#define	EXTFRAME		8		/**< bigger frame */
-#define LABEL	16		/**< visible labels */ 
+#define AXES		1		/**< visible axes */
+#define ARROWS		2		/**< axes with arrows */
+#define FRAME		4		/**< visible frame */
+#define EXTFRAME	8		/**< bigger frame */
+#define LABEL		16		/**< visible labels */ 
 
 #define	LINIENRASTER	1	/**< line grid */
 #define	KREUZRASTER     2	/**< crosses grid */
 #define	KREISRASTER     3	/**< polar grid */ 
 
 
+/**
+ * This class manages the core drawing of axes, grid, plot and so on.
+ */
 class CDiagr
 {
 public:
@@ -60,13 +63,12 @@ public:
 	void Create(QPoint Ref,
 	               int lx, int ly,
 	               double xmin, double xmax,
-	               double ymin, double ymax,
-	               char mode);
+	               double ymin, double ymax);
 
 	void Skal(double ex, double ey );	
 	void Plot(QPainter* pDC);
 	QRect GetPlotArea() {return PlotArea;}
-	QRect GetFrame() {return Rahmen;}
+	QRect GetFrame() {return m_frame;}
 
 	int Transx(double);
 	int Transy(double);
@@ -74,7 +76,7 @@ public:
 	double Transx(int);
 	double Transy(int);
 
-	QRgb RahmenFarbe;
+	QRgb frameColor;
 	QRgb axesColor;
 	QRgb gridColor;
 
@@ -83,27 +85,26 @@ public:
 	     gridLineWidth,
 	     ticWidth,
 	     ticLength,
-	     xclipflg,            	// clipflg wird auf 1 gesetzt, wenn die
-	     yclipflg;			    // Koordinaten au�rhalb des Diagramms liegen
+	     xclipflg,            	/// clipflg is set to 1 if the plot is out of the plot aerea.
+	     yclipflg;
 
          
 private:
 
 	void drawAxes(QPainter*);
 	void drawGrid( QPainter* );
-	void Beschriftung(QPainter*);
-	char mode;
+	void drawLabels(QPainter*);
 	int g_mode;
 
-	double xmin, xmax,      // x-Wertebereich
-	ymin, ymax,             // y-Wertebereich
-	xmd, ymd,     	        // x/y Begrenzung
-	ex, ey,     	        // x/y-Achsenteilung
-	tsx, tsy,     	        // Positionen der ersten Teilstriche
-	ox, oy,                 // Bildschirm-Koordinaten des Ursprungs
-	skx, sky;               // Skalierungsfaktoren
-	QRect	PlotArea,     	// Plotbereich
-	Rahmen;                 // Rahmen
+	double xmin, xmax,      /// x range
+	ymin, ymax,             /// y range
+	xmd, ymd,     	        /// x/y clip boundage
+	ex, ey,     	        /// x/y axes units
+	tsx, tsy,     	        /// Position of the first tic
+	ox, oy,                 /// screen coordinates of the coordinate system origin
+	skx, sky;               /// scale factors
+	QRect	PlotArea, /// plot area
+	m_frame; /// frame around the plot
 };
 
 #endif // diagr_included

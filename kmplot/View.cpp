@@ -67,23 +67,25 @@ void View::draw(QPaintDevice *dev, int form)
 		}	
 		wm=DC.worldMatrix();
 		s=DC.xForm(QPoint(1000, 0)).x()/1000.;
-		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
+		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 	}
 	else if(form==1)								// printer
-	{   sf=72./254.;								// 72dpi
+	{   
+		sf=72./254.;								// 72dpi
 		ref=QPoint(100, 100);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale(sf, sf);
 		s=1.;
+		m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1"; 
 		drawHeaderTable( &DC );
-		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
+		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 	}
 	else if(form==2)								// svg
 	{	ref=QPoint(0, 0);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
-		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
+		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 		DC.translate(-dgr.GetFrame().left(), -dgr.GetFrame().top());
 		s=1.;
 	}
@@ -92,7 +94,7 @@ void View::draw(QPaintDevice *dev, int form)
 		ref=QPoint(0, 0);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
-		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
+		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 		DC.end();
 		((QPixmap *)dev)->resize((int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf));
 		((QPixmap *)dev)->fill();
@@ -247,12 +249,11 @@ void View::plotfkt(int ix, QPainter *pDC)
 	}
 }
 
-
 void View::drawHeaderTable(QPainter *pDC)
 {   int ix, ypos;
 	QString alx, aly, atx, aty, dfx, dfy;
 	
-	if(printtable)
+	if( m_printHeaderTable )
 	{   pDC->translate(250., 150.);
 		pDC->setPen(QPen(black, (int)(5.*s)));
 		pDC->setFont(QFont( Settings::headerTableFont().family(), 30) );

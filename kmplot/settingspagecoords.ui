@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>420</width>
-            <height>549</height>
+            <height>495</height>
         </rect>
     </property>
     <property name="caption">
@@ -338,24 +338,13 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout28</cstring>
+                            <cstring>layout24</cstring>
                         </property>
-                        <grid>
+                        <hbox>
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
-                            <widget class="QLabel" row="2" column="0">
-                                <property name="name">
-                                    <cstring>textLabel9</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Tic width:</string>
-                                </property>
-                                <property name="buddy" stdset="0">
-                                    <cstring>kcfg_TicWidth</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="0" column="0">
+                            <widget class="QLabel">
                                 <property name="name">
                                     <cstring>textLabel7</cstring>
                                 </property>
@@ -366,39 +355,76 @@
                                     <cstring>kcfg_AxesLineWidth</cstring>
                                 </property>
                             </widget>
-                            <widget class="QLayoutWidget" row="3" column="1">
+                            <widget class="KIntNumInput">
                                 <property name="name">
-                                    <cstring>layout27</cstring>
+                                    <cstring>kcfg_AxesLineWidth</cstring>
                                 </property>
-                                <hbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="KIntNumInput">
-                                        <property name="name">
-                                            <cstring>kcfg_TicLength</cstring>
-                                        </property>
-                                        <property name="minValue">
-                                            <number>1</number>
-                                        </property>
-                                        <property name="toolTip" stdset="0">
-                                            <string>Length of the tic line</string>
-                                        </property>
-                                        <property name="whatsThis" stdset="0">
-                                            <string>Enter the length of a tic line.</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel8_3</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>0.1 mm</string>
-                                        </property>
-                                    </widget>
-                                </hbox>
+                                <property name="minValue">
+                                    <number>1</number>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>Line width</string>
+                                </property>
                             </widget>
-                            <widget class="QLabel" row="2" column="1">
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>textLabel8</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>0.1 mm</string>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout25</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>textLabel9</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Tic width:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg_TicWidth</cstring>
+                                </property>
+                            </widget>
+                            <widget class="KIntNumInput">
+                                <property name="name">
+                                    <cstring>kcfg_TicWidth</cstring>
+                                </property>
+                                <property name="minValue">
+                                    <number>1</number>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>Line width</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>textLabel8_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>0.1 mm</string>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout26</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel">
                                 <property name="name">
                                     <cstring>textLabel8_4</cstring>
                                 </property>
@@ -409,36 +435,56 @@
                                     <cstring>kcfg_TicLength</cstring>
                                 </property>
                             </widget>
-                            <widget class="QLayoutWidget" row="3" column="0">
+                            <widget class="KIntNumInput">
                                 <property name="name">
-                                    <cstring>layout26</cstring>
+                                    <cstring>kcfg_TicLength</cstring>
                                 </property>
-                                <hbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="KIntNumInput">
-                                        <property name="name">
-                                            <cstring>kcfg_TicWidth</cstring>
-                                        </property>
-                                        <property name="minValue">
-                                            <number>1</number>
-                                        </property>
-                                        <property name="toolTip" stdset="0">
-                                            <string>Line width</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel8_2</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>0.1 mm</string>
-                                        </property>
-                                    </widget>
-                                </hbox>
+                                <property name="minValue">
+                                    <number>1</number>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>Length of the tic line</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>Enter the length of a tic line.</string>
+                                </property>
                             </widget>
-                            <widget class="QCheckBox" row="0" column="1" rowspan="2" colspan="1">
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>textLabel8_3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>0.1 mm</string>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout22</cstring>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QCheckBox" row="1" column="1">
+                                <property name="name">
+                                    <cstring>kcfg_ShowArrows</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show Arrows</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>visible arrows at the ent of the axes</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>Check this if the axes shall be get arrows at their endings.</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="0" column="0">
                                 <property name="name">
                                     <cstring>kcfg_ShowLabel</cstring>
                                 </property>
@@ -448,38 +494,46 @@
                                 <property name="checked">
                                     <bool>true</bool>
                                 </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>visible tic labels</string>
+                                </property>
                                 <property name="whatsThis" stdset="0">
                                     <string>Check this if the axes' tics should be labeled.</string>
                                 </property>
                             </widget>
-                            <widget class="QLayoutWidget" row="1" column="0">
+                            <widget class="QCheckBox" row="1" column="0">
                                 <property name="name">
-                                    <cstring>layout25</cstring>
+                                    <cstring>kcfg_ShowExtraFrame</cstring>
                                 </property>
-                                <hbox>
-                                    <property name="name">
-                                        <cstring>unnamed</cstring>
-                                    </property>
-                                    <widget class="KIntNumInput">
-                                        <property name="name">
-                                            <cstring>kcfg_AxesLineWidth</cstring>
-                                        </property>
-                                        <property name="minValue">
-                                            <number>1</number>
-                                        </property>
-                                        <property name="toolTip" stdset="0">
-                                            <string>Line width</string>
-                                        </property>
-                                    </widget>
-                                    <widget class="QLabel">
-                                        <property name="name">
-                                            <cstring>textLabel8</cstring>
-                                        </property>
-                                        <property name="text">
-                                            <string>0.1 mm</string>
-                                        </property>
-                                    </widget>
-                                </hbox>
+                                <property name="text">
+                                    <string>Show extra frame</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>visible extra frame</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>Check this if the plot area shall be framed by an extra line.</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="0" column="1">
+                                <property name="name">
+                                    <cstring>kcfg_ShowAxes</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Show Axes</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>visible axes</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>Check this if the axes shall be visible.</string>
+                                </property>
                             </widget>
                         </grid>
                     </widget>
@@ -496,7 +550,7 @@
                         <property name="sizeHint">
                             <size>
                                 <width>20</width>
-                                <height>51</height>
+                                <height>30</height>
                             </size>
                         </property>
                     </spacer>
@@ -673,6 +727,12 @@
         <sender>radioButton1_4_2</sender>
         <signal>toggled(bool)</signal>
         <receiver>kcfg_YMax</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>kcfg_ShowAxes</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>kcfg_ShowArrows</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
 </connections>

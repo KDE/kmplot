@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -42,9 +42,7 @@ public:
 	void getOptions( QMap<QString, QString>& opts, bool include_def = false );
 	void setOptions( const QMap<QString, QString>& opts );
 	bool isValid( QString& msg );
-
-private:
-	QCheckBox *m_printtable;
+	QCheckBox *kcfg_printHeaderTable;
 };
 
 #endif //kprinterdlg_included

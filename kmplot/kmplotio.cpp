@@ -59,7 +59,11 @@ void KmPlotIO::save( const QString filename )
 	tag.setAttribute( "tic-width", Settings::ticWidth() );
 	tag.setAttribute( "tic-legth", Settings::ticLength() );
 
-	addTag( doc, tag, "mode", QString::number( mode ) );
+	addTag( doc, tag, "show-axes", Settings::showAxes() ? "1" : "-1" );
+	addTag( doc, tag, "show-arrows", Settings::showArrows() ? "1" : "-1" );
+	addTag( doc, tag, "show-label", Settings::showLabel() ? "1" : "-1" );
+	addTag( doc, tag, "show-frame", Settings::showExtraFrame() ? "1" : "-1" );
+	addTag( doc, tag, "show-extra-frame", Settings::showExtraFrame() ? "1" : "-1" );
 	addTag( doc, tag, "xmin", xminstr );
 	addTag( doc, tag, "xmax", xmaxstr );
 	addTag( doc, tag, "ymin", yminstr );
@@ -181,7 +185,11 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 	Settings::setTicWidth( n.attribute( "tic-width", "3" ).toInt() );
 	Settings::setTicLength( n.attribute( "tic-length", "10" ).toInt() );
 
-	mode = n.namedItem( "mode" ).toElement().text().toInt();
+	Settings::setShowAxes( n.namedItem( "show-axes" ).toElement().text().toInt() == 1 );
+	Settings::setShowArrows( n.namedItem( "show-arrows" ).toElement().text().toInt() == 1 );
+	Settings::setShowLabel( n.namedItem( "show-label" ).toElement().text().toInt() == 1 );
+	Settings::setShowFrame( n.namedItem( "show-frame" ).toElement().text().toInt() == 1 );
+	Settings::setShowExtraFrame( n.namedItem( "show-extra-frame" ).toElement().text().toInt() == 1 );
 	xminstr = n.namedItem( "xmin" ).toElement().text();
 	xmaxstr = n.namedItem( "xmax" ).toElement().text();
 	yminstr = n.namedItem( "ymin" ).toElement().text();
@@ -241,8 +249,8 @@ void KmPlotIO::parseFunction( const QDomElement & n )
 		else
 			str = fstr.left( i );
 		ix = ps.addfkt( str );
-		ps.getext( ix );
 		parseParameters( n, ix );
+		ps.getext( ix );
 	}
 }
 

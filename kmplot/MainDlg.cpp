@@ -47,6 +47,7 @@
 #include "settingspagecoords.h"
 #include "settingspagefonts.h"
 #include "settingspageprecision.h"
+#include "settingspageprint.h"
 #include "settingspagescaling.h"
 
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
@@ -181,6 +182,7 @@ void MainDlg::slotOpenNew()
 	setCaption( m_filename );
 	view->update();
 	m_modified = false;
+	m_recentFiles->setCurrentItem( -1 );
 }
 
 void MainDlg::slotSave()
@@ -245,12 +247,12 @@ void MainDlg::slotOpen()
 	QString filename = KFileDialog::getOpenFileName( QDir::currentDirPath(), 
 		i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
 	if ( filename.isEmpty() ) return ;
-	KmPlotIO::load( filename );
-	view->update();
 	m_filename = filename;
+	KmPlotIO::load( filename );
 	m_recentFiles->addURL( KURL( m_filename ) );
 	setCaption( m_filename );
 	m_modified = false;
+	view->update();
 }
 
 void MainDlg::slotOpenRecent( const KURL &url )
@@ -266,12 +268,11 @@ void MainDlg::slotOpenRecent( const KURL &url )
 void MainDlg::slotPrint()
 {	
 	KPrinter prt( QPrinter::PrinterResolution );
-	prt.setResolution(72);
+	prt.setResolution( 72 );
 	prt.addDialogPage( new KPrinterDlg( this, "KmPlot page" ) );
-	if ( prt.setup( this, i18n("Print Function") ) )
-	{	
-		prt.setFullPage(true);
-		printtable = prt.option( "app-kmplot-printtable" ) != "-1";
+	if ( prt.setup( this, i18n( "Print Plot" ) ) )
+	{
+		prt.setFullPage( true );
 		view->draw(&prt, 1);
 	}
 }

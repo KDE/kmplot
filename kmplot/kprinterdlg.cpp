@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -32,6 +32,7 @@
 
 // local includes
 #include "kprinterdlg.h"
+// #include "settings.h"
 
 KPrinterDlg::KPrinterDlg( QWidget *parent, const char *name )
 		: KPrintDialogPage( parent, name )
@@ -42,21 +43,22 @@ KPrinterDlg::KPrinterDlg( QWidget *parent, const char *name )
 	layout->setSpacing( KDialog::spacingHint() );
 
 
-	m_printtable = new QCheckBox( i18n( "Print header table" ), this );
-	m_printtable->setChecked( true );
-	layout->addWidget( m_printtable );
+	kcfg_printHeaderTable = new QCheckBox( i18n( "Print header table" ), this );
+	layout->addWidget( kcfg_printHeaderTable );
 	layout->addStretch( 1 );
 }
 
 void KPrinterDlg::getOptions( QMap<QString, QString>& opts, bool include_def )
 {
-	if ( include_def || !m_printtable->isChecked() )
-		opts[ "app-kmplot-printtable" ] = ( m_printtable->isChecked() ? "1" : "-1" );
+ 	if ( include_def || !kcfg_printHeaderTable->isChecked() )
+ 		opts[ "app-kmplot-printtable" ] = ( kcfg_printHeaderTable->isChecked() ? "1" : "-1" );
+//	Settings::setPrintHeaderTable( kcfg_printHeaderTable->isChecked() );
 }
 
 void KPrinterDlg::setOptions( const QMap<QString, QString>& opts )
 {
-	m_printtable->setChecked( opts[ "app-kmplot-printtable" ] != "-1" );
+	kcfg_printHeaderTable->setChecked( opts[ "app-kmplot-printtable" ] != "-1" );
+//	kcfg_printHeaderTable->setChecked( Settings::printHeaderTable() );
 }
 
 bool KPrinterDlg::isValid( QString& msg )

@@ -47,9 +47,6 @@
 /** The parser instance */
 extern XParser	ps;
 
-/** Diagram mode */
-extern int mode;
-
 /** If \p koordx is 4 (custom) this string will be evaluated by the Parser \p ps,
  * and the result is stored in \p xmin. */
 extern QString	xminstr,
@@ -67,44 +64,6 @@ extern QString	xminstr,
 extern double sw,  			/**< Precision for the functions.  */
 	rsw;  /**< Precision for the grid. */
 
-	/** @name Axes Division
-	*
-	* @see SkalDlg */ 
-	//@{
-	/** Distance between two tics on the x-axis or the distance between vertical grid lines. */
-// 	tlgx,
-	/** Distance between two tics on the y-axis or the distance between horizontal grid lines. */
-// 	tlgy,
-	//@}
-	/** @name Printing Scale
-	 *
-	 * @see SklDlg */ 
-	//@{
-	/** 1 unit on the x-axis results \p drskalx cm at printing. */
-// 	drskalx,
-	/** 1 unit on the y-axis results \p drskaly cm at printing. */
-// 	drskaly;
-//@}
-
-
-// extern QString /**
-// 	 * Axes tic step - string representation. 
-// 	 * @see tlgx, tlgy
-// 	 */
-// 	tlgxstr,
-// 	tlgystr,
-// 	/**
-// 	 * Printing unit - string representation. 
-// 	 * @see drskalx, drskaly
-// 	 */
-// 	drskalxstr,
-// 	drskalystr;
-
-/** Header table printing option
- * @see KPinterDlg
- */
-extern bool printtable;
- 
 /** Inits all global variables with respect to the global config file @p kc. 
  */
 void getSettings();

@@ -32,9 +32,11 @@
 #include <kconfigdialog.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
+#include <kio/netaccess.h> 
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <ktempfile.h>
 #include <ktoolbar.h>
 
 // local includes
@@ -282,52 +284,82 @@ void MainDlg::slotSaveas()
 {
 	if ( !m_modified) //don't save if no changes are made
 		return;
-	QString filename = KFileDialog::getSaveFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
-	if ( !filename.isEmpty() )
+	KURL file = KFileDialog::getSaveURL( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
+        
+	if ( !file.isEmpty() )
 	{
-		if( filename.find( "." ) == -1 )            // no file extension
-			filename += ".fkt"; // use fkt-type as default
-
 		// check if file exists and overwriting is ok.
-		if( !QFile::exists( filename ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( KURL( filename ).fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
+		if( !KIO::NetAccess::exists( file,false,this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( file.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
 		{
-			kmplotio->save( view->parser(), filename );
-			m_filename = filename;
-			m_recentFiles->addURL( KURL( m_filename ) );
-			setCaption( m_filename );
-			m_modified = false;
+			if ( !kmplotio->save( view->parser(), file ) )
+                                KMessageBox::error(this, i18n("The file could not be saved") );
+                        else
+                        {
+			     m_filename = file.url();
+			     m_recentFiles->addURL( file );
+			     setCaption( m_filename );
+			     m_modified = false;
+                        }
+                        return;
 		}
 	}
 }
 
 void MainDlg::slotExport()
-{	QString filename = KFileDialog::getSaveFileName(QDir::currentDirPath(),
+{	KURL file = KFileDialog::getSaveURL(QDir::currentDirPath(),
 		i18n("*.svg|Scalable Vector Graphics (*.svg)\n*.bmp|Bitmap 180dpi (*.bmp)\n*.png|Bitmap 180dpi (*.png)"),
 		this, i18n("Export") );
-	if(!filename.isEmpty())
+	if(!file.isEmpty())
 	{
 		// check if file exists and overwriting is ok.
-		if( QFile::exists( filename ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( KURL( filename ).fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
+		if( KIO::NetAccess::exists(file,false,this ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(file.fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
 
-		if( filename.right(4).lower()==".svg")
+		if( file.fileName().right(4).lower()==".svg")
 		{
 			QPicture pic;
 			view->draw(&pic, 2);
-	        	pic.save( filename, "SVG");
+                        if (file.isLocalFile() )
+	        	      pic.save( file.fileName(), "SVG");
+                        else
+                        {
+                                KTempFile tmp;
+                                pic.save( tmp.name(), "SVG");
+                                if ( !KIO::NetAccess::upload(tmp.name(), file, 0) )
+                                        KMessageBox::error(this, i18n("The file could not be saved") );
+                                tmp.unlink();
+                        }
 		}
 
-		else if( filename.right(4).lower()==".bmp")
+		else if( file.fileName().right(4).lower()==".bmp")
 		{
-			QPixmap pix(100, 100);
-			view->draw(&pix, 3);
-			pix.save( filename, "BMP");
+			QPixmap pic(100, 100);
+			view->draw(&pic, 3);
+			if (file.isLocalFile() )
+                              pic.save( file.fileName(), "BMP");
+                        else
+                        {
+                                KTempFile tmp;
+                                pic.save( tmp.name(), "BMP");
+                                if ( !KIO::NetAccess::upload(tmp.name(), file, 0) )
+                                        KMessageBox::error(this, i18n("The file could not be saved") );
+                                tmp.unlink();
+                        }
 		}
 
-		else if( filename.right(4).lower()==".png")
+		else if( file.fileName().right(4).lower()==".png")
 		{
-			QPixmap pix(100, 100);
-			view->draw(&pix, 3);
-			pix.save( filename, "PNG");
+			QPixmap pic(100, 100);
+			view->draw(&pic, 3);
+			if (file.isLocalFile() )
+                              pic.save( file.fileName(), "PNG");
+                        else
+                        {
+                                KTempFile tmp;
+                                pic.save( tmp.name(), "PNG");
+                                if ( !KIO::NetAccess::upload(tmp.name(), file, 0) )
+                                        KMessageBox::error(this, i18n("The file could not be saved") );
+                                tmp.unlink();
+                        }
 		}
 	}
 }

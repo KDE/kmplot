@@ -28,8 +28,10 @@
 #include <qfile.h>
 
 // KDE includes
+#include <kio/netaccess.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <ktempfile.h>
 
 // ANSI-C includes
 #include <stdlib.h>
@@ -50,7 +52,7 @@ KmPlotIO::~KmPlotIO()
 {
 }
 
-void KmPlotIO::save(  XParser *parser, const QString filename )
+bool KmPlotIO::save(  XParser *parser, const KURL &file )
 {
 	// saving as xml by a QDomDocument
 	QDomDocument doc( "kmpdoc" );
@@ -167,12 +169,39 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 	addTag( doc, tag, "header-table-font", Settings::headerTableFont() );
 	root.appendChild( tag );
 
-
-	QFile xmlfile( filename );
-	xmlfile.open( IO_WriteOnly );
-	QTextStream ts( &xmlfile );
-	doc.save( ts, 4 );
-	xmlfile.close();
+        QFile xmlfile;
+       
+        if (!file.isLocalFile() )
+        {
+                 KTempFile tmpfile;
+                 xmlfile.setName(tmpfile.name() );
+                 if (!xmlfile.open( IO_WriteOnly ) )
+                 {
+                        tmpfile.unlink();
+                        return false;
+                 }
+                 QTextStream ts( &xmlfile );
+                 doc.save( ts, 4 );
+                 xmlfile.close();
+                 
+                 if ( !KIO::NetAccess::upload(tmpfile.name(), file,0))
+                 {
+                        tmpfile.unlink();
+                        return false; 
+                 }
+                 tmpfile.unlink();
+        }
+        else
+        {
+                xmlfile.setName(file.fileName() );
+                if (!xmlfile.open( IO_WriteOnly ) )
+                        return false;
+                QTextStream ts( &xmlfile );
+                doc.save( ts, 4 );
+                xmlfile.close();
+                return true;       
+        }
+ 
 }
 
 void KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue )

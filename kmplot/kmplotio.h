@@ -26,6 +26,8 @@
 #ifndef KMPLOTIO_H
 #define KMPLOTIO_H
 
+#include <kurl.h>
+
 class QString;
 class XParser;
 
@@ -47,7 +49,7 @@ class KmPlotIO
 		 * @param parser points to the parser instance.
 		 * @param filename Name of the file which will be saved.
 		 */
-		void save( XParser *parser, const QString filename );
+		bool save( XParser *parser, const KURL &file );
 		
 		/**
 		 * Read a kmpdoc xml file to restaure the settings of a previously saved plot

@@ -3,7 +3,7 @@
 *
 * Copyright (C) 2004  Fredrik Edemar
 *                     f_edemar@linux.se
-*               
+*
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
 *
@@ -11,12 +11,12 @@
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or
 * (at your option) any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -59,7 +59,7 @@ void KMinMax::init(char m)
 		updateFunctions();
 		return;
 	}
-	
+
 	m_mode = m;
 	if ( m_mode < 2) //find minimum point
 	{
@@ -81,7 +81,7 @@ void KMinMax::init(char m)
 	{
 		setCaption(i18n("Get y-Value"));
 		lblMin->setText(i18n("X:"));
-		lblMax->setText(i18n("Y:"));	
+		lblMax->setText(i18n("Y:"));
 		max->setReadOnly(true);
 		min->setText("");
 		max->setText("");
@@ -97,11 +97,11 @@ void KMinMax::init(char m)
 		range.setNum(View::xmax);
 		max->setText(range);
 		setCaption(i18n("Area Under Graph"));
-		lblMin->setText(i18n("Draw the area between the x-values"));
-		lblMax->setText(i18n("and"));
+		lblMin->setText(i18n("Draw the area between the x-values:"));
+		lblMax->setText(i18n("and:"));
 		cmdFind->setText("&Draw");
-	}	
-	
+	}
+
 	min->setFocus();
 	updateFunctions();
 }
@@ -170,7 +170,7 @@ void KMinMax::selectItem()
 	//kdDebug() << "function: " << function << endl;
 	QListBoxItem *item = list->findItem(function,Qt::ExactMatch);
 	list->setSelected(item,true);
-	
+
 	if (  m_view->parser()->fktext[ m_view->csmode ].k_anz != 0)
 		parameter = m_view->parser()->fktext[ m_view->csmode ].str_parameter[m_view->csparam];
 }
@@ -210,7 +210,7 @@ void KMinMax::cmdFind_clicked()
 			min->selectAll();
 			return;
 		}
-		
+
 		if (  dmin<View::xmin || dmax>View::xmax )
 		{
 			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
@@ -219,8 +219,8 @@ void KMinMax::cmdFind_clicked()
 			return;
 		}
 	}
-	
-	
+
+
 	QString function( list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
@@ -239,8 +239,8 @@ void KMinMax::cmdFind_clicked()
 	{
 		p_mode = 3;
 		function.at(0) =  function.at(0).lower();
-	}	
-	
+	}
+
 	QString fname, fstr;
 	bool stop=false;
 	int index;
@@ -260,8 +260,8 @@ void KMinMax::cmdFind_clicked()
 		list_highlighted(list->selectedItem() );
 		return;
 	}
-	
-	
+
+
 	if ( m_mode == 0)
 	{
 		m_view->findMinMaxValue(index,p_mode,true,dmin,dmax,parameter);
@@ -295,10 +295,10 @@ void KMinMax::cmdFind_clicked()
 			KMessageBox::information(this,i18n("The area between %1 and %1\nis: %3").arg(dmin_tmp).arg(dmax).arg(dmin));
 		}
 	}
-	
+
 	if ( m_view->isCalculationStopped() )
 		KMessageBox::error(this,i18n("The operation was cancelled by the user."));
-	
+
 	//QDialog::accept();
 }
 void KMinMax::list_highlighted(QListBoxItem* item)
@@ -326,8 +326,8 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 	{
 		p_mode = 3;
 		function.at(0) =  function.at(0).lower();
-	}	
-	
+	}
+
 	QString fname, fstr;
 	bool stop=false;
 	int ix;
@@ -345,7 +345,7 @@ void KMinMax::list_highlighted(QListBoxItem* item)
  		cmdParameter->show();
 }
 void KMinMax::cmdParameter_clicked()
-{	
+{
 	QString function( list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
@@ -365,7 +365,7 @@ void KMinMax::cmdParameter_clicked()
 		p_mode = 3;
 		function.at(0) =  function.at(0).lower();
 	}
-	
+
 	QString fname, fstr;
 	bool stop=false;
 	int ix;

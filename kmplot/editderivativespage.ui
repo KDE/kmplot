@@ -91,7 +91,7 @@
                         <cstring>showDerivative1</cstring>
                     </property>
                     <property name="text">
-                        <string>Show &amp;1st Derivative</string>
+                        <string>Show &amp;1st derivative</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Show first derivative</string>
@@ -196,7 +196,7 @@
                         <cstring>showDerivative2</cstring>
                     </property>
                     <property name="text">
-                        <string>Show &amp;2nd Derivative</string>
+                        <string>Show &amp;2nd derivative</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Show second derivative</string>

@@ -44,7 +44,7 @@
                         <bool>false</bool>
                     </property>
                     <property name="text">
-                        <string>&amp;Change Value</string>
+                        <string>&amp;Change Value...</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Change the value of a user-defined constant</string>
@@ -63,7 +63,7 @@
                         <cstring>cmdNew</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;New</string>
+                        <string>&amp;New...</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Add a new constant</string>
@@ -128,7 +128,7 @@
                         <bool>true</bool>
                     </property>
                     <property name="text">
-                        <string>&amp;Import</string>
+                        <string>&amp;Import...</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>delete selected constant</string>

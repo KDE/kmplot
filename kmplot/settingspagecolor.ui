@@ -339,7 +339,7 @@
                                             <string>Function 1&amp;0:</string>
                                         </property>
                                         <property name="buddy" stdset="0">
-                                            <cstring>kcfg_Color10</cstring>
+                                            <cstring>kcfg_Color0</cstring>
                                         </property>
                                     </widget>
                                 </grid>

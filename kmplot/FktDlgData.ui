@@ -260,7 +260,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>&amp;Edit</string>
+                        <string>&amp;Edit...</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>edit the selected function</string>

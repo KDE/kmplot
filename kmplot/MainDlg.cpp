@@ -69,12 +69,12 @@ MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name
 	view->setMinMaxDlg(minmaxdlg);
 	m_quickEdit = new KLineEdit( this );
 	QToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
-	
+
 	setupStatusBar();
 	setupActions();
 	loadConstants();
 	kmplotio = new KmPlotIO();
-	if (args -> count() > 0) 
+	if (args -> count() > 0)
 	{
 		m_filename = args -> url( 0 ).url(-1);
 		m_filename.remove(0,5); //removing "file:" from the filename. Otherwise QFile won't load the file.
@@ -87,16 +87,16 @@ MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name
 	}
 	m_config = kapp->config();
 	m_recentFiles->loadEntries( m_config );
-	
+
 	// Let's create a Configure Diloag
-	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() ); 
+	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() );
 	// create and add the page(s)
 	m_generalSettings = new SettingsPagePrecision( 0, "precisionSettings", "precision" );
 	m_constantsSettings = new KConstantEditor( view, 0, "constantsSettings" );
 	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
-	m_settingsDialog->addPage( m_constantsSettings, "Constants", "editconstants", i18n("Constants") ); 
-	// User edited the configuration - update your local copies of the 
-	// configuration data 
+	m_settingsDialog->addPage( m_constantsSettings, "Constants", "editconstants", i18n("Constants") );
+	// User edited the configuration - update your local copies of the
+	// configuration data
 	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 }
 
@@ -123,11 +123,11 @@ void MainDlg::setupActions()
 	m_fullScreen = KStdAction::fullScreen( NULL, NULL, actionCollection(), this, "fullscreen");
 	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 
-	
+
 	// KmPLot specific actions
 	// file menu
 	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( slotExport() ), actionCollection(), "export");
-	
+
 	// edit menu
 	( void ) new KAction( i18n( "&Colors..." ), "colorize.png", 0, this, SLOT( editColors() ), actionCollection(), "editcolors" );
 	( void ) new KAction( i18n( "&Coordinate System..." ), "coords.png", 0, this, SLOT( editAxes() ), actionCollection(), "editaxes" );
@@ -135,17 +135,17 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "&Scaling..." ), "scaling", 0, this, SLOT( editScaling() ), actionCollection(), "editscaling" );
 	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, SLOT( editFonts() ), actionCollection(), "editfonts" );
 //	( void ) new KAction( i18n( "&Precision..." ), 0, this, SLOT( editPrecision() ), actionCollection(), "editprecision" );
-	
+
 	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( slotCoord1() ), actionCollection(), "coord_i" );
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( slotCoord2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( slotCoord3() ), actionCollection(), "coord_iii" );
 
-	// plot menu	
+	// plot menu
 	( void ) new KAction( i18n( "&New Function Plot..." ), "newfunction", 0, this, SLOT( newFunction() ), actionCollection(), "newfunction" );
 	( void ) new KAction( i18n( "New Parametric Plot..." ), "newparametric", 0, this, SLOT( newParametric() ), actionCollection(), "newparametric" );
 	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
-	
+
 	//zoom menu
 	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,"CTRL+0",view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
 	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &Rectangular"), "viewmagfit", "CTRL+1",view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
@@ -159,8 +159,8 @@ void MainDlg::setupActions()
 	mnuZoomIn->setExclusiveGroup("zoom_modes");
 	mnuZoomOut->setExclusiveGroup("zoom_modes");
 	mnuZoomCenter->setExclusiveGroup("zoom_modes");
-	
-	
+
+
 	// tools menu
 	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
 	mnuHide->plug(m_popupmenu);
@@ -168,21 +168,21 @@ void MainDlg::setupActions()
 	mnuRemove->plug(m_popupmenu);
 	KAction *mnuEdit = new KAction(i18n("&Edit"), 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
 	mnuEdit->plug(m_popupmenu);
-	
-	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
-	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value" ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
-	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value" ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
-	KAction *mnuArea = new KAction( i18n( "&Area Under Graph" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
-	
+
+	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
+	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value..." ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
+	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value..." ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
+	KAction *mnuArea = new KAction( i18n( "&Area Under Graph..." ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
+
 	// help menu
 	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );
 
-	
+
 	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
 	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 		"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
-	
+
 	/*for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
 		( void ) new KToggleAction( i18n( "Show Slider %1" ).arg( number ), 0, this, SLOT( toggleShowSlider( bool ) ), actionCollection(), QString( "options_configure_show_slider_%1" ).arg( number ).latin1() );
@@ -191,9 +191,9 @@ void MainDlg::setupActions()
 	( void ) new KToggleAction( i18n( "Show Slider 1" ), 0, this, SLOT( toggleShowSlider1() ), actionCollection(), QString( "options_configure_show_slider_1" ).latin1() );
 	( void ) new KToggleAction( i18n( "Show Slider 2" ), 0, this, SLOT( toggleShowSlider2() ), actionCollection(), QString( "options_configure_show_slider_2" ).latin1() );
 	( void ) new KToggleAction( i18n( "Show Slider 3" ), 0, this, SLOT( toggleShowSlider3() ), actionCollection(), QString( "options_configure_show_slider_3" ).latin1() );
-	
-	
-	
+
+
+
 	m_popupmenu->insertSeparator();
 	mnuYValue->plug(m_popupmenu);
 	mnuMinValue->plug(m_popupmenu);
@@ -204,7 +204,7 @@ void MainDlg::setupActions()
 }
 
 void MainDlg::setupStatusBar()
-{   
+{
 	stbar=statusBar();
 	stbar->insertFixedItem( "1234567890", 1 );
 	stbar->insertFixedItem( "1234567890", 2 );
@@ -261,7 +261,7 @@ void MainDlg::slotSave()
 	{
 		if ( !m_modified) //don't save if no changes are made
 			return;
-		
+
 		if ( oldfileversion)
 		{
 			if ( KMessageBox::warningYesNo( this, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of Kmplot. Are you sure you want to continue?" ) ) == KMessageBox::No)
@@ -283,9 +283,9 @@ void MainDlg::slotSaveas()
 	{
 		if( filename.find( "." ) == -1 )            // no file extension
 			filename += ".fkt"; // use fkt-type as default
-		
+
 		// check if file exists and overwriting is ok.
-		if( !QFile::exists( filename ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( KURL( filename ).fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue ) 
+		if( !QFile::exists( filename ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( KURL( filename ).fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
 		{
 			kmplotio->save( view->parser(), filename );
 			m_filename = filename;
@@ -297,30 +297,30 @@ void MainDlg::slotSaveas()
 }
 
 void MainDlg::slotExport()
-{	QString filename = KFileDialog::getSaveFileName(QDir::currentDirPath(), 
-		i18n("*.svg|Scalable Vector Graphics (*.svg)\n*.bmp|Bitmap 180dpi(*.bmp)\n*.png|Bitmap 180dpi (*.png)"),
-		this, i18n("export") );
+{	QString filename = KFileDialog::getSaveFileName(QDir::currentDirPath(),
+		i18n("*.svg|Scalable Vector Graphics (*.svg)\n*.bmp|Bitmap 180dpi (*.bmp)\n*.png|Bitmap 180dpi (*.png)"),
+		this, i18n("Export") );
 	if(!filename.isEmpty())
-	{	
+	{
 		// check if file exists and overwriting is ok.
 		if( QFile::exists( filename ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( KURL( filename ).fileName() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
-		
+
 		if( filename.right(4).lower()==".svg")
-		{	
+		{
 			QPicture pic;
 			view->draw(&pic, 2);
 	        	pic.save( filename, "SVG");
 		}
-		
+
 		else if( filename.right(4).lower()==".bmp")
-		{	
+		{
 			QPixmap pix(100, 100);
 			view->draw(&pix, 3);
 			pix.save( filename, "BMP");
 		}
-		
+
 		else if( filename.right(4).lower()==".png")
-		{	
+		{
 			QPixmap pix(100, 100);
 			view->draw(&pix, 3);
 			pix.save( filename, "PNG");
@@ -331,7 +331,7 @@ void MainDlg::slotExport()
 void MainDlg::slotOpen()
 {
 	if( !checkModified() ) return;
-	QString filename = KFileDialog::getOpenFileName( QDir::currentDirPath(), 
+	QString filename = KFileDialog::getOpenFileName( QDir::currentDirPath(),
 		i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
 	if ( filename.isEmpty() ) return ;
 	view->init();
@@ -359,7 +359,7 @@ void MainDlg::slotOpenRecent( const KURL &url )
 }
 
 void MainDlg::slotPrint()
-{	
+{
 	KPrinter prt( QPrinter::PrinterResolution );
 	prt.setResolution( 72 );
 	prt.addDialogPage( new KPrinterDlg( this, "KmPlot page" ) );
@@ -373,45 +373,45 @@ void MainDlg::slotPrint()
 void MainDlg::editColors()
 {
 	// create a config dialog and add a colors page
-	KConfigDialog* colorsDialog = new KConfigDialog( this, "colors", Settings::self() ); 
-	colorsDialog->addPage( new SettingsPageColor( 0, "colorSettings" ), i18n( "Colors" ), "colorize", i18n( "Edit Colors" ) ); 
-	
-	// User edited the configuration - update your local copies of the 
-	// configuration data 
-	connect( colorsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	KConfigDialog* colorsDialog = new KConfigDialog( this, "colors", Settings::self() );
+	colorsDialog->addPage( new SettingsPageColor( 0, "colorSettings" ), i18n( "Colors" ), "colorize", i18n( "Edit Colors" ) );
+
+	// User edited the configuration - update your local copies of the
+	// configuration data
+	connect( colorsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	colorsDialog->show();
 }
 
 void MainDlg::editAxes()
 {
 	// create a config dialog and add a colors page
-	KConfigDialog* coordsDialog = new KConfigDialog( this, "coords", Settings::self() ); 
-	coordsDialog->addPage( new SettingsPageCoords( 0, "coordsSettings" ), i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) ); 
-	// User edited the configuration - update your local copies of the 
-	// configuration data 
-	connect( coordsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	KConfigDialog* coordsDialog = new KConfigDialog( this, "coords", Settings::self() );
+	coordsDialog->addPage( new SettingsPageCoords( 0, "coordsSettings" ), i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) );
+	// User edited the configuration - update your local copies of the
+	// configuration data
+	connect( coordsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	coordsDialog->show();
 }
 
 void MainDlg::editScaling()
 {
 	// create a config dialog and add a colors page
-	KConfigDialog* scalingDialog = new KConfigDialog( this, "scaling", Settings::self() ); 
-	scalingDialog->addPage( new SettingsPageScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) ); 
-	// User edited the configuration - update your local copies of the 
-	// configuration data 
-	connect( scalingDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	KConfigDialog* scalingDialog = new KConfigDialog( this, "scaling", Settings::self() );
+	scalingDialog->addPage( new SettingsPageScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
+	// User edited the configuration - update your local copies of the
+	// configuration data
+	connect( scalingDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	scalingDialog->show();
 }
 
 void MainDlg::editFonts()
 {
 	// create a config dialog and add a colors page
-	KConfigDialog* fontsDialog = new KConfigDialog( this, "fonts", Settings::self() ); 
-	fontsDialog->addPage( new SettingsPageFonts( 0, "fontsSettings" ), i18n( "Fonts" ), "fonts", i18n( "Edit Fonts" ) ); 
-	// User edited the configuration - update your local copies of the 
-	// configuration data 
-	connect( fontsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	KConfigDialog* fontsDialog = new KConfigDialog( this, "fonts", Settings::self() );
+	fontsDialog->addPage( new SettingsPageFonts( 0, "fontsSettings" ), i18n( "Fonts" ), "fonts", i18n( "Edit Fonts" ) );
+	// User edited the configuration - update your local copies of the
+	// configuration data
+	connect( fontsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
 	fontsDialog->show();
 }
 
@@ -423,7 +423,7 @@ void MainDlg::editConstants()
 
 void MainDlg::slotNames()
 {
-	kapp->invokeHelp( "func-predefined", "kmplot" );	
+	kapp->invokeHelp( "func-predefined", "kmplot" );
 }
 
 void MainDlg::newFunction()
@@ -449,7 +449,7 @@ void MainDlg::newParametric()
 		m_modified = true;
 		view->drawPlot();
 	}
-	
+
 }
 
 void MainDlg::newPolar()
@@ -471,7 +471,7 @@ void MainDlg::slotEditPlots()
 	fdlg->getPlots();
 	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
 	kmplotio->save( view->parser(), tmpName );
-	if( fdlg->exec() == QDialog::Rejected ) 
+	if( fdlg->exec() == QDialog::Rejected )
 	{
 		if ( fdlg->isChanged() )
 		{
@@ -480,7 +480,7 @@ void MainDlg::slotEditPlots()
 			view->drawPlot();
 		}
 	}
-	else if ( fdlg->isChanged() ) 
+	else if ( fdlg->isChanged() )
 	{
 		view->updateSliders();
 		m_modified = true;
@@ -493,13 +493,13 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	//creates a valid name for the function if the user has forgotten that
 	QString f_str( tmp_f_str );
 	view->parser()->fixFunctionName(f_str);
-	
+
 	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y')
 	{
 		KMessageBox::error( this, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));
 		return;
 	}
-	
+
 	int index = view->parser()->addfkt( f_str );
 	if (index==-1)
 	{
@@ -508,7 +508,7 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 		m_quickEdit->selectAll();
 		return;
 	}
-	
+
 	if  ( f_str.contains('y') != 0)
 	{
 		KMessageBox::error( this, i18n( "Recursive function is not allowed"));
@@ -560,9 +560,9 @@ void MainDlg::slotCoord3()
 
 void MainDlg::slotSettings()
 {
-	// An instance of your dialog has already been created and has been cached, 
-	// so we want to display the cached dialog instead of creating 
-	// another one 
+	// An instance of your dialog has already been created and has been cached,
+	// so we want to display the cached dialog instead of creating
+	// another one
 	KConfigDialog::showDialog( "settings" );
 }
 
@@ -606,9 +606,9 @@ void MainDlg::loadConstants()
 	{
 		tmp.setNum(i+1);
 		tmp_constant = conf.readEntry("nameConstant"+tmp," ");
-		value = conf.readDoubleNumEntry("valueConstant"+tmp,1.23456789);	
+		value = conf.readDoubleNumEntry("valueConstant"+tmp,1.23456789);
 		constant = tmp_constant.at(0).upper().latin1();
-		
+
 		if ( constant<'A' || constant>'Z')
 			constant = 'A';
 		if ( tmp_constant == " " || value == 1.23456789)
@@ -631,7 +631,7 @@ void MainDlg::loadConstants()
 		/*kdDebug() << "**************" << endl;
 		kdDebug() << "C:" << constant << endl;
 		kdDebug() << "V:" << value << endl;*/
-		
+
 		view->parser()->constant.append(Constant(constant, value) );
 	}
 }
@@ -646,7 +646,7 @@ void MainDlg::saveConstants()
 	{
 		tmp.setNum(i+1);
 		conf.writeEntry("nameConstant"+tmp, QString( QChar(view->parser()->constant[i].constant) ) ) ;
-		conf.writeEntry("valueConstant"+tmp, view->parser()->constant[i].value);	
+		conf.writeEntry("valueConstant"+tmp, view->parser()->constant[i].value);
 	}
 }
 

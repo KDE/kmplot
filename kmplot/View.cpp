@@ -370,16 +370,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 				}
 				
 				if ( dgr.xclipflg || dgr.yclipflg)
-				{
-					if(mflg>=1)
-						p1=p2;
-					else
-					{   
-						pDC->drawLine(p1, p2);
-						p1=p2;
-						mflg=1;
-					}
-				}
+					p1=p2;
 				else
 				{
 					if(mflg<=1)

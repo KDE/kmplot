@@ -123,7 +123,7 @@ void KMinMax::init(char m)
 		setCaption(i18n("Area Under Graph"));
 		lblMin->setText(i18n("Draw the area between the x-values:"));
 		lblMax->setText(i18n("and:"));
-		cmdFind->setText("&Draw");
+		cmdFind->setText(i18n("&Draw"));
 		QToolTip::add( cmdFind, i18n( "Draw the area between the function and the y-axis" ) );
 		QWhatsThis::add(cmdFind,i18n("Draw the area between the function and the y-axis and show the area in a message box."));
 		

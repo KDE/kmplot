@@ -222,6 +222,7 @@ int Parser::addfkt(QString str)
 	stkptr=stack=0;
 	err=0;
 	errpos=1;
+	str.remove( " " );
 	p1=str.find('(');
 	p2=str.find(',');
 	p3=str.find(")=");

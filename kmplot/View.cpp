@@ -3,7 +3,6 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
-*               2004       f_edemar@linux.se
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -25,8 +24,11 @@
 */
 
 // KDE includes
+#include <kapplication.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kprogress.h> 
 
 #include <qpicture.h>
 
@@ -35,6 +37,32 @@
 #include "View.h"
 #include "View.moc"
 #include "xparser.h"
+
+KmplotProgress::KmplotProgress( QWidget* parent, const char* name ,WFlags fl) : QWidget( parent, name) 
+{
+	button = new KPushButton(this);
+	button->setPixmap( SmallIcon( "cancel" ) );
+	button->setGeometry( QRect( 0, 0, 30, 27 ) );
+	button->setMaximumHeight(height()-10);
+	
+	progress = new KProgress(this);
+	progress->setGeometry( QRect( 30, 0, 124, 26 ) );
+	progress->setMaximumHeight(height()-10);
+	
+	hide();
+	setMinimumWidth(154);
+}
+
+KmplotProgress::~KmplotProgress()
+{
+}
+
+
+void KmplotProgress::increase()
+{
+	progress->setProgress( progress->progress()+1);
+}
+
 
 View::View( QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() )
 {   
@@ -135,10 +163,11 @@ void View::draw(QPaintDevice *dev, int form)
 	vline.resize(1, area.height());
 
 	stepWidth=Settings::relativeStepWidth() * (xmax-xmin)/area.width();
-	for(ix=0; ix<m_parser->ufanz; ++ix)
-	{   
+	
+	stop_calculating = false;
+	for(ix=0; ix<m_parser->ufanz && !stop_calculating; ++ix)
+	{
 		if(m_parser->chkfix(ix)==-1) continue;
-
 		plotfkt(ix, &DC);
 	}
 
@@ -210,16 +239,20 @@ void View::plotfkt(int ix, QPainter *pDC)
 			bool forward_direction = true;
 			if ( p_mode == 3)
 			{
+				progressbar->progress->reset();
+				progressbar->progress->setTotalSteps( int((dmax-dmin)/(Settings::relativeStepWidth()/(10*0.8))) );
+				progressbar->show();
+				KApplication::kApplication()->processEvents();
 				if ( m_parser->fktext[ix].anti_use_precision )
-					dx = (m_parser->fktext[ix].anti_precision)/100;
+					dx = (m_parser->fktext[ix].anti_precision)/1000;
 				else
-					dx=Settings::relativeStepWidth()/1000; //the stepwith must be small for Euler's metod and not depend on the size on the mainwindow
+					dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 				x = m_parser->fktext[ix].startx; //the initial x-point
 			}
 			else
 				x=dmin;
 			if ( p_mode != 0 || m_parser->fktext[ix].f_mode) // if not the function is hidden
-			while (x>=dmin && x<=dmax )
+			while (x>=dmin && x<=dmax  && !stop_calculating)
 			{
 				
 				errno=0;
@@ -253,6 +286,12 @@ void View::plotfkt(int ix, QPainter *pDC)
 						pDC->setPen(pen);
 						y=m_parser->fkt(ix, x);
 						m_parser->euler_method(x, y,ix);
+						if ( int(x*1000)%100==0)
+						{
+							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
+							progressbar->increase();
+							paintEvent(0);
+						}
 						break;
 						}
 					}
@@ -308,7 +347,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 
             }
 		}
-        while(++k<ke);
+        while(++k<ke && !stop_calculating);
 	
 		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) p_mode=1;
 		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
@@ -319,6 +358,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 		//pen=QPen(m_parser->fktext[ix].color, 50);
 		//pDC->setPen(pen);
 	}
+	if (  progressbar.isVisible())
+		progressbar->hide(); // hide the progressbar-widget if it was shown
 }
 
 void View::drawHeaderTable(QPainter *pDC)
@@ -640,4 +681,10 @@ void View::init()
 
 	for ( int ix = 0; ix < m_parser->ufanz; ++ix )
 		m_parser->delfkt( ix );
+}
+
+
+void View::progressbar_clicked()
+{
+	stop_calculating = true;
 }

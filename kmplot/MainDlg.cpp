@@ -36,6 +36,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
+
 // local includes
 
 #include "editfunction.h"
@@ -53,8 +54,6 @@
 #include "settingspagescaling.h"
 #include "xparser.h"
 #include "kmplotio.h"
-
-
 
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
@@ -160,6 +159,10 @@ void MainDlg::setupStatusBar()
 	stbar->changeItem("", 1);
 	stbar->changeItem("", 2);
 	stbar->setItemAlignment(3, AlignLeft);
+	view->progressbar = new KmplotProgress(stbar);
+	view->progressbar->setMaximumHeight(stbar->height()-10);
+	connect( view->progressbar->button, SIGNAL (clicked() ), view, SLOT( progressbar_clicked() ) );
+	stbar->addWidget(view->progressbar);
 	view->stbar=stbar;
 }
 

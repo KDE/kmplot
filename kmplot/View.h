@@ -34,12 +34,25 @@
 #include <kdebug.h>
 #include <kstatusbar.h>
 #include <kprinter.h>
+#include <kpushbutton.h>
+#include <kprogress.h>
 
 // local includes
 #include "diagr.h"
 #include "errno.h"
 
 class XParser;
+
+class KmplotProgress: public QWidget
+{
+	public:
+		KmplotProgress( QWidget* parent = 0, const char* name = 0, WFlags fl = 0  );
+		~KmplotProgress();
+		void increase();
+		
+		KPushButton *button;
+		KProgress *progress;
+};
 
 
 /**
@@ -73,8 +86,12 @@ public:
 
 	/// Points to the status bar.
 	KStatusBar *stbar;
-	
+	/// Points to the progressbar.
+	KmplotProgress *progressbar;
 
+public slots:
+	/// Called when the user want to cancel the drawing
+	void progressbar_clicked();
     
 protected slots:
 	void paintEvent(QPaintEvent *);
@@ -160,7 +177,10 @@ private:
 	/// represents the KPrinter option app-kmplot-printtable.
 	/// @see KPrinterDlg
 	bool m_printHeaderTable;
+	///buffer the current window so all functions don't need to be re-drawed
 	QPixmap buffer;
+	/// if stop_calculating is true, the user has cancelled drawing of an anti-derivative graph
+	bool stop_calculating:
 };
 
 #endif // View_included

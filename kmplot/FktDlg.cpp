@@ -74,7 +74,7 @@ void FktDlg::slotDelete()
 		m_parser->delfkt( ix );
 	}
 	lb_fktliste->removeItem( num );
-	updateView();
+	//updateView();
 }
 
 void FktDlg::slotEdit()
@@ -91,7 +91,7 @@ void FktDlg::slotEdit()
 		slotEditParametric( index, getIx( lb_fktliste->text( num ).section( ";", 1, 1) ), num );
 	else
 		slotEditFunction( index, num );
-	updateView();
+	//updateView();
 }
 
 int FktDlg::getIx( const QString f_str )

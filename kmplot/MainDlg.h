@@ -80,7 +80,6 @@ class MainDlg : public KMainWindow
 		friend class FktDlg;
 		/// This class needs access to private members, too.
 		friend class BezWnd;
-		static bool test;
 	
 	public slots:
 		/// Implement the color edit dialog

@@ -17,78 +17,77 @@
 
 <book lang="&language;">
 
-	<bookinfo>
-		<title>The &kmplot; Handbook</title>
-		<authorgroup>
-			<author>
-				<firstname>Klaus-Dieter</firstname>
-				<othername></othername>
-				<surname>M&ouml;ller</surname>
-				<affiliation>
-					<address><email>kd.moeller@t-online.de</email></address>
-				</affiliation>
-			</author>
-		</authorgroup>
-	
-		<!-- TRANS:ROLES_OF_TRANSLATORS -->
+<bookinfo>
+<title>The &kmplot; Handbook</title>
+<authorgroup>
+<author>
+<firstname>Klaus-Dieter</firstname>
+<othername></othername>
+<surname>M&ouml;ller</surname>
+<affiliation>
+<address><email>kd.moeller@t-online.de</email></address>
+</affiliation>
+</author>
+</authorgroup>
 
-		<copyright>
-			<year>2000</year><year>2001</year><year>2002</year>
-			<holder>Klaus-Dieter M&ouml;ller</holder>
-		</copyright>
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
 
-		<legalnotice>&FDLNotice;</legalnotice>
+<copyright>
+<year>2000</year><year>2001</year><year>2002</year>
+<holder>Klaus-Dieter M&ouml;ller</holder>
+</copyright>
 
-		<date>2002-02-10</date>
-		<releaseinfo>0.4.0</releaseinfo>
+<legalnotice>&FDLNotice;</legalnotice>
 
-		<!-- Abstract about this handbook -->
+<date>2002-02-10</date>
+<releaseinfo>0.4.0</releaseinfo>
 
-		<abstract>
-			<para>
-				&kmplot; is a mathematical function plotter for the &kde; Desktop.
-			</para>
-			<para>
-				<inlinemediaobject>
-					<imageobject>
-						<imagedata fileref="edu-logo.png" format="PNG"/>
-					</imageobject>
-				</inlinemediaobject>
-				&kappname; is part of the KDE-EDU Project:
-				<ulink url="http://edu.kde.org/">http://edu.kde.org/</ulink>
-			</para>
-		</abstract>
+<!-- Abstract about this handbook -->
 
-		<keywordset>
-			<keyword>KDE</keyword>
-			<keyword>KMPlot</keyword>
-			<keyword>EDU</keyword>
-			<keyword>edutainment</keyword>
-			<keyword>plotting</keyword>
-			<keyword>math</keyword>
-		</keywordset>
+<abstract>
+<para>&kmplot; is a mathematical function plotter for the &kde;
+Desktop.
 
-	</bookinfo>
 
-	&introduction;
-	&using;
-	&commands;
-	&menu;
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="edu-logo.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject>
 
-	<!-- 
-	<chapter id="faq">
-		<title>Questions and Answers</title>
+&kmplot; is part of the KDE-EDU Project: <ulink
+url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 
-		&reporting.bugs;
-		&updating.documentation;
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>KMPlot</keyword>
+<keyword>EDU</keyword>
+<keyword>edutainment</keyword>
+<keyword>plotting</keyword>
+<keyword>math</keyword>
+</keywordset>
+
+</bookinfo>
+
+&introduction;
+&using;
+&commands;
+&menu;
+
+<!-- 
+<chapter id="faq">
+<title>Questions and Answers</title>
+&reporting.bugs;
+&updating.documentation;
 
 	</chapter> -->
 
-	&developer;
-	&credits;
-	&install;
+&developer;
+&credits;
+&install;
 
-	&documentation.index;
+&documentation.index;
 </book>
 <!--
 Local Variables:

@@ -1,7 +1,7 @@
-<chapter id="menuentries">
+<chapter id="menu-entries">
 <title>The Menu Entries</title>
 
-<sect1>
+<sect1 id="file-menu">
 <title>The <guimenu>File</guimenu> Menu</title>
 <para>
 <variablelist>
@@ -60,7 +60,7 @@
         <keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
       </shortcut>
       <guimenu>File</guimenu>
-      <guimenuitem>Print</guimenuitem>
+      <guimenuitem>Print...</guimenuitem>
     </menuchoice>
   </term>
   <listitem>
@@ -87,7 +87,7 @@
 
 </sect1>
 
-<sect1 id="func_menu">
+<sect1 id="func-menu">
 <title>The <guimenu>Functions</guimenu> Menu</title>
 
 <variablelist>
@@ -117,7 +117,7 @@
 </variablelist>
 </sect1>
 
-<sect1 id="settings_menu">
+<sect1 id="settings-menu">
 <title>The <guimenu>Settings</guimenu> Menu</title>
 
 <para>
@@ -179,7 +179,7 @@ and the statusbar. In addition there are the following options:
 
 </sect1>
 
-<sect1 id="help_menu">
+<sect1 id="help-menu">
 <title>The <guimenu>Help</guimenu> Menu</title>
 
 <para>&kmplot; has a standard &kde; <guimenu>Help</guimenu> as described

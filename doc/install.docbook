@@ -1,25 +1,23 @@
 <appendix id="installation">
-	<title>Installation</title>
+<title>Installation</title>
 
-	&install.intro.documentation;
+&install.intro.documentation;
 
-	<para>
-		<inlinemediaobject>
-			<imageobject>
-				<imagedata fileref="edu-logo.png" format="PNG"/>
-			</imageobject>
-		</inlinemediaobject>
-		&kmplot; is part of the KDE-EDU Project:
-		<ulink url="http://edu.kde.org/">http://edu.kde.org/</ulink>
-	</para>
-	<para>
-		&kmplot; has it's own homepage at 
-		<ulink url="http://kmplot.sourceforge.net">SourceForge</ulink>. 
-		You can also find archives of older versions of &kmplot; there, for example,
-		for &kde; 2.x
-	</para>
+<mediaobject>
+<imageobject>			
+<imagedata fileref="edu-logo.png" format="PNG"/>
+</imageobject>
+</mediaobject>
 
-	&install.compile.documentation;
+<para>&kmplot; is part of the &kde; EDU Project: <ulink
+url="http://edu.kde.org/">http://edu.kde.org/</ulink></para>
+
+<para>&kmplot; has it's own homepage at <ulink
+url="http://kmplot.sourceforge.net">SourceForge</ulink>. You can also
+find archives of older versions of &kmplot; there, for example, for
+&kde; 2.x</para>
+
+&install.compile.documentation;
 
 </appendix>
 

@@ -42,7 +42,7 @@ KPrinterDlg::KPrinterDlg( QWidget *parent, const char *name )
 	layout->setSpacing( KDialog::spacingHint() );
 
 
-	m_printtable = new QCheckBox( i18n( "print header table" ), this );
+	m_printtable = new QCheckBox( i18n( "Print header table" ), this );
 	m_printtable->setChecked( true );
 	layout->addWidget( m_printtable );
 	layout->addStretch( 1 );

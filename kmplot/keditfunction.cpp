@@ -24,6 +24,7 @@
 */
 // Qt includes
 #include <qcheckbox.h>
+#include <qstringlist.h>
 
 // KDE includes
 #include <kapplication.h>
@@ -63,6 +64,8 @@ void KEditFunction::clearWidgets()
 	checkBoxHide->setChecked( false );
 	checkBoxDerivative1->setChecked( false );
 	checkBoxDerivative2->setChecked( false );
+	hasParameters->setChecked( false );
+	parameters->clear();
 	checkBoxRange->setChecked( false );
 	min->clear();
 	max->clear();
@@ -79,6 +82,13 @@ void KEditFunction::setWidgets()
 	checkBoxDerivative1->setChecked( m_parser->fktext[ m_index ].f1_mode == 1 );
 	checkBoxDerivative2->setChecked( m_parser->fktext[ m_index ].f2_mode == 1 );
 	checkBoxHide->setChecked( m_parser->fktext[ m_index ].f_mode == 0 );
+	hasParameters->setChecked( m_parser->fktext[ m_index ].k_anz != 0 );
+	QStringList listOfParameters;
+	for( int k_index = 0; k_index < m_parser->fktext[ m_index ].k_anz; k_index++ )
+	{
+		listOfParameters += QString::number( m_parser->fktext[ m_index ].k_liste[ k_index ] );
+	}
+	parameters->setText( listOfParameters.join( "," ) );
 	checkBoxRange->setChecked( m_parser->fktext[ m_index ].dmin == m_parser->fktext[ m_index ].dmax == 0 );
 	min->setText( m_parser->fktext[ m_index ].str_dmin );
 	max->setText( m_parser->fktext[ m_index ].str_dmax );
@@ -116,6 +126,18 @@ void KEditFunction::accept()
 		m_parser->fktext[ index ].f1_mode = 1;
 	if( checkBoxDerivative2->isChecked() )
 		m_parser->fktext[ index ].f2_mode = 1;
+		
+	if( hasParameters->isChecked() )
+	{
+		QStringList listOfParameters = QStringList::split( ",", parameters->text() );
+		m_parser->fktext[ index ].k_anz = 0;
+		for( QStringList::Iterator it = listOfParameters.begin(); it != listOfParameters.end(); ++it )
+		{
+			m_parser->fktext[ index ].k_liste[ m_parser->fktext[ index ].k_anz ] = 
+				( *it ).toDouble();
+			m_parser->fktext[ index ].k_anz++;
+		}
+	}
 	
 	if( checkBoxRange->isChecked() )
 	{

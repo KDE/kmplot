@@ -97,6 +97,10 @@ public:
 	/** Current plot range endge. */
 	static double xmin;
 	static double xmax;
+	
+	/// trace mode stuff, must be accessible in KMinMax
+	int csmode;
+	char cstype;
 public slots:
 	/// Called when the user want to cancel the drawing
 	void progressbar_clicked();
@@ -125,7 +129,6 @@ private:
 	/// The central parser instance.
 	/// @see parser()
 	XParser *m_parser;
-
 	    
 	int w, h;
 	float s;
@@ -140,9 +143,7 @@ private:
 	//@}
 	/// trace mode stuff
 	int csflg,
-	csmode,
 	rootflg;
-	char cstype;
 			
 	CDiagr dgr;	///< Coordinate system 
 	QPoint ref;

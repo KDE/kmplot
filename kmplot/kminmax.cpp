@@ -72,13 +72,20 @@ KMinMax::KMinMax(View *v, char m, QWidget *parent, const char *name)
 		if ( m_view->parser()->getfkt( index, fname, fstr ) == -1 ) continue;
 		if( fname[0] != 'x'  && fname[0] != 'y' && fname[0] != 'r')
 		{
-			list->insertItem(m_view->parser()->fktext[ index ].extstr );
+			if ( m_view->parser()->fktext[ index ].f_mode )
+				list->insertItem(m_view->parser()->fktext[ index ].extstr);
+					if ( m_view->csmode == index) 
+						if (  m_view->cstype == 0 && m_view->parser()->fktext[ index ].f_mode)
+							list->setSelected(list->count()-1,true);
 			if ( m_view->parser()->fktext[ index ].f1_mode ) //1st derivative
 			{
 				QString function (m_view->parser()->fktext[ index ].extstr);
 				int i= function.find('(');
 				function.insert(i,'\'');
 				list->insertItem(function );
+				if ( m_view->csmode == index) 
+					if (  m_view->cstype == 1 && m_view->parser()->fktext[ index ].f1_mode)
+						list->setSelected(list->count()-1,true);
 			}
 			if ( m_view->parser()->fktext[ index ].f2_mode )//2nd derivative
 			{
@@ -86,6 +93,9 @@ KMinMax::KMinMax(View *v, char m, QWidget *parent, const char *name)
 				int i= function.find('(');
 				function.insert(i,"\'\'");
 				list->insertItem(function );
+				if ( m_view->csmode == index) 
+					if (  m_view->cstype == 2 && m_view->parser()->fktext[ index ].f2_mode)
+						list->setSelected(list->count()-1,true);
 			}
 			if ( m_view->parser()->fktext[ index ].anti_mode )//anti derivative
 			{
@@ -97,7 +107,6 @@ KMinMax::KMinMax(View *v, char m, QWidget *parent, const char *name)
 				list->insertItem(function );
 			}
 		}
-			
 	}	
 }
 

@@ -63,16 +63,16 @@ class KmPlotIO
 		static void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
 		/// Reads axes parameters from the node @a n.
 		/// @param n Node containing the options.
-		static void KmPlotIO::parseAxes( const QDomElement &n );
+		static void parseAxes( const QDomElement &n );
 		/// Reads grid parameters from the node @a n.
 		/// @param n Node containing the options.
-		static void KmPlotIO::parseGrid( const QDomElement &n );
+		static void parseGrid( const QDomElement &n );
 		/// Reads scale parameters from the node @a n.
 		/// @param n Node containing the options.
-		static void KmPlotIO::parseScale( const QDomElement &n );
+		static void parseScale( const QDomElement &n );
 		/// Reads function parameters from the node @a n.
 		/// @param n Node containing the options.
-		static void KmPlotIO::parseFunction( XParser *parser, const QDomElement &n );
+		static void parseFunction( XParser *parser, const QDomElement &n );
 		/// Reads parameter values for a function from the node @a n.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance

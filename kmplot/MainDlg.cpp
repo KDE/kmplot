@@ -298,58 +298,59 @@ void MainDlg::slotSaveas()
 }
 
 void MainDlg::slotExport()
-{	KURL file = KFileDialog::getSaveURL(QDir::currentDirPath(),
+{
+        KURL url = KFileDialog::getSaveURL(QDir::currentDirPath(),
 		i18n("*.svg|Scalable Vector Graphics (*.svg)\n*.bmp|Bitmap 180dpi (*.bmp)\n*.png|Bitmap 180dpi (*.png)"),
 		this, i18n("Export") );
-	if(!file.isEmpty())
+	if(!url.isEmpty())
 	{
-		// check if file exists and overwriting is ok.
-		if( KIO::NetAccess::exists(file,false,this ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(file.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
+               // check if file exists and overwriting is ok.
+               if( KIO::NetAccess::exists(file,false,this ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(file.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
 
-		if( file.fileName().right(4).lower()==".svg")
+		if( url.fileName().right(4).lower()==".svg")
 		{
 			QPicture pic;
 			view->draw(&pic, 2);
-                        if (file.isLocalFile() )
-	        	      pic.save( file.fileName(), "SVG");
+                        if (url.isLocalFile() )
+	        	      pic.save( url.prettyURL(0,KURL::StripFileProtocol), "SVG");
                         else
                         {
                                 KTempFile tmp;
                                 pic.save( tmp.name(), "SVG");
-                                if ( !KIO::NetAccess::upload(tmp.name(), file, 0) )
-                                        KMessageBox::error(this, i18n("The file could not be saved") );
+                                if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+                                        KMessageBox::error(this, i18n("The url could not be saved") );
                                 tmp.unlink();
                         }
 		}
 
-		else if( file.fileName().right(4).lower()==".bmp")
+		else if( url.fileName().right(4).lower()==".bmp")
 		{
 			QPixmap pic(100, 100);
 			view->draw(&pic, 3);
-			if (file.isLocalFile() )
-                              pic.save( file.fileName(), "BMP");
+			if (url.isLocalFile() )
+                              pic.save(  url.prettyURL(0,KURL::StripFileProtocol), "BMP");
                         else
                         {
                                 KTempFile tmp;
                                 pic.save( tmp.name(), "BMP");
-                                if ( !KIO::NetAccess::upload(tmp.name(), file, 0) )
-                                        KMessageBox::error(this, i18n("The file could not be saved") );
+                                if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+                                        KMessageBox::error(this, i18n("The url could not be saved") );
                                 tmp.unlink();
                         }
 		}
 
-		else if( file.fileName().right(4).lower()==".png")
+		else if( url.fileName().right(4).lower()==".png")
 		{
 			QPixmap pic(100, 100);
 			view->draw(&pic, 3);
-			if (file.isLocalFile() )
-                              pic.save( file.fileName(), "PNG");
+			if (url.isLocalFile() )
+                              pic.save( url.prettyURL(0,KURL::StripFileProtocol), "PNG");
                         else
                         {
                                 KTempFile tmp;
                                 pic.save( tmp.name(), "PNG");
-                                if ( !KIO::NetAccess::upload(tmp.name(), file, 0) )
-                                        KMessageBox::error(this, i18n("The file could not be saved") );
+                                if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+                                        KMessageBox::error(this, i18n("The url could not be saved") );
                                 tmp.unlink();
                         }
 		}

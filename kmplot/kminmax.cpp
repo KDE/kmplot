@@ -292,7 +292,7 @@ void KMinMax::cmdFind_clicked()
 		{
 			m_view->setFocus();
 			m_view->update();
-			KMessageBox::information(this,i18n("The area between %1 and %1\nis: %3").arg(dmin_tmp).arg(dmax).arg(dmin));
+			KMessageBox::information(this,i18n("The area between %1 and %2\nis: %3").arg(dmin_tmp).arg(dmax).arg(dmin));
 		}
 	}
 

@@ -194,7 +194,7 @@ private:
 	g_mode,
 
 	/** If the this flag is set to 1 the output device is a printer.
-	 * Since some Qt changes it is neccesary to distinguish between drawing 
+	 * Since some Qt changes it is necessary to distinguish between drawing 
 	 * to printer or screen to preserve the high precision of the output.
 	 */
 	prt;

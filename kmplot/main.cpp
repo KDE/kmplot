@@ -77,3 +77,4 @@ int main( int argc, char **argv )
 	ka.setMainWidget( w );
 	return ka.exec();
 }
+

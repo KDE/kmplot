@@ -204,3 +204,4 @@ class MainDlg : public KMainWindow
 };
 
 #endif // MainDlg_included
+

@@ -97,3 +97,4 @@ void KEditConstant::txtVariable_lostFocus()
 }
 
 #include "keditconstant.moc"
+

@@ -404,3 +404,4 @@ void EditFunction::fixFunctionArguments(QString &f_str)
 	f_str.insert(closeBracket,parameter_name);
 	f_str.insert(closeBracket,',');
 }
+

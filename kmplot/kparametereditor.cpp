@@ -136,7 +136,7 @@ void KParameterEditor::cmdImport_clicked()
         
         if (!KIO::NetAccess::exists(url,true,this) )
         {
-                KMessageBox::error(0,i18n("The file doesn't exist."));
+                KMessageBox::error(0,i18n("The file does not exist."));
                 return;
         }
         

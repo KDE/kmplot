@@ -746,3 +746,4 @@ void MainDlg::toggleShowSlider3( )
 	if( !view->sliders[ 3 ]->isShown() ) view->sliders[ 3 ]->show();
 	else view->sliders[ 3 ]->hide();
 }
+

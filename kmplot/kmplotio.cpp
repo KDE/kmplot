@@ -220,7 +220,7 @@ bool KmPlotIO::load( XParser *parser, const KURL &url )
         {
                 if( !KIO::NetAccess::exists( url, true, 0 ) )
                 {
-                        KMessageBox::error(0,i18n("The file doesn't exist."));
+                        KMessageBox::error(0,i18n("The file does not exist."));
                         return false;
                 }
                 QString tmpfile;
@@ -484,3 +484,4 @@ void KmPlotIO::oldParseScale( const QDomElement & n )
 	Settings::setXPrinting( unit2index( n.namedItem( "print-tic-x" ).toElement().text() ) );
 	Settings::setYPrinting( unit2index( n.namedItem( "print-tic-y" ).toElement().text() ) );
 }
+

@@ -1960,3 +1960,4 @@ bool View::event( QEvent * e )
 	}
 	return QWidget::event(e); //send the information further
 };
+

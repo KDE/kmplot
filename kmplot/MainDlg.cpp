@@ -341,6 +341,7 @@ void MainDlg::load()
 
 void MainDlg::openRecent( const KURL &url )
 {
+	if( !checkModified() ) return;
 	openFile( url.path() );
 	m_filename = url.path();
 	setCaption( m_filename );
@@ -621,28 +622,28 @@ void MainDlg::onQuickEdit( const QString& f_str )
 
 void MainDlg::onachsen1()
 {
-	koordx = koordy = 0;
-	xmin = ymin = -8.;
-	xmax = ymax = 8.;
+	Settings::setXRange( 0 );
+	Settings::setYRange( 0 );
+	getSettings();
+	m_modified = true;
 	view->update();
 }
 
 void MainDlg::onachsen2()
 {
-	koordx = 2;
-	koordy = 0;
-	xmin = 0.;
-	ymin = -8.;
-	xmax = 16.;
-	ymax = 8.;
+	Settings::setXRange( 2 );
+	Settings::setYRange( 0 );
+	getSettings();
+	m_modified = true;
 	view->update();
 }
 
 void MainDlg::onachsen3()
 {
-	koordx = koordy = 2;
-	xmin = ymin = 0.;
-	xmax = ymax = 16.;
+	Settings::setXRange( 2 );
+	Settings::setYRange( 2 );
+	getSettings();
+	m_modified = true;
 	view->update();
 }
 

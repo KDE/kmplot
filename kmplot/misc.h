@@ -166,6 +166,11 @@ extern	QRgb AchsenFarbe,
  */
 extern bool printtable;
  
+/**
+ * Converting 
+ */
+bool coordToMinMax( const int koord, double &min, double &max, const QString minStr = "", const QString maxStr = "" );
+
 /** Inits all global variables with respect to the global config file @p kc. 
  */
 void getSettings();

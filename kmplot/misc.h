@@ -14,13 +14,14 @@
 extern KConfig *kc;
 extern XParser	ps;
 
-extern	char mode,			// Diagrammodus
+extern	int mode,			// Diagrammodus
 	     g_mode;			// Rastermodus
 
 extern	int koordx,			// 0 => [-8|+8]
 	    koordy,				// 1 => [-5|+5]
 							// 2 => [0|+16]
 							// 3 => [0|+10]
+							// 4 => custom...
 	    AchsenDicke,
 	    GitterDicke,
 	    TeilstrichDicke,
@@ -50,6 +51,7 @@ extern QString datei,		// Dateiname
 extern	QRgb AchsenFarbe,
 	     GitterFarbe;
 
+extern bool printtable;		// header table printing option
 
 void 	init();				// Initialisierung
 

@@ -41,6 +41,7 @@ protected slots:
 	
 private:
   	void plotfkt(int, QPainter*);
+	void getMinMax( int koord, QString &mini, QString &maxi );
     void setpi(QString *);
   	
   	int csflg,

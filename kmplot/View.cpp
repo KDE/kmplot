@@ -44,7 +44,7 @@ void View::draw(QPaintDevice *dev)
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale(dpi/254., dpi/254.);
 		s*=(254./dpi);
-		tabelle(&DC);
+		if ( printtable ) tabelle(&DC);
         dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode, 1);
         //return;
 	}
@@ -167,9 +167,13 @@ void View::tabelle(QPainter *pDC)
 	pDC->setPen(QPen(black, (int)(5.*s)));
 	pDC->setFont(QFont("helvetica", 30));
 
-	alx="[ "+xminstr+" | "+xmaxstr+" ]";
+	QString minStr = xminstr;
+	QString maxStr = xmaxstr;
+	getMinMax( koordx, minStr, maxStr );
+	alx="[ "+minStr+" | "+maxStr+" ]";
+	getMinMax( koordy, minStr, maxStr );
+	aly="[ "+minStr+" | "+maxStr+" ]";
     setpi(&alx);
-	aly="[ "+yminstr+" | "+ymaxstr+" ]";
     setpi(&aly);
 	atx="1E  =  "+tlgxstr;
     setpi(&atx);
@@ -211,13 +215,34 @@ void View::tabelle(QPainter *pDC)
 	pDC->translate(-100., ypos+100.);
 }
 
+void View::getMinMax( int koord, QString &mini, QString &maxi )
+{
+    switch ( koord )
+    {
+    case 0:
+        mini = "-8.0";
+        maxi = "8.0";
+		break;
+    case 1:
+        mini = "-5.0";
+        maxi = "5.0";
+		break;
+    case 2:
+        mini = "0.0";
+        maxi = "16.0";
+		break;
+    case 3:
+        mini = "0.0";
+        maxi = "10.0";
+	}
+}
+	
 void View::setpi(QString *s)
 {   int i;
     QChar c(960);
 
     while((i=s->find('p'))!=-1) s->replace(i, 2, &c, 1);
 }
-
 
 // Slots
 

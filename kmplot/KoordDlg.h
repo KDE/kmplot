@@ -6,7 +6,6 @@
 #include "misc.h"
 #include "diagr.h"
 #include <klocale.h>
-#include <qradiobutton.h>
 
 
 class KoordDlg : public KoordDlgData
@@ -46,7 +45,8 @@ protected slots:
 	void onoptions();
 	void xclicked(int);
 	void yclicked(int);
-	
+	void onXChanged();
+	void onYChanged();
 };
 
 #endif // KoordDlg_included

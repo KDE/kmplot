@@ -6,7 +6,7 @@ KConfig *kc;
 
 XParser ps( 10, 200, 20 );
 
-char mode,    // Diagrammodus
+int mode,    // Diagrammodus
 g_mode;  // Rastermodus
 
 int koordx,    // 0 => [-8|+8]
@@ -42,6 +42,7 @@ drskalystr;             // String für drskaly
 QRgb AchsenFarbe,
 GitterFarbe;
 
+bool printtable;		// header table printing option
 
 
 void init()

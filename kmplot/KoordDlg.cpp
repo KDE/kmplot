@@ -2,19 +2,25 @@
 #include "KoordDlg.h"
 #include "KoordDlg.moc"
 
+// Qt includes
+#include <qbuttongroup.h>
+
 // KDE includes
-#include "kmessagebox.h"
+#include <kdebug.h>
+#include <kmessagebox.h>
 
 #define Inherited KoordDlgData
 
-KoordDlg::KoordDlg(QWidget* parent, const char* name, bool modal) : Inherited(parent, name, modal)
-{	kdx=koordx; kdy=koordy;
-	setachsen();
-	le_xmin->setText(xminstr);
-	le_xmax->setText(xmaxstr);
-	le_ymin->setText(yminstr);
-	le_ymax->setText(ymaxstr);
-	cb_beschr->setChecked(mode&BESCHRIFTUNG);
+KoordDlg::KoordDlg( QWidget* parent, const char* name, bool modal ) : Inherited( parent, name, modal )
+{
+    le_xmin->setText( xminstr );
+    le_xmax->setText( xmaxstr );
+    le_ymin->setText( yminstr );
+    le_ymax->setText( ymaxstr );
+    kdx = koordx;
+    kdy = koordy;
+    setachsen();
+    cb_beschr->setChecked( mode & BESCHRIFTUNG );
 }
 
 KoordDlg::~KoordDlg()
@@ -22,107 +28,154 @@ KoordDlg::~KoordDlg()
 }
 
 void KoordDlg::setachsen()
-{	switch(kdx)
-	{ case 0:	mxminstr="-8"; mxmaxstr="8";
-				rb_x1->setChecked(TRUE); break;
-      case 1:	mxminstr="-5"; mxmaxstr="5";
-      	  		rb_x2->setChecked(TRUE); break;
-      case 2:	mxminstr="0";  mxmaxstr="16";
-     	  		rb_x3->setChecked(TRUE); break;
-      case 3:	mxminstr="0";  mxmaxstr="10";
-      	  		rb_x4->setChecked(TRUE);
-    }
-    switch(kdy)
-	{ case 0:	myminstr="-8"; mymaxstr="8";
-				rb_y1->setChecked(TRUE); break;
-      case 1:	myminstr="-5"; mymaxstr="5";
-      	  		rb_y2->setChecked(TRUE); break;
-      case 2:	myminstr="0";  mymaxstr="16";
-      	  		rb_y3->setChecked(TRUE); break;
-      case 3:	myminstr="0";  mymaxstr="10";
-      	  		rb_y4->setChecked(TRUE); 
-    }
-	le_xmin->setText(mxminstr);
-	le_xmax->setText(mxmaxstr);
-	le_ymin->setText(myminstr);
-	le_ymax->setText(mymaxstr);
+{
+    bg_xachse->setButton( kdx );
+    bg_yachse->setButton( kdy );
 }
 
-int KoordDlg::wertholen(double& w, QLineEdit *le)
-{	w=ps.eval(le->text());
-	if(ps.err!=0)
-	{	ps.errmsg();
-		errflg=1;
-		return -1;
-	}
-	return 0;
+int KoordDlg::wertholen( double& w, QLineEdit *le )
+{
+    w = ps.eval( le->text() );
+    if ( ps.err != 0 )
+    {
+        ps.errmsg();
+        errflg = 1;
+        return -1;
+    }
+    return 0;
 }
 
 // Slots
 
 void KoordDlg::onok()
-{	int m;
+{
+    int m;
 
-	koordx=kdx; koordy=kdy;
-	if(wertholen(mxmin, le_xmin)!=0) return;
-    if(wertholen(mxmax, le_xmax)!=0) return;
-    if(mxmin>=mxmax)
-    {	KMessageBox::error( this, i18n( "Wrong input:\nxmin > xmax"), "KmPlot" );
-    	return;
+    koordx = kdx;
+    switch ( kdx )
+    {
+    case 0:
+        mxmin = -8.0;
+        mxmax = 8.0;
+		break;
+    case 1:
+        mxmin = -5.0;
+        mxmax = 5.0;
+		break;
+    case 2:
+        mxmin = 0.0;
+        mxmax = 16.0;
+		break;
+    case 3:
+        mxmin = 0.0;
+        mxmax = 10.0;
+		break;
+    case 4:
+        if ( wertholen( mxmin, le_xmin ) != 0 )
+            return ;
+        if ( wertholen( mxmax, le_xmax ) != 0 )
+            return ;
+        if ( mxmin >= mxmax )
+        {
+            KMessageBox::error( this, i18n( "Wrong input:\nxmin > xmax" ), "KmPlot" );
+            return ;
+        }
+    }
+    koordy = kdy;
+    switch ( kdy )
+    {
+    case 0:
+        mymin = -8.0;
+        mymax = 8.0;
+		break;
+    case 1:
+        mymin = -5.0;
+        mymax = 5.0;
+		break;
+    case 2:
+        mymin = 0.0;
+        mymax = 16.0;
+		break;
+    case 3:
+        mymin = 0.0;
+        mymax = 10.0;
+		break;
+    case 4:
+        if ( wertholen( mymin, le_ymin ) != 0 )
+            return ;
+        if ( wertholen( mymax, le_ymax ) != 0 )
+            return ;
+        if ( mymin >= mymax )
+        {
+            KMessageBox::error( this, i18n( "Wrong input:\nymin > ymax" ), "KmPlot" );
+            return ;
+        }
     }
 
-	if(wertholen(mymin, le_ymin)!=0) return;
-    if(wertholen(mymax, le_ymax)!=0) return;
-    if(mymin>=mymax)
-    {	KMessageBox::error( this, i18n( "Wrong input:\nymin > ymax"), "KmPlot" );
-    	return;
+    xmin = mxmin;
+    xmax = mxmax;
+    ymin = mymin;
+    ymax = mymax;
+    xminstr = le_xmin->text();
+    xmaxstr = le_xmax->text();
+    yminstr = le_ymin->text();
+    ymaxstr = le_ymax->text();
+    errflg = 0;
+    if ( cb_beschr->isChecked() )
+    {
+        m = 1;
+        mode |= BESCHRIFTUNG;
+    }
+    else
+    {
+        m = 0;
+        mode &= ~BESCHRIFTUNG;
     }
 
-	xmin=mxmin; xmax=mxmax;
-	ymin=mymin; ymax=mymax;
-	xminstr=le_xmin->text(); xmaxstr=le_xmax->text();
-	yminstr=le_ymin->text(); ymaxstr=le_ymax->text();
-	errflg=0;
-	if(cb_beschr->isChecked())
-	{	m=1;
-		mode|=BESCHRIFTUNG;
-	}
-	else
-	{	m=0;
-		mode&=~BESCHRIFTUNG;
-	}
-	
-	if(cb_default->isChecked())
-	{	kc->setGroup("Axes");
-	
-		kc->writeEntry("Xmin", xminstr);
-		kc->writeEntry("Xmax", xmaxstr);
-		kc->writeEntry("Ymin", yminstr);
-		kc->writeEntry("Ymax", ymaxstr);
-		kc->writeEntry( "Labeled", m==1 );
-		kc->sync();
-	}
+    if ( cb_default->isChecked() )
+    {
+        kc->setGroup( "Axes" );
 
-	done(1);
+        kc->writeEntry( "Xmin", xminstr );
+        kc->writeEntry( "Xmax", xmaxstr );
+        kc->writeEntry( "Ymin", yminstr );
+        kc->writeEntry( "Ymax", ymaxstr );
+        kc->writeEntry( "Labeled", m == 1 );
+        kc->sync();
+    }
+    done( 1 );
 }
 
 void KoordDlg::oncancel()
-{	done(0);
+{
+    done( 0 );
 }
 
 void KoordDlg::onoptions()
-{	KOptDlg odlg;
+{
+    KOptDlg odlg;
 
-	odlg.exec();
+    odlg.exec();
 }
 
-void KoordDlg::xclicked(int ix)
-{	kdx=ix;
+void KoordDlg::xclicked( int ix )
+{
+    kdx = ix;
+}
+
+void KoordDlg::yclicked( int iy )
+{
+    kdy = iy;
+}
+
+void KoordDlg::onXChanged()
+{
+    kdx = 4;
 	setachsen();
 }
 
-void KoordDlg::yclicked(int iy)
-{	kdy=iy;
+void KoordDlg::onYChanged()
+{
+    kdy = 4;
 	setachsen();
 }
-

@@ -1675,31 +1675,24 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 		p.setY(dgr.Transy(y));
 		if (dmin<=x && x<=dmax)
 		{
-			if(dgr.xclipflg || dgr.yclipflg)
+			if( dgr.xclipflg || dgr.yclipflg ) //out of bounds
 			{
-				if ( y<0)
+				if (y>-10e10 && y<10e10)
 				{
-					//p.setY(dgr.Transy(ymin));
-					rectheight = origoy-p.y() ;
+					if ( y<0)
+						rectheight = origoy-p.y() ;
+					else
+						rectheight= -1*( p.y()-origoy);	
+					calculated_area = calculated_area + ( dx*y);
+					DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 				}
-				else
-				{
-					//p.setY(dgr.Transy(ymax));
-					rectheight= -1*( p.y()-origoy) ;
-				}
-				calculated_area = calculated_area + ( dx*y);
-				DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 			}
 			else
 			{
 				if ( y<0)
-				{
 					rectheight =  origoy-p.y();
-				}
 				else
-				{
 					rectheight = -1*( p.y()-origoy);
-				}
 				calculated_area = calculated_area + (dx*y);
 				/*kdDebug() << "Area: " << area << endl;
 				kdDebug() << "x:" << p.height() << endl;

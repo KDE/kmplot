@@ -317,16 +317,16 @@ int Parser::addfkt(QString str)
 			break;
 		}
 	}
+	if(ix==ufanz)
+	{   err=5;
+		return -1;
+	}	// zu viele Funktionen
+	
 	if ( ufkt[ix].fname != ufkt[ix].fname.lower() ) //isn't allowed to contain capital letters
 	{
 		err=12;
 		return -1;
 	}
-	if(ix==ufanz)
-	{   err=5;
-		return -1;
-	}	// zu viele Funktionen
-
 	ixa=ix;
 	mem=mptr=ufkt[ix].mem;
 	lptr=(str.latin1())+p3+2;

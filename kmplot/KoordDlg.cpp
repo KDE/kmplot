@@ -1,5 +1,8 @@
+// local includes
 #include "KoordDlg.h"
 #include "KoordDlg.moc"
+
+// KDE includes
 #include "kmessagebox.h"
 
 #define Inherited KoordDlgData
@@ -90,12 +93,13 @@ void KoordDlg::onok()
 	}
 	
 	if(cb_default->isChecked())
-	{	kc->setGroup("Achsen");
-		kc->writeEntry("xmin", xminstr);
-		kc->writeEntry("xmax", xmaxstr);
-		kc->writeEntry("ymin", yminstr);
-		kc->writeEntry("ymax", ymaxstr);
-		kc->writeEntry("Beschriftung", m);
+	{	kc->setGroup("Axes");
+	
+		kc->writeEntry("Xmin", xminstr);
+		kc->writeEntry("Xmax", xmaxstr);
+		kc->writeEntry("Ymin", yminstr);
+		kc->writeEntry("Ymax", ymaxstr);
+		kc->writeEntry( "Labeled", m==1 );
 		kc->sync();
 	}
 

@@ -1,3 +1,4 @@
+// local includes
 #include "RstDlg.h"
 #include "RstDlg.moc"
 
@@ -34,10 +35,11 @@ void RstDlg::onok()
 	GitterFarbe=farbe.rgb();
 	
 	if(cb_default->isChecked())
-	{	kc->setGroup("Gitter");
-		kc->writeEntry("Gitterstärke", GitterDicke);
+	{	kc->setGroup( "Grid" );
+
+		kc->writeEntry("Line Width", GitterDicke);
 		kc->writeEntry("Mode", g_mode);
-		kc->writeEntry("Gitterfarbe", farbe);
+		kc->writeEntry("Color", farbe);
 		kc->sync();
 	}
 	

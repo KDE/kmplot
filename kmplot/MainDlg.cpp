@@ -1,3 +1,4 @@
+// local includes
 #include "MainDlg.h"
 #include "MainDlg.moc"
 
@@ -73,25 +74,26 @@ void MainDlg::doSave()
 
     KConfig file(datei);
     file.setGroup("Axes");
-    file.writeEntry("mode", mode);
-    file.writeEntry("g_mode", g_mode);
-    file.writeEntry("xmin", xmin);
-    file.writeEntry("xmax", xmax);
-    file.writeEntry("ymin", ymin);
-    file.writeEntry("ymax", ymax);
-    file.writeEntry("xminstr", xminstr);
-    file.writeEntry("xmaxstr", xmaxstr);
-    file.writeEntry("yminstr", yminstr);
-    file.writeEntry("ymaxstr", ymaxstr);
-    file.writeEntry("koordx", koordx);
-    file.writeEntry("koordy", koordy);
-
-    file.writeEntry("axes_thickness", AchsenDicke);
-    file.writeEntry("axes_color", QColor(AchsenFarbe));
-    file.writeEntry("grid_thickness", GitterDicke);
-    file.writeEntry("grid_color", QColor(GitterFarbe));
-    file.writeEntry("tic_thickness", TeilstrichDicke);
-    file.writeEntry("tic_length", TeilstrichLaenge);
+    file.writeEntry("Mode", mode);
+    file.writeEntry("Xmin", xmin);
+    file.writeEntry("Xmax", xmax);
+    file.writeEntry("Ymin", ymin);
+    file.writeEntry("Ymax", ymax);
+    file.writeEntry("Xmin String", xminstr);
+    file.writeEntry("Xmax String", xmaxstr);
+    file.writeEntry("Ymin String", yminstr);
+    file.writeEntry("Ymax String", ymaxstr);
+    file.writeEntry("Coord X", koordx);
+    file.writeEntry("Coord Y", koordy);
+    file.writeEntry("Axes Width", AchsenDicke);
+    file.writeEntry("Color", QColor(AchsenFarbe));
+    file.writeEntry("Tic Width", TeilstrichDicke);
+    file.writeEntry("Tic Length", TeilstrichLaenge);
+    
+    file.setGroup("Grid");
+    file.writeEntry("Mode", g_mode);
+    file.writeEntry("Line Width", GitterDicke);
+    file.writeEntry("Color", QColor(GitterFarbe));
 
     file.setGroup("Scale");
     file.writeEntry("tlgx", tlgx);
@@ -107,14 +109,17 @@ void MainDlg::doSave()
     file.writeEntry("rsw", rsw);
 
     for(int ix=0; ix<ps.ufanz; ix++)
-    {   QString groupname ="function"+QString::number(ix);
+    {   if( !ps.fktext[ix].extstr.isEmpty() )
+        {
+            QString groupname = QString("Function%1").arg(ix);
         file.setGroup(groupname);
-        file.writeEntry("extstr", ps.fktext[ix].extstr);
-        file.writeEntry("f_mode", ps.fktext[ix].f_mode);
-        file.writeEntry("f1_mode", ps.fktext[ix].f1_mode);
-        file.writeEntry("f2_mode", ps.fktext[ix].f2_mode);
-        file.writeEntry("line_thickness", ps.fktext[ix].dicke);
-        file.writeEntry("color", QColor(ps.fktext[ix].farbe));
+        file.writeEntry("Equation", ps.fktext[ix].extstr);
+        file.writeEntry("Visible", ps.fktext[ix].f_mode);
+        file.writeEntry("Visible Derivative", ps.fktext[ix].f1_mode);
+        file.writeEntry("Visible 2nd Derivative", ps.fktext[ix].f2_mode);
+        file.writeEntry("Line Width", ps.fktext[ix].dicke);
+        file.writeEntry("Color", QColor(ps.fktext[ix].farbe));
+        }
     }
     file.sync();
 }
@@ -144,27 +149,31 @@ void MainDlg::load()
     KConfig file(datei);
     if(file.hasGroup("Axes"))
     {   file.setGroup("Axes");
-        mode=file.readUnsignedNumEntry("mode");
-        g_mode=file.readUnsignedNumEntry("g_mode");
-        xmin=file.readDoubleNumEntry("xmin", -8.0);
-        xmax=file.readDoubleNumEntry("xmax", 8.0);
-        ymin=file.readDoubleNumEntry("ymin", -8.0);
-        ymax=file.readDoubleNumEntry("ymax", 8.0);
-        xminstr=file.readEntry("xminstr");
-        xmaxstr=file.readEntry("xmaxstr");
-        yminstr=file.readEntry("yminstr");
-        ymaxstr=file.readEntry("ymaxstr");
-        koordx=file.readNumEntry("koordx");
-        koordy=file.readNumEntry("koordy");
-
-        AchsenDicke=file.readNumEntry("axes_thickness");
-        AchsenFarbe=file.readColorEntry("axes_color").rgb();
-        GitterDicke=file.readNumEntry("grid_thickness");
-        GitterFarbe=file.readColorEntry("grid_color").rgb();
-        TeilstrichDicke=file.readNumEntry("tic_thickness");
-        TeilstrichLaenge=file.readNumEntry("tic_length");
+        mode=file.readUnsignedNumEntry("Mode");
+        xmin=file.readDoubleNumEntry("Xmin", -8.0);
+        xmax=file.readDoubleNumEntry("Xmax", 8.0);
+        ymin=file.readDoubleNumEntry("Ymin", -8.0);
+        ymax=file.readDoubleNumEntry("Ymax", 8.0);
+        xminstr=file.readEntry("Xmin String");
+        xmaxstr=file.readEntry("Xmax String");
+        yminstr=file.readEntry("Ymin String");
+        ymaxstr=file.readEntry("Ymax String");
+        koordx=file.readNumEntry("Coord X");
+        koordy=file.readNumEntry("Coord Y");
+        AchsenDicke=file.readNumEntry("Axes Width");
+        AchsenFarbe=file.readColorEntry("Color").rgb();
+        TeilstrichDicke=file.readNumEntry("Tic Width");
+        TeilstrichLaenge=file.readNumEntry("Tic Length");
     }
 
+    if(file.hasGroup( "Grid" ) )
+    {
+        file.setGroup( "Grid" );
+        GitterFarbe=file.readColorEntry("Color").rgb();
+        g_mode=file.readUnsignedNumEntry("Mode");
+        GitterDicke=file.readNumEntry("Line Width");
+    }
+    
     if(file.hasGroup("Scale"))
     {   file.setGroup("Scale");
         tlgx=file.readDoubleNumEntry("tlgx");
@@ -182,15 +191,15 @@ void MainDlg::load()
         rsw=file.readDoubleNumEntry("rsw");
 
         for(int ix=0; ix<ps.ufanz; ix++)
-        {   QString groupname="function"+QString::number(ix);
+        {   QString groupname = QString("Function%1").arg(ix);
             if(file.hasGroup(groupname))
             {   file.setGroup(groupname);
-                ps.fktext[ix].extstr=file.readEntry("extstr");
-                ps.fktext[ix].f_mode=file.readUnsignedNumEntry("f_mode");
-                ps.fktext[ix].f1_mode=file.readUnsignedNumEntry("f1_mode");
-                ps.fktext[ix].f2_mode=file.readUnsignedNumEntry("f2_mode");
-                ps.fktext[ix].dicke=file.readNumEntry("line_thickness");
-                ps.fktext[ix].farbe=file.readColorEntry("color").rgb();
+                ps.fktext[ix].extstr=file.readEntry("Equation");
+                ps.fktext[ix].f_mode=file.readUnsignedNumEntry("Visible");
+                ps.fktext[ix].f1_mode=file.readUnsignedNumEntry("Visible Derivative");
+                ps.fktext[ix].f2_mode=file.readUnsignedNumEntry("Visible 2nd Derivative");
+                ps.fktext[ix].dicke=file.readNumEntry("Line Width");
+                ps.fktext[ix].farbe=file.readColorEntry("Color").rgb();
 
                 QCString fstr=ps.fktext[ix].extstr.utf8();
                 if( !fstr.isEmpty() )

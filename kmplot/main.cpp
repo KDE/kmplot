@@ -23,8 +23,10 @@
 
 ************************************************************************/
 
+// local includes
 #include "main.h"
 
+// KDE includes
 #include "kcmdlineargs.h"
 #include "kaboutdata.h"
 #include "klocale.h"

@@ -1,3 +1,4 @@
+// local includes
 #include "KOptDlg.h"
 #include "KOptDlg.moc"
 
@@ -37,11 +38,12 @@ void KOptDlg::onok()
 	AchsenFarbe=farbe.rgb();
 	
 	if(cb_default->isChecked())
-	{	kc->setGroup("Achsen");
-		kc->writeEntry("Achsenstärke", ad);
-		kc->writeEntry("Teilstrichstärke", td);
-		kc->writeEntry("Teilstrichlänge", tl);
-		kc->writeEntry("Achsenfarbe", farbe);
+	{	kc->setGroup("Axes");
+		
+		kc->writeEntry("Axes Width", ad);
+		kc->writeEntry("Tic Width", td);
+		kc->writeEntry("Tic Length", tl);
+		kc->writeEntry("Color", farbe);
 		kc->sync();
 	}
 	

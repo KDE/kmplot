@@ -1,3 +1,4 @@
+// local includes
 #include "AttrDlg.h"
 #include "AttrDlg.moc"
 
@@ -23,9 +24,9 @@ void AttrDlg::onok()
 	if(cb_default->isChecked())
 	{	char s[8];
 	
-		kc->setGroup("Graphen");
-		kc->writeEntry("Linienstärke", ps.fktext[ix].dicke);
-		sprintf(s, "farbe%c", '0'+ix);
+		kc->setGroup( "Graphs" );
+		kc->writeEntry("Line Width", ps.fktext[ix].dicke);
+		sprintf(s, "Color%c", '0'+ix);
 		kc->writeEntry(s, farbe);
 		kc->sync();
 	}

@@ -76,7 +76,7 @@ void KMinMax::init(char m)
 		max->setText(range);
 		lblMin->setText(i18n("Search between the x-value:"));
 		lblMax->setText(i18n("and:"));
-		cmdFind->setText("&Find");
+		cmdFind->setText(i18n("&Find"));
 		QToolTip::add(min,i18n("lower boundary of the plot range"));
 		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		QToolTip::add(max,i18n("upper boundary of the plot range"));
@@ -108,7 +108,7 @@ void KMinMax::init(char m)
 		QToolTip::add(max,i18n("No returned y-value yet"));
 		QWhatsThis::add(max,i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
 		
-		cmdFind->setText("&Calculate");
+		cmdFind->setText(i18n("&Calculate"));
 		QToolTip::add( cmdFind, i18n( "Get the y-value from the x-value you typed" ) );
 		QWhatsThis::add(cmdFind,i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
 

@@ -31,34 +31,34 @@
 			<whatsthis>Enter the width of the plot line.</whatsthis>
 		</entry> 
 		<entry name="XRange" type="Int"> 
-			<label>predefined x-axis range</label>
+			<label>Predefined x-axis range</label>
 			<default>0</default>
 			<whatsthis>Predefined plot area widths.</whatsthis>
 		</entry> 
 		<entry name="YRange" type="Int"> 
-			<label>predefined y-axis range</label>
+			<label>Predefined y-axis range</label>
 			<default>0</default>
 			<whatsthis>Predefined plot area heights.</whatsthis>
 		</entry> 
 		<entry name="XMin" type="String"> 
-			<label>Left bound</label>
+			<label>Left boundary</label>
 			<default>"-2*pi"</default>
-			<whatsthis>Enter the left bound of the plotting area.</whatsthis>
+			<whatsthis>Enter the left boundary of the plotting area.</whatsthis>
 		</entry> 
 		<entry name="XMax" type="String"> 
-			<label>Right bound</label>
+			<label>Right boundary</label>
 			<default>"2*pi"</default>
-			<whatsthis>Enter the right bound of the plotting area.</whatsthis>
+			<whatsthis>Enter the right boundary of the plotting area.</whatsthis>
 		</entry> 
 		<entry name="YMin" type="String"> 
-			<label>Lower bound</label>
+			<label>Lower boundary</label>
 			<default>"-2*pi"</default>
-			<whatsthis>Enter the lower bound of the plotting area.</whatsthis>
+			<whatsthis>Enter the lower boundary of the plotting area.</whatsthis>
 		</entry> 
 		<entry name="YMax" type="String"> 
-			<label>Upper bound</label>
+			<label>Upper boundary</label>
 			<default>"2*pi"</default>
-			<whatsthis>Enter the upper bound of the plotting area.</whatsthis>
+			<whatsthis>Enter the upper boundary of the plotting area.</whatsthis>
 		</entry> 
 		<entry name="XScaling" type="Int"> 
 			<default>3</default>
@@ -100,57 +100,57 @@
 		</entry> 
 		<entry name="GridColor" type="Color">
 			<label>Grid Color</label>
-			<whatsthis>Chose a color for the grid lines.</whatsthis>
+			<whatsthis>Choose a color for the grid lines.</whatsthis>
 			<default>#C0C0C0</default>
 		</entry>
 		<entry name="Color0" type="Color">
 			<label>Color of function 1</label>
-			<whatsthis>Chose a color for function 1.</whatsthis>
+			<whatsthis>Choose a color for function 1.</whatsthis>
 			<default>#FF0000</default>
 		</entry>
 		<entry name="Color1" type="Color">
 			<label>Color of function 2</label>
-			<whatsthis>Chose a color for function 2.</whatsthis>
+			<whatsthis>Choose a color for function 2.</whatsthis>
 			<default>#00FF00</default>
 		</entry>
 		<entry name="Color2" type="Color">
 			<label>Color of function 3</label>
-			<whatsthis>Chose a color for function 3.</whatsthis>
+			<whatsthis>Choose a color for function 3.</whatsthis>
 			<default>#0000FF</default>
 		</entry>
 		<entry name="Color3" type="Color">
 			<label>Color of function 4</label>
-			<whatsthis>Chose a color for function 4.</whatsthis>
+			<whatsthis>Choose a color for function 4.</whatsthis>
 			<default>#FF00FF</default>
 		</entry>
 		<entry name="Color4" type="Color">
 			<label>Color of function 5</label>
-			<whatsthis>Chose a color for function 5.</whatsthis>
+			<whatsthis>Choose a color for function 5.</whatsthis>
 			<default>#FFFF00</default>
 		</entry>
 		<entry name="Color5" type="Color">
 			<label>Color of function 6</label>
-			<whatsthis>Chose a color for function 6.</whatsthis>
+			<whatsthis>Choose a color for function 6.</whatsthis>
 			<default>#00FFFF</default>
 		</entry>
 		<entry name="Color6" type="Color">
 			<label>Color of function 7</label>
-			<whatsthis>Chose a color for function 7.</whatsthis>
+			<whatsthis>Choose a color for function 7.</whatsthis>
 			<default>#008000</default>
 		</entry>
 		<entry name="Color7" type="Color">
 			<label>Color of function 8</label>
-			<whatsthis>Chose a color for function 8.</whatsthis>
+			<whatsthis>Choose a color for function 8.</whatsthis>
 			<default>#000080</default>
 		</entry>
 		<entry name="Color8" type="Color">
 			<label>Color of function 9</label>
-			<whatsthis>Chose a color for function 9.</whatsthis>
+			<whatsthis>Choose a color for function 9.</whatsthis>
 			<default>#000000</default>
 		</entry>
 		<entry name="Color9" type="Color">
 			<label>Color of function 10</label>
-			<whatsthis>Chose a color for function 10.</whatsthis>
+			<whatsthis>Choose a color for function 10.</whatsthis>
 			<default>#000000</default>
 		</entry>
 	</group>

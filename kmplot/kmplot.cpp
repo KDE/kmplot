@@ -81,6 +81,9 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 		return;
 	}
 
+	if (!initialGeometrySet())
+		resize( QSize(450, 520).expandedTo(minimumSizeHint()));
+
 	// apply the saved mainwindow settings, if any, and ask the mainwindow
 	// to automatically save settings if changed: window size, toolbar
 	// position, icon size, etc.

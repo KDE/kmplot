@@ -147,22 +147,135 @@ Settings</guilabel> dialog box. See <xref linkend="configuration"/>.
 </sect1>
 
 <sect1 id="a-functions-menu">
-<title>The <guimenu>Functions</guimenu> Menu</title>
+<title>The <guimenu>Plot</guimenu> Menu</title>
 
 <variablelist>
 <varlistentry>
 <term>
 <menuchoice>
 <guimenu>Functions</guimenu>
-<guimenuitem>Functions</guimenuitem>
+<guimenuitem>New Function Plot...</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>Displays the functions dialog. See <xref
+<listitem><para>Opens the dialog for creating a new function plot. See <xref
+linkend="using-kmplot"/>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Functions</guimenu>
+<guimenuitem>New Parametric Plot...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Opens the dialog for creating a new parametric plot. See <xref
+linkend="using-kmplot"/>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Functions</guimenu>
+<guimenuitem>New Polar Plot...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Opens the dialog for creating a new polar plot. See <xref
+linkend="using-kmplot"/>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Functions</guimenu>
+<guimenuitem>Edit Plots...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Displays the functions dialog. There you can add, edit and remove functions. See <xref
 linkend="using-kmplot"/>.</para></listitem>
 </varlistentry>
 
 </variablelist>
+
 </sect1>
+
+<sect1 id="a-zoom-menu">
+<title>The <guimenu>Zoom</guimenu> Menu</title>
+<para>The first five items in the menu change zoom-mode.</para>
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Zoom</guimenu>
+<guimenuitem>No Zoom</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Disable the zoom-mode.</para></listitem>
+</varlistentry>
+</variablelist>
+
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Zoom</guimenu>
+<guimenuitem>Zoom rectangular</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Let the user draw a rectangle. The minimum and maximum values will be set to the cordinates of the rectangle.</para></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Zoom</guimenu>
+<guimenuitem>Zoom in</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>The minimum and maximum values will come closer to eachother and the selected point in the graph will be centered.</para></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Zoom</guimenu>
+<guimenuitem>Zoom out</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>The minimum and maximum values will be more seperated from eachother and the selected point in the graph will be centered.</para></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Zoom</guimenu>
+<guimenuitem>Center a point</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>The selected point in the graph will be centered.</para></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Zoom</guimenu>
+<guimenuitem>Fit widget to trigonometric functions</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>The scale will be adapted to trigometric functions. This works both for radians and degrees.</para></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
 
 <sect1 id="a-settings-menu">
 <title>The <guimenu>Settings</guimenu> Menu</title>
@@ -243,6 +356,27 @@ that &kmplot; knows.</para>
 
 </sect1>
 
+<sect1 id="a-tools-menu">
+<title>The <guimenu>Tools</guimenu> Menu</title>
+
+<para>This menu constains some tools for the functions that can be useful:</para>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice><guimenu>Tools</guimenu>
+<guimenuitem>Get y-value</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Let the user get the y-value from a specific x-value. At the moment, only plot functions are supported. Type a value or expression in the textbox under "X:". In the list below all the available functions are shown. Press the "Calculate" button to find the function's y-value. The result will be shown in the y-value box.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>The standard &kde; <guimenu>Help</guimenu> entries are:</para>
+
+&help.menu.documentation;
+
+</sect1>
 
 </chapter>
 <!--

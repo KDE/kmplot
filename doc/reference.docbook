@@ -47,8 +47,7 @@ parser expects a second function with a leading <quote>y</quote> (here
 <term>var2</term> 
 <listitem><para> The function <quote>group parameter</quote>. It must be
 separated from the function's variable by a comma. You can use the group
-parameter to, for example, plot a number of graphs from one function. See the P
-option under <xref linkend="func-extension"/>.</para></listitem>
+parameter to, for example, plot a number of graphs from one function. The parameter values can be selected manually or you can choose to have a slider bar than control one parameter.</para></listitem>
 </varlistentry>
 <varlistentry>
 <term>term</term>
@@ -166,76 +165,6 @@ be used to determine the axes settings as well. See <xref linkend="the-axes-tab"
 
 </sect1>
 
-<sect1 id="func-extension">
-<title>Extensions</title>
-<para>An extension for a function is specified by entering a semicolon,
-followed by the extension, after the function definition. For example:
-<screen>
-<userinput>
-f(x)=x^2; A1
-</userinput>
-</screen>
-will show the graph y=x<superscript>2</superscript> with its first
-derivative. Supported extensions are described below:
-<variablelist>
-<varlistentry>
-<term>N</term>
-<listitem>
-<para>
-The function will be stored but not be drawn. 
-So it can be used like any other user defined or predefined function.
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term>A1</term>
-<listitem>
-<para>
-The graph of the derivative of the function will be drawn
-additionally with the same color but less line width.
-This extension has no effect on functions defined in
-parametric form.
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term>A2</term>
-<listitem>
-<para>
-The graph of the second derivative of the function will be
-drawn additionally with the same color but less line width.
-This extension has no effect on functions defined in
-parametric form.
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term>D[a,b]</term>
-<listitem>
-<para>
-Sets the domain for which the function will be displayed. For parametric
-functions, this is the domain that the parameter takes, and only needs to be
-specified for the x function.
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term>P[a{,b...}]</term>
-<listitem>
-<para>
-Give a set of values of a group parameter for which the function should be
-displayed. For example: <userinput>f(x,k)=k*x;P[1,2,3]</userinput> will plot
-the functions f(x)=x, f(x)=2*x and f(x)=3*x. You can also use functions as the
-arguments to the P option.
-</para>
-</listitem>
-</varlistentry>
-</variablelist>
-</para>
-
-</sect1>
-
-
 <sect1 id="math-syntax">
 <title>Mathematical Syntax</title>
 <para>&kmplot; uses a common way of expressing mathematical functions, so you
@@ -304,34 +233,29 @@ not, say 144. To override this, use parentheses. To use the above example,
 <sect1 id="coord-area"><title>Plotting Area</title>
 <para>
 By default, explicitly given functions are plotted for the whole of the visible part of the
-x-axis. (See <xref linkend="func-extension"/> to change this for individual
-functions.) For every pixel on the x-axis &kmplot; calculates a function value.
+x-axis. You can specify an other range in the edit-dialog for the function. For every pixel on the x-axis &kmplot; calculates a function value.
 If the plotting area contains the resulting point it is connected to the last
 drawn point by a line.
 </para>
 <para>
 Parametric functions are plotted for parameter values from 0 upto 2&pgr;. 
-This range can also be set using the D extension (see <xref linkend="func-extension"/>).
+You can set the plotting range in the dialog for the function too.
 </para>
 </sect1>
 
 <sect1 id="coord-cross">
 <title>Cross Hair Cursor</title>
 <para>
-While the mouse cursor is over the plotting area the cursor changes to a 
-cross hair. The current coordinates can be seen at the intersections with the 
-coordinate axes and also in the status bar at the bottom of the main window.
+While the mouse cursor is over the plotting area the cursor changes to a cross hair. The current coordinates can be seen at the intersections with the coordinate axes and also in the status bar at the bottom of the main window.
 </para>
 <para>
-You can trace a function's values more precisely by clicking onto or next to a
-graph. The cross hair then will be caught and be colored in the same color as
-the graph. A second click anywhere in the window will leave this trace mode.
+You can trace a function's values more precisely by clicking onto or next to a graph. The selected function is shown in the statusbar in the right column. The cross hair then will be caught and be colored in the same color as the graph. If the graph has the same color as the background color, the cross hair will have the inverted color of the background. When moving the mouse or pressing the keys Left or Right the cross hair will follow the function and you see the current x- and y-value. If the cross hair is close to y-axis, the root-value is shown in the statusbar. You can switch function with the Up and Down keys. A second click anywhere in the window or pressing any non-navigating key will leave this trace mode.
 </para>
 <para>
 Note that tracing is only possible with explicitly given functions.
 The coordinates are always displayed according to a cartesian system of
-coordinates.  Neither parametric functions, nor functions given in polar
-coordinates, nor derivatives can be traced in this way.
+coordinates. Neither non-single-points parametric functions nor functions given in polar
+coordinates can be traced in this way.
 </para>
 
 </sect1>

@@ -3,12 +3,12 @@
 <para>To access the &kmplot; configuration
 dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
 KmPlot...</guimenuitem></menuchoice>. A number of settings can also be changed
-from options in the <guimenu>View</guimenu> menu, as well. </para>
+from options in the <guimenu>Edit</guimenu> menu, as well. </para>
 
 <note>
 <para>Settings changed in the &kmplot; configuration dialog become the
 default for &kmplot;, and only take effect when a new plot is started. Settings
-changed in the <guimenu>View</guimenu> menu take effect immediately, but do not
+changed in the <guimenu>Edit</guimenu> menu take effect immediately, but do not
 persist after &kmplot; is exited.</para>
 </note>
 

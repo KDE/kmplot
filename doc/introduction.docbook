@@ -22,9 +22,24 @@ functions.</para>
 polar coordinates. Several grid modes are supported. Plots may be
 printed with high precision in the correct scale.</para>
 
-<para>Some numerical an visual features like filling and calculating the area between the plot 
-and the first axis, finding maximum and minumum values, changing function parameters dynamically, 
-and plotting derivatives and integal functions helps educating and learning the realtionship between mathematical functions and their graphical representation in a coordinate system.</para>
+<para>&kmplot; also provides some numerical an visual features like:
+<itemizedlist>
+<listitem><para>Filling and calculating
+the area between the plot and the first axis</para>
+</listitem>
+<listitem><para>Finding maximum and
+minimum values</para>
+</listitem>
+<listitem><para>Changing function parameters dynamically</para>
+</listitem>
+<listitem><para>Plotting
+derivatives and integral functions.</para>
+</listitem>
+</itemizedlist>
+
+These features help in learning the
+relationship between mathematical functions and their graphical
+representation in a coordinate system.</para>
 
 </chapter>
 

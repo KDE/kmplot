@@ -5,37 +5,56 @@
 <title>Simple Function Plot</title>
 
 <para>
-In the main toolbar there is a simple edit line to enter a function expression. Simply enter:
-<screen><userinput>x^2</userinput></screen>
-This will draw the plot of y=x^2 in the coordinate system. Enter another expression in the edit line like
-<screen><userinput>5*sin(x)</userinput></screen>
-and another plot will be added. 
+In the main toolbar there is a simple text box in which you can enter
+a function expression. Simply enter:
+<screen><userinput>x^2</userinput></screen> and press &Enter;.  This
+will draw the plot of y=x^2 in the coordinate system. Enter another
+expression in the text box like
+<screen><userinput>5*sin(x)</userinput></screen> and another plot will
+be added.
 </para>
 
-<para>Click onto the plot. Now the cross hair gets the color of the plot and is attached to the plot. 
-You can use the mouse to move the crosshair along the plot. 
-In the status bar at the bottom of the window the coordinates of the current position is displayed. Note that if the plot touches the x-axis the root will be displayed in the status bar, too.</para>
+<para>Click on one of the lines you have just plotted. Now the cross
+hair gets the color of the plot and is attached to the plot.  You can
+use the mouse to move the cross hair along the plot.  In the status
+bar at the bottom of the window the coordinates of the current
+position is displayed. Note that if the plot touches the x-axis the
+root will be displayed in the status bar, too.</para>
 
-<para>Click the mouse again and the crosshair will be detached from the plot.</para>
+<para>Click the mouse again and the cross hair will be detached from
+the plot.</para>
 </sect1>
 
 <sect1 id="edit-properties">
-<title>Edit Propertiest</title>
+<title>Edit Properties</title>
 
-<para>Let us make some changes to the function and change the color of the plot.</para>
+<para>Let's make some changes to the function and change the color of
+the plot.</para>
 
-<para>You can edit all functions with the <guimenu>Edit Plots...</guimenu> menu entry. A dialog appears which lists all functions. 
-&kmplot; automatically found a unique function name for your expressions and completed the expression to a function equation.</para>
+<para>You can edit all functions with the
+<menuchoice><guimenu>Plot</guimenu><guimenuitem>Edit
+Plots...</guimenuitem> </menuchoice> menu entry. A dialog appears
+which lists all the functions that you have plotted.  Notice that
+&kmplot; has automatically found a unique function name for your
+expressions and completed the expression to a function
+equation.</para>
 
-<para>Select <guilabel>f(x)=x^2</guilabel> in the list. A double click or pressing the <guibutton>Edit</guibutton> button 
-will show you a dialog window. Here you have access to a lot of options. Let us rename the function and move the plot 5 units down. Change the function equation to
-<screen><userinput>parabola(x)=x^2-5</userinput></screen>
+<para>Select <guilabel>f(x)=x^2</guilabel> in the list. A double click
+or pressing the <guibutton>Edit</guibutton> button will show you a
+dialog window. Here you have access to a lot of options. Let us rename
+the function and move the plot 5 units down. Change the function
+equation to <screen><userinput>parabola(x)=x^2-5</userinput></screen>
 </para>
 
-<para>Select another color for the plot using the <guibutton>Color</guibutton> button. Finally press <guibutton>Ok</guibutton> 
-and your changes take effect in the coordinate system.</para>
+<para>Select another color for the plot using the
+<guibutton>Color</guibutton> button. Finally press
+<guibutton>OK</guibutton> and your changes take effect in the
+coordinate system.</para>
 
-<para>Note: All changes can be undone until you press <guibutton>Ok</guibutton> in the <guilabel>Edit Plots</guilabel> dialog.</para>
+<note><para>All changes can be undone until you press
+<guibutton>OK</guibutton> in the <guilabel>Edit Plots</guilabel>
+dialog.</para>
+</note>
 
 </sect1>
 </chapter>

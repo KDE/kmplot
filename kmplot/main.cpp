@@ -56,8 +56,8 @@ int main( int argc, char **argv )
 	    I18N_NOOP( "KmPlot" ),
 	    KP_VERSION, description, KAboutData::License_GPL,
 	    "(c) 2000-2002, Klaus-Dieter Möller",
-	    0, 0,
-	    "submit@bugs.kde.org" );
+	    0,
+	    "http://edu.kde.org/kmplot/" );
 	aboutData.addAuthor(
 	    "Klaus-Dieter Möller", I18N_NOOP( "Original Author" ) ,
 	    "kdmoeller@foni.net" );

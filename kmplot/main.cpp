@@ -60,7 +60,6 @@ int main( int argc, char **argv )
 	kc = KGlobal::config();
 	MainDlg *w = new MainDlg;
 	w->resize( 450, 400 );
-	w->setCaption( "KmPlot "KP_VERSION );
 	//w->setPalette( QPalette( QColor( 255, 255, 255 ) ) );
 	w->show();
 	ka.setMainWidget( w );

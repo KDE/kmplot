@@ -5,9 +5,7 @@ kmplot_LDADD   = $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 EXTRA_DIST = kmplot.desktop AttrDlg.cpp AttrDlg.h BezWnd.cpp BezWnd.h FktDlg.cpp FktDlg.h KOptDlg.cpp KOptDlg.h KoordDlg.cpp KoordDlg.h MainDlg.cpp MainDlg.h RstDlg.cpp RstDlg.h SkalDlg.cpp SkalDlg.h SwDlg.cpp SwDlg.h View.cpp View.h diagr.cpp diagr.h main.cpp main.h misc.cpp misc.h parser.cpp parser.h xparser.cpp xparser.h AttrDlgData.ui BezWndData.ui FktDlgData.ui KOptDlgData.ui KoordDlgData.ui RstDlgData.ui SkalDlgData.ui SwDlgData.ui kprinterdlg.cpp kprinterdlg.h ksettingsdlg.cpp ksettingsdls.h
 
-
-appsdir = $(kde_appsdir)/Edutainment/Mathematics
-apps_DATA = kmplot.desktop
+xdg_apps_DATA = kmplot.desktop
 
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)

@@ -132,11 +132,11 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( slotCoord2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( slotCoord3() ), actionCollection(), "coord_iii" );
 
-	// functions menu	
-	( void ) new KAction( i18n( "&New Function Plot..." ), "kfkt.png", 0, this, SLOT( newFunction() ), actionCollection(), "newfunction" );
-	( void ) new KAction( i18n( "New Parametric Plot..." ), 0, this, SLOT( newParametric() ), actionCollection(), "newparametric" );
-	( void ) new KAction( i18n( "New Polar Plot..." ), 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
-	( void ) new KAction( i18n( "Edit Plots..." ), 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
+	// plot menu	
+	( void ) new KAction( i18n( "&New Function Plot..." ), "newfunction", 0, this, SLOT( newFunction() ), actionCollection(), "newfunction" );
+	( void ) new KAction( i18n( "New Parametric Plot..." ), "newparametric", 0, this, SLOT( newParametric() ), actionCollection(), "newparametric" );
+	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
+	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 
 	// help menu
 	view_names = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( slotNames() ), actionCollection(), "names" );

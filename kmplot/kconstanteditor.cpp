@@ -132,9 +132,7 @@ void KConstantEditor::cmdDelete_clicked()
 		return;
 	}
 	
-	QListViewItem *item = varlist->findItem(QChar(constant), 0);
-	if (item!=0)
-		varlist->takeItem(item);
+	delete varlist->findItem(QChar(constant), 0); //removes the item from the constant list
 }
 
 void KConstantEditor::varlist_clicked( QListViewItem * item )

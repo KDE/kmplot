@@ -87,7 +87,7 @@ public:
 	/// get a y-value from a x-value
 	void getYValue(int, char, double , double &,QString &);
 	/// draw and calculate the area between the graph and the x-axis.
-	void areaUnderGraph(int, char, double &, double &, QString &, QPainter* );
+	void areaUnderGraph(int const, char const, double &, double &, QString &, QPainter* );
 	/// the calculation was cancelled by the user
 	bool isCalculationStopped();
 

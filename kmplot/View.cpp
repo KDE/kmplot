@@ -207,6 +207,8 @@ void View::draw(QPaintDevice *dev, int form)
 	{
 		areaUnderGraph(areaIx, areaPMode, areaMin,areaMax, areaParameter, &DC);
 		areaDraw = false;
+		if (stop_calculating)
+			return;
 	}
 	
 	dgr.Plot(&DC);
@@ -214,7 +216,7 @@ void View::draw(QPaintDevice *dev, int form)
 	area=DC.xForm(PlotArea);
 	hline.resize(area.width(), 1);
 	vline.resize(1, area.height());
-	stepWidth=Settings::relativeStepWidth()*(xmax-xmin)/area.width();
+	stepWidth=Settings::relativeStepWidth();
 	
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
@@ -249,10 +251,9 @@ void View::plotfkt(int ix, QPainter *pDC)
 		dmin=m_parser->fktext[ix].dmin;
 		dmax=m_parser->fktext[ix].dmax;
 	}
-	double dx;
+	
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
-		dx = stepWidth;
 		if(fktmode=='r')
 		{   
 			dmin=0.;
@@ -264,12 +265,14 @@ void View::plotfkt(int ix, QPainter *pDC)
 			dmax=xmax;
 		}
 	}
-	else
-		dx = Settings::relativeStepWidth()*(dmax-dmin)/area.width();
-	
+		
+	double dx;
 	if(fktmode=='r') 
-		dx=Settings::relativeStepWidth()*0.05/(dmax-dmin);
-	else if(fktmode=='x')
+		dx=stepWidth*0.05/(dmax-dmin);
+	else
+		dx=stepWidth*(dmax-dmin)/area.width();
+	
+	if(fktmode=='x')
 	{   
 		m_parser->getfkt(ix, fname, fstr);
 		fname[0]='y';
@@ -300,9 +303,10 @@ void View::plotfkt(int ix, QPainter *pDC)
 			if ( p_mode == 3)
 			{
 				if ( m_parser->fktext[ix].integral_use_precision )
-					dx = (m_parser->fktext[ix].integral_precision)/100;
+					dx =  m_parser->fktext[ix].integral_precision*(dmax-dmin)/(area.width()*10);
 				else
-					dx=Settings::relativeStepWidth()/100; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+
+					dx=dx/10;
 				progressbar->progress->reset();
 				progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 				progressbar->show();
@@ -1173,8 +1177,6 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 	bool start = true;
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
 
-	double dx = Settings::relativeStepWidth()*(dmax-dmin)/area.width();
-
 	// TODO: parameter sliders
 	int i=0;
 	if ( m_parser->fktext[ix].k_anz != 0)
@@ -1190,20 +1192,25 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
+	
+	double dx;
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
 		progressbar->progress->reset();
 		if ( m_parser->fktext[ix].integral_use_precision )
-			dx = (m_parser->fktext[ix].integral_precision)/100;
+			dx = m_parser->fktext[ix].integral_precision*(dmax-dmin)/(area.width()*10);
 		else
-			dx=Settings::relativeStepWidth()/100; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+			dx=stepWidth*(dmax-dmin)/(area.width()*10); //the stepwidth must be small for Euler's metod
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
 		x = m_parser->fktext[ix].startx; //the initial x-point
 	}
 	else
+	{
+		dx = stepWidth*(dmax-dmin)/area.width();
 		x=dmin;
+	}
 	
 	bool forward_direction;
 	if (dmin<0 && dmax<0)
@@ -1338,15 +1345,17 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 				dmin=xmin;
 				dmax=xmax;
 			}
-			double dx = Settings::relativeStepWidth()*(dmax-dmin)/area.width();
+			
+			double dx;
+			if ( m_parser->fktext[ix].integral_use_precision )
+				dx = m_parser->fktext[ix].integral_precision*(dmax-dmin)/(area.width()/10);
+			else
+				dx=stepWidth*(dmax-dmin)/(area.width()/10); //the stepwidth must be small for Euler's metod
+			
 			stop_calculating = false;
 			isDrawing=true;
 			setCursor(Qt::WaitCursor );
 			bool target_found=false;
-			if ( m_parser->fktext[ix].integral_use_precision )
-				dx = (m_parser->fktext[ix].integral_precision)/100;
-			else
-				dx=Settings::relativeStepWidth()/100; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 			progressbar->progress->reset();
 			progressbar->progress->setTotalSteps ((int) double((dmax-dmin)/dx)/2 );
 			progressbar->show();
@@ -1534,11 +1543,11 @@ void View::keyPressEvent( QKeyEvent * e)
 	delete event;
 }
 
-void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QString &str_parameter, QPainter *DC)
+void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double &dmax, QString &str_parameter, QPainter *DC)
 {
 	double x, y;
 	float calculated_area=0;
-	int rectwidth, rectheight;
+	int rectheight;
 	QString fname, fstr;
 	areaMin = dmin;
 	QPoint p;
@@ -1574,9 +1583,6 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 		dmin=xmin;
 		dmax=xmax;
 	}
-	double dx = Settings::relativeStepWidth()*(dmax-dmin)/area.width();
-	int const origoy = dgr.Transy(0.0);
-	rectwidth = dgr.Transx(dx)- dgr.Transx(0.0); 
 	
 	int i=0;
 	// TODO: parameter sliders
@@ -1590,23 +1596,32 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 		}
 		i++;
 	}
-	isDrawing=true;
-	setCursor(Qt::WaitCursor );
-	
+	double dx;
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
 		if ( m_parser->fktext[ix].integral_use_precision )
-			dx = (m_parser->fktext[ix].integral_precision)/100;
+			dx = m_parser->fktext[ix].integral_precision*(dmax-dmin)/(area.width()*10);
 		else
-			dx=Settings::relativeStepWidth()/100; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+			dx=stepWidth*(dmax-dmin)/(area.width()*10); //the stepwidth must be small for Euler's metod
 		progressbar->progress->reset();
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
 		x = m_parser->fktext[ix].startx; //the initial x-point
 	}
 	else
+	{
+		dx = stepWidth*(dmax-dmin)/area.width();
 		x=dmin;
+	}
+	
+	
+	int const origoy = dgr.Transy(0.0);
+	int const rectwidth = dgr.Transx(dx)- dgr.Transx(0.0)+1; 
+	
+	setCursor(Qt::WaitCursor );
+	isDrawing=true;
+	
 	bool forward_direction;
 	if (dmin<0 && dmax<0)
 		forward_direction = false;
@@ -1616,8 +1631,10 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 	{
 		if ( p_mode == 3 && stop_calculating)
 		{
-			p_mode=1;
-			x=dmax+1;
+			if (forward_direction)
+				x=dmin-1;
+			else
+				x=dmax+1;
 			break;
 			continue;
 		}
@@ -1715,6 +1732,8 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 		if( stop_calculating)
 		{
 			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
+			isDrawing=false;
+			restoreCursor();
 			return;
 		}	
 	}

@@ -64,7 +64,7 @@
 // benutzerdefinierte Funktion
 #define	ENDE	12      // Funktionsende
 
-#define	FANZ	19		// Anzahl der math. Funktionen
+#define	FANZ	31		// Anzahl der math. Funktionen
 // in mfkttab[]
 
 
@@ -74,6 +74,19 @@ arsinh(double x),
 arcosh(double x),
 artanh(double x);
 
+double sec(double x);
+double cosec(double x);
+double cot(double x);
+double arcsec(double x);
+double arccosec(double x);
+double arccot(double x);
+
+double sech(double x);
+double cosech(double x);
+double coth(double x);
+double arsech(double x);
+double arcosech(double x);
+double arcoth(double x);
 
 class Parser
 {

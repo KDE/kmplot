@@ -51,8 +51,24 @@ Parser::Mfkt Parser::mfkttab[FANZ]={{"abs", fabs},          // Absolutbetrag
                                     {"artanh", artanh}, 	// Area-Tangenshyperbolikus
                                     {"arcsin", asin}, 		// Arcussinus
                                     {"arccos", acos}, 		// Arcuscosinus
-                                    {"arctan", atan}		// Arcustangens
-                                   };
+                                    {"arctan", atan},		// Arcustangens
+				    
+				    {"cosec", cosec},
+				    {"sec", sec},
+				    {"cot", cot},
+				    {"arccosec", arccosec},
+				    {"arcsec", arcsec},
+				    {"arccot", arccot},
+				    
+    				    {"cosech", cosech},
+				    {"sech", sech},
+				    {"coth", coth},
+				    {"arcosech", arcosech},
+				    {"arsech", arsech},
+				    {"arcoth", arcoth}
+
+                                   };		
+                                   
 
 Parser::Parser()
 {   ps_init(UFANZ, MEMSIZE, STACKSIZE);
@@ -634,3 +650,58 @@ double arcosh(double x)
 double artanh(double x)
 {   return log((1+x)/(1-x))/2;
 }
+
+// sec, cosec, cot and their inverses
+
+double sec(double x)
+{   return (1 / cos(x));
+}
+
+double cosec(double x)
+{   return (1 / sin(x));
+}
+
+double cot(double x)
+{   return (1 / tan(x));
+}
+
+double arcsec(double x)
+{   return acos(1/x);
+}
+
+double arccosec(double x)
+{   return asin(1/x);
+}
+
+double arccot(double x)
+{   return atan(1/x);
+}
+
+// sech, cosech, coth and their inverses
+
+
+double sech(double x)
+{   return (1 / cosh(x));
+}
+
+double cosech(double x)
+{   return (1 / sinh(x));
+}
+
+double coth(double x)
+{   return (1 / tanh(x));
+}
+
+double arsech(double x)
+{   return arcosh(1/x);
+}
+
+double arcosech(double x)
+{   return arsinh(1/x);
+}
+
+double arcoth(double x)
+{   return artanh(1/x);
+}
+
+

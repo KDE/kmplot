@@ -55,6 +55,11 @@ void KEditConstant::cmdOK_clicked()
 		KMessageBox::error(this, i18n("Please insert a valid constant name between A and Z"));
 		return;
 	}
+	if (  *constant=='E')
+	{
+		KMessageBox::error(this, i18n("You are not allowed to define a constant named E"));
+		return;
+	}	
 	if ( txtConstant->isEnabled() ) //creating, not edit a constant
 	{
 		bool found= false;

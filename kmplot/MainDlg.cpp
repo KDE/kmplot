@@ -522,33 +522,36 @@ void MainDlg::loadConstants()
 		tmp.setNum(i+1);
 		tmp_constant = conf.readEntry("nameConstant"+tmp," ");
 		value = conf.readDoubleNumEntry("valueConstant"+tmp,1.23456789);	
-		constant = tmp_constant.at(0).latin1();
+		constant = tmp_constant.at(0).upper().latin1();
+		kdDebug() << constant << endl;
 		
 		if ( tmp_constant == " " || value == 1.23456789)
-			break;
-		else
-		{
-			bool stop = false;
-			if ( !view->parser()->constant.empty() )
-				for(  ; !stop;constant++)
+			return;
+		if  (constant=='E')
+			constant++;
+		bool stop = false;
+		if ( !view->parser()->constant.empty() )
+			for(  ; !stop;constant++)
+			{
+				kdDebug() << "constant" << endl;
+				if (constant=='E')
+					constant++;
+				for( int k = 0; k< (int)view->parser()->constant.size() && !stop;k++)
 				{
-					for( int k = 0; k< (int)view->parser()->constant.size() && !stop;k++)
+					if (constant != view->parser()->constant[k].constant)
 					{
-						if (constant != view->parser()->constant[k].constant)
-						{
-							constant = view->parser()->constant[k].constant;
-							stop = true;
-						}
+						constant = view->parser()->constant[k].constant;
+						stop = true;
 					}
-					if (constant == 'Z')
-						constant = 'A'-1;
 				}
-			/*kdDebug() << "**************" << endl;
-			kdDebug() << "C:" << constant << endl;
-			kdDebug() << "V:" << value << endl;*/
-			
-			view->parser()->constant.append(Constant(constant, value) );
-		}
+				if (constant == 'Z')
+					constant = 'A'-1;
+			}
+		/*kdDebug() << "**************" << endl;
+		kdDebug() << "C:" << constant << endl;
+		kdDebug() << "V:" << value << endl;*/
+		
+		view->parser()->constant.append(Constant(constant, value) );
 	}
 }
 

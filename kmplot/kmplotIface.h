@@ -23,6 +23,10 @@
 *
 */
 
+#ifndef KMPLOTIFACE_H
+#define KMPLOTIFACE_H
+
+
 #include <dcopobject.h>
 #include <kurl.h>
 
@@ -44,3 +48,8 @@ k_dcop:
 	virtual void startProgressBar(int) = 0;
 	virtual void increaseProgressBar() = 0;
 };
+
+
+#endif
+
+

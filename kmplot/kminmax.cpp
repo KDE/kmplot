@@ -39,9 +39,8 @@ KMinMax::KMinMax(QWidget *parent, const char *name)
 
 
 KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
-	: QMinMax(parent, name)
+	: QMinMax(parent, name), m_view(v)
 {
-	m_view=v;
 	m_mode=-1;
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
 	connect( cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));

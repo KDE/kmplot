@@ -183,20 +183,21 @@ double XParser::a2fkt( int ix, double x, double h )
 char XParser::findFunctionName()
 {
 	char function_name ='f';
-	for (bool ok=true; function_name< 'z'+1 ;function_name++)
+	for (bool ok=true; function_name< 'x';function_name++)
 	{
 		for ( int i = 0; i < ufanz; i++ )
 		{
-			if (fktext[ i ].extstr.at(0) == function_name )
-				if (fktext[ i ].extstr.at(1) == '(' )
+			if (fktext[ i ].extstr.at(0) == function_name ) //check if 
+				if (fktext[ i ].extstr.at(1) == '(' ) //and the function name is one letter
 					ok = false;
 		}
-		if ( ok)
+		if ( ok) //free name
 		{
 			return function_name;
 		}
 		ok = true;
 	}
+	return 'e'; //this should never happen, because the limit of 10 functions
 }
 void XParser::fixFunctionName( QString &str)
 {

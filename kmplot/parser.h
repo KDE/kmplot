@@ -62,6 +62,7 @@
 //@{
 /** Predefined mathematical function. */
 double ln(double x);
+double llog(double x);
 double sign(double x);
 double sqr(double x);
 double arsinh(double x);
@@ -208,9 +209,7 @@ protected:
 	};
 	static Mfkt mfkttab[FANZ];
 
-//private:
-public:
-
+private:
 	void ps_init(int, int, int),
 	heir1(),
 	heir2(),

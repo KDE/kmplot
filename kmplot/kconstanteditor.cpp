@@ -47,9 +47,8 @@ KConstantEditor::KConstantEditor(QWidget *parent, const char *name)
 	
 }
 KConstantEditor::KConstantEditor(View *v, QWidget *parent, const char *name)
-				: QConstantEditor(parent,name)
+	: QConstantEditor(parent,name), m_view(v)
 {
-	m_view = v;
 	QString str_value;
 	QValueVector<Constant>::iterator it;
 	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() ;it++)
@@ -101,7 +100,7 @@ void KConstantEditor::cmdDelete_clicked()
 	{
 		if ( m_view->parser()->getfkt( index, fname, fstr ) == -1 ) continue;
 		str =  m_view->parser()->fktext[ index ].extstr ;
-		for (int i=str.find(')'); i<str.length() && !stop;i++)
+		for (int i=str.find(')'); (uint)i<str.length() && !stop;i++)
 			if ( str.at(i) == constant )
 				stop = true;
 	}

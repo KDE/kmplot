@@ -58,7 +58,7 @@
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
+MainDlg::MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_sessionId(sessionId ), m_recentFiles( 0 )
 {
 	fdlg = 0;
 	m_popupmenu = new KPopupMenu(this);
@@ -72,9 +72,8 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	
 	setupStatusBar();
 	setupActions();
-
 	loadConstants();
-	m_sessionId = sessionId;
+	
 	if (args -> count() > 0) 
 	{
 		m_filename = args -> url( 0 ).url(-1);

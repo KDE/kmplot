@@ -84,7 +84,7 @@ void KmPlotProgress::increase()
  * View implementation
  */
 
-View::View(bool & mo, KPopupMenu *m, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() ), m_modified(mo)
+View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() ), m_popupmenu(p), m_modified(mo)
 {   
 	m_parser = new XParser( 10, 200, 20 );
 
@@ -105,7 +105,6 @@ View::View(bool & mo, KPopupMenu *m, QWidget* parent, const char* name ) : QWidg
 		QToolTip::add( sliders[ number ]->slider, i18n( "Slider no. %1" ).arg( number ) );
 	}
 	updateSliders();
-	m_popupmenu = m;
 	m_popupmenushown = 0;
 	m_popupmenu->insertTitle( "",10);
 	zoom_mode = 0;
@@ -1109,11 +1108,13 @@ void View::progressbar_clicked()
 
 void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, double &dmax, QString &str_parameter)
 {
-	double dx, x, y, result_x, result_y;
-	bool start = false;
+	double x, y;
+	double result_x = 0;
+	double result_y = 0;
+	bool start = true;
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
 
-	dx = stepWidth;
+	double dx = stepWidth;
 
 	// TODO: parameter sliders
 	int i=0;
@@ -1186,11 +1187,11 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 		
 		if ( y>=ymin &&y<=ymax)
 		{
-			if ( !start)
+			if ( start)
 			{
 				result_x = x;
 				result_y = y;
-				start=true;	
+				start=false;
 			}
 			else if ( minimum &&y <=result_y) 
 			{

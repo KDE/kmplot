@@ -43,9 +43,8 @@
 #include "View.h"
 
 KEditPolar::KEditPolar( XParser* parser, QWidget* parent, const char* name ) : 
-	QEditPolar( parent, name )
+	QEditPolar( parent, name ),m_parser(parser)
 {
-	m_parser = parser;
 }
 
 void KEditPolar::initDialog( int index )

@@ -42,10 +42,8 @@ KParameterEditor::KParameterEditor(QWidget *parent, const char *name)
 	
 }
 KParameterEditor::KParameterEditor(XParser *m, QStringList *l, QWidget *parent, const char *name)
-				: QParameterEditor(parent,name, true, Qt::WDestructiveClose)
+	: QParameterEditor(parent,name, true, Qt::WDestructiveClose), m_parameter(l), m_parser(m)
 {
-	m_parameter = l;
-	m_parser = m;
   	for ( QStringList::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
 		list->insertItem(*it);
 	list->sort();
@@ -63,7 +61,7 @@ KParameterEditor::KParameterEditor(XParser *m, QStringList *l, QWidget *parent, 
 KParameterEditor::~KParameterEditor()
 {
 	m_parameter->clear();
-	for (int i = 0; i <= list->count();i++)
+	for (int i = 0; (uint)i <= list->count();i++)
 	{
 		if ( !list->text(i).isEmpty() )
 			m_parameter->append(list->text(i));

@@ -42,9 +42,8 @@
 #include "View.h"
 
 KEditParametric::KEditParametric( XParser* parser, QWidget* parent, const char* name ) : 
-	QEditParametric( parent, name )
+	QEditParametric( parent, name ), m_parser(parser)
 {
-	m_parser = parser;
 }
 
 void KEditParametric::initDialog( int x_index, int y_index )

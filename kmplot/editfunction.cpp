@@ -58,7 +58,7 @@
 #include "kparametereditor.h"
 
 EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name ) : 
-	KDialogBase( IconList, "Caption", Help|Ok|Cancel, Ok, parent, name )
+	KDialogBase( IconList, "Caption", Help|Ok|Cancel, Ok, parent, name ), m_parser(parser)
 {
 	QVBox *page0 = addVBoxPage( i18n("Function"), i18n( "Function" ), SmallIcon( "func", 32 ) );
 	editfunctionpage = new EditFunctionPage( page0 );
@@ -66,7 +66,6 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	editderivativespage = new EditDerivativesPage( page1 );
 	QVBox *page2 = addVBoxPage( i18n("Antiderivative"), i18n( "Antiderivative" ), SmallIcon( "anti_func", 32 ) );
 	editantiderivativepage = new EditAntiderivativePage( page2 );
-	m_parser = parser;
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
 		editfunctionpage->listOfSliders->insertItem( QString( "Slider no. %1" ).arg( number ) );

@@ -74,7 +74,7 @@ class MainDlg : public KMainWindow
 		 * @param args containing a filename to be plot on startup.
 		 * @param name
 		 */
-		MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name = NULL );
+		MainDlg( const QString &sessionId, KCmdLineArgs* args, const char* name = NULL );
 		/// Cleaning up a bit.
 		virtual ~MainDlg();
 		/// This class needs access to private members, too.

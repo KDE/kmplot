@@ -18,7 +18,6 @@ TODO
 TODO for KDE 3.3
 =========================
 * Draw tangents in trace mode (pipesmoker)
-* Import parameter values from different file format(.csv, KSpread, OpenOffice) via Koffice (see kde-edu/kig)
 * Printing (pipesmoker)
       - different paper sizes
 
@@ -26,6 +25,7 @@ TODO for KDE 3.3
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
+* Import parameter values from different file format(.csv, KSpread, OpenOffice) via Koffice (see kde-edu/kig)
 
 
 DONE

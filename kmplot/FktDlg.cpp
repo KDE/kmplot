@@ -45,9 +45,8 @@
 
 #define Inherited FktDlgData
 
-FktDlg::FktDlg( QWidget* parent, XParser* parser ) : Inherited( parent, "editPlots" )
+FktDlg::FktDlg( QWidget* parent, XParser* parser ) : Inherited( parent, "editPlots" ), m_parser(parser)
 {
-	m_parser = parser;
 }
 
 FktDlg::~FktDlg()

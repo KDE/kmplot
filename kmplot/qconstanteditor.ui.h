@@ -23,7 +23,7 @@ void QConstantEditor::cmdDelete_clicked()
 }
 
 
-void QConstantEditor::varlist_clicked( QListViewItem * item )
+void QConstantEditor::varlist_clicked( QListViewItem * )
 {
 }
 

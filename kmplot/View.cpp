@@ -922,11 +922,11 @@ void View::keyPressEvent( QKeyEvent * e)
 	if (csmode==-1 ) return;
 	
 	QMouseEvent *event;
-	if (e->key() == Qt::Key_Down )
+	if (e->key() == Qt::Key_Left )
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx-1,fcy-1),Qt::LeftButton,Qt::LeftButton);
-	else if (e->key() == Qt::Key_Up )
+	else if (e->key() == Qt::Key_Right )
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
-	else if (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right)
+	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
 	{
 		int ix=csmode;
 		char mode = cstype;

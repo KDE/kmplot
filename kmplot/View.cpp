@@ -1251,24 +1251,28 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 				break;
 			}
 		}
-
-		if (x>=dmin && x<=dmax)
+		if ( !isnan(x) && !isnan(y) )
 		{
-			if ( start)
+			kdDebug() << "x " << x << endl;
+			kdDebug() << "y " << y << endl;
+			if (x>=dmin && x<=dmax)
 			{
-				result_x = x;
-				result_y = y;
-				start=false;
-			}
-			else if ( minimum &&y <=result_y)
-			{
-				result_x = x;
-				result_y = y;
-			}
-			else if ( !minimum && y >=result_y)
-			{
-				result_x = x;
-				result_y = y;
+				if ( start)
+				{
+					result_x = x;
+					result_y = y;
+					start=false;
+				}
+				else if ( minimum &&y <=result_y)
+				{
+					result_x = x;
+					result_y = y;
+				}
+				else if ( !minimum && y >=result_y)
+				{
+					result_x = x;
+					result_y = y;
+				}
 			}
 		}
 		if (p_mode==3)
@@ -1294,9 +1298,22 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	stopProgressBar();
 	isDrawing=false;
 	restoreCursor();
-
+	
 	dmin = int(result_x*1000)/double(1000);
 	dmax = int(result_y*1000)/double(1000);
+	
+	switch (p_mode)
+	{
+	case 0:
+		dmax=m_parser->fkt(ufkt, dmin);
+		break;
+	case 1:
+		dmax=m_parser->a1fkt(ufkt, dmin);
+		break;
+	case 2:
+		dmax=m_parser->a2fkt(ufkt, dmin);
+		break;
+	}
 }
 
 void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QString &str_parameter)

@@ -274,6 +274,54 @@ void MainDlg::load()
             parseFunction( n.toElement() );
     }
 
+	///////////
+	// postprocessing loading
+    switch ( koordx )
+    {
+    case 0:
+        xmin = -8.0;
+        xmax = 8.0;
+        break;
+    case 1:
+        xmin = -5.0;
+        xmax = 5.5;
+        break;
+    case 2:
+        xmin = 0.0;
+        xmax = 16.0;
+        break;
+    case 3:
+        xmin = 0.0;
+        xmax = 10.0;
+        break;
+    case 4:
+        xmin = ps.eval( xminstr );
+        xmax = ps.eval( xmaxstr );
+    }
+    switch ( koordy )
+    {
+    case 0:
+        ymin = -8.0;
+        ymax = 8.0;
+        break;
+    case 1:
+        ymin = -5.0;
+        ymax = 5.5;
+        break;
+    case 2:
+        ymin = 0.0;
+        ymax = 16.0;
+        break;
+    case 3:
+        ymin = 0.0;
+        ymax = 10.0;
+        break;
+    case 4:
+        ymin = ps.eval( yminstr );
+        ymax = ps.eval( ymaxstr );
+    }
+	
+
     datei = d;
     /*	KConfig file( datei );
 
@@ -366,54 +414,8 @@ void MainDlg::parseAxes( const QDomElement &n )
     xmaxstr = n.namedItem( "xmax" ).toElement().text();
     yminstr = n.namedItem( "ymin" ).toElement().text();
     ymaxstr = n.namedItem( "ymax" ).toElement().text();
-
     koordx = n.namedItem( "xcoord" ).toElement().text().toInt();
-    switch ( koordx )
-    {
-    case 0:
-        xmin = -8.0;
-        xmax = 8.0;
-        break;
-    case 1:
-        xmin = -5.0;
-        xmax = 5.5;
-        break;
-    case 2:
-        xmin = 0.0;
-        xmax = 16.0;
-        break;
-    case 3:
-        xmin = 0.0;
-        xmax = 10.0;
-        break;
-    case 4:
-        xmin = xminstr.toDouble();
-        xmax = xmaxstr.toDouble();
-    }
-
     koordy = n.namedItem( "ycoord" ).toElement().text().toInt();
-    switch ( koordy )
-    {
-    case 0:
-        ymin = -8.0;
-        ymax = 8.0;
-        break;
-    case 1:
-        ymin = -5.0;
-        ymax = 5.5;
-        break;
-    case 2:
-        ymin = 0.0;
-        ymax = 16.0;
-        break;
-    case 3:
-        ymin = 0.0;
-        ymax = 10.0;
-        break;
-    case 4:
-        ymin = yminstr.toDouble();
-        ymax = ymaxstr.toDouble();
-    }
 }
 
 void MainDlg::parseGrid( const QDomElement &n )

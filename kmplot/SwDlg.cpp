@@ -27,7 +27,7 @@ void SwDlg::onok()
 	w=str.toDouble(); printf("%g\n", w);
 	if(w>0. && w<=20.) {rsw=w; done(1);}
 	else KMessageBox::error( this, i18n("Wrong input:\n"
-		"Allowed range is ] 0; 20 ]."), "KmPlot");
+		"Allowed range is [0-20]."), "KmPlot");
 }
 
 void SwDlg::oncancel()

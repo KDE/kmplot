@@ -19,7 +19,7 @@ int SkalDlg::wertholen(double& w, QComboBox *cb)
 {	w=ps.eval(cb->currentText());
 	if(w<=0.)
 	{	if(ps.err!=0) ps.errmsg();
-		else KMessageBox::error( this, i18n( "Wrong input:\n All terms must result values greater than 0."), "KmPlot" );
+		else KMessageBox::error( this, i18n( "Wrong input:\n All terms must result in values greater than 0."), "KmPlot" );
 /*
 		QMessageBox::warning(0, "kplot",
     		 i18n("Fehler in der Eingabe\nAlle Terme müssen Werte > 0 ergeben."));

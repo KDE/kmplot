@@ -73,7 +73,7 @@
         </property>
         <property stdset="1">
             <name>text</name>
-            <string>0,1mm</string>
+            <string>0.1mm</string>
         </property>
     </widget>
     <widget>

@@ -296,7 +296,7 @@
             </property>
             <property stdset="1">
                 <name>text</name>
-                <string>arsinh</string>
+                <string>arcsinh</string>
             </property>
         </widget>
         <widget>
@@ -336,7 +336,7 @@
             </property>
             <property stdset="1">
                 <name>text</name>
-                <string>arcosh</string>
+                <string>arccosh</string>
             </property>
         </widget>
         <widget>
@@ -396,7 +396,7 @@
             </property>
             <property stdset="1">
                 <name>text</name>
-                <string>artanh</string>
+                <string>arctanh</string>
             </property>
         </widget>
     </widget>

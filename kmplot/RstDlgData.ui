@@ -57,7 +57,7 @@
         </property>
         <property stdset="1">
             <name>text</name>
-            <string>0,1mm</string>
+            <string>0.1mm</string>
         </property>
     </widget>
     <widget>
@@ -157,7 +157,7 @@
         </property>
         <property stdset="1">
             <name>text</name>
-            <string>C&amp;olour</string>
+            <string>C&amp;olor</string>
         </property>
     </widget>
     <widget>

@@ -163,7 +163,7 @@
             </rect>
         </property>
         <property name="whatsThis" stdset="0">
-            <string>Insert a function equation here like f(x)=x^2</string>
+            <string>Insert a function equation here, like f(x)=x^2</string>
         </property>
     </widget>
 </widget>

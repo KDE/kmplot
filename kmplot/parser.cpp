@@ -454,7 +454,7 @@ int Parser::errmsg()
 	   case 4: 	KMessageBox::error(0, i18n("Parser error at position %1:\n"
 				"Void function variable").arg(QString::number(errpos)), "KmPlot"); break;
 	   case 5: 	KMessageBox::error(0, i18n("Parser error at position %1:\n"
-				"Too much functions").arg(QString::number(errpos)), "KmPlot"); break;
+				"Too many functions").arg(QString::number(errpos)), "KmPlot"); break;
 	   case 6: 	KMessageBox::error(0, i18n("Parser error at position %1:\n"
 				"Token memory overflow").arg(QString::number(errpos)), "KmPlot"); break;
 	   case 7: 	KMessageBox::error(0, i18n("Parser error at position %1:\n"

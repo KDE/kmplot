@@ -30,7 +30,7 @@
 #include "klocale.h"
 
 static const char *description =
-    I18N_NOOP( "KmPlot is a mathematical function plotter for the KDE-Desktop." );
+    I18N_NOOP( "KmPlot is a mathematical function plotter for the KDE Desktop." );
 
 static KCmdLineOptions options[] =
     {

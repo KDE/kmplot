@@ -23,7 +23,7 @@
 		<entry name="ShowArrows" type="Bool"> 
 			<label>Checked if arrows are visible</label>
 			<default>true</default>
-			<whatsthis>Check this box if axes should be have arrows.</whatsthis>
+			<whatsthis>Check this box if axes should have arrows.</whatsthis>
 		</entry> 
 		<entry name="GridLineWidth" type="Int">
 			<default>1</default>

@@ -469,9 +469,9 @@ void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &u
 void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 {
 	kdDebug() << "parsing old function" << endl;
-
 	Ufkt ufkt;
-	//int ix = n.attribute( "number" ).toInt();
+	m_parser->prepareAddingFunction(&ufkt);
+	
 	ufkt.f_mode = n.attribute( "visible" ).toInt();
 	ufkt.f1_mode = n.attribute( "visible-deriv" ).toInt();
 	ufkt.f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
@@ -496,20 +496,45 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	else ufkt.dmax = m_parser->eval( ufkt.str_dmax );
 
 	ufkt.extstr = n.namedItem( "equation" ).toElement().text();
-	m_parser->ufkt.append(ufkt );
+	m_parser->getext( &ufkt );
 
 	QCString fstr = ufkt.extstr.utf8();
 	if ( !fstr.isEmpty() )
 	{
-		int i = fstr.find( ';' );
-		QCString str;
+		int const i = fstr.find( ';' );
+		QString str;
 		if ( i == -1 )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		int const id = m_parser->addfkt( str );
-		m_parser->getext(  m_parser->ufkt.end() );
-		m_parser->ufkt.end()->id = id;
+		m_parser->addfkt( str );
+		Ufkt *added_function = &m_parser->ufkt.last();
+		added_function->f_mode = ufkt.f_mode;
+		added_function->f1_mode = ufkt.f1_mode;
+		added_function->f2_mode = ufkt.f2_mode;
+		added_function->integral_mode = ufkt.integral_mode;
+		added_function->integral_use_precision = ufkt.integral_use_precision;
+		added_function->linewidth = ufkt.linewidth;
+		added_function->f1_linewidth = ufkt.f1_linewidth;
+		added_function->f2_linewidth = ufkt.f2_linewidth;
+		added_function->integral_linewidth = ufkt.integral_linewidth;
+		added_function->str_dmin = ufkt.str_dmin;
+		added_function->str_dmax = ufkt.str_dmax;
+		added_function->dmin = ufkt.dmin;
+		added_function->dmax = ufkt.dmax;
+		added_function->str_startx = ufkt.str_startx;
+		added_function->str_starty = ufkt.str_starty;
+		added_function->oldx = ufkt.oldx;
+		added_function->starty = ufkt.starty;
+		added_function->startx = ufkt.startx;
+		added_function->integral_precision = ufkt.integral_precision;
+		added_function->color = ufkt.color;
+		added_function->f1_color = ufkt.f1_color;
+		added_function->f2_color = ufkt.f2_color;
+		added_function->integral_color = ufkt.integral_color;
+		added_function->str_parameter = ufkt.str_parameter;
+		added_function->use_slider = ufkt.use_slider;
+		added_function->k_liste = ufkt.k_liste;
 	}
 }
 

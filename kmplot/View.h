@@ -41,6 +41,7 @@ protected slots:
 	
 private:
   	void plotfkt(int, QPainter*);
+    void setpi(QString *);
   	
   	int csflg,
   	    csmode,

@@ -165,14 +165,20 @@ void View::tabelle(QPainter *pDC)
 
 	pDC->translate(250., 150.);
 	pDC->setPen(QPen(black, (int)(5.*s)));
-	pDC->setFont(QFont("helvetica", 40));
+	pDC->setFont(QFont("helvetica", 30));
 
 	alx="[ "+xminstr+" | "+xmaxstr+" ]";
+    setpi(&alx);
 	aly="[ "+yminstr+" | "+ymaxstr+" ]";
+    setpi(&aly);
 	atx="1E  =  "+tlgxstr;
+    setpi(&atx);
 	aty="1E  =  "+tlgystr;
+    setpi(&aty);
 	dfx="1E  =  "+drskalxstr+" cm";
+    setpi(&dfx);
 	dfy="1E  =  "+drskalystr+" cm";
+    setpi(&dfy);
 
 	pDC->drawRect(0, 0, 1500, 230);
 	pDC->Lineh(0, 100, 1500);
@@ -203,6 +209,13 @@ void View::tabelle(QPainter *pDC)
 	}
 
 	pDC->translate(-100., ypos+100.);
+}
+
+void View::setpi(QString *s)
+{   int i;
+    QChar c(960);
+
+    while((i=s->find('p'))!=-1) s->replace(i, 2, &c, 1);
 }
 
 

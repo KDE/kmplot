@@ -239,7 +239,7 @@ void CDiagr::Beschriftung(QPainter* pDC)
     QString s;
  	QFont font;
     	
-    if(prt==1) {dx=20; dy=40; h=40;}
+    if(prt==1) {dx=20; dy=40; h=30;}
     else {dx=5; dy=10; h=11;}
     font=QFont("helvetica", h);
     pDC->setFont(font);

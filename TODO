@@ -1,19 +1,48 @@
-Last modified: 06/25/2002
+Last modified: 05/21/2004
 
-TODO for KDE 3.1 release:
+TODO
 =========================
 
-  o Function edit Dialog
-      - Apply button for edit of more than one function in one go (DONE)
-
-  o Configure Dialog for global Settings / save as default Checkboxes (Started)
-
-  o Porting File save format to xml (DONE)
-
-  o Printing
+* Printing
       - different paper sizes (moved to 3.2)
-      - possibility for omitting the Header (DONE)
+* Scaling Concept ? (fine now ?)
+* KOptDlg* obsolete
+* A mode for zooming. Ability to disable it with kiosk
+* Fix scaling (pipesmoker?)
+* Polish the UI
+* Find bugs
+* More functions?
+* DCOP
+* A tool-menu:
+	* find "nollställen" ( eng: where the function's value is 0) 
+	* area under a graph
+* Fix the unpolished lines
+* #52887, need to calculate with complex numbers.
+* Import parameter values from different file format (.csv, .txt, KSpread, OpenOffice)
+* Navigating in trace mode with the keyboard
 
-  o Scaling Concept ? (fine now ?)
+IN PROGRESS
+=========================
+* Configure Dialog for global Settings / save as default Checkboxes (Started)
+* A tool-menu:
+	* maximumvalue
+	* minimumvalue
+	* get the y-value from a x-value
 
-  o KOptDlg* obsolete
+DONE
+=========================
+
+* Function edit Dialog
+      - Apply button for edit of more than one function in one go
+* Printing
+      - possibility for omitting the Header
+* Porting File save format to xml
+* Bug #80739
+* A constant editor which can imports/export constants from KCalc
+* for plots taking much time perhaps an "working" lamp and a cancel button could be useful
+* No re-drawing then the user don't make any changes in the function editor dialog
+* handle with comma-characters
+* Replace the comma-seperated KLineEdit with a new dialog
+* Parse the new dialog's values.
+* don't freeze at rf(x)=ln(x)
+* Set background color

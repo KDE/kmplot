@@ -52,12 +52,12 @@ void KEditConstant::cmdOK_clicked()
 	
 	if ( *constant<'A' || *constant>'Z')
 	{
-		KMessageBox::error(this, i18n("Please insert a valid constant name between A and Z"));
+		KMessageBox::error(this, i18n("Please insert a valid constant name between A and Z."));
 		return;
 	}
 	if (  *constant=='E')
 	{
-		KMessageBox::error(this, i18n("You are not allowed to define a constant named E"));
+		KMessageBox::error(this, i18n("Euler constant E is reserved. Choose a different name."));
 		return;
 	}	
 	if ( txtConstant->isEnabled() ) //creating, not edit a constant
@@ -71,7 +71,7 @@ void KEditConstant::cmdOK_clicked()
 		}
 		if (found)
 		{
-			KMessageBox::error(this, i18n("The constant already exists"));
+			KMessageBox::error(this, i18n("The constant already exists."));
 			return;
 		}	
 	}

@@ -61,6 +61,7 @@
 
 //@{
 /** Predefined mathematical function. */
+double ln(double x);
 double sign(double x);
 double sqr(double x);
 double arsinh(double x);

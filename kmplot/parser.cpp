@@ -53,7 +53,7 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 	{"sech", sech},		// Secans hyperbolicus
 	{"sec", sec},		// Secans
 	{"log", log10}, 	// Logarithm base 10
-	{"ln", log}, 		// Logarithm base e
+	{"ln", ln}, 		// Logarithm base e
 	{"exp", exp}, 		// Exponential function base e
 	{"coth", coth},		// Co-Tangens hyperbolicus
 	{"cot", cot},		// Co-Tangens = 1/tan
@@ -704,7 +704,10 @@ int Parser::errmsg()
     
 	return err;
 }
-
+double ln(double x)
+{   if (x>0)
+	return log(x);
+}
 
 double sign(double x)
 {   if(x<0.) return -1.;

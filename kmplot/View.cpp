@@ -1933,7 +1933,7 @@ void View::restoreCursor()
 		case 3: //zoom in
 			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 			break;
-		case 4: //center a point
+		case 5: //center a point
 			setCursor(Qt::PointingHandCursor);
 			break;
 		

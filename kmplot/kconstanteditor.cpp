@@ -216,11 +216,13 @@ void KConstantEditor::editConstantSlot()
 	if (item!=0)
 		item->setText(1,value);
 	
-	QString tmpName = locate("tmp", "") + "kmplot-" + KApplication::kApplication()->sessionId();
-	KmPlotIO::save( m_view->parser(), tmpName );
-	m_view->init();
-	KmPlotIO::load( m_view->parser(), tmpName );
-	QFile::remove( tmpName );
+	QString fname, fstr;
+	for ( int index = 0; index < m_view->parser()->ufanz; ++index )
+	{
+		if ( m_view->parser()->getfkt( index, fname, fstr ) == -1 ) continue;
+		if( fstr.contains(constant)!=0 )
+			m_view->parser()->reparse(index); //reparsing the function
+	}
 	
 	m_view->drawPlot();
 }

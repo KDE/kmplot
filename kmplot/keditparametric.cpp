@@ -63,6 +63,7 @@ void KEditParametric::clearWidgets()
 	checkBoxRange->setChecked( false );
 	min->clear();
 	max->clear();
+	kIntNumInputLineWidth->setValue( m_parser->dicke0 );
 	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color0 );
 }
 
@@ -84,23 +85,39 @@ void KEditParametric::setWidgets()
 
 void KEditParametric::accept()
 {
-	// if we are editing an existing function, first delete the old one
-	if( m_x_index != -1 ) 
+	
+	if  ( kLineEditXFunction->text().contains('y') != 0 ||  kLineEditYFunction->text().contains('y') != 0)
 	{
-		m_parser->delfkt( m_x_index );
-		m_x_index = -1;
-	}
-	if( m_y_index != -1 ) 
-	{
-		m_parser->delfkt( m_y_index );
-		m_y_index = -1;
+		KMessageBox::error( this, i18n( "Recursive function not allowed"));
+		kLineEditXFunction->setFocus();
+		kLineEditXFunction->selectAll();
+		return;
 	}
 	
 	// find a name not already used 
 	if( kLineEditName->text().isEmpty() )
 		kLineEditName->setText( newName() );
+
+	int index;
+	if( m_x_index != -1 )  //when editing a function: 
+	{
+		index = m_x_index; //use the right function-index
+		QString old_fstr = m_parser->ufkt[index].fstr;
+		m_parser->ufkt[index].fstr = xFunction();
+		m_parser->reparse(index); //reparse the funcion
+		if ( m_parser->errmsg() != 0)
+		{
+			m_parser->ufkt[index].fstr = old_fstr;
+			m_parser->reparse(index); 
+			this->raise();
+			kLineEditXFunction->setFocus();
+			kLineEditXFunction->selectAll();
+			return;
+		}
+	}
+	else
+		index = m_parser->addfkt(xFunction() );
 	
-	int index = m_parser->addfkt( xFunction() );
 	if( index == -1 ) 
 	{
 		m_parser->errmsg();
@@ -108,58 +125,85 @@ void KEditParametric::accept()
 		kLineEditXFunction->setFocus();
 		kLineEditXFunction->selectAll();
 		return;
-	}
-	m_parser->fktext[ index ].extstr = xFunction();
-	m_parser->getext( index );
+	}	
+
+	XParser::FktExt tmp_fktext;
+	tmp_fktext.extstr = xFunction();
 	
 	if( checkBoxHide->isChecked() )
-		m_parser->fktext[ index ].f_mode = 0;
+		tmp_fktext.f_mode = 0;
 	else
-		m_parser->fktext[ index ].f_mode = 1;
+		tmp_fktext.f_mode = 1;
 	
 	if( checkBoxRange->isChecked() )
 	{
-		m_parser->fktext[ index ].str_dmin = min->text();
-		m_parser->fktext[ index ].dmin = m_parser->eval( min->text() );
+		tmp_fktext.str_dmin = min->text();
+		tmp_fktext.dmin = m_parser->eval( min->text() );
 		if ( m_parser->errmsg())
 		{
 			min->setFocus();
 			min->selectAll();
-			m_parser->delfkt( index );
 			return;
 		}
-		m_parser->fktext[ index ].str_dmax = max->text();
-		m_parser->fktext[ index ].dmax = m_parser->eval( max->text() );
+		tmp_fktext.str_dmax = max->text();
+		tmp_fktext.dmax = m_parser->eval( max->text() );
 		if ( m_parser->errmsg())
 		{
 			max->setFocus();
 			max->selectAll();
-			m_parser->delfkt( index );
 			return;
 		}
-		if ( m_parser->fktext[ index ].dmin >=  m_parser->fktext[ index ].dmax)
+		if ( tmp_fktext.dmin >=  tmp_fktext.dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
 			min->setFocus();
 			min->selectAll();
-			m_parser->delfkt( index );
 			return;
 		}
 		
-		if (  m_parser->fktext[ index ].dmin<View::xmin || m_parser->fktext[ index ].dmax>View::xmax )
+		if (  tmp_fktext.dmin<View::xmin || tmp_fktext.dmax>View::xmax )
 		{
 			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
 			min->setFocus();
 			min->selectAll();
-			m_parser->delfkt( index );
 			return;
 		}
 	}
+	else
+	{
+		tmp_fktext.str_dmin ="0";
+		tmp_fktext.dmin = 0;
+		tmp_fktext.str_dmax = "0";
+		tmp_fktext.dmax = 0;
+	}
 	
-	m_parser->fktext[ index ].linewidth = kIntNumInputLineWidth->value();
-	m_parser->fktext[ index ].color = kColorButtonColor->color().rgb();
+	tmp_fktext.linewidth = kIntNumInputLineWidth->value();
+	tmp_fktext.color = kColorButtonColor->color().rgb();
+	tmp_fktext.use_slider = -1;
+	tmp_fktext.k_anz = 0;
 	
-	index = m_parser->addfkt( yFunction() );
+	m_parser->fktext[index] = tmp_fktext;
+	
+	
+	if( m_y_index != -1 )  //when editing a function: 
+	{
+		index = m_y_index; //use the right function-index
+		QString old_fstr = m_parser->ufkt[index].fstr;
+		m_parser->ufkt[index].fstr = yFunction();
+		m_parser->reparse(index); //reparse the funcion
+		if ( m_parser->errmsg() != 0) //when something went wrong:
+		{
+			m_parser->ufkt[index].fstr = old_fstr; //go back to the old expression
+			m_parser->reparse(index);  //reparse
+			this->raise();
+			kLineEditXFunction->setFocus();
+			kLineEditXFunction->selectAll();
+			return;
+		}
+	}
+	else
+		index = m_parser->addfkt(yFunction() );
+
 	if( index == -1 ) 
 	{
 		m_parser->errmsg();
@@ -168,9 +212,10 @@ void KEditParametric::accept()
 		kLineEditYFunction->selectAll();
 		return;
 	}
-	m_parser->fktext[ index ].extstr = yFunction();
-	m_parser->getext( index );
-	
+	tmp_fktext.extstr = yFunction();
+	m_parser->fktext[index] = tmp_fktext;
+		
+		
 	// call inherited method
 	QEditParametric::accept();
 }

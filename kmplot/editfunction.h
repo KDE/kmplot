@@ -28,6 +28,8 @@
 
 #include <kdialogbase.h>
 
+#include "xparser.h"
+
 class XParser;
 class EditFunctionPage;
 class EditDerivativesPage;
@@ -64,6 +66,7 @@ class EditFunction : public KDialogBase
 		void setWidgets();
 		/// Check, if the function has 2 arguments (function group)
 		bool functionHas2Arguments();
+		
 		/// Pointer to the parser instance
 		XParser* m_parser;
 		/// Current function index

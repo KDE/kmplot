@@ -51,7 +51,6 @@
 #include "editfunction.h"
 #include "editfunction.moc"
 #include "View.h"
-#include "xparser.h"
 #include "editfunctionpage.h"
 #include "editderivativespage.h"
 #include "editantiderivativepage.h"
@@ -78,6 +77,7 @@ void EditFunction::initDialog( int index )
 	m_index = index;
 	if( m_index == -1 ) clearWidgets();
 	else setWidgets();
+	editfunctionpage->equation->setFocus();
 }
 
 void EditFunction::clearWidgets()
@@ -166,19 +166,30 @@ void EditFunction::accept()
 	else if( functionHas2Arguments() && KMessageBox::warningYesNo( this, i18n( "Function has 2 arguments, but you did not specify any parameter values.\nDo you want to continue anyway?" ), i18n( "Missing Parameter Values" ) ) != KMessageBox::Yes )
 		return;
 	
-	// if we are editing an existing function, first delete the old one
-	if( m_index != -1 ) 
-	{
-		m_parser->delfkt( m_index );
-		m_index = -1;
-	}
-	
-	
 	QString f_str(functionItem() );
 	m_parser->fixFunctionName(f_str);
+	int index;
+	if( m_index != -1 )  //when editing a function: 
+	{
+		index = m_index; //use the right function-index
+		QString old_fstr = m_parser->ufkt[index].fstr;
+		m_parser->ufkt[index].fstr = f_str;
+		m_parser->reparse(index); //reparse the funcion
+		if ( m_parser->errmsg() != 0)
+		{
+			m_parser->ufkt[index].fstr = old_fstr;
+			m_parser->reparse(index); 
+			this->raise();
+			showPage(0);
+			editfunctionpage->equation->setFocus();
+			editfunctionpage->equation->selectAll();
+			return;
+		}
+	}
+	else
+		index = m_parser->addfkt( f_str ); //create a new function otherwise
 	
-	int index = m_parser->addfkt( f_str );
-	if( index == -1 ) 
+	if( index == -1) 
 	{
 		m_parser->errmsg();
 		this->raise();
@@ -187,166 +198,177 @@ void EditFunction::accept()
 		editfunctionpage->equation->selectAll();
 		return;
 	}
-	m_parser->fktext[ index ].extstr = f_str;
-	m_parser->getext( index );
+	
+	XParser::FktExt tmp_fktext; //all settings are saved here until we know that no errors have appeared
+	tmp_fktext.extstr = f_str;
 	
 	if( editfunctionpage->customRange->isChecked() )
 	{
-		m_parser->fktext[ index ].str_dmin = editfunctionpage->min->text();
-		m_parser->fktext[ index ].dmin = m_parser->eval( editfunctionpage->min->text() );
+		tmp_fktext.str_dmin = editfunctionpage->min->text();
+		tmp_fktext.dmin = m_parser->eval( editfunctionpage->min->text() );
 		if (m_parser->errmsg() != 0)
 		{
 			showPage(0);
 			editfunctionpage->min->setFocus();
 			editfunctionpage->min->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
-		m_parser->fktext[ index ].str_dmax = editfunctionpage->max->text();
-		m_parser->fktext[ index ].dmax = m_parser->eval( editfunctionpage->max->text() );
+		tmp_fktext.str_dmax= editfunctionpage->max->text();
+		tmp_fktext.dmax = m_parser->eval( editfunctionpage->max->text() );
 		if (m_parser->errmsg() != 0)
 		{
 			showPage(0);
 			editfunctionpage->max->setFocus();
 			editfunctionpage->max->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
-		if ( m_parser->fktext[ index ].dmin >=  m_parser->fktext[ index ].dmax)
+		
+		if ( tmp_fktext.dmin >=  tmp_fktext.dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
 			showPage(0);
 			editfunctionpage->min->setFocus();
 			editfunctionpage->min->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
 		
-		if (  m_parser->fktext[ index ].dmin<View::xmin || m_parser->fktext[ index ].dmax>View::xmax )
+		if (  tmp_fktext.dmin<View::xmin || tmp_fktext.dmax>View::xmax )
 		{
 			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
 			showPage(0);
 			editfunctionpage->min->setFocus();
 			editfunctionpage->min->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
 	}
 	else
 	{
-		m_parser->fktext[ index ].str_dmin ="0";
-		m_parser->fktext[ index ].dmin = 0;
-		m_parser->fktext[ index ].str_dmax = "0";
-		m_parser->fktext[ index ].dmax = 0;
+		tmp_fktext.str_dmin ="0";
+		tmp_fktext.dmin = 0;
+		tmp_fktext.str_dmax = "0";
+		tmp_fktext.dmax = 0;
 	}
 	
 	if( editfunctionpage->useList->isChecked() )
-		m_parser->fktext[ index ].use_slider = -1;
+		tmp_fktext.use_slider = -1;
 	else
-		m_parser->fktext[ index ].use_slider = editfunctionpage->listOfSliders->currentItem();
+		tmp_fktext.use_slider = editfunctionpage->listOfSliders->currentItem();
 	
 	if (editantiderivativepage->showAntiderivative->isChecked() )
 	{
 		double initx = m_parser->eval(editantiderivativepage->txtInitX->text());
-		m_parser->fktext[index].startx = initx;
-		m_parser->fktext[index].str_startx = editantiderivativepage->txtInitX->text();
+		tmp_fktext.startx = initx;
+		tmp_fktext.str_startx = editantiderivativepage->txtInitX->text();
 		if (m_parser->err != 0)
 		{
 			KMessageBox::error(this,i18n("Please insert a valid x-value"));
 			showPage(2);
 			editantiderivativepage->txtInitX->setFocus();
 			editantiderivativepage->txtInitX->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
 		
 		double inity = m_parser->eval(editantiderivativepage->txtInitY->text());
-		m_parser->fktext[index].starty = inity;
-		m_parser->fktext[index].str_starty = editantiderivativepage->txtInitY->text();
+		tmp_fktext.starty = inity;
+		tmp_fktext.str_starty = editantiderivativepage->txtInitY->text();
 		if (m_parser->err != 0)
 		{
 			KMessageBox::error(this,i18n("Please insert a valid y-value"));
 			showPage(2);
 			editantiderivativepage->txtInitY->setFocus();
 			editantiderivativepage->txtInitY->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
-		if ( m_parser->fktext[ index ].dmin!=m_parser->fktext[ index ].dmax && ( initx<m_parser->fktext[ index ].dmin || initx>m_parser->fktext[ index ].dmax) )
+		if ( tmp_fktext.dmin!=tmp_fktext.dmax && ( initx<tmp_fktext.dmin || initx>tmp_fktext.dmax) )
 		{
-			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(m_parser->fktext[ index ].dmin).arg( m_parser->fktext[ index ].dmax) );
+			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(tmp_fktext.dmin).arg( tmp_fktext.dmax) );
 			showPage(2);
 			editantiderivativepage->txtInitX->setFocus();
 			editantiderivativepage->txtInitX->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
-		if ( m_parser->fktext[ index ].dmin!=m_parser->fktext[ index ].dmax && ( initx<View::xmin || initx>View::xmax) )
+		if ( tmp_fktext.dmin!=tmp_fktext.dmax && ( initx<View::xmin || initx>View::xmax) )
 		{
 			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(View::xmax).arg( View::xmax) );
 			showPage(2);
 			editantiderivativepage->txtInitX->setFocus();
 			editantiderivativepage->txtInitX->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
 		
-		m_parser->fktext[index].anti_mode = 1;
-		m_parser->fktext[ index ].anti_color = editantiderivativepage->colorAntiderivative->color().rgb();
-		m_parser->fktext[index].anti_use_precision = editantiderivativepage->customPrecision->isChecked();
-		m_parser->fktext[index].anti_precision = editantiderivativepage->precision->value();
-		m_parser->fktext[index].anti_linewidth = editantiderivativepage->lineWidthAntiderivative->value();
+		tmp_fktext.anti_mode = 1;
+		tmp_fktext.anti_color = editantiderivativepage->colorAntiderivative->color().rgb();
+		tmp_fktext.anti_use_precision = editantiderivativepage->customPrecision->isChecked();
+		tmp_fktext.anti_precision = editantiderivativepage->precision->value();
+		tmp_fktext.anti_linewidth = editantiderivativepage->lineWidthAntiderivative->value();
 	}
 	else
 	{
-		m_parser->fktext[index].anti_mode = 0;
-		m_parser->fktext[index].anti_color = m_parser->fktext[index].color0; //default color
+		tmp_fktext.anti_mode = 0;
+		tmp_fktext.anti_color = m_parser->fktext[index].color0; //default color
 	}
 
 	if( editfunctionpage->hide->isChecked() )
-		m_parser->fktext[ index ].f_mode = 0;
+		tmp_fktext.f_mode = 0;
 	else
-		m_parser->fktext[ index ].f_mode = 1;
+		tmp_fktext.f_mode = 1;
 	
+	tmp_fktext.k_anz = 0;
 	if( !m_parameter.isEmpty() )
 	{
-		m_parser->fktext[ index ].str_parameter = m_parameter;
-		m_parser->fktext[ index ].k_anz = 0;
+		tmp_fktext.str_parameter = m_parameter;
 		for( QStringList::Iterator it = m_parameter.begin(); it != m_parameter.end(); ++it )
 		{
-			m_parser->fktext[ index ].k_liste[ m_parser->fktext[ index ].k_anz ] = m_parser->eval(( *it ) );
-			m_parser->fktext[ index ].k_anz++;
+			tmp_fktext.k_liste[ tmp_fktext.k_anz ] = m_parser->eval(( *it ) );
+			tmp_fktext.k_anz++;
 		}
 	}
 	
-	m_parser->fktext[ index ].linewidth = editfunctionpage->lineWidth->value();
-	m_parser->fktext[ index ].color = editfunctionpage->color->color().rgb();
+	tmp_fktext.linewidth = editfunctionpage->lineWidth->value();
+	tmp_fktext.color = editfunctionpage->color->color().rgb();
 	
-	editfunctionpage->equation->setText(f_str);
+	//editfunctionpage->equation->setText(f_str);
 	
 	if( editderivativespage->showDerivative1->isChecked() )
 	{
-		m_parser->fktext[ index ].f1_mode = 1;
-		m_parser->fktext[ index ].f1_linewidth = editderivativespage->lineWidthDerivative1->value();
-		m_parser->fktext[ index ].f1_color = editderivativespage->colorDerivative1->color().rgb();
+		tmp_fktext.f1_mode = 1;
+		tmp_fktext.f1_linewidth = editderivativespage->lineWidthDerivative1->value();
+		tmp_fktext.f1_color = editderivativespage->colorDerivative1->color().rgb();
 	}
 	else
 	{
-		m_parser->fktext[ index ].f1_mode = 0;
-		m_parser->fktext[index].f1_color = m_parser->fktext[index].color0; //default color
+		tmp_fktext.f1_mode = 0;
+		tmp_fktext.f1_color = m_parser->fktext[index].color0; //default color
 	}
 	
 	if( editderivativespage->showDerivative2->isChecked() )
 	{
-		m_parser->fktext[ index ].f2_mode = 1;
-		m_parser->fktext[ index ].f2_linewidth = editderivativespage->lineWidthDerivative2->value();
-		m_parser->fktext[ index ].f2_color = editderivativespage->colorDerivative2->color().rgb();
+		tmp_fktext.f2_mode = 1;
+		tmp_fktext.f2_linewidth = editderivativespage->lineWidthDerivative2->value();
+		tmp_fktext.f2_color = editderivativespage->colorDerivative2->color().rgb();
 	}
 	else
 	{
-		m_parser->fktext[index].f1_color = m_parser->fktext[index].color0; //default color
-		m_parser->fktext[ index ].f2_mode = 0;
+		tmp_fktext.f2_mode = 0;
+		tmp_fktext.f1_color = m_parser->fktext[index].color0; //default color
 	}
+	
+	if ( f_str.contains('y') != 0 && tmp_fktext.f_mode || tmp_fktext.f1_mode || tmp_fktext.f2_mode)
+	{
+		KMessageBox::error( this, i18n( "Recursive function is only allowed when drawing anti-derivatives graphs") );
+		if( m_index == -1 ) m_parser->delfkt(index);
+		return;
+	}
+	
+	m_parser->fktext[index] = tmp_fktext;
 	
 	// call inherited method
 	KDialogBase::accept();

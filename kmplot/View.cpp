@@ -274,15 +274,15 @@ void View::plotfkt(int ix, QPainter *pDC)
 			return ;
 	}
 	else if(fktmode=='y') return ;
-
+	
 	p_mode=0;
 	pDC->setPen(pen);
 	while(1)
-	{   
+	{  
 		k=0;
 		ke=m_parser->fktext[ix].k_anz;
 		do
-		{
+		{ 
 			if ( p_mode == 3 && stop_calculating)
 				break;
 			if( m_parser->fktext[ ix ].use_slider == -1 )
@@ -291,6 +291,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
 			mflg=2;
 			bool forward_direction = true;
+			
 			if ( p_mode == 3)
 			{
 				if ( m_parser->fktext[ix].anti_use_precision )
@@ -304,6 +305,9 @@ void View::plotfkt(int ix, QPainter *pDC)
 			}
 			else
 				x=dmin;
+			
+			
+			
 			if ( p_mode != 0 || m_parser->fktext[ix].f_mode) // if not the function is hidden
 			while (x>=dmin && x<=dmax)
 			{
@@ -698,6 +702,12 @@ void View::mousePressEvent(QMouseEvent *e)
 	if ( m_popupmenushown>0)
 		return;
 	
+	if (!stop_calculating && isDrawing) //stop drawing anti-derivatives
+	{
+		stop_calculating = true;
+		return;
+	}
+	
 	if (  zoom_mode==1 ) //rectangle zoom
 	{
 		zoom_mode=4;
@@ -796,11 +806,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		return;
 		
 	}
-	if (!stop_calculating && isDrawing) //stop drawing anti-derivatives
-	{
-		stop_calculating = true;
-		return;
-	}
+	
 	if(e->button()==RightButton) //clicking with the right mouse button
 	{
 		g=tlgy/5.;

@@ -490,9 +490,17 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	view->parser()->fixFunctionName(f_str);
 	
 	int index = view->parser()->addfkt( f_str );
-	if( index == -1 ) 
+	if (index==-1)
 	{
 		view->parser()->errmsg();
+		m_quickEdit->setFocus();
+		m_quickEdit->selectAll();
+		return;
+	}
+	
+	if  ( f_str.contains('y') != 0)
+	{
+		KMessageBox::error( this, i18n( "Recursive function is not allowed"));
 		m_quickEdit->setFocus();
 		m_quickEdit->selectAll();
 		view->parser()->delfkt( index );
@@ -502,9 +510,12 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	view->parser()->fktext[index].f1_color = view->parser()->fktext[index].color0;
 	view->parser()->fktext[index].f2_color = view->parser()->fktext[index].color0;
 	view->parser()->fktext[index].anti_color = view->parser()->fktext[index].color0;
+	view->parser()->fktext[index].f1_linewidth = view->parser()->fktext[index].linewidth;
+	view->parser()->fktext[index].f2_linewidth = view->parser()->fktext[index].linewidth;
+	view->parser()->fktext[index].anti_linewidth = view->parser()->fktext[index].linewidth;
 	view->parser()->fktext[index].f_mode = 1;
 	view->parser()->fktext[index].anti_precision=Settings::relativeStepWidth();
-	view->parser()->fktext[ index ].extstr = f_str;
+	view->parser()->fktext[index].extstr = f_str;
 	view->parser()->getext( index );
 	m_quickEdit->clear();
 	m_modified = true;

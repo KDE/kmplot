@@ -93,7 +93,7 @@ void Parser::ps_init(int anz, int m_size, int s_size)
 	ufanz=anz;
 	memsize=m_size;
 	stacksize=s_size;
-		ufkt=new Ufkt[ufanz];
+	ufkt=new Ufkt[ufanz];
 	evalflg=ixa=0;
 	for(ix=0; ix<ufanz; ++ix)
 	{	ufkt[ix].memsize=memsize;
@@ -158,6 +158,11 @@ double Parser::eval(QString str)
 			i++;
 		}
 	}
+	if ( str.contains('y')!=0)
+	{
+		err=9;
+		return 0;
+	}
 	
 	lptr=str.latin1();
 	err=0;
@@ -187,10 +192,10 @@ double Parser::Ufkt::fkt(double x)
 	stack=stkptr= new double [stacksize];
 	while(1)
 	{   switch(token=*mptr++)
-		{  case	KONST:  pd=(double*)mptr;
+	{  case	KONST:  pd=(double*)mptr;
 			            *stkptr=*pd++;
-			            mptr=(unsigned char*)pd;
-			            break;
+				    mptr=(unsigned char*)pd;
+				    break;
            case	XWERT:  *stkptr=x;
 			            break;
            case	YWERT:  *stkptr=oldy;
@@ -340,6 +345,70 @@ int Parser::addfkt(QString str)
 	return ix;
 }
 
+void Parser::reparse(int ix)
+{
+	kdDebug() << "Reparsing: " << ufkt[ix].fstr << endl;
+	QString str = ufkt[ix].fstr.latin1();
+	err=0;
+	errpos=1;
+	str.remove(" " );
+	const int p1=str.find('(');
+	int p2=str.find(',');
+	const int p3=str.find(")=");
+	
+	//insert '*' when it is needed
+	for(int i=p1+3; i < (int) str.length();i++)
+	{
+		if( (str.at(i).isNumber() || str.at(i).category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) )
+		{
+			str.insert(i,'*');
+		}
+		else if( (str.at(i).isNumber() || str.at(i) == ')' || str.at(i).category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) )
+		{
+			str.insert(i+1,'*');
+			i++;
+		}
+	}
+		
+	if(p1==-1 || p3==-1 || p1>p3)
+	{   err=4;
+	return;
+	}
+	if ( p3+2 == (int) str.length()) //empty function
+	{   err=11;
+	return;
+	}
+	if(p2==-1 || p2>p3) p2=p3;
+	
+	if (str.mid(p1+1, p2-p1-1) == "e")
+	{   err=4;
+	return;
+	}
+
+	QString str_end = str.mid(p3+3);
+	str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
+	str.truncate(p3+3);
+	str.append(str_end);
+	
+	ufkt[ix].fname=str.left(p1);
+	ufkt[ix].fvar=str.mid(p1+1, p2-p1-1);
+	if(p2<p3) ufkt[ix].fpar=str.mid(p2+1, p3-p2-1);
+	else ufkt[ix].fpar="";
+	
+	if ( ufkt[ix].fname != ufkt[ix].fname.lower() ) //isn't allowed to contain capital letters
+	{
+		err=12;
+		return;
+	}
+	
+	ixa=ix;
+	mem=mptr=ufkt[ix].mem;
+	lptr=(str.latin1())+p3+2;
+	heir1();
+	if(*lptr!=0 && err==0) err=1;		// Syntaxfehler
+	addtoken(ENDE);
+	errpos=0;
+}
 
 int Parser::delfkt(QString name)
 {   int ix;
@@ -487,20 +556,20 @@ void Parser::primary()
 	// A constant
 	if(lptr[0] >='A' && lptr[0]<='Z' )
 	{   char tmp[2];
-		tmp[1] = '\0';
-		for( int i = 0; i< (int)constant.size();i++)
-		{	
-			tmp[0] = constant[i].constant;
-			if ( match( tmp) )
-			{
-				addtoken(KONST);
-				addwert(constant[i].value);
-				return;
-			}
-
+	tmp[1] = '\0';
+	for( int i = 0; i< (int)constant.size();i++)
+	{	
+		tmp[0] = constant[i].constant;
+		if ( match( tmp) )
+		{
+			addtoken(KONST);
+			addwert(constant[i].value);
+			return;
 		}
-		err = 10;
-		return;
+
+	}
+	err = 10;
+	return;
 	}
 	
 		

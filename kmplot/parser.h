@@ -154,6 +154,8 @@ public:
 	void setAngleMode(int);
 	/// sets the decimal symbol
 	void setDecimalSymbol(const QString );
+	/// Reparse the function. It also do a grammer check for the expression which you set before calling the function with this.ufkt[ix].fstr
+	void reparse(int ix);
 
 	QValueVector<Constant> constant;
 	

@@ -61,7 +61,7 @@ void KEditPolar::clearWidgets()
 	checkBoxRange->setChecked( false );
 	min->clear();
 	max->clear();
-	kIntNumInputLineWidth->setValue( m_parser->dicke0 );	
+	kIntNumInputLineWidth->setValue( m_parser->dicke0 );
 	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color0 );
 }
 
@@ -80,72 +80,93 @@ void KEditPolar::setWidgets()
 
 void KEditPolar::accept()
 {
-	// if we are editing an existing function, first delete the old one
-	if( m_index != -1 ) 
+	int index;
+	if( m_index != -1 )  //when editing a function: 
 	{
-		m_parser->delfkt( m_index );
-		m_index = -1;
+		index = m_index; //use the right function-index
+		QString old_fstr = m_parser->ufkt[index].fstr;
+		m_parser->ufkt[index].fstr = functionItem();
+		m_parser->reparse(index); //reparse the funcion
+		if ( m_parser->errmsg() != 0)
+		{
+			m_parser->ufkt[index].fstr = old_fstr;
+			m_parser->reparse(index); 
+			this->raise();
+			kLineEditYFunction->setFocus();
+			kLineEditYFunction->selectAll();
+			return;
+		}
 	}
+	else
+		index = m_parser->addfkt(functionItem() );
 	
-	int index = m_parser->addfkt( functionItem() );
 	if( index == -1 ) 
 	{
 		m_parser->errmsg();
 		this->raise();
 		kLineEditYFunction->setFocus();
 		kLineEditYFunction->selectAll();
-		m_parser->delfkt( index );
 		return;
 	}
-	m_parser->fktext[ index ].extstr = functionItem();
-	m_parser->getext( index );
-	
+	XParser::FktExt tmp_fktext; //all settings are saved here until we know that no errors have appeared
+	tmp_fktext.extstr = functionItem();
+		
 	if( checkBoxHide->isChecked() )
-		m_parser->fktext[ index ].f_mode = 0;
+		tmp_fktext.f_mode = 0;
 	else
-		m_parser->fktext[index].f_mode = 1;
+		tmp_fktext.f_mode = 1;
 	
 	if( checkBoxRange->isChecked() )
 	{
-		m_parser->fktext[ index ].str_dmin = min->text();
-		m_parser->fktext[ index ].dmin = m_parser->eval( min->text() );
+		tmp_fktext.str_dmin = min->text();
+		tmp_fktext.dmin = m_parser->eval( min->text() );
 		if ( m_parser->errmsg() )
 		{
 			min->setFocus();
 			min->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
-		m_parser->fktext[ index ].str_dmax = max->text();
-		m_parser->fktext[ index ].dmax = m_parser->eval( max->text() );
+		tmp_fktext.str_dmax = max->text();
+		tmp_fktext.dmax = m_parser->eval( max->text() );
 		if ( m_parser->errmsg())
 		{
 			max->setFocus();
 			max->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
-		if ( m_parser->fktext[ index ].dmin >=  m_parser->fktext[ index ].dmax)
+		if ( tmp_fktext.dmin >=  tmp_fktext.dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
 			min->setFocus();
 			min->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
 		
-		if (  m_parser->fktext[ index ].dmin<View::xmin || m_parser->fktext[ index ].dmax>View::xmax )
+		if (  tmp_fktext.dmin<View::xmin || tmp_fktext.dmax>View::xmax )
 		{
 			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
 			min->setFocus();
 			min->selectAll();
-			m_parser->delfkt( index );
+			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
 	}
+	else
+	{
+		tmp_fktext.str_dmin ="0";
+		tmp_fktext.dmin = 0;
+		tmp_fktext.str_dmax = "0";
+		tmp_fktext.dmax = 0;
+	}
+	tmp_fktext.linewidth = kIntNumInputLineWidth->value();
+	tmp_fktext.color = kColorButtonColor->color().rgb();
+	tmp_fktext.use_slider = -1;
 	
-	m_parser->fktext[ index ].linewidth = kIntNumInputLineWidth->value();
-	m_parser->fktext[ index ].color = kColorButtonColor->color().rgb();
+	m_parser->fktext[index] = tmp_fktext;
+	
 	
 	// call inherited method
 	QEditPolar::accept();

@@ -269,7 +269,7 @@ Example: sin(t)</string>
                         <cstring>checkBoxRange</cstring>
                     </property>
                     <property name="text">
-                        <string>Custom plot x-range:</string>
+                        <string>Custom plot t-range:</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>customize the plot range</string>

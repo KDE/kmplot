@@ -153,7 +153,7 @@ void KParameterEditor::cmdImport_clicked()
 					file.close();
 					return;
 				}
-				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that can't be read?") ) == KMessageBox::No)
+				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?") ) == KMessageBox::No)
 					verbose = true;
 			}
 		}

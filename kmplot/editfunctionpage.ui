@@ -345,7 +345,7 @@ Example: f(x)=x^2</string>
                         <bool>true</bool>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>don't use any parameter values</string>
+                        <string>Do not use any parameter values</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>By having this option selected parameter values are disabled in the function.</string>

@@ -74,7 +74,7 @@
                         <cstring>txtInitX</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>enter the initial x-point,for instance 2 or pi</string>
+                        <string>Enter the initial x-point,for instance 2 or pi</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Enter the initial x-value or expression for the integral, for example 2 or pi/2</string>

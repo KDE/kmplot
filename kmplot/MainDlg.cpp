@@ -63,8 +63,9 @@ void MainDlg::setupActions()
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 	KStdAction::helpContents( this, SLOT( hilfe() ), actionCollection(), "helpcontents" );
-	viewToolBar = KStdAction::showToolbar( this, SLOT( tbmode() ), actionCollection() );
-	viewStatusBar = KStdAction::showStatusbar( this, SLOT( stbmode() ), actionCollection() );
+
+	createStandardStatusBarAction();
+	setStandardToolBarMenuEnabled(true);
 
 	// KmPLot specific actions
 	( void ) new KAction( i18n( "&Axes..." ), 0, this, SLOT( achsen() ), actionCollection(), "axes" );
@@ -406,22 +407,6 @@ void MainDlg::bezeichnungen()
 	}
 	else
 		bez->hide();
-}
-
-void MainDlg::stbmode()
-{
-	if ( !viewStatusBar->isChecked() )
-		statusBar() ->hide();
-	else
-		statusBar() ->show();
-}
-
-void MainDlg::tbmode()
-{
-	if ( !viewToolBar->isChecked() )
-		toolBar() ->hide();
-	else
-		toolBar() ->show();
 }
 
 void MainDlg::funktionen()

@@ -83,8 +83,6 @@ public slots:
 	void print();
 	void bezeichnungen();
 	// void quit();
-	void stbmode();
-	void tbmode();
 	void funktionen();
 	void skalierung();
 	void schrittw();
@@ -111,8 +109,6 @@ private:
 	int tbid,
 	stbid;
 	KStatusBar *stbar;
-	KToggleAction *viewToolBar;
-	KToggleAction *viewStatusBar;
 	FktDlg *fdlg;
 	BezWnd *bez;
 	KToggleAction *view_bezeichnungen;

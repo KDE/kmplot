@@ -310,6 +310,27 @@ void View::setpi( QString *s )
 		s->replace( i, 2, &c, 1 );
 }
 
+bool View::root(double *x0)
+{   double x, y, yn, dx;
+
+    if(rootflg==1) return FALSE;
+    
+    x=csxpos;
+    y=fabs(csypos);
+    dx=0.1;
+    
+    while(1)
+    {   if((yn=fabs(ps.fkt(csmode, x-dx))) < y) {x-=dx; y=yn;}
+        else if((yn=fabs(ps.fkt(csmode, x+dx))) < y) {x+=dx; y=yn;}
+        else dx/=10.;
+        printf("x=%g,  dx=%g, y=%g\n", x, dx, y);
+        if(y<1e-8) {*x0=x; return TRUE;}
+        if(fabs(dx)<1e-8) return FALSE;
+        if(x<xmin || x>xmax) return FALSE;
+    }
+}
+
+
 // Slots
 
 void View::paintEvent( QPaintEvent * )
@@ -319,62 +340,73 @@ void View::paintEvent( QPaintEvent * )
 
 
 void View::mouseMoveEvent( QMouseEvent *e )
-{
-	char sx[ 20 ], sy[ 20 ];
+{   char sx[20], sy[20];
 
-	if ( csflg == 1 )  			// Fadenkreuz löschen
-	{	bitBlt( this, area.left(), fcy, &hline, 0, 0, area.width(), 1 );
-		bitBlt( this, fcx, area.top(), &vline, 0, 0, 1, area.height() );
-		csflg = 0;
+	if(csflg==1)        // Fadenkreuz löschen
+	{	bitBlt(this, area.left(), fcy, &hline, 0, 0, area.width(), 1);
+		bitBlt(this, fcx, area.top(), &vline, 0, 0, 1, area.height());
+		csflg=0;
 	}
 
-	if ( area.contains( e->pos() ) )
-	{
-		QPoint ptd, ptl;
+	if(area.contains(e->pos()))
+	{   QPoint ptd, ptl;
 		QPainter DC;
 
-		DC.begin( this );
-		DC.setWindow( 0, 0, w, h );
-		ptl = DC.xFormDev( e->pos() );
-		if ( ( csmode = ps.chkfix( csmode ) ) >= 0 )
-		{
-			ptl.setY( dgr.Transy( csypos = ps.fkt( csmode, csxpos = dgr.Transx( ptl.x() ) ) ) );
-		}
+		DC.begin(this);
+		DC.setWindow(0, 0, w, h);
+		ptl=DC.xFormDev(e->pos());
+		if((csmode=ps.chkfix(csmode)) >= 0)
+		{   ptl.setY(dgr.Transy(csypos=ps.fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+
+            if(fabs(csypos)<0.2)
+            {   double x0;
+                QString str;
+
+                if(root(&x0))
+                {   str="  ";
+                    str+=i18n("root");
+                    stbar->changeItem(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+                    rootflg=1;
+                }
+            }
+            else
+            {   stbar->changeItem("", 3);
+                rootflg=0;
+            }
+        }
 		else
-		{
-			csxpos = dgr.Transx( ptl.x() );
-			csypos = dgr.Transy( ptl.y() );
+		{   csxpos=dgr.Transx(ptl.x());
+			csypos=dgr.Transy(ptl.y());
 		}
-		ptd = DC.xForm( ptl );
+		ptd=DC.xForm(ptl);
 		DC.end();
 
-		sprintf( sx, "  x= %+.2f", csxpos );
-		sprintf( sy, "  y= %+.2f", csypos );
+		sprintf(sx, "  x= %+.2f", csxpos);
+		sprintf(sy, "  y= %+.2f", csypos);
 
-		if ( csflg == 0 )  		// Hintergrund speichern
-		{	bitBlt( &hline, 0, 0, this, area.left(), fcy = ptd.y(), area.width(), 1 );
-			bitBlt( &vline, 0, 0, this, fcx = ptd.x(), area.top(), 1, area.height() );
+		if(csflg==0)        // Hintergrund speichern
+		{	bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
+			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
 
 			// Fadenkreuz zeichnen
-			QPen pen( ( csmode >= 0 ) ? ps.fktext[ csmode ].farbe : 0, 1 );
+			QPen pen((csmode>=0)? ps.fktext[csmode].farbe : 0, 1);
 
-			DC.begin( this );
-			DC.setPen( pen );
-			DC.Lineh( area.left(), fcy, area.right() );
-			DC.Linev( fcx, area.bottom(), area.top() );
+			DC.begin(this);
+			DC.setPen(pen);
+			DC.Lineh(area.left(), fcy, area.right());
+			DC.Linev(fcx, area.bottom(), area.top());
 			DC.end();
 		}
-		csflg = 1;
-		setCursor( blankCursor );
+		csflg=1;
+		setCursor(blankCursor);
 	}
 	else
-	{
-		setCursor( arrowCursor );
-		sx[ 0 ] = sy[ 0 ] = 0;
+	{   setCursor(arrowCursor);
+		sx[0]=sy[0]=0;
 	}
 
-	stbar->changeItem( sx, 1 );
-	stbar->changeItem( sy, 2 );
+	stbar->changeItem(sx, 1);
+	stbar->changeItem(sy, 2);
 }
 
 void View::mousePressEvent( QMouseEvent *e )

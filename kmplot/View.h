@@ -43,14 +43,16 @@ private:
 	void plotfkt( int, QPainter* );
 	void getMinMax( int koord, QString &mini, QString &maxi );
 	void setpi( QString * );
+    bool root(double *);
 
 	int csflg,
-	csmode,
-	fcx, fcy, 			// Position des Fadenkreuzes
-	w, h;
+	    csmode,
+        rootflg,
+	    fcx, fcy,       // Position des Fadenkreuzes
+	    w, h;
 
 	float s,
-	csxpos, csypos;	// Position des Fadenkreuzes
+	csxpos, csypos;	    // Position des Fadenkreuzes
 	CDiagr dgr;
 	QPoint ref;
 	QRect area,

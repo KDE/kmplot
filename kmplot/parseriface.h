@@ -38,10 +38,10 @@ class ParserIface : virtual public DCOPObject
 {
 	K_DCOP
 k_dcop:
-	virtual int addFunction(QString f_str) = 0;
-	virtual bool addFunction(QString extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, QString str_dmin, QString str_dmax, QString str_startx, QString str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider) = 0;
+	virtual int addFunction(const QString &f_str) = 0;
+	virtual bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider) = 0;
 	virtual bool delfkt(uint id) = 0;
-	virtual bool setFunctionExpression(QString f_str, uint id) = 0;
+	virtual bool setFunctionExpression(const QString &f_str, uint id) = 0;
 	virtual uint countFunctions() = 0;
 	virtual QStringList listFunctionNames() = 0;
 	virtual int fnameToId(const QString &name) = 0;
@@ -73,8 +73,8 @@ k_dcop:
 	virtual bool setFunctionF2LineWidth(int linewidth, uint id) = 0;
 	virtual bool setFunctionIntLineWidth(int linewidth, uint id) = 0;
 	virtual QStringList functionParameterList(uint id) = 0;
-	virtual bool functionAddParameter(QString new_parameter, uint id) = 0;
-	virtual bool functionRemoveParameter(QString remove_parameter, uint id) = 0;
+	virtual bool functionAddParameter(const QString &new_parameter, uint id) = 0;
+	virtual bool functionRemoveParameter(const QString &remove_parameter, uint id) = 0;
 };
 
 #endif

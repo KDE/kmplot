@@ -381,13 +381,7 @@ int Parser::addfkt(QString str)
         
 	if ( temp->fname != temp->fname.lower() ) //isn't allowed to contain capital letters
 	{
-                if (ufkt.count() == 1)
-                        ufkt.begin()->fname="";  //.resize(1);
-                else
-                {
-                        delete []ufkt.last().mem;
-                        ufkt.pop_back();
-                }
+		delfkt(temp);
 		err=12;
 		return -1;
 	}
@@ -400,13 +394,7 @@ int Parser::addfkt(QString str)
 	if(err!=0)
 	{
                 errpos=lptr-(str.latin1())+1;
-                if (ufkt.count() == 1)
-                        ufkt.begin()->fname="";  //.resize(1);
-                else
-                {
-                        delete []ufkt.last().mem;
-                        ufkt.pop_back();
-                }
+		delfkt(temp);
 		return -1;
 	}
 	errpos=0;

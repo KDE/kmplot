@@ -115,11 +115,11 @@ public:
 		
 	/// Returns the function's parameter list
 	QStringList functionParameterList(uint id);
-	bool functionAddParameter(QString new_parameter, uint id);
-	bool functionRemoveParameter(QString remove_parameter, uint id);
-	int addFunction(QString f_str);
-	bool addFunction(QString extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, QString str_dmin, QString str_dmax, QString str_startx, QString str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider);
-	bool setFunctionExpression(QString f_str, uint id);
+	bool functionAddParameter(const QString &new_parameter, uint id);
+	bool functionRemoveParameter(const QString &remove_parameter, uint id);
+	int addFunction(const QString &f_str);
+	bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider);
+	bool setFunctionExpression(const QString &f_str, uint id);
 	
 private:
         

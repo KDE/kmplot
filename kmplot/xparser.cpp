@@ -506,17 +506,17 @@ QStringList XParser::functionParameterList(uint id)
 		return QStringList();
 	Ufkt *item = &ufkt[ix];
 	QStringList str_parameter;
-	for ( QValueList<ParameterValueItem>::iterator it = item->parameters.begin(); it != item->parameters.end(); it++)
+	for ( QValueList<ParameterValueItem>::iterator it = item->parameters.begin(); it != item->parameters.end(); ++it)
 		str_parameter.append( (*it).expression);
 	return str_parameter;
 }
-bool XParser::functionAddParameter(QString new_parameter, uint id)
+bool XParser::functionAddParameter(const QString &new_parameter, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
 		return false;
 	Ufkt *tmp_ufkt = &ufkt[ix];
-	for ( QValueList<ParameterValueItem>::iterator it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); it++)
+	for ( QValueList<ParameterValueItem>::iterator it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
 		if ( (*it).expression == new_parameter) //check if the parameter already exists
 			return false;
 
@@ -527,7 +527,7 @@ bool XParser::functionAddParameter(QString new_parameter, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::functionRemoveParameter(QString remove_parameter, uint id)
+bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -536,7 +536,7 @@ bool XParser::functionRemoveParameter(QString remove_parameter, uint id)
 	
 	bool found = false;
 	QValueList<ParameterValueItem>::iterator it;
-	for ( it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); it++)
+	for ( it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
 		if ( (*it).expression == remove_parameter) //check if the parameter already exists
 		{
 			found = true;
@@ -548,15 +548,16 @@ bool XParser::functionRemoveParameter(QString remove_parameter, uint id)
 	m_modified = true;
 	return true;
 }
-int XParser::addFunction(QString f_str)
+int XParser::addFunction(const QString &f_str)
 {
-	fixFunctionName(f_str);
-	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y') //TODO: Make it possible to define parametric functions
+	QString added_function(f_str);
+	fixFunctionName(added_function);
+	if ( added_function.at(0)== 'x' || added_function.at(0)== 'y') //TODO: Make it possible to define parametric functions
 		return -1;
-	if  ( f_str.contains('y') != 0)
+	if  ( added_function.contains('y') != 0)
 		return -1;
 
-	int const id = addfkt( f_str );
+	int const id = addfkt( added_function );
 	if (id==-1)
 		return -1;
 	Ufkt *tmp_ufkt = &ufkt.last();
@@ -570,14 +571,15 @@ int XParser::addFunction(QString f_str)
 	return id;
 }
 
-bool XParser::addFunction(QString extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, QString str_dmin, QString str_dmax, QString str_startx, QString str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider)
+bool XParser::addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider)
 {
-	fixFunctionName(extstr);
-	int const id = addfkt( extstr );
+	QString fstr(extstr);
+	fixFunctionName(fstr);
+	int const id = addfkt( fstr );
 	if ( id==-1 )
 		return false;
 	Ufkt *added_function = &ufkt.last();
-	added_function->extstr = extstr;
+	added_function->extstr = fstr;
 	added_function->f_mode = f_mode;
 	added_function->f1_mode = f1_mode;
 	added_function->f2_mode = f2_mode;
@@ -615,7 +617,7 @@ bool XParser::addFunction(QString extstr, bool f_mode, bool f1_mode, bool f2_mod
 	return true;
 }
 
-bool XParser::setFunctionExpression(QString f_str, uint id)
+bool XParser::setFunctionExpression(const QString &f_str, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)

@@ -748,8 +748,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.setWorldMatrix(wm);
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
 
-		double diffx = (xmax-xmin)*(double)Settings::zoomInStep()/100;
-		double diffy = (ymax-ymin)*(double)Settings::zoomInStep()/100;
+		double const diffx = (xmax-xmin)*(double)Settings::zoomInStep()/100;
+		double const diffy = (ymax-ymin)*(double)Settings::zoomInStep()/100;
 
 		if ( diffx < 0.00001 || diffy < 0.00001)
 			return;
@@ -779,8 +779,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.setWorldMatrix(wm);
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
 
-		double diffx = (xmax-xmin)*(((double)Settings::zoomOutStep()/100) +1);
-		double diffy = (ymax-ymin)*(((double)Settings::zoomOutStep()/100) +1);
+		double const diffx = (xmax-xmin)*(((double)Settings::zoomOutStep()/100) +1);
+		double const diffy = (ymax-ymin)*(((double)Settings::zoomOutStep()/100) +1);
 
 		if ( diffx > 1000000 || diffy > 1000000)
 			return;
@@ -810,8 +810,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.setWorldMatrix(wm);
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
 		QString str_tmp;
-		double diffx = (xmax-xmin)/2;
-		double diffy = (ymax-ymin)/2;
+		double const diffx = (xmax-xmin)/2;
+		double const diffy = (ymax-ymin)/2;
 
 		str_tmp.setNum(real-double(diffx));
 		Settings::setXMin(str_tmp);
@@ -944,11 +944,12 @@ void View::mousePressEvent(QMouseEvent *e)
 	}
 	for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
+		if (it->fname.isEmpty() )
+			continue;
 		switch(it->extstr[0].latin1())
 		{
-			case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
+			case 'x': case 'y': case 'r': continue;   // Not possible to catch
 		}
-
 		int k=0;
 		int const ke=it->parameters.count();
 		do

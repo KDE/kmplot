@@ -27,6 +27,11 @@
 #include "misc.h"
 #include "diagr.h"
 
+#ifdef __osf__
+#include <nan.h>
+#define isnan(x) IsNAN(x)
+#define isinf(x) IsINF(X)
+#endif
 
 CDiagr::CDiagr()
 {

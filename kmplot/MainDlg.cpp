@@ -28,6 +28,7 @@
 #include <qfile.h>
 
 // KDE includes
+#include <kconfigdialog.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
 #include <kkeydialog.h>
@@ -36,9 +37,13 @@
 // local includes
 #include "MainDlg.h"
 #include "MainDlg.moc"
-#include "kprinterdlg.h"
-#include "ksettingsdlg.h"
 #include "misc.h"
+#include "kprinterdlg.h"
+#include "settings.h"
+#include "settingspagecolor.h"
+#include "settingspagecoords.h"
+#include "settingspagescaling.h"
+#include "settingspagefonts.h"
 
 MainDlg::MainDlg( KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name )
 {
@@ -66,6 +71,7 @@ void MainDlg::setupActions()
 	KStdAction::saveAs( this, SLOT( saveas() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
+	KStdAction::helpContents( this, SLOT( hilfe() ), actionCollection(), "helpcontents" );
 
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
@@ -82,21 +88,22 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
 
-  KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
-  KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
- KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
+	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
+	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
+	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 
 	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
 }
 
 void MainDlg::setupStatusBar()
-{   stbar=statusBar();
+{   
+	stbar=statusBar();
 	stbar->insertFixedItem("1234567890", 1);
 	stbar->insertFixedItem("1234567890", 2);
 	stbar->insertItem("", 3, 1);
 	stbar->changeItem("", 1);
 	stbar->changeItem("", 2);
-    stbar->setItemAlignment(3, AlignLeft);
+	stbar->setItemAlignment(3, AlignLeft);
 	view->stbar=stbar;
 }
 
@@ -420,8 +427,7 @@ void MainDlg::bezeichnungen()
 
 void MainDlg::funktionen()
 {
-	if ( !fdlg )
-		fdlg = new FktDlg( this );
+	if ( !fdlg ) fdlg = new FktDlg( this );
 	fdlg->show();
 }
 
@@ -484,10 +490,37 @@ void MainDlg::onachsen3()
 	view->update();
 }
 
+void MainDlg::hilfe()
+{
+	kapp->invokeHelp( "", "kmplot" );
+}
+
 void MainDlg::slotSettings()
 {
-	KSettingsDlg * settings_dlg = new KSettingsDlg( this, "settings_dlg" );
-	settings_dlg->exec();
+	// An instance of your dialog could be already created and could be cached, 
+	// in which case you want to display the cached dialog instead of creating 
+	// another one 
+	if ( KConfigDialog::showDialog( "settings" ) ) return; 
+ 
+	// KConfigDialog didn't find an instance of this dialog, so lets create it : 
+	KConfigDialog* dialog = new KConfigDialog( this, "settings", Settings::self() ); 
+	SettingsPageColor* color_settings = new SettingsPageColor( 0, "colorSettings" ); 
+	SettingsPageCoords* coords_settings = new SettingsPageCoords( 0, "coordsSettings" ); 
+	SettingsPageScaling* scaling_settings = new SettingsPageScaling( 0, "scalingSettings" ); 
+	SettingsPageFonts* fonts_settings = new SettingsPageFonts( 0, "fontsSettings" ); 
+ 
+	dialog->addPage( color_settings, i18n( "Colors" ), "colorize" ); 
+	dialog->addPage( coords_settings, i18n( "Coords" ), "coords" ); 
+	dialog->addPage( scaling_settings, i18n( "Scaling" ), "scaling" ); 
+	dialog->addPage( fonts_settings, i18n( "Fonts" ), "fonts" ); 
+ 
+	// User edited the configuration - update your local copies of the 
+	// configuration data 
+	// connect( dialog, SIGNAL(settingsChanged()), this, SLOT(updateConfiguration()) ); 
+	// These Settings are not meant for the current plot but as default for next new plot.
+	// So we dont need to update local member variables...
+ 
+	dialog->show();
 }
 
 void MainDlg::newToolbarConfig()

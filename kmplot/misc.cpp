@@ -3,14 +3,14 @@
 
 // local includes
 #include "misc.h"
+#include "settings.h"
 
 KApplication *ka;
-KConfig *kc;
 
 XParser ps( 10, 200, 20 );
 
 int mode,     // Diagrammodus
-g_mode;  // Rastermodus
+g_mode;  // grid style
 
 int koordx,     // 0 => [-8|+8]
 koordy,     // 1 => [-5|+5]
@@ -54,20 +54,23 @@ void init()
 {
 	int ix;
 
-	QColor tmp_color;
 	mode = ACHSEN | PFEILE | EXTRAHMEN;
 	rsw = 1.;
 	datei = "";
 
-	// axes defaults
-
-	kc->setGroup( "Axes" );
-	koordx = kc->readNumEntry( "XCoord", 0 );
-	koordy = kc->readNumEntry( "YCoord", 0 );
-	xminstr = kc->readEntry( "Xmin", "-2*pi" );
-	xmaxstr = kc->readEntry( "Xmax", "2*pi" );
-	yminstr = kc->readEntry( "Ymin", "-2*pi" );
-	ymaxstr = kc->readEntry( "Ymax", "2*pi" );
+	// axes settings
+	
+	koordx = Settings::xRange();
+	koordy = Settings::yRange();
+	xminstr = Settings::xMin();
+	xmaxstr = Settings::xMax();
+	yminstr = Settings::yMin();
+	ymaxstr = Settings::yMax();
+	
+	if( xminstr.isEmpty() ) xminstr = "-2*pi";
+	if( xmaxstr.isEmpty() ) xmaxstr = "2*pi";
+	if( yminstr.isEmpty() ) yminstr = "-2*pi";
+	if( ymaxstr.isEmpty() ) ymaxstr = "2*pi";
 
 	if ( !coordToMinMax( koordx, xmin, xmax, xminstr, xmaxstr ) )
 	{
@@ -87,68 +90,48 @@ void init()
 		koordy = 0;
 		coordToMinMax( koordy, ymin, ymax, yminstr, ymaxstr );
 	}
-	tlgxstr = kc->readEntry( "tlgx", "1" );
+	
+	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
+	
+	tlgxstr = units[ Settings::yScaling() ];
 	tlgx = ps.eval( tlgxstr );
-	tlgystr = kc->readEntry( "tlgy", "1" );
+	tlgystr = units[ Settings::yScaling() ];
 	tlgy = ps.eval( tlgystr );
 
-	drskalxstr = kc->readEntry( "drskalx", "1" );
+	drskalxstr = units[ Settings::xPrinting() ];
 	drskalx = ps.eval( drskalxstr );
-	drskalystr = kc->readEntry( "drskaly", "1" );
+	drskalystr = units[ Settings::yPrinting() ];
 	drskaly = ps.eval( drskalystr );
 
-	AchsenDicke = kc->readNumEntry( "Axes Width", 5 );
-	TeilstrichDicke = kc->readNumEntry( "Tic Width", 3 );
-	TeilstrichLaenge = kc->readNumEntry( "Tic Length", 10 );
-	tmp_color.setRgb( 0, 0, 0 );
-	AchsenFarbe = kc->readColorEntry( "Color", &tmp_color ).rgb();
-	if ( kc->readBoolEntry( "Labeled", true ) )
-		mode |= BESCHRIFTUNG;
+	AchsenDicke = Settings::axesLineWidth();
+	AchsenFarbe = Settings::axesColor().rgb();
+	if ( Settings::showLabel() ) mode |= BESCHRIFTUNG;
+	TeilstrichDicke = Settings::ticWidth();
+	TeilstrichLaenge = Settings::ticLength();
 
-	// grid defaults
+	// grid settings
 
-	kc->setGroup( "Grid" );
-	GitterDicke = kc->readNumEntry( "Line Width", 1 );
-	g_mode = kc->readNumEntry( "Mode", 1 );
-	tmp_color.setRgb( 192, 192, 192 );
-	GitterFarbe = kc->readColorEntry( "Color", &tmp_color ).rgb();
+	GitterDicke = Settings::gridLineWidth();
+	g_mode = Settings::gridStyle();
+	GitterFarbe = Settings::gridColor().rgb();
 
-	// font defaults
-	if ( kc->hasGroup( "Fonts" ) )
-	{
-		kc->setGroup( "Fonts" );
-		font_header = kc->readEntry( "Header Table", "Helvetica" );
-		font_axes = kc->readEntry( "Axes", "Helvetica" );
-	}
-	else
-	{
-		font_header = "Helvetica";
-		font_axes = "Helvetica";
-	}
+	// font settings
+	font_header = Settings::headerTableFont().family();
+	font_axes = Settings::axesFont().family();
 
-	// graph defaults
+	// graph settings
 
-	kc->setGroup( "Graphs" );
-	ps.dicke0 = kc->readNumEntry( "Line Width", 5 );
-	tmp_color.setRgb( 255, 0, 0 );
-	ps.fktext[ 0 ].farbe0 = kc->readColorEntry( "Color0", &tmp_color ).rgb();
-	tmp_color.setRgb( 0, 255, 0 );
-	ps.fktext[ 1 ].farbe0 = kc->readColorEntry( "Color1", &tmp_color ).rgb();
-	tmp_color.setRgb( 0, 0, 255 );
-	ps.fktext[ 2 ].farbe0 = kc->readColorEntry( "Color2", &tmp_color ).rgb();
-	tmp_color.setRgb( 255, 0, 255 );
-	ps.fktext[ 3 ].farbe0 = kc->readColorEntry( "Color3", &tmp_color ).rgb();
-	tmp_color.setRgb( 255, 255, 0 );
-	ps.fktext[ 4 ].farbe0 = kc->readColorEntry( "Color4", &tmp_color ).rgb();
-	tmp_color.setRgb( 0, 255, 255 );
-	ps.fktext[ 5 ].farbe0 = kc->readColorEntry( "Color5", &tmp_color ).rgb();
-	tmp_color.setRgb( 0, 128, 0 );
-	ps.fktext[ 6 ].farbe0 = kc->readColorEntry( "Color6", &tmp_color ).rgb();
-	tmp_color.setRgb( 0, 0, 128 );
-	ps.fktext[ 7 ].farbe0 = kc->readColorEntry( "Color7", &tmp_color ).rgb();
-	tmp_color.setRgb( 0, 0, 0 );
-	ps.fktext[ 8 ].farbe0 = kc->readColorEntry( "Color8", &tmp_color ).rgb();
-	ps.fktext[ 9 ].farbe0 = kc->readColorEntry( "Color9", &tmp_color ).rgb();
+	ps.dicke0 = Settings::gridLineWidth();
+	ps.fktext[ 0 ].farbe0 = Settings::color0().rgb();
+	ps.fktext[ 1 ].farbe0 = Settings::color1().rgb();
+	ps.fktext[ 2 ].farbe0 = Settings::color2().rgb();
+	ps.fktext[ 3 ].farbe0 = Settings::color3().rgb();
+	ps.fktext[ 4 ].farbe0 = Settings::color4().rgb();
+	ps.fktext[ 5 ].farbe0 = Settings::color5().rgb();
+	ps.fktext[ 6 ].farbe0 = Settings::color6().rgb();
+	ps.fktext[ 7 ].farbe0 = Settings::color7().rgb();
+	ps.fktext[ 8 ].farbe0 = Settings::color8().rgb();
+	ps.fktext[ 9 ].farbe0 = Settings::color9().rgb();
 
 	for ( ix = 0; ix < ps.ufanz; ++ix )
 		ps.delfkt( ix );

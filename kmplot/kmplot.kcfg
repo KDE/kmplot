@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg> 
+  
+	<kcfgfile name="kmplotrc"/> 
+
+	<group name="Axes"> 
+		<entry name="AxesLineWidth" type="Int"> 
+			<label>Axes line width</label>
+			<default>5</default>
+			<whatsthis>Enter the width of the axes line.</whatsthis>
+		</entry> 
+		<entry name="ShowLabel" type="Bool"> 
+			<label>Checked if labels are visible</label>
+			<default>true</default>
+			<whatsthis>Check this box if the lables at the tics should be shown.</whatsthis>
+		</entry> 
+		<entry name="TicLength" type="Int"> 
+			<label>Tic length</label>
+			<default>10</default>
+			<whatsthis>Enter the length of the tic lines</whatsthis>
+		</entry> 
+		<entry name="TicWidth" type="Int"> 
+			<label>Tic width</label>
+			<default>1</default>
+			<whatsthis>Enter the width of the tic lines.</whatsthis>
+		</entry> 
+		<entry name="PlotLineWidth" type="Int"> 
+			<label>Plot line width</label>
+			<default>5</default>
+			<whatsthis>Enter the width of the plot line.</whatsthis>
+		</entry> 
+		<entry name="XRange" type="Int"> 
+			<label>predefined x-axis range</label>
+			<default>0</default>
+			<whatsthis>Predefined plot area widths.</whatsthis>
+		</entry> 
+		<entry name="YRange" type="Int"> 
+			<label>predefined y-axis range</label>
+			<default>0</default>
+			<whatsthis>Predefined plot area heights.</whatsthis>
+		</entry> 
+		<entry name="XMin" type="String"> 
+			<label>Left bound</label>
+			<default>"-2*pi"</default>
+			<whatsthis>Enter the left bound of the plotting area.</whatsthis>
+		</entry> 
+		<entry name="XMax" type="String"> 
+			<label>Right bound</label>
+			<default>"2*pi"</default>
+			<whatsthis>Enter the right bound of the plotting area.</whatsthis>
+		</entry> 
+		<entry name="YMin" type="String"> 
+			<label>Lower bound</label>
+			<default>"-2*pi"</default>
+			<whatsthis>Enter the lower bound of the plotting area.</whatsthis>
+		</entry> 
+		<entry name="YMax" type="String"> 
+			<label>Upper bound</label>
+			<default>"2*pi"</default>
+			<whatsthis>Enter the upper bound of the plotting area.</whatsthis>
+		</entry> 
+		<entry name="XScaling" type="Int"> 
+			<default>3</default>
+			<label>Width of a unit from tic to tic</label>
+			<whatsthis>Enter the width of a unit from tic to tic.</whatsthis>
+		</entry> 
+		<entry name="YScaling" type="Int"> 
+			<default>3</default>
+			<label>Height of a unit from tic to tic</label>
+			<whatsthis>Enter the height of a unit from tic to tic.</whatsthis>
+		</entry> 
+		<entry name="XPrinting" type="Int"> 
+			<default>3</default>
+			<label>Printed width of 1 unit</label>
+			<whatsthis>Enter the width of a unit in cm.</whatsthis>
+		</entry> 
+		<entry name="YPrinting" type="Int"> 
+			<default>3</default>
+			<label>Printed height of 1 unit</label>
+			<whatsthis>Enter the height of a unit in cm.</whatsthis>
+		</entry> 
+	</group> 
+	
+	<group name="Fonts">
+		<entry name="AxesFont" type="Font">
+			<label>Font of the axes labels</label>
+			<whatsthis>Choose a font for the axes labels.</whatsthis>
+		</entry> 
+		<entry name="HeaderTableFont" type="Font"> 
+			<label>Font of the printed header table</label>
+			<whatsthis>Choose a font for the table printed at the top of the page.</whatsthis>
+		</entry> 
+	</group>
+	
+	<group name="Colors">
+		<entry name="AxesColor" type="Color"> 
+			<label>Axes line color</label>
+			<whatsthis>Enter the color of the axes line.</whatsthis>
+		</entry> 
+		<entry name="GridColor" type="Color">
+			<label>Grid Color</label>
+			<whatsthis>Chose a color for the grid lines.</whatsthis>
+			<default>#C0C0C0</default>
+		</entry>
+		<entry name="Color0" type="Color">
+			<label>Color of function 1</label>
+			<whatsthis>Chose a color for function 1.</whatsthis>
+			<default>#FF0000</default>
+		</entry>
+		<entry name="Color1" type="Color">
+			<label>Color of function 2</label>
+			<whatsthis>Chose a color for function 2.</whatsthis>
+			<default>#00FF00</default>
+		</entry>
+		<entry name="Color2" type="Color">
+			<label>Color of function 3</label>
+			<whatsthis>Chose a color for function 3.</whatsthis>
+			<default>#0000FF</default>
+		</entry>
+		<entry name="Color3" type="Color">
+			<label>Color of function 4</label>
+			<whatsthis>Chose a color for function 4.</whatsthis>
+			<default>#FF00FF</default>
+		</entry>
+		<entry name="Color4" type="Color">
+			<label>Color of function 5</label>
+			<whatsthis>Chose a color for function 5.</whatsthis>
+			<default>#FFFF00</default>
+		</entry>
+		<entry name="Color5" type="Color">
+			<label>Color of function 6</label>
+			<whatsthis>Chose a color for function 6.</whatsthis>
+			<default>#00FFFF</default>
+		</entry>
+		<entry name="Color6" type="Color">
+			<label>Color of function 7</label>
+			<whatsthis>Chose a color for function 7.</whatsthis>
+			<default>#008000</default>
+		</entry>
+		<entry name="Color7" type="Color">
+			<label>Color of function 8</label>
+			<whatsthis>Chose a color for function 8.</whatsthis>
+			<default>#000080</default>
+		</entry>
+		<entry name="Color8" type="Color">
+			<label>Color of function 9</label>
+			<whatsthis>Chose a color for function 9.</whatsthis>
+			<default>#000000</default>
+		</entry>
+		<entry name="Color9" type="Color">
+			<label>Color of function 10</label>
+			<whatsthis>Chose a color for function 10.</whatsthis>
+			<default>#000000</default>
+		</entry>
+	</group>
+	
+	<group name="Grid">
+		<entry name="GridLineWidth" type="Int">
+			<default>1</default>
+			<label>Grid Line Width</label>
+			<whatsthis>Enter the width of the grid lines.</whatsthis>
+		</entry>
+		<entry name="GridStyle" type="Int">
+			<default>1</default>
+			<label>Grid Style</label>
+			<whatsthis>Choose a suitable grid style.</whatsthis>
+		</entry>
+	</group>
+	
+</kcfg>

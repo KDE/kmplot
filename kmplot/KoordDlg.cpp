@@ -26,6 +26,7 @@
 // local includes
 #include "KoordDlg.h"
 #include "KoordDlg.moc"
+#include "settings.h"
 
 // Qt includes
 #include <qbuttongroup.h>
@@ -160,16 +161,13 @@ void KoordDlg::onok()
 
 	if ( cb_default->isChecked() )
 	{
-		kc->setGroup( "Axes" );
-
-		kc->writeEntry( "XCoord", koordx );
-		kc->writeEntry( "YCoord", koordy );
-		kc->writeEntry( "Xmin", xminstr );
-		kc->writeEntry( "Xmax", xmaxstr );
-		kc->writeEntry( "Ymin", yminstr );
-		kc->writeEntry( "Ymax", ymaxstr );
-		kc->writeEntry( "Labeled", m == 1 );
-		kc->sync();
+		Settings::setXRange( koordx );
+		Settings::setYRange( koordy );
+		Settings::setXMin( xminstr );
+		Settings::setXMax( xmaxstr );
+		Settings::setYMin( yminstr );
+		Settings::setYMax( ymaxstr );
+		Settings::setShowLabel( m == 1 );
 	}
 	done( 1 );
 }

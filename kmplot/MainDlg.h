@@ -91,6 +91,7 @@ public slots:
 	void onachsen1();
 	void onachsen2();
 	void onachsen3();
+	void hilfe();
 	void slotSettings();
 
 private:

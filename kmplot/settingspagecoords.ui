@@ -1,0 +1,551 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>SettingsPageCoords</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>SettingsPageCoords</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>420</width>
+            <height>421</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>SettingsPageCoords</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QTabWidget">
+            <property name="name">
+                <cstring>tabWidget4</cstring>
+            </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>&amp;Axes</string>
+                </attribute>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout23</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QButtonGroup">
+                                <property name="name">
+                                    <cstring>kcfg_XRange</cstring>
+                                </property>
+                                <property name="title">
+                                    <string>&amp;X Axis</string>
+                                </property>
+                                <vbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>[-8 | +8]</string>
+                                        </property>
+                                        <property name="checked">
+                                            <bool>true</bool>
+                                        </property>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1_3</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>[-5 | +5]</string>
+                                        </property>
+                                        <property name="buttonGroupId">
+                                            <number>1</number>
+                                        </property>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>[0 | +16]</string>
+                                        </property>
+                                        <property name="buttonGroupId">
+                                            <number>2</number>
+                                        </property>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1_5</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>[0 | 10]</string>
+                                        </property>
+                                        <property name="buttonGroupId">
+                                            <number>3</number>
+                                        </property>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1_4</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Custom:</string>
+                                        </property>
+                                        <property name="buttonGroupId">
+                                            <number>5</number>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLayoutWidget">
+                                        <property name="name">
+                                            <cstring>layout20</cstring>
+                                        </property>
+                                        <grid>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="QLabel" row="1" column="0">
+                                                <property name="name">
+                                                    <cstring>textLabel4_2</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>max:</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="QLabel" row="0" column="0">
+                                                <property name="name">
+                                                    <cstring>textLabel4</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>min:</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="KLineEdit" row="0" column="1">
+                                                <property name="name">
+                                                    <cstring>kcfg_XMin</cstring>
+                                                </property>
+                                            </widget>
+                                            <widget class="KLineEdit" row="1" column="1">
+                                                <property name="name">
+                                                    <cstring>kcfg_XMax</cstring>
+                                                </property>
+                                            </widget>
+                                        </grid>
+                                    </widget>
+                                </vbox>
+                            </widget>
+                            <widget class="QButtonGroup">
+                                <property name="name">
+                                    <cstring>kcfg_YRange</cstring>
+                                </property>
+                                <property name="title">
+                                    <string>&amp;Y Axis</string>
+                                </property>
+                                <vbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1_6</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>[-8 | +8]</string>
+                                        </property>
+                                        <property name="checked">
+                                            <bool>true</bool>
+                                        </property>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1_3_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>[-5 | +5]</string>
+                                        </property>
+                                        <property name="buttonGroupId">
+                                            <number>1</number>
+                                        </property>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1_2_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>[0 | +16]</string>
+                                        </property>
+                                        <property name="buttonGroupId">
+                                            <number>2</number>
+                                        </property>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1_5_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>[0 | 10]</string>
+                                        </property>
+                                        <property name="buttonGroupId">
+                                            <number>3</number>
+                                        </property>
+                                    </widget>
+                                    <widget class="QRadioButton">
+                                        <property name="name">
+                                            <cstring>radioButton1_4_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>Custom:</string>
+                                        </property>
+                                        <property name="buttonGroupId">
+                                            <number>5</number>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLayoutWidget">
+                                        <property name="name">
+                                            <cstring>layout20_2</cstring>
+                                        </property>
+                                        <grid>
+                                            <property name="name">
+                                                <cstring>unnamed</cstring>
+                                            </property>
+                                            <widget class="QLabel" row="1" column="0">
+                                                <property name="name">
+                                                    <cstring>textLabel4_2_2</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>max:</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="QLabel" row="0" column="0">
+                                                <property name="name">
+                                                    <cstring>textLabel4_3</cstring>
+                                                </property>
+                                                <property name="text">
+                                                    <string>min:</string>
+                                                </property>
+                                            </widget>
+                                            <widget class="KLineEdit" row="0" column="1">
+                                                <property name="name">
+                                                    <cstring>kcfg_YMin</cstring>
+                                                </property>
+                                            </widget>
+                                            <widget class="KLineEdit" row="1" column="1">
+                                                <property name="name">
+                                                    <cstring>kcfg_YMax</cstring>
+                                                </property>
+                                            </widget>
+                                        </grid>
+                                    </widget>
+                                </vbox>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout28</cstring>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="2" column="0">
+                                <property name="name">
+                                    <cstring>textLabel9</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Tic width:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg_TicWidth</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel7</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Axes line width:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg_AxesLineWidth</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLayoutWidget" row="3" column="1">
+                                <property name="name">
+                                    <cstring>layout27</cstring>
+                                </property>
+                                <hbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="KIntNumInput">
+                                        <property name="name">
+                                            <cstring>kcfg_TicLength</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel8_3</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>0.1 mm</string>
+                                        </property>
+                                    </widget>
+                                </hbox>
+                            </widget>
+                            <widget class="QLabel" row="2" column="1">
+                                <property name="name">
+                                    <cstring>textLabel8_4</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Tic length:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg_TicLength</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLayoutWidget" row="3" column="0">
+                                <property name="name">
+                                    <cstring>layout26</cstring>
+                                </property>
+                                <hbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="KIntNumInput">
+                                        <property name="name">
+                                            <cstring>kcfg_TicWidth</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel8_2</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>0.1 mm</string>
+                                        </property>
+                                    </widget>
+                                </hbox>
+                            </widget>
+                            <widget class="QCheckBox" row="0" column="1" rowspan="2" colspan="1">
+                                <property name="name">
+                                    <cstring>kcfg_ShowLabel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Labels</string>
+                                </property>
+                                <property name="checked">
+                                    <bool>true</bool>
+                                </property>
+                            </widget>
+                            <widget class="QLayoutWidget" row="1" column="0">
+                                <property name="name">
+                                    <cstring>layout25</cstring>
+                                </property>
+                                <hbox>
+                                    <property name="name">
+                                        <cstring>unnamed</cstring>
+                                    </property>
+                                    <widget class="KIntNumInput">
+                                        <property name="name">
+                                            <cstring>kcfg_AxesLineWidth</cstring>
+                                        </property>
+                                    </widget>
+                                    <widget class="QLabel">
+                                        <property name="name">
+                                            <cstring>textLabel8</cstring>
+                                        </property>
+                                        <property name="text">
+                                            <string>0.1 mm</string>
+                                        </property>
+                                    </widget>
+                                </hbox>
+                            </widget>
+                        </grid>
+                    </widget>
+                </vbox>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>&amp;Grid</string>
+                </attribute>
+                <vbox>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QButtonGroup">
+                        <property name="name">
+                            <cstring>kcfg_GridStyle</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Grid &amp;Style</string>
+                        </property>
+                        <vbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>radioButton11</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>None</string>
+                                </property>
+                            </widget>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>radioButton12</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Lines</string>
+                                </property>
+                            </widget>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>radioButton13</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Crosses</string>
+                                </property>
+                            </widget>
+                            <widget class="QRadioButton">
+                                <property name="name">
+                                    <cstring>radioButton14</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Polar</string>
+                                </property>
+                            </widget>
+                        </vbox>
+                    </widget>
+                    <widget class="QLayoutWidget">
+                        <property name="name">
+                            <cstring>layout24</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>textLabel5</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Line &amp;width:</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>kcfg_GridLineWidth</cstring>
+                                </property>
+                            </widget>
+                            <widget class="KIntNumInput">
+                                <property name="name">
+                                    <cstring>kcfg_GridLineWidth</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>textLabel6</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>0.1 mm</string>
+                                </property>
+                            </widget>
+                        </hbox>
+                    </widget>
+                    <spacer>
+                        <property name="name">
+                            <cstring>spacer6</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>40</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </vbox>
+            </widget>
+        </widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>kcfg_XMin</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>radioButton1_4</receiver>
+        <slot>animateClick()</slot>
+    </connection>
+    <connection>
+        <sender>kcfg_XMax</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>radioButton1_4</receiver>
+        <slot>animateClick()</slot>
+    </connection>
+    <connection>
+        <sender>kcfg_YMin</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>radioButton1_4_2</receiver>
+        <slot>animateClick()</slot>
+    </connection>
+    <connection>
+        <sender>kcfg_YMax</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>radioButton1_4_2</receiver>
+        <slot>animateClick()</slot>
+    </connection>
+</connections>
+<tabstops>
+    <tabstop>tabWidget4</tabstop>
+    <tabstop>radioButton1</tabstop>
+    <tabstop>kcfg_XMin</tabstop>
+    <tabstop>kcfg_XMax</tabstop>
+    <tabstop>radioButton1_6</tabstop>
+    <tabstop>kcfg_YMin</tabstop>
+    <tabstop>kcfg_YMax</tabstop>
+    <tabstop>kcfg_AxesLineWidth</tabstop>
+    <tabstop>kcfg_ShowLabel</tabstop>
+    <tabstop>kcfg_TicWidth</tabstop>
+    <tabstop>kcfg_TicLength</tabstop>
+    <tabstop>radioButton11</tabstop>
+    <tabstop>radioButton12</tabstop>
+    <tabstop>radioButton13</tabstop>
+    <tabstop>radioButton14</tabstop>
+    <tabstop>kcfg_GridLineWidth</tabstop>
+</tabstops>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+</includehints>
+</UI>

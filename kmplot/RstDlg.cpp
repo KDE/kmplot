@@ -36,6 +36,7 @@
 #include "misc.h"	// globals
 #include "RstDlg.h"
 #include "RstDlg.moc"
+#include "settings.h"
 
 #define Inherited RstDlgData
 
@@ -81,12 +82,9 @@ void RstDlg::onok()
 
 	if ( cb_default->isChecked() )
 	{
-		kc->setGroup( "Grid" );
-
-		kc->writeEntry( "Line Width", GitterDicke );
-		kc->writeEntry( "Mode", g_mode );
-		kc->writeEntry( "Color", QColor( GitterFarbe ) );
-		kc->sync();
+		Settings::setGridLineWidth( GitterDicke );
+		Settings::setGridStyle( g_mode );
+		Settings::setGridColor( GitterFarbe );
 	}
 
 	done( 1 );

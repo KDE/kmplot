@@ -1,0 +1,373 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>SettingsPageScaling</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>SettingsPageScaling</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>370</width>
+            <height>189</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>SettingsPageScaling</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout35</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox1</cstring>
+                    </property>
+                    <property name="title">
+                        <string>X-Axis</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
+                            <property name="name">
+                                <cstring>textLabel13</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Scaling:</string>
+                            </property>
+                        </widget>
+                        <widget class="Line" row="2" column="0" rowspan="1" colspan="3">
+                            <property name="name">
+                                <cstring>line1</cstring>
+                            </property>
+                            <property name="frameShape">
+                                <enum>HLine</enum>
+                            </property>
+                            <property name="frameShadow">
+                                <enum>Sunken</enum>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="3">
+                            <property name="name">
+                                <cstring>textLabel13_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Printing:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0">
+                            <property name="name">
+                                <cstring>textLabel12</cstring>
+                            </property>
+                            <property name="text">
+                                <string>1 tic =</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>kcfg_XScaling</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="4" column="0">
+                            <property name="name">
+                                <cstring>textLabel12_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>1 tic =</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>kcfg_XPrinting</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KComboBox" row="4" column="1">
+                            <item>
+                                <property name="text">
+                                    <string>10</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>5</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>2</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>1</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>0.5</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>pi/2</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>pi/3</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>p/4</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>kcfg_XPrinting</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="4" column="2">
+                            <property name="name">
+                                <cstring>textLabel14</cstring>
+                            </property>
+                            <property name="text">
+                                <string>cm</string>
+                            </property>
+                        </widget>
+                        <widget class="KComboBox" row="1" column="1">
+                            <item>
+                                <property name="text">
+                                    <string>10</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>5</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>2</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>1</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>0.5</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>pi/2</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>pi/3</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>p/4</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>kcfg_XScaling</cstring>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox1_2</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Y-Axis</string>
+                    </property>
+                    <grid>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
+                            <property name="name">
+                                <cstring>textLabel13_3</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Scaling:</string>
+                            </property>
+                        </widget>
+                        <widget class="Line" row="3" column="0" rowspan="1" colspan="3">
+                            <property name="name">
+                                <cstring>line1_2</cstring>
+                            </property>
+                            <property name="frameShape">
+                                <enum>HLine</enum>
+                            </property>
+                            <property name="frameShadow">
+                                <enum>Sunken</enum>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="4" column="0" rowspan="1" colspan="3">
+                            <property name="name">
+                                <cstring>textLabel13_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Printing:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="1" column="0" rowspan="2" colspan="2">
+                            <property name="name">
+                                <cstring>textLabel12_3</cstring>
+                            </property>
+                            <property name="text">
+                                <string>1 tic =</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>kcfg_YScaling</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="5" column="0">
+                            <property name="name">
+                                <cstring>textLabel12_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>1 tic =</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>kcfg_YPrinting</cstring>
+                            </property>
+                        </widget>
+                        <widget class="KComboBox" row="5" column="1">
+                            <item>
+                                <property name="text">
+                                    <string>10</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>5</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>2</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>1</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>0.5</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>pi/2</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>pi/3</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>p/4</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>kcfg_YPrinting</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLabel" row="5" column="2">
+                            <property name="name">
+                                <cstring>textLabel14_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>cm</string>
+                            </property>
+                        </widget>
+                        <widget class="KComboBox" row="2" column="1">
+                            <item>
+                                <property name="text">
+                                    <string>10</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>5</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>2</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>1</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>0.5</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>pi/2</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>pi/3</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>p/4</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>kcfg_YScaling</cstring>
+                            </property>
+                        </widget>
+                    </grid>
+                </widget>
+            </hbox>
+        </widget>
+    </vbox>
+</widget>
+<tabstops>
+    <tabstop>kcfg_XScaling</tabstop>
+    <tabstop>kcfg_XPrinting</tabstop>
+    <tabstop>kcfg_YScaling</tabstop>
+    <tabstop>kcfg_YPrinting</tabstop>
+</tabstops>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+</includehints>
+</UI>

@@ -30,6 +30,7 @@
 // local includes
 #include "AttrDlg.h"
 #include "AttrDlg.moc"
+#include "settings.h"
 
 #define Inherited AttrDlgData
 
@@ -53,13 +54,29 @@ void AttrDlg::onok()
 
 	if ( cb_default->isChecked() )
 	{
-		char s[ 8 ];
-
-		kc->setGroup( "Graphs" );
-		kc->writeEntry( "Line Width", ps.fktext[ ix ].dicke );
-		sprintf( s, "Color%c", '0' + ix );
-		kc->writeEntry( s, color_button->color() );
-		kc->sync();
+		Settings::setPlotLineWidth( ps.fktext[ ix ].dicke );
+		switch( ix )
+		{
+			case 0: Settings::setColor0( color_button->color() );
+				break;
+			case 1: Settings::setColor1( color_button->color() );
+				break;
+			case 2: Settings::setColor2( color_button->color() );
+				break;
+			case 3: Settings::setColor3( color_button->color() );
+				break;
+			case 4: Settings::setColor4( color_button->color() );
+				break;
+			case 5: Settings::setColor5( color_button->color() );
+				break;
+			case 6: Settings::setColor6( color_button->color() );
+				break;
+			case 7: Settings::setColor7( color_button->color() );
+				break;
+			case 8: Settings::setColor8( color_button->color() );
+				break;
+			case 9: Settings::setColor9( color_button->color() );
+		}
 	}
 
 	done( 1 );

@@ -34,6 +34,7 @@
 #include "misc.h"
 #include "KOptDlg.h"
 #include "KOptDlg.moc"
+#include "settings.h"
 
 #define Inherited KOptDlgData
 
@@ -63,13 +64,10 @@ void KOptDlg::onok()
 
 	if ( cb_default->isChecked() )
 	{
-		kc->setGroup( "Axes" );
-
-		kc->writeEntry( "Axes Width", AchsenDicke );
-		kc->writeEntry( "Tic Width", TeilstrichDicke );
-		kc->writeEntry( "Tic Length", TeilstrichLaenge );
-		kc->writeEntry( "Color", QColor( AchsenFarbe ) );
-		kc->sync();
+		Settings::setAxesLineWidth( AchsenDicke );
+		Settings::setTicWidth( TeilstrichDicke );
+		Settings::setTicLength( TeilstrichLaenge );
+		Settings::setAxesColor( AchsenFarbe );
 	}
 
 	done( 1 );

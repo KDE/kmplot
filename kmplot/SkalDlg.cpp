@@ -23,6 +23,7 @@
 *
 */
 
+#include "settings.h"
 #include "SkalDlg.h"
 #include "SkalDlg.moc"
 
@@ -90,12 +91,10 @@ void SkalDlg::onok()
 
 	if ( cb_default->isChecked() )
 	{
-		kc->setGroup( "Achsen" );
-		kc->writeEntry( "tlgx", tlgxstr );
-		kc->writeEntry( "tlgy", tlgystr );
-		kc->writeEntry( "drskalx", drskalxstr );
-		kc->writeEntry( "drskaly", drskalystr );
-		kc->sync();
+		Settings::setXScaling( cb_xtlg->currentItem() );
+		Settings::setYScaling( cb_ytlg->currentItem() );
+		Settings::setXPrinting( cb_xdruck->currentItem() );
+		Settings::setYPrinting( cb_ydruck->currentItem() );
 	}
 
 	errflg = 0;

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -49,9 +49,9 @@ public:
 	 * @param parser current parser instance
 	 */
 	FktDlg( QWidget* parent, XParser* parser );
-	/** And again an empty destructor. */
+	/// Empty destructor.
 	virtual ~FktDlg();
-	/// fill the widgets with plots contained in th parser instance
+	/// Fill the widgets with plots contained in th parser instance.
 	void getPlots();
 
 protected slots:
@@ -59,23 +59,38 @@ protected slots:
 	void slotDelete();
 	/// Edit selected Plot
 	void slotEdit();
-	/// Enables/disables actions if the list has a selection
+	/// Enables/disables actions if the list has a/no selection.
 	void slotHasSelection();
 	
-	/// edit the plots, index: parser index, num: listbox index
+	/// Edit a function plot.
+	/// @param index Function index of the parser instance.
+	/// @param num Listbox index
 	void slotEditFunction( int index = -1, int num = -1 );
+	/// Edit a parametric plot.
+	/// @param x_index, y_index Function index of the parser instance.
+	/// @param num Listbox index
 	void slotEditParametric( int x_index = -1, int y_index = -1, int num = -1 );
+	/// Edit a polar plot.
+	/// @param index Function index of the parser instance.
+	/// @param num Listbox index
 	void slotEditPolar( int index = -1, int num = -1 );
+	/// Edit a new function plot.
 	void slotNewFunction();
+	/// Edit a new parametric plot.
 	void slotNewParametric();
+	/// Edit a new polar plot.
 	void slotNewPolar();
+	/// Invoke Help
 	void slotHelp();
 	
 private:
+	/// Looks up the index of \a f_str in the parser instance.
 	int getIx( const QString f_str );
+	/// Looks up the indices of the parametric pair of function.
+	void getParamIx( const QString f_str, int &i, int &j );
+	/// Update the view of the main window.
 	void updateView();
-	int chflg;
-	int errflg;
+	/// Ponts to the parser instance.
 	XParser* m_parser;
 };
 

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+* Copyright (C) 1998, 1999  Klaus-Dieter Mï¿½ler
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -55,14 +55,22 @@ FktDlg::~FktDlg()
 void FktDlg::slotDelete()
 {
 	int ix, num;
-
-	if ( ( num = lb_fktliste->currentItem() ) == -1 )
-		return ;
-
-	// TODO: delete parametric pair of function
-	ix = getIx( lb_fktliste->text( num ) );
-	chflg = 1;
-	m_parser->delfkt( ix );
+	if ( ( num = lb_fktliste->currentItem() ) == -1 ) return ;
+	
+	if( lb_fktliste->text( num )[0] == 'x' )
+	{
+		// Delete pair of parametric function
+		int i, j;
+		getParamIx( lb_fktliste->text( num ), i, j );
+		m_parser->delfkt( i );
+		m_parser->delfkt( j );
+	}
+	else 
+	{
+		// only one function to be deleted
+		ix = getIx( lb_fktliste->text( num ) );
+		m_parser->delfkt( ix );
+	}
 	lb_fktliste->removeItem( num );
 	updateView();
 }
@@ -102,6 +110,15 @@ int FktDlg::getIx( const QString f_str )
 			return ix;
 	}
 	return -1;
+}
+
+void FktDlg::getParamIx( const QString f_str, int &index1, int &index2 )
+{
+	QString fname = f_str.section( "(", 0, 0 );
+	index1 = m_parser->getfix( fname );
+	if( fname[0] == 'x' ) fname[0] = 'y';
+	else fname[0] = 'x';
+	index2 = m_parser->getfix( fname );
 }
 
 void FktDlg::updateView()

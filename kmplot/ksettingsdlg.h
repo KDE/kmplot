@@ -86,6 +86,16 @@ public:
     QLabel* TextLabel1_2_2;
     QLineEdit* le_ymax;
     QCheckBox* cb_beschr;
+    QLabel* TextLabel1_2_3;
+    QLineEdit* le_tl;
+    QLabel* TextLabel2_2_2;
+    QLineEdit* le_td;
+    QLabel* TextLabel2_2;
+    QLineEdit* le_ad;
+    QLabel* TextLabel2;
+    QLabel* TextLabel1_2_2_2;
+    QLabel* TextLabel1_4;
+
 
 protected:
     QVBoxLayout* KAxesTabLayout;
@@ -98,6 +108,10 @@ protected:
     QVBoxLayout* Layout3;
     QHBoxLayout* Layout1;
     QHBoxLayout* Layout2;
+    QGridLayout* Layout16;
+    QHBoxLayout* Layout13;
+    QHBoxLayout* Layout14;
+    QHBoxLayout* Layout12;
 };
 
 class KGridTab : public QWidget

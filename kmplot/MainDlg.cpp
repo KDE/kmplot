@@ -143,6 +143,14 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 	
 	// tools menu
+	
+	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
+	mnuHide->plug(m_popupmenu);
+	KAction *mnuRemove = new KAction(i18n("&Remove"),0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
+	mnuRemove->plug(m_popupmenu);
+	KAction *mnuEdit = new KAction(i18n("&Edit"), 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
+	mnuEdit->plug(m_popupmenu);
+	
 	KAction *mnuYValue =  new KAction( i18n( "&Get y-value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
 	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value" ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
 	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value" ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
@@ -162,9 +170,6 @@ void MainDlg::setupActions()
 		KWidgetAction* sliderAction = new KWidgetAction( view->sliders[ number ], i18n( "Slider no. %1" ).arg( number ), 0, this, 0, actionCollection(), QString( "slider%1" ).arg( number ).latin1() );
 	}
 	
-	m_popupmenu->insertItem(i18n("Hide"));
-	m_popupmenu->insertItem(i18n("Remove"));
-	m_popupmenu->insertItem(i18n("Edit"));
 	m_popupmenu->insertSeparator();
 	mnuYValue->plug(m_popupmenu);
 	mnuMinValue->plug(m_popupmenu);
@@ -180,7 +185,8 @@ void MainDlg::setupStatusBar()
 	stbar=statusBar();
 	stbar->insertFixedItem( "1234567890", 1 );
 	stbar->insertFixedItem( "1234567890", 2 );
-	stbar->insertItem( "", 3, 1 );
+	stbar->insertItem( "", 3, 3 );
+	stbar->insertItem( "", 4 );
 	stbar->changeItem( "", 1 );
 	stbar->changeItem( "", 2 );
 	stbar->setItemAlignment( 3, AlignLeft );

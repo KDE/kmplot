@@ -123,6 +123,11 @@ public slots:
 	void progressbar_clicked();
 	/// Called when the graph should be updated
 	void drawPlot();
+	///Slots for the three first items in popup menu
+	void mnuHide_clicked();
+	void mnuRemove_clicked();
+	void mnuEdit_clicked();
+
     
 protected slots:
 	void paintEvent(QPaintEvent *);

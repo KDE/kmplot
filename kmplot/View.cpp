@@ -30,6 +30,7 @@
 #include <qwhatsthis.h>
 
 // KDE includes
+#include <kaction.h>
 #include <kapplication.h>
 #include <kiconloader.h>
 #include <klocale.h>
@@ -38,6 +39,7 @@
 #include <kprogress.h> 
 
 // local includes
+#include "editfunction.h"
 #include "kminmax.h"
 #include "settings.h"
 #include "View.h"
@@ -99,6 +101,7 @@ View::View(KPopupMenu *m, QWidget* parent, const char* name ) : QWidget( parent,
 	}
 	m_popupmenu = m;
 	m_popupmenushown = 0;
+	m_popupmenu->insertTitle( "",10);
 }
 
 void View::setMinMaxDlg(KMinMax *minmaxdlg)
@@ -289,7 +292,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 			}
 			else
 				x=dmin;
-			kdDebug() << "dx: " << dx << endl;
 			if ( p_mode != 0 || m_parser->fktext[ix].f_mode) // if not the function is hidden
 			while (x>=dmin && x<=dmax)
 			{
@@ -677,6 +679,7 @@ void View::mousePressEvent(QMouseEvent *e)
 						csmode=ix;
 						cstype=0;
 						csparam = k;
+						m_popupmenu->changeTitle(10, m_parser->fktext[ ix ].extstr);
 						m_popupmenushown = 1;
 					}
 					else
@@ -686,11 +689,35 @@ void View::mousePressEvent(QMouseEvent *e)
 				}
 				if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
 				{
+					if ( csmode == -1)
+					{
+						csmode=ix;
+						cstype=1;
+						csparam = k;
+						QString function = m_parser->fktext[ ix ].extstr;
+						function = function.left(function.find('(')) + '\'';
+						m_popupmenu->changeTitle(10, function);
+						m_popupmenushown = 1;
+					}
+					else
+						m_popupmenushown = 2;
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
 				if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g && m_parser->fktext[ix].f2_mode)
 				{
+					if ( csmode == -1)
+					{
+						csmode=ix;
+						cstype=2;
+						csparam = k;
+						QString function = m_parser->fktext[ ix ].extstr;
+						function = function.left(function.find('(')) + "\'\'";
+						m_popupmenu->changeTitle(10, function);
+						m_popupmenushown = 1;
+					}
+					else
+						m_popupmenushown = 2;
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
@@ -703,6 +730,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	if(csmode>=0) //disable trace mode if trace mode is enable
 	{
 		csmode=-1;
+		stbar->changeItem("",4);
 		mouseMoveEvent(e);
 		return ;
 	}
@@ -729,6 +757,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				cstype=0;
 				csparam = k;
 				m_minmax->selectItem();
+				stbar->changeItem(m_parser->fktext[ ix ].extstr,4);
 				mouseMoveEvent(e);
 				return;
 			}
@@ -738,6 +767,9 @@ void View::mousePressEvent(QMouseEvent *e)
 				cstype=1;
 				csparam = k;
 				m_minmax->selectItem();
+				QString function = m_parser->fktext[ ix ].extstr;
+				function = function.left(function.find('(')) + '\'';
+				stbar->changeItem(function,4);
 				mouseMoveEvent(e);
 				return;
 			}
@@ -747,6 +779,9 @@ void View::mousePressEvent(QMouseEvent *e)
 				cstype=2;
 				csparam = k;
 				m_minmax->selectItem();
+				QString function = m_parser->fktext[ ix ].extstr;
+				function = function.left(function.find('(')) + "\'\'";
+				stbar->changeItem(function,4);
 				mouseMoveEvent(e);
 				return;
 			}
@@ -755,6 +790,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	}
 
 	csmode=-1;
+	stbar->changeItem("",4);
 }
 
 
@@ -1105,6 +1141,26 @@ void View::keyPressEvent( QKeyEvent * e)
 		
 		/*kdDebug() << "csmode: " << (int)csmode << endl;
 		kdDebug() << "cstype: " << (int)cstype << endl;*/
+		switch (cstype )
+		{
+			case 0:
+				stbar->changeItem(m_parser->fktext[csmode ].extstr,4);
+				break;
+			case 1:
+			{
+				QString function = m_parser->fktext[ csmode ].extstr;
+				function = function.left(function.find('(')) + '\'';
+				stbar->changeItem(function,4);
+			}
+				break;
+			case 2:
+			{
+				QString function = m_parser->fktext[ csmode ].extstr;
+				function = function.left(function.find('(')) + "\'\'";
+				stbar->changeItem(function,4);
+				break;
+			}
+		}
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
 	}
 	else
@@ -1318,4 +1374,38 @@ bool View::isCalculationStopped()
 	}
 	else
 		return false;
+}
+void View::mnuHide_clicked()
+{
+	switch (cstype )
+	{
+		case 0:
+			m_parser->fktext[csmode ].f_mode=0;
+			break;
+		case 1:
+			m_parser->fktext[csmode ].f1_mode=0;
+			break;
+		case 2:
+			m_parser->fktext[csmode ].f2_mode=0;
+			break;
+	}
+	drawPlot();
+}
+void View::mnuRemove_clicked()
+{
+	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
+	{
+		m_parser->delfkt( csmode );
+		drawPlot();
+	}
+}
+void View::mnuEdit_clicked()
+{
+	EditFunction* editFunction = new EditFunction( m_parser, this );
+	editFunction->setCaption(i18n( "Edit Function Plot" ));
+	editFunction->initDialog( csmode );
+	if( editFunction->exec() == QDialog::Accepted )
+	{
+		drawPlot();
+	}
 }

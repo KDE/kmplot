@@ -130,8 +130,6 @@ void EditFunction::setWidgets()
 	editderivativespage->showDerivative2->setChecked( m_parser->fktext[ m_index ].f2_mode );
 	editderivativespage->lineWidthDerivative2->setValue( m_parser->fktext[ m_index ].f2_linewidth );
 	editderivativespage->colorDerivative2->setColor( m_parser->fktext[ m_index ].f2_color );
-	
-	editantiderivativepage->customPrecision->setChecked( m_parser->fktext[ m_index ].anti_use_precision );
 	editantiderivativepage->precision->setValue( m_parser->fktext[ m_index ].anti_precision );
 	editantiderivativepage->lineWidthAntiderivative->setValue( m_parser->fktext[ m_index ].anti_linewidth );
 	editantiderivativepage->colorAntiderivative->setColor( m_parser->fktext[ m_index ].anti_color );
@@ -139,6 +137,7 @@ void EditFunction::setWidgets()
 	if ( m_parser->fktext[ m_index ].anti_mode )
 	{
 		editantiderivativepage->showAntiderivative->setChecked( m_parser->fktext[ m_index ].anti_mode );
+		editantiderivativepage->customPrecision->setChecked( m_parser->fktext[ m_index ].anti_use_precision );
 		editantiderivativepage->txtInitX->setText(m_parser->fktext[ m_index ].str_startx);
 		editantiderivativepage->txtInitY->setText(m_parser->fktext[ m_index ].str_starty);
 		

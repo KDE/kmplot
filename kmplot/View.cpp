@@ -44,7 +44,7 @@
 double View::xmin = 0;
 double View::xmax = 0;
 
-KmplotProgress::KmplotProgress( QWidget* parent, const char* name ,WFlags fl) : QWidget( parent, name) 
+KmplotProgress::KmplotProgress( QWidget* parent, const char* name ) : QWidget( parent, name) 
 {
 	button = new KPushButton(this);
 	button->setPixmap( SmallIcon( "cancel" ) );
@@ -622,21 +622,21 @@ void View::mousePressEvent(QMouseEvent *e)
 		ke=m_parser->fktext[ix].k_anz;
 		do
 		{   m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
-			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g)
+			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
 			{   	csmode=ix;
 				cstype=0;
 				m_minmax->selectItem();
 				mouseMoveEvent(e);
 				return;
 			}
-			if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g)
+			if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
 			{   	csmode=ix;
 				cstype=1;
 				mouseMoveEvent(e);
 				m_minmax->selectItem();
 				return;
 			}
-			if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g)
+			if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g && m_parser->fktext[ix].f2_mode)
 			{   	csmode=ix;
 				cstype=2;
 				mouseMoveEvent(e);
@@ -719,7 +719,6 @@ void View::getSettings()
 		m_parser->fktext[i].f1_color = m_parser->fktext[i].color;
 		m_parser->fktext[i].f2_color = m_parser->fktext[i].color;
 		m_parser->fktext[i].anti_color = m_parser->fktext[i].color;
-		
 	}
 	stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
 	backgroundcolor = Settings::backgroundcolor();
@@ -998,8 +997,10 @@ void View::keyPressEvent( QKeyEvent * e)
 void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 {
 	double dx, x, y;
+	float area=0;
+	int rectwidth, rectheight;
 	QString fname, fstr;
-	QRect p;
+	QPoint p;
 	QPainter pDC(&buffer);
 	int ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 	pDC.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
@@ -1008,7 +1009,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
 
 	dx=stepWidth;
-	p.setWidth(dx);
+	rectwidth = dgr.GetPlotArea().width()/200;
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
 		dmin=xmin;
@@ -1017,26 +1018,18 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 
 	//m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 	bool forward_direction = true;
-	stop_calculating = false;
 	if ( p_mode == 3)
 	{
-		stop_calculating = false;
-		progressbar->progress->reset();
-		progressbar->progress->setTotalSteps( int((dmax-dmin)/(Settings::relativeStepWidth()/(10*0.8))) );
-		progressbar->show();
-		KApplication::kApplication()->processEvents();
 		if ( m_parser->fktext[ix].anti_use_precision )
 			dx = (m_parser->fktext[ix].anti_precision)/1000;
 		else
-			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+		dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 		x = m_parser->fktext[ix].startx; //the initial x-point
 	}
 	else
 		x=dmin;
 	while (x>=dmin && x<=dmax)
 	{
-		if ( p_mode == 3 && stop_calculating)
-			return;
 		errno=0;
 		switch(p_mode)
 		{
@@ -1058,12 +1051,8 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 			{
 				y=m_parser->fkt(ix, x);
 				m_parser->euler_method(x, y,ix);
-				if ( int(x*1000)%100==0)
-				{
-					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
-					progressbar->increase();
-					paintEvent(0);
-				}
+				if ( int(x*100)%2==0)
+					KApplication::kApplication()->processEvents();
 				break;
 			}
 		}
@@ -1077,30 +1066,34 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 			if ( y<0)
 			{
 				p.setY(dgr.Transy(ymin));
-				p.setHeight(dgr.Transy(0.0)-p.y() );
+				rectheight = dgr.Transy(0.0)-p.y() ;
 			}
 			else
 			{
 				p.setY(dgr.Transy(ymax));
-				p.setHeight( -1*( p.y()-dgr.Transy(0.0)) );
+				rectheight= -1*( p.y()-dgr.Transy(0.0)) ;
 			}
-			pDC.fillRect(p,color);
+			area = area + ( dx*y);
+			kdDebug() << "Area1: " << area << endl;
+			pDC.fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 		}
 		else
 		{
-			p.setWidth(5);
 			if ( y<0)
 			{
-				p.setHeight( dgr.Transy(0.0)-p.y() );
+				rectheight =  dgr.Transy(0.0)-p.y();
 			}
 			else
 			{
-				p.setHeight(-1*( p.y()-dgr.Transy(0.0)) );
+				rectheight = -1*( p.y()-dgr.Transy(0.0));
 			}
+			area = area + (dx*y);
+			kdDebug() << "Area2: " << area << endl;
 			/*kdDebug() << "x:" << p.height() << endl;
 			kdDebug() << "y:" << p.y() << endl;
 			kdDebug() << "*************" << endl;*/
-			pDC.fillRect(p,color);
+			pDC.fillRect(p.x(),p.y(),rectwidth,rectheight,color);
+			
 		}
 	
 		if (forward_direction)
@@ -1114,12 +1107,11 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 		}
 		else
 			x=x-dx; // go backwards
-
 	}
 
-	if (  progressbar->isVisible())
-		progressbar->hide(); // hide the progressbar-widget if it was shown
-	
 	pDC.end();
-	setFocus();
+	if ( area>0)
+		dmin = int(area*1000)/double(1000);
+	else
+		dmin = int(area*1000)/double(1000)*-1;
 }

@@ -47,7 +47,7 @@ class KMinMax;
 class KmplotProgress: public QWidget
 {
 	public:
-		KmplotProgress( QWidget* parent = 0, const char* name = 0, WFlags fl = 0  );
+		KmplotProgress( QWidget* parent = 0, const char* name = 0 );
 		~KmplotProgress();
 		void increase();
 		

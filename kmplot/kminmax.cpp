@@ -229,9 +229,12 @@ void KMinMax::cmdFind_clicked()
 	}
 	else if ( m_mode == 3)
 	{
+		double dmin_tmp = dmin;
 		m_view->areaUnderGraph(index-1,p_mode,dmin,dmax);
+		KMessageBox::information(this,i18n("The area between %1 and %1\nis: %3").arg(dmin_tmp).arg(dmax).arg(dmin));
+		m_view->update();
 	}
-	QDialog::accept();
+	//QDialog::accept();
 }
 
 

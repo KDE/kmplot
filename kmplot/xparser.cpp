@@ -161,7 +161,7 @@ int XParser::delfkt( int ix )
 	if ( Parser::delfkt( ix ) == -1 )
 		return -1;
 
-	fktext[ ix ].f_mode = fktext[ ix ].f1_mode = fktext[ ix ].f2_mode = fktext[ ix ].anti_mode = 0;
+	fktext[ ix ].f_mode = fktext[ ix ].f1_mode = fktext[ ix ].f2_mode = fktext[ ix ].integral_mode = 0;
 	fktext[ ix ].linewidth = linewidth0;
 	fktext[ ix ].k_anz = 0;
 	fktext[ ix ].dmin = fktext[ ix ].dmax = 0.;
@@ -223,7 +223,7 @@ void XParser::euler_method(double &x, double &y, const int &index)
 	if (x == fktext[index].startx ) //the first point we should draw
 	{
 		ufkt[index].oldy = fktext[index].starty;
-		fktext[index].oldyprim = fktext[index].anti_precision;
+		fktext[index].oldyprim = fktext[index].integral_precision;
 		
 		
 		/*kdDebug() << "*******************" << endl;

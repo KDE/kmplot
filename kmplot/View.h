@@ -225,7 +225,7 @@ private:
 	/// represents the KPrinter option app-kmplot-printtable.
 	/// @see KPrinterDlg
 	bool m_printHeaderTable;
-	/// if stop_calculating is true, the user has canceled drawing of an anti-derivative graph
+	/// if stop_calculating is true, the user has canceled drawing of an integral graph
 	bool stop_calculating;
 	/// the background color of the graph
 	QColor backgroundcolor;
@@ -237,7 +237,7 @@ private:
 	QPixmap buffer;
 	/// the popup menu
 	KPopupMenu *m_popupmenu;
-	/// is set to true if a anti-derivative is calculated
+	/// is set to true if an integral is calculated
 	bool isDrawing;
 	///status of the popup menu
 	char m_popupmenushown; /// 0==no popup 1==popup 2==popup+trace mode before

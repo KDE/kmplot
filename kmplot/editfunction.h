@@ -33,7 +33,7 @@
 class XParser;
 class EditFunctionPage;
 class EditDerivativesPage;
-class EditAntiderivativePage;
+class EditIntegralPage;
 
 /** @short Dialog window editing a function plot and its properties. */
 class EditFunction : public KDialogBase
@@ -75,7 +75,7 @@ class EditFunction : public KDialogBase
 		
 		EditFunctionPage* editfunctionpage;
 		EditDerivativesPage* editderivativespage;
-		EditAntiderivativePage* editantiderivativepage;
+		EditIntegralPage* editintegralpage;
 };
 
 #endif

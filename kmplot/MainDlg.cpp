@@ -515,12 +515,12 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	view->parser()->fktext[index].color = view->parser()->fktext[index].color0;
 	view->parser()->fktext[index].f1_color = view->parser()->fktext[index].color0;
 	view->parser()->fktext[index].f2_color = view->parser()->fktext[index].color0;
-	view->parser()->fktext[index].anti_color = view->parser()->fktext[index].color0;
+	view->parser()->fktext[index].integral_color = view->parser()->fktext[index].color0;
 	view->parser()->fktext[index].f1_linewidth = view->parser()->fktext[index].linewidth;
 	view->parser()->fktext[index].f2_linewidth = view->parser()->fktext[index].linewidth;
-	view->parser()->fktext[index].anti_linewidth = view->parser()->fktext[index].linewidth;
+	view->parser()->fktext[index].integral_linewidth = view->parser()->fktext[index].linewidth;
 	view->parser()->fktext[index].f_mode = 1;
-	view->parser()->fktext[index].anti_precision=Settings::relativeStepWidth();
+	view->parser()->fktext[index].integral_precision=Settings::relativeStepWidth();
 	view->parser()->fktext[index].extstr = f_str;
 	view->parser()->getext( index );
 	m_quickEdit->clear();

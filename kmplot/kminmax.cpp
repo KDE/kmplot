@@ -130,7 +130,7 @@ void KMinMax::updateFunctions()
 				function +="\'\'";
 				list->insertItem(function );
 			}
-			if ( m_view->parser()->fktext[ index ].anti_mode )//anti derivative
+			if ( m_view->parser()->fktext[ index ].integral_mode )//integral
 			{
 				QString function (m_view->parser()->fktext[ index ].extstr);
 				int i= function.find('(');

@@ -1,6 +1,6 @@
 bin_PROGRAMS = kmplot
 
-kmplot_SOURCES = FktDlgData.ui parser.cpp xparser.cpp  main.cpp diagr.cpp View.cpp  MainDlg.cpp FktDlg.cpp  kprinterdlg.cpp settings.kcfgc settingspagecolor.ui kconstanteditor.cpp qparametereditor.ui kparametereditor.cpp settingspagecoords.ui settingspagefonts.ui settingspagescaling.ui settingspageprecision.ui qeditparametric.ui keditparametric.cpp qeditpolar.ui  keditpolar.cpp editfunctionpage.ui editderivativespage.ui editantiderivativepage.ui editfunction.cpp qeditconstant.ui qminmax.ui kminmax.cpp qconstanteditor.ui keditconstant.cpp kmplotio.cpp sliderwindow.ui
+kmplot_SOURCES = FktDlgData.ui parser.cpp xparser.cpp  main.cpp diagr.cpp View.cpp  MainDlg.cpp FktDlg.cpp  kprinterdlg.cpp settings.kcfgc settingspagecolor.ui kconstanteditor.cpp qparametereditor.ui kparametereditor.cpp settingspagecoords.ui settingspagefonts.ui settingspagescaling.ui settingspageprecision.ui qeditparametric.ui keditparametric.cpp qeditpolar.ui  keditpolar.cpp editfunctionpage.ui editderivativespage.ui editintegralpage.ui editfunction.cpp qeditconstant.ui qminmax.ui kminmax.cpp qconstanteditor.ui keditconstant.cpp kmplotio.cpp sliderwindow.ui
 
 kmplot_LDADD = $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET) $(LIB_KDEPRINT)
 

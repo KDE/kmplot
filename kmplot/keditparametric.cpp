@@ -186,8 +186,8 @@ void KEditParametric::accept()
 	tmp_fktext.color = kColorButtonColor->color().rgb();
 	tmp_fktext.f1_color = tmp_fktext.color;
 	tmp_fktext.f2_color = tmp_fktext.color;
-	tmp_fktext.anti_color = tmp_fktext.color;
-	tmp_fktext.anti_mode = 0;
+	tmp_fktext.integral_color = tmp_fktext.color;
+	tmp_fktext.integral_mode = 0;
 	tmp_fktext.f1_mode = 0;
 	tmp_fktext.f2_mode = 0;
 	tmp_fktext.use_slider = -1;

@@ -53,7 +53,7 @@
 #include "View.h"
 #include "editfunctionpage.h"
 #include "editderivativespage.h"
-#include "editantiderivativepage.h"
+#include "editintegralpage.h"
 #include "kparametereditor.h"
 
 EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name ) : 
@@ -63,8 +63,8 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	editfunctionpage = new EditFunctionPage( page0 );
 	QVBox *page1 = addVBoxPage( i18n("Derivatives"), i18n( "Derivatives" ), SmallIcon( "deriv_func", 32 ) );
 	editderivativespage = new EditDerivativesPage( page1 );
-	QVBox *page2 = addVBoxPage( i18n("Antiderivative"), i18n( "Antiderivative" ), SmallIcon( "anti_func", 32 ) );
-	editantiderivativepage = new EditAntiderivativePage( page2 );
+	QVBox *page2 = addVBoxPage( i18n("Integral"), i18n( "Integral" ), SmallIcon( "integral_func", 32 ) );
+	editintegralpage = new EditIntegralPage( page2 );
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
 		editfunctionpage->listOfSliders->insertItem( QString( "Slider no. %1" ).arg( number ) );
@@ -100,10 +100,10 @@ void EditFunction::clearWidgets()
 	editderivativespage->lineWidthDerivative2->setValue( editfunctionpage->lineWidth->value() );
 	editderivativespage->colorDerivative2->setColor( editfunctionpage->color->color() );
 	
-	// Clear the Antiderivative page
-	editantiderivativepage->precision->setValue( Settings::relativeStepWidth());
-	editantiderivativepage->colorAntiderivative->setColor( editfunctionpage->color->color() );
-	editantiderivativepage->lineWidthAntiderivative->setValue(editfunctionpage->lineWidth->value());
+	// Clear the Integral page
+	editintegralpage->precision->setValue( Settings::relativeStepWidth());
+	editintegralpage->color->setColor( editfunctionpage->color->color() );
+	editintegralpage->lineWidth->setValue(editfunctionpage->lineWidth->value());
 	
 }
 
@@ -143,16 +143,16 @@ void EditFunction::setWidgets()
 	editderivativespage->showDerivative2->setChecked( m_parser->fktext[ m_index ].f2_mode );
 	editderivativespage->lineWidthDerivative2->setValue( m_parser->fktext[ m_index ].f2_linewidth );
 	editderivativespage->colorDerivative2->setColor( m_parser->fktext[ m_index ].f2_color );
-	editantiderivativepage->precision->setValue( m_parser->fktext[ m_index ].anti_precision );
-	editantiderivativepage->lineWidthAntiderivative->setValue( m_parser->fktext[ m_index ].anti_linewidth );
-	editantiderivativepage->colorAntiderivative->setColor( m_parser->fktext[ m_index ].anti_color );
+	editintegralpage->precision->setValue( m_parser->fktext[ m_index ].integral_precision );
+	editintegralpage->lineWidth->setValue( m_parser->fktext[ m_index ].integral_linewidth );
+	editintegralpage->color->setColor( m_parser->fktext[ m_index ].integral_color );
 	
-	if ( m_parser->fktext[ m_index ].anti_mode )
+	if ( m_parser->fktext[ m_index ].integral_mode )
 	{
-		editantiderivativepage->showAntiderivative->setChecked( m_parser->fktext[ m_index ].anti_mode );
-		editantiderivativepage->customPrecision->setChecked( m_parser->fktext[ m_index ].anti_use_precision );
-		editantiderivativepage->txtInitX->setText(m_parser->fktext[ m_index ].str_startx);
-		editantiderivativepage->txtInitY->setText(m_parser->fktext[ m_index ].str_starty);
+		editintegralpage->showIntegral->setChecked( m_parser->fktext[ m_index ].integral_mode );
+		editintegralpage->customPrecision->setChecked( m_parser->fktext[ m_index ].integral_use_precision );
+		editintegralpage->txtInitX->setText(m_parser->fktext[ m_index ].str_startx);
+		editintegralpage->txtInitY->setText(m_parser->fktext[ m_index ].str_starty);
 		
 	}
 
@@ -272,30 +272,30 @@ void EditFunction::accept()
 	tmp_fktext.linewidth = editfunctionpage->lineWidth->value();
 	tmp_fktext.color = editfunctionpage->color->color().rgb();
 	
-	if (editantiderivativepage->showAntiderivative->isChecked() )
+	if (editintegralpage->showIntegral->isChecked() )
 	{
-		double initx = m_parser->eval(editantiderivativepage->txtInitX->text());
+		double initx = m_parser->eval(editintegralpage->txtInitX->text());
 		tmp_fktext.startx = initx;
-		tmp_fktext.str_startx = editantiderivativepage->txtInitX->text();
+		tmp_fktext.str_startx = editintegralpage->txtInitX->text();
 		if (m_parser->err != 0)
 		{
 			KMessageBox::error(this,i18n("Please insert a valid x-value"));
 			showPage(2);
-			editantiderivativepage->txtInitX->setFocus();
-			editantiderivativepage->txtInitX->selectAll();
+			editintegralpage->txtInitX->setFocus();
+			editintegralpage->txtInitX->selectAll();
 			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
 		
-		double inity = m_parser->eval(editantiderivativepage->txtInitY->text());
+		double inity = m_parser->eval(editintegralpage->txtInitY->text());
 		tmp_fktext.starty = inity;
-		tmp_fktext.str_starty = editantiderivativepage->txtInitY->text();
+		tmp_fktext.str_starty = editintegralpage->txtInitY->text();
 		if (m_parser->err != 0)
 		{
 			KMessageBox::error(this,i18n("Please insert a valid y-value"));
 			showPage(2);
-			editantiderivativepage->txtInitY->setFocus();
-			editantiderivativepage->txtInitY->selectAll();
+			editintegralpage->txtInitY->setFocus();
+			editintegralpage->txtInitY->selectAll();
 			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
@@ -303,8 +303,8 @@ void EditFunction::accept()
 		{
 			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(tmp_fktext.dmin).arg( tmp_fktext.dmax) );
 			showPage(2);
-			editantiderivativepage->txtInitX->setFocus();
-			editantiderivativepage->txtInitX->selectAll();
+			editintegralpage->txtInitX->setFocus();
+			editintegralpage->txtInitX->selectAll();
 			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
@@ -312,21 +312,21 @@ void EditFunction::accept()
 		{
 			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(View::xmax).arg( View::xmax) );
 			showPage(2);
-			editantiderivativepage->txtInitX->setFocus();
-			editantiderivativepage->txtInitX->selectAll();
+			editintegralpage->txtInitX->setFocus();
+			editintegralpage->txtInitX->selectAll();
 			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
 		
-		tmp_fktext.anti_mode = 1;
+		tmp_fktext.integral_mode = 1;
 	}
 	else
-		tmp_fktext.anti_mode = 0;
+		tmp_fktext.integral_mode = 0;
 
-	tmp_fktext.anti_color = editantiderivativepage->colorAntiderivative->color().rgb();
-	tmp_fktext.anti_use_precision = editantiderivativepage->customPrecision->isChecked();
-	tmp_fktext.anti_precision = editantiderivativepage->precision->value();
-	tmp_fktext.anti_linewidth = editantiderivativepage->lineWidthAntiderivative->value();
+	tmp_fktext.integral_color = editintegralpage->color->color().rgb();
+	tmp_fktext.integral_use_precision = editintegralpage->customPrecision->isChecked();
+	tmp_fktext.integral_precision = editintegralpage->precision->value();
+	tmp_fktext.integral_linewidth = editintegralpage->lineWidth->value();
 	
 	if( editfunctionpage->hide->isChecked() )
 		tmp_fktext.f_mode = 0;
@@ -362,7 +362,7 @@ void EditFunction::accept()
 	
 	if ( f_str.contains('y') != 0 && ( tmp_fktext.f_mode || tmp_fktext.f1_mode || tmp_fktext.f2_mode) )
 	{
-		KMessageBox::error( this, i18n( "Recursive function is only allowed when drawing anti-derivatives graphs") );
+		KMessageBox::error( this, i18n( "Recursive function is only allowed when drawing integral graphs") );
 		if( m_index == -1 ) m_parser->delfkt(index);
 		return;
 	}

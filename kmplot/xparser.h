@@ -72,9 +72,9 @@ public:
 		bool f_mode, ///< \a f_mode == 1: draw the plot.
 		f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
 		f2_mode,///< \a f2_mode == 1.  draw the 2nd derivative, too.
-		anti_mode, ///< \a f2_mode == 1.  draw the anti derivative, too.
-		anti_use_precision; ///< The user can specify an unic precision for numeric prime-functions
-		int linewidth,f1_linewidth,f2_linewidth, anti_linewidth, ///< Line width.
+		integral_mode, ///< \a f2_mode == 1.  draw the integral, too.
+		integral_use_precision; ///< The user can specify an unic precision for numeric prime-functions
+		int linewidth,f1_linewidth,f2_linewidth, integral_linewidth, ///< Line width.
 		/** Number of parameter values. 
 		 * @see FktExt::k_liste */
 		k_anz; 
@@ -88,11 +88,11 @@ public:
 		oldx, ///< needed for Euler's method, the last x-value
 		starty,///< startposition forEuler's method, the initial y-value
 		startx, ///< startposition forEuler's method, the initial x-value
-		anti_precision; ///<precision when drawing numeric prime-functions
+		integral_precision; ///<precision when drawing numeric prime-functions
 		QString extstr; ///< Complete function string including the extensions.
 		QRgb color, ///< current color.
 		color0, ///< Default color.
-		f1_color, f2_color, anti_color;
+		f1_color, f2_color, integral_color;
 		QStringList str_parameter; ///< List with parameter strings to be parsed with XParser::eval
 		int use_slider; ///< -1: none (use list), else: slieder number
 		// TODO double slider_min, slider_max; ///< extreme values of the slider

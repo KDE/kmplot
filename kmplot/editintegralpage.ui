@@ -127,9 +127,6 @@
                     <property name="text">
                         <string>Custom &amp;precision</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+P</string>
-                    </property>
                     <property name="toolTip" stdset="0">
                         <string>customize the precision</string>
                     </property>

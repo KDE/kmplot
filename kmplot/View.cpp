@@ -295,8 +295,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 			
 			if ( p_mode == 3)
 			{
-				if ( m_parser->fktext[ix].anti_use_precision )
-					dx = (m_parser->fktext[ix].anti_precision)/1000;
+				if ( m_parser->fktext[ix].integral_use_precision )
+					dx = (m_parser->fktext[ix].integral_precision)/1000;
 				else
 					dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 				progressbar->progress->reset();
@@ -343,14 +343,14 @@ void View::plotfkt(int ix, QPainter *pDC)
 					}
 					case 3:
 					{
-						pen.setWidth((int)(m_parser->fktext[ix].anti_linewidth*s) );
-						pen.setColor(m_parser->fktext[ix].anti_color);
+						pen.setWidth((int)(m_parser->fktext[ix].integral_linewidth*s) );
+						pen.setColor(m_parser->fktext[ix].integral_color);
 						pDC->setPen(pen);
 						y=m_parser->fkt(ix, x);
 						m_parser->euler_method(x, y,ix);
 						if ( int(x*100)%2==0)
 						{
-							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
+							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 							progressbar->increase();
 							paintEvent(0);
 						}
@@ -412,7 +412,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 	
 		if(m_parser->fktext[ix].f1_mode==1 && p_mode< 1) p_mode=1;
 		else if(m_parser->fktext[ix].f2_mode==1 && p_mode< 2) p_mode=2;
-		else if( m_parser->fktext[ix].anti_mode==1 && p_mode< 3) p_mode=3;
+		else if( m_parser->fktext[ix].integral_mode==1 && p_mode< 3) p_mode=3;
 		else break;
 
 		//do we need this?
@@ -703,7 +703,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	if ( m_popupmenushown>0)
 		return;
 	
-	if (!stop_calculating && isDrawing) //stop drawing anti-derivatives
+	if (!stop_calculating && isDrawing) //stop drawing integrals
 	{
 		stop_calculating = true;
 		return;
@@ -1170,8 +1170,8 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 	{
 		stop_calculating = false;
 		progressbar->progress->reset();
-		if ( m_parser->fktext[ix].anti_use_precision )
-			dx = (m_parser->fktext[ix].anti_precision)/1000;
+		if ( m_parser->fktext[ix].integral_use_precision )
+			dx = (m_parser->fktext[ix].integral_precision)/1000;
 		else
 			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
@@ -1211,7 +1211,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 				m_parser->euler_method(x, y,ix);
 				if ( int(x*100)%2==0)
 				{
-					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
+					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 					progressbar->increase();
 					paintEvent(0);
 				}
@@ -1305,8 +1305,8 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 			stop_calculating = false;
 			isDrawing=true;
 			bool target_found=false;
-			if ( m_parser->fktext[ix].anti_use_precision )
-				dx = (m_parser->fktext[ix].anti_precision)/1000;
+			if ( m_parser->fktext[ix].integral_use_precision )
+				dx = (m_parser->fktext[ix].integral_precision)/1000;
 			else
 				dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 			progressbar->progress->reset();
@@ -1319,7 +1319,7 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 				m_parser->euler_method(x, y,ix);
 				if ( int(x*100)%2==0)
 				{
-					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
+					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 					progressbar->increase();
 					paintEvent(0);
 				}
@@ -1520,7 +1520,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 			color = m_parser->fktext[ix].f2_color;
 			break;
 		case 3:
-			color = m_parser->fktext[ix].anti_color;
+			color = m_parser->fktext[ix].integral_color;
 			break;
 	}
 	if ( DC == 0) //screen
@@ -1559,8 +1559,8 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
-		if ( m_parser->fktext[ix].anti_use_precision )
-			dx = (m_parser->fktext[ix].anti_precision)/1000;
+		if ( m_parser->fktext[ix].integral_use_precision )
+			dx = (m_parser->fktext[ix].integral_precision)/1000;
 		else
 			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
 		progressbar->progress->reset();
@@ -1600,7 +1600,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 				m_parser->euler_method(x, y,ix);
 				if ( int(x*100)%2==0)
 				{
-					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
+					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 					progressbar->increase();
 					paintEvent(0);
 				}

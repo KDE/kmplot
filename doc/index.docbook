@@ -13,6 +13,7 @@
   <!ENTITY install SYSTEM "install.docbook">
   <!ENTITY reference SYSTEM "reference.docbook">
   <!ENTITY configuration SYSTEM "configuration.docbook">
+  <!ENTITY dcop SYSTEM "dcop.docbook">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -82,6 +83,7 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 &configuration;
 &reference;
 &commands;
+&dcop;
 &developer;
 &credits;
 &install;

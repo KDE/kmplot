@@ -1,0 +1,612 @@
+<chapter id="dcop">
+	<title>Scripting &kmplot;</title>
+	
+	<para>A new feature in KDE 3.4 is that you can write scrips for Kmplot with DCOP. For example, if you want to define a new function <userinput>f(x)=2sin x+3cos x</userinput>, set its line width to 20 and then draw it, you type in a console:</para>
+	<para><command>dcop kmplot-PID Parser addFunction "f(x)=2sin x+3cos x"</command>
+		As a result, the new function's id number will be returned, or -1 if the function could't be defined.</para>
+	<para><command>>dcop kmplot-PID Parser setFunctionFLineWidth 20 ID</command>
+		This command sets the function with the id number ID the line width to 20.</para>
+	<para><command>>dcop kmplot-PID View drawPlot</command>
+	This command repaints the window so that the function get visible.</para>
+<para>
+	A list over the available functions:
+	<variablelist>
+		<varlistentry>
+			<term>
+				KmPlotShell fileOpen &amp;url
+			</term>
+			<listitem>
+				<para>Load the file <parameter>url</parameter>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg isModified
+			</term>
+			<listitem>
+				<para>Returns true if any changes are done.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg editColors
+			</term>
+			<listitem>
+				<para>Opens the color edit dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg editAxes
+			</term>
+			<listitem>
+				<para>Opens the coordinate system edit dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg editScaling
+			</term>
+			<listitem>
+				<para>Opens the scaling edit dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg editFonts
+			</term>
+			<listitem>
+				<para>Opens the fonts edit dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg editConstants
+			</term>
+			<listitem>
+				<para>Opens the constants edit dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg newFunction
+			</term>
+			<listitem>
+				<para>Opens the new function plot dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg newParametric
+			</term>
+			<listitem>
+				<para>Opens the new parametric plot dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg newPolar
+			</term>
+			<listitem>
+				<para>Opens the new polar plot dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg toggleShowSlider0
+			</term>
+			<listitem>
+				<para>Shows/hides parameter slider window number 1.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg toggleShowSlider1
+			</term>
+			<listitem>
+				<para>Shows/hides parameter slider window number 2.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg toggleShowSlider2
+			</term>
+			<listitem>
+				<para>Shows/hides parameter slider window number 3.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    		MainDlg toggleShowSlider3
+		  </term>
+		  <listitem>
+		    <para>Shows/hides parameter slider window number 4.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotSave
+			</term>
+			<listitem>
+				<para>Saves the functions (opens the save dialog if it is a new file).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotSaveas
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>File</guimenu><guimenuitem>Save as</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotEditPlots
+			</term>
+			<listitem>
+				<para>Opens the edit plots dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotPrint
+			</term>
+			<listitem>
+				<para>Opens the print dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotExport
+			</term>
+			<listitem>
+				<para>Opens the export dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotSettings
+			</term>
+			<listitem>
+				<para>Opens the settings dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotNames
+			</term>
+			<listitem>
+				<para>Shows a list of predefined math functions.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotCoord1
+			</term>
+			<listitem>
+				<para>Coordinate System I.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotCoord2
+			</term>
+			<listitem>
+				<para>Coordinate System II.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg slotCoord3
+			</term>
+			<listitem>
+				<para>Coordinate System III.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg getYValue
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Get y-Value...</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg findMinimumValue
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Search for Minimum Value...</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg findMaximumValue
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Search for Maximum Value...</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				MainDlg graphArea
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Area Under Graph...</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				Parser addFunction f_str
+			</term>
+			<listitem>
+				<para>Adds a new function with the expression <parameter>f_str</parameter>. If the expression does not contain a function name, it will be auto-generated. The id number of the new function is returned, or -1 if the function couln't be defined.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				Parser delfkt id
+			</term>
+			<listitem>
+				<para>Removes the function with the id number <parameter>id</parameter>. If the function could not be deleted, false is returned, otherwise true.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				Parser setFunctionExpression f_str id
+			</term>
+			<listitem>
+				<para>Sets the expression for the function with the id number <parameter>id</parameter> to <parameter>f_str</parameter>. Returns true if it succeed, otherwise false.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				Parser countFunctions
+			</term>
+			<listitem>
+				<para>Returns the number of functions (parametric functions are calculated as two).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser listFunctionNames
+		  </term>
+		  <listitem>
+		    <para>Returns a list with all functions.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser fnameToId f_str
+		  </term>
+		  <listitem>
+		    <para>Returns the id number of <parameter>f_str</parameter> or -1 if the function name <parameter>f_str</parameter> was not found.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser id x
+		  </term>
+		  <listitem>
+		    <para>Calculates the value <parameter>x</parameter> for the function with the ID <parameter>id</parameter> or returns 0.0 if <parameter>id</parameter> does not exist.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionFVisible id
+		  </term>
+		  <listitem>
+		    <para>Returns true if the function with the ID <parameter>id</parameter> is visible, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionF1Visible id
+		  </term>
+		  <listitem>
+		    <para>Returns true if the first derivative of the function with the ID <parameter>id</parameter> is visible, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionF2Visible id
+		  </term>
+		  <listitem>
+		    <para>Returns true if the second derivative of the function with the ID <parameter>id</parameter> is visible, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionIntVisible id
+		  </term>
+		  <listitem>
+		    <para>Returns true if the integral of the function with the ID <parameter>id</parameter> is visible, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionFVisible visible id
+		  </term>
+		  <listitem>
+		    <para>Shows the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionF1Visible visible id
+		  </term>
+		  <listitem>
+		    <para>Shows the first derivative of the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionF2Visible visible id
+		  </term>
+		  <listitem>
+		    <para>Shows the second derivative of the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionIntVisible visible id
+		  </term>
+		  <listitem>
+		    <para>Shows the integral of the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionStr id
+		  </term>
+		  <listitem>
+		    <para>Returns the function expression of the function with the ID <parameter>id</parameter>. If the function not exists, an empty string is returned instead.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionFColor id
+		  </term>
+		  <listitem>
+		    <para>Returns the color of the function with the ID <parameter>id</parameter>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionF1Color id
+		  </term>
+		  <listitem>
+		    <para>Returns the color of the first derivative of the function with the ID <parameter>id</parameter>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionF2Color id
+		  </term>
+		  <listitem>
+		    <para>Returns the color of the second derivative of the function with the ID <parameter>id</parameter>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionIntColor id
+		  </term>
+		  <listitem>
+		    <para>Returns the color of the integral of the function with the ID <parameter>id</parameter>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionFColor color id
+		  </term>
+		  <listitem>
+		    <para>Sets the color of the function with the ID <parameter>id</parameter> to <parameter>color</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionF1Color color id
+		  </term>
+		  <listitem>
+		    <para>Sets the color of the first derivative of the function with the ID <parameter>id</parameter> to <parameter>color</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionF2Color color id
+		  </term>
+		  <listitem>
+		    <para>Sets the color of the second derivative of the function with the ID <parameter>id</parameter> to <parameter>color</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionIntColor color id
+		  </term>
+		  <listitem>
+		    <para>Sets the color of the integral of the function with the ID <parameter>id</parameter> to <parameter>color</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionFLineWidth id
+		  </term>
+		  <listitem>
+		    <para>Returns the line width of the function with the ID <parameter>id</parameter>. If the function not exists, 0 is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionF1LineWidth id
+		  </term>
+		  <listitem>
+		    <para>Returns the line width of the first derivative of the function with the ID <parameter>id</parameter>. If the function not exists, 0 is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionF2LineWidth id
+		  </term>
+		  <listitem>
+		    <para>Returns the line width of the first derivative of the function with the ID <parameter>id</parameter>. If the function not exists, 0 is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionIntLineWidth id
+		  </term>
+		  <listitem>
+		    <para>Returns the line width of the integral of the function with the ID <parameter>id</parameter>. If the function not exists, 0 is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionFLineWidth linewidth id
+		  </term>
+		  <listitem>
+		    <para>Sets the line width of the function with the ID <parameter>id</parameter> to <parameter>linewidth</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionF1LineWidth linewidth id
+		  </term>
+		  <listitem>
+		    <para>Sets the line width of the first derivative of the function with the ID <parameter>id</parameter> to <parameter>linewidth</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionF2LineWidth linewidth id
+		  </term>
+		  <listitem>
+		    <para>Sets the line width of the second derivative of the function with the ID <parameter>id</parameter> to <parameter>linewidth</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionIntLineWidth linewidth id
+		  </term>
+		  <listitem>
+		    <para>Sets the line width of the integral of the function with the ID <parameter>id</parameter> to <parameter>linewidth</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionParameterList id
+		  </term>
+		  <listitem>
+		    <para>Returns a list with all the parameter values for the function with the ID <parameter>id</parameter>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionAddParameter new_parameter id
+		  </term>
+		  <listitem>
+		    <para>Adds the parameter value  <parameter>new_parameter</parameter> to the function with the ID <parameter>id</parameter>. True is returned if the operation succeed, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionRemoveParameter remove_parameter id
+		  </term>
+		  <listitem>
+		    <para>Removes the parameter value <parameter>remove_parameter</parameter> from the function with the ID <parameter>id</parameter>. True is returned if the operation succeed, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionMinValue id
+		  </term>
+		  <listitem>
+		    <para>Returns the minimum plot range value of the function with the ID <parameter>id</parameter>. If the function not exists or if the minimum value is not definied, an empty string is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionMaxValue id
+		  </term>
+		  <listitem>
+		    <para>Returns the maximum plot range value of the function with the ID <parameter>id</parameter>. If the function not exists or if the maximum value is not definied, an empty string is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionMinValue min id
+		  </term>
+		  <listitem>
+		    <para>Sets the minimum plot range value of the function with the ID <parameter>id</parameter> to <parameter>min</parameter>. True is returned if the function exists and the expression is valid, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionMaxValue max id
+		  </term>
+		  <listitem>
+		    <para>Sets the maximum plot range value of the function with the ID <parameter>id</parameter> to <parameter>max</parameter>. True is returned if the function exists and the expression is valid, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		  <term>
+		    Parser functionStartXValue id
+		  </term>
+		  <listitem>
+		    <para>Returns the initial x point for the integral of the function with the ID <parameter>id</parameter>. If the function not exists or if the x-point-expression is not definied, an empty string is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser functionStartYValue id
+		  </term>
+		  <listitem>
+		    <para>Returns the initial y point for the integral of the function with the ID <parameter>id</parameter>. If the function not exists or if the y-point-expression is not definied, an empty string is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionStartXValue min id
+		  </term>
+		  <listitem>
+		    <para>Sets the initial x point for the integral of the function with the ID <parameter>id</parameter> to <parameter>x</parameter>. True is returned if the function exists and the expression is valid, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    Parser setFunctionStartYValue max id
+		  </term>
+		  <listitem>
+		    <para>Sets the initial y point for the integral of the function with the ID <parameter>id</parameter> to <parameter>y</parameter>. True is returned if the function exists and the expression is valid, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+			View stopDrawing
+			</term>
+			<listitem>
+				<para>If &kmplot; currently is drawing a function, the procedure will stop.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+			View drawPlot
+			</term>
+			<listitem>
+				<para>Redraws all functions.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<!--
+    Local Variables:
+    mode: sgml
+    sgml-minimize-attributes:nil
+    sgml-general-insert-case:lower
+    sgml-indent-step:0
+    sgml-indent-data:nil
+    sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+    End:
+    -->

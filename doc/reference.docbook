@@ -165,6 +165,71 @@ be used to determine the axes settings as well. See <xref linkend="axes-config"/
 
 </sect1>
 
+<sect1 id="func-extension">
+  <title>Extensions</title>
+  <para>An extension for a function is specified by entering a semicolon,
+    followed by the extension, after the function definition. The extension can either be written in the Quick Edit box or by using the DCOP method Parser addFunction. None of the extensions are available for parametric functions but N and D[a,b] work for polar functions too. For example:
+    <screen>
+      <userinput>
+	f(x)=x^2; A1
+      </userinput>
+    </screen>
+    will show the graph y=x<superscript>2</superscript> with its first
+    derivative. Supported extensions are described below:
+    <variablelist>
+      <varlistentry>
+	<term>N</term>
+	<listitem>
+	  <para>
+	    The function will be stored but not be drawn. 
+	    So it can be used like any other user defined or predefined function.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>A1</term>
+	<listitem>
+	  <para>
+	    The graph of the derivative of the function will be drawn
+	    additionally with the same color but less line width.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>A2</term>
+	<listitem>
+	  <para>
+	    The graph of the second derivative of the function will be
+	    drawn additionally with the same color but less line width.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>D[a,b]</term>
+	<listitem>
+	  <para>
+	    Sets the domain for which the function will be displayed.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>P[a{,b...}]</term>
+	<listitem>
+	  <para>
+	    Give a set of values of a group parameter for which the function should be
+	    displayed. For example: <userinput>f(x,k)=k*x;P[1,2,3]</userinput> will plot
+	    the functions f(x)=x, f(x)=2*x and f(x)=3*x. You can also use functions as the
+	    arguments to the P option.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </para>
+  <para>
+    Please note that you can do all of these operations by using the function editor dialog too.
+</para>
+</sect1>
+
 <sect1 id="math-syntax">
 <title>Mathematical Syntax</title>
 <para>&kmplot; uses a common way of expressing mathematical functions, so you

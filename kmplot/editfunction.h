@@ -54,6 +54,10 @@ class EditFunction : public KDialogBase
 		virtual void accept();
 		/// Invokes the HelpCenter.
 		void slotHelp();
+		/// Called when the "Change parameter values" is clicked
+		void cmdParameter_clicked();
+		/// Called when the "Parameter values" is clicked
+		void hasParameters_clicked();
 	
 	private:
 		/// Clear alls widgets values
@@ -66,6 +70,7 @@ class EditFunction : public KDialogBase
 		XParser* m_parser;
 		/// Current function index
 		int m_index;
+		QStringList m_parameter;
 		
 		EditFunctionPage* editfunctionpage;
 		EditDerivativesPage* editderivativespage;

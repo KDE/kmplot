@@ -125,15 +125,7 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 			addTag( doc, tag, "equation", parser->fktext[ ix ].extstr );
 			
 			if( parser->fktext[ ix ].k_anz > 0 )
-			{
-				QStringList listOfParameters;
-				for( int k_index = 0; k_index < parser->fktext[ ix ].k_anz; k_index++ )
-				{
-					listOfParameters += 
-						QString::number( parser->fktext[ ix ].k_liste[ k_index ] );
-				}
-				addTag( doc, tag, "parameterlist", listOfParameters.join( "," ) );
-			}
+				addTag( doc, tag, "parameterlist", parser->fktext[ ix ].str_parameter.join( "," ) );
 			
 			addTag( doc, tag, "arg-min", parser->fktext[ ix ].str_dmin );
 			addTag( doc, tag, "arg-max", parser->fktext[ ix ].str_dmax );
@@ -287,12 +279,12 @@ void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 
 void KmPlotIO::parseParameters( XParser *parser, const QDomElement &n, int ix )
 {
-	QStringList listOfParameters = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
+	parser->fktext[ ix ].str_parameter = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
+	
 	parser->fktext[ ix ].k_anz = 0;
-	for( QStringList::Iterator it = listOfParameters.begin(); it != listOfParameters.end(); ++it )
+	for( QStringList::Iterator it = parser->fktext[ ix ].str_parameter.begin(); it != parser->fktext[ ix ].str_parameter.end(); ++it )
 	{
-		parser->fktext[ ix ].k_liste[ parser->fktext[ ix ].k_anz ] = 
-			( *it ).toDouble();
+		parser->fktext[ ix ].k_liste[ parser->fktext[ ix ].k_anz ] = parser->eval( *it );
 		parser->fktext[ ix ].k_anz++;
 	}
 	

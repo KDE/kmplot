@@ -1,10 +1,10 @@
 bin_PROGRAMS = kmplot
 
-kmplot_SOURCES = FktDlgData.ui BezWndData.ui parser.cpp xparser.cpp  main.cpp diagr.cpp View.cpp  MainDlg.cpp FktDlg.cpp BezWnd.cpp kprinterdlg.cpp settings.kcfgc settingspagecolor.ui kconstanteditor.cpp settingspagecoords.ui settingspagefonts.ui settingspagescaling.ui settingspageprecision.ui qeditparametric.ui keditparametric.cpp qeditpolar.ui keditpolar.cpp editfunctionpage.ui editderivativespage.ui editantiderivativepage.ui editfunction.cpp qeditconstant.ui qconstanteditor.ui keditconstant.cpp kmplotio.cpp
+kmplot_SOURCES = FktDlgData.ui BezWndData.ui parser.cpp xparser.cpp  main.cpp diagr.cpp View.cpp  MainDlg.cpp FktDlg.cpp BezWnd.cpp kprinterdlg.cpp settings.kcfgc settingspagecolor.ui kconstanteditor.cpp qparametereditor.ui kparametereditor.cpp settingspagecoords.ui settingspagefonts.ui settingspagescaling.ui settingspageprecision.ui qeditparametric.ui keditparametric.cpp qeditpolar.ui  keditpolar.cpp editfunctionpage.ui editderivativespage.ui editantiderivativepage.ui editfunction.cpp qeditconstant.ui qconstanteditor.ui keditconstant.cpp kmplotio.cpp
 
 kmplot_LDADD = $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET) $(LIB_KDEPRINT)
 
-EXTRA_DIST = kmplot.desktop BezWnd.h FktDlg.h MainDlg.cpp MainDlg.h View.h diagr.cpp diagr.h  xparser.h parser.h kprinterdlg.h keditparametric.h keditpolar.h keditconstant.h kconstanteditor.h kmplotio.h
+EXTRA_DIST = kmplot.desktop BezWnd.h FktDlg.h MainDlg.cpp MainDlg.h View.h diagr.cpp diagr.h  xparser.h parser.h kprinterdlg.h keditparametric.h keditpolar.h keditconstant.h kconstanteditor.h kparametereditor.h kmplotio.h
 
 xdg_apps_DATA = kmplot.desktop
 

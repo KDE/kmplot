@@ -92,6 +92,7 @@ public:
 		QRgb color, ///< current color.
 		color0, ///< Default color.
 		f1_color, f2_color, anti_color;
+		QStringList str_parameter;
 	}
 	*fktext;
 

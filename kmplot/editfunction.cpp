@@ -41,6 +41,7 @@
 #include <knuminput.h>
 #include <klineedit.h>
 #include <klocale.h>
+#include <kpushbutton.h>
 
 #include <kdebug.h>
 
@@ -51,6 +52,7 @@
 #include "editfunctionpage.h"
 #include "editderivativespage.h"
 #include "editantiderivativepage.h"
+#include "kparametereditor.h"
 
 EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name ) : 
 	KDialogBase( IconList, "Caption", Help|Ok|Cancel, Ok, parent, name )
@@ -62,6 +64,8 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	QVBox *page2 = addVBoxPage( i18n("Antiderivative"), i18n( "Antiderivative" ), SmallIcon( "anti_func", 32 ) );
 	editantiderivativepage = new EditAntiderivativePage( page2 );
 	m_parser = parser;
+	connect( editfunctionpage->cmdParameter, SIGNAL (clicked() ), this, SLOT(cmdParameter_clicked() ) );
+	connect( editfunctionpage->hasParameters, SIGNAL (clicked() ), this, SLOT(hasParameters_clicked() ) );
 }
 
 void EditFunction::initDialog( int index )
@@ -78,7 +82,6 @@ void EditFunction::clearWidgets()
 	editfunctionpage->equation->clear();
 	editfunctionpage->hide->setChecked( false );
 	editfunctionpage->hasParameters->setChecked( false );
-	editfunctionpage->parameters->clear();
 	editfunctionpage->customRange->setChecked( false );
 	editfunctionpage->min->clear();
 	editfunctionpage->max->clear();
@@ -101,6 +104,7 @@ void EditFunction::clearWidgets()
 
 void EditFunction::setWidgets()
 {
+	m_parameter =  m_parser->fktext[ m_index ].str_parameter;
 	editfunctionpage->equation->setText( m_parser->fktext[ m_index ].extstr );
 	editfunctionpage->hide->setChecked( m_parser->fktext[ m_index ].f_mode == 0 );
 	editfunctionpage->hasParameters->setChecked( m_parser->fktext[ m_index ].k_anz != 0 );
@@ -109,7 +113,7 @@ void EditFunction::setWidgets()
 	{
 		listOfParameters += QString::number( m_parser->fktext[ m_index ].k_liste[ k_index ] );
 	}
-	editfunctionpage->parameters->setText( listOfParameters.join( "," ) );
+	//editfunctionpage->parameters->setText( listOfParameters.join( "," ) );
 	if (  m_parser->fktext[ m_index ].dmin != m_parser->fktext[ m_index ].dmax )
 	{
 		editfunctionpage->customRange->setChecked(true);
@@ -264,18 +268,17 @@ void EditFunction::accept()
 	}
 	else
 		m_parser->fktext[index].anti_mode = 0;
-	
+
 	if( editfunctionpage->hide->isChecked() )
 		m_parser->fktext[ index ].f_mode = 0;
 		
 	if( editfunctionpage->hasParameters->isChecked() )
 	{
-		QStringList listOfParameters = QStringList::split( ",", editfunctionpage->parameters->text() );
+		m_parser->fktext[ index ].str_parameter = m_parameter;
 		m_parser->fktext[ index ].k_anz = 0;
-		for( QStringList::Iterator it = listOfParameters.begin(); it != listOfParameters.end(); ++it )
+		for( QStringList::Iterator it = m_parameter.begin(); it != m_parameter.end(); ++it )
 		{
-			m_parser->fktext[ index ].k_liste[ m_parser->fktext[ index ].k_anz ] = 
-				( *it ).toDouble();
+			m_parser->fktext[ index ].k_liste[ m_parser->fktext[ index ].k_anz ] = m_parser->eval(( *it ) );
 			m_parser->fktext[ index ].k_anz++;
 		}
 	}
@@ -322,4 +325,18 @@ bool EditFunction::functionHas2Arguments()
 	int openBracket = editfunctionpage->equation->text().find( "(" );
 	int closeBracket = editfunctionpage->equation->text().find( ")" );
 	return editfunctionpage->equation->text().mid( openBracket+1, closeBracket-openBracket-1 ).find( "," ) != -1;
+}
+
+void EditFunction::cmdParameter_clicked()
+{
+	KParameterEditor *dlg = new KParameterEditor(m_parser, &m_parameter);
+	dlg->show();
+}
+
+void EditFunction::hasParameters_clicked()
+{
+	if ( editfunctionpage->hasParameters->isChecked() )
+		editfunctionpage->cmdParameter->setEnabled(true);
+	else
+		editfunctionpage->cmdParameter->setEnabled(false);
 }

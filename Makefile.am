@@ -1,4 +1,4 @@
-SUBDIRS = kmplot pics icons
+SUBDIRS = kmplot icons
 
 EXTRA_DIST = KmPlot.kdevelop KmPlot.kdevelop.filelist TODO
 

@@ -624,12 +624,11 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
 		ptl=DC.xFormDev(e->pos());
-
 		Ufkt *it = 0;
 		if( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
 		{
 			int const ix = m_parser->ixValue(csmode);
-			if (ix!=-1)
+			if (ix!=-1 && ( (m_parser->ufkt[ix].dmin== m_parser->ufkt[ix].dmax)|| (csxpos>m_parser->ufkt[ix].dmin && csxpos<m_parser->ufkt[ix].dmax) ) )
 			{
 				it = &m_parser->ufkt[ix];
 				if( it->use_slider == -1 )
@@ -655,7 +654,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 					{
 						QString str="  ";
 						str+=i18n("root");
-					setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+						setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
 						rootflg=true;
 					}
 				}
@@ -664,6 +663,12 @@ void View::mouseMoveEvent(QMouseEvent *e)
 					setStatusBar("", 3);
 					rootflg=false;
 				}
+			}
+			else
+			{
+			  csxpos=dgr.Transx(ptl.x());
+			  csypos=dgr.Transy(ptl.y());
+			  csflg = 1;
 			}
 		}
 		else

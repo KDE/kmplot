@@ -1,3 +1,28 @@
+/*
+* KmPlot - a math. function plotter for the KDE-Desktop
+*
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
+*               2000, 2002 kd.moeller@t-online.de
+*               
+* This file is part of the KDE Project.
+* KmPlot is part of the KDE-EDU Project.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*
+*/
+
 #include "View.h"
 #include "View.moc"
 
@@ -54,7 +79,7 @@ void View::draw(QPaintDevice *dev, int form)
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
-		DC.translate(-dgr.GetRahmen().left(), -dgr.GetRahmen().top());
+		DC.translate(-dgr.GetFrame().left(), -dgr.GetFrame().top());
 		s=1.;
 	}
 	else if(form==3)								// bmp, png
@@ -64,10 +89,10 @@ void View::draw(QPaintDevice *dev, int form)
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
 		DC.end();
-		((QPixmap *)dev)->resize((int)(dgr.GetRahmen().width()*sf), (int)(dgr.GetRahmen().height()*sf));
+		((QPixmap *)dev)->resize((int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf));
 		((QPixmap *)dev)->fill();
 		DC.begin(dev);
-		DC.translate(-dgr.GetRahmen().left()*sf, -dgr.GetRahmen().top()*sf);
+		DC.translate(-dgr.GetFrame().left()*sf, -dgr.GetFrame().top()*sf);
 		DC.scale(sf, sf);
 		s=1.;
 	}
@@ -89,7 +114,8 @@ void View::draw(QPaintDevice *dev, int form)
 
 	sw=rsw*(xmax-xmin)/area.width();
 	for(ix=0; ix<ps.ufanz; ++ix)
-	{   if(ps.chkfix(ix)==-1) continue;
+	{   
+		if(ps.chkfix(ix)==-1) continue;
 
 		plotfkt(ix, &DC);
 	}
@@ -100,7 +126,8 @@ void View::draw(QPaintDevice *dev, int form)
 
 
 void View::plotfkt(int ix, QPainter *pDC)
-{   char fktmode, p_mode;
+{   
+	char fktmode, p_mode;
 	int iy, k, ke, mflg;
 	double dx, x, y, dmin, dmax;
 	QString fname, fstr;
@@ -115,12 +142,14 @@ void View::plotfkt(int ix, QPainter *pDC)
 	fktmode=ps.fktext[ix].extstr[0].latin1();
 
 	if(fktmode!='y')
-	{   dmin=ps.fktext[ix].dmin;
+	{   
+		dmin=ps.fktext[ix].dmin;
 		dmax=ps.fktext[ix].dmax;
 	}
 
 	if(dmin==dmax)
-	{   if(fktmode=='r')
+	{   
+		if(fktmode=='r')
 		{   dmin=0.;
 			dmax=2*M_PI;
 		}
@@ -132,7 +161,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 
 	if(fktmode=='r') dx=rsw*0.05/(dmax-dmin);
 	else if(fktmode=='x')
-	{   ps.getfkt(ix, fname, fstr);
+	{   
+		ps.getfkt(ix, fname, fstr);
 		fname[0]='y';
 		iy=ps.getfix(fname);
 		if(iy==-1) return ;
@@ -142,13 +172,16 @@ void View::plotfkt(int ix, QPainter *pDC)
 	p_mode=0;
 	pDC->setPen(pen);
 	while(1)
-	{   k=0;
+	{   
+		k=0;
 		ke=ps.fktext[ix].k_anz;
 		do
-		{   ps.setparameter(ix, ps.fktext[ix].k_liste[k]);
+		{   
+			ps.setparameter(ix, ps.fktext[ix].k_liste[k]);
 			mflg=2;
 			for(x=dmin; x<dmax; x+=dx)
-			{   errno=0;
+			{   
+				errno=0;
 
                 switch(p_mode)
 				{  case 0:  y=ps.fkt(ix, x);
@@ -162,30 +195,37 @@ void View::plotfkt(int ix, QPainter *pDC)
                 
 				if(errno!=0) continue;
                 if(fktmode=='r')
-				{   p2.setX(dgr.Transx(y*cos(x)));
+				{   
+					p2.setX(dgr.Transx(y*cos(x)));
 					p2.setY(dgr.Transy(y*sin(x)));
 				}
 				else if(fktmode=='x')
-				{   p2.setX(dgr.Transx(y));
+				{   
+					p2.setX(dgr.Transx(y));
 					p2.setY(dgr.Transy(ps.fkt(iy, x)));
 				}
 				else
-				{   p2.setX(dgr.Transx(x));
+				{   
+					p2.setX(dgr.Transx(x));
 					p2.setY(dgr.Transy(y));
 				}
 				
 				if(dgr.xclipflg || dgr.yclipflg)
-				{	if(mflg>=1) p1=p2;
+				{	
+					if(mflg>=1) p1=p2;
 					else
-                    {   pDC->drawLine(p1, p2); p1=p2;
+                    {   
+		    	pDC->drawLine(p1, p2); p1=p2;
                         mflg=1;
                     }
 
 				}
 				else
-				{	if(mflg>1) p1=p2;
+				{	
+					if(mflg>1) p1=p2;
 					else
-                    {   pDC->drawLine(p1, p2); p1=p2;
+                    {   
+		    	pDC->drawLine(p1, p2); p1=p2;
                     }
                     mflg=0;
 				}
@@ -250,7 +290,8 @@ void View::tabelle(QPainter *pDC)
 		pDC->drawText(0, 300, i18n("Functions:"));
 		pDC->Lineh(0, 320, 700);
 		for(ix=0, ypos=380; ix<ps.ufanz; ++ix)
-		{   if(ps.chkfix(ix)==-1) continue;
+		{  
+			 if(ps.chkfix(ix)==-1) continue;
 
 			pDC->drawText(100, ypos, ps.fktext[ix].extstr);
             ypos+=60;

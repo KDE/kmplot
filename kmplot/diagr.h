@@ -40,9 +40,9 @@
 #define Linev(x, y1, y2)	drawLine(x, y1, x, y2) 
 
 #define	AXES			1		/**< visible axes */
-#define PFEILE			2		/**< axes with arrows */
-#define RAHMEN			4		/**< visible frame */
-#define	EXTRAHMEN		8		/**< bigger frame */
+#define ARROWS			2		/**< axes with arrows */
+#define FRAME			4		/**< visible frame */
+#define	EXTFRAME		8		/**< bigger frame */
 #define LABEL	16		/**< visible labels */ 
 
 #define	LINIENRASTER	1	/**< line grid */
@@ -66,7 +66,7 @@ public:
 	void Skal(double ex, double ey, char g_mode);	
 	void Plot(QPainter* pDC);
 	QRect GetPlotArea() {return PlotArea;}
-	QRect GetRahmen() {return Rahmen;}
+	QRect GetFrame() {return Rahmen;}
 
     int	Transx(double),
     	Transy(double);

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter M�ler
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -45,9 +45,6 @@ KEditFunction::KEditFunction( XParser* parser, QWidget* parent, const char* name
 	m_parser = parser;
 }
 
-/**
- * Fill the dialog's widgets with the properties of the parser function number index.
- */
 void KEditFunction::initDialog( int index )
 {
 	m_index = index;
@@ -55,9 +52,6 @@ void KEditFunction::initDialog( int index )
 	else setWidgets();
 }
 
-/**
- * Clear alls widgets values
- */
 void KEditFunction::clearWidgets()
 {
 	kLineEditYFunction->clear();
@@ -73,9 +67,6 @@ void KEditFunction::clearWidgets()
 	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color );
 }
 
-/**
- * Fill the dialog's widgets with values from the parser
- */
 void KEditFunction::setWidgets()
 {
 	kLineEditYFunction->setText( m_parser->fktext[ m_index ].extstr );
@@ -96,9 +87,6 @@ void KEditFunction::setWidgets()
 	kColorButtonColor->setColor( m_parser->fktext[ m_index ].color );
 }
 
-/**
- * Overwrites the dialog's accept() method to make sure, that the user's input is valid.
- */
 void KEditFunction::accept()
 {
 	// if we are editing an existing function, first delete the old one
@@ -155,9 +143,6 @@ void KEditFunction::accept()
 	QEditFunction::accept();
 }
 
-/**
- * return the well formed function equation for the listbox in FktDlg
- */
 const QString KEditFunction::functionItem()
 {
 	return kLineEditYFunction->text();

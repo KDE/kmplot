@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter M�ler
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -46,9 +46,6 @@ KEditParametric::KEditParametric( XParser* parser, QWidget* parent, const char* 
 	m_parser = parser;
 }
 
-/**
- * Fill the dialog's widgets with the properties of the parser function number index.
- */
 void KEditParametric::initDialog( int x_index, int y_index )
 {
 	m_x_index = x_index;
@@ -57,9 +54,6 @@ void KEditParametric::initDialog( int x_index, int y_index )
 	else setWidgets();
 }
 
-/**
- * Clear alls widgets values
- */
 void KEditParametric::clearWidgets()
 {
 	kLineEditName->clear();
@@ -73,9 +67,6 @@ void KEditParametric::clearWidgets()
 	kColorButtonColor->setColor( m_parser->fktext[ m_parser->getNextIndex() ].color );
 }
 
-/**
- * Fill the dialog's widgets with values from the parser
- */
 void KEditParametric::setWidgets()
 {
 	QString name, expression;
@@ -92,9 +83,6 @@ void KEditParametric::setWidgets()
 	kColorButtonColor->setColor( m_parser->fktext[ m_x_index ].color );
 }
 
-/**
- * Overwrites the dialog's accept() method to make sure, that the user's input is valid.
- */
 void KEditParametric::accept()
 {
 	// if we are editing an existing function, first delete the old one
@@ -173,17 +161,11 @@ QString KEditParametric::newName()
 	return name.arg( i );
 }
 
-/**
- * return the well formed function equation
- */
 QString KEditParametric::xFunction()
 {
 	return "x" + kLineEditName->text() + "(t)=" + kLineEditXFunction->text();
 }
 
-/**
- * extract function name and expression from a given expression 
- */
 void KEditParametric::splitEquation( const QString equation, QString &name, QString &expression )
 {
 	int start = 0;
@@ -194,9 +176,6 @@ void KEditParametric::splitEquation( const QString equation, QString &name, QStr
 	expression = equation.section( '=', 1, 1 );
 }
 
-/**
- * return the well formed function equation
- */
 QString KEditParametric::yFunction()
 {
 	return "y" + kLineEditName->text() + "(t)=" + kLineEditYFunction->text();

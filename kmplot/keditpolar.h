@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter M�ler
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -38,7 +38,7 @@ class KEditPolar : public QEditPolar
 		virtual ~KEditPolar() {};
 		
 		/**
- 		* Fill the dialog's widgets with the properties of the parser function number index.
+ 		* Fill the dialog widgets with the properties of the parser function number index.
  		*/
 		void initDialog( int index = -1 );
 //		void setFunction( int index );

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter M�ler
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
 *               
 * This file is part of the KDE Project.
@@ -106,7 +106,7 @@ extern QString	xminstr,
 //@}
 
 extern double sw,  			/**< Precision for the functions.  */
-	rsw,  /**< Pricision for the grid. */
+	rsw,  /**< Precision for the grid. */
 
 	/** @name Axes Division
 	*
@@ -128,7 +128,7 @@ extern double sw,  			/**< Precision for the functions.  */
 //@}
 
 /** Current filename */
-extern QString datei,
+extern QString //dataFile,
 	/**
 	 * Axes tic step - string representation. 
 	 * @see tlgx, tlgy

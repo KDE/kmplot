@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter M�ler
+* Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -36,17 +36,31 @@ class KEditFunction : public QEditFunction
 	public:
 		KEditFunction( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
 		virtual ~KEditFunction() {};
-		
+		/**
+ 		* Fill the dialog's widgets with the properties of the parser function number index.
+ 		*/
 		void initDialog( int index = -1 );
+		/**
+ 		* return the well formed function equation for the listbox in FktDlg
+ 		*/
 		const QString functionItem();
 	
 	private:
+		/**
+ 		* Clear alls widgets values
+ 		*/
 		void clearWidgets();
+		/**
+ 		* Fill the dialog's widgets with values from the parser
+ 		*/
 		void setWidgets();
 		XParser* m_parser;
 		int m_index;
 		
 	protected slots:
+		/**
+ 		* Overwrites the dialog's accept() method to make sure, that the user's input is valid.
+ 		*/
 		virtual void accept();
 		void slotHelp();
 };

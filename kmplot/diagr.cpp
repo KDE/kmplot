@@ -39,7 +39,8 @@ int isinf(double x) { return !finite(x) && x==x; }
 
 
 CDiagr::CDiagr()
-{   RahmenFarbe=qRgb(0, 0, 0);
+{   
+	RahmenFarbe=qRgb(0, 0, 0);
 	axesColor=qRgb(0, 0, 0);
 	gridColor=qRgb(192, 192, 192);
 	borderThickness=2;
@@ -61,7 +62,7 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
                     int lx, int ly, 			// Achsenl�gen
                     double xmin, double xmax,   // x-Wertebereich
                     double ymin, double ymax, 	// y-Wertebereich
-                    char mode) 					// Modus (Achsen, Pfeile, Rahmen)
+                    char mode) 					// Modus (Achsen, ARROWS, FRAME)
 {	int x, y, h, w;
 
 	CDiagr::xmin=xmin;                  // globale Variablen setzen
@@ -78,7 +79,7 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 	ox=Ref.x()-skx*xmin+0.5;	        // Ursprungskoordinaten berechnen
 	oy=Ref.y()+sky*ymax+0.5;
 	PlotArea.setRect(x=Ref.x(), y=Ref.y(), w=lx, h=ly);
-	if(mode&EXTRAHMEN)
+	if(mode&EXTFRAME)
 	{	x-=20;
 		y-=20;
 		w+=40;
@@ -99,7 +100,8 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 
 
 void CDiagr::Skal(double ex, double ey, char g_mode)
-{   CDiagr::ex=ex;
+{   
+	CDiagr::ex=ex;
 	CDiagr::ey=ey;
 	CDiagr::g_mode=g_mode;
 	tsx=ceil(xmin/ex)*ex;
@@ -108,13 +110,16 @@ void CDiagr::Skal(double ex, double ey, char g_mode)
 
 
 void CDiagr::Plot(QPainter* pDC)
-{   QPen pen(RahmenFarbe, borderThickness);
+{   
+	QPen pen(RahmenFarbe, borderThickness);
     
 	if(g_mode) Raster(pDC);         		        // Raster zeichnen
 	Achsen(pDC);							        // Achsen zeichnen
-	if(mode&LABEL) Beschriftung(pDC);        // Achsen beschriften
-	if(mode&(RAHMEN|EXTRAHMEN)) 			        // Rahmen zeichnen
-	{   pDC->setPen(pen);
+	if(mode&LABEL) 
+		Beschriftung(pDC);        // Achsen beschriften
+	if(mode&(FRAME|EXTFRAME)) 			        // FRAME zeichnen
+	{   
+		pDC->setPen(pen);
 		pDC->drawRect(Rahmen);
 	}
 }
@@ -179,7 +184,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 
 		pDC->setPen(QPen(axesColor, axesThickness));
 		pDC->Lineh(PlotArea.left(), b=Transy(0.), a=PlotArea.right());	    // x-Achse
-		if(mode&PFEILE && !(mode&RAHMEN) && xmax>0.) 		    			// Pfeile
+		if(mode&ARROWS && !(mode&FRAME) && xmax>0.) 		    			// ARROWS
 		{	dx=40;
 			dy=15;
 			pDC->Line(a, b, a-dx, b+dy);
@@ -187,7 +192,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 		}
         
 		pDC->Linev(a=Transx(0.), PlotArea.bottom(), b=PlotArea.top()); 	    // y-Achse
-		if(mode&PFEILE && !(mode&RAHMEN) && ymax> 0.)   					// Pfeile
+		if(mode&ARROWS && !(mode&FRAME) && ymax> 0.)   					// ARROWS
 		{	dx=15;
 			dy=40;
 			pDC->Line(a, b, a-dx, b+dy);
@@ -199,7 +204,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 	if(mode&AXES)
 	{   da=oy-gradLength;
 		db=oy+gradLength;
-		tl=(mode&RAHMEN)? 0: gradLength;
+		tl=(mode&FRAME)? 0: gradLength;
 		d=tsx;
 		if(da<(double)PlotArea.top())
 		{   a=PlotArea.top()-tl;
@@ -240,7 +245,7 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 			d+=ey;
 		}
 	}
-	else if(mode&RAHMEN)
+	else if(mode&FRAME)
 	{   a=PlotArea.bottom()+gradLength;
 		b=PlotArea.top()-gradLength;
 		d=tsx;

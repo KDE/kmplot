@@ -31,6 +31,9 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
+// ANSI-C includes
+#include <stdlib.h>
+
 // local includes
 #include "kmplotio.h"
 #include "MainDlg.h"
@@ -96,11 +99,15 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 
 	tag = doc.createElement( "scale" );
 
-	const char* units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4","automatic"};
-	addTag( doc, tag, "tic-x", units[ Settings::xScaling() ] );
-	addTag( doc, tag, "tic-y", units[ Settings::yScaling() ] );
-	addTag( doc, tag, "print-tic-x", units[ Settings::xPrinting() ] );
-	addTag( doc, tag, "print-tic-y", units[ Settings::yPrinting() ] );
+	QString temp;
+	temp.setNum(Settings::xScaling());
+	addTag( doc, tag, "tic-x", temp );
+	temp.setNum(Settings::yScaling());
+	addTag( doc, tag, "tic-y", temp );
+	temp.setNum(Settings::xPrinting());
+	addTag( doc, tag, "print-tic-x", temp );
+	temp.setNum(Settings::yPrinting());
+	addTag( doc, tag, "print-tic-y", temp);
 	
 	root.appendChild( tag );
 
@@ -112,22 +119,34 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 
 			tag.setAttribute( "number", ix );
 			tag.setAttribute( "visible", parser->fktext[ ix ].f_mode );
-			tag.setAttribute( "visible-deriv", parser->fktext[ ix ].f1_mode );
-			tag.setAttribute( "deriv-color", QColor( parser->fktext[ ix ].f1_color ).name() );
-			tag.setAttribute( "deriv-width", parser->fktext[ ix ].f1_linewidth );
-			tag.setAttribute( "visible-2nd-deriv", parser->fktext[ ix ].f2_mode );
-			tag.setAttribute( "deriv2nd-color", QColor( parser->fktext[ ix ].f2_color ).name() );
-			tag.setAttribute( "deriv2nd-width", parser->fktext[ ix ].f2_linewidth );
-			tag.setAttribute( "visible-integral", parser->fktext[ ix ].integral_mode );
-			tag.setAttribute( "integral-color", QColor( parser->fktext[ ix ].integral_color ).name() );
-			tag.setAttribute( "integral-width", parser->fktext[ ix ].integral_linewidth );
-			tag.setAttribute( "integrak-use-precision", parser->fktext[ ix ].integral_use_precision );
-			tag.setAttribute( "integral-precision", parser->fktext[ ix ].integral_precision );
-			tag.setAttribute( "integral-startx", parser->fktext[ ix ].str_startx );
-			tag.setAttribute( "integral-starty", parser->fktext[ ix ].str_starty );
-			tag.setAttribute( "width", parser->fktext[ ix ].linewidth );
 			tag.setAttribute( "color", QColor( parser->fktext[ ix ].color ).name() );
+			tag.setAttribute( "width", parser->fktext[ ix ].linewidth );
 			tag.setAttribute( "use-slider", parser->fktext[ ix ].use_slider );
+			
+			if ( parser->fktext[ ix ].f1_mode)
+			{
+				tag.setAttribute( "visible-deriv", parser->fktext[ ix ].f1_mode );
+				tag.setAttribute( "deriv-color", QColor( parser->fktext[ ix ].f1_color ).name() );
+				tag.setAttribute( "deriv-width", parser->fktext[ ix ].f1_linewidth );	
+			}
+			
+			if ( parser->fktext[ ix ].f2_mode)
+			{
+				tag.setAttribute( "visible-2nd-deriv", parser->fktext[ ix ].f2_mode );
+				tag.setAttribute( "deriv2nd-color", QColor( parser->fktext[ ix ].f2_color ).name() );
+				tag.setAttribute( "deriv2nd-width", parser->fktext[ ix ].f2_linewidth );
+			}
+			
+			if ( parser->fktext[ ix ].integral_mode)
+			{
+				tag.setAttribute( "visible-integral", "1" );
+				tag.setAttribute( "integral-color", QColor( parser->fktext[ ix ].integral_color ).name() );
+				tag.setAttribute( "integral-width", parser->fktext[ ix ].integral_linewidth );
+				tag.setAttribute( "integral-use-precision", parser->fktext[ ix ].integral_use_precision );
+				tag.setAttribute( "integral-precision", parser->fktext[ ix ].integral_precision );
+				tag.setAttribute( "integral-startx", parser->fktext[ ix ].str_startx );
+				tag.setAttribute( "integral-starty", parser->fktext[ ix ].str_starty );
+			}
 			
 			addTag( doc, tag, "equation", parser->fktext[ ix ].extstr );
 			
@@ -188,7 +207,7 @@ void KmPlotIO::load( XParser *parser, const QString filename )
 			if ( n.nodeName() == "grid" )
 				parseGrid( n.toElement() );
 			if ( n.nodeName() == "scale" )
-				parseScale( n.toElement() );
+				oldParseScale( n.toElement() );
 			if ( n.nodeName() == "function" )
 				oldParseFunction( parser, n.toElement() );
 		}
@@ -241,7 +260,7 @@ void KmPlotIO::parseGrid( const QDomElement & n )
 
 int unit2index( const QString unit )
 {
-	const char* units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4","automatic" };
+	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
 	int index = 0;
 	while( ( index < 9 ) && ( unit!= units[ index ] ) ) index ++;
 	if( index == 9 ) index = -1;
@@ -251,36 +270,72 @@ int unit2index( const QString unit )
 
 void KmPlotIO::parseScale( const QDomElement & n )
 {
-	Settings::setXScaling( unit2index( n.namedItem( "tic-x" ).toElement().text() ) );
-	Settings::setYScaling( unit2index( n.namedItem( "tic-y" ).toElement().text() ) );
-	Settings::setXPrinting( unit2index( n.namedItem( "print-tic-x" ).toElement().text() ) );
-	Settings::setYPrinting( unit2index( n.namedItem( "print-tic-y" ).toElement().text() ) );
+	Settings::setXScaling( atoi( n.namedItem( "tic-x" ).toElement().text().latin1() ) );
+	Settings::setYScaling( atoi( n.namedItem( "tic-y" ).toElement().text().latin1() ) );
+	Settings::setXPrinting( atoi( n.namedItem( "print-tic-x" ).toElement().text().latin1() ) );
+	Settings::setYPrinting( atoi( n.namedItem( "print-tic-y" ).toElement().text().latin1() ) );
 }
+
 
 void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 {
 	int ix = n.attribute( "number" ).toInt();
-	parser->fktext[ ix ].linewidth = n.attribute( "width" ).toInt();
-	parser->fktext[ ix ].integral_linewidth = n.attribute( "integral-width" ).toInt();
-	parser->fktext[ ix ].f2_linewidth = n.attribute( "deriv2nd-width" ).toInt();
-	parser->fktext[ ix ].startx = n.attribute( "integrak-startx" ).toInt();
-	parser->fktext[ ix ].f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
-	parser->fktext[ ix ].starty = n.attribute( "integral-starty" ).toInt();
-	parser->fktext[ ix ].f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
-	parser->fktext[ ix ].f1_color = QColor(n.attribute( "deriv-color" )).rgb();
-	parser->fktext[ ix ].integral_color = QColor(n.attribute( "integral-color" )).rgb();
-	parser->fktext[ ix ].integral_mode = n.attribute( "visible-integral" ).toInt();
-	parser->fktext[ ix ].f1_linewidth = n.attribute( "deriv-width" ).toInt();
-	parser->fktext[ ix ].f1_mode = n.attribute( "visible-deriv" ).toInt();
-	parser->fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();
-	parser->fktext[ ix ].integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
-	parser->fktext[ ix ].integral_precision = n.attribute( "integral-precision" ).toInt();
+	QString temp;
 	parser->fktext[ ix ].f_mode = n.attribute( "visible" ).toInt();
-	parser->fktext[ ix ].str_startx = n.attribute( "integral-startx" );
-	parser->fktext[ ix ].startx = parser->eval( parser->fktext[ ix ].str_startx );
-	parser->fktext[ ix ].str_starty = n.attribute( "integral-starty" );
-	parser->fktext[ ix ].starty = parser->eval( parser->fktext[ ix ].str_starty );
+	parser->fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();
+	parser->fktext[ ix ].linewidth = n.attribute( "width" ).toInt();
 	parser->fktext[ ix ].use_slider = n.attribute( "use-slider" ).toInt();
+	
+	temp = n.attribute( "visible-deriv" );
+	if (temp != QString::null)
+	{
+		parser->fktext[ ix ].f1_mode = temp.toInt();
+		parser->fktext[ ix ].f1_color = QColor(n.attribute( "deriv-color" )).rgb();
+		parser->fktext[ ix ].f1_linewidth = n.attribute( "deriv-width" ).toInt();
+	}
+	else
+	{
+		parser->fktext[ ix ].f1_mode = 0;
+		parser->fktext[ ix ].f1_color = parser->fktext[ ix ].color0;
+		parser->fktext[ ix ].f1_linewidth = parser->linewidth0;
+	}
+		
+	temp = n.attribute( "visible-2nd-deriv" );
+	if (temp != QString::null)
+	{
+		parser->fktext[ ix ].f2_mode = temp.toInt();
+		parser->fktext[ ix ].f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
+		parser->fktext[ ix ].f2_linewidth = n.attribute( "deriv2nd-width" ).toInt();
+	}
+	else
+	{
+		parser->fktext[ ix ].f2_mode = 0;
+		parser->fktext[ ix ].f2_color = parser->fktext[ ix ].color0;
+		parser->fktext[ ix ].f2_linewidth = parser->linewidth0;
+	}
+	
+	temp = n.attribute( "visible-integral" );
+	if (temp != QString::null)
+	{
+		parser->fktext[ ix ].integral_mode = temp.toInt();
+		parser->fktext[ ix ].integral_color = QColor(n.attribute( "integral-color" )).rgb();
+		parser->fktext[ ix ].integral_linewidth = n.attribute( "integral-width" ).toInt();
+		parser->fktext[ ix ].integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
+		parser->fktext[ ix ].integral_precision = n.attribute( "integral-precision" ).toInt();
+		parser->fktext[ ix ].str_startx = n.attribute( "integral-startx" );
+		parser->fktext[ ix ].startx = parser->eval( parser->fktext[ ix ].str_startx );
+		parser->fktext[ ix ].str_starty = n.attribute( "integral-starty" );
+		parser->fktext[ ix ].starty = parser->eval( parser->fktext[ ix ].str_starty );
+		
+	}
+	else
+	{
+		parser->fktext[ ix ].integral_mode = 0;
+		parser->fktext[ ix ].integral_color = parser->fktext[ ix ].color0;
+		parser->fktext[ ix ].integral_linewidth = parser->linewidth0;
+		parser->fktext[ ix ].integral_use_precision = 0;
+		parser->fktext[ ix ].integral_precision = parser->fktext[ ix ].linewidth;
+	}
 	
 	parser->fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
 	QCString fstr = parser->fktext[ ix ].extstr.utf8();
@@ -364,4 +419,12 @@ void KmPlotIO::oldParseAxes( const QDomElement &n )
 	Settings::setYRange( n.namedItem( "ycoord" ).toElement().text().toInt() );
 	Settings::setYMin( n.namedItem( "ymin" ).toElement().text() );
 	Settings::setYMax( n.namedItem( "ymax" ).toElement().text() );
+}
+
+void KmPlotIO::oldParseScale( const QDomElement & n )
+{
+	Settings::setXScaling( unit2index( n.namedItem( "tic-x" ).toElement().text() ) );
+	Settings::setYScaling( unit2index( n.namedItem( "tic-y" ).toElement().text() ) );
+	Settings::setXPrinting( unit2index( n.namedItem( "print-tic-x" ).toElement().text() ) );
+	Settings::setYPrinting( unit2index( n.namedItem( "print-tic-y" ).toElement().text() ) );
 }

@@ -94,12 +94,12 @@
 	
 	<group name="Scaling">
 		<entry name="XScaling" type="Int"> 
-			<default>3</default>
+			<default>8</default>
 			<label>Width of a unit from tic to tic</label>
 			<whatsthis>Enter the width of a unit from tic to tic.</whatsthis>
 		</entry> 
 		<entry name="YScaling" type="Int"> 
-			<default>3</default>
+			<default>8</default>
 			<label>Height of a unit from tic to tic</label>
 			<whatsthis>Enter the height of a unit from tic to tic.</whatsthis>
 		</entry> 

@@ -1083,7 +1083,7 @@ void View::setPlotRange()
 
 void View::setScaling()
 {
-	const char* units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4","automatic" };
+	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
 	
 	if( Settings::xScaling() == 8) //automatic x-scaling
 		tlgx = double(xmax-xmin)/16;

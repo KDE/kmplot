@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>294</width>
-            <height>322</height>
+            <width>301</width>
+            <height>339</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,7 +19,7 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="KPushButton" row="2" column="0">
+        <widget class="KPushButton" row="3" column="0">
             <property name="name">
                 <cstring>cmdFind</cstring>
             </property>
@@ -28,17 +28,6 @@
             </property>
             <property name="accel">
                 <string>Alt+F</string>
-            </property>
-        </widget>
-        <widget class="KPushButton" row="2" column="1">
-            <property name="name">
-                <cstring>cmdClose</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Close</string>
-            </property>
-            <property name="accel">
-                <string>Alt+C</string>
             </property>
         </widget>
         <widget class="QFrame" row="0" column="0" rowspan="1" colspan="2">
@@ -114,19 +103,41 @@
             <property name="title">
                 <string>Graph</string>
             </property>
-            <grid>
+            <widget class="KListBox">
                 <property name="name">
-                    <cstring>unnamed</cstring>
+                    <cstring>list</cstring>
                 </property>
-                <widget class="KListBox" row="0" column="0">
-                    <property name="name">
-                        <cstring>list</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>The available functions you can search in</string>
-                    </property>
-                </widget>
-            </grid>
+                <property name="geometry">
+                    <rect>
+                        <x>11</x>
+                        <y>24</y>
+                        <width>257</width>
+                        <height>84</height>
+                    </rect>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string>The available functions you can search in</string>
+                </property>
+            </widget>
+        </widget>
+        <widget class="KPushButton" row="3" column="1">
+            <property name="name">
+                <cstring>cmdClose</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Close</string>
+            </property>
+            <property name="accel">
+                <string>Alt+C</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>cmdParameter</cstring>
+            </property>
+            <property name="text">
+                <string>Choose parameter-value</string>
+            </property>
         </widget>
     </grid>
 </widget>

@@ -12,6 +12,9 @@ INCLUDES= $(all_includes)
 
 METASOURCES = AUTO
 
+appmimedir = $(kde_mimedir)/application
+appmime_DATA = x-kmplot.desktop
+
 # the library search path. 
 kmplot_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 

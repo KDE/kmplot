@@ -31,6 +31,7 @@
 #include <kdebug.h>
 #include <kedittoolbar.h>
 #include <kkeydialog.h>
+#include <kurl.h>
 
 // local includes
 #include "MainDlg.h"
@@ -39,7 +40,7 @@
 #include "ksettingsdlg.h"
 #include "misc.h"
 
-MainDlg::MainDlg( const char* name ) : KMainWindow( 0, name )
+MainDlg::MainDlg( KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name )
 {
 	init();
 	fdlg = 0;
@@ -48,6 +49,7 @@ MainDlg::MainDlg( const char* name ) : KMainWindow( 0, name )
 	setCentralWidget( view );
 	setupActions();
 	setupStatusBar();
+	if (args -> count() > 0) openFile( args -> url(0).fileName() );
 }
 
 MainDlg::~MainDlg()
@@ -227,7 +229,11 @@ void MainDlg::load()
 	QString d = KFileDialog::getOpenFileName( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
 	if ( d.isEmpty() )
 		return ;
+	openFile(d);
+}
 
+void MainDlg::openFile( QString d )
+{
 	init();
 
 	QDomDocument doc( "kmpdoc" );

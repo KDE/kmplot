@@ -41,6 +41,7 @@
 // KDE includes
 #include <kapplication.h>
 #include <kaction.h>
+#include <kcmdlineargs.h>
 #include "kconfig.h"
 #include <klocale.h>
 #include <kmainwindow.h>
@@ -70,7 +71,7 @@ class MainDlg : public KMainWindow
 	Q_OBJECT
 
 public:
-	MainDlg( const char* name = NULL );
+	MainDlg( KCmdLineArgs* args, const char* name = NULL );
 	virtual ~MainDlg();
 	friend class FktDlg;
 	friend class BezWnd;
@@ -100,6 +101,7 @@ private:
 	void doSave();
 	void setupStatusBar();
 	void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
+	void openFile( QString d );
 
 	void parseAxes( const QDomElement &n );
 	void parseGrid( const QDomElement &n );

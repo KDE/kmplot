@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Comment=KmPlot File
+Icon=kmplot
+Type=MimeType
+MimeType=application/x-kmplot
+Patterns=*.fkt
+
+[Property::X-KDE-text]
+Type=bool
+Value=true

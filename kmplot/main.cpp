@@ -36,6 +36,7 @@ static const char description[] =
 
 static KCmdLineOptions options[] =
     {
+        { "+[URL]", I18N_NOOP( "File to open" ), 0 },
         KCmdLineLastOption
         // INSERT YOUR COMMANDLINE OPTIONS HERE
     };
@@ -58,8 +59,9 @@ int main( int argc, char **argv )
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
 	KApplication ka;
+	KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 	kc = KGlobal::config();
-	MainDlg *w = new MainDlg;
+	MainDlg *w = new MainDlg( args );
 	w->resize( 450, 400 );
 	//w->setPalette( QPalette( QColor( 255, 255, 255 ) ) );
 	w->show();

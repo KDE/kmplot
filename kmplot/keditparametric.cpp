@@ -167,7 +167,7 @@ void KEditParametric::accept()
                 {
                         added_ufkt->fstr = old_fstr;
                         m_parser->reparse(added_ufkt); 
-                        this->raise();
+                        raise();
                         kLineEditXFunction->setFocus();
                         kLineEditXFunction->selectAll();
                         return;
@@ -179,7 +179,7 @@ void KEditParametric::accept()
                 if( id == -1 ) 
                 {
                         m_parser->parserError();
-                        this->raise();
+                        raise();
                         kLineEditXFunction->setFocus();
                         kLineEditXFunction->selectAll();
                         return;
@@ -227,7 +227,7 @@ void KEditParametric::accept()
                 {
                         added_ufkt->fstr = old_fstr; //go back to the old expression
                         m_parser->reparse(added_ufkt);  //reparse
-                        this->raise();
+                        raise();
                         kLineEditXFunction->setFocus();
                         kLineEditXFunction->selectAll();
                         return;
@@ -239,7 +239,7 @@ void KEditParametric::accept()
                 if( id == -1 ) 
                 {
                         m_parser->parserError();
-                        this->raise();
+                        raise();
                         kLineEditXFunction->setFocus();
                         kLineEditXFunction->selectAll();
                         return;

@@ -44,7 +44,7 @@
                         <cstring>GroupBox1</cstring>
                     </property>
                     <property name="title">
-                        <string>x-axis</string>
+                        <string>X-Axis</string>
                     </property>
                     <vbox>
                         <property name="name">
@@ -75,7 +75,7 @@
                                         <cstring>TextLabel3_3</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Scaling</string>
+                                        <string>Scaling:</string>
                                     </property>
                                 </widget>
                                 <spacer>
@@ -213,7 +213,7 @@
                                         <cstring>TextLabel3</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Printing</string>
+                                        <string>Printing:</string>
                                     </property>
                                 </widget>
                                 <spacer>
@@ -319,7 +319,7 @@
                         <cstring>GroupBox1_2</cstring>
                     </property>
                     <property name="title">
-                        <string>y-axis</string>
+                        <string>Y-Axis</string>
                     </property>
                     <vbox>
                         <property name="name">
@@ -350,7 +350,7 @@
                                         <cstring>TextLabel3_3_2</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Scaling</string>
+                                        <string>Scaling:</string>
                                     </property>
                                 </widget>
                                 <spacer>
@@ -485,7 +485,7 @@
                                         <cstring>TextLabel3_2</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Printing</string>
+                                        <string>Printing:</string>
                                     </property>
                                 </widget>
                                 <spacer>
@@ -664,7 +664,7 @@
                                 <cstring>PushButton1</cstring>
                             </property>
                             <property name="text">
-                                <string>OK</string>
+                                <string>&amp;OK</string>
                             </property>
                             <property name="default">
                                 <bool>true</bool>
@@ -675,7 +675,7 @@
                                 <cstring>PushButton1_2</cstring>
                             </property>
                             <property name="text">
-                                <string>Cancel</string>
+                                <string>&amp;Cancel</string>
                             </property>
                         </widget>
                         <spacer>

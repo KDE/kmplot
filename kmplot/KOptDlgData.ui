@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Axes settings</string>
+        <string>Axes Settings</string>
     </property>
     <vbox>
         <property name="name">
@@ -75,7 +75,7 @@
                                         <cstring>TextLabel1</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>&amp;Line Width:</string>
+                                        <string>&amp;Line width:</string>
                                     </property>
                                     <property name="buddy" stdset="0">
                                         <cstring>le_ad</cstring>
@@ -259,7 +259,7 @@
                                 <cstring>PushButton1</cstring>
                             </property>
                             <property name="text">
-                                <string>OK</string>
+                                <string>&amp;OK</string>
                             </property>
                             <property name="default">
                                 <bool>true</bool>
@@ -278,7 +278,7 @@
                                 <cstring>PushButton1_2_2</cstring>
                             </property>
                             <property name="text">
-                                <string>Cancel</string>
+                                <string>&amp;Cancel</string>
                             </property>
                         </widget>
                         <spacer>

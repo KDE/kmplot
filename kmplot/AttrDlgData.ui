@@ -96,7 +96,7 @@
                                 <cstring>PushButton1</cstring>
                             </property>
                             <property name="text">
-                                <string>OK</string>
+                                <string>&amp;OK</string>
                             </property>
                             <property name="default">
                                 <bool>true</bool>
@@ -115,7 +115,7 @@
                                 <cstring>PushButton1_2_2</cstring>
                             </property>
                             <property name="text">
-                                <string>Cancel</string>
+                                <string>&amp;Cancel</string>
                             </property>
                         </widget>
                     </vbox>

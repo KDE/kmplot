@@ -50,7 +50,7 @@
                         <cstring>TextLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Function equation</string>
+                        <string>&amp;Function equation:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>le_fktstr</cstring>
@@ -157,7 +157,7 @@
                             </property>
                         </widget>
                         <spacer>
-                            <property name="name" stdset="0">
+                            <property name="name">
                                 <cstring>Spacer1</cstring>
                             </property>
                             <property name="orientation">
@@ -165,12 +165,6 @@
                             </property>
                             <property name="sizeType">
                                 <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>20</width>
-                                    <height>20</height>
-                                </size>
                             </property>
                         </spacer>
                     </vbox>

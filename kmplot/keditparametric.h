@@ -30,49 +30,47 @@
 
 class XParser;
 
+/** @short Dialog window editing a parametric plot and its properties. */
 class KEditParametric : public QEditParametric
 {
 	Q_OBJECT
 	public:
+		/// @param parser points to the parser instance.
+		/// @param parent points to the parent widget.
+		/// @param name of this instance.
 		KEditParametric( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
+		/// Nothing special to do.
 		virtual ~KEditParametric() {};
 		
-		/**
- 		* Fill the dialog's widgets with the properties of the parser function number index.
- 		*/
+		/// Fill the dialog's widgets with the properties of the parser function number index.
 		void initDialog( int index = -1, int y_index = -1 );
+		/// Returns the well formed function equation for the listbox in FktDlg.
 		const QString functionItem();
 	
 	private:
-		/**
- 		* Clear alls widgets values
- 		*/
+		/// Clear alls widgets values
 		void clearWidgets();
-		/**
- 		* Fill the dialog's widgets with values from the parser
- 		*/
+		/// Fill the dialog's widgets with values from the parser
 		void setWidgets();
-		/**
- 		* return the well formed function equation
- 		*/
+		/// Returns the well formed function equation
 		QString xFunction();
-		/**
- 		* return the well formed function equation
- 		*/
+		/// Returns the well formed function equation
 		QString yFunction();
+		/// Returns a unique functionname, if the name edit line was left empty.
 		QString newName();		
-		/**
- 		* extract function name and expression from a given expression 
- 		*/
+		/// extract function \a name and \a expression from a given \a equation 
 		void splitEquation( const QString equation, QString &name, QString &expression );
+		/// Pointer to the parser instance.
 		XParser* m_parser;
+		//@{
+		/// Current function indices.
 		int m_x_index, m_y_index;
+		//@}
 		
 	protected slots:
-		/**
- 		* Overwrites the dialog's accept() method to make sure, that the user's input is valid.
- 		*/
+		/// Overwrites the dialog's accept() method to make sure, that the user's input is valid.
 		virtual void accept();
+		/// Invokes the HelpCenter.
 		void slotHelp();
 };
 

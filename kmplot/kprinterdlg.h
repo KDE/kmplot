@@ -22,6 +22,8 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 *
 */
+/** @file kprinterdlg.h 
+ * @brief Contains the KPrinterDlg class. */
 
 #ifndef kprintdlg_included
 #define kprintdlg_included
@@ -32,8 +34,8 @@
 // KDE includes
 #include <kdeprint/kprintdialogpage.h>
 
-/**
- * A dialog page for the print dialog.
+/** @short A dialog page for the print dialog.
+ *
  * It manages the option to print or not to print the header table with addition plot information.
  * It is linked to the app-kmplot-printtable entry in the kmplotrc.
  */
@@ -41,6 +43,7 @@ class KPrinterDlg : public KPrintDialogPage
 {
 	Q_OBJECT
 public:
+	/// Getting the common arguments.
 	KPrinterDlg( QWidget *parent = 0, const char *name = 0 );
 
 	/// Reimplemented.

@@ -20,8 +20,10 @@
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*
 */
+
+/** @file MainDlg.h
+ * @brief Contains the main window class MainDlg. */
 
 #ifndef MainDlg_included
 #define MainDlg_included
@@ -56,7 +58,6 @@ class SettingsPageScaling;
 /** @short This is the main window of KmPlot.
  *
  * Its central widget view contains the parser, accessable via its parser() function.
- *
  * @see View, View::m_parser, View::parser
  */
 class MainDlg : public KMainWindow
@@ -71,7 +72,9 @@ class MainDlg : public KMainWindow
 		MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name = NULL );
 		/// Cleaning up a bit.
 		virtual ~MainDlg();
+		/// This class needs access to private members, too.
 		friend class FktDlg;
+		/// This class needs access to private members, too.
 		friend class BezWnd;
 	
 	public slots:

@@ -35,9 +35,11 @@
 
 class XParser;
 
-/** This widget class handles the users function input. 
- * Equations can be added, edited, and removed.
- * An attribute settings dialog can be requested.
+/** @short This widget class handles the users function input. 
+ *
+ * The list of stored plots is shown. The entries can be edited and/or removed. 
+ * New plots can be entered calling special dialog windows.
+ * @see KEditFunction, KEditParametric, KEditPolar
  */
 class FktDlg : public FktDlgData
 {
@@ -65,14 +67,17 @@ protected slots:
 	/// Edit a function plot.
 	/// @param index Function index of the parser instance.
 	/// @param num Listbox index
+	/// @see KEditFunction
 	void slotEditFunction( int index = -1, int num = -1 );
 	/// Edit a parametric plot.
 	/// @param x_index, y_index Function index of the parser instance.
 	/// @param num Listbox index
+	/// @see KEditParametric
 	void slotEditParametric( int x_index = -1, int y_index = -1, int num = -1 );
 	/// Edit a polar plot.
 	/// @param index Function index of the parser instance.
 	/// @param num Listbox index
+	/// @see KEditPolar
 	void slotEditPolar( int index = -1, int num = -1 );
 	/// Edit a new function plot.
 	void slotNewFunction();

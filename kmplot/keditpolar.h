@@ -30,40 +30,37 @@
 
 class XParser;
 
+/** @short Dialog window editing a polar plot and its properties. */
 class KEditPolar : public QEditPolar
 {
 	Q_OBJECT
 	public:
+		/// @param parser points to the parser instance.
+		/// @param parent points to the parent widget.
+		/// @param name of this instance.
 		KEditPolar( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
+		/// Nothing special to do.
 		virtual ~KEditPolar() {};
 		
-		/**
- 		* Fill the dialog widgets with the properties of the parser function number index.
- 		*/
+		///Fill the dialog widgets with the properties of the parser function number index.
 		void initDialog( int index = -1 );
-//		void setFunction( int index );
-		/**
- 		* return the well formed function equation
- 		*/
+		/// Returns the well formed function equation for the listbox in FktDlg.
 		const QString functionItem();
 	
 	private:
-		/**
- 		* Clear alls widgets values
- 		*/
+		/// Clear alls widgets values.
 		void clearWidgets();
-		/**
- 		* Fill the dialog's widgets with values from the parser
- 		*/
+		/// Fill the dialog's widgets with values from the parser.
 		void setWidgets();
+		/// Pointer to the parser instance.
 		XParser* m_parser;
+		/// Current function index.
 		int m_index;
 		
 	protected slots:
-		/**
- 		* Overwrites the dialog's accept() method to make sure, that the user's input is valid.
- 		*/
+		/// Overwrites the dialog's accept() method to make sure, that the user's input is valid.
 		virtual void accept();
+		/// Invokes the helpCenter.
 		void slotHelp();
 };
 

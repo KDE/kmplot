@@ -34,7 +34,8 @@
 
 class MainDlg;
 
-/**
+/** @short Dialog Window listing all predefined mathematical functions and constants.
+ *
  * This Widget shows a list of predefined functions and constants of the implemented math parser.
  * Its connected to a KToggleAction verw_bezeichnungen of the main widget.
  * @see hideEvent, MainDlg::view_bezeichnungen
@@ -54,12 +55,13 @@ class BezWnd : public BezWndData
 	protected slots:
 		/** Reimplemented. 
 		* Sets the KToggleAction view_bezeichnungen to false.
-		* @see hideEvent, MainDlg::slotNames
+		* @see MainDlg::slotNames()
 		*/
 		void hideEvent( QHideEvent * );
 	
 	private:
-		/** A Pointer to the central class instance */
+		/** A Pointer to the central class instance 
+		 * @see MainDlg */
 		MainDlg *main_dlg;
 };
 #endif // BezWnd_included

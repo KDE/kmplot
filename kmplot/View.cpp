@@ -45,6 +45,7 @@ View::View( QWidget* parent, const char* name ) : QWidget( parent, name )
 
 View::~View()
 {
+	delete m_parser;
 }
 
 XParser* View::parser()

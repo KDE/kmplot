@@ -111,7 +111,7 @@ void CDiagr::Plot(QPainter* pDC)
 {   
 	QPen pen(frameColor, borderThickness);
     
-	if( g_mode ) drawGrid( pDC ); // draw the grid
+	if( g_mode != GRID_NONE ) drawGrid( pDC ); // draw the grid
 	drawAxes( pDC ); // draw the axes
 	if( Settings::showLabel() ) 
 		drawLabels(pDC);        // Achsen beschriften
@@ -123,7 +123,7 @@ void CDiagr::Plot(QPainter* pDC)
 }
 
 
-int CDiagr::Transx(double x)		// reale x-Koordinate
+int CDiagr::Transx( double x )		// reale x-Koordinate
 {   int xi;                			// transformierte x-Koordinate
     static double lastx;            // vorherige x-Koordinate
 
@@ -272,7 +272,7 @@ void CDiagr::drawGrid( QPainter* pDC )
 	QPen pen( gridColor, gridLineWidth );
 
 	pDC->setPen(pen);
-	if(g_mode==1)                   		// Linienraster
+	if( g_mode==GRID_LINES )
 	{	d=tsx;
 		while(d<xmd)
 		{   pDC->Linev(Transx(d), PlotArea.bottom(), PlotArea.top());
@@ -284,7 +284,7 @@ void CDiagr::drawGrid( QPainter* pDC )
 			d+=ey;
 		}
 	}
-	else if(g_mode==2)               		// Kreuzraster
+	else if( g_mode==GRID_CROSSES )
 	{	int dx, dy;
 
 		dx=5;
@@ -298,7 +298,7 @@ void CDiagr::drawGrid( QPainter* pDC )
 			}
 		}
 	}
-	else if(g_mode==3)           			// Kreisraster
+	else if( g_mode==GRID_POLAR )
 	{	int x1, y1, x2, y2, dr, d2r, xm;
 		double c, w;
 		QRect rc=PlotArea;

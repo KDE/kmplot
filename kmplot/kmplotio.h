@@ -29,15 +29,16 @@
 class QString;
 class XParser;
 
-/**
-This class manages the file operations load and save.
-@author Klaus-Dieter Möller & Matthias Meßmer
-*/
+/** @short This class manages the file operations load and save.
+ *
+ * @author Klaus-Dieter Möller & Matthias Meßmer
+ */
 class KmPlotIO
 {
 	public:
+		/// Nothing to do here; only static functions needed.
 		KmPlotIO();
-
+		/// Empty.
 		~KmPlotIO();
 		
 		/**

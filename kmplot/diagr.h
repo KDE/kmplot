@@ -22,62 +22,71 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 *
 */
+/** @file diagr.h 
+ * @brief Contains the CDiagr class. */
 
 #ifndef diagr_included
 #define diagr_included
 
-
+// standard includes
 #include <math.h>
 #include <stdio.h>
 
+// Qt includes 
 #include <qpainter.h>
 
+//@{
+/// Some abbreviations for horizontal and vertical lines.
+#define Line drawLine
+#define Lineh(x1, y, x2) drawLine(x1, y, x2, y)
+#define Linev(x, y1, y2) drawLine(x, y1, x, y2) 
+//@}
 
-#define	Line				drawLine
-#define	Lineh(x1, y, x2)	drawLine(x1, y, x2, y)
-#define Linev(x, y1, y2)	drawLine(x, y1, x, y2) 
+//@{
+/// Grid styles.
+#define GRID_NONE	0
+#define	GRID_LINES	1
+#define	GRID_CROSSES	2
+#define	GRID_POLAR	3
+//@}
 
-#define AXES		1		/**< visible axes */
-#define ARROWS		2		/**< axes with arrows */
-#define FRAME		4		/**< visible frame */
-#define EXTFRAME	8		/**< bigger frame */
-#define LABEL		16		/**< visible labels */ 
-
-#define	LINIENRASTER	1	/**< line grid */
-#define	KREUZRASTER     2	/**< crosses grid */
-#define	KREISRASTER     3	/**< polar grid */ 
-
-
-/**
- * This class manages the core drawing of axes, grid, plot and so on.
- */
+/** @short This class manages the core drawing of the axes and the grid. */
 class CDiagr
 {
 public:
-
+	/// Contructor. Members are set to initial values.
+	///@see Create()
 	CDiagr();
+	/// Nothing to do for the destructor.
 	~CDiagr();
 
-	void Create(QPoint Ref,
+	/// Sets all members to current values.
+	void Create( QPoint Ref,
 	               int lx, int ly,
 	               double xmin, double xmax,
-	               double ymin, double ymax);
+	               double ymin, double ymax );
+	/// Sets the current values for the scaling factors
+	void Skal( double ex, double ey );
+	/// Draws all requested parts of the diagram (axes, labels, grid e.g.)
+	void Plot( QPainter* pDC );
+	/// Returns the rectangle around the core of the plot area.
+	QRect GetPlotArea() { return PlotArea; }
+	/// Returns the rectangle for the frame around the plot. Extra frame is bigger.
+	QRect GetFrame() { return m_frame; }
 
-	void Skal(double ex, double ey );	
-	void Plot(QPainter* pDC);
-	QRect GetPlotArea() {return PlotArea;}
-	QRect GetFrame() {return m_frame;}
-
-	/** @name Trnsformations 
-	 * These functions convert real coordinates to pixel coordinates and vice versa.
-	 */
+	/** @name Transformations */
 	//@{
+	/// These functions convert real coordinates to pixel coordinates and vice versa.
 	int Transx(double);
 	int Transy(double);
 	double Transx(int);
 	double Transy(int);
 	//@}
 	
+	/** @name Style options
+	 * These members hold the current options for line widths and colors
+	 */
+	//@{
 	QRgb frameColor;	///< color of the border frame
 	QRgb axesColor;		///< color of the axes
 	QRgb gridColor;		///< color of the grid
@@ -87,7 +96,7 @@ public:
 	     gridLineWidth,	///< current line width for the grid
 	     ticWidth,		///< current line width for the tics
 	     ticLength,		///< current length of the tic lines
-	     
+	//@}
 	     xclipflg,		///< clipflg is set to 1 if the plot is out of the plot aerea.
 	     yclipflg;		///< clipflg is set to 1 if the plot is out of the plot aerea.
 
@@ -103,17 +112,34 @@ private:
 	/// Current grid style.
 	int g_mode;
 
-	double xmin,		///< x range minimum 
-	xmax,      		///< x range maximum
-	ymin,			///< y range minimum
-	ymax,			///< y range maximum
-	xmd, ymd,     	        ///< x/y clip boundage
-	ex, ey,     	        ///< x/y axes units
-	tsx, tsy,     	        ///< Position of the first tic
-	ox, oy,                 ///< screen coordinates of the coordinate system origin
-	skx, sky;               ///< scale factors
-	QRect	PlotArea, 	///< plot area
-	m_frame; 		///< frame around the plot
+	//@{
+	/// Plot range edge.
+	double xmin, xmax, ymin, ymax;
+	//@}
+	//@{
+	/// Clip boundage.
+	double xmd, ymd;
+	//@}
+	//@{
+	/// Axes tic distance.
+	double ex, ey;  
+	//@}
+	//@{
+	///Position of the first tic.      
+	double tsx, tsy;
+	//@}
+	//@{
+	/// Screen coordinates of the coordinate system origin.
+	double ox, oy;
+	//@}
+	//@{
+	/// Transformation factors.
+	/// @see Skal
+	double skx, sky;
+	//@}
+	
+	QRect PlotArea;	///< plot area
+	QRect m_frame;	///< frame around the plot
 };
 
 #endif // diagr_included

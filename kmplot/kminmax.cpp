@@ -67,13 +67,13 @@ void KMinMax::init(char m)
 		max->setText("");
 		cmdFind->setText("&Find");
 		if ( m_mode == 1) //find maximum point
-			setCaption(i18n("Find maximum point"));
+			setCaption(i18n("Find Maximum Point"));
 		else
-			setCaption(i18n("Find minimum point"));
+			setCaption(i18n("Find Minimum Point"));
 	}
 	else if ( m_mode == 2) //get y-value
 	{
-		setCaption(i18n("Get y-value"));
+		setCaption(i18n("Get y-Value"));
 		lblMin->setText(i18n("X:"));
 		lblMax->setText(i18n("Y:"));	
 		max->setReadOnly(true);
@@ -84,7 +84,7 @@ void KMinMax::init(char m)
 	}
 	else if ( m_mode == 3) //area under a graph
 	{
-		setCaption(i18n("Area under a graph"));
+		setCaption(i18n("Area Under Graph"));
 		lblMin->setText(i18n("Draw the area between the x-values"));
 		lblMax->setText(i18n("and"));
 		max->setReadOnly(false);

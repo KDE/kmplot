@@ -143,9 +143,9 @@ void MainDlg::setupActions()
 	
 	// tools menu
 	KAction *mnuYValue =  new KAction( i18n( "&Get y-value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
-	KAction *mnuMinValue = new KAction( i18n( "&Search for minimum value" ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
-	KAction *mnuMaxValue = new KAction( i18n( "&Search for maximum value" ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
-	KAction *mnuArea = new KAction( i18n( "&Area under a graph" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
+	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value" ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
+	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value" ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
+	KAction *mnuArea = new KAction( i18n( "&Area Under Graph" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
 	
 	// help menu
 	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );

@@ -527,14 +527,10 @@ void MainDlg::loadConstants()
 		
 		if ( tmp_constant == " " || value == 1.23456789)
 			return;
-		if  (constant=='E')
-			constant++;
 		bool stop = false;
 		if ( !view->parser()->constant.empty() )
 			for(  ; !stop;constant++)
 			{
-				if (constant=='E')
-					constant++;
 				for( int k = 0; k< (int)view->parser()->constant.size() && !stop;k++)
 				{
 					if (constant != view->parser()->constant[k].constant)

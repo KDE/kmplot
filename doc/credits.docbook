@@ -1,0 +1,34 @@
+<chapter id="credits">
+<title>Credits and License</title>
+
+<para>
+&kmplot;
+</para>
+
+<para>
+Program copyright 2000-2002 Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>
+</para>
+
+<itemizedlist>
+<title>Contributors</title>
+  <listitem>
+    <para><acronym>CVS</acronym>: Robert Gogolok <email>mail@robert-gogoloh.de</email></para>
+  </listitem>
+  <listitem>
+    <para>Porting &GUI; to &kde; 3 and Translating: Matthias Messmer <email>bmlmessmer@web.de</email></para>
+  </listitem>
+</itemizedlist>
+
+<para>
+Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>
+</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove. Commercial development should
+ -->
+&underGPL;        	 <!-- GPL License -->
+
+</chapter>
+
+

@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN"
- "dtd/kdex.dtd" [
+"dtd/kdex.dtd" [
   <!ENTITY kappname "&kmplot;"><!-- replace kmplot here -->
   <!ENTITY package "kdeedu">
+  <!ENTITY introduction SYSTEM "introduction.docbook">
+  <!ENTITY using SYSTEM "using.docbook">
+  <!ENTITY commands SYSTEM "commands.docbook">
+  <!ENTITY menu SYSTEM "menu.docbook">
+  <!ENTITY developer SYSTEM "developer.docbook">
+  <!ENTITY credits SYSTEM "credits.docbook">
+  <!ENTITY install SYSTEM "install.docbook">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -10,509 +17,78 @@
 
 <book lang="&language;">
 
-<bookinfo>
-<title>The &kmplot; Handbook</title>
-
-<authorgroup>
-<author>
-<firstname>Klaus-Dieter</firstname>
-<othername></othername>
-<surname>M&ouml;ller</surname>
-<affiliation>
-<address><email>kd.moeller@t-online.de</email></address>
-</affiliation>
-</author>
-</authorgroup>
-
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
-
-<copyright>
-<year>2000</year><year>2001</year><year>2002</year>
-<holder>Klaus-Dieter M&ouml;ller</holder>
-</copyright>
-
-<legalnotice>&FDLNotice;</legalnotice>
-
-<date>2002-02-10</date>
-<releaseinfo>0.4.0</releaseinfo>
-
-<!-- Abstract about this handbook -->
-
-<abstract>
-<para>
-&kmplot; is a mathematical function plotter for the &kde; Desktop.
-</para>
-</abstract>
-
-<keywordset>
-<keyword>KDE</keyword>
-<keyword>KMPlot</keyword>
-<keyword>EDU</keyword>
-<keyword>edutainment</keyword>
-<keyword>plotting</keyword>
-<keyword>math</keyword>
-</keywordset>
-
-</bookinfo>
-
-<chapter id="introduction">
-<title>Introduction</title>
-
-
-<para>
-&kmplot; is a mathematical function plotter for the &kde; Desktop.
-It has built in a powerful parser.
-You can plot different functions simultaneously and combine their function
-terms to build new functions.
-</para>
-<para>&kmplot; supports functions with parameters and functions in
-polar coordinates. Several grid modes are possible. Plots may be
-printed with high precision in correct scale. </para>
-
-</chapter>
-
-<chapter id="using-kmplot">
-<title>Using &kmplot;</title>
-
-<para>The welcome window lets you choose the type of task by clicking
- on one of the  buttons. The buttons are labeled with the value
- omitted in the tasks.</para>
-
-<screenshot>
-<screeninfo>Here's a screenshot of the &kmplot; welcome window</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="main.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>Screenshot</phrase>
-	  </textobject>
-	</mediaobject>
-</screenshot>
-
-<sect1 id="kmplot-features">
-<title>More &kmplot; features</title>
-
-<para>
-...
-</para>
-
-</sect1>
-
-</chapter>
-
-<chapter id="commands">
-<title>Command Reference</title>
-
-<sect1 id="kmplot-mainwindow">
-<title>The main &kmplot; window</title>
-
-<screenshot>
-<screeninfo>Here's a screenshot of the &kmplot; main window</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="main.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>Here's a screenshot of the &kmplot; main window</phrase>
-	  </textobject>
-	</mediaobject>
-</screenshot>
-</sect1>
-
-<sect1 id="functions">
-<title>The <guimenu>Functions</guimenu> Menu</title>
-
-<para>
-    This menu entry or tool button opens the Functions Editor.
-    Here you can enter the functions' equations of up to 10 functions
-    or function groups. 
-    The parser knows <firstterm>explicit</firstterm> and
-    <firstterm>parametric</firstterm> form.
-    With specific extensions it is possible to add first and second
-    derivation and to choose values for the function group parameter.
-  </para>
-  <sect2 id="func_syntax"><title>Syntax</title>
-    <para>
-    Some syntax rules must be complied with:
-    <screen width="20">
-      <userinput>
-        name(var1[, var2])=term [;extensions]
-      </userinput>
-    </screen>
-    </para>
-    <variablelist>
-      <varlistentry>
-        <term>name</term>
-        <listitem><para>
-          The functions name.
-          If the first character is "r" the parser assumes that you
-        use polar coordinates. 
-          If the first character is "x" (for instance "xfunc") the
-        parser expects a second           function with a leading "y" (here "yfunc") to define the function in 
-          paramtric form.
-        </para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>var1</term>
-        <listitem><para>The functions variable</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>var2</term>
-        <listitem><para>
-          The function group parameter. It must be seperated by a comma.
-        </para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>term</term>
-        <listitem><para>The function's term</para></listitem>
-      </varlistentry>
-    </variablelist>
-  </sect2>
-  <sect2 id="func_predefined"><title>Predefined Function Names and Constants</title>
-    <para>...</para>
-  </sect2>
-  <sect2 id="func_dialog"><title>Functions Dialog Window</title>
-    <para>...</para>
-  </sect2>
-  <sect2 id="func_extension"><title>Extensions</title>
-    <variablelist>
-      <varlistentry>
-        <term>N</term>
-        <listitem>
-          <para>
-            The function will be stored but not be drawn. 
-            So it can be used like any other user defined or predefined function.
-          </para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>A1</term>
-        <listitem>
-          <para>
-            The graph of the derivative of the function will be drawn
-            additionally with the same color but less line width. 
-            This extension has no effect on functions defined in
-            parametric form. 
-          </para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>A2</term>
-        <listitem>
-          <para>
-            The graph of the second derivative of the function will be
-            drawn additionally with the same color but less line width.
-            This extension has no effect on functions defined in
-            parametric form. 
-          </para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>D[a,b]</term>
-        <listitem>
-          <para>
-            ...
-          </para>
-        </listitem>
-      </varlistentry>
-      <varlistentry>
-        <term>P[a{,b}]</term>
-        <listitem>
-          <para>
-            With this extension you can give a list of values for the
-            parameter of a function group of which the graph should be drawn.
-            Also terms are allowed.
-            The use of this extension presumes that the parameter is given as a
-            second function variable.
-          </para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-  </sect2>
-</sect1>
-
-<sect1 id="coord_system"><title>Coordinate Systems</title>
-  <para>...</para>
-  <sect2 id="coord_area"><title>Plotting Area</title>
-    <para>...</para>
-  </sect2>
-  <sect2 id="coord_cross"><title>Cross Hair Cursor</title>
-    <para>...</para>
-  </sect2>
-  <sect2 id="coord_types"><title>Types of Coordinate Systems</title>
-    <para>...</para>
-  </sect2>
-</sect1>
-
-<sect1 id="scale_print"><title>Scaling and Printing</title>
-  <para>...</para>
-</sect1>
-</chapter>
-
-<chapter id="menuentries">
-<title>The Menu Entries</title>
-
-<sect1>
-<title>The <guimenu>File</guimenu> Menu</title>
-<para>
-<variablelist>
-
-<varlistentry>
-  <term>
-    <menuchoice>
-      <shortcut>
-        <keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
-      </shortcut>
-      <guimenu>File</guimenu>
-      <guimenuitem>New</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para><action>Starts a new Plot by clearing the coordinate system
-    and resetting the function parser.</action></para> 
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>
-    <menuchoice>
-      <shortcut>
-        <keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
-      </shortcut>
-      <guimenu>File</guimenu>
-      <guimenuitem>Save</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para>
-      <action>Saves the document</action>
-    </para>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>
-    <menuchoice>
-      <guimenu>File</guimenu>
-      <guimenuitem>Save As...</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para>
-      <action>Saves the document to a specific file</action>
-    </para>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>
-    <menuchoice>
-      <shortcut>
-        <keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
-      </shortcut>
-      <guimenu>File</guimenu>
-      <guimenuitem>Print</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para><action>Sends the plot to the printer or to a file</action></para>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>
-    <menuchoice>
-      <shortcut>
-        <keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
-      </shortcut>
-      <guimenu>File</guimenu>
-      <guimenuitem>Quit</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para><action>Quits</action> &kmplot;</para>
-  </listitem>
-</varlistentry>
-</variablelist>
-</para>
-
-</sect1>
-
-<sect1 id="func_menu">
-<title>The <guimenu>Functions</guimenu> Menu</title>
-
-<variablelist>
-<varlistentry>
-  <term>
-    <menuchoice>
-      <guimenu>Functions</guimenu>
-      <guimenuitem>Functions</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para><action>Shows the Functions
-      Dialog Window where you can enter the function equations
-      and some attributes of the plot.</action></para> 
-  </listitem>
-</varlistentry>
-
-</variablelist>
-</sect1>
-
-<sect1 id="settings_menu">
-<title>The <guimenu>Settings</guimenu> Menu</title>
-
-<para>
-It contains the standard entries for enabling/disabling the toolbar
-and the statusbar. In addition there are the following options:
-</para>
-
-<variablelist>
-
-<varlistentry>
-  <term>
-    <menuchoice>
-      <guimenu>Settings</guimenu>
-      <guimenuitem>Axes...</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para><action>...</action></para>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>
-    <menuchoice>
-      <guimenu>Settings</guimenu>
-      <guimenuitem>Scale...</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para><action>...</action></para>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>
-    <menuchoice>
-      <guimenu>Settings</guimenu>
-      <guimenuitem>Grid...</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para><action>...</action></para>
-  </listitem>
-</varlistentry>
-
-<varlistentry>
-  <term>
-    <menuchoice>
-      <guimenu>Settings</guimenu>
-      <guimenuitem>Step...</guimenuitem>
-    </menuchoice>
-  </term>
-  <listitem>
-    <para><action>...</action></para>
-  </listitem>
-</varlistentry>
-
-</variablelist>
-
-</sect1>
-
-<sect1 id="help_menu">
-<title>The <guimenu>Help</guimenu> Menu</title>
-
-<para>&kmplot; has a standard &kde; <guimenu>Help</guimenu> as described
-below, with one addition:</para>
-
-<variablelist>
-<varlistentry>
-<term><menuchoice><guimenu>Help</guimenu>
-<guimenuitem>Names...</guimenuitem>
-</menuchoice></term>
-<listitem>
-<para>Opens a window with a list of function names, to help you
-remember them.</para>
-</listitem>
-</varlistentry>
-</variablelist>
-
-<para>The standard &kde; <guimenu>Help</guimenu> entries are:</para>
-
-&help.menu.documentation;
-
-</sect1>
-</chapter>
-
-<chapter id="developers">
-<title>Developer's Guide to &kmplot;</title>
-
-<para>If you want to contribute &kmplot; feel free to send me a mail
-<email>kd.moeller@t-online.de</email></para>
-
-</chapter>
-
-<!-- 
-<chapter id="faq">
-<title>Questions and Answers</title>
-
-&reporting.bugs;
-&updating.documentation;
-
-</chapter> -->
-
-<chapter id="credits">
-<title>Credits and License</title>
-
-<para>
-&kmplot;
-</para>
-
-<para>
-Program copyright 2000-2002 Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>
-</para>
-
-<itemizedlist>
-<title>Contributors</title>
-  <listitem>
-    <para><acronym>CVS</acronym>: Robert Gogolok <email>mail@robert-gogoloh.de</email></para>
-  </listitem>
-  <listitem>
-    <para>Porting &GUI; to &kde; 3 and Translating: Matthias Messmer <email>bmlmessmer@web.de</email></para>
-  </listitem>
-</itemizedlist>
-
-<para>
-Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>
-</para>
-
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
-
-&underFDL;               <!-- FDL: do not remove. Commercial development should
- -->
-&underGPL;        	 <!-- GPL License -->
-
-</chapter>
-
-<appendix id="installation">
-<title>Installation</title>
-
-&install.intro.documentation;
-
-<para>&kmplot; has it's own homepage at <ulink
-url="http://kmplot.sourceforge.net">SourceForge</ulink>. You can
-also find archives of older versions of &kmplot; there, for example,
-for &kde; 2.x</para>
-
-&install.compile.documentation;
-
-</appendix>
-
-
-&documentation.index;
+	<bookinfo>
+		<title>The &kmplot; Handbook</title>
+		<authorgroup>
+			<author>
+				<firstname>Klaus-Dieter</firstname>
+				<othername></othername>
+				<surname>M&ouml;ller</surname>
+				<affiliation>
+					<address><email>kd.moeller@t-online.de</email></address>
+				</affiliation>
+			</author>
+		</authorgroup>
+	
+		<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+		<copyright>
+			<year>2000</year><year>2001</year><year>2002</year>
+			<holder>Klaus-Dieter M&ouml;ller</holder>
+		</copyright>
+
+		<legalnotice>&FDLNotice;</legalnotice>
+
+		<date>2002-02-10</date>
+		<releaseinfo>0.4.0</releaseinfo>
+
+		<!-- Abstract about this handbook -->
+
+		<abstract>
+			<para>
+				&kmplot; is a mathematical function plotter for the &kde; Desktop.
+			</para>
+			<para>
+				<inlinemediaobject>
+					<imageobject>
+						<imagedata fileref="edu-logo.png" format="PNG"/>
+					</imageobject>
+				</inlinemediaobject>
+				&kappname; is part of the KDE-EDU Project:
+				<ulink url="http://edu.kde.org/">http://edu.kde.org/</ulink>
+			</para>
+		</abstract>
+
+		<keywordset>
+			<keyword>KDE</keyword>
+			<keyword>KMPlot</keyword>
+			<keyword>EDU</keyword>
+			<keyword>edutainment</keyword>
+			<keyword>plotting</keyword>
+			<keyword>math</keyword>
+		</keywordset>
+
+	</bookinfo>
+
+	&introduction;
+	&using;
+	&commands;
+	&menu;
+
+	<!-- 
+	<chapter id="faq">
+		<title>Questions and Answers</title>
+
+		&reporting.bugs;
+		&updating.documentation;
+
+	</chapter> -->
+
+	&developer;
+	&credits;
+	&install;
+
+	&documentation.index;
 </book>
 <!--
 Local Variables:

@@ -1,0 +1,31 @@
+<chapter id="using-kmplot">
+<title>Using &kmplot;</title>
+
+<para>The welcome window lets you choose the type of task by clicking
+ on one of the  buttons. The buttons are labeled with the value
+ omitted in the tasks.</para>
+
+<screenshot>
+<screeninfo>Here's a screenshot of the &kmplot; welcome window</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Screenshot</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="kmplot-features">
+<title>More &kmplot; features</title>
+
+<para>
+...
+</para>
+
+</sect1>
+
+</chapter>
+
+

@@ -1,3 +1,5 @@
+#ifndef MAINDLGIFACE_H
+#define MAINDLGIFACE_H
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
@@ -63,3 +65,8 @@ class MainDlgIface : virtual public DCOPObject
         virtual void findMaximumValue() = 0;
         virtual void graphArea() = 0;
 };
+
+
+#endif
+
+

@@ -101,10 +101,14 @@ void KEditParametric::accept()
 	
 	// find a name not already used 
 	if( kLineEditName->text().isEmpty() )
-		kLineEditName->setText( newName() );
-        
+	{
+		QString fname;
+		m_parser->fixFunctionName(fname, XParser::ParametricX);
+		int const pos = fname.find('(');
+		kLineEditName->setText(fname.mid(1,pos-1));
+	}
+		
         Ufkt tmp_ufkt;
-	
 	tmp_ufkt.f_mode = !checkBoxHide->isChecked();
 	
 	if( checkBoxRange->isChecked() )
@@ -214,7 +218,7 @@ void KEditParametric::accept()
         added_ufkt->use_slider = tmp_ufkt.use_slider;
 
         added_ufkt = 0;
-        if( m_y_id != -1 )  //when editing a function: 
+        if( m_y_id != -1 )  //when editing a function:
         {
                 added_ufkt = &m_parser->ufkt[m_parser->ixValue(m_y_id)];
                 QString old_fstr = added_ufkt->fstr;
@@ -234,7 +238,7 @@ void KEditParametric::accept()
         else
         {
                 int const id = m_parser->addfkt( yFunction() );
-                if( id == -1 ) 
+                if( id == -1 )
                 {
                         m_parser->parserError();
                         raise();
@@ -276,25 +280,7 @@ void KEditParametric::accept()
 	// call inherited method
 	QEditParametric::accept(); //update the function name in FktDlg
 }
-
-
-QString KEditParametric::newName()
-{
-	int i = 0;
-	QString name;
-	// prepend the correct prefix
-	name = "xf%1";
-	/*do
-	{
-		i++;
-	}
-        while( m_parser->getfix( name.arg( i ) ) != -1 );
-	*/
-	// cut off prefix again, will be added later
-	name = name.right( name.length()-1 );
-	return name.arg( i );
-}
-
+    
 QString KEditParametric::xFunction()
 {
 	return "x" + kLineEditName->text() + "(t)=" + kLineEditXFunction->text();
@@ -303,7 +289,7 @@ QString KEditParametric::xFunction()
 void KEditParametric::splitEquation( const QString equation, QString &name, QString &expression )
 {
 	int start = 0;
-	if( equation[ 0 ] == 'r' || equation[ 0 ] == 'x' || equation[ 0 ] == 'y' ) start++;
+	if( equation[ 0 ] == 'x' || equation[ 0 ] == 'y' ) start++;
 	int length = equation.find( '(' ) - start;
 	name = equation.mid( start, length );
 	

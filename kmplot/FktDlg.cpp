@@ -247,15 +247,7 @@ void FktDlg::slotCopyFunction()
 		return;
 	}
 	QString const fstr = lb_fktliste->text(num);
-	if( fstr.at(0) == 'x' )
-	{
-		int const id = getParamId( lb_fktliste->text( num ));
-		if ( !m_view->parser()->sendFunction(id) )
-			return;
-		m_view->parser()->sendFunction(id+1);
-	}
-	else
-		m_view->parser()->sendFunction(getId(fstr));
+	m_view->parser()->sendFunction(getId(fstr));
 }
 
 void FktDlg::slotMoveFunction()
@@ -267,18 +259,7 @@ void FktDlg::slotMoveFunction()
 		return;
 	}
 	QString const fstr = lb_fktliste->text(num);
-	if( fstr.at(0) == 'x' )
-	{
-		int const id = getParamId( lb_fktliste->text( num ));
-		if ( !m_view->parser()->sendFunction(id) )
-			return;
-		if ( m_view->parser()->sendFunction(id+1) )
-			return;
-	}
-	else
-		if ( !m_view->parser()->sendFunction(getId( lb_fktliste->text( lb_fktliste->currentItem())) ) )
-			return;
-	
-	
+	if ( !m_view->parser()->sendFunction(getId( lb_fktliste->text( lb_fktliste->currentItem())) ) )
+		return;
 	slotDelete();
 }

@@ -144,7 +144,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
 {
         char last_character;
         int pos;
-        if ( type == XParser::Polar)
+	if ( type == XParser::Polar || type == XParser::ParametricX || type == XParser::ParametricY)
                 pos=1;
         else
                 pos=0;
@@ -178,26 +178,36 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
 {
 	int const p1=str.find('(');
 	int const p2=str.find(')');
-	
-	if( p1>0)
+	if( p1>0 && str.at(p2+1)=='=')
 	{
 		QString const fname = str.left(p1);
 		for ( QValueVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
 			if (it->fname == fname)
 			{
 				str = str.mid(p1,str.length()-1);
-				QString function_name = "f";
+				QString function_name;
+				if ( type == XParser::Polar )
+				  function_name = "rf";
+				else if ( type == XParser::ParametricX )
+				  function_name = "x";
+				else if ( type == XParser::ParametricY )
+				  function_name = "y";
+				else
+					function_name = "f";
 				findFunctionName(function_name, id, type);
 				str.prepend( function_name );
 				return;
 			}
 	}
-	
-	if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
+	else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
 	{
                 QString function_name;
                 if ( type == XParser::Polar )
                         function_name = "rf";
+		else if ( type == XParser::ParametricX )
+		  	function_name = "xf";
+		else if ( type == XParser::ParametricY )
+		  	function_name = "yf";
                 else
                         function_name = "f";
                 str.prepend("(x)=");
@@ -646,7 +656,24 @@ int XParser::addFunction(const QString &f_str)
 bool XParser::addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider)
 {
 	QString fstr(extstr);
-	fixFunctionName(fstr);
+	switch ( fstr.at(0).latin1() )
+	{
+	  case 'r':
+	  {
+	    fixFunctionName(fstr, XParser::Polar);
+	    kdDebug() << "Hit?" << endl;
+	    break;
+	  }
+	  case 'x':
+	    fixFunctionName(fstr, XParser::ParametricX);
+	    break;
+	  case 'y':
+	    fixFunctionName(fstr, XParser::ParametricY);
+	    break;
+	  default:
+	    fixFunctionName(fstr, XParser::Function);
+	    break;
+	}
 	int const id = addfkt( fstr );
 	if ( id==-1 )
 		return false;
@@ -708,7 +735,7 @@ bool XParser::setFunctionExpression(const QString &f_str, uint id)
 	return true;
 }
 
-bool XParser::sendFunction(int id)
+bool XParser::sendFunction(int id, const QString &dcopclient_target)
 {
 	QCStringList cstr_list = kapp->dcopClient()->registeredApplications();
 	QStringList str_list;
@@ -721,28 +748,27 @@ bool XParser::sendFunction(int id)
 		return false;
 	}
 	
-	//Ufkt *ufkt = &->ufkt[->ixValue(getId( lb_fktliste->text( lb_fktliste->currentItem() )))];
 	Ufkt *item = &ufkt[ixValue(id)];
-	
+	kdDebug() << "Sänder " << item->fname.latin1() << endl;
 	QString str_result;
-	if (item->fname.at(0) != 'y')
+	if ( dcopclient_target.isEmpty() && item->fname.at(0) == 'y' )
+	  	return false;
+	else if ( dcopclient_target.isEmpty() )
 	{
 		bool ok;
 		str_result = KInputDialog::getItem(i18n("kmplot"), i18n("Choose which KmPlot instance\nyou want to copy the function to:"), str_list, 0, false, &ok);
 		if (!ok)
-			return false;
-		if (item->fname.at(0) == 'x')
-			m_tmpdcopclient = str_result;
+		  return false;
 	}
 	else
-		str_result = m_tmpdcopclient;
+	  str_result = dcopclient_target;
 	
 	QByteArray parameters;
 	QDataStream arg( parameters, IO_WriteOnly);
 
 	QStringList str_parameters;
 	for ( QValueList<ParameterValueItem>::Iterator it = item->parameters.begin(); it != item->parameters.end(); ++it )
-		str_parameters.append( (*it).expression);
+	  	str_parameters.append( (*it).expression);
 	arg << item->extstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << item->str_dmin << item->str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
 	QByteArray replay_data;
 	QCString replay_type;
@@ -763,5 +789,9 @@ bool XParser::sendFunction(int id)
 	}
 	
 	kapp->dcopClient()->send(str_result.utf8(), "View","drawPlot()",QByteArray() ); //update the other window
-	return true;
+	
+	if (item->fname.at(0) == 'x') // a parametric function
+		return sendFunction(id+1, str_result);
+	else
+		return true;
 }

@@ -57,7 +57,7 @@ public:
         int linewidth0;
         QRgb defaultColor(int function);
 	
-        enum { Function, Polar, Parametric }; ///types of functions
+	enum { Function, Polar, ParametricX, ParametricY }; ///types of functions
 	///Returns an unused function name if it is needed
 	void fixFunctionName(QString &, int const = XParser::Function , int const=-1);
         
@@ -70,7 +70,7 @@ public:
         int getext( Ufkt * );
 	
 	/// Send a function to an other instance of Kmplot. Returns true if it success, otherwise false
-	bool sendFunction(int id);
+	bool sendFunction(int id, const QString &dcopclient_target="");
 	
 	/// Functions for the DCOP interface:
 
@@ -140,8 +140,6 @@ private:
         
 	/// finds a free function name 
 	void findFunctionName(QString &, int const, int const);
-	/// used when sending parametric functions
-	QString m_tmpdcopclient; 
 	/// indicates if the widget is changed
 	bool &m_modified;
 };

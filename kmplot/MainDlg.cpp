@@ -525,7 +525,10 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 {
 	//creates a valid name for the function if the user has forgotten that
 	QString f_str( tmp_f_str );
-	view->parser()->fixFunctionName(f_str);
+	if (f_str.at(0)=='r')
+	  	view->parser()->fixFunctionName(f_str, XParser::Polar);
+	else
+	  	view->parser()->fixFunctionName(f_str);
 	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y')
 	{
 		KMessageBox::error( m_parent, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));

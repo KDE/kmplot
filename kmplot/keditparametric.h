@@ -56,9 +56,7 @@ class KEditParametric : public QEditParametric
 		/// Returns the well formed function equation
 		QString xFunction();
 		/// Returns the well formed function equation
-		QString yFunction();
-		/// Returns a unique functionname, if the name edit line was left empty.
-		QString newName();		
+		QString yFunction();	
 		/// extract function \a name and \a expression from a given \a equation 
 		void splitEquation( const QString equation, QString &name, QString &expression );
 		/// Pointer to the parser instance.

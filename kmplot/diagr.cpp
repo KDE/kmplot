@@ -24,12 +24,14 @@ void CDiagr::Create(QPoint Ref,			// Bezugspunkt links unten
 		    int lx, int ly,				// Achsenlängen
 		    double xmin, double xmax,   // x-Wertebereich
 		    double ymin, double ymax,	// y-Wertebereich
-		    char mode)					// Modus (Achsen, Pfeile, Rahmen)
+		    char mode,					// Modus (Achsen, Pfeile, Rahmen)
+            char prt)                   // prt=1 => Druckerausgabe
 {	int x, y, h, w;
 	
 	CDiagr::xmin=xmin; CDiagr::xmax=xmax;	// globale Variablen setzen
    	CDiagr::ymin=ymin; CDiagr::ymax=ymax;
    	CDiagr::mode=mode;
+    CDiagr::prt=prt;
    	xmd=xmax+1e-6;
    	ymd=ymax+1e-6;
    	tsx=ceil(xmin/ex)*ex;
@@ -38,13 +40,29 @@ void CDiagr::Create(QPoint Ref,			// Bezugspunkt links unten
 	sky=ly/(ymax-ymin);
 	ox=Ref.x()-skx*xmin+0.5;	// Ursprungskoordinaten berechnen
 	oy=Ref.y()+sky*ymax+0.5;
-   	PlotArea.setRect(x=Ref.x(), y=Ref.y(), w=lx, h=ly);
+    PlotArea.setRect(x=Ref.x(), y=Ref.y(), w=lx, h=ly);
 	if(mode&EXTRAHMEN)
-	{	x-=(int)(RahmenOffset*0.1*skx); y-=(int)(RahmenOffset*0.1*sky);
-		w+=2*(int)(RahmenOffset*0.1*skx); h+=2*(int)(RahmenOffset*0.1*sky);
-		if(mode&BESCHRIFTUNG)
-		{	if(xmin>=0.) {x-=(int)(0.5*skx); w+=(int)(0.5*skx);}
-			if(ymin>=0.) h+=(int)(0.6*sky);
+	{	//x-=(int)(RahmenOffset*0.1*skx); y-=(int)(RahmenOffset*0.1*sky);
+		//w+=2*(int)(RahmenOffset*0.1*skx); h+=2*(int)(RahmenOffset*0.1*sky);
+		if(prt==1)
+        {   x-=40; y-=40;
+            w+=80; h+=80;
+        }
+        else
+        {   x-=10; y-=10;
+            w+=20; h+=20;
+        }
+        if(mode&BESCHRIFTUNG)
+		{	//if(xmin>=0.) {x-=(int)(0.5*skx); w+=(int)(0.5*skx);}
+			//if(ymin>=0.) h+=(int)(0.6*sky);
+            if(prt==1)
+            {   if(xmin>=0.) {x-=40; w+=40;}
+                if(ymin>=0.) h+=40;
+            }
+            else
+            {   if(xmin>=0.) {x-=20; w+=20;}
+                if(ymin>=0.) h+=15;
+            }
 		}
 	}
 	
@@ -216,129 +234,109 @@ void CDiagr::Raster(QPainter* pDC)
 }
 
 void CDiagr::Beschriftung(QPainter* pDC)
-{	char s[20];
-	int h, n, x, y;
+{	int dx, dy, h, n, x, y;
 	double d;
+    QString s;
  	QFont font;
     	
-    h=(pDC->device()->devType()==QInternal::Printer)? 40: 11;
+    if(prt==1) {dx=20; dy=40; h=40;}
+    else {dx=5; dy=10; h=11;}
     font=QFont("helvetica", h);
     pDC->setFont(font);
 	x=Transx(0.);
 	y=Transy(0.);
-    pDC->drawText(x-0.4*skx, y+0.6*sky, "0");
+    pDC->drawText(x-dx, y+dy, 0, 0,
+    Qt::AlignRight | Qt::AlignVCenter | Qt::DontClip, "0");
 
 	for(d=tsx, n=(int)ceil(xmin/ex); d<xmd; d+=ex, ++n)
  	{	if(n==0 || fabs(d-xmd)<=1.5*ex) continue;
   		
+        if(n<0) s="-"; else s="+";
 		if(fabs(ex-M_PI/2.)<1e-3)
-  		{	if(n==-1) sprintf(s, "-p/2");
- 			else if(n==1) sprintf(s, "+p/2");
- 			else if(n%2==0)
-    		{	if(n==-2) sprintf(s, "-p");
-      			else if(n==2) sprintf(s, "+p");
-      			else  sprintf(s, "%+dp", n/2);
+  		{	if(n==-1 || n==1) s+=QChar(960)+QString("/2");
+            else if(n%2==0)
+    		{	if(n==-2 || n==2) s+=QChar(960);
+      			else {s=QString().sprintf("%+d", n/2); s+=QChar(960);}
       		}
         	else continue;
-    		pDC->setFont(QFont("Symbol", h));
-  			pDC->drawText(Transx(d), y+TeilstrichLaenge+0.4*sky, 0, 0,
+    		pDC->drawText(Transx(d), y+dy, 0, 0,
    			Qt::AlignCenter | Qt::DontClip, s);
-   			pDC->setFont(font);
  		}
 
   		else if(fabs(ex-M_PI/3.)<1e-3)
-  		{	if(n==-1) sprintf(s, "-p/3");
- 			else if(n==1) sprintf(s, "+p/3");
+  		{	if(n==-1 || n==1) s+=QChar(960)+QString("/3");
  			else if(n%3==0)
-    		{	if(n==-3) sprintf(s, "-p");
-      			else if(n==3) sprintf(s, "+p");
-      			else  sprintf(s, "%+dp", n/3);
+    		{	if(n==-3 || n==3) s+=QChar(960);
+      			else {s=QString().sprintf("%+d", n/3); s+=QChar(960);}
       		}
         	else continue;
-    		pDC->setFont(QFont("Symbol", h));
-      		pDC->drawText(Transx(d), y+TeilstrichLaenge+0.4*sky, 0, 0,
+    		pDC->drawText(Transx(d), y+dy, 0, 0,
    			Qt::AlignCenter | Qt::DontClip, s);
-   			pDC->setFont(font);
  		}
 
    		else if(fabs(ex-M_PI/4.)<1e-3)
-  		{	if(n==-1) sprintf(s, "-p/4");
- 			else if(n==1) sprintf(s, "+p/4");
+  		{	if(n==-1 || n==1) s+=QChar(960)+QString("/4");
  			else if(n%4==0)
-    		{	if(n==-4) sprintf(s, "-p");
-      			else if(n==4) sprintf(s, "+p");
-      			else  sprintf(s, "%+dp", n/4);
+    		{	if(n==-4 || n==4) s+=QChar(960);
+      			else {s=QString().sprintf("%+d", n/4); s+=QChar(960);}
       		}
         	else continue;
-    		pDC->setFont(QFont("Symbol", h));
-  			pDC->drawText(Transx(d), y+TeilstrichLaenge+0.4*sky, 0, 0,
+    		pDC->drawText(Transx(d), y+dy, 0, 0,
    			Qt::AlignCenter | Qt::DontClip, s);
-   			pDC->setFont(font);
  		}
 
    		else if((n%5==0 || n==1 || n==-1))
-   		{	sprintf(s, "%+0.3g", n*ex);
-     		pDC->setFont(QFont("helvetica", h));
-			pDC->drawText(Transx(d), y+TeilstrichLaenge+0.4*sky, 0, 0,
+   		{	s=QString().sprintf("%+0.3g", n*ex);
+     		pDC->drawText(Transx(d), y+dy, 0, 0,
    			Qt::AlignCenter | Qt::DontClip, s);
    		}
 	}
-	if(xmax>0) pDC->drawText(Transx(xmax)-0.4*skx, y+0.6*sky, "x");
+	if(xmax>0) pDC->drawText(Transx(xmax)-dx, y+dy, 0, 0,
+               Qt::AlignCenter | Qt::DontClip, "x");
 
  	for(d=tsy, n=(int)ceil(ymin/ey); d<ymd; d+=ey, ++n)
  	{	if(n==0 || fabs(d-ymd)<=1.5*ey) continue;
   		
-		if(fabs(ey-M_PI/2.)<1e-3)
-  		{	if(n==-1) sprintf(s, "-p/2");
- 			else if(n==1) sprintf(s, "+p/2");
+		if(n<0) s="-"; else s="+";
+        if(fabs(ey-M_PI/2.)<1e-3)
+  		{	if(n==-1 || n==1) s+=QChar(960)+QString("/2");
  			else if(n%2==0)
-    		{	if(n==-2) sprintf(s, "-p");
-      			else if(n==2) sprintf(s, "+p");
-      			else  sprintf(s, "%+dp", n/2);
+    		{	if(n==-2 || n==2) s+=QChar(960);
+      			else {s=QString().sprintf("%+d", n/2); s+=QChar(960);}
       		}
         	else continue;
-    		pDC->setFont(QFont("Symbol", h));
-  			pDC->drawText(x-TeilstrichLaenge-0.1*skx, Transy(d), 0, 0,
+    		pDC->drawText(x-dx, Transy(d), 0, 0,
    			Qt::AlignVCenter | Qt::AlignRight | Qt::DontClip, s);
-   			pDC->setFont(font);
  		}
 
   		else if(fabs(ey-M_PI/3.)<1e-3)
-  		{	if(n==-1) sprintf(s, "-p/3");
- 			else if(n==1) sprintf(s, "+p/3");
+  		{	if(n==-1 || n==1) s+=QChar(960)+QString("/3");
  			else if(n%3==0)
-    		{	if(n==-3) sprintf(s, "-p");
-      			else if(n==3) sprintf(s, "+p");
-      			else  sprintf(s, "%+dp", n/3);
+    		{	if(n==-3 || n==3) s+=QChar(960);
+      			else {s=QString().sprintf("%+d", n/3); s+=QChar(960);}
       		}
         	else continue;
-    		pDC->setFont(QFont("Symbol", h));
-  			pDC->drawText(x-TeilstrichLaenge-0.1*skx, Transy(d), 0, 0,
+    		pDC->drawText(x-dx, Transy(d), 0, 0,
    			Qt::AlignVCenter | Qt::AlignRight | Qt::DontClip, s);
-   			pDC->setFont(font);
  		}
 
    		else if(fabs(ey-M_PI/4.)<1e-3)
-  		{	if(n==-1) sprintf(s, "-p/4");
- 			else if(n==1) sprintf(s, "+p/4");
+  		{	if(n==-1 || n==1) s+=QChar(960)+QString("/4");
  			else if(n%4==0)
-    		{	if(n==-4) sprintf(s, "-p");
-      			else if(n==4) sprintf(s, "+p");
-      			else  sprintf(s, "%+dp", n/4);
+    		{	if(n==-4 || n==4) s+=QChar(960);
+      			else {s=QString().sprintf("%+d", n/4); s+=QChar(960);}
       		}
         	else continue;
-    		pDC->setFont(QFont("Symbol", h));
-  			pDC->drawText(x-TeilstrichLaenge-0.1*skx, Transy(d), 0, 0,
+    		pDC->drawText(x-dx, Transy(d), 0, 0,
    			Qt::AlignVCenter | Qt::AlignRight | Qt::DontClip, s);
-   			pDC->setFont(font);
  		}
 
    		else if((n%5==0 || n==1 || n==-1))
-   		{	sprintf(s, "%+0.3g", n*ey);
-     		pDC->setFont(QFont("helvetica", h));
-			pDC->drawText(x-TeilstrichLaenge-0.1*skx, Transy(d), 0, 0,
+   		{	s=QString().sprintf("%+0.3g", n*ey);
+     		pDC->drawText(x-dx, Transy(d), 0, 0,
    			Qt::AlignVCenter | Qt::AlignRight | Qt::DontClip, s);
    		}
 	}
-	if(ymax>0) pDC->drawText(x-0.5*skx, Transy(ymax)+0.4*sky, "y");
+	if(ymax>0) pDC->drawText(x-dx, Transy(ymax)+dy, 0, 0,
+               Qt::AlignVCenter | Qt::AlignRight | Qt::DontClip, "y");
 }

@@ -23,7 +23,7 @@ void View::draw(QPaintDevice *dev)
     QPaintDeviceMetrics m(dev);
         
     s=(float)m.width()/(float)m.widthMM()/10.;
-    ref=QPoint(40, 20);
+    ref=QPoint(40, 30);
         
     DC.begin(dev);				// start painting widget
     rc=DC.viewport();
@@ -33,6 +33,7 @@ void View::draw(QPaintDevice *dev)
 		q2=((xmax-xmin)*drskalx/tlgx)/((ymax-ymin)*drskaly/tlgy);
 		if(q1>q2) {ly=h-2*ref.y(); lx=(int)(ly*q2);}
 		else {lx=w-2*ref.x(); ly=(int)(lx/q2);}
+        dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode, 0);
 	}
 	else
 	{	float dpi;
@@ -44,10 +45,10 @@ void View::draw(QPaintDevice *dev)
 		DC.scale(dpi/254., dpi/254.);
 		s*=(254./dpi);
 		tabelle(&DC);
+        dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode, 1);
         //return;
 	}
-	
-	dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
+		
 	dgr.RahmenDicke=(int)(6.*s);
 	dgr.AchsenDicke=(int)(AchsenDicke*s);
 	dgr.GitterDicke=(int)(GitterDicke*s);

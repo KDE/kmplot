@@ -39,7 +39,7 @@ class CDiagr
 	void	Create(QPoint, int, int,
 		       double, double,
 		       double, double,
-		       char);					// Parameter setzen
+		       char, char);				// Parameter setzen
 	void	Skal(double, double, char);	// Skalierung u. Gittertyp festlegen
 	void	Plot(QPainter*);			// Diagramm zeichnen
 	QRect	GetPlotArea() {return PlotArea;}
@@ -71,10 +71,12 @@ class CDiagr
 	
 	char mode,			// Kombination von ACHSEN, PFEILE,
 						// RAHMEN u. BESCHRIFTUNG
-         g_mode;		// 0 -> kein Raster
+         g_mode,		// 0 -> kein Raster
             			// 1 -> Linienraster
             			// 2 -> Kreuzraster
             			// 3 -> Kreisraster
+         prt;           // 1 -> Druckerausgabe
+
 	double  xmin, xmax, // x-Wertebereich
         	ymin, ymax, // y-Wertebereich
         	xmd,  ymd,	// x/y Begrenzung

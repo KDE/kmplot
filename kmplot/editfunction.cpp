@@ -70,6 +70,7 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 		editfunctionpage->listOfSliders->insertItem( QString( "Slider no. %1" ).arg( number ) );
 	}
 	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
+	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_clicked(bool) ) );
 }
 
 void EditFunction::initDialog( int index )
@@ -109,15 +110,11 @@ void EditFunction::clearWidgets()
 
 void EditFunction::setWidgets()
 {
-	m_parameter =  m_parser->fktext[ m_index ].str_parameter;
+	
 	editfunctionpage->equation->setText( m_parser->fktext[ m_index ].extstr );
 	editfunctionpage->hide->setChecked( m_parser->fktext[ m_index ].f_mode == 0 );
-	QStringList listOfParameters;
-	for( int k_index = 0; k_index < m_parser->fktext[ m_index ].k_anz; k_index++ )
-	{
-		listOfParameters += QString::number( m_parser->fktext[ m_index ].k_liste[ k_index ] );
-	}
-	//editfunctionpage->parameters->setText( listOfParameters.join( "," ) );
+	editfunctionpage->lineWidth->setValue( m_parser->fktext[ m_index ].linewidth );
+	editfunctionpage->color->setColor( m_parser->fktext[ m_index ].color );
 	if (  m_parser->fktext[ m_index ].dmin != m_parser->fktext[ m_index ].dmax )
 	{
 		editfunctionpage->customRange->setChecked(true);
@@ -126,11 +123,13 @@ void EditFunction::setWidgets()
 	}
 	else
 		editfunctionpage->customRange->setChecked(false);
-
-	editfunctionpage->lineWidth->setValue( m_parser->fktext[ m_index ].linewidth );
-	editfunctionpage->color->setColor( m_parser->fktext[ m_index ].color );
+	
+	m_parameter =  m_parser->fktext[ m_index ].str_parameter;
 	if( m_parser->fktext[ m_index ].use_slider == -1 )
-		editfunctionpage->useList->setChecked( true );
+		if ( m_parser->fktext[ m_index ].k_anz==0)
+			editfunctionpage->useNoParameter->setChecked( true );
+		else	
+			editfunctionpage->useList->setChecked( true );
 	else
 	{
 		editfunctionpage->useSlider->setChecked( true );
@@ -159,12 +158,8 @@ void EditFunction::setWidgets()
 }
 
 void EditFunction::accept()
-{
-	if( !m_parameter.isEmpty() != 0 )
-	{
-		if( !functionHas2Arguments() && KMessageBox::warningYesNo( this, i18n( "You entered parameter values, but the function has no 2nd argument. The Definition should look like f(x,k)=k*x^2, for instance.\nDo you want to continue anyway?" ), i18n( "Missing 2nd Argument" ) ) != KMessageBox::Yes ) return;
-	}
-	else if( functionHas2Arguments() && KMessageBox::warningYesNo( this, i18n( "Function has 2 arguments, but you did not specify any parameter values.\nDo you want to continue anyway?" ), i18n( "Missing Parameter Values" ) ) != KMessageBox::Yes )
+{	
+	if( !editfunctionpage->useNoParameter->isChecked() && functionHas2Arguments() && KMessageBox::warningYesNo( this, i18n( "Function has 2 arguments, but you did not specify any parameter values.\nDo you want to continue anyway?" ), i18n( "Missing Parameter Values" ) ) != KMessageBox::Yes )
 		return;
 	
 	QString f_str(functionItem() );
@@ -172,8 +167,10 @@ void EditFunction::accept()
 	if( m_index != -1 )  //when editing a function: 
 	{
 		index = m_index; //use the right function-index
-		m_parser->fixFunctionName(f_str,index);
 		QString old_fstr = m_parser->ufkt[index].fstr;
+		m_parser->fixFunctionName(f_str,index);
+		if( !m_parameter.isEmpty() != 0 && !functionHas2Arguments() && !editfunctionpage->useNoParameter->isChecked() )
+			fixFunctionArguments(f_str);
 		m_parser->ufkt[index].fstr = f_str;
 		m_parser->reparse(index); //reparse the funcion
 		if ( m_parser->errmsg() != 0)
@@ -190,6 +187,8 @@ void EditFunction::accept()
 	else
 	{
 		m_parser->fixFunctionName(f_str);
+		if( !m_parameter.isEmpty() != 0 && !functionHas2Arguments() && !editfunctionpage->useNoParameter->isChecked() )
+			fixFunctionArguments(f_str);
 		index = m_parser->addfkt( f_str ); //create a new function otherwise
 	}
 	
@@ -264,10 +263,11 @@ void EditFunction::accept()
 		tmp_fktext.dmax = 0;
 	}
 	
-	if( editfunctionpage->useList->isChecked() )
-		tmp_fktext.use_slider = -1;
-	else
+	if( editfunctionpage->useSlider->isChecked() )
 		tmp_fktext.use_slider = editfunctionpage->listOfSliders->currentItem();
+	else
+		tmp_fktext.use_slider = -1;
+		
 
 	tmp_fktext.linewidth = editfunctionpage->lineWidth->value();
 	tmp_fktext.color = editfunctionpage->color->color().rgb();
@@ -299,16 +299,6 @@ void EditFunction::accept()
 			if( m_index == -1 ) m_parser->delfkt(index);
 			return;
 		}
-		/*if ( tmp_fktext.dmin!=tmp_fktext.dmax && ( initx<tmp_fktext.dmin || initx>tmp_fktext.dmax) )
-		{
-			KMessageBox::error(this,i18n("Please insert an initial x-value in the range between %1 and %2").arg(tmp_fktext.dmin).arg( tmp_fktext.dmax) );
-			showPage(2);
-			editintegralpage->txtInitX->setFocus();
-			editintegralpage->txtInitX->selectAll();
-			if( m_index == -1 ) m_parser->delfkt(index);
-			return;
-		}*/
-		
 		tmp_fktext.integral_mode = 1;
 	}
 	else
@@ -378,12 +368,38 @@ void EditFunction::slotHelp()
 
 bool EditFunction::functionHas2Arguments()
 {
-	int openBracket = editfunctionpage->equation->text().find( "(" );
-	int closeBracket = editfunctionpage->equation->text().find( ")" );
+	int const openBracket = editfunctionpage->equation->text().find( "(" );
+	int const closeBracket = editfunctionpage->equation->text().find( ")" );
 	return editfunctionpage->equation->text().mid( openBracket+1, closeBracket-openBracket-1 ).find( "," ) != -1;
 }
 void EditFunction::cmdParameter_clicked()
 {
+	editfunctionpage->useList->setChecked(true);
 	KParameterEditor *dlg = new KParameterEditor(m_parser,&m_parameter);
 	dlg->show();
+}
+void EditFunction::noParameter_clicked(bool status)
+{
+	if (status)
+	{
+		editfunctionpage->cmdParameter->setEnabled(false);
+		editfunctionpage->listOfSliders->setEnabled(false);
+	}
+}
+void EditFunction::fixFunctionArguments(QString &f_str)
+{
+	int const openBracket = f_str.find( "(" );
+	int const closeBracket = f_str.find( ")" );
+	char parameter_name;
+	if ( closeBracket-openBracket == 2) //the function atribute is only one character
+	{
+		char const function_name = f_str.at(openBracket+1).latin1();
+		parameter_name = 'a';
+		while ( parameter_name == function_name)
+			parameter_name++;
+	}
+	else
+		parameter_name = 'a';
+	f_str.insert(closeBracket,parameter_name);
+	f_str.insert(closeBracket,',');
 }

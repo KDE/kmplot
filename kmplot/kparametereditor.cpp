@@ -81,6 +81,11 @@ void KParameterEditor::cmdNew_clicked()
 		cmdNew_clicked();
 		return;
 	}
+	if ( checkTwoOfIt(result) )
+	{
+		KMessageBox::error(0,i18n("The value %1 already exists and will therefore not be added.").arg(result));
+		return;
+	}
 	list->insertItem(result);
 	list->sort();
 }
@@ -88,15 +93,20 @@ void KParameterEditor::cmdNew_clicked()
 void KParameterEditor::cmdEdit_clicked()
 {
 	bool ok;
-	QString result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), QString::null, &ok );
+	QString result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), list->currentText(), &ok );
 	if ( !ok)
 		return;
 	m_parser->eval(result);
-	if ( m_parser->err != 0 )
+	if ( m_parser->err != 0 && checkTwoOfIt(result))
 	{
 		m_parser->errmsg();
-		//KMessageBox::error( 0, i18n("Please insert a valid parameter value" ) );
 		cmdNew_clicked();
+		return;
+	}
+	if ( checkTwoOfIt(result) )
+	{
+		if( result != list->currentText() )
+			KMessageBox::error(0,i18n("The value %1 already exists.").arg(result));
 		return;
 	}
 	list->removeItem( list->currentItem());
@@ -116,6 +126,7 @@ void KParameterEditor::cmdImport_clicked()
 	if ( filename.isEmpty() )
 		return;
 	
+	bool verbose = false;
 	QFile file(filename);
 	if ( file.open(IO_ReadOnly) )
 	{
@@ -127,17 +138,24 @@ void KParameterEditor::cmdImport_clicked()
 			if (line.isEmpty())
 				continue;
 			m_parser->eval( line );
-			if ( m_parser->err == 0 )
+			if ( m_parser->err == 0)
 			{
-				list->insertItem(line);
-				list->sort();
+				if ( !checkTwoOfIt(line) )
+				{
+					list->insertItem(line);
+					list->sort();
+				}
 			}
-			else
+			else if ( !verbose)
+			{
 				if ( KMessageBox::warningYesNo(this,i18n("Line %1 is not a valid parameter value and will therefore not be included. Do you want to continue?").arg(i) ) == KMessageBox::No)
 				{
 					file.close();
 					return;
 				}
+				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that can't be read?") ) == KMessageBox::No)
+					verbose = true;
+			}
 		}
 		file.close();
 	}
@@ -163,6 +181,14 @@ void KParameterEditor::varlist_clicked( QListBoxItem * item )
 void KParameterEditor::varlist_doubleClicked( QListBoxItem * )
 {
 	cmdEdit_clicked();
+}
+
+bool KParameterEditor::checkTwoOfIt( QString & text)
+{
+	if ( list->findItem(text,Qt::ExactMatch) == 0)
+		return false;
+	else
+		return true;
 }
 
 #include "kparametereditor.moc"

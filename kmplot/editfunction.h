@@ -58,6 +58,8 @@ class EditFunction : public KDialogBase
 		void slotHelp();
 		/// Called when the "Change parameter values" is clicked
 		void cmdParameter_clicked();
+		/// Called when the no_parameter-radiobutton is toggled.
+		void noParameter_clicked(bool);
 	
 	private:
 		/// Clear alls widgets values
@@ -66,6 +68,7 @@ class EditFunction : public KDialogBase
 		void setWidgets();
 		/// Check, if the function has 2 arguments (function group)
 		bool functionHas2Arguments();
+		void fixFunctionArguments(QString &);
 		
 		/// Pointer to the parser instance
 		XParser* m_parser;

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>EditFunctionPage</class>
 <widget class="QWidget">
     <property name="name">
@@ -11,18 +11,18 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>322</width>
+            <width>313</width>
             <height>519</height>
         </rect>
     </property>
     <property name="caption">
         <string>Edit Function Plot</string>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QGroupBox">
+        <widget class="QGroupBox" row="0" column="0">
             <property name="name">
                 <cstring>groupBox1</cstring>
             </property>
@@ -66,7 +66,7 @@ Example: f(x)=x^2</string>
                 </widget>
             </vbox>
         </widget>
-        <widget class="QButtonGroup">
+        <widget class="QButtonGroup" row="1" column="0">
             <property name="name">
                 <cstring>buttonGroup1</cstring>
             </property>
@@ -93,79 +93,98 @@ Example: f(x)=x^2</string>
                 </widget>
             </vbox>
         </widget>
-        <widget class="QButtonGroup">
+        <spacer row="5" column="0">
             <property name="name">
-                <cstring>parameterValues</cstring>
+                <cstring>spacer8</cstring>
             </property>
-            <property name="title">
-                <string>Parameter Values</string>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QFrame" row="4" column="0">
+            <property name="name">
+                <cstring>frame6</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
             </property>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="KPushButton" row="0" column="1">
+                <widget class="QLabel" row="1" column="0">
                     <property name="name">
-                        <cstring>cmdParameter</cstring>
+                        <cstring>textLabel2</cstring>
                     </property>
                     <property name="text">
-                        <string>Edit List...</string>
+                        <string>Co&amp;lor:</string>
                     </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Edit the list of parameters</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to open a list of parameter values. Here you can add, remove, and change them.</string>
+                    <property name="buddy" stdset="0">
+                        <cstring>color</cstring>
                     </property>
                 </widget>
-                <widget class="QComboBox" row="1" column="1">
+                <widget class="KColorButton" row="1" column="1">
                     <property name="name">
-                        <cstring>listOfSliders</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Select a slider</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Select one of the sliders to change the parameter value dynamically. The values vary from 0 (left) to 100 (right).</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>useList</cstring>
+                        <cstring>color</cstring>
                     </property>
                     <property name="text">
-                        <string>Values from a list</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
+                        <string></string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>read parameter values from a list</string>
+                        <string>color of the plot line</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Check this to let KmPlot use parameter values given in a list. Edit this list by clicking the button on the right.</string>
+                        <string>Click this button to choose a color for the plot line.</string>
                     </property>
                 </widget>
-                <widget class="QRadioButton" row="1" column="0">
+                <widget class="QLabel" row="0" column="0">
                     <property name="name">
-                        <cstring>useSlider</cstring>
+                        <cstring>textLabel1_3</cstring>
                     </property>
                     <property name="text">
-                        <string>Use</string>
+                        <string>Line &amp;width:</string>
+                    </property>
+                    <property name="buddy" stdset="0">
+                        <cstring>lineWidth</cstring>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="0" column="1">
+                    <property name="name">
+                        <cstring>lineWidth</cstring>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>change parameter value by moving a slider</string>
+                        <string>width of the plot line</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Check this to change the parameter value by moving a slider. Select the slider from the list box on the right. The values vary from 0 (left) to 100 (right).</string>
+                        <string>Change the width of the plot line in steps of 0.1mm.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="0" column="2">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>0.1mm</string>
                     </property>
                 </widget>
             </grid>
         </widget>
-        <widget class="QFrame">
+        <widget class="QFrame" row="3" column="0">
             <property name="name">
                 <cstring>frame5</cstring>
             </property>
@@ -245,99 +264,99 @@ Example: f(x)=x^2</string>
                 </widget>
             </grid>
         </widget>
-        <widget class="QFrame">
+        <widget class="QButtonGroup" row="2" column="0">
             <property name="name">
-                <cstring>frame6</cstring>
+                <cstring>parameterValues</cstring>
             </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
+            <property name="title">
+                <string>Parameter Values</string>
             </property>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel" row="1" column="0">
+                <widget class="QRadioButton" row="3" column="0">
                     <property name="name">
-                        <cstring>textLabel2</cstring>
+                        <cstring>useSlider</cstring>
                     </property>
                     <property name="text">
-                        <string>Co&amp;lor:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>color</cstring>
-                    </property>
-                </widget>
-                <widget class="KColorButton" row="1" column="1">
-                    <property name="name">
-                        <cstring>color</cstring>
-                    </property>
-                    <property name="text">
-                        <string></string>
+                        <string>Use</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>color of the plot line</string>
+                        <string>change parameter value by moving a slider</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click this button to choose a color for the plot line.</string>
+                        <string>Check this to change the parameter value by moving a slider. Select the slider from the list box on the right. The values vary from 0 (left) to 100 (right).</string>
                     </property>
                 </widget>
-                <widget class="QLabel" row="0" column="0">
+                <widget class="QComboBox" row="3" column="1" rowspan="1" colspan="2">
                     <property name="name">
-                        <cstring>textLabel1_3</cstring>
+                        <cstring>listOfSliders</cstring>
                     </property>
-                    <property name="text">
-                        <string>Line &amp;width:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>lineWidth</cstring>
-                    </property>
-                </widget>
-                <widget class="KIntNumInput" row="0" column="1">
-                    <property name="name">
-                        <cstring>lineWidth</cstring>
-                    </property>
-                    <property name="minValue">
-                        <number>1</number>
+                    <property name="enabled">
+                        <bool>false</bool>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>width of the plot line</string>
+                        <string>Select a slider</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Change the width of the plot line in steps of 0.1mm.</string>
+                        <string>Select one of the sliders to change the parameter value dynamically. The values vary from 0 (left) to 100 (right).</string>
                     </property>
                 </widget>
-                <widget class="QLabel" row="0" column="2">
+                <widget class="QRadioButton" row="2" column="0">
                     <property name="name">
-                        <cstring>TextLabel2</cstring>
+                        <cstring>useList</cstring>
                     </property>
                     <property name="text">
-                        <string>0.1mm</string>
+                        <string>Values from a list</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>read parameter values from a list</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Check this to let KmPlot use parameter values given in a list. Edit this list by clicking the button on the right.</string>
+                    </property>
+                </widget>
+                <widget class="KPushButton" row="2" column="1" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>cmdParameter</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="text">
+                        <string>Edit List...</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Edit the list of parameters</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to open a list of parameter values. Here you can add, remove, and change them.</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="0" rowspan="2" colspan="3">
+                    <property name="name">
+                        <cstring>useNoParameter</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Disable parameter values</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>don't use any parameter values</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>By having this option selected parameter values are disabled in the function.</string>
                     </property>
                 </widget>
             </grid>
         </widget>
-        <spacer>
-            <property name="name">
-                <cstring>spacer8</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>16</height>
-                </size>
-            </property>
-        </spacer>
-    </vbox>
+    </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>customRange</sender>
@@ -394,12 +413,6 @@ Example: f(x)=x^2</string>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>klineedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kcolorbutton.h</includehint>
-    <includehint>knuminput.h</includehint>
     <includehint>knuminput.h</includehint>
 </includehints>
 </UI>

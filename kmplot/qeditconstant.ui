@@ -106,7 +106,7 @@
                 <string>Enter the constant's value here.</string>
             </property>
             <property name="whatsThis" stdset="0">
-                <string>The value of a constant can an expression, for instance PI/2 or sqrt(2).</string>
+                <string>The value of a constant can be an expression, for instance PI/2 or sqrt(2).</string>
             </property>
         </widget>
     </grid>

@@ -7,7 +7,7 @@ Icon=kmplot
 DocPath=kmplot/index.html
 Comment=Function Plotter
 Terminal=false
-<<<<<<< kmplot.desktop
+Name=KmPlot
 GenericName[af]=Funksieplotter
 GenericName[ar]=راسم الدّالّة
 GenericName[bg]=Чертане на функции

@@ -62,8 +62,7 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
                     int lx, int ly, 			// Achsenlängen
                     double xmin, double xmax,   // x-Wertebereich
                     double ymin, double ymax, 	// y-Wertebereich
-                    char mode, 					// Modus (Achsen, Pfeile, Rahmen)
-                    char prt )                  // prt=1 => Druckerausgabe
+                    char mode) 					// Modus (Achsen, Pfeile, Rahmen)
 {	int x, y, h, w;
 
 	CDiagr::xmin=xmin;                  // globale Variablen setzen
@@ -71,7 +70,6 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 	CDiagr::ymin=ymin;
 	CDiagr::ymax=ymax;
 	CDiagr::mode=mode;
-	CDiagr::prt=prt;
 	xmd=xmax+1e-6;
 	ymd=ymax+1e-6;
 	tsx=ceil(xmin/ex)*ex;

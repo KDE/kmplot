@@ -37,7 +37,7 @@ void View::draw(QPaintDevice *dev, int form)
 		}	
 		wm=DC.worldMatrix();
 		s=DC.xForm(QPoint(1000, 0)).x()/1000.;
-		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode, 0);
+		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
 	}
 	else if(form==1)								// printer
 	{   sf=72./254.;								// 72dpi
@@ -47,13 +47,13 @@ void View::draw(QPaintDevice *dev, int form)
 		DC.scale(sf, sf);
 		s=1.;
 		tabelle(&DC);
-		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode, 1);
+		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
 	}
 	else if(form==2)								// svg
 	{	ref=QPoint(0, 0);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
-		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode, 1);
+		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
 		DC.translate(-dgr.GetRahmen().left(), -dgr.GetRahmen().top());
 		s=1.;
 	}
@@ -62,7 +62,7 @@ void View::draw(QPaintDevice *dev, int form)
 		ref=QPoint(0, 0);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
-		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode, 1);
+		dgr.Create(ref, lx, ly, xmin, xmax, ymin, ymax, mode);
 		DC.end();
 		((QPixmap *)dev)->resize((int)(dgr.GetRahmen().width()*sf), (int)(dgr.GetRahmen().height()*sf));
 		((QPixmap *)dev)->fill();

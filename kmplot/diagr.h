@@ -67,8 +67,7 @@ public:
 	               int lx, int ly,
 	               double xmin, double xmax,
 	               double ymin, double ymax,
-	               char mode,
-	               char prt );
+	               char mode);
 
 	void Skal(double ex, double ey, char g_mode);	
 	void Plot(QPainter* pDC);
@@ -100,8 +99,7 @@ private:
 	void Raster(QPainter*);
 	void Beschriftung(QPainter*);
 	char mode,
-	     g_mode,
-	     prt;
+	     g_mode;
 
 	double xmin, xmax,      // x-Wertebereich
 	ymin, ymax,             // y-Wertebereich

@@ -1,7 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter M�ler
+* Copyright (C) 1998, 1999  Klaus-Dieter Möler
 *               2000, 2002 kd.moeller@t-online.de
 *
 * This file is part of the KDE Project.
@@ -44,6 +44,7 @@
 #include "keditpolar.h"
 #include "kprinterdlg.h"
 #include "kconstanteditor.h"
+#include "kmplotio.h"
 #include "MainDlg.h"
 #include "MainDlg.moc"
 #include "settings.h"
@@ -52,8 +53,8 @@
 #include "settingspagefonts.h"
 #include "settingspageprecision.h"
 #include "settingspagescaling.h"
+#include "sliderwindow.h"
 #include "xparser.h"
-#include "kmplotio.h"
 
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
@@ -76,6 +77,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 		m_filename.remove(0,5); //removing "file:" from the filename. Otherwise QFile won't load the file.
 		KmPlotIO::load( view->parser(), m_filename );
 		setCaption( m_filename );
+		view->updateSliders();
 		view->drawPlot();
 	}
 	m_config = kapp->config();
@@ -165,10 +167,10 @@ void MainDlg::setupActions()
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 		"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
 	
-	for( int number = 0; number < SLIDER_COUNT; number++ )
+/*	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
-		KWidgetAction* sliderAction = new KWidgetAction( view->sliders[ number ], i18n( "Slider no. %1" ).arg( number ), 0, this, 0, actionCollection(), QString( "slider%1" ).arg( number ).latin1() );
-	}
+		( void ) = new KWidgetAction( i18n( "Show Slider %1" ).arg( number ), 0, view, SLOT( view->sliders[ number ]->slider, i18n( "Slider no. %1" ).arg( number ), 0, this, 0, actionCollection(), QString( "slider%1" ).arg( number ).latin1() );
+	}*/
 	
 	m_popupmenu->insertSeparator();
 	mnuYValue->plug(m_popupmenu);
@@ -224,6 +226,7 @@ void MainDlg::slotOpenNew()
 	view->init(); // set globals to default
 	m_filename = ""; // empty filename == new file
 	setCaption( m_filename );
+	view->updateSliders();
 	view->drawPlot();
 	m_modified = false;
 	m_recentFiles->setCurrentItem( -1 );
@@ -305,6 +308,7 @@ void MainDlg::slotOpen()
 	m_recentFiles->addURL( KURL( m_filename ) );
 	setCaption( m_filename );
 	m_modified = false;
+	view->updateSliders();
 	view->drawPlot();
 }
 
@@ -313,6 +317,7 @@ void MainDlg::slotOpenRecent( const KURL &url )
 	if( !checkModified() ) return;
 	view->init();
 	KmPlotIO::load( view->parser(), url.path() );
+	view->updateSliders();
 	view->drawPlot();
 	m_filename = url.path();
 	setCaption( m_filename );
@@ -395,6 +400,7 @@ void MainDlg::newFunction()
 	if ( editFunction->exec() == QDialog::Accepted )
 	{
 		m_modified = true;
+		view->updateSliders();
 		view->drawPlot();
 	}
 }
@@ -440,7 +446,11 @@ void MainDlg::slotEditPlots()
 			view->drawPlot();
 		}
 	}
-	else if ( fdlg->isChanged() ) m_modified = true;
+	else if ( fdlg->isChanged() ) 
+	{
+		view->updateSliders();
+		m_modified = true;
+	}
 	QFile::remove( tmpName );
 }
 

@@ -96,7 +96,7 @@ public:
 		f1_color, f2_color, anti_color;
 		QStringList str_parameter; ///< List with parameter strings to be parsed with XParser::eval
 		int use_slider; ///< -1: none (use list), else: slieder number
-		double slider_min, slider_max; ///< extreme values of the slider
+		// TODO double slider_min, slider_max; ///< extreme values of the slider
 	}
 	*fktext;
 };

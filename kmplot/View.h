@@ -46,7 +46,7 @@
 
 class XParser;
 class KMinMax;
-class QSlider;
+class SliderWindow;
 
 class KmPlotProgress: public QWidget
 {
@@ -116,7 +116,8 @@ public:
 	QString areaParameter;
 
 	/// Slider controlling parameter values
-	QSlider* sliders[ SLIDER_COUNT ];
+	SliderWindow* sliders[ SLIDER_COUNT ];
+	void updateSliders(); //< show only needed sliders
 
 public slots:
 	/// Called when the user want to cancel the drawing

@@ -42,6 +42,7 @@
 #include "editfunction.h"
 #include "kminmax.h"
 #include "settings.h"
+#include "sliderwindow.h"
 #include "View.h"
 #include "View.moc"
 
@@ -93,12 +94,13 @@ View::View(KPopupMenu *m, QWidget* parent, const char* name ) : QWidget( parent,
 	areaDraw = false;
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
-		sliders[ number ] = new QSlider( 0, 100, 5, 50, Qt::Horizontal, 0, QString( "slider%1" ).arg( number ).latin1() );
-		connect( sliders[ number ], SIGNAL( valueChanged( int ) ), this, SLOT( drawPlot() ) );
-		QWhatsThis::add( sliders[ number ], i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
-		QToolTip::add( sliders[ number ], i18n( "Slider no. %1" ).arg( number ) );
-		sliders[ number ]->setFixedWidth( 100 ); // all slider same width
+		sliders[ number ] = new SliderWindow( this, QString( "slider%1" ).arg( number ).latin1(), false, Qt::WStyle_Tool-Qt::WStyle_Maximize );
+		sliders[ number ]->setCaption( i18n( "Slider %1" ).arg( number ) );
+		connect( sliders[ number ]->slider, SIGNAL( valueChanged( int ) ), this, SLOT( drawPlot() ) );
+		QWhatsThis::add( sliders[ number ]->slider, i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
+		QToolTip::add( sliders[ number ]->slider, i18n( "Slider no. %1" ).arg( number ) );
 	}
+	updateSliders();
 	m_popupmenu = m;
 	m_popupmenushown = 0;
 	m_popupmenu->insertTitle( "",10);
@@ -276,7 +278,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 			if( m_parser->fktext[ ix ].use_slider == -1 )
 				m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 			else
-				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->value() );
+				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
 			mflg=2;
 			bool forward_direction = true;
 			if ( p_mode == 3)
@@ -586,7 +588,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		if( m_parser->fktext[ csmode ].use_slider == -1 )
 			m_parser->setparameter(csmode, m_parser->fktext[csmode].k_liste[csparam]);
 		else
-			m_parser->setparameter(csmode, sliders[ m_parser->fktext[csmode].use_slider ]->value() );
+			m_parser->setparameter(csmode, sliders[ m_parser->fktext[csmode].use_slider ]->slider->value() );
 		
 		if ( cstype == 0)
 			ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
@@ -676,7 +678,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				if( m_parser->fktext[ ix ].use_slider == -1 )
 					m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 				else
-					m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->value() );
+					m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
 				if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
 				{
 					if ( csmode == -1)
@@ -755,7 +757,7 @@ void View::mousePressEvent(QMouseEvent *e)
 			if( m_parser->fktext[ ix ].use_slider == -1 )
 				m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 			else
-				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->value() );
+				m_parser->setparameter(ix, sliders[ m_parser->fktext[ix].use_slider ]->slider->value() );
 			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
 			{
 				csmode=ix;
@@ -1402,6 +1404,14 @@ bool View::isCalculationStopped()
 	else
 		return false;
 }
+
+void View::updateSliders()
+{
+	for( int number = 0; number < SLIDER_COUNT; number++ ) sliders[ number ]->hide();
+	for( int index = 0; index < m_parser->ufanz; index++ )
+		if( m_parser->fktext[ index ].use_slider > -1 ) sliders[ m_parser->fktext[ index ].use_slider ]->show();
+}
+
 void View::mnuHide_clicked()
 {
 	switch (cstype )

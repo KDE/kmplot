@@ -33,9 +33,9 @@ void MainDlg::setupActions()
     viewStatusBar = KStdAction::showStatusbar(this, SLOT(stbmode()), actionCollection());
 
     (void) new KAction(i18n("Functions" ), "kfkt.png", 0, this, SLOT(funktionen()), actionCollection(), "functions");
-    (void) new KAction(i18n("Coordinate system I" ), "ksys1.png", 0, this, SLOT(onachsen1()), actionCollection(), "coord_i");
-    (void) new KAction(i18n("Coordinate system II" ), "ksys2.png", 0, this, SLOT(onachsen2()), actionCollection(), "coord_ii");
-    (void) new KAction(i18n("Coordinate system III" ), "ksys3.png", 0, this, SLOT(onachsen3()), actionCollection(), "coord_iii");
+    (void) new KAction(i18n("Coordinate System I" ), "ksys1.png", 0, this, SLOT(onachsen1()), actionCollection(), "coord_i");
+    (void) new KAction(i18n("Coordinate System II" ), "ksys2.png", 0, this, SLOT(onachsen2()), actionCollection(), "coord_ii");
+    (void) new KAction(i18n("Coordinate System III" ), "ksys3.png", 0, this, SLOT(onachsen3()), actionCollection(), "coord_iii");
 
     createGUI(locate("data", "kmplot/kmplotui.rc"));
 }

@@ -361,7 +361,7 @@ void EditFunction::accept()
 		tmp_fktext.f1_color = m_parser->fktext[index].color0; //default color
 	}
 	
-	if ( f_str.contains('y') != 0 && tmp_fktext.f_mode || tmp_fktext.f1_mode || tmp_fktext.f2_mode)
+	if ( f_str.contains('y') != 0 && ( tmp_fktext.f_mode || tmp_fktext.f1_mode || tmp_fktext.f2_mode) )
 	{
 		KMessageBox::error( this, i18n( "Recursive function is only allowed when drawing anti-derivatives graphs") );
 		if( m_index == -1 ) m_parser->delfkt(index);

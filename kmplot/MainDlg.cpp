@@ -72,9 +72,10 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	m_sessionId = sessionId;
 	if (args -> count() > 0) 
 	{
-		m_filename = args -> url( 0 ).url();
-		view->init();
+		m_filename = args -> url( 0 ).url(-1);
+		m_filename.remove(0,5); //removing "file:" from the filename. Otherwise QFile won't load the file.
 		KmPlotIO::load( view->parser(), m_filename );
+		setCaption( m_filename );
 		view->drawPlot();
 	}
 	m_config = kapp->config();

@@ -88,7 +88,6 @@ View::View(KPopupMenu *m, QWidget* parent, const char* name ) : QWidget( parent,
 	backgroundcolor = Settings::backgroundcolor();
 	setBackgroundColor(backgroundcolor);
 	setMouseTracking(TRUE);
-	stepWidth=0;
 	areaDraw = false;
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
@@ -195,8 +194,7 @@ void View::draw(QPaintDevice *dev, int form)
 	area=DC.xForm(PlotArea);
 	hline.resize(area.width(), 1);
 	vline.resize(1, area.height());
-	if ( stepWidth == 0)
-		stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
+	stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
 	
 	isDrawing=true;
 	stop_calculating = false;
@@ -291,9 +289,11 @@ void View::plotfkt(int ix, QPainter *pDC)
 			}
 			else
 				x=dmin;
+			kdDebug() << "dx: " << dx << endl;
 			if ( p_mode != 0 || m_parser->fktext[ix].f_mode) // if not the function is hidden
 			while (x>=dmin && x<=dmax)
 			{
+				
 				if ( p_mode == 3 && stop_calculating)
 				{
 					x=dmax+1;
@@ -538,8 +538,6 @@ void View::paintEvent(QPaintEvent *)
 
 void View::resizeEvent(QResizeEvent *)
 {
-	if ( stepWidth != 0)
-		stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
 	buffer.resize(size() );
 	drawPlot();
 }

@@ -27,6 +27,10 @@
 #include <qdom.h>
 #include <qfile.h>
 
+// KDE includes
+#include <klocale.h>
+#include <kmessagebox.h>
+
 // local includes
 #include "kmplotio.h"
 #include "settings.h"
@@ -47,6 +51,7 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 	QDomDocument doc( "kmpdoc" );
 	// the root tag
 	QDomElement root = doc.createElement( "kmpdoc" );
+	root.setAttribute( "version", "1" );
 	doc.appendChild( root );
 
 	// the axes tag
@@ -171,18 +176,37 @@ void KmPlotIO::load( XParser *parser, const QString filename )
 	f.close();
 
 	QDomElement element = doc.documentElement();
-	for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
+	QString version = element.attribute( "version" );
+	if ( version == QString::null) //an old kmplot-file
 	{
-			
-		if ( n.nodeName() == "axes" )
-			parseAxes( n.toElement() );
-		if ( n.nodeName() == "grid" )
-			parseGrid( n.toElement() );
-		if ( n.nodeName() == "scale" )
-			parseScale( n.toElement() );
-		if ( n.nodeName() == "function" )
-			parseFunction( parser, n.toElement() );
+		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
+		{
+			if ( n.nodeName() == "axes" )
+				parseAxes( n.toElement() );
+			if ( n.nodeName() == "grid" )
+				parseGrid( n.toElement() );
+			if ( n.nodeName() == "scale" )
+				parseScale( n.toElement() );
+			if ( n.nodeName() == "function" )
+				oldParseFunction( parser, n.toElement() );
+		}
 	}
+	else if (version == "1")
+	{
+		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
+		{
+			if ( n.nodeName() == "axes" )
+				parseAxes( n.toElement() );
+			if ( n.nodeName() == "grid" )
+				parseGrid( n.toElement() );
+			if ( n.nodeName() == "scale" )
+				parseScale( n.toElement() );
+			if ( n.nodeName() == "function" )
+				parseFunction( parser, n.toElement() );
+		}
+	}
+	else
+		KMessageBox::error(0,i18n("The file had an unknown version number"));
 }
 
 void KmPlotIO::parseAxes( const QDomElement &n )
@@ -290,4 +314,29 @@ void KmPlotIO::parseParameters( XParser *parser, const QDomElement &n, int ix )
 		parser->fktext[ ix ].k_anz++;
 	}
 	
+}
+void KmPlotIO::oldParseFunction(  XParser *parser, const QDomElement & n )
+{
+	kdDebug() << "parsing function" << endl;
+
+	int ix = n.attribute( "number" ).toInt();
+	parser->fktext[ ix ].f_mode = n.attribute( "visible" ).toInt();
+	parser->fktext[ ix ].f1_mode = n.attribute( "visible-deriv" ).toInt();
+	parser->fktext[ ix ].f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
+	parser->fktext[ ix ].linewidth = n.attribute( "width" ).toInt();
+	parser->fktext[ ix ].color = QColor( n.attribute( "color" ) ).rgb();
+
+	parser->fktext[ ix ].extstr = n.namedItem( "equation" ).toElement().text();
+	QCString fstr = parser->fktext[ ix ].extstr.utf8();
+	if ( !fstr.isEmpty() )
+	{
+		int i = fstr.find( ';' );
+		QCString str;
+		if ( i == -1 )
+			str = fstr;
+		else
+			str = fstr.left( i );
+		ix = parser->addfkt( str );
+		parser->getext( ix );
+	}
 }

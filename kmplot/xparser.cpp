@@ -655,7 +655,7 @@ int XParser::addFunction(const QString &f_str)
 	return id;
 }
 
-bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, bool use_slider)
+bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider)
 {
 	QString fstr(fstr_const);
 	switch ( fstr.at(0).latin1() )
@@ -688,10 +688,23 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 	added_function->f1_linewidth = f1_linewidth;
 	added_function->f2_linewidth = f2_linewidth;
 	added_function->integral_linewidth = integral_linewidth;
-	added_function->str_dmin = str_dmin;
-	added_function->str_dmax = str_dmax;
-	added_function->dmin = eval(str_dmin);
-	added_function->dmax = eval(str_dmax);
+	
+  if ( str_dmin.isEmpty() )
+    added_function->usecustomxmin = false;
+  else //custom minimum range
+  {
+    added_function->usecustomxmin = true;
+    added_function->str_dmin = str_dmin;
+    added_function->dmin = eval(str_dmin);
+  }
+  if ( str_dmax.isEmpty() )
+    added_function->usecustomxmax = false;
+  else //custom maximum range
+  {
+    added_function->usecustomxmax = true;
+    added_function->str_dmax = str_dmax;
+    added_function->dmax = eval(str_dmax);
+  }
 	added_function->str_startx = str_startx;
 	added_function->str_starty = str_starty;
 	if ( !str_starty.isEmpty() )
@@ -749,7 +762,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	}
 	
 	Ufkt *item = &ufkt[ixValue(id)];
-	kdDebug() << "Sänder " << item->fname.latin1() << endl;
+	kdDebug() << "Transferring " << item->fname.latin1() << endl;
 	QString str_result;
 	if ( dcopclient_target.isEmpty() && item->fname.at(0) == 'y' )
 	  	return false;
@@ -765,14 +778,21 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	
 	QByteArray parameters;
 	QDataStream arg( parameters, IO_WriteOnly);
-
+ 
+  QString str_dmin;
+  if (!item->usecustomxmin)
+    str_dmin = item->str_dmin;
+  QString str_dmax;
+  if (!item->usecustomxmax)
+    str_dmax = item->str_dmax;
+  
 	QStringList str_parameters;
 	for ( QValueList<ParameterValueItem>::Iterator it = item->parameters.begin(); it != item->parameters.end(); ++it )
 	  	str_parameters.append( (*it).expression);
-	arg << item->fstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << item->str_dmin << item->str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
+	arg << item->fstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << str_dmin << str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
 	QByteArray replay_data;
 	QCString replay_type;
-	bool ok = kapp->dcopClient()->call( str_result.utf8(), "Parser", "addFunction(QString,bool,bool,bool,bool,bool,int,int,int,int,QString,QString,QString,QString,double,QRgb,QRgb,QRgb,QRgb,QStringList,bool)", parameters, replay_type, replay_data, false);
+	bool ok = kapp->dcopClient()->call( str_result.utf8(), "Parser", "addFunction(QString,bool,bool,bool,bool,bool,int,int,int,int,QString,QString,QString,QString,double,QRgb,QRgb,QRgb,QRgb,QStringList,int)", parameters, replay_type, replay_data, false);
 	if (!ok)
 	{
 		KMessageBox::error(0, i18n("An error appeared during the transfer"));

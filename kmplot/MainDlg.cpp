@@ -479,12 +479,12 @@ void MainDlg::print()
 {
     KPrinter prt( QPrinter::PrinterResolution );
 
-    prt.addDialogPage( new KPrinterDlg );
+    prt.addDialogPage( new KPrinterDlg( this, "KmPlot page" ) );
 
     if ( prt.setup( this ) )
     {
         prt.setFullPage( true );
-        printtable = prt.option( "app-kmplot-printtable" ) == "1";
+        printtable = prt.option( "app-kmplot-printtable" ) != "-1";
         view->draw( &prt );
     }
 }

@@ -119,4 +119,5 @@ void init()
 
     for ( ix = 0; ix < ps.ufanz; ++ix )
         ps.delfkt( ix );
+	printtable = true;
 }

@@ -25,13 +25,13 @@ KPrinterDlg::KPrinterDlg( QWidget *parent, const char *name )
 
 void KPrinterDlg::getOptions( QMap<QString,QString>& opts, bool include_def )
 {
-    if ( m_printtable->isChecked() || include_def )
+    if ( include_def || !m_printtable->isChecked() )
         opts[ "app-kmplot-printtable" ] = ( m_printtable->isChecked() ? "1" : "-1" );
 }
 
 void KPrinterDlg::setOptions( const QMap<QString,QString>& opts )
 {
-    m_printtable->setChecked( opts[ "app-kmplot-printtable" ] == "1" );
+    m_printtable->setChecked( opts[ "app-kmplot-printtable" ] != "-1" );
 }
 
 bool KPrinterDlg::isValid( QString& msg )

@@ -70,7 +70,7 @@ void KEditPolar::setWidgets()
 	function = function.right( function.length()-1 );
 	kLineEditYFunction->setText( function );
 	checkBoxHide->setChecked( m_parser->fktext[ m_index ].f_mode == 0 );
-	checkBoxRange->setChecked( m_parser->fktext[ m_index ].dmin == m_parser->fktext[ m_index ].dmax == 0 );
+	checkBoxRange->setChecked( m_parser->fktext[ m_index ].dmin == m_parser->fktext[ m_index ].dmax == 0.0 );
 	min->setText( m_parser->fktext[ m_index ].str_dmin );
 	max->setText( m_parser->fktext[ m_index ].str_dmax );
 	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_index ].dicke );

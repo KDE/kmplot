@@ -37,6 +37,7 @@
       <environments>
         <default/>
       </environments>
+      <makeoptions/>
     </make>
   </kdevcustomproject>
   <kdevdebugger>
@@ -54,6 +55,7 @@
     <display>
       <staticmembers>false</staticmembers>
       <demanglenames>true</demanglenames>
+      <outputradix>10</outputradix>
     </display>
   </kdevdebugger>
   <kdevdoctreeview>
@@ -118,7 +120,10 @@
     </useglobaltypes>
   </kdevfilecreate>
   <kdevcppsupport>
-    <references/>
+    <references>
+      <pcs>Qt</pcs>
+      <pcs>KDElibs</pcs>
+    </references>
     <codecompletion>
       <includeGlobalFunctions>true</includeGlobalFunctions>
       <includeTypes>true</includeTypes>

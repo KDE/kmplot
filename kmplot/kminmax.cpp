@@ -69,6 +69,8 @@ void KMinMax::init(char m)
 		min->setText( range);
 		range.setNum(View::xmax);
 		max->setText(range);
+		lblMin->setText(i18n("Search between the x-value:"));
+		lblMax->setText(i18n("and:"));
 		cmdFind->setText("&Find");
 		if ( m_mode == 1) //find maximum point
 			setCaption(i18n("Find Maximum Point"));

@@ -235,15 +235,13 @@ void View::plotfkt(int ix, QPainter *pDC)
 {	
 	char fktmode, p_mode;
 	int iy, k, ke, mflg;
-	double dx, x, y, dmin, dmax;
+	double x, y, dmin, dmax;
 	QString fname, fstr;
 	QPoint p1, p2;
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
 
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
-	
-	dx=stepWidth;
 
 	fktmode=m_parser->fktext[ix].extstr[0].latin1();
 	if(fktmode!='y')
@@ -251,9 +249,10 @@ void View::plotfkt(int ix, QPainter *pDC)
 		dmin=m_parser->fktext[ix].dmin;
 		dmax=m_parser->fktext[ix].dmax;
 	}
-
+	double dx;
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
+		dx = stepWidth;
 		if(fktmode=='r')
 		{   
 			dmin=0.;
@@ -265,6 +264,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 			dmax=xmax;
 		}
 	}
+	else
+		dx = Settings::relativeStepWidth()*(dmax-dmin)/area.width();
 	
 	if(fktmode=='r') 
 		dx=Settings::relativeStepWidth()*0.05/(dmax-dmin);
@@ -1172,7 +1173,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 	bool start = true;
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
 
-	double dx = stepWidth;
+	double dx = Settings::relativeStepWidth()*(dmax-dmin)/area.width();
 
 	// TODO: parameter sliders
 	int i=0;
@@ -1218,7 +1219,6 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 			continue;
 		}
 		errno=0;
-
 		switch(p_mode)
 		{
 			case 0: 
@@ -1250,38 +1250,41 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 		}
 		if(errno!=0) continue;
 		
-		if (dmin<=x && x<=dmax)
-			if ( y>=ymin &&y<=ymax)
-			{
-				if ( start)
-				{
-					result_x = x;
-					result_y = y;
-					start=false;
-				}
-				else if ( minimum &&y <=result_y) 
-				{
-					result_x = x;
-					result_y = y;
-				}
-				else if ( !minimum && y >=result_y)
-				{
-					result_x = x;
-					result_y = y;
-				}
-			}
-	
-		if (forward_direction)
+		if (x>=dmin && x<=dmax)
 		{
-			x=x+dx;
-			if (x>dmax && p_mode== 3)
+			if ( start)
 			{
-				forward_direction = false;
-				x = m_parser->fktext[ix].startx;
+				result_x = x;
+				result_y = y;
+				start=false;
+			}
+			else if ( minimum &&y <=result_y) 
+			{
+				result_x = x;
+				result_y = y;
+			}
+			else if ( !minimum && y >=result_y)
+			{
+				result_x = x;
+				result_y = y;
 			}
 		}
+		if (p_mode==3)
+		{
+			if ( forward_direction)
+			{
+				x=x+dx;
+				if (x>dmax && p_mode== 3)
+				{
+					forward_direction = false;
+					x = m_parser->fktext[ix].startx;
+				}
+			}
+			else
+				x=x-dx; // go backwards	
+		}
 		else
-			x=x-dx; // go backwards
+			x=x+dx;
 	}
 	if (  progressbar->isVisible())
 		progressbar->hide(); // hide the progressbar-widget if it was shown
@@ -1323,7 +1326,6 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 		
 			double dmin = m_parser->fktext[ix].dmin;
 			double dmax = m_parser->fktext[ix].dmax;
-			double dx = stepWidth;
 			const double target = x; //this is the x-value the user had chosen
 			bool forward_direction;
 			if ( target>=0)
@@ -1336,7 +1338,7 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 				dmin=xmin;
 				dmax=xmax;
 			}
-			
+			double dx = Settings::relativeStepWidth()*(dmax-dmin)/area.width();
 			stop_calculating = false;
 			isDrawing=true;
 			setCursor(Qt::WaitCursor );
@@ -1567,15 +1569,14 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QStr
 
 	if(ix==-1 || ix>=m_parser->ufanz) return ;    // ungltiger Index
 
-	int const origoy = dgr.Transy(0.0);
-	double dx=stepWidth;
-	rectwidth = dgr.Transx(dx)- dgr.Transx(0.0); 
-
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{   
 		dmin=xmin;
 		dmax=xmax;
 	}
+	double dx = Settings::relativeStepWidth()*(dmax-dmin)/area.width();
+	int const origoy = dgr.Transy(0.0);
+	rectwidth = dgr.Transx(dx)- dgr.Transx(0.0); 
 	
 	int i=0;
 	// TODO: parameter sliders

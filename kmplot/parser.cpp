@@ -971,7 +971,7 @@ int Parser::parserError(bool showMessageBox)
                         break;
                 case 13:  KMessageBox::error(0, i18n("Function could not be found"), "KmPlot");
                         break;
-		case 14:  KMessageBox::error(0, i18n("Evalation expression may not use user-defined constants"), "KmPlot");
+		case 14:  KMessageBox::error(0, i18n("The expression must not contain user-defined constants"), "KmPlot");
 			break;
 	}
         return err;

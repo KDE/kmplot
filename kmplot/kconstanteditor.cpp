@@ -107,7 +107,7 @@ void KConstantEditor::cmdDelete_clicked()
 	}
 	if (stop)
 	{
-		KMessageBox::error(this, i18n("A function uses this constant and therefore it can't be removed"));
+		KMessageBox::error(this, i18n("A function uses this constant; therefore, it cannot be removed."));
 		return;
 	}
 	
@@ -129,7 +129,7 @@ void KConstantEditor::cmdDelete_clicked()
 	}
 	if (!stop)
 	{
-		KMessageBox::error(this, i18n("The item couln't be found"));
+		KMessageBox::error(this, i18n("The item could not be found."));
 		return;
 	}
 	
@@ -209,7 +209,7 @@ void KConstantEditor::editConstantSlot()
 	}
 	if (!found)
 	{
-		KMessageBox::error(this, i18n("The item couln't be found"));
+		KMessageBox::error(this, i18n("The item could not be found."));
 		return;
 	}
 

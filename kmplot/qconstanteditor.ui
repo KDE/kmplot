@@ -66,10 +66,10 @@
                         <bool>false</bool>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>List of user defined constants</string>
+                        <string>List of user-defined constants</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Select a constant to change it's value, remove it or dublicate it.</string>
+                        <string>Select a constant to change its value, remove it or duplicate it.</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="3" column="1">
@@ -86,7 +86,7 @@
                         <string>Alt+U</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Dublicate the selected constant</string>
+                        <string>Duplicate the selected constant</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Click here to Copy the selected constant to another constant. You can choose the new name from a list.</string>
@@ -109,8 +109,7 @@
                         <string>delete selected constant</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click here to delete the selected constant.
-Only if the constant is not currently used from a plot it can be removed.</string>
+                        <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="1" column="1">
@@ -127,10 +126,10 @@ Only if the constant is not currently used from a plot it can be removed.</strin
                         <string>Alt+C</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Change the value of a user defined constant</string>
+                        <string>Change the value of a user-defined constant</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click here to edit the value of the selected constant. Name can't be changed.</string>
+                        <string>Click here to edit the value of the selected constant. Its name cannot be changed.</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="0" column="1">

@@ -167,7 +167,7 @@
                         <string>define a new function</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click here to define a new function. There are 3 types of function, explicite given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+                        <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
                     </property>
                 </widget>
                 <spacer row="6" column="1">
@@ -237,7 +237,7 @@
                         <string>define a new function</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click here to define a new function. There are 3 types of function, explicite given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+                        <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="3" column="1">
@@ -262,7 +262,7 @@
                         <string>define a new function</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click here to define a new function. There are 3 types of function, explicite given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+                        <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="4" column="1">

@@ -95,7 +95,7 @@
                 <string>Name of the constant (only 1 character but "E")</string>
             </property>
             <property name="whatsThis" stdset="0">
-                <string>Enter the name of the constant here. User defined constant names only have 1 charackter. The constant "E" (Euler number) is reserved.</string>
+                <string>Enter the name of the constant here. User-defined constant names only have 1 character; the constant "E" (Euler number) is reserved.</string>
             </property>
         </widget>
         <widget class="KLineEdit" row="1" column="1">

@@ -686,7 +686,7 @@ int Parser::errmsg()
        case 9:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
 		                                   "recursive function not allowed").arg(QString::number(errpos)), "KmPlot");
 		        break;
-       case 10:  KMessageBox::error(0, i18n("Could not found a definied constant at position %1" ).arg(QString::number(errpos)),
+       case 10:  KMessageBox::error(0, i18n("Could not find a defined constant at position %1" ).arg(QString::number(errpos)),
                                                    "KmPlot");
      			break;
        case 11:  KMessageBox::error(0, i18n("Empty function"), "KmPlot");

@@ -478,7 +478,7 @@
                                     <bool>true</bool>
                                 </property>
                                 <property name="toolTip" stdset="0">
-                                    <string>visible arrows at the ent of the axes</string>
+                                    <string>visible arrows at the end of the axes</string>
                                 </property>
                                 <property name="whatsThis" stdset="0">
                                     <string>Check this if the axes should have arrows at their ends.</string>

@@ -325,7 +325,7 @@ Example: loop(angle)=ln(angle)</string>
                         <string>apply changes to the list</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click this button to apply the chenges to the list of functions.</string>
+                        <string>Click this button to apply the changes to the list of functions.</string>
                     </property>
                 </widget>
                 <widget class="QPushButton">

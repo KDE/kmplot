@@ -32,11 +32,9 @@
 #include "xparser.h"
 
 
-
 XParser::XParser()
 {
-	int ix;
-
+	/*int ix;
 	fktext = new FktExt[ UFANZ ];
 	for ( ix = 0; ix < UFANZ; ++ix )
 	{
@@ -44,14 +42,19 @@ XParser::XParser()
 		// setup slider support
 		// TODO fktext[ ix ].slider_min = fktext[ ix ].slider_max = 0.0;
 		fktext[ ix ].use_slider = -1;
-	}
+	}*/
+        FktExt temp;
+        temp.color = 0;
+        temp.use_slider = -1;
+        for ( int ix = 0; ix < UFANZ; ++ix )
+                fktext.append(temp);
+
 	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
 }
 
 XParser::XParser( int anz, int m_size, int s_size ) : Parser( anz, m_size, s_size )
 {
-	int ix;
-
+	/*int ix;
 	fktext = new FktExt[ ufanz ];
 	for ( ix = 0; ix < ufanz; ++ix )
 	{
@@ -59,13 +62,18 @@ XParser::XParser( int anz, int m_size, int s_size ) : Parser( anz, m_size, s_siz
 		// setup slider support
 		// TODO fktext[ ix ].slider_min = fktext[ ix ].slider_max = 0.0;
 		fktext[ ix ].use_slider = -1;
-	}
+	}*/
+        FktExt temp;
+        temp.color = 0;
+        temp.use_slider = -1;
+        for ( int ix = 0; ix < UFANZ; ++ix )
+                fktext.append(temp );
 	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
 }
 
 XParser::~XParser()
 {
-	delete [] fktext;
+	//delete [] fktext;
 }
 
 int XParser::getext( int ix )

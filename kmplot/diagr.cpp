@@ -123,9 +123,9 @@ void CDiagr::Plot(QPainter* pDC)
 
 
 int CDiagr::Transx( double x )		// reale x-Koordinate
-{   int xi;                			// transformierte x-Koordinate
+{
+        int xi;                			// transformierte x-Koordinate
 	static double lastx;            // vorherige x-Koordinate
-
 	if(isnan(x))
 	{
 		xclipflg=1;
@@ -143,6 +143,7 @@ int CDiagr::Transx( double x )		// reale x-Koordinate
 	{
 		xclipflg=0;
 		xi=PlotArea.right();
+                
 	}
 	else if(x<xmin)
 	{
@@ -166,9 +167,9 @@ int CDiagr::Transx( double x )		// reale x-Koordinate
 
 
 int CDiagr::Transy(double y)		// reale y-Koordinate
-{   int yi;                     	// transformierte y-Koordinate
+{   
+        int yi;                     	// transformierte y-Koordinate
 	static double lasty;            // vorherige y-Koordinate
-
 	if(isnan(y))
 	{
 		yclipflg=1;
@@ -181,11 +182,13 @@ int CDiagr::Transy(double y)		// reale y-Koordinate
 	{
 		yclipflg=0;
 		yi=PlotArea.bottom();
+                
 	}
 	else if(isinf(y)==1)
 	{
 		yclipflg=0;
 		yi=PlotArea.top();
+                
 	}
 	else if(y<ymin)
 	{

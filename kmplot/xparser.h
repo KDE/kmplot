@@ -29,6 +29,7 @@
 #define SLIDER_COUNT 4
 
 // Qt includes
+#include <qvaluelist.h>
 
 #include <kdebug.h>
 
@@ -66,7 +67,7 @@ public:
 	///Return an unused function name if it is needed
 	void fixFunctionName(QString &, int const=-1);
 
-	/// Extended attributes are encapulated in this structure.
+        /// Extended attributes are encapulated in this structure.
 	struct FktExt
 	{
 		bool f_mode, ///< \a f_mode == 1: draw the plot.
@@ -96,8 +97,9 @@ public:
 		QStringList str_parameter; ///< List with parameter strings to be parsed with XParser::eval
 		int use_slider; ///< -1: none (use list), else: slieder number
 		// TODO double slider_min, slider_max; ///< extreme values of the slider
-	}
-	*fktext;
+        };
+	//*fktext;
+        QValueList<FktExt> fktext;
 	
 	private:
 		/// finds a free function name 

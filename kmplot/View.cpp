@@ -327,7 +327,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 					x=dmax+1;
 					continue;
 				}
-				errno=0;
 				switch(p_mode)
 				{
 					case 0: 
@@ -353,8 +352,6 @@ void View::plotfkt(int ix, QPainter *pDC)
 						break;
 					}
 				}
-
-				if(errno!=0) continue;
 		
                			if(fktmode=='r')
 				{
@@ -371,8 +368,8 @@ void View::plotfkt(int ix, QPainter *pDC)
 					p2.setX(dgr.Transx(x));
 					p2.setY(dgr.Transy(y));
 				}
-				
-				if ( dgr.xclipflg || dgr.yclipflg)
+                                        
+				if ( dgr.xclipflg || dgr.yclipflg )
 				{
 					if(mflg>=1)
 						p1=p2;
@@ -645,7 +642,6 @@ void View::mouseMoveEvent(QMouseEvent *e)
 				m_parser->setparameter(csmode, m_parser->fktext[csmode].k_liste[csparam]);
 			else
 				m_parser->setparameter(csmode, sliders[ m_parser->fktext[csmode].use_slider ]->slider->value() );
-		
 			if ( cstype == 0)
 				ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
 			else if ( cstype == 1)
@@ -681,36 +677,40 @@ void View::mouseMoveEvent(QMouseEvent *e)
 
 		sprintf(sx, "  x= %+.2f", (float)dgr.Transx(ptl.x()));//csxpos);
 		sprintf(sy, "  y= %+.2f", csypos);
-
 		if(csflg==0)        // Hintergrund speichern
 		{
 			bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
 			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
-
 			// Fadenkreuz zeichnen
 			QPen pen;
 			if ( cstype == -1)
 				pen.setColor(inverted_backgroundcolor);
 			else
 			{
-				switch (cstype)
-				{
-					case 0:
-						pen.setColor( m_parser->fktext[csmode].color);
-						break;
-					case 1:
-						pen.setColor( m_parser->fktext[csmode].f1_color);
-						break;
-					case 2:
-						pen.setColor( m_parser->fktext[csmode].f2_color);
-						break;
-					default:
-						pen.setColor(inverted_backgroundcolor);
-				}
-				if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" has the same color as the background, the "Fadenkreuz" will have the inverted color of background so you can see it easier
-					pen.setColor(inverted_backgroundcolor);
+                                if ( csmode == -1)
+                                        pen.setColor(inverted_backgroundcolor);
+                                else
+                                {
+				    switch (cstype)
+				    {
+					   case 0:
+                                                {
+						  pen.setColor( m_parser->fktext[csmode].color);
+						  break;
+                                                }
+					   case 1:
+						  pen.setColor( m_parser->fktext[csmode].f1_color);
+						  break;
+					   case 2:
+						  pen.setColor( m_parser->fktext[csmode].f2_color);
+						  break;
+					   default:
+						  pen.setColor(inverted_backgroundcolor);
+				    }
+				    if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" has the same color as the background, the "Fadenkreuz" will have the inverted color of background so you can see it easier
+					   pen.setColor(inverted_backgroundcolor);
+                                }
 			}
-
 			DC.begin(this);
 			DC.setPen(pen);
 			DC.Lineh(area.left(), fcy, area.right());
@@ -1235,7 +1235,6 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 			x=dmax+1;
 			continue;
 		}
-		errno=0;
 		switch(p_mode)
 		{
 			case 0: 
@@ -1265,7 +1264,6 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 				break;
 			}
 		}
-		if(errno!=0) continue;
 		
 		if (x>=dmin && x<=dmax)
 		{
@@ -1380,8 +1378,6 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 					progressbar->increase();
 					paintEvent(0);
 				}
-				
-				if(errno!=0) continue;
 
 				if ( (x+dx > target && forward_direction) || ( x+dx < target && !forward_direction)) //right x-value is found
 					target_found = true;
@@ -1648,7 +1644,6 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 			break;
 			continue;
 		}
-		errno=0;
 		switch(p_mode)
 		{
 			case 0: 
@@ -1678,8 +1673,6 @@ void View::areaUnderGraph(int const ix, char const p_mode,  double &dmin, double
 				break;
 			}
 		}
-
-		if(errno!=0) continue;	
 		
 		p.setX(dgr.Transx(x));
 		p.setY(dgr.Transy(y));

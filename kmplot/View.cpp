@@ -104,6 +104,7 @@ View::View(KPopupMenu *m, QWidget* parent, const char* name ) : QWidget( parent,
 	m_popupmenu = m;
 	m_popupmenushown = 0;
 	m_popupmenu->insertTitle( "",10);
+	zoom_mode = 0;
 }
 
 void View::setMinMaxDlg(KMinMax *minmaxdlg)
@@ -562,6 +563,22 @@ void View::drawPlot()
 void View::mouseMoveEvent(QMouseEvent *e)
 {   char sx[20], sy[20];
 	
+	if (zoom_mode==4 &&  e->stateAfter() != Qt::NoButton)
+	{
+		QPainter p;
+		p.begin(this);
+		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
+		p.end();
+		
+		QPainter painter(this);
+		QPen pen;
+		pen.setStyle(Qt::DotLine);
+		painter.setPen(pen);
+		painter.drawRect(rectangle_point.x(), rectangle_point.y(), e->pos().x()-rectangle_point.x(), e->pos().y()-rectangle_point.y());
+		return;
+		
+	}
+
 	if( m_popupmenushown>0 && !m_popupmenu->isShown() )
 	{
 		if ( m_popupmenushown==1)
@@ -655,6 +672,67 @@ void View::mousePressEvent(QMouseEvent *e)
 	if ( m_popupmenushown>0)
 		return;
 	
+	if (  zoom_mode==1 ) //rectangle zoom
+	{
+		zoom_mode=4;
+		rectangle_point = e->pos();
+		return;
+	}
+	else if (  zoom_mode==2 ) //zoom in
+	{
+		QPainter DC;
+		DC.begin(this);
+		DC.setWindow(0, 0, w, h);
+		DC.setWorldMatrix(wm);
+		QPoint p=DC.xFormDev(e->pos());
+		p.setX( dgr.Transx(p.x() ) );
+		p.setY( dgr.Transy(p.y() ) );
+		QString str_tmp;
+		
+		str_tmp.setNum(p.x()-double(xmax-xmin)*0.1);
+		Settings::setXMin(str_tmp);
+		str_tmp.setNum(p.x()+double(xmax-xmin)*0.1);
+		Settings::setXMax(str_tmp);
+		
+		str_tmp.setNum(p.y()-double(ymax-ymin)*0.1);
+		Settings::setYMin(str_tmp);
+		str_tmp.setNum(p.y()+double(ymax-ymin)*0.1);
+		Settings::setYMax(str_tmp);
+		
+		Settings::setXRange(4); //custom x-range
+		Settings::setYRange(4); //custom y-range
+		drawPlot(); //update all graphs
+		return;
+		
+	}
+	else if (  zoom_mode==3 ) //zoom out
+	{
+		QPainter DC;
+		DC.begin(this);
+		DC.setWindow(0, 0, w, h);
+		DC.setWorldMatrix(wm);
+		QPoint p=DC.xFormDev(e->pos());
+		p.setX( dgr.Transx(p.x() ) );
+		p.setY( dgr.Transy(p.y() ) );
+		
+		QString str_tmp;
+		
+		str_tmp.setNum(p.x()-double(xmax-xmin)/0.4);
+		Settings::setXMin(str_tmp);
+		str_tmp.setNum(p.x()+double(xmax-xmin)/0.4);
+		Settings::setXMax(str_tmp);
+		
+		str_tmp.setNum(p.y()-double(ymax-ymin)/0.4);
+		Settings::setYMin(str_tmp);
+		str_tmp.setNum(p.y()+double(ymax-ymin)/0.4);
+		Settings::setYMax(str_tmp);
+		
+		Settings::setXRange(4); //custom x-range
+		Settings::setYRange(4); //custom y-range
+		drawPlot(); //update all graphs
+		return;
+		
+	}	
 	if (!stop_calculating && isDrawing) //stop drawing anti-derivatives
 	{
 		stop_calculating = true;
@@ -801,6 +879,63 @@ void View::mousePressEvent(QMouseEvent *e)
 }
 
 
+void View::mouseReleaseEvent ( QMouseEvent * e )
+{
+	if ( zoom_mode==4)
+	{
+		zoom_mode=1;
+		QPainter DC;
+		DC.begin(this);
+		DC.setWindow(0, 0, w, h);
+		DC.setWorldMatrix(wm);
+		QPoint p1=DC.xFormDev(e->pos());
+		p1.setX( dgr.Transx(p1.x() ) );
+		p1.setY( dgr.Transy(p1.y() ) );
+		DC.end();
+		
+		DC.begin(this);
+		DC.setWindow(0, 0, w, h);
+		DC.setWorldMatrix(wm);
+		QPoint p2=DC.xFormDev(rectangle_point);
+		p2.setX( dgr.Transx(p2.x() ) );
+		p2.setY( dgr.Transy(p2.y() ) );
+		QString str_tmp;
+		
+		if( p1.x() < p2.x()  )
+		{
+			str_tmp.setNum(p1.x() );
+			Settings::setXMin(str_tmp );
+			str_tmp.setNum(p2.x() );
+			Settings::setXMax(str_tmp );
+		}
+		else
+		{
+			str_tmp.setNum(p2.x() );
+			Settings::setXMin(str_tmp );
+			str_tmp.setNum(p1.x() );
+			Settings::setXMax(str_tmp );
+		}
+		
+		if( p1.y() < p2.y() )
+		{
+			str_tmp.setNum(p1.y() );
+			Settings::setYMin(str_tmp );
+			str_tmp.setNum(p2.y());
+			Settings::setYMax(str_tmp );
+		}
+		else
+		{
+			str_tmp.setNum(p2.y()  );
+			Settings::setYMin(str_tmp );
+			str_tmp.setNum(p1.y() );
+			Settings::setYMax(str_tmp );
+		}
+		Settings::setXRange(4); //custom x-range
+		Settings::setYRange(4); //custom y-range
+		drawPlot(); //update all graphs
+	}
+}
+
 void View::coordToMinMax( const int koord, const QString minStr, const QString maxStr, 
 			  double &min, double &max )
 {
@@ -836,12 +971,23 @@ void View::setPlotRange()
 
 void View::setScaling()
 {
-	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
+	const char* units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4","automatic" };
 	
-	tlgxstr = units[ Settings::xScaling() ];
-	tlgx = m_parser->eval( tlgxstr );
-	tlgystr = units[ Settings::yScaling() ];
-	tlgy = m_parser->eval( tlgystr );
+	if( Settings::xScaling() == 8) //automatic x-scaling
+		tlgx = double(xmax-xmin)/16;
+	else
+	{
+		tlgxstr = units[ Settings::xScaling() ];
+		tlgx = m_parser->eval( tlgxstr );
+	}
+	
+	if( Settings::yScaling() == 8)  //automatic y-scaling
+		tlgy = double(ymax-ymin)/16;
+	else
+	{
+		tlgystr = units[ Settings::yScaling() ];
+		tlgy = m_parser->eval( tlgystr );
+	}
 
 	drskalxstr = units[ Settings::xPrinting() ];
 	drskalx = m_parser->eval( drskalxstr );
@@ -1096,6 +1242,18 @@ void View::getYValue(int ix, char p_mode,  double x, double &y, QString &str_par
 
 void View::keyPressEvent( QKeyEvent * e)
 {
+	if ( zoom_mode == 4) //drawing a rectangle
+		return;
+	
+	if ( e->key() == Qt::Key_A) //disable zoom mode
+		zoom_mode=0;
+	else if ( e->key() == Qt::Key_S) //rectangular zoom mode
+		zoom_mode=1;
+	else if ( e->key() == Qt::Key_D) //zoom in mode
+		zoom_mode=2;
+	else if ( e->key() == Qt::Key_F) //zoom out mode
+		zoom_mode=3;
+	
 	if (csmode==-1 ) return;
 	
 	QMouseEvent *event;

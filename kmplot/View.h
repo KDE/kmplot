@@ -139,6 +139,8 @@ protected slots:
 	void mousePressEvent(QMouseEvent *);
 	/// when a key is pressed and the graph widget has focus
 	void keyPressEvent(QKeyEvent * );
+	
+	void mouseReleaseEvent ( QMouseEvent * e );
 
 private:
 	/// Print out table with additional information.
@@ -228,6 +230,9 @@ private:
 	bool isDrawing;
 	///status of the popup menu
 	char m_popupmenushown; /// 0==no popup 1==popup 2==popup+trace mode before
+	/// for zoom-mode
+	QPoint rectangle_point;
+	char zoom_mode; ///0=normal 1=rectangular zoom, 2=zoom in, 3=zoom out ,4=drawing a rectangle
 };
 
 #endif // View_included

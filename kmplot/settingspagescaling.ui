@@ -128,7 +128,7 @@
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>p/4</string>
+                                    <string>pi/4</string>
                                 </property>
                             </item>
                             <property name="name">
@@ -181,7 +181,12 @@
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>p/4</string>
+                                    <string>pi/4</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>automatic</string>
                                 </property>
                             </item>
                             <property name="name">
@@ -291,7 +296,7 @@
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>p/4</string>
+                                    <string>pi/4</string>
                                 </property>
                             </item>
                             <property name="name">
@@ -344,7 +349,12 @@
                             </item>
                             <item>
                                 <property name="text">
-                                    <string>p/4</string>
+                                    <string>pi/4</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>automatic</string>
                                 </property>
                             </item>
                             <property name="name">
@@ -381,10 +391,4 @@
     <tabstop>kcfg_YPrinting</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-</includehints>
 </UI>

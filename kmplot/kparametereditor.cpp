@@ -71,7 +71,7 @@ KParameterEditor::~KParameterEditor()
 void KParameterEditor::cmdNew_clicked()
 {
 	bool ok;
-	QString result = KInputDialog::getText( "Kmplot", i18n( "Enter a new parameter value:" ), QString::null, &ok );
+	QString result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), QString::null, &ok );
 	if ( !ok)
 		return;
 	m_parser->eval( result );
@@ -88,7 +88,7 @@ void KParameterEditor::cmdNew_clicked()
 void KParameterEditor::cmdEdit_clicked()
 {
 	bool ok;
-	QString result = KInputDialog::getText( "Kmplot", i18n( "Enter a new parameter value:" ), QString::null, &ok );
+	QString result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), QString::null, &ok );
 	if ( !ok)
 		return;
 	m_parser->eval(result);

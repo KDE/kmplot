@@ -359,7 +359,7 @@ void KMinMax::cmdParameter_clicked()
 	ix--;
 
 	bool ok;
-	QStringList result = KInputDialog::getItemList("Kmplot", i18n("Choose a parameter to use:"), m_view->parser()->fktext[ ix ].str_parameter, QStringList(parameter),false,&ok);
+	QStringList result = KInputDialog::getItemList(i18n("Choose Parameter"), i18n("Choose a parameter to use:"), m_view->parser()->fktext[ ix ].str_parameter, QStringList(parameter),false,&ok);
 	if ( ok)
 		parameter = *result.begin();
 }

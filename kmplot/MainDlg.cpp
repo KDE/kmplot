@@ -147,12 +147,12 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 	
 	//zoom menu
-	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No zoom") ,0,view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
-	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &rectangular"), "viewmagfit", 0,view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
-	KRadioAction * mnuZoomIn = new KRadioAction(i18n("Zoom &in"), "viewmag+", 0,view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
-	KRadioAction * mnuZoomOut = new KRadioAction(i18n("Zoom &out"), "viewmag-", 0,view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
-	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center a point") ,0,view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
-	(void ) new KAction(i18n("&Fit widget to trigonometric functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
+	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,0,view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
+	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &Rectangular"), "viewmagfit", 0,view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
+	KRadioAction * mnuZoomIn = new KRadioAction(i18n("Zoom &<in"), "viewmag+", 0,view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
+	KRadioAction * mnuZoomOut = new KRadioAction(i18n("Zoom &Out"), "viewmag-", 0,view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
+	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center Point") ,0,view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
+	(void ) new KAction(i18n("&Fit Widget to Trigonometric Functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
 	mnuNoZoom->setExclusiveGroup("zoom_modes");
 	mnuNoZoom->setChecked(true);
 	mnuRectangular->setExclusiveGroup("zoom_modes");
@@ -169,7 +169,7 @@ void MainDlg::setupActions()
 	KAction *mnuEdit = new KAction(i18n("&Edit"), 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
 	mnuEdit->plug(m_popupmenu);
 	
-	KAction *mnuYValue =  new KAction( i18n( "&Get y-value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
+	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
 	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value" ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
 	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value" ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
 	KAction *mnuArea = new KAction( i18n( "&Area Under Graph" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );

@@ -176,7 +176,7 @@ void KConstantEditor::cmdDuplicate_clicked()
 		if (!found)
 			list.append(QChar(i));
 	}
-	QStringList result = KInputDialog::getItemList("Kmplot",i18n("Choose a name for the constant:"),list, QStringList(), false, &found);
+	QStringList result = KInputDialog::getItemList(i18n("Choose Name"),i18n("Choose a name for the constant:"),list, QStringList(), false, &found);
 	if (found)
 	{
 		constant = (*result.begin()).at(0).latin1();

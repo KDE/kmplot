@@ -37,7 +37,7 @@
 #include "MainDlg.h"
 
 static const char description[] =
-    I18N_NOOP( "KmPlot is a mathematical function plotter for the KDE Desktop." );
+    I18N_NOOP( "Mathematical function plotter for KDE" );
 
 static KCmdLineOptions options[] =
     {

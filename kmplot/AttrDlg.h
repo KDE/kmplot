@@ -3,7 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
-*               
+*
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
 *
@@ -11,12 +11,12 @@
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or
 * (at your option) any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -35,7 +35,7 @@
 
 // KDE includes
 #include <kapplication.h>
-#include <kcolordlg.h>
+#include <kcolordialog.h>
 #include <klocale.h>
 
 // local includes
@@ -60,7 +60,7 @@ public:
 	virtual ~AttrDlg();
 
 	/**
-	 * The index of the current function. 
+	 * The index of the current function.
 	 * @see FktDlg::onattr()
 	 * */
 	int ix;
@@ -73,7 +73,7 @@ private:
 
 protected slots:
 	/**
-	 * Connected to the Clicked signal of the "Ok" button. 
+	 * Connected to the Clicked signal of the "Ok" button.
 	 * The settings are applied.
 	 * If "save as default" is checked, the global config file is changed.
 	 * @see kc
@@ -81,13 +81,13 @@ protected slots:
 	void onok();
 	/**
 	 * Connected to the Clicked signal of the "Cancel" button.
-	 * Closes the windows without any changes. 
+	 * Closes the windows without any changes.
 	 */
 	void oncancel();
 	/**
 	 * Connected to the Clicked signal of the "Color..." Button.
 	 * Calls a sub-dialog for the color setting.
-	 * @todo Port to KColorButton 
+	 * @todo Port to KColorButton
 	 */
 	//void onfarbe();
 

@@ -8,9 +8,9 @@
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <qwidget.h>
-#include <qpdevmet.h>
+#include <qpaintdevicemetrics.h>
 #include <qpainter.h>
-#undef	 GrayScale 
+#undef	 GrayScale
 //#include <qprinter.h>
 #include <qevent.h>
 #include <qstring.h>

@@ -25,11 +25,16 @@
 
 // Qt includes
 #include <qpushbutton.h>
+#include <qpopupmenu.h>
+
+// KDE includes
+#include <kpushbutton.h>
 
 // locale includes
 #include "FktDlg.h"
 #include "FktDlg.moc"
 #include "MainDlg.h"
+#include "keditfunction.h"
 
 #define Inherited FktDlgData
 
@@ -55,6 +60,11 @@ FktDlg::FktDlg( QWidget* parent, const char* name ) : Inherited( parent, name )
 		le_fktstr->selectAll();
 	}
 	le_fktstr->setFocus();
+	QPopupMenu *menu_types = new QPopupMenu( this );
+	menu_types->insertItem( i18n( "function" ), this, SLOT( onEditFunction() ) );
+	menu_types->insertItem( i18n( "parametric" ), this, SLOT( onEditParametric() ) );
+	menu_types->insertItem( i18n( "polar" ), this, SLOT( onEditPolar() ) );
+	PushButtonApply->setPopup( menu_types );
 }
 
 FktDlg::~FktDlg()
@@ -219,4 +229,25 @@ void FktDlg::onHasSelection()
 	PushButtonEdit->setEnabled( has_selection );
 	PushButtonDel->setEnabled( has_selection );
 	PushButtonAttr->setEnabled( has_selection );
+}
+
+void FktDlg::onEditFunction()
+{
+	if( !editFunction ) editFunction = new KEditFunction( &ps, this );
+	editFunction->setType( KEditFunction::Function );
+	editFunction->show();
+}
+
+void FktDlg::onEditParametric()
+{
+	if( !editFunction ) editFunction = new KEditFunction( &ps, this );
+	editFunction->setType( KEditFunction::Parametric );
+	editFunction->show();
+}
+
+void FktDlg::onEditPolar()
+{
+	if( !editFunction ) editFunction = new KEditFunction( &ps, this );
+	editFunction->setType( KEditFunction::Polar );
+	editFunction->show();
 }

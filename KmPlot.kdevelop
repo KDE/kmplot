@@ -16,7 +16,7 @@
   </general>
   <kdevcustomproject>
     <run>
-      <mainprogram>KmPlot</mainprogram>
+      <mainprogram>kmplot</mainprogram>
       <directoryradio>executable</directoryradio>
       <customdirectory>/</customdirectory>
       <programargs/>

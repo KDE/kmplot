@@ -418,7 +418,6 @@ void MainDlg::bezeichnungen()
 		bez = new BezWnd( this, "bez" );
 	if ( view_bezeichnungen->isChecked() )
 	{
-		bez->move( 200, 200 );
 		bez->show();
 	}
 	else

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>363</width>
-            <height>445</height>
+            <height>447</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -88,10 +88,10 @@
                         <cstring>PushButtonApply</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Add</string>
+                        <string>&amp;New</string>
                     </property>
                     <property name="accel">
-                        <string>Alt+A</string>
+                        <string>Alt+N</string>
                     </property>
                     <property name="default">
                         <bool>true</bool>

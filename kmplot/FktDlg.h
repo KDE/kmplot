@@ -30,15 +30,19 @@
 #ifndef FktDlg_included
 #define FktDlg_included
 
+// Qt includes
+#include <qvaluelist.h> 
+
+// KDE includes
+#include <kapplication.h>
+#include <klocale.h>
+
 // locale includes
 #include "FktDlgData.h"
 #include "AttrDlg.h"
 #include "misc.h" 
-// Qt includes
-#include <qvaluelist.h> 
-// KDE includes
-#include <kapplication.h>
-#include <klocale.h>
+
+class KEditFunction;
 
 /** This widget class handles the users function input. 
  * Equations can be added, edited, and removed.
@@ -68,12 +72,16 @@ protected slots:
 	void onattr();
 	void onapply();
 	void onHasSelection();
+	void onEditFunction();
+	void onEditParametric();
+	void onEditPolar();
 
 private:
 	int getIx( const QString f_str );
 	void updateView();
 	int chflg;
 	int errflg;
+	KEditFunction *editFunction;
 };
 
 #endif // FktDlg_included

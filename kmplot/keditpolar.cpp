@@ -71,21 +71,29 @@ void KEditPolar::setWidgets()
 	function = function.right( function.length()-1 );
 	kLineEditYFunction->setText( function );
 	checkBoxHide->setChecked( m_parser->fktext[ m_index ].f_mode == 0 );
-	checkBoxRange->setChecked( m_parser->fktext[ m_index ].dmin == m_parser->fktext[ m_index ].dmax == 0.0 );
-	min->setText( m_parser->fktext[ m_index ].str_dmin );
-	max->setText( m_parser->fktext[ m_index ].str_dmax );
+	if (  m_parser->fktext[ m_index ].dmin != m_parser->fktext[ m_index ].dmax )
+	{
+		checkBoxRange->setChecked( true );
+		min->setText( m_parser->fktext[ m_index ].str_dmin );
+		max->setText( m_parser->fktext[ m_index ].str_dmax );
+	}
+	else
+		checkBoxRange->setChecked( false );
 	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_index ].linewidth );
 	kColorButtonColor->setColor( m_parser->fktext[ m_index ].color );
 }
 
 void KEditPolar::accept()
 {
+	QString f_str = kLineEditYFunction->text();
 	int index;
 	if( m_index != -1 )  //when editing a function: 
 	{
 		index = m_index; //use the right function-index
+		m_parser->fixFunctionName(f_str,index);
+		f_str.prepend("r");
 		QString old_fstr = m_parser->ufkt[index].fstr;
-		m_parser->ufkt[index].fstr = functionItem();
+		m_parser->ufkt[index].fstr = f_str;
 		m_parser->reparse(index); //reparse the funcion
 		if ( m_parser->errmsg() != 0)
 		{
@@ -98,7 +106,11 @@ void KEditPolar::accept()
 		}
 	}
 	else
-		index = m_parser->addfkt(functionItem() );
+	{
+		m_parser->fixFunctionName(f_str);
+		f_str.prepend("r");
+		index = m_parser->addfkt(f_str );
+	}
 	
 	if( index == -1 ) 
 	{
@@ -109,7 +121,7 @@ void KEditPolar::accept()
 		return;
 	}
 	XParser::FktExt tmp_fktext; //all settings are saved here until we know that no errors have appeared
-	tmp_fktext.extstr = functionItem();
+	tmp_fktext.extstr = f_str;
 		
 	if( checkBoxHide->isChecked() )
 		tmp_fktext.f_mode = 0;
@@ -167,6 +179,7 @@ void KEditPolar::accept()
 	tmp_fktext.k_anz=0;
 	
 	m_parser->fktext[index] = tmp_fktext;
+	kLineEditYFunction->setText(f_str);
 	
 	
 	// call inherited method
@@ -175,7 +188,7 @@ void KEditPolar::accept()
 
 const QString KEditPolar::functionItem()
 {
-	return "r" + kLineEditYFunction->text();
+	return kLineEditYFunction->text();
 }
 
 void KEditPolar::slotHelp()

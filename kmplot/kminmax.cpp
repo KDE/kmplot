@@ -98,6 +98,7 @@ void KMinMax::init(char m)
 		cmdFind->setText("&Draw");
 	}	
 	
+	min->setFocus();
 	updateFunctions();
 }
 

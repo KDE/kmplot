@@ -168,11 +168,11 @@ void EditFunction::accept()
 		return;
 	
 	QString f_str(functionItem() );
-	m_parser->fixFunctionName(f_str);
 	int index;
 	if( m_index != -1 )  //when editing a function: 
 	{
 		index = m_index; //use the right function-index
+		m_parser->fixFunctionName(f_str,index);
 		QString old_fstr = m_parser->ufkt[index].fstr;
 		m_parser->ufkt[index].fstr = f_str;
 		m_parser->reparse(index); //reparse the funcion
@@ -188,7 +188,10 @@ void EditFunction::accept()
 		}
 	}
 	else
+	{
+		m_parser->fixFunctionName(f_str);
 		index = m_parser->addfkt( f_str ); //create a new function otherwise
+	}
 	
 	if( index == -1) 
 	{
@@ -358,6 +361,7 @@ void EditFunction::accept()
 	}
 	
 	m_parser->fktext[index] = tmp_fktext;
+	editfunctionpage->equation->setText(f_str);
 	
 	// call inherited method
 	KDialogBase::accept();

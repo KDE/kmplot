@@ -76,9 +76,14 @@ void KEditParametric::setWidgets()
 	splitEquation( m_parser->fktext[ m_y_index ].extstr, name, expression );
 	kLineEditYFunction->setText( expression );
 	checkBoxHide->setChecked( m_parser->fktext[ m_x_index ].f_mode == 0 );
-	checkBoxRange->setChecked( m_parser->fktext[ m_x_index ].dmin == m_parser->fktext[ m_x_index ].dmax == 0 );
-	min->setText( m_parser->fktext[ m_x_index ].str_dmin );
-	max->setText( m_parser->fktext[ m_x_index ].str_dmax );
+	if (  m_parser->fktext[ m_x_index ].dmin != m_parser->fktext[ m_x_index ].dmax )
+	{
+		checkBoxRange->setChecked(true);
+		min->setText( m_parser->fktext[ m_x_index ].str_dmin );
+		max->setText( m_parser->fktext[ m_x_index ].str_dmax );
+	}
+	else
+		checkBoxRange->setChecked(false);
 	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_x_index ].linewidth );
 	kColorButtonColor->setColor( m_parser->fktext[ m_x_index ].color );
 }

@@ -63,9 +63,8 @@ public:
 	/// Line width default
 	int linewidth0;
 	
-	///Return an unused functionname
-	char findFunctionName();
-	void fixFunctionName(QString &);
+	///Return an unused function name
+	void fixFunctionName(QString &, int const=-1);
 
 	/// Extended attributes are encapulated in this structure.
 	struct FktExt
@@ -99,6 +98,9 @@ public:
 		// TODO double slider_min, slider_max; ///< extreme values of the slider
 	}
 	*fktext;
+	
+	private:
+		char findFunctionName(int const);
 };
 
 #endif //xparser_included

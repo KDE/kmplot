@@ -147,8 +147,8 @@ void FktDlg::slotEditFunction( int index, int num )
 	editFunction->initDialog( index );
 	if( editFunction->exec() == QDialog::Accepted )
 	{
-		if( index == -1 ) lb_fktliste->insertItem( editFunction->functionItem() );
-		else lb_fktliste->changeItem( editFunction->functionItem(), num );
+		if( index == -1 ) lb_fktliste->insertItem( editFunction->functionItem() ); //a new function
+		else lb_fktliste->changeItem( editFunction->functionItem(), num ); //changed a function
 		changed = true;
 		updateView();
 	}
@@ -161,9 +161,8 @@ void FktDlg::slotEditParametric( int x_index, int y_index, int num )
 	editParametric->initDialog( x_index, y_index );
 	if( editParametric->exec() == QDialog::Accepted )
 	{
-		if( x_index == -1 ) 
-			lb_fktliste->insertItem( editParametric->functionItem() );
-		else lb_fktliste->changeItem( editParametric->functionItem(), num );
+		if( x_index == -1 ) lb_fktliste->insertItem( editParametric->functionItem() ); //a new function
+		else lb_fktliste->changeItem( editParametric->functionItem(), num ); //changed a function
 		changed = true;
 		updateView();
 	}
@@ -176,8 +175,8 @@ void FktDlg::slotEditPolar( int index, int num )
 	editPolar->initDialog( index );
 	if( editPolar->exec() == QDialog::Accepted )
 	{
-		if( index == -1 ) lb_fktliste->insertItem( editPolar->functionItem() );
-		else lb_fktliste->changeItem( editPolar->functionItem(), num );
+		if( index == -1 ) lb_fktliste->insertItem( editPolar->functionItem() ); //a new function
+		else lb_fktliste->changeItem( editPolar->functionItem(), num ); //changed a function
 		changed = true;
 		updateView();
 	}

@@ -180,14 +180,14 @@ double XParser::a2fkt( int ix, double x, double h )
 	return ( ufkt[ ix ].fkt( x + h + h ) - 2 * ufkt[ ix ].fkt( x + h ) + ufkt[ ix ].fkt( x ) ) / h / h;
 }
 
-char XParser::findFunctionName()
+char XParser::findFunctionName(int const index)
 {
 	char function_name ='f';
 	for (bool ok=true; function_name< 'x';function_name++)
 	{
 		for ( int i = 0; i < ufanz; i++ )
 		{
-			if (fktext[ i ].extstr.at(0) == function_name ) //check if 
+			if (fktext[ i ].extstr.at(0) == function_name && i!=index) //check if 
 				if (fktext[ i ].extstr.at(1) == '(' ) //and the function name is one letter
 					ok = false;
 		}
@@ -199,14 +199,14 @@ char XParser::findFunctionName()
 	}
 	return 'e'; //this should never happen, because the limit of 10 functions
 }
-void XParser::fixFunctionName( QString &str)
+void XParser::fixFunctionName( QString &str, int const index)
 {
 	int p1=str.find('(');
 	int p2=str.find(')');
 	
 	if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1) != '=')
 	{
-		char function_name = findFunctionName();
+		char function_name = findFunctionName(index);
 		str.prepend("(x)=");
 		str.prepend(function_name);
 	}

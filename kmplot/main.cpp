@@ -60,7 +60,7 @@ int main( int argc, char **argv )
 	    "submit@bugs.kde.org" );
 	aboutData.addAuthor(
 	    "Klaus-Dieter Möller", I18N_NOOP( "Original Author" ) ,
-	    "kd.moeller@t-online.de" );
+	    "kdmoeller@foni.net" );
 	aboutData.addAuthor(
 	    "Matthias Meßmer", I18N_NOOP( "GUI" ) ,
 	    "bmlmessmer@web.de" );

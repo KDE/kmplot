@@ -141,8 +141,8 @@ void MainDlg::setupActions()
 	
 	// tools menu
 	( void ) new KAction( i18n( "&Get y-value" ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
-	( void ) new KAction( i18n( "&Search for minimum value" ), 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
-	( void ) new KAction( i18n( "&Search for maximum value" ), 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
+	( void ) new KAction( i18n( "&Search for minimum value" ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
+	( void ) new KAction( i18n( "&Search for maximum value" ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
 	( void ) new KAction( i18n( "&Area under a graph" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
 	
 	// help menu

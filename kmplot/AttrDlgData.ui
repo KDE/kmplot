@@ -108,10 +108,10 @@
                         <string>Alt+D</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>make this changes to be default</string>
+                        <string>make these changes be the default</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Check this if you want to make this settings to be the default values for all future plots.</string>
+                        <string>Check this if you want to make these settings be the default values for all future plots.</string>
                     </property>
                 </widget>
             </grid>

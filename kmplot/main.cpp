@@ -47,7 +47,7 @@ int main( int argc, char **argv )
         KP_VERSION, description, KAboutData::License_GPL,
         "(c) 2000-2002, Klaus-Dieter Möller",
         0, 0,
-        "kd.moeller@t-online.de" );
+        "submit@bugs.kde.org" );
     aboutData.addAuthor(
         "Klaus-Dieter Möller", 0 ,
         "kd.moeller@t-online.de" );

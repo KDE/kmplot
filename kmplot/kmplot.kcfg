@@ -195,7 +195,7 @@
 			<whatsthis>The greater the step width the faster but the less precise the plot is done.</whatsthis>
 		</entry>
 		<entry name="anglemode" type="Int">
-			<default>1</default>
+			<default>0</default>
 			<label>Radians instead of degrees</label>
 			<whatsthis>Check the box if you want to use radians</whatsthis>
 		</entry>

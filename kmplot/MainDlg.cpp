@@ -72,16 +72,16 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	
 	// Let's create a Configure Diloag
 	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() ); 
-	color_settings = new SettingsPageColor( 0, "colorSettings" ); 
-	coords_settings = new SettingsPageCoords( 0, "coordsSettings" ); 
-	scaling_settings = new SettingsPageScaling( 0, "scalingSettings" ); 
-	fonts_settings = new SettingsPageFonts( 0, "fontsSettings" ); 
+// 	color_settings = new SettingsPageColor( 0, "colorSettings" ); 
+// 	coords_settings = new SettingsPageCoords( 0, "coordsSettings" ); 
+// 	scaling_settings = new SettingsPageScaling( 0, "scalingSettings" ); 
+// 	fonts_settings = new SettingsPageFonts( 0, "fontsSettings" ); 
 	precision_settings = new SettingsPagePrecision( 0, "precisionSettings" );
  
-	m_settingsDialog->addPage( color_settings, i18n( "Colors" ), "colorize" ); 
+/*	m_settingsDialog->addPage( color_settings, i18n( "Colors" ), "colorize" ); 
 	m_settingsDialog->addPage( coords_settings, i18n( "Coords" ), "coords" ); 
 	m_settingsDialog->addPage( scaling_settings, i18n( "Scaling" ), "scaling" ); 
-	m_settingsDialog->addPage( fonts_settings, i18n( "Fonts" ), "fonts" ); 
+	m_settingsDialog->addPage( fonts_settings, i18n( "Fonts" ), "fonts" ); */
 	m_settingsDialog->addPage( precision_settings, i18n( "Precision" ), "" ); 
 	// User edited the configuration - update your local copies of the 
 	// configuration data 
@@ -118,11 +118,11 @@ void MainDlg::setupActions()
 	
 	// edit menu
 	( void ) new KAction( i18n( "&Colors..." ), "colorize.png", 0, this, SLOT( editColors() ), actionCollection(), "editcolors" );
-	( void ) new KAction( i18n( "&Axes..." ), "coords.png", 0, this, SLOT( editAxes() ), actionCollection(), "editaxes" );
-	( void ) new KAction( i18n( "&Grid..." ), "coords.png", 0, this, SLOT( editGrid() ), actionCollection(), "editgrid" );
+	( void ) new KAction( i18n( "&Coordinate System..." ), "coords.png", 0, this, SLOT( editAxes() ), actionCollection(), "editaxes" );
+// 	( void ) new KAction( i18n( "&Grid..." ), "coords.png", 0, this, SLOT( editGrid() ), actionCollection(), "editgrid" );
 	( void ) new KAction( i18n( "&Scaling..." ), "scaling", 0, this, SLOT( editScaling() ), actionCollection(), "editscaling" );
 	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, SLOT( editFonts() ), actionCollection(), "editfonts" );
-	( void ) new KAction( i18n( "&Precision..." ), 0, this, SLOT( editPrecision() ), actionCollection(), "editprecision" );
+//	( void ) new KAction( i18n( "&Precision..." ), 0, this, SLOT( editPrecision() ), actionCollection(), "editprecision" );
 	
 	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( slotCoord1() ), actionCollection(), "coord_i" );
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( slotCoord2() ), actionCollection(), "coord_ii" );
@@ -254,7 +254,7 @@ void MainDlg::slotOpen()
 	KmPlotIO::load( filename );
 	view->update();
 	m_filename = filename;
-	m_recentFiles->addURL( KURL(m_filename) );
+	m_recentFiles->addURL( KURL( m_filename ) );
 	setCaption( m_filename );
 	m_modified = false;
 }
@@ -284,40 +284,47 @@ void MainDlg::slotPrint()
 
 void MainDlg::editColors()
 {
-	m_settingsDialog->showPage( 0 );
-	m_settingsDialog->show();
+	// create a config dialog and add a colors page
+	KConfigDialog* colorsDialog = new KConfigDialog( this, "colors", Settings::self() ); 
+	colorsDialog->addPage( new SettingsPageColor( 0, "colorSettings" ), i18n( "Colors" ), "colorize", i18n( "Edit Colors" ) ); 
+	
+	// User edited the configuration - update your local copies of the 
+	// configuration data 
+	connect( colorsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	colorsDialog->show();
 }
 
 void MainDlg::editAxes()
 {
-	m_settingsDialog->showPage( 1 );
-	coords_settings->tabs->setCurrentPage( 0 );
-	m_settingsDialog->show();
-}
-
-void MainDlg::editGrid()
-{
-	m_settingsDialog->showPage( 1 );
-	coords_settings->tabs->setCurrentPage( 1 );
-	m_settingsDialog->show();
+	// create a config dialog and add a colors page
+	KConfigDialog* coordsDialog = new KConfigDialog( this, "coords", Settings::self() ); 
+	coordsDialog->addPage( new SettingsPageCoords( 0, "coordsSettings" ), i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) ); 
+	// User edited the configuration - update your local copies of the 
+	// configuration data 
+	connect( coordsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	coordsDialog->show();
 }
 
 void MainDlg::editScaling()
 {
-	m_settingsDialog->showPage( 2 );
-	m_settingsDialog->show();
+	// create a config dialog and add a colors page
+	KConfigDialog* scalingDialog = new KConfigDialog( this, "scaling", Settings::self() ); 
+	scalingDialog->addPage( new SettingsPageScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) ); 
+	// User edited the configuration - update your local copies of the 
+	// configuration data 
+	connect( scalingDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	scalingDialog->show();
 }
 
 void MainDlg::editFonts()
 {
-	m_settingsDialog->showPage( 3 );
-	m_settingsDialog->show();
-}
-
-void MainDlg::editPrecision()
-{
-	m_settingsDialog->showPage( 4 );
-	m_settingsDialog->show();
+	// create a config dialog and add a colors page
+	KConfigDialog* fontsDialog = new KConfigDialog( this, "fonts", Settings::self() ); 
+	fontsDialog->addPage( new SettingsPageFonts( 0, "fontsSettings" ), i18n( "Fonts" ), "fonts", i18n( "Edit Fonts" ) ); 
+	// User edited the configuration - update your local copies of the 
+	// configuration data 
+	connect( fontsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) ); 
+	fontsDialog->show();
 }
 
 void MainDlg::slotNames()

@@ -67,10 +67,8 @@ public slots:
 	
 	void editColors();
 	void editAxes();
-	void editGrid();
 	void editScaling();
 	void editFonts();
-	void editPrecision();
 	void onNewFunction();
 	void onNewParametric();
 	void onNewPolar();

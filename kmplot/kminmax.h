@@ -37,7 +37,10 @@ class KMinMax : public QMinMax
 Q_OBJECT
 public:
     KMinMax(QWidget *parent = 0, const char *name = 0);
-    KMinMax(View *, char, QWidget *parent = 0, const char *name = 0);
+    KMinMax(View *, QWidget *parent = 0, const char *name = 0);
+    void init(char);
+    void updateFunctions();
+    void selectItem();
 
     ~KMinMax();
    

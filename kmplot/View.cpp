@@ -33,10 +33,12 @@
 #include <qpicture.h>
 
 // local includes
+#include "kminmax.h"
 #include "settings.h"
 #include "View.h"
 #include "View.moc"
 #include "xparser.h"
+
 
 //minimum and maximum x range. Should always be accessible.
 double View::xmin = 0;
@@ -68,9 +70,10 @@ void KmplotProgress::increase()
 }
 
 
-View::View( QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() )
+View::View(QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() )
 {   
 	m_parser = new XParser( 10, 200, 20 );
+
 	init();
 	csflg=0;
 	csmode=-1;
@@ -80,6 +83,10 @@ View::View( QWidget* parent, const char* name ) : QWidget( parent, name , WStati
 	stepWidth=0;
 }
 
+void View::setMinMaxDlg(KMinMax *minmaxdlg)
+{
+	m_minmax = minmaxdlg;
+}
 
 View::~View()
 {
@@ -504,6 +511,8 @@ void View::resizeEvent(QResizeEvent *)
 
 void View::drawPlot()
 {
+	if( m_minmax->isShown() )
+		m_minmax->updateFunctions();
 	buffer.fill(backgroundcolor);
 	draw(&buffer, 0);
 	QPainter p;
@@ -617,6 +626,7 @@ void View::mousePressEvent(QMouseEvent *e)
 			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g)
 			{   	csmode=ix;
 				cstype=0;
+				m_minmax->selectItem();
 				mouseMoveEvent(e);
 				return;
 			}
@@ -624,12 +634,14 @@ void View::mousePressEvent(QMouseEvent *e)
 			{   	csmode=ix;
 				cstype=1;
 				mouseMoveEvent(e);
+				m_minmax->selectItem();
 				return;
 			}
 			if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g)
 			{   	csmode=ix;
 				cstype=2;
 				mouseMoveEvent(e);
+				m_minmax->selectItem();
 				return;
 			}
 		}

@@ -42,6 +42,7 @@
 #include "errno.h"
 
 class XParser;
+class KMinMax;
 
 class KmplotProgress: public QWidget
 {
@@ -67,7 +68,7 @@ class View : public QWidget
 public:
 	/// Contructor sets up the parser, too.
 	View( QWidget* parent=NULL, const char* name=NULL );
-	
+	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 
 	/// Reimplemented to draw all stuff to the view.
@@ -195,6 +196,8 @@ private:
 	bool stop_calculating;
 	/// the background color of the graph
 	QColor backgroundcolor;
+	/// pointer to KMinMax
+	KMinMax *m_minmax;
 };
 
 #endif // View_included

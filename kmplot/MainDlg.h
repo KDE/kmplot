@@ -43,6 +43,7 @@
 // local includes
 #include "FktDlg.h"
 #include "View.h"
+#include "kminmax.h"
 
 
 class KConfigDialog;
@@ -138,6 +139,8 @@ class MainDlg : public KMainWindow
 		void loadConstants();
 		/// Loading the constants when closing the program
 		void saveConstants();
+		/// A dialog used by many tools-menu-items
+		KMinMax *minmaxdlg;
 		
 	protected slots:
 		/// Implement the File -> Open action

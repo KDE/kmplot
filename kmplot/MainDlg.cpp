@@ -43,7 +43,6 @@
 #include "keditpolar.h"
 #include "kprinterdlg.h"
 #include "kconstanteditor.h"
-#include "kminmax.h"
 #include "MainDlg.h"
 #include "MainDlg.moc"
 #include "settings.h"
@@ -61,6 +60,8 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	view = new View( this );
 	setCentralWidget( view );
  	view->setFocusPolicy(QWidget::ClickFocus);
+	minmaxdlg = new KMinMax(view);
+	view->setMinMaxDlg(minmaxdlg);
 	m_quickEdit = new KLineEdit( this );
 	QToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
 	setupActions();
@@ -579,22 +580,18 @@ void MainDlg::saveConstants()
 
 void MainDlg::getYValue()
 {
-	KMinMax *dlg = new KMinMax(view,2);
-	dlg->show();
-	/*double y;
-	double x=5;
-	view->getYValue(0,0,x,y);
-	KMessageBox::error(this,i18n("x: %1\ny: %2").arg((float)x ).arg((float)y ) );*/
+	minmaxdlg->init(2);
+	minmaxdlg->show();
 }
 
 void MainDlg::findMinimumValue()
 {
-	KMinMax *dlg = new KMinMax(view,0);
-	dlg->show();
+	minmaxdlg->init(0);
+	minmaxdlg->show();
 }
 
 void MainDlg::findMaximumValue()
 {
-	KMinMax *dlg = new KMinMax(view,1);
-	dlg->show();
+	minmaxdlg->init(1);
+	minmaxdlg->show();
 }

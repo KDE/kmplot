@@ -37,34 +37,56 @@ KMinMax::KMinMax(QWidget *parent, const char *name)
 }
 
 
-KMinMax::KMinMax(View *v, char m, QWidget *parent, const char *name)
- : QMinMax(parent, name)
+KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
+	: QMinMax(parent, name)
 {
-	m_view = v;
+	m_view=v;
+	m_mode=-1;
+	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
+	connect( cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));
+}
+
+
+void KMinMax::init(char m)
+{
+	if ( m_mode==m)
+	{
+		updateFunctions();
+		return;
+	}
+	
 	m_mode = m;
 	if ( m_mode == 1) //find maximum point
+	{
 		setCaption(i18n("Find maximum point"));
+		max->setReadOnly(false);
+	}
 	if ( m_mode == 2) //get y-value
 	{
 		setCaption(i18n("Get y-value"));
 		max->setReadOnly(true);
+		min->setText("");
+		max->setText("");
 		lblMin->setText(i18n("X:"));
 		lblMax->setText(i18n("Y:"));
 		
 	}
 	else
 	{
-	QString range;
-	range.setNum(View::xmin);
-	min->setText( range);
-	range.setNum(View::xmax);
-	max->setText(range);
+		QString range;
+		range.setNum(View::xmin);
+		min->setText( range);
+		range.setNum(View::xmax);
+		max->setText(range);
+		max->setReadOnly(false);
 	}
 	
-	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( deleteLater() ));
-	connect( cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));
+	updateFunctions();
+}
 
-	
+void KMinMax::updateFunctions()
+{
+	list->clear();
 	int index;
 	QString fname, fstr;
 	for ( index = 0; index < m_view->parser()->ufanz; ++index )
@@ -74,18 +96,12 @@ KMinMax::KMinMax(View *v, char m, QWidget *parent, const char *name)
 		{
 			if ( m_view->parser()->fktext[ index ].f_mode )
 				list->insertItem(m_view->parser()->fktext[ index ].extstr);
-					if ( m_view->csmode == index) 
-						if (  m_view->cstype == 0 && m_view->parser()->fktext[ index ].f_mode)
-							list->setSelected(list->count()-1,true);
 			if ( m_view->parser()->fktext[ index ].f1_mode ) //1st derivative
 			{
 				QString function (m_view->parser()->fktext[ index ].extstr);
 				int i= function.find('(');
 				function.insert(i,'\'');
 				list->insertItem(function );
-				if ( m_view->csmode == index) 
-					if (  m_view->cstype == 1 && m_view->parser()->fktext[ index ].f1_mode)
-						list->setSelected(list->count()-1,true);
 			}
 			if ( m_view->parser()->fktext[ index ].f2_mode )//2nd derivative
 			{
@@ -93,9 +109,6 @@ KMinMax::KMinMax(View *v, char m, QWidget *parent, const char *name)
 				int i= function.find('(');
 				function.insert(i,"\'\'");
 				list->insertItem(function );
-				if ( m_view->csmode == index) 
-					if (  m_view->cstype == 2 && m_view->parser()->fktext[ index ].f2_mode)
-						list->setSelected(list->count()-1,true);
 			}
 			if ( m_view->parser()->fktext[ index ].anti_mode )//anti derivative
 			{
@@ -107,9 +120,30 @@ KMinMax::KMinMax(View *v, char m, QWidget *parent, const char *name)
 				list->insertItem(function );
 			}
 		}
-	}	
+	}
+	selectItem();
 }
 
+void KMinMax::selectItem()
+{
+	if (  m_view->csmode < 0)
+		return;
+	kdDebug() << "cstype: " << (int)m_view->cstype << endl;
+	QString function = m_view->parser()->fktext[ m_view->csmode ].extstr;
+	if ( m_view->cstype == 2)
+	{
+		int i= function.find('(');
+		function.remove(i-2,2);
+	}
+	else if ( m_view->cstype == 1)
+	{
+		int i= function.find('(');
+		function.remove(i-1,1);
+	}
+	kdDebug() << "function: " << function << endl;
+	QListBoxItem *item = list->findItem(function);
+	list->setSelected(item,true);
+}
 
 KMinMax::~KMinMax()
 {

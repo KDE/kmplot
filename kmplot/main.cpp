@@ -47,12 +47,15 @@ int main( int argc, char **argv )
 	    "kmplot",
 	    I18N_NOOP( "KmPlot" ),
 	    KP_VERSION, description, KAboutData::License_GPL,
-	    "(c) 2000-2002, Klaus-Dieter Möller",
+	    "(c) 2000-2002, Klaus-Dieter MÃ¶ller",
 	    0, 0,
 	    "submit@bugs.kde.org" );
 	aboutData.addAuthor(
-	    "Klaus-Dieter Möller", 0 ,
+	    "Klaus-Dieter MÃ¶ller", 0 ,
 	    "kd.moeller@t-online.de" );
+	aboutData.addCredit("David Vignoni",
+                 I18N_NOOP("SVG icon" ),
+                 "david80v@tin.it");
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 

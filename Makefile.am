@@ -1,4 +1,4 @@
-SUBDIRS = kmplot pics
+SUBDIRS = kmplot pics icons
 
 EXTRA_DIST = kpercentage.kdevprj
 

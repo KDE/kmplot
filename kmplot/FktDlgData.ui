@@ -137,7 +137,7 @@
                                 <cstring>PushButtonAttr</cstring>
                             </property>
                             <property name="text">
-                                <string>&amp;Attributes</string>
+                                <string>&amp;Attributes...</string>
                             </property>
                         </widget>
                         <widget class="QPushButton">

@@ -63,9 +63,9 @@ KColorPage::KColorPage( QWidget *parent, const char *name )
 	coords = new QWidget( this, "coords" );
 	QGridLayout *layout_coords = new QGridLayout( coords, 3, 2, 5 );
 	layout_coords->setAutoAdd( true );
-	l_coords_axes = new QLabel( i18n( "Axes" ), coords );
+	l_coords_axes = new QLabel( i18n( "Axes:" ), coords );
 	cb_coords_axes = new KColorButton( coords );
-	l_coords_grid = new QLabel( i18n( "Grid" ), coords );
+	l_coords_grid = new QLabel( i18n( "Grid:" ), coords );
 	cb_coords_grid = new KColorButton( coords );
 	layout_coords->setRowStretch( 2, 1 );
 	addTab( coords, i18n( "Coords" ) );
@@ -73,25 +73,25 @@ KColorPage::KColorPage( QWidget *parent, const char *name )
 	functions = new QWidget( this, "functions" );
 	QGridLayout *layout_functions = new QGridLayout( functions, 6, 4, 5 );
 	layout_functions->setAutoAdd( true );
-	l_functions0 = new QLabel( i18n( "Function 1" ), functions );
+	l_functions0 = new QLabel( i18n( "Function 1:" ), functions );
 	cb_functions0 = new KColorButton( functions );
-	l_functions1 = new QLabel( i18n( "Function 2" ), functions );
+	l_functions1 = new QLabel( i18n( "Function 2:" ), functions );
 	cb_functions1 = new KColorButton( functions );
-	l_functions2 = new QLabel( i18n( "Function 3" ), functions );
+	l_functions2 = new QLabel( i18n( "Function 3:" ), functions );
 	cb_functions2 = new KColorButton( functions );
-	l_functions3 = new QLabel( i18n( "Function 4" ), functions );
+	l_functions3 = new QLabel( i18n( "Function 4:" ), functions );
 	cb_functions3 = new KColorButton( functions );
-	l_functions4 = new QLabel( i18n( "Function 5" ), functions );
+	l_functions4 = new QLabel( i18n( "Function 5:" ), functions );
 	cb_functions4 = new KColorButton( functions );
-	l_functions5 = new QLabel( i18n( "Function 6" ), functions );
+	l_functions5 = new QLabel( i18n( "Function 6:" ), functions );
 	cb_functions5 = new KColorButton( functions );
-	l_functions6 = new QLabel( i18n( "Function 7" ), functions );
+	l_functions6 = new QLabel( i18n( "Function 7:" ), functions );
 	cb_functions6 = new KColorButton( functions );
-	l_functions7 = new QLabel( i18n( "Function 8" ), functions );
+	l_functions7 = new QLabel( i18n( "Function 8:" ), functions );
 	cb_functions7 = new KColorButton( functions );
-	l_functions8 = new QLabel( i18n( "Function 9" ), functions );
+	l_functions8 = new QLabel( i18n( "Function 9:" ), functions );
 	cb_functions8 = new KColorButton( functions );
-	l_functions9 = new QLabel( i18n( "Function 10" ), functions );
+	l_functions9 = new QLabel( i18n( "Function 10:" ), functions );
 	cb_functions9 = new KColorButton( functions );
 	addTab( functions, i18n( "Functions" ) );
 
@@ -231,7 +231,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	Layout17 = new QHBoxLayout( 0, 0, 6, "Layout17" );
 
 	bg_xachse = new QButtonGroup( this, "bg_xachse" );
-	bg_xachse->setTitle( i18n( "x-axis" ) );
+	bg_xachse->setTitle( i18n( "X-Axis" ) );
 	bg_xachse->setColumnLayout( 0, Qt::Vertical );
 	bg_xachse->layout() ->setSpacing( 6 );
 	bg_xachse->layout() ->setMargin( 11 );
@@ -258,7 +258,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	bg_xachseLayout->addWidget( rb_x4 );
 
 	rb_x5 = new QRadioButton( bg_xachse, "rb_x5" );
-	rb_x5->setText( i18n( "custom" ) );
+	rb_x5->setText( i18n( "Custom" ) );
 	bg_xachseLayout->addWidget( rb_x5 );
 
 	Layout6 = new QVBoxLayout( 0, 0, 6, "Layout6" );
@@ -290,7 +290,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	Layout17->addWidget( bg_xachse );
 
 	bg_yachse = new QButtonGroup( this, "bg_yachse" );
-	bg_yachse->setTitle( i18n( "y-axis" ) );
+	bg_yachse->setTitle( i18n( "Y-Axis" ) );
 	bg_yachse->setColumnLayout( 0, Qt::Vertical );
 	bg_yachse->layout() ->setSpacing( 6 );
 	bg_yachse->layout() ->setMargin( 11 );
@@ -318,7 +318,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	bg_yachseLayout->addWidget( rb_y4 );
 
 	rb_y5 = new QRadioButton( bg_yachse, "rb_y5" );
-	rb_y5->setText( i18n( "custom" ) );
+	rb_y5->setText( i18n( "Custom" ) );
 	bg_yachseLayout->addWidget( rb_y5 );
 
 	Layout3 = new QVBoxLayout( 0, 0, 6, "Layout3" );
@@ -353,7 +353,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	Layout16 = new QGridLayout( 0, 1, 1, 0, 6, "Layout16" );
 
 	TextLabel1_2_3 = new QLabel( this, "TextLabel1_2_3" );
-	TextLabel1_2_3->setText( i18n( "&Tic width" ) );
+	TextLabel1_2_3->setText( i18n( "&Tic width:" ) );
 
 	Layout16->addWidget( TextLabel1_2_3, 2, 0 );
 
@@ -363,7 +363,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	le_td->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 0, ( QSizePolicy::SizeType ) 0, 0, 0, le_td->sizePolicy().hasHeightForWidth() ) );
 	le_td->setMinimumSize( QSize( 80, 0 ) );
 	QToolTip::add
-		( le_td, i18n( "Tic mark line thickness" ) );
+		( le_td, i18n( "Tic mark line thickness:" ) );
 	Layout13->addWidget( le_td );
 
 	TextLabel2_2 = new QLabel( this, "TextLabel2_2" );
@@ -373,7 +373,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	Layout16->addLayout( Layout13, 3, 0 );
 
 	TextLabel1_2_2_2 = new QLabel( this, "TextLabel1_2_2_2" );
-	TextLabel1_2_2_2->setText( i18n( "Tic &length" ) );
+	TextLabel1_2_2_2->setText( i18n( "Tic &length:" ) );
 
 	Layout16->addWidget( TextLabel1_2_2_2, 2, 1 );
 
@@ -393,7 +393,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	Layout16->addLayout( Layout14, 3, 1 );
 
 	TextLabel1_4 = new QLabel( this, "TextLabel1_4" );
-	TextLabel1_4->setText( i18n( "&Axes line width" ) );
+	TextLabel1_4->setText( i18n( "&Axes line width:" ) );
 
 	Layout16->addWidget( TextLabel1_4, 0, 0 );
 
@@ -403,7 +403,7 @@ KAxesTab::KAxesTab( QWidget* parent, const char* name )
 	le_ad->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 0, ( QSizePolicy::SizeType ) 0, 0, 0, le_ad->sizePolicy().hasHeightForWidth() ) );
 	le_ad->setMinimumSize( QSize( 80, 0 ) );
 	QToolTip::add
-		( le_ad, i18n( "Thickness of the Axes line" ) );
+		( le_ad, i18n( "Thickness of the axes line" ) );
 	Layout12->addWidget( le_ad );
 
 	TextLabel2 = new QLabel( this, "TextLabel2" );
@@ -462,7 +462,7 @@ KGridTab::KGridTab( QWidget* parent, const char* name )
 	KGridTabLayout->addWidget( bg_raster );
 
 	TextLabel1 = new QLabel( this, "TextLabel1" );
-	TextLabel1->setText( i18n( "Line width" ) );
+	TextLabel1->setText( i18n( "Line width:" ) );
 	KGridTabLayout->addWidget( TextLabel1 );
 
 	Layout20 = new QHBoxLayout( 0, 0, 6, "Layout20" );
@@ -487,7 +487,7 @@ KFontTab::KFontTab( QWidget* parent, const char* name )
 	KFontTabLayout = new QGridLayout( this, 1, 1, 11, 6, "KFontTabLayout" );
 
 	label_axes = new QLabel( this, "label_axes" );
-	label_axes->setText( trUtf8( "&Axes Labels:" ) );
+	label_axes->setText( trUtf8( "&Axes labels:" ) );
 
 	KFontTabLayout->addWidget( label_axes, 1, 0 );
 
@@ -500,7 +500,7 @@ KFontTab::KFontTab( QWidget* parent, const char* name )
 	KFontTabLayout->addWidget( fc_header, 0, 1 );
 
 	label_header = new QLabel( this, "label_header" );
-	label_header->setText( trUtf8( "Header &Table:" ) );
+	label_header->setText( trUtf8( "Header &table:" ) );
 
 	KFontTabLayout->addWidget( label_header, 0, 0 );
 	QSpacerItem* spacer = new QSpacerItem( 0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding );
@@ -656,7 +656,7 @@ KScalingPage::KScalingPage( QWidget* parent, const char* name )
 	Layout11 = new QHBoxLayout( 0, 0, 6, "Layout11" );
 
 	GroupBox1 = new QGroupBox( this, "GroupBox1" );
-	GroupBox1->setTitle( i18n( "x-axis" ) );
+	GroupBox1->setTitle( i18n( "X-Axis" ) );
 	GroupBox1->setColumnLayout( 0, Qt::Vertical );
 	GroupBox1->layout() ->setSpacing( 6 );
 	GroupBox1->layout() ->setMargin( 11 );
@@ -664,14 +664,14 @@ KScalingPage::KScalingPage( QWidget* parent, const char* name )
 	GroupBox1Layout->setAlignment( Qt::AlignTop );
 
 	TextLabel3_3 = new QLabel( GroupBox1, "TextLabel3_3" );
-	TextLabel3_3->setText( i18n( "Scaling" ) );
+	TextLabel3_3->setText( i18n( "Scaling:" ) );
 	GroupBox1Layout->addWidget( TextLabel3_3 );
 
 	Layout8 = new QHBoxLayout( 0, 0, 6, "Layout8" );
 
 	TextLabel1 = new QLabel( GroupBox1, "TextLabel1" );
 	TextLabel1->setSizePolicy( QSizePolicy( ( QSizePolicy::SizeType ) 5, ( QSizePolicy::SizeType ) 5, 0, 0, TextLabel1->sizePolicy().hasHeightForWidth() ) );
-	TextLabel1->setText( i18n( "1 Tic =" ) );
+	TextLabel1->setText( i18n( "1 tic =" ) );
 	TextLabel1->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
 	Layout8->addWidget( TextLabel1 );
 
@@ -699,13 +699,13 @@ KScalingPage::KScalingPage( QWidget* parent, const char* name )
 	GroupBox1Layout->addWidget( Line1 );
 
 	TextLabel3 = new QLabel( GroupBox1, "TextLabel3" );
-	TextLabel3->setText( i18n( "Printing" ) );
+	TextLabel3->setText( i18n( "Printing:" ) );
 	GroupBox1Layout->addWidget( TextLabel3 );
 
 	Layout7 = new QHBoxLayout( 0, 0, 6, "Layout7" );
 
 	TextLabel1_3 = new QLabel( GroupBox1, "TextLabel1_3" );
-	TextLabel1_3->setText( i18n( "1 Tic =" ) );
+	TextLabel1_3->setText( i18n( "1 tic =" ) );
 	TextLabel1_3->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
 	Layout7->addWidget( TextLabel1_3 );
 
@@ -731,7 +731,7 @@ KScalingPage::KScalingPage( QWidget* parent, const char* name )
 	Layout11->addWidget( GroupBox1 );
 
 	GroupBox1_2 = new QGroupBox( this, "GroupBox1_2" );
-	GroupBox1_2->setTitle( i18n( "y-axis" ) );
+	GroupBox1_2->setTitle( i18n( "Y-Axis" ) );
 	GroupBox1_2->setColumnLayout( 0, Qt::Vertical );
 	GroupBox1_2->layout() ->setSpacing( 6 );
 	GroupBox1_2->layout() ->setMargin( 11 );
@@ -739,13 +739,13 @@ KScalingPage::KScalingPage( QWidget* parent, const char* name )
 	GroupBox1_2Layout->setAlignment( Qt::AlignTop );
 
 	TextLabel3_3_2 = new QLabel( GroupBox1_2, "TextLabel3_3_2" );
-	TextLabel3_3_2->setText( i18n( "Scaling" ) );
+	TextLabel3_3_2->setText( i18n( "Scaling:" ) );
 	GroupBox1_2Layout->addWidget( TextLabel3_3_2 );
 
 	Layout10 = new QHBoxLayout( 0, 0, 6, "Layout10" );
 
 	TextLabel1_2 = new QLabel( GroupBox1_2, "TextLabel1_2" );
-	TextLabel1_2->setText( i18n( "1 Tic =" ) );
+	TextLabel1_2->setText( i18n( "1 tic =" ) );
 	TextLabel1_2->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
 	Layout10->addWidget( TextLabel1_2 );
 
@@ -771,13 +771,13 @@ KScalingPage::KScalingPage( QWidget* parent, const char* name )
 	GroupBox1_2Layout->addWidget( Line1_2 );
 
 	TextLabel3_2 = new QLabel( GroupBox1_2, "TextLabel3_2" );
-	TextLabel3_2->setText( i18n( "Printing" ) );
+	TextLabel3_2->setText( i18n( "Printing:" ) );
 	GroupBox1_2Layout->addWidget( TextLabel3_2 );
 
 	Layout9 = new QHBoxLayout( 0, 0, 6, "Layout9" );
 
 	TextLabel1_3_2 = new QLabel( GroupBox1_2, "TextLabel1_3_2" );
-	TextLabel1_3_2->setText( i18n( "1 Tic =" ) );
+	TextLabel1_3_2->setText( i18n( "1 tic =" ) );
 	TextLabel1_3_2->setAlignment( int( QLabel::AlignVCenter | QLabel::AlignRight ) );
 	Layout9->addWidget( TextLabel1_3_2 );
 
@@ -859,7 +859,7 @@ KSettingsDlg::KSettingsDlg( QWidget *parent, const char *name )
 	layout_color->addWidget( color_page );
 
 	// Coords
-	frame_coords = addPage( i18n( "Coords" ), i18n( "Customize Settings for Axes and Grid" ), BarIcon( "coords", KIcon::SizeMedium ) );
+	frame_coords = addPage( i18n( "Coords" ), i18n( "Customize Settings for Axes & Grid" ), BarIcon( "coords", KIcon::SizeMedium ) );
 	coords_page = new KCoordsPage( frame_coords, "coords_page" );
 	QVBoxLayout *layout_coords = new QVBoxLayout( frame_coords );
 	layout_coords->addWidget( coords_page );

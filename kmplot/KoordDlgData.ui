@@ -472,7 +472,7 @@
                                 </sizepolicy>
                             </property>
                             <property name="text">
-                                <string>&amp;Options</string>
+                                <string>&amp;Options...</string>
                             </property>
                         </widget>
                         <widget class="QPushButton" row="0" column="1">

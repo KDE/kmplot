@@ -73,7 +73,7 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "&Step..." ), 0, this, SLOT( schrittw() ), actionCollection(), "step" );
 	view_bezeichnungen = new KToggleAction( i18n( "&Names" ), 0, this, SLOT( bezeichnungen() ), actionCollection(), "names" );
 
-	( void ) new KAction( i18n( "Functions" ), "kfkt.png", 0, this, SLOT( funktionen() ), actionCollection(), "functions" );
+	( void ) new KAction( i18n( "Functions..." ), "kfkt.png", 0, this, SLOT( funktionen() ), actionCollection(), "functions" );
 	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( onachsen1() ), actionCollection(), "coord_i" );
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );

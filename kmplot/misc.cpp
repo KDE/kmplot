@@ -75,18 +75,6 @@ void getSettings()
 	if( yminstr.isEmpty() ) yminstr = "-2*pi";
 	if( ymaxstr.isEmpty() ) ymaxstr = "2*pi";
 
-	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
-	
-	tlgxstr = units[ Settings::xScaling() ];
-	tlgx = ps.eval( tlgxstr );
-	tlgystr = units[ Settings::yScaling() ];
-	tlgy = ps.eval( tlgystr );
-
-	drskalxstr = units[ Settings::xPrinting() ];
-	drskalx = ps.eval( drskalxstr );
-	drskalystr = units[ Settings::yPrinting() ];
-	drskaly = ps.eval( drskalystr );
-
 	if ( Settings::showLabel() ) mode |= LABEL;
 
 	// graph settings

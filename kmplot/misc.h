@@ -65,41 +65,40 @@ extern QString	xminstr,
 //@}
 
 extern double sw,  			/**< Precision for the functions.  */
-	rsw,  /**< Precision for the grid. */
+	rsw;  /**< Precision for the grid. */
 
 	/** @name Axes Division
 	*
 	* @see SkalDlg */ 
 	//@{
 	/** Distance between two tics on the x-axis or the distance between vertical grid lines. */
-	tlgx,
+// 	tlgx,
 	/** Distance between two tics on the y-axis or the distance between horizontal grid lines. */
-	tlgy,
+// 	tlgy,
 	//@}
 	/** @name Printing Scale
 	 *
 	 * @see SklDlg */ 
 	//@{
 	/** 1 unit on the x-axis results \p drskalx cm at printing. */
-	drskalx,
+// 	drskalx,
 	/** 1 unit on the y-axis results \p drskaly cm at printing. */
-	drskaly;
+// 	drskaly;
 //@}
 
-/** Current filename */
-extern QString //dataFile,
-	/**
-	 * Axes tic step - string representation. 
-	 * @see tlgx, tlgy
-	 */
-	tlgxstr,
-	tlgystr,
-	/**
-	 * Printing unit - string representation. 
-	 * @see drskalx, drskaly
-	 */
-	drskalxstr,
-	drskalystr;
+
+// extern QString /**
+// 	 * Axes tic step - string representation. 
+// 	 * @see tlgx, tlgy
+// 	 */
+// 	tlgxstr,
+// 	tlgystr,
+// 	/**
+// 	 * Printing unit - string representation. 
+// 	 * @see drskalx, drskaly
+// 	 */
+// 	drskalxstr,
+// 	drskalystr;
 
 /** Header table printing option
  * @see KPinterDlg

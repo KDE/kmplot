@@ -79,6 +79,9 @@ private:
 			vline;
 	QWMatrix wm;
 	
+	double tlgx, tlgy, drskalx, drskaly;
+	QString tlgxstr, tlgystr, drskalxstr, drskalystr;
+	
 	/// current plot range
 	double xmin, xmax, ymin, ymax;
 	/** Handle predefiend axes ranges.
@@ -95,6 +98,7 @@ private:
 	void coordToMinMax( const int koord, const QString minStr, const QString maxStr, 
 		double &min, double &max );
 	void setPlotRange();
+	void setScaling();
 };
 
 #endif // View_included

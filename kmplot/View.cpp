@@ -54,6 +54,7 @@ void View::draw(QPaintDevice *dev, int form)
 	h=rc.height();
 	
 	setPlotRange();
+	setScaling();
 	
 	if(form==0)										// screen
 	{   ref=QPoint(120, 100);
@@ -503,4 +504,19 @@ void View::setPlotRange()
 {
 	coordToMinMax( Settings::xRange(), Settings::xMin(), Settings::xMax(), xmin, xmax );
 	coordToMinMax( Settings::yRange(), Settings::yMin(), Settings::yMax(), ymin, ymax );
+}
+
+void View::setScaling()
+{
+	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
+	
+	tlgxstr = units[ Settings::xScaling() ];
+	tlgx = ps.eval( tlgxstr );
+	tlgystr = units[ Settings::yScaling() ];
+	tlgy = ps.eval( tlgystr );
+
+	drskalxstr = units[ Settings::xPrinting() ];
+	drskalx = ps.eval( drskalxstr );
+	drskalystr = units[ Settings::yPrinting() ];
+	drskaly = ps.eval( drskalystr );
 }

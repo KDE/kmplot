@@ -80,10 +80,11 @@ void KmPlotIO::save( const QString filename )
 
 	tag = doc.createElement( "scale" );
 
-	addTag( doc, tag, "tic-x", tlgxstr );
-	addTag( doc, tag, "tic-y", tlgystr );
-	addTag( doc, tag, "print-tic-x", drskalxstr );
-	addTag( doc, tag, "print-tic-y", drskalystr );
+	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
+	addTag( doc, tag, "tic-x", units[ Settings::xScaling() ] );
+	addTag( doc, tag, "tic-y", units[ Settings::yScaling() ] );
+	addTag( doc, tag, "print-tic-x", units[ Settings::xPrinting() ] );
+	addTag( doc, tag, "print-tic-y", units[ Settings::yPrinting() ] );
 	
 	root.appendChild( tag );
 
@@ -197,17 +198,22 @@ void KmPlotIO::parseGrid( const QDomElement & n )
 	Settings::setGridStyle( n.namedItem( "mode" ).toElement().text().toInt() );
 }
 
+int unit2index( const QString unit )
+{
+	const char* units[ 8 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4" };
+	int index = 0;
+	while( ( index < 8 ) && ( unit!= units[ index ] ) ) index ++;
+	if( index == 8 ) index = -1;
+	return index;
+}
+
+
 void KmPlotIO::parseScale( const QDomElement & n )
 {
-	tlgxstr = n.namedItem( "tic-x" ).toElement().text();
-	tlgystr = n.namedItem( "tic-y" ).toElement().text();
-	drskalxstr = n.namedItem( "print-tic-x" ).toElement().text();
-	drskalystr = n.namedItem( "print-tic-y" ).toElement().text();
-
-	tlgx = ps.eval( tlgxstr );
-	tlgy = ps.eval( tlgystr );
-	drskalx = ps.eval( drskalxstr );
-	drskaly = ps.eval( drskalystr );
+	Settings::setXScaling( unit2index( n.namedItem( "tic-x" ).toElement().text() ) );
+	Settings::setYScaling( unit2index( n.namedItem( "tic-y" ).toElement().text() ) );
+	Settings::setXPrinting( unit2index( n.namedItem( "print-tic-x" ).toElement().text() ) );
+	Settings::setYPrinting( unit2index( n.namedItem( "print-tic-y" ).toElement().text() ) );
 }
 
 void KmPlotIO::parseStep( const QDomElement & n )

@@ -118,7 +118,6 @@ private:
 	
 	double tlgx, tlgy, drskalx, drskaly;
 	QString tlgxstr, tlgystr, drskalxstr, drskalystr;
-	double relativeStepWidth;  ///< Precision relativly to the size.
 	double stepWidth; ///< Absolute step width 
 	
 	/** @name Plotrange

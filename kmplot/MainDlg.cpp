@@ -357,8 +357,8 @@ void MainDlg::newPolar()
 
 void MainDlg::slotEditPlots()
 {
-	if ( !fdlg ) fdlg = new FktDlg( this ); // make the dialog only if not allready done
-	fdlg->fillList(); // 
+	if ( !fdlg ) fdlg = new FktDlg( this, &ps ); // make the dialog only if not allready done
+	fdlg->getPlots(); // 
 	QString tmpName = locate ( "tmp", "" ) + "kmplot-" + m_sessionId;
 	KmPlotIO::save( tmpName );
 	if( fdlg->exec() == QDialog::Rejected ) KmPlotIO::load( tmpName );

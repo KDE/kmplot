@@ -27,8 +27,6 @@ TODO
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
-* In tool menu:
-	* * area under a graph
 
 
 DONE
@@ -59,3 +57,6 @@ DONE
 * Navigating in trace mode with the keyboard
 * Trace mode with derivatives
 * Fix totalsteps in progressbar
+* In tool menu:
+	* area under a graph
+* Printable area-under-graphs

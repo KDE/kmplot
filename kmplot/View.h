@@ -85,7 +85,7 @@ public:
 	/// get a y-value from a x-value
 	void getYValue(int, char, double , double &);
 	/// draw and calculate the area between the graph and the x-axis.
-	void areaUnderGraph(int, char, double &, double &);	
+	void areaUnderGraph(int, char, double &, double &, QPainter* );
 	
 			
 	/// Returns a pointer to the private parser instance m_parser.
@@ -104,6 +104,13 @@ public:
 	/// trace mode stuff, must be accessible in KMinMax
 	int csmode;
 	char cstype;
+	
+	/// for areadrawing when printing
+	bool areaDraw;
+	int areaIx;
+	char areaPMode;
+	double areaMin, areaMax;
+
 public slots:
 	/// Called when the user want to cancel the drawing
 	void progressbar_clicked();
@@ -192,14 +199,14 @@ private:
 	/// represents the KPrinter option app-kmplot-printtable.
 	/// @see KPrinterDlg
 	bool m_printHeaderTable;
-	///buffer the current window so all functions don't need to be re-drawed
-	QPixmap buffer;
 	/// if stop_calculating is true, the user has canceled drawing of an anti-derivative graph
 	bool stop_calculating;
 	/// the background color of the graph
 	QColor backgroundcolor;
 	/// pointer to KMinMax
 	KMinMax *m_minmax;
+	///buffer the current window so all functions don't need to be re-drawed
+	QPixmap buffer;
 };
 
 #endif // View_included

@@ -81,6 +81,7 @@ View::View(QWidget* parent, const char* name ) : QWidget( parent, name , WStatic
 	setBackgroundColor(backgroundcolor);
 	setMouseTracking(TRUE);
 	stepWidth=0;
+	areaDraw = false;
 }
 
 void View::setMinMaxDlg(KMinMax *minmaxdlg)
@@ -157,7 +158,6 @@ void View::draw(QPaintDevice *dev, int form)
 		DC.translate(-dgr.GetFrame().left()*sf, -dgr.GetFrame().top()*sf);
 		DC.scale(sf, sf);
 		s=1.;
-		
 	}
 	
 	dgr.borderThickness=(uint)(4*s);
@@ -169,6 +169,9 @@ void View::draw(QPaintDevice *dev, int form)
 	dgr.gridColor=Settings::gridColor().rgb();
 	dgr.Skal( tlgx, tlgy );
 	
+	if ( form!=0 && areaDraw)
+		areaUnderGraph(areaIx, areaPMode, areaMin,areaMax, &DC);
+	
 	dgr.Plot(&DC);
 	PlotArea=dgr.GetPlotArea();
 	area=DC.xForm(PlotArea);
@@ -176,14 +179,12 @@ void View::draw(QPaintDevice *dev, int form)
 	vline.resize(1, area.height());
 	if ( stepWidth == 0)
 		stepWidth=Settings::relativeStepWidth() * (xmax-xmin) / area.width();
-	
 	stop_calculating = false;
 	for(ix=0; ix<m_parser->ufanz && !stop_calculating; ++ix)
 	{
 		if(m_parser->chkfix(ix)==-1) continue;
 		plotfkt(ix, &DC);
 	}
-
 	csflg=0;
 	DC.end();			// painting done
 
@@ -518,6 +519,7 @@ void View::drawPlot()
 	if( m_minmax->isShown() )
 		m_minmax->updateFunctions();
 	buffer.fill(backgroundcolor);
+	areaDraw = false;
 	draw(&buffer, 0);
 	QPainter p;
 	p.begin(this);
@@ -536,66 +538,66 @@ void View::mouseMoveEvent(QMouseEvent *e)
 
 	if(area.contains(e->pos()))
 	{   QPoint ptd, ptl;
-		QPainter DC;
+	QPainter DC;
 
-		DC.begin(this);
-		DC.setWindow(0, 0, w, h);
-		DC.setWorldMatrix(wm);
-		ptl=DC.xFormDev(e->pos());
-		if((csmode=m_parser->chkfix(csmode)) >= 0)
-		{
-			if ( cstype == 0)
-				ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
-			else if ( cstype == 1)
-				ptl.setY(dgr.Transy(csypos=m_parser->a1fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
-			else if ( cstype == 2)
-				ptl.setY(dgr.Transy(csypos=m_parser->a2fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+	DC.begin(this);
+	DC.setWindow(0, 0, w, h);
+	DC.setWorldMatrix(wm);
+	ptl=DC.xFormDev(e->pos());
+	if((csmode=m_parser->chkfix(csmode)) >= 0)
+	{
+		if ( cstype == 0)
+			ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+		else if ( cstype == 1)
+			ptl.setY(dgr.Transy(csypos=m_parser->a1fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+		else if ( cstype == 2)
+			ptl.setY(dgr.Transy(csypos=m_parser->a2fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
 
-            if(fabs(csypos)<0.2)
-            {   double x0;
-                QString str;
+		if(fabs(csypos)<0.2)
+		{   double x0;
+		QString str;
 
-                if(root(&x0))
-                {   str="  ";
-                    str+=i18n("root");
-                    stbar->changeItem(str+QString().sprintf(":  x0= %+.5f", x0), 3);
-                    rootflg=1;
-                }
-            }
-            else
-            {   stbar->changeItem("", 3);
-                rootflg=0;
-            }
-        }
+		if(root(&x0))
+		{   str="  ";
+		str+=i18n("root");
+		stbar->changeItem(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+		rootflg=1;
+		}
+		}
 		else
-		{   csxpos=dgr.Transx(ptl.x());
-			csypos=dgr.Transy(ptl.y());
+		{   stbar->changeItem("", 3);
+		rootflg=0;
 		}
-		ptd=DC.xForm(ptl);
-		DC.end();
+	}
+	else
+	{   csxpos=dgr.Transx(ptl.x());
+	csypos=dgr.Transy(ptl.y());
+	}
+	ptd=DC.xForm(ptl);
+	DC.end();
 
-		sprintf(sx, "  x= %+.2f", (float)dgr.Transx(ptl.x()));//csxpos);
-		sprintf(sy, "  y= %+.2f", csypos);
+	sprintf(sx, "  x= %+.2f", (float)dgr.Transx(ptl.x()));//csxpos);
+	sprintf(sy, "  y= %+.2f", csypos);
 
-		if(csflg==0)        // Hintergrund speichern
-		{	bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
-			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
+	if(csflg==0)        // Hintergrund speichern
+	{	bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
+	bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
 
-			// Fadenkreuz zeichnen
-			QPen pen((csmode>=0)? m_parser->fktext[csmode].color : 0, 1);
+	// Fadenkreuz zeichnen
+	QPen pen((csmode>=0)? m_parser->fktext[csmode].color : 0, 1);
 
-			DC.begin(this);
-			DC.setPen(pen);
-			DC.Lineh(area.left(), fcy, area.right());
-			DC.Linev(fcx, area.bottom(), area.top());
-			DC.end();
-		}
-		csflg=1;
-		setCursor(blankCursor);
+	DC.begin(this);
+	DC.setPen(pen);
+	DC.Lineh(area.left(), fcy, area.right());
+	DC.Linev(fcx, area.bottom(), area.top());
+	DC.end();
+	}
+	csflg=1;
+	setCursor(blankCursor);
 	}
 	else
 	{   setCursor(arrowCursor);
-		sx[0]=sy[0]=0;
+	sx[0]=sy[0]=0;
 	}
 
 	stbar->changeItem(sx, 1);
@@ -615,46 +617,46 @@ void View::mousePressEvent(QMouseEvent *e)
 	if(e->button()!=LeftButton) return ;
 	if(csmode>=0)
 	{   csmode=-1;
-		mouseMoveEvent(e);
-		return ;
+	mouseMoveEvent(e);
+	return ;
 	}
 
 	g=tlgy/5.;
 	for(ix=0; ix<m_parser->ufanz; ++ix)
 	{   switch(m_parser->fktext[ix].extstr[0].latin1())
-		{  case 0:
-		   case 'x':
-		   case 'y':
-		   case 'r':    continue;   // Fangen nicht m�lich
-		}
+	{  case 0:
+		case 'x':
+		case 'y':
+			case 'r':    continue;   // Fangen nicht m�lich
+	}
 
-		k=0;
-		ke=m_parser->fktext[ix].k_anz;
-		do
-		{   m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
-			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
-			{   	csmode=ix;
-				cstype=0;
-				m_minmax->selectItem();
-				mouseMoveEvent(e);
-				return;
-			}
-			if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
-			{   	csmode=ix;
-				cstype=1;
-				mouseMoveEvent(e);
-				m_minmax->selectItem();
-				return;
-			}
-			if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g && m_parser->fktext[ix].f2_mode)
-			{   	csmode=ix;
-				cstype=2;
-				mouseMoveEvent(e);
-				m_minmax->selectItem();
-				return;
-			}
-		}
-		while(++k<ke);
+	k=0;
+	ke=m_parser->fktext[ix].k_anz;
+	do
+	{   m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
+	if(fabs(csypos-m_parser->fkt(ix, csxpos))< g && m_parser->fktext[ix].f_mode)
+	{   	csmode=ix;
+	cstype=0;
+	m_minmax->selectItem();
+	mouseMoveEvent(e);
+	return;
+	}
+	if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g && m_parser->fktext[ix].f1_mode)
+	{   	csmode=ix;
+	cstype=1;
+	mouseMoveEvent(e);
+	m_minmax->selectItem();
+	return;
+	}
+	if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g && m_parser->fktext[ix].f2_mode)
+	{   	csmode=ix;
+	cstype=2;
+	mouseMoveEvent(e);
+	m_minmax->selectItem();
+	return;
+	}
+	}
+	while(++k<ke);
 	}
 
 	csmode=-1;
@@ -662,29 +664,29 @@ void View::mousePressEvent(QMouseEvent *e)
 
 
 void View::coordToMinMax( const int koord, const QString minStr, const QString maxStr, 
-	double &min, double &max )
+			  double &min, double &max )
 {
 	switch ( koord )
 	{
-	case 0:
-		min = -8.0;
-		max = 8.0;
-		break;
-	case 1:
-		min = -5.0;
-		max = 5.0;
-		break;
-	case 2:
-		min = 0.0;
-		max = 16.0;
-		break;
-	case 3:
-		min = 0.0;
-		max = 10.0;
-		break;
-	case 4:
-		min = m_parser->eval( minStr );
-		max = m_parser->eval( maxStr );
+		case 0:
+			min = -8.0;
+			max = 8.0;
+			break;
+		case 1:
+			min = -5.0;
+			max = 5.0;
+			break;
+		case 2:
+			min = 0.0;
+			max = 16.0;
+			break;
+		case 3:
+			min = 0.0;
+			max = 10.0;
+			break;
+		case 4:
+			min = m_parser->eval( minStr );
+			max = m_parser->eval( maxStr );
 	}
 }
 
@@ -792,7 +794,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 				errno=0;
 
 				switch(p_mode)
-					{
+				{
 					case 0: 
 						y=m_parser->fkt(ix, x);
 						break;
@@ -818,8 +820,8 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 							paintEvent(0);
 						}
 						break;
-						}
 					}
+				}
 				
 				if ( minimum && (x==dmin || y <result_y) ) 
 				{
@@ -835,8 +837,8 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 				
 				if(errno!=0) continue;
 		    
-		    		if (forward_direction)
-		    		{
+				if (forward_direction)
+				{
 					x=x+dx;
 					if (x>dmax && p_mode== 3)
 					{
@@ -844,12 +846,12 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 						x = m_parser->fktext[ix].startx;
 						mflg=2;
 					}
-		    		}
-		    		else
-			    		x=x-dx; // go backwards
-            		}
+				}
+				else
+					x=x-dx; // go backwards
+			}
 		}
-        	while(++k<ke);
+		while(++k<ke);
 		break;
 	}
 	if (  progressbar->isVisible())
@@ -957,7 +959,7 @@ void View::keyPressEvent( QKeyEvent * e)
 		{   
 			if ( ix==csmode && mode==cstype)
 				if (start) start=false;
-				else break;
+			else break;
 			switch(m_parser->fktext[ix].extstr[0].latin1())
 			{  	case 0:
 				case 'x':
@@ -976,11 +978,11 @@ void View::keyPressEvent( QKeyEvent * e)
 			
 			if ( cstype == 1)
 				if ( m_parser->fktext[csmode].f1_mode ) break;
-				else cstype++;
+			else cstype++;
 
 			if ( cstype == 2 )
 				if ( m_parser->fktext[csmode].f2_mode ) break;
-				else cstype++;
+			else cstype++;
 
 			cstype=0;
 			if ( csmode == m_parser->ufanz-2)
@@ -1005,17 +1007,49 @@ void View::keyPressEvent( QKeyEvent * e)
 	delete event;
 }
 
-void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
+void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax, QPainter *DC)
 {
 	double dx, x, y;
 	float area=0;
 	int rectwidth, rectheight;
 	QString fname, fstr;
+	areaMin = dmin;
 	QPoint p;
-	QPainter pDC(&buffer);
-	int ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
-	pDC.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
+	int ly;
 	QColor color = m_parser->fktext[ix].color;
+	if ( DC == 0)
+	{
+		buffer.fill(backgroundcolor);
+		DC = new QPainter(&buffer);
+		//DC->begin(&buffer);
+		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
+		DC->scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
+	}
+	/*switch (form)
+	{
+		case 0:
+		{
+			ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
+			DC.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
+			break;
+		}
+		case 3:
+		{
+			double sf=180./254.;// 180dpi
+			ref=QPoint(0, 0);
+			//lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
+			//ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
+			//dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
+			//DC.end();
+			((QPixmap *)dev)->resize((int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf));
+			((QPixmap *)dev)->fill();
+			//DC.begin(dev);
+			//DC.translate(-dgr.GetFrame().left()*sf, -dgr.GetFrame().top()*sf);
+			DC.scale(sf, sf);
+			//s=1.;		
+			break;
+		}
+	}*/
 
 	if(ix==-1 || ix>=m_parser->ufanz) return ;	    // ungltiger Index
 
@@ -1026,7 +1060,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 		dmin=xmin;
 		dmax=xmax;
 	}
-
+	
 	//m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 	bool forward_direction = true;
 	if ( p_mode == 3)
@@ -1099,7 +1133,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 			}
 			area = area + ( dx*y);
 			//kdDebug() << "Area1: " << area << endl;
-			pDC.fillRect(p.x(),p.y(),rectwidth,rectheight,color);
+			DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 		}
 		else
 		{
@@ -1116,7 +1150,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 			kdDebug() << "x:" << p.height() << endl;
 			kdDebug() << "y:" << p.y() << endl;
 			kdDebug() << "*************" << endl;*/
-			pDC.fillRect(p.x(),p.y(),rectwidth,rectheight,color);
+			DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 		}
 	
 		if (forward_direction)
@@ -1133,10 +1167,26 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 	}
 	if (  progressbar->isVisible())
 		progressbar->hide(); // hide the progressbar-widget if it was shown
-	pDC.end();
+	if ( DC->device() == &buffer)
+	{
+		DC->end();
+		kdDebug() << "Hello" << endl;
+		draw(&buffer,0);
+	}
 	
 	if ( area>0)
 		dmin = int(area*1000)/double(1000);
 	else
 		dmin = int(area*1000)/double(1000)*-1;
+	/*QPainter qp;
+	qp.begin(&tmp_buffer);
+	bitBlt( &buffer, 0, 0, &tmp_buffer, 0, 0, width(), height(),Qt::AndROP, true  );//Qt::AndROP
+	qp.end();*/
+	
+	//if ( dev == 0)
+	//	draw(&buffer,0);
+	areaDraw=true;
+	areaIx = ix;
+	areaPMode = p_mode;
+	areaMax = dmax;
 }

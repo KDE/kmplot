@@ -100,10 +100,10 @@ void View::draw(QPaintDevice *dev, int form)
 	}
 	
 	dgr.borderThickness=(uint)(4*s);
-	dgr.axesThickness=(uint)(axesThickness*s);
-	dgr.gridThickness=(uint)(gridThickness*s);
-	dgr.gradThickness=(uint)(gradThickness*s);
-	dgr.gradLength=gradLength;
+	dgr.axesLineWidth = (uint)( Settings::axesLineWidth()*s );
+	dgr.gridLineWidth = (uint)( Settings::gridLineWidth()*s );
+	dgr.ticWidth = (uint)( Settings::ticWidth()*s );
+	dgr.ticLength = (uint)( Settings::ticLength() );
 	dgr.axesColor = Settings::axesColor().rgb();
 	dgr.gridColor=Settings::gridColor().rgb();
 	dgr.Skal( tlgx, tlgy );

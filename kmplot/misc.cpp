@@ -35,14 +35,11 @@ KApplication *ka;
 XParser ps( 10, 200, 20 );
 
 int mode;     // Diagrammodus
-// g_mode;  // grid style
 
 int koordx,     // 0 => [-8|+8]
 koordy,     // 1 => [-5|+5]
 // 2 => [0|+16]
 // 3 => [0|+10]
-axesThickness,
-gridThickness,
 gradThickness,
 gradLength;
 
@@ -121,14 +118,7 @@ void getSettings()
 	drskalystr = units[ Settings::yPrinting() ];
 	drskaly = ps.eval( drskalystr );
 
-	axesThickness = Settings::axesLineWidth();
 	if ( Settings::showLabel() ) mode |= LABEL;
-	gradThickness = Settings::ticWidth();
-	gradLength = Settings::ticLength();
-
-	// grid settings
-
-	gridThickness = Settings::gridLineWidth();
 
 	// font settings
 	font_header = Settings::headerTableFont().family();

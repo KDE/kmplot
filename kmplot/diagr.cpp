@@ -45,10 +45,10 @@ CDiagr::CDiagr()
 	axesColor=qRgb(0, 0, 0);
 	gridColor=qRgb(192, 192, 192);
 	borderThickness=2;
-	axesThickness=2;
-	gridThickness=1;
-	gradThickness=1;
-	gradLength=10;
+	axesLineWidth = Settings::axesLineWidth();
+	gridLineWidth = Settings::gridLineWidth();
+	ticWidth = Settings::ticWidth();
+	ticLength = Settings::ticLength();
 	mode=0;
 	g_mode = Settings::gridStyle();
 	ex=ey=1.;
@@ -114,8 +114,8 @@ void CDiagr::Plot(QPainter* pDC)
 {   
 	QPen pen(RahmenFarbe, borderThickness);
     
-	if(g_mode) Raster(pDC);         		        // Raster zeichnen
-	Achsen(pDC);							        // Achsen zeichnen
+	if( g_mode ) drawGrid( pDC ); // draw the grid
+	drawAxes( pDC ); // draw the axes
 	if(mode&LABEL) 
 		Beschriftung(pDC);        // Achsen beschriften
 	if(mode&(FRAME|EXTFRAME)) 			        // FRAME zeichnen
@@ -176,14 +176,14 @@ double CDiagr::Transy(int y)        // Bildschirmkoordinate
 }
 
 
-void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
+void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 {	int a, b, tl;
 	double d, da, db;
 
 	if(mode&AXES)
 	{   int dx, dy;
 
-		pDC->setPen(QPen(axesColor, axesThickness));
+		pDC->setPen( QPen( axesColor, axesLineWidth ) );
 		pDC->Lineh(PlotArea.left(), b=Transy(0.), a=PlotArea.right());	    // x-Achse
 		if(mode&ARROWS && !(mode&FRAME) && xmax>0.) 		    			// ARROWS
 		{	dx=40;
@@ -201,19 +201,19 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 		}
 	}
 
-	pDC->setPen(QPen(axesColor, gradThickness));
+	pDC->setPen( QPen( axesColor, ticWidth ) );
 	if(mode&AXES)
-	{   da=oy-gradLength;
-		db=oy+gradLength;
-		tl=(mode&FRAME)? 0: gradLength;
+	{   da=oy-ticLength;
+		db=oy+ticLength;
+		tl=(mode&FRAME)? 0: ticLength;
 		d=tsx;
 		if(da<(double)PlotArea.top())
 		{   a=PlotArea.top()-tl;
-			b=PlotArea.top()+gradLength;
+			b=PlotArea.top()+ticLength;
 		}
 		else if(db>(double)PlotArea.bottom())
 		{   b=PlotArea.bottom()+tl;
-			a=PlotArea.bottom()-gradLength;
+			a=PlotArea.bottom()-ticLength;
 		}
 		else
 		{   a=(int)da;
@@ -225,16 +225,16 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 			d+=ex;
 		}
 
-		da=ox-gradLength;
-		db=ox+gradLength;
+		da=ox-ticLength;
+		db=ox+ticLength;
 		d=tsy;
 		if(da<(double)PlotArea.left())
 		{   a=PlotArea.left()-tl;
-			b=PlotArea.left()+gradLength;
+			b=PlotArea.left()+ticLength;
 		}
 		else if(db>(double)PlotArea.right())
 		{   b=PlotArea.right()+tl;
-			a=PlotArea.right()-gradLength;
+			a=PlotArea.right()-ticLength;
 		}
 		else
 		{   a=(int)da;
@@ -247,8 +247,8 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 		}
 	}
 	else if(mode&FRAME)
-	{   a=PlotArea.bottom()+gradLength;
-		b=PlotArea.top()-gradLength;
+	{   a=PlotArea.bottom()+ticLength;
+		b=PlotArea.top()-ticLength;
 		d=tsx;
 		while(d<xmd)
 		{   pDC->Linev(Transx(d), PlotArea.bottom(), a);
@@ -256,8 +256,8 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 			d+=ex;
 		}
 
-		a=PlotArea.left()+gradLength;
-		b=PlotArea.right()-gradLength;
+		a=PlotArea.left()+ticLength;
+		b=PlotArea.right()-ticLength;
 		d=tsy;
 		while(d<ymd)
 		{   pDC->Lineh(PlotArea.left(), Transy(d), a);
@@ -268,10 +268,11 @@ void CDiagr::Achsen(QPainter* pDC) 	// Achsen zeichnen
 }
 
 
-void CDiagr::Raster(QPainter* pDC)
-{   int a, b;
+void CDiagr::drawGrid( QPainter* pDC )
+{   
+	int a, b;
 	double d, x, y;
-	QPen pen(gridColor, gridThickness);
+	QPen pen( gridColor, gridLineWidth );
 
 	pDC->setPen(pen);
 	if(g_mode==1)                   		// Linienraster

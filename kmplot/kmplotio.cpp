@@ -55,9 +55,9 @@ void KmPlotIO::save( const QString filename )
 	QDomElement tag = doc.createElement( "axes" );
 
 	tag.setAttribute( "color", Settings::axesColor().name() );
-	tag.setAttribute( "width", axesThickness );
-	tag.setAttribute( "tic-width", gradThickness );
-	tag.setAttribute( "tic-legth", gradLength );
+	tag.setAttribute( "width", Settings::axesLineWidth() );
+	tag.setAttribute( "tic-width", Settings::ticWidth() );
+	tag.setAttribute( "tic-legth", Settings::ticLength() );
 
 	addTag( doc, tag, "mode", QString::number( mode ) );
 	addTag( doc, tag, "xmin", xminstr );
@@ -72,7 +72,7 @@ void KmPlotIO::save( const QString filename )
 	tag = doc.createElement( "grid" );
 
 	tag.setAttribute( "color", Settings::gridColor().name() );
-	tag.setAttribute( "width", gridThickness );
+	tag.setAttribute( "width", Settings::gridLineWidth() );
 
 	addTag( doc, tag, "mode", QString::number( Settings::gridStyle() ) );
 
@@ -216,10 +216,10 @@ void KmPlotIO::load( const QString filename )
 
 void KmPlotIO::parseAxes( const QDomElement &n )
 {
-	axesThickness = n.attribute( "width", "1" ).toInt();
+	Settings::setAxesLineWidth( n.attribute( "width", "1" ).toInt() );
 	Settings::setAxesColor( QColor( n.attribute( "color", "#000000" ) ) );
-	gradThickness = n.attribute( "tic-width", "3" ).toInt();
-	gradLength = n.attribute( "tic-length", "10" ).toInt();
+	Settings::setTicWidth( n.attribute( "tic-width", "3" ).toInt() );
+	Settings::setTicLength( n.attribute( "tic-length", "10" ).toInt() );
 
 	mode = n.namedItem( "mode" ).toElement().text().toInt();
 	xminstr = n.namedItem( "xmin" ).toElement().text();
@@ -233,7 +233,7 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 void KmPlotIO::parseGrid( const QDomElement & n )
 {
 	Settings::setGridColor( QColor( n.attribute( "color", "#c0c0c0" ) ) );
-	gridThickness = n.attribute( "width", "1" ).toInt();
+	Settings::setGridLineWidth( n.attribute( "width", "1" ).toInt() );
 
 	Settings::setGridStyle( n.namedItem( "mode" ).toElement().text().toInt() );
 }

@@ -79,18 +79,18 @@ public:
 	QRgb gridColor;
 
 	uint borderThickness,
-	     axesThickness,
-	     gridThickness,
-	     gradThickness,
-	     gradLength,
+	     axesLineWidth,
+	     gridLineWidth,
+	     ticWidth,
+	     ticLength,
 	     xclipflg,            	// clipflg wird auf 1 gesetzt, wenn die
 	     yclipflg;			    // Koordinaten au�rhalb des Diagramms liegen
 
          
 private:
 
-	void Achsen(QPainter*);
-	void Raster(QPainter*);
+	void drawAxes(QPainter*);
+	void drawGrid( QPainter* );
 	void Beschriftung(QPainter*);
 	char mode;
 	int g_mode;

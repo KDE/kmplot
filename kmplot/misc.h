@@ -50,19 +50,6 @@ extern XParser	ps;
 /** Diagram mode */
 extern int mode;
 
-/** Grid mode */
-// extern int g_mode;
-
-
-/** Thickness of the axes lines. */
-extern int	axesThickness,
-	/** Thickness of the grid lines. */
-	gridThickness,
-	/** Thickness of the tics */
-	gradThickness,
-	/** Length of the tics. */
-	gradLength;
-
 /** @name Limits of the coordinate axes
  * These are variables for the handling of the axes' limits.
  *

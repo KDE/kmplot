@@ -26,6 +26,7 @@
 #include <klocale.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
+#include <qradiobutton.h>
 
 #include "settings.h"
 #include "settingspagecoords.h"
@@ -43,7 +44,7 @@ CoordsConfigDialog::~CoordsConfigDialog()
 {
 }
 
-bool CoordsConfigDialog::eval()
+bool CoordsConfigDialog::evalX()
 {
 	m_parser->eval( configAxesDialog->kcfg_XMin->text() );
 	if ( m_parser->parserError()!=0 )
@@ -51,6 +52,9 @@ bool CoordsConfigDialog::eval()
 	m_parser->eval( configAxesDialog->kcfg_XMax->text() );
 	if ( m_parser->parserError()!=0 )
 		return false;
+}
+bool CoordsConfigDialog::evalY()
+{
 	m_parser->eval( configAxesDialog->kcfg_YMin->text() );
 	if ( m_parser->parserError()!=0 )
 		return false;
@@ -62,14 +66,14 @@ bool CoordsConfigDialog::eval()
 
 void CoordsConfigDialog::slotOk()
 {
-	if ( eval() )
+	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
 		KConfigDialog::slotOk();
 }
 
 void CoordsConfigDialog::slotApply()
 {
-	if ( eval() )
-		KConfigDialog::slotApply();
+	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
+		KConfigDialog::slotOk();
 }
 
 #include "coordsconfigdialog.moc"

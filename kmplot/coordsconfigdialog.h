@@ -46,7 +46,8 @@ class CoordsConfigDialog : public KConfigDialog
 		virtual void slotOk();
 		virtual void slotApply();
 	private:
-		bool eval();
+		bool evalX();
+		bool evalY();
 		
 		Parser *m_parser;
 		SettingsPageCoords* configAxesDialog;

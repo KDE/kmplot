@@ -73,22 +73,22 @@
 		<entry name="XMin" type="String"> 
 			<label>Left boundary</label>
 			<whatsthis>Enter the left boundary of the plotting area.</whatsthis>
-			<default>"-2*pi"</default>
+			<default>-2*pi</default>
 		</entry> 
 		<entry name="XMax" type="String"> 
 			<label>Right boundary</label>
 			<whatsthis>Enter the right boundary of the plotting area.</whatsthis>
-			<default>"2*pi"</default>
+			<default>2*pi</default>
 		</entry> 
 		<entry name="YMin" type="String"> 
 			<label>Lower boundary</label>
 			<whatsthis>Enter the lower boundary of the plotting area.</whatsthis>
-			<default>"-2*pi"</default>
+			<default>-2*pi</default>
 		</entry> 
 		<entry name="YMax" type="String"> 
 			<label>Upper boundary</label>
 			<whatsthis>Enter the upper boundary of the plotting area.</whatsthis>
-			<default>"2*pi"</default>
+			<default>2*pi</default>
 		</entry> 
 	</group>
 	

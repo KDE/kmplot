@@ -64,8 +64,7 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	QVBox *page2 = addVBoxPage( i18n("Antiderivative"), i18n( "Antiderivative" ), SmallIcon( "anti_func", 32 ) );
 	editantiderivativepage = new EditAntiderivativePage( page2 );
 	m_parser = parser;
-	connect( editfunctionpage->cmdParameter, SIGNAL (clicked() ), this, SLOT(cmdParameter_clicked() ) );
-	connect( editfunctionpage->hasParameters, SIGNAL (clicked() ), this, SLOT(hasParameters_clicked() ) );
+	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
 }
 
 void EditFunction::initDialog( int index )
@@ -331,12 +330,4 @@ void EditFunction::cmdParameter_clicked()
 {
 	KParameterEditor *dlg = new KParameterEditor(m_parser, &m_parameter);
 	dlg->show();
-}
-
-void EditFunction::hasParameters_clicked()
-{
-	if ( editfunctionpage->hasParameters->isChecked() )
-		editfunctionpage->cmdParameter->setEnabled(true);
-	else
-		editfunctionpage->cmdParameter->setEnabled(false);
 }

@@ -56,8 +56,6 @@ class EditFunction : public KDialogBase
 		void slotHelp();
 		/// Called when the "Change parameter values" is clicked
 		void cmdParameter_clicked();
-		/// Called when the "Parameter values" is clicked
-		void hasParameters_clicked();
 	
 	private:
 		/// Clear alls widgets values

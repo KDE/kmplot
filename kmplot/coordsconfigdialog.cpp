@@ -46,22 +46,32 @@ CoordsConfigDialog::~CoordsConfigDialog()
 
 bool CoordsConfigDialog::evalX()
 {
-	m_parser->eval( configAxesDialog->kcfg_XMin->text() );
+	double const min = m_parser->eval( configAxesDialog->kcfg_XMin->text() );
 	if ( m_parser->parserError()!=0 )
 		return false;
-	m_parser->eval( configAxesDialog->kcfg_XMax->text() );
+	double const max = m_parser->eval( configAxesDialog->kcfg_XMax->text() );
 	if ( m_parser->parserError()!=0 )
 		return false;
+	if ( min >= max )
+	{
+		KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+		return false;
+	}
 	return true;
 }
 bool CoordsConfigDialog::evalY()
 {
-	m_parser->eval( configAxesDialog->kcfg_YMin->text() );
+	double const min = m_parser->eval( configAxesDialog->kcfg_YMin->text() );
 	if ( m_parser->parserError()!=0 )
 		return false;
-	m_parser->eval( configAxesDialog->kcfg_YMax->text() );
+	double const max = m_parser->eval( configAxesDialog->kcfg_YMax->text() );
 	if ( m_parser->parserError()!=0 )
 		return false;
+	if ( min >= max )
+	{
+		KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+		return false;
+	}
 	return true;
 }
 
@@ -74,7 +84,7 @@ void CoordsConfigDialog::slotOk()
 void CoordsConfigDialog::slotApply()
 {
 	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
-		KConfigDialog::slotOk();
+		KConfigDialog::slotApply();
 }
 
 #include "coordsconfigdialog.moc"

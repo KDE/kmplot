@@ -200,6 +200,7 @@ bool KmPlotIO::save(  XParser *parser, const KURL &url )
                 xmlfile.close();
                 return true;       
         }
+        return true;
  
 }
 

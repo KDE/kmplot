@@ -51,6 +51,7 @@ KParameterEditor::KParameterEditor(XParser *m, QStringList *l, QWidget *parent, 
 	connect( cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ));
 	connect( cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
 	connect( cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
+        connect( cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
 	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( varlist_doubleClicked( QListBoxItem *) ));
 	connect( list, SIGNAL( clicked ( QListBoxItem * ) ), this, SLOT( varlist_clicked(QListBoxItem *  ) ));
@@ -152,7 +153,7 @@ void KParameterEditor::cmdImport_clicked()
                 file.setName(tmpfile);
         }
         else
-                file.setName(url.fileName());
+                file.setName(url.prettyURL(0,KURL::StripFileProtocol) );
 	
 	if ( file.open(IO_ReadOnly) )
 	{
@@ -189,7 +190,61 @@ void KParameterEditor::cmdImport_clicked()
 	else
 		KMessageBox::error(0,i18n("An error appeared when opening this file"));
         
-        KIO::NetAccess::removeTempFile( tmpfile );
+        if ( !url.isLocalFile() )
+                KIO::NetAccess::removeTempFile( tmpfile );
+}
+
+void KParameterEditor::cmdExport_clicked()
+{
+        if ( !list->count() )
+                return;
+        KURL url = KFileDialog::getSaveURL( QString::null,i18n("*.txt|Plain Text File "));
+        if ( url.isEmpty() )
+                return;
+
+        if( !KIO::NetAccess::exists( url,false,this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
+        {
+                QString tmpfile;
+                QFile file;
+                if ( !url.isLocalFile() )
+                {
+                        KTempFile tmpfile;
+                        file.setName(tmpfile.name() );
+                        
+                        if (file.open( IO_WriteOnly ) )
+                        {
+                                QTextStream stream(&file);
+                                for ( QListBoxItem *it = list->firstItem(); it ; it = it->next() )
+                                        stream << it->text() << endl;
+                                file.close();
+                        }
+                        else
+                                KMessageBox::error(0,i18n("An error appeared when saving this file"));
+                        
+                        if ( !KIO::NetAccess::upload(tmpfile.name(),url, this) )
+                        {
+                                KMessageBox::error(0,i18n("An error appeared when saving this file"));
+                                tmpfile.unlink();
+                                return;
+                        }
+                        tmpfile.unlink();
+                }
+                else
+                {
+                        file.setName(url.prettyURL(0,KURL::StripFileProtocol));
+                        if (file.open( IO_WriteOnly ) )
+                        {
+                                QTextStream stream(&file);
+                                for ( QListBoxItem *it = list->firstItem(); it ; it = it->next() )
+                                        stream << it->text() << endl;
+                                file.close();
+                        }
+                        else
+                                KMessageBox::error(0,i18n("An error appeared when saving this file"));
+                }
+        }
+
+
 }
 
 void KParameterEditor::varlist_clicked( QListBoxItem * item )

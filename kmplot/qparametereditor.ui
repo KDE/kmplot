@@ -53,7 +53,7 @@
                         <string>Click here to edit the value of the selected constant. Its name cannot be changed.</string>
                     </property>
                 </widget>
-                <widget class="KListBox" row="0" column="0" rowspan="6" colspan="1">
+                <widget class="KListBox" row="0" column="0" rowspan="8" colspan="1">
                     <property name="name">
                         <cstring>list</cstring>
                     </property>
@@ -78,7 +78,7 @@
                         <string>Click this button to add a new constant.</string>
                     </property>
                 </widget>
-                <widget class="KPushButton" row="5" column="1">
+                <widget class="KPushButton" row="7" column="1">
                     <property name="name">
                         <cstring>cmdClose</cstring>
                     </property>
@@ -109,7 +109,7 @@
                         <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
                     </property>
                 </widget>
-                <spacer row="4" column="1">
+                <spacer row="6" column="1">
                     <property name="name">
                         <cstring>spacer2</cstring>
                     </property>
@@ -122,11 +122,45 @@
                     <property name="sizeHint">
                         <size>
                             <width>20</width>
-                            <height>110</height>
+                            <height>80</height>
                         </size>
                     </property>
                 </spacer>
-                <widget class="KPushButton" row="3" column="1">
+                <widget class="KPushButton" row="5" column="1">
+                    <property name="name">
+                        <cstring>cmdExport</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Export...</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Export values to a textfile</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Export values to a textfile. Every value in the parameter list will be written to one line in the file.</string>
+                    </property>
+                </widget>
+                <spacer row="3" column="1">
+                    <property name="name">
+                        <cstring>spacer2_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>21</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton" row="4" column="1">
                     <property name="name">
                         <cstring>cmdImport</cstring>
                     </property>

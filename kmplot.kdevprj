@@ -340,7 +340,7 @@ type=HEADER
 [kmplot/kmplot.desktop]
 dist=true
 install=true
-install_location=$$(kde_appsdir)/Applications/kmplot.desktop
+install_location=$$(kde_appsdir)/Edutainment/Mathematics/kmplot.desktop
 type=DATA
 
 [kmplot/main.cpp]

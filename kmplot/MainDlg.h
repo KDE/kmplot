@@ -106,6 +106,8 @@ class MainDlg : public KMainWindow
 		void toggleShowSlider1();
 		void toggleShowSlider2();
 		void toggleShowSlider3();
+		/// Called when fullscren is enabled/disabled
+		void slotUpdateFullScreen(bool);
 	
 	private:
 		/// Settings the standard and non standard actions of the application.
@@ -193,8 +195,6 @@ class MainDlg : public KMainWindow
 		* @param f_str the content of the KLineEdit
 		*/
 		void slotQuickEdit( const QString& tmp_f_str );
-		/// Enable or disable fullscreen
-		void slotFullScreen();
 		/// Tools menu
 		void getYValue();
 		void findMinimumValue();

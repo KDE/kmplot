@@ -120,7 +120,8 @@ void MainDlg::setupActions()
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
-	m_fullScreen = KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), this, "fullscreen");
+	m_fullScreen = KStdAction::fullScreen( NULL, NULL, actionCollection(), this, "fullscreen");
+	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 
 	
 	// KmPLot specific actions
@@ -577,18 +578,19 @@ bool MainDlg::queryClose()
 	return checkModified() && KMainWindow::queryClose();
 }
 
-void MainDlg::slotFullScreen()
+void MainDlg::slotUpdateFullScreen( bool checked)
 {
-	if ( isFullScreen() ) 
-	{
-		showNormal();
-		m_fullScreen->unplug( toolBar( "mainToolBar" ) );
-	}
-	else 
+	if (checked)
 	{
 		showFullScreen();
 		m_fullScreen->plug( toolBar( "mainToolBar" ) );
 	}
+	else
+	{
+		showNormal();
+		m_fullScreen->unplug( toolBar( "mainToolBar" ) );
+	}
+
 }
 
 void MainDlg::loadConstants()

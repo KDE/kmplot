@@ -32,6 +32,7 @@
 
 // KDE includes
 #include <dcopclient.h>
+#include <kactionclasses.h>
 #include <kdebug.h>
 #include <kpopupmenu.h>
 #include <kprinter.h>
@@ -46,7 +47,7 @@
 
 class XParser;
 class KMinMax;
-class SliderWindow;
+class KSliderWindow;
 
 /**
  * @short This class contains the plots. 
@@ -99,12 +100,16 @@ public:
 	QString areaParameter;
 
 	/// Slider controlling parameter values
-	SliderWindow* sliders[ SLIDER_COUNT ];
+	KSliderWindow* sliders[ SLIDER_COUNT ];
+	/// Menu actions for the sliders
+	KToggleAction *mnuSliders[ SLIDER_COUNT ];
 	void updateSliders(); /// show only needed sliders
 
 public slots:
 	/// Called when the user want to cancel the drawing
 	void stopDrawing();
+	/// A slider window has been closed
+	void sliderWindowClosed(int);
 
 	/// Called when the graph should be updated
 	void drawPlot();

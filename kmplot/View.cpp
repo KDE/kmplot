@@ -47,7 +47,7 @@
 #include "keditparametric.h"
 #include "kminmax.h"
 #include "settings.h"
-#include "sliderwindow.h"
+#include "ksliderwindow.h"
 #include "View.h"
 #include "View.moc"
 
@@ -68,13 +68,7 @@ View::View(bool const r, bool &mo, KPopupMenu *p, QWidget* parent, const char* n
 	setMouseTracking(TRUE);
 	rootflg = false;
 	for( int number = 0; number < SLIDER_COUNT; number++ )
-	{
-		sliders[ number ] = new SliderWindow( this, QString( "slider%1" ).arg( number ).latin1(), false, Qt::WStyle_Tool-Qt::WStyle_Maximize );
-		sliders[ number ]->setCaption( i18n( "Slider %1" ).arg( number+1 ) );
-		connect( sliders[ number ]->slider, SIGNAL( valueChanged( int ) ), this, SLOT( drawPlot() ) );
-		QWhatsThis::add( sliders[ number ]->slider, i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
-		QToolTip::add( sliders[ number ]->slider, i18n( "Slider no. %1" ).arg( number ) );
-	}
+		sliders[ number ] = 0;
 	updateSliders();
 	m_popupmenushown = 0;
 	m_popupmenu->insertTitle( "",10);
@@ -1796,13 +1790,29 @@ bool View::isCalculationStopped()
 void View::updateSliders()
 {
 	for( int number = 0; number < SLIDER_COUNT; number++)
-		sliders[ number ]->hide();
+	{
+		if (sliders[ number ])
+		{
+			sliders[ number ]->hide();
+			mnuSliders[ number ]->setChecked(false); //uncheck the slider-item in the menu
+		}
+	}
 
 	for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
 	{
 		if (it->fname.isEmpty() ) continue;
 		if( it->use_slider > -1  &&  (it->f_mode || it->f1_mode || it->f2_mode || it->integral_mode))
+		{
+			// create the slider if it not exists already
+			if ( sliders[ it->use_slider ] == 0 )
+			{
+				sliders[ it->use_slider ] = new KSliderWindow( this, it->use_slider);
+				connect( sliders[ it->use_slider ]->slider, SIGNAL( valueChanged( int ) ), this, SLOT( drawPlot() ) );
+				connect( sliders[ it->use_slider ], SIGNAL( windowClosed( int ) ), this , SLOT( sliderWindowClosed(int) ) );
+				mnuSliders[ it->use_slider ]->setChecked(true);  //set the slider-item in the menu
+			}
 			sliders[ it->use_slider ]->show();
+		}
 	}
 }
 
@@ -2063,4 +2073,9 @@ bool View::stopProgressBar()
 void View::increaseProgressBar()
 {
 	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","increaseProgressBar()", QByteArray());
+}
+
+void View::sliderWindowClosed(int num)
+{
+	mnuSliders[num]->setChecked(false);
 }

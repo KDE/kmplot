@@ -151,7 +151,9 @@ private:
 	/// Loading the constants when closing the program
 	void saveConstants();
 	/// Returns true if any changes are done
-	bool isModified(){return m_modified;};
+	bool isModified(){return m_modified;}
+	/// Toggle the slider with index num
+	void toggleShowSlider(int const num);
 
 	/// Cached dialog to edit all functions
 	FktDlg *fdlg;

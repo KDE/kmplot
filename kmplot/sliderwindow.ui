@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>SliderWindow</class>
 <widget class="QDialog">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>273</width>
-            <height>50</height>
+            <height>51</height>
         </rect>
     </property>
     <property name="caption">
@@ -31,6 +31,9 @@
             </property>
             <property name="cursor">
                 <cursor>13</cursor>
+            </property>
+            <property name="focusPolicy">
+                <enum>StrongFocus</enum>
             </property>
             <property name="maxValue">
                 <number>100</number>

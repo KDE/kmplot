@@ -94,7 +94,7 @@ void FktDlg::slotEdit()
 	int const id = getId( lb_fktliste->currentText().section( ";", 0, 0) ) ;
 	
 	// find out the function type
-	char const prefix = m_parser->fktext[ m_parser->ixValue(id) ].extstr.at(0).latin1();
+	char const prefix = m_parser->ufkt[ m_parser->ixValue(id) ].extstr.at(0).latin1();
 	
 	if ( prefix == 'r')
 		slotEditPolar( id, num );
@@ -106,7 +106,7 @@ void FktDlg::slotEdit()
 
 int FktDlg::getId( const QString &f_str )
 {
-        for( QValueVector<XParser::FktExt>::iterator it =  m_parser->fktext.begin(); it !=  m_parser->fktext.end(); ++it)
+        for( QValueVector<Ufkt>::iterator it =  m_parser->ufkt.begin(); it !=  m_parser->ufkt.end(); ++it)
 	{
 		if ( it->extstr == f_str )
 			return it->id;
@@ -117,7 +117,7 @@ int FktDlg::getId( const QString &f_str )
 int FktDlg::getParamId( const QString &f_str)
 {
 	QString const fname = f_str.section( "(", 0, 0 );
-        for( QValueVector<Parser::Ufkt>::iterator it =  m_parser->ufkt.begin(); it !=  m_parser->ufkt.end(); ++it)
+        for( QValueVector<Ufkt>::iterator it =  m_parser->ufkt.begin(); it !=  m_parser->ufkt.end(); ++it)
         {
                 if ( it->fname == fname )
                         return it->id;
@@ -147,7 +147,8 @@ void FktDlg::slotEditFunction( int id, int num )
 	{
 		if( id == -1 ) lb_fktliste->insertItem( editFunction->functionItem() ); //a new function
 		else lb_fktliste->changeItem( editFunction->functionItem(), num ); //changed a function
-		changed = true;
+		lb_fktliste->sort();
+                changed = true;
 		updateView();
 	}
 }
@@ -161,7 +162,8 @@ void FktDlg::slotEditParametric( int x_id, int y_id, int num )
 	{
 		if( x_id == -1 ) lb_fktliste->insertItem( editParametric->functionItem() ); //a new function
 		else lb_fktliste->changeItem( editParametric->functionItem(), num ); //changed a function
-		changed = true;
+		lb_fktliste->sort();
+                changed = true;
 		updateView();
 	}
 }
@@ -175,7 +177,8 @@ void FktDlg::slotEditPolar( int id, int num )
 	{
 		if( id == -1 ) lb_fktliste->insertItem( editPolar->functionItem() ); //a new function
 		else lb_fktliste->changeItem( editPolar->functionItem(), num ); //changed a function
-		changed = true;
+		lb_fktliste->sort();
+                changed = true;
 		updateView();
 	}
 }
@@ -200,9 +203,9 @@ void FktDlg::getPlots()
 	lb_fktliste->clear();
 
 	// adding all yet added functions
-        for( QValueVector<XParser::FktExt>::iterator it = m_parser->fktext.begin(); it != m_parser->fktext.end(); ++it)
+        for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
-                if( it->extstr[0] == 'y' ) continue;
+                if( it->fname.isEmpty() || it->extstr[0] == 'y' ) continue;
 		if( it->extstr[0] == 'x' )
 		{
                         QString y = it->extstr;
@@ -211,6 +214,7 @@ void FktDlg::getPlots()
 		}
 		else lb_fktliste->insertItem( it->extstr );
 	}
+        lb_fktliste->sort();
 }
 
 void  FktDlg::slotHelp()

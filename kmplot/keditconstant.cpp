@@ -80,7 +80,7 @@ void KEditConstant::cmdOK_clicked()
 		}	
 	}
 	(double) m_parser->eval(value);
-	if ( m_parser->errmsg() )
+	if ( m_parser->parserError() )
 	{
 		txtValue->setFocus();
 		txtValue->selectAll();

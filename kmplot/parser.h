@@ -110,6 +110,54 @@ public:
 	double value;
 };
 
+/** Here are all atitrbutes for a function stored. */
+class Ufkt
+{
+public:
+        Ufkt();
+        ~Ufkt();
+        void setParameter(double const &p) {k = p; };
+        
+        uint id;
+        unsigned char *mem;     ///< Pointer to the allocated memory for the tokens.
+        unsigned char *mptr;    ///< Pointer to the token.
+        QString fname;          ///< Name of the function.
+        QString fvar;           ///< Dummy variable.
+        QString fpar;           ///< Parameter.
+        QString fstr;           ///< Function expression.
+        int memsize;            ///< Size of token memory
+        int stacksize;          ///< Size of the stack.
+        double k,               ///< Function parameter.
+        oldy;                   ///< The last y-value needed for Euler's method
+        
+        bool f_mode, ///< \a f_mode == 1: draw the plot.
+        f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
+        f2_mode,///< \a f2_mode == 1.  draw the 2nd derivative, too.
+        integral_mode, ///< \a f2_mode == 1.  draw the integral, too.
+        integral_use_precision; ///< The user can specify an unic precision for numeric prime-functions
+        int linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width.
+        /** Number of parameter values. 
+        * @see FktExt::k_liste */
+        QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
+        double dmin, ///< Custom plot range, lower boundage.
+        dmax, ///< Custom plot range, upper boundage.
+        /** List of parameter values. 
+        * @see FktExt::k_anz */
+        oldyprim,  ///< needed for Euler's method, the last y'.value
+        oldx, ///< needed for Euler's method, the last x-value
+        starty,///< startposition for Euler's method, the initial y-value
+        startx, ///< startposition for Euler's method, the initial x-value last y'.valuenitial x-value last y'.valuenitial x-value
+        integral_precision; ///<precision when drawing numeric prime-functions
+        QString extstr; ///< Complete function string including the extensions.
+        QRgb color, ///< current color.
+        f1_color, f2_color, integral_color;
+        QStringList str_parameter; ///< List with parameter strings to be parsed with XParser::eval
+        int use_slider; ///< -1: none (use list), else: slieder number
+        QValueList<double > k_liste;
+        // TODO double slider_min, slider_max; ///< extreme values of the slider
+};
+
+
 /** @short Parser.
  *
  * Tokenizes a function equation to be evaluated.
@@ -120,84 +168,42 @@ public:
 	Parser(int, int);
 	~Parser();
         
+        /// Returns the result of a calculation
+        double fkt(Ufkt *it, double const x);
+        double fkt(uint id, double const x);
+        
 	/// Evaluates the given expression.
 	double eval(QString);
-	/// Adds a user defined function with the given equation.
+	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
 	int addfkt(QString);
-	/// Removes the function with the given index.
+        /// Removes the function with the given index.
 	bool delfkt(int);
-	/// Returns the index of the function with the given name.
-	bool getfix(QString);
-	/// Shows an error message box.
-	int errmsg();
-	/// ?
-	//void setParameter(int ix, double k) {ufkt[ix].k=k;}
+        void delfkt(QValueVector<Ufkt>::iterator );
+        
+	/// Returns true if the function "name" exists, otherwise it returns false
+	bool getfix(QString name);
+	/// Returns the current error value. If showMessageBox is true, an error message box will appear if an error was found
+	int parserError(bool showMessageBox=TRUE);
+                
 	/// return the angletype
 	static double anglemode();
-	/// sets the angletype. TRUE is radians and FALSE degrees
+	/// Sets the angletype. TRUE is radians and FALSE degrees
 	void setAngleMode(int);
 	/// sets the decimal symbol
 	void setDecimalSymbol(const QString );
-	/// Reparse the function. It also do a grammer check for the expression which you set before calling the function with this.ufkt[ix].fstr
+	
+        /// reparse the function. It also do a grammer check for the expression
 	void reparse(int ix);
+        void reparse(Ufkt *item);
         
-        uint getNewId();
-        
-        int idValue(int const ix);
-        int ixValue(uint const id);
+        uint getNewId(); /// Returns the next ID-number
+        int idValue(int const ix); /// Converts an index-value to an ID-number
+        int ixValue(uint const id);/// Converts an ID-numer to an index-value
+        uint countFunctions(); /// Returns how many functions there are
 
 	QValueVector<Constant> constant;
-	
-	/// Error codes.
-	/**
-	 * The values have following meanings:
-	 * \li  0 => parse success
-	 * \li  1 => syntax error
-	 * \li  2 => missing bracket
-	 * \li  3 => function unknown
-	 * \li  4 => function variable not valid
-	 * \li  5 => too much functions
-	 * \li  6 => memory overflow
-	 * \li  7 => stack overflow
-	 * \li  8 => function name already used
-	 * \li  9 => recursive function call
-	 * \li  10 => didn't found the wanted constant
-	 * \li   11 => emtpy function
-	 * \li   12 => function name contains a capital letter
-	 */
-	int err,	
-	errpos; 	///< Position where the error occurred.
-
-
-        /** User function. */
-	class Ufkt
-	{
-	public:
-		Ufkt();
-		~Ufkt();
-                void setParameter(double const &p) {k = p; };
-                
-                uint id;
-		unsigned char *mem;	///< Pointer to the allocated memory for the tokens.
-		unsigned char *mptr;	///< Pointer to the token.
-		QString	fname; 	        ///< Name of the function.
-		QString fvar;		///< Dummy variable.
-		QString fpar;		///< Parameter.
-		QString fstr;		///< Function expression.
-		int memsize;	 	///< Size of token memory
-		int stacksize;		///< Size of the stack.
-		double k,		///< Function parameter.
-		oldy;			///< The last y-value needed for Euler's method
-        };
         QValueVector<Ufkt> ufkt;///< Points to the array of user defined functions.
         
-        /// Removes the function
-        void delfkt(QValueVector<Parser::Ufkt>::iterator );
-        
-        double fkt(Ufkt *it, double const x);
-        double fkt(uint i, double const x);
-        
-        void reparse(Ufkt *item);
 			
 protected:
 	/** Mathematical function. */
@@ -207,9 +213,30 @@ protected:
 		double (*mfadr)(double);
 	};
 	static Mfkt mfkttab[FANZ];
+        
+        int err, 
+        errpos;         ///< Position where the error occurred.
+        /// Error codes.
+        /**
+         * The values have following meanings:
+         * \li  0 => parse success
+         * \li  1 => syntax error
+         * \li  2 => missing bracket
+         * \li  3 => function unknown
+         * \li  4 => function variable not valid
+         * \li  5 => too much functions
+         * \li  6 => memory overflow
+         * \li  7 => stack overflow
+         * \li  8 => function name already used
+         * \li  9 => recursive function call
+         * \li  10 => didn't found the wanted constant
+         * \li   11 => emtpy function
+         * \li   12 => function name contains a capital letter
+         */
 
 private:
         void fix_expression(QString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
+        
 	void ps_init(),
 	heir1(),
 	heir2(),
@@ -237,7 +264,6 @@ private:
 	*stkptr;		    // Stackpointer
 	static double  m_anglemode;
 	QString m_decimalsymbol;
-	
 };
 
 #endif	// parser_included

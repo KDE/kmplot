@@ -86,7 +86,7 @@ void KConstantEditor::cmdDelete_clicked()
 	value = varlist->currentItem()->text(1);
 	QString str;
         
-        for( QValueVector<XParser::FktExt>::iterator it =  m_view->parser()->fktext.begin(); it !=  m_view->parser()->fktext.end(); ++it)
+        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		str =  it->extstr;
 		for (int i=str.find(')'); (uint)i<str.length();i++)
@@ -195,11 +195,9 @@ void KConstantEditor::editConstantSlot()
 	if (item!=0)
 		item->setText(1,value);
 	
-	//QString fname, fstr;
-        //for ( uint index = 0; index < m_view->parser()->fktext.count(); ++index )
 
         int index = 0;
-        for( QValueVector<Parser::Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if( it->fstr.contains(constant)!=0 )
 			m_view->parser()->reparse(index); //reparsing the function

@@ -40,7 +40,7 @@ class KmPlotIO
 {
 	public:
 		/// Nothing to do here; only static functions needed.
-		KmPlotIO();
+		KmPlotIO( XParser *parser);
 		/// Empty.
 		~KmPlotIO();
 		
@@ -50,14 +50,14 @@ class KmPlotIO
 		 * @param parser points to the parser instance.
 		 * @param filename Name of the file which will be saved.
 		 */
-		bool save( XParser *parser, const KURL &url );
+		bool save( const KURL &url );
 		
 		/**
 		 * Read a kmpdoc xml file to restaure the settings of a previously saved plot
 		 * @param parser points to the parser instance.
 		 * @param filename name of file which will be opened
 		 */
-		bool load( XParser *parser, const KURL &url );
+		bool load( const KURL &url );
 	
 	private:
 		/** Esay way to add a tag to the Dom tree
@@ -84,7 +84,7 @@ class KmPlotIO
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
-		void parseParameters( XParser *parser, const QDomElement &n, XParser::FktExt &fktext);
+		void parseParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
                 
                 ///For KDE <3.3
                 /// This is the same as parseScale but is made for old Kmplot-files
@@ -93,6 +93,8 @@ class KmPlotIO
                 void oldParseFunction( XParser *parser, const QDomElement &n );
                 /// This is the same as parseAxes but is made for old Kmplot-files
                 void oldParseAxes( const QDomElement &n );
+                
+                XParser *m_parser;
                 
 };
 

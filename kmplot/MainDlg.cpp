@@ -75,11 +75,11 @@ MainDlg::MainDlg( KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name 
 	setupStatusBar();
 	setupActions();
 	loadConstants();
-	kmplotio = new KmPlotIO();
+	kmplotio = new KmPlotIO(view->parser());
 	if (args -> count() > 0)
 	{
 		m_filename = args -> url( 0 ).url(-1);
-		if (kmplotio->load( view->parser(), KURL(m_filename) ) )
+		if (kmplotio->load( KURL(m_filename) ) )
 		{
 			setCaption( m_filename );
 			view->updateSliders();
@@ -267,7 +267,7 @@ void MainDlg::slotSave()
 			if ( KMessageBox::warningYesNo( this, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of Kmplot. Are you sure you want to continue?" ) ) == KMessageBox::No)
 				return;
 		}
-		kmplotio->save( view->parser(), m_filename );
+		kmplotio->save( m_filename );
 		kdDebug() << "saved" << endl;
 		m_modified = false;
 	}
@@ -283,7 +283,7 @@ void MainDlg::slotSaveas()
 		// check if file exists and overwriting is ok.
 		if( !KIO::NetAccess::exists( url,false,this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
 		{
-			if ( !kmplotio->save( view->parser(), url ) )
+			if ( !kmplotio->save( url ) )
                                 KMessageBox::error(this, i18n("The file could not be saved") );
                         else
                         {
@@ -364,7 +364,7 @@ void MainDlg::slotOpen()
 	if ( file.isEmpty() )
                 return;
 	view->init();
-	if ( !kmplotio->load( view->parser(), file ) )
+	if ( !kmplotio->load( file ) )
 		return;
 	m_filename = file.url();
 	m_recentFiles->addURL( file  );
@@ -378,7 +378,7 @@ void MainDlg::slotOpenRecent( const KURL &url )
 {
 	if( !checkModified() ) return;
 	view->init();
-	if ( !kmplotio->load( view->parser(), url ) ) //if the loading fails
+	if ( !kmplotio->load( url ) ) //if the loading fails
 	{
 		m_recentFiles->removeURL(url ); //remove the file from the recent-opened-file-list
 		return;
@@ -506,13 +506,13 @@ void MainDlg::slotEditPlots()
 	if ( !fdlg ) fdlg = new FktDlg( this, view->parser() ); // make the dialog only if not allready done
 	fdlg->getPlots();
         KTempFile tmpfile;
-	kmplotio->save( view->parser(), tmpfile.name() );
+	kmplotio->save( tmpfile.name() );
 	if( fdlg->exec() == QDialog::Rejected )
 	{
 		if ( fdlg->isChanged() )
 		{
 			view->init();
-			kmplotio->load( view->parser(), tmpfile.name() );
+			kmplotio->load( tmpfile.name() );
 			view->drawPlot();
 		}
 	}
@@ -530,40 +530,36 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	//creates a valid name for the function if the user has forgotten that
 	QString f_str( tmp_f_str );
 	view->parser()->fixFunctionName(f_str);
-        
 	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y')
 	{
 		KMessageBox::error( this, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));
 		return;
 	}
+        if  ( f_str.contains('y') != 0)
+        {
+                KMessageBox::error( this, i18n( "Recursive function is not allowed"));
+                m_quickEdit->setFocus();
+                m_quickEdit->selectAll();
+                return;
+        }
+        
 	int const id = view->parser()->addfkt( f_str );
 	if (id==-1)
 	{
-		view->parser()->errmsg();
+		view->parser()->parserError();
 		m_quickEdit->setFocus();
 		m_quickEdit->selectAll();
 		return;
 	}
-	if  ( f_str.contains('y') != 0)
-	{
-		KMessageBox::error( this, i18n( "Recursive function is not allowed"));
-		m_quickEdit->setFocus();
-		m_quickEdit->selectAll();
-		view->parser()->delfkt( view->parser()->ixValue(id) );
-		return;
-	}
-        
-        XParser::FktExt fktext;
-        view->parser()->prepareAddingFktExtFunction(fktext);
-        fktext.extstr = f_str;
-        fktext.id = id;
-        view->parser()->fktext.append(fktext );
+        Ufkt *ufkt = &view->parser()->ufkt.last();
+        view->parser()->prepareAddingFunction(ufkt);
          
-	if ( view->parser()->getext( &fktext ) == -1)
+        if ( view->parser()->getext( ufkt ) == -1)
         {
                 m_quickEdit->setFocus();
                 m_quickEdit->selectAll();
-                view->parser()->delfkt( view->parser()->ixValue(id) );
+                view->parser()->Parser::delfkt( ufkt );
+                return;
         }
 	m_quickEdit->clear();
         m_modified = true;

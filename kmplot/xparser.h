@@ -46,70 +46,33 @@ class XParser : public Parser
 public:
 	XParser(int m_size, int s_size );
 	~XParser();
-        
-	/// Removes the function with index \a ix from the parser.
-	bool delfkt( int ix );
 	/// Evaluates the 1st dreivative of the function with intex \a ix
 	double a1fkt( Ufkt *u_item , double, double h = 1e-3 );
 	/// Evaluates the 2nd dreivative of the function with intex \a ix
 	double a2fkt( Ufkt *, double, double h = 1e-3 );
-	/// Line width default
-	int linewidth0;
+        /// calculate euler's method when drawing a numeric prime-function
+        void euler_method(const double, double &, const QValueVector<Ufkt>::iterator);
+        
+        /// Line width default
+        int linewidth0;
         QRgb defaultColor(int function);
 	
         enum { Function, Polar, Parametric }; ///types of functions
 	///Returns an unused function name if it is needed
 	void fixFunctionName(QString &, int const = XParser::Function , int const=-1);
+        
         /// Returns the index for the next function.
         int getNextIndex();
-        
-        
-        /// Extended attributes are encapulated in this structure.
-	struct FktExt
-	{
-		bool f_mode, ///< \a f_mode == 1: draw the plot.
-		f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
-		f2_mode,///< \a f2_mode == 1.  draw the 2nd derivative, too.
-		integral_mode, ///< \a f2_mode == 1.  draw the integral, too.
-		integral_use_precision; ///< The user can specify an unic precision for numeric prime-functions
-		int linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width.
-		/** Number of parameter values. 
-		 * @see FktExt::k_liste */
-		QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
-		double dmin, ///< Custom plot range, lower boundage.
-		dmax, ///< Custom plot range, upper boundage.
-		/** List of parameter values. 
-		 * @see FktExt::k_anz */
-                oldyprim,  ///< needed for Euler's method, the last y'.value
-		oldx, ///< needed for Euler's method, the last x-value
-		starty,///< startposition for Euler's method, the initial y-value
-                startx, ///< startposition for Euler's method, the initial x-value last y'.valuenitial x-value last y'.valuenitial x-value
-                integral_precision; ///<precision when drawing numeric prime-functions
-		QString extstr; ///< Complete function string including the extensions.
-		QRgb color, ///< current color.
-		f1_color, f2_color, integral_color;
-		QStringList str_parameter; ///< List with parameter strings to be parsed with XParser::eval
-		int use_slider; ///< -1: none (use list), else: slieder number
-                QValueList<double > k_liste;
-		// TODO double slider_min, slider_max; ///< extreme values of the slider
-                uint id;
-        };
-        QValueVector<FktExt> fktext;
-        void prepareAddingFktExtFunction(FktExt &);
-        
-        /// Evaluates the function with the given index at the position.
-        
-        void delfkt( Ufkt *u_item, FktExt *f_item);
+        /// Fill item with default values (e.g color, linewidth )
+        void prepareAddingFunction(Ufkt *item);
         
         /// Interpretates the extended function string
-        int getext( FktExt * );
+        int getext( Ufkt * );
         
-        /// calculate euler's method when drawing a numeric prime-function
-        void euler_method(const double, double &, const QValueVector<Ufkt>::iterator, const QValueVector<FktExt>::iterator);
 private:
         
 	/// finds a free function name 
-	QString findFunctionName(int const);
+	void findFunctionName(QString &, int const, int const);
 };
 
 #endif //xparser_included

@@ -78,9 +78,9 @@ void KParameterEditor::cmdNew_clicked()
 		if ( !ok)
 			return;
 		m_parser->eval( result );
-		if ( m_parser->err != 0 )
+		if ( m_parser->parserError(false) != 0 )
 		{
-			m_parser->errmsg();
+			m_parser->parserError();
 			continue;
 		}
 		if ( checkTwoOfIt(result) )
@@ -104,9 +104,9 @@ void KParameterEditor::cmdEdit_clicked()
 		if ( !ok)
 			return;
 		m_parser->eval(result);
-		if ( m_parser->err != 0)
+		if ( m_parser->parserError(false) != 0)
 		{
-			m_parser->errmsg();
+			m_parser->parserError();
 			continue;
 		}
 		if ( checkTwoOfIt(result) )
@@ -165,7 +165,7 @@ void KParameterEditor::cmdImport_clicked()
 			if (line.isEmpty())
 				continue;
 			m_parser->eval( line );
-			if ( m_parser->err == 0)
+			if ( m_parser->parserError(false) == 0)
 			{
 				if ( !checkTwoOfIt(line) )
 				{

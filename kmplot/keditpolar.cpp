@@ -67,135 +67,143 @@ void KEditPolar::clearWidgets()
 
 void KEditPolar::setWidgets()
 {
-	QString function = m_parser->fktext[ m_id ].extstr;
+        Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_id) ];
+	QString function = ufkt->extstr;
 	function = function.right( function.length()-1 );
 	kLineEditYFunction->setText( function );
-	checkBoxHide->setChecked( m_parser->fktext[ m_id ].f_mode == 0 );
-	if (  m_parser->fktext[ m_id ].dmin != m_parser->fktext[ m_id ].dmax )
+	checkBoxHide->setChecked( ufkt->f_mode == 0 );
+	if (  ufkt->dmin != ufkt->dmax )
 	{
 		checkBoxRange->setChecked( true );
-		min->setText( m_parser->fktext[ m_id ].str_dmin );
-		max->setText( m_parser->fktext[ m_id ].str_dmax );
+		min->setText( ufkt->str_dmin );
+		max->setText( ufkt->str_dmax );
 	}
 	else
 		checkBoxRange->setChecked( false );
-	kIntNumInputLineWidth->setValue( m_parser->fktext[ m_id ].linewidth );
-	kColorButtonColor->setColor( m_parser->fktext[ m_id ].color );
+	kIntNumInputLineWidth->setValue( ufkt->linewidth );
+	kColorButtonColor->setColor( ufkt->color );
 }
 
 void KEditPolar::accept()
 {
 	QString f_str = kLineEditYFunction->text();
-	int id;
-        Parser::Ufkt *tmp_ufkt;
-	if( m_id != -1 )  //when editing a function: 
+
+        if ( m_id!=-1 )
+                m_parser->fixFunctionName(f_str, XParser::Polar, m_id);
+        else
+                m_parser->fixFunctionName(f_str, XParser::Polar);
+        Ufkt tmp_ufkt;  //all settings are saved here until we know that no errors have appeared
+		
+	if( checkBoxHide->isChecked() )
+		tmp_ufkt.f_mode = 0;
+	else
+		tmp_ufkt.f_mode = 1;
+	
+	if( checkBoxRange->isChecked() )
 	{
+		tmp_ufkt.str_dmin = min->text();
+		tmp_ufkt.dmin = m_parser->eval( min->text() );
+		if ( m_parser->parserError() )
+		{
+			min->setFocus();
+			min->selectAll();
+			return;
+		}
+		tmp_ufkt.str_dmax = max->text();
+		tmp_ufkt.dmax = m_parser->eval( max->text() );
+		if ( m_parser->parserError())
+		{
+			max->setFocus();
+			max->selectAll();
+			return;
+		}
+		if ( tmp_ufkt.dmin >=  tmp_ufkt.dmax)
+		{
+			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+			min->setFocus();
+			min->selectAll();
+			return;
+		}
+	}
+	else
+	{
+		tmp_ufkt.str_dmin ="0";
+		tmp_ufkt.dmin = 0;
+		tmp_ufkt.str_dmax = "0";
+		tmp_ufkt.dmax = 0;
+	}
+	tmp_ufkt.f1_mode = 0;
+	tmp_ufkt.f2_mode = 0;
+	tmp_ufkt.integral_mode = 0;
+	tmp_ufkt.linewidth = kIntNumInputLineWidth->value();
+        tmp_ufkt.color = kColorButtonColor->color().rgb();
+	tmp_ufkt.use_slider = -1;
+        
+        Ufkt *added_ufkt;
+        if( m_id != -1 )  //when editing a function: 
+        {
                 int const ix = m_parser->ixValue(m_id);
                 if ( ix == -1) //The function could have been deleted
                 {
                         KMessageBox::error(this,i18n("Function could not be found"));
                         return;
                 }
-                tmp_ufkt =  &m_parser->ufkt[ix];
-                id = m_id; //use the right function-id
-		m_parser->fixFunctionName(f_str, XParser::Polar, id);
-		f_str.prepend("r");
-		QString old_fstr = m_parser->ufkt[id].fstr;
-		m_parser->ufkt[id].fstr = f_str;
-		m_parser->reparse(id); //reparse the funcion
-		if ( m_parser->errmsg() != 0)
-		{
-			m_parser->ufkt[id].fstr = old_fstr;
-			m_parser->reparse(id); 
-			this->raise();
-			kLineEditYFunction->setFocus();
-			kLineEditYFunction->selectAll();
-			return;
-		}
-	}
-	else
-	{
-		m_parser->fixFunctionName(f_str, XParser::Polar);
-		f_str.prepend("r");
-		id = m_parser->addfkt(f_str );
-		kdDebug() << "id: " << id << endl;
-                
-                if( id == -1 ) 
+                added_ufkt =  &m_parser->ufkt[ix];
+                QString const old_fstr = added_ufkt->fstr;
+                added_ufkt->fstr = f_str;
+                added_ufkt->extstr = f_str;
+                m_parser->reparse(added_ufkt); //reparse the funcion
+                if ( m_parser->parserError() != 0)
                 {
-                        m_parser->errmsg();
+                        added_ufkt->fstr = old_fstr;
+                        m_parser->reparse(added_ufkt);
                         this->raise();
                         kLineEditYFunction->setFocus();
                         kLineEditYFunction->selectAll();
                         return;
                 }
-                tmp_ufkt =  &m_parser->ufkt.last();
-	}
-
-	XParser::FktExt tmp_fktext; //all settings are saved here until we know that no errors have appeared
-	tmp_fktext.extstr = f_str;
-		
-	if( checkBoxHide->isChecked() )
-		tmp_fktext.f_mode = 0;
-	else
-		tmp_fktext.f_mode = 1;
-	
-	if( checkBoxRange->isChecked() )
-	{
-		tmp_fktext.str_dmin = min->text();
-		tmp_fktext.dmin = m_parser->eval( min->text() );
-		if ( m_parser->errmsg() )
-		{
-			min->setFocus();
-			min->selectAll();
-			if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
-			return;
-		}
-		tmp_fktext.str_dmax = max->text();
-		tmp_fktext.dmax = m_parser->eval( max->text() );
-		if ( m_parser->errmsg())
-		{
-			max->setFocus();
-			max->selectAll();
-			if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
-			return;
-		}
-		if ( tmp_fktext.dmin >=  tmp_fktext.dmax)
-		{
-			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
-			min->setFocus();
-			min->selectAll();
-			if( m_id == -1 ) m_parser->Parser::delfkt( tmp_ufkt );
-			return;
-		}
-	}
-	else
-	{
-		tmp_fktext.str_dmin ="0";
-		tmp_fktext.dmin = 0;
-		tmp_fktext.str_dmax = "0";
-		tmp_fktext.dmax = 0;
-	}
-	tmp_fktext.f1_mode = 0;
-	tmp_fktext.f2_mode = 0;
-	tmp_fktext.integral_mode = 0;
-	tmp_fktext.linewidth = kIntNumInputLineWidth->value();
-	tmp_fktext.color = kColorButtonColor->color().rgb();
-	tmp_fktext.use_slider = -1;
-	
-	//tmp_fktext.color0 = m_parser->fktext[id].color0; ///Should we change the default color?
-        
-        //save all settings in the function now when we now no errors have appeared
-        if( m_id == -1 )
-        {
-                tmp_fktext.id = tmp_ufkt->id;
-                m_parser->fktext.append(tmp_fktext);
         }
         else
         {
-                tmp_fktext.id = id;
-                m_parser->fktext[id] = tmp_fktext; 
+                int const id = m_parser->addfkt(f_str );
+                kdDebug() << "id: " << id << endl;
+                if( id == -1 ) 
+                {
+                        m_parser->parserError();
+                        this->raise();
+                        kLineEditYFunction->setFocus();
+                        kLineEditYFunction->selectAll();
+                        return;
+                }
+                added_ufkt =  &m_parser->ufkt.last();
         }
-	
+	//save all settings in the function now when we now no errors have appeared
+        added_ufkt->f_mode = tmp_ufkt.f_mode;
+        added_ufkt->f1_mode = tmp_ufkt.f1_mode;
+        added_ufkt->f2_mode = tmp_ufkt.f2_mode;
+        added_ufkt->integral_mode = tmp_ufkt.integral_mode;
+        added_ufkt->integral_use_precision = tmp_ufkt.integral_use_precision;
+        added_ufkt->linewidth = tmp_ufkt.linewidth;
+        added_ufkt->f1_linewidth = tmp_ufkt.f1_linewidth;
+        added_ufkt->f2_linewidth = tmp_ufkt.f2_linewidth;
+        added_ufkt->integral_linewidth = tmp_ufkt.integral_linewidth;
+        added_ufkt->str_dmin = tmp_ufkt.str_dmin;
+        added_ufkt->str_dmax = tmp_ufkt.str_dmax;
+        added_ufkt->dmin = tmp_ufkt.dmin;
+        added_ufkt->dmax = tmp_ufkt.dmax;
+        added_ufkt->str_startx = tmp_ufkt.str_startx;
+        added_ufkt->str_starty = tmp_ufkt.str_starty;
+        added_ufkt->oldx = tmp_ufkt.oldx;
+        added_ufkt->starty = tmp_ufkt.starty;
+        added_ufkt->startx = tmp_ufkt.startx;
+        added_ufkt->integral_precision = tmp_ufkt.integral_precision;
+        added_ufkt->color = tmp_ufkt.color;
+        added_ufkt->f1_color = tmp_ufkt.f1_color;
+        added_ufkt->f2_color = tmp_ufkt.f2_color;
+        added_ufkt->integral_color = tmp_ufkt.integral_color;
+        added_ufkt->str_parameter = tmp_ufkt.str_parameter;
+        added_ufkt->use_slider = tmp_ufkt.use_slider;
+        added_ufkt->k_liste = tmp_ufkt.k_liste;
         
         kLineEditYFunction->setText(f_str); //update the function name in FktDlg
 	// call inherited method

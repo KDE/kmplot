@@ -9,12 +9,14 @@ TODO
 * In tool menu:
 	* find "nollställen" ( en: where the function's value is 0) 
 	* get slope for a x-point
-* Fix the unpolished lines
+* Fix the unpolished lines?
 * #52887, need to calculate with complex numbers.
 * Popupmenu and tracemode for parametric- and polar functions
 * Draw tangents in trace mode (pipesmoker)
 * Printing (pipesmoker)
       - different paper sizes
+* Ability to set font size when drawing labels.
+* Use a better(faster!) algorithm for drawing integrals numeric.
 
 
 IN PROGRESS

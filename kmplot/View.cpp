@@ -86,7 +86,7 @@ void KmPlotProgress::increase()
  */
 
 View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() ), m_popupmenu(p), m_modified(mo)
-{   
+{
 	m_parser = new XParser(MEMSIZE, STACKSIZE );
 	init();
 	csflg=0;
@@ -203,7 +203,7 @@ void View::draw(QPaintDevice *dev, int form)
 	
 	if ( form!=0 && areaDraw)
 	{
-		areaUnderGraph(areaFktext, areaPMode, areaMin,areaMax, areaParameter, &DC);
+		areaUnderGraph(areaUfkt, areaPMode, areaMin,areaMax, areaParameter, &DC);
 		areaDraw = false;
 		if (stop_calculating)
 			return;
@@ -220,9 +220,9 @@ void View::draw(QPaintDevice *dev, int form)
 	setCursor(Qt::WaitCursor );
 	stop_calculating = false;
         
-        //for(uint ix=0; ix<m_parser->fktext.count() && !stop_calculating; ++ix)
-        for(QValueVector<XParser::FktExt>::iterator fktext=m_parser->fktext.begin(); fktext!=m_parser->fktext.end() && !stop_calculating; ++fktext)
-		plotfkt(fktext, &DC);
+        for(QValueVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
+                if ( !ufkt->fname.isEmpty() )
+		      plotfkt(ufkt, &DC);
 
 	isDrawing=false;
 	restoreCursor();
@@ -231,7 +231,7 @@ void View::draw(QPaintDevice *dev, int form)
 }
 
 
-void View::plotfkt(QValueVector<XParser::FktExt>::iterator fktext, QPainter *pDC)
+void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 {	
 	char p_mode;
 	int iy, k, ke, mflg;
@@ -239,17 +239,15 @@ void View::plotfkt(QValueVector<XParser::FktExt>::iterator fktext, QPainter *pDC
 	QPoint p1, p2;
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
-
-        Parser::Ufkt *ufkt = &m_parser->ufkt[m_parser->ixValue(fktext->id)];
         
-	char const fktmode=fktext->extstr[0].latin1();
+	char const fktmode=ufkt->extstr[0].latin1();
 	if(fktmode=='y') return ;
 	
-	dmin=fktext->dmin;
-	dmax=fktext->dmax;
+	dmin=ufkt->dmin;
+	dmax=ufkt->dmax;
         
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
-	{   
+	{
 		if(fktmode=='r')
 		{   
 			dmin=0.;
@@ -268,10 +266,10 @@ void View::plotfkt(QValueVector<XParser::FktExt>::iterator fktext, QPainter *pDC
 		dx=stepWidth*(dmax-dmin)/area.width();
 	
 	if(fktmode=='x')
-                iy = m_parser->ixValue(fktext->id)+1;
+                iy = m_parser->ixValue(ufkt->id)+1;
 	p_mode=0;
-	pen.setWidth((int)(fktext->linewidth*s) );
-	pen.setColor(fktext->color);
+	pen.setWidth((int)(ufkt->linewidth*s) );
+	pen.setColor(ufkt->color);
 	pDC->setPen(pen);
         
         
@@ -279,33 +277,33 @@ void View::plotfkt(QValueVector<XParser::FktExt>::iterator fktext, QPainter *pDC
 	{
                 
 		k=0;
-		ke=fktext->k_liste.count();
+		ke=ufkt->k_liste.count();
 		do
 		{
                         kdDebug() << "drawing " << ufkt->id << endl;
                         
 			if ( p_mode == 3 && stop_calculating)
 				break;
-			if( fktext->use_slider == -1 )
+			if( ufkt->use_slider == -1 )
                         {
-                                if ( !fktext->k_liste.isEmpty() )
-				    ufkt->setParameter( fktext->k_liste[k] );
+                                if ( !ufkt->k_liste.isEmpty() )
+				    ufkt->setParameter( ufkt->k_liste[k] );
                         }
 			else
-				ufkt->setParameter( sliders[ fktext->use_slider ]->slider->value() );
+				ufkt->setParameter( sliders[ ufkt->use_slider ]->slider->value() );
      
 			mflg=2;
 			if ( p_mode == 3)
 			{
-				if ( fktext->integral_use_precision )
-					dx =  fktext->integral_precision*(dmax-dmin)/(area.width()*10);
+				if ( ufkt->integral_use_precision )
+					dx =  ufkt->integral_precision*(dmax-dmin)/(area.width()*10);
 				else
 
 					dx=dx/10;
 				progressbar->progress->reset();
 				progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 				progressbar->show();
-				x = fktext->startx; //the initial x-point
+				x = ufkt->startx; //the initial x-point
 			}
 			else
 				x=dmin;
@@ -316,7 +314,7 @@ void View::plotfkt(QValueVector<XParser::FktExt>::iterator fktext, QPainter *pDC
 			else
 				forward_direction = true;
                                 
-			if ( p_mode != 0 || fktext->f_mode) // if not the function is hidden
+			if ( p_mode != 0 || ufkt->f_mode) // if not the function is hidden
 				while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
 			{
 				if ( p_mode == 3 && stop_calculating)
@@ -339,7 +337,7 @@ void View::plotfkt(QValueVector<XParser::FktExt>::iterator fktext, QPainter *pDC
 					case 3:
 					{
 						y=m_parser->fkt(ufkt, x);
-						m_parser->euler_method(x, y,ufkt, fktext);
+						m_parser->euler_method(x, y,ufkt);
 						if ( int(x*100)%2==0)
 						{
 							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -393,7 +391,7 @@ void View::plotfkt(QValueVector<XParser::FktExt>::iterator fktext, QPainter *pDC
 						if (x>dmax && p_mode== 3)
 						{
 							forward_direction = false;
-							x = fktext->startx;
+							x = ufkt->startx;
 							mflg=2;
 						}
 					}
@@ -406,25 +404,25 @@ void View::plotfkt(QValueVector<XParser::FktExt>::iterator fktext, QPainter *pDC
 		}
         	while(++k<ke);
        
-		if(fktext->f1_mode==1 && p_mode< 1) //draw the 1st derivative
+		if(ufkt->f1_mode==1 && p_mode< 1) //draw the 1st derivative
 		{
 			p_mode=1;
-			pen.setWidth((int)(fktext->f1_linewidth*s) );
-			pen.setColor(fktext->f1_color);
+			pen.setWidth((int)(ufkt->f1_linewidth*s) );
+			pen.setColor(ufkt->f1_color);
 			pDC->setPen(pen);
 		}
-		else if(fktext->f2_mode==1 && p_mode< 2) //draw the 2nd derivative
+		else if(ufkt->f2_mode==1 && p_mode< 2) //draw the 2nd derivative
 		{
 			p_mode=2;
-			pen.setWidth((int)(fktext->f2_linewidth*s) );
-			pen.setColor(fktext->f2_color);
+			pen.setWidth((int)(ufkt->f2_linewidth*s) );
+			pen.setColor(ufkt->f2_color);
 			pDC->setPen(pen);
 		}
-		else if( fktext->integral_mode==1 && p_mode< 3) //draw the integral
+		else if( ufkt->integral_mode==1 && p_mode< 3) //draw the integral
 		{
 			p_mode=3;
-			pen.setWidth((int)(fktext->integral_linewidth*s) );
-			pen.setColor(fktext->integral_color);
+			pen.setWidth((int)(ufkt->integral_linewidth*s) );
+			pen.setColor(ufkt->integral_color);
 			pDC->setPen(pen);
 		}
 		else break; //otherwise stop
@@ -490,9 +488,10 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->drawText(0, 300, i18n("Functions:"));
 		pDC->Lineh(0, 320, 700);
                 int ypos = 380;
-                for(uint ix=0; ix<m_parser->fktext.count() && !stop_calculating; ++ix)
+                //for(uint ix=0; ix<m_parser->countFunctions() && !stop_calculating; ++ix)
+                for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
 		{
-			pDC->drawText(100, ypos, m_parser->fktext[ix].extstr);
+			pDC->drawText(100, ypos, it->extstr);
 			ypos+=60;
 		}
 		pDC->translate(-60., ypos+100.);
@@ -648,29 +647,26 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		DC.setWorldMatrix(wm);
 		ptl=DC.xFormDev(e->pos());
                 
-                QValueVector<Parser::Ufkt>::iterator itu = 0;
-                QValueVector<XParser::FktExt>::iterator itf = 0;
-                
-		if( csmode >= 0 && csmode <= (int)m_parser->fktext.count() )
+                QValueVector<Ufkt>::iterator it = 0;
+		if( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
 		{
                         int const ix = m_parser->ixValue(csmode);
                         if (ix!=-1)
                         {
-                                itu = &m_parser->ufkt[ix];
-                                itf = &m_parser->fktext[ix];
-                                if( m_parser->fktext[ csmode ].use_slider == -1 )
+                                it = &m_parser->ufkt[ix];
+                                if( it->use_slider == -1 )
                                 {
-                                        if( !m_parser->fktext[csmode].k_liste.isEmpty() )
-			                     m_parser->ufkt[csmode].setParameter(m_parser->fktext[csmode].k_liste[csparam]);
+                                        if( it->k_liste.isEmpty() )
+			                     it->setParameter( it->k_liste[csparam] );
                                 }
                                 else
-                                        m_parser->ufkt[csmode].setParameter(sliders[ m_parser->fktext[csmode].use_slider ]->slider->value() );
+                                        it->setParameter(sliders[ it->use_slider ]->slider->value() );
                                 if ( cstype == 0)
-                                        ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+                                        ptl.setY(dgr.Transy(csypos=m_parser->fkt( it, csxpos=dgr.Transx(ptl.x()))));
                                 else if ( cstype == 1)
-                                        ptl.setY(dgr.Transy(csypos=m_parser->a1fkt( &m_parser->ufkt[csmode], csxpos=dgr.Transx(ptl.x()) )));
+                                        ptl.setY(dgr.Transy(csypos=m_parser->a1fkt( it, csxpos=dgr.Transx(ptl.x()) )));
                                 else if ( cstype == 2)
-                                        ptl.setY(dgr.Transy(csypos=m_parser->a2fkt(&m_parser->ufkt[csmode], csxpos=dgr.Transx(ptl.x()))));
+                                        ptl.setY(dgr.Transy(csypos=m_parser->a2fkt( it, csxpos=dgr.Transx(ptl.x()))));
         
                                 if(fabs(csypos)<0.2)
                                 {
@@ -717,13 +713,13 @@ void View::mouseMoveEvent(QMouseEvent *e)
 				    switch (cstype)
 				    {
 					   case 0:
-						  pen.setColor( itf->color);
+						  pen.setColor( it->color);
 						  break;
 					   case 1:
-						  pen.setColor( itf->f1_color);
+						  pen.setColor( it->f1_color);
 						  break;
 					   case 2:
-						  pen.setColor( itf->f2_color);
+						  pen.setColor( it->f2_color);
 						  break;
 					   default:
 						  pen.setColor(inverted_backgroundcolor);
@@ -862,46 +858,43 @@ void View::mousePressEvent(QMouseEvent *e)
 	if(e->button()==RightButton) //clicking with the right mouse button
 	{
 		char function_type;
-                QValueVector<Parser::Ufkt>::iterator itu = m_parser->ufkt.begin();
-                for( QValueVector<XParser::FktExt>::iterator itf = m_parser->fktext.begin(); itf != m_parser->fktext.end(); ++itf)
+                for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
                 {
-                        
-			function_type = itf->extstr[0].latin1();
-			if ( function_type==0 || function_type=='y' || function_type=='r') 
-				continue;
-			int k=0;
-			int const ke=itf->k_liste.count();
+			function_type = it->extstr[0].latin1();
+			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
+			kdDebug() << "it:" << it->extstr << endl;
+                        int k=0;
+			int const ke=it->k_liste.count();
 			do
 			{
-				if( itf->use_slider == -1 )
+				if( it->use_slider == -1 )
                                 {
-                                        if ( !itf->k_liste.isEmpty())
-					   itu->setParameter(itf->k_liste[k]);
+                                        if ( !it->k_liste.isEmpty())
+					   it->setParameter(it->k_liste[k]);
                                 }
 				else
-					itu->setParameter(sliders[ itf->use_slider ]->slider->value() );
+					it->setParameter(sliders[ it->use_slider ]->slider->value() );
                                            
-				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(itu, csxpos))< g && itf->extstr.contains('t')==1) //parametric plot
+				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->extstr.contains('t')==1) //parametric plot
 				{
-                                        QValueVector<Parser::Ufkt>::iterator ufkt_y = itu+1;
-                                        QValueVector<XParser::FktExt>::iterator fktext_y = itf+1;
-					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && fktext_y->extstr.contains('t')==1)
+                                        QValueVector<Ufkt>::iterator ufkt_y = it+1;
+					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->extstr.contains('t')==1)
 					{
 							if ( csmode == -1)
 							{
-								csmode=itu->id;
+								csmode=it->id;
 								cstype=0;
 								csparam = k;
 								m_popupmenushown = 1;
 							}
 							else
 								m_popupmenushown = 2;
-							QString y_name( fktext_y->extstr );
+							QString y_name( ufkt_y->extstr );
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),false);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
-							m_popupmenu->changeTitle(10,fktext_y->extstr+";"+y_name);
+							m_popupmenu->changeTitle(10,ufkt_y->extstr+";"+y_name);
 							m_popupmenu->exec(QCursor::pos());
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
 							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
@@ -910,51 +903,50 @@ void View::mousePressEvent(QMouseEvent *e)
 							return;
 					}
 				}
-				if( fabs(csypos-m_parser->fkt(itu, csxpos))< g && itf->f_mode)
+				else if( fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
 				{
 					if ( csmode == -1)
 					{
-						csmode=itu->id;
+						csmode=it->id;
 						cstype=0;
 						csparam = k;
 						m_popupmenushown = 1;
 					}
 					else
 						m_popupmenushown = 2;
-					m_popupmenu->changeTitle(10, itf->extstr);
+					m_popupmenu->changeTitle(10, it->extstr);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
-				
-				if(fabs(csypos-m_parser->a1fkt( itu, csxpos))< g && itf->f1_mode)
+				else if(fabs(csypos-m_parser->a1fkt( it, csxpos))< g && it->f1_mode)
 				{
 					if ( csmode == -1)
 					{
-						csmode=itu->id;
+						csmode=it->id;
 						cstype=1;
 						csparam = k;
 						m_popupmenushown = 1;
 					}
 					else
 						m_popupmenushown = 2;
-					QString function = itf->extstr;
+					QString function = it->extstr;
 					function = function.left(function.find('(')) + '\'';
 					m_popupmenu->changeTitle(10, function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
-				if(fabs(csypos-m_parser->a2fkt(itu, csxpos))< g && itf->f2_mode)
+				else if(fabs(csypos-m_parser->a2fkt(it, csxpos))< g && it->f2_mode)
 				{
 					if ( csmode == -1)
 					{
-						csmode=itu->id;
+						csmode=it->id;
 						cstype=2;
 						csparam = k;
 						m_popupmenushown = 1;
 					}
 					else
 						m_popupmenushown = 2;
-					QString function = itf->extstr;
+					QString function = it->extstr;
 					function = function.left(function.find('(')) + "\'\'";
 					m_popupmenu->changeTitle(10, function);
 					m_popupmenu->exec(QCursor::pos());
@@ -962,8 +954,6 @@ void View::mousePressEvent(QMouseEvent *e)
 				}
 			}
 			while(++k<ke);
-                        
-                        ++itu;
 		}
 		return;
 	}
@@ -976,54 +966,53 @@ void View::mousePressEvent(QMouseEvent *e)
 		mouseMoveEvent(e);
 		return ;
 	}
-        QValueVector<Parser::Ufkt>::iterator itu = m_parser->ufkt.begin();
-        for( QValueVector<XParser::FktExt>::iterator itf = m_parser->fktext.begin(); itf != m_parser->fktext.end(); ++itf)
+        for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
-		switch(itf->extstr[0].latin1())
+		switch(it->extstr[0].latin1())
 		{
 			case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
 		}
 	
 		int k=0;
-		int const ke=itf->k_liste.count();
+		int const ke=it->k_liste.count();
 		do
 		{
-			if( itf->use_slider == -1 )
+			if( it->use_slider == -1 )
                         {
-                                if ( !itf->k_liste.isEmpty() )
-				     itu->setParameter( itf->k_liste[k]);
+                                if ( !it->k_liste.isEmpty() )
+				     it->setParameter( it->k_liste[k]);
                         }
 			else
-				itu->setParameter(sliders[ itf->use_slider ]->slider->value() );
-			if(fabs(csypos-m_parser->fkt(itu, csxpos))< g && itf->f_mode)
+				it->setParameter(sliders[ it->use_slider ]->slider->value() );
+			if(fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
 			{
-				csmode=itu->id;
+				csmode=it->id;
 				cstype=0;
 				csparam = k;
 				m_minmax->selectItem();
-				stbar->changeItem( itf->extstr,4);
+				stbar->changeItem( it->extstr,4);
 				mouseMoveEvent(e);
 				return;
 			}
-			if(fabs(csypos-m_parser->a1fkt( itu, csxpos))< g && itf->f1_mode)
+			if(fabs(csypos-m_parser->a1fkt( it, csxpos))< g && it->f1_mode)
 			{
-				csmode=itu->id;
+				csmode=it->id;
 				cstype=1;
 				csparam = k;
 				m_minmax->selectItem();
-				QString function = itf->extstr;
+				QString function = it->extstr;
 				function = function.left(function.find('(')) + '\'';
 				stbar->changeItem(function,4);
 				mouseMoveEvent(e);
 				return;
 			}
-			if(fabs(csypos-m_parser->a2fkt(itu, csxpos))< g && itf->f2_mode)
+			if(fabs(csypos-m_parser->a2fkt(it, csxpos))< g && it->f2_mode)
 			{
-				csmode=itu->id;
+				csmode=it->id;
 				cstype=2;
 				csparam = k;
 				m_minmax->selectItem();
-				QString function = itf->extstr;
+				QString function = it->extstr;
 				function = function.left(function.find('(')) + "\'\'";
 				stbar->changeItem(function,4);
 				mouseMoveEvent(e);
@@ -1031,8 +1020,6 @@ void View::mousePressEvent(QMouseEvent *e)
 			}
 		}
 		while(++k<ke);
-                
-                ++itu;
 	}
 
 	csmode=-1;
@@ -1185,15 +1172,10 @@ void View::getSettings()
 void View::init()
 {
 	getSettings();
-        
-        if ( m_parser->fktext.isEmpty() )
-                return;
-        QValueVector<Parser::Ufkt>::iterator it = m_parser->ufkt.begin();
+        QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin();
         it->fname="";
         while ( m_parser->ufkt.count() > 1)
             m_parser->Parser::delfkt( &m_parser->ufkt.last() );
-            
-        m_parser->fktext.clear();
 }
 
 
@@ -1202,23 +1184,22 @@ void View::progressbar_clicked()
 	stop_calculating = true;
 }
 
-void View::findMinMaxValue(XParser::FktExt *fktext, char p_mode, bool minimum, double &dmin, double &dmax, QString &str_parameter)
+void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, double &dmax, QString &str_parameter)
 {
-        Parser::Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(fktext->id) ];
 	double x, y;
 	double result_x = 0;
 	double result_y = 0;
 	bool start = true;
 
         // TODO: parameter sliders
-        if ( !fktext->k_liste.isEmpty() )
+        if ( !ufkt->k_liste.isEmpty() )
         {
                 int i=0;
-                for ( QStringList::Iterator it = fktext->str_parameter.begin(); it != fktext->str_parameter.end(); ++it )
+                for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
                 {
                       if ( *it == str_parameter)
                       {
-                             ufkt->setParameter(fktext->k_liste[i]);
+                             ufkt->setParameter(ufkt->k_liste[i]);
                              break;
                       }
                       i++;
@@ -1233,13 +1214,13 @@ void View::findMinMaxValue(XParser::FktExt *fktext, char p_mode, bool minimum, d
 	{
 		stop_calculating = false;
 		progressbar->progress->reset();
-		if ( fktext->integral_use_precision )
-			dx = fktext->integral_precision*(dmax-dmin)/(area.width()*10);
+		if ( ufkt->integral_use_precision )
+			dx = ufkt->integral_precision*(dmax-dmin)/(area.width()*10);
 		else
 			dx=stepWidth*(dmax-dmin)/(area.width()*10); //the stepwidth must be small for Euler's metod
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
-		x = fktext->startx; //the initial x-point
+		x = ufkt->startx; //the initial x-point
 	}
 	else
 	{
@@ -1279,7 +1260,7 @@ void View::findMinMaxValue(XParser::FktExt *fktext, char p_mode, bool minimum, d
 			case 3:
 			{
 				y=m_parser->fkt(ufkt, x);
-				m_parser->euler_method(x, y, ufkt, fktext);
+				m_parser->euler_method(x, y, ufkt);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -1317,7 +1298,7 @@ void View::findMinMaxValue(XParser::FktExt *fktext, char p_mode, bool minimum, d
 				if (x>dmax && p_mode== 3)
 				{
 					forward_direction = false;
-					x = fktext->startx;
+					x = ufkt->startx;
 				}
 			}
 			else
@@ -1335,18 +1316,17 @@ void View::findMinMaxValue(XParser::FktExt *fktext, char p_mode, bool minimum, d
 	dmax = int(result_y*1000)/double(1000);
 }
 
-void View::getYValue(XParser::FktExt *fktext, char p_mode,  double x, double &y, QString &str_parameter)
+void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, QString &str_parameter)
 {
-        Parser::Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(fktext->id) ];
 	// TODO: parameter sliders
-	if ( !fktext->k_liste.isEmpty() )
+	if ( !ufkt->k_liste.isEmpty() )
         {
                 int i=0;
-                for ( QStringList::Iterator it = fktext->str_parameter.begin(); it != fktext->str_parameter.end(); ++it )
+                for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
                 {
 		      if ( *it == str_parameter)
 		      {
-			     ufkt->setParameter(fktext->k_liste[i]);
+			     ufkt->setParameter(ufkt->k_liste[i]);
 			     break;
 		      }
 		      i++;
@@ -1365,8 +1345,8 @@ void View::getYValue(XParser::FktExt *fktext, char p_mode,  double x, double &y,
 			y=m_parser->a2fkt( ufkt, x);
 			break;
 		case 3:
-			double dmin = fktext->dmin;
-			double dmax = fktext->dmax;
+			double dmin = ufkt->dmin;
+			double dmax = ufkt->dmax;
 			const double target = x; //this is the x-value the user had chosen
 			bool forward_direction;
 			if ( target>=0)
@@ -1381,8 +1361,8 @@ void View::getYValue(XParser::FktExt *fktext, char p_mode,  double x, double &y,
 			}
 			
 			double dx;
-			if ( fktext->integral_use_precision )
-				dx = fktext->integral_precision*(dmax-dmin)/(area.width()/10);
+			if ( ufkt->integral_use_precision )
+				dx = ufkt->integral_precision*(dmax-dmin)/(area.width()/10);
 			else
 				dx=stepWidth*(dmax-dmin)/(area.width()/10); //the stepwidth must be small for Euler's metod
 			
@@ -1393,11 +1373,11 @@ void View::getYValue(XParser::FktExt *fktext, char p_mode,  double x, double &y,
 			progressbar->progress->reset();
 			progressbar->progress->setTotalSteps ((int) double((dmax-dmin)/dx)/2 );
 			progressbar->show();
-			x = fktext->startx; //the initial x-point
+			x = ufkt->startx; //the initial x-point
 			while (x>=dmin && !stop_calculating && !target_found)
 			{
-				y=m_parser->fkt(ufkt, x);
-				m_parser->euler_method(x, y,ufkt, fktext);
+				y=m_parser->fkt( ufkt, x );
+				m_parser->euler_method( x, y,ufkt );
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -1416,7 +1396,7 @@ void View::getYValue(XParser::FktExt *fktext, char p_mode,  double x, double &y,
 					if (x>dmax)
 					{
 						forward_direction = false;
-						x = fktext->startx;
+						x = ufkt->startx;
 					}
 				}
 				else
@@ -1455,7 +1435,7 @@ void View::keyPressEvent( QKeyEvent * e)
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-                QValueVector<XParser::FktExt>::iterator it = &m_parser->fktext[m_parser->ixValue(csmode)];
+                QValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
 		int const ke=it->k_liste.count();
                 if (ke>0)
                 {
@@ -1477,7 +1457,7 @@ void View::keyPressEvent( QKeyEvent * e)
                                         break;
                                 }
                                 kdDebug() << "csmode: " << csmode << endl;
-                                switch(m_parser->fktext[csmode].extstr[0].latin1())
+                                switch(it->extstr[0].latin1())
                                 {
                                         case 'x':
                                         case 'y':
@@ -1499,15 +1479,15 @@ void View::keyPressEvent( QKeyEvent * e)
 						  switch (cstype)
 						  {
 							 case (0):
-								        if ( m_parser->fktext[csmode].f_mode )
+								        if (it->f_mode )
 									       found=true;
 								        break;
 							 case (1):
-								        if ( m_parser->fktext[csmode].f1_mode )
+								        if ( it->f1_mode )
 									       found=true;
 								        break;
 							 case (2):
-								        if ( m_parser->fktext[csmode].f2_mode )
+								        if ( it->f2_mode )
 									       found=true;
 								        break;
 						  }
@@ -1520,8 +1500,8 @@ void View::keyPressEvent( QKeyEvent * e)
 			     if (found)
 				    break;
                                 
-                             if ( ++it == m_parser->fktext.end())
-                                it = m_parser->fktext.begin();
+                             if ( ++it == m_parser->ufkt.end())
+                                it = m_parser->ufkt.begin();
                              csmode = it->id;
                         }
 		}
@@ -1535,18 +1515,18 @@ void View::keyPressEvent( QKeyEvent * e)
 		switch (cstype )
 		{
 			case 0:
-				stbar->changeItem(m_parser->fktext[csmode ].extstr,4);
+				stbar->changeItem(it->extstr,4);
 				break;
 			case 1:
 			{
-				QString function = m_parser->fktext[ csmode ].extstr;
+				QString function = it->extstr;
 				function = function.left(function.find('(')) + '\'';
 				stbar->changeItem(function,4);
                                 break;
 			}
 			case 2:
 			{
-				QString function = m_parser->fktext[ csmode ].extstr;
+				QString function = it->extstr;
 				function = function.left(function.find('(')) + "\'\'";
 				stbar->changeItem(function,4);
 				break;
@@ -1572,9 +1552,8 @@ void View::keyPressEvent( QKeyEvent * e)
 	delete event;
 }
 
-void View::areaUnderGraph(XParser::FktExt *fktext, char const p_mode,  double &dmin, double &dmax, QString &str_parameter, QPainter *DC)
+void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double &dmax, QString &str_parameter, QPainter *DC )
 {
-        Parser::Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(fktext->id) ];
 	double x, y;
 	float calculated_area=0;
 	int rectheight;
@@ -1584,16 +1563,16 @@ void View::areaUnderGraph(XParser::FktExt *fktext, char const p_mode,  double &d
 	switch(p_mode)
 	{
 		case 0: 
-			color = fktext->color;
+			color = ufkt->color;
 			break;
 		case 1:
-			color = fktext->f1_color;
+			color = ufkt->f1_color;
 			break;
 		case 2:
-			color = fktext->f2_color;
+			color = ufkt->f2_color;
 			break;
 		case 3:
-			color = fktext->integral_color;
+			color = ufkt->integral_color;
 			break;
 	}
 	if ( DC == 0) //screen
@@ -1612,14 +1591,14 @@ void View::areaUnderGraph(XParser::FktExt *fktext, char const p_mode,  double &d
 	}
 	
         // TODO: parameter sliders
-        if ( !fktext->k_liste.isEmpty() )
+        if ( !ufkt->k_liste.isEmpty() )
         {
                 int i=0;
-                for ( QStringList::Iterator it = fktext->str_parameter.begin(); it != fktext->str_parameter.end(); ++it )
+                for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
                 {
                       if ( *it == str_parameter)
                       {
-                             ufkt->setParameter(fktext->k_liste[i]);
+                             ufkt->setParameter(ufkt->k_liste[i]);
                              break;
                       }
                       i++;
@@ -1629,14 +1608,14 @@ void View::areaUnderGraph(XParser::FktExt *fktext, char const p_mode,  double &d
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
-		if ( fktext->integral_use_precision )
-			dx = fktext->integral_precision*(dmax-dmin)/(area.width()*10);
+		if ( ufkt->integral_use_precision )
+			dx = ufkt->integral_precision*(dmax-dmin)/(area.width()*10);
 		else
 			dx=stepWidth*(dmax-dmin)/(area.width()*10); //the stepwidth must be small for Euler's metod
 		progressbar->progress->reset();
 		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
 		progressbar->show();
-		x = fktext->startx; //the initial x-point
+		x = ufkt->startx; //the initial x-point
 	}
 	else
 	{
@@ -1686,7 +1665,7 @@ void View::areaUnderGraph(XParser::FktExt *fktext, char const p_mode,  double &d
 			case 3:
 			{
 				y=m_parser->fkt(ufkt, x);
-				m_parser->euler_method(x, y, ufkt, fktext);
+				m_parser->euler_method(x, y, ufkt);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -1743,7 +1722,7 @@ void View::areaUnderGraph(XParser::FktExt *fktext, char const p_mode,  double &d
 				if (x>dmax && p_mode== 3)
 				{
 					forward_direction = false;
-					x = fktext->startx;
+					x = ufkt->startx;
 				}
 			}
 			else
@@ -1767,7 +1746,7 @@ void View::areaUnderGraph(XParser::FktExt *fktext, char const p_mode,  double &d
 	restoreCursor();
 	
 	
-	areaFktext = fktext;
+	areaUfkt = ufkt;
 	areaPMode = p_mode;
 	areaMax = dmax;
 	areaParameter = str_parameter;
@@ -1802,23 +1781,28 @@ void View::updateSliders()
 {
 	for( int number = 0; number < SLIDER_COUNT; number++)
 		sliders[ number ]->hide();
-	for( uint index = 0; index < m_parser->fktext.count(); index++ )
-		if( m_parser->fktext[ index ].use_slider > -1  &&  (m_parser->fktext[ index ].f_mode ||  m_parser->fktext[index].f1_mode || m_parser->fktext[ index ].f2_mode || m_parser->fktext[ index ].integral_mode))
-			sliders[ m_parser->fktext[ index ].use_slider ]->show();
+
+        for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
+        {
+                if (it->fname.isEmpty() ) continue;
+		if( it->use_slider > -1  &&  (it->f_mode || it->f1_mode || it->f2_mode || it->integral_mode))
+			sliders[ it->use_slider ]->show();
+        }
 }
 
 void View::mnuHide_clicked()
 {
+        Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(csmode)];
 	switch (cstype )
 	{
 		case 0:
-			m_parser->fktext[csmode ].f_mode=0;
+			ufkt->f_mode=0;
 			break;
 		case 1:
-			m_parser->fktext[csmode ].f1_mode=0;
+			ufkt->f1_mode=0;
 			break;
 		case 2:
-			m_parser->fktext[csmode ].f2_mode=0;
+			ufkt->f2_mode=0;
 			break;
 	}
 	drawPlot();
@@ -1826,7 +1810,7 @@ void View::mnuHide_clicked()
 	updateSliders();
 	if (csmode==-1)
 		return;
-	if ( !m_parser->fktext[csmode ].f_mode && !m_parser->fktext[csmode ].f1_mode && !m_parser->fktext[csmode ].f2_mode) //all graphs for the function are hidden
+	if ( !ufkt->f_mode && !ufkt->f1_mode && !ufkt->f2_mode) //all graphs for the function are hidden
 	{
 		csmode=-1;
 		QMouseEvent *event = new QMouseEvent(QMouseEvent::KeyPress,QCursor::pos(),Qt::LeftButton,Qt::LeftButton);
@@ -1846,8 +1830,8 @@ void View::mnuRemove_clicked()
 {
 	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
 	{
-		char const function_type = m_parser->fktext[csmode].extstr[0].latin1();
                 int const ix = m_parser->ixValue(csmode);
+                char const function_type = m_parser->ufkt[ix].extstr[0].latin1();
                 if ( ix == -1)
                         return;
 		if ( function_type == 'x')  // a parametric function
@@ -1863,10 +1847,10 @@ void View::mnuRemove_clicked()
 }
 void View::mnuEdit_clicked()
 {
-	if ( m_parser->fktext[csmode].extstr[0] == 'x') // a parametric function
+	if ( m_parser->ufkt[m_parser->ixValue(csmode)].extstr[0] == 'x') // a parametric function
 	{
 		int y_index = csmode+1; //the y-function
-		if ( y_index == (int)m_parser->fktext.count())
+		if ( y_index == (int)m_parser->countFunctions())
 			y_index=0;
 		KEditParametric* editParametric = new KEditParametric( m_parser, this );
 		editParametric->setCaption(i18n( "New Parametric Plot" ));

@@ -60,6 +60,7 @@ class KmPlotIO
 		static void KmPlotIO::parseScale( const QDomElement &n );
 		static void KmPlotIO::parseStep( const QDomElement &n );
 		static void KmPlotIO::parseFunction( const QDomElement &n );
+		static void parseParameters( const QDomElement &n, int ix );
 };
 
 #endif

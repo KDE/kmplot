@@ -27,7 +27,9 @@
 #include <qdom.h>
 #include <qfile.h>
 #include <qstring.h>
+#include <qstringlist.h>
 
+// local includes
 #include "kmplotio.h"
 #include "misc.h"
 
@@ -98,10 +100,22 @@ void KmPlotIO::save( const QString filename )
 			tag.setAttribute( "visible-2nd-deriv", ps.fktext[ ix ].f2_mode );
 			tag.setAttribute( "width", ps.fktext[ ix ].dicke );
 			tag.setAttribute( "color", QColor( ps.fktext[ ix ].farbe ).name() );
-
+			
 			addTag( doc, tag, "equation", ps.fktext[ ix ].extstr );
-
+			
+			if( ps.fktext[ ix ].k_anz > 0 )
+			{
+				QStringList listOfParameters;
+				for( int k_index = 0; k_index < ps.fktext[ ix ].k_anz; k_index++ )
+				{
+					listOfParameters += 
+						QString::number( ps.fktext[ ix ].k_liste[ k_index ] );
+				}
+				addTag( doc, tag, "parameterlist", listOfParameters.join( "," ) );
+			}
+			
 			root.appendChild( tag );
+			
 		}
 	}
 
@@ -262,5 +276,19 @@ void KmPlotIO::parseFunction( const QDomElement & n )
 			str = fstr.left( i );
 		ix = ps.addfkt( str );
 		ps.getext( ix );
+		parseParameters( n, ix );
 	}
+}
+
+void KmPlotIO::parseParameters( const QDomElement &n, int ix )
+{
+	QStringList listOfParameters = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
+	ps.fktext[ ix ].k_anz = 0;
+	for( QStringList::Iterator it = listOfParameters.begin(); it != listOfParameters.end(); ++it )
+	{
+		ps.fktext[ ix ].k_liste[ ps.fktext[ ix ].k_anz ] = 
+			( *it ).toDouble();
+		ps.fktext[ ix ].k_anz++;
+	}
+	
 }

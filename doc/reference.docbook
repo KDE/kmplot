@@ -238,7 +238,7 @@ If the plotting area contains the resulting point it is connected to the last
 drawn point by a line.
 </para>
 <para>
-Parametric functions are plotted for parameter values from 0 upto 2&pgr;. 
+Parametric functions are plotted for parameter values from 0 up to 2&pgr;. 
 You can set the plotting range in the dialog for the function too.
 </para>
 </sect1>
@@ -253,8 +253,8 @@ You can trace a function's values more precisely by clicking onto or next to a g
 </para>
 <para>
 Note that tracing is only possible with explicitly given functions.
-The coordinates are always displayed according to a cartesian system of
-coordinates. Neither non-single-points parametric functions nor functions given in polar
+The coordinates are always displayed according to a Cartesian system of
+coordinates. Neither non-single-point parametric functions nor functions given in polar
 coordinates can be traced in this way.
 </para>
 

@@ -221,7 +221,7 @@ linkend="using-kmplot"/>.</para></listitem>
 <guimenuitem>Zoom rectangular</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>Let the user draw a rectangle. The minimum and maximum values will be set to the cordinates of the rectangle.</para></listitem>
+<listitem><para>Let the user draw a rectangle. The minimum and maximum values will be set to the coordinates of the rectangle.</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -233,7 +233,7 @@ linkend="using-kmplot"/>.</para></listitem>
 <guimenuitem>Zoom in</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>The minimum and maximum values will come closer to eachother and the selected point in the graph will be centered.</para></listitem>
+<listitem><para>The minimum and maximum values will come closer to each other and the selected point in the graph will be centered.</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -245,7 +245,7 @@ linkend="using-kmplot"/>.</para></listitem>
 <guimenuitem>Zoom out</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>The minimum and maximum values will be more seperated from eachother and the selected point in the graph will be centered.</para></listitem>
+<listitem><para>The minimum and maximum values will be more separated from each other and the selected point in the graph will be centered.</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -269,7 +269,7 @@ linkend="using-kmplot"/>.</para></listitem>
 <guimenuitem>Fit widget to trigonometric functions</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>The scale will be adapted to trigometric functions. This works both for radians and degrees.</para></listitem>
+<listitem><para>The scale will be adapted to trigonometric functions. This works both for radians and degrees.</para></listitem>
 </varlistentry>
 </variablelist>
 

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>324</width>
-            <height>467</height>
+            <width>332</width>
+            <height>451</height>
         </rect>
     </property>
     <property name="caption">
@@ -281,29 +281,9 @@ Example: f(x)=x^2</string>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QCheckBox" row="0" column="0">
-                    <property name="name">
-                        <cstring>hasParameters</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Parameter values:</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+P</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>function has a parameter</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Check this button and enter all parameter values below.</string>
-                    </property>
-                </widget>
                 <widget class="KPushButton" row="1" column="0">
                     <property name="name">
                         <cstring>cmdParameter</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
                     </property>
                     <property name="text">
                         <string>Change parameter values</string>
@@ -313,6 +293,8 @@ Example: f(x)=x^2</string>
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>customRange</sender>
@@ -326,17 +308,10 @@ Example: f(x)=x^2</string>
         <receiver>max</receiver>
         <slot>setEnabled(bool)</slot>
     </connection>
-    <connection>
-        <sender>hasParameters</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>cmdParameter</receiver>
-        <slot>setEnabled(bool)</slot>
-    </connection>
 </connections>
 <tabstops>
     <tabstop>equation</tabstop>
     <tabstop>hide</tabstop>
-    <tabstop>hasParameters</tabstop>
     <tabstop>customRange</tabstop>
     <tabstop>min</tabstop>
     <tabstop>max</tabstop>
@@ -349,12 +324,6 @@ Example: f(x)=x^2</string>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kcolorbutton.h</includehint>
     <includehint>knuminput.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

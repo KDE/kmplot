@@ -80,7 +80,6 @@ void EditFunction::clearWidgets()
 	// Clear the Function page
 	editfunctionpage->equation->clear();
 	editfunctionpage->hide->setChecked( false );
-	editfunctionpage->hasParameters->setChecked( false );
 	editfunctionpage->customRange->setChecked( false );
 	editfunctionpage->min->clear();
 	editfunctionpage->max->clear();
@@ -106,7 +105,6 @@ void EditFunction::setWidgets()
 	m_parameter =  m_parser->fktext[ m_index ].str_parameter;
 	editfunctionpage->equation->setText( m_parser->fktext[ m_index ].extstr );
 	editfunctionpage->hide->setChecked( m_parser->fktext[ m_index ].f_mode == 0 );
-	editfunctionpage->hasParameters->setChecked( m_parser->fktext[ m_index ].k_anz != 0 );
 	QStringList listOfParameters;
 	for( int k_index = 0; k_index < m_parser->fktext[ m_index ].k_anz; k_index++ )
 	{
@@ -149,7 +147,7 @@ void EditFunction::setWidgets()
 
 void EditFunction::accept()
 {
-	if( editfunctionpage->hasParameters->isChecked() )
+	if( !m_parameter.isEmpty() != 0 )
 	{
 		if( !functionHas2Arguments() && KMessageBox::warningYesNo( this, i18n( "You entered parameter values, but the function has no 2nd argument. The Definition should look like f(x,k)=k*x^2, for instance.\nDo you want to continue anyway?" ), i18n( "Missing 2nd Argument" ) ) != KMessageBox::Yes ) return;
 	}
@@ -271,7 +269,7 @@ void EditFunction::accept()
 	if( editfunctionpage->hide->isChecked() )
 		m_parser->fktext[ index ].f_mode = 0;
 		
-	if( editfunctionpage->hasParameters->isChecked() )
+	if( !m_parameter.isEmpty() )
 	{
 		m_parser->fktext[ index ].str_parameter = m_parameter;
 		m_parser->fktext[ index ].k_anz = 0;
@@ -325,9 +323,8 @@ bool EditFunction::functionHas2Arguments()
 	int closeBracket = editfunctionpage->equation->text().find( ")" );
 	return editfunctionpage->equation->text().mid( openBracket+1, closeBracket-openBracket-1 ).find( "," ) != -1;
 }
-
 void EditFunction::cmdParameter_clicked()
 {
-	KParameterEditor *dlg = new KParameterEditor(m_parser, &m_parameter);
+	KParameterEditor *dlg = new KParameterEditor(m_parser,&m_parameter);
 	dlg->show();
 }

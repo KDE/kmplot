@@ -136,11 +136,16 @@ void KEditFunction::setWidgets()
 
 void KEditFunction::accept()
 {
+	// if we are editing an existing function, first delete the old one
 	if( m_index != -1 ) 
 	{
 		m_parser->delfkt( m_index );
 		m_index = -1;
 	}
+	
+	// find a name not allready used 
+	if( kLineEditName->text().isEmpty() )
+		kLineEditName->setText( newName() );
 	
 	int index = m_parser->addfkt( yFunction() );
 	if( index == -1 ) 
@@ -189,6 +194,33 @@ void KEditFunction::accept()
 	m_parser->fktext[ index ].farbe = kColorButtonColor->color().rgb();
 	
 	QEditFunction::accept();
+}
+
+QString KEditFunction::newName()
+{
+	int i = 0;
+	QString name;
+	// prepend the correct prefix
+	switch( m_type )
+	{
+		case Function:
+			name = "f%1";
+			break;
+		case Parametric:
+			name = "xf%1";
+			break;
+		case Polar:
+			name = "rf%1";
+	}
+	do
+	{
+		i++;
+	} while( m_parser->getfix( name.arg( i ) ) != -1 );
+	
+	// cut of prefix again, will be added later again
+	if( m_type == Parametric || m_type == Polar )
+		name = name.right( name.length()-1 );
+	return name.arg( i );
 }
 
 QString KEditFunction::xFunction()

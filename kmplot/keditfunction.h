@@ -48,6 +48,7 @@ class KEditFunction : public QEditFunction
 		void setVisibleWidgets();
 		void clearWidgets();
 		void setWidgets();
+		QString newName();
 		void splitEquation( const QString equation, QString &name, QString &expression );
 		FunctionType m_type;
 		XParser* m_parser;

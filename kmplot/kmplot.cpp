@@ -328,7 +328,7 @@ void KmPlot::setupStatusBar()
 
 void KmPlot::progressbar_clicked()
 {
-	kapp->dcopClient()->send(kapp->dcopClient()->appId(), "MainDlg","stopDrawing()", QByteArray());
+	kapp->dcopClient()->send(kapp->dcopClient()->appId(), "View","stopDrawing()", QByteArray());
 }
 
 #include "kmplot.moc"

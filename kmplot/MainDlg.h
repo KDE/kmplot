@@ -84,7 +84,6 @@ public:
 	/// This class needs access to private members, too.
 	friend class BezWnd;
 
-	void stopDrawing();
 	/// Asks the user and returns true if modified data shall be dicarded.
 	bool checkModified();
 	/// Is set to true if a file from an old file format was loaded
@@ -113,8 +112,8 @@ public slots:
 	void toggleShowSlider2();
 	void toggleShowSlider3();
 	
-	///Implement the File -> New action by cleaning the plot area
-	void slotCleanWindow();
+	// ///I'm not sure it a delete-all-functions command is necessary
+	// void slotCleanWindow();
 	///Save a plot i.e. save the function name and all the settings for the plot
 	void slotSave();
 	///Save a plot and choose a name for it

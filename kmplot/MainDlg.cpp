@@ -225,7 +225,7 @@ bool MainDlg::checkModified()
 	}
 	return true;
 }
-
+/*
 void MainDlg::slotCleanWindow()
 {
 	if (m_readonly)
@@ -234,7 +234,7 @@ void MainDlg::slotCleanWindow()
 	view->updateSliders();
 	view->drawPlot();
 }
-
+*/
 void MainDlg::slotSave()
 {
 	if ( !m_modified || m_readonly) //don't save if no changes are made or readonly is enabled
@@ -723,12 +723,6 @@ void MainDlg::setReadOnlyStatusBarText(const QString &text)
 {
 	setStatusBarText(text);
 }
-
-void MainDlg::stopDrawing()
-{
-	view->stopDrawing();
-}
-
 
 void MainDlg::optionsConfigureKeys()
 {

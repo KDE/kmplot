@@ -36,9 +36,9 @@ class MainDlgIface : virtual public DCOPObject
 {
 	K_DCOP
 k_dcop:
-	virtual void stopDrawing() = 0;
-	virtual bool isModified() = 0;
 	virtual bool checkModified() = 0;
+	
+	virtual bool isModified() = 0;
 	virtual void editColors() = 0;
 	virtual void editAxes() = 0;
 	virtual void editScaling() = 0;
@@ -51,7 +51,7 @@ k_dcop:
 	virtual void toggleShowSlider1() = 0;
 	virtual void toggleShowSlider2() = 0;
 	virtual void toggleShowSlider3() = 0;
-	virtual void slotCleanWindow() = 0;
+	// virtual void slotCleanWindow() = 0;
 	virtual void slotSave() = 0;
 	virtual void slotSaveas() = 0;
 	virtual void slotEditPlots() = 0;

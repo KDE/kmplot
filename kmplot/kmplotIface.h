@@ -38,7 +38,6 @@ class KmPlotIface : virtual public DCOPObject
 {
 	K_DCOP
 k_dcop:
-	virtual void fileOpen(const KURL &url) = 0;
 	virtual void fileOpen() = 0;
 	virtual void setStatusBarText(const QString &text, int id) = 0;
 	virtual void optionsConfigureKeys() = 0;
@@ -47,6 +46,8 @@ k_dcop:
 	virtual bool stopProgressBar() = 0;
 	virtual void startProgressBar(int) = 0;
 	virtual void increaseProgressBar() = 0;
+	
+	virtual void fileOpen(const KURL &url) = 0;
 };
 
 

@@ -81,6 +81,8 @@ class MainDlg : public KMainWindow
 		friend class FktDlg;
 		/// This class needs access to private members, too.
 		friend class BezWnd;
+		
+		static bool oldfileversion;
 	
 	public slots:
 		/// Implement the color edit dialog
@@ -100,10 +102,10 @@ class MainDlg : public KMainWindow
 		/// Implement the dialog to enter a polar plot and its options
 		void newPolar();
 		/// Show/hide parameter slider windows
-		void toggleShowSlider0( bool checked );
-		void toggleShowSlider1( bool checked );
-		void toggleShowSlider2( bool checked );
-		void toggleShowSlider3( bool checked );
+		void toggleShowSlider0();
+		void toggleShowSlider1();
+		void toggleShowSlider2();
+		void toggleShowSlider3();
 	
 	private:
 		/// Settings the standard and non standard actions of the application.
@@ -147,8 +149,9 @@ class MainDlg : public KMainWindow
 		void saveConstants();
 		/// A dialog used by many tools-menu-items
 		KMinMax *minmaxdlg;
-		
+		/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
 		KPopupMenu *m_popupmenu;
+		
 		
 	protected slots:
 		/// Implement the File -> Open action

@@ -56,6 +56,8 @@
 #include "sliderwindow.h"
 #include "xparser.h"
 
+bool MainDlg::oldfileversion;
+
 MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name ) : KMainWindow( 0, name ), m_recentFiles( 0 )
 {
 	fdlg = 0;
@@ -179,10 +181,16 @@ void MainDlg::setupActions()
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 		"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
 	
-	for( int number = 0; number < SLIDER_COUNT; number++ )
+	/*for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
 		( void ) new KToggleAction( i18n( "Show Slider %1" ).arg( number ), 0, this, SLOT( toggleShowSlider( bool ) ), actionCollection(), QString( "options_configure_show_slider_%1" ).arg( number ).latin1() );
-	}
+}*/
+	( void ) new KToggleAction( i18n( "Show Slider 0" ), 0, this, SLOT( toggleShowSlider0() ), actionCollection(), QString( "options_configure_show_slider_0" ).latin1() );
+	( void ) new KToggleAction( i18n( "Show Slider 1" ), 0, this, SLOT( toggleShowSlider1() ), actionCollection(), QString( "options_configure_show_slider_1" ).latin1() );
+	( void ) new KToggleAction( i18n( "Show Slider 2" ), 0, this, SLOT( toggleShowSlider2() ), actionCollection(), QString( "options_configure_show_slider_2" ).latin1() );
+	( void ) new KToggleAction( i18n( "Show Slider 3" ), 0, this, SLOT( toggleShowSlider3() ), actionCollection(), QString( "options_configure_show_slider_3" ).latin1() );
+	
+	
 	
 	m_popupmenu->insertSeparator();
 	mnuYValue->plug(m_popupmenu);
@@ -633,26 +641,26 @@ void MainDlg::graphArea()
 	minmaxdlg->show();
 }
 
-void MainDlg::toggleShowSlider0( bool checked )
+void MainDlg::toggleShowSlider0()
 {
-	if( checked ) view->sliders[ 0 ]->show();
+	if( !view->sliders[ 0 ]->isShown() ) view->sliders[ 0 ]->show();
 	else view->sliders[ 0 ]->hide();
 }
 
-void MainDlg::toggleShowSlider1( bool checked )
+void MainDlg::toggleShowSlider1()
 {
-	if( checked ) view->sliders[ 1 ]->show();
+	if( !view->sliders[ 1 ]->isShown() ) view->sliders[ 1 ]->show();
 	else view->sliders[ 1 ]->hide();
 }
 
-void MainDlg::toggleShowSlider2( bool checked )
+void MainDlg::toggleShowSlider2()
 {
-	if( checked ) view->sliders[ 2 ]->show();
+	if( !view->sliders[ 2 ]->isShown() ) view->sliders[ 2 ]->show();
 	else view->sliders[ 2 ]->hide();
 }
 
-void MainDlg::toggleShowSlider3( bool checked )
+void MainDlg::toggleShowSlider3( )
 {
-	if( checked ) view->sliders[ 3 ]->show();
+	if( !view->sliders[ 3 ]->isShown() ) view->sliders[ 3 ]->show();
 	else view->sliders[ 3 ]->hide();
 }

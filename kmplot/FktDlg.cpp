@@ -68,7 +68,7 @@ void FktDlg::onapply()
 	QString fname, fstr, str;
 
 	fstr = le_fktstr->text();
-	if ( fstr != "" )
+	if ( !fstr.isEmpty() )
 	{
 		// left from semicolon is function equation
 		int i = fstr.find( ';' );

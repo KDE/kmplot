@@ -214,8 +214,16 @@ void KParameterEditor::cmdExport_clicked()
                         if (file.open( IO_WriteOnly ) )
                         {
                                 QTextStream stream(&file);
-                                for ( QListBoxItem *it = list->firstItem(); it ; it = it->next() )
-                                        stream << it->text() << endl;
+                                QListBoxItem *it = list->firstItem();
+                                while ( 1 )
+                                {
+                                        stream << it->text();
+                                        it = it->next();
+                                        if (it)
+                                                stream << endl; //only write a new line if there are more text
+                                        else
+                                                break;
+                                }
                                 file.close();
                         }
                         else
@@ -235,8 +243,16 @@ void KParameterEditor::cmdExport_clicked()
                         if (file.open( IO_WriteOnly ) )
                         {
                                 QTextStream stream(&file);
-                                for ( QListBoxItem *it = list->firstItem(); it ; it = it->next() )
-                                        stream << it->text() << endl;
+                                QListBoxItem *it = list->firstItem();
+                                while ( 1 )
+                                {
+                                        stream << it->text();
+                                        it = it->next();
+                                        if (it)
+                                                stream << endl; //only write a new line if there are more text
+                                        else
+                                                break;
+                                }
                                 file.close();
                         }
                         else

@@ -54,11 +54,11 @@
 EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name ) : 
 	KDialogBase( IconList, "Caption", Help|Ok|Cancel, Ok, parent, name )
 {
-	QVBox *page0 = addVBoxPage( i18n("Function"), i18n( "Function" ), UserIcon( "func" ) );
+	QVBox *page0 = addVBoxPage( i18n("Function"), i18n( "Function" ), MainBarIcon( "func" ) );
 	editfunctionpage = new EditFunctionPage( page0 );
-	QVBox *page1 = addVBoxPage( i18n("Derivatives"), i18n( "Derivatives" ), UserIcon( "deriv_func" ) );
+	QVBox *page1 = addVBoxPage( i18n("Derivatives"), i18n( "Derivatives" ), MainBarIcon( "deriv_func" ) );
 	editderivativespage = new EditDerivativesPage( page1 );
-	QVBox *page2 = addVBoxPage( i18n("Antiderivative"), i18n( "Antiderivative" ), UserIcon( "anti_func" ) );
+	QVBox *page2 = addVBoxPage( i18n("Antiderivative"), i18n( "Antiderivative" ), MainBarIcon( "anti_func" ) );
 	editantiderivativepage = new EditAntiderivativePage( page2 );
 	m_parser = parser;
 }

@@ -331,6 +331,24 @@ you are described in <xref linkend="configuration"/>.</para>
 </variablelist>
 
 </sect1>
+
+<sect1 id="a-tools-menu">
+<title>The <guimenu>Tools</guimenu> Menu</title>
+
+<para>This menu constains some tools for the functions that can be useful:</para>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice><guimenu>Tools</guimenu>
+<guimenuitem>Get y-value</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Let the user get the y-value from a specific x-value. At the moment, only plot functions are supported. Type a value or expression in the textbox under "X:". In the list below all the available functions are shown. Press the "Calculate" button to find the function's y-value. The result will be shown in the y-value box.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+
 <sect1 id="a-help-menu">
 <title>The <guimenu>Help</guimenu> Menu</title>
 
@@ -355,27 +373,6 @@ that &kmplot; knows.</para>
 
 </sect1>
 
-<sect1 id="a-tools-menu">
-<title>The <guimenu>Tools</guimenu> Menu</title>
-
-<para>This menu constains some tools for the functions that can be useful:</para>
-
-<variablelist>
-<varlistentry>
-<term><menuchoice><guimenu>Tools</guimenu>
-<guimenuitem>Get y-value</guimenuitem>
-</menuchoice></term>
-<listitem>
-<para>Let the user get the y-value from a specific x-value. At the moment, only plot functions are supported. Type a value or expression in the textbox under "X:". In the list below all the available functions are shown. Press the "Calculate" button to find the function's y-value. The result will be shown in the y-value box.</para>
-</listitem>
-</varlistentry>
-</variablelist>
-
-<para>The standard &kde; <guimenu>Help</guimenu> entries are:</para>
-
-&help.menu.documentation;
-
-</sect1>
 
 </chapter>
 <!--

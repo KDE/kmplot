@@ -451,10 +451,11 @@ void View::drawHeaderTable(QPainter *pDC)
 	QString alx, aly, atx, aty, dfx, dfy;
 	
 	if( m_printHeaderTable )
-	{   pDC->translate(250., 150.);
+	{
+		pDC->translate(250., 150.);
 		pDC->setPen(QPen(black, (int)(5.*s)));
-		pDC->setFont(QFont( Settings::headerTableFont().family(), 30) );
-		puts( Settings::headerTableFont().family().latin1() );
+		pDC->setFont(QFont( Settings::headerTableFont(), 30) );
+		puts( Settings::headerTableFont().latin1() );
 		QString minStr = Settings::xMin();
 		QString maxStr = Settings::xMax();
 		getMinMax( Settings::xRange(), minStr, maxStr);
@@ -496,11 +497,10 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->drawText(0, 300, i18n("Functions:"));
 		pDC->Lineh(0, 320, 700);
 		for(ix=0, ypos=380; ix<m_parser->ufanz; ++ix)
-		{  
-			 if(m_parser->chkfix(ix)==-1) continue;
-
+		{
+			if(m_parser->chkfix(ix)==-1) continue;
 			pDC->drawText(100, ypos, m_parser->fktext[ix].extstr);
-            ypos+=60;
+			ypos+=60;
 		}
 		pDC->translate(-60., ypos+100.);
 	}

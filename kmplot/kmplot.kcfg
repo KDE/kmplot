@@ -116,13 +116,15 @@
 	</group> 
 	
 	<group name="Fonts">
-		<entry name="AxesFont" type="Font">
-			<label>Font of the axis labels</label>
-			<whatsthis>Choose a font for the axis labels.</whatsthis>
+		<entry name="AxesFont" type="String">
+			<label>Font name of the axis labels</label>
+			<whatsthis>Choose a font name for the axis labels.</whatsthis>
+			<default code="true">KGlobalSettings::generalFont().family()</default>
 		</entry> 
-		<entry name="HeaderTableFont" type="Font"> 
-			<label>Font of the printed header table</label>
-			<whatsthis>Choose a font for the table printed at the top of the page.</whatsthis>
+		<entry name="HeaderTableFont" type="String"> 
+			<label>Font name of the printed header table</label>
+			<whatsthis>Choose a font name for the table printed at the top of the page.</whatsthis>
+			<default code="true">KGlobalSettings::generalFont().family()</default>	
 		</entry> 
 	</group>
 	

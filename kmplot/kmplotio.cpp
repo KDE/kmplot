@@ -163,8 +163,8 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 	}
 	
 	tag = doc.createElement( "fonts" );
-	addTag( doc, tag, "axes-font", Settings::axesFont().family() );
-	addTag( doc, tag, "header-table-font", Settings::headerTableFont().family() );
+	addTag( doc, tag, "axes-font", Settings::axesFont() );
+	addTag( doc, tag, "header-table-font", Settings::headerTableFont() );
 	root.appendChild( tag );
 
 

@@ -1,8 +1,144 @@
 <chapter id="using-kmplot">
 <title>Using &kmplot;</title>
 
-<para></para>
+<para>&kmplot; deals with named functions, which can be specified in terms of
+Cartesian coordinates (called <quote>explicit functions</quote>), polar coordinates or as parametric functions. To enter a
+function, choose
+<menuchoice><guimenu>Functions</guimenu><guimenuitem>Functions</guimenuitem>
+</menuchoice> or click on the Functions button on the toolbar. You can enter
+new functions in the <guilabel>Function equation</guilabel> text box. Each
+function you enter must have a unique name (&ie;, a name that is not taken by
+any of the existing functions displayed in the list box).</para>
 
+<para>For more information on &kmplot; functions, see <xref
+linkend="reference"/>.
+</para>
+
+<sect1 id="function-types">
+<title>Function Types</title>
+
+<sect2 id="explicit-functions">
+<title>Explicit Functions</title>
+<para>To enter an explicit function (&ie;, a function in the form y=f(x)) into &kmplot;, just enter it in the
+following form:
+<screen>
+<userinput><replaceable>f</replaceable>(<replaceable>x</replaceable>)=<replaceable>expression</replaceable></userinput>
+</screen>
+Where:
+<itemizedlist>
+<listitem><para>
+ <replaceable>f</replaceable> is the name of the function, and can be any
+string of letters and numbers you like, provided it does not start with any of
+the letters x, y or r (since these are used for parametric and polar
+functions).</para>
+</listitem>
+
+<listitem><para>
+<replaceable>x</replaceable> is the x-coordinate, to be used in the expression
+following the equals sign. It is in fact a dummy variable, so you can use any
+variable name you like, but the effect will be the same.</para>
+</listitem>
+
+<listitem>
+<para><replaceable>expression</replaceable> is the expression to be plotted,
+given in appropriate syntax for &kmplot;. See <xref linkend="math-syntax"/>.
+</para>
+</listitem>
+
+</itemizedlist>
+</para>
+<para>As an example, to draw the graph of y=x<superscript>2</superscript>+2x,
+enter the following into the functions dialog of &kmplot;:
+<screen>
+f(x)=x^2+2
+</screen>
+</para>
+</sect2>
+
+<sect2 id="parametric-functions">
+<title>Parametric Functions</title>
+<para>Parametric functions are those in which the x and y coordinates are
+defined by separate functions of another variable, often called t. To enter a
+parametric function in &kmplot;, follow the procedure as for an explicit
+function, but prefix the name of the function describing the x-coordinate with
+the letter x, and the function describing the y-coordinate with the letter
+y. As with explicit functions, you may use any variable name you wish for the
+parameter.</para>
+<para>As an example, suppose you want to draw a circle, which has parametric
+equations x=sin(t), y=cos(t). In the &kmplot; functions dialog, do the
+following:
+<orderedlist>
+<listitem><para>Enter the function for the x-coordinate, then press &Enter;:
+<screen>
+<userinput>
+xcircle=sin(t)
+</userinput></screen>
+</para>
+</listitem>
+<listitem><para>&kmplot; automatically changes the function name for you to
+enter the y-coordinate function. Enter the function you want:
+<screen>
+<userinput>
+ycircle=cos(t)
+</userinput></screen>
+</para>
+</listitem>
+</orderedlist>
+</para>
+</sect2>
+
+<sect2 id="polar-functions">
+<title>Entering Functions in Polar Coordinates</title> 
+
+<para>Polar coordinates represent a point by its distance from the origin
+(usually called r), and the angle a line from the origin to the point makes
+with the x-axis (usually represented by the Greek letter theta). To enter
+functions in polar coordinates, prefix the function name with the letter r. The
+dummy variable is now the angle, theta.</para>
+<para>For example, to draw the Archimedes' spiral r=theta, enter:
+<screen>
+<userinput>
+rspiral(theta)=theta
+</userinput>
+</screen>
+</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="combining-functions">
+<title>Combining Functions</title>
+<para>Functions can be combined to produce new ones. Simply enter the functions
+after the equals sign in an expression as if the functions were variables. For
+example, if you have defined functions f(x) and g(x), you can plot the sum of f
+and g with:
+<screen>
+<userinput>
+sum(x)=f(x)+g(x)
+</userinput>
+</screen>
+</para>
+<para>Note that you can only combine functions of the same type, &eg; an
+explicit function cannot be combined with a polar function.</para>
+</sect1>
+
+<sect1 id="function-appearance">
+<title>Changing the appearance of functions</title>
+
+<para>To change the appearance of a function's graph on the main plot window,
+select the function in the functions dialog, and click on the
+<guibutton>Attributes</guibutton> button. In the dialog which appears, you can
+change the line width in the text box, and the color of the function's graph by
+clicking on the color button on the right hand side. If you select
+<guilabel>Save as default</guilabel>, then the line width and color you select
+will be used as the default for the <replaceable>n</replaceable>th function in
+the list. &eg;, if the function for which you are changing the attributes is
+the first in the list, the settings will be saved as the default for the first
+function entered in the &kmplot; list.</para>
+</sect1>
+
+
+<!--
 <screenshot>
 <screeninfo>Here's a screenshot of the &kmplot; welcome window</screeninfo>
 	<mediaobject>
@@ -14,18 +150,15 @@
 	  </textobject>
 	</mediaobject>
 </screenshot>
-
-<!-- 
-<sect1 id="kmplot-features">
-<title>More &kmplot; features</title>
-
-<para>
-...
-</para>
-
-</sect1>
 -->
-
 </chapter>
-
-
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

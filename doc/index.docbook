@@ -10,6 +10,8 @@
   <!ENTITY developer SYSTEM "developer.docbook">
   <!ENTITY credits SYSTEM "credits.docbook">
   <!ENTITY install SYSTEM "install.docbook">
+  <!ENTITY reference SYSTEM "reference.docbook">
+  <!ENTITY configuration SYSTEM "configuration.docbook">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -28,6 +30,9 @@
 <address><email>kd.moeller@t-online.de</email></address>
 </affiliation>
 </author>
+<author>
+&Philip.Rodrigues; &Philip.Rodrigues.mail;
+</author>
 </authorgroup>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
@@ -37,16 +42,22 @@
 <holder>Klaus-Dieter M&ouml;ller</holder>
 </copyright>
 
+<copyright>
+<year>2003</year>
+<holder>&Philip.Rodrigues; &Philip.Rodrigues.mail;</holder>
+</copyright>
+
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-10-08</date>
+<date>2003-09-25</date>
 <releaseinfo>1.0</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
 <abstract>
 <para>&kmplot; is a mathematical function plotter for the &kde;
-Desktop. <inlinemediaobject><imageobject><imagedata
+Desktop.</para>
+<para> <inlinemediaobject><imageobject><imagedata
 fileref="edu-logo.png"
 format="PNG"/></imageobject></inlinemediaobject> &kmplot; is part of
 the KDE-EDU Project: <ulink
@@ -66,17 +77,9 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 
 &introduction;
 &using;
+&configuration;
+&reference;
 &commands;
-&menu;
-
-<!-- 
-<chapter id="faq">
-<title>Questions and Answers</title>
-&reporting.bugs;
-&updating.documentation;
-
-	</chapter> -->
-
 &developer;
 &credits;
 &install;
@@ -92,6 +95,7 @@ sgml-indent-step:0
 sgml-indent-data:nil
 End:
 -->
+
 
 
 

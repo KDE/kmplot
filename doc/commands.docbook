@@ -1,226 +1,257 @@
 <chapter id="commands">
 <title>Command Reference</title> 
 
-<sect1 id="kmplot-mainwindow">
-<title>The main &kmplot; window</title>
-
-<screenshot>
-<screeninfo>Here's a screenshot of the &kmplot; main window</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="main.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase>Here's a screenshot of the &kmplot; main window</phrase>
-</textobject>
-</mediaobject>
-</screenshot>
-</sect1>
-
-<sect1 id="functions">
-<title>The <guimenu>Functions</guimenu> Menu</title>
-
-<mediaobject>
-<imageobject>
-<imagedata fileref="kfkt.png" format="PNG"/>
-</imageobject>
-</mediaobject>
-
-<para>This menu entry or tool button opens the Functions Editor.  Here
-you can enter the functions' equations of up to 10 functions or
-function groups.  The parser knows <firstterm>explicit</firstterm> and
-<firstterm>parametric</firstterm> form.  With specific extensions it
-is possible to add first and second derivation and to choose values
-for the function group parameter.</para>
-
-<sect2 id="func-syntax"><title>Syntax</title>
-
-<para>Some syntax rules must be complied with:</para>
-
-<screen>
-<userinput>name(var1[, var2])=term [;extensions]</userinput>
-</screen>
-
+<sect1 id="a-file-menu">
+<title>The <guimenu>File</guimenu> Menu</title>
 
 <variablelist>
-<varlistentry>
-<term>name</term>
-<listitem>
 
-<para>The functions name.  If the first character is <quote>r</quote>
-the parser assumes that you use polar coordinates.  If the first
-character is <quote>x</quote> (for instance <quote>xfunc</quote>) the
-parser expects a second function with a leading <quote>y</quote> (here
-<quote>yfunc</quote>) to define the function in parametric form.
-</para>
+<varlistentry>
+<term>
+<menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>New</guimenuitem>
+</menuchoice>
+</term>
+<listitem>
+<para><action>Starts a new Plot by clearing the coordinate system
+and resetting the function parser.</action></para> 
 </listitem>
 </varlistentry>
+
 <varlistentry>
-<term>var1</term>
-<listitem><para>The functions variable</para></listitem>
-</varlistentry>
-<varlistentry>
-<term>var2</term>
-<listitem><para>
-The function group parameter. It must be separated by a comma.
+<term>
+<menuchoice><shortcut>
+<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo></shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Open...</guimenuitem></menuchoice></term>
+<listitem><para><action>Opens an existing document.</action>
 </para></listitem>
 </varlistentry>
+
 <varlistentry>
-<term>term</term>
-<listitem><para>The function's term</para></listitem>
+<term>
+<menuchoice>
+<shortcut><keycombo
+ action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Save</guimenuitem></menuchoice></term>
+<listitem><para><action>Saves the document.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Save As...</guimenuitem></menuchoice></term>
+<listitem><para><action>Saves the document under another
+ name.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Print...</guimenuitem>
+</menuchoice>
+</term>
+<listitem>
+<para><action>Sends the plot to a printer or file.</action></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice>
+<shortcut><keycombo action="simul">
+&Ctrl;<keycap>Q</keycap>
+</keycombo></shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Quit</guimenuitem></menuchoice></term>
+<listitem><para><action>Exits</action> &kmplot;.</para></listitem>
 </varlistentry>
 </variablelist>
-</sect2>
+</sect1>
 
-<sect2 id="func-predefined"><title>Predefined Function Names and Constants</title>
-<screenshot>
-<screeninfo>Names</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="namesdlg.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase>
-Predefined function names and constants are shown in this window.
-</phrase>
-</textobject>
-</mediaobject>
-</screenshot>
+<sect1 id="a-view-menu">
+<title>The <guimenu>View</guimenu> Menu</title>
 
-<para>
-These functions and constants and even all user defined functions can
-be used to determine the axes settings as well.
-</para>
-
-</sect2>
-
- <!-- 		<sect2 id="func-dialog"><title>Functions Dialog Window</title>
-			 <para>...</para>
-		 </sect2> -->
-
-
-<sect2 id="func-extension"><title>Extensions</title>
 <variablelist>
 <varlistentry>
-<term>N</term>
-<listitem>
-<para>
-The function will be stored but not be drawn. 
-So it can be used like any other user defined or predefined function.
+<term><menuchoice><guimenu>View</guimenu><guimenuitem>Axes</guimenuitem>
+</menuchoice></term>
+<listitem><para>
+Displays the <guilabel>Coordinate Axes Settings</guilabel> dialog box. See
+<xref linkend="configuration"/>.
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
-<term>A1</term>
-<listitem>
-<para>
-The graph of the derivative of the function will be drawn
-additionally with the same color but less line width.
-This extension has no effect on functions defined in
-parametric form.
+<term><menuchoice><guimenu>View</guimenu><guimenuitem>Scale</guimenuitem>
+</menuchoice></term>
+<listitem><para>Displays the <guilabel>Scale
+Settings</guilabel> dialog box. See <xref linkend="configuration"/>.
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
-<term>A2</term>
-<listitem>
-<para>
-The graph of the second derivative of the function will be
-drawn additionally with the same color but less line width.
-This extension has no effect on functions defined in
-parametric form.
+<term><menuchoice><guimenu>View</guimenu><guimenuitem>Grid</guimenuitem>
+</menuchoice></term>
+<listitem><para>Displays the <guilabel>Grid Settings</guilabel> dialog box. See
+<xref linkend="configuration"/>.
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
-<term>D[a,b]</term>
-<listitem>
-<para>
-...
+<term><menuchoice><guimenu>View</guimenu><guimenuitem>Step</guimenuitem>
+</menuchoice></term>
+<listitem><para>Displays the <guilabel>Step Settings</guilabel> dialog box. See
+<xref linkend="configuration"/>.
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
-<term>P[a{,b}]</term>
-<listitem>
-<para>
-With this extension you can give a list of values for the
-parameter of a function group of which the graph should be drawn.
-Also terms are allowed.
-The use of this extension presumes that the parameter is given as a
-second function variable.
+<term><menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System I</guimenuitem>
+</menuchoice></term>
+<listitem><para>Show both positive and negative x- and y-values on the grid.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System II</guimenuitem>
+</menuchoice></term>
+<listitem><para>Show positive and negative y-values, but positive x-values only
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System III</guimenuitem>
+</menuchoice></term>
+<listitem><para>Show only positive x- and y-values.
 </para>
 </listitem>
 </varlistentry>
 </variablelist>
-</sect2>
 </sect1>
 
-<sect1 id="coord-system"><title>Coordinate Systems</title>
+<sect1 id="a-functions-menu">
+<title>The <guimenu>Functions</guimenu> Menu</title>
 
-<para><inlinemediaobject>
-<imageobject>
-<imagedata fileref="ksys1.png" format="PNG"/>
-</imageobject>
-</inlinemediaobject></para>
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice>
+<guimenu>Functions</guimenu>
+<guimenuitem>Functions</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Displays the functions dialog. See <xref
+linkend="using-kmplot"/>.</para></listitem>
+</varlistentry>
 
-<para>
-<inlinemediaobject>
-<imageobject>
-<imagedata fileref="ksys2.png" format="PNG"/>
-</imageobject>
-</inlinemediaobject></para>
-
-<para>
-<inlinemediaobject>
-<imageobject>
-<imagedata fileref="ksys3.png" format="PNG"/>
-</imageobject>
-</inlinemediaobject></para>
-
-<sect2 id="coord-area"><title>Plotting Area</title>
-<para>
-By default explicitly given functions are plotted for visible part of the x-axis. 
-For every pixel on the x-axis &kmplot; calculates a function value. 
-If the plotting area contains the resulting point it is connected to the last 
-drawn point by a line. In the functions dialog window the interval, in which the
-graph shall be plotted, can be changed manually.
-</para>
-<para>
-Parametric functions are plotted for parameter values from 0 upto 2&pgr;. 
-This range can be set in the functions dialog window manually, too.
-</para>
-</sect2>
-<sect2 id="coord-cross"><title>Cross Hair Cursor</title>
-<para>
-During the mouse cursor points to the plotting area the cursor changes to a 
-cross hair. The current coordinates can be found at the intersections with the 
-coordinate axes and also in the status bar at the bottom edge of the main window.
-</para>
-<para>
-You can trace the functions values more precisely by clicking onto or next to a 
-graph. The cross hair then will be caught and be colored in the same color as the 
-graph. A second click anywhere in the window will leave this trace mode.
-</para>
-<para>
-Please notice that tracing is only possible with explicitly given functions.
-The coordinates are always displayed according to cartesian system of coordinates.
-Neither parametric functions, nor functions given in polar coordinates, 
-nor derivatives can not be traced this way.
-</para>
-</sect2>
-<sect2 id="coord-types"><title>Types of Coordinate Systems</title>
-<para>
-As you can define the functions with cartesian or polar coordinates 
-the grid can be displayed cartesian or polar divisions. 
-Please choose the style for the cartesian grid between lines and little crosses in
-the grid dialog window.
-</para>
-</sect2>
+</variablelist>
 </sect1>
 
-<!-- 
-<sect1 id="scale-print"><title>Scaling and Printing</title>
-<para>...</para>
-</sect1> -->
+<sect1 id="a-settings-menu">
+<title>The <guimenu>Settings</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Show Toolbar</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para><action>Toggle on and off the display of the toolbar.</action>
+The default is on.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Show Statusbar</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para><action>Toggle on and off the display of the statusbar at the bottom of
+the &kmplot; main window.</action>
+The default is on.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Configure Shortcuts...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para><action>Personalize the keybindings</action> for &kmplot;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Configure Toolbars...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para><action>Personalize the toolbars</action> for &kmplot;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Configure &kmplot;</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para><action>Customize</action> &kmplot;. The options available to
+you are described in <xref linkend="configuration"/>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+<sect1 id="a-help-menu">
+<title>The <guimenu>Help</guimenu> Menu</title>
+
+<para>&kmplot; has a standard &kde; <guimenu>Help</guimenu> as described
+below, with one addition:</para>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice><guimenu>Help</guimenu>
+<guimenuitem>Names...</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Opens a window with a list of the predefined function names and constants
+that &kmplot; knows.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>The standard &kde; <guimenu>Help</guimenu> entries are:</para>
+
+&help.menu.documentation;
+
+</sect1>
+
+
 </chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

@@ -20,8 +20,9 @@ Program copyright 2000-2002 Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.
 </itemizedlist>
 
 <para>
-Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>
+Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>.
 </para>
+<para>Documentation extended and updated for &kde; 3.2 by &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
@@ -31,4 +32,14 @@ Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller
 
 </chapter>
 
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
 

@@ -2,8 +2,8 @@
 <title>Introduction</title>
 
 <para>&kmplot; is a mathematical function plotter for the &kde;
-Desktop.  It has built in a powerful parser.  You can plot different
-functions simultaneously and combine their function terms to build new
+Desktop.  It has a powerful built-in parser.  You can plot different
+functions simultaneously and combine them to build new
 functions.</para>
 
 <screenshot>
@@ -18,10 +18,20 @@ functions.</para>
 </mediaobject>
 </screenshot>
 
-<para>&kmplot; supports functions with parameters and functions in
-polar coordinates. Several grid modes are possible. Plots may be
-printed with high precision in correct scale.</para>
+<para>&kmplot; supports parametric functions and functions in
+polar coordinates. Several grid modes are supported. Plots may be
+printed with high precision in the correct scale.</para>
 
 </chapter>
 
 
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

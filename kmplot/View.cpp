@@ -254,14 +254,13 @@ void View::plotfkt(int ix, QPainter *pDC)
 			if ( p_mode == 3)
 			{
 				stop_calculating = false;
-				progressbar->progress->reset();
-				progressbar->progress->setTotalSteps( int((dmax-dmin)/(Settings::relativeStepWidth()/(10*0.8))) );
-				progressbar->show();
-				KApplication::kApplication()->processEvents();
 				if ( m_parser->fktext[ix].anti_use_precision )
 					dx = (m_parser->fktext[ix].anti_precision)/1000;
 				else
 					dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+				progressbar->progress->reset();
+				progressbar->progress->setTotalSteps( int((dmax-dmin)/double(dx)/4));
+				progressbar->show();
 				x = m_parser->fktext[ix].startx; //the initial x-point
 			}
 			else
@@ -270,7 +269,10 @@ void View::plotfkt(int ix, QPainter *pDC)
 			while (x>=dmin && x<=dmax)
 			{
 				if ( p_mode == 3 && stop_calculating)
-					return;
+				{
+					x=dmax+1;
+					continue;
+				}
 				errno=0;
 				switch(p_mode)
 				{
@@ -301,7 +303,7 @@ void View::plotfkt(int ix, QPainter *pDC)
 						pDC->setPen(pen);
 						y=m_parser->fkt(ix, x);
 						m_parser->euler_method(x, y,ix);
-						if ( int(x*1000)%100==0)
+						if ( int(x*100)%2==0)
 						{
 							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
 							progressbar->increase();
@@ -373,7 +375,10 @@ void View::plotfkt(int ix, QPainter *pDC)
 		//pDC->setPen(pen);
 	}
 	if (  progressbar->isVisible())
+	{
 		progressbar->hide(); // hide the progressbar-widget if it was shown
+		stop_calculating = true;
+	}
 }
 
 void View::drawHeaderTable(QPainter *pDC)
@@ -602,6 +607,11 @@ void View::mousePressEvent(QMouseEvent *e)
 {   int ix, k, ke;
 	double g;
 
+	if ( !stop_calculating) //stop drawing anti-derivatives
+	{
+		stop_calculating = true;
+		return;
+	}
 	if(e->button()!=LeftButton) return ;
 	if(csmode>=0)
 	{   csmode=-1;
@@ -762,20 +772,23 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 			{
 				stop_calculating = false;
 				progressbar->progress->reset();
-				progressbar->progress->setTotalSteps( int((dmax-dmin)/(Settings::relativeStepWidth()/(10*0.8))) );
-				progressbar->show();
-				KApplication::kApplication()->processEvents();
 				if ( m_parser->fktext[ix].anti_use_precision )
 					dx = (m_parser->fktext[ix].anti_precision)/1000;
 				else
 					dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+				progressbar->progress->setTotalSteps( int((dmax-dmin)/double(dx)/4));
+				progressbar->show();
 				x = m_parser->fktext[ix].startx; //the initial x-point
 			}
 			else
 				x=dmin;
-			while (x>=dmin && x<=dmax  && ( p_mode != 3 || !stop_calculating))
+			while (x>=dmin && x<=dmax)
 			{
-				
+				if ( p_mode == 3 && stop_calculating)
+				{
+					x=dmax+1;
+					continue;
+				}
 				errno=0;
 
 				switch(p_mode)
@@ -798,7 +811,7 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 					{
 						y=m_parser->fkt(ix, x);
 						m_parser->euler_method(x, y,ix);
-						if ( int(x*1000)%100==0)
+						if ( int(x*100)%2==0)
 						{
 							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
 							progressbar->increase();
@@ -878,22 +891,20 @@ void View::getYValue(int ix, char p_mode,  double x, double &y)
 			dx = stepWidth;
 			bool forward_direction = true;
 			stop_calculating = false;
-			progressbar->progress->reset();
-			progressbar->progress->setTotalSteps( int((dmax-dmin)/(Settings::relativeStepWidth()/(10*0.8))) );
-			progressbar->show();
-			KApplication::kApplication()->processEvents();
 			if ( m_parser->fktext[ix].anti_use_precision )
 				dx = (m_parser->fktext[ix].anti_precision)/1000;
 			else
 				dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+			progressbar->progress->reset();
+			progressbar->progress->setTotalSteps( int((dmax-dmin)/double(dx)/4));
+			progressbar->show();
 			x = m_parser->fktext[ix].startx; //the initial x-point
 
-			while (x>=dmin && x<=dmax  && ( p_mode != 3 || !stop_calculating))
+			while (x>=dmin && x<=dmax  && !stop_calculating)
 			{
-				
 				y=m_parser->fkt(ix, x);
 				m_parser->euler_method(x, y,ix);
-				if ( int(x*1000)%100==0)
+				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
 					progressbar->increase();
@@ -1020,16 +1031,25 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 	bool forward_direction = true;
 	if ( p_mode == 3)
 	{
+		stop_calculating = false;
 		if ( m_parser->fktext[ix].anti_use_precision )
 			dx = (m_parser->fktext[ix].anti_precision)/1000;
 		else
-		dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+			dx=Settings::relativeStepWidth()/1000; //the stepwidth must be small for Euler's metod and not depend on the size on the mainwindow
+		progressbar->progress->reset();
+		progressbar->progress->setTotalSteps( int((dmax-dmin)/double(dx)/4));
+		progressbar->show();
 		x = m_parser->fktext[ix].startx; //the initial x-point
 	}
 	else
 		x=dmin;
 	while (x>=dmin && x<=dmax)
 	{
+		if ( p_mode == 3 && stop_calculating)
+		{
+			x=dmax+1;
+			continue;
+		}
 		errno=0;
 		switch(p_mode)
 		{
@@ -1052,7 +1072,11 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 				y=m_parser->fkt(ix, x);
 				m_parser->euler_method(x, y,ix);
 				if ( int(x*100)%2==0)
-					KApplication::kApplication()->processEvents();
+				{
+					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated anti-derivative function
+					progressbar->increase();
+					paintEvent(0);
+				}
 				break;
 			}
 		}
@@ -1074,7 +1098,7 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 				rectheight= -1*( p.y()-dgr.Transy(0.0)) ;
 			}
 			area = area + ( dx*y);
-			kdDebug() << "Area1: " << area << endl;
+			//kdDebug() << "Area1: " << area << endl;
 			pDC.fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 		}
 		else
@@ -1088,12 +1112,11 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 				rectheight = -1*( p.y()-dgr.Transy(0.0));
 			}
 			area = area + (dx*y);
-			kdDebug() << "Area2: " << area << endl;
-			/*kdDebug() << "x:" << p.height() << endl;
+			/*kdDebug() << "Area2: " << area << endl;
+			kdDebug() << "x:" << p.height() << endl;
 			kdDebug() << "y:" << p.y() << endl;
 			kdDebug() << "*************" << endl;*/
 			pDC.fillRect(p.x(),p.y(),rectwidth,rectheight,color);
-			
 		}
 	
 		if (forward_direction)
@@ -1108,8 +1131,10 @@ void View::areaUnderGraph(int ix, char p_mode,  double &dmin, double &dmax)
 		else
 			x=x-dx; // go backwards
 	}
-
+	if (  progressbar->isVisible())
+		progressbar->hide(); // hide the progressbar-widget if it was shown
 	pDC.end();
+	
 	if ( area>0)
 		dmin = int(area*1000)/double(1000);
 	else

@@ -1,0 +1,343 @@
+<!DOCTYPE UI><UI>
+<class>KOptDlgData</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>KOptDlgData</cstring>
+    </property>
+    <property stdset="1">
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>240</width>
+            <height>195</height>
+        </rect>
+    </property>
+    <property stdset="1">
+        <name>sizePolicy</name>
+        <sizepolicy>
+            <hsizetype>0</hsizetype>
+            <vsizetype>0</vsizetype>
+        </sizepolicy>
+    </property>
+    <property stdset="1">
+        <name>minimumSize</name>
+        <size>
+            <width>240</width>
+            <height>195</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>maximumSize</name>
+        <size>
+            <width>240</width>
+            <height>195</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>caption</name>
+        <string>Axes settings</string>
+    </property>
+    <widget>
+        <class>QCheckBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>cb_default</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>35</x>
+                <y>165</y>
+                <width>190</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Save as &amp;default</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>PushButton1</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>140</x>
+                <y>30</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>OK</string>
+        </property>
+        <property stdset="1">
+            <name>default</name>
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>PushButton1_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>140</x>
+                <y>75</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>C&amp;olour</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>PushButton1_2_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>140</x>
+                <y>120</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Cancel</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TextLabel2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>65</x>
+                <y>30</y>
+                <width>60</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>0,1mm</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TextLabel2_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>65</x>
+                <y>80</y>
+                <width>60</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>0,1mm</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TextLabel2_2_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>65</x>
+                <y>130</y>
+                <width>60</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>0,1mm</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TextLabel1</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>20</x>
+                <y>10</y>
+                <width>108</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>&amp;Axes line width</string>
+        </property>
+        <property>
+            <name>buddy</name>
+            <cstring>le_ad</cstring>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TextLabel1_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>20</x>
+                <y>60</y>
+                <width>105</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>&amp;Tic width</string>
+        </property>
+        <property>
+            <name>buddy</name>
+            <cstring>le_td</cstring>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TextLabel1_2_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>20</x>
+                <y>110</y>
+                <width>111</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Tic &amp;length</string>
+        </property>
+        <property>
+            <name>buddy</name>
+            <cstring>le_tl</cstring>
+        </property>
+    </widget>
+    <widget>
+        <class>QLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>le_td</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>20</x>
+                <y>80</y>
+                <width>40</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property>
+            <name>toolTip</name>
+            <string>Tic mark line thickness</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>le_tl</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>20</x>
+                <y>130</y>
+                <width>40</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property>
+            <name>toolTip</name>
+            <string>Tic mark line length</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>le_ad</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>20</x>
+                <y>30</y>
+                <width>40</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property>
+            <name>toolTip</name>
+            <string>Thickness of the Axes line</string>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>PushButton1</sender>
+        <signal>clicked()</signal>
+        <receiver>KOptDlgData</receiver>
+        <slot>onok()</slot>
+    </connection>
+    <connection>
+        <sender>PushButton1_2</sender>
+        <signal>clicked()</signal>
+        <receiver>KOptDlgData</receiver>
+        <slot>onfarbe()</slot>
+    </connection>
+    <connection>
+        <sender>PushButton1_2_2</sender>
+        <signal>clicked()</signal>
+        <receiver>KOptDlgData</receiver>
+        <slot>oncancel()</slot>
+    </connection>
+    <slot access="public">oncancel()</slot>
+    <slot access="public">onfarbe()</slot>
+    <slot access="public">onok()</slot>
+</connections>
+</UI>

@@ -1,0 +1,680 @@
+<!DOCTYPE UI><UI>
+<class>KoordDlgData</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>KoordDlgData</cstring>
+    </property>
+    <property stdset="1">
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>415</width>
+            <height>240</height>
+        </rect>
+    </property>
+    <property stdset="1">
+        <name>sizePolicy</name>
+        <sizepolicy>
+            <hsizetype>0</hsizetype>
+            <vsizetype>0</vsizetype>
+        </sizepolicy>
+    </property>
+    <property stdset="1">
+        <name>minimumSize</name>
+        <size>
+            <width>415</width>
+            <height>240</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>maximumSize</name>
+        <size>
+            <width>415</width>
+            <height>240</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>caption</name>
+        <string>Coordinate Axes Settings</string>
+    </property>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TextLabel2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>25</x>
+                <y>5</y>
+                <width>160</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Predefined</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QButtonGroup</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>bg_xachse</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>25</x>
+                <y>25</y>
+                <width>90</width>
+                <height>130</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>frameShape</name>
+            <enum>Panel</enum>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>x-axis</string>
+        </property>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_x1</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>75</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>[ -8 | +8 ]</string>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_x2</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>45</y>
+                    <width>75</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>[ -5 | +5 ]</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>1</number>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_x3</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>70</y>
+                    <width>75</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>[ 0 | +16 ]</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>2</number>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_x4</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>95</y>
+                    <width>75</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>[ 0 | +10 ]</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>3</number>
+            </property>
+        </widget>
+    </widget>
+    <widget>
+        <class>QButtonGroup</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>bg_yachse</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>125</x>
+                <y>25</y>
+                <width>90</width>
+                <height>130</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>frameShape</name>
+            <enum>Panel</enum>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>y-axis</string>
+        </property>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_y1</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>75</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>[ -8 | +8 ]</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>0</number>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_y2</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>45</y>
+                    <width>75</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>[ -5 | +5 ]</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>1</number>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_y3</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>70</y>
+                    <width>75</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>[ 0 | +16 ]</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>2</number>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_y4</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>95</y>
+                    <width>75</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>[ 0 | +10 ]</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>3</number>
+            </property>
+        </widget>
+    </widget>
+    <widget>
+        <class>QCheckBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>cb_default</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>35</x>
+                <y>195</y>
+                <width>190</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Save as &amp;default</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>PushButton1</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>320</x>
+                <y>165</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>OK</string>
+        </property>
+        <property stdset="1">
+            <name>default</name>
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget>
+        <class>QGroupBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>GroupBox1</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>230</x>
+                <y>10</y>
+                <width>170</width>
+                <height>70</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>frameShape</name>
+            <enum>Panel</enum>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>x-axis</string>
+        </property>
+        <widget>
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>le_xmin</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>55</x>
+                    <y>15</y>
+                    <width>100</width>
+                    <height>20</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>le_xmax</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>55</x>
+                    <y>40</y>
+                    <width>100</width>
+                    <height>20</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel1</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>5</x>
+                    <y>15</y>
+                    <width>40</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>min:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel1_2</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>5</x>
+                    <y>40</y>
+                    <width>40</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>max:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+    </widget>
+    <widget>
+        <class>QGroupBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>GroupBox1_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>230</x>
+                <y>85</y>
+                <width>170</width>
+                <height>70</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>frameShape</name>
+            <enum>Panel</enum>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>y-axis</string>
+        </property>
+        <widget>
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>le_ymin</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>55</x>
+                    <y>15</y>
+                    <width>100</width>
+                    <height>20</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QLineEdit</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>le_ymax</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>55</x>
+                    <y>40</y>
+                    <width>100</width>
+                    <height>20</height>
+                </rect>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel1_3</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>5</x>
+                    <y>15</y>
+                    <width>40</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>min:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+        <widget>
+            <class>QLabel</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>TextLabel1_2_2</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>5</x>
+                    <y>40</y>
+                    <width>40</width>
+                    <height>20</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>max:</string>
+            </property>
+            <property stdset="1">
+                <name>alignment</name>
+                <set>AlignVCenter|AlignRight</set>
+            </property>
+            <property>
+                <name>hAlign</name>
+            </property>
+        </widget>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>PushButton1_2_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>320</x>
+                <y>200</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Cancel</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QCheckBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>cb_beschr</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>35</x>
+                <y>165</y>
+                <width>150</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>&amp;Labels</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>PushButton1_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>230</x>
+                <y>165</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>&amp;Options</string>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>PushButton1</sender>
+        <signal>clicked()</signal>
+        <receiver>KoordDlgData</receiver>
+        <slot>onok()</slot>
+    </connection>
+    <connection>
+        <sender>PushButton1_2</sender>
+        <signal>clicked()</signal>
+        <receiver>KoordDlgData</receiver>
+        <slot>onoptions()</slot>
+    </connection>
+    <connection>
+        <sender>PushButton1_2_2</sender>
+        <signal>clicked()</signal>
+        <receiver>KoordDlgData</receiver>
+        <slot>oncancel()</slot>
+    </connection>
+    <connection>
+        <sender>bg_xachse</sender>
+        <signal>clicked(int)</signal>
+        <receiver>KoordDlgData</receiver>
+        <slot>xclicked(int)</slot>
+    </connection>
+    <connection>
+        <sender>bg_yachse</sender>
+        <signal>clicked(int)</signal>
+        <receiver>KoordDlgData</receiver>
+        <slot>yclicked(int)</slot>
+    </connection>
+    <slot access="public">xclicked(int)</slot>
+    <slot access="public">oncancel()</slot>
+    <slot access="public">onok()</slot>
+    <slot access="public">onoptions()</slot>
+    <slot access="public">yclicked(int)</slot>
+</connections>
+<tabstops>
+    <tabstop>rb_x1</tabstop>
+    <tabstop>rb_y1</tabstop>
+    <tabstop>rb_x2</tabstop>
+    <tabstop>rb_y2</tabstop>
+    <tabstop>rb_x3</tabstop>
+    <tabstop>rb_y3</tabstop>
+    <tabstop>rb_x4</tabstop>
+    <tabstop>rb_y4</tabstop>
+    <tabstop>cb_beschr</tabstop>
+    <tabstop>cb_default</tabstop>
+    <tabstop>le_xmin</tabstop>
+    <tabstop>le_xmax</tabstop>
+    <tabstop>le_ymin</tabstop>
+    <tabstop>le_ymax</tabstop>
+    <tabstop>PushButton1_2</tabstop>
+    <tabstop>PushButton1</tabstop>
+    <tabstop>PushButton1_2_2</tabstop>
+</tabstops>
+</UI>

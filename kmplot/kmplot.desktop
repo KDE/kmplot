@@ -1,0 +1,12 @@
+# KDE Config File
+[Desktop Entry]
+Type=Application
+Exec=kmplot
+Icon=kmplot.png
+MiniIcon=kmplot.png
+DocPath=kmplot/index.html
+Comment=
+Comment[de]=
+Terminal=0
+Name=kmplot
+Name[de]=kmplot

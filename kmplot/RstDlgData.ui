@@ -1,0 +1,327 @@
+<!DOCTYPE UI><UI>
+<class>RstDlgData</class>
+<widget>
+    <class>QDialog</class>
+    <property stdset="1">
+        <name>name</name>
+        <cstring>RstDlgData</cstring>
+    </property>
+    <property stdset="1">
+        <name>geometry</name>
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>265</width>
+            <height>205</height>
+        </rect>
+    </property>
+    <property stdset="1">
+        <name>sizePolicy</name>
+        <sizepolicy>
+            <hsizetype>0</hsizetype>
+            <vsizetype>0</vsizetype>
+        </sizepolicy>
+    </property>
+    <property stdset="1">
+        <name>minimumSize</name>
+        <size>
+            <width>265</width>
+            <height>205</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>maximumSize</name>
+        <size>
+            <width>265</width>
+            <height>205</height>
+        </size>
+    </property>
+    <property stdset="1">
+        <name>caption</name>
+        <string>Grid Settings</string>
+    </property>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TextLabel2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>216</x>
+                <y>40</y>
+                <width>40</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>0,1mm</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QLineEdit</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>le_dicke</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>170</x>
+                <y>40</y>
+                <width>40</width>
+                <height>20</height>
+            </rect>
+        </property>
+    </widget>
+    <widget>
+        <class>QCheckBox</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>cb_default</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>25</x>
+                <y>170</y>
+                <width>190</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Save as &amp;default</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>PushButton1</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>170</x>
+                <y>75</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>OK</string>
+        </property>
+        <property stdset="1">
+            <name>default</name>
+            <bool>true</bool>
+        </property>
+    </widget>
+    <widget>
+        <class>QLabel</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>TextLabel1</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>170</x>
+                <y>15</y>
+                <width>80</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Line width</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>PushButton1_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>170</x>
+                <y>110</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>C&amp;olour</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QPushButton</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>PushButton1_2_2</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>170</x>
+                <y>145</y>
+                <width>80</width>
+                <height>25</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>text</name>
+            <string>Cancel</string>
+        </property>
+    </widget>
+    <widget>
+        <class>QButtonGroup</class>
+        <property stdset="1">
+            <name>name</name>
+            <cstring>bg_raster</cstring>
+        </property>
+        <property stdset="1">
+            <name>geometry</name>
+            <rect>
+                <x>15</x>
+                <y>20</y>
+                <width>140</width>
+                <height>150</height>
+            </rect>
+        </property>
+        <property stdset="1">
+            <name>frameShape</name>
+            <enum>Panel</enum>
+        </property>
+        <property stdset="1">
+            <name>title</name>
+            <string>Grid Style</string>
+        </property>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_r3</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>80</y>
+                    <width>100</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Crosses</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>2</number>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_r2</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>50</y>
+                    <width>100</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Lines</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>1</number>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_r4</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>110</y>
+                    <width>100</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>Polar grid</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>3</number>
+            </property>
+        </widget>
+        <widget>
+            <class>QRadioButton</class>
+            <property stdset="1">
+                <name>name</name>
+                <cstring>rb_r1</cstring>
+            </property>
+            <property stdset="1">
+                <name>geometry</name>
+                <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>100</width>
+                    <height>25</height>
+                </rect>
+            </property>
+            <property stdset="1">
+                <name>text</name>
+                <string>No grid</string>
+            </property>
+            <property stdset="1">
+                <name>buttonGroupId</name>
+                <number>0</number>
+            </property>
+        </widget>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>PushButton1</sender>
+        <signal>clicked()</signal>
+        <receiver>RstDlgData</receiver>
+        <slot>onok()</slot>
+    </connection>
+    <connection>
+        <sender>PushButton1_2</sender>
+        <signal>clicked()</signal>
+        <receiver>RstDlgData</receiver>
+        <slot>onfarbe()</slot>
+    </connection>
+    <connection>
+        <sender>PushButton1_2_2</sender>
+        <signal>clicked()</signal>
+        <receiver>RstDlgData</receiver>
+        <slot>oncancel()</slot>
+    </connection>
+    <slot access="public">oncancel()</slot>
+    <slot access="public">onfarbe()</slot>
+    <slot access="public">onok()</slot>
+</connections>
+</UI>

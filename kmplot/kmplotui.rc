@@ -1,0 +1,27 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="kmplot" version="0.3">
+<MenuBar>
+  <Menu name="file"><text>&amp;File</text>
+  </Menu>
+  <Menu name="functions"><text>F&amp;unctions</text>
+    <Action name="functions"/>
+  </Menu>
+  <Menu name="settings">
+    <Action name="axes"/>
+    <Action name="scale"/>
+    <Action name="grid"/>
+    <Action name="step"/>
+  </Menu>
+  <Menu name="help">
+    <Action name="names"/>
+  </Menu>
+</MenuBar>
+<ToolBar name="mainToolBar">
+  <Separator />
+  <Action name="functions"/>
+  <Action name="coord_i"/>
+  <Action name="coord_ii"/>
+  <Action name="coord_iii"/>
+  <Action name="helpcontents"/>
+</ToolBar>
+</kpartgui>

@@ -26,7 +26,7 @@
 #ifndef xparser_included
 #define xparser_included
 
-#include <parser.h>
+#include "parser.h"
 #include <qcolor.h>
 
 

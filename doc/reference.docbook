@@ -182,7 +182,7 @@ be used to determine the axes settings as well. See <xref linkend="axes-config"/
 	<listitem>
 	  <para>
 	    The function will be stored but not be drawn. 
-	    So it can be used like any other user defined or predefined function.
+	    It can be used like any other user-defined or predefined function.
 	  </para>
 	</listitem>
       </varlistentry>

@@ -427,17 +427,15 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	view->parser()->fixFunctionName(f_str);
 	
 	int index = view->parser()->addfkt( f_str );
-	
 	if( index == -1 ) 
 	{
 		view->parser()->errmsg();
 		m_quickEdit->setFocus();
 		m_quickEdit->selectAll();
+		view->parser()->delfkt( index );
 		return;
 	}
 	view->parser()->fktext[index].f_mode = 1;
-	view->parser()->fktext[index].anti_mode = 0;
-	view->parser()->fktext[index].anti_use_precision = false;
 	view->parser()->fktext[ index ].extstr = f_str;
 	view->parser()->getext( index );
 	m_quickEdit->clear();

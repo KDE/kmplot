@@ -28,8 +28,11 @@
 // KDE includes
 #include <kapplication.h>
 #include <kcolorbutton.h>
-#include <knuminput.h>
 #include <klineedit.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <knuminput.h>
+
 
 #include <kdebug.h>
 
@@ -37,6 +40,7 @@
 #include "keditpolar.h"
 #include "keditpolar.moc"
 #include "xparser.h"
+#include "View.h"
 
 KEditPolar::KEditPolar( XParser* parser, QWidget* parent, const char* name ) : 
 	QEditPolar( parent, name )
@@ -91,6 +95,7 @@ void KEditPolar::accept()
 		this->raise();
 		kLineEditYFunction->setFocus();
 		kLineEditYFunction->selectAll();
+		m_parser->delfkt( index );
 		return;
 	}
 	m_parser->fktext[ index ].extstr = functionItem();
@@ -98,20 +103,50 @@ void KEditPolar::accept()
 	
 	if( checkBoxHide->isChecked() )
 		m_parser->fktext[ index ].f_mode = 0;
+	else
+		m_parser->fktext[index].f_mode = 1;
 	
 	if( checkBoxRange->isChecked() )
 	{
-		// TODO: check empty boundaries and syntax
 		m_parser->fktext[ index ].str_dmin = min->text();
 		m_parser->fktext[ index ].dmin = m_parser->eval( min->text() );
+		if ( m_parser->errmsg() )
+		{
+			min->setFocus();
+			min->selectAll();
+			m_parser->delfkt( index );
+			return;
+		}
 		m_parser->fktext[ index ].str_dmax = max->text();
 		m_parser->fktext[ index ].dmax = m_parser->eval( max->text() );
+		if ( m_parser->errmsg())
+		{
+			max->setFocus();
+			max->selectAll();
+			m_parser->delfkt( index );
+			return;
+		}
+		if ( m_parser->fktext[ index ].dmin >=  m_parser->fktext[ index ].dmax)
+		{
+			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+			min->setFocus();
+			min->selectAll();
+			m_parser->delfkt( index );
+			return;
+		}
+		
+		if (  m_parser->fktext[ index ].dmin<View::xmin || m_parser->fktext[ index ].dmax>View::xmax )
+		{
+			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
+			min->setFocus();
+			min->selectAll();
+			m_parser->delfkt( index );
+			return;
+		}
 	}
 	
 	m_parser->fktext[ index ].linewidth = kIntNumInputLineWidth->value();
 	m_parser->fktext[ index ].color = kColorButtonColor->color().rgb();
-	m_parser->fktext[ index ].anti_mode = 0;
-	m_parser->fktext[ index ].anti_use_precision = false;
 	
 	// call inherited method
 	QEditPolar::accept();

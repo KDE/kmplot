@@ -28,6 +28,7 @@
 
 #include "qeditpolar.h"
 
+class View;
 class XParser;
 
 /** @short Dialog window editing a polar plot and its properties. */

@@ -37,10 +37,10 @@
 #include <kapplication.h>
 #include <kcolorbutton.h>
 #include <kiconloader.h>
-#include <kmessagebox.h>
-#include <knuminput.h>
 #include <klineedit.h>
 #include <klocale.h>
+#include <kmessagebox.h>
+#include <knuminput.h>
 #include <kpushbutton.h>
 
 #include <kdebug.h>

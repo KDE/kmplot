@@ -56,6 +56,11 @@ FktDlg::~FktDlg()
 
 void FktDlg::slotDelete()
 {
+	if ( lb_fktliste->currentItem()== -1)
+	{
+		PushButtonDel->setEnabled(false);
+		return;
+	}
 	int ix, num;
 	if ( ( num = lb_fktliste->currentItem() ) == -1 ) return ;
 	
@@ -80,6 +85,11 @@ void FktDlg::slotDelete()
 
 void FktDlg::slotEdit()
 {
+	if ( lb_fktliste->currentItem()==-1 )
+	{
+		PushButtonEdit->setEnabled(false);
+		return;
+	}
 	int num = lb_fktliste->currentItem();
 	int index = getIx( lb_fktliste->text( num ).section( ";", 0, 0) );
 	
@@ -134,6 +144,7 @@ void FktDlg::slotEditFunction( int index, int num )
 {
 	EditFunction* editFunction = new EditFunction( m_parser, this );
 	if ( index==-1&&num==-1) editFunction->setCaption(i18n( "New Function Plot" ));
+	else editFunction->setCaption(i18n( "Edit Function Plot" ));
 	editFunction->initDialog( index );
 	if( editFunction->exec() == QDialog::Accepted )
 	{

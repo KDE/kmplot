@@ -28,6 +28,7 @@
 
 #include "qeditparametric.h"
 
+class View;
 class XParser;
 
 /** @short Dialog window editing a parametric plot and its properties. */

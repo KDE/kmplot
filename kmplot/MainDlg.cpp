@@ -3,7 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
-*               
+*
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
 *
@@ -11,12 +11,12 @@
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or
 * (at your option) any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -80,7 +80,7 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( onachsen1() ), actionCollection(), "coord_i" );
 	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( onachsen2() ), actionCollection(), "coord_ii" );
 	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( onachsen3() ), actionCollection(), "coord_iii" );
-  
+
   KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
   KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
  KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
@@ -497,7 +497,7 @@ void MainDlg::newToolbarConfig()
 }
 void MainDlg::optionsConfigureKeys()
 {
-  KKeyDialog::configureKeys(actionCollection(), "kmplotui.rc");
+  KKeyDialog::configure(actionCollection());
 }
 
 void MainDlg::optionsConfigureToolbars()

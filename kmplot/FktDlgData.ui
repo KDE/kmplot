@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>350</width>
-            <height>415</height>
+            <width>363</width>
+            <height>443</height>
         </rect>
     </property>
     <property name="minimumSize">
@@ -21,7 +21,7 @@
     <property name="caption">
         <string>Functions</string>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
@@ -31,53 +31,59 @@
         <property name="spacing">
             <number>6</number>
         </property>
-        <widget class="QLayoutWidget">
+        <widget class="QFrame" row="0" column="0">
             <property name="name">
-                <cstring>Layout2</cstring>
+                <cstring>frame5</cstring>
             </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>TextLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Function equation:</string>
-                    </property>
-                    <property name="buddy" stdset="0">
-                        <cstring>le_fktstr</cstring>
-                    </property>
-                </widget>
-                <widget class="QLineEdit">
-                    <property name="name">
-                        <cstring>le_fktstr</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>edit the function equation here</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Insert a function equation here, like f(x)=x^2</string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-        <widget class="QLayoutWidget">
-            <property name="name">
-                <cstring>layout13</cstring>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
             </property>
             <grid>
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QPushButton" row="0" column="1">
+                <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>Layout2</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Function equation:</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>le_fktstr</cstring>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>le_fktstr</cstring>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>edit the function equation here</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>Insert a function equation here, like f(x)=x^2</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QPushButton" row="1" column="1">
                     <property name="name">
                         <cstring>PushButtonApply</cstring>
                     </property>
@@ -97,7 +103,7 @@
                         <string>Click here to add the function from the top edit line to the list.</string>
                     </property>
                 </widget>
-                <widget class="QPushButton" row="3" column="1">
+                <widget class="QPushButton" row="4" column="1">
                     <property name="name">
                         <cstring>PushButtonAttr</cstring>
                     </property>
@@ -117,7 +123,7 @@
                         <string>Click here to change further attributes of the selcted function.</string>
                     </property>
                 </widget>
-                <widget class="QListBox" row="0" column="0" rowspan="6" colspan="1">
+                <widget class="QListBox" row="1" column="0" rowspan="5" colspan="1">
                     <property name="name">
                         <cstring>lb_fktliste</cstring>
                     </property>
@@ -142,7 +148,7 @@
                         <string>Here you see the list of all functions to be plotted.</string>
                     </property>
                 </widget>
-                <spacer row="4" column="1">
+                <spacer row="5" column="1">
                     <property name="name">
                         <cstring>Spacer1</cstring>
                     </property>
@@ -155,11 +161,11 @@
                     <property name="sizeHint">
                         <size>
                             <width>20</width>
-                            <height>171</height>
+                            <height>162</height>
                         </size>
                     </property>
                 </spacer>
-                <widget class="QPushButton" row="1" column="1">
+                <widget class="QPushButton" row="2" column="1">
                     <property name="name">
                         <cstring>PushButtonEdit</cstring>
                     </property>
@@ -179,71 +185,7 @@
                         <string>Click here to move the selected function to the edit line.</string>
                     </property>
                 </widget>
-                <widget class="QLayoutWidget" row="5" column="1">
-                    <property name="name">
-                        <cstring>layout12</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer6</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>31</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                        <widget class="QPushButton">
-                            <property name="name">
-                                <cstring>PushButtonOk</cstring>
-                            </property>
-                            <property name="text">
-                                <string>&amp;OK</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+O</string>
-                            </property>
-                            <property name="default">
-                                <bool>false</bool>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>close the dialog</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Click here to close this dialog.</string>
-                            </property>
-                        </widget>
-                        <spacer>
-                            <property name="name">
-                                <cstring>spacer7</cstring>
-                            </property>
-                            <property name="orientation">
-                                <enum>Horizontal</enum>
-                            </property>
-                            <property name="sizeType">
-                                <enum>Expanding</enum>
-                            </property>
-                            <property name="sizeHint">
-                                <size>
-                                    <width>31</width>
-                                    <height>20</height>
-                                </size>
-                            </property>
-                        </spacer>
-                    </hbox>
-                </widget>
-                <widget class="QPushButton" row="2" column="1">
+                <widget class="QPushButton" row="3" column="1">
                     <property name="name">
                         <cstring>PushButtonDel</cstring>
                     </property>
@@ -265,7 +207,54 @@
                 </widget>
             </grid>
         </widget>
-    </vbox>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>layout12</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer6</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>31</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>PushButtonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+O</string>
+                    </property>
+                    <property name="default">
+                        <bool>false</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>close the dialog</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click here to close this dialog.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
 </widget>
 <connections>
     <connection>
@@ -293,12 +282,6 @@
         <slot>ondblclick(int)</slot>
     </connection>
     <connection>
-        <sender>PushButtonOk</sender>
-        <signal>clicked()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>onok()</slot>
-    </connection>
-    <connection>
         <sender>PushButtonApply</sender>
         <signal>clicked()</signal>
         <receiver>FktDlgData</receiver>
@@ -309,6 +292,12 @@
         <signal>selectionChanged()</signal>
         <receiver>FktDlgData</receiver>
         <slot>onHasSelection()</slot>
+    </connection>
+    <connection>
+        <sender>PushButtonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>FktDlgData</receiver>
+        <slot>onok()</slot>
     </connection>
 </connections>
 <tabstops>

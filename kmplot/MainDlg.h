@@ -79,13 +79,6 @@ private:
 	void setupActions();
 	
 	void setupStatusBar();
-	void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
-
-	void parseAxes( const QDomElement &n );
-	void parseGrid( const QDomElement &n );
-	void parseScale( const QDomElement &n );
-	void parseStep( const QDomElement &n );
-	void parseFunction( const QDomElement &n );
 	bool checkModified();
 	int tbid,
 	stbid;
@@ -163,18 +156,6 @@ protected slots:
 	@param the content of the KLineEdit
 	*/
 	void slotQuickEdit( const QString& );
-	
-protected:
-	/**
-	Read a kmpdoc xml file to restaure the settings of a previously saved plot
-	@param filename name of file which will be opened
-	*/
-	void openFile( const QString filename );
-	/**
-	Store all information about the current saved plot in a xml file with the .fkt extension in the filename file
-	@param filename name of the file which will be saved
-	*/
-	void doSave( const QString filename);
-	
 };
+
 #endif // MainDlg_included

@@ -172,9 +172,9 @@ class MainDlg : public KMainWindow
 		void slotCoord3();
 		/**
 		* Manages the LineEdit content after returnPressed() is emitted.
-		* @param the content of the KLineEdit
+		* @param f_str the content of the KLineEdit
 		*/
-		void slotQuickEdit( const QString& );
+		void slotQuickEdit( const QString& f_str );
 		/// Enable or disable fullscreen
 		void slotFullScreen();
 		

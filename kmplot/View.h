@@ -103,7 +103,7 @@ private:
 	//@{
 	int fcx;	///< x-position of the crosshais (pixel)
 	int fcy;	///< y-position of the crosshais (pixel)
-	float csxpos;	///< y-position of the cross hair (real coordinates) @add
+	float csxpos;	///< y-position of the cross hair (real coordinates) 
 	float csypos;	///< x-position of the cross hair (real coordinates)
 	//@}
 	float s;

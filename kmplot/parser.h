@@ -23,11 +23,9 @@
 *
 */
 
-//	Die Funktion parse tokenisiert den als String bergebenen
-//	Funktionsterm im Speicherbereich ab mem.
-//
-//						KDM  2.5.95
-
+/** @file parser.h
+ * \brief Contains the parser core class Parser. */
+ 
 // Qt includes
 #include <qstring.h>
 
@@ -36,27 +34,32 @@
 
 // Voreinstellungen bei Verwendung des Standardkonstruktors :
 
-#define	UFANZ		10	// max. Anzahl benutzerdefinierter Funktionen
-#define	MEMSIZE		200	// Speichergr�e fr Token
-#define	STACKSIZE	50	// Stacktiefe
+
+#define	UFANZ		10	///< max. count of user defined functions
+#define	MEMSIZE		200	///< memory size for tokens
+#define	STACKSIZE	50	///< stack depth
 
 
-//	Token-Liste :
-#define KONST	0       // es folgt ein double-Wert
-#define	XWERT	1       // x-Wert holen
-#define KWERT   2	// Funktionsparameter holen
-#define	PUSH	3       // Wert auf Stack
-#define	PLUS	4       // Addition
-#define	MINUS	5       // Subtraktion
-#define	MULT	6       // Multiplikation
-#define	DIV	7       // Division
-#define	POW	8       // Potenzieren
-#define NEG	9	// Negieren
-#define FKT	10	// es folgt eine Funktionsadresse
-#define	UFKT	11      // es folgt eine Adresse auf eine benutzerdefinierte Funktion
-#define	ENDE	12      // Funktionsende
-#define	FANZ	31	// Anzahl der math. Funktionen in mfkttab[]
+//@{
+/** Token type. */
+#define KONST	0       // double value follows
+#define	XWERT	1       // get x value
+#define KWERT   2	// get function parameter
+#define	PUSH	3       // push value to stack
+#define	PLUS	4       // add
+#define	MINUS	5       // subtract
+#define	MULT	6       // multiply
+#define	DIV	7       // divide
+#define	POW	8       // exponentiate
+#define NEG	9	// negate
+#define FKT	10	// address to function followes
+#define	UFKT	11      // address to user defined function follows
+#define	ENDE	12      // end of function
+#define	FANZ	31	// number of mathematical functions in mfkttab[]
+//@}
 
+//@{
+/** Predefined mathematical function. */
 double sign(double x);
 double sqr(double x);
 double arsinh(double x);
@@ -76,9 +79,11 @@ double coth(double x);
 double arsech(double x);
 double arcosech(double x);
 double arcoth(double x);
+//@}
 
 /** @short Parser.
  *
+ * Tokenizes a function equation to be evaluated.
  */
 class Parser
 {
@@ -87,67 +92,80 @@ public:
 	Parser();
 	Parser(int, int, int);
 
-	double	eval(QString);
-	double	fkt(QString, double);
-	double	fkt(int ix, double x) {return ufkt[ix].fkt(x);}
-	int	addfkt(QString),
-	delfkt(QString);
-
+	~Parser();
+	
+	/// Evaluates the given expression.
+	double eval(QString);
+	/// Evaluates the function with the given name at the position.
+	double fkt(QString, double);
+	/// Evaluates the function with the given index at the position.
+	double fkt(int ix, double x) {return ufkt[ix].fkt(x);}
+	/// Adds a user defined function with the given equation.
+	int addfkt(QString);
+	/// Removes the function with the given name.
+	int delfkt(QString);
+	/// Removes the function with the given index.
 	int delfkt(int);
-	int	chkfix(int),
-	getfkt(int, QString&, QString&),
-	getfix(QString);
+	/// Returns name and expression of the function with the given index.
+	int getfkt(int, QString&, QString&);
+	/// Checks, if at the given index a function is stored.
+	int chkfix(int);
+	/// Returns the index of the function with the given name.
+	int getfix(QString);
+	/// Returns the lowest index in the array of user defined functions which is empty, 
+	/// or -1, if the array is full.
 	int getNextIndex();
+	/// Shows an error message box.
 	int errmsg();
-
+	/// ?
 	void setparameter(int ix, double k) {ufkt[ix].k=k;}
 
-	~Parser();
 
-	int err,	// Fehlercodes:
-			// 0 => parse erfolgreich
-			// 1 => Syntaxfehler
-			// 2 => fehlende Klammer
-			// 3 => Funktion nicht bekannt
-			// 4 => ungltige Funktionsvariable
-			// 5 => zu viele Funktionen
-			// 6 => Speicherberlauf
-			// 7 => Stackberlauf
-			// 8 => Funktionsname bereits vergeben
-			//  9 => rekursiver Funktionsaufruf
-			
-	errpos, 	// Fehlerposition
-	ufanz;		// max. Anzahl benutzer-
-	                // definierter Funktionen
+	/// Error codes.
+	/**
+	 * The values have following meanings:
+	 * \li  0 => parse success
+	 * \li  1 => syntax error
+	 * \li  2 => missing bracket
+	 * \li  3 => function unknown
+	 * \li  4 => function variable not valid
+	 * \li  5 => too much functions
+	 * \li  6 => memory overflow
+	 * \li  7 => stack overflow
+	 * \li  8 => function name allready used
+	 * \li  9 => recursive function call
+	 */
+	int err,	
+	errpos, 	///< Position where the error occured.
+	ufanz;		///< Max. count of user defined functions.
 
 protected:
 
-    class Ufkt
+	/** User function. */
+	class Ufkt
 	{
 	public:
-
 		Ufkt();
-
-		double	fkt(double);	// benutzerdefinierte Funktion
-
 		~Ufkt();
+		double	fkt(double);	///< User defined function.
 
-		unsigned
-		char *mem, 		        // Zeiger auf Tokenspeicher
-		*mptr;		            // Zeiger auf Token
-		QString	fname, 	        // Funktionsname
-		fvar, 		            // Funktionsvariable
-		fpar, 		            // Parameter
-		fstr;		            // Funktionsterm
-		int	memsize, 	        // Gr�e des Tokenspeichers
-		stacksize;	            // Gr�e des Stack
-		double	k;		        // Funktionsparameter
+		unsigned char *mem;	///< Pointer to the allocated memory for the tokens.
+		unsigned char *mptr;	///< Pointer to the token.
+		QString	fname; 	        ///< Name of the function.
+		QString fvar;		///< Dummy variable.
+		QString fpar;		///< Parameter.
+		QString fstr;		///< Function expression.
+		int memsize;	 	///< Size of token memory
+		int stacksize;		///< Size of the stack.
+		double k;		///< Function parameter.
 
 	}
-	*ufkt;
+	*ufkt; ///< Points to the array of user defined functions.
 
+	/** Mathematical function. */
 	struct Mfkt
-	{   const char *mfstr;
+	{
+		const char *mfstr;
 		double (*mfadr)(double);
 	};
 	static Mfkt mfkttab[FANZ];

@@ -43,23 +43,25 @@ class KmPlotIO
 		
 		/**
 		 * Store all information about the current saved plot in a xml file with the .fkt extension 
-		 * in the filename file
-		 * @param filename name of the file which will be saved
+		 * in the filename file.
+		 * @param parser points to the parser instance.
+		 * @param filename Name of the file which will be saved.
 		 */
 		static void save( XParser *parser, const QString filename );
 		
 		/**
 		 * Read a kmpdoc xml file to restaure the settings of a previously saved plot
+		 * @param parser points to the parser instance.
 		 * @param filename name of file which will be opened
 		 */
 		static void load( XParser *parser, const QString filename );
 	
 	private:
 		/** Esay way to add a tag to the Dom tree
-		 * @param doc The document.
+		 * @param &doc The document.
 		 * @param parentTag The parent tag to support encapsulated tags.
 		 * @param tagName The Name of the tag.
-		 * @param The data between the opening and cloding tag.
+		 * @param tagValue The data between the opening and cloding tag.
 		 */
 		static void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
 		/// Reads axes parameters from the node @a n.
@@ -72,9 +74,11 @@ class KmPlotIO
 		/// @param n Node containing the options.
 		static void parseScale( const QDomElement &n );
 		/// Reads function parameters from the node @a n.
+		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		static void parseFunction( XParser *parser, const QDomElement &n );
 		/// Reads parameter values for a function from the node @a n.
+		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
 		static void parseParameters( XParser *parser, const QDomElement &n, int ix );

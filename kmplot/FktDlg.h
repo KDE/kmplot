@@ -48,7 +48,8 @@ class FktDlg : public FktDlgData
 public:
 	/** 
 	 * The constructor gets the current parser instance
-	 * @param parser current parser instance
+	 * @param parent Parent widget.
+	 * @param parser points to the current parser instance.
 	 */
 	FktDlg( QWidget* parent, XParser* parser );
 	/// Empty destructor.

@@ -62,20 +62,22 @@ public:
 	/// Extended attributes are encapulated in this structure.
 	struct FktExt
 	{
-		char f_mode, /// \a f_mode == 1: draw the plot.
-		f1_mode, /// \a f1_mode == 1.  draw the 1st derivative, too.
-		f2_mode;/// \a f2_mode == 1.  draw the 2nd derivative, too.
-		int dicke, /// Line width.
-		k_anz; /// Number of parameter values. 
-		/// @see FktExt::k_liste
+		char f_mode, ///< \a f_mode == 1: draw the plot.
+		f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
+		f2_mode;///< \a f2_mode == 1.  draw the 2nd derivative, too.
+		int dicke, ///< Line width.
+		/** Number of parameter values. 
+		 * @see FktExt::k_liste */
+		k_anz; 
 		QString str_dmin, str_dmax; /// Plot range, input strings.
-		double dmin, /// Custom plot range, lower boundage.
-		dmax, /// Custom plot range, upper boundage.
-		k_liste[ 10 ]; /// List of parameter values. 
-		/// @see FktExt::k_anz
-		QString extstr; /// Complete function string including the extensions.
-		QRgb color, /// current color.
-		color0; /// Default color.
+		double dmin, ///< Custom plot range, lower boundage.
+		dmax, ///< Custom plot range, upper boundage.
+		/** List of parameter values. 
+		 * @see FktExt::k_anz */
+		k_liste[ 10 ];
+		QString extstr; ///< Complete function string including the extensions.
+		QRgb color, ///< current color.
+		color0; ///< Default color.
 	}
 	*fktext;
 };

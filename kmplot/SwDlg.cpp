@@ -34,7 +34,7 @@ SwDlg::SwDlg( QWidget* parent, const char* name, bool modal ) : Inherited( paren
 {
 	QString str;
 
-	//setCaption(i18n("Schrittweite einstellen"));
+	//setCaption(i18n("Configure Increment"));
 	le_sw->setText( str.setNum( rsw ) );
 	le_sw->setFocus();
 }

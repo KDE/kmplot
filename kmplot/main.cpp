@@ -26,7 +26,7 @@
 /**
  * Version string of KmPlot.
  */
-#define	KP_VERSION	"1.0.9"
+#define KP_VERSION "1.0.9"
 
 
 // KDE includes
@@ -34,7 +34,7 @@
 #include <kapplication.h>
 
 // local includes
-#include "MainDlg.h"
+#include "kmplot.h"
 
 static const char description[] =
     I18N_NOOP( "Mathematical function plotter for KDE" );
@@ -65,13 +65,13 @@ int main( int argc, char **argv )
 	aboutData.addAuthor( "Fredrik Edemar", I18N_NOOP( "Various improvements" ), "f_edemar@linux.se" );
 	aboutData.addCredit( "David Vignoni", I18N_NOOP( "svg icon" ), "david80v@tin.it" );
 	aboutData.addCredit( "Albert Astals Cid", I18N_NOOP( "command line options, MIME type" ), "tsdgeos@terra.es" );
-	
+
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
 	KApplication ka;
 	KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
-	MainDlg *w = new MainDlg( args );
+	KmPlot *w = new KmPlot( args );
 	w->resize( 450, 400 );
 	w->show();
 	ka.setMainWidget( w );

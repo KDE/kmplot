@@ -34,10 +34,12 @@
 // KDE includes
 #include <kaction.h>
 #include <kcmdlineargs.h>
-#include <kmainwindow.h>
+#include <kfiledialog.h>
 #include <kpopupmenu.h>
 #include <kstandarddirs.h>
-#include <kfiledialog.h>
+#include <kparts/browserextension.h>
+#include <kparts/part.h>
+#include <kparts/factory.h>
 
 #undef  GrayScale
 
@@ -58,7 +60,7 @@ class SettingsPagePrecision;
 class SettingsPageScaling;
 class KConstantEditor;
 class KToggleFullScreenAction;
-
+class BrowserExtension;
 
 
 /** @short This is the main window of KmPlot.
@@ -66,145 +68,174 @@ class KToggleFullScreenAction;
  * Its central widget view contains the parser, accessable via its parser() function.
  * @see View, View::m_parser, View::parser
  */
-class MainDlg : public KMainWindow, virtual public MainDlgIface
+class MainDlg : public KParts::ReadOnlyPart, virtual public MainDlgIface
 {
 	Q_OBJECT
 
-	public:
-		/** @param sessionId used for the name of a temporary file.
-		 * @param args containing a filename to be plot on startup.
-		 * @param name
-		 */
-		MainDlg( KCmdLineArgs* args, const char* name = NULL );
-		/// Cleaning up a bit.
-		virtual ~MainDlg();
-		/// This class needs access to private members, too.
-		friend class FktDlg;
-		/// This class needs access to private members, too.
-		friend class BezWnd;
-		
-		static bool oldfileversion;
-	
-	public slots:
-		/// Implement the color edit dialog
-		void editColors();
-		/// Implement the coordinate system edit dialog
-		void editAxes();
-		/// Implement the scaling edit dialog
-		void editScaling();
-		/// Implement the fonts edit dialog
-		void editFonts();
-		/// Implement the constants edit dialog
-		void editConstants();
-		/// Implement the dialog to enter a function plot and its options
-		void newFunction();
-		/// Implement the dialog to enter a parametric plot and its options
-		void newParametric();
-		/// Implement the dialog to enter a polar plot and its options
-		void newPolar();
-		/// Show/hide parameter slider windows
-		void toggleShowSlider0();
-		void toggleShowSlider1();
-		void toggleShowSlider2();
-		void toggleShowSlider3();
-		/// Called when fullscren is enabled/disabled
-		void slotUpdateFullScreen(bool);
-	
-                /// Implement the File -> Open action
-                void slotOpen();
-                ///Implement the File -> New action by cleaning the plot area
-                void slotOpenNew();
-                ///Save a plot i.e. save the function name and all the settings for the plot
-                void slotSave();
-                ///Save a plot and choose a name for it
-                void slotSaveas();
-                ///Call the dialog (an instance of FktDlg) to edit the functions and make changes on them
-                void slotEditPlots();
-                ///Print the current plot
-                void slotPrint();
-                ///Export the current plot as a png, svg or bmp picture
-                void slotExport();
-                ///Implement the Configure KmPlot dialog
-                void slotSettings();
-                /// Calls the common function names dialog.
-                /// @see BezWnd::hideEvent
-                void slotNames();
-                /// Change the coordinate systems, shows negative x-values and negative y-values.
-                void slotCoord1();
-                /// Change the coordinate systems, shows positive x-values and negative y-values.
-                void slotCoord2();
-                /// Change the coordinate systems, shows positive x-values and positive y-values.
-                void slotCoord3();
-                /// Tools menu
-                void getYValue();
-                void findMinimumValue();
-                void findMaximumValue();
-                void graphArea();
+public:
+	/** @param sessionId used for the name of a temporary file.
+	 * @param args containing a filename to be plot on startup.
+	 * @param name
+	 */
+	MainDlg(QWidget *parentWidget, const char *widgetName, QObject *parent, const char *name);
+	/// Cleaning up a bit.
+	virtual ~MainDlg();
+	/// This class needs access to private members, too.
+	friend class FktDlg;
+	/// This class needs access to private members, too.
+	friend class BezWnd;
 
-                
-	private:
-		/// Settings the standard and non standard actions of the application.
-		void setupActions();
-		/// Predefines some space for coordinate information of the plot
-		void setupStatusBar();
-		/// Asks the user and returns true if modified data shall be dicarded.
-		bool checkModified();
-		/// The Statusbar instance
-		KStatusBar *stbar;
-		/// Cached dialog to edit all functions
-		FktDlg *fdlg;
-		/// Central widget of the KMainWindow instance. tralala
-		View *view;
-		///The Recent Files action
-		KRecentFilesAction * m_recentFiles;
-		/** Current filename of the current plot
-		 *  isEmpty() == not yet saved */
-		QString m_filename;      
-		/// true == modifications not saved
-		bool m_modified;
-		///An instance of the application config file
-		KConfig* m_config;
-		///The KLineEdit which is in the toolbar
-		KLineEdit* m_quickEdit;
-		///A Configure KmPlot dialog instance
-		KConfigDialog* m_settingsDialog;
-		///The Precision page for the Configure KmPlot dialog
-		SettingsPagePrecision* m_generalSettings;
-		///The Constants page for the Configure KmPlot constants
-		KConstantEditor* m_constantsSettings;
-		/// The fullscreen action to be plugged/unplegged to the toolbar
-		KToggleFullScreenAction* m_fullScreen;
-		/// Loading the constants by start
-		void loadConstants();
-		/// Loading the constants when closing the program
-		void saveConstants();
-		/// A dialog used by many tools-menu-items
-		KMinMax *minmaxdlg;
-		/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
-		KPopupMenu *m_popupmenu;
-		/// Loads and saves the user's file.
-		KmPlotIO *kmplotio;
-		
-		
-        protected slots:
-                /**
-                * When you click on a File->Open Recent file, it'll open 
-                * @param url name of the url to open
-                */
-                void slotOpenRecent( const KURL &url );
-                ///Update settings when there is a change in the Configure KmPlot dialog
-                void updateSettings();
-		/**
-		* Manages the LineEdit content after returnPressed() is emitted.
-		* @param f_str the content of the KLineEdit
-		*/
-                void slotQuickEdit( const QString& tmp_f_str );
-		
-	protected:
-		/// Quits KmPlot after checking if modifications shall be saved.
-		virtual bool queryClose();
+	void stopDrawing();
+	/// Asks the user and returns true if modified data shall be dicarded.
+	bool checkModified();
+	/// Is set to true if a file from an old file format was loaded
+	static bool oldfileversion;
 
+public slots:
+	/// Implement the color edit dialog
+	void editColors();
+	/// Implement the coordinate system edit dialog
+	void editAxes();
+	/// Implement the scaling edit dialog
+	void editScaling();
+	/// Implement the fonts edit dialog
+	void editFonts();
+	/// Implement the constants edit dialog
+	void editConstants();
+	/// Implement the dialog to enter a function plot and its options
+	void newFunction();
+	/// Implement the dialog to enter a parametric plot and its options
+	void newParametric();
+	/// Implement the dialog to enter a polar plot and its options
+	void newPolar();
+	/// Show/hide parameter slider windows
+	void toggleShowSlider0();
+	void toggleShowSlider1();
+	void toggleShowSlider2();
+	void toggleShowSlider3();
+
+	/// Implement the File -> Open action
+	//void slotOpen();
+	///Implement the File -> New action by cleaning the plot area
+	void slotCleanWindow();
+	///Save a plot i.e. save the function name and all the settings for the plot
+	void slotSave();
+	///Save a plot and choose a name for it
+	void slotSaveas();
+	///Call the dialog (an instance of FktDlg) to edit the functions and make changes on them
+	void slotEditPlots();
+	///Print the current plot
+	void slotPrint();
+	///Export the current plot as a png, svg or bmp picture
+	void slotExport();
+	///Implement the Configure KmPlot dialog
+	void slotSettings();
+	/// Calls the common function names dialog.
+	/// @see BezWnd::hideEvent
+	void slotNames();
+	/// Change the coordinate systems, shows negative x-values and negative y-values.
+	void slotCoord1();
+	/// Change the coordinate systems, shows positive x-values and negative y-values.
+	void slotCoord2();
+	/// Change the coordinate systems, shows positive x-values and positive y-values.
+	void slotCoord3();
+	/// Tools menu
+	void getYValue();
+	void findMinimumValue();
+	void findMaximumValue();
+	void graphArea();
+
+private:
+	/// Settings the standard and non standard actions of the application.
+	void setupActions();
+	/// Called when a file is opened. The filename is is m_url
+	virtual bool openFile();
+	/// Loading the constants by start
+	void loadConstants();
+	/// Loading the constants when closing the program
+	void saveConstants();
+	/// Returns true if any changes are done
+	bool isModified(){return m_modified;};
+
+	/// Cached dialog to edit all functions
+	FktDlg *fdlg;
+	/// Central widget of the KMainWindow instance. tralala
+	View *view;
+	///The Recent Files action
+	KRecentFilesAction * m_recentFiles;
+	/// true == modifications not saved
+	bool m_modified;
+	///An instance of the application config file
+	KConfig* m_config;
+	///The KLineEdit which is in the toolbar
+	KLineEdit* m_quickEdit;
+	///A Configure KmPlot dialog instance
+	KConfigDialog* m_settingsDialog;
+	///The Precision page for the Configure KmPlot dialog
+	SettingsPagePrecision* m_generalSettings;
+	///The Constants page for the Configure KmPlot constants
+	KConstantEditor* m_constantsSettings;
+	/// The fullscreen action to be plugged/unplegged to the toolbar
+	KToggleFullScreenAction* m_fullScreen;
+	/// Loading the constants by start
+
+	/// A dialog used by many tools-menu-items
+	KMinMax *minmaxdlg;
+	/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
+	KPopupMenu *m_popupmenu;
+	/// Loads and saves the user's file.
+	KmPlotIO *kmplotio;
+	/// Set to true if the application is readonly
+	bool m_readonly;
+	/// MainDlg's parent widget
+	QWidget *m_parent;
+
+protected slots:
+	/**
+	* When you click on a File->Open Recent file, it'll open 
+	* @param url name of the url to open
+	*/
+	void slotOpenRecent( const KURL &url );
+	///Update settings when there is a change in the Configure KmPlot dialog
+	void updateSettings();
+	/**
+	* Manages the LineEdit content after returnPressed() is emitted.
+	* @param f_str the content of the KLineEdit
+	*/
+	void slotQuickEdit( const QString& tmp_f_str );
+
+	void setReadOnlyStatusBarText(const QString &);
+
+	/// slots for the settings-menu
+	void optionsConfigureKeys();
+	void optionsConfigureToolbars();
+};
+
+class KmPlotPartFactory : public KParts::Factory
+{
+	Q_OBJECT
+public:
+	KmPlotPartFactory();
+	virtual ~KmPlotPartFactory();
+	virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *widgetName,
+	                                        QObject *parent, const char *name,
+	                                        const char *classname, const QStringList &args );
+	static KInstance* instance();
+
+private:
+	static KInstance* s_instance;
+	static KAboutData* s_about;
+};
+
+class BrowserExtension : public KParts::BrowserExtension
+{
+	Q_OBJECT
+public:
+	BrowserExtension(MainDlg*);
+
+public slots:
+	// Automatically detected by the host.
+	void print();
 };
 
 #endif // MainDlg_included
-

@@ -1,16 +1,12 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kmplot" version="5">
+<kpartgui name="kmplot" version="1">
 	<MenuBar>
-		<Menu name="file">
+ 		<Menu name="file">
+			<Action name="file_save_as"/>
+			<Separator/>
 			<Action name="export"/>
 		</Menu>
-		<Menu name="functions"><text>&amp;Plot</text>
-			<Action name="newfunction"/>
-			<Action name="newparametric"/>
-			<Action name="newpolar"/>
-			<Action name="editplots"/>
-		</Menu>
-		<Menu name="edit">
+		<Menu name="edit"><text>&amp;Edit</text>
 			<Action name="editcolors"/>
 			<Action name="editaxes"/>
 			<Action name="editscaling"/>
@@ -20,8 +16,7 @@
 			<Action name="coord_ii"/>
 			<Action name="coord_iii"/>
 		</Menu>
-		
-		<Menu name="zoom" noMerge="1"><text>&amp;Zoom</text>
+		<Menu name="zoom"><text>&amp;Zoom</text>
 			<Action name="no_zoom"/>
 			<Action name="zoom_rectangular"/>
 			<Action name="zoom_in"/>
@@ -30,41 +25,28 @@
 			<Separator />
 			<Action name="zoom_trig"/>
 		</Menu>
-		<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
+		<Menu name="tools"><text>&amp;Tools</text>
 			<Action name="yvalue"/>
 			<Action name="minimumvalue"/>
 			<Action name="maximumvalue"/>
 			<Action name="grapharea"/>
 		</Menu>
-        	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
-			<Merge name="StandardToolBarMenuHandler" />
-			<Action name="options_show_statusbar"/>
+        	<Menu name="settings"><text>&amp;Settings</text>
 			<Menu name="ShowSliders"><text>Show S&amp;liders</text>
 				<Action name="options_configure_show_slider_0"/>
 				<Action name="options_configure_show_slider_1"/>
 				<Action name="options_configure_show_slider_2"/>
 				<Action name="options_configure_show_slider_3"/>
 			</Menu>
-			<Separator />
-			<Action name="fullscreen"/>
-			<Separator/>
-			<Action name="options_configure_keybinding"/>
-			<Action name="options_configure_toolbars"/>
-			<Action name="options_configure"/>
 		</Menu>
-		<Menu name="help">
+		<Menu name="help"><text>&amp;Help</text>
 			<Action name="names"/>
 		</Menu>
 	</MenuBar>
-	
 	<ToolBar name="mainToolBar">
-		<Separator />
-		<Action name="quickedit"/>
-		<Action name="newfunction"/>
 		<Action name="coord_i"/>
 		<Action name="coord_ii"/>
 		<Action name="coord_iii"/>
 		<Action name="helpcontents"/>
 	</ToolBar>
-
 </kpartgui>

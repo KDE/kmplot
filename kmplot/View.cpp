@@ -26,6 +26,7 @@
 // Qt includes
 #include <qbitmap.h>
 #include <qcursor.h>
+#include <qdatastream.h>
 #include <qpicture.h>
 #include <qslider.h>
 #include <qtooltip.h>
@@ -38,8 +39,8 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kpopupmenu.h> 
-#include <kprogress.h> 
+#include <kpopupmenu.h>
+#include <kprogress.h>
 
 // local includes
 #include "editfunction.h"
@@ -50,42 +51,12 @@
 #include "View.h"
 #include "View.moc"
 
-
 //minimum and maximum x range. Should always be accessible.
 double View::xmin = 0;
 double View::xmax = 0;
 
-KmPlotProgress::KmPlotProgress( QWidget* parent, const char* name ) : QWidget( parent, name) 
-{
-	button = new KPushButton(this);
-	button->setPixmap( SmallIcon( "cancel" ) );
-	button->setGeometry( QRect( 0, 0, 30, 27 ) );
-	button->setMaximumHeight(height()-10);
-	
-	progress = new KProgress(this);
-	progress->setGeometry( QRect( 30, 0, 124, 26 ) );
-	progress->setMaximumHeight(height()-10);
-	
-	hide();
-	setMinimumWidth(154);
-}
 
-KmPlotProgress::~KmPlotProgress()
-{
-}
-
-
-void KmPlotProgress::increase()
-{
-	progress->setProgress( progress->progress()+1);
-}
-
-
-/*
- * View implementation
- */
-
-View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() ), m_popupmenu(p), m_modified(mo)
+View::View(bool const r, bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidget( parent, name , WStaticContents ), buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
 {
 	m_parser = new XParser(MEMSIZE, STACKSIZE );
 	init();
@@ -95,6 +66,7 @@ View::View(bool & mo, KPopupMenu *p, QWidget* parent, const char* name ) : QWidg
 	invertColor(backgroundcolor,inverted_backgroundcolor);
 	setBackgroundColor(backgroundcolor);
 	setMouseTracking(TRUE);
+	rootflg = false;
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
 		sliders[ number ] = new SliderWindow( this, QString( "slider%1" ).arg( number ).latin1(), false, Qt::WStyle_Tool-Qt::WStyle_Maximize );
@@ -127,40 +99,43 @@ XParser* View::parser()
 }
 
 void View::draw(QPaintDevice *dev, int form)
-{	int lx, ly;
+{
+	int lx, ly;
 	float sf;
 	QRect rc;
-	QPainter DC;				// our painter
-	DC.begin(dev);				// start painting widget
+	QPainter DC;    // our painter
+	DC.begin(dev);    // start painting widget
 	rc=DC.viewport();
 	w=rc.width();
 	h=rc.height();
-	
+
 	setPlotRange();
 	setScaling();
-	
-	if(form==0)										// screen
-	{   ref=QPoint(120, 100);
+
+	if(form==0)          // screen
+	{
+		ref=QPoint(120, 100);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
 		if(DC.xForm(QPoint(lx+2*ref.x(), ly)).x() > DC.viewport().right())
-		{	DC.resetXForm();
+		{
+			DC.resetXForm();
 			DC.scale((float)w/(float)(lx+2*ref.x()), (float)w/(float)(lx+2*ref.x()));
-		}	
+		}
 		wm=DC.worldMatrix();
 		s=DC.xForm(QPoint(1000, 0)).x()/1000.;
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 	}
-	else if(form==1)								// printer
-	{   
-		sf=72./254.;								// 72dpi
+	else if(form==1)        // printer
+	{
+		sf=72./254.;        // 72dpi
 		ref=QPoint(100, 100);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale(sf, sf);
 		s=1.;
-		m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1"; 
+		m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1";
 		drawHeaderTable( &DC );
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 		if ( ( (KPrinter* )dev )->option( "app-kmplot-printbackground" ) == "-1" )
@@ -170,7 +145,8 @@ void View::draw(QPaintDevice *dev, int form)
 		//DC.begin(dev);
 	}
 	else if(form==2)								// svg
-	{	ref=QPoint(0, 0);
+	{
+		ref=QPoint(0, 0);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
@@ -178,7 +154,8 @@ void View::draw(QPaintDevice *dev, int form)
 		s=1.;
 	}
 	else if(form==3)								// bmp, png
-	{	sf=180./254.;								// 180dpi
+	{
+		sf=180./254.;								// 180dpi
 		ref=QPoint(0, 0);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
@@ -191,7 +168,7 @@ void View::draw(QPaintDevice *dev, int form)
 		DC.scale(sf, sf);
 		s=1.;
 	}
-	
+
 	dgr.borderThickness=(uint)(4*s);
 	dgr.axesLineWidth = (uint)( Settings::axesLineWidth()*s );
 	dgr.gridLineWidth = (uint)( Settings::gridLineWidth()*s );
@@ -200,7 +177,7 @@ void View::draw(QPaintDevice *dev, int form)
 	dgr.axesColor = Settings::axesColor().rgb();
 	dgr.gridColor=Settings::gridColor().rgb();
 	dgr.Skal( tlgx, tlgy );
-	
+
 	if ( form!=0 && areaDraw)
 	{
 		areaUnderGraph(areaUfkt, areaPMode, areaMin,areaMax, areaParameter, &DC);
@@ -208,48 +185,47 @@ void View::draw(QPaintDevice *dev, int form)
 		if (stop_calculating)
 			return;
 	}
-	
+
 	dgr.Plot(&DC);
 	PlotArea=dgr.GetPlotArea();
 	area=DC.xForm(PlotArea);
 	hline.resize(area.width(), 1);
 	vline.resize(1, area.height());
 	stepWidth=Settings::relativeStepWidth();
-	
+
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
 	stop_calculating = false;
-        
-        for(QValueVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
-                if ( !ufkt->fname.isEmpty() )
-		      plotfkt(ufkt, &DC);
+	for(QValueVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
+		if ( !ufkt->fname.isEmpty() )
+			plotfkt(ufkt, &DC);
 
 	isDrawing=false;
 	restoreCursor();
 	csflg=0;
-	DC.end();			// painting done
+	DC.end();   // painting done
 }
 
 
 void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
-{	
+{
 	char p_mode;
 	int iy, k, ke, mflg;
 	double x, y, dmin, dmax;
 	QPoint p1, p2;
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
-        
+
 	char const fktmode=ufkt->extstr[0].latin1();
 	if(fktmode=='y') return ;
-	
+
 	dmin=ufkt->dmin;
 	dmax=ufkt->dmax;
-        
+
 	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
 	{
 		if(fktmode=='r')
-		{   
+		{
 			dmin=0.;
 			dmax=2*M_PI;
 		}
@@ -260,50 +236,47 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		}
 	}
 	double dx;
-	if(fktmode=='r') 
+	if(fktmode=='r')
 		dx=stepWidth*0.05/(dmax-dmin);
 	else
 		dx=stepWidth*(dmax-dmin)/area.width();
-	
+
 	if(fktmode=='x')
-                iy = m_parser->ixValue(ufkt->id)+1;
+		iy = m_parser->ixValue(ufkt->id)+1;
 	p_mode=0;
 	pen.setWidth((int)(ufkt->linewidth*s) );
 	pen.setColor(ufkt->color);
 	pDC->setPen(pen);
-        
-        
+
+
 	while(1)
 	{
-                
+
 		k=0;
 		ke=ufkt->k_liste.count();
 		do
 		{
-                        kdDebug() << "drawing " << ufkt->id << endl;
-                        
+			kdDebug() << "drawing " << ufkt->id << endl;
 			if ( p_mode == 3 && stop_calculating)
 				break;
 			if( ufkt->use_slider == -1 )
-                        {
-                                if ( !ufkt->k_liste.isEmpty() )
-				    ufkt->setParameter( ufkt->k_liste[k] );
-                        }
+			{
+				if ( !ufkt->k_liste.isEmpty() )
+					ufkt->setParameter( ufkt->k_liste[k] );
+			}
 			else
 				ufkt->setParameter( sliders[ ufkt->use_slider ]->slider->value() );
-     
+
 			mflg=2;
 			if ( p_mode == 3)
 			{
 				if ( ufkt->integral_use_precision )
 					dx =  ufkt->integral_precision*(dmax-dmin)/area.width();
-				progressbar->progress->reset();
-				progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
-				progressbar->show();
-				x = ufkt->oldx = ufkt->startx; //the initial x-point 
-                                ufkt->oldy = ufkt->starty;
-                                ufkt->oldyprim = ufkt->integral_precision;
-                                paintEvent(0);
+				startProgressBar((int)double((dmax-dmin)/dx)/2);
+				x = ufkt->oldx = ufkt->startx; //the initial x-point
+				ufkt->oldy = ufkt->starty;
+				ufkt->oldyprim = ufkt->integral_precision;
+				paintEvent(0);
 			}
 			else
 				x=dmin;
@@ -313,18 +286,18 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 				forward_direction = false;
 			else
 				forward_direction = true;
-                                
+
 			if ( p_mode != 0 || ufkt->f_mode) // if not the function is hidden
 				while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
-			{
-				if ( p_mode == 3 && stop_calculating)
 				{
-					p_mode=1;
-					x=dmax+1;
-					continue;
-				}
-				switch(p_mode)
-				{
+					if ( p_mode == 3 && stop_calculating)
+					{
+						p_mode=1;
+						x=dmax+1;
+						continue;
+					}
+					switch(p_mode)
+					{
 					case 0:
 						y=m_parser->fkt(ufkt, x);
 						break;
@@ -335,76 +308,76 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 						y=m_parser->a2fkt(ufkt, x);
 						break;
 					case 3:
-					{
-						y = m_parser->euler_method(x, ufkt);
-						if ( int(x*100)%2==0)
 						{
-							KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
-							progressbar->increase();
+							y = m_parser->euler_method(x, ufkt);
+							if ( int(x*100)%2==0)
+							{
+								KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
+								increaseProgressBar();
+							}
+							break;
 						}
-						break;
 					}
-				}
-		
-               			if(fktmode=='r')
-				{
-					p2.setX(dgr.Transx(y*cos(x)));
-					p2.setY(dgr.Transy(y*sin(x)));
-				}
-				else if(fktmode=='x')
-				{
-					p2.setX(dgr.Transx(y));
-					p2.setY(dgr.Transy(m_parser->fkt(iy, x)));
-				}
-				else
-				{
-					p2.setX(dgr.Transx(x));
-					p2.setY(dgr.Transy(y));
-				}
-                                        
-				if ( dgr.xclipflg || dgr.yclipflg )
-				{
-					if(mflg>=1)
-						p1=p2;
-					else
-					{
-						pDC->drawLine(p1, p2);
-						p1=p2;
-						mflg=1;
-					}
-				}
-				else
-				{
-					if(mflg<=1)
-						pDC->drawLine(p1, p2);
-					p1=p2;
-					mflg=0;
-				}
 
-				if (p_mode==3)
-				{
-					if ( forward_direction)
+					if(fktmode=='r')
 					{
-						x=x+dx;
-						if (x>dmax && p_mode== 3)
+						p2.setX(dgr.Transx(y*cos(x)));
+						p2.setY(dgr.Transy(y*sin(x)));
+					}
+					else if(fktmode=='x')
+					{
+						p2.setX(dgr.Transx(y));
+						p2.setY(dgr.Transy(m_parser->fkt(iy, x)));
+					}
+					else
+					{
+						p2.setX(dgr.Transx(x));
+						p2.setY(dgr.Transy(y));
+					}
+
+					if ( dgr.xclipflg || dgr.yclipflg )
+					{
+						if(mflg>=1)
+							p1=p2;
+						else
 						{
-							forward_direction = false;
-							x = ufkt->oldx = ufkt->startx;
-                                                        ufkt->oldy = ufkt->starty;
-                                                        ufkt->oldyprim = ufkt->integral_precision;
-                                                        paintEvent(0);
-							mflg=2;
+							pDC->drawLine(p1, p2);
+							p1=p2;
+							mflg=1;
 						}
 					}
 					else
-						x=x-dx; // go backwards
+					{
+						if(mflg<=1)
+							pDC->drawLine(p1, p2);
+						p1=p2;
+						mflg=0;
+					}
+
+					if (p_mode==3)
+					{
+						if ( forward_direction)
+						{
+							x=x+dx;
+							if (x>dmax && p_mode== 3)
+							{
+								forward_direction = false;
+								x = ufkt->oldx = ufkt->startx;
+								ufkt->oldy = ufkt->starty;
+								ufkt->oldyprim = ufkt->integral_precision;
+								paintEvent(0);
+								mflg=2;
+							}
+						}
+						else
+							x=x-dx; // go backwards
+					}
+					else
+						x=x+dx;
 				}
-				else
-					x=x+dx;
-            		}
 		}
-        	while(++k<ke);
-       
+		while(++k<ke);
+
 		if(ufkt->f1_mode==1 && p_mode< 1) //draw the 1st derivative
 		{
 			p_mode=1;
@@ -428,20 +401,15 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		}
 		else break; //otherwise stop
 	}
-
-	if (  progressbar->isVisible())
-	{
-		progressbar->hide(); // hide the progressbar-widget if it was shown
+	if ( stopProgressBar() )
 		if( stop_calculating)
 			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
-	}
-	
 }
 
 void View::drawHeaderTable(QPainter *pDC)
 {
 	QString alx, aly, atx, aty, dfx, dfy;
-	
+
 	if( m_printHeaderTable )
 	{
 		pDC->translate(250., 150.);
@@ -472,7 +440,7 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->Linev(300, 0, 230);
 		pDC->Linev(700, 0, 230);
 		pDC->Linev(1100, 0, 230);
-		
+
 		pDC->drawText(0, 0, 300, 100, AlignCenter, i18n("Parameters:"));
 		pDC->drawText(300, 0, 400, 100, AlignCenter, i18n("Plotting Area"));
 		pDC->drawText(700, 0, 400, 100, AlignCenter, i18n("Axes Division"));
@@ -488,9 +456,9 @@ void View::drawHeaderTable(QPainter *pDC)
 
 		pDC->drawText(0, 300, i18n("Functions:"));
 		pDC->Lineh(0, 320, 700);
-                int ypos = 380;
-                //for(uint ix=0; ix<m_parser->countFunctions() && !stop_calculating; ++ix)
-                for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
+		int ypos = 380;
+		//for(uint ix=0; ix<m_parser->countFunctions() && !stop_calculating; ++ix)
+		for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
 		{
 			pDC->drawText(100, ypos, it->extstr);
 			ypos+=60;
@@ -504,28 +472,29 @@ void View::drawHeaderTable(QPainter *pDC)
 void View::getMinMax( int koord, QString &mini, QString &maxi )
 {
 	switch(koord)
-	{  
-		case 0:
-			mini="-8.0";
-			maxi="8.0";
-			break;
-		case 1:  
-			mini="-5.0";
-			maxi="5.0";
-			break;
-		case 2:  
-			mini="0.0";
-			maxi="16.0";
-			break;
-		case 3:  
-			mini="0.0";
-			maxi="10.0";
+	{
+	case 0:
+		mini="-8.0";
+		maxi="8.0";
+		break;
+	case 1:
+		mini="-5.0";
+		maxi="5.0";
+		break;
+	case 2:
+		mini="0.0";
+		maxi="16.0";
+		break;
+	case 3:
+		mini="0.0";
+		maxi="10.0";
 	}
 }
 
 
 void View::setpi(QString *s)
-{   int i;
+{
+	int i;
 	QChar c(960);
 
 	while((i=s->find('p')) != -1) s->replace(i, 2, &c, 1);
@@ -534,44 +503,41 @@ void View::setpi(QString *s)
 
 bool View::root(double *x0)
 {
-        double x, y, yn, dx;
-        if(rootflg==1)
-                return FALSE;
-        x=csxpos;
-        y=fabs(csypos);
-        dx=0.1;
-        int const ix = m_parser->ixValue(csmode);
-        while(1)
-        {
-                if((yn=fabs(m_parser->fkt(ix, x-dx))) < y)
-                {       x-=dx;
-                        y=yn;
-                }
-                else if((yn=fabs(m_parser->fkt(ix, x+dx))) < y)
-                {
-                        x+=dx;
-                        y=yn;
-                }
-                else
-                        dx/=10.;
-                printf("x=%g,  dx=%g, y=%g\n", x, dx, y);
-                if(y<1e-8)
-                {
-                        *x0=x;
-                        return TRUE;
-                }
-                if(fabs(dx)<1e-8)
-                        return FALSE;
-                if(x<xmin || x>xmax)
-                        return FALSE;
-        }
+	if(rootflg)
+		return FALSE;
+	double yn;
+	double x=csxpos;
+	double y=fabs(csypos);
+	double dx=0.1;
+	while(1)
+	{
+		if((yn=fabs(m_parser->fkt(csmode, x-dx))) < y)
+		{
+			x-=dx;
+			y=yn;
+		}
+		else if((yn=fabs(m_parser->fkt(csmode, x+dx))) < y)
+		{
+			x+=dx;
+			y=yn;
+		}
+		else
+			dx/=10.;
+		printf("x=%g,  dx=%g, y=%g\n", x, dx, y);
+		if(y<1e-8)
+		{
+			*x0=x;
+			return TRUE;
+		}
+		if(fabs(dx)<1e-8)
+			return FALSE;
+		if(x<xmin || x>xmax)
+			return FALSE;
+	}
 }
 
-
-// Slots
-
 void View::paintEvent(QPaintEvent *)
-{   
+{
 	QPainter p;
 	p.begin(this);
 	bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
@@ -611,17 +577,17 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		p.begin(this);
 		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
 		p.end();
-		
+
 		QPainter painter(this);
 		QPen pen(Qt::white, 1, Qt::DotLine);
 		painter.setRasterOp (Qt::XorROP);
 		painter.setPen(pen);
 		painter.setBackgroundMode (QPainter::OpaqueMode);
 		painter.setBackgroundColor (Qt::blue);
-		
+
 		painter.drawRect(rectangle_point.x(), rectangle_point.y(), e->pos().x()-rectangle_point.x(), e->pos().y()-rectangle_point.y());
 		return;
-		
+
 	}
 	if ( zoom_mode!=0)
 		return;
@@ -633,7 +599,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		return;
 	}
 	if(csflg==1)        // Fadenkreuz l�chen
-	{	bitBlt(this, area.left(), fcy, &hline, 0, 0, area.width(), 1);
+	{ bitBlt(this, area.left(), fcy, &hline, 0, 0, area.width(), 1);
 		bitBlt(this, fcx, area.top(), &vline, 0, 0, 1, area.height());
 		csflg=0;
 	}
@@ -647,45 +613,45 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
 		ptl=DC.xFormDev(e->pos());
-                
-                QValueVector<Ufkt>::iterator it = 0;
+
+		QValueVector<Ufkt>::iterator it = 0;
 		if( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
 		{
-                        int const ix = m_parser->ixValue(csmode);
-                        if (ix!=-1)
-                        {
-                                it = &m_parser->ufkt[ix];
-                                if( it->use_slider == -1 )
-                                {
-                                        if( it->k_liste.isEmpty() )
-			                     it->setParameter( it->k_liste[csparam] );
-                                }
-                                else
-                                        it->setParameter(sliders[ it->use_slider ]->slider->value() );
-                                if ( cstype == 0)
-                                        ptl.setY(dgr.Transy(csypos=m_parser->fkt( it, csxpos=dgr.Transx(ptl.x()))));
-                                else if ( cstype == 1)
-                                        ptl.setY(dgr.Transy(csypos=m_parser->a1fkt( it, csxpos=dgr.Transx(ptl.x()) )));
-                                else if ( cstype == 2)
-                                        ptl.setY(dgr.Transy(csypos=m_parser->a2fkt( it, csxpos=dgr.Transx(ptl.x()))));
-        
-                                if(fabs(csypos)<0.2)
-                                {
-                                        double x0;
-                                        if(root(&x0))
-                                        {
-                                                QString str="  ";
-                                                str+=i18n("root");
-                                                stbar->changeItem(str+QString().sprintf(":  x0= %+.5f", x0), 3);
-                                                rootflg=1;
-                                        }
-                                }
-                        }
-                        else
-                        {
-                                stbar->changeItem("", 3);
-                                rootflg=0;
-                        }
+			int const ix = m_parser->ixValue(csmode);
+			if (ix!=-1)
+			{
+				it = &m_parser->ufkt[ix];
+				if( it->use_slider == -1 )
+				{
+					if( it->k_liste.isEmpty() )
+						it->setParameter( it->k_liste[csparam] );
+				}
+				else
+					it->setParameter(sliders[ it->use_slider ]->slider->value() );
+				if ( cstype == 0)
+					ptl.setY(dgr.Transy(csypos=m_parser->fkt( it, csxpos=dgr.Transx(ptl.x()))));
+				else if ( cstype == 1)
+					ptl.setY(dgr.Transy(csypos=m_parser->a1fkt( it, csxpos=dgr.Transx(ptl.x()) )));
+				else if ( cstype == 2)
+					ptl.setY(dgr.Transy(csypos=m_parser->a2fkt( it, csxpos=dgr.Transx(ptl.x()))));
+
+				if(fabs(csypos)<0.2)
+				{
+					double x0;
+					if(root(&x0))
+					{
+						QString str="  ";
+						str+=i18n("root");
+						setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+						rootflg=true;
+					}
+				}
+				else
+				{
+					setStatusBar("", 3);
+					rootflg=false;
+				}
+			}
 		}
 		else
 		{
@@ -707,27 +673,27 @@ void View::mouseMoveEvent(QMouseEvent *e)
 				pen.setColor(inverted_backgroundcolor);
 			else
 			{
-                                if ( csmode == -1)
-                                        pen.setColor(inverted_backgroundcolor);
-                                else
-                                {
-				    switch (cstype)
-				    {
-					   case 0:
-						  pen.setColor( it->color);
-						  break;
-					   case 1:
-						  pen.setColor( it->f1_color);
-						  break;
-					   case 2:
-						  pen.setColor( it->f2_color);
-						  break;
-					   default:
-						  pen.setColor(inverted_backgroundcolor);
-				    }
-				    if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" has the same color as the background, the "Fadenkreuz" will have the inverted color of background so you can see it easier
-					   pen.setColor(inverted_backgroundcolor);
-                                }
+				if ( csmode == -1)
+					pen.setColor(inverted_backgroundcolor);
+				else
+				{
+					switch (cstype)
+					{
+					case 0:
+						pen.setColor( it->color);
+						break;
+					case 1:
+						pen.setColor( it->f1_color);
+						break;
+					case 2:
+						pen.setColor( it->f2_color);
+						break;
+					default:
+						pen.setColor(inverted_backgroundcolor);
+					}
+					if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" has the same color as the background, the "Fadenkreuz" will have the inverted color of background so you can see it easier
+						pen.setColor(inverted_backgroundcolor);
+				}
 			}
 			DC.begin(this);
 			DC.setPen(pen);
@@ -743,8 +709,10 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		setCursor(arrowCursor);
 		sx[0]=sy[0]=0;
 	}
-	stbar->changeItem(sx, 1);
-	stbar->changeItem(sy, 2);
+	//stbar->changeItem(sx, 1);
+	//stbar->changeItem(sy, 2);
+	setStatusBar(sx, 1);
+	setStatusBar(sy, 2);
 }
 
 
@@ -752,13 +720,13 @@ void View::mousePressEvent(QMouseEvent *e)
 {
 	if ( m_popupmenushown>0)
 		return;
-	
+
 	if (isDrawing)
 	{
 		stop_calculating = true; //stop drawing
 		return;
 	}
-	
+
 	if (  zoom_mode==1 ) //rectangle zoom
 	{
 		zoom_mode=4;
@@ -772,29 +740,29 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
-		
+
 		double diffx = (xmax-xmin)*(double)Settings::zoomInStep()/100;
 		double diffy = (ymax-ymin)*(double)Settings::zoomInStep()/100;
-		
+
 		if ( diffx < 0.00001 || diffy < 0.00001)
 			return;
-		QString str_tmp;	
+		QString str_tmp;
 		str_tmp.setNum(real-double(diffx));
 		Settings::setXMin(str_tmp);
 		str_tmp.setNum(real+double(diffx));
 		Settings::setXMax(str_tmp);
-		
+
 		real = dgr.Transy(DC.xFormDev(e->pos()).y());
 		str_tmp.setNum(real-double(diffy));
 		Settings::setYMin(str_tmp);
 		str_tmp.setNum(real+double(diffy));
 		Settings::setYMax(str_tmp);
-		
+
 		Settings::setXRange(4); //custom x-range
 		Settings::setYRange(4); //custom y-range
 		drawPlot(); //update all graphs
 		return;
-		
+
 	}
 	else if (  zoom_mode==3 ) //zoom out
 	{
@@ -806,7 +774,7 @@ void View::mousePressEvent(QMouseEvent *e)
 
 		double diffx = (xmax-xmin)*(((double)Settings::zoomOutStep()/100) +1);
 		double diffy = (ymax-ymin)*(((double)Settings::zoomOutStep()/100) +1);
-			
+
 		if ( diffx > 1000000 || diffy > 1000000)
 			return;
 		QString str_tmp;
@@ -814,18 +782,18 @@ void View::mousePressEvent(QMouseEvent *e)
 		Settings::setXMin(str_tmp);
 		str_tmp.setNum(real+double(diffx));
 		Settings::setXMax(str_tmp);
-		
+
 		real = dgr.Transy(DC.xFormDev(e->pos()).y());
 		str_tmp.setNum(real-double(diffy));
 		Settings::setYMin(str_tmp);
 		str_tmp.setNum(real+double(diffy));
 		Settings::setYMax(str_tmp);
-		
+
 		Settings::setXRange(4); //custom x-range
 		Settings::setYRange(4); //custom y-range
 		drawPlot(); //update all graphs
 		return;
-		
+
 	}
 	else if (  zoom_mode==5 ) //center
 	{
@@ -837,71 +805,71 @@ void View::mousePressEvent(QMouseEvent *e)
 		QString str_tmp;
 		double diffx = (xmax-xmin)/2;
 		double diffy = (ymax-ymin)/2;
-		
+
 		str_tmp.setNum(real-double(diffx));
 		Settings::setXMin(str_tmp);
 		str_tmp.setNum(real+double(diffx));
 		Settings::setXMax(str_tmp);
-		
+
 		real = dgr.Transy(DC.xFormDev(e->pos()).y());
 		str_tmp.setNum(real-double(diffy));
 		Settings::setYMin(str_tmp);
 		str_tmp.setNum(real+double(diffy));
 		Settings::setYMax(str_tmp);
-		
+
 		Settings::setXRange(4); //custom x-range
 		Settings::setYRange(4); //custom y-range
 		drawPlot(); //update all graphs
 		return;
-		
+
 	}
 	double const g=tlgy*double(xmax-xmin)/(2*double(ymax-ymin));
-	if(e->button()==RightButton) //clicking with the right mouse button
+	if( !m_readonly && e->button()==RightButton) //clicking with the right mouse button
 	{
 		char function_type;
-                for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
-                {
+		for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+		{
 			function_type = it->extstr[0].latin1();
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
 			kdDebug() << "it:" << it->extstr << endl;
-                        int k=0;
+			int k=0;
 			int const ke=it->k_liste.count();
 			do
 			{
 				if( it->use_slider == -1 )
-                                {
-                                        if ( !it->k_liste.isEmpty())
-					   it->setParameter(it->k_liste[k]);
-                                }
+				{
+					if ( !it->k_liste.isEmpty())
+						it->setParameter(it->k_liste[k]);
+				}
 				else
 					it->setParameter(sliders[ it->use_slider ]->slider->value() );
-                                           
+
 				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->extstr.contains('t')==1) //parametric plot
 				{
-                                        QValueVector<Ufkt>::iterator ufkt_y = it+1;
+					QValueVector<Ufkt>::iterator ufkt_y = it+1;
 					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->extstr.contains('t')==1)
 					{
-							if ( csmode == -1)
-							{
-								csmode=it->id;
-								cstype=0;
-								csparam = k;
-								m_popupmenushown = 1;
-							}
-							else
-								m_popupmenushown = 2;
-							QString y_name( ufkt_y->extstr );
-							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),false);
-							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
-							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
-							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
-							m_popupmenu->changeTitle(10,ufkt_y->extstr+";"+y_name);
-							m_popupmenu->exec(QCursor::pos());
-							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
-							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
-							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),true);
-							m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),true);
-							return;
+						if ( csmode == -1)
+						{
+							csmode=it->id;
+							cstype=0;
+							csparam = k;
+							m_popupmenushown = 1;
+						}
+						else
+							m_popupmenushown = 2;
+						QString y_name( ufkt_y->extstr );
+						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),false);
+						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
+						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
+						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
+						m_popupmenu->changeTitle(10,ufkt_y->extstr+";"+y_name);
+						m_popupmenu->exec(QCursor::pos());
+						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
+						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
+						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),true);
+						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),true);
+						return;
 					}
 				}
 				else if( fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
@@ -962,27 +930,29 @@ void View::mousePressEvent(QMouseEvent *e)
 	if(csmode>=0) //disable trace mode if trace mode is enable
 	{
 		csmode=-1;
-		stbar->changeItem("",3);
-		stbar->changeItem("",4);
+		/*stbar->changeItem("",3);
+		stbar->changeItem("",4);*/
+		setStatusBar("",3);
+		setStatusBar("",4);
 		mouseMoveEvent(e);
 		return ;
 	}
-        for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
 		switch(it->extstr[0].latin1())
 		{
-			case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
+case 0: case 'x': case 'y': case 'r': continue;   // Not possible to catch
 		}
-	
+
 		int k=0;
 		int const ke=it->k_liste.count();
 		do
 		{
 			if( it->use_slider == -1 )
-                        {
-                                if ( !it->k_liste.isEmpty() )
-				     it->setParameter( it->k_liste[k]);
-                        }
+			{
+				if ( !it->k_liste.isEmpty() )
+					it->setParameter( it->k_liste[k]);
+			}
 			else
 				it->setParameter(sliders[ it->use_slider ]->slider->value() );
 			if(fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
@@ -991,7 +961,8 @@ void View::mousePressEvent(QMouseEvent *e)
 				cstype=0;
 				csparam = k;
 				m_minmax->selectItem();
-				stbar->changeItem( it->extstr,4);
+				//stbar->changeItem( it->extstr,4);
+				setStatusBar(it->extstr,4);
 				mouseMoveEvent(e);
 				return;
 			}
@@ -1003,7 +974,8 @@ void View::mousePressEvent(QMouseEvent *e)
 				m_minmax->selectItem();
 				QString function = it->extstr;
 				function = function.left(function.find('(')) + '\'';
-				stbar->changeItem(function,4);
+				//stbar->changeItem(function,4);
+				setStatusBar(function,4);
 				mouseMoveEvent(e);
 				return;
 			}
@@ -1015,7 +987,8 @@ void View::mousePressEvent(QMouseEvent *e)
 				m_minmax->selectItem();
 				QString function = it->extstr;
 				function = function.left(function.find('(')) + "\'\'";
-				stbar->changeItem(function,4);
+				//stbar->changeItem(function,4);
+				setStatusBar(function,4);
 				mouseMoveEvent(e);
 				return;
 			}
@@ -1033,7 +1006,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	{
 		zoom_mode=1;
 		if( (e->pos().x() - rectangle_point.x() >= -2) && (e->pos().x() - rectangle_point.x() <= 2) ||
-		     (e->pos().y() - rectangle_point.y() >= -2) && (e->pos().y() - rectangle_point.y() <= 2) )
+		        (e->pos().y() - rectangle_point.y() >= -2) && (e->pos().y() - rectangle_point.y() <= 2) )
 		{
 			update();
 			return;
@@ -1050,18 +1023,18 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 		p=DC.xFormDev(rectangle_point);
 		double real2x = dgr.Transx(p.x() ) ;
 		double real2y = dgr.Transy(p.y() ) ;
-		
-		
-		if ( real1x>xmax || real2x>xmax || real1x<xmin  || real2x<xmin  || 
-		     real1y>ymax || real2y>ymax || real1y<ymin  || real2y<ymin )
+
+
+		if ( real1x>xmax || real2x>xmax || real1x<xmin  || real2x<xmin  ||
+		        real1y>ymax || real2y>ymax || real1y<ymin  || real2y<ymin )
 			return; //out of bounds
-		
+
 		QString str_tmp;
 		//setting new x-boundaries
 		if( real1x < real2x  )
 		{
 			if( real2x - real1x < 0.00001)
-			    return;
+				return;
 			str_tmp.setNum(real1x );
 			Settings::setXMin(str_tmp );
 			str_tmp.setNum(real2x );
@@ -1101,30 +1074,30 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	}
 }
 
-void View::coordToMinMax( const int koord, const QString minStr, const QString maxStr, 
-			  double &min, double &max )
+void View::coordToMinMax( const int koord, const QString minStr, const QString maxStr,
+                          double &min, double &max )
 {
 	switch ( koord )
 	{
-		case 0:
-			min = -8.0;
-			max = 8.0;
-			break;
-		case 1:
-			min = -5.0;
-			max = 5.0;
-			break;
-		case 2:
-			min = 0.0;
-			max = 16.0;
-			break;
-		case 3:
-			min = 0.0;
-			max = 10.0;
-			break;
-		case 4:
-			min = m_parser->eval( minStr );
-			max = m_parser->eval( maxStr );
+	case 0:
+		min = -8.0;
+		max = 8.0;
+		break;
+	case 1:
+		min = -5.0;
+		max = 5.0;
+		break;
+	case 2:
+		min = 0.0;
+		max = 16.0;
+		break;
+	case 3:
+		min = 0.0;
+		max = 10.0;
+		break;
+	case 4:
+		min = m_parser->eval( minStr );
+		max = m_parser->eval( maxStr );
 	}
 }
 
@@ -1137,7 +1110,7 @@ void View::setPlotRange()
 void View::setScaling()
 {
 	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
-	
+
 	if( Settings::xScaling() == 8) //automatic x-scaling
 		tlgx = double(xmax-xmin)/16;
 	else
@@ -1145,7 +1118,7 @@ void View::setScaling()
 		tlgxstr = units[ Settings::xScaling() ];
 		tlgx = m_parser->eval( tlgxstr );
 	}
-	
+
 	if( Settings::yScaling() == 8)  //automatic y-scaling
 		tlgy = double(ymax-ymin)/16;
 	else
@@ -1164,7 +1137,7 @@ void View::getSettings()
 {
 	m_parser->setAngleMode( Settings::anglemode() );
 	m_parser->linewidth0 = Settings::gridLineWidth();
-	
+
 	backgroundcolor = Settings::backgroundcolor();
 	invertColor(backgroundcolor,inverted_backgroundcolor);
 	setBackgroundColor(backgroundcolor);
@@ -1173,16 +1146,17 @@ void View::getSettings()
 void View::init()
 {
 	getSettings();
-        QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin();
-        it->fname="";
-        while ( m_parser->ufkt.count() > 1)
-            m_parser->Parser::delfkt( &m_parser->ufkt.last() );
+	QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin();
+	it->fname="";
+	while ( m_parser->ufkt.count() > 1)
+		m_parser->Parser::delfkt( &m_parser->ufkt.last() );
 }
 
 
-void View::progressbar_clicked()
+void View::stopDrawing()
 {
-	stop_calculating = true;
+	if (isDrawing)
+		stop_calculating = true;
 }
 
 void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, double &dmax, QString &str_parameter)
@@ -1192,46 +1166,44 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	double result_y = 0;
 	bool start = true;
 
-        // TODO: parameter sliders
-        if ( !ufkt->k_liste.isEmpty() )
-        {
-                int i=0;
-                for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
-                {
-                      if ( *it == str_parameter)
-                      {
-                             ufkt->setParameter(ufkt->k_liste[i]);
-                             break;
-                      }
-                      i++;
-                }
-        }
+	// TODO: parameter sliders
+	if ( !ufkt->k_liste.isEmpty() )
+	{
+		int i=0;
+		for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
+		{
+			if ( *it == str_parameter)
+			{
+				ufkt->setParameter(ufkt->k_liste[i]);
+				break;
+			}
+			i++;
+		}
+	}
 
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
-	
+
 	double dx;
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
-		progressbar->progress->reset();
 		if ( ufkt->integral_use_precision )
 			dx = ufkt->integral_precision*(dmax-dmin)/area.width();
-                else
-                        dx = stepWidth*(dmax-dmin)/area.width();
-		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
-		progressbar->show();
-                x = ufkt->oldx = ufkt->startx; //the initial x-point 
-                ufkt->oldy = ufkt->starty;
-                ufkt->oldyprim = ufkt->integral_precision;
-                paintEvent(0);
+		else
+			dx = stepWidth*(dmax-dmin)/area.width();
+		startProgressBar((int)double((dmax-dmin)/dx)/2);
+		x = ufkt->oldx = ufkt->startx; //the initial x-point
+		ufkt->oldy = ufkt->starty;
+		ufkt->oldyprim = ufkt->integral_precision;
+		paintEvent(0);
 	}
 	else
 	{
 		dx = stepWidth*(dmax-dmin)/area.width();
 		x=dmin;
 	}
-	
+
 	bool forward_direction;
 	if (dmin<0 && dmax<0)
 		forward_direction = false;
@@ -1247,32 +1219,32 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 		}
 		switch(p_mode)
 		{
-			case 0: 
-				y=m_parser->fkt(ufkt, x);
-				break;
-			
-			case 1:
+		case 0:
+			y=m_parser->fkt(ufkt, x);
+			break;
+
+		case 1:
 			{
 				y=m_parser->a1fkt( ufkt, x);
 				break;
 			}
-			case 2:
+		case 2:
 			{
 				y=m_parser->a2fkt(ufkt, x);
 				break;
 			}
-			case 3:
+		case 3:
 			{
 				y = m_parser->euler_method(x, ufkt);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
-					progressbar->increase();
+					increaseProgressBar();
 				}
 				break;
 			}
 		}
-		
+
 		if (x>=dmin && x<=dmax)
 		{
 			if ( start)
@@ -1281,7 +1253,7 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 				result_y = y;
 				start=false;
 			}
-			else if ( minimum &&y <=result_y) 
+			else if ( minimum &&y <=result_y)
 			{
 				result_x = x;
 				result_y = y;
@@ -1300,23 +1272,22 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 				if (x>dmax && p_mode== 3)
 				{
 					forward_direction = false;
-                                        x = ufkt->oldx = ufkt->startx;
-                                        ufkt->oldy = ufkt->starty;
-                                        ufkt->oldyprim = ufkt->integral_precision;
-                                        paintEvent(0);
+					x = ufkt->oldx = ufkt->startx;
+					ufkt->oldy = ufkt->starty;
+					ufkt->oldyprim = ufkt->integral_precision;
+					paintEvent(0);
 				}
 			}
 			else
-				x=x-dx; // go backwards	
+				x=x-dx; // go backwards
 		}
 		else
 			x=x+dx;
 	}
-	if (  progressbar->isVisible())
-		progressbar->hide(); // hide the progressbar-widget if it was shown
+	stopProgressBar();
 	isDrawing=false;
 	restoreCursor();
-	
+
 	dmin = int(result_x*1000)/double(1000);
 	dmax = int(result_y*1000)/double(1000);
 }
@@ -1325,118 +1296,114 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, QString &str
 {
 	// TODO: parameter sliders
 	if ( !ufkt->k_liste.isEmpty() )
-        {
-                int i=0;
-                for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
-                {
-		      if ( *it == str_parameter)
-		      {
-			     ufkt->setParameter(ufkt->k_liste[i]);
-			     break;
-		      }
-		      i++;
-                }
-        }
-	
+	{
+		int i=0;
+		for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
+		{
+			if ( *it == str_parameter)
+			{
+				ufkt->setParameter(ufkt->k_liste[i]);
+				break;
+			}
+			i++;
+		}
+	}
+
 	switch (p_mode)
 	{
-		case 0:
-			y= m_parser->fkt(ufkt, x);
-			break;
-		case 1:
-			y=m_parser->a1fkt( ufkt, x);
-			break;
-		case 2:
-			y=m_parser->a2fkt( ufkt, x);
-			break;
-		case 3:
-			double dmin = ufkt->dmin;
-			double dmax = ufkt->dmax;
-			const double target = x; //this is the x-value the user had chosen
-			bool forward_direction;
-			if ( target>=0)
-				forward_direction = true;
+	case 0:
+		y= m_parser->fkt(ufkt, x);
+		break;
+	case 1:
+		y=m_parser->a1fkt( ufkt, x);
+		break;
+	case 2:
+		y=m_parser->a2fkt( ufkt, x);
+		break;
+	case 3:
+		double dmin = ufkt->dmin;
+		double dmax = ufkt->dmax;
+		const double target = x; //this is the x-value the user had chosen
+		bool forward_direction;
+		if ( target>=0)
+			forward_direction = true;
+		else
+			forward_direction = false;
+
+		if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
+		{
+			dmin=xmin;
+			dmax=xmax;
+		}
+
+		double dx;
+		if ( ufkt->integral_use_precision )
+			dx = ufkt->integral_precision*(dmax-dmin)/area.width();
+		else
+			dx=stepWidth*(dmax-dmin)/area.width();
+
+		stop_calculating = false;
+		isDrawing=true;
+		setCursor(Qt::WaitCursor );
+		bool target_found=false;
+		startProgressBar((int) double((dmax-dmin)/dx)/2);
+		x = ufkt->oldx = ufkt->startx; //the initial x-point
+		ufkt->oldy = ufkt->starty;
+		ufkt->oldyprim = ufkt->integral_precision;
+		paintEvent(0);
+		while (x>=dmin && !stop_calculating && !target_found)
+		{
+			y = m_parser->euler_method( x, ufkt );
+			if ( int(x*100)%2==0)
+			{
+				KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
+				increaseProgressBar();
+			}
+
+			if ( (x+dx > target && forward_direction) || ( x+dx < target && !forward_direction)) //right x-value is found
+				target_found = true;
+
+
+
+			if (forward_direction)
+			{
+				x=x+dx;
+				if (x>dmax)
+				{
+					forward_direction = false;
+					x = ufkt->oldx = ufkt->startx;
+					ufkt->oldy = ufkt->starty;
+					ufkt->oldyprim = ufkt->integral_precision;
+					paintEvent(0);
+				}
+			}
 			else
-				forward_direction = false;
-			
-			if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
-			{
-				dmin=xmin;
-				dmax=xmax;
-			}
-			
-			double dx;
-			if ( ufkt->integral_use_precision )
-				dx = ufkt->integral_precision*(dmax-dmin)/area.width();
-                        else
-                                dx=stepWidth*(dmax-dmin)/area.width();
-			
-			stop_calculating = false;
-			isDrawing=true;
-			setCursor(Qt::WaitCursor );
-			bool target_found=false;
-			progressbar->progress->reset();
-			progressbar->progress->setTotalSteps ((int) double((dmax-dmin)/dx)/2 );
-			progressbar->show();
-			x = ufkt->oldx = ufkt->startx; //the initial x-point 
-                        ufkt->oldy = ufkt->starty;
-                        ufkt->oldyprim = ufkt->integral_precision;
-                        paintEvent(0);
-			while (x>=dmin && !stop_calculating && !target_found)
-			{
-				y = m_parser->euler_method( x, ufkt );
-				if ( int(x*100)%2==0)
-				{
-					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
-					progressbar->increase();
-				}
-
-				if ( (x+dx > target && forward_direction) || ( x+dx < target && !forward_direction)) //right x-value is found
-					target_found = true;
-
-
-
-				if (forward_direction)
-				{
-					x=x+dx;
-					if (x>dmax)
-					{
-						forward_direction = false;
-						x = ufkt->oldx = ufkt->startx;
-                                                ufkt->oldy = ufkt->starty;
-                                                ufkt->oldyprim = ufkt->integral_precision;
-                                                paintEvent(0);
-					}
-				}
-				else
-					x=x-dx; // go backwards
-			}
-			if (  progressbar->isVisible())
-				progressbar->hide(); // hide the progressbar-widget if it was shown
-
-			isDrawing=false;
-			restoreCursor();
-			break;
+				x=x-dx; // go backwards
+		}
+		stopProgressBar();
+		isDrawing=false;
+		restoreCursor();
+		break;
 	}
 }
 
 void View::keyPressEvent( QKeyEvent * e)
 {
 	if ( zoom_mode == 4) //drawing a rectangle
-	{	
+	{
 		zoom_mode = 1;
 		update();
 		return;
-	}		
-	
+	}
+
 	if (isDrawing)
 	{
 		stop_calculating=true;
 		return;
 	}
-	
+
 	if (csmode==-1 ) return;
-	
+
 	QMouseEvent *event;
 	if (e->key() == Qt::Key_Left )
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx-1,fcy-1),Qt::LeftButton,Qt::LeftButton);
@@ -1444,100 +1411,103 @@ void View::keyPressEvent( QKeyEvent * e)
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-                QValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
+		QValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
 		int const ke=it->k_liste.count();
-                if (ke>0)
-                {
-                        csparam++;
+		if (ke>0)
+		{
+			csparam++;
 			if (csparam >= ke)
 				csparam=0;
-                }
-		if (csparam==0)
-                {
-                        int const old_csmode=csmode;
-                        char const old_cstype = cstype;
-                        bool start = true;
-                        bool found = false;
-                        while ( 1 )
-                        {
-                                if ( old_csmode==csmode && !start)
-                                {
-                                        cstype=old_cstype;
-                                        break;
-                                }
-                                kdDebug() << "csmode: " << csmode << endl;
-                                switch(it->extstr[0].latin1())
-                                {
-                                        case 'x':
-                                        case 'y':
-                                        case 'r':
-                                                break;
-				    default:
-				    {
-					   for (cstype=0;cstype<3;cstype++) //going through the function, the first and the second derivative
-					   {
-						  if (start)
-						  {
-							 if ( cstype==2)
-								        cstype=0;
-							 else
-								        cstype=old_cstype+1;
-							 start=false;
-						  }
-						  kdDebug() << "   cstype: " << (int)cstype << endl;
-						  switch (cstype)
-						  {
-							 case (0):
-								        if (it->f_mode )
-									       found=true;
-								        break;
-							 case (1):
-								        if ( it->f1_mode )
-									       found=true;
-								        break;
-							 case (2):
-								        if ( it->f2_mode )
-									       found=true;
-								        break;
-						  }
-						  if (found)
-							 break;
-					   }
-					   break;
-				    }
-			     }
-			     if (found)
-				    break;
-                                
-                             if ( ++it == m_parser->ufkt.end())
-                                it = m_parser->ufkt.begin();
-                             csmode = it->id;
-                        }
 		}
-		
+		if (csparam==0)
+		{
+			int const old_csmode=csmode;
+			char const old_cstype = cstype;
+			bool start = true;
+			bool found = false;
+			while ( 1 )
+			{
+				if ( old_csmode==csmode && !start)
+				{
+					cstype=old_cstype;
+					break;
+				}
+				kdDebug() << "csmode: " << csmode << endl;
+				switch(it->extstr[0].latin1())
+				{
+				case 'x':
+				case 'y':
+				case 'r':
+					break;
+				default:
+					{
+						for (cstype=0;cstype<3;cstype++) //going through the function, the first and the second derivative
+						{
+							if (start)
+							{
+								if ( cstype==2)
+									cstype=0;
+								else
+									cstype=old_cstype+1;
+								start=false;
+							}
+							kdDebug() << "   cstype: " << (int)cstype << endl;
+							switch (cstype)
+							{
+							case (0):
+											if (it->f_mode )
+												found=true;
+								break;
+							case (1):
+											if ( it->f1_mode )
+												found=true;
+								break;
+							case (2):
+											if ( it->f2_mode )
+												found=true;
+								break;
+							}
+							if (found)
+								break;
+						}
+						break;
+					}
+				}
+				if (found)
+					break;
+
+				if ( ++it == m_parser->ufkt.end())
+					it = m_parser->ufkt.begin();
+				csmode = it->id;
+			}
+		}
+
 		kdDebug() << "************************" << endl;
 		kdDebug() << "csmode: " << (int)csmode << endl;
 		kdDebug() << "cstype: " << (int)cstype << endl;
 		kdDebug() << "csparam: " << csparam << endl;
-		
+
 		//change function in the statusbar
 		switch (cstype )
-		{
-			case 0:
-				stbar->changeItem(it->extstr,4);
-				break;
-			case 1:
+{
+		case 0:
+			//stbar->changeItem(it->extstr,4);
+			setStatusBar(it->extstr,4);
+			break;
+		case 1:
 			{
 				QString function = it->extstr;
 				function = function.left(function.find('(')) + '\'';
-				stbar->changeItem(function,4);
-                                break;
+				//stbar->changeItem(function,4);
+				setStatusBar(function,4);
+				break;
 			}
-			case 2:
+		case 2:
 			{
 				QString function = it->extstr;
 				function = function.left(function.find('(')) + "\'\'";
-				stbar->changeItem(function,4);
+				//stbar->changeItem(function,4);
+				setStatusBar(function,4);
 				break;
 			}
 		}
@@ -1571,18 +1541,18 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	QColor color;
 	switch(p_mode)
 	{
-		case 0: 
-			color = ufkt->color;
-			break;
-		case 1:
-			color = ufkt->f1_color;
-			break;
-		case 2:
-			color = ufkt->f2_color;
-			break;
-		case 3:
-			color = ufkt->integral_color;
-			break;
+	case 0:
+		color = ufkt->color;
+		break;
+	case 1:
+		color = ufkt->f1_color;
+		break;
+	case 2:
+		color = ufkt->f2_color;
+		break;
+	case 3:
+		color = ufkt->integral_color;
+		break;
 	}
 	if ( DC == 0) //screen
 	{
@@ -1598,55 +1568,53 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		dmin=xmin;
 		dmax=xmax;
 	}
-	
-        // TODO: parameter sliders
-        if ( !ufkt->k_liste.isEmpty() )
-        {
-                int i=0;
-                for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
-                {
-                      if ( *it == str_parameter)
-                      {
-                             ufkt->setParameter(ufkt->k_liste[i]);
-                             break;
-                      }
-                      i++;
-                }
-        }
+
+	// TODO: parameter sliders
+	if ( !ufkt->k_liste.isEmpty() )
+	{
+		int i=0;
+		for ( QStringList::Iterator it = ufkt->str_parameter.begin(); it != ufkt->str_parameter.end(); ++it )
+		{
+			if ( *it == str_parameter)
+			{
+				ufkt->setParameter(ufkt->k_liste[i]);
+				break;
+			}
+			i++;
+		}
+	}
 	double dx;
 	if ( p_mode == 3)
 	{
 		stop_calculating = false;
 		if ( ufkt->integral_use_precision )
 			dx = ufkt->integral_precision*(dmax-dmin)/area.width();
-                else
-                        dx = stepWidth*(dmax-dmin)/area.width();
-		progressbar->progress->reset();
-		progressbar->progress->setTotalSteps ( (int)double((dmax-dmin)/dx)/2 );
-		progressbar->show();
-                x = ufkt->oldx = ufkt->startx; //the initial x-point 
-                ufkt->oldy = ufkt->starty;
-                ufkt->oldyprim = ufkt->integral_precision;
-                //paintEvent(0);
-                
-                /*QPainter p;
-                p.begin(this);
-                bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
-                p.end();*/
+		else
+			dx = stepWidth*(dmax-dmin)/area.width();
+		startProgressBar((int)double((dmax-dmin)/dx)/2);
+		x = ufkt->oldx = ufkt->startx; //the initial x-point
+		ufkt->oldy = ufkt->starty;
+		ufkt->oldyprim = ufkt->integral_precision;
+		//paintEvent(0);
+
+		/*QPainter p;
+		p.begin(this);
+		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
+		p.end();*/
 	}
 	else
 	{
 		dx = stepWidth*(dmax-dmin)/area.width();
 		x=dmin;
 	}
-	
-	
+
+
 	int const origoy = dgr.Transy(0.0);
-	int const rectwidth = dgr.Transx(dx)- dgr.Transx(0.0)+1; 
-        
+	int const rectwidth = dgr.Transx(dx)- dgr.Transx(0.0)+1;
+
 	setCursor(Qt::WaitCursor );
 	isDrawing=true;
-	
+
 	bool forward_direction;
 	if (dmin<0 && dmax<0)
 		forward_direction = false;
@@ -1665,32 +1633,32 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		}
 		switch(p_mode)
 		{
-			case 0: 
-				y=m_parser->fkt( ufkt, x);
-				break;
-			
-			case 1:
+		case 0:
+			y=m_parser->fkt( ufkt, x);
+			break;
+
+		case 1:
 			{
 				y=m_parser->a1fkt( ufkt, x);
 				break;
 			}
-			case 2:
+		case 2:
 			{
 				y=m_parser->a2fkt( ufkt, x);
 				break;
 			}
-			case 3:
+		case 3:
 			{
 				y = m_parser->euler_method(x, ufkt);
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
-					progressbar->increase();
+					increaseProgressBar();
 				}
 				break;
 			}
 		}
-		
+
 		p.setX(dgr.Transx(x));
 		p.setY(dgr.Transy(y));
 		if (dmin<=x && x<=dmax)
@@ -1728,7 +1696,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 				DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 			}
 		}
-	
+
 		if (p_mode==3)
 		{
 			if ( forward_direction)
@@ -1738,37 +1706,36 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 				{
 					forward_direction = false;
 					x = ufkt->oldx = ufkt->startx;
-                                        ufkt->oldy = ufkt->starty;
-                                        ufkt->oldyprim = ufkt->integral_precision;
-                                        paintEvent(0);
+					ufkt->oldy = ufkt->starty;
+					ufkt->oldyprim = ufkt->integral_precision;
+					paintEvent(0);
 				}
 			}
 			else
-				x=x-dx; // go backwards	
+				x=x-dx; // go backwards
 		}
 		else
 			x=x+dx;
 	}
-	if (  progressbar->isVisible())
+	if ( stopProgressBar() )
 	{
-		progressbar->hide(); // hide the progressbar-widget if it was shown
 		if( stop_calculating)
 		{
 			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
 			isDrawing=false;
 			restoreCursor();
 			return;
-		}	
+		}
 	}
 	isDrawing=false;
 	restoreCursor();
-	
-	
+
+
 	areaUfkt = ufkt;
 	areaPMode = p_mode;
 	areaMax = dmax;
 	areaParameter = str_parameter;
-	
+
 	if ( DC->device() == &buffer) //draw the graphs to the screen
 	{
 		areaDraw=true;
@@ -1777,7 +1744,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		update();
 		draw(&buffer,0);
 	}
-	
+
 	if ( calculated_area>0)
 		dmin = int(calculated_area*1000)/double(1000);
 	else
@@ -1800,28 +1767,28 @@ void View::updateSliders()
 	for( int number = 0; number < SLIDER_COUNT; number++)
 		sliders[ number ]->hide();
 
-        for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
-        {
-                if (it->fname.isEmpty() ) continue;
+	for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
+	{
+		if (it->fname.isEmpty() ) continue;
 		if( it->use_slider > -1  &&  (it->f_mode || it->f1_mode || it->f2_mode || it->integral_mode))
 			sliders[ it->use_slider ]->show();
-        }
+	}
 }
 
 void View::mnuHide_clicked()
 {
-        Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(csmode)];
+	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(csmode)];
 	switch (cstype )
 	{
-		case 0:
-			ufkt->f_mode=0;
-			break;
-		case 1:
-			ufkt->f1_mode=0;
-			break;
-		case 2:
-			ufkt->f2_mode=0;
-			break;
+	case 0:
+		ufkt->f_mode=0;
+		break;
+	case 1:
+		ufkt->f1_mode=0;
+		break;
+	case 2:
+		ufkt->f2_mode=0;
+		break;
 	}
 	drawPlot();
 	m_modified = true;
@@ -1841,24 +1808,24 @@ void View::mnuHide_clicked()
 		QKeyEvent *event = new QKeyEvent(QKeyEvent::KeyPress,Qt::Key_Up ,Qt::Key_Up ,0);
 		keyPressEvent(event); //change selected graph
 		delete event;
-		return;	
+		return;
 	}
 }
 void View::mnuRemove_clicked()
 {
 	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
 	{
-                int const ix = m_parser->ixValue(csmode);
-                char const function_type = m_parser->ufkt[ix].extstr[0].latin1();
-                if ( ix == -1)
-                        return;
+		int const ix = m_parser->ixValue(csmode);
+		char const function_type = m_parser->ufkt[ix].extstr[0].latin1();
+		if ( ix == -1)
+			return;
 		if ( function_type == 'x')  // a parametric function
-                        m_parser->delfkt(ix ); //remove the y-function
-                
+			m_parser->delfkt(ix ); //remove the y-function
+
 		m_parser->delfkt( ix );
-                        
+
 		drawPlot();
-		if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' ) 
+		if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' )
 			updateSliders();
 		m_modified = true;
 	}
@@ -1878,7 +1845,7 @@ void View::mnuEdit_clicked()
 			drawPlot();
 			m_modified = true;
 		}
-		
+
 	}
 	else // a plot function
 	{
@@ -1896,7 +1863,7 @@ void View::mnuEdit_clicked()
 void View::mnuNoZoom_clicked()
 {
 	setCursor(Qt::ArrowCursor);
-	zoom_mode = 0;	
+	zoom_mode = 0;
 }
 
 void View::mnuRectangular_clicked()
@@ -1907,7 +1874,7 @@ void View::mnuRectangular_clicked()
 void View::mnuZoomIn_clicked()
 {
 	setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
-	zoom_mode = 2;	
+	zoom_mode = 2;
 }
 
 void View::mnuZoomOut_clicked()
@@ -1932,10 +1899,10 @@ void View::mnuTrig_clicked()
 		Settings::setXMin("-352.5" );
 		Settings::setXMax("352.5" );
 	}
-		
+
 	Settings::setYMin("-4");
 	Settings::setYMax("4");
-		
+
 	Settings::setXRange(4); //custom x-range
 	Settings::setYRange(4); //custom y-range
 	drawPlot(); //update all graphs
@@ -1949,31 +1916,31 @@ void View::invertColor(QColor &org, QColor &inv)
 	if ( g<0) g=g*-1;
 	int b = org.blue()-255;
 	if ( b<0) b=b*-1;
-	
+
 	inv.setRgb(r,g,b);
 }
 void View::restoreCursor()
 {
 	switch (zoom_mode)
 	{
-		case 0:  //no zoom
-			setCursor(Qt::ArrowCursor);
-			break;
-		case 1: //rectangle zoom
-			setCursor(Qt::CrossCursor);
-			break;
-		case 2: //zoom in
-			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
-			break;
-		case 3: //zoom in
-			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
-			break;
-		case 5: //center a point
-			setCursor(Qt::PointingHandCursor);
-			break;
-		
+	case 0:  //no zoom
+		setCursor(Qt::ArrowCursor);
+		break;
+	case 1: //rectangle zoom
+		setCursor(Qt::CrossCursor);
+		break;
+	case 2: //zoom in
+		setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+		break;
+	case 3: //zoom in
+		setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
+		break;
+	case 5: //center a point
+		setCursor(Qt::PointingHandCursor);
+		break;
+
 	}
-	
+
 }
 
 bool View::event( QEvent * e )
@@ -1984,5 +1951,67 @@ bool View::event( QEvent * e )
 		return true;
 	}
 	return QWidget::event(e); //send the information further
-};
+}
 
+void View::setStatusBar(const QString &text, const int id)
+{
+	if ( m_readonly) //if KmPlot is shown as a KPart with e.g Konqueror, it is only possible to change the status bar in one way: to call setStatusBarText
+	{
+		switch (id)
+		{
+		case 1:
+			m_statusbartext1 = text;
+			break;
+		case 2:
+			m_statusbartext2 = text;
+			break;
+		case 3:
+			m_statusbartext3 = text;
+			break;
+		case 4:
+			m_statusbartext4 = text;
+			break;
+		default:
+			return;
+		}
+		QString statusbartext = m_statusbartext1;
+		if ( !m_statusbartext1.isEmpty() && !m_statusbartext2.isEmpty() )
+			statusbartext.append("   |   ");
+		statusbartext.append(m_statusbartext2);
+		if ( !m_statusbartext2.isEmpty() && !m_statusbartext3.isEmpty() )
+			statusbartext.append("   |   ");
+		statusbartext.append(m_statusbartext3);
+		if ( (!m_statusbartext2.isEmpty() || !m_statusbartext3.isEmpty() ) && !m_statusbartext4.isEmpty() )
+			statusbartext.append("   |   ");
+		statusbartext.append(m_statusbartext4);
+		emit setStatusBarText(statusbartext);
+	}
+	else
+	{
+		QByteArray parameters;
+		QDataStream arg( parameters, IO_WriteOnly);
+		arg << text << id;
+		m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","setStatusBarText(QString,int)", parameters);
+	}
+}
+void View::startProgressBar(int steps)
+{
+	QByteArray data;
+	QDataStream stream(data, IO_WriteOnly);
+	stream << steps;
+	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","startProgressBar(int)", data);
+}
+bool View::stopProgressBar()
+{
+	QCString replyType;
+	QByteArray replyData;
+	m_dcop_client->call(m_dcop_client->appId(), "KmPlotShell","stopProgressBar()", QByteArray(), replyType, replyData);
+	bool result;
+	QDataStream stream(replyData, IO_ReadOnly);
+	stream >> result;
+	return result;
+}
+void View::increaseProgressBar()
+{
+	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","increaseProgressBar()", QByteArray());
+}

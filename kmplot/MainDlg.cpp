@@ -28,19 +28,22 @@
 #include <qtooltip.h>
 
 // KDE includes
+#include <dcopclient.h>
+#include <kaboutdata.h>
 #include <kapplication.h>
 #include <kconfigdialog.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
-#include <kio/netaccess.h> 
+#include <kio/netaccess.h>
+#include <kinstance.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <ktempfile.h>
 #include <ktoolbar.h>
 
-// local includes
 
+// local includes
 #include "editfunction.h"
 #include "keditparametric.h"
 #include "keditpolar.h"
@@ -55,44 +58,51 @@
 #include "settingspageprecision.h"
 #include "settingspagescaling.h"
 #include "sliderwindow.h"
+#include "main.cpp"
+
 class XParser;
 class KmPlotIO;
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg( KCmdLineArgs* args, const char* name ) :  DCOPObject( "MainDlg" ), KMainWindow( 0, name ), m_recentFiles( 0 ), m_modified(false)
+MainDlg::MainDlg(QWidget *parentWidget, const char *widgetName, QObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent, name ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
 {
+	// we need an instance
+	setInstance( KmPlotPartFactory::instance() );
+
+	kdDebug() << "parent->name():" << parent->name() << endl;
+	if ( QString(parent->name()).startsWith("KmPlot") )
+	{
+		setXMLFile("kmplot_part.rc");
+		m_readonly = false;
+	}
+	else
+	{
+		setXMLFile("kmplot_part_readonly.rc");
+		m_readonly = true;
+		new BrowserExtension(this); // better integration with Konqueror
+	}
 	fdlg = 0;
-	m_popupmenu = new KPopupMenu(this);
-	view = new View( m_modified, m_popupmenu, this );
-	setCentralWidget( view );
+	m_popupmenu = new KPopupMenu(parentWidget);
+	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget );
+	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
+	setWidget( view );
 	view->setFocusPolicy(QWidget::ClickFocus);
 	minmaxdlg = new KMinMax(view);
 	view->setMinMaxDlg(minmaxdlg);
-	m_quickEdit = new KLineEdit( this );
+	m_quickEdit = new KLineEdit( parentWidget );
+	m_quickEdit->setFocus();
 	QToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
-
-	setupStatusBar();
 	setupActions();
 	loadConstants();
 	kmplotio = new KmPlotIO(view->parser());
-	if (args -> count() > 0)
-	{
-		m_filename = args -> url( 0 ).url(-1);
-		if (kmplotio->load( KURL(m_filename) ) )
-		{
-			setCaption( m_filename );
-			view->updateSliders();
-			view->drawPlot();
-		}
-	}
 	m_config = kapp->config();
 	m_recentFiles->loadEntries( m_config );
 
 	// Let's create a Configure Diloag
-	m_settingsDialog = new KConfigDialog( this, "settings", Settings::self() );
+	m_settingsDialog = new KConfigDialog( parentWidget, "settings", Settings::self() );
 	m_settingsDialog->setHelp("general-config");
-	
+
 	// create and add the page(s)
 	m_generalSettings = new SettingsPagePrecision( 0, "precisionSettings", "precision" );
 	m_constantsSettings = new KConstantEditor( view, 0, "constantsSettings" );
@@ -113,41 +123,21 @@ MainDlg::~MainDlg()
 void MainDlg::setupActions()
 {
 	// standard actions
-	KStdAction::openNew( this, SLOT( slotOpenNew() ), actionCollection() );
-	KStdAction::open( this, SLOT( slotOpen() ), actionCollection() );
-	m_recentFiles = KStdAction::openRecent( this, SLOT( slotOpenRecent( const KURL& ) ), actionCollection());
-	KStdAction::print( this, SLOT( slotPrint() ), actionCollection() );
+	m_recentFiles = KStdAction::openRecent( this, SLOT( slotOpenRecent( const KURL& ) ), actionCollection(),"file_openrecent");
+	KStdAction::print( this, SLOT( slotPrint() ), actionCollection(),"file_print" );
 	KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
 	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
-	KStdAction::quit( kapp, SLOT( closeAllWindows() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 
 	KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
-	m_fullScreen = KStdAction::fullScreen( NULL, NULL, actionCollection(), this, "fullscreen");
-	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
+	m_fullScreen = KStdAction::fullScreen( NULL, NULL, actionCollection(), m_parent, "fullscreen");
+	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
+	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 
 
 	// KmPLot specific actions
 	// file menu
 	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( slotExport() ), actionCollection(), "export");
-
-	// edit menu
-	( void ) new KAction( i18n( "&Colors..." ), "colorize.png", 0, this, SLOT( editColors() ), actionCollection(), "editcolors" );
-	( void ) new KAction( i18n( "&Coordinate System..." ), "coords.png", 0, this, SLOT( editAxes() ), actionCollection(), "editaxes" );
-// 	( void ) new KAction( i18n( "&Grid..." ), "coords.png", 0, this, SLOT( editGrid() ), actionCollection(), "editgrid" );
-	( void ) new KAction( i18n( "&Scaling..." ), "scaling", 0, this, SLOT( editScaling() ), actionCollection(), "editscaling" );
-	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, SLOT( editFonts() ), actionCollection(), "editfonts" );
-//	( void ) new KAction( i18n( "&Precision..." ), 0, this, SLOT( editPrecision() ), actionCollection(), "editprecision" );
-
-	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( slotCoord1() ), actionCollection(), "coord_i" );
-	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( slotCoord2() ), actionCollection(), "coord_ii" );
-	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( slotCoord3() ), actionCollection(), "coord_iii" );
-
-	// plot menu
-	( void ) new KAction( i18n( "&New Function Plot..." ), "newfunction", 0, this, SLOT( newFunction() ), actionCollection(), "newfunction" );
-	( void ) new KAction( i18n( "New Parametric Plot..." ), "newparametric", 0, this, SLOT( newParametric() ), actionCollection(), "newparametric" );
-	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
-	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 
 	//zoom menu
 	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,"CTRL+0",view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
@@ -163,6 +153,25 @@ void MainDlg::setupActions()
 	mnuZoomOut->setExclusiveGroup("zoom_modes");
 	mnuZoomCenter->setExclusiveGroup("zoom_modes");
 
+	// help menu
+	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );
+
+	// edit menu
+	( void ) new KAction( i18n( "&Colors..." ), "colorize.png", 0, this, SLOT( editColors() ), actionCollection(), "editcolors" );
+	( void ) new KAction( i18n( "&Coordinate System..." ), "coords.png", 0, this, SLOT( editAxes() ), actionCollection(), "editaxes" );
+	//  ( void ) new KAction( i18n( "&Grid..." ), "coords.png", 0, this, SLOT( editGrid() ), actionCollection(), "editgrid" );
+	( void ) new KAction( i18n( "&Scaling..." ), "scaling", 0, this, SLOT( editScaling() ), actionCollection(), "editscaling" );
+	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, SLOT( editFonts() ), actionCollection(), "editfonts" );
+
+	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( slotCoord1() ), actionCollection(), "coord_i" );
+	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( slotCoord2() ), actionCollection(), "coord_ii" );
+	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( slotCoord3() ), actionCollection(), "coord_iii" );
+
+	// plot menu
+	( void ) new KAction( i18n( "&New Function Plot..." ), "newfunction", 0, this, SLOT( newFunction() ), actionCollection(), "newfunction" );
+	( void ) new KAction( i18n( "New Parametric Plot..." ), "newparametric", 0, this, SLOT( newParametric() ), actionCollection(), "newparametric" );
+	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
+	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 
 	// tools menu
 	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
@@ -177,14 +186,10 @@ void MainDlg::setupActions()
 	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value..." ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
 	KAction *mnuArea = new KAction( i18n( "&Area Under Graph..." ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
 
-	// help menu
-	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );
-
-
 	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
 	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
-		"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
+	                                     "For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
 
 	( void ) new KToggleAction( i18n( "Show Slider 1" ), 0, this, SLOT( toggleShowSlider0() ), actionCollection(), QString( "options_configure_show_slider_0" ).latin1() );
 	( void ) new KToggleAction( i18n( "Show Slider 2" ), 0, this, SLOT( toggleShowSlider1() ), actionCollection(), QString( "options_configure_show_slider_1" ).latin1() );
@@ -196,66 +201,39 @@ void MainDlg::setupActions()
 	mnuMinValue->plug(m_popupmenu);
 	mnuMaxValue->plug(m_popupmenu);
 	mnuArea->plug(m_popupmenu);
-
-	setupGUI();
 }
-
-void MainDlg::setupStatusBar()
-{
-	stbar=statusBar();
-	stbar->insertFixedItem( "1234567890", 1 );
-	stbar->insertFixedItem( "1234567890", 2 );
-	stbar->insertItem( "", 3, 3 );
-	stbar->insertItem( "", 4 );
-	stbar->changeItem( "", 1 );
-	stbar->changeItem( "", 2 );
-	stbar->setItemAlignment( 3, AlignLeft );
-	view->progressbar = new KmPlotProgress( stbar );
-	view->progressbar->setMaximumHeight( stbar->height()-10 );
-	connect( view->progressbar->button, SIGNAL (clicked() ), view, SLOT( progressbar_clicked() ) );
-	stbar->addWidget(view->progressbar);
-	view->stbar=stbar;
-}
-
-
 bool MainDlg::checkModified()
 {
 	if( m_modified )
 	{
-		int saveit = KMessageBox::warningYesNoCancel( this, i18n( "The plot has been modified.\n"
-			"Do you want to save it?" ) );
+		int saveit = KMessageBox::warningYesNoCancel( m_parent, i18n( "The plot has been modified.\n"
+		             "Do you want to save it?" ) );
 		switch( saveit )
 		{
-			case KMessageBox::Yes:
-				slotSave();
-				if ( m_modified) // the user didn't save the file
-					return false;
-				break;
-			case KMessageBox::Cancel:
+		case KMessageBox::Yes:
+			slotSave();
+			if ( m_modified) // the user didn't save the file
 				return false;
+			break;
+		case KMessageBox::Cancel:
+			return false;
 		}
 	}
 	return true;
 }
 
-// Slots
-void MainDlg::slotOpenNew()
+void MainDlg::slotCleanWindow()
 {
-	if( !checkModified() ) return;
 	view->init(); // set globals to default
-	m_filename = ""; // empty filename == new file
-	setCaption( m_filename );
 	view->updateSliders();
 	view->drawPlot();
-	m_modified = false;
-	m_recentFiles->setCurrentItem( -1 );
 }
 
 void MainDlg::slotSave()
 {
-        if ( !m_modified) //don't save if no changes are made
-                return;
-	if ( m_filename.isEmpty() )            // if there is no file name set yet
+	if ( !m_modified) //don't save if no changes are made
+		return;
+	if ( m_url.isEmpty() )            // if there is no file name set yet
 		slotSaveas();
 	else
 	{
@@ -264,10 +242,10 @@ void MainDlg::slotSave()
 
 		if ( oldfileversion)
 		{
-			if ( KMessageBox::warningYesNo( this, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of Kmplot. Are you sure you want to continue?" ) ) == KMessageBox::No)
+			if ( KMessageBox::warningYesNo( m_parent, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of Kmplot. Are you sure you want to continue?" ) ) == KMessageBox::No)
 				return;
 		}
-		kmplotio->save( m_filename );
+		kmplotio->save( m_url.url() );
 		kdDebug() << "saved" << endl;
 		m_modified = false;
 	}
@@ -276,51 +254,51 @@ void MainDlg::slotSave()
 
 void MainDlg::slotSaveas()
 {
-	KURL url = KFileDialog::getSaveURL( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Save As" ) );
-        
+	KURL url = KFileDialog::getSaveURL( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
+
 	if ( !url.isEmpty() )
 	{
 		// check if file exists and overwriting is ok.
-		if( !KIO::NetAccess::exists( url,false,this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
+		if( !KIO::NetAccess::exists( url,false,m_parent ) || KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
 		{
 			if ( !kmplotio->save( url ) )
-                                KMessageBox::error(this, i18n("The file could not be saved") );
-                        else
-                        {
-			     m_filename = url.url();
-			     m_recentFiles->addURL( url );
-			     setCaption( m_filename );
-			     m_modified = false;
-                        }
-                        return;
+				KMessageBox::error(m_parent, i18n("The file could not be saved") );
+			else
+			{
+				m_recentFiles->addURL( url );
+				setWindowCaption( m_url.url() );
+				m_modified = false;
+			}
+			return;
 		}
 	}
 }
 
 void MainDlg::slotExport()
 {
-        KURL url = KFileDialog::getSaveURL(QDir::currentDirPath(),
-		i18n("*.svg|Scalable Vector Graphics (*.svg)\n*.bmp|Bitmap 180dpi (*.bmp)\n*.png|Bitmap 180dpi (*.png)"),
-		this, i18n("Export") );
+	KURL const url = KFileDialog::getSaveURL(QDir::currentDirPath(),
+	                 i18n("*.svg|Scalable Vector Graphics (*.svg)\n"
+	                      "*.bmp|Bitmap 180dpi (*.bmp)\n"
+	                      "*.png|Bitmap 180dpi (*.png)"), m_parent, i18n("Export") );
 	if(!url.isEmpty())
 	{
-               // check if file exists and overwriting is ok.
-               if( KIO::NetAccess::exists(url,false,this ) && KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(url.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
+		// check if file exists and overwriting is ok.
+		if( KIO::NetAccess::exists(url,false,m_parent ) && KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(url.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
 
 		if( url.fileName().right(4).lower()==".svg")
 		{
 			QPicture pic;
 			view->draw(&pic, 2);
-                        if (url.isLocalFile() )
-	        	      pic.save( url.prettyURL(0,KURL::StripFileProtocol), "SVG");
-                        else
-                        {
-                                KTempFile tmp;
-                                pic.save( tmp.name(), "SVG");
-                                if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-                                        KMessageBox::error(this, i18n("The url could not be saved") );
-                                tmp.unlink();
-                        }
+			if (url.isLocalFile() )
+				pic.save( url.prettyURL(0,KURL::StripFileProtocol), "SVG");
+			else
+			{
+				KTempFile tmp;
+				pic.save( tmp.name(), "SVG");
+				if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+					KMessageBox::error(m_parent, i18n("The url could not be saved") );
+				tmp.unlink();
+			}
 		}
 
 		else if( url.fileName().right(4).lower()==".bmp")
@@ -328,15 +306,15 @@ void MainDlg::slotExport()
 			QPixmap pic(100, 100);
 			view->draw(&pic, 3);
 			if (url.isLocalFile() )
-                              pic.save(  url.prettyURL(0,KURL::StripFileProtocol), "BMP");
-                        else
-                        {
-                                KTempFile tmp;
-                                pic.save( tmp.name(), "BMP");
-                                if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-                                        KMessageBox::error(this, i18n("The url could not be saved") );
-                                tmp.unlink();
-                        }
+				pic.save(  url.prettyURL(0,KURL::StripFileProtocol), "BMP");
+			else
+			{
+				KTempFile tmp;
+				pic.save( tmp.name(), "BMP");
+				if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+					KMessageBox::error(m_parent, i18n("The url could not be saved") );
+				tmp.unlink();
+			}
 		}
 
 		else if( url.fileName().right(4).lower()==".png")
@@ -344,40 +322,47 @@ void MainDlg::slotExport()
 			QPixmap pic(100, 100);
 			view->draw(&pic, 3);
 			if (url.isLocalFile() )
-                              pic.save( url.prettyURL(0,KURL::StripFileProtocol), "PNG");
-                        else
-                        {
-                                KTempFile tmp;
-                                pic.save( tmp.name(), "PNG");
-                                if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-                                        KMessageBox::error(this, i18n("The url could not be saved") );
-                                tmp.unlink();
-                        }
+				pic.save( url.prettyURL(0,KURL::StripFileProtocol), "PNG");
+			else
+			{
+				KTempFile tmp;
+				pic.save( tmp.name(), "PNG");
+				if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+					KMessageBox::error(m_parent, i18n("The url could not be saved") );
+				tmp.unlink();
+			}
 		}
 	}
 }
-
-void MainDlg::slotOpen()
+bool MainDlg::openFile()
 {
-	if( !checkModified() ) return;
-	KURL file = KFileDialog::getOpenURL( QDir::currentDirPath(),
-		i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
-	if ( file.isEmpty() )
-                return;
 	view->init();
-	if ( !kmplotio->load( file ) )
-		return;
-	m_filename = file.url();
-	m_recentFiles->addURL( file  );
-	setCaption( m_filename );
+	if ( !kmplotio->load( m_url ) )
+	{
+		m_recentFiles->removeURL(m_url ); //remove the file from the recent-opened-file-list
+		m_url = "";
+		return false;
+	}
+
+	m_recentFiles->addURL( m_url  );
+	setWindowCaption( m_url.url() );
 	m_modified = false;
 	view->updateSliders();
 	view->drawPlot();
+	return true;
 }
 
 void MainDlg::slotOpenRecent( const KURL &url )
 {
-	if( !checkModified() ) return;
+	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
+	{
+		QByteArray data;
+		QDataStream stream(data, IO_WriteOnly);
+		stream << url;
+		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KURL)", data);
+		return;
+	}
+
 	view->init();
 	if ( !kmplotio->load( url ) ) //if the loading fails
 	{
@@ -386,8 +371,8 @@ void MainDlg::slotOpenRecent( const KURL &url )
 	}
 	view->updateSliders();
 	view->drawPlot();
-	m_filename = url.path();
-	setCaption( m_filename );
+	m_url = url;
+	setWindowCaption( url.url() );
 	m_modified = false;
 }
 
@@ -395,8 +380,8 @@ void MainDlg::slotPrint()
 {
 	KPrinter prt( QPrinter::PrinterResolution );
 	prt.setResolution( 72 );
-	prt.addDialogPage( new KPrinterDlg( this, "KmPlot page" ) );
-	if ( prt.setup( this, i18n( "Print Plot" ) ) )
+	prt.addDialogPage( new KPrinterDlg( m_parent, "KmPlot page" ) );
+	if ( prt.setup( m_parent, i18n( "Print Plot" ) ) )
 	{
 		prt.setFullPage( true );
 		view->draw(&prt, 1);
@@ -406,49 +391,49 @@ void MainDlg::slotPrint()
 void MainDlg::editColors()
 {
 	// create a config dialog and add a colors page
-	KConfigDialog* colorsDialog = new KConfigDialog( this, "colors", Settings::self() );
+	KConfigDialog* colorsDialog = new KConfigDialog( m_parent, "colors", Settings::self() );
 	colorsDialog->setHelp("color-config");
 	colorsDialog->addPage( new SettingsPageColor( 0, "colorSettings" ), i18n( "Colors" ), "colorize", i18n( "Edit Colors" ) );
 
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( colorsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+	connect( colorsDialog, SIGNAL( settingsChanged() ), m_parent, SLOT(updateSettings() ) );
 	colorsDialog->show();
 }
 
 void MainDlg::editAxes()
 {
 	// create a config dialog and add a colors page
-	KConfigDialog* coordsDialog = new KConfigDialog( this, "coords", Settings::self() );
+	KConfigDialog* coordsDialog = new KConfigDialog( m_parent, "coords", Settings::self() );
 	coordsDialog->setHelp("axes-config");
 	coordsDialog->addPage( new SettingsPageCoords( 0, "coordsSettings" ), i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( coordsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+	connect( coordsDialog, SIGNAL( settingsChanged() ), m_parent, SLOT(updateSettings() ) );
 	coordsDialog->show();
 }
 
 void MainDlg::editScaling()
 {
 	// create a config dialog and add a colors page
-	KConfigDialog* scalingDialog = new KConfigDialog( this, "scaling", Settings::self() );
+	KConfigDialog* scalingDialog = new KConfigDialog( m_parent, "scaling", Settings::self() );
 	scalingDialog->setHelp("scaling-config");
 	scalingDialog->addPage( new SettingsPageScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( scalingDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+	connect( scalingDialog, SIGNAL( settingsChanged() ), m_parent, SLOT(updateSettings() ) );
 	scalingDialog->show();
 }
 
 void MainDlg::editFonts()
 {
 	// create a config dialog and add a colors page
-	KConfigDialog* fontsDialog = new KConfigDialog( this, "fonts", Settings::self() );
+	KConfigDialog* fontsDialog = new KConfigDialog( m_parent, "fonts", Settings::self() );
 	fontsDialog->setHelp("font-config");
 	fontsDialog->addPage( new SettingsPageFonts( 0, "fontsSettings" ), i18n( "Fonts" ), "fonts", i18n( "Edit Fonts" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( fontsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+	connect( fontsDialog, SIGNAL( settingsChanged() ), m_parent, SLOT(updateSettings() ) );
 	fontsDialog->show();
 }
 
@@ -465,7 +450,7 @@ void MainDlg::slotNames()
 
 void MainDlg::newFunction()
 {
-	EditFunction* editFunction = new EditFunction( view->parser(), this );
+	EditFunction* editFunction = new EditFunction( view->parser(), m_parent );
 	editFunction->setCaption(i18n( "New Function Plot" ) );
 	editFunction->initDialog();
 	if ( editFunction->exec() == QDialog::Accepted )
@@ -478,7 +463,7 @@ void MainDlg::newFunction()
 
 void MainDlg::newParametric()
 {
-	KEditParametric* editParametric = new KEditParametric( view->parser(), this );
+	KEditParametric* editParametric = new KEditParametric( view->parser(), m_parent );
 	editParametric->setCaption(i18n( "New Parametric Plot"));
 	editParametric->initDialog();
 	if ( editParametric->exec() == QDialog::Accepted )
@@ -491,7 +476,7 @@ void MainDlg::newParametric()
 
 void MainDlg::newPolar()
 {
-	KEditPolar* editPolar = new KEditPolar( view->parser(), this );
+	KEditPolar* editPolar = new KEditPolar( view->parser(), m_parent );
 	editPolar->setCaption(i18n( "New Polar Plot"));
 	editPolar->initDialog();
 	if (  editPolar->exec() == QDialog::Accepted )
@@ -504,9 +489,9 @@ void MainDlg::newPolar()
 
 void MainDlg::slotEditPlots()
 {
-	if ( !fdlg ) fdlg = new FktDlg( this, view->parser() ); // make the dialog only if not allready done
+	if ( !fdlg ) fdlg = new FktDlg( m_parent, view ); // make the dialog only if not allready done
 	fdlg->getPlots();
-        KTempFile tmpfile;
+	KTempFile tmpfile;
 	kmplotio->save( tmpfile.name() );
 	if( fdlg->exec() == QDialog::Rejected )
 	{
@@ -517,13 +502,12 @@ void MainDlg::slotEditPlots()
 			view->drawPlot();
 		}
 	}
-        else if ( fdlg->isChanged() )
-        {
-                view->updateSliders();
-                m_modified = true;
-        }
-        tmpfile.unlink();
-        
+	else if ( fdlg->isChanged() )
+	{
+		view->updateSliders();
+		m_modified = true;
+	}
+	tmpfile.unlink();
 }
 
 void MainDlg::slotQuickEdit(const QString& tmp_f_str )
@@ -533,17 +517,17 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 	view->parser()->fixFunctionName(f_str);
 	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y')
 	{
-		KMessageBox::error( this, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));
+		KMessageBox::error( m_parent, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));
 		return;
 	}
-        if  ( f_str.contains('y') != 0)
-        {
-                KMessageBox::error( this, i18n( "Recursive function is not allowed"));
-                m_quickEdit->setFocus();
-                m_quickEdit->selectAll();
-                return;
-        }
-        
+	if  ( f_str.contains('y') != 0)
+	{
+		KMessageBox::error( m_parent, i18n( "Recursive function is not allowed"));
+		m_quickEdit->setFocus();
+		m_quickEdit->selectAll();
+		return;
+	}
+
 	int const id = view->parser()->addfkt( f_str );
 	if (id==-1)
 	{
@@ -552,18 +536,18 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 		m_quickEdit->selectAll();
 		return;
 	}
-        Ufkt *ufkt = &view->parser()->ufkt.last();
-        view->parser()->prepareAddingFunction(ufkt);
-         
-        if ( view->parser()->getext( ufkt ) == -1)
-        {
-                m_quickEdit->setFocus();
-                m_quickEdit->selectAll();
-                view->parser()->Parser::delfkt( ufkt );
-                return;
-        }
+	Ufkt *ufkt = &view->parser()->ufkt.last();
+	view->parser()->prepareAddingFunction(ufkt);
+
+	if ( view->parser()->getext( ufkt ) == -1)
+	{
+		m_quickEdit->setFocus();
+		m_quickEdit->selectAll();
+		view->parser()->Parser::delfkt( ufkt );
+		return;
+	}
 	m_quickEdit->clear();
-        m_modified = true;
+	m_modified = true;
 	view->drawPlot();
 }
 
@@ -607,26 +591,6 @@ void MainDlg::updateSettings()
 	view->drawPlot();
 }
 
-bool MainDlg::queryClose()
-{
-	return checkModified() && KMainWindow::queryClose();
-}
-
-void MainDlg::slotUpdateFullScreen( bool checked)
-{
-	if (checked)
-	{
-		showFullScreen();
-		m_fullScreen->plug( toolBar( "mainToolBar" ) );
-	}
-	else
-	{
-		showNormal();
-		m_fullScreen->unplug( toolBar( "mainToolBar" ) );
-	}
-
-}
-
 void MainDlg::loadConstants()
 {
 
@@ -647,7 +611,7 @@ void MainDlg::loadConstants()
 			constant = 'A';
 		if ( tmp_constant == " " || value == 1.23456789)
 			return;
-		
+
 		if ( !view->parser()->constant.empty() )
 		{
 			bool copy_found=false;
@@ -743,4 +707,93 @@ void MainDlg::toggleShowSlider3()
 	if( !view->sliders[ 3 ]->isShown() ) view->sliders[ 3 ]->show();
 	else view->sliders[ 3 ]->hide();
 }
+
+void MainDlg::setReadOnlyStatusBarText(const QString &text)
+{
+	setStatusBarText(text);
+}
+
+void MainDlg::stopDrawing()
+{
+	view->stopDrawing();
+}
+
+
+void MainDlg::optionsConfigureKeys()
+{
+	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureKeys()", QByteArray());
+}
+
+void MainDlg::optionsConfigureToolbars()
+{
+	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureToolbars()", QByteArray());
+}
+
+// It's usually safe to leave the factory code alone.. with the
+// notable exception of the KAboutData data
+#include <kaboutdata.h>
+#include <klocale.h>
+
+KInstance*  KmPlotPartFactory::s_instance = 0L;
+KAboutData* KmPlotPartFactory::s_about = 0L;
+
+KmPlotPartFactory::KmPlotPartFactory()
+		: KParts::Factory()
+{}
+
+KmPlotPartFactory::~KmPlotPartFactory()
+{
+	delete s_instance;
+	delete s_about;
+
+	s_instance = 0L;
+}
+
+KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
+        QObject *parent, const char *name,
+        const char *classname, const QStringList & args)
+{
+	// Create an instance of our Part
+	MainDlg* obj = new MainDlg( parentWidget, widgetName, parent, name );
+	//emit objectCreated( obj );
+	return obj;
+}
+
+KInstance* KmPlotPartFactory::instance()
+{
+	if( !s_instance )
+	{
+		s_about = new KAboutData("kmplotpart",I18N_NOOP( "KmPlotPart" ),KP_VERSION, description, KAboutData::License_GPL,"(c) 2000-2002, Klaus-Dieter Möller",0,"http://edu.kde.org/kmplot/" );
+		s_about->addAuthor( "Klaus-Dieter Möller", I18N_NOOP( "Original Author" ), "kdmoeller@foni.net" );
+		s_about->addAuthor( "Matthias Meßmer", I18N_NOOP( "GUI" ), "bmlmessmer@web.de" );
+		s_about->addAuthor( "Fredrik Edemar", I18N_NOOP( "Various improvements" ), "f_edemar@linux.se" );
+		s_about->addCredit( "David Vignoni", I18N_NOOP( "svg icon" ), "david80v@tin.it" );
+		s_about->addCredit( "Albert Astals Cid", I18N_NOOP( "command line options, MIME type" ), "tsdgeos@terra.es" );
+		s_instance = new KInstance(s_about);
+	}
+	return s_instance;
+}
+
+extern "C"
+{
+	void* init_libkmplotpart()
+	{
+		return new KmPlotPartFactory;
+	}
+};
+
+
+/// BrowserExtension class
+BrowserExtension::BrowserExtension(MainDlg* parent)
+		: KParts::BrowserExtension( parent, "KmPlot::BrowserExtension" )
+{
+	emit enableAction("print", true);
+	setURLDropHandlingEnabled(true);
+}
+
+void BrowserExtension::print()
+{
+	static_cast<MainDlg*>(parent())->slotPrint();
+}
+
 

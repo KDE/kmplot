@@ -45,7 +45,7 @@
 
 #define Inherited FktDlgData
 
-FktDlg::FktDlg( QWidget* parent, XParser* parser ) : Inherited( parent, "editPlots" ), m_parser(parser)
+FktDlg::FktDlg( QWidget* parent, View *view ) : Inherited( parent, "editPlots" ), m_view(view)
 {
 }
 
@@ -66,16 +66,16 @@ void FktDlg::slotDelete()
 	if( lb_fktliste->text( num )[0] == 'x' )
 	{
 		// Delete pair of parametric function
-		int const ix = m_parser->ixValue( getParamId( lb_fktliste->text( num ) ) );
+		int const ix = m_view->parser()->ixValue( getParamId( lb_fktliste->text( num ) ) );
                 if ( ix == -1)
                         return;
-                m_parser->delfkt( ix+1 );
-                m_parser->delfkt( ix );
+                m_view->parser()->delfkt( ix+1 );
+                m_view->parser()->delfkt( ix );
 	}
 	else 
 	{
 		// only one function to be deleted
-		m_parser->delfkt( m_parser->ixValue(getId( lb_fktliste->text( num ))) );
+		m_view->parser()->delfkt( m_view->parser()->ixValue(getId( lb_fktliste->text( num ))) );
                 
 	}
 	lb_fktliste->removeItem( num );
@@ -94,19 +94,19 @@ void FktDlg::slotEdit()
 	int const id = getId( lb_fktliste->currentText().section( ";", 0, 0) ) ;
 	
 	// find out the function type
-	char const prefix = m_parser->ufkt[ m_parser->ixValue(id) ].extstr.at(0).latin1();
+	char const prefix = m_view->parser()->ufkt[ m_view->parser()->ixValue(id) ].extstr.at(0).latin1();
 	
 	if ( prefix == 'r')
 		slotEditPolar( id, num );
 	else if ( prefix == 'x')
-		slotEditParametric( id, m_parser->ixValue(getId( lb_fktliste->text( num ).section( ";", 1, 1) )), num );
+		slotEditParametric( id, m_view->parser()->ixValue(getId( lb_fktliste->text( num ).section( ";", 1, 1) )), num );
 	else
 		slotEditFunction( id, num );
 }
 
 int FktDlg::getId( const QString &f_str )
 {
-        for( QValueVector<Ufkt>::iterator it =  m_parser->ufkt.begin(); it !=  m_parser->ufkt.end(); ++it)
+        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if ( it->extstr == f_str )
 			return it->id;
@@ -117,7 +117,7 @@ int FktDlg::getId( const QString &f_str )
 int FktDlg::getParamId( const QString &f_str)
 {
 	QString const fname = f_str.section( "(", 0, 0 );
-        for( QValueVector<Ufkt>::iterator it =  m_parser->ufkt.begin(); it !=  m_parser->ufkt.end(); ++it)
+        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
         {
                 if ( it->fname == fname )
                         return it->id;
@@ -127,7 +127,8 @@ int FktDlg::getParamId( const QString &f_str)
 
 void FktDlg::updateView()
 {
-	( ( MainDlg* ) parentWidget() ) ->view->drawPlot();
+	//( ( MainDlg* )parentWidget() ) ->view->drawPlot();
+	m_view->drawPlot();
 }
 
 void FktDlg::slotHasSelection()
@@ -139,7 +140,7 @@ void FktDlg::slotHasSelection()
 
 void FktDlg::slotEditFunction( int id, int num )
 {
-	EditFunction* editFunction = new EditFunction( m_parser, this );
+	EditFunction* editFunction = new EditFunction( m_view->parser(), this );
 	if ( id==-1&&num==-1) editFunction->setCaption(i18n( "New Function Plot" ));
 	else editFunction->setCaption(i18n( "Edit Function Plot" ));
 	editFunction->initDialog( id );
@@ -155,7 +156,7 @@ void FktDlg::slotEditFunction( int id, int num )
 
 void FktDlg::slotEditParametric( int x_id, int y_id, int num )
 {
-	KEditParametric* editParametric = new KEditParametric( m_parser, this );
+	KEditParametric* editParametric = new KEditParametric( m_view->parser(), this );
 	if ( x_id==-1&&y_id==-1&&num==-1) editParametric->setCaption(i18n( "New Parametric Plot" ));
 	editParametric->initDialog( x_id, y_id );
 	if( editParametric->exec() == QDialog::Accepted )
@@ -170,7 +171,7 @@ void FktDlg::slotEditParametric( int x_id, int y_id, int num )
 
 void FktDlg::slotEditPolar( int id, int num )
 {
-	KEditPolar* editPolar = new KEditPolar( m_parser, this );
+	KEditPolar* editPolar = new KEditPolar( m_view->parser(), this );
 	if ( id==-1&&num==-1) editPolar->setCaption(i18n( "New Polar Plot" ));
 	editPolar->initDialog( id );
 	if( editPolar->exec() == QDialog::Accepted )
@@ -203,7 +204,7 @@ void FktDlg::getPlots()
 	lb_fktliste->clear();
 
 	// adding all yet added functions
-        for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+        for( QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it != m_view->parser()->ufkt.end(); ++it)
 	{
                 if( it->fname.isEmpty() || it->extstr[0] == 'y' ) continue;
 		if( it->extstr[0] == 'x' )

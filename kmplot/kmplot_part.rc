@@ -1,0 +1,73 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="kmplot" version="6">
+	<MenuBar>
+ 		<Menu name="file">
+			<Action name="file_openrecent"/>
+			<Separator/>
+			<Action name="file_save"/>
+			<Action name="file_save_as"/>
+			<Action name="file_print"/>
+			<Separator/>
+			<Action name="export"/>
+		</Menu>
+		<Menu name="edit"><text>&amp;Edit</text>
+			<Action name="editcolors"/>
+			<Action name="editaxes"/>
+			<Action name="editscaling"/>
+			<Action name="editfonts"/>
+			<Separator />
+			<Action name="coord_i"/>
+			<Action name="coord_ii"/>
+			<Action name="coord_iii"/>
+		</Menu>
+		<Menu name="functions"><text>&amp;Plot</text>
+			<Action name="newfunction"/>
+			<Action name="newparametric"/>
+			<Action name="newpolar"/>
+			<Action name="editplots"/>
+		</Menu>
+		<Menu name="zoom"><text>&amp;Zoom</text>
+			<Action name="no_zoom"/>
+			<Action name="zoom_rectangular"/>
+			<Action name="zoom_in"/>
+			<Action name="zoom_out"/>
+			<Action name="zoom_center"/>
+			<Separator />
+			<Action name="zoom_trig"/>
+		</Menu>
+		<Menu name="tools"><text>&amp;Tools</text>
+			<Action name="yvalue"/>
+			<Action name="minimumvalue"/>
+			<Action name="maximumvalue"/>
+			<Action name="grapharea"/>
+		</Menu>
+        	<Menu name="settings"><text>&amp;Settings</text>
+			<Separator />
+			<Separator />
+			<Menu name="ShowSliders"><text>Show S&amp;liders</text>
+				<Action name="options_configure_show_slider_0"/>
+				<Action name="options_configure_show_slider_1"/>
+				<Action name="options_configure_show_slider_2"/>
+				<Action name="options_configure_show_slider_3"/>
+			</Menu>
+			<Separator/>
+			<Action name="options_configure_keybinding"/>
+			<Action name="options_configure_toolbars"/>
+			<Action name="options_configure"/>
+		</Menu>
+		<Menu name="help"><text>&amp;Help</text>
+			<Action name="names"/>
+		</Menu>
+	</MenuBar>
+	<ToolBar name="mainToolBar">
+		<Action name="file_save"/>
+		<Separator />
+		<Action name="quickedit"/>
+		<Action name="newfunction"/>
+		<Action name="coord_i"/>
+		<Action name="coord_ii"/>
+		<Action name="coord_iii"/>
+		<Action name="helpcontents"/>
+	</ToolBar>
+
+</kpartgui>

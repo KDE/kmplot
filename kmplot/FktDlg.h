@@ -32,6 +32,7 @@
 
 // locale includes
 #include "FktDlgData.h"
+#include "View.h"
 
 class XParser;
 
@@ -51,7 +52,7 @@ public:
 	 * @param parent Parent widget.
 	 * @param parser points to the current parser instance.
 	 */
-	FktDlg( QWidget* parent, XParser* parser );
+	FktDlg( QWidget* parent, View* view );
 	/// Empty destructor.
 	virtual ~FktDlg();
 	/// Fill the widgets with plots contained in th parser instance.
@@ -101,7 +102,7 @@ private:
 	/// Called when the dialog is showed
 	void showEvent ( QShowEvent * );
 	/// Ponts to the parser instance.
-	XParser* m_parser;
+	View* m_view;
 	/// indicates if a function is changed/added/removed
 	bool changed;
 };

@@ -28,7 +28,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
-
+#include <qlabel.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h> 
 

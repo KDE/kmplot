@@ -25,14 +25,14 @@
 
 #ifndef View_included
 #define View_included
-#undef	 GrayScale 
+#undef	 GrayScale
 
 // Qt includes
 #include <qpixmap.h>
 
 // KDE includes
+#include <dcopclient.h>
 #include <kdebug.h>
-#include <kstatusbar.h>
 #include <kpopupmenu.h>
 #include <kprinter.h>
 #include <kprogress.h>
@@ -47,19 +47,6 @@ class XParser;
 class KMinMax;
 class SliderWindow;
 
-/// The progress-widget in the statusbar which appears when drawing integrals
-class KmPlotProgress: public QWidget
-{
-	public:
-		KmPlotProgress( QWidget* parent = 0, const char* name = 0 );
-		~KmPlotProgress();
-		void increase();
-	
-		KPushButton *button;
-		KProgress *progress;
-};
-
-
 /**
  * @short This class contains the plots. 
  *
@@ -71,7 +58,7 @@ class View : public QWidget
 	Q_OBJECT
 public:
 	/// Contructor sets up the parser, too.
-	View( bool &, KPopupMenu *, QWidget* parent=NULL, const char* name=NULL );
+	View(bool, bool &, KPopupMenu *, QWidget* parent=NULL, const char* name=NULL );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 
@@ -95,19 +82,14 @@ public:
 	/// @see m_parser
 	XParser* parser();
 
-	/// Points to the status bar.
-	KStatusBar *stbar;
-	/// Points to the progressbar.
-	KmPlotProgress *progressbar;
-
 	/** Current plot range endge. */
 	static double xmin;
 	static double xmax;
-	
+
 	/// trace mode stuff, must be accessible in KMinMax
 	int csmode, csparam;
 	char cstype;
-	
+
 	/// for areadrawing when printing
 	bool areaDraw;
 	Ufkt * areaUfkt;
@@ -121,7 +103,8 @@ public:
 
 public slots:
 	/// Called when the user want to cancel the drawing
-	void progressbar_clicked();
+	void stopDrawing();
+
 	/// Called when the graph should be updated
 	void drawPlot();
 	///Slots for the three first items in popup menu
@@ -136,7 +119,7 @@ public slots:
 	void mnuCenter_clicked();
 	void mnuTrig_clicked();
 
-    
+
 protected slots:
 	void paintEvent(QPaintEvent *);
 	void resizeEvent(QResizeEvent *);
@@ -150,6 +133,10 @@ protected slots:
 	void mouseReleaseEvent ( QMouseEvent * e );
 	/// Is needed to be reimplement so that the user can stop a preview-drawing
 	bool event( QEvent * e );
+
+signals:
+	void setStatusBarText(const QString &);
+
 
 private:
 	/// Print out table with additional information.
@@ -165,38 +152,44 @@ private:
 	void invertColor(QColor &, QColor &);
 	/// Restore the mouse cursor when a drawing is finished
 	void restoreCursor();
-	
+	/// Changes the text in the statusbar
+	void setStatusBar(const QString &text, const int id);
+	/// Functions for the progressbar
+	bool stopProgressBar();
+	void startProgressBar(int);
+	void increaseProgressBar();
+
 	/// The central parser instance.
 	/// @see parser()
 	XParser *m_parser;
-	    
+
 	int w, h;
 	float s;
-	
+
 	/// @name Crosshair
 	/// Crosshair support.
 	//@{
 	int fcx;	///< x-position of the crosshais (pixel)
 	int fcy;	///< y-position of the crosshais (pixel)
-	float csxpos;	///< y-position of the cross hair (real coordinates) 
+	float csxpos;	///< y-position of the cross hair (real coordinates)
 	float csypos;	///< x-position of the cross hair (real coordinates)
 	//@}
 	/// trace mode stuff
-	int csflg,
-	rootflg;
-			
-	CDiagr dgr;	///< Coordinate system 
+	int csflg;
+	bool rootflg;
+
+	CDiagr dgr;	///< Coordinate system
 	QPoint ref;
 	QRect area,
-		  PlotArea;
+	PlotArea;
 	QPixmap hline,
-			vline;
+	vline;
 	QWMatrix wm;
-	
+
 	double tlgx, tlgy, drskalx, drskaly;
 	QString tlgxstr, tlgystr, drskalxstr, drskalystr;
-	double stepWidth; ///< Absolute step width 
-	
+	double stepWidth; ///< Absolute step width
+
 	/** @name Plotrange
 	 * There are 4 predefined plot ranges:
 	 * @li 0: -8..8
@@ -213,9 +206,9 @@ private:
 	* @p koord can have the values 0 to 4 which have the following meanings: 
 	*
 	* In the last case @p minstr and @p maxstr are evaluated.
-	*/ 
-	void coordToMinMax( const int koord, const QString minStr, const QString maxStr, 
-		double &min, double &max );
+	*/
+	void coordToMinMax( const int koord, const QString minStr, const QString maxStr,
+	                    double &min, double &max );
 	/// Sets the plot range from Settings
 	void setPlotRange();
 	//@{
@@ -224,7 +217,7 @@ private:
 	double ymax;
 	//@}
 	//@}
-	
+
 	void setScaling();
 	/// represents the KPrinter option app-kmplot-printtable.
 	/// @see KPrinterDlg
@@ -250,7 +243,14 @@ private:
 	char zoom_mode; ///0=normal 1=rectangular zoom, 2=zoom in, 3=zoom out ,4=drawing a rectangle, 5=center
 	/// true == modifications not saved
 	bool &m_modified;
-	
+	/// False if KmPlot is started as a program, otherwise true
+	bool const m_readonly;
+
+	DCOPClient *m_dcop_client;
+	QString m_statusbartext1;
+	QString m_statusbartext2;
+	QString m_statusbartext3;
+	QString m_statusbartext4;
 };
 
 #endif // View_included

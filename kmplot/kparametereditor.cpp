@@ -25,11 +25,14 @@
 
 
 #include <kdebug.h>
+#include <kfiledialog.h>
 #include <kinputdialog.h>
 #include <klistbox.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
+#include <qfile.h>
+#include <qtextstream.h>
 
 #include "kparametereditor.h"
 
@@ -50,6 +53,7 @@ KParameterEditor::KParameterEditor(XParser *m, QStringList *l, QWidget *parent, 
 	connect( cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
 	connect( cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ));
 	connect( cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
+	connect( cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
 	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( varlist_doubleClicked( QListBoxItem *) ));
 	connect( list, SIGNAL( clicked ( QListBoxItem * ) ), this, SLOT( varlist_clicked(QListBoxItem *  ) ));
@@ -107,6 +111,38 @@ void KParameterEditor::cmdDelete_clicked()
 {
 	list->removeItem( list->currentItem());
 	list->sort();
+}
+
+void KParameterEditor::cmdImport_clicked()
+{
+	QString filename = KFileDialog::getOpenFileName( QString::null,i18n("*.csv|Text File with Comma Separated Values"));
+	if ( filename.isEmpty() )
+		return;
+	
+	QFile file(filename);
+	if ( file.open(IO_ReadOnly) )
+	{
+		QTextStream stream(&file);
+		QString line;
+		while ( !stream.atEnd() )
+		{
+			line = stream.readLine();
+			bool no=false;
+			for (int i=0;i<line.length();i++)
+			{
+				if (line.at(i) =='"')
+					if ( !no) no=true;
+					else no=false;
+
+				if (line.at(i)==',' && !no)
+				{
+					kdDebug() << "Test: " << line.left(i) << endl;
+					i = line.length();
+				}
+			}
+		}
+		file.close();
+	}
 }
 
 void KParameterEditor::varlist_clicked( QListBoxItem * item )

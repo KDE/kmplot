@@ -45,6 +45,7 @@ public slots:
     void cmdNew_clicked();
     void cmdEdit_clicked();
     void cmdDelete_clicked();
+    void cmdImport_clicked();
     void varlist_clicked( QListBoxItem *  );
     void varlist_doubleClicked( QListBoxItem * );
   

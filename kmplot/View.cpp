@@ -898,3 +898,22 @@ void View::getYValue(int ix, char p_mode,  double x, double &y)
 	}
 }
 
+void View::keyPressEvent( QKeyEvent * e)
+{
+	if (csmode==-1 ) return;
+	
+	QMouseEvent *event;
+	if (e->key() == Qt::Key_Down )
+		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx-1,fcy-1),Qt::LeftButton,Qt::LeftButton);
+	else if (e->key() == Qt::Key_Up )
+		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
+	else
+	{
+		event = new QMouseEvent(QEvent::MouseButtonPress,QPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
+		mousePressEvent(event);
+		delete event;
+		return;
+	}
+	mouseMoveEvent(event);
+	delete event;
+}

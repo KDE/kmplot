@@ -61,6 +61,7 @@ MainDlg::MainDlg( const QString sessionId, KCmdLineArgs* args, const char* name 
 	fdlg = 0;
 	view = new View( this );
 	setCentralWidget( view );
+ 	view->setFocusPolicy(QWidget::ClickFocus);
 	m_quickEdit = new KLineEdit( this );
 	QToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
 	setupActions();

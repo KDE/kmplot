@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>QParameterEditor</class>
 <widget class="QDialog">
     <property name="name">
@@ -36,23 +36,6 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <spacer row="3" column="1">
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>150</height>
-                        </size>
-                    </property>
-                </spacer>
                 <widget class="KPushButton" row="1" column="1">
                     <property name="name">
                         <cstring>cmdEdit</cstring>
@@ -71,6 +54,45 @@
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>Click here to edit the value of the selected constant. Its name cannot be changed.</string>
+                    </property>
+                </widget>
+                <widget class="KListBox" row="0" column="0" rowspan="6" colspan="1">
+                    <property name="name">
+                        <cstring>list</cstring>
+                    </property>
+                </widget>
+                <widget class="KPushButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>cmdNew</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;New</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+N</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Add a new constant</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click this button to add a new constant.</string>
+                    </property>
+                </widget>
+                <widget class="KPushButton" row="5" column="1">
+                    <property name="name">
+                        <cstring>cmdClose</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Close</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Add a new constant</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>Click this button to add a new constant.</string>
                     </property>
                 </widget>
                 <widget class="KPushButton" row="2" column="1">
@@ -93,43 +115,41 @@
                         <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
                     </property>
                 </widget>
-                <widget class="KListBox" row="0" column="0" rowspan="5" colspan="1">
+                <spacer row="4" column="1">
                     <property name="name">
-                        <cstring>list</cstring>
+                        <cstring>spacer2</cstring>
                     </property>
-                </widget>
-                <widget class="KPushButton" row="0" column="1">
+                    <property name="orientation">
+                        <enum>Vertical</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>110</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="KPushButton" row="3" column="1">
                     <property name="name">
-                        <cstring>cmdNew</cstring>
+                        <cstring>cmdImport</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
                     </property>
                     <property name="text">
-                        <string>&amp;New</string>
+                        <string>&amp;Import</string>
                     </property>
                     <property name="accel">
-                        <string>Alt+N</string>
+                        <string>Alt+I</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Add a new constant</string>
+                        <string>delete selected constant</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Click this button to add a new constant.</string>
-                    </property>
-                </widget>
-                <widget class="KPushButton" row="4" column="1">
-                    <property name="name">
-                        <cstring>cmdClose</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Close</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+C</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Add a new constant</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click this button to add a new constant.</string>
+                        <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
                     </property>
                 </widget>
             </grid>

@@ -108,6 +108,8 @@ protected slots:
 	void mouseMoveEvent(QMouseEvent *);
 	/// Toggles the trace mode if the cursor is near to a plot.
 	void mousePressEvent(QMouseEvent *);
+	/// when a key is pressed and the graph widget has focus
+	void keyPressEvent(QKeyEvent * );
 
 private:
 	/// Print out table with additional information.

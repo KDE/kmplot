@@ -63,8 +63,11 @@ void KMinMax::init(char m)
 	if ( m_mode < 2) //find minimum point
 	{
 		max->setReadOnly(false);
-		min->setText("");
-		max->setText("");
+		QString range;
+		range.setNum(View::xmin);
+		min->setText( range);
+		range.setNum(View::xmax);
+		max->setText(range);
 		cmdFind->setText("&Find");
 		if ( m_mode == 1) //find maximum point
 			setCaption(i18n("Find Maximum Point"));
@@ -84,20 +87,17 @@ void KMinMax::init(char m)
 	}
 	else if ( m_mode == 3) //area under a graph
 	{
+		max->setReadOnly(false);
+		QString range;
+		range.setNum(View::xmin);
+		min->setText( range);
+		range.setNum(View::xmax);
+		max->setText(range);
 		setCaption(i18n("Area Under Graph"));
 		lblMin->setText(i18n("Draw the area between the x-values"));
 		lblMax->setText(i18n("and"));
-		max->setReadOnly(false);
-		min->setText("");
-		max->setText("");
 		cmdFind->setText("&Draw");
 	}	
-
-	QString range;
-	range.setNum(View::xmin);
-	min->setText( range);
-	range.setNum(View::xmax);
-	max->setText(range);
 	
 	updateFunctions();
 }

@@ -101,6 +101,9 @@
                     <property name="name">
                         <cstring>PushButtonAttr</cstring>
                     </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
                     <property name="text">
                         <string>A&amp;ttributes...</string>
                     </property>
@@ -159,6 +162,9 @@
                 <widget class="QPushButton" row="1" column="1">
                     <property name="name">
                         <cstring>PushButtonEdit</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
                     </property>
                     <property name="text">
                         <string>&amp;Edit</string>
@@ -241,6 +247,9 @@
                     <property name="name">
                         <cstring>PushButtonDel</cstring>
                     </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
                     <property name="text">
                         <string>&amp;Delete</string>
                     </property>
@@ -295,6 +304,12 @@
         <receiver>FktDlgData</receiver>
         <slot>onapply()</slot>
     </connection>
+    <connection>
+        <sender>lb_fktliste</sender>
+        <signal>selectionChanged()</signal>
+        <receiver>FktDlgData</receiver>
+        <slot>onHasSelection()</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>PushButtonOk</tabstop>
@@ -312,6 +327,7 @@
     <slot>ondelete()</slot>
     <slot>onedit()</slot>
     <slot>onok()</slot>
+    <slot>onHasSelection()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

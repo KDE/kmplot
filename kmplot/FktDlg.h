@@ -62,12 +62,12 @@ public:
 
 protected slots:
 	void onok();
-	void onclose();
 	void ondelete();
 	void onedit();
 	void ondblclick( int );
 	void onattr();
 	void onapply();
+	void onHasSelection();
 
 private:
 	int getIx( const QString f_str );

@@ -23,6 +23,9 @@
 *
 */
 
+// Qt includes
+#include <qpushbutton.h>
+
 // locale includes
 #include "FktDlg.h"
 #include "FktDlg.moc"
@@ -135,13 +138,10 @@ void FktDlg::onok()
 {
 	onapply();
 	if ( errflg == 0 )
-		onclose();
-}
-
-void FktDlg::onclose()
-{
-	( ( MainDlg* ) parentWidget() ) ->fdlg = 0;
-	close( TRUE );
+	{
+		( ( MainDlg* ) parentWidget() )->fdlg = 0;
+		close( TRUE );
+	}
 }
 
 void FktDlg::ondelete()
@@ -213,3 +213,10 @@ void FktDlg::updateView()
 	( ( MainDlg* ) parentWidget() ) ->view->update();
 }
 
+void FktDlg::onHasSelection()
+{
+	bool has_selection = !( lb_fktliste->currentItem() == -1 );
+	PushButtonEdit->setEnabled( has_selection );
+	PushButtonDel->setEnabled( has_selection );
+	PushButtonAttr->setEnabled( has_selection );
+}

@@ -83,7 +83,7 @@ void MainDlg::setupActions()
   
   KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
   KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
- KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection(), "configure" );
+ KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 
 	createGUI( locate( "data", "kmplot/kmplotui.rc" ) );
 }

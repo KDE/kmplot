@@ -41,7 +41,6 @@
 
 // local includes
 #include "diagr.h"
-#include "errno.h"
 #include "xparser.h"
 
 class XParser;

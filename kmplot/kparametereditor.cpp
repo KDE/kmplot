@@ -80,7 +80,6 @@ void KParameterEditor::cmdNew_clicked()
 	if ( m_parser->err != 0 )
 	{
 		m_parser->errmsg();
-		// KMessageBox::error( 0, i18n( "Please insert a valid paramter value!" ) );
 		cmdNew_clicked();
 		return;
 	}
@@ -115,7 +114,7 @@ void KParameterEditor::cmdDelete_clicked()
 
 void KParameterEditor::cmdImport_clicked()
 {
-	QString filename = KFileDialog::getOpenFileName( QString::null,i18n("*.csv|Text File with Comma Separated Values"));
+	QString filename = KFileDialog::getOpenFileName( QString::null,i18n("*.txt|Plain Text File "));
 	if ( filename.isEmpty() )
 		return;
 	
@@ -124,25 +123,22 @@ void KParameterEditor::cmdImport_clicked()
 	{
 		QTextStream stream(&file);
 		QString line;
-		while ( !stream.atEnd() )
+		for( int i=1; !stream.atEnd();i++ )
 		{
 			line = stream.readLine();
-			bool no=false;
-			for (int i=0;i<line.length();i++)
+			m_parser->eval( line );
+			if ( m_parser->err == 0 )
 			{
-				if (line.at(i) =='"')
-					if ( !no) no=true;
-					else no=false;
-
-				if (line.at(i)==',' && !no)
-				{
-					kdDebug() << "Test: " << line.left(i) << endl;
-					i = line.length();
-				}
+				list->insertItem(line);
+				list->sort();
 			}
+			else
+				KMessageBox::error(this,i18n("Line %1 is not a valid parameter value and will therefore not be included").arg(i) );
 		}
 		file.close();
 	}
+	else
+		KMessageBox::error(0,i18n("An error appeared when opening this file"));
 }
 
 void KParameterEditor::varlist_clicked( QListBoxItem * item )

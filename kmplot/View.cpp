@@ -813,9 +813,9 @@ void View::findMinMaxValue(int ix, char p_mode, bool minimum, double &dmin, doub
 	if (  progressbar->isVisible())
 		progressbar->hide(); // hide the progressbar-widget if it was shown
 	if (minimum)
-		KMessageBox::error(this,i18n("Minumum value:\nx: %1\ny: %2").arg(result_x).arg(result_y) );
+		KMessageBox::information(this,i18n("Minumum value:\nx: %1\ny: %2").arg(result_x).arg(result_y) );
 	else
-		KMessageBox::error(this,i18n("Maximum value:\nx: %1\ny: %2").arg(result_x).arg(result_y));
+		KMessageBox::information(this,i18n("Maximum value:\nx: %1\ny: %2").arg(result_x).arg(result_y));
 
 }
 

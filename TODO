@@ -1,4 +1,4 @@
-Last modified: 05/21/2004
+Last modified: 05/22/2004
 
 TODO
 =========================
@@ -19,12 +19,14 @@ TODO
 	* get slope for a x-point
 * Fix the unpolished lines
 * #52887, need to calculate with complex numbers.
-* Import parameter values from different file format (.csv, .txt, KSpread, OpenOffice)
-* Navigating in trace mode with the keyboard
+* Import parameter values from different file format(.csv, KSpread, OpenOffice)
+
 
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
+* Navigating in trace mode with the keyboard
+
 
 DONE
 =========================
@@ -36,7 +38,7 @@ DONE
 * Porting File save format to xml
 * Bug #80739
 * A constant editor which can imports/export constants from KCalc
-* for plots taking much time perhaps an "working" lamp and a cancel button could be useful
+* Progressbar + stopbutton when drawing anti-derivates.
 * No re-drawing then the user don't make any changes in the function editor dialog
 * handle with comma-characters
 * Replace the comma-seperated KLineEdit with a new dialog
@@ -50,3 +52,4 @@ DONE
 * Default color for derivatives and anti-derivatives.
 * Range check when adding plot functions.
 * Don't calculate stepWidth if nothing is changed.
+* Import parameter values from .txt-files 

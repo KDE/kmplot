@@ -126,6 +126,9 @@ void KmPlotIO::save(  XParser *parser, const QString filename )
 				addTag( doc, tag, "parameterlist", listOfParameters.join( "," ) );
 			}
 			
+			addTag( doc, tag, "arg-min", parser->fktext[ ix ].str_dmin );
+			addTag( doc, tag, "arg-max", parser->fktext[ ix ].str_dmax );
+						
 			root.appendChild( tag );
 			
 		}
@@ -249,6 +252,12 @@ void KmPlotIO::parseFunction(  XParser *parser, const QDomElement & n )
 		parseParameters( parser, n, ix );
 		parser->getext( ix );
 	}
+	parser->fktext[ ix ].str_dmin = n.namedItem( "arg-min" ).toElement().text();
+	if( parser->fktext[ ix ].str_dmin.isEmpty() ) parser->fktext[ ix ].str_dmin = "0.0";
+	else parser->fktext[ ix ].dmin = parser->eval( parser->fktext[ ix ].str_dmin );
+	parser->fktext[ ix ].str_dmax = n.namedItem( "arg-max" ).toElement().text();
+	if( parser->fktext[ ix ].str_dmax.isEmpty() ) parser->fktext[ ix ].str_dmax = "0.0";
+	else parser->fktext[ ix ].dmax = parser->eval( parser->fktext[ ix ].str_dmax );
 }
 
 void KmPlotIO::parseParameters( XParser *parser, const QDomElement &n, int ix )

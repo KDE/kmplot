@@ -741,7 +741,39 @@ void View::mousePressEvent(QMouseEvent *e)
 		drawPlot(); //update all graphs
 		return;
 		
-	}	
+	}
+	else if (  zoom_mode==5 ) //center
+	{
+		QPainter DC;
+		DC.begin(this);
+		DC.setWindow(0, 0, w, h);
+		DC.setWorldMatrix(wm);
+		QPoint p=DC.xFormDev(e->pos());
+		p.setX( dgr.Transx(p.x() ) );
+		p.setY( dgr.Transy(p.y() ) );
+		QString str_tmp;
+		double diffx = (xmax-xmin)/2;
+		double diffy = (ymax-ymin)/2;
+		
+		if ( diffx > 1000000 || diffy > 1000000)
+			return;
+		
+		str_tmp.setNum(p.x()-double(diffx));
+		Settings::setXMin(str_tmp);
+		str_tmp.setNum(p.x()+double(diffx));
+		Settings::setXMax(str_tmp);
+		
+		str_tmp.setNum(p.y()-double(diffy));
+		Settings::setYMin(str_tmp);
+		str_tmp.setNum(p.y()+double(diffy));
+		Settings::setYMax(str_tmp);
+		
+		Settings::setXRange(4); //custom x-range
+		Settings::setYRange(4); //custom y-range
+		drawPlot(); //update all graphs
+		return;
+		
+	}
 	if (!stop_calculating && isDrawing) //stop drawing anti-derivatives
 	{
 		stop_calculating = true;
@@ -1266,6 +1298,8 @@ void View::keyPressEvent( QKeyEvent * e)
 		zoom_mode=2;
 	else if ( e->key() == Qt::Key_F) //zoom out mode
 		zoom_mode=3;
+	else if ( e->key() == Qt::Key_G) //center mode
+		zoom_mode=5;
 	
 	if (csmode==-1 ) return;
 	

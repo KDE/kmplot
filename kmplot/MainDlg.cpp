@@ -434,6 +434,7 @@ void MainDlg::slotQuickEdit(const QString& tmp_f_str )
 		m_quickEdit->selectAll();
 		return;
 	}
+	view->parser()->fktext[index].f_mode = 1;
 	view->parser()->fktext[index].anti_mode = 0;
 	view->parser()->fktext[index].anti_use_precision = false;
 	view->parser()->fktext[ index ].extstr = f_str;

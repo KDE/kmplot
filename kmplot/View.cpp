@@ -530,7 +530,13 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		DC.setWorldMatrix(wm);
 		ptl=DC.xFormDev(e->pos());
 		if((csmode=m_parser->chkfix(csmode)) >= 0)
-		{   ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+		{
+			if ( cstype == 0)
+				ptl.setY(dgr.Transy(csypos=m_parser->fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+			else if ( cstype == 1)
+				ptl.setY(dgr.Transy(csypos=m_parser->a1fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
+			else if ( cstype == 2)
+				ptl.setY(dgr.Transy(csypos=m_parser->a2fkt(csmode, csxpos=dgr.Transx(ptl.x()))));
 
             if(fabs(csypos)<0.2)
             {   double x0;
@@ -609,9 +615,22 @@ void View::mousePressEvent(QMouseEvent *e)
 		do
 		{   m_parser->setparameter(ix, m_parser->fktext[ix].k_liste[k]);
 			if(fabs(csypos-m_parser->fkt(ix, csxpos))< g)
-			{   csmode=ix;
+			{   	csmode=ix;
+				cstype=0;
 				mouseMoveEvent(e);
-				return ;
+				return;
+			}
+			if(fabs(csypos-m_parser->a1fkt(ix, csxpos))< g)
+			{   	csmode=ix;
+				cstype=1;
+				mouseMoveEvent(e);
+				return;
+			}
+			if(fabs(csypos-m_parser->a2fkt(ix, csxpos))< g)
+			{   	csmode=ix;
+				cstype=2;
+				mouseMoveEvent(e);
+				return;
 			}
 		}
 		while(++k<ke);
@@ -907,6 +926,53 @@ void View::keyPressEvent( QKeyEvent * e)
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx-1,fcy-1),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Up )
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
+	else if (e->key() == Qt::Key_Left || e->key() == Qt::Key_Right)
+	{
+		int ix=csmode;
+		char mode = cstype;
+		bool start=true;
+		
+		while ( csmode<m_parser->ufanz )
+		{   
+			if ( ix==csmode && mode==cstype)
+				if (start) start=false;
+				else break;
+			switch(m_parser->fktext[ix].extstr[0].latin1())
+			{  	case 0:
+				case 'x':
+				case 'y':
+				case 'r':
+				{
+					if ( csmode == m_parser->ufanz-2)
+						csmode=0;
+					else
+						csmode++;
+					if ( m_parser->fktext[csmode].f_mode) break;
+					continue;
+				}
+			}
+			cstype++;
+			
+			if ( cstype == 1)
+				if ( m_parser->fktext[csmode].f1_mode ) break;
+				else cstype++;
+
+			if ( cstype == 2 )
+				if ( m_parser->fktext[csmode].f2_mode ) break;
+				else cstype++;
+
+			cstype=0;
+			if ( csmode == m_parser->ufanz-2)
+				csmode=0;
+			else
+				csmode++;
+			if ( m_parser->fktext[csmode].f_mode) break;
+		}
+		
+		/*kdDebug() << "csmode: " << (int)csmode << endl;
+		kdDebug() << "cstype: " << (int)cstype << endl;*/
+		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
+	}
 	else
 	{
 		event = new QMouseEvent(QEvent::MouseButtonPress,QPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);

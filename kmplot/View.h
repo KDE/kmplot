@@ -125,11 +125,10 @@ private:
 	/// The central parser instance.
 	/// @see parser()
 	XParser *m_parser;
-	
-	int csflg,
-	    csmode,
-	    rootflg;
+
+	    
 	int w, h;
+	float s;
 	
 	/// @name Crosshair
 	/// Crosshair support.
@@ -139,8 +138,12 @@ private:
 	float csxpos;	///< y-position of the cross hair (real coordinates) 
 	float csypos;	///< x-position of the cross hair (real coordinates)
 	//@}
-	float s;
-	
+	/// trace mode stuff
+	int csflg,
+	csmode,
+	rootflg;
+	char cstype;
+			
 	CDiagr dgr;	///< Coordinate system 
 	QPoint ref;
 	QRect area,

@@ -286,7 +286,9 @@ void EditFunction::accept()
 
 	if( editfunctionpage->hide->isChecked() )
 		m_parser->fktext[ index ].f_mode = 0;
-		
+	else
+		m_parser->fktext[ index ].f_mode = 1;
+	
 	if( !m_parameter.isEmpty() )
 	{
 		m_parser->fktext[ index ].str_parameter = m_parameter;

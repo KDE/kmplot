@@ -25,7 +25,6 @@ TODO
 IN PROGRESS
 =========================
 * Configure Dialog for global Settings / save as default Checkboxes (Started)
-* Navigating in trace mode with the keyboard
 
 
 DONE
@@ -52,4 +51,6 @@ DONE
 * Default color for derivatives and anti-derivatives.
 * Range check when adding plot functions.
 * Don't calculate stepWidth if nothing is changed.
-* Import parameter values from .txt-files 
+* Import parameter values from .txt-files
+* Navigating in trace mode with the keyboard
+* Trace mode with derivatives

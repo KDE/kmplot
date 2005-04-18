@@ -56,7 +56,7 @@
 #define	UFKT	11      // address to user defined function follows
 #define	ENDE	12      // end of function
 #define	YWERT	13       // get y value
-#define	FANZ	31	// number of mathematical functions in mfkttab[]
+#define	FANZ	34	// number of mathematical functions in mfkttab[]
 //@}
 
 //@{

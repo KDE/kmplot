@@ -64,6 +64,9 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 	{"artanh", artanh}, 	// Area-tangens hyperbolicus = inverse of tanh
 	{"arsinh", arsinh}, 	// Area-sinus hyperbolicus = inverse of sinh
 	{"arsech", arsech},	// Area-secans hyperbolicus = invers of sech
+        {"arctanh", artanh},     // The same as artanh
+        {"arcsinh", arsinh},     // The same as arsinh
+        {"arccosh", arcosh},     // The same as arcosh
 	{"arctan", arctan},	// Arcus tangens = inverse of tan
 	{"arcsin", arcsin}, 	// Arcus sinus = inverse of sin
 	{"arcsec", arcsec},	// Arcus secans = inverse of sec
@@ -468,7 +471,7 @@ void Parser::fix_expression(QString &str, int const pos)
                                      str_function.prepend(str.at(n));
                                      --n;
                         }
-                        if (str_function == "tanh" || str_function == "tan" || str_function =="sqrt" || str_function =="sqr" || str_function =="sin" || str_function =="sinh" || str_function =="sign" || str_function =="sech" || str_function =="sec" || str_function =="log" || str_function =="ln" || str_function =="exp" || str_function =="coth" || str_function =="cot" || str_function =="cosh" || str_function =="cosech" || str_function =="cosec" || str_function =="cos" || str_function =="artanh" || str_function =="arsinh" || str_function =="arsech" || str_function =="arctan" || str_function =="arcsin" || str_function =="arcsec" || str_function =="arcoth" || str_function =="arcosh" || str_function =="arcosech" || str_function =="arccot" || str_function =="arccosec" || str_function =="arccos" || str_function =="abs")
+                        if (str_function == "tanh" || str_function == "tan" || str_function =="sqrt" || str_function =="sqr" || str_function =="sin" || str_function =="sinh" || str_function =="sign" || str_function =="sech" || str_function =="sec" || str_function =="log" || str_function =="ln" || str_function =="exp" || str_function =="coth" || str_function =="cot" || str_function =="cosh" || str_function =="cosech" || str_function =="cosec" || str_function =="cos" || str_function =="artanh" || str_function =="arsinh" || str_function =="arsech" || str_function =="arctan" || str_function =="arcsin" || str_function =="arcsec" || str_function =="arcoth" || str_function =="arcosh" || str_function =="arcosech" || str_function =="arccot" || str_function =="arccosec" || str_function =="arccos" || str_function =="abs" || str_function=="arctanh" || str_function=="arcsinh" || str_function=="arccosh")
                                 function = true;
                         else
                                 for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)

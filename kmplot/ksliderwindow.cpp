@@ -117,3 +117,5 @@ void KSliderWindow::mnuMaxValue_clicked()
 	slider->setPageStep( (int)ceil((abs(slider->minValue()) + abs(result))/10.) );
 	setFocus();
 }
+
+#include "ksliderwindow.moc"

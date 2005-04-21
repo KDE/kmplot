@@ -12,7 +12,7 @@ messages: rc.cpp
 	if test -n "$$LIST"; then \
 	 $(XGETTEXT) $$LIST -o $(podir)/kmplot.pot; \
 	fi
- # messages: rc.cpp
+# messages: rc.cpp
 # $(XGETTEXT) *.cpp -o $(podir)/kmplot.pot
 
 

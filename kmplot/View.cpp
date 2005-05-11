@@ -1132,7 +1132,10 @@ void View::setScaling()
 	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
 
 	if( Settings::xScaling() == 8) //automatic x-scaling
+    {
 		tlgx = double(xmax-xmin)/16;
+        tlgxstr = units[ Settings::xScaling() ];
+    }
 	else
 	{
 		tlgxstr = units[ Settings::xScaling() ];
@@ -1140,7 +1143,10 @@ void View::setScaling()
 	}
 
 	if( Settings::yScaling() == 8)  //automatic y-scaling
+    {
 		tlgy = double(ymax-ymin)/16;
+        tlgystr = units[ Settings::yScaling() ];
+    }
 	else
 	{
 		tlgystr = units[ Settings::yScaling() ];

@@ -47,15 +47,13 @@ class KmPlotIO
 		/**
 		 * Store all information about the current saved plot in a xml file with the .fkt extension 
 		 * in the filename file.
-		 * @param parser points to the parser instance.
-		 * @param filename Name of the file which will be saved.
+		 * @param url Name (URL) of the file which will be saved.
 		 */
 		bool save( const KURL &url );
 		
 		/**
 		 * Read a kmpdoc xml file to restaure the settings of a previously saved plot
-		 * @param parser points to the parser instance.
-		 * @param filename name of file which will be opened
+		 * @param url Name (URL) of file which will be opened
 		 */
 		bool load( const KURL &url );
 	

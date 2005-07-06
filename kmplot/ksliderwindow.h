@@ -36,7 +36,7 @@ class KSliderWindow : public SliderWindow
 	Q_OBJECT
 	public:
 		/// @param parent points to the parent widget.
-		/// @param name of this instance.
+		/// @param num number of this instance.
 		KSliderWindow(QWidget* parent, int num );
 		virtual ~KSliderWindow();
 

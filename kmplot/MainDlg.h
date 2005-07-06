@@ -72,7 +72,8 @@ class MainDlg : public KParts::ReadOnlyPart, virtual public MainDlgIface
 	Q_OBJECT
 
 public:
-	/** @param sessionId used for the name of a temporary file.
+	/** Constuctor.
+	 * @param sessionId used for the name of a temporary file.
 	 * @param args containing a filename to be plot on startup.
 	 * @param name
 	 */

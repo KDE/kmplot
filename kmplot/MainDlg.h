@@ -73,11 +73,11 @@ class MainDlg : public KParts::ReadOnlyPart, virtual public MainDlgIface
 
 public:
 	/** Constuctor.
-	 * @param sessionId used for the name of a temporary file.
-	 * @param args containing a filename to be plot on startup.
-	 * @param name
+	 * @param parentWidget parent widget for this part
+	 * @param parent parent object
+	 * @param name name of this dialog
 	 */
-	MainDlg(QWidget *parentWidget, const char *widgetName, QObject *parent, const char *name);
+	MainDlg(QWidget *parentWidget, const char *, QObject *parent, const char *name);
 	/// Cleaning up a bit.
 	virtual ~MainDlg();
 	/// This class needs access to private members, too.

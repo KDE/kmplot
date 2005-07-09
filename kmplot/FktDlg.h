@@ -50,12 +50,12 @@ public:
 	/** 
 	 * The constructor gets the current parser instance
 	 * @param parent Parent widget.
-	 * @param parser points to the current parser instance.
+	 * @param view points to the current view instance.
 	 */
 	FktDlg( QWidget* parent, View* view );
 	/// Empty destructor.
 	virtual ~FktDlg();
-	/// Fill the widgets with plots contained in th parser instance.
+	/// Fill the widgets with plots contained in the parser instance.
 	void getPlots();
 	/// Returns true if a function was changed
 	bool isChanged();
@@ -77,18 +77,16 @@ protected slots:
 	void lb_fktliste_spacePressed(QListViewItem * item);
 	
 	/// Edit a function plot.
-	/// @param index Function index of the parser instance.
-	/// @param num Listbox index
+	/// @param id Id of the function plot to edit
 	/// @see KEditFunction
 	void slotEditFunction( int id = -1 );
 	/// Edit a parametric plot.
-	/// @param x_index, y_index Function index of the parser instance.
-	/// @param num Listbox index
+	/// @param x_id Function index to edit
+	/// @param y_id Function index to edit
 	/// @see KEditParametric
 	void slotEditParametric( int x_id = -1, int y_id = -1 );
 	/// Edit a polar plot.
-	/// @param index Function index of the parser instance.
-	/// @param num Listbox index
+	/// @param id Function index of the parser instance.
 	/// @see KEditPolar
 	void slotEditPolar( int id = -1 );
 	/// Edit a new function plot.

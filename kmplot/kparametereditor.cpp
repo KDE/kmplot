@@ -179,13 +179,13 @@ void KParameterEditor::cmdImport_clicked()
 			}
 			else if ( !verbose)
 			{
-				if ( KMessageBox::warningYesNo(this,i18n("Line %1 is not a valid parameter value and will therefore not be included. Do you want to continue?").arg(i) ) == KMessageBox::No)
+				if ( KMessageBox::warningContinueCancel(this,i18n("Line %1 is not a valid parameter value and will therefore not be included. Do you want to continue?").arg(i) ) == KMessageBox::Cancel)
 				{
 					file.close();
                                         KIO::NetAccess::removeTempFile( tmpfile );
 					return;
 				}
-				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?") ) == KMessageBox::No)
+				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?"), QString::null, i18n("Get Informed"), i18n("Ignore Information") ) == KMessageBox::No)
 					verbose = true;
 			}
 		}

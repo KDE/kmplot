@@ -26,6 +26,9 @@
 // Qt includes
 #include <qdom.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QTextStream>
 
 // KDE includes
 #include <kio/netaccess.h>
@@ -114,7 +117,7 @@ bool KmPlotIO::save( const KURL &url )
 	root.appendChild( tag );
 
 
-	for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	for( Q3ValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
 		if ( !it->fstr.isEmpty() )
 		{
@@ -154,7 +157,7 @@ bool KmPlotIO::save( const KURL &url )
 			addTag( doc, tag, "equation", it->fstr );
 
 			QStringList str_parameters;
-			for ( QValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
+			for ( Q3ValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
 				str_parameters.append( (*k).expression);
 			
 			if( !str_parameters.isEmpty() )
@@ -180,7 +183,7 @@ bool KmPlotIO::save( const KURL &url )
 	{
 		KTempFile tmpfile;
 		xmlfile.setName(tmpfile.name() );
-		if (!xmlfile.open( IO_WriteOnly ) )
+		if (!xmlfile.open( QIODevice::WriteOnly ) )
 		{
 			tmpfile.unlink();
 			return false;
@@ -199,7 +202,7 @@ bool KmPlotIO::save( const KURL &url )
 	else
 	{
 		xmlfile.setName(url.prettyURL(0,KURL::StripFileProtocol)  );
-		if (!xmlfile.open( IO_WriteOnly ) )
+		if (!xmlfile.open( QIODevice::WriteOnly ) )
 			return false;
 		QTextStream ts( &xmlfile );
 		doc.save( ts, 4 );
@@ -240,7 +243,7 @@ bool KmPlotIO::load( const KURL &url )
 	else
 		f.setName( url.prettyURL(0,KURL::StripFileProtocol) );
 
-	if ( !f.open( IO_ReadOnly ) )
+	if ( !f.open( QIODevice::ReadOnly ) )
 	{
 		KMessageBox::error(0,i18n("An error appeared when opening this file"));
 		return false;
@@ -476,7 +479,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
 {
 	QStringList str_parameters;
-	for ( QValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
+	for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
 		str_parameters.append( (*it).expression);
 	str_parameters = QStringList::split( ";", n.namedItem( "parameterlist" ).toElement().text() );
 	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
@@ -486,7 +489,7 @@ void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &u
 void KmPlotIO::parseThreeDotThreeParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
 {
 	QStringList str_parameters;
-	for ( QValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
+	for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
 		str_parameters.append( (*it).expression);
 	str_parameters = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
 	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )

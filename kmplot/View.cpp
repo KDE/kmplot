@@ -27,10 +27,19 @@
 #include <qbitmap.h>
 #include <qcursor.h>
 #include <qdatastream.h>
-#include <qpicture.h>
+#include <q3picture.h>
 #include <qslider.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3CString>
+#include <QPaintEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <Q3ValueList>
+#include <QResizeEvent>
+#include <QMouseEvent>
 
 // KDE includes
 #include <kaction.h>
@@ -56,7 +65,7 @@ double View::xmin = 0;
 double View::xmax = 0;
 
 
-View::View(bool const r, bool &mo, KPopupMenu *p, QWidget* parent, const char* name ) : DCOPObject("View"), QWidget( parent, name , WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
+View::View(bool const r, bool &mo, KPopupMenu *p, QWidget* parent, const char* name ) : DCOPObject("View"), QWidget( parent, name , Qt::WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
 {
 	m_parser = new XParser(mo);
 	init();
@@ -190,7 +199,7 @@ void View::draw(QPaintDevice *dev, int form)
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
 	stop_calculating = false;
-	for(QValueVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
+	for(Q3ValueVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
 		if ( !ufkt->fname.isEmpty() )
 			plotfkt(ufkt, &DC);
 
@@ -462,7 +471,7 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->Lineh(0, 320, 700);
 		int ypos = 380;
 		//for(uint ix=0; ix<m_parser->countFunctions() && !stop_calculating; ++ix)
-		for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
+		for(Q3ValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
 		{
 			pDC->drawText(100, ypos, it->fstr);
 			ypos+=60;
@@ -847,7 +856,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	if( !m_readonly && e->button()==RightButton) //clicking with the right mouse button
 	{
 		char function_type;
-		for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+		for( Q3ValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 		{
 			function_type = it->fstr[0].latin1();
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
@@ -868,7 +877,7 @@ void View::mousePressEvent(QMouseEvent *e)
 
 				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.contains('t')==1) //parametric plot
 				{
-					QValueVector<Ufkt>::iterator ufkt_y = it+1;
+					Q3ValueVector<Ufkt>::iterator ufkt_y = it+1;
 					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->fstr.contains('t')==1)
 					{
 						if ( csmode == -1)
@@ -957,7 +966,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		mouseMoveEvent(e);
 		return ;
 	}
-	for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	for( Q3ValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
 		if (it->fname.isEmpty() )
 			continue;
@@ -1172,7 +1181,7 @@ void View::getSettings()
 void View::init()
 {
 	getSettings();
-	QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin();
+	Q3ValueVector<Ufkt>::iterator it = m_parser->ufkt.begin();
 	it->fname="";
 	while ( m_parser->ufkt.count() > 1)
 		m_parser->Parser::delfkt( &m_parser->ufkt.last() );
@@ -1195,7 +1204,7 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
-		for ( QValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
+		for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
 			if ( (*it).expression == str_parameter)
 			{
@@ -1344,7 +1353,7 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
-		for ( QValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
+		for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
 			if ( (*it).expression == str_parameter)
 			{
@@ -1456,7 +1465,7 @@ void View::keyPressEvent( QKeyEvent * e)
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-		QValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
+		Q3ValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
 		int const ke=it->parameters.count();
 		if (ke>0)
 		{
@@ -1614,7 +1623,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
-		for ( QValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
+		for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
 			if ( (*it).expression == str_parameter)
 			{
@@ -1804,7 +1813,7 @@ void View::updateSliders()
 		}
 	}
 
-	for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
+	for(Q3ValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
 	{
 		if (it->fname.isEmpty() ) continue;
 		if( it->use_slider > -1  &&  (it->f_mode || it->f1_mode || it->f2_mode || it->integral_mode))
@@ -2054,7 +2063,7 @@ void View::setStatusBar(const QString &text, const int id)
 	else
 	{
 		QByteArray parameters;
-		QDataStream arg( parameters, IO_WriteOnly);
+		QDataStream arg( parameters, QIODevice::WriteOnly);
 		arg << text << id;
 		m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","setStatusBarText(QString,int)", parameters);
 	}
@@ -2062,17 +2071,17 @@ void View::setStatusBar(const QString &text, const int id)
 void View::startProgressBar(int steps)
 {
 	QByteArray data;
-	QDataStream stream(data, IO_WriteOnly);
+	QDataStream stream(data, QIODevice::WriteOnly);
 	stream << steps;
 	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","startProgressBar(int)", data);
 }
 bool View::stopProgressBar()
 {
-	QCString replyType;
+	Q3CString replyType;
 	QByteArray replyData;
 	m_dcop_client->call(m_dcop_client->appId(), "KmPlotShell","stopProgressBar()", QByteArray(), replyType, replyData);
 	bool result;
-	QDataStream stream(replyData, IO_ReadOnly);
+	QDataStream stream(replyData, QIODevice::ReadOnly);
 	stream >> result;
 	return result;
 }

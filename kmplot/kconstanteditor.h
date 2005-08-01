@@ -49,8 +49,8 @@ public slots:
     void cmdDuplicate_clicked();
     
     ///actions for the visible constant list
-    void varlist_clicked( QListViewItem * item );
-    void varlist_doubleClicked( QListViewItem * );
+    void varlist_clicked( Q3ListViewItem * item );
+    void varlist_doubleClicked( Q3ListViewItem * );
    
     /// called when a user pressed OK the the new-constant-dialog
     void newConstantSlot();

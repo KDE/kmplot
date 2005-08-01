@@ -25,6 +25,8 @@
 
 // Qt includes
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
 
 // KDE includes
 #include <kdialog.h>

@@ -37,6 +37,8 @@
 #include "parser.h"
 #include "settings.h"
 #include "xparser.h"
+//Added by qt3to4:
+#include <Q3ValueList>
 
 double Parser::m_anglemode = 0;
 
@@ -110,7 +112,7 @@ void Parser::ps_init()
 Parser::~Parser()
 {
         kdDebug() << "Exiting......" << endl;
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
                 kdDebug() << "Deleting something... :-)" << endl;
                 delete [](*it).mem;
@@ -143,7 +145,7 @@ uint Parser::getNewId()
         while (1 )
         {
                 found = false;
-                for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                 {
                         if (it->id == i && !it->fname.isEmpty())
                         {
@@ -212,7 +214,7 @@ int Parser::idValue(int const ix)
 int Parser::ixValue(uint const id)
 {
         int ix=0;
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
                 if ( it->id ==id)
                         return ix;
@@ -223,7 +225,7 @@ int Parser::ixValue(uint const id)
 
 double Parser::fkt(uint const id, double const x)
 {
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
                 if ( it->id == id)
                         return fkt(it,x);
@@ -297,7 +299,7 @@ double Parser::fkt(Ufkt *it, double const x)
                         {
                                 puf=(uint*)it->mptr;
                                 uint id = *puf++;
-                                for( QValueVector<Ufkt>::iterator ite = ufkt.begin(); ite != ufkt.end(); ++ite)
+                                for( Q3ValueVector<Ufkt>::iterator ite = ufkt.begin(); ite != ufkt.end(); ++ite)
                                 {
                                         if ( ite->id == id)
                                         {
@@ -459,7 +461,7 @@ void Parser::fix_expression(QString &str, int const pos)
         //insert '*' when it is needed
         QChar ch;
         bool function = false;
-        for(uint i=pos; i <  str.length();i++)
+        for(int i=pos; i <  str.length();i++)
         {
                 ch = str.at(i);
                 if ( str.at(i+1)=='(' && ch.category()==QChar::Letter_Lowercase )
@@ -474,7 +476,7 @@ void Parser::fix_expression(QString &str, int const pos)
                         if (str_function == "tanh" || str_function == "tan" || str_function =="sqrt" || str_function =="sqr" || str_function =="sin" || str_function =="sinh" || str_function =="sign" || str_function =="sech" || str_function =="sec" || str_function =="log" || str_function =="ln" || str_function =="exp" || str_function =="coth" || str_function =="cot" || str_function =="cosh" || str_function =="cosech" || str_function =="cosec" || str_function =="cos" || str_function =="artanh" || str_function =="arsinh" || str_function =="arsech" || str_function =="arctan" || str_function =="arcsin" || str_function =="arcsec" || str_function =="arcoth" || str_function =="arcosh" || str_function =="arcosech" || str_function =="arccot" || str_function =="arccosec" || str_function =="arccos" || str_function =="abs" || str_function=="arctanh" || str_function=="arcsinh" || str_function=="arccosh")
                                 function = true;
                         else
-                                for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                                for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                                 {
                                         for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
                                         {
@@ -509,11 +511,11 @@ bool Parser::delfkt( Ufkt *item)
 	  KMessageBox::error(0,i18n("This function is depending on an other function"));
 	  return false;
 	}
-	for(QValueVector<Ufkt>::iterator it1=ufkt.begin(); it1!=ufkt.end(); ++it1)
+	for(Q3ValueVector<Ufkt>::iterator it1=ufkt.begin(); it1!=ufkt.end(); ++it1)
 	{
 		if (it1==item)
 			continue;
-		for(QValueList<int>::iterator it2=it1->dep.begin(); it2!=it1->dep.end(); ++it2)
+		for(Q3ValueList<int>::iterator it2=it1->dep.begin(); it2!=it1->dep.end(); ++it2)
 			if ( (uint)*it2 == item->id )
 				it2 = it1->dep.erase(it2);
 	}
@@ -685,7 +687,7 @@ void Parser::primary()
                         return;
                 }
         }
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
                 if(QString(lptr)=="pi" || QString(lptr)=="e") continue;
 
@@ -906,7 +908,7 @@ void Parser::addfptr(uint id)
 	}
 	else
         {
-                for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                         if ( it->id == id)
                         {
                                 *stkptr=fkt(it, *stkptr);
@@ -918,7 +920,7 @@ void Parser::addfptr(uint id)
 
 int Parser::fnameToId(const QString &name)
 {
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
                 if(name==it->fname)
                         return it->id;

@@ -53,9 +53,9 @@ public slots:
     /// the selecting a function that uses parameter function from a list the user can choose which paramater value he/she wants to use
     void cmdParameter_clicked();
     /// the button for changing the selected parameter value
-    void list_highlighted(QListBoxItem*);
+    void list_highlighted(Q3ListBoxItem*);
     /// call cmdParameter_clicked() if parameter values is enabled for that function
-    void list_doubleClicked(QListBoxItem *);
+    void list_doubleClicked(Q3ListBoxItem *);
         
 private:
     View *m_view;

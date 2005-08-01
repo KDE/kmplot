@@ -33,6 +33,9 @@
 
 // local includes
 #include "xparser.h"
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
 
 XParser::XParser(bool &mo) : DCOPObject("Parser"), Parser(), m_modified(mo)
 {
@@ -149,7 +152,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
     {
       if ( pos==0 && last_character == 'r') continue;
       function_name.at(pos)=last_character;
-      for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+      for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
       {
         if (it == ufkt.begin() && it->fname.isEmpty() ) continue;
         if ( it->fstr.startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
@@ -187,7 +190,7 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
       p2++;
     }
     QString const fname = str.left(p1);
-    for ( QValueVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
+    for ( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
     {
       if (it->fname == fname)
       {
@@ -224,7 +227,7 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
   }
 }
 
-double XParser::euler_method(const double x, const QValueVector<Ufkt>::iterator it)
+double XParser::euler_method(const double x, const Q3ValueVector<Ufkt>::iterator it)
 {
 	double const y = it->oldy + ((x-it->oldx) * it->oldyprim);
 	it->oldy = y;
@@ -297,7 +300,7 @@ int XParser::getNextIndex()
 QStringList XParser::listFunctionNames()
 {
 	QStringList list;
-	for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+	for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
 		list.append(it->fname);
 	}
@@ -587,7 +590,7 @@ QStringList XParser::functionParameterList(uint id)
 		return QStringList();
 	Ufkt *item = &ufkt[ix];
 	QStringList str_parameter;
-	for ( QValueList<ParameterValueItem>::iterator it = item->parameters.begin(); it != item->parameters.end(); ++it)
+	for ( Q3ValueList<ParameterValueItem>::iterator it = item->parameters.begin(); it != item->parameters.end(); ++it)
 		str_parameter.append( (*it).expression);
 	return str_parameter;
 }
@@ -597,7 +600,7 @@ bool XParser::functionAddParameter(const QString &new_parameter, uint id)
 	if (ix==-1)
 		return false;
 	Ufkt *tmp_ufkt = &ufkt[ix];
-	for ( QValueList<ParameterValueItem>::iterator it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
+	for ( Q3ValueList<ParameterValueItem>::iterator it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
 		if ( (*it).expression == new_parameter) //check if the parameter already exists
 			return false;
 
@@ -616,7 +619,7 @@ bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 	Ufkt *tmp_ufkt = &ufkt[ix];
 	
 	bool found = false;
-	QValueList<ParameterValueItem>::iterator it;
+	Q3ValueList<ParameterValueItem>::iterator it;
 	for ( it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
 		if ( (*it).expression == remove_parameter) //check if the parameter already exists
 		{
@@ -777,7 +780,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	  str_result = dcopclient_target;
 	
 	QByteArray parameters;
-	QDataStream arg( parameters, IO_WriteOnly);
+	QDataStream arg( parameters, QIODevice::WriteOnly);
  
   QString str_dmin;
   if (!item->usecustomxmin)
@@ -787,11 +790,11 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
     str_dmax = item->str_dmax;
   
 	QStringList str_parameters;
-	for ( QValueList<ParameterValueItem>::Iterator it = item->parameters.begin(); it != item->parameters.end(); ++it )
+	for ( Q3ValueList<ParameterValueItem>::Iterator it = item->parameters.begin(); it != item->parameters.end(); ++it )
 	  	str_parameters.append( (*it).expression);
 	arg << item->fstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << str_dmin << str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
 	QByteArray replay_data;
-	QCString replay_type;
+	Q3CString replay_type;
 	bool ok = kapp->dcopClient()->call( str_result.utf8(), "Parser", "addFunction(QString,bool,bool,bool,bool,bool,int,int,int,int,QString,QString,QString,QString,double,QRgb,QRgb,QRgb,QRgb,QStringList,int)", parameters, replay_type, replay_data, false);
 	if (!ok)
 	{
@@ -799,7 +802,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 		return false;
 	}
 
-	QDataStream replay_arg(replay_data, IO_ReadOnly);
+	QDataStream replay_arg(replay_data, QIODevice::ReadOnly);
 	bool result;
 	replay_arg >> result;
 	if (!result)

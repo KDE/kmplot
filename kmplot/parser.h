@@ -28,7 +28,9 @@
  
 // Qt includes
 #include <qstring.h>
-#include <qvaluevector.h>
+#include <q3valuevector.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include "parseriface.h"
 
@@ -128,7 +130,7 @@ class Ufkt
 		QString fstr;           ///< Function expression.
 		double k,               ///< Function parameter.
 		oldy;                   ///< The last y-value needed for Euler's method
-		QValueList<int> dep;   /// A list with all functions this function depends on
+		Q3ValueList<int> dep;   /// A list with all functions this function depends on
         
 		bool f_mode, ///< \a f_mode == 1: draw the plot.
 		f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
@@ -151,7 +153,7 @@ class Ufkt
 		QRgb color, ///< current color.
 		f1_color, f2_color, integral_color;
 		int use_slider; ///< -1: none (use list), else: slider number
-		QValueList<ParameterValueItem> parameters; ///< List with parameter for the function
+		Q3ValueList<ParameterValueItem> parameters; ///< List with parameter for the function
 		bool usecustomxmin, usecustomxmax;
         	// TODO double slider_min, slider_max; ///< extreme values of the slider
 };
@@ -212,8 +214,8 @@ public:
         int ixValue(uint const id);/// Converts an ID-numer to an index-value
         uint countFunctions(); /// Returns how many functions there are
 
-	QValueVector<Constant> constant;
-        QValueVector<Ufkt> ufkt;///< Points to the array of user defined functions.
+	Q3ValueVector<Constant> constant;
+        Q3ValueVector<Ufkt> ufkt;///< Points to the array of user defined functions.
 
 private:
 	/** Mathematical function. */

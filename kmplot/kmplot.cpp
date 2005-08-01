@@ -39,6 +39,8 @@
 
 #include "MainDlg.h"
 #include "kmplotprogress.h"
+//Added by qt3to4:
+#include <Q3CString>
 
 KmPlot::KmPlot( KCmdLineArgs* args)
 		: DCOPObject( "KmPlotShell" ), KParts::MainWindow( 0L, "KmPlot" )
@@ -262,22 +264,22 @@ void KmPlot::openFileInNewWindow(const KURL url)
 
 bool KmPlot::checkModified()
 {
-	QCString replyType;
+	Q3CString replyType;
 	QByteArray replyData;
 	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","checkModified()", QByteArray(), replyType, replyData, false);
 	bool result;
-	QDataStream stream(replyData, IO_ReadOnly);
+	QDataStream stream(replyData, QIODevice::ReadOnly);
 	stream >> result;
 	return result;
 }
 
 bool KmPlot::isModified()
 {
-	QCString replyType;
+	Q3CString replyType;
 	QByteArray replyData;
 	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","isModified()", QByteArray(), replyType, replyData, false);
 	bool result;
-	QDataStream stream(replyData, IO_ReadOnly);
+	QDataStream stream(replyData, QIODevice::ReadOnly);
 	stream >> result;
 	return result;
 }

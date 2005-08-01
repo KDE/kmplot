@@ -29,6 +29,8 @@
 #include <kdialogbase.h>
 
 #include "xparser.h"
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class XParser;
 class EditFunctionPage;
@@ -79,7 +81,7 @@ class EditFunction : public KDialogBase
 		XParser* m_parser;
 		/// Current function index
 		int m_id;
-		QValueList<ParameterValueItem> m_parameter;
+		Q3ValueList<ParameterValueItem> m_parameter;
 		
 		EditFunctionPage* editfunctionpage;
 		EditDerivativesPage* editderivativespage;

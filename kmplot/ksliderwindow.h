@@ -29,6 +29,9 @@
 #include <kpopupmenu.h>
 
 #include "sliderwindow.h"
+//Added by qt3to4:
+#include <QEvent>
+#include <QCloseEvent>
 
 /** @short Slider window for changing a parameter value */
 class KSliderWindow : public SliderWindow

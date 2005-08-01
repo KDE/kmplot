@@ -33,6 +33,8 @@
 // locale includes
 #include "FktDlgData.h"
 #include "View.h"
+//Added by qt3to4:
+#include <QShowEvent>
 
 class XParser;
 
@@ -72,9 +74,9 @@ protected slots:
 	void slotEdit();
 	/// Enables/disables actions if the list has a/no selection.
 	void slotHasSelection();
-	void lb_fktliste_doubleClicked(QListViewItem *, const QPoint &, int);
-	void lb_fktliste_clicked(QListViewItem * item);
-	void lb_fktliste_spacePressed(QListViewItem * item);
+	void lb_fktliste_doubleClicked(Q3ListViewItem *, const QPoint &, int);
+	void lb_fktliste_clicked(Q3ListViewItem * item);
+	void lb_fktliste_spacePressed(Q3ListViewItem * item);
 	
 	/// Edit a function plot.
 	/// @param id Id of the function plot to edit

@@ -30,7 +30,9 @@
 #include <kpushbutton.h>
 #include <qlabel.h>
 #include <qtooltip.h>
-#include <qwhatsthis.h> 
+#include <q3whatsthis.h> 
+//Added by qt3to4:
+#include <Q3ValueList>
 
 
 #include "kminmax.h"
@@ -43,8 +45,8 @@ KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
 	connect( cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));
 	connect( cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
-	connect( list, SIGNAL( highlighted(QListBoxItem*) ), this, SLOT( list_highlighted(QListBoxItem*) ));
-	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( list_doubleClicked(QListBoxItem *) ));
+	connect( list, SIGNAL( highlighted(Q3ListBoxItem*) ), this, SLOT( list_highlighted(Q3ListBoxItem*) ));
+	connect( list, SIGNAL( doubleClicked( Q3ListBoxItem * ) ), this, SLOT( list_doubleClicked(Q3ListBoxItem *) ));
 	parameter="";
 }
 
@@ -72,21 +74,21 @@ void KMinMax::init(char m)
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText(i18n("&Find"));
 		QToolTip::add(min,i18n("Lower boundary of the plot range"));
-		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		Q3WhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		QToolTip::add(max,i18n("Upper boundary of the plot range"));
-		QWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		Q3WhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
 		if ( m_mode == 1) //find maximum point
 		{
 			setCaption(i18n("Find Maximum Point"));
 			QToolTip::add( cmdFind, i18n( "Search for the maximum point in the range you specified" ) );
-			QWhatsThis::add(cmdFind,i18n("Search for the highest y-value in the x-range you specified and show the result in a message box."));
+			Q3WhatsThis::add(cmdFind,i18n("Search for the highest y-value in the x-range you specified and show the result in a message box."));
 		}
 		else
 		{
 			setCaption(i18n("Find Minimum Point"));
 			QToolTip::add( cmdFind, i18n( "Search for the minimum point in the range you specified" ) );
-			QWhatsThis::add(cmdFind,i18n("Search for the lowest y-value in the x-range you specified and show the result in a message box."));
+			Q3WhatsThis::add(cmdFind,i18n("Search for the lowest y-value in the x-range you specified and show the result in a message box."));
 		}
 	}
 	else if ( m_mode == 2) //get y-value
@@ -98,13 +100,13 @@ void KMinMax::init(char m)
 		min->setText("");
 		max->setText("");
 		QToolTip::add(min,i18n("Lower boundary of the plot range"));
-		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		Q3WhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		QToolTip::add(max,i18n("No returned y-value yet"));
-		QWhatsThis::add(max,i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
+		Q3WhatsThis::add(max,i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
 		
 		cmdFind->setText(i18n("&Calculate"));
 		QToolTip::add( cmdFind, i18n( "Get the y-value from the x-value you typed" ) );
-		QWhatsThis::add(cmdFind,i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
+		Q3WhatsThis::add(cmdFind,i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
 
 	}
 	else if ( m_mode == 3) //area under a graph
@@ -116,16 +118,16 @@ void KMinMax::init(char m)
 		range.setNum(View::xmax);
 		max->setText(range);
 		QToolTip::add(min,i18n("Lower boundary of the plot range"));
-		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		Q3WhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		QToolTip::add(max,i18n("Upper boundary of the plot range"));
-		QWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		Q3WhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
 		setCaption(i18n("Area Under Graph"));
 		lblMin->setText(i18n("Draw the area between the x-values:"));
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText(i18n("&Draw"));
 		QToolTip::add( cmdFind, i18n( "Draw the area between the function and the y-axis" ) );
-		QWhatsThis::add(cmdFind,i18n("Draw the area between the function and the y-axis and show the area in a message box."));
+		Q3WhatsThis::add(cmdFind,i18n("Draw the area between the function and the y-axis and show the area in a message box."));
 		
 	}
 
@@ -138,7 +140,7 @@ void KMinMax::updateFunctions()
 	QString const selected_item(list->currentText() );
 	list->clear();
 
-        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( Q3ValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r' && !it->fname.isEmpty())
 		{
@@ -177,7 +179,7 @@ void KMinMax::updateFunctions()
 	else
 		cmdFind->setEnabled(true);
 	selectItem();
-	QListBoxItem *found_item = list->findItem(selected_item,Qt::ExactMatch);
+	Q3ListBoxItem *found_item = list->findItem(selected_item,Qt::ExactMatch);
 	if ( found_item && m_view->csmode < 0)
 		list->setSelected(found_item,true);
 }
@@ -203,7 +205,7 @@ void KMinMax::selectItem()
 		function +="\'";
 	}
 	//kdDebug() << "function: " << function << endl;
-	QListBoxItem *item = list->findItem(function,Qt::ExactMatch);
+	Q3ListBoxItem *item = list->findItem(function,Qt::ExactMatch);
 	list->setSelected(item,true);
 
 	if (  !ufkt->parameters.isEmpty() )
@@ -280,7 +282,7 @@ void KMinMax::cmdFind_clicked()
 	Ufkt *ufkt = 0;
 	QString sec_function = function.section('(',0,0);
 
-        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( Q3ValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -326,7 +328,7 @@ void KMinMax::cmdFind_clicked()
 			max->setText(tmp);
 		}
 		QToolTip::add(max,i18n("The returned y-value"));
-		QWhatsThis::add(max,i18n("Here you see the result of the calculation: the returned y-value you got from the x-value in the textbox above"));
+		Q3WhatsThis::add(max,i18n("Here you see the result of the calculation: the returned y-value you got from the x-value in the textbox above"));
 	}
 	else if ( m_mode == 3)
 	{
@@ -343,7 +345,7 @@ void KMinMax::cmdFind_clicked()
 	if ( m_view->isCalculationStopped() )
 		KMessageBox::error(this,i18n("The operation was cancelled by the user."));
 }
-void KMinMax::list_highlighted(QListBoxItem* item)
+void KMinMax::list_highlighted(Q3ListBoxItem* item)
 {
 	if ( !item)
 	{
@@ -370,7 +372,7 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 		function.at(0) =  function.at(0).lower();
 	}
 	QString const sec_function = function.section('(',0,0);
-        for(QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
+        for(Q3ValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
 	{
                 if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -407,12 +409,12 @@ void KMinMax::cmdParameter_clicked()
 	}
         
 	QString const sec_function = function.section('(',0,0);
-        for(QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
+        for(Q3ValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
 	{
 	       if ( it->fstr.section('(',0,0) == sec_function)
                {
 			QStringList str_parameters;
-		        for ( QValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
+		        for ( Q3ValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
 			       str_parameters.append( (*k).expression);
                         bool ok;
                         QStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), str_parameters, QStringList(parameter),false,&ok,this );
@@ -423,7 +425,7 @@ void KMinMax::cmdParameter_clicked()
 	}
 }
 
-void KMinMax::list_doubleClicked(QListBoxItem *)
+void KMinMax::list_doubleClicked(Q3ListBoxItem *)
 {
  	if ( list->currentItem() == -1)
  		return;

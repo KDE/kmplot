@@ -29,7 +29,7 @@
 #define MainDlg_included
 
 // Qt includes
-#include <qpicture.h>
+#include <q3picture.h>
 
 // KDE includes
 #include <kaction.h>

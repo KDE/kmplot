@@ -36,16 +36,16 @@
 #include <kurl.h>
 #include <qfile.h>
 #include <qtextstream.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 
 #include "kparametereditor.h"
 
 class ParameterValueList;
 
-KParameterEditor::KParameterEditor(XParser *m, QValueList<ParameterValueItem> *l, QWidget *parent, const char *name)
+KParameterEditor::KParameterEditor(XParser *m, Q3ValueList<ParameterValueItem> *l, QWidget *parent, const char *name)
 	: QParameterEditor(parent,name, true, Qt::WDestructiveClose), m_parameter(l), m_parser(m)
 {
-	for (  QValueList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
+	for (  Q3ValueList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
 		list->insertItem( (*it).expression );
 	list->sort();
 	
@@ -55,8 +55,8 @@ KParameterEditor::KParameterEditor(XParser *m, QValueList<ParameterValueItem> *l
 	connect( cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
 	connect( cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
 	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
-	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( varlist_doubleClicked( QListBoxItem *) ));
-	connect( list, SIGNAL( clicked ( QListBoxItem * ) ), this, SLOT( varlist_clicked(QListBoxItem *  ) ));
+	connect( list, SIGNAL( doubleClicked( Q3ListBoxItem * ) ), this, SLOT( varlist_doubleClicked( Q3ListBoxItem *) ));
+	connect( list, SIGNAL( clicked ( Q3ListBoxItem * ) ), this, SLOT( varlist_clicked(Q3ListBoxItem *  ) ));
 	
 }
 
@@ -159,7 +159,7 @@ void KParameterEditor::cmdImport_clicked()
         else
                 file.setName(url.prettyURL(0,KURL::StripFileProtocol) );
 	
-	if ( file.open(IO_ReadOnly) )
+	if ( file.open(QIODevice::ReadOnly) )
 	{
 		QTextStream stream(&file);
 		QString line;
@@ -215,10 +215,10 @@ void KParameterEditor::cmdExport_clicked()
                         KTempFile tmpfile;
                         file.setName(tmpfile.name() );
                         
-                        if (file.open( IO_WriteOnly ) )
+                        if (file.open( QIODevice::WriteOnly ) )
                         {
                                 QTextStream stream(&file);
-                                QListBoxItem *it = list->firstItem();
+                                Q3ListBoxItem *it = list->firstItem();
                                 while ( 1 )
                                 {
                                         stream << it->text();
@@ -244,10 +244,10 @@ void KParameterEditor::cmdExport_clicked()
                 else
                 {
                         file.setName(url.prettyURL(0,KURL::StripFileProtocol));
-                        if (file.open( IO_WriteOnly ) )
+                        if (file.open( QIODevice::WriteOnly ) )
                         {
                                 QTextStream stream(&file);
-                                QListBoxItem *it = list->firstItem();
+                                Q3ListBoxItem *it = list->firstItem();
                                 while ( 1 )
                                 {
                                         stream << it->text();
@@ -267,7 +267,7 @@ void KParameterEditor::cmdExport_clicked()
 
 }
 
-void KParameterEditor::varlist_clicked( QListBoxItem * item )
+void KParameterEditor::varlist_clicked( Q3ListBoxItem * item )
 {
 	if (item)
 	{
@@ -282,7 +282,7 @@ void KParameterEditor::varlist_clicked( QListBoxItem * item )
 }
 
 
-void KParameterEditor::varlist_doubleClicked( QListBoxItem * )
+void KParameterEditor::varlist_doubleClicked( Q3ListBoxItem * )
 {
 	cmdEdit_clicked();
 }

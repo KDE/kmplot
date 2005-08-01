@@ -26,6 +26,8 @@
 // Qt includes
 #include <qslider.h>
 #include <qtooltip.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 // KDE includes
 #include <dcopclient.h>
@@ -296,7 +298,7 @@ void MainDlg::slotExport()
 
 		if( url.fileName().right(4).lower()==".svg")
 		{
-			QPicture pic;
+			Q3Picture pic;
 			view->draw(&pic, 2);
 			if (url.isLocalFile() )
 				pic.save( url.prettyURL(0,KURL::StripFileProtocol), "SVG");
@@ -366,7 +368,7 @@ void MainDlg::slotOpenRecent( const KURL &url )
 	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
 	{
 		QByteArray data;
-		QDataStream stream(data, IO_WriteOnly);
+		QDataStream stream(data, QIODevice::WriteOnly);
 		stream << url;
 		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KURL)", data);
 		return;
@@ -643,7 +645,7 @@ void MainDlg::loadConstants()
 			while (!copy_found)
 			{
 				// go through the constant list
-				QValueVector<Constant>::iterator it =  view->parser()->constant.begin();
+				Q3ValueVector<Constant>::iterator it =  view->parser()->constant.begin();
 				while (it!= view->parser()->constant.end() && !copy_found)
 				{
 					if (constant == it->constant )

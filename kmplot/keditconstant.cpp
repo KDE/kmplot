@@ -67,7 +67,7 @@ void KEditConstant::cmdOK_clicked()
 	if ( txtConstant->isEnabled() ) //creating, not edit a constant
 	{
 		bool found= false;
-		QValueVector<Constant>::iterator it;
+		Q3ValueVector<Constant>::iterator it;
 		for(it = m_parser->constant.begin(); it!= m_parser->constant.end() && !found;++it)
 		{
 			if ( it->constant == constant)

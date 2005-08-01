@@ -66,7 +66,7 @@ class KEditParametric : public QEditParametric
 		/// Current function indices.
 		int m_x_id, m_y_id;
 		//@}
-		
+		Ufkt *m_updatedfunction;	
 	protected slots:
 		/// Overwrites the dialog's accept() method to make sure, that the user's input is valid.
 		virtual void accept();
@@ -75,7 +75,6 @@ class KEditParametric : public QEditParametric
 		void customMaxRange_toggled(bool);
 		void customMinRange_toggled(bool);
 
-		Ufkt *m_updatedfunction;
 };
 
 #endif

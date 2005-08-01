@@ -29,6 +29,12 @@
 
 // Qt includes
 #include <qpixmap.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QResizeEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QPaintEvent>
 
 // KDE includes
 #include <dcopclient.h>
@@ -190,7 +196,7 @@ private:
 	PlotArea;
 	QPixmap hline,
 	vline;
-	QWMatrix wm;
+	QMatrix wm;
 
 	double tlgx, tlgy, drskalx, drskaly;
 	QString tlgxstr, tlgystr, drskalxstr, drskalystr;

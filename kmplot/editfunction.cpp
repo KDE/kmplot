@@ -27,12 +27,12 @@
 #include <qcheckbox.h>
 #include <qcombobox.h>
 #include <qdialog.h>
-#include <qframe.h>
+#include <q3frame.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qradiobutton.h>
 #include <qstringlist.h>
-#include <qvbox.h>
+#include <q3vbox.h>
 
 
 // KDE includes
@@ -59,11 +59,11 @@
 EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name ) : 
 	KDialogBase( IconList, "Caption", Help|Ok|Cancel, Ok, parent, name ), m_parser(parser)
 {
-	QVBox *page0 = addVBoxPage( i18n("Function"), i18n( "Function" ), SmallIcon( "func", 32 ) );
+	Q3VBox *page0 = addVBoxPage( i18n("Function"), i18n( "Function" ), SmallIcon( "func", 32 ) );
 	editfunctionpage = new EditFunctionPage( page0 );
-	QVBox *page1 = addVBoxPage( i18n("Derivatives"), i18n( "Derivatives" ), SmallIcon( "deriv_func", 32 ) );
+	Q3VBox *page1 = addVBoxPage( i18n("Derivatives"), i18n( "Derivatives" ), SmallIcon( "deriv_func", 32 ) );
 	editderivativespage = new EditDerivativesPage( page1 );
-	QVBox *page2 = addVBoxPage( i18n("Integral"), i18n( "Integral" ), SmallIcon( "integral_func", 32 ) );
+	Q3VBox *page2 = addVBoxPage( i18n("Integral"), i18n( "Integral" ), SmallIcon( "integral_func", 32 ) );
 	editintegralpage = new EditIntegralPage( page2 );
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{

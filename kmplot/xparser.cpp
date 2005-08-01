@@ -151,7 +151,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
     for (bool ok=true; last_character<'x'; ++last_character)
     {
       if ( pos==0 && last_character == 'r') continue;
-      function_name.at(pos)=last_character;
+      function_name[pos]=last_character;
       for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
       {
         if (it == ufkt.begin() && it->fname.isEmpty() ) continue;
@@ -165,7 +165,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
       }
       ok = true;
     }
-    function_name.at(pos)='f';
+    function_name[pos]='f';
     function_name.append('f');
   }
   function_name = "e"; //this should never happen
@@ -753,9 +753,9 @@ bool XParser::setFunctionExpression(const QString &f_str, uint id)
 
 bool XParser::sendFunction(int id, const QString &dcopclient_target)
 {
-	QCStringList cstr_list = kapp->dcopClient()->registeredApplications();
+	DCOPCStringList cstr_list = kapp->dcopClient()->registeredApplications();
 	QStringList str_list;
-	for ( QCStringList::iterator it = cstr_list.begin(); it!=cstr_list.end();++it )
+	for ( DCOPCStringList::iterator it = cstr_list.begin(); it!=cstr_list.end();++it )
 		if ( QString(*it).startsWith("kmplot") && *it!=kapp->dcopClient()->appId() )
 			str_list.append(*it);
 	if ( str_list.isEmpty() )
@@ -780,7 +780,8 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	  str_result = dcopclient_target;
 	
 	QByteArray parameters;
-	QDataStream arg( parameters, QIODevice::WriteOnly);
+	QDataStream arg( &parameters,QIODevice::WriteOnly);
+	arg.setVersion(QDataStream::Qt_3_1);
  
   QString str_dmin;
   if (!item->usecustomxmin)
@@ -794,7 +795,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	  	str_parameters.append( (*it).expression);
 	arg << item->fstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << str_dmin << str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
 	QByteArray replay_data;
-	Q3CString replay_type;
+	DCOPCString replay_type;
 	bool ok = kapp->dcopClient()->call( str_result.utf8(), "Parser", "addFunction(QString,bool,bool,bool,bool,bool,int,int,int,int,QString,QString,QString,QString,double,QRgb,QRgb,QRgb,QRgb,QStringList,int)", parameters, replay_type, replay_data, false);
 	if (!ok)
 	{
@@ -802,7 +803,8 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 		return false;
 	}
 
-	QDataStream replay_arg(replay_data, QIODevice::ReadOnly);
+	QDataStream replay_arg( &replay_data,QIODevice::ReadOnly);
+	replay_arg.setVersion(QDataStream::Qt_3_1);
 	bool result;
 	replay_arg >> result;
 	if (!result)

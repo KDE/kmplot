@@ -264,22 +264,24 @@ void KmPlot::openFileInNewWindow(const KURL url)
 
 bool KmPlot::checkModified()
 {
-	Q3CString replyType;
+	DCOPCString replyType;
 	QByteArray replyData;
 	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","checkModified()", QByteArray(), replyType, replyData, false);
 	bool result;
-	QDataStream stream(replyData, QIODevice::ReadOnly);
+	QDataStream stream( &replyData,QIODevice::ReadOnly);
+	stream.setVersion(QDataStream::Qt_3_1);
 	stream >> result;
 	return result;
 }
 
 bool KmPlot::isModified()
 {
-	Q3CString replyType;
+	DCOPCString replyType;
 	QByteArray replyData;
 	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","isModified()", QByteArray(), replyType, replyData, false);
 	bool result;
-	QDataStream stream(replyData, QIODevice::ReadOnly);
+	QDataStream stream( &replyData,QIODevice::ReadOnly);
+	stream.setVersion(QDataStream::Qt_3_1);
 	stream >> result;
 	return result;
 }
@@ -303,7 +305,7 @@ void KmPlot::setupStatusBar()
 	statusBar()->insertItem( "", 4 );
 	statusBar()->changeItem( "", 1 );
 	statusBar()->changeItem( "", 2 );
-	statusBar()->setItemAlignment( 3, AlignLeft );
+	statusBar()->setItemAlignment( 3, Qt::AlignLeft );
 
 	m_progressbar = new KmPlotProgress( statusBar() );
 	m_progressbar->setMaximumHeight( statusBar()->height()-10 );

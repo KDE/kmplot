@@ -88,7 +88,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget );
 	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 	setWidget( view );
-	view->setFocusPolicy(QWidget::ClickFocus);
+	view->setFocusPolicy(Qt::ClickFocus);
 	minmaxdlg = new KMinMax(view, m_parent);
 	view->setMinMaxDlg(minmaxdlg);
 	m_quickEdit = new KLineEdit( parentWidget );
@@ -368,7 +368,8 @@ void MainDlg::slotOpenRecent( const KURL &url )
 	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
 	{
 		QByteArray data;
-		QDataStream stream(data, QIODevice::WriteOnly);
+		QDataStream stream( &data,QIODevice::WriteOnly);
+		stream.setVersion(QDataStream::Qt_3_1);
 		stream << url;
 		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KURL)", data);
 		return;

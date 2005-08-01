@@ -2063,7 +2063,8 @@ void View::setStatusBar(const QString &text, const int id)
 	else
 	{
 		QByteArray parameters;
-		QDataStream arg( parameters, QIODevice::WriteOnly);
+		QDataStream arg( &parameters,QIODevice::WriteOnly);
+		arg.setVersion(QDataStream::Qt_3_1);
 		arg << text << id;
 		m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","setStatusBarText(QString,int)", parameters);
 	}
@@ -2071,17 +2072,19 @@ void View::setStatusBar(const QString &text, const int id)
 void View::startProgressBar(int steps)
 {
 	QByteArray data;
-	QDataStream stream(data, QIODevice::WriteOnly);
+	QDataStream stream( &data,QIODevice::WriteOnly);
+	stream.setVersion(QDataStream::Qt_3_1);
 	stream << steps;
 	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","startProgressBar(int)", data);
 }
 bool View::stopProgressBar()
 {
-	Q3CString replyType;
+	DCOPCString	 replyType;
 	QByteArray replyData;
 	m_dcop_client->call(m_dcop_client->appId(), "KmPlotShell","stopProgressBar()", QByteArray(), replyType, replyData);
 	bool result;
-	QDataStream stream(replyData, QIODevice::ReadOnly);
+	QDataStream stream( &replyData,QIODevice::ReadOnly);
+	stream.setVersion(QDataStream::Qt_3_1);
 	stream >> result;
 	return result;
 }

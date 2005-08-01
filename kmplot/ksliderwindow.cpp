@@ -61,9 +61,9 @@ KSliderWindow::KSliderWindow(QWidget* parent, int num ) :
 	installEventFilter(this);
 	
 	m_popupmenu = new KPopupMenu(this);
-	KAction *mnuMinValue = new KAction(i18n("&Change minimum value") ,0,this, SLOT( mnuMinValue_clicked() ),0);
+	KAction *mnuMinValue = new KAction(i18n("&Change Minimum Value") ,0,this, SLOT( mnuMinValue_clicked() ),0);
 	mnuMinValue->plug(m_popupmenu);
-	KAction *mnuMaxValue = new KAction(i18n("&Change maximum value") ,0,this, SLOT( mnuMaxValue_clicked() ),0 );
+	KAction *mnuMaxValue = new KAction(i18n("&Change Maximum Value") ,0,this, SLOT( mnuMaxValue_clicked() ),0 );
 	mnuMaxValue->plug(m_popupmenu);
 }
 
@@ -99,7 +99,7 @@ void KSliderWindow::closeEvent( QCloseEvent * e)
 void KSliderWindow::mnuMinValue_clicked()
 {
 	bool ok;
-	int const result = KInputDialog::getInteger(i18n("Change minimum value"), i18n("Type a new minimum value for the slider:"), slider->minValue(), INT_MIN, INT_MAX, 1, 10, &ok);
+	int const result = KInputDialog::getInteger(i18n("Change Minimum Value"), i18n("Type a new minimum value for the slider:"), slider->minValue(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)
 		return;
 	slider->setMinValue(result);
@@ -110,7 +110,7 @@ void KSliderWindow::mnuMinValue_clicked()
 void KSliderWindow::mnuMaxValue_clicked()
 {
 	bool ok;
-	int const result = KInputDialog::getInteger(i18n("Change maximum value"), i18n("Type a new maximum value for the slider:"), slider->maxValue(), INT_MIN, INT_MAX, 1, 10, &ok);
+	int const result = KInputDialog::getInteger(i18n("Change Maximum Value"), i18n("Type a new maximum value for the slider:"), slider->maxValue(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)
 		return;
 	slider->setMaxValue(result);

@@ -67,7 +67,7 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	editintegralpage = new EditIntegralPage( page2 );
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
-		editfunctionpage->listOfSliders->insertItem( i18n( "Slider no. %1" ).arg( number +1) );
+		editfunctionpage->listOfSliders->insertItem( i18n( "Slider No. %1" ).arg( number +1) );
 	}
 	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
 	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_toggled(bool) ) );

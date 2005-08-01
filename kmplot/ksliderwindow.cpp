@@ -26,7 +26,7 @@
 #include <qcursor.h>
 #include <qslider.h>
 #include <qtooltip.h>
-#include <q3whatsthis.h>
+
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QEvent>
@@ -51,7 +51,7 @@ KSliderWindow::KSliderWindow(QWidget* parent, int num ) :
 {
 	setCaption(i18n( "Slider %1" ).arg( num+1 ) );
 	QToolTip::add( slider, i18n( "Slider no. %1" ).arg( num+1 ));
-	Q3WhatsThis::add( this, i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
+	this->setWhatsThis( i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
 	
 	// load the min and max value + the current value
 	KConfig config( "kmplotrc" );

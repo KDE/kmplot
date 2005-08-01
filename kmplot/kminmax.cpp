@@ -30,7 +30,7 @@
 #include <kpushbutton.h>
 #include <qlabel.h>
 #include <qtooltip.h>
-#include <q3whatsthis.h> 
+ 
 //Added by qt3to4:
 #include <Q3ValueList>
 
@@ -74,21 +74,21 @@ void KMinMax::init(char m)
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText(i18n("&Find"));
 		QToolTip::add(min,i18n("Lower boundary of the plot range"));
-		Q3WhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		min->setWhatsThis(i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		QToolTip::add(max,i18n("Upper boundary of the plot range"));
-		Q3WhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		max->setWhatsThis(i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
 		if ( m_mode == 1) //find maximum point
 		{
 			setCaption(i18n("Find Maximum Point"));
 			QToolTip::add( cmdFind, i18n( "Search for the maximum point in the range you specified" ) );
-			Q3WhatsThis::add(cmdFind,i18n("Search for the highest y-value in the x-range you specified and show the result in a message box."));
+			cmdFind->setWhatsThis(i18n("Search for the highest y-value in the x-range you specified and show the result in a message box."));
 		}
 		else
 		{
 			setCaption(i18n("Find Minimum Point"));
 			QToolTip::add( cmdFind, i18n( "Search for the minimum point in the range you specified" ) );
-			Q3WhatsThis::add(cmdFind,i18n("Search for the lowest y-value in the x-range you specified and show the result in a message box."));
+			cmdFind->setWhatsThis(i18n("Search for the lowest y-value in the x-range you specified and show the result in a message box."));
 		}
 	}
 	else if ( m_mode == 2) //get y-value
@@ -100,13 +100,13 @@ void KMinMax::init(char m)
 		min->setText("");
 		max->setText("");
 		QToolTip::add(min,i18n("Lower boundary of the plot range"));
-		Q3WhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		min->setWhatsThis(i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		QToolTip::add(max,i18n("No returned y-value yet"));
-		Q3WhatsThis::add(max,i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
+		max->setWhatsThis(i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
 		
 		cmdFind->setText(i18n("&Calculate"));
 		QToolTip::add( cmdFind, i18n( "Get the y-value from the x-value you typed" ) );
-		Q3WhatsThis::add(cmdFind,i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
+		cmdFind->setWhatsThis(i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
 
 	}
 	else if ( m_mode == 3) //area under a graph
@@ -118,16 +118,16 @@ void KMinMax::init(char m)
 		range.setNum(View::xmax);
 		max->setText(range);
 		QToolTip::add(min,i18n("Lower boundary of the plot range"));
-		Q3WhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		min->setWhatsThis(i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		QToolTip::add(max,i18n("Upper boundary of the plot range"));
-		Q3WhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		max->setWhatsThis(i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
 		setCaption(i18n("Area Under Graph"));
 		lblMin->setText(i18n("Draw the area between the x-values:"));
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText(i18n("&Draw"));
 		QToolTip::add( cmdFind, i18n( "Draw the area between the function and the y-axis" ) );
-		Q3WhatsThis::add(cmdFind,i18n("Draw the area between the function and the y-axis and show the area in a message box."));
+		cmdFind->setWhatsThis(i18n("Draw the area between the function and the y-axis and show the area in a message box."));
 		
 	}
 
@@ -328,7 +328,7 @@ void KMinMax::cmdFind_clicked()
 			max->setText(tmp);
 		}
 		QToolTip::add(max,i18n("The returned y-value"));
-		Q3WhatsThis::add(max,i18n("Here you see the result of the calculation: the returned y-value you got from the x-value in the textbox above"));
+		max->setWhatsThis(i18n("Here you see the result of the calculation: the returned y-value you got from the x-value in the textbox above"));
 	}
 	else if ( m_mode == 3)
 	{

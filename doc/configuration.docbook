@@ -2,19 +2,19 @@
 <title>Configuring &kmplot;</title> 
 <para>To access the &kmplot; configuration
 dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
-KmPlot...</guimenuitem></menuchoice>. A number of settings can also be changed
+&kmplot;...</guimenuitem></menuchoice>. A number of settings can also be changed
 from options in the <guimenu>Edit</guimenu> menu, as well. </para>
 
 <note>
 <para>Settings changed in the &kmplot; configuration dialog become the
 default for &kmplot;, and only take effect when a new plot is started. Settings
-changed in the <guimenu>View</guimenu> menu take effect immediately, but do not
+changed in the <guimenu>Edit</guimenu> menu take effect immediately, but do not
 persist after &kmplot; is exited.</para>
 </note>
 
 <sect1 id="general-config">
 <title><guilabel>General</guilabel> Configuration</title>
-<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first tab you can set calculation-precision, angle-mode (radians and degrees), background color and zoom in and zoom out factors. </para><para>The second tab let you define you own constants.  &kmplot; saves the constains in the same file as KCalc does. That means you can create a constant in  &kmplot;, close the program and load it in KCalc and vice versa.  &kmplot; only supports constant names that consist one capital character and if you in KCalc define a constant name that is not one character, the name will be truncated. E.g, if you already have the constants "apple" and "bananas" in KCalc, they will be renamed to "A" and "B" in &kmplot;.</para>
+<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first tab you can set calculation-precision, angle-mode (radians and degrees), background color and zoom in and zoom out factors. </para><para>The second tab let you define you own constants.  &kmplot; saves the constans in the same file as KCalc does. That means you can create a constant in  &kmplot;, close the program and load it in KCalc and vice versa.  &kmplot; only supports constant names that consist of one capital character and if you in KCalc define a constant name that is not one character, the name will be truncated. E.g, if you already have the constants "apple" and "bananas" in KCalc, they will be renamed to "A" and "B" in &kmplot;.</para>
 
 <screenshot>
 <screeninfo>Here is a screenshot of the &kmplot; welcome window</screeninfo>
@@ -37,7 +37,7 @@ persist after &kmplot; is exited.</para>
 configuration option, you can change the colors of the axes and grid of the
 main &kmplot; area.</para>
 <para>In the <guilabel>Functions</guilabel> tab, you can change the colors used
-for the graphs of the ten functions allowed in &kmplot;.</para>
+for the graphs of the functions allowed in &kmplot;.</para>
 </sect1>
 
 <sect1 id="coords-config">

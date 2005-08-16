@@ -79,7 +79,7 @@ parametric function in &kmplot;, follow the procedure as for an explicit
 function, but prefix the name of the function describing the x-coordinate with
 the letter x, and the function describing the y-coordinate with the letter
 y. As with explicit functions, you may use any variable name you wish for the
-parameter. To draw a parametric function, you must go to <guimenu>Functions</guimenu><guimenuitem>New Parametric Plot...</guimenuitem>. A function name will be created automatic if you do not specify one.</para>
+parameter. To draw a parametric function, you must go to <guimenu>Plot</guimenu><guimenuitem>New Parametric Plot...</guimenuitem>. A function name will be created automatic if you do not specify one.</para>
 <para>As an example, suppose you want to draw a circle, which has parametric
 equations x=sin(t), y=cos(t). In the &kmplot; functions dialog, do the
 following:

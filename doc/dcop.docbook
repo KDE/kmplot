@@ -1,9 +1,9 @@
 <chapter id="dcop">
 	<title>Scripting &kmplot;</title>
 	
-	<para>A new feature in KDE 3.4 is that you can write scrips for Kmplot with DCOP. For example, if you want to define a new function <userinput>f(x)=2sin x+3cos x</userinput>, set its line width to 20 and then draw it, you type in a console:</para>
+	<para>A new feature in KDE 3.4 is that you can write scrips for &kmplot; with DCOP. For example, if you want to define a new function <userinput>f(x)=2sin x+3cos x</userinput>, set its line width to 20 and then draw it, you type in a console:</para>
 	<para><command>dcop kmplot-PID Parser addFunction "f(x)=2sin x+3cos x"</command>
-		As a result, the new function's id number will be returned, or -1 if the function could't be defined.</para>
+		As a result, the new function's id number will be returned, or -1 if the function could not be defined.</para>
 	<para><command>>dcop kmplot-PID Parser setFunctionFLineWidth 20 ID</command>
 		This command sets the function with the id number ID the line width to 20.</para>
 	<para><command>>dcop kmplot-PID View drawPlot</command>

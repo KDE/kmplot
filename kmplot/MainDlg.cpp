@@ -176,7 +176,7 @@ void MainDlg::setupActions()
 	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
 	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value..." ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
 	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value..." ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
-	KAction *mnuArea = new KAction( i18n( "&Area Under Graph..." ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
+	KAction *mnuArea = new KAction( i18n( "&Calculate integral" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
 
 	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
 	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );

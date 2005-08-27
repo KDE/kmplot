@@ -120,12 +120,12 @@ void KMinMax::init(char m)
 		QToolTip::add(max,i18n("Upper boundary of the plot range"));
 		QWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
-		setCaption(i18n("Area Under Graph"));
-		lblMin->setText(i18n("Draw the area between the x-values:"));
+		setCaption(i18n("Calculate integral"));
+		lblMin->setText(i18n("Calculate the integral between the x-values:"));
 		lblMax->setText(i18n("and:"));
-		cmdFind->setText(i18n("&Draw"));
-		QToolTip::add( cmdFind, i18n( "Draw the area between the function and the y-axis" ) );
-		QWhatsThis::add(cmdFind,i18n("Draw the area between the function and the y-axis and show the area in a message box."));
+		cmdFind->setText(i18n("&Calculate"));
+		QToolTip::add( cmdFind, i18n( "Calculate the integral between the x-values" ) );
+		QWhatsThis::add(cmdFind,i18n("Calculate the numeric integral between the x-values and draw the result as an area."));
 		
 	}
 
@@ -336,7 +336,7 @@ void KMinMax::cmdFind_clicked()
 		{
 			m_view->setFocus();
 			m_view->update();
-			KMessageBox::information(this,i18n("The area between %1 and %2\nis: %3").arg(dmin_tmp).arg(dmax).arg(dmin));
+			KMessageBox::information(this,i18n("The integral in the interval [%1, %2] is:\n%3").arg(dmin_tmp).arg(dmax).arg(dmin));
 		}
 	}
 

@@ -170,6 +170,15 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
 
 void XParser::fixFunctionName( QString &str, int const type, int const id)
 {
+  if ( str.startsWith( "y=" ) ) //we find a free function name
+  {
+    str.remove( 0, 2 );
+    str.prepend("(x)=");
+    QString function_name;
+    findFunctionName(function_name, id, type);
+    str.prepend( function_name );
+  }
+
   int p1=str.find('(');
   int p2=str.find(')');
   if( p1>=0 && str.at(p2+1)=='=')

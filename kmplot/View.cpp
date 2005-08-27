@@ -65,7 +65,7 @@ View::View(bool const r, bool &mo, KPopupMenu *p, QWidget* parent, const char* n
 	backgroundcolor = Settings::backgroundcolor();
 	invertColor(backgroundcolor,inverted_backgroundcolor);
 	setBackgroundColor(backgroundcolor);
-	setMouseTracking(TRUE);
+	setMouseTracking(true);
 	rootflg = false;
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 		sliders[ number ] = 0;
@@ -508,7 +508,7 @@ void View::setpi(QString *s)
 bool View::root(double *x0, Ufkt *it)
 {
 	if(rootflg)
-		return FALSE;
+		return false;
 	double yn;
 	double x=csxpos;
 	double y=fabs(csypos);
@@ -531,12 +531,12 @@ bool View::root(double *x0, Ufkt *it)
 		if(y<1e-8)
 		{
 			*x0=x;
-			return TRUE;
+			return true;
 		}
 		if(fabs(dx)<1e-8)
-			return FALSE;
+			return false;
 		if(x<xmin || x>xmax)
-			return FALSE;
+			return false;
 	}
 }
 

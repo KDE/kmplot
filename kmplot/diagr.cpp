@@ -395,7 +395,7 @@ void CDiagr::drawGrid( QPainter* pDC )
 			y2=(int)(oy+c*sin(w));
 			pDC->Line(x1, y1, x2, y2);
 		}
-		pDC->setClipping(FALSE);
+		pDC->setClipping(false);
 	}
 }
 

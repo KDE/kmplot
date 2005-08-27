@@ -130,7 +130,7 @@
                         <string>list of functions to be plotted</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Here you see the list of all functions to be plotted.</string>
+                        <string>Here you see the list of all functions to be plotted. The checked functions are visible, the others are hidden. Click on a checkbox to show or hide the function.</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="4" column="1">
@@ -196,7 +196,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>New &amp;Function Plot...</string>
+                        <string>Ne&amp;w Function Plot...</string>
                     </property>
                     <property name="default">
                         <bool>true</bool>
@@ -285,7 +285,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>&amp;Copy Function...</string>
+                        <string>Cop&amp;y Function...</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>define a new function</string>
@@ -407,9 +407,6 @@
     <tabstop>pushButtonCancel</tabstop>
     <tabstop>pushButtonHelp</tabstop>
 </tabstops>
-<includes>
-    <include location="local" impldecl="in implementation">FktDlgData.ui.h</include>
-</includes>
 <slots>
     <slot>slotDelete()</slot>
     <slot>slotEdit()</slot>
@@ -421,4 +418,7 @@
     <slot>slotNewPrime()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistview.h</includehint>
+</includehints>
 </UI>

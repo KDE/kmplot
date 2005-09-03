@@ -120,7 +120,7 @@ void KMinMax::init(char m)
 		QToolTip::add(max,i18n("Upper boundary of the plot range"));
 		QWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
-		setCaption(i18n("Calculate integral"));
+		setCaption(i18n("Calculate Integral"));
 		lblMin->setText(i18n("Calculate the integral between the x-values:"));
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText(i18n("&Calculate"));

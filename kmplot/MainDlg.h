@@ -141,6 +141,7 @@ public slots:
 	void findMinimumValue();
 	void findMaximumValue();
 	void graphArea();
+    void resetZoom();
 
 private:
 	/// Settings the standard and non standard actions of the application.
@@ -189,6 +190,7 @@ private:
 	KURL m_currentfile;
 	/// The axes config dialogs
 	CoordsConfigDialog* coordsDialog;
+    KRadioAction * m_mnuNoZoom;
 
 protected slots:
 	/**

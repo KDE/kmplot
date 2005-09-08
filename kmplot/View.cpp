@@ -72,7 +72,7 @@ View::View(bool const r, bool &mo, KPopupMenu *p, QWidget* parent, const char* n
 	updateSliders();
 	m_popupmenushown = 0;
 	m_popupmenu->insertTitle( "",10);
-	zoom_mode = 0;
+    zoom_mode = Z_Normal;
 	isDrawing=false;
 	areaDraw = false;
 }
@@ -747,13 +747,13 @@ void View::mousePressEvent(QMouseEvent *e)
 		return;
 	}
 
-	if (  zoom_mode==1 ) //rectangle zoom
+	if (  zoom_mode==Z_Rectangular ) //rectangle zoom
 	{
-		zoom_mode=4;
+		zoom_mode=Z_Center;
 		rectangle_point = e->pos();
 		return;
 	}
-	else if (  zoom_mode==2 ) //zoom in
+	else if (  zoom_mode==Z_ZoomIn ) //zoom in
 	{
 		QPainter DC;
 		DC.begin(this);
@@ -1022,9 +1022,9 @@ void View::mousePressEvent(QMouseEvent *e)
 
 void View::mouseReleaseEvent ( QMouseEvent * e )
 {
-	if ( zoom_mode==4)
+	if ( zoom_mode == Z_Center )
 	{
-		zoom_mode=1;
+		zoom_mode = Z_Rectangular;
 		if( (e->pos().x() - rectangle_point.x() >= -2) && (e->pos().x() - rectangle_point.x() <= 2) ||
 		        (e->pos().y() - rectangle_point.y() >= -2) && (e->pos().y() - rectangle_point.y() <= 2) )
 		{
@@ -1434,9 +1434,9 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 
 void View::keyPressEvent( QKeyEvent * e)
 {
-	if ( zoom_mode == 4) //drawing a rectangle
+	if ( zoom_mode == Z_Center) //drawing a rectangle
 	{
-		zoom_mode = 1;
+		zoom_mode = Z_Rectangular;
 		update();
 		return;
 	}
@@ -1932,29 +1932,49 @@ void View::mnuMove_clicked()
 void View::mnuNoZoom_clicked()
 {
 	setCursor(Qt::ArrowCursor);
-	zoom_mode = 0;
+	zoom_mode = Z_Normal;
 }
 
 void View::mnuRectangular_clicked()
 {
-	setCursor(Qt::CrossCursor);
-	zoom_mode = 1;
+  if ( zoom_mode == Z_Rectangular )
+    resetZoom();
+  else
+  {
+    setCursor(Qt::CrossCursor);
+    zoom_mode = Z_Rectangular;
+  }
 }
 void View::mnuZoomIn_clicked()
 {
-	setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
-	zoom_mode = 2;
+    if ( zoom_mode == Z_ZoomIn )
+      resetZoom();
+    else
+    {
+	   setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+	   zoom_mode = Z_ZoomIn;
+    }
 }
 
 void View::mnuZoomOut_clicked()
 {
+  if ( zoom_mode == Z_ZoomOut )
+    resetZoom();
+  else
+  {
 	setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
-	zoom_mode = 3;
+	zoom_mode = Z_ZoomOut;
+  }
 }
 void View::mnuCenter_clicked()
 {
+  if ( zoom_mode == Z_Center )
+    resetZoom();
+  else
+  {
 	setCursor(Qt::PointingHandCursor);
-	zoom_mode = 5;
+	zoom_mode = Z_Center;
+  }
 }
 void View::mnuTrig_clicked()
 {
@@ -1990,19 +2010,19 @@ void View::restoreCursor()
 {
 	switch (zoom_mode)
 	{
-		case 0:  //no zoom
+		case Z_Normal:  //no zoom
 			setCursor(Qt::ArrowCursor);
 			break;
-		case 1: //rectangle zoom
+		case Z_Rectangular: //rectangle zoom
 			setCursor(Qt::CrossCursor);
 			break;
-		case 2: //zoom in
+		case Z_ZoomIn: //zoom in
 			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
 			break;
-		case 3: //zoom in
+		case Z_ZoomOut: //zoom out
 			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 			break;
-		case 5: //center a point
+		case Z_Center: //center a point
 			setCursor(Qt::PointingHandCursor);
 			break;
 	}

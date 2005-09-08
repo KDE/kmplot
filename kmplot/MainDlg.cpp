@@ -110,6 +110,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	// User edited the configuration - update your local copies of the
 	// configuration data
 	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+    connect( view, SIGNAL( resetZoom() ), this, SLOT(resetZoom() ) );
 }
 
 MainDlg::~MainDlg()
@@ -139,14 +140,14 @@ void MainDlg::setupActions()
 	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( slotExport() ), actionCollection(), "export");
 
 	//zoom menu
-	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,"CTRL+0",view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
+	m_mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,"CTRL+0",view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
 	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &Rectangular"), "viewmagfit", "CTRL+1",view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
 	KRadioAction * mnuZoomIn = new KRadioAction(i18n("Zoom &In"), "viewmag+", "CTRL+2",view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
 	KRadioAction * mnuZoomOut = new KRadioAction(i18n("Zoom &Out"), "viewmag-", "CTRL+3",view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
 	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center Point") ,"CTRL+4",view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
 	(void ) new KAction(i18n("&Fit Widget to Trigonometric Functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
-	mnuNoZoom->setExclusiveGroup("zoom_modes");
-	mnuNoZoom->setChecked(true);
+	m_mnuNoZoom->setExclusiveGroup("zoom_modes");
+    m_mnuNoZoom->setChecked(true);
 	mnuRectangular->setExclusiveGroup("zoom_modes");
 	mnuZoomIn->setExclusiveGroup("zoom_modes");
 	mnuZoomOut->setExclusiveGroup("zoom_modes");
@@ -757,6 +758,11 @@ void MainDlg::optionsConfigureKeys()
 void MainDlg::optionsConfigureToolbars()
 {
 	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureToolbars()", QByteArray());
+}
+
+void MainDlg::resetZoom()
+{
+  m_mnuNoZoom->activate();
 }
 
 // It's usually safe to leave the factory code alone.. with the

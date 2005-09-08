@@ -49,6 +49,15 @@ class XParser;
 class KMinMax;
 class KSliderWindow;
 
+enum ZoomMode
+{
+    Z_Normal = 0,
+    Z_Rectangular = 1,
+    Z_ZoomIn = 2,
+    Z_ZoomOut = 3,
+    Z_Center = 4
+};
+
 /**
  * @short This class contains the plots. 
  *
@@ -143,6 +152,7 @@ protected slots:
 
 signals:
 	void setStatusBarText(const QString &);
+    void resetZoom();
 
 private:
 	/// Print out table with additional information.
@@ -246,7 +256,8 @@ private:
 	char m_popupmenushown; /// 0==no popup 1==popup 2==popup+trace mode before
 	/// for zoom-mode
 	QPoint rectangle_point;
-	char zoom_mode; ///0=normal 1=rectangular zoom, 2=zoom in, 3=zoom out ,4=drawing a rectangle, 5=center
+	/*char zoom_mode;*/ ///0=normal 1=rectangular zoom, 2=zoom in, 3=zoom out ,4=drawing a rectangle, 5=center
+    ZoomMode zoom_mode;
 	/// true == modifications not saved
 	bool &m_modified;
 	/// False if KmPlot is started as a program, otherwise true

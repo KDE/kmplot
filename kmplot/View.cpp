@@ -1434,6 +1434,11 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 
 void View::keyPressEvent( QKeyEvent * e)
 {
+    if ( zoom_mode != Z_Normal && e->key() == Qt::Key_Escape )
+    {
+      resetZoom();
+      return;
+    }
 	if ( zoom_mode == Z_Center) //drawing a rectangle
 	{
 		zoom_mode = Z_Rectangular;

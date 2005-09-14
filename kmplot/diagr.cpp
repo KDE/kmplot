@@ -107,7 +107,7 @@ void CDiagr::Skal( double ex, double ey )
 
 void CDiagr::Plot(QPainter* pDC)
 {
-	QPen pen(frameColor, borderThickness);
+	QPen pen(QColor(frameColor), borderThickness);
 
 	if( g_mode != GRID_NONE )
 		drawGrid( pDC ); // draw the grid
@@ -227,7 +227,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 
 	if( Settings::showAxes() )
 	{  
-		pDC->setPen( QPen( axesColor, axesLineWidth ) );
+		pDC->setPen( QPen( QColor(axesColor), axesLineWidth ) );
 		pDC->Lineh(PlotArea.left(), b=Transy(0.), a=PlotArea.right());	    // x-Achse
 		if( Settings::showArrows()) 		    			// ARROWS
 		{	int const dx=40;
@@ -245,7 +245,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 		}
 	}
 
-	pDC->setPen( QPen( axesColor, ticWidth ) );
+	pDC->setPen( QPen( QColor(axesColor), ticWidth ) );
 	if( Settings::showAxes() )
 	{
 		da=oy-ticLength;
@@ -328,7 +328,7 @@ void CDiagr::drawGrid( QPainter* pDC )
 {
 	int a, b;
 	double d, x, y;
-	QPen pen( gridColor, gridLineWidth );
+	QPen pen( QColor(gridColor), gridLineWidth );
 
 	pDC->setPen(pen);
 	if( g_mode==GRID_LINES )

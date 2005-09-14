@@ -47,7 +47,7 @@
 #include "ksliderwindow.h"
 
 KSliderWindow::KSliderWindow(QWidget* parent, int num ) :
-	SliderWindow( parent, "", false, Qt::WStyle_Tool-Qt::WStyle_Maximize ), m_num(num)
+	SliderWindow( parent, "", false, (Qt::WFlags)(Qt::WStyle_Tool-Qt::WStyle_Maximize) ), m_num(num)
 {
 	setCaption(i18n( "Slider %1" ).arg( num+1 ) );
 	QToolTip::add( slider, i18n( "Slider no. %1" ).arg( num+1 ));

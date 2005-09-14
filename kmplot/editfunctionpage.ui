@@ -85,7 +85,7 @@ Example: f(x)=x^2</string>
                 </property>
                 <widget class="QCheckBox">
                     <property name="name">
-                        <cstring>hide</cstring>
+                        <cstring>hideCheck</cstring>
                     </property>
                     <property name="text">
                         <string>&amp;Hide</string>

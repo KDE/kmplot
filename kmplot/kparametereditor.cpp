@@ -37,6 +37,7 @@
 #include <qfile.h>
 #include <qtextstream.h>
 #include <q3valuelist.h>
+#include <q3listview.h>
 
 #include "kparametereditor.h"
 
@@ -289,7 +290,7 @@ void KParameterEditor::varlist_doubleClicked( Q3ListBoxItem * )
 
 bool KParameterEditor::checkTwoOfIt(const QString & text)
 {
-	if ( list->findItem(text,Qt::ExactMatch) == 0)
+	if ( list->findItem(text,Q3ListView::ExactMatch) == 0)
 		return false;
 	else
 		return true;

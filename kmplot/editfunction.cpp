@@ -88,7 +88,7 @@ void EditFunction::clearWidgets()
 {
 	// Clear the Function page
 	editfunctionpage->equation->clear();
-	editfunctionpage->hide->setChecked( false );
+	editfunctionpage->hideCheck->setChecked( false );
 	editfunctionpage->customMinRange->setChecked( false );
 	editfunctionpage->customMaxRange->setChecked( false );
 	editfunctionpage->min->clear();
@@ -115,7 +115,7 @@ void EditFunction::setWidgets()
 {
 	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_id) ];
 	editfunctionpage->equation->setText( ufkt->fstr );
-	editfunctionpage->hide->setChecked( !ufkt->f_mode);
+	editfunctionpage->hideCheck->setChecked( !ufkt->f_mode);
 	editfunctionpage->lineWidth->setValue( ufkt->linewidth );
 	editfunctionpage->color->setColor( ufkt->color );
 	
@@ -272,7 +272,7 @@ void EditFunction::accept()
 	tmp_ufkt.integral_precision = editintegralpage->precision->value();
 	tmp_ufkt.integral_linewidth = editintegralpage->lineWidth->value();
 
-        tmp_ufkt.f_mode = !editfunctionpage->hide->isChecked();
+        tmp_ufkt.f_mode = !editfunctionpage->hideCheck->isChecked();
 	
 	if( editfunctionpage->useSlider->isChecked() )
 		tmp_ufkt.use_slider = editfunctionpage->listOfSliders->currentItem(); //specify which slider that will be used

@@ -426,7 +426,7 @@ void View::drawHeaderTable(QPainter *pDC)
 	if( m_printHeaderTable )
 	{
 		pDC->translate(250., 150.);
-		pDC->setPen(QPen(black, (int)(5.*s)));
+		pDC->setPen(QPen(Qt::black, (int)(5.*s)));
 		pDC->setFont(QFont( Settings::headerTableFont(), 30) );
 		puts( Settings::headerTableFont().latin1() );
 		QString minStr = Settings::xMin();
@@ -454,18 +454,18 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->Linev(700, 0, 230);
 		pDC->Linev(1100, 0, 230);
 
-		pDC->drawText(0, 0, 300, 100, AlignCenter, i18n("Parameters:"));
-		pDC->drawText(300, 0, 400, 100, AlignCenter, i18n("Plotting Area"));
-		pDC->drawText(700, 0, 400, 100, AlignCenter, i18n("Axes Division"));
-		pDC->drawText(1100, 0, 400, 100, AlignCenter, i18n("Printing Format"));
-		pDC->drawText(0, 100, 300, 65, AlignCenter, i18n("x-Axis:"));
-		pDC->drawText(0, 165, 300, 65, AlignCenter, i18n("y-Axis:"));
-		pDC->drawText(300, 100, 400, 65, AlignCenter, alx);
-		pDC->drawText(300, 165, 400, 65, AlignCenter, aly);
-		pDC->drawText(700, 100, 400, 65, AlignCenter, atx);
-		pDC->drawText(700, 165, 400, 65, AlignCenter, aty);
-		pDC->drawText(1100, 100, 400, 65, AlignCenter, dfx);
-		pDC->drawText(1100, 165, 400, 65, AlignCenter, dfy);
+		pDC->drawText(0, 0, 300, 100, Qt::AlignCenter, i18n("Parameters:"));
+		pDC->drawText(300, 0, 400, 100, Qt::AlignCenter, i18n("Plotting Area"));
+		pDC->drawText(700, 0, 400, 100, Qt::AlignCenter, i18n("Axes Division"));
+		pDC->drawText(1100, 0, 400, 100, Qt::AlignCenter, i18n("Printing Format"));
+		pDC->drawText(0, 100, 300, 65, Qt::AlignCenter, i18n("x-Axis:"));
+		pDC->drawText(0, 165, 300, 65, Qt::AlignCenter, i18n("y-Axis:"));
+		pDC->drawText(300, 100, 400, 65, Qt::AlignCenter, alx);
+		pDC->drawText(300, 165, 400, 65, Qt::AlignCenter, aly);
+		pDC->drawText(700, 100, 400, 65, Qt::AlignCenter, atx);
+		pDC->drawText(700, 165, 400, 65, Qt::AlignCenter, aty);
+		pDC->drawText(1100, 100, 400, 65, Qt::AlignCenter, dfx);
+		pDC->drawText(1100, 165, 400, 65, Qt::AlignCenter, dfy);
 
 		pDC->drawText(0, 300, i18n("Functions:"));
 		pDC->Lineh(0, 320, 700);
@@ -593,9 +593,10 @@ void View::mouseMoveEvent(QMouseEvent *e)
 
 		QPainter painter(this);
 		QPen pen(Qt::white, 1, Qt::DotLine);
-		painter.setRasterOp (Qt::XorROP);
+#warning setRasterOp (Qt::XorROP)
+//		painter.setRasterOp (Qt::XorROP);
 		painter.setPen(pen);
-		painter.setBackgroundMode (QPainter::OpaqueMode);
+		painter.setBackgroundMode (Qt::OpaqueMode);
 		painter.setBackgroundColor (Qt::blue);
 
 		painter.drawRect(rectangle_point.x(), rectangle_point.y(), e->pos().x()-rectangle_point.x(), e->pos().y()-rectangle_point.y());
@@ -737,7 +738,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	}
 	else
 	{
-		setCursor(arrowCursor);
+		setCursor(Qt::arrowCursor);
 		setStatusBar("", 1);
 		setStatusBar("", 2);
 	}
@@ -853,7 +854,7 @@ void View::mousePressEvent(QMouseEvent *e)
 
 	}
 	double const g=tlgy*double(xmax-xmin)/(2*double(ymax-ymin));
-	if( !m_readonly && e->button()==RightButton) //clicking with the right mouse button
+	if( !m_readonly && e->button()==Qt::RightButton) //clicking with the right mouse button
 	{
 		char function_type;
 		for( Q3ValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
@@ -957,7 +958,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		}
 		return;
 	}
-	if(e->button()!=LeftButton) return ;
+	if(e->button()!=Qt::LeftButton) return ;
 	if(csmode>=0) //disable trace mode if trace mode is enable
 	{
 		csmode=-1;

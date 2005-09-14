@@ -482,6 +482,12 @@ Example: sin(t)</string>
         </widget>
     </grid>
 </widget>
+<customwidgets>
+    <customwidget>
+        <class>KIntNumInput</class>
+        <header location="local">knuminput.h</header>
+    </customwidget>
+</customwidgets>
 <connections>
     <connection>
         <sender>buttonOk</sender>

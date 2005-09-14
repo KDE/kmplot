@@ -239,6 +239,14 @@
     </vbox>
 </widget>
 <customwidgets>
+    <customwidget>
+        <class>KIntNumInput</class>
+        <header location="local">knuminput.h</header>
+    </customwidget>
+    <customwidget>
+        <class>KDoubleNumInput</class>
+        <header location="local">knuminput.h</header>
+    </customwidget>
 </customwidgets>
 <connections>
     <connection>

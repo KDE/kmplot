@@ -38,7 +38,7 @@ KEditConstant::KEditConstant(XParser *p, char &c, QString &v, QWidget *parent, c
 	if ( constant != '0' )
 	{
 		txtConstant->setEnabled(false);
-		txtConstant->setText(QChar(constant));
+		txtConstant->setText(QString(constant));
 		txtValue->setText(value);
 		txtValue->setFocus();
 		txtValue->selectAll();

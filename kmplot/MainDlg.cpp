@@ -632,7 +632,7 @@ void MainDlg::loadConstants()
 		if ( tmp_constant == " " || tmp_constant == " ")
 		  return;
 		
- 		constant = tmp_constant.at(0).upper().latin1();
+ 		constant = tmp_constant[0].upper().latin1();
 
 		if ( constant<'A' || constant>'Z')
 			constant = 'A';

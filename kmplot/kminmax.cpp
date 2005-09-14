@@ -33,6 +33,7 @@
  
 //Added by qt3to4:
 #include <Q3ValueList>
+#include <q3listview.h>
 
 
 #include "kminmax.h"
@@ -179,7 +180,7 @@ void KMinMax::updateFunctions()
 	else
 		cmdFind->setEnabled(true);
 	selectItem();
-	Q3ListBoxItem *found_item = list->findItem(selected_item,Qt::ExactMatch);
+	Q3ListBoxItem *found_item = list->findItem(selected_item,Q3ListView::ExactMatch);
 	if ( found_item && m_view->csmode < 0)
 		list->setSelected(found_item,true);
 }
@@ -205,7 +206,7 @@ void KMinMax::selectItem()
 		function +="\'";
 	}
 	//kdDebug() << "function: " << function << endl;
-	Q3ListBoxItem *item = list->findItem(function,Qt::ExactMatch);
+	Q3ListBoxItem *item = list->findItem(function,Q3ListView::ExactMatch);
 	list->setSelected(item,true);
 
 	if (  !ufkt->parameters.isEmpty() )
@@ -275,7 +276,7 @@ void KMinMax::cmdFind_clicked()
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
 		p_mode = 3;
-		function.at(0) =  function.at(0).lower();
+		function[0] =  function[0].lower();
 	}
 
 	QString fname, fstr;
@@ -369,7 +370,7 @@ void KMinMax::list_highlighted(Q3ListBoxItem* item)
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
 		p_mode = 3;
-		function.at(0) =  function.at(0).lower();
+		function[0] =  function[0].lower();
 	}
 	QString const sec_function = function.section('(',0,0);
         for(Q3ValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
@@ -405,7 +406,7 @@ void KMinMax::cmdParameter_clicked()
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
 		p_mode = 3;
-		function.at(0) =  function.at(0).lower();
+		function[0] =  function[0].lower();
 	}
         
 	QString const sec_function = function.section('(',0,0);

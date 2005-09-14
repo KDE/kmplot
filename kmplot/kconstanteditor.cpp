@@ -48,7 +48,7 @@ KConstantEditor::KConstantEditor(View *v, QWidget *parent, const char *name)
 	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() ;++it)
 	{
 		str_value.setNum(it->value);
-		(void) new Q3ListViewItem(varlist, QChar(it->constant), str_value);
+		(void) new Q3ListViewItem(varlist, QString(it->constant), str_value);
 	}
 
 }
@@ -113,7 +113,7 @@ void KConstantEditor::cmdDelete_clicked()
 		}
 	}
 	
-	delete varlist->findItem(QChar(constant), 0); //removes the item from the constant list
+	delete varlist->findItem(QString(constant), 0); //removes the item from the constant list
 }
 
 void KConstantEditor::varlist_clicked( Q3ListViewItem * item )
@@ -153,7 +153,7 @@ void KConstantEditor::cmdDuplicate_clicked()
 			}
 		}
 		if (!found)
-			list.append(QChar(i));
+			list.append(QString(i));
 	}
 	QStringList result = KInputDialog::getItemList(i18n("Choose Name"),i18n("Choose a name for the constant:"),list, QStringList(), false, &found);
 	if (found)
@@ -168,7 +168,7 @@ void KConstantEditor::newConstantSlot()
 {
 	double dvalue = m_view->parser()->eval(value);
 	m_view->parser()->constant.append( Constant(constant, dvalue) );
-	(void) new Q3ListViewItem(varlist, QChar( constant  ), value);
+	(void) new Q3ListViewItem(varlist, QString( constant ), value);
 	varlist->sort();
 }
 
@@ -191,7 +191,7 @@ void KConstantEditor::editConstantSlot()
 		return;
 	}
 
-	Q3ListViewItem *item = varlist->findItem(QChar(constant), 0);
+	Q3ListViewItem *item = varlist->findItem(QString(constant), 0);
 	if (item!=0)
 		item->setText(1,value);
 	

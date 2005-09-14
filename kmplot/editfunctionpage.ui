@@ -904,6 +904,5 @@ Example: f(x)=x^2</string>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>
     <includehint>kcolorbutton.h</includehint>
-    <includehint>kintnuminput.h</includehint>
 </includehints>
 </UI>

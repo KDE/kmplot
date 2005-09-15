@@ -457,11 +457,12 @@ void Parser::reparse(Ufkt *item)
 void Parser::fix_expression(QString &str, int const pos)
 {
         str.remove(" " );
+        str=" "+str+" ";
         
         //insert '*' when it is needed
         QChar ch;
         bool function = false;
-        for(int i=pos; i <  str.length();i++)
+        for(int i=pos+1; i+1 <  str.length();i++)
         {
                 ch = str.at(i);
                 if ( str.at(i+1)=='(' && ch.category()==QChar::Letter_Lowercase )
@@ -496,6 +497,7 @@ void Parser::fix_expression(QString &str, int const pos)
                         i++;
                 }
         }
+        str.remove(" " );
         QString str_end = str.mid(pos);
         str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
         str.truncate(pos);

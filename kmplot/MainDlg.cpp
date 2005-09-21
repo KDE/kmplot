@@ -25,7 +25,6 @@
 
 // Qt includes
 #include <qslider.h>
-#include <qtooltip.h>
 //Added by qt3to4:
 #include <QPixmap>
 
@@ -93,7 +92,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	view->setMinMaxDlg(minmaxdlg);
 	m_quickEdit = new KLineEdit( parentWidget );
 	m_quickEdit->setFocus();
-	QToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
+	m_quickEdit->setToolTip( i18n( "Enter a function equation, for example: f(x)=x^2" ) );
 	setupActions();
 	loadConstants();
 	kmplotio = new KmPlotIO(view->parser());

@@ -1809,6 +1809,9 @@ void View::updateSliders()
 
 void View::mnuHide_clicked()
 {
+  if ( csmode == -1 )
+    return;
+
 	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(csmode)];
 	switch (cstype )
 	{
@@ -1845,6 +1848,9 @@ void View::mnuHide_clicked()
 }
 void View::mnuRemove_clicked()
 {
+  if ( csmode == -1 )
+    return;
+
 	if ( KMessageBox::questionYesNo(this,i18n("Are you sure you want to remove this function?")) == KMessageBox::Yes )
 	{
 		Ufkt *ufkt =  &m_parser->ufkt[m_parser->ixValue(csmode)];
@@ -1868,6 +1874,9 @@ void View::mnuRemove_clicked()
 }
 void View::mnuEdit_clicked()
 {
+  if ( csmode == -1 )
+    return;
+
 	if ( m_parser->ufkt[m_parser->ixValue(csmode)].fstr[0] == 'x') // a parametric function
 	{
 		int y_index = csmode+1; //the y-function
@@ -1899,12 +1908,18 @@ void View::mnuEdit_clicked()
 
 void View::mnuCopy_clicked()
 {
+  if ( csmode == -1 )
+    return;
+
 	if ( m_parser->sendFunction(csmode) )
 		m_modified = true;
 }
 
 void View::mnuMove_clicked()
 {
+  if ( csmode == -1 )
+    return;
+
 	if ( m_parser->sendFunction(csmode) )
 	{
 	  	if (!m_parser->delfkt(csmode) )

@@ -35,6 +35,7 @@
 
 
 #include <kdebug.h>
+#include <ktoolinvocation.h>
 
 // local includes
 #include "keditpolar.h"
@@ -230,7 +231,7 @@ Ufkt *KEditPolar::functionItem()
 
 void KEditPolar::slotHelp()
 {
-	kapp->invokeHelp( "", "kmplot" );
+	KToolInvocation::invokeHelp( "", "kmplot" );
 }
 
 void KEditPolar::customMinRange_toggled(bool status)

@@ -50,6 +50,7 @@
 #include "xparser.h"
 
 #include <kdebug.h>
+#include <ktoolinvocation.h>
 
 FktDlg::FktDlg( QWidget* parent, View *view ) : FktDlgData( parent, "editPlots" ), m_view(view)
 {
@@ -299,7 +300,7 @@ void FktDlg::getPlots()
 
 void  FktDlg::slotHelp()
 {
-	kapp->invokeHelp( "", "kmplot" );
+	KToolInvocation::invokeHelp( "", "kmplot" );
 }
 
 bool FktDlg::isChanged()

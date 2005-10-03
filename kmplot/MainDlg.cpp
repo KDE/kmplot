@@ -83,7 +83,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	}
 	fdlg = 0;
 	coordsDialog = 0;
-	m_popupmenu = new KPopupMenu(parentWidget);
+	m_popupmenu = new KMenu(parentWidget);
 	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget );
 	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 	setWidget( view );
@@ -460,7 +460,7 @@ void MainDlg::editConstants()
 
 void MainDlg::slotNames()
 {
-	kapp->invokeHelp( "func-predefined", "kmplot" );
+	KToolInvocation::invokeHelp( "func-predefined", "kmplot" );
 }
 
 void MainDlg::newFunction()
@@ -767,6 +767,7 @@ void MainDlg::optionsConfigureToolbars()
 // notable exception of the KAboutData data
 #include <kaboutdata.h>
 #include <klocale.h>
+#include <ktoolinvocation.h>
 
 KInstance*  KmPlotPartFactory::s_instance = 0L;
 KAboutData* KmPlotPartFactory::s_about = 0L;

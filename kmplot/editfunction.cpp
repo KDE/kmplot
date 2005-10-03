@@ -46,6 +46,7 @@
 #include <kpushbutton.h>
 
 #include <kdebug.h>
+#include <ktoolinvocation.h>
 
 // local includes
 #include "editfunction.h"
@@ -386,7 +387,7 @@ Ufkt * EditFunction::functionItem()
 
 void EditFunction::slotHelp()
 {
-	kapp->invokeHelp( "", "kmplot" );
+	KToolInvocation::invokeHelp( "", "kmplot" );
 }
 
 bool EditFunction::functionHas2Arguments()

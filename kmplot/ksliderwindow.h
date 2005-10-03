@@ -26,7 +26,7 @@
 #ifndef KSLIDERWINDOW_H
 #define KSLIDERWINDOW_H
 
-#include <kpopupmenu.h>
+#include <kmenu.h>
 
 #include "sliderwindow.h"
 //Added by qt3to4:
@@ -54,7 +54,7 @@ class KSliderWindow : public SliderWindow
 	private:
 		bool eventFilter( QObject *obj, QEvent *ev );
 		void closeEvent( QCloseEvent * );
-		KPopupMenu *m_popupmenu;
+		KMenu *m_popupmenu;
 		int m_num;
 };
 

@@ -48,7 +48,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kprogress.h>
 
 // local includes
@@ -65,7 +65,7 @@ double View::xmin = 0;
 double View::xmax = 0;
 
 
-View::View(bool const r, bool &mo, KPopupMenu *p, QWidget* parent, const char* name ) : DCOPObject("View"), QWidget( parent, name , Qt::WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
+View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, const char* name ) : DCOPObject("View"), QWidget( parent, name , Qt::WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
 {
 	m_parser = new XParser(mo);
 	init();

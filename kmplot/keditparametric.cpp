@@ -34,6 +34,7 @@
 #include <knuminput.h>
 
 #include <kdebug.h>
+#include <ktoolinvocation.h>
 
 // local includes
 #include "keditparametric.h"
@@ -326,7 +327,7 @@ Ufkt * KEditParametric::functionItem()
 
 void KEditParametric::slotHelp()
 {
-	kapp->invokeHelp( "", "kmplot" );
+	KToolInvocation::invokeHelp( "", "kmplot" );
 }
 void KEditParametric::customMinRange_toggled(bool status)
 {

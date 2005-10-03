@@ -34,7 +34,7 @@
 // KDE includes
 #include <kaction.h>
 #include <kfiledialog.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kstandarddirs.h>
 #include <kparts/browserextension.h>
 #include <kparts/part.h>
@@ -178,7 +178,7 @@ private:
 	/// A dialog used by many tools-menu-items
 	KMinMax *minmaxdlg;
 	/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
-	KPopupMenu *m_popupmenu;
+	KMenu *m_popupmenu;
 	/// Loads and saves the user's file.
 	KmPlotIO *kmplotio;
 	/// Set to true if the application is readonly

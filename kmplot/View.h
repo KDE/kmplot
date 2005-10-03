@@ -40,7 +40,7 @@
 #include <dcopclient.h>
 #include <kactionclasses.h>
 #include <kdebug.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kprinter.h>
 #include <kprogress.h>
 #include <kpushbutton.h>
@@ -66,7 +66,7 @@ class View : public QWidget, virtual public ViewIface
 	Q_OBJECT
 public:
 	/// Contructor sets up the parser, too.
-  View(bool, bool &, KPopupMenu *, QWidget* parent=NULL, const char* name=NULL );
+  View(bool, bool &, KMenu *, QWidget* parent=NULL, const char* name=NULL );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 
@@ -245,7 +245,7 @@ private:
 	///buffer the current window so all functions don't need to be re-drawed
 	QPixmap buffer;
 	/// the popup menu
-	KPopupMenu *m_popupmenu;
+	KMenu *m_popupmenu;
 	/// is set to true if an integral is calculated
 	bool isDrawing;
 	///status of the popup menu

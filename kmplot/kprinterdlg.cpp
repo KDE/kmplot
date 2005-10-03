@@ -35,8 +35,8 @@
 // local includes
 #include "kprinterdlg.h"
 
-KPrinterDlg::KPrinterDlg( QWidget *parent, const char *name )
-		: KPrintDialogPage( parent, name )
+KPrinterDlg::KPrinterDlg( QWidget *parent )
+		: KPrintDialogPage( parent )
 {
 	setTitle( i18n( "KmPlot Options" ) );
 	QVBoxLayout *layout = new QVBoxLayout( this );

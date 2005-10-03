@@ -392,7 +392,9 @@ void MainDlg::slotPrint()
 {
 	KPrinter prt( QPrinter::PrinterResolution );
 	prt.setResolution( 72 );
-	prt.addDialogPage( new KPrinterDlg( m_parent, "KmPlot page" ) );
+	KPrinterDlg* printdlg = new KPrinterDlg( m_parent );
+	printdlg->setObjectName( "KmPlot page" );
+	prt.addDialogPage( printdlg );
 	if ( prt.setup( m_parent, i18n( "Print Plot" ) ) )
 	{
 		prt.setFullPage( true );

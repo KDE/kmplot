@@ -44,7 +44,7 @@ class KPrinterDlg : public KPrintDialogPage
 	Q_OBJECT
 public:
 	/// Getting the common arguments.
-	KPrinterDlg( QWidget *parent = 0, const char *name = 0 );
+	KPrinterDlg( QWidget *parent = 0 );
 
 	/// Reimplemented.
 	void getOptions( QMap<QString, QString>& opts, bool include_def = false );

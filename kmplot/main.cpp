@@ -36,6 +36,7 @@
 #include <kaboutdata.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
+#include <klocale.h>
 
 
 

@@ -3,7 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter M�ler
 *               2000, 2002 kd.moeller@t-online.de
-*               
+*
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
 *
@@ -11,12 +11,12 @@
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or
 * (at your option) any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -143,7 +143,7 @@ int CDiagr::Transx( double x )		// reale x-Koordinate
 	{
 		xclipflg=0;
 		xi=PlotArea.right();
-                
+
 	}
 	else if(x<xmin)
 	{
@@ -167,7 +167,7 @@ int CDiagr::Transx( double x )		// reale x-Koordinate
 
 
 int CDiagr::Transy(double y)		// reale y-Koordinate
-{   
+{
         int yi;                     	// transformierte y-Koordinate
 	static double lasty;            // vorherige y-Koordinate
 	if(isnan(y))
@@ -182,13 +182,13 @@ int CDiagr::Transy(double y)		// reale y-Koordinate
 	{
 		yclipflg=0;
 		yi=PlotArea.bottom();
-                
+
 	}
 	else if(isinf(y)==1)
 	{
 		yclipflg=0;
 		yi=PlotArea.top();
-                
+
 	}
 	else if(y<ymin)
 	{
@@ -226,9 +226,11 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 	double d, da, db;
 
 	if( Settings::showAxes() )
-	{  
+	{
 		pDC->setPen( QPen( axesColor, axesLineWidth ) );
-		pDC->Lineh(PlotArea.left(), b=Transy(0.), a=PlotArea.right());	    // x-Achse
+                b = Transy( 0.0 );
+                a = PlotArea.right();
+		pDC->Lineh(PlotArea.left(), b, a);	    // x-Achse
 		if( Settings::showArrows()) 		    			// ARROWS
 		{	int const dx=40;
 			int const dy=15;
@@ -236,7 +238,9 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 			pDC->Line(a, b, a-dx, b-dy);
 		}
 
-		pDC->Linev(a=Transx(0.), PlotArea.bottom(), b=PlotArea.top()); 	    // y-Achse
+                a = Transx( 0.0 );
+                b = PlotArea.top();
+		pDC->Linev(a, PlotArea.bottom(), b); 	    // y-Achse
 		if( Settings::showArrows() )   					// ARROWS
 		{	int const dx=15;
 			int const dy=40;

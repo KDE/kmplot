@@ -41,6 +41,7 @@
 #include "kmplotprogress.h"
 //Added by qt3to4:
 #include <Q3CString>
+#include <ktoolinvocation.h>
 
 KmPlot::KmPlot( KCmdLineArgs* args)
 		: DCOPObject( "KmPlotShell" ), KParts::MainWindow( 0L, "KmPlot" )
@@ -172,8 +173,8 @@ void KmPlot::fileNew()
 	// says that it should open a new window if the document is _not_
 	// in its initial state.  This is what we do here..
 	if ( !m_part->url().isEmpty() || isModified() )
-		//KApplication::startServiceByDesktopName("kmplot");
-		KApplication::kdeinitExec("kmplot");
+		//KToolInvocation::startServiceByDesktopName("kmplot");
+		KToolInvocation::kdeinitExec("kmplot");
 }
 
 bool KmPlot::stopProgressBar()
@@ -259,7 +260,7 @@ void KmPlot::fileOpen(const KURL &url)
 
 void KmPlot::openFileInNewWindow(const KURL url)
 {
- KApplication::startServiceByDesktopName("kmplot",url.url());
+ KToolInvocation::startServiceByDesktopName("kmplot",url.url());
 }
 
 bool KmPlot::checkModified()

@@ -121,8 +121,8 @@
 </customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kfontcombo.h</includehint>
-    <includehint>knuminput.h</includehint>
-    <includehint>kfontcombo.h</includehint>
+    
+    
+    
 </includehints>
 </UI>

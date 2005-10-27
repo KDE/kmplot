@@ -412,7 +412,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 	int n;
 	QString s;
 
-	//pDC->drawText(x-dx, y+dy, 0, 0, Qt::AlignRight|Qt::AlignVCenter|Qt::DontClip, "0");
+	//pDC->drawText(x-dx, y+dy, 0, 0, Qt::AlignRight|Qt::AlignVCenter|Qt::TextDontClip, "0");
 	char draw_next=0;
 	QFontMetrics const test(font);
 	int swidth=0;
@@ -459,7 +459,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 				else
 					draw_next=0;
 			}
-			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
+			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::TextDontClip, s);
 		}
 		else if(fabs(ex-M_PI/3.)<1e-3)
 		{
@@ -493,7 +493,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 				else
 					draw_next=0;
 			}
-			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
+			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::TextDontClip, s);
 		}
 		else if(fabs(ex-M_PI/4.)<1e-3)
 		{
@@ -527,7 +527,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 				else
 					draw_next=0;
 			}
-			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
+			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::TextDontClip, s);
 		}
 		else if((n%5==0 || n==1 || n==-1 || draw_next))
 		{
@@ -548,14 +548,14 @@ void CDiagr::drawLabels(QPainter* pDC)
 				else
 					draw_next=0;
 			}
-			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, s);
+			pDC->drawText(Transx(d), y+dy, 0, 0, Qt::AlignCenter|Qt::TextDontClip, s);
 		}
 	}
 
 	if(ymax<0 && xmax<0)
-		pDC->drawText(Transx(xmax)-(4*dx), y+(dy-20), 0, 0, Qt::AlignCenter|Qt::DontClip, "x");
+		pDC->drawText(Transx(xmax)-(4*dx), y+(dy-20), 0, 0, Qt::AlignCenter|Qt::TextDontClip, "x");
 	else
-		pDC->drawText(Transx(xmax)-dx, y+dy, 0, 0, Qt::AlignCenter|Qt::DontClip, "x");
+		pDC->drawText(Transx(xmax)-dx, y+dy, 0, 0, Qt::AlignCenter|Qt::TextDontClip, "x");
 
 	for(d=tsy, n=(int)ceil(ymin/ey); d<ymd; d+=ey, ++n)
 	{
@@ -584,9 +584,9 @@ void CDiagr::drawLabels(QPainter* pDC)
 			else
 				continue;
 			if (xmin>=0)
-				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::DontClip, s);
+				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
 			else
-				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
+				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
 		}
 		else if(fabs(ey-M_PI/3.)<1e-3)
 		{
@@ -605,9 +605,9 @@ void CDiagr::drawLabels(QPainter* pDC)
 			else
 				continue;
 			if (xmin>=0)
-				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::DontClip, s);
+				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
 			else
-				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
+				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
 		}
 		else if(fabs(ey-M_PI/4.)<1e-3)
 		{
@@ -626,24 +626,24 @@ void CDiagr::drawLabels(QPainter* pDC)
 			else
 				continue;
 			if (xmin>=0)
-				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::DontClip, s);
+				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
 			else
-				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
+				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
 		}
 		else if((n%5==0 || n==1 || n==-1))
 		{
 			s=QString().sprintf("%+0.3g", n*ey);
 			if (xmin>=0)
-				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::DontClip, s);
+				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
 			else
-				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, s);
+				pDC->drawText(x-dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
 		}
 	}
 
 	if(ymax<0 && xmax<0)
-		pDC->drawText(x-dx, Transy(ymax)+(2*dy), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, "y");
+		pDC->drawText(x-dx, Transy(ymax)+(2*dy), 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
 	else if (xmin>0)
-		pDC->drawText(x-(2*dx), Transy(ymax)+dy, 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, "y");
+		pDC->drawText(x-(2*dx), Transy(ymax)+dy, 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
 	else
-		pDC->drawText(x-dx, Transy(ymax)+dy, 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::DontClip, "y");
+		pDC->drawText(x-dx, Transy(ymax)+dy, 0, 0, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
 }

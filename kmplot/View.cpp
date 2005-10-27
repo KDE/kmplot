@@ -732,13 +732,13 @@ void View::mouseMoveEvent(QMouseEvent *e)
 			DC.end();
 		}
 		csflg=1;
-		setCursor(Qt::blankCursor);
+		setCursor(Qt::BlankCursor);
 		setStatusBar(sx, 1);
 		setStatusBar(sy, 2);
 	}
 	else
 	{
-		setCursor(Qt::arrowCursor);
+		setCursor(Qt::ArrowCursor);
 		setStatusBar("", 1);
 		setStatusBar("", 2);
 	}

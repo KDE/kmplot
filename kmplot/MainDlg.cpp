@@ -96,7 +96,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	setupActions();
 	loadConstants();
 	kmplotio = new KmPlotIO(view->parser());
-	m_config = kapp->config();
+	m_config = KGlobal::config();
 	m_recentFiles->loadEntries( m_config );
 
 	// Let's create a Configure Diloag
@@ -768,6 +768,7 @@ void MainDlg::optionsConfigureToolbars()
 #include <kaboutdata.h>
 #include <klocale.h>
 #include <ktoolinvocation.h>
+#include <kglobal.h>
 
 KInstance*  KmPlotPartFactory::s_instance = 0L;
 KAboutData* KmPlotPartFactory::s_about = 0L;

@@ -263,7 +263,7 @@ void MainDlg::slotSaveas()
 {
 	if (m_readonly)
 		return;
-	const KURL url = KFileDialog::getSaveURL( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
+	const KURL url = KFileDialog::getSaveURL( QDir::currentPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
 
 	if ( !url.isEmpty() )
 	{
@@ -286,7 +286,7 @@ void MainDlg::slotSaveas()
 
 void MainDlg::slotExport()
 {
-	KURL const url = KFileDialog::getSaveURL(QDir::currentDirPath(),
+	KURL const url = KFileDialog::getSaveURL(QDir::currentPath(),
 	                 i18n("*.svg|Scalable Vector Graphics (*.svg)\n"
 	                      "*.bmp|Bitmap 180dpi (*.bmp)\n"
 	                      "*.png|Bitmap 180dpi (*.png)"), m_parent, i18n("Export") );

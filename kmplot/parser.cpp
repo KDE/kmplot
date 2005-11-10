@@ -173,7 +173,7 @@ double Parser::eval(QString str)
                 delete []stack;
 		return 0;
 	}
-	for (uint i=0;i<str.length();i++ )
+	for (int i=0;i<str.length();i++ )
 		if (str.at(i).category() == QChar::Letter_Uppercase)
 		{
 			err=14;

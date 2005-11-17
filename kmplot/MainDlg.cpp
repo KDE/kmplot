@@ -42,7 +42,7 @@
 #include <kmessagebox.h>
 #include <ktempfile.h>
 #include <ktoolbar.h>
-
+#include <ktoolinvocation.h>
 
 // local includes
 #include "editfunction.h"
@@ -64,7 +64,7 @@ class KmPlotIO;
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent, name ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
+MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
 {
 	// we need an instance
 	setInstance( KmPlotPartFactory::instance() );
@@ -816,7 +816,7 @@ extern "C"
 
 /// BrowserExtension class
 BrowserExtension::BrowserExtension(MainDlg* parent)
-		: KParts::BrowserExtension( parent, "KmPlot::BrowserExtension" )
+		: KParts::BrowserExtension( parent )
 {
 	emit enableAction("print", true);
 	setURLDropHandlingEnabled(true);

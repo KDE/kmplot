@@ -60,7 +60,7 @@ class SettingsPageScaling;
 class KConstantEditor;
 class KToggleFullScreenAction;
 class BrowserExtension;
-
+class KAboutData;
 
 /** @short This is the main window of KmPlot.
  *

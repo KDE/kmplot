@@ -32,7 +32,7 @@
 #include <qlayout.h>
 #include <qradiobutton.h>
 #include <qstringlist.h>
-#include <q3vbox.h>
+#include <kvbox.h>
 
 
 // KDE includes

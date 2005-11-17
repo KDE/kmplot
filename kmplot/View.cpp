@@ -80,7 +80,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, const char* name )
 		sliders[ number ] = 0;
 	updateSliders();
 	m_popupmenushown = 0;
-	m_popupmenu->insertTitle( "",10);
+	m_popupmenu->addTitle( "");
 	zoom_mode = 0;
 	isDrawing=false;
 	areaDraw = false;
@@ -895,7 +895,7 @@ void View::mousePressEvent(QMouseEvent *e)
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
-						m_popupmenu->changeTitle(10,ufkt_y->fstr+";"+y_name);
+						m_popupmenu->addTitle(ufkt_y->fstr+";"+y_name);
 						m_popupmenu->exec(QCursor::pos());
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
@@ -915,7 +915,7 @@ void View::mousePressEvent(QMouseEvent *e)
 					}
 					else
 						m_popupmenushown = 2;
-					m_popupmenu->changeTitle(10, it->fstr);
+					m_popupmenu->addTitle( it->fstr);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
@@ -932,7 +932,7 @@ void View::mousePressEvent(QMouseEvent *e)
 						m_popupmenushown = 2;
 					QString function = it->fstr;
 					function = function.left(function.find('(')) + '\'';
-					m_popupmenu->changeTitle(10, function);
+					m_popupmenu->addTitle( function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
@@ -949,7 +949,7 @@ void View::mousePressEvent(QMouseEvent *e)
 						m_popupmenushown = 2;
 					QString function = it->fstr;
 					function = function.left(function.find('(')) + "\'\'";
-					m_popupmenu->changeTitle(10, function);
+					m_popupmenu->addTitle(function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}

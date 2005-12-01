@@ -9,7 +9,6 @@ Name[pl]=Część osadzalna KPart programu KmPlot
 Name[pt_BR]=Componente do KmPlot
 Name[sv]=Kmplot-delprogram
 Name[ta]=கேஎம்பிளாட்பகுதி
-Name[xx]=xxKmPlotPartxx
 MimeType=application/x-kmplot
 ServiceTypes=KParts/ReadOnlyPart
 X-KDE-Library=libkmplotpart

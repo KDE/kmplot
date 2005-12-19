@@ -46,8 +46,8 @@ the function and move the plot 5 units down. Change the function
 equation to <screen><userinput>parabola(x)=x^2-5</userinput></screen>
 </para>
 
-<para>Select another color for the plot using the
-<guibutton>Color</guibutton> button. Finally press
+<para>To select another color for the plot click into the
+<guilabel>Color:</guilabel> box. Finally press
 <guibutton>OK</guibutton> and your changes take effect in the
 coordinate system.</para>
 

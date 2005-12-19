@@ -6,16 +6,16 @@
 </para>
 
 <para>
-Program copyright 2000-2002 Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>
+Program copyright 2000-2002 Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;
 </para>
 
 <itemizedlist>
 <title>Contributors</title>
   <listitem>
-    <para><acronym>CVS</acronym>: Robert Gogolok <email>mail@robert-gogoloh.de</email></para>
+    <para><acronym>CVS</acronym>: &Robert.Gogolok; <email>mail@robert-gogoloh.de</email></para>
   </listitem>
   <listitem>
-    <para>Porting &GUI; to &kde; 3 and Translating: Matthias Messmer <email>bmlmessmer@web.de</email></para>
+    <para>Porting &GUI; to &kde; 3 and Translating: &Matthias.Messmer; &Matthias.Messmer.mail;</para>
   </listitem>
   <listitem>
     <para>Various improvements: Fredrik Edemar <email>f_edemar@linux.se</email></para>
@@ -23,7 +23,7 @@ Program copyright 2000-2002 Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.
 </itemizedlist>
 
 <para>
-Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email>kd.moeller@t-online.de</email>.
+Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;.
 </para>
 <para>Documentation extended and updated for &kde; 3.2 by &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
 <para>Documentation extended and updated for &kde; 3.3 by &Philip.Rodrigues; &Philip.Rodrigues.mail; and Fredrik Edemar <email>f_edemar@linux.se</email>.</para>

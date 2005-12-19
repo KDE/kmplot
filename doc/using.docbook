@@ -79,7 +79,7 @@ parametric function in &kmplot;, follow the procedure as for an explicit
 function, but prefix the name of the function describing the x-coordinate with
 the letter x, and the function describing the y-coordinate with the letter
 y. As with explicit functions, you may use any variable name you wish for the
-parameter. To draw a parametric function, you must go to <guimenu>Functions</guimenu><guimenuitem>New Parametric Plot...</guimenuitem>. A function name will be created automatic if you do not specify one.</para>
+parameter. To draw a parametric function, you must go to <guimenu>Plot</guimenu><guimenuitem>New Parametric Plot...</guimenuitem>. A function name will be created automatic if you do not specify one.</para>
 <para>As an example, suppose you want to draw a circle, which has parametric
 equations x=sin(t), y=cos(t). In the &kmplot; functions dialog, do the
 following:
@@ -115,17 +115,18 @@ functions.</para>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Custom Plot Range</guilabel></term>
+<term><guilabel>Custom plot minimum-range</guilabel></term>
+<term><guilabel>Custom plot maximum-range</guilabel></term>
 <listitem>
-<para>If this option is selected, you can change the maximum and
+<para>If this options are selected, you can change the maximum and
 minimum values of the parameter t for which the function is plotted
-using the <guilabel>min</guilabel> and <guilabel>max</guilabel>
+using the <guilabel>Min:</guilabel> and <guilabel>Max:</guilabel>
 boxes.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Line width</guilabel></term>
+<term><guilabel>Line width:</guilabel></term>
 <listitem>
 <para>With this option you can set the width of the line drawn on the
 plot area, in units of 0.1mm.</para>
@@ -133,7 +134,7 @@ plot area, in units of 0.1mm.</para>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Color</guilabel></term>
+<term><guilabel>Color:</guilabel></term>
 <listitem>
 <para>Click on the color box and pick a color in the dialog that
 appears. The line on the plot will be drawn in this color.</para>
@@ -237,20 +238,36 @@ In the menu there are seven items available:</para>
 <para>Shows the editor dialog for the selected function.</para>
 </listitem>
 </varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenuitem>Copy</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Copies the graph to another running &kmplot; instance.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice><guimenuitem>Move</guimenuitem>
+</menuchoice></term>
+<listitem>
+<para>Moves the graph to another running &kmplot; instance.</para>
+</listitem>
+</varlistentry>
 </variablelist>
 
 <para>For plot functions the following four items are also available:</para>
 
 <variablelist>
 <varlistentry>
-<term><menuchoice><guimenuitem>Get y-value</guimenuitem>
+<term><menuchoice><guimenuitem>Get y-Value</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>Opens a dialog in which you can find the y-value corresponding to
 a specific x-value. The selected graph will be highlighted in the
-dialog. Enter an x value in the <guilabel>X</guilabel> box, and click
-on <guibutton>Find</guibutton> (or press &Enter;). The corresponding y
-value will be shown under <guilabel>Y</guilabel>.
+dialog. Enter an x value in the <guilabel>X:</guilabel> box, and click
+on <guibutton>Calculate</guibutton> (or press &Enter;). The corresponding y
+value will be shown under <guilabel>Y:</guilabel>.
 </para>
 </listitem>
 </varlistentry>
@@ -271,19 +288,18 @@ y values at the minimum will be shown.</para>
 <term><menuchoice><guimenuitem>Search for Maximum Value</guimenuitem>
 </menuchoice></term>
 <listitem>
-<para>This is the same as <guimenuitem>Search for minimum
-value</guimenuitem> above, but finds maximum values instead of minima. </para>
+<para>This is the same as <guimenuitem>Search for Minimum
+Value</guimenuitem> above, but finds maximum values instead of minima. </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenuitem>Area Under Graph</guimenuitem>
+<term><menuchoice><guimenuitem>Calculate Integral</guimenuitem>
 </menuchoice></term>
 <listitem>
-<para>Draws the area between the graph and the x-axis. The selected
-graph will be highlighted in the new dialog that appears. For more
-information on the Search for Area Under Graph-feature, see <xref
-linkend="a-tools-menu"/>.</para>
+<para>Select the x-values for the graph in the new dialog that appears.
+Calulates the integral and draws the area between the graph and the x-axis in the 
+selected range in the color of the graph.</para>
 </listitem>
 </varlistentry>
 </variablelist>

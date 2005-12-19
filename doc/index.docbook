@@ -7,7 +7,6 @@
   <!ENTITY firststeps SYSTEM "firststeps.docbook">
   <!ENTITY using SYSTEM "using.docbook">
   <!ENTITY commands SYSTEM "commands.docbook">
-  <!ENTITY menu SYSTEM "menu.docbook">
   <!ENTITY developer SYSTEM "developer.docbook">
   <!ENTITY credits SYSTEM "credits.docbook">
   <!ENTITY install SYSTEM "install.docbook">
@@ -26,18 +25,16 @@
 <authorgroup>
 <author>
 <firstname>Klaus-Dieter</firstname>
-<othername></othername>
 <surname>M&ouml;ller</surname>
 <affiliation>
-<address><email>kd.moeller@t-online.de</email></address>
+<address>&Klaus-Dieter.Moeller.mail;</address>
 </affiliation>
 </author>
 <author>
 &Philip.Rodrigues; &Philip.Rodrigues.mail;
 </author>
-</authorgroup>
-
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
 
 <copyright>
 <year>2000</year><year>2001</year><year>2002</year>
@@ -51,8 +48,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2003-09-25</date>
-<releaseinfo>1.0</releaseinfo>
+<date>2003-12-10</date>
+<releaseinfo>1.2.0</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
@@ -62,7 +59,7 @@ Desktop.</para>
 <para> <inlinemediaobject><imageobject><imagedata
 fileref="edu-logo.png"
 format="PNG"/></imageobject></inlinemediaobject> &kmplot; is part of
-the KDE-EDU Project: <ulink
+the &kde;-EDU Project: <ulink
 url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 
 

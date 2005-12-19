@@ -61,7 +61,7 @@ parameter to, for example, plot a number of graphs from one function. The parame
 
 <para>
 All the predefined functions and constants that &kmplot; knows can be shown by
-selecting <menuchoice><guimenu>Help</guimenu><guimenuitem>Names</guimenuitem>
+selecting <menuchoice><guimenu>Predefined Math Functions</guimenu><guimenuitem>Names</guimenuitem>
 </menuchoice>. They are:
 
 <variablelist>
@@ -168,7 +168,7 @@ be used to determine the axes settings as well. See <xref linkend="axes-config"/
 <sect1 id="func-extension">
   <title>Extensions</title>
   <para>An extension for a function is specified by entering a semicolon,
-    followed by the extension, after the function definition. The extension can either be written in the Quick Edit box or by using the DCOP method Parser addFunction. None of the extensions are available for parametric functions but N and D[a,b] work for polar functions too. For example:
+    followed by the extension, after the function definition. The extension can either be written in the Quick Edit box or by using the &DCOP; method Parser addFunction. None of the extensions are available for parametric functions but N and D[a,b] work for polar functions too. For example:
     <screen>
       <userinput>
 	f(x)=x^2; A1

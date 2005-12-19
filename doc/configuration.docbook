@@ -2,8 +2,10 @@
 <title>Configuring &kmplot;</title> 
 <para>To access the &kmplot; configuration
 dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
-&kmplot;...</guimenuitem></menuchoice>. A number of settings can also be changed
-from options in the <guimenu>Edit</guimenu> menu, as well. </para>
+&kmplot;...</guimenuitem></menuchoice>. A number of settings (<guimenuitem>Colors...</guimenuitem>,
+<guimenuitem>Coordinate System...</guimenuitem>, <guimenuitem>Scaling...</guimenuitem> and
+<guimenuitem>Fonts...</guimenuitem>) can only be changed
+from the <guimenu>Edit</guimenu> menu. </para>
 
 <note>
 <para>Settings changed in the &kmplot; configuration dialog become the
@@ -14,7 +16,7 @@ persist after &kmplot; is exited.</para>
 
 <sect1 id="general-config">
 <title><guilabel>General</guilabel> Configuration</title>
-<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first tab you can set calculation-precision, angle-mode (radians and degrees), background color and zoom in and zoom out factors. </para><para>The second tab let you define you own constants.  &kmplot; saves the constans in the same file as KCalc does. That means you can create a constant in  &kmplot;, close the program and load it in KCalc and vice versa.  &kmplot; only supports constant names that consist of one capital character and if you in KCalc define a constant name that is not one character, the name will be truncated. E.g, if you already have the constants "apple" and "bananas" in KCalc, they will be renamed to "A" and "B" in &kmplot;.</para>
+<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first page you can set calculation-precision, angle-mode (radians and degrees), background color and zoom in and zoom out factors. </para><para>The second page let you define you own constants.  &kmplot; saves the constants in the same file as &kcalc; does. That means you can create a constant in  &kmplot;, close the program and load it in &kcalc; and vice versa.  &kmplot; only supports constant names that consist of one capital character and if you in &kcalc; define a constant name that is not one character, the name will be truncated. E.g, if you already have the constants "apple" and "bananas" in &kcalc;, they will be renamed to "A" and "B" in &kmplot;.</para>
 
 <screenshot>
 <screeninfo>Here is a screenshot of the &kmplot; welcome window</screeninfo>
@@ -36,12 +38,12 @@ persist after &kmplot; is exited.</para>
 <para>In the <guilabel>Coords</guilabel> tab of the <guilabel>Colors</guilabel>
 configuration option, you can change the colors of the axes and grid of the
 main &kmplot; area.</para>
-<para>In the <guilabel>Functions</guilabel> tab, you can change the colors used
-for the graphs of the functions allowed in &kmplot;.</para>
+<para>In the <guilabel>Default Function Colors</guilabel> tab, you can change the colors used
+for the graphs of the ten functions allowed in &kmplot;.</para>
 </sect1>
 
 <sect1 id="coords-config">
-<title><guilabel>Coords</guilabel> Configuration</title>
+<title><guimenuitem>Coordinate System</guimenuitem> Configuration</title>
 
 <sect2 id="axes-config">
 <title>The <guilabel>Axes</guilabel> Configuration</title>
@@ -55,10 +57,10 @@ for the graphs of the functions allowed in &kmplot;.</para>
 predefined ranges, or select <guilabel>Custom</guilabel> to make your
 own. Note that in the <guilabel>Custom</guilabel> boxes, you can use the
 predefined functions and constants (see <xref linkend="func-predefined"/>) as
-the extremes of the range (&eg;, set <guilabel>min:</guilabel> to
+the extremes of the range (&eg;, set <guilabel>Min:</guilabel> to
 <userinput>2*pi</userinput>). You can even use functions you have defined to
 set the extremes of the axis range. For example, if you have defined a function
-<userinput>f(x)=x^2</userinput>, you could set <guilabel>min:</guilabel> to
+<userinput>f(x)=x^2</userinput>, you could set <guilabel>Min:</guilabel> to
 <userinput>f(3)</userinput>, which would make the lower end of the range equal
 to 9.</para>
 </listitem>
@@ -72,30 +74,51 @@ to 9.</para>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Axes line width</guilabel></term>
+<term><guilabel>Axis-line width:</guilabel></term>
 <listitem>
 <para>Sets the width of the lines representing the axes.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Tic width</guilabel></term>
+<term><guilabel>Tic width:</guilabel></term>
 <listitem>
 <para>Sets the width of the lines representing tics on the axes.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Tic length</guilabel></term>
+<term><guilabel>Tic length:</guilabel></term>
 <listitem>
 <para>Sets the length of the lines representing tics on the axes.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Labels</guilabel></term>
+<term><guilabel>Show labels</guilabel></term>
 <listitem>
-<para>If checked, the names (x, y) of the axes are shown on the plot.</para>
+<para>If checked, the names (x, y) of the axes are shown on the plot and the axes' tics are labeled.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Show extra frame</guilabel></term>
+<listitem>
+<para>If checked, the plot area is framed by an extra line.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Show axes</guilabel></term>
+<listitem>
+<para>If checked, the axes are visible.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Show arrows</guilabel></term>
+<listitem>
+<para>If checked, the axes are displayed with arrows at their ends.</para>
 </listitem>
 </varlistentry>
 
@@ -110,7 +133,7 @@ to 9.</para>
 <variablelist>
 
 <varlistentry>
-<term><guilabel>No Grid</guilabel></term>
+<term><guilabel>None</guilabel></term>
 <listitem>
 <para>No gridlines are drawn on the plot area</para>
 </listitem>
@@ -132,7 +155,7 @@ to 9.</para>
 </varlistentry>
 
 <varlistentry>
-<term><guilabel>Polar Grid</guilabel></term>
+<term><guilabel>Polar</guilabel></term>
 <listitem>
 <para>Lines of constant radius and of constant angle are drawn on the plot
 area.</para>
@@ -144,27 +167,27 @@ area.</para>
 the lines of the grid.</para>
 </sect2>
 
-<sect2 id="font-config">
-<title>The <guilabel>Fonts</guilabel> Configuration</title>
-<para><guilabel>Header table</guilabel> sets the font for the information table
-shown in &kmplot; printouts, and <guilabel>Axes labels</guilabel> sets the font
-used for all labels on the axes in the plot area.</para>
-</sect2>
-
 </sect1>
 
 <sect1 id="scaling-config">
 <title><guilabel>Scaling</guilabel> Configuration</title>
 
-<para>For each axis, you can set the <guilabel>Scaling</guilabel> and
-<guilabel>Printing</guilabel> of one tic.  The <guilabel>Scaling</guilabel>
+<para>For each axis, you can set the <guilabel>Scaling:</guilabel> and
+<guilabel>Printing:</guilabel> of one tic.  The <guilabel>Scaling:</guilabel>
 option selects how many units apart the axis tics will be (and therefore, how
-far apart grid lines will be drawn), and the <guilabel>Printing</guilabel>
+far apart grid lines will be drawn), and the <guilabel>Printing:</guilabel>
 option selects the length of one tic when displayed on the screen or
 printed. In this way, these options can be used to change the size of the graph
-on screen or on a page: For example, doubling the <guilabel>Printing</guilabel>
-setting whilst keeping the <guilabel>Scaling</guilabel> setting the same will
+on screen or on a page: For example, doubling the <guilabel>Printing:</guilabel>
+setting whilst keeping the <guilabel>Scaling:</guilabel> setting the same will
 result in the graph doubling in in height or width.</para>
+</sect1>
+
+<sect1 id="font-config">
+<title><guilabel>Fonts</guilabel> Configuration</title>
+<para><guilabel>Header table:</guilabel> sets the font for the information table
+shown in &kmplot; printouts, and <guilabel>Axis font:</guilabel> and <guilabel>Axis font size:</guilabel>
+sets the font and its size used for all labels on the axes in the plot area.</para>
 </sect1>
 
 </chapter>

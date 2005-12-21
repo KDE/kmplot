@@ -148,7 +148,7 @@
                                             <string>the default color for function number 2</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 2. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 2. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="KColorButton" row="4" column="1">
@@ -162,7 +162,7 @@
                                             <string>the default color for function number 5</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 5. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 5. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="KColorButton" row="0" column="1">
@@ -176,7 +176,7 @@
                                             <string>the default color for function number 1</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 1. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 1. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0">
@@ -201,7 +201,7 @@
                                             <string>the default color for function number 3</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 3. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 3. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="2" column="0">
@@ -248,7 +248,7 @@
                                             <string>the default color for function number 4</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 4. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 4. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="4" column="0">
@@ -322,7 +322,7 @@
                                             <string>the default color for function number 9</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 9. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 9. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="0" column="0">
@@ -347,7 +347,7 @@
                                             <string>the default color for function number 7</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 7. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 7. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="KColorButton" row="2" column="1">
@@ -361,7 +361,7 @@
                                             <string>the default color for function number 8</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 8. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 8. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="KColorButton" row="0" column="1">
@@ -375,7 +375,7 @@
                                             <string>the default color for function number 6</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 6. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 6. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="3" column="0">
@@ -400,7 +400,7 @@
                                             <string>the default color for function number 10</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>The default color for function number 10. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
+                                            <string>The default color for function number 10. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change the color for that number here, the setting will be shown next time you define a new function at number 1.</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel" row="4" column="0">

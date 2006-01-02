@@ -624,8 +624,8 @@ void MainDlg::loadConstants()
 	for( int i=0; ;i++)
 	{
 		tmp.setNum(i);
-		tmp_constant = conf.readEntry("nameConstant"+tmp," ");
-		tmp_value = conf.readEntry("valueConstant"+tmp," ");
+		tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
+		tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
 // 		kdDebug() << "konstant: " << tmp_constant.latin1() << endl;
 // 		kdDebug() << "value: " << value << endl;
 // 		kdDebug() << "**************" << endl;

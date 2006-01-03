@@ -1876,7 +1876,7 @@ void View::mnuRemove_clicked()
     if ( csmode == -1 )
       return;
 
-	if ( KMessageBox::warningContinueCancel(this,i18n("Are you sure you want to remove this function?"), QString::null, KStdGuiItem::del()) == KMessageBox::Continue )
+	if ( KMessageBox::warningContinueCancel(this,i18n("Are you sure you want to remove this function?"), QString(), KStdGuiItem::del()) == KMessageBox::Continue )
 	{
 		Ufkt *ufkt =  &m_parser->ufkt[m_parser->ixValue(csmode)];
 		char const function_type = ufkt->fstr[0].latin1();

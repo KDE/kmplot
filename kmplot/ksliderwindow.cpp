@@ -64,9 +64,9 @@ KSliderWindow::KSliderWindow(QWidget* parent, int num ) :
 	installEventFilter(this);
 	
 	m_popupmenu = new KMenu(this);
-	KAction *mnuMinValue = new KAction(i18n("&Change Minimum Value") ,0,this, SLOT( mnuMinValue_clicked() ),0);
+	KAction *mnuMinValue = new KAction(i18n("&Change Minimum Value") ,0,this, SLOT( mnuMinValue_clicked() ),actionCollection());
 	mnuMinValue->plug(m_popupmenu);
-	KAction *mnuMaxValue = new KAction(i18n("&Change Maximum Value") ,0,this, SLOT( mnuMaxValue_clicked() ),0 );
+	KAction *mnuMaxValue = new KAction(i18n("&Change Maximum Value") ,0,this, SLOT( mnuMaxValue_clicked() ),actionCollection() );
 	mnuMaxValue->plug(m_popupmenu);
 }
 

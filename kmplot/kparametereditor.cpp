@@ -135,7 +135,7 @@ void KParameterEditor::cmdDelete_clicked()
 
 void KParameterEditor::cmdImport_clicked()
 {
-	KURL url = KFileDialog::getOpenURL( QString::null,i18n("*.txt|Plain Text File "));
+	KURL url = KFileDialog::getOpenURL( QString(),i18n("*.txt|Plain Text File "));
 	if ( url.isEmpty() )
 		return;
         
@@ -186,7 +186,7 @@ void KParameterEditor::cmdImport_clicked()
                                         KIO::NetAccess::removeTempFile( tmpfile );
 					return;
 				}
-				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?"), QString::null, i18n("Get Informed"), i18n("Ignore Information") ) == KMessageBox::No)
+				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?"), QString(), i18n("Get Informed"), i18n("Ignore Information") ) == KMessageBox::No)
 					verbose = true;
 			}
 		}
@@ -203,7 +203,7 @@ void KParameterEditor::cmdExport_clicked()
 {
         if ( !list->count() )
                 return;
-        KURL url = KFileDialog::getSaveURL( QString::null,i18n("*.txt|Plain Text File "));
+        KURL url = KFileDialog::getSaveURL( QString(),i18n("*.txt|Plain Text File "));
         if ( url.isEmpty() )
                 return;
 

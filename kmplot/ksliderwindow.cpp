@@ -45,7 +45,7 @@
 // local includes
 #include "ksliderwindow.h"
 
-KSliderWindow::KSliderWindow(QWidget* parent, int num ) :
+KSliderWindow::KSliderWindow(QWidget* parent, int num, KActionCollection *ac ) :
 	SliderWindow( parent, "", false, (Qt::WFlags)(Qt::WStyle_Tool-Qt::WStyle_Maximize) ), m_num(num)
 {
 	setCaption(i18n( "Slider %1" ).arg( num+1 ) );
@@ -64,9 +64,9 @@ KSliderWindow::KSliderWindow(QWidget* parent, int num ) :
 	installEventFilter(this);
 	
 	m_popupmenu = new KMenu(this);
-	KAction *mnuMinValue = new KAction(i18n("&Change Minimum Value") ,0,this, SLOT( mnuMinValue_clicked() ),actionCollection());
+	KAction *mnuMinValue = new KAction(i18n("&Change Minimum Value") ,0,this, SLOT( mnuMinValue_clicked() ),ac, "");
 	mnuMinValue->plug(m_popupmenu);
-	KAction *mnuMaxValue = new KAction(i18n("&Change Maximum Value") ,0,this, SLOT( mnuMaxValue_clicked() ),actionCollection() );
+	KAction *mnuMaxValue = new KAction(i18n("&Change Maximum Value") ,0,this, SLOT( mnuMaxValue_clicked() ),ac, "" );
 	mnuMaxValue->plug(m_popupmenu);
 }
 

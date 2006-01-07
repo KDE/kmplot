@@ -66,7 +66,7 @@ class View : public QWidget, virtual public ViewIface
 	Q_OBJECT
 public:
 	/// Contructor sets up the parser, too.
-  View(bool, bool &, KMenu *, QWidget* parent=NULL, const char* name=NULL );
+  View(bool, bool &, KMenu *, QWidget* parent, KActionCollection *ac, const char* name=NULL );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 
@@ -263,6 +263,7 @@ private:
 	QString m_statusbartext2;
 	QString m_statusbartext3;
 	QString m_statusbartext4;
+	KActionCollection *m_ac;
 };
 
 #endif // View_included

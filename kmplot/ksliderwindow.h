@@ -40,7 +40,8 @@ class KSliderWindow : public SliderWindow
 	public:
 		/// @param parent points to the parent widget.
 		/// @param num number of this instance.
-		KSliderWindow(QWidget* parent, int num );
+		/// @param ac KActionCollection to add KActions
+		KSliderWindow(QWidget* parent, int num, KActionCollection *ac );
 		virtual ~KSliderWindow();
 
 	private slots:

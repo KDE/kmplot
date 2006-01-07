@@ -84,7 +84,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	fdlg = 0;
 	coordsDialog = 0;
 	m_popupmenu = new KMenu(parentWidget);
-	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget );
+	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection() );
 	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 	setWidget( view );
 	view->setFocusPolicy(Qt::ClickFocus);
@@ -738,7 +738,7 @@ void MainDlg::toggleShowSlider(int const num)
 	// create the slider if it not exists already
 	if ( view->sliders[ num ] == 0 )
 	{
-		view->sliders[ num ] = new KSliderWindow( view, num);
+		view->sliders[ num ] = new KSliderWindow( view, num, actionCollection());
 		connect( view->sliders[num]->slider, SIGNAL( valueChanged( int ) ), view, SLOT( drawPlot() ) );
 		connect( view->sliders[num], SIGNAL( windowClosed( int ) ), view, SLOT( sliderWindowClosed(int) ) );
 	}

@@ -65,7 +65,7 @@ double View::xmin = 0;
 double View::xmax = 0;
 
 
-View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, const char* name ) : DCOPObject("View"), QWidget( parent, name , Qt::WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
+View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection *ac, const char* name ) : DCOPObject("View"), QWidget( parent, name , Qt::WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient()), m_ac(ac)
 {
 	m_parser = new XParser(mo);
 	init();
@@ -1822,7 +1822,7 @@ void View::updateSliders()
 			// create the slider if it not exists already
 			if ( sliders[ it->use_slider ] == 0 )
 			{
-				sliders[ it->use_slider ] = new KSliderWindow( this, it->use_slider);
+				sliders[ it->use_slider ] = new KSliderWindow( this, it->use_slider, m_ac);
 				connect( sliders[ it->use_slider ]->slider, SIGNAL( valueChanged( int ) ), this, SLOT( drawPlot() ) );
 				connect( sliders[ it->use_slider ], SIGNAL( windowClosed( int ) ), this , SLOT( sliderWindowClosed(int) ) );
 				mnuSliders[ it->use_slider ]->setChecked(true);  //set the slider-item in the menu

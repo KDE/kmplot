@@ -55,9 +55,9 @@ KSliderWindow::KSliderWindow(QWidget* parent, int num, KActionCollection *ac ) :
 	// load the min and max value + the current value
 	KConfig config( "kmplotrc" );
 	config.setGroup( "slider" + QString::number(num) );
-	slider->setMinValue( config.readNumEntry( "min", 0) );
-	slider->setMaxValue( config.readNumEntry( "max", 100) );
-	slider->setValue( config.readNumEntry( "value", 50) );
+	slider->setMinValue( config.readEntry( "min", 0) );
+	slider->setMaxValue( config.readEntry( "max", 100) );
+	slider->setValue( config.readEntry( "value", 50) );
 	slider->setPageStep( (int)ceil((abs(slider->minValue()) + abs(slider->maxValue()))/10.) );
 	
 	slider->installEventFilter(this);

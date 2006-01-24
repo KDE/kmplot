@@ -25,7 +25,7 @@
 #ifndef kmplotprogress_included
 #define kmplotprogress_included
 
-#include <kprogress.h>
+#include <kprogressbar.h>
 #include <kpushbutton.h>
 #include <qwidget.h>
 

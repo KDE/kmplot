@@ -24,7 +24,7 @@
 */
 
 #include <kiconloader.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 
 #include "kmplotprogress.h"
 //#include "kmplotprogress.moc.cpp"

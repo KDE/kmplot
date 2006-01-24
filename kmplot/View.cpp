@@ -49,7 +49,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kmenu.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 
 // local includes
 #include "editfunction.h"

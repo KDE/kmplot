@@ -42,7 +42,7 @@
 #include <kdebug.h>
 #include <kmenu.h>
 #include <kprinter.h>
-#include <kprogress.h>
+#include <kprogressbar.h>
 #include <kpushbutton.h>
 
 

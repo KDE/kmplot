@@ -135,7 +135,7 @@ void KParameterEditor::cmdDelete_clicked()
 
 void KParameterEditor::cmdImport_clicked()
 {
-	KURL url = KFileDialog::getOpenURL( QString(),i18n("*.txt|Plain Text File "));
+	KUrl url = KFileDialog::getOpenURL( QString(),i18n("*.txt|Plain Text File "));
 	if ( url.isEmpty() )
 		return;
         
@@ -158,7 +158,7 @@ void KParameterEditor::cmdImport_clicked()
                 file.setName(tmpfile);
         }
         else
-                file.setName(url.prettyURL(0,KURL::StripFileProtocol) );
+                file.setName(url.prettyURL(0,KUrl::StripFileProtocol) );
 	
 	if ( file.open(QIODevice::ReadOnly) )
 	{
@@ -203,7 +203,7 @@ void KParameterEditor::cmdExport_clicked()
 {
         if ( !list->count() )
                 return;
-        KURL url = KFileDialog::getSaveURL( QString(),i18n("*.txt|Plain Text File "));
+        KUrl url = KFileDialog::getSaveURL( QString(),i18n("*.txt|Plain Text File "));
         if ( url.isEmpty() )
                 return;
 
@@ -244,7 +244,7 @@ void KParameterEditor::cmdExport_clicked()
                 }
                 else
                 {
-                        file.setName(url.prettyURL(0,KURL::StripFileProtocol));
+                        file.setName(url.prettyURL(0,KUrl::StripFileProtocol));
                         if (file.open( QIODevice::WriteOnly ) )
                         {
                                 QTextStream stream(&file);

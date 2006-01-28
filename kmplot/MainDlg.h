@@ -186,7 +186,7 @@ private:
 	/// MainDlg's parent widget
 	QWidget *m_parent;
 	/// Current file
-	KURL m_currentfile;
+	KUrl m_currentfile;
 	/// The axes config dialogs
 	CoordsConfigDialog* coordsDialog;
 
@@ -195,7 +195,7 @@ protected slots:
 	* When you click on a File->Open Recent file, it'll open 
 	* @param url name of the url to open
 	*/
-	void slotOpenRecent( const KURL &url );
+	void slotOpenRecent( const KUrl &url );
 	///Update settings when there is a change in the Configure KmPlot dialog
 	void updateSettings();
 	/**

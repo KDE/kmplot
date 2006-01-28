@@ -49,13 +49,13 @@ class KmPlotIO
 		 * in the filename file.
 		 * @param url Name (URL) of the file which will be saved.
 		 */
-		bool save( const KURL &url );
+		bool save( const KUrl &url );
 		
 		/**
 		 * Read a kmpdoc xml file to restaure the settings of a previously saved plot
 		 * @param url Name (URL) of file which will be opened
 		 */
-		bool load( const KURL &url );
+		bool load( const KUrl &url );
 	
 	private:
 		/** Esay way to add a tag to the Dom tree

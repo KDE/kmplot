@@ -123,7 +123,7 @@ MainDlg::~MainDlg()
 void MainDlg::setupActions()
 {
 	// standard actions
-	m_recentFiles = KStdAction::openRecent( this, SLOT( slotOpenRecent( const KURL& ) ), actionCollection(),"file_openrecent");
+	m_recentFiles = KStdAction::openRecent( this, SLOT( slotOpenRecent( const KUrl& ) ), actionCollection(),"file_openrecent");
 	KStdAction::print( this, SLOT( slotPrint() ), actionCollection(),"file_print" );
 	KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
 	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
@@ -263,7 +263,7 @@ void MainDlg::slotSaveas()
 {
 	if (m_readonly)
 		return;
-	const KURL url = KFileDialog::getSaveURL( QDir::currentPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
+	const KUrl url = KFileDialog::getSaveURL( QDir::currentPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
 
 	if ( !url.isEmpty() )
 	{
@@ -276,7 +276,7 @@ void MainDlg::slotSaveas()
 			{
 				m_url = url;
 				m_recentFiles->addURL( url );
-        setWindowCaption( m_url.prettyURL(0, KURL::StripFileProtocol) );
+        setWindowCaption( m_url.prettyURL(0, KUrl::StripFileProtocol) );
 				m_modified = false;
 			}
 			return;
@@ -286,7 +286,7 @@ void MainDlg::slotSaveas()
 
 void MainDlg::slotExport()
 {
-	KURL const url = KFileDialog::getSaveURL(QDir::currentPath(),
+	KUrl const url = KFileDialog::getSaveURL(QDir::currentPath(),
 	                 i18n("*.svg|Scalable Vector Graphics (*.svg)\n"
 	                      "*.bmp|Bitmap 180dpi (*.bmp)\n"
 	                      "*.png|Bitmap 180dpi (*.png)"), m_parent, i18n("Export") );
@@ -300,7 +300,7 @@ void MainDlg::slotExport()
 			Q3Picture pic;
 			view->draw(&pic, 2);
 			if (url.isLocalFile() )
-				pic.save( url.prettyURL(0,KURL::StripFileProtocol), "SVG");
+				pic.save( url.prettyURL(0,KUrl::StripFileProtocol), "SVG");
 			else
 			{
 				KTempFile tmp;
@@ -316,7 +316,7 @@ void MainDlg::slotExport()
 			QPixmap pic(100, 100);
 			view->draw(&pic, 3);
 			if (url.isLocalFile() )
-				pic.save(  url.prettyURL(0,KURL::StripFileProtocol), "BMP");
+				pic.save(  url.prettyURL(0,KUrl::StripFileProtocol), "BMP");
 			else
 			{
 				KTempFile tmp;
@@ -332,7 +332,7 @@ void MainDlg::slotExport()
 			QPixmap pic(100, 100);
 			view->draw(&pic, 3);
 			if (url.isLocalFile() )
-				pic.save( url.prettyURL(0,KURL::StripFileProtocol), "PNG");
+				pic.save( url.prettyURL(0,KUrl::StripFileProtocol), "PNG");
 			else
 			{
 				KTempFile tmp;
@@ -354,15 +354,15 @@ bool MainDlg::openFile()
 		return false;
 	}
 	m_currentfile = m_url;
-  m_recentFiles->addURL( m_url.prettyURL(0, KURL::StripFileProtocol)  );
-  setWindowCaption( m_url.prettyURL(0, KURL::StripFileProtocol) );
+  m_recentFiles->addURL( m_url.prettyURL(0, KUrl::StripFileProtocol)  );
+  setWindowCaption( m_url.prettyURL(0, KUrl::StripFileProtocol) );
 	m_modified = false;
 	view->updateSliders();
 	view->drawPlot();
 	return true;
 }
 
-void MainDlg::slotOpenRecent( const KURL &url )
+void MainDlg::slotOpenRecent( const KUrl &url )
 {
 	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
 	{
@@ -382,7 +382,7 @@ void MainDlg::slotOpenRecent( const KURL &url )
 	}
   m_url = m_currentfile = url;
 	m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
-  setWindowCaption( m_url.prettyURL(0, KURL::StripFileProtocol) );
+  setWindowCaption( m_url.prettyURL(0, KUrl::StripFileProtocol) );
   m_modified = false;
 	view->updateSliders();
 	view->drawPlot();

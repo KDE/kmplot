@@ -63,7 +63,7 @@ public:
 	/**
 	 * Use this method to load whatever file/URL you have
 	 */
-	bool load(const KURL& url);
+	bool load(const KUrl& url);
 
 protected:
 	/**
@@ -85,7 +85,7 @@ protected:
 private slots:
 	void fileNew();
 	void fileOpen();
-	void fileOpen(const KURL &url);
+	void fileOpen(const KUrl &url);
 	void optionsConfigureKeys();
 	void optionsConfigureToolbars();
 	void applyNewToolbarConfig();
@@ -104,7 +104,7 @@ private:
 	void setupStatusBar();
 	bool checkModified();
 	bool isModified();
-	void openFileInNewWindow(const KURL url);
+	void openFileInNewWindow(const KUrl url);
 
 	/// Functions for the progressbar
 	bool stopProgressBar();

@@ -54,7 +54,7 @@ KmPlotIO::KmPlotIO( XParser *parser)
 KmPlotIO::~KmPlotIO()
 {}
 
-bool KmPlotIO::save( const KURL &url )
+bool KmPlotIO::save( const KUrl &url )
 {
 	// saving as xml by a QDomDocument
 	QDomDocument doc( "kmpdoc" );
@@ -201,7 +201,7 @@ bool KmPlotIO::save( const KURL &url )
 	}
 	else
 	{
-		xmlfile.setName(url.prettyURL(0,KURL::StripFileProtocol)  );
+		xmlfile.setName(url.prettyURL(0,KUrl::StripFileProtocol)  );
 		if (!xmlfile.open( QIODevice::WriteOnly ) )
 			return false;
 		QTextStream ts( &xmlfile );
@@ -221,7 +221,7 @@ void KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString 
 	parentTag.appendChild( tag );
 }
 
-bool KmPlotIO::load( const KURL &url )
+bool KmPlotIO::load( const KUrl &url )
 {
 	QDomDocument doc( "kmpdoc" );
 	QFile f;
@@ -241,7 +241,7 @@ bool KmPlotIO::load( const KURL &url )
 		f.setName(tmpfile);
 	}
 	else
-		f.setName( url.prettyURL(0,KURL::StripFileProtocol) );
+		f.setName( url.prettyURL(0,KUrl::StripFileProtocol) );
 
 	if ( !f.open( QIODevice::ReadOnly ) )
 	{

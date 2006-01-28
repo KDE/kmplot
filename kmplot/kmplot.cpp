@@ -126,12 +126,12 @@ void KmPlot::slotUpdateFullScreen( bool checked)
 	}
 }
 
-bool KmPlot::load(const KURL& url)
+bool KmPlot::load(const KUrl& url)
 {
 	m_part->openURL( url );
   if (m_part->url().isEmpty())
     return false;
-  setCaption(url.prettyURL(0, KURL::StripFileProtocol));
+  setCaption(url.prettyURL(0, KUrl::StripFileProtocol));
   return true;
 }
 
@@ -226,7 +226,7 @@ void KmPlot::fileOpen()
 	// this slot is called whenever the File->Open menu is selected,
 	// the Open shortcut is pressed (usually CTRL+O) or the Open toolbar
 	// button is clicked
-	KURL const url = KFileDialog::getOpenURL( QDir::currentPath(),
+	KUrl const url = KFileDialog::getOpenURL( QDir::currentPath(),
 	                 i18n( "*.fkt|KmPlot Files (*.fkt)\n*.*|All Files" ), this, i18n( "Open" ) );
 
 	if ( !url.isEmpty())
@@ -242,7 +242,7 @@ void KmPlot::fileOpen()
 	}
 }
 
-void KmPlot::fileOpen(const KURL &url)
+void KmPlot::fileOpen(const KUrl &url)
 {
 	if ( !url.isEmpty())
 	{
@@ -258,7 +258,7 @@ void KmPlot::fileOpen(const KURL &url)
 }
 
 
-void KmPlot::openFileInNewWindow(const KURL url)
+void KmPlot::openFileInNewWindow(const KUrl url)
 {
  KToolInvocation::startServiceByDesktopName("kmplot",url.url());
 }

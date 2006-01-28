@@ -39,7 +39,7 @@ public:
 	void increase();
 
 	KPushButton *button;
-	KProgress *progress;
+	KProgressBar *progress;
 };
 
 #endif // kmplotprogress_included

@@ -191,7 +191,7 @@ void KmPlot::startProgressBar(int steps)
 {
 	if (m_progressbar)
 	{
-		m_progressbar->progress->setTotalSteps(steps);
+		m_progressbar->progress->setMaximum(steps);
 		m_progressbar->show();
 	}
 }

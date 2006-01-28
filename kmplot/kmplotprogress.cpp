@@ -36,7 +36,7 @@ KmPlotProgress::KmPlotProgress( QWidget* parent, const char* name ) : QWidget( p
  button->setGeometry( QRect( 0, 0, 30, 23 ) );
  button->setMaximumHeight(height()-10);
  
- progress = new KProgress(this);
+ progress = new KProgressBar(this);
  progress->setGeometry( QRect( 30, 0, 124, 23 ) );
  progress->setMaximumHeight(height()-10);
  
@@ -50,7 +50,7 @@ KmPlotProgress::~KmPlotProgress()
 
 void KmPlotProgress::increase()
 {
- progress->setProgress( progress->progress()+1);
+ progress->setValue( progress->value()+1);
 }
 
 #include "kmplotprogress.moc"

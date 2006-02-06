@@ -266,7 +266,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		ke=ufkt->parameters.count();
 		do
 		{
-			kdDebug() << "drawing " << ufkt->id << endl;
+			kDebug() << "drawing " << ufkt->id << endl;
 			if ( p_mode == 3 && stop_calculating)
 				break;
 			if( ufkt->use_slider == -1 )
@@ -863,7 +863,7 @@ void View::mousePressEvent(QMouseEvent *e)
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
 			if (!(((!it->usecustomxmin) || (it->usecustomxmin && csxpos>it->dmin)) && ((!it->usecustomxmax)||(it->usecustomxmax && csxpos<it->dmax)) ))
 			  continue;
-			kdDebug() << "it:" << it->fstr << endl;
+			kDebug() << "it:" << it->fstr << endl;
 			int k=0;
 			int const ke=it->parameters.count();
 			do
@@ -1286,8 +1286,8 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 		}
 		if ( !isnan(x) && !isnan(y) )
 		{
-			kdDebug() << "x " << x << endl;
-			kdDebug() << "y " << y << endl;
+			kDebug() << "x " << x << endl;
+			kDebug() << "y " << y << endl;
 			if (x>=dmin && x<=dmax)
 			{
 				if ( start)
@@ -1487,7 +1487,7 @@ void View::keyPressEvent( QKeyEvent * e)
 					cstype=old_cstype;
 					break;
 				}
-				kdDebug() << "csmode: " << csmode << endl;
+				kDebug() << "csmode: " << csmode << endl;
 				switch(it->fstr[0].latin1())
 				{
 				case 'x':
@@ -1506,7 +1506,7 @@ void View::keyPressEvent( QKeyEvent * e)
 									cstype=old_cstype+1;
 								start=false;
 							}
-							kdDebug() << "   cstype: " << (int)cstype << endl;
+							kDebug() << "   cstype: " << (int)cstype << endl;
 							switch (cstype)
 							{
 							case (0):
@@ -1537,10 +1537,10 @@ void View::keyPressEvent( QKeyEvent * e)
 			}
 		}
 
-		kdDebug() << "************************" << endl;
-		kdDebug() << "csmode: " << (int)csmode << endl;
-		kdDebug() << "cstype: " << (int)cstype << endl;
-		kdDebug() << "csparam: " << csparam << endl;
+		kDebug() << "************************" << endl;
+		kDebug() << "csmode: " << (int)csmode << endl;
+		kDebug() << "cstype: " << (int)cstype << endl;
+		kDebug() << "csparam: " << csparam << endl;
 
 		//change function in the statusbar
 		switch (cstype )
@@ -1729,10 +1729,10 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 					rectheight = -1*( p.y()-origoy);
 				
 				calculated_area = calculated_area + (dx*y);
-				/*kdDebug() << "Area: " << area << endl;
-				kdDebug() << "x:" << p.height() << endl;
-				kdDebug() << "y:" << p.y() << endl;
-				kdDebug() << "*************" << endl;*/
+				/*kDebug() << "Area: " << area << endl;
+				kDebug() << "x:" << p.height() << endl;
+				kDebug() << "y:" << p.y() << endl;
+				kDebug() << "*************" << endl;*/
 				
 				DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
 			}

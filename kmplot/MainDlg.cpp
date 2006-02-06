@@ -69,7 +69,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	// we need an instance
 	setInstance( KmPlotPartFactory::instance() );
 
-	kdDebug() << "parentWidget->name():" << parentWidget->name() << endl;
+	kDebug() << "parentWidget->name():" << parentWidget->name() << endl;
 	if ( QString(parentWidget->name()).startsWith("KmPlot") )
 	{
 		setXMLFile("kmplot_part.rc");
@@ -253,7 +253,7 @@ void MainDlg::slotSave()
 				return;
 		}
 		kmplotio->save( m_url.url() );
-		kdDebug() << "saved" << endl;
+		kDebug() << "saved" << endl;
 		m_modified = false;
 	}
 
@@ -626,9 +626,9 @@ void MainDlg::loadConstants()
 		tmp.setNum(i);
 		tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
 		tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
-// 		kdDebug() << "konstant: " << tmp_constant.latin1() << endl;
-// 		kdDebug() << "value: " << value << endl;
-// 		kdDebug() << "**************" << endl;
+// 		kDebug() << "konstant: " << tmp_constant.latin1() << endl;
+// 		kDebug() << "value: " << value << endl;
+// 		kDebug() << "**************" << endl;
 		
 		if ( tmp_constant == " " || tmp_constant == " ")
 		  return;
@@ -667,9 +667,9 @@ void MainDlg::loadConstants()
 				}
 			}
 		}
-		/*kdDebug() << "**************" << endl;
-		kdDebug() << "C:" << constant << endl;
-		kdDebug() << "V:" << value << endl;*/
+		/*kDebug() << "**************" << endl;
+		kDebug() << "C:" << constant << endl;
+		kDebug() << "V:" << value << endl;*/
 
 		view->parser()->constant.append(Constant(constant, value) );
 	}

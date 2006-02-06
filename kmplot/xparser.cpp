@@ -160,7 +160,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
       }
       if ( ok) //a free name was found
       {
-        //kdDebug() << "function_name:" << function_name << endl;
+        //kDebug() << "function_name:" << function_name << endl;
         return;
       }
       ok = true;
@@ -765,7 +765,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	}
 	
 	Ufkt *item = &ufkt[ixValue(id)];
-	kdDebug() << "Transferring " << item->fname.latin1() << endl;
+	kDebug() << "Transferring " << item->fname.latin1() << endl;
 	QString str_result;
 	if ( dcopclient_target.isEmpty() && item->fname.at(0) == 'y' )
 	  	return false;

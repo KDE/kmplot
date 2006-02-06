@@ -498,7 +498,7 @@ void KmPlotIO::parseThreeDotThreeParameters( XParser *m_parser, const QDomElemen
 
 void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 {
-	kdDebug() << "parsing old function" << endl;
+	kDebug() << "parsing old function" << endl;
 	Ufkt ufkt;
 	m_parser->prepareAddingFunction(&ufkt);
 	

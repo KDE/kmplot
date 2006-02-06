@@ -178,7 +178,7 @@ void KEditPolar::accept()
         else
         {
                 int const id = m_parser->addfkt(f_str );
-                kdDebug() << "id: " << id << endl;
+                kDebug() << "id: " << id << endl;
                 if( id == -1 ) 
                 {
                         m_parser->parserError();

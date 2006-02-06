@@ -189,7 +189,7 @@ void KMinMax::selectItem()
 	cmdParameter->hide();
 	if (  m_view->csmode < 0)
 		return;
-	//kdDebug() << "cstype: " << (int)m_view->cstype << endl;
+	//kDebug() << "cstype: " << (int)m_view->cstype << endl;
         Ufkt *ufkt = &m_view->parser()->ufkt[m_view->parser()->ixValue(m_view->csmode)];
 	QString function = ufkt->fstr;
 	if ( m_view->cstype == 2)
@@ -204,7 +204,7 @@ void KMinMax::selectItem()
 		function.truncate(i);
 		function +="\'";
 	}
-	//kdDebug() << "function: " << function << endl;
+	//kDebug() << "function: " << function << endl;
 	Q3ListBoxItem *item = list->findItem(function,Q3ListView::ExactMatch);
 	list->setSelected(item,true);
 

@@ -111,10 +111,10 @@ void Parser::ps_init()
 
 Parser::~Parser()
 {
-        kdDebug() << "Exiting......" << endl;
+        kDebug() << "Exiting......" << endl;
         for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
-                kdDebug() << "Deleting something... :-)" << endl;
+                kDebug() << "Deleting something... :-)" << endl;
                 delete [](*it).mem;
         }
 }
@@ -355,7 +355,7 @@ int Parser::addfkt(QString str)
         if ( ufkt.begin()->fname.isEmpty() )
         {
                 ufkt.begin()->id = 0;
-                //kdDebug() << "ufkt.begin()->id:" << ufkt.begin()->id << endl;
+                //kDebug() << "ufkt.begin()->id:" << ufkt.begin()->id << endl;
         }
         else
         {
@@ -376,7 +376,7 @@ int Parser::addfkt(QString str)
         if(p2<p3) temp->fpar=str.mid(p2+1, p3-p2-1);
         else temp->fpar="";      //.resize(1);
         
-        kdDebug() << "temp.id:" << temp->id << endl;
+        kDebug() << "temp.id:" << temp->id << endl;
         
 	if ( temp->fname != temp->fname.lower() ) //isn't allowed to contain capital letters
 	{
@@ -407,7 +407,7 @@ void Parser::reparse(int ix)
 
 void Parser::reparse(Ufkt *item)
 {
-	kdDebug() << "Reparsing: " << item->fstr << endl;
+	kDebug() << "Reparsing: " << item->fstr << endl;
 	QString str = item->fstr.latin1();
 	err=0;
 	errpos=1;
@@ -502,12 +502,12 @@ void Parser::fix_expression(QString &str, int const pos)
         str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
         str.truncate(pos);
         str.append(str_end);
-        //kdDebug() << "str:" << str << endl;
+        //kDebug() << "str:" << str << endl;
 }
 
 bool Parser::delfkt( Ufkt *item)
 {
-	kdDebug() << "Deleting id:" << item->id << endl;
+	kDebug() << "Deleting id:" << item->id << endl;
 	if (!item->dep.isEmpty())
 	{
 	  KMessageBox::error(0,i18n("This function is depending on an other function"));
@@ -524,12 +524,12 @@ bool Parser::delfkt( Ufkt *item)
 	
         if ( ufkt.count()==1 )
         {
-                //kdDebug() << "first item, don't delete" << endl;
+                //kDebug() << "first item, don't delete" << endl;
 		item->fname="";
         }
         else
         {
-                //kdDebug() << "Deleting something" << endl;
+                //kDebug() << "Deleting something" << endl;
 		QChar const extstr_c = item->fstr.at(0);
 		uint const id = item->id;
 		delete []item->mem;

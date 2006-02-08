@@ -76,7 +76,7 @@
                     <property name="enabled">
                         <bool>false</bool>
                     </property>
-                    <property name="minValue">
+                    <property name="minimum">
                         <number>1</number>
                     </property>
                     <property name="toolTip" stdset="0">
@@ -173,7 +173,7 @@
                     <property name="enabled">
                         <bool>false</bool>
                     </property>
-                    <property name="minValue">
+                    <property name="minimum">
                         <number>1</number>
                     </property>
                     <property name="toolTip" stdset="0">

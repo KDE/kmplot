@@ -35,7 +35,7 @@
             <property name="focusPolicy">
                 <enum>StrongFocus</enum>
             </property>
-            <property name="maxValue">
+            <property name="maximum">
                 <number>100</number>
             </property>
             <property name="orientation">

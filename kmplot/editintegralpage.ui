@@ -128,7 +128,7 @@
                     <property name="enabled">
                         <bool>false</bool>
                     </property>
-                    <property name="minValue">
+                    <property name="minimum">
                         <number>0.01</number>
                     </property>
                 </widget>
@@ -199,7 +199,7 @@
                     <property name="name">
                         <cstring>lineWidth</cstring>
                     </property>
-                    <property name="minValue">
+                    <property name="minimum">
                         <number>1</number>
                     </property>
                     <property name="toolTip" stdset="0">

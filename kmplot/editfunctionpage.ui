@@ -336,7 +336,7 @@ Example: f(x)=x^2</string>
                     <property name="name">
                         <cstring>lineWidth</cstring>
                     </property>
-                    <property name="minValue" stdset="0">
+                    <property name="minimum" stdset="0">
                         <number>1</number>
                     </property>
                     <property name="toolTip" stdset="0">
@@ -734,8 +734,8 @@ Example: f(x)=x^2</string>
         <property type="Bool">acceptDrops</property>
         <property type="String">label</property>
         <property type="Int">value</property>
-        <property type="Int">minValue</property>
-        <property type="Int">maxValue</property>
+        <property type="Int">minimum</property>
+        <property type="Int">maximum</property>
         <property type="Int">referencePoint</property>
         <property type="String">suffix</property>
         <property type="String">prefix</property>

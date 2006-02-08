@@ -73,10 +73,10 @@
                     <property name="value">
                         <number>25</number>
                     </property>
-                    <property name="minValue">
+                    <property name="minimum">
                         <number>1</number>
                     </property>
-                    <property name="maxValue">
+                    <property name="maximum">
                         <number>100</number>
                     </property>
                     <property name="referencePoint">
@@ -96,10 +96,10 @@
                     <property name="value">
                         <number>25</number>
                     </property>
-                    <property name="minValue">
+                    <property name="minimum">
                         <number>1</number>
                     </property>
-                    <property name="maxValue">
+                    <property name="maximum">
                         <number>100</number>
                     </property>
                     <property name="referencePoint">
@@ -236,7 +236,7 @@
                             <property name="value">
                                 <number>1</number>
                             </property>
-                            <property name="minValue">
+                            <property name="minimum">
                                 <number>0.1</number>
                             </property>
                             <property name="toolTip" stdset="0">

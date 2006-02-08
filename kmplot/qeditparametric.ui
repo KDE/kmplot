@@ -282,7 +282,7 @@ Example: sin(t)</string>
                     <property name="name">
                         <cstring>kIntNumInputLineWidth</cstring>
                     </property>
-                    <property name="minValue">
+                    <property name="minimum">
                         <number>1</number>
                     </property>
                     <property name="toolTip" stdset="0">

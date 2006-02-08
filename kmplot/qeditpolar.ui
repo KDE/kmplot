@@ -160,7 +160,7 @@ Example: loop(angle)=ln(angle)</string>
                     <property name="name">
                         <cstring>kIntNumInputLineWidth</cstring>
                     </property>
-                    <property name="minValue">
+                    <property name="minimum">
                         <number>1</number>
                     </property>
                     <property name="toolTip" stdset="0">

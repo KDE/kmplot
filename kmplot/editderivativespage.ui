@@ -12,7 +12,7 @@
             <height>255</height>
         </rect>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>Edit Derivatives</string>
     </property>
     <vbox>

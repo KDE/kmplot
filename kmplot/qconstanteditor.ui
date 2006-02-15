@@ -12,7 +12,7 @@
             <height>341</height>
         </rect>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>Constant Editor</string>
     </property>
     <grid>

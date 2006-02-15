@@ -15,7 +15,7 @@
             <height>519</height>
         </rect>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>Edit Function Plot</string>
     </property>
     <vbox>
@@ -503,7 +503,7 @@ Example: f(x)=x^2</string>
         <property type="BackgroundOrigin">backgroundOrigin</property>
         <property type="Font">font</property>
         <property type="Cursor">cursor</property>
-        <property type="String">caption</property>
+        <property type="String">windowTitle</property>
         <property type="Pixmap">icon</property>
         <property type="String">iconText</property>
         <property type="Bool">mouseTracking</property>
@@ -619,7 +619,7 @@ Example: f(x)=x^2</string>
         <property type="BackgroundOrigin">backgroundOrigin</property>
         <property type="Font">font</property>
         <property type="Cursor">cursor</property>
-        <property type="String">caption</property>
+        <property type="String">windowTitle</property>
         <property type="Pixmap">icon</property>
         <property type="String">iconText</property>
         <property type="Bool">mouseTracking</property>
@@ -726,7 +726,7 @@ Example: f(x)=x^2</string>
         <property type="BackgroundOrigin">backgroundOrigin</property>
         <property type="Font">font</property>
         <property type="Cursor">cursor</property>
-        <property type="String">caption</property>
+        <property type="String">windowTitle</property>
         <property type="Pixmap">icon</property>
         <property type="String">iconText</property>
         <property type="Bool">mouseTracking</property>
@@ -831,7 +831,7 @@ Example: f(x)=x^2</string>
         <property type="BackgroundOrigin">backgroundOrigin</property>
         <property type="Font">font</property>
         <property type="Cursor">cursor</property>
-        <property type="String">caption</property>
+        <property type="String">windowTitle</property>
         <property type="Pixmap">icon</property>
         <property type="String">iconText</property>
         <property type="Bool">mouseTracking</property>

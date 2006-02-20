@@ -370,7 +370,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 		QDataStream stream( &data,QIODevice::WriteOnly);
 		stream.setVersion(QDataStream::Qt_3_1);
 		stream << url;
-		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KURL)", data);
+		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KUrl)", data);
 		return;
 	}
 

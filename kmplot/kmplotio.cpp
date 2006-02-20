@@ -201,7 +201,7 @@ bool KmPlotIO::save( const KUrl &url )
 	}
 	else
 	{
-		xmlfile.setName(url.prettyURL(0,KUrl::StripFileProtocol)  );
+		xmlfile.setName(url.prettyURL(0)  );
 		if (!xmlfile.open( QIODevice::WriteOnly ) )
 			return false;
 		QTextStream ts( &xmlfile );
@@ -241,7 +241,7 @@ bool KmPlotIO::load( const KUrl &url )
 		f.setName(tmpfile);
 	}
 	else
-		f.setName( url.prettyURL(0,KUrl::StripFileProtocol) );
+		f.setName( url.prettyURL(0) );
 
 	if ( !f.open( QIODevice::ReadOnly ) )
 	{

@@ -158,7 +158,7 @@ void KParameterEditor::cmdImport_clicked()
                 file.setName(tmpfile);
         }
         else
-                file.setName(url.prettyURL(0,KUrl::StripFileProtocol) );
+                file.setName(url.prettyURL(0) );
 	
 	if ( file.open(QIODevice::ReadOnly) )
 	{
@@ -244,7 +244,7 @@ void KParameterEditor::cmdExport_clicked()
                 }
                 else
                 {
-                        file.setName(url.prettyURL(0,KUrl::StripFileProtocol));
+                        file.setName(url.prettyURL(0));
                         if (file.open( QIODevice::WriteOnly ) )
                         {
                                 QTextStream stream(&file);

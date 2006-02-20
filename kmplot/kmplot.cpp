@@ -131,7 +131,7 @@ bool KmPlot::load(const KUrl& url)
 	m_part->openURL( url );
   if (m_part->url().isEmpty())
     return false;
-  setCaption(url.prettyURL(0, KUrl::StripFileProtocol));
+  setCaption(url.prettyURL(0));
   return true;
 }
 

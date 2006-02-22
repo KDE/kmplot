@@ -276,7 +276,7 @@ void EditFunction::accept()
         tmp_ufkt.f_mode = !editfunctionpage->hideCheck->isChecked();
 	
 	if( editfunctionpage->useSlider->isChecked() )
-		tmp_ufkt.use_slider = editfunctionpage->listOfSliders->currentItem(); //specify which slider that will be used
+		tmp_ufkt.use_slider = editfunctionpage->listOfSliders->currentIndex(); //specify which slider that will be used
 	else
 	{
 		tmp_ufkt.use_slider = -1;

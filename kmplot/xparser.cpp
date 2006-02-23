@@ -796,7 +796,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	arg << item->fstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << str_dmin << str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
 	QByteArray replay_data;
 	DCOPCString replay_type;
-	bool ok = kapp->dcopClient()->call( str_result.utf8(), "Parser", "addFunction(QString,bool,bool,bool,bool,bool,int,int,int,int,QString,QString,QString,QString,double,QRgb,QRgb,QRgb,QRgb,QStringList,int)", parameters, replay_type, replay_data, false);
+	bool ok = kapp->dcopClient()->call( str_result.toUtf8(), "Parser", "addFunction(QString,bool,bool,bool,bool,bool,int,int,int,int,QString,QString,QString,QString,double,QRgb,QRgb,QRgb,QRgb,QStringList,int)", parameters, replay_type, replay_data, false);
 	if (!ok)
 	{
 		KMessageBox::error(0, i18n("An error appeared during the transfer"));
@@ -813,7 +813,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 		return false;
 	}
 	
-	kapp->dcopClient()->send(str_result.utf8(), "View","drawPlot()",QByteArray() ); //update the other window
+	kapp->dcopClient()->send(str_result.toUtf8(), "View","drawPlot()",QByteArray() ); //update the other window
 	
 	if (item->fname.at(0) == 'x') // a parametric function
 		return sendFunction(id+1, str_result);

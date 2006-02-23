@@ -55,8 +55,8 @@ KSliderWindow::KSliderWindow(QWidget* parent, int num, KActionCollection *ac ) :
 	// load the min and max value + the current value
 	KConfig config( "kmplotrc" );
 	config.setGroup( "slider" + QString::number(num) );
-	slider->setMinValue( config.readEntry( "min", 0) );
-	slider->setMaxValue( config.readEntry( "max", 100) );
+	slider->setMinimum( config.readEntry( "min", 0) );
+	slider->setMaximum( config.readEntry( "max", 100) );
 	slider->setValue( config.readEntry( "value", 50) );
 	slider->setPageStep( (int)ceil((abs(slider->minValue()) + abs(slider->maxValue()))/10.) );
 	
@@ -105,7 +105,7 @@ void KSliderWindow::mnuMinValue_clicked()
 	int const result = KInputDialog::getInteger(i18n("Change Minimum Value"), i18n("Type a new minimum value for the slider:"), slider->minValue(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)
 		return;
-	slider->setMinValue(result);
+	slider->setMinimum(result);
 	slider->setPageStep( (int)ceil((abs(slider->maxValue()) + abs(result))/10.) );
 	setFocus();
 }
@@ -116,7 +116,7 @@ void KSliderWindow::mnuMaxValue_clicked()
 	int const result = KInputDialog::getInteger(i18n("Change Maximum Value"), i18n("Type a new maximum value for the slider:"), slider->maxValue(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)
 		return;
-	slider->setMaxValue(result);
+	slider->setMaximum(result);
 	slider->setPageStep( (int)ceil((abs(slider->minValue()) + abs(result))/10.) );
 	setFocus();
 }

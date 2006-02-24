@@ -212,7 +212,7 @@ linkend="popupmenu"/>.
 <title>Popup menu</title>
 
 <para>When right-clicking on a plot function or a single-point parametric plot function a popup menu will appear.
-In the menu there are seven items available:</para>
+In the menu there are five items available:</para>
 
 <variablelist>
 <varlistentry>

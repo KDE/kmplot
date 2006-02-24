@@ -7,28 +7,23 @@ dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
 <guimenuitem>Fonts...</guimenuitem>) can only be changed
 from the <guimenu>Edit</guimenu> menu. </para>
 
-<note>
-<para>Settings changed in the &kmplot; configuration dialog become the
-default for &kmplot;, and only take effect when a new plot is started. Settings
-changed in the <guimenu>Edit</guimenu> menu take effect immediately, but do not
-persist after &kmplot; is exited.</para>
-</note>
-
 <sect1 id="general-config">
 <title><guilabel>General</guilabel> Configuration</title>
-<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first page you can set calculation-precision, angle-mode (radians and degrees), background color and zoom in and zoom out factors. </para><para>The second page let you define you own constants.  &kmplot; saves the constants in the same file as &kcalc; does. That means you can create a constant in  &kmplot;, close the program and load it in &kcalc; and vice versa.  &kmplot; only supports constant names that consist of one capital character and if you in &kcalc; define a constant name that is not one character, the name will be truncated. E.g, if you already have the constants "apple" and "bananas" in &kcalc;, they will be renamed to "A" and "B" in &kmplot;.</para>
+<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first page you can set calculation-precision, angle-mode (radians and degrees), background color and zoom in and zoom out factors. </para>
 
 <screenshot>
-<screeninfo>Here is a screenshot of the &kmplot; welcome window</screeninfo>
+<screeninfo>screenshot of the &kmplot; settings dialog</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="settingsdlg.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Screenshot</phrase>
+	    <phrase>screenshot of the &kmplot; settings dialog</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot>
+
+<para>The second page let you define you own constants.  &kmplot; saves the constants in the same file as &kcalc; does. That means you can create a constant in  &kmplot;, close the program and load it in &kcalc; and vice versa.  &kmplot; only supports constant names that consist of one capital character and if you in &kcalc; define a constant name that is not one character, the name will be truncated. E.g, if you already have the constants "apple" and "bananas" in &kcalc;, they will be renamed to "A" and "B" in &kmplot;.</para>
 
 </sect1>
 
@@ -36,8 +31,21 @@ persist after &kmplot; is exited.</para>
 <sect1 id="colors-config">
 <title><guilabel>Colors</guilabel> Configuration</title>
 <para>In the <guilabel>Coords</guilabel> tab of the <guilabel>Colors</guilabel>
-configuration option, you can change the colors of the axes and grid of the
+configuration dialog, you can change the colors of the axes and grid of the
 main &kmplot; area.</para>
+
+<screenshot>
+<screeninfo>screenshot of the colors configuration dialog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="settings-colors.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>screenshot of the colors configuration dialog</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
 <para>In the <guilabel>Default Function Colors</guilabel> tab, you can change the colors used
 for the graphs of the ten functions allowed in &kmplot;.</para>
 </sect1>
@@ -172,6 +180,18 @@ the lines of the grid.</para>
 <sect1 id="scaling-config">
 <title><guilabel>Scaling</guilabel> Configuration</title>
 
+<screenshot>
+<screeninfo>screenshot of the scaling configuration dialog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="settings-scaling.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>screenshot of the scaling configuration dialog</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
 <para>For each axis, you can set the <guilabel>Scaling:</guilabel> and
 <guilabel>Printing:</guilabel> of one tic.  The <guilabel>Scaling:</guilabel>
 option selects how many units apart the axis tics will be (and therefore, how
@@ -185,6 +205,19 @@ result in the graph doubling in in height or width.</para>
 
 <sect1 id="font-config">
 <title><guilabel>Fonts</guilabel> Configuration</title>
+
+<screenshot>
+<screeninfo>screenshot of the fonts configuration dialog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="settings-fonts.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>screenshot of the fonts configuration dialog</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
 <para><guilabel>Header table:</guilabel> sets the font for the information table
 shown in &kmplot; printouts, and <guilabel>Axis font:</guilabel> and <guilabel>Axis font size:</guilabel>
 sets the font and its size used for all labels on the axes in the plot area.</para>

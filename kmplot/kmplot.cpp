@@ -117,12 +117,12 @@ void KmPlot::slotUpdateFullScreen( bool checked)
 	if (checked)
 	{
 		showFullScreen();
-		m_fullScreen->plug( toolBar( "mainToolBar" ) );
+		//m_fullScreen->plug( toolBar( "mainToolBar" ) ); deprecated annma 2006-03-01
 	}
 	else
 	{
 		showNormal();
-		m_fullScreen->unplug( toolBar( "mainToolBar" ) );
+		//m_fullScreen->unplug( toolBar( "mainToolBar" ) ); deprecated annma 2006-03-01
 	}
 }
 

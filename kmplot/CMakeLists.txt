@@ -41,7 +41,7 @@ set(kmplotpart_PART_SRCS
 
 kde4_automoc(${kmplotpart_PART_SRCS})
 
-kde4_add_ui_files(kmplotpart_PART_SRCS 
+kde4_add_ui3_files(kmplotpart_PART_SRCS 
    FktDlgData.ui 
    settingspagecolor.ui 
    qparametereditor.ui 

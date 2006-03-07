@@ -5,21 +5,6 @@ include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_D
 
 ########### next target ###############
 
-set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp )
-
-kde4_automoc(${kmplot_SRCS})
-
-kde4_add_dcop_skels(kmplot_SRCS kmplotIface.h )
-
-kde4_add_executable(kmplot ${kmplot_SRCS})
-
-target_link_libraries(kmplot  ${QT_AND_KDECORE_LIBS} kparts )
-
-install_targets(/bin kmplot )
-
-
-########### next target ###############
-
 set(kmplotpart_PART_SRCS 
    parser.cpp 
    xparser.cpp 
@@ -71,6 +56,17 @@ target_link_libraries(kmplotpart  ${QT_AND_KDECORE_LIBS} kdeui kdeprint )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kmplotpart )
 
+########### next target ###############                                                                                                                         set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp ${kmplotpart_PART_SRCS})
+
+kde4_automoc(${kmplot_SRCS})
+
+kde4_add_dcop_skels(kmplot_SRCS kmplotIface.h )
+
+kde4_add_executable(kmplot ${kmplot_SRCS})
+
+target_link_libraries(kmplot  ${QT_AND_KDECORE_LIBS} kparts )
+
+install_targets(/bin kmplot ) 
 
 ########### install files ###############
 

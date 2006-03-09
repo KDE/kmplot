@@ -52,19 +52,20 @@ kde4_add_plugin(kmplotpart WITH_PREFIX ${kmplotpart_PART_SRCS})
 
 kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kmplotpart )
 
-target_link_libraries(kmplotpart  ${QT_AND_KDECORE_LIBS} kdeui kdeprint )
+target_link_libraries(kmplotpart  ${LIB_KDE3SUPPORT} kdeprint ${QT_QTXML_LIBRARY} )
 
 install_targets(${LIB_INSTALL_DIR}/kde4 kmplotpart )
 
-########### next target ###############                                                                                                                         set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp ${kmplotpart_PART_SRCS})
+########### next target ###############   
 
+set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp ${kmplotpart_PART_SRCS})
 kde4_automoc(${kmplot_SRCS})
 
 kde4_add_dcop_skels(kmplot_SRCS kmplotIface.h )
 
 kde4_add_executable(kmplot ${kmplot_SRCS})
 
-target_link_libraries(kmplot  ${QT_AND_KDECORE_LIBS} kparts )
+target_link_libraries(kmplot  ${LIB_KPARTS} kdeprint )
 
 install_targets(/bin kmplot ) 
 

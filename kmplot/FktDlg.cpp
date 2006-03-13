@@ -29,7 +29,7 @@
 
 // KDE includes
 #include <kapplication.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>

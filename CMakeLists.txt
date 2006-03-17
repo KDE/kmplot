@@ -1,4 +1,5 @@
 kde4_header()
+project(kmplot)
 
 add_subdirectory( kmplot ) 
 add_subdirectory( icons ) 

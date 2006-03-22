@@ -275,7 +275,7 @@ void MainDlg::slotSaveas()
 			else
 			{
 				m_url = url;
-				m_recentFiles->addURL( url );
+				m_recentFiles->addUrl( url );
         setWindowCaption( m_url.prettyURL(0) );
 				m_modified = false;
 			}
@@ -349,12 +349,12 @@ bool MainDlg::openFile()
 	view->init();
 	if (m_url==m_currentfile || !kmplotio->load( m_url ) )
 	{
-		m_recentFiles->removeURL(m_url ); //remove the file from the recent-opened-file-list
+		m_recentFiles->removeUrl(m_url ); //remove the file from the recent-opened-file-list
 		m_url = "";
 		return false;
 	}
 	m_currentfile = m_url;
-  m_recentFiles->addURL( m_url.prettyURL(0)  );
+  m_recentFiles->addUrl( m_url.prettyURL(0)  );
   setWindowCaption( m_url.prettyURL(0) );
 	m_modified = false;
 	view->updateSliders();
@@ -377,7 +377,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 	view->init();
 	if ( !kmplotio->load( url ) ) //if the loading fails
 	{
-		m_recentFiles->removeURL(url ); //remove the file from the recent-opened-file-list
+		m_recentFiles->removeUrl(url ); //remove the file from the recent-opened-file-list
 		return;
 	}
   m_url = m_currentfile = url;

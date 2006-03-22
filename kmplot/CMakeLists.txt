@@ -65,7 +65,7 @@ kde4_add_dcop_skels(kmplot_SRCS kmplotIface.h )
 
 kde4_add_executable(kmplot ${kmplot_SRCS})
 
-target_link_libraries(kmplot  ${LIB_KPARTS} kdeprint )
+target_link_libraries(kmplot  ${KDE4_KPARTS_LIBS} kdeprint )
 
 install_targets(/bin kmplot ) 
 

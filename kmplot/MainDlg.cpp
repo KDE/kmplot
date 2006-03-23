@@ -3,6 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kdmoeller@foni.net
+*                     2006 David Saxton <david@bluehaze.org>
 *
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -136,71 +137,172 @@ void MainDlg::setupActions()
 
 
 	// KmPlot specific actions
-	// file menu
-	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( slotExport() ), actionCollection(), "export");
+	
+	//BEGIN file menu
+	KAction * exportAction = new KAction( i18n( "E&xport..." ), actionCollection(), "export" );
+	connect( exportAction, SIGNAL(triggered(bool)), this, SLOT( slotExport() ) );
+	//END file menu
 
-	//zoom menu
-	KRadioAction * mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,"CTRL+0",view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
-	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &Rectangular"), "viewmagfit", "CTRL+1",view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
-	KRadioAction * mnuZoomIn = new KRadioAction(i18n("Zoom &In"), "viewmag+", "CTRL+2",view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
-	KRadioAction * mnuZoomOut = new KRadioAction(i18n("Zoom &Out"), "viewmag-", "CTRL+3",view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
-	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center Point") ,"CTRL+4",view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
-	(void ) new KAction(i18n("&Fit Widget to Trigonometric Functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
-	mnuNoZoom->setExclusiveGroup("zoom_modes");
+	
+	//BEGIN zoom menu
+	QActionGroup * zoomGroup = new QActionGroup( this );
+	
+	KToggleAction * mnuNoZoom = new KToggleAction( i18n("&No Zoom"), actionCollection(), "no_zoom" );
+	mnuNoZoom->setShortcut( "CTRL+0" );
+	connect( mnuNoZoom, SIGNAL(triggered(bool)), view, SLOT( mnuNoZoom_clicked() ) );
+	zoomGroup->addAction( mnuNoZoom );
 	mnuNoZoom->setChecked(true);
-	mnuRectangular->setExclusiveGroup("zoom_modes");
-	mnuZoomIn->setExclusiveGroup("zoom_modes");
-	mnuZoomOut->setExclusiveGroup("zoom_modes");
-	mnuZoomCenter->setExclusiveGroup("zoom_modes");
+	
+	KToggleAction * mnuRectangular = new KToggleAction( i18n("Zoom &Rectangular"), actionCollection(), "zoom_rectangular" );
+	mnuRectangular->setShortcut( "CTRL+1" );
+	mnuRectangular->setIcon( KIcon("viewmagfit") );
+	connect( mnuRectangular, SIGNAL(triggered(bool)), view, SLOT( mnuRectangular_clicked() ) );
+	zoomGroup->addAction( mnuRectangular );
+	
+	KToggleAction * mnuZoomIn = new KToggleAction( i18n("Zoom &In"), actionCollection(), "zoom_in" );
+	mnuZoomIn->setShortcut( "CTRL+2" );
+	mnuZoomIn->setIcon( KIcon("viewmag+") );
+	connect( mnuZoomIn, SIGNAL(triggered(bool)), view, SLOT(mnuZoomIn_clicked()) );
+	zoomGroup->addAction( mnuZoomIn );
+	
+	KToggleAction * mnuZoomOut = new KToggleAction( i18n("Zoom &Out"), actionCollection(),"zoom_out" );
+	mnuZoomOut->setShortcut( "CTRL+3" );
+	mnuZoomOut->setIcon( KIcon("viewmag-") );
+	connect( mnuZoomOut, SIGNAL(triggered(bool)), view, SLOT( mnuZoomOut_clicked() ) );
+	zoomGroup->addAction( mnuZoomOut );
+	
+	KToggleAction * mnuZoomCenter = new KToggleAction( i18n("&Center Point"), actionCollection(), "zoom_center" );
+	mnuZoomCenter->setShortcut( "CTRL+4" );
+	connect( mnuZoomCenter, SIGNAL(triggered(bool)), view, SLOT( mnuCenter_clicked() ) );
+	zoomGroup->addAction( mnuZoomCenter );
+	
+	KAction * zoomTrig = new KAction( i18n("&Fit Widget to Trigonometric Functions"), actionCollection(), "zoom_trig" );
+	connect( zoomTrig, SIGNAL(triggered(bool)), view, SLOT( mnuTrig_clicked() ) );
+	//END zoom menu
 
-	// help menu
-	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );
+	
+	//BEGIN help menu
+	KAction * namesAction = new KAction( i18n( "Predefined &Math Functions" ), actionCollection(), "names" );
+	namesAction->setIcon( KIcon("functionhelp") );
+	connect( namesAction, SIGNAL(triggered(bool)), this, SLOT( slotNames() ) );
+	//END help menu
+	
+	
+	//BEGIN edit menu
+	KAction * editColors = new KAction( i18n( "&Colors..." ), actionCollection(), "editcolors" );
+	editColors->setIcon( KIcon( "colorize.png" ) );
+	connect( editColors, SIGNAL(triggered(bool)), this, SLOT( editColors() ) );
+	
+	KAction * editAxes = new KAction( i18n( "&Coordinate System..." ), actionCollection(), "editaxes" );
+	editAxes->setIcon( KIcon("coords.png") );
+	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
+	
+	KAction * editScaling = new KAction( i18n( "&Scaling..." ), actionCollection(), "editscaling" );
+	editScaling->setIcon( KIcon("scaling") );
+	connect( editScaling, SIGNAL(triggered(bool)), this, SLOT( editScaling() ) );
+	
+	KAction * editFonts = new KAction( i18n( "&Fonts..." ), actionCollection(), "editfonts" );
+	editFonts->setIcon( KIcon("fonts") );
+	connect( editFonts, SIGNAL(triggered(bool)), this, SLOT( editFonts() ) );
 
-	// edit menu
-	( void ) new KAction( i18n( "&Colors..." ), "colorize.png", 0, this, SLOT( editColors() ), actionCollection(), "editcolors" );
-	( void ) new KAction( i18n( "&Coordinate System..." ), "coords.png", 0, this, SLOT( editAxes() ), actionCollection(), "editaxes" );
-	//  ( void ) new KAction( i18n( "&Grid..." ), "coords.png", 0, this, SLOT( editGrid() ), actionCollection(), "editgrid" );
-	( void ) new KAction( i18n( "&Scaling..." ), "scaling", 0, this, SLOT( editScaling() ), actionCollection(), "editscaling" );
-	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, SLOT( editFonts() ), actionCollection(), "editfonts" );
+	KAction * coordI = new KAction( i18n( "Coordinate System I" ), actionCollection(), "coord_i" );
+	coordI->setIcon( KIcon("ksys1.png") );
+	connect( coordI, SIGNAL(triggered(bool)), this, SLOT( slotCoord1() ) );
+	
+	KAction * coordII = new KAction( i18n( "Coordinate System II" ), actionCollection(), "coord_ii" );
+	coordII->setIcon( KIcon("ksys2.png") );
+	connect( coordII, SIGNAL(triggered(bool)), this, SLOT( slotCoord2() ) );
+	
+	KAction * coordIII = new KAction( i18n( "Coordinate System III" ), actionCollection(), "coord_iii" );
+	coordIII->setIcon( KIcon("ksys3.png") );
+	connect( coordIII, SIGNAL(triggered(bool)), this, SLOT( slotCoord3() ) );
+	//END edit menu
 
-	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( slotCoord1() ), actionCollection(), "coord_i" );
-	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( slotCoord2() ), actionCollection(), "coord_ii" );
-	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( slotCoord3() ), actionCollection(), "coord_iii" );
+	
+	//BEGIN plot menu
+	KAction * newFunction = new KAction( i18n( "&New Function Plot..." ), actionCollection(), "newfunction" );
+	newFunction->setIcon( KIcon("newfunction") );
+	connect( newFunction, SIGNAL(triggered(bool)), this, SLOT( newFunction() ) );
+	
+	KAction * newParametric = new KAction( i18n( "New Parametric Plot..." ), actionCollection(), "newparametric" );
+	newParametric->setIcon( KIcon("newparametric") );
+	connect( newParametric, SIGNAL(triggered(bool)), this, SLOT( newParametric() ) );
+	
+	KAction * newPolar = new KAction( i18n( "New Polar Plot..." ), actionCollection(), "newpolar" );
+	newPolar->setIcon( KIcon("newpolar") );
+	connect( newPolar, SIGNAL(triggered(bool)), this, SLOT( newPolar() ) );
+	
+	KAction * editPlots = new KAction( i18n( "Edit Plots..." ), actionCollection(), "editplots" );
+	editPlots->setIcon( KIcon("editplots") );
+	connect( editPlots, SIGNAL(triggered(bool)), this, SLOT( slotEditPlots() ) );
+	//END plot menu
 
-	// plot menu
-	( void ) new KAction( i18n( "&New Function Plot..." ), "newfunction", 0, this, SLOT( newFunction() ), actionCollection(), "newfunction" );
-	( void ) new KAction( i18n( "New Parametric Plot..." ), "newparametric", 0, this, SLOT( newParametric() ), actionCollection(), "newparametric" );
-	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
-	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
-
-		// tools menu
-	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
-	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value..." ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
-	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value..." ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
-	KAction *mnuArea = new KAction( i18n( "&Area Under Graph..." ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
+	
+	//BEGIN tools menu
+	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), actionCollection(), "yvalue" );
+	mnuYValue->setIcon( KIcon("") );
+	connect( mnuYValue, SIGNAL(triggered(bool)), this, SLOT( getYValue() ) );
+	
+	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value..." ), actionCollection(), "minimumvalue" );
+	mnuMinValue->setIcon( KIcon("minimum") );
+	connect( mnuMinValue, SIGNAL(triggered(bool)), this, SLOT( findMinimumValue() ) );
+	
+	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value..." ), actionCollection(), "maximumvalue" );
+	mnuMaxValue->setIcon( KIcon("maximum") );
+	connect( mnuMaxValue, SIGNAL(triggered(bool)), this, SLOT( findMaximumValue() ) );
+	
+	KAction *mnuArea = new KAction( i18n( "&Area Under Graph..." ), actionCollection(), "grapharea" );
+	mnuArea->setIcon( KIcon("") );
+	connect( mnuArea, SIGNAL(triggered(bool)),this, SLOT( graphArea() )  );
+	//END tools menu
+	
 
 	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
 	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );
+	
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 	                                     "For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
 
-	view->mnuSliders[0] = new KToggleAction( i18n( "Show Slider 1" ), 0, this, SLOT( toggleShowSlider0() ), actionCollection(), QString( "options_configure_show_slider_0" ).latin1() );
-	view->mnuSliders[1] = new KToggleAction( i18n( "Show Slider 2" ), 0, this, SLOT( toggleShowSlider1() ), actionCollection(), QString( "options_configure_show_slider_1" ).latin1() );
-	view->mnuSliders[2] = new KToggleAction( i18n( "Show Slider 3" ), 0, this, SLOT( toggleShowSlider2() ), actionCollection(), QString( "options_configure_show_slider_2" ).latin1() );
-	view->mnuSliders[3] = new KToggleAction( i18n( "Show Slider 4" ), 0, this, SLOT( toggleShowSlider3() ), actionCollection(), QString( "options_configure_show_slider_3" ).latin1() );
+	view->mnuSliders[0] = new KToggleAction( i18n( "Show Slider 1" ), actionCollection(), QString( "options_configure_show_slider_0" ).latin1() );
+	connect( view->mnuSliders[0], SIGNAL(triggered(bool)), this, SLOT( toggleShowSlider0() ) );
+	
+	view->mnuSliders[1] = new KToggleAction( i18n( "Show Slider 2" ), actionCollection(), QString( "options_configure_show_slider_1" ).latin1() );
+	connect( view->mnuSliders[1], SIGNAL(triggered(bool)), this, SLOT( toggleShowSlider1() ) );
+	
+	view->mnuSliders[2] = new KToggleAction( i18n( "Show Slider 3" ), actionCollection(), QString( "options_configure_show_slider_2" ).latin1() );
+	connect( view->mnuSliders[2], SIGNAL(triggered(bool)), this, SLOT( toggleShowSlider2() ) );
+	
+	view->mnuSliders[3] = new KToggleAction( i18n( "Show Slider 4" ), actionCollection(), QString( "options_configure_show_slider_3" ).latin1() );
+	connect( view->mnuSliders[3], SIGNAL(triggered(bool)), this, SLOT( toggleShowSlider3() ) );
+	
 
 	// Popup menu
-	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
+	KAction *mnuHide = new KAction(i18n("&Hide"), actionCollection(),"mnuhide" );
+	connect( mnuHide, SIGNAL(triggered(bool)), view, SLOT( mnuHide_clicked() ) );
 	mnuHide->plug(m_popupmenu);
-	KAction *mnuRemove = new KAction(i18n("&Remove"),"editdelete", 0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
+	
+	KAction *mnuRemove = new KAction(i18n("&Remove"), actionCollection(),"mnuremove"  );
+	mnuRemove->setIcon( KIcon("editdelete") );
+	connect( mnuRemove, SIGNAL(triggered(bool)), view, SLOT( mnuRemove_clicked() ) );
 	mnuRemove->plug(m_popupmenu);
-	KAction *mnuEdit = new KAction(i18n("&Edit"),"editplots", 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
+	
+	KAction *mnuEdit = new KAction(i18n("&Edit"), actionCollection(),"mnuedit"  );
+	mnuEdit->setIcon( KIcon("editplots") );
+	connect(mnuEdit , SIGNAL(triggered(bool)), view, SLOT( mnuEdit_clicked() ) );
 	mnuEdit->plug(m_popupmenu);
+	
 	m_popupmenu->insertSeparator();
-	KAction *mnuCopy = new KAction(i18n("&Copy"), 0,view, SLOT( mnuCopy_clicked() ),actionCollection(),"mnucopy"  );
+	
+	KAction *mnuCopy = new KAction(i18n("&Copy"), actionCollection(),"mnucopy"  );
+	mnuCopy->setIcon( KIcon("") );
+	connect( mnuCopy, SIGNAL(triggered(bool)), view, SLOT( mnuCopy_clicked() ) );
 	mnuCopy->plug(m_popupmenu);
-	KAction *mnuMove = new KAction(i18n("&Move"), 0,view, SLOT( mnuMove_clicked() ),actionCollection(),"mnumove"  );
+	
+	KAction *mnuMove = new KAction(i18n("&Move"),actionCollection(),"mnumove"  );
+	mnuMove->setIcon( KIcon("") );
+	connect( mnuMove, SIGNAL(triggered(bool)), view, SLOT( mnuMove_clicked() ) );
 	mnuMove->plug(m_popupmenu);
+	
 	m_popupmenu->insertSeparator();
 	mnuYValue->plug(m_popupmenu);
 	mnuMinValue->plug(m_popupmenu);
@@ -252,7 +354,7 @@ void MainDlg::slotSave()
 			if ( KMessageBox::warningContinueCancel( m_parent, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of Kmplot. Are you sure you want to continue?" ), QString(), i18n("Save New Format") ) == KMessageBox::Cancel)
 				return;
 		}
-		kmplotio->save( m_url.url() );
+		kmplotio->save( m_url );
 		kDebug() << "saved" << endl;
 		m_modified = false;
 	}
@@ -276,7 +378,7 @@ void MainDlg::slotSaveas()
 			{
 				m_url = url;
 				m_recentFiles->addUrl( url );
-        setWindowCaption( m_url.prettyURL(0) );
+				setWindowCaption( m_url.prettyURL(0) );
 				m_modified = false;
 			}
 			return;
@@ -354,8 +456,8 @@ bool MainDlg::openFile()
 		return false;
 	}
 	m_currentfile = m_url;
-  m_recentFiles->addUrl( m_url.prettyURL(0)  );
-  setWindowCaption( m_url.prettyURL(0) );
+	m_recentFiles->addUrl( m_url.prettyURL(0)  );
+	setWindowCaption( m_url.prettyURL(0) );
 	m_modified = false;
 	view->updateSliders();
 	view->drawPlot();
@@ -507,13 +609,13 @@ void MainDlg::slotEditPlots()
 	if ( !fdlg ) fdlg = new FktDlg( m_parent, view ); // make the dialog only if not allready done
 	fdlg->getPlots();
 	KTempFile tmpfile;
-	kmplotio->save( tmpfile.name() );
+	kmplotio->save( KUrl::fromPathOrURL( tmpfile.name() ) );
 	if( fdlg->exec() == QDialog::Rejected )
 	{
 		if ( fdlg->isChanged() )
 		{
 			view->init();
-			kmplotio->load( tmpfile.name() );
+			kmplotio->load( KUrl::fromPathOrURL( tmpfile.name() ) );
 			view->drawPlot();
 		}
 	}

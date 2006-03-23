@@ -91,9 +91,6 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	view->setFocusPolicy(Qt::ClickFocus);
 	minmaxdlg = new KMinMax(view, m_parent);
 	view->setMinMaxDlg(minmaxdlg);
-	m_quickEdit = new KLineEdit( parentWidget );
-	m_quickEdit->setFocus();
-	m_quickEdit->setToolTip( i18n( "Enter a function equation, for example: f(x)=x^2" ) );
 	setupActions();
 	loadConstants();
 	kmplotio = new KmPlotIO(view->parser());
@@ -257,11 +254,8 @@ void MainDlg::setupActions()
 	//END tools menu
 	
 
-	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
-	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );
-	
-	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
-	                                     "For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
+	m_quickEditAction = new QuickEditAction( actionCollection(), "quickedit" );
+	connect( m_quickEditAction, SIGNAL( completed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
 
 	view->mnuSliders[0] = new KToggleAction( i18n( "Show Slider 1" ), actionCollection(), QString( "options_configure_show_slider_0" ).latin1() );
 	connect( view->mnuSliders[0], SIGNAL(triggered(bool)), this, SLOT( toggleShowSlider0() ) );
@@ -646,8 +640,7 @@ void MainDlg::slotQuickEdit(const QString& f_str_const )
 	if  ( f_str.contains('y') != 0)
 	{
 		KMessageBox::error( m_parent, i18n( "Recursive function is not allowed"));
-		m_quickEdit->setFocus();
-		m_quickEdit->selectAll();
+		m_quickEditAction->setFocus();
 		return;
 	}
 
@@ -655,8 +648,9 @@ void MainDlg::slotQuickEdit(const QString& f_str_const )
 	if (id==-1)
 	{
 		view->parser()->parserError();
-		m_quickEdit->setFocus();
-		m_quickEdit->selectAll();
+		m_quickEditAction->setFocus();
+// 		m_quickEdit->setFocus();
+// 		m_quickEdit->selectAll();
 		return;
 	}
 	Ufkt *ufkt = &view->parser()->ufkt.last();
@@ -664,12 +658,11 @@ void MainDlg::slotQuickEdit(const QString& f_str_const )
 
 	if ( pos!=-1 && !view->parser()->getext(ufkt, QString(f_str_const)))
 	{
-		m_quickEdit->setFocus();
-		m_quickEdit->selectAll();
+		m_quickEditAction->setFocus();
 		view->parser()->Parser::delfkt( ufkt );
 		return;
 	}
-	m_quickEdit->clear();
+	m_quickEditAction->reset();
 	m_modified = true;
 	view->drawPlot();
 }
@@ -929,4 +922,63 @@ void BrowserExtension::print()
 	static_cast<MainDlg*>(parent())->slotPrint();
 }
 
+
+//BEGIN class QuickEditAction
+QuickEditAction::QuickEditAction( KActionCollection * parent, const char * name )
+	: KAction( i18n( "Quick Edit" ), parent, name )
+{
+	setToolBarWidgetFactory(this);
+	setWhatsThis( i18n( "Enter a simple function equation here.\n"
+			"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
+}
+
+
+QuickEditAction::~QuickEditAction()
+{
+}
+
+
+QWidget * QuickEditAction::createToolBarWidget( QToolBar * parent )
+{
+	KLineEdit * edit = new KLineEdit( parent );
+	m_lineEdits << edit;
+	
+	edit->setToolTip( i18n( "Enter a function equation, for example: f(x)=x^2" ) );
+	connect( edit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( returnPressed( const QString& ) ) );
+	
+	return edit;
+}
+
+
+void QuickEditAction::destroyToolBarWidget( QWidget * widget )
+{
+	m_lineEdits.remove( static_cast<KLineEdit*>(widget) );
+	widget->deleteLater();
+}
+
+
+void QuickEditAction::reset()
+{
+	foreach ( KLineEdit * edit, m_lineEdits )
+		edit->clear();
+}
+
+
+void QuickEditAction::setFocus()
+{
+	if ( m_lineEdits.isEmpty() )
+		return;
+	
+	KLineEdit * edit = m_lineEdits.first();
+	edit->setFocus();
+	edit->selectAll();
+}
+
+
+void QuickEditAction::returnPressed( const QString & text )
+{
+	if ( !text.isEmpty() )
+		emit completed( text );
+}
+//END class QuickEditAction
 

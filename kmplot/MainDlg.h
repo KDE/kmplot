@@ -61,6 +61,7 @@ class KConstantEditor;
 class KToggleFullScreenAction;
 class BrowserExtension;
 class KAboutData;
+class QuickEditAction;
 
 /** @short This is the main window of KmPlot.
  *
@@ -162,12 +163,12 @@ private:
 	View *view;
 	///The Recent Files action
 	KRecentFilesAction * m_recentFiles;
+	///The quick edit action for entering functions via the toolbar
+	QuickEditAction * m_quickEditAction;
 	/// true == modifications not saved
 	bool m_modified;
 	///An instance of the application config file
 	KConfig* m_config;
-	///The KLineEdit which is in the toolbar
-	KLineEdit* m_quickEdit;
 	///A Configure KmPlot dialog instance
 	KConfigDialog* m_settingsDialog;
 	///The Precision page for the Configure KmPlot dialog
@@ -236,6 +237,40 @@ public:
 public slots:
 	// Automatically detected by the host.
 	void print();
+};
+
+
+/**
+Custom action for entering a function from the toolbar via a KLineEdit.
+*/
+class QuickEditAction : public KAction, public QActionWidgetFactory
+{
+	Q_OBJECT
+	public:
+		QuickEditAction( KActionCollection * parent, const char * name );
+		virtual ~QuickEditAction();
+	
+		virtual QWidget * createToolBarWidget( QToolBar * parent );
+		virtual void destroyToolBarWidget( QWidget * widget );
+		
+		/// Clears the text from all line edits.
+		void reset();
+		/// Focuses and selects the text of the last created line edit.
+		void setFocus();
+	
+	signals:
+		/// Emitted when the user hits Return with text in an edit.
+		void completed( const QString & text );
+		
+	protected slots:
+		/**
+		 * Invoked from a returnPressed signal, when the user hits enter in one
+		 * of the toolbar widgets.
+		 */
+		void returnPressed( const QString & text );
+		
+	protected:
+		QList<KLineEdit*> m_lineEdits;
 };
 
 #endif // MainDlg_included

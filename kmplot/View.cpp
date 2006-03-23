@@ -2073,6 +2073,7 @@ void View::restoreCursor()
 			setCursor(Qt::ArrowCursor);
 			break;
 		case Rectangular:
+		case DrawingRectangle:
 			setCursor(Qt::CrossCursor);
 			break;
 		case ZoomIn:

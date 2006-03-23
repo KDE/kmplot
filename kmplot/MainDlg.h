@@ -49,6 +49,7 @@
 #include "kminmax.h"
 #include "kmplotio.h"
 #include "MainDlgIface.h"
+#include "settingspagefonts.h"
 
 class KConfigDialog;
 class KLineEdit;
@@ -271,6 +272,14 @@ class QuickEditAction : public KAction, public QActionWidgetFactory
 		
 	protected:
 		QList<KLineEdit*> m_lineEdits;
+};
+
+class SettingsPageFonts : public QWidget, public Ui::SettingsPageFonts
+{
+	public:
+		SettingsPageFonts( QWidget * parent = 0, const char * name = 0 )
+	: QWidget( parent, name )
+		{ setupUi(this); }
 };
 
 #endif // MainDlg_included

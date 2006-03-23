@@ -32,10 +32,35 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 
+#include "editderivativespage.h"
+#include "editfunctionpage.h"
+#include "editintegralpage.h"
+
 class XParser;
-class EditFunctionPage;
-class EditDerivativesPage;
-class EditIntegralPage;
+
+class EditDerivativesPage : public QWidget, public Ui::EditDerivativesPage
+{
+	public:
+		EditDerivativesPage( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
+};
+
+class EditFunctionPage : public QWidget, public Ui::EditFunctionPage
+{
+	public:
+		EditFunctionPage( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
+};
+
+class EditIntegralPage : public QWidget, public Ui::EditIntegralPage
+{
+	public:
+		EditIntegralPage( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
+};
 
 /** @short Dialog window editing a function plot and its properties. */
 class EditFunction : public KDialogBase

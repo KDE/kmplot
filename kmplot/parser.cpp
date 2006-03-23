@@ -52,6 +52,7 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 	{"sinh", lsinh}, 	// Sinus hyperbolicus
 	{"sin", lsin}, 		// Sinus
 	{"sign", sign},         // Signum
+	{"H", heaviside},	// Heaviside step function
 	{"sech", sech},		// Secans hyperbolicus
 	{"sec", sec},		// Secans
 	{"log", llog}, 	        // Logarithm base 10
@@ -99,7 +100,7 @@ Ufkt::Ufkt()
 	f1_linewidth = 0;
 	f2_linewidth = 0;
 	integral_linewidth = 0;
-	double dmin = 0.0;
+	dmin = 0.0;
 	dmax = 0.0;
 	oldyprim = 0.0;
 	oldx = 0.0;
@@ -483,25 +484,42 @@ void Parser::fix_expression(QString &str, int const pos)
 {
         str.remove(" " );
         str=" "+str+" ";
+		
+		/// \todo tidy up code for dealing with capital letter H (heaviside step function)
         
         //insert '*' when it is needed
         QChar ch;
         bool function = false;
         for(int i=pos+1; i+1 <  str.length();i++)
-        {
-                ch = str.at(i);
-                if ( str.at(i+1)=='(' && ch.category()==QChar::Letter_Lowercase )
-                {
-                        QString str_function(ch);
-                        int n=i-1;
-                        while (n>0 && str.at(n).category() == QChar::Letter_Lowercase )
-                        {
-                                     str_function.prepend(str.at(n));
-                                     --n;
-                        }
-                        if (str_function == "tanh" || str_function == "tan" || str_function =="sqrt" || str_function =="sqr" || str_function =="sin" || str_function =="sinh" || str_function =="sign" || str_function =="sech" || str_function =="sec" || str_function =="log" || str_function =="ln" || str_function =="exp" || str_function =="coth" || str_function =="cot" || str_function =="cosh" || str_function =="cosech" || str_function =="cosec" || str_function =="cos" || str_function =="artanh" || str_function =="arsinh" || str_function =="arsech" || str_function =="arctan" || str_function =="arcsin" || str_function =="arcsec" || str_function =="arcoth" || str_function =="arcosh" || str_function =="arcosech" || str_function =="arccot" || str_function =="arccosec" || str_function =="arccos" || str_function =="abs" || str_function=="arctanh" || str_function=="arcsinh" || str_function=="arccosh")
-                                function = true;
-                        else
+		{
+			ch = str.at(i);
+			if ( str.at(i+1)=='(' && (ch.category()==QChar::Letter_Lowercase || ch=='H') )
+			{
+				// Work backwards to build up the full function name
+				QString str_function(ch);
+				int n=i-1;
+				while (n>0 && str.at(n).category() == QChar::Letter_Lowercase )
+				{
+					str_function.prepend(str.at(n));
+					--n;
+				}
+				
+				// I commented this out as its easy to make typos or forget to insert new functions in this list
+				// - the new method should be more reliable. David.
+//                         if (str_function == "tanh" || str_function == "tan" || str_function =="sqrt" || str_function =="sqr" || str_function =="sin" || str_function =="sinh" || str_function =="sign" || str_function =="sech" || str_function =="sec" || str_function =="log" || str_function =="ln" || str_function =="exp" || str_function =="coth" || str_function =="cot" || str_function =="cosh" || str_function =="cosech" || str_function =="cosec" || str_function =="cos" || str_function =="artanh" || str_function =="arsinh" || str_function =="arsech" || str_function =="arctan" || str_function =="arcsin" || str_function =="arcsec" || str_function =="arcoth" || str_function =="arcosh" || str_function =="arcosech" || str_function =="arccot" || str_function =="arccosec" || str_function =="arccos" || str_function =="abs" || str_function=="arctanh" || str_function=="arcsinh" || str_function=="arccosh")
+				for ( unsigned func = 0; func < FANZ; ++func )
+				{
+					if ( str_function == QString( mfkttab[func].mfstr ) )
+					{
+						function = true;
+						break;
+					}
+				}
+				
+				if ( !function )
+				{
+					// Not a predefined function, so search through the user defined functions (e.g. f(x), etc)
+					// to see if it is one of those
                                 for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                                 {
                                         for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
@@ -510,16 +528,24 @@ void Parser::fix_expression(QString &str, int const pos)
                                                         function = true;
                                         }
                                 }
-                }
-                else  if (function)
-                        function = false;
+				}
+			}
+			else  if (function)
+				function = false;
                 
-                if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
-                        str.insert(i,'*');
-                else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(' && !function ) )
+				// either a number or a likely constant (H is reserved for the Heaviside step function)
+				bool chIsNumeric = ch.isNumber() || ( (ch.category()==QChar::Letter_Uppercase) && (ch!='H') );
+				
+				if ( chIsNumeric && ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
+				{
+					str.insert(i,'*');
+// 					kDebug() << "inserted * before\n";
+				}
+				else if( (chIsNumeric || ch == ')') && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(' && !function ) )
                 {
-                        str.insert(i+1,'*');
-                        i++;
+					str.insert(i+1,'*');
+// 					kDebug() << "inserted * after, function="<<function<<" ch="<<ch<<"\n";
+					i++;
                 }
         }
         str.remove(" " );
@@ -706,6 +732,7 @@ void Parser::primary()
         int i;
         for(i=0; i<FANZ; ++i)
         {
+// 			kDebug() << "*lptr="<<*lptr<<" mfkttab[i].mfstr="<<mfkttab[i].mfstr<<endl;
                 if(match(mfkttab[i].mfstr))
                 {
                         primary();
@@ -1022,6 +1049,16 @@ double sign(double x)
                 if(x>0.)
                         return 1.;
         return 0.;
+}
+
+double heaviside( double x )
+{
+	if ( x < 0.0 )
+		return 0.0;
+	else if ( x > 0.0 )
+		return 1.0;
+	else
+		return 0.5;
 }
 
 double sqr(double x)

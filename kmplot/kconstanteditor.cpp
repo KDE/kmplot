@@ -143,6 +143,10 @@ void KConstantEditor::cmdDuplicate_clicked()
 	bool found;
 	for (char i='A'; i<'Z';i++)
 	{
+		if ( i=='H' )
+			// heaviside step function
+			continue;
+		
 		found = false;
 		Q3ValueVector<Constant>::iterator it;
 		for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;++it)

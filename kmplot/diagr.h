@@ -38,8 +38,8 @@
 //@{
 /// Some abbreviations for horizontal and vertical lines.
 #define Line drawLine
-#define Lineh(x1, y, x2) drawLine(x1, y, x2, y)
-#define Linev(x, y1, y2) drawLine(x, y1, x, y2) 
+#define Lineh(x1, y, x2) drawLine( QPointF(x1, y), QPointF(x2, y) )
+#define Linev(x, y1, y2) drawLine( QPointF(x, y1), QPointF(x, y2) )
 //@}
 
 //@{
@@ -77,10 +77,10 @@ public:
 	/** @name Transformations */
 	//@{
 	/// These functions convert real coordinates to pixel coordinates and vice versa.
-	int Transx(double);
-	int Transy(double);
-	double Transx(int);
-	double Transy(int);
+	double TransxToPixel(double);
+	double TransyToPixel(double);
+	double TransxToReal(double);
+	double TransyToReal(double);
 	//@}
 	
 	/** @name Style options

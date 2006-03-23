@@ -3,6 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
+*                     2006 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -181,21 +182,21 @@ private:
 	/// @name Crosshair
 	/// Crosshair support.
 	//@{
-	int fcx;	///< x-position of the crosshais (pixel)
-	int fcy;	///< y-position of the crosshais (pixel)
+	float fcx;	///< x-position of the crosshais (pixel)
+	float fcy;	///< y-position of the crosshais (pixel)
 	float csxpos;	///< y-position of the cross hair (real coordinates)
 	float csypos;	///< x-position of the cross hair (real coordinates)
 	//@}
 	/// trace mode stuff
-	int csflg;
 	bool rootflg;
 
+	/// @return whether csxpos is in the range of the view or in the custom range for the given \p plot
+	bool csxposValid( Ufkt * plot ) const;
+	
 	CDiagr dgr;	///< Coordinate system
 	QPoint ref;
 	QRect area,
 	PlotArea;
-	QPixmap hline,
-	vline;
 	QMatrix wm;
 
 	double tlgx, tlgy, drskalx, drskaly;
@@ -250,13 +251,24 @@ private:
 	bool isDrawing;
 	///status of the popup menu
 	char m_popupmenushown; /// 0==no popup 1==popup 2==popup+trace mode before
-	/// for zoom-mode
-	QPoint rectangle_point;
-	char zoom_mode; ///0=normal 1=rectangular zoom, 2=zoom in, 3=zoom out ,4=drawing a rectangle, 5=center
 	/// true == modifications not saved
 	bool &m_modified;
 	/// False if KmPlot is started as a program, otherwise true
 	bool const m_readonly;
+	
+	enum ZoomMode
+	{
+		Normal=0,			///< normal
+		Rectangular=1,		///< rectangular zoom (in)
+		ZoomIn=2,			///< zoom in
+		ZoomOut=3,			///< zoom out
+		DrawingRectangle=4,	///< drawing a rectangle
+		Center=5			///< centering a point
+	};
+		
+	ZoomMode zoom_mode;
+	/// for zoom-mode
+	QPoint rectangle_point;
 
 	DCOPClient *m_dcop_client;
 	QString m_statusbartext1;

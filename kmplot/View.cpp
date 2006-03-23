@@ -3,6 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter Möller
 *               2000, 2002 kd.moeller@t-online.de
+*                     2006 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -44,6 +45,7 @@
 // KDE includes
 #include <kaction.h>
 #include <kapplication.h>
+#include <kdebug.h>
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <klocale.h>
@@ -69,7 +71,6 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 {
 	m_parser = new XParser(mo);
 	init();
-	csflg=0;
 	csmode=-1;
 	backgroundcolor = Settings::backgroundcolor();
 	invertColor(backgroundcolor,inverted_backgroundcolor);
@@ -81,7 +82,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	updateSliders();
 	m_popupmenushown = 0;
 	m_popupmenu->addTitle( "");
-	zoom_mode = 0;
+	zoom_mode = Normal;
 	isDrawing=false;
 	areaDraw = false;
 }
@@ -108,6 +109,7 @@ void View::draw(QPaintDevice *dev, int form)
 	QRect rc;
 	QPainter DC;    // our painter
 	DC.begin(dev);    // start painting widget
+// 	DC.setRenderHint( QPainter::Antialiasing );
 	rc=DC.viewport();
 	w=rc.width();
 	h=rc.height();
@@ -192,8 +194,6 @@ void View::draw(QPaintDevice *dev, int form)
 	dgr.Plot(&DC);
 	PlotArea=dgr.GetPlotArea();
 	area=DC.xForm(PlotArea);
-	hline.resize(area.width(), 1);
-	vline.resize(1, area.height());
 	stepWidth=Settings::stepWidth();
 
 	isDrawing=true;
@@ -205,7 +205,6 @@ void View::draw(QPaintDevice *dev, int form)
 
 	isDrawing=false;
 	restoreCursor();
-	csflg=0;
 	DC.end();   // painting done
 }
 
@@ -215,7 +214,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	char p_mode;
 	int iy, k, ke, mflg;
 	double x, y, dmin, dmax;
-	QPoint p1, p2;
+	QPointF p1, p2;
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
 	iy=0;
@@ -256,7 +255,17 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	if(fktmode=='x')
 		iy = m_parser->ixValue(ufkt->id)+1;
 	p_mode=0;
-	pen.setWidth((int)(ufkt->linewidth*s) );
+	
+	/// \todo ensure that this line width setting works for mediums other than screen
+	pen.setWidth((int)(ufkt->linewidth) );
+	if ( (ufkt->linewidth * s) < 1 )
+	{
+		// this checks that the pen width *after* transformation by QPainter is at least one pixel
+		// (a pen width of 0 is one pixel; but if the pen width is non-zero, then after scaling by s,
+		// the width could end up between 0 and 1 - resulting in a dotty line when drawing on the screen).
+		pen.setWidth( 0 );
+	}
+	
 	pen.setColor(ufkt->color);
 	pDC->setPen(pen);
 
@@ -266,7 +275,6 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		ke=ufkt->parameters.count();
 		do
 		{
-			kDebug() << "drawing " << ufkt->id << endl;
 			if ( p_mode == 3 && stop_calculating)
 				break;
 			if( ufkt->use_slider == -1 )
@@ -334,18 +342,18 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 
 					if(fktmode=='r')
 					{
-						p2.setX(dgr.Transx(y*cos(x)));
-						p2.setY(dgr.Transy(y*sin(x)));
+						p2.setX(dgr.TransxToPixel(y*cos(x)));
+						p2.setY(dgr.TransyToPixel(y*sin(x)));
 					}
 					else if(fktmode=='x')
 					{
-						p2.setX(dgr.Transx(y));
-						p2.setY(dgr.Transy(m_parser->fkt(iy, x)));
+						p2.setX(dgr.TransxToPixel(y));
+						p2.setY(dgr.TransyToPixel(m_parser->fkt(iy, x)));
 					}
 					else
 					{
-						p2.setX(dgr.Transx(x));
-						p2.setY(dgr.Transy(y));
+						p2.setX(dgr.TransxToPixel(x));
+						p2.setY(dgr.TransyToPixel(y));
 					}
 
 					if ( dgr.xclipflg || dgr.yclipflg )
@@ -553,7 +561,71 @@ void View::paintEvent(QPaintEvent *)
 {
 	QPainter p;
 	p.begin(this);
-	bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
+	
+// 	bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
+	p.drawPixmap( QPoint( 0, 0 ), buffer );
+	
+	// the current cursor position in widget coordinates
+	QPoint mousePos = mapFromGlobal( QCursor::pos() );
+	
+	if ( zoom_mode == DrawingRectangle )
+	{
+		// Qt4 no longer supports XorROP (anti-aliasing considerations)
+#if 0
+		QPen pen(Qt::white, 1, Qt::DotLine);
+#warning setRasterOp (Qt::XorROP)
+//		painter.setRasterOp (Qt::XorROP);
+#endif
+		// use black dotline for now
+		QPen pen(Qt::black, 1, Qt::DashLine);
+		
+		p.setPen(pen);
+		
+		/// \todo make this draw blue-black dotline (atm, just draws transparent-black dotline for some strange reason)
+		p.setBackgroundMode (Qt::OpaqueMode);
+		p.setBackground (Qt::blue);
+		
+		QRect rect( rectangle_point.x(), rectangle_point.y(), mousePos.x()-rectangle_point.x(), mousePos.y()-rectangle_point.y() );
+		p.drawRect( rect );
+	}
+	else if ( zoom_mode == Normal )
+	{
+		Ufkt * it = 0l;
+		int const ix = m_parser->ixValue(csmode);
+		if ( ix != -1 )
+			it = &m_parser->ufkt[ix];
+		
+		if( area.contains( mousePos ) && (!it || csxposValid( it )) )        // Hintergrund speichern [background store?]
+		{
+			// Fadenkreuz zeichnen [draw the cross-hair]
+			QPen pen;
+			if ( !it )
+				pen.setColor(inverted_backgroundcolor);
+			else
+			{
+				switch (cstype)
+				{
+					case 0:
+						pen.setColor( it->color);
+						break;
+					case 1:
+						pen.setColor( it->f1_color);
+						break;
+					case 2:
+						pen.setColor( it->f2_color);
+						break;
+					default:
+						pen.setColor(inverted_backgroundcolor);
+				}
+				if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" [cross-hair] has the same color as the background, the "Fadenkreuz" [cross-hair] will have the inverted color of background so you can see it easier
+					pen.setColor(inverted_backgroundcolor);
+			}
+			p.setPen( pen );
+			p.Lineh( area.left(), fcy, area.right() );
+			p.Linev(fcx, area.bottom(), area.top());
+		}
+	}
+	
 	p.end();
 }
 
@@ -574,37 +646,23 @@ void View::drawPlot()
 		m_minmax->updateFunctions();
 	buffer.fill(backgroundcolor);
 	draw(&buffer, 0);
-	QPainter p;
-	p.begin(this);
-	bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
-	p.end();
+	update();
 }
 
 void View::mouseMoveEvent(QMouseEvent *e)
 {
 	if ( isDrawing)
 		return;
-	if (zoom_mode==4 &&  e->stateAfter() != Qt::NoButton)
+	
+	// general case - need update when moving mouse over widget
+	update();
+	
+	if ( zoom_mode!=Normal)
 	{
-		QPainter p;
-		p.begin(this);
-		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
-		p.end();
-
-		QPainter painter(this);
-		QPen pen(Qt::white, 1, Qt::DotLine);
-#warning setRasterOp (Qt::XorROP)
-//		painter.setRasterOp (Qt::XorROP);
-		painter.setPen(pen);
-		painter.setBackgroundMode (Qt::OpaqueMode);
-		painter.setBackgroundColor (Qt::blue);
-
-		painter.drawRect(rectangle_point.x(), rectangle_point.y(), e->pos().x()-rectangle_point.x(), e->pos().y()-rectangle_point.y());
+		// the rest of this function is for determining crosshair stuff or giving toolbar info relating to the plot
 		return;
-
 	}
-	if ( zoom_mode!=0)
-		return;
+	
 	if( m_popupmenushown>0 && !m_popupmenu->isShown() )
 	{
 		if ( m_popupmenushown==1)
@@ -612,137 +670,116 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		m_popupmenushown = 0;
 		return;
 	}
-	if(csflg==1)        // Fadenkreuz l�chen
-	{
-	  	bitBlt(this, area.left(), fcy, &hline, 0, 0, area.width(), 1);
-		bitBlt(this, fcx, area.top(), &vline, 0, 0, 1, area.height());
-		csflg=0;
-	}
 	
-	if(area.contains(e->pos()) || (e->button()==Qt::LeftButton && e->state()==Qt::LeftButton && csxpos>xmin && csxpos<xmax))
-	{
-		QPoint ptd, ptl;
-		QPainter DC;
-		bool out_of_bounds = false;
-
-		DC.begin(this);
-		DC.setWindow(0, 0, w, h);
-		DC.setWorldMatrix(wm);
-		ptl=DC.xFormDev(e->pos());
-		Ufkt *it = 0;
-		if( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
-		{
-			int const ix = m_parser->ixValue(csmode);
-			if (ix!=-1 && ((!m_parser->ufkt[ix].usecustomxmin) || (m_parser->ufkt[ix].usecustomxmin && csxpos>m_parser->ufkt[ix].dmin)) && ((!m_parser->ufkt[ix].usecustomxmax)||(m_parser->ufkt[ix].usecustomxmax && csxpos<m_parser->ufkt[ix].dmax)) )
-			{
-				it = &m_parser->ufkt[ix];
-				if( it->use_slider == -1 )
-				{
-					if( it->parameters.isEmpty() )
-						it->setParameter( it->parameters[csparam].value );
-				}
-				else
-					it->setParameter(sliders[ it->use_slider ]->slider->value() );
-				if ( cstype == 0)
-					ptl.setY(dgr.Transy(csypos=m_parser->fkt( it, csxpos=dgr.Transx(ptl.x()))));
-				else if ( cstype == 1)
-					ptl.setY(dgr.Transy(csypos=m_parser->a1fkt( it, csxpos=dgr.Transx(ptl.x()) )));
-				else if ( cstype == 2)
-					ptl.setY(dgr.Transy(csypos=m_parser->a2fkt( it, csxpos=dgr.Transx(ptl.x()))));
-
-				if ( csypos<ymin || csypos>ymax) //the ypoint is not visible
-					out_of_bounds = true;
-				else if(fabs(dgr.Transy(ptl.y())) < (xmax-xmin)/80)
-				{
-					double x0;
-					if(root(&x0, it))
-					{
-						QString str="  ";
-						str+=i18n("root");
-						setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
-						rootflg=true;
-					}
-				}
-				else
-				{
-					setStatusBar("", 3);
-					rootflg=false;
-				}
-			}
-			else
-			{
-			  csxpos=dgr.Transx(ptl.x());
-			  csypos=dgr.Transy(ptl.y());
-			  csflg = 1;
-			}
-		}
-		else
-		{
-			csxpos=dgr.Transx(ptl.x());
-			csypos=dgr.Transy(ptl.y());
-		}
-		ptd=DC.xForm(ptl);
-		DC.end();
-		QString sx, sy;
-		if (out_of_bounds)
-		{
-		  sx = sy = "";
-		}
-		else
-		{
-		  sx.sprintf("  x= %+.2f", (float)dgr.Transx(ptl.x()));//csxpos);
-		  sy.sprintf("  y= %+.2f", csypos);
-		}
-		if(csflg==0)        // Hintergrund speichern
-		{
-			bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
-			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
-			// Fadenkreuz zeichnen
-			QPen pen;
-			if ( csmode == -1)
-				pen.setColor(inverted_backgroundcolor);
-			else
-			{
-				if ( csmode == -1)
-					pen.setColor(inverted_backgroundcolor);
-				else
-				{
-					switch (cstype)
-					{
-					case 0:
-						pen.setColor( it->color);
-						break;
-					case 1:
-						pen.setColor( it->f1_color);
-						break;
-					case 2:
-						pen.setColor( it->f2_color);
-						break;
-					default:
-						pen.setColor(inverted_backgroundcolor);
-					}
-					if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" has the same color as the background, the "Fadenkreuz" will have the inverted color of background so you can see it easier
-						pen.setColor(inverted_backgroundcolor);
-				}
-			}
-			DC.begin(this);
-			DC.setPen(pen);
-			DC.Lineh(area.left(), fcy, area.right());
-			DC.Linev(fcx, area.bottom(), area.top());
-			DC.end();
-		}
-		csflg=1;
-		setCursor(Qt::BlankCursor);
-		setStatusBar(sx, 1);
-		setStatusBar(sy, 2);
-	}
-	else
+	if ( !area.contains(e->pos()) && (e->button()!=Qt::LeftButton || e->state()!=Qt::LeftButton || csxpos<=xmin || csxpos>=xmax) )
 	{
 		setCursor(Qt::ArrowCursor);
 		setStatusBar("", 1);
 		setStatusBar("", 2);
+		return;
 	}
 	
+	QPointF ptd, ptl;
+	bool out_of_bounds = false; // for the ypos
+	
+	ptl = e->pos() * wm.inverted();
+	Ufkt *it = 0;
+	
+	//BEGIN find out where the crosshair should be drawn (csxpos, csypos)
+	if( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
+	{
+		// The user currently has a plot selected
+		
+		int const ix = m_parser->ixValue(csmode);
+		if ( ix != -1 )
+			it = &m_parser->ufkt[ix];
+		
+		if ( it && csxposValid( it ) )
+		{
+			// A plot is selected and the mouse is in a valid position
+			
+			if( it->use_slider == -1 )
+			{
+				if( !it->parameters.isEmpty() )
+					it->setParameter( it->parameters[csparam].value );
+			}
+			else
+				it->setParameter(sliders[ it->use_slider ]->slider->value() );
+			
+			if ( cstype == 0)
+				ptl.setY(dgr.TransyToPixel(csypos=m_parser->fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
+			else if ( cstype == 1)
+				ptl.setY(dgr.TransyToPixel(csypos=m_parser->a1fkt( it, csxpos=dgr.TransxToReal(ptl.x()) )));
+			else if ( cstype == 2)
+				ptl.setY(dgr.TransyToPixel(csypos=m_parser->a2fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
+
+			if ( csypos<ymin || csypos>ymax) //the ypoint is not visible
+				out_of_bounds = true;
+			else if(fabs(dgr.TransyToReal(ptl.y())) < (xmax-xmin)/80)
+			{
+				double x0;
+				if(root(&x0, it))
+				{
+					QString str="  ";
+					str+=i18n("root");
+					setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+					rootflg=true;
+				}
+			}
+			else
+			{
+				setStatusBar("", 3);
+				rootflg=false;
+			}
+		}
+		else
+		{
+			// A plot is selected, but the x-position of the mouse is out of range
+			
+			csxpos=dgr.TransxToReal(ptl.x());
+			csypos=dgr.TransyToReal(ptl.y());
+		}
+	}
+	else
+	{
+		// No plot is currently selected
+		
+		csxpos=dgr.TransxToReal(ptl.x());
+		csypos=dgr.TransyToReal(ptl.y());
+	}
+	//END find out where the crosshair should be drawn (csxpos, csypos)
+	
+	ptd = ptl * wm;
+	fcx = ptd.x();
+	fcy = ptd.y();
+	
+	QString sx, sy;
+	
+	if (out_of_bounds)
+	{
+		sx = sy = "";
+	}
+	else
+	{
+		sx.sprintf("  x= %+.2f", (float)dgr.TransxToReal(ptl.x()));//csxpos);
+		sy.sprintf("  y= %+.2f", csypos);
+	}
+	
+	setCursor(Qt::BlankCursor);
+	setStatusBar(sx, 1);
+	setStatusBar(sy, 2);
+}
+
+
+bool View::csxposValid( Ufkt * plot ) const
+{
+	if ( !plot )
+		return false;
+	
+	bool lowerOk = ((!plot->usecustomxmin) || (plot->usecustomxmin && csxpos>plot->dmin));
+	bool upperOk = ((!plot->usecustomxmax) || (plot->usecustomxmax && csxpos<plot->dmax));
+	
+	return lowerOk && upperOk;
 }
 
 
@@ -757,19 +794,15 @@ void View::mousePressEvent(QMouseEvent *e)
 		return;
 	}
 
-	if (  zoom_mode==1 ) //rectangle zoom
+	if (  zoom_mode==Rectangular )
 	{
-		zoom_mode=4;
+		zoom_mode=DrawingRectangle;
 		rectangle_point = e->pos();
 		return;
 	}
-	else if (  zoom_mode==2 ) //zoom in
+	else if (  zoom_mode==ZoomIn )
 	{
-		QPainter DC;
-		DC.begin(this);
-		DC.setWindow(0, 0, w, h);
-		DC.setWorldMatrix(wm);
-		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
+		double real = dgr.TransxToReal((e->pos() * wm.inverted()).x());
 
 		double const diffx = (xmax-xmin)*(double)Settings::zoomInStep()/100;
 		double const diffy = (ymax-ymin)*(double)Settings::zoomInStep()/100;
@@ -782,7 +815,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		str_tmp.setNum(real+double(diffx));
 		Settings::setXMax(str_tmp);
 
-		real = dgr.Transy(DC.xFormDev(e->pos()).y());
+		real = dgr.TransyToReal((e->pos() * wm.inverted()).y());
 		str_tmp.setNum(real-double(diffy));
 		Settings::setYMin(str_tmp);
 		str_tmp.setNum(real+double(diffy));
@@ -794,13 +827,9 @@ void View::mousePressEvent(QMouseEvent *e)
 		return;
 
 	}
-	else if (  zoom_mode==3 ) //zoom out
+	else if (  zoom_mode==ZoomOut )
 	{
-		QPainter DC;
-		DC.begin(this);
-		DC.setWindow(0, 0, w, h);
-		DC.setWorldMatrix(wm);
-		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
+		double real = dgr.TransxToReal((e->pos() * wm.inverted()).x());
 
 		double const diffx = (xmax-xmin)*(((double)Settings::zoomOutStep()/100) +1);
 		double const diffy = (ymax-ymin)*(((double)Settings::zoomOutStep()/100) +1);
@@ -813,7 +842,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		str_tmp.setNum(real+double(diffx));
 		Settings::setXMax(str_tmp);
 
-		real = dgr.Transy(DC.xFormDev(e->pos()).y());
+		real = dgr.TransyToReal((e->pos() * wm.inverted()).y());
 		str_tmp.setNum(real-double(diffy));
 		Settings::setYMin(str_tmp);
 		str_tmp.setNum(real+double(diffy));
@@ -825,13 +854,10 @@ void View::mousePressEvent(QMouseEvent *e)
 		return;
 
 	}
-	else if (  zoom_mode==5 ) //center
+	else if (  zoom_mode==Center )
 	{
-		QPainter DC;
-		DC.begin(this);
-		DC.setWindow(0, 0, w, h);
-		DC.setWorldMatrix(wm);
-		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
+		double real = dgr.TransxToReal((e->pos() * wm.inverted()).x());
+		
 		QString str_tmp;
 		double const diffx = (xmax-xmin)/2;
 		double const diffy = (ymax-ymin)/2;
@@ -841,7 +867,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		str_tmp.setNum(real+double(diffx));
 		Settings::setXMax(str_tmp);
 
-		real = dgr.Transy(DC.xFormDev(e->pos()).y());
+		real = dgr.TransyToReal((e->pos() * wm.inverted()).y());
 		str_tmp.setNum(real-double(diffy));
 		Settings::setYMin(str_tmp);
 		str_tmp.setNum(real+double(diffy));
@@ -975,7 +1001,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		{
 			case 'x': case 'y': case 'r': continue;   // Not possible to catch
 		}
-		if (!(((!it->usecustomxmin) || (it->usecustomxmin && csxpos>it->dmin)) && ((!it->usecustomxmax)||(it->usecustomxmax && csxpos<it->dmax)) ))
+		if (!csxposValid(it))
 		  continue;
 		int k=0;
 		int const ke=it->parameters.count();
@@ -1032,27 +1058,23 @@ void View::mousePressEvent(QMouseEvent *e)
 
 void View::mouseReleaseEvent ( QMouseEvent * e )
 {
-	if ( zoom_mode==4)
+	update();
+	
+	if ( zoom_mode==DrawingRectangle)
 	{
-		zoom_mode=1;
+		zoom_mode=Rectangular;
 		if( (e->pos().x() - rectangle_point.x() >= -2) && (e->pos().x() - rectangle_point.x() <= 2) ||
 		        (e->pos().y() - rectangle_point.y() >= -2) && (e->pos().y() - rectangle_point.y() <= 2) )
 		{
-			update();
 			return;
 		}
-		QPainter DC;
-		DC.begin(this);
-		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
-		DC.setWindow(0, 0, w, h);
-		DC.setWorldMatrix(wm);
 
-		QPoint p=DC.xFormDev(e->pos());
-		double real1x = dgr.Transx(p.x() ) ;
-		double real1y = dgr.Transy(p.y() ) ;
-		p=DC.xFormDev(rectangle_point);
-		double real2x = dgr.Transx(p.x() ) ;
-		double real2y = dgr.Transy(p.y() ) ;
+		QPoint p = e->pos() * wm.inverted();
+		double real1x = dgr.TransxToReal(p.x() ) ;
+		double real1y = dgr.TransyToReal(p.y() ) ;
+		p = rectangle_point * wm.inverted();
+		double real2x = dgr.TransxToReal(p.x() ) ;
+		double real2y = dgr.TransyToReal(p.y() ) ;
 
 
 		if ( real1x>xmax || real2x>xmax || real1x<xmin  || real2x<xmin  ||
@@ -1444,9 +1466,9 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 
 void View::keyPressEvent( QKeyEvent * e)
 {
-	if ( zoom_mode == 4) //drawing a rectangle
+	if ( zoom_mode == DrawingRectangle)
 	{
-		zoom_mode = 1;
+		zoom_mode = Rectangular;
 		update();
 		return;
 	}
@@ -1461,9 +1483,9 @@ void View::keyPressEvent( QKeyEvent * e)
 
 	QMouseEvent *event;
 	if (e->key() == Qt::Key_Left )
-		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx-1,fcy-1),Qt::LeftButton,Qt::LeftButton);
+		event = new QMouseEvent(QEvent::MouseMove,QPoint(int(fcx-1),int(fcy-1)),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Right )
-		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
+		event = new QMouseEvent(QEvent::MouseMove,QPoint(int(fcx+1),int(fcy+1)),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
 		Q3ValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
@@ -1563,7 +1585,7 @@ void View::keyPressEvent( QKeyEvent * e)
 				break;
 			}
 		}
-		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
+		event = new QMouseEvent(QEvent::MouseMove,QPoint(int(fcx),int(fcy)),Qt::LeftButton,Qt::LeftButton);
 	}
 	else if ( e->key() == Qt::Key_Space  )
 	{
@@ -1574,7 +1596,7 @@ void View::keyPressEvent( QKeyEvent * e)
 	}
 	else
 	{
-		event = new QMouseEvent(QEvent::MouseButtonPress,QPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
+		event = new QMouseEvent(QEvent::MouseButtonPress,QPoint(int(fcx),int(fcy)),Qt::LeftButton,Qt::LeftButton);
 		mousePressEvent(event);
 		delete event;
 		return;
@@ -1587,9 +1609,9 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 {
 	double x, y = 0;
 	float calculated_area=0;
-	int rectheight;
+	double rectheight;
 	areaMin = dmin;
-	QPoint p;
+	QPointF p;
 	QColor color;
 	switch(p_mode)
 	{
@@ -1659,8 +1681,8 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	}
 
 
-	int const origoy = dgr.Transy(0.0);
-	int const rectwidth = dgr.Transx(dx)- dgr.Transx(0.0)+1;
+	double const origoy = dgr.TransyToPixel(0.0);
+	double const rectwidth = dgr.TransxToPixel(dx)- dgr.TransxToPixel(0.0)+1;
 
 	setCursor(Qt::WaitCursor );
 	isDrawing=true;
@@ -1705,8 +1727,8 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 			}
 		}
 
-		p.setX(dgr.Transx(x));
-		p.setY(dgr.Transy(y));
+		p.setX(dgr.TransxToPixel(x));
+		p.setY(dgr.TransyToPixel(y));
 		if (dmin<=x && x<=dmax)
 		{
 			if( dgr.xclipflg || dgr.yclipflg ) //out of bounds
@@ -1718,7 +1740,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 					else
 						rectheight= -1*( p.y()-origoy);	
 					calculated_area = calculated_area + ( dx*y);
-					DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
+					DC->fillRect( QRectF( p.x(), p.y(), rectwidth, rectheight ), color);
 				}
 			}
 			else
@@ -1734,7 +1756,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 				kDebug() << "y:" << p.y() << endl;
 				kDebug() << "*************" << endl;*/
 				
-				DC->fillRect(p.x(),p.y(),rectwidth,rectheight,color);
+				DC->fillRect( QRectF( p.x(),p.y(),rectwidth,rectheight ), color );
 			}
 		}
 
@@ -1957,29 +1979,29 @@ void View::mnuMove_clicked()
 void View::mnuNoZoom_clicked()
 {
 	setCursor(Qt::ArrowCursor);
-	zoom_mode = 0;
+	zoom_mode = Normal;
 }
 
 void View::mnuRectangular_clicked()
 {
 	setCursor(Qt::CrossCursor);
-	zoom_mode = 1;
+	zoom_mode = Rectangular;
 }
 void View::mnuZoomIn_clicked()
 {
 	setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
-	zoom_mode = 2;
+	zoom_mode = ZoomIn;
 }
 
 void View::mnuZoomOut_clicked()
 {
 	setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
-	zoom_mode = 3;
+	zoom_mode = ZoomOut;
 }
 void View::mnuCenter_clicked()
 {
 	setCursor(Qt::PointingHandCursor);
-	zoom_mode = 5;
+	zoom_mode = Center;
 }
 void View::mnuTrig_clicked()
 {
@@ -2015,19 +2037,19 @@ void View::restoreCursor()
 {
 	switch (zoom_mode)
 	{
-		case 0:  //no zoom
+		case Normal:
 			setCursor(Qt::ArrowCursor);
 			break;
-		case 1: //rectangle zoom
+		case Rectangular:
 			setCursor(Qt::CrossCursor);
 			break;
-		case 2: //zoom in
+		case ZoomIn:
 			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
 			break;
-		case 3: //zoom in
+		case ZoomOut:
 			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 			break;
-		case 5: //center a point
+		case Center:
 			setCursor(Qt::PointingHandCursor);
 			break;
 	}

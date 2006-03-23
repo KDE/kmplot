@@ -85,6 +85,30 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 
 Ufkt::Ufkt()
 {
+	id = 0;
+	mem = 0;
+	mptr = 0;
+	k = 0;
+	oldy = 0;
+	f_mode = true;
+	f1_mode = false;
+	f2_mode = false;
+	integral_mode = false;
+	integral_use_precision = false;
+	linewidth = 0;
+	f1_linewidth = 0;
+	f2_linewidth = 0;
+	integral_linewidth = 0;
+	double dmin = 0.0;
+	dmax = 0.0;
+	oldyprim = 0.0;
+	oldx = 0.0;
+	starty = 0.0;
+	startx = 0.0;
+	integral_precision = 0.0;
+	use_slider = -1;
+	usecustomxmin = false;
+	usecustomxmax = false;
 }
 
 Ufkt::~Ufkt()

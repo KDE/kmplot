@@ -69,22 +69,40 @@ double View::xmax = 0;
 
 View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection *ac, const char* name ) : DCOPObject("View"), QWidget( parent, name , Qt::WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient()), m_ac(ac)
 {
+	csmode = csparam = -1;
+	cstype = 0;
+	areaDraw = false;
+	areaUfkt = 0;
+	areaPMode = 0;
+	areaMin = areaMax = 0.0;
+	w = h = 0;
+	s = 0.0;
+	fcx = 0.0;
+	fcy = 0.0;
+	csxpos = 0.0;
+	csypos = 0.0;
+	rootflg = false;
+	tlgx = tlgy = drskalx = drskaly = 0.0;;
+	stepWidth = 0.0;
+	ymin = 0.0;;
+	ymax = 0.0;;
+	m_printHeaderTable = false;
+	stop_calculating = false;
+	m_minmax = 0;
+	isDrawing = false;
+	m_popupmenushown = 0;
+	zoom_mode = Normal;
+	
 	m_parser = new XParser(mo);
 	init();
-	csmode=-1;
 	backgroundcolor = Settings::backgroundcolor();
 	invertColor(backgroundcolor,inverted_backgroundcolor);
 	setBackgroundColor(backgroundcolor);
 	setMouseTracking(TRUE);
-	rootflg = false;
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 		sliders[ number ] = 0;
 	updateSliders();
-	m_popupmenushown = 0;
 	m_popupmenu->addTitle( "");
-	zoom_mode = Normal;
-	isDrawing=false;
-	areaDraw = false;
 }
 
 void View::setMinMaxDlg(KMinMax *minmaxdlg)
@@ -283,7 +301,10 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 					ufkt->setParameter( ufkt->parameters[k].value );
 			}
 			else
-				ufkt->setParameter( sliders[ ufkt->use_slider ]->slider->value() );
+			{
+				if ( KSliderWindow * sw  = sliders[ ufkt->use_slider ] )
+					ufkt->setParameter( sw->slider->value() );
+			}
 
 			mflg=2;
 			if ( p_mode == 3)
@@ -321,12 +342,15 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 					{
 					case 0:
 						y=m_parser->fkt(ufkt, x);
+// 						kDebug()<<"case 0\n";
 						break;
 					case 1:
 						y=m_parser->a1fkt(ufkt, x);
+// 						kDebug()<<"case 1\n";
 						break;
 					case 2:
 						y=m_parser->a2fkt(ufkt, x);
+// 						kDebug()<<"case 2\n";
 						break;
 					case 3:
 						{
@@ -336,6 +360,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 								KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 								increaseProgressBar();
 							}
+// 							kDebug()<<"case 3\n";
 							break;
 						}
 					}
@@ -900,7 +925,10 @@ void View::mousePressEvent(QMouseEvent *e)
 						it->setParameter(it->parameters[k].value);
 				}
 				else
-					it->setParameter(sliders[ it->use_slider ]->slider->value() );
+				{
+					if ( KSliderWindow * sw  = sliders[ it->use_slider ] )
+						it->setParameter( sw->slider->value() );
+				}
 
 				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.contains('t')==1) //parametric plot
 				{
@@ -1013,7 +1041,11 @@ void View::mousePressEvent(QMouseEvent *e)
 					it->setParameter( it->parameters[k].value );
 			}
 			else
-				it->setParameter(sliders[ it->use_slider ]->slider->value() );
+			{
+				if ( KSliderWindow * sw  = sliders[ it->use_slider ] )
+					it->setParameter( sw->slider->value() );
+			}
+			
 			if(fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
 			{
 				csmode=it->id;

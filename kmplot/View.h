@@ -30,6 +30,7 @@
 
 // Qt includes
 #include <qpixmap.h>
+#include <QPointer>
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QResizeEvent>
@@ -107,7 +108,7 @@ public:
 	QString areaParameter;
 
 	/// Slider controlling parameter values
-	KSliderWindow* sliders[ SLIDER_COUNT ];
+	QPointer<KSliderWindow> sliders[ SLIDER_COUNT ];
 	/// Menu actions for the sliders
 	KToggleAction *mnuSliders[ SLIDER_COUNT ];
 	void updateSliders(); /// show only needed sliders

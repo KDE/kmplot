@@ -360,7 +360,8 @@ int Parser::addfkt(QString str)
         else
         {
                 Ufkt temp;
-		if ( temp.fstr.at(0) == 'y')
+// 		if ( temp.fstr.at(0) == 'y')
+				if ( (temp.fstr.length()>0) && temp.fstr.at(0) == 'y' )
 			temp.id = ufkt.last().id; //the function belongs to the last inserted function
 		else
                 	temp.id = getNewId();

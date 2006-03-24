@@ -251,8 +251,6 @@
   <tabstop>txtInitX</tabstop>
   <tabstop>txtInitY</tabstop>
   <tabstop>customPrecision</tabstop>
-  <tabstop>precision</tabstop>
-  <tabstop>lineWidth</tabstop>
   <tabstop>color</tabstop>
  </tabstops>
  <resources/>

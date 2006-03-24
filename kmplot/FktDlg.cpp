@@ -152,7 +152,7 @@ void FktDlg::slotEdit()
 
 int FktDlg::getId( const QString &f_str )
 {
-	for( Q3ValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+	for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if ( it->fstr == f_str )
 			return it->id;
@@ -163,7 +163,7 @@ int FktDlg::getId( const QString &f_str )
 int FktDlg::getParamId( const QString &f_str)
 {
 	QString const fname = f_str.section( "(", 0, 0 );
-	for( Q3ValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+	for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if ( it->fname == fname )
 			return it->id;
@@ -281,7 +281,7 @@ void FktDlg::getPlots()
 	lb_fktliste->clear();
 
   // adding all yet added functions
-	for( Q3ValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it != m_view->parser()->ufkt.end(); ++it)
+	for( QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it != m_view->parser()->ufkt.end(); ++it)
 	{
 		if( it->fname.isEmpty() || it->fstr[0] == 'y' ) continue;
 		Q3CheckListItem *item;

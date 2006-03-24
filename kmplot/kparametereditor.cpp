@@ -36,17 +36,17 @@
 #include <kurl.h>
 #include <qfile.h>
 #include <qtextstream.h>
-#include <q3valuelist.h>
+#include <QList>
 #include <q3listview.h>
 
 #include "kparametereditor.h"
 
 class ParameterValueList;
 
-KParameterEditor::KParameterEditor(XParser *m, Q3ValueList<ParameterValueItem> *l, QWidget *parent, const char *name)
+KParameterEditor::KParameterEditor(XParser *m, QList<ParameterValueItem> *l, QWidget *parent, const char *name)
 	: QParameterEditor(parent,name, true, Qt::WDestructiveClose), m_parameter(l), m_parser(m)
 {
-	for (  Q3ValueList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
+	for (  QList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
 		list->insertItem( (*it).expression );
 	list->sort();
 	

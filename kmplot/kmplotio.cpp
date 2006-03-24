@@ -27,7 +27,7 @@
 #include <qdom.h>
 #include <qfile.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include <QTextStream>
 
 // KDE includes
@@ -117,7 +117,7 @@ bool KmPlotIO::save( const KUrl &url )
 	root.appendChild( tag );
 
 
-	for( Q3ValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
 		if ( !it->fstr.isEmpty() )
 		{
@@ -157,7 +157,7 @@ bool KmPlotIO::save( const KUrl &url )
 			addTag( doc, tag, "equation", it->fstr );
 
 			QStringList str_parameters;
-			for ( Q3ValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
+			for ( QList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
 				str_parameters.append( (*k).expression);
 			
 			if( !str_parameters.isEmpty() )
@@ -479,7 +479,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
 {
 	QStringList str_parameters;
-	for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
+	for ( QList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
 		str_parameters.append( (*it).expression);
 	str_parameters = QStringList::split( ";", n.namedItem( "parameterlist" ).toElement().text() );
 	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
@@ -489,7 +489,7 @@ void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &u
 void KmPlotIO::parseThreeDotThreeParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
 {
 	QStringList str_parameters;
-	for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
+	for ( QList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
 		str_parameters.append( (*it).expression);
 	str_parameters = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
 	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )

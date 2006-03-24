@@ -742,7 +742,7 @@ void MainDlg::loadConstants()
 			while (!copy_found)
 			{
 				// go through the constant list
-				Q3ValueVector<Constant>::iterator it =  view->parser()->constant.begin();
+				QVector<Constant>::iterator it =  view->parser()->constant.begin();
 				while (it!= view->parser()->constant.end() && !copy_found)
 				{
 					if (constant == it->constant )

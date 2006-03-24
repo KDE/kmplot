@@ -36,6 +36,7 @@
 
 #include <kdebug.h>
 #include <ktoolinvocation.h>
+#include <kvbox.h>
 
 // local includes
 #include "keditpolar.h"
@@ -43,11 +44,13 @@
 #include "xparser.h"
 #include "View.h"
 
-KEditPolar::KEditPolar( XParser* parser, QWidget* parent, const char* name ) : 
-	QEditPolar( parent, name ),m_parser(parser)
+KEditPolar::KEditPolar( XParser* parser, QWidget* parent )
+	: KDialog( parent, i18n("Edit Polar Plot"), Ok|Cancel|Help ),
+	  m_parser(parser)
 {
-	connect( customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
-	connect( customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
+// 	KVBox *page = makeVBoxMainWidget();
+	m_editPolar = new QEditPolar( this );
+	setMainWidget( m_editPolar );
 	m_updatedfunction = 0;
 }
 
@@ -60,14 +63,14 @@ void KEditPolar::initDialog( int id )
 
 void KEditPolar::clearWidgets()
 {
-	kLineEditYFunction->clear();
-	checkBoxHide->setChecked( false );
-	customMinRange->setChecked( false );
-	customMaxRange->setChecked(false);
-	min->clear();
-	max->clear();
-	kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
-	kColorButtonColor->setColor( m_parser->defaultColor(m_parser->getNextIndex() ) );
+	m_editPolar->kLineEditYFunction->clear();
+	m_editPolar->checkBoxHide->setChecked( false );
+	m_editPolar->customMinRange->setChecked( false );
+	m_editPolar->customMaxRange->setChecked(false);
+	m_editPolar->min->clear();
+	m_editPolar->max->clear();
+	m_editPolar->kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
+	m_editPolar->kColorButtonColor->setColor( m_parser->defaultColor(m_parser->getNextIndex() ) );
 }
 
 void KEditPolar::setWidgets()
@@ -75,31 +78,31 @@ void KEditPolar::setWidgets()
         Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_id) ];
 	QString function = ufkt->fstr;
 	function = function.right( function.length()-1 );
-	kLineEditYFunction->setText( function );
-	checkBoxHide->setChecked( !ufkt->f_mode);
+	m_editPolar->kLineEditYFunction->setText( function );
+	m_editPolar->checkBoxHide->setChecked( !ufkt->f_mode);
 	if (ufkt->usecustomxmin)
 	{
-		customMinRange->setChecked(true);
-		min->setText( ufkt->str_dmin );
+		m_editPolar->customMinRange->setChecked(true);
+		m_editPolar->min->setText( ufkt->str_dmin );
 	}
 	else
-		customMinRange->setChecked(false);
+		m_editPolar->customMinRange->setChecked(false);
 	
 	if (ufkt->usecustomxmin)
 	{
-		customMaxRange->setChecked(true);
-		max->setText( ufkt->str_dmax );
+		m_editPolar->customMaxRange->setChecked(true);
+		m_editPolar->max->setText( ufkt->str_dmax );
 	}
 	else
-		customMaxRange->setChecked(false);
+		m_editPolar->customMaxRange->setChecked(false);
 	
-	kIntNumInputLineWidth->setValue( ufkt->linewidth );
-	kColorButtonColor->setColor( ufkt->color );
+	m_editPolar->kIntNumInputLineWidth->setValue( ufkt->linewidth );
+	m_editPolar->kColorButtonColor->setColor( ufkt->color );
 }
 
 void KEditPolar::accept()
 {
-	QString f_str = /*"r" + */kLineEditYFunction->text();
+	QString f_str = /*"r" + */m_editPolar->kLineEditYFunction->text();
 
 	if ( m_id!=-1 )
 		m_parser->fixFunctionName(f_str, XParser::Polar, m_id);
@@ -107,38 +110,38 @@ void KEditPolar::accept()
 		m_parser->fixFunctionName(f_str, XParser::Polar);
 	Ufkt tmp_ufkt;  //all settings are saved here until we know that no errors have appeared
 
-	tmp_ufkt.f_mode = !checkBoxHide->isChecked();
+	tmp_ufkt.f_mode = !m_editPolar->checkBoxHide->isChecked();
 	
-	if( customMinRange->isChecked() )
+	if( m_editPolar->customMinRange->isChecked() )
 	{
 		tmp_ufkt.usecustomxmin = true;
-		tmp_ufkt.str_dmin = min->text();
-		tmp_ufkt.dmin = m_parser->eval( min->text() );
+		tmp_ufkt.str_dmin = m_editPolar->min->text();
+		tmp_ufkt.dmin = m_parser->eval( m_editPolar->min->text() );
 		if ( m_parser->parserError() )
 		{
-			min->setFocus();
-			min->selectAll();
+			m_editPolar->min->setFocus();
+			m_editPolar->min->selectAll();
 			return;
 		}
 	}
 	else
 		tmp_ufkt.usecustomxmin = false;
-	if( customMaxRange->isChecked() )
+	if( m_editPolar->customMaxRange->isChecked() )
 	{
 		tmp_ufkt.usecustomxmax = true;
-		tmp_ufkt.str_dmax = max->text();
-		tmp_ufkt.dmax = m_parser->eval( max->text() );
+		tmp_ufkt.str_dmax = m_editPolar->max->text();
+		tmp_ufkt.dmax = m_parser->eval( m_editPolar->max->text() );
 		if ( m_parser->parserError())
 		{
-			max->setFocus();
-			max->selectAll();
+			m_editPolar->max->setFocus();
+			m_editPolar->max->selectAll();
 			return;
 		}
 		if ( tmp_ufkt.usecustomxmin && tmp_ufkt.dmin >=  tmp_ufkt.dmax)
 		{
-			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
-			min->setFocus();
-			min->selectAll();
+			KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
+			m_editPolar->min->setFocus();
+			m_editPolar->min->selectAll();
 			return;
 		}
 	}
@@ -148,8 +151,8 @@ void KEditPolar::accept()
 	tmp_ufkt.f1_mode = 0;
 	tmp_ufkt.f2_mode = 0;
 	tmp_ufkt.integral_mode = 0;
-	tmp_ufkt.linewidth = kIntNumInputLineWidth->value();
-  tmp_ufkt.color = kColorButtonColor->color().rgb();
+	tmp_ufkt.linewidth = m_editPolar->kIntNumInputLineWidth->value();
+	tmp_ufkt.color = m_editPolar->kColorButtonColor->color().rgb();
 	tmp_ufkt.use_slider = -1;
         
         Ufkt *added_ufkt;
@@ -158,7 +161,7 @@ void KEditPolar::accept()
                 int const ix = m_parser->ixValue(m_id);
                 if ( ix == -1) //The function could have been deleted
                 {
-                        KMessageBox::error(this,i18n("Function could not be found"));
+                        KMessageBox::sorry(this,i18n("Function could not be found"));
                         return;
                 }
                 added_ufkt =  &m_parser->ufkt[ix];
@@ -170,8 +173,8 @@ void KEditPolar::accept()
                         added_ufkt->fstr = old_fstr;
                         m_parser->reparse(added_ufkt);
                         raise();
-                        kLineEditYFunction->setFocus();
-                        kLineEditYFunction->selectAll();
+						m_editPolar->kLineEditYFunction->setFocus();
+						m_editPolar->kLineEditYFunction->selectAll();
                         return;
                 }
         }
@@ -183,8 +186,8 @@ void KEditPolar::accept()
                 {
                         m_parser->parserError();
                         raise();
-                        kLineEditYFunction->setFocus();
-                        kLineEditYFunction->selectAll();
+						m_editPolar->kLineEditYFunction->setFocus();
+						m_editPolar->kLineEditYFunction->selectAll();
                         return;
                 }
                 added_ufkt =  &m_parser->ufkt.last();
@@ -221,7 +224,7 @@ void KEditPolar::accept()
 	m_updatedfunction = added_ufkt;
 	
 	// call inherited method
-	QEditPolar::accept();
+	KDialog::accept();
 }
 
 Ufkt *KEditPolar::functionItem()
@@ -232,20 +235,4 @@ Ufkt *KEditPolar::functionItem()
 void KEditPolar::slotHelp()
 {
 	KToolInvocation::invokeHelp( "", "kmplot" );
-}
-
-void KEditPolar::customMinRange_toggled(bool status)
-{
-	if (status)
-		min->setEnabled(true);
-	else
-		min->setEnabled(false);
-}
-
-void KEditPolar::customMaxRange_toggled(bool status)
-{
-	if (status)
-		max->setEnabled(true);
-	else
-		max->setEnabled(false);
 }

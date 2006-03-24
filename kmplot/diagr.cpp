@@ -230,7 +230,9 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 	if( Settings::showAxes() )
 	{
 		pDC->setPen( QPen( QColor(axesColor), axesLineWidth ) );
-		pDC->Lineh(PlotArea.left(), b=TransyToPixel(0.), a=PlotArea.right());	    // x-Achse
+		a=PlotArea.right();
+		b=TransyToPixel(0.);
+		pDC->Lineh(PlotArea.left(), b, a);	    // x-Achse
 		if( Settings::showArrows()) 		    			// ARROWS
 		{	int const dx=40;
 			int const dy=15;
@@ -238,7 +240,9 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 			pDC->Line( QPointF( a, b ), QPointF( a-dx, b-dy) );
 		}
 
-		pDC->Linev(a=TransxToPixel(0.), PlotArea.bottom(), b=PlotArea.top()); 	    // y-Achse
+		a=TransxToPixel(0.);
+		b=PlotArea.top();
+		pDC->Linev(a, PlotArea.bottom(), b); 	    // y-Achse
 		if( Settings::showArrows() )   					// ARROWS
 		{	int const dx=15;
 			int const dy=40;

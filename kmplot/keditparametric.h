@@ -29,18 +29,21 @@
 #include "qeditparametric.h"
 #include "xparser.h"
 
+#include <kdialog.h>
+
+class QEditParametric;
 class View;
 class XParser;
 
 /** @short Dialog window editing a parametric plot and its properties. */
-class KEditParametric : public QEditParametric
+class KEditParametric : public KDialog
 {
 	Q_OBJECT
 	public:
 		/// @param parser points to the parser instance.
 		/// @param parent points to the parent widget.
 		/// @param name of this instance.
-		KEditParametric( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
+		KEditParametric( XParser* parser, QWidget* parent = NULL);
 		/// Nothing special to do.
 		virtual ~KEditParametric() {};
 		
@@ -66,15 +69,23 @@ class KEditParametric : public QEditParametric
 		/// Current function indices.
 		int m_x_id, m_y_id;
 		//@}
-		Ufkt *m_updatedfunction;	
+		Ufkt *m_updatedfunction;
+		/// Main widget
+		QEditParametric * m_editParametric;
+		
 	protected slots:
 		/// Overwrites the dialog's accept() method to make sure, that the user's input is valid.
 		virtual void accept();
 		/// Invokes the HelpCenter.
 		void slotHelp();
-		void customMaxRange_toggled(bool);
-		void customMinRange_toggled(bool);
+};
 
+class QEditParametric : public QWidget, public Ui::QEditParametric
+{
+	public:
+		QEditParametric( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
 };
 
 #endif

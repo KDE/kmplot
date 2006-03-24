@@ -35,6 +35,7 @@
 
 #include <kdebug.h>
 #include <ktoolinvocation.h>
+#include <kvbox.h>
 
 // local includes
 #include "keditparametric.h"
@@ -42,11 +43,13 @@
 #include "xparser.h"
 #include "View.h"
 
-KEditParametric::KEditParametric( XParser* parser, QWidget* parent, const char* name ) : 
-	QEditParametric( parent, name ), m_parser(parser)
+KEditParametric::KEditParametric( XParser* parser, QWidget* parent )
+	: KDialog( parent, i18n("Edit Parametric Plot"), Ok|Cancel|Help ),
+	  m_parser(parser)
 {
-	connect( customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
-	connect( customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
+// 	KVBox *page = makeVBoxMainWidget();
+	m_editParametric = new QEditParametric( this );
+	setMainWidget( m_editParametric );
 	m_updatedfunction = 0;
 }
 
@@ -60,109 +63,113 @@ void KEditParametric::initDialog( int x_id, int y_id)
 
 void KEditParametric::clearWidgets()
 {
-	kLineEditName->clear();
-	kLineEditXFunction->clear();
-	kLineEditYFunction->clear();
-	checkBoxHide->setChecked( false );
-  customMinRange->setChecked( false );
-  customMinRange->setChecked( false );
-	min->clear();
-	max->clear();
-	kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
-	kColorButtonColor->setColor( m_parser->defaultColor(m_parser->getNextIndex() ) );
+	m_editParametric->kLineEditName->clear();
+	m_editParametric->kLineEditXFunction->clear();
+	m_editParametric->kLineEditYFunction->clear();
+	m_editParametric->checkBoxHide->setChecked( false );
+	m_editParametric->customMinRange->setChecked( false );
+	m_editParametric->customMinRange->setChecked( false );
+	m_editParametric->min->clear();
+	m_editParametric->max->clear();
+	m_editParametric->kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
+	m_editParametric->kColorButtonColor->setColor( m_parser->defaultColor(m_parser->getNextIndex() ) );
 }
 
 void KEditParametric::setWidgets()
 {
 	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_x_id) ];
 	QString name, expression;
+	
 	splitEquation( ufkt->fstr, name, expression );
-	kLineEditName->setText( name );
-	kLineEditXFunction->setText( expression );
+	m_editParametric->kLineEditName->setText( name );
+	m_editParametric->kLineEditXFunction->setText( expression );
+	
 	splitEquation( m_parser->ufkt[ m_y_id ].fstr, name, expression );
-	kLineEditYFunction->setText( expression );
-	checkBoxHide->setChecked( !ufkt->f_mode );
+	m_editParametric->kLineEditYFunction->setText( expression );
+	
+	m_editParametric->checkBoxHide->setChecked( !ufkt->f_mode );
 	if (ufkt->usecustomxmin)
 	{
-		customMinRange->setChecked(true);
-		min->setText( ufkt->str_dmin );
+		m_editParametric->customMinRange->setChecked(true);
+		m_editParametric->min->setText( ufkt->str_dmin );
 	}
 	else
-		customMinRange->setChecked(false);
+		m_editParametric->customMinRange->setChecked(false);
 	
 	if (ufkt->usecustomxmax)
 	{
-		customMaxRange->setChecked(true);
-		max->setText( ufkt->str_dmax );
+		m_editParametric->customMaxRange->setChecked(true);
+		m_editParametric->max->setText( ufkt->str_dmax );
 	}
 	else
-		customMaxRange->setChecked(false);
+		m_editParametric->customMaxRange->setChecked(false);
 	
-	kIntNumInputLineWidth->setValue( ufkt->linewidth );
-	kColorButtonColor->setColor( ufkt->color );
+	m_editParametric->kIntNumInputLineWidth->setValue( ufkt->linewidth );
+	m_editParametric->kColorButtonColor->setColor( ufkt->color );
 }
 
 void KEditParametric::accept()
 {
-	if  ( kLineEditXFunction->text().contains('y') != 0 ||  kLineEditYFunction->text().contains('y') != 0)
+	if  ( m_editParametric->kLineEditXFunction->text().contains('y') != 0 ||
+			 m_editParametric->kLineEditYFunction->text().contains('y') != 0)
 	{
-		KMessageBox::error( this, i18n( "Recursive function not allowed"));
-		kLineEditXFunction->setFocus();
-		kLineEditXFunction->selectAll();
+		KMessageBox::sorry( this, i18n( "Recursive function not allowed"));
+		m_editParametric->kLineEditXFunction->setFocus();
+		m_editParametric->kLineEditXFunction->selectAll();
 		return;
 	}
 	
 	// find a name not already used 
-	if( kLineEditName->text().isEmpty() )
+	if( m_editParametric->kLineEditName->text().isEmpty() )
 	{
 		QString fname;
 		m_parser->fixFunctionName(fname, XParser::ParametricX, m_x_id);
 		int const pos = fname.find('(');
-		kLineEditName->setText(fname.mid(1,pos-1));
+		m_editParametric->kLineEditName->setText(fname.mid(1,pos-1));
 	}
 		
-  Ufkt tmp_ufkt;
-	tmp_ufkt.f_mode = !checkBoxHide->isChecked();
+	Ufkt tmp_ufkt;
+	tmp_ufkt.f_mode = !m_editParametric->checkBoxHide->isChecked();
 	
-	if( customMinRange->isChecked() )
+	if( m_editParametric->customMinRange->isChecked() )
 	{
 		tmp_ufkt.usecustomxmin = true;
-		tmp_ufkt.str_dmin = min->text();
-		tmp_ufkt.dmin = m_parser->eval( min->text() );
+		tmp_ufkt.str_dmin = m_editParametric->min->text();
+		tmp_ufkt.dmin = m_parser->eval( m_editParametric->min->text() );
 		if ( m_parser->parserError())
 		{
-			min->setFocus();
-			min->selectAll();
+			m_editParametric->min->setFocus();
+			m_editParametric->min->selectAll();
 			return;
 		}
 	}
 	else
 		tmp_ufkt.usecustomxmin = false;
 	
-	if( customMaxRange->isChecked() )
+	if( m_editParametric->customMaxRange->isChecked() )
 	{
 		tmp_ufkt.usecustomxmax = true;
-		tmp_ufkt.str_dmax = max->text();
-		tmp_ufkt.dmax = m_parser->eval( max->text() );
+		tmp_ufkt.str_dmax = m_editParametric->max->text();
+		tmp_ufkt.dmax = m_parser->eval( m_editParametric->max->text() );
 		if ( m_parser->parserError())
 		{
-			max->setFocus();
-			max->selectAll();
+			m_editParametric->max->setFocus();
+			m_editParametric->max->selectAll();
 			return;
 		}
 		if ( tmp_ufkt.usecustomxmin && tmp_ufkt.dmin >=  tmp_ufkt.dmax)
 		{
-			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
-			min->setFocus();
-			min->selectAll();
+			KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
+			m_editParametric->min->setFocus();
+			m_editParametric->min->selectAll();
 			return;
 		}
 	}
 	else
 		tmp_ufkt.usecustomxmax = false;
 	
-	tmp_ufkt.linewidth = kIntNumInputLineWidth->value();
-	tmp_ufkt.color = kColorButtonColor->color().rgb();
+	tmp_ufkt.linewidth = m_editParametric->kIntNumInputLineWidth->value();
+	tmp_ufkt.color = m_editParametric->kColorButtonColor->color().rgb();
 	tmp_ufkt.f1_color = tmp_ufkt.f2_color = tmp_ufkt.integral_color = tmp_ufkt.color;
 	tmp_ufkt.integral_mode = 0;
 	tmp_ufkt.f1_mode = tmp_ufkt.f1_mode;
@@ -175,7 +182,7 @@ void KEditParametric::accept()
                 int const ix = m_parser->ixValue(m_x_id);
                 if ( ix == -1) //The function could have been deleted
                 {
-                        KMessageBox::error(this,i18n("Function could not be found"));
+                        KMessageBox::sorry(this,i18n("Function could not be found"));
                         return;
                 }
                 added_ufkt = &m_parser->ufkt[ix];
@@ -187,8 +194,8 @@ void KEditParametric::accept()
                         added_ufkt->fstr = old_fstr;
                         m_parser->reparse(added_ufkt); 
                         raise();
-                        kLineEditXFunction->setFocus();
-                        kLineEditXFunction->selectAll();
+						m_editParametric->kLineEditXFunction->setFocus();
+						m_editParametric->kLineEditXFunction->selectAll();
                         return;
                 }
         }
@@ -199,8 +206,8 @@ void KEditParametric::accept()
                 {
                         m_parser->parserError();
                         raise();
-                        kLineEditXFunction->setFocus();
-                        kLineEditXFunction->selectAll();
+						m_editParametric->kLineEditXFunction->setFocus();
+						m_editParametric->kLineEditXFunction->selectAll();
                         return;
                 }
                 added_ufkt =  &m_parser->ufkt.last();
@@ -246,8 +253,8 @@ void KEditParametric::accept()
                         added_ufkt->fstr = old_fstr; //go back to the old expression
                         m_parser->reparse(added_ufkt);  //reparse
                         raise();
-                        kLineEditXFunction->setFocus();
-                        kLineEditXFunction->selectAll();
+						m_editParametric->kLineEditXFunction->setFocus();
+						m_editParametric->kLineEditXFunction->selectAll();
                         return;
                 }
         }
@@ -258,8 +265,8 @@ void KEditParametric::accept()
                 {
                         m_parser->parserError();
                         raise();
-                        kLineEditXFunction->setFocus();
-                        kLineEditXFunction->selectAll();
+						m_editParametric->kLineEditXFunction->setFocus();
+						m_editParametric->kLineEditXFunction->selectAll();
                         return;
                 }
                 added_ufkt =  &m_parser->ufkt.last();
@@ -297,12 +304,12 @@ void KEditParametric::accept()
 
 	
 	// call inherited method
-	QEditParametric::accept(); //update the function name in FktDlg
+	QDialog::accept(); //update the function name in FktDlg
 }
     
 QString KEditParametric::xFunction()
 {
-	return "x" + kLineEditName->text() + "(t)=" + kLineEditXFunction->text();
+	return "x" + m_editParametric->kLineEditName->text() + "(t)=" + m_editParametric->kLineEditXFunction->text();
 }
 
 void KEditParametric::splitEquation( const QString equation, QString &name, QString &expression )
@@ -317,7 +324,7 @@ void KEditParametric::splitEquation( const QString equation, QString &name, QStr
 
 QString KEditParametric::yFunction()
 {
-	return "y" + kLineEditName->text() + "(t)=" + kLineEditYFunction->text();
+	return "y" + m_editParametric->kLineEditName->text() + "(t)=" + m_editParametric->kLineEditYFunction->text();
 }
 
 Ufkt * KEditParametric::functionItem()
@@ -329,18 +336,4 @@ void KEditParametric::slotHelp()
 {
 	KToolInvocation::invokeHelp( "", "kmplot" );
 }
-void KEditParametric::customMinRange_toggled(bool status)
-{
-	if (status)
-		min->setEnabled(true);
-	else
-		min->setEnabled(false);
-}
 
-void KEditParametric::customMaxRange_toggled(bool status)
-{
-	if (status)
-		max->setEnabled(true);
-	else
-		max->setEnabled(false);
-}

@@ -26,21 +26,24 @@
 #ifndef KEDITPOLAR_H
 #define KEDITPOLAR_H
 
+#include <kdialog.h>
+
 #include "qeditpolar.h"
 #include "xparser.h"
 
+class QEditPolar;
 class View;
 class XParser;
 
 /** @short Dialog window editing a polar plot and its properties. */
-class KEditPolar : public QEditPolar
+class KEditPolar : public KDialog
 {
 	Q_OBJECT
 	public:
 		/// @param parser points to the parser instance.
 		/// @param parent points to the parent widget.
 		/// @param name of this instance.
-		KEditPolar( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
+		KEditPolar( XParser* parser, QWidget* parent = NULL );
 		/// Nothing special to do.
 		virtual ~KEditPolar() {};
 		
@@ -58,15 +61,23 @@ class KEditPolar : public QEditPolar
 		XParser* m_parser;
 		/// Current function id.
 		int m_id;
-		Ufkt *m_updatedfunction;	
+		Ufkt *m_updatedfunction;
+		QEditPolar * m_editPolar;
+		
 	protected slots:
 		/// Overwrites the dialog's accept() method to make sure, that the user's input is valid.
 		virtual void accept();
 		/// Invokes the helpCenter.
 		void slotHelp();
-		void customMinRange_toggled(bool);
-		void customMaxRange_toggled(bool);
 		
+};
+
+class QEditPolar : public QWidget, public Ui::QEditPolar
+{
+	public:
+		QEditPolar( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
 };
 
 #endif

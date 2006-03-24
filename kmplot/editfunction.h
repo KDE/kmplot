@@ -30,7 +30,7 @@
 
 #include "xparser.h"
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 
 #include "editderivativespage.h"
 #include "editfunctionpage.h"
@@ -85,12 +85,6 @@ class EditFunction : public KDialogBase
 		void slotHelp();
 		/// Called when the "Change parameter values" is clicked
 		void cmdParameter_clicked();
-		/// Called when the no_parameter-radiobutton is toggled.
-		void noParameter_toggled(bool);
-		/// Called when customMinRange is toggled.
-		void customMinRange_toggled(bool);
-		/// Called when customMaxRange is toggled.
-		void customMaxRange_toggled(bool);
 	
 	private:
 		/// Clear alls widgets values
@@ -106,7 +100,7 @@ class EditFunction : public KDialogBase
 		XParser* m_parser;
 		/// Current function index
 		int m_id;
-		Q3ValueList<ParameterValueItem> m_parameter;
+		QList<ParameterValueItem> m_parameter;
 		
 		EditFunctionPage* editfunctionpage;
 		EditDerivativesPage* editderivativespage;

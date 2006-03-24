@@ -38,7 +38,7 @@
 #include <QPaintEvent>
 #include <QKeyEvent>
 #include <QEvent>
-#include <Q3ValueList>
+#include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
 
@@ -217,7 +217,7 @@ void View::draw(QPaintDevice *dev, int form)
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
 	stop_calculating = false;
-	for(Q3ValueVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
+	for(QVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
 		if ( !ufkt->fname.isEmpty() )
 			plotfkt(ufkt, &DC);
 
@@ -504,7 +504,7 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->Lineh(0, 320, 700);
 		int ypos = 380;
 		//for(uint ix=0; ix<m_parser->countFunctions() && !stop_calculating; ++ix)
-		for(Q3ValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
+		for(QVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
 		{
 			pDC->drawText(100, ypos, it->fstr);
 			ypos+=60;
@@ -908,7 +908,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	if( !m_readonly && e->button()==Qt::RightButton) //clicking with the right mouse button
 	{
 		char function_type;
-		for( Q3ValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+		for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 		{
 			function_type = it->fstr[0].latin1();
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
@@ -932,7 +932,7 @@ void View::mousePressEvent(QMouseEvent *e)
 
 				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.contains('t')==1) //parametric plot
 				{
-					Q3ValueVector<Ufkt>::iterator ufkt_y = it+1;
+					QVector<Ufkt>::iterator ufkt_y = it+1;
 					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->fstr.contains('t')==1)
 					{
 						if ( csmode == -1)
@@ -1021,7 +1021,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		mouseMoveEvent(e);
 		return ;
 	}
-	for( Q3ValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
 		if (it->fname.isEmpty() )
 			continue;
@@ -1236,7 +1236,7 @@ void View::getSettings()
 void View::init()
 {
 	getSettings();
-	Q3ValueVector<Ufkt>::iterator it = m_parser->ufkt.begin();
+	QVector<Ufkt>::iterator it = m_parser->ufkt.begin();
 	it->fname="";
 	while ( m_parser->ufkt.count() > 1)
 		m_parser->Parser::delfkt( &m_parser->ufkt.last() );
@@ -1259,7 +1259,7 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
-		for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
+		for ( QList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
 			if ( (*it).expression == str_parameter)
 			{
@@ -1408,7 +1408,7 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
-		for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
+		for ( QList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
 			if ( (*it).expression == str_parameter)
 			{
@@ -1520,7 +1520,7 @@ void View::keyPressEvent( QKeyEvent * e)
 		event = new QMouseEvent(QEvent::MouseMove,QPoint(int(fcx+1),int(fcy+1)),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-		Q3ValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
+		QVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
 		int const ke=it->parameters.count();
 		if (ke>0)
 		{
@@ -1678,7 +1678,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
-		for ( Q3ValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
+		for ( QList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
 			if ( (*it).expression == str_parameter)
 			{
@@ -1868,7 +1868,7 @@ void View::updateSliders()
 		}
 	}
 
-	for(Q3ValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
+	for(QVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
 	{
 		if (it->fname.isEmpty() ) continue;
 		if( it->use_slider > -1  &&  (it->f_mode || it->f1_mode || it->f2_mode || it->integral_mode))

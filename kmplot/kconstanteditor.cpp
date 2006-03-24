@@ -33,7 +33,7 @@
 #include <kstandarddirs.h>
 #include <qpushbutton.h>
 #include <qstringlist.h>
-#include <q3valuevector.h>
+#include <QVector>
 #include <qdom.h>
 
 #include "kmplotio.h"
@@ -44,7 +44,7 @@ KConstantEditor::KConstantEditor(View *v, QWidget *parent, const char *name)
 	: QConstantEditor(parent,name), m_view(v)
 {
 	QString str_value;
-	Q3ValueVector<Constant>::iterator it;
+	QVector<Constant>::iterator it;
 	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() ;++it)
 	{
 		str_value.setNum(it->value);
@@ -86,7 +86,7 @@ void KConstantEditor::cmdDelete_clicked()
 	value = varlist->currentItem()->text(1);
 	QString str;
         
-        for( Q3ValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		str =  it->fstr;
 		for (int i=str.find(')'); i<str.length();i++)
@@ -96,7 +96,7 @@ void KConstantEditor::cmdDelete_clicked()
                              return;
                         }
 	}
-	Q3ValueVector<Constant>::iterator it;
+	QVector<Constant>::iterator it;
 	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end(); ++it)
 	{
 		if ( it->constant == constant)
@@ -148,7 +148,7 @@ void KConstantEditor::cmdDuplicate_clicked()
 			continue;
 		
 		found = false;
-		Q3ValueVector<Constant>::iterator it;
+		QVector<Constant>::iterator it;
 		for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;++it)
 		{
 			if ( it->constant == i || i == constant)
@@ -180,7 +180,7 @@ void KConstantEditor::editConstantSlot()
 {
 	double dvalue = m_view->parser()->eval(value);
 	bool found = false;
-	Q3ValueVector<Constant>::iterator it;
+	QVector<Constant>::iterator it;
 	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;++it)
 	{
 		if ( it->constant == constant)
@@ -201,7 +201,7 @@ void KConstantEditor::editConstantSlot()
 	
 
         int index = 0;
-        for( Q3ValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if( it->fstr.contains(constant)!=0 )
 			m_view->parser()->reparse(index); //reparsing the function

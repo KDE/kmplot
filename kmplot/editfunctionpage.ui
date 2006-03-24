@@ -365,13 +365,6 @@ Example: f(x)=x^2</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
@@ -385,9 +378,27 @@ Example: f(x)=x^2</string>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>equation</tabstop>
+  <tabstop>hideCheck</tabstop>
+  <tabstop>useNoParameter</tabstop>
+  <tabstop>useList</tabstop>
+  <tabstop>cmdParameter</tabstop>
+  <tabstop>useSlider</tabstop>
+  <tabstop>listOfSliders</tabstop>
+  <tabstop>customMinRange</tabstop>
+  <tabstop>min</tabstop>
+  <tabstop>customMaxRange</tabstop>
+  <tabstop>max</tabstop>
+  <tabstop>color</tabstop>
  </tabstops>
  <resources/>
  <connections>

@@ -28,7 +28,7 @@
 
 #include "qparametereditor.h"
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include "xparser.h"
 
 class ParameterValueList;
@@ -41,7 +41,7 @@ class KParameterEditor : public QParameterEditor
 {
 Q_OBJECT
 public:
-    KParameterEditor(XParser *, Q3ValueList<ParameterValueItem> *, QWidget *parent = 0, const char *name = 0);
+    KParameterEditor(XParser *, QList<ParameterValueItem> *, QWidget *parent = 0, const char *name = 0);
     ~KParameterEditor();
     
 public slots:
@@ -57,7 +57,7 @@ public slots:
 private:
     /// Check so that it doesn't exist two equal values
     bool checkTwoOfIt( const QString & text);
-    Q3ValueList<ParameterValueItem> *m_parameter;
+    QList<ParameterValueItem> *m_parameter;
     XParser *m_parser;
 };
 

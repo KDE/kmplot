@@ -38,7 +38,7 @@
 #include "settings.h"
 #include "xparser.h"
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 
 double Parser::m_anglemode = 0;
 
@@ -137,7 +137,7 @@ void Parser::ps_init()
 Parser::~Parser()
 {
         kDebug() << "Exiting......" << endl;
-        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
                 kDebug() << "Deleting something... :-)" << endl;
                 delete [](*it).mem;
@@ -170,7 +170,7 @@ uint Parser::getNewId()
         while (1 )
         {
                 found = false;
-                for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                 {
                         if (it->id == i && !it->fname.isEmpty())
                         {
@@ -239,7 +239,7 @@ int Parser::idValue(int const ix)
 int Parser::ixValue(uint const id)
 {
         int ix=0;
-        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
                 if ( it->id ==id)
                         return ix;
@@ -250,7 +250,7 @@ int Parser::ixValue(uint const id)
 
 double Parser::fkt(uint const id, double const x)
 {
-        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
                 if ( it->id == id)
                         return fkt(it,x);
@@ -324,7 +324,7 @@ double Parser::fkt(Ufkt *it, double const x)
                         {
                                 puf=(uint*)it->mptr;
                                 uint id = *puf++;
-                                for( Q3ValueVector<Ufkt>::iterator ite = ufkt.begin(); ite != ufkt.end(); ++ite)
+                                for( QVector<Ufkt>::iterator ite = ufkt.begin(); ite != ufkt.end(); ++ite)
                                 {
                                         if ( ite->id == id)
                                         {
@@ -520,7 +520,7 @@ void Parser::fix_expression(QString &str, int const pos)
 				{
 					// Not a predefined function, so search through the user defined functions (e.g. f(x), etc)
 					// to see if it is one of those
-                                for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                                for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                                 {
                                         for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
                                         {
@@ -564,11 +564,11 @@ bool Parser::delfkt( Ufkt *item)
 	  KMessageBox::error(0,i18n("This function is depending on an other function"));
 	  return false;
 	}
-	for(Q3ValueVector<Ufkt>::iterator it1=ufkt.begin(); it1!=ufkt.end(); ++it1)
+	for(QVector<Ufkt>::iterator it1=ufkt.begin(); it1!=ufkt.end(); ++it1)
 	{
 		if (it1==item)
 			continue;
-		for(Q3ValueList<int>::iterator it2=it1->dep.begin(); it2!=it1->dep.end(); ++it2)
+		for(QList<int>::iterator it2=it1->dep.begin(); it2!=it1->dep.end(); ++it2)
 			if ( (uint)*it2 == item->id )
 				it2 = it1->dep.erase(it2);
 	}
@@ -741,7 +741,7 @@ void Parser::primary()
                         return;
                 }
         }
-        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
                 if(QString(lptr)=="pi" || QString(lptr)=="e") continue;
 
@@ -962,7 +962,7 @@ void Parser::addfptr(uint id)
 	}
 	else
         {
-                for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                         if ( it->id == id)
                         {
                                 *stkptr=fkt(it, *stkptr);
@@ -974,7 +974,7 @@ void Parser::addfptr(uint id)
 
 int Parser::fnameToId(const QString &name)
 {
-        for( Q3ValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
                 if(name==it->fname)
                         return it->id;
@@ -989,43 +989,43 @@ int Parser::parserError(bool showMessageBox)
                 return err;
         switch(err)
 	{
-                case 1:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+                case 1:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
 		                                      "Syntax error").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 2:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+                case 2:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
 		                                      "Missing parenthesis").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 3:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+                case 3:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
 		                                      "Function name unknown").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 4:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+                case 4:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
 		                                      "Void function variable").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 5:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+                case 5:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
 		                                      "Too many functions").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 6:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+                case 6:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
 		                                      "Token-memory overflow").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 7:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+                case 7:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
 		                                      "Stack overflow").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 8:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+                case 8:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
 		                                      "Name of function not free.").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 9:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
+                case 9:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
 		                                      "recursive function not allowed.").arg(QString::number(errpos)), "KmPlot");
                         break;
-                case 10:  KMessageBox::error(0, i18n("Could not find a defined constant at position %1." ).arg(QString::number(errpos)),
+                case 10:  KMessageBox::sorry(0, i18n("Could not find a defined constant at position %1." ).arg(QString::number(errpos)),
                                                                 "KmPlot");
                         break;
-                case 11:  KMessageBox::error(0, i18n("Empty function"), "KmPlot");
+                case 11:  KMessageBox::sorry(0, i18n("Empty function"), "KmPlot");
                         break;
-                case 12:  KMessageBox::error(0, i18n("The function name is not allowed to contain capital letters."), "KmPlot");
+                case 12:  KMessageBox::sorry(0, i18n("The function name is not allowed to contain capital letters."), "KmPlot");
                         break;
-                case 13:  KMessageBox::error(0, i18n("Function could not be found."), "KmPlot");
+                case 13:  KMessageBox::sorry(0, i18n("Function could not be found."), "KmPlot");
                         break;
-		case 14:  KMessageBox::error(0, i18n("The expression must not contain user-defined constants."), "KmPlot");
+		case 14:  KMessageBox::sorry(0, i18n("The expression must not contain user-defined constants."), "KmPlot");
 			break;
 	}
         return err;

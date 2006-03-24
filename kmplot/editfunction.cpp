@@ -71,9 +71,6 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 		editfunctionpage->listOfSliders->insertItem( i18n( "Slider No. %1" ).arg( number +1) );
 	}
 	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
-	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_toggled(bool) ) );
-	connect( editfunctionpage->customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
-	connect( editfunctionpage->customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
     m_updatedfunction = 0;
 }
 
@@ -178,7 +175,7 @@ void EditFunction::accept()
                 m_parser->fixFunctionName(f_str, XParser::Function);
 	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y' || f_str.at(0)== 'r')
 	{
-		KMessageBox::error( this, i18n("You can only define plot functions in this dialog"));
+		KMessageBox::sorry( this, i18n("You can only define plot functions in this dialog"));
 		return;
 	}
 	
@@ -218,7 +215,7 @@ void EditFunction::accept()
 	{
 		if ( tmp_ufkt.dmin >=  tmp_ufkt.dmax)
 		{
-			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+			KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
 			showPage(0);
 			editfunctionpage->min->setFocus();
 			editfunctionpage->min->selectAll();
@@ -227,7 +224,7 @@ void EditFunction::accept()
 		
 		if (  tmp_ufkt.dmin<View::xmin || tmp_ufkt.dmax>View::xmax )
 		{
-			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
+			KMessageBox::sorry(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
 			showPage(0);
 			editfunctionpage->min->setFocus();
 			editfunctionpage->min->selectAll();
@@ -245,7 +242,7 @@ void EditFunction::accept()
 		tmp_ufkt.str_startx = editintegralpage->txtInitX->text();
 		if (m_parser->parserError(false) != 0)
 		{
-			KMessageBox::error(this,i18n("Please insert a valid x-value"));
+			KMessageBox::sorry(this,i18n("Please insert a valid x-value"));
 			showPage(2);
 			editintegralpage->txtInitX->setFocus();
                         editintegralpage->txtInitX->selectAll();
@@ -257,7 +254,7 @@ void EditFunction::accept()
 		tmp_ufkt.str_starty = editintegralpage->txtInitY->text();
 		if (m_parser->parserError(false) != 0)
 		{
-			KMessageBox::error(this,i18n("Please insert a valid y-value"));
+			KMessageBox::sorry(this,i18n("Please insert a valid y-value"));
 			showPage(2);
 			editintegralpage->txtInitY->setFocus();
 			editintegralpage->txtInitY->selectAll();
@@ -299,17 +296,17 @@ void EditFunction::accept()
 	
 	if ( f_str.contains('y') != 0 && ( tmp_ufkt.f_mode || tmp_ufkt.f1_mode || tmp_ufkt.f2_mode) )
 	{
-		KMessageBox::error( this, i18n( "Recursive function is only allowed when drawing integral graphs") );
+		KMessageBox::sorry( this, i18n( "Recursive function is only allowed when drawing integral graphs") );
 		return;
-        }
+	}
         
         Ufkt *added_ufkt;
         if( m_id != -1 )  //when editing a function: 
         {
                 int const ix = m_parser->ixValue(m_id);
                 if ( ix == -1) //The function could have been deleted
-                {
-                        KMessageBox::error(this,i18n("Function could not be found"));
+				{
+			KMessageBox::sorry(this,i18n("Function could not be found"));
                         return;
                 }
                 added_ufkt =  &m_parser->ufkt[ix];
@@ -401,30 +398,6 @@ void EditFunction::cmdParameter_clicked()
 	editfunctionpage->useList->setChecked(true);
 	KParameterEditor *dlg = new KParameterEditor(m_parser,&m_parameter);
 	dlg->show();
-}
-void EditFunction::noParameter_toggled(bool status)
-{
-	if (status)
-	{
-		editfunctionpage->cmdParameter->setEnabled(false);
-		editfunctionpage->listOfSliders->setEnabled(false);
-	}
-}
-
-void EditFunction::customMinRange_toggled(bool status)
-{
-  if (status)
-    editfunctionpage->min->setEnabled(true);
-  else
-    editfunctionpage->min->setEnabled(false);
-}
-
-void EditFunction::customMaxRange_toggled(bool status)
-{
-  if (status)
-    editfunctionpage->max->setEnabled(true);
-  else
-    editfunctionpage->max->setEnabled(false);
 }
 
 void EditFunction::fixFunctionArguments(QString &f_str)

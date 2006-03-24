@@ -31,7 +31,7 @@
 #include <qlabel.h>
  
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include <q3listview.h>
 
 
@@ -140,7 +140,7 @@ void KMinMax::updateFunctions()
 	QString const selected_item(list->currentText() );
 	list->clear();
 
-        for( Q3ValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r' && !it->fname.isEmpty())
 		{
@@ -282,7 +282,7 @@ void KMinMax::cmdFind_clicked()
 	Ufkt *ufkt = 0;
 	QString sec_function = function.section('(',0,0);
 
-        for( Q3ValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -372,7 +372,7 @@ void KMinMax::list_highlighted(Q3ListBoxItem* item)
 		function[0] =  function[0].lower();
 	}
 	QString const sec_function = function.section('(',0,0);
-        for(Q3ValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
+        for(QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
 	{
                 if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -411,12 +411,12 @@ void KMinMax::cmdParameter_clicked()
 	}
         
 	QString const sec_function = function.section('(',0,0);
-        for(Q3ValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
+        for(QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
 	{
 	       if ( it->fstr.section('(',0,0) == sec_function)
                {
 			QStringList str_parameters;
-		        for ( Q3ValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
+		        for ( QList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
 			       str_parameters.append( (*k).expression);
                         bool ok;
                         QStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), str_parameters, QStringList(parameter),false,&ok,this );

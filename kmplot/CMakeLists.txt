@@ -31,18 +31,21 @@ kde4_add_ui3_files(kmplotpart_PART_SRCS
    settingspagecolor.ui 
    qparametereditor.ui 
    settingspagecoords.ui 
-   settingspagefonts.ui 
    settingspagescaling.ui 
    settingspageprecision.ui 
    qeditparametric.ui 
    qeditpolar.ui 
-   editfunctionpage.ui 
-   editderivativespage.ui 
-   editintegralpage.ui 
    qeditconstant.ui 
    qminmax.ui 
    qconstanteditor.ui 
    sliderwindow.ui )
+
+kde4_add_ui_files(kmplotpart_PART_SRCS
+	editderivativespage.ui
+	editfunctionpage.ui
+	editintegralpage.ui
+	settingspagefonts.ui
+	)
 
 kde4_add_dcop_skels(kmplotpart_PART_SRCS MainDlgIface.h parseriface.h Viewiface.h )
 

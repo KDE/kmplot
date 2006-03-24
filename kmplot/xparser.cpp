@@ -278,8 +278,8 @@ QRgb XParser::defaultColor(int function)
 
 void XParser::prepareAddingFunction(Ufkt *temp)
 {
-        temp->color = temp->f1_color = temp->f2_color = temp->integral_color = defaultColor(getNextIndex() );
-        temp->linewidth = temp->f1_linewidth = temp->f2_linewidth = temp->integral_linewidth = linewidth0;
+	temp->color = temp->f1_color = temp->f2_color = temp->integral_color = defaultColor(getNextIndex() );
+	temp->linewidth = temp->f1_linewidth = temp->f2_linewidth = temp->integral_linewidth = linewidth0;
         temp->f_mode = true;
         temp->f1_mode = false;
         temp->f2_mode = false;
@@ -446,35 +446,35 @@ bool XParser::setFunctionIntColor(const QColor &color, uint id)
 	return true;
 }
 
-int XParser::functionFLineWidth(uint id)
+double XParser::functionFLineWidth(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
 		return 0;
 	return ufkt[ix].linewidth;
 }
-int XParser::functionF1LineWidth(uint id)
+double XParser::functionF1LineWidth(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
 		return int();
 	return ufkt[ix].f1_linewidth;
 }
-int XParser::functionF2LineWidth(uint id)
+double XParser::functionF2LineWidth(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
 		return int();
 	return ufkt[ix].f2_linewidth;
 }
-int XParser::functionIntLineWidth(uint id)
+double XParser::functionIntLineWidth(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
 		return int();
 	return ufkt[ix].integral_linewidth;
 }
-bool XParser::setFunctionFLineWidth(int linewidth, uint id)
+bool XParser::setFunctionFLineWidth(double linewidth, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -483,7 +483,7 @@ bool XParser::setFunctionFLineWidth(int linewidth, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionF1LineWidth(int linewidth, uint id)
+bool XParser::setFunctionF1LineWidth(double linewidth, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -492,7 +492,7 @@ bool XParser::setFunctionF1LineWidth(int linewidth, uint id)
 	m_modified = true;
 	return true;
 }		
-bool XParser::setFunctionF2LineWidth(int linewidth, uint id)
+bool XParser::setFunctionF2LineWidth(double linewidth, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -501,7 +501,7 @@ bool XParser::setFunctionF2LineWidth(int linewidth, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionIntLineWidth(int linewidth, uint id)
+bool XParser::setFunctionIntLineWidth(double linewidth, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -658,7 +658,7 @@ int XParser::addFunction(const QString &f_str)
 	return id;
 }
 
-bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider)
+bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider)
 {
 	QString fstr(fstr_const);
 	switch ( fstr.at(0).latin1() )

@@ -96,10 +96,10 @@ Ufkt::Ufkt()
 	f2_mode = false;
 	integral_mode = false;
 	integral_use_precision = false;
-	linewidth = 0;
-	f1_linewidth = 0;
-	f2_linewidth = 0;
-	integral_linewidth = 0;
+	linewidth = 0.0;
+	f1_linewidth = 0.0;
+	f2_linewidth = 0.0;
+	integral_linewidth = 0.0;
 	dmin = 0.0;
 	dmax = 0.0;
 	oldyprim = 0.0;

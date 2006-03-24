@@ -38,7 +38,7 @@ class ParserIface : virtual public DCOPObject
 {
 	K_DCOP
 k_dcop:
-	virtual bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider) = 0;
+	virtual bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double _linewidth, double _f1_linewidth, double _f2_linewidth, double _integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider) = 0;
 	
 	virtual int addFunction(const QString &f_str) = 0;
 	virtual bool delfkt(uint id) = 0;
@@ -64,14 +64,14 @@ k_dcop:
 	virtual bool setFunctionF1Color(const QColor &color, uint id) = 0;
 	virtual bool setFunctionF2Color(const QColor &color, uint id) = 0;
 	virtual bool setFunctionIntColor(const QColor &color, uint id) = 0;
-	virtual int functionFLineWidth(uint id) = 0;
-	virtual int functionF1LineWidth(uint id) = 0;
-	virtual int functionF2LineWidth(uint id) = 0;
-	virtual int functionIntLineWidth(uint id) = 0;
-	virtual bool setFunctionFLineWidth(int linewidth, uint id) = 0;
-	virtual bool setFunctionF1LineWidth(int linewidth, uint id) = 0;
-	virtual bool setFunctionF2LineWidth(int linewidth, uint id) = 0;
-	virtual bool setFunctionIntLineWidth(int linewidth, uint id) = 0;
+	virtual double functionFLineWidth(uint id) = 0;
+	virtual double functionF1LineWidth(uint id) = 0;
+	virtual double functionF2LineWidth(uint id) = 0;
+	virtual double functionIntLineWidth(uint id) = 0;
+	virtual bool setFunctionFLineWidth(double linewidth, uint id) = 0;
+	virtual bool setFunctionF1LineWidth(double linewidth, uint id) = 0;
+	virtual bool setFunctionF2LineWidth(double linewidth, uint id) = 0;
+	virtual bool setFunctionIntLineWidth(double linewidth, uint id) = 0;
 	virtual QStringList functionParameterList(uint id) = 0;
 	virtual bool functionAddParameter(const QString &new_parameter, uint id) = 0;
 	virtual bool functionRemoveParameter(const QString &remove_parameter, uint id) = 0;

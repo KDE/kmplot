@@ -112,6 +112,9 @@ public:
 	/// Menu actions for the sliders
 	KToggleAction *mnuSliders[ SLIDER_COUNT ];
 	void updateSliders(); /// show only needed sliders
+	
+	/// Convert a width in mm to a suitable QPen width for drawing
+	double mmToPenWidth( double width_mm, bool antialias ) const;
 
 public slots:
 	/// Called when the user want to cancel the drawing
@@ -158,6 +161,8 @@ private:
 	void drawHeaderTable(QPainter *);
 	/// Draw the function plots.
 	void plotfkt(Ufkt *ufkt, QPainter*);
+	/// @return an appropriate pen for drawing the plot
+	QPen penForPlot( Ufkt * ufkt, int p_mode, bool antialias ) const;
 	/// Gets the greek pi symbol.
 	void setpi(QString *);
 	/// in trace mode checks, if the function is (near by) zero

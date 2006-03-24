@@ -298,10 +298,10 @@ bool KmPlotIO::load( const KUrl &url )
 
 void KmPlotIO::parseAxes( const QDomElement &n )
 {
-	Settings::setAxesLineWidth( n.attribute( "width", "1" ).toInt() );
+	Settings::setAxesLineWidth( n.attribute( "width", "0.1" ).toDouble() );
 	Settings::setAxesColor( QColor( n.attribute( "color", "#000000" ) ) );
-	Settings::setTicWidth( n.attribute( "tic-width", "3" ).toInt() );
-	Settings::setTicLength( n.attribute( "tic-length", "10" ).toInt() );
+	Settings::setTicWidth( n.attribute( "tic-width", "0.3" ).toDouble() );
+	Settings::setTicLength( n.attribute( "tic-length", "1.0" ).toDouble() );
 
 	Settings::setShowAxes( n.namedItem( "show-axes" ).toElement().text().toInt() == 1 );
 	Settings::setShowArrows( n.namedItem( "show-arrows" ).toElement().text().toInt() == 1 );
@@ -319,7 +319,7 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 void KmPlotIO::parseGrid( const QDomElement & n )
 {
 	Settings::setGridColor( QColor( n.attribute( "color", "#c0c0c0" ) ) );
-	Settings::setGridLineWidth( n.attribute( "width", "1" ).toInt() );
+	Settings::setGridLineWidth( n.attribute( "width", "0.1" ).toDouble() );
 
 	Settings::setGridStyle( n.namedItem( "mode" ).toElement().text().toInt() );
 }
@@ -351,7 +351,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 
 	ufkt.f_mode = n.attribute( "visible" ).toInt();
 	ufkt.color = QColor( n.attribute( "color" ) ).rgb();
-	ufkt.linewidth = n.attribute( "width" ).toInt();
+	ufkt.linewidth = n.attribute( "width" ).toDouble();
 	ufkt.use_slider = n.attribute( "use-slider" ).toInt();
 
 	temp = n.attribute( "visible-deriv" );
@@ -359,7 +359,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	{
 		ufkt.f1_mode = temp.toInt();
 		ufkt.f1_color = QColor(n.attribute( "deriv-color" )).rgb();
-		ufkt.f1_linewidth = n.attribute( "deriv-width" ).toInt();
+		ufkt.f1_linewidth = n.attribute( "deriv-width" ).toDouble();
 	}
 	else
 	{
@@ -373,7 +373,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	{
 		ufkt.f2_mode = temp.toInt();
 		ufkt.f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
-		ufkt.f2_linewidth = n.attribute( "deriv2nd-width" ).toInt();
+		ufkt.f2_linewidth = n.attribute( "deriv2nd-width" ).toDouble();
 	}
 	else
 	{
@@ -387,7 +387,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	{
 		ufkt.integral_mode = temp.toInt();
 		ufkt.integral_color = QColor(n.attribute( "integral-color" )).rgb();
-		ufkt.integral_linewidth = n.attribute( "integral-width" ).toInt();
+		ufkt.integral_linewidth = n.attribute( "integral-width" ).toDouble();
 		ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
 		ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
 		ufkt.str_startx = n.attribute( "integral-startx" );
@@ -402,7 +402,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 		ufkt.integral_color = m_parser->defaultColor(next_index);
 		ufkt.integral_linewidth = m_parser->linewidth0;
 		ufkt.integral_use_precision = 0;
-		ufkt.integral_precision = ufkt.linewidth;
+		ufkt.integral_precision = int(ufkt.linewidth*10.0);
 	}
 
 	ufkt.str_dmin = n.namedItem( "arg-min" ).toElement().text();
@@ -506,7 +506,7 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	ufkt.f1_mode = n.attribute( "visible-deriv" ).toInt();
 	ufkt.f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
 	ufkt.f2_mode = 0;
-	ufkt.linewidth = n.attribute( "width" ).toInt();
+	ufkt.linewidth = n.attribute( "width" ).toDouble();
 	ufkt.use_slider = -1;
 	ufkt.color = ufkt.f1_color = ufkt.f2_color = ufkt.integral_color = QColor( n.attribute( "color" ) ).rgb();
 
@@ -589,10 +589,10 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 
 void KmPlotIO::oldParseAxes( const QDomElement &n )
 {
-	Settings::setAxesLineWidth( n.attribute( "width", "1" ).toInt() );
+	Settings::setAxesLineWidth( n.attribute( "width", "0.1" ).toDouble() );
 	Settings::setAxesColor( QColor( n.attribute( "color", "#000000" ) ) );
-	Settings::setTicWidth( n.attribute( "tic-width", "3" ).toInt() );
-	Settings::setTicLength( n.attribute( "tic-length", "10" ).toInt() );
+	Settings::setTicWidth( n.attribute( "tic-width", "0.3" ).toDouble() );
+	Settings::setTicLength( n.attribute( "tic-length", "1.0" ).toDouble() );
 
 	Settings::setShowAxes( true );
 	Settings::setShowArrows( true );

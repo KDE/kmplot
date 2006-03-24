@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>491</width>
-    <height>432</height>
+    <width>240</width>
+    <height>380</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -50,10 +50,42 @@
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="TextLabel2_2_2" >
+      <item row="0" column="1" >
+       <widget class="QDoubleSpinBox" name="lineWidthDerivative1" >
+        <property name="alignment" >
+         <set>Qt::AlignRight</set>
+        </property>
+        <property name="suffix" >
+         <string> mm</string>
+        </property>
+        <property name="decimals" >
+         <number>1</number>
+        </property>
+        <property name="minimum" >
+         <double>0.1</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.1</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="textLabel1_3_2_2" >
         <property name="text" >
-         <string>0.1mm</string>
+         <string>&amp;Line width:</string>
+        </property>
+        <property name="buddy" >
+         <cstring></cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="textLabel2_2_2" >
+        <property name="text" >
+         <string>&amp;Color:</string>
+        </property>
+        <property name="buddy" >
+         <cstring>colorDerivative1</cstring>
         </property>
        </widget>
       </item>
@@ -70,42 +102,6 @@
         </property>
         <property name="text" >
          <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="textLabel2_2_2" >
-        <property name="text" >
-         <string>&amp;Color:</string>
-        </property>
-        <property name="buddy" >
-         <cstring>colorDerivative1</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="textLabel1_3_2_2" >
-        <property name="text" >
-         <string>&amp;Line width:</string>
-        </property>
-        <property name="buddy" >
-         <cstring>lineWidthDerivative1</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" >
-       <widget class="KIntNumInput" name="lineWidthDerivative1" >
-        <property name="enabled" >
-         <bool>false</bool>
-        </property>
-        <property name="toolTip" >
-         <string>width of the plot line</string>
-        </property>
-        <property name="whatsThis" >
-         <string>Change the width of the plot line in steps of 0.1mm.</string>
-        </property>
-        <property name="minimum" >
-         <number>1</number>
         </property>
        </widget>
       </item>
@@ -141,35 +137,21 @@
        <number>6</number>
       </property>
       <item row="0" column="1" >
-       <widget class="KIntNumInput" name="lineWidthDerivative2" >
-        <property name="enabled" >
-         <bool>false</bool>
+       <widget class="QDoubleSpinBox" name="lineWidthDerivative2" >
+        <property name="alignment" >
+         <set>Qt::AlignRight</set>
         </property>
-        <property name="toolTip" >
-         <string>width of the plot line</string>
+        <property name="suffix" >
+         <string> mm</string>
         </property>
-        <property name="whatsThis" >
-         <string>Change the width of the plot line in steps of 0.1mm.</string>
-        </property>
-        <property name="minimum" >
+        <property name="decimals" >
          <number>1</number>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="TextLabel2_2" >
-        <property name="text" >
-         <string>0.1mm</string>
+        <property name="minimum" >
+         <double>0.1</double>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="textLabel1_3_2" >
-        <property name="text" >
-         <string>Line &amp;width:</string>
-        </property>
-        <property name="buddy" >
-         <cstring>lineWidthDerivative2</cstring>
+        <property name="singleStep" >
+         <double>0.1</double>
         </property>
        </widget>
       </item>
@@ -199,6 +181,16 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="textLabel1_3_2" >
+        <property name="text" >
+         <string>Line &amp;width:</string>
+        </property>
+        <property name="buddy" >
+         <cstring></cstring>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -209,8 +201,8 @@
      </property>
      <property name="sizeHint" >
       <size>
-       <width>20</width>
-       <height>40</height>
+       <width>51</width>
+       <height>41</height>
       </size>
      </property>
     </spacer>
@@ -224,13 +216,6 @@
    <class>KColorButton</class>
    <extends></extends>
    <header>kcolorbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

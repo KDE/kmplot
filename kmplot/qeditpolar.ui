@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>374</width>
-    <height>442</height>
+    <width>334</width>
+    <height>388</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -181,13 +181,32 @@ Example: loop(angle)=ln(angle)</string>
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="textLabel2" >
+      <item row="0" column="1" >
+       <widget class="QDoubleSpinBox" name="lineWidth" >
+        <property name="alignment" >
+         <set>Qt::AlignRight</set>
+        </property>
+        <property name="suffix" >
+         <string> mm</string>
+        </property>
+        <property name="decimals" >
+         <number>1</number>
+        </property>
+        <property name="minimum" >
+         <double>0.1</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.1</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="textLabel1_3" >
         <property name="text" >
-         <string>Colo&amp;r:</string>
+         <string>Line &amp;width:</string>
         </property>
         <property name="buddy" >
-         <cstring>kColorButtonColor</cstring>
+         <cstring></cstring>
         </property>
        </widget>
       </item>
@@ -204,33 +223,13 @@ Example: loop(angle)=ln(angle)</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="KIntNumInput" name="kIntNumInputLineWidth" >
-        <property name="toolTip" >
-         <string>width of the plot line</string>
-        </property>
-        <property name="whatsThis" >
-         <string>Change the width of the plot line in steps of 0.1mm.</string>
-        </property>
-        <property name="minimum" >
-         <number>1</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="TextLabel2" >
+      <item row="1" column="0" >
+       <widget class="QLabel" name="textLabel2" >
         <property name="text" >
-         <string>0.1mm</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="textLabel1_3" >
-        <property name="text" >
-         <string>Line &amp;width:</string>
+         <string>Colo&amp;r:</string>
         </property>
         <property name="buddy" >
-         <cstring></cstring>
+         <cstring>kColorButtonColor</cstring>
         </property>
        </widget>
       </item>
@@ -244,8 +243,8 @@ Example: loop(angle)=ln(angle)</string>
      </property>
      <property name="sizeHint" >
       <size>
-       <width>20</width>
-       <height>40</height>
+       <width>21</width>
+       <height>21</height>
       </size>
      </property>
     </spacer>
@@ -265,13 +264,6 @@ Example: loop(angle)=ln(angle)</string>
    <class>KLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

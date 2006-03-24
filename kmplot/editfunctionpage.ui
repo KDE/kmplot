@@ -11,8 +11,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>452</width>
-    <height>548</height>
+    <width>357</width>
+    <height>535</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -113,7 +113,7 @@ Example: f(x)=x^2</string>
          <string>Check this to let KmPlot use parameter values given in a list. Edit this list by clicking the button on the right.</string>
         </property>
         <property name="text" >
-         <string>Values from a list</string>
+         <string>Values from a list:</string>
         </property>
        </widget>
       </item>
@@ -171,7 +171,7 @@ Example: f(x)=x^2</string>
          <string>Check this to change the parameter value by moving a slider. Select the slider from the list box on the right. The values vary from 0 (left) to 100 (right).</string>
         </property>
         <property name="text" >
-         <string>Use</string>
+         <string>Use:</string>
         </property>
        </widget>
       </item>
@@ -284,32 +284,31 @@ Example: f(x)=x^2</string>
        <number>6</number>
       </property>
       <item row="0" column="1" >
-       <widget class="KIntNumInput" name="lineWidth" >
-        <property name="toolTip" >
-         <string>width of the plot line</string>
+       <widget class="QDoubleSpinBox" name="lineWidth" >
+        <property name="alignment" >
+         <set>Qt::AlignRight</set>
         </property>
-        <property name="whatsThis" >
-         <string>Change the width of the plot line in steps of 0.1mm.</string>
+        <property name="suffix" >
+         <string> mm</string>
         </property>
-        <property name="minimum" >
+        <property name="decimals" >
          <number>1</number>
         </property>
-       </widget>
-      </item>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="TextLabel2" >
-        <property name="text" >
-         <string>0.1mm</string>
+        <property name="minimum" >
+         <double>0.1</double>
+        </property>
+        <property name="singleStep" >
+         <double>0.1</double>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="textLabel2" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="textLabel1_3" >
         <property name="text" >
-         <string>Co&amp;lor:</string>
+         <string>Line &amp;width:</string>
         </property>
         <property name="buddy" >
-         <cstring>color</cstring>
+         <cstring></cstring>
         </property>
        </widget>
       </item>
@@ -326,13 +325,13 @@ Example: f(x)=x^2</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="textLabel1_3" >
+      <item row="1" column="0" >
+       <widget class="QLabel" name="textLabel2" >
         <property name="text" >
-         <string>Line &amp;width:</string>
+         <string>Co&amp;lor:</string>
         </property>
         <property name="buddy" >
-         <cstring>lineWidth</cstring>
+         <cstring>color</cstring>
         </property>
        </widget>
       </item>
@@ -346,8 +345,8 @@ Example: f(x)=x^2</string>
      </property>
      <property name="sizeHint" >
       <size>
-       <width>71</width>
-       <height>51</height>
+       <width>31</width>
+       <height>21</height>
       </size>
      </property>
     </spacer>
@@ -368,13 +367,6 @@ Example: f(x)=x^2</string>
    <class>KLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

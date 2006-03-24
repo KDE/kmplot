@@ -50,13 +50,15 @@
 #define	GRID_POLAR	3
 //@}
 
+class View;
+
 /** @short This class manages the core drawing of the axes and the grid. */
 class CDiagr
 {
 public:
 	/// Contructor. Members are set to initial values.
 	///@see Create()
-	CDiagr();
+	CDiagr( View * view );
 	/// Nothing to do for the destructor.
 	~CDiagr();
 
@@ -91,14 +93,14 @@ public:
 	QRgb axesColor;		///< color of the axes
 	QRgb gridColor;		///< color of the grid
 
-	uint borderThickness,	///< current line width for the border frame
-	     axesLineWidth,	///< current line width for the axes
-	     gridLineWidth,	///< current line width for the grid
-	     ticWidth,		///< current line width for the tics
-	     ticLength,		///< current length of the tic lines
+	double borderThickness;	///< current line width for the border frame in mm
+	double axesLineWidth;		///< current line width for the axes in mm
+	double gridLineWidth;		///< current line width for the grid in mm
+	double ticWidth;			///< current line width for the tics in mm
+	double ticLength;			///< current length of the tic lines in mm
 	//@}
-	     xclipflg,		///< clipflg is set to 1 if the plot is out of the plot aerea.
-	     yclipflg;		///< clipflg is set to 1 if the plot is out of the plot aerea.
+	bool xclipflg;	///< clipflg is set to 1 if the plot is out of the plot aerea.
+	bool yclipflg;	///< clipflg is set to 1 if the plot is out of the plot aerea.
 
          
 private:
@@ -140,6 +142,8 @@ private:
 	
 	QRect PlotArea;	///< plot area
 	QRect m_frame;	///< frame around the plot
+	
+	View * view; ///< Pointer to parent View
 };
 
 #endif // diagr_included

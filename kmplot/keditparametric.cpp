@@ -71,7 +71,7 @@ void KEditParametric::clearWidgets()
 	m_editParametric->customMinRange->setChecked( false );
 	m_editParametric->min->clear();
 	m_editParametric->max->clear();
-	m_editParametric->kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
+	m_editParametric->lineWidth->setValue( m_parser->linewidth0 );
 	m_editParametric->kColorButtonColor->setColor( m_parser->defaultColor(m_parser->getNextIndex() ) );
 }
 
@@ -104,7 +104,7 @@ void KEditParametric::setWidgets()
 	else
 		m_editParametric->customMaxRange->setChecked(false);
 	
-	m_editParametric->kIntNumInputLineWidth->setValue( ufkt->linewidth );
+	m_editParametric->lineWidth->setValue( ufkt->linewidth );
 	m_editParametric->kColorButtonColor->setColor( ufkt->color );
 }
 
@@ -168,7 +168,7 @@ void KEditParametric::accept()
 	else
 		tmp_ufkt.usecustomxmax = false;
 	
-	tmp_ufkt.linewidth = m_editParametric->kIntNumInputLineWidth->value();
+	tmp_ufkt.linewidth = m_editParametric->lineWidth->value();
 	tmp_ufkt.color = m_editParametric->kColorButtonColor->color().rgb();
 	tmp_ufkt.f1_color = tmp_ufkt.f2_color = tmp_ufkt.integral_color = tmp_ufkt.color;
 	tmp_ufkt.integral_mode = 0;
@@ -214,6 +214,7 @@ void KEditParametric::accept()
         }
 	
         //save all settings in the function now when we know no errors have appeared
+		/// \todo wouldn't it be quicked just to do *add_ufkt = tmp_ufkt ? - David
         added_ufkt->f_mode = tmp_ufkt.f_mode;
         added_ufkt->f1_mode = tmp_ufkt.f1_mode;
         added_ufkt->f2_mode = tmp_ufkt.f2_mode;
@@ -273,6 +274,7 @@ void KEditParametric::accept()
         }
         
         //save all settings in the function now when we now no errors have appeared
+		/// \todo wouldn't it be quicked just to do *add_ufkt = tmp_ufkt ? - David
         added_ufkt->f_mode = tmp_ufkt.f_mode;
         added_ufkt->f1_mode = tmp_ufkt.f1_mode;
         added_ufkt->f2_mode = tmp_ufkt.f2_mode;

@@ -138,7 +138,7 @@ class Ufkt
 		f2_mode,///< \a f2_mode == 1.  draw the 2nd derivative, too.
 		integral_mode, ///< \a f2_mode == 1.  draw the integral, too.
 		integral_use_precision; ///< The user can specify an unic precision for numeric prime-functions
-		int linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width.
+		double linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width in mm.
 		/** Number of parameter values. 
 		* @see FktExt::k_liste */
 		QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.

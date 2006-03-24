@@ -62,12 +62,25 @@
 #include "View.h"
 #include "View.moc"
 
+// other includes
+#include <assert.h>
+#include <cmath>
+
 //minimum and maximum x range. Should always be accessible.
 double View::xmin = 0;
 double View::xmax = 0;
 
 
-View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection *ac, const char* name ) : DCOPObject("View"), QWidget( parent, name , Qt::WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient()), m_ac(ac)
+View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection *ac, const char* name )
+	: DCOPObject("View"),
+	  QWidget( parent, name , Qt::WStaticContents ),
+	  dgr(this),
+	  buffer( width(), height() ),
+	  m_popupmenu(p),
+	  m_modified(mo),
+	  m_readonly(r),
+	  m_dcop_client(KApplication::kApplication()->dcopClient()),
+	  m_ac(ac)
 {
 	csmode = csparam = -1;
 	cstype = 0;
@@ -127,7 +140,6 @@ void View::draw(QPaintDevice *dev, int form)
 	QRect rc;
 	QPainter DC;    // our painter
 	DC.begin(dev);    // start painting widget
-// 	DC.setRenderHint( QPainter::Antialiasing );
 	rc=DC.viewport();
 	w=rc.width();
 	h=rc.height();
@@ -192,11 +204,11 @@ void View::draw(QPaintDevice *dev, int form)
 		s=1.;
 	}
 
-	dgr.borderThickness=(uint)(4*s);
-	dgr.axesLineWidth = (uint)( Settings::axesLineWidth()*s );
-	dgr.gridLineWidth = (uint)( Settings::gridLineWidth()*s );
-	dgr.ticWidth = (uint)( Settings::ticWidth()*s );
-	dgr.ticLength = (uint)( Settings::ticLength() );
+	dgr.borderThickness = 0.4;
+	dgr.axesLineWidth = Settings::axesLineWidth();
+	dgr.gridLineWidth = Settings::gridLineWidth();
+	dgr.ticWidth = Settings::ticWidth();
+	dgr.ticLength = Settings::ticLength();
 	dgr.axesColor = Settings::axesColor().rgb();
 	dgr.gridColor=Settings::gridColor().rgb();
 	dgr.Skal( tlgx, tlgy );
@@ -209,7 +221,9 @@ void View::draw(QPaintDevice *dev, int form)
 			return;
 	}
 
+	DC.setRenderHint( QPainter::Antialiasing, true );
 	dgr.Plot(&DC);
+	
 	PlotArea=dgr.GetPlotArea();
 	area=DC.xForm(PlotArea);
 	stepWidth=Settings::stepWidth();
@@ -217,6 +231,11 @@ void View::draw(QPaintDevice *dev, int form)
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
 	stop_calculating = false;
+	
+	// Antialiasing is *not* used for drawing the plots, as lines (of a shallow gradient)
+	// drawn one pixel at a time with antialiasing turned on do not look smooth -
+	// instead, they look like a pixelated line that has been blurred.
+	DC.setRenderHint( QPainter::Antialiasing, false );
 	for(QVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
 		if ( !ufkt->fname.isEmpty() )
 			plotfkt(ufkt, &DC);
@@ -233,8 +252,6 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	int iy, k, ke, mflg;
 	double x, y, dmin, dmax;
 	QPointF p1, p2;
-	QPen pen;
-	pen.setCapStyle(Qt::RoundCap);
 	iy=0;
 	y=0.0;
 
@@ -272,23 +289,13 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 
 	if(fktmode=='x')
 		iy = m_parser->ixValue(ufkt->id)+1;
+	
 	p_mode=0;
-	
-	/// \todo ensure that this line width setting works for mediums other than screen
-	pen.setWidth((int)(ufkt->linewidth) );
-	if ( (ufkt->linewidth * s) < 1 )
-	{
-		// this checks that the pen width *after* transformation by QPainter is at least one pixel
-		// (a pen width of 0 is one pixel; but if the pen width is non-zero, then after scaling by s,
-		// the width could end up between 0 and 1 - resulting in a dotty line when drawing on the screen).
-		pen.setWidth( 0 );
-	}
-	
-	pen.setColor(ufkt->color);
-	pDC->setPen(pen);
 
 	while(1)
 	{
+		pDC->setPen( penForPlot( ufkt, p_mode, pDC->renderHints() & QPainter::Antialiasing ) );
+		
 		k=0;
 		ke=ufkt->parameters.count();
 		do
@@ -424,33 +431,79 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		}
 		while(++k<ke);
 
-		if(ufkt->f1_mode==1 && p_mode< 1) //draw the 1st derivative
-		{
-			p_mode=1;
-			pen.setWidth((int)(ufkt->f1_linewidth*s) );
-			pen.setColor(ufkt->f1_color);
-			pDC->setPen(pen);
-		}
-		else if(ufkt->f2_mode==1 && p_mode< 2) //draw the 2nd derivative
-		{
-			p_mode=2;
-			pen.setWidth((int)(ufkt->f2_linewidth*s) );
-			pen.setColor(ufkt->f2_color);
-			pDC->setPen(pen);
-		}
-		else if( ufkt->integral_mode==1 && p_mode< 3) //draw the integral
-		{
-			p_mode=3;
-			pen.setWidth((int)(ufkt->integral_linewidth*s) );
-			pen.setColor(ufkt->integral_color);
-			pDC->setPen(pen);
-		}
-		else break; //otherwise stop
+		// Advance to the next appropriate p_mode
+		if (ufkt->f1_mode==1 && p_mode< 1)
+			p_mode=1; //draw the 1st derivative
+		else if(ufkt->f2_mode==1 && p_mode< 2)
+			p_mode=2; //draw the 2nd derivative
+		else if( ufkt->integral_mode==1 && p_mode< 3)
+			p_mode=3; //draw the integral
+		else
+			break; // no derivatives or integrals left to draw
 	}
 	if ( stopProgressBar() )
 		if( stop_calculating)
 			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
 }
+
+
+QPen View::penForPlot( Ufkt *ufkt, int p_mode, bool antialias ) const
+{
+	QPen pen;
+	pen.setCapStyle(Qt::RoundCap);
+	pen.setColor(ufkt->color);
+	
+	double lineWidth_mm;
+	
+	switch ( p_mode )
+	{
+		case 0:
+			lineWidth_mm = ufkt->linewidth;
+			break;
+		case 1:
+			lineWidth_mm = ufkt->f1_linewidth;
+			break;
+		case 2:
+			lineWidth_mm = ufkt->f2_linewidth;
+			break;
+		case 3:
+			lineWidth_mm = ufkt->integral_linewidth;
+			break;
+		default:
+			assert( !"Unknown p_mode" );
+	}
+	
+	double width = mmToPenWidth( lineWidth_mm, antialias );
+	if ( (width*s < 3) && !antialias )
+	{
+		// Plots in general are curvy lines - so if a plot is drawn with a QPen
+		// of width 1 or 2, then we will get a patchy, twinkling line. So set
+		// the width to zero (i.e. a cosmetic pen).
+		width = 0;
+	}
+	
+	pen.setWidthF( width );
+	
+	return pen;
+}
+
+
+double View::mmToPenWidth( double width_mm, bool antialias ) const
+{
+	/// \todo ensure that this line width setting works for mediums other than screen
+	
+	double w = width_mm*10.0;
+	if ( !antialias )
+	{
+		// To avoid a twinkling, patchy line, have to adjust the pen width
+		// so that after scaling by QPainter (by a factor of s), it is of an
+		// integer width.
+		w = std::floor(w*s)/s;
+	}
+	
+	return w;
+}
+
 
 void View::drawHeaderTable(QPainter *pDC)
 {

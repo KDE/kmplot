@@ -7,10 +7,10 @@
 	<kcfgfile name="kmplotrc"/> 
 	
 	<group name="Coordinate System"> 
-		<entry name="AxesLineWidth" type="Int"> 
+		<entry name="AxesLineWidth" type="Double"> 
 			<label>Axis-line width</label>
 			<whatsthis>Enter the width of the axis lines.</whatsthis>
-			<default>5</default>
+			<default>0.5</default>
 		</entry> 
 		<entry name="ShowLabel" type="Bool"> 
 			<label>Checked if labels are visible</label>
@@ -27,10 +27,10 @@
 			<whatsthis>Check this box if axes should have arrows.</whatsthis>
 			<default>true</default>
 		</entry> 
-		<entry name="GridLineWidth" type="Int">
+		<entry name="GridLineWidth" type="Double">
 			<label>Grid Line Width</label>
 			<whatsthis>Enter the width of the grid lines.</whatsthis>
-			<default>1</default>
+			<default>0.1</default>
 		</entry>
 		<entry name="GridStyle" type="Int">
 			<label>Grid Style</label>
@@ -47,20 +47,20 @@
 			<whatsthis>Check this box if an extra frame should be drawn around the plot area.</whatsthis>
 			<default>true</default>
 		</entry> 
-		<entry name="TicLength" type="Int">
+		<entry name="TicLength" type="Double">
 			<label>Tic length</label>
 			<whatsthis>Enter the length of the tic lines</whatsthis>
-			<default>10</default>
+			<default>1.0</default>
 		</entry> 
-		<entry name="TicWidth" type="Int"> 
+		<entry name="TicWidth" type="Double"> 
 			<label>Tic width</label>
 			<whatsthis>Enter the width of the tic lines.</whatsthis>
-			<default>1</default>
+			<default>0.1</default>
 		</entry> 
-		<entry name="PlotLineWidth" type="Int"> 
+		<entry name="PlotLineWidth" type="Double"> 
 			<label>Plot-line width</label>
 			<whatsthis>Enter the width of the plot line.</whatsthis>
-			<default>5</default>
+			<default>0.5</default>
 		</entry> 
 		<entry name="XRange" type="Int"> 
 			<label>Predefined x-axis range</label>

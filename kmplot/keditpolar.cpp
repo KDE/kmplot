@@ -69,7 +69,7 @@ void KEditPolar::clearWidgets()
 	m_editPolar->customMaxRange->setChecked(false);
 	m_editPolar->min->clear();
 	m_editPolar->max->clear();
-	m_editPolar->kIntNumInputLineWidth->setValue( m_parser->linewidth0 );
+	m_editPolar->lineWidth->setValue( m_parser->linewidth0 );
 	m_editPolar->kColorButtonColor->setColor( m_parser->defaultColor(m_parser->getNextIndex() ) );
 }
 
@@ -96,7 +96,7 @@ void KEditPolar::setWidgets()
 	else
 		m_editPolar->customMaxRange->setChecked(false);
 	
-	m_editPolar->kIntNumInputLineWidth->setValue( ufkt->linewidth );
+	m_editPolar->lineWidth->setValue( ufkt->linewidth );
 	m_editPolar->kColorButtonColor->setColor( ufkt->color );
 }
 
@@ -151,7 +151,7 @@ void KEditPolar::accept()
 	tmp_ufkt.f1_mode = 0;
 	tmp_ufkt.f2_mode = 0;
 	tmp_ufkt.integral_mode = 0;
-	tmp_ufkt.linewidth = m_editPolar->kIntNumInputLineWidth->value();
+	tmp_ufkt.linewidth = m_editPolar->lineWidth->value();
 	tmp_ufkt.color = m_editPolar->kColorButtonColor->color().rgb();
 	tmp_ufkt.use_slider = -1;
         
@@ -193,6 +193,7 @@ void KEditPolar::accept()
                 added_ufkt =  &m_parser->ufkt.last();
         }
 	//save all settings in the function now when we know no errors have appeared
+	/// \todo wouldn't it be quicked just to do *add_ufkt = tmp_ufkt ? - David
 	added_ufkt->f_mode = tmp_ufkt.f_mode;
 	added_ufkt->f1_mode = tmp_ufkt.f1_mode;
 	added_ufkt->f2_mode = tmp_ufkt.f2_mode;

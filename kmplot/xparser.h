@@ -53,9 +53,9 @@ public:
         /// calculate euler's method when drawing a numeric prime-function
         double euler_method(const double, const QVector<Ufkt>::iterator);
         
-        /// Line width default
-        int linewidth0;
-        QRgb defaultColor(int function);
+	/// Line width default
+	double linewidth0;
+	QRgb defaultColor(int function);
 	
 	enum { Function, Polar, ParametricX, ParametricY }; ///types of functions
 	///Returns an unused function name if it is needed
@@ -104,22 +104,22 @@ public:
 	bool setFunctionIntColor(const QColor &color, uint id);
 	
 	/// Get the line width of a graph
-	int functionFLineWidth(uint id);
-	int functionF1LineWidth(uint id);
-	int functionF2LineWidth(uint id);
-	int functionIntLineWidth(uint id);
+	double functionFLineWidth(uint id);
+	double functionF1LineWidth(uint id);
+	double functionF2LineWidth(uint id);
+	double functionIntLineWidth(uint id);
 	/// Set the line width of a graph. Returns true if it succeeds, otherwise false.
-	bool setFunctionFLineWidth(int linewidth, uint id);
-	bool setFunctionF1LineWidth(int linewidth, uint id);
-	bool setFunctionF2LineWidth(int linewidth, uint id);
-	bool setFunctionIntLineWidth(int linewidth, uint id);
+	bool setFunctionFLineWidth(double linewidth, uint id);
+	bool setFunctionF1LineWidth(double linewidth, uint id);
+	bool setFunctionF2LineWidth(double linewidth, uint id);
+	bool setFunctionIntLineWidth(double linewidth, uint id);
 		
 	/// Returns the function's parameter list
 	QStringList functionParameterList(uint id);
 	bool functionAddParameter(const QString &new_parameter, uint id);
 	bool functionRemoveParameter(const QString &remove_parameter, uint id);
 	int addFunction(const QString &f_str);
-	bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider);
+	bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1linewidth, double f2linewidth, double integrallinewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider);
 	bool setFunctionExpression(const QString &f_str, uint id);
 	
 	/// Get the min and max value of a graph

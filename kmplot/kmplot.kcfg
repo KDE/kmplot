@@ -10,7 +10,7 @@
 		<entry name="AxesLineWidth" type="Double"> 
 			<label>Axis-line width</label>
 			<whatsthis>Enter the width of the axis lines.</whatsthis>
-			<default>0.5</default>
+			<default>0.3</default>
 		</entry> 
 		<entry name="ShowLabel" type="Bool"> 
 			<label>Checked if labels are visible</label>

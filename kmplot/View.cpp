@@ -204,7 +204,7 @@ void View::draw(QPaintDevice *dev, int form)
 		s=1.;
 	}
 
-	dgr.borderThickness = 0.4;
+	dgr.borderThickness = 0.2;
 	dgr.axesLineWidth = Settings::axesLineWidth();
 	dgr.gridLineWidth = Settings::gridLineWidth();
 	dgr.ticWidth = Settings::ticWidth();

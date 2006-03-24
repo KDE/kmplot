@@ -290,6 +290,9 @@ private:
 	QString m_statusbartext3;
 	QString m_statusbartext4;
 	KActionCollection *m_ac;
+	
+	enum Cursor { CursorWait, CursorBlank, CursorArrow, CursorCross, CursorMagnify, CursorLessen, CursorPointing };
+	Cursor m_prevCursor;
 };
 
 #endif // View_included

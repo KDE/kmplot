@@ -106,6 +106,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	isDrawing = false;
 	m_popupmenushown = 0;
 	zoom_mode = Normal;
+	m_prevCursor = CursorArrow;
 	
 	m_parser = new XParser(mo);
 	init();
@@ -2136,34 +2137,65 @@ void View::invertColor(QColor &org, QColor &inv)
 
 void View::updateCursor()
 {
+	Cursor newCursor;
+	
 	if ( isDrawing )
-		setCursor(Qt::WaitCursor );
+		newCursor = CursorWait;
 	
 	else switch (zoom_mode)
 	{
 		case Normal:
 			if ( shouldShowCrosshairs() )
-				setCursor(Qt::BlankCursor);
+				newCursor = CursorBlank;
 			else
-				setCursor(Qt::ArrowCursor);
+				newCursor = CursorArrow;
 			break;
 			
 		case Rectangular:
 		case DrawingRectangle:
-			setCursor(Qt::CrossCursor);
+			newCursor = CursorCross;
 			break;
 			
 		case ZoomIn:
-			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+			newCursor = CursorMagnify;
 			break;
 			
 		case ZoomOut:
-			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
+			newCursor = CursorLessen;
 			break;
 			
 		case Center:
-			setCursor(Qt::PointingHandCursor);
+			newCursor = CursorPointing;
 			break;
+	}
+	
+	if ( newCursor == m_prevCursor )
+		return;
+	m_prevCursor = newCursor;
+	
+	switch ( newCursor )
+	{
+		case CursorWait:
+			setCursor( Qt::WaitCursor );
+			break;
+		case CursorBlank:
+			setCursor( Qt::BlankCursor );
+			break;
+		case CursorArrow:
+			setCursor( Qt::ArrowCursor );
+			break;
+		case CursorCross:
+			setCursor( Qt::CrossCursor );
+			break;
+		case CursorMagnify:
+			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+			break;
+		case CursorLessen:
+			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
+			break;
+		case CursorPointing:
+			setCursor( Qt::PointingHandCursor );
+			
 	}
 }
 

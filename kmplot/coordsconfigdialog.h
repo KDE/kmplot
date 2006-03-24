@@ -28,9 +28,16 @@
 
 #include <kconfigdialog.h>
 
+#include "settingspagecoords.h"
 #include "xparser.h"
 
-class SettingsPageCoords;
+class SettingsPageCoords : public QWidget, public Ui::SettingsPageCoords
+{
+	public:
+		SettingsPageCoords( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
+};
 
 /**
 @author Fredrik Edemar
@@ -50,7 +57,7 @@ class CoordsConfigDialog : public KConfigDialog
 		bool evalY();
 		
 		Parser *m_parser;
-		SettingsPageCoords* configAxesDialog;
+		SettingsPageCoords * configAxesDialog;
 };
 
 #endif

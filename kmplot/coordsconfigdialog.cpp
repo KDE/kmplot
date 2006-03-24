@@ -29,13 +29,12 @@
 #include <qradiobutton.h>
 
 #include "settings.h"
-#include "settingspagecoords.h"
 #include "coordsconfigdialog.h"
 
 CoordsConfigDialog::CoordsConfigDialog(XParser *p, QWidget *parent)
 	: KConfigDialog(parent, "coords", Settings::self()), m_parser(p)
 {
-	configAxesDialog = new SettingsPageCoords( 0, "coordsSettings" );
+	configAxesDialog = new SettingsPageCoords( 0 );
 	addPage(configAxesDialog , i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) );
 	setHelp("axes-config");
 }

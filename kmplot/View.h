@@ -151,9 +151,17 @@ protected slots:
 	void mouseReleaseEvent ( QMouseEvent * e );
 	/// Is needed to be reimplement so that the user can stop a preview-drawing
 	bool event( QEvent * e );
+	/// Restore the mouse cursor when a drawing is finished
+	void updateCursor();
 
 signals:
 	void setStatusBarText(const QString &);
+	
+protected:
+	/// called when focus is lost
+	virtual void focusOutEvent( QFocusEvent * );
+	/// called when focus is gained
+	virtual void focusInEvent( QFocusEvent * );
 
 private:
 	/// Print out table with additional information.
@@ -169,14 +177,14 @@ private:
 	bool root(double *, Ufkt *);
 	///return the inverted color
 	void invertColor(QColor &, QColor &);
-	/// Restore the mouse cursor when a drawing is finished
-	void restoreCursor();
 	/// Changes the text in the statusbar
 	void setStatusBar(const QString &text, const int id);
 	/// Functions for the progressbar
 	bool stopProgressBar();
 	void startProgressBar(int);
 	void increaseProgressBar();
+	/// @return whether the crosshairs should be shown for the current mouse position
+	bool shouldShowCrosshairs() const;
 
 	/// The central parser instance.
 	/// @see parser()

@@ -30,6 +30,7 @@
 #include <qdatastream.h>
 #include <q3picture.h>
 #include <qslider.h>
+#include <qtimer.h>
 #include <qtooltip.h>
 #include <q3whatsthis.h>
 //Added by qt3to4:
@@ -229,7 +230,7 @@ void View::draw(QPaintDevice *dev, int form)
 	stepWidth=Settings::stepWidth();
 
 	isDrawing=true;
-	setCursor(Qt::WaitCursor );
+	updateCursor();
 	stop_calculating = false;
 	
 	// Antialiasing is *not* used for drawing the plots, as lines (of a shallow gradient)
@@ -241,7 +242,7 @@ void View::draw(QPaintDevice *dev, int form)
 			plotfkt(ufkt, &DC);
 
 	isDrawing=false;
-	restoreCursor();
+	updateCursor();
 	DC.end();   // painting done
 }
 
@@ -668,13 +669,13 @@ void View::paintEvent(QPaintEvent *)
 	}
 	else if ( zoom_mode == Normal )
 	{
-		Ufkt * it = 0l;
-		int const ix = m_parser->ixValue(csmode);
-		if ( ix != -1 )
-			it = &m_parser->ufkt[ix];
-		
-		if( area.contains( mousePos ) && (!it || csxposValid( it )) )        // Hintergrund speichern [background store?]
+		if ( shouldShowCrosshairs() )        // Hintergrund speichern [background store?]
 		{
+			Ufkt * it = 0l;
+			int const ix = m_parser->ixValue(csmode);
+			if ( ix != -1 )
+				it = &m_parser->ufkt[ix];
+			
 			// Fadenkreuz zeichnen [draw the cross-hair]
 			QPen pen;
 			if ( !it )
@@ -727,6 +728,20 @@ void View::drawPlot()
 	update();
 }
 
+void View::focusOutEvent( QFocusEvent * )
+{
+	// Redraw ourself to get rid of the crosshair (if we had it)...
+	QTimer::singleShot( 0, this, SLOT(update()) );
+	QTimer::singleShot( 0, this, SLOT(updateCursor()) );
+}
+
+void View::focusInEvent( QFocusEvent * )
+{
+	// Redraw ourself to get the crosshair (if we should have it)...
+	QTimer::singleShot( 0, this, SLOT(update()) );
+	QTimer::singleShot( 0, this, SLOT(updateCursor()) );
+}
+
 void View::mouseMoveEvent(QMouseEvent *e)
 {
 	if ( isDrawing)
@@ -734,6 +749,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	
 	// general case - need update when moving mouse over widget
 	update();
+	updateCursor();
 	
 	if ( zoom_mode!=Normal)
 	{
@@ -751,7 +767,6 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	
 	if ( !area.contains(e->pos()) && (e->button()!=Qt::LeftButton || e->state()!=Qt::LeftButton || csxpos<=xmin || csxpos>=xmax) )
 	{
-		setCursor(Qt::ArrowCursor);
 		setStatusBar("", 1);
 		setStatusBar("", 2);
 		return;
@@ -843,7 +858,6 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		sy.sprintf("  y= %+.2f", csypos);
 	}
 	
-	setCursor(Qt::BlankCursor);
 	setStatusBar(sx, 1);
 	setStatusBar(sy, 2);
 }
@@ -1323,7 +1337,7 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	}
 
 	isDrawing=true;
-	setCursor(Qt::WaitCursor );
+	updateCursor();
 
 	double dx;
 	if ( p_mode == 3)
@@ -1437,7 +1451,7 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	}
 	stopProgressBar();
 	isDrawing=false;
-	restoreCursor();
+	updateCursor();
 	
 	dmin = int(result_x*1000)/double(1000);
 	dmax = int(result_y*1000)/double(1000);
@@ -1506,7 +1520,7 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 
 		stop_calculating = false;
 		isDrawing=true;
-		setCursor(Qt::WaitCursor );
+		updateCursor();
 		bool target_found=false;
 		startProgressBar((int) double((dmax-dmin)/dx)/2);
 		x = ufkt->oldx = ufkt->startx; //the initial x-point
@@ -1544,7 +1558,7 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 		}
 		stopProgressBar();
 		isDrawing=false;
-		restoreCursor();
+		updateCursor();
 		break;
 	}
 }
@@ -1769,8 +1783,8 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	double const origoy = dgr.TransyToPixel(0.0);
 	double const rectwidth = dgr.TransxToPixel(dx)- dgr.TransxToPixel(0.0)+1;
 
-	setCursor(Qt::WaitCursor );
 	isDrawing=true;
+	updateCursor();
 
 	bool forward_direction;
 	if (dmin<0 && dmax<0)
@@ -1871,12 +1885,12 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		{
 			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
 			isDrawing=false;
-			restoreCursor();
+			updateCursor();
 			return;
 		}
 	}
 	isDrawing=false;
-	restoreCursor();
+	updateCursor();
 
 
 	areaUfkt = ufkt;
@@ -2063,30 +2077,30 @@ void View::mnuMove_clicked()
 
 void View::mnuNoZoom_clicked()
 {
-	setCursor(Qt::ArrowCursor);
 	zoom_mode = Normal;
+	updateCursor();
 }
 
 void View::mnuRectangular_clicked()
 {
-	setCursor(Qt::CrossCursor);
 	zoom_mode = Rectangular;
+	updateCursor();
 }
 void View::mnuZoomIn_clicked()
 {
-	setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
 	zoom_mode = ZoomIn;
+	updateCursor();
 }
 
 void View::mnuZoomOut_clicked()
 {
-	setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 	zoom_mode = ZoomOut;
+	updateCursor();
 }
 void View::mnuCenter_clicked()
 {
-	setCursor(Qt::PointingHandCursor);
 	zoom_mode = Center;
+	updateCursor();
 }
 void View::mnuTrig_clicked()
 {
@@ -2118,27 +2132,52 @@ void View::invertColor(QColor &org, QColor &inv)
 
 	inv.setRgb(r,g,b);
 }
-void View::restoreCursor()
+
+
+void View::updateCursor()
 {
-	switch (zoom_mode)
+	if ( isDrawing )
+		setCursor(Qt::WaitCursor );
+	
+	else switch (zoom_mode)
 	{
 		case Normal:
-			setCursor(Qt::ArrowCursor);
+			if ( shouldShowCrosshairs() )
+				setCursor(Qt::BlankCursor);
+			else
+				setCursor(Qt::ArrowCursor);
 			break;
+			
 		case Rectangular:
 		case DrawingRectangle:
 			setCursor(Qt::CrossCursor);
 			break;
+			
 		case ZoomIn:
 			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
 			break;
+			
 		case ZoomOut:
 			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 			break;
+			
 		case Center:
 			setCursor(Qt::PointingHandCursor);
 			break;
 	}
+}
+
+
+bool View::shouldShowCrosshairs() const
+{
+	Ufkt * it = 0l;
+	int const ix = m_parser->ixValue(csmode);
+	if ( ix != -1 )
+		it = &m_parser->ufkt[ix];
+	
+	QPoint mousePos = mapFromGlobal( QCursor::pos() );
+	
+	return ( underMouse() && area.contains( mousePos ) && (!it || csxposValid( it )) );
 }
 
 bool View::event( QEvent * e )

@@ -44,33 +44,44 @@
 class ParameterValueList;
 
 KParameterEditor::KParameterEditor(XParser *m, QList<ParameterValueItem> *l, QWidget *parent, const char *name)
-	: QParameterEditor(parent,name, true, Qt::WDestructiveClose), m_parameter(l), m_parser(m)
+	: KDialog( parent, i18n("Parameter Editor"), Ok ),
+	  m_parameter(l),
+	  m_parser(m)
 {
-	for (  QList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
-		list->insertItem( (*it).expression );
-	list->sort();
+	m_mainWidget = new QParameterEditor( this );
+	setMainWidget( m_mainWidget );
 	
-	connect( cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
-	connect( cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ));
-	connect( cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
-	connect( cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
-	connect( cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
-	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
-	connect( list, SIGNAL( doubleClicked( Q3ListBoxItem * ) ), this, SLOT( varlist_doubleClicked( Q3ListBoxItem *) ));
-	connect( list, SIGNAL( clicked ( Q3ListBoxItem * ) ), this, SLOT( varlist_clicked(Q3ListBoxItem *  ) ));
+	for (  QList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
+		m_mainWidget->list->insertItem( (*it).expression );
+	m_mainWidget->list->sort();
+	
+	connect( m_mainWidget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
+	connect( m_mainWidget->cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ));
+	connect( m_mainWidget->cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
+	connect( m_mainWidget->cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
+	connect( m_mainWidget->cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
+	connect( m_mainWidget->list, SIGNAL( doubleClicked( Q3ListBoxItem * ) ), this, SLOT( varlist_doubleClicked( Q3ListBoxItem *) ));
+	connect( m_mainWidget->list, SIGNAL( clicked ( Q3ListBoxItem * ) ), this, SLOT( varlist_clicked(Q3ListBoxItem *  ) ));
 	
 }
 
 KParameterEditor::~KParameterEditor()
 {
+}
+
+void KParameterEditor::accept()
+{
+	kDebug() << "saving\n";
 	m_parameter->clear();
 	QString item_text;
-	for (int i = 0; (uint)i <= list->count();i++)
+	for (int i = 0; (uint)i <= m_mainWidget->list->count();i++)
 	{
-		item_text = list->text(i);
+		item_text = m_mainWidget->list->text(i);
 		if ( !item_text.isEmpty() )
 			m_parameter->append( ParameterValueItem(item_text, m_parser->eval( item_text)) );
 	}
+	
+	KDialog::accept();
 }
 
 void KParameterEditor::cmdNew_clicked()
@@ -93,15 +104,15 @@ void KParameterEditor::cmdNew_clicked()
 			KMessageBox::error(0,i18n("The value %1 already exists and will therefore not be added.").arg(result));
 			continue;
 		}
-		list->insertItem(result);
-		list->sort();
+		m_mainWidget->list->insertItem(result);
+		m_mainWidget->list->sort();
 		break;
 	}
 }
 
 void KParameterEditor::cmdEdit_clicked()
 {
-	QString result=list->currentText();
+	QString result=m_mainWidget->list->currentText();
 	while (1)
 	{
 		bool ok;
@@ -116,21 +127,21 @@ void KParameterEditor::cmdEdit_clicked()
 		}
 		if ( checkTwoOfIt(result) )
 		{
-			if( result != list->currentText() )
+			if( result != m_mainWidget->list->currentText() )
 				KMessageBox::error(0,i18n("The value %1 already exists.").arg(result));
 			continue;
 		}
-		list->removeItem( list->currentItem());
-		list->insertItem(result);
-		list->sort();
+		m_mainWidget->list->removeItem( m_mainWidget->list->currentItem());
+		m_mainWidget->list->insertItem(result);
+		m_mainWidget->list->sort();
 		break;
 	}
 }
 
 void KParameterEditor::cmdDelete_clicked()
 {
-	list->removeItem( list->currentItem());
-	list->sort();
+	m_mainWidget->list->removeItem( m_mainWidget->list->currentItem());
+	m_mainWidget->list->sort();
 }
 
 void KParameterEditor::cmdImport_clicked()
@@ -174,8 +185,8 @@ void KParameterEditor::cmdImport_clicked()
 			{
 				if ( !checkTwoOfIt(line) )
 				{
-					list->insertItem(line);
-					list->sort();
+					m_mainWidget->list->insertItem(line);
+					m_mainWidget->list->sort();
 				}
 			}
 			else if ( !verbose)
@@ -201,7 +212,7 @@ void KParameterEditor::cmdImport_clicked()
 
 void KParameterEditor::cmdExport_clicked()
 {
-        if ( !list->count() )
+	if ( !m_mainWidget->list->count() )
                 return;
         KUrl url = KFileDialog::getSaveURL( QString(),i18n("*.txt|Plain Text File "));
         if ( url.isEmpty() )
@@ -219,7 +230,7 @@ void KParameterEditor::cmdExport_clicked()
                         if (file.open( QIODevice::WriteOnly ) )
                         {
                                 QTextStream stream(&file);
-                                Q3ListBoxItem *it = list->firstItem();
+								Q3ListBoxItem *it = m_mainWidget->list->firstItem();
                                 while ( 1 )
                                 {
                                         stream << it->text();
@@ -248,7 +259,7 @@ void KParameterEditor::cmdExport_clicked()
                         if (file.open( QIODevice::WriteOnly ) )
                         {
                                 QTextStream stream(&file);
-                                Q3ListBoxItem *it = list->firstItem();
+								Q3ListBoxItem *it = m_mainWidget->list->firstItem();
                                 while ( 1 )
                                 {
                                         stream << it->text();
@@ -272,13 +283,13 @@ void KParameterEditor::varlist_clicked( Q3ListBoxItem * item )
 {
 	if (item)
 	{
-		cmdEdit->setEnabled(true);
-		cmdDelete->setEnabled(true);
+		m_mainWidget->cmdEdit->setEnabled(true);
+		m_mainWidget->cmdDelete->setEnabled(true);
 	}
 	else
 	{
-		cmdEdit->setEnabled(false);
-		cmdDelete->setEnabled(false);		
+		m_mainWidget->cmdEdit->setEnabled(false);
+		m_mainWidget->cmdDelete->setEnabled(false);		
 	}
 }
 
@@ -290,7 +301,7 @@ void KParameterEditor::varlist_doubleClicked( Q3ListBoxItem * )
 
 bool KParameterEditor::checkTwoOfIt(const QString & text)
 {
-	if ( list->findItem(text,Q3ListView::ExactMatch) == 0)
+	if ( m_mainWidget->list->findItem(text,Q3ListView::ExactMatch) == 0)
 		return false;
 	else
 		return true;

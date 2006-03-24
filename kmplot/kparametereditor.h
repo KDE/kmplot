@@ -32,12 +32,13 @@
 #include "xparser.h"
 
 class ParameterValueList;
+class QParameterEditor;
 
 /**
 @author Fredrik Edemar
 */
 /// This class handles the parameter values: it can create, remove, edit and import values.
-class KParameterEditor : public QParameterEditor
+class KParameterEditor : public KDialog
 {
 Q_OBJECT
 public:
@@ -52,6 +53,8 @@ public slots:
     void cmdExport_clicked();
     void varlist_clicked( Q3ListBoxItem *  );
     void varlist_doubleClicked( Q3ListBoxItem * );
+	
+	virtual void accept();
   
     
 private:
@@ -59,6 +62,15 @@ private:
     bool checkTwoOfIt( const QString & text);
     QList<ParameterValueItem> *m_parameter;
     XParser *m_parser;
+	QParameterEditor * m_mainWidget;
+};
+
+class QParameterEditor : public QWidget, public Ui::QParameterEditor
+{
+	public:
+		QParameterEditor( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
 };
 
 #endif

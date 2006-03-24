@@ -1,185 +1,155 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>QParameterEditor</class>
-<widget class="QDialog">
-    <property name="name">
-        <cstring>QParameterEditor</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>395</width>
-            <height>339</height>
-        </rect>
-    </property>
-    <property name="windowTitle">
-        <string>Parameter Editor</string>
-    </property>
-    <property name="modal">
-        <bool>true</bool>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <widget class="QFrame" row="0" column="0">
-            <property name="name">
-                <cstring>frame3</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>StyledPanel</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Raised</enum>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KPushButton" row="1" column="1">
-                    <property name="name">
-                        <cstring>cmdEdit</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Change Value...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Change the value of a user-defined constant</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to edit the value of the selected constant. Its name cannot be changed.</string>
-                    </property>
-                </widget>
-                <widget class="KListBox" row="0" column="0" rowspan="8" colspan="1">
-                    <property name="name">
-                        <cstring>list</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>list of parameter values</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Here you see the list of all parameter values for the function.</string>
-                    </property>
-                </widget>
-                <widget class="KPushButton" row="0" column="1">
-                    <property name="name">
-                        <cstring>cmdNew</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;New...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Add a new constant</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click this button to add a new constant.</string>
-                    </property>
-                </widget>
-                <widget class="KPushButton" row="7" column="1">
-                    <property name="name">
-                        <cstring>cmdClose</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Close</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Close the dialog</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Close the window and return to the function dialog.</string>
-                    </property>
-                </widget>
-                <widget class="KPushButton" row="2" column="1">
-                    <property name="name">
-                        <cstring>cmdDelete</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Delete</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>delete selected constant</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
-                    </property>
-                </widget>
-                <spacer row="6" column="1">
-                    <property name="name">
-                        <cstring>spacer2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>80</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="KPushButton" row="5" column="1">
-                    <property name="name">
-                        <cstring>cmdExport</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>true</bool>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Export...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Export values to a textfile</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Export values to a textfile. Every value in the parameter list will be written to one line in the file.</string>
-                    </property>
-                </widget>
-                <spacer row="3" column="1">
-                    <property name="name">
-                        <cstring>spacer2_2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>21</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="KPushButton" row="4" column="1">
-                    <property name="name">
-                        <cstring>cmdImport</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>true</bool>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Import...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>Import values from a textfile</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Import values from a textfile. Every line in the file is parsed as a value or expression.</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-    </grid>
-</widget>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>QParameterEditor</class>
+ <widget class="QWidget" name="QParameterEditor" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>403</width>
+    <height>255</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Parameter Editor</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item rowspan="8" row="0" column="0" >
+    <widget class="KListBox" name="list" >
+     <property name="minimumSize" >
+      <size>
+       <width>250</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="toolTip" >
+      <string>list of parameter values</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Here you see the list of all parameter values for the function.</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" >
+    <widget class="KPushButton" name="cmdExport" >
+     <property name="enabled" >
+      <bool>true</bool>
+     </property>
+     <property name="toolTip" >
+      <string>Export values to a textfile</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Export values to a textfile. Every value in the parameter list will be written to one line in the file.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;Export...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1" >
+    <widget class="KPushButton" name="cmdImport" >
+     <property name="enabled" >
+      <bool>true</bool>
+     </property>
+     <property name="toolTip" >
+      <string>Import values from a textfile</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Import values from a textfile. Every line in the file is parsed as a value or expression.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;Import...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>129</width>
+       <height>16</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1" >
+    <widget class="KPushButton" name="cmdDelete" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="toolTip" >
+      <string>delete selected constant</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;Delete</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <widget class="KPushButton" name="cmdNew" >
+     <property name="toolTip" >
+      <string>Add a new constant</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click this button to add a new constant.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;New...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <widget class="KPushButton" name="cmdEdit" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="toolTip" >
+      <string>Change the value of a user-defined constant</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click here to edit the value of the selected constant. Its name cannot be changed.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;Change Value...</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KListBox</class>
+   <extends></extends>
+   <header>klistbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

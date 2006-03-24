@@ -39,14 +39,18 @@
 #include "xparser.h"
 
 KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
-	: QMinMax(parent, name), m_view(v)
+	: KDialog( parent, i18n("Find Minimum Point") ),
+	  m_view(v)
 {
+	m_mainWidget = new QMinMax( this );
+	setMainWidget( m_mainWidget );
+	
 	m_mode=-1;
-	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
-	connect( cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));
-	connect( cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
-	connect( list, SIGNAL( highlighted(Q3ListBoxItem*) ), this, SLOT( list_highlighted(Q3ListBoxItem*) ));
-	connect( list, SIGNAL( doubleClicked( Q3ListBoxItem * ) ), this, SLOT( list_doubleClicked(Q3ListBoxItem *) ));
+	connect( m_mainWidget->cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
+	connect( m_mainWidget->cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));
+	connect( m_mainWidget->cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
+	connect( m_mainWidget->list, SIGNAL( highlighted(Q3ListBoxItem*) ), this, SLOT( list_highlighted(Q3ListBoxItem*) ));
+	connect( m_mainWidget->list, SIGNAL( doubleClicked( Q3ListBoxItem * ) ), this, SLOT( list_doubleClicked(Q3ListBoxItem *) ));
 	parameter="";
 }
 
@@ -56,7 +60,7 @@ void KMinMax::init(char m)
 	if ( m_mode==m)
 	{
 		if ( m_mode == 2) //get y-value
-			max->setText("");
+			m_mainWidget->max->setText("");
 		updateFunctions();
 		return;
 	}
@@ -64,88 +68,88 @@ void KMinMax::init(char m)
 	m_mode = m;
 	if ( m_mode < 2) //find minimum point
 	{
-		max->setReadOnly(false);
+		m_mainWidget->max->setReadOnly(false);
 		QString range;
 		range.setNum(View::xmin);
-		min->setText( range);
+		m_mainWidget->min->setText( range);
 		range.setNum(View::xmax);
-		max->setText(range);
-		lblMin->setText(i18n("Search between the x-value:"));
-		lblMax->setText(i18n("and:"));
-		cmdFind->setText(i18n("&Find"));
-		min->setToolTip(i18n("Lower boundary of the plot range"));
-		min->setWhatsThis(i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
-		max->setToolTip(i18n("Upper boundary of the plot range"));
-		max->setWhatsThis(i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		m_mainWidget->max->setText(range);
+		m_mainWidget->lblMin->setText(i18n("Search between the x-value:"));
+		m_mainWidget->lblMax->setText(i18n("and:"));
+		m_mainWidget->cmdFind->setText(i18n("&Find"));
+		m_mainWidget->min->setToolTip(i18n("Lower boundary of the plot range"));
+		m_mainWidget->min->setWhatsThis(i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		m_mainWidget->max->setToolTip(i18n("Upper boundary of the plot range"));
+		m_mainWidget->max->setWhatsThis(i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
 		if ( m_mode == 1) //find maximum point
 		{
 			setCaption(i18n("Find Maximum Point"));
-			cmdFind->setToolTip( i18n( "Search for the maximum point in the range you specified" ) );
-			cmdFind->setWhatsThis(i18n("Search for the highest y-value in the x-range you specified and show the result in a message box."));
+			m_mainWidget->cmdFind->setToolTip( i18n( "Search for the maximum point in the range you specified" ) );
+			m_mainWidget->cmdFind->setWhatsThis(i18n("Search for the highest y-value in the x-range you specified and show the result in a message box."));
 		}
 		else
 		{
 			setCaption(i18n("Find Minimum Point"));
-			cmdFind->setToolTip( i18n( "Search for the minimum point in the range you specified" ) );
-			cmdFind->setWhatsThis(i18n("Search for the lowest y-value in the x-range you specified and show the result in a message box."));
+			m_mainWidget->cmdFind->setToolTip( i18n( "Search for the minimum point in the range you specified" ) );
+			m_mainWidget->cmdFind->setWhatsThis(i18n("Search for the lowest y-value in the x-range you specified and show the result in a message box."));
 		}
 	}
 	else if ( m_mode == 2) //get y-value
 	{
 		setCaption(i18n("Get y-Value"));
-		lblMin->setText(i18n("X:"));
-		lblMax->setText(i18n("Y:"));
-		max->setReadOnly(true);
-		min->setText("");
-		max->setText("");
-		min->setToolTip(i18n("Lower boundary of the plot range"));
-		min->setWhatsThis(i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
-		max->setToolTip(i18n("No returned y-value yet"));
-		max->setWhatsThis(i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
+		m_mainWidget->lblMin->setText(i18n("X:"));
+		m_mainWidget->lblMax->setText(i18n("Y:"));
+		m_mainWidget->max->setReadOnly(true);
+		m_mainWidget->min->setText("");
+		m_mainWidget->max->setText("");
+		m_mainWidget->min->setToolTip(i18n("Lower boundary of the plot range"));
+		m_mainWidget->min->setWhatsThis(i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		m_mainWidget->max->setToolTip(i18n("No returned y-value yet"));
+		m_mainWidget->max->setWhatsThis(i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
 		
-		cmdFind->setText(i18n("&Calculate"));
-		cmdFind->setToolTip( i18n( "Get the y-value from the x-value you typed" ) );
-		cmdFind->setWhatsThis(i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
+		m_mainWidget->cmdFind->setText(i18n("&Calculate"));
+		m_mainWidget->cmdFind->setToolTip( i18n( "Get the y-value from the x-value you typed" ) );
+		m_mainWidget->cmdFind->setWhatsThis(i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
 
 	}
 	else if ( m_mode == 3) //area under a graph
 	{
-		max->setReadOnly(false);
+		m_mainWidget->max->setReadOnly(false);
 		QString range;
 		range.setNum(View::xmin);
-		min->setText( range);
+		m_mainWidget->min->setText( range);
 		range.setNum(View::xmax);
-		max->setText(range);
-		min->setToolTip(i18n("Lower boundary of the plot range"));
-		min->setWhatsThis(i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
-		max->setToolTip(i18n("Upper boundary of the plot range"));
-		max->setWhatsThis(i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		m_mainWidget->max->setText(range);
+		m_mainWidget->min->setToolTip(i18n("Lower boundary of the plot range"));
+		m_mainWidget->min->setWhatsThis(i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		m_mainWidget->max->setToolTip(i18n("Upper boundary of the plot range"));
+		m_mainWidget->max->setWhatsThis(i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
 		setCaption(i18n("Area Under Graph"));
-		lblMin->setText(i18n("Draw the area between the x-values:"));
-		lblMax->setText(i18n("and:"));
-		cmdFind->setText(i18n("&Draw"));
-		cmdFind->setToolTip( i18n( "Draw the area between the function and the y-axis" ) );
-		cmdFind->setWhatsThis(i18n("Draw the area between the function and the y-axis and show the area in a message box."));
+		m_mainWidget->lblMin->setText(i18n("Draw the area between the x-values:"));
+		m_mainWidget->lblMax->setText(i18n("and:"));
+		m_mainWidget->cmdFind->setText(i18n("&Draw"));
+		m_mainWidget->cmdFind->setToolTip( i18n( "Draw the area between the function and the y-axis" ) );
+		m_mainWidget->cmdFind->setWhatsThis(i18n("Draw the area between the function and the y-axis and show the area in a message box."));
 		
 	}
 
-	min->setFocus();
+	m_mainWidget->min->setFocus();
 	updateFunctions();
 }
 
 void KMinMax::updateFunctions()
 {
-	QString const selected_item(list->currentText() );
-	list->clear();
+	QString const selected_item(m_mainWidget->list->currentText() );
+	m_mainWidget->list->clear();
 
         for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r' && !it->fname.isEmpty())
 		{
 			if ( it->f_mode )
-				list->insertItem(it->fstr);
+				m_mainWidget->list->insertItem(it->fstr);
 
 			if ( it->f1_mode ) //1st derivative
 			{
@@ -153,7 +157,7 @@ void KMinMax::updateFunctions()
 				int i= function.find('(');
 				function.truncate(i);
 				function +="\'";
-				list->insertItem(function );
+				m_mainWidget->list->insertItem(function );
 			}
 			if ( it->f2_mode )//2nd derivative
 			{
@@ -161,7 +165,7 @@ void KMinMax::updateFunctions()
 				int i= function.find('(');
 				function.truncate(i);
 				function +="\'\'";
-				list->insertItem(function );
+				m_mainWidget->list->insertItem(function );
 			}
 			if ( it->integral_mode )//integral
 			{
@@ -169,24 +173,24 @@ void KMinMax::updateFunctions()
 				int i= function.find('(');
 				function.truncate(i);
 				function = function.upper();
-				list->insertItem(function );
+				m_mainWidget->list->insertItem(function );
 			}
 		}
 	}
-	list->sort();
-	if (list->count()==0) //empty list
-		cmdFind->setEnabled(false);
+	m_mainWidget->list->sort();
+	if (m_mainWidget->list->count()==0) //empty m_mainWidget->list
+		m_mainWidget->cmdFind->setEnabled(false);
 	else
-		cmdFind->setEnabled(true);
+		m_mainWidget->cmdFind->setEnabled(true);
 	selectItem();
-	Q3ListBoxItem *found_item = list->findItem(selected_item,Q3ListView::ExactMatch);
+	Q3ListBoxItem *found_item = m_mainWidget->list->findItem(selected_item,Q3ListView::ExactMatch);
 	if ( found_item && m_view->csmode < 0)
-		list->setSelected(found_item,true);
+		m_mainWidget->list->setSelected(found_item,true);
 }
 
 void KMinMax::selectItem()
 {
-	cmdParameter->hide();
+	m_mainWidget->cmdParameter->setEnabled( false );
 	if (  m_view->csmode < 0)
 		return;
 	//kDebug() << "cstype: " << (int)m_view->cstype << endl;
@@ -205,8 +209,8 @@ void KMinMax::selectItem()
 		function +="\'";
 	}
 	//kDebug() << "function: " << function << endl;
-	Q3ListBoxItem *item = list->findItem(function,Q3ListView::ExactMatch);
-	list->setSelected(item,true);
+	Q3ListBoxItem *item = m_mainWidget->list->findItem(function,Q3ListView::ExactMatch);
+	m_mainWidget->list->setSelected(item,true);
 
 	if (  !ufkt->parameters.isEmpty() )
 		parameter = ufkt->parameters[m_view->csparam].expression;
@@ -218,47 +222,47 @@ KMinMax::~KMinMax()
 
 void KMinMax::cmdFind_clicked()
 {
-	if ( list->currentItem() == -1)
+	if ( m_mainWidget->list->currentItem() == -1)
 	{
 		KMessageBox::error(this, i18n("Please choose a function"));
 		return;
 	}
 	double dmin, dmax;
-	dmin = m_view->parser()->eval(min->text() );
+	dmin = m_view->parser()->eval(m_mainWidget->min->text() );
 	if ( m_view->parser()->parserError()!=0 )
 	{
-		min->setFocus();
-		min->selectAll();
+		m_mainWidget->min->setFocus();
+		m_mainWidget->min->selectAll();
 		return;
 	}
 	if ( m_mode != 2)
 	{
-		dmax = m_view->parser()->eval(max->text() );
+		dmax = m_view->parser()->eval(m_mainWidget->max->text() );
 		if ( m_view->parser()->parserError()!=0 )
 		{
-			max->setFocus();
-			max->selectAll();
+			m_mainWidget->max->setFocus();
+			m_mainWidget->max->selectAll();
 			return;
 		}
 		if ( dmin >=  dmax)
 		{
 			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
-			min->setFocus();
-			min->selectAll();
+			m_mainWidget->min->setFocus();
+			m_mainWidget->min->selectAll();
 			return;
 		}
 
 		if (  dmin<View::xmin || dmax>View::xmax )
 		{
 			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
-			min->setFocus();
-			min->selectAll();
+			m_mainWidget->min->setFocus();
+			m_mainWidget->min->selectAll();
 			return;
 		}
 	}
 
 
-	QString function( list->currentText() );
+	QString function( m_mainWidget->list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
 	{
@@ -301,7 +305,7 @@ void KMinMax::cmdFind_clicked()
 	else if ( parameter.isEmpty())
 	{
 		KMessageBox::error(this,i18n("You must choose a parameter for that function"));
-		list_highlighted(list->selectedItem() );
+		list_highlighted(m_mainWidget->list->selectedItem() );
 		return;
 	}
 
@@ -325,10 +329,10 @@ void KMinMax::cmdFind_clicked()
 		{
 			QString tmp;
 			tmp.setNum(dmax);
-			max->setText(tmp);
+			m_mainWidget->max->setText(tmp);
 		}
-		max->setToolTip(i18n("The returned y-value"));
-		max->setWhatsThis(i18n("Here you see the result of the calculation: the returned y-value you got from the x-value in the textbox above"));
+		m_mainWidget->max->setToolTip(i18n("The returned y-value"));
+		m_mainWidget->max->setWhatsThis(i18n("Here you see the result of the calculation: the returned y-value you got from the x-value in the textbox above"));
 	}
 	else if ( m_mode == 3)
 	{
@@ -349,10 +353,10 @@ void KMinMax::list_highlighted(Q3ListBoxItem* item)
 {
 	if ( !item)
 	{
-		cmdParameter->hide();
+		m_mainWidget->cmdParameter->setEnabled( false );
 		return;
 	}
-	QString function( list->currentText() );
+	QString function( m_mainWidget->list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
 	{
@@ -377,10 +381,10 @@ void KMinMax::list_highlighted(Q3ListBoxItem* item)
                 if ( it->fstr.section('(',0,0) == sec_function)
                 {
                         if ( it->parameters.count() == 0)
-                                cmdParameter->hide();
+							m_mainWidget->cmdParameter->setEnabled( false );
                         else
 						{
-							cmdParameter->show();
+							m_mainWidget->cmdParameter->setEnabled( true );
 							if (parameter.isEmpty() )
 								parameter = it->parameters.first().expression;
 						}
@@ -390,7 +394,7 @@ void KMinMax::list_highlighted(Q3ListBoxItem* item)
 }
 void KMinMax::cmdParameter_clicked()
 {
-	QString function( list->currentText() );
+	QString function( m_mainWidget->list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
 	{
@@ -429,9 +433,9 @@ void KMinMax::cmdParameter_clicked()
 
 void KMinMax::list_doubleClicked(Q3ListBoxItem *)
 {
- 	if ( list->currentItem() == -1)
+ 	if ( m_mainWidget->list->currentItem() == -1)
  		return;
- 	else if( cmdParameter->isShown() )
+	else if( m_mainWidget->cmdParameter->isEnabled() )
  		cmdParameter_clicked();
 }
 #include "kminmax.moc"

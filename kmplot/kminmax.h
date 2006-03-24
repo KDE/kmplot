@@ -29,11 +29,13 @@
 #include "qminmax.h"
 #include "View.h"
 
+class QMinMax;
+
 /**
 @author Fredrik Edemar
 */
 /// KMinMax handles all the dialogs for the items in the tool-menu.
-class KMinMax : public QMinMax
+class KMinMax : public KDialog
 {
 Q_OBJECT
 public:
@@ -60,9 +62,16 @@ public slots:
 private:
     View *m_view;
     char m_mode; //< 0 = minimum, 1 = maximum, 2 = y-point, 3=drawing area
-    QString parameter;
-    
+	QString parameter;
+	QMinMax * m_mainWidget;
+};
 
+class QMinMax : public QWidget, public Ui::QMinMax
+{
+	public:
+		QMinMax( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
 };
 
 #endif

@@ -1,142 +1,199 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>QMinMax</class>
-<widget class="QDialog">
-    <property name="name">
-        <cstring>QMinMax</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>301</width>
-            <height>339</height>
-        </rect>
-    </property>
-    <property name="windowTitle">
-        <string>Find Minimum Point</string>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>QMinMax</class>
+ <widget class="QWidget" name="QMinMax" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>378</width>
+    <height>469</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Find Minimum Point</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>0</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string/>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="1" column="0" >
+       <widget class="KLineEdit" name="min" >
+        <property name="enabled" >
+         <bool>true</bool>
         </property>
-        <widget class="KPushButton" row="3" column="0">
-            <property name="name">
-                <cstring>cmdFind</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Find</string>
-            </property>
-            <property name="default">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <widget class="QFrame" row="0" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>frame5</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>lblMin</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Search between the x-value:</string>
-                    </property>
-                    <property name="alignment">
-                        <set>AlignCenter</set>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="2" column="0">
-                    <property name="name">
-                        <cstring>lblMax</cstring>
-                    </property>
-                    <property name="text">
-                        <string>and:</string>
-                    </property>
-                    <property name="alignment">
-                        <set>AlignCenter</set>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="1" column="0">
-                    <property name="name">
-                        <cstring>min</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="KLineEdit" row="3" column="0">
-                    <property name="name">
-                        <cstring>max</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QGroupBox" row="1" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>groupBox2</cstring>
-            </property>
-            <property name="title">
-                <string>Graph</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KListBox" row="0" column="0">
-                    <property name="name">
-                        <cstring>list</cstring>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>The available functions you can search in</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Here you can see all available functions you can use. Select one of them.</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="KPushButton" row="3" column="1">
-            <property name="name">
-                <cstring>cmdClose</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Close</string>
-            </property>
-            <property name="toolTip" stdset="0">
-                <string>close the dialog</string>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>Close the dialog and return to the main window.</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="2" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>cmdParameter</cstring>
-            </property>
-            <property name="text">
-                <string>Choose Parameter Value...</string>
-            </property>
-            <property name="toolTip" stdset="0">
-                <string>select the parameter value you want to use</string>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>If the function has any parameter values you must select it here.</string>
-            </property>
-        </widget>
-    </grid>
-</widget>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="KLineEdit" name="max" >
+        <property name="enabled" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="lblMin" >
+        <property name="text" >
+         <string>Search between the x-value:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="lblMax" >
+        <property name="text" >
+         <string>and:</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Q3GroupBox" name="groupBox2" >
+     <property name="title" >
+      <string>Graph</string>
+     </property>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>0</number>
+      </property>
+      <property name="spacing" >
+       <number>0</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="KListBox" name="list" >
+        <property name="toolTip" >
+         <string>The available functions you can search in</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Here you can see all available functions you can use. Select one of them.</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="cmdParameter" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="toolTip" >
+      <string>select the parameter value you want to use</string>
+     </property>
+     <property name="whatsThis" >
+      <string>If the function has any parameter values you must select it here.</string>
+     </property>
+     <property name="text" >
+      <string>Choose Parameter Value...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="KPushButton" name="cmdFind" >
+       <property name="text" >
+        <string>&amp;Find</string>
+       </property>
+       <property name="default" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>125</width>
+         <height>31</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="KPushButton" name="cmdClose" >
+       <property name="toolTip" >
+        <string>close the dialog</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Close the dialog and return to the main window.</string>
+       </property>
+       <property name="text" >
+        <string>&amp;Close</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>Q3GroupBox</class>
+   <extends></extends>
+   <header>Qt3Support/Q3GroupBox</header>
+   <container>1</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KListBox</class>
+   <extends></extends>
+   <header>klistbox.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

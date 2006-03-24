@@ -109,11 +109,8 @@ public slots:
 	void newParametric();
 	/// Implement the dialog to enter a polar plot and its options
 	void newPolar();
-	/// Show/hide parameter slider windows
-	void toggleShowSlider0();
-	void toggleShowSlider1();
-	void toggleShowSlider2();
-	void toggleShowSlider3();
+	/// Toggle whether the sliders window is shown
+	void toggleShowSliders();
 	
 	// ///I'm not sure it a delete-all-functions command is necessary
 	// void slotCleanWindow();
@@ -155,8 +152,6 @@ private:
 	void saveConstants();
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
-	/// Toggle the slider with index num
-	void toggleShowSlider(int const num);
 
 	/// Cached dialog to edit all functions
 	FktDlg *fdlg;

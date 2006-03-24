@@ -33,16 +33,20 @@
 #include <QEvent>
 #include <QCloseEvent>
 
+class SliderWindow;
+
 /** @short Slider window for changing a parameter value */
-class KSliderWindow : public SliderWindow
+class KSliderWindow : public KDialog
 {
 	Q_OBJECT
 	public:
 		/// @param parent points to the parent widget.
 		/// @param num number of this instance.
 		/// @param ac KActionCollection to add KActions
-		KSliderWindow(QWidget* parent, int num, KActionCollection *ac );
+		KSliderWindow(QWidget* parent, KActionCollection *ac );
 		virtual ~KSliderWindow();
+		
+		int value( int slider );
 
 	private slots:
 		void mnuMinValue_clicked();
@@ -50,13 +54,29 @@ class KSliderWindow : public SliderWindow
 
 	signals:
 		/// emitted when the window has been closed
-		void windowClosed(int);
+		void windowClosed();
+		/// emitted when a slider value changes
+		void valueChanged();
 
 	private:
 		bool eventFilter( QObject *obj, QEvent *ev );
 		void closeEvent( QCloseEvent * );
-		KMenu *m_popupmenu;
-		int m_num;
+		KMenu * m_popupmenu;
+		QSlider * m_sliders[4];
+		SliderWindow * m_mainWidget;
+		
+		/// this is set to the clicked-on slider when right-clicking on a slider
+		QSlider * m_clickedOnSlider;
 };
+
+
+class SliderWindow : public QWidget, public Ui::SliderWindow
+{
+	public:
+		SliderWindow( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
+};
+
 
 #endif

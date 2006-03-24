@@ -253,17 +253,8 @@ void MainDlg::setupActions()
 	m_quickEditAction = new QuickEditAction( actionCollection(), "quickedit" );
 	connect( m_quickEditAction, SIGNAL( completed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
 
-	view->mnuSliders[0] = new KToggleAction( i18n( "Show Slider 1" ), actionCollection(), QString( "options_configure_show_slider_0" ).latin1() );
-	connect( view->mnuSliders[0], SIGNAL(triggered(bool)), this, SLOT( toggleShowSlider0() ) );
-	
-	view->mnuSliders[1] = new KToggleAction( i18n( "Show Slider 2" ), actionCollection(), QString( "options_configure_show_slider_1" ).latin1() );
-	connect( view->mnuSliders[1], SIGNAL(triggered(bool)), this, SLOT( toggleShowSlider1() ) );
-	
-	view->mnuSliders[2] = new KToggleAction( i18n( "Show Slider 3" ), actionCollection(), QString( "options_configure_show_slider_2" ).latin1() );
-	connect( view->mnuSliders[2], SIGNAL(triggered(bool)), this, SLOT( toggleShowSlider2() ) );
-	
-	view->mnuSliders[3] = new KToggleAction( i18n( "Show Slider 4" ), actionCollection(), QString( "options_configure_show_slider_3" ).latin1() );
-	connect( view->mnuSliders[3], SIGNAL(triggered(bool)), this, SLOT( toggleShowSlider3() ) );
+	view->m_menuSliderAction = new KToggleAction( i18n( "Show Sliders" ), actionCollection(), "options_configure_show_sliders" );
+	connect( view->m_menuSliderAction, SIGNAL(triggered(bool)), this, SLOT( toggleShowSliders() ) );
 	
 
 	// Popup menu
@@ -773,39 +764,19 @@ void MainDlg::graphArea()
 	minmaxdlg->show();
 }
 
-void MainDlg::toggleShowSlider0()
-{
-	toggleShowSlider(0);
-}
-
-void MainDlg::toggleShowSlider1()
-{
-	toggleShowSlider(1);
-}
-
-void MainDlg::toggleShowSlider2()
-{
-	toggleShowSlider(2);
-}
-
-void MainDlg::toggleShowSlider3()
-{
-	toggleShowSlider(3);
-}
-
-void MainDlg::toggleShowSlider(int const num)
+void MainDlg::toggleShowSliders()
 {
 	// create the slider if it not exists already
-	if ( view->sliders[ num ] == 0 )
+	if ( !view->m_sliderWindow )
 	{
-		view->sliders[ num ] = new KSliderWindow( view, num, actionCollection());
-		connect( view->sliders[num]->slider, SIGNAL( valueChanged( int ) ), view, SLOT( drawPlot() ) );
-		connect( view->sliders[num], SIGNAL( windowClosed( int ) ), view, SLOT( sliderWindowClosed(int) ) );
+		view->m_sliderWindow = new KSliderWindow( view, actionCollection());
+		connect( view->m_sliderWindow, SIGNAL( valueChanged() ), view, SLOT( drawPlot() ) );
+		connect( view->m_sliderWindow, SIGNAL( windowClosed() ), view, SLOT( slidersWindowClosed() ) );
 	}
-	if ( !view->sliders[ num ]->isShown() )
-		view->sliders[ num ]->show();
+	if ( !view->m_sliderWindow->isShown() )
+		view->m_sliderWindow->show();
 	else
-		view->sliders[ num ]->hide();
+		view->m_sliderWindow->hide();
 }
 
 void MainDlg::setReadOnlyStatusBarText(const QString &text)

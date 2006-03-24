@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kmplot" version="6">
+<kpartgui name="kmplot" version="7">
 	<MenuBar>
  		<Menu name="file">
 			<Action name="file_openrecent"/>
@@ -44,12 +44,7 @@
         	<Menu name="settings"><text>&amp;Settings</text>
 			<Separator />
 			<Separator />
-			<Menu name="ShowSliders"><text>Show S&amp;liders</text>
-				<Action name="options_configure_show_slider_0"/>
-				<Action name="options_configure_show_slider_1"/>
-				<Action name="options_configure_show_slider_2"/>
-				<Action name="options_configure_show_slider_3"/>
-			</Menu>
+			<Action name="options_configure_show_sliders"/>
 			<Separator/>
 			<Action name="options_configure_keybinding"/>
 			<Action name="options_configure_toolbars"/>

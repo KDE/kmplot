@@ -114,8 +114,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	invertColor(backgroundcolor,inverted_backgroundcolor);
 	setBackgroundColor(backgroundcolor);
 	setMouseTracking(TRUE);
-	for( int number = 0; number < SLIDER_COUNT; number++ )
-		sliders[ number ] = 0;
+	m_sliderWindow = 0;
 	updateSliders();
 	m_popupmenu->addTitle( "");
 }
@@ -316,8 +315,8 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 			}
 			else
 			{
-				if ( KSliderWindow * sw  = sliders[ ufkt->use_slider ] )
-					ufkt->setParameter( sw->slider->value() );
+				if ( m_sliderWindow )
+					ufkt->setParameter( m_sliderWindow->value( ufkt->use_slider ) );
 			}
 
 			mflg=2;
@@ -803,7 +802,10 @@ void View::mouseMoveEvent(QMouseEvent *e)
 					it->setParameter( it->parameters[csparam].value );
 			}
 			else
-				it->setParameter(sliders[ it->use_slider ]->slider->value() );
+			{
+				if ( m_sliderWindow )
+					it->setParameter( m_sliderWindow->value( it->use_slider ) );
+			}
 			
 			if ( cstype == 0)
 				ptl.setY(dgr.TransyToPixel(csypos=m_parser->fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
@@ -999,8 +1001,8 @@ void View::mousePressEvent(QMouseEvent *e)
 				}
 				else
 				{
-					if ( KSliderWindow * sw  = sliders[ it->use_slider ] )
-						it->setParameter( sw->slider->value() );
+					if ( m_sliderWindow )
+						it->setParameter(  m_sliderWindow->value( it->use_slider ) );
 				}
 
 				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.contains('t')==1) //parametric plot
@@ -1115,8 +1117,8 @@ void View::mousePressEvent(QMouseEvent *e)
 			}
 			else
 			{
-				if ( KSliderWindow * sw  = sliders[ it->use_slider ] )
-					it->setParameter( sw->slider->value() );
+				if ( m_sliderWindow )
+					it->setParameter( m_sliderWindow->value( it->use_slider ) );
 			}
 			
 			if(fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
@@ -1932,29 +1934,26 @@ bool View::isCalculationStopped()
 
 void View::updateSliders()
 {
-	for( int number = 0; number < SLIDER_COUNT; number++)
+	if ( m_sliderWindow )
 	{
-		if (sliders[ number ])
-		{
-			sliders[ number ]->hide();
-			mnuSliders[ number ]->setChecked(false); //uncheck the slider-item in the menu
-		}
+		m_sliderWindow->hide();
+		m_menuSliderAction->setChecked( false ); //uncheck the slider-item in the menu
 	}
-
+	
+	// do we need to show any sliders?
 	for(QVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
 	{
 		if (it->fname.isEmpty() ) continue;
 		if( it->use_slider > -1  &&  (it->f_mode || it->f1_mode || it->f2_mode || it->integral_mode))
 		{
-			// create the slider if it not exists already
-			if ( sliders[ it->use_slider ] == 0 )
+			if ( !m_sliderWindow )
 			{
-				sliders[ it->use_slider ] = new KSliderWindow( this, it->use_slider, m_ac);
-				connect( sliders[ it->use_slider ]->slider, SIGNAL( valueChanged( int ) ), this, SLOT( drawPlot() ) );
-				connect( sliders[ it->use_slider ], SIGNAL( windowClosed( int ) ), this , SLOT( sliderWindowClosed(int) ) );
-				mnuSliders[ it->use_slider ]->setChecked(true);  //set the slider-item in the menu
+				m_sliderWindow = new KSliderWindow( this, m_ac );
+				connect( m_sliderWindow, SIGNAL( valueChanged() ), this, SLOT( drawPlot() ) );
+				connect( m_sliderWindow, SIGNAL( windowClosed() ), this, SLOT( sliderWindowClosed() ) );
 			}
-			sliders[ it->use_slider ]->show();
+			m_sliderWindow->show();
+			m_menuSliderAction->setChecked( false );  //set the slider-item in the menu
 		}
 	}
 }
@@ -2293,7 +2292,7 @@ void View::increaseProgressBar()
 	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","increaseProgressBar()", QByteArray());
 }
 
-void View::sliderWindowClosed(int num)
+void View::slidersWindowClosed()
 {
-	mnuSliders[num]->setChecked(false);
+	m_menuSliderAction->setChecked(false);
 }

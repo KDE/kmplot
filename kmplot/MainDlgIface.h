@@ -44,10 +44,7 @@ k_dcop:
 	virtual void newFunction() = 0;
 	virtual void newParametric() = 0;
 	virtual void newPolar() = 0;
-	virtual void toggleShowSlider0() = 0;
-	virtual void toggleShowSlider1() = 0;
-	virtual void toggleShowSlider2() = 0;
-	virtual void toggleShowSlider3() = 0;
+	virtual void toggleShowSliders() = 0;
 	virtual void slotSave() = 0;
 	virtual void slotSaveas() = 0;
 	virtual void slotEditPlots() = 0;

@@ -38,30 +38,47 @@
 #include <kinputdialog.h>
 #include <klocale.h>
 
+#include <assert.h>
 #include <limits.h>
 #include <math.h>
 #include <stdlib.h>
 
 // local includes
 #include "ksliderwindow.h"
+#include "xparser.h"
 
-KSliderWindow::KSliderWindow(QWidget* parent, int num, KActionCollection *ac ) :
-	SliderWindow( parent, "", false, (Qt::WFlags)(Qt::WStyle_Tool-Qt::WStyle_Maximize) ), m_num(num)
+KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
+	KDialog( parent, i18n("Sliders") )
 {
-	setCaption(i18n( "Slider %1" ).arg( num+1 ) );
-	slider->setToolTip( i18n( "Slider no. %1" ).arg( num+1 ));
-	this->setWhatsThis( i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
+	m_clickedOnSlider = 0l;
 	
-	// load the min and max value + the current value
+	setModal( false );
+	m_mainWidget = new SliderWindow( this );
+	setMainWidget( m_mainWidget );
+	
+	m_sliders[0] = m_mainWidget->slider0;
+	m_sliders[1] = m_mainWidget->slider1;
+	m_sliders[2] = m_mainWidget->slider2;
+	m_sliders[3] = m_mainWidget->slider3;
+	assert( SLIDER_COUNT == 4 );
+	
 	KConfig config( "kmplotrc" );
-	config.setGroup( "slider" + QString::number(num) );
-	slider->setMinimum( config.readEntry( "min", 0) );
-	slider->setMaximum( config.readEntry( "max", 100) );
-	slider->setValue( config.readEntry( "value", 50) );
-	slider->setPageStep( (int)ceil((abs(slider->minValue()) + abs(slider->maxValue()))/10.) );
-	
-	slider->installEventFilter(this);
-	installEventFilter(this);
+	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )
+	{
+		m_sliders[i]->setToolTip( i18n( "Slider no. %1" ).arg( i+1 ));
+		setWhatsThis( i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
+		
+		// load the min and max value + the current value
+		config.setGroup( "slider" + QString::number(i) );
+		m_sliders[i]->setMinimum( config.readEntry( "min", 0) );
+		m_sliders[i]->setMaximum( config.readEntry( "max", 100) );
+		m_sliders[i]->setValue( config.readEntry( "value", 50) );
+		m_sliders[i]->setPageStep( (int)ceil((abs(m_sliders[i]->minValue()) + abs(m_sliders[i]->maxValue()))/10.) );
+		
+		m_sliders[i]->installEventFilter(this);
+		
+		connect( m_sliders[i], SIGNAL( valueChanged( int ) ), this, SIGNAL( valueChanged() ) );
+	}
 	
 	m_popupmenu = new KMenu(this);
 	KAction *mnuMinValue = new KAction(i18n("&Change Minimum Value") ,0,this, SLOT( mnuMinValue_clicked() ),ac, "");
@@ -74,50 +91,71 @@ KSliderWindow::~KSliderWindow()
 {
 	// save the min and max value + the current value
 	KConfig config( "kmplotrc" );
-	config.setGroup( "slider" + QString::number(m_num) );
-	config.writeEntry( "min", slider->minValue() );
-	config.writeEntry( "max", slider->maxValue() );
-	config.writeEntry( "value", slider->value() );
+	
+	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )
+	{
+		config.setGroup( "slider" + QString::number(i) );
+		config.writeEntry( "min", m_sliders[i]->minValue() );
+		config.writeEntry( "max", m_sliders[i]->maxValue() );
+		config.writeEntry( "value", m_sliders[i]->value() );
+	}
 }
+
+
+int KSliderWindow::value( int slider )
+{
+	assert( (slider>=0) && (slider < SLIDER_COUNT) );
+	return m_sliders[slider]->value();
+}
+
 
 bool KSliderWindow::eventFilter( QObject *obj, QEvent *ev )
 {
-	if (ev->type() == QEvent::MouseButtonPress)
+	QMouseEvent * mouseEvent = 0l;
+	if ( ev->type() == QEvent::MouseButtonPress )
+		mouseEvent = static_cast<QMouseEvent*>(ev);
+	
+	if ( mouseEvent &&
+			(mouseEvent->button() == Qt::RightButton) &&
+			(obj->metaObject()->className() == "QSlider") )
 	{
-		QMouseEvent *e = (QMouseEvent *)ev;
- 		if (e->button() != Qt::RightButton)
-			return SliderWindow::eventFilter( obj, ev );
+		m_clickedOnSlider = static_cast<QSlider*>(obj);
 		m_popupmenu->exec(QCursor::pos());
 		return true;
 	}
-	return SliderWindow::eventFilter( obj, ev );
+	
+	return KDialog::eventFilter( obj, ev );
 }
 
 void KSliderWindow::closeEvent( QCloseEvent * e)
 {
-	emit windowClosed(m_num);
+	emit windowClosed();
 	e->accept();
 }
 
 void KSliderWindow::mnuMinValue_clicked()
 {
+	assert( m_clickedOnSlider );
+	
 	bool ok;
-	int const result = KInputDialog::getInteger(i18n("Change Minimum Value"), i18n("Type a new minimum value for the slider:"), slider->minValue(), INT_MIN, INT_MAX, 1, 10, &ok);
+	int const result = KInputDialog::getInteger(i18n("Change Minimum Value"), i18n("Type a new minimum value for the slider:"), m_clickedOnSlider->minValue(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)
 		return;
-	slider->setMinimum(result);
-	slider->setPageStep( (int)ceil((abs(slider->maxValue()) + abs(result))/10.) );
+	m_clickedOnSlider->setMinimum(result);
+	m_clickedOnSlider->setPageStep( (int)ceil((abs(m_clickedOnSlider->maxValue()) + abs(result))/10.) );
 	setFocus();
 }
 
 void KSliderWindow::mnuMaxValue_clicked()
 {
+	assert( m_clickedOnSlider );
+	
 	bool ok;
-	int const result = KInputDialog::getInteger(i18n("Change Maximum Value"), i18n("Type a new maximum value for the slider:"), slider->maxValue(), INT_MIN, INT_MAX, 1, 10, &ok);
+	int const result = KInputDialog::getInteger(i18n("Change Maximum Value"), i18n("Type a new maximum value for the slider:"), m_clickedOnSlider->maxValue(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)
 		return;
-	slider->setMaximum(result);
-	slider->setPageStep( (int)ceil((abs(slider->minValue()) + abs(result))/10.) );
+	m_clickedOnSlider->setMaximum(result);
+	m_clickedOnSlider->setPageStep( (int)ceil((abs(m_clickedOnSlider->minValue()) + abs(result))/10.) );
 	setFocus();
 }
 

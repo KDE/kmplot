@@ -108,9 +108,9 @@ public:
 	QString areaParameter;
 
 	/// Slider controlling parameter values
-	QPointer<KSliderWindow> sliders[ SLIDER_COUNT ];
+	QPointer<KSliderWindow> m_sliderWindow;
 	/// Menu actions for the sliders
-	KToggleAction *mnuSliders[ SLIDER_COUNT ];
+	KToggleAction * m_menuSliderAction;
 	void updateSliders(); /// show only needed sliders
 	
 	/// Convert a width in mm to a suitable QPen width for drawing
@@ -120,7 +120,7 @@ public slots:
 	/// Called when the user want to cancel the drawing
 	void stopDrawing();
 	/// A slider window has been closed
-	void sliderWindowClosed(int);
+	void slidersWindowClosed();
 
 	/// Called when the graph should be updated
 	void drawPlot();

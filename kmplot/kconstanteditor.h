@@ -26,7 +26,7 @@
 #ifndef KCONSTANTEDITOR_H
 #define KCONSTANTEDITOR_H
 
-#include "qconstanteditor.h"
+#include "settingspageconstants.h"
 #include "keditconstant.h"
 #include "View.h"
 
@@ -34,7 +34,7 @@
 @author Fredrik Edemar
 */
 /// Handles all the constants.
-class KConstantEditor : public QConstantEditor
+class KConstantEditor : public QWidget, public Ui::SettingsPageConstants
 {
 Q_OBJECT
 public:

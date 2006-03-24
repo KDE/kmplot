@@ -57,7 +57,6 @@
 #include "settingspagecolor.h"
 #include "settingspagefonts.h"
 #include "settingspageprecision.h"
-#include "settingspagescaling.h"
 #include "ksliderwindow.h"
 
 class XParser;
@@ -102,9 +101,14 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	m_settingsDialog->setHelp("general-config");
 
 	// create and add the page(s)
-	m_generalSettings = new SettingsPagePrecision( 0, "precisionSettings", "precision" );
+	m_generalSettings = new SettingsPageGeneral( view );
+	m_colorSettings = new SettingsPageColor( view );
+	m_fontsSettings = new SettingsPageFonts( view );
 	m_constantsSettings = new KConstantEditor( view, 0, "constantsSettings" );
+	
 	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
+	m_settingsDialog->addPage( m_colorSettings, i18n("Colors"), "colorize", i18n("Colors") );
+	m_settingsDialog->addPage( m_fontsSettings, i18n("Fonts"), "font", i18n("Fonts") );
 	m_settingsDialog->addPage( m_constantsSettings, i18n("Constants"), "editconstants", i18n("Constants") );
 	// User edited the configuration - update your local copies of the
 	// configuration data
@@ -186,10 +190,6 @@ void MainDlg::setupActions()
 	
 	
 	//BEGIN edit menu
-	KAction * editColors = new KAction( i18n( "&Colors..." ), actionCollection(), "editcolors" );
-	editColors->setIcon( KIcon( "colorize.png" ) );
-	connect( editColors, SIGNAL(triggered(bool)), this, SLOT( editColors() ) );
-	
 	KAction * editAxes = new KAction( i18n( "&Coordinate System..." ), actionCollection(), "editaxes" );
 	editAxes->setIcon( KIcon("coords.png") );
 	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
@@ -198,10 +198,6 @@ void MainDlg::setupActions()
 	editScaling->setIcon( KIcon("scaling") );
 	connect( editScaling, SIGNAL(triggered(bool)), this, SLOT( editScaling() ) );
 	
-	KAction * editFonts = new KAction( i18n( "&Fonts..." ), actionCollection(), "editfonts" );
-	editFonts->setIcon( KIcon("fonts") );
-	connect( editFonts, SIGNAL(triggered(bool)), this, SLOT( editFonts() ) );
-
 	KAction * coordI = new KAction( i18n( "Coordinate System I" ), actionCollection(), "coord_i" );
 	coordI->setIcon( KIcon("ksys1.png") );
 	connect( coordI, SIGNAL(triggered(bool)), this, SLOT( slotCoord1() ) );
@@ -498,19 +494,6 @@ void MainDlg::slotPrint()
 	}
 }
 
-void MainDlg::editColors()
-{
-	// create a config dialog and add a colors page
-	KConfigDialog* colorsDialog = new KConfigDialog( m_parent, "colors", Settings::self() );
-	colorsDialog->setHelp("color-config");
-	colorsDialog->addPage( new SettingsPageColor( 0, "colorSettings" ), i18n( "Colors" ), "colorize", i18n( "Edit Colors" ) );
-
-	// User edited the configuration - update your local copies of the
-	// configuration data
-	connect( colorsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
-	colorsDialog->show();
-}
-
 void MainDlg::editAxes()
 {
 	// create a config dialog and add a axes page
@@ -529,29 +512,11 @@ void MainDlg::editScaling()
 	// create a config dialog and add a scaling page
 	KConfigDialog *scalingDialog = new KConfigDialog( m_parent, "scaling", Settings::self() );
 	scalingDialog->setHelp("scaling-config");
-	scalingDialog->addPage( new SettingsPageScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
+	scalingDialog->addPage( new EditScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
 	connect( scalingDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
 	scalingDialog->show();
-}
-
-void MainDlg::editFonts()
-{
-	// create a config dialog and add a font page
-	KConfigDialog* fontsDialog = new KConfigDialog( m_parent, "fonts", Settings::self() );
-	fontsDialog->setHelp("font-config");
-	fontsDialog->addPage( new SettingsPageFonts( 0, "fontsSettings" ), i18n( "Fonts" ), "fonts", i18n( "Edit Fonts" ) );
-	// User edited the configuration - update your local copies of the
-	// configuration data
-	connect( fontsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
-	fontsDialog->show();
-}
-
-void MainDlg::editConstants()
-{
-	QConstantEditor* contsDialog = new QConstantEditor();
-	contsDialog->show();
 }
 
 void MainDlg::slotNames()

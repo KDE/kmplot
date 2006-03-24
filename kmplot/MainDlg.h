@@ -3,6 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter M�ler
 *               2000, 2002 kd.moeller@t-online.de
+*                     2006 David Saxton <david@bluehaze.org>
 *
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -49,15 +50,20 @@
 #include "kminmax.h"
 #include "kmplotio.h"
 #include "MainDlgIface.h"
-#include "settingspagefonts.h"
 
+#include "editscaling.h"
+#include "settingspagecolor.h"
+#include "settingspagefonts.h"
+#include "settingspagegeneral.h"
+
+class EditScaling;
 class KConfigDialog;
 class KLineEdit;
 class KRecentFilesAction;
 class SettingsPageColor;
+class SettingsPageConstants;
 class SettingsPageFonts;
-class SettingsPagePrecision;
-class SettingsPageScaling;
+class SettingsPageGeneral;
 class KConstantEditor;
 class KToggleFullScreenAction;
 class BrowserExtension;
@@ -93,16 +99,10 @@ public:
 	static bool oldfileversion;
 
 public slots:
-	/// Implement the color edit dialog
-	void editColors();
 	/// Implement the coordinate system edit dialog
 	void editAxes();
 	/// Implement the scaling edit dialog
 	void editScaling();
-	/// Implement the fonts edit dialog
-	void editFonts();
-	/// Implement the constants edit dialog
-	void editConstants();
 	/// Implement the dialog to enter a function plot and its options
 	void newFunction();
 	/// Implement the dialog to enter a parametric plot and its options
@@ -172,8 +172,12 @@ private:
 	KConfig* m_config;
 	///A Configure KmPlot dialog instance
 	KConfigDialog* m_settingsDialog;
-	///The Precision page for the Configure KmPlot dialog
-	SettingsPagePrecision* m_generalSettings;
+	///The General page for the Configure KmPlot dialog
+	SettingsPageGeneral * m_generalSettings;
+	///The Colors page for the Configure KmPlot constants
+	SettingsPageColor * m_colorSettings;
+	///The Fonts page for the Configure KmPlot constants
+	SettingsPageFonts * m_fontsSettings;
 	///The Constants page for the Configure KmPlot constants
 	KConstantEditor* m_constantsSettings;
 
@@ -274,10 +278,34 @@ class QuickEditAction : public KAction, public QActionWidgetFactory
 		QList<KLineEdit*> m_lineEdits;
 };
 
+class EditScaling : public QWidget, public Ui::EditScaling
+{
+	public:
+		EditScaling( QWidget * parent = 0, const char * name = 0 )
+	: QWidget( parent, name )
+		{ setupUi(this); }
+};
+
+class SettingsPageColor : public QWidget, public Ui::SettingsPageColor
+{
+	public:
+		SettingsPageColor( QWidget * parent = 0, const char * name = 0 )
+	: QWidget( parent, name )
+		{ setupUi(this); }
+};
+
 class SettingsPageFonts : public QWidget, public Ui::SettingsPageFonts
 {
 	public:
 		SettingsPageFonts( QWidget * parent = 0, const char * name = 0 )
+	: QWidget( parent, name )
+		{ setupUi(this); }
+};
+
+class SettingsPageGeneral : public QWidget, public Ui::SettingsPageGeneral
+{
+	public:
+		SettingsPageGeneral( QWidget * parent = 0, const char * name = 0 )
 	: QWidget( parent, name )
 		{ setupUi(this); }
 };

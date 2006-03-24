@@ -39,11 +39,8 @@ k_dcop:
 	virtual bool checkModified() = 0;
 	
 	virtual bool isModified() = 0;
-	virtual void editColors() = 0;
 	virtual void editAxes() = 0;
 	virtual void editScaling() = 0;
-	virtual void editFonts() = 0;
-	virtual void editConstants() = 0;
 	virtual void newFunction() = 0;
 	virtual void newParametric() = 0;
 	virtual void newPolar() = 0;

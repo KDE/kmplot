@@ -279,15 +279,20 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	}
 	double dx;
 	if(fktmode=='r')
+	{
 		if ( Settings::useRelativeStepWidth() )
 			dx=stepWidth*0.05/(dmax-dmin);
 		else
 			dx=stepWidth;
+	}
 	else
+	{
 		if ( Settings::useRelativeStepWidth() )
 			dx=stepWidth*(dmax-dmin)/area.width();
 		else
 			dx=stepWidth;
+	}
+	assert( dx != 0.0 );
 
 	if(fktmode=='x')
 		iy = m_parser->ixValue(ufkt->id)+1;

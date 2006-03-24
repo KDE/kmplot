@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>SettingsPageCoords</class>
- <widget class="QWidget" name="SettingsPageCoords" >
+ <class>EditCoords</class>
+ <widget class="QWidget" name="EditCoords" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -595,17 +595,17 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>Q3ButtonGroup</class>
    <extends></extends>
    <header>Qt3Support/Q3ButtonGroup</header>
    <container>1</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
+   <container>0</container>
    <pixmap></pixmap>
   </customwidget>
  </customwidgets>

@@ -41,8 +41,11 @@
 
 
 KConstantEditor::KConstantEditor(View *v, QWidget *parent, const char *name)
-	: QConstantEditor(parent,name), m_view(v)
+	: QWidget(parent,name),
+	  m_view(v)
 {
+	setupUi( this );
+	
 	QString str_value;
 	QVector<Constant>::iterator it;
 	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() ;++it)
@@ -50,7 +53,11 @@ KConstantEditor::KConstantEditor(View *v, QWidget *parent, const char *name)
 		str_value.setNum(it->value);
 		(void) new Q3ListViewItem(varlist, QString(it->constant), str_value);
 	}
-
+	
+	connect( cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ) );
+	connect( cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ) );
+	connect( cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ) );
+	connect( cmdDuplicate, SIGNAL( clicked() ), this, SLOT( cmdDuplicate_clicked() ) );
 }
 
 KConstantEditor::~KConstantEditor()
@@ -59,6 +66,7 @@ KConstantEditor::~KConstantEditor()
 
 void KConstantEditor::cmdNew_clicked()
 {
+	kDebug() << k_funcinfo << endl;
 	constant = '0';
 	KEditConstant *dlg = new KEditConstant(m_view->parser(), constant, value);
 	connect( dlg, SIGNAL( finished() ), this,SLOT(newConstantSlot() ) ); 

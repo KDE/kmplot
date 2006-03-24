@@ -1,0 +1,226 @@
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>SettingsPageGeneral</class>
+ <widget class="QWidget" name="SettingsPageGeneral" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>284</width>
+    <height>355</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>Precision</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="1" >
+       <widget class="QDoubleSpinBox" name="kcfg_stepWidth" >
+        <property name="alignment" >
+         <set>Qt::AlignRight</set>
+        </property>
+        <property name="maximum" >
+         <double>100</double>
+        </property>
+        <property name="minimum" >
+         <double>0.01</double>
+        </property>
+        <property name="value" >
+         <double>1</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2" >
+       <widget class="QCheckBox" name="kcfg_useRelativeStepWidth" >
+        <property name="toolTip" >
+         <string>Use the same precision independent of the window's size</string>
+        </property>
+        <property name="whatsThis" >
+         <string>If relative step width is set to true, the step width will be adapted to the size of the window.</string>
+        </property>
+        <property name="text" >
+         <string>&amp;Use relative step width</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="textLabel1" >
+        <property name="text" >
+         <string>Points per pixel:</string>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_relativeStepWidth</cstring>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2" >
+     <property name="title" >
+      <string>Angle Mode</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QRadioButton" name="radioButton1" >
+        <property name="toolTip" >
+         <string>Trigonometric functions use radian mode for angles.</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Check this button to use radian mode to measure angles. This is important for trigonometric functions only.</string>
+        </property>
+        <property name="text" >
+         <string>&amp;Radian</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QRadioButton" name="radioButton2" >
+        <property name="toolTip" >
+         <string>Trigonometric functions use degree mode for angles.</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Check this button to use degree mode to measure angles. This is important for trigonometric functions only.</string>
+        </property>
+        <property name="text" >
+         <string>&amp;Degree</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_4" >
+     <property name="title" >
+      <string>Zoom</string>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="textLabel1_2" >
+        <property name="text" >
+         <string>Zoom in by:</string>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_zoomStep</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="textLabel1_2_2" >
+        <property name="text" >
+         <string>Zoom out by:</string>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_zoomStep</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="KIntNumInput" name="kcfg_zoomOutStep" >
+        <property name="whatsThis" >
+         <string>The value the zoom-out tool should use.</string>
+        </property>
+        <property name="value" >
+         <number>25</number>
+        </property>
+        <property name="minimum" >
+         <number>1</number>
+        </property>
+        <property name="maximum" >
+         <number>100</number>
+        </property>
+        <property name="referencePoint" >
+         <number>5</number>
+        </property>
+        <property name="suffix" >
+         <string>%</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" >
+       <widget class="KIntNumInput" name="kcfg_zoomInStep" >
+        <property name="whatsThis" >
+         <string>The value the zoom-in tool should use.</string>
+        </property>
+        <property name="value" >
+         <number>25</number>
+        </property>
+        <property name="minimum" >
+         <number>1</number>
+        </property>
+        <property name="maximum" >
+         <number>100</number>
+        </property>
+        <property name="referencePoint" >
+         <number>5</number>
+        </property>
+        <property name="suffix" >
+         <string>%</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>21</width>
+       <height>16</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KIntNumInput</class>
+   <extends></extends>
+   <header>knuminput.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

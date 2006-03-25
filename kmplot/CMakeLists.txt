@@ -26,25 +26,23 @@ set(kmplotpart_PART_SRCS
 
 kde4_automoc(${kmplotpart_PART_SRCS})
 
-kde4_add_ui3_files(kmplotpart_PART_SRCS 
-   FktDlgData.ui 
-   settingspagecolor.ui 
-   qparametereditor.ui 
-   settingspagecoords.ui 
-   settingspagescaling.ui 
-   settingspageprecision.ui 
-   qeditparametric.ui 
-   qeditpolar.ui 
-   qeditconstant.ui 
-   qminmax.ui 
-   qconstanteditor.ui 
-   sliderwindow.ui )
-
 kde4_add_ui_files(kmplotpart_PART_SRCS
+	editcoords.ui
 	editderivativespage.ui
 	editfunctionpage.ui
 	editintegralpage.ui
+	editscaling.ui
+	FktDlgData.ui
+	qeditconstant.ui
+	qeditparametric.ui
+	qeditpolar.ui
+	qminmax.ui
+	qparametereditor.ui
+	settingspagecolor.ui
+	settingspageconstants.ui
 	settingspagefonts.ui
+	settingspagegeneral.ui
+	sliderwindow.ui
 	)
 
 kde4_add_dcop_skels(kmplotpart_PART_SRCS MainDlgIface.h parseriface.h Viewiface.h )
@@ -61,10 +59,13 @@ install_targets(${LIB_INSTALL_DIR}/kde4 kmplotpart )
 
 ########### next target ###############   
 
-set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp ${kmplotpart_PART_SRCS})
+set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp)
 kde4_automoc(${kmplot_SRCS})
 
 kde4_add_dcop_skels(kmplot_SRCS kmplotIface.h )
+
+# FIXME: it's wrong, but otherwise it does not compile
+kde4_add_kcfg_files(kmplot_SRCS settings.kcfgc )
 
 kde4_add_executable(kmplot ${kmplot_SRCS})
 

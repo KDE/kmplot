@@ -80,11 +80,17 @@ KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
 		connect( m_sliders[i], SIGNAL( valueChanged( int ) ), this, SIGNAL( valueChanged() ) );
 	}
 	
+	//BEGIN create popup-menu
 	m_popupmenu = new KMenu(this);
-	KAction *mnuMinValue = new KAction(i18n("&Change Minimum Value") ,0,this, SLOT( mnuMinValue_clicked() ),ac, "");
+	
+	KAction * mnuMinValue = new KAction( i18n("&Change Minimum Value"), ac, "" );
+	connect( mnuMinValue, SIGNAL( triggered(bool) ), this, SLOT( mnuMinValue_clicked() ) );
 	mnuMinValue->plug(m_popupmenu);
-	KAction *mnuMaxValue = new KAction(i18n("&Change Maximum Value") ,0,this, SLOT( mnuMaxValue_clicked() ),ac, "" );
+	
+	KAction * mnuMaxValue = new KAction( i18n("&Change Maximum Value"), ac, "" );
+	connect( mnuMaxValue, SIGNAL( triggered(bool) ), this, SLOT( mnuMaxValue_clicked() ) );
 	mnuMaxValue->plug(m_popupmenu);
+	//END create popup-menu
 }
 
 KSliderWindow::~KSliderWindow()

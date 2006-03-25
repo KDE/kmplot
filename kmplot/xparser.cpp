@@ -35,7 +35,6 @@
 #include "xparser.h"
 //Added by qt3to4:
 #include <QList>
-#include <Q3CString>
 
 XParser::XParser(bool &mo) : DCOPObject("Parser"), Parser(), m_modified(mo)
 {

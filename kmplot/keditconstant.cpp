@@ -32,19 +32,23 @@
 
 #include "keditconstant.h"
 
-KEditConstant::KEditConstant(XParser *p, char &c, QString &v, QWidget *parent, const char *name)
-	: QEditConstant(parent, name,Qt::WDestructiveClose), constant(c), value(v), m_parser(p)
+KEditConstant::KEditConstant(XParser *p, char &c, QString &v, QWidget *parent)
+	: KDialog( parent, i18n("Edit Constant"), Ok|Cancel ),
+	  constant(c), value(v), m_parser(p)
 {
+	m_mainWidget = new QEditConstant( this );
+	setMainWidget( m_mainWidget );
+	
 	if ( constant != '0' )
 	{
-		txtConstant->setEnabled(false);
-		txtConstant->setText(QString(constant));
-		txtValue->setText(value);
-		txtValue->setFocus();
-		txtValue->selectAll();
+		m_mainWidget->txtConstant->setEnabled(false);
+		m_mainWidget->txtConstant->setText(QString(constant));
+		m_mainWidget->txtValue->setText(value);
+		m_mainWidget->txtValue->setFocus();
+		m_mainWidget->txtValue->selectAll();
 	}
-	connect( cmdCancel, SIGNAL( clicked() ), this, SLOT( deleteLater() ));
-	connect( cmdOK, SIGNAL( clicked() ), this, SLOT( cmdOK_clicked() ));
+	
+	connect( m_mainWidget->txtConstant, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged( const QString & ) ) );
 }
 
 
@@ -52,19 +56,19 @@ KEditConstant::~KEditConstant()
 {
 }
 
-void KEditConstant::cmdOK_clicked()
+void KEditConstant::accept()
 {
-	constant = txtConstant->text().at(0).latin1();
-	value = txtValue->text();
+	constant = m_mainWidget->txtConstant->text().at(0).latin1();
+	value = m_mainWidget->txtValue->text();
 	if ( constant<'A' || constant>'Z')
 	{
-		KMessageBox::error(this, i18n("Please insert a valid constant name between A and Z."));
-		txtConstant->setFocus();
-		txtConstant->selectAll();
+		KMessageBox::sorry(this, i18n("Please insert a valid constant name between A and Z."));
+		m_mainWidget->txtConstant->setFocus();
+		m_mainWidget->txtConstant->selectAll();
 		return;
 	}
 	
-	if ( txtConstant->isEnabled() ) //creating, not edit a constant
+	if ( m_mainWidget->txtConstant->isEnabled() ) //creating, not edit a constant
 	{
 		bool found= false;
 		QVector<Constant>::iterator it;
@@ -75,15 +79,15 @@ void KEditConstant::cmdOK_clicked()
 		}
 		if (found)
 		{
-			KMessageBox::error(this, i18n("The constant already exists."));
+			KMessageBox::sorry(this, i18n("The constant already exists."));
 			return;
 		}	
 	}
 	(double) m_parser->eval(value);
 	if ( m_parser->parserError() )
 	{
-		txtValue->setFocus();
-		txtValue->selectAll();
+		m_mainWidget->txtValue->setFocus();
+		m_mainWidget->txtValue->selectAll();
 		return;
 	}
 	
@@ -91,9 +95,10 @@ void KEditConstant::cmdOK_clicked()
 	QDialog::accept();
 }
 
-void KEditConstant::txtVariable_lostFocus()
+
+void KEditConstant::nameChanged( const QString & newName )
 {
-    txtConstant->setText( txtConstant->text().upper() );
+	m_mainWidget->txtConstant->setText( newName.upper() );
 }
 
 #include "keditconstant.moc"

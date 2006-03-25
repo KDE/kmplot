@@ -33,7 +33,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
-#include <q3cstring.h>
 #include <qcursor.h>
 #include <qtimer.h>
 //Added by qt3to4:

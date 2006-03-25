@@ -42,7 +42,7 @@ class KParameterEditor : public KDialog
 {
 Q_OBJECT
 public:
-    KParameterEditor(XParser *, QList<ParameterValueItem> *, QWidget *parent = 0, const char *name = 0);
+    KParameterEditor(XParser *, QList<ParameterValueItem> *, QWidget *parent = 0 );
     ~KParameterEditor();
     
 public slots:

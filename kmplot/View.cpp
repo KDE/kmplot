@@ -28,14 +28,12 @@
 #include <qbitmap.h>
 #include <qcursor.h>
 #include <qdatastream.h>
-#include <q3picture.h>
+#include <QPicture>
 #include <qslider.h>
 #include <qtimer.h>
 #include <qtooltip.h>
-#include <q3whatsthis.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3CString>
 #include <QPaintEvent>
 #include <QKeyEvent>
 #include <QEvent>

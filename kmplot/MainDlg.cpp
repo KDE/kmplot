@@ -63,7 +63,7 @@ class KmPlotIO;
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
+MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
 {
 	// we need an instance
 	setInstance( KmPlotPartFactory::instance() );
@@ -379,7 +379,7 @@ void MainDlg::slotExport()
 
 		if( url.fileName().right(4).lower()==".svg")
 		{
-			Q3Picture pic;
+			QPicture pic;
 			view->draw(&pic, 2);
 			if (url.isLocalFile() )
 				pic.save( url.prettyURL(0), "SVG");
@@ -816,11 +816,10 @@ KmPlotPartFactory::~KmPlotPartFactory()
 }
 
 KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
-        QObject *parent, const char *name,
-        const char *, const QStringList & )
+        QObject *parent, const char *, const char *, const QStringList & )
 {
 	// Create an instance of our Part
-	MainDlg* obj = new MainDlg( parentWidget, widgetName, parent, name );
+	MainDlg* obj = new MainDlg( parentWidget, widgetName, parent );
 	emit objectCreated( obj );
 	return obj;
 }

@@ -38,7 +38,7 @@
 #include "kminmax.h"
 #include "xparser.h"
 
-KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
+KMinMax::KMinMax(View *v, QWidget *parent )
 	: KDialog( parent, i18n("Find Minimum Point") ),
 	  m_view(v)
 {

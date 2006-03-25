@@ -26,23 +26,27 @@
 #ifndef KEDITCONSTANT_H
 #define KEDITCONSTANT_H
 
+#include <kdialog.h>
+
 #include "qeditconstant.h"
 #include "xparser.h"
+
+class QEditConstant;
 
 /**
 @author Fredrik Edemar
 */
 /// A small dialog for creating an editing constants
-class KEditConstant : public QEditConstant
+class KEditConstant : public KDialog
 {
 Q_OBJECT
 public:
-    KEditConstant(XParser *p, char &, QString &,QWidget *parent = 0, const char *name = 0);
+    KEditConstant( XParser *p, char &, QString &,QWidget *parent = 0 );
     ~KEditConstant();
    
 public slots:
-    void cmdOK_clicked();
-    void txtVariable_lostFocus();
+	virtual void accept();
+    void nameChanged( const QString & newName );
     
 signals:
     /// called when we are finished
@@ -52,8 +56,15 @@ private:
     char &constant;
     QString &value;
     XParser *m_parser;
-    
+	QEditConstant * m_mainWidget;
+};
 
+class QEditConstant : public QWidget, public Ui::QEditConstant
+{
+	public:
+		QEditConstant( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
 };
 
 #endif

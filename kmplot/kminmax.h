@@ -39,7 +39,7 @@ class KMinMax : public KDialog
 {
 Q_OBJECT
 public:
-    KMinMax(View *, QWidget *parent = 0, const char *name = 0);
+    KMinMax(View *, QWidget *parent = 0 );
     /// called every time the dialog is opened
     void init(char);
     /// update the list with functions

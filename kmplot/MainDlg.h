@@ -30,7 +30,7 @@
 #define MainDlg_included
 
 // Qt includes
-#include <q3picture.h>
+#include <QPicture>
 
 // KDE includes
 #include <kaction.h>
@@ -85,7 +85,7 @@ public:
 	 * @param parent parent object
 	 * @param name name of this dialog
 	 */
-	MainDlg(QWidget *parentWidget, const char *, QObject *parent, const char *name);
+	MainDlg(QWidget *parentWidget, const char *, QObject *parent );
 	/// Cleaning up a bit.
 	virtual ~MainDlg();
 	/// This class needs access to private members, too.

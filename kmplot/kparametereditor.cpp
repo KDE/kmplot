@@ -43,7 +43,7 @@
 
 class ParameterValueList;
 
-KParameterEditor::KParameterEditor(XParser *m, QList<ParameterValueItem> *l, QWidget *parent, const char *name)
+KParameterEditor::KParameterEditor(XParser *m, QList<ParameterValueItem> *l, QWidget *parent )
 	: KDialog( parent, i18n("Parameter Editor"), Ok ),
 	  m_parameter(l),
 	  m_parser(m)

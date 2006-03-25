@@ -56,7 +56,6 @@
 #include "settings.h"
 #include "settingspagecolor.h"
 #include "settingspagefonts.h"
-#include "settingspageprecision.h"
 #include "ksliderwindow.h"
 
 class XParser;

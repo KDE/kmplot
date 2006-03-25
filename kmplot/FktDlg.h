@@ -33,9 +33,11 @@
 // locale includes
 #include "FktDlgData.h"
 #include "View.h"
-//Added by qt3to4:
+
+#include <kdialog.h>
 #include <QShowEvent>
 
+class FktDlgData;
 class XParser;
 
 /** @short This widget class handles the users function input. 
@@ -44,7 +46,7 @@ class XParser;
  * New plots can be entered calling special dialog windows.
  * @see KEditFunction, KEditParametric, KEditPolar
  */
-class FktDlg : public FktDlgData
+class FktDlg : public KDialog
 {
 	Q_OBJECT
 
@@ -74,9 +76,10 @@ protected slots:
 	void slotEdit();
 	/// Enables/disables actions if the list has a/no selection.
 	void slotHasSelection();
-	void lb_fktliste_doubleClicked(Q3ListViewItem *, const QPoint &, int);
-	void lb_fktliste_clicked(Q3ListViewItem * item);
-	void lb_fktliste_spacePressed(Q3ListViewItem * item);
+	void lb_fktliste_doubleClicked(QListWidgetItem *);
+	void lb_fktliste_clicked(QListWidgetItem * item);
+	/// called after item is clicked on to check the check state
+	void checkCurrentItemCheckState();
 	
 	/// Edit a function plot.
 	/// @param id Id of the function plot to edit
@@ -116,6 +119,16 @@ private:
 	View* m_view;
 	/// indicates if a function is changed/added/removed
 	bool changed;
+	/// pointer to the main widget (FktDlgData) in this dialog
+	FktDlgData * m_mainWidget;
+};
+
+class FktDlgData : public QWidget, public Ui::FktDlgData
+{
+	public:
+		FktDlgData( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
 };
 
 #endif // FktDlg_included

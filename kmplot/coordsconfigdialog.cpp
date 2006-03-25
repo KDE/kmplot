@@ -34,7 +34,7 @@
 CoordsConfigDialog::CoordsConfigDialog(XParser *p, QWidget *parent)
 	: KConfigDialog(parent, "coords", Settings::self()), m_parser(p)
 {
-	configAxesDialog = new SettingsPageCoords( 0 );
+	configAxesDialog = new EditCoords( 0 );
 	addPage(configAxesDialog , i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) );
 	setHelp("axes-config");
 }

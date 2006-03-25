@@ -1,424 +1,236 @@
-<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
-<class>FktDlgData</class>
-<widget class="QDialog">
-    <property name="name">
-        <cstring>FktDlgData</cstring>
-    </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>462</width>
-            <height>355</height>
-        </rect>
-    </property>
-    <property name="minimumSize">
-        <size>
-            <width>350</width>
-            <height>250</height>
-        </size>
-    </property>
-    <property name="windowTitle">
-        <string>Edit Plots</string>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>11</number>
-        </property>
-        <property name="spacing">
-            <number>6</number>
-        </property>
-        <widget class="QLayoutWidget" row="1" column="0">
-            <property name="name">
-                <cstring>layout3</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>pushButtonHelp</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Help</string>
-                    </property>
-                </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>spacer6</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>PushButtonOk</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;OK</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>apply the changes and close the dialog</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to apply your changes and close this dialog.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>pushButtonCancel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Cancel</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>cancel without any changes</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to close the dialog without any changes.</string>
-                    </property>
-                </widget>
-            </hbox>
-        </widget>
-        <widget class="QFrame" row="0" column="0">
-            <property name="name">
-                <cstring>frame5</cstring>
-            </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="frameShadow">
-                <enum>Sunken</enum>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="K3ListView" row="0" column="0" rowspan="9" colspan="1">
-                    <property name="name">
-                        <cstring>lb_fktliste</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>7</hsizetype>
-                            <vsizetype>7</vsizetype>
-                            <horstretch>2</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="frameShape">
-                        <enum>StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>Sunken</enum>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>list of functions to be plotted</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Here you see the list of all functions to be plotted.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="4" column="1">
-                    <property name="name">
-                        <cstring>PushButtonDel</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Delete</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>delete the selected function</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to delete the selected function from the list.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="3" column="1">
-                    <property name="name">
-                        <cstring>PushButtonEdit</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Edit...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>edit the selected function</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to edit the selected function.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="0" column="1">
-                    <property name="name">
-                        <cstring>PushButtonNewFunction</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>New &amp;Function Plot...</string>
-                    </property>
-                    <property name="default">
-                        <bool>true</bool>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>define a new function</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="1" column="1">
-                    <property name="name">
-                        <cstring>PushButtonNewParametric</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>New &amp;Parametric Plot...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>define a new function</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="2" column="1">
-                    <property name="name">
-                        <cstring>PushButtonNewPolar</cstring>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>&amp;New Polar Plot...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>define a new function</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
-                    </property>
-                </widget>
-                <spacer row="8" column="1">
-                    <property name="name">
-                        <cstring>Spacer1</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton" row="6" column="1">
-                    <property name="name">
-                        <cstring>cmdCopyFunction</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Copy Function...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>define a new function</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
-                    </property>
-                </widget>
-                <widget class="QPushButton" row="7" column="1">
-                    <property name="name">
-                        <cstring>cmdMoveFunction</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>1</hsizetype>
-                            <vsizetype>0</vsizetype>
-                            <horstretch>1</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Move Function...</string>
-                    </property>
-                    <property name="toolTip" stdset="0">
-                        <string>define a new function</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
-                    </property>
-                </widget>
-                <spacer row="5" column="1">
-                    <property name="name">
-                        <cstring>spacer4</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Vertical</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-            </grid>
-        </widget>
-    </grid>
-</widget>
-<connections>
-    <connection>
-        <sender>PushButtonDel</sender>
-        <signal>clicked()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>slotDelete()</slot>
-    </connection>
-    <connection>
-        <sender>lb_fktliste</sender>
-        <signal>selectionChanged()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>slotHasSelection()</slot>
-    </connection>
-    <connection>
-        <sender>PushButtonOk</sender>
-        <signal>clicked()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>accept()</slot>
-    </connection>
-    <connection>
-        <sender>pushButtonCancel</sender>
-        <signal>clicked()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>reject()</slot>
-    </connection>
-    <connection>
-        <sender>PushButtonEdit</sender>
-        <signal>clicked()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>slotEdit()</slot>
-    </connection>
-    <connection>
-        <sender>PushButtonNewFunction</sender>
-        <signal>clicked()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>slotNewFunction()</slot>
-    </connection>
-    <connection>
-        <sender>PushButtonNewParametric</sender>
-        <signal>clicked()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>slotNewParametric()</slot>
-    </connection>
-    <connection>
-        <sender>PushButtonNewPolar</sender>
-        <signal>clicked()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>slotNewPolar()</slot>
-    </connection>
-    <connection>
-        <sender>pushButtonHelp</sender>
-        <signal>clicked()</signal>
-        <receiver>FktDlgData</receiver>
-        <slot>slotHelp()</slot>
-    </connection>
-</connections>
-<tabstops>
-    <tabstop>lb_fktliste</tabstop>
-    <tabstop>PushButtonNewFunction</tabstop>
-    <tabstop>PushButtonNewParametric</tabstop>
-    <tabstop>PushButtonNewPolar</tabstop>
-    <tabstop>PushButtonEdit</tabstop>
-    <tabstop>PushButtonDel</tabstop>
-    <tabstop>PushButtonOk</tabstop>
-    <tabstop>pushButtonCancel</tabstop>
-    <tabstop>pushButtonHelp</tabstop>
-</tabstops>
-<includes>
-    <include location="local" impldecl="in implementation">FktDlgData.ui.h</include>
-</includes>
-<slots>
-    <slot>slotDelete()</slot>
-    <slot>slotEdit()</slot>
-    <slot>slotHasSelection()</slot>
-    <slot>slotNewParametric()</slot>
-    <slot>slotNewPolar()</slot>
-    <slot>slotNewFunction()</slot>
-    <slot access="protected">slotHelp()</slot>
-    <slot>slotNewPrime()</slot>
-</slots>
-<layoutdefaults spacing="6" margin="11"/>
-</UI>
+<ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>FktDlgData</class>
+ <widget class="QWidget" name="FktDlgData" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>545</width>
+    <height>334</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Edit Plots</string>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>0</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="8" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>170</width>
+       <height>16</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item rowspan="9" row="0" column="0" >
+    <widget class="QListWidget" name="lb_fktliste" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>7</hsizetype>
+       <vsizetype>7</vsizetype>
+       <horstretch>255</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>170</width>
+       <height>16</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="6" column="1" >
+    <widget class="QPushButton" name="cmdCopyFunction" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>1</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>define a new function</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;Copy Function...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1" >
+    <widget class="QPushButton" name="cmdMoveFunction" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>1</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>define a new function</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;Move Function...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" >
+    <widget class="QPushButton" name="PushButtonEdit" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>1</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>edit the selected function</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click here to edit the selected function.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;Edit...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" >
+    <widget class="QPushButton" name="PushButtonNewPolar" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>1</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>define a new function</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;New Polar Plot...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
+    <widget class="QPushButton" name="PushButtonNewFunction" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>1</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>define a new function</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+     </property>
+     <property name="text" >
+      <string>New &amp;Function Plot...</string>
+     </property>
+     <property name="default" >
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" >
+    <widget class="QPushButton" name="PushButtonNewParametric" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>1</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>define a new function</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
+     </property>
+     <property name="text" >
+      <string>New &amp;Parametric Plot...</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1" >
+    <widget class="QPushButton" name="PushButtonDel" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>1</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip" >
+      <string>delete the selected function</string>
+     </property>
+     <property name="whatsThis" >
+      <string>Click here to delete the selected function from the list.</string>
+     </property>
+     <property name="text" >
+      <string>&amp;Delete</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <resources/>
+ <connections/>
+</ui>

@@ -47,7 +47,6 @@ KEditParametric::KEditParametric( XParser* parser, QWidget* parent )
 	: KDialog( parent, i18n("Edit Parametric Plot"), Ok|Cancel|Help ),
 	  m_parser(parser)
 {
-// 	KVBox *page = makeVBoxMainWidget();
 	m_editParametric = new QEditParametric( this );
 	setMainWidget( m_editParametric );
 	m_updatedfunction = 0;

@@ -35,7 +35,7 @@
 #include <kpushbutton.h>
 #include <q3cstring.h>
 #include <qcursor.h>
-#include <q3header.h>
+#include <qtimer.h>
 //Added by qt3to4:
 #include <QShowEvent>
 
@@ -52,17 +52,27 @@
 #include <kdebug.h>
 #include <ktoolinvocation.h>
 
-FktDlg::FktDlg( QWidget* parent, View *view ) : FktDlgData( parent, "editPlots" ), m_view(view)
+FktDlg::FktDlg( QWidget* parent, View *view )
+	: KDialog( parent, i18n("Edit Plots"), Ok|Cancel|Help ),
+	  m_view(view)
 {
-	connect( cmdCopyFunction, SIGNAL( clicked() ), this, SLOT( slotCopyFunction()) );
-	connect( cmdMoveFunction, SIGNAL( clicked() ), this, SLOT( slotMoveFunction()) );
-	connect( lb_fktliste, SIGNAL( doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(lb_fktliste_doubleClicked(Q3ListViewItem *, const QPoint &, int)) );
-	connect( lb_fktliste, SIGNAL( clicked(Q3ListViewItem *)), this, SLOT(lb_fktliste_clicked(Q3ListViewItem *)));
-	connect( lb_fktliste, SIGNAL( spacePressed(Q3ListViewItem *)), this, SLOT(lb_fktliste_spacePressed(Q3ListViewItem *)));
-
-	lb_fktliste->addColumn( "" );
-	lb_fktliste->header()->hide();
-	lb_fktliste->setResizeMode( Q3ListView::LastColumn );
+	m_mainWidget = new FktDlgData( this );
+	setMainWidget( m_mainWidget );
+	
+	connect( m_mainWidget->cmdCopyFunction, SIGNAL( clicked() ), this, SLOT( slotCopyFunction()) );
+	connect( m_mainWidget->cmdMoveFunction, SIGNAL( clicked() ), this, SLOT( slotMoveFunction()) );
+	connect( m_mainWidget->lb_fktliste, SIGNAL( itemDoubleClicked(QListWidgetItem *)), this, SLOT(lb_fktliste_doubleClicked(QListWidgetItem *)) );
+	connect( m_mainWidget->lb_fktliste, SIGNAL( itemClicked(QListWidgetItem *)), this, SLOT(lb_fktliste_clicked(QListWidgetItem *)));
+	
+	connect(m_mainWidget->PushButtonDel, SIGNAL(clicked()), this, SLOT(slotDelete()));
+	connect(m_mainWidget->lb_fktliste, SIGNAL(itemSelectionChanged()), this, SLOT(slotHasSelection()));
+// 	connect(PushButtonOk, SIGNAL(clicked()), this, SLOT(accept()));
+// 	connect(pushButtonCancel, SIGNAL(clicked()), this, SLOT(reject()));
+	connect(m_mainWidget->PushButtonEdit, SIGNAL(clicked()), this, SLOT(slotEdit()));
+	connect(m_mainWidget->PushButtonNewFunction, SIGNAL(clicked()), this, SLOT(slotNewFunction()));
+	connect(m_mainWidget->PushButtonNewParametric, SIGNAL(clicked()), this, SLOT(slotNewParametric()));
+	connect(m_mainWidget->PushButtonNewPolar, SIGNAL(clicked()), this, SLOT(slotNewPolar()));
+// 	connect(pushButtonHelp, SIGNAL(clicked()), this, SLOT(slotHelp()));
 }
 
 FktDlg::~FktDlg()
@@ -71,9 +81,9 @@ FktDlg::~FktDlg()
 
 void FktDlg::slotDelete()
 {
-	if ( lb_fktliste->currentItem() == 0)
+	if ( m_mainWidget->lb_fktliste->currentItem() == 0)
 		return;
-	Q3CheckListItem *currentItem = dynamic_cast<Q3CheckListItem *>(lb_fktliste->currentItem());
+	QListWidgetItem *currentItem = m_mainWidget->lb_fktliste->currentItem();
 	if( currentItem->text()[0] == 'x' )
 	{
     // Delete pair of parametric function
@@ -89,52 +99,50 @@ void FktDlg::slotDelete()
 		if (!m_view->parser()->delfkt( getId( currentItem->text()) ) )
 			return;
 	}
-	lb_fktliste->takeItem( currentItem );
+	m_mainWidget->lb_fktliste->takeItem( m_mainWidget->lb_fktliste->currentRow() );
 	changed = true;
 	updateView();
-	if ( lb_fktliste->childCount()==0 )
-		PushButtonDel->setEnabled(false);
+	slotHasSelection();
 }
 
-void FktDlg::lb_fktliste_doubleClicked( Q3ListViewItem *, const QPoint &, int )
+
+void FktDlg::lb_fktliste_doubleClicked( QListWidgetItem * )
 {
-	if ( mapFromGlobal(QCursor::pos()).x() <= 40 )
-		return;
 	slotEdit();
 }
 
-void FktDlg::lb_fktliste_spacePressed( Q3ListViewItem *item)
+
+void FktDlg::lb_fktliste_clicked( QListWidgetItem * )
 {
-	if ( !item )
-		return;
-	Q3CheckListItem *currentItem = dynamic_cast<Q3CheckListItem *>(item);
+	// use a single shot as the check state of the item isn't updated before emitting the clicked signal
+	QTimer::singleShot( 0, this, SLOT( checkCurrentItemCheckState() ) );
+}
+
+
+void FktDlg::checkCurrentItemCheckState()
+{
+	QListWidgetItem * item = m_mainWidget->lb_fktliste->currentItem();
+	
 	int id;
-	if ( currentItem->text()[0] == 'x' )
-		id = getParamId(currentItem->text());
+	if ( item->text()[0] == 'x' )
+		id = getParamId(item->text());
 	else
-		id = getId(currentItem->text());
+		id = getId(item->text());
 	Ufkt *function = &m_view->parser()->ufkt[ m_view->parser()->ixValue(id) ];
 	if ( id==-1 )
 		return;
 	
-	function->f_mode=currentItem->isOn();
+	function->f_mode = (item->checkState() & Qt::Checked);
 	updateView();
-}
-
-void FktDlg::lb_fktliste_clicked( Q3ListViewItem * item )
-{
-	if ( mapFromGlobal(QCursor::pos()).x() > 40 )
-		return;
-	lb_fktliste_spacePressed(item);
 }
 
 
 void FktDlg::slotEdit()
 {
-	Q3CheckListItem *currentItem = dynamic_cast<Q3CheckListItem *>(lb_fktliste->currentItem());
+	QListWidgetItem * currentItem = m_mainWidget->lb_fktliste->currentItem();
 	if ( currentItem == 0 )
 	{
-		PushButtonEdit->setEnabled(false);
+		m_mainWidget->PushButtonEdit->setEnabled(false);
 		return;
 	}
 	int const id = getId( currentItem->text().section( ";", 0, 0) ) ;
@@ -178,11 +186,11 @@ void FktDlg::updateView()
 
 void FktDlg::slotHasSelection()
 {
-	bool const has_selection = !( lb_fktliste->currentItem() == 0 );
-	PushButtonEdit->setEnabled( has_selection );
-	PushButtonDel->setEnabled( has_selection );
-	cmdCopyFunction->setEnabled( has_selection );
-	cmdMoveFunction->setEnabled( has_selection );
+	bool const has_selection = !m_mainWidget->lb_fktliste->selectedItems().isEmpty();
+	m_mainWidget->PushButtonEdit->setEnabled( has_selection );
+	m_mainWidget->PushButtonDel->setEnabled( has_selection );
+	m_mainWidget->cmdCopyFunction->setEnabled( has_selection );
+	m_mainWidget->cmdMoveFunction->setEnabled( has_selection );
 }
 
 void FktDlg::slotEditFunction( int id )
@@ -194,16 +202,16 @@ void FktDlg::slotEditFunction( int id )
 	if( editFunction->exec() == QDialog::Accepted )
 	{
 		Ufkt *function = editFunction->functionItem();
-		Q3CheckListItem *item;
+		QListWidgetItem *item;
 		if( id == -1 ) //a new function
-			item = new Q3CheckListItem(lb_fktliste, function->fstr, Q3CheckListItem::CheckBox); //a new function
+			item = new QListWidgetItem( function->fstr, m_mainWidget->lb_fktliste ); //a new function
 		else //change a function
 		{
-			item = dynamic_cast<Q3CheckListItem *>(lb_fktliste->currentItem());
-			item->setText(0, function->fstr );
+			item = m_mainWidget->lb_fktliste->currentItem();
+			item->setText( function->fstr );
 		}
-		item->setOn(function->f_mode);
-		lb_fktliste->sort();
+		item->setCheckState( function->f_mode ? Qt::Checked : Qt::Unchecked );
+		m_mainWidget->lb_fktliste->sortItems();
 		changed = true;
 		updateView();
 	}
@@ -219,18 +227,18 @@ void FktDlg::slotEditParametric( int x_id, int y_id)
 	{
 		Ufkt *function_y = editParametric->functionItem();
 		Ufkt *function_x = &m_view->parser()->ufkt[m_view->parser()->ixValue(function_y->id - 1)]; //get the x-function
-		Q3CheckListItem *item;
+		QListWidgetItem *item;
 		if( x_id == -1 ) //a new function
 		{
-			item = new Q3CheckListItem(lb_fktliste, function_x->fstr+";"+function_y->fstr, Q3CheckListItem::CheckBox);
+			item = new QListWidgetItem( function_x->fstr+";"+function_y->fstr, m_mainWidget->lb_fktliste );
 		}
 		else //change a function
 		{
-			item = dynamic_cast<Q3CheckListItem *>(lb_fktliste->currentItem());
-			item->setText(0, function_x->fstr+";"+function_y->fstr );
+			item = m_mainWidget->lb_fktliste->currentItem();
+			item->setText( function_x->fstr+";"+function_y->fstr );
 		}
-		item->setOn(function_y->f_mode);
-		lb_fktliste->sort();
+		item->setCheckState( function_y->f_mode ? Qt::Checked : Qt::Unchecked );
+		m_mainWidget->lb_fktliste->sortItems();
 		changed = true;
 		updateView();
 	}
@@ -244,18 +252,18 @@ void FktDlg::slotEditPolar( int id )
 	if( editPolar->exec() == QDialog::Accepted )
 	{
 		Ufkt *function = editPolar->functionItem();
-		Q3CheckListItem *item;
+		QListWidgetItem *item;
 		if( id == -1 ) // a new function
 		{
-			item = new Q3CheckListItem(lb_fktliste, function->fstr, Q3CheckListItem::CheckBox);
+			item = new QListWidgetItem( function->fstr, m_mainWidget->lb_fktliste );
 		}
 		else //change a function
 		{
-			item = dynamic_cast<Q3CheckListItem *>(lb_fktliste->currentItem());
-			item->setText(0, function->fstr );
+			item = m_mainWidget->lb_fktliste->currentItem();
+			item->setText( function->fstr );
 		}
-		item->setOn(function->f_mode);
-		lb_fktliste->sort();
+		item->setCheckState( function->f_mode ? Qt::Checked : Qt::Unchecked );
+		m_mainWidget->lb_fktliste->sortItems();
 		changed = true;
 		updateView();
 	}
@@ -278,24 +286,24 @@ void FktDlg::slotNewPolar()
 
 void FktDlg::getPlots()
 {
-	lb_fktliste->clear();
+	m_mainWidget->lb_fktliste->clear();
 
   // adding all yet added functions
 	for( QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it != m_view->parser()->ufkt.end(); ++it)
 	{
 		if( it->fname.isEmpty() || it->fstr[0] == 'y' ) continue;
-		Q3CheckListItem *item;
+		QListWidgetItem *item;
 		if( it->fstr[0] == 'x' )
 		{
 			QString y = it->fstr;
 			++it;
-			item = new Q3CheckListItem( lb_fktliste,  y + ";" + it->fstr, Q3CheckListItem::CheckBox );
+			item = new QListWidgetItem( y + ";" + it->fstr, m_mainWidget->lb_fktliste );
 		}
 		else
-			item = new Q3CheckListItem(lb_fktliste, it->fstr, Q3CheckListItem::CheckBox);
-		item->setOn(it->f_mode);
+			item = new QListWidgetItem( it->fstr, m_mainWidget->lb_fktliste );
+		item->setCheckState( it->f_mode ? Qt::Checked : Qt::Unchecked );
 	}
-	lb_fktliste->sort();
+	m_mainWidget->lb_fktliste->sortItems();
 }
 
 void  FktDlg::slotHelp()
@@ -315,24 +323,24 @@ void FktDlg::showEvent ( QShowEvent * )
 
 void FktDlg::slotCopyFunction()
 {
-	if ( lb_fktliste->currentItem() == 0)
+	if ( m_mainWidget->lb_fktliste->currentItem() == 0)
 	{
-		cmdCopyFunction->setEnabled(false);
+		m_mainWidget->cmdCopyFunction->setEnabled(false);
 		return;
 	}
-	Q3CheckListItem *currentItem = dynamic_cast<Q3CheckListItem *>(lb_fktliste->currentItem());
+	QListWidgetItem *currentItem = m_mainWidget->lb_fktliste->currentItem();
 	QString const fstr = currentItem->text();
 	m_view->parser()->sendFunction(getId(fstr));
 }
 
 void FktDlg::slotMoveFunction()
 {
-	if ( lb_fktliste->currentItem() == 0)
+	if ( m_mainWidget->lb_fktliste->currentItem() == 0)
 	{
-		cmdCopyFunction->setEnabled(false);
+		m_mainWidget->cmdCopyFunction->setEnabled(false);
 		return;
 	}
-	Q3CheckListItem *currentItem = dynamic_cast<Q3CheckListItem *>(lb_fktliste->currentItem());
+	QListWidgetItem *currentItem = m_mainWidget->lb_fktliste->currentItem();
 	QString const fstr = currentItem->text();
 	if ( !m_view->parser()->sendFunction(getId( currentItem->text()) ) )
 		return;

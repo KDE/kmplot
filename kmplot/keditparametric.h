@@ -42,7 +42,6 @@ class KEditParametric : public KDialog
 	public:
 		/// @param parser points to the parser instance.
 		/// @param parent points to the parent widget.
-		/// @param name of this instance.
 		KEditParametric( XParser* parser, QWidget* parent = NULL);
 		/// Nothing special to do.
 		virtual ~KEditParametric() {};

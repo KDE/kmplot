@@ -41,7 +41,6 @@ class KSliderWindow : public KDialog
 	Q_OBJECT
 	public:
 		/// @param parent points to the parent widget.
-		/// @param num number of this instance.
 		/// @param ac KActionCollection to add KActions
 		KSliderWindow(QWidget* parent, KActionCollection *ac );
 		virtual ~KSliderWindow();

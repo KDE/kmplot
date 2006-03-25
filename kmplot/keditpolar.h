@@ -42,7 +42,6 @@ class KEditPolar : public KDialog
 	public:
 		/// @param parser points to the parser instance.
 		/// @param parent points to the parent widget.
-		/// @param name of this instance.
 		KEditPolar( XParser* parser, QWidget* parent = NULL );
 		/// Nothing special to do.
 		virtual ~KEditPolar() {};

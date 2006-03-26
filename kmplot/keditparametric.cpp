@@ -123,7 +123,7 @@ void KEditParametric::accept()
 	{
 		QString fname;
 		m_parser->fixFunctionName(fname, XParser::ParametricX, m_x_id);
-		int const pos = fname.find('(');
+		int const pos = fname.indexOf('(');
 		m_editParametric->kLineEditName->setText(fname.mid(1,pos-1));
 	}
 		
@@ -317,7 +317,7 @@ void KEditParametric::splitEquation( const QString equation, QString &name, QStr
 {
 	int start = 0;
 	if( equation[ 0 ] == 'x' || equation[ 0 ] == 'y' ) start++;
-	int length = equation.find( '(' ) - start;
+	int length = equation.indexOf( '(' ) - start;
 	name = equation.mid( start, length );
 	
 	expression = equation.section( '=', 1, 1 );

@@ -349,9 +349,9 @@ int Parser::addfkt(QString str)
 	stkptr=stack=0;
 	err=0;
 	errpos=1;
-	const int p1=str.find('(');
-	int p2=str.find(',');
-	const int p3=str.find(")=");
+	const int p1=str.indexOf('(');
+	int p2=str.indexOf(',');
+	const int p3=str.indexOf(")=");
         fix_expression(str,p1+4);
         
 	if(p1==-1 || p3==-1 || p1>p3)
@@ -404,7 +404,7 @@ int Parser::addfkt(QString str)
         
         kDebug() << "temp.id:" << temp->id << endl;
         
-	if ( temp->fname != temp->fname.lower() ) //isn't allowed to contain capital letters
+	if ( temp->fname != temp->fname.toLower() ) //isn't allowed to contain capital letters
 	{
 		delfkt(temp);
 		err=12;
@@ -438,9 +438,9 @@ void Parser::reparse(Ufkt *item)
 	err=0;
 	errpos=1;
 
-	const int p1=str.find('(');
-	int p2=str.find(',');
-	const int p3=str.find(")=");
+	const int p1=str.indexOf('(');
+	int p2=str.indexOf(',');
+	const int p3=str.indexOf(")=");
 	
         fix_expression(str,p1+4);
         
@@ -464,7 +464,7 @@ void Parser::reparse(Ufkt *item)
 	if(p2<p3) item->fpar=str.mid(p2+1, p3-p2-1);
 	else item->fpar="";
 	
-	if ( item->fname != item->fname.lower() ) //isn't allowed to contain capital letters
+	if ( item->fname != item->fname.toLower() ) //isn't allowed to contain capital letters
 	{
 		err=12;
 		return;

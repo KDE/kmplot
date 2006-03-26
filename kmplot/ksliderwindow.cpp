@@ -73,7 +73,7 @@ KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
 		m_sliders[i]->setMinimum( config.readEntry( "min", 0) );
 		m_sliders[i]->setMaximum( config.readEntry( "max", 100) );
 		m_sliders[i]->setValue( config.readEntry( "value", 50) );
-		m_sliders[i]->setPageStep( (int)ceil((abs(m_sliders[i]->minValue()) + abs(m_sliders[i]->maxValue()))/10.) );
+		m_sliders[i]->setPageStep( (int)ceil((abs(m_sliders[i]->minimum()) + abs(m_sliders[i]->maximum()))/10.) );
 		
 		m_sliders[i]->installEventFilter(this);
 		
@@ -101,8 +101,8 @@ KSliderWindow::~KSliderWindow()
 	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )
 	{
 		config.setGroup( "slider" + QString::number(i) );
-		config.writeEntry( "min", m_sliders[i]->minValue() );
-		config.writeEntry( "max", m_sliders[i]->maxValue() );
+		config.writeEntry( "min", m_sliders[i]->minimum() );
+		config.writeEntry( "max", m_sliders[i]->maximum() );
 		config.writeEntry( "value", m_sliders[i]->value() );
 	}
 }
@@ -144,11 +144,11 @@ void KSliderWindow::mnuMinValue_clicked()
 	assert( m_clickedOnSlider );
 	
 	bool ok;
-	int const result = KInputDialog::getInteger(i18n("Change Minimum Value"), i18n("Type a new minimum value for the slider:"), m_clickedOnSlider->minValue(), INT_MIN, INT_MAX, 1, 10, &ok);
+	int const result = KInputDialog::getInteger(i18n("Change Minimum Value"), i18n("Type a new minimum value for the slider:"), m_clickedOnSlider->minimum(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)
 		return;
 	m_clickedOnSlider->setMinimum(result);
-	m_clickedOnSlider->setPageStep( (int)ceil((abs(m_clickedOnSlider->maxValue()) + abs(result))/10.) );
+	m_clickedOnSlider->setPageStep( (int)ceil((abs(m_clickedOnSlider->maximum()) + abs(result))/10.) );
 	setFocus();
 }
 
@@ -157,11 +157,11 @@ void KSliderWindow::mnuMaxValue_clicked()
 	assert( m_clickedOnSlider );
 	
 	bool ok;
-	int const result = KInputDialog::getInteger(i18n("Change Maximum Value"), i18n("Type a new maximum value for the slider:"), m_clickedOnSlider->maxValue(), INT_MIN, INT_MAX, 1, 10, &ok);
+	int const result = KInputDialog::getInteger(i18n("Change Maximum Value"), i18n("Type a new maximum value for the slider:"), m_clickedOnSlider->maximum(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)
 		return;
 	m_clickedOnSlider->setMaximum(result);
-	m_clickedOnSlider->setPageStep( (int)ceil((abs(m_clickedOnSlider->minValue()) + abs(result))/10.) );
+	m_clickedOnSlider->setPageStep( (int)ceil((abs(m_clickedOnSlider->minimum()) + abs(result))/10.) );
 	setFocus();
 }
 

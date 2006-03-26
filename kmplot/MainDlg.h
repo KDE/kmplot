@@ -276,32 +276,32 @@ class QuickEditAction : public KAction, public QActionWidgetFactory
 class EditScaling : public QWidget, public Ui::EditScaling
 {
 	public:
-		EditScaling( QWidget * parent = 0, const char * name = 0 )
-	: QWidget( parent, name )
+		EditScaling( QWidget * parent = 0 )
+	: QWidget( parent )
 		{ setupUi(this); }
 };
 
 class SettingsPageColor : public QWidget, public Ui::SettingsPageColor
 {
 	public:
-		SettingsPageColor( QWidget * parent = 0, const char * name = 0 )
-	: QWidget( parent, name )
+		SettingsPageColor( QWidget * parent = 0 )
+	: QWidget( parent )
 		{ setupUi(this); }
 };
 
 class SettingsPageFonts : public QWidget, public Ui::SettingsPageFonts
 {
 	public:
-		SettingsPageFonts( QWidget * parent = 0, const char * name = 0 )
-	: QWidget( parent, name )
+		SettingsPageFonts( QWidget * parent = 0 )
+	: QWidget( parent )
 		{ setupUi(this); }
 };
 
 class SettingsPageGeneral : public QWidget, public Ui::SettingsPageGeneral
 {
 	public:
-		SettingsPageGeneral( QWidget * parent = 0, const char * name = 0 )
-	: QWidget( parent, name )
+		SettingsPageGeneral( QWidget * parent = 0 )
+	: QWidget( parent )
 		{ setupUi(this); }
 };
 

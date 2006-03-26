@@ -388,9 +388,9 @@ void EditFunction::slotHelp()
 
 bool EditFunction::functionHas2Arguments()
 {
-	int const openBracket = editfunctionpage->equation->text().find( "(" );
-	int const closeBracket = editfunctionpage->equation->text().find( ")" );
-	return editfunctionpage->equation->text().mid( openBracket+1, closeBracket-openBracket-1 ).find( "," ) != -1;
+	int const openBracket = editfunctionpage->equation->text().indexOf( "(" );
+	int const closeBracket = editfunctionpage->equation->text().indexOf( ")" );
+	return editfunctionpage->equation->text().mid( openBracket+1, closeBracket-openBracket-1 ).indexOf( "," ) != -1;
 }
 void EditFunction::cmdParameter_clicked()
 {
@@ -401,8 +401,8 @@ void EditFunction::cmdParameter_clicked()
 
 void EditFunction::fixFunctionArguments(QString &f_str)
 {
-	int const openBracket = f_str.find( "(" );
-	int const closeBracket = f_str.find( ")" );
+	int const openBracket = f_str.indexOf( "(" );
+	int const closeBracket = f_str.indexOf( ")" );
 	char parameter_name;
 	if ( closeBracket-openBracket == 2) //the function atribute is only one character
 	{

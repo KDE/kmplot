@@ -154,7 +154,7 @@ void KMinMax::updateFunctions()
 			if ( it->f1_mode ) //1st derivative
 			{
 				QString function (it->fstr);
-				int i= function.find('(');
+				int i= function.indexOf('(');
 				function.truncate(i);
 				function +="\'";
 				m_mainWidget->list->insertItem(function );
@@ -162,7 +162,7 @@ void KMinMax::updateFunctions()
 			if ( it->f2_mode )//2nd derivative
 			{
 				QString function (it->fstr);
-				int i= function.find('(');
+				int i= function.indexOf('(');
 				function.truncate(i);
 				function +="\'\'";
 				m_mainWidget->list->insertItem(function );
@@ -170,9 +170,9 @@ void KMinMax::updateFunctions()
 			if ( it->integral_mode )//integral
 			{
 				QString function (it->fstr);
-				int i= function.find('(');
+				int i= function.indexOf('(');
 				function.truncate(i);
-				function = function.upper();
+				function = function.toUpper();
 				m_mainWidget->list->insertItem(function );
 			}
 		}
@@ -198,13 +198,13 @@ void KMinMax::selectItem()
 	QString function = ufkt->fstr;
 	if ( m_view->cstype == 2)
 	{
-		int i= function.find('(');
+		int i= function.indexOf('(');
 		function.truncate(i);
 		function +="\'\'";
 	}
 	else if ( m_view->cstype == 1)
 	{
-		int i= function.find('(');
+		int i= function.indexOf('(');
 		function.truncate(i);
 		function +="\'";
 	}
@@ -267,19 +267,19 @@ void KMinMax::cmdFind_clicked()
 	if ( function.contains('\'') == 1)
 	{
 		p_mode = 1;
-		int pos = function.find('\'');
+		int pos = function.indexOf('\'');
 		function.remove(pos,1);
 	}
 	else if ( function.contains('\'') == 2)
 	{
 		p_mode = 2;
-		int pos = function.find('\'');
+		int pos = function.indexOf('\'');
 		function.remove(pos,2);
 	}
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
 		p_mode = 3;
-		function[0] =  function[0].lower();
+		function[0] =  function[0].toLower();
 	}
 
 	QString fname, fstr;
@@ -361,19 +361,19 @@ void KMinMax::list_highlighted(Q3ListBoxItem* item)
 	if ( function.contains('\'') == 1)
 	{
 		p_mode = 1;
-		int pos = function.find('\'');
+		int pos = function.indexOf('\'');
 		function.remove(pos,1);
 	}
 	else if ( function.contains('\'') == 2)
 	{
 		p_mode = 2;
-		int pos = function.find('\'');
+		int pos = function.indexOf('\'');
 		function.remove(pos,2);
 	}
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
 		p_mode = 3;
-		function[0] =  function[0].lower();
+		function[0] =  function[0].toLower();
 	}
 	QString const sec_function = function.section('(',0,0);
         for(QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
@@ -399,19 +399,19 @@ void KMinMax::cmdParameter_clicked()
 	if ( function.contains('\'') == 1)
 	{
 		p_mode = 1;
-		int pos = function.find('\'');
+		int pos = function.indexOf('\'');
 		function.remove(pos,1);
 	}
 	else if ( function.contains('\'') == 2)
 	{
 		p_mode = 2;
-		int pos = function.find('\'');
+		int pos = function.indexOf('\'');
 		function.remove(pos,2);
 	}
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
 		p_mode = 3;
-		function[0] =  function[0].lower();
+		function[0] =  function[0].toLower();
 	}
         
 	QString const sec_function = function.section('(',0,0);

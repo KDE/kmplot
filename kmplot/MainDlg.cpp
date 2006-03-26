@@ -68,8 +68,8 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 	// we need an instance
 	setInstance( KmPlotPartFactory::instance() );
 
-	kDebug() << "parentWidget->name():" << parentWidget->name() << endl;
-	if ( QString(parentWidget->name()).startsWith("KmPlot") )
+	kDebug() << "parentWidget->objectName():" << parentWidget->objectName() << endl;
+	if ( QString(parentWidget->objectName()).startsWith("KmPlot") )
 	{
 		setXMLFile("kmplot_part.rc");
 		m_readonly = false;
@@ -103,7 +103,8 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 	m_generalSettings = new SettingsPageGeneral( view );
 	m_colorSettings = new SettingsPageColor( view );
 	m_fontsSettings = new SettingsPageFonts( view );
-	m_constantsSettings = new KConstantEditor( view, 0, "constantsSettings" );
+	m_constantsSettings = new KConstantEditor( view, 0 );
+	m_constantsSettings->setObjectName( "constantsSettings" );
 	
 	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
 	m_settingsDialog->addPage( m_colorSettings, i18n("Colors"), "colorize", i18n("Colors") );
@@ -377,7 +378,7 @@ void MainDlg::slotExport()
 		// check if file exists and overwriting is ok.
 		if( KIO::NetAccess::exists(url,false,m_parent ) && KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(url.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
 
-		if( url.fileName().right(4).lower()==".svg")
+		if( url.fileName().right(4).toLower()==".svg")
 		{
 			QPicture pic;
 			view->draw(&pic, 2);
@@ -393,7 +394,7 @@ void MainDlg::slotExport()
 			}
 		}
 
-		else if( url.fileName().right(4).lower()==".bmp")
+		else if( url.fileName().right(4).toLower()==".bmp")
 		{
 			QPixmap pic(100, 100);
 			view->draw(&pic, 3);
@@ -409,7 +410,7 @@ void MainDlg::slotExport()
 			}
 		}
 
-		else if( url.fileName().right(4).lower()==".png")
+		else if( url.fileName().right(4).toLower()==".png")
 		{
 			QPixmap pic(100, 100);
 			view->draw(&pic, 3);
@@ -502,7 +503,9 @@ void MainDlg::editScaling()
 	// create a config dialog and add a scaling page
 	KConfigDialog *scalingDialog = new KConfigDialog( m_parent, "scaling", Settings::self() );
 	scalingDialog->setHelp("scaling-config");
-	scalingDialog->addPage( new EditScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
+	EditScaling *es = new EditScaling();
+	es->setObjectName( "scalingSettings" );
+	scalingDialog->addPage( es, i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
 	connect( scalingDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
@@ -580,7 +583,7 @@ void MainDlg::slotQuickEdit(const QString& f_str_const )
 {
 	//creates a valid name for the function if the user has forgotten that
   	QString f_str( f_str_const );
-	int const pos = f_str_const.find(';');
+	int const pos = f_str_const.indexOf(';');
 	if (pos!=-1)
 	  f_str = f_str.left(pos);
 	if (f_str.at(0)=='r')
@@ -683,7 +686,7 @@ void MainDlg::loadConstants()
 		if ( tmp_constant == " " || tmp_constant == " ")
 		  return;
 		
- 		constant = tmp_constant[0].upper().latin1();
+ 		constant = tmp_constant[0].toUpper().latin1();
 
 		if ( constant<'A' || constant>'Z')
 			constant = 'A';

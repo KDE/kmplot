@@ -38,7 +38,7 @@ class KConstantEditor : public QWidget, public Ui::SettingsPageConstants
 {
 Q_OBJECT
 public:
-    KConstantEditor(View *, QWidget *parent = 0, const char *name = 0);
+    KConstantEditor(View *, QWidget *parent = 0);
     ~KConstantEditor();
     
 public slots:

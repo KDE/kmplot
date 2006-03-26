@@ -182,10 +182,11 @@ bool KmPlotIO::save( const KUrl &url )
 	if (!url.isLocalFile() )
 	{
 		KTempFile tmpfile;
-		xmlfile.setName(tmpfile.name() );
+		xmlfile.setFileName( KUrl( tmpfile.name() ).path() );
 		if (!xmlfile.open( QIODevice::WriteOnly ) )
 		{
 			tmpfile.unlink();
+			kWarning() << k_funcinfo << "Could not open " << KUrl( tmpfile.name() ).path() << " for writing.\n";
 			return false;
 		}
 		QTextStream ts( &xmlfile );
@@ -195,15 +196,19 @@ bool KmPlotIO::save( const KUrl &url )
 		if ( !KIO::NetAccess::upload(tmpfile.name(), url,0))
 		{
 			tmpfile.unlink();
+			kWarning() << k_funcinfo << "Could not open " << url.prettyURL() << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
 			return false;
 		}
 		tmpfile.unlink();
 	}
 	else
 	{
-		xmlfile.setName(url.prettyURL(0)  );
+		xmlfile.setFileName(url.path()  );
 		if (!xmlfile.open( QIODevice::WriteOnly ) )
+		{
+			kWarning() << k_funcinfo << "Could not open " << url.path() << " for writing.\n";
 			return false;
+		}
 		QTextStream ts( &xmlfile );
 		doc.save( ts, 4 );
 		xmlfile.close();
@@ -238,10 +243,10 @@ bool KmPlotIO::load( const KUrl &url )
 			KMessageBox::error(0,i18n("An error appeared when opening this file"));
 			return false;
 		}
-		f.setName(tmpfile);
+		f.setFileName(tmpfile);
 	}
 	else
-		f.setName( url.prettyURL(0) );
+		f.setFileName( url.path() );
 
 	if ( !f.open( QIODevice::ReadOnly ) )
 	{
@@ -292,7 +297,7 @@ bool KmPlotIO::load( const KUrl &url )
 		KMessageBox::error(0,i18n("The file had an unknown version number"));
 
 	if ( !url.isLocalFile() )
-		KIO::NetAccess::removeTempFile( f.name() );
+		KIO::NetAccess::removeTempFile( f.fileName() );
 	return true;
 }
 
@@ -438,7 +443,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	QString fstr = ufkt.fstr;
 	if ( !fstr.isEmpty() )
 	{
-		int const i = fstr.find( ';' );
+		int const i = fstr.indexOf( ';' );
 		QString str;
 		if ( i == -1 )
 			str = fstr;
@@ -533,7 +538,7 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	}
 	
 	const QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
-	const int pos = tmp_fstr.find(';');
+	const int pos = tmp_fstr.indexOf(';');
 	if ( pos == -1 )
 	  ufkt.fstr = tmp_fstr;
 	else
@@ -549,7 +554,7 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	QString fstr = ufkt.fstr;
 	if ( !fstr.isEmpty() )
 	{
-		int const i = fstr.find( ';' );
+		int const i = fstr.indexOf( ';' );
 		QString str;
 		if ( i == -1 )
 			str = fstr;

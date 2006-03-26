@@ -34,7 +34,7 @@ class KmPlotProgress: public QWidget
 {
 	Q_OBJECT
 public:
-	KmPlotProgress( QWidget* parent = 0, const char* name = 0 );
+	KmPlotProgress( QWidget* parent = 0 );
 	~KmPlotProgress();
 	void increase();
 

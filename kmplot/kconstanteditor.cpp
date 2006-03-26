@@ -40,8 +40,8 @@
 #include "kconstanteditor.h"
 
 
-KConstantEditor::KConstantEditor(View *v, QWidget *parent, const char *name)
-	: QWidget(parent,name),
+KConstantEditor::KConstantEditor(View *v, QWidget *parent)
+	: QWidget(parent),
 	  m_view(v)
 {
 	setupUi( this );
@@ -97,7 +97,7 @@ void KConstantEditor::cmdDelete_clicked()
         for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		str =  it->fstr;
-		for (int i=str.find(')'); i<str.length();i++)
+		for (int i=str.indexOf(')'); i<str.length();i++)
 			if ( str.at(i) == constant )
                         {
 			     KMessageBox::error(this, i18n("A function uses this constant; therefore, it cannot be removed."));

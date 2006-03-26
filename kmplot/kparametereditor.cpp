@@ -166,10 +166,10 @@ void KParameterEditor::cmdImport_clicked()
                         KMessageBox::error(0,i18n("An error appeared when opening this file"));
                         return;
                 }
-                file.setName(tmpfile);
+                file.setFileName(tmpfile);
         }
         else
-                file.setName(url.prettyURL(0) );
+                file.setFileName(url.prettyURL(0) );
 	
 	if ( file.open(QIODevice::ReadOnly) )
 	{
@@ -225,7 +225,7 @@ void KParameterEditor::cmdExport_clicked()
                 if ( !url.isLocalFile() )
                 {
                         KTempFile tmpfile;
-                        file.setName(tmpfile.name() );
+                        file.setFileName(tmpfile.name() );
                         
                         if (file.open( QIODevice::WriteOnly ) )
                         {
@@ -255,7 +255,7 @@ void KParameterEditor::cmdExport_clicked()
                 }
                 else
                 {
-                        file.setName(url.prettyURL(0));
+                        file.setFileName(url.prettyURL(0));
                         if (file.open( QIODevice::WriteOnly ) )
                         {
                                 QTextStream stream(&file);

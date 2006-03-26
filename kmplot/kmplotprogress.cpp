@@ -29,7 +29,7 @@
 #include "kmplotprogress.h"
 //#include "kmplotprogress.moc.cpp"
 
-KmPlotProgress::KmPlotProgress( QWidget* parent, const char* name ) : QWidget( parent, name) 
+KmPlotProgress::KmPlotProgress( QWidget* parent ) : QWidget( parent )
 {
  button = new KPushButton(this);
  button->setPixmap( SmallIcon( "cancel" ) );

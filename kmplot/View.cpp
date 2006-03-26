@@ -1058,7 +1058,7 @@ void View::mousePressEvent(QMouseEvent *e)
 					else
 						m_popupmenushown = 2;
 					QString function = it->fstr;
-					function = function.left(function.find('(')) + '\'';
+					function = function.left(function.indexOf('(')) + '\'';
 					m_popupmenu->addTitle( function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
@@ -1075,7 +1075,7 @@ void View::mousePressEvent(QMouseEvent *e)
 					else
 						m_popupmenushown = 2;
 					QString function = it->fstr;
-					function = function.left(function.find('(')) + "\'\'";
+					function = function.left(function.indexOf('(')) + "\'\'";
 					m_popupmenu->addTitle(function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
@@ -1136,7 +1136,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				csparam = k;
 				m_minmax->selectItem();
 				QString function = it->fstr;
-				function = function.left(function.find('(')) + '\'';
+				function = function.left(function.indexOf('(')) + '\'';
 				setStatusBar(function,4);
 				mouseMoveEvent(e);
 				return;
@@ -1148,7 +1148,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				csparam = k;
 				m_minmax->selectItem();
 				QString function = it->fstr;
-				function = function.left(function.find('(')) + "\'\'";
+				function = function.left(function.indexOf('(')) + "\'\'";
 				setStatusBar(function,4);
 				mouseMoveEvent(e);
 				return;
@@ -1678,14 +1678,14 @@ void View::keyPressEvent( QKeyEvent * e)
 		case 1:
 			{
 				QString function = it->fstr;
-				function = function.left(function.find('(')) + '\'';
+				function = function.left(function.indexOf('(')) + '\'';
 				setStatusBar(function,4);
 				break;
 			}
 		case 2:
 			{
 				QString function = it->fstr;
-				function = function.left(function.find('(')) + "\'\'";
+				function = function.left(function.indexOf('(')) + "\'\'";
 				setStatusBar(function,4);
 				break;
 			}

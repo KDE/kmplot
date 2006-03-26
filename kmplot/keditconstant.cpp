@@ -98,7 +98,7 @@ void KEditConstant::accept()
 
 void KEditConstant::nameChanged( const QString & newName )
 {
-	m_mainWidget->txtConstant->setText( newName.upper() );
+	m_mainWidget->txtConstant->setText( newName.toUpper() );
 }
 
 #include "keditconstant.moc"

@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>237</height>
+    <width>222</width>
+    <height>345</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
@@ -20,368 +20,368 @@
     <number>6</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
+    <widget class="QGroupBox" name="groupBox" >
+     <property name="title" >
+      <string>X-Axis</string>
      </property>
-     <property name="spacing" >
-      <number>6</number>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="4" column="1" >
+       <widget class="KComboBox" name="kcfg_XPrinting" >
+        <property name="toolTip" >
+         <string>set the x-axis' printing scaling</string>
+        </property>
+        <property name="whatsThis" >
+         <string>This is similar to the setting above, but this sets the distance between two x-axis-grids when printing or drawing on the screen.</string>
+        </property>
+        <item>
+         <property name="text" >
+          <string>10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>0.5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>pi/2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>pi/3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>pi/4</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3" >
+       <widget class="QLabel" name="textLabel13" >
+        <property name="text" >
+         <string>Scaling:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QLabel" name="textLabel12_2" >
+        <property name="text" >
+         <string>1 tic =</string>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_XPrinting</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="textLabel12" >
+        <property name="text" >
+         <string>1 tic =</string>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_XScaling</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2" >
+       <widget class="QLabel" name="textLabel14" >
+        <property name="text" >
+         <string>cm</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="KComboBox" name="kcfg_XScaling" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>1</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip" >
+         <string>set the x-axis' scaling</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Choose how many units apart the x-axis tics will be, and therefore, how far apart grid lines will be drawn.</string>
+        </property>
+        <item>
+         <property name="text" >
+          <string>10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>0.5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>pi/2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>pi/3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>pi/4</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>automatic</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="3" >
+       <widget class="QLabel" name="textLabel13_2" >
+        <property name="text" >
+         <string>Printing:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="3" >
+       <widget class="Line" name="line1" >
+        <property name="frameShape" >
+         <enum>QFrame::HLine</enum>
+        </property>
+        <property name="frameShadow" >
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2" >
+     <property name="title" >
+      <string>Y-Axis</string>
      </property>
-     <item>
-      <widget class="Q3GroupBox" name="groupBox1" >
-       <property name="title" >
-        <string>X-Axis</string>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-       <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>11</number>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="1" column="0" >
+       <widget class="QLabel" name="textLabel12_3" >
+        <property name="text" >
+         <string>1 tic =</string>
         </property>
-        <property name="spacing" >
-         <number>6</number>
+        <property name="buddy" >
+         <cstring>kcfg_YScaling</cstring>
         </property>
-        <item row="0" column="0" colspan="3" >
-         <widget class="QLabel" name="textLabel13" >
-          <property name="text" >
-           <string>Scaling:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0" colspan="3" >
-         <widget class="Line" name="line1" >
-          <property name="frameShape" >
-           <enum>QFrame::HLine</enum>
-          </property>
-          <property name="frameShadow" >
-           <enum>QFrame::Sunken</enum>
-          </property>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" colspan="3" >
-         <widget class="QLabel" name="textLabel13_2" >
-          <property name="text" >
-           <string>Printing:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" >
-         <widget class="QLabel" name="textLabel12" >
-          <property name="text" >
-           <string>1 tic =</string>
-          </property>
-          <property name="buddy" >
-           <cstring>kcfg_XScaling</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0" >
-         <widget class="QLabel" name="textLabel12_2" >
-          <property name="text" >
-           <string>1 tic =</string>
-          </property>
-          <property name="buddy" >
-           <cstring>kcfg_XPrinting</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1" >
-         <widget class="KComboBox" name="kcfg_XPrinting" >
-          <property name="toolTip" >
-           <string>set the x-axis' printing scaling</string>
-          </property>
-          <property name="whatsThis" >
-           <string>This is similar to the setting above, but this sets the distance between two x-axis-grids when printing or drawing on the screen.</string>
-          </property>
-          <item>
-           <property name="text" >
-            <string>10</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>0.5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/4</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="4" column="2" >
-         <widget class="QLabel" name="textLabel14" >
-          <property name="text" >
-           <string>cm</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" >
-         <widget class="KComboBox" name="kcfg_XScaling" >
-          <property name="toolTip" >
-           <string>set the x-axis' scaling</string>
-          </property>
-          <property name="whatsThis" >
-           <string>Choose how many units apart the x-axis tics will be, and therefore, how far apart grid lines will be drawn.</string>
-          </property>
-          <item>
-           <property name="text" >
-            <string>10</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>0.5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/4</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>automatic</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="Q3GroupBox" name="groupBox1_2" >
-       <property name="title" >
-        <string>Y-Axis</string>
-       </property>
-       <property name="orientation" >
-        <enum>Qt::Vertical</enum>
-       </property>
-       <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>11</number>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3" >
+       <widget class="QLabel" name="textLabel13_3" >
+        <property name="text" >
+         <string>Scaling:</string>
         </property>
-        <property name="spacing" >
-         <number>6</number>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="3" >
+       <widget class="Line" name="line1_2" >
+        <property name="frameShape" >
+         <enum>QFrame::HLine</enum>
         </property>
-        <item row="0" column="0" colspan="3" >
-         <widget class="QLabel" name="textLabel13_3" >
-          <property name="text" >
-           <string>Scaling:</string>
-          </property>
-         </widget>
+        <property name="frameShadow" >
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2" >
+       <widget class="QLabel" name="textLabel14_2" >
+        <property name="text" >
+         <string>cm</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" >
+       <widget class="KComboBox" name="kcfg_YScaling" >
+        <property name="sizePolicy" >
+         <sizepolicy>
+          <hsizetype>1</hsizetype>
+          <vsizetype>0</vsizetype>
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip" >
+         <string>set the y-axis' scaling</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Choose how many units apart the y-axis tics will be, and therefore, how far apart grid lines will be drawn.</string>
+        </property>
+        <item>
+         <property name="text" >
+          <string>10</string>
+         </property>
         </item>
-        <item row="3" column="0" colspan="3" >
-         <widget class="Line" name="line1_2" >
-          <property name="frameShape" >
-           <enum>QFrame::HLine</enum>
-          </property>
-          <property name="frameShadow" >
-           <enum>QFrame::Sunken</enum>
-          </property>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
+        <item>
+         <property name="text" >
+          <string>5</string>
+         </property>
         </item>
-        <item row="4" column="0" colspan="3" >
-         <widget class="QLabel" name="textLabel13_2_2" >
-          <property name="text" >
-           <string>Printing:</string>
-          </property>
-         </widget>
+        <item>
+         <property name="text" >
+          <string>2</string>
+         </property>
         </item>
-        <item rowspan="2" row="1" column="0" colspan="2" >
-         <widget class="QLabel" name="textLabel12_3" >
-          <property name="text" >
-           <string>1 tic =</string>
-          </property>
-          <property name="buddy" >
-           <cstring>kcfg_YScaling</cstring>
-          </property>
-         </widget>
+        <item>
+         <property name="text" >
+          <string>1</string>
+         </property>
         </item>
-        <item row="5" column="0" >
-         <widget class="QLabel" name="textLabel12_2_2" >
-          <property name="text" >
-           <string>1 tic =</string>
-          </property>
-          <property name="buddy" >
-           <cstring>kcfg_YPrinting</cstring>
-          </property>
-         </widget>
+        <item>
+         <property name="text" >
+          <string>0.5</string>
+         </property>
         </item>
-        <item row="5" column="1" >
-         <widget class="KComboBox" name="kcfg_YPrinting" >
-          <property name="toolTip" >
-           <string>set the y-axis' scaling</string>
-          </property>
-          <property name="whatsThis" >
-           <string>This is similar to the setting above, but this sets the distance between two y-axis-grids when printing or drawing on the screen.</string>
-          </property>
-          <item>
-           <property name="text" >
-            <string>10</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>0.5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/4</string>
-           </property>
-          </item>
-         </widget>
+        <item>
+         <property name="text" >
+          <string>pi/2</string>
+         </property>
         </item>
-        <item row="5" column="2" >
-         <widget class="QLabel" name="textLabel14_2" >
-          <property name="text" >
-           <string>cm</string>
-          </property>
-         </widget>
+        <item>
+         <property name="text" >
+          <string>pi/3</string>
+         </property>
         </item>
-        <item row="2" column="1" >
-         <widget class="KComboBox" name="kcfg_YScaling" >
-          <property name="toolTip" >
-           <string>set the y-axis' scaling</string>
-          </property>
-          <property name="whatsThis" >
-           <string>Choose how many units apart the y-axis tics will be, and therefore, how far apart grid lines will be drawn.</string>
-          </property>
-          <item>
-           <property name="text" >
-            <string>10</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>0.5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>pi/4</string>
-           </property>
-          </item>
-          <item>
-           <property name="text" >
-            <string>automatic</string>
-           </property>
-          </item>
-         </widget>
+        <item>
+         <property name="text" >
+          <string>pi/4</string>
+         </property>
         </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
+        <item>
+         <property name="text" >
+          <string>automatic</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="3" >
+       <widget class="QLabel" name="textLabel13_2_2" >
+        <property name="text" >
+         <string>Printing:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" >
+       <widget class="QLabel" name="textLabel12_2_2" >
+        <property name="text" >
+         <string>1 tic =</string>
+        </property>
+        <property name="buddy" >
+         <cstring>kcfg_YPrinting</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" >
+       <widget class="KComboBox" name="kcfg_YPrinting" >
+        <property name="toolTip" >
+         <string>set the y-axis' scaling</string>
+        </property>
+        <property name="whatsThis" >
+         <string>This is similar to the setting above, but this sets the distance between two y-axis-grids when printing or drawing on the screen.</string>
+        </property>
+        <item>
+         <property name="text" >
+          <string>10</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>1</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>0.5</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>pi/2</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>pi/3</string>
+         </property>
+        </item>
+        <item>
+         <property name="text" >
+          <string>pi/4</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <spacer>
@@ -393,8 +393,8 @@
      </property>
      <property name="sizeHint" >
       <size>
-       <width>0</width>
-       <height>0</height>
+       <width>21</width>
+       <height>20</height>
       </size>
      </property>
     </spacer>
@@ -404,13 +404,6 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends></extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
   <customwidget>
    <class>KComboBox</class>
    <extends></extends>

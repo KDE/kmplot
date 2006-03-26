@@ -3,6 +3,7 @@
 *
 * Copyright (C) 2004  Fredrik Edemar
 *                     f_edemar@linux.se
+*               2006  David Saxton <david@bluehaze.org>
 *
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -29,11 +30,8 @@
 #include <kmessagebox.h>
 #include <kpushbutton.h>
 #include <qlabel.h>
- 
-//Added by qt3to4:
-#include <QList>
-#include <q3listview.h>
 
+#include <QList>
 
 #include "kminmax.h"
 #include "xparser.h"
@@ -49,8 +47,8 @@ KMinMax::KMinMax(View *v, QWidget *parent )
 	connect( m_mainWidget->cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
 	connect( m_mainWidget->cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));
 	connect( m_mainWidget->cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
-	connect( m_mainWidget->list, SIGNAL( highlighted(Q3ListBoxItem*) ), this, SLOT( list_highlighted(Q3ListBoxItem*) ));
-	connect( m_mainWidget->list, SIGNAL( doubleClicked( Q3ListBoxItem * ) ), this, SLOT( list_doubleClicked(Q3ListBoxItem *) ));
+	connect( m_mainWidget->list, SIGNAL( currentItemChanged( QListWidgetItem*, QListWidgetItem* ) ), this, SLOT( list_currentChanged(QListWidgetItem*) ));
+	connect( m_mainWidget->list, SIGNAL( itemDoubleClicked( QListWidgetItem * ) ), this, SLOT( list_doubleClicked(QListWidgetItem *) ));
 	parameter="";
 }
 
@@ -141,7 +139,9 @@ void KMinMax::init(char m)
 
 void KMinMax::updateFunctions()
 {
-	QString const selected_item(m_mainWidget->list->currentText() );
+	QListWidgetItem * currentItem = m_mainWidget->list->currentItem();
+	QString const selected_item( currentItem ? currentItem->text() : QString::null );
+	
 	m_mainWidget->list->clear();
 
         for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
@@ -149,7 +149,7 @@ void KMinMax::updateFunctions()
 		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r' && !it->fname.isEmpty())
 		{
 			if ( it->f_mode )
-				m_mainWidget->list->insertItem(it->fstr);
+				m_mainWidget->list->addItem(it->fstr);
 
 			if ( it->f1_mode ) //1st derivative
 			{
@@ -157,7 +157,7 @@ void KMinMax::updateFunctions()
 				int i= function.indexOf('(');
 				function.truncate(i);
 				function +="\'";
-				m_mainWidget->list->insertItem(function );
+				m_mainWidget->list->addItem(function );
 			}
 			if ( it->f2_mode )//2nd derivative
 			{
@@ -165,7 +165,7 @@ void KMinMax::updateFunctions()
 				int i= function.indexOf('(');
 				function.truncate(i);
 				function +="\'\'";
-				m_mainWidget->list->insertItem(function );
+				m_mainWidget->list->addItem(function );
 			}
 			if ( it->integral_mode )//integral
 			{
@@ -173,19 +173,21 @@ void KMinMax::updateFunctions()
 				int i= function.indexOf('(');
 				function.truncate(i);
 				function = function.toUpper();
-				m_mainWidget->list->insertItem(function );
+				m_mainWidget->list->addItem(function );
 			}
 		}
 	}
-	m_mainWidget->list->sort();
+	m_mainWidget->list->sortItems();
 	if (m_mainWidget->list->count()==0) //empty m_mainWidget->list
 		m_mainWidget->cmdFind->setEnabled(false);
 	else
 		m_mainWidget->cmdFind->setEnabled(true);
 	selectItem();
-	Q3ListBoxItem *found_item = m_mainWidget->list->findItem(selected_item,Q3ListView::ExactMatch);
+	
+	QList<QListWidgetItem *> foundItems = m_mainWidget->list->findItems( selected_item, Qt::MatchExactly );
+	QListWidgetItem * found_item = foundItems.isEmpty() ? 0 : foundItems.first();
 	if ( found_item && m_view->csmode < 0)
-		m_mainWidget->list->setSelected(found_item,true);
+		m_mainWidget->list->setItemSelected( found_item, true );
 }
 
 void KMinMax::selectItem()
@@ -209,8 +211,9 @@ void KMinMax::selectItem()
 		function +="\'";
 	}
 	//kDebug() << "function: " << function << endl;
-	Q3ListBoxItem *item = m_mainWidget->list->findItem(function,Q3ListView::ExactMatch);
-	m_mainWidget->list->setSelected(item,true);
+	QList<QListWidgetItem *> foundItems = m_mainWidget->list->findItems( function, Qt::MatchExactly );
+	if ( !foundItems.isEmpty() )
+		m_mainWidget->list->setItemSelected( foundItems.first(), true );
 
 	if (  !ufkt->parameters.isEmpty() )
 		parameter = ufkt->parameters[m_view->csparam].expression;
@@ -222,9 +225,9 @@ KMinMax::~KMinMax()
 
 void KMinMax::cmdFind_clicked()
 {
-	if ( m_mainWidget->list->currentItem() == -1)
+	if ( !m_mainWidget->list->currentItem() )
 	{
-		KMessageBox::error(this, i18n("Please choose a function"));
+		KMessageBox::sorry(this, i18n("Please choose a function"));
 		return;
 	}
 	double dmin, dmax;
@@ -246,7 +249,7 @@ void KMinMax::cmdFind_clicked()
 		}
 		if ( dmin >=  dmax)
 		{
-			KMessageBox::error(this,i18n("The minimum range value must be lower than the maximum range value"));
+			KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
 			m_mainWidget->min->setFocus();
 			m_mainWidget->min->selectAll();
 			return;
@@ -254,7 +257,7 @@ void KMinMax::cmdFind_clicked()
 
 		if (  dmin<View::xmin || dmax>View::xmax )
 		{
-			KMessageBox::error(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
+			KMessageBox::sorry(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
 			m_mainWidget->min->setFocus();
 			m_mainWidget->min->selectAll();
 			return;
@@ -262,7 +265,8 @@ void KMinMax::cmdFind_clicked()
 	}
 
 
-	QString function( m_mainWidget->list->currentText() );
+	QListWidgetItem * currentItem = m_mainWidget->list->currentItem();
+	QString function( currentItem ? currentItem->text() : QString::null );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
 	{
@@ -296,7 +300,7 @@ void KMinMax::cmdFind_clicked()
 	}
         if ( !ufkt)
         {
-                KMessageBox::error(this,i18n("Function could not be found"));
+			KMessageBox::sorry(this,i18n("Function could not be found"));
                 return;
         }
         
@@ -304,8 +308,9 @@ void KMinMax::cmdFind_clicked()
 		parameter = "0";
 	else if ( parameter.isEmpty())
 	{
-		KMessageBox::error(this,i18n("You must choose a parameter for that function"));
-		list_highlighted(m_mainWidget->list->selectedItem() );
+		KMessageBox::sorry(this,i18n("You must choose a parameter for that function"));
+		QList<QListWidgetItem*> selected = m_mainWidget->list->selectedItems();
+		list_currentChanged( selected.isEmpty() ? 0 : selected.first() );
 		return;
 	}
 
@@ -347,16 +352,16 @@ void KMinMax::cmdFind_clicked()
 	}
 
 	if ( m_view->isCalculationStopped() )
-		KMessageBox::error(this,i18n("The operation was cancelled by the user."));
+		KMessageBox::sorry(this,i18n("The operation was cancelled by the user."));
 }
-void KMinMax::list_highlighted(Q3ListBoxItem* item)
+void KMinMax::list_currentChanged(QListWidgetItem* item)
 {
 	if ( !item)
 	{
 		m_mainWidget->cmdParameter->setEnabled( false );
 		return;
 	}
-	QString function( m_mainWidget->list->currentText() );
+	QString function( item->text() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
 	{
@@ -394,7 +399,9 @@ void KMinMax::list_highlighted(Q3ListBoxItem* item)
 }
 void KMinMax::cmdParameter_clicked()
 {
-	QString function( m_mainWidget->list->currentText() );
+	QListWidgetItem * currentItem = m_mainWidget->list->currentItem();
+	QString function( currentItem ? currentItem->text() : QString::null );
+	
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
 	{
@@ -431,9 +438,9 @@ void KMinMax::cmdParameter_clicked()
 	}
 }
 
-void KMinMax::list_doubleClicked(Q3ListBoxItem *)
+void KMinMax::list_doubleClicked(QListWidgetItem *)
 {
- 	if ( m_mainWidget->list->currentItem() == -1)
+ 	if ( !m_mainWidget->list->currentItem() )
  		return;
 	else if( m_mainWidget->cmdParameter->isEnabled() )
  		cmdParameter_clicked();

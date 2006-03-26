@@ -26,7 +26,6 @@
 #include <qcursor.h>
 #include <qslider.h>
 
-//Added by qt3to4:
 #include <QMouseEvent>
 #include <QEvent>
 #include <QCloseEvent>

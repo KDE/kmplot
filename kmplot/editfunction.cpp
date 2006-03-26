@@ -67,7 +67,7 @@ EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name )
 	editintegralpage = new EditIntegralPage( page2 );
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
-		editfunctionpage->listOfSliders->insertItem( i18n( "Slider No. %1" ).arg( number +1) );
+		editfunctionpage->listOfSliders->addItem( i18n( "Slider No. %1" ).arg( number +1) );
 	}
 	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
     m_updatedfunction = 0;
@@ -140,7 +140,7 @@ void EditFunction::setWidgets()
 	else
 	{
 		editfunctionpage->useSlider->setChecked( true );
-		editfunctionpage->listOfSliders->setCurrentItem( ufkt->use_slider );
+		editfunctionpage->listOfSliders->setCurrentIndex( ufkt->use_slider );
 	}
 	
 	editderivativespage->showDerivative1->setChecked( ufkt->f1_mode );

@@ -3,6 +3,7 @@
 *
 * Copyright (C) 2004  Fredrik Edemar
 *                     f_edemar@linux.se
+*               2006  David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -37,7 +38,7 @@
 #include <qfile.h>
 #include <qtextstream.h>
 #include <QList>
-#include <q3listview.h>
+#include <QListWidget>
 
 #include "kparametereditor.h"
 
@@ -52,16 +53,16 @@ KParameterEditor::KParameterEditor(XParser *m, QList<ParameterValueItem> *l, QWi
 	setMainWidget( m_mainWidget );
 	
 	for (  QList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
-		m_mainWidget->list->insertItem( (*it).expression );
-	m_mainWidget->list->sort();
+		m_mainWidget->list->addItem( (*it).expression );
+	m_mainWidget->list->sortItems();
 	
 	connect( m_mainWidget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
 	connect( m_mainWidget->cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ));
 	connect( m_mainWidget->cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
 	connect( m_mainWidget->cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
 	connect( m_mainWidget->cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
-	connect( m_mainWidget->list, SIGNAL( doubleClicked( Q3ListBoxItem * ) ), this, SLOT( varlist_doubleClicked( Q3ListBoxItem *) ));
-	connect( m_mainWidget->list, SIGNAL( clicked ( Q3ListBoxItem * ) ), this, SLOT( varlist_clicked(Q3ListBoxItem *  ) ));
+	connect( m_mainWidget->list, SIGNAL( itemDoubleClicked( QListWidgetItem * ) ), this, SLOT( varlist_doubleClicked( QListWidgetItem *) ));
+	connect( m_mainWidget->list, SIGNAL( itemClicked ( QListWidgetItem * ) ), this, SLOT( varlist_clicked(QListWidgetItem *  ) ));
 	
 }
 
@@ -74,9 +75,9 @@ void KParameterEditor::accept()
 	kDebug() << "saving\n";
 	m_parameter->clear();
 	QString item_text;
-	for (int i = 0; (uint)i <= m_mainWidget->list->count();i++)
+	for ( int i = 0; i < m_mainWidget->list->count(); i++ )
 	{
-		item_text = m_mainWidget->list->text(i);
+		item_text = m_mainWidget->list->item(i)->text();
 		if ( !item_text.isEmpty() )
 			m_parameter->append( ParameterValueItem(item_text, m_parser->eval( item_text)) );
 	}
@@ -101,18 +102,20 @@ void KParameterEditor::cmdNew_clicked()
 		}
 		if ( checkTwoOfIt(result) )
 		{
-			KMessageBox::error(0,i18n("The value %1 already exists and will therefore not be added.").arg(result));
+			KMessageBox::sorry(0,i18n("The value %1 already exists and will therefore not be added.").arg(result));
 			continue;
 		}
-		m_mainWidget->list->insertItem(result);
-		m_mainWidget->list->sort();
+		m_mainWidget->list->addItem(result);
+		m_mainWidget->list->sortItems();
 		break;
 	}
 }
 
 void KParameterEditor::cmdEdit_clicked()
 {
-	QString result=m_mainWidget->list->currentText();
+	QListWidgetItem * currentItem = m_mainWidget->list->currentItem();
+	QString result = currentItem ? currentItem->text() : QString::null;
+	
 	while (1)
 	{
 		bool ok;
@@ -127,21 +130,24 @@ void KParameterEditor::cmdEdit_clicked()
 		}
 		if ( checkTwoOfIt(result) )
 		{
-			if( result != m_mainWidget->list->currentText() )
-				KMessageBox::error(0,i18n("The value %1 already exists.").arg(result));
+			currentItem = m_mainWidget->list->currentItem();
+			QString currentText = currentItem ? currentItem->text() : QString::null;
+			
+			if( result != currentText )
+				KMessageBox::sorry(0,i18n("The value %1 already exists.").arg(result));
 			continue;
 		}
-		m_mainWidget->list->removeItem( m_mainWidget->list->currentItem());
-		m_mainWidget->list->insertItem(result);
-		m_mainWidget->list->sort();
+		m_mainWidget->list->takeItem( m_mainWidget->list->currentRow() );
+		m_mainWidget->list->addItem(result);
+		m_mainWidget->list->sortItems();
 		break;
 	}
 }
 
 void KParameterEditor::cmdDelete_clicked()
 {
-	m_mainWidget->list->removeItem( m_mainWidget->list->currentItem());
-	m_mainWidget->list->sort();
+	delete m_mainWidget->list->takeItem( m_mainWidget->list->currentRow() );
+	m_mainWidget->list->sortItems();
 }
 
 void KParameterEditor::cmdImport_clicked()
@@ -152,7 +158,7 @@ void KParameterEditor::cmdImport_clicked()
         
         if (!KIO::NetAccess::exists(url,true,this) )
         {
-                KMessageBox::error(0,i18n("The file does not exist."));
+			KMessageBox::sorry(0,i18n("The file does not exist."));
                 return;
         }
         
@@ -163,7 +169,7 @@ void KParameterEditor::cmdImport_clicked()
         {
                 if ( !KIO::NetAccess::download(url, tmpfile, this) )
                 {
-                        KMessageBox::error(0,i18n("An error appeared when opening this file"));
+					KMessageBox::sorry(0,i18n("An error appeared when opening this file"));
                         return;
                 }
                 file.setFileName(tmpfile);
@@ -185,8 +191,8 @@ void KParameterEditor::cmdImport_clicked()
 			{
 				if ( !checkTwoOfIt(line) )
 				{
-					m_mainWidget->list->insertItem(line);
-					m_mainWidget->list->sort();
+					m_mainWidget->list->addItem(line);
+					m_mainWidget->list->sortItems();
 				}
 			}
 			else if ( !verbose)
@@ -204,7 +210,7 @@ void KParameterEditor::cmdImport_clicked()
 		file.close();
 	}
 	else
-		KMessageBox::error(0,i18n("An error appeared when opening this file"));
+		KMessageBox::sorry(0,i18n("An error appeared when opening this file"));
         
         if ( !url.isLocalFile() )
                 KIO::NetAccess::removeTempFile( tmpfile );
@@ -229,25 +235,22 @@ void KParameterEditor::cmdExport_clicked()
                         
                         if (file.open( QIODevice::WriteOnly ) )
                         {
-                                QTextStream stream(&file);
-								Q3ListBoxItem *it = m_mainWidget->list->firstItem();
-                                while ( 1 )
-                                {
-                                        stream << it->text();
-                                        it = it->next();
-                                        if (it)
-                                                stream << endl; //only write a new line if there are more text
-                                        else
-                                                break;
-                                }
-                                file.close();
+							QTextStream stream(&file);
+							for ( int i = 0; i < m_mainWidget->list->count(); i++ )
+							{
+								QListWidgetItem * it = m_mainWidget->list->item( i );
+								stream << it->text();
+								if ( i < m_mainWidget->list->count()-1 )
+									stream << endl; //only write a new line if there are more text
+							}
+							file.close();
                         }
-                        else
-                                KMessageBox::error(0,i18n("An error appeared when saving this file"));
+						else
+							KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
                         
                         if ( !KIO::NetAccess::upload(tmpfile.name(),url, this) )
                         {
-                                KMessageBox::error(0,i18n("An error appeared when saving this file"));
+							KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
                                 tmpfile.unlink();
                                 return;
                         }
@@ -258,28 +261,25 @@ void KParameterEditor::cmdExport_clicked()
                         file.setFileName(url.prettyURL(0));
                         if (file.open( QIODevice::WriteOnly ) )
                         {
-                                QTextStream stream(&file);
-								Q3ListBoxItem *it = m_mainWidget->list->firstItem();
-                                while ( 1 )
-                                {
-                                        stream << it->text();
-                                        it = it->next();
-                                        if (it)
-                                                stream << endl; //only write a new line if there are more text
-                                        else
-                                                break;
-                                }
-                                file.close();
+							QTextStream stream(&file);
+							for ( int i = 0; i < m_mainWidget->list->count(); i++ )
+							{
+								QListWidgetItem * it = m_mainWidget->list->item( i );
+								stream << it->text();
+								if ( i < m_mainWidget->list->count()-1 )
+									stream << endl; //only write a new line if there are more text
+							}
+							file.close();
                         }
                         else
-                                KMessageBox::error(0,i18n("An error appeared when saving this file"));
+							KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
                 }
         }
 
 
 }
 
-void KParameterEditor::varlist_clicked( Q3ListBoxItem * item )
+void KParameterEditor::varlist_clicked( QListWidgetItem * item )
 {
 	if (item)
 	{
@@ -294,17 +294,14 @@ void KParameterEditor::varlist_clicked( Q3ListBoxItem * item )
 }
 
 
-void KParameterEditor::varlist_doubleClicked( Q3ListBoxItem * )
+void KParameterEditor::varlist_doubleClicked( QListWidgetItem * )
 {
 	cmdEdit_clicked();
 }
 
 bool KParameterEditor::checkTwoOfIt(const QString & text)
 {
-	if ( m_mainWidget->list->findItem(text,Q3ListView::ExactMatch) == 0)
-		return false;
-	else
-		return true;
+	return !m_mainWidget->list->findItems(text,Qt::MatchExactly).isEmpty();
 }
 
 #include "kparametereditor.moc"

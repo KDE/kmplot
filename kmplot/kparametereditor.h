@@ -3,6 +3,7 @@
 *
 * Copyright (C) 2004  Fredrik Edemar
 *                     f_edemar@linux.se
+*               2006  David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -27,7 +28,6 @@
 #define KPARAMETEREDITOR_H
 
 #include "qparametereditor.h"
-//Added by qt3to4:
 #include <QList>
 #include "xparser.h"
 
@@ -51,8 +51,8 @@ public slots:
     void cmdDelete_clicked();
     void cmdImport_clicked();
     void cmdExport_clicked();
-    void varlist_clicked( Q3ListBoxItem *  );
-    void varlist_doubleClicked( Q3ListBoxItem * );
+	void varlist_clicked( QListWidgetItem *  );
+	void varlist_doubleClicked( QListWidgetItem * );
 	
 	virtual void accept();
   

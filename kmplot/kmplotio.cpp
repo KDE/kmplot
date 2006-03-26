@@ -26,7 +26,6 @@
 // Qt includes
 #include <qdom.h>
 #include <qfile.h>
-//Added by qt3to4:
 #include <QList>
 #include <QTextStream>
 
@@ -486,7 +485,7 @@ void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &u
 	QStringList str_parameters;
 	for ( QList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
 		str_parameters.append( (*it).expression);
-	str_parameters = QStringList::split( ";", n.namedItem( "parameterlist" ).toElement().text() );
+	str_parameters = n.namedItem( "parameterlist" ).toElement().text().split( ";" );
 	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
 		ufkt.parameters.append( ParameterValueItem( *it, m_parser->eval( *it ) ));
 }
@@ -496,7 +495,7 @@ void KmPlotIO::parseThreeDotThreeParameters( XParser *m_parser, const QDomElemen
 	QStringList str_parameters;
 	for ( QList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
 		str_parameters.append( (*it).expression);
-	str_parameters = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
+	str_parameters = n.namedItem( "parameterlist" ).toElement().text().split( "," );
 	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
 		ufkt.parameters.append( ParameterValueItem( *it, m_parser->eval( *it ) ));
 }

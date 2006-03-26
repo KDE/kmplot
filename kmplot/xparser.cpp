@@ -33,7 +33,6 @@
 
 // local includes
 #include "xparser.h"
-//Added by qt3to4:
 #include <QList>
 
 XParser::XParser(bool &mo) : DCOPObject("Parser"), Parser(), m_modified(mo)
@@ -52,16 +51,16 @@ bool XParser::getext( Ufkt *item, const QString fstr )
    	int p1, p2, p3, pe;
 	QString tstr;
 	pe = fstr.length();
-	if ( fstr.find( 'N' ) != -1 )
+	if ( fstr.indexOf( 'N' ) != -1 )
 		item->f_mode = false;
 	else
 	{
-		if ( fstr.find( "A1" ) != -1 )
+		if ( fstr.indexOf( "A1" ) != -1 )
 			item->f1_mode = true;
-		if ( fstr.find( "A2" ) != -1 )
+		if ( fstr.indexOf( "A2" ) != -1 )
 			item->f2_mode = true;
 	}
-	switch ( fstr[0].latin1() )
+	switch ( fstr[0].toLatin1() )
 	{
 	  case 'x':
 	  case 'y':
@@ -69,13 +68,13 @@ bool XParser::getext( Ufkt *item, const QString fstr )
 	    item->f1_mode = item->f2_mode = false;
 	}
 
-	p1 = fstr.find( "D[" );
+	p1 = fstr.indexOf( "D[" );
 	if ( p1 != -1 )
 	{
 		p1 += 2;
 		const QString str = fstr.mid( p1, pe - p1);
-		p2 = str.find(',');
-		p3 = str.find(']');
+		p2 = str.indexOf(',');
+		p3 = str.indexOf(']');
 		if ( p2 > 0 && p2 < p3 )
 		{
 			tstr = str.left( p2 );
@@ -92,16 +91,16 @@ bool XParser::getext( Ufkt *item, const QString fstr )
 		else
 			errflg = true;
 	}
-	p1 = fstr.find( "P[" );
+	p1 = fstr.indexOf( "P[" );
 	if ( p1 != -1 )
 	{
 		int i = 0;
 		p1 += 2;
 		QString str = fstr.mid( p1, 1000);
-		p3 = str.find( ']' );
+		p3 = str.indexOf( ']' );
 		do
 		{
-			p2 = str.find( ',' );
+			p2 = str.indexOf( ',' );
 			if ( p2 == -1 || p2 > p3 )
 				p2 = p3;
 			tstr = str.left( p2++ );
@@ -172,8 +171,8 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
 
 void XParser::fixFunctionName( QString &str, int const type, int const id)
 {
-  int p1=str.find('(');
-  int p2=str.find(')');
+  int p1=str.indexOf('(');
+  int p2=str.indexOf(')');
   if( p1>=0 && str.at(p2+1)=='=')
   {
     if ( type == XParser::Polar && str.at(0)!='r' )
@@ -627,14 +626,14 @@ bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 		}
 	if (!found)
 		return false;
-	tmp_ufkt->parameters.remove(it);
+	tmp_ufkt->parameters.erase(it);
 	m_modified = true;
 	return true;
 }
 int XParser::addFunction(const QString &f_str)
 {
 	QString added_function(f_str);
-	int const pos = added_function.find(';');
+	int const pos = added_function.indexOf(';');
 	if (pos!=-1)
 	  added_function = added_function.left(pos);
 	
@@ -660,7 +659,7 @@ int XParser::addFunction(const QString &f_str)
 bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider)
 {
 	QString fstr(fstr_const);
-	switch ( fstr.at(0).latin1() )
+	switch ( fstr.at(0).toLatin1() )
 	{
 	  case 'r':
 	  {
@@ -738,7 +737,7 @@ bool XParser::setFunctionExpression(const QString &f_str, uint id)
 		return false;
 	Ufkt *tmp_ufkt = &ufkt[ix];
 	QString const old_fstr = tmp_ufkt->fstr;
-	QString const fstr_begin = tmp_ufkt->fstr.left(tmp_ufkt->fstr.find('=')+1);
+	QString const fstr_begin = tmp_ufkt->fstr.left(tmp_ufkt->fstr.indexOf('=')+1);
 	tmp_ufkt->fstr = fstr_begin+f_str;
 	reparse(tmp_ufkt);
 	if ( parserError(false) != 0)
@@ -764,7 +763,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	}
 	
 	Ufkt *item = &ufkt[ixValue(id)];
-	kDebug() << "Transferring " << item->fname.latin1() << endl;
+	kDebug() << "Transferring " << item->fname.toLatin1() << endl;
 	QString str_result;
 	if ( dcopclient_target.isEmpty() && item->fname.at(0) == 'y' )
 	  	return false;

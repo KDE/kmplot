@@ -70,9 +70,9 @@ double View::xmin = 0;
 double View::xmax = 0;
 
 
-View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection *ac, const char* name )
+View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection *ac )
 	: DCOPObject("View"),
-	  QWidget( parent, name , Qt::WStaticContents ),
+	  QWidget( parent, Qt::WStaticContents ),
 	  dgr(this),
 	  buffer( width(), height() ),
 	  m_popupmenu(p),
@@ -95,7 +95,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	csypos = 0.0;
 	rootflg = false;
 	tlgx = tlgy = drskalx = drskaly = 0.0;;
-	stepWidth = 0.0;
+	stepWidth = 0.1;
 	ymin = 0.0;;
 	ymax = 0.0;;
 	m_printHeaderTable = false;
@@ -152,13 +152,13 @@ void View::draw(QPaintDevice *dev, int form)
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
-		if(DC.xForm(QPoint(lx+2*ref.x(), ly)).x() > DC.viewport().right())
+		if ( ( QPoint(lx+2*ref.x(), ly) * DC.matrix() ).x() > DC.viewport().right())
 		{
-			DC.resetXForm();
+			DC.resetMatrix();
 			DC.scale((float)w/(float)(lx+2*ref.x()), (float)w/(float)(lx+2*ref.x()));
 		}
-		wm=DC.worldMatrix();
-		s=DC.xForm(QPoint(1000, 0)).x()/1000.;
+		wm = DC.matrix();
+		s=( QPoint(1000, 0) * DC.matrix() ).x()/1000.;
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 	}
 	else if(form==1)        // printer
@@ -195,7 +195,7 @@ void View::draw(QPaintDevice *dev, int form)
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 		DC.end();
-		((QPixmap *)dev)->resize((int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf));
+		*((QPixmap *)dev) = QPixmap( (int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf) );
 		((QPixmap *)dev)->fill(backgroundcolor);
 		DC.begin(dev);
 		DC.translate(-dgr.GetFrame().left()*sf, -dgr.GetFrame().top()*sf);
@@ -224,8 +224,9 @@ void View::draw(QPaintDevice *dev, int form)
 	dgr.Plot(&DC);
 	
 	PlotArea=dgr.GetPlotArea();
-	area=DC.xForm(PlotArea);
+	area=DC.matrix().mapRect(PlotArea);
 	stepWidth=Settings::stepWidth();
+	assert( stepWidth != 0.0 );
 
 	isDrawing=true;
 	updateCursor();
@@ -600,7 +601,8 @@ void View::setpi(QString *s)
 	int i;
 	QChar c(960);
 
-	while((i=s->find('p')) != -1) s->replace(i, 2, &c, 1);
+	while((i=s->indexOf('p')) != -1)
+		s->replace(i, 2, &c, 1);
 }
 
 
@@ -718,13 +720,13 @@ void View::resizeEvent(QResizeEvent *)
 		stop_calculating = true; //stop drawing
 		return;
 	}
-	buffer.resize(size() );
+	buffer = QPixmap( size() );
 	drawPlot();
 }
 
 void View::drawPlot()
 {
-	if( m_minmax->isShown() )
+	if( m_minmax->isVisible() )
 		m_minmax->updateFunctions();
 	buffer.fill(backgroundcolor);
 	draw(&buffer, 0);
@@ -760,7 +762,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		return;
 	}
 	
-	if( m_popupmenushown>0 && !m_popupmenu->isShown() )
+	if( m_popupmenushown>0 && !m_popupmenu->isVisible() )
 	{
 		if ( m_popupmenushown==1)
 			csmode=-1;
@@ -1588,9 +1590,9 @@ void View::keyPressEvent( QKeyEvent * e)
 
 	QMouseEvent *event;
 	if (e->key() == Qt::Key_Left )
-		event = new QMouseEvent(QEvent::MouseMove,QPoint(int(fcx-1),int(fcy-1)),Qt::LeftButton,Qt::LeftButton);
+		event = new QMouseEvent( QEvent::MouseMove, QPoint( int(fcx-1), int(fcy-1) ), Qt::LeftButton, Qt::LeftButton, 0 );
 	else if (e->key() == Qt::Key_Right )
-		event = new QMouseEvent(QEvent::MouseMove,QPoint(int(fcx+1),int(fcy+1)),Qt::LeftButton,Qt::LeftButton);
+		event = new QMouseEvent( QEvent::MouseMove, QPoint( int(fcx+1), int(fcy+1) ), Qt::LeftButton, Qt::LeftButton, 0 );
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
 		QVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
@@ -1690,18 +1692,18 @@ void View::keyPressEvent( QKeyEvent * e)
 				break;
 			}
 		}
-		event = new QMouseEvent(QEvent::MouseMove,QPoint(int(fcx),int(fcy)),Qt::LeftButton,Qt::LeftButton);
+		event = new QMouseEvent( QEvent::MouseMove, QPoint( int(fcx), int(fcy) ), Qt::LeftButton, Qt::LeftButton, 0 );
 	}
 	else if ( e->key() == Qt::Key_Space  )
 	{
-		event = new QMouseEvent(QEvent::MouseButtonPress,QCursor::pos(),Qt::RightButton,Qt::RightButton);
+		event = new QMouseEvent( QEvent::MouseButtonPress, QCursor::pos(), Qt::RightButton, Qt::RightButton, 0 );
 		mousePressEvent(event);
 		delete event;
 		return;
 	}
 	else
 	{
-		event = new QMouseEvent(QEvent::MouseButtonPress,QPoint(int(fcx),int(fcy)),Qt::LeftButton,Qt::LeftButton);
+		event = new QMouseEvent( QEvent::MouseButtonPress, QPoint( int(fcx), int(fcy) ), Qt::LeftButton, Qt::LeftButton, 0 );
 		mousePressEvent(event);
 		delete event;
 		return;
@@ -1982,14 +1984,14 @@ void View::mnuHide_clicked()
 	if ( !ufkt->f_mode && !ufkt->f1_mode && !ufkt->f2_mode) //all graphs for the function are hidden
 	{
 		csmode=-1;
-		QMouseEvent *event = new QMouseEvent(QMouseEvent::KeyPress,QCursor::pos(),Qt::LeftButton,Qt::LeftButton);
+		QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, 0 );
 		mousePressEvent(event); //leave trace mode
 		delete event;
 		return;
 	}
 	else
 	{
-		QKeyEvent *event = new QKeyEvent(QKeyEvent::KeyPress,Qt::Key_Up ,Qt::Key_Up ,0);
+		QKeyEvent *event = new QKeyEvent( QKeyEvent::KeyPress, Qt::Key_Up, 0 );
 		keyPressEvent(event); //change selected graph
 		delete event;
 		return;
@@ -2010,7 +2012,7 @@ void View::mnuRemove_clicked()
 		if (csmode!=-1) // if trace mode is enabled
 		{
 		  csmode=-1;
-		  QMouseEvent *event = new QMouseEvent(QMouseEvent::KeyPress,QCursor::pos(),Qt::LeftButton,Qt::LeftButton);
+		  QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, 0 );
 		  mousePressEvent(event); //leave trace mode
 		  delete event;
 		}

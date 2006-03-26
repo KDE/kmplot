@@ -1,5 +1,6 @@
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)
+KDE_CXXFLAGS = -DQT3_SUPPORT_WARNINGS
 
 # these are the headers for your project
 noinst_HEADERS = kmplot.h kmplotprogress.h MainDlg.h

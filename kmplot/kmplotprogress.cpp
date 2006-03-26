@@ -32,7 +32,7 @@
 KmPlotProgress::KmPlotProgress( QWidget* parent ) : QWidget( parent )
 {
  button = new KPushButton(this);
- button->setPixmap( SmallIcon( "cancel" ) );
+ button->setIcon( SmallIcon( "cancel" ) );
  button->setGeometry( QRect( 0, 0, 30, 23 ) );
  button->setMaximumHeight(height()-10);
  

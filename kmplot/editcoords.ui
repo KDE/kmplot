@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>346</width>
-    <height>534</height>
+    <width>394</width>
+    <height>558</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
@@ -476,19 +476,16 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="Q3ButtonGroup" name="kcfg_GridStyle" >
+        <widget class="QGroupBox" name="kcfg_GridStyle" >
          <property name="title" >
           <string>Grid &amp;Style</string>
          </property>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
          <layout class="QVBoxLayout" >
           <property name="margin" >
-           <number>0</number>
+           <number>9</number>
           </property>
           <property name="spacing" >
-           <number>0</number>
+           <number>6</number>
           </property>
           <item>
            <widget class="QRadioButton" name="radioButton11" >
@@ -594,13 +591,6 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>Q3ButtonGroup</class>
-   <extends></extends>
-   <header>Qt3Support/Q3ButtonGroup</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends></extends>

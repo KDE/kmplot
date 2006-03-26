@@ -26,7 +26,6 @@
 
 // Qt includes
 #include <qslider.h>
-//Added by qt3to4:
 #include <QPixmap>
 
 // KDE includes
@@ -676,7 +675,7 @@ void MainDlg::loadConstants()
 		tmp.setNum(i);
 		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
 		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
-// 		kDebug() << "konstant: " << tmp_constant.latin1() << endl;
+// 		kDebug() << "konstant: " << tmp_constant.toLatin1() << endl;
 // 		kDebug() << "value: " << value << endl;
 // 		kDebug() << "**************" << endl;
 		
@@ -686,7 +685,7 @@ void MainDlg::loadConstants()
 		if ( tmp_constant.isEmpty() )
 			continue;
 		
-		char constant = tmp_constant[0].toUpper().latin1();
+		char constant = tmp_constant[0].toUpper().toLatin1();
 
 		if ( constant<'A' || constant>'Z')
 		{
@@ -767,7 +766,7 @@ void MainDlg::toggleShowSliders()
 		connect( view->m_sliderWindow, SIGNAL( valueChanged() ), view, SLOT( drawPlot() ) );
 		connect( view->m_sliderWindow, SIGNAL( windowClosed() ), view, SLOT( slidersWindowClosed() ) );
 	}
-	if ( !view->m_sliderWindow->isShown() )
+	if ( !view->m_sliderWindow->isVisible() )
 		view->m_sliderWindow->show();
 	else
 		view->m_sliderWindow->hide();
@@ -881,7 +880,7 @@ QWidget * QuickEditAction::createToolBarWidget( QToolBar * parent )
 
 void QuickEditAction::destroyToolBarWidget( QWidget * widget )
 {
-	m_lineEdits.remove( static_cast<KLineEdit*>(widget) );
+	m_lineEdits.removeAll( static_cast<KLineEdit*>(widget) );
 	widget->deleteLater();
 }
 

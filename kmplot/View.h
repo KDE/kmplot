@@ -31,7 +31,6 @@
 // Qt includes
 #include <qpixmap.h>
 #include <QPointer>
-//Added by qt3to4:
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QKeyEvent>
@@ -68,7 +67,7 @@ class View : public QWidget, virtual public ViewIface
 	Q_OBJECT
 public:
 	/// Contructor sets up the parser, too.
-  View(bool, bool &, KMenu *, QWidget* parent, KActionCollection *ac, const char* name=NULL );
+	View(bool, bool &, KMenu *, QWidget* parent, KActionCollection *ac );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 

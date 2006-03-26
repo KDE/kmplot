@@ -3,6 +3,7 @@
 *
 * Copyright (C) 2004  Fredrik Edemar
 *                     f_edemar@linux.se
+*               2006  David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -55,9 +56,9 @@ public slots:
     /// the selecting a function that uses parameter function from a list the user can choose which paramater value he/she wants to use
     void cmdParameter_clicked();
     /// the button for changing the selected parameter value
-    void list_highlighted(Q3ListBoxItem*);
+	void list_currentChanged(QListWidgetItem*);
     /// call cmdParameter_clicked() if parameter values is enabled for that function
-    void list_doubleClicked(Q3ListBoxItem *);
+	void list_doubleClicked(QListWidgetItem *);
         
 private:
     View *m_view;

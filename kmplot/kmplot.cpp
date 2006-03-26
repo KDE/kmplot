@@ -39,7 +39,6 @@
 
 #include "MainDlg.h"
 #include "kmplotprogress.h"
-//Added by qt3to4:
 #include <ktoolinvocation.h>
 
 KmPlot::KmPlot( KCmdLineArgs* args)
@@ -178,7 +177,7 @@ void KmPlot::fileNew()
 
 bool KmPlot::stopProgressBar()
 {
-	if (m_progressbar && m_progressbar->isShown())
+	if (m_progressbar && m_progressbar->isVisible())
 	{
 		m_progressbar->hide();
 		return true;

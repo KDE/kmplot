@@ -199,14 +199,19 @@ double Parser::eval(QString str)
 		return 0;
 	}
 	for (int i=0;i<str.length();i++ )
+	{
 		if (str.at(i).category() == QChar::Letter_Uppercase)
 		{
 			err=14;
 			delete []stack;
 			return 0;
 		}
+	}
 	
-	lptr=str.latin1();
+	QByteArray strInternal = str.toLatin1();
+	
+// 	lptr=str.latin1();
+	lptr = strInternal.data();
 	err=0;
 	heir1();
 	if(*lptr!=0 && err==0) err=1;
@@ -220,7 +225,7 @@ double Parser::eval(QString str)
 	}
 	else
 	{
-                errpos=lptr-(str.latin1())+1;
+		errpos = lptr-(strInternal.data())+1;
 		return 0.;
 	}
 }
@@ -352,13 +357,13 @@ int Parser::addfkt(QString str)
 	const int p1=str.indexOf('(');
 	int p2=str.indexOf(',');
 	const int p3=str.indexOf(")=");
-        fix_expression(str,p1+4);
+	fix_expression(str,p1+4);
         
 	if(p1==-1 || p3==-1 || p1>p3)
 	{   err=4;
 		return -1;
 	}
-	if ( p3+2 == (int) str.length()) //empty function
+	if ( p3+2 == str.length()) //empty function
 	{   err=11;
 		return -1;
 	}
@@ -393,13 +398,13 @@ int Parser::addfkt(QString str)
                 temp.mem=new unsigned char [MEMSIZE];
                 ufkt.append(temp );
         }
-        QString const fname = str.left(p1);
+		QString const fname = str.left(p1);
         Ufkt *temp = &ufkt.last();
 	temp->fstr=extstr;
         temp->mptr = 0;
         temp->fname=fname;
-        temp->fvar=str.mid(p1+1, p2-p1-1);
-        if(p2<p3) temp->fpar=str.mid(p2+1, p3-p2-1);
+		temp->fvar=str.mid(p1+1, p2-p1-1);
+		if(p2<p3) temp->fpar=str.mid(p2+1, p3-p2-1);
         else temp->fpar="";      //.resize(1);
         
         kDebug() << "temp.id:" << temp->id << endl;
@@ -412,13 +417,15 @@ int Parser::addfkt(QString str)
 	}
         current_item = temp;
 	mem=mptr=temp->mem;
-	lptr=(str.latin1())+p3+2;
+	QByteArray strInternal = str.toLatin1();
+// 	lptr=(str.latin1())+p3+2;
+	lptr = strInternal.data() + p3 + 2;
 	heir1();
 	if(*lptr!=0 && err==0) err=1;		// Syntaxfehler
 	addtoken(ENDE);
 	if(err!=0)
 	{
-                errpos=lptr-(str.latin1())+1;
+		errpos=lptr-(strInternal.data())+1;
 		delfkt(temp);
 		return -1;
 	}
@@ -434,7 +441,7 @@ void Parser::reparse(int ix)
 void Parser::reparse(Ufkt *item)
 {
 	kDebug() << "Reparsing: " << item->fstr << endl;
-	QString str = item->fstr.latin1();
+	QString str = item->fstr;
 	err=0;
 	errpos=1;
 
@@ -442,13 +449,13 @@ void Parser::reparse(Ufkt *item)
 	int p2=str.indexOf(',');
 	const int p3=str.indexOf(")=");
 	
-        fix_expression(str,p1+4);
+	fix_expression(str,p1+4);
         
 	if(p1==-1 || p3==-1 || p1>p3)
 	{   err=4;
 	return;
 	}
-	if ( p3+2 == (int) str.length()) //empty function
+	if ( p3+2 == str.length()) //empty function
 	{   err=11;
 	return;
 	}
@@ -473,7 +480,8 @@ void Parser::reparse(Ufkt *item)
 	//ixa=ix;
         current_item = item;
 	mem=mptr=item->mem;
-	lptr=(str.latin1())+p3+2;
+	QByteArray strInternal = str.toLatin1();
+	lptr = (strInternal.data())+p3+2;
 	heir1();
 	if(*lptr!=0 && err==0) err=1;		// Syntaxfehler
 	addtoken(ENDE);
@@ -743,9 +751,9 @@ void Parser::primary()
         }
         for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
-                if(QString(lptr)=="pi" || QString(lptr)=="e") continue;
+		if(QString(lptr)=="pi" || QString(lptr)=="e") continue;
 
-		if( match(it->fname.latin1()) )
+		if( match(it->fname.toLatin1().data()) )
 		{
                         if (it == current_item)
                         {
@@ -793,7 +801,7 @@ void Parser::primary()
 		return;
 	}
 	//if(match(ufkt[ixa].fvar.latin1()))
-        if(match(current_item->fvar.latin1())) 
+	if(match(current_item->fvar.toLatin1().data()))
 	{
                 addtoken(XWERT);
 		return;
@@ -806,7 +814,7 @@ void Parser::primary()
 	}
 	
 	//if(match(ufkt[ixa].fpar.latin1()))
-        if(match(current_item->fpar.latin1()))
+	if(match(current_item->fpar.toLatin1().data()))
 	{
                 addtoken(KWERT);
 		return;

@@ -110,11 +110,17 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	init();
 	backgroundcolor = Settings::backgroundcolor();
 	invertColor(backgroundcolor,inverted_backgroundcolor);
-	setBackgroundColor(backgroundcolor);
+	
+	QPalette palette;
+	palette.setColor( backgroundRole(), backgroundcolor );
+	setPalette(palette);
+	
 	setMouseTracking(TRUE);
 	m_sliderWindow = 0;
 	updateSliders();
-	m_popupmenu->addTitle( "");
+	
+// 	m_popupmenu->addTitle( " " );
+	/// \todo fix title on popup menu (should display function name
 }
 
 void View::setMinMaxDlg(KMinMax *minmaxdlg)
@@ -519,7 +525,7 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->translate(250., 150.);
 		pDC->setPen(QPen(Qt::black, (int)(5.*s)));
 		pDC->setFont(QFont( Settings::headerTableFont(), 30) );
-		puts( Settings::headerTableFont().latin1() );
+		puts( Settings::headerTableFont().toLatin1().data() );
 		QString minStr = Settings::xMin();
 		QString maxStr = Settings::xMax();
 		getMinMax( Settings::xRange(), minStr, maxStr);
@@ -770,7 +776,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		return;
 	}
 	
-	if ( !area.contains(e->pos()) && (e->button()!=Qt::LeftButton || e->state()!=Qt::LeftButton || csxpos<=xmin || csxpos>=xmax) )
+	if ( !area.contains(e->pos()) && (e->button()!=Qt::LeftButton || e->buttons()!=Qt::LeftButton || csxpos<=xmin || csxpos>=xmax) )
 	{
 		setStatusBar("", 1);
 		setStatusBar("", 2);
@@ -1019,17 +1025,10 @@ void View::mousePressEvent(QMouseEvent *e)
 						}
 						else
 							m_popupmenushown = 2;
+						
 						QString y_name( ufkt_y->fstr );
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),false);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
-						m_popupmenu->addTitle(ufkt_y->fstr+";"+y_name);
+						m_popupmenu->setTitle(ufkt_y->fstr+";"+y_name);
 						m_popupmenu->exec(QCursor::pos());
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),true);
-						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),true);
 						return;
 					}
 				}
@@ -1044,7 +1043,7 @@ void View::mousePressEvent(QMouseEvent *e)
 					}
 					else
 						m_popupmenushown = 2;
-					m_popupmenu->addTitle( it->fstr);
+					m_popupmenu->setTitle( it->fstr);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
@@ -1061,7 +1060,7 @@ void View::mousePressEvent(QMouseEvent *e)
 						m_popupmenushown = 2;
 					QString function = it->fstr;
 					function = function.left(function.indexOf('(')) + '\'';
-					m_popupmenu->addTitle( function);
+					m_popupmenu->setTitle( function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
@@ -1078,7 +1077,7 @@ void View::mousePressEvent(QMouseEvent *e)
 						m_popupmenushown = 2;
 					QString function = it->fstr;
 					function = function.left(function.indexOf('(')) + "\'\'";
-					m_popupmenu->addTitle(function);
+					m_popupmenu->setTitle(function);
 					m_popupmenu->exec(QCursor::pos());
 					return;
 				}
@@ -1305,7 +1304,11 @@ void View::getSettings()
 
 	backgroundcolor = Settings::backgroundcolor();
 	invertColor(backgroundcolor,inverted_backgroundcolor);
-	setBackgroundColor(backgroundcolor);
+	
+// 	setBackgroundColor(backgroundcolor);
+	QPalette palette;
+	palette.setColor( backgroundRole(), backgroundcolor );
+	setPalette(palette);
 }
 
 void View::init()

@@ -271,7 +271,7 @@ void MainDlg::setupActions()
 	connect(mnuEdit , SIGNAL(triggered(bool)), view, SLOT( mnuEdit_clicked() ) );
 	mnuEdit->plug(m_popupmenu);
 	
-	m_popupmenu->insertSeparator();
+	m_popupmenu->addSeparator();
 	
 	KAction *mnuCopy = new KAction(i18n("&Copy"), actionCollection(),"mnucopy"  );
 	mnuCopy->setIcon( KIcon("") );
@@ -283,7 +283,7 @@ void MainDlg::setupActions()
 	connect( mnuMove, SIGNAL(triggered(bool)), view, SLOT( mnuMove_clicked() ) );
 	mnuMove->plug(m_popupmenu);
 	
-	m_popupmenu->insertSeparator();
+	m_popupmenu->addSeparator();
 	mnuYValue->plug(m_popupmenu);
 	mnuMinValue->plug(m_popupmenu);
 	mnuMaxValue->plug(m_popupmenu);

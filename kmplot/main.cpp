@@ -75,10 +75,8 @@ int main( int argc, char **argv )
 
 	KApplication ka;
 	KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
-	KmPlot *w = new KmPlot( args );
-	w->show();
-	ka.setMainWidget( w );
-	
+	new KmPlot( args );
+	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
 	return ka.exec();
 }
 

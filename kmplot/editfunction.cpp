@@ -406,7 +406,7 @@ void EditFunction::fixFunctionArguments(QString &f_str)
 	char parameter_name;
 	if ( closeBracket-openBracket == 2) //the function atribute is only one character
 	{
-		char const function_name = f_str.at(openBracket+1).latin1();
+		QChar function_name = f_str.at(openBracket+1);
 		parameter_name = 'a';
 		while ( parameter_name == function_name)
 			parameter_name++;

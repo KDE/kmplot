@@ -105,6 +105,8 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 		if (exit)
 			deleteLater(); // couln't open the file, and therefore exit
 	}
+	
+	show();
 }
 
 KmPlot::~KmPlot()

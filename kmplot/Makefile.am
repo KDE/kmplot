@@ -43,7 +43,7 @@ shellrc_DATA = kmplot_shell.rc
 kde_module_LTLIBRARIES = libkmplotpart.la
 
 # the Part's source, library search path, and link libraries
-libkmplotpart_la_SOURCES = FktDlgData.ui parser.cpp xparser.cpp  diagr.cpp View.cpp MainDlg.cpp FktDlg.cpp kprinterdlg.cpp settings.kcfgc settingspagecolor.ui kconstanteditor.cpp qparametereditor.ui kparametereditor.cpp editcoords.ui settingspageconstants.ui settingspagefonts.ui editscaling.ui settingspagegeneral.ui qeditparametric.ui keditparametric.cpp qeditpolar.ui keditpolar.cpp editfunctionpage.ui editderivativespage.ui editintegralpage.ui editfunction.cpp qeditconstant.ui qminmax.ui kminmax.cpp keditconstant.cpp kmplotio.cpp sliderwindow.ui ksliderwindow.cpp MainDlgIface.skel parseriface.skel Viewiface.skel coordsconfigdialog.cpp
+libkmplotpart_la_SOURCES = FktDlgData.ui parser.cpp xparser.cpp  diagr.cpp View.cpp MainDlg.cpp FktDlg.cpp kprinterdlg.cpp settings.kcfgc settingspagecolor.ui kconstanteditor.cpp qparametereditor.ui kparametereditor.cpp editcoords.ui settingspageconstants.ui settingspagefonts.ui editscaling.ui settingspagegeneral.ui qeditparametric.ui keditparametric.cpp qeditpolar.ui keditpolar.cpp editfunctionpage.ui editderivativespage.ui editintegralpage.ui editfunction.cpp qminmax.ui kminmax.cpp kmplotio.cpp sliderwindow.ui ksliderwindow.cpp MainDlgIface.skel parseriface.skel Viewiface.skel coordsconfigdialog.cpp
 libkmplotpart_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 libkmplotpart_la_LIBADD  = $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET) $(LIB_KDEPRINT)
 
@@ -55,7 +55,7 @@ partdesktop_DATA = kmplot_part.desktop
 partrcdir   = $(kde_datadir)/kmplot
 partrc_DATA = kmplot_part.rc kmplot_part_readonly.rc
 
-EXTRA_DIST = kmplot.desktop FktDlg.h MainDlg.cpp MainDlg.h View.h diagr.cpp diagr.h  xparser.h parser.h kprinterdlg.h keditparametric.h keditpolar.h ksliderwindow.h keditconstant.h kconstanteditor.h kparametereditor.h kmplotio.h kminmax.h coordsconfigdialog.h
+EXTRA_DIST = kmplot.desktop FktDlg.h MainDlg.cpp MainDlg.h View.h diagr.cpp diagr.h  xparser.h parser.h kprinterdlg.h keditparametric.h keditpolar.h ksliderwindow.h kconstanteditor.h kparametereditor.h kmplotio.h kminmax.h coordsconfigdialog.h
 
 xdg_apps_DATA = kmplot.desktop
 kde_kcfg_DATA = kmplot.kcfg

@@ -763,17 +763,17 @@ void Parser::primary()
 	// A constant
 	if(lptr[0] >='A' && lptr[0]<='Z' )
 	{
-                char tmp[2];
-                tmp[1] = '\0';
-                for( i = 0; i< (int)constant.size();i++)
-                {
-                        tmp[0] = constant[i].constant;
-                        if ( match( tmp) )
-                        {
-                                addtoken(KONST);
-                                addwert(constant[i].value);
-                                return;
-                        }
+		char tmp[2];
+		tmp[1] = '\0';
+		for( i = 0; i< m_constants.size();i++)
+		{
+			tmp[0] = m_constants[i].constant;
+			if ( match( tmp) )
+			{
+				addtoken(KONST);
+				addwert(m_constants[i].value);
+				return;
+			}
 	       }
 	       err = 10;
 	       return;
@@ -1030,6 +1030,57 @@ int Parser::parserError(bool showMessageBox)
 	}
         return err;
 }
+
+
+QVector< Constant >::iterator Parser::findConstant( char name )
+{
+	QVector<Constant>::iterator it;
+	for ( it = m_constants.begin(); it != m_constants.end(); ++it )
+	{
+		if ( it->constant == name )
+			break;
+	}
+	return it;
+}
+
+
+bool Parser::haveConstant( char name )
+{
+	return ( findConstant( name ) != m_constants.end() );
+}
+
+
+void Parser::removeConstant( char name )
+{
+	kDebug() << k_funcinfo << "removing " << name << endl;
+	
+	QVector<Constant>::iterator c = findConstant( name );
+	if ( c != m_constants.end() )
+		m_constants.erase( c );
+}
+
+
+void Parser::addConstant( Constant c )
+{
+	kDebug() << k_funcinfo << "adding " << c.constant << endl;
+	
+	removeConstant( c.constant );
+	m_constants.append( c );
+}
+
+
+char Parser::generateUniqueConstantName()
+{
+	for ( char c = 'A'; c <= 'Z'; ++c )
+	{
+		if ( !haveConstant( c ) )
+			return c;
+	}
+	
+	kWarning() << k_funcinfo << "Could not find a unique constant.\n";
+	return 'C';
+}
+
 
 double ln(double x)
 {

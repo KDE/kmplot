@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>388</width>
-    <height>341</height>
+    <width>357</width>
+    <height>427</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -22,13 +22,99 @@
    <property name="spacing" >
     <number>6</number>
    </property>
+   <item row="0" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>Constant:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KLineEdit" name="nameEdit" >
+       <property name="maximumSize" >
+        <size>
+         <width>64</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip" >
+        <string>Enter an unused letter of the Roman or Greek alphabet</string>
+       </property>
+       <property name="whatsThis" >
+        <string/>
+       </property>
+       <property name="maxLength" >
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>16</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2" >
+       <property name="text" >
+        <string>Value:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KLineEdit" name="valueEdit" >
+       <property name="toolTip" >
+        <string>Enter an expression that evaluates to a number</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1" >
+    <widget class="QLabel" name="valueInvalidLabel" >
+     <property name="toolTip" >
+      <string>The value must be a number (e.g. "pi^2")</string>
+     </property>
+     <property name="text" >
+      <string>(invalid)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>261</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="2" column="1" >
     <widget class="QPushButton" name="cmdDelete" >
      <property name="enabled" >
       <bool>false</bool>
      </property>
      <property name="toolTip" >
-      <string>delete selected constant</string>
+      <string>Delete the selected constant</string>
      </property>
      <property name="whatsThis" >
       <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
@@ -39,38 +125,6 @@
     </widget>
    </item>
    <item row="1" column="1" >
-    <widget class="QPushButton" name="cmdEdit" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
-     <property name="toolTip" >
-      <string>Change the value of a user-defined constant</string>
-     </property>
-     <property name="whatsThis" >
-      <string>Click here to edit the value of the selected constant. Its name cannot be changed.</string>
-     </property>
-     <property name="text" >
-      <string>&amp;Change Value...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1" >
-    <widget class="QPushButton" name="cmdDuplicate" >
-     <property name="enabled" >
-      <bool>false</bool>
-     </property>
-     <property name="toolTip" >
-      <string>Duplicate the selected constant</string>
-     </property>
-     <property name="whatsThis" >
-      <string>Click here to Copy the selected constant to another constant. You can choose the new name from a list.</string>
-     </property>
-     <property name="text" >
-      <string>D&amp;uplicate</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" >
     <widget class="QPushButton" name="cmdNew" >
      <property name="toolTip" >
       <string>Add a new constant</string>
@@ -79,27 +133,21 @@
       <string>Click this button to add a new constant.</string>
      </property>
      <property name="text" >
-      <string>&amp;New...</string>
+      <string>&amp;New</string>
      </property>
     </widget>
    </item>
-   <item rowspan="5" row="0" column="0" >
-    <widget class="K3ListView" name="varlist" >
-     <property name="toolTip" >
-      <string>List of user-defined constants</string>
-     </property>
-     <property name="whatsThis" >
-      <string>Select a constant to change its value, remove it or duplicate it.</string>
-     </property>
-     <property name="showSortIndicator" >
-      <bool>true</bool>
-     </property>
-     <property name="itemsMovable" >
+   <item rowspan="3" row="1" column="0" >
+    <widget class="QTreeWidget" name="constantList" >
+     <property name="rootIsDecorated" >
       <bool>false</bool>
+     </property>
+     <property name="columnCount" >
+      <number>2</number>
      </property>
      <column>
       <property name="text" >
-       <string>Variable</string>
+       <string>Constant</string>
       </property>
      </column>
      <column>
@@ -109,31 +157,15 @@
      </column>
     </widget>
    </item>
-   <item row="4" column="1" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>20</width>
-       <height>147</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>K3ListView</class>
+   <class>KLineEdit</class>
    <extends></extends>
-   <header>k3listview.h</header>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

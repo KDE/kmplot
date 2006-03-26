@@ -3,6 +3,7 @@
 *
 * Copyright (C) 2004  Fredrik Edemar
 *                     f_edemar@linux.se
+*               2006 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -27,11 +28,14 @@
 #define KCONSTANTEDITOR_H
 
 #include "settingspageconstants.h"
-#include "keditconstant.h"
 #include "View.h"
 
+#include <QValidator>
+
+class ConstantValidator;
+
 /**
-@author Fredrik Edemar
+@author Fredrik Edemar, David Saxton
 */
 /// Handles all the constants.
 class KConstantEditor : public QWidget, public Ui::SettingsPageConstants
@@ -44,25 +48,51 @@ public:
 public slots:
     /// actions for the buttons
     void cmdNew_clicked();
-    void cmdEdit_clicked();
     void cmdDelete_clicked();
-    void cmdDuplicate_clicked();
+	
+	/// called when the user changes the text in the Constant name edit box
+	void constantNameEdited( const QString & newName );
     
     ///actions for the visible constant list
-    void varlist_clicked( Q3ListViewItem * item );
-    void varlist_doubleClicked( Q3ListViewItem * );
-   
-    /// called when a user pressed OK the the new-constant-dialog
-    void newConstantSlot();
-    /// called when a user pressed OK the the edit-constant-dialog
-    void editConstantSlot();
-  
-    
-private:   
-   char constant;
-   QString value;
-   View *m_view;
-    
+	void selectedConstantChanged( QTreeWidgetItem * current );
+	
+	/// saves the value in the edit boxes of the constant currently being edited
+	void saveCurrentConstant();
+	
+	/// updates whether or not the "value is invalid" label is shown, (and returns the validity of the current value)
+	bool checkValueValid();
+	
+private:
+	View *m_view;
+	char m_previousConstantName;
+	ConstantValidator * m_constantValidator;
+};
+
+
+/**
+Validates the constant; ensuring that Roman letters are alphabetical and only
+proper constant letters are used.
+@author David Saxton
+*/
+class ConstantValidator : public QValidator
+{
+	public:
+		ConstantValidator( KConstantEditor * parent, View * view );
+		
+		virtual State validate( QString & input, int & pos ) const;
+		
+		/**
+		 * There cannot be more than one constant with the same name. So
+		 * this validator checks that the input does not conflict with any
+		 * existing names - except, of course, the name of the constant being
+		 * edited.
+		 */
+		void setWorkingName( char name );
+		
+	protected:
+		/// @see setWorkingName
+		char m_workingName;
+		View * m_view;
 };
 
 #endif

@@ -215,7 +215,20 @@ public:
         int ixValue(uint const id);/// Converts an ID-numer to an index-value
         uint countFunctions(); /// Returns how many functions there are
 
-	QVector<Constant> constant;
+	/// @returns an iterator to the constant with the given name, or constants::end if not found
+	QVector<Constant>::iterator findConstant( char name );
+	/// removes the constant with the given name from the constants list
+	void removeConstant( char name );
+	/// adds the constant to the internal list (overwriting any previous constant with the same name)
+	void addConstant( Constant c );
+	/// @return whether the constant with the given name exists
+	bool haveConstant( char name );
+	/// @return a unique (i.e. unused) constant name
+	char generateUniqueConstantName();
+	/// @return a copy of the list of constants
+	QVector<Constant> constants() const { return m_constants; }
+	
+	
         QVector<Ufkt> ufkt;///< Points to the array of user defined functions.
 
 private:
@@ -276,6 +289,7 @@ private:
 	*stkptr;		    // Stackpointer
 	static double  m_anglemode;
 	QString m_decimalsymbol;
+	QVector<Constant> m_constants;
 };
 
 #endif	// parser_included

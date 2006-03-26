@@ -3,6 +3,7 @@
 *
 * Copyright (C) 2004  Fredrik Edemar
 *                     f_edemar@linux.se
+*               2006 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -27,201 +28,206 @@
 #include <kdebug.h>
 #include <kinputdialog.h>
 #include <klineedit.h>
-#include <k3listview.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+
 #include <qpushbutton.h>
 #include <qstringlist.h>
 #include <QVector>
 #include <qdom.h>
+#include <qtreewidget.h>
 
 #include "kmplotio.h"
 #include "kconstanteditor.h"
 
+#include <assert.h>
 
-KConstantEditor::KConstantEditor(View *v, QWidget *parent)
-	: QWidget(parent),
-	  m_view(v)
+
+//BEGIN class KConstantEditor
+KConstantEditor::KConstantEditor( View * v, QWidget * parent )
+	: QWidget( parent ),
+	  m_view( v )
 {
+	m_previousConstantName = 0;
 	setupUi( this );
+	m_constantValidator = new ConstantValidator( this, m_view );
+	nameEdit->setValidator( m_constantValidator );
 	
-	QString str_value;
-	QVector<Constant>::iterator it;
-	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() ;++it)
+	QVector<Constant> constants = m_view->parser()->constants();
+	foreach ( Constant c, constants )
 	{
-		str_value.setNum(it->value);
-		(void) new Q3ListViewItem(varlist, QString(it->constant), str_value);
+		QString valueAsString;
+		valueAsString.setNum( c.value, 'g', 8 );
+		QTreeWidgetItem * item = new QTreeWidgetItem( constantList );
+		item->setText( 0, QString( c.constant ) );
+		item->setText( 1, valueAsString );
 	}
 	
+	connect( nameEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( constantNameEdited( const QString & ) ) );
+	connect( valueEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( saveCurrentConstant() ) );
+	connect( valueEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
+	
 	connect( cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ) );
-	connect( cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ) );
 	connect( cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ) );
-	connect( cmdDuplicate, SIGNAL( clicked() ), this, SLOT( cmdDuplicate_clicked() ) );
+	
+	connect( constantList, SIGNAL(currentItemChanged( QTreeWidgetItem *, QTreeWidgetItem * )), this, SLOT(selectedConstantChanged( QTreeWidgetItem * )) );
+	
+	checkValueValid();
 }
+
 
 KConstantEditor::~KConstantEditor()
 {
 }
 
+
 void KConstantEditor::cmdNew_clicked()
 {
-	kDebug() << k_funcinfo << endl;
-	constant = '0';
-	KEditConstant *dlg = new KEditConstant(m_view->parser(), constant, value);
-	connect( dlg, SIGNAL( finished() ), this,SLOT(newConstantSlot() ) ); 
-	dlg->show();
+	QTreeWidgetItem * item = new QTreeWidgetItem( constantList );
+	constantList->setCurrentItem( item );
 }
 
-void KConstantEditor::cmdEdit_clicked()
-{
-	if ( !varlist->currentItem() )
-		return;
-	constant = varlist->currentItem()->text(0).at(0).latin1();
-	value = varlist->currentItem()->text(1);
-		
-	KEditConstant *dlg = new KEditConstant(m_view->parser(), constant, value);
-	connect( dlg, SIGNAL( finished() ), this,SLOT(editConstantSlot() ) );
-	dlg->show();
-}
 
 void KConstantEditor::cmdDelete_clicked()
 {
-	if ( !varlist->currentItem() )
+	QTreeWidgetItem * item = constantList->currentItem();
+	if ( !item )
 		return;
-
-	constant = varlist->currentItem()->text(0).at(0).latin1();
-	value = varlist->currentItem()->text(1);
-	QString str;
-        
-        for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+	
+	QString constantText = item->text(0);
+	if ( !constantText.isEmpty() )
 	{
-		str =  it->fstr;
-		for (int i=str.indexOf(')'); i<str.length();i++)
-			if ( str.at(i) == constant )
-                        {
-			     KMessageBox::error(this, i18n("A function uses this constant; therefore, it cannot be removed."));
-                             return;
-                        }
-	}
-	QVector<Constant>::iterator it;
-	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end(); ++it)
-	{
-		if ( it->constant == constant)
+		char currentConstant = constantText[0].toAscii();
+	
+		for( QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 		{
-			if (  it++ == m_view->parser()->constant.end())
-				m_view->parser()->constant.pop_back();
-			else
+			QString str = it->fstr;
+			if ( str.indexOf( currentConstant, str.indexOf(')') ) != -1 )
 			{
-				it--;
-				m_view->parser()->constant.erase(it++);
+				KMessageBox::sorry(this, i18n("A function uses this constant; therefore, it cannot be removed."));
+				return;
 			}
-			KMessageBox::error(this, i18n("The item could not be found."));
-                        return;
 		}
+	
+		m_view->parser()->removeConstant( currentConstant );
 	}
 	
-	delete varlist->findItem(QString(constant), 0); //removes the item from the constant list
+	nameEdit->clear();
+	valueEdit->clear();
+	constantList->takeTopLevelItem( constantList->indexOfTopLevelItem( item ) );
+	delete item;
+	
+	cmdDelete->setEnabled( constantList->currentItem() != 0 );
 }
 
-void KConstantEditor::varlist_clicked( Q3ListViewItem * item )
+
+void KConstantEditor::selectedConstantChanged( QTreeWidgetItem * current )
 {
-	if (item)
-	{
-		cmdEdit->setEnabled(true);
-		cmdDelete->setEnabled(true);
-		cmdDuplicate->setEnabled(true);
-	}
+	cmdDelete->setEnabled( current != 0 );
+	
+	QString name = current ? current->text(0) : QString::null;
+	QString value = current ? current->text(1) : QString::null;
+	
+	m_previousConstantName = name.isEmpty() ? 0 : name[0].toAscii();
+	m_constantValidator->setWorkingName( m_previousConstantName );
+	
+	nameEdit->setText( name );
+	valueEdit->setText( value );
+	
+}
+
+
+void KConstantEditor::constantNameEdited( const QString & newName )
+{
+	QTreeWidgetItem * current = constantList->currentItem();
+	if ( !current )
+		current = new QTreeWidgetItem( constantList );
+	
+	m_view->parser()->removeConstant( m_previousConstantName );
+	
+	current->setText( 0, newName );
+	constantList->setCurrentItem( current ); // make it the current item if no item was selected before
+	
+	if ( newName.isEmpty() )
+		m_previousConstantName = 0;
 	else
-	{
-		cmdEdit->setEnabled(false);
-		cmdDelete->setEnabled(false);
-		cmdDuplicate->setEnabled(false);		
-	}
+		m_previousConstantName = newName[0].toAscii();
+	
+	m_constantValidator->setWorkingName( m_previousConstantName );
+	
+	saveCurrentConstant();
 }
 
-void KConstantEditor::cmdDuplicate_clicked()
+
+void KConstantEditor::saveCurrentConstant()
 {
-	if (!varlist->currentItem())
+	if ( nameEdit->text().isEmpty() )
 		return;
-	constant = varlist->currentItem()->text(0).at(0).latin1();
-	value = varlist->currentItem()->text(1);
 	
-	QStringList list;
-	bool found;
-	for (char i='A'; i<'Z';i++)
-	{
-		if ( i=='H' )
-			// heaviside step function
-			continue;
-		
-		found = false;
-		QVector<Constant>::iterator it;
-		for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;++it)
-		{
-			if ( it->constant == i || i == constant)
-			{
-				found = true;
-			}
-		}
-		if (!found)
-			list.append(QString(i));
-	}
-	QStringList result = KInputDialog::getItemList(i18n("Choose Name"),i18n("Choose a name for the constant:"),list, QStringList(), false, &found);
-	if (found)
-	{
-		constant = (*result.begin()).at(0).latin1();
-		emit newConstantSlot();
-	}
+	QTreeWidgetItem * current = constantList->currentItem();
+	assert( current );
+	current->setText( 1, valueEdit->text() );
 	
+	char currentName = nameEdit->text()[0].toAscii();
+	double value = m_view->parser()->eval( valueEdit->text() );
+	m_view->parser()->addConstant( Constant( currentName, value ) );
 }
 
-void KConstantEditor::newConstantSlot()
+
+bool KConstantEditor::checkValueValid()
 {
-	double dvalue = m_view->parser()->eval(value);
-	m_view->parser()->constant.append( Constant(constant, dvalue) );
-	(void) new Q3ListViewItem(varlist, QString( constant ), value);
-	varlist->sort();
+	(double) m_view->parser()->eval( valueEdit->text() );
+	bool valid = (m_view->parser()->parserError( false ) == 0);
+	valueInvalidLabel->setVisible( !nameEdit->text().isEmpty() && !valid );
+	return valid;
 }
+//END class KConstantEditor
 
-void KConstantEditor::editConstantSlot()
+
+
+//BEGIN class ConstantValidator
+ConstantValidator::ConstantValidator( KConstantEditor * parent, View * view )
+	: QValidator( parent )
 {
-	double dvalue = m_view->parser()->eval(value);
-	bool found = false;
-	QVector<Constant>::iterator it;
-	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;++it)
-	{
-		if ( it->constant == constant)
-		{
-			it->value = dvalue;
-			found = true;
-		}
-	}
-	if (!found)
-	{
-		KMessageBox::error(this, i18n("The item could not be found."));
-		return;
-	}
-
-	Q3ListViewItem *item = varlist->findItem(QString(constant), 0);
-	if (item!=0)
-		item->setText(1,value);
-	
-
-        int index = 0;
-        for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
-	{
-		if( it->fstr.contains(constant)!=0 )
-			m_view->parser()->reparse(index); //reparsing the function
-                ++index;
-	}
-	
-	m_view->drawPlot();
+	m_workingName = 0;
+	m_view = view;
 }
 
-void KConstantEditor::varlist_doubleClicked( Q3ListViewItem * )
+
+QValidator::State ConstantValidator::validate( QString & input, int & pos ) const
 {
-	cmdEdit_clicked();
+	(void)pos;
+	
+	input = input.toUpper();
+	
+	// The input should already be limited to a maximum length of 1
+	assert( input.length() < 2 );
+	if ( input.isEmpty() )
+		return Intermediate;
+	
+	/// \todo remove the toAscii() stuff when converting constants to use QChars
+	
+	// Is the constant name already in use?
+	if ( (input[0].toAscii() != m_workingName) && m_view->parser()->haveConstant( input[0].toAscii() ) )
+		return Invalid;
+	
+	switch ( input[0].category() )
+	{
+		case QChar::Letter_Uppercase:
+		case QChar::Symbol_Math:
+			return Acceptable;
+			
+		default:
+			return Invalid;
+	}
 }
+
+
+void ConstantValidator::setWorkingName( char name )
+{
+	m_workingName = name;
+}
+//END class ConstantValidator
 
 #include "kconstanteditor.moc"

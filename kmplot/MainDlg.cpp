@@ -670,61 +670,41 @@ void MainDlg::loadConstants()
 	KSimpleConfig conf ("kcalcrc");
 	conf.setGroup("UserConstants");
 	QString tmp;
-	QString tmp_constant;
-	QString tmp_value;
-	char constant;
-	double value;
+	
 	for( int i=0; ;i++)
 	{
 		tmp.setNum(i);
-		tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
-		tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
+		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
+		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
 // 		kDebug() << "konstant: " << tmp_constant.latin1() << endl;
 // 		kDebug() << "value: " << value << endl;
 // 		kDebug() << "**************" << endl;
 		
-		if ( tmp_constant == " " || tmp_constant == " ")
-		  return;
+		if ( tmp_constant == " " )
+			return;
 		
- 		constant = tmp_constant[0].toUpper().latin1();
+		if ( tmp_constant.isEmpty() )
+			continue;
+		
+		char constant = tmp_constant[0].toUpper().latin1();
 
 		if ( constant<'A' || constant>'Z')
-			constant = 'A';
-		value = view->parser()->eval(tmp_value);
-		if ( view->parser()->parserError(false) ) //couln't parse the value
-		  continue;
-		
-		if ( !view->parser()->constant.empty() )
 		{
-			bool copy_found=false;
-			while (!copy_found)
-			{
-				// go through the constant list
-				QVector<Constant>::iterator it =  view->parser()->constant.begin();
-				while (it!= view->parser()->constant.end() && !copy_found)
-				{
-					if (constant == it->constant )
-						copy_found = true;
-					else
-						++it;
-				}
-				if ( !copy_found)
-					copy_found = true;
-				else
-				{
-					copy_found = false;
-					if (constant == 'Z')
-						constant = 'A';
-					else
-						constant++;
-				}
-			}
+			kWarning() << k_funcinfo << "Invalid constant letter: " << constant << endl;
+			continue;
 		}
-		/*kDebug() << "**************" << endl;
-		kDebug() << "C:" << constant << endl;
-		kDebug() << "V:" << value << endl;*/
-
-		view->parser()->constant.append(Constant(constant, value) );
+			
+		double value = view->parser()->eval(tmp_value);
+		if ( view->parser()->parserError(false) )
+		{
+			kWarning() << k_funcinfo << "Couldn't parse the value " << tmp_value << endl;
+			continue;
+		}
+		
+		if ( view->parser()->haveConstant( constant ) )
+			constant = view->parser()->generateUniqueConstantName();
+		
+		view->parser()->addConstant( Constant(constant, value) );
 	}
 }
 
@@ -732,13 +712,25 @@ void MainDlg::saveConstants()
 {
 	KSimpleConfig conf ("kcalcrc");
 	conf.deleteGroup("Constants");
+	
+	// remove any previously saved constants
+	conf.deleteGroup( "UserConstants", KConfigBase::Recursive );
+	conf.deleteGroup( "UserConstants", 0 ); /// \todo remove this line when fix bug in kconfigbase
+	
+	
 	conf.setGroup("UserConstants");
 	QString tmp;
-	for( int i = 0; i< (int)view->parser()->constant.size();i++)
+	
+	int i = 0;
+	QVector<Constant> constants = view->parser()->constants();
+	kDebug() << k_funcinfo << "constants.size()="<<constants.size()<<endl;
+	foreach ( Constant c, constants )
 	{
 		tmp.setNum(i);
-		conf.writeEntry("nameConstant"+tmp, QString( QChar(view->parser()->constant[i].constant) ) ) ;
-		conf.writeEntry("valueConstant"+tmp, view->parser()->constant[i].value);
+		conf.writeEntry("nameConstant"+tmp, QString( QChar(c.constant) ) ) ;
+		conf.writeEntry("valueConstant"+tmp, c.value);
+		
+		i++;
 	}
 }
 

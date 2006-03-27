@@ -70,7 +70,7 @@ class EditFunction : public KDialogBase
 		/// @param parser points to the parser instance.
 		/// @param parent points to the parent widget.
 		/// @param name of this instance.
-		EditFunction( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
+		EditFunction( XParser* parser, QWidget* parent = NULL );
 		/// Nothing special to do.
 		virtual ~EditFunction() {};
 		/// Fill the dialog's widgets with the properties of the parser function number index.

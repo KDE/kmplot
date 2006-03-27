@@ -89,7 +89,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 	minmaxdlg = new KMinMax(view, m_parent);
 	view->setMinMaxDlg(minmaxdlg);
 	setupActions();
-	loadConstants();
+	view->parser()->constants()->load();
 	kmplotio = new KmPlotIO(view->parser());
 	m_config = KGlobal::config();
 	m_recentFiles->loadEntries( m_config );
@@ -117,7 +117,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 MainDlg::~MainDlg()
 {
 	m_recentFiles->saveEntries( m_config );
-	saveConstants();
+	view->parser()->constants()->save();
 	delete kmplotio;
 }
 
@@ -664,74 +664,6 @@ void MainDlg::updateSettings()
 	view->drawPlot();
 }
 
-void MainDlg::loadConstants()
-{
-	KSimpleConfig conf ("kcalcrc");
-	conf.setGroup("UserConstants");
-	QString tmp;
-	
-	for( int i=0; ;i++)
-	{
-		tmp.setNum(i);
-		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
-		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
-// 		kDebug() << "konstant: " << tmp_constant.toLatin1() << endl;
-// 		kDebug() << "value: " << value << endl;
-// 		kDebug() << "**************" << endl;
-		
-		if ( tmp_constant == " " )
-			return;
-		
-		if ( tmp_constant.isEmpty() )
-			continue;
-		
-		char constant = tmp_constant[0].toUpper().toLatin1();
-
-		if ( constant<'A' || constant>'Z')
-		{
-			kWarning() << k_funcinfo << "Invalid constant letter: " << constant << endl;
-			continue;
-		}
-			
-		double value = view->parser()->eval(tmp_value);
-		if ( view->parser()->parserError(false) )
-		{
-			kWarning() << k_funcinfo << "Couldn't parse the value " << tmp_value << endl;
-			continue;
-		}
-		
-		if ( view->parser()->haveConstant( constant ) )
-			constant = view->parser()->generateUniqueConstantName();
-		
-		view->parser()->addConstant( Constant(constant, value) );
-	}
-}
-
-void MainDlg::saveConstants()
-{
-	KSimpleConfig conf ("kcalcrc");
-	conf.deleteGroup("Constants");
-	
-	// remove any previously saved constants
-	conf.deleteGroup( "UserConstants", KConfigBase::Recursive );
-	conf.deleteGroup( "UserConstants", 0 ); /// \todo remove this line when fix bug in kconfigbase
-	
-	
-	conf.setGroup("UserConstants");
-	QString tmp;
-	
-	int i = 0;
-	QVector<Constant> constants = view->parser()->constants();
-	kDebug() << k_funcinfo << "constants.size()="<<constants.size()<<endl;
-	foreach ( Constant c, constants )
-	{
-		tmp.setNum(i);
-		conf.writeEntry("nameConstant"+tmp, QString( QChar(c.constant) ) ) ;
-		conf.writeEntry("valueConstant"+tmp, c.value);
-		
-		i++;
-	}
-}
 
 void MainDlg::getYValue()
 {

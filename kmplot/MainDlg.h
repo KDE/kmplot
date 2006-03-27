@@ -146,10 +146,6 @@ private:
 	void setupActions();
 	/// Called when a file is opened. The filename is is m_url
 	virtual bool openFile();
-	/// Loading the constants by start
-	void loadConstants();
-	/// Loading the constants when closing the program
-	void saveConstants();
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
 

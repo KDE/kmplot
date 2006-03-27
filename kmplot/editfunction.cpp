@@ -56,8 +56,8 @@
 #include "editintegralpage.h"
 #include "kparametereditor.h"
 
-EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name ) : 
-	KDialogBase( IconList, "Caption", Help|Ok|Cancel, Ok, parent, name ), m_parser(parser)
+EditFunction::EditFunction( XParser* parser, QWidget* parent ) : 
+	KDialogBase( IconList, "Caption", Help|Ok|Cancel, Ok, parent ), m_parser(parser)
 {
 	KVBox *page0 = addVBoxPage( i18n("Function"), i18n( "Function" ), SmallIcon( "func", 32 ) );
 	editfunctionpage = new EditFunctionPage( page0 );

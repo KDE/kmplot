@@ -32,6 +32,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <ksimpleconfig.h>
 
 // local includes
 #include "parser.h"
@@ -119,18 +120,15 @@ Ufkt::~Ufkt()
 
 Parser::Parser()
 {
-	ps_init();
-}
-
-
-void Parser::ps_init()
-{
+	m_evalPos = 0;
 	evalflg=0;
-        Ufkt temp;
-        temp.fname = temp.fvar = temp.fpar = temp.fstr = "";
-        temp.mem=new unsigned char [MEMSIZE];
-        ufkt.append(temp );
-        current_item = ufkt.begin();
+	m_constants = new Constants( this );
+	
+	Ufkt temp;
+	temp.fname = temp.fvar = temp.fpar = temp.fstr = "";
+	temp.mem=new unsigned char [MEMSIZE];
+	ufkt.append(temp );
+	current_item = ufkt.begin();
 }
 
 
@@ -142,6 +140,8 @@ Parser::~Parser()
                 kDebug() << "Deleting something... :-)" << endl;
                 delete [](*it).mem;
         }
+	
+	delete m_constants;
 }
 
 void Parser::setAngleMode(int angle)
@@ -194,38 +194,37 @@ double Parser::eval(QString str)
         
 	if ( str.contains('y')!=0)
 	{
-		err=9;
-                delete []stack;
+		err = RecursiveFunctionCall;
+		delete []stack;
 		return 0;
 	}
 	for (int i=0;i<str.length();i++ )
 	{
-		if (str.at(i).category() == QChar::Letter_Uppercase)
+		if ( constants()->isValidName( str[i] ) )
 		{
-			err=14;
+			err = UserDefinedConstantInExpression;
 			delete []stack;
 			return 0;
 		}
 	}
 	
-	QByteArray strInternal = str.toLatin1();
-	
-// 	lptr=str.latin1();
-	lptr = strInternal.data();
-	err=0;
+	m_eval = str;
+	m_evalPos = 0;
+	err = ParseSuccess;
 	heir1();
-	if(*lptr!=0 && err==0) err=1;
+	if( !evalRemaining().isEmpty() && err==ParseSuccess)
+		err=SyntaxError;
 	evalflg=0;
 	double const erg=*stkptr;
 	delete [] stack;
-	if(err==0)
+	if ( err == ParseSuccess )
 	{
-                errpos=0;
+		errpos=0;
 		return erg;
 	}
 	else
 	{
-		errpos = lptr-(strInternal.data())+1;
+		errpos = m_evalPos+1;
 		return 0.;
 	}
 }
@@ -260,8 +259,8 @@ double Parser::fkt(uint const id, double const x)
                 if ( it->id == id)
                         return fkt(it,x);
         }
-        err=13;
-        return 0;
+	err = NoSuchFunction;
+	return 0;
 }
 
 double Parser::fkt(Ufkt *it, double const x)
@@ -352,7 +351,7 @@ int Parser::addfkt(QString str)
 {
 	QString const extstr = str;
 	stkptr=stack=0;
-	err=0;
+	err = ParseSuccess;
 	errpos=1;
 	const int p1=str.indexOf('(');
 	int p2=str.indexOf(',');
@@ -360,25 +359,28 @@ int Parser::addfkt(QString str)
 	fix_expression(str,p1+4);
         
 	if(p1==-1 || p3==-1 || p1>p3)
-	{   err=4;
+	{
+		err = InvalidFunctionVariable;
 		return -1;
 	}
 	if ( p3+2 == str.length()) //empty function
-	{   err=11;
+	{
+		err = EmptyFunction;
 		return -1;
 	}
 	if(p2==-1 || p2>p3) p2=p3;
 	
 	if( fnameToId(str.left(p1))!=-1 )
 	{
-                err=8;
+		err = FunctionNameReused;
 		return -1;
 	}
 	else
-                err=0;
+		err = ParseSuccess;
 	
 	if (str.mid(p1+1, p2-p1-1) == "e")
-	{   err=4;
+	{
+		err = InvalidFunctionVariable;
 		return -1;
 	}
         
@@ -412,20 +414,20 @@ int Parser::addfkt(QString str)
 	if ( temp->fname != temp->fname.toLower() ) //isn't allowed to contain capital letters
 	{
 		delfkt(temp);
-		err=12;
+		err = CapitalInFunctionName;
 		return -1;
 	}
         current_item = temp;
 	mem=mptr=temp->mem;
-	QByteArray strInternal = str.toLatin1();
-// 	lptr=(str.latin1())+p3+2;
-	lptr = strInternal.data() + p3 + 2;
+	m_eval = str;
+	m_evalPos = p3 + 2;
 	heir1();
-	if(*lptr!=0 && err==0) err=1;		// Syntaxfehler
+	if ( !evalRemaining().isEmpty() && err==ParseSuccess)
+		err = SyntaxError;
 	addtoken(ENDE);
-	if(err!=0)
+	if ( err != ParseSuccess )
 	{
-		errpos=lptr-(strInternal.data())+1;
+		errpos = m_evalPos + 1;
 		delfkt(temp);
 		return -1;
 	}
@@ -442,7 +444,7 @@ void Parser::reparse(Ufkt *item)
 {
 	kDebug() << "Reparsing: " << item->fstr << endl;
 	QString str = item->fstr;
-	err=0;
+	err = ParseSuccess;
 	errpos=1;
 
 	const int p1=str.indexOf('(');
@@ -452,18 +454,21 @@ void Parser::reparse(Ufkt *item)
 	fix_expression(str,p1+4);
         
 	if(p1==-1 || p3==-1 || p1>p3)
-	{   err=4;
-	return;
+	{
+		err = InvalidFunctionVariable;
+		return;
 	}
 	if ( p3+2 == str.length()) //empty function
-	{   err=11;
-	return;
+	{
+		err = EmptyFunction;
+		return;
 	}
 	if(p2==-1 || p2>p3) p2=p3;
 	
 	if (str.mid(p1+1, p2-p1-1) == "e")
-	{   err=4;
-	return;
+	{
+		err = InvalidFunctionVariable;
+		return;
 	}
 	
 	item->fname=str.left(p1);
@@ -473,17 +478,19 @@ void Parser::reparse(Ufkt *item)
 	
 	if ( item->fname != item->fname.toLower() ) //isn't allowed to contain capital letters
 	{
-		err=12;
+		err = CapitalInFunctionName;
 		return;
 	}
 	
 	//ixa=ix;
         current_item = item;
 	mem=mptr=item->mem;
-	QByteArray strInternal = str.toLatin1();
-	lptr = (strInternal.data())+p3+2;
+	
+	m_eval = str;
+	m_evalPos = p3 + 2;
 	heir1();
-	if(*lptr!=0 && err==0) err=1;		// Syntaxfehler
+	if ( !evalRemaining().isEmpty() && err == ParseSuccess )
+		err=SyntaxError;		// Syntaxfehler
 	addtoken(ENDE);
 	errpos=0;
 }
@@ -541,8 +548,8 @@ void Parser::fix_expression(QString &str, int const pos)
 			else  if (function)
 				function = false;
                 
-				// either a number or a likely constant (H is reserved for the Heaviside step function)
-				bool chIsNumeric = ch.isNumber() || ( (ch.category()==QChar::Letter_Uppercase) && (ch!='H') );
+		// either a number or a likely constant (H is reserved for the Heaviside step function)
+		bool chIsNumeric = ch.isNumber() || m_constants->isValidName( ch );
 				
 				if ( chIsNumeric && ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
 				{
@@ -569,8 +576,8 @@ bool Parser::delfkt( Ufkt *item)
 	kDebug() << "Deleting id:" << item->id << endl;
 	if (!item->dep.isEmpty())
 	{
-	  KMessageBox::error(0,i18n("This function is depending on an other function"));
-	  return false;
+		KMessageBox::sorry(0,i18n("This function is depending on an other function"));
+		return false;
 	}
 	for(QVector<Ufkt>::iterator it1=ufkt.begin(); it1!=ufkt.end(); ++it1)
 	{
@@ -629,35 +636,40 @@ uint Parser::countFunctions()
 
 void Parser::heir1()
 {
-        char c;
+	QChar c;
 	heir2();
-	if(err!=0) return ;
+	if(err!=ParseSuccess)
+		return ;
 
 	while(1)
 	{
-                switch(c=*lptr)
+		if ( m_eval.length() <= m_evalPos )
+			return;
+		
+		c = m_eval[m_evalPos];
+		switch ( c.unicode() )
 		{
-                        default:
-                                return ;
+			default:
+				return ;
 
-                        case ' ':
-                                ++lptr;
-                                continue;
-                        case '+':
-                        case '-':
-                                ++lptr;
-                                addtoken(PUSH);
-                                heir2();
-                                if(err!=0)
-                                        return;
+			case ' ':
+				++m_evalPos;
+				continue;
+			case '+':
+			case '-':
+				++m_evalPos;
+				addtoken(PUSH);
+				heir2();
+				if(err!=ParseSuccess)
+					return;
 		}
-		switch(c)
+		switch ( c.unicode() )
 		{
-                        case '+':
-                                addtoken(PLUS);
-                                break;
-                        case '-':
-                        addtoken(MINUS);
+			case '+':
+				addtoken(PLUS);
+				break;
+			case '-':
+				addtoken(MINUS);
 		}
 	}
 }
@@ -665,48 +677,52 @@ void Parser::heir1()
 
 void Parser::heir2()
 {
-        if(match("-"))
+	if(match("-"))
 	{
-                heir2();
-		if(err!=0)
-                        return;
+		heir2();
+		if(err!=ParseSuccess)
+			return;
 		addtoken(NEG);
 	}
 	else
-                heir3();
+		heir3();
 }
 
 
 void Parser::heir3()
 {
-        char c;
+	QChar c;
 	heir4();
-	if(err!=0)
-                return;
+	if(err!=ParseSuccess)
+		return;
 	while(1)
 	{
-                switch(c=*lptr)
+		if ( m_eval.length() <= m_evalPos )
+			return;
+		
+		c = m_eval[m_evalPos];
+		switch ( c.unicode() )
 		{
-                        default:
-                                return;
-                        case ' ':
-                                ++lptr;
-                                continue;
-                        case '*':
-                        case '/':
-                                ++lptr;
-                                addtoken(PUSH);
-                                heir4();
-                                if(err!=0)
-                                        return ;
-		      }
-		switch(c)
+			default:
+				return;
+			case ' ':
+				++m_evalPos;
+				continue;
+			case '*':
+			case '/':
+				++m_evalPos;
+				addtoken(PUSH);
+				heir4();
+				if(err!=ParseSuccess)
+					return ;
+		}
+		switch ( c.unicode() )
 		{
-                        case '*':
-                                addtoken(MULT);
-                                break;
-                        case '/':
-                                addtoken(DIV);
+			case '*':
+				addtoken(MULT);
+				break;
+			case '/':
+				addtoken(DIV);
 		}
 	}
 }
@@ -714,15 +730,15 @@ void Parser::heir3()
 
 void Parser::heir4()
 {
-        primary();
-	if(err!=0)
-                return;
+	primary();
+	if(err!=ParseSuccess)
+		return;
 	while(match("^"))
 	{
-                addtoken(PUSH);
+		addtoken(PUSH);
 		primary();
-		if(err!=0)
-                        return;
+		if(err!=ParseSuccess)
+			return;
 		addtoken(POW);
 	}
 }
@@ -732,15 +748,14 @@ void Parser::primary()
 {
 	if(match("("))
 	{
-                heir1();
+		heir1();
 		if(match(")")==0)
-                        err=2;	// fehlende Klammer
+			err=MissingBracket;
 		return;
 	}
         int i;
         for(i=0; i<FANZ; ++i)
         {
-// 			kDebug() << "*lptr="<<*lptr<<" mfkttab[i].mfstr="<<mfkttab[i].mfstr<<endl;
                 if(match(mfkttab[i].mfstr))
                 {
                         primary();
@@ -751,13 +766,14 @@ void Parser::primary()
         }
         for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
-		if(QString(lptr)=="pi" || QString(lptr)=="e") continue;
+		if ( evalRemaining() == "pi" || evalRemaining() == "e" )
+			continue;
 
 		if( match(it->fname.toLatin1().data()) )
 		{
                         if (it == current_item)
                         {
-                                err=9;
+							err=RecursiveFunctionCall;
                                 return;
                         }
 			primary();
@@ -769,22 +785,21 @@ void Parser::primary()
 	}
         
 	// A constant
-	if(lptr[0] >='A' && lptr[0]<='Z' )
+	if ( (m_eval.length()>m_evalPos) && constants()->isValidName( m_eval[m_evalPos] ) )
 	{
-		char tmp[2];
-		tmp[1] = '\0';
-		for( i = 0; i< m_constants.size();i++)
+		QVector<Constant> constants = m_constants->all();
+		foreach ( Constant c, constants )
 		{
-			tmp[0] = m_constants[i].constant;
-			if ( match( tmp) )
+			QChar tmp = c.constant;
+			if ( match( tmp ) )
 			{
 				addtoken(KONST);
-				addwert(m_constants[i].value);
+				addwert(c.value);
 				return;
 			}
-	       }
-	       err = 10;
-	       return;
+		}
+		err = NoSuchConstant;
+		return;
 	}
         
 	if(match("pi"))
@@ -820,51 +835,49 @@ void Parser::primary()
 		return;
 	}
 
-        char *p;
-	double const w=strtod(lptr, &p);
-	if(lptr!=p)
+	QByteArray remaining = evalRemaining().toLatin1();
+	char * lptr = remaining.data();
+	char * p = 0;
+	double const w = strtod(lptr, &p);
+	if( lptr != p )
 	{
-                lptr=p;
+		m_evalPos += p-lptr;
 		addtoken(KONST);
 		addwert(w);
 	}
 	else
-                err=1;				// Syntax-Fehler
+		err = SyntaxError;
 }
 
 
-int Parser::match(const char *lit)
+int Parser::match( const QString & lit )
 {
-
-        const char *p;
-	if(*lit==0)
-                return 0;
-	while(*lptr==' ')
-                ++lptr;
-	p=lptr;
-
-	while(*lit)
-	{
-                if(*lit++!=*p++)
-                        return 0;
-	}
-	lptr=p;
+	if ( lit.isEmpty() )
+		return 0;
+	
+	while( (m_eval.length() > m_evalPos) && (m_eval[m_evalPos] == ' ') )
+		++m_evalPos;
+	
+	if ( lit != evalRemaining().left( lit.length() ) )
+		return 0;
+	
+	m_evalPos += lit.length();
 	return 1;
 }
 
 
 void Parser::addtoken(unsigned char token)
 {
-        if(stkptr>=stack+STACKSIZE-1)
+	if(stkptr>=stack+STACKSIZE-1)
 	{
-                err=7;
+		err = StackOverflow;
 		return;
 	}
 
 	if(evalflg==0)
 	{
                 if(mptr>=&mem[MEMSIZE-10])
-                        err=6;
+					err = MemoryOverflow;
 		else
                         *mptr++=token;
         
@@ -926,7 +939,7 @@ void Parser::addwert(double x)
 	if(evalflg==0)
 	{
                 if(mptr>=&mem[MEMSIZE-10])
-                        err=6;
+					err = MemoryOverflow;
 		else
 		{
                         *pd++=x;
@@ -944,7 +957,7 @@ void Parser::addfptr(double(*fadr)(double))
         if( evalflg==0 )
         {
         if( mptr>=&mem[MEMSIZE-10] )
-                err=6;
+			err = MemoryOverflow;
         else
                 {
                         *pf++=fadr;
@@ -961,7 +974,8 @@ void Parser::addfptr(uint id)
         uint *p=(uint*)mptr;
         if(evalflg==0)
 	{
-                if(mptr>=&mem[MEMSIZE-10]) err=6;
+		if(mptr>=&mem[MEMSIZE-10])
+			err=MemoryOverflow;
 		else
 		{
                         *p++=id;
@@ -991,102 +1005,75 @@ int Parser::fnameToId(const QString &name)
 }
 
 
-int Parser::parserError(bool showMessageBox)
+Parser::Error Parser::parserError(bool showMessageBox)
 {
-        if (!showMessageBox)
-                return err;
-        switch(err)
+	if (!showMessageBox)
+		return err;
+	switch(err)
 	{
-                case 1:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-		                                      "Syntax error").arg(QString::number(errpos)), "KmPlot");
-                        break;
-                case 2:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-		                                      "Missing parenthesis").arg(QString::number(errpos)), "KmPlot");
-                        break;
-                case 3:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-		                                      "Function name unknown").arg(QString::number(errpos)), "KmPlot");
-                        break;
-                case 4:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-		                                      "Void function variable").arg(QString::number(errpos)), "KmPlot");
-                        break;
-                case 5:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-		                                      "Too many functions").arg(QString::number(errpos)), "KmPlot");
-                        break;
-                case 6:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-		                                      "Token-memory overflow").arg(QString::number(errpos)), "KmPlot");
-                        break;
-                case 7:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-		                                      "Stack overflow").arg(QString::number(errpos)), "KmPlot");
-                        break;
-                case 8:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-		                                      "Name of function not free.").arg(QString::number(errpos)), "KmPlot");
-                        break;
-                case 9:  KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-		                                      "recursive function not allowed.").arg(QString::number(errpos)), "KmPlot");
-                        break;
-                case 10:  KMessageBox::sorry(0, i18n("Could not find a defined constant at position %1." ).arg(QString::number(errpos)),
-                                                                "KmPlot");
-                        break;
-                case 11:  KMessageBox::sorry(0, i18n("Empty function"), "KmPlot");
-                        break;
-                case 12:  KMessageBox::sorry(0, i18n("The function name is not allowed to contain capital letters."), "KmPlot");
-                        break;
-                case 13:  KMessageBox::sorry(0, i18n("Function could not be found."), "KmPlot");
-                        break;
-		case 14:  KMessageBox::sorry(0, i18n("The expression must not contain user-defined constants."), "KmPlot");
+		case ParseSuccess:
+			break;
+		case SyntaxError:
+			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
+					"Syntax error").arg(QString::number(errpos)), "KmPlot");
+			break;
+		case MissingBracket:
+			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
+					"Missing parenthesis").arg(QString::number(errpos)), "KmPlot");
+			break;
+		case UnknownFunction:
+			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
+					"Function name unknown").arg(QString::number(errpos)), "KmPlot");
+			break;
+		case InvalidFunctionVariable:
+			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
+					"Void function variable").arg(QString::number(errpos)), "KmPlot");
+			break;
+		case TooManyFunctions:
+			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
+					"Too many functions").arg(QString::number(errpos)), "KmPlot");
+			break;
+		case MemoryOverflow:
+			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
+					"Token-memory overflow").arg(QString::number(errpos)), "KmPlot");
+			break;
+		case StackOverflow:
+			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
+					"Stack overflow").arg(QString::number(errpos)), "KmPlot");
+			break;
+		case FunctionNameReused:
+			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
+					"Name of function not free.").arg(QString::number(errpos)), "KmPlot");
+			break;
+		case RecursiveFunctionCall:
+			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
+					"recursive function not allowed.").arg(QString::number(errpos)), "KmPlot");
+			break;
+		case NoSuchConstant:
+			KMessageBox::sorry(0, i18n("Could not find a defined constant at position %1." ).arg(QString::number(errpos)),
+							   "KmPlot");
+			break;
+		case EmptyFunction:
+			KMessageBox::sorry(0, i18n("Empty function"), "KmPlot");
+			break;
+		case CapitalInFunctionName:
+			KMessageBox::sorry(0, i18n("The function name is not allowed to contain capital letters."), "KmPlot");
+			break;
+		case NoSuchFunction:
+			KMessageBox::sorry(0, i18n("Function could not be found."), "KmPlot");
+			break;
+		case UserDefinedConstantInExpression:
+			KMessageBox::sorry(0, i18n("The expression must not contain user-defined constants."), "KmPlot");
 			break;
 	}
-        return err;
+	return err;
 }
 
 
-QVector< Constant >::iterator Parser::findConstant( char name )
+QString Parser::evalRemaining() const
 {
-	QVector<Constant>::iterator it;
-	for ( it = m_constants.begin(); it != m_constants.end(); ++it )
-	{
-		if ( it->constant == name )
-			break;
-	}
-	return it;
-}
-
-
-bool Parser::haveConstant( char name )
-{
-	return ( findConstant( name ) != m_constants.end() );
-}
-
-
-void Parser::removeConstant( char name )
-{
-	kDebug() << k_funcinfo << "removing " << name << endl;
-	
-	QVector<Constant>::iterator c = findConstant( name );
-	if ( c != m_constants.end() )
-		m_constants.erase( c );
-}
-
-
-void Parser::addConstant( Constant c )
-{
-	kDebug() << k_funcinfo << "adding " << c.constant << endl;
-	
-	removeConstant( c.constant );
-	m_constants.append( c );
-}
-
-
-char Parser::generateUniqueConstantName()
-{
-	for ( char c = 'A'; c <= 'Z'; ++c )
-	{
-		if ( !haveConstant( c ) )
-			return c;
-	}
-	
-	kWarning() << k_funcinfo << "Could not find a unique constant.\n";
-	return 'C';
+	QString current( m_eval );
+	return current.right( QMAX( 0, current.length() - m_evalPos ) );
 }
 
 
@@ -1250,3 +1237,148 @@ double arctan(double x)
 {
         return atan(x)* 1/Parser::anglemode();
 }
+
+
+//BEGIN class Constants
+Constants::Constants( Parser * parser )
+{
+	m_parser = parser;
+}
+
+
+QVector< Constant >::iterator Constants::find( QChar name )
+{
+	QVector<Constant>::iterator it;
+	for ( it = m_constants.begin(); it != m_constants.end(); ++it )
+	{
+		if ( it->constant == name )
+			break;
+	}
+	return it;
+}
+
+
+bool Constants::have( QChar name )
+{
+	return ( find( name ) != m_constants.end() );
+}
+
+
+void Constants::remove( QChar name )
+{
+	kDebug() << k_funcinfo << "removing " << name << endl;
+	
+	QVector<Constant>::iterator c = find( name );
+	if ( c != m_constants.end() )
+		m_constants.erase( c );
+}
+
+
+void Constants::add( Constant c )
+{
+	kDebug() << k_funcinfo << "adding " << c.constant << endl;
+	
+	remove( c.constant );
+	m_constants.append( c );
+}
+
+
+bool Constants::isValidName( QChar name )
+{
+	// special case: handle heaviside step function
+	if ( name == 'H' )
+		return false;
+	
+	switch ( name.category() )
+	{
+		case QChar::Letter_Uppercase:
+// 		case QChar::Symbol_Math:
+			return true;
+			
+		case QChar::Letter_Lowercase:
+			// don't allow lower case letters of the Roman alphabet
+			return ( (name.unicode() < 'a') || (name.unicode() > 'z') );
+			
+		default:
+			return false;
+	}
+}
+
+
+QChar Constants::generateUniqueName()
+{
+	for ( char c = 'A'; c <= 'Z'; ++c )
+	{
+		if ( !have( c ) )
+			return c;
+	}
+	
+	kWarning() << k_funcinfo << "Could not find a unique constant.\n";
+	return 'C';
+}
+
+
+void Constants::load()
+{
+	KSimpleConfig conf ("kcalcrc");
+	conf.setGroup("UserConstants");
+	QString tmp;
+	
+	for( int i=0; ;i++)
+	{
+		tmp.setNum(i);
+		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
+		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
+		kDebug() << "konstant: " << tmp_constant << endl;
+		kDebug() << "value: " << tmp_value << endl;
+		kDebug() << "**************" << endl;
+		
+		if ( tmp_constant == " " )
+			return;
+		
+		if ( tmp_constant.isEmpty() )
+			continue;
+			
+		double value = m_parser->eval(tmp_value);
+		if ( m_parser->parserError(false) )
+		{
+			kWarning() << k_funcinfo << "Couldn't parse the value " << tmp_value << endl;
+			continue;
+		}
+		
+		QChar constant = tmp_constant[0].toUpper();
+		
+		if ( !isValidName( constant ) || have( constant ) )
+			constant = generateUniqueName();
+		
+		add( Constant(constant, value) );
+	}
+}
+
+void Constants::save()
+{
+	KSimpleConfig conf ("kcalcrc");
+	conf.deleteGroup("Constants");
+	
+	// remove any previously saved constants
+	conf.deleteGroup( "UserConstants", KConfigBase::Recursive );
+	conf.deleteGroup( "UserConstants", 0 ); /// \todo remove this line when fix bug in kconfigbase
+	
+	
+	conf.setGroup("UserConstants");
+	QString tmp;
+	
+	int i = 0;
+	kDebug() << k_funcinfo << "m_constants.size()="<<m_constants.size()<<endl;
+	foreach ( Constant c, m_constants )
+	{
+		tmp.setNum(i);
+		conf.writeEntry("nameConstant"+tmp, QString( c.constant ) ) ;
+		conf.writeEntry("valueConstant"+tmp, c.value);
+		kDebug() << "wrote constant="<<c.constant<<" value="<<c.value<<endl;
+		
+		i++;
+	}
+}
+//END class Constants
+

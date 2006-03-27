@@ -95,7 +95,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	csypos = 0.0;
 	rootflg = false;
 	tlgx = tlgy = drskalx = drskaly = 0.0;;
-	stepWidth = 0.1;
+	stepWidth = 1.0;
 	ymin = 0.0;;
 	ymax = 0.0;;
 	m_printHeaderTable = false;
@@ -232,7 +232,13 @@ void View::draw(QPaintDevice *dev, int form)
 	PlotArea=dgr.GetPlotArea();
 	area=DC.matrix().mapRect(PlotArea);
 	stepWidth=Settings::stepWidth();
-	assert( stepWidth != 0.0 );
+	
+// 	assert( stepWidth != 0.0 );
+	if ( stepWidth == 0.0 )
+	{
+		kWarning() << k_funcinfo << "Zero stepwidth!\n";
+		stepWidth = 1.0;
+	}
 
 	isDrawing=true;
 	updateCursor();

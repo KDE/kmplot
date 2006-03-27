@@ -146,7 +146,7 @@ void FktDlg::slotEdit()
 	int const id = getId( currentItem->text().section( ";", 0, 0) ) ;
 	
 	// find out the function type
-	char const prefix = m_view->parser()->ufkt[ m_view->parser()->ixValue(id) ].fstr.at(0).toLatin1();
+	QChar prefix = m_view->parser()->ufkt[ m_view->parser()->ixValue(id) ].fstr[0];
 	
 	if ( prefix == 'r')
 		slotEditPolar( id );

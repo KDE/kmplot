@@ -36,6 +36,8 @@
 #ifndef parser_included
 #define parser_included
 
+class Parser;
+
 // Voreinstellungen bei Verwendung des Standardkonstruktors :
 
 #define	MEMSIZE		500	///< memory size for tokens
@@ -161,16 +163,50 @@ class Ufkt
 
 class Constant
 {
-public:
-	Constant( char c='A', double v=0)
-	{
-	constant = c;
-	value = v;
-	};
+	public:
+		Constant( QChar c='A', double v=0)
+		{
+			constant = c;
+			value = v;
+		};
 	
-	char constant;
-	double value;
+		QChar constant;
+		double value;
 };
+
+
+/**
+ * @short Mangages a list of constants.
+ */
+class Constants
+{
+	public:
+		Constants( Parser * parser );
+		
+		/// Loading the constants at the start
+		void load();
+		/// Loading the constants when closing the program
+		void save();
+		/// @return if the constant name is valid
+		bool isValidName( QChar name );
+		/// @returns an iterator to the constant with the given name, or constants::end if not found
+		QVector<Constant>::iterator find( QChar name );
+		/// removes the constant with the given name from the constants list
+		void remove( QChar name );
+		/// adds the constant to the internal list (overwriting any previous constant with the same name)
+		void add( Constant c );
+		/// @return whether the constant with the given name exists
+		bool have( QChar name );
+		/// @return a unique (i.e. unused) constant name
+		QChar generateUniqueName();
+		/// @return a copy of the list of constants
+		QVector<Constant> all() const { return m_constants; }
+		
+	protected:
+		QVector<Constant> m_constants;
+		Parser * m_parser;
+};
+
 
 /** @short Parser.
  *
@@ -179,6 +215,26 @@ public:
 class Parser : virtual public ParserIface
 {
 public:
+	
+	enum Error
+	{
+		ParseSuccess = 0,
+		SyntaxError = 1,
+		MissingBracket = 2,
+		UnknownFunction = 3,
+		InvalidFunctionVariable = 4,
+		TooManyFunctions = 5,
+		MemoryOverflow = 6,
+		StackOverflow = 7,
+		FunctionNameReused = 8, ///< function name already used
+		RecursiveFunctionCall = 9,
+		NoSuchConstant = 10,
+		EmptyFunction = 11,
+		CapitalInFunctionName = 12, ///< function name contains a capital letter
+		NoSuchFunction = 13,
+		UserDefinedConstantInExpression = 14, ///< evalation expression may not use user definded constants
+	};
+	
 	Parser();
 	~Parser();
 	
@@ -197,7 +253,7 @@ public:
 	/// Returns the ID-number of the function "name". If the function couldn't be found, -1 is returned.
 	int fnameToId(const QString &name);
 	/// Returns the current error value. If showMessageBox is true, an error message box will appear if an error was found
-	int parserError(bool showMessageBox=TRUE);
+	Error parserError(bool showMessageBox=TRUE);
 	
 	/// return the angletype
 	static double anglemode();
@@ -213,21 +269,10 @@ public:
         uint getNewId(); /// Returns the next ID-number
         int idValue(int const ix); /// Converts an index-value to an ID-number
         int ixValue(uint const id);/// Converts an ID-numer to an index-value
-        uint countFunctions(); /// Returns how many functions there are
+	uint countFunctions(); /// Returns how many functions there are
 
-	/// @returns an iterator to the constant with the given name, or constants::end if not found
-	QVector<Constant>::iterator findConstant( char name );
-	/// removes the constant with the given name from the constants list
-	void removeConstant( char name );
-	/// adds the constant to the internal list (overwriting any previous constant with the same name)
-	void addConstant( Constant c );
-	/// @return whether the constant with the given name exists
-	bool haveConstant( char name );
-	/// @return a unique (i.e. unused) constant name
-	char generateUniqueConstantName();
-	/// @return a copy of the list of constants
-	QVector<Constant> constants() const { return m_constants; }
-	
+	/// The constants used by the parser
+	Constants * constants() { return m_constants; }
 	
         QVector<Ufkt> ufkt;///< Points to the array of user defined functions.
 
@@ -240,56 +285,38 @@ private:
 	};
 	static Mfkt mfkttab[FANZ];
 	
-	/// Error codes:
-        /**
-         * The values have following meanings:
-	 * \li  0 => parse success
-	 * \li  1 => syntax error
-	 * \li  2 => missing bracket
-	 * \li  3 => function unknown
-	 * \li  4 => function variable not valid
-	 * \li  5 => too much functions
-	 * \li  6 => memory overflow
-	 * \li  7 => stack overflow
-	 * \li  8 => function name already used
-	 * \li  9 => recursive function call
-	 * \li  10 => didn't found the wanted constant
-	 * \li   11 => emtpy function
-	 * \li   12 => function name contains a capital letter
-	 * \li   13 => function could not be found
-	 * \li   14 => evalation expression may not use user definded constants
-	 */
-	int err;
+	Error err;
 	///  Position where the error occurred.
-        int errpos;
+	int errpos;
 
-        void fix_expression(QString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
-        
-	void ps_init(),
-	heir1(),
-	heir2(),
-	heir3(),
-	heir4(),
-	primary(),
-	addtoken(unsigned char),
-	addwert(double),
-	addfptr(double(*)(double)),
-	addfptr(uint );
-	int match(const char*);
+	void fix_expression(QString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
+	
+	void heir1();
+	void heir2();
+	void heir3();
+	void heir4();
+	void primary();
+	void addtoken(unsigned char);
+	void addwert(double);
+	void addfptr(double(*)(double));
+	void addfptr(uint );
+	int match( const QString & );
         
 	unsigned
 	char evalflg, 		// 0 => String wird tokenisiert
 	                    // 1 => String wird direkt ausgewertet
 	*mem, 			    // Zeiger auf Speicher fr Token
 	*mptr;			    // Zeiger fr Token
-	const
-	char *lptr;			// Zeiger fr Funktions-String
-        Ufkt *current_item; // Pointer to the current function
+	QString m_eval;
+	int m_evalPos;
+	/// @return the m_eval starting at m_evalPos
+	QString evalRemaining() const;
+	Ufkt *current_item; // Pointer to the current function
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer
 	static double  m_anglemode;
 	QString m_decimalsymbol;
-	QVector<Constant> m_constants;
+	Constants * m_constants;
 };
 
 #endif	// parser_included

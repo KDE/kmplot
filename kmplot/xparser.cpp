@@ -60,7 +60,7 @@ bool XParser::getext( Ufkt *item, const QString fstr )
 		if ( fstr.indexOf( "A2" ) != -1 )
 			item->f2_mode = true;
 	}
-	switch ( fstr[0].toLatin1() )
+	switch ( fstr[0].unicode() )
 	{
 	  case 'x':
 	  case 'y':
@@ -659,7 +659,7 @@ int XParser::addFunction(const QString &f_str)
 bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider)
 {
 	QString fstr(fstr_const);
-	switch ( fstr.at(0).toLatin1() )
+	switch ( fstr[0].unicode() )
 	{
 	  case 'r':
 	  {
@@ -763,7 +763,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	}
 	
 	Ufkt *item = &ufkt[ixValue(id)];
-	kDebug() << "Transferring " << item->fname.toLatin1() << endl;
+	kDebug() << "Transferring " << item->fname << endl;
 	QString str_result;
 	if ( dcopclient_target.isEmpty() && item->fname.at(0) == 'y' )
 	  	return false;

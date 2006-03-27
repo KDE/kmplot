@@ -64,7 +64,7 @@ public slots:
 	
 private:
 	View *m_view;
-	char m_previousConstantName;
+	QChar m_previousConstantName;
 	ConstantValidator * m_constantValidator;
 };
 
@@ -87,11 +87,11 @@ class ConstantValidator : public QValidator
 		 * existing names - except, of course, the name of the constant being
 		 * edited.
 		 */
-		void setWorkingName( char name );
+		void setWorkingName( QChar name );
 		
 	protected:
 		/// @see setWorkingName
-		char m_workingName;
+		QChar m_workingName;
 		View * m_view;
 };
 

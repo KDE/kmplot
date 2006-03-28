@@ -802,9 +802,9 @@ void Parser::primary()
 		return;
 	}
         
-	if(match("pi"))
+	if ( match("pi") || match( QChar(960) ) )
 	{
-                addtoken(KONST);
+		addtoken(KONST);
 		addwert(M_PI);
 		return;
 	}
@@ -1285,8 +1285,8 @@ void Constants::add( Constant c )
 
 bool Constants::isValidName( QChar name )
 {
-	// special case: handle heaviside step function
-	if ( name == 'H' )
+	// special cases: disallow heaviside step function, pi symbol
+	if ( name == 'H' || name == QChar(960) )
 		return false;
 	
 	switch ( name.category() )

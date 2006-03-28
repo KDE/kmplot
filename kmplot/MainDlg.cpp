@@ -145,36 +145,15 @@ void MainDlg::setupActions()
 
 	
 	//BEGIN zoom menu
-	QActionGroup * zoomGroup = new QActionGroup( this );
+	KAction * zoomIn = new KAction( i18n("Zoom &In"), actionCollection(), "zoom_in" );
+	zoomIn->setShortcut( "CTRL+1" );
+	zoomIn->setIcon( KIcon("viewmag+") );
+	connect( zoomIn, SIGNAL(triggered(bool)), view, SLOT(mnuZoomIn_clicked()) );
 	
-	KToggleAction * mnuNoZoom = new KToggleAction( i18n("&No Zoom"), actionCollection(), "no_zoom" );
-	mnuNoZoom->setShortcut( "CTRL+0" );
-	connect( mnuNoZoom, SIGNAL(triggered(bool)), view, SLOT( mnuNoZoom_clicked() ) );
-	zoomGroup->addAction( mnuNoZoom );
-	mnuNoZoom->setChecked(true);
-	
-	KToggleAction * mnuRectangular = new KToggleAction( i18n("Zoom &Rectangular"), actionCollection(), "zoom_rectangular" );
-	mnuRectangular->setShortcut( "CTRL+1" );
-	mnuRectangular->setIcon( KIcon("viewmagfit") );
-	connect( mnuRectangular, SIGNAL(triggered(bool)), view, SLOT( mnuRectangular_clicked() ) );
-	zoomGroup->addAction( mnuRectangular );
-	
-	KToggleAction * mnuZoomIn = new KToggleAction( i18n("Zoom &In"), actionCollection(), "zoom_in" );
-	mnuZoomIn->setShortcut( "CTRL+2" );
-	mnuZoomIn->setIcon( KIcon("viewmag+") );
-	connect( mnuZoomIn, SIGNAL(triggered(bool)), view, SLOT(mnuZoomIn_clicked()) );
-	zoomGroup->addAction( mnuZoomIn );
-	
-	KToggleAction * mnuZoomOut = new KToggleAction( i18n("Zoom &Out"), actionCollection(),"zoom_out" );
-	mnuZoomOut->setShortcut( "CTRL+3" );
-	mnuZoomOut->setIcon( KIcon("viewmag-") );
-	connect( mnuZoomOut, SIGNAL(triggered(bool)), view, SLOT( mnuZoomOut_clicked() ) );
-	zoomGroup->addAction( mnuZoomOut );
-	
-	KToggleAction * mnuZoomCenter = new KToggleAction( i18n("&Center Point"), actionCollection(), "zoom_center" );
-	mnuZoomCenter->setShortcut( "CTRL+4" );
-	connect( mnuZoomCenter, SIGNAL(triggered(bool)), view, SLOT( mnuCenter_clicked() ) );
-	zoomGroup->addAction( mnuZoomCenter );
+	KAction * zoomOut = new KAction( i18n("Zoom &Out"), actionCollection(),"zoom_out" );
+	zoomOut->setShortcut( "CTRL+2" );
+	zoomOut->setIcon( KIcon("viewmag-") );
+	connect( zoomOut, SIGNAL(triggered(bool)), view, SLOT( mnuZoomOut_clicked() ) );
 	
 	KAction * zoomTrig = new KAction( i18n("&Fit Widget to Trigonometric Functions"), actionCollection(), "zoom_trig" );
 	connect( zoomTrig, SIGNAL(triggered(bool)), view, SLOT( mnuTrig_clicked() ) );

@@ -83,28 +83,13 @@ public:
 	/// get a y-value from a x-value
 	void getYValue(Ufkt * , char, double , double &,const QString &);
 	/// draw and calculate the area between the graph and the x-axis.
-	void areaUnderGraph(Ufkt *, char const, double &, double &, const QString &, QPainter* );
+	void areaUnderGraph(Ufkt *, Ufkt::PMode, double &, double &, const QString &, QPainter* );
 	/// the calculation was cancelled by the user
 	bool isCalculationStopped();
 
 	/// Returns a pointer to the private parser instance m_parser.
 	/// @see m_parser
 	XParser* parser();
-
-	/** Current plot range endge. */
-	static double xmin;
-	static double xmax;
-
-	/// trace mode stuff, must be accessible in KMinMax
-	int csmode, csparam;
-	char cstype;
-
-	/// for areadrawing when printing
-	bool areaDraw;
-	Ufkt * areaUfkt;
-	char areaPMode;
-	double areaMin, areaMax;
-	QString areaParameter;
 
 	/// Slider controlling parameter values
 	QPointer<KSliderWindow> m_sliderWindow;
@@ -114,6 +99,14 @@ public:
 	
 	/// Convert a width in mm to a suitable QPen width for drawing
 	double mmToPenWidth( double width_mm, bool antialias ) const;
+
+	/** Current plot range endge. */
+	static double xmin;
+	static double xmax;
+
+	/// trace mode stuff, must be accessible in KMinMax
+	int csmode, csparam;
+	char cstype;
 
 public slots:
 	/// Called when the user want to cancel the drawing
@@ -130,11 +123,8 @@ public slots:
 	void mnuRemove_clicked();
 	void mnuEdit_clicked();
 	///Slots for the zoom menu
-	void mnuNoZoom_clicked();
-	void mnuRectangular_clicked();
 	void mnuZoomIn_clicked();
 	void mnuZoomOut_clicked();
-	void mnuCenter_clicked();
 	void mnuTrig_clicked();
 
 protected slots:
@@ -152,6 +142,11 @@ protected slots:
 	bool event( QEvent * e );
 	/// Restore the mouse cursor when a drawing is finished
 	void updateCursor();
+	/**
+	 * Updates csxpos and csypos from the current mouse position.
+	 * @return whether the crosshair is within the bounds of the diagram.
+	 */
+	bool updateCrosshairPosition();
 
 signals:
 	void setStatusBarText(const QString &);
@@ -169,7 +164,7 @@ private:
 	/// Draw the function plots.
 	void plotfkt(Ufkt *ufkt, QPainter*);
 	/// @return an appropriate pen for drawing the plot
-	QPen penForPlot( Ufkt * ufkt, int p_mode, bool antialias ) const;
+	QPen penForPlot( Ufkt * ufkt, Ufkt::PMode, bool antialias ) const;
 	/// Gets the greek pi symbol.
 	void setpi(QString *);
 	/// in trace mode checks, if the function is (near by) zero
@@ -184,6 +179,26 @@ private:
 	void increaseProgressBar();
 	/// @return whether the crosshairs should be shown for the current mouse position
 	bool shouldShowCrosshairs() const;
+	/**
+	 * Zooms in by amount \p zoomFactor (which will zooming out if less than 1)
+	 * from clicking at \p mousePos (in widget coordinates).
+	 */
+	void zoomIn( const QPoint & mousePos, double zoomFactor );
+	/// zooms in from having drawn \p zoomRect (which is in widget coordinates)
+	void zoomIn( const QRect & zoomRect );
+	/// zooms out from havoutg drawn \p zoomRect (which is out widget coordoutates)
+	void zoomOut( const QRect & zoomRect );
+	/// translates the view by \p dx, \p dy (in widget coordinates)
+	void translateView( int dx, int dy );
+	/// animates zooming from the current zoom rect to the one given (in real coordinates)
+	void animateZoom( const QRectF & newCoords );
+
+	/// for areadrawing when printing
+	bool areaDraw;
+	Ufkt * areaUfkt;
+	Ufkt::PMode areaPMode;
+	double areaMin, areaMax;
+	QString areaParameter;
 
 	/// The central parser instance.
 	/// @see parser()
@@ -191,15 +206,11 @@ private:
 
 	int w, h;
 	float s;
-
-	/// @name Crosshair
-	/// Crosshair support.
-	//@{
-	float fcx;	///< x-position of the crosshais (pixel)
-	float fcy;	///< y-position of the crosshais (pixel)
+	
+	QPointF m_crosshairPixelCoords;
 	float csxpos;	///< y-position of the cross hair (real coordinates)
 	float csypos;	///< x-position of the cross hair (real coordinates)
-	//@}
+	
 	/// trace mode stuff
 	bool rootflg;
 
@@ -271,17 +282,23 @@ private:
 	
 	enum ZoomMode
 	{
-		Normal=0,			///< normal
-		Rectangular=1,		///< rectangular zoom (in)
-		ZoomIn=2,			///< zoom in
-		ZoomOut=3,			///< zoom out
-		DrawingRectangle=4,	///< drawing a rectangle
-		Center=5			///< centering a point
+		Normal,			///< no zooming
+		AnimatingZoom,	///< animating a current zooming
+		ZoomIn,			///< zoom in
+		ZoomOut,		///< zoom out
+		ZoomInDrawing,	///< drawing a rectangle for zooming in
+		ZoomOutDrawing,	///< drawing a rectangle for zooming out
+		Translating,	///< dragging the view with the mouse
 	};
 		
-	ZoomMode zoom_mode;
+	/// The current editing status
+	ZoomMode m_zoomMode;
 	/// for zoom-mode
-	QPoint rectangle_point;
+	QPoint m_zoomRectangleStart;
+	/// for animating zoom; contains the rectangle (in real coordinates) to draw
+	QRectF m_animateZoomRect;
+	/// for translating the view via dragging
+	QPoint m_prevDragMousePos;
 
 	DCOPClient *m_dcop_client;
 	QString m_statusbartext1;
@@ -290,7 +307,7 @@ private:
 	QString m_statusbartext4;
 	KActionCollection *m_ac;
 	
-	enum Cursor { CursorWait, CursorBlank, CursorArrow, CursorCross, CursorMagnify, CursorLessen, CursorPointing };
+	enum Cursor { CursorWait, CursorBlank, CursorArrow, CursorCross, CursorMagnify, CursorLessen, CursorMove };
 	Cursor m_prevCursor;
 };
 

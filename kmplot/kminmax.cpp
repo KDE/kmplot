@@ -267,22 +267,22 @@ void KMinMax::cmdFind_clicked()
 
 	QListWidgetItem * currentItem = m_mainWidget->list->currentItem();
 	QString function( currentItem ? currentItem->text() : QString::null );
-	char p_mode = 0;
-	if ( function.contains('\'') == 1)
+	Ufkt::PMode p_mode = Ufkt::Function;
+	if ( function.count('\'') == 1)
 	{
-		p_mode = 1;
+		p_mode = Ufkt::Derivative1;
 		int pos = function.indexOf('\'');
 		function.remove(pos,1);
 	}
-	else if ( function.contains('\'') == 2)
+	else if ( function.count('\'') == 2)
 	{
-		p_mode = 2;
+		p_mode = Ufkt::Derivative2;
 		int pos = function.indexOf('\'');
 		function.remove(pos,2);
 	}
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
-		p_mode = 3;
+		p_mode = Ufkt::Integral;
 		function[0] =  function[0].toLower();
 	}
 
@@ -362,22 +362,22 @@ void KMinMax::list_currentChanged(QListWidgetItem* item)
 		return;
 	}
 	QString function( item->text() );
-	char p_mode = 0;
-	if ( function.contains('\'') == 1)
+	Ufkt::PMode p_mode = Ufkt::Function;
+	if ( function.count('\'') == 1)
 	{
-		p_mode = 1;
+		p_mode = Ufkt::Derivative1;
 		int pos = function.indexOf('\'');
 		function.remove(pos,1);
 	}
-	else if ( function.contains('\'') == 2)
+	else if ( function.count('\'') == 2)
 	{
-		p_mode = 2;
+		p_mode = Ufkt::Derivative2;
 		int pos = function.indexOf('\'');
 		function.remove(pos,2);
 	}
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
-		p_mode = 3;
+		p_mode = Ufkt::Integral;
 		function[0] =  function[0].toLower();
 	}
 	QString const sec_function = function.section('(',0,0);
@@ -402,22 +402,22 @@ void KMinMax::cmdParameter_clicked()
 	QListWidgetItem * currentItem = m_mainWidget->list->currentItem();
 	QString function( currentItem ? currentItem->text() : QString::null );
 	
-	char p_mode = 0;
-	if ( function.contains('\'') == 1)
+	Ufkt::PMode p_mode = Ufkt::Function;
+	if ( function.count('\'') == 1)
 	{
-		p_mode = 1;
+		p_mode = Ufkt::Derivative1;
 		int pos = function.indexOf('\'');
 		function.remove(pos,1);
 	}
-	else if ( function.contains('\'') == 2)
+	else if ( function.count('\'') == 2)
 	{
-		p_mode = 2;
+		p_mode = Ufkt::Derivative2;
 		int pos = function.indexOf('\'');
 		function.remove(pos,2);
 	}
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
-		p_mode = 3;
+		p_mode = Ufkt::Integral;
 		function[0] =  function[0].toLower();
 	}
         

@@ -119,6 +119,14 @@ class ParameterValueItem
 class Ufkt
 {
 	public:
+		enum PMode
+		{
+			Function,
+			Derivative1,
+			Derivative2,
+			Integral,
+		};
+		
 		Ufkt();
 		~Ufkt();
 		/// Sets the parameter 

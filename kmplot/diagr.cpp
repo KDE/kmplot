@@ -66,7 +66,7 @@ CDiagr::~CDiagr()
 {}
 
 void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
-                    int lx, int ly, 			// Achsenl�gen
+                    double lx, double ly, 			// Achsenl�gen
                     double xmin, double xmax,   // x-Wertebereich
                     double ymin, double ymax) 	// y-Wertebereich
 {	int x, y, h, w;
@@ -83,7 +83,7 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 	sky=ly/(ymax-ymin);
 	ox=Ref.x()-skx*xmin+0.5;	        // Ursprungskoordinaten berechnen
 	oy=Ref.y()+sky*ymax+0.5;
-	PlotArea.setRect(x=Ref.x(), y=Ref.y(), w=lx, h=ly);
+	PlotArea.setRect(x=Ref.x(), y=Ref.y(), w=int(lx), h=int(ly));
 	if( Settings::showExtraFrame() )
 	{
 		x-=20;

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kmplot" version="2">
+<kpartgui name="kmplot" version="3">
 	<MenuBar>
  		<Menu name="file">
 			<Action name="file_save_as"/>
@@ -15,11 +15,8 @@
 			<Action name="coord_iii"/>
 		</Menu>
 		<Menu name="zoom"><text>&amp;Zoom</text>
-			<Action name="no_zoom"/>
-			<Action name="zoom_rectangular"/>
 			<Action name="zoom_in"/>
 			<Action name="zoom_out"/>
-			<Action name="zoom_center"/>
 			<Separator />
 			<Action name="zoom_trig"/>
 		</Menu>
@@ -39,6 +36,9 @@
 		</Menu>
 	</MenuBar>
 	<ToolBar name="mainToolBar">
+		<Action name="zoom_in"/>
+		<Action name="zoom_out"/>
+		<Separator />
 		<Action name="coord_i"/>
 		<Action name="coord_ii"/>
 		<Action name="coord_iii"/>

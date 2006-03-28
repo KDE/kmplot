@@ -64,7 +64,7 @@ public:
 
 	/// Sets all members to current values.
 	void Create( QPoint Ref,
-	               int lx, int ly,
+	               double lx, double ly,
 	               double xmin, double xmax,
 	               double ymin, double ymax );
 	/// Sets the current values for the scaling factors

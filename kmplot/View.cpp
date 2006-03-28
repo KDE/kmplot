@@ -28,17 +28,18 @@
 #include <qbitmap.h>
 #include <qcursor.h>
 #include <qdatastream.h>
+#include <QApplication>
 #include <QPicture>
 #include <qslider.h>
 #include <qtimer.h>
 #include <qtooltip.h>
-//Added by qt3to4:
 #include <QPixmap>
 #include <QPaintEvent>
 #include <QKeyEvent>
 #include <QEvent>
 #include <QList>
 #include <QResizeEvent>
+#include <QTime>
 #include <QMouseEvent>
 
 // KDE includes
@@ -85,25 +86,23 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	cstype = 0;
 	areaDraw = false;
 	areaUfkt = 0;
-	areaPMode = 0;
+	areaPMode = Ufkt::Function;
 	areaMin = areaMax = 0.0;
 	w = h = 0;
 	s = 0.0;
-	fcx = 0.0;
-	fcy = 0.0;
-	csxpos = 0.0;
-	csypos = 0.0;
 	rootflg = false;
 	tlgx = tlgy = drskalx = drskaly = 0.0;;
 	stepWidth = 1.0;
-	ymin = 0.0;;
-	ymax = 0.0;;
+	ymin = 0.0;
+	ymax = 0.0;
+	csxpos = 0.0;
+	csypos = 0.0;
 	m_printHeaderTable = false;
 	stop_calculating = false;
 	m_minmax = 0;
 	isDrawing = false;
 	m_popupmenushown = 0;
-	zoom_mode = Normal;
+	m_zoomMode = Normal;
 	m_prevCursor = CursorArrow;
 	
 	m_parser = new XParser(mo);
@@ -140,8 +139,8 @@ XParser* View::parser()
 
 void View::draw(QPaintDevice *dev, int form)
 {
-	int lx, ly;
-	float sf;
+	double lx, ly;
+	double sf;
 	QRect rc;
 	QPainter DC;    // our painter
 	DC.begin(dev);    // start painting widget
@@ -155,10 +154,10 @@ void View::draw(QPaintDevice *dev, int form)
 	if(form==0)          // screen
 	{
 		ref=QPoint(120, 100);
-		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
-		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
+		lx=((xmax-xmin)*100.*drskalx/tlgx);
+		ly=((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
-		if ( ( QPoint(lx+2*ref.x(), ly) * DC.matrix() ).x() > DC.viewport().right())
+		if ( ( QPointF(lx+2*ref.x(), ly) * DC.matrix() ).x() > DC.viewport().right())
 		{
 			DC.resetMatrix();
 			DC.scale((float)w/(float)(lx+2*ref.x()), (float)w/(float)(lx+2*ref.x()));
@@ -171,8 +170,8 @@ void View::draw(QPaintDevice *dev, int form)
 	{
 		sf=72./254.;        // 72dpi
 		ref=QPoint(100, 100);
-		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
-		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
+		lx=((xmax-xmin)*100.*drskalx/tlgx);
+		ly=((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale(sf, sf);
 		s=1.;
 		m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1";
@@ -187,8 +186,8 @@ void View::draw(QPaintDevice *dev, int form)
 	else if(form==2)								// svg
 	{
 		ref=QPoint(0, 0);
-		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
-		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
+		lx=((xmax-xmin)*100.*drskalx/tlgx);
+		ly=((ymax-ymin)*100.*drskaly/tlgy);
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 		DC.translate(-dgr.GetFrame().left(), -dgr.GetFrame().top());
 		s=1.;
@@ -197,8 +196,8 @@ void View::draw(QPaintDevice *dev, int form)
 	{
 		sf=180./254.;								// 180dpi
 		ref=QPoint(0, 0);
-		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
-		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
+		lx=((xmax-xmin)*100.*drskalx/tlgx);
+		ly=((ymax-ymin)*100.*drskaly/tlgy);
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 		DC.end();
 		*((QPixmap *)dev) = QPixmap( (int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf) );
@@ -247,6 +246,7 @@ void View::draw(QPaintDevice *dev, int form)
 	// Antialiasing is *not* used for drawing the plots, as lines (of a shallow gradient)
 	// drawn one pixel at a time with antialiasing turned on do not look smooth -
 	// instead, they look like a pixelated line that has been blurred.
+	// (plus, it makes drawing a *lot* slower).
 	DC.setRenderHint( QPainter::Antialiasing, false );
 	for(QVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
 		if ( !ufkt->fname.isEmpty() )
@@ -260,18 +260,15 @@ void View::draw(QPaintDevice *dev, int form)
 
 void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 {
-	char p_mode;
 	int iy, k, ke, mflg;
-	double x, y, dmin, dmax;
-	QPointF p1, p2;
 	iy=0;
-	y=0.0;
 
 	char const fktmode=ufkt->fstr[0].latin1();
-	if(fktmode=='y') return ;
+	if(fktmode=='y')
+		return;
 
-	dmin=ufkt->dmin;
-	dmax=ufkt->dmax;
+	double dmin = ufkt->dmin;
+	double dmax = ufkt->dmax;
 
 	if(!ufkt->usecustomxmin)
 	{
@@ -307,8 +304,11 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	if(fktmode=='x')
 		iy = m_parser->ixValue(ufkt->id)+1;
 	
-	p_mode=0;
-
+	Ufkt::PMode p_mode = Ufkt::Function;
+	
+	double x, y = 0.0;
+	QPointF p1, p2;
+	
 	while(1)
 	{
 		pDC->setPen( penForPlot( ufkt, p_mode, pDC->renderHints() & QPainter::Antialiasing ) );
@@ -317,7 +317,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		ke=ufkt->parameters.count();
 		do
 		{
-			if ( p_mode == 3 && stop_calculating)
+			if ( p_mode == Ufkt::Integral && stop_calculating)
 				break;
 			if( ufkt->use_slider == -1 )
 			{
@@ -331,7 +331,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 			}
 
 			mflg=2;
-			if ( p_mode == 3)
+			if ( p_mode == Ufkt::Integral )
 			{
 				if ( ufkt->integral_use_precision )
 					if ( Settings::useRelativeStepWidth() )
@@ -342,7 +342,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 				x = ufkt->oldx = ufkt->startx; //the initial x-point
 				ufkt->oldy = ufkt->starty;
 				ufkt->oldyprim = ufkt->integral_precision;
-				paintEvent(0);
+// 				paintEvent(0);
 			}
 			else
 				x=dmin;
@@ -353,30 +353,28 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 			else
 				forward_direction = true;
 
-			if ( p_mode != 0 || ufkt->f_mode) // if not the function is hidden
-				while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
+			if ( p_mode != Ufkt::Function || ufkt->f_mode) // if not the function is hidden
+			{
+				while ((x>=dmin && x<=dmax) ||  (p_mode == Ufkt::Integral && x>=dmin && !forward_direction) || (p_mode == Ufkt::Integral && x<=dmax && forward_direction))
 				{
-					if ( p_mode == 3 && stop_calculating)
+					if ( p_mode == Ufkt::Integral && stop_calculating)
 					{
-						p_mode=1;
+						p_mode = Ufkt::Derivative1;
 						x=dmax+1;
 						continue;
 					}
 					switch(p_mode)
 					{
-					case 0:
-						y=m_parser->fkt(ufkt, x);
-// 						kDebug()<<"case 0\n";
-						break;
-					case 1:
-						y=m_parser->a1fkt(ufkt, x);
-// 						kDebug()<<"case 1\n";
-						break;
-					case 2:
-						y=m_parser->a2fkt(ufkt, x);
-// 						kDebug()<<"case 2\n";
-						break;
-					case 3:
+						case Ufkt::Function:
+							y=m_parser->fkt(ufkt, x);
+							break;
+						case Ufkt::Derivative1:
+							y=m_parser->a1fkt(ufkt, x);
+							break;
+						case Ufkt::Derivative2:
+							y=m_parser->a2fkt(ufkt, x);
+							break;
+						case Ufkt::Integral:
 						{
 							y = m_parser->euler_method(x, ufkt);
 							if ( int(x*100)%2==0)
@@ -384,7 +382,6 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 								KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
 								increaseProgressBar();
 							}
-// 							kDebug()<<"case 3\n";
 							break;
 						}
 					}
@@ -424,18 +421,18 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 						mflg=0;
 					}
 
-					if (p_mode==3)
+					if ( p_mode == Ufkt::Integral )
 					{
 						if ( forward_direction)
 						{
 							x=x+dx;
-							if (x>dmax && p_mode== 3)
+							if (x>dmax && p_mode == Ufkt::Integral )
 							{
 								forward_direction = false;
 								x = ufkt->oldx = ufkt->startx;
 								ufkt->oldy = ufkt->starty;
 								ufkt->oldyprim = ufkt->integral_precision;
-								paintEvent(0);
+// 								paintEvent(0);
 								mflg=2;
 							}
 						}
@@ -445,16 +442,17 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 					else
 						x=x+dx;
 				}
+			}
 		}
 		while(++k<ke);
 
 		// Advance to the next appropriate p_mode
-		if (ufkt->f1_mode==1 && p_mode< 1)
-			p_mode=1; //draw the 1st derivative
-		else if(ufkt->f2_mode==1 && p_mode< 2)
-			p_mode=2; //draw the 2nd derivative
-		else if( ufkt->integral_mode==1 && p_mode< 3)
-			p_mode=3; //draw the integral
+		if (ufkt->f1_mode==1 && p_mode< Ufkt::Derivative1)
+			p_mode=Ufkt::Derivative1; //draw the 1st derivative
+		else if(ufkt->f2_mode==1 && p_mode< Ufkt::Derivative2)
+			p_mode=Ufkt::Derivative2; //draw the 2nd derivative
+		else if( ufkt->integral_mode==1 && p_mode < Ufkt::Integral)
+			p_mode=Ufkt::Integral; //draw the integral
 		else
 			break; // no derivatives or integrals left to draw
 	}
@@ -464,7 +462,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 }
 
 
-QPen View::penForPlot( Ufkt *ufkt, int p_mode, bool antialias ) const
+QPen View::penForPlot( Ufkt *ufkt, Ufkt::PMode p_mode, bool antialias ) const
 {
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
@@ -664,7 +662,7 @@ void View::paintEvent(QPaintEvent *)
 	// the current cursor position in widget coordinates
 	QPoint mousePos = mapFromGlobal( QCursor::pos() );
 	
-	if ( zoom_mode == DrawingRectangle )
+	if ( (m_zoomMode == ZoomInDrawing) || (m_zoomMode == ZoomOutDrawing) )
 	{
 		// Qt4 no longer supports XorROP (anti-aliasing considerations)
 #if 0
@@ -681,45 +679,66 @@ void View::paintEvent(QPaintEvent *)
 		p.setBackgroundMode (Qt::OpaqueMode);
 		p.setBackground (Qt::blue);
 		
-		QRect rect( rectangle_point.x(), rectangle_point.y(), mousePos.x()-rectangle_point.x(), mousePos.y()-rectangle_point.y() );
+		QRect rect( m_zoomRectangleStart, mousePos );
 		p.drawRect( rect );
 	}
-	else if ( zoom_mode == Normal )
+	else if ( m_zoomMode == AnimatingZoom )
 	{
-		if ( shouldShowCrosshairs() )        // Hintergrund speichern [background store?]
-		{
-			Ufkt * it = 0l;
-			int const ix = m_parser->ixValue(csmode);
-			if ( ix != -1 )
-				it = &m_parser->ufkt[ix];
+		p.save();
+		
+		
+// 		ref=QPoint(120, 100);
+// 		int lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
+// 		int ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
+// 		p.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
+// 		if ( ( QPoint(lx+2*ref.x(), ly) * p.matrix() ).x() > p.viewport().right())
+// 		{
+// 			p.resetMatrix();
+// 			p.scale((float)w/(float)(lx+2*ref.x()), (float)w/(float)(lx+2*ref.x()));
+// 		}
+		
+		p.setMatrix( wm );
+		
+		QPointF tl( dgr.TransxToPixel( m_animateZoomRect.left() ), dgr.TransyToPixel( m_animateZoomRect.top() ) );
+		QPointF br( dgr.TransxToPixel( m_animateZoomRect.right() ), dgr.TransyToPixel( m_animateZoomRect.bottom() ) );
+		p.drawRect( QRectF( tl, QSizeF( br.x()-tl.x(), br.y()-tl.y() ) ) );
+		p.restore();
+	}
+	else if ( shouldShowCrosshairs() )
+	{
+		updateCrosshairPosition();
+		
+		Ufkt * it = 0l;
+		int const ix = m_parser->ixValue(csmode);
+		if ( ix != -1 )
+			it = &m_parser->ufkt[ix];
 			
 			// Fadenkreuz zeichnen [draw the cross-hair]
-			QPen pen;
-			if ( !it )
-				pen.setColor(inverted_backgroundcolor);
-			else
+		QPen pen;
+		if ( !it )
+			pen.setColor(inverted_backgroundcolor);
+		else
+		{
+			switch (cstype)
 			{
-				switch (cstype)
-				{
-					case 0:
-						pen.setColor( it->color);
-						break;
-					case 1:
-						pen.setColor( it->f1_color);
-						break;
-					case 2:
-						pen.setColor( it->f2_color);
-						break;
-					default:
-						pen.setColor(inverted_backgroundcolor);
-				}
-				if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" [cross-hair] has the same color as the background, the "Fadenkreuz" [cross-hair] will have the inverted color of background so you can see it easier
+				case 0:
+					pen.setColor( it->color);
+					break;
+				case 1:
+					pen.setColor( it->f1_color);
+					break;
+				case 2:
+					pen.setColor( it->f2_color);
+					break;
+				default:
 					pen.setColor(inverted_backgroundcolor);
 			}
-			p.setPen( pen );
-			p.Lineh( area.left(), fcy, area.right() );
-			p.Linev(fcx, area.bottom(), area.top());
+			if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" [cross-hair] has the same color as the background, the "Fadenkreuz" [cross-hair] will have the inverted color of background so you can see it easier
+				pen.setColor(inverted_backgroundcolor);
 		}
+		p.setPen( pen );
+		p.Lineh( area.left(), m_crosshairPixelCoords.y(), area.right() );
+		p.Linev( m_crosshairPixelCoords.x(), area.bottom(), area.top());
 	}
 	
 	p.end();
@@ -736,6 +755,7 @@ void View::resizeEvent(QResizeEvent *)
 	drawPlot();
 }
 
+
 void View::drawPlot()
 {
 	if( m_minmax->isVisible() )
@@ -745,6 +765,7 @@ void View::drawPlot()
 	update();
 }
 
+
 void View::focusOutEvent( QFocusEvent * )
 {
 	// Redraw ourself to get rid of the crosshair (if we had it)...
@@ -752,134 +773,12 @@ void View::focusOutEvent( QFocusEvent * )
 	QTimer::singleShot( 0, this, SLOT(updateCursor()) );
 }
 
+
 void View::focusInEvent( QFocusEvent * )
 {
 	// Redraw ourself to get the crosshair (if we should have it)...
 	QTimer::singleShot( 0, this, SLOT(update()) );
 	QTimer::singleShot( 0, this, SLOT(updateCursor()) );
-}
-
-void View::mouseMoveEvent(QMouseEvent *e)
-{
-	if ( isDrawing)
-		return;
-	
-	// general case - need update when moving mouse over widget
-	update();
-	updateCursor();
-	
-	if ( zoom_mode!=Normal)
-	{
-		// the rest of this function is for determining crosshair stuff or giving toolbar info relating to the plot
-		return;
-	}
-	
-	if( m_popupmenushown>0 && !m_popupmenu->isVisible() )
-	{
-		if ( m_popupmenushown==1)
-			csmode=-1;
-		m_popupmenushown = 0;
-		return;
-	}
-	
-	if ( !area.contains(e->pos()) && (e->button()!=Qt::LeftButton || e->buttons()!=Qt::LeftButton || csxpos<=xmin || csxpos>=xmax) )
-	{
-		setStatusBar("", 1);
-		setStatusBar("", 2);
-		return;
-	}
-	
-	QPointF ptd, ptl;
-	bool out_of_bounds = false; // for the ypos
-	
-	ptl = e->pos() * wm.inverted();
-	Ufkt *it = 0;
-	
-	//BEGIN find out where the crosshair should be drawn (csxpos, csypos)
-	if( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
-	{
-		// The user currently has a plot selected
-		
-		int const ix = m_parser->ixValue(csmode);
-		if ( ix != -1 )
-			it = &m_parser->ufkt[ix];
-		
-		if ( it && csxposValid( it ) )
-		{
-			// A plot is selected and the mouse is in a valid position
-			
-			if( it->use_slider == -1 )
-			{
-				if( !it->parameters.isEmpty() )
-					it->setParameter( it->parameters[csparam].value );
-			}
-			else
-			{
-				if ( m_sliderWindow )
-					it->setParameter( m_sliderWindow->value( it->use_slider ) );
-			}
-			
-			if ( cstype == 0)
-				ptl.setY(dgr.TransyToPixel(csypos=m_parser->fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
-			else if ( cstype == 1)
-				ptl.setY(dgr.TransyToPixel(csypos=m_parser->a1fkt( it, csxpos=dgr.TransxToReal(ptl.x()) )));
-			else if ( cstype == 2)
-				ptl.setY(dgr.TransyToPixel(csypos=m_parser->a2fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
-
-			if ( csypos<ymin || csypos>ymax) //the ypoint is not visible
-				out_of_bounds = true;
-			else if(fabs(dgr.TransyToReal(ptl.y())) < (xmax-xmin)/80)
-			{
-				double x0;
-				if(root(&x0, it))
-				{
-					QString str="  ";
-					str+=i18n("root");
-					setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
-					rootflg=true;
-				}
-			}
-			else
-			{
-				setStatusBar("", 3);
-				rootflg=false;
-			}
-		}
-		else
-		{
-			// A plot is selected, but the x-position of the mouse is out of range
-			
-			csxpos=dgr.TransxToReal(ptl.x());
-			csypos=dgr.TransyToReal(ptl.y());
-		}
-	}
-	else
-	{
-		// No plot is currently selected
-		
-		csxpos=dgr.TransxToReal(ptl.x());
-		csypos=dgr.TransyToReal(ptl.y());
-	}
-	//END find out where the crosshair should be drawn (csxpos, csypos)
-	
-	ptd = ptl * wm;
-	fcx = ptd.x();
-	fcy = ptd.y();
-	
-	QString sx, sy;
-	
-	if (out_of_bounds)
-	{
-		sx = sy = "";
-	}
-	else
-	{
-		sx.sprintf("  x= %+.2f", (float)dgr.TransxToReal(ptl.x()));//csxpos);
-		sy.sprintf("  y= %+.2f", csypos);
-	}
-	
-	setStatusBar(sx, 1);
-	setStatusBar(sy, 2);
 }
 
 
@@ -905,92 +804,10 @@ void View::mousePressEvent(QMouseEvent *e)
 		stop_calculating = true; //stop drawing
 		return;
 	}
-
-	if (  zoom_mode==Rectangular )
-	{
-		zoom_mode=DrawingRectangle;
-		rectangle_point = e->pos();
+	
+	if ( m_zoomMode != Normal )
 		return;
-	}
-	else if (  zoom_mode==ZoomIn )
-	{
-		double real = dgr.TransxToReal((e->pos() * wm.inverted()).x());
-
-		double const diffx = (xmax-xmin)*(double)Settings::zoomInStep()/100;
-		double const diffy = (ymax-ymin)*(double)Settings::zoomInStep()/100;
-
-		if ( diffx < 0.00001 || diffy < 0.00001)
-			return;
-		QString str_tmp;
-		str_tmp.setNum(real-double(diffx));
-		Settings::setXMin(str_tmp);
-		str_tmp.setNum(real+double(diffx));
-		Settings::setXMax(str_tmp);
-
-		real = dgr.TransyToReal((e->pos() * wm.inverted()).y());
-		str_tmp.setNum(real-double(diffy));
-		Settings::setYMin(str_tmp);
-		str_tmp.setNum(real+double(diffy));
-		Settings::setYMax(str_tmp);
-
-		Settings::setXRange(4); //custom x-range
-		Settings::setYRange(4); //custom y-range
-		drawPlot(); //update all graphs
-		return;
-
-	}
-	else if (  zoom_mode==ZoomOut )
-	{
-		double real = dgr.TransxToReal((e->pos() * wm.inverted()).x());
-
-		double const diffx = (xmax-xmin)*(((double)Settings::zoomOutStep()/100) +1);
-		double const diffy = (ymax-ymin)*(((double)Settings::zoomOutStep()/100) +1);
-
-		if ( diffx > 1000000 || diffy > 1000000)
-			return;
-		QString str_tmp;
-		str_tmp.setNum(real-double(diffx));
-		Settings::setXMin(str_tmp);
-		str_tmp.setNum(real+double(diffx));
-		Settings::setXMax(str_tmp);
-
-		real = dgr.TransyToReal((e->pos() * wm.inverted()).y());
-		str_tmp.setNum(real-double(diffy));
-		Settings::setYMin(str_tmp);
-		str_tmp.setNum(real+double(diffy));
-		Settings::setYMax(str_tmp);
-
-		Settings::setXRange(4); //custom x-range
-		Settings::setYRange(4); //custom y-range
-		drawPlot(); //update all graphs
-		return;
-
-	}
-	else if (  zoom_mode==Center )
-	{
-		double real = dgr.TransxToReal((e->pos() * wm.inverted()).x());
-		
-		QString str_tmp;
-		double const diffx = (xmax-xmin)/2;
-		double const diffy = (ymax-ymin)/2;
-
-		str_tmp.setNum(real-double(diffx));
-		Settings::setXMin(str_tmp);
-		str_tmp.setNum(real+double(diffx));
-		Settings::setXMax(str_tmp);
-
-		real = dgr.TransyToReal((e->pos() * wm.inverted()).y());
-		str_tmp.setNum(real-double(diffy));
-		Settings::setYMin(str_tmp);
-		str_tmp.setNum(real+double(diffy));
-		Settings::setYMax(str_tmp);
-
-		Settings::setXRange(4); //custom x-range
-		Settings::setYRange(4); //custom y-range
-		drawPlot(); //update all graphs
-		return;
-
-	}
+	
 	double const g=tlgy*double(xmax-xmin)/(2*double(ymax-ymin));
 	if( !m_readonly && e->button()==Qt::RightButton) //clicking with the right mouse button
 	{
@@ -999,7 +816,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		{
 			function_type = it->fstr[0].latin1();
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
-			if (!(((!it->usecustomxmin) || (it->usecustomxmin && csxpos>it->dmin)) && ((!it->usecustomxmax)||(it->usecustomxmax && csxpos<it->dmax)) ))
+			if ( !csxposValid( it ) )
 			  continue;
 			kDebug() << "it:" << it->fstr << endl;
 			int k=0;
@@ -1163,80 +980,342 @@ void View::mousePressEvent(QMouseEvent *e)
 		}
 		while(++k<ke);
 	}
-
+	
+	// user didn't click on a plot; so we now enter translation mode
 	csmode=-1;
+	m_zoomMode = Translating;
+	m_prevDragMousePos = e->pos();
+}
+
+
+void View::mouseMoveEvent(QMouseEvent *e)
+{
+	if ( isDrawing )
+		return;
+	
+	bool inBounds = updateCrosshairPosition();
+	
+	QString sx, sy;
+	
+	if ( inBounds )
+	{
+		sx.sprintf( "  x= %+.2f", csxpos );
+		sy.sprintf( "  y= %+.2f", csypos );
+	}
+	else
+		sx = sy = "";
+	
+	setStatusBar(sx, 1);
+	setStatusBar(sy, 2);
+	
+	if ( e->buttons() & Qt::LeftButton )
+	{
+		if ( m_zoomMode == ZoomIn )
+		{
+			m_zoomMode = ZoomInDrawing;
+			m_zoomRectangleStart = e->pos();
+		}
+		else if ( m_zoomMode == ZoomOut )
+		{
+			m_zoomMode = ZoomOutDrawing;
+			m_zoomRectangleStart = e->pos();
+		}
+		else if ( m_zoomMode == Translating )
+		{
+			QPoint d = m_prevDragMousePos - e->pos();
+			m_prevDragMousePos = e->pos();
+			translateView( d.x(), d.y() );
+		}
+	}
+	
+	if ( (m_zoomMode == Normal) &&
+			 (m_popupmenushown > 0) &&
+			 !m_popupmenu->isVisible() )
+	{
+		if ( m_popupmenushown==1)
+			csmode=-1;
+		m_popupmenushown = 0;
+	}
+	
+	update();
+	updateCursor();
+}
+
+
+bool View::updateCrosshairPosition()
+{
+	QPoint mousePos = mapFromGlobal( QCursor::pos() );
+	
+	bool out_of_bounds = false; // for the ypos
+	
+	QPointF ptl = mousePos * wm.inverted();
+	Ufkt *it = 0;
+	
+	if ( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
+	{
+		// The user currently has a plot selected
+		
+		int const ix = m_parser->ixValue(csmode);
+		if ( ix != -1 )
+			it = &m_parser->ufkt[ix];
+		
+		if ( it && csxposValid( it ) )
+		{
+			// A plot is selected and the mouse is in a valid position
+			
+			if( it->use_slider == -1 )
+			{
+				if( !it->parameters.isEmpty() )
+					it->setParameter( it->parameters[csparam].value );
+			}
+			else
+			{
+				if ( m_sliderWindow )
+					it->setParameter( m_sliderWindow->value( it->use_slider ) );
+			}
+			
+			if ( cstype == 0)
+				ptl.setY(dgr.TransyToPixel(csypos=m_parser->fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
+			else if ( cstype == 1)
+				ptl.setY(dgr.TransyToPixel(csypos=m_parser->a1fkt( it, csxpos=dgr.TransxToReal(ptl.x()) )));
+			else if ( cstype == 2)
+				ptl.setY(dgr.TransyToPixel(csypos=m_parser->a2fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
+
+			if ( csypos<ymin || csypos>ymax) //the ypoint is not visible
+				out_of_bounds = true;
+			else if(fabs(dgr.TransyToReal(ptl.y())) < (xmax-xmin)/80)
+			{
+				double x0;
+				if(root(&x0, it))
+				{
+					QString str="  ";
+					str+=i18n("root");
+					setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+					rootflg=true;
+				}
+			}
+			else
+			{
+				setStatusBar("", 3);
+				rootflg=false;
+			}
+		}
+		else
+		{
+			// A plot is selected, but the x-position of the mouse is out of range
+			
+			csxpos=dgr.TransxToReal(ptl.x());
+			csypos=dgr.TransyToReal(ptl.y());
+		}
+	}
+	else
+	{
+		// No plot is currently selected
+		
+		csxpos=dgr.TransxToReal(ptl.x());
+		csypos=dgr.TransyToReal(ptl.y());
+	}
+	
+	m_crosshairPixelCoords = ptl * wm;
+	
+	return !out_of_bounds && area.contains( mousePos );
 }
 
 
 void View::mouseReleaseEvent ( QMouseEvent * e )
 {
 	update();
+	updateCursor();
 	
-	if ( zoom_mode==DrawingRectangle)
+	switch ( m_zoomMode )
 	{
-		zoom_mode=Rectangular;
-		if( (e->pos().x() - rectangle_point.x() >= -2) && (e->pos().x() - rectangle_point.x() <= 2) ||
-		        (e->pos().y() - rectangle_point.y() >= -2) && (e->pos().y() - rectangle_point.y() <= 2) )
-		{
-			return;
-		}
-
-		QPoint p = e->pos() * wm.inverted();
-		double real1x = dgr.TransxToReal(p.x() ) ;
-		double real1y = dgr.TransyToReal(p.y() ) ;
-		p = rectangle_point * wm.inverted();
-		double real2x = dgr.TransxToReal(p.x() ) ;
-		double real2y = dgr.TransyToReal(p.y() ) ;
-
-
-		if ( real1x>xmax || real2x>xmax || real1x<xmin  || real2x<xmin  ||
-		        real1y>ymax || real2y>ymax || real1y<ymin  || real2y<ymin )
-			return; //out of bounds
-
-		QString str_tmp;
-		//setting new x-boundaries
-		if( real1x < real2x  )
-		{
-			if( real2x - real1x < 0.00001)
-				return;
-			str_tmp.setNum(real1x );
-			Settings::setXMin(str_tmp );
-			str_tmp.setNum(real2x );
-			Settings::setXMax(str_tmp );
-		}
-		else
-		{
-			if (real1x - real2x < 0.00001)
-				return;
-			str_tmp.setNum(real2x );
-			Settings::setXMin(str_tmp );
-			str_tmp.setNum(real1x );
-			Settings::setXMax(str_tmp );
-		}
-		//setting new y-boundaries
-		if( real1y < real2y )
-		{
-			if( real2y - real1y < 0.00001)
-				return;
-			str_tmp.setNum(real1y );
-			Settings::setYMin(str_tmp );
-			str_tmp.setNum(real2y);
-			Settings::setYMax(str_tmp );
-		}
-		else
-		{
-			if( real1y - real2y < 0.00001)
-				return;
-			str_tmp.setNum(real2y  );
-			Settings::setYMin(str_tmp );
-			str_tmp.setNum(real1y );
-			Settings::setYMax(str_tmp );
-		}
-		Settings::setXRange(4); //custom x-range
-		Settings::setYRange(4); //custom y-range
-		drawPlot(); //update all graphs
+		case Normal:
+		case AnimatingZoom:
+		case Translating:
+			break;
+		
+		case ZoomIn:
+			zoomIn( e->pos(), double(Settings::zoomInStep())/100.0 );
+			break;
+			
+		case ZoomOut:
+			zoomIn( e->pos(), (double(Settings::zoomOutStep())/100.0) + 1.0 );
+			break;
+			
+		case ZoomInDrawing:
+			zoomIn( QRect( m_zoomRectangleStart, e->pos() ) );
+			break;
+			
+		case ZoomOutDrawing:
+			zoomOut( QRect( m_zoomRectangleStart, e->pos() ) );
+			break;
 	}
+	
+	m_zoomMode = Normal;
 }
+
+
+void View::zoomIn( const QPoint & mousePos, double zoomFactor )
+{
+	double realx = dgr.TransxToReal((mousePos * wm.inverted()).x());
+	double realy = dgr.TransyToReal((mousePos * wm.inverted()).y());
+
+	double diffx = (xmax-xmin)*zoomFactor;
+	double diffy = (ymax-ymin)*zoomFactor;
+
+	if ( diffx < 1e-8 || diffy < 1e-8 )
+		return;
+	
+	animateZoom( QRectF( realx-diffx, realy-diffy, 2.0*diffx, 2.0*diffy ) );
+}
+
+
+void View::zoomIn( const QRect & zoomRect )
+{
+	QRect rect = wm.inverted().mapRect( zoomRect );
+
+	QPoint p = rect.topLeft();
+	double real1x = dgr.TransxToReal(p.x() );
+	double real1y = dgr.TransyToReal(p.y() );
+	p = rect.bottomRight();
+	double real2x = dgr.TransxToReal(p.x() );
+	double real2y = dgr.TransyToReal(p.y() );
+	
+	if ( real1x > real2x )
+		qSwap( real1x, real2x );
+	if ( real1y > real2y )
+		qSwap( real1y, real2y );
+
+	//setting new x-boundaries
+	if ( real2x - real1x < 1e-8 )
+		return;
+	if ( real2y - real1y < 1e-8 )
+		return;
+	
+	animateZoom( QRectF( QPointF( real1x, real1y ), QSizeF( real2x-real1x, real2y-real1y ) ) );
+}
+
+
+void View::zoomOut( const QRect & zoomRect )
+{
+	QRect rect = wm.inverted().mapRect( zoomRect );
+
+	QPoint p = rect.topLeft();
+	double _real1x = dgr.TransxToReal(p.x() );
+	double _real1y = dgr.TransyToReal(p.y() );
+	p = rect.bottomRight();
+	double _real2x = dgr.TransxToReal(p.x() );
+	double _real2y = dgr.TransyToReal(p.y() );
+	
+	double kx = (_real1x-_real2x)/(xmin-xmax);
+	double lx = _real1x - (kx * xmin);
+	
+	double ky = (_real1y-_real2y)/(ymax-ymin);
+	double ly = _real1y - (ky * ymax);
+	
+	double real1x = (xmin-lx)/kx;
+	double real2x = (xmax-lx)/kx;
+	
+	double real1y = (ymax-ly)/ky;
+	double real2y = (ymin-ly)/ky;
+	
+	animateZoom( QRectF( QPointF( real1x, real1y ), QSizeF( real2x-real1x, real2y-real1y ) ) );
+}
+
+
+void View::animateZoom( const QRectF & _newCoords )
+{
+	QRectF oldCoords( xmin, ymin, xmax-xmin, ymax-ymin );
+	QRectF newCoords( _newCoords.normalized() );
+	
+	if ( oldCoords == newCoords )
+		return;
+	
+	m_zoomMode = AnimatingZoom;
+	
+	double oldCoordsArea = oldCoords.width() * oldCoords.height();
+	double newCoordsArea = newCoords.width() * newCoords.height();
+	
+	QPointF beginTL, beginBR, endTL, endBR;
+	
+	if ( oldCoordsArea > newCoordsArea )
+	{
+		// zooming in
+		beginTL = newCoords.topLeft();
+		beginBR = newCoords.bottomRight();
+		endTL = oldCoords.topLeft();
+		endBR = oldCoords.bottomRight();
+	}
+	else
+	{
+		// zooming out
+		beginTL = oldCoords.topLeft();
+		beginBR = oldCoords.bottomRight();
+		
+		double kx = ( oldCoords.left() - oldCoords.right() ) / ( newCoords.left() - newCoords.right() );
+		double ky = ( oldCoords.top() - oldCoords.bottom() ) / ( newCoords.top() - newCoords.bottom() );
+		
+		double lx = oldCoords.left() - (kx * newCoords.left());
+		double ly = oldCoords.top() - (ky * newCoords.top());
+		
+		endTL = QPointF( (kx * oldCoords.left()) + lx, (ky * oldCoords.top()) + ly );
+		endBR = QPointF( (kx * oldCoords.right()) + lx, (ky * oldCoords.bottom()) + ly );
+	}
+	
+	double MAX = 10;
+	double ms = MAX*16; // milliseconds to animate for
+	
+	for ( int i = 0; i <= MAX; ++i )
+	{
+		QTime t;
+		t.start();
+		
+		QPointF tl = (( i*endTL) + ((MAX-i)*beginTL)) / MAX;
+		QPointF br = (( i*endBR) + ((MAX-i)*beginBR)) / MAX;
+		
+		m_animateZoomRect = QRectF( tl, QSizeF( br.x()-tl.x(), br.y()-tl.y() ) );
+		
+		repaint();
+		
+		if ( i == MAX )
+			break;
+		else while ( t.elapsed() < (ms/MAX) )
+			; // do nothing
+	}
+	
+	Settings::setXMin( QString::number( newCoords.left(), 'g' ) );
+	Settings::setXMax( QString::number( newCoords.right(), 'g' ) );
+	Settings::setYMin( QString::number( newCoords.top(), 'g' ) );
+	Settings::setYMax( QString::number( newCoords.bottom(), 'g' ) );
+
+	Settings::setXRange(4); //custom x-range
+	Settings::setYRange(4); //custom y-range
+	drawPlot(); //update all graphs
+	
+	m_zoomMode = Normal;
+}
+
+
+void View::translateView( int dx, int dy )
+{
+	double rdx = dgr.TransxToReal( dx / s ) - dgr.TransxToReal( 0.0 );
+	double rdy = dgr.TransyToReal( dy / s ) - dgr.TransyToReal( 0.0 );
+	
+	xmin += rdx;
+	xmax += rdx;
+	ymin += rdy;
+	ymax += rdy;
+	
+	Settings::setXMin( QString::number( xmin, 'g' ) );
+	Settings::setXMax( QString::number( xmax, 'g' ) );
+	Settings::setYMin( QString::number( ymin, 'g' ) );
+	Settings::setYMax( QString::number( ymax, 'g' ) );
+	Settings::setXRange(4); //custom x-range
+	Settings::setYRange(4); //custom y-range
+	
+	drawPlot(); //update all graphs
+}
+
 
 void View::coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
                           double &min, double &max )
@@ -1357,7 +1436,7 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	updateCursor();
 
 	double dx;
-	if ( p_mode == 3)
+	if ( p_mode == Ufkt::Integral )
 	{
 		stop_calculating = false;
 		if ( ufkt->integral_use_precision )
@@ -1374,7 +1453,7 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 		x = ufkt->oldx = ufkt->startx; //the initial x-point
 		ufkt->oldy = ufkt->starty;
 		ufkt->oldyprim = ufkt->integral_precision;
-		paintEvent(0);
+// 		paintEvent(0);
 	}
 	else
 	{
@@ -1387,11 +1466,11 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 		forward_direction = false;
 	else
 		forward_direction = true;
-	while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
+	while ((x>=dmin && x<=dmax) ||  (p_mode == Ufkt::Integral && x>=dmin && !forward_direction) || (p_mode == Ufkt::Integral && x<=dmax && forward_direction))
 	{
-		if ( p_mode == 3 && stop_calculating)
+		if ( p_mode == Ufkt::Integral && stop_calculating)
 		{
-			p_mode = 1;
+			p_mode = Ufkt::Derivative1;
 			x=dmax+1;
 			continue;
 		}
@@ -1446,18 +1525,18 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 				}
 			}
 		}
-		if (p_mode==3)
+		if (p_mode==Ufkt::Integral)
 		{
 			if ( forward_direction)
 			{
 				x=x+dx;
-				if (x>dmax && p_mode== 3)
+				if (x>dmax && p_mode== Ufkt::Integral )
 				{
 					forward_direction = false;
 					x = ufkt->oldx = ufkt->startx;
 					ufkt->oldy = ufkt->starty;
 					ufkt->oldyprim = ufkt->integral_precision;
-					paintEvent(0);
+// 					paintEvent(0);
 				}
 			}
 			else
@@ -1543,7 +1622,7 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 		x = ufkt->oldx = ufkt->startx; //the initial x-point
 		ufkt->oldy = ufkt->starty;
 		ufkt->oldyprim = ufkt->integral_precision;
-		paintEvent(0);
+// 		paintEvent(0);
 		while (x>=dmin && !stop_calculating && !target_found)
 		{
 			y = m_parser->euler_method( x, ufkt );
@@ -1567,7 +1646,7 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 					x = ufkt->oldx = ufkt->startx;
 					ufkt->oldy = ufkt->starty;
 					ufkt->oldyprim = ufkt->integral_precision;
-					paintEvent(0);
+// 					paintEvent(0);
 				}
 			}
 			else
@@ -1580,28 +1659,31 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 	}
 }
 
-void View::keyPressEvent( QKeyEvent * e)
+void View::keyPressEvent( QKeyEvent * e )
 {
-	if ( zoom_mode == DrawingRectangle)
+	// if a zoom operation is in progress, assume that the key press is to cancel it
+	if ( m_zoomMode != Normal )
 	{
-		zoom_mode = Rectangular;
+		m_zoomMode = Normal;
 		update();
+		updateCursor();
 		return;
 	}
-
+	
 	if (isDrawing)
 	{
 		stop_calculating=true;
 		return;
 	}
-
-	if (csmode==-1 ) return;
+	
+	if (csmode==-1 )
+		return;
 
 	QMouseEvent *event;
 	if (e->key() == Qt::Key_Left )
-		event = new QMouseEvent( QEvent::MouseMove, QPoint( int(fcx-1), int(fcy-1) ), Qt::LeftButton, Qt::LeftButton, 0 );
+		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint() - QPoint(1,1), Qt::LeftButton, Qt::LeftButton, 0 );
 	else if (e->key() == Qt::Key_Right )
-		event = new QMouseEvent( QEvent::MouseMove, QPoint( int(fcx+1), int(fcy+1) ), Qt::LeftButton, Qt::LeftButton, 0 );
+		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint() + QPoint(1,1), Qt::LeftButton, Qt::LeftButton, 0 );
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
 		QVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
@@ -1701,7 +1783,7 @@ void View::keyPressEvent( QKeyEvent * e)
 				break;
 			}
 		}
-		event = new QMouseEvent( QEvent::MouseMove, QPoint( int(fcx), int(fcy) ), Qt::LeftButton, Qt::LeftButton, 0 );
+		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint(), Qt::LeftButton, Qt::LeftButton, 0 );
 	}
 	else if ( e->key() == Qt::Key_Space  )
 	{
@@ -1712,7 +1794,7 @@ void View::keyPressEvent( QKeyEvent * e)
 	}
 	else
 	{
-		event = new QMouseEvent( QEvent::MouseButtonPress, QPoint( int(fcx), int(fcy) ), Qt::LeftButton, Qt::LeftButton, 0 );
+		event = new QMouseEvent( QEvent::MouseButtonPress, m_crosshairPixelCoords.toPoint(), Qt::LeftButton, Qt::LeftButton, 0 );
 		mousePressEvent(event);
 		delete event;
 		return;
@@ -1721,7 +1803,7 @@ void View::keyPressEvent( QKeyEvent * e)
 	delete event;
 }
 
-void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double &dmax, const QString &str_parameter, QPainter *DC )
+void View::areaUnderGraph( Ufkt *ufkt, Ufkt::PMode p_mode,  double &dmin, double &dmax, const QString &str_parameter, QPainter *DC )
 {
 	double x, y = 0;
 	float calculated_area=0;
@@ -1731,18 +1813,18 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	QColor color;
 	switch(p_mode)
 	{
-	case 0:
-		color = ufkt->color;
-		break;
-	case 1:
-		color = ufkt->f1_color;
-		break;
-	case 2:
-		color = ufkt->f2_color;
-		break;
-	case 3:
-		color = ufkt->integral_color;
-		break;
+		case Ufkt::Function:
+			color = ufkt->color;
+			break;
+		case Ufkt::Derivative1:
+			color = ufkt->f1_color;
+			break;
+		case Ufkt::Derivative2:
+			color = ufkt->f2_color;
+			break;
+		case Ufkt::Integral:
+			color = ufkt->integral_color;
+			break;
 	}
 	if ( DC == 0) //screen
 	{
@@ -1772,7 +1854,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		}
 	}
 	double dx;
-	if ( p_mode == 3)
+	if ( p_mode == Ufkt::Integral )
 	{
 		stop_calculating = false;
 		if ( ufkt->integral_use_precision )
@@ -1808,9 +1890,9 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		forward_direction = false;
 	else
 		forward_direction = true;
-	while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
+	while ((x>=dmin && x<=dmax) ||  (p_mode == Ufkt::Integral && x>=dmin && !forward_direction) || (p_mode == Ufkt::Integral && x<=dmax && forward_direction))
 	{
-		if ( p_mode == 3 && stop_calculating)
+		if ( p_mode == Ufkt::Integral && stop_calculating)
 		{
 			if (forward_direction)
 				x=dmin-1;
@@ -1821,17 +1903,17 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		}
 		switch(p_mode)
 		{
-			case 0:
+			case Ufkt::Function:
 				y=m_parser->fkt( ufkt, x);
 				break;
 	
-			case 1:
+			case Ufkt::Derivative1:
 				y=m_parser->a1fkt( ufkt, x);
 				break;
-			case 2:
+			case Ufkt::Derivative2:
 				y=m_parser->a2fkt( ufkt, x);
 				break;
-			case 3:
+			case Ufkt::Integral:
 			{
 				y = m_parser->euler_method(x, ufkt);
 				if ( int(x*100)%2==0)
@@ -1876,18 +1958,18 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 			}
 		}
 
-		if (p_mode==3)
+		if ( p_mode == Ufkt::Integral )
 		{
 			if ( forward_direction)
 			{
 				x=x+dx;
-				if (x>dmax && p_mode== 3)
+				if (x>dmax && p_mode == Ufkt::Integral )
 				{
 					forward_direction = false;
 					x = ufkt->oldx = ufkt->startx;
 					ufkt->oldy = ufkt->starty;
 					ufkt->oldyprim = ufkt->integral_precision;
-					paintEvent(0);
+// 					paintEvent(0);
 				}
 			}
 			else
@@ -2089,52 +2171,36 @@ void View::mnuMove_clicked()
 	}
 }
 
-void View::mnuNoZoom_clicked()
+
+void View::mnuZoomIn_clicked()
 {
-	zoom_mode = Normal;
+	m_zoomMode = ZoomIn;
 	updateCursor();
 }
 
-void View::mnuRectangular_clicked()
-{
-	zoom_mode = Rectangular;
-	updateCursor();
-}
-void View::mnuZoomIn_clicked()
-{
-	zoom_mode = ZoomIn;
-	updateCursor();
-}
 
 void View::mnuZoomOut_clicked()
 {
-	zoom_mode = ZoomOut;
+	m_zoomMode = ZoomOut;
 	updateCursor();
 }
-void View::mnuCenter_clicked()
-{
-	zoom_mode = Center;
-	updateCursor();
-}
+
+
 void View::mnuTrig_clicked()
 {
-	if ( Settings::anglemode()==0 ) //radians
+	if ( Settings::anglemode()==0 )
 	{
-	  Settings::setXMin("-(47/24)pi");
-	  Settings::setXMax("(47/24)pi");
+		//radians
+		animateZoom( QRectF( -(47.0/24.0)*M_PI, -4.0, (47.0/12.0)*M_PI, 8.0 ) );
 	}
-	else //degrees
+	else
 	{
-		Settings::setXMin("-352.5" );
-		Settings::setXMax("352.5" );
+		//degrees
+		animateZoom( QRectF( 352.5, -4.0, 705.0, 8.0 ) );
 	}
-	Settings::setYMin("-4");
-	Settings::setYMax("4");
-
-	Settings::setXRange(4); //custom x-range
-	Settings::setYRange(4); //custom y-range
-	drawPlot(); //update all graphs
 }
+
+
 void View::invertColor(QColor &org, QColor &inv)
 {
 	int r = org.red()-255;
@@ -2152,11 +2218,15 @@ void View::updateCursor()
 {
 	Cursor newCursor;
 	
-	if ( isDrawing )
+	if ( isDrawing && (m_zoomMode != Translating) )
 		newCursor = CursorWait;
 	
-	else switch (zoom_mode)
+	else switch (m_zoomMode)
 	{
+		case AnimatingZoom:
+			newCursor = CursorArrow;
+			break;
+			
 		case Normal:
 			if ( shouldShowCrosshairs() )
 				newCursor = CursorBlank;
@@ -2164,21 +2234,18 @@ void View::updateCursor()
 				newCursor = CursorArrow;
 			break;
 			
-		case Rectangular:
-		case DrawingRectangle:
-			newCursor = CursorCross;
-			break;
-			
 		case ZoomIn:
+		case ZoomInDrawing:
 			newCursor = CursorMagnify;
 			break;
 			
 		case ZoomOut:
+		case ZoomOutDrawing:
 			newCursor = CursorLessen;
 			break;
 			
-		case Center:
-			newCursor = CursorPointing;
+		case Translating:
+			newCursor = CursorMove;
 			break;
 	}
 	
@@ -2206,8 +2273,8 @@ void View::updateCursor()
 		case CursorLessen:
 			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 			break;
-		case CursorPointing:
-			setCursor( Qt::PointingHandCursor );
+		case CursorMove:
+			setCursor( Qt::SizeAllCursor );
 			
 	}
 }
@@ -2215,6 +2282,9 @@ void View::updateCursor()
 
 bool View::shouldShowCrosshairs() const
 {
+	if ( m_zoomMode != Normal )
+		return false;
+	
 	Ufkt * it = 0l;
 	int const ix = m_parser->ixValue(csmode);
 	if ( ix != -1 )

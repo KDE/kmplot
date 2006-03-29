@@ -30,13 +30,20 @@
 #include "parser.h"
 
 #include <QDockWidget>
+#include <QDomDocument>
+#include <QDomElement>
 #include <QList>
+#include <QListWidget>
 #include <QListWidgetItem>
+#include <QMimeData>
 
 class FunctionEditorWidget;
+class FunctionListItem;
+class FunctionListWidget;
 class QTimer;
 class Ufkt;
 class View;
+class XParser;
 
 class FunctionEditor : public QDockWidget
 {
@@ -159,12 +166,30 @@ class FunctionEditor : public QDockWidget
 		 * necessary changes first.
 		 */
 		QTimer * m_syncFunctionListTimer;
-		
 		/**
 		 * If we are currently editing a cartesian function, this will be set
 		 * to its parameter list.
 		 */
 		QList<ParameterValueItem> m_parameters;
+		/**
+		 * The list of functions.
+		 */
+		FunctionListWidget * m_functionList;
+};
+
+
+class FunctionListWidget : public QListWidget
+{
+	public:
+		FunctionListWidget( QWidget * parent, View * view );
+		
+	protected:
+		virtual void dragEnterEvent( QDragEnterEvent * event );
+		virtual void dropEvent( QDropEvent * event );
+		virtual QMimeData * mimeData( const QList<QListWidgetItem *> items ) const;
+		virtual QStringList mimeTypes() const;
+		
+		View * m_view;
 };
 
 
@@ -187,8 +212,6 @@ class FunctionListItem : public QListWidgetItem
 		int m_function2;
 		View * m_view;
 };
-
-
 
 #endif // FUNCTIONEDITOR_H
 

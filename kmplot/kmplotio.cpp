@@ -114,63 +114,11 @@ bool KmPlotIO::save( const KUrl &url )
 	addTag( doc, tag, "print-tic-y", temp);
 
 	root.appendChild( tag );
-
-
-// 	for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	
 	foreach ( Ufkt * it, m_parser->m_ufkt )
 	{
 		if ( !it->fstr.isEmpty() )
-		{
-			tag = doc.createElement( "function" );
-
-			//tag.setAttribute( "number", ix );
-			tag.setAttribute( "visible", it->f_mode );
-			tag.setAttribute( "color", QColor( it->color ).name() );
-			tag.setAttribute( "width", it->linewidth );
-			tag.setAttribute( "use-slider", it->use_slider );
-
-			if ( it->f1_mode)
-			{
-				tag.setAttribute( "visible-deriv", it->f1_mode );
-				tag.setAttribute( "deriv-color", QColor( it->f1_color ).name() );
-				tag.setAttribute( "deriv-width", it->f1_linewidth );
-			}
-
-			if ( it->f2_mode)
-			{
-				tag.setAttribute( "visible-2nd-deriv", it->f2_mode );
-				tag.setAttribute( "deriv2nd-color", QColor( it->f2_color ).name() );
-				tag.setAttribute( "deriv2nd-width", it->f2_linewidth );
-			}
-
-			if ( it->integral_mode)
-			{
-				tag.setAttribute( "visible-integral", "1" );
-				tag.setAttribute( "integral-color", QColor( it->integral_color ).name() );
-				tag.setAttribute( "integral-width", it->integral_linewidth );
-				tag.setAttribute( "integral-use-precision", it->integral_use_precision );
-				tag.setAttribute( "integral-precision", it->integral_precision );
-				tag.setAttribute( "integral-startx", it->str_startx );
-				tag.setAttribute( "integral-starty", it->str_starty );
-			}
-
-			addTag( doc, tag, "equation", it->fstr );
-
-			QStringList str_parameters;
-			for ( QList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
-				str_parameters.append( (*k).expression);
-			
-			if( !str_parameters.isEmpty() )
-				addTag( doc, tag, "parameterlist", str_parameters.join( ";" ) );
-
-			if (it->usecustomxmin)
-				addTag( doc, tag, "arg-min", it->str_dmin );
-			if (it->usecustomxmax)
-				addTag( doc, tag, "arg-max", it->str_dmax );
-
-			root.appendChild( tag );
-
-		}
+			addFunction( doc, root, it );
 	}
 
 	tag = doc.createElement( "fonts" );
@@ -215,9 +163,64 @@ bool KmPlotIO::save( const KUrl &url )
 		return true;
 	}
 	return true;
-
 }
 
+// static
+void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Ufkt * function )
+{
+	QDomElement tag = doc.createElement( "function" );
+
+	//tag.setAttribute( "number", ix );
+	tag.setAttribute( "visible", function->f_mode );
+	tag.setAttribute( "color", QColor( function->color ).name() );
+	tag.setAttribute( "width", function->linewidth );
+	tag.setAttribute( "use-slider", function->use_slider );
+
+	if ( function->f1_mode)
+	{
+		tag.setAttribute( "visible-deriv", function->f1_mode );
+		tag.setAttribute( "deriv-color", QColor( function->f1_color ).name() );
+		tag.setAttribute( "deriv-width", function->f1_linewidth );
+	}
+
+	if ( function->f2_mode)
+	{
+		tag.setAttribute( "visible-2nd-deriv", function->f2_mode );
+		tag.setAttribute( "deriv2nd-color", QColor( function->f2_color ).name() );
+		tag.setAttribute( "deriv2nd-width", function->f2_linewidth );
+	}
+
+	if ( function->integral_mode)
+	{
+		tag.setAttribute( "visible-integral", "1" );
+		tag.setAttribute( "integral-color", QColor( function->integral_color ).name() );
+		tag.setAttribute( "integral-width", function->integral_linewidth );
+		tag.setAttribute( "integral-use-precision", function->integral_use_precision );
+		tag.setAttribute( "integral-precision", function->integral_precision );
+		tag.setAttribute( "integral-startx", function->str_startx );
+		tag.setAttribute( "integral-starty", function->str_starty );
+	}
+
+	addTag( doc, tag, "equation", function->fstr );
+
+	QStringList str_parameters;
+	for ( QList<ParameterValueItem>::Iterator k = function->parameters.begin(); k != function->parameters.end(); ++k )
+		str_parameters.append( (*k).expression);
+			
+	if( !str_parameters.isEmpty() )
+		addTag( doc, tag, "parameterlist", str_parameters.join( ";" ) );
+
+	if (function->usecustomxmin)
+		addTag( doc, tag, "arg-min", function->str_dmin );
+	if (function->usecustomxmax)
+		addTag( doc, tag, "arg-max", function->str_dmax );
+
+	root.appendChild( tag );
+}
+
+
+
+// static
 void KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue )
 {
 	QDomElement tag = doc.createElement( tagName );
@@ -347,7 +350,8 @@ void KmPlotIO::parseScale(const QDomElement & n )
 	Settings::setYPrinting(  n.namedItem( "print-tic-y" ).toElement().text().toInt() );
 }
 
-void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
+// static
+void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool allowRename )
 {
 	QString temp;
 	Ufkt ufkt;
@@ -435,6 +439,19 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	}
 	
 	ufkt.fstr = n.namedItem( "equation" ).toElement().text();
+	if ( allowRename && !ufkt.fstr.isEmpty() )
+	{
+		QChar prefix = ufkt.fstr[0];
+		if ( prefix == 'r' )
+			m_parser->fixFunctionName( ufkt.fstr, XParser::Polar, -1 );
+		else if ( prefix == 'x' )
+			m_parser->fixFunctionName( ufkt.fstr, XParser::ParametricX, -1 );
+		else if ( prefix == 'y' )
+			m_parser->fixFunctionName( ufkt.fstr, XParser::ParametricY, -1 );
+		else
+			m_parser->fixFunctionName( ufkt.fstr, XParser::Function, -1 );
+	}
+	
 	if (MainDlg::oldfileversion)
 		parseThreeDotThreeParameters( m_parser, n, ufkt );
 	else
@@ -455,6 +472,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	}
 }
 
+// static
 void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
 {
 	QStringList str_parameters;
@@ -465,6 +483,7 @@ void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &u
 		ufkt.parameters.append( ParameterValueItem( *it, m_parser->eval( *it ) ));
 }
 
+// static
 void KmPlotIO::parseThreeDotThreeParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
 {
 	QStringList str_parameters;

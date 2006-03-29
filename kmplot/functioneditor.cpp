@@ -26,6 +26,7 @@
 
 #include "functioneditor.h"
 #include "functioneditorwidget.h"
+#include "kmplotio.h"
 #include "kparametereditor.h"
 #include "View.h"
 #include "xparser.h"
@@ -74,6 +75,9 @@ FunctionEditor::FunctionEditor( View * view, QWidget * parent )
 	connect( m_syncFunctionListTimer, SIGNAL(timeout()), this, SLOT( syncFunctionList() ) );
 	
 	m_editor = new FunctionEditorWidget;
+	m_functionList = new FunctionListWidget( m_editor, m_view );
+	m_editor->functionListContainer->insertWidget( 0, m_functionList );
+	m_editor->functionListContainer->setCurrentIndex( 0 );
 	
 	for ( unsigned i = 0; i < 3; ++i )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
@@ -85,7 +89,7 @@ FunctionEditor::FunctionEditor( View * view, QWidget * parent )
 	connect( m_editor->createParametric, SIGNAL(clicked()), this, SLOT(createParametric()) );
 	connect( m_editor->createPolar, SIGNAL(clicked()), this, SLOT(createPolar()) );
 	connect( m_editor->deleteButton, SIGNAL(clicked()), this, SLOT(deleteCurrent()) );
-	connect( m_editor->functionList, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(functionSelected( QListWidgetItem* )) );
+	connect( m_functionList, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(functionSelected( QListWidgetItem* )) );
 	connect( m_editor->editParameterListButton, SIGNAL(clicked()), this, SLOT(editParameterList()) );
 	
 	//BEGIN connect up all editing widgets
@@ -129,7 +133,7 @@ FunctionEditor::~ FunctionEditor()
 
 void FunctionEditor::deleteCurrent()
 {
-	FunctionListItem * functionItem = static_cast<FunctionListItem*>(m_editor->functionList->currentItem());
+	FunctionListItem * functionItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	if ( !functionItem )
 		return;
 	
@@ -156,9 +160,9 @@ void FunctionEditor::syncFunctionList()
 	// build up a list of IDs that we have
 	QMap< int, FunctionListItem * > currentIDs;
 	QList< FunctionListItem * > currentFunctionItems;
-	for ( int row = 0; row < m_editor->functionList->count(); ++row )
+	for ( int row = 0; row < m_functionList->count(); ++row )
 	{
-		FunctionListItem * item = static_cast<FunctionListItem*>(m_editor->functionList->item( row ));
+		FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->item( row ));
 		currentFunctionItems << item;
 		currentIDs[ item->function1() ] = item;
 		if ( item->function2() != -1 )
@@ -197,7 +201,7 @@ void FunctionEditor::syncFunctionList()
 			f2 = (*it)->id;
 		}
 		
-		toSelect = new FunctionListItem( m_editor->functionList, m_view, f1, f2 );
+		toSelect = new FunctionListItem( m_functionList, m_view, f1, f2 );
 		newFunctionCount++;
 	}
 	
@@ -215,16 +219,16 @@ void FunctionEditor::syncFunctionList()
 			m_functionY = -1;
 		}
 		
-		delete m_editor->functionList->takeItem( m_editor->functionList->row( item ) );
+		delete m_functionList->takeItem( m_functionList->row( item ) );
 	}
 	
-	m_editor->functionList->sortItems();
+	m_functionList->sortItems();
 	
 	// only select a new functionlistitem if there was precisely one added
 	if ( newFunctionCount == 1 )
-		m_editor->functionList->setCurrentItem( toSelect );
+		m_functionList->setCurrentItem( toSelect );
 	
-	if ( m_editor->functionList->count() == 0 )
+	if ( m_functionList->count() == 0 )
 		resetFunctionEditing();
 }
 
@@ -416,7 +420,7 @@ void FunctionEditor::resetFunctionEditing()
 	m_editor->stackedWidget->setCurrentIndex( 3 );
 	
 	// assume that if there are functions in the list, then one will be selected
-	m_editor->deleteButton->setEnabled( m_editor->functionList->count() != 0 );
+	m_editor->deleteButton->setEnabled( m_functionList->count() != 0 );
 }
 
 
@@ -621,7 +625,7 @@ void FunctionEditor::saveCartesian()
 	//save all settings in the function now when we know no errors have appeared
 	f->copyFrom( tempFunction );
 	
-	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_editor->functionList->currentItem()) )
+	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
 		item->update();
 	m_view->drawPlot();
 }
@@ -722,7 +726,7 @@ void FunctionEditor::savePolar()
 	//save all settings in the function now when we know no errors have appeared
 	f->copyFrom( tempFunction );
 	
-	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_editor->functionList->currentItem()) )
+	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
 		item->update();
 	m_view->drawPlot();
 }
@@ -826,7 +830,7 @@ void FunctionEditor::saveParametric()
 	//save all settings in the function now when we now no errors have appeared
 	fy->copyFrom( tempFunction );
 	
-	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_editor->functionList->currentItem()) )
+	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
 		item->update();
 	m_view->drawPlot();
 }
@@ -842,6 +846,82 @@ void FunctionEditor::editParameterList()
 
 
 
+//BEGIN class FunctionListWidget
+FunctionListWidget::FunctionListWidget( QWidget * parent, View * view )
+	: QListWidget( parent )
+{
+	m_view = view;
+	
+	setAcceptDrops(true);
+    setDragEnabled(true);
+	show();
+}
+
+
+QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items ) const
+{
+	QDomDocument doc( "kmpdoc" );
+	QDomElement root = doc.createElement( "kmpdoc" );
+	doc.appendChild( root );
+	
+	foreach ( QListWidgetItem * item, items )
+	{
+		int f1 = static_cast<FunctionListItem*>(item)->function1();
+		int f2 = static_cast<FunctionListItem*>(item)->function2();
+		
+		if ( Ufkt * function = m_view->parser()->functionWithID( f1 ) )
+			KmPlotIO::addFunction( doc, root, function );
+		if ( Ufkt * function = m_view->parser()->functionWithID( f2 ) )
+			KmPlotIO::addFunction( doc, root, function );
+	}
+	
+	QMimeData * md = new QMimeData;
+	md->setText( doc.toString() );
+	
+	return md;
+}
+
+
+QStringList FunctionListWidget::mimeTypes() const
+{
+	QStringList mt;
+	mt << "text/kmplot" << "text/plain";
+	return mt;
+}
+
+
+void FunctionListWidget::dragEnterEvent( QDragEnterEvent * event )
+{
+	const QMimeData * md = event->mimeData();
+// 	kDebug() << "md->formats()"<<md->formats()<<endl;
+// 	kDebug() << k_funcinfo << "event->proposedAction()="<<event->proposedAction()<<endl;
+// 	kDebug() << "xml = "<<md->text()<<endl;
+	event->acceptProposedAction();
+	event->accept();
+// 	if ( md->hasFormat( "text/kmplot" ) )
+}
+
+
+void FunctionListWidget::dropEvent( QDropEvent * event )
+{
+	const QMimeData * md = event->mimeData();
+	
+	QDomDocument doc( "kmpdoc" );
+	doc.setContent( md->text() );
+	QDomElement element = doc.documentElement();
+	
+	for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
+	{
+		if ( n.nodeName() == "function" )
+			KmPlotIO::parseFunction( m_view->parser(), n.toElement(), true );
+		else
+			kWarning() << k_funcinfo << "Unexpected node with name " << n.nodeName() << endl;
+	}
+}
+//END class FunctionListWidget
+
+
+
 //BEGIN class FunctionListItem
 FunctionListItem::FunctionListItem( QListWidget * parent, View * view, int function1, int function2 )
 	: QListWidgetItem( parent )
@@ -852,6 +932,8 @@ FunctionListItem::FunctionListItem( QListWidget * parent, View * view, int funct
 	
 	assert( m_view );
 	assert( m_function1 != -1 );
+	
+// 	setFlags( Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
 	
 	update();
 }
@@ -877,6 +959,7 @@ void FunctionListItem::update()
 	setTextColor( f1->color );
 }
 //END class FunctionListItem
+
 
 
 #include "functioneditor.moc"

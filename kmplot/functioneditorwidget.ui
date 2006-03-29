@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>312</width>
-    <height>754</height>
+    <width>307</width>
+    <height>703</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -31,15 +31,11 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="QListWidget" name="functionList" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>7</hsizetype>
-         <vsizetype>7</vsizetype>
-         <horstretch>255</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QStackedWidget" name="functionListContainer" >
+       <property name="currentIndex" >
+        <number>0</number>
        </property>
+       <widget class="QWidget" name="page_5" />
       </widget>
      </item>
      <item>

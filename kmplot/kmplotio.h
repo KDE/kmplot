@@ -29,6 +29,7 @@
 #include <kurl.h>
 #include "xparser.h"
 
+class QDomDocument;
 class QString;
 class XParser;
 
@@ -56,6 +57,16 @@ class KmPlotIO
 		 * @param url Name (URL) of file which will be opened
 		 */
 		bool load( const KUrl &url );
+		
+		/**
+		 * Adds a QDomElement for \p function to the given \p document
+		 */
+		static void addFunction( QDomDocument & doc, QDomElement & root, Ufkt * function );
+		/// Reads function parameters from the node @a n.
+		/// @param parser points to the parser instance.
+		/// @param n Node containing the options.
+		/// @param allowRename whether to check function names for uniqueness
+		static void parseFunction( XParser *parser, const QDomElement &n, bool allowRename = false );
 	
 	private:
 		/** Esay way to add a tag to the Dom tree
@@ -64,7 +75,7 @@ class KmPlotIO
 		 * @param tagName The Name of the tag.
 		 * @param tagValue The data between the opening and cloding tag.
 		 */
-		void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
+		static void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
 		/// Reads axes parameters from the node @a n.
 		/// @param n Node containing the options.
 		void parseAxes( const QDomElement &n );
@@ -74,18 +85,14 @@ class KmPlotIO
 		/// Reads scale parameters from the node @a n.
 		/// @param n Node containing the options.
 		void parseScale( const QDomElement &n );
-		/// Reads function parameters from the node @a n.
-		/// @param parser points to the parser instance.
-		/// @param n Node containing the options.
-		void parseFunction( XParser *parser, const QDomElement &n );
 		/// Reads parameter values for a function from the node @a n.
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
-		void parseParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
+		static void parseParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
 		
 		/// For KDE 3.3
-		void parseThreeDotThreeParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
+		static void parseThreeDotThreeParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
 		
                 ///For KDE <3.3
                 /// This is the same as parseScale but is made for old Kmplot-files

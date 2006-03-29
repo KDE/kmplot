@@ -46,10 +46,10 @@ CoordsConfigDialog::~CoordsConfigDialog()
 bool CoordsConfigDialog::evalX()
 {
 	double const min = m_parser->eval( configAxesDialog->kcfg_XMin->text() );
-	if ( m_parser->parserError()!=0 )
+	if ( m_parser->parserError( true )!=0 )
 		return false;
 	double const max = m_parser->eval( configAxesDialog->kcfg_XMax->text() );
-	if ( m_parser->parserError()!=0 )
+	if ( m_parser->parserError( true )!=0 )
 		return false;
 	if ( min >= max )
 	{
@@ -61,10 +61,10 @@ bool CoordsConfigDialog::evalX()
 bool CoordsConfigDialog::evalY()
 {
 	double const min = m_parser->eval( configAxesDialog->kcfg_YMin->text() );
-	if ( m_parser->parserError()!=0 )
+	if ( m_parser->parserError( true )!=0 )
 		return false;
 	double const max = m_parser->eval( configAxesDialog->kcfg_YMax->text() );
-	if ( m_parser->parserError()!=0 )
+	if ( m_parser->parserError( true )!=0 )
 		return false;
 	if ( min >= max )
 	{

@@ -84,7 +84,7 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 };
 
 
-
+//BEGIN class Ufkt
 Ufkt::Ufkt()
 {
 	id = 0;
@@ -113,33 +113,70 @@ Ufkt::Ufkt()
 	usecustomxmax = false;
 }
 
+
 Ufkt::~Ufkt()
 {
+	delete [] mem;
+	mem = 0;
 }
 
 
+void Ufkt::copyFrom( const Ufkt & function )
+{
+	f_mode = function.f_mode;
+	f1_mode = function.f1_mode;
+	f2_mode = function.f2_mode;
+	integral_mode = function.integral_mode;
+	integral_use_precision = function.integral_use_precision;
+	linewidth = function.linewidth;
+	f1_linewidth = function.f1_linewidth;
+	f2_linewidth = function.f2_linewidth;
+	integral_linewidth = function.integral_linewidth;
+	str_dmin = function.str_dmin;
+	str_dmax = function.str_dmax;
+	dmin = function.dmin;
+	dmax = function.dmax;
+	str_startx = function.str_startx;
+	str_starty = function.str_starty;
+	oldx = function.oldx;
+	starty = function.starty;
+	startx = function.startx;
+	integral_precision = function.integral_precision;
+	color = function.color;
+	f1_color = function.f1_color;
+	f2_color = function.f2_color;
+	integral_color = function.integral_color;
+	parameters = function.parameters;
+	use_slider = function.use_slider;
+	usecustomxmin = function.usecustomxmin;
+	usecustomxmax = function.usecustomxmax;
+}
+//END class Ufkt
+
+
+
+//BEGIN class Parser
 Parser::Parser()
 {
 	m_evalPos = 0;
-	evalflg=0;
+	evalflg = 0;
+	m_nextFunctionID = 0;
 	m_constants = new Constants( this );
 	
-	Ufkt temp;
-	temp.fname = temp.fvar = temp.fpar = temp.fstr = "";
-	temp.mem=new unsigned char [MEMSIZE];
-	ufkt.append(temp );
-	current_item = ufkt.begin();
+	m_ownFunction = new Ufkt;
+	m_ownFunction->id =  int(1e7); // a nice large ID that'll never get used
+	m_ownFunction->mem = new unsigned char [MEMSIZE];
+	
+	current_item = m_ownFunction;
 }
 
 
 Parser::~Parser()
 {
-        kDebug() << "Exiting......" << endl;
-        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
-        {
-                kDebug() << "Deleting something... :-)" << endl;
-                delete [](*it).mem;
-        }
+	kDebug() << "Exiting......" << endl;
+	foreach ( Ufkt * function, m_ufkt )
+		delete function;
+	delete m_ownFunction;
 	
 	delete m_constants;
 }
@@ -165,23 +202,16 @@ double Parser::anglemode()
 
 uint Parser::getNewId()
 {
-        uint i = 0;
-        bool found = false;
-        while (1 )
-        {
-                found = false;
-                for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
-                {
-                        if (it->id == i && !it->fname.isEmpty())
-                        {
-                                found = true;
-                                break;
-                        }
-                }
-                if (!found)
-                        return i;
-                ++i;
-        }
+	uint i = m_nextFunctionID;
+	while (1)
+	{
+		if ( !m_ufkt.contains( i ) )
+		{
+			m_nextFunctionID = i+1;
+			return i;
+		}
+		++i;
+	}
 }
 
 double Parser::eval(QString str)
@@ -229,38 +259,16 @@ double Parser::eval(QString str)
 	}
 }
 
-int Parser::idValue(int const ix)
-{
-        if ( ix >=0 && ix<(int)ufkt.count() ) // range check
-        {
-                if ( !( ufkt.count()==1 && ufkt[0].fname.isEmpty() ) )
-                        return ufkt[ix].id;
-        }
-        return -1;
-
-}
-
-int Parser::ixValue(uint const id)
-{
-        int ix=0;
-        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
-        {
-                if ( it->id ==id)
-                        return ix;
-                ix++;
-        }
-        return -1;
-}
 
 double Parser::fkt(uint const id, double const x)
 {
-        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
-        {
-                if ( it->id == id)
-                        return fkt(it,x);
-        }
-	err = NoSuchFunction;
-	return 0;
+	if ( !m_ufkt.contains( id ) )
+	{
+		err = NoSuchFunction;
+		return 0;
+	}
+	else
+		return fkt( m_ufkt[id], x );
 }
 
 double Parser::fkt(Ufkt *it, double const x)
@@ -328,14 +336,8 @@ double Parser::fkt(Ufkt *it, double const x)
                         {
                                 puf=(uint*)it->mptr;
                                 uint id = *puf++;
-                                for( QVector<Ufkt>::iterator ite = ufkt.begin(); ite != ufkt.end(); ++ite)
-                                {
-                                        if ( ite->id == id)
-                                        {
-                                                *stkptr=fkt(ite, *stkptr);
-                                                break;
-                                        }
-                                }
+								if ( m_ufkt.contains( id ) )
+									*stkptr=fkt( m_ufkt[id], *stkptr);
                                 it->mptr=(unsigned char*)puf;
                                 break;
                         }
@@ -384,24 +386,12 @@ int Parser::addfkt(QString str)
 		return -1;
 	}
         
-        if ( ufkt.begin()->fname.isEmpty() )
-        {
-                ufkt.begin()->id = 0;
-                //kDebug() << "ufkt.begin()->id:" << ufkt.begin()->id << endl;
-        }
-        else
-        {
-                Ufkt temp;
-// 		if ( temp.fstr.at(0) == 'y')
-				if ( (temp.fstr.length()>0) && temp.fstr.at(0) == 'y' )
-			temp.id = ufkt.last().id; //the function belongs to the last inserted function
-		else
-                	temp.id = getNewId();
-                temp.mem=new unsigned char [MEMSIZE];
-                ufkt.append(temp );
-        }
-		QString const fname = str.left(p1);
-        Ufkt *temp = &ufkt.last();
+	Ufkt * temp = new Ufkt;
+	temp->id = getNewId();
+	temp->mem=new unsigned char [MEMSIZE];
+	m_ufkt[ temp->id ] = temp;
+	
+	QString const fname = str.left(p1);
 	temp->fstr=extstr;
         temp->mptr = 0;
         temp->fname=fname;
@@ -409,7 +399,7 @@ int Parser::addfkt(QString str)
 		if(p2<p3) temp->fpar=str.mid(p2+1, p3-p2-1);
         else temp->fpar="";      //.resize(1);
         
-        kDebug() << "temp.id:" << temp->id << endl;
+//         kDebug() << "temp.id:" << temp->id << endl;
         
 	if ( temp->fname != temp->fname.toLower() ) //isn't allowed to contain capital letters
 	{
@@ -432,12 +422,14 @@ int Parser::addfkt(QString str)
 		return -1;
 	}
 	errpos=0;
+	
+	emit functionAdded( temp->id );
 	return temp->id; //return the unique ID-number for the function
 }
 
-void Parser::reparse(int ix)
+void Parser::reparse(int id)
 {
-        reparse( &ufkt[ix] );
+	reparse( m_ufkt[id] );
 }
 
 void Parser::reparse(Ufkt *item)
@@ -519,9 +511,6 @@ void Parser::fix_expression(QString &str, int const pos)
 					--n;
 				}
 				
-				// I commented this out as its easy to make typos or forget to insert new functions in this list
-				// - the new method should be more reliable. David.
-//                         if (str_function == "tanh" || str_function == "tan" || str_function =="sqrt" || str_function =="sqr" || str_function =="sin" || str_function =="sinh" || str_function =="sign" || str_function =="sech" || str_function =="sec" || str_function =="log" || str_function =="ln" || str_function =="exp" || str_function =="coth" || str_function =="cot" || str_function =="cosh" || str_function =="cosech" || str_function =="cosec" || str_function =="cos" || str_function =="artanh" || str_function =="arsinh" || str_function =="arsech" || str_function =="arctan" || str_function =="arcsin" || str_function =="arcsec" || str_function =="arcoth" || str_function =="arcosh" || str_function =="arcosech" || str_function =="arccot" || str_function =="arccosec" || str_function =="arccos" || str_function =="abs" || str_function=="arctanh" || str_function=="arcsinh" || str_function=="arccosh")
 				for ( unsigned func = 0; func < FANZ; ++func )
 				{
 					if ( str_function == QString( mfkttab[func].mfstr ) )
@@ -531,22 +520,22 @@ void Parser::fix_expression(QString &str, int const pos)
 					}
 				}
 				
-				if ( !function )
+			if ( !function )
+			{
+				// Not a predefined function, so search through the user defined functions (e.g. f(x), etc)
+				// to see if it is one of those
+				foreach ( Ufkt * it, m_ufkt )
 				{
-					// Not a predefined function, so search through the user defined functions (e.g. f(x), etc)
-					// to see if it is one of those
-                                for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
-                                {
-                                        for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
-                                        {
-                                                if ( it->fname == str.mid(j,i-j+1) )
-                                                        function = true;
-                                        }
-                                }
+					for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
+					{
+						if ( it->fname == str.mid(j,i-j+1) )
+							function = true;
+					}
 				}
 			}
-			else  if (function)
-				function = false;
+		}
+		else  if (function)
+			function = false;
                 
 		// either a number or a likely constant (H is reserved for the Heaviside step function)
 		bool chIsNumeric = ch.isNumber() || m_constants->isValidName( ch );
@@ -571,7 +560,7 @@ void Parser::fix_expression(QString &str, int const pos)
         //kDebug() << "str:" << str << endl;
 }
 
-bool Parser::delfkt( Ufkt *item)
+bool Parser::delfkt( Ufkt * item )
 {
 	kDebug() << "Deleting id:" << item->id << endl;
 	if (!item->dep.isEmpty())
@@ -579,7 +568,8 @@ bool Parser::delfkt( Ufkt *item)
 		KMessageBox::sorry(0,i18n("This function is depending on an other function"));
 		return false;
 	}
-	for(QVector<Ufkt>::iterator it1=ufkt.begin(); it1!=ufkt.end(); ++it1)
+	
+	foreach ( Ufkt * it1, m_ufkt )
 	{
 		if (it1==item)
 			continue;
@@ -588,50 +578,38 @@ bool Parser::delfkt( Ufkt *item)
 				it2 = it1->dep.erase(it2);
 	}
 	
-        if ( ufkt.count()==1 )
-        {
-                //kDebug() << "first item, don't delete" << endl;
-		item->fname="";
-        }
-        else
-        {
-                //kDebug() << "Deleting something" << endl;
-		QChar const extstr_c = item->fstr.at(0);
-		uint const id = item->id;
-		delete []item->mem;
-                ufkt.erase(item);
-		if ( extstr_c == 'x')
-		{
-			int const ix = ixValue(id+1);
-			if (ix!= -1 && ufkt[ix].fstr.at(0) == 'y')
-				delfkt( &ufkt[ix]);
-		}
-		else if ( extstr_c == 'y')
-		{
-			int const ix = ixValue(id-1);
-			if (ix!= -1 && ufkt[ix].fstr.at(0) == 'x')
-				delfkt( &ufkt[ix]);
-		}
-        }
+	uint const id = item->id;
+	
+	//kDebug() << "Deleting something" << endl;
+	QChar const extstr_c = item->fstr.at(0);
+	m_ufkt.remove(id);
+	if ( item == current_item )
+		current_item = m_ownFunction;
+	delete item;
+	
+	if ( extstr_c == 'x')
+	{
+		if ( m_ufkt.contains(id+1) && m_ufkt[id+1]->fstr[0] == 'y' )
+			delfkt( m_ufkt[id+1] );
+	}
+	else if ( extstr_c == 'y')
+	{
+		if ( m_ufkt.contains(id-1) && m_ufkt[id-1]->fstr[0] == 'x' )
+			delfkt( m_ufkt[id-1] );
+	}
+	
+	emit functionRemoved( id );
 	return true;
 }
 
 bool Parser::delfkt(uint id)
 {
-	int ix = ixValue(id);
-	if ( ix!=-1 && delfkt(&ufkt[ix]))
-	  	return true;
-	else
-		return false;
+	return m_ufkt.contains( id ) && delfkt( m_ufkt[id] );
 }
 
 uint Parser::countFunctions()
 {
-        uint const count = ufkt.count();
-        if (count == 1 && ufkt.begin()->fname.isEmpty())
-                return 0;
-        else
-                return count;
+	return m_ufkt.count();
 }
 
 void Parser::heir1()
@@ -763,8 +741,8 @@ void Parser::primary()
                         addfptr(mfkttab[i].mfadr);
                         return;
                 }
-        }
-        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+	}
+	foreach ( Ufkt * it, m_ufkt )
 	{
 		if ( evalRemaining() == "pi" || evalRemaining() == "e" )
 			continue;
@@ -983,20 +961,17 @@ void Parser::addfptr(uint id)
 		}
 	}
 	else
-        {
-                for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
-                        if ( it->id == id)
-                        {
-                                *stkptr=fkt(it, *stkptr);
-                                break;
-                        }
-        }
+	{
+		Ufkt * function = functionWithID( id );
+		if ( function )
+			*stkptr = fkt( function, *stkptr );
+	}
 }
 
 
 int Parser::fnameToId(const QString &name)
 {
-        for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+	foreach ( Ufkt * it, m_ufkt )
 	{
                 if(name==it->fname)
                         return it->id;
@@ -1075,6 +1050,14 @@ QString Parser::evalRemaining() const
 	QString current( m_eval );
 	return current.right( QMAX( 0, current.length() - m_evalPos ) );
 }
+
+
+Ufkt * Parser::functionWithID( int id ) const
+{
+	return m_ufkt.contains( id ) ? m_ufkt[id] : 0;
+}
+//END class Parser
+
 
 
 double ln(double x)
@@ -1266,7 +1249,7 @@ bool Constants::have( QChar name )
 
 void Constants::remove( QChar name )
 {
-	kDebug() << k_funcinfo << "removing " << name << endl;
+// 	kDebug() << k_funcinfo << "removing " << name << endl;
 	
 	QVector<Constant>::iterator c = find( name );
 	if ( c != m_constants.end() )
@@ -1276,7 +1259,7 @@ void Constants::remove( QChar name )
 
 void Constants::add( Constant c )
 {
-	kDebug() << k_funcinfo << "adding " << c.constant << endl;
+// 	kDebug() << k_funcinfo << "adding " << c.constant << endl;
 	
 	remove( c.constant );
 	m_constants.append( c );
@@ -1329,9 +1312,9 @@ void Constants::load()
 		tmp.setNum(i);
 		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
 		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
-		kDebug() << "konstant: " << tmp_constant << endl;
-		kDebug() << "value: " << tmp_value << endl;
-		kDebug() << "**************" << endl;
+// 		kDebug() << "konstant: " << tmp_constant << endl;
+// 		kDebug() << "value: " << tmp_value << endl;
+// 		kDebug() << "**************" << endl;
 		
 		if ( tmp_constant == " " )
 			return;
@@ -1382,3 +1365,4 @@ void Constants::save()
 }
 //END class Constants
 
+#include "parser.moc"

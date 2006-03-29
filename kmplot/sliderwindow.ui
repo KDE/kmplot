@@ -263,5 +263,70 @@
  </widget>
  <pixmapfunction></pixmapfunction>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>slider0</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>value1</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>231</x>
+     <y>8</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>322</x>
+     <y>5</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>slider1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>value1_2</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>259</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>315</x>
+     <y>27</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>slider2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>value1_3</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>267</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>309</x>
+     <y>53</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>slider3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>value1_4</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>262</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>306</x>
+     <y>72</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

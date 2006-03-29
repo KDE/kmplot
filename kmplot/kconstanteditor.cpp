@@ -100,7 +100,8 @@ void KConstantEditor::cmdDelete_clicked()
 	{
 		QChar currentConstant = constantText[0];
 	
-		for( QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+// 		for( QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+		foreach ( Ufkt * it, m_view->parser()->m_ufkt )
 		{
 			QString str = it->fstr;
 			if ( str.indexOf( currentConstant, str.indexOf(')') ) != -1 )

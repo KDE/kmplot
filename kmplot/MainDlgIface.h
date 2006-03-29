@@ -41,13 +41,9 @@ k_dcop:
 	virtual bool isModified() = 0;
 	virtual void editAxes() = 0;
 	virtual void editScaling() = 0;
-	virtual void newFunction() = 0;
-	virtual void newParametric() = 0;
-	virtual void newPolar() = 0;
 	virtual void toggleShowSliders() = 0;
 	virtual void slotSave() = 0;
 	virtual void slotSaveas() = 0;
-	virtual void slotEditPlots() = 0;
 	virtual void slotPrint() = 0;
 	virtual void slotExport() = 0;
 	virtual void slotSettings() = 0;

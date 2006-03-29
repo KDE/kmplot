@@ -1,24 +1,22 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kmplot" version="3">
+<kpartgui name="kmplot" version="4">
 	<MenuBar>
  		<Menu name="file">
 			<Action name="file_save_as"/>
 			<Separator/>
 			<Action name="export"/>
 		</Menu>
-		<Menu name="edit"><text>&amp;Edit</text>
+		<Menu name="view"><text>&amp;View</text>
 			<Action name="editaxes"/>
 			<Action name="editscaling"/>
+			<Separator />
+			<Action name="zoom_in"/>
+			<Action name="zoom_out"/>
+			<Action name="zoom_trig"/>
 			<Separator />
 			<Action name="coord_i"/>
 			<Action name="coord_ii"/>
 			<Action name="coord_iii"/>
-		</Menu>
-		<Menu name="zoom"><text>&amp;Zoom</text>
-			<Action name="zoom_in"/>
-			<Action name="zoom_out"/>
-			<Separator />
-			<Action name="zoom_trig"/>
 		</Menu>
 		<Menu name="tools"><text>&amp;Tools</text>
 			<Action name="yvalue"/>

@@ -87,3 +87,5 @@ kmplot/keditpolar.cpp
 kmplot/keditpolar.h
 kmplot/qeditparametric.ui
 kmplot/qeditpolar.ui
+/functioneditor.h
+/functioneditor.cpp

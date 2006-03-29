@@ -6,18 +6,15 @@ include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_D
 ########### next target ###############
 
 set(kmplotpart_PART_SRCS 
+   functioneditor.cpp
    parser.cpp 
    xparser.cpp 
    diagr.cpp 
    View.cpp 
    MainDlg.cpp 
-   FktDlg.cpp 
    kprinterdlg.cpp 
    kconstanteditor.cpp 
    kparametereditor.cpp 
-   keditparametric.cpp 
-   keditpolar.cpp 
-   editfunction.cpp 
    kminmax.cpp 
    kmplotio.cpp 
    ksliderwindow.cpp 
@@ -26,14 +23,9 @@ set(kmplotpart_PART_SRCS
 kde4_automoc(${kmplotpart_PART_SRCS})
 
 kde4_add_ui_files(kmplotpart_PART_SRCS
+	functioneditorwidget.ui
 	editcoords.ui
-	editderivativespage.ui
-	editfunctionpage.ui
-	editintegralpage.ui
 	editscaling.ui
-	FktDlgData.ui
-	qeditparametric.ui
-	qeditpolar.ui
 	qminmax.ui
 	qparametereditor.ui
 	settingspagecolor.ui

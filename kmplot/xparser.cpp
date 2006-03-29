@@ -150,9 +150,9 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
     {
       if ( pos==0 && last_character == 'r') continue;
       function_name[pos]=last_character;
-      for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+// 	  for( QVector<Ufkt>::iterator it = m_ufkt.begin(); it != m_ufkt.end(); ++it)
+	  foreach ( Ufkt * it, m_ufkt )
       {
-        if (it == ufkt.begin() && it->fname.isEmpty() ) continue;
         if ( it->fstr.startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
           ok = false;
       }
@@ -188,7 +188,8 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
       p2++;
     }
     QString const fname = str.left(p1);
-    for ( QVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
+//     for ( QVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
+	foreach ( Ufkt * it, m_ufkt )
     {
       if (it->fname == fname)
       {
@@ -298,7 +299,8 @@ int XParser::getNextIndex()
 QStringList XParser::listFunctionNames()
 {
 	QStringList list;
-	for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+// 	for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+	foreach ( Ufkt * it, m_ufkt )
 	{
 		list.append(it->fname);
 	}
@@ -307,286 +309,244 @@ QStringList XParser::listFunctionNames()
 
 bool XParser::functionFVisible(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
-		return false;
-	return ufkt[ix].f_mode;
+	return m_ufkt.contains(id) ? m_ufkt[id]->f_mode : false;
 }
 bool XParser::functionF1Visible(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
-		return false;
-	return ufkt[ix].f1_mode;
+	return m_ufkt.contains(id) ? m_ufkt[id]->f1_mode : false;
 }
 bool XParser::functionF2Visible(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
-		return false;
-	return ufkt[ix].f2_mode;
+	return m_ufkt.contains(id) ? m_ufkt[id]->f2_mode : false;
 }
 bool XParser::functionIntVisible(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
-		return false;
-	return ufkt[ix].integral_mode;
+	return m_ufkt.contains(id) ? m_ufkt[id]->integral_mode : false;
 }
 
 bool XParser::setFunctionFVisible(bool visible, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].f_mode = visible;
+	m_ufkt[id]->f_mode = visible;
 	m_modified = true;
 	return true;
 }
 bool XParser::setFunctionF1Visible(bool visible, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].f1_mode = visible;
+	m_ufkt[id]->f1_mode = visible;
 	m_modified = true;
 	return true;
 }
 bool XParser::setFunctionF2Visible(bool visible, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].f2_mode = visible;
+	m_ufkt[id]->f2_mode = visible;
 	m_modified = true;
 	return true;
 }
 bool XParser::setFunctionIntVisible(bool visible, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].integral_mode = visible;
+	m_ufkt[id]->integral_mode = visible;
 	m_modified = true;
 	return true;
 }
 
 QString XParser::functionStr(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return "";
-	return ufkt[ix].fstr;
+	return m_ufkt[id]->fstr;
 }
 
 QColor XParser::functionFColor(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(ufkt[ix].color);
+	return QColor(m_ufkt[id]->color);
 }
 QColor XParser::functionF1Color(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(ufkt[ix].f1_color);
+	return QColor(m_ufkt[id]->f1_color);
 }
 QColor XParser::functionF2Color(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(ufkt[ix].f2_color);
+	return QColor(m_ufkt[id]->f2_color);
 }
 QColor XParser::functionIntColor(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(ufkt[ix].integral_color);
+	return QColor(m_ufkt[id]->integral_color);
 }
 bool XParser::setFunctionFColor(const QColor &color, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].color = color.rgb();
+	m_ufkt[id]->color = color.rgb();
 	m_modified = true;
 	return true;
 }
 bool XParser::setFunctionF1Color(const QColor &color, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].color = color.rgb();
+	m_ufkt[id]->color = color.rgb();
 	m_modified = true;
 	return true;
 }		
 bool XParser::setFunctionF2Color(const QColor &color, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].color = color.rgb();
+	m_ufkt[id]->color = color.rgb();
 	m_modified = true;
 	return true;
 }
 bool XParser::setFunctionIntColor(const QColor &color, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].color = color.rgb();
+	m_ufkt[id]->color = color.rgb();
 	m_modified = true;
 	return true;
 }
 
 double XParser::functionFLineWidth(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return ufkt[ix].linewidth;
+	return m_ufkt[id]->linewidth;
 }
 double XParser::functionF1LineWidth(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
-		return int();
-	return ufkt[ix].f1_linewidth;
+	if ( !m_ufkt.contains( id ) )
+		return 0;
+	return m_ufkt[id]->f1_linewidth;
 }
 double XParser::functionF2LineWidth(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
-		return int();
-	return ufkt[ix].f2_linewidth;
+	if ( !m_ufkt.contains( id ) )
+		return 0;
+	return m_ufkt[id]->f2_linewidth;
 }
 double XParser::functionIntLineWidth(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
-		return int();
-	return ufkt[ix].integral_linewidth;
+	if ( !m_ufkt.contains( id ) )
+		return 0;
+	return m_ufkt[id]->integral_linewidth;
 }
 bool XParser::setFunctionFLineWidth(double linewidth, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].linewidth = linewidth;
+	m_ufkt[id]->linewidth = linewidth;
 	m_modified = true;
 	return true;
 }
 bool XParser::setFunctionF1LineWidth(double linewidth, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].f1_linewidth = linewidth;
+	m_ufkt[id]->f1_linewidth = linewidth;
 	m_modified = true;
 	return true;
 }		
 bool XParser::setFunctionF2LineWidth(double linewidth, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].f2_linewidth = linewidth;
+	m_ufkt[id]->f2_linewidth = linewidth;
 	m_modified = true;
 	return true;
 }
 bool XParser::setFunctionIntLineWidth(double linewidth, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	ufkt[ix].integral_linewidth = linewidth;
+	m_ufkt[id]->integral_linewidth = linewidth;
 	m_modified = true;
 	return true;
 }
 
 QString XParser::functionMinValue(uint id)
 {
-  int const ix = ixValue(id);
-  if (ix==-1)
-    return int();
-  return ufkt[ix].str_dmin;
+	if ( !m_ufkt.contains( id ) )
+		return 0;
+  return m_ufkt[id]->str_dmin;
 }
 
 bool XParser::setFunctionMinValue(const QString &min, uint id)
 {
-  int const ix = ixValue(id);
-  if (ix==-1)
-    return false;
-  ufkt[ix].str_dmin = min;
+	if ( !m_ufkt.contains( id ) )
+		return false;
+  m_ufkt[id]->str_dmin = min;
   m_modified = true;
   return true;
 }
 
 QString XParser::functionMaxValue(uint id)
 {
-  int const ix = ixValue(id);
-  if (ix==-1)
-    return int();
-  return ufkt[ix].str_dmax;
+	if ( !m_ufkt.contains( id ) )
+		return 0;
+  return m_ufkt[id]->str_dmax;
 }
 
 bool XParser::setFunctionMaxValue(const QString &max, uint id)
 {
-  int const ix = ixValue(id);
-  if (ix==-1)
-    return false;
-  ufkt[ix].str_dmax = max;
+	if ( !m_ufkt.contains( id ) )
+		return false;
+  m_ufkt[id]->str_dmax = max;
   m_modified = true;
   return true;
 }
 
 QString XParser::functionStartXValue(uint id)
 {
-  int const ix = ixValue(id);
-  if (ix==-1)
-    return int();
-  return ufkt[ix].str_startx;
+	if ( !m_ufkt.contains( id ) )
+		return 0;
+  return m_ufkt[id]->str_startx;
 }
 
 bool XParser::setFunctionStartXValue(const QString &x, uint id)
 {
-  int const ix = ixValue(id);
-  if (ix==-1)
-    return false;
-  ufkt[ix].str_startx = x;
+	if ( !m_ufkt.contains( id ) )
+		return false;
+  m_ufkt[id]->str_startx = x;
   m_modified = true;
   return true;
 }
 
 QString XParser::functionStartYValue(uint id)
 {
-  int const ix = ixValue(id);
-  if (ix==-1)
-    return int();
-  return ufkt[ix].str_starty;
+	if ( !m_ufkt.contains( id ) )
+		return 0;
+  return m_ufkt[id]->str_starty;
 }
 
 bool XParser::setFunctionStartYValue(const QString &y, uint id)
 {
-  int const ix = ixValue(id);
-  if (ix==-1)
-    return false;
-  ufkt[ix].str_starty = y;
+	if ( !m_ufkt.contains( id ) )
+		return false;
+  m_ufkt[id]->str_starty = y;
   m_modified = true;
   return true;
 }
 
 QStringList XParser::functionParameterList(uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return QStringList();
-	Ufkt *item = &ufkt[ix];
+	Ufkt *item = m_ufkt[id];
 	QStringList str_parameter;
 	for ( QList<ParameterValueItem>::iterator it = item->parameters.begin(); it != item->parameters.end(); ++it)
 		str_parameter.append( (*it).expression);
@@ -594,10 +554,9 @@ QStringList XParser::functionParameterList(uint id)
 }
 bool XParser::functionAddParameter(const QString &new_parameter, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	Ufkt *tmp_ufkt = &ufkt[ix];
+	Ufkt *tmp_ufkt = m_ufkt[id];
 	for ( QList<ParameterValueItem>::iterator it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
 		if ( (*it).expression == new_parameter) //check if the parameter already exists
 			return false;
@@ -611,10 +570,9 @@ bool XParser::functionAddParameter(const QString &new_parameter, uint id)
 }
 bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	if ( !m_ufkt.contains( id ) )
 		return false;
-	Ufkt *tmp_ufkt = &ufkt[ix];
+	Ufkt *tmp_ufkt = m_ufkt[id];
 	
 	bool found = false;
 	QList<ParameterValueItem>::iterator it;
@@ -645,7 +603,7 @@ int XParser::addFunction(const QString &f_str)
 	int const id = addfkt( added_function );
 	if (id==-1)
 		return -1;
-	Ufkt *tmp_ufkt = &ufkt.last();
+	Ufkt *tmp_ufkt = m_ufkt[id];
 	prepareAddingFunction(tmp_ufkt);
 	if ( pos!=-1 && !getext( tmp_ufkt, f_str ) )
 	{
@@ -679,7 +637,7 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 	int const id = addfkt( fstr );
 	if ( id==-1 )
 		return false;
-	Ufkt *added_function = &ufkt.last();
+	Ufkt *added_function = m_ufkt[id];
 	added_function->f_mode = f_mode;
 	added_function->f1_mode = f1_mode;
 	added_function->f2_mode = f2_mode;
@@ -732,10 +690,9 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 
 bool XParser::setFunctionExpression(const QString &f_str, uint id)
 {
-	int const ix = ixValue(id);
-	if (ix==-1)
+	Ufkt * tmp_ufkt = functionWithID( id );
+	if ( !tmp_ufkt )
 		return false;
-	Ufkt *tmp_ufkt = &ufkt[ix];
 	QString const old_fstr = tmp_ufkt->fstr;
 	QString const fstr_begin = tmp_ufkt->fstr.left(tmp_ufkt->fstr.indexOf('=')+1);
 	tmp_ufkt->fstr = fstr_begin+f_str;
@@ -762,7 +719,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 		return false;
 	}
 	
-	Ufkt *item = &ufkt[ixValue(id)];
+	Ufkt *item = m_ufkt[id];
 	kDebug() << "Transferring " << item->fname << endl;
 	QString str_result;
 	if ( dcopclient_target.isEmpty() && item->fname.at(0) == 'y' )

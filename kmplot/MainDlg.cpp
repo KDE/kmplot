@@ -25,8 +25,9 @@
 */
 
 // Qt includes
-#include <qslider.h>
+#include <QMainWindow>
 #include <QPixmap>
+#include <qslider.h>
 
 // KDE includes
 #include <dcopclient.h>
@@ -45,9 +46,7 @@
 #include <ktoolinvocation.h>
 
 // local includes
-#include "editfunction.h"
-#include "keditparametric.h"
-#include "keditpolar.h"
+#include "functioneditor.h"
 #include "kprinterdlg.h"
 #include "kconstanteditor.h"
 #include "MainDlg.h"
@@ -79,11 +78,18 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 		m_readonly = true;
 		new BrowserExtension(this); // better integration with Konqueror
 	}
-	fdlg = 0;
+	
 	coordsDialog = 0;
 	m_popupmenu = new KMenu(parentWidget);
 	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection() );
 	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
+	
+	if ( !m_readonly )
+	{
+		m_functionEditor = new FunctionEditor( view, parentWidget );
+		static_cast<QMainWindow*>(parentWidget)->addDockWidget( Qt::LeftDockWidgetArea, m_functionEditor );
+	}
+	
 	setWidget( view );
 	view->setFocusPolicy(Qt::ClickFocus);
 	minmaxdlg = new KMinMax(view, m_parent);
@@ -144,7 +150,7 @@ void MainDlg::setupActions()
 	//END file menu
 
 	
-	//BEGIN zoom menu
+	//BEGIN view menu
 	KAction * zoomIn = new KAction( i18n("Zoom &In"), actionCollection(), "zoom_in" );
 	zoomIn->setShortcut( "CTRL+1" );
 	zoomIn->setIcon( KIcon("viewmag+") );
@@ -157,17 +163,7 @@ void MainDlg::setupActions()
 	
 	KAction * zoomTrig = new KAction( i18n("&Fit Widget to Trigonometric Functions"), actionCollection(), "zoom_trig" );
 	connect( zoomTrig, SIGNAL(triggered(bool)), view, SLOT( mnuTrig_clicked() ) );
-	//END zoom menu
-
 	
-	//BEGIN help menu
-	KAction * namesAction = new KAction( i18n( "Predefined &Math Functions" ), actionCollection(), "names" );
-	namesAction->setIcon( KIcon("functionhelp") );
-	connect( namesAction, SIGNAL(triggered(bool)), this, SLOT( slotNames() ) );
-	//END help menu
-	
-	
-	//BEGIN edit menu
 	KAction * editAxes = new KAction( i18n( "&Coordinate System..." ), actionCollection(), "editaxes" );
 	editAxes->setIcon( KIcon("coords.png") );
 	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
@@ -187,27 +183,8 @@ void MainDlg::setupActions()
 	KAction * coordIII = new KAction( i18n( "Coordinate System III" ), actionCollection(), "coord_iii" );
 	coordIII->setIcon( KIcon("ksys3.png") );
 	connect( coordIII, SIGNAL(triggered(bool)), this, SLOT( slotCoord3() ) );
-	//END edit menu
-
+	//END view menu
 	
-	//BEGIN plot menu
-	KAction * newFunction = new KAction( i18n( "&New Function Plot..." ), actionCollection(), "newfunction" );
-	newFunction->setIcon( KIcon("newfunction") );
-	connect( newFunction, SIGNAL(triggered(bool)), this, SLOT( newFunction() ) );
-	
-	KAction * newParametric = new KAction( i18n( "New Parametric Plot..." ), actionCollection(), "newparametric" );
-	newParametric->setIcon( KIcon("newparametric") );
-	connect( newParametric, SIGNAL(triggered(bool)), this, SLOT( newParametric() ) );
-	
-	KAction * newPolar = new KAction( i18n( "New Polar Plot..." ), actionCollection(), "newpolar" );
-	newPolar->setIcon( KIcon("newpolar") );
-	connect( newPolar, SIGNAL(triggered(bool)), this, SLOT( newPolar() ) );
-	
-	KAction * editPlots = new KAction( i18n( "Edit Plots..." ), actionCollection(), "editplots" );
-	editPlots->setIcon( KIcon("editplots") );
-	connect( editPlots, SIGNAL(triggered(bool)), this, SLOT( slotEditPlots() ) );
-	//END plot menu
-
 	
 	//BEGIN tools menu
 	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), actionCollection(), "yvalue" );
@@ -226,10 +203,14 @@ void MainDlg::setupActions()
 	mnuArea->setIcon( KIcon("") );
 	connect( mnuArea, SIGNAL(triggered(bool)),this, SLOT( graphArea() )  );
 	//END tools menu
-	
 
-	m_quickEditAction = new QuickEditAction( actionCollection(), "quickedit" );
-	connect( m_quickEditAction, SIGNAL( completed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
+	
+	//BEGIN help menu
+	KAction * namesAction = new KAction( i18n( "Predefined &Math Functions" ), actionCollection(), "names" );
+	namesAction->setIcon( KIcon("functionhelp") );
+	connect( namesAction, SIGNAL(triggered(bool)), this, SLOT( slotNames() ) );
+	//END help menu
+	
 
 	view->m_menuSliderAction = new KToggleAction( i18n( "Show Sliders" ), actionCollection(), "options_configure_show_sliders" );
 	connect( view->m_menuSliderAction, SIGNAL(triggered(bool)), this, SLOT( toggleShowSliders() ) );
@@ -268,6 +249,8 @@ void MainDlg::setupActions()
 	mnuMaxValue->plug(m_popupmenu);
 	mnuArea->plug(m_popupmenu);
 }
+
+
 bool MainDlg::checkModified()
 {
 	if( m_modified )
@@ -495,114 +478,6 @@ void MainDlg::slotNames()
 	KToolInvocation::invokeHelp( "func-predefined", "kmplot" );
 }
 
-void MainDlg::newFunction()
-{
-	EditFunction* editFunction = new EditFunction( view->parser(), m_parent );
-	editFunction->setCaption(i18n( "New Function Plot" ) );
-	editFunction->initDialog();
-	if ( editFunction->exec() == QDialog::Accepted )
-	{
-		m_modified = true;
-		view->updateSliders();
-		view->drawPlot();
-	}
-}
-
-void MainDlg::newParametric()
-{
-	KEditParametric* editParametric = new KEditParametric( view->parser(), m_parent );
-	editParametric->setCaption(i18n( "New Parametric Plot"));
-	editParametric->initDialog();
-	if ( editParametric->exec() == QDialog::Accepted )
-	{
-		m_modified = true;
-		view->drawPlot();
-	}
-
-}
-
-void MainDlg::newPolar()
-{
-	KEditPolar* editPolar = new KEditPolar( view->parser(), m_parent );
-	editPolar->setCaption(i18n( "New Polar Plot"));
-	editPolar->initDialog();
-	if (  editPolar->exec() == QDialog::Accepted )
-	{
-		m_modified = true;
-		view->drawPlot();
-	}
-
-}
-
-void MainDlg::slotEditPlots()
-{
-	if ( !fdlg ) fdlg = new FktDlg( m_parent, view ); // make the dialog only if not allready done
-	fdlg->getPlots();
-	KTempFile tmpfile;
-	kmplotio->save( KUrl::fromPathOrURL( tmpfile.name() ) );
-	if( fdlg->exec() == QDialog::Rejected )
-	{
-		if ( fdlg->isChanged() )
-		{
-			view->init();
-			kmplotio->load( KUrl::fromPathOrURL( tmpfile.name() ) );
-			view->drawPlot();
-		}
-	}
-	else if ( fdlg->isChanged() )
-	{
-		view->updateSliders();
-		m_modified = true;
-	}
-	tmpfile.unlink();
-}
-
-void MainDlg::slotQuickEdit(const QString& f_str_const )
-{
-	//creates a valid name for the function if the user has forgotten that
-  	QString f_str( f_str_const );
-	int const pos = f_str_const.indexOf(';');
-	if (pos!=-1)
-	  f_str = f_str.left(pos);
-	if (f_str.at(0)=='r')
-	  	view->parser()->fixFunctionName(f_str, XParser::Polar);
-	else
-	  	view->parser()->fixFunctionName(f_str);
-	if ( f_str.at(0)== 'x' || f_str.at(0)== 'y')
-	{
-		KMessageBox::error( m_parent, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));
-		return;
-	}
-	if  ( f_str.contains('y') != 0)
-	{
-		KMessageBox::error( m_parent, i18n( "Recursive function is not allowed"));
-		m_quickEditAction->setFocus();
-		return;
-	}
-
-	int const id = view->parser()->addfkt( f_str );
-	if (id==-1)
-	{
-		view->parser()->parserError();
-		m_quickEditAction->setFocus();
-// 		m_quickEdit->setFocus();
-// 		m_quickEdit->selectAll();
-		return;
-	}
-	Ufkt *ufkt = &view->parser()->ufkt.last();
-	view->parser()->prepareAddingFunction(ufkt);
-
-	if ( pos!=-1 && !view->parser()->getext(ufkt, QString(f_str_const)))
-	{
-		m_quickEditAction->setFocus();
-		view->parser()->Parser::delfkt( ufkt );
-		return;
-	}
-	m_quickEditAction->reset();
-	m_modified = true;
-	view->drawPlot();
-}
-
 
 void MainDlg::slotCoord1()
 {
@@ -760,64 +635,4 @@ void BrowserExtension::print()
 {
 	static_cast<MainDlg*>(parent())->slotPrint();
 }
-
-
-//BEGIN class QuickEditAction
-QuickEditAction::QuickEditAction( KActionCollection * parent, const char * name )
-	: KAction( i18n( "Quick Edit" ), parent, name )
-{
-	setToolBarWidgetFactory(this);
-	setWhatsThis( i18n( "Enter a simple function equation here.\n"
-			"For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
-}
-
-
-QuickEditAction::~QuickEditAction()
-{
-}
-
-
-QWidget * QuickEditAction::createToolBarWidget( QToolBar * parent )
-{
-	KLineEdit * edit = new KLineEdit( parent );
-	m_lineEdits << edit;
-	
-	edit->setToolTip( i18n( "Enter a function equation, for example: f(x)=x^2" ) );
-	connect( edit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( returnPressed( const QString& ) ) );
-	
-	return edit;
-}
-
-
-void QuickEditAction::destroyToolBarWidget( QWidget * widget )
-{
-	m_lineEdits.removeAll( static_cast<KLineEdit*>(widget) );
-	widget->deleteLater();
-}
-
-
-void QuickEditAction::reset()
-{
-	foreach ( KLineEdit * edit, m_lineEdits )
-		edit->clear();
-}
-
-
-void QuickEditAction::setFocus()
-{
-	if ( m_lineEdits.isEmpty() )
-		return;
-	
-	KLineEdit * edit = m_lineEdits.first();
-	edit->setFocus();
-	edit->selectAll();
-}
-
-
-void QuickEditAction::returnPressed( const QString & text )
-{
-	if ( !text.isEmpty() )
-		emit completed( text );
-}
-//END class QuickEditAction
 

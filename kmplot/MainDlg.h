@@ -45,7 +45,6 @@
 
 // local includes
 #include "coordsconfigdialog.h"
-#include "FktDlg.h"
 #include "View.h"
 #include "kminmax.h"
 #include "kmplotio.h"
@@ -57,6 +56,7 @@
 #include "settingspagegeneral.h"
 
 class EditScaling;
+class FunctionEditor;
 class KConfigDialog;
 class KLineEdit;
 class KRecentFilesAction;
@@ -68,7 +68,6 @@ class KConstantEditor;
 class KToggleFullScreenAction;
 class BrowserExtension;
 class KAboutData;
-class QuickEditAction;
 
 /** @short This is the main window of KmPlot.
  *
@@ -103,12 +102,6 @@ public slots:
 	void editAxes();
 	/// Implement the scaling edit dialog
 	void editScaling();
-	/// Implement the dialog to enter a function plot and its options
-	void newFunction();
-	/// Implement the dialog to enter a parametric plot and its options
-	void newParametric();
-	/// Implement the dialog to enter a polar plot and its options
-	void newPolar();
 	/// Toggle whether the sliders window is shown
 	void toggleShowSliders();
 	
@@ -118,8 +111,6 @@ public slots:
 	void slotSave();
 	///Save a plot and choose a name for it
 	void slotSaveas();
-	///Call the dialog (an instance of FktDlg) to edit the functions and make changes on them
-	void slotEditPlots();
 	///Print the current plot
 	void slotPrint();
 	///Export the current plot as a png, svg or bmp picture
@@ -148,15 +139,11 @@ private:
 	virtual bool openFile();
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
-
-	/// Cached dialog to edit all functions
-	FktDlg *fdlg;
+	
 	/// Central widget of the KMainWindow instance. tralala
 	View *view;
 	///The Recent Files action
 	KRecentFilesAction * m_recentFiles;
-	///The quick edit action for entering functions via the toolbar
-	QuickEditAction * m_quickEditAction;
 	/// true == modifications not saved
 	bool m_modified;
 	///An instance of the application config file
@@ -186,6 +173,8 @@ private:
 	KUrl m_currentfile;
 	/// The axes config dialogs
 	CoordsConfigDialog* coordsDialog;
+	/// The function editor
+	FunctionEditor * m_functionEditor;
 
 protected slots:
 	/**
@@ -195,11 +184,6 @@ protected slots:
 	void slotOpenRecent( const KUrl &url );
 	///Update settings when there is a change in the Configure KmPlot dialog
 	void updateSettings();
-	/**
-	* Manages the LineEdit content after returnPressed() is emitted.
-	 * @param f_str_const the content of the KLineEdit
-	*/
-	void slotQuickEdit( const QString& f_str_const );
 
 	void setReadOnlyStatusBarText(const QString &);
 
@@ -235,39 +219,6 @@ public slots:
 	void print();
 };
 
-
-/**
-Custom action for entering a function from the toolbar via a KLineEdit.
-*/
-class QuickEditAction : public KAction, public QActionWidgetFactory
-{
-	Q_OBJECT
-	public:
-		QuickEditAction( KActionCollection * parent, const char * name );
-		virtual ~QuickEditAction();
-	
-		virtual QWidget * createToolBarWidget( QToolBar * parent );
-		virtual void destroyToolBarWidget( QWidget * widget );
-		
-		/// Clears the text from all line edits.
-		void reset();
-		/// Focuses and selects the text of the last created line edit.
-		void setFocus();
-	
-	signals:
-		/// Emitted when the user hits Return with text in an edit.
-		void completed( const QString & text );
-		
-	protected slots:
-		/**
-		 * Invoked from a returnPressed signal, when the user hits enter in one
-		 * of the toolbar widgets.
-		 */
-		void returnPressed( const QString & text );
-		
-	protected:
-		QList<KLineEdit*> m_lineEdits;
-};
 
 class EditScaling : public QWidget, public Ui::EditScaling
 {

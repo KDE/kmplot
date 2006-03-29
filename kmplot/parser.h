@@ -3,6 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter M�ler
 *               2000, 2002 kd.moeller@t-online.de
+*                     2006 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -26,10 +27,12 @@
 /** @file parser.h
  * \brief Contains the parser core class Parser. */
  
-// Qt includes
-#include <qstring.h>
-#include <QVector>
+ 
 #include <QList>
+#include <QMap>
+#include <QObject>
+#include <QString>
+#include <QVector>
 
 #include "parseriface.h"
 
@@ -129,8 +132,15 @@ class Ufkt
 		
 		Ufkt();
 		~Ufkt();
+		
+		/**
+		 * Copies data members across, while avoiding id, mem, mptr type
+		 * variables.
+		 */
+		void copyFrom( const Ufkt & function );
+		
 		/// Sets the parameter 
-		void setParameter(double const &p) {k = p; };
+		void setParameter( double p ) { k = p; };
         
 		uint id;
 		unsigned char *mem;     ///< Pointer to the allocated memory for the tokens.
@@ -220,8 +230,9 @@ class Constants
  *
  * Tokenizes a function equation to be evaluated.
  */
-class Parser : virtual public ParserIface
+class Parser : public QObject, virtual public ParserIface
 {
+	Q_OBJECT
 public:
 	
 	enum Error
@@ -246,22 +257,22 @@ public:
 	Parser();
 	~Parser();
 	
-        /// Returns the result of a calculation
-        double fkt(Ufkt *it, double const x);
-        double fkt(uint id, double const x);
+	/// Returns the result of a calculation
+	double fkt(Ufkt *it, double const x);
+	double fkt(uint id, double const x);
 	
 	/// Evaluates the given expression.
 	double eval(QString);
 	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
 	int addfkt(QString);
-        /// Removes the function with the given id.
+	/// Removes the function with the given id.
 	bool delfkt(uint id);
-        bool delfkt( Ufkt *item);
+	bool delfkt( Ufkt *item);
 	
 	/// Returns the ID-number of the function "name". If the function couldn't be found, -1 is returned.
 	int fnameToId(const QString &name);
 	/// Returns the current error value. If showMessageBox is true, an error message box will appear if an error was found
-	Error parserError(bool showMessageBox=TRUE);
+	Error parserError( bool showMessageBox );
 	
 	/// return the angletype
 	static double anglemode();
@@ -270,19 +281,27 @@ public:
 	/// sets the decimal symbol
 	void setDecimalSymbol(const QString );
 	
-        /// reparse the function. It also do a grammer check for the expression
-	void reparse(int ix);
-        void reparse(Ufkt *item);
+	/// reparse the function. It also do a grammer check for the expression
+	void reparse(int id);
+	void reparse(Ufkt *item);
 	
-        uint getNewId(); /// Returns the next ID-number
-        int idValue(int const ix); /// Converts an index-value to an ID-number
-        int ixValue(uint const id);/// Converts an ID-numer to an index-value
+	uint getNewId(); /// Returns the next ID-number
 	uint countFunctions(); /// Returns how many functions there are
 
 	/// The constants used by the parser
-	Constants * constants() { return m_constants; }
+	Constants * constants() const { return m_constants; }
 	
-        QVector<Ufkt> ufkt;///< Points to the array of user defined functions.
+	/// @return the function with the given id
+	Ufkt * functionWithID( int id ) const;
+	
+	/// Points to the array of user defined functions, index by their IDs.
+	QMap<int, Ufkt *> m_ufkt;
+	
+signals:
+	/// emitted when a function is deleted
+	void functionRemoved( int id );
+	/// emitted when a function is added
+	void functionAdded( int id );
 
 private:
 	/** Mathematical function. */
@@ -317,9 +336,11 @@ private:
 	*mptr;			    // Zeiger fr Token
 	QString m_eval;
 	int m_evalPos;
+	int m_nextFunctionID;
 	/// @return the m_eval starting at m_evalPos
 	QString evalRemaining() const;
-	Ufkt *current_item; // Pointer to the current function
+	Ufkt * current_item; // Pointer to the current function
+	Ufkt * m_ownFunction; ///< used for parsing constants, etc, and ensures that current_item is never null
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer
 	static double  m_anglemode;

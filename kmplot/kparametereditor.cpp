@@ -97,7 +97,7 @@ void KParameterEditor::cmdNew_clicked()
 		m_parser->eval( result );
 		if ( m_parser->parserError(false) != 0 )
 		{
-			m_parser->parserError();
+			m_parser->parserError( true );
 			continue;
 		}
 		if ( checkTwoOfIt(result) )
@@ -125,7 +125,7 @@ void KParameterEditor::cmdEdit_clicked()
 		m_parser->eval(result);
 		if ( m_parser->parserError(false) != 0)
 		{
-			m_parser->parserError();
+			m_parser->parserError( true );
 			continue;
 		}
 		if ( checkTwoOfIt(result) )

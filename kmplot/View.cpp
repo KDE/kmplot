@@ -54,8 +54,6 @@
 #include <kprogressbar.h>
 
 // local includes
-#include "editfunction.h"
-#include "keditparametric.h"
 #include "kminmax.h"
 #include "settings.h"
 #include "ksliderwindow.h"
@@ -248,9 +246,14 @@ void View::draw(QPaintDevice *dev, int form)
 	// instead, they look like a pixelated line that has been blurred.
 	// (plus, it makes drawing a *lot* slower).
 	DC.setRenderHint( QPainter::Antialiasing, false );
-	for(QVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
+	foreach ( Ufkt * ufkt, m_parser->m_ufkt )
+	{
+		if ( stop_calculating )
+			break;
+		
 		if ( !ufkt->fname.isEmpty() )
 			plotfkt(ufkt, &DC);
+	}
 
 	isDrawing=false;
 	updateCursor();
@@ -260,11 +263,11 @@ void View::draw(QPaintDevice *dev, int form)
 
 void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 {
-	int iy, k, ke, mflg;
-	iy=0;
+	int k, ke, mflg;
+	int iy=0;
 
 	char const fktmode=ufkt->fstr[0].latin1();
-	if(fktmode=='y')
+	if ( fktmode == 'y' )
 		return;
 
 	double dmin = ufkt->dmin;
@@ -302,7 +305,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	assert( dx != 0.0 );
 
 	if(fktmode=='x')
-		iy = m_parser->ixValue(ufkt->id)+1;
+		iy = ufkt->id+1;
 	
 	Ufkt::PMode p_mode = Ufkt::Function;
 	
@@ -572,8 +575,11 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->Lineh(0, 320, 700);
 		int ypos = 380;
 		//for(uint ix=0; ix<m_parser->countFunctions() && !stop_calculating; ++ix)
-		for(QVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
+// 		for(QVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
+		foreach ( Ufkt * it, m_parser->m_ufkt )
 		{
+			if ( stop_calculating )
+				break;
 			pDC->drawText(100, ypos, it->fstr);
 			ypos+=60;
 		}
@@ -685,20 +691,7 @@ void View::paintEvent(QPaintEvent *)
 	else if ( m_zoomMode == AnimatingZoom )
 	{
 		p.save();
-		
-		
-// 		ref=QPoint(120, 100);
-// 		int lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
-// 		int ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
-// 		p.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
-// 		if ( ( QPoint(lx+2*ref.x(), ly) * p.matrix() ).x() > p.viewport().right())
-// 		{
-// 			p.resetMatrix();
-// 			p.scale((float)w/(float)(lx+2*ref.x()), (float)w/(float)(lx+2*ref.x()));
-// 		}
-		
 		p.setMatrix( wm );
-		
 		QPointF tl( dgr.TransxToPixel( m_animateZoomRect.left() ), dgr.TransyToPixel( m_animateZoomRect.top() ) );
 		QPointF br( dgr.TransxToPixel( m_animateZoomRect.right() ), dgr.TransyToPixel( m_animateZoomRect.bottom() ) );
 		p.drawRect( QRectF( tl, QSizeF( br.x()-tl.x(), br.y()-tl.y() ) ) );
@@ -708,10 +701,7 @@ void View::paintEvent(QPaintEvent *)
 	{
 		updateCrosshairPosition();
 		
-		Ufkt * it = 0l;
-		int const ix = m_parser->ixValue(csmode);
-		if ( ix != -1 )
-			it = &m_parser->ufkt[ix];
+		Ufkt * it = m_parser->functionWithID( csmode );
 			
 			// Fadenkreuz zeichnen [draw the cross-hair]
 		QPen pen;
@@ -812,13 +802,14 @@ void View::mousePressEvent(QMouseEvent *e)
 	if( !m_readonly && e->button()==Qt::RightButton) //clicking with the right mouse button
 	{
 		char function_type;
-		for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+// 		for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+		foreach ( Ufkt * it, m_parser->m_ufkt )
 		{
 			function_type = it->fstr[0].latin1();
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
 			if ( !csxposValid( it ) )
 			  continue;
-			kDebug() << "it:" << it->fstr << endl;
+// 			kDebug() << "it:" << it->fstr << endl;
 			int k=0;
 			int const ke=it->parameters.count();
 			do
@@ -918,7 +909,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		mouseMoveEvent(e);
 		return ;
 	}
-	for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+// 	for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	foreach ( Ufkt * it, m_parser->m_ufkt )
 	{
 		if (it->fname.isEmpty() )
 			continue;
@@ -994,6 +986,8 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		return;
 	
 	bool inBounds = updateCrosshairPosition();
+	if ( !rootflg )
+		setStatusBar("", 3);
 	
 	QString sx, sy;
 	
@@ -1049,15 +1043,10 @@ bool View::updateCrosshairPosition()
 	bool out_of_bounds = false; // for the ypos
 	
 	QPointF ptl = mousePos * wm.inverted();
-	Ufkt *it = 0;
 	
-	if ( csmode >= 0 && csmode <= (int)m_parser->countFunctions() )
+	if ( Ufkt * it = m_parser->functionWithID( csmode ) )
 	{
 		// The user currently has a plot selected
-		
-		int const ix = m_parser->ixValue(csmode);
-		if ( ix != -1 )
-			it = &m_parser->ufkt[ix];
 		
 		if ( it && csxposValid( it ) )
 		{
@@ -1082,7 +1071,9 @@ bool View::updateCrosshairPosition()
 				ptl.setY(dgr.TransyToPixel(csypos=m_parser->a2fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
 
 			if ( csypos<ymin || csypos>ymax) //the ypoint is not visible
+			{
 				out_of_bounds = true;
+			}
 			else if(fabs(dgr.TransyToReal(ptl.y())) < (xmax-xmin)/80)
 			{
 				double x0;
@@ -1096,7 +1087,6 @@ bool View::updateCrosshairPosition()
 			}
 			else
 			{
-				setStatusBar("", 3);
 				rootflg=false;
 			}
 		}
@@ -1399,10 +1389,6 @@ void View::getSettings()
 void View::init()
 {
 	getSettings();
-	QVector<Ufkt>::iterator it = m_parser->ufkt.begin();
-	it->fname="";
-	while ( m_parser->ufkt.count() > 1)
-		m_parser->Parser::delfkt( &m_parser->ufkt.last() );
 }
 
 
@@ -1686,8 +1672,8 @@ void View::keyPressEvent( QKeyEvent * e )
 		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint() + QPoint(1,1), Qt::LeftButton, Qt::LeftButton, 0 );
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-		QVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
-		int const ke=it->parameters.count();
+		QMap<int, Ufkt*>::iterator it = m_parser->m_ufkt.find( csmode );
+		int const ke=(*it)->parameters.count();
 		if (ke>0)
 		{
 			csparam++;
@@ -1708,7 +1694,7 @@ void View::keyPressEvent( QKeyEvent * e )
 					break;
 				}
 				kDebug() << "csmode: " << csmode << endl;
-				switch(it->fstr[0].latin1())
+				switch((*it)->fstr[0].latin1())
 				{
 				case 'x':
 				case 'y':
@@ -1730,15 +1716,15 @@ void View::keyPressEvent( QKeyEvent * e )
 							switch (cstype)
 							{
 							case (0):
-											if (it->f_mode )
+								if ((*it)->f_mode )
 												found=true;
 								break;
 							case (1):
-											if ( it->f1_mode )
+								if ( (*it)->f1_mode )
 												found=true;
 								break;
 							case (2):
-											if ( it->f2_mode )
+								if ( (*it)->f2_mode )
 												found=true;
 								break;
 							}
@@ -1751,9 +1737,9 @@ void View::keyPressEvent( QKeyEvent * e )
 				if (found)
 					break;
 
-				if ( ++it == m_parser->ufkt.end())
-					it = m_parser->ufkt.begin();
-				csmode = it->id;
+				if ( ++it == m_parser->m_ufkt.end())
+					it = m_parser->m_ufkt.begin();
+				csmode = (*it)->id;
 			}
 		}
 
@@ -1766,18 +1752,18 @@ void View::keyPressEvent( QKeyEvent * e )
 		switch (cstype )
 {
 		case 0:
-			setStatusBar(it->fstr,4);
+			setStatusBar((*it)->fstr,4);
 			break;
 		case 1:
 			{
-				QString function = it->fstr;
+				QString function = (*it)->fstr;
 				function = function.left(function.indexOf('(')) + '\'';
 				setStatusBar(function,4);
 				break;
 			}
 		case 2:
 			{
-				QString function = it->fstr;
+				QString function = (*it)->fstr;
 				function = function.left(function.indexOf('(')) + "\'\'";
 				setStatusBar(function,4);
 				break;
@@ -2032,7 +2018,8 @@ void View::updateSliders()
 	}
 	
 	// do we need to show any sliders?
-	for(QVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
+// 	for(QVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
+	foreach ( Ufkt * it, m_parser->m_ufkt )
 	{
 		if (it->fname.isEmpty() ) continue;
 		if( it->use_slider > -1  &&  (it->f_mode || it->f1_mode || it->f2_mode || it->integral_mode))
@@ -2054,7 +2041,7 @@ void View::mnuHide_clicked()
     if ( csmode == -1 )
       return;
 
-	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(csmode)];
+	Ufkt *ufkt = m_parser->m_ufkt[ csmode ];
 	switch (cstype )
 	{
 	case 0:
@@ -2095,7 +2082,7 @@ void View::mnuRemove_clicked()
 
 	if ( KMessageBox::warningContinueCancel(this,i18n("Are you sure you want to remove this function?"), QString(), KStdGuiItem::del()) == KMessageBox::Continue )
 	{
-		Ufkt *ufkt =  &m_parser->ufkt[m_parser->ixValue(csmode)];
+		Ufkt *ufkt =  m_parser->m_ufkt[ csmode ];
 		char const function_type = ufkt->fstr[0].latin1();
 		if (!m_parser->delfkt( ufkt ))
 		  return;
@@ -2116,6 +2103,7 @@ void View::mnuRemove_clicked()
 }
 void View::mnuEdit_clicked()
 {
+#if 0
     if ( csmode == -1 )
       return;
 
@@ -2146,6 +2134,7 @@ void View::mnuEdit_clicked()
 			m_modified = true;
 		}
 	}
+#endif
 }
 
 void View::mnuCopy_clicked()
@@ -2285,10 +2274,7 @@ bool View::shouldShowCrosshairs() const
 	if ( m_zoomMode != Normal )
 		return false;
 	
-	Ufkt * it = 0l;
-	int const ix = m_parser->ixValue(csmode);
-	if ( ix != -1 )
-		it = &m_parser->ufkt[ix];
+	Ufkt * it = m_parser->functionWithID( csmode );
 	
 	QPoint mousePos = mapFromGlobal( QCursor::pos() );
 	

@@ -59,7 +59,7 @@ KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
 	m_sliders[1] = m_mainWidget->slider1;
 	m_sliders[2] = m_mainWidget->slider2;
 	m_sliders[3] = m_mainWidget->slider3;
-	assert( SLIDER_COUNT == 4 );
+	assert( SLIDER_COUNT == 4 ); // safety check, incase SLIDER_COUNT is increased but not this code
 	
 	KConfig config( "kmplotrc" );
 	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )

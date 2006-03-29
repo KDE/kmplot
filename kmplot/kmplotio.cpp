@@ -116,7 +116,8 @@ bool KmPlotIO::save( const KUrl &url )
 	root.appendChild( tag );
 
 
-	for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+// 	for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	foreach ( Ufkt * it, m_parser->m_ufkt )
 	{
 		if ( !it->fstr.isEmpty() )
 		{
@@ -448,35 +449,9 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		m_parser->addfkt( str );
-		Ufkt *added_function = &m_parser->ufkt.last();
-		added_function->f_mode = ufkt.f_mode;
-		added_function->f1_mode = ufkt.f1_mode;
-		added_function->f2_mode = ufkt.f2_mode;
-		added_function->integral_mode = ufkt.integral_mode;
-		added_function->integral_use_precision = ufkt.integral_use_precision;
-		added_function->linewidth = ufkt.linewidth;
-		added_function->f1_linewidth = ufkt.f1_linewidth;
-		added_function->f2_linewidth = ufkt.f2_linewidth;
-		added_function->integral_linewidth = ufkt.integral_linewidth;
-		added_function->str_dmin = ufkt.str_dmin;
-		added_function->str_dmax = ufkt.str_dmax;
-		added_function->dmin = ufkt.dmin;
-		added_function->dmax = ufkt.dmax;
-		added_function->str_startx = ufkt.str_startx;
-		added_function->str_starty = ufkt.str_starty;
-		added_function->oldx = ufkt.oldx;
-		added_function->starty = ufkt.starty;
-		added_function->startx = ufkt.startx;
-		added_function->integral_precision = ufkt.integral_precision;
-		added_function->color = ufkt.color;
-		added_function->f1_color = ufkt.f1_color;
-		added_function->f2_color = ufkt.f2_color;
-		added_function->integral_color = ufkt.integral_color;
-		added_function->parameters = ufkt.parameters;
-		added_function->use_slider = ufkt.use_slider;
-		added_function->usecustomxmin = ufkt.usecustomxmin;
-		added_function->usecustomxmax = ufkt.usecustomxmax;
+		int id = m_parser->addfkt( str );
+		Ufkt * added_function = m_parser->m_ufkt[id];
+		added_function->copyFrom( ufkt );
 	}
 }
 
@@ -559,35 +534,9 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		m_parser->addfkt( str );
-		Ufkt *added_function = &m_parser->ufkt.last();
-		added_function->f_mode = ufkt.f_mode;
-		added_function->f1_mode = ufkt.f1_mode;
-		added_function->f2_mode = ufkt.f2_mode;
-		added_function->integral_mode = ufkt.integral_mode;
-		added_function->integral_use_precision = ufkt.integral_use_precision;
-		added_function->linewidth = ufkt.linewidth;
-		added_function->f1_linewidth = ufkt.f1_linewidth;
-		added_function->f2_linewidth = ufkt.f2_linewidth;
-		added_function->integral_linewidth = ufkt.integral_linewidth;
-		added_function->str_dmin = ufkt.str_dmin;
-		added_function->str_dmax = ufkt.str_dmax;
-		added_function->dmin = ufkt.dmin;
-		added_function->dmax = ufkt.dmax;
-		added_function->str_startx = ufkt.str_startx;
-		added_function->str_starty = ufkt.str_starty;
-		added_function->oldx = ufkt.oldx;
-		added_function->starty = ufkt.starty;
-		added_function->startx = ufkt.startx;
-		added_function->integral_precision = ufkt.integral_precision;
-		added_function->color = ufkt.color;
-		added_function->f1_color = ufkt.f1_color;
-		added_function->f2_color = ufkt.f2_color;
-		added_function->integral_color = ufkt.integral_color;
-		added_function->parameters = ufkt.parameters;
-		added_function->use_slider = ufkt.use_slider;
-		added_function->usecustomxmin = ufkt.usecustomxmin;
-		added_function->usecustomxmax = ufkt.usecustomxmax;
+		int id = m_parser->addfkt( str );
+		Ufkt *added_function = m_parser->m_ufkt[id];
+		added_function->copyFrom( ufkt );
 	}
 }
 

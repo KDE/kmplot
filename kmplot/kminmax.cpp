@@ -144,7 +144,8 @@ void KMinMax::updateFunctions()
 	
 	m_mainWidget->list->clear();
 
-        for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+//         for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+	foreach ( Ufkt * it, m_view->parser()->m_ufkt )
 	{
 		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r' && !it->fname.isEmpty())
 		{
@@ -196,7 +197,7 @@ void KMinMax::selectItem()
 	if (  m_view->csmode < 0)
 		return;
 	//kDebug() << "cstype: " << (int)m_view->cstype << endl;
-        Ufkt *ufkt = &m_view->parser()->ufkt[m_view->parser()->ixValue(m_view->csmode)];
+        Ufkt *ufkt = m_view->parser()->m_ufkt[ m_view->csmode ];
 	QString function = ufkt->fstr;
 	if ( m_view->cstype == 2)
 	{
@@ -232,7 +233,7 @@ void KMinMax::cmdFind_clicked()
 	}
 	double dmin, dmax;
 	dmin = m_view->parser()->eval(m_mainWidget->min->text() );
-	if ( m_view->parser()->parserError()!=0 )
+	if ( m_view->parser()->parserError( true )!=0 )
 	{
 		m_mainWidget->min->setFocus();
 		m_mainWidget->min->selectAll();
@@ -241,7 +242,7 @@ void KMinMax::cmdFind_clicked()
 	if ( m_mode != 2)
 	{
 		dmax = m_view->parser()->eval(m_mainWidget->max->text() );
-		if ( m_view->parser()->parserError()!=0 )
+		if ( m_view->parser()->parserError( true ) != 0 )
 		{
 			m_mainWidget->max->setFocus();
 			m_mainWidget->max->selectAll();
@@ -290,7 +291,8 @@ void KMinMax::cmdFind_clicked()
 	Ufkt *ufkt = 0;
 	QString sec_function = function.section('(',0,0);
 
-        for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+//         for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+	foreach ( Ufkt * it, m_view->parser()->m_ufkt )
 	{
 		if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -381,7 +383,8 @@ void KMinMax::list_currentChanged(QListWidgetItem* item)
 		function[0] =  function[0].toLower();
 	}
 	QString const sec_function = function.section('(',0,0);
-        for(QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
+//         for(QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
+	foreach ( Ufkt * it, m_view->parser()->m_ufkt )
 	{
                 if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -422,7 +425,8 @@ void KMinMax::cmdParameter_clicked()
 	}
         
 	QString const sec_function = function.section('(',0,0);
-        for(QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
+//         for(QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
+	foreach ( Ufkt * it, m_view->parser()->m_ufkt )
 	{
 	       if ( it->fstr.section('(',0,0) == sec_function)
                {

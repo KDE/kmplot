@@ -81,6 +81,19 @@ class FunctionEditor : public QDockWidget
 		 */
 		void functionSelected( QListWidgetItem * function );
 		/**
+		 * Called when the user changes a function widget.
+		 */
+		void save();
+		/**
+		 * Called when the "Edit [parameter] List" button is clicked.
+		 */
+		void editParameterList();
+		/**
+		 * Updates the list of functions (called when a function is added or
+		 * removed from Parser).
+		 */
+		void syncFunctionList();
+		/**
 		 * Called when the user edits any of the widgets relating to a
 		 * cartesian function.
 		 */
@@ -95,19 +108,6 @@ class FunctionEditor : public QDockWidget
 		 * parametric function.
 		 */
 		void saveParametric();
-		/**
-		 * Called when the user changes a function widget.
-		 */
-		void save();
-		/**
-		 * Called when the "Edit [parameter] List" button is clicked.
-		 */
-		void editParameterList();
-		/**
-		 * Updates the list of functions (called when a function is added or
-		 * removed from Parser).
-		 */
-		void syncFunctionList();
 		
 	protected:
 		/**

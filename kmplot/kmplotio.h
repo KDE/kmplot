@@ -53,19 +53,34 @@ class KmPlotIO
 		bool save( const KUrl &url );
 		
 		/**
-		 * Read a kmpdoc xml file to restaure the settings of a previously saved plot
+		 * @return a QDomDocument describing the current KmPlot state (settings
+		 * and functions).
+		 */
+		QDomDocument currentState();
+		
+		/**
+		 * Read a kmpdoc xml file to restore the settings of a previously saved plot
 		 * @param url Name (URL) of file which will be opened
 		 */
 		bool load( const KUrl &url );
 		
 		/**
+		 * Restore KmPlot to the state described in the given QDomDocument.
+		 * @return success status
+		 */
+		bool restore( const QDomDocument & doc );
+		
+		/**
 		 * Adds a QDomElement for \p function to the given \p document
 		 */
 		static void addFunction( QDomDocument & doc, QDomElement & root, Ufkt * function );
-		/// Reads function parameters from the node @a n.
-		/// @param parser points to the parser instance.
-		/// @param n Node containing the options.
-		/// @param allowRename whether to check function names for uniqueness
+		
+		/**
+		 * Reads function parameters from the node @a n.
+		 * @param parser points to the parser instance.
+		 * @param n Node containing the options.
+		 * @param allowRename whether to check function names for uniqueness
+		 */
 		static void parseFunction( XParser *parser, const QDomElement &n, bool allowRename = false );
 	
 	private:

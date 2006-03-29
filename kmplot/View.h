@@ -52,9 +52,10 @@
 #include "Viewiface.h"
 #include "xparser.h"
 
-class XParser;
 class KMinMax;
 class KSliderWindow;
+class MainDlg;
+class XParser;
 
 /**
  * @short This class contains the plots. 
@@ -67,7 +68,7 @@ class View : public QWidget, virtual public ViewIface
 	Q_OBJECT
 public:
 	/// Contructor sets up the parser, too.
-	View(bool, bool &, KMenu *, QWidget* parent, KActionCollection *ac );
+	View(bool, bool &, KMenu *, QWidget* parent, KActionCollection *ac, MainDlg * mainDlg );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 
@@ -90,6 +91,8 @@ public:
 	/// Returns a pointer to the private parser instance m_parser.
 	/// @see m_parser
 	XParser* parser();
+	/// Returns a pointer to the MainDlg
+	MainDlg * mainDlg() const { return m_mainDlg; }
 
 	/// Slider controlling parameter values
 	QPointer<KSliderWindow> m_sliderWindow;
@@ -309,6 +312,8 @@ private:
 	
 	enum Cursor { CursorWait, CursorBlank, CursorArrow, CursorCross, CursorMagnify, CursorLessen, CursorMove };
 	Cursor m_prevCursor;
+	
+	MainDlg * m_mainDlg;
 };
 
 #endif // View_included

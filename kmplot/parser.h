@@ -115,6 +115,11 @@ class ParameterValueItem
 		ParameterValueItem() {;};
 		QString expression;
 		double value;
+		
+		bool operator==( const ParameterValueItem & vi )
+		{
+			return (vi.value == value) && (vi.expression == expression);
+		};
 };
 
 
@@ -136,8 +141,9 @@ class Ufkt
 		/**
 		 * Copies data members across, while avoiding id, mem, mptr type
 		 * variables.
+		 * @return whether any values have changed.
 		 */
-		void copyFrom( const Ufkt & function );
+		bool copyFrom( const Ufkt & function );
 		
 		/// Sets the parameter 
 		void setParameter( double p ) { k = p; };
@@ -153,11 +159,11 @@ class Ufkt
 		oldy;                   ///< The last y-value needed for Euler's method
 		QList<int> dep;   /// A list with all functions this function depends on
         
-		bool f_mode, ///< \a f_mode == 1: draw the plot.
-		f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
-		f2_mode,///< \a f2_mode == 1.  draw the 2nd derivative, too.
-		integral_mode, ///< \a f2_mode == 1.  draw the integral, too.
-		integral_use_precision; ///< The user can specify an unic precision for numeric prime-functions
+		bool f_mode:1; ///< \a f_mode == 1: draw the plot.
+		bool f1_mode:1; ///< \a f1_mode == 1.  draw the 1st derivative, too.
+		bool f2_mode:1; ///< \a f2_mode == 1.  draw the 2nd derivative, too.
+		bool integral_mode:1; ///< \a f2_mode == 1.  draw the integral, too.
+		bool integral_use_precision:1; ///< The user can specify an unic precision for numeric prime-functions
 		double linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width in mm.
 		/** Number of parameter values. 
 		* @see FktExt::k_liste */
@@ -171,11 +177,12 @@ class Ufkt
 		starty,///< startposition for Euler's method, the initial y-value
 		startx, ///< startposition for Euler's method, the initial x-value last y'.valuenitial x-value last y'.valuenitial x-value
 		integral_precision; ///<precision when drawing numeric prime-functions
-		QRgb color, ///< current color.
+		QColor color, ///< current color.
 		f1_color, f2_color, integral_color;
 		int use_slider; ///< -1: none (use list), else: slider number
 		QList<ParameterValueItem> parameters; ///< List with parameter for the function
-		bool usecustomxmin, usecustomxmax;
+		bool usecustomxmin:1;
+		bool usecustomxmax:1;
         	// TODO double slider_min, slider_max; ///< extreme values of the slider
 };
 

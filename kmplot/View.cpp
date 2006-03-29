@@ -69,7 +69,7 @@ double View::xmin = 0;
 double View::xmax = 0;
 
 
-View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection *ac )
+View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection *ac, MainDlg * mainDlg )
 	: DCOPObject("View"),
 	  QWidget( parent, Qt::WStaticContents ),
 	  dgr(this),
@@ -78,7 +78,8 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	  m_modified(mo),
 	  m_readonly(r),
 	  m_dcop_client(KApplication::kApplication()->dcopClient()),
-	  m_ac(ac)
+	  m_ac(ac),
+	  m_mainDlg( mainDlg )
 {
 	csmode = csparam = -1;
 	cstype = 0;
@@ -469,7 +470,6 @@ QPen View::penForPlot( Ufkt *ufkt, Ufkt::PMode p_mode, bool antialias ) const
 {
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
-	pen.setColor(ufkt->color);
 	
 	double lineWidth_mm;
 	
@@ -477,18 +477,27 @@ QPen View::penForPlot( Ufkt *ufkt, Ufkt::PMode p_mode, bool antialias ) const
 	{
 		case 0:
 			lineWidth_mm = ufkt->linewidth;
+			pen.setColor(ufkt->color);
 			break;
+			
 		case 1:
 			lineWidth_mm = ufkt->f1_linewidth;
+			pen.setColor(ufkt->f1_color);
 			break;
+			
 		case 2:
 			lineWidth_mm = ufkt->f2_linewidth;
+			pen.setColor(ufkt->f2_color);
 			break;
+			
 		case 3:
 			lineWidth_mm = ufkt->integral_linewidth;
+			pen.setColor(ufkt->integral_color);
 			break;
+			
 		default:
 			assert( !"Unknown p_mode" );
+			break;
 	}
 	
 	double width = mmToPenWidth( lineWidth_mm, antialias );

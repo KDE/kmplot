@@ -121,35 +121,69 @@ Ufkt::~Ufkt()
 }
 
 
-void Ufkt::copyFrom( const Ufkt & function )
+bool Ufkt::copyFrom( const Ufkt & function )
 {
-	f_mode = function.f_mode;
-	f1_mode = function.f1_mode;
-	f2_mode = function.f2_mode;
-	integral_mode = function.integral_mode;
-	integral_use_precision = function.integral_use_precision;
-	linewidth = function.linewidth;
-	f1_linewidth = function.f1_linewidth;
-	f2_linewidth = function.f2_linewidth;
-	integral_linewidth = function.integral_linewidth;
-	str_dmin = function.str_dmin;
-	str_dmax = function.str_dmax;
-	dmin = function.dmin;
-	dmax = function.dmax;
-	str_startx = function.str_startx;
-	str_starty = function.str_starty;
-	oldx = function.oldx;
-	starty = function.starty;
-	startx = function.startx;
-	integral_precision = function.integral_precision;
-	color = function.color;
-	f1_color = function.f1_color;
-	f2_color = function.f2_color;
-	integral_color = function.integral_color;
-	parameters = function.parameters;
-	use_slider = function.use_slider;
-	usecustomxmin = function.usecustomxmin;
-	usecustomxmax = function.usecustomxmax;
+	bool changed = false;
+	int i = 0;
+#define COPY_AND_CHECK(s) \
+		if ( s != function.s ) \
+		{ \
+			kDebug() << "i="<<i<<" this="<<s<<" that="<<function.s<<endl; \
+			s = function.s; \
+			changed = true; \
+		} \
+		i++;
+	
+	COPY_AND_CHECK( f_mode );					// 0
+	COPY_AND_CHECK( f1_mode );					// 1
+	COPY_AND_CHECK( f2_mode );					// 2
+	COPY_AND_CHECK( integral_mode );			// 3
+	COPY_AND_CHECK( integral_use_precision );	// 4
+	COPY_AND_CHECK( linewidth );				// 5
+	COPY_AND_CHECK( f1_linewidth );				// 6
+	COPY_AND_CHECK( f2_linewidth );				// 7
+	COPY_AND_CHECK( integral_linewidth );		// 8
+	COPY_AND_CHECK( str_dmin );					// 9
+	COPY_AND_CHECK( str_dmax );					// 10
+	COPY_AND_CHECK( dmin );						// 11
+	COPY_AND_CHECK( dmax );						// 12
+	COPY_AND_CHECK( str_startx );				// 13
+	COPY_AND_CHECK( str_starty );				// 14
+	COPY_AND_CHECK( starty );					// 15
+	COPY_AND_CHECK( startx );					// 16
+	COPY_AND_CHECK( integral_precision );		// 17
+	COPY_AND_CHECK( color );					// 18
+	COPY_AND_CHECK( f1_color );					// 19
+	COPY_AND_CHECK( f2_color );					// 20
+	COPY_AND_CHECK( integral_color );			// 21
+	COPY_AND_CHECK( use_slider );				// 22
+	COPY_AND_CHECK( usecustomxmin );			// 23
+	COPY_AND_CHECK( usecustomxmax );			// 24
+	
+#if 0
+	COPY_AND_CHECK( parameters );
+#endif
+	// handle this separately
+	if ( parameters.count() != function.parameters.count() )
+	{
+		changed = true;
+		parameters = function.parameters;
+	}
+	else
+	{
+		foreach ( ParameterValueItem p, parameters )
+		{
+			if ( !function.parameters.contains( p ) )
+			{
+				changed = true;
+				parameters = function.parameters;
+				break;
+			}
+		}
+	}
+	
+	kDebug() << k_funcinfo << "changed="<<changed<<endl;
+	return changed;
 }
 //END class Ufkt
 
@@ -434,7 +468,7 @@ void Parser::reparse(int id)
 
 void Parser::reparse(Ufkt *item)
 {
-	kDebug() << "Reparsing: " << item->fstr << endl;
+// 	kDebug() << "Reparsing: " << item->fstr << endl;
 	QString str = item->fstr;
 	err = ParseSuccess;
 	errpos=1;

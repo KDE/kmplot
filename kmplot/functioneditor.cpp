@@ -29,6 +29,7 @@
 #include "kmplotio.h"
 #include "kparametereditor.h"
 #include "View.h"
+#include "MainDlg.h"
 #include "xparser.h"
 
 #include <qtimer.h>
@@ -143,6 +144,7 @@ void FunctionEditor::deleteCurrent()
 		return;
 	}
 	
+	m_view->mainDlg()->requestSaveCurrentState();
 	m_view->drawPlot();
 }
 
@@ -168,7 +170,6 @@ void FunctionEditor::syncFunctionList()
 		if ( item->function2() != -1 )
 			currentIDs[ item->function2() ] = item;
 	}
-	kDebug() << k_funcinfo << "currentFunctionItems.count()="<<currentFunctionItems.count()<<endl;
 	
 	FunctionListItem * toSelect = 0l;
 	int newFunctionCount = 0;
@@ -204,8 +205,6 @@ void FunctionEditor::syncFunctionList()
 		toSelect = new FunctionListItem( m_functionList, m_view, f1, f2 );
 		newFunctionCount++;
 	}
-	
-	kDebug() << k_funcinfo << "currentFunctionItems.count()="<<currentFunctionItems.count()<<endl;
 	
 	// Now, any IDs left in currentIDs are of functions that have been deleted
 	foreach ( FunctionListItem * item, currentFunctionItems )
@@ -255,18 +254,21 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 		m_functionX = -1;
 		m_functionY = -1;
 		
-		QChar prefix = m_view->parser()->functionWithID(m_function)->fstr[0];
-		if ( prefix == 'r' )
-			initFromPolar();
-		else
-			initFromCartesian();
+		if ( Ufkt * function = m_view->parser()->functionWithID(m_function) )
+		{
+			QChar prefix = function->fstr[0];
+			if ( prefix == 'r' )
+				initFromPolar();
+			else
+				initFromCartesian();
+		}
 	}
 }
 
 
 void FunctionEditor::initFromCartesian()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	Ufkt * f = m_view->parser()->functionWithID(m_function);
 	
@@ -277,31 +279,21 @@ void FunctionEditor::initFromCartesian()
 	}
 	
 	m_parameters = f->parameters;
-	kDebug() << "f->parameters.count()="<<f->parameters.count()<<endl;
 	
 	m_editor->cartesianEquation->setText( f->fstr );
 // 	m_editor->cartesianHide->setChecked( !f->f_mode);
 	m_editor->cartesian_f_lineWidth->setValue( f->linewidth );
 	m_editor->cartesian_f_lineColor->setColor( f->color );
-        
-	if (f->usecustomxmin)
-	{
-		m_editor->cartesianCustomMin->setChecked(true);
-		m_editor->cartesianMin->setText( f->str_dmin );
-	}
-	else
-		m_editor->cartesianCustomMin->setChecked(false);
 	
-	if (f->usecustomxmax)
-	{
-		m_editor->cartesianCustomMax->setChecked(true);
-		m_editor->cartesianMax->setText( f->str_dmax );
-	}
-	else
-		m_editor->cartesianCustomMax->setChecked(false);
+	m_editor->cartesianCustomMin->setChecked( f->usecustomxmin );
+	m_editor->cartesianMin->setText( f->str_dmin );
+	
+	m_editor->cartesianCustomMax->setChecked( f->usecustomxmax );
+	m_editor->cartesianMax->setText( f->str_dmax );
 	
 	if( f->use_slider == -1 )
 	{
+		m_editor->listOfSliders->setCurrentIndex( f->use_slider );
 		if ( f->parameters.isEmpty() )
 			m_editor->cartesianDisableParameters->setChecked( true );
 		else    
@@ -324,14 +316,11 @@ void FunctionEditor::initFromCartesian()
 	m_editor->precision->setValue( f->integral_precision );
 	m_editor->cartesian_F_lineWidth->setValue( f->integral_linewidth );
 	m_editor->cartesian_F_lineColor->setColor( f->integral_color );
-        
-	if ( f->integral_mode )
-	{
-		m_editor->showIntegral->setChecked( f->integral_mode );
-		m_editor->customPrecision->setChecked( f->integral_use_precision );
-		m_editor->txtInitX->setText(f->str_startx);
-		m_editor->txtInitY->setText(f->str_starty);
-	}
+	
+	m_editor->showIntegral->setChecked( f->integral_mode );
+	m_editor->customPrecision->setChecked( f->integral_use_precision );
+	m_editor->txtInitX->setText(f->str_startx);
+	m_editor->txtInitY->setText(f->str_starty);
 	
 	m_editor->stackedWidget->setCurrentIndex( 0 );
 	m_editor->cartesianEquation->setFocus();
@@ -340,7 +329,7 @@ void FunctionEditor::initFromCartesian()
 
 void FunctionEditor::initFromPolar()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	Ufkt * f = m_view->parser()->functionWithID(m_function);
 	
@@ -365,7 +354,7 @@ void FunctionEditor::initFromPolar()
 
 void FunctionEditor::initFromParametric()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	Ufkt * fx = m_view->parser()->functionWithID(m_functionX);
 	Ufkt * fy = m_view->parser()->functionWithID(m_functionY);
@@ -435,6 +424,8 @@ void FunctionEditor::createCartesian()
 	
 	m_function = m_view->parser()->addFunction( fname );
 	assert( m_function != -1 );
+	
+	m_view->mainDlg()->requestSaveCurrentState();
 }
 
 
@@ -452,6 +443,8 @@ void FunctionEditor::createParametric()
 	
 	m_functionY = m_view->parser()->addfkt( QString("y%1(t)=0").arg( name ) );
 	assert( m_functionY != -1 );
+	
+	m_view->mainDlg()->requestSaveCurrentState();
 }
 
 
@@ -466,11 +459,15 @@ void FunctionEditor::createPolar()
 	
 	m_function = m_view->parser()->addFunction( fname );
 	assert( m_function != -1 );
+	
+	m_view->mainDlg()->requestSaveCurrentState();
 }
 
 
 void FunctionEditor::save()
 {
+	kDebug() << k_funcinfo << endl;
+	
 	if ( m_function != -1 )
 	{
 		Ufkt * f = m_view->parser()->functionWithID( m_function );
@@ -623,8 +620,13 @@ void FunctionEditor::saveCartesian()
 	}
 	
 	//save all settings in the function now when we know no errors have appeared
-	f->copyFrom( tempFunction );
+	bool changed = f->copyFrom( tempFunction );
+	changed |= (old_fstr != f->fstr );
+	kDebug() << "old_fstr="<<old_fstr<<" f->fstr="<<f->fstr<<" changed="<<changed<<endl;
+	if ( !changed )
+		return;
 	
+	m_view->mainDlg()->requestSaveCurrentState();
 	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
 		item->update();
 	m_view->drawPlot();
@@ -660,7 +662,7 @@ void FunctionEditor::fixCartesianArguments( QString * f_str )
 
 void FunctionEditor::savePolar()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	Ufkt * f = m_view->parser()->functionWithID( m_function );
 	if ( !f )
@@ -724,8 +726,12 @@ void FunctionEditor::savePolar()
 	}
 	
 	//save all settings in the function now when we know no errors have appeared
-	f->copyFrom( tempFunction );
+	bool changed = !f->copyFrom( tempFunction );
+	changed |= (old_fstr != f->fstr);
+	if ( !changed )
+		return;
 	
+	m_view->mainDlg()->requestSaveCurrentState();
 	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
 		item->update();
 	m_view->drawPlot();
@@ -734,7 +740,7 @@ void FunctionEditor::savePolar()
 
 void FunctionEditor::saveParametric()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	Ufkt * fx = m_view->parser()->functionWithID( m_functionX );
 	Ufkt * fy = m_view->parser()->functionWithID( m_functionY );
@@ -809,7 +815,8 @@ void FunctionEditor::saveParametric()
 	}
 	
 	//save all settings in the function now when we know no errors have appeared
-	fx->copyFrom( tempFunction );
+	bool changed = fx->copyFrom( tempFunction );
+	changed |= (old_fstr != fx->fstr);
 	
 	
 	// now for the y function
@@ -828,8 +835,13 @@ void FunctionEditor::saveParametric()
 	}
     
 	//save all settings in the function now when we now no errors have appeared
-	fy->copyFrom( tempFunction );
+	changed |= fy->copyFrom( tempFunction );
+	changed |= (old_fstr != fy->fstr);
 	
+	if ( !changed )
+		return;
+	
+	m_view->mainDlg()->requestSaveCurrentState();
 	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
 		item->update();
 	m_view->drawPlot();
@@ -876,7 +888,7 @@ QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items )
 	}
 	
 	QMimeData * md = new QMimeData;
-	md->setText( doc.toString() );
+	md->setData( "text/kmplot", doc.toByteArray() );
 	
 	return md;
 }
@@ -885,7 +897,7 @@ QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items )
 QStringList FunctionListWidget::mimeTypes() const
 {
 	QStringList mt;
-	mt << "text/kmplot" << "text/plain";
+	mt << "text/kmplot";
 	return mt;
 }
 
@@ -893,12 +905,8 @@ QStringList FunctionListWidget::mimeTypes() const
 void FunctionListWidget::dragEnterEvent( QDragEnterEvent * event )
 {
 	const QMimeData * md = event->mimeData();
-// 	kDebug() << "md->formats()"<<md->formats()<<endl;
-// 	kDebug() << k_funcinfo << "event->proposedAction()="<<event->proposedAction()<<endl;
-// 	kDebug() << "xml = "<<md->text()<<endl;
-	event->acceptProposedAction();
-	event->accept();
-// 	if ( md->hasFormat( "text/kmplot" ) )
+	if ( md->hasFormat( "text/kmplot" ) )
+		event->acceptProposedAction();
 }
 
 
@@ -907,7 +915,7 @@ void FunctionListWidget::dropEvent( QDropEvent * event )
 	const QMimeData * md = event->mimeData();
 	
 	QDomDocument doc( "kmpdoc" );
-	doc.setContent( md->text() );
+	doc.setContent( md->data( "text/kmplot" ) );
 	QDomElement element = doc.documentElement();
 	
 	for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )

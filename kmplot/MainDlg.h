@@ -30,7 +30,9 @@
 #define MainDlg_included
 
 // Qt includes
+#include <QDomDocument>
 #include <QPicture>
+#include <QStack>
 
 // KDE includes
 #include <kaction.h>
@@ -55,19 +57,21 @@
 #include "settingspagefonts.h"
 #include "settingspagegeneral.h"
 
+class BrowserExtension;
 class EditScaling;
 class FunctionEditor;
 class KConfigDialog;
+class KConstantEditor;
+class KToggleFullScreenAction;
+class KAboutData;
+class KAction;
 class KLineEdit;
 class KRecentFilesAction;
+class QTimer;
 class SettingsPageColor;
 class SettingsPageConstants;
 class SettingsPageFonts;
 class SettingsPageGeneral;
-class KConstantEditor;
-class KToggleFullScreenAction;
-class BrowserExtension;
-class KAboutData;
 
 /** @short This is the main window of KmPlot.
  *
@@ -104,6 +108,12 @@ public slots:
 	void editScaling();
 	/// Toggle whether the sliders window is shown
 	void toggleShowSliders();
+	/// Revert to the previous document state (in m_undoStack).
+	void undo();
+	/// Revert to the next document state (in m_redoStack).
+	void redo();
+	/// Pushes the previous document state to the undo stack and records the current one
+	void requestSaveCurrentState();
 	
 	// ///I'm not sure it a delete-all-functions command is necessary
 	// void slotCleanWindow();
@@ -175,6 +185,21 @@ private:
 	CoordsConfigDialog* coordsDialog;
 	/// The function editor
 	FunctionEditor * m_functionEditor;
+	/// The undo stack
+	QStack<QDomDocument> m_undoStack;
+	/// The reod stack
+	QStack<QDomDocument> m_redoStack;
+	/**
+	 * The current document state - this is pushed to the undo stack when a new
+	 * document state is created.
+	 */
+	QDomDocument m_currentState;
+	/// Timer to ensure saveCurrentState() is called only once for a set of simultaneous changes
+	QTimer * m_saveCurrentStateTimer;
+	/// The undo action
+	KAction * m_undoAction;
+	/// The redo action
+	KAction * m_redoAction;
 
 protected slots:
 	/**
@@ -184,6 +209,8 @@ protected slots:
 	void slotOpenRecent( const KUrl &url );
 	///Update settings when there is a change in the Configure KmPlot dialog
 	void updateSettings();
+	/// @see requestSaveCurrentState
+	void saveCurrentState();
 
 	void setReadOnlyStatusBarText(const QString &);
 

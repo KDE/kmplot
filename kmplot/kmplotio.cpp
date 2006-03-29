@@ -30,6 +30,7 @@
 #include <QTextStream>
 
 // KDE includes
+#include <kdebug.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -53,7 +54,8 @@ KmPlotIO::KmPlotIO( XParser *parser)
 KmPlotIO::~KmPlotIO()
 {}
 
-bool KmPlotIO::save( const KUrl &url )
+
+QDomDocument KmPlotIO::currentState()
 {
 	// saving as xml by a QDomDocument
 	QDomDocument doc( "kmpdoc" );
@@ -125,6 +127,14 @@ bool KmPlotIO::save( const KUrl &url )
 	addTag( doc, tag, "axes-font", Settings::axesFont() );
 	addTag( doc, tag, "header-table-font", Settings::headerTableFont() );
 	root.appendChild( tag );
+	
+	return doc;
+}
+
+
+bool KmPlotIO::save( const KUrl &url )
+{
+	QDomDocument doc = currentState();
 
 	QFile xmlfile;
 	if (!url.isLocalFile() )
@@ -175,31 +185,22 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Ufkt * funct
 	tag.setAttribute( "color", QColor( function->color ).name() );
 	tag.setAttribute( "width", function->linewidth );
 	tag.setAttribute( "use-slider", function->use_slider );
-
-	if ( function->f1_mode)
-	{
-		tag.setAttribute( "visible-deriv", function->f1_mode );
-		tag.setAttribute( "deriv-color", QColor( function->f1_color ).name() );
-		tag.setAttribute( "deriv-width", function->f1_linewidth );
-	}
-
-	if ( function->f2_mode)
-	{
-		tag.setAttribute( "visible-2nd-deriv", function->f2_mode );
-		tag.setAttribute( "deriv2nd-color", QColor( function->f2_color ).name() );
-		tag.setAttribute( "deriv2nd-width", function->f2_linewidth );
-	}
-
-	if ( function->integral_mode)
-	{
-		tag.setAttribute( "visible-integral", "1" );
-		tag.setAttribute( "integral-color", QColor( function->integral_color ).name() );
-		tag.setAttribute( "integral-width", function->integral_linewidth );
-		tag.setAttribute( "integral-use-precision", function->integral_use_precision );
-		tag.setAttribute( "integral-precision", function->integral_precision );
-		tag.setAttribute( "integral-startx", function->str_startx );
-		tag.setAttribute( "integral-starty", function->str_starty );
-	}
+	
+	tag.setAttribute( "visible-deriv", function->f1_mode );
+	tag.setAttribute( "deriv-color", QColor( function->f1_color ).name() );
+	tag.setAttribute( "deriv-width", function->f1_linewidth );
+	
+	tag.setAttribute( "visible-2nd-deriv", function->f2_mode );
+	tag.setAttribute( "deriv2nd-color", QColor( function->f2_color ).name() );
+	tag.setAttribute( "deriv2nd-width", function->f2_linewidth );
+	
+	tag.setAttribute( "visible-integral", function->integral_mode );
+	tag.setAttribute( "integral-color", QColor( function->integral_color ).name() );
+	tag.setAttribute( "integral-width", function->integral_linewidth );
+	tag.setAttribute( "integral-use-precision", function->integral_use_precision );
+	tag.setAttribute( "integral-precision", function->integral_precision );
+	tag.setAttribute( "integral-startx", function->str_startx );
+	tag.setAttribute( "integral-starty", function->str_starty );
 
 	addTag( doc, tag, "equation", function->fstr );
 
@@ -210,6 +211,7 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Ufkt * funct
 	if( !str_parameters.isEmpty() )
 		addTag( doc, tag, "parameterlist", str_parameters.join( ";" ) );
 
+	/// \todo save these to file and whether uses custom min/max
 	if (function->usecustomxmin)
 		addTag( doc, tag, "arg-min", function->str_dmin );
 	if (function->usecustomxmax)
@@ -228,6 +230,58 @@ void KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString 
 	tag.appendChild( value );
 	parentTag.appendChild( tag );
 }
+
+
+bool KmPlotIO::restore( const QDomDocument & doc )
+{
+	kDebug() << k_funcinfo << endl;
+	
+	// temporary measure: for now, delete all previous functions
+	QList<int> prevFunctionIDs = m_parser->m_ufkt.keys();
+	foreach ( int id, prevFunctionIDs )
+		m_parser->delfkt( id );
+	
+	QDomElement element = doc.documentElement();
+	QString version = element.attribute( "version" );
+	if ( version.isNull()) //an old kmplot-file
+	{
+		MainDlg::oldfileversion = true;
+		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
+		{
+			if ( n.nodeName() == "axes" )
+				oldParseAxes( n.toElement() );
+			if ( n.nodeName() == "grid" )
+				parseGrid( n.toElement() );
+			if ( n.nodeName() == "scale" )
+				oldParseScale( n.toElement() );
+			if ( n.nodeName() == "function" )
+				oldParseFunction( m_parser, n.toElement() );
+		}
+	}
+	else if (version == "1" || version == "2")
+	{
+		MainDlg::oldfileversion = false;
+		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
+		{
+			if ( n.nodeName() == "axes" )
+				parseAxes( n.toElement() );
+			if ( n.nodeName() == "grid" )
+				parseGrid( n.toElement() );
+			if ( n.nodeName() == "scale" )
+				parseScale( n.toElement() );
+			if ( n.nodeName() == "function")
+				parseFunction( m_parser, n.toElement() );
+		}
+	}
+	else
+	{
+		KMessageBox::error(0,i18n("The file had an unknown version number"));
+		return false;
+	}
+	
+	return true;
+}
+
 
 bool KmPlotIO::load( const KUrl &url )
 {
@@ -264,40 +318,8 @@ bool KmPlotIO::load( const KUrl &url )
 	}
 	f.close();
 
-	QDomElement element = doc.documentElement();
-	QString version = element.attribute( "version" );
-	if ( version.isNull()) //an old kmplot-file
-	{
-		MainDlg::oldfileversion = true;
-		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
-		{
-			if ( n.nodeName() == "axes" )
-				oldParseAxes( n.toElement() );
-			if ( n.nodeName() == "grid" )
-				parseGrid( n.toElement() );
-			if ( n.nodeName() == "scale" )
-				oldParseScale( n.toElement() );
-			if ( n.nodeName() == "function" )
-				oldParseFunction( m_parser, n.toElement() );
-		}
-	}
-	else if (version == "1" || version == "2")
-	{
-		MainDlg::oldfileversion = false;
-		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
-		{
-			if ( n.nodeName() == "axes" )
-				parseAxes( n.toElement() );
-			if ( n.nodeName() == "grid" )
-				parseGrid( n.toElement() );
-			if ( n.nodeName() == "scale" )
-				parseScale( n.toElement() );
-			if ( n.nodeName() == "function")
-				parseFunction( m_parser, n.toElement() );
-		}
-	}
-	else
-		KMessageBox::error(0,i18n("The file had an unknown version number"));
+	if ( !restore( doc ) )
+		return false;
 
 	if ( !url.isLocalFile() )
 		KIO::NetAccess::removeTempFile( f.fileName() );
@@ -353,66 +375,33 @@ void KmPlotIO::parseScale(const QDomElement & n )
 // static
 void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool allowRename )
 {
-	QString temp;
+	kDebug() << k_funcinfo << endl;
+	
 	Ufkt ufkt;
 	m_parser->prepareAddingFunction(&ufkt);
-	int const next_index=m_parser->getNextIndex()+1;
 
 	ufkt.f_mode = n.attribute( "visible" ).toInt();
 	ufkt.color = QColor( n.attribute( "color" ) ).rgb();
 	ufkt.linewidth = n.attribute( "width" ).toDouble();
 	ufkt.use_slider = n.attribute( "use-slider" ).toInt();
 
-	temp = n.attribute( "visible-deriv" );
-	if (!temp.isNull())
-	{
-		ufkt.f1_mode = temp.toInt();
-		ufkt.f1_color = QColor(n.attribute( "deriv-color" )).rgb();
-		ufkt.f1_linewidth = n.attribute( "deriv-width" ).toDouble();
-	}
-	else
-	{
-		ufkt.f1_mode = 0;
-		ufkt.f1_color = m_parser->defaultColor(next_index);
-		ufkt.f1_linewidth = m_parser->linewidth0;
-	}
-
-	temp = n.attribute( "visible-2nd-deriv" );
-	if (!temp.isNull())
-	{
-		ufkt.f2_mode = temp.toInt();
-		ufkt.f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
-		ufkt.f2_linewidth = n.attribute( "deriv2nd-width" ).toDouble();
-	}
-	else
-	{
-		ufkt.f2_mode = 0;
-		ufkt.f2_color = m_parser->defaultColor(next_index);
-		ufkt.f2_linewidth = m_parser->linewidth0;
-	}
-
-	temp = n.attribute( "visible-integral" );
-	if (!temp.isNull())
-	{
-		ufkt.integral_mode = temp.toInt();
-		ufkt.integral_color = QColor(n.attribute( "integral-color" )).rgb();
-		ufkt.integral_linewidth = n.attribute( "integral-width" ).toDouble();
-		ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
-		ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
-		ufkt.str_startx = n.attribute( "integral-startx" );
-		ufkt.startx = m_parser->eval( ufkt.str_startx );
-		ufkt.str_starty = n.attribute( "integral-starty" );
-		ufkt.starty = m_parser->eval( ufkt.str_starty );
-
-	}
-	else
-	{
-		ufkt.integral_mode = 0;
-		ufkt.integral_color = m_parser->defaultColor(next_index);
-		ufkt.integral_linewidth = m_parser->linewidth0;
-		ufkt.integral_use_precision = 0;
-		ufkt.integral_precision = int(ufkt.linewidth*10.0);
-	}
+	ufkt.f1_mode = n.attribute( "visible-deriv", "0" ).toInt();
+	ufkt.f1_color = QColor(n.attribute( "deriv-color" )).rgb();
+	ufkt.f1_linewidth = n.attribute( "deriv-width" ).toDouble();
+	
+	ufkt.f2_mode = n.attribute( "visible-2nd-deriv", "0" ).toInt();
+	ufkt.f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
+	ufkt.f2_linewidth = n.attribute( "deriv2nd-width" ).toDouble();
+	
+	ufkt.integral_mode = n.attribute( "visible-integral", "0" ).toInt();
+	ufkt.integral_color = QColor(n.attribute( "integral-color" )).rgb();
+	ufkt.integral_linewidth = n.attribute( "integral-width" ).toDouble();
+	ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
+	ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
+	ufkt.str_startx = n.attribute( "integral-startx" );
+	ufkt.startx = m_parser->eval( ufkt.str_startx );
+	ufkt.str_starty = n.attribute( "integral-starty" );
+	ufkt.starty = m_parser->eval( ufkt.str_starty );
 
 	ufkt.str_dmin = n.namedItem( "arg-min" ).toElement().text();
 	if( ufkt.str_dmin.isEmpty() )

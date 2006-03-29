@@ -28,6 +28,7 @@
 #include <QMainWindow>
 #include <QPixmap>
 #include <qslider.h>
+#include <QTimer>
 
 // KDE includes
 #include <dcopclient.h>
@@ -81,7 +82,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 	
 	coordsDialog = 0;
 	m_popupmenu = new KMenu(parentWidget);
-	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection() );
+	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection(), this );
 	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 	
 	if ( !m_readonly )
@@ -99,6 +100,15 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 	kmplotio = new KmPlotIO(view->parser());
 	m_config = KGlobal::config();
 	m_recentFiles->loadEntries( m_config );
+	
+	
+	//BEGIN undo/redo stuff
+	m_currentState = kmplotio->currentState();
+	m_saveCurrentStateTimer = new QTimer( this );
+	m_saveCurrentStateTimer->setSingleShot( true );
+	connect( m_saveCurrentStateTimer, SIGNAL(timeout()), this, SLOT(saveCurrentState()) );
+	//END undo/redo stuff
+	
 
 	// Let's create a Configure Diloag
 	m_settingsDialog = new KConfigDialog( parentWidget, "settings", Settings::self() );
@@ -150,6 +160,23 @@ void MainDlg::setupActions()
 	//END file menu
 
 	
+	//BEGIN edit menu
+	m_undoAction = KStdAction::undo( this, SLOT(undo()), actionCollection() );
+	m_undoAction->setEnabled( false );
+	
+	m_redoAction = KStdAction::redo( this, SLOT(redo()), actionCollection() );
+	m_redoAction->setEnabled( false );
+	
+	KAction * editAxes = new KAction( i18n( "&Coordinate System..." ), actionCollection(), "editaxes" );
+	editAxes->setIcon( KIcon("coords.png") );
+	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
+	
+	KAction * editScaling = new KAction( i18n( "&Scaling..." ), actionCollection(), "editscaling" );
+	editScaling->setIcon( KIcon("scaling") );
+	connect( editScaling, SIGNAL(triggered(bool)), this, SLOT( editScaling() ) );
+	//END edit menu
+	
+	
 	//BEGIN view menu
 	KAction * zoomIn = new KAction( i18n("Zoom &In"), actionCollection(), "zoom_in" );
 	zoomIn->setShortcut( "CTRL+1" );
@@ -163,14 +190,6 @@ void MainDlg::setupActions()
 	
 	KAction * zoomTrig = new KAction( i18n("&Fit Widget to Trigonometric Functions"), actionCollection(), "zoom_trig" );
 	connect( zoomTrig, SIGNAL(triggered(bool)), view, SLOT( mnuTrig_clicked() ) );
-	
-	KAction * editAxes = new KAction( i18n( "&Coordinate System..." ), actionCollection(), "editaxes" );
-	editAxes->setIcon( KIcon("coords.png") );
-	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
-	
-	KAction * editScaling = new KAction( i18n( "&Scaling..." ), actionCollection(), "editscaling" );
-	editScaling->setIcon( KIcon("scaling") );
-	connect( editScaling, SIGNAL(triggered(bool)), this, SLOT( editScaling() ) );
 	
 	KAction * coordI = new KAction( i18n( "Coordinate System I" ), actionCollection(), "coord_i" );
 	coordI->setIcon( KIcon("ksys1.png") );
@@ -251,6 +270,63 @@ void MainDlg::setupActions()
 }
 
 
+void MainDlg::undo()
+{
+	kDebug() << k_funcinfo << endl;
+	
+	if ( m_undoStack.isEmpty() )
+		return;
+	
+	m_redoStack.push( m_currentState );
+	m_currentState = m_undoStack.pop();
+	
+	kmplotio->restore( m_currentState );
+	view->drawPlot();
+	
+	m_undoAction->setEnabled( !m_undoStack.isEmpty() );
+	m_redoAction->setEnabled( true );
+}
+
+
+void MainDlg::redo()
+{
+	kDebug() << k_funcinfo << endl;
+	
+	if ( m_redoStack.isEmpty() )
+		return;
+	
+	m_undoStack.push( m_currentState );
+	m_currentState = m_redoStack.pop();
+	
+	kmplotio->restore( m_currentState );
+	view->drawPlot();
+	
+	m_undoAction->setEnabled( true );
+	m_redoAction->setEnabled( !m_redoStack.isEmpty() );
+}
+
+
+void MainDlg::requestSaveCurrentState()
+{
+	m_saveCurrentStateTimer->start( 0 );
+}
+void MainDlg::saveCurrentState( )
+{
+	kDebug() << k_funcinfo << endl;
+	
+	m_redoStack.clear();
+	m_undoStack.push( m_currentState );
+	m_currentState = kmplotio->currentState();
+	
+	// limit stack size to 100 items
+	while ( m_undoStack.count() > 100 )
+		m_undoStack.pop_front();
+	
+	m_undoAction->setEnabled( true );
+	m_redoAction->setEnabled( false );
+}
+
+
 bool MainDlg::checkModified()
 {
 	if( m_modified )
@@ -270,16 +346,8 @@ bool MainDlg::checkModified()
 	}
 	return true;
 }
-/*
-void MainDlg::slotCleanWindow()
-{
-	if (m_readonly)
-		return;
-	view->init(); // set globals to default
-	view->updateSliders();
-	view->drawPlot();
-}
-*/
+
+
 void MainDlg::slotSave()
 {
 	if ( !m_modified || m_readonly) //don't save if no changes are made or readonly is enabled

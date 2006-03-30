@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>353</width>
-    <height>692</height>
+    <width>381</width>
+    <height>603</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -227,19 +227,6 @@ Example: f(x)=x^2</string>
             </layout>
            </item>
            <item>
-            <widget class="QCheckBox" name="cartesianHideExtensions" >
-             <property name="toolTip" >
-              <string>hide the plot</string>
-             </property>
-             <property name="whatsThis" >
-              <string>Check this box if you want to hide the plot of the function.</string>
-             </property>
-             <property name="text" >
-              <string>&amp;Hide extensions</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QGroupBox" name="cartesianParameters" >
              <property name="title" >
               <string>Parameter Values</string>
@@ -449,6 +436,19 @@ Example: f(x)=x^2</string>
               </item>
              </layout>
             </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>131</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -923,19 +923,6 @@ Example: sin(t)</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2" >
-           <widget class="QCheckBox" name="parametricHideExtensions" >
-            <property name="toolTip" >
-             <string>hide the plot</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Check this box if you want to hide the plot of the function.</string>
-            </property>
-            <property name="text" >
-             <string>Hide extensions</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1" >
            <widget class="KLineEdit" name="parametricName" >
             <property name="toolTip" >
@@ -1231,19 +1218,6 @@ Example: loop(angle)=ln(angle)</string>
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="polarHideExtensions" >
-         <property name="toolTip" >
-          <string>hide the plot</string>
-         </property>
-         <property name="whatsThis" >
-          <string>Check this box if you want to hide the plot of the function.</string>
-         </property>
-         <property name="text" >
-          <string>Hide extensions</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QGroupBox" name="groupBox_13" >
          <property name="title" >
           <string>Custom plot range</string>
@@ -1395,37 +1369,10 @@ Example: loop(angle)=ln(angle)</string>
      <widget class="QWidget" name="page_2" />
     </widget>
    </item>
-   <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>131</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KColorButton</class>
-   <extends></extends>
-   <header>kcolorbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends></extends>
@@ -1437,6 +1384,20 @@ Example: loop(angle)=ln(angle)</string>
    <class>KDoubleNumInput</class>
    <extends></extends>
    <header>knuminput.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends></extends>
+   <header>kcolorbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends></extends>
+   <header>kpushbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

@@ -470,6 +470,7 @@ QPen View::penForPlot( Ufkt *ufkt, Ufkt::PMode p_mode, bool antialias ) const
 {
 	QPen pen;
 	pen.setCapStyle(Qt::RoundCap);
+// 	pen.setStyle( Qt::DashLine );
 	
 	double lineWidth_mm;
 	
@@ -2089,26 +2090,23 @@ void View::mnuRemove_clicked()
     if ( csmode == -1 )
       return;
 
-	if ( KMessageBox::warningContinueCancel(this,i18n("Are you sure you want to remove this function?"), QString(), KStdGuiItem::del()) == KMessageBox::Continue )
-	{
-		Ufkt *ufkt =  m_parser->m_ufkt[ csmode ];
-		char const function_type = ufkt->fstr[0].latin1();
-		if (!m_parser->delfkt( ufkt ))
-		  return;
+	Ufkt *ufkt =  m_parser->m_ufkt[ csmode ];
+	char const function_type = ufkt->fstr[0].latin1();
+	if (!m_parser->delfkt( ufkt ))
+		return;
 
-		if (csmode!=-1) // if trace mode is enabled
-		{
-		  csmode=-1;
-		  QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, 0 );
-		  mousePressEvent(event); //leave trace mode
-		  delete event;
-		}
-		
-		drawPlot();
-		if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' )
-			updateSliders();
-		m_modified = true;
+	if (csmode!=-1) // if trace mode is enabled
+	{
+		csmode=-1;
+		QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, 0 );
+		mousePressEvent(event); //leave trace mode
+		delete event;
 	}
+		
+	drawPlot();
+	if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' )
+		updateSliders();
+	m_modified = true;
 }
 void View::mnuEdit_clicked()
 {

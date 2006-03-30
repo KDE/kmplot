@@ -91,6 +91,7 @@ FunctionEditor::FunctionEditor( View * view, QWidget * parent )
 	connect( m_editor->createPolar, SIGNAL(clicked()), this, SLOT(createPolar()) );
 	connect( m_editor->deleteButton, SIGNAL(clicked()), this, SLOT(deleteCurrent()) );
 	connect( m_functionList, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(functionSelected( QListWidgetItem* )) );
+	connect( m_functionList, SIGNAL(itemClicked( QListWidgetItem * )), this, SLOT(save()) ); // user might have checked or unchecked the item
 	connect( m_editor->editParameterListButton, SIGNAL(clicked()), this, SLOT(editParameterList()) );
 	
 	//BEGIN connect up all editing widgets
@@ -169,6 +170,11 @@ void FunctionEditor::syncFunctionList()
 {
 	kDebug() << k_funcinfo << endl;
 	
+	int oldFunctionCount = m_functionList->count();
+	
+	QListWidgetItem * currentItem = m_functionList->currentItem();
+	QString currentText = currentItem ? currentItem->text() : QString::null;
+	
 	// build up a list of IDs that we have
 	QMap< int, FunctionListItem * > currentIDs;
 	QList< FunctionListItem * > currentFunctionItems;
@@ -216,6 +222,13 @@ void FunctionEditor::syncFunctionList()
 		newFunctionCount++;
 	}
 	
+	if ( newFunctionCount != 1 )
+	{
+		// only select a new functionlistitem if there was precisely one added
+		toSelect = 0l;
+	}
+	
+	
 	// Now, any IDs left in currentIDs are of functions that have been deleted
 	foreach ( FunctionListItem * item, currentFunctionItems )
 	{
@@ -233,8 +246,16 @@ void FunctionEditor::syncFunctionList()
 	
 	m_functionList->sortItems();
 	
-	// only select a new functionlistitem if there was precisely one added
-	if ( newFunctionCount == 1 )
+	// Try and see if there is an item with the same text as was initially selected, if we have
+	// the same number of cuntions
+	if ( (oldFunctionCount == m_functionList->count()) && !currentText.isEmpty() )
+	{
+		QList<QListWidgetItem *> matchedItems = m_functionList->findItems( currentText, Qt::MatchExactly );
+		if ( matchedItems.count() == 1 )
+			toSelect = static_cast<FunctionListItem*>(matchedItems.first());
+	}
+	
+	if ( toSelect )
 		m_functionList->setCurrentItem( toSelect );
 	
 	if ( m_functionList->count() == 0 )
@@ -273,6 +294,8 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 				initFromCartesian();
 		}
 	}
+	
+	functionItem->update();
 }
 
 
@@ -291,7 +314,6 @@ void FunctionEditor::initFromCartesian()
 	m_parameters = f->parameters;
 	
 	m_editor->cartesianEquation->setText( f->fstr );
-// 	m_editor->cartesianHide->setChecked( !f->f_mode);
 	m_editor->cartesian_f_lineWidth->setValue( f->linewidth );
 	m_editor->cartesian_f_lineColor->setColor( f->color );
 	
@@ -349,7 +371,6 @@ void FunctionEditor::initFromPolar()
 	QString function = f->fstr;
 	function = function.right( function.length()-1 );
 	m_editor->polarEquation->setText( function );
-// 	m_editor->checkBoxHide->setChecked( !f->f_mode);
 	m_editor->polarCustomMin->setChecked( f->usecustomxmin );
 	m_editor->polarMin->setText( f->str_dmin );
 	m_editor->polarCustomMax->setChecked( f->usecustomxmax );
@@ -380,8 +401,6 @@ void FunctionEditor::initFromParametric()
         
 	splitParametricEquation( fy->fstr, & name, & expression );
 	m_editor->parametricY->setText( expression );
-	
-// 	m_editor->checkBoxHide->setChecked( !fx->f_mode );
 	
 	m_editor->parametricCustomMin->setChecked( fx->usecustomxmin );
 	m_editor->parametricMin->setText( fx->str_dmin );
@@ -519,6 +538,8 @@ void FunctionEditor::saveCartesian()
 	if ( !f )
 		return;
 	
+	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
+	
 	QString f_str( m_editor->cartesianEquation->text() );
     m_view->parser()->fixFunctionName(f_str, XParser::Function, f->id );
 	
@@ -533,7 +554,7 @@ void FunctionEditor::saveCartesian()
 // 		showPage(0);
 // 		editfunctionpage->min->setFocus();
 // 		editfunctionpage->min->selectAll();
-// 		return;
+		return;
 	}
 	
 	tempFunction.usecustomxmax = m_editor->cartesianCustomMax->isChecked();
@@ -544,7 +565,7 @@ void FunctionEditor::saveCartesian()
 // 		showPage(0);
 // 		editfunctionpage->max->setFocus();
 // 		editfunctionpage->max->selectAll();
-// 		return;
+		return;
 	}
         
 	if( tempFunction.usecustomxmin && tempFunction.usecustomxmax )
@@ -601,7 +622,8 @@ void FunctionEditor::saveCartesian()
 	tempFunction.integral_precision = m_editor->precision->value();
 	tempFunction.integral_linewidth = m_editor->cartesian_F_lineWidth->value();
 
-// 	tempFunction.f_mode = !editfunctionpage->hideCheck->isChecked();
+	if ( functionListItem )
+		tempFunction.f_mode = (functionListItem->checkState() == Qt::Checked);
 	
 	tempFunction.parameters = m_parameters;
 	if( m_editor->cartesianParameterSlider->isChecked() )
@@ -652,8 +674,8 @@ void FunctionEditor::saveCartesian()
 
 		
 	m_view->mainDlg()->requestSaveCurrentState();
-	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
-		item->update();
+	if ( functionListItem )
+		functionListItem->update();
 	m_view->drawPlot();
 }
 
@@ -693,12 +715,15 @@ void FunctionEditor::savePolar()
 	if ( !f )
 		return;
 	
+	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
+	
 	QString f_str = m_editor->polarEquation->text();
 
 	m_view->parser()->fixFunctionName( f_str, XParser::Polar, f->id );
 	Ufkt tempFunction;  //all settings are saved here until we know that no errors have appeared
 
-// 	tempFunction.f_mode = !m_editor->checkBoxHide->isChecked();
+	if ( functionListItem )
+		tempFunction.f_mode = (functionListItem->checkState() == Qt::Checked);
 	
 	tempFunction.usecustomxmin = m_editor->polarCustomMin->isChecked();
 	tempFunction.str_dmin = m_editor->polarMin->text();
@@ -751,15 +776,15 @@ void FunctionEditor::savePolar()
 	}
 	
 	//save all settings in the function now when we know no errors have appeared
-	bool changed = !f->copyFrom( tempFunction );
+	bool changed = f->copyFrom( tempFunction );
 	changed |= (old_fstr != f->fstr);
 	if ( !changed )
 		return;
 
 	kDebug() << "Polar changed, so requestion state save.\n";	
 	m_view->mainDlg()->requestSaveCurrentState();
-	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
-		item->update();
+	if ( functionListItem )
+		functionListItem->update();
 	m_view->drawPlot();
 }
 
@@ -767,6 +792,8 @@ void FunctionEditor::savePolar()
 void FunctionEditor::saveParametric()
 {
 // 	kDebug() << k_funcinfo << endl;
+	
+	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
 	Ufkt * fx = m_view->parser()->functionWithID( m_functionX );
 	Ufkt * fy = m_view->parser()->functionWithID( m_functionY );
@@ -793,7 +820,8 @@ void FunctionEditor::saveParametric()
 	}
                 
 	Ufkt tempFunction;
-// 	tempFunction.f_mode = !m_editor->checkBoxHide->isChecked();
+	if ( functionListItem )
+		tempFunction.f_mode = (functionListItem->checkState() == Qt::Checked);
 	
 	tempFunction.usecustomxmin = m_editor->parametricCustomMin->isChecked();
 	tempFunction.str_dmin = m_editor->parametricMin->text();
@@ -869,8 +897,8 @@ void FunctionEditor::saveParametric()
 	
 	kDebug() << "Parametric changed, so requestion state save.\n";
 	m_view->mainDlg()->requestSaveCurrentState();
-	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
-		item->update();
+	if ( functionListItem )
+		functionListItem->update();
 	m_view->drawPlot();
 }
 

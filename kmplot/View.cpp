@@ -688,7 +688,6 @@ void View::paintEvent(QPaintEvent *)
 		p.setPen( highlightColor );
 		p.setBrush( backgroundColor );
 		
-		/// \todo make this draw blue-black dotline (atm, just draws transparent-black dotline for some strange reason)
 		p.setBackgroundMode (Qt::OpaqueMode);
 		p.setBackground (Qt::blue);
 		

@@ -42,10 +42,12 @@
 
 #include "kparametereditor.h"
 
+#include <assert.h>
+
 class ParameterValueList;
 
 KParameterEditor::KParameterEditor(XParser *m, QList<ParameterValueItem> *l, QWidget *parent )
-	: KDialog( parent, i18n("Parameter Editor"), Ok ),
+	: KDialog( parent, i18n("Parameter Editor"), Ok|Cancel ),
 	  m_parameter(l),
 	  m_parser(m)
 {
@@ -57,18 +59,23 @@ KParameterEditor::KParameterEditor(XParser *m, QList<ParameterValueItem> *l, QWi
 	m_mainWidget->list->sortItems();
 	
 	connect( m_mainWidget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
-	connect( m_mainWidget->cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ));
 	connect( m_mainWidget->cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
 	connect( m_mainWidget->cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
 	connect( m_mainWidget->cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
-	connect( m_mainWidget->list, SIGNAL( itemDoubleClicked( QListWidgetItem * ) ), this, SLOT( varlist_doubleClicked( QListWidgetItem *) ));
-	connect( m_mainWidget->list, SIGNAL( itemClicked ( QListWidgetItem * ) ), this, SLOT( varlist_clicked(QListWidgetItem *  ) ));
+	connect( m_mainWidget->list, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(selectedConstantChanged( QListWidgetItem * )) );
 	
+	connect( m_mainWidget->value, SIGNAL( textEdited( const QString & ) ), this, SLOT( saveCurrentValue() ) );
+	connect( m_mainWidget->value, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
+	
+	checkValueValid();
+	
+	m_mainWidget->value->setFocus();
 }
 
 KParameterEditor::~KParameterEditor()
 {
 }
+
 
 void KParameterEditor::accept()
 {
@@ -85,70 +92,57 @@ void KParameterEditor::accept()
 	KDialog::accept();
 }
 
+
 void KParameterEditor::cmdNew_clicked()
 {
-	QString result="";
-	while (1)
-	{
-		bool ok;
-		result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), result, &ok );
-		if ( !ok)
-			return;
-		m_parser->eval( result );
-		if ( m_parser->parserError(false) != 0 )
-		{
-			m_parser->parserError( true );
-			continue;
-		}
-		if ( checkTwoOfIt(result) )
-		{
-			KMessageBox::sorry(0,i18n("The value %1 already exists and will therefore not be added.").arg(result));
-			continue;
-		}
-		m_mainWidget->list->addItem(result);
-		m_mainWidget->list->sortItems();
-		break;
-	}
+	QListWidgetItem * item = new QListWidgetItem( m_mainWidget->list );
+	m_mainWidget->list->setCurrentItem( item );
+	m_mainWidget->value->setFocus();
 }
 
-void KParameterEditor::cmdEdit_clicked()
+
+void KParameterEditor::selectedConstantChanged( QListWidgetItem * current )
 {
-	QListWidgetItem * currentItem = m_mainWidget->list->currentItem();
-	QString result = currentItem ? currentItem->text() : QString::null;
-	
-	while (1)
-	{
-		bool ok;
-		result = KInputDialog::getText( i18n("Parameter Value"), i18n( "Enter a new parameter value:" ), result, &ok );
-		if ( !ok)
-			return;
-		m_parser->eval(result);
-		if ( m_parser->parserError(false) != 0)
-		{
-			m_parser->parserError( true );
-			continue;
-		}
-		if ( checkTwoOfIt(result) )
-		{
-			currentItem = m_mainWidget->list->currentItem();
-			QString currentText = currentItem ? currentItem->text() : QString::null;
-			
-			if( result != currentText )
-				KMessageBox::sorry(0,i18n("The value %1 already exists.").arg(result));
-			continue;
-		}
-		m_mainWidget->list->takeItem( m_mainWidget->list->currentRow() );
-		m_mainWidget->list->addItem(result);
-		m_mainWidget->list->sortItems();
-		break;
-	}
+	m_mainWidget->cmdDelete->setEnabled( current != 0 );
+	m_mainWidget->value->setText( current ? current->text() : QString::null );
 }
+
 
 void KParameterEditor::cmdDelete_clicked()
 {
-	delete m_mainWidget->list->takeItem( m_mainWidget->list->currentRow() );
+	QListWidgetItem * item = m_mainWidget->list->currentItem();
+	if ( !item )
+		return;
+	
+	m_mainWidget->value->clear();
+	m_mainWidget->list->takeItem( m_mainWidget->list->currentRow() );
+	delete item;
+	
+	m_mainWidget->cmdDelete->setEnabled( m_mainWidget->list->currentItem() != 0 );
 	m_mainWidget->list->sortItems();
 }
+
+
+void KParameterEditor::saveCurrentValue()
+{
+	QListWidgetItem * current = m_mainWidget->list->currentItem();
+	if ( !current )
+		current = new QListWidgetItem( m_mainWidget->list );
+	
+	current->setText( m_mainWidget->value->text() );
+	m_mainWidget->list->setCurrentItem( current );
+}
+
+
+bool KParameterEditor::checkValueValid()
+{
+	QString valueText = m_mainWidget->value->text();
+	(double) m_parser->eval( valueText );
+	bool valid = (m_parser->parserError( false ) == 0);
+	m_mainWidget->valueInvalidLabel->setVisible( !valueText.isEmpty() && !valid );
+	return valid;
+}
+
 
 void KParameterEditor::cmdImport_clicked()
 {
@@ -175,7 +169,7 @@ void KParameterEditor::cmdImport_clicked()
                 file.setFileName(tmpfile);
         }
         else
-                file.setFileName(url.prettyURL(0) );
+                file.setFileName(url.path() );
 	
 	if ( file.open(QIODevice::ReadOnly) )
 	{
@@ -215,6 +209,7 @@ void KParameterEditor::cmdImport_clicked()
         if ( !url.isLocalFile() )
                 KIO::NetAccess::removeTempFile( tmpfile );
 }
+
 
 void KParameterEditor::cmdExport_clicked()
 {
@@ -258,7 +253,8 @@ void KParameterEditor::cmdExport_clicked()
                 }
                 else
                 {
-                        file.setFileName(url.prettyURL(0));
+					kDebug() << "url.path()="<<url.path()<<endl;
+                        file.setFileName(url.path());
                         if (file.open( QIODevice::WriteOnly ) )
                         {
 							QTextStream stream(&file);
@@ -279,25 +275,6 @@ void KParameterEditor::cmdExport_clicked()
 
 }
 
-void KParameterEditor::varlist_clicked( QListWidgetItem * item )
-{
-	if (item)
-	{
-		m_mainWidget->cmdEdit->setEnabled(true);
-		m_mainWidget->cmdDelete->setEnabled(true);
-	}
-	else
-	{
-		m_mainWidget->cmdEdit->setEnabled(false);
-		m_mainWidget->cmdDelete->setEnabled(false);		
-	}
-}
-
-
-void KParameterEditor::varlist_doubleClicked( QListWidgetItem * )
-{
-	cmdEdit_clicked();
-}
 
 bool KParameterEditor::checkTwoOfIt(const QString & text)
 {

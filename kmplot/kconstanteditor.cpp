@@ -86,6 +86,7 @@ void KConstantEditor::cmdNew_clicked()
 {
 	QTreeWidgetItem * item = new QTreeWidgetItem( constantList );
 	constantList->setCurrentItem( item );
+	nameEdit->setFocus();
 }
 
 
@@ -135,7 +136,6 @@ void KConstantEditor::selectedConstantChanged( QTreeWidgetItem * current )
 	
 	nameEdit->setText( name );
 	valueEdit->setText( value );
-	
 }
 
 

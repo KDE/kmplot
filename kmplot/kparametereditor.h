@@ -47,12 +47,18 @@ public:
     
 public slots:
     void cmdNew_clicked();
-    void cmdEdit_clicked();
     void cmdDelete_clicked();
     void cmdImport_clicked();
     void cmdExport_clicked();
-	void varlist_clicked( QListWidgetItem *  );
-	void varlist_doubleClicked( QListWidgetItem * );
+    
+    ///actions for the visible constant list
+	void selectedConstantChanged( QListWidgetItem * current );
+	
+	/// updates whether or not the "value is invalid" label is shown, (and returns the validity of the current value)
+	bool checkValueValid();
+	
+	/// saves the value being edited
+	void saveCurrentValue();
 	
 	virtual void accept();
   

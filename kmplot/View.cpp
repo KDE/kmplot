@@ -96,7 +96,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	ymax = 0.0;
 	csxpos = 0.0;
 	csypos = 0.0;
-	m_traceParametric_t = 0.0;
+	m_trace_x = 0.0;
 	m_printHeaderTable = false;
 	stop_calculating = false;
 	m_minmax = 0;
@@ -280,17 +280,21 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 
 	if(!ufkt->usecustomxmin)
 	{
-	  if(fktmode=='r')
-	    dmin=0.;
-	  else
-	    dmin = xmin;
+		if(fktmode=='r')
+			dmin=0.;
+		else if ( (fktmode == 'x') || (fktmode == 'y') )
+			dmin = -M_PI;
+		else
+			dmin = xmin;
 	}
 	if(!ufkt->usecustomxmax)
 	{
-	  if(fktmode=='r')
-	    dmax=2*M_PI;
-	  else
-	    dmax = xmax;
+		if(fktmode=='r')
+			dmax = 2*M_PI;
+		else if ( (fktmode == 'x') || (fktmode == 'y') )
+			dmin = M_PI;
+		else
+			dmax = xmax;
 	}
 	double dx;
 	if(fktmode=='r')
@@ -879,13 +883,19 @@ void View::mousePressEvent(QMouseEvent *e)
 			QPointF ptd( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
 			QPoint globalPos = mapToGlobal( (ptd * wm).toPoint() );
 			QCursor::setPos( globalPos );
-// 			mouseMoveEvent(e);
 			return;
 		}
 		
 		else if ( function_type == 'r' )
 		{
 			// polar plot
+			m_minmax->selectItem();
+			setStatusBar(function->fstr,4);
+			
+			// csxpos, csypos would have been set by getPlotUnderMouse()
+			QPointF ptd( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
+			QPoint globalPos = mapToGlobal( (ptd * wm).toPoint() );
+			QCursor::setPos( globalPos );
 			return;
 		}
 		
@@ -944,7 +954,7 @@ void View::getPlotUnderMouse()
 	csmode = -1;
 	csparam = 0;
 	cstype = Ufkt::Function;
-	m_traceParametric_t = 0.0;
+	m_trace_x = 0.0;
 	
 	double const g=tlgy*double(xmax-xmin)/(2*double(ymax-ymin));
 	
@@ -978,15 +988,14 @@ void View::getPlotUnderMouse()
 				Ufkt * ufkt_y = m_parser->functionWithID( it->id + 1 );
 				assert( ufkt_y );
 				
-				/// \todo change searching to use proper min/max values
-				
 				double best_t = 0.0;
 				double best_fx = 0.0;
 				double best_fy = 0.0;
 				double best_distance = 1e20; // a large distance
 				
-				double t = it->dmin;
-				while ( t < it->dmax )
+				double t = it->usecustomxmin ? it->dmin : -M_PI;
+				double t_max = it->usecustomxmax ? it->dmax : M_PI;
+				while ( t <= t_max )
 				{
 					double distance = pixelDistance( csxpos, csypos, it, ufkt_y, t );
 					if ( distance < best_distance )
@@ -1005,7 +1014,7 @@ void View::getPlotUnderMouse()
 					csmode=it->id;
 					cstype=Ufkt::Function;
 					csparam = k;
-					m_traceParametric_t = best_t;
+					m_trace_x = best_t;
 					csxpos = best_fx;
 					csypos = best_fy;
 					return;
@@ -1014,7 +1023,38 @@ void View::getPlotUnderMouse()
 			else if ( function_type == 'r' )
 			{
 				// polar plot
-				return;
+				
+				double best_x = 0.0;
+				double best_fx = 0.0;
+				double best_fy = 0.0;
+				double best_distance = 1e20; // a large distance
+				
+				double x = it->usecustomxmin ? it->dmin : 0.0;
+				double x_max = it->usecustomxmax ? it->dmax : 2.0*M_PI;
+				while ( x <= x_max )
+				{
+					double distance = pixelDistance( csxpos, csypos, it, x );
+					if ( distance < best_distance )
+					{
+						best_distance = distance;
+						best_x = x;
+						best_fx = m_parser->fkt( it, x ) * cos(x);
+						best_fy = m_parser->fkt( it, x ) * sin(x);
+					}
+					
+					x += 0.05;
+				}
+				
+				if ( best_distance < 30.0 )
+				{
+					csmode=it->id;
+					cstype=Ufkt::Function;
+					csparam = k;
+					m_trace_x = best_x;
+					csxpos = best_fx;
+					csypos = best_fy;
+					return;
+				}
 			}
 			else if( fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
 			{
@@ -1047,6 +1087,18 @@ double View::pixelDistance( double real_x, double real_y, Ufkt * ufkt_x, Ufkt * 
 {
 	double fx = m_parser->fkt( ufkt_x, t );
 	double fy = m_parser->fkt( ufkt_y, t );
+					
+	double dfx = dgr.TransxToPixel( real_x ) - dgr.TransxToPixel( fx );
+	double dfy = dgr.TransyToPixel( real_y ) - dgr.TransyToPixel( fy );
+					
+	return std::sqrt( dfx*dfx + dfy*dfy );
+}
+
+
+double View::pixelDistance( double real_x, double real_y, Ufkt * function, double x )
+{
+	double fx = m_parser->fkt( function, x ) * cos(x);
+	double fy = m_parser->fkt( function, x ) * sin(x);
 					
 	double dfx = dgr.TransxToPixel( real_x ) - dgr.TransxToPixel( fx );
 	double dfy = dgr.TransyToPixel( real_y ) - dgr.TransyToPixel( fy );
@@ -1153,27 +1205,34 @@ bool View::updateCrosshairPosition()
 			double dt[2] = { -0.0002, +0.0002 };
 			double d[] = { 0.0, 0.0 };
 			for ( int i = 0; i < 2; ++ i )
-				d[i] = pixelDistance( csxpos, csypos, it, ufkt_y, m_traceParametric_t + dt[i] );
+				d[i] = pixelDistance( csxpos, csypos, it, ufkt_y, m_trace_x + dt[i] );
 			
 			unsigned best_i = (d[0] < d[1]) ? 0 : 1;
 			
 			// how much t gets us the closest?
 			double prev_best = d[best_i];
-			m_traceParametric_t += 2.0 * dt[best_i];
+			m_trace_x += 2.0 * dt[best_i];
 			while ( true )
 			{	
-				double new_distance = pixelDistance( csxpos, csypos, it, ufkt_y, m_traceParametric_t + dt[best_i] );
+				double new_distance = pixelDistance( csxpos, csypos, it, ufkt_y, m_trace_x + dt[best_i] );
 				if ( new_distance < prev_best )
 				{
 					prev_best = new_distance;
-					m_traceParametric_t += dt[best_i];
+					m_trace_x += dt[best_i];
 				}
 				else
 					break;
 			}
 			
-			csxpos = m_parser->fkt( it, m_traceParametric_t );
-			csypos = m_parser->fkt( ufkt_y, m_traceParametric_t );
+			double min = it->usecustomxmin ? it->dmin : -M_PI;
+			double max = it->usecustomxmax ? it->dmax : M_PI;
+			if ( m_trace_x > max )
+				m_trace_x  = max;
+			else if ( m_trace_x < min )
+				m_trace_x = min;
+			
+			csxpos = m_parser->fkt( it, m_trace_x );
+			csypos = m_parser->fkt( ufkt_y, m_trace_x );
 			ptl = QPointF( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
 			QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
 			QCursor::setPos( globalPos );
@@ -1181,6 +1240,42 @@ bool View::updateCrosshairPosition()
 		else if ( function_type == 'r' )
 		{
 			// polar plot
+			
+			// Should we increase or decrease x to get closer to the mouse?
+			double dx[2] = { -0.0002, +0.0002 };
+			double d[] = { 0.0, 0.0 };
+			for ( int i = 0; i < 2; ++ i )
+				d[i] = pixelDistance( csxpos, csypos, it, m_trace_x + dx[i] );
+			
+			unsigned best_i = (d[0] < d[1]) ? 0 : 1;
+			
+			// how much x gets us the closest?
+			double prev_best = d[best_i];
+			m_trace_x += 2.0 * dx[best_i];
+			while ( true )
+			{	
+				double new_distance = pixelDistance( csxpos, csypos, it, m_trace_x + dx[best_i] );
+				if ( new_distance < prev_best )
+				{
+					prev_best = new_distance;
+					m_trace_x += dx[best_i];
+				}
+				else
+					break;
+			}
+			
+			double min = it->usecustomxmin ? it->dmin : 0.0;
+			double max = it->usecustomxmax ? it->dmax : 2.0*M_PI;
+			if ( m_trace_x > max )
+				m_trace_x  = max;
+			else if ( m_trace_x < min )
+				m_trace_x = min;
+			
+			csxpos = m_parser->fkt( it, m_trace_x ) * cos(m_trace_x);
+			csypos = m_parser->fkt( it, m_trace_x ) * sin(m_trace_x);
+			ptl = QPointF( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
+			QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
+			QCursor::setPos( globalPos );
 		}
 		else
 		{

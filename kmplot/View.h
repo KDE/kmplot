@@ -206,6 +206,11 @@ private:
 	 * point of the given parametric function at \p t.
 	 */
 	double pixelDistance( double real_x, double real_y, Ufkt * ufkt_x, Ufkt * ufkt_y, double t );
+	/**
+	 * Calculates the pixel distance from \p real_x and \p real_y to the display
+	 * point of the given polar function at \p x.
+	 */
+	double pixelDistance( double real_x, double real_y, Ufkt * function, double x );
 	
 
 	/// for areadrawing when printing
@@ -225,7 +230,9 @@ private:
 	QPointF m_crosshairPixelCoords;
 	float csxpos;	///< y-position of the cross hair (real coordinates)
 	float csypos;	///< x-position of the cross hair (real coordinates)
-	double m_traceParametric_t; ///< the previous value of t for tracing a parametric curve
+	
+	/// The t- or x- (angle) coordinate of the traced curve
+	double m_trace_x;
 	
 	/// trace mode stuff
 	bool rootflg;

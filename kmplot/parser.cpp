@@ -97,10 +97,10 @@ Ufkt::Ufkt()
 	f2_mode = false;
 	integral_mode = false;
 	integral_use_precision = false;
-	linewidth = 0.0;
-	f1_linewidth = 0.0;
-	f2_linewidth = 0.0;
-	integral_linewidth = 0.0;
+	linewidth = 0.1;
+	f1_linewidth = 0.1;
+	f2_linewidth = 0.1;
+	integral_linewidth = 0.1;
 	dmin = 0.0;
 	dmax = 0.0;
 	oldyprim = 0.0;
@@ -111,6 +111,7 @@ Ufkt::Ufkt()
 	use_slider = -1;
 	usecustomxmin = false;
 	usecustomxmax = false;
+	color = f1_color = f2_color = integral_color = Qt::black;
 }
 
 

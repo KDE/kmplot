@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>307</width>
-    <height>703</height>
+    <width>353</width>
+    <height>692</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -32,6 +32,14 @@
      </property>
      <item>
       <widget class="QStackedWidget" name="functionListContainer" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>5</hsizetype>
+         <vsizetype>5</vsizetype>
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="currentIndex" >
         <number>0</number>
        </property>
@@ -63,7 +71,7 @@
           <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
          </property>
          <property name="text" >
-          <string>New &amp;Cartesian Plot</string>
+          <string>&amp;Cartesian Plot</string>
          </property>
          <property name="default" >
           <bool>true</bool>
@@ -87,7 +95,7 @@
           <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
          </property>
          <property name="text" >
-          <string>New &amp;Parametric Plot</string>
+          <string>&amp;Parametric Plot</string>
          </property>
         </widget>
        </item>
@@ -108,7 +116,7 @@
           <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
          </property>
          <property name="text" >
-          <string>&amp;New Polar Plot</string>
+          <string>Polar Plot</string>
          </property>
         </widget>
        </item>
@@ -1394,8 +1402,8 @@ Example: loop(angle)=ln(angle)</string>
      </property>
      <property name="sizeHint" >
       <size>
-       <width>289</width>
-       <height>16</height>
+       <width>131</width>
+       <height>20</height>
       </size>
      </property>
     </spacer>
@@ -1405,9 +1413,9 @@ Example: loop(angle)=ln(angle)</string>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>KPushButton</class>
    <extends></extends>
-   <header>klineedit.h</header>
+   <header>kpushbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -1419,16 +1427,16 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KDoubleNumInput</class>
+   <class>KLineEdit</class>
    <extends></extends>
-   <header>knuminput.h</header>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>KDoubleNumInput</class>
    <extends></extends>
-   <header>kpushbutton.h</header>
+   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

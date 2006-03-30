@@ -134,16 +134,26 @@ FunctionEditor::~ FunctionEditor()
 
 void FunctionEditor::deleteCurrent()
 {
+	kDebug() << k_funcinfo << endl;
+	
 	FunctionListItem * functionItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	if ( !functionItem )
+	{
+		kDebug() << "Nothing currently selected!\n";
 		return;
+	}
 	
 	if ( !m_view->parser()->delfkt( functionItem->function1() ) )
 	{
+		kDebug() << "Couldn't delete function 1.\n";
 		// couldn't delete it, as e.g. another function depends on it
 		return;
 	}
 	
+	kDebug() << "Deleting function 2 status: " <<
+			m_view->parser()->delfkt( functionItem->function2() ) << endl;
+	
+	kDebug() << "Deleted current, so requestion state save.\n";
 	m_view->mainDlg()->requestSaveCurrentState();
 	m_view->drawPlot();
 }
@@ -415,6 +425,7 @@ void FunctionEditor::resetFunctionEditing()
 
 void FunctionEditor::createCartesian()
 {
+	m_function = -1;
 	m_functionX = -1;
 	m_functionY = -1;
 	
@@ -424,7 +435,8 @@ void FunctionEditor::createCartesian()
 	
 	m_function = m_view->parser()->addFunction( fname );
 	assert( m_function != -1 );
-	
+
+	kDebug() << "Created cartesian, so requestion state save.\n";	
 	m_view->mainDlg()->requestSaveCurrentState();
 }
 
@@ -432,24 +444,36 @@ void FunctionEditor::createCartesian()
 void FunctionEditor::createParametric()
 {
 	m_function = -1;
+	m_functionX = -1;
+	m_functionY = -1;
 	
 	// find a name not already used
 	QString fname;
 	m_view->parser()->fixFunctionName( fname, XParser::ParametricX, -1 );
 	QString name = fname.mid( 1, fname.indexOf('(')-1 );
 	
+	kDebug() << "AAA\n";
+	
 	m_functionX = m_view->parser()->addfkt( QString("x%1(t)=0").arg( name ) ); 
-	assert( m_functionX != -1 );	
+	assert( m_functionX != -1 );
+	
+	kDebug() << "BBB\n";
 	
 	m_functionY = m_view->parser()->addfkt( QString("y%1(t)=0").arg( name ) );
 	assert( m_functionY != -1 );
 	
+	kDebug() << "CCC\n";
+
+	kDebug() << "Created parametric, so requestion state save.\n";
 	m_view->mainDlg()->requestSaveCurrentState();
+	
+	kDebug() << "DDD\n";
 }
 
 
 void FunctionEditor::createPolar()
 {
+	m_function = -1;
 	m_functionX = -1;
 	m_functionY = -1;
 	
@@ -459,7 +483,7 @@ void FunctionEditor::createPolar()
 	
 	m_function = m_view->parser()->addFunction( fname );
 	assert( m_function != -1 );
-	
+
 	m_view->mainDlg()->requestSaveCurrentState();
 }
 
@@ -480,7 +504,7 @@ void FunctionEditor::save()
 		else
 			m_saveCartesianTimer->start( 0 );
 	}
-	else if ( m_functionX != -1 )
+	else if ( (m_functionX != -1) && (m_functionY != -1) )
 	{
 		m_saveParametricTimer->start( 0 );
 	}
@@ -625,7 +649,8 @@ void FunctionEditor::saveCartesian()
 	kDebug() << "old_fstr="<<old_fstr<<" f->fstr="<<f->fstr<<" changed="<<changed<<endl;
 	if ( !changed )
 		return;
-	
+
+		
 	m_view->mainDlg()->requestSaveCurrentState();
 	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
 		item->update();
@@ -730,7 +755,8 @@ void FunctionEditor::savePolar()
 	changed |= (old_fstr != f->fstr);
 	if ( !changed )
 		return;
-	
+
+	kDebug() << "Polar changed, so requestion state save.\n";	
 	m_view->mainDlg()->requestSaveCurrentState();
 	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
 		item->update();
@@ -841,6 +867,7 @@ void FunctionEditor::saveParametric()
 	if ( !changed )
 		return;
 	
+	kDebug() << "Parametric changed, so requestion state save.\n";
 	m_view->mainDlg()->requestSaveCurrentState();
 	if ( FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->currentItem()) )
 		item->update();

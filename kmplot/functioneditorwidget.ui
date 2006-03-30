@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>369</width>
-    <height>657</height>
+    <width>371</width>
+    <height>704</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -23,148 +23,77 @@
     <number>6</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" >
+    <widget class="QStackedWidget" name="functionListContainer" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>5</vsizetype>
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>16777215</width>
+       <height>300</height>
+      </size>
+     </property>
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page_5" />
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" >
      <property name="margin" >
       <number>0</number>
      </property>
      <property name="spacing" >
       <number>6</number>
      </property>
-     <item>
-      <widget class="QStackedWidget" name="functionListContainer" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>5</hsizetype>
-         <vsizetype>5</vsizetype>
-         <horstretch>1</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <item row="0" column="2" >
+      <widget class="QPushButton" name="deleteButton" >
+       <property name="enabled" >
+        <bool>false</bool>
        </property>
-       <property name="currentIndex" >
-        <number>0</number>
+       <property name="toolTip" >
+        <string>delete the selected function</string>
        </property>
-       <widget class="QWidget" name="page_5" />
+       <property name="whatsThis" >
+        <string>Click here to delete the selected function from the list.</string>
+       </property>
+       <property name="text" >
+        <string>&amp;Delete</string>
+       </property>
       </widget>
      </item>
-     <item>
-      <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
+     <item row="0" column="1" >
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="spacing" >
-        <number>6</number>
+       <property name="sizeHint" >
+        <size>
+         <width>140</width>
+         <height>20</height>
+        </size>
        </property>
-       <item>
-        <widget class="QPushButton" name="createCartesian" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>1</hsizetype>
-           <vsizetype>0</vsizetype>
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="toolTip" >
-          <string>define a new function</string>
-         </property>
-         <property name="whatsThis" >
-          <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
-         </property>
-         <property name="text" >
-          <string>&amp;Cartesian Plot</string>
-         </property>
-         <property name="default" >
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="createParametric" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>1</hsizetype>
-           <vsizetype>0</vsizetype>
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="toolTip" >
-          <string>define a new function</string>
-         </property>
-         <property name="whatsThis" >
-          <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
-         </property>
-         <property name="text" >
-          <string>&amp;Parametric Plot</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="createPolar" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>1</hsizetype>
-           <vsizetype>0</vsizetype>
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="toolTip" >
-          <string>define a new function</string>
-         </property>
-         <property name="whatsThis" >
-          <string>Click here to define a new function. There are 3 types of function, explicit given functions, parametric plots and polar plots. Choose the appropriate type from the drop down list.</string>
-         </property>
-         <property name="text" >
-          <string>Polar Plot</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>16</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="deleteButton" >
-         <property name="enabled" >
-          <bool>false</bool>
-         </property>
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>1</hsizetype>
-           <vsizetype>0</vsizetype>
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="toolTip" >
-          <string>delete the selected function</string>
-         </property>
-         <property name="whatsThis" >
-          <string>Click here to delete the selected function from the list.</string>
-         </property>
-         <property name="text" >
-          <string>&amp;Delete</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      </spacer>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QPushButton" name="createNewPlot" >
+       <property name="text" >
+        <string>Create New Plot...</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -436,6 +365,19 @@ Example: f(x)=x^2</string>
               </item>
              </layout>
             </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -1344,19 +1286,6 @@ Example: loop(angle)=ln(angle)</string>
      <widget class="QWidget" name="page_2" />
     </widget>
    </item>
-   <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
@@ -1400,11 +1329,11 @@ Example: loop(angle)=ln(angle)</string>
    <hints>
     <hint type="sourcelabel" >
      <x>90</x>
-     <y>460</y>
+     <y>560</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>266</x>
-     <y>460</y>
+     <x>330</x>
+     <y>560</y>
     </hint>
    </hints>
   </connection>
@@ -1416,11 +1345,11 @@ Example: loop(angle)=ln(angle)</string>
    <hints>
     <hint type="sourcelabel" >
      <x>90</x>
-     <y>494</y>
+     <y>591</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>266</x>
-     <y>494</y>
+     <x>330</x>
+     <y>591</y>
     </hint>
    </hints>
   </connection>
@@ -1432,11 +1361,11 @@ Example: loop(angle)=ln(angle)</string>
    <hints>
     <hint type="sourcelabel" >
      <x>79</x>
-     <y>322</y>
+     <y>394</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>173</x>
-     <y>322</y>
+     <x>259</x>
+     <y>394</y>
     </hint>
    </hints>
   </connection>
@@ -1447,12 +1376,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>62</x>
-     <y>353</y>
+     <x>79</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>173</x>
-     <y>353</y>
+     <x>259</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -1463,12 +1392,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>111</x>
-     <y>229</y>
+     <x>131</x>
+     <y>366</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>117</x>
-     <y>271</y>
+     <x>137</x>
+     <y>469</y>
     </hint>
    </hints>
   </connection>
@@ -1479,12 +1408,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>128</x>
-     <y>366</y>
+     <x>148</x>
+     <y>497</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>128</x>
-     <y>402</y>
+     <x>148</x>
+     <y>600</y>
     </hint>
    </hints>
   </connection>
@@ -1495,12 +1424,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>85</x>
-     <y>215</y>
+     <x>163</x>
+     <y>361</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>39</x>
-     <y>244</y>
+     <x>41</x>
+     <y>393</y>
     </hint>
    </hints>
   </connection>
@@ -1511,12 +1440,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>120</x>
-     <y>221</y>
+     <x>198</x>
+     <y>361</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>40</x>
-     <y>274</y>
+     <x>41</x>
+     <y>424</y>
     </hint>
    </hints>
   </connection>
@@ -1527,12 +1456,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>111</x>
-     <y>341</y>
+     <x>133</x>
+     <y>460</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>184</x>
-     <y>341</y>
+     <x>330</x>
+     <y>463</y>
     </hint>
    </hints>
   </connection>
@@ -1543,12 +1472,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>124</x>
-     <y>373</y>
+     <x>146</x>
+     <y>492</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>217</x>
-     <y>382</y>
+     <x>330</x>
+     <y>492</y>
     </hint>
    </hints>
   </connection>
@@ -1559,12 +1488,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>62</x>
-     <y>225</y>
+     <x>73</x>
+     <y>365</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>52</x>
-     <y>246</y>
+     <x>63</x>
+     <y>365</y>
     </hint>
    </hints>
   </connection>
@@ -1575,12 +1504,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>77</x>
-     <y>227</y>
+     <x>88</x>
+     <y>365</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>82</x>
-     <y>395</y>
+     <x>93</x>
+     <y>365</y>
     </hint>
    </hints>
   </connection>
@@ -1591,12 +1520,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>143</x>
-     <y>235</y>
+     <x>119</x>
+     <y>365</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>272</x>
-     <y>345</y>
+     <x>119</x>
+     <y>365</y>
     </hint>
    </hints>
   </connection>

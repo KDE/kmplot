@@ -81,13 +81,14 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 	}
 	
 	coordsDialog = 0;
-	m_popupmenu = new KMenu(parentWidget);
+	m_popupmenu = new KMenu( parentWidget );
+	m_newPlotMenu = new KMenu( parentWidget );
 	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection(), this );
 	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 	
 	if ( !m_readonly )
 	{
-		m_functionEditor = new FunctionEditor( view, parentWidget );
+		m_functionEditor = new FunctionEditor( view, m_newPlotMenu, parentWidget );
 		static_cast<QMainWindow*>(parentWidget)->addDockWidget( Qt::LeftDockWidgetArea, m_functionEditor );
 	}
 	
@@ -229,6 +230,25 @@ void MainDlg::setupActions()
 	namesAction->setIcon( KIcon("functionhelp") );
 	connect( namesAction, SIGNAL(triggered(bool)), this, SLOT( slotNames() ) );
 	//END help menu
+	
+	
+	//BEGIN new plots menu
+	KAction * newFunction = new KAction( i18n( "Cartesian Plot" ), actionCollection(), "newcartesian" );
+	newFunction->setIcon( KIcon("newfunction") );
+	connect( newFunction, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createCartesian() ) );
+	newFunction->plug( m_newPlotMenu );
+        
+	KAction * newParametric = new KAction( i18n( "Parametric Plot" ), actionCollection(), "newparametric" );
+	newParametric->setIcon( KIcon("newparametric") );
+	connect( newParametric, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createParametric() ) );
+	newParametric->plug( m_newPlotMenu );
+        
+	KAction * newPolar = new KAction( i18n( "Polar Plot" ), actionCollection(), "newpolar" );
+	newPolar->setIcon( KIcon("newpolar") );
+	connect( newPolar, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createPolar() ) );
+	newPolar->plug( m_newPlotMenu );
+	//END new plots menu
+	
 	
 
 	view->m_menuSliderAction = new KToggleAction( i18n( "Show Sliders" ), actionCollection(), "options_configure_show_sliders" );

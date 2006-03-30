@@ -173,6 +173,8 @@ private:
 	KMinMax *minmaxdlg;
 	/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
 	KMenu *m_popupmenu;
+	/// the popup that shows when clicking on the new plot button in the function editor
+	KMenu * m_newPlotMenu;
 	/// Loads and saves the user's file.
 	KmPlotIO *kmplotio;
 	/// Set to true if the application is readonly

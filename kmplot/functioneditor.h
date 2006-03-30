@@ -40,6 +40,7 @@
 class FunctionEditorWidget;
 class FunctionListItem;
 class FunctionListWidget;
+class KMenu;
 class QTimer;
 class Ufkt;
 class View;
@@ -50,7 +51,7 @@ class FunctionEditor : public QDockWidget
 	Q_OBJECT
 		
 	public:
-		FunctionEditor( View * view, QWidget * parent );
+		FunctionEditor( View * view, KMenu * createNewPlotsMenu, QWidget * parent );
 		virtual ~ FunctionEditor();
 		
 	public slots:
@@ -58,6 +59,10 @@ class FunctionEditor : public QDockWidget
 		 * Deletes the current selected function.
 		 */
 		void deleteCurrent();
+		/**
+		 * Pops up a menu offering a list of plots to create.
+		 */
+		void createNewPlot();
 		/**
 		 * Creates a new cartesian function.
 		 */
@@ -110,6 +115,7 @@ class FunctionEditor : public QDockWidget
 		void saveParametric();
 		
 	protected:
+		bool eventFilter(QObject *obj, QEvent *ev);
 		/**
 		 * Initialize the wdigets from the cartesian function set in m_function.
 		 */
@@ -175,6 +181,10 @@ class FunctionEditor : public QDockWidget
 		 * The list of functions.
 		 */
 		FunctionListWidget * m_functionList;
+		/**
+		 * A menu containing a list of actions for creating new plots.
+		 */
+		KMenu * m_createNewPlotsMenu;
 };
 
 

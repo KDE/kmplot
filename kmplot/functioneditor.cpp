@@ -32,7 +32,9 @@
 #include "MainDlg.h"
 #include "xparser.h"
 
-#include <qtimer.h>
+#include <kaction.h>
+#include <QMenu>
+#include <QTimer>
 
 #include <assert.h>
 
@@ -47,13 +49,14 @@ class FunctionEditorWidget : public QWidget, public Ui::FunctionEditorWidget
 
 
 //BEGIN class FunctionEditor
-FunctionEditor::FunctionEditor( View * view, QWidget * parent )
+FunctionEditor::FunctionEditor( View * view, KMenu * createNewPlotsMenu, QWidget * parent )
 	: QDockWidget( i18n("Function Editor"), parent )
 {
 	m_function = -1;
 	m_functionX = -1;
 	m_functionY = -1;
 	m_view = view;
+	m_createNewPlotsMenu = createNewPlotsMenu;
 	
 	// need a name for saving and restoring the position of this dock widget
 	setObjectName( "FunctionEditor" );
@@ -86,9 +89,6 @@ FunctionEditor::FunctionEditor( View * view, QWidget * parent )
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 		m_editor->listOfSliders->addItem( i18n( "Slider No. %1" ).arg( number +1) );
 	
-	connect( m_editor->createCartesian, SIGNAL(clicked()), this, SLOT(createCartesian()) );
-	connect( m_editor->createParametric, SIGNAL(clicked()), this, SLOT(createParametric()) );
-	connect( m_editor->createPolar, SIGNAL(clicked()), this, SLOT(createPolar()) );
 	connect( m_editor->deleteButton, SIGNAL(clicked()), this, SLOT(deleteCurrent()) );
 	connect( m_functionList, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(functionSelected( QListWidgetItem* )) );
 	connect( m_functionList, SIGNAL(itemClicked( QListWidgetItem * )), this, SLOT(save()) ); // user might have checked or unchecked the item
@@ -122,6 +122,9 @@ FunctionEditor::FunctionEditor( View * view, QWidget * parent )
 	
 	connect( m_view->parser(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
 	connect( m_view->parser(), SIGNAL(functionRemoved(int)), this, SLOT(functionsChanged()) );
+	
+	m_createNewPlotsMenu->installEventFilter( this );
+	connect( m_editor->createNewPlot, SIGNAL(pressed()), this, SLOT( createNewPlot() ) );
 	
 	resetFunctionEditing();
 	setWidget( m_editor );
@@ -437,6 +440,23 @@ void FunctionEditor::resetFunctionEditing()
 	
 	// assume that if there are functions in the list, then one will be selected
 	m_editor->deleteButton->setEnabled( m_functionList->count() != 0 );
+}
+
+
+bool FunctionEditor::eventFilter( QObject * obj, QEvent * ev )
+{
+	if ( (obj != m_createNewPlotsMenu) || (ev->type() != QEvent::MouseButtonRelease) || !m_createNewPlotsMenu->isVisible() )
+		return QDockWidget::eventFilter( obj, ev );
+	
+	m_editor->createNewPlot->setDown( false );
+	return false;
+}
+
+
+void FunctionEditor::createNewPlot()
+{
+	QPoint popupPos = m_editor->createNewPlot->mapToGlobal( QPoint( 0, m_editor->createNewPlot->height() ) );
+	m_createNewPlotsMenu->exec( popupPos );
 }
 
 

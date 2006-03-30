@@ -98,17 +98,22 @@ Ufkt::Ufkt()
 	integral_mode = false;
 	integral_use_precision = false;
 	linewidth = f1_linewidth = f2_linewidth = integral_linewidth = Settings::gridLineWidth();
-	dmin = 0.0;
-	dmax = 0.0;
+	
 	oldyprim = 0.0;
 	oldx = 0.0;
 	starty = 0.0;
 	startx = 0.0;
 	integral_precision = Settings::stepWidth();
 	use_slider = -1;
+	color = f1_color = f2_color = integral_color = Qt::black;
+	
+	// min/max stuff
+	dmin = -M_PI;
+	dmax = M_PI;
+	str_dmin = QString("-")+QChar(960);
+	str_dmax = QChar(960);
 	usecustomxmin = false;
 	usecustomxmax = false;
-	color = f1_color = f2_color = integral_color = Qt::black;
 }
 
 
@@ -826,7 +831,7 @@ void Parser::primary()
 		return;
 	}
 	//if(match(ufkt[ixa].fvar.latin1()))
-	if(match(current_item->fvar.toLatin1().data()))
+	if(match(current_item->fvar))
 	{
                 addtoken(XWERT);
 		return;
@@ -839,7 +844,7 @@ void Parser::primary()
 	}
 	
 	//if(match(ufkt[ixa].fpar.latin1()))
-	if(match(current_item->fpar.toLatin1().data()))
+	if(match(current_item->fpar))
 	{
                 addtoken(KWERT);
 		return;

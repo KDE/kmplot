@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>381</width>
-    <height>719</height>
+    <width>369</width>
+    <height>657</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -164,7 +164,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -1014,7 +1014,7 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
        <item>
         <widget class="QGroupBox" name="groupBox_9" >
          <property name="title" >
-          <string>Custom plot range</string>
+          <string>Plot range</string>
          </property>
          <layout class="QGridLayout" >
           <property name="margin" >
@@ -1026,7 +1026,7 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
           <item row="0" column="1" >
            <widget class="KLineEdit" name="parametricMin" >
             <property name="enabled" >
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="toolTip" >
              <string>lower boundary of the plot range</string>
@@ -1039,7 +1039,7 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
           <item row="1" column="1" >
            <widget class="KLineEdit" name="parametricMax" >
             <property name="enabled" >
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="toolTip" >
              <string>upper boundary of the plot range</string>
@@ -1050,26 +1050,14 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
            </widget>
           </item>
           <item row="0" column="0" >
-           <widget class="QCheckBox" name="parametricCustomMin" >
-            <property name="toolTip" >
-             <string>Customize the minimum plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Check this button and enter the plot minimum range boundary below.</string>
-            </property>
+           <widget class="QLabel" name="label" >
             <property name="text" >
              <string>Min:</string>
             </property>
            </widget>
           </item>
           <item row="1" column="0" >
-           <widget class="QCheckBox" name="parametricCustomMax" >
-            <property name="toolTip" >
-             <string>Customize the maximum plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Check this button and enter the plot maximum range boundary below.</string>
-            </property>
+           <widget class="QLabel" name="label_2" >
             <property name="text" >
              <string>Max:</string>
             </property>
@@ -1433,38 +1421,6 @@ Example: loop(angle)=ln(angle)</string>
     <hint type="destinationlabel" >
      <x>266</x>
      <y>494</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>parametricCustomMin</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>parametricMin</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>79</x>
-     <y>384</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>185</x>
-     <y>384</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>parametricCustomMax</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>parametricMax</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>79</x>
-     <y>415</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>194</x>
-     <y>415</y>
     </hint>
    </hints>
   </connection>

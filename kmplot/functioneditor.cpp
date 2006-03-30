@@ -355,6 +355,7 @@ void FunctionEditor::initFromCartesian()
 	m_editor->txtInitY->setText(f->str_starty);
 	
 	m_editor->stackedWidget->setCurrentIndex( 0 );
+	m_editor->tabWidget->setCurrentIndex( 0 );
 	m_editor->cartesianEquation->setFocus();
 }
 
@@ -401,11 +402,8 @@ void FunctionEditor::initFromParametric()
         
 	splitParametricEquation( fy->fstr, & name, & expression );
 	m_editor->parametricY->setText( expression );
-	
-	m_editor->parametricCustomMin->setChecked( fx->usecustomxmin );
+
 	m_editor->parametricMin->setText( fx->str_dmin );
-	
-	m_editor->parametricCustomMax->setChecked( fx->usecustomxmax );
 	m_editor->parametricMax->setText( fx->str_dmax );
         
 	m_editor->parametricLineWidth->setValue( fx->linewidth );
@@ -856,7 +854,7 @@ void FunctionEditor::saveParametric()
 	if ( functionListItem )
 		tempFunction.f_mode = (functionListItem->checkState() == Qt::Checked);
 	
-	tempFunction.usecustomxmin = m_editor->parametricCustomMin->isChecked();
+	tempFunction.usecustomxmin = true;
 	tempFunction.str_dmin = m_editor->parametricMin->text();
 	tempFunction.dmin = m_view->parser()->eval( tempFunction.str_dmin );
 	if ( tempFunction.usecustomxmin && m_view->parser()->parserError( false ) )
@@ -866,7 +864,7 @@ void FunctionEditor::saveParametric()
 		return;
 	}
 	
-	tempFunction.usecustomxmax = m_editor->parametricCustomMax->isChecked();
+	tempFunction.usecustomxmax = true;
 	tempFunction.str_dmax = m_editor->parametricMax->text();
 	tempFunction.dmax = m_view->parser()->eval( tempFunction.str_dmax );
 	if ( tempFunction.usecustomxmax && m_view->parser()->parserError( false ) )

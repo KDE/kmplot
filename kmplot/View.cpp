@@ -82,7 +82,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	  m_mainDlg( mainDlg )
 {
 	csmode = csparam = -1;
-	cstype = 0;
+	cstype = Ufkt::Function;
 	areaDraw = false;
 	areaUfkt = 0;
 	areaPMode = Ufkt::Function;
@@ -96,6 +96,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	ymax = 0.0;
 	csxpos = 0.0;
 	csypos = 0.0;
+	m_traceParametric_t = 0.0;
 	m_printHeaderTable = false;
 	stop_calculating = false;
 	m_minmax = 0;
@@ -270,7 +271,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	int k, ke, mflg;
 	int iy=0;
 
-	char const fktmode=ufkt->fstr[0].latin1();
+	QChar const fktmode=ufkt->fstr[0];
 	if ( fktmode == 'y' )
 		return;
 
@@ -807,109 +808,52 @@ void View::mousePressEvent(QMouseEvent *e)
 	if ( m_zoomMode != Normal )
 		return;
 	
-	double const g=tlgy*double(xmax-xmin)/(2*double(ymax-ymin));
+	updateCrosshairPosition();
+	
 	if( !m_readonly && e->button()==Qt::RightButton) //clicking with the right mouse button
 	{
-		char function_type;
-// 		for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
-		foreach ( Ufkt * it, m_parser->m_ufkt )
+		getPlotUnderMouse();
+		Ufkt * function = m_parser->functionWithID( csmode );
+		if ( function )
 		{
-			function_type = it->fstr[0].latin1();
-			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
-			if ( !csxposValid( it ) )
-			  continue;
-// 			kDebug() << "it:" << it->fstr << endl;
-			int k=0;
-			int const ke=it->parameters.count();
-			do
+			QString popupTitle;
+			
+			QChar function_type = function->fstr[0].latin1();
+			if ( function_type == 'x' )
 			{
-				if( it->use_slider == -1 )
-				{
-					if ( !it->parameters.isEmpty())
-						it->setParameter(it->parameters[k].value);
-				}
-				else
-				{
-					if ( m_sliderWindow )
-						it->setParameter(  m_sliderWindow->value( it->use_slider ) );
-				}
-
-				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.contains('t')==1) //parametric plot
-				{
-					QVector<Ufkt>::iterator ufkt_y = it+1;
-					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->fstr.contains('t')==1)
-					{
-						if ( csmode == -1)
-						{
-							csmode=it->id;
-							cstype=0;
-							csparam = k;
-							m_popupmenushown = 1;
-						}
-						else
-							m_popupmenushown = 2;
-						
-						QString y_name( ufkt_y->fstr );
-						m_popupmenu->setTitle(ufkt_y->fstr+";"+y_name);
-						m_popupmenu->exec(QCursor::pos());
-						return;
-					}
-				}
-				else if( fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
-				{
-					if ( csmode == -1)
-					{
-						csmode=it->id;
-						cstype=0;
-						csparam = k;
-						m_popupmenushown = 1;
-					}
-					else
-						m_popupmenushown = 2;
-					m_popupmenu->setTitle( it->fstr);
-					m_popupmenu->exec(QCursor::pos());
-					return;
-				}
-				else if(fabs(csypos-m_parser->a1fkt( it, csxpos))< g && it->f1_mode)
-				{
-					if ( csmode == -1)
-					{
-						csmode=it->id;
-						cstype=1;
-						csparam = k;
-						m_popupmenushown = 1;
-					}
-					else
-						m_popupmenushown = 2;
-					QString function = it->fstr;
-					function = function.left(function.indexOf('(')) + '\'';
-					m_popupmenu->setTitle( function);
-					m_popupmenu->exec(QCursor::pos());
-					return;
-				}
-				else if(fabs(csypos-m_parser->a2fkt(it, csxpos))< g && it->f2_mode)
-				{
-					if ( csmode == -1)
-					{
-						csmode=it->id;
-						cstype=2;
-						csparam = k;
-						m_popupmenushown = 1;
-					}
-					else
-						m_popupmenushown = 2;
-					QString function = it->fstr;
-					function = function.left(function.indexOf('(')) + "\'\'";
-					m_popupmenu->setTitle(function);
-					m_popupmenu->exec(QCursor::pos());
-					return;
-				}
+				// parametric function
+				Ufkt * ufkt_y = m_parser->functionWithID( csmode+1 );
+				assert( ufkt_y );
+				popupTitle = function->fstr + ";" + ufkt_y->fstr;
 			}
-			while(++k<ke);
+			else switch ( cstype )
+			{
+				case Ufkt::Function:
+					popupTitle = function->fstr;
+					break;
+					
+				case Ufkt::Derivative1:
+					popupTitle = function->fstr.left( function->fstr.indexOf('(') ) + '\'';
+					break;
+					
+				case Ufkt::Derivative2:
+					popupTitle = function->fstr.left( function->fstr.indexOf('(') ) + "\'\'";
+					break;
+					
+				case Ufkt::Integral:
+					popupTitle = function->fstr.left( function->fstr.indexOf('(') ).toUpper();
+					break;
+			}
+			
+			m_popupmenu->setTitle( popupTitle );
+			m_popupmenu->exec( QCursor::pos() );
 		}
 		return;
 	}
-	if(e->button()!=Qt::LeftButton) return ;
+	
+	if(e->button()!=Qt::LeftButton)
+		return;
+	
 	if(csmode>=0) //disable trace mode if trace mode is enable
 	{
 		csmode=-1;
@@ -918,74 +862,196 @@ void View::mousePressEvent(QMouseEvent *e)
 		mouseMoveEvent(e);
 		return ;
 	}
-// 	for( QVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
-	foreach ( Ufkt * it, m_parser->m_ufkt )
+	
+	getPlotUnderMouse();
+	Ufkt * function = m_parser->functionWithID( csmode );
+	if ( function )
 	{
-		if (it->fname.isEmpty() )
-			continue;
-		switch(it->fstr[0].latin1())
+		QChar function_type = function->fstr[0].latin1();
+		
+		if ( function_type == 'x' )
 		{
-			case 'x': case 'y': case 'r': continue;   // Not possible to catch
-		}
-		if (!csxposValid(it))
-		  continue;
-		int k=0;
-		int const ke=it->parameters.count();
-		do
-		{
-			if( it->use_slider == -1 )
-			{
-				if ( !it->parameters.isEmpty() )
-					it->setParameter( it->parameters[k].value );
-			}
-			else
-			{
-				if ( m_sliderWindow )
-					it->setParameter( m_sliderWindow->value( it->use_slider ) );
-			}
+			// parametric plot
+			m_minmax->selectItem();
+			setStatusBar(function->fstr,4);
 			
-			if(fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
+			// csxpos, csypos would have been set by getPlotUnderMouse()
+			QPointF ptd( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
+			QPoint globalPos = mapToGlobal( (ptd * wm).toPoint() );
+			QCursor::setPos( globalPos );
+// 			mouseMoveEvent(e);
+			return;
+		}
+		
+		else if ( function_type == 'r' )
+		{
+			// polar plot
+			return;
+		}
+		
+		else
+		{
+			// cartesian plot
+		
+			switch ( cstype )
 			{
-				csmode=it->id;
-				cstype=0;
-				csparam = k;
-				m_minmax->selectItem();
-				setStatusBar(it->fstr,4);
-				mouseMoveEvent(e);
-				return;
-			}
-			if(fabs(csypos-m_parser->a1fkt( it, csxpos))< g && it->f1_mode)
-			{
-				csmode=it->id;
-				cstype=1;
-				csparam = k;
-				m_minmax->selectItem();
-				QString function = it->fstr;
-				function = function.left(function.indexOf('(')) + '\'';
-				setStatusBar(function,4);
-				mouseMoveEvent(e);
-				return;
-			}
-			if(fabs(csypos-m_parser->a2fkt(it, csxpos))< g && it->f2_mode)
-			{
-				csmode=it->id;
-				cstype=2;
-				csparam = k;
-				m_minmax->selectItem();
-				QString function = it->fstr;
-				function = function.left(function.indexOf('(')) + "\'\'";
-				setStatusBar(function,4);
-				mouseMoveEvent(e);
-				return;
+				case Ufkt::Function:
+				{
+					m_minmax->selectItem();
+					setStatusBar(function->fstr,4);
+					mouseMoveEvent(e);
+					return;
+				}
+			
+				case Ufkt::Derivative1:
+				{
+					m_minmax->selectItem();
+					QString fstr = function->fstr;
+					fstr = fstr.left(fstr.indexOf('(')) + '\'';
+					setStatusBar(fstr,4);
+					mouseMoveEvent(e);
+					return;
+				}
+			
+				case Ufkt::Derivative2:
+				{
+					m_minmax->selectItem();
+					QString fstr = function->fstr;
+					fstr = fstr.left(fstr.indexOf('(')) + "\'\'";
+					setStatusBar(fstr,4);
+					mouseMoveEvent(e);
+					return;
+				}
+			
+				case Ufkt::Integral:
+				{
+					// can't trace integral
+					return;
+				}
 			}
 		}
-		while(++k<ke);
 	}
 	
 	// user didn't click on a plot; so we prepare to enter translation mode
 	csmode=-1;
 	m_zoomMode = AboutToTranslate;
 	m_prevDragMousePos = e->pos();
+}
+
+
+void View::getPlotUnderMouse()
+{
+	csmode = -1;
+	csparam = 0;
+	cstype = Ufkt::Function;
+	m_traceParametric_t = 0.0;
+	
+	double const g=tlgy*double(xmax-xmin)/(2*double(ymax-ymin));
+	
+	foreach ( Ufkt * it, m_parser->m_ufkt )
+	{
+		QChar function_type = it->fstr[0];
+		if ( function_type=='y' || it->fname.isEmpty())
+			continue;
+		if ( !csxposValid( it ) )
+			continue;
+		
+		int k=0;
+		int const ke=it->parameters.count();
+		do
+		{
+			if( it->use_slider == -1 )
+			{
+				if ( !it->parameters.isEmpty())
+					it->setParameter(it->parameters[k].value);
+			}
+			else
+			{
+				if ( m_sliderWindow )
+					it->setParameter(  m_sliderWindow->value( it->use_slider ) );
+			}
+
+			if ( function_type=='x' && it->fstr.contains('t')==1 )
+			{
+				//parametric plot
+				
+				Ufkt * ufkt_y = m_parser->functionWithID( it->id + 1 );
+				assert( ufkt_y );
+				
+				/// \todo change searching to use proper min/max values
+				
+				double best_t = 0.0;
+				double best_fx = 0.0;
+				double best_fy = 0.0;
+				double best_distance = 1e20; // a large distance
+				
+				double t = it->dmin;
+				while ( t < it->dmax )
+				{
+					double distance = pixelDistance( csxpos, csypos, it, ufkt_y, t );
+					if ( distance < best_distance )
+					{
+						best_distance = distance;
+						best_t = t;
+						best_fx = m_parser->fkt( it, t );
+						best_fy = m_parser->fkt( ufkt_y, t );
+					}
+					
+					t += 0.05;
+				}
+				
+				if ( best_distance < 30.0 )
+				{
+					csmode=it->id;
+					cstype=Ufkt::Function;
+					csparam = k;
+					m_traceParametric_t = best_t;
+					csxpos = best_fx;
+					csypos = best_fy;
+					return;
+				}
+			}
+			else if ( function_type == 'r' )
+			{
+				// polar plot
+				return;
+			}
+			else if( fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
+			{
+				csmode=it->id;
+				cstype = Ufkt::Function;
+				csparam = k;
+				return;
+			}
+			else if(fabs(csypos-m_parser->a1fkt( it, csxpos))< g && it->f1_mode)
+			{
+				csmode=it->id;
+				cstype = Ufkt::Derivative1;
+				csparam = k;
+				return;
+			}
+			else if(fabs(csypos-m_parser->a2fkt(it, csxpos))< g && it->f2_mode)
+			{
+				csmode=it->id;
+				cstype = Ufkt::Derivative2;
+				csparam = k;
+				return;
+			}
+		}
+		while(++k<ke);
+	}
+}
+
+
+double View::pixelDistance( double real_x, double real_y, Ufkt * ufkt_x, Ufkt * ufkt_y, double t )
+{
+	double fx = m_parser->fkt( ufkt_x, t );
+	double fy = m_parser->fkt( ufkt_y, t );
+					
+	double dfx = dgr.TransxToPixel( real_x ) - dgr.TransxToPixel( fx );
+	double dfy = dgr.TransyToPixel( real_y ) - dgr.TransyToPixel( fy );
+					
+	return std::sqrt( dfx*dfx + dfy*dfy );
 }
 
 
@@ -1054,32 +1120,92 @@ bool View::updateCrosshairPosition()
 	bool out_of_bounds = false; // for the ypos
 	
 	QPointF ptl = mousePos * wm.inverted();
+	csxpos = dgr.TransxToReal( ptl.x() );
+	csypos = dgr.TransyToReal( ptl.y() );
 	
-	if ( Ufkt * it = m_parser->functionWithID( csmode ) )
+	Ufkt * it = m_parser->functionWithID( csmode );
+	
+	if ( it && csxposValid( it ) )
 	{
-		// The user currently has a plot selected
+		// The user currently has a plot selected, with the mouse in a valid position
 		
-		if ( it && csxposValid( it ) )
+		if( it->use_slider == -1 )
 		{
-			// A plot is selected and the mouse is in a valid position
+			if( !it->parameters.isEmpty() )
+				it->setParameter( it->parameters[csparam].value );
+		}
+		else
+		{
+			if ( m_sliderWindow )
+				it->setParameter( m_sliderWindow->value( it->use_slider ) );
+		}
+		
+		QChar function_type = it->fstr[0];
+		
+		if ( function_type == 'x' )
+		{
+			// parametric plot
 			
-			if( it->use_slider == -1 )
-			{
-				if( !it->parameters.isEmpty() )
-					it->setParameter( it->parameters[csparam].value );
-			}
-			else
-			{
-				if ( m_sliderWindow )
-					it->setParameter( m_sliderWindow->value( it->use_slider ) );
+			Ufkt * ufkt_y = m_parser->functionWithID( it->id + 1 );
+			assert( ufkt_y );
+			
+			// Should we increase or decrease t to get closer to the mouse?
+			double dt[2] = { -0.0002, +0.0002 };
+			double d[] = { 0.0, 0.0 };
+			for ( int i = 0; i < 2; ++ i )
+				d[i] = pixelDistance( csxpos, csypos, it, ufkt_y, m_traceParametric_t + dt[i] );
+			
+			unsigned best_i = (d[0] < d[1]) ? 0 : 1;
+			
+			// how much t gets us the closest?
+			double prev_best = d[best_i];
+			m_traceParametric_t += 2.0 * dt[best_i];
+			while ( true )
+			{	
+				double new_distance = pixelDistance( csxpos, csypos, it, ufkt_y, m_traceParametric_t + dt[best_i] );
+				if ( new_distance < prev_best )
+				{
+					prev_best = new_distance;
+					m_traceParametric_t += dt[best_i];
+				}
+				else
+					break;
 			}
 			
-			if ( cstype == 0)
-				ptl.setY(dgr.TransyToPixel(csypos=m_parser->fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
-			else if ( cstype == 1)
-				ptl.setY(dgr.TransyToPixel(csypos=m_parser->a1fkt( it, csxpos=dgr.TransxToReal(ptl.x()) )));
-			else if ( cstype == 2)
-				ptl.setY(dgr.TransyToPixel(csypos=m_parser->a2fkt( it, csxpos=dgr.TransxToReal(ptl.x()))));
+			csxpos = m_parser->fkt( it, m_traceParametric_t );
+			csypos = m_parser->fkt( ufkt_y, m_traceParametric_t );
+			ptl = QPointF( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
+			QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
+			QCursor::setPos( globalPos );
+		}
+		else if ( function_type == 'r' )
+		{
+			// polar plot
+		}
+		else
+		{
+			// cartesian plot
+			
+			switch ( cstype )
+			{
+				case Ufkt::Function:
+					csypos = m_parser->fkt( it, csxpos );
+					ptl.setY(dgr.TransyToPixel( csypos ));
+					break;
+					
+				case Ufkt::Derivative1:
+					csypos = m_parser->a1fkt( it, csxpos );
+					ptl.setY(dgr.TransyToPixel( csypos ));
+					break;
+					
+				case Ufkt::Derivative2:
+					csypos = m_parser->a2fkt( it, csxpos );
+					ptl.setY(dgr.TransyToPixel( csypos ));
+					break;
+					
+				case Ufkt::Integral:
+					break;
+			}
 
 			if ( csypos<ymin || csypos>ymax) //the ypoint is not visible
 			{
@@ -1097,24 +1223,8 @@ bool View::updateCrosshairPosition()
 				}
 			}
 			else
-			{
 				rootflg=false;
-			}
 		}
-		else
-		{
-			// A plot is selected, but the x-position of the mouse is out of range
-			
-			csxpos=dgr.TransxToReal(ptl.x());
-			csypos=dgr.TransyToReal(ptl.y());
-		}
-	}
-	else
-	{
-		// No plot is currently selected
-		
-		csxpos=dgr.TransxToReal(ptl.x());
-		csypos=dgr.TransyToReal(ptl.y());
 	}
 	
 	m_crosshairPixelCoords = ptl * wm;
@@ -1701,7 +1811,7 @@ void View::keyPressEvent( QKeyEvent * e )
 		if (csparam==0)
 		{
 			int const old_csmode=csmode;
-			char const old_cstype = cstype;
+			Ufkt::PMode const old_cstype = cstype;
 			bool start = true;
 			bool found = false;
 			while ( 1 )
@@ -1719,31 +1829,35 @@ void View::keyPressEvent( QKeyEvent * e )
 				case 'r':
 					break;
 				default:
+				{
+					//going through the function, the first and the second derivative
+					for ( cstype = (Ufkt::PMode)0; cstype < 3; cstype = (Ufkt::PMode)(cstype+1) )
+// 					for (cstype=0;cstype<3;cstype++) 
 					{
-						for (cstype=0;cstype<3;cstype++) //going through the function, the first and the second derivative
-						{
 							if (start)
 							{
-								if ( cstype==2)
-									cstype=0;
+								if ( cstype==Ufkt::Derivative2)
+									cstype=Ufkt::Function;
 								else
-									cstype=old_cstype+1;
+									cstype = (Ufkt::PMode)(old_cstype+1);
 								start=false;
 							}
 							kDebug() << "   cstype: " << (int)cstype << endl;
-							switch (cstype)
-							{
-							case (0):
+						switch (cstype)
+						{
+							case Ufkt::Function:
 								if ((*it)->f_mode )
-												found=true;
+									found=true;
 								break;
-							case (1):
+							case Ufkt::Derivative1:
 								if ( (*it)->f1_mode )
-												found=true;
+									found=true;
 								break;
-							case (2):
+							case Ufkt::Derivative2:
 								if ( (*it)->f2_mode )
-												found=true;
+									found=true;
+								break;
+							case Ufkt::Integral:
 								break;
 							}
 							if (found)
@@ -1768,24 +1882,29 @@ void View::keyPressEvent( QKeyEvent * e )
 
 		//change function in the statusbar
 		switch (cstype )
-{
-		case 0:
-			setStatusBar((*it)->fstr,4);
-			break;
-		case 1:
+		{
+			case Ufkt::Function:
+				setStatusBar((*it)->fstr,4);
+				break;
+				
+			case Ufkt::Derivative1:
 			{
 				QString function = (*it)->fstr;
 				function = function.left(function.indexOf('(')) + '\'';
 				setStatusBar(function,4);
 				break;
 			}
-		case 2:
+			
+			case Ufkt::Derivative2:
 			{
 				QString function = (*it)->fstr;
 				function = function.left(function.indexOf('(')) + "\'\'";
 				setStatusBar(function,4);
 				break;
 			}
+			
+			case Ufkt::Integral:
+				break;
 		}
 		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint(), Qt::LeftButton, Qt::LeftButton, 0 );
 	}
@@ -2062,15 +2181,17 @@ void View::mnuHide_clicked()
 	Ufkt *ufkt = m_parser->m_ufkt[ csmode ];
 	switch (cstype )
 	{
-	case 0:
-		ufkt->f_mode=0;
-		break;
-	case 1:
-		ufkt->f1_mode=0;
-		break;
-	case 2:
-		ufkt->f2_mode=0;
-		break;
+		case Ufkt::Function:
+			ufkt->f_mode=0;
+			break;
+		case Ufkt::Derivative1:
+			ufkt->f1_mode=0;
+			break;
+		case Ufkt::Derivative2:
+			ufkt->f2_mode=0;
+			break;
+		case Ufkt::Integral:
+			break;
 	}
 	drawPlot();
 	m_modified = true;
@@ -2099,7 +2220,7 @@ void View::mnuRemove_clicked()
       return;
 
 	Ufkt *ufkt =  m_parser->m_ufkt[ csmode ];
-	char const function_type = ufkt->fstr[0].latin1();
+	QChar const function_type = ufkt->fstr[0];
 	if (!m_parser->delfkt( ufkt ))
 		return;
 

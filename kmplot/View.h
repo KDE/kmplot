@@ -109,7 +109,7 @@ public:
 
 	/// trace mode stuff, must be accessible in KMinMax
 	int csmode, csparam;
-	char cstype;
+	Ufkt::PMode cstype;
 
 public slots:
 	/// Called when the user want to cancel the drawing
@@ -195,6 +195,18 @@ private:
 	void translateView( int dx, int dy );
 	/// animates zooming from the current zoom rect to the one given (in real coordinates)
 	void animateZoom( const QRectF & newCoords );
+	/**
+	 * Finds the plot (if any) under the last mouse pos as recorded by
+	 * updateCrosshairPosition(). This sets csmode, cstype, csparam. If no plot
+	 * was found, then csmode is set to -1.
+	 */
+	void getPlotUnderMouse();
+	/**
+	 * Calculates the pixel distance from \p real_x and \p real_y to the display
+	 * point of the given parametric function at \p t.
+	 */
+	double pixelDistance( double real_x, double real_y, Ufkt * ufkt_x, Ufkt * ufkt_y, double t );
+	
 
 	/// for areadrawing when printing
 	bool areaDraw;
@@ -213,6 +225,7 @@ private:
 	QPointF m_crosshairPixelCoords;
 	float csxpos;	///< y-position of the cross hair (real coordinates)
 	float csypos;	///< x-position of the cross hair (real coordinates)
+	double m_traceParametric_t; ///< the previous value of t for tracing a parametric curve
 	
 	/// trace mode stuff
 	bool rootflg;

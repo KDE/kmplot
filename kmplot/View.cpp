@@ -247,6 +247,8 @@ void View::draw(QPaintDevice *dev, int form)
 	// instead, they look like a pixelated line that has been blurred.
 	// (plus, it makes drawing a *lot* slower).
 	DC.setRenderHint( QPainter::Antialiasing, false );
+	DC.setClipping( true );
+	DC.setClipRect( PlotArea );
 	foreach ( Ufkt * ufkt, m_parser->m_ufkt )
 	{
 		if ( stop_calculating )
@@ -255,6 +257,7 @@ void View::draw(QPaintDevice *dev, int form)
 		if ( !ufkt->fname.isEmpty() )
 			plotfkt(ufkt, &DC);
 	}
+	DC.setClipping( false );
 
 	isDrawing=false;
 	updateCursor();

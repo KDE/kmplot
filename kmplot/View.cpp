@@ -680,16 +680,13 @@ void View::paintEvent(QPaintEvent *)
 	
 	if ( (m_zoomMode == ZoomInDrawing) || (m_zoomMode == ZoomOutDrawing) )
 	{
-		// Qt4 no longer supports XorROP (anti-aliasing considerations)
-#if 0
-		QPen pen(Qt::white, 1, Qt::DotLine);
-#warning setRasterOp (Qt::XorROP)
-//		painter.setRasterOp (Qt::XorROP);
-#endif
-		// use black dotline for now
-		QPen pen(Qt::black, 1, Qt::DashLine);
+		QPalette palette;
+		QColor highlightColor = palette.highlight().color();
+		QColor backgroundColor = highlightColor;
+		backgroundColor.setAlpha( 63 );
 		
-		p.setPen(pen);
+		p.setPen( highlightColor );
+		p.setBrush( backgroundColor );
 		
 		/// \todo make this draw blue-black dotline (atm, just draws transparent-black dotline for some strange reason)
 		p.setBackgroundMode (Qt::OpaqueMode);

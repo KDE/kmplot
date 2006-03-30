@@ -35,6 +35,8 @@
 #include "xparser.h"
 #include <QList>
 
+#include <assert.h>
+
 XParser::XParser(bool &mo) : DCOPObject("Parser"), Parser(), m_modified(mo)
 {
         // setup slider support
@@ -235,65 +237,45 @@ double XParser::euler_method(const double x, const QVector<Ufkt>::iterator it)
 	return y;
 }
 
-QRgb XParser::defaultColor(int function)
+
+int XParser::addfkt( QString fn )
 {
-        switch ( function )
-        {
-                case 1:
-                        return Settings::color0().rgb();
-                        break;
-                case 2:
-                        return Settings::color1().rgb();
-                        break;
-                case 3:
-                        return Settings::color2().rgb();
-                        break;
-                case 4:
-                        return Settings::color3().rgb();
-                        break;
-                case 5:
-                        return Settings::color4().rgb();
-                        break;
-                case 6:
-                        return Settings::color5().rgb();
-                        break;
-                case 7:
-                        return Settings::color6().rgb();
-                        break;
-                case 8:
-                        return Settings::color7().rgb();
-                        break;
-                case 9:
-                        return Settings::color8().rgb();
-                        break;
-                case 10:
-                        return Settings::color9().rgb();
-                        break;
-                default:
-                        return Settings::color0().rgb();
-                        break;
-        }
+	int id = Parser::addfkt( fn );
+	Ufkt * ufkt = functionWithID( id );
+	if ( ufkt )
+		ufkt->color = ufkt->f1_color = ufkt->f2_color = ufkt->integral_color = defaultColor(id);
+	
+	return id;
 }
 
-void XParser::prepareAddingFunction(Ufkt *temp)
-{
-	temp->color = temp->f1_color = temp->f2_color = temp->integral_color = defaultColor(getNextIndex() );
-	temp->linewidth = temp->f1_linewidth = temp->f2_linewidth = temp->integral_linewidth = linewidth0;
-        temp->f_mode = true;
-        temp->f1_mode = false;
-        temp->f2_mode = false;
-        temp->integral_mode = false;
-        temp->integral_precision = Settings::stepWidth();
-        temp->usecustomxmin = false;
-	temp->usecustomxmax = false;
-        temp->use_slider = -1;
-        //TODO temp->slider_min = 0; temp->slider_max = 50;
 
-}
-int XParser::getNextIndex()
+QColor XParser::defaultColor(int function)
 {
-        //return ufkt.count();
-        return getNewId();
+	switch ( function % 10 )
+	{
+		case 0:
+			return Settings::color0().rgb();
+		case 1:
+			return Settings::color1().rgb();
+		case 2:
+			return Settings::color2().rgb();
+		case 3:
+			return Settings::color3().rgb();
+		case 4:
+			return Settings::color4().rgb();
+		case 5:
+			return Settings::color5().rgb();
+		case 6:
+			return Settings::color6().rgb();
+		case 7:
+			return Settings::color7().rgb();
+		case 8:
+			return Settings::color8().rgb();
+		case 9:
+			return Settings::color9().rgb();
+	}
+	
+	assert( !"Shouldn't happen - XParser::defaultColor" );
 }
 
 QStringList XParser::listFunctionNames()
@@ -604,7 +586,6 @@ int XParser::addFunction(const QString &f_str)
 	if (id==-1)
 		return -1;
 	Ufkt *tmp_ufkt = m_ufkt[id];
-	prepareAddingFunction(tmp_ufkt);
 	if ( pos!=-1 && !getext( tmp_ufkt, f_str ) )
 	{
 		Parser::delfkt( tmp_ufkt );

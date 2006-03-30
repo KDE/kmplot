@@ -378,7 +378,6 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool all
 	kDebug() << k_funcinfo << endl;
 	
 	Ufkt ufkt;
-	m_parser->prepareAddingFunction(&ufkt);
 
 	ufkt.f_mode = n.attribute( "visible" ).toInt();
 	ufkt.color = QColor( n.attribute( "color" ) ).rgb();
@@ -487,7 +486,6 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 {
 	kDebug() << "parsing old function" << endl;
 	Ufkt ufkt;
-	m_parser->prepareAddingFunction(&ufkt);
 	
 	ufkt.f_mode = n.attribute( "visible" ).toInt();
 	ufkt.f1_mode = n.attribute( "visible-deriv" ).toInt();

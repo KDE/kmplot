@@ -148,52 +148,52 @@
 		<entry name="Color0" type="Color">
 			<label>Color of function 1</label>
 			<whatsthis>Choose a color for function 1.</whatsthis>
-			<default>#FF0000</default>
+			<default>#191970</default>
 		</entry>
 		<entry name="Color1" type="Color">
 			<label>Color of function 2</label>
 			<whatsthis>Choose a color for function 2.</whatsthis>
-			<default>#00FF00</default>
+			<default>#006400</default>
 		</entry>
 		<entry name="Color2" type="Color">
 			<label>Color of function 3</label>
 			<whatsthis>Choose a color for function 3.</whatsthis>
-			<default>#0000FF</default>
+			<default>#FF4500</default>
 		</entry>
 		<entry name="Color3" type="Color">
 			<label>Color of function 4</label>
 			<whatsthis>Choose a color for function 4.</whatsthis>
-			<default>#FF00FF</default>
+			<default>#808000</default>
 		</entry>
 		<entry name="Color4" type="Color">
 			<label>Color of function 5</label>
 			<whatsthis>Choose a color for function 5.</whatsthis>
-			<default>#FFFF00</default>
+			<default>#FF1493</default>
 		</entry>
 		<entry name="Color5" type="Color">
 			<label>Color of function 6</label>
 			<whatsthis>Choose a color for function 6.</whatsthis>
-			<default>#00FFFF</default>
+			<default>#B111DD</default>
 		</entry>
 		<entry name="Color6" type="Color">
 			<label>Color of function 7</label>
 			<whatsthis>Choose a color for function 7.</whatsthis>
-			<default>#008000</default>
+			<default>#800000</default>
 		</entry>
 		<entry name="Color7" type="Color">
 			<label>Color of function 8</label>
 			<whatsthis>Choose a color for function 8.</whatsthis>
-			<default>#000080</default>
+			<default>#0000CD</default>
 		</entry>
 		<entry name="Color8" type="Color">
 			<label>Color of function 9</label>
 			<whatsthis>Choose a color for function 9.</whatsthis>
-			<default>#000000</default>
+			<default>#FF8C00</default>
 		</entry>
 		<entry name="Color9" type="Color">
 			<label>Color of function 10</label>
 			<whatsthis>Choose a color for function 10.</whatsthis>
-			<default>#000000</default>
+			<default>#3CB400</default>
 		</entry>
 	</group>
 		

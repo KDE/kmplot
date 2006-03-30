@@ -55,16 +55,13 @@ public:
         
 	/// Line width default
 	double linewidth0;
-	QRgb defaultColor(int function);
+	QColor defaultColor(int function);
+	
+	virtual int addfkt(QString);
 	
 	enum { Function, Polar, ParametricX, ParametricY }; ///types of functions
 	///Returns an unused function name if it is needed
 	void fixFunctionName(QString &, int const = XParser::Function , int const=-1);
-        
-        /// Returns the index for the next function.
-        int getNextIndex();
-        /// Fill item with default values (e.g color, linewidth )
-        void prepareAddingFunction(Ufkt *item);
         
         /// Interpretates the extended function string (only used by the old file format)
 	bool getext( Ufkt *, const QString );

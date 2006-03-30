@@ -271,7 +271,7 @@ public:
 	/// Evaluates the given expression.
 	double eval(QString);
 	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
-	int addfkt(QString);
+	virtual int addfkt(QString);
 	/// Removes the function with the given id.
 	bool delfkt(uint id);
 	bool delfkt( Ufkt *item);

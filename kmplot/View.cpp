@@ -242,11 +242,11 @@ void View::draw(QPaintDevice *dev, int form)
 	updateCursor();
 	stop_calculating = false;
 	
-	// Antialiasing is *not* used for drawing the plots, as lines (of a shallow gradient)
-	// drawn one pixel at a time with antialiasing turned on do not look smooth -
-	// instead, they look like a pixelated line that has been blurred.
-	// (plus, it makes drawing a *lot* slower).
-	DC.setRenderHint( QPainter::Antialiasing, false );
+	// Antialiasing slows down rendering a lot, so turn it off if we are
+	// sliding the view about
+	DC.setRenderHint( QPainter::Antialiasing, m_zoomMode != Translating );
+// 	if ( m_zoomMode != Translating )
+// 		kDebug() << "##############################\n";
 	DC.setClipping( true );
 	DC.setClipRect( PlotArea );
 	foreach ( Ufkt * ufkt, m_parser->m_ufkt )
@@ -982,9 +982,9 @@ void View::mousePressEvent(QMouseEvent *e)
 		while(++k<ke);
 	}
 	
-	// user didn't click on a plot; so we now enter translation mode
+	// user didn't click on a plot; so we prepare to enter translation mode
 	csmode=-1;
-	m_zoomMode = Translating;
+	m_zoomMode = AboutToTranslate;
 	m_prevDragMousePos = e->pos();
 }
 
@@ -1023,8 +1023,10 @@ void View::mouseMoveEvent(QMouseEvent *e)
 			m_zoomMode = ZoomOutDrawing;
 			m_zoomRectangleStart = e->pos();
 		}
-		else if ( m_zoomMode == Translating )
+		else if ( ((m_zoomMode == AboutToTranslate) || (m_zoomMode == Translating)) &&
+						  (e->pos() != m_prevDragMousePos) )
 		{
+			m_zoomMode = Translating;
 			QPoint d = m_prevDragMousePos - e->pos();
 			m_prevDragMousePos = e->pos();
 			translateView( d.x(), d.y() );
@@ -1123,14 +1125,17 @@ bool View::updateCrosshairPosition()
 
 void View::mouseReleaseEvent ( QMouseEvent * e )
 {
-	update();
-	updateCursor();
+	bool doDrawPlot = false;
 	
 	switch ( m_zoomMode )
 	{
 		case Normal:
 		case AnimatingZoom:
+		case AboutToTranslate:
+			break;
+			
 		case Translating:
+			doDrawPlot = true;
 			break;
 		
 		case ZoomIn:
@@ -1151,6 +1156,11 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	}
 	
 	m_zoomMode = Normal;
+	
+	if ( doDrawPlot )
+		drawPlot();
+	
+	updateCursor();
 }
 
 
@@ -1384,7 +1394,6 @@ void View::setScaling()
 void View::getSettings()
 {
 	m_parser->setAngleMode( Settings::anglemode() );
-	m_parser->linewidth0 = Settings::gridLineWidth();
 
 	backgroundcolor = Settings::backgroundcolor();
 	invertColor(backgroundcolor,inverted_backgroundcolor);
@@ -2239,6 +2248,7 @@ void View::updateCursor()
 			newCursor = CursorLessen;
 			break;
 			
+		case AboutToTranslate:
 		case Translating:
 			newCursor = CursorMove;
 			break;

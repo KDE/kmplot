@@ -285,13 +285,14 @@ private:
 	
 	enum ZoomMode
 	{
-		Normal,			///< no zooming
-		AnimatingZoom,	///< animating a current zooming
-		ZoomIn,			///< zoom in
-		ZoomOut,		///< zoom out
-		ZoomInDrawing,	///< drawing a rectangle for zooming in
-		ZoomOutDrawing,	///< drawing a rectangle for zooming out
-		Translating,	///< dragging the view with the mouse
+		Normal,				///< no zooming
+		AnimatingZoom,		///< animating a current zooming
+		ZoomIn,				///< zoom in
+		ZoomOut,			///< zoom out
+		ZoomInDrawing,		///< drawing a rectangle for zooming in
+		ZoomOutDrawing,		///< drawing a rectangle for zooming out
+		AboutToTranslate,	///< user has clicked on an empty spot, but hasn't moved the mouse yet
+		Translating,		///< dragging the view with the mouse
 	};
 		
 	/// The current editing status

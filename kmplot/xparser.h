@@ -54,7 +54,6 @@ public:
         double euler_method(const double, const QVector<Ufkt>::iterator);
         
 	/// Line width default
-	double linewidth0;
 	QColor defaultColor(int function);
 	
 	virtual int addfkt(QString);

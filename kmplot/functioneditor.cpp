@@ -33,6 +33,8 @@
 #include "xparser.h"
 
 #include <kaction.h>
+#include <kmessagebox.h>
+
 #include <QMenu>
 #include <QTimer>
 
@@ -49,13 +51,12 @@ class FunctionEditorWidget : public QWidget, public Ui::FunctionEditorWidget
 
 
 //BEGIN class FunctionEditor
-FunctionEditor::FunctionEditor( View * view, KMenu * createNewPlotsMenu, QWidget * parent )
+FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	: QDockWidget( i18n("Function Editor"), parent )
 {
 	m_function = -1;
 	m_functionX = -1;
 	m_functionY = -1;
-	m_view = view;
 	m_createNewPlotsMenu = createNewPlotsMenu;
 	
 	// need a name for saving and restoring the position of this dock widget
@@ -79,7 +80,7 @@ FunctionEditor::FunctionEditor( View * view, KMenu * createNewPlotsMenu, QWidget
 	connect( m_syncFunctionListTimer, SIGNAL(timeout()), this, SLOT( syncFunctionList() ) );
 	
 	m_editor = new FunctionEditorWidget;
-	m_functionList = new FunctionListWidget( m_editor, m_view );
+	m_functionList = new FunctionListWidget( m_editor );
 	m_editor->functionListContainer->insertWidget( 0, m_functionList );
 	m_editor->functionListContainer->setCurrentIndex( 0 );
 	
@@ -120,8 +121,8 @@ FunctionEditor::FunctionEditor( View * view, KMenu * createNewPlotsMenu, QWidget
 		connect( w, SIGNAL(currentIndexChanged(int)), this, SLOT(save()) );
 	//END connect up all editing widgets
 	
-	connect( m_view->parser(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
-	connect( m_view->parser(), SIGNAL(functionRemoved(int)), this, SLOT(functionsChanged()) );
+	connect( View::self()->parser(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
+	connect( View::self()->parser(), SIGNAL(functionRemoved(int)), this, SLOT(functionsChanged()) );
 	
 	m_createNewPlotsMenu->installEventFilter( this );
 	connect( m_editor->createNewPlot, SIGNAL(pressed()), this, SLOT( createNewPlot() ) );
@@ -147,7 +148,7 @@ void FunctionEditor::deleteCurrent()
 		return;
 	}
 	
-	if ( !m_view->parser()->delfkt( functionItem->function1() ) )
+	if ( !View::self()->parser()->delfkt( functionItem->function1() ) )
 	{
 		kDebug() << "Couldn't delete function 1.\n";
 		// couldn't delete it, as e.g. another function depends on it
@@ -155,11 +156,11 @@ void FunctionEditor::deleteCurrent()
 	}
 	
 	kDebug() << "Deleting function 2 status: " <<
-			m_view->parser()->delfkt( functionItem->function2() ) << endl;
+			View::self()->parser()->delfkt( functionItem->function2() ) << endl;
 	
 	kDebug() << "Deleted current, so requestion state save.\n";
-	m_view->mainDlg()->requestSaveCurrentState();
-	m_view->drawPlot();
+	View::self()->mainDlg()->requestSaveCurrentState();
+	View::self()->drawPlot();
 }
 
 
@@ -196,7 +197,7 @@ void FunctionEditor::syncFunctionList()
 	FunctionListItem * toSelect = 0l;
 	int newFunctionCount = 0;
 	
-	for ( QMap<int, Ufkt*>::iterator it = m_view->parser()->m_ufkt.begin(); it != m_view->parser()->m_ufkt.end(); ++it)
+	for ( QMap<int, Ufkt*>::iterator it = View::self()->parser()->m_ufkt.begin(); it != View::self()->parser()->m_ufkt.end(); ++it)
 	{
 		Ufkt * function = *it;
 		
@@ -220,11 +221,11 @@ void FunctionEditor::syncFunctionList()
 		if ( function->fstr[0] == 'x' )
 		{
 			++it;
-			assert( it != m_view->parser()->m_ufkt.end() );
+			assert( it != View::self()->parser()->m_ufkt.end() );
 			f2 = (*it)->id;
 		}
 		
-		toSelect = new FunctionListItem( m_functionList, m_view, f1, f2 );
+		toSelect = new FunctionListItem( m_functionList, f1, f2 );
 		newFunctionCount++;
 	}
 	
@@ -305,7 +306,7 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 		m_functionX = -1;
 		m_functionY = -1;
 		
-		if ( Ufkt * function = m_view->parser()->functionWithID(m_function) )
+		if ( Ufkt * function = View::self()->parser()->functionWithID(m_function) )
 		{
 			QChar prefix = function->fstr[0];
 			if ( prefix == 'r' )
@@ -323,7 +324,7 @@ void FunctionEditor::initFromCartesian()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Ufkt * f = m_view->parser()->functionWithID(m_function);
+	Ufkt * f = View::self()->parser()->functionWithID(m_function);
 	
 	if ( !f )
 	{
@@ -384,7 +385,7 @@ void FunctionEditor::initFromPolar()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Ufkt * f = m_view->parser()->functionWithID(m_function);
+	Ufkt * f = View::self()->parser()->functionWithID(m_function);
 	
 	if ( !f )
 		return;
@@ -408,8 +409,8 @@ void FunctionEditor::initFromParametric()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Ufkt * fx = m_view->parser()->functionWithID(m_functionX);
-	Ufkt * fy = m_view->parser()->functionWithID(m_functionY);
+	Ufkt * fx = View::self()->parser()->functionWithID(m_functionX);
+	Ufkt * fy = View::self()->parser()->functionWithID(m_functionY);
 	
 	if ( !fx || !fy )
 		return;
@@ -479,19 +480,21 @@ void FunctionEditor::createNewPlot()
 
 void FunctionEditor::createCartesian()
 {
+	KMessageBox::information( this, QString("View::m_self=%1").arg((unsigned long long)View::self()) );
+	
 	m_function = -1;
 	m_functionX = -1;
 	m_functionY = -1;
 	
 	// find a name not already used
 	QString fname( "f(x)=0" );
-	m_view->parser()->fixFunctionName( fname, XParser::Function, -1 );
+	View::self()->parser()->fixFunctionName( fname, XParser::Function, -1 );
 	
-	m_function = m_view->parser()->addFunction( fname );
+	m_function = View::self()->parser()->addFunction( fname );
 	assert( m_function != -1 );
 
 	kDebug() << "Created cartesian, so requestion state save.\n";
-	m_view->mainDlg()->requestSaveCurrentState();
+	View::self()->mainDlg()->requestSaveCurrentState();
 }
 
 
@@ -503,23 +506,23 @@ void FunctionEditor::createParametric()
 	
 	// find a name not already used
 	QString fname;
-	m_view->parser()->fixFunctionName( fname, XParser::ParametricX, -1 );
+	View::self()->parser()->fixFunctionName( fname, XParser::ParametricX, -1 );
 	QString name = fname.mid( 1, fname.indexOf('(')-1 );
 	
 	kDebug() << "AAA\n";
 	
-	m_functionX = m_view->parser()->addfkt( QString("x%1(t)=0").arg( name ) ); 
+	m_functionX = View::self()->parser()->addfkt( QString("x%1(t)=0").arg( name ) ); 
 	assert( m_functionX != -1 );
 	
 	kDebug() << "BBB\n";
 	
-	m_functionY = m_view->parser()->addfkt( QString("y%1(t)=0").arg( name ) );
+	m_functionY = View::self()->parser()->addfkt( QString("y%1(t)=0").arg( name ) );
 	assert( m_functionY != -1 );
 	
 	kDebug() << "CCC\n";
 
 	kDebug() << "Created parametric, so requestion state save.\n";
-	m_view->mainDlg()->requestSaveCurrentState();
+	View::self()->mainDlg()->requestSaveCurrentState();
 	
 	kDebug() << "DDD\n";
 }
@@ -533,22 +536,22 @@ void FunctionEditor::createPolar()
 	
 	// find a name not already used
 	QString fname( "f(x)=0" );
-	m_view->parser()->fixFunctionName( fname, XParser::Polar, -1 );
+	View::self()->parser()->fixFunctionName( fname, XParser::Polar, -1 );
 	
-	m_function = m_view->parser()->addFunction( fname );
+	m_function = View::self()->parser()->addFunction( fname );
 	assert( m_function != -1 );
 
-	m_view->mainDlg()->requestSaveCurrentState();
+	View::self()->mainDlg()->requestSaveCurrentState();
 }
 
 
 void FunctionEditor::save()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	if ( m_function != -1 )
 	{
-		Ufkt * f = m_view->parser()->functionWithID( m_function );
+		Ufkt * f = View::self()->parser()->functionWithID( m_function );
 		if ( !f )
 			return;
 		
@@ -569,22 +572,22 @@ void FunctionEditor::saveCartesian()
 {
 	kDebug() << k_funcinfo << endl;
 	
-	Ufkt * f = m_view->parser()->functionWithID( m_function );
+	Ufkt * f = View::self()->parser()->functionWithID( m_function );
 	if ( !f )
 		return;
 	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
 	QString f_str( m_editor->cartesianEquation->text() );
-    m_view->parser()->fixFunctionName(f_str, XParser::Function, f->id );
+    View::self()->parser()->fixFunctionName(f_str, XParser::Function, f->id );
 	
 	//all settings are saved here until we know that no errors have appeared
 	Ufkt tempFunction;
 	
 	tempFunction.usecustomxmin = m_editor->cartesianCustomMin->isChecked();
 	tempFunction.str_dmin = m_editor->cartesianMin->text();
-	tempFunction.dmin = m_view->parser()->eval( tempFunction.str_dmin );
-	if ( tempFunction.usecustomxmin && m_view->parser()->parserError( false ) != 0)
+	tempFunction.dmin = View::self()->parser()->eval( tempFunction.str_dmin );
+	if ( tempFunction.usecustomxmin && View::self()->parser()->parserError( false ) != 0)
 	{
 // 		showPage(0);
 // 		editfunctionpage->min->setFocus();
@@ -594,8 +597,8 @@ void FunctionEditor::saveCartesian()
 	
 	tempFunction.usecustomxmax = m_editor->cartesianCustomMax->isChecked();
 	tempFunction.str_dmax = m_editor->cartesianMax->text();
-	tempFunction.dmax = m_view->parser()->eval( tempFunction.str_dmax );
-	if ( tempFunction.usecustomxmax && m_view->parser()->parserError( false ) != 0)
+	tempFunction.dmax = View::self()->parser()->eval( tempFunction.str_dmax );
+	if ( tempFunction.usecustomxmax && View::self()->parser()->parserError( false ) != 0)
 	{
 // 		showPage(0);
 // 		editfunctionpage->max->setFocus();
@@ -628,10 +631,10 @@ void FunctionEditor::saveCartesian()
 	tempFunction.color = m_editor->cartesian_f_lineColor->color().rgb();
 	
 	tempFunction.integral_mode = m_editor->showIntegral->isChecked();
-	double initx = m_view->parser()->eval( m_editor->txtInitX->text() );
+	double initx = View::self()->parser()->eval( m_editor->txtInitX->text() );
 	tempFunction.startx = initx;
 	tempFunction.str_startx = m_editor->txtInitX->text();
-	if ( tempFunction.integral_mode && m_view->parser()->parserError(false) != 0)
+	if ( tempFunction.integral_mode && View::self()->parser()->parserError(false) != 0)
 	{
 // 			KMessageBox::sorry(this,i18n("Please insert a valid x-value"));
 // 			showPage(2);
@@ -640,10 +643,10 @@ void FunctionEditor::saveCartesian()
 		return;
 	}
                 
-	double inity = m_view->parser()->eval(m_editor->txtInitY->text());
+	double inity = View::self()->parser()->eval(m_editor->txtInitY->text());
 	tempFunction.starty = inity;
 	tempFunction.str_starty = m_editor->txtInitY->text();
-	if ( tempFunction.integral_mode && m_view->parser()->parserError(false) != 0)
+	if ( tempFunction.integral_mode && View::self()->parser()->parserError(false) != 0)
 	{
 // 			KMessageBox::sorry(this,i18n("Please insert a valid y-value"));
 // 			showPage(2);
@@ -688,11 +691,11 @@ void FunctionEditor::saveCartesian()
 		fixCartesianArguments( & f_str ); //adding an extra argument for the parameter value
 	
 	f->fstr = f_str;
-	m_view->parser()->reparse(f); //reparse the funcion
-	if ( m_view->parser()->parserError( false ) != 0)
+	View::self()->parser()->reparse(f); //reparse the funcion
+	if ( View::self()->parser()->parserError( false ) != 0)
 	{
 		f->fstr = old_fstr;
-		m_view->parser()->reparse(f); 
+		View::self()->parser()->reparse(f); 
 // 		raise();
 // 		showPage(0);
 // 		editfunctionpage->equation->setFocus();
@@ -708,10 +711,10 @@ void FunctionEditor::saveCartesian()
 		return;
 
 		
-	m_view->mainDlg()->requestSaveCurrentState();
+	View::self()->mainDlg()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
-	m_view->drawPlot();
+	View::self()->drawPlot();
 }
 
 
@@ -746,7 +749,7 @@ void FunctionEditor::savePolar()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Ufkt * f = m_view->parser()->functionWithID( m_function );
+	Ufkt * f = View::self()->parser()->functionWithID( m_function );
 	if ( !f )
 		return;
 	
@@ -754,7 +757,7 @@ void FunctionEditor::savePolar()
 	
 	QString f_str = m_editor->polarEquation->text();
 
-	m_view->parser()->fixFunctionName( f_str, XParser::Polar, f->id );
+	View::self()->parser()->fixFunctionName( f_str, XParser::Polar, f->id );
 	Ufkt tempFunction;  //all settings are saved here until we know that no errors have appeared
 
 	if ( functionListItem )
@@ -762,8 +765,8 @@ void FunctionEditor::savePolar()
 	
 	tempFunction.usecustomxmin = m_editor->polarCustomMin->isChecked();
 	tempFunction.str_dmin = m_editor->polarMin->text();
-	tempFunction.dmin = m_view->parser()->eval( tempFunction.str_dmin );
-	if ( tempFunction.usecustomxmin && m_view->parser()->parserError( false ) )
+	tempFunction.dmin = View::self()->parser()->eval( tempFunction.str_dmin );
+	if ( tempFunction.usecustomxmin && View::self()->parser()->parserError( false ) )
 	{
 		kWarning() << "invalid xmin\n";
 // 		m_editor->min->setFocus();
@@ -773,8 +776,8 @@ void FunctionEditor::savePolar()
 	
 	tempFunction.usecustomxmax = m_editor->polarCustomMax->isChecked();
 	tempFunction.str_dmax = m_editor->polarMax->text();
-	tempFunction.dmax = m_view->parser()->eval( tempFunction.str_dmax );
-	if ( tempFunction.usecustomxmax && m_view->parser()->parserError( false ) )
+	tempFunction.dmax = View::self()->parser()->eval( tempFunction.str_dmax );
+	if ( tempFunction.usecustomxmax && View::self()->parser()->parserError( false ) )
 	{
 		kWarning() << "invalid xmax\n";
 // 		m_editor->max->setFocus();
@@ -798,12 +801,12 @@ void FunctionEditor::savePolar()
 	
 	QString const old_fstr = f->fstr;
 	f->fstr = f_str;
-	m_view->parser()->reparse( f ); //reparse the funcion
-	if ( m_view->parser()->parserError( false ) != 0)
+	View::self()->parser()->reparse( f ); //reparse the funcion
+	if ( View::self()->parser()->parserError( false ) != 0)
 	{
 		kWarning() << "parse error\n";
 		f->fstr = old_fstr;
-		m_view->parser()->reparse( f );
+		View::self()->parser()->reparse( f );
 // 		raise();
 // 		m_editor->kLineEditYFunction->setFocus();
 // 		m_editor->kLineEditYFunction->selectAll();
@@ -817,10 +820,10 @@ void FunctionEditor::savePolar()
 		return;
 
 	kDebug() << "Polar changed, so requestion state save.\n";	
-	m_view->mainDlg()->requestSaveCurrentState();
+	View::self()->mainDlg()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
-	m_view->drawPlot();
+	View::self()->drawPlot();
 }
 
 
@@ -830,8 +833,8 @@ void FunctionEditor::saveParametric()
 	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
-	Ufkt * fx = m_view->parser()->functionWithID( m_functionX );
-	Ufkt * fy = m_view->parser()->functionWithID( m_functionY );
+	Ufkt * fx = View::self()->parser()->functionWithID( m_functionX );
+	Ufkt * fy = View::self()->parser()->functionWithID( m_functionY );
 	
 	if ( !fx || !fy )
 		return;
@@ -849,7 +852,7 @@ void FunctionEditor::saveParametric()
 	if ( m_editor->parametricName->text().isEmpty() )
 	{
 		QString fname;
-		m_view->parser()->fixFunctionName(fname, XParser::ParametricX, fx->id );
+		View::self()->parser()->fixFunctionName(fname, XParser::ParametricX, fx->id );
 		int const pos = fname.indexOf('(');
 		m_editor->parametricName->setText(fname.mid(1,pos-1));
 	}
@@ -860,8 +863,8 @@ void FunctionEditor::saveParametric()
 	
 	tempFunction.usecustomxmin = true;
 	tempFunction.str_dmin = m_editor->parametricMin->text();
-	tempFunction.dmin = m_view->parser()->eval( tempFunction.str_dmin );
-	if ( tempFunction.usecustomxmin && m_view->parser()->parserError( false ) )
+	tempFunction.dmin = View::self()->parser()->eval( tempFunction.str_dmin );
+	if ( tempFunction.usecustomxmin && View::self()->parser()->parserError( false ) )
 	{
 // 		m_editor->min->setFocus();
 // 		m_editor->min->selectAll();
@@ -870,8 +873,8 @@ void FunctionEditor::saveParametric()
 	
 	tempFunction.usecustomxmax = true;
 	tempFunction.str_dmax = m_editor->parametricMax->text();
-	tempFunction.dmax = m_view->parser()->eval( tempFunction.str_dmax );
-	if ( tempFunction.usecustomxmax && m_view->parser()->parserError( false ) )
+	tempFunction.dmax = View::self()->parser()->eval( tempFunction.str_dmax );
+	if ( tempFunction.usecustomxmax && View::self()->parser()->parserError( false ) )
 	{
 // 		m_editor->max->setFocus();
 // 		m_editor->max->selectAll();
@@ -892,11 +895,11 @@ void FunctionEditor::saveParametric()
 	
 	QString old_fstr = fx->fstr;
 	fx->fstr = "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text();
-	m_view->parser()->reparse(fx); //reparse the funcion
-	if ( m_view->parser()->parserError( false ) != 0)
+	View::self()->parser()->reparse(fx); //reparse the funcion
+	if ( View::self()->parser()->parserError( false ) != 0)
 	{
 		fx->fstr = old_fstr;
-		m_view->parser()->reparse(fx); 
+		View::self()->parser()->reparse(fx); 
 // 		raise();
 // 		m_editor->kLineEditXFunction->setFocus();
 // 		m_editor->kLineEditXFunction->selectAll();
@@ -912,11 +915,11 @@ void FunctionEditor::saveParametric()
 	
 	old_fstr = fy->fstr;
 	fy->fstr = "y" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text();
-	m_view->parser()->reparse( fy ); //reparse the funcion
-	if ( m_view->parser()->parserError( false ) != 0 ) //when something went wrong:
+	View::self()->parser()->reparse( fy ); //reparse the funcion
+	if ( View::self()->parser()->parserError( false ) != 0 ) //when something went wrong:
 	{
 		fy->fstr = old_fstr; //go back to the old expression
-		m_view->parser()->reparse(fy);  //reparse
+		View::self()->parser()->reparse(fy);  //reparse
 // 		raise();
 // 		m_editor->kLineEditXFunction->setFocus();
 // 		m_editor->kLineEditXFunction->selectAll();
@@ -931,16 +934,16 @@ void FunctionEditor::saveParametric()
 		return;
 	
 	kDebug() << "Parametric changed, so requestion state save.\n";
-	m_view->mainDlg()->requestSaveCurrentState();
+	View::self()->mainDlg()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
-	m_view->drawPlot();
+	View::self()->drawPlot();
 }
 
 
 void FunctionEditor::editParameterList()
 {
-	KParameterEditor * dlg = new KParameterEditor( m_view->parser(), & m_parameters );
+	KParameterEditor * dlg = new KParameterEditor( View::self()->parser(), & m_parameters );
 	dlg->exec();
 	saveCartesian();
 }
@@ -949,11 +952,9 @@ void FunctionEditor::editParameterList()
 
 
 //BEGIN class FunctionListWidget
-FunctionListWidget::FunctionListWidget( QWidget * parent, View * view )
+FunctionListWidget::FunctionListWidget( QWidget * parent )
 	: QListWidget( parent )
 {
-	m_view = view;
-	
 	setAcceptDrops(true);
     setDragEnabled(true);
 	show();
@@ -971,9 +972,9 @@ QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items )
 		int f1 = static_cast<FunctionListItem*>(item)->function1();
 		int f2 = static_cast<FunctionListItem*>(item)->function2();
 		
-		if ( Ufkt * function = m_view->parser()->functionWithID( f1 ) )
+		if ( Ufkt * function = View::self()->parser()->functionWithID( f1 ) )
 			KmPlotIO::addFunction( doc, root, function );
-		if ( Ufkt * function = m_view->parser()->functionWithID( f2 ) )
+		if ( Ufkt * function = View::self()->parser()->functionWithID( f2 ) )
 			KmPlotIO::addFunction( doc, root, function );
 	}
 	
@@ -1011,7 +1012,7 @@ void FunctionListWidget::dropEvent( QDropEvent * event )
 	for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
 	{
 		if ( n.nodeName() == "function" )
-			KmPlotIO::parseFunction( m_view->parser(), n.toElement(), true );
+			KmPlotIO::parseFunction( View::self()->parser(), n.toElement(), true );
 		else
 			kWarning() << k_funcinfo << "Unexpected node with name " << n.nodeName() << endl;
 	}
@@ -1021,14 +1022,12 @@ void FunctionListWidget::dropEvent( QDropEvent * event )
 
 
 //BEGIN class FunctionListItem
-FunctionListItem::FunctionListItem( QListWidget * parent, View * view, int function1, int function2 )
+FunctionListItem::FunctionListItem( QListWidget * parent, int function1, int function2 )
 	: QListWidgetItem( parent )
 {
-	m_view = view;
 	m_function1 = function1;
 	m_function2 = function2;
 	
-	assert( m_view );
 	assert( m_function1 != -1 );
 	
 // 	setFlags( Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
@@ -1039,8 +1038,8 @@ FunctionListItem::FunctionListItem( QListWidget * parent, View * view, int funct
 
 void FunctionListItem::update()
 {
-	Ufkt * f1 = m_view->parser()->functionWithID( m_function1 );
-	Ufkt * f2 = m_view->parser()->functionWithID( m_function2 );
+	Ufkt * f1 = View::self()->parser()->functionWithID( m_function1 );
+	Ufkt * f2 = View::self()->parser()->functionWithID( m_function2 );
 	
 	if ( !f1 )
 	{

@@ -70,11 +70,12 @@
 double View::xmin = 0;
 double View::xmax = 0;
 
+View * View::m_self = 0;
+
 
 View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection *ac, MainDlg * mainDlg )
 	: DCOPObject("View"),
 	  QWidget( parent, Qt::WStaticContents ),
-	  dgr(this),
 	  buffer( width(), height() ),
 	  m_popupmenu(p),
 	  m_modified(mo),
@@ -83,6 +84,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	  m_ac(ac),
 	  m_mainDlg( mainDlg )
 {
+	m_self = this;
 	csmode = csparam = -1;
 	cstype = Ufkt::Function;
 	areaDraw = false;

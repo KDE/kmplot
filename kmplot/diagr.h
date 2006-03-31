@@ -58,7 +58,7 @@ class CDiagr
 public:
 	/// Contructor. Members are set to initial values.
 	///@see Create()
-	CDiagr( View * view );
+	CDiagr();
 	/// Nothing to do for the destructor.
 	~CDiagr();
 
@@ -144,8 +144,6 @@ private:
 	
 	QRect PlotArea;	///< plot area
 	QRect m_frame;	///< frame around the plot
-	
-	View * view; ///< Pointer to parent View
 };
 
 #endif // diagr_included

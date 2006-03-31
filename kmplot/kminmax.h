@@ -40,7 +40,7 @@ class KMinMax : public KDialog
 {
 Q_OBJECT
 public:
-    KMinMax(View *, QWidget *parent = 0 );
+    KMinMax(QWidget *parent = 0 );
     /// called every time the dialog is opened
     void init(char);
     /// update the list with functions
@@ -61,7 +61,6 @@ public slots:
 	void list_doubleClicked(QListWidgetItem *);
         
 private:
-    View *m_view;
     char m_mode; //< 0 = minimum, 1 = maximum, 2 = y-point, 3=drawing area
 	QString parameter;
 	QMinMax * m_mainWidget;

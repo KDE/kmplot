@@ -83,22 +83,22 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 	coordsDialog = 0;
 	m_popupmenu = new KMenu( parentWidget );
 	m_newPlotMenu = new KMenu( parentWidget );
-	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection(), this );
-	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
+	(void) new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection(), this );
+	connect( View::self(), SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 	
 	if ( !m_readonly )
 	{
-		m_functionEditor = new FunctionEditor( view, m_newPlotMenu, parentWidget );
+		m_functionEditor = new FunctionEditor( m_newPlotMenu, parentWidget );
 		static_cast<QMainWindow*>(parentWidget)->addDockWidget( Qt::LeftDockWidgetArea, m_functionEditor );
 	}
 	
-	setWidget( view );
-	view->setFocusPolicy(Qt::ClickFocus);
-	minmaxdlg = new KMinMax(view, m_parent);
-	view->setMinMaxDlg(minmaxdlg);
+	setWidget( View::self() );
+	View::self()->setFocusPolicy(Qt::ClickFocus);
+	minmaxdlg = new KMinMax(m_parent);
+	View::self()->setMinMaxDlg(minmaxdlg);
 	setupActions();
-	view->parser()->constants()->load();
-	kmplotio = new KmPlotIO(view->parser());
+	View::self()->parser()->constants()->load();
+	kmplotio = new KmPlotIO(View::self()->parser());
 	m_config = KGlobal::config();
 	m_recentFiles->loadEntries( m_config );
 	
@@ -116,10 +116,10 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 	m_settingsDialog->setHelp("general-config");
 
 	// create and add the page(s)
-	m_generalSettings = new SettingsPageGeneral( view );
-	m_colorSettings = new SettingsPageColor( view );
-	m_fontsSettings = new SettingsPageFonts( view );
-	m_constantsSettings = new KConstantEditor( view, 0 );
+	m_generalSettings = new SettingsPageGeneral( View::self() );
+	m_colorSettings = new SettingsPageColor( View::self() );
+	m_fontsSettings = new SettingsPageFonts( View::self() );
+	m_constantsSettings = new KConstantEditor( 0 );
 	m_constantsSettings->setObjectName( "constantsSettings" );
 	
 	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
@@ -134,7 +134,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 MainDlg::~MainDlg()
 {
 	m_recentFiles->saveEntries( m_config );
-	view->parser()->constants()->save();
+	View::self()->parser()->constants()->save();
 	delete kmplotio;
 }
 
@@ -182,15 +182,15 @@ void MainDlg::setupActions()
 	KAction * zoomIn = new KAction( i18n("Zoom &In"), actionCollection(), "zoom_in" );
 	zoomIn->setShortcut( "CTRL+1" );
 	zoomIn->setIcon( KIcon("viewmag+") );
-	connect( zoomIn, SIGNAL(triggered(bool)), view, SLOT(mnuZoomIn_clicked()) );
+	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(mnuZoomIn_clicked()) );
 	
 	KAction * zoomOut = new KAction( i18n("Zoom &Out"), actionCollection(),"zoom_out" );
 	zoomOut->setShortcut( "CTRL+2" );
 	zoomOut->setIcon( KIcon("viewmag-") );
-	connect( zoomOut, SIGNAL(triggered(bool)), view, SLOT( mnuZoomOut_clicked() ) );
+	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT( mnuZoomOut_clicked() ) );
 	
 	KAction * zoomTrig = new KAction( i18n("&Fit Widget to Trigonometric Functions"), actionCollection(), "zoom_trig" );
-	connect( zoomTrig, SIGNAL(triggered(bool)), view, SLOT( mnuTrig_clicked() ) );
+	connect( zoomTrig, SIGNAL(triggered(bool)), View::self(), SLOT( mnuTrig_clicked() ) );
 	
 	KAction * coordI = new KAction( i18n( "Coordinate System I" ), actionCollection(), "coord_i" );
 	coordI->setIcon( KIcon("ksys1.png") );
@@ -249,23 +249,23 @@ void MainDlg::setupActions()
 	
 	
 
-	view->m_menuSliderAction = new KToggleAction( i18n( "Show Sliders" ), actionCollection(), "options_configure_show_sliders" );
-	connect( view->m_menuSliderAction, SIGNAL(triggered(bool)), this, SLOT( toggleShowSliders() ) );
+	View::self()->m_menuSliderAction = new KToggleAction( i18n( "Show Sliders" ), actionCollection(), "options_configure_show_sliders" );
+	connect( View::self()->m_menuSliderAction, SIGNAL(triggered(bool)), this, SLOT( toggleShowSliders() ) );
 	
 
 	// Popup menu
 	KAction *mnuHide = new KAction(i18n("&Hide"), actionCollection(),"mnuhide" );
-	connect( mnuHide, SIGNAL(triggered(bool)), view, SLOT( mnuHide_clicked() ) );
+	connect( mnuHide, SIGNAL(triggered(bool)), View::self(), SLOT( mnuHide_clicked() ) );
 	mnuHide->plug(m_popupmenu);
 	
 	KAction *mnuRemove = new KAction(i18n("&Remove"), actionCollection(),"mnuremove"  );
 	mnuRemove->setIcon( KIcon("editdelete") );
-	connect( mnuRemove, SIGNAL(triggered(bool)), view, SLOT( mnuRemove_clicked() ) );
+	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT( mnuRemove_clicked() ) );
 	mnuRemove->plug(m_popupmenu);
 	
 	KAction *mnuEdit = new KAction(i18n("&Edit"), actionCollection(),"mnuedit"  );
 	mnuEdit->setIcon( KIcon("editplots") );
-	connect(mnuEdit , SIGNAL(triggered(bool)), view, SLOT( mnuEdit_clicked() ) );
+	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT( mnuEdit_clicked() ) );
 	mnuEdit->plug(m_popupmenu);
 	
 	m_popupmenu->addSeparator();
@@ -287,7 +287,7 @@ void MainDlg::undo()
 	m_currentState = m_undoStack.pop();
 	
 	kmplotio->restore( m_currentState );
-	view->drawPlot();
+	View::self()->drawPlot();
 	
 	m_undoAction->setEnabled( !m_undoStack.isEmpty() );
 	m_redoAction->setEnabled( true );
@@ -305,7 +305,7 @@ void MainDlg::redo()
 	m_currentState = m_redoStack.pop();
 	
 	kmplotio->restore( m_currentState );
-	view->drawPlot();
+	View::self()->drawPlot();
 	
 	m_undoAction->setEnabled( true );
 	m_redoAction->setEnabled( !m_redoStack.isEmpty() );
@@ -416,7 +416,7 @@ void MainDlg::slotExport()
 		if( url.fileName().right(4).toLower()==".svg")
 		{
 			QPicture pic;
-			view->draw(&pic, 2);
+			View::self()->draw(&pic, 2);
 			if (url.isLocalFile() )
 				pic.save( url.prettyURL(0), "SVG");
 			else
@@ -432,7 +432,7 @@ void MainDlg::slotExport()
 		else if( url.fileName().right(4).toLower()==".bmp")
 		{
 			QPixmap pic(100, 100);
-			view->draw(&pic, 3);
+			View::self()->draw(&pic, 3);
 			if (url.isLocalFile() )
 				pic.save(  url.prettyURL(0), "BMP");
 			else
@@ -448,7 +448,7 @@ void MainDlg::slotExport()
 		else if( url.fileName().right(4).toLower()==".png")
 		{
 			QPixmap pic(100, 100);
-			view->draw(&pic, 3);
+			View::self()->draw(&pic, 3);
 			if (url.isLocalFile() )
 				pic.save( url.prettyURL(0), "PNG");
 			else
@@ -464,7 +464,7 @@ void MainDlg::slotExport()
 }
 bool MainDlg::openFile()
 {
-	view->init();
+	View::self()->init();
 	if (m_url==m_currentfile || !kmplotio->load( m_url ) )
 	{
 		m_recentFiles->removeUrl(m_url ); //remove the file from the recent-opened-file-list
@@ -475,8 +475,8 @@ bool MainDlg::openFile()
 	m_recentFiles->addUrl( m_url.prettyURL(0)  );
 	setWindowCaption( m_url.prettyURL(0) );
 	m_modified = false;
-	view->updateSliders();
-	view->drawPlot();
+	View::self()->updateSliders();
+	View::self()->drawPlot();
 	return true;
 }
 
@@ -492,7 +492,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 		return;
 	}
 
-	view->init();
+	View::self()->init();
 	if ( !kmplotio->load( url ) ) //if the loading fails
 	{
 		m_recentFiles->removeUrl(url ); //remove the file from the recent-opened-file-list
@@ -502,8 +502,8 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 	m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
   setWindowCaption( m_url.prettyURL(0) );
   m_modified = false;
-	view->updateSliders();
-	view->drawPlot();
+	View::self()->updateSliders();
+	View::self()->drawPlot();
 }
 
 void MainDlg::slotPrint()
@@ -516,7 +516,7 @@ void MainDlg::slotPrint()
 	if ( prt.setup( m_parent, i18n( "Print Plot" ) ) )
 	{
 		prt.setFullPage( true );
-		view->draw(&prt, 1);
+		View::self()->draw(&prt, 1);
 	}
 }
 
@@ -525,7 +525,7 @@ void MainDlg::editAxes()
 	// create a config dialog and add a axes page
 	if ( !coordsDialog)
 	{
-		coordsDialog = new CoordsConfigDialog( view->parser(), m_parent);
+		coordsDialog = new CoordsConfigDialog( View::self()->parser(), m_parent);
 		// User edited the configuration - update your local copies of the
 		// configuration data
 		connect( coordsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
@@ -558,7 +558,7 @@ void MainDlg::slotCoord1()
 	Settings::setXRange( 0 );
 	Settings::setYRange( 0 );
 	m_modified = true;
-	view->drawPlot();
+	View::self()->drawPlot();
 }
 
 void MainDlg::slotCoord2()
@@ -566,7 +566,7 @@ void MainDlg::slotCoord2()
 	Settings::setXRange( 2 );
 	Settings::setYRange( 0 );
 	m_modified = true;
-	view->drawPlot();
+	View::self()->drawPlot();
 }
 
 void MainDlg::slotCoord3()
@@ -574,7 +574,7 @@ void MainDlg::slotCoord3()
 	Settings::setXRange( 2 );
 	Settings::setYRange( 2 );
 	m_modified = true;
-	view->drawPlot();
+	View::self()->drawPlot();
 }
 
 void MainDlg::slotSettings()
@@ -587,9 +587,9 @@ void MainDlg::slotSettings()
 
 void MainDlg::updateSettings()
 {
-	view->getSettings();
+	View::self()->getSettings();
 	m_modified = true;
-	view->drawPlot();
+	View::self()->drawPlot();
 }
 
 
@@ -620,16 +620,16 @@ void MainDlg::graphArea()
 void MainDlg::toggleShowSliders()
 {
 	// create the slider if it not exists already
-	if ( !view->m_sliderWindow )
+	if ( !View::self()->m_sliderWindow )
 	{
-		view->m_sliderWindow = new KSliderWindow( view, actionCollection());
-		connect( view->m_sliderWindow, SIGNAL( valueChanged() ), view, SLOT( drawPlot() ) );
-		connect( view->m_sliderWindow, SIGNAL( windowClosed() ), view, SLOT( slidersWindowClosed() ) );
+		View::self()->m_sliderWindow = new KSliderWindow( View::self(), actionCollection() );
+		connect( View::self()->m_sliderWindow, SIGNAL( valueChanged() ), View::self(), SLOT( drawPlot() ) );
+		connect( View::self()->m_sliderWindow, SIGNAL( windowClosed() ), View::self(), SLOT( slidersWindowClosed() ) );
 	}
-	if ( !view->m_sliderWindow->isVisible() )
-		view->m_sliderWindow->show();
+	if ( !View::self()->m_sliderWindow->isVisible() )
+		View::self()->m_sliderWindow->show();
 	else
-		view->m_sliderWindow->hide();
+		View::self()->m_sliderWindow->hide();
 }
 
 void MainDlg::setReadOnlyStatusBarText(const QString &text)

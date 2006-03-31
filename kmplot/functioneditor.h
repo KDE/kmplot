@@ -51,7 +51,7 @@ class FunctionEditor : public QDockWidget
 	Q_OBJECT
 		
 	public:
-		FunctionEditor( View * view, KMenu * createNewPlotsMenu, QWidget * parent );
+		FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent );
 		virtual ~ FunctionEditor();
 		
 		/**
@@ -163,7 +163,6 @@ class FunctionEditor : public QDockWidget
 		int m_functionX;
 		/// The y-coordinate of the parametric function being edited.
 		int m_functionY;
-		View * m_view;
 		
 		/// Used to ensure only one update when multiple widgets are changed
 		/// @{
@@ -196,22 +195,20 @@ class FunctionEditor : public QDockWidget
 class FunctionListWidget : public QListWidget
 {
 	public:
-		FunctionListWidget( QWidget * parent, View * view );
+		FunctionListWidget( QWidget * parent );
 		
 	protected:
 		virtual void dragEnterEvent( QDragEnterEvent * event );
 		virtual void dropEvent( QDropEvent * event );
 		virtual QMimeData * mimeData( const QList<QListWidgetItem *> items ) const;
 		virtual QStringList mimeTypes() const;
-		
-		View * m_view;
 };
 
 
 class FunctionListItem : public QListWidgetItem
 {
 	public:
-		FunctionListItem( QListWidget * parent, View * view, int function1, int function2 = -1 );
+		FunctionListItem( QListWidget * parent, int function1, int function2 = -1 );
 		
 		/**
 		 * Updates the displayed text and checked state depending on the
@@ -225,7 +222,6 @@ class FunctionListItem : public QListWidgetItem
 	protected:
 		int m_function1;
 		int m_function2;
-		View * m_view;
 };
 
 #endif // FUNCTIONEDITOR_H

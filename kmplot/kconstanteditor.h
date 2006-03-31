@@ -42,7 +42,7 @@ class KConstantEditor : public QWidget, public Ui::SettingsPageConstants
 {
 Q_OBJECT
 public:
-    KConstantEditor(View *, QWidget *parent = 0);
+    KConstantEditor(QWidget *parent = 0);
     ~KConstantEditor();
     
 public slots:
@@ -63,7 +63,6 @@ public slots:
 	bool checkValueValid();
 	
 private:
-	View *m_view;
 	QChar m_previousConstantName;
 	ConstantValidator * m_constantValidator;
 };
@@ -77,7 +76,7 @@ proper constant letters are used.
 class ConstantValidator : public QValidator
 {
 	public:
-		ConstantValidator( KConstantEditor * parent, View * view );
+		ConstantValidator( KConstantEditor * parent );
 		
 		virtual State validate( QString & input, int & pos ) const;
 		
@@ -92,7 +91,6 @@ class ConstantValidator : public QValidator
 	protected:
 		/// @see setWorkingName
 		QChar m_workingName;
-		View * m_view;
 };
 
 #endif

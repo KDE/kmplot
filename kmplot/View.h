@@ -71,6 +71,9 @@ public:
 	View(bool, bool &, KMenu *, QWidget* parent, KActionCollection *ac, MainDlg * mainDlg );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
+	
+	/// There is only one view.
+	static View * self() { return m_self; }
 
 	/// Reimplemented to draw all stuff to the view.
 	void draw(QPaintDevice *, int const);
@@ -334,6 +337,7 @@ private:
 	Cursor m_prevCursor;
 	
 	MainDlg * m_mainDlg;
+	static View * m_self;
 };
 
 #endif // View_included

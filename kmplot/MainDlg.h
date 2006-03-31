@@ -153,8 +153,6 @@ private:
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
 	
-	/// Central widget of the KMainWindow instance. tralala
-	View *view;
 	///The Recent Files action
 	KRecentFilesAction * m_recentFiles;
 	/// true == modifications not saved

@@ -36,9 +36,8 @@
 #include "kminmax.h"
 #include "xparser.h"
 
-KMinMax::KMinMax(View *v, QWidget *parent )
-	: KDialog( parent, i18n("Find Minimum Point") ),
-	  m_view(v)
+KMinMax::KMinMax(QWidget *parent )
+	: KDialog( parent, i18n("Find Minimum Point") )
 {
 	m_mainWidget = new QMinMax( this );
 	setMainWidget( m_mainWidget );
@@ -144,8 +143,8 @@ void KMinMax::updateFunctions()
 	
 	m_mainWidget->list->clear();
 
-//         for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
-	foreach ( Ufkt * it, m_view->parser()->m_ufkt )
+//         for( QVector<Ufkt>::iterator it =  View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
+	foreach ( Ufkt * it, View::self()->parser()->m_ufkt )
 	{
 		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r' && !it->fname.isEmpty())
 		{
@@ -187,25 +186,25 @@ void KMinMax::updateFunctions()
 	
 	QList<QListWidgetItem *> foundItems = m_mainWidget->list->findItems( selected_item, Qt::MatchExactly );
 	QListWidgetItem * found_item = foundItems.isEmpty() ? 0 : foundItems.first();
-	if ( found_item && m_view->csmode < 0)
+	if ( found_item && View::self()->csmode < 0)
 		m_mainWidget->list->setItemSelected( found_item, true );
 }
 
 void KMinMax::selectItem()
 {
 	m_mainWidget->cmdParameter->setEnabled( false );
-	if (  m_view->csmode < 0)
+	if (  View::self()->csmode < 0)
 		return;
-	//kDebug() << "cstype: " << (int)m_view->cstype << endl;
-        Ufkt *ufkt = m_view->parser()->m_ufkt[ m_view->csmode ];
+	//kDebug() << "cstype: " << (int)View::self()->cstype << endl;
+        Ufkt *ufkt = View::self()->parser()->m_ufkt[ View::self()->csmode ];
 	QString function = ufkt->fstr;
-	if ( m_view->cstype == 2)
+	if ( View::self()->cstype == 2)
 	{
 		int i= function.indexOf('(');
 		function.truncate(i);
 		function +="\'\'";
 	}
-	else if ( m_view->cstype == 1)
+	else if ( View::self()->cstype == 1)
 	{
 		int i= function.indexOf('(');
 		function.truncate(i);
@@ -217,7 +216,7 @@ void KMinMax::selectItem()
 		m_mainWidget->list->setItemSelected( foundItems.first(), true );
 
 	if (  !ufkt->parameters.isEmpty() )
-		parameter = ufkt->parameters[m_view->csparam].expression;
+		parameter = ufkt->parameters[View::self()->csparam].expression;
 }
 
 KMinMax::~KMinMax()
@@ -232,8 +231,8 @@ void KMinMax::cmdFind_clicked()
 		return;
 	}
 	double dmin, dmax;
-	dmin = m_view->parser()->eval(m_mainWidget->min->text() );
-	if ( m_view->parser()->parserError( true )!=0 )
+	dmin = View::self()->parser()->eval(m_mainWidget->min->text() );
+	if ( View::self()->parser()->parserError( true )!=0 )
 	{
 		m_mainWidget->min->setFocus();
 		m_mainWidget->min->selectAll();
@@ -241,8 +240,8 @@ void KMinMax::cmdFind_clicked()
 	}
 	if ( m_mode != 2)
 	{
-		dmax = m_view->parser()->eval(m_mainWidget->max->text() );
-		if ( m_view->parser()->parserError( true ) != 0 )
+		dmax = View::self()->parser()->eval(m_mainWidget->max->text() );
+		if ( View::self()->parser()->parserError( true ) != 0 )
 		{
 			m_mainWidget->max->setFocus();
 			m_mainWidget->max->selectAll();
@@ -291,8 +290,8 @@ void KMinMax::cmdFind_clicked()
 	Ufkt *ufkt = 0;
 	QString sec_function = function.section('(',0,0);
 
-//         for( QVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
-	foreach ( Ufkt * it, m_view->parser()->m_ufkt )
+//         for( QVector<Ufkt>::iterator it =  View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
+	foreach ( Ufkt * it, View::self()->parser()->m_ufkt )
 	{
 		if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -319,20 +318,20 @@ void KMinMax::cmdFind_clicked()
 
 	if ( m_mode == 0)
 	{
-		m_view->findMinMaxValue(ufkt,p_mode,true,dmin,dmax,parameter);
-		if ( !m_view->isCalculationStopped() )
+		View::self()->findMinMaxValue(ufkt,p_mode,true,dmin,dmax,parameter);
+		if ( !View::self()->isCalculationStopped() )
 			KMessageBox::information(this,i18n("Minimum value:\nx: %1\ny: %2").arg(dmin).arg(dmax) );
 	}
 	else if ( m_mode == 1)
 	{
-		m_view->findMinMaxValue(ufkt,p_mode,false,dmin,dmax,parameter);
-		if ( !m_view->isCalculationStopped() )
+		View::self()->findMinMaxValue(ufkt,p_mode,false,dmin,dmax,parameter);
+		if ( !View::self()->isCalculationStopped() )
 			KMessageBox::information(this,i18n("Maximum value:\nx: %1\ny: %2").arg(dmin).arg(dmax));
 	}
 	else if ( m_mode == 2)
 	{
-		m_view->getYValue(ufkt,p_mode,dmin,dmax,parameter);
-		if ( !m_view->isCalculationStopped() )
+		View::self()->getYValue(ufkt,p_mode,dmin,dmax,parameter);
+		if ( !View::self()->isCalculationStopped() )
 		{
 			QString tmp;
 			tmp.setNum(dmax);
@@ -344,16 +343,16 @@ void KMinMax::cmdFind_clicked()
 	else if ( m_mode == 3)
 	{
 		double dmin_tmp = dmin;
-		m_view->areaUnderGraph(ufkt,p_mode,dmin,dmax,parameter, 0);
-		if ( !m_view->isCalculationStopped() )
+		View::self()->areaUnderGraph(ufkt,p_mode,dmin,dmax,parameter, 0);
+		if ( !View::self()->isCalculationStopped() )
 		{
-			m_view->setFocus();
-			m_view->update();
+			View::self()->setFocus();
+			View::self()->update();
 			KMessageBox::information(this,i18n("The area between %1 and %2\nis: %3").arg(dmin_tmp).arg(dmax).arg(dmin));
 		}
 	}
 
-	if ( m_view->isCalculationStopped() )
+	if ( View::self()->isCalculationStopped() )
 		KMessageBox::sorry(this,i18n("The operation was cancelled by the user."));
 }
 void KMinMax::list_currentChanged(QListWidgetItem* item)
@@ -383,8 +382,8 @@ void KMinMax::list_currentChanged(QListWidgetItem* item)
 		function[0] =  function[0].toLower();
 	}
 	QString const sec_function = function.section('(',0,0);
-//         for(QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
-	foreach ( Ufkt * it, m_view->parser()->m_ufkt )
+//         for(QVector<Ufkt>::iterator it = View::self()->parser()->ufkt.begin(); it!=View::self()->parser()->ufkt.end(); ++it)
+	foreach ( Ufkt * it, View::self()->parser()->m_ufkt )
 	{
                 if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -425,8 +424,8 @@ void KMinMax::cmdParameter_clicked()
 	}
         
 	QString const sec_function = function.section('(',0,0);
-//         for(QVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
-	foreach ( Ufkt * it, m_view->parser()->m_ufkt )
+//         for(QVector<Ufkt>::iterator it = View::self()->parser()->ufkt.begin() ; it!=View::self()->parser()->ufkt.end(); ++it)
+	foreach ( Ufkt * it, View::self()->parser()->m_ufkt )
 	{
 	       if ( it->fstr.section('(',0,0) == sec_function)
                {

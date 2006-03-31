@@ -195,6 +195,8 @@ bool Ufkt::copyFrom( const Ufkt & function )
 //BEGIN class Parser
 Parser::Parser()
 {
+	kDebug() << "##################################" <<  k_funcinfo << endl;
+	
 	m_evalPos = 0;
 	evalflg = 0;
 	m_nextFunctionID = 0;

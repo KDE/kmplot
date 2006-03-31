@@ -45,9 +45,8 @@ int isinf(double x)
 
 #include <kdebug.h>
 
-CDiagr::CDiagr( View * _view )
+CDiagr::CDiagr()
 {
-	view = _view;
 	updateSettings();
 	ex=ey=1.;
 }
@@ -101,7 +100,7 @@ void CDiagr::Skal( double ex, double ey )
 
 void CDiagr::Plot(QPainter* pDC)
 {
-	QPen pen(QColor(frameColor), view->mmToPenWidth( borderThickness, true ) );
+	QPen pen(QColor(frameColor), View::self()->mmToPenWidth( borderThickness, true ) );
 
 	if( g_mode != GRID_NONE )
 		drawGrid( pDC ); // draw the grid
@@ -222,7 +221,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 	
 	if( Settings::showAxes() )
 	{
-		pDC->setPen( QPen( QColor(axesColor), view->mmToPenWidth(axesLineWidth, true) ) );
+		pDC->setPen( QPen( QColor(axesColor), View::self()->mmToPenWidth(axesLineWidth, true) ) );
 		a=PlotArea.right();
 		b=TransyToPixel(0.);
 		pDC->Lineh(PlotArea.left(), b, a);	    // x-Achse
@@ -244,7 +243,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 		}
 	}
 
-	pDC->setPen( QPen( QColor(axesColor), view->mmToPenWidth(ticWidth, true) ) );
+	pDC->setPen( QPen( QColor(axesColor), View::self()->mmToPenWidth(ticWidth, true) ) );
 	if( Settings::showAxes() )
 	{
 		da=oy-(ticLength*10.0);
@@ -327,7 +326,7 @@ void CDiagr::drawGrid( QPainter* pDC )
 {
 	double a, b;
 	double d, x, y;
-	QPen pen( QColor(gridColor), view->mmToPenWidth(gridLineWidth, true) );
+	QPen pen( QColor(gridColor), View::self()->mmToPenWidth(gridLineWidth, true) );
 
 	pDC->setPen(pen);
 	if( g_mode==GRID_LINES )

@@ -48,16 +48,7 @@ int isinf(double x)
 CDiagr::CDiagr( View * _view )
 {
 	view = _view;
-	
-	frameColor=qRgb(0, 0, 0);
-	axesColor=qRgb(0, 0, 0);
-	gridColor=qRgb(192, 192, 192);
-	borderThickness = 0.2;
-	axesLineWidth = Settings::axesLineWidth();
-	gridLineWidth = Settings::gridLineWidth();
-	ticWidth = Settings::ticWidth();
-	ticLength = Settings::ticLength();
-	g_mode = Settings::gridStyle();
+	updateSettings();
 	ex=ey=1.;
 }
 
@@ -103,7 +94,6 @@ void CDiagr::Skal( double ex, double ey )
 {
 	CDiagr::ex=ex;
 	CDiagr::ey=ey;
-	g_mode = Settings::gridStyle();
 	tsx=ceil(xmin/ex)*ex;
 	tsy=ceil(ymin/ey)*ey;
 }
@@ -655,4 +645,25 @@ void CDiagr::drawLabels(QPainter* pDC)
 		pDC->drawText( QRectF( x-(2*dx), TransyToPixel(ymax)+dy, 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
 	else
 		pDC->drawText( QRectF( x-dx, TransyToPixel(ymax)+dy, 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
+}
+
+
+void CDiagr::updateSettings( )
+{
+	frameColor=qRgb(0, 0, 0);
+	borderThickness = 0.2;
+	
+	g_mode = Settings::gridStyle();
+	axesLineWidth = Settings::axesLineWidth();
+	gridLineWidth = Settings::gridLineWidth();
+	ticWidth = Settings::ticWidth();
+	ticLength = Settings::ticLength();
+	
+	axesColor = Settings::axesColor();
+	if ( !axesColor.isValid() )
+		axesColor = Qt::black;
+	
+	gridColor=Settings::gridColor();
+	if ( !gridColor.isValid() )
+		gridColor = QColor( 0xc0, 0xc0, 0xc0 );
 }

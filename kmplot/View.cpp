@@ -107,12 +107,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	
 	m_parser = new XParser(mo);
 	init();
-	backgroundcolor = Settings::backgroundcolor();
-	invertColor(backgroundcolor,inverted_backgroundcolor);
-	
-	QPalette palette;
-	palette.setColor( backgroundRole(), backgroundcolor );
-	setPalette(palette);
+	getSettings();
 	
 	setMouseTracking(TRUE);
 	m_sliderWindow = 0;
@@ -208,13 +203,7 @@ void View::draw(QPaintDevice *dev, int form)
 		s=1.;
 	}
 
-	dgr.borderThickness = 0.2;
-	dgr.axesLineWidth = Settings::axesLineWidth();
-	dgr.gridLineWidth = Settings::gridLineWidth();
-	dgr.ticWidth = Settings::ticWidth();
-	dgr.ticLength = Settings::ticLength();
-	dgr.axesColor = Settings::axesColor().rgb();
-	dgr.gridColor=Settings::gridColor().rgb();
+	dgr.updateSettings();
 	dgr.Skal( tlgx, tlgy );
 
 	if ( form!=0 && areaDraw)
@@ -981,8 +970,11 @@ void View::getPlotUnderMouse()
 					it->setParameter(  m_sliderWindow->value( it->use_slider ) );
 			}
 
-			if ( function_type=='x' && it->fstr.contains('t')==1 && it->f_mode )
+			if ( function_type=='x' && it->fstr.contains('t')==1 )
 			{
+				if ( !it->f_mode )
+					continue;
+				
 				//parametric plot
 				
 				Ufkt * ufkt_y = m_parser->functionWithID( it->id + 1 );
@@ -1001,8 +993,11 @@ void View::getPlotUnderMouse()
 					return;
 				}
 			}
-			else if ( function_type == 'r' && it->f_mode )
+			else if ( function_type == 'r' )
 			{
+				if ( !it->f_mode )
+					continue;
+				
 				// polar plot
 				
 				double best_x = getClosestPoint( csxpos, csypos, it, 0 );
@@ -1601,6 +1596,9 @@ void View::getSettings()
 	m_parser->setAngleMode( Settings::anglemode() );
 
 	backgroundcolor = Settings::backgroundcolor();
+	if ( !backgroundcolor.isValid() )
+		backgroundcolor = Qt::white;
+	
 	invertColor(backgroundcolor,inverted_backgroundcolor);
 	
 // 	setBackgroundColor(backgroundcolor);
@@ -1611,6 +1609,9 @@ void View::getSettings()
 
 void View::init()
 {
+	QList<int> functionIDs = m_parser->m_ufkt.keys();
+	foreach ( int id, functionIDs )
+		m_parser->delfkt( id );
 	getSettings();
 }
 

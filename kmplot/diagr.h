@@ -72,9 +72,11 @@ public:
 	/// Draws all requested parts of the diagram (axes, labels, grid e.g.)
 	void Plot( QPainter* pDC );
 	/// Returns the rectangle around the core of the plot area.
-	QRect GetPlotArea() { return PlotArea; }
+	QRect GetPlotArea() const { return PlotArea; }
 	/// Returns the rectangle for the frame around the plot. Extra frame is bigger.
-	QRect GetFrame() { return m_frame; }
+	QRect GetFrame() const { return m_frame; }
+	/// Updates the settings from the user (e.g. borderThickness, etc)
+	void updateSettings();
 
 	/** @name Transformations */
 	//@{
@@ -89,9 +91,9 @@ public:
 	 * These members hold the current options for line widths and colors
 	 */
 	//@{
-	QRgb frameColor;	///< color of the border frame
-	QRgb axesColor;		///< color of the axes
-	QRgb gridColor;		///< color of the grid
+	QColor frameColor;	///< color of the border frame
+	QColor axesColor;		///< color of the axes
+	QColor gridColor;		///< color of the grid
 
 	double borderThickness;	///< current line width for the border frame in mm
 	double axesLineWidth;		///< current line width for the axes in mm

@@ -63,6 +63,7 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	setObjectName( "FunctionEditor" );
 	
 	setAllowedAreas( Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea );
+	setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
 	
 	m_saveCartesianTimer = new QTimer( this );
 	m_savePolarTimer = new QTimer( this );

@@ -1521,10 +1521,10 @@ void View::animateZoom( const QRectF & _newCoords )
 			; // do nothing
 	}
 	
-	Settings::setXMin( QString::number( newCoords.left(), 'g' ) );
-	Settings::setXMax( QString::number( newCoords.right(), 'g' ) );
-	Settings::setYMin( QString::number( newCoords.top(), 'g' ) );
-	Settings::setYMax( QString::number( newCoords.bottom(), 'g' ) );
+	Settings::setXMin( Parser::number( newCoords.left() ) );
+	Settings::setXMax( Parser::number( newCoords.right() ) );
+	Settings::setYMin( Parser::number( newCoords.top() ) );
+	Settings::setYMax( Parser::number( newCoords.bottom() ) );
 
 	Settings::setXRange(4); //custom x-range
 	Settings::setYRange(4); //custom y-range
@@ -1544,10 +1544,10 @@ void View::translateView( int dx, int dy )
 	ymin += rdy;
 	ymax += rdy;
 	
-	Settings::setXMin( QString::number( xmin, 'g' ) );
-	Settings::setXMax( QString::number( xmax, 'g' ) );
-	Settings::setYMin( QString::number( ymin, 'g' ) );
-	Settings::setYMax( QString::number( ymax, 'g' ) );
+	Settings::setXMin( Parser::number( xmin ) );
+	Settings::setXMax( Parser::number( xmax ) );
+	Settings::setYMin( Parser::number( ymin ) );
+	Settings::setYMax( Parser::number( ymax ) );
 	Settings::setXRange(4); //custom x-range
 	Settings::setYRange(4); //custom y-range
 	

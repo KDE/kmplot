@@ -1095,6 +1095,16 @@ Ufkt * Parser::functionWithID( int id ) const
 {
 	return m_ufkt.contains( id ) ? m_ufkt[id] : 0;
 }
+
+
+// static
+QString Parser::number( double value )
+{
+	QString str = QString::number( value, 'g', 6 );
+	str.replace( 'e', "*10^" );
+// 	kDebug() << "returning str="<<str<<endl;
+	return str;
+}
 //END class Parser
 
 

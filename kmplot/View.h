@@ -202,15 +202,16 @@ private:
 	 */
 	void getPlotUnderMouse();
 	/**
-	 * Calculates the pixel distance from \p real_x and \p real_y to the display
-	 * point of the given parametric function at \p t.
+	 * Finds the closest point to \p real_x and \p real_y to the given polar or
+	 * parametric function.
+	 * \return the parametization (angle or t) that gives the closest point.
 	 */
-	double pixelDistance( double real_x, double real_y, Ufkt * ufkt_x, Ufkt * ufkt_y, double t );
+	double getClosestPoint( double real_x, double real_y, Ufkt * function1, Ufkt * function2 );
 	/**
 	 * Calculates the pixel distance from \p real_x and \p real_y to the display
-	 * point of the given polar function at \p x.
+	 * point of the given polar or parametric parametric function at \p x.
 	 */
-	double pixelDistance( double real_x, double real_y, Ufkt * function, double x );
+	double pixelDistance( double real_x, double real_y, Ufkt * function1, Ufkt * function2, double x );
 	
 
 	/// for areadrawing when printing

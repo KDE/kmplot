@@ -981,78 +981,40 @@ void View::getPlotUnderMouse()
 					it->setParameter(  m_sliderWindow->value( it->use_slider ) );
 			}
 
-			if ( function_type=='x' && it->fstr.contains('t')==1 )
+			if ( function_type=='x' && it->fstr.contains('t')==1 && it->f_mode )
 			{
 				//parametric plot
 				
 				Ufkt * ufkt_y = m_parser->functionWithID( it->id + 1 );
 				assert( ufkt_y );
 				
-				double best_t = 0.0;
-				double best_fx = 0.0;
-				double best_fy = 0.0;
-				double best_distance = 1e20; // a large distance
+				double best_x = getClosestPoint( csxpos, csypos, it, ufkt_y );
 				
-				double t = it->usecustomxmin ? it->dmin : -M_PI;
-				double t_max = it->usecustomxmax ? it->dmax : M_PI;
-				while ( t <= t_max )
-				{
-					double distance = pixelDistance( csxpos, csypos, it, ufkt_y, t );
-					if ( distance < best_distance )
-					{
-						best_distance = distance;
-						best_t = t;
-						best_fx = m_parser->fkt( it, t );
-						best_fy = m_parser->fkt( ufkt_y, t );
-					}
-					
-					t += 0.05;
-				}
-				
-				if ( best_distance < 30.0 )
-				{
-					csmode=it->id;
-					cstype=Ufkt::Function;
-					csparam = k;
-					m_trace_x = best_t;
-					csxpos = best_fx;
-					csypos = best_fy;
-					return;
-				}
-			}
-			else if ( function_type == 'r' )
-			{
-				// polar plot
-				
-				double best_x = 0.0;
-				double best_fx = 0.0;
-				double best_fy = 0.0;
-				double best_distance = 1e20; // a large distance
-				
-				double x = it->usecustomxmin ? it->dmin : 0.0;
-				double x_max = it->usecustomxmax ? it->dmax : 2.0*M_PI;
-				while ( x <= x_max )
-				{
-					double distance = pixelDistance( csxpos, csypos, it, x );
-					if ( distance < best_distance )
-					{
-						best_distance = distance;
-						best_x = x;
-						best_fx = m_parser->fkt( it, x ) * cos(x);
-						best_fy = m_parser->fkt( it, x ) * sin(x);
-					}
-					
-					x += 0.05;
-				}
-				
-				if ( best_distance < 30.0 )
+				if ( pixelDistance( csxpos, csypos, it, ufkt_y, best_x ) < 30.0 )
 				{
 					csmode=it->id;
 					cstype=Ufkt::Function;
 					csparam = k;
 					m_trace_x = best_x;
-					csxpos = best_fx;
-					csypos = best_fy;
+					csxpos = m_parser->fkt( it, best_x );
+					csypos = m_parser->fkt( ufkt_y, best_x );
+					return;
+				}
+			}
+			else if ( function_type == 'r' && it->f_mode )
+			{
+				// polar plot
+				
+				double best_x = getClosestPoint( csxpos, csypos, it, 0 );
+				
+				if ( pixelDistance( csxpos, csypos, it, 0, best_x ) < 30.0 )
+				{
+					csmode=it->id;
+					cstype=Ufkt::Function;
+					csparam = k;
+					m_trace_x = best_x;
+					csxpos = m_parser->fkt( it, best_x ) * cos(best_x);
+					csypos = m_parser->fkt( it, best_x ) * sin(best_x);
 					return;
 				}
 			}
@@ -1083,22 +1045,60 @@ void View::getPlotUnderMouse()
 }
 
 
-double View::pixelDistance( double real_x, double real_y, Ufkt * ufkt_x, Ufkt * ufkt_y, double t )
+double View::getClosestPoint( double real_x, double real_y, Ufkt * function1, Ufkt * function2 )
 {
-	double fx = m_parser->fkt( ufkt_x, t );
-	double fy = m_parser->fkt( ufkt_y, t );
+	// either polar or parametric function
+	bool isPolar = !function2;
+	
+	double minX = function1->usecustomxmin ? function1->dmin : (isPolar ? 0.0 : -M_PI);
+	double maxX = function1->usecustomxmax ? function1->dmax : (isPolar ? 2.0*M_PI : -M_PI);
+	double stepSize = 0.01;
+	
+	double best_x = 0.0;
+	
+	while ( stepSize > 0.0000009 )
+	{
+		double best_distance = 1e20; // a large distance
+				
+		double x = minX;
+		while ( x <= maxX )
+		{
+			double distance = pixelDistance( real_x, real_y, function1, function2, x );
+			if ( distance < best_distance )
+			{
+				best_distance = distance;
+				best_x = x;
+			}
 					
-	double dfx = dgr.TransxToPixel( real_x ) - dgr.TransxToPixel( fx );
-	double dfy = dgr.TransyToPixel( real_y ) - dgr.TransyToPixel( fy );
-					
-	return std::sqrt( dfx*dfx + dfy*dfy );
+			x += stepSize;
+		}
+		
+		minX = best_x - stepSize;
+		maxX = best_x + stepSize;
+		
+		stepSize *= 0.1;
+	}
+	
+	return best_x;
 }
 
 
-double View::pixelDistance( double real_x, double real_y, Ufkt * function, double x )
+double View::pixelDistance( double real_x, double real_y, Ufkt * function1, Ufkt * function2, double x )
 {
-	double fx = m_parser->fkt( function, x ) * cos(x);
-	double fy = m_parser->fkt( function, x ) * sin(x);
+	double fx, fy;
+	
+	if ( function2 )
+	{
+		// parametric function
+		fx = m_parser->fkt( function1, x );
+		fy = m_parser->fkt( function2, x );
+	}
+	else
+	{
+		// polar function
+		fx = m_parser->fkt( function1, x ) * cos(x);
+		fy = m_parser->fkt( function1, x ) * sin(x);
+	}
 					
 	double dfx = dgr.TransxToPixel( real_x ) - dgr.TransxToPixel( fx );
 	double dfy = dgr.TransyToPixel( real_y ) - dgr.TransyToPixel( fy );
@@ -1202,7 +1202,7 @@ bool View::updateCrosshairPosition()
 			assert( ufkt_y );
 			
 			// Should we increase or decrease t to get closer to the mouse?
-			double dt[2] = { -0.0002, +0.0002 };
+			double dt[2] = { -0.00001, +0.00001 };
 			double d[] = { 0.0, 0.0 };
 			for ( int i = 0; i < 2; ++ i )
 				d[i] = pixelDistance( csxpos, csypos, it, ufkt_y, m_trace_x + dt[i] );
@@ -1242,10 +1242,10 @@ bool View::updateCrosshairPosition()
 			// polar plot
 			
 			// Should we increase or decrease x to get closer to the mouse?
-			double dx[2] = { -0.0002, +0.0002 };
+			double dx[2] = { -0.00001, +0.00001 };
 			double d[] = { 0.0, 0.0 };
 			for ( int i = 0; i < 2; ++ i )
-				d[i] = pixelDistance( csxpos, csypos, it, m_trace_x + dx[i] );
+				d[i] = pixelDistance( csxpos, csypos, it, 0, m_trace_x + dx[i] );
 			
 			unsigned best_i = (d[0] < d[1]) ? 0 : 1;
 			
@@ -1254,7 +1254,7 @@ bool View::updateCrosshairPosition()
 			m_trace_x += 2.0 * dx[best_i];
 			while ( true )
 			{	
-				double new_distance = pixelDistance( csxpos, csypos, it, m_trace_x + dx[best_i] );
+				double new_distance = pixelDistance( csxpos, csypos, it, 0, m_trace_x + dx[best_i] );
 				if ( new_distance < prev_best )
 				{
 					prev_best = new_distance;

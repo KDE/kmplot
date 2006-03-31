@@ -439,25 +439,6 @@ void CDiagr::drawLabels(QPainter* pDC)
 					s+=QChar(960);
 				}
 			}
-			else
-				continue;
-			swidth = test.width(s);
-			if (  TransxToPixel(d)-x<swidth && TransxToPixel(d)-x>-swidth && draw_next==0)
-			{
-				draw_next=1;
-				continue;
-			}
-			if (draw_next>0)
-			{
-				if (draw_next==1)
-				{
-					draw_next++;
-					continue;
-				}
-				else
-					draw_next=0;
-			}
-			pDC->drawText( QRectF( TransxToPixel(d), y+dy, 0, 0 ), Qt::AlignCenter|Qt::TextDontClip, s);
 		}
 		else if(fabs(ex-M_PI/3.)<1e-3)
 		{
@@ -473,25 +454,6 @@ void CDiagr::drawLabels(QPainter* pDC)
 					s+=QChar(960);
 				}
 			}
-			else
-				continue;
-			swidth = test.width(s);
-			if (  TransxToPixel(d)-x<swidth && TransxToPixel(d)-x>-swidth && draw_next==0)
-			{
-				draw_next=1;
-				continue;
-			}
-			if (draw_next>0)
-			{
-				if (draw_next==1)
-				{
-					draw_next++;
-					continue;
-				}
-				else
-					draw_next=0;
-			}
-			pDC->drawText( QRectF( TransxToPixel(d), y+dy, 0, 0 ), Qt::AlignCenter|Qt::TextDontClip, s);
 		}
 		else if(fabs(ex-M_PI/4.)<1e-3)
 		{
@@ -507,29 +469,13 @@ void CDiagr::drawLabels(QPainter* pDC)
 					s+=QChar(960);
 				}
 			}
-			else
-				continue;
-			swidth = test.width(s);
-			if (  TransxToPixel(d)-x<swidth && TransxToPixel(d)-x>-swidth && draw_next==0)
-			{
-				draw_next=1;
-				continue;
-			}
-			if (draw_next>0)
-			{
-				if (draw_next==1)
-				{
-					draw_next++;
-					continue;
-				}
-				else
-					draw_next=0;
-			}
-			pDC->drawText( QRectF( TransxToPixel(d), y+dy, 0, 0 ), Qt::AlignCenter|Qt::TextDontClip, s);
 		}
 		else if((n%5==0 || n==1 || n==-1 || draw_next))
 		{
 			s=QString().sprintf("%+0.3g", n*ex);
+		}
+		if ( (s != "-") && (s != "+") )
+		{
 			swidth = test.width(s);
 			if (  TransxToPixel(d)-x<swidth && TransxToPixel(d)-x>-swidth && draw_next==0)
 			{
@@ -579,12 +525,6 @@ void CDiagr::drawLabels(QPainter* pDC)
 					s+=QChar(960);
 				}
 			}
-			else
-				continue;
-			if (xmin>=0)
-				pDC->drawText( QRectF( x+dx, TransyToPixel(d), 0, 0 ), Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
-			else
-				pDC->drawText( QRectF( x-dx, TransyToPixel(d), 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
 		}
 		else if(fabs(ey-M_PI/3.)<1e-3)
 		{
@@ -600,12 +540,6 @@ void CDiagr::drawLabels(QPainter* pDC)
 					s+=QChar(960);
 				}
 			}
-			else
-				continue;
-			if (xmin>=0)
-				pDC->drawText( QRectF( x+dx, TransyToPixel(d), 0, 0 ), Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
-			else
-				pDC->drawText( QRectF( x-dx, TransyToPixel(d), 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
 		}
 		else if(fabs(ey-M_PI/4.)<1e-3)
 		{
@@ -621,20 +555,30 @@ void CDiagr::drawLabels(QPainter* pDC)
 					s+=QChar(960);
 				}
 			}
-			else
-				continue;
-			if (xmin>=0)
-				pDC->drawText( QRectF( x+dx, TransyToPixel(d), 0, 0 ), Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
-			else
-				pDC->drawText( QRectF( x-dx, TransyToPixel(d), 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
 		}
 		else if((n%5==0 || n==1 || n==-1))
 		{
 			s=QString().sprintf("%+0.3g", n*ey);
+		}
+		if ( (s != "-") && (s != "+") )
+		{
 			if (xmin>=0)
-				pDC->drawText( QRectF( x+dx, TransyToPixel(d), 0, 0 ), Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
+			{
+				QRectF drawRect( x+dx, TransyToPixel(d), 0, 0 );
+				pDC->drawText( drawRect, Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
+			}
 			else
-				pDC->drawText( QRectF( x-dx, TransyToPixel(d), 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
+			{
+				QRectF drawRect( x-dx, TransyToPixel(d), 0, 0 );
+				QRectF br = pDC->boundingRect( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
+				if ( br.left() < 0 )
+				{
+					// have to adjust drawRect so that we don't draw off the edge of the view
+					drawRect.translate( -br.left(), 0 );
+				}
+				
+				pDC->drawText( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
+			}
 		}
 	}
 

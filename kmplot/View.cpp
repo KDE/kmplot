@@ -2503,8 +2503,20 @@ void View::updateCursor()
 
 bool View::shouldShowCrosshairs() const
 {
-	if ( m_zoomMode != Normal )
-		return false;
+	switch ( m_zoomMode )
+	{
+		case Normal:
+		case ZoomIn:
+		case ZoomOut:
+			break;
+			
+		case AnimatingZoom:
+		case ZoomInDrawing:
+		case ZoomOutDrawing:
+		case AboutToTranslate:
+		case Translating:
+			return false;
+	}
 	
 	Ufkt * it = m_parser->functionWithID( csmode );
 	

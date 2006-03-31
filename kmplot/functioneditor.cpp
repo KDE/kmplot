@@ -462,39 +462,6 @@ void FunctionEditor::createNewPlot()
 
 void FunctionEditor::createCartesian()
 {
-#if 0
-	m_function = -1;
-	m_functionX = -1;
-	m_functionY = -1;
-	
-	
-// 	QStringList colorNames = QString("blue,blueviolet,cornflowerblue,darkblue,dodgerblue,mediumblue,mediumslateblue,midnightblue,royalblue,slateblue,steelblue,brown,crimson,darkcyan,darkgreen,darkseagreen,forestgreen,green,lawngreen,lightseagreen,limegreen,mediumseagreen,seagreen,yellogreen,darkmagenta,darkorange,darkorchid,darkviolet,deeppink,goldenrod,gray,indigo,lightsalmon,magenta,maroon,mediumorchid,mediumpurple,mediumviolet,navy,olive,olivedrab,orange,orangered,orchid,palevioletred,peru,plum,purple,red,sienna,teal,tomato").split(',');
-	 
-// 	QStringList colorNames = QString("blueviolet,darkblue,dodgerblue,mediumblue,mediumslateblue,midnightblue,brown,crimson,darkgreen,darkmagenta,darkorange,darkorchid,deeppink,goldenrod,maroon,orange,orangered,orchid,plum,purple,sienna,teal,tomato").split(',');
-	
-	QStringList colorNames = QString("olive,blueviolet,mediumblue,midnightblue,darkgreen,darkorange,deeppink,maroon,orangered")/*,#64D600")*/.split(',');
-	
-	int i = 0;
-	foreach ( QString cn, colorNames )
-	{
-		kDebug() << "adding " << cn << endl;
-		
-		QString fname( QString("%1(x)=%2+x").arg( cn ).arg( i++ ) );
-		m_view->parser()->fixFunctionName( fname, XParser::Function, -1 );
-	
-		int id = m_view->parser()->addFunction( fname );
-		if ( id == -1 )
-			m_view->parser()->parserError( true );
-		else
-			m_view->parser()->functionWithID( id )->color = QColor( cn );
-	}
-	
-	m_view->mainDlg()->requestSaveCurrentState();
-	
-	return;
-#endif
-	
-	
 	m_function = -1;
 	m_functionX = -1;
 	m_functionY = -1;

@@ -109,6 +109,8 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	m_zoomMode = Normal;
 	m_prevCursor = CursorArrow;
 	
+	m_mousePressTimer = new QTime();
+	
 	m_parser = new XParser(mo);
 	init();
 	getSettings();
@@ -129,6 +131,7 @@ void View::setMinMaxDlg(KMinMax *minmaxdlg)
 View::~View()
 {
 	delete m_parser;
+	delete m_mousePressTimer;
 }
 
 XParser* View::parser()
@@ -793,6 +796,8 @@ bool View::csxposValid( Ufkt * plot ) const
 
 void View::mousePressEvent(QMouseEvent *e)
 {
+	m_mousePressTimer->start();
+	
 	if ( m_popupmenushown>0)
 		return;
 
@@ -1338,6 +1343,19 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 {
 	bool doDrawPlot = false;
 	
+	// avoid zooming in if the zoom rectangle is very small and the mouse was
+	// just pressed, which suggests that the user dragged the mouse accidently
+	QRect zoomRect = QRect( m_zoomRectangleStart, e->pos() ).normalized();
+	int area = zoomRect.width() * zoomRect.height();
+// 	kDebug() << "area="<<area<<" m_mousePressTimer->elapsed()="<<m_mousePressTimer->elapsed()<<endl;
+	if ( (area <= 500) && (m_mousePressTimer->elapsed() < 100) )
+	{
+		if ( m_zoomMode == ZoomInDrawing )
+			m_zoomMode = ZoomIn;
+		else if ( m_zoomMode == ZoomOutDrawing )
+			m_zoomMode = ZoomOut;
+	}
+	
 	switch ( m_zoomMode )
 	{
 		case Normal:
@@ -1358,11 +1376,11 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 			break;
 			
 		case ZoomInDrawing:
-			zoomIn( QRect( m_zoomRectangleStart, e->pos() ) );
+			zoomIn( zoomRect );
 			break;
 			
 		case ZoomOutDrawing:
-			zoomOut( QRect( m_zoomRectangleStart, e->pos() ) );
+			zoomOut( zoomRect );
 			break;
 	}
 	

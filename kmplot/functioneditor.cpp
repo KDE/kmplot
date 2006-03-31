@@ -480,8 +480,6 @@ void FunctionEditor::createNewPlot()
 
 void FunctionEditor::createCartesian()
 {
-	KMessageBox::information( this, QString("View::m_self=%1").arg((unsigned long long)View::self()) );
-	
 	m_function = -1;
 	m_functionX = -1;
 	m_functionY = -1;

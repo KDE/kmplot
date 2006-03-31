@@ -56,6 +56,7 @@ class KMinMax;
 class KSliderWindow;
 class MainDlg;
 class XParser;
+class QTime;
 
 /**
  * @short This class contains the plots. 
@@ -325,6 +326,8 @@ private:
 	QRectF m_animateZoomRect;
 	/// for translating the view via dragging
 	QPoint m_prevDragMousePos;
+	/// timer that is started when the mouse is pressed
+	QTime * m_mousePressTimer;
 
 	DCOPClient *m_dcop_client;
 	QString m_statusbartext1;

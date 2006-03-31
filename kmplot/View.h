@@ -120,8 +120,6 @@ public slots:
 	/// Called when the graph should be updated
 	void drawPlot();
 	///Slots for the three first items in popup menu
-	void mnuCopy_clicked();
-	void mnuMove_clicked();
 	void mnuHide_clicked();
 	void mnuRemove_clicked();
 	void mnuEdit_clicked();

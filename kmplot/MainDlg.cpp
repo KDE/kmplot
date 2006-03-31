@@ -208,7 +208,6 @@ void MainDlg::setupActions()
 	
 	//BEGIN tools menu
 	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), actionCollection(), "yvalue" );
-	mnuYValue->setIcon( KIcon("") );
 	connect( mnuYValue, SIGNAL(triggered(bool)), this, SLOT( getYValue() ) );
 	
 	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value..." ), actionCollection(), "minimumvalue" );
@@ -220,7 +219,6 @@ void MainDlg::setupActions()
 	connect( mnuMaxValue, SIGNAL(triggered(bool)), this, SLOT( findMaximumValue() ) );
 	
 	KAction *mnuArea = new KAction( i18n( "&Area Under Graph..." ), actionCollection(), "grapharea" );
-	mnuArea->setIcon( KIcon("") );
 	connect( mnuArea, SIGNAL(triggered(bool)),this, SLOT( graphArea() )  );
 	//END tools menu
 
@@ -269,18 +267,6 @@ void MainDlg::setupActions()
 	mnuEdit->setIcon( KIcon("editplots") );
 	connect(mnuEdit , SIGNAL(triggered(bool)), view, SLOT( mnuEdit_clicked() ) );
 	mnuEdit->plug(m_popupmenu);
-	
-	m_popupmenu->addSeparator();
-	
-	KAction *mnuCopy = new KAction(i18n("&Copy"), actionCollection(),"mnucopy"  );
-	mnuCopy->setIcon( KIcon("") );
-	connect( mnuCopy, SIGNAL(triggered(bool)), view, SLOT( mnuCopy_clicked() ) );
-	mnuCopy->plug(m_popupmenu);
-	
-	KAction *mnuMove = new KAction(i18n("&Move"),actionCollection(),"mnumove"  );
-	mnuMove->setIcon( KIcon("") );
-	connect( mnuMove, SIGNAL(triggered(bool)), view, SLOT( mnuMove_clicked() ) );
-	mnuMove->plug(m_popupmenu);
 	
 	m_popupmenu->addSeparator();
 	mnuYValue->plug(m_popupmenu);

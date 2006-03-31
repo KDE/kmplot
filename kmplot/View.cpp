@@ -2369,29 +2369,6 @@ void View::mnuEdit_clicked()
 #endif
 }
 
-void View::mnuCopy_clicked()
-{
-    if ( csmode == -1 )
-      return;
-
-	if ( m_parser->sendFunction(csmode) )
-		m_modified = true;
-}
-
-void View::mnuMove_clicked()
-{
-    if ( csmode == -1 )
-      return;
-
-	if ( m_parser->sendFunction(csmode) )
-	{
-	  	if (!m_parser->delfkt(csmode) )
-		  return;
-		drawPlot();
-		m_modified = true;
-	}
-}
-
 
 void View::mnuZoomIn_clicked()
 {

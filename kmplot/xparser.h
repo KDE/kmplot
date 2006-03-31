@@ -65,9 +65,6 @@ public:
         /// Interpretates the extended function string (only used by the old file format)
 	bool getext( Ufkt *, const QString );
 	
-	/// Send a function to an other instance of Kmplot. Returns true if it success, otherwise false
-	bool sendFunction(int id, const QString &dcopclient_target="");
-	
 	/// Functions for the DCOP interface:
 
 	/// Returns a list with all functions

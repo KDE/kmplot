@@ -188,6 +188,9 @@ void FunctionEditor::syncFunctionList()
 		currentIDs[ item->function1() ] = item;
 		if ( item->function2() != -1 )
 			currentIDs[ item->function2() ] = item;
+		
+		// also update what is displayed
+		item->update();
 	}
 	
 	FunctionListItem * toSelect = 0l;
@@ -263,6 +266,20 @@ void FunctionEditor::syncFunctionList()
 	
 	if ( m_functionList->count() == 0 )
 		resetFunctionEditing();
+}
+
+
+void FunctionEditor::setCurrentFunction( int functionID )
+{
+	for ( int row = 0; row < m_functionList->count(); ++row )
+	{
+		FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->item( row ));
+		if ( (item->function1() != functionID) && (item->function2() != functionID) )
+			continue;
+		
+		m_functionList->setCurrentRow( row );
+		return;
+	}
 }
 
 

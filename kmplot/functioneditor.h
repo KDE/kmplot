@@ -54,6 +54,11 @@ class FunctionEditor : public QDockWidget
 		FunctionEditor( View * view, KMenu * createNewPlotsMenu, QWidget * parent );
 		virtual ~ FunctionEditor();
 		
+		/**
+		 * Highlights the function item for the given function.
+		 */
+		void setCurrentFunction( int functionID );
+		
 	public slots:
 		/**
 		 * Deletes the current selected function.

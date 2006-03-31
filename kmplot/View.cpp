@@ -54,9 +54,11 @@
 #include <kprogressbar.h>
 
 // local includes
+#include "functioneditor.h"
 #include "kminmax.h"
 #include "settings.h"
 #include "ksliderwindow.h"
+#include "MainDlg.h"
 #include "View.h"
 #include "View.moc"
 
@@ -801,6 +803,8 @@ void View::mousePressEvent(QMouseEvent *e)
 	if ( m_zoomMode != Normal )
 		return;
 	
+	bool hadFunction = (csmode != -1 );
+	
 	updateCrosshairPosition();
 	
 	if( !m_readonly && e->button()==Qt::RightButton) //clicking with the right mouse button
@@ -837,6 +841,11 @@ void View::mousePressEvent(QMouseEvent *e)
 					popupTitle = function->fstr.left( function->fstr.indexOf('(') ).toUpper();
 					break;
 			}
+			
+			if ( hadFunction )
+				m_popupmenushown = 2;
+			else
+				m_popupmenushown = 1;
 			
 			m_popupmenu->setTitle( popupTitle );
 			m_popupmenu->exec( QCursor::pos() );
@@ -2289,6 +2298,7 @@ void View::mnuHide_clicked()
 		case Ufkt::Integral:
 			break;
 	}
+	mainDlg()->functionEditor()->functionsChanged();
 	drawPlot();
 	m_modified = true;
 	updateSliders();
@@ -2335,38 +2345,7 @@ void View::mnuRemove_clicked()
 }
 void View::mnuEdit_clicked()
 {
-#if 0
-    if ( csmode == -1 )
-      return;
-
-	if ( m_parser->ufkt[m_parser->ixValue(csmode)].fstr[0] == 'x') // a parametric function
-	{
-		int y_index = csmode+1; //the y-function
-		if ( y_index == (int)m_parser->countFunctions())
-			y_index=0;
-		KEditParametric* editParametric = new KEditParametric( m_parser, this );
-		editParametric->setCaption(i18n( "New Parametric Plot" ));
-		editParametric->initDialog( csmode,y_index );
-		if( editParametric->exec() == QDialog::Accepted )
-		{
-			drawPlot();
-			m_modified = true;
-		}
-
-	}
-	else // a plot function
-	{
-		EditFunction* editFunction = new EditFunction( m_parser, this );
-		editFunction->setCaption(i18n( "Edit Function Plot" ));
-		editFunction->initDialog( csmode );
-		if( editFunction->exec() == QDialog::Accepted )
-		{
-			drawPlot();
-			updateSliders();
-			m_modified = true;
-		}
-	}
-#endif
+	mainDlg()->functionEditor()->setCurrentFunction( csmode );
 }
 
 

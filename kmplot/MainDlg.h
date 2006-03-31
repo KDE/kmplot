@@ -100,6 +100,9 @@ public:
 	bool checkModified();
 	/// Is set to true if a file from an old file format was loaded
 	static bool oldfileversion;
+	
+	/// The function editor
+	FunctionEditor * functionEditor() const { return m_functionEditor; }
 
 public slots:
 	/// Implement the coordinate system edit dialog

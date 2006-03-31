@@ -275,7 +275,7 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 	}
 	else
 	{
-		KMessageBox::error(0,i18n("The file had an unknown version number"));
+		KMessageBox::sorry(0,i18n("The file had an unknown version number"));
 		return false;
 	}
 	
@@ -291,13 +291,13 @@ bool KmPlotIO::load( const KUrl &url )
 	{
 		if( !KIO::NetAccess::exists( url, true, 0 ) )
 		{
-			KMessageBox::error(0,i18n("The file does not exist."));
+			KMessageBox::sorry(0,i18n("The file does not exist."));
 			return false;
 		}
 		QString tmpfile;
 		if( !KIO::NetAccess::download( url, tmpfile, 0 ) )
 		{
-			KMessageBox::error(0,i18n("An error appeared when opening this file"));
+			KMessageBox::sorry(0,i18n("An error appeared when opening this file (%1)").arg( KIO::NetAccess::lastErrorString() ));
 			return false;
 		}
 		f.setFileName(tmpfile);
@@ -307,12 +307,14 @@ bool KmPlotIO::load( const KUrl &url )
 
 	if ( !f.open( QIODevice::ReadOnly ) )
 	{
-		KMessageBox::error(0,i18n("An error appeared when opening this file"));
+		KMessageBox::sorry(0,i18n("%1 could not be opened").arg( f.fileName() ) );
 		return false;
 	}
-	if ( !doc.setContent( &f ) )
+	QString errorMessage;
+	int errorLine, errorColumn;
+	if ( !doc.setContent( &f, & errorMessage, & errorLine, & errorColumn ) )
 	{
-		KMessageBox::error(0,i18n("The file could not be loaded"));
+		KMessageBox::sorry(0,i18n("%1 could not be loaded (%2 at line %3, column %4)").arg( f.fileName() ).arg( errorMessage ).arg( errorLine ).arg( errorColumn ) );
 		f.close();
 		return false;
 	}
@@ -526,7 +528,7 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	  ufkt.fstr = tmp_fstr.left(pos);
 	  if ( !m_parser->getext( &ufkt, tmp_fstr) )
 	  {
-	    KMessageBox::error(0,i18n("The function %1 could not be loaded").arg(ufkt.fstr));
+	    KMessageBox::sorry(0,i18n("The function %1 could not be loaded").arg(ufkt.fstr));
 	    return;
 	  }
 	}

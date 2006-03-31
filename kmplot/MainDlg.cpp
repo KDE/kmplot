@@ -408,57 +408,63 @@ void MainDlg::slotExport()
 	                 i18n("*.svg|Scalable Vector Graphics (*.svg)\n"
 	                      "*.bmp|Bitmap 180dpi (*.bmp)\n"
 	                      "*.png|Bitmap 180dpi (*.png)"), m_parent, i18n("Export") );
-	if(!url.isEmpty())
+	if( url.isEmpty() )
+		return;
+	
+	// check if file exists and overwriting is ok.
+	bool exists = KIO::NetAccess::exists(url,false,m_parent );
+	if ( exists )
 	{
-		// check if file exists and overwriting is ok.
-		if( KIO::NetAccess::exists(url,false,m_parent ) && KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(url.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) != KMessageBox::Continue ) return;
+		int result = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg(url.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) );
+		if ( result != KMessageBox::Continue )
+			return;
+	}
 
-		if( url.fileName().right(4).toLower()==".svg")
+	if( url.fileName().right(4).toLower()==".svg")
+	{
+		QPicture pic;
+		View::self()->draw(&pic, 2);
+		if (url.isLocalFile() )
+			pic.save( url.path(), "SVG");
+		else
 		{
-			QPicture pic;
-			View::self()->draw(&pic, 2);
-			if (url.isLocalFile() )
-				pic.save( url.prettyURL(0), "SVG");
-			else
-			{
-				KTempFile tmp;
-				pic.save( tmp.name(), "SVG");
-				if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-					KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
-				tmp.unlink();
-			}
+			KTempFile tmp;
+			pic.save( tmp.name(), "SVG");
+			if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+				KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
+			tmp.unlink();
 		}
+	}
 
-		else if( url.fileName().right(4).toLower()==".bmp")
+	else if( url.fileName().right(4).toLower()==".bmp")
+	{
+		QPixmap pic(100, 100);
+		View::self()->draw(&pic, 3);
+		if (url.isLocalFile() )
+			pic.save(  url.path(), "BMP");
+		else
 		{
-			QPixmap pic(100, 100);
-			View::self()->draw(&pic, 3);
-			if (url.isLocalFile() )
-				pic.save(  url.prettyURL(0), "BMP");
-			else
-			{
-				KTempFile tmp;
-				pic.save( tmp.name(), "BMP");
-				if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-					KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
-				tmp.unlink();
-			}
+			KTempFile tmp;
+			pic.save( tmp.name(), "BMP");
+			if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+				KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
+			tmp.unlink();
 		}
+	}
 
-		else if( url.fileName().right(4).toLower()==".png")
+	else if( url.fileName().right(4).toLower()==".png")
+	{
+		QPixmap pic(100, 100);
+		View::self()->draw(&pic, 3);
+		if (url.isLocalFile() )
+			pic.save( url.path(), "PNG");
+		else
 		{
-			QPixmap pic(100, 100);
-			View::self()->draw(&pic, 3);
-			if (url.isLocalFile() )
-				pic.save( url.prettyURL(0), "PNG");
-			else
-			{
-				KTempFile tmp;
-				pic.save( tmp.name(), "PNG");
-				if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-					KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
-				tmp.unlink();
-			}
+			KTempFile tmp;
+			pic.save( tmp.name(), "PNG");
+			if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+				KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
+			tmp.unlink();
 		}
 	}
 }

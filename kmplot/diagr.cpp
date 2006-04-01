@@ -415,6 +415,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 	QFontMetrics const test(font);
 	int swidth=0;
 
+// 	kDebug() << "tsx="<<tsx<<" xmd="<<xmd<<" ex="<<ex << " (xmd-tsx)/ex="<<(xmd-tsx)/ex<<endl;
 	for(d=tsx, n=(int)ceil(xmin/ex); d<xmd; d+=ex, ++n)
 	{
 		if(n==0 || fabs(d-xmd)<=1.5*ex)
@@ -492,7 +493,11 @@ void CDiagr::drawLabels(QPainter* pDC)
 				else
 					draw_next=0;
 			}
-			pDC->drawText( QRectF( TransxToPixel(d), y+dy, 0, 0 ), Qt::AlignCenter|Qt::TextDontClip, s);
+// 			kDebug() << "d="<<d<<" TransxToPixel(d)="<<TransxToPixel(d)<<endl;
+			QRectF drawRect( TransxToPixel(d), y+dy, 0, 0 );
+			if ( xclipflg )
+				continue;
+			pDC->drawText( drawRect, Qt::AlignCenter|Qt::TextDontClip, s);
 		}
 	}
 
@@ -565,11 +570,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 			if (xmin>=0)
 			{
 				QRectF drawRect( x+dx, TransyToPixel(d), 0, 0 );
+				if ( yclipflg )
+					continue;
 				pDC->drawText( drawRect, Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
 			}
 			else
 			{
 				QRectF drawRect( x-dx, TransyToPixel(d), 0, 0 );
+				if ( yclipflg )
+					continue;
 				QRectF br = pDC->boundingRect( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
 				if ( br.left() < 0 )
 				{

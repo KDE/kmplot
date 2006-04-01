@@ -772,6 +772,12 @@ bool View::csxposValid( Ufkt * plot ) const
 	if ( !plot )
 		return false;
 	
+	// only relevant for cartesian plots - assume true for none
+	if ( plot->fstr.startsWith('r') ||
+			plot->fstr.startsWith('x') ||
+			plot->fstr.startsWith('y') )
+		return true;
+	
 	bool lowerOk = ((!plot->usecustomxmin) || (plot->usecustomxmin && csxpos>plot->dmin));
 	bool upperOk = ((!plot->usecustomxmax) || (plot->usecustomxmax && csxpos<plot->dmax));
 	
@@ -1231,8 +1237,12 @@ bool View::updateCrosshairPosition()
 			
 			double min = it->usecustomxmin ? it->dmin : -M_PI;
 			double max = it->usecustomxmax ? it->dmax : M_PI;
+// 			kDebug() << "m_trace_x="<<m_trace_x<<" max="<<max<<endl;
 			if ( m_trace_x > max )
+			{
+// 				kDebug() << "bigger\n";
 				m_trace_x  = max;
+			}
 			else if ( m_trace_x < min )
 				m_trace_x = min;
 			

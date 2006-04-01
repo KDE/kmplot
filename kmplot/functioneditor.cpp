@@ -604,28 +604,7 @@ void FunctionEditor::saveCartesian()
 // 		editfunctionpage->max->selectAll();
 		return;
 	}
-        
-	if( tempFunction.usecustomxmin && tempFunction.usecustomxmax )
-	{
-		if ( tempFunction.dmin >=  tempFunction.dmax)
-		{
-// 			KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
-// 			showPage(0);
-// 			editfunctionpage->min->setFocus();
-// 			editfunctionpage->min->selectAll();
-			return;
-		}
-                
-		if (  tempFunction.dmin<View::xmin || tempFunction.dmax>View::xmax )
-		{
-// 			KMessageBox::sorry(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
-// 			showPage(0);
-// 			editfunctionpage->min->setFocus();
-// 			editfunctionpage->min->selectAll();
-			return;
-		}
-	}
-
+	
 	tempFunction.linewidth = m_editor->cartesian_f_lineWidth->value();
 	tempFunction.color = m_editor->cartesian_f_lineColor->color().rgb();
 	

@@ -263,15 +263,12 @@ void View::draw(QPaintDevice *dev, int form)
 void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 {
 	int k, ke, mflg;
-	int iy=0;
 
 	QChar const fktmode=ufkt->fstr[0];
 	if ( fktmode == 'y' )
 		return;
-
+	
 	double dmin = ufkt->dmin;
-	double dmax = ufkt->dmax;
-
 	if(!ufkt->usecustomxmin)
 	{
 		if(fktmode=='r')
@@ -281,15 +278,22 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		else
 			dmin = xmin;
 	}
+	if ( dmin < xmin )
+		dmin = xmin;
+	
+	double dmax = ufkt->dmax;
 	if(!ufkt->usecustomxmax)
 	{
 		if(fktmode=='r')
 			dmax = 2*M_PI;
 		else if ( (fktmode == 'x') || (fktmode == 'y') )
-			dmin = M_PI;
+			dmax = M_PI;
 		else
 			dmax = xmax;
 	}
+	if ( dmax > xmax )
+		dmax = xmax;
+	
 	double dx;
 	if(fktmode=='r')
 	{
@@ -307,6 +311,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	}
 	assert( dx != 0.0 );
 
+	int iy = -1;
 	if(fktmode=='x')
 		iy = ufkt->id+1;
 	
@@ -348,7 +353,6 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 				x = ufkt->oldx = ufkt->startx; //the initial x-point
 				ufkt->oldy = ufkt->starty;
 				ufkt->oldyprim = ufkt->integral_precision;
-// 				paintEvent(0);
 			}
 			else
 				x=dmin;
@@ -410,14 +414,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 
 					if ( dgr.xclipflg || dgr.yclipflg )
 					{
-						//if(mflg>=1)
-							p1=p2;
-						/*else
-						{
-							pDC->drawLine(p1, p2);
-							p1=p2;
-							mflg=1;
-						}*/
+						p1=p2;
 					}
 					else
 					{
@@ -2276,10 +2273,19 @@ void View::areaUnderGraph( Ufkt *ufkt, Ufkt::PMode p_mode,  double &dmin, double
 		draw(&buffer,0);
 	}
 
-	if ( calculated_area>0)
-		dmin = int(calculated_area*1000)/double(1000);
-	else
-		dmin = int(calculated_area*1000)/double(1000)*-1; //don't answer with a negative number
+	// Why did I comment out negating the area?
+	// There are two types of user - those who understand the concept of an
+	// integral, and those that don't.
+	// (1) Those who know what an integral is will expect to get a negative area
+	// if it is calculated as such.
+	// (2) Those who don't will probably be expecting the "negative" parts of
+	// area (i.e. where f(x) < 0) to be included as positive as well. So the
+	// integral (where f(x)<0) won't make sense for them anyway.
+	
+// 	if ( calculated_area>0)
+		dmin = calculated_area;
+// 	else
+// 		dmin = calculated_area*-1; //don't answer with a negative number
 }
 
 bool View::isCalculationStopped()

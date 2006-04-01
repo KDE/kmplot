@@ -272,8 +272,6 @@ private:
 	*/
 	void coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
 	                    double &min, double &max );
-	/// Sets the plot range from Settings
-	void setPlotRange();
 	//@{
 	/** Current plot range endge. */
 	double ymin;

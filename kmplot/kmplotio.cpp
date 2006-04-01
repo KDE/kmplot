@@ -346,6 +346,8 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 	Settings::setYRange( n.namedItem( "ycoord" ).toElement().text().toInt() );
 	Settings::setYMin( n.namedItem( "ymin" ).toElement().text() );
 	Settings::setYMax( n.namedItem( "ymax" ).toElement().text() );
+	
+	View::self()->getSettings();
 }
 
 void KmPlotIO::parseGrid( const QDomElement & n )
@@ -372,6 +374,8 @@ void KmPlotIO::parseScale(const QDomElement & n )
 	Settings::setYScaling(  n.namedItem( "tic-y" ).toElement().text().toInt() );
 	Settings::setXPrinting(  n.namedItem( "print-tic-x" ).toElement().text().toInt()  );
 	Settings::setYPrinting(  n.namedItem( "print-tic-y" ).toElement().text().toInt() );
+	
+	View::self()->getSettings();
 }
 
 // static

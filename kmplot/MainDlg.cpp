@@ -564,6 +564,7 @@ void MainDlg::slotCoord1()
 	Settings::setXRange( 0 );
 	Settings::setYRange( 0 );
 	m_modified = true;
+	View::self()->getSettings();
 	View::self()->drawPlot();
 }
 
@@ -572,6 +573,7 @@ void MainDlg::slotCoord2()
 	Settings::setXRange( 2 );
 	Settings::setYRange( 0 );
 	m_modified = true;
+	View::self()->getSettings();
 	View::self()->drawPlot();
 }
 
@@ -580,6 +582,7 @@ void MainDlg::slotCoord3()
 	Settings::setXRange( 2 );
 	Settings::setYRange( 2 );
 	m_modified = true;
+	View::self()->getSettings();
 	View::self()->drawPlot();
 }
 

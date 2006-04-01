@@ -83,7 +83,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	}
 
 	if (!initialGeometrySet())
-		resize( QSize(450, 520).expandedTo(minimumSizeHint()));
+		resize( QSize(800, 520).expandedTo(minimumSizeHint()));
 
 	// apply the saved mainwindow settings, if any, and ask the mainwindow
 	// to automatically save settings if changed: window size, toolbar
@@ -300,8 +300,8 @@ void KmPlot::setStatusBarText(const QString &text, int id)
 
 void KmPlot::setupStatusBar()
 {
-	statusBar()->insertFixedItem( "1234567890", 1 );
-	statusBar()->insertFixedItem( "1234567890", 2 );
+	statusBar()->insertFixedItem( "123456789012", 1 );
+	statusBar()->insertFixedItem( "123456789012", 2 );
 	statusBar()->insertItem( "", 3, 3 );
 	statusBar()->insertItem( "", 4 );
 	statusBar()->changeItem( "", 1 );

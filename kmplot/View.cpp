@@ -150,9 +150,6 @@ void View::draw(QPaintDevice *dev, int form)
 	w=rc.width();
 	h=rc.height();
 
-	setPlotRange();
-	setScaling();
-
 	if(form==0)          // screen
 	{
 		ref=QPoint(120, 100);
@@ -211,6 +208,7 @@ void View::draw(QPaintDevice *dev, int form)
 	}
 
 	dgr.updateSettings();
+// 	kDebug() << "tlgx="<<tlgx<<" tlgy="<<tlgy<<endl;
 	dgr.Skal( tlgx, tlgy );
 
 	if ( form!=0 && areaDraw)
@@ -1131,8 +1129,17 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	
 	if ( inBounds )
 	{
-		sx.sprintf( "  x= %+.2f", csxpos );
-		sy.sprintf( "  y= %+.2f", csypos );
+// 		sx.sprintf( "  x= %+.2f", csxpos );
+// 		sy.sprintf( "  y= %+.2f", csypos );
+		if ( qAbs(csxpos) > 1e4 )
+			sx = QString( "x = %1" ).arg( csxpos, 0, 'f', 0 );
+		else
+			sx = QString( "x = %1" ).arg( csxpos, 0, 'g', 3 );
+		
+		if ( qAbs(csypos) > 1e4 )
+			sy = QString( "y = %1" ).arg( csypos, 0, 'f', 0 );
+		else
+			sy = QString( "y = %1" ).arg( csypos, 0, 'g', 3 );
 	}
 	else
 		sx = sy = "";
@@ -1324,7 +1331,7 @@ bool View::updateCrosshairPosition()
 				{
 					QString str="  ";
 					str+=i18n("root");
-					setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+					setStatusBar(str+QString().sprintf(":  x0 = %+.5f", x0), 3);
 					rootflg=true;
 				}
 			}
@@ -1521,13 +1528,21 @@ void View::animateZoom( const QRectF & _newCoords )
 			; // do nothing
 	}
 	
-	Settings::setXMin( Parser::number( newCoords.left() ) );
-	Settings::setXMax( Parser::number( newCoords.right() ) );
-	Settings::setYMin( Parser::number( newCoords.top() ) );
-	Settings::setYMax( Parser::number( newCoords.bottom() ) );
+	xmin = newCoords.left();
+	xmax = newCoords.right();
+	ymin = newCoords.top();
+	ymax = newCoords.bottom();
+	
+	Settings::setXMin( Parser::number( xmin ) );
+	Settings::setXMax( Parser::number( xmax ) );
+	Settings::setYMin( Parser::number( ymin ) );
+	Settings::setYMax( Parser::number( ymax ) );
 
 	Settings::setXRange(4); //custom x-range
 	Settings::setYRange(4); //custom y-range
+	
+	setScaling();
+	
 	drawPlot(); //update all graphs
 	
 	m_zoomMode = Normal;
@@ -1548,8 +1563,11 @@ void View::translateView( int dx, int dy )
 	Settings::setXMax( Parser::number( xmax ) );
 	Settings::setYMin( Parser::number( ymin ) );
 	Settings::setYMax( Parser::number( ymax ) );
+	
 	Settings::setXRange(4); //custom x-range
 	Settings::setYRange(4); //custom y-range
+	
+	setScaling();
 	
 	drawPlot(); //update all graphs
 }
@@ -1582,20 +1600,18 @@ void View::coordToMinMax( const int koord, const QString &minStr, const QString 
 	}
 }
 
-void View::setPlotRange()
-{
-	coordToMinMax( Settings::xRange(), Settings::xMin(), Settings::xMax(), xmin, xmax );
-	coordToMinMax( Settings::yRange(), Settings::yMin(), Settings::yMax(), ymin, ymax );
-}
-
 void View::setScaling()
 {
 	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
+	
+	assert( (Settings::xScaling >= 0) && (Settings::xScaling() < 9) );
+	assert( (Settings::yScaling >= 0) && (Settings::yScaling() < 9) );
 
 	if( Settings::xScaling() == 8) //automatic x-scaling
     {
 		tlgx = double(xmax-xmin)/16;
         tlgxstr = units[ Settings::xScaling() ];
+// 		kDebug() << "xmax="<<xmax<<" xmin="<<xmin<<" tlgx="<<tlgx<<endl;
     }
 	else
 	{
@@ -1622,6 +1638,12 @@ void View::setScaling()
 
 void View::getSettings()
 {
+// 	kDebug() << "###############################" << k_funcinfo << endl;
+	
+	coordToMinMax( Settings::xRange(), Settings::xMin(), Settings::xMax(), xmin, xmax );
+	coordToMinMax( Settings::yRange(), Settings::yMin(), Settings::yMax(), ymin, ymax );
+	setScaling();
+	
 	m_parser->setAngleMode( Settings::anglemode() );
 
 	backgroundcolor = Settings::backgroundcolor();

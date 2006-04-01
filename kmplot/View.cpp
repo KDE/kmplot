@@ -394,18 +394,18 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 
 					if(fktmode=='r')
 					{
-						p2.setX(dgr.TransxToPixel(y*cos(x)));
-						p2.setY(dgr.TransyToPixel(y*sin(x)));
+						p2.setX(dgr.TransxToPixel( y*cos(x), false ));
+						p2.setY(dgr.TransyToPixel( y*sin(x), false ));
 					}
 					else if(fktmode=='x')
 					{
-						p2.setX(dgr.TransxToPixel(y));
-						p2.setY(dgr.TransyToPixel(m_parser->fkt(iy, x)));
+						p2.setX(dgr.TransxToPixel( y, false ));
+						p2.setY(dgr.TransyToPixel( m_parser->fkt(iy, x), false ));
 					}
 					else
 					{
-						p2.setX(dgr.TransxToPixel(x));
-						p2.setY(dgr.TransyToPixel(y));
+						p2.setX(dgr.TransxToPixel( x, false ));
+						p2.setY(dgr.TransyToPixel( y, false ));
 					}
 
 					if ( dgr.xclipflg || dgr.yclipflg )

@@ -78,14 +78,20 @@ public:
 	/// Updates the settings from the user (e.g. borderThickness, etc)
 	void updateSettings();
 
-	/** @name Transformations */
-	//@{
-	/// These functions convert real coordinates to pixel coordinates and vice versa.
-	double TransxToPixel(double);
-	double TransyToPixel(double);
-	double TransxToReal(double);
-	double TransyToReal(double);
-	//@}
+	/**
+	 * @{
+	 * @name Transformations
+	 * These functions convert real coordinates to pixel coordinates and vice
+	 * versa.
+	 * \param clipToEdge Whether to clip the returned pixel coordinate to the
+	 * edge of the diagram if it goes out-of-bounds. xclipflg or yclipflg will
+	 * be set or cleared as appropriate.
+	 */
+	double TransxToPixel( double x, bool clipToEdge = true );
+	double TransyToPixel( double y, bool clipToEdge = true  );
+	double TransxToReal( double x );
+	double TransyToReal( double y );
+	///@}
 	
 	/** @name Style options
 	 * These members hold the current options for line widths and colors

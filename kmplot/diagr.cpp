@@ -115,7 +115,7 @@ void CDiagr::Plot(QPainter* pDC)
 }
 
 
-double CDiagr::TransxToPixel( double x )		// reale x-Koordinate
+double CDiagr::TransxToPixel( double x, bool clipToEdge )		// reale x-Koordinate
 {
 	double xi;                			// transformierte x-Koordinate
 	static double lastx;            // vorherige x-Koordinate
@@ -138,12 +138,12 @@ double CDiagr::TransxToPixel( double x )		// reale x-Koordinate
 		xi=PlotArea.right();
                 
 	}
-	else if(x<xmin)
+	else if ( (x<xmin) && clipToEdge )
 	{
 		xclipflg=1;
 		xi=PlotArea.left();
 	}
-	else if(x>xmax)
+	else if ( (x>xmax) && clipToEdge )
 	{
 		xclipflg=1;
 		xi=PlotArea.right();
@@ -159,7 +159,7 @@ double CDiagr::TransxToPixel( double x )		// reale x-Koordinate
 }
 
 
-double CDiagr::TransyToPixel(double y)		// reale y-Koordinate
+double CDiagr::TransyToPixel( double y, bool clipToEdge )		// reale y-Koordinate
 {   
 	double yi;                     	// transformierte y-Koordinate
 	static double lasty;            // vorherige y-Koordinate
@@ -183,12 +183,12 @@ double CDiagr::TransyToPixel(double y)		// reale y-Koordinate
 		yi=PlotArea.top();
                 
 	}
-	else if(y<ymin)
+	else if ( (y<ymin) && clipToEdge )
 	{
 		yclipflg=1;
 		yi=PlotArea.bottom();
 	}
-	else if(y>ymax)
+	else if ( (y>ymax) && clipToEdge )
 	{
 		yclipflg=1;
 		yi=PlotArea.top();

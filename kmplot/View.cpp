@@ -635,35 +635,25 @@ bool View::root(double *x0, Ufkt *it)
 {
 	if(rootflg)
 		return FALSE;
-	double yn;
-	double x=csxpos;
-	double y=fabs(csypos);
-	double dx=0.1;
-	while(1)
+	
+	int k = 0; // iteration count
+	int max_k = 100; // maximum number of iterations
+	double max_y = 1e-9; // the largest value of y which is deemed a root found
+	
+	*x0 = csxpos;
+	double y = csypos;
+	bool tooBig = true;
+	
+	do
 	{
-		if((yn=fabs(m_parser->fkt(it, x-dx))) < y)
-		{
-			x-=dx;
-			y=yn;
-		}
-		else if((yn=fabs(m_parser->fkt(it, x+dx))) < y)
-		{
-			x+=dx;
-			y=yn;
-		}
-		else
-			dx/=10.;
-		printf("x=%g,  dx=%g, y=%g\n", x, dx, y);
-		if(y<1e-8)
-		{
-			*x0=x;
-			return TRUE;
-		}
-		if(fabs(dx)<1e-8)
-			return FALSE;
-		if(x<xmin || x>xmax)
-			return FALSE;
+		*x0 -= y / m_parser->a1fkt( it, *x0 );
+		y = m_parser->fkt( it, *x0 );
+		
+		tooBig = (qAbs(y) > max_y);
 	}
+	while ( (k++<max_k) && tooBig );
+	
+	return ! tooBig;
 }
 
 void View::paintEvent(QPaintEvent *)

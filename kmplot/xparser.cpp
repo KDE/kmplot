@@ -54,20 +54,20 @@ bool XParser::getext( Ufkt *item, const QString fstr )
 	QString tstr;
 	pe = fstr.length();
 	if ( fstr.indexOf( 'N' ) != -1 )
-		item->f_mode = false;
+		item->f0.visible = false;
 	else
 	{
 		if ( fstr.indexOf( "A1" ) != -1 )
-			item->f1_mode = true;
+			item->f1.visible = true;
 		if ( fstr.indexOf( "A2" ) != -1 )
-			item->f2_mode = true;
+			item->f2.visible = true;
 	}
 	switch ( fstr[0].unicode() )
 	{
 	  case 'x':
 	  case 'y':
 	  case 'r':
-	    item->f1_mode = item->f2_mode = false;
+	    item->f1.visible = item->f2.visible = false;
 	}
 
 	p1 = fstr.indexOf( "D[" );
@@ -243,7 +243,7 @@ int XParser::addfkt( QString fn )
 	int id = Parser::addfkt( fn );
 	Ufkt * ufkt = functionWithID( id );
 	if ( ufkt )
-		ufkt->color = ufkt->f1_color = ufkt->f2_color = ufkt->integral_color = defaultColor(id);
+		ufkt->f0.color = ufkt->f1.color = ufkt->f2.color = ufkt->integral.color = defaultColor(id);
 	
 	return id;
 }
@@ -254,25 +254,25 @@ QColor XParser::defaultColor(int function)
 	switch ( function % 10 )
 	{
 		case 0:
-			return Settings::color0().rgb();
+			return Settings::color0();
 		case 1:
-			return Settings::color1().rgb();
+			return Settings::color1();
 		case 2:
-			return Settings::color2().rgb();
+			return Settings::color2();
 		case 3:
-			return Settings::color3().rgb();
+			return Settings::color3();
 		case 4:
-			return Settings::color4().rgb();
+			return Settings::color4();
 		case 5:
-			return Settings::color5().rgb();
+			return Settings::color5();
 		case 6:
-			return Settings::color6().rgb();
+			return Settings::color6();
 		case 7:
-			return Settings::color7().rgb();
+			return Settings::color7();
 		case 8:
-			return Settings::color8().rgb();
+			return Settings::color8();
 		case 9:
-			return Settings::color9().rgb();
+			return Settings::color9();
 	}
 	
 	assert( !"Shouldn't happen - XParser::defaultColor" );
@@ -291,26 +291,26 @@ QStringList XParser::listFunctionNames()
 
 bool XParser::functionFVisible(uint id)
 {
-	return m_ufkt.contains(id) ? m_ufkt[id]->f_mode : false;
+	return m_ufkt.contains(id) ? m_ufkt[id]->f0.visible : false;
 }
 bool XParser::functionF1Visible(uint id)
 {
-	return m_ufkt.contains(id) ? m_ufkt[id]->f1_mode : false;
+	return m_ufkt.contains(id) ? m_ufkt[id]->f1.visible : false;
 }
 bool XParser::functionF2Visible(uint id)
 {
-	return m_ufkt.contains(id) ? m_ufkt[id]->f2_mode : false;
+	return m_ufkt.contains(id) ? m_ufkt[id]->f2.visible : false;
 }
 bool XParser::functionIntVisible(uint id)
 {
-	return m_ufkt.contains(id) ? m_ufkt[id]->integral_mode : false;
+	return m_ufkt.contains(id) ? m_ufkt[id]->integral.visible : false;
 }
 
 bool XParser::setFunctionFVisible(bool visible, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f_mode = visible;
+	m_ufkt[id]->f0.visible = visible;
 	m_modified = true;
 	return true;
 }
@@ -318,7 +318,7 @@ bool XParser::setFunctionF1Visible(bool visible, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f1_mode = visible;
+	m_ufkt[id]->f1.visible = visible;
 	m_modified = true;
 	return true;
 }
@@ -326,7 +326,7 @@ bool XParser::setFunctionF2Visible(bool visible, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f2_mode = visible;
+	m_ufkt[id]->f2.visible = visible;
 	m_modified = true;
 	return true;
 }
@@ -334,7 +334,7 @@ bool XParser::setFunctionIntVisible(bool visible, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->integral_mode = visible;
+	m_ufkt[id]->integral.visible = visible;
 	m_modified = true;
 	return true;
 }
@@ -350,31 +350,31 @@ QColor XParser::functionFColor(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(m_ufkt[id]->color);
+	return QColor(m_ufkt[id]->f0.color);
 }
 QColor XParser::functionF1Color(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(m_ufkt[id]->f1_color);
+	return QColor(m_ufkt[id]->f1.color);
 }
 QColor XParser::functionF2Color(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(m_ufkt[id]->f2_color);
+	return QColor(m_ufkt[id]->f2.color);
 }
 QColor XParser::functionIntColor(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(m_ufkt[id]->integral_color);
+	return QColor(m_ufkt[id]->integral.color);
 }
 bool XParser::setFunctionFColor(const QColor &color, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->color = color.rgb();
+	m_ufkt[id]->f0.color = color;
 	m_modified = true;
 	return true;
 }
@@ -382,7 +382,7 @@ bool XParser::setFunctionF1Color(const QColor &color, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->color = color.rgb();
+	m_ufkt[id]->f0.color = color;
 	m_modified = true;
 	return true;
 }		
@@ -390,7 +390,7 @@ bool XParser::setFunctionF2Color(const QColor &color, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->color = color.rgb();
+	m_ufkt[id]->f0.color = color;
 	m_modified = true;
 	return true;
 }
@@ -398,7 +398,7 @@ bool XParser::setFunctionIntColor(const QColor &color, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->color = color.rgb();
+	m_ufkt[id]->f0.color = color;
 	m_modified = true;
 	return true;
 }
@@ -407,31 +407,31 @@ double XParser::functionFLineWidth(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->linewidth;
+	return m_ufkt[id]->f0.lineWidth;
 }
 double XParser::functionF1LineWidth(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->f1_linewidth;
+	return m_ufkt[id]->f1.lineWidth;
 }
 double XParser::functionF2LineWidth(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->f2_linewidth;
+	return m_ufkt[id]->f2.lineWidth;
 }
 double XParser::functionIntLineWidth(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->integral_linewidth;
+	return m_ufkt[id]->integral.lineWidth;
 }
 bool XParser::setFunctionFLineWidth(double linewidth, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->linewidth = linewidth;
+	m_ufkt[id]->f0.lineWidth = linewidth;
 	m_modified = true;
 	return true;
 }
@@ -439,7 +439,7 @@ bool XParser::setFunctionF1LineWidth(double linewidth, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f1_linewidth = linewidth;
+	m_ufkt[id]->f1.lineWidth = linewidth;
 	m_modified = true;
 	return true;
 }		
@@ -447,7 +447,7 @@ bool XParser::setFunctionF2LineWidth(double linewidth, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f2_linewidth = linewidth;
+	m_ufkt[id]->f2.lineWidth = linewidth;
 	m_modified = true;
 	return true;
 }
@@ -455,7 +455,7 @@ bool XParser::setFunctionIntLineWidth(double linewidth, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->integral_linewidth = linewidth;
+	m_ufkt[id]->integral.lineWidth = linewidth;
 	m_modified = true;
 	return true;
 }
@@ -595,7 +595,7 @@ int XParser::addFunction(const QString &f_str)
 	return id;
 }
 
-bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider)
+bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider)
 {
 	QString fstr(fstr_const);
 	switch ( fstr[0].unicode() )
@@ -619,15 +619,15 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 	if ( id==-1 )
 		return false;
 	Ufkt *added_function = m_ufkt[id];
-	added_function->f_mode = f_mode;
-	added_function->f1_mode = f1_mode;
-	added_function->f2_mode = f2_mode;
-	added_function->integral_mode = integral_mode;
+	added_function->f0.visible = f_mode;
+	added_function->f1.visible = f1_mode;
+	added_function->f2.visible = f2_mode;
+	added_function->integral.visible = integral_mode;
 	added_function->integral_use_precision = integral_use_precision;
-	added_function->linewidth = linewidth;
-	added_function->f1_linewidth = f1_linewidth;
-	added_function->f2_linewidth = f2_linewidth;
-	added_function->integral_linewidth = integral_linewidth;
+	added_function->f0.lineWidth = linewidth;
+	added_function->f1.lineWidth = f1_linewidth;
+	added_function->f2.lineWidth = f2_linewidth;
+	added_function->integral.lineWidth = integral_linewidth;
 	
   if ( str_dmin.isEmpty() )
     added_function->usecustomxmin = false;
@@ -653,10 +653,10 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 		added_function->startx = eval(str_startx);
 	added_function->oldx = 0;
 	added_function->integral_precision = integral_precision;
-	added_function->color = color;
-	added_function->f1_color = f1_color;
-	added_function->f2_color = f2_color;
-	added_function->integral_color = integral_color;
+	added_function->f0.color = color;
+	added_function->f1.color = f1_color;
+	added_function->f2.color = f2_color;
+	added_function->integral.color = integral_color;
 	added_function->use_slider = use_slider;
 	for( QStringList::Iterator it = str_parameter.begin(); it != str_parameter.end(); ++it )
 	{

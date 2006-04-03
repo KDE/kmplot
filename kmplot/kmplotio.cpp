@@ -181,22 +181,22 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Ufkt * funct
 	QDomElement tag = doc.createElement( "function" );
 
 	//tag.setAttribute( "number", ix );
-	tag.setAttribute( "visible", function->f_mode );
-	tag.setAttribute( "color", QColor( function->color ).name() );
-	tag.setAttribute( "width", function->linewidth );
+	tag.setAttribute( "visible", function->f0.visible );
+	tag.setAttribute( "color", QColor( function->f0.color ).name() );
+	tag.setAttribute( "width", function->f0.lineWidth );
 	tag.setAttribute( "use-slider", function->use_slider );
 	
-	tag.setAttribute( "visible-deriv", function->f1_mode );
-	tag.setAttribute( "deriv-color", QColor( function->f1_color ).name() );
-	tag.setAttribute( "deriv-width", function->f1_linewidth );
+	tag.setAttribute( "visible-deriv", function->f1.visible );
+	tag.setAttribute( "deriv-color", QColor( function->f1.color ).name() );
+	tag.setAttribute( "deriv-width", function->f1.lineWidth );
 	
-	tag.setAttribute( "visible-2nd-deriv", function->f2_mode );
-	tag.setAttribute( "deriv2nd-color", QColor( function->f2_color ).name() );
-	tag.setAttribute( "deriv2nd-width", function->f2_linewidth );
+	tag.setAttribute( "visible-2nd-deriv", function->f2.visible );
+	tag.setAttribute( "deriv2nd-color", QColor( function->f2.color ).name() );
+	tag.setAttribute( "deriv2nd-width", function->f2.lineWidth );
 	
-	tag.setAttribute( "visible-integral", function->integral_mode );
-	tag.setAttribute( "integral-color", QColor( function->integral_color ).name() );
-	tag.setAttribute( "integral-width", function->integral_linewidth );
+	tag.setAttribute( "visible-integral", function->integral.visible );
+	tag.setAttribute( "integral-color", QColor( function->integral.color ).name() );
+	tag.setAttribute( "integral-width", function->integral.lineWidth );
 	tag.setAttribute( "integral-use-precision", function->integral_use_precision );
 	tag.setAttribute( "integral-precision", function->integral_precision );
 	tag.setAttribute( "integral-startx", function->str_startx );
@@ -385,22 +385,22 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool all
 	
 	Ufkt ufkt;
 
-	ufkt.f_mode = n.attribute( "visible" ).toInt();
-	ufkt.color = QColor( n.attribute( "color" ) ).rgb();
-	ufkt.linewidth = n.attribute( "width" ).toDouble();
+	ufkt.f0.visible = n.attribute( "visible" ).toInt();
+	ufkt.f0.color = QColor( n.attribute( "color" ) );
+	ufkt.f0.lineWidth = n.attribute( "width" ).toDouble();
 	ufkt.use_slider = n.attribute( "use-slider" ).toInt();
 
-	ufkt.f1_mode = n.attribute( "visible-deriv", "0" ).toInt();
-	ufkt.f1_color = QColor(n.attribute( "deriv-color" )).rgb();
-	ufkt.f1_linewidth = n.attribute( "deriv-width" ).toDouble();
+	ufkt.f1.visible = n.attribute( "visible-deriv", "0" ).toInt();
+	ufkt.f1.color = QColor(n.attribute( "deriv-color" ));
+	ufkt.f1.lineWidth = n.attribute( "deriv-width" ).toDouble();
 	
-	ufkt.f2_mode = n.attribute( "visible-2nd-deriv", "0" ).toInt();
-	ufkt.f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
-	ufkt.f2_linewidth = n.attribute( "deriv2nd-width" ).toDouble();
+	ufkt.f2.visible = n.attribute( "visible-2nd-deriv", "0" ).toInt();
+	ufkt.f2.color = QColor(n.attribute( "deriv2nd-color" ));
+	ufkt.f2.lineWidth = n.attribute( "deriv2nd-width" ).toDouble();
 	
-	ufkt.integral_mode = n.attribute( "visible-integral", "0" ).toInt();
-	ufkt.integral_color = QColor(n.attribute( "integral-color" )).rgb();
-	ufkt.integral_linewidth = n.attribute( "integral-width" ).toDouble();
+	ufkt.integral.visible = n.attribute( "visible-integral", "0" ).toInt();
+	ufkt.integral.color = QColor(n.attribute( "integral-color" ));
+	ufkt.integral.lineWidth = n.attribute( "integral-width" ).toDouble();
 	ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
 	ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
 	ufkt.str_startx = n.attribute( "integral-startx" );
@@ -493,13 +493,13 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	kDebug() << "parsing old function" << endl;
 	Ufkt ufkt;
 	
-	ufkt.f_mode = n.attribute( "visible" ).toInt();
-	ufkt.f1_mode = n.attribute( "visible-deriv" ).toInt();
-	ufkt.f2_mode = n.attribute( "visible-2nd-deriv" ).toInt();
-	ufkt.f2_mode = 0;
-	ufkt.linewidth = n.attribute( "width" ).toDouble();
+	ufkt.f0.visible = n.attribute( "visible" ).toInt();
+	ufkt.f1.visible = n.attribute( "visible-deriv" ).toInt();
+	ufkt.f2.visible = n.attribute( "visible-2nd-deriv" ).toInt();
+	ufkt.f2.visible = 0;
+	ufkt.f0.lineWidth = n.attribute( "width" ).toDouble();
 	ufkt.use_slider = -1;
-	ufkt.color = ufkt.f1_color = ufkt.f2_color = ufkt.integral_color = QColor( n.attribute( "color" ) ).rgb();
+	ufkt.f0.color = ufkt.f1.color = ufkt.f2.color = ufkt.integral.color = QColor( n.attribute( "color" ) );
 
 	ufkt.str_dmin = n.namedItem( "arg-min" ).toElement().text();
 	if( ufkt.str_dmin.isEmpty() )

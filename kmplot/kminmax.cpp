@@ -148,10 +148,10 @@ void KMinMax::updateFunctions()
 	{
 		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r' && !it->fname.isEmpty())
 		{
-			if ( it->f_mode )
+			if ( it->f0.visible )
 				m_mainWidget->list->addItem(it->fstr);
 
-			if ( it->f1_mode ) //1st derivative
+			if ( it->f1.visible ) //1st derivative
 			{
 				QString function (it->fstr);
 				int i= function.indexOf('(');
@@ -159,7 +159,7 @@ void KMinMax::updateFunctions()
 				function +="\'";
 				m_mainWidget->list->addItem(function );
 			}
-			if ( it->f2_mode )//2nd derivative
+			if ( it->f2.visible )//2nd derivative
 			{
 				QString function (it->fstr);
 				int i= function.indexOf('(');
@@ -167,7 +167,7 @@ void KMinMax::updateFunctions()
 				function +="\'\'";
 				m_mainWidget->list->addItem(function );
 			}
-			if ( it->integral_mode )//integral
+			if ( it->integral.visible )//integral
 			{
 				QString function (it->fstr);
 				int i= function.indexOf('(');

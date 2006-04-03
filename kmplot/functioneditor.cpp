@@ -336,8 +336,8 @@ void FunctionEditor::initFromCartesian()
 	m_parameters = f->parameters;
 	
 	m_editor->cartesianEquation->setText( f->fstr );
-	m_editor->cartesian_f_lineWidth->setValue( f->linewidth );
-	m_editor->cartesian_f_lineColor->setColor( f->color );
+	m_editor->cartesian_f_lineWidth->setValue( f->f0.lineWidth );
+	m_editor->cartesian_f_lineColor->setColor( f->f0.color );
 	
 	m_editor->cartesianCustomMin->setChecked( f->usecustomxmin );
 	m_editor->cartesianMin->setText( f->str_dmin );
@@ -359,19 +359,19 @@ void FunctionEditor::initFromCartesian()
 		m_editor->listOfSliders->setCurrentIndex( f->use_slider );
 	}
         
-	m_editor->showDerivative1->setChecked( f->f1_mode );
-	m_editor->cartesian_f1_lineWidth->setValue( f->f1_linewidth );
-	m_editor->cartesian_f1_lineColor->setColor( f->f1_color );
+	m_editor->showDerivative1->setChecked( f->f1.visible );
+	m_editor->cartesian_f1_lineWidth->setValue( f->f1.lineWidth );
+	m_editor->cartesian_f1_lineColor->setColor( f->f1.color );
 	
-	m_editor->showDerivative2->setChecked( f->f2_mode );
-	m_editor->cartesian_f2_lineWidth->setValue( f->f2_linewidth );
-	m_editor->cartesian_f2_lineColor->setColor( f->f2_color );
+	m_editor->showDerivative2->setChecked( f->f2.visible );
+	m_editor->cartesian_f2_lineWidth->setValue( f->f2.lineWidth );
+	m_editor->cartesian_f2_lineColor->setColor( f->f2.color );
 	
 	m_editor->precision->setValue( f->integral_precision );
-	m_editor->cartesian_F_lineWidth->setValue( f->integral_linewidth );
-	m_editor->cartesian_F_lineColor->setColor( f->integral_color );
+	m_editor->cartesian_F_lineWidth->setValue( f->integral.lineWidth );
+	m_editor->cartesian_F_lineColor->setColor( f->integral.color );
 	
-	m_editor->showIntegral->setChecked( f->integral_mode );
+	m_editor->showIntegral->setChecked( f->integral.visible );
 	m_editor->customPrecision->setChecked( f->integral_use_precision );
 	m_editor->txtInitX->setText(f->str_startx);
 	m_editor->txtInitY->setText(f->str_starty);
@@ -398,8 +398,8 @@ void FunctionEditor::initFromPolar()
 	m_editor->polarMin->setText( f->str_dmin );
 	m_editor->polarCustomMax->setChecked( f->usecustomxmax );
 	m_editor->polarMax->setText( f->str_dmax );
-	m_editor->polarLineWidth->setValue( f->linewidth );
-	m_editor->polarLineColor->setColor( f->color );
+	m_editor->polarLineWidth->setValue( f->f0.lineWidth );
+	m_editor->polarLineColor->setColor( f->f0.color );
 	
 	m_editor->stackedWidget->setCurrentIndex( 2 );
 	m_editor->polarEquation->setFocus();
@@ -428,8 +428,8 @@ void FunctionEditor::initFromParametric()
 	m_editor->parametricMin->setText( fx->str_dmin );
 	m_editor->parametricMax->setText( fx->str_dmax );
         
-	m_editor->parametricLineWidth->setValue( fx->linewidth );
-	m_editor->parametricLineColor->setColor( fx->color );
+	m_editor->parametricLineWidth->setValue( fx->f0.lineWidth );
+	m_editor->parametricLineColor->setColor( fx->f0.color );
 	
 	m_editor->stackedWidget->setCurrentIndex( 1 );
 	m_editor->parametricName->setFocus();
@@ -605,14 +605,14 @@ void FunctionEditor::saveCartesian()
 		return;
 	}
 	
-	tempFunction.linewidth = m_editor->cartesian_f_lineWidth->value();
-	tempFunction.color = m_editor->cartesian_f_lineColor->color().rgb();
+	tempFunction.f0.lineWidth = m_editor->cartesian_f_lineWidth->value();
+	tempFunction.f0.color = m_editor->cartesian_f_lineColor->color();
 	
-	tempFunction.integral_mode = m_editor->showIntegral->isChecked();
+	tempFunction.integral.visible = m_editor->showIntegral->isChecked();
 	double initx = View::self()->parser()->eval( m_editor->txtInitX->text() );
 	tempFunction.startx = initx;
 	tempFunction.str_startx = m_editor->txtInitX->text();
-	if ( tempFunction.integral_mode && View::self()->parser()->parserError(false) != 0)
+	if ( tempFunction.integral.visible && View::self()->parser()->parserError(false) != 0)
 	{
 // 			KMessageBox::sorry(this,i18n("Please insert a valid x-value"));
 // 			showPage(2);
@@ -624,7 +624,7 @@ void FunctionEditor::saveCartesian()
 	double inity = View::self()->parser()->eval(m_editor->txtInitY->text());
 	tempFunction.starty = inity;
 	tempFunction.str_starty = m_editor->txtInitY->text();
-	if ( tempFunction.integral_mode && View::self()->parser()->parserError(false) != 0)
+	if ( tempFunction.integral.visible && View::self()->parser()->parserError(false) != 0)
 	{
 // 			KMessageBox::sorry(this,i18n("Please insert a valid y-value"));
 // 			showPage(2);
@@ -633,13 +633,13 @@ void FunctionEditor::saveCartesian()
 		return;
 	}
 
-	tempFunction.integral_color = m_editor->cartesian_F_lineColor->color().rgb();
+	tempFunction.integral.color = m_editor->cartesian_F_lineColor->color();
 	tempFunction.integral_use_precision = m_editor->customPrecision->isChecked();
 	tempFunction.integral_precision = m_editor->precision->value();
-	tempFunction.integral_linewidth = m_editor->cartesian_F_lineWidth->value();
+	tempFunction.integral.lineWidth = m_editor->cartesian_F_lineWidth->value();
 
 	if ( functionListItem )
-		tempFunction.f_mode = (functionListItem->checkState() == Qt::Checked);
+		tempFunction.f0.visible = (functionListItem->checkState() == Qt::Checked);
 	
 	tempFunction.parameters = m_parameters;
 	if( m_editor->cartesianParameterSlider->isChecked() )
@@ -647,15 +647,15 @@ void FunctionEditor::saveCartesian()
 	else
 		tempFunction.use_slider = -1;
 
-	tempFunction.f1_mode =  m_editor->showDerivative1->isChecked();
-	tempFunction.f1_linewidth = m_editor->cartesian_f1_lineWidth->value();
-	tempFunction.f1_color = m_editor->cartesian_f1_lineColor->color().rgb();
+	tempFunction.f1.visible =  m_editor->showDerivative1->isChecked();
+	tempFunction.f1.lineWidth = m_editor->cartesian_f1_lineWidth->value();
+	tempFunction.f1.color = m_editor->cartesian_f1_lineColor->color();
         
-	tempFunction.f2_mode =  m_editor->showDerivative2->isChecked();
-	tempFunction.f2_linewidth = m_editor->cartesian_f2_lineWidth->value();
-	tempFunction.f2_color = m_editor->cartesian_f1_lineColor->color().rgb();
+	tempFunction.f2.visible =  m_editor->showDerivative2->isChecked();
+	tempFunction.f2.lineWidth = m_editor->cartesian_f2_lineWidth->value();
+	tempFunction.f2.color = m_editor->cartesian_f1_lineColor->color();
         
-	if ( f_str.contains('y') != 0 && ( tempFunction.f_mode || tempFunction.f1_mode || tempFunction.f2_mode) )
+	if ( f_str.contains('y') != 0 && ( tempFunction.f0.visible || tempFunction.f1.visible || tempFunction.f2.visible) )
 	{
 // 		KMessageBox::sorry( this, i18n( "Recursive function is only allowed when drawing integral graphs") );
 		return;
@@ -739,7 +739,7 @@ void FunctionEditor::savePolar()
 	Ufkt tempFunction;  //all settings are saved here until we know that no errors have appeared
 
 	if ( functionListItem )
-		tempFunction.f_mode = (functionListItem->checkState() == Qt::Checked);
+		tempFunction.f0.visible = (functionListItem->checkState() == Qt::Checked);
 	
 	tempFunction.usecustomxmin = m_editor->polarCustomMin->isChecked();
 	tempFunction.str_dmin = m_editor->polarMin->text();
@@ -772,8 +772,8 @@ void FunctionEditor::savePolar()
 		return;
 	}
 	
-	tempFunction.linewidth = m_editor->polarLineWidth->value();
-	tempFunction.color = m_editor->polarLineColor->color().rgb();
+	tempFunction.f0.lineWidth = m_editor->polarLineWidth->value();
+	tempFunction.f0.color = m_editor->polarLineColor->color();
 	tempFunction.use_slider = -1;
         
 	
@@ -837,7 +837,7 @@ void FunctionEditor::saveParametric()
                 
 	Ufkt tempFunction;
 	if ( functionListItem )
-		tempFunction.f_mode = (functionListItem->checkState() == Qt::Checked);
+		tempFunction.f0.visible = (functionListItem->checkState() == Qt::Checked);
 	
 	tempFunction.usecustomxmin = true;
 	tempFunction.str_dmin = m_editor->parametricMin->text();
@@ -867,9 +867,9 @@ void FunctionEditor::saveParametric()
 		return;
 	}
         
-	tempFunction.linewidth = m_editor->parametricLineWidth->value();
-	tempFunction.color = m_editor->parametricLineColor->color().rgb();
-	tempFunction.f1_color = tempFunction.f2_color = tempFunction.integral_color = tempFunction.color;
+	tempFunction.f0.lineWidth = m_editor->parametricLineWidth->value();
+	tempFunction.f0.color = m_editor->parametricLineColor->color();
+	tempFunction.f1.color = tempFunction.f2.color = tempFunction.integral.color = tempFunction.f0.color;
 	
 	QString old_fstr = fx->fstr;
 	fx->fstr = "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text();
@@ -1036,8 +1036,8 @@ void FunctionListItem::update()
 		setText( f1->fstr );
 	}
 	
-	setCheckState( f1->f_mode ? Qt::Checked : Qt::Unchecked );
-	setTextColor( f1->color );
+	setCheckState( f1->f0.visible ? Qt::Checked : Qt::Unchecked );
+	setTextColor( f1->f0.color );
 }
 //END class FunctionListItem
 

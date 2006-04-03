@@ -26,7 +26,9 @@
 
 /** @file parser.h
  * \brief Contains the parser core class Parser. */
- 
+
+#ifndef parser_included
+#define parser_included
  
 #include <QList>
 #include <QMap>
@@ -34,10 +36,8 @@
 #include <QString>
 #include <QVector>
 
+#include "function.h"
 #include "parseriface.h"
-
-#ifndef parser_included
-#define parser_included
 
 class Parser;
 
@@ -102,89 +102,6 @@ double ltanh(double x);
 double arccos(double x);
 double arcsin(double x);
 double arctan(double x);
-
-/// A parameter expression and value
-class ParameterValueItem
-{
-	public:
-		ParameterValueItem(const QString &e, double v)
-		{
-			expression = e;
-			value = v;
-		};
-		ParameterValueItem() {;};
-		QString expression;
-		double value;
-		
-		bool operator==( const ParameterValueItem & vi )
-		{
-			return (vi.value == value) && (vi.expression == expression);
-		};
-};
-
-
-/** Here are all atitrbutes for a function stored. */
-class Ufkt
-{
-	public:
-		enum PMode
-		{
-			Function,
-			Derivative1,
-			Derivative2,
-			Integral,
-		};
-		
-		Ufkt();
-		~Ufkt();
-		
-		/**
-		 * Copies data members across, while avoiding id, mem, mptr type
-		 * variables.
-		 * @return whether any values have changed.
-		 */
-		bool copyFrom( const Ufkt & function );
-		
-		/// Sets the parameter 
-		void setParameter( double p ) { k = p; };
-        
-		uint id;
-		unsigned char *mem;     ///< Pointer to the allocated memory for the tokens.
-		unsigned char *mptr;    ///< Pointer to the token.
-		QString fname;          ///< Name of the function.
-		QString fvar;           ///< Dummy variable.
-		QString fpar;           ///< Parameter.
-		QString fstr;           ///< Function expression.
-		double k,               ///< Function parameter.
-		oldy;                   ///< The last y-value needed for Euler's method
-		QList<int> dep;   /// A list with all functions this function depends on
-        
-		bool f_mode:1; ///< \a f_mode == 1: draw the plot.
-		bool f1_mode:1; ///< \a f1_mode == 1.  draw the 1st derivative, too.
-		bool f2_mode:1; ///< \a f2_mode == 1.  draw the 2nd derivative, too.
-		bool integral_mode:1; ///< \a f2_mode == 1.  draw the integral, too.
-		bool integral_use_precision:1; ///< The user can specify an unic precision for numeric prime-functions
-		double linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width in mm.
-		/** Number of parameter values. 
-		* @see FktExt::k_liste */
-		QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
-		double dmin, ///< Custom plot range, lower boundage.
-		dmax, ///< Custom plot range, upper boundage.
-		/** List of parameter values. 
-		* @see FktExt::k_anz */
-		oldyprim,  ///< needed for Euler's method, the last y'.value
-		oldx, ///< needed for Euler's method, the last x-value
-		starty,///< startposition for Euler's method, the initial y-value
-		startx, ///< startposition for Euler's method, the initial x-value last y'.valuenitial x-value last y'.valuenitial x-value
-		integral_precision; ///<precision when drawing numeric prime-functions
-		QColor color, ///< current color.
-		f1_color, f2_color, integral_color;
-		int use_slider; ///< -1: none (use list), else: slider number
-		QList<ParameterValueItem> parameters; ///< List with parameter for the function
-		bool usecustomxmin:1;
-		bool usecustomxmax:1;
-        	// TODO double slider_min, slider_max; ///< extreme values of the slider
-};
 
 class Constant
 {

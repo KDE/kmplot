@@ -267,6 +267,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	QChar const fktmode=ufkt->fstr[0];
 	if ( fktmode == 'y' )
 		return;
+	bool isCartesian = (fktmode != 'x') && (fktmode != 'r');
 	
 	double dmin = ufkt->dmin;
 	if(!ufkt->usecustomxmin)
@@ -278,7 +279,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		else
 			dmin = xmin;
 	}
-	if ( dmin < xmin )
+	if ( isCartesian && (dmin < xmin) )
 		dmin = xmin;
 	
 	double dmax = ufkt->dmax;
@@ -291,7 +292,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		else
 			dmax = xmax;
 	}
-	if ( dmax > xmax )
+	if ( isCartesian && (dmax > xmax) )
 		dmax = xmax;
 	
 	double dx;
@@ -363,7 +364,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 			else
 				forward_direction = true;
 
-			if ( p_mode != Ufkt::Function || ufkt->f_mode) // if not the function is hidden
+			if ( p_mode != Ufkt::Function || ufkt->f0.visible) // if not the function is hidden
 			{
 				while ((x>=dmin && x<=dmax) ||  (p_mode == Ufkt::Integral && x>=dmin && !forward_direction) || (p_mode == Ufkt::Integral && x<=dmax && forward_direction))
 				{
@@ -450,11 +451,11 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		while(++k<ke);
 
 		// Advance to the next appropriate p_mode
-		if (ufkt->f1_mode==1 && p_mode< Ufkt::Derivative1)
+		if (ufkt->f1.visible==1 && p_mode< Ufkt::Derivative1)
 			p_mode=Ufkt::Derivative1; //draw the 1st derivative
-		else if(ufkt->f2_mode==1 && p_mode< Ufkt::Derivative2)
+		else if(ufkt->f2.visible==1 && p_mode< Ufkt::Derivative2)
 			p_mode=Ufkt::Derivative2; //draw the 2nd derivative
-		else if( ufkt->integral_mode==1 && p_mode < Ufkt::Integral)
+		else if( ufkt->integral.visible==1 && p_mode < Ufkt::Integral)
 			p_mode=Ufkt::Integral; //draw the integral
 		else
 			break; // no derivatives or integrals left to draw
@@ -476,23 +477,23 @@ QPen View::penForPlot( Ufkt *ufkt, Ufkt::PMode p_mode, bool antialias ) const
 	switch ( p_mode )
 	{
 		case 0:
-			lineWidth_mm = ufkt->linewidth;
-			pen.setColor(ufkt->color);
+			lineWidth_mm = ufkt->f0.lineWidth;
+			pen.setColor(ufkt->f0.color);
 			break;
 			
 		case 1:
-			lineWidth_mm = ufkt->f1_linewidth;
-			pen.setColor(ufkt->f1_color);
+			lineWidth_mm = ufkt->f1.lineWidth;
+			pen.setColor(ufkt->f1.color);
 			break;
 			
 		case 2:
-			lineWidth_mm = ufkt->f2_linewidth;
-			pen.setColor(ufkt->f2_color);
+			lineWidth_mm = ufkt->f2.lineWidth;
+			pen.setColor(ufkt->f2.color);
 			break;
 			
 		case 3:
-			lineWidth_mm = ufkt->integral_linewidth;
-			pen.setColor(ufkt->integral_color);
+			lineWidth_mm = ufkt->integral.lineWidth;
+			pen.setColor(ufkt->integral.color);
 			break;
 			
 		default:
@@ -707,13 +708,13 @@ void View::paintEvent(QPaintEvent *)
 			switch (cstype)
 			{
 				case 0:
-					pen.setColor( it->color);
+					pen.setColor( it->f0.color);
 					break;
 				case 1:
-					pen.setColor( it->f1_color);
+					pen.setColor( it->f1.color);
 					break;
 				case 2:
-					pen.setColor( it->f2_color);
+					pen.setColor( it->f2.color);
 					break;
 				default:
 					pen.setColor(inverted_backgroundcolor);
@@ -979,7 +980,7 @@ void View::getPlotUnderMouse()
 
 			if ( function_type=='x' && it->fstr.contains('t')==1 )
 			{
-				if ( !it->f_mode )
+				if ( !it->f0.visible )
 					continue;
 				
 				//parametric plot
@@ -1002,7 +1003,7 @@ void View::getPlotUnderMouse()
 			}
 			else if ( function_type == 'r' )
 			{
-				if ( !it->f_mode )
+				if ( !it->f0.visible )
 					continue;
 				
 				// polar plot
@@ -1020,21 +1021,21 @@ void View::getPlotUnderMouse()
 					return;
 				}
 			}
-			else if( fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
+			else if( fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f0.visible)
 			{
 				csmode=it->id;
 				cstype = Ufkt::Function;
 				csparam = k;
 				return;
 			}
-			else if(fabs(csypos-m_parser->a1fkt( it, csxpos))< g && it->f1_mode)
+			else if(fabs(csypos-m_parser->a1fkt( it, csxpos))< g && it->f1.visible)
 			{
 				csmode=it->id;
 				cstype = Ufkt::Derivative1;
 				csparam = k;
 				return;
 			}
-			else if(fabs(csypos-m_parser->a2fkt(it, csxpos))< g && it->f2_mode)
+			else if(fabs(csypos-m_parser->a2fkt(it, csxpos))< g && it->f2.visible)
 			{
 				csmode=it->id;
 				cstype = Ufkt::Derivative2;
@@ -1990,15 +1991,15 @@ void View::keyPressEvent( QKeyEvent * e )
 						switch (cstype)
 						{
 							case Ufkt::Function:
-								if ((*it)->f_mode )
+								if ((*it)->f0.visible )
 									found=true;
 								break;
 							case Ufkt::Derivative1:
-								if ( (*it)->f1_mode )
+								if ( (*it)->f1.visible )
 									found=true;
 								break;
 							case Ufkt::Derivative2:
-								if ( (*it)->f2_mode )
+								if ( (*it)->f2.visible )
 									found=true;
 								break;
 							case Ufkt::Integral:
@@ -2081,16 +2082,16 @@ void View::areaUnderGraph( Ufkt *ufkt, Ufkt::PMode p_mode,  double &dmin, double
 	switch(p_mode)
 	{
 		case Ufkt::Function:
-			color = ufkt->color;
+			color = ufkt->f0.color;
 			break;
 		case Ufkt::Derivative1:
-			color = ufkt->f1_color;
+			color = ufkt->f1.color;
 			break;
 		case Ufkt::Derivative2:
-			color = ufkt->f2_color;
+			color = ufkt->f2.color;
 			break;
 		case Ufkt::Integral:
-			color = ufkt->integral_color;
+			color = ufkt->integral.color;
 			break;
 	}
 	if ( DC == 0) //screen
@@ -2312,7 +2313,7 @@ void View::updateSliders()
 	foreach ( Ufkt * it, m_parser->m_ufkt )
 	{
 		if (it->fname.isEmpty() ) continue;
-		if( it->use_slider > -1  &&  (it->f_mode || it->f1_mode || it->f2_mode || it->integral_mode))
+		if( it->use_slider > -1  &&  (it->f0.visible || it->f1.visible || it->f2.visible || it->integral.visible))
 		{
 			if ( !m_sliderWindow )
 			{
@@ -2335,13 +2336,13 @@ void View::mnuHide_clicked()
 	switch (cstype )
 	{
 		case Ufkt::Function:
-			ufkt->f_mode=0;
+			ufkt->f0.visible=0;
 			break;
 		case Ufkt::Derivative1:
-			ufkt->f1_mode=0;
+			ufkt->f1.visible=0;
 			break;
 		case Ufkt::Derivative2:
-			ufkt->f2_mode=0;
+			ufkt->f2.visible=0;
 			break;
 		case Ufkt::Integral:
 			break;
@@ -2352,7 +2353,7 @@ void View::mnuHide_clicked()
 	updateSliders();
 	if (csmode==-1)
 		return;
-	if ( !ufkt->f_mode && !ufkt->f1_mode && !ufkt->f2_mode) //all graphs for the function are hidden
+	if ( !ufkt->f0.visible && !ufkt->f1.visible && !ufkt->f2.visible) //all graphs for the function are hidden
 	{
 		csmode=-1;
 		QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, 0 );

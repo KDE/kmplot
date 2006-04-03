@@ -38,7 +38,7 @@ class ParserIface : virtual public DCOPObject
 {
 	K_DCOP
 k_dcop:
-	virtual bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double _linewidth, double _f1_linewidth, double _f2_linewidth, double _integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider) = 0;
+	virtual bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double _linewidth, double _f1_linewidth, double _f2_linewidth, double _integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider) = 0;
 	
 	virtual int addFunction(const QString &f_str) = 0;
 	virtual bool delfkt(uint id) = 0;

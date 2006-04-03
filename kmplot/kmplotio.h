@@ -106,19 +106,13 @@ class KmPlotIO
 		/// @param ix Function index in the parser instance
 		static void parseParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
 		
-		/// For KDE 3.3
-		static void parseThreeDotThreeParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
-		
                 ///For KDE <3.3
-                /// This is the same as parseScale but is made for old Kmplot-files
-                void oldParseScale( const QDomElement & n );
                 /// This is the same as parseFunction but is made for old Kmplot-files
                 void oldParseFunction( XParser *parser, const QDomElement &n );
-                /// This is the same as parseAxes but is made for old Kmplot-files
-                void oldParseAxes( const QDomElement &n );
                 
-                XParser *m_parser;
-                
+		XParser *m_parser;
+		static double lengthScaler; ///< for reading in lengths
+		static int version; ///< version of the file currently being opened (0,1,2,3)
 };
 
 #endif

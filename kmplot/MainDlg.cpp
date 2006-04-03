@@ -330,6 +330,8 @@ void MainDlg::saveCurrentState( )
 	
 	m_undoAction->setEnabled( true );
 	m_redoAction->setEnabled( false );
+	
+	m_modified = true;
 }
 
 

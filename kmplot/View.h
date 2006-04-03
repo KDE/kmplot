@@ -84,11 +84,11 @@ public:
 	/// @see getSettings
 	void init();
 	/// Finding the minimum or maximum value
-	void findMinMaxValue(Ufkt *, char, bool, double &, double &,const QString &);
+	void findMinMaxValue(Function *, char, bool, double &, double &,const QString &);
 	/// get a y-value from a x-value
-	void getYValue(Ufkt * , char, double , double &,const QString &);
+	void getYValue(Function * , char, double , double &,const QString &);
 	/// draw and calculate the area between the graph and the x-axis.
-	void areaUnderGraph(Ufkt *, Ufkt::PMode, double &, double &, const QString &, QPainter* );
+	void areaUnderGraph(Function *, Function::PMode, double &, double &, const QString &, QPainter* );
 	/// the calculation was cancelled by the user
 	bool isCalculationStopped();
 
@@ -113,7 +113,7 @@ public:
 
 	/// trace mode stuff, must be accessible in KMinMax
 	int csmode, csparam;
-	Ufkt::PMode cstype;
+	Function::PMode cstype;
 
 public slots:
 	/// Called when the user want to cancel the drawing
@@ -167,13 +167,13 @@ private:
 	/// Only for printing.
 	void drawHeaderTable(QPainter *);
 	/// Draw the function plots.
-	void plotfkt(Ufkt *ufkt, QPainter*);
+	void plotfkt(Function *ufkt, QPainter*);
 	/// @return an appropriate pen for drawing the plot
-	QPen penForPlot( Ufkt * ufkt, Ufkt::PMode, bool antialias ) const;
+	QPen penForPlot( Function * ufkt, Function::PMode, bool antialias ) const;
 	/// Gets the greek pi symbol.
 	void setpi(QString *);
 	/// in trace mode checks, if the function is (near by) zero
-	bool root(double *, Ufkt *);
+	bool root(double *, Equation *);
 	///return the inverted color
 	void invertColor(QColor &, QColor &);
 	/// Changes the text in the statusbar
@@ -208,18 +208,18 @@ private:
 	 * parametric function.
 	 * \return the parametization (angle or t) that gives the closest point.
 	 */
-	double getClosestPoint( double real_x, double real_y, Ufkt * function1, Ufkt * function2 );
+	double getClosestPoint( double real_x, double real_y, Function * function1, Function * function2 );
 	/**
 	 * Calculates the pixel distance from \p real_x and \p real_y to the display
 	 * point of the given polar or parametric parametric function at \p x.
 	 */
-	double pixelDistance( double real_x, double real_y, Ufkt * function1, Ufkt * function2, double x );
+	double pixelDistance( double real_x, double real_y, Function * function1, Function * function2, double x );
 	
 
 	/// for areadrawing when printing
 	bool areaDraw;
-	Ufkt * areaUfkt;
-	Ufkt::PMode areaPMode;
+	Function * areaFunction;
+	Function::PMode areaPMode;
 	double areaMin, areaMax;
 	QString areaParameter;
 
@@ -241,7 +241,7 @@ private:
 	bool rootflg;
 
 	/// @return whether csxpos is in the range of the view or in the custom range for the given \p plot
-	bool csxposValid( Ufkt * plot ) const;
+	bool csxposValid( Function * plot ) const;
 	
 	CDiagr dgr;	///< Coordinate system
 	QPoint ref;

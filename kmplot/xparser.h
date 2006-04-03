@@ -48,23 +48,22 @@ public:
 	
 	~XParser();
 	/// Evaluates the 1st dreivative of the function with intex \a ix
-	double a1fkt( Ufkt *u_item , double, double h = 1e-3 );
+	double a1fkt( Equation * u_item , double, double h = 1e-3 );
 	/// Evaluates the 2nd dreivative of the function with intex \a ix
-	double a2fkt( Ufkt *, double, double h = 1e-3 );
-        /// calculate euler's method when drawing a numeric prime-function
-        double euler_method(const double, const QVector<Ufkt>::iterator);
+	double a2fkt( Equation *, double, double h = 1e-3 );
+	/// calculate euler's method when drawing a numeric prime-function
+	double euler_method(const double, Equation * eq );
         
 	/// Line width default
 	QColor defaultColor(int function);
 	
-	virtual int addfkt( QString, Ufkt::Type type );
+	virtual int addfkt( QString, Function::Type type );
 	
-	enum { Function, Polar, ParametricX, ParametricY }; ///types of functions
 	///Returns an unused function name if it is needed
-	void fixFunctionName(QString &, int const = XParser::Function , int const=-1);
+	void fixFunctionName(QString &, Equation::Type const = Equation::Cartesian, int const=-1);
         
         /// Interpretates the extended function string (only used by the old file format)
-	bool getext( Ufkt *, const QString );
+	bool getext( Function *, const QString );
 	
 	/// Functions for the DCOP interface:
 

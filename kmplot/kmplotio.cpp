@@ -49,13 +49,14 @@ double KmPlotIO::lengthScaler = 1.0;
 
 class XParser;
 
-KmPlotIO::KmPlotIO( XParser *parser)
-		: m_parser(parser)
-{}
+KmPlotIO::KmPlotIO()
+{
+}
 
 
 KmPlotIO::~KmPlotIO()
-{}
+{
+}
 
 
 QDomDocument KmPlotIO::currentState()
@@ -120,9 +121,9 @@ QDomDocument KmPlotIO::currentState()
 
 	root.appendChild( tag );
 	
-	foreach ( Ufkt * it, m_parser->m_ufkt )
+	foreach ( Function * it, XParser::self()->m_ufkt )
 	{
-		if ( !it->fstr().isEmpty() )
+		if ( !it->eq->fstr().isEmpty() )
 			addFunction( doc, root, it );
 	}
 
@@ -179,7 +180,7 @@ bool KmPlotIO::save( const KUrl &url )
 }
 
 // static
-void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Ufkt * function )
+void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * function )
 {
 	QDomElement tag = doc.createElement( "function" );
 
@@ -202,23 +203,23 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Ufkt * funct
 	tag.setAttribute( "integral-width", function->integral.lineWidth );
 	tag.setAttribute( "integral-use-precision", function->integral_use_precision );
 	tag.setAttribute( "integral-precision", function->integral_precision );
-	tag.setAttribute( "integral-startx", function->str_startx );
-	tag.setAttribute( "integral-starty", function->str_starty );
+	tag.setAttribute( "integral-startx", function->startx.expression() );
+	tag.setAttribute( "integral-starty", function->starty.expression() );
 
-	addTag( doc, tag, "equation", function->fstr() );
+	addTag( doc, tag, "equation", function->eq->fstr() );
 
 	QStringList str_parameters;
-	for ( QList<ParameterValueItem>::Iterator k = function->parameters.begin(); k != function->parameters.end(); ++k )
-		str_parameters.append( (*k).expression);
+	foreach ( Value k, function->parameters )
+		str_parameters << k.expression();
 			
 	if( !str_parameters.isEmpty() )
 		addTag( doc, tag, "parameterlist", str_parameters.join( ";" ) );
 
 	/// \todo save these to file and whether uses custom min/max
 	if (function->usecustomxmin)
-		addTag( doc, tag, "arg-min", function->str_dmin );
+		addTag( doc, tag, "arg-min", function->dmin.expression() );
 	if (function->usecustomxmax)
-		addTag( doc, tag, "arg-max", function->str_dmax );
+		addTag( doc, tag, "arg-max", function->dmax.expression() );
 
 	root.appendChild( tag );
 }
@@ -240,9 +241,9 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 	kDebug() << k_funcinfo << endl;
 	
 	// temporary measure: for now, delete all previous functions
-	QList<int> prevFunctionIDs = m_parser->m_ufkt.keys();
+	QList<int> prevFunctionIDs = XParser::self()->m_ufkt.keys();
 	foreach ( int id, prevFunctionIDs )
-		m_parser->delfkt( id );
+		XParser::self()->delfkt( id );
 	
 	QDomElement element = doc.documentElement();
 	QString versionString = element.attribute( "version" );
@@ -260,7 +261,7 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 			if ( n.nodeName() == "scale" )
 				parseScale( n.toElement() );
 			if ( n.nodeName() == "function" )
-				oldParseFunction( m_parser, n.toElement() );
+				oldParseFunction( n.toElement() );
 		}
 	}
 	else if ( versionString == "1" ||
@@ -280,7 +281,7 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 			if ( n.nodeName() == "scale" )
 				parseScale( n.toElement() );
 			if ( n.nodeName() == "function")
-				parseFunction( m_parser, n.toElement() );
+				parseFunction( n.toElement() );
 		}
 	}
 	else
@@ -411,7 +412,7 @@ void KmPlotIO::parseScale(const QDomElement & n )
 }
 
 // static
-void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool allowRename )
+void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 {
 // 	kDebug() << k_funcinfo << endl;
 	
@@ -423,23 +424,23 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool all
 		return;
 	}
 	
-	Ufkt::Type type;
+	Function::Type type;
 	switch ( tmp_fstr[0].unicode() )
 	{
 		case 'r':
-			type = Ufkt::Polar;
+			type = Function::Polar;
 			break;
 			
 		case 'x':
-			type = Ufkt::ParametricX;
+			type = Function::ParametricX;
 			break;
 			
 		case 'y':
-			type = Ufkt::ParametricY;
+			type = Function::ParametricY;
 			break;
 			
 		default:
-			type = Ufkt::Cartesian;
+			type = Function::Cartesian;
 			break;
 	}
 	
@@ -447,26 +448,26 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool all
 	{
 		switch ( type )
 		{
-			case Ufkt::Polar:
-				m_parser->fixFunctionName( tmp_fstr, XParser::Polar, -1 );
+			case Function::Polar:
+				XParser::self()->fixFunctionName( tmp_fstr, Equation::Polar, -1 );
 				break;
 				
-			case Ufkt::ParametricX:
-				m_parser->fixFunctionName( tmp_fstr, XParser::ParametricX, -1 );
+			case Function::ParametricX:
+				XParser::self()->fixFunctionName( tmp_fstr, Equation::ParametricX, -1 );
 				break;
 				
-			case Ufkt::ParametricY:
-				m_parser->fixFunctionName( tmp_fstr, XParser::ParametricY, -1 );
+			case Function::ParametricY:
+				XParser::self()->fixFunctionName( tmp_fstr, Equation::ParametricY, -1 );
 				break;
 				
-			case Ufkt::Cartesian:
-				m_parser->fixFunctionName( tmp_fstr, XParser::Function, -1 );
+			case Function::Cartesian:
+				XParser::self()->fixFunctionName( tmp_fstr, Equation::Cartesian, -1 );
 				break;
 		}
 	}
 	
-	Ufkt ufkt( type );
-	ufkt.setFstr( tmp_fstr );
+	Function ufkt( type );
+	ufkt.eq->setFstr( tmp_fstr );
 
 	ufkt.f0.visible = n.attribute( "visible" ).toInt();
 	ufkt.f0.color = QColor( n.attribute( "color" ) );
@@ -486,39 +487,27 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool all
 	ufkt.integral.lineWidth = n.attribute( "integral-width" ).toDouble() * lengthScaler;
 	ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
 	ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
-	ufkt.str_startx = n.attribute( "integral-startx" );
-	ufkt.startx = m_parser->eval( ufkt.str_startx );
-	ufkt.str_starty = n.attribute( "integral-starty" );
-	ufkt.starty = m_parser->eval( ufkt.str_starty );
+	ufkt.startx.updateExpression( n.attribute( "integral-startx" ) );
+	ufkt.starty.updateExpression( n.attribute( "integral-starty" ) );
 
-	ufkt.str_dmin = n.namedItem( "arg-min" ).toElement().text();
-	if( ufkt.str_dmin.isEmpty() )
-	  ufkt.usecustomxmin = false;
-	else
-	{
-	  ufkt.usecustomxmin = true;
-	  ufkt.dmin = m_parser->eval( ufkt.str_dmin );
-	    
-	}
-	ufkt.str_dmax = n.namedItem( "arg-max" ).toElement().text();
-	if( ufkt.str_dmax.isEmpty() )
-	  ufkt.usecustomxmax = false;
-	else
-	{
-	  ufkt.usecustomxmax = true;
-	  ufkt.dmax = m_parser->eval( ufkt.str_dmax );
-	}
+	QString expression = n.namedItem( "arg-min" ).toElement().text();
+	ufkt.dmin.updateExpression( expression );
+	ufkt.usecustomxmin = !expression.isEmpty();
+	
+	expression = n.namedItem( "arg-max" ).toElement().text();
+	ufkt.dmax.updateExpression( expression );
+	ufkt.usecustomxmax = !expression.isEmpty();
 	  
-	if (ufkt.usecustomxmin && ufkt.usecustomxmax && ufkt.str_dmin==ufkt.str_dmax)
+	if (ufkt.usecustomxmin && ufkt.usecustomxmax && ufkt.dmin.expression()==ufkt.dmax.expression())
 	{
 	  ufkt.usecustomxmin = false;
 	  ufkt.usecustomxmax = false;
 	}
 	
 	
-	parseParameters( m_parser, n, ufkt );
+	parseParameters( n, ufkt );
 
-	QString fstr = ufkt.fstr();
+	QString fstr = ufkt.eq->fstr();
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.indexOf( ';' );
@@ -527,23 +516,23 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool all
 			str = fstr;
 		else
 			str = fstr.left( i );
-		int id = m_parser->addfkt( str, type );
-		Ufkt * added_function = m_parser->m_ufkt[id];
+		int id = XParser::self()->addfkt( str, type );
+		Function * added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );
 	}
 }
 
 // static
-void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
+void KmPlotIO::parseParameters( const QDomElement &n, Function &ufkt  )
 {
 	QChar separator = (version < 1) ? ',' : ';';
 	
 	QStringList str_parameters = n.namedItem( "parameterlist" ).toElement().text().split( separator, QString::SkipEmptyParts );
 	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
-		ufkt.parameters.append( ParameterValueItem( *it, m_parser->eval( *it ) ));
+		ufkt.parameters.append( Value( *it ));
 }
 
-void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
+void KmPlotIO::oldParseFunction( const QDomElement & n )
 {
 	kDebug() << "parsing old function" << endl;
 	
@@ -554,27 +543,27 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 		return;
 	}
 	
-	Ufkt::Type type;
+	Function::Type type;
 	switch ( tmp_fstr[0].unicode() )
 	{
 		case 'r':
-			type = Ufkt::Polar;
+			type = Function::Polar;
 			break;
 			
 		case 'x':
-			type = Ufkt::ParametricX;
+			type = Function::ParametricX;
 			break;
 			
 		case 'y':
-			type = Ufkt::ParametricY;
+			type = Function::ParametricY;
 			break;
 			
 		default:
-			type = Ufkt::Cartesian;
+			type = Function::Cartesian;
 			break;
 	}
 	
-	Ufkt ufkt( type );
+	Function ufkt( type );
 	
 	ufkt.f0.visible = n.attribute( "visible" ).toInt();
 	ufkt.f1.visible = n.attribute( "visible-deriv" ).toInt();
@@ -584,23 +573,15 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	ufkt.use_slider = -1;
 	ufkt.f0.color = ufkt.f1.color = ufkt.f2.color = ufkt.integral.color = QColor( n.attribute( "color" ) );
 
-	ufkt.str_dmin = n.namedItem( "arg-min" ).toElement().text();
-	if( ufkt.str_dmin.isEmpty() )
-	  ufkt.usecustomxmin = false;
-	else
-	{
-	  ufkt.dmin = m_parser->eval( ufkt.str_dmin );
-	  ufkt.usecustomxmin = true;
-	}
-	ufkt.str_dmax = n.namedItem( "arg-max" ).toElement().text();
-	if( ufkt.str_dmax.isEmpty() )
-	  ufkt.usecustomxmax = false;
-	else
-	{
-	  ufkt.dmax = m_parser->eval( ufkt.str_dmax );
-	  ufkt.usecustomxmax = true;
-	}
-	if (ufkt.usecustomxmin && ufkt.usecustomxmax && ufkt.str_dmin==ufkt.str_dmax)
+	QString expression = n.namedItem( "arg-min" ).toElement().text();
+	ufkt.dmin.updateExpression( expression );
+	ufkt.usecustomxmin = !expression.isEmpty();
+
+	expression = n.namedItem( "arg-max" ).toElement().text();
+	ufkt.dmax.updateExpression( expression );
+	ufkt.usecustomxmax = !expression.isEmpty();
+	
+	if (ufkt.usecustomxmin && ufkt.usecustomxmax && ufkt.dmin.expression()==ufkt.dmax.expression())
 	{
 	  ufkt.usecustomxmin = false;
 	  ufkt.usecustomxmax = false;
@@ -608,18 +589,18 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	
 	const int pos = tmp_fstr.indexOf(';');
 	if ( pos == -1 )
-		ufkt.setFstr( tmp_fstr );
+		ufkt.eq->setFstr( tmp_fstr );
 	else
 	{
-		ufkt.setFstr( tmp_fstr.left(pos) );
-		if ( !m_parser->getext( &ufkt, tmp_fstr) )
+		ufkt.eq->setFstr( tmp_fstr.left(pos) );
+		if ( !XParser::self()->getext( &ufkt, tmp_fstr) )
 		{
-			KMessageBox::sorry(0,i18n("The function %1 could not be loaded").arg(ufkt.fstr()));
+			KMessageBox::sorry(0,i18n("The function %1 could not be loaded").arg(ufkt.eq->fstr()));
 	    return;
 	  }
 	}
 
-	QString fstr = ufkt.fstr();
+	QString fstr = ufkt.eq->fstr();
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.indexOf( ';' );
@@ -628,8 +609,8 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		int id = m_parser->addfkt( str, type );
-		Ufkt *added_function = m_parser->m_ufkt[id];
+		int id = XParser::self()->addfkt( str, type );
+		Function *added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );
 	}
 }

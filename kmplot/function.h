@@ -31,25 +31,47 @@
 #include <QString>
 
 
-/// A parameter expression and value
-class ParameterValueItem
+class Equation;
+class Function;
+
+
+/**
+ * This stores a string which evaluates directly to a number (i.e. without any
+ * input variables such as x).
+ */
+class Value
 {
 	public:
-		ParameterValueItem(const QString &e, double v)
-		{
-			expression = e;
-			value = v;
-		};
-		ParameterValueItem() {;};
-		QString expression;
-		double value;
+		Value( const QString & expression = QString() );
 		
-		bool operator==( const ParameterValueItem & vi )
-		{
-			return (vi.value == value) && (vi.expression == expression);
-		};
+		/**
+		 * @return The value of the current expression.
+		 */
+		double value() const { return m_value; }
+		/**
+		 * @return The current expression.
+		 */
+		QString expression() const { return m_expression; }
+		/**
+		 * Sets the current expression. If the expression could be evaluated
+		 * (i.e. no errors), then value is updated, the expression is saved and
+		 * true is returned. Otherwise, just returns false.
+		 */
+		bool updateExpression( const QString & expression );
+		/**
+		 * This checks if the expression strings (and hence values) are
+		 * identical.
+		 */
+		bool operator == ( const Value & other );
+		/**
+		 * Checks for inequality.
+		 */
+		bool operator != ( const Value & other ) { return !((*this) == other); }
+		
+	protected:
+		QString m_expression;
+		double m_value;
 };
-
 
 
 /**
@@ -68,19 +90,12 @@ class Plot
 };
 
 
-
-/** Here are all atitrbutes for a function stored. */
-class Ufkt
+/**
+ * This is the non-visual mathematical expression.
+ */
+class Equation
 {
 	public:
-		enum PMode
-		{
-			Function,
-			Derivative1,
-			Derivative2,
-			Integral,
-		};
-		
 		enum Type
 		{
 			Cartesian,
@@ -89,26 +104,24 @@ class Ufkt
 			Polar,
 		};
 		
-		Ufkt( Type type );
-		~Ufkt();
+		Equation( Type type, Function * parent );
+		~Equation();
 		
 		/// The type of function
 		Type type() const { return m_type; }
 		
 		/**
-		 * Copies data members across, while avoiding id, mem, mptr type
-		 * variables.
-		 * @return whether any values have changed.
+		 * Pointer to the allocated memory for the tokens.
 		 */
-		bool copyFrom( const Ufkt & function );
-		
-		/// Sets the parameter 
-		void setParameter( double p ) { k = p; };
-        
-		uint id;
-		unsigned char *mem;     ///< Pointer to the allocated memory for the tokens.
-		unsigned char *mptr;    ///< Pointer to the token.
-		
+		unsigned char *mem;
+		/**
+		 * Pointer to the token.
+		 */
+		unsigned char *mptr;
+		/**
+		 * @return a pointer to Function parent of this Equation.
+		 */
+		Function * parent() const { return m_parent; }
 		/**
 		 * @return the name of the function, e.g. for the cartesian function
 		 * f(x)=x^2, this would return "f".
@@ -138,37 +151,112 @@ class Ufkt
 		 */
 		bool setFstr( const QString & fstr, bool force = false );
 		
-		double k,               ///< Function parameter.
-		oldy;                   ///< The last y-value needed for Euler's method
-		QList<int> dep;   /// A list with all functions this function depends on
+		double oldx; 		///< needed for Euler's method, the last x-value
+		double oldy;		///< The last y-value needed for Euler's method
+		double oldyprim;	///< needed for Euler's method, the last y'.value
+		
+	protected:
+		const Type m_type;
+		QString m_fstr;
+		Function * m_parent;
+};
+
+
+
+/** Here are all atitrbutes for a function. */
+class Function
+{
+	public:
+		enum PMode
+		{
+			Derivative0,
+			Derivative1,
+			Derivative2,
+			Integral,
+		};
+		
+		enum Type
+		{
+			Cartesian,
+			ParametricX,
+			ParametricY,
+			Polar,
+		};
+		
+		Function( Type type );
+		~Function();
+		
+		/// The type of function
+		Type type() const { return m_type; }
+		
+		/**
+		 * Sets the parameter.
+		 */
+		void setParameter( double p ) { k = p; };
+		/**
+		 * The function parameter, as set by e.g. a slider.
+		 */
+		double k;
+		
+		/**
+		 * A list with all functions this function depends on.
+		 */
+		QList<int> dep;
+		
+		/**
+		 * Copies data members across, while avoiding id, mem, mptr type
+		 * variables.
+		 * @return whether any values have changed.
+		 */
+		bool copyFrom( const Function & function );
         
+		uint id;
+		Equation * eq;
+		
 		Plot f0;		///< The actual function - the "zero'th derivative"
 		Plot f1;		///< First derivative
 		Plot f2;		///< Second derivative
 		Plot integral;	///< integral
 		
-		bool integral_use_precision:1; ///< The user can specify an unic precision for numeric prime-functions
-		/** Number of parameter values. 
-		 * @see FktExt::k_liste */
-		QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
-		double dmin, ///< Custom plot range, lower boundage.
-		dmax, ///< Custom plot range, upper boundage.
-		/** List of parameter values. 
-		 * @see FktExt::k_anz */
-		oldyprim,  ///< needed for Euler's method, the last y'.value
-		oldx, ///< needed for Euler's method, the last x-value
-		starty,///< startposition for Euler's method, the initial y-value
-		startx, ///< startposition for Euler's method, the initial x-value last y'.valuenitial x-value last y'.valuenitial x-value
-		integral_precision; ///<precision when drawing numeric prime-functions
-		int use_slider; ///< -1: none (use list), else: slider number
-		QList<ParameterValueItem> parameters; ///< List with parameter for the function
+		/**
+		 * The user can specify an unique precision for numeric prime-functions.
+		 */
+		bool integral_use_precision:1;
+		/**
+		 * Custom plot range, lower boundary.
+		 */
+		Value dmin;
+		/**
+		 * Custom plot range, upper boundary.
+		 */
+		Value dmax;
+		/**
+		 * Start position for Euler's method, the initial y-value.
+		 */
+		Value starty;
+		/**
+		 * Start position for Euler's method, the initial x-value.
+		 */
+		Value startx;
+		/**
+		 * Precision when drawing numeric prime-functions.
+		 */
+		double integral_precision;
+		/**
+		 * -1: None (use list)
+		 * else: slider number.
+		 */
+		int use_slider;
+		/**
+		 * List with parameter for the function.
+		 */
+		QList<Value> parameters;
 		bool usecustomxmin:1;
 		bool usecustomxmax:1;
-        	// TODO double slider_min, slider_max; ///< extreme values of the slider
+		// TODO double slider_min, slider_max; ///< extreme values of the slider
 		
 	protected:
 		const Type m_type;
-		QString m_fstr;
 };
 
 

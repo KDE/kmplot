@@ -41,7 +41,7 @@ class KmPlotIO
 {
 	public:
 		/// Nothing to do here; only static functions needed.
-		KmPlotIO( XParser *parser);
+		KmPlotIO();
 		/// Empty.
 		~KmPlotIO();
 		
@@ -73,7 +73,7 @@ class KmPlotIO
 		/**
 		 * Adds a QDomElement for \p function to the given \p document
 		 */
-		static void addFunction( QDomDocument & doc, QDomElement & root, Ufkt * function );
+		static void addFunction( QDomDocument & doc, QDomElement & root, Function * function );
 		
 		/**
 		 * Reads function parameters from the node @a n.
@@ -81,7 +81,7 @@ class KmPlotIO
 		 * @param n Node containing the options.
 		 * @param allowRename whether to check function names for uniqueness
 		 */
-		static void parseFunction( XParser *parser, const QDomElement &n, bool allowRename = false );
+		static void parseFunction( const QDomElement &n, bool allowRename = false );
 	
 	private:
 		/** Esay way to add a tag to the Dom tree
@@ -104,13 +104,12 @@ class KmPlotIO
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
-		static void parseParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
+		static void parseParameters( const QDomElement &n, Function &ufkt);
 		
-                ///For KDE <3.3
-                /// This is the same as parseFunction but is made for old Kmplot-files
-                void oldParseFunction( XParser *parser, const QDomElement &n );
+		///For KDE <3.3
+		/// This is the same as parseFunction but is made for old Kmplot-files
+		void oldParseFunction( const QDomElement &n );
                 
-		XParser *m_parser;
 		static double lengthScaler; ///< for reading in lengths
 		static int version; ///< version of the file currently being opened (0,1,2,3)
 };

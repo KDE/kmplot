@@ -98,7 +98,7 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent ) :  DCOPO
 	View::self()->setMinMaxDlg(minmaxdlg);
 	setupActions();
 	View::self()->parser()->constants()->load();
-	kmplotio = new KmPlotIO(View::self()->parser());
+	kmplotio = new KmPlotIO();
 	m_config = KGlobal::config();
 	m_recentFiles->loadEntries( m_config );
 	

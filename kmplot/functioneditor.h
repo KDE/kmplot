@@ -42,7 +42,7 @@ class FunctionListItem;
 class FunctionListWidget;
 class KMenu;
 class QTimer;
-class Ufkt;
+class Function;
 class View;
 class XParser;
 
@@ -180,7 +180,7 @@ class FunctionEditor : public QDockWidget
 		 * If we are currently editing a cartesian function, this will be set
 		 * to its parameter list.
 		 */
-		QList<ParameterValueItem> m_parameters;
+		QList<Value> m_parameters;
 		/**
 		 * The list of functions.
 		 */

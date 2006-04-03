@@ -32,6 +32,35 @@
 #include <cmath>
 
 
+//BEGIN class Value
+Value::Value( const QString & expression )
+{
+	m_value = 0.0;
+	if ( ! expression.isEmpty() )
+		updateExpression( expression );
+}
+
+
+bool Value::updateExpression( const QString & expression )
+{
+	double newValue = XParser::self()->eval( expression );
+	if ( XParser::self()->parserError( false ) )
+		return false;
+	
+	m_value = newValue;
+	m_expression = expression;
+	return true;
+}
+
+
+bool Value::operator == ( const Value & other )
+{
+	return m_expression == other.expression();
+}
+//END class Value
+
+
+
 //BEGIN class Plot
 Plot::Plot( )
 {
@@ -50,97 +79,28 @@ bool Plot::operator !=( const Plot & other ) const
 //END class Plot
 
 
-//BEGIN class Ufkt
-Ufkt::Ufkt( Type type )
-	: m_type( type )
+
+//BEGIN class Equation
+Equation::Equation( Type type, Function * parent )
+	: m_type( type ),
+	  m_parent( parent )
 {
-	id = 0;
 	mem = new unsigned char [MEMSIZE];
 	mptr = 0;
-	k = 0;
-	oldy = 0;
-	f0.visible = true;
-	integral_use_precision = false;
-	
 	oldyprim = 0.0;
 	oldx = 0.0;
-	starty = 0.0;
-	startx = 0.0;
-	integral_precision = Settings::stepWidth();
-	use_slider = -1;
-	
-	// min/max stuff
-	dmin = -M_PI;
-	dmax = M_PI;
-	str_dmin = QString("-")+QChar(960);
-	str_dmax = QChar(960);
-	usecustomxmin = false;
-	usecustomxmax = false;
+	oldy = 0;
 }
 
 
-Ufkt::~Ufkt()
+Equation::~ Equation()
 {
 	delete [] mem;
 	mem = 0;
 }
 
 
-bool Ufkt::copyFrom( const Ufkt & function )
-{
-	bool changed = false;
-	int i = 0;
-#define COPY_AND_CHECK(s) \
-		if ( s != function.s ) \
-{ \
-			s = function.s; \
-			changed = true; \
-} \
-		i++;
-	
-	COPY_AND_CHECK( f0 );						// 0
-	COPY_AND_CHECK( f1 );						// 1
-	COPY_AND_CHECK( f2 );						// 2
-	COPY_AND_CHECK( integral );					// 3
-	COPY_AND_CHECK( integral_use_precision );	// 4
-	COPY_AND_CHECK( str_dmin );					// 5
-	COPY_AND_CHECK( str_dmax );					// 6
-	COPY_AND_CHECK( dmin );						// 7
-	COPY_AND_CHECK( dmax );						// 8
-	COPY_AND_CHECK( str_startx );				// 9
-	COPY_AND_CHECK( str_starty );				// 10
-	COPY_AND_CHECK( starty );					// 11
-	COPY_AND_CHECK( startx );					// 12
-	COPY_AND_CHECK( integral_precision );		// 13
-	COPY_AND_CHECK( use_slider );				// 14
-	COPY_AND_CHECK( usecustomxmin );			// 15
-	COPY_AND_CHECK( usecustomxmax );			// 16
-	
-	// handle parameters separately
-	if ( parameters.count() != function.parameters.count() )
-	{
-		changed = true;
-		parameters = function.parameters;
-	}
-	else
-	{
-		foreach ( ParameterValueItem p, parameters )
-		{
-			if ( !function.parameters.contains( p ) )
-			{
-				changed = true;
-				parameters = function.parameters;
-				break;
-			}
-		}
-	}
-	
-// 	kDebug() << k_funcinfo << "changed="<<changed<<endl;
-	return changed;
-}
-
-
-QString Ufkt::fname( ) const
+QString Equation::fname( ) const
 {
 	int pos = m_fstr.indexOf( '(' );
 	if ( pos == -1 )
@@ -153,7 +113,7 @@ QString Ufkt::fname( ) const
 }
 
 
-QString Ufkt::fvar( ) const
+QString Equation::fvar( ) const
 {
 	int p1 = m_fstr.indexOf( '(' );
 	if ( p1 == -1 )
@@ -176,7 +136,7 @@ QString Ufkt::fvar( ) const
 }
 
 
-QString Ufkt::fpar( ) const
+QString Equation::fpar( ) const
 {
 	int p1 = m_fstr.indexOf( ',' );
 	if ( p1 == -1 )
@@ -196,7 +156,7 @@ QString Ufkt::fpar( ) const
 }
 
 
-bool Ufkt::setFstr( const QString & fstr, bool force  )
+bool Equation::setFstr( const QString & fstr, bool force  )
 {
 // 	kDebug() << "fstr: "<<fstr<<endl;
 	
@@ -215,11 +175,11 @@ bool Ufkt::setFstr( const QString & fstr, bool force  )
 	
 	QString prevFstr = m_fstr;
 	m_fstr = fstr;
-	XParser::self()->initFunction( this );
+	XParser::self()->initEquation( this );
 	if ( XParser::self()->parserError( true ) != Parser::ParseSuccess )
 	{
 		m_fstr = prevFstr;
-		XParser::self()->initFunction( this );
+		XParser::self()->initEquation( this );
 // 		kDebug() << "BAD\n";
 		return false;
 	}
@@ -229,4 +189,92 @@ bool Ufkt::setFstr( const QString & fstr, bool force  )
 		return true;
 	}
 }
-//END class Ufkt
+//END class Equation
+
+
+//BEGIN class Function
+Function::Function( Type type )
+	: m_type( type )
+{
+	eq = new Equation(
+			(type == Cartesian) ? Equation::Cartesian :
+			(type == ParametricX) ? Equation::ParametricX :
+			(type == ParametricY) ? Equation::ParametricY : Equation::Polar,
+					 this
+					 );
+	
+	id = 0;
+	f0.visible = true;
+	integral_use_precision = false;
+	
+	k = 0;
+	integral_precision = Settings::stepWidth();
+	use_slider = -1;
+	
+	// min/max stuff
+	dmin.updateExpression( QString("-")+QChar(960) );
+	dmax.updateExpression( QChar(960) );
+	usecustomxmin = false;
+	usecustomxmax = false;
+}
+
+
+Function::~Function()
+{
+	delete eq;
+}
+
+
+bool Function::copyFrom( const Function & function )
+{
+	bool changed = false;
+	int i = 0;
+#define COPY_AND_CHECK(s) \
+		if ( s != function.s ) \
+{ \
+			s = function.s; \
+			changed = true; \
+} \
+		i++;
+	
+	COPY_AND_CHECK( f0 );						// 0
+	COPY_AND_CHECK( f1 );						// 1
+	COPY_AND_CHECK( f2 );						// 2
+	COPY_AND_CHECK( integral );					// 3
+	COPY_AND_CHECK( integral_use_precision );	// 4
+	COPY_AND_CHECK( dmin.expression() );					// 5
+	COPY_AND_CHECK( dmax.expression() );					// 6
+	COPY_AND_CHECK( dmin );						// 7
+	COPY_AND_CHECK( dmax );						// 8
+	COPY_AND_CHECK( startx.expression() );				// 9
+	COPY_AND_CHECK( starty.expression() );				// 10
+	COPY_AND_CHECK( starty );					// 11
+	COPY_AND_CHECK( startx );					// 12
+	COPY_AND_CHECK( integral_precision );		// 13
+	COPY_AND_CHECK( use_slider );				// 14
+	COPY_AND_CHECK( usecustomxmin );			// 15
+	COPY_AND_CHECK( usecustomxmax );			// 16
+	
+	// handle parameters separately
+	if ( parameters.count() != function.parameters.count() )
+	{
+		changed = true;
+		parameters = function.parameters;
+	}
+	else
+	{
+		foreach ( Value p, parameters )
+		{
+			if ( !function.parameters.contains( p ) )
+			{
+				changed = true;
+				parameters = function.parameters;
+				break;
+			}
+		}
+	}
+	
+// 	kDebug() << k_funcinfo << "changed="<<changed<<endl;
+	return changed;
+}
+//END class Function

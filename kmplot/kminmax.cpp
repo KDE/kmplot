@@ -143,25 +143,25 @@ void KMinMax::updateFunctions()
 	
 	m_mainWidget->list->clear();
 
-//         for( QVector<Ufkt>::iterator it =  View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
-	foreach ( Ufkt * it, View::self()->parser()->m_ufkt )
+//         for( QVector<Function>::iterator it =  View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
+	foreach ( Function * it, View::self()->parser()->m_ufkt )
 	{
-		if ( it->type() == Ufkt::Cartesian )
+		if ( it->type() == Function::Cartesian )
 		{
 			if ( it->f0.visible )
-				m_mainWidget->list->addItem(it->fstr());
+				m_mainWidget->list->addItem(it->eq->fstr());
 
 			if ( it->f1.visible ) //1st derivative
 			{
-				m_mainWidget->list->addItem( it->fname() + "\'" );
+				m_mainWidget->list->addItem( it->eq->fname() + "\'" );
 			}
 			if ( it->f2.visible )//2nd derivative
 			{
-				m_mainWidget->list->addItem( it->fname() + "\'\'" );
+				m_mainWidget->list->addItem( it->eq->fname() + "\'\'" );
 			}
 			if ( it->integral.visible )//integral
 			{
-				m_mainWidget->list->addItem( it->fname().toUpper() );
+				m_mainWidget->list->addItem( it->eq->fname().toUpper() );
 			}
 		}
 	}
@@ -184,8 +184,8 @@ void KMinMax::selectItem()
 	if (  View::self()->csmode < 0)
 		return;
 	//kDebug() << "cstype: " << (int)View::self()->cstype << endl;
-	Ufkt *ufkt = View::self()->parser()->m_ufkt[ View::self()->csmode ];
-	QString function = ufkt->fstr();
+	Function *ufkt = View::self()->parser()->m_ufkt[ View::self()->csmode ];
+	QString function = ufkt->eq->fstr();
 	if ( View::self()->cstype == 2)
 	{
 		int i= function.indexOf('(');
@@ -203,8 +203,8 @@ void KMinMax::selectItem()
 	if ( !foundItems.isEmpty() )
 		m_mainWidget->list->setItemSelected( foundItems.first(), true );
 
-	if (  !ufkt->parameters.isEmpty() )
-		parameter = ufkt->parameters[View::self()->csparam].expression;
+	if ( !ufkt->parameters.isEmpty() )
+		parameter = ufkt->parameters[View::self()->csparam].expression();
 }
 
 KMinMax::~KMinMax()
@@ -255,33 +255,33 @@ void KMinMax::cmdFind_clicked()
 
 	QListWidgetItem * currentItem = m_mainWidget->list->currentItem();
 	QString function( currentItem ? currentItem->text() : QString::null );
-	Ufkt::PMode p_mode = Ufkt::Function;
+	Function::PMode p_mode = Function::Derivative0;
 	if ( function.count('\'') == 1)
 	{
-		p_mode = Ufkt::Derivative1;
+		p_mode = Function::Derivative1;
 		int pos = function.indexOf('\'');
 		function.remove(pos,1);
 	}
 	else if ( function.count('\'') == 2)
 	{
-		p_mode = Ufkt::Derivative2;
+		p_mode = Function::Derivative2;
 		int pos = function.indexOf('\'');
 		function.remove(pos,2);
 	}
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
-		p_mode = Ufkt::Integral;
+		p_mode = Function::Integral;
 		function[0] =  function[0].toLower();
 	}
 
 	QString fname, fstr;
-	Ufkt *ufkt = 0;
+	Function *ufkt = 0;
 	QString sec_function = function.section('(',0,0);
 
-//         for( QVector<Ufkt>::iterator it =  View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
-	foreach ( Ufkt * it, View::self()->parser()->m_ufkt )
+//         for( QVector<Function>::iterator it =  View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
+	foreach ( Function * it, View::self()->parser()->m_ufkt )
 	{
-		if ( it->fstr().section('(',0,0) == sec_function)
+		if ( it->eq->fstr().section('(',0,0) == sec_function)
                 {
                         ufkt = it;
 			break;
@@ -351,81 +351,81 @@ void KMinMax::list_currentChanged(QListWidgetItem* item)
 		return;
 	}
 	QString function( item->text() );
-	Ufkt::PMode p_mode = Ufkt::Function;
+	Function::PMode p_mode = Function::Derivative0;
 	if ( function.count('\'') == 1)
 	{
-		p_mode = Ufkt::Derivative1;
+		p_mode = Function::Derivative1;
 		int pos = function.indexOf('\'');
 		function.remove(pos,1);
 	}
 	else if ( function.count('\'') == 2)
 	{
-		p_mode = Ufkt::Derivative2;
+		p_mode = Function::Derivative2;
 		int pos = function.indexOf('\'');
 		function.remove(pos,2);
 	}
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
-		p_mode = Ufkt::Integral;
+		p_mode = Function::Integral;
 		function[0] =  function[0].toLower();
 	}
 	QString const sec_function = function.section('(',0,0);
-//         for(QVector<Ufkt>::iterator it = View::self()->parser()->ufkt.begin(); it!=View::self()->parser()->ufkt.end(); ++it)
-	foreach ( Ufkt * it, View::self()->parser()->m_ufkt )
+	
+	foreach ( Function * it, View::self()->parser()->m_ufkt )
 	{
-		if ( it->fstr().section('(',0,0) == sec_function)
-                {
-                        if ( it->parameters.count() == 0)
-							m_mainWidget->cmdParameter->setEnabled( false );
-                        else
-						{
-							m_mainWidget->cmdParameter->setEnabled( true );
-							if (parameter.isEmpty() )
-								parameter = it->parameters.first().expression;
-						}
-                        break;
-                }
-        }
+		if ( it->eq->fstr().section('(',0,0) == sec_function)
+		{
+			if ( it->parameters.count() == 0)
+				m_mainWidget->cmdParameter->setEnabled( false );
+			else
+			{
+				m_mainWidget->cmdParameter->setEnabled( true );
+				if (parameter.isEmpty() )
+					parameter = it->parameters.first().expression();
+			}
+			break;
+		}
+	}
 }
 void KMinMax::cmdParameter_clicked()
 {
 	QListWidgetItem * currentItem = m_mainWidget->list->currentItem();
 	QString function( currentItem ? currentItem->text() : QString::null );
 	
-	Ufkt::PMode p_mode = Ufkt::Function;
+	Function::PMode p_mode = Function::Derivative0;
 	if ( function.count('\'') == 1)
 	{
-		p_mode = Ufkt::Derivative1;
+		p_mode = Function::Derivative1;
 		int pos = function.indexOf('\'');
 		function.remove(pos,1);
 	}
 	else if ( function.count('\'') == 2)
 	{
-		p_mode = Ufkt::Derivative2;
+		p_mode = Function::Derivative2;
 		int pos = function.indexOf('\'');
 		function.remove(pos,2);
 	}
 	else if ( function.at(0).category() == QChar::Letter_Uppercase)
 	{
-		p_mode = Ufkt::Integral;
+		p_mode = Function::Integral;
 		function[0] =  function[0].toLower();
 	}
         
 	QString const sec_function = function.section('(',0,0);
-//         for(QVector<Ufkt>::iterator it = View::self()->parser()->ufkt.begin() ; it!=View::self()->parser()->ufkt.end(); ++it)
-	foreach ( Ufkt * it, View::self()->parser()->m_ufkt )
+//         for(QVector<Function>::iterator it = View::self()->parser()->ufkt.begin() ; it!=View::self()->parser()->ufkt.end(); ++it)
+	foreach ( Function * it, View::self()->parser()->m_ufkt )
 	{
-		if ( it->fstr().section('(',0,0) == sec_function)
-               {
+		if ( it->eq->fstr().section('(',0,0) == sec_function)
+		{
 			QStringList str_parameters;
-		        for ( QList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
-			       str_parameters.append( (*k).expression);
-                        bool ok;
-                        QStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), str_parameters, QStringList(parameter),false,&ok,this );
-                        if ( ok)
-                                parameter = result.first();
-                        break;
-                }
+			for ( QList<Value>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
+				str_parameters.append( (*k).expression() );
+			bool ok;
+			QStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), str_parameters, QStringList(parameter),false,&ok,this );
+			if ( ok)
+				parameter = result.first();
+			break;
+		}
 	}
 }
 

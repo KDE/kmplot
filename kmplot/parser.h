@@ -188,16 +188,16 @@ public:
 	static QString number( double value );
 	
 	/// Returns the result of a calculation
-	double fkt(Ufkt *it, double const x);
+	double fkt( Equation * it, double const x);
 	double fkt(uint id, double const x);
 	
 	/// Evaluates the given expression.
 	double eval(QString);
 	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
-	virtual int addfkt( QString, Ufkt::Type type );
+	virtual int addfkt( QString, Function::Type type );
 	/// Removes the function with the given id.
 	bool delfkt(uint id);
-	bool delfkt( Ufkt *item);
+	bool delfkt( Function *item);
 	
 	/// Returns the ID-number of the function "name". If the function couldn't be found, -1 is returned.
 	int fnameToId(const QString &name);
@@ -219,7 +219,7 @@ public:
 	 * Initializes the function for evaluation. Called after the functions
 	 * fstr is set.
 	 */
-	void initFunction( Ufkt * function );
+	void initEquation( Equation * equation );
 	
 	uint getNewId(); /// Returns the next ID-number
 	uint countFunctions(); /// Returns how many functions there are
@@ -228,10 +228,10 @@ public:
 	Constants * constants() const { return m_constants; }
 	
 	/// @return the function with the given id
-	Ufkt * functionWithID( int id ) const;
+	Function * functionWithID( int id ) const;
 	
 	/// Points to the array of user defined functions, index by their IDs.
-	QMap<int, Ufkt *> m_ufkt;
+	QMap<int, Function *> m_ufkt;
 	
 signals:
 	/// emitted when a function is deleted
@@ -275,8 +275,8 @@ private:
 	int m_nextFunctionID;
 	/// @return the m_eval starting at m_evalPos
 	QString evalRemaining() const;
-	Ufkt * current_item; // Pointer to the current function
-	Ufkt * m_ownFunction; ///< used for parsing constants, etc, and ensures that current_item is never null
+	Equation * m_currentEquation; // Pointer to the current function
+	Equation * m_ownEquation; ///< used for parsing constants, etc, and ensures that current_item is never null
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer
 	static double  m_anglemode;

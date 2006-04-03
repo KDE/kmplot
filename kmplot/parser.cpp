@@ -96,19 +96,17 @@ Parser::Parser()
 	m_nextFunctionID = 0;
 	m_constants = new Constants( this );
 	
-	m_ownFunction = new Ufkt( Ufkt::Cartesian );
-	m_ownFunction->id = int(1e7); // a nice large ID that'll never get used
-	
-	current_item = m_ownFunction;
+	m_ownEquation = new Equation( Equation::Cartesian, 0 );
+	m_currentEquation = m_ownEquation;
 }
 
 
 Parser::~Parser()
 {
 	kDebug() << "Exiting......" << endl;
-	foreach ( Ufkt * function, m_ufkt )
+	foreach ( Function * function, m_ufkt )
 		delete function;
-	delete m_ownFunction;
+	delete m_ownEquation;
 	
 	delete m_constants;
 }
@@ -200,34 +198,34 @@ double Parser::fkt(uint const id, double const x)
 		return 0;
 	}
 	else
-		return fkt( m_ufkt[id], x );
+		return fkt( m_ufkt[id]->eq, x );
 }
 
-double Parser::fkt(Ufkt *it, double const x)
+double Parser::fkt( Equation * eq, double const x )
 {
 	double *pd, (**pf)(double);
-        double *stack, *stkptr;
+	double *stack, *stkptr;
 	uint *puf;
-	it->mptr=it->mem;
+	eq->mptr=eq->mem;
 	stack=stkptr= new double [STACKSIZE];
 
 	while(1)
 	{
-                switch(*it->mptr++)
+                switch(*eq->mptr++)
                 {
                         case KONST:
-                                pd=(double*)it->mptr;
+                                pd=(double*)eq->mptr;
                                 *stkptr=*pd++;
-                                it->mptr=(unsigned char*)pd;
+                                eq->mptr=(unsigned char*)pd;
                                 break;
                         case XWERT:
                                 *stkptr=x;
                                 break;
                         case YWERT:
-                                *stkptr=it->oldy;
+							*stkptr=eq->oldy;
                                 break;
                         case KWERT:
-                                *stkptr=it->k;
+							*stkptr=eq->parent()->k;
                                 break;
                         case PUSH:
                                 ++stkptr;
@@ -260,17 +258,17 @@ double Parser::fkt(Ufkt *it, double const x)
                                 *stkptr=-*stkptr;
                                 break;
                         case FKT:
-                                pf=(double(**)(double))it->mptr;
+                                pf=(double(**)(double))eq->mptr;
                                 *stkptr=(*pf++)(*stkptr);
-                                it->mptr=(unsigned char*)pf;
+                                eq->mptr=(unsigned char*)pf;
                                 break;
                         case UFKT:
                         {
-                                puf=(uint*)it->mptr;
+                                puf=(uint*)eq->mptr;
                                 uint id = *puf++;
 								if ( m_ufkt.contains( id ) )
-									*stkptr=fkt( m_ufkt[id], *stkptr);
-                                it->mptr=(unsigned char*)puf;
+									*stkptr=fkt( m_ufkt[id]->eq, *stkptr);
+                                eq->mptr=(unsigned char*)puf;
                                 break;
                         }
                         case ENDE:
@@ -282,20 +280,20 @@ double Parser::fkt(Ufkt *it, double const x)
 }
 
 
-int Parser::addfkt( QString str, Ufkt::Type type )
+int Parser::addfkt( QString str, Function::Type type )
 {
 // 	kDebug() << k_funcinfo << "str="<<str<<endl;
 	QString const extstr = str;
 	
-	Ufkt * temp = new Ufkt( type );
-	if ( !temp->setFstr( str ) )
+	Function * temp = new Function( type );
+	if ( !temp->eq->setFstr( str ) )
 	{
 		kDebug() << "could not set fstr!\n";
 		delete temp;
 		return -1;
 	}
 	
-	if ( fnameToId( temp->fname() ) != -1 )
+	if ( fnameToId( temp->eq->fname() ) != -1 )
 	{
 		kDebug() << "function name reused.\n";
 		err = FunctionNameReused;
@@ -351,20 +349,20 @@ bool Parser::isFstrValid( QString str )
 		return false;
 	}
 	
-	current_item = m_ownFunction;
-	current_item->setFstr( str, true );
+	m_currentEquation = m_ownEquation;
+	m_currentEquation->setFstr( str, true );
 	(double) eval( str.mid( p3+2 ) );
 	return (err == ParseSuccess);
 }
 
 
-void Parser::initFunction( Ufkt * function )
+void Parser::initEquation( Equation * eq )
 {
 	err = ParseSuccess;
-	current_item = function;
-	mem = mptr = function->mem;
+	m_currentEquation = eq;
+	mem = mptr = eq->mem;
 	
-	m_eval = function->fstr();
+	m_eval = eq->fstr();
 	fix_expression( m_eval, m_eval.indexOf('(')+4 );
 	m_evalPos = m_eval.indexOf( '=' ) + 1;
 	heir1();
@@ -412,11 +410,11 @@ void Parser::fix_expression(QString &str, int const pos)
 			{
 				// Not a predefined function, so search through the user defined functions (e.g. f(x), etc)
 				// to see if it is one of those
-				foreach ( Ufkt * it, m_ufkt )
+				foreach ( Function * it, m_ufkt )
 				{
 					for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
 					{
-						if ( it->fname() == str.mid(j,i-j+1) )
+						if ( it->eq->fname() == str.mid(j,i-j+1) )
 							function = true;
 					}
 				}
@@ -448,7 +446,7 @@ void Parser::fix_expression(QString &str, int const pos)
         //kDebug() << "str:" << str << endl;
 }
 
-bool Parser::delfkt( Ufkt * item )
+bool Parser::delfkt( Function * item )
 {
 	kDebug() << "Deleting id:" << item->id << endl;
 	if (!item->dep.isEmpty())
@@ -457,7 +455,7 @@ bool Parser::delfkt( Ufkt * item )
 		return false;
 	}
 	
-	foreach ( Ufkt * it1, m_ufkt )
+	foreach ( Function * it1, m_ufkt )
 	{
 		if (it1==item)
 			continue;
@@ -469,20 +467,20 @@ bool Parser::delfkt( Ufkt * item )
 	uint const id = item->id;
 	
 	//kDebug() << "Deleting something" << endl;
-	Ufkt::Type type = item->type();
+	Function::Type type = item->type();
 	m_ufkt.remove(id);
-	if ( item == current_item )
-		current_item = m_ownFunction;
+	if ( item->eq == m_currentEquation )
+		m_currentEquation = m_ownEquation;
 	delete item;
 	
-	if ( type == Ufkt::ParametricX )
+	if ( type == Function::ParametricX )
 	{
-		if ( m_ufkt.contains(id+1) && m_ufkt[id+1]->type() == Ufkt::ParametricY )
+		if ( m_ufkt.contains(id+1) && m_ufkt[id+1]->type() == Function::ParametricY )
 			delfkt( m_ufkt[id+1] );
 	}
-	else if ( type == Ufkt::ParametricY )
+	else if ( type == Function::ParametricY )
 	{
-		if ( m_ufkt.contains(id-1) && m_ufkt[id-1]->type() == Ufkt::ParametricX )
+		if ( m_ufkt.contains(id-1) && m_ufkt[id-1]->type() == Function::ParametricX )
 			delfkt( m_ufkt[id-1] );
 	}
 	
@@ -630,22 +628,22 @@ void Parser::primary()
                         return;
                 }
 	}
-	foreach ( Ufkt * it, m_ufkt )
+	foreach ( Function * it, m_ufkt )
 	{
 		if ( evalRemaining() == "pi" || evalRemaining() == "e" )
 			continue;
 
-		if ( match(it->fname()) )
+		if ( match(it->eq->fname()) )
 		{
-                        if (it == current_item)
-                        {
-							err=RecursiveFunctionCall;
-                                return;
-                        }
+			if (it->eq == m_currentEquation)
+			{
+				err=RecursiveFunctionCall;
+				return;
+			}
 			primary();
 			addtoken(UFKT);
-                        addfptr( it->id );
-			it->dep.append(current_item->id);
+			addfptr( it->id );
+			it->dep.append(m_currentEquation->parent()->id);
 			return;
 		}
 	}
@@ -682,7 +680,7 @@ void Parser::primary()
 		return;
 	}
 	//if(match(ufkt[ixa].fvar.latin1()))
-	if(match(current_item->fvar()))
+	if(match(m_currentEquation->fvar()))
 	{
                 addtoken(XWERT);
 		return;
@@ -695,7 +693,7 @@ void Parser::primary()
 	}
 	
 	//if(match(ufkt[ixa].fpar.latin1()))
-	if(match(current_item->fpar()))
+	if(match( m_currentEquation->fpar() ))
 	{
                 addtoken(KWERT);
 		return;
@@ -850,18 +848,18 @@ void Parser::addfptr(uint id)
 	}
 	else
 	{
-		Ufkt * function = functionWithID( id );
+		Function * function = functionWithID( id );
 		if ( function )
-			*stkptr = fkt( function, *stkptr );
+			*stkptr = fkt( function->eq, *stkptr );
 	}
 }
 
 
 int Parser::fnameToId(const QString &name)
 {
-	foreach ( Ufkt * it, m_ufkt )
+	foreach ( Function * it, m_ufkt )
 	{
-		if ( name == it->fname() )
+		if ( name == it->eq->fname() )
 			return it->id;
 	}
 	return -1;     // Name nicht bekannt
@@ -940,7 +938,7 @@ QString Parser::evalRemaining() const
 }
 
 
-Ufkt * Parser::functionWithID( int id ) const
+Function * Parser::functionWithID( int id ) const
 {
 	return m_ufkt.contains( id ) ? m_ufkt[id] : 0;
 }

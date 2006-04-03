@@ -62,7 +62,7 @@ XParser::~XParser()
 {
 }
 
-bool XParser::getext( Ufkt *item, const QString fstr )
+bool XParser::getext( Function *item, const QString fstr )
 {
   	bool errflg = false;
    	int p1, p2, p3, pe;
@@ -95,14 +95,10 @@ bool XParser::getext( Ufkt *item, const QString fstr )
 		if ( p2 > 0 && p2 < p3 )
 		{
 			tstr = str.left( p2 );
-			item->dmin = eval( tstr );
-			if ( parserError(false) )
-				errflg = true;
+			errflg |= !item->dmin.updateExpression( tstr );
 			tstr = str.mid( p2 + 1, p3 - p2 - 1 );
-			item->dmax = eval( tstr );
-			if ( parserError(false) )
-				errflg = true;
-			if ( item->dmin > item->dmax )
+			errflg |= !item->dmax.updateExpression( tstr );
+			if ( item->dmin.value() > item->dmax.value() )
 				errflg = true;
 		}
 		else
@@ -122,12 +118,14 @@ bool XParser::getext( Ufkt *item, const QString fstr )
 				p2 = p3;
 			tstr = str.left( p2++ );
 			str = str.mid( p2, 1000 );
-			item->parameters.append( ParameterValueItem(tstr, eval( tstr )) );
+			Value value;
+			if ( !value.updateExpression( tstr ) )
 			if ( parserError(false) )
 			{
 				errflg = true;
 				break;
 			}
+			item->parameters.append( value );
 			p3 -= p2;
 		}
 		while ( p3 > 0 && i < 10 );
@@ -142,12 +140,12 @@ bool XParser::getext( Ufkt *item, const QString fstr )
 		return true;
 }
 
-double XParser::a1fkt( Ufkt *u_item, double x, double h )
+double XParser::a1fkt( Equation *u_item, double x, double h )
 {
 	return ( fkt(u_item, x + h ) - fkt( u_item, x ) ) / h;
 }
 
-double XParser::a2fkt( Ufkt *u_item, double x, double h )
+double XParser::a2fkt( Equation *u_item, double x, double h )
 {
 	return ( fkt( u_item, x + h + h ) - 2 * fkt( u_item, x + h ) + fkt( u_item, x ) ) / h / h;
 }
@@ -156,7 +154,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
 {
   char last_character;
   int pos;
-  if ( function_name.length()==2/*type == XParser::Polar*/ || type == XParser::ParametricX || type == XParser::ParametricY)
+  if ( function_name.length()==2/*type == Equation::Polar*/ || type == Equation::ParametricX || type == Equation::ParametricY)
     pos=1;
   else
     pos=0;
@@ -167,10 +165,10 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
     {
       if ( pos==0 && last_character == 'r') continue;
       function_name[pos]=last_character;
-// 	  for( QVector<Ufkt>::iterator it = m_ufkt.begin(); it != m_ufkt.end(); ++it)
-	  foreach ( Ufkt * it, m_ufkt )
+// 	  for( QVector<Function>::iterator it = m_ufkt.begin(); it != m_ufkt.end(); ++it)
+	  foreach ( Function * it, m_ufkt )
       {
-		  if ( it->fstr().startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
+		  if ( it->eq->fstr().startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
           ok = false;
       }
       if ( ok) //a free name was found
@@ -186,13 +184,13 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
   function_name = "e"; //this should never happen
 }
 
-void XParser::fixFunctionName( QString &str, int const type, int const id)
+void XParser::fixFunctionName( QString &str, Equation::Type const type, int const id)
 {
   int p1=str.indexOf('(');
   int p2=str.indexOf(')');
   if( p1>=0 && str.at(p2+1)=='=')
   {
-    if ( type == XParser::Polar && str.at(0)!='r' )
+    if ( type == Equation::Polar && str.at(0)!='r' )
     {
       if (str.at(0)=='(')
       {
@@ -205,18 +203,18 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
       p2++;
     }
     QString const fname = str.left(p1);
-//     for ( QVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
-	foreach ( Ufkt * it, m_ufkt )
+//     for ( QVector<Function>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
+	foreach ( Function * it, m_ufkt )
     {
-		if (it->fname() == fname)
+		if (it->eq->fname() == fname)
       {
         str = str.mid(p1,str.length()-1);
         QString function_name;
-        if ( type == XParser::Polar )
+        if ( type == Equation::Polar )
           function_name = "rf";
-        else if ( type == XParser::ParametricX )
+        else if ( type == Equation::ParametricX )
           function_name = "x";
-        else if ( type == XParser::ParametricY )
+        else if ( type == Equation::ParametricY )
           function_name = "y";
         else
           function_name = "f";
@@ -229,11 +227,11 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
   else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
   {
     QString function_name;
-    if ( type == XParser::Polar )
+	if ( type == Equation::Polar )
       function_name = "rf";
-    else if ( type == XParser::ParametricX )
+	else if ( type == Equation::ParametricX )
       function_name = "xf";
-    else if ( type == XParser::ParametricY )
+	else if ( type == Equation::ParametricY )
       function_name = "yf";
     else
       function_name = "f";
@@ -243,20 +241,20 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
   }
 }
 
-double XParser::euler_method(const double x, const QVector<Ufkt>::iterator it)
+double XParser::euler_method(const double x, Equation * eq )
 {
-	double const y = it->oldy + ((x-it->oldx) * it->oldyprim);
-	it->oldy = y;
-	it->oldx = x;
-	it->oldyprim = fkt( it, x ); //yprim;
+	double const y = eq->oldy + ((x-eq->oldx) * eq->oldyprim);
+	eq->oldy = y;
+	eq->oldx = x;
+	eq->oldyprim = fkt( eq, x ); //yprim;
 	return y;
 }
 
 
-int XParser::addfkt( QString fn, Ufkt::Type type )
+int XParser::addfkt( QString fn, Function::Type type )
 {
 	int id = Parser::addfkt( fn, type );
-	Ufkt * ufkt = functionWithID( id );
+	Function * ufkt = functionWithID( id );
 	if ( ufkt )
 		ufkt->f0.color = ufkt->f1.color = ufkt->f2.color = ufkt->integral.color = defaultColor(id);
 	
@@ -296,10 +294,10 @@ QColor XParser::defaultColor(int function)
 QStringList XParser::listFunctionNames()
 {
 	QStringList list;
-// 	for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
-	foreach ( Ufkt * it, m_ufkt )
+// 	for( QVector<Function>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+	foreach ( Function * it, m_ufkt )
 	{
-		list.append(it->fname());
+		list.append(it->eq->fname());
 	}
 	return list;	
 }
@@ -358,7 +356,7 @@ QString XParser::functionStr(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return "";
-	return m_ufkt[id]->fstr();
+	return m_ufkt[id]->eq->fstr();
 }
 
 QColor XParser::functionFColor(uint id)
@@ -479,14 +477,14 @@ QString XParser::functionMinValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-  return m_ufkt[id]->str_dmin;
+  return m_ufkt[id]->dmin.expression();
 }
 
 bool XParser::setFunctionMinValue(const QString &min, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-  m_ufkt[id]->str_dmin = min;
+  m_ufkt[id]->dmin.expression() = min;
   m_modified = true;
   return true;
 }
@@ -495,14 +493,14 @@ QString XParser::functionMaxValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-  return m_ufkt[id]->str_dmax;
+  return m_ufkt[id]->dmax.expression();
 }
 
 bool XParser::setFunctionMaxValue(const QString &max, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-  m_ufkt[id]->str_dmax = max;
+  m_ufkt[id]->dmax.expression() = max;
   m_modified = true;
   return true;
 }
@@ -511,14 +509,14 @@ QString XParser::functionStartXValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-  return m_ufkt[id]->str_startx;
+  return m_ufkt[id]->startx.expression();
 }
 
 bool XParser::setFunctionStartXValue(const QString &x, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-  m_ufkt[id]->str_startx = x;
+  m_ufkt[id]->startx.expression() = x;
   m_modified = true;
   return true;
 }
@@ -527,14 +525,14 @@ QString XParser::functionStartYValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-  return m_ufkt[id]->str_starty;
+  return m_ufkt[id]->starty.expression();
 }
 
 bool XParser::setFunctionStartYValue(const QString &y, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-  m_ufkt[id]->str_starty = y;
+  m_ufkt[id]->starty.expression() = y;
   m_modified = true;
   return true;
 }
@@ -543,25 +541,29 @@ QStringList XParser::functionParameterList(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return QStringList();
-	Ufkt *item = m_ufkt[id];
+	Function *item = m_ufkt[id];
 	QStringList str_parameter;
-	for ( QList<ParameterValueItem>::iterator it = item->parameters.begin(); it != item->parameters.end(); ++it)
-		str_parameter.append( (*it).expression);
+	foreach ( Value it, item->parameters )
+		str_parameter << it.expression();
 	return str_parameter;
 }
 bool XParser::functionAddParameter(const QString &new_parameter, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	Ufkt *tmp_ufkt = m_ufkt[id];
-	for ( QList<ParameterValueItem>::iterator it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
-		if ( (*it).expression == new_parameter) //check if the parameter already exists
+	Function *tmp_ufkt = m_ufkt[id];
+	
+	//check if the parameter already exists
+	foreach ( Value it, tmp_ufkt->parameters )
+	{
+		if ( it.expression() == new_parameter )
 			return false;
-
-	double const result = eval(new_parameter);
-	if ( parserError(false) != 0)
+	}
+	
+	Value value;
+	if ( !value.updateExpression( new_parameter ) )
 		return false;
-	tmp_ufkt->parameters.append( ParameterValueItem(new_parameter,result) );
+	tmp_ufkt->parameters.append( value );
 	m_modified = true;
 	return true;
 }
@@ -569,16 +571,18 @@ bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	Ufkt *tmp_ufkt = m_ufkt[id];
+	Function *tmp_ufkt = m_ufkt[id];
 	
 	bool found = false;
-	QList<ParameterValueItem>::iterator it;
+	QList<Value>::iterator it;
 	for ( it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
-		if ( (*it).expression == remove_parameter) //check if the parameter already exists
+	{
+		if ( (*it).expression() == remove_parameter) //check if the parameter already exists
 		{
 			found = true;
 			break;
 		}
+	}
 	if (!found)
 		return false;
 	tmp_ufkt->parameters.erase(it);
@@ -597,12 +601,12 @@ int XParser::addFunction(const QString &f_str)
 		return -1;
 	if  ( added_function.contains('y') != 0)
 		return -1;
-	Ufkt::Type type = (added_function[0] == 'r') ? Ufkt::Polar : Ufkt::Cartesian;
+	Function::Type type = (added_function[0] == 'r') ? Function::Polar : Function::Cartesian;
 	
 	int const id = addfkt( added_function, type );
 	if (id==-1)
 		return -1;
-	Ufkt *tmp_ufkt = m_ufkt[id];
+	Function *tmp_ufkt = m_ufkt[id];
 	if ( pos!=-1 && !getext( tmp_ufkt, f_str ) )
 	{
 		Parser::delfkt( tmp_ufkt );
@@ -615,32 +619,32 @@ int XParser::addFunction(const QString &f_str)
 bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider)
 {
 	QString fstr(fstr_const);
-	Ufkt::Type type;
+	Function::Type type;
 	switch ( fstr[0].unicode() )
 	{
 	  case 'r':
 	  {
-	    fixFunctionName(fstr, XParser::Polar);
-		type = Ufkt::Polar;
+	    fixFunctionName(fstr, Equation::Polar);
+		type = Function::Polar;
 	    break;
 	  }
 	  case 'x':
-	    fixFunctionName(fstr, XParser::ParametricX);
-		type = Ufkt::ParametricX;
+	    fixFunctionName(fstr, Equation::ParametricX);
+		type = Function::ParametricX;
 	    break;
 	  case 'y':
-	    fixFunctionName(fstr, XParser::ParametricY);
-		type = Ufkt::ParametricY;
+	    fixFunctionName(fstr, Equation::ParametricY);
+		type = Function::ParametricY;
 	    break;
 	  default:
-	    fixFunctionName(fstr, XParser::Function);
-		type = Ufkt::Cartesian;
+	    fixFunctionName(fstr, Equation::Cartesian );
+		type = Function::Cartesian;
 	    break;
 	}
 	int const id = addfkt( fstr, type );
 	if ( id==-1 )
 		return false;
-	Ufkt *added_function = m_ufkt[id];
+	Function *added_function = m_ufkt[id];
 	added_function->f0.visible = f_mode;
 	added_function->f1.visible = f1_mode;
 	added_function->f2.visible = f2_mode;
@@ -651,29 +655,15 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 	added_function->f2.lineWidth = f2_linewidth;
 	added_function->integral.lineWidth = integral_linewidth;
 	
-  if ( str_dmin.isEmpty() )
-    added_function->usecustomxmin = false;
-  else //custom minimum range
-  {
-    added_function->usecustomxmin = true;
-    added_function->str_dmin = str_dmin;
-    added_function->dmin = eval(str_dmin);
-  }
-  if ( str_dmax.isEmpty() )
-    added_function->usecustomxmax = false;
-  else //custom maximum range
-  {
-    added_function->usecustomxmax = true;
-    added_function->str_dmax = str_dmax;
-    added_function->dmax = eval(str_dmax);
-  }
-	added_function->str_startx = str_startx;
-	added_function->str_starty = str_starty;
-	if ( !str_starty.isEmpty() )
-		added_function->starty = eval(str_starty);
-	if ( !str_startx.isEmpty() )
-		added_function->startx = eval(str_startx);
-	added_function->oldx = 0;
+	added_function->dmin.updateExpression( str_dmin );
+	added_function->usecustomxmin = !str_dmin.isEmpty();
+	
+	added_function->dmax.updateExpression( str_dmax );
+	added_function->usecustomxmax = !str_dmax.isEmpty();
+	
+	added_function->startx.updateExpression( str_startx );
+	added_function->starty.updateExpression( str_starty );
+	
 	added_function->integral_precision = integral_precision;
 	added_function->f0.color = color;
 	added_function->f1.color = f1_color;
@@ -682,10 +672,7 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 	added_function->use_slider = use_slider;
 	for( QStringList::Iterator it = str_parameter.begin(); it != str_parameter.end(); ++it )
 	{
-		double result = eval(*it);
-		if ( parserError(false) != 0)
-			continue;
-		added_function->parameters.append( ParameterValueItem(*it, result ) );
+		added_function->parameters.append( *it );
 	}
 	m_modified = true;
 	return true;
@@ -693,12 +680,12 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 
 bool XParser::setFunctionExpression(const QString &f_str, uint id)
 {
-	Ufkt * tmp_ufkt = functionWithID( id );
+	Function * tmp_ufkt = functionWithID( id );
 	if ( !tmp_ufkt )
 		return false;
-	QString const old_fstr = tmp_ufkt->fstr();
-	QString const fstr_begin = tmp_ufkt->fstr().left(tmp_ufkt->fstr().indexOf('=')+1);
+	QString const old_fstr = tmp_ufkt->eq->fstr();
+	QString const fstr_begin = tmp_ufkt->eq->fstr().left(tmp_ufkt->eq->fstr().indexOf('=')+1);
 	
-	return tmp_ufkt->setFstr( fstr_begin+f_str );
+	return tmp_ufkt->eq->setFstr( fstr_begin+f_str );
 }
 

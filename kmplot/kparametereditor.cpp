@@ -46,7 +46,7 @@
 
 class ParameterValueList;
 
-KParameterEditor::KParameterEditor(XParser *m, QList<ParameterValueItem> *l, QWidget *parent )
+KParameterEditor::KParameterEditor(XParser *m, QList<Value> *l, QWidget *parent )
 	: KDialog( parent, i18n("Parameter Editor"), Ok|Cancel ),
 	  m_parameter(l),
 	  m_parser(m)
@@ -54,8 +54,8 @@ KParameterEditor::KParameterEditor(XParser *m, QList<ParameterValueItem> *l, QWi
 	m_mainWidget = new QParameterEditor( this );
 	setMainWidget( m_mainWidget );
 	
-	for (  QList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
-		m_mainWidget->list->addItem( (*it).expression );
+	foreach ( Value v, *m_parameter )
+		m_mainWidget->list->addItem( v.expression() );
 	m_mainWidget->list->sortItems();
 	
 	connect( m_mainWidget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
@@ -86,7 +86,11 @@ void KParameterEditor::accept()
 	{
 		item_text = m_mainWidget->list->item(i)->text();
 		if ( !item_text.isEmpty() )
-			m_parameter->append( ParameterValueItem(item_text, m_parser->eval( item_text)) );
+		{
+			Value value;
+			if ( value.updateExpression( item_text ) )
+				m_parameter->append( value );
+		}
 	}
 	
 	KDialog::accept();

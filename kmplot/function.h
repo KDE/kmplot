@@ -81,8 +81,19 @@ class Ufkt
 			Integral,
 		};
 		
-		Ufkt();
+		enum Type
+		{
+			Cartesian,
+			ParametricX,
+			ParametricY,
+			Polar,
+		};
+		
+		Ufkt( Type type );
 		~Ufkt();
+		
+		/// The type of function
+		Type type() const { return m_type; }
 		
 		/**
 		 * Copies data members across, while avoiding id, mem, mptr type
@@ -97,10 +108,36 @@ class Ufkt
 		uint id;
 		unsigned char *mem;     ///< Pointer to the allocated memory for the tokens.
 		unsigned char *mptr;    ///< Pointer to the token.
-		QString fname;          ///< Name of the function.
-		QString fvar;           ///< Dummy variable.
-		QString fpar;           ///< Parameter.
-		QString fstr;           ///< Function expression.
+		
+		/**
+		 * @return the name of the function, e.g. for the cartesian function
+		 * f(x)=x^2, this would return "f".
+		 */
+		QString fname() const;	///< Name of the function.
+		/**
+		 * @return the dummy variable of the function, e.g. for the cartesian
+		 * function f(x,k)=(x+k)(x-k), this would return "x".
+		 */
+		QString fvar() const;
+		/**
+		 * @return the parameter if one exists, e.g. for the cartesian function
+		 * f(x,k)=(x+k)(x-k), this would return "k". For the function f(x)=x^2,
+		 * this would return an empty string.
+		 */
+		QString fpar() const;
+		/**
+		 * The full function expression, e.g. "f(x,k)=(x+k)(x-k)".
+		 */
+		QString fstr() const { return m_fstr; }
+		/**
+		 * @see fstr()
+		 * @return whether \p fstr could be parsed correctly. Note that if it
+		 * was not parsed correctly, then this will return false and this class
+		 * will not be updated. If \p force is true, then no checks on the
+		 * validity of the string are performed.
+		 */
+		bool setFstr( const QString & fstr, bool force = false );
+		
 		double k,               ///< Function parameter.
 		oldy;                   ///< The last y-value needed for Euler's method
 		QList<int> dep;   /// A list with all functions this function depends on
@@ -128,6 +165,10 @@ class Ufkt
 		bool usecustomxmin:1;
 		bool usecustomxmax:1;
         	// TODO double slider_min, slider_max; ///< extreme values of the slider
+		
+	protected:
+		const Type m_type;
+		QString m_fstr;
 };
 
 

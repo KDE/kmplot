@@ -24,6 +24,7 @@
 */
 
 #include "function.h"
+#include "xparser.h"
 #include "settings.h"
 
 #include <kdebug.h>
@@ -50,10 +51,11 @@ bool Plot::operator !=( const Plot & other ) const
 
 
 //BEGIN class Ufkt
-Ufkt::Ufkt()
+Ufkt::Ufkt( Type type )
+	: m_type( type )
 {
 	id = 0;
-	mem = 0;
+	mem = new unsigned char [MEMSIZE];
 	mptr = 0;
 	k = 0;
 	oldy = 0;
@@ -91,7 +93,6 @@ bool Ufkt::copyFrom( const Ufkt & function )
 #define COPY_AND_CHECK(s) \
 		if ( s != function.s ) \
 { \
-			kDebug() << "i="<<i/*<<" this="<<s<<" that="<<function.s*/<<endl; \
 			s = function.s; \
 			changed = true; \
 } \
@@ -115,29 +116,117 @@ bool Ufkt::copyFrom( const Ufkt & function )
 	COPY_AND_CHECK( usecustomxmin );			// 15
 	COPY_AND_CHECK( usecustomxmax );			// 16
 	
-#if 0
-	COPY_AND_CHECK( parameters );
-#endif
-	// handle this separately
+	// handle parameters separately
 	if ( parameters.count() != function.parameters.count() )
-{
-	changed = true;
-	parameters = function.parameters;
-}
-	else
-{
-	foreach ( ParameterValueItem p, parameters )
 	{
-		if ( !function.parameters.contains( p ) )
+		changed = true;
+		parameters = function.parameters;
+	}
+	else
+	{
+		foreach ( ParameterValueItem p, parameters )
 		{
-			changed = true;
-			parameters = function.parameters;
-			break;
+			if ( !function.parameters.contains( p ) )
+			{
+				changed = true;
+				parameters = function.parameters;
+				break;
+			}
 		}
 	}
-}
 	
-	kDebug() << k_funcinfo << "changed="<<changed<<endl;
+// 	kDebug() << k_funcinfo << "changed="<<changed<<endl;
 	return changed;
+}
+
+
+QString Ufkt::fname( ) const
+{
+	int pos = m_fstr.indexOf( '(' );
+	if ( pos == -1 )
+	{
+		kWarning() << k_funcinfo << "No bracket!\n";
+		return QString();
+	}
+	
+	return m_fstr.left( pos );
+}
+
+
+QString Ufkt::fvar( ) const
+{
+	int p1 = m_fstr.indexOf( '(' );
+	if ( p1 == -1 )
+	{
+		kWarning() << k_funcinfo << "No bracket!\n";
+		return QString();
+	}
+	
+	int p2 = m_fstr.indexOf( ',' );
+	if ( p2 == -1 )
+		p2 = m_fstr.indexOf( ')' );
+	
+	if ( p2 == -1 )
+	{
+		kWarning() << k_funcinfo << "No closing!\n";
+		return QString();
+	}
+	
+	return m_fstr.mid( p1+1, p2-p1-1 );
+}
+
+
+QString Ufkt::fpar( ) const
+{
+	int p1 = m_fstr.indexOf( ',' );
+	if ( p1 == -1 )
+	{
+		// no parameter
+		return QString();
+	}
+	
+	int p2 = m_fstr.indexOf( ')' );
+	if ( p2 == -1 )
+	{
+		kWarning() << k_funcinfo << "No closing bracket!\n";
+		return QString();
+	}
+	
+	return m_fstr.mid( p1+1, p2-p1-1 );
+}
+
+
+bool Ufkt::setFstr( const QString & fstr, bool force  )
+{
+// 	kDebug() << "fstr: "<<fstr<<endl;
+	
+	if ( force )
+	{
+		m_fstr = fstr;
+		return true;
+	}
+	
+	if ( !XParser::self()->isFstrValid( fstr ) )
+	{
+		XParser::self()->parserError( true );
+// 		kDebug() << "invalid fstr\n";
+		return false;
+	}
+	
+	QString prevFstr = m_fstr;
+	m_fstr = fstr;
+	XParser::self()->initFunction( this );
+	if ( XParser::self()->parserError( true ) != Parser::ParseSuccess )
+	{
+		m_fstr = prevFstr;
+		XParser::self()->initFunction( this );
+// 		kDebug() << "BAD\n";
+		return false;
+	}
+	else
+	{
+// 		kDebug() << "GoOd :)\n";
+		return true;
+	}
 }
 //END class Ufkt

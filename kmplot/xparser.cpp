@@ -37,7 +37,22 @@
 
 #include <assert.h>
 
-XParser::XParser(bool &mo) : DCOPObject("Parser"), Parser(), m_modified(mo)
+
+XParser * XParser::m_self = 0;
+
+XParser * XParser::self( bool * modified )
+{
+	if ( !m_self )
+	{
+		assert( modified );
+		m_self = new XParser( *modified );
+	}
+	
+	return m_self;
+}
+
+
+XParser::XParser(bool &mo) : DCOPObject("Parser"), m_modified(mo)
 {
         // setup slider support
 	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
@@ -155,7 +170,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
 // 	  for( QVector<Ufkt>::iterator it = m_ufkt.begin(); it != m_ufkt.end(); ++it)
 	  foreach ( Ufkt * it, m_ufkt )
       {
-        if ( it->fstr.startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
+		  if ( it->fstr().startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
           ok = false;
       }
       if ( ok) //a free name was found
@@ -193,7 +208,7 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
 //     for ( QVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
 	foreach ( Ufkt * it, m_ufkt )
     {
-      if (it->fname == fname)
+		if (it->fname() == fname)
       {
         str = str.mid(p1,str.length()-1);
         QString function_name;
@@ -238,9 +253,9 @@ double XParser::euler_method(const double x, const QVector<Ufkt>::iterator it)
 }
 
 
-int XParser::addfkt( QString fn )
+int XParser::addfkt( QString fn, Ufkt::Type type )
 {
-	int id = Parser::addfkt( fn );
+	int id = Parser::addfkt( fn, type );
 	Ufkt * ufkt = functionWithID( id );
 	if ( ufkt )
 		ufkt->f0.color = ufkt->f1.color = ufkt->f2.color = ufkt->integral.color = defaultColor(id);
@@ -284,7 +299,7 @@ QStringList XParser::listFunctionNames()
 // 	for( QVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	foreach ( Ufkt * it, m_ufkt )
 	{
-		list.append(it->fname);
+		list.append(it->fname());
 	}
 	return list;	
 }
@@ -343,7 +358,7 @@ QString XParser::functionStr(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return "";
-	return m_ufkt[id]->fstr;
+	return m_ufkt[id]->fstr();
 }
 
 QColor XParser::functionFColor(uint id)
@@ -582,7 +597,9 @@ int XParser::addFunction(const QString &f_str)
 		return -1;
 	if  ( added_function.contains('y') != 0)
 		return -1;
-	int const id = addfkt( added_function );
+	Ufkt::Type type = (added_function[0] == 'r') ? Ufkt::Polar : Ufkt::Cartesian;
+	
+	int const id = addfkt( added_function, type );
 	if (id==-1)
 		return -1;
 	Ufkt *tmp_ufkt = m_ufkt[id];
@@ -598,24 +615,29 @@ int XParser::addFunction(const QString &f_str)
 bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider)
 {
 	QString fstr(fstr_const);
+	Ufkt::Type type;
 	switch ( fstr[0].unicode() )
 	{
 	  case 'r':
 	  {
 	    fixFunctionName(fstr, XParser::Polar);
+		type = Ufkt::Polar;
 	    break;
 	  }
 	  case 'x':
 	    fixFunctionName(fstr, XParser::ParametricX);
+		type = Ufkt::ParametricX;
 	    break;
 	  case 'y':
 	    fixFunctionName(fstr, XParser::ParametricY);
+		type = Ufkt::ParametricY;
 	    break;
 	  default:
 	    fixFunctionName(fstr, XParser::Function);
+		type = Ufkt::Cartesian;
 	    break;
 	}
-	int const id = addfkt( fstr );
+	int const id = addfkt( fstr, type );
 	if ( id==-1 )
 		return false;
 	Ufkt *added_function = m_ufkt[id];
@@ -674,16 +696,9 @@ bool XParser::setFunctionExpression(const QString &f_str, uint id)
 	Ufkt * tmp_ufkt = functionWithID( id );
 	if ( !tmp_ufkt )
 		return false;
-	QString const old_fstr = tmp_ufkt->fstr;
-	QString const fstr_begin = tmp_ufkt->fstr.left(tmp_ufkt->fstr.indexOf('=')+1);
-	tmp_ufkt->fstr = fstr_begin+f_str;
-	reparse(tmp_ufkt);
-	if ( parserError(false) != 0)
-	{
-		tmp_ufkt->fstr = old_fstr;
-		reparse(tmp_ufkt);
-		return false;
-	}
-	return true;
+	QString const old_fstr = tmp_ufkt->fstr();
+	QString const fstr_begin = tmp_ufkt->fstr().left(tmp_ufkt->fstr().indexOf('=')+1);
+	
+	return tmp_ufkt->setFstr( fstr_begin+f_str );
 }
 

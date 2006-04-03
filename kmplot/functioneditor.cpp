@@ -173,7 +173,7 @@ void FunctionEditor::functionsChanged()
 
 void FunctionEditor::syncFunctionList()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	int oldFunctionCount = m_functionList->count();
 	
@@ -202,9 +202,6 @@ void FunctionEditor::syncFunctionList()
 	{
 		Ufkt * function = *it;
 		
-		if ( function->fname.isEmpty() )
-			continue;
-		
 		if ( currentIDs.contains( function->id ) )
 		{
 			// already have the function
@@ -213,13 +210,13 @@ void FunctionEditor::syncFunctionList()
 			continue;
 		}
 		
-		if ( function->fstr[0] == 'y' )
+		if ( function->type() == Ufkt::ParametricY )
 			continue;
 		
 		int f1 = function->id;
 		int f2 = -1;
 		
-		if ( function->fstr[0] == 'x' )
+		if ( function->type() == Ufkt::ParametricX )
 		{
 			++it;
 			assert( it != View::self()->parser()->m_ufkt.end() );
@@ -309,8 +306,7 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 		
 		if ( Ufkt * function = View::self()->parser()->functionWithID(m_function) )
 		{
-			QChar prefix = function->fstr[0];
-			if ( prefix == 'r' )
+			if ( function->type() == Ufkt::Polar )
 				initFromPolar();
 			else
 				initFromCartesian();
@@ -335,7 +331,7 @@ void FunctionEditor::initFromCartesian()
 	
 	m_parameters = f->parameters;
 	
-	m_editor->cartesianEquation->setText( f->fstr );
+	m_editor->cartesianEquation->setText( f->fstr() );
 	m_editor->cartesian_f_lineWidth->setValue( f->f0.lineWidth );
 	m_editor->cartesian_f_lineColor->setColor( f->f0.color );
 	
@@ -391,8 +387,8 @@ void FunctionEditor::initFromPolar()
 	if ( !f )
 		return;
 	
-	QString function = f->fstr;
-	function = function.right( function.length()-1 );
+	QString function = f->fstr();
+	function = function.mid( 1 );
 	m_editor->polarEquation->setText( function );
 	m_editor->polarCustomMin->setChecked( f->usecustomxmin );
 	m_editor->polarMin->setText( f->str_dmin );
@@ -418,11 +414,11 @@ void FunctionEditor::initFromParametric()
 	
 	QString name, expression;
 	
-	splitParametricEquation( fx->fstr, & name, & expression );
+	splitParametricEquation( fx->fstr(), & name, & expression );
 	m_editor->parametricName->setText( name );
 	m_editor->parametricX->setText( expression );
         
-	splitParametricEquation( fy->fstr, & name, & expression );
+	splitParametricEquation( fy->fstr(), & name, & expression );
 	m_editor->parametricY->setText( expression );
 
 	m_editor->parametricMin->setText( fx->str_dmin );
@@ -510,12 +506,12 @@ void FunctionEditor::createParametric()
 	
 	kDebug() << "AAA\n";
 	
-	m_functionX = View::self()->parser()->addfkt( QString("x%1(t)=0").arg( name ) ); 
+	m_functionX = View::self()->parser()->addfkt( QString("x%1(t)=0").arg( name ), Ufkt::ParametricX ); 
 	assert( m_functionX != -1 );
 	
 	kDebug() << "BBB\n";
 	
-	m_functionY = View::self()->parser()->addfkt( QString("y%1(t)=0").arg( name ) );
+	m_functionY = View::self()->parser()->addfkt( QString("y%1(t)=0").arg( name ), Ufkt::ParametricY );
 	assert( m_functionY != -1 );
 	
 	kDebug() << "CCC\n";
@@ -554,8 +550,7 @@ void FunctionEditor::save()
 		if ( !f )
 			return;
 		
-		QChar prefix = f->fstr[0];
-		if ( prefix == 'r' )
+		if ( f->type() == Ufkt::Polar )
 			m_savePolarTimer->start( 0 );
 		else
 			m_saveCartesianTimer->start( 0 );
@@ -569,7 +564,7 @@ void FunctionEditor::save()
 
 void FunctionEditor::saveCartesian()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	Ufkt * f = View::self()->parser()->functionWithID( m_function );
 	if ( !f )
@@ -581,7 +576,7 @@ void FunctionEditor::saveCartesian()
     View::self()->parser()->fixFunctionName(f_str, XParser::Function, f->id );
 	
 	//all settings are saved here until we know that no errors have appeared
-	Ufkt tempFunction;
+	Ufkt tempFunction( Ufkt::Cartesian );
 	
 	tempFunction.usecustomxmin = m_editor->cartesianCustomMin->isChecked();
 	tempFunction.str_dmin = m_editor->cartesianMin->text();
@@ -661,19 +656,17 @@ void FunctionEditor::saveCartesian()
 		return;
 	}
 	
-	QString const old_fstr = f->fstr;
+	QString const old_fstr = f->fstr();
 	if ( ( (!m_parameters.isEmpty() &&
 				m_editor->cartesianParametersList->isChecked() ) ||
 				m_editor->cartesianParameterSlider->isChecked() ) &&
 			!cartesianHasTwoArguments( f_str ) )
-		fixCartesianArguments( & f_str ); //adding an extra argument for the parameter value
-	
-	f->fstr = f_str;
-	View::self()->parser()->reparse(f); //reparse the funcion
-	if ( View::self()->parser()->parserError( false ) != 0)
 	{
-		f->fstr = old_fstr;
-		View::self()->parser()->reparse(f); 
+		fixCartesianArguments( & f_str ); //adding an extra argument for the parameter value
+	}
+	
+	if ( !f->setFstr( f_str ) )
+	{
 // 		raise();
 // 		showPage(0);
 // 		editfunctionpage->equation->setFocus();
@@ -683,8 +676,8 @@ void FunctionEditor::saveCartesian()
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
-	changed |= (old_fstr != f->fstr );
-	kDebug() << "old_fstr="<<old_fstr<<" f->fstr="<<f->fstr<<" changed="<<changed<<endl;
+	changed |= (old_fstr != f->fstr() );
+// 	kDebug() << "old_fstr="<<old_fstr<<" f->fstr()="<<f->fstr()<<" changed="<<changed<<endl;
 	if ( !changed )
 		return;
 
@@ -736,7 +729,7 @@ void FunctionEditor::savePolar()
 	QString f_str = m_editor->polarEquation->text();
 
 	View::self()->parser()->fixFunctionName( f_str, XParser::Polar, f->id );
-	Ufkt tempFunction;  //all settings are saved here until we know that no errors have appeared
+	Ufkt tempFunction( Ufkt::Polar );  //all settings are saved here until we know that no errors have appeared
 
 	if ( functionListItem )
 		tempFunction.f0.visible = (functionListItem->checkState() == Qt::Checked);
@@ -777,14 +770,10 @@ void FunctionEditor::savePolar()
 	tempFunction.use_slider = -1;
         
 	
-	QString const old_fstr = f->fstr;
-	f->fstr = f_str;
-	View::self()->parser()->reparse( f ); //reparse the funcion
-	if ( View::self()->parser()->parserError( false ) != 0)
+	QString old_fstr = f->fstr();
+	if ( !f->setFstr( f_str ) )
 	{
 		kWarning() << "parse error\n";
-		f->fstr = old_fstr;
-		View::self()->parser()->reparse( f );
 // 		raise();
 // 		m_editor->kLineEditYFunction->setFocus();
 // 		m_editor->kLineEditYFunction->selectAll();
@@ -793,7 +782,7 @@ void FunctionEditor::savePolar()
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
-	changed |= (old_fstr != f->fstr);
+	changed |= (old_fstr != f->fstr());
 	if ( !changed )
 		return;
 
@@ -835,31 +824,31 @@ void FunctionEditor::saveParametric()
 		m_editor->parametricName->setText(fname.mid(1,pos-1));
 	}
                 
-	Ufkt tempFunction;
+	Ufkt tempFunction1( Ufkt::ParametricX );
 	if ( functionListItem )
-		tempFunction.f0.visible = (functionListItem->checkState() == Qt::Checked);
+		tempFunction1.f0.visible = (functionListItem->checkState() == Qt::Checked);
 	
-	tempFunction.usecustomxmin = true;
-	tempFunction.str_dmin = m_editor->parametricMin->text();
-	tempFunction.dmin = View::self()->parser()->eval( tempFunction.str_dmin );
-	if ( tempFunction.usecustomxmin && View::self()->parser()->parserError( false ) )
+	tempFunction1.usecustomxmin = true;
+	tempFunction1.str_dmin = m_editor->parametricMin->text();
+	tempFunction1.dmin = View::self()->parser()->eval( tempFunction1.str_dmin );
+	if ( tempFunction1.usecustomxmin && View::self()->parser()->parserError( false ) )
 	{
 // 		m_editor->min->setFocus();
 // 		m_editor->min->selectAll();
 		return;
 	}
 	
-	tempFunction.usecustomxmax = true;
-	tempFunction.str_dmax = m_editor->parametricMax->text();
-	tempFunction.dmax = View::self()->parser()->eval( tempFunction.str_dmax );
-	if ( tempFunction.usecustomxmax && View::self()->parser()->parserError( false ) )
+	tempFunction1.usecustomxmax = true;
+	tempFunction1.str_dmax = m_editor->parametricMax->text();
+	tempFunction1.dmax = View::self()->parser()->eval( tempFunction1.str_dmax );
+	if ( tempFunction1.usecustomxmax && View::self()->parser()->parserError( false ) )
 	{
 // 		m_editor->max->setFocus();
 // 		m_editor->max->selectAll();
 		return;
 	}
 	
-	if ( tempFunction.usecustomxmin && tempFunction.usecustomxmax && tempFunction.dmin >=  tempFunction.dmax)
+	if ( tempFunction1.usecustomxmin && tempFunction1.usecustomxmax && tempFunction1.dmin >=  tempFunction1.dmax)
 	{
 // 		KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
 // 		m_editor->min->setFocus();
@@ -867,17 +856,13 @@ void FunctionEditor::saveParametric()
 		return;
 	}
         
-	tempFunction.f0.lineWidth = m_editor->parametricLineWidth->value();
-	tempFunction.f0.color = m_editor->parametricLineColor->color();
-	tempFunction.f1.color = tempFunction.f2.color = tempFunction.integral.color = tempFunction.f0.color;
+	tempFunction1.f0.lineWidth = m_editor->parametricLineWidth->value();
+	tempFunction1.f0.color = m_editor->parametricLineColor->color();
+	tempFunction1.f1.color = tempFunction1.f2.color = tempFunction1.integral.color = tempFunction1.f0.color;
 	
-	QString old_fstr = fx->fstr;
-	fx->fstr = "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text();
-	View::self()->parser()->reparse(fx); //reparse the funcion
-	if ( View::self()->parser()->parserError( false ) != 0)
+	QString old_fstr = fx->fstr();
+	if ( !fx->setFstr( "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text() ) )
 	{
-		fx->fstr = old_fstr;
-		View::self()->parser()->reparse(fx); 
 // 		raise();
 // 		m_editor->kLineEditXFunction->setFocus();
 // 		m_editor->kLineEditXFunction->selectAll();
@@ -885,19 +870,17 @@ void FunctionEditor::saveParametric()
 	}
 	
 	//save all settings in the function now when we know no errors have appeared
-	bool changed = fx->copyFrom( tempFunction );
-	changed |= (old_fstr != fx->fstr);
+	bool changed = fx->copyFrom( tempFunction1 );
+	changed |= (old_fstr != fx->fstr());
 	
 	
 	// now for the y function
+	Ufkt tempFunction2( Ufkt::ParametricY );
+	tempFunction2.copyFrom( tempFunction1 );
 	
-	old_fstr = fy->fstr;
-	fy->fstr = "y" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text();
-	View::self()->parser()->reparse( fy ); //reparse the funcion
-	if ( View::self()->parser()->parserError( false ) != 0 ) //when something went wrong:
+	old_fstr = fy->fstr();
+	if ( !fy->setFstr( "y" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text() ) )
 	{
-		fy->fstr = old_fstr; //go back to the old expression
-		View::self()->parser()->reparse(fy);  //reparse
 // 		raise();
 // 		m_editor->kLineEditXFunction->setFocus();
 // 		m_editor->kLineEditXFunction->selectAll();
@@ -905,8 +888,8 @@ void FunctionEditor::saveParametric()
 	}
     
 	//save all settings in the function now when we now no errors have appeared
-	changed |= fy->copyFrom( tempFunction );
-	changed |= (old_fstr != fy->fstr);
+	changed |= fy->copyFrom( tempFunction2 );
+	changed |= (old_fstr != fy->fstr());
 	
 	if ( !changed )
 		return;
@@ -1025,16 +1008,10 @@ void FunctionListItem::update()
 		return;
 	}
 	
+	QString text = f1->fstr();
 	if ( f2 )
-	{
-		// a parametric function
-		setText( f1->fstr + ";" + f2->fstr );
-	}
-	else
-	{
-		// a cartesian or polar function
-		setText( f1->fstr );
-	}
+		text += ";" + f2->fstr();
+	setText( text );
 	
 	setCheckState( f1->f0.visible ? Qt::Checked : Qt::Unchecked );
 	setTextColor( f1->f0.color );

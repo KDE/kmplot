@@ -103,7 +103,7 @@ void KConstantEditor::cmdDelete_clicked()
 // 		for( QVector<Ufkt>::iterator it = View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
 		foreach ( Ufkt * it, View::self()->parser()->m_ufkt )
 		{
-			QString str = it->fstr;
+			QString str = it->fstr();
 			if ( str.indexOf( currentConstant, str.indexOf(')') ) != -1 )
 			{
 				KMessageBox::sorry(this, i18n("A function uses this constant; therefore, it cannot be removed."));

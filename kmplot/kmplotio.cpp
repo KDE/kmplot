@@ -122,7 +122,7 @@ QDomDocument KmPlotIO::currentState()
 	
 	foreach ( Ufkt * it, m_parser->m_ufkt )
 	{
-		if ( !it->fstr.isEmpty() )
+		if ( !it->fstr().isEmpty() )
 			addFunction( doc, root, it );
 	}
 
@@ -205,7 +205,7 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Ufkt * funct
 	tag.setAttribute( "integral-startx", function->str_startx );
 	tag.setAttribute( "integral-starty", function->str_starty );
 
-	addTag( doc, tag, "equation", function->fstr );
+	addTag( doc, tag, "equation", function->fstr() );
 
 	QStringList str_parameters;
 	for ( QList<ParameterValueItem>::Iterator k = function->parameters.begin(); k != function->parameters.end(); ++k )
@@ -413,9 +413,60 @@ void KmPlotIO::parseScale(const QDomElement & n )
 // static
 void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool allowRename )
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
-	Ufkt ufkt;
+	QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
+// 	kDebug() << "tmp_fstr="<<tmp_fstr<<endl;
+	if ( tmp_fstr.isEmpty() )
+	{
+		kWarning() << k_funcinfo << "tmp_fstr is empty!\n";
+		return;
+	}
+	
+	Ufkt::Type type;
+	switch ( tmp_fstr[0].unicode() )
+	{
+		case 'r':
+			type = Ufkt::Polar;
+			break;
+			
+		case 'x':
+			type = Ufkt::ParametricX;
+			break;
+			
+		case 'y':
+			type = Ufkt::ParametricY;
+			break;
+			
+		default:
+			type = Ufkt::Cartesian;
+			break;
+	}
+	
+	if ( allowRename )
+	{
+		switch ( type )
+		{
+			case Ufkt::Polar:
+				m_parser->fixFunctionName( tmp_fstr, XParser::Polar, -1 );
+				break;
+				
+			case Ufkt::ParametricX:
+				m_parser->fixFunctionName( tmp_fstr, XParser::ParametricX, -1 );
+				break;
+				
+			case Ufkt::ParametricY:
+				m_parser->fixFunctionName( tmp_fstr, XParser::ParametricY, -1 );
+				break;
+				
+			case Ufkt::Cartesian:
+				m_parser->fixFunctionName( tmp_fstr, XParser::Function, -1 );
+				break;
+		}
+	}
+	
+	Ufkt ufkt( type );
+	ufkt.setFstr( tmp_fstr );
 
 	ufkt.f0.visible = n.attribute( "visible" ).toInt();
 	ufkt.f0.color = QColor( n.attribute( "color" ) );
@@ -464,23 +515,10 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool all
 	  ufkt.usecustomxmax = false;
 	}
 	
-	ufkt.fstr = n.namedItem( "equation" ).toElement().text();
-	if ( allowRename && !ufkt.fstr.isEmpty() )
-	{
-		QChar prefix = ufkt.fstr[0];
-		if ( prefix == 'r' )
-			m_parser->fixFunctionName( ufkt.fstr, XParser::Polar, -1 );
-		else if ( prefix == 'x' )
-			m_parser->fixFunctionName( ufkt.fstr, XParser::ParametricX, -1 );
-		else if ( prefix == 'y' )
-			m_parser->fixFunctionName( ufkt.fstr, XParser::ParametricY, -1 );
-		else
-			m_parser->fixFunctionName( ufkt.fstr, XParser::Function, -1 );
-	}
 	
 	parseParameters( m_parser, n, ufkt );
 
-	QString fstr = ufkt.fstr;
+	QString fstr = ufkt.fstr();
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.indexOf( ';' );
@@ -489,7 +527,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n, bool all
 			str = fstr;
 		else
 			str = fstr.left( i );
-		int id = m_parser->addfkt( str );
+		int id = m_parser->addfkt( str, type );
 		Ufkt * added_function = m_parser->m_ufkt[id];
 		added_function->copyFrom( ufkt );
 	}
@@ -508,7 +546,35 @@ void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &u
 void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 {
 	kDebug() << "parsing old function" << endl;
-	Ufkt ufkt;
+	
+	QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
+	if ( tmp_fstr.isEmpty() )
+	{
+		kWarning() << k_funcinfo << "tmp_fstr is empty!\n";
+		return;
+	}
+	
+	Ufkt::Type type;
+	switch ( tmp_fstr[0].unicode() )
+	{
+		case 'r':
+			type = Ufkt::Polar;
+			break;
+			
+		case 'x':
+			type = Ufkt::ParametricX;
+			break;
+			
+		case 'y':
+			type = Ufkt::ParametricY;
+			break;
+			
+		default:
+			type = Ufkt::Cartesian;
+			break;
+	}
+	
+	Ufkt ufkt( type );
 	
 	ufkt.f0.visible = n.attribute( "visible" ).toInt();
 	ufkt.f1.visible = n.attribute( "visible-deriv" ).toInt();
@@ -540,21 +606,20 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	  ufkt.usecustomxmax = false;
 	}
 	
-	const QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
 	const int pos = tmp_fstr.indexOf(';');
 	if ( pos == -1 )
-	  ufkt.fstr = tmp_fstr;
+		ufkt.setFstr( tmp_fstr );
 	else
 	{
-	  ufkt.fstr = tmp_fstr.left(pos);
-	  if ( !m_parser->getext( &ufkt, tmp_fstr) )
-	  {
-	    KMessageBox::sorry(0,i18n("The function %1 could not be loaded").arg(ufkt.fstr));
+		ufkt.setFstr( tmp_fstr.left(pos) );
+		if ( !m_parser->getext( &ufkt, tmp_fstr) )
+		{
+			KMessageBox::sorry(0,i18n("The function %1 could not be loaded").arg(ufkt.fstr()));
 	    return;
 	  }
 	}
 
-	QString fstr = ufkt.fstr;
+	QString fstr = ufkt.fstr();
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.indexOf( ';' );
@@ -563,7 +628,7 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		int id = m_parser->addfkt( str );
+		int id = m_parser->addfkt( str, type );
 		Ufkt *added_function = m_parser->m_ufkt[id];
 		added_function->copyFrom( ufkt );
 	}

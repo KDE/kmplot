@@ -3,6 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter M�ler
 *               2000, 2002 kd.moeller@t-online.de
+*                     2006 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -95,9 +96,8 @@ Parser::Parser()
 	m_nextFunctionID = 0;
 	m_constants = new Constants( this );
 	
-	m_ownFunction = new Ufkt;
-	m_ownFunction->id =  int(1e7); // a nice large ID that'll never get used
-	m_ownFunction->mem = new unsigned char [MEMSIZE];
+	m_ownFunction = new Ufkt( Ufkt::Cartesian );
+	m_ownFunction->id = int(1e7); // a nice large ID that'll never get used
 	
 	current_item = m_ownFunction;
 }
@@ -281,93 +281,40 @@ double Parser::fkt(Ufkt *it, double const x)
         }
 }
 
-int Parser::addfkt(QString str)
+
+int Parser::addfkt( QString str, Ufkt::Type type )
 {
+// 	kDebug() << k_funcinfo << "str="<<str<<endl;
 	QString const extstr = str;
-	stkptr=stack=0;
-	err = ParseSuccess;
-	errpos=1;
-	const int p1=str.indexOf('(');
-	int p2=str.indexOf(',');
-	const int p3=str.indexOf(")=");
-	fix_expression(str,p1+4);
-        
-	if(p1==-1 || p3==-1 || p1>p3)
-	{
-		err = InvalidFunctionVariable;
-		return -1;
-	}
-	if ( p3+2 == str.length()) //empty function
-	{
-		err = EmptyFunction;
-		return -1;
-	}
-	if(p2==-1 || p2>p3) p2=p3;
 	
-	if( fnameToId(str.left(p1))!=-1 )
+	Ufkt * temp = new Ufkt( type );
+	if ( !temp->setFstr( str ) )
 	{
+		kDebug() << "could not set fstr!\n";
+		delete temp;
+		return -1;
+	}
+	
+	if ( fnameToId( temp->fname() ) != -1 )
+	{
+		kDebug() << "function name reused.\n";
 		err = FunctionNameReused;
+		delete temp;
 		return -1;
 	}
-	else
-		err = ParseSuccess;
 	
-	if (str.mid(p1+1, p2-p1-1) == "e")
-	{
-		err = InvalidFunctionVariable;
-		return -1;
-	}
-        
-	Ufkt * temp = new Ufkt;
 	temp->id = getNewId();
-	temp->mem=new unsigned char [MEMSIZE];
 	m_ufkt[ temp->id ] = temp;
 	
-	QString const fname = str.left(p1);
-	temp->fstr=extstr;
-        temp->mptr = 0;
-        temp->fname=fname;
-		temp->fvar=str.mid(p1+1, p2-p1-1);
-		if(p2<p3) temp->fpar=str.mid(p2+1, p3-p2-1);
-        else temp->fpar="";      //.resize(1);
-        
-//         kDebug() << "temp.id:" << temp->id << endl;
-        
-	if ( temp->fname != temp->fname.toLower() ) //isn't allowed to contain capital letters
-	{
-		delfkt(temp);
-		err = CapitalInFunctionName;
-		return -1;
-	}
-        current_item = temp;
-	mem=mptr=temp->mem;
-	m_eval = str;
-	m_evalPos = p3 + 2;
-	heir1();
-	if ( !evalRemaining().isEmpty() && err==ParseSuccess)
-		err = SyntaxError;
-	addtoken(ENDE);
-	if ( err != ParseSuccess )
-	{
-		errpos = m_evalPos + 1;
-		delfkt(temp);
-		return -1;
-	}
-	errpos=0;
-	
 	emit functionAdded( temp->id );
+// 	kDebug() << "all ok\n";
 	return temp->id; //return the unique ID-number for the function
 }
 
-void Parser::reparse(int id)
-{
-	reparse( m_ufkt[id] );
-}
 
-void Parser::reparse(Ufkt *item)
+bool Parser::isFstrValid( QString str )
 {
-// 	kDebug() << "Reparsing: " << item->fstr << endl;
-	QString str = item->fstr;
+	stkptr = stack = 0;
 	err = ParseSuccess;
 	errpos=1;
 
@@ -380,44 +327,53 @@ void Parser::reparse(Ufkt *item)
 	if(p1==-1 || p3==-1 || p1>p3)
 	{
 		err = InvalidFunctionVariable;
-		return;
+		return false;
 	}
 	if ( p3+2 == str.length()) //empty function
 	{
 		err = EmptyFunction;
-		return;
+		return false;
 	}
-	if(p2==-1 || p2>p3) p2=p3;
+	if(p2==-1 || p2>p3)
+		p2=p3;
 	
 	if (str.mid(p1+1, p2-p1-1) == "e")
 	{
 		err = InvalidFunctionVariable;
-		return;
+		return false;
 	}
 	
-	item->fname=str.left(p1);
-	item->fvar=str.mid(p1+1, p2-p1-1);
-	if(p2<p3) item->fpar=str.mid(p2+1, p3-p2-1);
-	else item->fpar="";
+	QString fname = str.left(p1);
 	
-	if ( item->fname != item->fname.toLower() ) //isn't allowed to contain capital letters
+	if ( fname != fname.toLower() ) //isn't allowed to contain capital letters
 	{
 		err = CapitalInFunctionName;
-		return;
+		return false;
 	}
 	
-	//ixa=ix;
-        current_item = item;
-	mem=mptr=item->mem;
+	current_item = m_ownFunction;
+	current_item->setFstr( str, true );
+	(double) eval( str.mid( p3+2 ) );
+	return (err == ParseSuccess);
+}
+
+
+void Parser::initFunction( Ufkt * function )
+{
+	err = ParseSuccess;
+	current_item = function;
+	mem = mptr = function->mem;
 	
-	m_eval = str;
-	m_evalPos = p3 + 2;
+	m_eval = function->fstr();
+	fix_expression( m_eval, m_eval.indexOf('(')+4 );
+	m_evalPos = m_eval.indexOf( '=' ) + 1;
 	heir1();
 	if ( !evalRemaining().isEmpty() && err == ParseSuccess )
-		err=SyntaxError;		// Syntaxfehler
+		err = SyntaxError;		// Syntaxfehler
 	addtoken(ENDE);
-	errpos=0;
+	errpos = 0;
 }
+
 
 void Parser::fix_expression(QString &str, int const pos)
 {
@@ -460,7 +416,7 @@ void Parser::fix_expression(QString &str, int const pos)
 				{
 					for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
 					{
-						if ( it->fname == str.mid(j,i-j+1) )
+						if ( it->fname() == str.mid(j,i-j+1) )
 							function = true;
 					}
 				}
@@ -513,20 +469,20 @@ bool Parser::delfkt( Ufkt * item )
 	uint const id = item->id;
 	
 	//kDebug() << "Deleting something" << endl;
-	QChar const extstr_c = item->fstr.at(0);
+	Ufkt::Type type = item->type();
 	m_ufkt.remove(id);
 	if ( item == current_item )
 		current_item = m_ownFunction;
 	delete item;
 	
-	if ( extstr_c == 'x')
+	if ( type == Ufkt::ParametricX )
 	{
-		if ( m_ufkt.contains(id+1) && m_ufkt[id+1]->fstr[0] == 'y' )
+		if ( m_ufkt.contains(id+1) && m_ufkt[id+1]->type() == Ufkt::ParametricY )
 			delfkt( m_ufkt[id+1] );
 	}
-	else if ( extstr_c == 'y')
+	else if ( type == Ufkt::ParametricY )
 	{
-		if ( m_ufkt.contains(id-1) && m_ufkt[id-1]->fstr[0] == 'x' )
+		if ( m_ufkt.contains(id-1) && m_ufkt[id-1]->type() == Ufkt::ParametricX )
 			delfkt( m_ufkt[id-1] );
 	}
 	
@@ -679,7 +635,7 @@ void Parser::primary()
 		if ( evalRemaining() == "pi" || evalRemaining() == "e" )
 			continue;
 
-		if( match(it->fname.toLatin1().data()) )
+		if ( match(it->fname()) )
 		{
                         if (it == current_item)
                         {
@@ -726,7 +682,7 @@ void Parser::primary()
 		return;
 	}
 	//if(match(ufkt[ixa].fvar.latin1()))
-	if(match(current_item->fvar))
+	if(match(current_item->fvar()))
 	{
                 addtoken(XWERT);
 		return;
@@ -739,7 +695,7 @@ void Parser::primary()
 	}
 	
 	//if(match(ufkt[ixa].fpar.latin1()))
-	if(match(current_item->fpar))
+	if(match(current_item->fpar()))
 	{
                 addtoken(KWERT);
 		return;
@@ -905,8 +861,8 @@ int Parser::fnameToId(const QString &name)
 {
 	foreach ( Ufkt * it, m_ufkt )
 	{
-                if(name==it->fname)
-                        return it->id;
+		if ( name == it->fname() )
+			return it->id;
 	}
 	return -1;     // Name nicht bekannt
 }
@@ -1300,7 +1256,7 @@ void Constants::save()
 		tmp.setNum(i);
 		conf.writeEntry("nameConstant"+tmp, QString( c.constant ) ) ;
 		conf.writeEntry("valueConstant"+tmp, c.value);
-		kDebug() << "wrote constant="<<c.constant<<" value="<<c.value<<endl;
+// 		kDebug() << "wrote constant="<<c.constant<<" value="<<c.value<<endl;
 		
 		i++;
 	}

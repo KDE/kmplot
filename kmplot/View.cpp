@@ -111,7 +111,7 @@ View::View(bool const r, bool &mo, KMenu *p, QWidget* parent, KActionCollection 
 	
 	m_mousePressTimer = new QTime();
 	
-	m_parser = new XParser(mo);
+	m_parser = XParser::self( & mo );
 	init();
 	getSettings();
 	
@@ -249,8 +249,7 @@ void View::draw(QPaintDevice *dev, int form)
 		if ( stop_calculating )
 			break;
 		
-		if ( !ufkt->fname.isEmpty() )
-			plotfkt(ufkt, &DC);
+		plotfkt(ufkt, &DC);
 	}
 	DC.setClipping( false );
 
@@ -264,17 +263,16 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 {
 	int k, ke, mflg;
 
-	QChar const fktmode=ufkt->fstr[0];
-	if ( fktmode == 'y' )
+	if ( ufkt->type() == Ufkt::ParametricY )
 		return;
-	bool isCartesian = (fktmode != 'x') && (fktmode != 'r');
+	bool isCartesian = ufkt->type() == Ufkt::Cartesian;
 	
 	double dmin = ufkt->dmin;
 	if(!ufkt->usecustomxmin)
 	{
-		if(fktmode=='r')
+		if ( ufkt->type() == Ufkt::Polar )
 			dmin=0.;
-		else if ( (fktmode == 'x') || (fktmode == 'y') )
+		else if ( (ufkt->type() == Ufkt::ParametricX) || (ufkt->type() == Ufkt::ParametricY) )
 			dmin = -M_PI;
 		else
 			dmin = xmin;
@@ -285,9 +283,9 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	double dmax = ufkt->dmax;
 	if(!ufkt->usecustomxmax)
 	{
-		if(fktmode=='r')
+		if ( ufkt->type() == Ufkt::Polar )
 			dmax = 2*M_PI;
-		else if ( (fktmode == 'x') || (fktmode == 'y') )
+		else if ( (ufkt->type() == Ufkt::ParametricX) || (ufkt->type() == Ufkt::ParametricY) )
 			dmax = M_PI;
 		else
 			dmax = xmax;
@@ -296,7 +294,7 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 		dmax = xmax;
 	
 	double dx;
-	if(fktmode=='r')
+	if ( ufkt->type() == Ufkt::Polar )
 	{
 		if ( Settings::useRelativeStepWidth() )
 			dx=stepWidth*0.05/(dmax-dmin);
@@ -311,9 +309,13 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 			dx=stepWidth;
 	}
 	assert( dx != 0.0 );
+	
+	// Increase speed while translating the view
+	if ( m_zoomMode == Translating )
+		dx *= 4.0;
 
 	int iy = -1;
-	if(fktmode=='x')
+	if ( ufkt->type() == Ufkt::ParametricX )
 		iy = ufkt->id+1;
 	
 	Ufkt::PMode p_mode = Ufkt::Function;
@@ -397,12 +399,12 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 						}
 					}
 
-					if(fktmode=='r')
+					if ( ufkt->type() == Ufkt::Polar )
 					{
 						p2.setX(dgr.TransxToPixel( y*cos(x), false ));
 						p2.setY(dgr.TransyToPixel( y*sin(x), false ));
 					}
-					else if(fktmode=='x')
+					else if ( ufkt->type() == Ufkt::ParametricX )
 					{
 						p2.setX(dgr.TransxToPixel( y, false ));
 						p2.setY(dgr.TransyToPixel( m_parser->fkt(iy, x), false ));
@@ -590,7 +592,7 @@ void View::drawHeaderTable(QPainter *pDC)
 		{
 			if ( stop_calculating )
 				break;
-			pDC->drawText(100, ypos, it->fstr);
+			pDC->drawText(100, ypos, it->fstr());
 			ypos+=60;
 		}
 		pDC->translate(-60., ypos+100.);
@@ -774,9 +776,7 @@ bool View::csxposValid( Ufkt * plot ) const
 		return false;
 	
 	// only relevant for cartesian plots - assume true for none
-	if ( plot->fstr.startsWith('r') ||
-			plot->fstr.startsWith('x') ||
-			plot->fstr.startsWith('y') )
+	if ( plot->type() != Ufkt::Cartesian )
 		return true;
 	
 	bool lowerOk = ((!plot->usecustomxmin) || (plot->usecustomxmin && csxpos>plot->dmin));
@@ -814,30 +814,29 @@ void View::mousePressEvent(QMouseEvent *e)
 		{
 			QString popupTitle;
 			
-			QChar function_type = function->fstr[0].latin1();
-			if ( function_type == 'x' )
+			if ( function->type() == Ufkt::ParametricX )
 			{
 				// parametric function
 				Ufkt * ufkt_y = m_parser->functionWithID( csmode+1 );
 				assert( ufkt_y );
-				popupTitle = function->fstr + ";" + ufkt_y->fstr;
+				popupTitle = function->fstr() + ";" + ufkt_y->fstr();
 			}
 			else switch ( cstype )
 			{
 				case Ufkt::Function:
-					popupTitle = function->fstr;
+					popupTitle = function->fstr();
 					break;
 					
 				case Ufkt::Derivative1:
-					popupTitle = function->fstr.left( function->fstr.indexOf('(') ) + '\'';
+					popupTitle = function->fname() + "\'";
 					break;
 					
 				case Ufkt::Derivative2:
-					popupTitle = function->fstr.left( function->fstr.indexOf('(') ) + "\'\'";
+					popupTitle = function->fname() + "\'\'";
 					break;
 					
 				case Ufkt::Integral:
-					popupTitle = function->fstr.left( function->fstr.indexOf('(') ).toUpper();
+					popupTitle = function->fname().toUpper();
 					break;
 			}
 			
@@ -868,13 +867,11 @@ void View::mousePressEvent(QMouseEvent *e)
 	Ufkt * function = m_parser->functionWithID( csmode );
 	if ( function )
 	{
-		QChar function_type = function->fstr[0].latin1();
-		
-		if ( function_type == 'x' )
+		if ( function->type() == Ufkt::ParametricX )
 		{
 			// parametric plot
 			m_minmax->selectItem();
-			setStatusBar(function->fstr,4);
+			setStatusBar(function->fstr(),4);
 			
 			// csxpos, csypos would have been set by getPlotUnderMouse()
 			QPointF ptd( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
@@ -883,11 +880,11 @@ void View::mousePressEvent(QMouseEvent *e)
 			return;
 		}
 		
-		else if ( function_type == 'r' )
+		else if ( function->type() == Ufkt::Polar )
 		{
 			// polar plot
 			m_minmax->selectItem();
-			setStatusBar(function->fstr,4);
+			setStatusBar(function->fstr(),4);
 			
 			// csxpos, csypos would have been set by getPlotUnderMouse()
 			QPointF ptd( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
@@ -905,7 +902,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				case Ufkt::Function:
 				{
 					m_minmax->selectItem();
-					setStatusBar(function->fstr,4);
+					setStatusBar(function->fstr(),4);
 					mouseMoveEvent(e);
 					return;
 				}
@@ -913,9 +910,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				case Ufkt::Derivative1:
 				{
 					m_minmax->selectItem();
-					QString fstr = function->fstr;
-					fstr = fstr.left(fstr.indexOf('(')) + '\'';
-					setStatusBar(fstr,4);
+					setStatusBar( function->fname() + "\'", 4 );
 					mouseMoveEvent(e);
 					return;
 				}
@@ -923,9 +918,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				case Ufkt::Derivative2:
 				{
 					m_minmax->selectItem();
-					QString fstr = function->fstr;
-					fstr = fstr.left(fstr.indexOf('(')) + "\'\'";
-					setStatusBar(fstr,4);
+					setStatusBar( function->fname() + "\'\'", 4 );
 					mouseMoveEvent(e);
 					return;
 				}
@@ -957,8 +950,7 @@ void View::getPlotUnderMouse()
 	
 	foreach ( Ufkt * it, m_parser->m_ufkt )
 	{
-		QChar function_type = it->fstr[0];
-		if ( function_type=='y' || it->fname.isEmpty())
+		if ( it->type() == Ufkt::ParametricY )
 			continue;
 		if ( !csxposValid( it ) )
 			continue;
@@ -978,7 +970,7 @@ void View::getPlotUnderMouse()
 					it->setParameter(  m_sliderWindow->value( it->use_slider ) );
 			}
 
-			if ( function_type=='x' && it->fstr.contains('t')==1 )
+			if ( it->type() == Ufkt::ParametricX )
 			{
 				if ( !it->f0.visible )
 					continue;
@@ -1001,7 +993,7 @@ void View::getPlotUnderMouse()
 					return;
 				}
 			}
-			else if ( function_type == 'r' )
+			else if ( it->type() == Ufkt::Polar )
 			{
 				if ( !it->f0.visible )
 					continue;
@@ -1204,9 +1196,7 @@ bool View::updateCrosshairPosition()
 				it->setParameter( m_sliderWindow->value( it->use_slider ) );
 		}
 		
-		QChar function_type = it->fstr[0];
-		
-		if ( function_type == 'x' )
+		if ( it->type() == Ufkt::ParametricX )
 		{
 			// parametric plot
 			
@@ -1253,7 +1243,7 @@ bool View::updateCrosshairPosition()
 			QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
 			QCursor::setPos( globalPos );
 		}
-		else if ( function_type == 'r' )
+		else if ( it->type() == Ufkt::Polar )
 		{
 			// polar plot
 			
@@ -1967,11 +1957,11 @@ void View::keyPressEvent( QKeyEvent * e )
 					break;
 				}
 				kDebug() << "csmode: " << csmode << endl;
-				switch((*it)->fstr[0].latin1())
+				switch ( (*it)->type() )
 				{
-				case 'x':
-				case 'y':
-				case 'r':
+				case Ufkt::ParametricX:
+				case Ufkt::ParametricY:
+				case Ufkt::Polar:
 					break;
 				default:
 				{
@@ -2029,22 +2019,18 @@ void View::keyPressEvent( QKeyEvent * e )
 		switch (cstype )
 		{
 			case Ufkt::Function:
-				setStatusBar((*it)->fstr,4);
+				setStatusBar( (*it)->fstr(), 4 );
 				break;
 				
 			case Ufkt::Derivative1:
 			{
-				QString function = (*it)->fstr;
-				function = function.left(function.indexOf('(')) + '\'';
-				setStatusBar(function,4);
+				setStatusBar( (*it)->fname() + "\'", 4 );
 				break;
 			}
 			
 			case Ufkt::Derivative2:
 			{
-				QString function = (*it)->fstr;
-				function = function.left(function.indexOf('(')) + "\'\'";
-				setStatusBar(function,4);
+				setStatusBar( (*it)->fname() + "\'\'", 4 );
 				break;
 			}
 			
@@ -2312,7 +2298,6 @@ void View::updateSliders()
 // 	for(QVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
 	foreach ( Ufkt * it, m_parser->m_ufkt )
 	{
-		if (it->fname.isEmpty() ) continue;
 		if( it->use_slider > -1  &&  (it->f0.visible || it->f1.visible || it->f2.visible || it->integral.visible))
 		{
 			if ( !m_sliderWindow )
@@ -2375,7 +2360,7 @@ void View::mnuRemove_clicked()
       return;
 
 	Ufkt *ufkt =  m_parser->m_ufkt[ csmode ];
-	QChar const function_type = ufkt->fstr[0];
+	Ufkt::Type function_type = ufkt->type();
 	if (!m_parser->delfkt( ufkt ))
 		return;
 
@@ -2388,7 +2373,7 @@ void View::mnuRemove_clicked()
 	}
 		
 	drawPlot();
-	if ( function_type != 'x' &&  function_type != 'y' && function_type != 'r' )
+	if ( function_type == Ufkt::Cartesian )
 		updateSliders();
 	m_modified = true;
 }

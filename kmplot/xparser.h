@@ -44,7 +44,8 @@
 class XParser : public Parser
 {
 public:
-	XParser(bool &);
+	static XParser * self( bool * modified = 0 );
+	
 	~XParser();
 	/// Evaluates the 1st dreivative of the function with intex \a ix
 	double a1fkt( Ufkt *u_item , double, double h = 1e-3 );
@@ -56,7 +57,7 @@ public:
 	/// Line width default
 	QColor defaultColor(int function);
 	
-	virtual int addfkt(QString);
+	virtual int addfkt( QString, Ufkt::Type type );
 	
 	enum { Function, Polar, ParametricX, ParametricY }; ///types of functions
 	///Returns an unused function name if it is needed
@@ -133,7 +134,12 @@ private:
 	/// finds a free function name 
 	void findFunctionName(QString &, int const, int const);
 	/// indicates if the widget is changed
-	bool &m_modified;
+	bool & m_modified;
+	
+	
+private:
+	XParser( bool & modified );
+	static XParser * m_self;
 };
 
 #endif //xparser_included

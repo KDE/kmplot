@@ -118,7 +118,7 @@ class Constant
 
 
 /**
- * @short Mangages a list of constants.
+ * @short Manages a list of constants.
  */
 class Constants
 {
@@ -178,7 +178,6 @@ public:
 		UserDefinedConstantInExpression = 14, ///< evalation expression may not use user definded constants
 	};
 	
-	Parser();
 	~Parser();
 	
 	/**
@@ -195,7 +194,7 @@ public:
 	/// Evaluates the given expression.
 	double eval(QString);
 	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
-	virtual int addfkt(QString);
+	virtual int addfkt( QString, Ufkt::Type type );
 	/// Removes the function with the given id.
 	bool delfkt(uint id);
 	bool delfkt( Ufkt *item);
@@ -212,9 +211,15 @@ public:
 	/// sets the decimal symbol
 	void setDecimalSymbol(const QString );
 	
-	/// reparse the function. It also do a grammer check for the expression
-	void reparse(int id);
-	void reparse(Ufkt *item);
+	/**
+	 * Checks to see if the function string is valid.
+	 */
+	bool isFstrValid( QString str );
+	/**
+	 * Initializes the function for evaluation. Called after the functions
+	 * fstr is set.
+	 */
+	void initFunction( Ufkt * function );
 	
 	uint getNewId(); /// Returns the next ID-number
 	uint countFunctions(); /// Returns how many functions there are
@@ -277,6 +282,10 @@ private:
 	static double  m_anglemode;
 	QString m_decimalsymbol;
 	Constants * m_constants;
+	
+private:
+	friend class XParser;
+	Parser();
 };
 
 #endif	// parser_included

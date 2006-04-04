@@ -1297,83 +1297,67 @@ bool View::updateCrosshairPosition()
 				it->setParameter( m_sliderWindow->value( it->use_slider ) );
 		}
 		
-		if ( it->type() == Function::Parametric )
+		if ( (it->type() == Function::Parametric) ||
+					(it->type() == Function::Polar) )
 		{
-			// parametric plot
 			
 			// Should we increase or decrease t to get closer to the mouse?
-			double dt[2] = { -0.00001, +0.00001 };
-			double d[] = { 0.0, 0.0 };
-			for ( int i = 0; i < 2; ++ i )
-				d[i] = pixelDistance( csxpos, csypos, it, Function::Derivative0, m_trace_x + dt[i] );
-			
-			unsigned best_i = (d[0] < d[1]) ? 0 : 1;
-			
-			// how much t gets us the closest?
-			double prev_best = d[best_i];
-			m_trace_x += 2.0 * dt[best_i];
-			while ( true )
-			{	
-				double new_distance = pixelDistance( csxpos, csypos, it, Function::Derivative0, m_trace_x + dt[best_i] );
-				if ( new_distance < prev_best )
-				{
-					prev_best = new_distance;
-					m_trace_x += dt[best_i];
-				}
-				else
-					break;
-			}
-			
-			double min = it->usecustomxmin ? it->dmin.value() : -M_PI;
-			double max = it->usecustomxmax ? it->dmax.value() : M_PI;
-// 			kDebug() << "m_trace_x="<<m_trace_x<<" max="<<max<<endl;
-			if ( m_trace_x > max )
-			{
-// 				kDebug() << "bigger\n";
-				m_trace_x  = max;
-			}
-			else if ( m_trace_x < min )
-				m_trace_x = min;
-			
-			csxpos = m_parser->fkt( it->eq[0], m_trace_x );
-			csypos = m_parser->fkt( it->eq[1], m_trace_x );
-		}
-		else if ( it->type() == Function::Polar )
-		{
-			// polar plot
-			
-			// Should we increase or decrease x to get closer to the mouse?
 			double dx[2] = { -0.00001, +0.00001 };
 			double d[] = { 0.0, 0.0 };
 			for ( int i = 0; i < 2; ++ i )
 				d[i] = pixelDistance( csxpos, csypos, it, Function::Derivative0, m_trace_x + dx[i] );
 			
-			unsigned best_i = (d[0] < d[1]) ? 0 : 1;
+			double prev_best = pixelDistance( csxpos, csypos, it, Function::Derivative0, m_trace_x );
+			double current_dx = dx[(d[0] < d[1]) ? 0 : 1]*1e3;
 			
-			// how much x gets us the closest?
-			double prev_best = d[best_i];
-			m_trace_x += 2.0 * dx[best_i];
 			while ( true )
 			{	
-				double new_distance = pixelDistance( csxpos, csypos, it, Function::Derivative0, m_trace_x + dx[best_i] );
+				double new_distance = pixelDistance( csxpos, csypos, it, Function::Derivative0, m_trace_x + current_dx );
 				if ( new_distance < prev_best )
 				{
 					prev_best = new_distance;
-					m_trace_x += dx[best_i];
+					m_trace_x += current_dx;
 				}
 				else
-					break;
+				{
+					if ( current_dx > 9e-6 )
+						current_dx *= 0.1;
+					else
+						break;
+				}
 			}
 			
-			double min = it->usecustomxmin ? it->dmin.value() : 0.0;
-			double max = it->usecustomxmax ? it->dmax.value() : 2.0*M_PI;
+			double min, max;
+			
+			if ( it->type() == Function::Parametric )
+			{
+				min = it->usecustomxmin ? it->dmin.value() : -M_PI;
+				max = it->usecustomxmax ? it->dmax.value() : M_PI;
+			}
+			else
+			{
+				// polar
+				min = it->usecustomxmin ? it->dmin.value() : 0.0;
+				max = it->usecustomxmax ? it->dmax.value() : 2.0*M_PI;
+			}
+			
 			if ( m_trace_x > max )
 				m_trace_x  = max;
+			
 			else if ( m_trace_x < min )
 				m_trace_x = min;
 			
-			csxpos = m_parser->fkt( it->eq[0], m_trace_x ) * cos(m_trace_x);
-			csypos = m_parser->fkt( it->eq[0], m_trace_x ) * sin(m_trace_x);
+			if ( it->type() == Function::Parametric )
+			{
+				csxpos = m_parser->fkt( it->eq[0], m_trace_x );
+				csypos = m_parser->fkt( it->eq[1], m_trace_x );
+			}
+			else
+			{
+				// polar
+				csxpos = m_parser->fkt( it->eq[0], m_trace_x ) * cos(m_trace_x);
+				csypos = m_parser->fkt( it->eq[0], m_trace_x ) * sin(m_trace_x);
+			}
 		}
 		else
 		{

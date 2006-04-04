@@ -60,6 +60,7 @@ int main( int argc, char **argv )
 	    "(c) 2000-2002, Klaus-Dieter Möller",
 	    0,
 	    "http://edu.kde.org/kmplot/" );
+	
 	aboutData.addAuthor(
 	    "Klaus-Dieter Möller", I18N_NOOP( "Original Author" ) ,
 	    "kdmoeller@foni.net" );
@@ -67,6 +68,8 @@ int main( int argc, char **argv )
 	    "Matthias Meßmer", I18N_NOOP( "GUI" ) ,
 	    "bmlmessmer@web.de" );
 	aboutData.addAuthor( "Fredrik Edemar", I18N_NOOP( "Various improvements" ), "f_edemar@linux.se" );
+	aboutData.addAuthor( "David Saxton", I18N_NOOP( "Porting to Qt 4, UI improvements, features" ), "david@bluehaze.org" );
+	
 	aboutData.addCredit( "David Vignoni", I18N_NOOP( "svg icon" ), "david80v@tin.it" );
 	aboutData.addCredit( "Albert Astals Cid", I18N_NOOP( "command line options, MIME type" ), "tsdgeos@terra.es" );
 

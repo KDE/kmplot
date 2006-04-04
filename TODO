@@ -1,16 +1,18 @@
-Last modified: 2005-03-24
+Last modified: 2006-04-04
 
 TODO
 =========================
-* Find bugs
-* More functions?
+* More functions - ideas (maybe not all appropriate):
+	* bessel functions
+	* legendre polynomials
+	* hermite polynomials
+	* gamma function
+	* rounding; floor, ceil (rounding down and up to nearest integer)
 * In tool menu:
 	* find "nollställen" ( en: where the function's value is 0) 
 	* get slope for a x-point
 	* Value table
-* Fix the unpolished lines?
 * #52887, need to calculate with complex numbers.
-* Popupmenu and tracemode for parametric- and polar functions
 * Draw tangents in trace mode (pipesmoker)
 * Printing (pipesmoker)
       - different paper sizes
@@ -25,6 +27,8 @@ IN PROGRESS
 DONE
 =========================
 
+* Fix the unpolished lines?
+* Popupmenu and tracemode for parametric- and polar functions
 * Function edit Dialog
       - Apply button for edit of more than one function in one go
 * Printing

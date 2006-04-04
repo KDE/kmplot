@@ -650,7 +650,7 @@ bool View::root(double *x0, Equation *it)
 	
 	int k = 0; // iteration count
 	int max_k = 100; // maximum number of iterations
-	double max_y = 1e-9; // the largest value of y which is deemed a root found
+	double max_y = 1e-14; // the largest value of y which is deemed a root found
 	
 	*x0 = csxpos;
 	double y = csypos;
@@ -665,7 +665,10 @@ bool View::root(double *x0, Equation *it)
 	}
 	while ( (k++<max_k) && tooBig );
 	
-	return ! tooBig;
+	// We continue calculating until |y| < max_y; this may result in k reaching
+	// max_k. However, if |y| is reasonably small (even if reaching max_k),
+	// we consider it a root.
+	return ( qAbs(y) < max_y * 1e4 );
 }
 
 void View::paintEvent(QPaintEvent *)
@@ -1096,6 +1099,25 @@ double View::pixelDistance( double real_x, double real_y, Function * function, d
 }
 
 
+QString View::posToString( double x, double delta ) const
+{
+	assert( delta != 0.0 );
+	
+	int decimalPlaces = 1-int(log(delta)/log(10.0));
+	
+	QString number;
+	if ( decimalPlaces >= 0 )
+		number = QString::number( x, 'f', decimalPlaces );
+	else
+		number = QString::number( x/(pow(10.0,decimalPlaces)), 'f', 0 ) + QString( -decimalPlaces, '0' );
+	
+	if ( x > 0.0 )
+		number.prepend('+');
+	
+	return number;
+}
+
+
 void View::mouseMoveEvent(QMouseEvent *e)
 {
 	if ( isDrawing )
@@ -1109,17 +1131,8 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	
 	if ( inBounds )
 	{
-// 		sx.sprintf( "  x= %+.2f", csxpos );
-// 		sy.sprintf( "  y= %+.2f", csypos );
-		if ( qAbs(csxpos) > 1e4 )
-			sx = QString( "x = %1" ).arg( csxpos, 0, 'f', 0 );
-		else
-			sx = QString( "x = %1" ).arg( csxpos, 0, 'g', 3 );
-		
-		if ( qAbs(csypos) > 1e4 )
-			sy = QString( "y = %1" ).arg( csypos, 0, 'f', 0 );
-		else
-			sy = QString( "y = %1" ).arg( csypos, 0, 'g', 3 );
+		sx = "x = " + posToString( csxpos, (xmax-xmin)/1e3 );
+		sy = "y = " + posToString( csypos, (ymax-ymin)/1e3 );
 	}
 	else
 		sx = sy = "";

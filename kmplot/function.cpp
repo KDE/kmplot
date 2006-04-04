@@ -64,7 +64,7 @@ bool Value::operator == ( const Value & other )
 //BEGIN class Plot
 Plot::Plot( )
 {
-	lineWidth = Settings::gridLineWidth();
+	lineWidth = 0.2;
 	color = Qt::black;
 	visible = false;
 }

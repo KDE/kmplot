@@ -300,8 +300,8 @@ void KmPlot::setStatusBarText(const QString &text, int id)
 
 void KmPlot::setupStatusBar()
 {
-	statusBar()->insertFixedItem( "123456789012", 1 );
-	statusBar()->insertFixedItem( "123456789012", 2 );
+	statusBar()->insertFixedItem( "1234567890123456", 1 );
+	statusBar()->insertFixedItem( "1234567890123456", 2 );
 	statusBar()->insertItem( "", 3, 3 );
 	statusBar()->insertItem( "", 4 );
 	statusBar()->changeItem( "", 1 );

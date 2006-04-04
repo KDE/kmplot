@@ -456,6 +456,7 @@ void FunctionEditor::createCartesian()
 
 	kDebug() << "Created cartesian, so requestion state save.\n";
 	View::self()->mainDlg()->requestSaveCurrentState();
+	View::self()->drawPlot();
 }
 
 

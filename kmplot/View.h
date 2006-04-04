@@ -214,6 +214,13 @@ private:
 	 * point of the given polar or parametric parametric function at \p x.
 	 */
 	double pixelDistance( double real_x, double real_y, Function * function, double x );
+	/**
+	 * @return a string for displaying the x or y coordinate in the statusbar.
+	 * \param delta is the amount by which the value varies over one pixel in
+	 * the view. This is for choosing an appropriate number of decimals so that
+	 * moving the cursor shows a nice change in the string.
+	 */
+	QString posToString( double x, double delta ) const;
 	
 
 	/// for areadrawing when printing

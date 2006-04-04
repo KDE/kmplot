@@ -115,3 +115,5 @@ kmplot/function.cpp
 kmplot/function.h
 kmplot/kmplot.cpp
 kmplot/kmplot.h
+kmplot/kmplotprogress.cpp
+kmplot/kmplotprogress.h

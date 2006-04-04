@@ -146,6 +146,8 @@ uint Parser::getNewId()
 
 double Parser::eval(QString str)
 {
+// 	kDebug() << k_funcinfo << "str=\""<<str<<"\"\n";
+	
 	stack=new double [STACKSIZE];
 	stkptr=stack;
 	evalflg=1;
@@ -190,15 +192,15 @@ double Parser::eval(QString str)
 }
 
 
-double Parser::fkt(uint const id, double const x)
+double Parser::fkt(uint const id, uint eq, double const x)
 {
-	if ( !m_ufkt.contains( id ) )
+	if ( !m_ufkt.contains( id ) || (eq > 2) )
 	{
 		err = NoSuchFunction;
 		return 0;
 	}
 	else
-		return fkt( m_ufkt[id]->eq, x );
+		return fkt( m_ufkt[id]->eq[eq], x );
 }
 
 double Parser::fkt( Equation * eq, double const x )
@@ -266,8 +268,9 @@ double Parser::fkt( Equation * eq, double const x )
                         {
                                 puf=(uint*)eq->mptr;
                                 uint id = *puf++;
+								uint id_eq = *puf++;
 								if ( m_ufkt.contains( id ) )
-									*stkptr=fkt( m_ufkt[id]->eq, *stkptr);
+									*stkptr=fkt( m_ufkt[id]->eq[id_eq], *stkptr);
                                 eq->mptr=(unsigned char*)puf;
                                 break;
                         }
@@ -280,32 +283,40 @@ double Parser::fkt( Equation * eq, double const x )
 }
 
 
-int Parser::addfkt( QString str, Function::Type type )
+int Parser::addfkt( QString str1, QString str2, Function::Type type )
 {
-// 	kDebug() << k_funcinfo << "str="<<str<<endl;
-	QString const extstr = str;
+	kDebug() << k_funcinfo << "str1="<<str1<<" str2="<<str2<<endl;
+	
+	QString str[2] = { str1, str2 };
 	
 	Function * temp = new Function( type );
-	if ( !temp->eq->setFstr( str ) )
-	{
-		kDebug() << "could not set fstr!\n";
-		delete temp;
-		return -1;
-	}
 	
-	if ( fnameToId( temp->eq->fname() ) != -1 )
+	for ( unsigned i = 0; i < 2; ++i )
 	{
-		kDebug() << "function name reused.\n";
-		err = FunctionNameReused;
-		delete temp;
-		return -1;
+		if ( str[i].isEmpty() || !temp->eq[i] )
+			continue;
+		
+		if ( !temp->eq[i]->setFstr( str[i] ) )
+		{
+			kDebug() << "could not set fstr!\n";
+			delete temp;
+			return -1;
+		}
+	
+		if ( fnameToId( temp->eq[i]->fname() ) != -1 )
+		{
+			kDebug() << "function name reused.\n";
+			err = FunctionNameReused;
+			delete temp;
+			return -1;
+		}
 	}
 	
 	temp->id = getNewId();
 	m_ufkt[ temp->id ] = temp;
 	
 	emit functionAdded( temp->id );
-// 	kDebug() << "all ok\n";
+	kDebug() << k_funcinfo << "all ok\n";
 	return temp->id; //return the unique ID-number for the function
 }
 
@@ -414,8 +425,11 @@ void Parser::fix_expression(QString &str, int const pos)
 				{
 					for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
 					{
-						if ( it->eq->fname() == str.mid(j,i-j+1) )
-							function = true;
+						for ( uint k=0; k<2; ++k )
+						{
+							if ( it->eq[k]->fname() == str.mid(j,i-j+1) )
+								function = true;
+						}
 					}
 				}
 			}
@@ -467,22 +481,13 @@ bool Parser::delfkt( Function * item )
 	uint const id = item->id;
 	
 	//kDebug() << "Deleting something" << endl;
-	Function::Type type = item->type();
 	m_ufkt.remove(id);
-	if ( item->eq == m_currentEquation )
-		m_currentEquation = m_ownEquation;
+	for ( unsigned i = 0; i < 2; ++i )
+	{
+		if ( item->eq[i] && (item->eq[i] == m_currentEquation) )
+			m_currentEquation = m_ownEquation;
+	}
 	delete item;
-	
-	if ( type == Function::ParametricX )
-	{
-		if ( m_ufkt.contains(id+1) && m_ufkt[id+1]->type() == Function::ParametricY )
-			delfkt( m_ufkt[id+1] );
-	}
-	else if ( type == Function::ParametricY )
-	{
-		if ( m_ufkt.contains(id-1) && m_ufkt[id-1]->type() == Function::ParametricX )
-			delfkt( m_ufkt[id-1] );
-	}
 	
 	emit functionRemoved( id );
 	return true;
@@ -633,18 +638,21 @@ void Parser::primary()
 		if ( evalRemaining() == "pi" || evalRemaining() == "e" )
 			continue;
 
-		if ( match(it->eq->fname()) )
+		for ( unsigned i = 0; i < 2; ++i )
 		{
-			if (it->eq == m_currentEquation)
+			if ( it->eq[i] && match(it->eq[i]->fname()) )
 			{
-				err=RecursiveFunctionCall;
+				if (it->eq[i] == m_currentEquation)
+				{
+					err=RecursiveFunctionCall;
+					return;
+				}
+				primary();
+				addtoken(UFKT);
+				addfptr( it->id, i );
+				it->dep.append(m_currentEquation->parent()->id);
 				return;
 			}
-			primary();
-			addtoken(UFKT);
-			addfptr( it->id );
-			it->dep.append(m_currentEquation->parent()->id);
-			return;
 		}
 	}
         
@@ -833,16 +841,17 @@ void Parser::addfptr(double(*fadr)(double))
 }
 
 
-void Parser::addfptr(uint id)
+void Parser::addfptr( uint id, uint eq_id )
 {
-        uint *p=(uint*)mptr;
-        if(evalflg==0)
+	uint *p=(uint*)mptr;
+	if(evalflg==0)
 	{
 		if(mptr>=&mem[MEMSIZE-10])
 			err=MemoryOverflow;
 		else
 		{
-                        *p++=id;
+			*p++=id;
+			*p++=eq_id;
 			mptr=(unsigned char*)p;
 		}
 	}
@@ -850,7 +859,7 @@ void Parser::addfptr(uint id)
 	{
 		Function * function = functionWithID( id );
 		if ( function )
-			*stkptr = fkt( function->eq, *stkptr );
+			*stkptr = fkt( function->eq[eq_id], *stkptr );
 	}
 }
 
@@ -859,10 +868,13 @@ int Parser::fnameToId(const QString &name)
 {
 	foreach ( Function * it, m_ufkt )
 	{
-		if ( name == it->eq->fname() )
-			return it->id;
+		for ( unsigned i = 0; i < 2; ++i )
+		{
+			if ( it->eq[i] && (name == it->eq[i]->fname()) )
+				return it->id;
+		}
 	}
-	return -1;     // Name nicht bekannt
+	return -1;     // Name not found
 }
 
 

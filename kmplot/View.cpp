@@ -244,6 +244,7 @@ void View::draw(QPaintDevice *dev, int form)
 // 		kDebug() << "##############################\n";
 	DC.setClipping( true );
 	DC.setClipRect( PlotArea );
+// 	kDebug() << "m_parser->m_ufkt.size()="<<m_parser->m_ufkt.size()<<endl;
 	foreach ( Function * ufkt, m_parser->m_ufkt )
 	{
 		if ( stop_calculating )
@@ -263,8 +264,6 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 {
 	int k, ke, mflg;
 
-	if ( ufkt->type() == Function::ParametricY )
-		return;
 	bool isCartesian = ufkt->type() == Function::Cartesian;
 	
 	double dmin = ufkt->dmin.value();
@@ -272,7 +271,7 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 	{
 		if ( ufkt->type() == Function::Polar )
 			dmin=0.;
-		else if ( (ufkt->type() == Function::ParametricX) || (ufkt->type() == Function::ParametricY) )
+		else if ( ufkt->type() == Function::Parametric )
 			dmin = -M_PI;
 		else
 			dmin = xmin;
@@ -285,7 +284,7 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 	{
 		if ( ufkt->type() == Function::Polar )
 			dmax = 2*M_PI;
-		else if ( (ufkt->type() == Function::ParametricX) || (ufkt->type() == Function::ParametricY) )
+		else if ( ufkt->type() == Function::Parametric )
 			dmax = M_PI;
 		else
 			dmax = xmax;
@@ -314,12 +313,6 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 	if ( m_zoomMode == Translating )
 		dx *= 4.0;
 
-	Equation * ufkt_y = 0;
-	if ( ufkt->type() == Function::ParametricX )
-	{
-		ufkt_y = m_parser->functionWithID( ufkt->id + 1 )->eq;
-		assert( ufkt_y );
-	}
 	
 	Function::PMode p_mode = Function::Derivative0;
 	
@@ -334,6 +327,8 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 		ke=ufkt->parameters.count();
 		do
 		{
+// 			kDebug() << "p_mode="<<p_mode<<endl;
+			
 			if ( p_mode == Function::Integral && stop_calculating)
 				break;
 			if( ufkt->use_slider == -1 )
@@ -356,9 +351,9 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 					else
 						dx =  ufkt->integral_precision;
 				startProgressBar((int)double((dmax-dmin)/dx)/2);
-				x = ufkt->eq->oldx = ufkt->startx.value(); //the initial x-point
-				ufkt->eq->oldy = ufkt->starty.value();
-				ufkt->eq->oldyprim = ufkt->integral_precision;
+				x = ufkt->eq[0]->oldx = ufkt->startx.value(); //the initial x-point
+				ufkt->eq[0]->oldy = ufkt->starty.value();
+				ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 			}
 			else
 				x=dmin;
@@ -382,17 +377,17 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 					switch(p_mode)
 					{
 						case Function::Derivative0:
-							y=m_parser->fkt( ufkt->eq, x );
+							y=m_parser->fkt( ufkt->eq[0], x );
 							break;
 						case Function::Derivative1:
-							y=m_parser->a1fkt( ufkt->eq, x );
+							y=m_parser->a1fkt( ufkt->eq[0], x );
 							break;
 						case Function::Derivative2:
-							y=m_parser->a2fkt( ufkt->eq, x );
+							y=m_parser->a2fkt( ufkt->eq[0], x );
 							break;
 						case Function::Integral:
 						{
-							y = m_parser->euler_method( x, ufkt->eq );
+							y = m_parser->euler_method( x, ufkt->eq[0] );
 							if ( int(x*100)%2==0)
 							{
 								KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -407,10 +402,10 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 						p2.setX(dgr.TransxToPixel( y*cos(x), false ));
 						p2.setY(dgr.TransyToPixel( y*sin(x), false ));
 					}
-					else if ( ufkt->type() == Function::ParametricX )
+					else if ( ufkt->type() == Function::Parametric )
 					{
 						p2.setX(dgr.TransxToPixel( y, false ));
-						p2.setY(dgr.TransyToPixel( m_parser->fkt( ufkt_y, x), false ));
+						p2.setY(dgr.TransyToPixel( m_parser->fkt( ufkt->eq[1], x), false ));
 					}
 					else
 					{
@@ -438,9 +433,9 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 							if (x>dmax && p_mode == Function::Integral )
 							{
 								forward_direction = false;
-								x = ufkt->eq->oldx = ufkt->startx.value();
-								ufkt->eq->oldy = ufkt->starty.value();
-								ufkt->eq->oldyprim = ufkt->integral_precision;
+								x = ufkt->eq[0]->oldx = ufkt->startx.value();
+								ufkt->eq[0]->oldy = ufkt->starty.value();
+								ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 // 								paintEvent(0);
 								mflg=2;
 							}
@@ -593,10 +588,21 @@ void View::drawHeaderTable(QPainter *pDC)
 // 		for(QVector<Function>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
 		foreach ( Function * it, m_parser->m_ufkt )
 		{
-			if ( stop_calculating )
-				break;
-			pDC->drawText(100, ypos, it->eq->fstr());
-			ypos+=60;
+			for ( unsigned i = 0; i < 2; ++ i )
+			{
+				if ( stop_calculating )
+					break;
+				
+				if ( !it->eq[i] )
+					continue;
+				
+				QString fstr = it->eq[i]->fstr();
+				if ( fstr.isEmpty() )
+					continue;
+				
+				pDC->drawText( 100, ypos, fstr );
+				ypos+=60;
+			}
 		}
 		pDC->translate(-60., ypos+100.);
 	}
@@ -817,29 +823,26 @@ void View::mousePressEvent(QMouseEvent *e)
 		{
 			QString popupTitle;
 			
-			if ( function->type() == Function::ParametricX )
+			if ( function->type() == Function::Parametric )
 			{
-				// parametric function
-				Function * ufkt_y = m_parser->functionWithID( csmode+1 );
-				assert( ufkt_y );
-				popupTitle = function->eq->fstr() + ";" + ufkt_y->eq->fstr();
+				popupTitle = function->eq[0]->fstr() + ";" + function->eq[1]->fstr();
 			}
 			else switch ( cstype )
 			{
 				case Function::Derivative0:
-					popupTitle = function->eq->fstr();
+					popupTitle = function->eq[0]->fstr();
 					break;
 					
 				case Function::Derivative1:
-					popupTitle = function->eq->fname() + "\'";
+					popupTitle = function->eq[0]->fname() + "\'";
 					break;
 					
 				case Function::Derivative2:
-					popupTitle = function->eq->fname() + "\'\'";
+					popupTitle = function->eq[0]->fname() + "\'\'";
 					break;
 					
 				case Function::Integral:
-					popupTitle = function->eq->fname().toUpper();
+					popupTitle = function->eq[0]->fname().toUpper();
 					break;
 			}
 			
@@ -870,11 +873,10 @@ void View::mousePressEvent(QMouseEvent *e)
 	Function * function = m_parser->functionWithID( csmode );
 	if ( function )
 	{
-		if ( function->type() == Function::ParametricX )
+		if ( function->type() == Function::Parametric )
 		{
-			// parametric plot
 			m_minmax->selectItem();
-			setStatusBar(function->eq->fstr(),4);
+			setStatusBar( function->eq[0]->fstr() + ';' + function->eq[1]->fstr(), 4 );
 			
 			// csxpos, csypos would have been set by getPlotUnderMouse()
 			QPointF ptd( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
@@ -885,9 +887,8 @@ void View::mousePressEvent(QMouseEvent *e)
 		
 		else if ( function->type() == Function::Polar )
 		{
-			// polar plot
 			m_minmax->selectItem();
-			setStatusBar(function->eq->fstr(),4);
+			setStatusBar(function->eq[0]->fstr(),4);
 			
 			// csxpos, csypos would have been set by getPlotUnderMouse()
 			QPointF ptd( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
@@ -905,7 +906,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				case Function::Derivative0:
 				{
 					m_minmax->selectItem();
-					setStatusBar(function->eq->fstr(),4);
+					setStatusBar(function->eq[0]->fstr(),4);
 					mouseMoveEvent(e);
 					return;
 				}
@@ -913,7 +914,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				case Function::Derivative1:
 				{
 					m_minmax->selectItem();
-					setStatusBar( function->eq->fname() + "\'", 4 );
+					setStatusBar( function->eq[0]->fname() + "\'", 4 );
 					mouseMoveEvent(e);
 					return;
 				}
@@ -921,7 +922,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				case Function::Derivative2:
 				{
 					m_minmax->selectItem();
-					setStatusBar( function->eq->fname() + "\'\'", 4 );
+					setStatusBar( function->eq[0]->fname() + "\'\'", 4 );
 					mouseMoveEvent(e);
 					return;
 				}
@@ -953,8 +954,6 @@ void View::getPlotUnderMouse()
 	
 	foreach ( Function * it, m_parser->m_ufkt )
 	{
-		if ( it->type() == Function::ParametricY )
-			continue;
 		if ( !csxposValid( it ) )
 			continue;
 		
@@ -973,26 +972,21 @@ void View::getPlotUnderMouse()
 					it->setParameter(  m_sliderWindow->value( it->use_slider ) );
 			}
 
-			if ( it->type() == Function::ParametricX )
+			if ( it->type() == Function::Parametric )
 			{
 				if ( !it->f0.visible )
 					continue;
 				
-				//parametric plot
+				double best_x = getClosestPoint( csxpos, csypos, it );
 				
-				Function * ufkt_y = m_parser->functionWithID( it->id + 1 );
-				assert( ufkt_y );
-				
-				double best_x = getClosestPoint( csxpos, csypos, it, ufkt_y );
-				
-				if ( pixelDistance( csxpos, csypos, it, ufkt_y, best_x ) < 30.0 )
+				if ( pixelDistance( csxpos, csypos, it, best_x ) < 30.0 )
 				{
 					csmode=it->id;
 					cstype=Function::Derivative0;
 					csparam = k;
 					m_trace_x = best_x;
-					csxpos = m_parser->fkt( it->eq, best_x );
-					csypos = m_parser->fkt( ufkt_y->eq, best_x );
+					csxpos = m_parser->fkt( it->eq[0], best_x );
+					csypos = m_parser->fkt( it->eq[1], best_x );
 					return;
 				}
 			}
@@ -1001,36 +995,34 @@ void View::getPlotUnderMouse()
 				if ( !it->f0.visible )
 					continue;
 				
-				// polar plot
+				double best_x = getClosestPoint( csxpos, csypos, it );
 				
-				double best_x = getClosestPoint( csxpos, csypos, it, 0 );
-				
-				if ( pixelDistance( csxpos, csypos, it, 0, best_x ) < 30.0 )
+				if ( pixelDistance( csxpos, csypos, it, best_x ) < 30.0 )
 				{
 					csmode=it->id;
 					cstype=Function::Derivative0;
 					csparam = k;
 					m_trace_x = best_x;
-					csxpos = m_parser->fkt( it->eq, best_x ) * cos(best_x);
-					csypos = m_parser->fkt( it->eq, best_x ) * sin(best_x);
+					csxpos = m_parser->fkt( it->eq[0], best_x ) * cos(best_x);
+					csypos = m_parser->fkt( it->eq[0], best_x ) * sin(best_x);
 					return;
 				}
 			}
-			else if( fabs(csypos-m_parser->fkt(it->eq, csxpos))< g && it->f0.visible)
+			else if( fabs(csypos-m_parser->fkt(it->eq[0], csxpos))< g && it->f0.visible)
 			{
 				csmode=it->id;
 				cstype = Function::Derivative0;
 				csparam = k;
 				return;
 			}
-			else if(fabs(csypos-m_parser->a1fkt( it->eq, csxpos))< g && it->f1.visible)
+			else if(fabs(csypos-m_parser->a1fkt( it->eq[0], csxpos))< g && it->f1.visible)
 			{
 				csmode=it->id;
 				cstype = Function::Derivative1;
 				csparam = k;
 				return;
 			}
-			else if(fabs(csypos-m_parser->a2fkt(it->eq, csxpos))< g && it->f2.visible)
+			else if(fabs(csypos-m_parser->a2fkt(it->eq[0], csxpos))< g && it->f2.visible)
 			{
 				csmode=it->id;
 				cstype = Function::Derivative2;
@@ -1043,13 +1035,13 @@ void View::getPlotUnderMouse()
 }
 
 
-double View::getClosestPoint( double real_x, double real_y, Function * function1, Function * function2 )
+double View::getClosestPoint( double real_x, double real_y, Function * function )
 {
 	// either polar or parametric function
-	bool isPolar = !function2;
+	bool isPolar = function->type() == Function::Polar;
 	
-	double minX = function1->usecustomxmin ? function1->dmin.value() : (isPolar ? 0.0 : -M_PI);
-	double maxX = function1->usecustomxmax ? function1->dmax.value() : (isPolar ? 2.0*M_PI : -M_PI);
+	double minX = function->usecustomxmin ? function->dmin.value() : (isPolar ? 0.0 : -M_PI);
+	double maxX = function->usecustomxmax ? function->dmax.value() : (isPolar ? 2.0*M_PI : -M_PI);
 	double stepSize = 0.01;
 	
 	double best_x = 0.0;
@@ -1061,7 +1053,7 @@ double View::getClosestPoint( double real_x, double real_y, Function * function1
 		double x = minX;
 		while ( x <= maxX )
 		{
-			double distance = pixelDistance( real_x, real_y, function1, function2, x );
+			double distance = pixelDistance( real_x, real_y, function, x );
 			if ( distance < best_distance )
 			{
 				best_distance = distance;
@@ -1081,21 +1073,20 @@ double View::getClosestPoint( double real_x, double real_y, Function * function1
 }
 
 
-double View::pixelDistance( double real_x, double real_y, Function * function1, Function * function2, double x )
+double View::pixelDistance( double real_x, double real_y, Function * function, double x )
 {
 	double fx, fy;
 	
-	if ( function2 )
+	if ( function->type() == Function::Parametric )
 	{
-		// parametric function
-		fx = m_parser->fkt( function1->eq, x );
-		fy = m_parser->fkt( function2->eq, x );
+		fx = m_parser->fkt( function->eq[0], x );
+		fy = m_parser->fkt( function->eq[1], x );
 	}
 	else
 	{
 		// polar function
-		fx = m_parser->fkt( function1->eq, x ) * cos(x);
-		fy = m_parser->fkt( function1->eq, x ) * sin(x);
+		fx = m_parser->fkt( function->eq[0], x ) * cos(x);
+		fy = m_parser->fkt( function->eq[0], x ) * sin(x);
 	}
 					
 	double dfx = dgr.TransxToPixel( real_x ) - dgr.TransxToPixel( fx );
@@ -1199,18 +1190,15 @@ bool View::updateCrosshairPosition()
 				it->setParameter( m_sliderWindow->value( it->use_slider ) );
 		}
 		
-		if ( it->type() == Function::ParametricX )
+		if ( it->type() == Function::Parametric )
 		{
 			// parametric plot
-			
-			Function * ufkt_y = m_parser->functionWithID( it->id + 1 );
-			assert( ufkt_y );
 			
 			// Should we increase or decrease t to get closer to the mouse?
 			double dt[2] = { -0.00001, +0.00001 };
 			double d[] = { 0.0, 0.0 };
 			for ( int i = 0; i < 2; ++ i )
-				d[i] = pixelDistance( csxpos, csypos, it, ufkt_y, m_trace_x + dt[i] );
+				d[i] = pixelDistance( csxpos, csypos, it, m_trace_x + dt[i] );
 			
 			unsigned best_i = (d[0] < d[1]) ? 0 : 1;
 			
@@ -1219,7 +1207,7 @@ bool View::updateCrosshairPosition()
 			m_trace_x += 2.0 * dt[best_i];
 			while ( true )
 			{	
-				double new_distance = pixelDistance( csxpos, csypos, it, ufkt_y, m_trace_x + dt[best_i] );
+				double new_distance = pixelDistance( csxpos, csypos, it, m_trace_x + dt[best_i] );
 				if ( new_distance < prev_best )
 				{
 					prev_best = new_distance;
@@ -1240,8 +1228,8 @@ bool View::updateCrosshairPosition()
 			else if ( m_trace_x < min )
 				m_trace_x = min;
 			
-			csxpos = m_parser->fkt( it->eq, m_trace_x );
-			csypos = m_parser->fkt( ufkt_y->eq, m_trace_x );
+			csxpos = m_parser->fkt( it->eq[0], m_trace_x );
+			csypos = m_parser->fkt( it->eq[1], m_trace_x );
 			ptl = QPointF( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
 			QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
 			QCursor::setPos( globalPos );
@@ -1254,7 +1242,7 @@ bool View::updateCrosshairPosition()
 			double dx[2] = { -0.00001, +0.00001 };
 			double d[] = { 0.0, 0.0 };
 			for ( int i = 0; i < 2; ++ i )
-				d[i] = pixelDistance( csxpos, csypos, it, 0, m_trace_x + dx[i] );
+				d[i] = pixelDistance( csxpos, csypos, it, m_trace_x + dx[i] );
 			
 			unsigned best_i = (d[0] < d[1]) ? 0 : 1;
 			
@@ -1263,7 +1251,7 @@ bool View::updateCrosshairPosition()
 			m_trace_x += 2.0 * dx[best_i];
 			while ( true )
 			{	
-				double new_distance = pixelDistance( csxpos, csypos, it, 0, m_trace_x + dx[best_i] );
+				double new_distance = pixelDistance( csxpos, csypos, it, m_trace_x + dx[best_i] );
 				if ( new_distance < prev_best )
 				{
 					prev_best = new_distance;
@@ -1280,8 +1268,8 @@ bool View::updateCrosshairPosition()
 			else if ( m_trace_x < min )
 				m_trace_x = min;
 			
-			csxpos = m_parser->fkt( it->eq, m_trace_x ) * cos(m_trace_x);
-			csypos = m_parser->fkt( it->eq, m_trace_x ) * sin(m_trace_x);
+			csxpos = m_parser->fkt( it->eq[0], m_trace_x ) * cos(m_trace_x);
+			csypos = m_parser->fkt( it->eq[0], m_trace_x ) * sin(m_trace_x);
 			ptl = QPointF( dgr.TransxToPixel( csxpos ), dgr.TransyToPixel( csypos ) );
 			QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
 			QCursor::setPos( globalPos );
@@ -1293,17 +1281,17 @@ bool View::updateCrosshairPosition()
 			switch ( cstype )
 			{
 				case Function::Derivative0:
-					csypos = m_parser->fkt( it->eq, csxpos );
+					csypos = m_parser->fkt( it->eq[0], csxpos );
 					ptl.setY(dgr.TransyToPixel( csypos ));
 					break;
 					
 				case Function::Derivative1:
-					csypos = m_parser->a1fkt( it->eq, csxpos );
+					csypos = m_parser->a1fkt( it->eq[0], csxpos );
 					ptl.setY(dgr.TransyToPixel( csypos ));
 					break;
 					
 				case Function::Derivative2:
-					csypos = m_parser->a2fkt( it->eq, csxpos );
+					csypos = m_parser->a2fkt( it->eq[0], csxpos );
 					ptl.setY(dgr.TransyToPixel( csypos ));
 					break;
 					
@@ -1318,7 +1306,7 @@ bool View::updateCrosshairPosition()
 			else if(fabs(dgr.TransyToReal(ptl.y())) < (xmax-xmin)/80)
 			{
 				double x0;
-				if ( root( &x0, it->eq ) )
+				if ( root( &x0, it->eq[0] ) )
 				{
 					QString str="  ";
 					str+=i18n("root");
@@ -1666,6 +1654,8 @@ void View::stopDrawing()
 
 void View::findMinMaxValue(Function *ufkt, char p_mode, bool minimum, double &dmin, double &dmax, const QString &str_parameter)
 {
+	assert( ufkt->type() == Function::Cartesian );
+	
 	double x, y = 0;
 	double result_x = 0;
 	double result_y = 0;
@@ -1702,9 +1692,9 @@ void View::findMinMaxValue(Function *ufkt, char p_mode, bool minimum, double &dm
 			else
 				dx = stepWidth;
 		startProgressBar((int)double((dmax-dmin)/dx)/2);
-		x = ufkt->eq->oldx = ufkt->startx.value(); //the initial x-point
-		ufkt->eq->oldy = ufkt->starty.value();
-		ufkt->eq->oldyprim = ufkt->integral_precision;
+		x = ufkt->eq[0]->oldx = ufkt->startx.value(); //the initial x-point
+		ufkt->eq[0]->oldy = ufkt->starty.value();
+		ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 // 		paintEvent(0);
 	}
 	else
@@ -1730,23 +1720,23 @@ void View::findMinMaxValue(Function *ufkt, char p_mode, bool minimum, double &dm
 		{
 			case 0:
 			{
-				y=m_parser->fkt( ufkt->eq, x);
+				y=m_parser->fkt( ufkt->eq[0], x);
 				break;
 			}
 
 			case 1:
 			{
-				y=m_parser->a1fkt( ufkt->eq, x);
+				y=m_parser->a1fkt( ufkt->eq[0], x);
 				break;
 			}
 			case 2:
 			{
-				y=m_parser->a2fkt( ufkt->eq, x);
+				y=m_parser->a2fkt( ufkt->eq[0], x);
 				break;
 			}
 			case 3:
 			{
-				y = m_parser->euler_method( x, ufkt->eq );
+				y = m_parser->euler_method( x, ufkt->eq[0] );
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -1787,9 +1777,9 @@ void View::findMinMaxValue(Function *ufkt, char p_mode, bool minimum, double &dm
 				if (x>dmax && p_mode== Function::Integral )
 				{
 					forward_direction = false;
-					x = ufkt->eq->oldx = ufkt->startx.value();
-					ufkt->eq->oldy = ufkt->starty.value();
-					ufkt->eq->oldyprim = ufkt->integral_precision;
+					x = ufkt->eq[0]->oldx = ufkt->startx.value();
+					ufkt->eq[0]->oldy = ufkt->starty.value();
+					ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 // 					paintEvent(0);
 				}
 			}
@@ -1809,19 +1799,21 @@ void View::findMinMaxValue(Function *ufkt, char p_mode, bool minimum, double &dm
 	switch (p_mode)
 	{
 	case 0:
-		dmax=m_parser->fkt( ufkt->eq, dmin);
+		dmax=m_parser->fkt( ufkt->eq[0], dmin);
 		break;
 	case 1:
-		dmax=m_parser->a1fkt( ufkt->eq, dmin);
+		dmax=m_parser->a1fkt( ufkt->eq[0], dmin);
 		break;
 	case 2:
-		dmax=m_parser->a2fkt( ufkt->eq, dmin);
+		dmax=m_parser->a2fkt( ufkt->eq[0], dmin);
 		break;
 	}
 }
 
 void View::getYValue(Function *ufkt, char p_mode,  double x, double &y, const QString &str_parameter)
 {
+	assert( ufkt->type() == Function::Cartesian );
+	
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
@@ -1838,13 +1830,13 @@ void View::getYValue(Function *ufkt, char p_mode,  double x, double &y, const QS
 	switch (p_mode)
 	{
 	case 0:
-		y= m_parser->fkt( ufkt->eq, x);
+		y= m_parser->fkt( ufkt->eq[0], x);
 		break;
 	case 1:
-		y=m_parser->a1fkt( ufkt->eq, x);
+		y=m_parser->a1fkt( ufkt->eq[0], x);
 		break;
 	case 2:
-		y=m_parser->a2fkt( ufkt->eq, x);
+		y=m_parser->a2fkt( ufkt->eq[0], x);
 		break;
 	case 3:
 		double dmin = ufkt->dmin.value();
@@ -1873,13 +1865,13 @@ void View::getYValue(Function *ufkt, char p_mode,  double x, double &y, const QS
 		updateCursor();
 		bool target_found=false;
 		startProgressBar((int) double((dmax-dmin)/dx)/2);
-		x = ufkt->eq->oldx = ufkt->startx.value(); //the initial x-point
-		ufkt->eq->oldy = ufkt->starty.value();
-		ufkt->eq->oldyprim = ufkt->integral_precision;
+		x = ufkt->eq[0]->oldx = ufkt->startx.value(); //the initial x-point
+		ufkt->eq[0]->oldy = ufkt->starty.value();
+		ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 // 		paintEvent(0);
 		while (x>=dmin && !stop_calculating && !target_found)
 		{
-			y = m_parser->euler_method( x, ufkt->eq );
+			y = m_parser->euler_method( x, ufkt->eq[0] );
 			if ( int(x*100)%2==0)
 			{
 				KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -1897,9 +1889,9 @@ void View::getYValue(Function *ufkt, char p_mode,  double x, double &y, const QS
 				if (x>dmax)
 				{
 					forward_direction = false;
-					x = ufkt->eq->oldx = ufkt->startx.value();
-					ufkt->eq->oldy = ufkt->starty.value();
-					ufkt->eq->oldyprim = ufkt->integral_precision;
+					x = ufkt->eq[0]->oldx = ufkt->startx.value();
+					ufkt->eq[0]->oldy = ufkt->starty.value();
+					ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 // 					paintEvent(0);
 				}
 			}
@@ -1964,8 +1956,7 @@ void View::keyPressEvent( QKeyEvent * e )
 				kDebug() << "csmode: " << csmode << endl;
 				switch ( (*it)->type() )
 				{
-				case Function::ParametricX:
-				case Function::ParametricY:
+					case Function::Parametric:
 				case Function::Polar:
 					break;
 				default:
@@ -2024,18 +2015,24 @@ void View::keyPressEvent( QKeyEvent * e )
 		switch (cstype )
 		{
 			case Function::Derivative0:
-				setStatusBar( (*it)->eq->fstr(), 4 );
+			{
+				QString text = (*it)->eq[0]->fstr();
+				QString fstr1 = (*it)->eq[1]->fstr();
+				if ( !fstr1.isEmpty() )
+					text += ";" + fstr1;
+				setStatusBar( text, 4 );
 				break;
+			}
 				
 			case Function::Derivative1:
 			{
-				setStatusBar( (*it)->eq->fname() + "\'", 4 );
+				setStatusBar( (*it)->eq[0]->fname() + "\'", 4 );
 				break;
 			}
 			
 			case Function::Derivative2:
 			{
-				setStatusBar( (*it)->eq->fname() + "\'\'", 4 );
+				setStatusBar( (*it)->eq[0]->fname() + "\'\'", 4 );
 				break;
 			}
 			
@@ -2121,9 +2118,9 @@ void View::areaUnderGraph( Function *ufkt, Function::PMode p_mode,  double &dmin
 		else
 			dx = stepWidth*(dmax-dmin)/area.width();
 		startProgressBar((int)double((dmax-dmin)/dx)/2);
-		x = ufkt->eq->oldx = ufkt->startx.value(); //the initial x-point
-		ufkt->eq->oldy = ufkt->starty.value();
-		ufkt->eq->oldyprim = ufkt->integral_precision;
+		x = ufkt->eq[0]->oldx = ufkt->startx.value(); //the initial x-point
+		ufkt->eq[0]->oldy = ufkt->starty.value();
+		ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 		//paintEvent(0);
 
 		/*QPainter p;
@@ -2163,18 +2160,18 @@ void View::areaUnderGraph( Function *ufkt, Function::PMode p_mode,  double &dmin
 		switch(p_mode)
 		{
 			case Function::Derivative0:
-				y=m_parser->fkt( ufkt->eq, x);
+				y=m_parser->fkt( ufkt->eq[0], x);
 				break;
 	
 			case Function::Derivative1:
-				y=m_parser->a1fkt( ufkt->eq, x);
+				y=m_parser->a1fkt( ufkt->eq[0], x);
 				break;
 			case Function::Derivative2:
-				y=m_parser->a2fkt( ufkt->eq, x);
+				y=m_parser->a2fkt( ufkt->eq[0], x);
 				break;
 			case Function::Integral:
 			{
-				y = m_parser->euler_method( x, ufkt->eq );
+				y = m_parser->euler_method( x, ufkt->eq[0] );
 				if ( int(x*100)%2==0)
 				{
 					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
@@ -2225,9 +2222,9 @@ void View::areaUnderGraph( Function *ufkt, Function::PMode p_mode,  double &dmin
 				if (x>dmax && p_mode == Function::Integral )
 				{
 					forward_direction = false;
-					x = ufkt->eq->oldx = ufkt->startx.value();
-					ufkt->eq->oldy = ufkt->starty.value();
-					ufkt->eq->oldyprim = ufkt->integral_precision;
+					x = ufkt->eq[0]->oldx = ufkt->startx.value();
+					ufkt->eq[0]->oldy = ufkt->starty.value();
+					ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 // 					paintEvent(0);
 				}
 			}

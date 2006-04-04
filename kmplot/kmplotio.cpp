@@ -46,6 +46,7 @@
 
 int KmPlotIO::version = -1;
 double KmPlotIO::lengthScaler = 1.0;
+QString KmPlotIO::parametricXEquation = QString();
 
 class XParser;
 
@@ -122,10 +123,7 @@ QDomDocument KmPlotIO::currentState()
 	root.appendChild( tag );
 	
 	foreach ( Function * it, XParser::self()->m_ufkt )
-	{
-		if ( !it->eq->fstr().isEmpty() )
-			addFunction( doc, root, it );
-	}
+		addFunction( doc, root, it );
 
 	tag = doc.createElement( "fonts" );
 	addTag( doc, tag, "axes-font", Settings::axesFont() );
@@ -205,8 +203,17 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 	tag.setAttribute( "integral-precision", function->integral_precision );
 	tag.setAttribute( "integral-startx", function->startx.expression() );
 	tag.setAttribute( "integral-starty", function->starty.expression() );
-
-	addTag( doc, tag, "equation", function->eq->fstr() );
+	
+	tag.setAttribute( "type", Function::typeToString( function->type() ) );
+	for ( unsigned i=0; i<2; ++i )
+	{
+		if ( !function->eq[i] )
+			continue;
+		QString fstr = function->eq[i]->fstr();
+		if ( fstr.isEmpty() )
+			continue;
+		addTag( doc, tag, QString("equation-%1").arg(i), fstr );
+	}
 
 	QStringList str_parameters;
 	foreach ( Value k, function->parameters )
@@ -215,11 +222,8 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 	if( !str_parameters.isEmpty() )
 		addTag( doc, tag, "parameterlist", str_parameters.join( ";" ) );
 
-	/// \todo save these to file and whether uses custom min/max
-	if (function->usecustomxmin)
-		addTag( doc, tag, "arg-min", function->dmin.expression() );
-	if (function->usecustomxmax)
-		addTag( doc, tag, "arg-max", function->dmax.expression() );
+	addTag( doc, tag, "arg-min", function->dmin.expression() ).setAttribute( "use", function->usecustomxmin );
+	addTag( doc, tag, "arg-max", function->dmax.expression() ).setAttribute( "use", function->usecustomxmax );
 
 	root.appendChild( tag );
 }
@@ -227,12 +231,13 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 
 
 // static
-void KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue )
+QDomElement KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue )
 {
 	QDomElement tag = doc.createElement( tagName );
 	QDomText value = doc.createTextNode( tagValue );
 	tag.appendChild( value );
 	parentTag.appendChild( tag );
+	return tag;
 }
 
 
@@ -253,6 +258,7 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
 		{
 			version = 0;
+			lengthScaler = 0.1;
 			
 			if ( n.nodeName() == "axes" )
 				parseAxes( n.toElement() );
@@ -414,34 +420,58 @@ void KmPlotIO::parseScale(const QDomElement & n )
 // static
 void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 {
-// 	kDebug() << k_funcinfo << endl;
-	
-	QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
-// 	kDebug() << "tmp_fstr="<<tmp_fstr<<endl;
-	if ( tmp_fstr.isEmpty() )
-	{
-		kWarning() << k_funcinfo << "tmp_fstr is empty!\n";
-		return;
-	}
+	kDebug() << k_funcinfo << "version="<<version<<endl;
 	
 	Function::Type type;
-	switch ( tmp_fstr[0].unicode() )
+	QString eq0, eq1;
+	
+	if ( version < 3 )
 	{
-		case 'r':
-			type = Function::Polar;
-			break;
+		eq0 = n.namedItem( "equation" ).toElement().text();
+	
+		if ( eq0.isEmpty() )
+		{
+			kWarning() << k_funcinfo << "eq0 is empty!\n";
+			return;
+		}
+		
+		switch ( eq0[0].unicode() )
+		{
+			case 'r':
+				type = Function::Polar;
+				break;
 			
-		case 'x':
-			type = Function::ParametricX;
-			break;
+			case 'x':
+				parametricXEquation = eq0;
+				return;
 			
-		case 'y':
-			type = Function::ParametricY;
-			break;
+			case 'y':
+				type = Function::Parametric;
+				eq1 = eq0;
+				eq0 = parametricXEquation;
+				kDebug() << k_funcinfo << "Parametric: eq0=\""<<eq0<<"\" eq1=\""<<eq1<<"\"\n";
+				break;
 			
-		default:
-			type = Function::Cartesian;
-			break;
+			default:
+				type = Function::Cartesian;
+				break;
+		}
+	}
+	else
+	{
+		eq0 = n.namedItem( "equation-0" ).toElement().text();
+		eq1 = n.namedItem( "equation-1" ).toElement().text();
+		
+		kDebug() << "eq0: "<<eq0<<endl;
+		kDebug() << "eq1: "<<eq1<<endl;
+	
+		if ( eq0.isEmpty() )
+		{
+			kWarning() << k_funcinfo << "eq0 is empty!\n";
+			return;
+		}
+		
+		type = Function::stringToType( n.attribute( "type" ) );
 	}
 	
 	if ( allowRename )
@@ -449,25 +479,25 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		switch ( type )
 		{
 			case Function::Polar:
-				XParser::self()->fixFunctionName( tmp_fstr, Equation::Polar, -1 );
+				XParser::self()->fixFunctionName( eq0, Equation::Polar, -1 );
 				break;
 				
-			case Function::ParametricX:
-				XParser::self()->fixFunctionName( tmp_fstr, Equation::ParametricX, -1 );
-				break;
-				
-			case Function::ParametricY:
-				XParser::self()->fixFunctionName( tmp_fstr, Equation::ParametricY, -1 );
+			case Function::Parametric:
+				XParser::self()->fixFunctionName( eq0, Equation::ParametricX, -1 );
+				if ( !eq1.isEmpty() )
+					XParser::self()->fixFunctionName( eq1, Equation::ParametricY, -1 );
 				break;
 				
 			case Function::Cartesian:
-				XParser::self()->fixFunctionName( tmp_fstr, Equation::Cartesian, -1 );
+				XParser::self()->fixFunctionName( eq0, Equation::Cartesian, -1 );
 				break;
 		}
 	}
 	
 	Function ufkt( type );
-	ufkt.eq->setFstr( tmp_fstr );
+	ufkt.eq[0]->setFstr( eq0 );
+	if ( !eq1.isEmpty() )
+		ufkt.eq[1]->setFstr( eq1 );
 
 	ufkt.f0.visible = n.attribute( "visible" ).toInt();
 	ufkt.f0.color = QColor( n.attribute( "color" ) );
@@ -490,24 +520,30 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	ufkt.startx.updateExpression( n.attribute( "integral-startx" ) );
 	ufkt.starty.updateExpression( n.attribute( "integral-starty" ) );
 
-	QString expression = n.namedItem( "arg-min" ).toElement().text();
-	ufkt.dmin.updateExpression( expression );
-	ufkt.usecustomxmin = !expression.isEmpty();
-	
-	expression = n.namedItem( "arg-max" ).toElement().text();
-	ufkt.dmax.updateExpression( expression );
-	ufkt.usecustomxmax = !expression.isEmpty();
-	  
-	if (ufkt.usecustomxmin && ufkt.usecustomxmax && ufkt.dmin.expression()==ufkt.dmax.expression())
+	QDomElement minElement = n.namedItem( "arg-min" ).toElement();
+	QString expression = minElement.text();
+	if ( expression.isEmpty() )
+		ufkt.usecustomxmin = false;
+	else
 	{
-	  ufkt.usecustomxmin = false;
-	  ufkt.usecustomxmax = false;
+		ufkt.dmin.updateExpression( expression );
+		ufkt.usecustomxmin = minElement.attribute( "use", "1" ).toInt();
+	}
+
+	QDomElement maxElement = n.namedItem( "arg-max" ).toElement();
+	expression = maxElement.text();
+	if ( expression.isEmpty() )
+		ufkt.usecustomxmax = false;
+	else
+	{
+		ufkt.dmax.updateExpression( expression );
+		ufkt.usecustomxmax = maxElement.attribute( "use", "1" ).toInt();
 	}
 	
 	
 	parseParameters( n, ufkt );
 
-	QString fstr = ufkt.eq->fstr();
+	QString fstr = ufkt.eq[0]->fstr();
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.indexOf( ';' );
@@ -516,7 +552,9 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		int id = XParser::self()->addfkt( str, type );
+		
+		int id = XParser::self()->addfkt( str, eq1, type );
+		
 		Function * added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );
 	}
@@ -551,11 +589,12 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 			break;
 			
 		case 'x':
-			type = Function::ParametricX;
-			break;
+// 			type = Function::ParametricX;
+			parametricXEquation = tmp_fstr;
+			return;
 			
 		case 'y':
-			type = Function::ParametricY;
+			type = Function::Parametric;
 			break;
 			
 		default:
@@ -589,18 +628,18 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 	
 	const int pos = tmp_fstr.indexOf(';');
 	if ( pos == -1 )
-		ufkt.eq->setFstr( tmp_fstr );
+		ufkt.eq[0]->setFstr( tmp_fstr );
 	else
 	{
-		ufkt.eq->setFstr( tmp_fstr.left(pos) );
+		ufkt.eq[0]->setFstr( tmp_fstr.left(pos) );
 		if ( !XParser::self()->getext( &ufkt, tmp_fstr) )
 		{
-			KMessageBox::sorry(0,i18n("The function %1 could not be loaded").arg(ufkt.eq->fstr()));
-	    return;
-	  }
+			KMessageBox::sorry(0,i18n("The function %1 could not be loaded").arg(ufkt.eq[0]->fstr()));
+			return;
+		}
 	}
 
-	QString fstr = ufkt.eq->fstr();
+	QString fstr = ufkt.eq[0]->fstr();
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.indexOf( ';' );
@@ -609,7 +648,13 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		int id = XParser::self()->addfkt( str, type );
+		
+		int id;
+		if ( type == Function::Parametric )
+			id = XParser::self()->addfkt( str, parametricXEquation, type );
+		else
+			id = XParser::self()->addfkt( str, 0, type );
+		
 		Function *added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );
 	}

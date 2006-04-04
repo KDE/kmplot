@@ -149,19 +149,19 @@ void KMinMax::updateFunctions()
 		if ( it->type() == Function::Cartesian )
 		{
 			if ( it->f0.visible )
-				m_mainWidget->list->addItem(it->eq->fstr());
+				m_mainWidget->list->addItem(it->eq[0]->fstr());
 
 			if ( it->f1.visible ) //1st derivative
 			{
-				m_mainWidget->list->addItem( it->eq->fname() + "\'" );
+				m_mainWidget->list->addItem( it->eq[0]->fname() + "\'" );
 			}
 			if ( it->f2.visible )//2nd derivative
 			{
-				m_mainWidget->list->addItem( it->eq->fname() + "\'\'" );
+				m_mainWidget->list->addItem( it->eq[0]->fname() + "\'\'" );
 			}
 			if ( it->integral.visible )//integral
 			{
-				m_mainWidget->list->addItem( it->eq->fname().toUpper() );
+				m_mainWidget->list->addItem( it->eq[0]->fname().toUpper() );
 			}
 		}
 	}
@@ -185,7 +185,7 @@ void KMinMax::selectItem()
 		return;
 	//kDebug() << "cstype: " << (int)View::self()->cstype << endl;
 	Function *ufkt = View::self()->parser()->m_ufkt[ View::self()->csmode ];
-	QString function = ufkt->eq->fstr();
+	QString function = ufkt->eq[0]->fstr();
 	if ( View::self()->cstype == 2)
 	{
 		int i= function.indexOf('(');
@@ -281,7 +281,7 @@ void KMinMax::cmdFind_clicked()
 //         for( QVector<Function>::iterator it =  View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
 	foreach ( Function * it, View::self()->parser()->m_ufkt )
 	{
-		if ( it->eq->fstr().section('(',0,0) == sec_function)
+		if ( it->eq[0]->fstr().section('(',0,0) == sec_function)
                 {
                         ufkt = it;
 			break;
@@ -373,7 +373,7 @@ void KMinMax::list_currentChanged(QListWidgetItem* item)
 	
 	foreach ( Function * it, View::self()->parser()->m_ufkt )
 	{
-		if ( it->eq->fstr().section('(',0,0) == sec_function)
+		if ( it->eq[0]->fstr().section('(',0,0) == sec_function)
 		{
 			if ( it->parameters.count() == 0)
 				m_mainWidget->cmdParameter->setEnabled( false );
@@ -415,7 +415,7 @@ void KMinMax::cmdParameter_clicked()
 //         for(QVector<Function>::iterator it = View::self()->parser()->ufkt.begin() ; it!=View::self()->parser()->ufkt.end(); ++it)
 	foreach ( Function * it, View::self()->parser()->m_ufkt )
 	{
-		if ( it->eq->fstr().section('(',0,0) == sec_function)
+		if ( it->eq[0]->fstr().section('(',0,0) == sec_function)
 		{
 			QStringList str_parameters;
 			for ( QList<Value>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )

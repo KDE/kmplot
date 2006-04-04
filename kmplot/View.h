@@ -208,12 +208,12 @@ private:
 	 * parametric function.
 	 * \return the parametization (angle or t) that gives the closest point.
 	 */
-	double getClosestPoint( double real_x, double real_y, Function * function1, Function * function2 );
+	double getClosestPoint( double real_x, double real_y, Function * function );
 	/**
 	 * Calculates the pixel distance from \p real_x and \p real_y to the display
 	 * point of the given polar or parametric parametric function at \p x.
 	 */
-	double pixelDistance( double real_x, double real_y, Function * function1, Function * function2, double x );
+	double pixelDistance( double real_x, double real_y, Function * function, double x );
 	
 
 	/// for areadrawing when printing

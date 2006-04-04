@@ -89,8 +89,9 @@ class KmPlotIO
 		 * @param parentTag The parent tag to support encapsulated tags.
 		 * @param tagName The Name of the tag.
 		 * @param tagValue The data between the opening and cloding tag.
+	 	 * @return The QDomElement that was created.
 		 */
-		static void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
+		static QDomElement addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
 		/// Reads axes parameters from the node @a n.
 		/// @param n Node containing the options.
 		void parseAxes( const QDomElement &n );
@@ -109,9 +110,11 @@ class KmPlotIO
 		///For KDE <3.3
 		/// This is the same as parseFunction but is made for old Kmplot-files
 		void oldParseFunction( const QDomElement &n );
-                
+		
+		/// \todo make (at least some of) this stuff non-static
 		static double lengthScaler; ///< for reading in lengths
 		static int version; ///< version of the file currently being opened (0,1,2,3)
+		static QString parametricXEquation; ///< Used when reading in the x part of a parametric equation
 };
 
 #endif

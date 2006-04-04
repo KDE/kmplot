@@ -178,8 +178,7 @@ class Function
 		enum Type
 		{
 			Cartesian,
-			ParametricX,
-			ParametricY,
+			Parametric,
 			Polar,
 		};
 		
@@ -188,7 +187,14 @@ class Function
 		
 		/// The type of function
 		Type type() const { return m_type; }
-		
+		/**
+		 * Converts the type to a string (which is used in save files).
+		 */
+		static QString typeToString( Type type );
+		/**
+		 * Converts the string to a type (used when loading files).
+		 */
+		static Type stringToType( const QString & type );
 		/**
 		 * Sets the parameter.
 		 */
@@ -211,7 +217,7 @@ class Function
 		bool copyFrom( const Function & function );
         
 		uint id;
-		Equation * eq;
+		Equation * eq[2];
 		
 		Plot f0;		///< The actual function - the "zero'th derivative"
 		Plot f1;		///< First derivative

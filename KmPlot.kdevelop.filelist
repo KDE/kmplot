@@ -113,3 +113,5 @@ kmplot/coordsconfigdialog.cpp
 kmplot/coordsconfigdialog.h
 kmplot/function.cpp
 kmplot/function.h
+kmplot/kmplot.cpp
+kmplot/kmplot.h

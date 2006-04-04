@@ -54,9 +54,7 @@ class FunctionEditorWidget : public QWidget, public Ui::FunctionEditorWidget
 FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	: QDockWidget( i18n("Function Editor"), parent )
 {
-	m_function = -1;
-	m_functionX = -1;
-	m_functionY = -1;
+	m_functionID = -1;
 	m_createNewPlotsMenu = createNewPlotsMenu;
 	
 	// need a name for saving and restoring the position of this dock widget
@@ -149,15 +147,12 @@ void FunctionEditor::deleteCurrent()
 		return;
 	}
 	
-	if ( !View::self()->parser()->delfkt( functionItem->function1() ) )
+	if ( !View::self()->parser()->delfkt( functionItem->function() ) )
 	{
-		kDebug() << "Couldn't delete function 1.\n";
+		kDebug() << "Couldn't delete function.\n";
 		// couldn't delete it, as e.g. another function depends on it
 		return;
 	}
-	
-	kDebug() << "Deleting function 2 status: " <<
-			View::self()->parser()->delfkt( functionItem->function2() ) << endl;
 	
 	kDebug() << "Deleted current, so requestion state save.\n";
 	View::self()->mainDlg()->requestSaveCurrentState();
@@ -187,9 +182,7 @@ void FunctionEditor::syncFunctionList()
 	{
 		FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->item( row ));
 		currentFunctionItems << item;
-		currentIDs[ item->function1() ] = item;
-		if ( item->function2() != -1 )
-			currentIDs[ item->function2() ] = item;
+		currentIDs[ item->function() ] = item;
 		
 		// also update what is displayed
 		item->update();
@@ -210,20 +203,7 @@ void FunctionEditor::syncFunctionList()
 			continue;
 		}
 		
-		if ( function->type() == Function::ParametricY )
-			continue;
-		
-		int f1 = function->id;
-		int f2 = -1;
-		
-		if ( function->type() == Function::ParametricX )
-		{
-			++it;
-			assert( it != View::self()->parser()->m_ufkt.end() );
-			f2 = (*it)->id;
-		}
-		
-		toSelect = new FunctionListItem( m_functionList, f1, f2 );
+		toSelect = new FunctionListItem( m_functionList, function->id );
 		newFunctionCount++;
 	}
 	
@@ -237,14 +217,8 @@ void FunctionEditor::syncFunctionList()
 	// Now, any IDs left in currentIDs are of functions that have been deleted
 	foreach ( FunctionListItem * item, currentFunctionItems )
 	{
-		if ( m_function == item->function1() )
-			m_function = -1;
-		
-		else if ( m_functionX == item->function1() || m_functionY == item->function2() )
-		{
-			m_functionX = -1;
-			m_functionY = -1;
-		}
+		if ( m_functionID == item->function() )
+			m_functionID = -1;
 		
 		delete m_functionList->takeItem( m_functionList->row( item ) );
 	}
@@ -273,7 +247,7 @@ void FunctionEditor::setCurrentFunction( int functionID )
 	for ( int row = 0; row < m_functionList->count(); ++row )
 	{
 		FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->item( row ));
-		if ( (item->function1() != functionID) && (item->function2() != functionID) )
+		if ( item->function() != functionID )
 			continue;
 		
 		m_functionList->setCurrentRow( row );
@@ -290,27 +264,24 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 	
 	FunctionListItem * functionItem = static_cast<FunctionListItem*>(item);
 	
-	if ( functionItem->function2() != -1 )
+	m_functionID = functionItem->function();
+	Function * f = XParser::self()->functionWithID( m_functionID );
+	if ( !f )
+		return;
+	
+	switch ( f->type() )
 	{
-		m_function = -1;
-		m_functionX = functionItem->function1();
-		m_functionY = functionItem->function2();
-		
-		initFromParametric();
-	}
-	else
-	{
-		m_function = functionItem->function1();
-		m_functionX = -1;
-		m_functionY = -1;
-		
-		if ( Function * function = View::self()->parser()->functionWithID(m_function) )
-		{
-			if ( function->type() == Function::Polar )
-				initFromPolar();
-			else
-				initFromCartesian();
-		}
+		case Function::Cartesian:
+			initFromCartesian();
+			break;
+			
+		case Function::Polar:
+			initFromPolar();
+			break;
+			
+		case Function::Parametric:
+			initFromParametric();
+			break;
 	}
 	
 	functionItem->update();
@@ -321,17 +292,17 @@ void FunctionEditor::initFromCartesian()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID(m_function);
+	Function * f = View::self()->parser()->functionWithID(m_functionID);
 	
 	if ( !f )
 	{
-		kWarning() << k_funcinfo << "No f!\n";
+		kWarning() << k_funcinfo << "No f! (id="<<m_functionID<<")\n";
 		return;
 	}
 	
 	m_parameters = f->parameters;
 	
-	m_editor->cartesianEquation->setText( f->eq->fstr() );
+	m_editor->cartesianEquation->setText( f->eq[0]->fstr() );
 	m_editor->cartesian_f_lineWidth->setValue( f->f0.lineWidth );
 	m_editor->cartesian_f_lineColor->setColor( f->f0.color );
 	
@@ -382,12 +353,12 @@ void FunctionEditor::initFromPolar()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID(m_function);
+	Function * f = View::self()->parser()->functionWithID(m_functionID);
 	
 	if ( !f )
 		return;
 	
-	QString function = f->eq->fstr();
+	QString function = f->eq[0]->fstr();
 	function = function.mid( 1 );
 	m_editor->polarEquation->setText( function );
 	m_editor->polarCustomMin->setChecked( f->usecustomxmin );
@@ -406,26 +377,25 @@ void FunctionEditor::initFromParametric()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * fx = View::self()->parser()->functionWithID(m_functionX);
-	Function * fy = View::self()->parser()->functionWithID(m_functionY);
+	Function * f = View::self()->parser()->functionWithID(m_functionID);
 	
-	if ( !fx || !fy )
+	if ( !f )
 		return;
 	
 	QString name, expression;
 	
-	splitParametricEquation( fx->eq->fstr(), & name, & expression );
+	splitParametricEquation( f->eq[0]->fstr(), & name, & expression );
 	m_editor->parametricName->setText( name );
 	m_editor->parametricX->setText( expression );
         
-	splitParametricEquation( fy->eq->fstr(), & name, & expression );
+	splitParametricEquation( f->eq[1]->fstr(), & name, & expression );
 	m_editor->parametricY->setText( expression );
 
-	m_editor->parametricMin->setText( fx->dmin.expression() );
-	m_editor->parametricMax->setText( fx->dmax.expression() );
+	m_editor->parametricMin->setText( f->dmin.expression() );
+	m_editor->parametricMax->setText( f->dmax.expression() );
         
-	m_editor->parametricLineWidth->setValue( fx->f0.lineWidth );
-	m_editor->parametricLineColor->setColor( fx->f0.color );
+	m_editor->parametricLineWidth->setValue( f->f0.lineWidth );
+	m_editor->parametricLineColor->setColor( f->f0.color );
 	
 	m_editor->stackedWidget->setCurrentIndex( 1 );
 	m_editor->parametricName->setFocus();
@@ -446,9 +416,7 @@ void FunctionEditor::splitParametricEquation( const QString equation, QString * 
 
 void FunctionEditor::resetFunctionEditing()
 {
-	m_function = -1;
-	m_functionX = -1;
-	m_functionY = -1;
+	m_functionID = -1;
 	
 	// page 3 is an empty page
 	m_editor->stackedWidget->setCurrentIndex( 3 );
@@ -477,16 +445,14 @@ void FunctionEditor::createNewPlot()
 
 void FunctionEditor::createCartesian()
 {
-	m_function = -1;
-	m_functionX = -1;
-	m_functionY = -1;
+	m_functionID = -1;
 	
 	// find a name not already used
 	QString fname( "f(x)=0" );
 	View::self()->parser()->fixFunctionName( fname, Equation::Cartesian, -1 );
 	
-	m_function = View::self()->parser()->addFunction( fname );
-	assert( m_function != -1 );
+	m_functionID = View::self()->parser()->addFunction( fname, 0 );
+	assert( m_functionID != -1 );
 
 	kDebug() << "Created cartesian, so requestion state save.\n";
 	View::self()->mainDlg()->requestSaveCurrentState();
@@ -495,46 +461,31 @@ void FunctionEditor::createCartesian()
 
 void FunctionEditor::createParametric()
 {
-	m_function = -1;
-	m_functionX = -1;
-	m_functionY = -1;
+	m_functionID = -1;
 	
 	// find a name not already used
 	QString fname;
 	View::self()->parser()->fixFunctionName( fname, Equation::ParametricX, -1 );
 	QString name = fname.mid( 1, fname.indexOf('(')-1 );
 	
-	kDebug() << "AAA\n";
-	
-	m_functionX = View::self()->parser()->addfkt( QString("x%1(t)=0").arg( name ), Function::ParametricX ); 
-	assert( m_functionX != -1 );
-	
-	kDebug() << "BBB\n";
-	
-	m_functionY = View::self()->parser()->addfkt( QString("y%1(t)=0").arg( name ), Function::ParametricY );
-	assert( m_functionY != -1 );
-	
-	kDebug() << "CCC\n";
+	m_functionID = View::self()->parser()->addfkt( QString("x%1(t)=0").arg( name ), QString("y%1(t)=0").arg( name ), Function::Parametric ); 
+	assert( m_functionID != -1 );
 
 	kDebug() << "Created parametric, so requestion state save.\n";
 	View::self()->mainDlg()->requestSaveCurrentState();
-	
-	kDebug() << "DDD\n";
 }
 
 
 void FunctionEditor::createPolar()
 {
-	m_function = -1;
-	m_functionX = -1;
-	m_functionY = -1;
+	m_functionID = -1;
 	
 	// find a name not already used
 	QString fname( "f(x)=0" );
 	View::self()->parser()->fixFunctionName( fname, Equation::Polar, -1 );
 	
-	m_function = View::self()->parser()->addFunction( fname );
-	assert( m_function != -1 );
+	m_functionID = View::self()->parser()->addFunction( fname, 0 );
+	assert( m_functionID != -1 );
 
 	View::self()->mainDlg()->requestSaveCurrentState();
 }
@@ -544,20 +495,23 @@ void FunctionEditor::save()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	if ( m_function != -1 )
+	Function * f = View::self()->parser()->functionWithID( m_functionID );
+	if ( !f )
+		return;
+	
+	switch ( f->type() )
 	{
-		Function * f = View::self()->parser()->functionWithID( m_function );
-		if ( !f )
-			return;
-		
-		if ( f->type() == Function::Polar )
-			m_savePolarTimer->start( 0 );
-		else
+		case Function::Cartesian:
 			m_saveCartesianTimer->start( 0 );
-	}
-	else if ( (m_functionX != -1) && (m_functionY != -1) )
-	{
-		m_saveParametricTimer->start( 0 );
+			break;
+			
+		case Function::Polar:
+			m_savePolarTimer->start( 0 );
+			break;
+			
+		case Function::Parametric:
+			m_saveParametricTimer->start( 0 );
+			break;
 	}
 }
 
@@ -566,7 +520,7 @@ void FunctionEditor::saveCartesian()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID( m_function );
+	Function * f = View::self()->parser()->functionWithID( m_functionID );
 	if ( !f )
 		return;
 	
@@ -650,7 +604,7 @@ void FunctionEditor::saveCartesian()
 		return;
 	}
 	
-	QString const old_fstr = f->eq->fstr();
+	QString const old_fstr = f->eq[0]->fstr();
 	if ( ( (!m_parameters.isEmpty() &&
 				m_editor->cartesianParametersList->isChecked() ) ||
 				m_editor->cartesianParameterSlider->isChecked() ) &&
@@ -659,7 +613,7 @@ void FunctionEditor::saveCartesian()
 		fixCartesianArguments( & f_str ); //adding an extra argument for the parameter value
 	}
 	
-	if ( !f->eq->setFstr( f_str ) )
+	if ( !f->eq[0]->setFstr( f_str ) )
 	{
 // 		raise();
 // 		showPage(0);
@@ -670,7 +624,7 @@ void FunctionEditor::saveCartesian()
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
-	changed |= (old_fstr != f->eq->fstr() );
+	changed |= (old_fstr != f->eq[0]->fstr() );
 // 	kDebug() << "old_fstr="<<old_fstr<<" f->eq->fstr()="<<f->eq->fstr()<<" changed="<<changed<<endl;
 	if ( !changed )
 		return;
@@ -714,7 +668,7 @@ void FunctionEditor::savePolar()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID( m_function );
+	Function * f = View::self()->parser()->functionWithID( m_functionID );
 	if ( !f )
 		return;
 	
@@ -762,8 +716,8 @@ void FunctionEditor::savePolar()
 	tempFunction.use_slider = -1;
         
 	
-	QString old_fstr = f->eq->fstr();
-	if ( !f->eq->setFstr( f_str ) )
+	QString old_fstr = f->eq[0]->fstr();
+	if ( !f->eq[0]->setFstr( f_str ) )
 	{
 		kWarning() << "parse error\n";
 // 		raise();
@@ -774,7 +728,7 @@ void FunctionEditor::savePolar()
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
-	changed |= (old_fstr != f->eq->fstr());
+	changed |= (old_fstr != f->eq[0]->fstr());
 	if ( !changed )
 		return;
 
@@ -792,11 +746,18 @@ void FunctionEditor::saveParametric()
 	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
-	Function * fx = View::self()->parser()->functionWithID( m_functionX );
-	Function * fy = View::self()->parser()->functionWithID( m_functionY );
+	Function * f = View::self()->parser()->functionWithID( m_functionID );
 	
-	if ( !fx || !fy )
+	if ( !f )
+	{
+		kWarning() << k_funcinfo << "No f!\n";
 		return;
+	}
+	if ( f->type() != Function::Parametric )
+	{
+		kWarning() << k_funcinfo << "f is not parametric!\n";
+		return;
+	}
 	
 	if  ( m_editor->parametricX->text().contains('y') != 0 ||
 			 m_editor->parametricY->text().contains('y') != 0)
@@ -811,34 +772,34 @@ void FunctionEditor::saveParametric()
 	if ( m_editor->parametricName->text().isEmpty() )
 	{
 		QString fname;
-		View::self()->parser()->fixFunctionName(fname, Equation::ParametricX, fx->id );
+		View::self()->parser()->fixFunctionName(fname, Equation::ParametricX, f->id );
 		int const pos = fname.indexOf('(');
 		m_editor->parametricName->setText(fname.mid(1,pos-1));
 	}
                 
-	Function tempFunction1( Function::ParametricX );
+	Function tempFunction( Function::Parametric );
 	if ( functionListItem )
-		tempFunction1.f0.visible = (functionListItem->checkState() == Qt::Checked);
+		tempFunction.f0.visible = (functionListItem->checkState() == Qt::Checked);
 	
-	tempFunction1.usecustomxmin = true;
-	bool ok = tempFunction1.dmin.updateExpression( m_editor->parametricMin->text() );
-	if ( tempFunction1.usecustomxmin && !ok )
+	tempFunction.usecustomxmin = true;
+	bool ok = tempFunction.dmin.updateExpression( m_editor->parametricMin->text() );
+	if ( tempFunction.usecustomxmin && !ok )
 	{
 // 		m_editor->min->setFocus();
 // 		m_editor->min->selectAll();
 		return;
 	}
 	
-	tempFunction1.usecustomxmax = true;
-	ok = tempFunction1.dmax.updateExpression( m_editor->parametricMax->text() );
-	if ( tempFunction1.usecustomxmax && !ok )
+	tempFunction.usecustomxmax = true;
+	ok = tempFunction.dmax.updateExpression( m_editor->parametricMax->text() );
+	if ( tempFunction.usecustomxmax && !ok )
 	{
 // 		m_editor->max->setFocus();
 // 		m_editor->max->selectAll();
 		return;
 	}
 	
-	if ( tempFunction1.usecustomxmin && tempFunction1.usecustomxmax && tempFunction1.dmin.value() >= tempFunction1.dmax.value() )
+	if ( tempFunction.usecustomxmin && tempFunction.usecustomxmax && tempFunction.dmin.value() >= tempFunction.dmax.value() )
 	{
 // 		KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
 // 		m_editor->min->setFocus();
@@ -846,12 +807,12 @@ void FunctionEditor::saveParametric()
 		return;
 	}
         
-	tempFunction1.f0.lineWidth = m_editor->parametricLineWidth->value();
-	tempFunction1.f0.color = m_editor->parametricLineColor->color();
-	tempFunction1.f1.color = tempFunction1.f2.color = tempFunction1.integral.color = tempFunction1.f0.color;
+	tempFunction.f0.lineWidth = m_editor->parametricLineWidth->value();
+	tempFunction.f0.color = m_editor->parametricLineColor->color();
+	tempFunction.f1.color = tempFunction.f2.color = tempFunction.integral.color = tempFunction.f0.color;
 	
-	QString old_fstr = fx->eq->fstr();
-	if ( !fx->eq->setFstr( "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text() ) )
+	QString old_fstr = f->eq[0]->fstr();
+	if ( !f->eq[0]->setFstr( "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text() ) )
 	{
 // 		raise();
 // 		m_editor->kLineEditXFunction->setFocus();
@@ -860,16 +821,14 @@ void FunctionEditor::saveParametric()
 	}
 	
 	//save all settings in the function now when we know no errors have appeared
-	bool changed = fx->copyFrom( tempFunction1 );
-	changed |= (old_fstr != fx->eq->fstr());
+	bool changed = f->copyFrom( tempFunction );
+	changed |= (old_fstr != f->eq[0]->fstr());
 	
 	
 	// now for the y function
-	Function tempFunction2( Function::ParametricY );
-	tempFunction2.copyFrom( tempFunction1 );
 	
-	old_fstr = fy->eq->fstr();
-	if ( !fy->eq->setFstr( "y" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text() ) )
+	old_fstr = f->eq[1]->fstr();
+	if ( !f->eq[1]->setFstr( "y" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text() ) )
 	{
 // 		raise();
 // 		m_editor->kLineEditXFunction->setFocus();
@@ -878,13 +837,12 @@ void FunctionEditor::saveParametric()
 	}
     
 	//save all settings in the function now when we now no errors have appeared
-	changed |= fy->copyFrom( tempFunction2 );
-	changed |= (old_fstr != fy->eq->fstr());
+	changed |= (old_fstr != f->eq[1]->fstr());
 	
 	if ( !changed )
 		return;
 	
-	kDebug() << "Parametric changed, so requestion state save.\n";
+	kDebug() << "Parametric changed, so requesting state save.\n";
 	View::self()->mainDlg()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
@@ -920,12 +878,9 @@ QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items )
 	
 	foreach ( QListWidgetItem * item, items )
 	{
-		int f1 = static_cast<FunctionListItem*>(item)->function1();
-		int f2 = static_cast<FunctionListItem*>(item)->function2();
+		int f = static_cast<FunctionListItem*>(item)->function();
 		
-		if ( Function * function = View::self()->parser()->functionWithID( f1 ) )
-			KmPlotIO::addFunction( doc, root, function );
-		if ( Function * function = View::self()->parser()->functionWithID( f2 ) )
+		if ( Function * function = View::self()->parser()->functionWithID( f ) )
 			KmPlotIO::addFunction( doc, root, function );
 	}
 	
@@ -973,13 +928,11 @@ void FunctionListWidget::dropEvent( QDropEvent * event )
 
 
 //BEGIN class FunctionListItem
-FunctionListItem::FunctionListItem( QListWidget * parent, int function1, int function2 )
+FunctionListItem::FunctionListItem( QListWidget * parent, int function )
 	: QListWidgetItem( parent )
 {
-	m_function1 = function1;
-	m_function2 = function2;
-	
-	assert( m_function1 != -1 );
+	m_function = function;
+	assert( m_function != -1 );
 	
 // 	setFlags( Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
 	
@@ -989,22 +942,22 @@ FunctionListItem::FunctionListItem( QListWidget * parent, int function1, int fun
 
 void FunctionListItem::update()
 {
-	Function * f1 = View::self()->parser()->functionWithID( m_function1 );
-	Function * f2 = View::self()->parser()->functionWithID( m_function2 );
+	Function * f = View::self()->parser()->functionWithID( m_function );
 	
-	if ( !f1 )
+	if ( !f )
 	{
 		// The function was probably deleted
 		return;
 	}
 	
-	QString text = f1->eq->fstr();
-	if ( f2 )
-		text += ";" + f2->eq->fstr();
+	QString text = f->eq[0]->fstr();
+	if ( f->eq[1] )
+		text += ";" + f->eq[1]->fstr();
+// 	text += QString(" id=%1").arg(m_function );
 	setText( text );
 	
-	setCheckState( f1->f0.visible ? Qt::Checked : Qt::Unchecked );
-	setTextColor( f1->f0.color );
+	setCheckState( f->f0.visible ? Qt::Checked : Qt::Unchecked );
+	setTextColor( f->f0.color );
 }
 //END class FunctionListItem
 

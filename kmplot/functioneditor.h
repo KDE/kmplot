@@ -155,14 +155,9 @@ class FunctionEditor : public QDockWidget
 		/// The main editing widget.
 		FunctionEditorWidget * m_editor;
 		/**
-		 * The Cartesian or Polar function being edited (the Parametric
-		 * functions are stored in m_functionX, m_functionY).
+		 * The id of the function currently being edited.
 		 */
-		int m_function;
-		/// The x-coordinate of the parametric function being edited.
-		int m_functionX;
-		/// The y-coordinate of the parametric function being edited.
-		int m_functionY;
+		int m_functionID;
 		
 		/// Used to ensure only one update when multiple widgets are changed
 		/// @{
@@ -208,7 +203,7 @@ class FunctionListWidget : public QListWidget
 class FunctionListItem : public QListWidgetItem
 {
 	public:
-		FunctionListItem( QListWidget * parent, int function1, int function2 = -1 );
+		FunctionListItem( QListWidget * parent, int function );
 		
 		/**
 		 * Updates the displayed text and checked state depending on the
@@ -216,12 +211,10 @@ class FunctionListItem : public QListWidgetItem
 		 */
 		void update();
 		
-		int function1() const { return m_function1; }
-		int function2() const { return m_function2; }
+		int function() const { return m_function; }
 		
 	protected:
-		int m_function1;
-		int m_function2;
+		int m_function;
 };
 
 #endif // FUNCTIONEDITOR_H

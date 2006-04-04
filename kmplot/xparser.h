@@ -57,7 +57,7 @@ public:
 	/// Line width default
 	QColor defaultColor(int function);
 	
-	virtual int addfkt( QString, Function::Type type );
+	virtual int addfkt( QString, QString, Function::Type type );
 	
 	///Returns an unused function name if it is needed
 	void fixFunctionName(QString &, Equation::Type const = Equation::Cartesian, int const=-1);
@@ -82,7 +82,7 @@ public:
 	bool setFunctionIntVisible(bool visible, uint id);
 	
 	/// Returns the function expression, or an empty string if the function couldn't be found
-	QString functionStr(uint id);
+	QString functionStr(uint id, uint eq);
 	/// Returns the complete function string including the extensions of a function, or an empty string if the function couldn't be found
 	
 	/// Get the color of a graph
@@ -111,9 +111,9 @@ public:
 	QStringList functionParameterList(uint id);
 	bool functionAddParameter(const QString &new_parameter, uint id);
 	bool functionRemoveParameter(const QString &remove_parameter, uint id);
-	int addFunction(const QString &f_str);
-	bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1linewidth, double f2linewidth, double integrallinewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider);
-	bool setFunctionExpression(const QString &f_str, uint id);
+	int addFunction(const QString &f_str0, const QString &f_str1);
+	bool addFunction(const QString &extstr0, const QString &extstr1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1linewidth, double f2linewidth, double integrallinewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider);
+	bool setFunctionExpression(const QString &f_str, uint id, uint eq);
 	
 	/// Get the min and max value of a graph
 	QString functionMinValue(uint id);

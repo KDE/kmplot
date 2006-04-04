@@ -102,10 +102,16 @@ Equation::~ Equation()
 
 QString Equation::fname( ) const
 {
+	if ( m_fstr.isEmpty() )
+	{
+// 		kWarning() << k_funcinfo << "m_fstr is empty.\n";
+		return QString();
+	}
+	
 	int pos = m_fstr.indexOf( '(' );
 	if ( pos == -1 )
 	{
-		kWarning() << k_funcinfo << "No bracket!\n";
+// 		kWarning() << k_funcinfo << "No bracket!\n";
 		return QString();
 	}
 	
@@ -115,10 +121,16 @@ QString Equation::fname( ) const
 
 QString Equation::fvar( ) const
 {
+	if ( m_fstr.isEmpty() )
+	{
+// 		kWarning() << k_funcinfo << "m_fstr is empty.\n";
+		return QString();
+	}
+	
 	int p1 = m_fstr.indexOf( '(' );
 	if ( p1 == -1 )
 	{
-		kWarning() << k_funcinfo << "No bracket!\n";
+// 		kWarning() << k_funcinfo << "No bracket!\n";
 		return QString();
 	}
 	
@@ -128,7 +140,7 @@ QString Equation::fvar( ) const
 	
 	if ( p2 == -1 )
 	{
-		kWarning() << k_funcinfo << "No closing!\n";
+// 		kWarning() << k_funcinfo << "No closing!\n";
 		return QString();
 	}
 	
@@ -138,6 +150,12 @@ QString Equation::fvar( ) const
 
 QString Equation::fpar( ) const
 {
+	if ( m_fstr.isEmpty() )
+	{
+// 		kWarning() << k_funcinfo << "m_fstr is empty.\n";
+		return QString();
+	}
+	
 	int p1 = m_fstr.indexOf( ',' );
 	if ( p1 == -1 )
 	{
@@ -148,7 +166,7 @@ QString Equation::fpar( ) const
 	int p2 = m_fstr.indexOf( ')' );
 	if ( p2 == -1 )
 	{
-		kWarning() << k_funcinfo << "No closing bracket!\n";
+// 		kWarning() << k_funcinfo << "No closing bracket!\n";
 		return QString();
 	}
 	
@@ -158,7 +176,7 @@ QString Equation::fpar( ) const
 
 bool Equation::setFstr( const QString & fstr, bool force  )
 {
-// 	kDebug() << "fstr: "<<fstr<<endl;
+// 	kDebug() << k_funcinfo << "fstr: "<<fstr<<endl;
 	
 	if ( force )
 	{
@@ -169,7 +187,7 @@ bool Equation::setFstr( const QString & fstr, bool force  )
 	if ( !XParser::self()->isFstrValid( fstr ) )
 	{
 		XParser::self()->parserError( true );
-// 		kDebug() << "invalid fstr\n";
+// 		kDebug() << k_funcinfo << "invalid fstr\n";
 		return false;
 	}
 	
@@ -180,12 +198,12 @@ bool Equation::setFstr( const QString & fstr, bool force  )
 	{
 		m_fstr = prevFstr;
 		XParser::self()->initEquation( this );
-// 		kDebug() << "BAD\n";
+// 		kDebug() << k_funcinfo << "BAD\n";
 		return false;
 	}
 	else
 	{
-// 		kDebug() << "GoOd :)\n";
+// 		kDebug() << k_funcinfo << "GoOd :)\n";
 		return true;
 	}
 }
@@ -196,12 +214,23 @@ bool Equation::setFstr( const QString & fstr, bool force  )
 Function::Function( Type type )
 	: m_type( type )
 {
-	eq = new Equation(
-			(type == Cartesian) ? Equation::Cartesian :
-			(type == ParametricX) ? Equation::ParametricX :
-			(type == ParametricY) ? Equation::ParametricY : Equation::Polar,
-					 this
-					 );
+	eq[1] = 0;
+	
+	switch ( m_type )
+	{
+		case Cartesian:
+			eq[0] = new Equation( Equation::Cartesian, this );
+			break;
+			
+		case Polar:
+			eq[0] = new Equation( Equation::Polar, this );
+			break;
+			
+		case Parametric:
+			eq[0] = new Equation( Equation::ParametricX, this );
+			eq[1] = new Equation( Equation::ParametricY, this );
+			break;
+	}
 	
 	id = 0;
 	f0.visible = true;
@@ -221,7 +250,11 @@ Function::Function( Type type )
 
 Function::~Function()
 {
-	delete eq;
+	for ( unsigned i = 0; i < 2; ++i )
+	{
+		delete eq[i];
+		eq[i] = 0;
+	}
 }
 
 
@@ -242,18 +275,14 @@ bool Function::copyFrom( const Function & function )
 	COPY_AND_CHECK( f2 );						// 2
 	COPY_AND_CHECK( integral );					// 3
 	COPY_AND_CHECK( integral_use_precision );	// 4
-	COPY_AND_CHECK( dmin.expression() );					// 5
-	COPY_AND_CHECK( dmax.expression() );					// 6
-	COPY_AND_CHECK( dmin );						// 7
-	COPY_AND_CHECK( dmax );						// 8
-	COPY_AND_CHECK( startx.expression() );				// 9
-	COPY_AND_CHECK( starty.expression() );				// 10
-	COPY_AND_CHECK( starty );					// 11
-	COPY_AND_CHECK( startx );					// 12
-	COPY_AND_CHECK( integral_precision );		// 13
-	COPY_AND_CHECK( use_slider );				// 14
-	COPY_AND_CHECK( usecustomxmin );			// 15
-	COPY_AND_CHECK( usecustomxmax );			// 16
+	COPY_AND_CHECK( dmin );						// 5
+	COPY_AND_CHECK( dmax );						// 6
+	COPY_AND_CHECK( starty );					// 7
+	COPY_AND_CHECK( startx );					// 8
+	COPY_AND_CHECK( integral_precision );		// 9
+	COPY_AND_CHECK( use_slider );				// 10
+	COPY_AND_CHECK( usecustomxmin );			// 11
+	COPY_AND_CHECK( usecustomxmax );			// 12
 	
 	// handle parameters separately
 	if ( parameters.count() != function.parameters.count() )
@@ -276,5 +305,40 @@ bool Function::copyFrom( const Function & function )
 	
 // 	kDebug() << k_funcinfo << "changed="<<changed<<endl;
 	return changed;
+}
+
+
+QString Function::typeToString( Type type )
+{
+	switch ( type )
+	{
+		case Cartesian:
+			return "cartesian";
+			
+		case Parametric:
+			return "parametric";
+			
+		case Polar:
+			return "polar";
+	}
+	
+	kWarning() << "Unknown type " << type << endl;
+	return "unknown";
+}
+
+
+Function::Type Function::stringToType( const QString & type )
+{
+	if ( type == "cartesian" )
+		return Cartesian;
+	
+	if ( type == "parametric" )
+		return Parametric;
+	
+	if ( type == "polar" )
+		return Polar;
+	
+	kWarning() << "Unknown type " << type << endl;
+	return Cartesian;
 }
 //END class Function

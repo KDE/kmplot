@@ -189,12 +189,12 @@ public:
 	
 	/// Returns the result of a calculation
 	double fkt( Equation * it, double const x);
-	double fkt(uint id, double const x);
+	double fkt( uint id, uint eq, double const x );
 	
 	/// Evaluates the given expression.
 	double eval(QString);
 	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
-	virtual int addfkt( QString, Function::Type type );
+	virtual int addfkt( QString str1, QString str2, Function::Type type );
 	/// Removes the function with the given id.
 	bool delfkt(uint id);
 	bool delfkt( Function *item);
@@ -262,7 +262,7 @@ private:
 	void addtoken(unsigned char);
 	void addwert(double);
 	void addfptr(double(*)(double));
-	void addfptr(uint );
+	void addfptr( uint id, uint eq_id );
 	int match( const QString & );
         
 	unsigned

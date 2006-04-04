@@ -186,7 +186,7 @@ bool Equation::setFstr( const QString & fstr, bool force  )
 	
 	if ( !XParser::self()->isFstrValid( fstr ) )
 	{
-		XParser::self()->parserError( true );
+		XParser::self()->parserError( false );
 // 		kDebug() << k_funcinfo << "invalid fstr\n";
 		return false;
 	}
@@ -194,7 +194,7 @@ bool Equation::setFstr( const QString & fstr, bool force  )
 	QString prevFstr = m_fstr;
 	m_fstr = fstr;
 	XParser::self()->initEquation( this );
-	if ( XParser::self()->parserError( true ) != Parser::ParseSuccess )
+	if ( XParser::self()->parserError( false ) != Parser::ParseSuccess )
 	{
 		m_fstr = prevFstr;
 		XParser::self()->initEquation( this );
@@ -239,6 +239,9 @@ Function::Function( Type type )
 	k = 0;
 	integral_precision = Settings::stepWidth();
 	use_slider = -1;
+	
+	startx.updateExpression( "0" );
+	starty.updateExpression( "0" );
 	
 	// min/max stuff
 	dmin.updateExpression( QString("-")+QChar(960) );

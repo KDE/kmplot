@@ -84,9 +84,9 @@ public:
 	/// @see getSettings
 	void init();
 	/// Finding the minimum or maximum value
-	void findMinMaxValue(Function *, char, bool, double &, double &,const QString &);
+	void findMinMaxValue(Function *, Function::PMode, bool, double &, double &,const QString &);
 	/// get a y-value from a x-value
-	void getYValue(Function * , char, double , double &,const QString &);
+	void getYValue(Function * , Function::PMode, double , double &,const QString &);
 	/// draw and calculate the area between the graph and the x-axis.
 	void areaUnderGraph(Function *, Function::PMode, double &, double &, const QString &, QPainter* );
 	/// the calculation was cancelled by the user
@@ -204,16 +204,15 @@ private:
 	 */
 	void getPlotUnderMouse();
 	/**
-	 * Finds the closest point to \p real_x and \p real_y to the given polar or
-	 * parametric function.
+	 * Finds the closest point to \p real_x and \p real_y to the given function.
 	 * \return the parametization (angle or t) that gives the closest point.
 	 */
-	double getClosestPoint( double real_x, double real_y, Function * function );
+	double getClosestPoint( double real_x, double real_y, Function * function, Function::PMode mode );
 	/**
 	 * Calculates the pixel distance from \p real_x and \p real_y to the display
-	 * point of the given polar or parametric parametric function at \p x.
+	 * point of the given function at \p x.
 	 */
-	double pixelDistance( double real_x, double real_y, Function * function, double x );
+	double pixelDistance( double real_x, double real_y, Function * function, Function::PMode mode, double x );
 	/**
 	 * @return a string for displaying the x or y coordinate in the statusbar.
 	 * \param delta is the amount by which the value varies over one pixel in
@@ -221,6 +220,11 @@ private:
 	 * moving the cursor shows a nice change in the string.
 	 */
 	QString posToString( double x, double delta ) const;
+	/**
+	 * Convenience function for calculating the value of \p eq using the
+	 * given \p mode (which cannot be Function::Integral).
+	 */
+	double value( Equation * eq, Function::PMode mode, double x );
 	
 
 	/// for areadrawing when printing

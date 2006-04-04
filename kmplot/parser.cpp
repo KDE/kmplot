@@ -213,73 +213,76 @@ double Parser::fkt( Equation * eq, double const x )
 
 	while(1)
 	{
-                switch(*eq->mptr++)
-                {
-                        case KONST:
-                                pd=(double*)eq->mptr;
-                                *stkptr=*pd++;
-                                eq->mptr=(unsigned char*)pd;
-                                break;
-                        case XWERT:
-                                *stkptr=x;
-                                break;
-                        case YWERT:
-							*stkptr=eq->oldy;
-                                break;
-                        case KWERT:
-							*stkptr=eq->parent()->k;
-                                break;
-                        case PUSH:
-                                ++stkptr;
-                                break;
-                        case PLUS:
-                                stkptr[-1]+=*stkptr;
-                                --stkptr;
-                                break;
-                        case MINUS:
-                                stkptr[-1]-=*stkptr;
-                                --stkptr;
-                                break;
-                        case MULT:
-                                stkptr[-1]*=*stkptr;
-                                --stkptr;
-                                break;
-                        case DIV:
-                                if(*stkptr==0.)*(--stkptr)=HUGE_VAL;
-                                else
-                                {
-                                        stkptr[-1]/=*stkptr;
-                                        --stkptr;
-                                }
-                                break;
-                        case POW:
-                                stkptr[-1]=pow(*(stkptr-1), *stkptr);
-                                --stkptr;
-                                break;
-                        case NEG:
-                                *stkptr=-*stkptr;
-                                break;
-                        case FKT:
-                                pf=(double(**)(double))eq->mptr;
-                                *stkptr=(*pf++)(*stkptr);
-                                eq->mptr=(unsigned char*)pf;
-                                break;
-                        case UFKT:
-                        {
-                                puf=(uint*)eq->mptr;
-                                uint id = *puf++;
-								uint id_eq = *puf++;
-								if ( m_ufkt.contains( id ) )
-									*stkptr=fkt( m_ufkt[id]->eq[id_eq], *stkptr);
-                                eq->mptr=(unsigned char*)puf;
-                                break;
-                        }
-                        case ENDE:
-                                double const erg=*stkptr;
-                                delete [] stack;
-                                return erg;
-                }
-        }
+		switch(*eq->mptr++)
+		{
+			case KONST:
+				pd=(double*)eq->mptr;
+				*stkptr=*pd++;
+				eq->mptr=(unsigned char*)pd;
+				break;
+			case XWERT:
+				*stkptr=x;
+				break;
+			case YWERT:
+				*stkptr=eq->oldy;
+				break;
+			case KWERT:
+				*stkptr=eq->parent()->k;
+				break;
+			case PUSH:
+				++stkptr;
+				break;
+			case PLUS:
+				stkptr[-1]+=*stkptr;
+				--stkptr;
+				break;
+			case MINUS:
+				stkptr[-1]-=*stkptr;
+				--stkptr;
+				break;
+			case MULT:
+				stkptr[-1]*=*stkptr;
+				--stkptr;
+				break;
+			case DIV:
+				if(*stkptr==0.)*(--stkptr)=HUGE_VAL;
+				else
+				{
+					stkptr[-1]/=*stkptr;
+					--stkptr;
+				}
+				break;
+			case POW:
+				stkptr[-1]=pow(*(stkptr-1), *stkptr);
+				--stkptr;
+				break;
+			case NEG:
+				*stkptr=-*stkptr;
+				break;
+			case SQRT:
+				*stkptr = sqrt(*stkptr);
+				break;
+			case FKT:
+				pf=(double(**)(double))eq->mptr;
+				*stkptr=(*pf++)(*stkptr);
+				eq->mptr=(unsigned char*)pf;
+				break;
+			case UFKT:
+			{
+				puf=(uint*)eq->mptr;
+				uint id = *puf++;
+				uint id_eq = *puf++;
+				if ( m_ufkt.contains( id ) )
+					*stkptr=fkt( m_ufkt[id]->eq[id_eq], *stkptr);
+				eq->mptr=(unsigned char*)puf;
+				break;
+			}
+			case ENDE:
+				double const erg=*stkptr;
+				delete [] stack;
+				return erg;
+		}
+	}
 }
 
 
@@ -394,6 +397,40 @@ void Parser::fix_expression(QString &str, int const pos)
 	QChar dashes[6] = { 0x2012, 0x2013, 0x2014, 0x2015, 0x2053, 0x2212 };
 	for ( unsigned i = 0; i < 6; ++i )
 		str.replace( dashes[i], '-' );
+	
+	// replace the proper unicode divide sign by the forward-slash
+	str.replace( QChar( 0x2215 ), '/' );
+	
+	// replace the unicode middle-dot for multiplication by the star symbol
+	str.replace( QChar( 0x2219 ), '*' );
+	
+	// various power symbols
+	str.replace( QChar(0x00B2), "^2" );
+	str.replace( QChar(0x00B3), "^3" );
+	str.replace( QChar(0x2070), "^0" );
+	str.replace( QChar(0x2074), "^4" );
+	str.replace( QChar(0x2075), "^5" );
+	str.replace( QChar(0x2076), "^6" );
+	str.replace( QChar(0x2077), "^7" );
+	str.replace( QChar(0x2078), "^8" );
+	str.replace( QChar(0x2079), "^9" );
+	
+	// fractions
+	str.replace( QChar(0x00BC), "(1/4)" );
+	str.replace( QChar(0x00BD), "(1/2)" );
+	str.replace( QChar(0x00BE), "(3/4)" );
+	str.replace( QChar(0x2153), "(1/3)" );
+	str.replace( QChar(0x2154), "(2/3)" );
+	str.replace( QChar(0x2155), "(1/5)" );
+	str.replace( QChar(0x2156), "(2/5)" );
+	str.replace( QChar(0x2157), "(3/5)" );
+	str.replace( QChar(0x2158), "(4/5)" );
+	str.replace( QChar(0x2159), "(1/6)" );
+	str.replace( QChar(0x215a), "(5/6)" );
+	str.replace( QChar(0x215b), "(1/8)" );
+	str.replace( QChar(0x215c), "(3/8)" );
+	str.replace( QChar(0x215d), "(5/8)" );
+	str.replace( QChar(0x215e), "(7/8)" );
 	
 	/// \todo tidy up code for dealing with capital letter H (heaviside step function)
         
@@ -552,12 +589,19 @@ void Parser::heir1()
 
 void Parser::heir2()
 {
-	if(match("-"))
+	if ( match("-") )
 	{
 		heir2();
 		if(err!=ParseSuccess)
 			return;
 		addtoken(NEG);
+	}
+	else if ( match( QChar(0x221a) ) ) // square root symbol
+	{
+		heir2();
+		if(err!=ParseSuccess)
+			return;
+		addtoken(SQRT);
 	}
 	else
 		heir3();
@@ -641,7 +685,9 @@ void Parser::primary()
 	}
 	foreach ( Function * it, m_ufkt )
 	{
-		if ( evalRemaining() == "pi" || evalRemaining() == "e" )
+		if ( evalRemaining() == "pi" ||
+				   evalRemaining() == "e" ||
+				   evalRemaining() == QChar(0x221E) )
 			continue;
 
 		for ( unsigned i = 0; i < 2; ++i )
@@ -689,10 +735,18 @@ void Parser::primary()
 
 	if(match("e"))
 	{
-                addtoken(KONST);
+		addtoken(KONST);
 		addwert(M_E);
 		return;
 	}
+
+	if( match( QChar(0x221E) ) )
+	{
+		addtoken(KONST);
+		addwert( INFINITY );
+		return;
+	}
+	
 	//if(match(ufkt[ixa].fvar.latin1()))
 	if(match(m_currentEquation->fvar()))
 	{
@@ -774,38 +828,42 @@ void Parser::addtoken(unsigned char token)
 	}
 	else switch(token)
 	{
-                case PUSH:
-                        ++stkptr;
-                        break;
-                case PLUS:
-                        stkptr[-1]+=*stkptr;
-                        --stkptr;
-                        break;
-
-                case MINUS:
-                        stkptr[-1]-=*stkptr;
-                        --stkptr;
-                        break;
-                case MULT:
-                        stkptr[-1]*=*stkptr;
+		case PUSH:
+			++stkptr;
+			break;
+		case PLUS:
+			stkptr[-1]+=*stkptr;
 			--stkptr;
 			break;
-                case DIV:
-                        if(*stkptr==0.)
-                                *(--stkptr)=HUGE_VAL;
-                        else
+
+		case MINUS:
+			stkptr[-1]-=*stkptr;
+			--stkptr;
+			break;
+		case MULT:
+			stkptr[-1]*=*stkptr;
+			--stkptr;
+			break;
+		case DIV:
+			if(*stkptr==0.)
+				*(--stkptr)=HUGE_VAL;
+			else
 			{
-                                stkptr[-1]/=*stkptr;
+				stkptr[-1]/=*stkptr;
 				--stkptr;
 			}
-			     break;
+			break;
                 
-                case POW:
-                        stkptr[-1]=pow(*(stkptr-1), *stkptr);
-                        --stkptr;
-                        break;
-	       case NEG:
-                        *stkptr=-*stkptr;
+		case POW:
+			stkptr[-1]=pow(*(stkptr-1), *stkptr);
+			--stkptr;
+			break;
+		case NEG:
+			*stkptr=-*stkptr;
+			break;
+		case SQRT:
+			*stkptr = sqrt(*stkptr);
+			break;
 	}
 }
 

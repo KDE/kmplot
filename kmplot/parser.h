@@ -62,6 +62,7 @@ class Parser;
 #define	UFKT	11      // address to user defined function follows
 #define	ENDE	12      // end of function
 #define	YWERT	13       // get y value
+#define SQRT	14		// take square root
 
 #define	FANZ	35	// number of mathematical functions in mfkttab[]
 //@}

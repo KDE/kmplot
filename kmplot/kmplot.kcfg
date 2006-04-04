@@ -55,7 +55,7 @@
 		<entry name="TicWidth" type="Double"> 
 			<label>Tic width</label>
 			<whatsthis>Enter the width of the tic lines.</whatsthis>
-			<default>0.1</default>
+			<default>0.2</default>
 		</entry> 
 		<entry name="PlotLineWidth" type="Double"> 
 			<label>Plot-line width</label>

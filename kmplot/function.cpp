@@ -237,7 +237,8 @@ Function::Function( Type type )
 	integral_use_precision = false;
 	
 	k = 0;
-	integral_precision = Settings::stepWidth();
+// 	integral_precision = Settings::stepWidth();
+	integral_precision = 1.0;
 	use_slider = -1;
 	
 	startx.updateExpression( "0" );

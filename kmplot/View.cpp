@@ -224,12 +224,12 @@ void View::draw(QPaintDevice *dev, int form)
 	
 	PlotArea=dgr.GetPlotArea();
 	area=DC.matrix().mapRect(PlotArea);
-	stepWidth=Settings::stepWidth();
+// 	stepWidth=Settings::stepWidth();
 	
 // 	assert( stepWidth != 0.0 );
-	if ( stepWidth == 0.0 )
+// 	if ( stepWidth == 0.0 )
 	{
-		kWarning() << k_funcinfo << "Zero stepwidth!\n";
+// 		kWarning() << k_funcinfo << "Zero stepwidth!\n";
 		stepWidth = 1.0;
 	}
 
@@ -240,11 +240,11 @@ void View::draw(QPaintDevice *dev, int form)
 	// Antialiasing slows down rendering a lot, so turn it off if we are
 	// sliding the view about
 	DC.setRenderHint( QPainter::Antialiasing, m_zoomMode != Translating );
+// 	DC.setRenderHint( QPainter::Antialiasing, false );
 // 	if ( m_zoomMode != Translating )
 // 		kDebug() << "##############################\n";
 	DC.setClipping( true );
 	DC.setClipRect( PlotArea );
-// 	kDebug() << "m_parser->m_ufkt.size()="<<m_parser->m_ufkt.size()<<endl;
 	foreach ( Function * ufkt, m_parser->m_ufkt )
 	{
 		if ( stop_calculating )
@@ -314,26 +314,14 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 	if ( isCartesian && (dmax > xmax) )
 		dmax = xmax;
 	
-	double dx;
-	if ( ufkt->type() == Function::Polar )
-	{
-		if ( Settings::useRelativeStepWidth() )
-			dx=stepWidth*0.05/(dmax-dmin);
-		else
-			dx=stepWidth;
-	}
-	else
-	{
-		if ( Settings::useRelativeStepWidth() )
-			dx=stepWidth*(dmax-dmin)/area.width();
-		else
-			dx=stepWidth;
-	}
-	assert( dx != 0.0 );
+	double base_dx = 0.01*(dmax-dmin)/area.width();
 	
 	// Increase speed while translating the view
-	if ( m_zoomMode == Translating )
-		dx *= 4.0;
+	bool quickDraw = ( m_zoomMode == Translating );
+	if ( quickDraw )
+		base_dx *= 4.0;
+	
+	double dx = base_dx;
 
 	
 	Function::PMode p_mode = Function::Derivative0;
@@ -349,7 +337,8 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 		ke=ufkt->parameters.count();
 		do
 		{
-// 			kDebug() << "p_mode="<<p_mode<<endl;
+			if ( p_mode == Function::Derivative0 && !ufkt->f0.visible )
+				break; // skip to the next one as function is hidden
 			
 			if ( p_mode == Function::Integral && stop_calculating)
 				break;
@@ -368,10 +357,10 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 			if ( p_mode == Function::Integral )
 			{
 				if ( ufkt->integral_use_precision )
-					if ( Settings::useRelativeStepWidth() )
+// 					if ( Settings::useRelativeStepWidth() )
 						dx =  ufkt->integral_precision*(dmax-dmin)/area.width();
-					else
-						dx =  ufkt->integral_precision;
+// 					else
+// 						dx =  ufkt->integral_precision;
 				startProgressBar((int)double((dmax-dmin)/dx)/2);
 				x = ufkt->eq[0]->oldx = ufkt->startx.value(); //the initial x-point
 				ufkt->eq[0]->oldy = ufkt->starty.value();
@@ -385,73 +374,107 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 				forward_direction = false;
 			else
 				forward_direction = true;
-
-			if ( p_mode != Function::Derivative0 || ufkt->f0.visible) // if not the function is hidden
+			
+			while ((x>=dmin && x<=dmax) ||  (p_mode == Function::Integral && x>=dmin && !forward_direction) || (p_mode == Function::Integral && x<=dmax && forward_direction))
 			{
-				while ((x>=dmin && x<=dmax) ||  (p_mode == Function::Integral && x>=dmin && !forward_direction) || (p_mode == Function::Integral && x<=dmax && forward_direction))
+				if ( p_mode == Function::Integral && stop_calculating)
 				{
-					if ( p_mode == Function::Integral && stop_calculating)
-					{
-						p_mode = Function::Derivative1;
-						x=dmax+1;
-						continue;
-					}
+					p_mode = Function::Derivative1;
+					x=dmax+1;
+					continue;
+				}
 					
-					y = value( ufkt->eq[0], p_mode, x );
-					if ( p_mode == Function::Integral && (int(x*100)%2==0) )
-					{
-						KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
-						increaseProgressBar();
-					}
+				y = value( ufkt->eq[0], p_mode, x );
+				if ( p_mode == Function::Integral && (int(x*100)%2==0) )
+				{
+					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
+					increaseProgressBar();
+				}
 
-					if ( ufkt->type() == Function::Polar )
-					{
-						p2.setX(dgr.TransxToPixel( y*cos(x), false ));
-						p2.setY(dgr.TransyToPixel( y*sin(x), false ));
-					}
-					else if ( ufkt->type() == Function::Parametric )
-					{
-						p2.setX(dgr.TransxToPixel( y, false ));
-						p2.setY(dgr.TransyToPixel( m_parser->fkt( ufkt->eq[1], x), false ));
-					}
-					else
-					{
-						p2.setX(dgr.TransxToPixel( x, false ));
-						p2.setY(dgr.TransyToPixel( y, false ));
-					}
+				if ( ufkt->type() == Function::Polar )
+				{
+					p2.setX(dgr.TransxToPixel( y*cos(x), false ));
+					p2.setY(dgr.TransyToPixel( y*sin(x), false ));
+				}
+				else if ( ufkt->type() == Function::Parametric )
+				{
+					p2.setX(dgr.TransxToPixel( y, false ));
+					p2.setY(dgr.TransyToPixel( m_parser->fkt( ufkt->eq[1], x), false ));
+				}
+				else
+				{
+					p2.setX(dgr.TransxToPixel( x, false ));
+					p2.setY(dgr.TransyToPixel( y, false ));
+				}
 
-					if ( dgr.xclipflg || dgr.yclipflg )
+				bool dxAtMinimum = (dx <= base_dx*(5e-5));
+				bool dxAtMaximum = (dx >= base_dx*(5e+1));
+				bool dxTooBig = false;
+				bool dxTooSmall = false;
+					
+				if ( dgr.xclipflg || dgr.yclipflg )
+				{
+					p1=p2;
+				}
+				else
+				{
+					if ( (mflg<=1) && ((ufkt->type() == Function::Parametric) || (ufkt->type() == Function::Polar)) )
 					{
-						p1=p2;
-					}
-					else
-					{
-						if(mflg<=1)
-							pDC->drawLine(p1, p2);
-						p1=p2;
-						mflg=0;
-					}
-
-					if ( p_mode == Function::Integral )
-					{
-						if ( forward_direction)
+						QPointF p1_pixel = p1 * pDC->matrix();
+						QPointF p2_pixel = p2 * pDC->matrix();
+						QRectF bound = QRectF( p1_pixel, QSizeF( (p2_pixel-p1_pixel).x(), (p2_pixel-p1_pixel).y() ) ).normalized();
+							
+						if ( QRectF( area ).intersects( bound ) )
 						{
-							x=x+dx;
-							if (x>dmax && p_mode == Function::Integral )
-							{
-								forward_direction = false;
-								x = ufkt->eq[0]->oldx = ufkt->startx.value();
-								ufkt->eq[0]->oldy = ufkt->starty.value();
-								ufkt->eq[0]->oldyprim = ufkt->integral_precision;
-// 								paintEvent(0);
-								mflg=2;
-							}
+							double length = QLineF( p1_pixel, p2_pixel ).length();
+							dxTooBig = !dxAtMinimum && (length > (quickDraw ? 40.0 : 4.0));
+							dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 10.0 : 1.0));
+// 							kDebug() << "p1_pixel="<<p1_pixel.toPoint()<<" p2_pixel="<<p2_pixel.toPoint()<<" tooBig="<<dxTooBig<<" tooSmall="<<dxTooSmall<<" dx="<<dx<<" length="<<length<<endl;
 						}
 						else
-							x=x-dx; // go backwards
+						{
+// 							kDebug() << "area="<< area << " bound="<<bound.toRect()<<endl;
+							dxTooSmall = !dxAtMaximum;
+						}
+					}
+						
+					if ( !dxTooBig )
+					{
+						if(mflg<=1)
+							pDC->drawLine( p1, p2 );
+						p1=p2;
+					}
+					mflg=0;
+				}
+
+				if ( p_mode == Function::Integral )
+				{
+					if ( forward_direction)
+					{
+						x=x+dx;
+						if (x>dmax && p_mode == Function::Integral )
+						{
+							forward_direction = false;
+							x = ufkt->eq[0]->oldx = ufkt->startx.value();
+							ufkt->eq[0]->oldy = ufkt->starty.value();
+							ufkt->eq[0]->oldyprim = ufkt->integral_precision;
+// 								paintEvent(0);
+							mflg=2;
+						}
 					}
 					else
+						x=x-dx; // go backwards
+				}
+				else
+				{
+					if ( dxTooBig )
+						dx *= 0.5;
+					else
+					{
+						if ( dxTooSmall )
+							dx *= 2.0;
 						x=x+dx;
+					}
 				}
 			}
 		}
@@ -1320,7 +1343,7 @@ bool View::updateCrosshairPosition()
 				}
 				else
 				{
-					if ( current_dx > 9e-6 )
+					if ( qAbs(current_dx) > 9e-10 )
 						current_dx *= 0.1;
 					else
 						break;

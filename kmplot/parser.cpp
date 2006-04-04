@@ -386,10 +386,16 @@ void Parser::initEquation( Equation * eq )
 
 void Parser::fix_expression(QString &str, int const pos)
 {
-        str.remove(" " );
-        str=" "+str+" ";
-		
-		/// \todo tidy up code for dealing with capital letter H (heaviside step function)
+	str.remove(" " );
+	str=" "+str+" ";
+	
+	// make sure all minus-like signs (including the actual unicode minus sign)
+	// are represented by a dash (unicode 0x002d)
+	QChar dashes[6] = { 0x2012, 0x2013, 0x2014, 0x2015, 0x2053, 0x2212 };
+	for ( unsigned i = 0; i < 6; ++i )
+		str.replace( dashes[i], '-' );
+	
+	/// \todo tidy up code for dealing with capital letter H (heaviside step function)
         
         //insert '*' when it is needed
         QChar ch;

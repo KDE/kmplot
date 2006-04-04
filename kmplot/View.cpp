@@ -314,7 +314,9 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 	if ( isCartesian && (dmax > xmax) )
 		dmax = xmax;
 	
-	double base_dx = 0.01*(dmax-dmin)/area.width();
+	double base_dx = (dmax-dmin)/area.width();
+	if ( (ufkt->type() == Function::Parametric) || (ufkt->type() == Function::Polar) )
+		base_dx *= 0.01;
 	
 	// Increase speed while translating the view
 	bool quickDraw = ( m_zoomMode == Translating );

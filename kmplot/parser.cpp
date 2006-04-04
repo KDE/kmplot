@@ -427,7 +427,7 @@ void Parser::fix_expression(QString &str, int const pos)
 					{
 						for ( uint k=0; k<2; ++k )
 						{
-							if ( it->eq[k]->fname() == str.mid(j,i-j+1) )
+							if ( it->eq[k] && (it->eq[k]->fname() == str.mid(j,i-j+1)) )
 								function = true;
 						}
 					}

@@ -48,9 +48,9 @@ public:
 	
 	~XParser();
 	/// Evaluates the 1st dreivative of the function with intex \a ix
-	double a1fkt( Equation * u_item , double, double h = 1e-3 );
+	double a1fkt( Equation * u_item , double, double h );
 	/// Evaluates the 2nd dreivative of the function with intex \a ix
-	double a2fkt( Equation *, double, double h = 1e-3 );
+	double a2fkt( Equation *, double, double h );
 	/// calculate euler's method when drawing a numeric prime-function
 	double euler_method(const double, Equation * eq );
         

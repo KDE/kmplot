@@ -380,10 +380,10 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 							y=m_parser->fkt( ufkt->eq[0], x );
 							break;
 						case Function::Derivative1:
-							y=m_parser->a1fkt( ufkt->eq[0], x );
+							y=m_parser->a1fkt( ufkt->eq[0], x, (xmax-xmin)/1e3 );
 							break;
 						case Function::Derivative2:
-							y=m_parser->a2fkt( ufkt->eq[0], x );
+							y=m_parser->a2fkt( ufkt->eq[0], x, (xmax-xmin)/1e3 );
 							break;
 						case Function::Integral:
 						{
@@ -656,10 +656,20 @@ bool View::root(double *x0, Equation *it)
 	double y = csypos;
 	bool tooBig = true;
 	
+	kDebug() << "Initial: ("<<*x0<<","<<y<<")\n";
+	
 	do
 	{
-		*x0 -= y / m_parser->a1fkt( it, *x0 );
+		double df = m_parser->a1fkt( it, *x0, (xmax-xmin)/1e3 );
+// 		kDebug() << "df1="<<df<<endl;
+// 		if ( qAbs(df) < 1e-6 )
+// 			df = 1e-6 * ((df < 0) ? -1 : 1);
+// 		kDebug() << "df2="<<df<<endl;
+		
+		*x0 -= y / df;
 		y = m_parser->fkt( it, *x0 );
+		
+		kDebug() << "k="<<k<<": ("<<*x0<<","<<y<<")\n";
 		
 		tooBig = (qAbs(y) > max_y);
 	}
@@ -813,6 +823,8 @@ void View::mousePressEvent(QMouseEvent *e)
 	
 	if ( m_zoomMode != Normal )
 		return;
+	
+	rootflg = false;
 	
 	bool hadFunction = (csmode != -1 );
 	
@@ -1018,14 +1030,14 @@ void View::getPlotUnderMouse()
 				csparam = k;
 				return;
 			}
-			else if(fabs(csypos-m_parser->a1fkt( it->eq[0], csxpos))< g && it->f1.visible)
+			else if(fabs(csypos-m_parser->a1fkt( it->eq[0], csxpos, (xmax-xmin)/1e3 ))< g && it->f1.visible)
 			{
 				csmode=it->id;
 				cstype = Function::Derivative1;
 				csparam = k;
 				return;
 			}
-			else if(fabs(csypos-m_parser->a2fkt(it->eq[0], csxpos))< g && it->f2.visible)
+			else if(fabs(csypos-m_parser->a2fkt(it->eq[0], csxpos, (xmax-xmin)/1e3 ))< g && it->f2.visible)
 			{
 				csmode=it->id;
 				cstype = Function::Derivative2;
@@ -1299,12 +1311,12 @@ bool View::updateCrosshairPosition()
 					break;
 					
 				case Function::Derivative1:
-					csypos = m_parser->a1fkt( it->eq[0], csxpos );
+					csypos = m_parser->a1fkt( it->eq[0], csxpos, (xmax-xmin)/1e3 );
 					ptl.setY(dgr.TransyToPixel( csypos ));
 					break;
 					
 				case Function::Derivative2:
-					csypos = m_parser->a2fkt( it->eq[0], csxpos );
+					csypos = m_parser->a2fkt( it->eq[0], csxpos, (xmax-xmin)/1e3 );
 					ptl.setY(dgr.TransyToPixel( csypos ));
 					break;
 					
@@ -1316,7 +1328,7 @@ bool View::updateCrosshairPosition()
 			{
 				out_of_bounds = true;
 			}
-			else if(fabs(dgr.TransyToReal(ptl.y())) < (xmax-xmin)/80)
+			else if(fabs(dgr.TransyToReal(ptl.y())) < (ymax-ymin)/80)
 			{
 				double x0;
 				if ( root( &x0, it->eq[0] ) )
@@ -1739,12 +1751,12 @@ void View::findMinMaxValue(Function *ufkt, char p_mode, bool minimum, double &dm
 
 			case 1:
 			{
-				y=m_parser->a1fkt( ufkt->eq[0], x);
+				y=m_parser->a1fkt( ufkt->eq[0], x, (xmax-xmin)/1e3 );
 				break;
 			}
 			case 2:
 			{
-				y=m_parser->a2fkt( ufkt->eq[0], x);
+				y=m_parser->a2fkt( ufkt->eq[0], x, (xmax-xmin)/1e3 );
 				break;
 			}
 			case 3:
@@ -1815,10 +1827,10 @@ void View::findMinMaxValue(Function *ufkt, char p_mode, bool minimum, double &dm
 		dmax=m_parser->fkt( ufkt->eq[0], dmin);
 		break;
 	case 1:
-		dmax=m_parser->a1fkt( ufkt->eq[0], dmin);
+		dmax=m_parser->a1fkt( ufkt->eq[0], dmin, (xmax-xmin)/1e3 );
 		break;
 	case 2:
-		dmax=m_parser->a2fkt( ufkt->eq[0], dmin);
+		dmax=m_parser->a2fkt( ufkt->eq[0], dmin, (xmax-xmin)/1e3 );
 		break;
 	}
 }
@@ -1843,13 +1855,13 @@ void View::getYValue(Function *ufkt, char p_mode,  double x, double &y, const QS
 	switch (p_mode)
 	{
 	case 0:
-		y= m_parser->fkt( ufkt->eq[0], x);
+		y= m_parser->fkt( ufkt->eq[0], x );
 		break;
 	case 1:
-		y=m_parser->a1fkt( ufkt->eq[0], x);
+		y=m_parser->a1fkt( ufkt->eq[0], x, (xmax-xmin)/1e3 );
 		break;
 	case 2:
-		y=m_parser->a2fkt( ufkt->eq[0], x);
+		y=m_parser->a2fkt( ufkt->eq[0], x, (xmax-xmin)/1e3 );
 		break;
 	case 3:
 		double dmin = ufkt->dmin.value();
@@ -2177,10 +2189,10 @@ void View::areaUnderGraph( Function *ufkt, Function::PMode p_mode,  double &dmin
 				break;
 	
 			case Function::Derivative1:
-				y=m_parser->a1fkt( ufkt->eq[0], x);
+				y=m_parser->a1fkt( ufkt->eq[0], x, (xmax-xmin)/1e3 );
 				break;
 			case Function::Derivative2:
-				y=m_parser->a2fkt( ufkt->eq[0], x);
+				y=m_parser->a2fkt( ufkt->eq[0], x, (xmax-xmin)/1e3 );
 				break;
 			case Function::Integral:
 			{

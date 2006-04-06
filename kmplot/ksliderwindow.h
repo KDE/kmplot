@@ -59,8 +59,12 @@ class KSliderWindow : public KDialog
 	private:
 		bool eventFilter( QObject *obj, QEvent *ev );
 		void closeEvent( QCloseEvent * );
+		void updateMinMaxValues();
+		
 		KMenu * m_popupmenu;
 		QSlider * m_sliders[4];
+		QLabel * m_minLabels[4];
+		QLabel * m_maxLabels[4];
 		SliderWindow * m_mainWidget;
 		
 		/// this is set to the clicked-on slider when right-clicking on a slider

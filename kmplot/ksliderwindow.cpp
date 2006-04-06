@@ -55,11 +55,22 @@ KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
 	m_mainWidget = new SliderWindow( this );
 	setMainWidget( m_mainWidget );
 	
+	assert( SLIDER_COUNT == 4 ); // safety check, incase SLIDER_COUNT is increased but not this code
+	
 	m_sliders[0] = m_mainWidget->slider0;
 	m_sliders[1] = m_mainWidget->slider1;
 	m_sliders[2] = m_mainWidget->slider2;
 	m_sliders[3] = m_mainWidget->slider3;
-	assert( SLIDER_COUNT == 4 ); // safety check, incase SLIDER_COUNT is increased but not this code
+	
+	m_minLabels[0] = m_mainWidget->min0;
+	m_minLabels[1] = m_mainWidget->min1;
+	m_minLabels[2] = m_mainWidget->min2;
+	m_minLabels[3] = m_mainWidget->min3;
+	
+	m_maxLabels[0] = m_mainWidget->max0;
+	m_maxLabels[1] = m_mainWidget->max1;
+	m_maxLabels[2] = m_mainWidget->max2;
+	m_maxLabels[3] = m_mainWidget->max3;
 	
 	KConfig config( "kmplotrc" );
 	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )
@@ -78,6 +89,8 @@ KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
 		
 		connect( m_sliders[i], SIGNAL( valueChanged( int ) ), this, SIGNAL( valueChanged() ) );
 	}
+	
+	updateMinMaxValues();
 	
 	//BEGIN create popup-menu
 	m_popupmenu = new KMenu(this);
@@ -122,7 +135,7 @@ bool KSliderWindow::eventFilter( QObject *obj, QEvent *ev )
 	
 	if ( mouseEvent &&
 			(mouseEvent->button() == Qt::RightButton) &&
-			(obj->metaObject()->className() == "QSlider") )
+			(obj->metaObject()->className() == QString( "QSlider" ) ) )
 	{
 		m_clickedOnSlider = static_cast<QSlider*>(obj);
 		m_popupmenu->exec(QCursor::pos());
@@ -148,6 +161,7 @@ void KSliderWindow::mnuMinValue_clicked()
 		return;
 	m_clickedOnSlider->setMinimum(result);
 	m_clickedOnSlider->setPageStep( (int)ceil((abs(m_clickedOnSlider->maximum()) + abs(result))/10.) );
+	updateMinMaxValues();
 	setFocus();
 }
 
@@ -161,7 +175,17 @@ void KSliderWindow::mnuMaxValue_clicked()
 		return;
 	m_clickedOnSlider->setMaximum(result);
 	m_clickedOnSlider->setPageStep( (int)ceil((abs(m_clickedOnSlider->minimum()) + abs(result))/10.) );
+	updateMinMaxValues();
 	setFocus();
+}
+
+void KSliderWindow::updateMinMaxValues( )
+{
+	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )
+	{
+		m_minLabels[i]->setNum( m_sliders[i]->minimum() );
+		m_maxLabels[i]->setNum( m_sliders[i]->maximum() );
+	}
 }
 
 #include "ksliderwindow.moc"

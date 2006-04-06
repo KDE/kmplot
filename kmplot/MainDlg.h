@@ -86,9 +86,8 @@ public:
 	/** Constuctor.
 	 * @param parentWidget parent widget for this part
 	 * @param parent parent object
-	 * @param name name of this dialog
 	 */
-	MainDlg(QWidget *parentWidget, const char *, QObject *parent );
+	MainDlg(QWidget *parentWidget, QObject *parent );
 	/// Cleaning up a bit.
 	virtual ~MainDlg();
 	/// This class needs access to private members, too.

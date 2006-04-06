@@ -31,6 +31,7 @@
 
 //KDE includes
 #include <kdebug.h>
+#include <kglobal.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <ksimpleconfig.h>
@@ -88,9 +89,8 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 
 //BEGIN class Parser
 Parser::Parser()
+	: m_sanitizer( this )
 {
-	kDebug() << "##################################" <<  k_funcinfo << endl;
-	
 	m_evalPos = 0;
 	evalflg = 0;
 	m_nextFunctionID = 0;
@@ -119,10 +119,6 @@ void Parser::setAngleMode(int angle)
 		m_anglemode = M_PI/180;	
 }
 
-void Parser::setDecimalSymbol(const QString c)
-{
-	m_decimalsymbol = c;
-}
 
 double Parser::anglemode()
 {
@@ -144,7 +140,7 @@ uint Parser::getNewId()
 	}
 }
 
-double Parser::eval(QString str)
+double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
 {
 // 	kDebug() << k_funcinfo << "str=\""<<str<<"\"\n";
 	
@@ -152,26 +148,32 @@ double Parser::eval(QString str)
 	stkptr=stack;
 	evalflg=1;
 	
-	fix_expression(str,0);
-        
-	if ( str.contains('y')!=0)
+	if ( fixExpression )
+		m_sanitizer.fixExpression( & str, evalPosOffset );
+// 	kDebug() << "##### str="<<str<<endl;
+	
+	int yIndex = str.indexOf('y');
+	
+	if ( yIndex != -1 )
 	{
 		err = RecursiveFunctionCall;
+		m_errorPosition = m_sanitizer.realPos( yIndex );
 		delete []stack;
 		return 0;
 	}
-	for (int i=0;i<str.length();i++ )
+	for ( int i = evalPosOffset; i < str.length(); i++ )
 	{
 		if ( constants()->isValidName( str[i] ) )
 		{
 			err = UserDefinedConstantInExpression;
+			m_errorPosition = m_sanitizer.realPos( i );
 			delete []stack;
 			return 0;
 		}
 	}
 	
 	m_eval = str;
-	m_evalPos = 0;
+	m_evalPos = evalPosOffset;
 	err = ParseSuccess;
 	heir1();
 	if( !evalRemaining().isEmpty() && err==ParseSuccess)
@@ -181,12 +183,12 @@ double Parser::eval(QString str)
 	delete [] stack;
 	if ( err == ParseSuccess )
 	{
-		errpos=0;
+		m_errorPosition = -1;
 		return erg;
 	}
 	else
 	{
-		errpos = m_evalPos+1;
+		m_errorPosition = m_sanitizer.realPos( m_evalPos );
 		return 0.;
 	}
 }
@@ -328,21 +330,23 @@ bool Parser::isFstrValid( QString str )
 {
 	stkptr = stack = 0;
 	err = ParseSuccess;
-	errpos=1;
+	m_errorPosition = 0;
 
 	const int p1=str.indexOf('(');
 	int p2=str.indexOf(',');
 	const int p3=str.indexOf(")=");
 	
-	fix_expression(str,p1+4);
+	m_sanitizer.fixExpression( & str, p1+4 );
         
 	if(p1==-1 || p3==-1 || p1>p3)
 	{
+		/// \todo find the position of the capital and set into m_errorPosition
 		err = InvalidFunctionVariable;
 		return false;
 	}
 	if ( p3+2 == str.length()) //empty function
 	{
+		/// \todo find the position of the capital and set into m_errorPosition
 		err = EmptyFunction;
 		return false;
 	}
@@ -351,6 +355,7 @@ bool Parser::isFstrValid( QString str )
 	
 	if (str.mid(p1+1, p2-p1-1) == "e")
 	{
+		/// \todo find the position of the capital and set into m_errorPosition
 		err = InvalidFunctionVariable;
 		return false;
 	}
@@ -360,12 +365,13 @@ bool Parser::isFstrValid( QString str )
 	if ( fname != fname.toLower() ) //isn't allowed to contain capital letters
 	{
 		err = CapitalInFunctionName;
+		/// \todo find the position of the capital and set into m_errorPosition
 		return false;
 	}
 	
 	m_currentEquation = m_ownEquation;
 	m_currentEquation->setFstr( str, true );
-	(double) eval( str.mid( p3+2 ) );
+	(double) eval( str, p3+2, false );
 	return (err == ParseSuccess);
 }
 
@@ -377,131 +383,15 @@ void Parser::initEquation( Equation * eq )
 	mem = mptr = eq->mem;
 	
 	m_eval = eq->fstr();
-	fix_expression( m_eval, m_eval.indexOf('(')+4 );
+	m_sanitizer.fixExpression( & m_eval, m_eval.indexOf('(')+4 );
 	m_evalPos = m_eval.indexOf( '=' ) + 1;
 	heir1();
 	if ( !evalRemaining().isEmpty() && err == ParseSuccess )
 		err = SyntaxError;		// Syntaxfehler
 	addtoken(ENDE);
-	errpos = 0;
+	m_errorPosition = -1;
 }
 
-
-void Parser::fix_expression(QString &str, int const pos)
-{
-	str.remove(" " );
-	str=" "+str+" ";
-	
-	// make sure all minus-like signs (including the actual unicode minus sign)
-	// are represented by a dash (unicode 0x002d)
-	QChar dashes[6] = { 0x2012, 0x2013, 0x2014, 0x2015, 0x2053, 0x2212 };
-	for ( unsigned i = 0; i < 6; ++i )
-		str.replace( dashes[i], '-' );
-	
-	// replace the proper unicode divide sign by the forward-slash
-	str.replace( QChar( 0x2215 ), '/' );
-	
-	// replace the unicode middle-dot for multiplication by the star symbol
-	str.replace( QChar( 0x2219 ), '*' );
-	
-	// various power symbols
-	str.replace( QChar(0x00B2), "^2" );
-	str.replace( QChar(0x00B3), "^3" );
-	str.replace( QChar(0x2070), "^0" );
-	str.replace( QChar(0x2074), "^4" );
-	str.replace( QChar(0x2075), "^5" );
-	str.replace( QChar(0x2076), "^6" );
-	str.replace( QChar(0x2077), "^7" );
-	str.replace( QChar(0x2078), "^8" );
-	str.replace( QChar(0x2079), "^9" );
-	
-	// fractions
-	str.replace( QChar(0x00BC), "(1/4)" );
-	str.replace( QChar(0x00BD), "(1/2)" );
-	str.replace( QChar(0x00BE), "(3/4)" );
-	str.replace( QChar(0x2153), "(1/3)" );
-	str.replace( QChar(0x2154), "(2/3)" );
-	str.replace( QChar(0x2155), "(1/5)" );
-	str.replace( QChar(0x2156), "(2/5)" );
-	str.replace( QChar(0x2157), "(3/5)" );
-	str.replace( QChar(0x2158), "(4/5)" );
-	str.replace( QChar(0x2159), "(1/6)" );
-	str.replace( QChar(0x215a), "(5/6)" );
-	str.replace( QChar(0x215b), "(1/8)" );
-	str.replace( QChar(0x215c), "(3/8)" );
-	str.replace( QChar(0x215d), "(5/8)" );
-	str.replace( QChar(0x215e), "(7/8)" );
-	
-	/// \todo tidy up code for dealing with capital letter H (heaviside step function)
-        
-        //insert '*' when it is needed
-        QChar ch;
-        bool function = false;
-        for(int i=pos+1; i+1 <  str.length();i++)
-		{
-			ch = str.at(i);
-			if ( str.at(i+1)=='(' && (ch.category()==QChar::Letter_Lowercase || ch=='H') )
-			{
-				// Work backwards to build up the full function name
-				QString str_function(ch);
-				int n=i-1;
-				while (n>0 && str.at(n).category() == QChar::Letter_Lowercase )
-				{
-					str_function.prepend(str.at(n));
-					--n;
-				}
-				
-				for ( unsigned func = 0; func < FANZ; ++func )
-				{
-					if ( str_function == QString( mfkttab[func].mfstr ) )
-					{
-						function = true;
-						break;
-					}
-				}
-				
-			if ( !function )
-			{
-				// Not a predefined function, so search through the user defined functions (e.g. f(x), etc)
-				// to see if it is one of those
-				foreach ( Function * it, m_ufkt )
-				{
-					for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
-					{
-						for ( uint k=0; k<2; ++k )
-						{
-							if ( it->eq[k] && (it->eq[k]->fname() == str.mid(j,i-j+1)) )
-								function = true;
-						}
-					}
-				}
-			}
-		}
-		else  if (function)
-			function = false;
-                
-		// either a number or a likely constant (H is reserved for the Heaviside step function)
-		bool chIsNumeric = ch.isNumber() || m_constants->isValidName( ch );
-				
-				if ( chIsNumeric && ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
-				{
-					str.insert(i,'*');
-// 					kDebug() << "inserted * before\n";
-				}
-				else if( (chIsNumeric || ch == ')') && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(' && !function ) )
-                {
-					str.insert(i+1,'*');
-// 					kDebug() << "inserted * after, function="<<function<<" ch="<<ch<<"\n";
-					i++;
-                }
-        }
-        str.remove(" " );
-        QString str_end = str.mid(pos);
-        str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
-        str.truncate(pos);
-        str.append(str_end);
-        //kDebug() << "str:" << str << endl;
-}
 
 bool Parser::delfkt( Function * item )
 {
@@ -702,7 +592,8 @@ void Parser::primary()
 				primary();
 				addtoken(UFKT);
 				addfptr( it->id, i );
-				it->dep.append(m_currentEquation->parent()->id);
+				if ( m_currentEquation->parent() )
+					it->dep.append(m_currentEquation->parent()->id);
 				return;
 			}
 		}
@@ -942,67 +833,77 @@ int Parser::fnameToId(const QString &name)
 }
 
 
+QString Parser::errorString() const
+{
+	switch(err)
+	{
+		case ParseSuccess:
+			return QString();
+			
+		case SyntaxError:
+			return i18n("Parser error at position %1:\n"
+					"Syntax error").arg(QString::number(m_errorPosition+1));
+			
+		case MissingBracket:
+			return i18n("Parser error at position %1:\n"
+					"Missing parenthesis").arg(QString::number(m_errorPosition+1));
+			
+		case UnknownFunction:
+			return i18n("Parser error at position %1:\n"
+					"Function name unknown").arg(QString::number(m_errorPosition+1));
+			
+		case InvalidFunctionVariable:
+			return i18n("Parser error at position %1:\n"
+					"Void function variable").arg(QString::number(m_errorPosition+1));
+			
+		case TooManyFunctions:
+			return i18n("Parser error at position %1:\n"
+					"Too many functions").arg(QString::number(m_errorPosition+1));
+			
+		case MemoryOverflow:
+			return i18n("Parser error at position %1:\n"
+					"Token-memory overflow").arg(QString::number(m_errorPosition+1));
+			
+		case StackOverflow:
+			return i18n("Parser error at position %1:\n"
+					"Stack overflow").arg(QString::number(m_errorPosition+1));
+			
+		case FunctionNameReused:
+			return i18n("Parser error at position %1:\n"
+					"Name of function not free.").arg(QString::number(m_errorPosition+1));
+			
+		case RecursiveFunctionCall:
+			return i18n("Parser error at position %1:\n"
+					"recursive function not allowed.").arg(QString::number(m_errorPosition+1));
+			
+		case NoSuchConstant:
+			return i18n("Could not find a defined constant at position %1." ).arg(QString::number(m_errorPosition+1));
+			
+		case EmptyFunction:
+			return i18n("Empty function");
+			
+		case CapitalInFunctionName:
+			return i18n("The function name is not allowed to contain capital letters.");
+			
+		case NoSuchFunction:
+			return i18n("Function could not be found.");
+			
+		case UserDefinedConstantInExpression:
+			return i18n("The expression must not contain user-defined constants.");
+	}
+	
+	return QString();
+}
+
+
 Parser::Error Parser::parserError(bool showMessageBox)
 {
 	if (!showMessageBox)
 		return err;
-	switch(err)
-	{
-		case ParseSuccess:
-			break;
-		case SyntaxError:
-			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-					"Syntax error").arg(QString::number(errpos)), "KmPlot");
-			break;
-		case MissingBracket:
-			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-					"Missing parenthesis").arg(QString::number(errpos)), "KmPlot");
-			break;
-		case UnknownFunction:
-			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-					"Function name unknown").arg(QString::number(errpos)), "KmPlot");
-			break;
-		case InvalidFunctionVariable:
-			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-					"Void function variable").arg(QString::number(errpos)), "KmPlot");
-			break;
-		case TooManyFunctions:
-			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-					"Too many functions").arg(QString::number(errpos)), "KmPlot");
-			break;
-		case MemoryOverflow:
-			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-					"Token-memory overflow").arg(QString::number(errpos)), "KmPlot");
-			break;
-		case StackOverflow:
-			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-					"Stack overflow").arg(QString::number(errpos)), "KmPlot");
-			break;
-		case FunctionNameReused:
-			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-					"Name of function not free.").arg(QString::number(errpos)), "KmPlot");
-			break;
-		case RecursiveFunctionCall:
-			KMessageBox::sorry(0, i18n("Parser error at position %1:\n"
-					"recursive function not allowed.").arg(QString::number(errpos)), "KmPlot");
-			break;
-		case NoSuchConstant:
-			KMessageBox::sorry(0, i18n("Could not find a defined constant at position %1." ).arg(QString::number(errpos)),
-							   "KmPlot");
-			break;
-		case EmptyFunction:
-			KMessageBox::sorry(0, i18n("Empty function"), "KmPlot");
-			break;
-		case CapitalInFunctionName:
-			KMessageBox::sorry(0, i18n("The function name is not allowed to contain capital letters."), "KmPlot");
-			break;
-		case NoSuchFunction:
-			KMessageBox::sorry(0, i18n("Function could not be found."), "KmPlot");
-			break;
-		case UserDefinedConstantInExpression:
-			KMessageBox::sorry(0, i18n("The expression must not contain user-defined constants."), "KmPlot");
-			break;
-	}
+	
+	QString message( errorString() );
+	if ( !message.isEmpty() )
+		KMessageBox::sorry(0, message, "KmPlot");
 	return err;
 }
 
@@ -1336,5 +1237,248 @@ void Constants::save()
 	}
 }
 //END class Constants
+
+
+//BEGIN class ExpressionSanitizer
+ExpressionSanitizer::ExpressionSanitizer( Parser * parser )
+	: m_parser( parser )
+{
+	m_str = 0l;
+	m_decimalSymbol = KGlobal::locale()->decimalSymbol();
+}
+
+
+void ExpressionSanitizer::fixExpression( QString * str, int pos )
+{
+	m_str = str;
+	
+	m_map.resize( m_str->length() );
+	for ( int i = 0; i < m_str->length(); ++i )
+		m_map[i] = i;
+	
+	remove( ' ' );
+	
+	m_map.insert( 0, 0 );
+	m_map.insert( m_map.size(), m_map[ m_map.size()-1 ] );
+	*str=" "+*str+" ";
+	
+	// make sure all minus-like signs (including the actual unicode minus sign)
+	// are represented by a dash (unicode 0x002d)
+	QChar dashes[6] = { 0x2012, 0x2013, 0x2014, 0x2015, 0x2053, 0x2212 };
+	for ( unsigned i = 0; i < 6; ++i )
+		replace( dashes[i], '-' );
+	
+	// replace the proper unicode divide sign by the forward-slash
+	replace( QChar( 0x2215 ), '/' );
+	
+	// replace the unicode middle-dot for multiplication by the star symbol
+	replace( QChar( 0x2219 ), '*' );
+	
+	// various power symbols
+	replace( QChar(0x00B2), "^2" );
+	replace( QChar(0x00B3), "^3" );
+	replace( QChar(0x2070), "^0" );
+	replace( QChar(0x2074), "^4" );
+	replace( QChar(0x2075), "^5" );
+	replace( QChar(0x2076), "^6" );
+	replace( QChar(0x2077), "^7" );
+	replace( QChar(0x2078), "^8" );
+	replace( QChar(0x2079), "^9" );
+	
+	// fractions
+	replace( QChar(0x00BC), "(1/4)" );
+	replace( QChar(0x00BD), "(1/2)" );
+	replace( QChar(0x00BE), "(3/4)" );
+	replace( QChar(0x2153), "(1/3)" );
+	replace( QChar(0x2154), "(2/3)" );
+	replace( QChar(0x2155), "(1/5)" );
+	replace( QChar(0x2156), "(2/5)" );
+	replace( QChar(0x2157), "(3/5)" );
+	replace( QChar(0x2158), "(4/5)" );
+	replace( QChar(0x2159), "(1/6)" );
+	replace( QChar(0x215a), "(5/6)" );
+	replace( QChar(0x215b), "(1/8)" );
+	replace( QChar(0x215c), "(3/8)" );
+	replace( QChar(0x215d), "(5/8)" );
+	replace( QChar(0x215e), "(7/8)" );
+	
+	/// \todo tidy up code for dealing with capital letter H (heaviside step function)
+        
+        //insert '*' when it is needed
+	QChar ch;
+	bool function = false;
+	for(int i=pos+1; i+1 <  str->length();i++)
+	{
+		ch = str->at(i);
+		if ( str->at(i+1)=='(' && (ch.category()==QChar::Letter_Lowercase || ch=='H') )
+		{
+			// Work backwards to build up the full function name
+			QString str_function(ch);
+			int n=i-1;
+			while (n>0 && str->at(n).category() == QChar::Letter_Lowercase )
+			{
+				str_function.prepend(str->at(n));
+				--n;
+			}
+				
+			for ( unsigned func = 0; func < FANZ; ++func )
+			{
+				if ( str_function == QString( m_parser->mfkttab[func].mfstr ) )
+				{
+					function = true;
+					break;
+				}
+			}
+				
+			if ( !function )
+			{
+				// Not a predefined function, so search through the user defined functions (e.g. f(x), etc)
+				// to see if it is one of those
+				foreach ( Function * it, m_parser->m_ufkt )
+				{
+					for ( int j=i; j>0 && (str->at(j).isLetter() || str->at(j).isNumber() ) ; --j)
+					{
+						for ( uint k=0; k<2; ++k )
+						{
+							if ( it->eq[k] && (it->eq[k]->fname() == str->mid(j,i-j+1)) )
+								function = true;
+						}
+					}
+				}
+			}
+		}
+		else  if (function)
+			function = false;
+                
+		// either a number or a likely constant (H is reserved for the Heaviside step function)
+		bool chIsNumeric = ch.isNumber() || m_parser->m_constants->isValidName( ch );
+				
+		if ( chIsNumeric && ( str->at(i-1).isLetter() || str->at(i-1) == ')' ) || (ch.isLetter() && str->at(i-1)==')') )
+		{
+			insert(i,'*');
+// 					kDebug() << "inserted * before\n";
+		}
+		else if( (chIsNumeric || ch == ')') && ( str->at(i+1).isLetter() || str->at(i+1) == '(' ) || (ch.isLetter() && str->at(i+1)=='(' && !function ) )
+		{
+			insert(i+1,'*');
+// 					kDebug() << "inserted * after, function="<<function<<" ch="<<ch<<"\n";
+			i++;
+		}
+	}
+	remove(" " );
+	QString str_end = str->mid(pos);
+	str_end = str_end.replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
+	str->truncate(pos);
+	str->append(str_end);
+        //kDebug() << "str:" << str << endl;
+}
+
+
+void ExpressionSanitizer::remove( const QString & str )
+{
+// 	kDebug() << "Before:\n";
+// 	displayMap();
+	
+	int at = 0;
+	
+	do
+	{
+		at = m_str->indexOf( str, at );
+		if ( at != -1 )
+		{
+			m_map.remove( at, str.length() );
+			m_str->remove( at, str.length() );
+		}
+	}
+	while ( at != -1 );
+	
+// 	kDebug() << "After:\n";
+// 	displayMap();
+}
+
+
+void ExpressionSanitizer::remove( const QChar & str )
+{
+	remove( QString(str) );
+}
+
+
+void ExpressionSanitizer::replace( QChar before, QChar after )
+{
+	m_str->replace( before, after );
+}
+
+
+void ExpressionSanitizer::replace( QChar before, const QString & after )
+{
+	if ( after.isEmpty() )
+	{
+		remove( before );
+		return;
+	}
+	
+// 	kDebug() << "Before:\n";
+// 	displayMap();
+	
+	int at = 0;
+	
+	do
+	{
+		at = m_str->indexOf( before, at );
+		if ( at != -1 )
+		{
+			int to = m_map[ at ];
+			for ( int i = at + 1; i < at + after.length(); ++i )
+				m_map.insert( i, to );
+			
+			m_str->replace( at, 1, after );
+			at += after.length() - 1;
+		}
+	}
+	while ( at != -1 );
+	
+// 	kDebug() << "After:\n";
+// 	displayMap();
+}
+
+
+void ExpressionSanitizer::insert( int i, QChar ch )
+{
+	m_map.insert( i, m_map[i] );
+	m_str->insert( i, ch );
+}
+
+
+int ExpressionSanitizer::realPos( int evalPos )
+{
+	if ( m_map.isEmpty() || (evalPos < 0) )
+		return -1;
+	
+	if ( evalPos >= m_map.size() )
+	{
+		kWarning() << k_funcinfo << "evalPos="<<evalPos<<" is out of range.\n";
+// 		return m_map[ m_map.size() - 1 ];
+		return -1;
+	}
+	
+	return m_map[evalPos];
+}
+
+
+void ExpressionSanitizer::displayMap( )
+{
+	QString out('\n');
+	
+	for ( int i = 0; i < m_map.size(); ++i )
+		out += QString("%1").arg( m_map[i], 3 );
+	out += '\n';
+	
+	for ( int i = 0; i < m_str->length(); ++i )
+		out += "  " + (*m_str)[i];
+	out += '\n';
+	
+	kDebug() << out;
+}
+//END class ExpressionSanitizer
 
 #include "parser.moc"

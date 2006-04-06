@@ -24,6 +24,7 @@
 *
 */
 
+#include "equationedit.h"
 #include "functioneditor.h"
 #include "functioneditorwidget.h"
 #include "kmplotio.h"
@@ -83,6 +84,9 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	m_editor->functionListContainer->insertWidget( 0, m_functionList );
 	m_editor->functionListContainer->setCurrentIndex( 0 );
 	
+	m_editor->cartesianEquation->setInputType( EquationEdit::Function );
+	m_editor->polarEquation->setInputType( EquationEdit::Function );
+	
 	for ( unsigned i = 0; i < 3; ++i )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
 	
@@ -97,6 +101,10 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	//BEGIN connect up all editing widgets
 	QList<QLineEdit *> lineEdits = m_editor->findChildren<QLineEdit *>();
 	foreach ( QLineEdit * w, lineEdits )
+		connect( w, SIGNAL(editingFinished()), this, SLOT(save()) );
+	
+	QList<EquationEdit *> equationEdits = m_editor->findChildren<EquationEdit *>();
+	foreach ( EquationEdit * w, equationEdits )
 		connect( w, SIGNAL(editingFinished()), this, SLOT(save()) );
 	
 	QList<QDoubleSpinBox *> doubleSpinBoxes = m_editor->findChildren<QDoubleSpinBox *>();
@@ -325,7 +333,7 @@ void FunctionEditor::initFromCartesian()
 		m_editor->cartesianParameterSlider->setChecked( true );
 		m_editor->listOfSliders->setCurrentIndex( f->use_slider );
 	}
-        
+	
 	m_editor->showDerivative1->setChecked( f->f1.visible );
 	m_editor->cartesian_f1_lineWidth->setValue( f->f1.lineWidth );
 	m_editor->cartesian_f1_lineColor->setColor( f->f1.color );
@@ -536,22 +544,12 @@ void FunctionEditor::saveCartesian()
 	tempFunction.usecustomxmin = m_editor->cartesianCustomMin->isChecked();
 	bool ok = tempFunction.dmin.updateExpression( m_editor->cartesianMin->text() );
 	if ( tempFunction.usecustomxmin && !ok )
-	{
-// 		showPage(0);
-// 		editfunctionpage->min->setFocus();
-// 		editfunctionpage->min->selectAll();
 		return;
-	}
 	
 	tempFunction.usecustomxmax = m_editor->cartesianCustomMax->isChecked();
 	ok = tempFunction.dmax.updateExpression( m_editor->cartesianMax->text() );
 	if ( tempFunction.usecustomxmax && !ok )
-	{
-// 		showPage(0);
-// 		editfunctionpage->max->setFocus();
-// 		editfunctionpage->max->selectAll();
 		return;
-	}
 	
 	tempFunction.f0.lineWidth = m_editor->cartesian_f_lineWidth->value();
 	tempFunction.f0.color = m_editor->cartesian_f_lineColor->color();
@@ -559,23 +557,11 @@ void FunctionEditor::saveCartesian()
 	tempFunction.integral.visible = m_editor->showIntegral->isChecked();
 	ok = tempFunction.startx.updateExpression( m_editor->txtInitX->text() );
 	if ( tempFunction.integral.visible && !ok )
-	{
-// 			KMessageBox::sorry(this,i18n("Please insert a valid x-value"));
-// 			showPage(2);
-// 			editintegralpage->txtInitX->setFocus();
-// 			editintegralpage->txtInitX->selectAll();
 		return;
-	}
 	
 	ok = tempFunction.starty.updateExpression( m_editor->txtInitY->text() );
 	if ( tempFunction.integral.visible && !ok )
-	{
-// 			KMessageBox::sorry(this,i18n("Please insert a valid y-value"));
-// 			showPage(2);
-// 			editintegralpage->txtInitY->setFocus();
-// 			editintegralpage->txtInitY->selectAll();
 		return;
-	}
 
 	tempFunction.integral.color = m_editor->cartesian_F_lineColor->color();
 	tempFunction.integral_use_precision = m_editor->customPrecision->isChecked();
@@ -615,18 +601,11 @@ void FunctionEditor::saveCartesian()
 	}
 	
 	if ( !f->eq[0]->setFstr( f_str ) )
-	{
-// 		raise();
-// 		showPage(0);
-// 		editfunctionpage->equation->setFocus();
-// 		editfunctionpage->equation->selectAll();
 		return;
-	}
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
 	changed |= (old_fstr != f->eq[0]->fstr() );
-// 	kDebug() << "old_fstr="<<old_fstr<<" f->eq->fstr()="<<f->eq->fstr()<<" changed="<<changed<<endl;
 	if ( !changed )
 		return;
 
@@ -686,22 +665,12 @@ void FunctionEditor::savePolar()
 	tempFunction.usecustomxmin = m_editor->polarCustomMin->isChecked();
 	bool ok = tempFunction.dmin.updateExpression( m_editor->polarMin->text() );
 	if ( tempFunction.usecustomxmin && !ok )
-	{
-		kWarning() << "invalid xmin\n";
-// 		m_editor->min->setFocus();
-// 		m_editor->min->selectAll();
 		return;
-	}
 	
 	tempFunction.usecustomxmax = m_editor->polarCustomMax->isChecked();
 	ok = tempFunction.dmax.updateExpression( m_editor->polarMax->text() );
 	if ( tempFunction.usecustomxmax && !ok )
-	{
-		kWarning() << "invalid xmax\n";
-// 		m_editor->max->setFocus();
-// 		m_editor->max->selectAll();
 		return;
-	}
 	
 	if ( tempFunction.usecustomxmin && tempFunction.usecustomxmax && tempFunction.dmin.value() >= tempFunction.dmax.value() )
 	{
@@ -719,13 +688,7 @@ void FunctionEditor::savePolar()
 	
 	QString old_fstr = f->eq[0]->fstr();
 	if ( !f->eq[0]->setFstr( f_str ) )
-	{
-		kWarning() << "parse error\n";
-// 		raise();
-// 		m_editor->kLineEditYFunction->setFocus();
-// 		m_editor->kLineEditYFunction->selectAll();
 		return;
-	}
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
@@ -733,7 +696,7 @@ void FunctionEditor::savePolar()
 	if ( !changed )
 		return;
 
-	kDebug() << "Polar changed, so requestion state save.\n";	
+	kDebug() << "Polar changed, so requesting state save.\n";	
 	View::self()->mainDlg()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
@@ -785,20 +748,12 @@ void FunctionEditor::saveParametric()
 	tempFunction.usecustomxmin = true;
 	bool ok = tempFunction.dmin.updateExpression( m_editor->parametricMin->text() );
 	if ( tempFunction.usecustomxmin && !ok )
-	{
-// 		m_editor->min->setFocus();
-// 		m_editor->min->selectAll();
 		return;
-	}
 	
 	tempFunction.usecustomxmax = true;
 	ok = tempFunction.dmax.updateExpression( m_editor->parametricMax->text() );
 	if ( tempFunction.usecustomxmax && !ok )
-	{
-// 		m_editor->max->setFocus();
-// 		m_editor->max->selectAll();
 		return;
-	}
 	
 	if ( tempFunction.usecustomxmin && tempFunction.usecustomxmax && tempFunction.dmin.value() >= tempFunction.dmax.value() )
 	{
@@ -814,12 +769,7 @@ void FunctionEditor::saveParametric()
 	
 	QString old_fstr = f->eq[0]->fstr();
 	if ( !f->eq[0]->setFstr( "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text() ) )
-	{
-// 		raise();
-// 		m_editor->kLineEditXFunction->setFocus();
-// 		m_editor->kLineEditXFunction->selectAll();
 		return;
-	}
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
@@ -830,12 +780,7 @@ void FunctionEditor::saveParametric()
 	
 	old_fstr = f->eq[1]->fstr();
 	if ( !f->eq[1]->setFstr( "y" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text() ) )
-	{
-// 		raise();
-// 		m_editor->kLineEditXFunction->setFocus();
-// 		m_editor->kLineEditXFunction->selectAll();
 		return;
-	}
     
 	//save all settings in the function now when we now no errors have appeared
 	changed |= (old_fstr != f->eq[1]->fstr());

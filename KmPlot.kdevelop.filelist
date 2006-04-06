@@ -117,3 +117,5 @@ kmplot/kmplot.cpp
 kmplot/kmplot.h
 kmplot/kmplotprogress.cpp
 kmplot/kmplotprogress.h
+kmplot/equationedit.cpp
+kmplot/equationedit.h

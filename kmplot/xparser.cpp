@@ -54,8 +54,7 @@ XParser * XParser::self( bool * modified )
 
 XParser::XParser(bool &mo) : DCOPObject("Parser"), m_modified(mo)
 {
-        // setup slider support
-	setDecimalSymbol( KGlobal::locale()->decimalSymbol() );
+	// setup slider support
 }
 
 XParser::~XParser()

@@ -3,7 +3,7 @@ INCLUDES= $(all_includes)
 KDE_CXXFLAGS = -DQT3_SUPPORT_WARNINGS
 
 # these are the headers for your project
-noinst_HEADERS = kmplot.h kmplotprogress.h MainDlg.h
+noinst_HEADERS = kmplot.h kmplotprogress.h MainDlg.h equationedit.h
 
 METASOURCES = AUTO
 
@@ -44,7 +44,7 @@ shellrc_DATA = kmplot_shell.rc
 kde_module_LTLIBRARIES = libkmplotpart.la
 
 # the Part's source, library search path, and link libraries
-libkmplotpart_la_SOURCES = functioneditorwidget.ui functioneditor.cpp parser.cpp xparser.cpp diagr.cpp View.cpp MainDlg.cpp kprinterdlg.cpp settings.kcfgc settingspagecolor.ui kconstanteditor.cpp qparametereditor.ui kparametereditor.cpp editcoords.ui settingspageconstants.ui settingspagefonts.ui editscaling.ui settingspagegeneral.ui qminmax.ui kminmax.cpp kmplotio.cpp sliderwindow.ui ksliderwindow.cpp MainDlgIface.skel parseriface.skel Viewiface.skel coordsconfigdialog.cpp function.cpp
+libkmplotpart_la_SOURCES = functioneditorwidget.ui functioneditor.cpp parser.cpp xparser.cpp diagr.cpp View.cpp MainDlg.cpp kprinterdlg.cpp settings.kcfgc settingspagecolor.ui kconstanteditor.cpp qparametereditor.ui kparametereditor.cpp editcoords.ui settingspageconstants.ui settingspagefonts.ui editscaling.ui settingspagegeneral.ui qminmax.ui kminmax.cpp kmplotio.cpp sliderwindow.ui ksliderwindow.cpp MainDlgIface.skel parseriface.skel Viewiface.skel coordsconfigdialog.cpp function.cpp equationedit.cpp
 libkmplotpart_la_LDFLAGS = -module $(KDE_PLUGIN) $(all_libraries)
 libkmplotpart_la_LIBADD  = $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET) $(LIB_KDEPRINT)
 

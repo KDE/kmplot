@@ -77,7 +77,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="valueEdit" >
+      <widget class="EquationEdit" name="valueEdit" >
        <property name="toolTip" >
         <string>Enter an expression that evaluates to a number</string>
        </property>
@@ -162,6 +162,13 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends></extends>

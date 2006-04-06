@@ -77,7 +77,6 @@ class KmPlotIO
 		
 		/**
 		 * Reads function parameters from the node @a n.
-		 * @param parser points to the parser instance.
 		 * @param n Node containing the options.
 		 * @param allowRename whether to check function names for uniqueness
 		 */

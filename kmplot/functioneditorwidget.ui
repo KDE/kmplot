@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>371</width>
-    <height>704</height>
+    <width>511</width>
+    <height>627</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -93,7 +93,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -135,23 +135,7 @@
               </widget>
              </item>
              <item>
-              <widget class="KLineEdit" name="cartesianEquation" >
-               <property name="sizePolicy" >
-                <sizepolicy>
-                 <hsizetype>7</hsizetype>
-                 <vsizetype>0</vsizetype>
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip" >
-                <string>enter an equation, for instance f(x)=x^2</string>
-               </property>
-               <property name="whatsThis" >
-                <string>Enter an equation for the function.
-Example: f(x)=x^2</string>
-               </property>
-              </widget>
+              <widget class="EquationEdit" name="cartesianEquation" />
              </item>
             </layout>
            </item>
@@ -244,19 +228,6 @@ Example: f(x)=x^2</string>
               <property name="spacing" >
                <number>6</number>
               </property>
-              <item row="1" column="1" >
-               <widget class="KLineEdit" name="cartesianMax" >
-                <property name="enabled" >
-                 <bool>false</bool>
-                </property>
-                <property name="toolTip" >
-                 <string>upper boundary of the plot range</string>
-                </property>
-                <property name="whatsThis" >
-                 <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="0" >
                <widget class="QCheckBox" name="cartesianCustomMax" >
                 <property name="toolTip" >
@@ -284,7 +255,7 @@ Example: f(x)=x^2</string>
                </widget>
               </item>
               <item row="0" column="1" >
-               <widget class="KLineEdit" name="cartesianMin" >
+               <widget class="EquationEdit" name="cartesianMin" >
                 <property name="enabled" >
                  <bool>false</bool>
                 </property>
@@ -293,6 +264,19 @@ Example: f(x)=x^2</string>
                 </property>
                 <property name="whatsThis" >
                  <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" >
+               <widget class="EquationEdit" name="cartesianMax" >
+                <property name="enabled" >
+                 <bool>false</bool>
+                </property>
+                <property name="toolTip" >
+                 <string>upper boundary of the plot range</string>
+                </property>
+                <property name="whatsThis" >
+                 <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
                 </property>
                </widget>
               </item>
@@ -365,19 +349,6 @@ Example: f(x)=x^2</string>
               </item>
              </layout>
             </widget>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
@@ -622,8 +593,18 @@ Example: f(x)=x^2</string>
                 </property>
                </widget>
               </item>
+              <item row="1" column="0" >
+               <widget class="QLabel" name="textLabel1_5_2" >
+                <property name="text" >
+                 <string>&amp;y-value:</string>
+                </property>
+                <property name="buddy" >
+                 <cstring>txtInitY</cstring>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="1" >
-               <widget class="KLineEdit" name="txtInitX" >
+               <widget class="EquationEdit" name="txtInitX" >
                 <property name="toolTip" >
                  <string>Enter the initial x-point,for instance 2 or pi</string>
                 </property>
@@ -633,22 +614,12 @@ Example: f(x)=x^2</string>
                </widget>
               </item>
               <item row="1" column="1" >
-               <widget class="KLineEdit" name="txtInitY" >
+               <widget class="EquationEdit" name="txtInitY" >
                 <property name="toolTip" >
                  <string>enter the initial y-point, eg 2 or pi</string>
                 </property>
                 <property name="whatsThis" >
                  <string>Enter the initial y-value or expression for the integral, for example 2 or pi/2</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0" >
-               <widget class="QLabel" name="textLabel1_5_2" >
-                <property name="text" >
-                 <string>&amp;y-value:</string>
-                </property>
-                <property name="buddy" >
-                 <cstring>txtInitY</cstring>
                 </property>
                </widget>
               </item>
@@ -812,46 +783,6 @@ Example: f(x)=x^2</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="KLineEdit" name="parametricX" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>7</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip" >
-             <string>enter an expression</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter an expression for the function.
-The dummy variable is t.
-Example: cos(t)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" >
-           <widget class="KLineEdit" name="parametricY" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>7</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip" >
-             <string>enter an expression</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter an expression for the function.
-The dummy variable is t.
-Example: sin(t)</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1" >
            <widget class="KLineEdit" name="parametricName" >
             <property name="toolTip" >
@@ -950,6 +881,46 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             </item>
            </layout>
           </item>
+          <item row="1" column="1" >
+           <widget class="EquationEdit" name="parametricX" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>13</hsizetype>
+              <vsizetype>13</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip" >
+             <string>enter an expression</string>
+            </property>
+            <property name="whatsThis" >
+             <string>Enter an expression for the function.
+The dummy variable is t.
+Example: cos(t)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" >
+           <widget class="EquationEdit" name="parametricY" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>13</hsizetype>
+              <vsizetype>13</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip" >
+             <string>enter an expression</string>
+            </property>
+            <property name="whatsThis" >
+             <string>Enter an expression for the function.
+The dummy variable is t.
+Example: sin(t)</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -965,8 +936,22 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
           <property name="spacing" >
            <number>6</number>
           </property>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label" >
+            <property name="text" >
+             <string>Min:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_2" >
+            <property name="text" >
+             <string>Max:</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="1" >
-           <widget class="KLineEdit" name="parametricMin" >
+           <widget class="EquationEdit" name="parametricMin" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -979,7 +964,7 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
            </widget>
           </item>
           <item row="1" column="1" >
-           <widget class="KLineEdit" name="parametricMax" >
+           <widget class="EquationEdit" name="parametricMax" >
             <property name="enabled" >
              <bool>true</bool>
             </property>
@@ -988,20 +973,6 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             </property>
             <property name="whatsThis" >
              <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label" >
-            <property name="text" >
-             <string>Min:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_2" >
-            <property name="text" >
-             <string>Max:</string>
             </property>
            </widget>
           </item>
@@ -1114,11 +1085,11 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
           </widget>
          </item>
          <item>
-          <widget class="KLineEdit" name="polarEquation" >
+          <widget class="EquationEdit" name="polarEquation" >
            <property name="sizePolicy" >
             <sizepolicy>
-             <hsizetype>7</hsizetype>
-             <vsizetype>0</vsizetype>
+             <hsizetype>13</hsizetype>
+             <vsizetype>13</vsizetype>
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -1146,19 +1117,6 @@ Example: loop(angle)=ln(angle)</string>
           <property name="spacing" >
            <number>6</number>
           </property>
-          <item row="1" column="1" >
-           <widget class="KLineEdit" name="polarMax" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
-            <property name="toolTip" >
-             <string>upper boundary of the plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="0" >
            <widget class="QCheckBox" name="polarCustomMin" >
             <property name="toolTip" >
@@ -1186,7 +1144,7 @@ Example: loop(angle)=ln(angle)</string>
            </widget>
           </item>
           <item row="0" column="1" >
-           <widget class="KLineEdit" name="polarMin" >
+           <widget class="EquationEdit" name="polarMin" >
             <property name="enabled" >
              <bool>false</bool>
             </property>
@@ -1195,6 +1153,19 @@ Example: loop(angle)=ln(angle)</string>
             </property>
             <property name="whatsThis" >
              <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="EquationEdit" name="polarMax" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="toolTip" >
+             <string>upper boundary of the plot range</string>
+            </property>
+            <property name="whatsThis" >
+             <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
             </property>
            </widget>
           </item>
@@ -1298,6 +1269,13 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
    <class>KLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
@@ -1321,38 +1299,6 @@ Example: loop(angle)=ln(angle)</string>
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>cartesianCustomMin</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>cartesianMin</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>90</x>
-     <y>560</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>330</x>
-     <y>560</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cartesianCustomMax</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>cartesianMax</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>90</x>
-     <y>591</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>330</x>
-     <y>591</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>polarCustomMin</sender>
    <signal>toggled(bool)</signal>
@@ -1526,6 +1472,38 @@ Example: loop(angle)=ln(angle)</string>
     <hint type="destinationlabel" >
      <x>119</x>
      <y>365</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cartesianCustomMin</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cartesianMin</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>90</x>
+     <y>560</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>330</x>
+     <y>560</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cartesianCustomMax</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cartesianMax</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>90</x>
+     <y>591</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>330</x>
+     <y>591</y>
     </hint>
    </hints>
   </connection>

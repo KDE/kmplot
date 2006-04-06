@@ -126,12 +126,19 @@
     </spacer>
    </item>
    <item row="0" column="0" >
-    <widget class="KLineEdit" name="value" />
+    <widget class="EquationEdit" name="value" />
    </item>
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends></extends>

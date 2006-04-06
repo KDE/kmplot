@@ -119,6 +119,59 @@ class Constant
 
 
 /**
+ * Fixes user-entered expressions into a form that can be handled by the
+ * parser. Also keeps track of how the string was modified, so that if an error
+ * occurs, then the correct position can be reported to the user.
+ * \note The convention used here is that the first letter in a string
+ * is at position zero.
+ */
+class ExpressionSanitizer
+{
+	public:
+		ExpressionSanitizer( Parser * parent );
+		
+		/**
+		 * Lots of changes to make it happy for the parser (e.g. adding extra
+		 * *-characters, remove spaces, replace the locale .-character with '.',
+		 * etc). This function will initialize m_evalMap.
+		 * \param pos is the position to start fixing the expression; text before
+		 * this will not be changed.
+		 */
+		void fixExpression( QString * str, int pos );
+		/**
+		 * \return the position in the input string (as given to fixExpression)
+		 * that corresponds to the outputted string.
+		 */
+		int realPos( int evalPos );
+		
+	protected:
+		/**
+		 * Maps the position of the string returned by fixExpression to that
+		 * passed to it. This is so that if the parser comes across an error in the
+		 * sanitized expression, this gives the corresponding position in the user
+		 * string.
+		 */
+		QVector<int> m_map;
+		
+		void remove( const QString & str );
+		void remove( const QChar & str );
+		void replace( QChar before, QChar after );
+		void replace( QChar before, const QString & after );
+		void insert( int i, QChar ch );
+		
+		/**
+		 * Prints the map and str to stdout; for debugging purposes.
+		 */
+		void displayMap();
+		
+		QString * m_str;
+		
+		QString m_decimalSymbol;
+		Parser * m_parser;
+};
+
+
+/**
  * @short Manages a list of constants.
  */
 class Constants
@@ -192,8 +245,16 @@ public:
 	double fkt( Equation * it, double const x);
 	double fkt( uint id, uint eq, double const x );
 	
-	/// Evaluates the given expression.
-	double eval(QString);
+		/**
+		 * Evaluates the given expression.
+		 * \param evalPosOffset This can be set to start evaluating the string
+		 * at a place other than the start, e.g. to avoid "f(x)=" at the start
+		 * of an equation.
+		 * \param fixExpression Whether to pass \p str to the expression fixer.
+		 * If you have already done this, this should be set to false so that
+		 * the mapping in ExpressionSanitizer is not reset.
+		 */
+		double eval( QString str, unsigned evalPosOffset = 0, bool fixExpression = true );
 	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
 	virtual int addfkt( QString str1, QString str2, Function::Type type );
 	/// Removes the function with the given id.
@@ -202,15 +263,27 @@ public:
 	
 	/// Returns the ID-number of the function "name". If the function couldn't be found, -1 is returned.
 	int fnameToId(const QString &name);
-	/// Returns the current error value. If showMessageBox is true, an error message box will appear if an error was found
-	Error parserError( bool showMessageBox );
+	
+		/**
+		 * \return An error string appropriate for the last error. If there was
+		 * no error, then this will just return an empty string.
+		 */
+		QString errorString() const;
+		/**
+		 * Position where the error occurred.
+		 */
+		int errorPosition() const { return m_errorPosition; }
+		/**
+		 * If showMessageBox is true, an error message box will appear if an
+		 * error was found.
+		 * \return The current error value.
+		 */
+		Error parserError( bool showMessageBox );
 	
 	/// return the angletype
 	static double anglemode();
 	/// Sets the angletype. TRUE is radians and FALSE degrees
 	void setAngleMode(int);
-	/// sets the decimal symbol
-	void setDecimalSymbol(const QString );
 	
 	/**
 	 * Checks to see if the function string is valid.
@@ -250,10 +323,8 @@ private:
 	static Mfkt mfkttab[FANZ];
 	
 	Error err;
-	///  Position where the error occurred.
-	int errpos;
-
-	void fix_expression(QString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
+	/// Position where the error occurred.
+	int m_errorPosition;
 	
 	void heir1();
 	void heir2();
@@ -281,11 +352,12 @@ private:
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer
 	static double  m_anglemode;
-	QString m_decimalsymbol;
 	Constants * m_constants;
+	ExpressionSanitizer m_sanitizer;
 	
 private:
 	friend class XParser;
+	friend class ExpressionSanitizer;
 	Parser();
 };
 

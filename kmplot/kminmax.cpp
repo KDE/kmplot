@@ -143,7 +143,6 @@ void KMinMax::updateFunctions()
 	
 	m_mainWidget->list->clear();
 
-//         for( QVector<Function>::iterator it =  View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
 	foreach ( Function * it, View::self()->parser()->m_ufkt )
 	{
 		if ( it->type() == Function::Cartesian )
@@ -175,7 +174,11 @@ void KMinMax::updateFunctions()
 	QList<QListWidgetItem *> foundItems = m_mainWidget->list->findItems( selected_item, Qt::MatchExactly );
 	QListWidgetItem * found_item = foundItems.isEmpty() ? 0 : foundItems.first();
 	if ( found_item && View::self()->csmode < 0)
-		m_mainWidget->list->setItemSelected( found_item, true );
+		m_mainWidget->list->setCurrentItem( found_item );
+	
+	// if there's no item selected, just pick the first one in the list
+	if ( ! m_mainWidget->list->currentItem() && (m_mainWidget->list->count() != 0) )
+		m_mainWidget->list->setCurrentRow( 0 );
 }
 
 void KMinMax::selectItem()
@@ -201,7 +204,7 @@ void KMinMax::selectItem()
 	//kDebug() << "function: " << function << endl;
 	QList<QListWidgetItem *> foundItems = m_mainWidget->list->findItems( function, Qt::MatchExactly );
 	if ( !foundItems.isEmpty() )
-		m_mainWidget->list->setItemSelected( foundItems.first(), true );
+		m_mainWidget->list->setCurrentItem( foundItems.first() );
 
 	if ( !ufkt->parameters.isEmpty() )
 		parameter = ufkt->parameters[View::self()->csparam].expression();
@@ -242,14 +245,6 @@ void KMinMax::cmdFind_clicked()
 			m_mainWidget->min->selectAll();
 			return;
 		}
-
-		if (  dmin<View::xmin || dmax>View::xmax )
-		{
-			KMessageBox::sorry(this,i18n("Please insert a minimum and maximum range between %1 and %2").arg(View::xmin).arg(View::xmax) );
-			m_mainWidget->min->setFocus();
-			m_mainWidget->min->selectAll();
-			return;
-		}
 	}
 
 
@@ -278,7 +273,6 @@ void KMinMax::cmdFind_clicked()
 	Function *ufkt = 0;
 	QString sec_function = function.section('(',0,0);
 
-//         for( QVector<Function>::iterator it =  View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
 	foreach ( Function * it, View::self()->parser()->m_ufkt )
 	{
 		if ( it->eq[0]->fstr().section('(',0,0) == sec_function)

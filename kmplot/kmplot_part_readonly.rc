@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kmplot" version="5">
+<kpartgui name="kmplot" version="6">
 	<MenuBar>
  		<Menu name="file">
 			<Action name="file_save_as"/>
@@ -17,6 +17,8 @@
 			<Action name="zoom_in"/>
 			<Action name="zoom_out"/>
 			<Action name="zoom_trig"/>
+			<Separator/>
+			<Action name="options_configure_show_sliders"/>
 			<Separator />
 			<Action name="coord_i"/>
 			<Action name="coord_ii"/>
@@ -29,8 +31,6 @@
 			<Action name="grapharea"/>
 		</Menu>
 		<Menu name="settings"><text>&amp;Settings</text>
-			<Action name="options_configure_show_sliders"/>
-			<Separator/>
 			<Action name="options_configure"/>
 		</Menu>
 		<Menu name="help"><text>&amp;Help</text>

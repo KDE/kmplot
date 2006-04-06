@@ -9,7 +9,7 @@
     <x>0</x>
     <y>0</y>
     <width>511</width>
-    <height>627</height>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -23,26 +23,7 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="QStackedWidget" name="functionListContainer" >
-     <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>5</hsizetype>
-       <vsizetype>5</vsizetype>
-       <horstretch>1</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maximumSize" >
-      <size>
-       <width>16777215</width>
-       <height>300</height>
-      </size>
-     </property>
-     <property name="currentIndex" >
-      <number>0</number>
-     </property>
-     <widget class="QWidget" name="page_5" />
-    </widget>
+    <widget class="FunctionListWidget" name="functionList" />
    </item>
    <item>
     <layout class="QGridLayout" >
@@ -93,7 +74,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -349,6 +330,19 @@
               </item>
              </layout>
             </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -1262,16 +1256,16 @@ Example: loop(angle)=ln(angle)</string>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KColorButton</class>
-   <extends></extends>
-   <header>kcolorbutton.h</header>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
+   <class>KColorButton</class>
+   <extends></extends>
+   <header>kcolorbutton.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -1293,6 +1287,13 @@ Example: loop(angle)=ln(angle)</string>
    <class>KPushButton</class>
    <extends></extends>
    <header>kpushbutton.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>FunctionListWidget</class>
+   <extends>QListWidget</extends>
+   <header>functioneditor.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

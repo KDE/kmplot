@@ -80,9 +80,7 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	connect( m_syncFunctionListTimer, SIGNAL(timeout()), this, SLOT( syncFunctionList() ) );
 	
 	m_editor = new FunctionEditorWidget;
-	m_functionList = new FunctionListWidget( m_editor );
-	m_editor->functionListContainer->insertWidget( 0, m_functionList );
-	m_editor->functionListContainer->setCurrentIndex( 0 );
+	m_functionList = m_editor->functionList;
 	
 	m_editor->cartesianEquation->setInputType( EquationEdit::Function );
 	m_editor->polarEquation->setInputType( EquationEdit::Function );

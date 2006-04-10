@@ -57,13 +57,25 @@
 #include "settingspagefonts.h"
 #include "ksliderwindow.h"
 
+#include <assert.h>
+
 class XParser;
 class KmPlotIO;
 
 bool MainDlg::oldfileversion;
+MainDlg * MainDlg::m_self = 0;
 
-MainDlg::MainDlg(QWidget *parentWidget, QObject *parent ) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
+
+MainDlg::MainDlg(QWidget *parentWidget, QObject *parent ) :
+		DCOPObject( "MainDlg" ),
+		KParts::ReadOnlyPart( parent ),
+		m_recentFiles( 0 ),
+		m_modified(false),
+		m_parent(parentWidget)
 {
+	assert( !m_self ); // this class should only be constructed once
+	m_self = this;
+	
 	// we need an instance
 	setInstance( KmPlotPartFactory::instance() );
 
@@ -83,7 +95,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent ) :  DCOPObject( "MainDl
 	coordsDialog = 0;
 	m_popupmenu = new KMenu( parentWidget );
 	m_newPlotMenu = new KMenu( parentWidget );
-	(void) new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection(), this );
+	(void) new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection() );
 	connect( View::self(), SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 	
 	if ( !m_readonly )
@@ -97,7 +109,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent ) :  DCOPObject( "MainDl
 	minmaxdlg = new KMinMax(m_parent);
 	View::self()->setMinMaxDlg(minmaxdlg);
 	setupActions();
-	View::self()->parser()->constants()->load();
+	XParser::self()->constants()->load();
 	kmplotio = new KmPlotIO();
 	m_config = KGlobal::config();
 	m_recentFiles->loadEntries( m_config );
@@ -134,7 +146,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent ) :  DCOPObject( "MainDl
 MainDlg::~MainDlg()
 {
 	m_recentFiles->saveEntries( m_config );
-	View::self()->parser()->constants()->save();
+	XParser::self()->constants()->save();
 	delete kmplotio;
 }
 
@@ -425,7 +437,7 @@ void MainDlg::slotExport()
 	if( url.fileName().right(4).toLower()==".svg")
 	{
 		QPicture pic;
-		View::self()->draw(&pic, 2);
+		View::self()->draw(&pic, View::SVG);
 		if (url.isLocalFile() )
 			pic.save( url.path(), "SVG");
 		else
@@ -441,7 +453,7 @@ void MainDlg::slotExport()
 	else if( url.fileName().right(4).toLower()==".bmp")
 	{
 		QPixmap pic(100, 100);
-		View::self()->draw(&pic, 3);
+		View::self()->draw(&pic, View::Pixmap);
 		if (url.isLocalFile() )
 			pic.save(  url.path(), "BMP");
 		else
@@ -457,7 +469,7 @@ void MainDlg::slotExport()
 	else if( url.fileName().right(4).toLower()==".png")
 	{
 		QPixmap pic(100, 100);
-		View::self()->draw(&pic, 3);
+		View::self()->draw(&pic, View::Pixmap);
 		if (url.isLocalFile() )
 			pic.save( url.path(), "PNG");
 		else
@@ -524,7 +536,7 @@ void MainDlg::slotPrint()
 	if ( prt.setup( m_parent, i18n( "Print Plot" ) ) )
 	{
 		prt.setFullPage( true );
-		View::self()->draw(&prt, 1);
+		View::self()->draw(&prt, View::Printer);
 	}
 }
 
@@ -533,7 +545,7 @@ void MainDlg::editAxes()
 	// create a config dialog and add a axes page
 	if ( !coordsDialog)
 	{
-		coordsDialog = new CoordsConfigDialog( View::self()->parser(), m_parent);
+		coordsDialog = new CoordsConfigDialog( XParser::self(), m_parent);
 		// User edited the configuration - update your local copies of the
 		// configuration data
 		connect( coordsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
@@ -606,25 +618,25 @@ void MainDlg::updateSettings()
 
 void MainDlg::getYValue()
 {
-	minmaxdlg->init(2);
+	minmaxdlg->init( KMinMax::CalculateY );
 	minmaxdlg->show();
 }
 
 void MainDlg::findMinimumValue()
 {
-	minmaxdlg->init(0);
+	minmaxdlg->init( KMinMax::FindMinimum );
 	minmaxdlg->show();
 }
 
 void MainDlg::findMaximumValue()
 {
-	minmaxdlg->init(1);
+	minmaxdlg->init( KMinMax::FindMaximum );
 	minmaxdlg->show();
 }
 
 void MainDlg::graphArea()
 {
-	minmaxdlg->init(3);
+	minmaxdlg->init( KMinMax::CalculateArea );
 	minmaxdlg->show();
 }
 

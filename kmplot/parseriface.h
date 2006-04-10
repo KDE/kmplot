@@ -41,11 +41,11 @@ k_dcop:
 	virtual bool addFunction(const QString &extstr0, const QString &extstr1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double _linewidth, double _f1_linewidth, double _f2_linewidth, double _integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider) = 0;
 	
 	virtual int addFunction(const QString &f_str0, const QString &f_str1) = 0;
-	virtual bool delfkt(uint id) = 0;
+	virtual bool removeFunction(uint id) = 0;
 	virtual bool setFunctionExpression(const QString &f_str, uint id, uint eq) = 0;
 	virtual uint countFunctions() = 0;
 	virtual QStringList listFunctionNames() = 0;
-	virtual int fnameToId(const QString &name) = 0;
+	virtual int fnameToID(const QString &name) = 0;
 	virtual double fkt(uint id, uint eq, double x) = 0;
 	virtual bool functionFVisible(uint id) = 0;
 	virtual bool functionF1Visible(uint id) = 0;

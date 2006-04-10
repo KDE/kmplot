@@ -43,7 +43,7 @@
 //Added by qt3to4:
 #include <QList>
 
-double Parser::m_anglemode = 0;
+double Parser::m_radiansPerAngleUnit = 0;
 
 /// List of predefined functions.
 Parser::Mfkt Parser::mfkttab[ FANZ ]=
@@ -111,18 +111,24 @@ Parser::~Parser()
 	delete m_constants;
 }
 
-void Parser::setAngleMode(int angle)
+void Parser::setAngleMode( AngleMode mode )
 {
-        if(angle==0)
-		m_anglemode = 1;
-	else
-		m_anglemode = M_PI/180;	
+	switch ( mode )
+	{
+		case Radians:
+			m_radiansPerAngleUnit = 1.0;
+			break;
+			
+		case Degrees:
+			m_radiansPerAngleUnit = M_PI/180;	
+			break;
+	}
 }
 
 
-double Parser::anglemode()
+double Parser::radiansPerAngleUnit()
 {
-        return m_anglemode;
+        return m_radiansPerAngleUnit;
 }
 
 
@@ -152,11 +158,12 @@ double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
 		m_sanitizer.fixExpression( & str, evalPosOffset );
 // 	kDebug() << "##### str="<<str<<endl;
 	
-	int yIndex = str.indexOf('y');
+	int yIndex = str.indexOf( 'y', evalPosOffset );
 	
 	if ( yIndex != -1 )
 	{
-		err = RecursiveFunctionCall;
+		kDebug() << k_funcinfo << "RecursiveFunctionCall! yIndex="<<yIndex<<endl;
+		m_error = RecursiveFunctionCall;
 		m_errorPosition = m_sanitizer.realPos( yIndex );
 		delete []stack;
 		return 0;
@@ -165,7 +172,7 @@ double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
 	{
 		if ( constants()->isValidName( str[i] ) )
 		{
-			err = UserDefinedConstantInExpression;
+			m_error = UserDefinedConstantInExpression;
 			m_errorPosition = m_sanitizer.realPos( i );
 			delete []stack;
 			return 0;
@@ -174,14 +181,14 @@ double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
 	
 	m_eval = str;
 	m_evalPos = evalPosOffset;
-	err = ParseSuccess;
+	m_error = ParseSuccess;
 	heir1();
-	if( !evalRemaining().isEmpty() && err==ParseSuccess)
-		err=SyntaxError;
+	if( !evalRemaining().isEmpty() && m_error==ParseSuccess)
+		m_error=SyntaxError;
 	evalflg=0;
 	double const erg=*stkptr;
 	delete [] stack;
-	if ( err == ParseSuccess )
+	if ( m_error == ParseSuccess )
 	{
 		m_errorPosition = -1;
 		return erg;
@@ -198,7 +205,7 @@ double Parser::fkt(uint const id, uint eq, double const x)
 {
 	if ( !m_ufkt.contains( id ) || (eq > 2) )
 	{
-		err = NoSuchFunction;
+		m_error = NoSuchFunction;
 		return 0;
 	}
 	else
@@ -288,7 +295,7 @@ double Parser::fkt( Equation * eq, double const x )
 }
 
 
-int Parser::addfkt( QString str1, QString str2, Function::Type type )
+int Parser::addFunction( QString str1, QString str2, Function::Type type )
 {
 	kDebug() << k_funcinfo << "str1="<<str1<<" str2="<<str2<<endl;
 	
@@ -303,15 +310,15 @@ int Parser::addfkt( QString str1, QString str2, Function::Type type )
 		
 		if ( !temp->eq[i]->setFstr( str[i] ) )
 		{
-			kDebug() << "could not set fstr!\n";
+			kDebug() << "could not set fstr (fstr=\""<<str[i]<<"\")!\n";
 			delete temp;
 			return -1;
 		}
 	
-		if ( fnameToId( temp->eq[i]->fname() ) != -1 )
+		if ( fnameToID( temp->eq[i]->fname() ) != -1 )
 		{
 			kDebug() << "function name reused.\n";
-			err = FunctionNameReused;
+			m_error = FunctionNameReused;
 			delete temp;
 			return -1;
 		}
@@ -329,7 +336,7 @@ int Parser::addfkt( QString str1, QString str2, Function::Type type )
 bool Parser::isFstrValid( QString str )
 {
 	stkptr = stack = 0;
-	err = ParseSuccess;
+	m_error = ParseSuccess;
 	m_errorPosition = 0;
 
 	const int p1=str.indexOf('(');
@@ -341,13 +348,13 @@ bool Parser::isFstrValid( QString str )
 	if(p1==-1 || p3==-1 || p1>p3)
 	{
 		/// \todo find the position of the capital and set into m_errorPosition
-		err = InvalidFunctionVariable;
+		m_error = InvalidFunctionVariable;
 		return false;
 	}
 	if ( p3+2 == str.length()) //empty function
 	{
 		/// \todo find the position of the capital and set into m_errorPosition
-		err = EmptyFunction;
+		m_error = EmptyFunction;
 		return false;
 	}
 	if(p2==-1 || p2>p3)
@@ -356,7 +363,7 @@ bool Parser::isFstrValid( QString str )
 	if (str.mid(p1+1, p2-p1-1) == "e")
 	{
 		/// \todo find the position of the capital and set into m_errorPosition
-		err = InvalidFunctionVariable;
+		m_error = InvalidFunctionVariable;
 		return false;
 	}
 	
@@ -364,7 +371,7 @@ bool Parser::isFstrValid( QString str )
 	
 	if ( fname != fname.toLower() ) //isn't allowed to contain capital letters
 	{
-		err = CapitalInFunctionName;
+		m_error = CapitalInFunctionName;
 		/// \todo find the position of the capital and set into m_errorPosition
 		return false;
 	}
@@ -372,13 +379,13 @@ bool Parser::isFstrValid( QString str )
 	m_currentEquation = m_ownEquation;
 	m_currentEquation->setFstr( str, true );
 	(double) eval( str, p3+2, false );
-	return (err == ParseSuccess);
+	return (m_error == ParseSuccess);
 }
 
 
 void Parser::initEquation( Equation * eq )
 {
-	err = ParseSuccess;
+	m_error = ParseSuccess;
 	m_currentEquation = eq;
 	mem = mptr = eq->mem;
 	
@@ -386,14 +393,14 @@ void Parser::initEquation( Equation * eq )
 	m_sanitizer.fixExpression( & m_eval, m_eval.indexOf('(')+4 );
 	m_evalPos = m_eval.indexOf( '=' ) + 1;
 	heir1();
-	if ( !evalRemaining().isEmpty() && err == ParseSuccess )
-		err = SyntaxError;		// Syntaxfehler
+	if ( !evalRemaining().isEmpty() && m_error == ParseSuccess )
+		m_error = SyntaxError;		// Syntaxfehler
 	addtoken(ENDE);
 	m_errorPosition = -1;
 }
 
 
-bool Parser::delfkt( Function * item )
+bool Parser::removeFunction( Function * item )
 {
 	kDebug() << "Deleting id:" << item->id << endl;
 	if (!item->dep.isEmpty())
@@ -426,9 +433,9 @@ bool Parser::delfkt( Function * item )
 	return true;
 }
 
-bool Parser::delfkt(uint id)
+bool Parser::removeFunction(uint id)
 {
-	return m_ufkt.contains( id ) && delfkt( m_ufkt[id] );
+	return m_ufkt.contains( id ) && removeFunction( m_ufkt[id] );
 }
 
 uint Parser::countFunctions()
@@ -440,7 +447,7 @@ void Parser::heir1()
 {
 	QChar c;
 	heir2();
-	if(err!=ParseSuccess)
+	if(m_error!=ParseSuccess)
 		return ;
 
 	while(1)
@@ -462,7 +469,7 @@ void Parser::heir1()
 				++m_evalPos;
 				addtoken(PUSH);
 				heir2();
-				if(err!=ParseSuccess)
+				if(m_error!=ParseSuccess)
 					return;
 		}
 		switch ( c.unicode() )
@@ -482,14 +489,14 @@ void Parser::heir2()
 	if ( match("-") )
 	{
 		heir2();
-		if(err!=ParseSuccess)
+		if(m_error!=ParseSuccess)
 			return;
 		addtoken(NEG);
 	}
 	else if ( match( QChar(0x221a) ) ) // square root symbol
 	{
 		heir2();
-		if(err!=ParseSuccess)
+		if(m_error!=ParseSuccess)
 			return;
 		addtoken(SQRT);
 	}
@@ -502,7 +509,7 @@ void Parser::heir3()
 {
 	QChar c;
 	heir4();
-	if(err!=ParseSuccess)
+	if(m_error!=ParseSuccess)
 		return;
 	while(1)
 	{
@@ -522,7 +529,7 @@ void Parser::heir3()
 				++m_evalPos;
 				addtoken(PUSH);
 				heir4();
-				if(err!=ParseSuccess)
+				if(m_error!=ParseSuccess)
 					return ;
 		}
 		switch ( c.unicode() )
@@ -540,13 +547,13 @@ void Parser::heir3()
 void Parser::heir4()
 {
 	primary();
-	if(err!=ParseSuccess)
+	if(m_error!=ParseSuccess)
 		return;
 	while(match("^"))
 	{
 		addtoken(PUSH);
 		primary();
-		if(err!=ParseSuccess)
+		if(m_error!=ParseSuccess)
 			return;
 		addtoken(POW);
 	}
@@ -559,7 +566,7 @@ void Parser::primary()
 	{
 		heir1();
 		if(match(")")==0)
-			err=MissingBracket;
+			m_error=MissingBracket;
 		return;
 	}
         int i;
@@ -586,7 +593,8 @@ void Parser::primary()
 			{
 				if (it->eq[i] == m_currentEquation)
 				{
-					err=RecursiveFunctionCall;
+					kDebug() << k_funcinfo << "Matched!\n";
+					m_error=RecursiveFunctionCall;
 					return;
 				}
 				primary();
@@ -613,7 +621,7 @@ void Parser::primary()
 				return;
 			}
 		}
-		err = NoSuchConstant;
+		m_error = NoSuchConstant;
 		return;
 	}
         
@@ -669,7 +677,7 @@ void Parser::primary()
 		addwert(w);
 	}
 	else
-		err = SyntaxError;
+		m_error = SyntaxError;
 }
 
 
@@ -693,14 +701,14 @@ void Parser::addtoken(unsigned char token)
 {
 	if(stkptr>=stack+STACKSIZE-1)
 	{
-		err = StackOverflow;
+		m_error = StackOverflow;
 		return;
 	}
 
 	if(evalflg==0)
 	{
                 if(mptr>=&mem[MEMSIZE-10])
-					err = MemoryOverflow;
+					m_error = MemoryOverflow;
 		else
                         *mptr++=token;
         
@@ -766,7 +774,7 @@ void Parser::addwert(double x)
 	if(evalflg==0)
 	{
                 if(mptr>=&mem[MEMSIZE-10])
-					err = MemoryOverflow;
+					m_error = MemoryOverflow;
 		else
 		{
                         *pd++=x;
@@ -784,7 +792,7 @@ void Parser::addfptr(double(*fadr)(double))
         if( evalflg==0 )
         {
         if( mptr>=&mem[MEMSIZE-10] )
-			err = MemoryOverflow;
+			m_error = MemoryOverflow;
         else
                 {
                         *pf++=fadr;
@@ -802,7 +810,7 @@ void Parser::addfptr( uint id, uint eq_id )
 	if(evalflg==0)
 	{
 		if(mptr>=&mem[MEMSIZE-10])
-			err=MemoryOverflow;
+			m_error=MemoryOverflow;
 		else
 		{
 			*p++=id;
@@ -819,7 +827,7 @@ void Parser::addfptr( uint id, uint eq_id )
 }
 
 
-int Parser::fnameToId(const QString &name)
+int Parser::fnameToID(const QString &name)
 {
 	foreach ( Function * it, m_ufkt )
 	{
@@ -835,7 +843,7 @@ int Parser::fnameToId(const QString &name)
 
 QString Parser::errorString() const
 {
-	switch(err)
+	switch(m_error)
 	{
 		case ParseSuccess:
 			return QString();
@@ -899,12 +907,12 @@ QString Parser::errorString() const
 Parser::Error Parser::parserError(bool showMessageBox)
 {
 	if (!showMessageBox)
-		return err;
+		return m_error;
 	
 	QString message( errorString() );
 	if ( !message.isEmpty() )
 		KMessageBox::sorry(0, message, "KmPlot");
-	return err;
+	return m_error;
 }
 
 
@@ -989,22 +997,22 @@ double artanh(double x)
 
 double sec(double x)
 {
-        return (1 / cos(x*Parser::anglemode()));
+        return (1 / cos(x*Parser::radiansPerAngleUnit()));
 }
 
 double cosec(double x)
 {
-        return (1 / sin(x*Parser::anglemode()));
+        return (1 / sin(x*Parser::radiansPerAngleUnit()));
 }
 
 double cot(double x)
 {
-        return (1 / tan(x*Parser::anglemode()));
+        return (1 / tan(x*Parser::radiansPerAngleUnit()));
 }
 
 double arcsec(double x)
 {
-        if ( !Parser::anglemode() )
+        if ( !Parser::radiansPerAngleUnit() )
                 return ( 1/acos(x)* 180/M_PI );
         else
                 return acos(1/x);
@@ -1012,12 +1020,12 @@ double arcsec(double x)
 
 double arccosec(double x)
 {
-        return asin(1/x)* 1/Parser::anglemode();
+        return asin(1/x)* 1/Parser::radiansPerAngleUnit();
 }
 
 double arccot(double x)
 {
-        return atan(1/x)* 1/Parser::anglemode();
+        return atan(1/x)* 1/Parser::radiansPerAngleUnit();
 }
 
 // sech, cosech, coth and their inverses
@@ -1025,73 +1033,73 @@ double arccot(double x)
 
 double sech(double x)
 {
-        return (1 / cosh(x*Parser::anglemode()));
+        return (1 / cosh(x*Parser::radiansPerAngleUnit()));
 }
 
 double cosech(double x)
 {
-        return (1 / sinh(x*Parser::anglemode()));
+        return (1 / sinh(x*Parser::radiansPerAngleUnit()));
 }
 
 double coth(double x)
 {
-        return (1 / tanh(x*Parser::anglemode()));
+        return (1 / tanh(x*Parser::radiansPerAngleUnit()));
 }
 
 double arsech(double x)
 {
-        return arcosh(1/x)* 1/Parser::anglemode();
+        return arcosh(1/x)* 1/Parser::radiansPerAngleUnit();
 }
 
 double arcosech(double x)
 {
-        return arsinh(1/x)* 1/Parser::anglemode();
+        return arsinh(1/x)* 1/Parser::radiansPerAngleUnit();
 }
 
 double arcoth(double x)
-{   return artanh(1/x)* 1/Parser::anglemode();
+{   return artanh(1/x)* 1/Parser::radiansPerAngleUnit();
 }
 
 //basic trigonometry functions
 
 double lcos(double x)
 {
-        return cos(x*Parser::anglemode());
+        return cos(x*Parser::radiansPerAngleUnit());
 }
 double lsin(double x)
 {
-        return sin(x*Parser::anglemode());
+        return sin(x*Parser::radiansPerAngleUnit());
 }
 double ltan(double x)
 {
-        return tan(x*Parser::anglemode());
+        return tan(x*Parser::radiansPerAngleUnit());
 }
 
 double lcosh(double x)
 {
-        return cosh(x*Parser::anglemode());
+        return cosh(x*Parser::radiansPerAngleUnit());
 }
 double lsinh(double x)
 {
-        return sinh(x*Parser::anglemode());
+        return sinh(x*Parser::radiansPerAngleUnit());
 }
 double ltanh(double x)
 {
-        return tanh(x*Parser::anglemode());
+        return tanh(x*Parser::radiansPerAngleUnit());
 }
 
 double arccos(double x)
 {
-        return acos(x) * 1/Parser::anglemode();
+        return acos(x) * 1/Parser::radiansPerAngleUnit();
 }
 double arcsin(double x)
 {
-        return asin(x)* 1/Parser::anglemode();
+        return asin(x)* 1/Parser::radiansPerAngleUnit();
 }
 
 double arctan(double x)
 {
-        return atan(x)* 1/Parser::anglemode();
+        return atan(x)* 1/Parser::radiansPerAngleUnit();
 }
 
 
@@ -1225,7 +1233,6 @@ void Constants::save()
 	QString tmp;
 	
 	int i = 0;
-	kDebug() << k_funcinfo << "m_constants.size()="<<m_constants.size()<<endl;
 	foreach ( Constant c, m_constants )
 	{
 		tmp.setNum(i);

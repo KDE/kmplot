@@ -211,39 +211,39 @@ class Constants
 class Parser : public QObject, virtual public ParserIface
 {
 	Q_OBJECT
-public:
+	public:
 	
-	enum Error
-	{
-		ParseSuccess = 0,
-		SyntaxError = 1,
-		MissingBracket = 2,
-		UnknownFunction = 3,
-		InvalidFunctionVariable = 4,
-		TooManyFunctions = 5,
-		MemoryOverflow = 6,
-		StackOverflow = 7,
-		FunctionNameReused = 8, ///< function name already used
-		RecursiveFunctionCall = 9,
-		NoSuchConstant = 10,
-		EmptyFunction = 11,
-		CapitalInFunctionName = 12, ///< function name contains a capital letter
-		NoSuchFunction = 13,
-		UserDefinedConstantInExpression = 14, ///< evalation expression may not use user definded constants
-	};
+		enum Error
+		{
+			ParseSuccess,
+			SyntaxError,
+			MissingBracket,
+			UnknownFunction,
+			InvalidFunctionVariable,
+			TooManyFunctions,
+			MemoryOverflow,
+			StackOverflow,
+			FunctionNameReused , ///< function name already used
+			RecursiveFunctionCall,
+			NoSuchConstant,
+			EmptyFunction,
+			CapitalInFunctionName, ///< function name contains a capital letter
+			NoSuchFunction,
+			UserDefinedConstantInExpression, ///< evalation expression may not use user defined constants
+		};
 	
-	~Parser();
+		~Parser();
 	
-	/**
-	 * @return A string that is safe to use as a number in a string to be
-	 * parsed. This is needed as e.g. "1.2e-3" is not allowed (e is a
-	 * constant) - so cannot use the QString::number.
-	 */
-	static QString number( double value );
+		/**
+		 * @return A string that is safe to use as a number in a string to be
+		 * parsed. This is needed as e.g. "1.2e-3" is not allowed (e is a
+		 * constant) - so cannot use the QString::number.
+		 */
+		static QString number( double value );
 	
-	/// Returns the result of a calculation
-	double fkt( Equation * it, double const x);
-	double fkt( uint id, uint eq, double const x );
+		/// Returns the result of a calculation
+		double fkt( Equation * it, double const x);
+		double fkt( uint id, uint eq, double const x );
 	
 		/**
 		 * Evaluates the given expression.
@@ -255,15 +255,21 @@ public:
 		 * the mapping in ExpressionSanitizer is not reset.
 		 */
 		double eval( QString str, unsigned evalPosOffset = 0, bool fixExpression = true );
-	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
-	virtual int addfkt( QString str1, QString str2, Function::Type type );
-	/// Removes the function with the given id.
-	bool delfkt(uint id);
-	bool delfkt( Function *item);
-	
-	/// Returns the ID-number of the function "name". If the function couldn't be found, -1 is returned.
-	int fnameToId(const QString &name);
-	
+		/**
+		 * Adds a user defined function with the given equation. The new
+		 * function's ID-number is returned.
+		 */
+		virtual int addFunction( QString str1, QString str2, Function::Type type );
+		/**
+		 * Removes the function with the given id.
+		 */
+		bool removeFunction( uint id );
+		bool removeFunction( Function *item);
+		/**
+		 * Returns the ID-number of the function "name". If the function
+		 * couldn't be found, -1 is returned.
+		 */
+		int fnameToID(const QString &name);
 		/**
 		 * \return An error string appropriate for the last error. If there was
 		 * no error, then this will just return an empty string.
@@ -279,11 +285,18 @@ public:
 		 * \return The current error value.
 		 */
 		Error parserError( bool showMessageBox );
-	
-	/// return the angletype
-	static double anglemode();
-	/// Sets the angletype. TRUE is radians and FALSE degrees
-	void setAngleMode(int);
+		/**
+		 * \return the number of radians per angle-unit that the user has
+		 * selected (i.e. this will return 1.0 if the user has selected
+		 * radians; and PI/180 if the user has selected degrees).
+		 */
+		static double radiansPerAngleUnit();
+		
+		enum AngleMode { Radians = 0, Degrees = 1 };
+		/**
+		 * Sets the angle mode (in which the calculations are performed).
+		 */
+		void setAngleMode( AngleMode mode );
 	
 	/**
 	 * Checks to see if the function string is valid.
@@ -322,9 +335,9 @@ private:
 	};
 	static Mfkt mfkttab[FANZ];
 	
-	Error err;
-	/// Position where the error occurred.
-	int m_errorPosition;
+		Error m_error;
+		/// Position where the error occurred.
+		int m_errorPosition;
 	
 	void heir1();
 	void heir2();
@@ -351,7 +364,7 @@ private:
 	Equation * m_ownEquation; ///< used for parsing constants, etc, and ensures that current_item is never null
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer
-	static double  m_anglemode;
+	static double m_radiansPerAngleUnit;
 	Constants * m_constants;
 	ExpressionSanitizer m_sanitizer;
 	

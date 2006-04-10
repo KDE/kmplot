@@ -248,7 +248,7 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 	// temporary measure: for now, delete all previous functions
 	QList<int> prevFunctionIDs = XParser::self()->m_ufkt.keys();
 	foreach ( int id, prevFunctionIDs )
-		XParser::self()->delfkt( id );
+		XParser::self()->removeFunction( id );
 	
 	QDomElement element = doc.documentElement();
 	QString versionString = element.attribute( "version" );
@@ -553,7 +553,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		else
 			str = fstr.left( i );
 		
-		int id = XParser::self()->addfkt( str, eq1, type );
+		int id = XParser::self()->addFunction( str, eq1, type );
 		
 		Function * added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );
@@ -651,9 +651,9 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 		
 		int id;
 		if ( type == Function::Parametric )
-			id = XParser::self()->addfkt( str, parametricXEquation, type );
+			id = XParser::self()->addFunction( str, parametricXEquation, type );
 		else
-			id = XParser::self()->addfkt( str, 0, type );
+			id = XParser::self()->addFunction( str, 0, type );
 		
 		Function *added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );

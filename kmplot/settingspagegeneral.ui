@@ -23,60 +23,6 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
-      <string>Precision</string>
-     </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="1" >
-       <widget class="QDoubleSpinBox" name="kcfg_stepWidth" >
-        <property name="alignment" >
-         <set>Qt::AlignRight</set>
-        </property>
-        <property name="maximum" >
-         <double>100</double>
-        </property>
-        <property name="minimum" >
-         <double>0.01</double>
-        </property>
-        <property name="value" >
-         <double>1</double>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="2" >
-       <widget class="QCheckBox" name="kcfg_useRelativeStepWidth" >
-        <property name="toolTip" >
-         <string>Use the same precision independent of the window's size</string>
-        </property>
-        <property name="whatsThis" >
-         <string>If relative step width is set to true, the step width will be adapted to the size of the window.</string>
-        </property>
-        <property name="text" >
-         <string>&amp;Use relative step width</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="textLabel1" >
-        <property name="text" >
-         <string>Points per pixel:</string>
-        </property>
-        <property name="buddy" >
-         <cstring>kcfg_relativeStepWidth</cstring>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupBox_2" >
      <property name="title" >
       <string>Angle Mode</string>

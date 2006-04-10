@@ -198,16 +198,6 @@
 	</group>
 		
 	<group name="General">
-		<entry name="stepWidth" type="Double">
-			<label>Step width in pixel</label>
-			<whatsthis>The greater the step width the faster but the less precise the plot is done.</whatsthis>
-			<default>1.0</default>
-		</entry>
-		<entry name="useRelativeStepWidth" type="Bool">
-			<label>Use relative step width</label>
-			<whatsthis>If relative step width is set to true, the step width will be adapted to the size of the window.</whatsthis>
-			<default>true</default>
-		</entry>
 		<entry name="anglemode" type="Int">
 			<label>Radians instead of degrees</label>
 			<whatsthis>Check the box if you want to use radians</whatsthis>

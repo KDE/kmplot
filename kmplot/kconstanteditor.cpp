@@ -53,7 +53,7 @@ KConstantEditor::KConstantEditor( QWidget * parent )
 	m_constantValidator = new ConstantValidator( this );
 	nameEdit->setValidator( m_constantValidator );
 	
-	QVector<Constant> constants = View::self()->parser()->constants()->all();
+	QVector<Constant> constants = XParser::self()->constants()->all();
 	foreach ( Constant c, constants )
 	{
 		QString valueAsString;
@@ -100,8 +100,8 @@ void KConstantEditor::cmdDelete_clicked()
 	{
 		QChar currentConstant = constantText[0];
 	
-// 		for( QVector<Function>::iterator it = View::self()->parser()->ufkt.begin(); it !=  View::self()->parser()->ufkt.end(); ++it)
-		foreach ( Function * it, View::self()->parser()->m_ufkt )
+// 		for( QVector<Function>::iterator it = XParser::self()->ufkt.begin(); it !=  XParser::self()->ufkt.end(); ++it)
+		foreach ( Function * it, XParser::self()->m_ufkt )
 		{
 			QString str = it->eq[0]->fstr();
 			if ( str.indexOf( currentConstant, str.indexOf(')') ) != -1 )
@@ -111,7 +111,7 @@ void KConstantEditor::cmdDelete_clicked()
 			}
 		}
 	
-		View::self()->parser()->constants()->remove( currentConstant );
+		XParser::self()->constants()->remove( currentConstant );
 	}
 	
 	nameEdit->clear();
@@ -144,7 +144,7 @@ void KConstantEditor::constantNameEdited( const QString & newName )
 	if ( !current )
 		current = new QTreeWidgetItem( constantList );
 	
-	View::self()->parser()->constants()->remove( m_previousConstantName );
+	XParser::self()->constants()->remove( m_previousConstantName );
 	
 	current->setText( 0, newName );
 	constantList->setCurrentItem( current ); // make it the current item if no item was selected before
@@ -170,15 +170,15 @@ void KConstantEditor::saveCurrentConstant()
 	current->setText( 1, valueEdit->text() );
 	
 	QChar currentName = nameEdit->text()[0];
-	double value = View::self()->parser()->eval( valueEdit->text() );
-	View::self()->parser()->constants()->add( Constant( currentName, value ) );
+	double value = XParser::self()->eval( valueEdit->text() );
+	XParser::self()->constants()->add( Constant( currentName, value ) );
 }
 
 
 bool KConstantEditor::checkValueValid()
 {
-	(double) View::self()->parser()->eval( valueEdit->text() );
-	bool valid = (View::self()->parser()->parserError( false ) == 0);
+	(double) XParser::self()->eval( valueEdit->text() );
+	bool valid = (XParser::self()->parserError( false ) == 0);
 	valueInvalidLabel->setVisible( !nameEdit->text().isEmpty() && !valid );
 	return valid;
 }
@@ -210,10 +210,10 @@ QValidator::State ConstantValidator::validate( QString & input, int & pos ) cons
 		input = input.toUpper();
 	
 	// Is the constant name already in use?
-	if ( (input[0] != m_workingName) && View::self()->parser()->constants()->have( input[0] ) )
+	if ( (input[0] != m_workingName) && XParser::self()->constants()->have( input[0] ) )
 		return Invalid;
 	
-	return View::self()->parser()->constants()->isValidName( input[0] ) ? Acceptable : Invalid;
+	return XParser::self()->constants()->isValidName( input[0] ) ? Acceptable : Invalid;
 }
 
 

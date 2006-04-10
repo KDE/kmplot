@@ -82,12 +82,16 @@ class MainDlg : public KParts::ReadOnlyPart, virtual public MainDlgIface
 {
 	Q_OBJECT
 
-public:
-	/** Constuctor.
-	 * @param parentWidget parent widget for this part
-	 * @param parent parent object
-	 */
-	MainDlg(QWidget *parentWidget, QObject *parent );
+	public:
+		/** Constuctor.
+		 * @param parentWidget parent widget for this part
+		 * @param parent parent object
+		 */
+		MainDlg(QWidget *parentWidget, QObject *parent );
+	
+		/// Initialized as a pointer to this MainDlg object on creation
+		static MainDlg * self() { return m_self; }
+		
 	/// Cleaning up a bit.
 	virtual ~MainDlg();
 	/// This class needs access to private members, too.
@@ -202,6 +206,9 @@ private:
 	KAction * m_undoAction;
 	/// The redo action
 	KAction * m_redoAction;
+	
+	/// A pointer to ourself
+	static MainDlg * m_self;
 
 protected slots:
 	/**

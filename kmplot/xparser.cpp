@@ -257,9 +257,9 @@ double XParser::euler_method(const double x, Equation * eq )
 }
 
 
-int XParser::addfkt( QString fn1, QString fn2, Function::Type type )
+int XParser::addFunction( QString fn1, QString fn2, Function::Type type )
 {
-	int id = Parser::addfkt( fn1, fn2, type );
+	int id = Parser::addFunction( fn1, fn2, type );
 	Function * ufkt = functionWithID( id );
 	if ( ufkt )
 		ufkt->f0.color = ufkt->f1.color = ufkt->f2.color = ufkt->integral.color = defaultColor(id);
@@ -621,13 +621,13 @@ int XParser::addFunction(const QString &f_str0, const QString &_f_str1)
 	else
 		type = (added_function[0] == 'r') ? Function::Polar : Function::Cartesian;
 	
-	int const id = addfkt( added_function, f_str1, type );
+	int const id = addFunction( added_function, f_str1, type );
 	if (id==-1)
 		return -1;
 	Function *tmp_ufkt = m_ufkt[id];
 	if ( pos!=-1 && !getext( tmp_ufkt, f_str0 ) )
 	{
-		Parser::delfkt( tmp_ufkt );
+		Parser::removeFunction( tmp_ufkt );
 		return -1;
 	}
 	m_modified = true;
@@ -666,7 +666,7 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 		}
 	}
 	
-	int const id = addfkt( fstr[0], fstr[1], type );
+	int const id = addFunction( fstr[0], fstr[1], type );
 	if ( id==-1 )
 		return false;
 	Function *added_function = m_ufkt[id];

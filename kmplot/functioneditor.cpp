@@ -126,8 +126,8 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 		connect( w, SIGNAL(currentIndexChanged(int)), this, SLOT(save()) );
 	//END connect up all editing widgets
 	
-	connect( View::self()->parser(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
-	connect( View::self()->parser(), SIGNAL(functionRemoved(int)), this, SLOT(functionsChanged()) );
+	connect( XParser::self(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
+	connect( XParser::self(), SIGNAL(functionRemoved(int)), this, SLOT(functionsChanged()) );
 	
 	m_createNewPlotsMenu->installEventFilter( this );
 	connect( m_editor->createNewPlot, SIGNAL(pressed()), this, SLOT( createNewPlot() ) );
@@ -153,7 +153,7 @@ void FunctionEditor::deleteCurrent()
 		return;
 	}
 	
-	if ( !View::self()->parser()->delfkt( functionItem->function() ) )
+	if ( !XParser::self()->removeFunction( functionItem->function() ) )
 	{
 		kDebug() << "Couldn't delete function.\n";
 		// couldn't delete it, as e.g. another function depends on it
@@ -161,7 +161,7 @@ void FunctionEditor::deleteCurrent()
 	}
 	
 	kDebug() << "Deleted current, so requestion state save.\n";
-	View::self()->mainDlg()->requestSaveCurrentState();
+	MainDlg::self()->requestSaveCurrentState();
 	View::self()->drawPlot();
 }
 
@@ -197,7 +197,7 @@ void FunctionEditor::syncFunctionList()
 	FunctionListItem * toSelect = 0l;
 	int newFunctionCount = 0;
 	
-	for ( QMap<int, Function*>::iterator it = View::self()->parser()->m_ufkt.begin(); it != View::self()->parser()->m_ufkt.end(); ++it)
+	for ( QMap<int, Function*>::iterator it = XParser::self()->m_ufkt.begin(); it != XParser::self()->m_ufkt.end(); ++it)
 	{
 		Function * function = *it;
 		
@@ -298,7 +298,7 @@ void FunctionEditor::initFromCartesian()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID(m_functionID);
+	Function * f = XParser::self()->functionWithID(m_functionID);
 	
 	if ( !f )
 	{
@@ -359,7 +359,7 @@ void FunctionEditor::initFromPolar()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID(m_functionID);
+	Function * f = XParser::self()->functionWithID(m_functionID);
 	
 	if ( !f )
 		return;
@@ -383,7 +383,7 @@ void FunctionEditor::initFromParametric()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID(m_functionID);
+	Function * f = XParser::self()->functionWithID(m_functionID);
 	
 	if ( !f )
 		return;
@@ -455,13 +455,13 @@ void FunctionEditor::createCartesian()
 	
 	// find a name not already used
 	QString fname( "f(x)=0" );
-	View::self()->parser()->fixFunctionName( fname, Equation::Cartesian, -1 );
+	XParser::self()->fixFunctionName( fname, Equation::Cartesian, -1 );
 	
-	m_functionID = View::self()->parser()->addFunction( fname, 0 );
+	m_functionID = XParser::self()->addFunction( fname, 0 );
 	assert( m_functionID != -1 );
 
 	kDebug() << "Created cartesian, so requestion state save.\n";
-	View::self()->mainDlg()->requestSaveCurrentState();
+	MainDlg::self()->requestSaveCurrentState();
 	View::self()->drawPlot();
 }
 
@@ -472,14 +472,14 @@ void FunctionEditor::createParametric()
 	
 	// find a name not already used
 	QString fname;
-	View::self()->parser()->fixFunctionName( fname, Equation::ParametricX, -1 );
+	XParser::self()->fixFunctionName( fname, Equation::ParametricX, -1 );
 	QString name = fname.mid( 1, fname.indexOf('(')-1 );
 	
-	m_functionID = View::self()->parser()->addfkt( QString("x%1(t)=0").arg( name ), QString("y%1(t)=0").arg( name ), Function::Parametric ); 
+	m_functionID = XParser::self()->addFunction( QString("x%1(t)=0").arg( name ), QString("y%1(t)=0").arg( name ), Function::Parametric ); 
 	assert( m_functionID != -1 );
 
 	kDebug() << "Created parametric, so requestion state save.\n";
-	View::self()->mainDlg()->requestSaveCurrentState();
+	MainDlg::self()->requestSaveCurrentState();
 }
 
 
@@ -489,12 +489,12 @@ void FunctionEditor::createPolar()
 	
 	// find a name not already used
 	QString fname( "f(x)=0" );
-	View::self()->parser()->fixFunctionName( fname, Equation::Polar, -1 );
+	XParser::self()->fixFunctionName( fname, Equation::Polar, -1 );
 	
-	m_functionID = View::self()->parser()->addFunction( fname, 0 );
+	m_functionID = XParser::self()->addFunction( fname, 0 );
 	assert( m_functionID != -1 );
 
-	View::self()->mainDlg()->requestSaveCurrentState();
+	MainDlg::self()->requestSaveCurrentState();
 }
 
 
@@ -502,7 +502,7 @@ void FunctionEditor::save()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID( m_functionID );
+	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
 		return;
 	
@@ -527,14 +527,14 @@ void FunctionEditor::saveCartesian()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID( m_functionID );
+	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
 		return;
 	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
 	QString f_str( m_editor->cartesianEquation->text() );
-	View::self()->parser()->fixFunctionName(f_str, Equation::Cartesian, f->id );
+	XParser::self()->fixFunctionName(f_str, Equation::Cartesian, f->id );
 	
 	//all settings are saved here until we know that no errors have appeared
 	Function tempFunction( Function::Cartesian );
@@ -608,7 +608,7 @@ void FunctionEditor::saveCartesian()
 		return;
 
 		
-	View::self()->mainDlg()->requestSaveCurrentState();
+	MainDlg::self()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
 	View::self()->drawPlot();
@@ -646,7 +646,7 @@ void FunctionEditor::savePolar()
 {
 // 	kDebug() << k_funcinfo << endl;
 	
-	Function * f = View::self()->parser()->functionWithID( m_functionID );
+	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
 		return;
 	
@@ -654,7 +654,7 @@ void FunctionEditor::savePolar()
 	
 	QString f_str = m_editor->polarEquation->text();
 
-	View::self()->parser()->fixFunctionName( f_str, Equation::Polar, f->id );
+	XParser::self()->fixFunctionName( f_str, Equation::Polar, f->id );
 	Function tempFunction( Function::Polar );  //all settings are saved here until we know that no errors have appeared
 
 	if ( functionListItem )
@@ -695,7 +695,7 @@ void FunctionEditor::savePolar()
 		return;
 
 	kDebug() << "Polar changed, so requesting state save.\n";	
-	View::self()->mainDlg()->requestSaveCurrentState();
+	MainDlg::self()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
 	View::self()->drawPlot();
@@ -708,7 +708,7 @@ void FunctionEditor::saveParametric()
 	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
-	Function * f = View::self()->parser()->functionWithID( m_functionID );
+	Function * f = XParser::self()->functionWithID( m_functionID );
 	
 	if ( !f )
 	{
@@ -734,7 +734,7 @@ void FunctionEditor::saveParametric()
 	if ( m_editor->parametricName->text().isEmpty() )
 	{
 		QString fname;
-		View::self()->parser()->fixFunctionName(fname, Equation::ParametricX, f->id );
+		XParser::self()->fixFunctionName(fname, Equation::ParametricX, f->id );
 		int const pos = fname.indexOf('(');
 		m_editor->parametricName->setText(fname.mid(1,pos-1));
 	}
@@ -787,7 +787,7 @@ void FunctionEditor::saveParametric()
 		return;
 	
 	kDebug() << "Parametric changed, so requesting state save.\n";
-	View::self()->mainDlg()->requestSaveCurrentState();
+	MainDlg::self()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
 	View::self()->drawPlot();
@@ -796,7 +796,7 @@ void FunctionEditor::saveParametric()
 
 void FunctionEditor::editParameterList()
 {
-	KParameterEditor * dlg = new KParameterEditor( View::self()->parser(), & m_parameters );
+	KParameterEditor * dlg = new KParameterEditor( XParser::self(), & m_parameters );
 	dlg->exec();
 	saveCartesian();
 }
@@ -824,7 +824,7 @@ QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items )
 	{
 		int f = static_cast<FunctionListItem*>(item)->function();
 		
-		if ( Function * function = View::self()->parser()->functionWithID( f ) )
+		if ( Function * function = XParser::self()->functionWithID( f ) )
 			KmPlotIO::addFunction( doc, root, function );
 	}
 	
@@ -886,7 +886,7 @@ FunctionListItem::FunctionListItem( QListWidget * parent, int function )
 
 void FunctionListItem::update()
 {
-	Function * f = View::self()->parser()->functionWithID( m_function );
+	Function * f = XParser::self()->functionWithID( m_function );
 	
 	if ( !f )
 	{

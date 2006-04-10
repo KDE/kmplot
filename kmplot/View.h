@@ -35,7 +35,6 @@
 #include <QResizeEvent>
 #include <QKeyEvent>
 #include <QEvent>
-#include <QPaintEvent>
 
 // KDE includes
 #include <dcopclient.h>
@@ -55,8 +54,25 @@
 class KMinMax;
 class KSliderWindow;
 class MainDlg;
-class XParser;
+class QPaintEvent;
 class QTime;
+class XParser;
+
+
+/**
+ * For drawing the area of a (Cartesian) plot.
+ */
+ class IntegralDrawSettings
+{
+	public:
+		IntegralDrawSettings();
+		
+		int functionID;
+		Function::PMode pMode;
+		double dmin, dmax;
+		QString parameter; ///< parameter for the function
+};
+
 
 /**
  * @short This class contains the plots. 
@@ -67,36 +83,46 @@ class QTime;
 class View : public QWidget, virtual public ViewIface
 {
 	Q_OBJECT
-public:
-	/// Contructor sets up the parser, too.
-	View(bool, bool &, KMenu *, QWidget* parent, KActionCollection *ac, MainDlg * mainDlg );
-	void setMinMaxDlg(KMinMax *);
-	virtual ~View();
+	public:
+		/// Contructor sets up the parser, too.
+		View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent, KActionCollection *ac );
+		void setMinMaxDlg(KMinMax *);
+		virtual ~View();
 	
-	/// There is only one view.
-	static View * self() { return m_self; }
+		/// There is only one view.
+		static View * self() { return m_self; }
 
-	/// Reimplemented to draw all stuff to the view.
-	void draw(QPaintDevice *, int const);
-	/// Getting all relevant settings using KConfig XT class Settings.
-	void getSettings();
-	/// Clears all functions in the parser and gets default settings.
-	/// @see getSettings
-	void init();
-	/// Finding the minimum or maximum value
-	void findMinMaxValue(Function *, Function::PMode, bool, double &, double &,const QString &);
-	/// get a y-value from a x-value
-	void getYValue(Function * , Function::PMode, double , double &,const QString &);
-	/// draw and calculate the area between the graph and the x-axis.
-	void areaUnderGraph(Function *, Function::PMode, double &, double &, const QString &, QPainter* );
+		enum PlotMedium
+		{
+			Screen,
+			Printer,
+			SVG,
+			Pixmap,
+		};
+		/// Reimplemented to draw all stuff to the view.
+		void draw( QPaintDevice *, PlotMedium medium );
+		
+		/// Getting all relevant settings using KConfig XT class Settings.
+		void getSettings();
+		/// Clears all functions in the parser and gets default settings.
+		/// @see getSettings
+		void init();
+		enum ExtremaType { Minimum, Maximum };
+		/**
+		* Finding the minimum or maximum value.
+		* \return The (x,y) coordinates of the extrema point.
+		*/
+		QPointF findMinMaxValue( Function * function, Function::PMode p_mode, ExtremaType type, double dmin, double dmax,const QString & parameter );
+		/// get a y-value from a x-value
+		double getYValue( Function * function, Function::PMode p_mode, double x, double y, const QString & parameter );
+		/**
+		* Calculates the area between the given plot and the x-axis
+		* (from x = \p dmin to x = \p dmax). The area will also be colored in.
+		* \return the area.
+		*/
+		double areaUnderGraph( IntegralDrawSettings settings );
 	/// the calculation was cancelled by the user
 	bool isCalculationStopped();
-
-	/// Returns a pointer to the private parser instance m_parser.
-	/// @see m_parser
-	XParser* parser();
-	/// Returns a pointer to the MainDlg
-	MainDlg * mainDlg() const { return m_mainDlg; }
 
 	/// Slider controlling parameter values
 	QPointer<KSliderWindow> m_sliderWindow;
@@ -107,13 +133,14 @@ public:
 	/// Convert a width in mm to a suitable QPen width for drawing
 	double mmToPenWidth( double width_mm, bool antialias ) const;
 
-	/** Current plot range endge. */
-	static double xmin;
-	static double xmax;
+		/** Current plot range endge. */
+		double m_xmin;
+		double m_xmax;
 
-	/// trace mode stuff, must be accessible in KMinMax
-	int csmode, csparam;
-	Function::PMode cstype;
+		/// trace mode stuff, must be accessible in KMinMax
+		int m_currentFunctionID;
+		int m_currentFunctionParameter;
+		Function::PMode m_currentFunctionPlot;
 
 public slots:
 	/// Called when the user want to cancel the drawing
@@ -204,15 +231,15 @@ private:
 	 */
 	void getPlotUnderMouse();
 	/**
-	 * Finds the closest point to \p real_x and \p real_y to the given function.
+	 * Finds the closest point to \p pos to the given function.
 	 * \return the parametization (angle or t) that gives the closest point.
 	 */
-	double getClosestPoint( double real_x, double real_y, Function * function, Function::PMode mode );
+	double getClosestPoint( const QPointF & pos, Function * function, Function::PMode mode );
 	/**
-	 * Calculates the pixel distance from \p real_x and \p real_y to the display
-	 * point of the given function at \p x.
+	 * Calculates the pixel distance from \p pos to the display point of the
+	 * given function at \p x.
 	 */
-	double pixelDistance( double real_x, double real_y, Function * function, Function::PMode mode, double x );
+	double pixelDistance( const QPointF & pos, Function * function, Function::PMode mode, double x );
 	/**
 	 * @return a string for displaying the x or y coordinate in the statusbar.
 	 * \param delta is the amount by which the value varies over one pixel in
@@ -220,30 +247,37 @@ private:
 	 * moving the cursor shows a nice change in the string.
 	 */
 	QString posToString( double x, double delta ) const;
-	/**
-	 * Convenience function for calculating the value of \p eq using the
-	 * given \p mode (which cannot be Function::Integral).
-	 */
-	double value( Equation * eq, Function::PMode mode, double x );
 	
-
-	/// for areadrawing when printing
-	bool areaDraw;
-	Function * areaFunction;
-	Function::PMode areaPMode;
-	double areaMin, areaMax;
-	QString areaParameter;
-
-	/// The central parser instance.
-	/// @see parser()
-	XParser *m_parser;
-
-	int w, h;
-	float s;
+		/**
+		 * Convenience function for calculating the value of \p eq using the
+		 * given \p mode
+		 */
+		double value( Equation * eq, Function::PMode mode, double x );
+		/**
+		 * \return the real position of the function (similar to calling
+		 * value(), but returns both coordinates).
+		 */
+		QPointF realValue( Function * function, Function::PMode mode, double x );
+		/**
+		 * \return an appropriate xmin value for the given function
+		 * plotting.
+		 */
+		double getXmin( Function * function );
+		/**
+		 * \return an appropriate xmax value for the given function for
+		 * plotting.
+		 */
+		double getXmax( Function * function );
 	
-	QPointF m_crosshairPixelCoords;
-	float csxpos;	///< y-position of the cross hair (real coordinates)
-	float csypos;	///< x-position of the cross hair (real coordinates)
+		/// for areadrawing
+		IntegralDrawSettings m_integralDrawSettings;
+		bool m_drawIntegral;
+	
+		double m_width, m_height;
+		float m_scaler;
+	
+		QPointF m_crosshairPixelCoords;
+		QPointF m_crosshairPosition;	///< in real coordinates
 	
 	/// The t- or x- (angle) coordinate of the traced curve
 	double m_trace_x;
@@ -251,8 +285,8 @@ private:
 	/// trace mode stuff
 	bool rootflg;
 
-	/// @return whether csxpos is in the range of the view or in the custom range for the given \p plot
-	bool csxposValid( Function * plot ) const;
+		/// @return whether cspos is in the range of the view or in the custom range for the given \p plot
+		bool crosshairPositionValid( Function * plot ) const;
 	
 	CDiagr dgr;	///< Coordinate system
 	QPoint ref;
@@ -262,7 +296,6 @@ private:
 
 	double tlgx, tlgy, drskalx, drskaly;
 	QString tlgxstr, tlgystr, drskalxstr, drskalystr;
-	double stepWidth; ///< Absolute step width
 
 	/** @name Plotrange
 	 * There are 4 predefined plot ranges:
@@ -283,12 +316,12 @@ private:
 	*/
 	void coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
 	                    double &min, double &max );
-	//@{
-	/** Current plot range endge. */
-	double ymin;
-	double ymax;
-	//@}
-	//@}
+		//@{
+		/** Current plot range endge. */
+		double m_ymin;
+		double m_ymax;
+		//@}
+		//@}
 
 	void setScaling();
 	/// represents the KPrinter option app-kmplot-printtable.
@@ -348,7 +381,6 @@ private:
 	enum Cursor { CursorWait, CursorBlank, CursorArrow, CursorCross, CursorMagnify, CursorLessen, CursorMove };
 	Cursor m_prevCursor;
 	
-	MainDlg * m_mainDlg;
 	static View * m_self;
 };
 

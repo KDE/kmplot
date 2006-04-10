@@ -38,11 +38,20 @@ class QMinMax;
 /// KMinMax handles all the dialogs for the items in the tool-menu.
 class KMinMax : public KDialog
 {
-Q_OBJECT
-public:
-    KMinMax(QWidget *parent = 0 );
-    /// called every time the dialog is opened
-    void init(char);
+	Q_OBJECT
+	public:
+		KMinMax(QWidget *parent = 0 );
+		
+		enum Mode
+		{
+			FindMinimum,
+			FindMaximum,
+			CalculateY,
+			CalculateArea
+		};
+		/// called every time the dialog is opened
+		void init( Mode mode );
+		
     /// update the list with functions
     void updateFunctions();
     /// select the right function when using the popup menu to show the dialog
@@ -60,10 +69,10 @@ public slots:
     /// call cmdParameter_clicked() if parameter values is enabled for that function
 	void list_doubleClicked(QListWidgetItem *);
         
-private:
-    char m_mode; //< 0 = minimum, 1 = maximum, 2 = y-point, 3=drawing area
-	QString parameter;
-	QMinMax * m_mainWidget;
+	private:
+		Mode m_mode;
+		QString parameter;
+		QMinMax * m_mainWidget;
 };
 
 class QMinMax : public QWidget, public Ui::QMinMax

@@ -3,6 +3,7 @@
 *
 * Copyright (C) 1998, 1999  Klaus-Dieter M�ler
 *               2000, 2002 kd.moeller@t-online.de
+*                     2006 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -78,20 +79,27 @@ public:
 	/// Updates the settings from the user (e.g. borderThickness, etc)
 	void updateSettings();
 
-	/**
-	 * @{
-	 * @name Transformations
-	 * These functions convert real coordinates to pixel coordinates and vice
-	 * versa.
-	 * \param clipToEdge Whether to clip the returned pixel coordinate to the
-	 * edge of the diagram if it goes out-of-bounds. xclipflg or yclipflg will
-	 * be set or cleared as appropriate.
-	 */
-	double TransxToPixel( double x, bool clipToEdge = true );
-	double TransyToPixel( double y, bool clipToEdge = true  );
-	double TransxToReal( double x );
-	double TransyToReal( double y );
-	///@}
+		/**
+		 * How to behave in the *ToPixel functions.
+		 */
+		enum ClipBehaviour
+		{
+			ClipAll,		///< Clips any points going over the edge of the diagram
+			ClipInfinite,	///< Clips only infinite and NaN points going over the edge
+		};
+		/**
+		 * @{
+		 * @name Transformations
+		 * These functions convert real coordinates to pixel coordinates and vice
+		 * versa.
+		 */
+		double xToPixel( double x, ClipBehaviour clipBehaviour = ClipAll );
+		double yToPixel( double y, ClipBehaviour clipBehaviour = ClipAll );
+		QPointF toPixel( const QPointF & real, ClipBehaviour clipBehaviour = ClipAll );
+		double xToReal( double x );
+		double yToReal( double y );
+		QPointF toReal( const QPointF & pixel );
+		///@}
 	
 	/** @name Style options
 	 * These members hold the current options for line widths and colors

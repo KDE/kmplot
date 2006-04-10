@@ -115,7 +115,15 @@ void CDiagr::Plot(QPainter* pDC)
 }
 
 
-double CDiagr::TransxToPixel( double x, bool clipToEdge )		// reale x-Koordinate
+QPointF CDiagr::toPixel( const QPointF & real, ClipBehaviour clipBehaviour )
+{
+	double x = xToPixel( real.x(), clipBehaviour );
+	double y = yToPixel( real.y(), clipBehaviour );
+	return QPointF( x, y );
+}
+
+
+double CDiagr::xToPixel( double x, ClipBehaviour clipBehaviour )		// reale x-Koordinate
 {
 	double xi;                			// transformierte x-Koordinate
 	static double lastx;            // vorherige x-Koordinate
@@ -138,12 +146,12 @@ double CDiagr::TransxToPixel( double x, bool clipToEdge )		// reale x-Koordinate
 		xi=PlotArea.right();
                 
 	}
-	else if ( (x<xmin) && clipToEdge )
+	else if ( (x<xmin) && (clipBehaviour == ClipAll) )
 	{
 		xclipflg=1;
 		xi=PlotArea.left();
 	}
-	else if ( (x>xmax) && clipToEdge )
+	else if ( (x>xmax) && (clipBehaviour == ClipAll) )
 	{
 		xclipflg=1;
 		xi=PlotArea.right();
@@ -159,7 +167,7 @@ double CDiagr::TransxToPixel( double x, bool clipToEdge )		// reale x-Koordinate
 }
 
 
-double CDiagr::TransyToPixel( double y, bool clipToEdge )		// reale y-Koordinate
+double CDiagr::yToPixel( double y, ClipBehaviour clipBehaviour )		// reale y-Koordinate
 {   
 	double yi;                     	// transformierte y-Koordinate
 	static double lasty;            // vorherige y-Koordinate
@@ -183,12 +191,12 @@ double CDiagr::TransyToPixel( double y, bool clipToEdge )		// reale y-Koordinate
 		yi=PlotArea.top();
                 
 	}
-	else if ( (y<ymin) && clipToEdge )
+	else if ( (y<ymin) && (clipBehaviour == ClipAll) )
 	{
 		yclipflg=1;
 		yi=PlotArea.bottom();
 	}
-	else if ( (y>ymax) && clipToEdge )
+	else if ( (y>ymax) && (clipBehaviour == ClipAll) )
 	{
 		yclipflg=1;
 		yi=PlotArea.top();
@@ -204,12 +212,20 @@ double CDiagr::TransyToPixel( double y, bool clipToEdge )		// reale y-Koordinate
 }
 
 
-double CDiagr::TransxToReal(double x) 		// Bildschirmkoordinate
+QPointF CDiagr::toReal( const QPointF & pixel )
+{
+	double x = xToReal( pixel.x() );
+	double y = yToReal( pixel.y() );
+	return QPointF( x, y );
+}
+
+
+double CDiagr::xToReal(double x) 		// Bildschirmkoordinate
 {   return (x-ox)/skx;     			// reale x-Koordinate
 }
 
 
-double CDiagr::TransyToReal(double y)        // Bildschirmkoordinate
+double CDiagr::yToReal(double y)        // Bildschirmkoordinate
 {   return (oy-y)/sky;     			// reale y-Koordinate
 }
 
@@ -223,7 +239,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 	{
 		pDC->setPen( QPen( QColor(axesColor), View::self()->mmToPenWidth(axesLineWidth, true) ) );
 		a=PlotArea.right();
-		b=TransyToPixel(0.);
+		b=yToPixel(0.);
 		pDC->Lineh(PlotArea.left(), b, a);	    // x-Achse
 		if( Settings::showArrows()) 		    			// ARROWS
 		{	int const dx=40;
@@ -232,7 +248,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 			pDC->Line( QPointF( a, b ), QPointF( a-dx, b-dy) );
 		}
 
-		a=TransxToPixel(0.);
+		a=xToPixel(0.);
 		b=PlotArea.top();
 		pDC->Linev(a, PlotArea.bottom(), b); 	    // y-Achse
 		if( Settings::showArrows() )   					// ARROWS
@@ -268,7 +284,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 
 		while(d<xmd-ex/2.)
 		{
-			pDC->Linev(TransxToPixel(d), a, b);
+			pDC->Linev(xToPixel(d), a, b);
 			d+=ex;
 		}
 
@@ -293,7 +309,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 
 		while(d<ymd-ey/2.)
 		{
-			pDC->Lineh(a, TransyToPixel(d), b);
+			pDC->Lineh(a, yToPixel(d), b);
 			d+=ey;
 		}
 	}
@@ -304,8 +320,8 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 		d=tsx;
 		while(d<xmd)
 		{
-			pDC->Linev(TransxToPixel(d), PlotArea.bottom(), a);
-			pDC->Linev(TransxToPixel(d), PlotArea.top(), b);
+			pDC->Linev(xToPixel(d), PlotArea.bottom(), a);
+			pDC->Linev(xToPixel(d), PlotArea.top(), b);
 			d+=ex;
 		}
 
@@ -314,8 +330,8 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 		d=tsy;
 		while(d<ymd)
 		{
-			pDC->Lineh(PlotArea.left(), TransyToPixel(d), a);
-			pDC->Lineh(PlotArea.right(), TransyToPixel(d), b);
+			pDC->Lineh(PlotArea.left(), yToPixel(d), a);
+			pDC->Lineh(PlotArea.right(), yToPixel(d), b);
 			d+=ey;
 		}
 	}
@@ -334,13 +350,13 @@ void CDiagr::drawGrid( QPainter* pDC )
 		d=tsx;
 		while(d<xmd)
 		{
-			pDC->Linev(TransxToPixel(d), PlotArea.bottom(), PlotArea.top());
+			pDC->Linev(xToPixel(d), PlotArea.bottom(), PlotArea.top());
 			d+=ex;
 		}
 		d=tsy;
 		while(d<ymd)
 		{
-			pDC->Lineh(PlotArea.left(), TransyToPixel(d), PlotArea.right());
+			pDC->Lineh(PlotArea.left(), yToPixel(d), PlotArea.right());
 			d+=ey;
 		}
 	}
@@ -351,10 +367,10 @@ void CDiagr::drawGrid( QPainter* pDC )
 
 		for(x=tsx; x<xmd; x+=ex)
 		{
-			a=TransxToPixel(x);
+			a=xToPixel(x);
 			for(y=tsy; y<ymd; y+=ey)
 			{
-				b=TransyToPixel(y);
+				b=yToPixel(y);
 				pDC->Lineh(a-dx, b, a+dx);
 				pDC->Linev(a, b-dy, b+dy);
 			}
@@ -404,8 +420,8 @@ void CDiagr::drawLabels(QPainter* pDC)
 	int const dy=40;
 	QFont const font=QFont( Settings::axesFont(), Settings::axesFontSize() );
 	pDC->setFont(font);
-	double const x=TransxToPixel(0.);
-	double const y=TransyToPixel(0.);
+	double const x=xToPixel(0.);
+	double const y=yToPixel(0.);
 	double d;
 	int n;
 	QString s;
@@ -478,7 +494,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 		if ( (s != "-") && (s != "+") )
 		{
 			swidth = test.width(s);
-			if (  TransxToPixel(d)-x<swidth && TransxToPixel(d)-x>-swidth && draw_next==0)
+			if (  xToPixel(d)-x<swidth && xToPixel(d)-x>-swidth && draw_next==0)
 			{
 				draw_next=1;
 				continue;
@@ -493,8 +509,8 @@ void CDiagr::drawLabels(QPainter* pDC)
 				else
 					draw_next=0;
 			}
-// 			kDebug() << "d="<<d<<" TransxToPixel(d)="<<TransxToPixel(d)<<endl;
-			QRectF drawRect( TransxToPixel(d), y+dy, 0, 0 );
+// 			kDebug() << "d="<<d<<" xToPixel(d)="<<xToPixel(d)<<endl;
+			QRectF drawRect( xToPixel(d), y+dy, 0, 0 );
 			if ( xclipflg )
 				continue;
 			pDC->drawText( drawRect, Qt::AlignCenter|Qt::TextDontClip, s);
@@ -502,9 +518,9 @@ void CDiagr::drawLabels(QPainter* pDC)
 	}
 
 	if(ymax<0 && xmax<0)
-		pDC->drawText( QRectF( TransxToPixel(xmax)-(4*dx), y+(dy-20), 0, 0 ), Qt::AlignCenter|Qt::TextDontClip, "x");
+		pDC->drawText( QRectF( xToPixel(xmax)-(4*dx), y+(dy-20), 0, 0 ), Qt::AlignCenter|Qt::TextDontClip, "x");
 	else
-		pDC->drawText( QRectF( TransxToPixel(xmax)-dx, y+dy, 0, 0 ), Qt::AlignCenter|Qt::TextDontClip, "x");
+		pDC->drawText( QRectF( xToPixel(xmax)-dx, y+dy, 0, 0 ), Qt::AlignCenter|Qt::TextDontClip, "x");
 
 	for(d=tsy, n=(int)ceil(ymin/ey); d<ymd; d+=ey, ++n)
 	{
@@ -569,14 +585,14 @@ void CDiagr::drawLabels(QPainter* pDC)
 		{
 			if (xmin>=0)
 			{
-				QRectF drawRect( x+dx, TransyToPixel(d), 0, 0 );
+				QRectF drawRect( x+dx, yToPixel(d), 0, 0 );
 				if ( yclipflg )
 					continue;
 				pDC->drawText( drawRect, Qt::AlignVCenter|Qt::AlignLeft|Qt::TextDontClip, s);
 			}
 			else
 			{
-				QRectF drawRect( x-dx, TransyToPixel(d), 0, 0 );
+				QRectF drawRect( x-dx, yToPixel(d), 0, 0 );
 				if ( yclipflg )
 					continue;
 				QRectF br = pDC->boundingRect( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, s);
@@ -592,11 +608,11 @@ void CDiagr::drawLabels(QPainter* pDC)
 	}
 
 	if(ymax<0 && xmax<0)
-		pDC->drawText( QRectF( x-dx, TransyToPixel(ymax)+(2*dy), 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
+		pDC->drawText( QRectF( x-dx, yToPixel(ymax)+(2*dy), 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
 	else if (xmin>0)
-		pDC->drawText( QRectF( x-(2*dx), TransyToPixel(ymax)+dy, 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
+		pDC->drawText( QRectF( x-(2*dx), yToPixel(ymax)+dy, 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
 	else
-		pDC->drawText( QRectF( x-dx, TransyToPixel(ymax)+dy, 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
+		pDC->drawText( QRectF( x-dx, yToPixel(ymax)+dy, 0, 0 ), Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y");
 }
 
 

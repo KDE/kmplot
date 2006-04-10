@@ -842,42 +842,42 @@ QString Parser::errorString() const
 			
 		case SyntaxError:
 			return i18n("Parser error at position %1:\n"
-					"Syntax error").arg(QString::number(m_errorPosition+1));
+					"Syntax error", m_errorPosition+1);
 			
 		case MissingBracket:
 			return i18n("Parser error at position %1:\n"
-					"Missing parenthesis").arg(QString::number(m_errorPosition+1));
+					"Missing parenthesis", m_errorPosition+1);
 			
 		case UnknownFunction:
 			return i18n("Parser error at position %1:\n"
-					"Function name unknown").arg(QString::number(m_errorPosition+1));
+					"Function name unknown", m_errorPosition+1);
 			
 		case InvalidFunctionVariable:
 			return i18n("Parser error at position %1:\n"
-					"Void function variable").arg(QString::number(m_errorPosition+1));
+					"Void function variable", m_errorPosition+1);
 			
 		case TooManyFunctions:
 			return i18n("Parser error at position %1:\n"
-					"Too many functions").arg(QString::number(m_errorPosition+1));
+					"Too many functions", m_errorPosition+1);
 			
 		case MemoryOverflow:
 			return i18n("Parser error at position %1:\n"
-					"Token-memory overflow").arg(QString::number(m_errorPosition+1));
+					"Token-memory overflow", m_errorPosition+1);
 			
 		case StackOverflow:
 			return i18n("Parser error at position %1:\n"
-					"Stack overflow").arg(QString::number(m_errorPosition+1));
+					"Stack overflow", m_errorPosition+1);
 			
 		case FunctionNameReused:
 			return i18n("Parser error at position %1:\n"
-					"Name of function not free.").arg(QString::number(m_errorPosition+1));
+					"Name of function not free.", m_errorPosition+1);
 			
 		case RecursiveFunctionCall:
 			return i18n("Parser error at position %1:\n"
-					"recursive function not allowed.").arg(QString::number(m_errorPosition+1));
+					"recursive function not allowed.", m_errorPosition+1);
 			
 		case NoSuchConstant:
-			return i18n("Could not find a defined constant at position %1." ).arg(QString::number(m_errorPosition+1));
+			return i18n("Could not find a defined constant at position %1.", m_errorPosition+1);
 			
 		case EmptyFunction:
 			return i18n("Empty function");

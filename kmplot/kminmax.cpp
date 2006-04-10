@@ -302,13 +302,13 @@ void KMinMax::cmdFind_clicked()
 	{
 		View::self()->findMinMaxValue(ufkt,p_mode,true,dmin,dmax,parameter);
 		if ( !View::self()->isCalculationStopped() )
-			KMessageBox::information(this,i18n("Minimum value:\nx: %1\ny: %2").arg(dmin).arg(dmax) );
+			KMessageBox::information(this,i18n("Minimum value:\nx: %1\ny: %2", dmin, dmax) );
 	}
 	else if ( m_mode == 1)
 	{
 		View::self()->findMinMaxValue(ufkt,p_mode,false,dmin,dmax,parameter);
 		if ( !View::self()->isCalculationStopped() )
-			KMessageBox::information(this,i18n("Maximum value:\nx: %1\ny: %2").arg(dmin).arg(dmax));
+			KMessageBox::information(this,i18n("Maximum value:\nx: %1\ny: %2", dmin, dmax));
 	}
 	else if ( m_mode == 2)
 	{
@@ -330,7 +330,7 @@ void KMinMax::cmdFind_clicked()
 		{
 			View::self()->setFocus();
 			View::self()->update();
-			KMessageBox::information(this,i18n("The area between %1 and %2\nis: %3").arg(dmin_tmp).arg(dmax).arg(dmin));
+			KMessageBox::information(this,i18n("The area between %1 and %2\nis: %3", dmin_tmp, dmax, dmin));
 		}
 	}
 

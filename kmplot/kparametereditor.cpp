@@ -195,7 +195,7 @@ void KParameterEditor::cmdImport_clicked()
 			}
 			else if ( !verbose)
 			{
-				if ( KMessageBox::warningContinueCancel(this,i18n("Line %1 is not a valid parameter value and will therefore not be included. Do you want to continue?").arg(i) ) == KMessageBox::Cancel)
+				if ( KMessageBox::warningContinueCancel(this,i18n("Line %1 is not a valid parameter value and will therefore not be included. Do you want to continue?", i) ) == KMessageBox::Cancel)
 				{
 					file.close();
                                         KIO::NetAccess::removeTempFile( tmpfile );
@@ -223,7 +223,7 @@ void KParameterEditor::cmdExport_clicked()
         if ( url.isEmpty() )
                 return;
 
-        if( !KIO::NetAccess::exists( url,false,this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
+        if( !KIO::NetAccess::exists( url,false,this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
         {
                 QString tmpfile;
                 QFile file;

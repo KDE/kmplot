@@ -75,7 +75,7 @@ KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
 	KConfig config( "kmplotrc" );
 	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )
 	{
-		m_sliders[i]->setToolTip( i18n( "Slider no. %1" ).arg( i+1 ));
+		m_sliders[i]->setToolTip( i18n( "Slider no. %1", i+1 ));
 		setWhatsThis( i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
 		
 		// load the min and max value + the current value

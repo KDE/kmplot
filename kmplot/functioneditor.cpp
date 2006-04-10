@@ -89,7 +89,7 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
 	
 	for( int number = 0; number < SLIDER_COUNT; number++ )
-		m_editor->listOfSliders->addItem( i18n( "Slider No. %1" ).arg( number +1) );
+		m_editor->listOfSliders->addItem( i18n( "Slider No. %1", number +1) );
 	
 	connect( m_editor->deleteButton, SIGNAL(clicked()), this, SLOT(deleteCurrent()) );
 	connect( m_functionList, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(functionSelected( QListWidgetItem* )) );

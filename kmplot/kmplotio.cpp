@@ -314,7 +314,7 @@ bool KmPlotIO::load( const KUrl &url )
 		QString tmpfile;
 		if( !KIO::NetAccess::download( url, tmpfile, 0 ) )
 		{
-			KMessageBox::sorry(0,i18n("An error appeared when opening this file (%1)").arg( KIO::NetAccess::lastErrorString() ));
+			KMessageBox::sorry(0,i18n("An error appeared when opening this file (%1)", KIO::NetAccess::lastErrorString() ));
 			return false;
 		}
 		f.setFileName(tmpfile);
@@ -324,14 +324,14 @@ bool KmPlotIO::load( const KUrl &url )
 
 	if ( !f.open( QIODevice::ReadOnly ) )
 	{
-		KMessageBox::sorry(0,i18n("%1 could not be opened").arg( f.fileName() ) );
+		KMessageBox::sorry(0,i18n("%1 could not be opened", f.fileName() ) );
 		return false;
 	}
 	QString errorMessage;
 	int errorLine, errorColumn;
 	if ( !doc.setContent( &f, & errorMessage, & errorLine, & errorColumn ) )
 	{
-		KMessageBox::sorry(0,i18n("%1 could not be loaded (%2 at line %3, column %4)").arg( f.fileName() ).arg( errorMessage ).arg( errorLine ).arg( errorColumn ) );
+		KMessageBox::sorry(0,i18n("%1 could not be loaded (%2 at line %3, column %4)", f.fileName(), errorMessage, errorLine, errorColumn ) );
 		f.close();
 		return false;
 	}
@@ -634,7 +634,7 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 		ufkt.eq[0]->setFstr( tmp_fstr.left(pos) );
 		if ( !XParser::self()->getext( &ufkt, tmp_fstr) )
 		{
-			KMessageBox::sorry(0,i18n("The function %1 could not be loaded").arg(ufkt.eq[0]->fstr()));
+			KMessageBox::sorry(0,i18n("The function %1 could not be loaded", ufkt.eq[0]->fstr()));
 			return;
 		}
 	}

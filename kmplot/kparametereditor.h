@@ -31,6 +31,8 @@
 #include <QList>
 #include "xparser.h"
 
+#include <kdialog.h>
+
 class ParameterValueList;
 class QParameterEditor;
 

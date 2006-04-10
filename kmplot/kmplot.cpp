@@ -204,7 +204,9 @@ void KmPlot::increaseProgressBar()
 
 void KmPlot::optionsConfigureKeys()
 {
-	KKeyDialog::configure(actionCollection(), "kmplot_shell.rc");
+	/// \todo check that configuring keys works
+// 	KKeyDialog::configure(actionCollection(), "kmplot_shell.rc");
+	KKeyDialog::configure( actionCollection() );
 }
 
 void KmPlot::optionsConfigureToolbars()

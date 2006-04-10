@@ -244,19 +244,21 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 
 double View::value( Equation * eq, Function::PMode mode, double x )
 {
+	double dx = (m_xmax-m_xmin)/1e3;
+	
 	switch ( mode )
 	{
 		case Function::Derivative0:
 			return XParser::self()->fkt( eq, x );
 			
 		case Function::Derivative1:
-			return XParser::self()->a1fkt( eq, x, (m_xmax-m_xmin)/1e3 );
+			return XParser::self()->derivative1( eq, x, dx );
 			
 		case Function::Derivative2:
-			return XParser::self()->a2fkt( eq, x, (m_xmax-m_xmin)/1e3 );
+			return XParser::self()->derivative2( eq, x, dx );
 			
 		case Function::Integral:
-			return XParser::self()->euler_method( x, eq );
+			return XParser::self()->integral( eq, x, dx );
 	}
 	
 	kWarning() << k_funcinfo << "Unknown mode!\n";
@@ -407,6 +409,8 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 			}
 
 			mflg=2;
+			x = dmin;
+			dx = base_dx;
 			if ( p_mode == Function::Integral )
 			{
 				if ( ufkt->integral_use_precision )
@@ -415,28 +419,10 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 // 					else
 // 						dx =  ufkt->integral_precision;
 				startProgressBar((int)double((dmax-dmin)/dx)/2);
-				x = ufkt->eq[0]->oldx = ufkt->startx.value(); //the initial x-point
-				ufkt->eq[0]->oldy = ufkt->starty.value();
-				ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 			}
-			else
-				x=dmin;
-			bool forward_direction;
-
-			if (dmin<0 && dmax<0)
-				forward_direction = false;
-			else
-				forward_direction = true;
 			
-			while ((x>=dmin && x<=dmax) ||  (p_mode == Function::Integral && x>=dmin && !forward_direction) || (p_mode == Function::Integral && x<=dmax && forward_direction))
+			while ( x>=dmin && x<=dmax )
 			{
-				if ( p_mode == Function::Integral && stop_calculating)
-				{
-					p_mode = Function::Derivative1;
-					x=dmax+1;
-					continue;
-				}
-				
 				p2 = dgr.toPixel( realValue( ufkt, p_mode, x ) );
 				
 				if ( p_mode == Function::Integral && (int(x*100)%2==0) )
@@ -489,34 +475,14 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 					}
 					mflg=0;
 				}
-
-				if ( p_mode == Function::Integral )
-				{
-					if ( forward_direction)
-					{
-						x=x+dx;
-						if (x>dmax && p_mode == Function::Integral )
-						{
-							forward_direction = false;
-							x = ufkt->eq[0]->oldx = ufkt->startx.value();
-							ufkt->eq[0]->oldy = ufkt->starty.value();
-							ufkt->eq[0]->oldyprim = ufkt->integral_precision;
-							mflg=2;
-						}
-					}
-					else
-						x=x-dx; // go backwards
-				}
+				
+				if ( dxTooBig )
+					dx *= 0.5;
 				else
 				{
-					if ( dxTooBig )
-						dx *= 0.5;
-					else
-					{
-						if ( dxTooSmall )
-							dx *= 2.0;
-						x=x+dx;
-					}
+					if ( dxTooSmall )
+						dx *= 2.0;
+					x=x+dx;
 				}
 			}
 		}
@@ -544,7 +510,7 @@ QPen View::penForPlot( Function *ufkt, Function::PMode p_mode, bool antialias ) 
 	pen.setCapStyle(Qt::RoundCap);
 // 	pen.setStyle( Qt::DashLine );
 	
-	double lineWidth_mm;
+	double lineWidth_mm = 0.0;
 	
 	switch ( p_mode )
 	{
@@ -728,7 +694,7 @@ bool View::root(double *x0, Equation *it)
 	
 	do
 	{
-		double df = XParser::self()->a1fkt( it, *x0, (m_xmax-m_xmin)/1e3 );
+		double df = XParser::self()->derivative1( it, *x0, (m_xmax-m_xmin)/1e3 );
 // 		kDebug() << "df1="<<df<<endl;
 // 		if ( qAbs(df) < 1e-6 )
 // 			df = 1e-6 * ((df < 0) ? -1 : 1);
@@ -1019,7 +985,7 @@ void View::getPlotUnderMouse()
 	m_currentFunctionPlot = Function::Derivative0;
 	m_trace_x = 0.0;
 	
-	int best_id;
+	int best_id = -1;
 	double best_distance = 1e30; // a nice large number
 	QPointF best_cspos;
 	
@@ -1733,22 +1699,14 @@ QPointF View::findMinMaxValue(Function *ufkt, Function::PMode p_mode, ExtremaTyp
 			else
 				dx = 1.0;
 		}
-		
-		dmin = ufkt->eq[0]->oldx = ufkt->startx.value(); //the initial x-point
-		ufkt->eq[0]->oldy = ufkt->starty.value();
-		ufkt->eq[0]->oldyprim = ufkt->integral_precision;
 	}
 	else
 		dx = (dmax-dmin)/area.width();
 	
 	x=dmin;
 
-	bool forward_direction;
-	if (dmin<0 && dmax<0)
-		forward_direction = false;
-	else
-		forward_direction = true;
-	while ((x>=dmin && x<=dmax) ||  (p_mode == Function::Integral && x>=dmin && !forward_direction) || (p_mode == Function::Integral && x<=dmax && forward_direction))
+	
+	while ( (x>=dmin && x<=dmax) )
 	{
 		if ( p_mode == Function::Integral && stop_calculating)
 		{
@@ -1764,7 +1722,7 @@ QPointF View::findMinMaxValue(Function *ufkt, Function::PMode p_mode, ExtremaTyp
 			kDebug() << "y " << y << endl;
 			if (x>=dmin && x<=dmax)
 			{
-				if ( start)
+				if ( start )
 				{
 					result_x = x;
 					result_y = y;
@@ -1794,31 +1752,15 @@ QPointF View::findMinMaxValue(Function *ufkt, Function::PMode p_mode, ExtremaTyp
 				}
 			}
 		}
-		if (p_mode==Function::Integral)
-		{
-			if ( forward_direction)
-			{
-				x=x+dx;
-				if (x>dmax && p_mode== Function::Integral )
-				{
-					forward_direction = false;
-					x = ufkt->eq[0]->oldx = ufkt->startx.value();
-					ufkt->eq[0]->oldy = ufkt->starty.value();
-					ufkt->eq[0]->oldyprim = ufkt->integral_precision;
-				}
-			}
-			else
-				x=x-dx; // go backwards
-		}
-		else
-			x=x+dx;
+		
+		x += dx;
 	}
 	
 	return QPointF( result_x, result_y );
 }
 
 
-double View::getYValue( Function *ufkt, Function::PMode p_mode, double x, double y, const QString &str_parameter )
+double View::getYValue( Function *ufkt, Function::PMode p_mode, double x, const QString &str_parameter )
 {
 	assert( ufkt->type() == Function::Cartesian );
 	
@@ -1835,57 +1777,7 @@ double View::getYValue( Function *ufkt, Function::PMode p_mode, double x, double
 		}
 	}
 	
-	if ( p_mode != Function::Integral )
-		return value( ufkt->eq[0], p_mode, x );
-	
-	double dmin = getXmin( ufkt );
-	double dmax = getXmax( ufkt );
-	const double target = x; //this is the x-value the user had chosen
-	bool forward_direction;
-	if ( target>=0)
-		forward_direction = true;
-	else
-		forward_direction = false;
-
-	if(dmin==dmax) //no special plot range is specified. Use the screen border instead.
-	{
-		dmin=m_xmin;
-		dmax=m_xmax;
-	}
-
-	double dx;
-	if ( ufkt->integral_use_precision )
-		dx = ufkt->integral_precision*(dmax-dmin)/area.width();
-	else
-		dx=(dmax-dmin)/area.width();
-	
-	x = ufkt->eq[0]->oldx = ufkt->startx.value(); //the initial x-point
-	ufkt->eq[0]->oldy = ufkt->starty.value();
-	ufkt->eq[0]->oldyprim = ufkt->integral_precision;
-	
-	while ( x>=dmin )
-	{
-		y = XParser::self()->euler_method( x, ufkt->eq[0] );
-		if ( (x+dx > target && forward_direction) || ( x+dx < target && !forward_direction)) //right x-value is found
-			return y;
-		
-		if (forward_direction)
-		{
-			x=x+dx;
-			if (x>dmax)
-			{
-				forward_direction = false;
-				x = ufkt->eq[0]->oldx = ufkt->startx.value();
-				ufkt->eq[0]->oldy = ufkt->starty.value();
-				ufkt->eq[0]->oldyprim = ufkt->integral_precision;
-			}
-		}
-		else
-			x=x-dx; // go backwards
-	}
-	
-	kWarning() << k_funcinfo << "Could not find y value!\n";
-	return 0.0;
+	return value( ufkt->eq[0], p_mode, x );
 }
 
 void View::keyPressEvent( QKeyEvent * e )
@@ -2064,17 +1956,8 @@ double View::areaUnderGraph( IntegralDrawSettings s )
 	}
 	
 	double dx;
-	if ( s.pMode == Function::Integral )
-	{
-		if ( ufkt->integral_use_precision )
-			dx = ufkt->integral_precision*(s.dmax-s.dmin)/area.width();
-		else
-			dx = (s.dmax-s.dmin)/area.width();
-		
-		s.dmin = ufkt->eq[0]->oldx = ufkt->startx.value(); //the initial x-point
-		ufkt->eq[0]->oldy = ufkt->starty.value();
-		ufkt->eq[0]->oldyprim = ufkt->integral_precision;
-	}
+	if ( (s.pMode == Function::Integral) && ufkt->integral_use_precision )
+		dx = ufkt->integral_precision*(s.dmax-s.dmin)/area.width();
 	else
 		dx = (s.dmax-s.dmin)/area.width();
 	
@@ -2084,12 +1967,9 @@ double View::areaUnderGraph( IntegralDrawSettings s )
 	int intervals = qRound( (s.dmax-s.dmin)/dx );
 	dx = (s.dmax-s.dmin) / intervals;
 	
-	bool forward_direction = (s.dmin>=0) || (s.dmax>=0);
 	double calculated_area=0;
 	double x = s.dmin;
 	
-// 	while ( (x>=dmin && x<=dmax) ||  (p_mode == Function::Integral && x>=dmin && !forward_direction) || (p_mode == Function::Integral && x<=dmax && forward_direction))
-// 	{
 	for ( int i = 0; i <= intervals; ++i )
 	{
 		double y = value( ufkt->eq[0], s.pMode, x );
@@ -2100,24 +1980,7 @@ double View::areaUnderGraph( IntegralDrawSettings s )
 		else
 			calculated_area += dx*y;
 
-		if ( s.pMode == Function::Integral )
-		{
-			if ( forward_direction)
-			{
-				x=x+dx;
-				if (x>s.dmax && s.pMode == Function::Integral )
-				{
-					forward_direction = false;
-					x = ufkt->eq[0]->oldx = ufkt->startx.value();
-					ufkt->eq[0]->oldy = ufkt->starty.value();
-					ufkt->eq[0]->oldyprim = ufkt->integral_precision;
-				}
-			}
-			else
-				x=x-dx; // go backwards
-		}
-		else
-			x=x+dx;
+		x=x+dx;
 	}
 	
 	m_integralDrawSettings = s;
@@ -2279,7 +2142,7 @@ void View::invertColor(QColor &org, QColor &inv)
 
 void View::updateCursor()
 {
-	Cursor newCursor;
+	Cursor newCursor = m_prevCursor;
 	
 	if ( isDrawing && (m_zoomMode != Translating) )
 		newCursor = CursorWait;

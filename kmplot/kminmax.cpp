@@ -229,7 +229,8 @@ void KMinMax::cmdFind_clicked()
 		KMessageBox::sorry(this, i18n("Please choose a function"));
 		return;
 	}
-	double dmin, dmax;
+	double dmin = 0.0;
+	double dmax = 0.0;
 	dmin = XParser::self()->eval(m_mainWidget->min->text() );
 	if ( XParser::self()->parserError( true )!=0 )
 	{
@@ -326,7 +327,7 @@ void KMinMax::cmdFind_clicked()
 		
 		case CalculateY:
 		{
-			double value = View::self()->getYValue( ufkt, p_mode, dmin, dmax, parameter );
+			double value = View::self()->getYValue( ufkt, p_mode, dmin, parameter );
 			if ( !View::self()->isCalculationStopped() )
 			{
 				QString tmp;

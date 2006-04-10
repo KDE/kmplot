@@ -81,8 +81,7 @@ k_dcop:
 	virtual bool setFunctionMaxValue(const QString &max, uint id) = 0;
 	virtual QString functionStartXValue(uint id) = 0;
 	virtual QString functionStartYValue(uint id) = 0;
-	virtual bool setFunctionStartXValue(const QString &x, uint id) = 0;
-	virtual bool setFunctionStartYValue(const QString &y, uint id) = 0;
+	virtual bool setFunctionStartValue(const QString &x, const QString &y, uint id) = 0;
 
 };
 

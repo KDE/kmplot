@@ -28,6 +28,7 @@
 #define FUNCTION_H
 
 #include <QColor>
+#include <QPointF>
 #include <QString>
 
 
@@ -151,9 +152,9 @@ class Equation
 		 */
 		bool setFstr( const QString & fstr, bool force = false );
 		
-		double oldx; 		///< needed for Euler's method, the last x-value
-		double oldy;		///< The last y-value needed for Euler's method
-		double oldyprim;	///< needed for Euler's method, the last y'.value
+		QPointF lastIntegralPoint; ///< needed for numeric integration
+		
+		double oldy;
 		
 	protected:
 		const Type m_type;
@@ -237,17 +238,17 @@ class Function
 		 */
 		Value dmax;
 		/**
-		 * Start position for Euler's method, the initial y-value.
+		 * Sets the start position and value of the integral.
 		 */
-		Value starty;
+		void setIntegralStart( const Value & x, const Value & y );
 		/**
-		 * Start position for Euler's method, the initial x-value.
+		 * The initial x-value in calculating integrals.
 		 */
-		Value startx;
+		Value integralInitialX() const { return m_startX; }
 		/**
-		 * Precision when drawing numeric prime-functions.
+		 * The initial y-value in calculating integrals.
 		 */
-		double integral_precision;
+		Value integralInitialY() const { return m_startY; }
 		/**
 		 * -1: None (use list)
 		 * else: slider number.
@@ -259,10 +260,12 @@ class Function
 		QList<Value> parameters;
 		bool usecustomxmin:1;
 		bool usecustomxmax:1;
+		double integral_precision;
 		// TODO double slider_min, slider_max; ///< extreme values of the slider
 		
 	protected:
 		const Type m_type;
+		Value m_startX, m_startY;
 };
 
 

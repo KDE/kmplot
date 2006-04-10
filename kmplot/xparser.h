@@ -43,16 +43,19 @@
  */
 class XParser : public Parser
 {
-public:
-	static XParser * self( bool * modified = 0 );
-	
-	~XParser();
-	/// Evaluates the 1st dreivative of the function with intex \a ix
-	double a1fkt( Equation * u_item , double, double h );
-	/// Evaluates the 2nd dreivative of the function with intex \a ix
-	double a2fkt( Equation *, double, double h );
-	/// calculate euler's method when drawing a numeric prime-function
-	double euler_method(const double, Equation * eq );
+	public:
+		static XParser * self( bool * modified = 0 );
+		
+		~XParser();
+		/// Evaluates the 1st dreivative of the function with intex \a ix
+		double derivative1( Equation * eq, double x, double h );
+		/// Evaluates the 2nd dreivative of the function with intex \a ix
+		double derivative2( Equation * eq, double x, double h );
+		/**
+		 * Calculates the value of the equation using numerical integration
+		 * with the given step size \p h (which is only used as a hint).
+		 */
+		double integral( Equation * eq, double x, double h );
         
 	/// Line width default
 	QColor defaultColor(int function);
@@ -126,8 +129,7 @@ public:
 	QString functionStartXValue(uint id);
 	QString functionStartYValue(uint id);
 	/// Set the startx and starty values of a graph. Returns true if it succeeds, otherwise false.
-	bool setFunctionStartXValue(const QString &x, uint id);
-	bool setFunctionStartYValue(const QString &y, uint id);
+	bool setFunctionStartValue(const QString &x, const QString &y, uint id);
 private:
         
 	/// finds a free function name 

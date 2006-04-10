@@ -114,7 +114,7 @@ class View : public QWidget, virtual public ViewIface
 		*/
 		QPointF findMinMaxValue( Function * function, Function::PMode p_mode, ExtremaType type, double dmin, double dmax,const QString & parameter );
 		/// get a y-value from a x-value
-		double getYValue( Function * function, Function::PMode p_mode, double x, double y, const QString & parameter );
+		double getYValue( Function * function, Function::PMode p_mode, double x, const QString & parameter );
 		/**
 		* Calculates the area between the given plot and the x-axis
 		* (from x = \p dmin to x = \p dmax). The area will also be colored in.

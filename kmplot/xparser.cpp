@@ -139,12 +139,12 @@ bool XParser::getext( Function *item, const QString fstr )
 		return true;
 }
 
-double XParser::a1fkt( Equation *u_item, double x, double h )
+double XParser::derivative1( Equation *u_item, double x, double h )
 {
 	return ( fkt(u_item, x + h ) - fkt( u_item, x ) ) / h;
 }
 
-double XParser::a2fkt( Equation *u_item, double x, double h )
+double XParser::derivative2( Equation *u_item, double x, double h )
 {
 	return ( fkt( u_item, x + h + h ) - 2 * fkt( u_item, x + h ) + fkt( u_item, x ) ) / h / h;
 }
@@ -247,12 +247,34 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
   }
 }
 
-double XParser::euler_method(const double x, Equation * eq )
+
+double XParser::integral( Equation * eq, double x, double h )
 {
-	double const y = eq->oldy + ((x-eq->oldx) * eq->oldyprim);
-	eq->oldy = y;
-	eq->oldx = x;
-	eq->oldyprim = fkt( eq, x ); //yprim;
+	h = qAbs(h);
+	assert( h > 0 ); // in case anyone tries to pass us a zero h
+	
+	// the difference between h and dx is that h is only used as a hint for the
+	// stepwidth; dx is made similar to h in size, yet tiles the gap between x
+	// and the previous x perfectly
+	
+	// we use the 2nd degree Newton-Cotes formula (Simpson's rule)
+	
+	double a0 = eq->lastIntegralPoint.x();
+	double y = eq->lastIntegralPoint.y();
+	
+	int intervals = qRound( qAbs(x-a0)/h );
+	double dx = (x-a0) / intervals;
+	
+	for ( int i = 0; i < intervals; ++i )
+	{
+		double a = a0 + (dx*i);
+		double m = a + (dx/2);
+		double b = a + dx;
+		
+		y += (dx/6.0)*( fkt( eq, a ) + (4.0 * fkt( eq, m )) + fkt( eq, b ) );
+	}
+	
+	eq->lastIntegralPoint = QPointF( x, y );
 	return y;
 }
 
@@ -518,36 +540,28 @@ bool XParser::setFunctionMaxValue(const QString &max, uint id)
   return true;
 }
 
+bool XParser::setFunctionStartValue(const QString &x, const QString &y, uint id)
+{
+	if ( !m_ufkt.contains( id ) )
+		return false;
+	m_ufkt[id]->setIntegralStart( x, y );
+	m_modified = true;
+	return true;
+}
+
 QString XParser::functionStartXValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-  return m_ufkt[id]->startx.expression();
+	return m_ufkt[id]->integralInitialX().expression();
 }
 
-bool XParser::setFunctionStartXValue(const QString &x, uint id)
-{
-	if ( !m_ufkt.contains( id ) )
-		return false;
-  m_ufkt[id]->startx.expression() = x;
-  m_modified = true;
-  return true;
-}
 
 QString XParser::functionStartYValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-  return m_ufkt[id]->starty.expression();
-}
-
-bool XParser::setFunctionStartYValue(const QString &y, uint id)
-{
-	if ( !m_ufkt.contains( id ) )
-		return false;
-  m_ufkt[id]->starty.expression() = y;
-  m_modified = true;
-  return true;
+	return m_ufkt[id]->integralInitialY().expression();
 }
 
 QStringList XParser::functionParameterList(uint id)
@@ -686,8 +700,7 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	added_function->dmax.updateExpression( str_dmax );
 	added_function->usecustomxmax = !str_dmax.isEmpty();
 	
-	added_function->startx.updateExpression( str_startx );
-	added_function->starty.updateExpression( str_starty );
+	added_function->setIntegralStart( str_startx, str_starty );
 	
 	added_function->integral_precision = integral_precision;
 	added_function->f0.color = color;

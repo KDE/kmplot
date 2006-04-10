@@ -29,6 +29,7 @@
 
 #include <kdebug.h>
 
+#include <assert.h>
 #include <cmath>
 
 
@@ -87,9 +88,6 @@ Equation::Equation( Type type, Function * parent )
 {
 	mem = new unsigned char [MEMSIZE];
 	mptr = 0;
-	oldyprim = 0.0;
-	oldx = 0.0;
-	oldy = 0;
 }
 
 
@@ -241,8 +239,8 @@ Function::Function( Type type )
 	integral_precision = 1.0;
 	use_slider = -1;
 	
-	startx.updateExpression( "0" );
-	starty.updateExpression( "0" );
+	m_startX.updateExpression( "0" );
+	m_startY.updateExpression( "0" );
 	
 	// min/max stuff
 	dmin.updateExpression( QString("-")+QChar(960) );
@@ -281,8 +279,8 @@ bool Function::copyFrom( const Function & function )
 	COPY_AND_CHECK( integral_use_precision );	// 4
 	COPY_AND_CHECK( dmin );						// 5
 	COPY_AND_CHECK( dmax );						// 6
-	COPY_AND_CHECK( starty );					// 7
-	COPY_AND_CHECK( startx );					// 8
+	COPY_AND_CHECK( m_startX );					// 7
+	COPY_AND_CHECK( m_startY );					// 8
 	COPY_AND_CHECK( integral_precision );		// 9
 	COPY_AND_CHECK( use_slider );				// 10
 	COPY_AND_CHECK( usecustomxmin );			// 11
@@ -309,6 +307,16 @@ bool Function::copyFrom( const Function & function )
 	
 // 	kDebug() << k_funcinfo << "changed="<<changed<<endl;
 	return changed;
+}
+
+
+void Function::setIntegralStart( const Value & x, const Value & y )
+{
+	assert( type() == Cartesian ); // Integral only applicable for cartesians
+	
+	m_startX = x;
+	m_startY = y;
+	eq[0]->lastIntegralPoint = QPointF( 0.0, 0.0 );
 }
 
 

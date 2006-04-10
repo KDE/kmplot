@@ -347,8 +347,8 @@ void FunctionEditor::initFromCartesian()
 	
 	m_editor->showIntegral->setChecked( f->integral.visible );
 	m_editor->customPrecision->setChecked( f->integral_use_precision );
-	m_editor->txtInitX->setText(f->startx.expression());
-	m_editor->txtInitY->setText(f->starty.expression());
+	m_editor->txtInitX->setText( f->integralInitialX().expression() );
+	m_editor->txtInitY->setText( f->integralInitialY().expression() );
 	
 	m_editor->stackedWidget->setCurrentIndex( 0 );
 	m_editor->tabWidget->setCurrentIndex( 0 );
@@ -554,13 +554,7 @@ void FunctionEditor::saveCartesian()
 	tempFunction.f0.color = m_editor->cartesian_f_lineColor->color();
 	
 	tempFunction.integral.visible = m_editor->showIntegral->isChecked();
-	ok = tempFunction.startx.updateExpression( m_editor->txtInitX->text() );
-	if ( tempFunction.integral.visible && !ok )
-		return;
-	
-	ok = tempFunction.starty.updateExpression( m_editor->txtInitY->text() );
-	if ( tempFunction.integral.visible && !ok )
-		return;
+	tempFunction.setIntegralStart( m_editor->txtInitX->text(), m_editor->txtInitY->text() );
 
 	tempFunction.integral.color = m_editor->cartesian_F_lineColor->color();
 	tempFunction.integral_use_precision = m_editor->customPrecision->isChecked();

@@ -42,7 +42,6 @@
 #include <kdebug.h>
 #include <kmenu.h>
 #include <kprinter.h>
-#include <kprogressbar.h>
 #include <kpushbutton.h>
 
 
@@ -205,10 +204,6 @@ private:
 	void invertColor(QColor &, QColor &);
 	/// Changes the text in the statusbar
 	void setStatusBar(const QString &text, const int id);
-	/// Functions for the progressbar
-	bool stopProgressBar();
-	void startProgressBar(int);
-	void increaseProgressBar();
 	/// @return whether the crosshairs should be shown for the current mouse position
 	bool shouldShowCrosshairs() const;
 	/**

@@ -3,7 +3,7 @@ INCLUDES= $(all_includes)
 KDE_CXXFLAGS = -DQT3_SUPPORT_WARNINGS
 
 # these are the headers for your project
-noinst_HEADERS = kmplot.h kmplotprogress.h MainDlg.h equationedit.h
+noinst_HEADERS = kmplot.h MainDlg.h equationedit.h
 
 METASOURCES = AUTO
 
@@ -25,7 +25,7 @@ messages: rc.cpp
 bin_PROGRAMS = kmplot
 
 # the application source, library search path, and link libraries
-kmplot_SOURCES = main.cpp kmplot.cpp kmplotprogress.cpp kmplotIface.skel
+kmplot_SOURCES = main.cpp kmplot.cpp kmplotIface.skel
 kmplot_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 kmplot_LDADD   = $(LIB_KPARTS)
 

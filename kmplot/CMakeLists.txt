@@ -51,7 +51,7 @@ install_targets(${LIB_INSTALL_DIR}/kde4 kmplotpart )
 
 ########### next target ###############   
 
-set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp)
+set(kmplot_SRCS main.cpp kmplot.cpp)
 kde4_automoc(${kmplot_SRCS})
 
 kde4_add_dcop_skels(kmplot_SRCS kmplotIface.h )
@@ -84,7 +84,7 @@ kde4_footer()
 #INCLUDES= $(all_includes)
 #
 ## these are the headers for your project
-#noinst_HEADERS = kmplot.h kmplotprogress.h MainDlg.h
+#noinst_HEADERS = kmplot.h MainDlg.h
 #
 #METASOURCES = AUTO
 #

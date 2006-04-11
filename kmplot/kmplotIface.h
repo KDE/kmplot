@@ -43,10 +43,6 @@ k_dcop:
 	virtual void optionsConfigureKeys() = 0;
 	virtual void optionsConfigureToolbars() = 0;
 	virtual void openFileInNewWindow(const KUrl url) = 0;
-	virtual bool stopProgressBar() = 0;
-	virtual void startProgressBar(int) = 0;
-	virtual void increaseProgressBar() = 0;
-	
 	virtual void fileOpen(const KUrl &url) = 0;
 };
 

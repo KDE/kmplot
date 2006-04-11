@@ -38,7 +38,6 @@
 #include <kurl.h>
 
 #include "MainDlg.h"
-#include "kmplotprogress.h"
 #include <ktoolinvocation.h>
 
 KmPlot::KmPlot( KCmdLineArgs* args)
@@ -177,30 +176,6 @@ void KmPlot::fileNew()
 		KToolInvocation::kdeinitExec("kmplot");
 }
 
-bool KmPlot::stopProgressBar()
-{
-	if (m_progressbar && m_progressbar->isVisible())
-	{
-		m_progressbar->hide();
-		return true;
-	}
-	return false;
-}
-
-void KmPlot::startProgressBar(int steps)
-{
-	if (m_progressbar)
-	{
-		m_progressbar->progress->setMaximum(steps);
-		m_progressbar->show();
-	}
-}
-
-void KmPlot::increaseProgressBar()
-{
-	if (m_progressbar)
-		m_progressbar->increase();
-}
 
 void KmPlot::optionsConfigureKeys()
 {
@@ -309,16 +284,7 @@ void KmPlot::setupStatusBar()
 	statusBar()->changeItem( "", 1 );
 	statusBar()->changeItem( "", 2 );
 	statusBar()->setItemAlignment( 3, Qt::AlignLeft );
-
-	m_progressbar = new KmPlotProgress( statusBar() );
-	m_progressbar->setMaximumHeight( statusBar()->height()-10 );
-	connect( m_progressbar->button, SIGNAL (clicked() ), this, SLOT( progressbar_clicked() ) );
-	statusBar()->addWidget(m_progressbar);
 }
 
-void KmPlot::progressbar_clicked()
-{
-	kapp->dcopClient()->send(kapp->dcopClient()->appId(), "View","stopDrawing()", QByteArray());
-}
 
 #include "kmplot.moc"

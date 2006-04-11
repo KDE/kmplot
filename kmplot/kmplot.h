@@ -35,7 +35,6 @@
 #include <kparts/mainwindow.h>
 
 #include "kmplotIface.h"
-#include "kmplotprogress.h"
 
 class KToggleAction;
 
@@ -90,9 +89,6 @@ private slots:
 	void optionsConfigureToolbars();
 	void applyNewToolbarConfig();
 
-	/// Called when the user want to cancel the drawing
-	void progressbar_clicked();
-
 public slots:
 	/// Called when fullscren is enabled/disabled
 	void slotUpdateFullScreen(bool);
@@ -106,17 +102,11 @@ private:
 	bool isModified();
 	void openFileInNewWindow(const KUrl url);
 
-	/// Functions for the progressbar
-	bool stopProgressBar();
-	void startProgressBar(int);
-	void increaseProgressBar();
-
 
 private:
 	KParts::ReadOnlyPart *m_part;
 	/// The fullscreen action to be plugged/unplegged to the toolbar
 	KToggleFullScreenAction* m_fullScreen;
-	KmPlotProgress *m_progressbar;
 };
 
 #endif // KMPLOT_H_

@@ -418,18 +418,11 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 						dx =  ufkt->integral_precision*(dmax-dmin)/area.width();
 // 					else
 // 						dx =  ufkt->integral_precision;
-				startProgressBar((int)double((dmax-dmin)/dx)/2);
 			}
 			
 			while ( x>=dmin && x<=dmax )
 			{
 				p2 = dgr.toPixel( realValue( ufkt, p_mode, x ) );
-				
-				if ( p_mode == Function::Integral && (int(x*100)%2==0) )
-				{
-					KApplication::kApplication()->processEvents(); //makes the program usable when drawing a complicated integral function
-					increaseProgressBar();
-				}
 				
 				bool dxAtMinimum = (dx <= base_dx*(5e-5));
 				bool dxAtMaximum = (dx >= base_dx*(5e+1));
@@ -498,9 +491,6 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 		else
 			break; // no derivatives or integrals left to draw
 	}
-	if ( stopProgressBar() )
-		if( stop_calculating)
-			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
 }
 
 
@@ -618,8 +608,6 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->drawText(0, 300, i18n("Functions:"));
 		pDC->Lineh(0, 320, 700);
 		int ypos = 380;
-		//for(uint ix=0; ix<XParser::self()->countFunctions() && !stop_calculating; ++ix)
-// 		for(QVector<Function>::iterator it=XParser::self()->ufkt.begin(); it!=XParser::self()->ufkt.end() && !stop_calculating; ++it)
 		foreach ( Function * it, XParser::self()->m_ufkt )
 		{
 			for ( unsigned i = 0; i < 2; ++ i )
@@ -2231,6 +2219,7 @@ bool View::shouldShowCrosshairs() const
 	return ( underMouse() && area.contains( mousePos ) && (!it || crosshairPositionValid( it )) );
 }
 
+
 bool View::event( QEvent * e )
 {
 	if ( e->type() == QEvent::WindowDeactivate && isDrawing)
@@ -2240,6 +2229,7 @@ bool View::event( QEvent * e )
 	}
 	return QWidget::event(e); //send the information further
 }
+
 
 void View::setStatusBar(const QString &text, const int id)
 {
@@ -2283,29 +2273,7 @@ void View::setStatusBar(const QString &text, const int id)
 		m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","setStatusBarText(QString,int)", parameters);
 	}
 }
-void View::startProgressBar(int steps)
-{
-	QByteArray data;
-	QDataStream stream( &data,QIODevice::WriteOnly);
-	stream.setVersion(QDataStream::Qt_3_1);
-	stream << steps;
-	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","startProgressBar(int)", data);
-}
-bool View::stopProgressBar()
-{
-	DCOPCString	 replyType;
-	QByteArray replyData;
-	m_dcop_client->call(m_dcop_client->appId(), "KmPlotShell","stopProgressBar()", QByteArray(), replyType, replyData);
-	bool result;
-	QDataStream stream( &replyData,QIODevice::ReadOnly);
-	stream.setVersion(QDataStream::Qt_3_1);
-	stream >> result;
-	return result;
-}
-void View::increaseProgressBar()
-{
-	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","increaseProgressBar()", QByteArray());
-}
+
 
 void View::slidersWindowClosed()
 {

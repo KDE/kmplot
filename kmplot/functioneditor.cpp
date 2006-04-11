@@ -26,7 +26,7 @@
 
 #include "equationedit.h"
 #include "functioneditor.h"
-#include "functioneditorwidget.h"
+#include "ui_functioneditorwidget.h"
 #include "kmplotio.h"
 #include "kparametereditor.h"
 #include "View.h"

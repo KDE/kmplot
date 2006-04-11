@@ -53,8 +53,8 @@
 #include "MainDlg.h"
 #include "MainDlg.moc"
 #include "settings.h"
-#include "settingspagecolor.h"
-#include "settingspagefonts.h"
+#include "ui_settingspagecolor.h"
+#include "ui_settingspagefonts.h"
 #include "ksliderwindow.h"
 
 #include <assert.h>

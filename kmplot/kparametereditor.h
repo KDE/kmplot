@@ -26,7 +26,7 @@
 #ifndef KPARAMETEREDITOR_H
 #define KPARAMETEREDITOR_H
 
-#include "qparametereditor.h"
+#include "ui_qparametereditor.h"
 #include <QList>
 #include "xparser.h"
 

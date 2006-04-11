@@ -27,7 +27,7 @@
 
 #include <kmenu.h>
 
-#include "sliderwindow.h"
+#include "ui_sliderwindow.h"
 #include <QEvent>
 #include <QCloseEvent>
 

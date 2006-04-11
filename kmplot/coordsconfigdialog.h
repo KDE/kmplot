@@ -27,7 +27,7 @@
 
 #include <kconfigdialog.h>
 
-#include "editcoords.h"
+#include "ui_editcoords.h"
 #include "xparser.h"
 
 class EditCoords : public QWidget, public Ui::EditCoords

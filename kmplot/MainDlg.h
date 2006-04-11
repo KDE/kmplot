@@ -51,10 +51,10 @@
 #include "kmplotio.h"
 #include "MainDlgIface.h"
 
-#include "editscaling.h"
-#include "settingspagecolor.h"
-#include "settingspagefonts.h"
-#include "settingspagegeneral.h"
+#include "ui_editscaling.h"
+#include "ui_settingspagecolor.h"
+#include "ui_settingspagefonts.h"
+#include "ui_settingspagegeneral.h"
 
 class BrowserExtension;
 class EditScaling;

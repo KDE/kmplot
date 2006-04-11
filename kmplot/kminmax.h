@@ -26,7 +26,7 @@
 #ifndef KMINMAX_H
 #define KMINMAX_H
 
-#include "qminmax.h"
+#include "ui_qminmax.h"
 #include "View.h"
 
 class QMinMax;

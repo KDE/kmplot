@@ -994,9 +994,9 @@ void View::getPlotUnderMouse()
 					it->setParameter(  m_sliderWindow->value( it->use_slider ) );
 			}
 			
-			for ( int i = Function::Derivative0; i <= Function::Derivative2; ++i )
+			for ( int i = Function::Derivative0; i <= Function::Integral; ++i )
 			{
-				switch ( i )
+				switch ( (Function::PMode)i )
 				{
 					case Function::Derivative0:
 						if ( !it->f0.visible )
@@ -1010,6 +1010,11 @@ void View::getPlotUnderMouse()
 							
 					case Function::Derivative2:
 						if ( !it->f2.visible || (it->type() != Function::Cartesian) )
+							continue;
+						break;
+							
+					case Function::Integral:
+						if ( !it->integral.visible || (it->type() != Function::Cartesian) )
 							continue;
 						break;
 				}

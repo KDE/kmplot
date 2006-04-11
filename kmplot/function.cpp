@@ -298,7 +298,7 @@ bool Function::copyFrom( const Function & function )
 	// handle equations separately
 	for ( int i = 0; i < 2; ++i )
 	{
-		if ( !eq[i] )
+		if ( !eq[i] || !function.eq[i] )
 			continue;
 		
 		if ( *eq[i] != *function.eq[i] )

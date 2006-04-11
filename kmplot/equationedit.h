@@ -89,6 +89,10 @@ class EquationEdit : public QTextEdit
 		 * stored.
 		 */
 		void setInputType( InputType type );
+		/**
+		 * Prepends \p prefix to the start of the text when validating it.
+		 */
+		void setValidatePrefix( const QString & prefix );
 		
 		QString text() const { return toPlainText(); }
 		
@@ -112,6 +116,7 @@ class EquationEdit : public QTextEdit
 		Equation * m_equation;
 		InputType m_inputType;
 		bool m_settingText:1;
+		QString m_validatePrefix;
 };
 
 

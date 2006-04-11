@@ -151,6 +151,16 @@ class FunctionEditor : public QDockWidget
 		 * Add an extra argument.
 		 */
 		void fixCartesianArguments( QString * f_str );
+		/**
+		 * \return The prefix (up to and including the '=') for the parametric
+		 * x equation.
+		 */
+		QString parametricXPrefix() const;
+		/**
+		 * \return The prefix (up to and including the '=') for the parametric
+		 * y equation.
+		 */
+		QString parametricYPrefix() const;
 		
 		/// The main editing widget.
 		FunctionEditorWidget * m_editor;

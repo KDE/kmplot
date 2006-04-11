@@ -85,6 +85,8 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	
 	m_editor->cartesianEquation->setInputType( EquationEdit::Function );
 	m_editor->polarEquation->setInputType( EquationEdit::Function );
+	m_editor->parametricX->setInputType( EquationEdit::Function );
+	m_editor->parametricY->setInputType( EquationEdit::Function );
 	
 	for ( unsigned i = 0; i < 3; ++i )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
@@ -393,9 +395,11 @@ void FunctionEditor::initFromParametric()
 	
 	splitParametricEquation( f->eq[0]->fstr(), & name, & expression );
 	m_editor->parametricName->setText( name );
+	m_editor->parametricX->setValidatePrefix( parametricXPrefix() );
 	m_editor->parametricX->setText( expression );
         
 	splitParametricEquation( f->eq[1]->fstr(), & name, & expression );
+	m_editor->parametricY->setValidatePrefix( parametricYPrefix() );
 	m_editor->parametricY->setText( expression );
 
 	m_editor->parametricMin->setText( f->dmin.expression() );
@@ -711,6 +715,9 @@ void FunctionEditor::saveParametric()
 		return;
 	}
 	
+	m_editor->parametricX->setValidatePrefix( parametricXPrefix() );
+	m_editor->parametricY->setValidatePrefix( parametricYPrefix() );
+	
 	if  ( m_editor->parametricX->text().contains('y') != 0 ||
 			 m_editor->parametricY->text().contains('y') != 0)
 	{
@@ -755,10 +762,10 @@ void FunctionEditor::saveParametric()
 	tempFunction.f0.color = m_editor->parametricLineColor->color();
 	tempFunction.f1.color = tempFunction.f2.color = tempFunction.integral.color = tempFunction.f0.color;
 	
-	if ( !tempFunction.eq[0]->setFstr( 'x' + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text() ) )
+	if ( !tempFunction.eq[0]->setFstr( parametricXPrefix() ) )
 		return;
 	
-	if ( !tempFunction.eq[1]->setFstr( 'y' + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text() ) )
+	if ( !tempFunction.eq[1]->setFstr( parametricYPrefix() ) )
 		return;
 	
 	//save all settings in the function now when we know no errors have appeared
@@ -771,6 +778,18 @@ void FunctionEditor::saveParametric()
 	if ( functionListItem )
 		functionListItem->update();
 	View::self()->drawPlot();
+}
+
+
+QString FunctionEditor::parametricXPrefix() const
+{
+	return 'x' + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text();
+}
+
+
+QString FunctionEditor::parametricYPrefix() const
+{
+	return 'y' + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text();
 }
 
 

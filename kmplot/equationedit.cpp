@@ -131,7 +131,7 @@ void EquationEdit::slotTextChanged( )
 
 void EquationEdit::checkTextValidity( )
 {
-	QString text = toPlainText();
+	QString text = m_validatePrefix + toPlainText();
 	
 	bool ok = true;
 	
@@ -146,7 +146,7 @@ void EquationEdit::checkTextValidity( )
 	if ( ok )
 		setError( QString(), -1 );
 	else
-		setError( XParser::self()->errorString(), XParser::self()->errorPosition() );
+		setError( XParser::self()->errorString(), XParser::self()->errorPosition() - m_validatePrefix.length() );
 }
 
 
@@ -188,6 +188,13 @@ void EquationEdit::setText( const QString & text )
 	m_settingText = true;
 	setPlainText( text );
 	m_settingText = false;
+}
+
+
+void EquationEdit::setValidatePrefix( const QString & prefix )
+{
+	m_validatePrefix = prefix;
+	checkTextValidity();
 }
 //END class EquationEdit
 

@@ -155,19 +155,19 @@ void KMinMax::updateFunctions()
 		if ( it->type() == Function::Cartesian )
 		{
 			if ( it->f0.visible )
-				m_mainWidget->list->addItem(it->eq[0]->fstr());
+				m_mainWidget->list->addItem( it->prettyName( Function::Derivative0 ) );
 
 			if ( it->f1.visible ) //1st derivative
 			{
-				m_mainWidget->list->addItem( it->eq[0]->fname() + "\'" );
+				m_mainWidget->list->addItem( it->prettyName( Function::Derivative1 ) );
 			}
 			if ( it->f2.visible )//2nd derivative
 			{
-				m_mainWidget->list->addItem( it->eq[0]->fname() + "\'\'" );
+				m_mainWidget->list->addItem( it->prettyName( Function::Derivative2 ) );
 			}
 			if ( it->integral.visible )//integral
 			{
-				m_mainWidget->list->addItem( it->eq[0]->fname().toUpper() );
+				m_mainWidget->list->addItem( it->prettyName( Function::Integral) );
 			}
 		}
 	}
@@ -195,20 +195,8 @@ void KMinMax::selectItem()
 		return;
 	//kDebug() << "cstype: " << (int)View::self()->cstype << endl;
 	Function *ufkt = XParser::self()->m_ufkt[ View::self()->m_currentFunctionID ];
-	QString function = ufkt->eq[0]->fstr();
-	if ( View::self()->m_currentFunctionPlot == Function::Derivative2)
-	{
-		int i= function.indexOf('(');
-		function.truncate(i);
-		function +="\'\'";
-	}
-	else if ( View::self()->m_currentFunctionPlot == Function::Derivative1)
-	{
-		int i= function.indexOf('(');
-		function.truncate(i);
-		function +="\'";
-	}
-	//kDebug() << "function: " << function << endl;
+	QString function = ufkt->prettyName( View::self()->m_currentFunctionPlot );
+	
 	QList<QListWidgetItem *> foundItems = m_mainWidget->list->findItems( function, Qt::MatchExactly );
 	if ( !foundItems.isEmpty() )
 		m_mainWidget->list->setCurrentItem( foundItems.first() );

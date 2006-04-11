@@ -335,6 +335,31 @@ bool Function::copyFrom( const Function & function )
 }
 
 
+QString Function::prettyName( Function::PMode mode ) const
+{
+	if ( type() == Parametric )
+		return eq[0]->fstr() + " ; " + eq[1]->fstr();
+	
+	switch ( mode )
+	{
+		case Function::Derivative0:
+			return eq[0]->fstr();
+			
+		case Function::Derivative1:
+			return eq[0]->fname() + '\'';
+			
+		case Function::Derivative2:
+			return eq[0]->fname() + "\'\'";
+			
+		case Function::Integral:
+			return eq[0]->fname().toUpper();
+	}
+	
+	kWarning() << k_funcinfo << "Unknown mode!\n";
+	return "???";
+}
+
+
 QString Function::typeToString( Type type )
 {
 	switch ( type )

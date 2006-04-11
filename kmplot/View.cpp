@@ -866,30 +866,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		Function * function = XParser::self()->functionWithID( m_currentFunctionID );
 		if ( function )
 		{
-			QString popupTitle;
-			
-			if ( function->type() == Function::Parametric )
-			{
-				popupTitle = function->eq[0]->fstr() + ';' + function->eq[1]->fstr();
-			}
-			else switch ( m_currentFunctionPlot )
-			{
-				case Function::Derivative0:
-					popupTitle = function->eq[0]->fstr();
-					break;
-					
-				case Function::Derivative1:
-					popupTitle = function->eq[0]->fname() + '\'';
-					break;
-					
-				case Function::Derivative2:
-					popupTitle = function->eq[0]->fname() + "\'\'";
-					break;
-					
-				case Function::Integral:
-					popupTitle = function->eq[0]->fname().toUpper();
-					break;
-			}
+			QString popupTitle( function->prettyName( m_currentFunctionPlot ) );
 			
 			if ( hadFunction )
 				m_popupmenushown = 2;
@@ -920,36 +897,8 @@ void View::mousePressEvent(QMouseEvent *e)
 	{
 		m_minmax->selectItem();
 		
-		if ( function->type() == Function::Parametric )
-			setStatusBar( function->eq[0]->fstr() + ';' + function->eq[1]->fstr(), 4 );
+		setStatusBar( function->prettyName( m_currentFunctionPlot ), 4 );
 		
-		else if ( function->type() == Function::Polar )
-			setStatusBar(function->eq[0]->fstr(),4);
-		
-		else
-		{
-			// cartesian plot
-		
-			switch ( m_currentFunctionPlot )
-			{
-				case Function::Derivative0:
-					setStatusBar(function->eq[0]->fstr(),4);
-					break;
-			
-				case Function::Derivative1:
-					setStatusBar( function->eq[0]->fname() + "\'", 4 );
-					break;
-			
-				case Function::Derivative2:
-					setStatusBar( function->eq[0]->fname() + "\'\'", 4 );
-					break;
-			
-				case Function::Integral:
-					setStatusBar( function->eq[0]->fname().toUpper(), 4 );
-					break;
-			}
-		}
-			
 		// csxpos, csypos would have been set by getPlotUnderMouse()
 		QPointF ptd( dgr.toPixel( m_crosshairPosition ) );
 		QPoint globalPos = mapToGlobal( (ptd * wm).toPoint() );
@@ -1873,35 +1822,9 @@ void View::keyPressEvent( QKeyEvent * e )
 		kDebug() << "m_currentFunctionID: " << (int)m_currentFunctionID << endl;
 		kDebug() << "m_currentFunctionPlot: " << (int)m_currentFunctionPlot << endl;
 		kDebug() << "m_currentFunctionParameter: " << m_currentFunctionParameter << endl;
-
-		//change function in the statusbar
-		switch (m_currentFunctionPlot )
-		{
-			case Function::Derivative0:
-			{
-				QString text = (*it)->eq[0]->fstr();
-				QString fstr1 = (*it)->eq[1]->fstr();
-				if ( !fstr1.isEmpty() )
-					text += ";" + fstr1;
-				setStatusBar( text, 4 );
-				break;
-			}
-				
-			case Function::Derivative1:
-			{
-				setStatusBar( (*it)->eq[0]->fname() + "\'", 4 );
-				break;
-			}
-			
-			case Function::Derivative2:
-			{
-				setStatusBar( (*it)->eq[0]->fname() + "\'\'", 4 );
-				break;
-			}
-			
-			case Function::Integral:
-				break;
-		}
+		
+		setStatusBar( (*it)->prettyName( m_currentFunctionPlot ), 4 );
+		
 		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint(), Qt::LeftButton, Qt::LeftButton, 0 );
 	}
 	else if ( e->key() == Qt::Key_Space  )

@@ -215,6 +215,11 @@ class Function
 		/// The type of function
 		Type type() const { return m_type; }
 		/**
+		 * \return A string for displaying to the user that identifies this
+		 * equation, taking into account \p mode.
+		 */
+		QString prettyName( Function::PMode mode ) const;
+		/**
 		 * Converts the type to a string (which is used in save files).
 		 */
 		static QString typeToString( Type type );

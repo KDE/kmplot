@@ -193,6 +193,11 @@ private:
 	void drawHeaderTable(QPainter *);
 	/// Draw the function plots.
 	void plotfkt(Function *ufkt, QPainter*);
+	/**
+	 * \return whether should draw the pixel from the given line length,
+	 * according to the given pen style (used in plotfkt).
+	 */
+	bool penShouldDraw( double totalLength, Function * function, Function::PMode pmode );
 	/// @return an appropriate pen for drawing the plot
 	QPen penForPlot( Function * ufkt, Function::PMode, bool antialias ) const;
 	/// Gets the greek pi symbol.

@@ -70,6 +70,7 @@ Plot::Plot( )
 	lineWidth = 0.2;
 	color = Qt::black;
 	visible = false;
+	style = Qt::SolidLine;
 }
 
 
@@ -77,7 +78,8 @@ bool Plot::operator !=( const Plot & other ) const
 {
 	return (visible != other.visible) ||
 			(color != other.color) ||
-			(lineWidth != other.lineWidth);
+			(lineWidth != other.lineWidth) ||
+			(style != other.style);
 }
 //END class Plot
 

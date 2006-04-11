@@ -86,6 +86,7 @@ class Plot
 		double lineWidth;	///< line width in mm
 		QColor color;		///< color that the plot will be drawn in
 		bool visible;		///< whether to display this plot
+		Qt::PenStyle style;	///< pen style (e.g. dolif, dashes, dotted, etc)
 		
 		bool operator != ( const Plot & other ) const;
 };

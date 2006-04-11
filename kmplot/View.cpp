@@ -385,13 +385,13 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 		ke=ufkt->parameters.count();
 		do
 		{
+			if ( p_mode == Function::Derivative0 && !ufkt->f0.visible )
+				break; // skip to the next one as function is hidden
+			
 			bool drawIntegral = m_drawIntegral &&
 					(m_integralDrawSettings.functionID == int(ufkt->id)) &&
 					(m_integralDrawSettings.pMode == p_mode) &&
 					((k >= ufkt->parameters.size()) || (m_integralDrawSettings.parameter == ufkt->parameters[k].expression()));
-			
-			if ( p_mode == Function::Derivative0 && !ufkt->f0.visible )
-				break; // skip to the next one as function is hidden
 			
 			if( ufkt->use_slider == -1 )
 			{
@@ -416,6 +416,8 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 // 						dx =  ufkt->integral_precision;
 			}
 			
+			double totalLength = 0.0; // total pixel length; used for drawing dotted lines
+			
 			while ( x>=dmin && x<=dmax )
 			{
 				p2 = dgr.toPixel( realValue( ufkt, p_mode, x ) );
@@ -431,15 +433,16 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 				}
 				else
 				{
+					QPointF p1_pixel = p1 * pDC->matrix();
+					QPointF p2_pixel = p2 * pDC->matrix();
+					QRectF bound = QRectF( p1_pixel, QSizeF( (p2_pixel-p1_pixel).x(), (p2_pixel-p1_pixel).y() ) ).normalized();
+					double length = QLineF( p1_pixel, p2_pixel ).length();
+					totalLength += length;
+					
 					if ( (mflg<=1) && ((ufkt->type() == Function::Parametric) || (ufkt->type() == Function::Polar)) )
 					{
-						QPointF p1_pixel = p1 * pDC->matrix();
-						QPointF p2_pixel = p2 * pDC->matrix();
-						QRectF bound = QRectF( p1_pixel, QSizeF( (p2_pixel-p1_pixel).x(), (p2_pixel-p1_pixel).y() ) ).normalized();
-							
 						if ( QRectF( area ).intersects( bound ) )
 						{
-							double length = QLineF( p1_pixel, p2_pixel ).length();
 							dxTooBig = !dxAtMinimum && (length > (quickDraw ? 40.0 : 4.0));
 							dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 10.0 : 1.0));
 // 							kDebug() << "p1_pixel="<<p1_pixel.toPoint()<<" p2_pixel="<<p2_pixel.toPoint()<<" tooBig="<<dxTooBig<<" tooSmall="<<dxTooSmall<<" dx="<<dx<<" length="<<length<<endl;
@@ -458,7 +461,10 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 							if ( drawIntegral && (x >= m_integralDrawSettings.dmin) && (x <= m_integralDrawSettings.dmax) )
 								pDC->drawRect( QRectF( p1, QSizeF( p2.x()-p1.x(), p2.y() - dgr.yToPixel( 0 ) ) ) );
 							else
-								pDC->drawLine( p1, p2 );
+							{
+								if ( penShouldDraw( totalLength, ufkt, p_mode ) )
+									pDC->drawLine( p1, p2 );
+							}
 						}
 						p1=p2;
 					}
@@ -490,10 +496,96 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 }
 
 
+bool View::penShouldDraw( double _totalLength, Function * function, Function::PMode pmode )
+{
+	Qt::PenStyle style = Qt::SolidLine;
+	switch ( pmode )
+	{
+		case Function::Derivative0:
+			style = function->f0.style;
+			break;
+			
+		case Function::Derivative1:
+			style = function->f1.style;
+			break;
+			
+		case Function::Derivative2:
+			style = function->f2.style;
+			break;
+			
+		case Function::Integral:
+			style = function->integral.style;
+			break;
+	}
+	
+	int sep = 7;	// separation distance between dots or dashes
+	int dash = 9;	// length of a dash
+	int dot = 3;	// length of a dot
+	
+	int totalLength = int( qAbs( _totalLength ) );
+	
+	switch ( style )
+	{
+		case Qt::NoPen:
+			// *whatever*...
+			return false;
+			
+		case Qt::SolidLine:
+			return true;
+			
+		case Qt::DashLine:
+			return (totalLength % (dash + sep)) < dash;
+			
+		case Qt::DotLine:
+			return (totalLength % (dot + sep)) < dot;
+			
+		case Qt::DashDotLine:
+		{
+			int at = totalLength % (dash + sep + dot + sep);
+			
+			if ( at < dash )
+				return true;
+			if ( at < (dash + sep) )
+				return false;
+			if ( at < (dash + sep + dot) )
+				return true;
+			return false;
+		}
+		
+		case Qt::DashDotDotLine:
+		{
+			int at = totalLength % (dash + sep + dot + sep + dot + sep);
+			
+			if ( at < dash )
+				return true;
+			if ( at < (dash + sep) )
+				return false;
+			if ( at < (dash + sep + dot) )
+				return true;
+			if ( at < (dash + sep + dot) )
+				return false;
+			if ( at < (dash + sep + dot + dot) )
+				return true;
+			return false;
+		}
+		
+		case Qt::MPenStyle:
+		case Qt::CustomDashLine:
+		{
+			assert( ! "Don't know how to handle this style!" );
+			return true;
+		}
+	}
+	
+	assert( ! "Unknown pen style!" );
+	return true;
+}
+
+
 QPen View::penForPlot( Function *ufkt, Function::PMode p_mode, bool antialias ) const
 {
 	QPen pen;
-	pen.setCapStyle(Qt::RoundCap);
+	pen.setCapStyle( Qt::RoundCap );
 // 	pen.setStyle( Qt::DashLine );
 	
 	double lineWidth_mm = 0.0;
@@ -503,21 +595,29 @@ QPen View::penForPlot( Function *ufkt, Function::PMode p_mode, bool antialias ) 
 		case Function::Derivative0:
 			lineWidth_mm = ufkt->f0.lineWidth;
 			pen.setColor(ufkt->f0.color);
+			if ( ufkt->f0.style == Qt::SolidLine )
+				pen.setCapStyle( Qt::FlatCap );
 			break;
 			
 		case Function::Derivative1:
 			lineWidth_mm = ufkt->f1.lineWidth;
 			pen.setColor(ufkt->f1.color);
+			if ( ufkt->f1.style == Qt::SolidLine )
+				pen.setCapStyle( Qt::FlatCap );
 			break;
 			
 		case Function::Derivative2:
 			lineWidth_mm = ufkt->f2.lineWidth;
 			pen.setColor(ufkt->f2.color);
+			if ( ufkt->f2.style == Qt::SolidLine )
+				pen.setCapStyle( Qt::FlatCap );
 			break;
 			
 		case Function::Integral:
 			lineWidth_mm = ufkt->integral.lineWidth;
 			pen.setColor(ufkt->integral.color);
+			if ( ufkt->integral.style == Qt::SolidLine )
+				pen.setCapStyle( Qt::FlatCap );
 			break;
 	}
 	

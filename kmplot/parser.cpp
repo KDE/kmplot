@@ -1,8 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter M�ler
-*               2000, 2002 kd.moeller@t-online.de
+* Copyright (C) 1998, 1999, 2000, 2002  Klaus-Dieter Möller <kd.moeller@t-online.de>
 *                     2006 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
@@ -921,7 +920,7 @@ Parser::Error Parser::parserError(bool showMessageBox)
 QString Parser::evalRemaining() const
 {
 	QString current( m_eval );
-	return current.right( QMAX( 0, current.length() - m_evalPos ) );
+	return current.right( qMax( 0, current.length() - m_evalPos ) );
 }
 
 
@@ -1269,7 +1268,7 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 	
 	m_map.insert( 0, 0 );
 	m_map.insert( m_map.size(), m_map[ m_map.size()-1 ] );
-	*str=" "+*str+" ";
+	*str = ' ' + *str + ' ';
 	
 	// make sure all minus-like signs (including the actual unicode minus sign)
 	// are represented by a dash (unicode 0x002d)

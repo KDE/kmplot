@@ -1,8 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 1998, 1999  Klaus-Dieter Möller
-*               2000, 2002 kd.moeller@t-online.de
+* Copyright (C) 1998, 1999, 2000, 2002  Klaus-Dieter Möller <kd.moeller@t-online.de>
 *                     2006 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
@@ -107,7 +106,7 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	init();
 	getSettings();
 	
-	setMouseTracking(TRUE);
+	setMouseTracking( true );
 	m_sliderWindow = 0;
 	updateSliders();
 	
@@ -394,9 +393,6 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 			if ( p_mode == Function::Derivative0 && !ufkt->f0.visible )
 				break; // skip to the next one as function is hidden
 			
-			if ( p_mode == Function::Integral && stop_calculating)
-				break;
-			
 			if( ufkt->use_slider == -1 )
 			{
 				if ( !ufkt->parameters.isEmpty() )
@@ -668,7 +664,7 @@ void View::setpi(QString *s)
 bool View::root(double *x0, Equation *it)
 {
 	if(rootflg)
-		return FALSE;
+		return false;
 	
 	int k = 0; // iteration count
 	int max_k = 50; // maximum number of iterations
@@ -834,6 +830,9 @@ void View::mousePressEvent(QMouseEvent *e)
 {
 	m_mousePressTimer->start();
 	
+	// In general, we want to update the view
+	update();
+	
 	if ( m_popupmenushown>0)
 		return;
 
@@ -850,9 +849,8 @@ void View::mousePressEvent(QMouseEvent *e)
 					(m_zoomMode == ZoomOutDrawing) )
 		{
 			m_zoomMode = Normal;
-			updateCursor();
-			update();
 		}
+		updateCursor();
 		return;
 	}
 	
@@ -872,7 +870,7 @@ void View::mousePressEvent(QMouseEvent *e)
 			
 			if ( function->type() == Function::Parametric )
 			{
-				popupTitle = function->eq[0]->fstr() + ";" + function->eq[1]->fstr();
+				popupTitle = function->eq[0]->fstr() + ';' + function->eq[1]->fstr();
 			}
 			else switch ( m_currentFunctionPlot )
 			{
@@ -881,7 +879,7 @@ void View::mousePressEvent(QMouseEvent *e)
 					break;
 					
 				case Function::Derivative1:
-					popupTitle = function->eq[0]->fname() + "\'";
+					popupTitle = function->eq[0]->fname() + '\'';
 					break;
 					
 				case Function::Derivative2:
@@ -913,7 +911,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		setStatusBar("",3);
 		setStatusBar("",4);
 		mouseMoveEvent(e);
-		return ;
+		return;
 	}
 	
 	getPlotUnderMouse();
@@ -947,8 +945,8 @@ void View::mousePressEvent(QMouseEvent *e)
 					break;
 			
 				case Function::Integral:
-					// can't trace integral
-					return;
+					setStatusBar( function->eq[0]->fname().toUpper(), 4 );
+					break;
 			}
 		}
 			
@@ -956,6 +954,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		QPointF ptd( dgr.toPixel( m_crosshairPosition ) );
 		QPoint globalPos = mapToGlobal( (ptd * wm).toPoint() );
 		QCursor::setPos( globalPos );
+		
 		return;
 	}
 	
@@ -1701,12 +1700,6 @@ QPointF View::findMinMaxValue(Function *ufkt, Function::PMode p_mode, ExtremaTyp
 	
 	while ( (x>=dmin && x<=dmax) )
 	{
-		if ( p_mode == Function::Integral && stop_calculating)
-		{
-			p_mode = Function::Derivative1;
-			x=dmax+1;
-			continue;
-		}
 		y = value( ufkt->eq[0], p_mode, x );
 		
 		if ( !isnan(x) && !isnan(y) )
@@ -1857,6 +1850,8 @@ void View::keyPressEvent( QKeyEvent * e )
 									found=true;
 								break;
 							case Function::Integral:
+								if ( (*it)->integral.visible )
+									found = true;
 								break;
 							}
 							if (found)
@@ -2038,6 +2033,7 @@ void View::mnuHide_clicked()
 			ufkt->f2.visible=0;
 			break;
 		case Function::Integral:
+			ufkt->integral.visible=0;
 			break;
 	}
 	MainDlg::self()->functionEditor()->functionsChanged();

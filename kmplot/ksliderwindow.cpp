@@ -1,8 +1,7 @@
 /*
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
-* Copyright (C) 2005  Fredrik Edemar
-*                     f_edemar@linux.se
+* Copyright (C) 2005  Fredrik Edemar <f_edemar@linux.se>
 *
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.

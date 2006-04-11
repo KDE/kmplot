@@ -123,3 +123,7 @@ kmplot/equationedit.h
 /plotter.cpp
 kmplot/plotter.cpp
 kmplot/plotter.h
+kmplot/kmplotIface.h
+kmplot/MainDlgIface.h
+kmplot/parseriface.h
+kmplot/Viewiface.h

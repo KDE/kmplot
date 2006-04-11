@@ -755,10 +755,10 @@ void FunctionEditor::saveParametric()
 	tempFunction.f0.color = m_editor->parametricLineColor->color();
 	tempFunction.f1.color = tempFunction.f2.color = tempFunction.integral.color = tempFunction.f0.color;
 	
-	if ( !tempFunction.eq[0]->setFstr( "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text() ) )
+	if ( !tempFunction.eq[0]->setFstr( 'x' + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text() ) )
 		return;
 	
-	if ( !tempFunction.eq[1]->setFstr( "y" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text() ) )
+	if ( !tempFunction.eq[1]->setFstr( 'y' + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text() ) )
 		return;
 	
 	//save all settings in the function now when we know no errors have appeared
@@ -876,7 +876,7 @@ void FunctionListItem::update()
 	
 	QString text = f->eq[0]->fstr();
 	if ( f->eq[1] )
-		text += ";" + f->eq[1]->fstr();
+		text += ';' + f->eq[1]->fstr();
 // 	text += QString(" id=%1").arg(m_function );
 	setText( text );
 	

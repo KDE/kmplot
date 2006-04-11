@@ -110,7 +110,15 @@ class Equation
 		
 		/// The type of function
 		Type type() const { return m_type; }
-		
+		/**
+		 * \return whether this Equation has different user-entered values to
+		 * the \p other equation.
+		 */
+		bool operator != ( const Equation & other );
+		/**
+		 * Assigns the value in \p other to this equation.
+		 */
+		Equation & operator = ( const Equation & other );
 		/**
 		 * Pointer to the allocated memory for the tokens.
 		 */
@@ -151,15 +159,33 @@ class Equation
 		 * validity of the string are performed.
 		 */
 		bool setFstr( const QString & fstr, bool force = false );
+		/**
+		 * Sets the start position and value of the integral.
+		 */
+		void setIntegralStart( const Value & x, const Value & y );
+		/**
+		 * The initial x-value in calculating integrals.
+		 */
+		Value integralInitialX() const { return m_startX; }
+		/**
+		 * The initial y-value in calculating integrals.
+		 */
+		Value integralInitialY() const { return m_startY; }
+		/**
+		 * Resets lastIntegralPoint  to the initial integral point.
+		 */
+		void resetLastIntegralPoint();
 		
 		QPointF lastIntegralPoint; ///< needed for numeric integration
 		
-		double oldy;
+		double oldy; /// \todo is this value needed?
 		
 	protected:
+		/// \note when adding new member variables, make sure to update operator != and operator =
 		const Type m_type;
 		QString m_fstr;
 		Function * m_parent;
+		Value m_startX, m_startY;
 };
 
 
@@ -238,18 +264,6 @@ class Function
 		 */
 		Value dmax;
 		/**
-		 * Sets the start position and value of the integral.
-		 */
-		void setIntegralStart( const Value & x, const Value & y );
-		/**
-		 * The initial x-value in calculating integrals.
-		 */
-		Value integralInitialX() const { return m_startX; }
-		/**
-		 * The initial y-value in calculating integrals.
-		 */
-		Value integralInitialY() const { return m_startY; }
-		/**
 		 * -1: None (use list)
 		 * else: slider number.
 		 */
@@ -265,7 +279,6 @@ class Function
 		
 	protected:
 		const Type m_type;
-		Value m_startX, m_startY;
 };
 
 

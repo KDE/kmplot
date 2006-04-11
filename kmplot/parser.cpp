@@ -149,6 +149,8 @@ uint Parser::getNewId()
 double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
 {
 // 	kDebug() << k_funcinfo << "str=\""<<str<<"\"\n";
+	m_currentEquation = m_ownEquation;
+	m_currentEquation->setFstr( str, true );
 	
 	stack=new double [STACKSIZE];
 	stkptr=stack;
@@ -376,8 +378,8 @@ bool Parser::isFstrValid( QString str )
 		return false;
 	}
 	
-	m_currentEquation = m_ownEquation;
-	m_currentEquation->setFstr( str, true );
+// 	m_currentEquation = m_ownEquation;
+// 	m_currentEquation->setFstr( str, true );
 	(double) eval( str, p3+2, false );
 	return (m_error == ParseSuccess);
 }
@@ -1309,9 +1311,7 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 	replace( QChar(0x215d), "(5/8)" );
 	replace( QChar(0x215e), "(7/8)" );
 	
-	/// \todo tidy up code for dealing with capital letter H (heaviside step function)
-        
-        //insert '*' when it is needed
+	//insert '*' when it is needed
 	QChar ch;
 	bool function = false;
 	for(int i=pos+1; i+1 <  str->length();i++)
@@ -1363,12 +1363,12 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 		if ( chIsNumeric && ( str->at(i-1).isLetter() || str->at(i-1) == ')' ) || (ch.isLetter() && str->at(i-1)==')') )
 		{
 			insert(i,'*');
-// 					kDebug() << "inserted * before\n";
+// 			kDebug() << "inserted * before\n";
 		}
 		else if( (chIsNumeric || ch == ')') && ( str->at(i+1).isLetter() || str->at(i+1) == '(' ) || (ch.isLetter() && str->at(i+1)=='(' && !function ) )
 		{
 			insert(i+1,'*');
-// 					kDebug() << "inserted * after, function="<<function<<" ch="<<ch<<"\n";
+//  		kDebug() << "inserted * after, function="<<function<<" ch="<<ch<<"\n";
 			i++;
 		}
 	}
@@ -1377,7 +1377,7 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 	str_end = str_end.replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
 	str->truncate(pos);
 	str->append(str_end);
-        //kDebug() << "str:" << str << endl;
+ //	kDebug() << "str:" << str << endl;
 }
 
 

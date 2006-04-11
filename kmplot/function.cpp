@@ -37,7 +37,9 @@
 Value::Value( const QString & expression )
 {
 	m_value = 0.0;
-	if ( ! expression.isEmpty() )
+	if ( expression.isEmpty() )
+		m_expression = "0";
+	else
 		updateExpression( expression );
 }
 
@@ -101,17 +103,12 @@ Equation::~ Equation()
 QString Equation::fname( ) const
 {
 	if ( m_fstr.isEmpty() )
-	{
-// 		kWarning() << k_funcinfo << "m_fstr is empty.\n";
 		return QString();
-	}
 	
 	int pos = m_fstr.indexOf( '(' );
+	
 	if ( pos == -1 )
-	{
-// 		kWarning() << k_funcinfo << "No bracket!\n";
 		return QString();
-	}
 	
 	return m_fstr.left( pos );
 }
@@ -120,27 +117,18 @@ QString Equation::fname( ) const
 QString Equation::fvar( ) const
 {
 	if ( m_fstr.isEmpty() )
-	{
-// 		kWarning() << k_funcinfo << "m_fstr is empty.\n";
 		return QString();
-	}
 	
 	int p1 = m_fstr.indexOf( '(' );
 	if ( p1 == -1 )
-	{
-// 		kWarning() << k_funcinfo << "No bracket!\n";
 		return QString();
-	}
 	
 	int p2 = m_fstr.indexOf( ',' );
 	if ( p2 == -1 )
 		p2 = m_fstr.indexOf( ')' );
 	
 	if ( p2 == -1 )
-	{
-// 		kWarning() << k_funcinfo << "No closing!\n";
 		return QString();
-	}
 	
 	return m_fstr.mid( p1+1, p2-p1-1 );
 }
@@ -149,10 +137,7 @@ QString Equation::fvar( ) const
 QString Equation::fpar( ) const
 {
 	if ( m_fstr.isEmpty() )
-	{
-// 		kWarning() << k_funcinfo << "m_fstr is empty.\n";
 		return QString();
-	}
 	
 	int p1 = m_fstr.indexOf( ',' );
 	if ( p1 == -1 )
@@ -163,10 +148,7 @@ QString Equation::fpar( ) const
 	
 	int p2 = m_fstr.indexOf( ')' );
 	if ( p2 == -1 )
-	{
-// 		kWarning() << k_funcinfo << "No closing bracket!\n";
 		return QString();
-	}
 	
 	return m_fstr.mid( p1+1, p2-p1-1 );
 }
@@ -174,11 +156,10 @@ QString Equation::fpar( ) const
 
 bool Equation::setFstr( const QString & fstr, bool force  )
 {
-// 	kDebug() << k_funcinfo << "fstr: "<<fstr<<endl;
-	
 	if ( force )
 	{
 		m_fstr = fstr;
+		resetLastIntegralPoint();
 		return true;
 	}
 	
@@ -199,13 +180,46 @@ bool Equation::setFstr( const QString & fstr, bool force  )
 // 		kDebug() << k_funcinfo << "BAD\n";
 		return false;
 	}
-	else
-	{
-// 		kDebug() << k_funcinfo << "GoOd :)\n";
-		return true;
-	}
+	
+	resetLastIntegralPoint();
+	return true;
+}
+
+
+void Equation::resetLastIntegralPoint( )
+{
+	lastIntegralPoint = QPointF( m_startX.value(), m_startY.value() );
+}
+
+
+void Equation::setIntegralStart( const Value & x, const Value & y )
+{
+	assert( type() == Cartesian ); // Integral only applicable for cartesians
+	
+	m_startX = x;
+	m_startY = y;
+	
+	resetLastIntegralPoint();
+}
+
+
+bool Equation::operator !=( const Equation & other )
+{
+	return (fstr() != other.fstr()) ||
+			(integralInitialX() != other.integralInitialX()) ||
+			(integralInitialY() != other.integralInitialY());
+}
+
+
+Equation & Equation::operator =( const Equation & other )
+{
+	setFstr( other.fstr() );
+	setIntegralStart( other.integralInitialX(), other.integralInitialY() );
+	
+	return * this;
 }
 //END class Equation
+
 
 
 //BEGIN class Function
@@ -239,9 +253,6 @@ Function::Function( Type type )
 	integral_precision = 1.0;
 	use_slider = -1;
 	
-	m_startX.updateExpression( "0" );
-	m_startY.updateExpression( "0" );
-	
 	// min/max stuff
 	dmin.updateExpression( QString("-")+QChar(960) );
 	dmax.updateExpression( QChar(960) );
@@ -265,12 +276,14 @@ bool Function::copyFrom( const Function & function )
 	bool changed = false;
 	int i = 0;
 #define COPY_AND_CHECK(s) \
+	{ \
 		if ( s != function.s ) \
-{ \
+		{ \
 			s = function.s; \
 			changed = true; \
-} \
-		i++;
+		} \
+	} \
+	i++;
 	
 	COPY_AND_CHECK( f0 );						// 0
 	COPY_AND_CHECK( f1 );						// 1
@@ -279,12 +292,23 @@ bool Function::copyFrom( const Function & function )
 	COPY_AND_CHECK( integral_use_precision );	// 4
 	COPY_AND_CHECK( dmin );						// 5
 	COPY_AND_CHECK( dmax );						// 6
-	COPY_AND_CHECK( m_startX );					// 7
-	COPY_AND_CHECK( m_startY );					// 8
-	COPY_AND_CHECK( integral_precision );		// 9
-	COPY_AND_CHECK( use_slider );				// 10
-	COPY_AND_CHECK( usecustomxmin );			// 11
-	COPY_AND_CHECK( usecustomxmax );			// 12
+	COPY_AND_CHECK( integral_precision );		// 7
+	COPY_AND_CHECK( use_slider );				// 8
+	COPY_AND_CHECK( usecustomxmin );			// 9
+	COPY_AND_CHECK( usecustomxmax );			// 10
+	
+	// handle equations separately
+	for ( int i = 0; i < 2; ++i )
+	{
+		if ( !eq[i] )
+			continue;
+		
+		if ( *eq[i] != *function.eq[i] )
+		{
+			changed = true;
+			*eq[i] = *function.eq[i];
+		}
+	}
 	
 	// handle parameters separately
 	if ( parameters.count() != function.parameters.count() )
@@ -294,6 +318,7 @@ bool Function::copyFrom( const Function & function )
 	}
 	else
 	{
+		/// \todo This code doesn't look like it properly sets parameters from the other function
 		foreach ( Value p, parameters )
 		{
 			if ( !function.parameters.contains( p ) )
@@ -307,16 +332,6 @@ bool Function::copyFrom( const Function & function )
 	
 // 	kDebug() << k_funcinfo << "changed="<<changed<<endl;
 	return changed;
-}
-
-
-void Function::setIntegralStart( const Value & x, const Value & y )
-{
-	assert( type() == Cartesian ); // Integral only applicable for cartesians
-	
-	m_startX = x;
-	m_startY = y;
-	eq[0]->lastIntegralPoint = QPointF( 0.0, 0.0 );
 }
 
 

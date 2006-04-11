@@ -347,8 +347,8 @@ void FunctionEditor::initFromCartesian()
 	
 	m_editor->showIntegral->setChecked( f->integral.visible );
 	m_editor->customPrecision->setChecked( f->integral_use_precision );
-	m_editor->txtInitX->setText( f->integralInitialX().expression() );
-	m_editor->txtInitY->setText( f->integralInitialY().expression() );
+	m_editor->txtInitX->setText( f->eq[0]->integralInitialX().expression() );
+	m_editor->txtInitY->setText( f->eq[0]->integralInitialY().expression() );
 	
 	m_editor->stackedWidget->setCurrentIndex( 0 );
 	m_editor->tabWidget->setCurrentIndex( 0 );
@@ -554,7 +554,7 @@ void FunctionEditor::saveCartesian()
 	tempFunction.f0.color = m_editor->cartesian_f_lineColor->color();
 	
 	tempFunction.integral.visible = m_editor->showIntegral->isChecked();
-	tempFunction.setIntegralStart( m_editor->txtInitX->text(), m_editor->txtInitY->text() );
+	tempFunction.eq[0]->setIntegralStart( m_editor->txtInitX->text(), m_editor->txtInitY->text() );
 
 	tempFunction.integral.color = m_editor->cartesian_F_lineColor->color();
 	tempFunction.integral_use_precision = m_editor->customPrecision->isChecked();
@@ -584,7 +584,6 @@ void FunctionEditor::saveCartesian()
 		return;
 	}
 	
-	QString const old_fstr = f->eq[0]->fstr();
 	if ( ( (!m_parameters.isEmpty() &&
 				m_editor->cartesianParametersList->isChecked() ) ||
 				m_editor->cartesianParameterSlider->isChecked() ) &&
@@ -593,12 +592,11 @@ void FunctionEditor::saveCartesian()
 		fixCartesianArguments( & f_str ); //adding an extra argument for the parameter value
 	}
 	
-	if ( !f->eq[0]->setFstr( f_str ) )
+	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
-	changed |= (old_fstr != f->eq[0]->fstr() );
 	if ( !changed )
 		return;
 
@@ -677,15 +675,12 @@ void FunctionEditor::savePolar()
 	tempFunction.f0.lineWidth = m_editor->polarLineWidth->value();
 	tempFunction.f0.color = m_editor->polarLineColor->color();
 	tempFunction.use_slider = -1;
-        
 	
-	QString old_fstr = f->eq[0]->fstr();
-	if ( !f->eq[0]->setFstr( f_str ) )
+	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
-	changed |= (old_fstr != f->eq[0]->fstr());
 	if ( !changed )
 		return;
 
@@ -760,24 +755,14 @@ void FunctionEditor::saveParametric()
 	tempFunction.f0.color = m_editor->parametricLineColor->color();
 	tempFunction.f1.color = tempFunction.f2.color = tempFunction.integral.color = tempFunction.f0.color;
 	
-	QString old_fstr = f->eq[0]->fstr();
-	if ( !f->eq[0]->setFstr( "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text() ) )
+	if ( !tempFunction.eq[0]->setFstr( "x" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text() ) )
+		return;
+	
+	if ( !tempFunction.eq[1]->setFstr( "y" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text() ) )
 		return;
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
-	changed |= (old_fstr != f->eq[0]->fstr());
-	
-	
-	// now for the y function
-	
-	old_fstr = f->eq[1]->fstr();
-	if ( !f->eq[1]->setFstr( "y" + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text() ) )
-		return;
-    
-	//save all settings in the function now when we now no errors have appeared
-	changed |= (old_fstr != f->eq[1]->fstr());
-	
 	if ( !changed )
 		return;
 	

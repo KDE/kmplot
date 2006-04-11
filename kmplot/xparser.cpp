@@ -259,19 +259,33 @@ double XParser::integral( Equation * eq, double x, double h )
 	
 	// we use the 2nd degree Newton-Cotes formula (Simpson's rule)
 	
+	// see if the initial integral point in the function is closer to our
+	// required x value than the last one
+	if ( qAbs( eq->integralInitialX().value() - x ) < qAbs( eq->lastIntegralPoint.x() - x ) )
+		eq->resetLastIntegralPoint();
+	
 	double a0 = eq->lastIntegralPoint.x();
 	double y = eq->lastIntegralPoint.y();
 	
-	int intervals = qRound( qAbs(x-a0)/h );
+	if ( a0 == x )
+		return y;
+	
+	int intervals = qMax( qRound( qAbs(x-a0)/h ), 1 );
 	double dx = (x-a0) / intervals;
+	
+	double f_a = fkt( eq, a0 );
 	
 	for ( int i = 0; i < intervals; ++i )
 	{
-		double a = a0 + (dx*i);
-		double m = a + (dx/2);
-		double b = a + dx;
+		double b = a0 + (dx*(i+1));
+		double m = b - (dx/2);
 		
-		y += (dx/6.0)*( fkt( eq, a ) + (4.0 * fkt( eq, m )) + fkt( eq, b ) );
+		double f_b = fkt( eq, b );
+		double f_m = fkt( eq, m );
+		
+		y += (dx / 6.0)*(f_a + (4.0 * f_m) + f_b);
+		
+		f_a = f_b;
 	}
 	
 	eq->lastIntegralPoint = QPointF( x, y );
@@ -544,7 +558,7 @@ bool XParser::setFunctionStartValue(const QString &x, const QString &y, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->setIntegralStart( x, y );
+	m_ufkt[id]->eq[0]->setIntegralStart( x, y );
 	m_modified = true;
 	return true;
 }
@@ -553,7 +567,7 @@ QString XParser::functionStartXValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->integralInitialX().expression();
+	return m_ufkt[id]->eq[0]->integralInitialX().expression();
 }
 
 
@@ -561,7 +575,7 @@ QString XParser::functionStartYValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->integralInitialY().expression();
+	return m_ufkt[id]->eq[0]->integralInitialY().expression();
 }
 
 QStringList XParser::functionParameterList(uint id)
@@ -651,7 +665,7 @@ int XParser::addFunction(const QString &f_str0, const QString &_f_str1)
 bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider)
 {
 	QString fstr[2] = { fstr_const0, fstr_const1 };
-	Function::Type type;
+	Function::Type type = Function::Cartesian;
 	for ( unsigned i = 0; i < 2; ++i )
 	{
 		if ( fstr[i].isEmpty() )
@@ -700,7 +714,7 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	added_function->dmax.updateExpression( str_dmax );
 	added_function->usecustomxmax = !str_dmax.isEmpty();
 	
-	added_function->setIntegralStart( str_startx, str_starty );
+	added_function->eq[0]->setIntegralStart( str_startx, str_starty );
 	
 	added_function->integral_precision = integral_precision;
 	added_function->f0.color = color;

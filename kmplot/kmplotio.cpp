@@ -201,8 +201,8 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 	tag.setAttribute( "integral-width", function->integral.lineWidth );
 	tag.setAttribute( "integral-use-precision", function->integral_use_precision );
 	tag.setAttribute( "integral-precision", function->integral_precision );
-	tag.setAttribute( "integral-startx", function->integralInitialX().expression() );
-	tag.setAttribute( "integral-starty", function->integralInitialY().expression() );
+	tag.setAttribute( "integral-startx", function->eq[0]->integralInitialX().expression() );
+	tag.setAttribute( "integral-starty", function->eq[0]->integralInitialY().expression() );
 	
 	tag.setAttribute( "type", Function::typeToString( function->type() ) );
 	for ( unsigned i=0; i<2; ++i )
@@ -517,7 +517,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	ufkt.integral.lineWidth = n.attribute( "integral-width" ).toDouble() * lengthScaler;
 	ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
 	ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
-	ufkt.setIntegralStart( n.attribute( "integral-startx" ), n.attribute( "integral-starty" ) );
+	ufkt.eq[0]->setIntegralStart( n.attribute( "integral-startx" ), n.attribute( "integral-starty" ) );
 
 	QDomElement minElement = n.namedItem( "arg-min" ).toElement();
 	QString expression = minElement.text();

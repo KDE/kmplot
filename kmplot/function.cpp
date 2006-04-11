@@ -194,8 +194,6 @@ void Equation::resetLastIntegralPoint( )
 
 void Equation::setIntegralStart( const Value & x, const Value & y )
 {
-	assert( type() == Cartesian ); // Integral only applicable for cartesians
-	
 	m_startX = x;
 	m_startY = y;
 	

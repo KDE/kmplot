@@ -47,13 +47,13 @@ double Parser::m_radiansPerAngleUnit = 0;
 /// List of predefined functions.
 Parser::Mfkt Parser::mfkttab[ FANZ ]=
 {
-	{"tanh", ltanh},		// Tangens hyperbolicus
+	{"tanh", ltanh},	// Tangens hyperbolicus
 	{"tan", ltan}, 		// Tangens
 	{"sqrt", sqrt},		// Square root
 	{"sqr", sqr}, 		// Square
 	{"sinh", lsinh}, 	// Sinus hyperbolicus
 	{"sin", lsin}, 		// Sinus
-	{"sign", sign},         // Signum
+	{"sign", sign},		// Signum
 	{"H", heaviside},	// Heaviside step function
 	{"sech", sech},		// Secans hyperbolicus
 	{"sec", sec},		// Secans
@@ -68,20 +68,23 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 	{"cos", lcos}, 		// Cosinus
 	{"artanh", artanh}, 	// Area-tangens hyperbolicus = inverse of tanh
 	{"arsinh", arsinh}, 	// Area-sinus hyperbolicus = inverse of sinh
-	{"arsech", arsech},	// Area-secans hyperbolicus = invers of sech
-        {"arctanh", artanh},     // The same as artanh
-        {"arcsinh", arsinh},     // The same as arsinh
-        {"arccosh", arcosh},     // The same as arcosh
-	{"arctan", arctan},	// Arcus tangens = inverse of tan
+	{"arsech", arsech},		// Area-secans hyperbolicus = invers of sech
+	{"arctanh", artanh},	// The same as artanh
+	{"arcsinh", arsinh},	// The same as arsinh
+	{"arccosh", arcosh},	// The same as arcosh
+	{"arctan", arctan},		// Arcus tangens = inverse of tan
 	{"arcsin", arcsin}, 	// Arcus sinus = inverse of sin
-	{"arcsec", arcsec},	// Arcus secans = inverse of sec
-	{"arcoth", arcoth},	// Area-co-tangens hyperbolicus = inverse of coth
+	{"arcsec", arcsec},		// Arcus secans = inverse of sec
+	{"arcoth", arcoth},		// Area-co-tangens hyperbolicus = inverse of coth
 	{"arcosh", arcosh}, 	// Area-cosinus hyperbolicus = inverse of cosh
 	{"arcosech", arcosech},	// Area-co-secans hyperbolicus = inverse of cosech
-	{"arccot", arccot},	// Arcus co-tangens = inverse of cotan
+	{"arccot", arccot},		// Arcus co-tangens = inverse of cotan
 	{"arccosec", arccosec},	// Arcus co-secans = inverse of cosec
 	{"arccos", arccos}, 	// Arcus cosinus = inverse of cos
-	{"abs", fabs}		// Absolute value
+	{"abs", fabs},			// Absolute value
+	{"floor", floor},		// round down to nearest integer
+	{"ceil", ceil},			// round up to nearest integer
+	{"round", round},		// round to nearest integer
 };
 
 

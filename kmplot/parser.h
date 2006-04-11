@@ -63,7 +63,7 @@ class Parser;
 #define	YWERT	13       // get y value
 #define SQRT	14		// take square root
 
-#define	FANZ	35	// number of mathematical functions in mfkttab[]
+#define	FANZ	38	// number of mathematical functions in mfkttab[]
 //@}
 
 //@{

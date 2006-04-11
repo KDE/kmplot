@@ -63,7 +63,8 @@ class Parser;
 #define	YWERT	13       // get y value
 #define SQRT	14		// take square root
 
-#define	FANZ	38	// number of mathematical functions in mfkttab[]
+const int legendreCount = 7; // number of legendre polynomials we allow for
+const int FANZ = 38+legendreCount;	// number of mathematical functions in mfkttab[]
 //@}
 
 //@{
@@ -102,6 +103,14 @@ double ltanh(double x);
 double arccos(double x);
 double arcsin(double x);
 double arctan(double x);
+
+double legendre0(double x);
+double legendre1(double x);
+double legendre2(double x);
+double legendre3(double x);
+double legendre4(double x);
+double legendre5(double x);
+double legendre6(double x);
 
 class Constant
 {
@@ -191,7 +200,7 @@ class Constants
 		/// adds the constant to the internal list (overwriting any previous constant with the same name)
 		void add( Constant c );
 		/// @return whether the constant with the given name exists
-		bool have( QChar name );
+		bool have( QChar name ) const;
 		/// @return a unique (i.e. unused) constant name
 		QChar generateUniqueName();
 		/// @return a copy of the list of constants

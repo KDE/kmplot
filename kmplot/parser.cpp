@@ -85,6 +85,13 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 	{"floor", floor},		// round down to nearest integer
 	{"ceil", ceil},			// round up to nearest integer
 	{"round", round},		// round to nearest integer
+	{"P_0", legendre0},		// lengedre polynomial (n=0)
+	{"P_1", legendre1},		// lengedre polynomial (n=1)
+	{"P_2", legendre2},		// lengedre polynomial (n=2)
+	{"P_3", legendre3},		// lengedre polynomial (n=3)
+	{"P_4", legendre4},		// lengedre polynomial (n=4)
+	{"P_5", legendre5},		// lengedre polynomial (n=5)
+	{"P_6", legendre6},		// lengedre polynomial (n=6)
 };
 
 
@@ -174,7 +181,7 @@ double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
 	}
 	for ( int i = evalPosOffset; i < str.length(); i++ )
 	{
-		if ( constants()->isValidName( str[i] ) )
+		if ( constants()->have( str[i] ) )
 		{
 			m_error = UserDefinedConstantInExpression;
 			m_errorPosition = m_sanitizer.realPos( i );
@@ -612,7 +619,7 @@ void Parser::primary()
 	}
         
 	// A constant
-	if ( (m_eval.length()>m_evalPos) && constants()->isValidName( m_eval[m_evalPos] ) )
+	if ( (m_eval.length()>m_evalPos) && constants()->have( m_eval[m_evalPos] ) )
 	{
 		QVector<Constant> constants = m_constants->all();
 		foreach ( Constant c, constants )
@@ -1106,6 +1113,41 @@ double arctan(double x)
         return atan(x)* 1/Parser::radiansPerAngleUnit();
 }
 
+double legendre0( double )
+{
+	return 1.0;
+}
+
+double legendre1( double x )
+{
+	return x;
+}
+
+double legendre2( double x )
+{
+	return (3*x*x-1)/2;
+}
+
+double legendre3( double x )
+{
+	return (5*x*x*x - 3*x)/2;
+}
+
+double legendre4( double x )
+{
+	return (35*x*x*x*x - 30*x*x +3)/8;
+}
+
+double legendre5( double x )
+{
+	return (63*x*x*x*x*x - 70*x*x*x + 15*x)/8;
+}
+
+double legendre6( double x )
+{
+	return (231*x*x*x*x*x*x - 315*x*x*x*x + 105*x*x - 5)/16;
+}
+
 
 //BEGIN class Constants
 Constants::Constants( Parser * parser )
@@ -1116,7 +1158,7 @@ Constants::Constants( Parser * parser )
 
 QVector< Constant >::iterator Constants::find( QChar name )
 {
-	QVector<Constant>::iterator it;
+	QVector<Constant>::Iterator it;
 	for ( it = m_constants.begin(); it != m_constants.end(); ++it )
 	{
 		if ( it->constant == name )
@@ -1126,9 +1168,14 @@ QVector< Constant >::iterator Constants::find( QChar name )
 }
 
 
-bool Constants::have( QChar name )
+bool Constants::have( QChar name ) const
 {
-	return ( find( name ) != m_constants.end() );
+	for ( QVector<Constant>::ConstIterator it = m_constants.begin(); it != m_constants.end(); ++it )
+	{
+		if ( it->constant == name )
+			return true;
+	}
+	return false;
 }
 
 
@@ -1319,18 +1366,26 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 	for(int i=pos+1; i+1 <  str->length();i++)
 	{
 		ch = str->at(i);
-		if ( str->at(i+1)=='(' && (ch.category()==QChar::Letter_Lowercase || ch=='H') )
+		
+		bool chIsFunctionLetter = false;
+		chIsFunctionLetter |= ch.category()==QChar::Letter_Lowercase;
+		chIsFunctionLetter |= (ch == 'H');
+		chIsFunctionLetter |= (ch == 'P') && (str->at(i+1) == QChar('_'));
+		chIsFunctionLetter |= (ch == '_' );
+		chIsFunctionLetter |= (ch.isNumber() && (str->at(i-1) == QChar('_')));
+		
+		if ( str->at(i+1)=='(' && chIsFunctionLetter )
 		{
 			// Work backwards to build up the full function name
 			QString str_function(ch);
 			int n=i-1;
-			while (n>0 && str->at(n).category() == QChar::Letter_Lowercase )
+			while (n>0 && ((str->at(n).category() == QChar::Letter_Lowercase) || (str->at(n) == QChar('_')) || (str->at(n) == QChar('P')) && (str->at(n+1) == QChar('_'))) )
 			{
 				str_function.prepend(str->at(n));
 				--n;
 			}
 				
-			for ( unsigned func = 0; func < FANZ; ++func )
+			for ( int func = 0; func < FANZ; ++func )
 			{
 				if ( str_function == QString( m_parser->mfkttab[func].mfstr ) )
 				{
@@ -1358,9 +1413,8 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 		}
 		else  if (function)
 			function = false;
-                
-		// either a number or a likely constant (H is reserved for the Heaviside step function)
-		bool chIsNumeric = ch.isNumber() || m_parser->m_constants->isValidName( ch );
+		
+		bool chIsNumeric = ((ch.isNumber() && (str->at(i-1) != QChar('_'))) || m_parser->m_constants->have( ch ));
 				
 		if ( chIsNumeric && ( str->at(i-1).isLetter() || str->at(i-1) == ')' ) || (ch.isLetter() && str->at(i-1)==')') )
 		{
@@ -1370,7 +1424,7 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 		else if( (chIsNumeric || ch == ')') && ( str->at(i+1).isLetter() || str->at(i+1) == '(' ) || (ch.isLetter() && str->at(i+1)=='(' && !function ) )
 		{
 			insert(i+1,'*');
-//  		kDebug() << "inserted * after, function="<<function<<" ch="<<ch<<"\n";
+//  			kDebug() << "inserted * after, function="<<function<<" ch="<<ch<<"\n";
 			i++;
 		}
 	}

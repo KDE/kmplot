@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
-    <height>670</height>
+    <width>510</width>
+    <height>647</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -849,7 +849,7 @@ Example: loop(angle)=ln(angle)</string>
        <item>
         <widget class="QGroupBox" name="groupBox_13" >
          <property name="title" >
-          <string>Custom plot range</string>
+          <string>Plot Range</string>
          </property>
          <layout class="QGridLayout" >
           <property name="margin" >
@@ -858,55 +858,37 @@ Example: loop(angle)=ln(angle)</string>
           <property name="spacing" >
            <number>6</number>
           </property>
-          <item row="0" column="0" >
-           <widget class="QCheckBox" name="polarCustomMin" >
-            <property name="toolTip" >
-             <string>Customize the plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Check this button and enter the plot minimum range boundary below.</string>
-            </property>
-            <property name="text" >
-             <string>Min:</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0" >
-           <widget class="QCheckBox" name="polarCustomMax" >
-            <property name="toolTip" >
-             <string>Customize the maximum plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Check this button and enter the plot maximum range boundary below.</string>
-            </property>
+           <widget class="QLabel" name="label_4" >
             <property name="text" >
              <string>Max:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="EquationEdit" name="polarMin" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
-            <property name="toolTip" >
-             <string>lower boundary of the plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_3" >
+            <property name="text" >
+             <string>Min:</string>
             </property>
            </widget>
           </item>
           <item row="1" column="1" >
            <widget class="EquationEdit" name="polarMax" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
             <property name="toolTip" >
              <string>upper boundary of the plot range</string>
             </property>
             <property name="whatsThis" >
              <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="EquationEdit" name="polarMin" >
+            <property name="toolTip" >
+             <string>lower boundary of the plot range</string>
+            </property>
+            <property name="whatsThis" >
+             <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
             </property>
            </widget>
           </item>
@@ -951,6 +933,13 @@ Example: loop(angle)=ln(angle)</string>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
    <class>FunctionListWidget</class>
    <extends>QListWidget</extends>
    <header>functioneditor.h</header>
@@ -958,9 +947,9 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
+   <class>KDoubleNumInput</class>
+   <extends></extends>
+   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -972,9 +961,9 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -985,48 +974,9 @@ Example: loop(angle)=ln(angle)</string>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>polarCustomMin</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>polarMin</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>79</x>
-     <y>325</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>345</x>
-     <y>325</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>polarCustomMax</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>polarMax</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>79</x>
-     <y>356</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>345</x>
-     <y>356</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>showDerivative1</sender>
    <signal>toggled(bool)</signal>

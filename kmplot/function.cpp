@@ -232,15 +232,27 @@ Function::Function( Type type )
 	{
 		case Cartesian:
 			eq[0] = new Equation( Equation::Cartesian, this );
+			dmin.updateExpression( QString("-")+QChar(960) );
+			dmax.updateExpression( QChar(960) );
+			usecustomxmin = false;
+			usecustomxmax = false;
 			break;
 			
 		case Polar:
 			eq[0] = new Equation( Equation::Polar, this );
+			dmin.updateExpression( QChar('0') );
+			dmax.updateExpression( QString(QChar('2')) + QChar(960) );
+			usecustomxmin = true;
+			usecustomxmax = true;
 			break;
 			
 		case Parametric:
 			eq[0] = new Equation( Equation::ParametricX, this );
 			eq[1] = new Equation( Equation::ParametricY, this );
+			dmin.updateExpression( QString("-")+QChar(960) );
+			dmax.updateExpression( QChar(960) );
+			usecustomxmin = true;
+			usecustomxmax = true;
 			break;
 	}
 	
@@ -249,15 +261,8 @@ Function::Function( Type type )
 	integral_use_precision = false;
 	
 	k = 0;
-// 	integral_precision = Settings::stepWidth();
 	integral_precision = 1.0;
 	use_slider = -1;
-	
-	// min/max stuff
-	dmin.updateExpression( QString("-")+QChar(960) );
-	dmax.updateExpression( QChar(960) );
-	usecustomxmin = false;
-	usecustomxmax = false;
 }
 
 

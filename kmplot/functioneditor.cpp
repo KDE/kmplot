@@ -365,9 +365,7 @@ void FunctionEditor::initFromPolar()
 	QString function = f->eq[0]->fstr();
 	function = function.mid( 1 );
 	m_editor->polarEquation->setText( function );
-	m_editor->polarCustomMin->setChecked( f->usecustomxmin );
 	m_editor->polarMin->setText( f->dmin.expression() );
-	m_editor->polarCustomMax->setChecked( f->usecustomxmax );
 	m_editor->polarMax->setText( f->dmax.expression() );
 	m_editor->polar_f0->init( f->f0 );
 	
@@ -635,14 +633,12 @@ void FunctionEditor::savePolar()
 	XParser::self()->fixFunctionName( f_str, Equation::Polar, f->id );
 	Function tempFunction( Function::Polar );  // all settings are saved here until we know that no errors have appeared
 	
-	tempFunction.usecustomxmin = m_editor->polarCustomMin->isChecked();
 	bool ok = tempFunction.dmin.updateExpression( m_editor->polarMin->text() );
-	if ( tempFunction.usecustomxmin && !ok )
+	if ( !ok )
 		return;
 	
-	tempFunction.usecustomxmax = m_editor->polarCustomMax->isChecked();
 	ok = tempFunction.dmax.updateExpression( m_editor->polarMax->text() );
-	if ( tempFunction.usecustomxmax && !ok )
+	if ( !ok )
 		return;
 	
 	if ( tempFunction.usecustomxmin && tempFunction.usecustomxmax && tempFunction.dmin.value() >= tempFunction.dmax.value() )

@@ -58,6 +58,29 @@ double View::xmax = 0;
 
 View::View(bool const r, bool &mo, KPopupMenu *p, QWidget* parent, const char* name ) : DCOPObject("View"), QWidget( parent, name , WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
 {
+	csmode = csparam = -1;
+	cstype = 0;
+	areaDraw = false;
+	areaUfkt = 0;
+	areaPMode = 0;
+	areaMin = areaMax = 0.0;
+	w = h = 0;
+	s = 0.0;
+	fcx = 0;
+	fcy = 0;
+	csxpos = 0.0;
+	csypos = 0.0;
+	rootflg = false;
+	tlgx = tlgy = drskalx = drskaly = 0.0;;
+	stepWidth = 0.0;
+	ymin = 0.0;;
+	ymax = 0.0;;
+	m_printHeaderTable = false;
+	stop_calculating = false;
+	m_minmax = 0;
+	isDrawing = false;
+	m_popupmenushown = 0;
+	
 	m_parser = new XParser(mo);
 	init();
 	csflg=0;
@@ -266,7 +289,10 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 					ufkt->setParameter( ufkt->parameters[k].value );
 			}
 			else
-				ufkt->setParameter( sliders[ ufkt->use_slider ]->slider->value() );
+			{
+				if ( KSliderWindow * sw = sliders[ ufkt->use_slider ] )
+					ufkt->setParameter( sw->slider->value() );
+			}
 
 			mflg=2;
 			if ( p_mode == 3)
@@ -864,7 +890,10 @@ void View::mousePressEvent(QMouseEvent *e)
 						it->setParameter(it->parameters[k].value);
 				}
 				else
-					it->setParameter(sliders[ it->use_slider ]->slider->value() );
+				{
+					if ( KSliderWindow * sw = sliders[ it->use_slider ] )
+						it->setParameter( sw->slider->value() );
+				}
 
 				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.contains('t')==1) //parametric plot
 				{
@@ -977,7 +1006,10 @@ void View::mousePressEvent(QMouseEvent *e)
 					it->setParameter( it->parameters[k].value );
 			}
 			else
-				it->setParameter(sliders[ it->use_slider ]->slider->value() );
+			{
+				if ( KSliderWindow * sw = sliders[ it->use_slider ] )
+					it->setParameter( sw->slider->value() );
+			}
 			if(fabs(csypos-m_parser->fkt(it, csxpos))< g && it->f_mode)
 			{
 				csmode=it->id;
@@ -1665,10 +1697,10 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		forward_direction = false;
 	else
 		forward_direction = true;
-
+	
 	int intervals = qRound((dmax-dmin)/dx);
 	int at = 0;
-
+	
 	while ((at<=intervals) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
 	{
 		if ( p_mode != 3 )

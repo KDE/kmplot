@@ -377,9 +377,11 @@ void KMinMax::list_highlighted(QListBoxItem* item)
                         if ( it->parameters.count() == 0)
                                 cmdParameter->hide();
                         else
-                                cmdParameter->show();
-                        if (parameter.isEmpty() )
-                                parameter = it->parameters.first().expression;
+						{
+							cmdParameter->show();
+							if (parameter.isEmpty() )
+								parameter = it->parameters.first().expression;
+						}
                         break;
                 }
         }

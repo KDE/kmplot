@@ -46,6 +46,14 @@ class PlotStyleWidget : public QGroupBox, public Ui_PlotStyleWidet
 		 * control that aspect of a Plot).
 		 */
 		Plot plot( bool visible );
+		/**
+		 * \return the currently selected style.
+		 */
+		Qt::PenStyle style() const;
+		/**
+		 * Sets the currently selected style.
+		 */
+		void setStyle( Qt::PenStyle style );
 };
 
 #endif

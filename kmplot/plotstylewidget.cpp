@@ -24,11 +24,19 @@
 #include "function.h"
 #include "plotstylewidget.h"
 
+#include <klocale.h>
+
 //BEGIN class PlotStyleWidget
 PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	: QGroupBox( parent )
 {
 	setupUi(this);
+	
+	lineStyle->addItem( i18n("Solid"), Qt::SolidLine );
+	lineStyle->addItem( i18n("Dash"), Qt::DashLine );
+	lineStyle->addItem( i18n("Dot"), Qt::DotLine );
+	lineStyle->addItem( i18n("Dash Dot"), Qt::DashDotLine );
+	lineStyle->addItem( i18n("Dash Dot Dot"), Qt::DashDotDotLine );
 }
 
 
@@ -45,7 +53,20 @@ Plot PlotStyleWidget::plot( bool visible )
 	p.color = color->color();
 	p.lineWidth = lineWidth->value();
 	p.visible = visible;
+	p.style = style();
 	return p;
+}
+
+
+Qt::PenStyle PlotStyleWidget::style( ) const
+{
+	return (Qt::PenStyle)lineStyle->itemData( lineStyle->currentIndex() ).toInt();
+}
+
+
+void PlotStyleWidget::setStyle( Qt::PenStyle style )
+{
+	lineStyle->setCurrentIndex( lineStyle->findData( style ) );
 }
 //END class PlotStyleWidget
 

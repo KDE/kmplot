@@ -496,8 +496,21 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 }
 
 
-bool View::penShouldDraw( double _totalLength, Function * function, Function::PMode pmode )
+// does for real numbers what "%" does for integers
+double realModulo( double x, double mod )
 {
+	x = qAbs(x);
+	mod = qAbs(mod);
+	return x - floor(x/mod)*mod;
+}
+
+
+bool View::penShouldDraw( double length, Function * function, Function::PMode pmode )
+{
+	// Always use a solid line when translating the view
+	if ( m_zoomMode == Translating )
+		return true;
+	
 	Qt::PenStyle style = Qt::SolidLine;
 	switch ( pmode )
 	{
@@ -518,11 +531,11 @@ bool View::penShouldDraw( double _totalLength, Function * function, Function::PM
 			break;
 	}
 	
-	int sep = 7;	// separation distance between dots or dashes
-	int dash = 9;	// length of a dash
-	int dot = 3;	// length of a dot
-	
-	int totalLength = int( qAbs( _totalLength ) );
+	double sepBig = 8.0;	// separation distance between dashes
+	double sepMid = 7.0;	// separation between a dash and a dot
+	double sepSmall = 6.5;	// separation distance between dots
+	double dash = 9.0;		// length of a dash
+	double dot = 3.5;		// length of a dot
 	
 	switch ( style )
 	{
@@ -534,37 +547,37 @@ bool View::penShouldDraw( double _totalLength, Function * function, Function::PM
 			return true;
 			
 		case Qt::DashLine:
-			return (totalLength % (dash + sep)) < dash;
+			return realModulo( length, dash + sepBig ) < dash;
 			
 		case Qt::DotLine:
-			return (totalLength % (dot + sep)) < dot;
+			return realModulo( length, dot + sepSmall ) < dot;
 			
 		case Qt::DashDotLine:
 		{
-			int at = totalLength % (dash + sep + dot + sep);
+			double at = realModulo( length, dash + sepMid + dot + sepMid );
 			
 			if ( at < dash )
 				return true;
-			if ( at < (dash + sep) )
+			if ( at < (dash + sepMid) )
 				return false;
-			if ( at < (dash + sep + dot) )
+			if ( at < (dash + sepMid + dot) )
 				return true;
 			return false;
 		}
 		
 		case Qt::DashDotDotLine:
 		{
-			int at = totalLength % (dash + sep + dot + sep + dot + sep);
+			double at = realModulo( length, dash + sepMid + dot + sepSmall + dot + sepMid );
 			
 			if ( at < dash )
 				return true;
-			if ( at < (dash + sep) )
+			if ( at < (dash + sepMid) )
 				return false;
-			if ( at < (dash + sep + dot) )
+			if ( at < (dash + sepMid + dot) )
 				return true;
-			if ( at < (dash + sep + dot) )
+			if ( at < (dash + sepMid + dot + sepSmall) )
 				return false;
-			if ( at < (dash + sep + dot + dot) )
+			if ( at < (dash + sepMid + dot + sepSmall + dot) )
 				return true;
 			return false;
 		}
@@ -585,8 +598,16 @@ bool View::penShouldDraw( double _totalLength, Function * function, Function::PM
 QPen View::penForPlot( Function *ufkt, Function::PMode p_mode, bool antialias ) const
 {
 	QPen pen;
-	pen.setCapStyle( Qt::RoundCap );
-// 	pen.setStyle( Qt::DashLine );
+	if ( m_zoomMode == Translating )
+	{
+		// plot style is always a solid line when translating the view
+		pen.setCapStyle( Qt::FlatCap );
+	}
+	else
+	{
+		pen.setCapStyle( Qt::RoundCap );
+		// (the style will be set back to FlatCap if the plot style is a solid line)
+	}
 	
 	double lineWidth_mm = 0.0;
 	

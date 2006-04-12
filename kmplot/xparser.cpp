@@ -244,36 +244,36 @@ double XParser::euler_method(const double x, const QValueVector<Ufkt>::iterator 
 
 QRgb XParser::defaultColor(int function)
 {
-        switch ( function )
+	switch ( function%10 )
         {
-                case 1:
+                case 0:
                         return Settings::color0().rgb();
                         break;
-                case 2:
+                case 1:
                         return Settings::color1().rgb();
                         break;
-                case 3:
+                case 2:
                         return Settings::color2().rgb();
                         break;
-                case 4:
+                case 3:
                         return Settings::color3().rgb();
                         break;
-                case 5:
+                case 4:
                         return Settings::color4().rgb();
                         break;
-                case 6:
+                case 5:
                         return Settings::color5().rgb();
                         break;
-                case 7:
+                case 6:
                         return Settings::color6().rgb();
                         break;
-                case 8:
+                case 7:
                         return Settings::color7().rgb();
                         break;
-                case 9:
+                case 8:
                         return Settings::color8().rgb();
                         break;
-                case 10:
+                case 9:
                         return Settings::color9().rgb();
                         break;
                 default:

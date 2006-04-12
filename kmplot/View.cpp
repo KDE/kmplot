@@ -245,13 +245,17 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 	{
 	  if(fktmode=='r')
 	    dmin=0.;
+	  else if ( fktmode == 'x' )
+		  dmin = -M_PI;
 	  else
 	    dmin = xmin;
 	}
 	if(!ufkt->usecustomxmax)
 	{
 	  if(fktmode=='r')
-	    dmax=2*M_PI;
+		  dmax=2*M_PI;
+	  else if ( fktmode == 'x' )
+		  dmax = M_PI;
 	  else
 	    dmax = xmax;
 	}

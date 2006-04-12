@@ -1000,6 +1000,19 @@ int Parser::parserError(bool showMessageBox)
         return err;
 }
 
+
+
+// static
+QString Parser::number( double value )
+{
+       QString str = QString::number( value, 'g', 6 );
+       str.replace( 'e', "*10^" );
+//     kDebug() << "returning str="<<str<<endl;
+       return str;
+}
+
+
+
 double ln(double x)
 {
         return log(x);

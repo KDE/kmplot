@@ -179,6 +179,13 @@ public:
 	Parser();
 	~Parser();
 	
+	/**
+       * @return A string that is safe to use as a number in a string to be
+       * parsed. This is needed as e.g. "1.2e-3" is not allowed (e is a
+       * constant) - so cannot use the QString::number.
+       */
+      static QString number( double value );
+	
         /// Returns the result of a calculation
         double fkt(Ufkt *it, double const x);
         double fkt(uint id, double const x);

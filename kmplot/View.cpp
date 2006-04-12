@@ -792,17 +792,13 @@ void View::mousePressEvent(QMouseEvent *e)
 
 		if ( diffx < 0.00001 || diffy < 0.00001)
 			return;
-		QString str_tmp;
-		str_tmp.setNum(real-double(diffx));
-		Settings::setXMin(str_tmp);
-		str_tmp.setNum(real+double(diffx));
-		Settings::setXMax(str_tmp);
+		
+		Settings::setXMin( Parser::number( real-double(diffx) ) );
+		Settings::setXMax( Parser::number( real+double(diffx) ) );
 
 		real = dgr.Transy(DC.xFormDev(e->pos()).y());
-		str_tmp.setNum(real-double(diffy));
-		Settings::setYMin(str_tmp);
-		str_tmp.setNum(real+double(diffy));
-		Settings::setYMax(str_tmp);
+		Settings::setYMin( Parser::number( real-double(diffy) ) );
+		Settings::setYMax( Parser::number( real+double(diffy) ) );
 
 		Settings::setXRange(4); //custom x-range
 		Settings::setYRange(4); //custom y-range
@@ -823,17 +819,13 @@ void View::mousePressEvent(QMouseEvent *e)
 
 		if ( diffx > 1000000 || diffy > 1000000)
 			return;
-		QString str_tmp;
-		str_tmp.setNum(real-double(diffx));
-		Settings::setXMin(str_tmp);
-		str_tmp.setNum(real+double(diffx));
-		Settings::setXMax(str_tmp);
+		
+		Settings::setXMin( Parser::number( real-double(diffx) ) );
+		Settings::setXMax( Parser::number( real+double(diffx) ) );
 
 		real = dgr.Transy(DC.xFormDev(e->pos()).y());
-		str_tmp.setNum(real-double(diffy));
-		Settings::setYMin(str_tmp);
-		str_tmp.setNum(real+double(diffy));
-		Settings::setYMax(str_tmp);
+		Settings::setYMin( Parser::number( real-double(diffy) ) );
+		Settings::setYMax( Parser::number( real+double(diffy) ) );
 
 		Settings::setXRange(4); //custom x-range
 		Settings::setYRange(4); //custom y-range
@@ -848,20 +840,16 @@ void View::mousePressEvent(QMouseEvent *e)
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
 		double real = dgr.Transx(DC.xFormDev(e->pos()).x());
-		QString str_tmp;
+		
 		double const diffx = (xmax-xmin)/2;
 		double const diffy = (ymax-ymin)/2;
 
-		str_tmp.setNum(real-double(diffx));
-		Settings::setXMin(str_tmp);
-		str_tmp.setNum(real+double(diffx));
-		Settings::setXMax(str_tmp);
+		Settings::setXMin( Parser::number( real-double(diffx) ) );
+		Settings::setXMax( Parser::number( real+double(diffx) ) );
 
 		real = dgr.Transy(DC.xFormDev(e->pos()).y());
-		str_tmp.setNum(real-double(diffy));
-		Settings::setYMin(str_tmp);
-		str_tmp.setNum(real+double(diffy));
-		Settings::setYMax(str_tmp);
+		Settings::setYMin( Parser::number( real-double(diffy) ) );
+		Settings::setYMax( Parser::number( real+double(diffy) ) );
 
 		Settings::setXRange(4); //custom x-range
 		Settings::setYRange(4); //custom y-range
@@ -1081,44 +1069,35 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 		        real1y>ymax || real2y>ymax || real1y<ymin  || real2y<ymin )
 			return; //out of bounds
 
-		QString str_tmp;
 		//setting new x-boundaries
 		if( real1x < real2x  )
 		{
 			if( real2x - real1x < 0.00001)
 				return;
-			str_tmp.setNum(real1x );
-			Settings::setXMin(str_tmp );
-			str_tmp.setNum(real2x );
-			Settings::setXMax(str_tmp );
+			Settings::setXMin( Parser::number( real1x ) );
+			Settings::setXMax( Parser::number( real2x ) );
 		}
 		else
 		{
 			if (real1x - real2x < 0.00001)
 				return;
-			str_tmp.setNum(real2x );
-			Settings::setXMin(str_tmp );
-			str_tmp.setNum(real1x );
-			Settings::setXMax(str_tmp );
+			Settings::setXMin( Parser::number( real2x ) );
+			Settings::setXMax( Parser::number( real1x ) );
 		}
 		//setting new y-boundaries
 		if( real1y < real2y )
 		{
 			if( real2y - real1y < 0.00001)
 				return;
-			str_tmp.setNum(real1y );
-			Settings::setYMin(str_tmp );
-			str_tmp.setNum(real2y);
-			Settings::setYMax(str_tmp );
+			Settings::setYMin( Parser::number( real1y ) );
+			Settings::setYMax( Parser::number( real2y ) );
 		}
 		else
 		{
 			if( real1y - real2y < 0.00001)
 				return;
-			str_tmp.setNum(real2y  );
-			Settings::setYMin(str_tmp );
-			str_tmp.setNum(real1y );
-			Settings::setYMax(str_tmp );
+			Settings::setYMin( Parser::number( real2y ) );
+			Settings::setYMax( Parser::number( real1y ) );
 		}
 		Settings::setXRange(4); //custom x-range
 		Settings::setYRange(4); //custom y-range

@@ -127,3 +127,10 @@ kmplot/kmplotIface.h
 kmplot/MainDlgIface.h
 kmplot/parseriface.h
 kmplot/Viewiface.h
+kmplot/kmplot_part.desktop
+kmplot/kmplot_part.rc
+kmplot/kmplot_part_readonly.rc
+kmplot/kmplot_shell.rc
+kmplot/plotstylewidget.cpp
+kmplot/plotstylewidget.h
+kmplot/plotstylewidget.ui

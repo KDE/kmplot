@@ -1011,6 +1011,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	m_currentFunctionID=-1;
 	m_zoomMode = AboutToTranslate;
 	m_prevDragMousePos = e->pos();
+	updateCursor();
 }
 
 
@@ -1423,6 +1424,8 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	
 	if ( doDrawPlot )
 		drawPlot();
+	else
+		update();
 	
 	updateCursor();
 }

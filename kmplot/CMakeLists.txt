@@ -20,6 +20,7 @@ set(kmplotpart_PART_SRCS
    kminmax.cpp 
    kmplotio.cpp 
    ksliderwindow.cpp 
+   plotstylewidget.cpp
    coordsconfigdialog.cpp )
 
 kde4_automoc(${kmplotpart_PART_SRCS})
@@ -30,6 +31,7 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	editscaling.ui
 	qminmax.ui
 	qparametereditor.ui
+	plotstylewidget.ui
 	settingspagecolor.ui
 	settingspageconstants.ui
 	settingspagefonts.ui

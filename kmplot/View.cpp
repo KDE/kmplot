@@ -1665,8 +1665,16 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		forward_direction = false;
 	else
 		forward_direction = true;
-	while ((x>=dmin && x<=dmax) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
+
+	int intervals = qRound((dmax-dmin)/dx);
+	int at = 0;
+
+	while ((at<=intervals) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))
 	{
+		if ( p_mode != 3 )
+			x = (intervals-at)*dmin + at*dmax;
+		++at;
+		
 		if ( p_mode == 3 && stop_calculating)
 		{
 			if (forward_direction)

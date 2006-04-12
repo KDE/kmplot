@@ -95,10 +95,6 @@ class FunctionEditor : public QDockWidget
 		 */
 		void save();
 		/**
-		 * Called when the "Edit [parameter] List" button is clicked.
-		 */
-		void editParameterList();
-		/**
 		 * Updates the list of functions (called when a function is added or
 		 * removed from Parser).
 		 */
@@ -181,11 +177,6 @@ class FunctionEditor : public QDockWidget
 		 * necessary changes first.
 		 */
 		QTimer * m_syncFunctionListTimer;
-		/**
-		 * If we are currently editing a cartesian function, this will be set
-		 * to its parameter list.
-		 */
-		QList<Value> m_parameters;
 		/**
 		 * The list of functions.
 		 */

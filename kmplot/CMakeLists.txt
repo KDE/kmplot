@@ -21,6 +21,7 @@ set(kmplotpart_PART_SRCS
    kmplotio.cpp 
    ksliderwindow.cpp 
    plotstylewidget.cpp
+   parameterswidget.cpp
    coordsconfigdialog.cpp )
 
 kde4_automoc(${kmplotpart_PART_SRCS})
@@ -37,6 +38,7 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	settingspagefonts.ui
 	settingspagegeneral.ui
 	sliderwindow.ui
+	parameterswidget.ui
 	)
 
 kde4_add_dcop_skels(kmplotpart_PART_SRCS MainDlgIface.h parseriface.h Viewiface.h )

@@ -134,3 +134,6 @@ kmplot/kmplot_shell.rc
 kmplot/plotstylewidget.cpp
 kmplot/plotstylewidget.h
 kmplot/plotstylewidget.ui
+kmplot/parameterswidget.cpp
+kmplot/parameterswidget.h
+kmplot/parameterswidget.ui

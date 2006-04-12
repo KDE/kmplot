@@ -26,11 +26,11 @@
 
 #include "equationedit.h"
 #include "functioneditor.h"
-#include "ui_functioneditorwidget.h"
 #include "kmplotio.h"
-#include "kparametereditor.h"
-#include "View.h"
 #include "MainDlg.h"
+#include "parameterswidget.h"
+#include "ui_functioneditorwidget.h"
+#include "View.h"
 #include "xparser.h"
 
 #include <kaction.h>
@@ -91,13 +91,9 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	for ( unsigned i = 0; i < 3; ++i )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
 	
-	for( int number = 0; number < SLIDER_COUNT; number++ )
-		m_editor->listOfSliders->addItem( i18n( "Slider No. %1", number +1) );
-	
 	connect( m_editor->deleteButton, SIGNAL(clicked()), this, SLOT(deleteCurrent()) );
 	connect( m_functionList, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(functionSelected( QListWidgetItem* )) );
 	connect( m_functionList, SIGNAL(itemClicked( QListWidgetItem * )), this, SLOT(save()) ); // user might have checked or unchecked the item
-	connect( m_editor->editParameterListButton, SIGNAL(clicked()), this, SLOT(editParameterList()) );
 	
 	//BEGIN connect up all editing widgets
 	QList<QLineEdit *> lineEdits = m_editor->findChildren<QLineEdit *>();
@@ -127,6 +123,8 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	QList<QComboBox *> comboBoxes = m_editor->findChildren<QComboBox *>();
 	foreach ( QComboBox * w, comboBoxes )
 		connect( w, SIGNAL(currentIndexChanged(int)), this, SLOT(save()) );
+	
+	connect( m_editor->cartesianParameters, SIGNAL( parameterListChanged() ), this, SLOT(save()) );
 	//END connect up all editing widgets
 	
 	connect( XParser::self(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
@@ -309,8 +307,6 @@ void FunctionEditor::initFromCartesian()
 		return;
 	}
 	
-	m_parameters = f->parameters;
-	
 	m_editor->cartesianEquation->setText( f->eq[0]->fstr() );
 	m_editor->cartesian_f0->init( f->f0 );
 	m_editor->cartesian_f1->init( f->f1 );
@@ -328,19 +324,7 @@ void FunctionEditor::initFromCartesian()
 	m_editor->cartesianCustomMax->setChecked( f->usecustomxmax );
 	m_editor->cartesianMax->setText( f->dmax.expression() );
 	
-	if( f->use_slider == -1 )
-	{
-		m_editor->listOfSliders->setCurrentIndex( f->use_slider );
-		if ( f->parameters.isEmpty() )
-			m_editor->cartesianDisableParameters->setChecked( true );
-		else    
-			m_editor->cartesianParametersList->setChecked( true );
-	}
-	else
-	{
-		m_editor->cartesianParameterSlider->setChecked( true );
-		m_editor->listOfSliders->setCurrentIndex( f->use_slider );
-	}
+	m_editor->cartesianParameters->init( f );
 	
 	m_editor->showIntegral->setChecked( f->integral.visible );
 	m_editor->customPrecision->setChecked( f->integral_use_precision );
@@ -554,12 +538,6 @@ void FunctionEditor::saveCartesian()
 
 	tempFunction.integral_use_precision = m_editor->customPrecision->isChecked();
 	tempFunction.integral_precision = m_editor->precision->value();
-	
-	tempFunction.parameters = m_parameters;
-	if( m_editor->cartesianParameterSlider->isChecked() )
-		tempFunction.use_slider = m_editor->listOfSliders->currentIndex(); //specify which slider that will be used
-	else
-		tempFunction.use_slider = -1;
         
 	if ( f_str.contains('y') != 0 && ( tempFunction.f0.visible || tempFunction.f1.visible || tempFunction.f2.visible) )
 	{
@@ -567,13 +545,16 @@ void FunctionEditor::saveCartesian()
 		return;
 	}
 	
-	if ( ( (!m_parameters.isEmpty() &&
-				m_editor->cartesianParametersList->isChecked() ) ||
-				m_editor->cartesianParameterSlider->isChecked() ) &&
-			!cartesianHasTwoArguments( f_str ) )
-	{
-		fixCartesianArguments( & f_str ); //adding an extra argument for the parameter value
-	}
+	m_editor->cartesianParameters->save( & tempFunction );
+	
+	/// \todo Work out what this is suppose to do and fix it
+// 	if ( ( (!m_parameters.isEmpty() &&
+// 				m_editor->cartesianParametersList->isChecked() ) ||
+// 				m_editor->cartesianParameterSlider->isChecked() ) &&
+// 			!cartesianHasTwoArguments( f_str ) )
+// 	{
+// 		fixCartesianArguments( & f_str ); //adding an extra argument for the parameter value
+// 	}
 	
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
@@ -760,14 +741,6 @@ QString FunctionEditor::parametricXPrefix() const
 QString FunctionEditor::parametricYPrefix() const
 {
 	return 'y' + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text();
-}
-
-
-void FunctionEditor::editParameterList()
-{
-	KParameterEditor * dlg = new KParameterEditor( XParser::self(), & m_parameters );
-	dlg->exec();
-	saveCartesian();
 }
 //END class FunctionEditor
 

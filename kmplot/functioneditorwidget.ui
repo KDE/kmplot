@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>510</width>
-    <height>647</height>
+    <width>483</width>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -81,7 +81,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -128,80 +128,10 @@
             </layout>
            </item>
            <item>
-            <widget class="QGroupBox" name="cartesianParameters" >
+            <widget class="ParametersWidget" name="cartesianParameters" >
              <property name="title" >
-              <string>Parameter Values</string>
+              <string>Parameters</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="margin" >
-               <number>9</number>
-              </property>
-              <property name="spacing" >
-               <number>6</number>
-              </property>
-              <item rowspan="2" row="0" column="0" colspan="2" >
-               <widget class="QRadioButton" name="cartesianDisableParameters" >
-                <property name="text" >
-                 <string>Disable</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0" >
-               <widget class="QRadioButton" name="cartesianParametersList" >
-                <property name="toolTip" >
-                 <string>read parameter values from a list</string>
-                </property>
-                <property name="whatsThis" >
-                 <string>Check this to let KmPlot use parameter values given in a list. Edit this list by clicking the button on the right.</string>
-                </property>
-                <property name="text" >
-                 <string>From a list:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1" >
-               <widget class="QComboBox" name="listOfSliders" >
-                <property name="enabled" >
-                 <bool>false</bool>
-                </property>
-                <property name="toolTip" >
-                 <string>Select a slider</string>
-                </property>
-                <property name="whatsThis" >
-                 <string>Select one of the sliders to change the parameter value dynamically. The values vary from 0 (left) to 100 (right).</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0" >
-               <widget class="QRadioButton" name="cartesianParameterSlider" >
-                <property name="toolTip" >
-                 <string>change parameter value by moving a slider</string>
-                </property>
-                <property name="whatsThis" >
-                 <string>Check this to change the parameter value by moving a slider. Select the slider from the list box on the right. The values vary from 0 (left) to 100 (right).</string>
-                </property>
-                <property name="text" >
-                 <string>Use a slider:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1" >
-               <widget class="KPushButton" name="editParameterListButton" >
-                <property name="enabled" >
-                 <bool>false</bool>
-                </property>
-                <property name="toolTip" >
-                 <string>Edit the list of parameters</string>
-                </property>
-                <property name="whatsThis" >
-                 <string>Click here to open a list of parameter values. Here you can add, remove, and change them.</string>
-                </property>
-                <property name="text" >
-                 <string>Edit List...</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </widget>
            </item>
            <item>
@@ -933,9 +863,9 @@ Example: loop(angle)=ln(angle)</string>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>KDoubleNumInput</class>
    <extends></extends>
-   <header>klineedit.h</header>
+   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -947,23 +877,23 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>EquationEdit</class>
    <extends>KLineEdit</extends>
    <header>equationedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>ParametersWidget</class>
+   <extends>QGroupBox</extends>
+   <header>parameterswidget.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends></extends>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -975,6 +905,31 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>functionList</tabstop>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>createNewPlot</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>cartesianEquation</tabstop>
+  <tabstop>cartesianCustomMin</tabstop>
+  <tabstop>cartesianMin</tabstop>
+  <tabstop>cartesianCustomMax</tabstop>
+  <tabstop>cartesianMax</tabstop>
+  <tabstop>showDerivative1</tabstop>
+  <tabstop>showDerivative2</tabstop>
+  <tabstop>showIntegral</tabstop>
+  <tabstop>txtInitX</tabstop>
+  <tabstop>txtInitY</tabstop>
+  <tabstop>customPrecision</tabstop>
+  <tabstop>parametricName</tabstop>
+  <tabstop>parametricX</tabstop>
+  <tabstop>parametricY</tabstop>
+  <tabstop>parametricMin</tabstop>
+  <tabstop>parametricMax</tabstop>
+  <tabstop>polarEquation</tabstop>
+  <tabstop>polarMin</tabstop>
+  <tabstop>polarMax</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -984,8 +939,8 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>110</x>
-     <y>297</y>
+     <x>119</x>
+     <y>258</y>
     </hint>
     <hint type="destinationlabel" >
      <x>110</x>
@@ -1000,8 +955,8 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>212</x>
-     <y>370</y>
+     <x>119</x>
+     <y>258</y>
     </hint>
     <hint type="destinationlabel" >
      <x>255</x>
@@ -1016,12 +971,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>241</x>
-     <y>292</y>
+     <x>108</x>
+     <y>224</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>41</x>
-     <y>324</y>
+     <x>50</x>
+     <y>224</y>
     </hint>
    </hints>
   </connection>
@@ -1032,44 +987,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>276</x>
-     <y>292</y>
+     <x>108</x>
+     <y>224</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>41</x>
-     <y>355</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cartesianParametersList</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>editParameterListButton</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>155</x>
-     <y>391</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>470</x>
-     <y>394</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cartesianParameterSlider</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>listOfSliders</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>168</x>
-     <y>423</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>470</x>
-     <y>423</y>
+     <x>50</x>
+     <y>224</y>
     </hint>
    </hints>
   </connection>
@@ -1080,12 +1003,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>93</x>
-     <y>297</y>
+     <x>104</x>
+     <y>258</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>63</x>
-     <y>365</y>
+     <x>74</x>
+     <y>258</y>
     </hint>
    </hints>
   </connection>
@@ -1096,8 +1019,8 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>108</x>
-     <y>297</y>
+     <x>119</x>
+     <y>258</y>
     </hint>
     <hint type="destinationlabel" >
      <x>113</x>
@@ -1112,12 +1035,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>139</x>
-     <y>297</y>
+     <x>119</x>
+     <y>258</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>139</x>
-     <y>449</y>
+     <x>119</x>
+     <y>258</y>
     </hint>
    </hints>
   </connection>
@@ -1129,11 +1052,11 @@ Example: loop(angle)=ln(angle)</string>
    <hints>
     <hint type="sourcelabel" >
      <x>90</x>
-     <y>491</y>
+     <y>344</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>409</x>
-     <y>491</y>
+     <x>442</x>
+     <y>344</y>
     </hint>
    </hints>
   </connection>
@@ -1145,11 +1068,11 @@ Example: loop(angle)=ln(angle)</string>
    <hints>
     <hint type="sourcelabel" >
      <x>90</x>
-     <y>522</y>
+     <y>375</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>409</x>
-     <y>522</y>
+     <x>442</x>
+     <y>375</y>
     </hint>
    </hints>
   </connection>

@@ -142,7 +142,8 @@ class ExpressionSanitizer
 		 * Lots of changes to make it happy for the parser (e.g. adding extra
 		 * *-characters, remove spaces, replace the locale .-character with '.',
 		 * etc). This function will initialize m_evalMap.
-		 * \param pos is the position to start fixing the expression; text before
+		 * \param str The string to be fixed.
+		 * \param pos Is the position to start fixing the expression; text before
 		 * this will not be changed.
 		 */
 		void fixExpression( QString * str, int pos );
@@ -261,6 +262,8 @@ class Parser : public QObject, virtual public ParserIface
 		 * \param fixExpression Whether to pass \p str to the expression fixer.
 		 * If you have already done this, this should be set to false so that
 		 * the mapping in ExpressionSanitizer is not reset.
+		 * \param str The string to be evaluated (any characters before
+		 * \p evalPosOffset are ignored).
 		 */
 		double eval( QString str, unsigned evalPosOffset = 0, bool fixExpression = true );
 		/**

@@ -822,6 +822,10 @@ bool View::root(double *x0, Equation *it)
 
 void View::paintEvent(QPaintEvent *)
 {
+	// Note: it is important to have this function call before we begin painting
+	// as updateCrosshairPosition may set the statusbar text
+	updateCrosshairPosition();
+	
 	QPainter p;
 	p.begin(this);
 	
@@ -857,8 +861,6 @@ void View::paintEvent(QPaintEvent *)
 	}
 	else if ( shouldShowCrosshairs() )
 	{
-		updateCrosshairPosition();
-		
 		Function * it = XParser::self()->functionWithID( m_currentFunctionID );
 			
 			// Fadenkreuz zeichnen [draw the cross-hair]

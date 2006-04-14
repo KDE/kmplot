@@ -128,6 +128,8 @@ View::~View()
 
 void View::draw( QPaintDevice * dev, PlotMedium medium )
 {
+// 	kDebug() << k_funcinfo << endl;
+	
 	double lx, ly;
 	double sf;
 	QRect rc;
@@ -205,7 +207,6 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	}
 
 	dgr.updateSettings();
-// 	kDebug() << "tlgx="<<tlgx<<" tlgy="<<tlgy<<endl;
 	dgr.Skal( tlgx, tlgy );
 
 	DC.setRenderHint( QPainter::Antialiasing, true );
@@ -231,7 +232,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		if ( stop_calculating )
 			break;
 		
-		plotfkt(ufkt, &DC);
+		plotFunction(ufkt, &DC);
 	}
 	DC.setClipping( false );
 
@@ -243,7 +244,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 
 double View::value( Equation * eq, Function::PMode mode, double x )
 {
-	double dx = (m_xmax-m_xmin)/1e3;
+	double dx = (m_xmax-m_xmin)/area.width();
 	
 	switch ( mode )
 	{
@@ -354,7 +355,7 @@ double View::getXmax( Function * function )
 }
 
 
-void View::plotfkt(Function *ufkt, QPainter *pDC)
+void View::plotFunction(Function *ufkt, QPainter *pDC)
 {
 	int k, ke, mflg;
 	
@@ -420,7 +421,7 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 			
 			while ( x>=dmin && x<=dmax )
 			{
-				p2 = dgr.toPixel( realValue( ufkt, p_mode, x ) );
+				p2 = dgr.toPixel( realValue( ufkt, p_mode, x ), CDiagr::ClipInfinite );
 				
 				bool dxAtMinimum = (dx <= base_dx*(5e-5));
 				bool dxAtMaximum = (dx >= base_dx*(5e+1));
@@ -445,13 +446,9 @@ void View::plotfkt(Function *ufkt, QPainter *pDC)
 						{
 							dxTooBig = !dxAtMinimum && (length > (quickDraw ? 40.0 : 4.0));
 							dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 10.0 : 1.0));
-// 							kDebug() << "p1_pixel="<<p1_pixel.toPoint()<<" p2_pixel="<<p2_pixel.toPoint()<<" tooBig="<<dxTooBig<<" tooSmall="<<dxTooSmall<<" dx="<<dx<<" length="<<length<<endl;
 						}
 						else
-						{
-// 							kDebug() << "area="<< area << " bound="<<bound.toRect()<<endl;
 							dxTooSmall = !dxAtMaximum;
-						}
 					}
 						
 					if ( !dxTooBig )
@@ -788,7 +785,7 @@ bool View::root(double *x0, Equation *it)
 		return false;
 	
 	int k = 0; // iteration count
-	int max_k = 50; // maximum number of iterations
+	int max_k = 200; // maximum number of iterations
 	double max_y = 1e-14; // the largest value of y which is deemed a root found
 	
 	*x0 = m_crosshairPosition.x();
@@ -797,22 +794,22 @@ bool View::root(double *x0, Equation *it)
 	
 // 	kDebug() << "Initial: ("<<*x0<<","<<y<<")\n";
 	
+	double dx;
 	do
 	{
-		double df = XParser::self()->derivative1( it, *x0, (m_xmax-m_xmin)/1e3 );
-// 		kDebug() << "df1="<<df<<endl;
-// 		if ( qAbs(df) < 1e-6 )
-// 			df = 1e-6 * ((df < 0) ? -1 : 1);
-// 		kDebug() << "df2="<<df<<endl;
+		double df = XParser::self()->derivative1( it, *x0, (m_xmax-m_xmin)*1e-5 );
+		if ( qAbs(df) < 1e-20 )
+			df = 1e-20 * ((df < 0) ? -1 : 1);
 		
-		*x0 -= y / df;
+		dx = y / df;
+		*x0 -= dx;
 		y = XParser::self()->fkt( it, *x0 );
 		
-// 		kDebug() << "k="<<k<<": ("<<*x0<<","<<y<<")\n";
+		kDebug() << "k="<<k<<": ("<<*x0<<","<<y<<")\n";
 		
 		tooBig = (qAbs(y) > max_y);
 	}
-	while ( (k++<max_k) && tooBig );
+	while ( (k++<max_k) && ( tooBig || (qAbs(dx) > ((m_xmax-m_xmin)*1e-10)) ) );
 	
 	// We continue calculating until |y| < max_y; this may result in k reaching
 	// max_k. However, if |y| is reasonably small (even if reaching max_k),
@@ -1014,18 +1011,16 @@ void View::mousePressEvent(QMouseEvent *e)
 		return;
 	}
 	
-	getPlotUnderMouse();
+	QPointF closestPoint = getPlotUnderMouse();
 	Function * function = XParser::self()->functionWithID( m_currentFunctionID );
 	if ( function )
 	{
-		m_minmax->selectItem();
-		
-		setStatusBar( function->prettyName( m_currentFunctionPlot ), 4 );
-		
-		// csxpos, csypos would have been set by getPlotUnderMouse()
-		QPointF ptd( dgr.toPixel( m_crosshairPosition ) );
+		QPointF ptd( dgr.toPixel( closestPoint ) );
 		QPoint globalPos = mapToGlobal( (ptd * wm).toPoint() );
 		QCursor::setPos( globalPos );
+		
+		m_minmax->selectItem();
+		setStatusBar( function->prettyName( m_currentFunctionPlot ), 4 );
 		
 		return;
 	}
@@ -1038,7 +1033,7 @@ void View::mousePressEvent(QMouseEvent *e)
 }
 
 
-void View::getPlotUnderMouse()
+QPointF View::getPlotUnderMouse()
 {
 	m_currentFunctionID = -1;
 	m_currentFunctionParameter = 0;
@@ -1112,7 +1107,10 @@ void View::getPlotUnderMouse()
 	{
 		m_currentFunctionID = best_id;
 		m_crosshairPosition = best_cspos;
+		return m_crosshairPosition;
 	}
+	else
+		return QPointF();
 }
 
 
@@ -1129,7 +1127,7 @@ double View::getClosestPoint( const QPointF & pos, Function * function, Function
 		double dmin = getXmin( function );
 		double dmax = getXmax( function );
 		
-		double stepSize = (m_xmax-m_xmin)/1e3;
+		double stepSize = (m_xmax-m_xmin)/area.width();
 		
 		// Algorithm in use here: Work out the shortest distance between the
 		// line joining (x0,y0) to (x1,y1) and the given point (real_x,real_y)
@@ -1249,8 +1247,8 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	
 	if ( inBounds )
 	{
-		sx = "x = " + posToString( m_crosshairPosition.x(), (m_xmax-m_xmin)/1e3 );
-		sy = "y = " + posToString( m_crosshairPosition.y(), (m_ymax-m_ymin)/1e3 );
+		sx = "x = " + posToString( m_crosshairPosition.x(), (m_xmax-m_xmin)/area.width() );
+		sy = "y = " + posToString( m_crosshairPosition.y(), (m_ymax-m_ymin)/area.width() );
 	}
 	else
 		sx = sy = "";
@@ -1387,9 +1385,13 @@ bool View::updateCrosshairPosition()
 				rootflg=false;
 		}
 		
-		ptl = dgr.toPixel( m_crosshairPosition );
-		QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
-		QCursor::setPos( globalPos );
+		// For Cartesian plots, only adjust the cursor position if it is not at the ends of the view
+		if ( (it->type() != Function::Cartesian) || area.contains( mousePos ) )
+		{
+			ptl = dgr.toPixel( m_crosshairPosition );
+			QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
+			QCursor::setPos( globalPos );
+		}
 	}
 	
 	m_crosshairPixelCoords = ptl * wm;
@@ -1406,7 +1408,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	// just pressed, which suggests that the user dragged the mouse accidently
 	QRect zoomRect = QRect( m_zoomRectangleStart, e->pos() ).normalized();
 	int area = zoomRect.width() * zoomRect.height();
-// 	kDebug() << "area="<<area<<" m_mousePressTimer->elapsed()="<<m_mousePressTimer->elapsed()<<endl;
+	
 	if ( (area <= 500) && (m_mousePressTimer->elapsed() < 100) )
 	{
 		if ( m_zoomMode == ZoomInDrawing )
@@ -1691,8 +1693,6 @@ void View::setScaling()
 
 void View::getSettings()
 {
-// 	kDebug() << "###############################" << k_funcinfo << endl;
-	
 	coordToMinMax( Settings::xRange(), Settings::xMin(), Settings::xMax(), m_xmin, m_xmax );
 	coordToMinMax( Settings::yRange(), Settings::yMin(), Settings::yMax(), m_ymin, m_ymax );
 	setScaling();
@@ -2193,7 +2193,10 @@ void View::updateCursor()
 			
 		case Normal:
 			if ( shouldShowCrosshairs() )
+			{
+				// Don't show any cursor if we're tracing a function or the crosshairs should be shown
 				newCursor = CursorBlank;
+			}
 			else
 				newCursor = CursorArrow;
 			break;

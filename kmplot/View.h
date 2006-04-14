@@ -187,48 +187,73 @@ protected:
 	/// called when focus is gained
 	virtual void focusInEvent( QFocusEvent * );
 
-private:
-	/// Print out table with additional information.
-	/// Only for printing.
-	void drawHeaderTable(QPainter *);
-	/// Draw the function plots.
-	void plotfkt(Function *ufkt, QPainter*);
-	/**
-	 * \return whether should draw the pixel from the given line length,
-	 * according to the given pen style (used in plotfkt).
-	 */
-	bool penShouldDraw( double totalLength, Function * function, Function::PMode pmode );
-	/// @return an appropriate pen for drawing the plot
-	QPen penForPlot( Function * ufkt, Function::PMode, bool antialias ) const;
-	/// Gets the greek pi symbol.
-	void setpi(QString *);
-	/// in trace mode checks, if the function is (near by) zero
-	bool root(double *, Equation *);
-	///return the inverted color
-	void invertColor(QColor &, QColor &);
-	/// Changes the text in the statusbar
-	void setStatusBar(const QString &text, const int id);
-	/// @return whether the crosshairs should be shown for the current mouse position
-	bool shouldShowCrosshairs() const;
-	/**
-	 * Zooms in by amount \p zoomFactor (which will zooming out if less than 1)
-	 * from clicking at \p mousePos (in widget coordinates).
-	 */
-	void zoomIn( const QPoint & mousePos, double zoomFactor );
-	/// zooms in from having drawn \p zoomRect (which is in widget coordinates)
-	void zoomIn( const QRect & zoomRect );
-	/// zooms out from havoutg drawn \p zoomRect (which is out widget coordoutates)
-	void zoomOut( const QRect & zoomRect );
-	/// translates the view by \p dx, \p dy (in widget coordinates)
-	void translateView( int dx, int dy );
-	/// animates zooming from the current zoom rect to the one given (in real coordinates)
-	void animateZoom( const QRectF & newCoords );
-	/**
-	 * Finds the plot (if any) under the last mouse pos as recorded by
-	 * updateCrosshairPosition(). This sets csmode, cstype, csparam. If no plot
-	 * was found, then csmode is set to -1.
-	 */
-	void getPlotUnderMouse();
+	private:
+		/**
+		* Print out table with additional information. Only for printing.
+		*/
+		void drawHeaderTable(QPainter *);
+		/**
+		* Draw the function plots.
+		*/
+		void plotFunction(Function *ufkt, QPainter*);
+		/**
+		* \return whether should draw the pixel from the given line length,
+		* according to the given pen style (used in plotfkt).
+		*/
+		bool penShouldDraw( double totalLength, Function * function, Function::PMode pmode );
+		/**
+		* \return An appropriate pen for drawing the plot. (\p antialias should be
+		* set to whether the current painter is using antialiasing - this is for
+		* choosing an appropriate pen width).
+		*/
+		QPen penForPlot( Function * ufkt, Function::PMode, bool antialias ) const;
+		/// Gets the greek pi symbol.
+		void setpi(QString *);
+		/**
+		 * Used in trace mode. Attempts to find the root of equation \p eq near
+		 * \p x (which is then set to the exact root if found).
+		 * \returns whether a root was found.
+		 */
+		bool root( double * x, Equation * eq );
+		///return the inverted color
+		void invertColor(QColor &, QColor &);
+		/// Changes the text in the statusbar
+		void setStatusBar(const QString &text, const int id);
+		/**
+		* \return whether the crosshairs should be shown for the current mouse
+		* position, zoom mode, etc.
+		*/
+		bool shouldShowCrosshairs() const;
+		/**
+		* Zooms in by amount \p zoomFactor (which will zooming out if less than 1)
+		* from clicking at \p mousePos (in widget coordinates).
+		*/
+		void zoomIn( const QPoint & mousePos, double zoomFactor );
+		/**
+		* Zooms in from having drawn \p zoomRect (which is in widget coordinates).
+		*/
+		void zoomIn( const QRect & zoomRect );
+		/**
+		* Zooms out from havoutg drawn \p zoomRect (which is out widget
+		* coordinates).
+		*/
+		void zoomOut( const QRect & zoomRect );
+		/**
+		* Translates the view by \p dx, \p dy (in widget coordinates).
+		*/
+		void translateView( int dx, int dy );
+		/**
+		* Animates zooming from the current zoom rect to the one given (in real
+		* coordinates)
+		*/
+		void animateZoom( const QRectF & newCoords );
+		/**
+		* Finds the plot (if any) under the last mouse pos as recorded by
+		* updateCrosshairPosition(). This sets csmode, cstype, csparam. If no plot
+		* was found, then csmode is set to -1.
+		 * \return the function position of the closest plot if one was found.
+		*/
+		QPointF getPlotUnderMouse();
 	/**
 	 * Finds the closest point to \p pos to the given function.
 	 * \return the parametization (angle or t) that gives the closest point.

@@ -103,6 +103,7 @@ EquationEdit::EquationEdit( QWidget * parent )
 	setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 	setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 	setWordWrapMode( QTextOption::NoWrap );
+	setLineWrapMode( QTextEdit::NoWrap );
 	setTabChangesFocus( true );
 	//END setting up appearance
 	

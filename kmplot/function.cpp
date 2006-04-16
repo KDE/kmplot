@@ -81,6 +81,64 @@ bool Plot::operator !=( const Plot & other ) const
 			(lineWidth != other.lineWidth) ||
 			(style != other.style);
 }
+
+
+QString Plot::penStyleToString( Qt::PenStyle style )
+{
+	switch ( style )
+	{
+		case Qt::NoPen:
+			return "NoPen";
+			
+		case Qt::SolidLine:
+			return "SolidLine";
+			
+		case Qt::DashLine:
+			return "DashLine";
+			
+		case Qt::DotLine:
+			return "DotLine";
+			
+		case Qt::DashDotLine:
+			return "DashDotLine";
+		
+		case Qt::DashDotDotLine:
+			return "DashDotDotLine";
+			
+		case Qt::MPenStyle:
+		case Qt::CustomDashLine:
+			kWarning() << "Unsupported pen style\n";
+			break;
+	}
+	
+	kWarning() << k_funcinfo << "Unknown style " << style << endl;
+	return "SolidLine";
+}
+
+
+Qt::PenStyle Plot::stringToPenStyle( const QString & style )
+{
+	if ( style == "NoPen" )
+		return Qt::NoPen;
+			
+	if ( style == "SolidLine" )
+		return Qt::SolidLine;
+			
+	if ( style == "DashLine" )
+		return Qt::DashLine;
+			
+	if ( style == "DotLine" )
+		return Qt::DotLine;
+			
+	if ( style == "DashDotLine" )
+		return Qt::DashDotLine;
+		
+	if ( style == "DashDotDotLine" )
+		return Qt::DashDotDotLine;
+	
+	kWarning() << k_funcinfo << "Unknown style " << style << endl;
+	return Qt::SolidLine;
+}
 //END class Plot
 
 

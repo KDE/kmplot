@@ -42,41 +42,47 @@
 #define Linev(x, y1, y2) drawLine( QPointF(x, y1), QPointF(x, y2) )
 //@}
 
-//@{
+class QTextDocument;
+class QTextEdit;
+
 /// Grid styles.
-#define GRID_NONE	0
-#define	GRID_LINES	1
-#define	GRID_CROSSES	2
-#define	GRID_POLAR	3
-//@}
+enum GridStyle
+{
+	GridNone,
+	GridLines,
+	GridCrosses,
+	GridPolar,
+};
 
 class View;
 
 /** @short This class manages the core drawing of the axes and the grid. */
 class CDiagr
 {
-public:
-	/// Contructor. Members are set to initial values.
-	///@see Create()
-	CDiagr();
-	/// Nothing to do for the destructor.
-	~CDiagr();
-
-	/// Sets all members to current values.
-	void Create( QPoint Ref,
-	               double lx, double ly,
-	               double xmin, double xmax,
-	               double ymin, double ymax );
-	/// Sets the current values for the scaling factors
-	void Skal( double ex, double ey );
-	/// Draws all requested parts of the diagram (axes, labels, grid e.g.)
-	void Plot( QPainter* pDC );
-	/// Returns the rectangle around the core of the plot area.
-	QRect GetPlotArea() const { return PlotArea; }
-	/// Returns the rectangle for the frame around the plot. Extra frame is bigger.
-	QRect GetFrame() const { return m_frame; }
-	/// Updates the settings from the user (e.g. borderThickness, etc)
-	void updateSettings();
+	public:
+		/**
+		 * \return a pointer to the singleton object of this class.
+		 */
+		static CDiagr * self();
+		
+		/// Nothing to do for the destructor.
+		~CDiagr();
+	
+		/// Sets all members to current values.
+		void Create( QPoint Ref,
+					double lx, double ly,
+					double xmin, double xmax,
+					double ymin, double ymax );
+		/// Sets the current values for the scaling factors
+		void Skal( double ex, double ey );
+		/// Draws all requested parts of the diagram (axes, labels, grid e.g.)
+		void Plot( QPainter* pDC );
+		/// Returns the rectangle around the core of the plot area.
+		QRect plotArea() const { return m_plotArea; }
+		/// Returns the rectangle for the frame around the plot. Extra frame is bigger.
+		QRect frame() const { return m_frame; }
+		/// Updates the settings from the user (e.g. borderThickness, etc)
+		void updateSettings();
 
 		/**
 		 * How to behave in the *ToPixel functions.
@@ -114,20 +120,19 @@ public:
 	double ticWidth;			///< current line width for the tics in mm
 	double ticLength;			///< current length of the tic lines in mm
 	//@}
-	bool xclipflg;	///< clipflg is set to 1 if the plot is out of the plot aerea.
-	bool yclipflg;	///< clipflg is set to 1 if the plot is out of the plot aerea.
+		bool xclipflg;	///< clipflg is set to 1 if the plot is out of the plot area.
+		bool yclipflg;	///< clipflg is set to 1 if the plot is out of the plot area.
 
          
-private:
-
-	/// Draw the coordinate axes.
-	void drawAxes(QPainter*);
-	/// Draw the grid.
-	void drawGrid( QPainter* );
-	/// Write labels.
-	void drawLabels(QPainter*);
-	/// Current grid style.
-	int g_mode;
+	protected:
+		/// Draw the coordinate axes.
+		void drawAxes(QPainter*);
+		/// Draw the grid.
+		void drawGrid( QPainter* );
+		/// Write labels.
+		void drawLabels(QPainter*);
+		/// Current grid style.
+		GridStyle m_gridMode;
 
 	//@{
 	/// Plot range edge.
@@ -155,8 +160,15 @@ private:
 	double skx, sky;
 	//@}
 	
-	QRect PlotArea;	///< plot area
-	QRect m_frame;	///< frame around the plot
+		QRect m_plotArea;	///< plot area
+		QRect m_frame;		///< frame around the plot
+	
+	private:
+		static CDiagr * m_self;
+		CDiagr();
+		
+		QTextEdit * m_textEdit; ///< Contains m_textDocument
+		QTextDocument * m_textDocument; ///< Used for layout of axis labels
 };
 
 #endif // diagr_included

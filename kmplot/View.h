@@ -119,17 +119,36 @@ class View : public QWidget, virtual public ViewIface
 		* \return the area.
 		*/
 		double areaUnderGraph( IntegralDrawSettings settings );
-	/// the calculation was cancelled by the user
-	bool isCalculationStopped();
+		/// the calculation was cancelled by the user
+		bool isCalculationStopped();
+		/**
+		 * Used in posToString for requesting how the position string is to be
+		 * created.
+		 */
+		enum PositionFormatting
+		{
+			DecimalFormat,		///< Plain text, using no scientific notation; just decimal expansion.
+			ScientificFormat,	///< Rich text, possibly using scientific notation (mult x 10 ^ exp).
+		};
+		/**
+		 * @return a string for displaying the x or y coordinate in the statusbar.
+		 * \param x The number to convert to a string.
+		 * \param delta is the amount by which the value varies over one pixel in
+		 * the view. This is for choosing an appropriate number of decimals so that
+		 * moving the cursor shows a nice change in the string.
+		 * \param format How the number should be represented as a string.
+		 * \param color If using scientific mode, the color to format the text.
+		 */
+		QString posToString( double x, double delta, PositionFormatting format, QColor color = Qt::black ) const;
 
-	/// Slider controlling parameter values
-	QPointer<KSliderWindow> m_sliderWindow;
-	/// Menu actions for the sliders
-	KToggleAction * m_menuSliderAction;
-	void updateSliders(); /// show only needed sliders
-	
-	/// Convert a width in mm to a suitable QPen width for drawing
-	double mmToPenWidth( double width_mm, bool antialias ) const;
+		/// Slider controlling parameter values
+		QPointer<KSliderWindow> m_sliderWindow;
+		/// Menu actions for the sliders
+		KToggleAction * m_menuSliderAction;
+		void updateSliders(); /// show only needed sliders
+		
+		/// Convert a width in mm to a suitable QPen width for drawing
+		double mmToPenWidth( double width_mm, bool antialias ) const;
 
 		/** Current plot range endge. */
 		double m_xmin;
@@ -264,13 +283,6 @@ protected:
 	 * given function at \p x.
 	 */
 	double pixelDistance( const QPointF & pos, Function * function, Function::PMode mode, double x );
-	/**
-	 * @return a string for displaying the x or y coordinate in the statusbar.
-	 * \param delta is the amount by which the value varies over one pixel in
-	 * the view. This is for choosing an appropriate number of decimals so that
-	 * moving the cursor shows a nice change in the string.
-	 */
-	QString posToString( double x, double delta ) const;
 	
 		/**
 		 * Convenience function for calculating the value of \p eq using the
@@ -303,16 +315,23 @@ protected:
 		QPointF m_crosshairPixelCoords;
 		QPointF m_crosshairPosition;	///< in real coordinates
 	
-	/// The t- or x- (angle) coordinate of the traced curve
-	double m_trace_x;
-	
-	/// trace mode stuff
-	bool rootflg;
+		/**
+		 * The t- or x- (angle) coordinate of the traced curve - when tracing a
+		 * polar or parametric curve.
+		 */
+		double m_trace_x;
+		/**
+		 * When tracing a Cartesian plot and the trace position nears the
+		 * x-axis, an attempt to find a root will be found. If found, this will
+		 * be set to true, and no further attempts will be made at finding a
+		 * root. Once the plot position moves away from the x-axis again, this
+		 * will be set to false.
+		 */
+		bool m_haveRoot;
 
 		/// @return whether cspos is in the range of the view or in the custom range for the given \p plot
 		bool crosshairPositionValid( Function * plot ) const;
 	
-	CDiagr dgr;	///< Coordinate system
 	QPoint ref;
 	QRect area,
 	PlotArea;

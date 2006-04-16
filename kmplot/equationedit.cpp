@@ -188,6 +188,7 @@ void EquationEdit::setText( const QString & text )
 {
 	m_settingText = true;
 	setPlainText( text );
+	textCursor().movePosition( QTextCursor::End );
 	m_settingText = false;
 }
 

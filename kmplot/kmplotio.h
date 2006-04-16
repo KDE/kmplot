@@ -72,14 +72,14 @@ class KmPlotIO
 		/**
 		 * Adds a QDomElement for \p function to the given \p document
 		 */
-		static void addFunction( QDomDocument & doc, QDomElement & root, Function * function );
+		void addFunction( QDomDocument & doc, QDomElement & root, Function * function );
 		
 		/**
 		 * Reads function parameters from the node @a n.
 		 * @param n Node containing the options.
 		 * @param allowRename whether to check function names for uniqueness
 		 */
-		static void parseFunction( const QDomElement &n, bool allowRename = false );
+		void parseFunction( const QDomElement &n, bool allowRename = false );
 	
 	private:
 		/** Esay way to add a tag to the Dom tree
@@ -89,7 +89,7 @@ class KmPlotIO
 		 * @param tagValue The data between the opening and cloding tag.
 	 	 * @return The QDomElement that was created.
 		 */
-		static QDomElement addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
+		QDomElement addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
 		/// Reads axes parameters from the node @a n.
 		/// @param n Node containing the options.
 		void parseAxes( const QDomElement &n );
@@ -103,16 +103,16 @@ class KmPlotIO
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
-		static void parseParameters( const QDomElement &n, Function &ufkt);
+		void parseParameters( const QDomElement &n, Function &ufkt);
 		
 		///For KDE <3.3
 		/// This is the same as parseFunction but is made for old Kmplot-files
 		void oldParseFunction( const QDomElement &n );
 		
 		/// \todo make (at least some of) this stuff non-static
-		static double lengthScaler; ///< for reading in lengths
-		static int version; ///< version of the file currently being opened (0,1,2,3)
-		static QString parametricXEquation; ///< Used when reading in the x part of a parametric equation
+		double lengthScaler; ///< for reading in lengths
+		int version; ///< version of the file currently being opened (0,1,2,3,4)
+		QString parametricXEquation; ///< Used when reading in the x part of a parametric equation
 };
 
 #endif

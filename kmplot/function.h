@@ -88,6 +88,16 @@ class Plot
 		Qt::PenStyle style;	///< pen style (e.g. dolif, dashes, dotted, etc)
 		
 		bool operator != ( const Plot & other ) const;
+		
+		/**
+		 * Converts a pen style to a string (for non-displaying uses such as
+		 * saving to file).
+		 */
+		static QString penStyleToString( Qt::PenStyle style );
+		/**
+		 * Converts a string (as returned by penStyleTostring) to a pen style.
+		 */
+		static Qt::PenStyle stringToPenStyle( const QString & style );
 };
 
 

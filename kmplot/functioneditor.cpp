@@ -762,12 +762,14 @@ QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items )
 	QDomElement root = doc.createElement( "kmpdoc" );
 	doc.appendChild( root );
 	
+	KmPlotIO io;
+	
 	foreach ( QListWidgetItem * item, items )
 	{
 		int f = static_cast<FunctionListItem*>(item)->function();
 		
 		if ( Function * function = XParser::self()->functionWithID( f ) )
-			KmPlotIO::addFunction( doc, root, function );
+			io.addFunction( doc, root, function );
 	}
 	
 	QMimeData * md = new QMimeData;
@@ -801,10 +803,12 @@ void FunctionListWidget::dropEvent( QDropEvent * event )
 	doc.setContent( md->data( "text/kmplot" ) );
 	QDomElement element = doc.documentElement();
 	
+	KmPlotIO io;
+	
 	for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
 	{
 		if ( n.nodeName() == "function" )
-			KmPlotIO::parseFunction( n.toElement(), true );
+			io.parseFunction( n.toElement(), true );
 		else
 			kWarning() << k_funcinfo << "Unexpected node with name " << n.nodeName() << endl;
 	}

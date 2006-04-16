@@ -43,14 +43,14 @@
 #include "MainDlg.h"
 #include "settings.h"
 
-int KmPlotIO::version = -1;
-double KmPlotIO::lengthScaler = 1.0;
-QString KmPlotIO::parametricXEquation = QString();
+static QString CurrentVersionString( "4" );
 
 class XParser;
 
 KmPlotIO::KmPlotIO()
 {
+	KmPlotIO::version = CurrentVersionString.toInt();
+	lengthScaler = 1.0;
 }
 
 
@@ -65,7 +65,7 @@ QDomDocument KmPlotIO::currentState()
 	QDomDocument doc( "kmpdoc" );
 	// the root tag
 	QDomElement root = doc.createElement( "kmpdoc" );
-	root.setAttribute( "version", "3" );
+	root.setAttribute( "version", CurrentVersionString );
 	doc.appendChild( root );
 
 	// the axes tag
@@ -176,28 +176,24 @@ bool KmPlotIO::save( const KUrl &url )
 	return true;
 }
 
-// static
+
 void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * function )
 {
 	QDomElement tag = doc.createElement( "function" );
+	
+	QString names[] = { "f0", "f1", "f2", "integral" };
+	Plot * plots[] = { & function->f0, & function->f1, & function->f2, & function->integral };
+		
+	for ( int i = 0; i < 4; ++i )
+	{
+		tag.setAttribute( QString("%1-visible").arg( names[i] ), plots[i]->visible );
+		tag.setAttribute( QString("%1-color").arg( names[i] ), QColor( plots[i]->color ).name() );
+		tag.setAttribute( QString("%1-width").arg( names[i] ), plots[i]->lineWidth );
+		tag.setAttribute( QString("%1-style").arg( names[i] ), Plot::penStyleToString( plots[i]->style ) );
+	}
 
-	//tag.setAttribute( "number", ix );
-	tag.setAttribute( "visible", function->f0.visible );
-	tag.setAttribute( "color", QColor( function->f0.color ).name() );
-	tag.setAttribute( "width", function->f0.lineWidth );
 	tag.setAttribute( "use-slider", function->use_slider );
 	
-	tag.setAttribute( "visible-deriv", function->f1.visible );
-	tag.setAttribute( "deriv-color", QColor( function->f1.color ).name() );
-	tag.setAttribute( "deriv-width", function->f1.lineWidth );
-	
-	tag.setAttribute( "visible-2nd-deriv", function->f2.visible );
-	tag.setAttribute( "deriv2nd-color", QColor( function->f2.color ).name() );
-	tag.setAttribute( "deriv2nd-width", function->f2.lineWidth );
-	
-	tag.setAttribute( "visible-integral", function->integral.visible );
-	tag.setAttribute( "integral-color", QColor( function->integral.color ).name() );
-	tag.setAttribute( "integral-width", function->integral.lineWidth );
 	tag.setAttribute( "integral-use-precision", function->integral_use_precision );
 	tag.setAttribute( "integral-precision", function->integral_precision );
 	tag.setAttribute( "integral-startx", function->eq[0]->integralInitialX().expression() );
@@ -228,8 +224,6 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 }
 
 
-
-// static
 QDomElement KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue )
 {
 	QDomElement tag = doc.createElement( tagName );
@@ -271,7 +265,8 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 	}
 	else if ( versionString == "1" ||
 				 versionString == "2" ||
-				 versionString == "3" )
+				 versionString == "3" ||
+				 versionString == "4" )
 	{
 		MainDlg::oldfileversion = false;
 		version = versionString.toInt();
@@ -344,6 +339,7 @@ bool KmPlotIO::load( const KUrl &url )
 	return true;
 }
 
+
 void KmPlotIO::parseAxes( const QDomElement &n )
 {
 	Settings::setAxesLineWidth( n.attribute( "width", (version<3) ? "1" : "0.1" ).toDouble() * lengthScaler );
@@ -378,6 +374,7 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 	View::self()->getSettings();
 }
 
+
 void KmPlotIO::parseGrid( const QDomElement & n )
 {
 	Settings::setGridColor( QColor( n.attribute( "color", "#c0c0c0" ) ) );
@@ -385,6 +382,7 @@ void KmPlotIO::parseGrid( const QDomElement & n )
 
 	Settings::setGridStyle( n.namedItem( "mode" ).toElement().text().toInt() );
 }
+
 
 int unit2index( const QString unit )
 {
@@ -416,7 +414,7 @@ void KmPlotIO::parseScale(const QDomElement & n )
 	View::self()->getSettings();
 }
 
-// static
+
 void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 {
 	kDebug() << k_funcinfo << "version="<<version<<endl;
@@ -497,23 +495,41 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	ufkt.eq[0]->setFstr( eq0 );
 	if ( !eq1.isEmpty() )
 		ufkt.eq[1]->setFstr( eq1 );
+	
+	if ( version < 4 )
+	{
+		ufkt.f0.visible = n.attribute( "visible" ).toInt();
+		ufkt.f0.color = QColor( n.attribute( "color" ) );
+		ufkt.f0.lineWidth = n.attribute( "width" ).toDouble() * lengthScaler;
 
-	ufkt.f0.visible = n.attribute( "visible" ).toInt();
-	ufkt.f0.color = QColor( n.attribute( "color" ) );
-	ufkt.f0.lineWidth = n.attribute( "width" ).toDouble() * lengthScaler;
+		ufkt.f1.visible = n.attribute( "visible-deriv", "0" ).toInt();
+		ufkt.f1.color = QColor(n.attribute( "deriv-color" ));
+		ufkt.f1.lineWidth = n.attribute( "deriv-width" ).toDouble() * lengthScaler;
+	
+		ufkt.f2.visible = n.attribute( "visible-2nd-deriv", "0" ).toInt();
+		ufkt.f2.color = QColor(n.attribute( "deriv2nd-color" ));
+		ufkt.f2.lineWidth = n.attribute( "deriv2nd-width" ).toDouble() * lengthScaler;
+	
+		ufkt.integral.visible = n.attribute( "visible-integral", "0" ).toInt();
+		ufkt.integral.color = QColor(n.attribute( "integral-color" ));
+		ufkt.integral.lineWidth = n.attribute( "integral-width" ).toDouble() * lengthScaler;
+	}
+	else
+	{
+		QString names[] = { "f0", "f1", "f2", "integral" };
+		Plot * plots[] = { & ufkt.f0, & ufkt.f1, & ufkt.f2, & ufkt.integral };
+		
+		for ( int i = 0; i < 4; ++i )
+		{
+			plots[i]->visible = n.attribute( QString("%1-visible").arg( names[i] ) ).toInt();
+			plots[i]->color = n.attribute( QString("%1-color").arg( names[i] ) );
+			plots[i]->lineWidth = n.attribute( QString("%1-width").arg( names[i] ) ).toDouble() * lengthScaler;
+			plots[i]->style = Plot::stringToPenStyle( n.attribute( QString("%1-style").arg( names[i] ) ) );
+		}
+	}
+	
 	ufkt.use_slider = n.attribute( "use-slider" ).toInt();
-
-	ufkt.f1.visible = n.attribute( "visible-deriv", "0" ).toInt();
-	ufkt.f1.color = QColor(n.attribute( "deriv-color" ));
-	ufkt.f1.lineWidth = n.attribute( "deriv-width" ).toDouble() * lengthScaler;
 	
-	ufkt.f2.visible = n.attribute( "visible-2nd-deriv", "0" ).toInt();
-	ufkt.f2.color = QColor(n.attribute( "deriv2nd-color" ));
-	ufkt.f2.lineWidth = n.attribute( "deriv2nd-width" ).toDouble() * lengthScaler;
-	
-	ufkt.integral.visible = n.attribute( "visible-integral", "0" ).toInt();
-	ufkt.integral.color = QColor(n.attribute( "integral-color" ));
-	ufkt.integral.lineWidth = n.attribute( "integral-width" ).toDouble() * lengthScaler;
 	ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
 	ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
 	ufkt.eq[0]->setIntegralStart( n.attribute( "integral-startx" ), n.attribute( "integral-starty" ) );
@@ -558,7 +574,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	}
 }
 
-// static
+
 void KmPlotIO::parseParameters( const QDomElement &n, Function &ufkt  )
 {
 	QChar separator = (version < 1) ? ',' : ';';

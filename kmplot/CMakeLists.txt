@@ -20,8 +20,8 @@ set(kmplotpart_PART_SRCS
    kminmax.cpp 
    kmplotio.cpp 
    ksliderwindow.cpp 
-   plotstylewidget.cpp
    parameterswidget.cpp
+   plotstylewidget.cpp
    coordsconfigdialog.cpp )
 
 kde4_automoc(${kmplotpart_PART_SRCS})

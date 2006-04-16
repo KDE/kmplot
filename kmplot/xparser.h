@@ -47,18 +47,25 @@ class XParser : public Parser
 		static XParser * self( bool * modified = 0 );
 		
 		~XParser();
-		/// Evaluates the 1st dreivative of the function with intex \a ix
-		double derivative1( Equation * eq, double x, double h );
-		/// Evaluates the 2nd dreivative of the function with intex \a ix
-		double derivative2( Equation * eq, double x, double h );
+		/**
+		 * Evaluates the \p n th derivative of the function using numerical
+		 * stepsize \p h .
+		 * \param plot This should be the plot to take the derivative of, and
+		 * it adjusts \p n accordingly. For example, passing \p plot =
+		 * Derivative1 and \p n = 1 is the same as passing \p plot = Derivative0
+		 * and \p n = 2.
+		 */
+		double derivative( unsigned n, Function::PMode plot, Equation * eq, double x, double h );
 		/**
 		 * Calculates the value of the equation using numerical integration
 		 * with the given step size \p h (which is only used as a hint).
 		 */
 		double integral( Equation * eq, double x, double h );
-        
-	/// Line width default
-	QColor defaultColor(int function);
+		/**
+		 * The settings contain 10 default function colors. This returns the
+		 * (function % 10)th color.
+		 */
+		QColor defaultColor(int function);
 	
 	virtual int addFunction( QString, QString, Function::Type type );
 	

@@ -138,15 +138,48 @@ bool XParser::getext( Function *item, const QString fstr )
 		return true;
 }
 
-double XParser::derivative1( Equation *u_item, double x, double h )
+
+double XParser::derivative( unsigned n, Function::PMode plot, Equation * eq, double x, double h )
 {
-	return ( fkt(u_item, x + h ) - fkt( u_item, x ) ) / h;
+	switch ( plot )
+	{
+		case Function::Derivative0:
+			break;
+			
+		case Function::Derivative1:
+			n += 1;
+			break;
+			
+		case Function::Derivative2:
+			n += 2;
+			break;
+			
+		case Function::Integral:
+		{
+			if ( n == 0 )
+				return integral( eq, x, h );
+			
+			n -= 1;
+			break;
+		}
+	}
+	
+	switch ( n )
+	{
+		case 0:
+			return fkt( eq, x );
+			
+		case 1:
+			return ( fkt(eq, x + (h/2) ) - fkt( eq, x - (h/2) ) ) / h;
+			
+		case 2:
+			return ( fkt( eq, x + h ) - 2 * fkt( eq, x ) + fkt( eq, x - h ) ) / (h*h);
+			
+		default:
+			return ( derivative( n-1, Function::Derivative0, eq, x+(h/2), (h/4) ) - derivative( n-1, Function::Derivative0, eq, x-(h/2), (h/4) ) ) / h;
+	}
 }
 
-double XParser::derivative2( Equation *u_item, double x, double h )
-{
-	return ( fkt( u_item, x + h + h ) - 2 * fkt( u_item, x + h ) + fkt( u_item, x ) ) / h / h;
-}
 
 void XParser::findFunctionName(QString &function_name, int const id, int const type)
 {

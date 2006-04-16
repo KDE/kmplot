@@ -458,7 +458,7 @@ void FunctionEditor::createParametric()
 	m_functionID = XParser::self()->addFunction( QString("x%1(t)=0").arg( name ), QString("y%1(t)=0").arg( name ), Function::Parametric ); 
 	assert( m_functionID != -1 );
 
-	kDebug() << "Created parametric, so requestion state save.\n";
+	kDebug() << "Created parametric, so requesting state save.\n";
 	MainDlg::self()->requestSaveCurrentState();
 }
 

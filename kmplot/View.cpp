@@ -252,10 +252,10 @@ double View::value( Equation * eq, Function::PMode mode, double x )
 			return XParser::self()->fkt( eq, x );
 			
 		case Function::Derivative1:
-			return XParser::self()->derivative1( eq, x, dx );
+			return XParser::self()->derivative( 0, Function::Derivative1, eq, x, dx );
 			
 		case Function::Derivative2:
-			return XParser::self()->derivative2( eq, x, dx );
+			return XParser::self()->derivative( 0, Function::Derivative2, eq, x, dx );
 			
 		case Function::Integral:
 			return XParser::self()->integral( eq, x, dx );
@@ -456,7 +456,18 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 						if(mflg<=1)
 						{
 							if ( drawIntegral && (x >= m_integralDrawSettings.dmin) && (x <= m_integralDrawSettings.dmax) )
-								pDC->drawRect( QRectF( p1, QSizeF( p2.x()-p1.x(), p2.y() - CDiagr::self()->yToPixel( 0 ) ) ) );
+							{
+								double y0 = CDiagr::self()->yToPixel( 0 );
+								
+								QPointF points[4];
+								points[0] = QPointF( p1.x(), y0 );
+								points[1] = QPointF( p2.x(), y0 );
+								points[2] = QPointF( p2.x(), p2.y() );
+								points[3] = QPointF( p1.x(), p1.y() );
+								
+								pDC->drawPolygon( points, 4 );
+// 								pDC->drawRect( QRectF( p1, QSizeF( p2.x()-p1.x(), CDiagr::self()->yToPixel( 0 ) - p2.y() ) ) );
+							}
 							else
 							{
 								if ( penShouldDraw( totalLength, ufkt, p_mode ) )
@@ -779,7 +790,7 @@ void View::setpi(QString *s)
 }
 
 
-bool View::root(double *x0, Equation *it)
+bool View::findRoot( double *x0, Function::PMode plot, Equation *it )
 {
 	if(m_haveRoot)
 		return false;
@@ -797,13 +808,13 @@ bool View::root(double *x0, Equation *it)
 	double dx;
 	do
 	{
-		double df = XParser::self()->derivative1( it, *x0, (m_xmax-m_xmin)*1e-5 );
+		double df = XParser::self()->derivative( 1, plot, it, *x0, (m_xmax-m_xmin)*1e-5 );
 		if ( qAbs(df) < 1e-20 )
 			df = 1e-20 * ((df < 0) ? -1 : 1);
 		
 		dx = y / df;
 		*x0 -= dx;
-		y = XParser::self()->fkt( it, *x0 );
+		y = value( it, plot, *x0 );
 		
 		kDebug() << "k="<<k<<": ("<<*x0<<","<<y<<")\n";
 		
@@ -1409,7 +1420,7 @@ bool View::updateCrosshairPosition()
 			else if(fabs(CDiagr::self()->yToReal(ptl.y())) < (m_ymax-m_ymin)/80)
 			{
 				double x0;
-				if ( root( &x0, it->eq[0] ) )
+				if ( findRoot( &x0, m_currentFunctionPlot, it->eq[0] ) )
 				{
 					QString str="  ";
 					str+=i18n("root");

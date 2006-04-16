@@ -147,7 +147,9 @@ class View : public QWidget, virtual public ViewIface
 		KToggleAction * m_menuSliderAction;
 		void updateSliders(); /// show only needed sliders
 		
-		/// Convert a width in mm to a suitable QPen width for drawing
+		/**
+		 * Convert a width in mm to a suitable QPen width for drawing.
+		 */
 		double mmToPenWidth( double width_mm, bool antialias ) const;
 
 		/** Current plot range endge. */
@@ -200,12 +202,12 @@ protected slots:
 signals:
 	void setStatusBarText(const QString &);
 	
-protected:
-	/// called when focus is lost
-	virtual void focusOutEvent( QFocusEvent * );
-	/// called when focus is gained
-	virtual void focusInEvent( QFocusEvent * );
-
+	protected:
+		/// called when focus is lost
+		virtual void focusOutEvent( QFocusEvent * );
+		/// called when focus is gained
+		virtual void focusInEvent( QFocusEvent * );
+	
 	private:
 		/**
 		* Print out table with additional information. Only for printing.
@@ -233,7 +235,7 @@ protected:
 		 * \p x (which is then set to the exact root if found).
 		 * \returns whether a root was found.
 		 */
-		bool root( double * x, Equation * eq );
+		bool findRoot( double * x, Function::PMode plot, Equation * eq );
 		///return the inverted color
 		void invertColor(QColor &, QColor &);
 		/// Changes the text in the statusbar
@@ -273,17 +275,16 @@ protected:
 		 * \return the function position of the closest plot if one was found.
 		*/
 		QPointF getPlotUnderMouse();
-	/**
-	 * Finds the closest point to \p pos to the given function.
-	 * \return the parametization (angle or t) that gives the closest point.
-	 */
-	double getClosestPoint( const QPointF & pos, Function * function, Function::PMode mode );
-	/**
-	 * Calculates the pixel distance from \p pos to the display point of the
-	 * given function at \p x.
-	 */
-	double pixelDistance( const QPointF & pos, Function * function, Function::PMode mode, double x );
-	
+		/**
+		* Finds the closest point to \p pos to the given function.
+		* \return the parametization (angle or t) that gives the closest point.
+		*/
+		double getClosestPoint( const QPointF & pos, Function * function, Function::PMode mode );
+		/**
+		* Calculates the pixel distance from \p pos to the display point of the
+		* given function at \p x.
+		*/
+		double pixelDistance( const QPointF & pos, Function * function, Function::PMode mode, double x );
 		/**
 		 * Convenience function for calculating the value of \p eq using the
 		 * given \p mode

@@ -175,7 +175,7 @@ void FunctionEditor::functionsChanged()
 
 void FunctionEditor::syncFunctionList()
 {
-// 	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo << endl;
 	
 	int oldFunctionCount = m_functionList->count();
 	
@@ -251,6 +251,8 @@ void FunctionEditor::syncFunctionList()
 
 void FunctionEditor::setCurrentFunction( int functionID )
 {
+	kDebug() << k_funcinfo << endl;
+	
 	for ( int row = 0; row < m_functionList->count(); ++row )
 	{
 		FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->item( row ));
@@ -265,9 +267,16 @@ void FunctionEditor::setCurrentFunction( int functionID )
 
 void FunctionEditor::functionSelected( QListWidgetItem * item )
 {
+	kDebug() << k_funcinfo << endl;
+	
 	m_editor->deleteButton->setEnabled( item != 0 );
 	if ( !item )
 		return;
+	
+	// If there are any pending save events, then cancel them
+	m_saveCartesianTimer->stop();
+	m_savePolarTimer->stop();
+	m_saveParametricTimer->stop();
 	
 	FunctionListItem * functionItem = static_cast<FunctionListItem*>(item);
 	
@@ -297,7 +306,7 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 
 void FunctionEditor::initFromCartesian()
 {
-// 	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo << endl;
 	
 	Function * f = XParser::self()->functionWithID(m_functionID);
 	
@@ -360,7 +369,7 @@ void FunctionEditor::initFromPolar()
 
 void FunctionEditor::initFromParametric()
 {
-// 	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo << endl;
 	
 	Function * f = XParser::self()->functionWithID(m_functionID);
 	
@@ -402,6 +411,8 @@ void FunctionEditor::splitParametricEquation( const QString equation, QString * 
 
 void FunctionEditor::resetFunctionEditing()
 {
+	kDebug() << k_funcinfo << endl;
+	
 	m_functionID = -1;
 	
 	// page 3 is an empty page
@@ -431,6 +442,8 @@ void FunctionEditor::createNewPlot()
 
 void FunctionEditor::createCartesian()
 {
+	kDebug() << k_funcinfo << endl;
+	
 	m_functionID = -1;
 	
 	// find a name not already used
@@ -448,6 +461,8 @@ void FunctionEditor::createCartesian()
 
 void FunctionEditor::createParametric()
 {
+	kDebug() << k_funcinfo << endl;
+	
 	m_functionID = -1;
 	
 	// find a name not already used
@@ -465,6 +480,8 @@ void FunctionEditor::createParametric()
 
 void FunctionEditor::createPolar()
 {
+	kDebug() << k_funcinfo << endl;
+	
 	m_functionID = -1;
 	
 	// find a name not already used
@@ -480,7 +497,7 @@ void FunctionEditor::createPolar()
 
 void FunctionEditor::save()
 {
-// 	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo << endl;
 	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
@@ -505,7 +522,7 @@ void FunctionEditor::save()
 
 void FunctionEditor::saveCartesian()
 {
-// 	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo << endl;
 	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
@@ -601,7 +618,7 @@ void FunctionEditor::fixCartesianArguments( QString * f_str )
 
 void FunctionEditor::savePolar()
 {
-// 	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo << endl;
 	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
@@ -653,7 +670,7 @@ void FunctionEditor::savePolar()
 
 void FunctionEditor::saveParametric()
 {
-// 	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo << endl;
 	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	

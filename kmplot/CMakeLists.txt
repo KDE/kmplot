@@ -51,7 +51,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kmplotpart )
 
 target_link_libraries(kmplotpart  ${KDE4_KDE3SUPPORT_LIBS} kdeprint ${QT_QTXML_LIBRARY} )
 
-install_targets(${LIB_INSTALL_DIR}/kde4 kmplotpart )
+install_targets(${PLUGIN_INSTALL_DIR} kmplotpart )
 
 ########### next target ###############   
 

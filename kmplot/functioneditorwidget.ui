@@ -516,7 +516,7 @@
 The name of a function must be unique. If you leave this line empty KmPlot will set a default name. You can change it later.</string>
             </property>
             <property name="text" >
-             <string>f</string>
+             <string>f(t)</string>
             </property>
            </widget>
           </item>
@@ -538,14 +538,14 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             <item>
              <widget class="QLabel" name="textLabelYF" >
               <property name="text" >
-               <string>f</string>
+               <string>f(t)</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="textLabelArgY" >
               <property name="text" >
-               <string>(t) =</string>
+               <string> =</string>
               </property>
              </widget>
             </item>
@@ -569,14 +569,14 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             <item>
              <widget class="QLabel" name="textLabelXF" >
               <property name="text" >
-               <string>f</string>
+               <string>f(t)</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="textLabelArgX" >
               <property name="text" >
-               <string>(t) =</string>
+               <string> =</string>
               </property>
              </widget>
             </item>
@@ -623,6 +623,13 @@ Example: sin(t)</string>
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="ParametersWidget" name="parametricParameters" >
+         <property name="title" >
+          <string>Parameters</string>
+         </property>
         </widget>
        </item>
        <item>
@@ -755,6 +762,13 @@ Example: loop(angle)=ln(angle)</string>
         </layout>
        </item>
        <item>
+        <widget class="ParametersWidget" name="polarParameters" >
+         <property name="title" >
+          <string>Parameters</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="groupBox_13" >
          <property name="title" >
           <string>Plot Range</string>
@@ -766,17 +780,13 @@ Example: loop(angle)=ln(angle)</string>
           <property name="spacing" >
            <number>6</number>
           </property>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_4" >
-            <property name="text" >
-             <string>Max:</string>
+          <item row="0" column="1" >
+           <widget class="EquationEdit" name="polarMin" >
+            <property name="toolTip" >
+             <string>lower boundary of the plot range</string>
             </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_3" >
-            <property name="text" >
-             <string>Min:</string>
+            <property name="whatsThis" >
+             <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
             </property>
            </widget>
           </item>
@@ -790,13 +800,17 @@ Example: loop(angle)=ln(angle)</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="EquationEdit" name="polarMin" >
-            <property name="toolTip" >
-             <string>lower boundary of the plot range</string>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_3" >
+            <property name="text" >
+             <string>Min:</string>
             </property>
-            <property name="whatsThis" >
-             <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
+           </widget>
+          </item>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_4" >
+            <property name="text" >
+             <string>Max:</string>
             </property>
            </widget>
           </item>
@@ -848,16 +862,16 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
+   <class>PlotStyleWidget</class>
+   <extends>QGroupBox</extends>
+   <header>plotstylewidget.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>PlotStyleWidget</class>
-   <extends>QGroupBox</extends>
-   <header>plotstylewidget.h</header>
+   <class>KDoubleNumInput</class>
+   <extends></extends>
+   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -869,16 +883,16 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>ParametersWidget</class>
-   <extends>QGroupBox</extends>
-   <header>parameterswidget.h</header>
+   <class>FunctionListWidget</class>
+   <extends>QListWidget</extends>
+   <header>functioneditor.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>FunctionListWidget</class>
-   <extends>QListWidget</extends>
-   <header>functioneditor.h</header>
+   <class>ParametersWidget</class>
+   <extends>QGroupBox</extends>
+   <header>parameterswidget.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

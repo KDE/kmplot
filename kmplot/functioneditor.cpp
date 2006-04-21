@@ -124,7 +124,9 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	foreach ( QComboBox * w, comboBoxes )
 		connect( w, SIGNAL(currentIndexChanged(int)), this, SLOT(save()) );
 	
-	connect( m_editor->cartesianParameters, SIGNAL( parameterListChanged() ), this, SLOT(save()) );
+	QList<ParametersWidget *> parameters = m_editor->findChildren<ParametersWidget *>();
+	foreach ( ParametersWidget * w, parameters )
+		connect( w, SIGNAL( parameterListChanged() ), this, SLOT(save()) );
 	//END connect up all editing widgets
 	
 	connect( XParser::self(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
@@ -362,6 +364,8 @@ void FunctionEditor::initFromPolar()
 	m_editor->polarMax->setText( f->dmax.expression() );
 	m_editor->polar_f0->init( f->plotAppearance( Function::Derivative0 ) );
 	
+	m_editor->polarParameters->init( f->m_parameters );
+	
 	m_editor->stackedWidget->setCurrentIndex( 2 );
 	m_editor->polarEquation->setFocus();
 }
@@ -390,6 +394,8 @@ void FunctionEditor::initFromParametric()
 	m_editor->parametricMin->setText( f->dmin.expression() );
 	m_editor->parametricMax->setText( f->dmax.expression() );
 	
+	m_editor->parametricParameters->init( f->m_parameters );
+	
 	m_editor->parametric_f0->init( f->plotAppearance( Function::Derivative0 ) );
 	
 	m_editor->stackedWidget->setCurrentIndex( 1 );
@@ -402,7 +408,7 @@ void FunctionEditor::splitParametricEquation( const QString equation, QString * 
 	int start = 0;
 	if( equation[ 0 ] == 'x' || equation[ 0 ] == 'y' )
 		start++;
-	int length = equation.indexOf( '(' ) - start;
+	int length = equation.indexOf( ')' ) - start + 1;
 	
 	*name = equation.mid( start, length );   
 	*expression = equation.section( '=', 1, 1 );
@@ -649,6 +655,7 @@ void FunctionEditor::savePolar()
 		return;
 	}
 	
+	tempFunction.m_parameters = m_editor->polarParameters->parameterSettings();
 	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->polar_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
@@ -727,6 +734,7 @@ void FunctionEditor::saveParametric()
 		return;
 	}
 	
+	tempFunction.m_parameters = m_editor->parametricParameters->parameterSettings();
 	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->parametric_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	if ( !tempFunction.eq[0]->setFstr( parametricXPrefix() ) )
@@ -750,13 +758,13 @@ void FunctionEditor::saveParametric()
 
 QString FunctionEditor::parametricXPrefix() const
 {
-	return 'x' + m_editor->parametricName->text() + "(t)=" + m_editor->parametricX->text();
+	return 'x' + m_editor->parametricName->text() + '=' + m_editor->parametricX->text();
 }
 
 
 QString FunctionEditor::parametricYPrefix() const
 {
-	return 'y' + m_editor->parametricName->text() + "(t)=" + m_editor->parametricY->text();
+	return 'y' + m_editor->parametricName->text() + '=' + m_editor->parametricY->text();
 }
 //END class FunctionEditor
 

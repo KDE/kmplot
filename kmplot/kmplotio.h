@@ -111,7 +111,7 @@ class KmPlotIO
 		
 		/// \todo make (at least some of) this stuff non-static
 		double lengthScaler; ///< for reading in lengths
-		int version; ///< version of the file currently being opened (0,1,2,3,4)
+		int version; ///< version of the file currently being opened (0,1,2,3,4,5)
 		QString parametricXEquation; ///< Used when reading in the x part of a parametric equation
 };
 

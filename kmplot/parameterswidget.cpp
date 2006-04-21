@@ -41,33 +41,27 @@ ParametersWidget::ParametersWidget( QWidget * parent )
 }
 
 
-void ParametersWidget::init( Function * function )
+void ParametersWidget::init( const ParameterSettings & settings )
 {
-	m_parameters = function->parameters;
+	useSlider->setChecked( settings.useSlider );
+	useList->setChecked( settings.useList );
 	
-	if( function->use_slider == -1 )
-	{
-		listOfSliders->setCurrentIndex( function->use_slider );
-		if ( function->parameters.isEmpty() )
-			disableParameters->setChecked( true );
-		else    
-			parametersList->setChecked( true );
-	}
-	else
-	{
-		parameterSlider->setChecked( true );
-		listOfSliders->setCurrentIndex( function->use_slider );
-	}
+	listOfSliders->setCurrentIndex( settings.sliderID );
+	m_parameters = settings.list;
 }
 
 
-void ParametersWidget::save( Function * function )
+ParameterSettings ParametersWidget::parameterSettings() const
 {
-	function->parameters = m_parameters;
-	if ( parameterSlider->isChecked() )
-		function->use_slider = listOfSliders->currentIndex(); //specify which slider that will be used
-	else
-		function->use_slider = -1;
+	ParameterSettings s;
+	
+	s.useSlider = useSlider->isChecked();
+	s.useList = useList->isChecked();
+	
+	s.sliderID = listOfSliders->currentIndex();
+	s.list = m_parameters;
+	
+	return s;
 }
 
 

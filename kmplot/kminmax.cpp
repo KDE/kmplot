@@ -47,7 +47,8 @@ KMinMax::KMinMax(QWidget *parent )
 	connect( m_mainWidget->cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
 	connect( m_mainWidget->list, SIGNAL( currentItemChanged( QListWidgetItem*, QListWidgetItem* ) ), this, SLOT( list_currentChanged(QListWidgetItem*) ));
 	connect( m_mainWidget->list, SIGNAL( itemDoubleClicked( QListWidgetItem * ) ), this, SLOT( list_doubleClicked(QListWidgetItem *) ));
-	parameter="";
+	
+	/// \TODO Use of Parameters needs to be thouroughly checked for KMinMax
 }
 
 
@@ -154,20 +155,10 @@ void KMinMax::updateFunctions()
 	{
 		if ( it->type() == Function::Cartesian )
 		{
-			if ( it->f0.visible )
-				m_mainWidget->list->addItem( it->prettyName( Function::Derivative0 ) );
-
-			if ( it->f1.visible ) //1st derivative
+			for ( int i = Function::Derivative0; i <= Function::Integral; ++i )
 			{
-				m_mainWidget->list->addItem( it->prettyName( Function::Derivative1 ) );
-			}
-			if ( it->f2.visible )//2nd derivative
-			{
-				m_mainWidget->list->addItem( it->prettyName( Function::Derivative2 ) );
-			}
-			if ( it->integral.visible )//integral
-			{
-				m_mainWidget->list->addItem( it->prettyName( Function::Integral) );
+				if ( it->plotAppearance( (Function::PMode)i ).visible )
+					m_mainWidget->list->addItem( it->prettyName( (Function::PMode)i ) );
 			}
 		}
 	}
@@ -180,7 +171,7 @@ void KMinMax::updateFunctions()
 	
 	QList<QListWidgetItem *> foundItems = m_mainWidget->list->findItems( selected_item, Qt::MatchExactly );
 	QListWidgetItem * found_item = foundItems.isEmpty() ? 0 : foundItems.first();
-	if ( found_item && View::self()->m_currentFunctionID < 0)
+	if ( found_item && View::self()->m_currentPlot.functionID() < 0)
 		m_mainWidget->list->setCurrentItem( found_item );
 	
 	// if there's no item selected, just pick the first one in the list
@@ -191,18 +182,17 @@ void KMinMax::updateFunctions()
 void KMinMax::selectItem()
 {
 	m_mainWidget->cmdParameter->setEnabled( false );
-	if (  View::self()->m_currentFunctionID < 0)
+	if ( View::self()->m_currentPlot.functionID() < 0)
 		return;
 	//kDebug() << "cstype: " << (int)View::self()->cstype << endl;
-	Function *ufkt = XParser::self()->m_ufkt[ View::self()->m_currentFunctionID ];
-	QString function = ufkt->prettyName( View::self()->m_currentFunctionPlot );
+	Function *ufkt = View::self()->m_currentPlot.function();
+	QString function = ufkt->prettyName( View::self()->m_currentPlot.plotMode );
 	
 	QList<QListWidgetItem *> foundItems = m_mainWidget->list->findItems( function, Qt::MatchExactly );
 	if ( !foundItems.isEmpty() )
 		m_mainWidget->list->setCurrentItem( foundItems.first() );
-
-	if ( !ufkt->parameters.isEmpty() )
-		parameter = ufkt->parameters[View::self()->m_currentFunctionParameter].expression();
+	
+	parameter = View::self()->m_currentPlot.parameter;
 }
 
 KMinMax::~KMinMax()
@@ -266,24 +256,27 @@ void KMinMax::cmdFind_clicked()
 	}
 
 	QString fname, fstr;
-	Function *ufkt = 0;
+	Plot plot;
 	QString sec_function = function.section('(',0,0);
 
 	foreach ( Function * it, XParser::self()->m_ufkt )
 	{
 		if ( it->eq[0]->fstr().section('(',0,0) == sec_function)
-                {
-                        ufkt = it;
+		{
+			plot.setFunctionID( it->id );
 			break;
-                }
+		}
 	}
-        if ( !ufkt)
-        {
-			KMessageBox::sorry(this,i18n("Function could not be found"));
-                return;
-        }
-        
-	if ( ufkt->parameters.isEmpty() )
+	if ( !plot.functionID() == -1 )
+	{
+		KMessageBox::sorry(this,i18n("Function could not be found"));
+		return;
+	}
+	
+	Function * functionPtr = plot.function();
+	
+#if 0
+	if ( functionPtr->m_parameters.list.isEmpty() )
 		parameter = "0";
 	else if ( parameter.isEmpty())
 	{
@@ -292,13 +285,15 @@ void KMinMax::cmdFind_clicked()
 		list_currentChanged( selected.isEmpty() ? 0 : selected.first() );
 		return;
 	}
-
-
+#endif
+	
+	plot.parameter = parameter;
+	
 	switch ( m_mode )
 	{
 		case FindMinimum:
 		{
-			QPointF extremum = View::self()->findMinMaxValue( ufkt, p_mode, View::Minimum, dmin, dmax, parameter );
+			QPointF extremum = View::self()->findMinMaxValue( plot, View::Minimum, dmin, dmax );
 			if ( !View::self()->isCalculationStopped() )
 				KMessageBox::information(this,i18n("Minimum value:\nx: %1\ny: %2", extremum.x(), extremum.y()) );
 			break;
@@ -306,7 +301,7 @@ void KMinMax::cmdFind_clicked()
 		
 		case FindMaximum:
 		{
-			QPointF extremum = View::self()->findMinMaxValue( ufkt, p_mode, View::Maximum, dmin, dmax, parameter );
+			QPointF extremum = View::self()->findMinMaxValue( plot, View::Maximum, dmin, dmax );
 			if ( !View::self()->isCalculationStopped() )
 				KMessageBox::information(this,i18n("Maximum value:\nx: %1\ny: %2", extremum.x(), extremum.y() ));
 			break;
@@ -314,7 +309,7 @@ void KMinMax::cmdFind_clicked()
 		
 		case CalculateY:
 		{
-			double value = View::self()->getYValue( ufkt, p_mode, dmin, parameter );
+			double value = View::self()->value( plot, 0, dmin, true );
 			if ( !View::self()->isCalculationStopped() )
 			{
 				QString tmp;
@@ -329,11 +324,9 @@ void KMinMax::cmdFind_clicked()
 		case CalculateArea:
 		{
 			IntegralDrawSettings s;
-			s.functionID = ufkt->id;
-			s.pMode = p_mode;
+			s.plot = plot;
 			s.dmin = dmin;
 			s.dmax = dmax;
-			s.parameter = parameter;
 		
 			double area = View::self()->areaUnderGraph( s );
 			if ( !View::self()->isCalculationStopped() )
@@ -383,13 +376,12 @@ void KMinMax::list_currentChanged(QListWidgetItem* item)
 	{
 		if ( it->eq[0]->fstr().section('(',0,0) == sec_function)
 		{
-			if ( it->parameters.count() == 0)
+			if ( it->m_parameters.list.count() == 0)
 				m_mainWidget->cmdParameter->setEnabled( false );
 			else
 			{
 				m_mainWidget->cmdParameter->setEnabled( true );
-				if (parameter.isEmpty() )
-					parameter = it->parameters.first().expression();
+				parameter.setListPos( 0 );
 			}
 			break;
 		}
@@ -418,23 +410,24 @@ void KMinMax::cmdParameter_clicked()
 		p_mode = Function::Integral;
 		function[0] =  function[0].toLower();
 	}
-        
+	
+#if 0
 	QString const sec_function = function.section('(',0,0);
-//         for(QVector<Function>::iterator it = XParser::self()->ufkt.begin() ; it!=XParser::self()->ufkt.end(); ++it)
 	foreach ( Function * it, XParser::self()->m_ufkt )
 	{
-		if ( it->eq[0]->fstr().section('(',0,0) == sec_function)
+		if ( it->eq[0]->fstr().section('(',0,0) == sec_function )
 		{
 			QStringList str_parameters;
-			for ( QList<Value>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
-				str_parameters.append( (*k).expression() );
+			foreach ( Value v, it->m_parameters.list )
+				str_parameters.append( v.expression() );
 			bool ok;
 			QStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), str_parameters, QStringList(parameter),false,&ok,this );
-			if ( ok)
-				parameter = result.first();
+			if ( ok )
+				parameter.setListPos( str_parameters.indexOf( result.first() ) );
 			break;
 		}
 	}
+#endif
 }
 
 void KMinMax::list_doubleClicked(QListWidgetItem *)

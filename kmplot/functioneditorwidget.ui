@@ -81,7 +81,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -361,7 +361,7 @@
               <item row="0" column="0" >
                <widget class="QLabel" name="textLabel1_5" >
                 <property name="text" >
-                 <string>&amp;x-value:</string>
+                 <string>&amp;x:</string>
                 </property>
                 <property name="buddy" >
                  <cstring>txtInitX</cstring>
@@ -371,7 +371,7 @@
               <item row="1" column="0" >
                <widget class="QLabel" name="textLabel1_5_2" >
                 <property name="text" >
-                 <string>&amp;y-value:</string>
+                 <string>&amp;y:</string>
                 </property>
                 <property name="buddy" >
                  <cstring>txtInitY</cstring>
@@ -863,23 +863,9 @@ Example: loop(angle)=ln(angle)</string>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>FunctionListWidget</class>
-   <extends>QListWidget</extends>
-   <header>functioneditor.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
+   <class>PlotStyleWidget</class>
+   <extends>QGroupBox</extends>
+   <header>plotstylewidget.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -898,9 +884,23 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>PlotStyleWidget</class>
-   <extends>QGroupBox</extends>
-   <header>plotstylewidget.h</header>
+   <class>KDoubleNumInput</class>
+   <extends></extends>
+   <header>knuminput.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>FunctionListWidget</class>
+   <extends>QListWidget</extends>
+   <header>functioneditor.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

@@ -82,8 +82,6 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	assert( !m_self ); // this class should only be constructed once
 	m_self = this;
 	
-	m_currentFunctionID = m_currentFunctionParameter = -1;
-	m_currentFunctionPlot = Function::Derivative0;
 	m_drawIntegral = false;
 	m_width = m_height = 0.0;
 	m_scaler = 0.0;
@@ -95,7 +93,7 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	m_printHeaderTable = false;
 	stop_calculating = false;
 	m_minmax = 0;
-	isDrawing = false;
+	m_isDrawing = false;
 	m_popupmenushown = 0;
 	m_zoomMode = Normal;
 	m_prevCursor = CursorArrow;
@@ -143,7 +141,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	{
 		case Screen:
 		{
-			ref=QPoint(120, 100);
+			QPointF ref(120, 100);
 			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
 			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
 			DC.scale( m_height/(ly+2*ref.y()), m_height/(ly+2*ref.y()));
@@ -161,7 +159,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		case Printer:
 		{
 			sf=72./254.;        // 72dpi
-			ref=QPoint(100, 100);
+			QPointF ref(100, 100);
 			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
 			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
 			DC.scale(sf, sf);
@@ -170,7 +168,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			drawHeaderTable( &DC );
 			CDiagr::self()->Create( ref, lx, ly, m_xmin, m_xmax, m_ymin, m_ymax );
 			if ( ( (KPrinter* )dev )->option( "app-kmplot-printbackground" ) == "-1" )
-				DC.fillRect( CDiagr::self()->frame(),  backgroundcolor); //draw a colored background
+				DC.fillRect( CDiagr::self()->frame(),  m_backgroundColor); //draw a colored background
 			//DC.end();
 			//((QPixmap *)dev)->fill(QColor("#FF00FF"));
 			//DC.begin(dev);
@@ -179,7 +177,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		
 		case SVG:
 		{
-			ref=QPoint(0, 0);
+			QPointF ref(0, 0);
 			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
 			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
 			CDiagr::self()->Create( ref, lx, ly, m_xmin, m_xmax, m_ymin, m_ymax );
@@ -191,13 +189,13 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		case Pixmap:
 		{
 			sf=180./254.;								// 180dpi
-			ref=QPoint(0, 0);
+			QPointF ref(0, 0);
 			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
 			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
 			CDiagr::self()->Create( ref, lx, ly, m_xmin, m_xmax, m_ymin, m_ymax );
 			DC.end();
 			*((QPixmap *)dev) = QPixmap( (int)(CDiagr::self()->frame().width()*sf), (int)(CDiagr::self()->frame().height()*sf) );
-			((QPixmap *)dev)->fill(backgroundcolor);
+			((QPixmap *)dev)->fill(m_backgroundColor);
 			DC.begin(dev);
 			DC.translate(-CDiagr::self()->frame().left()*sf, -CDiagr::self()->frame().top()*sf);
 			DC.scale(sf, sf);
@@ -212,10 +210,9 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	DC.setRenderHint( QPainter::Antialiasing, true );
 	CDiagr::self()->Plot(&DC);
 	
-	PlotArea=CDiagr::self()->plotArea();
-	area=DC.matrix().mapRect(PlotArea);
+	area=DC.matrix().mapRect( CDiagr::self()->plotArea() );
 	
-	isDrawing=true;
+	m_isDrawing=true;
 	updateCursor();
 	stop_calculating = false;
 	
@@ -226,7 +223,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 // 	if ( m_zoomMode != Translating )
 // 		kDebug() << "##############################\n";
 	DC.setClipping( true );
-	DC.setClipRect( PlotArea );
+	DC.setClipRect( CDiagr::self()->plotArea() );
 	foreach ( Function * ufkt, XParser::self()->m_ufkt )
 	{
 		if ( stop_calculating )
@@ -236,29 +233,37 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	}
 	DC.setClipping( false );
 
-	isDrawing=false;
+	m_isDrawing=false;
 	updateCursor();
 	DC.end();   // painting done
 }
 
 
-double View::value( Equation * eq, Function::PMode mode, double x )
+double View::value( const Plot & plot, int eq, double x, bool updateParameter )
 {
+	Function * function = plot.function();
+	assert( function );
+	
 	double dx = (m_xmax-m_xmin)/area.width();
 	
-	switch ( mode )
+	if ( updateParameter )
+		plot.updateFunctionParameter();
+	
+	Equation * equation = function->eq[ eq ];
+	
+	switch ( plot.plotMode )
 	{
 		case Function::Derivative0:
-			return XParser::self()->fkt( eq, x );
+			return XParser::self()->fkt( equation, x );
 			
 		case Function::Derivative1:
-			return XParser::self()->derivative( 0, Function::Derivative1, eq, x, dx );
+			return XParser::self()->derivative( 1, equation, x, dx );
 			
 		case Function::Derivative2:
-			return XParser::self()->derivative( 0, Function::Derivative2, eq, x, dx );
+			return XParser::self()->derivative( 2, equation, x, dx );
 			
 		case Function::Integral:
-			return XParser::self()->integral( eq, x, dx );
+			return XParser::self()->integral( equation, x, dx );
 	}
 	
 	kWarning() << k_funcinfo << "Unknown mode!\n";
@@ -266,28 +271,29 @@ double View::value( Equation * eq, Function::PMode mode, double x )
 }
 
 
-QPointF View::realValue( Function * function, Function::PMode mode, double x )
+QPointF View::realValue( const Plot & plot, double x, bool updateParameter )
 {
+	Function * function = plot.function();
 	assert( function );
 	
 	switch ( function->type() )
 	{
 		case Function::Cartesian:
 		{
-			double y = value( function->eq[0], mode, x );
+			double y = value( plot, 0, x, updateParameter );
 			return QPointF( x, y );
 		}
 			
 		case Function::Polar:
 		{
-			double y = value( function->eq[0], mode, x );
+			double y = value( plot, 0, x, updateParameter );
 			return QPointF( y * cos(x), y * sin(x) );
 		}
 		
 		case Function::Parametric:
 		{
-			double X = value( function->eq[0], mode, x );
-			double Y = value( function->eq[1], mode, x );
+			double X = value( plot, 0, x, updateParameter );
+			double Y = value( plot, 1, x, updateParameter );
 			return QPointF( X, Y );
 		}
 	}
@@ -357,8 +363,6 @@ double View::getXmax( Function * function )
 
 void View::plotFunction(Function *ufkt, QPainter *pDC)
 {
-	int k, ke, mflg;
-	
 	double dmin = getXmin( ufkt );
 	double dmax = getXmax( ufkt );
 	
@@ -373,133 +377,112 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 	
 	double dx = base_dx;
 	
-	Function::PMode p_mode = Function::Derivative0;
-	
-	double x;
-	QPointF p1, p2;
-	
-	while(1)
+	const QList< Plot > plots = ufkt->allPlots();
+	foreach ( Plot plot, plots )
 	{
-		pDC->setPen( penForPlot( ufkt, p_mode, pDC->renderHints() & QPainter::Antialiasing ) );
+		plot.updateFunctionParameter();
 		
-		k=0;
-		ke=ufkt->parameters.count();
-		do
+		pDC->setPen( penForPlot( plot, pDC->renderHints() & QPainter::Antialiasing ) );
+		
+		bool drawIntegral = m_drawIntegral && (m_integralDrawSettings.plot == plot);
+			
+		int mflg=2;
+		double x = dmin;
+		dx = base_dx;
+		if ( plot.plotMode == Function::Integral )
 		{
-			if ( p_mode == Function::Derivative0 && !ufkt->f0.visible )
-				break; // skip to the next one as function is hidden
+			if ( ufkt->integral_use_precision )
+// 					if ( Settings::useRelativeStepWidth() )
+				dx =  ufkt->integral_precision*(dmax-dmin)/area.width();
+// 					else
+// 						dx =  ufkt->integral_precision;
+		}
 			
-			bool drawIntegral = m_drawIntegral &&
-					(m_integralDrawSettings.functionID == int(ufkt->id)) &&
-					(m_integralDrawSettings.pMode == p_mode) &&
-					((k >= ufkt->parameters.size()) || (m_integralDrawSettings.parameter == ufkt->parameters[k].expression()));
-			
-			if( ufkt->use_slider == -1 )
+		double totalLength = 0.0; // total pixel length; used for drawing dotted lines
+		
+		QPointF p1, p2;
+		
+		while ( x>=dmin && x<=dmax )
+		{
+			p2 = CDiagr::self()->toPixel( realValue( plot, x, false ), CDiagr::ClipInfinite );
+				
+			bool dxAtMinimum = (dx <= base_dx*(5e-5));
+			bool dxAtMaximum = (dx >= base_dx*(5e+1));
+			bool dxTooBig = false;
+			bool dxTooSmall = false;
+					
+			if ( CDiagr::self()->xclipflg || CDiagr::self()->yclipflg )
 			{
-				if ( !ufkt->parameters.isEmpty() )
-					ufkt->setParameter( ufkt->parameters[k].value() );
+				p1=p2;
 			}
 			else
 			{
-				if ( m_sliderWindow )
-					ufkt->setParameter( m_sliderWindow->value( ufkt->use_slider ) );
-			}
-
-			mflg=2;
-			x = dmin;
-			dx = base_dx;
-			if ( p_mode == Function::Integral )
-			{
-				if ( ufkt->integral_use_precision )
-// 					if ( Settings::useRelativeStepWidth() )
-						dx =  ufkt->integral_precision*(dmax-dmin)/area.width();
-// 					else
-// 						dx =  ufkt->integral_precision;
-			}
-			
-			double totalLength = 0.0; // total pixel length; used for drawing dotted lines
-			
-			while ( x>=dmin && x<=dmax )
-			{
-				p2 = CDiagr::self()->toPixel( realValue( ufkt, p_mode, x ), CDiagr::ClipInfinite );
-				
-				bool dxAtMinimum = (dx <= base_dx*(5e-5));
-				bool dxAtMaximum = (dx >= base_dx*(5e+1));
-				bool dxTooBig = false;
-				bool dxTooSmall = false;
+				QPointF p1_pixel = p1 * pDC->matrix();
+				QPointF p2_pixel = p2 * pDC->matrix();
+				QRectF bound = QRectF( p1_pixel, QSizeF( (p2_pixel-p1_pixel).x(), (p2_pixel-p1_pixel).y() ) ).normalized();
+				double length = QLineF( p1_pixel, p2_pixel ).length();
+				totalLength += length;
 					
-				if ( CDiagr::self()->xclipflg || CDiagr::self()->yclipflg )
+				if ( (mflg<=1) && ((ufkt->type() == Function::Parametric) || (ufkt->type() == Function::Polar)) )
 				{
-					p1=p2;
-				}
-				else
-				{
-					QPointF p1_pixel = p1 * pDC->matrix();
-					QPointF p2_pixel = p2 * pDC->matrix();
-					QRectF bound = QRectF( p1_pixel, QSizeF( (p2_pixel-p1_pixel).x(), (p2_pixel-p1_pixel).y() ) ).normalized();
-					double length = QLineF( p1_pixel, p2_pixel ).length();
-					totalLength += length;
-					
-					if ( (mflg<=1) && ((ufkt->type() == Function::Parametric) || (ufkt->type() == Function::Polar)) )
+					if ( QRectF( area ).intersects( bound ) )
 					{
-						if ( QRectF( area ).intersects( bound ) )
+						dxTooBig = !dxAtMinimum && (length > (quickDraw ? 40.0 : 4.0));
+						dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 10.0 : 1.0));
+					}
+					else
+						dxTooSmall = !dxAtMaximum;
+				}
+						
+				if ( !dxTooBig )
+				{
+					if(mflg<=1)
+					{
+						if ( drawIntegral && (x >= m_integralDrawSettings.dmin) && (x <= m_integralDrawSettings.dmax) )
 						{
-							dxTooBig = !dxAtMinimum && (length > (quickDraw ? 40.0 : 4.0));
-							dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 10.0 : 1.0));
+							double y0 = CDiagr::self()->yToPixel( 0 );
+								
+							QPointF points[4];
+							points[0] = QPointF( p1.x(), y0 );
+							points[1] = QPointF( p2.x(), y0 );
+							points[2] = QPointF( p2.x(), p2.y() );
+							points[3] = QPointF( p1.x(), p1.y() );
+								
+							pDC->drawPolygon( points, 4 );
+// 								pDC->drawRect( QRectF( p1, QSizeF( p2.x()-p1.x(), CDiagr::self()->yToPixel( 0 ) - p2.y() ) ) );
 						}
 						else
-							dxTooSmall = !dxAtMaximum;
-					}
-						
-					if ( !dxTooBig )
-					{
-						if(mflg<=1)
 						{
-							if ( drawIntegral && (x >= m_integralDrawSettings.dmin) && (x <= m_integralDrawSettings.dmax) )
-							{
-								double y0 = CDiagr::self()->yToPixel( 0 );
-								
-								QPointF points[4];
-								points[0] = QPointF( p1.x(), y0 );
-								points[1] = QPointF( p2.x(), y0 );
-								points[2] = QPointF( p2.x(), p2.y() );
-								points[3] = QPointF( p1.x(), p1.y() );
-								
-								pDC->drawPolygon( points, 4 );
-// 								pDC->drawRect( QRectF( p1, QSizeF( p2.x()-p1.x(), CDiagr::self()->yToPixel( 0 ) - p2.y() ) ) );
-							}
-							else
-							{
-								if ( penShouldDraw( totalLength, ufkt, p_mode ) )
-									pDC->drawLine( p1, p2 );
-							}
+							if ( penShouldDraw( totalLength, plot ) )
+								pDC->drawLine( p1, p2 );
 						}
-						p1=p2;
 					}
-					mflg=0;
+					p1=p2;
 				}
+				mflg=0;
+			}
 				
-				if ( dxTooBig )
-					dx *= 0.5;
-				else
-				{
-					if ( dxTooSmall )
-						dx *= 2.0;
-					x=x+dx;
-				}
+			if ( dxTooBig )
+				dx *= 0.5;
+			else
+			{
+				if ( dxTooSmall )
+					dx *= 2.0;
+				x=x+dx;
 			}
 		}
-		while(++k<ke);
-
-		// Advance to the next appropriate p_mode
-		if (ufkt->f1.visible==1 && p_mode< Function::Derivative1)
-			p_mode=Function::Derivative1; //draw the 1st derivative
-		else if(ufkt->f2.visible==1 && p_mode< Function::Derivative2)
-			p_mode=Function::Derivative2; //draw the 2nd derivative
-		else if( ufkt->integral.visible==1 && p_mode < Function::Integral)
-			p_mode=Function::Integral; //draw the integral
-		else
-			break; // no derivatives or integrals left to draw
+			
+#if 0
+		// Draw the stationary points if the user has requested them to be shown
+		if ( ufkt->type() == Function::Cartesian )
+		{
+			pDC->setPen( QPen( Qt::black, 10 ) );
+			
+			QList<QPointF> stationaryPoints = findStationaryPoints( p_mode, ufkt->eq[0] );
+			foreach ( QPointF realValue, stationaryPoints )
+				pDC->drawPoint( CDiagr::self()->toPixel( realValue ) );
+		}
+#endif
 	}
 }
 
@@ -513,31 +496,15 @@ double realModulo( double x, double mod )
 }
 
 
-bool View::penShouldDraw( double length, Function * function, Function::PMode pmode )
+bool View::penShouldDraw( double length, const Plot & plot )
 {
 	// Always use a solid line when translating the view
 	if ( m_zoomMode == Translating )
 		return true;
 	
-	Qt::PenStyle style = Qt::SolidLine;
-	switch ( pmode )
-	{
-		case Function::Derivative0:
-			style = function->f0.style;
-			break;
-			
-		case Function::Derivative1:
-			style = function->f1.style;
-			break;
-			
-		case Function::Derivative2:
-			style = function->f2.style;
-			break;
-			
-		case Function::Integral:
-			style = function->integral.style;
-			break;
-	}
+	Function * function = plot.function();
+	
+	Qt::PenStyle style = function->plotAppearance( plot.plotMode ).style;
 	
 	double sepBig = 8.0;	// separation distance between dashes
 	double sepMid = 7.0;	// separation between a dash and a dot
@@ -603,7 +570,7 @@ bool View::penShouldDraw( double length, Function * function, Function::PMode pm
 }
 
 
-QPen View::penForPlot( Function *ufkt, Function::PMode p_mode, bool antialias ) const
+QPen View::penForPlot( const Plot & plot, bool antialias ) const
 {
 	QPen pen;
 	if ( m_zoomMode == Translating )
@@ -617,38 +584,12 @@ QPen View::penForPlot( Function *ufkt, Function::PMode p_mode, bool antialias ) 
 		// (the style will be set back to FlatCap if the plot style is a solid line)
 	}
 	
-	double lineWidth_mm = 0.0;
+	Function * ufkt = plot.function();
 	
-	switch ( p_mode )
-	{
-		case Function::Derivative0:
-			lineWidth_mm = ufkt->f0.lineWidth;
-			pen.setColor(ufkt->f0.color);
-			if ( ufkt->f0.style == Qt::SolidLine )
-				pen.setCapStyle( Qt::FlatCap );
-			break;
-			
-		case Function::Derivative1:
-			lineWidth_mm = ufkt->f1.lineWidth;
-			pen.setColor(ufkt->f1.color);
-			if ( ufkt->f1.style == Qt::SolidLine )
-				pen.setCapStyle( Qt::FlatCap );
-			break;
-			
-		case Function::Derivative2:
-			lineWidth_mm = ufkt->f2.lineWidth;
-			pen.setColor(ufkt->f2.color);
-			if ( ufkt->f2.style == Qt::SolidLine )
-				pen.setCapStyle( Qt::FlatCap );
-			break;
-			
-		case Function::Integral:
-			lineWidth_mm = ufkt->integral.lineWidth;
-			pen.setColor(ufkt->integral.color);
-			if ( ufkt->integral.style == Qt::SolidLine )
-				pen.setCapStyle( Qt::FlatCap );
-			break;
-	}
+	double lineWidth_mm = ufkt->plotAppearance( plot.plotMode ).lineWidth;
+	pen.setColor( ufkt->plotAppearance( plot.plotMode ).color );
+	if ( ufkt->plotAppearance( plot.plotMode ).style == Qt::SolidLine )
+		pen.setCapStyle( Qt::FlatCap );
 	
 	double width = mmToPenWidth( lineWidth_mm, antialias );
 	if ( (width*m_scaler < 3) && !antialias )
@@ -790,33 +731,116 @@ void View::setpi(QString *s)
 }
 
 
-bool View::findRoot( double *x0, Function::PMode plot, Equation *it )
+QList< QPointF > View::findStationaryPoints( const Plot & plot )
 {
-	if(m_haveRoot)
-		return false;
+	Plot plot2 = plot;
 	
+	switch ( plot.plotMode )
+	{
+		case Function::Integral:
+			plot2.plotMode = Function::Derivative0;
+			break;
+			
+		case Function::Derivative0:
+			plot2.plotMode = Function::Derivative1;
+			break;
+			
+		case Function::Derivative1:
+			plot2.plotMode = Function::Derivative2;
+			break;
+			
+		case Function::Derivative2:
+			kWarning() << k_funcinfo << "Can't handle this yet!\n";
+			break;
+	}
+	
+	QList< double > roots = findRoots( plot2 );
+	
+	plot.updateFunctionParameter();
+	QList< QPointF > stationaryPoints;
+	foreach ( double x, roots )
+		stationaryPoints << realValue( plot, x, false );
+	
+	return stationaryPoints;
+}
+
+
+QList< double > View::findRoots( const Plot & plot )
+{
+	Equation * eq = plot.function()->eq[0];
+	
+	double min = getXmin( eq->parent() );
+	double max = getXmax( eq->parent() );
+	
+	double dx = 20*(max-min)/area.width();
+	
+	QList< double > roots;
+	
+	// Use this to detect finding the same root. This assumes that the same root
+	// will be converged to in unbroken x-intervals
+	double prevX = 0.0;
+	
+	for ( double x = min; x < max; x += dx )
+	{
+		double x0 = x;
+		bool found = findRoot( & x0, plot );
+		
+		bool differentRoot = (qAbs(x0-prevX) > (dx/2)) || roots.isEmpty();
+		
+		if ( found && differentRoot )
+		{
+			roots << x0;
+			prevX = x0;
+		}
+	}
+	
+	return roots;
+}
+
+
+bool View::findRoot( double *x0, const Plot & plot )
+{
 	int k = 0; // iteration count
 	int max_k = 200; // maximum number of iterations
 	double max_y = 1e-14; // the largest value of y which is deemed a root found
 	
-	*x0 = m_crosshairPosition.x();
 	double y = m_crosshairPosition.y();
 	bool tooBig = true;
 	
 // 	kDebug() << "Initial: ("<<*x0<<","<<y<<")\n";
 	
+	int n = 1;
+	switch ( plot.plotMode )
+	{
+		case Function::Derivative0:
+			n += 0;
+			break;
+		case Function::Derivative1:
+			n += 1;
+			break;
+		case Function::Derivative2:
+			n += 2;
+			break;
+		case Function::Integral:
+			n += -1;
+			break;
+	}
+	
+	Equation * eq = plot.function()->eq[0];
+	plot.updateFunctionParameter();
+	
 	double dx;
 	do
 	{
-		double df = XParser::self()->derivative( 1, plot, it, *x0, (m_xmax-m_xmin)*1e-5 );
+		double df = XParser::self()->derivative( n, eq, *x0, (m_xmax-m_xmin)*1e-5 );
 		if ( qAbs(df) < 1e-20 )
 			df = 1e-20 * ((df < 0) ? -1 : 1);
 		
 		dx = y / df;
 		*x0 -= dx;
-		y = value( it, plot, *x0 );
+		y = value( plot, 0, *x0, false );
 		
-		kDebug() << "k="<<k<<": ("<<*x0<<","<<y<<")\n";
+// 		kDebug() << "k="<<k<<": ("<<*x0<<","<<y<<")\n";
 		
 		tooBig = (qAbs(y) > max_y);
 	}
@@ -869,31 +893,18 @@ void View::paintEvent(QPaintEvent *)
 	}
 	else if ( shouldShowCrosshairs() )
 	{
-		Function * it = XParser::self()->functionWithID( m_currentFunctionID );
+		Function * it = m_currentPlot.function();
 			
 			// Fadenkreuz zeichnen [draw the cross-hair]
 		QPen pen;
 		if ( !it )
-			pen.setColor(inverted_backgroundcolor);
+			pen.setColor(m_invertedBackgroundColor);
 		else
 		{
-			switch (m_currentFunctionPlot)
-			{
-				case Function::Derivative0:
-					pen.setColor( it->f0.color);
-					break;
-				case Function::Derivative1:
-					pen.setColor( it->f1.color);
-					break;
-				case Function::Derivative2:
-					pen.setColor( it->f2.color);
-					break;
-				case Function::Integral:
-					pen.setColor( it->integral.color);
-					break;
-			}
-			if ( pen.color() == backgroundcolor) // if the "Fadenkreuz" [cross-hair] has the same color as the background, the "Fadenkreuz" [cross-hair] will have the inverted color of background so you can see it easier
-				pen.setColor(inverted_backgroundcolor);
+			pen.setColor( it->plotAppearance( m_currentPlot.plotMode ).color );
+			
+			if ( pen.color() == m_backgroundColor) // if the "Fadenkreuz" [cross-hair] has the same color as the background, the "Fadenkreuz" [cross-hair] will have the inverted color of background so you can see it easier
+				pen.setColor(m_invertedBackgroundColor);
 		}
 		p.setPen( pen );
 		p.Lineh( area.left(), m_crosshairPixelCoords.y(), area.right() );
@@ -905,7 +916,7 @@ void View::paintEvent(QPaintEvent *)
 
 void View::resizeEvent(QResizeEvent *)
 {
-	if (isDrawing) //stop drawing integrals
+	if (m_isDrawing) //stop drawing integrals
 	{
 		stop_calculating = true; //stop drawing
 		return;
@@ -919,7 +930,7 @@ void View::drawPlot()
 {
 	if( m_minmax->isVisible() )
 		m_minmax->updateFunctions();
-	buffer.fill(backgroundcolor);
+	buffer.fill(m_backgroundColor);
 	draw(&buffer, Screen );
 	update();
 }
@@ -967,7 +978,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	if ( m_popupmenushown>0)
 		return;
 
-	if (isDrawing)
+	if (m_isDrawing)
 	{
 		stop_calculating = true; //stop drawing
 		return;
@@ -987,17 +998,17 @@ void View::mousePressEvent(QMouseEvent *e)
 	
 	m_haveRoot = false;
 	
-	bool hadFunction = (m_currentFunctionID != -1 );
+	bool hadFunction = (m_currentPlot.functionID() != -1 );
 	
 	updateCrosshairPosition();
 	
 	if( !m_readonly && e->button()==Qt::RightButton) //clicking with the right mouse button
 	{
 		getPlotUnderMouse();
-		Function * function = XParser::self()->functionWithID( m_currentFunctionID );
+		Function * function = m_currentPlot.function();
 		if ( function )
 		{
-			QString popupTitle( function->prettyName( m_currentFunctionPlot ) );
+			QString popupTitle( function->prettyName( m_currentPlot.plotMode ) );
 			
 			if ( hadFunction )
 				m_popupmenushown = 2;
@@ -1013,9 +1024,9 @@ void View::mousePressEvent(QMouseEvent *e)
 	if(e->button()!=Qt::LeftButton)
 		return;
 	
-	if(m_currentFunctionID>=0) //disable trace mode if trace mode is enable
+	if ( m_currentPlot.functionID() >= 0 ) //disable trace mode if trace mode is enable
 	{
-		m_currentFunctionID=-1;
+		m_currentPlot.setFunctionID( -1 );
 		setStatusBar("",3);
 		setStatusBar("",4);
 		mouseMoveEvent(e);
@@ -1023,7 +1034,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	}
 	
 	QPointF closestPoint = getPlotUnderMouse();
-	Function * function = XParser::self()->functionWithID( m_currentFunctionID );
+	Function * function = m_currentPlot.function();
 	if ( function )
 	{
 		QPointF ptd( CDiagr::self()->toPixel( closestPoint ) );
@@ -1031,13 +1042,13 @@ void View::mousePressEvent(QMouseEvent *e)
 		QCursor::setPos( globalPos );
 		
 		m_minmax->selectItem();
-		setStatusBar( function->prettyName( m_currentFunctionPlot ), 4 );
+		setStatusBar( function->prettyName( m_currentPlot.plotMode ), 4 );
 		
 		return;
 	}
 	
 	// user didn't click on a plot; so we prepare to enter translation mode
-	m_currentFunctionID=-1;
+	m_currentPlot.setFunctionID( -1 );
 	m_zoomMode = AboutToTranslate;
 	m_prevDragMousePos = e->pos();
 	updateCursor();
@@ -1046,10 +1057,10 @@ void View::mousePressEvent(QMouseEvent *e)
 
 QPointF View::getPlotUnderMouse()
 {
-	m_currentFunctionID = -1;
-	m_currentFunctionParameter = 0;
-	m_currentFunctionPlot = Function::Derivative0;
+	m_currentPlot.setFunctionID( -1 );
 	m_trace_x = 0.0;
+	
+	Plot bestPlot;
 	
 	int best_id = -1;
 	double best_distance = 1e30; // a nice large number
@@ -1057,66 +1068,27 @@ QPointF View::getPlotUnderMouse()
 	
 	foreach ( Function * it, XParser::self()->m_ufkt )
 	{
-		int k=0;
-		int const ke=it->parameters.count();
-		do
+		const QList< Plot > plots = it->allPlots();
+		foreach ( Plot plot, plots )
 		{
-			if( it->use_slider == -1 )
-			{
-				if ( !it->parameters.isEmpty())
-					it->setParameter( it->parameters[k].value() );
-			}
-			else
-			{
-				if ( m_sliderWindow )
-					it->setParameter(  m_sliderWindow->value( it->use_slider ) );
-			}
+			plot.updateFunctionParameter();
 			
-			for ( int i = Function::Derivative0; i <= Function::Integral; ++i )
+			double best_x = getClosestPoint( m_crosshairPosition, plot );
+			double distance = pixelDistance( m_crosshairPosition, plot, best_x, false );
+			
+			if ( distance < best_distance )
 			{
-				switch ( (Function::PMode)i )
-				{
-					case Function::Derivative0:
-						if ( !it->f0.visible )
-							continue;
-						break;
-							
-					case Function::Derivative1:
-						if ( !it->f1.visible || (it->type() != Function::Cartesian) )
-							continue;
-						break;
-							
-					case Function::Derivative2:
-						if ( !it->f2.visible || (it->type() != Function::Cartesian) )
-							continue;
-						break;
-							
-					case Function::Integral:
-						if ( !it->integral.visible || (it->type() != Function::Cartesian) )
-							continue;
-						break;
-				}
-					
-				double best_x = getClosestPoint( m_crosshairPosition, it, (Function::PMode)i );
-				double distance = pixelDistance( m_crosshairPosition, it, (Function::PMode)i, best_x );
-					
-				if ( distance < best_distance )
-				{
-					best_distance = distance;
-					best_id = it->id;
-					m_currentFunctionPlot = (Function::PMode)i;
-					m_currentFunctionParameter = k;
-					m_trace_x = best_x;
-					best_cspos = realValue( it, m_currentFunctionPlot, best_x );
-				}
+				best_distance = distance;
+				bestPlot = plot;
+				m_trace_x = best_x;
+				best_cspos = realValue( plot, best_x, false );
 			}
 		}
-		while(++k<ke);
 	}
 	
 	if ( best_distance < 30.0 )
 	{
-		m_currentFunctionID = best_id;
+		m_currentPlot = bestPlot;
 		m_crosshairPosition = best_cspos;
 		return m_crosshairPosition;
 	}
@@ -1125,9 +1097,13 @@ QPointF View::getPlotUnderMouse()
 }
 
 
-double View::getClosestPoint( const QPointF & pos, Function * function, Function::PMode mode )
+double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 {
+	plot.updateFunctionParameter();
+	
 	double best_x = 0.0;
+	
+	Function * function = plot.function();
 	
 	if ( function->type() == Function::Cartesian )
 	{
@@ -1144,7 +1120,7 @@ double View::getClosestPoint( const QPointF & pos, Function * function, Function
 		// line joining (x0,y0) to (x1,y1) and the given point (real_x,real_y)
 		
 		double x = dmin;
-		double y0 = value( function->eq[0], mode, x );
+		double y0 = value( plot, 0, x, false );
 		
 		double best_distance = 1e20; // a large distance
 		
@@ -1168,7 +1144,7 @@ double View::getClosestPoint( const QPointF & pos, Function * function, Function
 			else
 				closest_x = (pixelPos.y() + pixelPos.x()/k + k*_x0 - _y0) / (k + 1.0/k);
 			
-			double closest_y = CDiagr::self()->yToPixel( value( function->eq[0], mode, CDiagr::self()->xToReal( closest_x ) ), CDiagr::ClipInfinite );
+			double closest_y = CDiagr::self()->yToPixel( value( plot, 0, CDiagr::self()->xToReal( closest_x ), false ), CDiagr::ClipInfinite );
 			
 			double dfx = qAbs( closest_x - pixelPos.x() );
 			double dfy = qAbs( closest_y - pixelPos.y() );
@@ -1196,7 +1172,7 @@ double View::getClosestPoint( const QPointF & pos, Function * function, Function
 			double x = minX;
 			while ( x <= maxX )
 			{
-				double distance = pixelDistance( pos, function, mode, x );
+				double distance = pixelDistance( pos, plot, x, false );
 				if ( distance < best_distance )
 				{
 					best_distance = distance;
@@ -1217,9 +1193,9 @@ double View::getClosestPoint( const QPointF & pos, Function * function, Function
 }
 
 
-double View::pixelDistance( const QPointF & pos, Function * function, Function::PMode mode, double x )
+double View::pixelDistance( const QPointF & pos, const Plot & plot, double x, bool updateFunctionParameter )
 {
-	QPointF f = realValue( function, mode, x );
+	QPointF f = realValue( plot, x, updateFunctionParameter );
 	QPointF df = CDiagr::self()->toPixel( pos, CDiagr::ClipInfinite ) - CDiagr::self()->toPixel( f, CDiagr::ClipInfinite );
 					
 	return std::sqrt( df.x()*df.x() + df.y()*df.y() );
@@ -1283,7 +1259,7 @@ QString View::posToString( double x, double delta, PositionFormatting format, QC
 
 void View::mouseMoveEvent(QMouseEvent *e)
 {
-	if ( isDrawing )
+	if ( m_isDrawing )
 		return;
 	
 	bool inBounds = updateCrosshairPosition();
@@ -1330,7 +1306,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 			 !m_popupmenu->isVisible() )
 	{
 		if ( m_popupmenushown==1)
-			m_currentFunctionID=-1;
+			m_currentPlot.setFunctionID( -1 );
 		m_popupmenushown = 0;
 	}
 	
@@ -1348,22 +1324,12 @@ bool View::updateCrosshairPosition()
 	QPointF ptl = mousePos * wm.inverted();
 	m_crosshairPosition = CDiagr::self()->toReal( ptl );
 	
-	Function * it = XParser::self()->functionWithID( m_currentFunctionID );
+	m_currentPlot.updateFunctionParameter();
+	Function * it = m_currentPlot.function();
 	
 	if ( it && crosshairPositionValid( it ) )
 	{
 		// The user currently has a plot selected, with the mouse in a valid position
-		
-		if( it->use_slider == -1 )
-		{
-			if( !it->parameters.isEmpty() )
-				it->setParameter( it->parameters[m_currentFunctionParameter].value() );
-		}
-		else
-		{
-			if ( m_sliderWindow )
-				it->setParameter( m_sliderWindow->value( it->use_slider ) );
-		}
 		
 		if ( (it->type() == Function::Parametric) ||
 					(it->type() == Function::Polar) )
@@ -1373,14 +1339,14 @@ bool View::updateCrosshairPosition()
 			double dx[2] = { -0.00001, +0.00001 };
 			double d[] = { 0.0, 0.0 };
 			for ( int i = 0; i < 2; ++ i )
-				d[i] = pixelDistance( m_crosshairPosition, it, Function::Derivative0, m_trace_x + dx[i] );
+				d[i] = pixelDistance( m_crosshairPosition, m_currentPlot, m_trace_x + dx[i], false );
 			
-			double prev_best = pixelDistance( m_crosshairPosition, it, Function::Derivative0, m_trace_x );
+			double prev_best = pixelDistance( m_crosshairPosition, m_currentPlot, m_trace_x, false );
 			double current_dx = dx[(d[0] < d[1]) ? 0 : 1]*1e3;
 			
 			while ( true )
 			{	
-				double new_distance = pixelDistance( m_crosshairPosition, it, Function::Derivative0, m_trace_x + current_dx );
+				double new_distance = pixelDistance( m_crosshairPosition, m_currentPlot, m_trace_x + current_dx, false );
 				if ( new_distance < prev_best )
 				{
 					prev_best = new_distance;
@@ -1404,13 +1370,13 @@ bool View::updateCrosshairPosition()
 			else if ( m_trace_x < min )
 				m_trace_x = min;
 			
-			m_crosshairPosition = realValue( it, Function::Derivative0, m_trace_x );
+			m_crosshairPosition = realValue( m_currentPlot, m_trace_x, false );
 		}
 		else
 		{
 			// cartesian plot
 			
-			m_crosshairPosition.setY( value( it->eq[0], m_currentFunctionPlot, m_crosshairPosition.x() ) );
+			m_crosshairPosition.setY( value( m_currentPlot, 0, m_crosshairPosition.x(), false ) );
 			ptl.setY(CDiagr::self()->yToPixel( m_crosshairPosition.y() ));
 
 			if ( m_crosshairPosition.y()<m_ymin || m_crosshairPosition.y()>m_ymax) //the ypoint is not visible
@@ -1419,8 +1385,8 @@ bool View::updateCrosshairPosition()
 			}
 			else if(fabs(CDiagr::self()->yToReal(ptl.y())) < (m_ymax-m_ymin)/80)
 			{
-				double x0;
-				if ( findRoot( &x0, m_currentFunctionPlot, it->eq[0] ) )
+				double x0 = m_crosshairPosition.x();
+				if ( !m_haveRoot && findRoot( &x0, m_currentPlot ) )
 				{
 					QString str="  ";
 					str+=i18n("root");
@@ -1746,15 +1712,15 @@ void View::getSettings()
 	
 	XParser::self()->setAngleMode( (Parser::AngleMode)Settings::anglemode() );
 
-	backgroundcolor = Settings::backgroundcolor();
-	if ( !backgroundcolor.isValid() )
-		backgroundcolor = Qt::white;
+	m_backgroundColor = Settings::backgroundcolor();
+	if ( !m_backgroundColor.isValid() )
+		m_backgroundColor = Qt::white;
 	
-	invertColor(backgroundcolor,inverted_backgroundcolor);
+	invertColor(m_backgroundColor,m_invertedBackgroundColor);
 	
-// 	setBackgroundColor(backgroundcolor);
+// 	setBackgroundColor(m_backgroundColor);
 	QPalette palette;
-	palette.setColor( backgroundRole(), backgroundcolor );
+	palette.setColor( backgroundRole(), m_backgroundColor );
 	setPalette(palette);
 }
 
@@ -1769,12 +1735,13 @@ void View::init()
 
 void View::stopDrawing()
 {
-	if (isDrawing)
+	if (m_isDrawing)
 		stop_calculating = true;
 }
 
-QPointF View::findMinMaxValue(Function *ufkt, Function::PMode p_mode, ExtremaType type, double dmin, double dmax, const QString &str_parameter)
+QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin, double dmax )
 {
+	Function * ufkt = plot.function();
 	assert( ufkt->type() == Function::Cartesian );
 	
 	double x = 0;
@@ -1782,22 +1749,9 @@ QPointF View::findMinMaxValue(Function *ufkt, Function::PMode p_mode, ExtremaTyp
 	double result_x = 0;
 	double result_y = 0;
 	bool start = true;
-
-	// TODO: parameter sliders
-	if ( !ufkt->parameters.isEmpty() )
-	{
-		for ( QList<Value>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
-		{
-			if ( (*it).expression() == str_parameter)
-			{
-				ufkt->setParameter( (*it).value() );
-				break;
-			}
-		}
-	}
-
+	
 	double dx;
-	if ( p_mode == Function::Integral )
+	if ( plot.plotMode == Function::Integral )
 	{
 		if ( ufkt->integral_use_precision )
 		{
@@ -1819,10 +1773,11 @@ QPointF View::findMinMaxValue(Function *ufkt, Function::PMode p_mode, ExtremaTyp
 	
 	x=dmin;
 
+	plot.updateFunctionParameter();
 	
 	while ( (x>=dmin && x<=dmax) )
 	{
-		y = value( ufkt->eq[0], p_mode, x );
+		y = value( plot, 0, x, false );
 		
 		if ( !isnan(x) && !isnan(y) )
 		{
@@ -1868,26 +1823,6 @@ QPointF View::findMinMaxValue(Function *ufkt, Function::PMode p_mode, ExtremaTyp
 }
 
 
-double View::getYValue( Function *ufkt, Function::PMode p_mode, double x, const QString &str_parameter )
-{
-	assert( ufkt->type() == Function::Cartesian );
-	
-	// TODO: parameter sliders
-	if ( !ufkt->parameters.isEmpty() )
-	{
-		for ( QList<Value>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
-		{
-			if ( (*it).expression() == str_parameter)
-			{
-				ufkt->setParameter( (*it).value() );
-				break;
-			}
-		}
-	}
-	
-	return value( ufkt->eq[0], p_mode, x );
-}
-
 void View::keyPressEvent( QKeyEvent * e )
 {
 	// if a zoom operation is in progress, assume that the key press is to cancel it
@@ -1899,23 +1834,25 @@ void View::keyPressEvent( QKeyEvent * e )
 		return;
 	}
 	
-	if (isDrawing)
+	if (m_isDrawing)
 	{
 		stop_calculating=true;
 		return;
 	}
 	
-	if (m_currentFunctionID==-1 )
+	if ( m_currentPlot.functionID() == -1 )
 		return;
 
-	QMouseEvent *event;
+	QMouseEvent * event = 0;
 	if (e->key() == Qt::Key_Left )
 		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint() - QPoint(1,1), Qt::LeftButton, Qt::LeftButton, 0 );
 	else if (e->key() == Qt::Key_Right )
 		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint() + QPoint(1,1), Qt::LeftButton, Qt::LeftButton, 0 );
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-		QMap<int, Function*>::iterator it = XParser::self()->m_ufkt.find( m_currentFunctionID );
+		/// \todo reimplement moving between plots
+#if 0
+		QMap<int, Function*>::iterator it = XParser::self()->m_ufkt.find( m_currentPlot.functionID );
 		int const ke=(*it)->parameters.count();
 		if (ke>0)
 		{
@@ -1925,18 +1862,18 @@ void View::keyPressEvent( QKeyEvent * e )
 		}
 		if (m_currentFunctionParameter==0)
 		{
-			int const old_m_currentFunctionID=m_currentFunctionID;
-			Function::PMode const old_m_currentFunctionPlot = m_currentFunctionPlot;
+			int const old_m_currentPlot.functionID=m_currentPlot.functionID;
+			Function::PMode const old_m_currentPlot.plotMode = m_currentPlot.plotMode;
 			bool start = true;
 			bool found = false;
 			while ( 1 )
 			{
-				if ( old_m_currentFunctionID==m_currentFunctionID && !start)
+				if ( old_m_currentPlot.functionID==m_currentPlot.functionID && !start)
 				{
-					m_currentFunctionPlot=old_m_currentFunctionPlot;
+					m_currentPlot.plotMode=old_m_currentPlot.plotMode;
 					break;
 				}
-				kDebug() << "m_currentFunctionID: " << m_currentFunctionID << endl;
+				kDebug() << "m_currentPlot.functionID: " << m_currentPlot.functionID << endl;
 				switch ( (*it)->type() )
 				{
 					case Function::Parametric:
@@ -1945,37 +1882,22 @@ void View::keyPressEvent( QKeyEvent * e )
 				default:
 				{
 					//going through the function, the first and the second derivative
-					for ( m_currentFunctionPlot = (Function::PMode)0; m_currentFunctionPlot < 3; m_currentFunctionPlot = (Function::PMode)(m_currentFunctionPlot+1) )
-// 					for (m_currentFunctionPlot=0;m_currentFunctionPlot<3;m_currentFunctionPlot++) 
+					for ( m_currentPlot.plotMode = (Function::PMode)0; m_currentPlot.plotMode < 3; m_currentPlot.plotMode = (Function::PMode)(m_currentPlot.plotMode+1) )
+// 					for (m_currentPlot.plotMode=0;m_currentPlot.plotMode<3;m_currentPlot.plotMode++) 
 					{
 							if (start)
 							{
-								if ( m_currentFunctionPlot==Function::Derivative2)
-									m_currentFunctionPlot=Function::Derivative0;
+								if ( m_currentPlot.plotMode==Function::Derivative2)
+									m_currentPlot.plotMode=Function::Derivative0;
 								else
-									m_currentFunctionPlot = (Function::PMode)(old_m_currentFunctionPlot+1);
+									m_currentPlot.plotMode = (Function::PMode)(old_m_currentPlot.plotMode+1);
 								start=false;
 							}
-							kDebug() << "   m_currentFunctionPlot: " << (int)m_currentFunctionPlot << endl;
-						switch (m_currentFunctionPlot)
-						{
-							case Function::Derivative0:
-								if ((*it)->f0.visible )
-									found=true;
-								break;
-							case Function::Derivative1:
-								if ( (*it)->f1.visible )
-									found=true;
-								break;
-							case Function::Derivative2:
-								if ( (*it)->f2.visible )
-									found=true;
-								break;
-							case Function::Integral:
-								if ( (*it)->integral.visible )
-									found = true;
-								break;
-							}
+						kDebug() << "   m_currentPlot.plotMode: " << (int)m_currentPlot.plotMode << endl;
+						
+						if ( (*it)->plotAppearance( m_currentPlot.plotMode ).visible )
+							found = true;
+						
 							if (found)
 								break;
 						}
@@ -1987,18 +1909,19 @@ void View::keyPressEvent( QKeyEvent * e )
 
 				if ( ++it == XParser::self()->m_ufkt.end())
 					it = XParser::self()->m_ufkt.begin();
-				m_currentFunctionID = (*it)->id;
+				m_currentPlot.functionID = (*it)->id;
 			}
 		}
 
 		kDebug() << "************************" << endl;
-		kDebug() << "m_currentFunctionID: " << (int)m_currentFunctionID << endl;
-		kDebug() << "m_currentFunctionPlot: " << (int)m_currentFunctionPlot << endl;
+		kDebug() << "m_currentPlot.functionID: " << (int)m_currentPlot.functionID << endl;
+		kDebug() << "m_currentPlot.plotMode: " << (int)m_currentPlot.plotMode << endl;
 		kDebug() << "m_currentFunctionParameter: " << m_currentFunctionParameter << endl;
 		
-		setStatusBar( (*it)->prettyName( m_currentFunctionPlot ), 4 );
+		setStatusBar( (*it)->prettyName( m_currentPlot.plotMode ), 4 );
 		
 		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint(), Qt::LeftButton, Qt::LeftButton, 0 );
+#endif
 	}
 	else if ( e->key() == Qt::Key_Space  )
 	{
@@ -2023,24 +1946,11 @@ double View::areaUnderGraph( IntegralDrawSettings s )
 {
 	assert( s.dmin < s.dmax );
 	
-	Function * ufkt = XParser::self()->functionWithID( s.functionID );
+	Function * ufkt = s.plot.function();
 	assert( ufkt );
-
-	// TODO: parameter sliders
-	if ( !ufkt->parameters.isEmpty() )
-	{
-		for ( QList<Value>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
-		{
-			if ( (*it).expression() == s.parameter )
-			{
-				ufkt->setParameter( (*it).value() );
-				break;
-			}
-		}
-	}
 	
 	double dx;
-	if ( (s.pMode == Function::Integral) && ufkt->integral_use_precision )
+	if ( (s.plot.plotMode == Function::Integral) && ufkt->integral_use_precision )
 		dx = ufkt->integral_precision*(s.dmax-s.dmin)/area.width();
 	else
 		dx = (s.dmax-s.dmin)/area.width();
@@ -2054,9 +1964,11 @@ double View::areaUnderGraph( IntegralDrawSettings s )
 	double calculated_area=0;
 	double x = s.dmin;
 	
+	s.plot.updateFunctionParameter();
+	
 	for ( int i = 0; i <= intervals; ++i )
 	{
-		double y = value( ufkt->eq[0], s.pMode, x );
+		double y = value( s.plot, 0, x, false );
 		
 		// Trapezoid rule for integrals: only add on half for the first and last value
 		if ( (i == 0) || (i == intervals) )
@@ -2097,7 +2009,7 @@ void View::updateSliders()
 // 	for(QVector<Function>::iterator it=XParser::self()->ufkt.begin(); it!=XParser::self()->ufkt.end(); ++it)
 	foreach ( Function * it, XParser::self()->m_ufkt )
 	{
-		if( it->use_slider > -1  &&  (it->f0.visible || it->f1.visible || it->f2.visible || it->integral.visible))
+		if ( it->m_parameters.useSlider && !it->allPlotsAreHidden() )
 		{
 			if ( !m_sliderWindow )
 			{
@@ -2113,34 +2025,21 @@ void View::updateSliders()
 
 void View::mnuHide_clicked()
 {
-    if ( m_currentFunctionID == -1 )
+	if ( m_currentPlot.functionID() == -1 )
       return;
 
-	Function *ufkt = XParser::self()->m_ufkt[ m_currentFunctionID ];
-	switch (m_currentFunctionPlot )
-	{
-		case Function::Derivative0:
-			ufkt->f0.visible=0;
-			break;
-		case Function::Derivative1:
-			ufkt->f1.visible=0;
-			break;
-		case Function::Derivative2:
-			ufkt->f2.visible=0;
-			break;
-		case Function::Integral:
-			ufkt->integral.visible=0;
-			break;
-	}
+	Function * ufkt = m_currentPlot.function();
+	ufkt->plotAppearance( m_currentPlot.plotMode ).visible = false;
+	
 	MainDlg::self()->functionEditor()->functionsChanged();
 	drawPlot();
 	m_modified = true;
 	updateSliders();
-	if (m_currentFunctionID==-1)
+	if ( m_currentPlot.functionID() == -1 )
 		return;
-	if ( !ufkt->f0.visible && !ufkt->f1.visible && !ufkt->f2.visible) //all graphs for the function are hidden
+	if ( ufkt->allPlotsAreHidden() )
 	{
-		m_currentFunctionID=-1;
+		m_currentPlot.setFunctionID( -1 );
 		QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, 0 );
 		mousePressEvent(event); //leave trace mode
 		delete event;
@@ -2156,17 +2055,17 @@ void View::mnuHide_clicked()
 }
 void View::mnuRemove_clicked()
 {
-    if ( m_currentFunctionID == -1 )
+	if ( m_currentPlot.functionID() == -1 )
       return;
 
-	Function *ufkt =  XParser::self()->m_ufkt[ m_currentFunctionID ];
+	Function * ufkt = m_currentPlot.function();
 	Function::Type function_type = ufkt->type();
 	if (!XParser::self()->removeFunction( ufkt ))
 		return;
 
-	if (m_currentFunctionID!=-1) // if trace mode is enabled
+	if ( m_currentPlot.functionID() != -1 ) // if trace mode is enabled
 	{
-		m_currentFunctionID=-1;
+		m_currentPlot.setFunctionID( -1 );
 		QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, 0 );
 		mousePressEvent(event); //leave trace mode
 		delete event;
@@ -2179,7 +2078,7 @@ void View::mnuRemove_clicked()
 }
 void View::mnuEdit_clicked()
 {
-	MainDlg::self()->functionEditor()->setCurrentFunction( m_currentFunctionID );
+	MainDlg::self()->functionEditor()->setCurrentFunction( m_currentPlot.functionID() );
 }
 
 
@@ -2229,7 +2128,7 @@ void View::updateCursor()
 {
 	Cursor newCursor = m_prevCursor;
 	
-	if ( isDrawing && (m_zoomMode != Translating) )
+	if ( m_isDrawing && (m_zoomMode != Translating) )
 		newCursor = CursorWait;
 	
 	else switch (m_zoomMode)
@@ -2312,7 +2211,7 @@ bool View::shouldShowCrosshairs() const
 			return false;
 	}
 	
-	Function * it = XParser::self()->functionWithID( m_currentFunctionID );
+	Function * it = m_currentPlot.function();
 	
 	QPoint mousePos = mapFromGlobal( QCursor::pos() );
 	
@@ -2322,7 +2221,7 @@ bool View::shouldShowCrosshairs() const
 
 bool View::event( QEvent * e )
 {
-	if ( e->type() == QEvent::WindowDeactivate && isDrawing)
+	if ( e->type() == QEvent::WindowDeactivate && m_isDrawing)
 	{
 		stop_calculating = true;
 		return true;
@@ -2386,8 +2285,6 @@ void View::slidersWindowClosed()
 //BEGIN class IntegralDrawSettings
 IntegralDrawSettings::IntegralDrawSettings()
 {
-	functionID = -1;
-	pMode = Function::Derivative0;
 	dmin = dmax = 0.0;
 }
 //END class IntegralDrawSettings

@@ -24,8 +24,10 @@
 */
 
 #include "function.h"
-#include "xparser.h"
+#include "ksliderwindow.h"
 #include "settings.h"
+#include "View.h"
+#include "xparser.h"
 
 #include <kdebug.h>
 
@@ -64,8 +66,8 @@ bool Value::operator == ( const Value & other )
 
 
 
-//BEGIN class Plot
-Plot::Plot( )
+//BEGIN class PlotAppearance
+PlotAppearance::PlotAppearance( )
 {
 	lineWidth = 0.2;
 	color = Qt::black;
@@ -74,7 +76,7 @@ Plot::Plot( )
 }
 
 
-bool Plot::operator !=( const Plot & other ) const
+bool PlotAppearance::operator !=( const PlotAppearance & other ) const
 {
 	return (visible != other.visible) ||
 			(color != other.color) ||
@@ -83,7 +85,7 @@ bool Plot::operator !=( const Plot & other ) const
 }
 
 
-QString Plot::penStyleToString( Qt::PenStyle style )
+QString PlotAppearance::penStyleToString( Qt::PenStyle style )
 {
 	switch ( style )
 	{
@@ -116,7 +118,7 @@ QString Plot::penStyleToString( Qt::PenStyle style )
 }
 
 
-Qt::PenStyle Plot::stringToPenStyle( const QString & style )
+Qt::PenStyle PlotAppearance::stringToPenStyle( const QString & style )
 {
 	if ( style == "NoPen" )
 		return Qt::NoPen;
@@ -139,7 +141,7 @@ Qt::PenStyle Plot::stringToPenStyle( const QString & style )
 	kWarning() << k_funcinfo << "Unknown style " << style << endl;
 	return Qt::SolidLine;
 }
-//END class Plot
+//END class PlotAppearance
 
 
 
@@ -320,7 +322,6 @@ Function::Function( Type type )
 	
 	k = 0;
 	integral_precision = 1.0;
-	use_slider = -1;
 }
 
 
@@ -356,9 +357,9 @@ bool Function::copyFrom( const Function & function )
 	COPY_AND_CHECK( dmin );						// 5
 	COPY_AND_CHECK( dmax );						// 6
 	COPY_AND_CHECK( integral_precision );		// 7
-	COPY_AND_CHECK( use_slider );				// 8
-	COPY_AND_CHECK( usecustomxmin );			// 9
-	COPY_AND_CHECK( usecustomxmax );			// 10
+	COPY_AND_CHECK( usecustomxmin );			// 8
+	COPY_AND_CHECK( usecustomxmax );			// 9
+	COPY_AND_CHECK( m_parameters );				// 10
 	
 	// handle equations separately
 	for ( int i = 0; i < 2; ++i )
@@ -370,26 +371,6 @@ bool Function::copyFrom( const Function & function )
 		{
 			changed = true;
 			*eq[i] = *function.eq[i];
-		}
-	}
-	
-	// handle parameters separately
-	if ( parameters.count() != function.parameters.count() )
-	{
-		changed = true;
-		parameters = function.parameters;
-	}
-	else
-	{
-		/// \todo This code doesn't look like it properly sets parameters from the other function
-		foreach ( Value p, parameters )
-		{
-			if ( !function.parameters.contains( p ) )
-			{
-				changed = true;
-				parameters = function.parameters;
-				break;
-			}
 		}
 	}
 	
@@ -420,6 +401,54 @@ QString Function::prettyName( Function::PMode mode ) const
 	
 	kWarning() << k_funcinfo << "Unknown mode!\n";
 	return "???";
+}
+
+
+PlotAppearance & Function::plotAppearance( PMode plot )
+{
+	// NOTE: This function is identical to the const one, so changes to this should be applied to both
+	
+	switch ( plot )
+	{
+		case Function::Derivative0:
+			return f0;
+		case Function::Derivative1:
+			return f1;
+			
+		case Function::Derivative2:
+			return f2;
+			
+		case Function::Integral:
+			return integral;
+	}
+	
+	kError() << k_funcinfo << "Unknown plot " << plot << endl;
+	return f0;
+}
+PlotAppearance Function::plotAppearance( PMode plot ) const
+{
+	// NOTE: This function is identical to the none-const one, so changes to this should be applied to both
+	
+	switch ( plot )
+	{
+		case Function::Derivative0:
+			return f0;
+		case Function::Derivative1:
+			return f1;
+		case Function::Derivative2:
+			return f2;
+		case Function::Integral:
+			return integral;
+	}
+	
+	kError() << k_funcinfo << "Unknown plot " << plot << endl;
+	return f0;
+}
+
+
+bool Function::allPlotsAreHidden( ) const
+{
+	return !f0.visible && !f1.visible && !f2.visible && !integral.visible;
 }
 
 
@@ -456,4 +485,162 @@ Function::Type Function::stringToType( const QString & type )
 	kWarning() << "Unknown type " << type << endl;
 	return Cartesian;
 }
+
+
+QList< Plot > Function::allPlots( ) const
+{
+	QList< Plot > list;
+	
+	for ( PMode p = Derivative0; p <= Integral; p = PMode(p+1) )
+	{
+		if ( !plotAppearance( p ).visible )
+			continue;
+		
+		Plot plot;
+		plot.setFunctionID( id );
+		plot.plotMode = p;
+		
+		bool usedParameter = false;
+		
+		if ( m_parameters.useSlider )
+		{
+			Parameter param( Parameter::Slider );
+			param.setSliderID( m_parameters.sliderID );
+			plot.parameter = param;
+			list << plot;
+			usedParameter = true;
+		}
+		
+		if ( m_parameters.useList )
+		{
+			int pos = 0;
+			foreach ( Value v, m_parameters.list )
+			{
+				Parameter param( Parameter::List );
+				param.setListPos( pos++ );
+				plot.parameter = param;
+				list << plot;
+				usedParameter = true;
+			}
+		}
+		
+		if ( !usedParameter )
+			list << plot;
+	}
+	
+	return list;
+}
 //END class Function
+
+
+
+//BEGIN class ParameterSettings
+ParameterSettings::ParameterSettings()
+{
+	useSlider = false;
+	sliderID = 0;
+	useList = false;
+}
+
+
+bool ParameterSettings::operator == ( const ParameterSettings & other ) const
+{
+	return ( useSlider == other.useSlider ) &&
+			( sliderID == other.sliderID ) &&
+			( useList == other.useList ) &&
+			( list == other.list );
+}
+//END class ParameterSettings
+
+
+
+//BEGIN class Parameter
+Parameter::Parameter( Type type )
+	: m_type( type )
+{
+	m_sliderID = -1;
+	m_listPos = -1;
+}
+
+
+bool Parameter::operator == ( const Parameter & other ) const
+{
+	return ( type() == other.type() ) &&
+			( listPos() == other.listPos() ) &&
+			( sliderID() == other.sliderID() );
+}
+//END class Parameter
+
+
+
+//BEGIN class Plot
+Plot::Plot( )
+{
+	m_function = 0;
+	m_functionID = -1;
+	plotMode = Function::Derivative0;
+}
+
+
+bool Plot::operator ==( const Plot & other ) const
+{
+	return ( m_functionID == other.functionID() ) &&
+			( plotMode == other.plotMode ) &&
+			( parameter == other.parameter );
+}
+
+
+void Plot::setFunctionID( int id )
+{
+	m_functionID = id;
+	updateCached();
+}
+
+
+void Plot::updateCached()
+{
+	m_function = XParser::self()->functionWithID( m_functionID );
+}
+
+
+void Plot::updateFunctionParameter() const
+{
+	if ( !m_function )
+		return;
+	
+	double k = 0.0;
+	
+	switch ( parameter.type() )
+	{
+		case Parameter::Unknown:
+			break;
+			
+		case Parameter::Slider:
+		{
+			KSliderWindow * sw = View::self()->m_sliderWindow;
+			
+			if ( !sw )
+			{
+				// Slider window isn't open. Ask View to open it
+				View::self()->updateSliders();
+				
+				// It should now be open
+				sw = View::self()->m_sliderWindow;
+				assert( sw );
+			}
+			
+			k = sw->value( parameter.sliderID() );
+			break;
+		}
+			
+		case Parameter::List:
+		{
+			if ( (parameter.listPos() >= 0) && (parameter.listPos() < m_function->m_parameters.list.size()) )
+				k = m_function->m_parameters.list[ parameter.listPos() ].value();
+			break;
+		}
+	}
+	
+	m_function->setParameter( k );
+}
+//END class Plot

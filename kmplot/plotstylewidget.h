@@ -28,7 +28,7 @@
 
 #include "ui_plotstylewidget.h"
 
-class Plot;
+class PlotAppearance;
 
 class PlotStyleWidget : public QGroupBox, public Ui_PlotStyleWidet
 {
@@ -39,13 +39,13 @@ class PlotStyleWidget : public QGroupBox, public Ui_PlotStyleWidet
 		/**
 		 * Initializes the contents of the widgets to the settings in \p plot.
 		 */
-		void init( const Plot & plot );
+		void init( const PlotAppearance & plot );
 		/**
 		 * \return A plot with appearance configured by this widget.
 		 * \param visible Whether the plot is visible (this widget does not
 		 * control that aspect of a Plot).
 		 */
-		Plot plot( bool visible );
+		PlotAppearance plot( bool visible );
 		/**
 		 * \return the currently selected style.
 		 */

@@ -81,7 +81,7 @@ CDiagr::~CDiagr()
 	m_textEdit->deleteLater();
 }
 
-void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
+void CDiagr::Create( QPointF Ref, 			    // Bezugspunkt links unten
                     double lx, double ly, 			// Achsenl�gen
                     double xmin, double xmax,   // x-Wertebereich
                     double ymin, double ymax) 	// y-Wertebereich
@@ -99,7 +99,7 @@ void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
 	sky=ly/(ymax-ymin);
 	ox=Ref.x()-skx*xmin+0.5;	        // Ursprungskoordinaten berechnen
 	oy=Ref.y()+sky*ymax+0.5;
-	m_plotArea.setRect(x=Ref.x(), y=Ref.y(), w=int(lx), h=int(ly));
+	m_plotArea.setRect(x=int(Ref.x()), y=int(Ref.y()), w=int(lx), h=int(ly));
 	if( Settings::showExtraFrame() )
 	{
 		x-=20;

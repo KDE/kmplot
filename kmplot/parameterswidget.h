@@ -39,11 +39,11 @@ class ParametersWidget : public QGroupBox, public Ui_ParametersWidget
 		 * Initializes the contents of the widgets to the settings in
 		 * \p function.
 		 */
-		void init( Function * function );
+		void init( const ParameterSettings & parameters );
 		/**
-		 * Saves the settings currently in these widgets to \p function.
+		 * \return the current settings as specified in the widgets.
 		 */
-		void save( Function * function );
+		ParameterSettings parameterSettings() const;
 		
 	signals:
 		/**

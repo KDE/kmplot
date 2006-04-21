@@ -65,10 +65,8 @@ class XParser;
 	public:
 		IntegralDrawSettings();
 		
-		int functionID;
-		Function::PMode pMode;
+		Plot plot;
 		double dmin, dmax;
-		QString parameter; ///< parameter for the function
 };
 
 
@@ -110,9 +108,7 @@ class View : public QWidget, virtual public ViewIface
 		* Finding the minimum or maximum value.
 		* \return The (x,y) coordinates of the extrema point.
 		*/
-		QPointF findMinMaxValue( Function * function, Function::PMode p_mode, ExtremaType type, double dmin, double dmax,const QString & parameter );
-		/// get a y-value from a x-value
-		double getYValue( Function * function, Function::PMode p_mode, double x, const QString & parameter );
+		QPointF findMinMaxValue( const Plot & plot, ExtremaType type, double dmin, double dmax );
 		/**
 		* Calculates the area between the given plot and the x-axis
 		* (from x = \p dmin to x = \p dmax). The area will also be colored in.
@@ -157,9 +153,17 @@ class View : public QWidget, virtual public ViewIface
 		double m_xmax;
 
 		/// trace mode stuff, must be accessible in KMinMax
-		int m_currentFunctionID;
-		int m_currentFunctionParameter;
-		Function::PMode m_currentFunctionPlot;
+		Plot m_currentPlot;
+		/**
+		 * Convenience function for calculating the value of \p eq using the
+		 * given \p mode
+		 */
+		double value( const Plot & plot, int eq, double x, bool updateParameter );
+		/**
+		 * \return the real position of the function (similar to calling
+		 * value(), but returns both coordinates).
+		 */
+		QPointF realValue( const Plot & plot, double x, bool updateParameter );
 
 public slots:
 	/// Called when the user want to cancel the drawing
@@ -178,29 +182,29 @@ public slots:
 	void mnuZoomOut_clicked();
 	void mnuTrig_clicked();
 
-protected slots:
-	void paintEvent(QPaintEvent *);
-	void resizeEvent(QResizeEvent *);
-	/// Updating the cross hair.
-	void mouseMoveEvent(QMouseEvent *);
-	/// Toggles the trace mode if the cursor is near to a plot.
-	void mousePressEvent(QMouseEvent *);
-	/// when a key is pressed and the graph widget has focus
-	void keyPressEvent(QKeyEvent * );
-	/// called when a mouse key is released
-	void mouseReleaseEvent ( QMouseEvent * e );
-	/// Is needed to be reimplement so that the user can stop a preview-drawing
-	bool event( QEvent * e );
-	/// Restore the mouse cursor when a drawing is finished
-	void updateCursor();
-	/**
-	 * Updates csxpos and csypos from the current mouse position.
-	 * @return whether the crosshair is within the bounds of the diagram.
-	 */
-	bool updateCrosshairPosition();
-
-signals:
-	void setStatusBarText(const QString &);
+	protected slots:
+		void paintEvent(QPaintEvent *);
+		void resizeEvent(QResizeEvent *);
+		/// Updating the cross hair.
+		void mouseMoveEvent(QMouseEvent *);
+		/// Toggles the trace mode if the cursor is near to a plot.
+		void mousePressEvent(QMouseEvent *);
+		/// when a key is pressed and the graph widget has focus
+		void keyPressEvent(QKeyEvent * );
+		/// called when a mouse key is released
+		void mouseReleaseEvent ( QMouseEvent * e );
+		/// Is needed to be reimplement so that the user can stop a preview-drawing
+		bool event( QEvent * e );
+		/// Restore the mouse cursor when a drawing is finished
+		void updateCursor();
+		/**
+		* Updates csxpos and csypos from the current mouse position.
+		* @return whether the crosshair is within the bounds of the diagram.
+		*/
+		bool updateCrosshairPosition();
+	
+	signals:
+		void setStatusBarText(const QString &);
 	
 	protected:
 		/// called when focus is lost
@@ -221,13 +225,13 @@ signals:
 		* \return whether should draw the pixel from the given line length,
 		* according to the given pen style (used in plotfkt).
 		*/
-		bool penShouldDraw( double totalLength, Function * function, Function::PMode pmode );
+		bool penShouldDraw( double totalLength, const Plot & plot );
 		/**
 		* \return An appropriate pen for drawing the plot. (\p antialias should be
 		* set to whether the current painter is using antialiasing - this is for
 		* choosing an appropriate pen width).
 		*/
-		QPen penForPlot( Function * ufkt, Function::PMode, bool antialias ) const;
+		QPen penForPlot( const Plot & plot, bool antialias ) const;
 		/// Gets the greek pi symbol.
 		void setpi(QString *);
 		/**
@@ -235,7 +239,18 @@ signals:
 		 * \p x (which is then set to the exact root if found).
 		 * \returns whether a root was found.
 		 */
-		bool findRoot( double * x, Function::PMode plot, Equation * eq );
+		bool findRoot( double * x, const Plot & plot );
+		/**
+		 * Finds the list of points (in function coordinates) at which the
+		 * derivative of the given plot is zero in the range of the currently
+		 * viewable segment of the plot.
+		 */
+		QList<QPointF> findStationaryPoints( const Plot & plot );
+		/**
+		 * Find all roots (at which the given plot is zero) in the range of the
+		 * currently viewable segment of the plot.
+		 */
+		QList<double> findRoots( const Plot & plot );
 		///return the inverted color
 		void invertColor(QColor &, QColor &);
 		/// Changes the text in the statusbar
@@ -279,22 +294,12 @@ signals:
 		* Finds the closest point to \p pos to the given function.
 		* \return the parametization (angle or t) that gives the closest point.
 		*/
-		double getClosestPoint( const QPointF & pos, Function * function, Function::PMode mode );
+		double getClosestPoint( const QPointF & pos, const Plot & plot );
 		/**
 		* Calculates the pixel distance from \p pos to the display point of the
 		* given function at \p x.
 		*/
-		double pixelDistance( const QPointF & pos, Function * function, Function::PMode mode, double x );
-		/**
-		 * Convenience function for calculating the value of \p eq using the
-		 * given \p mode
-		 */
-		double value( Equation * eq, Function::PMode mode, double x );
-		/**
-		 * \return the real position of the function (similar to calling
-		 * value(), but returns both coordinates).
-		 */
-		QPointF realValue( Function * function, Function::PMode mode, double x );
+		double pixelDistance( const QPointF & pos, const Plot & plot, double x, bool updateFunctionParameter );
 		/**
 		 * \return an appropriate xmin value for the given function
 		 * plotting.
@@ -333,33 +338,31 @@ signals:
 		/// @return whether cspos is in the range of the view or in the custom range for the given \p plot
 		bool crosshairPositionValid( Function * plot ) const;
 	
-	QPoint ref;
-	QRect area,
-	PlotArea;
-	QMatrix wm;
-
-	double tlgx, tlgy, drskalx, drskaly;
-	QString tlgxstr, tlgystr, drskalxstr, drskalystr;
-
-	/** @name Plotrange
-	 * There are 4 predefined plot ranges:
-	 * @li 0: -8..8
-	 * @li 1: -5..5
-	 * @li 2: 0..16
-	 * @li 3: 0..10
-	 * @li 4: custom
-	 */
-	//@{
-	///Convert axes range predefinition index to boundaries.
-	void getMinMax(int koord, QString &mini, QString &maxi);
-	/** Handle predefiend axes ranges.
-	*
-	* @p koord can have the values 0 to 4 which have the following meanings: 
-	*
-	* In the last case @p minstr and @p maxstr are evaluated.
-	*/
-	void coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
-	                    double &min, double &max );
+		QRect area;
+		QMatrix wm;
+	
+		double tlgx, tlgy, drskalx, drskaly;
+		QString tlgxstr, tlgystr, drskalxstr, drskalystr;
+	
+		/** @name Plotrange
+		* There are 4 predefined plot ranges:
+		* @li 0: -8..8
+		* @li 1: -5..5
+		* @li 2: 0..16
+		* @li 3: 0..10
+		* @li 4: custom
+		*/
+		//@{
+		///Convert axes range predefinition index to boundaries.
+		void getMinMax(int koord, QString &mini, QString &maxi);
+		/** Handle predefiend axes ranges.
+		*
+		* @p koord can have the values 0 to 4 which have the following meanings: 
+		*
+		* In the last case @p minstr and @p maxstr are evaluated.
+		*/
+		void coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
+							double &min, double &max );
 		//@{
 		/** Current plot range endge. */
 		double m_ymin;
@@ -367,65 +370,65 @@ signals:
 		//@}
 		//@}
 
-	void setScaling();
-	/// represents the KPrinter option app-kmplot-printtable.
-	/// @see KPrinterDlg
-	bool m_printHeaderTable;
-	/// if stop_calculating is true, the user has canceled drawing of an integral graph
-	bool stop_calculating;
-	/// the background color of the graph
-	QColor backgroundcolor;
-	/// the inverted background color used by the "Fadenkreuz"
-	QColor inverted_backgroundcolor;
-	/// pointer to KMinMax
-	KMinMax *m_minmax;
-	///buffer the current window so all functions don't need to be re-drawed
-	QPixmap buffer;
-	/// the popup menu
-	KMenu *m_popupmenu;
-	/// is set to true if an integral is calculated
-	bool isDrawing;
-	///status of the popup menu
-	char m_popupmenushown; /// 0==no popup 1==popup 2==popup+trace mode before
-	/// true == modifications not saved
-	bool &m_modified;
-	/// False if KmPlot is started as a program, otherwise true
-	bool const m_readonly;
+		void setScaling();
+		/// represents the KPrinter option app-kmplot-printtable.
+		/// @see KPrinterDlg
+		bool m_printHeaderTable;
+		/// if stop_calculating is true, the user has canceled drawing of an integral graph
+		bool stop_calculating;
+		/// the background color of the graph
+		QColor m_backgroundColor;
+		/// the inverted background color used by the "Fadenkreuz"
+		QColor m_invertedBackgroundColor;
+		/// pointer to KMinMax
+		KMinMax *m_minmax;
+		///buffer the current window so all functions don't need to be re-drawed
+		QPixmap buffer;
+		/// the popup menu
+		KMenu *m_popupmenu;
+		/// is set to true if an integral is calculated
+		bool m_isDrawing;
+		///status of the popup menu
+		char m_popupmenushown; /// 0==no popup 1==popup 2==popup+trace mode before
+		/// true == modifications not saved
+		bool &m_modified;
+		/// False if KmPlot is started as a program, otherwise true
+		bool const m_readonly;
 	
-	enum ZoomMode
-	{
-		Normal,				///< no zooming
-		AnimatingZoom,		///< animating a current zooming
-		ZoomIn,				///< zoom in
-		ZoomOut,			///< zoom out
-		ZoomInDrawing,		///< drawing a rectangle for zooming in
-		ZoomOutDrawing,		///< drawing a rectangle for zooming out
-		AboutToTranslate,	///< user has clicked on an empty spot, but hasn't moved the mouse yet
-		Translating,		///< dragging the view with the mouse
-	};
+		enum ZoomMode
+		{
+			Normal,				///< no zooming
+			AnimatingZoom,		///< animating a current zooming
+			ZoomIn,				///< zoom in
+			ZoomOut,			///< zoom out
+			ZoomInDrawing,		///< drawing a rectangle for zooming in
+			ZoomOutDrawing,		///< drawing a rectangle for zooming out
+			AboutToTranslate,	///< user has clicked on an empty spot, but hasn't moved the mouse yet
+			Translating,		///< dragging the view with the mouse
+		};
+			
+		/// The current editing status
+		ZoomMode m_zoomMode;
+		/// for zoom-mode
+		QPoint m_zoomRectangleStart;
+		/// for animating zoom; contains the rectangle (in real coordinates) to draw
+		QRectF m_animateZoomRect;
+		/// for translating the view via dragging
+		QPoint m_prevDragMousePos;
+		/// timer that is started when the mouse is pressed
+		QTime * m_mousePressTimer;
+	
+		DCOPClient *m_dcop_client;
+		QString m_statusbartext1;
+		QString m_statusbartext2;
+		QString m_statusbartext3;
+		QString m_statusbartext4;
+		KActionCollection *m_ac;
 		
-	/// The current editing status
-	ZoomMode m_zoomMode;
-	/// for zoom-mode
-	QPoint m_zoomRectangleStart;
-	/// for animating zoom; contains the rectangle (in real coordinates) to draw
-	QRectF m_animateZoomRect;
-	/// for translating the view via dragging
-	QPoint m_prevDragMousePos;
-	/// timer that is started when the mouse is pressed
-	QTime * m_mousePressTimer;
-
-	DCOPClient *m_dcop_client;
-	QString m_statusbartext1;
-	QString m_statusbartext2;
-	QString m_statusbartext3;
-	QString m_statusbartext4;
-	KActionCollection *m_ac;
-	
-	enum Cursor { CursorWait, CursorBlank, CursorArrow, CursorCross, CursorMagnify, CursorLessen, CursorMove };
-	Cursor m_prevCursor;
-	
-	static View * m_self;
+		enum Cursor { CursorWait, CursorBlank, CursorArrow, CursorCross, CursorMagnify, CursorLessen, CursorMove };
+		Cursor m_prevCursor;
+		
+		static View * m_self;
 };
 
 #endif // View_included

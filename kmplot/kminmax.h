@@ -70,7 +70,7 @@ public slots:
         
 	private:
 		Mode m_mode;
-		QString parameter;
+		Parameter parameter;
 		QMinMax * m_mainWidget;
 };
 

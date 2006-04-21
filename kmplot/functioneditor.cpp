@@ -317,13 +317,13 @@ void FunctionEditor::initFromCartesian()
 	}
 	
 	m_editor->cartesianEquation->setText( f->eq[0]->fstr() );
-	m_editor->cartesian_f0->init( f->f0 );
-	m_editor->cartesian_f1->init( f->f1 );
-	m_editor->cartesian_f2->init( f->f2 );
-	m_editor->cartesian_integral->init( f->integral );
+	m_editor->cartesian_f0->init( f->plotAppearance( Function::Derivative0 ) );
+	m_editor->cartesian_f1->init( f->plotAppearance( Function::Derivative1 ) );
+	m_editor->cartesian_f2->init( f->plotAppearance( Function::Derivative2 ) );
+	m_editor->cartesian_integral->init( f->plotAppearance( Function::Integral ) );
 	
-	m_editor->showDerivative1->setChecked( f->f1.visible );
-	m_editor->showDerivative2->setChecked( f->f2.visible );
+	m_editor->showDerivative1->setChecked( f->plotAppearance( Function::Derivative1 ).visible );
+	m_editor->showDerivative2->setChecked( f->plotAppearance( Function::Derivative2 ).visible );
 	
 	m_editor->precision->setValue( f->integral_precision );
 	
@@ -333,9 +333,9 @@ void FunctionEditor::initFromCartesian()
 	m_editor->cartesianCustomMax->setChecked( f->usecustomxmax );
 	m_editor->cartesianMax->setText( f->dmax.expression() );
 	
-	m_editor->cartesianParameters->init( f );
+	m_editor->cartesianParameters->init( f->m_parameters );
 	
-	m_editor->showIntegral->setChecked( f->integral.visible );
+	m_editor->showIntegral->setChecked( f->plotAppearance( Function::Integral ).visible );
 	m_editor->customPrecision->setChecked( f->integral_use_precision );
 	m_editor->txtInitX->setText( f->eq[0]->integralInitialX().expression() );
 	m_editor->txtInitY->setText( f->eq[0]->integralInitialY().expression() );
@@ -360,7 +360,7 @@ void FunctionEditor::initFromPolar()
 	m_editor->polarEquation->setText( function );
 	m_editor->polarMin->setText( f->dmin.expression() );
 	m_editor->polarMax->setText( f->dmax.expression() );
-	m_editor->polar_f0->init( f->f0 );
+	m_editor->polar_f0->init( f->plotAppearance( Function::Derivative0 ) );
 	
 	m_editor->stackedWidget->setCurrentIndex( 2 );
 	m_editor->polarEquation->setFocus();
@@ -390,7 +390,7 @@ void FunctionEditor::initFromParametric()
 	m_editor->parametricMin->setText( f->dmin.expression() );
 	m_editor->parametricMax->setText( f->dmax.expression() );
 	
-	m_editor->parametric_f0->init( f->f0 );
+	m_editor->parametric_f0->init( f->plotAppearance( Function::Derivative0 ) );
 	
 	m_editor->stackedWidget->setCurrentIndex( 1 );
 	m_editor->parametricName->setFocus();
@@ -546,23 +546,24 @@ void FunctionEditor::saveCartesian()
 	if ( tempFunction.usecustomxmax && !ok )
 		return;
 	
-	tempFunction.f0 = m_editor->cartesian_f0->plot( (functionListItem->checkState() == Qt::Checked) );
-	tempFunction.f1 = m_editor->cartesian_f1->plot( m_editor->showDerivative1->isChecked() );
-	tempFunction.f2 = m_editor->cartesian_f2->plot( m_editor->showDerivative2->isChecked() );
-	tempFunction.integral = m_editor->cartesian_integral->plot( m_editor->showIntegral->isChecked() );
+	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->cartesian_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	tempFunction.plotAppearance( Function::Derivative1 ) = m_editor->cartesian_f1->plot( m_editor->showDerivative1->isChecked() );
+	tempFunction.plotAppearance( Function::Derivative2 ) = m_editor->cartesian_f2->plot( m_editor->showDerivative2->isChecked() );
+	tempFunction.plotAppearance( Function::Integral ) = m_editor->cartesian_integral->plot( m_editor->showIntegral->isChecked() );
 	
 	tempFunction.eq[0]->setIntegralStart( m_editor->txtInitX->text(), m_editor->txtInitY->text() );
 
 	tempFunction.integral_use_precision = m_editor->customPrecision->isChecked();
 	tempFunction.integral_precision = m_editor->precision->value();
-        
-	if ( f_str.contains('y') != 0 && ( tempFunction.f0.visible || tempFunction.f1.visible || tempFunction.f2.visible) )
+	
+	/// \todo uncomment this?
+// 	if ( f_str.contains('y') != 0 && ( tempFunction.f0.visible || tempFunction.f1.visible || tempFunction.f2.visible) )
 	{
 // 		KMessageBox::sorry( this, i18n( "Recursive function is only allowed when drawing integral graphs") );
-		return;
+// 		return;
 	}
 	
-	m_editor->cartesianParameters->save( & tempFunction );
+	tempFunction.m_parameters = m_editor->cartesianParameters->parameterSettings();
 	
 	/// \todo Work out what this is suppose to do and fix it
 // 	if ( ( (!m_parameters.isEmpty() &&
@@ -648,9 +649,7 @@ void FunctionEditor::savePolar()
 		return;
 	}
 	
-	tempFunction.f0 = m_editor->polar_f0->plot( (functionListItem->checkState() == Qt::Checked) );
-	
-	tempFunction.use_slider = -1;
+	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->polar_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
@@ -728,7 +727,7 @@ void FunctionEditor::saveParametric()
 		return;
 	}
 	
-	tempFunction.f0 = m_editor->parametric_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->parametric_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	if ( !tempFunction.eq[0]->setFstr( parametricXPrefix() ) )
 		return;
@@ -863,8 +862,8 @@ void FunctionListItem::update()
 // 	text += QString(" id=%1").arg(m_function );
 	setText( text );
 	
-	setCheckState( f->f0.visible ? Qt::Checked : Qt::Unchecked );
-	setTextColor( f->f0.color );
+	setCheckState( f->plotAppearance( Function::Derivative0 ).visible ? Qt::Checked : Qt::Unchecked );
+	setTextColor( f->plotAppearance( Function::Derivative0 ).color );
 }
 //END class FunctionListItem
 

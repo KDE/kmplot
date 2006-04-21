@@ -69,7 +69,7 @@ class CDiagr
 		~CDiagr();
 	
 		/// Sets all members to current values.
-		void Create( QPoint Ref,
+		void Create( QPointF Ref,
 					double lx, double ly,
 					double xmin, double xmax,
 					double ymin, double ymax );

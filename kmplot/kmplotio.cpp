@@ -43,7 +43,7 @@
 #include "MainDlg.h"
 #include "settings.h"
 
-static QString CurrentVersionString( "4" );
+static QString CurrentVersionString( "5" );
 
 class XParser;
 
@@ -182,17 +182,33 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 	QDomElement tag = doc.createElement( "function" );
 	
 	QString names[] = { "f0", "f1", "f2", "integral" };
-	Plot * plots[] = { & function->f0, & function->f1, & function->f2, & function->integral };
+	PlotAppearance * plots[] = { & function->plotAppearance( Function::Derivative0 ),
+		& function->plotAppearance( Function::Derivative1 ),
+		& function->plotAppearance( Function::Derivative2 ),
+		& function->plotAppearance( Function::Integral ) };
 		
 	for ( int i = 0; i < 4; ++i )
 	{
 		tag.setAttribute( QString("%1-visible").arg( names[i] ), plots[i]->visible );
 		tag.setAttribute( QString("%1-color").arg( names[i] ), QColor( plots[i]->color ).name() );
 		tag.setAttribute( QString("%1-width").arg( names[i] ), plots[i]->lineWidth );
-		tag.setAttribute( QString("%1-style").arg( names[i] ), Plot::penStyleToString( plots[i]->style ) );
+		tag.setAttribute( QString("%1-style").arg( names[i] ), PlotAppearance::penStyleToString( plots[i]->style ) );
 	}
+	
 
-	tag.setAttribute( "use-slider", function->use_slider );
+	//BEGIN parameters
+	tag.setAttribute( "use-parameter-slider", function->m_parameters.useSlider );
+	tag.setAttribute( "parameter-slider", function->m_parameters.sliderID );
+	
+	tag.setAttribute( "use-parameter-list", function->m_parameters.useList );
+	QStringList str_parameters;
+	foreach ( Value k, function->m_parameters.list )
+		str_parameters << k.expression();
+			
+	if( !str_parameters.isEmpty() )
+		addTag( doc, tag, "parameter-list", str_parameters.join( ";" ) );
+	//END parameters
+	
 	
 	tag.setAttribute( "integral-use-precision", function->integral_use_precision );
 	tag.setAttribute( "integral-precision", function->integral_precision );
@@ -210,12 +226,6 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 		addTag( doc, tag, QString("equation-%1").arg(i), fstr );
 	}
 
-	QStringList str_parameters;
-	foreach ( Value k, function->parameters )
-		str_parameters << k.expression();
-			
-	if( !str_parameters.isEmpty() )
-		addTag( doc, tag, "parameterlist", str_parameters.join( ";" ) );
 
 	addTag( doc, tag, "arg-min", function->dmin.expression() ).setAttribute( "use", function->usecustomxmin );
 	addTag( doc, tag, "arg-max", function->dmax.expression() ).setAttribute( "use", function->usecustomxmax );
@@ -266,7 +276,8 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 	else if ( versionString == "1" ||
 				 versionString == "2" ||
 				 versionString == "3" ||
-				 versionString == "4" )
+				 versionString == "4" ||
+				 versionString == "5" )
 	{
 		MainDlg::oldfileversion = false;
 		version = versionString.toInt();
@@ -496,39 +507,63 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	if ( !eq1.isEmpty() )
 		ufkt.eq[1]->setFstr( eq1 );
 	
+	PlotAppearance * plots[] = { & ufkt.plotAppearance( Function::Derivative0 ),
+		& ufkt.plotAppearance( Function::Derivative1 ),
+		& ufkt.plotAppearance( Function::Derivative2 ),
+		& ufkt.plotAppearance( Function::Integral ) };
+	
 	if ( version < 4 )
 	{
-		ufkt.f0.visible = n.attribute( "visible" ).toInt();
-		ufkt.f0.color = QColor( n.attribute( "color" ) );
-		ufkt.f0.lineWidth = n.attribute( "width" ).toDouble() * lengthScaler;
+		plots[ 0 ]->visible = n.attribute( "visible" ).toInt();
+		plots[ 0 ]->color = QColor( n.attribute( "color" ) );
+		plots[ 0 ]->lineWidth = n.attribute( "width" ).toDouble() * lengthScaler;
 
-		ufkt.f1.visible = n.attribute( "visible-deriv", "0" ).toInt();
-		ufkt.f1.color = QColor(n.attribute( "deriv-color" ));
-		ufkt.f1.lineWidth = n.attribute( "deriv-width" ).toDouble() * lengthScaler;
+		plots[ 1 ]->visible = n.attribute( "visible-deriv", "0" ).toInt();
+		plots[ 1 ]->color = QColor(n.attribute( "deriv-color" ));
+		plots[ 1 ]->lineWidth = n.attribute( "deriv-width" ).toDouble() * lengthScaler;
 	
-		ufkt.f2.visible = n.attribute( "visible-2nd-deriv", "0" ).toInt();
-		ufkt.f2.color = QColor(n.attribute( "deriv2nd-color" ));
-		ufkt.f2.lineWidth = n.attribute( "deriv2nd-width" ).toDouble() * lengthScaler;
+		plots[ 2 ]->visible = n.attribute( "visible-2nd-deriv", "0" ).toInt();
+		plots[ 2 ]->color = QColor(n.attribute( "deriv2nd-color" ));
+		plots[ 2 ]->lineWidth = n.attribute( "deriv2nd-width" ).toDouble() * lengthScaler;
 	
-		ufkt.integral.visible = n.attribute( "visible-integral", "0" ).toInt();
-		ufkt.integral.color = QColor(n.attribute( "integral-color" ));
-		ufkt.integral.lineWidth = n.attribute( "integral-width" ).toDouble() * lengthScaler;
+		plots[ 3 ]->visible = n.attribute( "visible-integral", "0" ).toInt();
+		plots[ 3 ]->color = QColor(n.attribute( "integral-color" ));
+		plots[ 3 ]->lineWidth = n.attribute( "integral-width" ).toDouble() * lengthScaler;
 	}
 	else
 	{
 		QString names[] = { "f0", "f1", "f2", "integral" };
-		Plot * plots[] = { & ufkt.f0, & ufkt.f1, & ufkt.f2, & ufkt.integral };
 		
 		for ( int i = 0; i < 4; ++i )
 		{
 			plots[i]->visible = n.attribute( QString("%1-visible").arg( names[i] ) ).toInt();
 			plots[i]->color = n.attribute( QString("%1-color").arg( names[i] ) );
 			plots[i]->lineWidth = n.attribute( QString("%1-width").arg( names[i] ) ).toDouble() * lengthScaler;
-			plots[i]->style = Plot::stringToPenStyle( n.attribute( QString("%1-style").arg( names[i] ) ) );
+			plots[i]->style = PlotAppearance::stringToPenStyle( n.attribute( QString("%1-style").arg( names[i] ) ) );
 		}
 	}
 	
-	ufkt.use_slider = n.attribute( "use-slider" ).toInt();
+	
+	//BEGIN parameters
+	parseParameters( n, ufkt );
+	
+	if ( version < 5 )
+	{
+		int use_slider = n.attribute( "use-slider" ).toInt();
+		ufkt.m_parameters.useSlider = (use_slider >= 0);
+		ufkt.m_parameters.sliderID = use_slider;
+		
+		ufkt.m_parameters.useList = !ufkt.m_parameters.list.isEmpty();
+	}
+	else
+	{
+		ufkt.m_parameters.useSlider = n.attribute( "use-parameter-slider" ).toInt();
+		ufkt.m_parameters.sliderID = n.attribute( "parameter-slider" ).toInt();
+		
+		ufkt.m_parameters.useList = n.attribute( "use-parameter-list" ).toInt();
+	}
+	//END parameters
+	
 	
 	ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
 	ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
@@ -554,8 +589,6 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		ufkt.usecustomxmax = maxElement.attribute( "use", "1" ).toInt();
 	}
 	
-	
-	parseParameters( n, ufkt );
 
 	QString fstr = ufkt.eq[0]->fstr();
 	if ( !fstr.isEmpty() )
@@ -578,10 +611,11 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 void KmPlotIO::parseParameters( const QDomElement &n, Function &ufkt  )
 {
 	QChar separator = (version < 1) ? ',' : ';';
+	QString tagName = (version < 5) ? "parameterlist" : "parameter-list";
 	
-	QStringList str_parameters = n.namedItem( "parameterlist" ).toElement().text().split( separator, QString::SkipEmptyParts );
+	QStringList str_parameters = n.namedItem( tagName ).toElement().text().split( separator, QString::SkipEmptyParts );
 	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
-		ufkt.parameters.append( Value( *it ));
+		ufkt.m_parameters.list.append( Value( *it ));
 }
 
 void KmPlotIO::oldParseFunction( const QDomElement & n )
@@ -618,13 +652,14 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 	
 	Function ufkt( type );
 	
-	ufkt.f0.visible = n.attribute( "visible" ).toInt();
-	ufkt.f1.visible = n.attribute( "visible-deriv" ).toInt();
-	ufkt.f2.visible = n.attribute( "visible-2nd-deriv" ).toInt();
-	ufkt.f2.visible = 0;
-	ufkt.f0.lineWidth = n.attribute( "width" ).toDouble() * lengthScaler;
-	ufkt.use_slider = -1;
-	ufkt.f0.color = ufkt.f1.color = ufkt.f2.color = ufkt.integral.color = QColor( n.attribute( "color" ) );
+	ufkt.plotAppearance( Function::Derivative0 ).visible = n.attribute( "visible" ).toInt();
+	ufkt.plotAppearance( Function::Derivative1 ).visible = n.attribute( "visible-deriv" ).toInt();
+	ufkt.plotAppearance( Function::Derivative2 ).visible = n.attribute( "visible-2nd-deriv" ).toInt();
+	ufkt.plotAppearance( Function::Derivative0 ).lineWidth = n.attribute( "width" ).toDouble() * lengthScaler;
+	ufkt.plotAppearance( Function::Derivative0 ).color =
+			ufkt.plotAppearance( Function::Derivative1 ).color =
+			ufkt.plotAppearance( Function::Derivative2 ).color =
+			ufkt.plotAppearance( Function::Integral ).color = QColor( n.attribute( "color" ) );
 
 	QString expression = n.namedItem( "arg-min" ).toElement().text();
 	ufkt.dmin.updateExpression( expression );

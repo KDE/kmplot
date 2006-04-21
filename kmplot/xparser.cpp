@@ -67,20 +67,20 @@ bool XParser::getext( Function *item, const QString fstr )
 	QString tstr;
 	pe = fstr.length();
 	if ( fstr.indexOf( 'N' ) != -1 )
-		item->f0.visible = false;
+		item->plotAppearance( Function::Derivative0 ).visible = false;
 	else
 	{
 		if ( fstr.indexOf( "A1" ) != -1 )
-			item->f1.visible = true;
+			item->plotAppearance( Function::Derivative1 ).visible = true;
 		if ( fstr.indexOf( "A2" ) != -1 )
-			item->f2.visible = true;
+			item->plotAppearance( Function::Derivative2 ).visible = true;
 	}
 	switch ( fstr[0].unicode() )
 	{
-	  case 'x':
-	  case 'y':
-	  case 'r':
-	    item->f1.visible = item->f2.visible = false;
+		case 'x':
+		case 'y':
+		case 'r':
+			item->plotAppearance( Function::Derivative1 ).visible = item->plotAppearance( Function::Derivative2 ).visible = false;
 	}
 
 	p1 = fstr.indexOf( "D[" );
@@ -123,7 +123,7 @@ bool XParser::getext( Function *item, const QString fstr )
 				errflg = true;
 				break;
 			}
-			item->parameters.append( value );
+			item->m_parameters.list.append( value );
 			p3 -= p2;
 		}
 		while ( p3 > 0 && i < 10 );
@@ -139,29 +139,12 @@ bool XParser::getext( Function *item, const QString fstr )
 }
 
 
-double XParser::derivative( unsigned n, Function::PMode plot, Equation * eq, double x, double h )
+double XParser::derivative( int n, Equation * eq, double x, double h )
 {
-	switch ( plot )
+	if ( n < -1 )
 	{
-		case Function::Derivative0:
-			break;
-			
-		case Function::Derivative1:
-			n += 1;
-			break;
-			
-		case Function::Derivative2:
-			n += 2;
-			break;
-			
-		case Function::Integral:
-		{
-			if ( n == 0 )
-				return integral( eq, x, h );
-			
-			n -= 1;
-			break;
-		}
+		kError() << k_funcinfo << "Can't handle derivative < -1\n";
+		return 0.0;
 	}
 	
 	switch ( n )
@@ -176,7 +159,7 @@ double XParser::derivative( unsigned n, Function::PMode plot, Equation * eq, dou
 			return ( fkt( eq, x + h ) - 2 * fkt( eq, x ) + fkt( eq, x - h ) ) / (h*h);
 			
 		default:
-			return ( derivative( n-1, Function::Derivative0, eq, x+(h/2), (h/4) ) - derivative( n-1, Function::Derivative0, eq, x-(h/2), (h/4) ) ) / h;
+			return ( derivative( n-1, eq, x+(h/2), (h/4) ) - derivative( n-1, eq, x-(h/2), (h/4) ) ) / h;
 	}
 }
 
@@ -330,7 +313,7 @@ int XParser::addFunction( QString fn1, QString fn2, Function::Type type )
 	int id = Parser::addFunction( fn1, fn2, type );
 	Function * ufkt = functionWithID( id );
 	if ( ufkt )
-		ufkt->f0.color = ufkt->f1.color = ufkt->f2.color = ufkt->integral.color = defaultColor(id);
+		ufkt->plotAppearance( Function::Derivative0 ).color = ufkt->plotAppearance( Function::Derivative1 ).color = ufkt->plotAppearance( Function::Derivative2 ).color = ufkt->plotAppearance( Function::Integral ).color = defaultColor(id);
 	
 	return id;
 }
@@ -385,26 +368,26 @@ QStringList XParser::listFunctionNames()
 
 bool XParser::functionFVisible(uint id)
 {
-	return m_ufkt.contains(id) ? m_ufkt[id]->f0.visible : false;
+	return m_ufkt.contains(id) ? m_ufkt[id]->plotAppearance( Function::Derivative0 ).visible : false;
 }
 bool XParser::functionF1Visible(uint id)
 {
-	return m_ufkt.contains(id) ? m_ufkt[id]->f1.visible : false;
+	return m_ufkt.contains(id) ? m_ufkt[id]->plotAppearance( Function::Derivative1 ).visible : false;
 }
 bool XParser::functionF2Visible(uint id)
 {
-	return m_ufkt.contains(id) ? m_ufkt[id]->f2.visible : false;
+	return m_ufkt.contains(id) ? m_ufkt[id]->plotAppearance( Function::Derivative2 ).visible : false;
 }
 bool XParser::functionIntVisible(uint id)
 {
-	return m_ufkt.contains(id) ? m_ufkt[id]->integral.visible : false;
+	return m_ufkt.contains(id) ? m_ufkt[id]->plotAppearance( Function::Integral ).visible : false;
 }
 
 bool XParser::setFunctionFVisible(bool visible, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f0.visible = visible;
+	m_ufkt[id]->plotAppearance( Function::Derivative0 ).visible = visible;
 	m_modified = true;
 	return true;
 }
@@ -412,7 +395,7 @@ bool XParser::setFunctionF1Visible(bool visible, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f1.visible = visible;
+	m_ufkt[id]->plotAppearance( Function::Derivative1 ).visible = visible;
 	m_modified = true;
 	return true;
 }
@@ -420,7 +403,7 @@ bool XParser::setFunctionF2Visible(bool visible, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f2.visible = visible;
+	m_ufkt[id]->plotAppearance( Function::Derivative2 ).visible = visible;
 	m_modified = true;
 	return true;
 }
@@ -428,7 +411,7 @@ bool XParser::setFunctionIntVisible(bool visible, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->integral.visible = visible;
+	m_ufkt[id]->plotAppearance( Function::Integral ).visible = visible;
 	m_modified = true;
 	return true;
 }
@@ -444,31 +427,31 @@ QColor XParser::functionFColor(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(m_ufkt[id]->f0.color);
+	return QColor(m_ufkt[id]->plotAppearance( Function::Derivative0 ).color);
 }
 QColor XParser::functionF1Color(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(m_ufkt[id]->f1.color);
+	return QColor(m_ufkt[id]->plotAppearance( Function::Derivative1 ).color);
 }
 QColor XParser::functionF2Color(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(m_ufkt[id]->f2.color);
+	return QColor(m_ufkt[id]->plotAppearance( Function::Derivative2 ).color);
 }
 QColor XParser::functionIntColor(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return QColor();
-	return QColor(m_ufkt[id]->integral.color);
+	return QColor(m_ufkt[id]->plotAppearance( Function::Integral ).color);
 }
 bool XParser::setFunctionFColor(const QColor &color, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f0.color = color;
+	m_ufkt[id]->plotAppearance( Function::Derivative0 ).color = color;
 	m_modified = true;
 	return true;
 }
@@ -476,7 +459,7 @@ bool XParser::setFunctionF1Color(const QColor &color, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f0.color = color;
+	m_ufkt[id]->plotAppearance( Function::Derivative1 ).color = color;
 	m_modified = true;
 	return true;
 }		
@@ -484,7 +467,7 @@ bool XParser::setFunctionF2Color(const QColor &color, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f0.color = color;
+	m_ufkt[id]->plotAppearance( Function::Derivative2 ).color = color;
 	m_modified = true;
 	return true;
 }
@@ -492,7 +475,7 @@ bool XParser::setFunctionIntColor(const QColor &color, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f0.color = color;
+	m_ufkt[id]->plotAppearance( Function::Integral ).color = color;
 	m_modified = true;
 	return true;
 }
@@ -501,31 +484,31 @@ double XParser::functionFLineWidth(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->f0.lineWidth;
+	return m_ufkt[id]->plotAppearance( Function::Derivative0 ).lineWidth;
 }
 double XParser::functionF1LineWidth(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->f1.lineWidth;
+	return m_ufkt[id]->plotAppearance( Function::Derivative1 ).lineWidth;
 }
 double XParser::functionF2LineWidth(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->f2.lineWidth;
+	return m_ufkt[id]->plotAppearance( Function::Derivative2 ).lineWidth;
 }
 double XParser::functionIntLineWidth(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->integral.lineWidth;
+	return m_ufkt[id]->plotAppearance( Function::Integral ).lineWidth;
 }
 bool XParser::setFunctionFLineWidth(double linewidth, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f0.lineWidth = linewidth;
+	m_ufkt[id]->plotAppearance( Function::Derivative0 ).lineWidth = linewidth;
 	m_modified = true;
 	return true;
 }
@@ -533,7 +516,7 @@ bool XParser::setFunctionF1LineWidth(double linewidth, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f1.lineWidth = linewidth;
+	m_ufkt[id]->plotAppearance( Function::Derivative1 ).lineWidth = linewidth;
 	m_modified = true;
 	return true;
 }		
@@ -541,7 +524,7 @@ bool XParser::setFunctionF2LineWidth(double linewidth, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->f2.lineWidth = linewidth;
+	m_ufkt[id]->plotAppearance( Function::Derivative2 ).lineWidth = linewidth;
 	m_modified = true;
 	return true;
 }
@@ -549,7 +532,7 @@ bool XParser::setFunctionIntLineWidth(double linewidth, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->integral.lineWidth = linewidth;
+	m_ufkt[id]->plotAppearance( Function::Integral ).lineWidth = linewidth;
 	m_modified = true;
 	return true;
 }
@@ -616,7 +599,7 @@ QStringList XParser::functionParameterList(uint id)
 		return QStringList();
 	Function *item = m_ufkt[id];
 	QStringList str_parameter;
-	foreach ( Value it, item->parameters )
+	foreach ( Value it, item->m_parameters.list )
 		str_parameter << it.expression();
 	return str_parameter;
 }
@@ -627,7 +610,7 @@ bool XParser::functionAddParameter(const QString &new_parameter, uint id)
 	Function *tmp_ufkt = m_ufkt[id];
 	
 	//check if the parameter already exists
-	foreach ( Value it, tmp_ufkt->parameters )
+	foreach ( Value it, tmp_ufkt->m_parameters.list )
 	{
 		if ( it.expression() == new_parameter )
 			return false;
@@ -636,7 +619,7 @@ bool XParser::functionAddParameter(const QString &new_parameter, uint id)
 	Value value;
 	if ( !value.updateExpression( new_parameter ) )
 		return false;
-	tmp_ufkt->parameters.append( value );
+	tmp_ufkt->m_parameters.list.append( value );
 	m_modified = true;
 	return true;
 }
@@ -648,7 +631,7 @@ bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 	
 	bool found = false;
 	QList<Value>::iterator it;
-	for ( it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
+	for ( it = tmp_ufkt->m_parameters.list.begin(); it != tmp_ufkt->m_parameters.list.end(); ++it)
 	{
 		if ( (*it).expression() == remove_parameter) //check if the parameter already exists
 		{
@@ -658,7 +641,7 @@ bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 	}
 	if (!found)
 		return false;
-	tmp_ufkt->parameters.erase(it);
+	tmp_ufkt->m_parameters.list.erase(it);
 	m_modified = true;
 	return true;
 }
@@ -730,15 +713,34 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	if ( id==-1 )
 		return false;
 	Function *added_function = m_ufkt[id];
-	added_function->f0.visible = f_mode;
-	added_function->f1.visible = f1_mode;
-	added_function->f2.visible = f2_mode;
-	added_function->integral.visible = integral_mode;
+	
+	PlotAppearance appearance;
+	
+	// f0
+	appearance.visible = f_mode;
+	appearance.color = color;
+	appearance.lineWidth = linewidth;
+	added_function->plotAppearance( Function::Derivative0 ) = appearance;
+	
+	// f1
+	appearance.visible = f1_mode;
+	appearance.color = f1_color;
+	appearance.lineWidth = f1_linewidth;
+	added_function->plotAppearance( Function::Derivative1 ) = appearance;
+	
+	// f2
+	appearance.visible = f2_mode;
+	appearance.color = f2_color;
+	appearance.lineWidth = f2_linewidth;
+	added_function->plotAppearance( Function::Derivative2 ) = appearance;
+	
+	// integral
+	appearance.visible = integral_mode;
+	appearance.color = integral_color;
+	appearance.lineWidth = integral_linewidth;
+	added_function->plotAppearance( Function::Integral ) = appearance;
+	
 	added_function->integral_use_precision = integral_use_precision;
-	added_function->f0.lineWidth = linewidth;
-	added_function->f1.lineWidth = f1_linewidth;
-	added_function->f2.lineWidth = f2_linewidth;
-	added_function->integral.lineWidth = integral_linewidth;
 	
 	added_function->dmin.updateExpression( str_dmin );
 	added_function->usecustomxmin = !str_dmin.isEmpty();
@@ -749,14 +751,11 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	added_function->eq[0]->setIntegralStart( str_startx, str_starty );
 	
 	added_function->integral_precision = integral_precision;
-	added_function->f0.color = color;
-	added_function->f1.color = f1_color;
-	added_function->f2.color = f2_color;
-	added_function->integral.color = integral_color;
-	added_function->use_slider = use_slider;
+	
+	added_function->m_parameters.sliderID = use_slider;
 	for( QStringList::Iterator it = str_parameter.begin(); it != str_parameter.end(); ++it )
 	{
-		added_function->parameters.append( *it );
+		added_function->m_parameters.list.append( *it );
 	}
 	m_modified = true;
 	return true;

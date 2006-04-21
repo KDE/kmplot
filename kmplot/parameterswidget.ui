@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
-    <height>105</height>
+    <width>555</width>
+    <height>179</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -22,27 +22,21 @@
    <property name="spacing" >
     <number>6</number>
    </property>
-   <item row="0" column="0" colspan="2" >
-    <widget class="QRadioButton" name="disableParameters" >
-     <property name="text" >
-      <string>Disable</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0" >
-    <widget class="QRadioButton" name="parametersList" >
-     <property name="toolTip" >
-      <string>read parameter values from a list</string>
-     </property>
-     <property name="whatsThis" >
-      <string>Check this to let KmPlot use parameter values given in a list. Edit this list by clicking the button on the right.</string>
-     </property>
+    <widget class="QCheckBox" name="useSlider" >
      <property name="text" >
-      <string>From a list:</string>
+      <string>Use a slider:</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
+   <item row="0" column="0" >
+    <widget class="QCheckBox" name="useList" >
+     <property name="text" >
+      <string>Use a list:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" >
     <widget class="KPushButton" name="editParameterListButton" >
      <property name="enabled" >
       <bool>false</bool>
@@ -58,7 +52,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1" >
+   <item row="1" column="1" >
     <widget class="QComboBox" name="listOfSliders" >
      <property name="enabled" >
       <bool>false</bool>
@@ -68,19 +62,6 @@
      </property>
      <property name="whatsThis" >
       <string>Select one of the sliders to change the parameter value dynamically. The values vary from 0 (left) to 100 (right).</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" >
-    <widget class="QRadioButton" name="parameterSlider" >
-     <property name="toolTip" >
-      <string>change parameter value by moving a slider</string>
-     </property>
-     <property name="whatsThis" >
-      <string>Check this to change the parameter value by moving a slider. Select the slider from the list box on the right. The values vary from 0 (left) to 100 (right).</string>
-     </property>
-     <property name="text" >
-      <string>Use a slider:</string>
      </property>
     </widget>
    </item>
@@ -97,43 +78,42 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>disableParameters</tabstop>
-  <tabstop>parametersList</tabstop>
+  <tabstop>useList</tabstop>
   <tabstop>editParameterListButton</tabstop>
-  <tabstop>parameterSlider</tabstop>
+  <tabstop>useSlider</tabstop>
   <tabstop>listOfSliders</tabstop>
  </tabstops>
  <resources/>
  <connections>
   <connection>
-   <sender>parametersList</sender>
+   <sender>useList</sender>
    <signal>toggled(bool)</signal>
    <receiver>editParameterListButton</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>76</x>
-     <y>55</y>
+     <x>103</x>
+     <y>20</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>239</x>
-     <y>49</y>
+     <x>195</x>
+     <y>20</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>parameterSlider</sender>
+   <sender>useSlider</sender>
    <signal>toggled(bool)</signal>
    <receiver>listOfSliders</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>116</x>
-     <y>76</y>
+     <x>86</x>
+     <y>55</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>234</x>
-     <y>83</y>
+     <x>203</x>
+     <y>55</y>
     </hint>
    </hints>
   </connection>

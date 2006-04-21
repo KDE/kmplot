@@ -31,6 +31,7 @@
 #include <QEvent>
 #include <QCloseEvent>
 
+class KActionCollection;
 class SliderWindow;
 
 /** @short Slider window for changing a parameter value */

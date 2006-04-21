@@ -33,6 +33,7 @@
 
 class Equation;
 class Function;
+class Plot;
 
 
 /**
@@ -75,19 +76,20 @@ class Value
 
 
 /**
- * Stores details of a plot of a function (e.g. its derivative or integral).
+ * Stores details of the appearance of a plot of a function (e.g. its
+ * derivative or integral).
  */
-class Plot
+class PlotAppearance
 {
 	public:
-		Plot();
+		PlotAppearance();
 		
 		double lineWidth;	///< line width in mm
 		QColor color;		///< color that the plot will be drawn in
 		bool visible;		///< whether to display this plot
 		Qt::PenStyle style;	///< pen style (e.g. dolif, dashes, dotted, etc)
 		
-		bool operator != ( const Plot & other ) const;
+		bool operator != ( const PlotAppearance & other ) const;
 		
 		/**
 		 * Converts a pen style to a string (for non-displaying uses such as
@@ -199,6 +201,64 @@ class Equation
 };
 
 
+/**
+ * Which parameters to use and how.
+ */
+ class ParameterSettings
+{
+	public:
+		ParameterSettings();
+		
+		bool operator == ( const ParameterSettings & other ) const;
+		bool operator != ( const ParameterSettings & other ) const { return !((*this) == other); }
+		
+		bool useSlider;
+		int sliderID;
+		bool useList;
+		QList< Value > list;
+};
+
+
+/**
+ * Uniquely identifies a parameter (which could be from the list of Values
+ * stored in a Function or from a Slider.
+ */
+ class Parameter
+{
+	public:
+		enum Type { Unknown, Slider, List };
+		Parameter( Type type = Unknown );
+		
+		Type type() const { return m_type; }
+		/**
+		 * The slider ID specifies which slider to use (e.g. "2" specifies the
+		 * third slider).
+		 */
+		void setSliderID( int id ) { m_sliderID = id; }
+		/**
+		 * The list pos specifies which parameter to use in the list
+		 * ParameterSettings::list.
+		 */
+		void setListPos( int pos ) { m_listPos = pos; }
+		/**
+		 * \see setSliderID
+		 */
+		int sliderID() const { return m_sliderID; }
+		/**
+		 * \see setListPos
+		 */
+		int listPos() const { return m_listPos; }
+		/**
+		 * \return Whether the parameter referred to is the same.
+		 */
+		bool operator == ( const Parameter & other ) const;
+		
+	protected:
+		Type m_type;
+		int m_sliderID;
+		int m_listPos;
+};
+
 
 /** Here are all atitrbutes for a function. */
 class Function
@@ -225,6 +285,10 @@ class Function
 		/// The type of function
 		Type type() const { return m_type; }
 		/**
+		 * \return a list of all plots for this function.
+		 */
+		QList< Plot > allPlots() const;
+		/**
 		 * \return A string for displaying to the user that identifies this
 		 * equation, taking into account \p mode.
 		 */
@@ -238,19 +302,17 @@ class Function
 		 */
 		static Type stringToType( const QString & type );
 		/**
-		 * Sets the parameter.
+		 * Sets the current working parameter (which is used in calculations).
 		 */
 		void setParameter( double p ) { k = p; };
 		/**
 		 * The function parameter, as set by e.g. a slider.
 		 */
 		double k;
-		
 		/**
 		 * A list with all functions this function depends on.
 		 */
 		QList<int> dep;
-		
 		/**
 		 * Copies data members across, while avoiding id, mem, mptr type
 		 * variables.
@@ -260,12 +322,20 @@ class Function
         
 		uint id;
 		Equation * eq[2];
-		
-		Plot f0;		///< The actual function - the "zero'th derivative"
-		Plot f1;		///< First derivative
-		Plot f2;		///< Second derivative
-		Plot integral;	///< integral
-		
+		/**
+		 * \return A reference to the appearance of the given plot type.
+		 */
+		PlotAppearance & plotAppearance( PMode plot );
+		/**
+		 * \return The appearance of the given plot type.
+		 */
+		PlotAppearance plotAppearance( PMode plot ) const;
+		/**
+		 * \returns true if all plots are hidden (i.e. plotAppearance().visible
+		 * is false for all plot types).
+		 * \returns false otherwise.
+		 */
+		bool allPlotsAreHidden() const;
 		/**
 		 * The user can specify an unique precision for numeric prime-functions.
 		 */
@@ -278,15 +348,9 @@ class Function
 		 * Custom plot range, upper boundary.
 		 */
 		Value dmax;
-		/**
-		 * -1: None (use list)
-		 * else: slider number.
-		 */
-		int use_slider;
-		/**
-		 * List with parameter for the function.
-		 */
-		QList<Value> parameters;
+		
+		ParameterSettings m_parameters;
+		
 		bool usecustomxmin:1;
 		bool usecustomxmax:1;
 		double integral_precision;
@@ -294,6 +358,51 @@ class Function
 		
 	protected:
 		const Type m_type;
+		
+		PlotAppearance f0;		///< The actual function - the "zero'th derivative"
+		PlotAppearance f1;		///< First derivative
+		PlotAppearance f2;		///< Second derivative
+		PlotAppearance integral;	///< integral
+};
+
+
+
+
+/**
+ * Uniquely identifies a single plot (i.e. a single curvy line in the View).
+ */
+class Plot
+{
+	public:
+		Plot();
+		
+		bool operator == ( const Plot & other ) const;
+		
+		void setFunctionID( int id );
+		int functionID() const { return m_functionID; }
+		/**
+		 * \return a pointer to the function with ID as set by setFunctionID
+		 */
+		Function * function() const { return m_function; }
+		/**
+		 * Parameter in use.
+		 */
+		Parameter parameter;
+		/**
+		 * Which derivative.
+		 */
+		Function::PMode plotMode;
+		/**
+		 * Updates the current working parameter value in the function that
+		 * this plot is for.
+		 */
+		void updateFunctionParameter() const;
+		
+	protected:
+		void updateCached();
+		
+		int m_functionID;			///< ID of function
+		Function * m_function;		///< Cached pointer to function
 };
 
 

@@ -40,16 +40,16 @@ PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 }
 
 
-void PlotStyleWidget::init( const Plot & plot )
+void PlotStyleWidget::init( const PlotAppearance & plot )
 {
 	color->setColor( plot.color );
 	lineWidth->setValue( plot.lineWidth );
 }
 
 
-Plot PlotStyleWidget::plot( bool visible )
+PlotAppearance PlotStyleWidget::plot( bool visible )
 {
-	Plot p;
+	PlotAppearance p;
 	p.color = color->color();
 	p.lineWidth = lineWidth->value();
 	p.visible = visible;

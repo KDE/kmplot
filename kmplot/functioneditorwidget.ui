@@ -81,7 +81,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -537,17 +537,6 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             </item>
             <item>
              <widget class="QLabel" name="textLabelYF" >
-              <property name="font" >
-               <font>
-                <family>Sans Serif</family>
-                <pointsize>9</pointsize>
-                <weight>75</weight>
-                <italic>false</italic>
-                <bold>true</bold>
-                <underline>false</underline>
-                <strikeout>false</strikeout>
-               </font>
-              </property>
               <property name="text" >
                <string>f</string>
               </property>
@@ -579,17 +568,6 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             </item>
             <item>
              <widget class="QLabel" name="textLabelXF" >
-              <property name="font" >
-               <font>
-                <family>Sans Serif</family>
-                <pointsize>9</pointsize>
-                <weight>75</weight>
-                <italic>false</italic>
-                <bold>true</bold>
-                <underline>false</underline>
-                <strikeout>false</strikeout>
-               </font>
-              </property>
               <property name="text" >
                <string>f</string>
               </property>
@@ -863,20 +841,6 @@ Example: loop(angle)=ln(angle)</string>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>PlotStyleWidget</class>
-   <extends>QGroupBox</extends>
-   <header>plotstylewidget.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>ParametersWidget</class>
-   <extends>QGroupBox</extends>
-   <header>parameterswidget.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends></extends>
    <header>klineedit.h</header>
@@ -891,9 +855,9 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>FunctionListWidget</class>
-   <extends>QListWidget</extends>
-   <header>functioneditor.h</header>
+   <class>PlotStyleWidget</class>
+   <extends>QGroupBox</extends>
+   <header>plotstylewidget.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -901,6 +865,20 @@ Example: loop(angle)=ln(angle)</string>
    <class>EquationEdit</class>
    <extends>KLineEdit</extends>
    <header>equationedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>ParametersWidget</class>
+   <extends>QGroupBox</extends>
+   <header>parameterswidget.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>FunctionListWidget</class>
+   <extends>QListWidget</extends>
+   <header>functioneditor.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

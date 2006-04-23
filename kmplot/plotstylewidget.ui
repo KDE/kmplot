@@ -2,8 +2,8 @@
  <author></author>
  <comment></comment>
  <exportmacro></exportmacro>
- <class>PlotStyleWidet</class>
- <widget class="QWidget" name="PlotStyleWidet" >
+ <class>PlotStyleWidget</class>
+ <widget class="QWidget" name="PlotStyleWidget" >
   <property name="geometry" >
    <rect>
     <x>0</x>

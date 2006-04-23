@@ -30,7 +30,7 @@
 
 class PlotAppearance;
 
-class PlotStyleWidget : public QGroupBox, public Ui_PlotStyleWidet
+class PlotStyleWidget : public QGroupBox, public Ui_PlotStyleWidget
 {
 	Q_OBJECT
 	public:

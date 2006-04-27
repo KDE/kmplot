@@ -51,7 +51,7 @@ enum GridStyle
 	GridNone,
 	GridLines,
 	GridCrosses,
-	GridPolar,
+	GridPolar
 };
 
 class View;
@@ -90,7 +90,7 @@ class CDiagr
 		enum ClipBehaviour
 		{
 			ClipAll,		///< Clips any points going over the edge of the diagram
-			ClipInfinite,	///< Clips only infinite and NaN points going over the edge
+			ClipInfinite	///< Clips only infinite and NaN points going over the edge
 		};
 		/**
 		 * @{

@@ -114,7 +114,7 @@ class Equation
 			Cartesian,
 			ParametricX,
 			ParametricY,
-			Polar,
+			Polar
 		};
 		
 		Equation( Type type, Function * parent );
@@ -269,14 +269,14 @@ class Function
 			Derivative0,
 			Derivative1,
 			Derivative2,
-			Integral,
+			Integral
 		};
 		
 		enum Type
 		{
 			Cartesian,
 			Parametric,
-			Polar,
+			Polar
 		};
 		
 		Function( Type type );

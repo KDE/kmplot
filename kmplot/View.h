@@ -93,7 +93,7 @@ class View : public QWidget, virtual public ViewIface
 			Screen,
 			Printer,
 			SVG,
-			Pixmap,
+			Pixmap
 		};
 		/// Reimplemented to draw all stuff to the view.
 		void draw( QPaintDevice *, PlotMedium medium );
@@ -124,7 +124,7 @@ class View : public QWidget, virtual public ViewIface
 		enum PositionFormatting
 		{
 			DecimalFormat,		///< Plain text, using no scientific notation; just decimal expansion.
-			ScientificFormat,	///< Rich text, possibly using scientific notation (mult x 10 ^ exp).
+			ScientificFormat	///< Rich text possibly using scientific notation (mult x 10 ^ exp).
 		};
 		/**
 		 * @return a string for displaying the x or y coordinate in the statusbar.
@@ -404,7 +404,7 @@ public slots:
 			ZoomInDrawing,		///< drawing a rectangle for zooming in
 			ZoomOutDrawing,		///< drawing a rectangle for zooming out
 			AboutToTranslate,	///< user has clicked on an empty spot, but hasn't moved the mouse yet
-			Translating,		///< dragging the view with the mouse
+			Translating		///< dragging the view with the mouse
 		};
 			
 		/// The current editing status

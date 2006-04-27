@@ -67,7 +67,7 @@ class EquationEdit : public QTextEdit
 		enum InputType
 		{
 			Function,
-			Expression,
+			Expression
 		};
 		
 		EquationEdit( QWidget * parent );

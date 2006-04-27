@@ -238,7 +238,7 @@ class Parser : public QObject, virtual public ParserIface
 			EmptyFunction,
 			CapitalInFunctionName, ///< function name contains a capital letter
 			NoSuchFunction,
-			UserDefinedConstantInExpression, ///< evalation expression may not use user defined constants
+			UserDefinedConstantInExpression ///< evalation expression may not use user defined constants
 		};
 	
 		~Parser();

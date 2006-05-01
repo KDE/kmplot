@@ -1673,8 +1673,8 @@ void View::setScaling()
 {
 	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
 
-	assert( (Settings::xScaling >= 0) && (Settings::xScaling() < 9) );
-	assert( (Settings::yScaling >= 0) && (Settings::yScaling() < 9) );
+	assert( (Settings::xScaling() >= 0) && (Settings::xScaling() < 9) );
+	assert( (Settings::yScaling() >= 0) && (Settings::yScaling() < 9) );
 
 	if( Settings::xScaling() == 8) //automatic x-scaling
     {

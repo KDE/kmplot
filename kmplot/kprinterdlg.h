@@ -50,7 +50,7 @@ public:
 	/// Reimplemented.
 	void setOptions( const QMap<QString, QString>& opts );
 	/// Reimplemented.
-	bool isValid( const QString& msg );
+	bool isValid( const QString& msg ) const;
 	/// The check box for the option.
 	QCheckBox *printHeaderTable;
 	QCheckBox *transparent_background;

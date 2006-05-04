@@ -418,7 +418,7 @@ bool XParser::setFunctionIntVisible(bool visible, uint id)
 
 QString XParser::functionStr(uint id, uint eq)
 {
-	if ( !m_ufkt.contains( id ) || (eq>2) )
+	if ( !m_ufkt.contains( id ) || (eq>=2) )
 		return "";
 	return m_ufkt[id]->eq[eq]->fstr();
 }

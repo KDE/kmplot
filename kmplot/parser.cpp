@@ -214,7 +214,7 @@ double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
 
 double Parser::fkt(uint const id, uint eq, double const x)
 {
-	if ( !m_ufkt.contains( id ) || (eq > 2) )
+	if ( !m_ufkt.contains( id ) || (eq >= 2) )
 	{
 		m_error = NoSuchFunction;
 		return 0;

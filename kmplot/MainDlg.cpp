@@ -247,17 +247,17 @@ void MainDlg::setupActions()
 	KAction * newFunction = new KAction( i18n( "Cartesian Plot" ), actionCollection(), "newcartesian" );
 	newFunction->setIcon( KIcon("newfunction") );
 	connect( newFunction, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createCartesian() ) );
-	newFunction->plug( m_newPlotMenu );
+	m_newPlotMenu->addAction( newFunction );
         
 	KAction * newParametric = new KAction( i18n( "Parametric Plot" ), actionCollection(), "newparametric" );
 	newParametric->setIcon( KIcon("newparametric") );
 	connect( newParametric, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createParametric() ) );
-	newParametric->plug( m_newPlotMenu );
+	m_newPlotMenu->addAction( newParametric );
         
 	KAction * newPolar = new KAction( i18n( "Polar Plot" ), actionCollection(), "newpolar" );
 	newPolar->setIcon( KIcon("newpolar") );
 	connect( newPolar, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createPolar() ) );
-	newPolar->plug( m_newPlotMenu );
+	m_newPlotMenu->addAction( newPolar );
 	//END new plots menu
 	
 	
@@ -269,23 +269,23 @@ void MainDlg::setupActions()
 	// Popup menu
 	KAction *mnuHide = new KAction(i18n("&Hide"), actionCollection(),"mnuhide" );
 	connect( mnuHide, SIGNAL(triggered(bool)), View::self(), SLOT( mnuHide_clicked() ) );
-	mnuHide->plug(m_popupmenu);
+	m_popupmenu->addAction( mnuHide );
 	
 	KAction *mnuRemove = new KAction(i18n("&Remove"), actionCollection(),"mnuremove"  );
 	mnuRemove->setIcon( KIcon("editdelete") );
 	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT( mnuRemove_clicked() ) );
-	mnuRemove->plug(m_popupmenu);
+	m_popupmenu->addAction( mnuRemove );
 	
 	KAction *mnuEdit = new KAction(i18n("&Edit"), actionCollection(),"mnuedit"  );
 	mnuEdit->setIcon( KIcon("editplots") );
 	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT( mnuEdit_clicked() ) );
-	mnuEdit->plug(m_popupmenu);
+	m_popupmenu->addAction( mnuEdit );
 	
 	m_popupmenu->addSeparator();
-	mnuYValue->plug(m_popupmenu);
-	mnuMinValue->plug(m_popupmenu);
-	mnuMaxValue->plug(m_popupmenu);
-	mnuArea->plug(m_popupmenu);
+	m_popupmenu->addAction( mnuYValue );
+	m_popupmenu->addAction( mnuMinValue );
+	m_popupmenu->addAction( mnuMaxValue );
+	m_popupmenu->addAction( mnuArea );
 }
 
 

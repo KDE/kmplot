@@ -96,11 +96,11 @@ KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
 	
 	KAction * mnuMinValue = new KAction( i18n("&Change Minimum Value"), ac, "" );
 	connect( mnuMinValue, SIGNAL( triggered(bool) ), this, SLOT( mnuMinValue_clicked() ) );
-	mnuMinValue->plug(m_popupmenu);
+	m_popupmenu->addAction( mnuMinValue );
 	
 	KAction * mnuMaxValue = new KAction( i18n("&Change Maximum Value"), ac, "" );
 	connect( mnuMaxValue, SIGNAL( triggered(bool) ), this, SLOT( mnuMaxValue_clicked() ) );
-	mnuMaxValue->plug(m_popupmenu);
+	m_popupmenu->addAction( mnuMaxValue );
 	//END create popup-menu
 }
 

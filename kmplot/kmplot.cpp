@@ -59,7 +59,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 		// now that the Part is loaded, we cast it to a Part to get
 		// our hands on it
 		m_part = static_cast<KParts::ReadOnlyPart *>(factory->create(this,
-		         "kmplot_part", "KParts::ReadOnlyPart" ));
+		         "MainDlg"));
 		if (m_part)
 		{
 			// tell the KParts::MainWindow that this is indeed the main widget
@@ -129,7 +129,7 @@ bool KmPlot::load(const KUrl& url)
 	m_part->openURL( url );
   if (m_part->url().isEmpty())
     return false;
-  setCaption(url.prettyURL(0));
+  setCaption(url.prettyURL(KUrl::LeaveTrailingSlash));
   return true;
 }
 

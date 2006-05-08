@@ -86,7 +86,7 @@ class MainDlg : public KParts::ReadOnlyPart, virtual public MainDlgIface
 		 * @param parentWidget parent widget for this part
 		 * @param parent parent object
 		 */
-		MainDlg(QWidget *parentWidget, QObject *parent );
+		MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& = QStringList() );
 	
 		/// Initialized as a pointer to this MainDlg object on creation
 		static MainDlg * self() { return m_self; }
@@ -233,8 +233,8 @@ class KmPlotPartFactory : public KParts::Factory
 public:
 	KmPlotPartFactory();
 	virtual ~KmPlotPartFactory();
-	virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *widgetName,
-	                                        QObject *parent, const char *name,
+	virtual KParts::Part* createPartObject( QWidget *parentWidget, 
+	                                        QObject *parent,
 	                                        const char *classname, const QStringList &args );
 	static KInstance* instance();
 

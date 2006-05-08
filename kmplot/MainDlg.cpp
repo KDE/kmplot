@@ -41,6 +41,7 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kstdaction.h>
 #include <ktempfile.h>
 #include <ktoolbar.h>
 #include <ktoolinvocation.h>
@@ -65,7 +66,7 @@ bool MainDlg::oldfileversion;
 MainDlg * MainDlg::m_self = 0;
 
 
-MainDlg::MainDlg(QWidget *parentWidget, QObject *parent ) :
+MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 		DCOPObject( "MainDlg" ),
 		KParts::ReadOnlyPart( parent ),
 		m_recentFiles( 0 ),
@@ -409,7 +410,7 @@ void MainDlg::slotSaveas()
 			{
 				m_url = url;
 				m_recentFiles->addUrl( url );
-				setWindowCaption( m_url.prettyURL(0) );
+				setWindowCaption( m_url.prettyURL(KUrl::LeaveTrailingSlash) );
 				m_modified = false;
 			}
 			return;
@@ -493,8 +494,8 @@ bool MainDlg::openFile()
 		return false;
 	}
 	m_currentfile = m_url;
-	m_recentFiles->addUrl( m_url.prettyURL(0)  );
-	setWindowCaption( m_url.prettyURL(0) );
+	m_recentFiles->addUrl( m_url.prettyURL(KUrl::LeaveTrailingSlash)  );
+	setWindowCaption( m_url.prettyURL(KUrl::LeaveTrailingSlash) );
 	m_modified = false;
 	View::self()->updateSliders();
 	View::self()->drawPlot();
@@ -521,7 +522,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 	}
   m_url = m_currentfile = url;
 	m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
-  setWindowCaption( m_url.prettyURL(0) );
+  setWindowCaption( m_url.prettyURL(KUrl::LeaveTrailingSlash) );
   m_modified = false;
 	View::self()->updateSliders();
 	View::self()->drawPlot();
@@ -693,11 +694,11 @@ KmPlotPartFactory::~KmPlotPartFactory()
 	s_instance = 0L;
 }
 
-KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget, const char *,
-        QObject *parent, const char *, const char *, const QStringList & )
+KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget,
+        QObject *parent, const char *, const QStringList &args )
 {
 	// Create an instance of our Part
-	MainDlg* obj = new MainDlg( parentWidget, parent );
+	MainDlg* obj = new MainDlg( parentWidget, parent, args );
 	emit objectCreated( obj );
 	return obj;
 }

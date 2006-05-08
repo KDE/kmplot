@@ -36,6 +36,7 @@
 #include "kmplotIface.h"
 
 class KToggleAction;
+class KToggleFullScreenAction;
 
 /**
  * This is the application "Shell".  It has a menubar, toolbar, and

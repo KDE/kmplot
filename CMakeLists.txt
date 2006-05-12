@@ -1,4 +1,3 @@
-kde4_header()
 project(kmplot)
 
 add_subdirectory( kmplot ) 
@@ -10,7 +9,6 @@ add_subdirectory( icons )
 ########### install files ###############
 
 
-kde4_footer()
 
 
 

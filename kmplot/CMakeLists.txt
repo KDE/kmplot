@@ -1,4 +1,3 @@
-kde4_header()
 
 
 
@@ -78,7 +77,6 @@ install_files( ${MIME_INSTALL_DIR}/application FILES x-kmplot.desktop )
 install_files( ${DATA_INSTALL_DIR}/kmplot FILES kmplot_part.rc kmplot_part_readonly.rc )
 install_files( ${DATA_INSTALL_DIR}/kmplot FILES kmplot_shell.rc )
 
-kde4_footer()
 
 
 

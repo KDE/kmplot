@@ -6,6 +6,7 @@ kde4_header()
 ########### next target ###############
 
 set(kmplotpart_PART_SRCS 
+   plotstylewidget.cpp
    functioneditor.cpp
    parser.cpp 
    xparser.cpp 
@@ -21,18 +22,17 @@ set(kmplotpart_PART_SRCS
    kmplotio.cpp 
    ksliderwindow.cpp 
    parameterswidget.cpp
-   plotstylewidget.cpp
    coordsconfigdialog.cpp )
 
 kde4_automoc(${kmplotpart_PART_SRCS})
 
 kde4_add_ui_files(kmplotpart_PART_SRCS
+	plotstylewidget.ui
 	functioneditorwidget.ui
 	editcoords.ui
 	editscaling.ui
 	qminmax.ui
 	qparametereditor.ui
-	plotstylewidget.ui
 	settingspagecolor.ui
 	settingspageconstants.ui
 	settingspagefonts.ui

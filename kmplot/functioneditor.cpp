@@ -736,7 +736,8 @@ void FunctionEditor::saveParametric()
 	}
 	
 	tempFunction.m_parameters = m_editor->parametricParameters->parameterSettings();
-	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->parametric_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+        if (functionListItem)
+		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->parametric_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	if ( !tempFunction.eq[0]->setFstr( parametricXPrefix() ) )
 		return;

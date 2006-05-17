@@ -656,7 +656,8 @@ void FunctionEditor::savePolar()
 	}
 	
 	tempFunction.m_parameters = m_editor->polarParameters->parameterSettings();
-	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->polar_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	if (functionListItem)
+		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->polar_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;

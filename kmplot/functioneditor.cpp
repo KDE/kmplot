@@ -552,7 +552,8 @@ void FunctionEditor::saveCartesian()
 	if ( tempFunction.usecustomxmax && !ok )
 		return;
 	
-	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->cartesian_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	if (functionListItem)
+		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->cartesian_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	tempFunction.plotAppearance( Function::Derivative1 ) = m_editor->cartesian_f1->plot( m_editor->showDerivative1->isChecked() );
 	tempFunction.plotAppearance( Function::Derivative2 ) = m_editor->cartesian_f2->plot( m_editor->showDerivative2->isChecked() );
 	tempFunction.plotAppearance( Function::Integral ) = m_editor->cartesian_integral->plot( m_editor->showIntegral->isChecked() );

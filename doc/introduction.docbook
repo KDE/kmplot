@@ -22,7 +22,7 @@ functions.</para>
 polar coordinates. Several grid modes are supported. Plots may be
 printed with high precision in the correct scale.</para>
 
-<para>&kmplot; also provides some numerical and visual features like:
+<para>&kmplot; also provides some numerical and visual features like:</para>
 <itemizedlist>
 <listitem><para>Filling and calculating
 the area between the plot and the first axis</para>
@@ -37,7 +37,7 @@ derivatives and integral functions.</para>
 </listitem>
 </itemizedlist>
 
-These features help in learning the
+<para>These features help in learning the
 relationship between mathematical functions and their graphical
 representation in a coordinate system.</para>
 

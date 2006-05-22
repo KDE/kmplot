@@ -155,7 +155,7 @@ bool KmPlotIO::save( const KUrl &url )
 		if ( !KIO::NetAccess::upload(tmpfile.name(), url,0))
 		{
 			tmpfile.unlink();
-			kWarning() << k_funcinfo << "Could not open " << url.prettyURL() << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
+			kWarning() << k_funcinfo << "Could not open " << url.prettyUrl() << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
 			return false;
 		}
 		tmpfile.unlink();

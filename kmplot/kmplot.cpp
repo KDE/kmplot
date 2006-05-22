@@ -129,7 +129,7 @@ bool KmPlot::load(const KUrl& url)
 	m_part->openURL( url );
   if (m_part->url().isEmpty())
     return false;
-  setCaption(url.prettyURL(KUrl::LeaveTrailingSlash));
+  setCaption(url.prettyUrl(KUrl::LeaveTrailingSlash));
   return true;
 }
 

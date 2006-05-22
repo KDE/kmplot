@@ -410,7 +410,7 @@ void MainDlg::slotSaveas()
 			{
 				m_url = url;
 				m_recentFiles->addUrl( url );
-				setWindowCaption( m_url.prettyURL(KUrl::LeaveTrailingSlash) );
+				setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
 				m_modified = false;
 			}
 			return;
@@ -494,8 +494,8 @@ bool MainDlg::openFile()
 		return false;
 	}
 	m_currentfile = m_url;
-	m_recentFiles->addUrl( m_url.prettyURL(KUrl::LeaveTrailingSlash)  );
-	setWindowCaption( m_url.prettyURL(KUrl::LeaveTrailingSlash) );
+	m_recentFiles->addUrl( m_url.prettyUrl(KUrl::LeaveTrailingSlash)  );
+	setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
 	m_modified = false;
 	View::self()->updateSliders();
 	View::self()->drawPlot();
@@ -522,7 +522,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 	}
   m_url = m_currentfile = url;
 	m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
-  setWindowCaption( m_url.prettyURL(KUrl::LeaveTrailingSlash) );
+  setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
   m_modified = false;
 	View::self()->updateSliders();
 	View::self()->drawPlot();

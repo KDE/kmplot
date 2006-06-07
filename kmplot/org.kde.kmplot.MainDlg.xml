@@ -1,0 +1,28 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kmplot.MainDlg">
+    <method name="editAxes"/>
+    <method name="editScaling"/>
+    <method name="toggleShowSliders"/>
+    <method name="slotSave"/>
+    <method name="slotSaveas"/>
+    <method name="slotPrint"/>
+    <method name="slotExport"/>
+    <method name="slotSettings"/>
+    <method name="slotNames"/>
+    <method name="slotCoord1"/>
+    <method name="slotCoord2"/>
+    <method name="slotCoord3"/>
+    <method name="getYValue"/>
+    <method name="findMinimumValue"/>
+    <method name="findMaximumValue"/>
+    <method name="graphArea"/>
+    <method name="checkModified">
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="isModified">
+    <arg type="b" direction="out"/>
+    </method>
+  </interface>
+</node>

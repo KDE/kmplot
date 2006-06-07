@@ -1,0 +1,11 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.kmplot.Parser">
+    <method name="addFunction">
+    <arg name="f_str0" type="s" direction="in"/>
+    <arg name="f_str1" type="s" direction="in"/>
+    <arg type="i" direction="out"/>
+    </method>
+ </interface>
+</node>

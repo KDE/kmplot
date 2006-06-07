@@ -7,5 +7,150 @@
     <arg name="f_str1" type="s" direction="in"/>
     <arg type="i" direction="out"/>
     </method>
+    <method name="removeFunction">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="setFunctionExpression">
+    <arg name="f_str" type="s" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    <arg name="eq" type="u" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="countFunctions">
+    <arg type="u" direction="out"/>
+    </method>
+    <method name="listFunctionNames">
+    <arg type="as" direction="out"/>
+    </method>
+    <method name="fnameToID">
+    <arg type="i" direction="out"/>
+    <arg name="name" type="s" direction="in"/>
+    </method>
+    <method name="fkt">
+    <arg type="d" direction="out"/>
+    <arg name="id" type="u" direction="in"/>
+    <arg name="eq" type="u" direction="in"/>
+    <arg name="eq" type="d" direction="in"/>
+    </method>
+    <method name="functionFVisible">
+    <arg type="b" direction="out"/>
+    <arg name="id" type="u" direction="in"/>
+    </method>
+    <method name="functionF1Visible">
+    <arg type="b" direction="out"/>
+    <arg name="id" type="u" direction="in"/>
+    </method>
+    <method name="functionF2Visible">
+    <arg type="b" direction="out"/>
+    <arg name="id" type="u" direction="in"/>
+    </method>
+    <method name="functionIntVisible">
+    <arg type="b" direction="out"/>
+    <arg name="id" type="u" direction="in"/>
+    </method>
+    <method name="setFunctionFVisible">
+    <arg name="visible" type="b" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    </method>
+    <method name="setFunctionF1Visible">
+    <arg name="visible" type="b" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    </method>
+    <method name="setFunctionF2Visible">
+    <arg name="visible" type="b" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    </method>
+    <method name="setFunctionIntVisible">
+    <arg name="visible" type="b" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    </method>
+    <method name="functionStr">
+    <arg name="eq" type="u" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    <arg type="s" direction="out"/>
+    </method>
+    <method name="functionFLineWidth">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="d" direction="out"/>
+    </method>
+    <method name="functionF1LineWidth">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="d" direction="out"/>
+    </method>
+    <method name="functionF2LineWidth">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="d" direction="out"/>
+    </method>
+    <method name="functionIntLineWidth">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="d" direction="out"/>
+    </method>
+    <method name="setFunctionFLineWidth">
+    <arg name="id" type="u" direction="in"/>
+    <arg name="linewidth" type="d" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="setFunctionF1LineWidth">
+    <arg name="id" type="u" direction="in"/>
+    <arg name="linewidth" type="d" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="setFunctionF2LineWidth">
+    <arg name="id" type="u" direction="in"/>
+    <arg name="linewidth" type="d" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="setFunctionIntLineWidth">
+    <arg name="id" type="u" direction="in"/>
+    <arg name="linewidth" type="d" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="functionParameterList">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="as" direction="out"/>
+    </method>
+    <method name="functionAddParameter">
+    <arg name="new_parameter" type="s" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="functionRemoveParameter">
+    <arg name="remove_parameter" type="s" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="functionMinValue">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="s" direction="out"/>
+    </method>
+    <method name="functionMaxValue">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="s" direction="out"/>
+    </method>
+    <method name="setFunctionMaxValue">
+    <arg name="min" type="s" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="setFunctionMinValue">
+    <arg name="min" type="s" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
+    <method name="functionStartXValue">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="s" direction="out"/>
+    </method>
+    <method name="functionStartYValue">
+    <arg name="id" type="u" direction="in"/>
+    <arg type="s" direction="out"/>
+    </method>
+    <method name="setFunctionStartValue">
+    <arg name="x" type="s" direction="in"/>
+    <arg name="y" type="s" direction="in"/>
+    <arg name="id" type="u" direction="in"/>
+    <arg type="b" direction="out"/>
+    </method>
  </interface>
 </node>

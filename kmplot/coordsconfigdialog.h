@@ -27,16 +27,13 @@
 
 #include <kconfigdialog.h>
 
-#include "ui_editcoords.h"
 #include "xparser.h"
 
-class EditCoords : public QWidget, public Ui::EditCoords
-{
-	public:
-		EditCoords( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
-};
+namespace Ui{
+class EditCoords;
+}
+
+class EditCoords;
 
 /**
 @author Fredrik Edemar

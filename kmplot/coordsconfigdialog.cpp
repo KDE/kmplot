@@ -28,7 +28,18 @@
 #include <qradiobutton.h>
 
 #include "settings.h"
+
+
 #include "coordsconfigdialog.h"
+#include "ui_editcoords.h"
+
+class EditCoords : public QWidget, public Ui::EditCoords
+{
+ public:
+     EditCoords( QWidget * parent = 0 )
+ : QWidget( parent )
+     { setupUi(this); }
+};
 
 CoordsConfigDialog::CoordsConfigDialog(XParser *p, QWidget *parent)
 	: KConfigDialog(parent, "coords", Settings::self()), m_parser(p)

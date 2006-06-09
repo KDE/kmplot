@@ -33,7 +33,7 @@
 #include <kcmdlineargs.h>
 #include <kparts/mainwindow.h>
 
-#include "kmplotIface.h"
+#include "kmplotadaptor.h"
 
 class KToggleAction;
 class KToggleFullScreenAction;
@@ -45,7 +45,7 @@ class KToggleFullScreenAction;
  * @short Application Shell
  * @author Fredrik Edemar <f_edemar@linux.se>
  */
-class KmPlot : public KParts::MainWindow, virtual public KmPlotIface
+class KmPlot : public KParts::MainWindow
 {
 	Q_OBJECT
 public:
@@ -83,16 +83,20 @@ protected:
 
 private slots:
 	void fileNew();
-	void fileOpen();
 	void fileOpen(const KUrl &url);
-	void optionsConfigureKeys();
-	void optionsConfigureToolbars();
 	void applyNewToolbarConfig();
+
+public Q_SLOTS:
+    // DBus interface
+    Q_SCRIPTABLE void fileOpen();
+    Q_SCRIPTABLE void optionsConfigureKeys();
+    Q_SCRIPTABLE void optionsConfigureToolbars();
+    Q_SCRIPTABLE void setStatusBarText(const QString &, int id);
+    Q_SCRIPTABLE void openFileInNewWindow(const KUrl url);
 
 public slots:
 	/// Called when fullscren is enabled/disabled
 	void slotUpdateFullScreen(bool);
-	void setStatusBarText(const QString &, int id);
 
 private:
 	void setupAccel();
@@ -100,7 +104,6 @@ private:
 	void setupStatusBar();
 	bool checkModified();
 	bool isModified();
-	void openFileInNewWindow(const KUrl url);
 
 
 private:

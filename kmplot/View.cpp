@@ -58,8 +58,10 @@
 #include "settings.h"
 #include "ksliderwindow.h"
 #include "MainDlg.h"
+
 #include "View.h"
-#include "View.moc"
+#include "viewadaptor.h"
+
 
 // other includes
 #include <assert.h>
@@ -70,13 +72,13 @@
 View * View::m_self = 0;
 
 View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent, KActionCollection *ac )
-	: DCOPObject("View"),
+	: /*DCOPObject("View"),*/
 	  QWidget( parent, Qt::WStaticContents ),
 	  buffer( width(), height() ),
 	  m_popupmenu( functionPopup ),
 	  m_modified( modified ),
 	  m_readonly( readOnly ),
-	  m_dcop_client(KApplication::kApplication()->dcopClient()),
+// 	  m_dcop_client(KApplication::kApplication()->dcopClient()),
 	  m_ac(ac)
 {
 	assert( !m_self ); // this class should only be constructed once
@@ -99,6 +101,9 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	m_prevCursor = CursorArrow;
 
 	m_mousePressTimer = new QTime();
+
+    new ViewAdaptor(this);
+    QDBus::sessionBus().registerObject("/view", this);
 
 	XParser::self( & modified );
 	init();
@@ -2269,7 +2274,7 @@ void View::setStatusBar(const QString &text, const int id)
 		QDataStream arg( &parameters,QIODevice::WriteOnly);
 		arg.setVersion(QDataStream::Qt_3_1);
 		arg << text << id;
-		m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","setStatusBarText(QString,int)", parameters);
+// 		m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","setStatusBarText(QString,int)", parameters);
 	}
 }
 
@@ -2289,3 +2294,4 @@ IntegralDrawSettings::IntegralDrawSettings()
 }
 //END class IntegralDrawSettings
 
+#include "View.moc"

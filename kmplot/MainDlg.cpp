@@ -30,7 +30,7 @@
 #include <QTimer>
 
 // KDE includes
-#include <dcopclient.h>
+// #include <dcopclient.h>
 #include <kaboutdata.h>
 #include <kapplication.h>
 #include <kconfigdialog.h>
@@ -50,24 +50,61 @@
 #include "functioneditor.h"
 #include "kprinterdlg.h"
 #include "kconstanteditor.h"
-#include "MainDlg.h"
-#include "MainDlg.moc"
+
 #include "settings.h"
+#include "MainDlg.h"
+#include "ui_editscaling.h"
 #include "ui_settingspagecolor.h"
 #include "ui_settingspagefonts.h"
+#include "ui_settingspagegeneral.h"
 #include "ksliderwindow.h"
+#include "maindlgadaptor.h"
 
 #include <assert.h>
 
 class XParser;
 class KmPlotIO;
 
+
+
+class EditScaling : public QWidget, public Ui::EditScaling
+{
+    public:
+        EditScaling( QWidget * parent = 0 )
+    : QWidget( parent )
+        { setupUi(this); }
+};
+
+class SettingsPageColor : public QWidget, public Ui::SettingsPageColor
+{
+    public:
+        SettingsPageColor( QWidget * parent = 0 )
+    : QWidget( parent )
+        { setupUi(this); }
+};
+
+class SettingsPageFonts : public QWidget, public Ui::SettingsPageFonts
+{
+    public:
+        SettingsPageFonts( QWidget * parent = 0 )
+    : QWidget( parent )
+        { setupUi(this); }
+};
+
+class SettingsPageGeneral : public QWidget, public Ui::SettingsPageGeneral
+{
+    public:
+        SettingsPageGeneral( QWidget * parent = 0 )
+    : QWidget( parent )
+        { setupUi(this); }
+};
+
 bool MainDlg::oldfileversion;
 MainDlg * MainDlg::m_self = 0;
 
 
 MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
-		DCOPObject( "MainDlg" ),
+// 		DCOPObject( "MainDlg" ),
 		KParts::ReadOnlyPart( parent ),
 		m_recentFiles( 0 ),
 		m_modified(false),
@@ -80,7 +117,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	setInstance( KmPlotPartFactory::instance() );
 
 	kDebug() << "parentWidget->objectName():" << parentWidget->objectName() << endl;
-	if ( QString(parentWidget->objectName()).startsWith("KmPlot") )
+	if ( QString(parentWidget->objectName()).startsWith("kmplot") )
 	{
 		setXMLFile("kmplot_part.rc");
 		m_readonly = false;
@@ -141,6 +178,11 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	// User edited the configuration - update your local copies of the
 	// configuration data
 	connect( m_settingsDialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT(updateSettings() ) );
+
+
+    new MainDlgAdaptor(this);
+    QDBus::sessionBus().registerObject("/maindlg", this);
+
 }
 
 MainDlg::~MainDlg()
@@ -504,28 +546,28 @@ bool MainDlg::openFile()
 
 void MainDlg::slotOpenRecent( const KUrl &url )
 {
-	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
-	{
-		QByteArray data;
-		QDataStream stream( &data,QIODevice::WriteOnly);
-		stream.setVersion(QDataStream::Qt_3_1);
-		stream << url;
-		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KUrl)", data);
-		return;
-	}
-
-	View::self()->init();
-	if ( !kmplotio->load( url ) ) //if the loading fails
-	{
-		m_recentFiles->removeUrl(url ); //remove the file from the recent-opened-file-list
-		return;
-	}
-  m_url = m_currentfile = url;
-	m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
-  setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
-  m_modified = false;
-	View::self()->updateSliders();
-	View::self()->drawPlot();
+// 	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
+// 	{
+// 		QByteArray data;
+// 		QDataStream stream( &data,QIODevice::WriteOnly);
+// 		stream.setVersion(QDataStream::Qt_3_1);
+// 		stream << url;
+// 		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KUrl)", data);
+// 		return;
+// 	}
+// 
+// 	View::self()->init();
+// 	if ( !kmplotio->load( url ) ) //if the loading fails
+// 	{
+// 		m_recentFiles->removeUrl(url ); //remove the file from the recent-opened-file-list
+// 		return;
+// 	}
+//   m_url = m_currentfile = url;
+// 	m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
+//   setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
+//   m_modified = false;
+// 	View::self()->updateSliders();
+// 	View::self()->drawPlot();
 }
 
 void MainDlg::slotPrint()
@@ -664,12 +706,12 @@ void MainDlg::setReadOnlyStatusBarText(const QString &text)
 
 void MainDlg::optionsConfigureKeys()
 {
-	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureKeys()", QByteArray());
+// 	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureKeys()", QByteArray());
 }
 
 void MainDlg::optionsConfigureToolbars()
 {
-	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureToolbars()", QByteArray());
+// 	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureToolbars()", QByteArray());
 }
 
 // It's usually safe to leave the factory code alone.. with the
@@ -735,3 +777,4 @@ void BrowserExtension::print()
 	static_cast<MainDlg*>(parent())->slotPrint();
 }
 
+#include "MainDlg.moc"

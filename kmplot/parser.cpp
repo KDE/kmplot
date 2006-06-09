@@ -42,6 +42,8 @@
 //Added by qt3to4:
 #include <QList>
 
+#include "parseradaptor.h"
+
 double Parser::m_radiansPerAngleUnit = 0;
 
 /// List of predefined functions.
@@ -107,6 +109,9 @@ Parser::Parser()
 	
 	m_ownEquation = new Equation( Equation::Cartesian, 0 );
 	m_currentEquation = m_ownEquation;
+
+    new ParserAdaptor(this);
+    QDBus::sessionBus().registerObject("/parser", this);
 }
 
 
@@ -1235,64 +1240,64 @@ QChar Constants::generateUniqueName()
 
 void Constants::load()
 {
-	KSimpleConfig conf ("kcalcrc");
-	conf.setGroup("UserConstants");
-	QString tmp;
-	
-	for( int i=0; ;i++)
-	{
-		tmp.setNum(i);
-		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
-		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
-// 		kDebug() << "konstant: " << tmp_constant << endl;
-// 		kDebug() << "value: " << tmp_value << endl;
-// 		kDebug() << "**************" << endl;
-		
-		if ( tmp_constant == " " )
-			return;
-		
-		if ( tmp_constant.isEmpty() )
-			continue;
-			
-		double value = m_parser->eval(tmp_value);
-		if ( m_parser->parserError(false) )
-		{
-			kWarning() << k_funcinfo << "Couldn't parse the value " << tmp_value << endl;
-			continue;
-		}
-		
-		QChar constant = tmp_constant[0].toUpper();
-		
-		if ( !isValidName( constant ) || have( constant ) )
-			constant = generateUniqueName();
-		
-		add( Constant(constant, value) );
-	}
+// 	KSimpleConfig conf ("kcalcrc");
+// 	conf.setGroup("UserConstants");
+// 	QString tmp;
+// 	
+// 	for( int i=0; ;i++)
+// 	{
+// 		tmp.setNum(i);
+// 		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
+// 		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
+// // 		kDebug() << "konstant: " << tmp_constant << endl;
+// // 		kDebug() << "value: " << tmp_value << endl;
+// // 		kDebug() << "**************" << endl;
+// 		
+// 		if ( tmp_constant == " " )
+// 			return;
+// 		
+// 		if ( tmp_constant.isEmpty() )
+// 			continue;
+// 			
+// 		double value = m_parser->eval(tmp_value);
+// 		if ( m_parser->parserError(false) )
+// 		{
+// 			kWarning() << k_funcinfo << "Couldn't parse the value " << tmp_value << endl;
+// 			continue;
+// 		}
+// 		
+// 		QChar constant = tmp_constant[0].toUpper();
+// 		
+// 		if ( !isValidName( constant ) || have( constant ) )
+// 			constant = generateUniqueName();
+// 		
+// 		add( Constant(constant, value) );
+// 	}
 }
 
 void Constants::save()
 {
-	KSimpleConfig conf ("kcalcrc");
-	conf.deleteGroup("Constants");
-	
-	// remove any previously saved constants
-	conf.deleteGroup( "UserConstants", KConfigBase::Recursive );
-	conf.deleteGroup( "UserConstants", 0 ); /// \todo remove this line when fix bug in kconfigbase
-	
-	
-	conf.setGroup("UserConstants");
-	QString tmp;
-	
-	int i = 0;
-	foreach ( Constant c, m_constants )
-	{
-		tmp.setNum(i);
-		conf.writeEntry("nameConstant"+tmp, QString( c.constant ) ) ;
-		conf.writeEntry("valueConstant"+tmp, c.value);
-// 		kDebug() << "wrote constant="<<c.constant<<" value="<<c.value<<endl;
-		
-		i++;
-	}
+// 	KSimpleConfig conf ("kcalcrc");
+// 	conf.deleteGroup("Constants");
+// 	
+// 	// remove any previously saved constants
+// 	conf.deleteGroup( "UserConstants", KConfigBase::Recursive );
+// 	conf.deleteGroup( "UserConstants", 0 ); /// \todo remove this line when fix bug in kconfigbase
+// 	
+// 	
+// 	conf.setGroup("UserConstants");
+// 	QString tmp;
+// 	
+// 	int i = 0;
+// 	foreach ( Constant c, m_constants )
+// 	{
+// 		tmp.setNum(i);
+// 		conf.writeEntry("nameConstant"+tmp, QString( c.constant ) ) ;
+// 		conf.writeEntry("valueConstant"+tmp, c.value);
+// // 		kDebug() << "wrote constant="<<c.constant<<" value="<<c.value<<endl;
+// 		
+// 		i++;
+// 	}
 }
 //END class Constants
 

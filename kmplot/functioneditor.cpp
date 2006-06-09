@@ -38,6 +38,7 @@
 #include <kmessagebox.h>
 
 #include <QMenu>
+#include <QRadioButton>
 #include <QTimer>
 
 #include <assert.h>

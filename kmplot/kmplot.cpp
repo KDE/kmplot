@@ -39,8 +39,11 @@
 #include "MainDlg.h"
 #include <ktoolinvocation.h>
 
+#include "kmplotadaptor.h"
+#include <dbus/qdbus.h>
+
 KmPlot::KmPlot( KCmdLineArgs* args)
-		: DCOPObject( "KmPlotShell" ), KParts::MainWindow( 0L, "KmPlot" )
+		: KParts::MainWindow( 0L, "KmPlot" )
 {
 	// set the shell's ui resource file
 	setXMLFile("kmplot_shell.rc");
@@ -105,6 +108,9 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	}
 	
 	show();
+
+        new KmplotAdaptor(this);
+        QDBus::sessionBus().registerObject("/kmplot", this);
 }
 
 KmPlot::~KmPlot()
@@ -241,26 +247,14 @@ void KmPlot::openFileInNewWindow(const KUrl url)
 
 bool KmPlot::checkModified()
 {
-	DCOPCString replyType;
-	QByteArray replyData;
-	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","checkModified()", QByteArray(), replyType, replyData, false);
-	bool result;
-	QDataStream stream( &replyData,QIODevice::ReadOnly);
-	stream.setVersion(QDataStream::Qt_3_1);
-	stream >> result;
-	return result;
+    QDBusReply<bool> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg")->call( QDBusAbstractInterface::UseEventLoop, "checkModified" );
+    return reply.value();
 }
 
 bool KmPlot::isModified()
 {
-	DCOPCString replyType;
-	QByteArray replyData;
-	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","isModified()", QByteArray(), replyType, replyData, false);
-	bool result;
-	QDataStream stream( &replyData,QIODevice::ReadOnly);
-	stream.setVersion(QDataStream::Qt_3_1);
-	stream >> result;
-	return result;
+    QDBusReply<bool> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.isModified")->call( QDBusAbstractInterface::UseEventLoop, "checkModified" );
+    return reply.value();
 }
 
 bool KmPlot::queryClose()
@@ -270,7 +264,7 @@ bool KmPlot::queryClose()
 
 void KmPlot::setStatusBarText(const QString &text, int id)
 {
-	statusBar()->changeItem(text,id);
+ 	statusBar()->changeItem(text,id);
 }
 
 

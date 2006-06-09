@@ -26,8 +26,11 @@
 #ifndef KMINMAX_H
 #define KMINMAX_H
 
-#include "ui_qminmax.h"
 #include "View.h"
+
+namespace Ui{
+class QMinMax;
+}
 
 class QMinMax;
 
@@ -72,14 +75,6 @@ public slots:
 		Mode m_mode;
 		Parameter parameter;
 		QMinMax * m_mainWidget;
-};
-
-class QMinMax : public QWidget, public Ui::QMinMax
-{
-	public:
-		QMinMax( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
 };
 
 #endif

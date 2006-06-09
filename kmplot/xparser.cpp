@@ -23,7 +23,7 @@
 */
 
 // KDE includes
-#include <dcopclient.h>
+// #include <dcopclient.h>
 #include <kapplication.h>
 #include <kglobal.h>
 #include <kinputdialog.h>
@@ -51,7 +51,7 @@ XParser * XParser::self( bool * modified )
 }
 
 
-XParser::XParser(bool &mo) : DCOPObject("Parser"), m_modified(mo)
+XParser::XParser(bool &mo) : m_modified(mo)
 {
 	// setup slider support
 }

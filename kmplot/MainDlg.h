@@ -49,12 +49,8 @@
 #include "View.h"
 #include "kminmax.h"
 #include "kmplotio.h"
-#include "MainDlgIface.h"
+// #include "MainDlgIface.h"
 
-#include "ui_editscaling.h"
-#include "ui_settingspagecolor.h"
-#include "ui_settingspagefonts.h"
-#include "ui_settingspagegeneral.h"
 
 class BrowserExtension;
 class EditScaling;
@@ -67,6 +63,17 @@ class KAction;
 class KLineEdit;
 class KRecentFilesAction;
 class QTimer;
+
+namespace Ui{
+class EditScaling;
+class SettingsPageColor;
+class SettingsPageConstants;
+class SettingsPageFonts;
+class SettingsPageGeneral;
+}
+
+
+class EditScaling;
 class SettingsPageColor;
 class SettingsPageConstants;
 class SettingsPageFonts;
@@ -77,7 +84,7 @@ class SettingsPageGeneral;
  * Its central widget view contains the parser, accessable via its parser() function.
  * @see View, View::m_parser, View::parser
  */
-class MainDlg : public KParts::ReadOnlyPart, virtual public MainDlgIface
+class MainDlg : public KParts::ReadOnlyPart/*, virtual public MainDlgIface*/
 {
 	Q_OBJECT
 
@@ -98,13 +105,17 @@ class MainDlg : public KParts::ReadOnlyPart, virtual public MainDlgIface
 	/// This class needs access to private members, too.
 	friend class BezWnd;
 
-	/// Asks the user and returns true if modified data shall be dicarded.
-	bool checkModified();
 	/// Is set to true if a file from an old file format was loaded
 	static bool oldfileversion;
 	
 	/// The function editor
 	FunctionEditor * functionEditor() const { return m_functionEditor; }
+
+public Q_SLOTS:
+    // DBus interface
+    /// Asks the user and returns true if modified data shall be dicarded.
+    Q_SCRIPTABLE bool checkModified();
+
 
 public slots:
 	/// Implement the coordinate system edit dialog
@@ -252,39 +263,6 @@ public:
 public slots:
 	// Automatically detected by the host.
 	void print();
-};
-
-
-class EditScaling : public QWidget, public Ui::EditScaling
-{
-	public:
-		EditScaling( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
-};
-
-class SettingsPageColor : public QWidget, public Ui::SettingsPageColor
-{
-	public:
-		SettingsPageColor( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
-};
-
-class SettingsPageFonts : public QWidget, public Ui::SettingsPageFonts
-{
-	public:
-		SettingsPageFonts( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
-};
-
-class SettingsPageGeneral : public QWidget, public Ui::SettingsPageGeneral
-{
-	public:
-		SettingsPageGeneral( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
 };
 
 #endif // MainDlg_included

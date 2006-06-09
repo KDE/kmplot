@@ -217,7 +217,7 @@ class Constants
  *
  * Tokenizes a function equation to be evaluated.
  */
-class Parser : public QObject, virtual public ParserIface
+class Parser : public QObject/*, virtual public ParserIface*/
 {
 	Q_OBJECT
 	public:

@@ -33,7 +33,17 @@
 #include <QList>
 
 #include "kminmax.h"
+#include "ui_qminmax.h"
+
 #include "xparser.h"
+
+class QMinMax : public QWidget, public Ui::QMinMax
+{
+    public:
+        QMinMax( QWidget * parent = 0 )
+        { setupUi(this); }
+};
+
 
 KMinMax::KMinMax(QWidget *parent )
 	: KDialog( parent, i18n("Find Minimum Point") )

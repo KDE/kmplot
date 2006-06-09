@@ -71,68 +71,68 @@ class XParser : public Parser
         /// Interpretates the extended function string (only used by the old file format)
 	bool getext( Function *, const QString );
 	
-	/// Functions for the DCOP interface:
-
+	/// Functions for the D-BUS interface:
+    public Q_SLOTS:
 	/// Returns a list with all functions
-	QStringList listFunctionNames();
+	Q_SCRIPTABLE QStringList listFunctionNames();
 
 	/// Returns true if the graph is visible, otherwise false.
-	bool functionFVisible(uint id);
-	bool functionF1Visible(uint id);
-	bool functionF2Visible(uint id);
-	bool functionIntVisible(uint id);
+	Q_SCRIPTABLE bool functionFVisible(uint id);
+	Q_SCRIPTABLE bool functionF1Visible(uint id);
+	Q_SCRIPTABLE bool functionF2Visible(uint id);
+	Q_SCRIPTABLE bool functionIntVisible(uint id);
 	/// Set the visible of the function. Returns true if it succeeds, otherwise false.
-	bool setFunctionFVisible(bool visible, uint id);
-	bool setFunctionF1Visible(bool visible, uint id);
-	bool setFunctionF2Visible(bool visible, uint id);
-	bool setFunctionIntVisible(bool visible, uint id);
+	Q_SCRIPTABLE bool setFunctionFVisible(bool visible, uint id);
+	Q_SCRIPTABLE bool setFunctionF1Visible(bool visible, uint id);
+	Q_SCRIPTABLE bool setFunctionF2Visible(bool visible, uint id);
+	Q_SCRIPTABLE bool setFunctionIntVisible(bool visible, uint id);
 	
 	/// Returns the function expression, or an empty string if the function couldn't be found
-	QString functionStr(uint id, uint eq);
+	Q_SCRIPTABLE QString functionStr(uint id, uint eq);
 	/// Returns the complete function string including the extensions of a function, or an empty string if the function couldn't be found
 	
 	/// Get the color of a graph
-	QColor functionFColor(uint id);
-	QColor functionF1Color(uint id);
-	QColor functionF2Color(uint id);
-	QColor functionIntColor(uint id);
+	Q_SCRIPTABLE QColor functionFColor(uint id);
+	Q_SCRIPTABLE QColor functionF1Color(uint id);
+	Q_SCRIPTABLE QColor functionF2Color(uint id);
+	Q_SCRIPTABLE QColor functionIntColor(uint id);
 	/// Set the color of a graph. Returns true if it succeeds, otherwise false.
-	bool setFunctionFColor(const QColor &color, uint id);
-	bool setFunctionF1Color(const QColor &color, uint id);
-	bool setFunctionF2Color(const QColor &color, uint id);
-	bool setFunctionIntColor(const QColor &color, uint id);
+	Q_SCRIPTABLE bool setFunctionFColor(const QColor &color, uint id);
+	Q_SCRIPTABLE bool setFunctionF1Color(const QColor &color, uint id);
+	Q_SCRIPTABLE bool setFunctionF2Color(const QColor &color, uint id);
+	Q_SCRIPTABLE bool setFunctionIntColor(const QColor &color, uint id);
 	
 	/// Get the line width of a graph
-	double functionFLineWidth(uint id);
-	double functionF1LineWidth(uint id);
-	double functionF2LineWidth(uint id);
-	double functionIntLineWidth(uint id);
+	Q_SCRIPTABLE double functionFLineWidth(uint id);
+	Q_SCRIPTABLE double functionF1LineWidth(uint id);
+	Q_SCRIPTABLE double functionF2LineWidth(uint id);
+	Q_SCRIPTABLE double functionIntLineWidth(uint id);
 	/// Set the line width of a graph. Returns true if it succeeds, otherwise false.
-	bool setFunctionFLineWidth(double linewidth, uint id);
-	bool setFunctionF1LineWidth(double linewidth, uint id);
-	bool setFunctionF2LineWidth(double linewidth, uint id);
-	bool setFunctionIntLineWidth(double linewidth, uint id);
+	Q_SCRIPTABLE bool setFunctionFLineWidth(double linewidth, uint id);
+	Q_SCRIPTABLE bool setFunctionF1LineWidth(double linewidth, uint id);
+	Q_SCRIPTABLE bool setFunctionF2LineWidth(double linewidth, uint id);
+	Q_SCRIPTABLE bool setFunctionIntLineWidth(double linewidth, uint id);
 		
 	/// Returns the function's parameter list
-	QStringList functionParameterList(uint id);
-	bool functionAddParameter(const QString &new_parameter, uint id);
-	bool functionRemoveParameter(const QString &remove_parameter, uint id);
-	int addFunction(const QString &f_str0, const QString &f_str1);
-	bool addFunction(const QString &extstr0, const QString &extstr1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1linewidth, double f2linewidth, double integrallinewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider);
-	bool setFunctionExpression(const QString &f_str, uint id, uint eq);
+	Q_SCRIPTABLE QStringList functionParameterList(uint id);
+	Q_SCRIPTABLE bool functionAddParameter(const QString &new_parameter, uint id);
+	Q_SCRIPTABLE bool functionRemoveParameter(const QString &remove_parameter, uint id);
+	Q_SCRIPTABLE int addFunction(const QString &f_str0, const QString &f_str1);
+	Q_SCRIPTABLE bool addFunction(const QString &extstr0, const QString &extstr1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool Q_SCRIPTABLE integral_use_precision, double linewidth, double f1linewidth, double f2linewidth, double integrallinewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider);
+	Q_SCRIPTABLE bool setFunctionExpression(const QString &f_str, uint id, uint eq);
 	
 	/// Get the min and max value of a graph
-	QString functionMinValue(uint id);
-	QString functionMaxValue(uint id);
+	Q_SCRIPTABLE QString functionMinValue(uint id);
+	Q_SCRIPTABLE QString functionMaxValue(uint id);
 	/// Set the min and max values of a graph. Returns true if it succeeds, otherwise false.
-	bool setFunctionMinValue(const QString &min, uint id);
-	bool setFunctionMaxValue(const QString &max, uint id);
+	Q_SCRIPTABLE bool setFunctionMinValue(const QString &min, uint id);
+	Q_SCRIPTABLE bool setFunctionMaxValue(const QString &max, uint id);
 	
 	/// Get the startx and starty value of a graph
-	QString functionStartXValue(uint id);
-	QString functionStartYValue(uint id);
+	Q_SCRIPTABLE QString functionStartXValue(uint id);
+	Q_SCRIPTABLE QString functionStartYValue(uint id);
 	/// Set the startx and starty values of a graph. Returns true if it succeeds, otherwise false.
-	bool setFunctionStartValue(const QString &x, const QString &y, uint id);
+	Q_SCRIPTABLE bool setFunctionStartValue(const QString &x, const QString &y, uint id);
 private:
         
 	/// finds a free function name 

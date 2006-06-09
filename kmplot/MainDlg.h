@@ -49,8 +49,6 @@
 #include "View.h"
 #include "kminmax.h"
 #include "kmplotio.h"
-// #include "MainDlgIface.h"
-
 
 class BrowserExtension;
 class EditScaling;
@@ -84,7 +82,7 @@ class SettingsPageGeneral;
  * Its central widget view contains the parser, accessable via its parser() function.
  * @see View, View::m_parser, View::parser
  */
-class MainDlg : public KParts::ReadOnlyPart/*, virtual public MainDlgIface*/
+class MainDlg : public KParts::ReadOnlyPart
 {
 	Q_OBJECT
 

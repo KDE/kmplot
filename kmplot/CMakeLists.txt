@@ -43,8 +43,6 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	parameterswidget.ui
 	)
 
-# kde4_add_dcop_skels(kmplotpart_PART_SRCS MainDlgIface.h parseriface.h Viewiface.h )
-
 kde4_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )
 
 kde4_add_plugin(kmplotpart WITH_PREFIX ${kmplotpart_PART_SRCS})
@@ -59,8 +57,6 @@ install_targets(${PLUGIN_INSTALL_DIR} kmplotpart )
 
 set(kmplot_SRCS main.cpp kmplot.cpp kmplotadaptor.cpp )
 kde4_automoc(${kmplot_SRCS})
-
-#kde4_add_dcop_skels(kmplot_SRCS kmplotIface.h )
 
 # FIXME: it's wrong, but otherwise it does not compile
 kde4_add_kcfg_files(kmplot_SRCS settings.kcfgc )

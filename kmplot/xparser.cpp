@@ -23,7 +23,6 @@
 */
 
 // KDE includes
-// #include <dcopclient.h>
 #include <kapplication.h>
 #include <kglobal.h>
 #include <kinputdialog.h>

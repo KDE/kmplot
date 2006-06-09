@@ -30,7 +30,6 @@
 #include <QTimer>
 
 // KDE includes
-// #include <dcopclient.h>
 #include <kaboutdata.h>
 #include <kapplication.h>
 #include <kconfigdialog.h>
@@ -104,7 +103,6 @@ MainDlg * MainDlg::m_self = 0;
 
 
 MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
-// 		DCOPObject( "MainDlg" ),
 		KParts::ReadOnlyPart( parent ),
 		m_recentFiles( 0 ),
 		m_modified(false),
@@ -546,28 +544,29 @@ bool MainDlg::openFile()
 
 void MainDlg::slotOpenRecent( const KUrl &url )
 {
-// 	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
-// 	{
+ 	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
+ 	{
 // 		QByteArray data;
 // 		QDataStream stream( &data,QIODevice::WriteOnly);
 // 		stream.setVersion(QDataStream::Qt_3_1);
 // 		stream << url;
 // 		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KUrl)", data);
-// 		return;
-// 	}
-// 
-// 	View::self()->init();
-// 	if ( !kmplotio->load( url ) ) //if the loading fails
-// 	{
-// 		m_recentFiles->removeUrl(url ); //remove the file from the recent-opened-file-list
-// 		return;
-// 	}
-//   m_url = m_currentfile = url;
-// 	m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
-//   setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
-//   m_modified = false;
-// 	View::self()->updateSliders();
-// 	View::self()->drawPlot();
+      QDBusReply<void> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.Kmplot" )->call( QDBusAbstractInterface::UseEventLoop, "openFileInNewWindow", url.url() );
+		return;
+	}
+
+	View::self()->init();
+	if ( !kmplotio->load( url ) ) //if the loading fails
+	{
+		m_recentFiles->removeUrl(url ); //remove the file from the recent-opened-file-list
+		return;
+	}
+    m_url = m_currentfile = url;
+    m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
+    setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
+    m_modified = false;
+    View::self()->updateSliders();
+    View::self()->drawPlot();
 }
 
 void MainDlg::slotPrint()

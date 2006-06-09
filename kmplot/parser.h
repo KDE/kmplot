@@ -36,7 +36,6 @@
 #include <QVector>
 
 #include "function.h"
-#include "parseriface.h"
 
 class Parser;
 
@@ -217,7 +216,7 @@ class Constants
  *
  * Tokenizes a function equation to be evaluated.
  */
-class Parser : public QObject/*, virtual public ParserIface*/
+class Parser : public QObject
 {
 	Q_OBJECT
 	public:

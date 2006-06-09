@@ -36,7 +36,6 @@
 #include <QEvent>
 
 // KDE includes
-// #include <dcopclient.h>
 #include <kactionclasses.h>
 #include <kdebug.h>
 #include <kmenu.h>
@@ -46,7 +45,6 @@
 
 // local includes
 #include "diagr.h"
-// #include "Viewiface.h"
 #include "xparser.h"
 
 class KMinMax;
@@ -418,7 +416,6 @@ public slots:
 		/// timer that is started when the mouse is pressed
 		QTime * m_mousePressTimer;
 	
-// 		DCOPClient *m_dcop_client;
 		QString m_statusbartext1;
 		QString m_statusbartext2;
 		QString m_statusbartext3;

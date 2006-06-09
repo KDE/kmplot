@@ -72,13 +72,11 @@
 View * View::m_self = 0;
 
 View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent, KActionCollection *ac )
-	: /*DCOPObject("View"),*/
-	  QWidget( parent, Qt::WStaticContents ),
+	: QWidget( parent, Qt::WStaticContents ),
 	  buffer( width(), height() ),
 	  m_popupmenu( functionPopup ),
 	  m_modified( modified ),
 	  m_readonly( readOnly ),
-// 	  m_dcop_client(KApplication::kApplication()->dcopClient()),
 	  m_ac(ac)
 {
 	assert( !m_self ); // this class should only be constructed once
@@ -2270,11 +2268,7 @@ void View::setStatusBar(const QString &text, const int id)
 	}
 	else
 	{
-		QByteArray parameters;
-		QDataStream arg( &parameters,QIODevice::WriteOnly);
-		arg.setVersion(QDataStream::Qt_3_1);
-		arg << text << id;
-// 		m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","setStatusBarText(QString,int)", parameters);
+        QDBusReply<void> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.Kmplot" )->call( QDBusAbstractInterface::NoWaitForReply, "setStatusBarText", text, id );
 	}
 }
 

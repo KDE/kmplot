@@ -26,6 +26,8 @@
 #ifndef KMINMAX_H
 #define KMINMAX_H
 
+#include <QListWidget>
+
 #include "View.h"
 
 namespace Ui{

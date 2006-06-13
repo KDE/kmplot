@@ -115,7 +115,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	setInstance( KmPlotPartFactory::instance() );
 
 	kDebug() << "parentWidget->objectName():" << parentWidget->objectName() << endl;
-	if ( QString(parentWidget->objectName()).startsWith("kmplot") )
+	if ( QString(parentWidget->objectName()).startsWith("KmPlot") )
 	{
 		setXMLFile("kmplot_part.rc");
 		m_readonly = false;

@@ -87,13 +87,13 @@ bool CoordsConfigDialog::evalY()
 void CoordsConfigDialog::slotOk()
 {
 	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
-		KConfigDialog::slotOk();
+        slotButtonClicked( KDialog::Ok );
 }
 
 void CoordsConfigDialog::slotApply()
 {
 	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
-		KConfigDialog::slotApply();
+        slotButtonClicked( KDialog::Apply );
 }
 
 #include "coordsconfigdialog.moc"

@@ -253,7 +253,7 @@ bool KmPlot::checkModified()
 
 bool KmPlot::isModified()
 {
-    QDBusReply<bool> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.isModified")->call( QDBusAbstractInterface::UseEventLoop, "checkModified" );
+    QDBusReply<bool> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg")->call( QDBusAbstractInterface::UseEventLoop, "isModified" );
     return reply.value();
 }
 

@@ -46,13 +46,14 @@
 #include "xparser.h"
 
 KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
-	KDialog( parent, i18n("Sliders") )
+	KDialog( parent )
 {
 	m_clickedOnSlider = 0l;
 	
 	setModal( false );
 	m_mainWidget = new SliderWindow( this );
 	setMainWidget( m_mainWidget );
+    setCaption( i18n("Sliders") );
 	
 	assert( SLIDER_COUNT == 4 ); // safety check, incase SLIDER_COUNT is increased but not this code
 	

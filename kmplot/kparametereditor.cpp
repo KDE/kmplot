@@ -46,12 +46,15 @@
 class ParameterValueList;
 
 KParameterEditor::KParameterEditor(XParser *m, QList<Value> *l, QWidget *parent )
-	: KDialog( parent, i18n("Parameter Editor"), Ok|Cancel ),
+	: KDialog( parent ),
 	  m_parameter(l),
 	  m_parser(m)
 {
 	m_mainWidget = new QParameterEditor( this );
 	setMainWidget( m_mainWidget );
+
+    setCaption( i18n("Parameter Editor") );
+    setButtons(  Ok|Cancel );
 	
 	foreach ( Value v, *m_parameter )
 		m_mainWidget->list->addItem( v.expression() );

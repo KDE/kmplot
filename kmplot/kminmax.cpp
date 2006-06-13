@@ -48,6 +48,8 @@ class QMinMax : public QWidget, public Ui::QMinMax
 KMinMax::KMinMax(QWidget *parent )
 	: KDialog( parent )
 {
+	setCaption( i18n("Find Minimum Point") );
+
 	m_mainWidget = new QMinMax( this );
 	setMainWidget( m_mainWidget );
 

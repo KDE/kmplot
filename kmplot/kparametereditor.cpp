@@ -50,6 +50,9 @@ KParameterEditor::KParameterEditor(XParser *m, QList<Value> *l, QWidget *parent 
 	  m_parameter(l),
 	  m_parser(m)
 {
+	setCaption( i18n( "Parameter Editor" ) );
+	setButtons( Ok | Cancel );
+
 	m_mainWidget = new QParameterEditor( this );
 	setMainWidget( m_mainWidget );
 

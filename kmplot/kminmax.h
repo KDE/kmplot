@@ -35,6 +35,7 @@ class QMinMax;
 }
 
 class QMinMax;
+class QListWidgetItem;
 
 /**
 @author Fredrik Edemar

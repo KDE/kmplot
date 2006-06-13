@@ -48,6 +48,8 @@
 KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
 	KDialog( parent )
 {
+	setCaption( i18n("Sliders") );
+
 	m_clickedOnSlider = 0l;
 	
 	setModal( false );

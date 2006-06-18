@@ -8,7 +8,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
+    <width>338</width>
     <height>595</height>
    </rect>
   </property>
@@ -81,7 +81,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -738,6 +738,9 @@ Example: sin(t)</string>
            <property name="text" >
             <string>Equation:</string>
            </property>
+           <property name="buddy" >
+            <cstring>polarEquation</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -805,12 +808,18 @@ Example: loop(angle)=ln(angle)</string>
             <property name="text" >
              <string>Min:</string>
             </property>
+            <property name="buddy" >
+             <cstring>polarMin</cstring>
+            </property>
            </widget>
           </item>
           <item row="1" column="0" >
            <widget class="QLabel" name="label_4" >
             <property name="text" >
              <string>Max:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>polarMax</cstring>
             </property>
            </widget>
           </item>
@@ -847,6 +856,120 @@ Example: loop(angle)=ln(angle)</string>
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="page_5" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>9</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QGroupBox" name="groupBox_12" >
+         <property name="title" >
+          <string>Definition</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+          <item row="1" column="0" >
+           <widget class="QLabel" name="textLabelXF_2" >
+            <property name="text" >
+             <string>Expression:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>implicitEquation</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="EquationEdit" name="implicitEquation" >
+            <property name="sizePolicy" >
+             <sizepolicy>
+              <hsizetype>13</hsizetype>
+              <vsizetype>13</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip" >
+             <string>enter an expression</string>
+            </property>
+            <property name="whatsThis" >
+             <string>Enter an expression for the function.
+The dummy variable is t.
+Example: cos(t)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="KLineEdit" name="implicitName" >
+            <property name="toolTip" >
+             <string>name of the function</string>
+            </property>
+            <property name="whatsThis" >
+             <string>Enter the name of the function.
+The name of a function must be unique. If you leave this line empty KmPlot will set a default name. You can change it later.</string>
+            </property>
+            <property name="text" >
+             <string>f(x,y)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="textLabel4_2" >
+            <property name="text" >
+             <string>Name:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>implicitName</cstring>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="ParametersWidget" name="implicitParameters" >
+         <property name="title" >
+          <string>Parameters</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PlotStyleWidget" name="implicit_f0" >
+         <property name="title" >
+          <string>Appearance</string>
+         </property>
+         <layout class="QGridLayout" >
+          <property name="margin" >
+           <number>9</number>
+          </property>
+          <property name="spacing" >
+           <number>6</number>
+          </property>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>20</width>
+           <height>101</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="page_2" />
     </widget>
    </item>
@@ -855,23 +978,23 @@ Example: loop(angle)=ln(angle)</string>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>PlotStyleWidget</class>
-   <extends>QGroupBox</extends>
-   <header>plotstylewidget.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
    <class>KDoubleNumInput</class>
-   <extends></extends>
+   <extends>QWidget</extends>
    <header>knuminput.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>ParametersWidget</class>
+   <extends>QGroupBox</extends>
+   <header>parameterswidget.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -883,16 +1006,16 @@ Example: loop(angle)=ln(angle)</string>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>FunctionListWidget</class>
-   <extends>QListWidget</extends>
-   <header>functioneditor.h</header>
+   <class>PlotStyleWidget</class>
+   <extends>QGroupBox</extends>
+   <header>plotstylewidget.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>ParametersWidget</class>
-   <extends>QGroupBox</extends>
-   <header>parameterswidget.h</header>
+   <class>FunctionListWidget</class>
+   <extends>QListWidget</extends>
+   <header>functioneditor.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -932,7 +1055,7 @@ Example: loop(angle)=ln(angle)</string>
    <hints>
     <hint type="sourcelabel" >
      <x>119</x>
-     <y>258</y>
+     <y>250</y>
     </hint>
     <hint type="destinationlabel" >
      <x>110</x>
@@ -948,7 +1071,7 @@ Example: loop(angle)=ln(angle)</string>
    <hints>
     <hint type="sourcelabel" >
      <x>119</x>
-     <y>258</y>
+     <y>250</y>
     </hint>
     <hint type="destinationlabel" >
      <x>255</x>
@@ -963,12 +1086,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>108</x>
-     <y>224</y>
+     <x>171</x>
+     <y>245</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>50</x>
-     <y>224</y>
+     <x>51</x>
+     <y>276</y>
     </hint>
    </hints>
   </connection>
@@ -979,12 +1102,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>108</x>
-     <y>224</y>
+     <x>171</x>
+     <y>245</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>50</x>
-     <y>224</y>
+     <x>51</x>
+     <y>306</y>
     </hint>
    </hints>
   </connection>
@@ -995,12 +1118,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>104</x>
-     <y>258</y>
+     <x>115</x>
+     <y>250</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>74</x>
-     <y>258</y>
+     <x>85</x>
+     <y>250</y>
     </hint>
    </hints>
   </connection>
@@ -1012,7 +1135,7 @@ Example: loop(angle)=ln(angle)</string>
    <hints>
     <hint type="sourcelabel" >
      <x>119</x>
-     <y>258</y>
+     <y>250</y>
     </hint>
     <hint type="destinationlabel" >
      <x>113</x>
@@ -1028,11 +1151,11 @@ Example: loop(angle)=ln(angle)</string>
    <hints>
     <hint type="sourcelabel" >
      <x>119</x>
-     <y>258</y>
+     <y>250</y>
     </hint>
     <hint type="destinationlabel" >
      <x>119</x>
-     <y>258</y>
+     <y>250</y>
     </hint>
    </hints>
   </connection>
@@ -1043,12 +1166,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>90</x>
-     <y>344</y>
+     <x>88</x>
+     <y>332</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>442</x>
-     <y>344</y>
+     <x>519</x>
+     <y>332</y>
     </hint>
    </hints>
   </connection>
@@ -1059,12 +1182,12 @@ Example: loop(angle)=ln(angle)</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>90</x>
-     <y>375</y>
+     <x>88</x>
+     <y>362</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>442</x>
-     <y>375</y>
+     <x>519</x>
+     <y>362</y>
     </hint>
    </hints>
   </connection>

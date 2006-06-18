@@ -46,21 +46,22 @@ class Parser;
 
 //@{
 /** Token type. */
-#define KONST	0       // double value follows
-#define	XWERT	1       // get x value
-#define KWERT   2	// get function parameter
-#define	PUSH	3       // push value to stack
-#define	PLUS	4       // add
-#define	MINUS	5       // subtract
-#define	MULT	6       // multiply
-#define	DIV	7       // divide
-#define	POW	8       // exponentiate
-#define NEG	9	// negate
-#define FKT	10	// address to function followes
-#define	UFKT	11      // address to user defined function follows
-#define	ENDE	12      // end of function
-#define	YWERT	13       // get y value
-#define SQRT	14		// take square root
+enum Token
+{
+	KONST,		// double value follows
+	VAR,		// get a parameter (e.g. x or k)
+	PUSH,		// push value to stack
+	PLUS,		// add
+	MINUS,		// subtract
+	MULT,		// multiply
+	DIV,		// divide
+	POW,		// exponentiate
+	NEG,		// negate
+	FKT,		// address to function followes
+	UFKT,		// address to user defined function follows
+	ENDE,		// end of function
+	SQRT		// take square root
+};
 
 const int legendreCount = 7; // number of legendre polynomials we allow for
 const int FANZ = 38+legendreCount;	// number of mathematical functions in mfkttab[]
@@ -165,7 +166,9 @@ class ExpressionSanitizer
 		void remove( const QChar & str );
 		void replace( QChar before, QChar after );
 		void replace( QChar before, const QString & after );
+		void replace( int pos, int len, const QString & after );
 		void insert( int i, QChar ch );
+		void append( QChar str );
 		
 		/**
 		 * Prints the map and str to stdout; for debugging purposes.
@@ -249,9 +252,18 @@ class Parser : public QObject
 		 */
 		static QString number( double value );
 	
-		/// Returns the result of a calculation
-		double fkt( Equation * it, double const x);
-		double fkt( uint id, uint eq, double const x );
+		/**
+		 * Returns the result of a calculation. \p x are parameters for the
+		 * function (which are not necessarily all used).
+		 */
+		double fkt( Equation * it, double x[3] );
+		/**
+		 * Calls the array version of this function, after inserting the value
+		 * of the equation's parameter into x.
+		 */
+		double fkt( Equation * it, double x );
+// 		double fkt( uint id, uint eq, double x[3] );
+		double fkt( uint id, uint eq, double x );
 	
 		/**
 		 * Evaluates the given expression.
@@ -354,8 +366,9 @@ private:
 	void heir3();
 	void heir4();
 	void primary();
-	void addtoken(unsigned char);
+	void addtoken( Token token );
 	void addwert(double);
+	void adduint(uint);
 	void addfptr(double(*)(double));
 	void addfptr( uint id, uint eq_id );
 	int match( const QString & );

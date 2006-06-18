@@ -287,9 +287,9 @@ void KMinMax::cmdFind_clicked()
 		return;
 	}
 	
+#if 0
 	Function * functionPtr = plot.function();
 	
-#if 0
 	if ( functionPtr->m_parameters.list.isEmpty() )
 		parameter = "0";
 	else if ( parameter.isEmpty())

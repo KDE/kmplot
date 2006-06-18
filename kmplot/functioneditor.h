@@ -81,6 +81,10 @@ class FunctionEditor : public QDockWidget
 		 */
 		void createPolar();
 		/**
+		 * Creates a new implicit function.
+		 */
+		void createImplicit();
+		/**
 		 * Called when the list of functions in the parser changes.
 		 */
 		void functionsChanged();
@@ -114,31 +118,47 @@ class FunctionEditor : public QDockWidget
 		 * parametric function.
 		 */
 		void saveParametric();
+		/**
+		 * Called when the user edits any of the widgets relating to an
+		 * implicit function.
+		 */
+		void saveImplicit();
 		
 	protected:
 		bool eventFilter(QObject *obj, QEvent *ev);
 		/**
-		 * Initialize the wdigets from the cartesian function set in m_function.
+		 * Initialize the wdigets from the cartesian function set in
+		 * m_functionID.
 		 */
 		void initFromCartesian();
 		/**
-		 * Initialize the widgets from a polar function set in m_function.
+		 * Initialize the widgets from a polar function set in m_functionID.
 		 */
 		void initFromPolar();
 		/**
-		 * Initialize the widgets from a parametric function set in m_functionX
-		 * and m_functionY.
+		 * Initialize the widgets from a parametric function set in
+		 * m_functionID.
 		 */
 		void initFromParametric();
+		/**
+		 * Initialize the widgets from an implicit function set in m_functionID.
+		 */
+		void initFromImplicit();
 		/**
 		 * Resets all the function editing widgets (i.e. those in the widget
 		 * stack, but not the list of functions).
 		 */
 		void resetFunctionEditing();
 		/**
-		 * Extract function \p name and \p expression from the given \p equation
+		 * Extract function \p name and \p expression from the given
+		 * \p equation - for parametric functions.
 		 */
 		void splitParametricEquation( const QString equation, QString * name, QString * expression );
+		/**
+		 * Extract function \p name and \p expression from the given
+		 * \p equation - for implicit functions.
+		 */
+		void splitImplicitEquation( const QString equation, QString * name, QString * expression );
 		/**
 		 * Check, if the cartesian function has 2 arguments (function group).
 		 */
@@ -157,8 +177,10 @@ class FunctionEditor : public QDockWidget
 		 * y equation.
 		 */
 		QString parametricYPrefix() const;
-		
-		/// The main editing widget.
+
+		/**
+		 * The main editing widget.
+		 */
 		FunctionEditorWidget * m_editor;
 		/**
 		 * The id of the function currently being edited.
@@ -170,6 +192,7 @@ class FunctionEditor : public QDockWidget
 		QTimer * m_saveCartesianTimer;
 		QTimer * m_savePolarTimer;
 		QTimer * m_saveParametricTimer;
+		QTimer * m_saveImplicitTimer;
 		/// @}
 		/**
 		 * Ensure only one update when functions are added or removed, and all

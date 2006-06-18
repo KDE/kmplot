@@ -499,6 +499,10 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 			case Function::Cartesian:
 				XParser::self()->fixFunctionName( eq0, Equation::Cartesian, -1 );
 				break;
+				
+			case Function::Implicit:
+				XParser::self()->fixFunctionName( eq0, Equation::Implicit, -1 );
+				break;
 		}
 	}
 	

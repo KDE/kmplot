@@ -222,9 +222,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	// Antialiasing slows down rendering a lot, so turn it off if we are
 	// sliding the view about
 	DC.setRenderHint( QPainter::Antialiasing, m_zoomMode != Translating );
-// 	DC.setRenderHint( QPainter::Antialiasing, false );
-// 	if ( m_zoomMode != Translating )
-// 		kDebug() << "##############################\n";
+	
 	DC.setClipping( true );
 	DC.setClipRect( CDiagr::self()->plotArea() );
 	foreach ( Function * ufkt, XParser::self()->m_ufkt )
@@ -232,7 +230,10 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		if ( stop_calculating )
 			break;
 
-		plotFunction(ufkt, &DC);
+		if ( ufkt->type() == Function::Implicit )
+			plotImplicit( ufkt, & DC );
+		else
+			plotFunction(ufkt, &DC);
 	}
 	DC.setClipping( false );
 
@@ -299,6 +300,19 @@ QPointF View::realValue( const Plot & plot, double x, bool updateParameter )
 			double Y = value( plot, 1, x, updateParameter );
 			return QPointF( X, Y );
 		}
+		
+		case Function::Implicit:
+		{
+			// Can only calculate the value when either x or y is fixed.
+			assert( function->m_implicitMode != Function::UnfixedXY );
+			
+			double val = value( plot, 0, x, updateParameter );;
+			
+			if ( function->m_implicitMode == Function::FixedX )
+				return QPointF( function->x, val );
+			else
+				return QPointF( val, function->y );
+		}
 	}
 
 	kWarning() << k_funcinfo << "Unknown function type!\n";
@@ -322,6 +336,7 @@ double View::getXmin( Function * function )
 				min = -M_PI;
 				break;
 
+			case Function::Implicit:
 			case Function::Cartesian:
 				min = m_xmin;
 				break;
@@ -351,6 +366,7 @@ double View::getXmax( Function * function )
 				max = M_PI;
 				break;
 
+			case Function::Implicit:
 			case Function::Cartesian:
 				max = m_xmax;
 				break;
@@ -364,8 +380,128 @@ double View::getXmax( Function * function )
 }
 
 
+void View::plotImplicit( Function * function, QPainter * painter )
+{
+	assert( function->type() == Function::Implicit );
+	
+	const QList< Plot > plots = function->allPlots();
+	foreach ( Plot plot, plots )
+	{
+		plot.updateFunctionParameter();
+		Plot differentiated = plot;
+		differentiated.differentiate();
+
+		painter->setPen( penForPlot( plot, painter->renderHints() & QPainter::Antialiasing ) );
+
+#if 0
+		for ( double x = m_xmin; x <= m_xmax; x += (m_xmax-m_xmin)/40 )
+		{
+			for ( double y = m_ymin; y <= m_ymax; y += (m_ymax-m_ymin)/40 )
+			{
+				double var[3] = { x, y, function->k };
+				double value = XParser::self()->fkt( function->eq[0], var );
+				
+// 				QString text('0');
+				QString text;
+// 				if ( value > 0 )
+// 					text = '.';
+// 				else if ( value < 0 )
+// 					text = '-';
+				
+// 				painter->drawText( CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite ), text );
+			}
+		}
+#endif
+		
+		for ( double _y = m_ymin; _y <= m_ymax; _y += (m_ymax-m_ymin)/20 )
+// 		double _y = 2;
+		{
+			function->y = _y;
+			function->m_implicitMode = Function::FixedY;
+			QList<double> roots = findRoots( plot );
+			foreach ( double x, roots )
+			{
+				double y = _y;
+				QPointF prev = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
+				
+				// Now trace around the curve from the point...
+				for ( int i = 0; i < 40; ++i )
+// 				while ( true )
+				{
+					// (dx, dy) is perpendicular to curve
+					
+					function->y = y;
+					function->m_implicitMode = Function::FixedY;
+					double dx = value( differentiated, 0, x, false );
+					
+					function->x = x;
+					function->m_implicitMode = Function::FixedX;
+					double dy = value( differentiated, 0, y, false );
+					
+					QPointF p1 = CDiagr::self()->toPixel( QPointF( x, y ),			CDiagr::ClipInfinite ) * painter->matrix();
+					QPointF p2 = CDiagr::self()->toPixel( QPointF( x+dx, y+dy ),	CDiagr::ClipInfinite ) * painter->matrix();
+					double l = QLineF( p1, p2 ).length() / 4; // (1 is the number of pixels long the tangent line should be)
+					
+					if ( l == 0 )
+						break;
+					
+					// tangent to the curve
+					double tx = -dy/l;
+					double ty = dx/l;
+// 					kDebug() << "x="<<x<<" y="<<y<<" tx="<<tx<<" ty="<<ty<<endl;
+					
+					double * coord = 0;
+					
+					x += tx;
+					y += ty;
+					
+					function->x = x;
+					function->y = y;
+					
+					if ( qAbs(tx) > qAbs(ty) )
+					{
+						function->m_implicitMode = Function::FixedX;
+						coord = & y;
+					}
+					else
+					{
+						function->m_implicitMode = Function::FixedY;
+						coord = & x;
+					}
+					
+					bool found = findRoot( coord, plot );
+					if ( !found )
+						break;
+					
+					if ( x < m_xmin || x > m_xmax || y < m_ymin || y > m_ymax )
+						break;
+					
+					QPointF next = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
+					painter->drawLine( prev, next );
+					prev = next;
+#if 0
+					
+					QPointF start( x, y );
+					QPointF end( x+tx, y+ty );
+					
+					painter->drawLine( CDiagr::self()->toPixel( start, CDiagr::ClipInfinite ), CDiagr::self()->toPixel( end, CDiagr::ClipInfinite ) );
+					QRectF rect( CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite ) - QPointF( 2, 2 ), QSizeF( 4, 4 ) );
+					
+					painter->setBrush( painter->pen().color() );
+					painter->drawEllipse( rect );
+#endif
+				}
+			}
+		}
+	}
+}
+
+
 void View::plotFunction(Function *ufkt, QPainter *pDC)
 {
+	// should use plotImplicit for implicit functions
+	assert( ufkt->type() != Function::Implicit );
+	
 	double dmin = getXmin( ufkt );
 	double dmax = getXmax( ufkt );
 
@@ -720,6 +856,7 @@ void View::getMinMax( int koord, QString &mini, QString &maxi )
 	case 3:
 		mini="0.0";
 		maxi="10.0";
+		break;
 	}
 }
 
@@ -737,25 +874,7 @@ void View::setpi(QString *s)
 QList< QPointF > View::findStationaryPoints( const Plot & plot )
 {
 	Plot plot2 = plot;
-
-	switch ( plot.plotMode )
-	{
-		case Function::Integral:
-			plot2.plotMode = Function::Derivative0;
-			break;
-
-		case Function::Derivative0:
-			plot2.plotMode = Function::Derivative1;
-			break;
-
-		case Function::Derivative1:
-			plot2.plotMode = Function::Derivative2;
-			break;
-
-		case Function::Derivative2:
-			kWarning() << k_funcinfo << "Can't handle this yet!\n";
-			break;
-	}
+	plot2.differentiate();
 
 	QList< double > roots = findRoots( plot2 );
 
@@ -807,7 +926,7 @@ bool View::findRoot( double *x0, const Plot & plot )
 	int max_k = 200; // maximum number of iterations
 	double max_y = 1e-14; // the largest value of y which is deemed a root found
 
-	double y = m_crosshairPosition.y();
+	double y = value( plot, 0, *x0, false );
 	bool tooBig = true;
 
 // 	kDebug() << "Initial: ("<<*x0<<","<<y<<")\n";
@@ -1065,7 +1184,6 @@ QPointF View::getPlotUnderMouse()
 
 	Plot bestPlot;
 
-	int best_id = -1;
 	double best_distance = 1e30; // a nice large number
 	QPointF best_cspos;
 

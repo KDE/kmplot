@@ -42,6 +42,8 @@
 //Added by qt3to4:
 #include <QList>
 
+#include <assert.h>
+
 #include "parseradaptor.h"
 
 double Parser::m_radiansPerAngleUnit = 0;
@@ -172,18 +174,7 @@ double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
 	
 	if ( fixExpression )
 		m_sanitizer.fixExpression( & str, evalPosOffset );
-// 	kDebug() << "##### str="<<str<<endl;
 	
-	int yIndex = str.indexOf( 'y', evalPosOffset );
-	
-	if ( yIndex != -1 )
-	{
-		kDebug() << k_funcinfo << "RecursiveFunctionCall! yIndex="<<yIndex<<endl;
-		m_error = RecursiveFunctionCall;
-		m_errorPosition = m_sanitizer.realPos( yIndex );
-		delete []stack;
-		return 0;
-	}
 	for ( int i = evalPosOffset; i < str.length(); i++ )
 	{
 		if ( constants()->have( str[i] ) )
@@ -217,18 +208,60 @@ double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
 }
 
 
-double Parser::fkt(uint const id, uint eq, double const x)
+double Parser::fkt(uint const id, uint eq, double x )
 {
 	if ( !m_ufkt.contains( id ) || (eq >= 2) )
 	{
 		m_error = NoSuchFunction;
 		return 0;
 	}
-	else
-		return fkt( m_ufkt[id]->eq[eq], x );
+	
+	return fkt( m_ufkt[id]->eq[eq], x );
 }
 
-double Parser::fkt( Equation * eq, double const x )
+
+double Parser::fkt( Equation * eq, double x )
+{
+	Function * function = eq->parent();
+	
+	double var[3] = {0};
+	
+	switch ( function->type() )
+	{
+		case Function::Cartesian:
+		case Function::Parametric:
+		case Function::Polar:
+		{
+			var[0] = x;
+			var[1] = function->k;
+			break;
+		}
+			
+		case Function::Implicit:
+		{
+			// Can only calculate when one of x, y is fixed
+			assert( function->m_implicitMode != Function::UnfixedXY );
+			if ( function->m_implicitMode == Function::FixedX )
+			{
+				var[0] = function->x;
+				var[1] = x;
+			}
+			else
+			{
+				// fixed y
+				var[0] = x;
+				var[1] = function->y;
+			}
+			var[2] = function->k;
+			break;
+		}
+	}
+	
+	return fkt( eq, var );
+}
+
+
+double Parser::fkt( Equation * eq, double x[3] )
 {
 	double *pd, (**pf)(double);
 	double *stack, *stkptr;
@@ -245,15 +278,17 @@ double Parser::fkt( Equation * eq, double const x )
 				*stkptr=*pd++;
 				eq->mptr=(unsigned char*)pd;
 				break;
-			case XWERT:
-				*stkptr=x;
+				
+			case VAR:
+			{
+				puf = (uint*)eq->mptr;
+				uint var = *puf++;
+				assert( var < 3 );
+				*stkptr = x[var];
+				eq->mptr = (unsigned char*)puf;
 				break;
-			case YWERT:
-				*stkptr=eq->oldy;
-				break;
-			case KWERT:
-				*stkptr=eq->parent()->k;
-				break;
+			}
+				
 			case PUSH:
 				++stkptr;
 				break;
@@ -298,7 +333,11 @@ double Parser::fkt( Equation * eq, double const x )
 				uint id = *puf++;
 				uint id_eq = *puf++;
 				if ( m_ufkt.contains( id ) )
-					*stkptr=fkt( m_ufkt[id]->eq[id_eq], *stkptr);
+				{
+					/// \todo handle more than one variable being passed to the function
+					double vars[3] = { *stkptr, 0, 0 };
+					*stkptr = fkt( m_ufkt[id]->eq[id_eq], vars );
+				}
 				eq->mptr=(unsigned char*)puf;
 				break;
 			}
@@ -313,7 +352,7 @@ double Parser::fkt( Equation * eq, double const x )
 
 int Parser::addFunction( QString str1, QString str2, Function::Type type )
 {
-	kDebug() << k_funcinfo << "str1="<<str1<<" str2="<<str2<<endl;
+// 	kDebug() << k_funcinfo << "str1="<<str1<<" str2="<<str2<<endl;
 	
 	QString str[2] = { str1, str2 };
 	
@@ -326,12 +365,12 @@ int Parser::addFunction( QString str1, QString str2, Function::Type type )
 		
 		if ( !temp->eq[i]->setFstr( str[i] ) )
 		{
-			kDebug() << "could not set fstr (fstr=\""<<str[i]<<"\")!\n";
+			kDebug() << "could not set fstr to \""<<str[i]<<"\"! error:"<<errorString()<<"\n";
 			delete temp;
 			return -1;
 		}
 	
-		if ( fnameToID( temp->eq[i]->fname() ) != -1 )
+		if ( fnameToID( temp->eq[i]->name() ) != -1 )
 		{
 			kDebug() << "function name reused.\n";
 			m_error = FunctionNameReused;
@@ -365,6 +404,7 @@ bool Parser::isFstrValid( QString str )
 	{
 		/// \todo find the position of the capital and set into m_errorPosition
 		m_error = InvalidFunctionVariable;
+		kDebug() << k_funcinfo << "InvalidFunctionVariable: str="<<str<<endl;
 		return false;
 	}
 	if ( p3+2 == str.length()) //empty function
@@ -605,7 +645,7 @@ void Parser::primary()
 
 		for ( unsigned i = 0; i < 2; ++i )
 		{
-			if ( it->eq[i] && match(it->eq[i]->fname()) )
+			if ( it->eq[i] && match(it->eq[i]->name()) )
 			{
 				if (it->eq[i] == m_currentEquation)
 				{
@@ -662,24 +702,17 @@ void Parser::primary()
 		return;
 	}
 	
-	//if(match(ufkt[ixa].fvar.latin1()))
-	if(match(m_currentEquation->fvar()))
+	QStringList variables = m_currentEquation->parameters();
+	uint at = 0;
+	foreach ( QString var, variables )
 	{
-                addtoken(XWERT);
-		return;
-	}
-	
-	if(match("y"))
-	{
-                addtoken(YWERT);
-		return;
-	}
-	
-	//if(match(ufkt[ixa].fpar.latin1()))
-	if(match( m_currentEquation->fpar() ))
-	{
-                addtoken(KWERT);
-		return;
+		if ( match( var ) )
+		{
+			addtoken( VAR );
+			adduint( at );
+			return;
+		}
+		at++;
 	}
 
 	QByteArray remaining = evalRemaining().toLatin1();
@@ -713,7 +746,7 @@ int Parser::match( const QString & lit )
 }
 
 
-void Parser::addtoken(unsigned char token)
+void Parser::addtoken( Token token )
 {
 	if(stkptr>=stack+STACKSIZE-1)
 	{
@@ -723,22 +756,25 @@ void Parser::addtoken(unsigned char token)
 
 	if(evalflg==0)
 	{
-                if(mptr>=&mem[MEMSIZE-10])
-					m_error = MemoryOverflow;
+		if(mptr>=&mem[MEMSIZE-10])
+			m_error = MemoryOverflow;
 		else
-                        *mptr++=token;
+			*mptr++=token;
         
 		switch(token)
 		{
-                        case PUSH:
-                                ++stkptr;
-                                break;
-                        case PLUS:
-                        case MINUS:
-                        case MULT:
-                        case DIV:
-                        case POW:
-                                --stkptr;
+			case PUSH:
+				++stkptr;
+				break;
+			case PLUS:
+			case MINUS:
+			case MULT:
+			case DIV:
+			case POW:
+				--stkptr;
+				break;
+			default:
+				break;
 		}
 	}
 	else switch(token)
@@ -779,26 +815,45 @@ void Parser::addtoken(unsigned char token)
 		case SQRT:
 			*stkptr = sqrt(*stkptr);
 			break;
+		default:
+			break;
 	}
 }
 
 
 void Parser::addwert(double x)
 {
-        double *pd=(double*)mptr;
+	double *pd=(double*)mptr;
 
 	if(evalflg==0)
 	{
-                if(mptr>=&mem[MEMSIZE-10])
-					m_error = MemoryOverflow;
+		if(mptr>=&mem[MEMSIZE-10])
+			m_error = MemoryOverflow;
 		else
 		{
-                        *pd++=x;
+			*pd++=x;
 			mptr=(unsigned char*)pd;
 		}
 	}
 	else
-                *stkptr=x;
+		*stkptr=x;
+}
+
+
+void Parser::adduint(uint x)
+{
+	uint *p=(uint*)mptr;
+
+	if(evalflg==0)
+	{
+		if(mptr>=&mem[MEMSIZE-10])
+			m_error = MemoryOverflow;
+		else
+		{
+			*p++=x;
+			mptr=(unsigned char*)p;
+		}
+	}
 }
 
 
@@ -849,7 +904,7 @@ int Parser::fnameToID(const QString &name)
 	{
 		for ( unsigned i = 0; i < 2; ++i )
 		{
-			if ( it->eq[i] && (name == it->eq[i]->fname()) )
+			if ( it->eq[i] && (name == it->eq[i]->name()) )
 				return it->id;
 		}
 	}
@@ -1313,11 +1368,22 @@ ExpressionSanitizer::ExpressionSanitizer( Parser * parser )
 
 void ExpressionSanitizer::fixExpression( QString * str, int pos )
 {
+// 	kDebug() << k_funcinfo << "pos="<<pos<<" str="<<*str<<endl;
+	
 	m_str = str;
 	
 	m_map.resize( m_str->length() );
 	for ( int i = 0; i < m_str->length(); ++i )
 		m_map[i] = i;
+	
+	// hack for implicit functions: change e.g. "y = x + 2" to "y - (x+2)" so
+	// that they can be evaluated via equality with zero.
+	if ( str->count( '=' ) > 1 )
+	{
+		int equalsPos = str->lastIndexOf( '=' );
+		replace( equalsPos, 1, "-(" );
+		append( ')' );
+	}
 	
 	remove( ' ' );
 	
@@ -1409,7 +1475,7 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 					{
 						for ( uint k=0; k<2; ++k )
 						{
-							if ( it->eq[k] && (it->eq[k]->fname() == str->mid(j,i-j+1)) )
+							if ( it->eq[k] && (it->eq[k]->name() == str->mid(j,i-j+1)) )
 								function = true;
 						}
 					}
@@ -1438,7 +1504,7 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 	str_end = str_end.replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
 	str->truncate(pos);
 	str->append(str_end);
- //	kDebug() << "str:" << str << endl;
+// 	kDebug() << "str:" << *str << endl;
 }
 
 
@@ -1510,10 +1576,44 @@ void ExpressionSanitizer::replace( QChar before, const QString & after )
 }
 
 
+void ExpressionSanitizer::replace( int pos, int len, const QString & after )
+{
+// 	kDebug() << "Before:\n";
+// 	displayMap();
+	
+	int before = m_map[pos];
+	m_map.remove( pos, len );
+	m_map.insert( pos, after.length(), before );
+	m_str->replace( pos, len, after );
+	
+// 	kDebug() << "After:\n";
+// 	displayMap();
+}
+
+
 void ExpressionSanitizer::insert( int i, QChar ch )
 {
+// 	kDebug() << "Before:\n";
+// 	displayMap();
+	
 	m_map.insert( i, m_map[i] );
 	m_str->insert( i, ch );
+	
+// 	kDebug() << "After:\n";
+// 	displayMap();
+}
+
+
+void ExpressionSanitizer::append( QChar str )
+{
+// 	kDebug() << "Before:\n";
+// 	displayMap();
+	
+	m_map.insert( m_map.size(), m_map[ m_map.size() - 1 ] );
+	m_str->append( str );
+	
+// 	kDebug() << "After:\n";
+// 	displayMap();
 }
 
 

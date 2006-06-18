@@ -69,16 +69,19 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	m_saveCartesianTimer = new QTimer( this );
 	m_savePolarTimer = new QTimer( this );
 	m_saveParametricTimer = new QTimer( this );
+	m_saveImplicitTimer = new QTimer( this );
 	m_syncFunctionListTimer = new QTimer( this );
 	
 	m_saveCartesianTimer->setSingleShot( true );
 	m_savePolarTimer->setSingleShot( true );
 	m_saveParametricTimer->setSingleShot( true );
+	m_saveImplicitTimer->setSingleShot( true );
 	m_syncFunctionListTimer->setSingleShot( true );
 	
 	connect( m_saveCartesianTimer, SIGNAL(timeout()), this, SLOT( saveCartesian() ) );
 	connect( m_savePolarTimer, SIGNAL(timeout()), this, SLOT( savePolar() ) );
 	connect( m_saveParametricTimer, SIGNAL(timeout()), this, SLOT( saveParametric() ) );
+	connect( m_saveImplicitTimer, SIGNAL(timeout()), this, SLOT( saveImplicit() ) );
 	connect( m_syncFunctionListTimer, SIGNAL(timeout()), this, SLOT( syncFunctionList() ) );
 	
 	m_editor = new FunctionEditorWidget;
@@ -88,6 +91,7 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	m_editor->polarEquation->setInputType( EquationEdit::Function );
 	m_editor->parametricX->setInputType( EquationEdit::Function );
 	m_editor->parametricY->setInputType( EquationEdit::Function );
+	m_editor->implicitEquation->setInputType( EquationEdit::Function );
 	
 	for ( unsigned i = 0; i < 3; ++i )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
@@ -280,6 +284,7 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 	m_saveCartesianTimer->stop();
 	m_savePolarTimer->stop();
 	m_saveParametricTimer->stop();
+	m_saveImplicitTimer->stop();
 	
 	FunctionListItem * functionItem = static_cast<FunctionListItem*>(item);
 	
@@ -287,6 +292,8 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
 		return;
+	
+	kDebug() << k_funcinfo << "f->type()="<<f->type()<<endl;
 	
 	switch ( f->type() )
 	{
@@ -301,6 +308,10 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 		case Function::Parametric:
 			initFromParametric();
 			break;
+			
+		case Function::Implicit:
+			initFromImplicit();
+			break;
 	}
 	
 	functionItem->update();
@@ -309,8 +320,6 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 
 void FunctionEditor::initFromCartesian()
 {
-	kDebug() << k_funcinfo << endl;
-	
 	Function * f = XParser::self()->functionWithID(m_functionID);
 	
 	if ( !f )
@@ -351,8 +360,6 @@ void FunctionEditor::initFromCartesian()
 
 void FunctionEditor::initFromPolar()
 {
-// 	kDebug() << k_funcinfo << endl;
-	
 	Function * f = XParser::self()->functionWithID(m_functionID);
 	
 	if ( !f )
@@ -374,21 +381,20 @@ void FunctionEditor::initFromPolar()
 
 void FunctionEditor::initFromParametric()
 {
-	kDebug() << k_funcinfo << endl;
-	
 	Function * f = XParser::self()->functionWithID(m_functionID);
 	
 	if ( !f )
 		return;
 	
 	QString name, expression;
-	
 	splitParametricEquation( f->eq[0]->fstr(), & name, & expression );
+	
 	m_editor->parametricName->setText( name );
 	m_editor->parametricX->setValidatePrefix( parametricXPrefix() );
 	m_editor->parametricX->setText( expression );
         
 	splitParametricEquation( f->eq[1]->fstr(), & name, & expression );
+	
 	m_editor->parametricY->setValidatePrefix( parametricYPrefix() );
 	m_editor->parametricY->setText( expression );
 
@@ -404,6 +410,29 @@ void FunctionEditor::initFromParametric()
 }
 
 
+void FunctionEditor::initFromImplicit()
+{
+	Function * f = XParser::self()->functionWithID(m_functionID);
+	
+	if ( !f )
+		return;
+	
+	QString name, expression;
+	splitImplicitEquation( f->eq[0]->fstr(), & name, & expression );
+	
+	m_editor->implicitEquation->setValidatePrefix( name + '=' );
+	
+	m_editor->implicitName->setText( name );
+	m_editor->implicitEquation->setText( expression );
+	m_editor->implicit_f0->init( f->plotAppearance( Function::Derivative0 ) );
+	
+	m_editor->implicitParameters->init( f->m_parameters );
+	
+	m_editor->stackedWidget->setCurrentIndex( 3 );
+	m_editor->implicitEquation->setFocus();
+}
+
+
 void FunctionEditor::splitParametricEquation( const QString equation, QString * name, QString * expression )
 {
 	int start = 0;
@@ -416,6 +445,15 @@ void FunctionEditor::splitParametricEquation( const QString equation, QString * 
 }
 
 
+void FunctionEditor::splitImplicitEquation( const QString equation, QString * name, QString * expression )
+{
+	int equalsPos = equation.indexOf( '=' );
+	assert( equalsPos >= 0 );
+	*name = equation.left( equalsPos );
+	*expression = equation.right( equation.length() - equalsPos - 1 );
+}
+
+
 void FunctionEditor::resetFunctionEditing()
 {
 	kDebug() << k_funcinfo << endl;
@@ -423,7 +461,7 @@ void FunctionEditor::resetFunctionEditing()
 	m_functionID = -1;
 	
 	// page 3 is an empty page
-	m_editor->stackedWidget->setCurrentIndex( 3 );
+	m_editor->stackedWidget->setCurrentIndex( 4 );
 	
 	// assume that if there are functions in the list, then one will be selected
 	m_editor->deleteButton->setEnabled( m_functionList->count() != 0 );
@@ -502,6 +540,23 @@ void FunctionEditor::createPolar()
 }
 
 
+void FunctionEditor::createImplicit()
+{
+	kDebug() << k_funcinfo << endl;
+	
+	m_functionID = -1;
+	
+	// find a name not already used
+	QString fname( "f(x,y)=y*sinx + x*cosy = 1" );
+	XParser::self()->fixFunctionName( fname, Equation::Implicit, -1 );
+	
+	m_functionID = XParser::self()->addFunction( fname, 0 );
+	assert( m_functionID != -1 );
+
+	MainDlg::self()->requestSaveCurrentState();
+}
+
+
 void FunctionEditor::save()
 {
 	kDebug() << k_funcinfo << endl;
@@ -522,6 +577,10 @@ void FunctionEditor::save()
 			
 		case Function::Parametric:
 			m_saveParametricTimer->start( 0 );
+			break;
+			
+		case Function::Implicit:
+			m_saveImplicitTimer->start( 0 );
 			break;
 	}
 }
@@ -707,7 +766,7 @@ void FunctionEditor::saveParametric()
 // 		m_editor->kLineEditXFunction->selectAll();
 		return;
 	}
-        
+	
 	// find a name not already used 
 	if ( m_editor->parametricName->text().isEmpty() )
 	{
@@ -738,7 +797,7 @@ void FunctionEditor::saveParametric()
 	}
 	
 	tempFunction.m_parameters = m_editor->parametricParameters->parameterSettings();
-        if (functionListItem)
+	if (functionListItem)
 		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->parametric_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	if ( !tempFunction.eq[0]->setFstr( parametricXPrefix() ) )
@@ -753,6 +812,51 @@ void FunctionEditor::saveParametric()
 		return;
 	
 	kDebug() << "Parametric changed, so requesting state save.\n";
+	MainDlg::self()->requestSaveCurrentState();
+	if ( functionListItem )
+		functionListItem->update();
+	View::self()->drawPlot();
+}
+
+
+void FunctionEditor::saveImplicit()
+{
+	kDebug() << k_funcinfo << endl;
+	
+	Function * f = XParser::self()->functionWithID( m_functionID );
+	if ( !f )
+		return;
+	
+	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
+	
+	// find a name not already used 
+	if ( m_editor->implicitName->text().isEmpty() )
+	{
+		QString fname;
+		XParser::self()->fixFunctionName(fname, Equation::Implicit, f->id );
+		int const pos = fname.indexOf('(');
+		m_editor->implicitName->setText(fname.mid(1,pos-1));
+	}
+	
+	QString prefix = m_editor->implicitName->text() + '=';
+	QString f_str = prefix + m_editor->implicitEquation->text();
+	m_editor->implicitEquation->setValidatePrefix( prefix );
+
+	Function tempFunction( Function::Implicit );  // all settings are saved here until we know that no errors have appeared
+	
+	tempFunction.m_parameters = m_editor->implicitParameters->parameterSettings();
+	if (functionListItem)
+		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->implicit_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	
+	if ( !tempFunction.eq[0]->setFstr( f_str ) )
+		return;
+	
+	//save all settings in the function now when we know no errors have appeared
+	bool changed = f->copyFrom( tempFunction );
+	if ( !changed )
+		return;
+
+	kDebug() << "Implicit changed, so requesting state save.\n";	
 	MainDlg::self()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();

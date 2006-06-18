@@ -225,7 +225,7 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 		{
 			for ( unsigned i = 0; i < 2; ++i )
 			{
-				if ( it->eq[i] && (it->eq[i]->fname() == fname) )
+				if ( it->eq[i] && (it->eq[i]->name() == fname) )
 				{
 					str = str.mid(p1,str.length()-1);
 					QString function_name;
@@ -357,7 +357,7 @@ QStringList XParser::listFunctionNames()
 		{
 			if ( !it->eq[i] )
 				continue;
-			QString fname = it->eq[i]->fname();
+			QString fname = it->eq[i]->name();
 			if ( !fname.isEmpty() )
 				list << fname;
 		}
@@ -660,6 +660,8 @@ int XParser::addFunction(const QString &f_str0, const QString &_f_str1)
 	
 	if ( !f_str1.isEmpty() )
 		type = Function::Parametric;
+	else if ( f_str0.count( '=' ) > 1 )
+		type = Function::Implicit;
 	else
 		type = (added_function[0] == 'r') ? Function::Polar : Function::Cartesian;
 	

@@ -162,7 +162,7 @@ Equation::~ Equation()
 }
 
 
-QString Equation::fname( ) const
+QString Equation::name( ) const
 {
 	if ( m_fstr.isEmpty() )
 		return QString();
@@ -176,48 +176,22 @@ QString Equation::fname( ) const
 }
 
 
-QString Equation::fvar( ) const
+QStringList Equation::parameters( ) const
 {
-	if ( m_fstr.isEmpty() )
-		return QString();
-	
 	int p1 = m_fstr.indexOf( '(' );
-	if ( p1 == -1 )
-		return QString();
-	
-	int p2 = m_fstr.indexOf( ',' );
-	if ( p2 == -1 )
-		p2 = m_fstr.indexOf( ')' );
-	
-	if ( p2 == -1 )
-		return QString();
-	
-	return m_fstr.mid( p1+1, p2-p1-1 );
-}
-
-
-QString Equation::fpar( ) const
-{
-	if ( m_fstr.isEmpty() )
-		return QString();
-	
-	int p1 = m_fstr.indexOf( ',' );
-	if ( p1 == -1 )
-	{
-		// no parameter
-		return QString();
-	}
-	
 	int p2 = m_fstr.indexOf( ')' );
-	if ( p2 == -1 )
-		return QString();
+	if ( (p1 == -1) || (p2 == -1) )
+		return QStringList();
 	
-	return m_fstr.mid( p1+1, p2-p1-1 );
+	QString parameters = m_fstr.mid( p1+1, p2-p1-1 );
+	return parameters.split( ',' );
 }
 
 
 bool Equation::setFstr( const QString & fstr, bool force  )
 {
+// 	kDebug() << k_funcinfo << "fstr: "<<fstr<<endl;
+	
 	if ( force )
 	{
 		m_fstr = fstr;
@@ -228,7 +202,7 @@ bool Equation::setFstr( const QString & fstr, bool force  )
 	if ( !XParser::self()->isFstrValid( fstr ) )
 	{
 		XParser::self()->parserError( false );
-// 		kDebug() << k_funcinfo << "invalid fstr\n";
+		kDebug() << k_funcinfo << "invalid fstr\n";
 		return false;
 	}
 	
@@ -286,7 +260,12 @@ Equation & Equation::operator =( const Equation & other )
 Function::Function( Type type )
 	: m_type( type )
 {
-	eq[1] = 0;
+	x = y = 0;
+	m_implicitMode = UnfixedXY;
+	
+	eq[0] = eq[1] = 0;
+	usecustomxmin = false;
+	usecustomxmax = false;
 	
 	switch ( m_type )
 	{
@@ -294,8 +273,6 @@ Function::Function( Type type )
 			eq[0] = new Equation( Equation::Cartesian, this );
 			dmin.updateExpression( QString("-")+QChar(960) );
 			dmax.updateExpression( QChar(960) );
-			usecustomxmin = false;
-			usecustomxmax = false;
 			break;
 			
 		case Polar:
@@ -313,6 +290,10 @@ Function::Function( Type type )
 			dmax.updateExpression( QChar(960) );
 			usecustomxmin = true;
 			usecustomxmax = true;
+			break;
+			
+		case Implicit:
+			eq[0] = new Equation( Equation::Implicit, this );
 			break;
 	}
 	
@@ -390,13 +371,13 @@ QString Function::prettyName( Function::PMode mode ) const
 			return eq[0]->fstr();
 			
 		case Function::Derivative1:
-			return eq[0]->fname() + '\'';
+			return eq[0]->name() + '\'';
 			
 		case Function::Derivative2:
-			return eq[0]->fname() + "\'\'";
+			return eq[0]->name() + "\'\'";
 			
 		case Function::Integral:
-			return eq[0]->fname().toUpper();
+			return eq[0]->name().toUpper();
 	}
 	
 	kWarning() << k_funcinfo << "Unknown mode!\n";
@@ -464,6 +445,9 @@ QString Function::typeToString( Type type )
 			
 		case Polar:
 			return "polar";
+			
+		case Implicit:
+			return "implicit";
 	}
 	
 	kWarning() << "Unknown type " << type << endl;
@@ -481,6 +465,9 @@ Function::Type Function::stringToType( const QString & type )
 	
 	if ( type == "polar" )
 		return Polar;
+	
+	if ( type == "implicit" )
+		return Implicit;
 	
 	kWarning() << "Unknown type " << type << endl;
 	return Cartesian;
@@ -642,5 +629,51 @@ void Plot::updateFunctionParameter() const
 	}
 	
 	m_function->setParameter( k );
+}
+
+
+void Plot::differentiate()
+{
+	switch ( plotMode )
+	{
+		case Function::Integral:
+			plotMode = Function::Derivative0;
+			break;
+
+		case Function::Derivative0:
+			plotMode = Function::Derivative1;
+			break;
+
+		case Function::Derivative1:
+			plotMode = Function::Derivative2;
+			break;
+
+		case Function::Derivative2:
+			kWarning() << k_funcinfo << "Can't handle this yet!\n";
+			break;
+	}
+}
+
+
+void Plot::integrate()
+{
+	switch ( plotMode )
+	{
+		case Function::Integral:
+			kWarning() << k_funcinfo << "Can't handle this yet!\n";
+			break;
+
+		case Function::Derivative0:
+			plotMode = Function::Integral;
+			break;
+
+		case Function::Derivative1:
+			plotMode = Function::Derivative0;
+			break;
+
+		case Function::Derivative2:
+			plotMode = Function::Derivative1;
+			break;
+	}
 }
 //END class Plot

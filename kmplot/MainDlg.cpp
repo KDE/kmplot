@@ -299,6 +299,11 @@ void MainDlg::setupActions()
 	newPolar->setIcon( KIcon("newpolar") );
 	connect( newPolar, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createPolar() ) );
 	m_newPlotMenu->addAction( newPolar );
+        
+	KAction * newImplicit = new KAction( i18n( "Implicit Plot" ), actionCollection(), "newimplicit" );
+	newImplicit->setIcon( KIcon("newimplicit") );
+	connect( newImplicit, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createImplicit() ) );
+	m_newPlotMenu->addAction( newImplicit );
 	//END new plots menu
 	
 	

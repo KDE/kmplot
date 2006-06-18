@@ -163,22 +163,22 @@ class View : public QWidget
 		 */
 		QPointF realValue( const Plot & plot, double x, bool updateParameter );
 
-public slots:
-	/// Called when the user want to cancel the drawing
-	void stopDrawing();
-	/// A slider window has been closed
-	void slidersWindowClosed();
-
-	/// Called when the graph should be updated
-	void drawPlot();
-	///Slots for the three first items in popup menu
-	void mnuHide_clicked();
-	void mnuRemove_clicked();
-	void mnuEdit_clicked();
-	///Slots for the zoom menu
-	void mnuZoomIn_clicked();
-	void mnuZoomOut_clicked();
-	void mnuTrig_clicked();
+	public slots:
+		/// Called when the user want to cancel the drawing
+		void stopDrawing();
+		/// A slider window has been closed
+		void slidersWindowClosed();
+	
+		/// Called when the graph should be updated
+		void drawPlot();
+		///Slots for the three first items in popup menu
+		void mnuHide_clicked();
+		void mnuRemove_clicked();
+		void mnuEdit_clicked();
+		///Slots for the zoom menu
+		void mnuZoomIn_clicked();
+		void mnuZoomOut_clicked();
+		void mnuTrig_clicked();
 
 	protected slots:
 		void paintEvent(QPaintEvent *);
@@ -216,9 +216,13 @@ public slots:
 		*/
 		void drawHeaderTable(QPainter *);
 		/**
-		* Draw the function plots.
+		* Draw the function plots (other than implicit).
 		*/
 		void plotFunction(Function *ufkt, QPainter*);
+		/**
+		 * Draw an implicit function.
+		 */
+		void plotImplicit( Function * function, QPainter * );
 		/**
 		* \return whether should draw the pixel from the given line length,
 		* according to the given pen style (used in plotfkt).

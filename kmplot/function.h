@@ -114,7 +114,8 @@ class Equation
 			Cartesian,
 			ParametricX,
 			ParametricY,
-			Polar
+			Polar,
+			Implicit
 		};
 		
 		Equation( Type type, Function * parent );
@@ -147,18 +148,12 @@ class Equation
 		 * @return the name of the function, e.g. for the cartesian function
 		 * f(x)=x^2, this would return "f".
 		 */
-		QString fname() const;	///< Name of the function.
+		QString name() const;
 		/**
-		 * @return the dummy variable of the function, e.g. for the cartesian
-		 * function f(x,k)=(x+k)(x-k), this would return "x".
+		 * \return a list of parameters, e.g. {x} for "f(x)=y", and {x,y,k} for
+		 * "f(x,y,k)=(x+k)(y+k)".
 		 */
-		QString fvar() const;
-		/**
-		 * @return the parameter if one exists, e.g. for the cartesian function
-		 * f(x,k)=(x+k)(x-k), this would return "k". For the function f(x)=x^2,
-		 * this would return an empty string.
-		 */
-		QString fpar() const;
+		QStringList parameters() const;
 		/**
 		 * The full function expression, e.g. "f(x,k)=(x+k)(x-k)".
 		 */
@@ -189,8 +184,6 @@ class Equation
 		void resetLastIntegralPoint();
 		
 		QPointF lastIntegralPoint; ///< needed for numeric integration
-		
-		double oldy; /// \todo is this value needed?
 		
 	protected:
 		/// \note when adding new member variables, make sure to update operator != and operator =
@@ -276,7 +269,8 @@ class Function
 		{
 			Cartesian,
 			Parametric,
-			Polar
+			Polar,
+			Implicit
 		};
 		
 		Function( Type type );
@@ -356,6 +350,25 @@ class Function
 		double integral_precision;
 		// TODO double slider_min, slider_max; ///< extreme values of the slider
 		
+		/**
+		 * For use with implicit functions, when either x or y is held fixed.
+		 */
+		enum ImplicitMode
+		{
+			FixedX,
+			FixedY,
+			UnfixedXY
+		};
+		ImplicitMode m_implicitMode;
+		/**
+		 * The value of x when this is an implicit function and x is fixed.
+		 */
+		double x;
+		/**
+		 * The value of y when this is an implicit function and y is fixed.
+		 */
+		double y;
+		
 	protected:
 		const Type m_type;
 		
@@ -379,6 +392,14 @@ class Plot
 		bool operator == ( const Plot & other ) const;
 		
 		void setFunctionID( int id );
+		/**
+		 * Changes the plotMode equivalent to differentiating.
+		 */
+		void differentiate();
+		/**
+		 * Changes the plotMode equivalent to integrating.
+		 */
+		void integrate();
 		int functionID() const { return m_functionID; }
 		/**
 		 * \return a pointer to the function with ID as set by setFunctionID

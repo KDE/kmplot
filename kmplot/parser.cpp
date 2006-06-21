@@ -1385,6 +1385,7 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 		append( ')' );
 	}
 	
+	/// \todo should strip white space instead
 	remove( ' ' );
 	
 	m_map.insert( 0, 0 );
@@ -1499,7 +1500,10 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 			i++;
 		}
 	}
+	
+	/// \todo should strip white space instead
 	remove(" " );
+	
 	QString str_end = str->mid(pos);
 	str_end = str_end.replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
 	str->truncate(pos);

@@ -224,6 +224,11 @@ class View : public QWidget
 		 */
 		void plotImplicit( Function * function, QPainter * );
 		/**
+		 * Used by plotImplicit to draw the plot in the square associated with
+		 * the given point.
+		 */
+		void plotImplicitInSquare( const Plot & plot, QPainter *, double x, double y );
+		/**
 		* \return whether should draw the pixel from the given line length,
 		* according to the given pen style (used in plotfkt).
 		*/
@@ -236,12 +241,22 @@ class View : public QWidget
 		QPen penForPlot( const Plot & plot, bool antialias ) const;
 		/// Gets the greek pi symbol.
 		void setpi(QString *);
+#if 0
+		/**
+		 * Used in findRoot.
+		 */
+		enum RootAccuracy
+		{
+			PreciseRoot,	///< Will potential spend a long time finding a root to a high degree of accuracy
+			RoughRoot		///< Won't spend too long making a root accurate, giving up quickly if failed to find root
+		};
+#endif
 		/**
 		 * Used in trace mode. Attempts to find the root of equation \p eq near
 		 * \p x (which is then set to the exact root if found).
 		 * \returns whether a root was found.
 		 */
-		bool findRoot( double * x, const Plot & plot );
+		bool findRoot( double * x, const Plot & plot/*, RootAccuracy accuracy*/ );
 		/**
 		 * Finds the list of points (in function coordinates) at which the
 		 * derivative of the given plot is zero in the range of the currently
@@ -252,7 +267,7 @@ class View : public QWidget
 		 * Find all roots (at which the given plot is zero) in the range of the
 		 * currently viewable segment of the plot.
 		 */
-		QList<double> findRoots( const Plot & plot );
+		QList<double> findRoots( const Plot & plot/*, RootAccuracy accuracy*/ );
 		///return the inverted color
 		void invertColor(QColor &, QColor &);
 		/// Changes the text in the statusbar

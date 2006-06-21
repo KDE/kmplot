@@ -384,115 +384,164 @@ void View::plotImplicit( Function * function, QPainter * painter )
 {
 	assert( function->type() == Function::Implicit );
 	
+	// The viewable area is divided up into square*squares squares, and the curve
+	// is traced around in each square.
+	// NOTE this should agree with the value in plotImplicitInSquare
+	int squares = 20;
+	
+#if 0
+	painter->setPen( Qt::black );
+	
+	for ( double i = 0; i <= squares; ++i )
+	{
+		double x = m_xmin + i * (m_xmax-m_xmin)/squares;
+		double y = m_ymin + i * (m_ymax-m_ymin)/squares;
+		
+		painter->drawLine( CDiagr::self()->toPixel( QPointF( m_xmin, y ), CDiagr::ClipInfinite ), CDiagr::self()->toPixel( QPointF( m_xmax, y ), CDiagr::ClipInfinite ) );
+		painter->drawLine( CDiagr::self()->toPixel( QPointF( x, m_ymin ), CDiagr::ClipInfinite ), CDiagr::self()->toPixel( QPointF( x, m_ymax ), CDiagr::ClipInfinite ) );
+	}
+#endif
+	
+	
 	const QList< Plot > plots = function->allPlots();
 	foreach ( Plot plot, plots )
 	{
-		plot.updateFunctionParameter();
-		Plot differentiated = plot;
-		differentiated.differentiate();
-
 		painter->setPen( penForPlot( plot, painter->renderHints() & QPainter::Antialiasing ) );
-
-#if 0
-		for ( double x = m_xmin; x <= m_xmax; x += (m_xmax-m_xmin)/40 )
-		{
-			for ( double y = m_ymin; y <= m_ymax; y += (m_ymax-m_ymin)/40 )
-			{
-				double var[3] = { x, y, function->k };
-				double value = XParser::self()->fkt( function->eq[0], var );
-				
-// 				QString text('0');
-				QString text;
-// 				if ( value > 0 )
-// 					text = '.';
-// 				else if ( value < 0 )
-// 					text = '-';
-				
-// 				painter->drawText( CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite ), text );
-			}
-		}
-#endif
 		
-		for ( double _y = m_ymin; _y <= m_ymax; _y += (m_ymax-m_ymin)/20 )
-// 		double _y = 2;
+		for ( double y = m_ymin; y <= m_ymax; y += (m_ymax-m_ymin)/squares )
 		{
-			function->y = _y;
+			function->y = y;
 			function->m_implicitMode = Function::FixedY;
 			QList<double> roots = findRoots( plot );
+			
 			foreach ( double x, roots )
-			{
-				double y = _y;
-				QPointF prev = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
-				
-				// Now trace around the curve from the point...
-				for ( int i = 0; i < 40; ++i )
-// 				while ( true )
-				{
-					// (dx, dy) is perpendicular to curve
-					
-					function->y = y;
-					function->m_implicitMode = Function::FixedY;
-					double dx = value( differentiated, 0, x, false );
-					
-					function->x = x;
-					function->m_implicitMode = Function::FixedX;
-					double dy = value( differentiated, 0, y, false );
-					
-					QPointF p1 = CDiagr::self()->toPixel( QPointF( x, y ),			CDiagr::ClipInfinite ) * painter->matrix();
-					QPointF p2 = CDiagr::self()->toPixel( QPointF( x+dx, y+dy ),	CDiagr::ClipInfinite ) * painter->matrix();
-					double l = QLineF( p1, p2 ).length() / 4; // (1 is the number of pixels long the tangent line should be)
-					
-					if ( l == 0 )
-						break;
-					
-					// tangent to the curve
-					double tx = -dy/l;
-					double ty = dx/l;
-// 					kDebug() << "x="<<x<<" y="<<y<<" tx="<<tx<<" ty="<<ty<<endl;
-					
-					double * coord = 0;
-					
-					x += tx;
-					y += ty;
-					
-					function->x = x;
-					function->y = y;
-					
-					if ( qAbs(tx) > qAbs(ty) )
-					{
-						function->m_implicitMode = Function::FixedX;
-						coord = & y;
-					}
-					else
-					{
-						function->m_implicitMode = Function::FixedY;
-						coord = & x;
-					}
-					
-					bool found = findRoot( coord, plot );
-					if ( !found )
-						break;
-					
-					if ( x < m_xmin || x > m_xmax || y < m_ymin || y > m_ymax )
-						break;
-					
-					QPointF next = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
-					painter->drawLine( prev, next );
-					prev = next;
-#if 0
-					
-					QPointF start( x, y );
-					QPointF end( x+tx, y+ty );
-					
-					painter->drawLine( CDiagr::self()->toPixel( start, CDiagr::ClipInfinite ), CDiagr::self()->toPixel( end, CDiagr::ClipInfinite ) );
-					QRectF rect( CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite ) - QPointF( 2, 2 ), QSizeF( 4, 4 ) );
-					
-					painter->setBrush( painter->pen().color() );
-					painter->drawEllipse( rect );
-#endif
-				}
-			}
+				plotImplicitInSquare( plot, painter, x, y );
 		}
+		
+		for ( double x = m_xmin; x <= m_xmax; x += (m_xmax-m_xmin)/squares )
+		{
+			function->x = x;
+			function->m_implicitMode = Function::FixedX;
+			QList<double> roots = findRoots( plot );
+			
+			foreach ( double y, roots )
+				plotImplicitInSquare( plot, painter, x, y );
+		}
+	}
+}
+
+
+void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x, double y )
+{
+	// NOTE this should agree with the value in plotImplicit
+	int squares = 20;
+	
+	plot.updateFunctionParameter();
+	Plot differentiated = plot;
+	differentiated.differentiate();
+	
+#if 0
+	painter->save();
+	painter->setPen( Qt::green );
+	QPointF tl = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite ) - QPoint( 1, 1 );
+	painter->drawRect( QRectF( tl, QSizeF( 3, 3 ) ) );
+	painter->restore();
+#endif
+	
+	// Use a square around the root to bound the tracing
+	// To start with, assume that tracing will go down,right. But this
+	// might not be so, so firstTrace is set to true, and then the upper/lower
+	// boundaries may be adjusted depending on where the tracing ends up
+	double x_prop = (x-m_xmin)/(m_xmax-m_xmin);
+	double x_lower = (qRound( x_prop * squares ) / double(squares))*(m_xmax-m_xmin) + m_xmin;
+	double x_upper = x_lower + (m_xmax-m_xmin)/squares;
+	double y_prop = (y-m_ymin)/(m_ymax-m_ymin);
+	double y_lower = (qRound( y_prop * squares ) / double(squares))*(m_ymax-m_ymin) + m_ymin;
+	double y_upper = y_lower + (m_ymax-m_ymin)/squares;
+	bool firstTrace = true;
+	
+	double segment_length = 4; // the number of pixels long each segment of the trace should be
+	double segment_x = (m_xmax-m_xmin) * segment_length / area.width();
+	double segment_y = (m_ymax-m_ymin) * segment_length / area.height();
+	
+	QPointF prev = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
+				
+	// Now trace around the curve from the point...
+	for ( int i = 0; i < 40; ++i ) // allow a maximum of 40 traces
+	{
+		// (dx, dy) is perpendicular to curve
+					
+		plot.function()->y = y;
+		plot.function()->m_implicitMode = Function::FixedY;
+		double dx = value( differentiated, 0, x, false );
+					
+		plot.function()->x = x;
+		plot.function()->m_implicitMode = Function::FixedX;
+		double dy = value( differentiated, 0, y, false );
+					
+		QPointF p1 = CDiagr::self()->toPixel( QPointF( x, y ),			CDiagr::ClipInfinite ) * painter->matrix();
+		QPointF p2 = CDiagr::self()->toPixel( QPointF( x+dx, y+dy ),	CDiagr::ClipInfinite ) * painter->matrix();
+		double l = QLineF( p1, p2 ).length() / segment_length;
+					
+		if ( l == 0 )
+			break;
+					
+		// tangent to the curve
+		double tx = -dy/l;
+		double ty = dx/l;
+					
+		double * coord = 0;
+					
+		x += tx;
+		y += ty;
+					
+		plot.function()->x = x;
+		plot.function()->y = y;
+					
+		if ( qAbs(tx) > qAbs(ty) )
+		{
+			plot.function()->m_implicitMode = Function::FixedX;
+			coord = & y;
+		}
+		else
+		{
+			plot.function()->m_implicitMode = Function::FixedY;
+			coord = & x;
+		}
+					
+		bool found = findRoot( coord, plot );
+		if ( !found )
+			break;
+					
+		if ( firstTrace )
+		{
+			if ( x < x_lower )
+			{
+				x_lower -= (m_xmax-m_xmin)/squares;
+				x_upper -= (m_xmax-m_xmin)/squares;
+			}
+						
+			if ( y < y_lower )
+			{
+				y_lower -= (m_ymax-m_ymin)/squares;
+				y_upper -= (m_ymax-m_ymin)/squares;
+			}
+	
+			// adjust the boundaries to allow for overlap
+			x_lower -= segment_x;
+			x_upper += segment_x;
+			y_lower -= segment_y;
+			y_upper += segment_y;
+						
+			firstTrace = false;
+		}
+					
+		if ( x < x_lower || x > x_upper || y < y_lower || y > y_upper )
+			break;
+					
+		QPointF next = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
+		painter->drawLine( prev, next );
+		prev = next;
 	}
 }
 
@@ -887,7 +936,7 @@ QList< QPointF > View::findStationaryPoints( const Plot & plot )
 }
 
 
-QList< double > View::findRoots( const Plot & plot )
+QList< double > View::findRoots( const Plot & plot/*, RootAccuracy accuracy*/ )
 {
 	Equation * eq = plot.function()->eq[0];
 
@@ -905,7 +954,9 @@ QList< double > View::findRoots( const Plot & plot )
 	for ( double x = min; x < max; x += dx )
 	{
 		double x0 = x;
-		bool found = findRoot( & x0, plot );
+		bool found = findRoot( & x0, plot/*, accuracy*/ );
+		if ( x0 < m_xmin || x0 > m_xmax )
+			found = false;
 
 		bool differentRoot = (qAbs(x0-prevX) > (dx/2)) || roots.isEmpty();
 
@@ -920,11 +971,25 @@ QList< double > View::findRoots( const Plot & plot )
 }
 
 
-bool View::findRoot( double *x0, const Plot & plot )
+bool View::findRoot( double *x0, const Plot & plot/*, RootAccuracy accuracy*/ )
 {
 	int k = 0; // iteration count
-	int max_k = 200; // maximum number of iterations
-	double max_y = 1e-14; // the largest value of y which is deemed a root found
+	
+	int max_k; // maximum number of iterations
+	double max_y; // the largest value of y which is deemed a root found
+	
+// 	if ( accuracy == PreciseRoot )
+	if ( true )
+	{
+		max_k = 200;
+		max_y = 1e-14;
+	}
+	else
+	{
+		// Rough root
+		max_k = 10;
+		max_y = 1e-10;
+	}
 
 	double y = value( plot, 0, *x0, false );
 	bool tooBig = true;

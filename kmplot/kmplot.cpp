@@ -43,8 +43,10 @@
 #include <dbus/qdbus.h>
 
 KmPlot::KmPlot( KCmdLineArgs* args)
-		: KParts::MainWindow( 0L, "KmPlot" )
+		: KParts::MainWindow()
 {
+	setObjectName( "KmPlot" );
+	
 	// set the shell's ui resource file
 	setXMLFile("kmplot_shell.rc");
 	// then, setup our actions

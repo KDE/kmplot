@@ -133,6 +133,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	(void) new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection() );
 	connect( View::self(), SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 	
+	m_functionEditor = 0;
 	if ( !m_readonly )
 	{
 		m_functionEditor = new FunctionEditor( m_newPlotMenu, parentWidget );

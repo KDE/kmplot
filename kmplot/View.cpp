@@ -698,7 +698,7 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 				double length = QLineF( p1_pixel, p2_pixel ).length();
 				totalLength += length;
 
-				if ( (mflg<=1) && ((ufkt->type() == Function::Parametric) || (ufkt->type() == Function::Polar)) )
+				if ( mflg<=1 )
 				{
 					if ( QRectF( area ).intersects( bound ) )
 					{

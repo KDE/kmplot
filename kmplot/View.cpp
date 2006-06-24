@@ -681,7 +681,8 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 		{
 			p2 = CDiagr::self()->toPixel( realValue( plot, x, false ), CDiagr::ClipInfinite );
 
-			bool dxAtMinimum = (dx <= base_dx*(5e-5));
+			double min_mod = (ufkt->type() == Function::Cartesian) ? 0.1 : 5e-5;
+			bool dxAtMinimum = (dx <= base_dx*min_mod);
 			bool dxAtMaximum = (dx >= base_dx*(5e+1));
 			bool dxTooBig = false;
 			bool dxTooSmall = false;
@@ -692,13 +693,25 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 			}
 			else
 			{
+				// Is it an asymtope (i.e. cartesian function, drawing from above top to below bottom)
+				bool asymtope = false;
+				if ( ufkt->type() == Function::Cartesian )
+				{
+					bool p1_below = p1.y() > area.bottom();
+					bool p1_above = p1.y() < area.top();
+					bool p2_below = p2.y() > area.bottom();
+					bool p2_above = p2.y() < area.top();
+					
+					asymtope = (p1_below && p2_above) || (p1_above && p2_below);
+				}
+				
 				QPointF p1_pixel = p1 * pDC->matrix();
 				QPointF p2_pixel = p2 * pDC->matrix();
 				QRectF bound = QRectF( p1_pixel, QSizeF( (p2_pixel-p1_pixel).x(), (p2_pixel-p1_pixel).y() ) ).normalized();
 				double length = QLineF( p1_pixel, p2_pixel ).length();
 				totalLength += length;
 
-				if ( mflg<=1 )
+				if ( mflg<=1 && !asymtope )
 				{
 					if ( QRectF( area ).intersects( bound ) )
 					{
@@ -728,7 +741,20 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 						}
 						else
 						{
-							if ( penShouldDraw( totalLength, plot ) )
+							if ( asymtope )
+							{
+								QPen oldPen = pDC->pen();
+								
+								QPen pen = oldPen;
+								QVector<qreal> dashes;
+								dashes << 6 << 6;
+								pen.setDashPattern( dashes);
+								pDC->setPen( pen );
+								pDC->drawLine( p1, p2 );
+								
+								pDC->setPen( oldPen );
+							}
+							else if ( penShouldDraw( totalLength, plot ) )
 								pDC->drawLine( p1, p2 );
 						}
 					}

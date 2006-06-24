@@ -43,11 +43,13 @@ static const char description[] =
     I18N_NOOP( "Mathematical function plotter for KDE" );
 
 static KCmdLineOptions options[] =
-    {
-        { "+[URL]", I18N_NOOP( "File to open" ), 0 },
-        KCmdLineLastOption
-        // INSERT YOUR COMMANDLINE OPTIONS HERE
-    };
+{
+	{ "f", 0, 0 },
+	{ "function <argument>", I18N_NOOP( "Initial functions to plot" ), "default" },
+	{ "+[URL]", I18N_NOOP( "File to open" ), 0 },
+	KCmdLineLastOption
+	// INSERT YOUR COMMANDLINE OPTIONS HERE
+};
 
 
 int main( int argc, char **argv )

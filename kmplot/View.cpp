@@ -1105,7 +1105,8 @@ bool View::findRoot( double * x, const Plot & plot, RootAccuracy accuracy )
 	double h = qMin( m_xmax-m_xmin, m_ymax-m_ymin ) * 1e-5;
 
 	double f = value( plot, 0, *x, false );
-	for ( int k=0; k < max_k; ++k )
+	int k;
+	for ( k=0; k < max_k; ++k )
 	{
 		double df = XParser::self()->derivative( n, eq, *x, h );
 		if ( qAbs(df) < 1e-20 )
@@ -1223,19 +1224,113 @@ void View::paintEvent(QPaintEvent *)
 	}
 	else if ( shouldShowCrosshairs() )
 	{
-		Function * it = m_currentPlot.function();
-
-		// Fadenkreuz zeichnen [draw the cross-hair]
+		Function * function = m_currentPlot.function();
+		
 		QPen pen;
-		if ( !it )
-			pen.setColor(m_invertedBackgroundColor);
-		else
+		
+		if ( function )
 		{
-			pen.setColor( it->plotAppearance( m_currentPlot.plotMode ).color );
-
-			if ( pen.color() == m_backgroundColor) // if the "Fadenkreuz" [cross-hair] has the same color as the background, the "Fadenkreuz" [cross-hair] will have the inverted color of background so you can see it easier
-				pen.setColor(m_invertedBackgroundColor);
+			QColor functionColor = function->plotAppearance( m_currentPlot.plotMode ).color;
+			pen.setColor( functionColor );
+			p.setPen( pen );
+			p.setRenderHint( QPainter::Antialiasing, true );
+			
+			double x = m_crosshairPosition.x();
+			double y = m_crosshairPosition.y();
+			
+			p.save();
+			p.setMatrix( wm );
+			p.setClipRect( wm.inverted().mapRect( area ) );
+			
+			p.restore();
+			p.setClipRect( area );
+			
+			//BEGIN calculate curvature, normal
+			double k = 0;
+			double normalAngle = 0;
+			
+			switch ( function->type() )
+			{
+				case Function::Parametric:
+				case Function::Polar:
+					normalAngle = pixelNormal( m_currentPlot, m_trace_x );
+					k = pixelCurvature( m_currentPlot, m_trace_x );
+					break;
+					
+				case Function::Cartesian:
+				case Function::Implicit:
+					normalAngle = pixelNormal( m_currentPlot, x, y );
+					k = pixelCurvature( m_currentPlot, x, y );
+					break;
+			}
+			
+			if ( k < 0 )
+			{
+				k = -k;
+				normalAngle += M_PI;
+			}
+			//END calculate curvature, normal
+			
+			if ( k > 1e-5 )
+			{
+				p.save();
+				
+				// Transform the painter so that the center of the osculating circle is the origin,
+				// with the normal line coming in frmo the left.
+				QPointF center = m_crosshairPixelCoords + (1/k) * QPointF( cos( normalAngle ), sin( normalAngle ) );
+				p.translate( center );
+				p.rotate( normalAngle * 180 / M_PI );
+				
+				// draw osculating circle
+// 				pen.setColor( QColor( 0x4f, 0xb3, 0xff ) );
+// 				pen.setColor( Qt::black );
+				pen.setColor( functionColor );
+				p.setPen( pen );
+				p.drawEllipse( QRectF( -QPointF( 1/k, 1/k ), QSizeF( 2/k, 2/k ) ) );
+				
+				// draw normal
+// 				pen.setColor( QColor( 0xff, 0x37, 0x61 ) );
+				pen.setColor( functionColor );
+				p.setPen( pen );
+				p.setBrush( pen.color() );
+				p.drawLine( QLineF( -1/k, 0, 0, 0 ) );
+				
+				// draw normal arrow
+				QPolygonF arrowHead(3);
+				arrowHead[0] = QPointF( 0, 0 );
+				arrowHead[1] = QPointF( -3, -2 );
+				arrowHead[2] = QPointF( -3, +2 );
+				p.drawPolygon( arrowHead );
+				
+				// draw tangent
+				double tangent_scale = 1.2; // make the tangent look better
+				p.drawLine( QLineF( -1/k, -1/k * tangent_scale, -1/k, 1/k * tangent_scale ) );
+				
+				// draw perpendicular symbol
+				QPolygonF perp(3);
+				perp[0] = QPointF( -1/k, 10 );
+				perp[1] = QPointF( -1/k + 10, 10 );
+				perp[2] = QPointF( -1/k + 10, 0 );
+				p.drawPolyline( perp );
+				
+				// draw intersection blob
+				p.drawRect( QRectF( -1/k-1, -1, 2, 2 ) );
+				
+				p.restore();
+			}
+			else
+			{
+				// Curve is practically straight
+			}
+			
+			
+		
+			functionColor.setAlpha( 63 );
+			pen.setColor( functionColor );
 		}
+		else
+			pen.setColor(m_invertedBackgroundColor);
+		
 		p.setPen( pen );
 		p.Lineh( area.left(), m_crosshairPixelCoords.y(), area.right() );
 		p.Linev( m_crosshairPixelCoords.x(), area.bottom(), area.top());
@@ -1243,6 +1338,160 @@ void View::paintEvent(QPaintEvent *)
 
 	p.end();
 }
+
+
+double View::pixelNormal( const Plot & plot, double x, double y )
+{
+	Function * f = plot.function();
+	assert( f );
+	
+	plot.updateFunctionParameter();
+	
+	Plot diff1 = plot;
+	diff1.differentiate();
+	
+	// For converting from real to pixels
+	double sx = area.width() / (m_xmax - m_xmin);
+	double sy = area.height() / (m_ymax - m_ymin);
+	
+	double dx = 0;
+	double dy = 0;
+	
+	switch ( f->type() )
+	{
+		case Function::Cartesian:
+		{
+			double df = value( diff1, 0, x, false );
+			return - arctan( df * (sy/sx) ) - (M_PI/2);
+		}
+		
+		case Function::Implicit:
+		{
+			dx = XParser::self()->partialDerivative( 1, 0, f->eq[0], x, y, 1e-5, 1e-5 ) / sx;
+			dy = XParser::self()->partialDerivative( 0, 1, f->eq[0], x, y, 1e-5, 1e-5 ) / sy;
+			
+			double theta = -arctan( dy / dx );
+			
+			if ( dx < 0 )
+				theta += M_PI;
+			
+			theta += M_PI;
+			
+			return theta;
+		}
+		
+		case Function::Polar:
+		{
+			double r =  XParser::self()->derivative( 0, f->eq[0], x, 1e-5 );
+			double dr = XParser::self()->derivative( 1, f->eq[0], x, 1e-5 );
+			
+			dx = (dr * cos(x) - r * sin(x)) * sx;
+			dy = (dr * sin(x) + r * cos(x)) * sy;
+			break;
+		}
+		
+		case Function::Parametric:
+		{
+			dx = XParser::self()->derivative( 1, f->eq[0], x, 1e-5 ) * sx;
+			dy = XParser::self()->derivative( 1, f->eq[1], x, 1e-5 ) * sy;
+			break;
+		}
+	}
+			
+	double theta = - arctan( dy / dx ) - (M_PI/2);
+			
+	if ( dx < 0 )
+		theta += M_PI;
+			
+	return theta;
+}
+
+
+double View::pixelCurvature( const Plot & plot, double x, double y )
+{
+	Function * f = plot.function();
+	
+	// For converting from real to pixels
+	double sx = area.width() / (m_xmax - m_xmin);
+	double sy = area.height() / (m_ymax - m_ymin);
+	
+	double fdx = 0;
+	double fdy = 0;
+	double fddx = 0;
+	double fddy = 0;
+	double fdxy = 0;
+	
+	switch ( f->type() )
+	{
+		case Function::Cartesian:
+		{
+			fdx = sx;
+			fddx = 0;
+			
+			fdy = XParser::self()->derivative( 1, f->eq[0], x, (m_xmax-m_xmin)/1e5 ) * sy;
+			fddy = XParser::self()->derivative( 2, f->eq[0], x, (m_xmax-m_xmin)/1e5 ) * sy;
+			
+			break;
+		}
+		
+		case Function::Polar:
+		{
+			double r = XParser::self()->derivative( 0, f->eq[0], x, 1e-5 );
+			double dr = XParser::self()->derivative( 1, f->eq[0], x, 1e-5 );
+			double ddr = XParser::self()->derivative( 2, f->eq[0], x, 1e-5 );
+			
+			fdx = (dr * cos(x) - r * sin(x)) * sx;
+			fdy = (dr * sin(x) + r * cos(x)) * sy;
+			
+			fddx = (ddr * cos(x) - 2 * dr * sin(x) - r * cos(x)) * sx;
+			fddy = (ddr * sin(x) + 2 * dr * cos(x) - r * sin(x)) * sy;
+			
+			break;
+		}
+		
+		case Function::Parametric:
+		{
+			fdx = XParser::self()->derivative( 1, f->eq[0], x, 1e-5 ) * sx;
+			fdy = XParser::self()->derivative( 1, f->eq[1], x, 1e-5 ) * sy;
+			
+			fddx = XParser::self()->derivative( 2, f->eq[0], x, 1e-5 ) * sx;
+			fddy = XParser::self()->derivative( 2, f->eq[1], x, 1e-5 ) * sy;
+			
+			break;
+		}
+		
+		case Function::Implicit:
+		{
+			fdx =  XParser::self()->partialDerivative( 1, 0, f->eq[0], x, y, 1e-5, 1e-5 ) / sx;
+			fdy =  XParser::self()->partialDerivative( 0, 1, f->eq[0], x, y, 1e-5, 1e-5 ) / sy;
+			
+			fddx = XParser::self()->partialDerivative( 2, 0, f->eq[0], x, y, 1e-5, 1e-5 ) / (sx*sx);
+			fddy = XParser::self()->partialDerivative( 0, 2, f->eq[0], x, y, 1e-5, 1e-5 ) / (sy*sy);
+			
+			fdxy = XParser::self()->partialDerivative( 1, 1, f->eq[0], x, y, 1e-5, 1e-5 ) / (sx*sy);
+			
+			
+			break;
+		}
+	}
+	
+	double mod = pow( fdx*fdx + fdy*fdy, 1.5 );
+	
+	switch ( f->type() )
+	{
+		case Function::Cartesian:
+		case Function::Parametric:
+		case Function::Polar:
+			return (fdx * fddy - fdy * fddx) / mod;
+			
+		case Function::Implicit:
+			return ( fdx*fdx*fddy + fdy*fdy*fddx - 2*fdx*fdy*fdxy ) / mod;
+	}
+	
+	kError() << "Unknown function type!\n";
+	return 0;
+}
+
 
 void View::resizeEvent(QResizeEvent *)
 {

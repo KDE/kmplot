@@ -7,10 +7,8 @@ TODO
 	* hermite polynomials
 	* gamma function
 * New plot types:
-	* Intrinsic: f(x,y) = 0
 	* Differential e.g. f_n(x,y) d^nY/dx^n + ... + f_1(x,y) dY/dx + f_0(x, y) = 0
 * Parameters:
-	* Give parameters to all types of plots
 	* Make parameters more powerful
 * In tool menu:
 	* find "nollställen" ( en: where the function's value is 0) 
@@ -32,6 +30,8 @@ IN PROGRESS
 DONE
 =========================
 
+* Give parameters to all types of plots
+* Intrinsic plots: f(x,y) = 0
 * Use a better(faster!) algorithm for drawing integrals numeric. It's not urgent anymore since the implemention of Euler's method is better now.
 * Fix the unpolished lines?
 * Popupmenu and tracemode for parametric- and polar functions

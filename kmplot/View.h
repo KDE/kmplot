@@ -162,6 +162,16 @@ class View : public QWidget
 		 * value(), but returns both coordinates).
 		 */
 		QPointF realValue( const Plot & plot, double x, bool updateParameter );
+		/**
+		 * \return the (signed) curvature (in screen coordinates) of the plot
+		 * at \p x (and \p y for implicit functions).
+		 */
+		double pixelCurvature( const Plot & plot, double x, double y = 0 );
+		/**
+		 * \return the angle of the normal (in radians) of the plot when viewed
+		 * on the screen.
+		 */
+		double pixelNormal( const Plot & plot, double x, double y = 0 );
 
 	public slots:
 		/// Called when the user want to cancel the drawing

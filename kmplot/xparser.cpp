@@ -140,9 +140,9 @@ bool XParser::getext( Function *item, const QString fstr )
 
 double XParser::derivative( int n, Equation * eq, double x, double h )
 {
-	if ( n < -1 )
+	if ( n < 0 )
 	{
-		kError() << k_funcinfo << "Can't handle derivative < -1\n";
+		kError() << k_funcinfo << "Can't handle derivative < 0\n";
 		return 0.0;
 	}
 	
@@ -160,6 +160,25 @@ double XParser::derivative( int n, Equation * eq, double x, double h )
 		default:
 			return ( derivative( n-1, eq, x+(h/2), (h/4) ) - derivative( n-1, eq, x-(h/2), (h/4) ) ) / h;
 	}
+}
+
+
+double XParser::partialDerivative( int n1, int n2, Equation * eq, double x, double y, double h1, double h2 )
+{
+	if ( n1 < 0 || n2 < 0 )
+	{
+		kError() << k_funcinfo << "Can't handle derivative < 0\n";
+		return 0.0;
+	}
+	
+	if ( n1 > 0 )
+		return ( partialDerivative( n1-1, n2, eq, x+(h1/2), y, (h1/4), h2 ) - partialDerivative( n1-1, n2, eq, x-(h1/2), y, (h1/4), h2 ) ) / h1;
+	
+	Function * f = eq->parent();
+	f->m_implicitMode = Function::FixedX;
+	f->x = x;
+	
+	return derivative( n2, eq, y, h2 );
 }
 
 

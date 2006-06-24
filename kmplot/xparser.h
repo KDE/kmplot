@@ -53,6 +53,10 @@ class XParser : public Parser
 		 */
 		double derivative( int n, Equation * eq, double x, double h );
 		/**
+		 * For use with functions of two variables.
+		 */
+		double partialDerivative( int n1, int n2, Equation * eq, double x, double y, double h1, double h2 );
+		/**
 		 * Calculates the value of the equation using numerical integration
 		 * with the given step size \p h (which is only used as a hint).
 		 */

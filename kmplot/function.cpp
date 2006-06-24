@@ -69,7 +69,7 @@ bool Value::operator == ( const Value & other )
 //BEGIN class PlotAppearance
 PlotAppearance::PlotAppearance( )
 {
-	lineWidth = 0.3;
+	lineWidth = 0.2;
 	color = Qt::black;
 	visible = false;
 	style = Qt::SolidLine;

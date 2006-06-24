@@ -1225,7 +1225,7 @@ void View::paintEvent(QPaintEvent *)
 	{
 		Function * it = m_currentPlot.function();
 
-			// Fadenkreuz zeichnen [draw the cross-hair]
+		// Fadenkreuz zeichnen [draw the cross-hair]
 		QPen pen;
 		if ( !it )
 			pen.setColor(m_invertedBackgroundColor);

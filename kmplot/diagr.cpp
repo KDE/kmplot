@@ -263,26 +263,39 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 	
 	if( Settings::showAxes() )
 	{
+		pDC->save();
+		
+		int const dx=14;
+		int const dy=8;
+		
 		pDC->setPen( QPen( axesColor, View::self()->mmToPenWidth(axesLineWidth, true) ) );
+		pDC->setBrush( axesColor );
+		
 		a=m_plotArea.right();
 		b=yToPixel(0.);
 		pDC->Lineh(m_plotArea.left(), b, a);	    // x-Achse
 		if( Settings::showArrows()) 		    			// ARROWS
-		{	int const dx=40;
-			int const dy=15;
-			pDC->Line( QPointF( a, b ), QPointF( a-dx, b+dy) );
-			pDC->Line( QPointF( a, b ), QPointF( a-dx, b-dy) );
+		{
+			QPolygonF p(3);
+			p[0] = QPointF( a, b );
+			p[1] = QPointF( a-dx, b+dy );
+			p[2] = QPointF( a-dx, b-dy );
+			pDC->drawPolygon( p );
 		}
 
 		a=xToPixel(0.);
 		b=m_plotArea.top();
 		pDC->Linev(a, m_plotArea.bottom(), b); 	    // y-Achse
 		if( Settings::showArrows() )   					// ARROWS
-		{	int const dx=15;
-			int const dy=40;
-			pDC->Line( QPointF( a, b ), QPointF( a-dx, b+dy) );
-			pDC->Line( QPointF( a, b ), QPointF( a+dx, b+dy) );
+		{
+			QPolygonF p(3);
+			p[0] = QPointF( a, b );
+			p[1] = QPointF( a-dy, b+dx );
+			p[2] = QPointF( a+dy, b+dx );
+			pDC->drawPolygon( p );
 		}
+		
+		pDC->restore();
 	}
 
 	pDC->setPen( QPen( axesColor, View::self()->mmToPenWidth(ticWidth, true) ) );

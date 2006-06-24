@@ -126,7 +126,7 @@
 		<entry name="AxesFontSize" type="Int">
 			<label>Font size of the axis labels</label>
 			<whatsthis>Choose a font size for the axis labels.</whatsthis>
-			<default code="true">40</default>
+			<default code="true">32</default>
 		</entry> 
 		<entry name="HeaderTableFont" type="String"> 
 			<label>Font name of the printed header table</label>
@@ -139,6 +139,7 @@
 		<entry name="AxesColor" type="Color"> 
 			<label>Axis-line color</label>
 			<whatsthis>Enter the color of the axis lines.</whatsthis>
+			<default>#222222</default>
 		</entry> 
 		<entry name="GridColor" type="Color">
 			<label>Grid Color</label>

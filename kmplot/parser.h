@@ -169,6 +169,7 @@ class ExpressionSanitizer
 		void replace( int pos, int len, const QString & after );
 		void insert( int i, QChar ch );
 		void append( QChar str );
+		void stripWhiteSpace();
 		
 		/**
 		 * Prints the map and str to stdout; for debugging purposes.
@@ -251,18 +252,11 @@ class Parser : public QObject
 		 * constant) - so cannot use the QString::number.
 		 */
 		static QString number( double value );
-	
-		/**
-		 * Returns the result of a calculation. \p x are parameters for the
-		 * function (which are not necessarily all used).
-		 */
-		double fkt( Equation * it, double x[3] );
 		/**
 		 * Calls the array version of this function, after inserting the value
 		 * of the equation's parameter into x.
 		 */
 		double fkt( Equation * it, double x );
-// 		double fkt( uint id, uint eq, double x[3] );
 		double fkt( uint id, uint eq, double x );
 	
 		/**
@@ -342,20 +336,25 @@ class Parser : public QObject
 	/// Points to the array of user defined functions, index by their IDs.
 	QMap<int, Function *> m_ufkt;
 	
-signals:
-	/// emitted when a function is deleted
-	void functionRemoved( int id );
-	/// emitted when a function is added
-	void functionAdded( int id );
+	signals:
+		/// emitted when a function is deleted
+		void functionRemoved( int id );
+		/// emitted when a function is added
+		void functionAdded( int id );
 
-private:
-	/** Mathematical function. */
-	struct Mfkt
-	{
-		const char *mfstr;
-		double (*mfadr)(double);
-	};
-	static Mfkt mfkttab[FANZ];
+	private:
+		/**
+		 * Returns the result of a calculation. \p x are parameters for the
+		 * function (which are not necessarily all used).
+		 */
+		double fkt( Equation * it, double x[3] );
+		/** Mathematical function. */
+		struct Mfkt
+		{
+			const char *mfstr;
+			double (*mfadr)(double);
+		};
+		static Mfkt mfkttab[FANZ];
 	
 		Error m_error;
 		/// Position where the error occurred.

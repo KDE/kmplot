@@ -329,6 +329,7 @@ double Parser::fkt( Equation * eq, double x[3] )
 				break;
 			case UFKT:
 			{
+				kDebug() << "Warning!\n";
 				puf=(uint*)eq->mptr;
 				uint id = *puf++;
 				uint id_eq = *puf++;
@@ -1385,8 +1386,7 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 		append( ')' );
 	}
 	
-	/// \todo should strip white space instead
-	remove( ' ' );
+	stripWhiteSpace();
 	
 	m_map.insert( 0, 0 );
 	m_map.insert( m_map.size(), m_map[ m_map.size()-1 ] );
@@ -1501,14 +1501,30 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 		}
 	}
 	
-	/// \todo should strip white space instead
-	remove(" " );
+	stripWhiteSpace();
 	
 	QString str_end = str->mid(pos);
 	str_end = str_end.replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
 	str->truncate(pos);
 	str->append(str_end);
 // 	kDebug() << "str:" << *str << endl;
+}
+
+
+void ExpressionSanitizer::stripWhiteSpace()
+{
+	int i = 0;
+	
+	while ( i < m_str->length() )
+	{
+		if ( m_str->at(i).isSpace() )
+		{
+			m_str->remove( i, 1 );
+			m_map.remove( i, 1 );
+		}
+		else
+			i++;
+	}
 }
 
 

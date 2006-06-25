@@ -45,10 +45,9 @@
 
 class ParameterValueList;
 
-KParameterEditor::KParameterEditor(XParser *m, QList<Value> *l, QWidget *parent )
+KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	: KDialog( parent ),
-	  m_parameter(l),
-	  m_parser(m)
+	  m_parameter(l)
 {
 	setCaption( i18n( "Parameter Editor" ) );
 	setButtons( Ok | Cancel );
@@ -147,8 +146,8 @@ void KParameterEditor::saveCurrentValue()
 bool KParameterEditor::checkValueValid()
 {
 	QString valueText = m_mainWidget->value->text();
-	(double) m_parser->eval( valueText );
-	bool valid = (m_parser->parserError( false ) == 0);
+	(double) XParser::self()->eval( valueText );
+	bool valid = (XParser::self()->parserError( false ) == 0);
 	m_mainWidget->valueInvalidLabel->setVisible( !valueText.isEmpty() && !valid );
 	return valid;
 }
@@ -190,8 +189,8 @@ void KParameterEditor::cmdImport_clicked()
 			line = stream.readLine();
 			if (line.isEmpty())
 				continue;
-			m_parser->eval( line );
-			if ( m_parser->parserError(false) == 0)
+			XParser::self()->eval( line );
+			if ( XParser::self()->parserError(false) == 0)
 			{
 				if ( !checkTwoOfIt(line) )
 				{

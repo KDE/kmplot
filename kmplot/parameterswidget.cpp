@@ -67,7 +67,7 @@ ParameterSettings ParametersWidget::parameterSettings() const
 
 void ParametersWidget::editParameterList()
 {
-	KParameterEditor * dlg = new KParameterEditor( XParser::self(), & m_parameters );
+	KParameterEditor * dlg = new KParameterEditor( & m_parameters );
 	dlg->exec();
 	emit parameterListChanged();
 }

@@ -330,6 +330,10 @@ void MainDlg::setupActions()
 	
 	m_popupmenu->addSeparator();
 	
+	KAction * animateFunction = new KAction( i18n("Animate Function"), actionCollection(), "animateFunction" );
+	connect( animateFunction, SIGNAL(triggered(bool)), View::self(), SLOT( animateFunction() ) );
+	m_popupmenu->addAction( animateFunction );
+	
 	View::self()->m_showFunctionExtrema = new KToggleAction( i18n( "Show Extrema" ), actionCollection(), "showExtrema" );
 	View::self()->m_showFunctionExtrema->setIcon( KIcon( "minimum" ) );
 	connect( View::self()->m_showFunctionExtrema, SIGNAL(triggered(bool)), View::self(), SLOT(showExtrema(bool)) );

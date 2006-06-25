@@ -95,6 +95,10 @@ class EquationEdit : public QTextEdit
 		void setValidatePrefix( const QString & prefix );
 		
 		QString text() const { return toPlainText(); }
+		/**
+		 * Attempts to evaluate the text and return it.
+		 */
+		double value();
 		
 	signals:
 		void editingFinished();

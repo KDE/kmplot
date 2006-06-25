@@ -29,6 +29,7 @@
 #include <QApplication>
 #include <QStyleOptionFrame>
 
+#include <assert.h>
 
 //BEGIN class EquationHighlighter
 EquationHighlighter::EquationHighlighter( EquationEdit * parent )
@@ -119,6 +120,14 @@ EquationEdit::EquationEdit( QWidget * parent )
 void EquationEdit::setInputType( InputType type )
 {
 	m_inputType = type;
+}
+
+
+double EquationEdit::value( )
+{
+	assert( m_inputType == Expression ); // Can't really get a value of a function as that requires an input
+	
+	return XParser::self()->eval( text() );
 }
 
 

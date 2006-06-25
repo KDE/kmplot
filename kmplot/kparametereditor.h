@@ -43,7 +43,7 @@ class KParameterEditor : public KDialog
 {
 Q_OBJECT
 public:
-	KParameterEditor(XParser *, QList<Value> *, QWidget *parent = 0 );
+	KParameterEditor( QList<Value> *, QWidget *parent = 0 );
     ~KParameterEditor();
     
 public slots:
@@ -68,7 +68,6 @@ private:
     /// Check so that it doesn't exist two equal values
     bool checkTwoOfIt( const QString & text);
     QList<Value> *m_parameter;
-    XParser *m_parser;
 	QParameterEditor * m_mainWidget;
 };
 

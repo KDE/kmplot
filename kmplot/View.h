@@ -188,6 +188,7 @@ class View : public QWidget
 		void mnuRemove_clicked();
 		void mnuEdit_clicked();
 		void showExtrema( bool show );
+		void animateFunction();
 		///Slots for the zoom menu
 		void mnuZoomIn_clicked();
 		void mnuZoomOut_clicked();
@@ -224,6 +225,10 @@ class View : public QWidget
 		virtual void focusInEvent( QFocusEvent * );
 	
 	private:
+		/**
+		 * \return an appropriate value to use in numerical differentiation.
+		 */
+		double h() const;
 		/**
 		* Print out table with additional information. Only for printing.
 		*/

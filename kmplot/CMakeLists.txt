@@ -24,7 +24,9 @@ set(kmplotpart_PART_SRCS
    kmplotio.cpp 
    ksliderwindow.cpp 
    parameterswidget.cpp
-   coordsconfigdialog.cpp )
+   coordsconfigdialog.cpp
+   parameteranimator.cpp
+   )
 
 kde4_automoc(${kmplotpart_PART_SRCS})
 
@@ -41,6 +43,7 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	settingspagegeneral.ui
 	sliderwindow.ui
 	parameterswidget.ui
+	parameteranimator.ui
 	)
 
 kde4_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )

@@ -23,8 +23,6 @@ TODO
 * An export dialog where you can set the size and enable/disable monocrome.
 * More printing options.
 * Move Coordinate System toolbar buttons to one drop-down list
-* Make Appearance widget more powerful - add gradient for parameters, etc.
-* Option to show extreme points of (Cartesian) functions (accessible via right-click, where else?..). This would replace the find min/max dialog box.
 
 IN PROGRESS
 =========================
@@ -33,6 +31,8 @@ IN PROGRESS
 DONE
 =========================
 
+* Option to show extreme points of (Cartesian) functions (accessible via right-click, where else?..). This would replace the find min/max dialog box.
+* Make Appearance widget more powerful - add gradient for parameters, etc.
 * Give parameters to all types of plots
 * Intrinsic plots: f(x,y) = 0
 * Use a better(faster!) algorithm for drawing integrals numeric. It's not urgent anymore since the implemention of Euler's method is better now.

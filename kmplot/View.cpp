@@ -58,7 +58,7 @@
 #include "settings.h"
 #include "ksliderwindow.h"
 #include "MainDlg.h"
-
+#include "parameteranimator.h"
 #include "View.h"
 #include "viewadaptor.h"
 
@@ -270,13 +270,17 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 }
 
 
+double View::h() const
+{
+	return qMin( (m_xmax-m_xmin)/area.width(), (m_ymax-m_ymin)/area.height() ) * 1e-1;
+}
+
+
 double View::value( const Plot & plot, int eq, double x, bool updateParameter )
 {
 	Function * function = plot.function();
 	assert( function );
-
-	double dx = (m_xmax-m_xmin)/area.width();
-
+	
 	if ( updateParameter )
 		plot.updateFunctionParameter();
 
@@ -288,13 +292,13 @@ double View::value( const Plot & plot, int eq, double x, bool updateParameter )
 			return XParser::self()->fkt( equation, x );
 
 		case Function::Derivative1:
-			return XParser::self()->derivative( 1, equation, x, dx );
+			return XParser::self()->derivative( 1, equation, x, h() );
 
 		case Function::Derivative2:
-			return XParser::self()->derivative( 2, equation, x, dx );
+			return XParser::self()->derivative( 2, equation, x, h() );
 
 		case Function::Integral:
-			return XParser::self()->integral( equation, x, dx );
+			return XParser::self()->integral( equation, x, h() );
 	}
 
 	kWarning() << k_funcinfo << "Unknown mode!\n";
@@ -684,6 +688,17 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 	foreach ( Plot plot, plots )
 	{
 		plot.updateFunctionParameter();
+		
+		bool setAliased = false;
+		if ( plot.parameter.type() == Parameter::Animated )
+		{
+			// Don't use antialiasing, so that rendering is speeded up
+			if ( pDC->renderHints() & QPainter::Antialiasing )
+			{
+				setAliased = true;
+				pDC->setRenderHint( QPainter::Antialiasing, false );
+			}
+		}
 
 		pDC->setPen( penForPlot( plot, pDC->renderHints() & QPainter::Antialiasing ) );
 
@@ -803,6 +818,9 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 				x=x+dx;
 			}
 		}
+		
+		if ( setAliased )
+			pDC->setRenderHint( QPainter::Antialiasing, true );
 	}
 }
 
@@ -1598,6 +1616,8 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 	double dx = 0;
 	double dy = 0;
 	
+	double h = this->h();
+	
 	switch ( f->type() )
 	{
 		case Function::Cartesian:
@@ -1608,8 +1628,8 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 		
 		case Function::Implicit:
 		{
-			dx = XParser::self()->partialDerivative( 1, 0, f->eq[0], x, y, 1e-5, 1e-5 ) / sx;
-			dy = XParser::self()->partialDerivative( 0, 1, f->eq[0], x, y, 1e-5, 1e-5 ) / sy;
+			dx = XParser::self()->partialDerivative( 1, 0, f->eq[0], x, y, h, h ) / sx;
+			dy = XParser::self()->partialDerivative( 0, 1, f->eq[0], x, y, h, h ) / sy;
 			
 			double theta = -arctan( dy / dx );
 			
@@ -1623,8 +1643,8 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 		
 		case Function::Polar:
 		{
-			double r =  XParser::self()->derivative( 0, f->eq[0], x, 1e-5 );
-			double dr = XParser::self()->derivative( 1, f->eq[0], x, 1e-5 );
+			double r =  XParser::self()->derivative( 0, f->eq[0], x, h );
+			double dr = XParser::self()->derivative( 1, f->eq[0], x, h );
 			
 			dx = (dr * cos(x) - r * sin(x)) * sx;
 			dy = (dr * sin(x) + r * cos(x)) * sy;
@@ -1633,8 +1653,8 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 		
 		case Function::Parametric:
 		{
-			dx = XParser::self()->derivative( 1, f->eq[0], x, 1e-5 ) * sx;
-			dy = XParser::self()->derivative( 1, f->eq[1], x, 1e-5 ) * sy;
+			dx = XParser::self()->derivative( 1, f->eq[0], x, h ) * sx;
+			dy = XParser::self()->derivative( 1, f->eq[1], x, h ) * sy;
 			break;
 		}
 	}
@@ -1662,6 +1682,8 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 	double fddy = 0;
 	double fdxy = 0;
 	
+	double h = this->h();
+	
 	switch ( f->type() )
 	{
 		case Function::Cartesian:
@@ -1669,17 +1691,17 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 			fdx = sx;
 			fddx = 0;
 			
-			fdy = XParser::self()->derivative( 1, f->eq[0], x, (m_xmax-m_xmin)/1e5 ) * sy;
-			fddy = XParser::self()->derivative( 2, f->eq[0], x, (m_xmax-m_xmin)/1e5 ) * sy;
+			fdy = XParser::self()->derivative( 1, f->eq[0], x, h ) * sy;
+			fddy = XParser::self()->derivative( 2, f->eq[0], x, h) * sy;
 			
 			break;
 		}
 		
 		case Function::Polar:
 		{
-			double r = XParser::self()->derivative( 0, f->eq[0], x, 1e-5 );
-			double dr = XParser::self()->derivative( 1, f->eq[0], x, 1e-5 );
-			double ddr = XParser::self()->derivative( 2, f->eq[0], x, 1e-5 );
+			double r = XParser::self()->derivative( 0, f->eq[0], x, h );
+			double dr = XParser::self()->derivative( 1, f->eq[0], x, h );
+			double ddr = XParser::self()->derivative( 2, f->eq[0], x, h );
 			
 			fdx = (dr * cos(x) - r * sin(x)) * sx;
 			fdy = (dr * sin(x) + r * cos(x)) * sy;
@@ -1692,24 +1714,24 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 		
 		case Function::Parametric:
 		{
-			fdx = XParser::self()->derivative( 1, f->eq[0], x, 1e-5 ) * sx;
-			fdy = XParser::self()->derivative( 1, f->eq[1], x, 1e-5 ) * sy;
+			fdx = XParser::self()->derivative( 1, f->eq[0], x, h ) * sx;
+			fdy = XParser::self()->derivative( 1, f->eq[1], x, h ) * sy;
 			
-			fddx = XParser::self()->derivative( 2, f->eq[0], x, 1e-5 ) * sx;
-			fddy = XParser::self()->derivative( 2, f->eq[1], x, 1e-5 ) * sy;
+			fddx = XParser::self()->derivative( 2, f->eq[0], x, h ) * sx;
+			fddy = XParser::self()->derivative( 2, f->eq[1], x, h ) * sy;
 			
 			break;
 		}
 		
 		case Function::Implicit:
 		{
-			fdx =  XParser::self()->partialDerivative( 1, 0, f->eq[0], x, y, 1e-5, 1e-5 ) / sx;
-			fdy =  XParser::self()->partialDerivative( 0, 1, f->eq[0], x, y, 1e-5, 1e-5 ) / sy;
+			fdx =  XParser::self()->partialDerivative( 1, 0, f->eq[0], x, y, h, h ) / sx;
+			fdy =  XParser::self()->partialDerivative( 0, 1, f->eq[0], x, y, h, h ) / sy;
 			
-			fddx = XParser::self()->partialDerivative( 2, 0, f->eq[0], x, y, 1e-5, 1e-5 ) / (sx*sx);
-			fddy = XParser::self()->partialDerivative( 0, 2, f->eq[0], x, y, 1e-5, 1e-5 ) / (sy*sy);
+			fddx = XParser::self()->partialDerivative( 2, 0, f->eq[0], x, y, h, h ) / (sx*sx);
+			fddy = XParser::self()->partialDerivative( 0, 2, f->eq[0], x, y, h, h ) / (sy*sy);
 			
-			fdxy = XParser::self()->partialDerivative( 1, 1, f->eq[0], x, y, 1e-5, 1e-5 ) / (sx*sy);
+			fdxy = XParser::self()->partialDerivative( 1, 1, f->eq[0], x, y, h, h ) / (sx*sy);
 			
 			
 			break;
@@ -2047,7 +2069,9 @@ double View::pixelDistance( const QPointF & pos, const Plot & plot, double x, bo
 
 QString View::posToString( double x, double delta, PositionFormatting format, QColor color  ) const
 {
-	assert( delta != 0.0 );
+// 	assert( delta != 0.0 );
+	if ( delta == 0 )
+		delta = 1;
 
 	QString numberText;
 
@@ -2926,6 +2950,17 @@ void View::mnuRemove_clicked()
 	if ( function_type == Function::Cartesian )
 		updateSliders();
 	m_modified = true;
+}
+
+
+void View::animateFunction()
+{
+	Function * f = m_currentPlot.function();
+	if ( !f )
+		return;
+	
+	ParameterAnimator * anim = new ParameterAnimator( this, f );
+	anim->show();
 }
 
 

@@ -137,3 +137,8 @@ kmplot/plotstylewidget.ui
 kmplot/parameterswidget.cpp
 kmplot/parameterswidget.h
 kmplot/parameterswidget.ui
+kmplot/animateparameter.cpp
+kmplot/animateparameter.h
+kmplot/parameteranimator.cpp
+kmplot/parameteranimator.h
+kmplot/parameteranimator.ui

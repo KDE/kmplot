@@ -501,7 +501,9 @@ QList< Plot > Function::allPlots( ) const
 		
 		bool usedParameter = false;
 		
-		if ( m_parameters.useSlider )
+		// Don't use slider or list parameters if animating
+		
+		if ( !m_parameters.animating && m_parameters.useSlider )
 		{
 			Parameter param( Parameter::Slider );
 			param.setSliderID( m_parameters.sliderID );
@@ -511,7 +513,7 @@ QList< Plot > Function::allPlots( ) const
 			usedParameter = true;
 		}
 		
-		if ( m_parameters.useList )
+		if ( !m_parameters.animating && m_parameters.useList )
 		{
 			int pos = 0;
 			foreach ( Value v, m_parameters.list )
@@ -523,6 +525,12 @@ QList< Plot > Function::allPlots( ) const
 				list << plot;
 				usedParameter = true;
 			}
+		}
+		
+		if ( m_parameters.animating )
+		{
+			Parameter param( Parameter::Animated );
+			plot.parameter = param;
 		}
 		
 		if ( !usedParameter )
@@ -538,6 +546,7 @@ QList< Plot > Function::allPlots( ) const
 //BEGIN class ParameterSettings
 ParameterSettings::ParameterSettings()
 {
+	animating = false;
 	useSlider = false;
 	sliderID = 0;
 	useList = false;
@@ -641,6 +650,12 @@ void Plot::updateFunctionParameter() const
 			if ( (parameter.listPos() >= 0) && (parameter.listPos() < m_function->m_parameters.list.size()) )
 				k = m_function->m_parameters.list[ parameter.listPos() ].value();
 			break;
+		}
+		
+		case Parameter::Animated:
+		{
+			// Don't adjust the current function parameter
+			return;
 		}
 	}
 	

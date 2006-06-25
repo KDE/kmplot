@@ -209,6 +209,7 @@ class Equation
 		bool operator == ( const ParameterSettings & other ) const;
 		bool operator != ( const ParameterSettings & other ) const { return !((*this) == other); }
 		
+		bool animating; ///< if true, then useSlider and useList are ignored, parameter value is assumed to be updated
 		bool useSlider;
 		int sliderID;
 		bool useList;
@@ -223,7 +224,7 @@ class Equation
  class Parameter
 {
 	public:
-		enum Type { Unknown, Slider, List };
+		enum Type { Unknown, Animated, Slider, List };
 		Parameter( Type type = Unknown );
 		
 		Type type() const { return m_type; }

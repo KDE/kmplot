@@ -164,6 +164,7 @@ void EquationEdit::keyPressEvent( QKeyEvent * e )
 	{
 		e->accept();
 		emit editingFinished();
+		emit returnPressed();
 	}
 	else
 		QTextEdit::keyPressEvent( e );

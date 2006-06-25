@@ -100,6 +100,7 @@ class EquationEdit : public QTextEdit
 		void editingFinished();
 		void textEdited( const QString & text );
 		void textChanged( const QString & text );
+		void returnPressed();
 		
 	public slots:
 		void setText( const QString & text );

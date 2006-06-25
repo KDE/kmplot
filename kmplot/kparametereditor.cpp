@@ -71,6 +71,7 @@ KParameterEditor::KParameterEditor(XParser *m, QList<Value> *l, QWidget *parent 
 	
 	connect( m_mainWidget->value, SIGNAL( textEdited( const QString & ) ), this, SLOT( saveCurrentValue() ) );
 	connect( m_mainWidget->value, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
+	connect( m_mainWidget->value, SIGNAL( returnPressed() ), m_mainWidget->cmdNew, SLOT( animateClick() ) );
 	
 	checkValueValid();
 	

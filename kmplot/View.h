@@ -139,6 +139,8 @@ class View : public QWidget
 		QPointer<KSliderWindow> m_sliderWindow;
 		/// Menu actions for the sliders
 		KToggleAction * m_menuSliderAction;
+		/// Menu action for showing function extrema
+		KToggleAction * m_showFunctionExtrema;
 		void updateSliders(); /// show only needed sliders
 		
 		/**
@@ -185,6 +187,7 @@ class View : public QWidget
 		void mnuHide_clicked();
 		void mnuRemove_clicked();
 		void mnuEdit_clicked();
+		void showExtrema( bool show );
 		///Slots for the zoom menu
 		void mnuZoomIn_clicked();
 		void mnuZoomOut_clicked();
@@ -233,6 +236,22 @@ class View : public QWidget
 		 * Draw an implicit function.
 		 */
 		void plotImplicit( Function * function, QPainter * );
+		/**
+		 * Draw the extrema points, function names, etc. This needs to be done
+		 * after the functions have all been drawn so that the label positioning
+		 * knows where the plots have been drawn.
+		 */
+		void drawFunctionInfo( QPainter * painter );
+		/**
+		 * Initializes for the drawLabel function, called before drawing has
+		 * started.
+		 */
+		void initDrawLabels();
+		/**
+		 * Draw text (e.g. showing the value of an extrema point or a function
+		 * name) at the given (real) position.
+		 */
+		void drawLabel( QPainter * painter, const QColor & color, const QPointF & realPos, const QString & text );
 		/**
 		 * Used by plotImplicit to draw the plot in the square associated with
 		 * the given point. \p orientation is the edge that the plot trace
@@ -430,6 +449,30 @@ class View : public QWidget
 		bool &m_modified;
 		/// False if KmPlot is started as a program, otherwise true
 		bool const m_readonly;
+		/// For drawing diagram labels
+		QFont m_labelFont;
+		
+		/// Indicate which parts of the diagram have content (e.g. axis or
+		/// plots), so that they can be avoided when drawing diagram labels
+		static const int LabelGridSize = 50;
+		bool m_usedDiagramArea[LabelGridSize][LabelGridSize];
+		/**
+		 * Marks the given diagram rectangle (in screen coords) as 'used'.
+		 */
+		void markDiagramAreaUsed( const QRectF & rect );
+		/**
+		 * Marks the given diagram point (in screen coords) as 'used'.
+		 */
+		void markDiagramPointUsed( QPointF point );
+		/**
+		 * \return the m_usedDiagramArea coords for the screen rect.
+		 */
+		QRect usedDiagramRect( QRectF rect ) const;
+		/**
+		 * \return the cost of occupying the given rectangle (as in whether it
+		 * overlaps other diagram content, etc).
+		 */
+		int rectCost( const QRectF & rect ) const;
 	
 		enum ZoomMode
 		{

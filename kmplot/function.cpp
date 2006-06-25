@@ -72,6 +72,7 @@ PlotAppearance::PlotAppearance( )
 	lineWidth = 0.2;
 	color = Qt::black;
 	visible = false;
+	showExtrema = false;
 	style = Qt::SolidLine;
 }
 
@@ -81,7 +82,8 @@ bool PlotAppearance::operator !=( const PlotAppearance & other ) const
 	return (visible != other.visible) ||
 			(color != other.color) ||
 			(lineWidth != other.lineWidth) ||
-			(style != other.style);
+			(style != other.style) ||
+			(showExtrema != other.showExtrema);
 }
 
 

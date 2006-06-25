@@ -88,6 +88,7 @@ class PlotAppearance
 		QColor color;		///< color that the plot will be drawn in
 		bool visible;		///< whether to display this plot
 		Qt::PenStyle style;	///< pen style (e.g. dolif, dashes, dotted, etc)
+		bool showExtrema;	///< for cartesian functions, whether to show the extreme values of the function
 		
 		bool operator != ( const PlotAppearance & other ) const;
 		

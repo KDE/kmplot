@@ -129,8 +129,6 @@ public slots:
 	/// Pushes the previous document state to the undo stack and records the current one
 	void requestSaveCurrentState();
 	
-	// ///I'm not sure it a delete-all-functions command is necessary
-	// void slotCleanWindow();
 	///Save a plot i.e. save the function name and all the settings for the plot
 	void slotSave();
 	///Save a plot and choose a name for it

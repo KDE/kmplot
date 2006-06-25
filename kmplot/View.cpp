@@ -127,6 +127,31 @@ View::~View()
 }
 
 
+void View::initDrawLabels()
+{
+	m_labelFont = QFont( Settings::labelFont(), Settings::labelFontSize() );
+	
+	for ( int i = 0; i < LabelGridSize; ++i )
+		for ( int j = 0; j < LabelGridSize; ++j )
+			m_usedDiagramArea[i][j] = false;
+	
+	// Add the axis
+	double x = CDiagr::self()->xToPixel( 0 );
+	double y = CDiagr::self()->yToPixel( 0 );
+	
+	double x0 = CDiagr::self()->xToPixel( m_xmin );
+	double x1 = CDiagr::self()->xToPixel( m_xmax );
+	double y0 = CDiagr::self()->yToPixel( m_ymin );
+	double y1 = CDiagr::self()->yToPixel( m_ymax );
+	
+	// x-axis
+	markDiagramAreaUsed( QRectF( x-20, y0, 40, y1-y0 ) );
+	
+	// y-axis
+	markDiagramAreaUsed( QRectF( x0, y-20, x1-x0, 40 ) );
+}
+
+
 void View::draw( QPaintDevice * dev, PlotMedium medium )
 {
 // 	kDebug() << k_funcinfo << endl;
@@ -139,6 +164,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	rc=DC.viewport();
 	m_width = rc.width();
 	m_height = rc.height();
+	initDrawLabels();
 
 	switch ( medium )
 	{
@@ -235,6 +261,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		else
 			plotFunction(ufkt, &DC);
 	}
+	drawFunctionInfo( &DC );
 	DC.setClipping( false );
 
 	m_isDrawing=false;
@@ -625,6 +652,7 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 			QPointF next = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
 			painter->drawLine( prev, next );
 			prev = next;
+			markDiagramPointUsed( next );
 		}
 		
 		if ( outOfBounds )
@@ -682,8 +710,9 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 			p2 = CDiagr::self()->toPixel( realValue( plot, x, false ), CDiagr::ClipInfinite );
 
 			double min_mod = (ufkt->type() == Function::Cartesian) ? 0.1 : 5e-5;
+			double max_mod = (ufkt->type() == Function::Cartesian) ? 1e+1 : 5e+1;
 			bool dxAtMinimum = (dx <= base_dx*min_mod);
-			bool dxAtMaximum = (dx >= base_dx*(5e+1));
+			bool dxAtMaximum = (dx >= base_dx*max_mod);
 			bool dxTooBig = false;
 			bool dxTooSmall = false;
 
@@ -715,7 +744,7 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 				{
 					if ( QRectF( area ).intersects( bound ) )
 					{
-						dxTooBig = !dxAtMinimum && (length > (quickDraw ? 40.0 : 4.0));
+						dxTooBig = !dxAtMinimum && (length > (quickDraw ? max_mod : 4.0));
 						dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 10.0 : 1.0));
 					}
 					else
@@ -757,6 +786,8 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 							else if ( penShouldDraw( totalLength, plot ) )
 								pDC->drawLine( p1, p2 );
 						}
+						
+						markDiagramPointUsed( p2 );
 					}
 					p1=p2;
 				}
@@ -772,19 +803,187 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 				x=x+dx;
 			}
 		}
-
-#if 0
-		// Draw the stationary points if the user has requested them to be shown
-		if ( ufkt->type() == Function::Cartesian )
-		{
-			pDC->setPen( QPen( Qt::black, 10 ) );
-
-			QList<QPointF> stationaryPoints = findStationaryPoints( plot );
-			foreach ( QPointF realValue, stationaryPoints )
-				pDC->drawPoint( CDiagr::self()->toPixel( realValue ) );
-		}
-#endif
 	}
+}
+
+
+void View::drawFunctionInfo( QPainter * painter )
+{
+	// Don't draw info if translating the view
+	if ( m_zoomMode == Translating )
+		return;
+	
+	foreach ( Function * function, XParser::self()->m_ufkt )
+	{
+		if ( stop_calculating )
+			break;
+		
+		foreach ( Plot plot, function->allPlots() )
+		{
+			// Draw extrema points?
+			if ( (function->type() == Function::Cartesian) && function->plotAppearance( plot.plotMode ).showExtrema )
+			{
+				QList<QPointF> stationaryPoints = findStationaryPoints( plot );
+				foreach ( QPointF realValue, stationaryPoints )
+				{
+					painter->setPen( QPen( Qt::black, 10 ) );
+					painter->drawPoint( CDiagr::self()->toPixel( realValue ) );
+					
+					QString x = posToString( realValue.x(), (m_xmax-m_xmin)/area.width(), View::DecimalFormat );
+					QString y = posToString( realValue.y(), (m_ymax-m_ymin)/area.width(), View::DecimalFormat );
+					
+					drawLabel( painter, function->plotAppearance( plot.plotMode ).color, realValue, QString( "x = %1   y = %2" ).arg(x).arg(y) );
+				}
+			}
+		}
+	}
+}
+
+
+void View::drawLabel( QPainter * painter, const QColor & color, const QPointF & realPos, const QString & text )
+{
+	QPalette palette;
+	QColor outline = color;
+	QColor background = outline.light( 500 );
+	background.setAlpha( 127 );
+	
+	
+	QPointF pixelCenter = CDiagr::self()->toPixel( realPos );
+	QRectF rect( pixelCenter, QSizeF( 1, 1 ) );
+	
+	int flags = Qt::TextSingleLine | Qt::AlignLeft | Qt::AlignTop;
+	rect = painter->boundingRect( rect, flags, text ).adjusted( -8, -4, 4, 2 );
+	
+	// Try and find a nice place for inserting the rectangle
+	int bestCost = int(1e7);
+	QPointF bestCenter = realPos;
+	for ( double x = pixelCenter.x() - 400; x <= pixelCenter.x() + 400; x += 40 )
+	{
+		for ( double y = pixelCenter.y() - 400; y <= pixelCenter.y() + 400; y += 40 )
+		{
+			QPointF center( x, y ) ;
+			rect.moveCenter( center );
+			double length = (x-pixelCenter.x())*(x-pixelCenter.x()) + (y-pixelCenter.y())*(y-pixelCenter.y());
+			int cost = rectCost( rect ) + int(length)/100;
+			
+			if ( cost < bestCost )
+			{
+				bestCenter = center;
+				bestCost = cost;
+			}
+		}
+	}
+	
+	rect.moveCenter( bestCenter );
+	
+	markDiagramAreaUsed( rect );
+	
+	painter->setBrush( background );
+	painter->setPen( outline );
+	painter->drawRect( rect );
+	
+	
+	// If the rectangle does not lie over realPos, then draw a line to realPos from the rectangle
+	if ( ! rect.contains( pixelCenter ) )
+	{
+		QPointF lineStart = bestCenter;
+		QLineF line( pixelCenter, bestCenter );
+		
+		QPointF intersect = bestCenter;
+		
+		// Where does line intersect the rectangle?
+		if ( QLineF( rect.topLeft(), rect.topRight() ).intersect( line, & intersect ) == QLineF::BoundedIntersection )
+			lineStart = intersect;
+		else if ( QLineF( rect.topRight(), rect.bottomRight() ).intersect( line, & intersect ) == QLineF::BoundedIntersection )
+			lineStart = intersect;
+		else if ( QLineF( rect.bottomRight(), rect.bottomLeft() ).intersect( line, & intersect ) == QLineF::BoundedIntersection )
+			lineStart = intersect;
+		else if ( QLineF( rect.bottomLeft(), rect.topLeft() ).intersect( line, & intersect ) == QLineF::BoundedIntersection )
+			lineStart = intersect;
+		
+		painter->drawLine( lineStart, pixelCenter );
+	}
+	
+	
+	
+	painter->setFont( m_labelFont );
+	painter->setPen( Qt::black );
+	painter->drawText( rect.adjusted( 8, 4, -4, -2 ), flags, text );
+}
+
+
+QRect View::usedDiagramRect( QRectF rect ) const
+{
+	if ( !area.isValid() )
+		return QRect();
+	
+	rect = wm.mapRect( rect );
+	rect = rect & area;
+	
+	double x0 = (rect.left() - area.left()) / area.width();
+	double x1 = (rect.right() - area.left()) / area.width();
+	
+	double y0 = (rect.top() - area.top()) / area.height();
+	double y1 = (rect.bottom() - area.top()) / area.height();
+	
+	int i0 = int( x0 * LabelGridSize );
+	int i1 = int( x1 * LabelGridSize );
+	int j0 = int( y0 * LabelGridSize );
+	int j1 = int( y1 * LabelGridSize );
+	
+	return QRect( i0, j0, i1-i0+1, j1-j0+1 );
+}
+
+
+void View::markDiagramAreaUsed( const QRectF & rect )
+{
+	if ( m_zoomMode == Translating )
+		return;
+	
+	QRect r = usedDiagramRect( rect );
+	
+	for ( int i = r.left(); i <= r.right(); ++i )
+		for ( int j = r.top(); j <= r.bottom(); ++j )
+			m_usedDiagramArea[i][j] = true;
+}
+
+
+void View::markDiagramPointUsed( QPointF point )
+{
+	if ( m_zoomMode == Translating )
+		return;
+	
+	point = wm.map( point );
+	if ( ! QRectF(area).contains(point) )
+		return;
+	
+	double x = (point.x() - area.left()) / area.width();
+	double y = (point.y() - area.top()) / area.height();
+	
+	int i = int( x * LabelGridSize );
+	int j = int( y * LabelGridSize );
+	
+	m_usedDiagramArea[i][j] = true;
+}
+
+
+int View::rectCost( const QRectF & rect ) const
+{
+	int cost = 0;
+	
+	// If the rectangle goes off the edge, mark it as very high cost)
+	QRectF mapped = wm.mapRect( rect );
+	QRectF intersect = mapped & area;
+	cost += int(mapped.width() * mapped.height()) - int(intersect.width() * intersect.height());
+	
+	QRect r = usedDiagramRect( rect );
+	
+	for ( int i = r.left(); i <= r.right(); ++i )
+		for ( int j = r.top(); j <= r.bottom(); ++j )
+			if ( m_usedDiagramArea[i][j] )
+				cost += 200;
+	
+	return cost;
 }
 
 
@@ -1043,7 +1242,11 @@ QList< QPointF > View::findStationaryPoints( const Plot & plot )
 	plot.updateFunctionParameter();
 	QList< QPointF > stationaryPoints;
 	foreach ( double x, roots )
-		stationaryPoints << realValue( plot, x, false );
+	{
+		QPointF real = realValue( plot, x, false );
+		if ( real.y() >= m_ymin && real.y() <= m_ymax )
+			stationaryPoints << real;
+	}
 
 	return stationaryPoints;
 }
@@ -1051,7 +1254,7 @@ QList< QPointF > View::findStationaryPoints( const Plot & plot )
 
 QList< double > View::findRoots( const Plot & plot, double min, double max, RootAccuracy accuracy )
 {
-	QList< double > roots;
+	QMap< double, double > roots;
 
 	// Use this to detect finding the same root. This assumes that the same root
 	// will be converged to in unbroken x-intervals
@@ -1072,12 +1275,22 @@ QList< double > View::findRoots( const Plot & plot, double min, double max, Root
 
 		if ( found && differentRoot )
 		{
-			roots << x;
+			roots.insert( x, x );
 			prevX = x;
 		}
 	}
-
-	return roots;
+	
+	QList<double> list;
+	
+	foreach ( double x, roots )
+	{
+		bool differentRoot = (qAbs(x-prevX) > (dx/2)) || list.isEmpty();
+		if ( differentRoot )
+			list << x;
+		prevX = x;
+	}
+	
+	return list;
 }
 
 
@@ -1619,7 +1832,9 @@ void View::mousePressEvent(QMouseEvent *e)
 				m_popupmenushown = 2;
 			else
 				m_popupmenushown = 1;
-
+			
+			m_showFunctionExtrema->setChecked( function->plotAppearance( m_currentPlot.plotMode ).showExtrema );
+			
 			m_popupmenu->setTitle( popupTitle );
 			m_popupmenu->exec( QCursor::pos() );
 		}
@@ -1953,7 +2168,7 @@ bool View::updateCrosshairPosition()
 	m_currentPlot.updateFunctionParameter();
 	Function * it = m_currentPlot.function();
 
-	if ( it && crosshairPositionValid( it ) )
+	if ( it && crosshairPositionValid( it ) && (m_popupmenushown != 1) )
 	{
 		// The user currently has a plot selected, with the mouse in a valid position
 
@@ -2372,6 +2587,7 @@ void View::stopDrawing()
 		stop_calculating = true;
 }
 
+
 QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin, double dmax )
 {
 	Function * ufkt = plot.function();
@@ -2709,6 +2925,19 @@ void View::mnuRemove_clicked()
 		updateSliders();
 	m_modified = true;
 }
+
+
+void View::showExtrema( bool show )
+{
+	Function * f = m_currentPlot.function();
+	if ( !f )
+		return;
+	
+	f->plotAppearance( m_currentPlot.plotMode ).showExtrema = show;
+	drawPlot();
+}
+
+
 void View::mnuEdit_clicked()
 {
 	MainDlg::self()->functionEditor()->setCurrentFunction( m_currentPlot.functionID() );
@@ -2843,6 +3072,9 @@ bool View::shouldShowCrosshairs() const
 		case Translating:
 			return false;
 	}
+	
+	if ( m_popupmenushown > 0 )
+		return false;
 
 	Function * it = m_currentPlot.function();
 

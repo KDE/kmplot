@@ -313,7 +313,7 @@ void MainDlg::setupActions()
 	connect( View::self()->m_menuSliderAction, SIGNAL(triggered(bool)), this, SLOT( toggleShowSliders() ) );
 	
 
-	// Popup menu
+	//BEGIN function popup menu
 	KAction *mnuHide = new KAction(i18n("&Hide"), actionCollection(),"mnuhide" );
 	connect( mnuHide, SIGNAL(triggered(bool)), View::self(), SLOT( mnuHide_clicked() ) );
 	m_popupmenu->addAction( mnuHide );
@@ -329,10 +329,17 @@ void MainDlg::setupActions()
 	m_popupmenu->addAction( mnuEdit );
 	
 	m_popupmenu->addSeparator();
+	
+	View::self()->m_showFunctionExtrema = new KToggleAction( i18n( "Show Extrema" ), actionCollection(), "showExtrema" );
+	View::self()->m_showFunctionExtrema->setIcon( KIcon( "minimum" ) );
+	connect( View::self()->m_showFunctionExtrema, SIGNAL(triggered(bool)), View::self(), SLOT(showExtrema(bool)) );
+	m_popupmenu->addAction( View::self()->m_showFunctionExtrema );
+	
 	m_popupmenu->addAction( mnuYValue );
 	m_popupmenu->addAction( mnuMinValue );
 	m_popupmenu->addAction( mnuMaxValue );
 	m_popupmenu->addAction( mnuArea );
+	//END function popup menu
 }
 
 

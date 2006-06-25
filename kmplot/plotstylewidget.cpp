@@ -23,50 +23,98 @@
 
 #include "function.h"
 #include "plotstylewidget.h"
+#include "ui_plotstylewidget.h"
 
+#include <kcolorbutton.h>
+#include <kdialog.h>
 #include <klocale.h>
+
+#include <QLabel>
+#include <QHBoxLayout>
+#include <QTimer>
+
+
+class PlotStyleDialogWidget : public QWidget, public Ui::PlotStyleWidget
+{
+	public:
+		PlotStyleDialogWidget( QWidget * parent = 0 )
+		{
+			setupUi(this);
+			lineStyle->addItem( i18n("Solid"), Qt::SolidLine );
+			lineStyle->addItem( i18n("Dash"), Qt::DashLine );
+			lineStyle->addItem( i18n("Dot"), Qt::DotLine );
+			lineStyle->addItem( i18n("Dash Dot"), Qt::DashDotLine );
+			lineStyle->addItem( i18n("Dash Dot Dot"), Qt::DashDotDotLine );
+		}
+};
+
 
 //BEGIN class PlotStyleWidget
 PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	: QGroupBox( parent )
 {
-	setupUi(this);
+	m_color = new KColorButton( this );
+	QPushButton *advancedButton = new QPushButton( this );
+	advancedButton->setText( i18n("Advanced...") );
+	connect( advancedButton, SIGNAL(clicked()), this, SLOT(advancedOptions()) );
 	
-	lineStyle->addItem( i18n("Solid"), Qt::SolidLine );
-	lineStyle->addItem( i18n("Dash"), Qt::DashLine );
-	lineStyle->addItem( i18n("Dot"), Qt::DotLine );
-	lineStyle->addItem( i18n("Dash Dot"), Qt::DashDotLine );
-	lineStyle->addItem( i18n("Dash Dot Dot"), Qt::DashDotDotLine );
+	QHBoxLayout *layout = new QHBoxLayout;
+	layout->addWidget( new QLabel( i18n("Color:"), this ) );
+	layout->addWidget( m_color );
+	layout->addStretch( 1 );
+	layout->addWidget( advancedButton );
+	setLayout(layout);
+	
+	m_dialog = new KDialog( this );
+	m_dialogWidget = new PlotStyleDialogWidget( m_dialog );
+	m_dialog->setMainWidget( m_dialogWidget );
+	m_dialog->setCaption( i18n("Plot Appearance") );
+	m_dialog->setButtons( KDialog::Ok );
 }
 
 
 void PlotStyleWidget::init( const PlotAppearance & plot )
 {
-	color->setColor( plot.color );
-	lineWidth->setValue( plot.lineWidth );
+	m_dialogWidget->lineWidth->setValue( plot.lineWidth );
+	m_color->setColor( plot.color );
+	m_dialogWidget->useGradient->setChecked( plot.useGradient );
+	m_dialogWidget->color1->setColor( plot.color1 );
+	m_dialogWidget->color2->setColor( plot.color2 );
+	setStyle( plot.style );
+	m_dialogWidget->showExtrema->setChecked( plot.showExtrema );
 }
 
 
 PlotAppearance PlotStyleWidget::plot( bool visible )
 {
 	PlotAppearance p;
-	p.color = color->color();
-	p.lineWidth = lineWidth->value();
+	p.lineWidth =  m_dialogWidget->lineWidth->value();
+	p.color = m_color->color();
+	p.useGradient = m_dialogWidget->useGradient->isChecked();
+	p.color1 = m_dialogWidget->color1->color();
+	p.color2 = m_dialogWidget->color2->color();
 	p.visible = visible;
 	p.style = style();
+	p.showExtrema = m_dialogWidget->showExtrema->isChecked();
 	return p;
 }
 
 
 Qt::PenStyle PlotStyleWidget::style( ) const
 {
-	return (Qt::PenStyle)lineStyle->itemData( lineStyle->currentIndex() ).toInt();
+	return (Qt::PenStyle)m_dialogWidget->lineStyle->itemData( m_dialogWidget->lineStyle->currentIndex() ).toInt();
 }
 
 
 void PlotStyleWidget::setStyle( Qt::PenStyle style )
 {
-	lineStyle->setCurrentIndex( lineStyle->findData( style ) );
+	m_dialogWidget->lineStyle->setCurrentIndex( m_dialogWidget->lineStyle->findData( style ) );
+}
+
+
+void PlotStyleWidget::advancedOptions( )
+{
+	m_dialog->show();
 }
 //END class PlotStyleWidget
 

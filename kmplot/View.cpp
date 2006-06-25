@@ -832,7 +832,7 @@ void View::drawFunctionInfo( QPainter * painter )
 					QString x = posToString( realValue.x(), (m_xmax-m_xmin)/area.width(), View::DecimalFormat );
 					QString y = posToString( realValue.y(), (m_ymax-m_ymin)/area.width(), View::DecimalFormat );
 					
-					drawLabel( painter, function->plotAppearance( plot.plotMode ).color, realValue, QString( "x = %1   y = %2" ).arg(x).arg(y) );
+					drawLabel( painter, plot.color(), realValue, QString( "x = %1   y = %2" ).arg(x).arg(y) );
 				}
 			}
 		}
@@ -1085,10 +1085,13 @@ QPen View::penForPlot( const Plot & plot, bool antialias ) const
 	}
 
 	Function * ufkt = plot.function();
-
-	double lineWidth_mm = ufkt->plotAppearance( plot.plotMode ).lineWidth;
-	pen.setColor( ufkt->plotAppearance( plot.plotMode ).color );
-	if ( ufkt->plotAppearance( plot.plotMode ).style == Qt::SolidLine )
+	
+	PlotAppearance appearance = ufkt->plotAppearance( plot.plotMode );
+	
+	double lineWidth_mm = appearance.lineWidth;
+	pen.setColor( plot.color() );
+	
+	if ( appearance.style == Qt::SolidLine )
 		pen.setCapStyle( Qt::FlatCap );
 
 	double width = mmToPenWidth( lineWidth_mm, antialias );
@@ -1469,7 +1472,7 @@ void View::paintEvent(QPaintEvent *)
 		
 		if ( function )
 		{
-			QColor functionColor = function->plotAppearance( m_currentPlot.plotMode ).color;
+			QColor functionColor = m_currentPlot.color();
 			pen.setColor( functionColor );
 			p.setPen( pen );
 			p.setRenderHint( QPainter::Antialiasing, true );
@@ -1556,16 +1559,15 @@ void View::paintEvent(QPaintEvent *)
 				p.drawRect( QRectF( -1/k-1, -1, 2, 2 ) );
 				
 				p.restore();
+				
+				// Already show osculating circle, etc, so don't draw crosshairs quite so prominently
+				functionColor.setAlpha( 63 );
+				pen.setColor( functionColor );
 			}
 			else
 			{
 				// Curve is practically straight
 			}
-			
-			
-		
-			functionColor.setAlpha( 63 );
-			pen.setColor( functionColor );
 		}
 		else
 			pen.setColor(m_invertedBackgroundColor);

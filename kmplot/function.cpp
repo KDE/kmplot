@@ -71,17 +71,24 @@ PlotAppearance::PlotAppearance( )
 {
 	lineWidth = 0.2;
 	color = Qt::black;
+	useGradient = false;
+	color1 = QColor( 0xff, 0xff, 0x00 );
+	color2 = QColor( 0xff, 0x00, 0x00 );
 	visible = false;
-	showExtrema = false;
 	style = Qt::SolidLine;
+	showExtrema = false;
 }
 
 
 bool PlotAppearance::operator !=( const PlotAppearance & other ) const
 {
-	return (visible != other.visible) ||
-			(color != other.color) ||
+	return
 			(lineWidth != other.lineWidth) ||
+			(color != other.color) ||
+			(useGradient != other.useGradient) ||
+			(color1 != other.color1) ||
+			(color2 != other.color2) ||
+			(visible != other.visible) ||
 			(style != other.style) ||
 			(showExtrema != other.showExtrema);
 }
@@ -482,12 +489,15 @@ QList< Plot > Function::allPlots( ) const
 	
 	for ( PMode p = Derivative0; p <= Integral; p = PMode(p+1) )
 	{
+		int i = 0;
+		
 		if ( !plotAppearance( p ).visible )
 			continue;
 		
 		Plot plot;
 		plot.setFunctionID( id );
 		plot.plotMode = p;
+		plot.plotNumberCount = m_parameters.useList ? m_parameters.list.size() + (m_parameters.useSlider?1:0) : 1;
 		
 		bool usedParameter = false;
 		
@@ -496,6 +506,7 @@ QList< Plot > Function::allPlots( ) const
 			Parameter param( Parameter::Slider );
 			param.setSliderID( m_parameters.sliderID );
 			plot.parameter = param;
+			plot.plotNumber = i++;
 			list << plot;
 			usedParameter = true;
 		}
@@ -508,6 +519,7 @@ QList< Plot > Function::allPlots( ) const
 				Parameter param( Parameter::List );
 				param.setListPos( pos++ );
 				plot.parameter = param;
+				plot.plotNumber = i++;
 				list << plot;
 				usedParameter = true;
 			}
@@ -565,6 +577,8 @@ bool Parameter::operator == ( const Parameter & other ) const
 //BEGIN class Plot
 Plot::Plot( )
 {
+	plotNumberCount = 1;
+	plotNumber = 0;
 	m_function = 0;
 	m_functionID = -1;
 	plotMode = Function::Derivative0;
@@ -677,5 +691,32 @@ void Plot::integrate()
 			plotMode = Function::Derivative1;
 			break;
 	}
+}
+
+
+QColor Plot::color( ) const
+{
+	Function * f = function();
+	assert(f); // Shouldn't call color without a function
+	PlotAppearance appearance = f->plotAppearance( plotMode );
+	
+	if ( (plotNumberCount <= 1) || !appearance.useGradient )
+		return appearance.color;
+	
+	// Is a gradient
+	
+	double x = plotNumber;
+	double y = plotNumberCount - plotNumber - 1;
+	
+	double r = ((appearance.color1.redF() * x ) + (appearance.color2.redF() * y)) / (x+y);
+	double g = ((appearance.color1.greenF() * x ) + (appearance.color2.greenF() * y)) / (x+y);
+	double b = ((appearance.color1.blueF() * x ) + (appearance.color2.blueF() * y)) / (x+y);
+	
+	QColor color;
+	color.setRedF( r );
+	color.setGreenF( g );
+	color.setBlueF( b );
+	
+	return color;
 }
 //END class Plot

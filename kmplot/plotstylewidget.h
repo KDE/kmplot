@@ -21,16 +21,17 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef _PLOTSTYLEWIDGET_H
-#define _PLOTSTYLEWIDGET_H
+#ifndef PLOTSTYLEWIDGET_H
+#define PLOTSTYLEWIDGET_H
 
 #include <QGroupBox>
 
-#include "ui_plotstylewidget.h"
-
+class KColorButton;
+class KDialog;
 class PlotAppearance;
+class PlotStyleDialogWidget;
 
-class PlotStyleWidget : public QGroupBox, public Ui_PlotStyleWidget
+class PlotStyleWidget : public QGroupBox
 {
 	Q_OBJECT
 	public:
@@ -54,6 +55,17 @@ class PlotStyleWidget : public QGroupBox, public Ui_PlotStyleWidget
 		 * Sets the currently selected style.
 		 */
 		void setStyle( Qt::PenStyle style );
+		
+	protected slots:
+		/**
+		 * Called when the user clicks on the "Advanced" button.
+		 */
+		void advancedOptions();
+		
+	protected:
+		KColorButton * m_color;
+		KDialog * m_dialog;
+		PlotStyleDialogWidget * m_dialogWidget;
 };
 
 #endif

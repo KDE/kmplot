@@ -86,6 +86,9 @@ class PlotAppearance
 		
 		double lineWidth;	///< line width in mm
 		QColor color;		///< color that the plot will be drawn in
+		bool useGradient;	///< for plots with parameters, whether to use a gradient of color1->color2 instead of color
+		QColor color1;		///< for gradients, first color
+		QColor color2;		///< for gradients, second color
 		bool visible;		///< whether to display this plot
 		Qt::PenStyle style;	///< pen style (e.g. dolif, dashes, dotted, etc)
 		bool showExtrema;	///< for cartesian functions, whether to show the extreme values of the function
@@ -407,6 +410,10 @@ class Plot
 		 */
 		Function * function() const { return m_function; }
 		/**
+		 * The color that the plot should be drawn with.
+		 */
+		QColor color() const;
+		/**
 		 * Parameter in use.
 		 */
 		Parameter parameter;
@@ -414,6 +421,15 @@ class Plot
 		 * Which derivative.
 		 */
 		Function::PMode plotMode;
+		/**
+		 * Assigned when Function::allPlots() is called. The plots for each
+		 * plotMode are numbered 0 to *.
+		 */
+		int plotNumber;
+		/**
+		 * The total number of plots of the same plotMode as this.
+		 */
+		int plotNumberCount;
 		/**
 		 * Updates the current working parameter value in the function that
 		 * this plot is for.

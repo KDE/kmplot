@@ -34,6 +34,7 @@
 #include "xparser.h"
 
 #include <kaction.h>
+#include <kcolorbutton.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -93,7 +94,7 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	m_editor->parametricY->setInputType( EquationEdit::Function );
 	m_editor->implicitEquation->setInputType( EquationEdit::Function );
 	
-	for ( unsigned i = 0; i < 3; ++i )
+	for ( unsigned i = 0; i < 4; ++i )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
 	
 	connect( m_editor->deleteButton, SIGNAL(clicked()), this, SLOT(deleteCurrent()) );
@@ -460,7 +461,7 @@ void FunctionEditor::resetFunctionEditing()
 	
 	m_functionID = -1;
 	
-	// page 3 is an empty page
+	// page 4 is an empty page
 	m_editor->stackedWidget->setCurrentIndex( 4 );
 	
 	// assume that if there are functions in the list, then one will be selected

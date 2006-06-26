@@ -69,12 +69,9 @@ class CDiagr
 		~CDiagr();
 	
 		/// Sets all members to current values.
-		void Create( QPointF Ref,
-					double lx, double ly,
-					double xmin, double xmax,
-					double ymin, double ymax );
-		/// Sets the current values for the scaling factors
-		void Skal( double ex, double ey );
+		void Create( QPointF Ref, double lx, double ly );
+		/// Updates the current values for the scaling factors
+		void Skal();
 		/// Draws all requested parts of the diagram (axes, labels, grid e.g.)
 		void Plot( QPainter* pDC );
 		/// Returns the rectangle around the core of the plot area.
@@ -106,20 +103,20 @@ class CDiagr
 		QPointF toReal( const QPointF & pixel );
 		///@}
 	
-	/** @name Style options
-	 * These members hold the current options for line widths and colors
-	 */
-	//@{
-	QColor frameColor;	///< color of the border frame
-	QColor axesColor;		///< color of the axes
-	QColor gridColor;		///< color of the grid
-
-	double borderThickness;	///< current line width for the border frame in mm
-	double axesLineWidth;		///< current line width for the axes in mm
-	double gridLineWidth;		///< current line width for the grid in mm
-	double ticWidth;			///< current line width for the tics in mm
-	double ticLength;			///< current length of the tic lines in mm
-	//@}
+		/** @name Style options
+		* These members hold the current options for line widths and colors
+		*/
+		//@{
+		QColor frameColor;	///< color of the border frame
+		QColor axesColor;		///< color of the axes
+		QColor gridColor;		///< color of the grid
+	
+		double borderThickness;	///< current line width for the border frame in mm
+		double axesLineWidth;		///< current line width for the axes in mm
+		double gridLineWidth;		///< current line width for the grid in mm
+		double ticWidth;			///< current line width for the tics in mm
+		double ticLength;			///< current length of the tic lines in mm
+		//@}
 		bool xclipflg;	///< clipflg is set to 1 if the plot is out of the plot area.
 		bool yclipflg;	///< clipflg is set to 1 if the plot is out of the plot area.
 
@@ -133,32 +130,16 @@ class CDiagr
 		void drawLabels(QPainter*);
 		/// Current grid style.
 		GridStyle m_gridMode;
-
-	//@{
-	/// Plot range edge.
-	double xmin, xmax, ymin, ymax;
-	//@}
-	//@{
-	/// Clip boundage.
-	double xmd, ymd;
-	//@}
-	//@{
-	/// Axes tic distance.
-	double ex, ey;  
-	//@}
-	//@{
-	///Position of the first tic.      
-	double tsx, tsy;
-	//@}
-	//@{
-	/// Screen coordinates of the coordinate system origin.
-	double ox, oy;
-	//@}
-	//@{
-	/// Transformation factors.
-	/// @see Skal
-	double skx, sky;
-	//@}
+		
+		/// Clip boundage.
+		double xmd, ymd;
+		///Position of the first tic.      
+		double tsx, tsy;
+		/// Screen coordinates of the coordinate system origin.
+		double ox, oy;
+		/// Transformation factors.
+		/// @see Skal
+		double skx, sky;
 	
 		QRect m_plotArea;	///< plot area
 		QRect m_frame;		///< frame around the plot

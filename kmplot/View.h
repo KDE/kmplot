@@ -151,6 +151,12 @@ class View : public QWidget
 		/** Current plot range endge. */
 		double m_xmin;
 		double m_xmax;
+		/** Current plot range endge. */
+		double m_ymin;
+		double m_ymax;
+		
+		double tlgx, tlgy, drskalx, drskaly;
+		QString tlgxstr, tlgystr, drskalxstr, drskalystr;
 
 		/// trace mode stuff, must be accessible in KMinMax
 		Plot m_currentPlot;
@@ -400,10 +406,7 @@ class View : public QWidget
 	
 		QRect area;
 		QMatrix wm;
-	
-		double tlgx, tlgy, drskalx, drskaly;
-		QString tlgxstr, tlgystr, drskalxstr, drskalystr;
-	
+		
 		/** @name Plotrange
 		* There are 4 predefined plot ranges:
 		* @li 0: -8..8
@@ -423,11 +426,6 @@ class View : public QWidget
 		*/
 		void coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
 							double &min, double &max );
-		//@{
-		/** Current plot range endge. */
-		double m_ymin;
-		double m_ymax;
-		//@}
 		//@}
 
 		void setScaling();

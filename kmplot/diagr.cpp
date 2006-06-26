@@ -72,7 +72,6 @@ CDiagr::CDiagr()
 	m_textDocument = m_textEdit->document();
 	
 	updateSettings();
-	ex=ey=1.;
 }
 
 
@@ -82,15 +81,17 @@ CDiagr::~CDiagr()
 }
 
 void CDiagr::Create( QPointF Ref, 			    // Bezugspunkt links unten
-                    double lx, double ly, 			// Achsenl�gen
-                    double xmin, double xmax,   // x-Wertebereich
-                    double ymin, double ymax) 	// y-Wertebereich
-{	int x, y, h, w;
+					 double lx, double ly) 			// Achsenl�gen
+{
+	int x, y, h, w;
 
-	CDiagr::xmin=xmin;                  // globale Variablen setzen
-	CDiagr::xmax=xmax;
-	CDiagr::ymin=ymin;
-	CDiagr::ymax=ymax;
+	double xmin = View::self()->m_xmin;
+	double xmax = View::self()->m_xmax;
+	double ymin = View::self()->m_ymin;
+	double ymax = View::self()->m_ymax;
+	double ex = View::self()->tlgx;
+	double ey = View::self()->tlgy;
+	
 	xmd=xmax+1e-6;
 	ymd=ymax+1e-6;
 	tsx=ceil(xmin/ex)*ex;
@@ -99,7 +100,13 @@ void CDiagr::Create( QPointF Ref, 			    // Bezugspunkt links unten
 	sky=ly/(ymax-ymin);
 	ox=Ref.x()-skx*xmin+0.5;	        // Ursprungskoordinaten berechnen
 	oy=Ref.y()+sky*ymax+0.5;
-	m_plotArea.setRect(x=int(Ref.x()), y=int(Ref.y()), w=int(lx), h=int(ly));
+	
+	x = int(Ref.x());
+	y = int(Ref.y());
+	w = int(lx);
+	h = int(ly);
+	m_plotArea.setRect( x, y, w, h );
+	
 	if( Settings::showExtraFrame() )
 	{
 		x-=20;
@@ -115,12 +122,12 @@ void CDiagr::Create( QPointF Ref, 			    // Bezugspunkt links unten
 }
 
 
-void CDiagr::Skal( double ex, double ey )
+void CDiagr::Skal()
 {
-	CDiagr::ex=ex;
-	CDiagr::ey=ey;
-	tsx=ceil(xmin/ex)*ex;
-	tsy=ceil(ymin/ey)*ey;
+	double ex = View::self()->tlgx;
+	double ey = View::self()->tlgy;
+	tsx=ceil(View::self()->m_xmin/ex)*ex;
+	tsy=ceil(View::self()->m_ymin/ey)*ey;
 }
 
 
@@ -172,12 +179,12 @@ double CDiagr::xToPixel( double x, ClipBehaviour clipBehaviour )		// reale x-Koo
 		xi=m_plotArea.right();
                 
 	}
-	else if ( (x<xmin) && (clipBehaviour == ClipAll) )
+	else if ( (x<View::self()->m_xmin) && (clipBehaviour == ClipAll) )
 	{
 		xclipflg=1;
 		xi=m_plotArea.left();
 	}
-	else if ( (x>xmax) && (clipBehaviour == ClipAll) )
+	else if ( (x>View::self()->m_xmax) && (clipBehaviour == ClipAll) )
 	{
 		xclipflg=1;
 		xi=m_plotArea.right();
@@ -217,12 +224,12 @@ double CDiagr::yToPixel( double y, ClipBehaviour clipBehaviour )		// reale y-Koo
 		yi=m_plotArea.top();
                 
 	}
-	else if ( (y<ymin) && (clipBehaviour == ClipAll) )
+	else if ( (y<View::self()->m_ymin) && (clipBehaviour == ClipAll) )
 	{
 		yclipflg=1;
 		yi=m_plotArea.bottom();
 	}
-	else if ( (y>ymax) && (clipBehaviour == ClipAll) )
+	else if ( (y>View::self()->m_ymax) && (clipBehaviour == ClipAll) )
 	{
 		yclipflg=1;
 		yi=m_plotArea.top();
@@ -258,6 +265,8 @@ double CDiagr::yToReal(double y)        // Bildschirmkoordinate
 
 void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 {
+	double ex = View::self()->tlgx;
+	double ey = View::self()->tlgy;
 	double a, b, tl;
 	double d, da, db;
 	
@@ -379,6 +388,8 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 
 void CDiagr::drawGrid( QPainter* pDC )
 {
+	double ex = View::self()->tlgx;
+	double ey = View::self()->tlgy;
 	double a, b;
 	double d, x, y;
 	QPen pen( gridColor, View::self()->mmToPenWidth(gridLineWidth, true) );
@@ -468,6 +479,13 @@ void CDiagr::drawGrid( QPainter* pDC )
 
 void CDiagr::drawLabels(QPainter* pDC)
 {
+	double xmin = View::self()->m_xmin;
+	double xmax = View::self()->m_xmax;
+	double ymin = View::self()->m_ymin;
+	double ymax = View::self()->m_ymax;
+	double ex = View::self()->tlgx;
+	double ey = View::self()->tlgy;
+	
 	int const dx=15;
 	int const dy=40;
 	QFont const font=QFont( Settings::axesFont(), Settings::axesFontSize() );

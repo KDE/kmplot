@@ -181,7 +181,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			}
 			wm = DC.matrix();
 			m_scaler=( QPoint(1000, 0) * DC.matrix() ).x()/1000.;
-			CDiagr::self()->Create( ref, lx, ly, m_xmin, m_xmax, m_ymin, m_ymax );
+			CDiagr::self()->Create( ref, lx, ly );
 			break;
 		}
 
@@ -195,7 +195,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			m_scaler = 1.;
 			m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1";
 			drawHeaderTable( &DC );
-			CDiagr::self()->Create( ref, lx, ly, m_xmin, m_xmax, m_ymin, m_ymax );
+			CDiagr::self()->Create( ref, lx, ly );
 			if ( ( (KPrinter* )dev )->option( "app-kmplot-printbackground" ) == "-1" )
 				DC.fillRect( CDiagr::self()->frame(),  m_backgroundColor); //draw a colored background
 			//DC.end();
@@ -209,7 +209,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			QPointF ref(0, 0);
 			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
 			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
-			CDiagr::self()->Create( ref, lx, ly, m_xmin, m_xmax, m_ymin, m_ymax );
+			CDiagr::self()->Create( ref, lx, ly );
 			DC.translate(-CDiagr::self()->frame().left(), -CDiagr::self()->frame().top());
 			m_scaler=1.;
 			break;
@@ -221,7 +221,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			QPointF ref(0, 0);
 			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
 			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
-			CDiagr::self()->Create( ref, lx, ly, m_xmin, m_xmax, m_ymin, m_ymax );
+			CDiagr::self()->Create( ref, lx, ly );
 			DC.end();
 			*((QPixmap *)dev) = QPixmap( (int)(CDiagr::self()->frame().width()*sf), (int)(CDiagr::self()->frame().height()*sf) );
 			((QPixmap *)dev)->fill(m_backgroundColor);
@@ -234,7 +234,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	}
 
 	CDiagr::self()->updateSettings();
-	CDiagr::self()->Skal( tlgx, tlgy );
+	CDiagr::self()->Skal();
 
 	DC.setRenderHint( QPainter::Antialiasing, true );
 	CDiagr::self()->Plot(&DC);
@@ -431,7 +431,7 @@ void View::plotImplicit( Function * function, QPainter * painter )
 	// The viewable area is divided up into square*squares squares, and the curve
 	// is traced around in each square.
 	// NOTE this should agree with the value in plotImplicitInSquare
-	int squares = 15;
+	int squares = 20;
 	
 #ifdef DEBUG_IMPLICIT
 	QTime t;
@@ -501,7 +501,7 @@ void View::plotImplicit( Function * function, QPainter * painter )
 void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x, double y, Qt::Orientation orientation )
 {
 	// NOTE this should agree with the value in plotImplicit
-	int squares = 15;
+	int squares = 20;
 	
 	plot.updateFunctionParameter();
 	Plot diff1 = plot;
@@ -554,7 +554,7 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 	QPointF prev = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
 	
 	// Now trace around the curve from the point...
-	for ( int i = 0; i < 100; ++i ) // allow a maximum of 100 traces (to prevent possibly infinite loop)
+	for ( int i = 0; i < 500; ++i ) // allow a maximum of 100 traces (to prevent possibly infinite loop)
 	{
 		// (dx, dy) is perpendicular to curve
 		
@@ -584,7 +584,10 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		double l = QLineF( p1, p2 ).length() / segment_step;
 		
 		if ( l == 0 )
+		{
+			kDebug() << "length is zero!\n";
 			break;
+		}
 		
 		// (tx, ty) is tangent to the curve in the direction that we are tracing
 		double tx = -dy/l;
@@ -648,7 +651,10 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 					
 		bool found = findRoot( coord, plot, RoughRoot );
 		if ( !found )
+		{
+			kDebug() << "Could not find root!\n";
 			break;
+		}
 		
 		// Only draw the trace segment every segment_step_draw steps or when we have reached the edge of the square
 		if ( ((i+1) % segment_step_draw == 0) || outOfBounds )
@@ -1275,43 +1281,56 @@ QList< QPointF > View::findStationaryPoints( const Plot & plot )
 
 QList< double > View::findRoots( const Plot & plot, double min, double max, RootAccuracy accuracy )
 {
-	QMap< double, double > roots;
-
-	// Use this to detect finding the same root. This assumes that the same root
-	// will be converged to in unbroken x-intervals
-	double prevX = 0.0;
+	typedef QMap< double, double > DoubleMap;
+	DoubleMap roots;
 	
-	int count = 80; // number of points to check for roots
-	double dx = (max-min) / double(count);
+	int count = 20; // number of points to (initially) check for roots
 	
-	for ( int i = 0; i <= count; ++i )
+	int prevNumRoots = 0;
+	while ( count < 1000 )
 	{
-		double x = min + dx*i;
+		// Use this to detect finding the same root. This assumes that the same root
+		// will be converged to in unbroken x-intervals
+		double prevX = 0.0;
 		
-		bool found = findRoot( & x, plot, accuracy );
-		if ( x < min || x > max )
-			found = false;
-
-		bool differentRoot = (qAbs(x-prevX) > (dx/2)) || roots.isEmpty();
-
-		if ( found && differentRoot )
+		double dx = (max-min) / double(count);
+		for ( int i = 0; i <= count; ++i )
 		{
+			double x = min + dx*i;
+		
+			bool found = findRoot( & x, plot, accuracy );
+			if ( !found || x < min || x > max )
+				continue;
+		
+			if ( !roots.isEmpty() )
+			{
+				// Check if already have a close root
+				if ( qAbs(x-prevX) <= (dx/4) )
+					continue;
+			
+				DoubleMap::iterator nextIt = roots.lowerBound(x);
+				double lower, upper;
+				lower = upper = *nextIt;
+				if ( nextIt != roots.begin() )
+					lower = *(--nextIt);
+			
+				if ( (qAbs(x-lower) <= (dx/4)) || (qAbs(x-upper) <= (dx/4)) )
+					continue;
+			}
+		
 			roots.insert( x, x );
 			prevX = x;
 		}
+		
+		int newNumRoots = roots.size();
+		if ( newNumRoots == prevNumRoots )
+			break;
+		
+		prevNumRoots = newNumRoots;
+		count *= 4;
 	}
 	
-	QList<double> list;
-	
-	foreach ( double x, roots )
-	{
-		bool differentRoot = (qAbs(x-prevX) > (dx/2)) || list.isEmpty();
-		if ( differentRoot )
-			list << x;
-		prevX = x;
-	}
-	
-	return list;
+	return roots.keys();
 }
 
 

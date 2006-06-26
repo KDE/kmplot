@@ -53,7 +53,7 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 	setMainWidget( m_widget );
 	
 	setCaption( i18n("Parameter Animator") );
-	setButtons( Ok );
+	setButtons( Close );
 	
 	m_mode = Paused;
 	m_currentValue = 0;
@@ -77,14 +77,17 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 	connect( m_widget->speed, SIGNAL(valueChanged(int)), this, SLOT(updateSpeed()) );
 	
 	updateUI();
+	updateFunctionParameter();
+	
+	connect( this, SIGNAL(finished()), this, SLOT(deleteLater()) );
 }
 
 
 ParameterAnimator::~ ParameterAnimator()
 {
+	kDebug() << k_funcinfo << endl;
 	m_function->m_parameters.animating = false;
-	/// \todo need to update the view when closing, but destructor might be called from closing kmplot, which causes crash
-// 	View::self()->drawPlot();
+	View::self()->drawPlot();
 }
 
 

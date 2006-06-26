@@ -232,6 +232,13 @@ class View : public QWidget
 	
 	private:
 		/**
+		 * When zoomed in on part of a circle, it looks nearly straight. KmPlot
+		 * uses this to quickly draw curves that are mostly straight. Given the
+		 * curvature, this function returns the maximum length of line that can
+		 * be used to draw a part of a curve with the given curvature.
+		 */
+		static double maxSegmentLength( double curvature );
+		/**
 		 * \return an appropriate value to use in numerical differentiation.
 		 */
 		double h() const;

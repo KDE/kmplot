@@ -424,14 +424,13 @@ int root_find_iterations;
 int root_find_requests;
 #endif
 
+// The viewable area is divided up into square*squares squares, and the curve
+// is traced around in each square.
+int squares = 20;
+
 void View::plotImplicit( Function * function, QPainter * painter )
 {
 	assert( function->type() == Function::Implicit );
-	
-	// The viewable area is divided up into square*squares squares, and the curve
-	// is traced around in each square.
-	// NOTE this should agree with the value in plotImplicitInSquare
-	int squares = 20;
 	
 #ifdef DEBUG_IMPLICIT
 	QTime t;
@@ -455,6 +454,18 @@ void View::plotImplicit( Function * function, QPainter * painter )
 	const QList< Plot > plots = function->allPlots();
 	foreach ( Plot plot, plots )
 	{
+		bool setAliased = false;
+		if ( plot.parameter.type() == Parameter::Animated )
+		{
+			// Don't use antialiasing, so that rendering is speeded up
+			if ( painter->renderHints() & QPainter::Antialiasing )
+			{
+				setAliased = true;
+				painter->setRenderHint( QPainter::Antialiasing, false );
+			}
+		}
+		
+		
 		painter->setPen( penForPlot( plot, painter->renderHints() & QPainter::Antialiasing ) );
 		
 		for ( int i = 0; i <= squares; ++i )
@@ -489,6 +500,10 @@ void View::plotImplicit( Function * function, QPainter * painter )
 				plotImplicitInSquare( plot, painter, x, y, Qt::Vertical );
 			}
 		}
+		
+		
+		if ( setAliased )
+			painter->setRenderHint( QPainter::Antialiasing, true );
 	}
 	
 #ifdef DEBUG_IMPLICIT
@@ -498,11 +513,38 @@ void View::plotImplicit( Function * function, QPainter * painter )
 }
 
 
+double SegmentMin = 0.1;
+double SegmentMax = 6.0;
+
+
+// static
+double View::maxSegmentLength( double curvature )
+{
+	// Use a circle angle of 4 degrees to determine the maximum segment length
+	// Also, limit the length to be between 0.1 and 6 pixels.
+	
+	double arc = 4 * (M_PI / 180);
+	
+	if ( curvature < 0 )
+		curvature = -curvature;
+	
+	if ( curvature < 1e-20 )
+		return SegmentMax; // very large circle
+	
+	double radius = 1.0/curvature;
+	
+	double segment = arc * radius;
+	if ( segment < SegmentMin )
+		segment = SegmentMin;
+	else if ( segment > SegmentMax )
+		segment = SegmentMax;
+	 
+	return segment;
+}
+
+
 void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x, double y, Qt::Orientation orientation )
 {
-	// NOTE this should agree with the value in plotImplicit
-	int squares = 20;
-	
 	plot.updateFunctionParameter();
 	Plot diff1 = plot;
 	diff1.differentiate();
@@ -516,9 +558,6 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 	painter->drawRect( QRectF( tl, QSizeF( 4, 4 ) ) );
 	painter->restore();
 #endif
-	
-// 	double segment_step = 1; // the number of pixels to step each time
-	int segment_step_draw = 3; // the number of segment steps between drawing
 	
 	double x_side = (m_xmax-m_xmin)/squares;
 	double y_side = (m_ymax-m_ymin)/squares;
@@ -554,8 +593,19 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 	QPointF prev = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
 	
 	// Now trace around the curve from the point...
+	
+	// If during tracing, the root could not be found, then this will be set to true,
+	// the route will be retraced using a smaller step size and it will attempt to find
+	// a root again. If it fails for a second time, then tracing is finished.
+	bool foundRootPreviously = true;
+	
 	for ( int i = 0; i < 500; ++i ) // allow a maximum of 100 traces (to prevent possibly infinite loop)
 	{
+		if ( i == 500 - 1 )
+		{
+			kDebug() << "Implicit: got to last iteration!\n";
+		}
+		
 		// (dx, dy) is perpendicular to curve
 		
 		plot.function()->x = x;
@@ -563,20 +613,19 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		
 		plot.function()->m_implicitMode = Function::FixedY;
 		double dx = value( diff1, 0, x, false );
-		double ddx = value( diff2, 0, x, false );
 		
 		plot.function()->m_implicitMode = Function::FixedX;
 		double dy = value( diff1, 0, y, false );
-		double ddy = value( diff2, 0, y, false );
 		
-		// curvature
-		/// \todo The segment_step is based on curvature alone, but segment_step is used in conjunction with pixel size - fix!
-		double k = qAbs( dx*ddy - dy*ddx ) / pow( dx*dx + dy*dy, 1.5 );
-		double segment_step = 1.0/k;
-		if ( segment_step > 2 )
-			segment_step = 2;
-		if ( segment_step < 0.01 )
-			segment_step = 0.01;
+		double k = pixelCurvature( plot, x, y );
+		double segment_step = maxSegmentLength( k );
+		
+		// If we couldn't find a root in the previous iteration, it was possibly
+		// because we were using too large a step size. So reduce the step size
+		// and try again.
+		if ( !foundRootPreviously )
+			segment_step = qMin( segment_step/4, SegmentMin );
+		
 // 		kDebug() << "k="<<k<<" segment_step="<<segment_step<<endl;
 		
 		QPointF p1 = CDiagr::self()->toPixel( QPointF( x, y ),			CDiagr::ClipInfinite ) * painter->matrix();
@@ -652,18 +701,29 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		bool found = findRoot( coord, plot, RoughRoot );
 		if ( !found )
 		{
-			kDebug() << "Could not find root!\n";
-			break;
+			if ( foundRootPreviously )
+			{
+				kDebug() << "Could not find root!\n";
+				
+				// Retrace our steps
+				x -= tx;
+				y -= ty;
+				continue;
+				foundRootPreviously = false;
+			}
+			else
+			{
+				kDebug() << "Couldn't find root - giving up.\n";
+				break;
+			}
 		}
+		else
+			foundRootPreviously = true;
 		
-		// Only draw the trace segment every segment_step_draw steps or when we have reached the edge of the square
-		if ( ((i+1) % segment_step_draw == 0) || outOfBounds )
-		{
-			QPointF next = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
-			painter->drawLine( prev, next );
-			prev = next;
-			markDiagramPointUsed( next );
-		}
+		QPointF next = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
+		painter->drawLine( prev, next );
+		prev = next;
+		markDiagramPointUsed( next );
 		
 		if ( outOfBounds )
 			break;
@@ -3153,6 +3213,10 @@ bool View::event( QEvent * e )
 
 void View::setStatusBar(const QString &text, const int id)
 {
+#ifdef DEBUG_IMPLICIT
+	return; // Don't want to clutter up stdout with useless messages
+#endif
+	
 	if ( m_readonly) //if KmPlot is shown as a KPart with e.g Konqueror, it is only possible to change the status bar in one way: to call setStatusBarText
 	{
 		switch (id)

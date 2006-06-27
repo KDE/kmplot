@@ -43,33 +43,34 @@
 #include <QList>
 
 #include <assert.h>
+#include <cmath>
 
 #include "parseradaptor.h"
 
 double Parser::m_radiansPerAngleUnit = 0;
 
 /// List of predefined functions.
-Parser::Mfkt Parser::mfkttab[ FANZ ]=
+ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 {
-	{"tanh", ltanh},	// Tangens hyperbolicus
-	{"tan", ltan}, 		// Tangens
-	{"sqrt", sqrt},		// Square root
-	{"sqr", sqr}, 		// Square
-	{"sinh", lsinh}, 	// Sinus hyperbolicus
-	{"sin", lsin}, 		// Sinus
-	{"sign", sign},		// Signum
-	{"H", heaviside},	// Heaviside step function
-	{"sech", sech},		// Secans hyperbolicus
-	{"sec", sec},		// Secans
-	{"log", llog}, 	        // Logarithm base 10
-	{"ln", ln}, 		// Logarithm base e
-	{"exp", exp}, 		// Exponential function base e
-	{"coth", coth},		// Co-Tangens hyperbolicus
-	{"cot", cot},		// Co-Tangens = 1/tan
-	{"cosh", lcosh}, 	// Cosinus hyperbolicus
-	{"cosech", cosech},	// Co-Secans hyperbolicus
-	{"cosec", cosec},	// Co-Secans
-	{"cos", lcos}, 		// Cosinus
+	{"tanh", ltanh},		// Tangens hyperbolicus
+	{"tan", ltan}, 			// Tangens
+	{"sqrt", sqrt},			// Square root
+	{"sqr", sqr}, 			// Square
+	{"sinh", lsinh},	 	// Sinus hyperbolicus
+	{"sin", lsin}, 			// Sinus
+	{"sign", sign},			// Signum
+	{"H", heaviside},		// Heaviside step function
+	{"sech", sech},			// Secans hyperbolicus
+	{"sec", sec},			// Secans
+	{"log", llog},			// Logarithm base 10
+	{"ln", ln}, 			// Logarithm base e
+	{"exp", exp}, 			// Exponential function base e
+	{"coth", coth},			// Co-Tangens hyperbolicus
+	{"cot", cot},			// Co-Tangens = 1/tan
+	{"cosh", lcosh}, 		// Cosinus hyperbolicus
+	{"cosech", cosech},		// Co-Secans hyperbolicus
+	{"cosec", cosec},		// Co-Secans
+	{"cos", lcos}, 			// Cosinus
 	{"artanh", artanh}, 	// Area-tangens hyperbolicus = inverse of tanh
 	{"arsinh", arsinh}, 	// Area-sinus hyperbolicus = inverse of sinh
 	{"arsech", arsech},		// Area-secans hyperbolicus = invers of sech
@@ -96,6 +97,13 @@ Parser::Mfkt Parser::mfkttab[ FANZ ]=
 	{"P_4", legendre4},		// lengedre polynomial (n=4)
 	{"P_5", legendre5},		// lengedre polynomial (n=5)
 	{"P_6", legendre6},		// lengedre polynomial (n=6)
+};
+
+VectorFunction Parser::vectorFunctions[ VectorCount ]=
+{
+	{"min", min},			// minimum of a set of reals
+	{"max", max},			// maximum of a set of reals
+	{"mod", mod},			// l2 modulus of a set of reals
 };
 
 
@@ -264,7 +272,8 @@ double Parser::fkt( Equation * eq, double x )
 double Parser::fkt( Equation * eq, double x[3] )
 {
 	double *pDouble;
-	double (**pFunction)(double);
+	double (**pScalarFunction)(double);
+	double (**pVectorFunction)(const DoubleList &);
 	double *stack, *stkptr;
 	uint *pUint;
 	eq->mptr=eq->mem;
@@ -323,11 +332,33 @@ double Parser::fkt( Equation * eq, double x[3] )
 			case SQRT:
 				*stkptr = sqrt(*stkptr);
 				break;
-			case FKT:
-				pFunction=(double(**)(double))eq->mptr;
-				*stkptr=(*pFunction++)(*stkptr);
-				eq->mptr=(unsigned char*)pFunction;
+				
+			case FKT_1:
+			{
+				pScalarFunction=(double(**)(double))eq->mptr;
+				*stkptr=(*pScalarFunction++)(*stkptr);
+				eq->mptr=(unsigned char*)pScalarFunction;
 				break;
+			}
+				
+			case FKT_N:
+			{
+				pUint = (uint*)eq->mptr;
+				int numArgs = *pUint++;
+				eq->mptr = (unsigned char*)pUint;
+						
+				pVectorFunction = (double(**)(const DoubleList &))eq->mptr;
+				
+				DoubleList args;
+				for ( int i=0; i<numArgs; ++i )
+					args << *(stkptr-numArgs+1+i);
+				
+				stkptr[1-numArgs] = (*pVectorFunction++)(args);
+				stkptr -= numArgs-1;
+				
+				eq->mptr = (unsigned char*)pVectorFunction;
+				break;
+			}
 				
 			case UFKT:
 			{
@@ -648,17 +679,42 @@ void Parser::primary()
 			m_error=MissingBracket;
 		return;
 	}
-	int i;
-	for(i=0; i<FANZ; ++i)
+	for ( int i=0; i < ScalarCount; ++i )
 	{
-		if(match(mfkttab[i].mfstr))
+		if ( match(scalarFunctions[i].name) )
 		{
 			primary();
-			addtoken(FKT);
-			addfptr(mfkttab[i].mfadr);
+			addtoken(FKT_1);
+			addfptr(scalarFunctions[i].mfadr);
 			return;
 		}
 	}
+	for ( int i=0; i < VectorCount; ++i )
+	{
+		if ( match(vectorFunctions[i].name) )
+		{
+			int argCount = 0;
+			bool argLeft = true;
+			do
+			{
+				argCount++;
+				primary();
+					
+				argLeft = m_eval.at(m_evalPos-1) == ',';
+				if (argLeft)
+				{
+					addtoken(PUSH);
+					m_evalPos--;
+				}
+			}
+			while ( m_error == ParseSuccess && argLeft && !evalRemaining().isEmpty() );
+			
+			addtoken(FKT_N);
+			addfptr( vectorFunctions[i].mfadr, argCount );
+			return;
+		}
+	}
+	
 	foreach ( Function * it, m_ufkt )
 	{
 		if ( evalRemaining() == "pi" ||
@@ -897,22 +953,44 @@ void Parser::adduint(uint x)
 
 void Parser::addfptr(double(*fadr)(double))
 {
-        double (**pf)(double)=(double(**)(double))mptr;
-        if( evalflg==0 )
-        {
-        if( mptr>=&mem[MEMSIZE-10] )
+	double (**pf)(double)=(double(**)(double))mptr;
+	if( evalflg==0 )
+	{
+		if( mptr>=&mem[MEMSIZE-10] )
 			m_error = MemoryOverflow;
-        else
-                {
-                        *pf++=fadr;
-                        mptr=(unsigned char*)pf;
-                }
-        }
-        else
+		else
 		{
-// 			kDebug() << k_funcinfo << "*stkptr="<<*stkptr<<endl;
-			*stkptr=(*fadr)(*stkptr);
+			*pf++=fadr;
+			mptr=(unsigned char*)pf;
 		}
+	}
+	else
+	{
+// 		kDebug() << k_funcinfo << "*stkptr="<<*stkptr<<endl;
+		*stkptr=(*fadr)(*stkptr);
+	}
+}
+
+
+void Parser::addfptr( double(*fadr)(const DoubleList & ), int argCount )
+{
+	if ( evalflg != 0 )
+		// I'm going to get rid of evalflg soon
+		return;
+	
+	uint *p = (uint*)mptr;
+	*p++ = argCount;
+	mptr = (unsigned char*)p;
+	
+	double (**pf)(const DoubleList &) = (double(**)(const DoubleList &))mptr;
+	
+	if( mptr>=&mem[MEMSIZE-10] )
+		m_error = MemoryOverflow;
+	else
+	{
+		*pf++=fadr;
+		mptr=(unsigned char*)pf;
+	}
 }
 
 
@@ -1253,6 +1331,40 @@ double legendre6( double x )
 	return (231*x*x*x*x*x*x - 315*x*x*x*x + 105*x*x - 5)/16;
 }
 
+double min( const DoubleList & list )
+{
+	double best = HUGE_VAL;
+	foreach ( double x, list )
+	{
+		if ( x < best )
+			best = x;
+	}
+	
+	return best;
+}
+
+double max( const DoubleList & list )
+{
+	double best = -HUGE_VAL;
+	foreach ( double x, list )
+	{
+		if ( x > best )
+			best = x;
+	}
+	
+	return best;
+}
+
+
+double mod( const DoubleList & list )
+{
+	double squared = 0;
+	foreach ( double x, list )
+		squared += x*x;
+	
+	return std::sqrt( squared );
+}
+
 
 //BEGIN class Constants
 Constants::Constants( Parser * parser )
@@ -1476,6 +1588,18 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 	replace( QChar(0x215d), "(5/8)" );
 	replace( QChar(0x215e), "(7/8)" );
 	
+	// replace e.g. |x+2| with abs(x+2)
+	while ( true )
+	{
+		int pos1 = str->indexOf( '|' );
+		int pos2 = str->indexOf( '|', pos1+1 );
+		if ( pos1 == -1 || pos2 == -1 )
+			break;
+		
+		replace( pos2, 1, ")" );
+		replace( pos1, 1, "abs(" );
+	}
+	
 	//insert '*' when it is needed
 	QChar ch;
 	bool function = false;
@@ -1500,10 +1624,19 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 				str_function.prepend(str->at(n));
 				--n;
 			}
-				
-			for ( int func = 0; func < FANZ; ++func )
+			
+			for ( int func = 0; func < ScalarCount; ++func )
 			{
-				if ( str_function == QString( m_parser->mfkttab[func].mfstr ) )
+				if ( str_function == QString( m_parser->scalarFunctions[func].name ) )
+				{
+					function = true;
+					break;
+				}
+			}
+			
+			for ( int func = 0; func < VectorCount; ++func )
+			{
+				if ( str_function == QString( m_parser->vectorFunctions[func].name) )
 				{
 					function = true;
 					break;

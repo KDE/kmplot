@@ -57,18 +57,20 @@ enum Token
 	DIV,		// divide
 	POW,		// exponentiate
 	NEG,		// negate
-	FKT,		// address to function followes
+	FKT_1,		// address to function with 1 argument follows
+	FKT_N,		// address to functions with an indefinite number of arguments follows
 	UFKT,		// address to user defined function follows
 	ENDE,		// end of function
 	SQRT		// take square root
 };
 
 const int legendreCount = 7; // number of legendre polynomials we allow for
-const int FANZ = 38+legendreCount;	// number of mathematical functions in mfkttab[]
+const int ScalarCount = 38+legendreCount;	// number of mathematical scalar functions
+const int VectorCount = 3; // number of vector functions
 //@}
 
 //@{
-/** Predefined mathematical function. */
+/** Predefined mathematical function with one variable. */
 double ln(double x);
 double llog(double x);
 double sign(double x);
@@ -111,6 +113,27 @@ double legendre3(double x);
 double legendre4(double x);
 double legendre5(double x);
 double legendre6(double x);
+
+/** Predefined mathematical functions with an indefinite number of variables. */
+typedef QList<double> DoubleList;
+double min( const DoubleList & x );
+double max( const DoubleList & x );
+double mod( const DoubleList & x );
+
+
+struct ScalarFunction
+{
+	QString name;
+	double (*mfadr)(double);
+};
+
+
+struct VectorFunction
+{
+	QString name;
+	double (*mfadr)(const DoubleList &);
+};
+
 
 class Constant
 {
@@ -349,12 +372,8 @@ class Parser : public QObject
 		 */
 		double fkt( Equation * it, double x[3] );
 		/** Mathematical function. */
-		struct Mfkt
-		{
-			const char *mfstr;
-			double (*mfadr)(double);
-		};
-		static Mfkt mfkttab[FANZ];
+		static ScalarFunction scalarFunctions[ScalarCount];
+		static VectorFunction vectorFunctions[VectorCount];
 	
 		Error m_error;
 		/// Position where the error occurred.
@@ -369,6 +388,7 @@ class Parser : public QObject
 		void addwert(double);
 		void adduint(uint);
 		void addfptr(double(*)(double));
+		void addfptr( double(*)(const DoubleList &), int argCount );
 		/**
 		 * \p id Id of the function
 		 * \p eq_id Which equation of the function to use

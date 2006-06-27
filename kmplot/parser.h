@@ -360,17 +360,29 @@ class Parser : public QObject
 		/// Position where the error occurred.
 		int m_errorPosition;
 	
-	void heir1();
-	void heir2();
-	void heir3();
-	void heir4();
-	void primary();
-	void addtoken( Token token );
-	void addwert(double);
-	void adduint(uint);
-	void addfptr(double(*)(double));
-	void addfptr( uint id, uint eq_id );
-	int match( const QString & );
+		void heir1();
+		void heir2();
+		void heir3();
+		void heir4();
+		void primary();
+		void addtoken( Token token );
+		void addwert(double);
+		void adduint(uint);
+		void addfptr(double(*)(double));
+		/**
+		 * \p id Id of the function
+		 * \p eq_id Which equation of the function to use
+		 * \p args The number of variables being passed to the function
+		 */
+		void addfptr( uint id, uint eq_id, uint args );
+		/**
+		 * Attempts to \p string to the current evaluation text. If the text at
+		 * the current evaluation position is matched, then the evaluation
+		 * position is incremented past the length of the string and true is
+		 * returned. Else the evaluation position remains unchanged, and false
+		 * is returned.
+		 */
+		bool match( const QString & string );
         
 	unsigned
 	char evalflg, 		// 0 => String wird tokenisiert

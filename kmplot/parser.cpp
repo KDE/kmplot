@@ -263,9 +263,10 @@ double Parser::fkt( Equation * eq, double x )
 
 double Parser::fkt( Equation * eq, double x[3] )
 {
-	double *pd, (**pf)(double);
+	double *pDouble;
+	double (**pFunction)(double);
 	double *stack, *stkptr;
-	uint *puf;
+	uint *pUint;
 	eq->mptr=eq->mem;
 	stack=stkptr= new double [STACKSIZE];
 
@@ -274,18 +275,18 @@ double Parser::fkt( Equation * eq, double x[3] )
 		switch(*eq->mptr++)
 		{
 			case KONST:
-				pd=(double*)eq->mptr;
-				*stkptr=*pd++;
-				eq->mptr=(unsigned char*)pd;
+				pDouble=(double*)eq->mptr;
+				*stkptr=*pDouble++;
+				eq->mptr=(unsigned char*)pDouble;
 				break;
 				
 			case VAR:
 			{
-				puf = (uint*)eq->mptr;
-				uint var = *puf++;
+				pUint = (uint*)eq->mptr;
+				uint var = *pUint++;
 				assert( var < 3 );
 				*stkptr = x[var];
-				eq->mptr = (unsigned char*)puf;
+				eq->mptr = (unsigned char*)pUint;
 				break;
 			}
 				
@@ -323,25 +324,37 @@ double Parser::fkt( Equation * eq, double x[3] )
 				*stkptr = sqrt(*stkptr);
 				break;
 			case FKT:
-				pf=(double(**)(double))eq->mptr;
-				*stkptr=(*pf++)(*stkptr);
-				eq->mptr=(unsigned char*)pf;
+				pFunction=(double(**)(double))eq->mptr;
+				*stkptr=(*pFunction++)(*stkptr);
+				eq->mptr=(unsigned char*)pFunction;
 				break;
+				
 			case UFKT:
 			{
-				kDebug() << "Warning!\n";
-				puf=(uint*)eq->mptr;
-				uint id = *puf++;
-				uint id_eq = *puf++;
+				pUint=(uint*)eq->mptr;
+				uint id = *pUint++;
+				uint id_eq = *pUint++;
+				
+				// The number of arguments being passed to the function
+				int args = *pUint++;
+				assert( 1 <= args && args <= 3 );
+				
+// 				kDebug() << "Got function! id="<<id<<" id_eq="<<id_eq<<" args="<<args<<endl;
+				
 				if ( m_ufkt.contains( id ) )
 				{
-					/// \todo handle more than one variable being passed to the function
-					double vars[3] = { *stkptr, 0, 0 };
-					*stkptr = fkt( m_ufkt[id]->eq[id_eq], vars );
+					double vars[3] = {0};
+					for ( int i=0; i<args; ++i )
+						vars[i] = *(stkptr-args+1+i);
+					
+					stkptr[1-args] = fkt( m_ufkt[id]->eq[id_eq], vars );
+					stkptr -= args-1;
 				}
-				eq->mptr=(unsigned char*)puf;
+				
+				eq->mptr=(unsigned char*)pUint;
 				break;
 			}
+			
 			case ENDE:
 				double const erg=*stkptr;
 				delete [] stack;
@@ -451,7 +464,7 @@ void Parser::initEquation( Equation * eq )
 	m_evalPos = m_eval.indexOf( '=' ) + 1;
 	heir1();
 	if ( !evalRemaining().isEmpty() && m_error == ParseSuccess )
-		m_error = SyntaxError;		// Syntaxfehler
+		m_error = SyntaxError;
 	addtoken(ENDE);
 	m_errorPosition = -1;
 }
@@ -619,23 +632,24 @@ void Parser::heir4()
 
 void Parser::primary()
 {
-	if(match("("))
+	if ( match("(") || match(",") )
 	{
+		kDebug() << k_funcinfo << "Evaluating function argument\n";
 		heir1();
-		if(match(")")==0)
+		if ( !match(")") && !match(",") )
 			m_error=MissingBracket;
 		return;
 	}
-        int i;
-        for(i=0; i<FANZ; ++i)
-        {
-                if(match(mfkttab[i].mfstr))
-                {
-                        primary();
-                        addtoken(FKT);
-                        addfptr(mfkttab[i].mfadr);
-                        return;
-                }
+	int i;
+	for(i=0; i<FANZ; ++i)
+	{
+		if(match(mfkttab[i].mfstr))
+		{
+			primary();
+			addtoken(FKT);
+			addfptr(mfkttab[i].mfadr);
+			return;
+		}
 	}
 	foreach ( Function * it, m_ufkt )
 	{
@@ -650,13 +664,30 @@ void Parser::primary()
 			{
 				if (it->eq[i] == m_currentEquation)
 				{
-					kDebug() << k_funcinfo << "Matched!\n";
 					m_error=RecursiveFunctionCall;
 					return;
 				}
-				primary();
+				
+				int argCount = 0;
+				bool argLeft = true;
+				do
+				{
+					argCount++;
+					primary();
+					
+					argLeft = m_eval.at(m_evalPos-1) == ',';
+					if (argLeft)
+					{
+						addtoken(PUSH);
+						m_evalPos--;
+					}
+					
+					kDebug() << "Calculated arg="<<argCount<<" stkptr="<<stkptr<<endl;
+				}
+				while ( m_error == ParseSuccess && argLeft && !evalRemaining().isEmpty() );
+				
 				addtoken(UFKT);
-				addfptr( it->id, i );
+				addfptr( it->id, i, argCount );
 				if ( m_currentEquation->parent() )
 					it->dep.append(m_currentEquation->parent()->id);
 				return;
@@ -681,21 +712,21 @@ void Parser::primary()
 		m_error = NoSuchConstant;
 		return;
 	}
-        
+	
 	if ( match("pi") || match( QChar(960) ) )
 	{
 		addtoken(KONST);
 		addwert(M_PI);
 		return;
 	}
-
+	
 	if(match("e"))
 	{
 		addtoken(KONST);
 		addwert(M_E);
 		return;
 	}
-
+	
 	if( match( QChar(0x221E) ) )
 	{
 		addtoken(KONST);
@@ -731,19 +762,19 @@ void Parser::primary()
 }
 
 
-int Parser::match( const QString & lit )
+bool Parser::match( const QString & lit )
 {
 	if ( lit.isEmpty() )
-		return 0;
+		return false;
 	
 	while( (m_eval.length() > m_evalPos) && (m_eval[m_evalPos] == ' ') )
 		++m_evalPos;
 	
 	if ( lit != evalRemaining().left( lit.length() ) )
-		return 0;
+		return false;
 	
 	m_evalPos += lit.length();
-	return 1;
+	return true;
 }
 
 
@@ -872,11 +903,14 @@ void Parser::addfptr(double(*fadr)(double))
                 }
         }
         else
-                *stkptr=(*fadr)(*stkptr);
+		{
+// 			kDebug() << k_funcinfo << "*stkptr="<<*stkptr<<endl;
+			*stkptr=(*fadr)(*stkptr);
+		}
 }
 
 
-void Parser::addfptr( uint id, uint eq_id )
+void Parser::addfptr( uint id, uint eq_id, uint args )
 {
 	uint *p=(uint*)mptr;
 	if(evalflg==0)
@@ -887,6 +921,7 @@ void Parser::addfptr( uint id, uint eq_id )
 		{
 			*p++=id;
 			*p++=eq_id;
+			*p++=args;
 			mptr=(unsigned char*)p;
 		}
 	}
@@ -894,7 +929,10 @@ void Parser::addfptr( uint id, uint eq_id )
 	{
 		Function * function = functionWithID( id );
 		if ( function )
+		{
+			/// \todo take into account args
 			*stkptr = fkt( function->eq[eq_id], *stkptr );
+		}
 	}
 }
 

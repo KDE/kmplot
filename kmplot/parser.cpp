@@ -418,7 +418,7 @@ bool Parser::isFstrValid( QString str )
 	{
 		/// \todo find the position of the capital and set into m_errorPosition
 		m_error = InvalidFunctionVariable;
-		kDebug() << k_funcinfo << "InvalidFunctionVariable: str="<<str<<endl;
+		kDebug() << k_funcinfo << "InvalidFunctionVariable: p1="<<p1<<" p2="<<p2<<" p3="<<p3<<" str="<<str<<endl;
 		return false;
 	}
 	if ( p3+2 == str.length()) //empty function
@@ -473,12 +473,16 @@ void Parser::initEquation( Equation * eq )
 bool Parser::removeFunction( Function * item )
 {
 	kDebug() << "Deleting id:" << item->id << endl;
+	
+	/// \todo FIX dependencies (also, test code with implicit function "x^2=y^2")
+#if 0
 	if (!item->dep.isEmpty())
 	{
 		KMessageBox::sorry(0,i18n("This function is depending on an other function"));
 		return false;
 	}
 	
+	kDebug() << "Looking for dependencies....\n";
 	foreach ( Function * it1, m_ufkt )
 	{
 		if (it1==item)
@@ -487,16 +491,21 @@ bool Parser::removeFunction( Function * item )
 			if ( (uint)*it2 == item->id )
 				it2 = it1->dep.erase(it2);
 	}
+#endif
 	
 	uint const id = item->id;
 	
-	//kDebug() << "Deleting something" << endl;
+// 	kDebug() << "Removing from internal lists...\n";
 	m_ufkt.remove(id);
+	
+// 	kDebug() << "Checking equations\n";
 	for ( unsigned i = 0; i < 2; ++i )
 	{
 		if ( item->eq[i] && (item->eq[i] == m_currentEquation) )
 			m_currentEquation = m_ownEquation;
 	}
+	
+// 	kDebug() << "Actually deleting the function\n";
 	delete item;
 	
 	emit functionRemoved( id );
@@ -634,7 +643,6 @@ void Parser::primary()
 {
 	if ( match("(") || match(",") )
 	{
-		kDebug() << k_funcinfo << "Evaluating function argument\n";
 		heir1();
 		if ( !match(")") && !match(",") )
 			m_error=MissingBracket;
@@ -681,8 +689,6 @@ void Parser::primary()
 						addtoken(PUSH);
 						m_evalPos--;
 					}
-					
-					kDebug() << "Calculated arg="<<argCount<<" stkptr="<<stkptr<<endl;
 				}
 				while ( m_error == ParseSuccess && argLeft && !evalRemaining().isEmpty() );
 				

@@ -272,10 +272,9 @@ class View : public QWidget
 		void drawLabel( QPainter * painter, const QColor & color, const QPointF & realPos, const QString & text );
 		/**
 		 * Used by plotImplicit to draw the plot in the square associated with
-		 * the given point. \p orientation is the edge that the plot trace
-		 * originates from.
+		 * the given point.
 		 */
-		void plotImplicitInSquare( const Plot & plot, QPainter *, double x, double y, Qt::Orientation orientation );
+		void plotImplicitInSquare( const Plot & plot, QPainter *, double x, double y, Qt::Orientations orientation, QList<QPointF> * singular );
 		/**
 		* \return whether should draw the pixel from the given line length,
 		* according to the given pen style (used in plotfkt).

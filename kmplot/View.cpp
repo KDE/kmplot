@@ -424,9 +424,67 @@ int root_find_iterations;
 int root_find_requests;
 #endif
 
+
+/**
+ * For comparing points where two points close together are considered equal.
+ */
+class FuzzyPoint
+{
+	public:
+		FuzzyPoint( const QPointF & point )
+		{
+			x = point.x();
+			y = point.y();
+		}
+		
+		
+		FuzzyPoint( double x, double y )
+		{
+			FuzzyPoint::x = x;
+			FuzzyPoint::y = y;
+		}
+		
+		
+		bool operator < ( const FuzzyPoint & other ) const
+		{
+			double du = qAbs(other.x - x) / dx;
+			double dv = qAbs(other.y - y) / dy;
+			
+			bool x_eq = (du < 1); // Whether the x coordinates are considered equal
+			bool y_eq = (dv < 1); // Whether the y coordinates are considered equal
+			
+			if ( x_eq && y_eq )
+			{
+				// Points are close together.
+				return false;
+			}
+			
+			bool x_lt = !x_eq && (x < other.x);
+			bool y_lt = !y_eq && (y < other.y);
+			
+			return ( x_lt || (x_eq && y_lt) );
+		}
+		
+		double x;
+		double y;
+		
+		static double dx;
+		static double dy;
+};
+typedef QMap< FuzzyPoint, QPointF > FuzzyPointMap;
+
+double FuzzyPoint::dx = 0;
+double FuzzyPoint::dy = 0;
+
+
+double SegmentMin = 0.1;
+double SegmentMax = 6.0;
+
+
 // The viewable area is divided up into square*squares squares, and the curve
 // is traced around in each square.
-int squares = 20;
+// NOTE: it is generally a good idea to make this number prime
+int squares = 19;
 
 void View::plotImplicit( Function * function, QPainter * painter )
 {
@@ -450,7 +508,14 @@ void View::plotImplicit( Function * function, QPainter * painter )
 	root_find_iterations = 0;
 	root_find_requests = 0;
 #endif
-		
+	
+	// Need another function for investigating singular points
+	Plot circular;
+	QString fname( "f(x)=0" );
+	XParser::self()->fixFunctionName( fname, Equation::Cartesian, -1 );
+	circular.setFunctionID( XParser::self()->addFunction( fname, 0, Function::Cartesian ) );
+	assert( circular.function() );
+	
 	const QList< Plot > plots = function->allPlots();
 	foreach ( Plot plot, plots )
 	{
@@ -465,8 +530,10 @@ void View::plotImplicit( Function * function, QPainter * painter )
 			}
 		}
 		
-		
 		painter->setPen( penForPlot( plot, painter->renderHints() & QPainter::Antialiasing ) );
+		
+		
+		QList<QPointF> singular;
 		
 		for ( int i = 0; i <= squares; ++i )
 		{
@@ -481,7 +548,7 @@ void View::plotImplicit( Function * function, QPainter * painter )
 #ifdef DEBUG_IMPLICIT
 				painter->setPen( QPen( Qt::red, painter->pen().width() ) );
 #endif
-				plotImplicitInSquare( plot, painter, x, y, Qt::Horizontal );
+				plotImplicitInSquare( plot, painter, x, y, Qt::Horizontal, & singular );
 			}
 			
 			
@@ -497,7 +564,51 @@ void View::plotImplicit( Function * function, QPainter * painter )
 #ifdef DEBUG_IMPLICIT
 				painter->setPen( QPen( Qt::blue, painter->pen().width() ) );
 #endif
-				plotImplicitInSquare( plot, painter, x, y, Qt::Vertical );
+				plotImplicitInSquare( plot, painter, x, y, Qt::Vertical, & singular );
+			}
+		}
+		
+		// Sort out the imlpicit points
+		FuzzyPointMap singularSorted;
+		FuzzyPoint::dx = (m_xmax-m_xmin) * SegmentMin * 0.1 / area.width();
+		FuzzyPoint::dy = (m_ymax-m_ymin) * SegmentMin * 0.1 / area.height();
+		foreach ( QPointF point, singular )
+			singularSorted.insert( point, point );
+		singular = singularSorted.values();
+		
+		foreach ( QPointF point, singular )
+		{
+			// radius of circle around singular point
+			double epsilon = qMin( FuzzyPoint::dx, FuzzyPoint::dy );
+			
+			QString fstr;
+			fstr = QString("%1(x)=%2(%3+%6*cos(x),%4+%6*sin(x),%5)")
+					.arg( circular.function()->eq[0]->name() )
+					.arg( function->eq[0]->name() )
+					.arg( XParser::self()->number( point.x() ) )
+					.arg( XParser::self()->number( point.y() ) )
+					.arg( XParser::self()->number( function->k ) )
+					.arg( XParser::self()->number( epsilon ) );
+			
+			bool setFstrOk = circular.function()->eq[0]->setFstr( fstr );
+			assert( setFstrOk );
+			
+			QList<double> roots = findRoots( circular, 0, 2*M_PI, PreciseRoot );
+			
+#ifdef DEBUG_IMPLICIT
+			kDebug() << "Singular point at (x,y)=("<<point.x()<<","<<point.y()<<")\n";
+			kDebug() << "fstr is    " << fstr << endl;
+			kDebug() << "Found " << roots.size() << " roots.\n";
+#endif
+			
+			foreach ( double t, roots )
+			{	
+#ifdef DEBUG_IMPLICIT
+				painter->setPen( QPen( Qt::green, painter->pen().width() ) );
+#endif
+				double x = point.x() + epsilon * cos(t);
+				double y = point.y() + epsilon * sin(t);
+				plotImplicitInSquare( plot, painter, x, y, 0, & singular );
 			}
 		}
 		
@@ -507,14 +618,13 @@ void View::plotImplicit( Function * function, QPainter * painter )
 	}
 	
 #ifdef DEBUG_IMPLICIT
-	kDebug() << "Average iterations in root finding was " << root_find_iterations/root_find_requests << endl;
+	if ( root_find_requests != 0 )
+		kDebug() << "Average iterations in root finding was " << root_find_iterations/root_find_requests << endl;
 	kDebug() << "Time taken was " << t.elapsed() << endl;
 #endif
+	
+	XParser::self()->removeFunction( circular.functionID() );
 }
-
-
-double SegmentMin = 0.1;
-double SegmentMax = 6.0;
 
 
 // static
@@ -543,7 +653,16 @@ double View::maxSegmentLength( double curvature )
 }
 
 
-void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x, double y, Qt::Orientation orientation )
+// does for real numbers what "%" does for integers
+double realModulo( double x, double mod )
+{
+	x = qAbs(x);
+	mod = qAbs(mod);
+	return x - floor(x/mod)*mod;
+}
+
+
+void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x, double y, Qt::Orientations orientation, QList<QPointF> * singular )
 {
 	plot.updateFunctionParameter();
 	Plot diff1 = plot;
@@ -590,14 +709,23 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		y_upper = y_lower + y_side;
 	}
 	
-	QPointF prev = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
-	
-	// Now trace around the curve from the point...
-	
 	// If during tracing, the root could not be found, then this will be set to true,
 	// the route will be retraced using a smaller step size and it will attempt to find
 	// a root again. If it fails for a second time, then tracing is finished.
 	bool foundRootPreviously = true;
+	
+	// Used for focal points.
+	double prevAngle = 0;
+	int switchCount = 0;
+	
+	// This is so that the algorithm can "look ahead" to see what is coming up,
+	// before drawing or commiting itself to anything potentially bad
+	QPointF prev2 = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
+	QPointF prev1 = prev2;
+	
+	// Allow us to doubly retrace
+	double prev_diff_x = 0;
+	double prev_diff_y = 0;
 	
 	for ( int i = 0; i < 500; ++i ) // allow a maximum of 100 traces (to prevent possibly infinite loop)
 	{
@@ -618,7 +746,7 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		double dy = value( diff1, 0, y, false );
 		
 		double k = pixelCurvature( plot, x, y );
-		double segment_step = maxSegmentLength( k );
+		double segment_step = maxSegmentLength( k ) * pow( 0.5, switchCount );
 		
 		// If we couldn't find a root in the previous iteration, it was possibly
 		// because we were using too large a step size. So reduce the step size
@@ -641,6 +769,47 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		// (tx, ty) is tangent to the curve in the direction that we are tracing
 		double tx = -dy/l;
 		double ty = dx/l;
+		
+		double angle = arctan(ty/tx) + ((tx<0) ? M_PI : 0);
+		double diff = realModulo( angle-prevAngle, 2*M_PI );
+		
+		bool switchedDirection = (i > 0) && (diff > (3./4.)*M_PI) && (diff < (5./4.)*M_PI);
+		if ( switchedDirection )
+		{
+			// Why do I care about suddenly changing the direction?
+			// Because the chances are, a attracting or repelling point has been reached.
+			// Even if not, it suggests that a smaller step size is needed. If we have
+			// switched direction and are already at the smallest step size, then note
+			// the dodgy point for further investigation and give up for now
+			
+// 			kDebug() << "Switched direction: x="<<x<<" switchCount="<<switchCount<<" segment_step="<<segment_step<<" i="<<i<<endl;
+			
+			// Use a step size much smaller than segment min to obtain good accuracy,
+			// needed for investigating the point further
+			if ( segment_step <= SegmentMin * 0.01 )
+			{
+				// Give up. Tell our parent function to investigate the point further
+				*singular << QPointF( x, y );
+				break;
+			}
+			
+			// Rewind the last tangent addition as well
+			x -= prev_diff_x;
+			y -= prev_diff_y;
+			
+			prev_diff_x = 0;
+			prev_diff_y = 0;
+			
+			switchCount += 2;
+			continue;
+		}
+		else
+		{
+			// Reset the stepping adjustment
+			switchCount = qMax( 0, switchCount-1 );
+			prevAngle = angle;
+// 			kDebug() << "Didn't switch - x="<<x<<" segment_step="<<segment_step<<endl;
+		}
 		
 		if ( i == 0 )
 		{
@@ -671,6 +840,7 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		else
 			max_ty = y - y_lower;
 		
+		
 		// Does (tx,ty) need to be scaled to make sure the tangent stays inside the square?
 		double scale = qMax( (tx==0) ? 0 : qAbs(tx)/max_tx, (ty==0) ? 0 : qAbs(ty)/max_ty );
 		bool outOfBounds = scale > 1;
@@ -679,6 +849,9 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 			tx /= scale;
 			ty /= scale;
 		}
+		
+		double x0 = x;
+		double y0 = y;
 		
 		x += tx;
 		y += ty;
@@ -703,11 +876,15 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		{
 			if ( foundRootPreviously )
 			{
+#ifdef DEBUG_IMPLICIT
 				kDebug() << "Could not find root!\n";
+#endif
 				
 				// Retrace our steps
-				x -= tx;
-				y -= ty;
+				x = x0;
+				y = y0;
+				prev_diff_x = 0;
+				prev_diff_y = 0;
 				continue;
 				foundRootPreviously = false;
 			}
@@ -720,14 +897,20 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		else
 			foundRootPreviously = true;
 		
-		QPointF next = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
-		painter->drawLine( prev, next );
-		prev = next;
-		markDiagramPointUsed( next );
+		prev_diff_x = x - x0;
+		prev_diff_y = y - y0;
+		
+		painter->drawLine( prev2, prev1 );
+		prev2 = prev1;
+		prev1 = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
+		markDiagramPointUsed( prev1 );
 		
 		if ( outOfBounds )
 			break;
 	}
+	
+	// and the final line
+	painter->drawLine( prev2, prev1 );
 }
 
 
@@ -1071,15 +1254,6 @@ int View::rectCost( const QRectF & rect ) const
 }
 
 
-// does for real numbers what "%" does for integers
-double realModulo( double x, double mod )
-{
-	x = qAbs(x);
-	mod = qAbs(mod);
-	return x - floor(x/mod)*mod;
-}
-
-
 bool View::penShouldDraw( double length, const Plot & plot )
 {
 	// Always use a solid line when translating the view
@@ -1349,8 +1523,7 @@ QList< double > View::findRoots( const Plot & plot, double min, double max, Root
 	int prevNumRoots = 0;
 	while ( count < 1000 )
 	{
-		// Use this to detect finding the same root. This assumes that the same root
-		// will be converged to in unbroken x-intervals
+		// Use this to detect finding the same root.
 		double prevX = 0.0;
 		
 		double dx = (max-min) / double(count);
@@ -1369,6 +1542,9 @@ QList< double > View::findRoots( const Plot & plot, double min, double max, Root
 					continue;
 			
 				DoubleMap::iterator nextIt = roots.lowerBound(x);
+				if ( nextIt == roots.end() )
+					--nextIt;
+				
 				double lower, upper;
 				lower = upper = *nextIt;
 				if ( nextIt != roots.begin() )

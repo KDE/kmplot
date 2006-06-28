@@ -142,3 +142,7 @@ kmplot/animateparameter.h
 kmplot/parameteranimator.cpp
 kmplot/parameteranimator.h
 kmplot/parameteranimator.ui
+kmplot/view.cpp
+kmplot/view.h
+kmplot/maindlg.cpp
+kmplot/maindlg.h

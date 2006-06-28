@@ -26,7 +26,7 @@
 #include "function.h"
 #include "ksliderwindow.h"
 #include "settings.h"
-#include "View.h"
+#include "view.h"
 #include "xparser.h"
 
 #include <kdebug.h>

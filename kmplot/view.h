@@ -30,6 +30,7 @@
 // Qt includes
 #include <qpixmap.h>
 #include <QPointer>
+#include <QMatrix>
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QKeyEvent>
@@ -43,16 +44,24 @@
 #include <kpushbutton.h>
 
 
-// local includes
-#include "diagr.h"
-#include "xparser.h"
+#include "function.h"
+
 
 class KMinMax;
 class KSliderWindow;
 class MainDlg;
 class QPaintEvent;
+class QTextDocument;
+class QTextEdit;
 class QTime;
 class XParser;
+
+//@{
+/// Some abbreviations for horizontal and vertical lines.
+#define Line drawLine
+#define Lineh(x1, y, x2) drawLine( QPointF(x1, y), QPointF(x2, y) )
+#define Linev(x, y1, y2) drawLine( QPointF(x, y1), QPointF(x, y2) )
+//@}
 
 
 /**
@@ -247,6 +256,16 @@ class View : public QWidget
 		*/
 		void drawHeaderTable(QPainter *);
 		/**
+		 * Draws the background stuff (grid, axies, etc).
+		 */
+		void drawDiagram( QPainter * painter );
+		/// Draw the coordinate axes.
+		void drawAxes(QPainter*);
+		/// Draw the grid.
+		void drawGrid( QPainter* );
+		/// Write labels.
+		void drawLabels(QPainter*);
+		/**
 		* Draw the function plots (other than implicit).
 		*/
 		void plotFunction(Function *ufkt, QPainter*);
@@ -382,6 +401,33 @@ class View : public QWidget
 		 * plotting.
 		 */
 		double getXmax( Function * function );
+		/**
+		 * Initializes constants needed for drawing the diagram.
+		 */
+		void initDiagram( QPointF Ref, double lx, double ly );
+		
+		/**
+		 * How to behave in the *ToPixel functions.
+		 */
+		enum ClipBehaviour
+		{
+			ClipAll,		///< Clips any points going over the edge of the diagram
+			ClipInfinite	///< Clips only infinite and NaN points going over the edge
+		};
+		/**
+		 * @{
+		 * @name Transformations
+		 * These functions convert real coordinates to pixel coordinates and vice
+		 * versa.
+		 */
+		double xToPixel( double x, ClipBehaviour clipBehaviour = ClipAll );
+		double yToPixel( double y, ClipBehaviour clipBehaviour = ClipAll );
+		QPointF toPixel( const QPointF & real, ClipBehaviour clipBehaviour = ClipAll );
+		double xToReal( double x );
+		double yToReal( double y );
+		QPointF toReal( const QPointF & pixel );
+		bool xclipflg;	///< clipflg is set to 1 if the plot is out of the plot area.
+		bool yclipflg;	///< clipflg is set to 1 if the plot is out of the plot area.
 	
 		/// for areadrawing
 		IntegralDrawSettings m_integralDrawSettings;
@@ -389,6 +435,15 @@ class View : public QWidget
 	
 		double m_width, m_height;
 		float m_scaler;
+		/// Clip boundage.
+		double xmd, ymd;
+		///Position of the first tic.      
+		double tsx, tsy;
+		/// Screen coordinates of the coordinate system origin.
+		double ox, oy;
+		/// Transformation factors.
+		/// @see Skal
+		double skx, sky;
 	
 		QPointF m_crosshairPixelCoords;
 		QPointF m_crosshairPosition;	///< in real coordinates
@@ -460,6 +515,8 @@ class View : public QWidget
 		bool const m_readonly;
 		/// For drawing diagram labels
 		QFont m_labelFont;
+		QRect m_plotArea;	///< plot area
+		QRect m_frame;		///< frame around the plot
 		
 		/// Indicate which parts of the diagram have content (e.g. axis or
 		/// plots), so that they can be avoided when drawing diagram labels
@@ -516,6 +573,9 @@ class View : public QWidget
 		Cursor m_prevCursor;
 		
 		static View * m_self;
+		
+		QTextEdit * m_textEdit; ///< Contains m_textDocument
+		QTextDocument * m_textDocument; ///< Used for layout of axis labels
 };
 
 #endif // View_included

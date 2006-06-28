@@ -27,7 +27,7 @@
 #define KCONSTANTEDITOR_H
 
 #include "ui_settingspageconstants.h"
-#include "View.h"
+#include "view.h"
 
 #include <QValidator>
 

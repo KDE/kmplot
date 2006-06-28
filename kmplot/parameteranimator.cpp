@@ -24,7 +24,7 @@
 
 #include "parameteranimator.h"
 #include "ui_parameteranimator.h"
-#include "View.h"
+#include "view.h"
 
 #include <kicon.h>
 #include <QTimer>

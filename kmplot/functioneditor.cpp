@@ -27,10 +27,10 @@
 #include "equationedit.h"
 #include "functioneditor.h"
 #include "kmplotio.h"
-#include "MainDlg.h"
+#include "maindlg.h"
 #include "parameterswidget.h"
 #include "ui_functioneditorwidget.h"
-#include "View.h"
+#include "view.h"
 #include "xparser.h"
 
 #include <kaction.h>

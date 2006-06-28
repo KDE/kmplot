@@ -24,10 +24,12 @@
 */
 
 // Qt includes
+#include <QAbstractTextDocumentLayout>
 #include <qbitmap.h>
 #include <qcursor.h>
 #include <qdatastream.h>
 #include <QApplication>
+#include <QPainter>
 #include <QPicture>
 #include <qslider.h>
 #include <qtimer.h>
@@ -38,6 +40,9 @@
 #include <QEvent>
 #include <QList>
 #include <QResizeEvent>
+#include <QTextDocument>
+#include <QTextEdit>
+#include <QTextLayout>
 #include <QTime>
 #include <QMouseEvent>
 
@@ -57,15 +62,34 @@
 #include "kminmax.h"
 #include "settings.h"
 #include "ksliderwindow.h"
-#include "MainDlg.h"
+#include "maindlg.h"
 #include "parameteranimator.h"
-#include "View.h"
+#include "view.h"
 #include "viewadaptor.h"
 
 
 // other includes
 #include <assert.h>
 #include <cmath>
+
+
+
+//BEGIN nan & inf
+#ifdef __osf__
+#include <nan.h>
+#define isnan(x) IsNAN(x)
+#define isinf(x) IsINF(X)
+#endif
+
+#ifdef USE_SOLARIS
+#include <ieeefp.h>
+int isinf(double x)
+{
+	return !finite(x) && x==x;
+}
+#endif
+//END nan & inf
+
 
 
 //BEGIN class View
@@ -97,6 +121,11 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	m_popupmenushown = 0;
 	m_zoomMode = Normal;
 	m_prevCursor = CursorArrow;
+	
+	m_textEdit = new QTextEdit;
+	m_textEdit->setWordWrapMode( QTextOption::NoWrap );
+	m_textEdit->setLineWrapMode( QTextEdit::NoWrap );
+	m_textDocument = m_textEdit->document();
 
 	m_mousePressTimer = new QTime();
 
@@ -122,6 +151,7 @@ void View::setMinMaxDlg(KMinMax *minmaxdlg)
 
 View::~View()
 {
+	m_textEdit->deleteLater();
 	delete XParser::self();
 	delete m_mousePressTimer;
 }
@@ -136,13 +166,13 @@ void View::initDrawLabels()
 			m_usedDiagramArea[i][j] = false;
 	
 	// Add the axis
-	double x = CDiagr::self()->xToPixel( 0 );
-	double y = CDiagr::self()->yToPixel( 0 );
+	double x = xToPixel( 0 );
+	double y = yToPixel( 0 );
 	
-	double x0 = CDiagr::self()->xToPixel( m_xmin );
-	double x1 = CDiagr::self()->xToPixel( m_xmax );
-	double y0 = CDiagr::self()->yToPixel( m_ymin );
-	double y1 = CDiagr::self()->yToPixel( m_ymax );
+	double x0 = xToPixel( m_xmin );
+	double x1 = xToPixel( m_xmax );
+	double y0 = yToPixel( m_ymin );
+	double y1 = yToPixel( m_ymax );
 	
 	// x-axis
 	markDiagramAreaUsed( QRectF( x-20, y0, 40, y1-y0 ) );
@@ -181,7 +211,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			}
 			wm = DC.matrix();
 			m_scaler=( QPoint(1000, 0) * DC.matrix() ).x()/1000.;
-			CDiagr::self()->Create( ref, lx, ly );
+			initDiagram( ref, lx, ly );
 			break;
 		}
 
@@ -195,9 +225,9 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			m_scaler = 1.;
 			m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1";
 			drawHeaderTable( &DC );
-			CDiagr::self()->Create( ref, lx, ly );
+			initDiagram( ref, lx, ly );
 			if ( ( (KPrinter* )dev )->option( "app-kmplot-printbackground" ) == "-1" )
-				DC.fillRect( CDiagr::self()->frame(),  m_backgroundColor); //draw a colored background
+				DC.fillRect( m_frame,  m_backgroundColor); //draw a colored background
 			//DC.end();
 			//((QPixmap *)dev)->fill(QColor("#FF00FF"));
 			//DC.begin(dev);
@@ -209,8 +239,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			QPointF ref(0, 0);
 			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
 			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
-			CDiagr::self()->Create( ref, lx, ly );
-			DC.translate(-CDiagr::self()->frame().left(), -CDiagr::self()->frame().top());
+			initDiagram( ref, lx, ly );
+			DC.translate(-m_frame.left(), -m_frame.top());
 			m_scaler=1.;
 			break;
 		}
@@ -221,25 +251,25 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			QPointF ref(0, 0);
 			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
 			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
-			CDiagr::self()->Create( ref, lx, ly );
+			initDiagram( ref, lx, ly );
 			DC.end();
-			*((QPixmap *)dev) = QPixmap( (int)(CDiagr::self()->frame().width()*sf), (int)(CDiagr::self()->frame().height()*sf) );
+			*((QPixmap *)dev) = QPixmap( (int)(m_frame.width()*sf), (int)(m_frame.height()*sf) );
 			((QPixmap *)dev)->fill(m_backgroundColor);
 			DC.begin(dev);
-			DC.translate(-CDiagr::self()->frame().left()*sf, -CDiagr::self()->frame().top()*sf);
+			DC.translate(-m_frame.left()*sf, -m_frame.top()*sf);
 			DC.scale(sf, sf);
 			m_scaler=1.;
 			break;
 		}
 	}
-
-	CDiagr::self()->updateSettings();
-	CDiagr::self()->Skal();
+	
+	tsx=ceil(m_xmin/tlgx)*tlgx;
+	tsy=ceil(m_ymin/tlgy)*tlgy;
 
 	DC.setRenderHint( QPainter::Antialiasing, true );
-	CDiagr::self()->Plot(&DC);
+	drawDiagram( &DC );
 
-	area=DC.matrix().mapRect( CDiagr::self()->plotArea() );
+	area=DC.matrix().mapRect( m_plotArea );
 
 	m_isDrawing=true;
 	updateCursor();
@@ -250,7 +280,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	DC.setRenderHint( QPainter::Antialiasing, m_zoomMode != Translating );
 	
 	DC.setClipping( true );
-	DC.setClipRect( CDiagr::self()->plotArea() );
+	DC.setClipRect( m_plotArea );
 	foreach ( Function * ufkt, XParser::self()->m_ufkt )
 	{
 		if ( stop_calculating )
@@ -267,6 +297,584 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	m_isDrawing=false;
 	updateCursor();
 	DC.end();   // painting done
+}
+
+
+void View::initDiagram( QPointF Ref, 			    // Bezugspunkt links unten
+						double lx, double ly) 			// Achsenl�gen
+{
+	int x, y, h, w;
+	
+	xmd = m_xmax+1e-6;
+	ymd = m_ymax+1e-6;
+	tsx = ceil(m_xmin/tlgx)*tlgx;
+	tsy = ceil(m_ymin/tlgy)*tlgy;
+	skx = lx/(m_xmax-m_xmin);			        // Skalierungsfaktoren berechnen
+	sky = ly/(m_ymax-m_ymin);
+	ox = Ref.x()-skx*m_xmin+0.5;	        // Ursprungskoordinaten berechnen
+	oy = Ref.y()+sky*m_ymax+0.5;
+	
+	x = int(Ref.x());
+	y = int(Ref.y());
+	w = int(lx);
+	h = int(ly);
+	m_plotArea.setRect( x, y, w, h );
+	
+	if( Settings::showExtraFrame() )
+	{
+		x-=20;
+		y-=20;
+		w+=40;
+		h+=40;
+
+		if( Settings::showLabel() && m_ymin>=0. )
+			h+=60;
+	}
+
+	m_frame.setRect(x, y, w, h);
+}
+
+
+QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour )
+{
+	double x = xToPixel( real.x(), clipBehaviour );
+	double y = yToPixel( real.y(), clipBehaviour );
+	return QPointF( x, y );
+}
+
+
+double View::xToPixel( double x, ClipBehaviour clipBehaviour )		// reale x-Koordinate
+{
+	double xi;                			// transformierte x-Koordinate
+	static double lastx;            // vorherige x-Koordinate
+	if(isnan(x))
+	{
+		xclipflg=1;
+		if(lastx<1. && lastx>-1.)
+			xi=(ox-skx*lastx);
+		else
+			xi=(lastx<0)? m_plotArea.left(): m_plotArea.right();
+	}
+	else if(isinf(x)==-1)
+	{
+		xclipflg=0;
+		xi=m_plotArea.left();
+	}
+	else if(isinf(x)==1)
+	{
+		xclipflg=0;
+		xi=m_plotArea.right();
+                
+	}
+	else if ( (x<m_xmin) && (clipBehaviour == ClipAll) )
+	{
+		xclipflg=1;
+		xi=m_plotArea.left();
+	}
+	else if ( (x>m_xmax) && (clipBehaviour == ClipAll) )
+	{
+		xclipflg=1;
+		xi=m_plotArea.right();
+	}
+	else
+	{
+		xclipflg=0;
+		xi=(ox+skx*x);
+	}
+
+	lastx=x;
+	return xi;
+}
+
+
+double View::yToPixel( double y, ClipBehaviour clipBehaviour )		// reale y-Koordinate
+{   
+	double yi;                     	// transformierte y-Koordinate
+	static double lasty;            // vorherige y-Koordinate
+	if(isnan(y))
+	{
+		yclipflg=1;
+		if(lasty<1. && lasty>-1.)
+			yi=(oy-sky*lasty);
+		else
+			yi=(lasty<0)? m_plotArea.bottom(): m_plotArea.top();
+	}
+	else if(isinf(y)==-1)
+	{
+		yclipflg=0;
+		yi=m_plotArea.bottom();
+                
+	}
+	else if(isinf(y)==1)
+	{
+		yclipflg=0;
+		yi=m_plotArea.top();
+                
+	}
+	else if ( (y<m_ymin) && (clipBehaviour == ClipAll) )
+	{
+		yclipflg=1;
+		yi=m_plotArea.bottom();
+	}
+	else if ( (y>m_ymax) && (clipBehaviour == ClipAll) )
+	{
+		yclipflg=1;
+		yi=m_plotArea.top();
+	}
+	else
+	{
+		yclipflg=0;
+		yi=(oy-sky*y);
+	}
+
+	lasty=y;
+	return yi;
+}
+
+
+QPointF View::toReal( const QPointF & pixel )
+{
+	double x = xToReal( pixel.x() );
+	double y = yToReal( pixel.y() );
+	return QPointF( x, y );
+}
+
+
+double View::xToReal(double x) 		// Bildschirmkoordinate
+{   return (x-ox)/skx;     			// reale x-Koordinate
+}
+
+
+double View::yToReal(double y)        // Bildschirmkoordinate
+{   return (oy-y)/sky;     			// reale y-Koordinate
+}
+
+
+void View::drawDiagram( QPainter * pDC )
+{
+	QColor frameColor = qRgb(0, 0, 0);
+	
+	double borderThickness = 0.2;
+	QPen pen( frameColor, View::self()->mmToPenWidth( borderThickness, true ) );
+
+	drawGrid( pDC ); // draw the grid
+	drawAxes( pDC ); // draw the axes
+	if( Settings::showLabel() )
+		drawLabels(pDC);        // Achsen beschriften
+	if( Settings::showFrame() || Settings::showExtraFrame() )// FRAME zeichnen
+	{
+		pDC->setPen(pen);
+		pDC->drawRect(m_frame);
+	}
+}
+
+
+void View::drawAxes( QPainter* pDC )	// draw axes
+{
+	double axesLineWidth = Settings::axesLineWidth();
+	double ticWidth = Settings::ticWidth();
+	double ticLength = Settings::ticLength();
+	QColor axesColor = Settings::axesColor();
+	
+	double a, b, tl;
+	double d, da, db;
+	
+	if( Settings::showAxes() )
+	{
+		pDC->save();
+		
+		int const dx=14;
+		int const dy=8;
+		
+		pDC->setPen( QPen( axesColor, View::self()->mmToPenWidth(axesLineWidth, true) ) );
+		pDC->setBrush( axesColor );
+		
+		a=m_plotArea.right();
+		b=yToPixel(0.);
+		pDC->Lineh(m_plotArea.left(), b, a);	    // x-Achse
+		if( Settings::showArrows()) 		    			// ARROWS
+		{
+			QPolygonF p(3);
+			p[0] = QPointF( a, b );
+			p[1] = QPointF( a-dx, b+dy );
+			p[2] = QPointF( a-dx, b-dy );
+			pDC->drawPolygon( p );
+		}
+
+		a=xToPixel(0.);
+		b=m_plotArea.top();
+		pDC->Linev(a, m_plotArea.bottom(), b); 	    // y-Achse
+		if( Settings::showArrows() )   					// ARROWS
+		{
+			QPolygonF p(3);
+			p[0] = QPointF( a, b );
+			p[1] = QPointF( a-dy, b+dx );
+			p[2] = QPointF( a+dy, b+dx );
+			pDC->drawPolygon( p );
+		}
+		
+		pDC->restore();
+	}
+
+	pDC->setPen( QPen( axesColor, View::self()->mmToPenWidth(ticWidth, true) ) );
+	if( Settings::showAxes() )
+	{
+		da=oy-(ticLength*10.0);
+		db=oy+(ticLength*10.0);
+		tl= Settings::showFrame()? 0: (ticLength*10.0);
+		d=tsx;
+		if(da<(double)m_plotArea.top())
+		{
+			a=m_plotArea.top()-tl;
+			b=m_plotArea.top()+int(10.0*ticLength);
+		}
+		else if(db>(double)m_plotArea.bottom())
+		{
+			b=m_plotArea.bottom()+tl;
+			a=m_plotArea.bottom()-(10.0*ticLength);
+		}
+		else
+		{
+			a=da;
+			b=db;
+		}
+
+		while(d<xmd-tlgx/2.)
+		{
+			pDC->Linev(xToPixel(d), a, b);
+			d+=tlgx;
+		}
+
+		da=ox-(10.0*ticLength);
+		db=ox+(10.0*ticLength);
+		d=tsy;
+		if(da<(double)m_plotArea.left())
+		{
+			a=m_plotArea.left()-tl;
+			b=m_plotArea.left()+(10.0*ticLength);
+		}
+		else if(db>(double)m_plotArea.right())
+		{
+			b=m_plotArea.right()+tl;
+			a=m_plotArea.right()-(10.0*ticLength);
+		}
+		else
+		{
+			a=da;
+			b=db;
+		}
+
+		while(d<ymd-tlgy/2.)
+		{
+			pDC->Lineh(a, yToPixel(d), b);
+			d+=tlgy;
+		}
+	}
+	else if( Settings::showFrame() )
+	{
+		a=m_plotArea.bottom()+(ticLength*10.0);
+		b=m_plotArea.top()-(ticLength*10.0);
+		d=tsx;
+		while(d<xmd)
+		{
+			pDC->Linev(xToPixel(d), m_plotArea.bottom(), a);
+			pDC->Linev(xToPixel(d), m_plotArea.top(), b);
+			d+=tlgx;
+		}
+
+		a=m_plotArea.left()+(ticLength*10.0);
+		b=m_plotArea.right()-(ticLength*10.0);
+		d=tsy;
+		while(d<ymd)
+		{
+			pDC->Lineh(m_plotArea.left(), yToPixel(d), a);
+			pDC->Lineh(m_plotArea.right(), yToPixel(d), b);
+			d+=tlgy;
+		}
+	}
+}
+
+
+void View::drawGrid( QPainter* pDC )
+{
+	QColor gridColor = Settings::gridColor();
+	
+	double tlgy = View::self()->tlgy;
+	double a, b;
+	double d, x, y;
+	
+	double gridLineWidth = Settings::gridLineWidth();
+	QPen pen( gridColor, View::self()->mmToPenWidth(gridLineWidth, true) );
+
+	pDC->setPen(pen);
+	
+	enum GridStyle
+	{
+		GridNone,
+		GridLines,
+		GridCrosses,
+		GridPolar
+	};
+	GridStyle gridMode = (GridStyle)Settings::gridStyle();
+	
+	switch ( gridMode )
+	{
+		case GridNone:
+			break;
+			
+		case GridLines:
+		{
+			d=tsx;
+			while(d<xmd)
+			{
+				pDC->Linev(xToPixel(d), m_plotArea.bottom(), m_plotArea.top());
+				d+=tlgx;
+			}
+			d=tsy;
+			while(d<ymd)
+			{
+				pDC->Lineh(m_plotArea.left(), yToPixel(d), m_plotArea.right());
+				d+=tlgy;
+			}
+			
+			break;
+		}
+		
+		case GridCrosses:
+		{
+			int const dx = 5;
+			int const dy = 5;
+
+			for(x=tsx; x<xmd; x+=tlgx)
+			{
+				a=xToPixel(x);
+				for(y=tsy; y<ymd; y+=tlgy)
+				{
+					b=yToPixel(y);
+					pDC->Lineh(a-dx, b, a+dx);
+					pDC->Linev(a, b-dy, b+dy);
+				}
+			}
+		}
+		
+		case GridPolar:
+		{
+			double y2;
+			double w;
+			QRect const rc=m_plotArea;
+		
+			pDC->setClipRect(rc);
+			double const c=hypot(xmd*skx, ymd*sky);
+			double const xm=(c+ox);
+			double const dr=(skx*tlgx);
+			double const d2r=(2.*skx*tlgx);
+			double x1=ox-dr;
+			double y1=oy-dr;
+			double x2=y2=d2r;
+
+			do
+			{
+				pDC->drawEllipse( QRectF( x1, y1, x2, y2 ) );
+				x1-=dr;
+				y1-=dr;
+				x2+=d2r;
+				y2+=d2r;
+			}
+			while(x2<=xm);
+
+			x1=ox;
+			y1=oy;
+			for(w=0.; w<2.*M_PI; w+=M_PI/12.)
+			{
+				x2=(ox+c*cos(w));
+				y2=(oy+c*sin(w));
+				pDC->Line( QPointF( x1, y1 ), QPointF( x2, y2 ) );
+			}
+			pDC->setClipping( false );
+			
+			break;
+		}
+	}
+}
+
+
+void View::drawLabels(QPainter* pDC)
+{
+	QColor axesColor = Settings::axesColor();
+	int const dx=15;
+	int const dy=40;
+	QFont const font=QFont( Settings::axesFont(), Settings::axesFontSize() );
+	pDC->setFont(font);
+	m_textDocument->setDefaultFont( font );
+	
+	double const x=xToPixel(0.);
+	double const y=yToPixel(0.);
+	double d;
+	int n;
+
+	//pDC->drawText(x-dx, y+dy, 0, 0, Qt::AlignRight|Qt::AlignVCenter|Qt::TextDontClip, "0");
+	char draw_next=0;
+	QFontMetrics const test(font);
+	int swidth=0;
+
+// 	kDebug() << "tsx="<<tsx<<" xmd="<<xmd<<" ex="<<ex << " (xmd-tsx)/ex="<<(xmd-tsx)/ex<<endl;
+	for(d=tsx, n=(int)ceil(m_xmin/tlgx); d<xmd; d+=tlgx, ++n)
+	{
+		if(n==0 || fabs(d-xmd)<=1.5*tlgx)
+			continue;
+		
+		QString s;
+		
+		int frac[] = { 2, 3, 4 };
+		bool found = false;
+		for ( unsigned i = 0; i < 3; ++i )
+		{
+			if( fabs(tlgx-M_PI/frac[i])> 1e-3 )
+				continue;
+			
+			s = (n<0) ? '-' : '+';
+			
+			found = true;
+			if(n==-1 || n==1)
+				s += QChar(960) + QString("/%1").arg(frac[i]);
+			else if(n%frac[i] == 0)
+			{
+				if ( n == -frac[i] || n == frac[i])
+					s+=QChar(960);
+				else
+				{
+					s=QString().sprintf("%+d", n/frac[i]);
+					s+=QChar(960);
+				}
+			}
+			
+			break;
+		}
+		
+		if ( !found && (n%5==0 || n==1 || n==-1 || draw_next))
+		{
+			s = View::self()->posToString( n*tlgx, (m_xmax-m_xmin)/4, View::ScientificFormat, axesColor );
+		}
+		
+		if ( !s.isEmpty() )
+		{
+			swidth = test.width(s);
+			if (  xToPixel(d)-x<swidth && xToPixel(d)-x>-swidth && draw_next==0)
+			{
+				draw_next=1;
+				continue;
+			}
+			if (draw_next>0)
+			{
+				if (draw_next==1)
+				{
+					draw_next++;
+					continue;
+				}
+				else
+					draw_next=0;
+			}
+			
+			if ( xclipflg )
+				continue;
+			
+			m_textDocument->setHtml( s );
+			QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
+			
+			QPointF drawPoint( xToPixel(d)-(br.width()/2), y+dy-(br.height()/2) );
+			
+			pDC->translate( drawPoint );
+			m_textDocument->documentLayout()->draw( pDC, QAbstractTextDocumentLayout::PaintContext() ); 
+			pDC->translate( -drawPoint );
+			
+		}
+	}
+
+	QRectF drawRect;
+	
+	if ( m_ymax<0 && m_xmax<0 )
+		drawRect = QRectF( xToPixel(m_xmax)-(4*dx), y+(dy-20), 0, 0 );
+	else
+		drawRect = QRectF( xToPixel(m_xmax)-dx, y+dy, 0, 0 );
+	pDC->drawText( drawRect, Qt::AlignCenter|Qt::TextDontClip, "x" );
+
+	for(d=tsy, n=(int)ceil(m_ymin/tlgy); d<ymd; d+=tlgy, ++n)
+	{
+		if(n==0 || fabs(d-ymd)<=1.5*tlgy)
+			continue;
+
+		QString s;
+		
+		int frac[] = { 2, 3, 4 };
+		bool found = false;
+		for ( unsigned i = 0; i < 3; ++i )
+		{
+			if( fabs(tlgy-M_PI/frac[i])> 1e-3 )
+				continue;
+			
+			s = (n<0) ? '-' : '+';
+			
+			found = true;
+			if(n==-1 || n==1)
+				s += QChar(960) + QString("/%1").arg(frac[i]);
+			else if(n%frac[i] == 0)
+			{
+				if ( n == -frac[i] || n == frac[i])
+					s+=QChar(960);
+				else
+				{
+					s=QString().sprintf("%+d", n/frac[i]);
+					s+=QChar(960);
+				}
+			}
+			
+			break;
+		}
+		if( !found && (n%5==0 || n==1 || n==-1))
+		{
+			s = View::self()->posToString( n*tlgy, (m_ymax-m_ymin)/4, View::ScientificFormat, axesColor );
+		}
+		
+		if ( !s.isEmpty() )
+		{
+			m_textDocument->setHtml( s );
+			
+			QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
+			
+			QPointF drawPoint( 0, yToPixel(d)-(br.height()/2) );
+			
+			if (m_xmin>=0)
+			{
+				drawPoint.setX( x+dx );
+			}
+			else
+			{
+				drawPoint.setX( x-dx-br.width() );
+				
+				if ( drawPoint.x() < 0 )
+				{
+					// Don't draw off the left edge of the screen
+					drawPoint.setX( 0 );
+				}
+			}
+			
+			if ( yclipflg )
+				continue;
+			
+			pDC->translate( drawPoint );
+			m_textDocument->documentLayout()->draw( pDC, QAbstractTextDocumentLayout::PaintContext() );
+			pDC->translate( -drawPoint );
+		}
+	}
+
+	
+	if(m_ymax<0 && m_xmax<0)
+		drawRect = QRectF( x-dx, yToPixel(m_ymax)+(2*dy), 0, 0 );
+	else if (m_xmin>0)
+		drawRect = QRectF( x-(2*dx), yToPixel(m_ymax)+dy, 0, 0 );
+	else
+		drawRect = QRectF( x-dx, yToPixel(m_ymax)+dy, 0, 0 );
+	pDC->drawText( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y" );
 }
 
 
@@ -501,8 +1109,8 @@ void View::plotImplicit( Function * function, QPainter * painter )
 		double x = m_xmin + i * (m_xmax-m_xmin)/squares;
 		double y = m_ymin + i * (m_ymax-m_ymin)/squares;
 		
-		painter->drawLine( CDiagr::self()->toPixel( QPointF( m_xmin, y ), CDiagr::ClipInfinite ), CDiagr::self()->toPixel( QPointF( m_xmax, y ), CDiagr::ClipInfinite ) );
-		painter->drawLine( CDiagr::self()->toPixel( QPointF( x, m_ymin ), CDiagr::ClipInfinite ), CDiagr::self()->toPixel( QPointF( x, m_ymax ), CDiagr::ClipInfinite ) );
+		painter->drawLine( toPixel( QPointF( m_xmin, y ), ClipInfinite ), toPixel( QPointF( m_xmax, y ), ClipInfinite ) );
+		painter->drawLine( toPixel( QPointF( x, m_ymin ), ClipInfinite ), toPixel( QPointF( x, m_ymax ), ClipInfinite ) );
 	}
 	
 	root_find_iterations = 0;
@@ -673,7 +1281,7 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 #ifdef DEBUG_IMPLICIT
 	painter->save();
 	painter->setPen( QPen( Qt::black, painter->pen().width() ) );
-	QPointF tl = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite ) - QPoint( 2, 2 );
+	QPointF tl = toPixel( QPointF( x, y ), ClipInfinite ) - QPoint( 2, 2 );
 	painter->drawRect( QRectF( tl, QSizeF( 4, 4 ) ) );
 	painter->restore();
 #endif
@@ -720,7 +1328,7 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 	
 	// This is so that the algorithm can "look ahead" to see what is coming up,
 	// before drawing or commiting itself to anything potentially bad
-	QPointF prev2 = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
+	QPointF prev2 = toPixel( QPointF( x, y ), ClipInfinite );
 	QPointF prev1 = prev2;
 	
 	// Allow us to doubly retrace
@@ -756,8 +1364,8 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		
 // 		kDebug() << "k="<<k<<" segment_step="<<segment_step<<endl;
 		
-		QPointF p1 = CDiagr::self()->toPixel( QPointF( x, y ),			CDiagr::ClipInfinite ) * painter->matrix();
-		QPointF p2 = CDiagr::self()->toPixel( QPointF( x+dx, y+dy ),	CDiagr::ClipInfinite ) * painter->matrix();
+		QPointF p1 = toPixel( QPointF( x, y ),			ClipInfinite ) * painter->matrix();
+		QPointF p2 = toPixel( QPointF( x+dx, y+dy ),	ClipInfinite ) * painter->matrix();
 		double l = QLineF( p1, p2 ).length() / segment_step;
 		
 		if ( l == 0 )
@@ -902,7 +1510,7 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		
 		painter->drawLine( prev2, prev1 );
 		prev2 = prev1;
-		prev1 = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite );
+		prev1 = toPixel( QPointF( x, y ), ClipInfinite );
 		markDiagramPointUsed( prev1 );
 		
 		if ( outOfBounds )
@@ -971,7 +1579,7 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 
 		while ( x>=dmin && x<=dmax )
 		{
-			p2 = CDiagr::self()->toPixel( realValue( plot, x, false ), CDiagr::ClipInfinite );
+			p2 = toPixel( realValue( plot, x, false ), ClipInfinite );
 
 			double min_mod = (ufkt->type() == Function::Cartesian) ? 0.1 : 5e-5;
 			double max_mod = (ufkt->type() == Function::Cartesian) ? 1e+1 : 5e+1;
@@ -980,7 +1588,7 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 			bool dxTooBig = false;
 			bool dxTooSmall = false;
 
-			if ( CDiagr::self()->xclipflg || CDiagr::self()->yclipflg )
+			if ( xclipflg || yclipflg )
 			{
 				p1=p2;
 			}
@@ -1021,7 +1629,7 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 					{
 						if ( drawIntegral && (x >= m_integralDrawSettings.dmin) && (x <= m_integralDrawSettings.dmax) )
 						{
-							double y0 = CDiagr::self()->yToPixel( 0 );
+							double y0 = yToPixel( 0 );
 
 							QPointF points[4];
 							points[0] = QPointF( p1.x(), y0 );
@@ -1030,7 +1638,7 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 							points[3] = QPointF( p1.x(), p1.y() );
 
 							pDC->drawPolygon( points, 4 );
-// 								pDC->drawRect( QRectF( p1, QSizeF( p2.x()-p1.x(), CDiagr::self()->yToPixel( 0 ) - p2.y() ) ) );
+// 								pDC->drawRect( QRectF( p1, QSizeF( p2.x()-p1.x(), yToPixel( 0 ) - p2.y() ) ) );
 						}
 						else
 						{
@@ -1094,7 +1702,7 @@ void View::drawFunctionInfo( QPainter * painter )
 				foreach ( QPointF realValue, stationaryPoints )
 				{
 					painter->setPen( QPen( Qt::black, 10 ) );
-					painter->drawPoint( CDiagr::self()->toPixel( realValue ) );
+					painter->drawPoint( toPixel( realValue ) );
 					
 					QString x = posToString( realValue.x(), (m_xmax-m_xmin)/area.width(), View::DecimalFormat );
 					QString y = posToString( realValue.y(), (m_ymax-m_ymin)/area.width(), View::DecimalFormat );
@@ -1115,7 +1723,7 @@ void View::drawLabel( QPainter * painter, const QColor & color, const QPointF & 
 	background.setAlpha( 127 );
 	
 	
-	QPointF pixelCenter = CDiagr::self()->toPixel( realPos );
+	QPointF pixelCenter = toPixel( realPos );
 	QRectF rect( pixelCenter, QSizeF( 1, 1 ) );
 	
 	int flags = Qt::TextSingleLine | Qt::AlignLeft | Qt::AlignTop;
@@ -1732,8 +2340,8 @@ void View::paintEvent(QPaintEvent *)
 	{
 		p.save();
 		p.setMatrix( wm );
-		QPointF tl( CDiagr::self()->xToPixel( m_animateZoomRect.left() ), CDiagr::self()->yToPixel( m_animateZoomRect.top() ) );
-		QPointF br( CDiagr::self()->xToPixel( m_animateZoomRect.right() ), CDiagr::self()->yToPixel( m_animateZoomRect.bottom() ) );
+		QPointF tl( xToPixel( m_animateZoomRect.left() ), yToPixel( m_animateZoomRect.top() ) );
+		QPointF br( xToPixel( m_animateZoomRect.right() ), yToPixel( m_animateZoomRect.bottom() ) );
 		p.drawRect( QRectF( tl, QSizeF( br.x()-tl.x(), br.y()-tl.y() ) ) );
 		p.restore();
 	}
@@ -2136,7 +2744,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	Function * function = m_currentPlot.function();
 	if ( function )
 	{
-		QPointF ptd( CDiagr::self()->toPixel( closestPoint ) );
+		QPointF ptd( toPixel( closestPoint ) );
 		QPoint globalPos = mapToGlobal( (ptd * wm).toPoint() );
 		QCursor::setPos( globalPos );
 
@@ -2180,7 +2788,7 @@ QPointF View::getPlotUnderMouse()
 				double y = m_crosshairPosition.y();
 				findRoot( & x, & y, plot, PreciseRoot );
 				
-				QPointF d = CDiagr::self()->toPixel( QPointF( x, y ), CDiagr::ClipInfinite ) - CDiagr::self()->toPixel( QPointF( m_crosshairPosition.x(), m_crosshairPosition.y() ), CDiagr::ClipInfinite );
+				QPointF d = toPixel( QPointF( x, y ), ClipInfinite ) - toPixel( QPointF( m_crosshairPosition.x(), m_crosshairPosition.y() ), ClipInfinite );
 				
 				distance = std::sqrt( d.x()*d.x() + d.y()*d.y() );
 				cspos = QPointF( x, y );
@@ -2227,7 +2835,7 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 	{
 		double best_pixel_x = 0.0;
 
-		QPointF pixelPos = CDiagr::self()->toPixel( pos, CDiagr::ClipInfinite );
+		QPointF pixelPos = toPixel( pos, ClipInfinite );
 
 		double dmin = getXmin( function );
 		double dmax = getXmax( function );
@@ -2248,11 +2856,11 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 
 			double y1 = XParser::self()->fkt( function->eq[0], x );
 
-			double _x0 = CDiagr::self()->xToPixel( x-stepSize, CDiagr::ClipInfinite );
-			double _x1 = CDiagr::self()->xToPixel( x, CDiagr::ClipInfinite );
+			double _x0 = xToPixel( x-stepSize, ClipInfinite );
+			double _x1 = xToPixel( x, ClipInfinite );
 
-			double _y0 = CDiagr::self()->yToPixel( y0, CDiagr::ClipInfinite );
-			double _y1 = CDiagr::self()->yToPixel( y1, CDiagr::ClipInfinite );
+			double _y0 = yToPixel( y0, ClipInfinite );
+			double _y1 = yToPixel( y1, ClipInfinite );
 
 			double k = (_y1-_y0)/(_x1-_x0);
 
@@ -2262,7 +2870,7 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 			else
 				closest_x = (pixelPos.y() + pixelPos.x()/k + k*_x0 - _y0) / (k + 1.0/k);
 
-			double closest_y = CDiagr::self()->yToPixel( value( plot, 0, CDiagr::self()->xToReal( closest_x ), false ), CDiagr::ClipInfinite );
+			double closest_y = yToPixel( value( plot, 0, xToReal( closest_x ), false ), ClipInfinite );
 
 			double dfx = qAbs( closest_x - pixelPos.x() );
 			double dfy = qAbs( closest_y - pixelPos.y() );
@@ -2275,7 +2883,7 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 			}
 		}
 
-		best_x = CDiagr::self()->xToReal( best_pixel_x );
+		best_x = xToReal( best_pixel_x );
 	}
 	else
 	{
@@ -2316,7 +2924,7 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 double View::pixelDistance( const QPointF & pos, const Plot & plot, double x, bool updateFunctionParameter )
 {
 	QPointF f = realValue( plot, x, updateFunctionParameter );
-	QPointF df = CDiagr::self()->toPixel( pos, CDiagr::ClipInfinite ) - CDiagr::self()->toPixel( f, CDiagr::ClipInfinite );
+	QPointF df = toPixel( pos, ClipInfinite ) - toPixel( f, ClipInfinite );
 
 	return std::sqrt( df.x()*df.x() + df.y()*df.y() );
 }
@@ -2444,7 +3052,7 @@ bool View::updateCrosshairPosition()
 	bool out_of_bounds = false; // for the ypos
 
 	QPointF ptl = mousePos * wm.inverted();
-	m_crosshairPosition = CDiagr::self()->toReal( ptl );
+	m_crosshairPosition = toReal( ptl );
 
 	m_currentPlot.updateFunctionParameter();
 	Function * it = m_currentPlot.function();
@@ -2506,13 +3114,13 @@ bool View::updateCrosshairPosition()
 			// cartesian plot
 
 			m_crosshairPosition.setY( value( m_currentPlot, 0, m_crosshairPosition.x(), false ) );
-			ptl.setY(CDiagr::self()->yToPixel( m_crosshairPosition.y() ));
+			ptl.setY(yToPixel( m_crosshairPosition.y() ));
 
 			if ( m_crosshairPosition.y()<m_ymin || m_crosshairPosition.y()>m_ymax) //the ypoint is not visible
 			{
 				out_of_bounds = true;
 			}
-			else if(fabs(CDiagr::self()->yToReal(ptl.y())) < (m_ymax-m_ymin)/80)
+			else if(fabs(yToReal(ptl.y())) < (m_ymax-m_ymin)/80)
 			{
 				double x0 = m_crosshairPosition.x();
 				if ( !m_haveRoot && findRoot( &x0, m_currentPlot, PreciseRoot ) )
@@ -2530,7 +3138,7 @@ bool View::updateCrosshairPosition()
 		// For Cartesian plots, only adjust the cursor position if it is not at the ends of the view
 		if ( (it->type() != Function::Cartesian) || area.contains( mousePos ) )
 		{
-			ptl = CDiagr::self()->toPixel( m_crosshairPosition );
+			ptl = toPixel( m_crosshairPosition );
 			QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
 			QCursor::setPos( globalPos );
 		}
@@ -2600,8 +3208,8 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 
 void View::zoomIn( const QPoint & mousePos, double zoomFactor )
 {
-	double realx = CDiagr::self()->xToReal((mousePos * wm.inverted()).x());
-	double realy = CDiagr::self()->yToReal((mousePos * wm.inverted()).y());
+	double realx = xToReal((mousePos * wm.inverted()).x());
+	double realy = yToReal((mousePos * wm.inverted()).y());
 
 	double diffx = (m_xmax-m_xmin)*zoomFactor;
 	double diffy = (m_ymax-m_ymin)*zoomFactor;
@@ -2618,11 +3226,11 @@ void View::zoomIn( const QRect & zoomRect )
 	QRect rect = wm.inverted().mapRect( zoomRect );
 
 	QPoint p = rect.topLeft();
-	double real1x = CDiagr::self()->xToReal(p.x() );
-	double real1y = CDiagr::self()->yToReal(p.y() );
+	double real1x = xToReal(p.x() );
+	double real1y = yToReal(p.y() );
 	p = rect.bottomRight();
-	double real2x = CDiagr::self()->xToReal(p.x() );
-	double real2y = CDiagr::self()->yToReal(p.y() );
+	double real2x = xToReal(p.x() );
+	double real2y = yToReal(p.y() );
 
 	if ( real1x > real2x )
 		qSwap( real1x, real2x );
@@ -2644,11 +3252,11 @@ void View::zoomOut( const QRect & zoomRect )
 	QRect rect = wm.inverted().mapRect( zoomRect );
 
 	QPoint p = rect.topLeft();
-	double _real1x = CDiagr::self()->xToReal(p.x() );
-	double _real1y = CDiagr::self()->yToReal(p.y() );
+	double _real1x = xToReal(p.x() );
+	double _real1y = yToReal(p.y() );
 	p = rect.bottomRight();
-	double _real2x = CDiagr::self()->xToReal(p.x() );
-	double _real2y = CDiagr::self()->yToReal(p.y() );
+	double _real2x = xToReal(p.x() );
+	double _real2y = yToReal(p.y() );
 
 	double kx = (_real1x-_real2x)/(m_xmin-m_xmax);
 	double lx = _real1x - (kx * m_xmin);
@@ -2749,8 +3357,8 @@ void View::animateZoom( const QRectF & _newCoords )
 
 void View::translateView( int dx, int dy )
 {
-	double rdx = CDiagr::self()->xToReal( dx / m_scaler ) - CDiagr::self()->xToReal( 0.0 );
-	double rdy = CDiagr::self()->yToReal( dy / m_scaler ) - CDiagr::self()->yToReal( 0.0 );
+	double rdx = xToReal( dx / m_scaler ) - xToReal( 0.0 );
+	double rdy = yToReal( dy / m_scaler ) - yToReal( 0.0 );
 
 	m_xmin += rdx;
 	m_xmax += rdx;
@@ -3446,4 +4054,4 @@ IntegralDrawSettings::IntegralDrawSettings()
 }
 //END class IntegralDrawSettings
 
-#include "View.moc"
+#include "view.moc"

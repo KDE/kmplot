@@ -46,7 +46,7 @@
 
 // local includes
 #include "coordsconfigdialog.h"
-#include "View.h"
+#include "view.h"
 #include "kminmax.h"
 #include "kmplotio.h"
 
@@ -98,10 +98,6 @@ class MainDlg : public KParts::ReadOnlyPart
 		
 	/// Cleaning up a bit.
 	virtual ~MainDlg();
-	/// This class needs access to private members, too.
-	friend class FktDlg;
-	/// This class needs access to private members, too.
-	friend class BezWnd;
 
 	/// Is set to true if a file from an old file format was loaded
 	static bool oldfileversion;
@@ -140,7 +136,6 @@ public slots:
 	///Implement the Configure KmPlot dialog
 	void slotSettings();
 	/// Calls the common function names dialog.
-	/// @see BezWnd::hideEvent
 	void slotNames();
 	/// Change the coordinate systems, shows negative x-values and negative y-values.
 	void slotCoord1();

@@ -40,7 +40,7 @@
 
 // local includes
 #include "kmplotio.h"
-#include "MainDlg.h"
+#include "maindlg.h"
 #include "settings.h"
 
 static QString CurrentVersionString( "5" );

@@ -25,6 +25,7 @@
 
 // Qt includes
 #include <QMainWindow>
+#include <QPainter>
 #include <QPixmap>
 #include <qslider.h>
 #include <QTimer>
@@ -51,7 +52,7 @@
 #include "kconstanteditor.h"
 
 #include "settings.h"
-#include "MainDlg.h"
+#include "maindlg.h"
 #include "ui_editscaling.h"
 #include "ui_settingspagecolor.h"
 #include "ui_settingspagefonts.h"
@@ -793,4 +794,4 @@ void BrowserExtension::print()
 	static_cast<MainDlg*>(parent())->slotPrint();
 }
 
-#include "MainDlg.moc"
+#include "maindlg.moc"

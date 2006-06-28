@@ -10,12 +10,11 @@ set(kmplotpart_PART_SRCS
    parser.cpp 
    parseradaptor.cpp 
    xparser.cpp 
-   diagr.cpp 
    equationedit.cpp
    function.cpp
-   View.cpp 
+   view.cpp 
    viewadaptor.cpp 
-   MainDlg.cpp 
+   maindlg.cpp 
    maindlgadaptor.cpp 
    kprinterdlg.cpp 
    kconstanteditor.cpp 

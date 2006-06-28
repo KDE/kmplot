@@ -36,7 +36,7 @@
 #include <kstdaction.h>
 #include <kurl.h>
 
-#include "MainDlg.h"
+#include "maindlg.h"
 #include <ktoolinvocation.h>
 
 #include "kmplotadaptor.h"

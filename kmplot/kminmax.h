@@ -28,7 +28,7 @@
 
 #include <QListWidget>
 
-#include "View.h"
+#include "view.h"
 
 namespace Ui{
 class QMinMax;

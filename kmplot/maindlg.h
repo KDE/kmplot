@@ -59,6 +59,7 @@ class KToggleFullScreenAction;
 class KAboutData;
 class KAction;
 class KLineEdit;
+class KPageWidgetItem;
 class KRecentFilesAction;
 class QTimer;
 
@@ -135,6 +136,8 @@ public slots:
 	void slotExport();
 	///Implement the Configure KmPlot dialog
 	void slotSettings();
+	///Show the constants editor
+	void showConstantsEditor();
 	/// Calls the common function names dialog.
 	void slotNames();
 	/// Change the coordinate systems, shows negative x-values and negative y-values.
@@ -173,6 +176,7 @@ private:
 	SettingsPageFonts * m_fontsSettings;
 	///The Constants page for the Configure KmPlot constants
 	KConstantEditor* m_constantsSettings;
+	KPageWidgetItem * m_constantsPage;
 
 	/// A dialog used by many tools-menu-items
 	KMinMax *minmaxdlg;

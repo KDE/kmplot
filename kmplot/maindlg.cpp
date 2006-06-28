@@ -174,6 +174,9 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
 	m_settingsDialog->addPage( m_colorSettings, i18n("Colors"), "colorize", i18n("Colors") );
 	m_settingsDialog->addPage( m_fontsSettings, i18n("Fonts"), "font", i18n("Fonts") );
+	/// \todo uncomment this when API of KConfigDialog is updated
+// 	m_constantsPage = m_settingsDialog->addPage( m_constantsSettings, i18n("Constants"), "editconstants", i18n("Constants") );
+	m_constantsPage = 0;
 	m_settingsDialog->addPage( m_constantsSettings, i18n("Constants"), "editconstants", i18n("Constants") );
 	// User edited the configuration - update your local copies of the
 	// configuration data
@@ -667,6 +670,13 @@ void MainDlg::slotSettings()
 	// so we want to display the cached dialog instead of creating
 	// another one
 	KConfigDialog::showDialog( "settings" );
+}
+
+void MainDlg::showConstantsEditor()
+{
+	slotSettings();
+// 	KConfigDialog * dlg = KConfigDialog::exists( "settings" );
+// 	dlg->setCurrentPage( m_constantsPage );
 }
 
 void MainDlg::updateSettings()

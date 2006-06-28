@@ -135,6 +135,22 @@ Parser::~Parser()
 	delete m_constants;
 }
 
+
+QStringList Parser::predefinedFunctions( ) const
+{
+	QStringList names;
+	
+	for ( int func = 0; func < ScalarCount; ++func )
+		names << scalarFunctions[func].name;
+			
+	for ( int func = 0; func < VectorCount; ++func )
+		names << vectorFunctions[func].name;
+	
+	names.sort();
+	return names;
+}
+
+
 void Parser::setAngleMode( AngleMode mode )
 {
 	switch ( mode )

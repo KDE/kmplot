@@ -72,6 +72,11 @@ class EquationEditWidget : public QTextEdit
 	public:
 		EquationEditWidget( EquationEdit * parent );
 		
+		/**
+		 * Call this after changing font size.
+		 */
+		void recalculateGeometry( const QFont & font );
+		
 	protected:
 		virtual void wheelEvent( QWheelEvent * e );
 		virtual void keyPressEvent( QKeyEvent * e );
@@ -161,7 +166,9 @@ class EquationEdit : public QWidget
 		EquationEditWidget * m_equationEditWidget;
 		QPushButton * m_editButton;
 		
+		friend class EquationEditor;
 		friend class EquationEditWidget;
+		friend class EquationHighlighter;
 };
 
 
@@ -183,10 +190,14 @@ class EquationEditor : public KDialog
 		QString text() const;
 		
 	protected slots:
+		void editConstants();
+		void insertFunction( const QString & text );
 		void characterButtonClicked();
 		
 	protected:
 		EquationEditorWidget * m_widget;
+		
+		friend class EquationEdit;
 };
 
 

@@ -23,6 +23,7 @@
 */
 
 #include "equationedit.h"
+#include "maindlg.h"
 #include "ui_equationeditor.h"
 #include "xparser.h"
 
@@ -36,9 +37,19 @@
 
 #include <assert.h>
 
+
+class EquationEditorWidget : public QWidget, public Ui::EquationEditor
+{
+	public:
+		EquationEditorWidget( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
+};
+
+
 //BEGIN class EquationHighlighter
 EquationHighlighter::EquationHighlighter( EquationEdit * parent )
-	: QSyntaxHighlighter( parent ),
+	: QSyntaxHighlighter( parent->m_equationEditWidget ),
 	m_parent( parent )
 {
 	m_errorPosition = -1;
@@ -121,7 +132,11 @@ void EquationEdit::showEditButton( bool show )
 void EquationEdit::invokeEquationEditor()
 {
 	EquationEditor * edit = new EquationEditor( text(), this );
+	edit->m_widget->edit->setInputType( m_inputType );
+	edit->m_widget->edit->setValidatePrefix( m_validatePrefix );
+	
 	edit->exec();
+	
 	setText( edit->text() );
 	edit->deleteLater();
 	emit editingFinished();
@@ -201,12 +216,16 @@ EquationEditWidget::EquationEditWidget( EquationEdit * parent )
 	: QTextEdit( parent )
 {
 	m_parent = parent;
-	
-	//BEGIN setting up appearance
+	recalculateGeometry( font() );
+}
+
+
+void EquationEditWidget::recalculateGeometry( const QFont & font )
+{
 	// Set fixed height
 	ensurePolished();
-	QFontMetrics fm( font() );
-	int h = qMax(fm.lineSpacing(), 14) + 5;
+	QFontMetrics fm( font );
+	int h = qMax(fm.lineSpacing(), 14) + 6;
 	int m = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
 	QStyleOptionFrame opt;
 	opt.rect = rect();
@@ -221,7 +240,6 @@ EquationEditWidget::EquationEditWidget( EquationEdit * parent )
 	setWordWrapMode( QTextOption::NoWrap );
 	setLineWrapMode( QTextEdit::NoWrap );
 	setTabChangesFocus( true );
-	//END setting up appearance
 }
 
 
@@ -241,7 +259,9 @@ void EquationEditWidget::keyPressEvent( QKeyEvent * e )
 		emit m_parent->returnPressed();
 	}
 	else
+	{
 		QTextEdit::keyPressEvent( e );
+	}
 }
 
 
@@ -252,15 +272,6 @@ void EquationEditWidget::focusOutEvent( QFocusEvent * e )
 }
 //END class EquationEdit
 
-
-
-class EquationEditorWidget : public QWidget, public Ui::EquationEditor
-{
-	public:
-		EquationEditorWidget( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
-};
 
 
 //BEGIN class EquationEditor
@@ -275,17 +286,44 @@ EquationEditor::EquationEditor( const QString & equation, QWidget * parent )
 	setCaption( i18n("Equation Editor") );
 	setButtons( Ok );
 	
+	QFont font;
+	font.setPointSizeF( font.pointSizeF() * 1.4 );
+	m_widget->edit->m_equationEditWidget->setCurrentFont( font );
+	m_widget->edit->m_equationEditWidget->recalculateGeometry( font );
 	m_widget->edit->setText( equation );
 	
 	QList<QToolButton *> buttons = m_widget->findChildren<QToolButton *>();
 	foreach ( QToolButton * w, buttons )
 		connect( w, SIGNAL(clicked()), this, SLOT(characterButtonClicked()) );
+	
+	connect( m_widget->constantsButton, SIGNAL(clicked()), this, SLOT(editConstants()) );
+	connect( m_widget->functionList, SIGNAL(activated(const QString &)), this, SLOT(insertFunction(const QString &)) );
+	
+	m_widget->functionList->addItems( XParser::self()->predefinedFunctions() );
+	
+	// Constant editing doesn't work atm
+	m_widget->constantsButton->setEnabled( false );
+	
+	connect( m_widget->edit, SIGNAL(returnPressed()), this, SLOT(accept()) );
 }
 
 
 QString EquationEditor::text() const
 {
 	return m_widget->edit->text();
+}
+
+
+void EquationEditor::editConstants()
+{
+	MainDlg::self()->showConstantsEditor();
+}
+
+
+void EquationEditor::insertFunction( const QString & function )
+{
+	m_widget->functionList->setCurrentItem( 0 );
+	m_widget->edit->insertText( function + "()" );
 }
 
 

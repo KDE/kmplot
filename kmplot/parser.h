@@ -270,6 +270,10 @@ class Parser : public QObject
 		~Parser();
 	
 		/**
+		 * \return the list of predefined function names.
+		 */
+		QStringList predefinedFunctions() const;
+		/**
 		 * @return A string that is safe to use as a number in a string to be
 		 * parsed. This is needed as e.g. "1.2e-3" is not allowed (e is a
 		 * constant) - so cannot use the QString::number.

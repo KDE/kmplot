@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>358</width>
-    <height>314</height>
+    <width>376</width>
+    <height>372</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -39,6 +39,45 @@
      </item>
      <item>
       <widget class="EquationEdit" name="edit" />
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="constantsButton" >
+       <property name="text" >
+        <string>Edit Constants...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>151</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="KComboBox" name="functionList" >
+       <item>
+        <property name="text" >
+         <string>Insert function...</string>
+        </property>
+       </item>
+      </widget>
      </item>
     </layout>
    </item>
@@ -352,7 +391,7 @@
      <property name="sizeHint" >
       <size>
        <width>20</width>
-       <height>40</height>
+       <height>111</height>
       </size>
      </property>
     </spacer>
@@ -372,6 +411,13 @@
    <class>EquationEdit</class>
    <extends>KLineEdit</extends>
    <header>equationedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

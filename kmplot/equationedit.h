@@ -25,12 +25,18 @@
 #ifndef EQUATIONEDIT_H
 #define EQUATIONEDIT_H
 
+#include <kdialog.h>
+
 #include <QSyntaxHighlighter>
 #include <QTextEdit>
 
 
 class Equation;
 class EquationEdit;
+class EquationEditWidget;
+class EquationEditor;
+class EquationEditorWidget;
+class QPushButton;
 
 
 /**
@@ -57,9 +63,30 @@ class EquationHighlighter : public QSyntaxHighlighter
 
 
 /**
+ * The actual line edit.
+ */
+class EquationEditWidget : public QTextEdit
+{
+	Q_OBJECT
+	
+	public:
+		EquationEditWidget( EquationEdit * parent );
+		
+	protected:
+		virtual void wheelEvent( QWheelEvent * e );
+		virtual void keyPressEvent( QKeyEvent * e );
+		virtual void focusOutEvent( QFocusEvent * e );
+		
+		EquationEdit * m_parent;
+};
+
+
+/**
+ * A line edit for equations that also does syntax highlighting, error checking,
+ * etc, and provides a button for invoking an advanced equation editor.
  * \author David Saxton
  */
-class EquationEdit : public QTextEdit
+class EquationEdit : public QWidget
 {
 	Q_OBJECT
 	
@@ -93,8 +120,17 @@ class EquationEdit : public QTextEdit
 		 * Prepends \p prefix to the start of the text when validating it.
 		 */
 		void setValidatePrefix( const QString & prefix );
+		/**
+		 * Hide/show the edit button.
+		 */
+		void showEditButton( bool show );
 		
-		QString text() const { return toPlainText(); }
+		QString text() const { return m_equationEditWidget->toPlainText(); }
+		void clear() { m_equationEditWidget->clear(); }
+		void setReadOnly( bool set ) { m_equationEditWidget->setReadOnly(set); }
+		void selectAll() { m_equationEditWidget->selectAll(); }
+		void insertText( const QString & text ) { m_equationEditWidget->insertPlainText( text ); }
+		
 		/**
 		 * Attempts to evaluate the text and return it.
 		 */
@@ -108,20 +144,49 @@ class EquationEdit : public QTextEdit
 		
 	public slots:
 		void setText( const QString & text );
+		/**
+		 * Launches a dialog for editing the equation.
+		 */
+		void invokeEquationEditor();
 		
 	protected slots:
 		void slotTextChanged();
 		
 	protected:
-		virtual void wheelEvent( QWheelEvent * e );
-		virtual void keyPressEvent( QKeyEvent * e );
-		virtual void focusOutEvent( QFocusEvent * e );
-		
 		EquationHighlighter * m_highlighter;
 		Equation * m_equation;
 		InputType m_inputType;
 		bool m_settingText:1;
 		QString m_validatePrefix;
+		EquationEditWidget * m_equationEditWidget;
+		QPushButton * m_editButton;
+		
+		friend class EquationEditWidget;
+};
+
+
+/**
+ * A dialog containing an EquationEdit and a variety of buttons to insert
+ * special characters.
+ * \author David Saxton
+ */
+class EquationEditor : public KDialog
+{
+	Q_OBJECT
+			
+	public:
+		EquationEditor( const QString & equation, QWidget * parent );
+		
+		/**
+		 * The equation's text, e.g. "f(x) = x^2".
+		 */
+		QString text() const;
+		
+	protected slots:
+		void characterButtonClicked();
+		
+	protected:
+		EquationEditorWidget * m_widget;
 };
 
 

@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>338</width>
-    <height>595</height>
+    <width>427</width>
+    <height>539</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -81,7 +81,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>3</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -105,27 +105,7 @@
             <number>6</number>
            </property>
            <item>
-            <layout class="QHBoxLayout" >
-             <property name="margin" >
-              <number>0</number>
-             </property>
-             <property name="spacing" >
-              <number>6</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="textLabel1_4" >
-               <property name="text" >
-                <string>&amp;Equation:</string>
-               </property>
-               <property name="buddy" >
-                <cstring>cartesianEquation</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="EquationEdit" name="cartesianEquation" />
-             </item>
-            </layout>
+            <widget class="EquationEdit" name="cartesianEquation" />
            </item>
            <item>
             <widget class="ParametersWidget" name="cartesianParameters" >
@@ -584,14 +564,6 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
           </item>
           <item row="1" column="1" >
            <widget class="EquationEdit" name="parametricX" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>13</hsizetype>
-              <vsizetype>13</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="toolTip" >
              <string>enter an expression</string>
             </property>
@@ -604,14 +576,6 @@ Example: cos(t)</string>
           </item>
           <item row="2" column="1" >
            <widget class="EquationEdit" name="parametricY" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>13</hsizetype>
-              <vsizetype>13</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
             <property name="toolTip" >
              <string>enter an expression</string>
             </property>
@@ -726,43 +690,15 @@ Example: sin(t)</string>
         <number>6</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
+        <widget class="EquationEdit" name="polarEquation" >
+         <property name="toolTip" >
+          <string>enter an equation, for instance loop(angle)=ln(angle)</string>
          </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="textLabel2_6" >
-           <property name="text" >
-            <string>Equation:</string>
-           </property>
-           <property name="buddy" >
-            <cstring>polarEquation</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="EquationEdit" name="polarEquation" >
-           <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>13</hsizetype>
-             <vsizetype>13</vsizetype>
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="toolTip" >
-            <string>enter an equation, for instance loop(angle)=ln(angle)</string>
-           </property>
-           <property name="whatsThis" >
-            <string>Enter an expression for the function. The prefix "r" will be added automatically.
+         <property name="whatsThis" >
+          <string>Enter an expression for the function. The prefix "r" will be added automatically.
 Example: loop(angle)=ln(angle)</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="ParametersWidget" name="polarParameters" >
@@ -876,36 +812,6 @@ Example: loop(angle)=ln(angle)</string>
           <property name="spacing" >
            <number>6</number>
           </property>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="textLabelXF_2" >
-            <property name="text" >
-             <string>Expression:</string>
-            </property>
-            <property name="buddy" >
-             <cstring>implicitEquation</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="EquationEdit" name="implicitEquation" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>13</hsizetype>
-              <vsizetype>13</vsizetype>
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip" >
-             <string>enter an expression</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter an expression for the function.
-The dummy variable is t.
-Example: cos(t)</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1" >
            <widget class="KLineEdit" name="implicitName" >
             <property name="toolTip" >
@@ -927,6 +833,18 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             </property>
             <property name="buddy" >
              <cstring>implicitName</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0" colspan="2" >
+           <widget class="EquationEdit" name="implicitEquation" >
+            <property name="toolTip" >
+             <string>enter an expression</string>
+            </property>
+            <property name="whatsThis" >
+             <string>Enter an expression for the function.
+The dummy variable is t.
+Example: cos(t)</string>
             </property>
            </widget>
           </item>
@@ -978,16 +896,9 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>ParametersWidget</class>
-   <extends>QGroupBox</extends>
-   <header>parameterswidget.h</header>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -999,9 +910,16 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>ParametersWidget</class>
+   <extends>QGroupBox</extends>
+   <header>parameterswidget.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

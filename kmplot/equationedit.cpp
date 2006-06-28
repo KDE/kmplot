@@ -23,10 +23,15 @@
 */
 
 #include "equationedit.h"
+#include "ui_equationeditor.h"
 #include "xparser.h"
 
 #include <kdebug.h>
+#include <kicon.h>
+
 #include <QApplication>
+#include <QHBoxLayout>
+#include <QPushButton>
 #include <QStyleOptionFrame>
 
 #include <assert.h>
@@ -85,35 +90,41 @@ void EquationHighlighter::setErrorPosition( int position )
 
 //BEGIN class EquationEdit
 EquationEdit::EquationEdit( QWidget * parent )
-	: QTextEdit( parent )
+	: QWidget( parent )
 {
-	//BEGIN setting up appearance
-	// Set fixed height
-	ensurePolished();
-	QFontMetrics fm( font() );
-	int h = qMax(fm.lineSpacing(), 14) + 4;
-	int m = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-	QStyleOptionFrame opt;
-	opt.rect = rect();
-	opt.palette = palette();
-	opt.state = QStyle::State_None;
-	setFixedHeight( h + (2 * m) );
-	
-	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	setContentsMargins( 0, 0, 0, 0 );
-	setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-	setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-	setWordWrapMode( QTextOption::NoWrap );
-	setLineWrapMode( QTextEdit::NoWrap );
-	setTabChangesFocus( true );
-	//END setting up appearance
-	
 	m_settingText = false;
 	m_inputType = Expression;
+	
+	m_equationEditWidget = new EquationEditWidget( this );
 	m_highlighter = new EquationHighlighter( this );
 	m_equation = new Equation( Equation::Cartesian, 0 );
 	
-	connect( this, SIGNAL( textChanged() ), this, SLOT( slotTextChanged() ) );
+	connect( m_equationEditWidget, SIGNAL( textChanged() ), this, SLOT( slotTextChanged() ) );
+	
+	m_editButton = new QPushButton( KIcon("edit"), 0, this );
+// 	m_editButton = new QPushButton( "...", this );
+	connect( m_editButton, SIGNAL(clicked()), this, SLOT(invokeEquationEditor()) );
+	
+	QHBoxLayout * layout = new QHBoxLayout( this );
+	layout->setMargin( 0 );
+	layout->addWidget( m_equationEditWidget );
+	layout->addWidget( m_editButton );
+}
+
+
+void EquationEdit::showEditButton( bool show )
+{
+	m_editButton->setVisible( show );
+}
+
+
+void EquationEdit::invokeEquationEditor()
+{
+	EquationEditor * edit = new EquationEditor( text(), this );
+	edit->exec();
+	setText( edit->text() );
+	edit->deleteLater();
+	emit editingFinished();
 }
 
 
@@ -141,7 +152,7 @@ void EquationEdit::slotTextChanged( )
 
 void EquationEdit::checkTextValidity( )
 {
-	QString text = m_validatePrefix + toPlainText();
+	QString text = m_validatePrefix + EquationEdit::text();
 	
 	bool ok = true;
 	
@@ -160,33 +171,6 @@ void EquationEdit::checkTextValidity( )
 }
 
 
-void EquationEdit::wheelEvent( QWheelEvent * e )
-{
-	e->accept();
-}
-
-
-void EquationEdit::keyPressEvent( QKeyEvent * e )
-{
-	if ( (e->key() == Qt::Key_Return) ||
-			 (e->key() == Qt::Key_Enter) )
-	{
-		e->accept();
-		emit editingFinished();
-		emit returnPressed();
-	}
-	else
-		QTextEdit::keyPressEvent( e );
-}
-
-
-void EquationEdit::focusOutEvent( QFocusEvent * e )
-{
-	QTextEdit::focusOutEvent( e );
-	emit editingFinished();
-}
-
-
 void EquationEdit::setError( const QString & message, int position )
 {
 	setToolTip( message );
@@ -197,8 +181,8 @@ void EquationEdit::setError( const QString & message, int position )
 void EquationEdit::setText( const QString & text )
 {
 	m_settingText = true;
-	setPlainText( text );
-	textCursor().movePosition( QTextCursor::End );
+	m_equationEditWidget->setPlainText( text );
+	m_equationEditWidget->textCursor().movePosition( QTextCursor::End );
 	m_settingText = false;
 }
 
@@ -209,6 +193,112 @@ void EquationEdit::setValidatePrefix( const QString & prefix )
 	checkTextValidity();
 }
 //END class EquationEdit
+
+
+
+//BEGIN class EquationEditWidget
+EquationEditWidget::EquationEditWidget( EquationEdit * parent )
+	: QTextEdit( parent )
+{
+	m_parent = parent;
+	
+	//BEGIN setting up appearance
+	// Set fixed height
+	ensurePolished();
+	QFontMetrics fm( font() );
+	int h = qMax(fm.lineSpacing(), 14) + 5;
+	int m = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
+	QStyleOptionFrame opt;
+	opt.rect = rect();
+	opt.palette = palette();
+	opt.state = QStyle::State_None;
+	setFixedHeight( h + (2 * m) );
+	
+	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	setContentsMargins( 0, 0, 0, 0 );
+	setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+	setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+	setWordWrapMode( QTextOption::NoWrap );
+	setLineWrapMode( QTextEdit::NoWrap );
+	setTabChangesFocus( true );
+	//END setting up appearance
+}
+
+
+void EquationEditWidget::wheelEvent( QWheelEvent * e )
+{
+	e->accept();
+}
+
+
+void EquationEditWidget::keyPressEvent( QKeyEvent * e )
+{
+	if ( (e->key() == Qt::Key_Return) ||
+			 (e->key() == Qt::Key_Enter) )
+	{
+		e->accept();
+		emit m_parent->editingFinished();
+		emit m_parent->returnPressed();
+	}
+	else
+		QTextEdit::keyPressEvent( e );
+}
+
+
+void EquationEditWidget::focusOutEvent( QFocusEvent * e )
+{
+	QTextEdit::focusOutEvent( e );
+	emit m_parent->editingFinished();
+}
+//END class EquationEdit
+
+
+
+class EquationEditorWidget : public QWidget, public Ui::EquationEditor
+{
+	public:
+		EquationEditorWidget( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
+};
+
+
+//BEGIN class EquationEditor
+EquationEditor::EquationEditor( const QString & equation, QWidget * parent )
+	: KDialog( parent )
+{	
+	m_widget = new EquationEditorWidget( this );
+	m_widget->edit->showEditButton( false );
+	m_widget->layout()->setMargin( 0 );
+	setMainWidget( m_widget );
+	
+	setCaption( i18n("Equation Editor") );
+	setButtons( Ok );
+	
+	m_widget->edit->setText( equation );
+	
+	QList<QToolButton *> buttons = m_widget->findChildren<QToolButton *>();
+	foreach ( QToolButton * w, buttons )
+		connect( w, SIGNAL(clicked()), this, SLOT(characterButtonClicked()) );
+}
+
+
+QString EquationEditor::text() const
+{
+	return m_widget->edit->text();
+}
+
+
+void EquationEditor::characterButtonClicked()
+{
+	const QToolButton * tb = static_cast<const QToolButton *>(sender());
+	
+	// Something (I can't work out what) is 'helpfully' inserting an ampersand (for keyboard acceleration).
+	// Get rid of it.
+	m_widget->edit->insertText( tb->text().remove( '&' ) );
+}
+//END class EquationEditor
+
 
 
 #include "equationedit.moc"

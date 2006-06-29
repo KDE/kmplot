@@ -65,7 +65,7 @@ enum Token
 };
 
 const int legendreCount = 7; // number of legendre polynomials we allow for
-const int ScalarCount = 38+legendreCount;	// number of mathematical scalar functions
+const int ScalarCount = 41+legendreCount;	// number of mathematical scalar functions
 const int VectorCount = 3; // number of vector functions
 //@}
 
@@ -291,7 +291,7 @@ class Parser : public QObject
 		 * Adds a user defined function with the given equation. The new
 		 * function's ID-number is returned.
 		 */
-		virtual int addFunction( QString str1, QString str2, Function::Type type );
+		int addFunction( const QString & str1, const QString & str2, Function::Type type );
 		/**
 		 * Removes the function with the given id.
 		 */

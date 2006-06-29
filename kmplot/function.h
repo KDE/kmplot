@@ -308,7 +308,7 @@ class Function
 		 */
 		double k;
 		/**
-		 * A list with all functions this function depends on.
+		 * A list with all functions that this function depends on.
 		 */
 		QList<int> dep;
 		/**

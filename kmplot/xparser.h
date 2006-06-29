@@ -66,8 +66,6 @@ class XParser : public Parser
 		 */
 		QColor defaultColor(int function);
 	
-	virtual int addFunction( QString, QString, Function::Type type );
-	
 	///Returns an unused function name if it is needed
 	void fixFunctionName(QString &, Equation::Type const = Equation::Cartesian, int const=-1);
         

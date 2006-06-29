@@ -612,7 +612,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		else
 			str = fstr.left( i );
 		
-		int id = XParser::self()->addFunction( str, eq1, type );
+		int id = XParser::self()->Parser::addFunction( str, eq1, type );
 		
 		Function * added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );
@@ -712,9 +712,9 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 		
 		int id;
 		if ( type == Function::Parametric )
-			id = XParser::self()->addFunction( str, parametricXEquation, type );
+			id = XParser::self()->Parser::addFunction( str, parametricXEquation, type );
 		else
-			id = XParser::self()->addFunction( str, 0, type );
+			id = XParser::self()->Parser::addFunction( str, 0, type );
 		
 		Function *added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );

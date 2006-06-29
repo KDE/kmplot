@@ -186,7 +186,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
 {
   char last_character;
   int pos;
-  if ( function_name.length()==2/*type == Equation::Polar*/ || type == Equation::ParametricX || type == Equation::ParametricY)
+  if ( function_name.length()==2 || type == Equation::ParametricX || type == Equation::ParametricY)
     pos=1;
   else
     pos=0;
@@ -223,37 +223,32 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
 
 void XParser::fixFunctionName( QString &str, Equation::Type const type, int const id)
 {
-	// This function is a mess.
-	/// \todo handle function of the form "f(x) = 2" (note the space before the equals sign).
+	int p1 = str.indexOf('(');
+	int p2 = str.indexOf(')');
+	int p3 = str.indexOf('=');
 	
-  int p1=str.indexOf('(');
-  int p2=str.indexOf(')');
-  if( p1>=0 && str.at(p2+1)=='=')
-  {
-    if ( type == Equation::Polar && str.at(0)!='r' )
-    {
-      if (str.at(0)=='(')
-      {
-        str.prepend('f');
-        p1++;
-        p2++;
-      }
-      str.prepend('r');
-      p1++;
-      p2++;
-    }
+	bool hasBeginning = (p1>=0);
+	for ( int i = p2+1; i < p3; ++i )
+	{
+		if ( !str.at(i).isSpace() )
+			hasBeginning = false;
+	}
+	
+	if ( hasBeginning )
+	{
 		QString const fname = str.left(p1);
 		foreach ( Function * it, m_ufkt )
 		{
+			if ( int(it->id) == id )
+				continue;
+			
 			for ( unsigned i = 0; i < 2; ++i )
 			{
 				if ( it->eq[i] && (it->eq[i]->name() == fname) )
 				{
 					str = str.mid(p1,str.length()-1);
 					QString function_name;
-					if ( type == Equation::Polar )
-						function_name = "rf";
-					else if ( type == Equation::ParametricX )
+					if ( type == Equation::ParametricX )
 						function_name = "x";
 					else if ( type == Equation::ParametricY )
 						function_name = "y";
@@ -266,21 +261,19 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 			}
 		}
 	}
-  else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
-  {
-    QString function_name;
-	if ( type == Equation::Polar )
-      function_name = "rf";
-	else if ( type == Equation::ParametricX )
-      function_name = "xf";
-	else if ( type == Equation::ParametricY )
-      function_name = "yf";
-    else
-      function_name = "f";
-    str.prepend("(x)=");
-    findFunctionName(function_name, id, type);
-    str.prepend( function_name );
-  }
+	else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
+	{
+		QString function_name;
+		if ( type == Equation::ParametricX )
+			function_name = "xf";
+		else if ( type == Equation::ParametricY )
+			function_name = "yf";
+		else
+			function_name = "f";
+		str.prepend("(x)=");
+		findFunctionName(function_name, id, type);
+		str.prepend( function_name );
+	}
 }
 
 
@@ -329,17 +322,6 @@ double XParser::integral( Equation * eq, double x, double h )
 }
 
 
-int XParser::addFunction( QString fn1, QString fn2, Function::Type type )
-{
-	int id = Parser::addFunction( fn1, fn2, type );
-	Function * ufkt = functionWithID( id );
-	if ( ufkt )
-		ufkt->plotAppearance( Function::Derivative0 ).color = ufkt->plotAppearance( Function::Derivative1 ).color = ufkt->plotAppearance( Function::Derivative2 ).color = ufkt->plotAppearance( Function::Integral ).color = defaultColor(id);
-	
-	return id;
-}
-
-
 QColor XParser::defaultColor(int function)
 {
 	switch ( function % 10 )
@@ -372,7 +354,6 @@ QColor XParser::defaultColor(int function)
 QStringList XParser::listFunctionNames()
 {
 	QStringList list;
-// 	for( QVector<Function>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	foreach ( Function * it, m_ufkt )
 	{
 		for ( unsigned i = 0; i < 2; ++i )
@@ -687,7 +668,7 @@ int XParser::addFunction(const QString &f_str0, const QString &_f_str1)
 	else
 		type = (added_function[0] == 'r') ? Function::Polar : Function::Cartesian;
 	
-	int const id = addFunction( added_function, f_str1, type );
+	int const id = Parser::addFunction( added_function, f_str1, type );
 	if (id==-1)
 		return -1;
 	Function *tmp_ufkt = m_ufkt[id];
@@ -732,7 +713,7 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 		}
 	}
 	
-	int const id = addFunction( fstr[0], fstr[1], type );
+	int const id = Parser::addFunction( fstr[0], fstr[1], type );
 	if ( id==-1 )
 		return false;
 	Function *added_function = m_ufkt[id];

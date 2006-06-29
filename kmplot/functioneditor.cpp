@@ -496,7 +496,7 @@ void FunctionEditor::createCartesian()
 	QString fname( "f(x)=0" );
 	XParser::self()->fixFunctionName( fname, Equation::Cartesian, -1 );
 	
-	m_functionID = XParser::self()->addFunction( fname, 0 );
+	m_functionID = XParser::self()->Parser::addFunction( fname, QString(), Function::Cartesian );
 	assert( m_functionID != -1 );
 
 	kDebug() << "Created cartesian, so requestion state save.\n";
@@ -516,7 +516,7 @@ void FunctionEditor::createParametric()
 	XParser::self()->fixFunctionName( fname, Equation::ParametricX, -1 );
 	QString name = fname.mid( 1, fname.indexOf('(')-1 );
 	
-	m_functionID = XParser::self()->addFunction( QString("x%1(t)=0").arg( name ), QString("y%1(t)=0").arg( name ), Function::Parametric ); 
+	m_functionID = XParser::self()->Parser::addFunction( QString("x%1(t)=0").arg( name ), QString("y%1(t)=0").arg( name ), Function::Parametric ); 
 	assert( m_functionID != -1 );
 
 	kDebug() << "Created parametric, so requesting state save.\n";
@@ -534,7 +534,7 @@ void FunctionEditor::createPolar()
 	QString fname( "f(x)=0" );
 	XParser::self()->fixFunctionName( fname, Equation::Polar, -1 );
 	
-	m_functionID = XParser::self()->addFunction( fname, 0 );
+	m_functionID = XParser::self()->Parser::addFunction( fname, QString(), Function::Polar );
 	assert( m_functionID != -1 );
 
 	MainDlg::self()->requestSaveCurrentState();
@@ -551,7 +551,7 @@ void FunctionEditor::createImplicit()
 	QString fname( "f(x,y)=y*sinx + x*cosy = 1" );
 	XParser::self()->fixFunctionName( fname, Equation::Implicit, -1 );
 	
-	m_functionID = XParser::self()->addFunction( fname, 0 );
+	m_functionID = XParser::self()->Parser::addFunction( fname, QString(), Function::Implicit );
 	assert( m_functionID != -1 );
 
 	MainDlg::self()->requestSaveCurrentState();

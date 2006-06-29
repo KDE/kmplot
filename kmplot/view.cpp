@@ -1121,7 +1121,7 @@ void View::plotImplicit( Function * function, QPainter * painter )
 	Plot circular;
 	QString fname( "f(x)=0" );
 	XParser::self()->fixFunctionName( fname, Equation::Cartesian, -1 );
-	circular.setFunctionID( XParser::self()->addFunction( fname, 0, Function::Cartesian ) );
+	circular.setFunctionID( XParser::self()->Parser::addFunction( fname, 0, Function::Cartesian ) );
 	assert( circular.function() );
 	
 	const QList< Plot > plots = function->allPlots();

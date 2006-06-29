@@ -48,43 +48,61 @@
 
 double Parser::m_radiansPerAngleUnit = 0;
 
-/// List of predefined functions.
+/**
+ * List of predefined functions.
+ * \todo Some of the functions here are just variations of different spellings
+ * of the same function (e.g. arccosh, arcosh) - it might be neater to handle
+ * these duplications better (in particular, it would prevent duplication in the
+ * drop-down list of functions in the EquationEditor dialog).
+ */
 ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 {
-	{"tanh", ltanh},		// Tangens hyperbolicus
+	// Trigometric functions
+	{"sin", lsin}, 			// Sinus
+	{"cos", lcos}, 			// Cosinus
 	{"tan", ltan}, 			// Tangens
+	{"arcsin", arcsin}, 	// Arcus sinus = inverse of sin
+	{"arccos", arccos}, 	// Arcus cosinus = inverse of cos
+	{"arctan", arctan},		// Arcus tangens = inverse of tan
+	
+	// Hyperbolic trig
+	{"sinh", lsinh},	 	// Sinus hyperbolicus
+	{"cosh", lcosh}, 		// Cosinus hyperbolicus
+	{"tanh", ltanh},		// Tangens hyperbolicus
+	{"arcsinh", arsinh}, 	// Area-sinus hyperbolicus = inverse of sinh
+	{"arccosh", arcosh}, 	// Area-cosinus hyperbolicus = inverse of cosh
+	{"arctanh", artanh}, 	// Area-tangens hyperbolicus = inverse of tanh
+	{"arsinh", arsinh},		// The same as arcsinh
+	{"arcosh", arcosh},		// The same as arccosh
+	{"artanh", artanh},		// The same as arctanh
+	
+	// Reciprocal-trig
+	{"cosec", cosec},		// Co-Secans = 1/sin
+	{"sec", sec},			// Secans = 1/cos
+	{"cot", cot},			// Co-Tangens = 1/tan
+	{"arccosec", arccosec},	// Arcus co-secans = inverse of cosec
+	{"arcsec", arcsec},		// Arcus secans = inverse of sec
+	{"arccot", arccot},		// Arcus co-tangens = inverse of cotan
+	
+	// Reciprocal-hyperbolic
+	{"cosech", cosech},		// Co-Secans hyperbolicus
+	{"sech", sech},			// Secans hyperbolicus
+	{"coth", coth},			// Co-Tangens hyperbolicus
+	{"arccosech", arcosech},// Area-co-secans hyperbolicus = inverse of cosech
+	{"arcsech", arsech},	// Area-secans hyperbolicus = invers of sech
+	{"arccoth", arcoth},	// Area-co-tangens hyperbolicus = inverse of coth
+	{"arcosech", arcosech},	// Same as arccosech
+	{"arsech", arsech},		// Same as arcsech
+	{"arcoth", arcoth},		// Same as arccoth
+	
+	// Other
 	{"sqrt", sqrt},			// Square root
 	{"sqr", sqr}, 			// Square
-	{"sinh", lsinh},	 	// Sinus hyperbolicus
-	{"sin", lsin}, 			// Sinus
 	{"sign", sign},			// Signum
 	{"H", heaviside},		// Heaviside step function
-	{"sech", sech},			// Secans hyperbolicus
-	{"sec", sec},			// Secans
 	{"log", llog},			// Logarithm base 10
 	{"ln", ln}, 			// Logarithm base e
 	{"exp", exp}, 			// Exponential function base e
-	{"coth", coth},			// Co-Tangens hyperbolicus
-	{"cot", cot},			// Co-Tangens = 1/tan
-	{"cosh", lcosh}, 		// Cosinus hyperbolicus
-	{"cosech", cosech},		// Co-Secans hyperbolicus
-	{"cosec", cosec},		// Co-Secans
-	{"cos", lcos}, 			// Cosinus
-	{"artanh", artanh}, 	// Area-tangens hyperbolicus = inverse of tanh
-	{"arsinh", arsinh}, 	// Area-sinus hyperbolicus = inverse of sinh
-	{"arsech", arsech},		// Area-secans hyperbolicus = invers of sech
-	{"arctanh", artanh},	// The same as artanh
-	{"arcsinh", arsinh},	// The same as arsinh
-	{"arccosh", arcosh},	// The same as arcosh
-	{"arctan", arctan},		// Arcus tangens = inverse of tan
-	{"arcsin", arcsin}, 	// Arcus sinus = inverse of sin
-	{"arcsec", arcsec},		// Arcus secans = inverse of sec
-	{"arcoth", arcoth},		// Area-co-tangens hyperbolicus = inverse of coth
-	{"arcosh", arcosh}, 	// Area-cosinus hyperbolicus = inverse of cosh
-	{"arcosech", arcosech},	// Area-co-secans hyperbolicus = inverse of cosech
-	{"arccot", arccot},		// Arcus co-tangens = inverse of cotan
-	{"arccosec", arccosec},	// Arcus co-secans = inverse of cosec
-	{"arccos", arccos}, 	// Arcus cosinus = inverse of cos
 	{"abs", fabs},			// Absolute value
 	{"floor", floor},		// round down to nearest integer
 	{"ceil", ceil},			// round up to nearest integer
@@ -187,9 +205,7 @@ double Parser::eval( const QString & str )
 {
 	QString fname( "f(x)=0" );
 	XParser::self()->fixFunctionName( fname, Equation::Cartesian, -1 );
-	
 	QString name = QString("%1(x)=%2").arg( fname.left( fname.indexOf('(') ) ).arg( str );
-// 	kDebug() << k_funcinfo << "name:  "<<name<<endl;
 	
 	if ( !m_ownEquation->setFstr( name ) )
 		return 0;
@@ -353,8 +369,6 @@ double Parser::fkt( Equation * eq, double x[3] )
 				int args = *pUint++;
 				assert( 1 <= args && args <= 3 );
 				
-// 				kDebug() << "Got function! id="<<id<<" id_eq="<<id_eq<<" args="<<args<<endl;
-				
 				if ( m_ufkt.contains( id ) )
 				{
 					double vars[3] = {0};
@@ -378,10 +392,8 @@ double Parser::fkt( Equation * eq, double x[3] )
 }
 
 
-int Parser::addFunction( QString str1, QString str2, Function::Type type )
+int Parser::addFunction( const QString & str1, const QString & str2, Function::Type type )
 {
-// 	kDebug() << k_funcinfo << "str1="<<str1<<" str2="<<str2<<endl;
-	
 	QString str[2] = { str1, str2 };
 	
 	Function * temp = new Function( type );
@@ -410,6 +422,8 @@ int Parser::addFunction( QString str1, QString str2, Function::Type type )
 	temp->id = getNewId();
 	m_ufkt[ temp->id ] = temp;
 	
+	temp->plotAppearance( Function::Derivative0 ).color = temp->plotAppearance( Function::Derivative1 ).color = temp->plotAppearance( Function::Derivative2 ).color = temp->plotAppearance( Function::Integral ).color = XParser::self()->defaultColor( temp->id );
+	
 	emit functionAdded( temp->id );
 	return temp->id; //return the unique ID-number for the function
 }
@@ -417,6 +431,9 @@ int Parser::addFunction( QString str1, QString str2, Function::Type type )
 
 void Parser::initEquation( Equation * eq )
 {
+	if ( eq->parent() )
+		eq->parent()->dep.clear();
+	
 	m_error = ParseSuccess;
 	m_currentEquation = eq;
 	mem = mptr = eq->mem;
@@ -440,35 +457,20 @@ bool Parser::removeFunction( Function * item )
 {
 	kDebug() << "Deleting id:" << item->id << endl;
 	
-	/// \todo FIX dependencies (also, test code with implicit function "x^2=y^2")
-#if 0
-	if (!item->dep.isEmpty())
+	foreach ( Function * it, m_ufkt )
 	{
-		KMessageBox::sorry(0,i18n("This function is depending on an other function"));
-		return false;
-	}
-	
-	kDebug() << "Looking for dependencies....\n";
-	foreach ( Function * it1, m_ufkt )
-	{
-		if (it1==item)
+		if ( it == item )
 			continue;
-		for(QList<int>::iterator it2=it1->dep.begin(); it2!=it1->dep.end(); ++it2)
-			if ( (uint)*it2 == item->id )
-				it2 = it1->dep.erase(it2);
+		
+		if ( it->dep.contains( item->id ) )
+		{
+			KMessageBox::sorry(0,i18n("This function is depending on an other function"));
+			return false;
+		}
 	}
-#endif
 	
 	uint const id = item->id;
-	
 	m_ufkt.remove(id);
-	
-	for ( unsigned i = 0; i < 2; ++i )
-	{
-		if ( item->eq[i] && (item->eq[i] == m_currentEquation) )
-			m_currentEquation = m_ownEquation;
-	}
-	
 	delete item;
 	
 	emit functionRemoved( id );
@@ -651,7 +653,7 @@ void Parser::primary()
 				addToken(UFKT);
 				addfptr( it->id, i, argCount );
 				if ( m_currentEquation->parent() )
-					it->dep.append(m_currentEquation->parent()->id);
+					m_currentEquation->parent()->dep.append( it->id );
 				return;
 			}
 		}

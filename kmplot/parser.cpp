@@ -23,10 +23,12 @@
 *
 */
 
-// standard c(++) includes
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
+
+// local includes
+#include "parser.h"
+#include "parseradaptor.h"
+#include "settings.h"
+#include "xparser.h"
 
 //KDE includes
 #include <kdebug.h>
@@ -35,17 +37,14 @@
 #include <kmessagebox.h>
 #include <ksimpleconfig.h>
 
-// local includes
-#include "parser.h"
-#include "settings.h"
-#include "xparser.h"
-//Added by qt3to4:
 #include <QList>
 
+// standard c(++) includes
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
 #include <assert.h>
 #include <cmath>
-
-#include "parseradaptor.h"
 
 double Parser::m_radiansPerAngleUnit = 0;
 
@@ -112,8 +111,8 @@ VectorFunction Parser::vectorFunctions[ VectorCount ]=
 Parser::Parser()
 	: m_sanitizer( this )
 {
+	m_errorPosition = -1;
 	m_evalPos = 0;
-	evalflg = 0;
 	m_nextFunctionID = 0;
 	m_constants = new Constants( this );
 	
@@ -127,11 +126,9 @@ Parser::Parser()
 
 Parser::~Parser()
 {
-	kDebug() << "Exiting......" << endl;
 	foreach ( Function * function, m_ufkt )
 		delete function;
 	delete m_ownEquation;
-	
 	delete m_constants;
 }
 
@@ -168,7 +165,7 @@ void Parser::setAngleMode( AngleMode mode )
 
 double Parser::radiansPerAngleUnit()
 {
-        return m_radiansPerAngleUnit;
+	return m_radiansPerAngleUnit;
 }
 
 
@@ -186,49 +183,19 @@ uint Parser::getNewId()
 	}
 }
 
-double Parser::eval( QString str, unsigned evalPosOffset, bool fixExpression )
+double Parser::eval( const QString & str )
 {
-// 	kDebug() << k_funcinfo << "str=\""<<str<<"\"\n";
-	m_currentEquation = m_ownEquation;
-	m_currentEquation->setFstr( str, true );
+	QString fname( "f(x)=0" );
+	XParser::self()->fixFunctionName( fname, Equation::Cartesian, -1 );
 	
-	stack=new double [STACKSIZE];
-	stkptr=stack;
-	evalflg=1;
+	QString name = QString("%1(x)=%2").arg( fname.left( fname.indexOf('(') ) ).arg( str );
+// 	kDebug() << k_funcinfo << "name:  "<<name<<endl;
 	
-	if ( fixExpression )
-		m_sanitizer.fixExpression( & str, evalPosOffset );
+	if ( !m_ownEquation->setFstr( name ) )
+		return 0;
 	
-	for ( int i = evalPosOffset; i < str.length(); i++ )
-	{
-		if ( constants()->have( str[i] ) )
-		{
-			m_error = UserDefinedConstantInExpression;
-			m_errorPosition = m_sanitizer.realPos( i );
-			delete []stack;
-			return 0;
-		}
-	}
-	
-	m_eval = str;
-	m_evalPos = evalPosOffset;
-	m_error = ParseSuccess;
-	heir1();
-	if( !evalRemaining().isEmpty() && m_error==ParseSuccess)
-		m_error=SyntaxError;
-	evalflg=0;
-	double const erg=*stkptr;
-	delete [] stack;
-	if ( m_error == ParseSuccess )
-	{
-		m_errorPosition = -1;
-		return erg;
-	}
-	else
-	{
-		m_errorPosition = m_sanitizer.realPos( m_evalPos );
-		return 0.;
-	}
+	double var[3] = {0};
+	return fkt( m_ownEquation, var );
 }
 
 
@@ -290,9 +257,9 @@ double Parser::fkt( Equation * eq, double x[3] )
 	double *pDouble;
 	double (**pScalarFunction)(double);
 	double (**pVectorFunction)(const DoubleList &);
-	double *stack, *stkptr;
 	uint *pUint;
-	eq->mptr=eq->mem;
+	eq->mptr = eq->mem;
+	double *stack, *stkptr;
 	stack=stkptr= new double [STACKSIZE];
 
 	while(1)
@@ -444,59 +411,7 @@ int Parser::addFunction( QString str1, QString str2, Function::Type type )
 	m_ufkt[ temp->id ] = temp;
 	
 	emit functionAdded( temp->id );
-	kDebug() << k_funcinfo << "all ok\n";
 	return temp->id; //return the unique ID-number for the function
-}
-
-
-bool Parser::isFstrValid( QString str )
-{
-	stkptr = stack = 0;
-	m_error = ParseSuccess;
-	m_errorPosition = 0;
-
-	const int p1=str.indexOf('(');
-	int p2=str.indexOf(',');
-	const int p3=str.indexOf(")=");
-	
-	m_sanitizer.fixExpression( & str, p1+4 );
-        
-	if(p1==-1 || p3==-1 || p1>p3)
-	{
-		/// \todo find the position of the capital and set into m_errorPosition
-		m_error = InvalidFunctionVariable;
-		kDebug() << k_funcinfo << "InvalidFunctionVariable: p1="<<p1<<" p2="<<p2<<" p3="<<p3<<" str="<<str<<endl;
-		return false;
-	}
-	if ( p3+2 == str.length()) //empty function
-	{
-		/// \todo find the position of the capital and set into m_errorPosition
-		m_error = EmptyFunction;
-		return false;
-	}
-	if(p2==-1 || p2>p3)
-		p2=p3;
-	
-	if (str.mid(p1+1, p2-p1-1) == "e")
-	{
-		/// \todo find the position of the capital and set into m_errorPosition
-		m_error = InvalidFunctionVariable;
-		return false;
-	}
-	
-	QString fname = str.left(p1);
-	
-	if ( fname != fname.toLower() ) //isn't allowed to contain capital letters
-	{
-		m_error = CapitalInFunctionName;
-		/// \todo find the position of the capital and set into m_errorPosition
-		return false;
-	}
-	
-// 	m_currentEquation = m_ownEquation;
-// 	m_currentEquation->setFstr( str, true );
-	(double) eval( str, p3+2, false );
-	return (m_error == ParseSuccess);
 }
 
 
@@ -507,13 +422,17 @@ void Parser::initEquation( Equation * eq )
 	mem = mptr = eq->mem;
 	
 	m_eval = eq->fstr();
-	m_sanitizer.fixExpression( & m_eval, m_eval.indexOf('(')+4 );
+	m_sanitizer.fixExpression( & m_eval );
 	m_evalPos = m_eval.indexOf( '=' ) + 1;
 	heir1();
+	
 	if ( !evalRemaining().isEmpty() && m_error == ParseSuccess )
 		m_error = SyntaxError;
-	addtoken(ENDE);
-	m_errorPosition = -1;
+	
+	if ( m_error != ParseSuccess )
+		m_errorPosition = m_sanitizer.realPos( m_evalPos );
+	
+	addToken(ENDE);
 }
 
 
@@ -542,17 +461,14 @@ bool Parser::removeFunction( Function * item )
 	
 	uint const id = item->id;
 	
-// 	kDebug() << "Removing from internal lists...\n";
 	m_ufkt.remove(id);
 	
-// 	kDebug() << "Checking equations\n";
 	for ( unsigned i = 0; i < 2; ++i )
 	{
 		if ( item->eq[i] && (item->eq[i] == m_currentEquation) )
 			m_currentEquation = m_ownEquation;
 	}
 	
-// 	kDebug() << "Actually deleting the function\n";
 	delete item;
 	
 	emit functionRemoved( id );
@@ -593,7 +509,7 @@ void Parser::heir1()
 			case '+':
 			case '-':
 				++m_evalPos;
-				addtoken(PUSH);
+				addToken(PUSH);
 				heir2();
 				if(m_error!=ParseSuccess)
 					return;
@@ -601,10 +517,10 @@ void Parser::heir1()
 		switch ( c.unicode() )
 		{
 			case '+':
-				addtoken(PLUS);
+				addToken(PLUS);
 				break;
 			case '-':
-				addtoken(MINUS);
+				addToken(MINUS);
 		}
 	}
 }
@@ -617,14 +533,14 @@ void Parser::heir2()
 		heir2();
 		if(m_error!=ParseSuccess)
 			return;
-		addtoken(NEG);
+		addToken(NEG);
 	}
 	else if ( match( QChar(0x221a) ) ) // square root symbol
 	{
 		heir2();
 		if(m_error!=ParseSuccess)
 			return;
-		addtoken(SQRT);
+		addToken(SQRT);
 	}
 	else
 		heir3();
@@ -653,7 +569,7 @@ void Parser::heir3()
 			case '*':
 			case '/':
 				++m_evalPos;
-				addtoken(PUSH);
+				addToken(PUSH);
 				heir4();
 				if(m_error!=ParseSuccess)
 					return ;
@@ -661,10 +577,10 @@ void Parser::heir3()
 		switch ( c.unicode() )
 		{
 			case '*':
-				addtoken(MULT);
+				addToken(MULT);
 				break;
 			case '/':
-				addtoken(DIV);
+				addToken(DIV);
 		}
 	}
 }
@@ -677,11 +593,11 @@ void Parser::heir4()
 		return;
 	while(match("^"))
 	{
-		addtoken(PUSH);
+		addToken(PUSH);
 		primary();
 		if(m_error!=ParseSuccess)
 			return;
-		addtoken(POW);
+		addToken(POW);
 	}
 }
 
@@ -695,12 +611,13 @@ void Parser::primary()
 			m_error=MissingBracket;
 		return;
 	}
+	
 	for ( int i=0; i < ScalarCount; ++i )
 	{
 		if ( match(scalarFunctions[i].name) )
 		{
 			primary();
-			addtoken(FKT_1);
+			addToken(FKT_1);
 			addfptr(scalarFunctions[i].mfadr);
 			return;
 		}
@@ -709,23 +626,9 @@ void Parser::primary()
 	{
 		if ( match(vectorFunctions[i].name) )
 		{
-			int argCount = 0;
-			bool argLeft = true;
-			do
-			{
-				argCount++;
-				primary();
-					
-				argLeft = m_eval.at(m_evalPos-1) == ',';
-				if (argLeft)
-				{
-					addtoken(PUSH);
-					m_evalPos--;
-				}
-			}
-			while ( m_error == ParseSuccess && argLeft && !evalRemaining().isEmpty() );
+			int argCount = readFunctionArguments();
 			
-			addtoken(FKT_N);
+			addToken(FKT_N);
 			addfptr( vectorFunctions[i].mfadr, argCount );
 			return;
 		}
@@ -733,11 +636,6 @@ void Parser::primary()
 	
 	foreach ( Function * it, m_ufkt )
 	{
-		if ( evalRemaining() == "pi" ||
-				   evalRemaining() == "e" ||
-				   evalRemaining() == QChar(0x221E) )
-			continue;
-
 		for ( unsigned i = 0; i < 2; ++i )
 		{
 			if ( it->eq[i] && match(it->eq[i]->name()) )
@@ -748,23 +646,9 @@ void Parser::primary()
 					return;
 				}
 				
-				int argCount = 0;
-				bool argLeft = true;
-				do
-				{
-					argCount++;
-					primary();
-					
-					argLeft = m_eval.at(m_evalPos-1) == ',';
-					if (argLeft)
-					{
-						addtoken(PUSH);
-						m_evalPos--;
-					}
-				}
-				while ( m_error == ParseSuccess && argLeft && !evalRemaining().isEmpty() );
+				int argCount = readFunctionArguments();
 				
-				addtoken(UFKT);
+				addToken(UFKT);
 				addfptr( it->id, i, argCount );
 				if ( m_currentEquation->parent() )
 					it->dep.append(m_currentEquation->parent()->id);
@@ -782,35 +666,25 @@ void Parser::primary()
 			QChar tmp = c.constant;
 			if ( match( tmp ) )
 			{
-				addtoken(KONST);
-				addwert(c.value);
+				addConstant(c.value);
 				return;
 			}
 		}
-		m_error = NoSuchConstant;
+		
+		assert( !"Could not find the constant!" ); // Should always be able to find the constant
 		return;
 	}
 	
-	if ( match("pi") || match( QChar(960) ) )
-	{
-		addtoken(KONST);
-		addwert(M_PI);
-		return;
+#define CHECK_CONSTANT( a, b ) \
+	if ( match(a) ) \
+	{ \
+		addConstant( b ); \
+		return; \
 	}
-	
-	if(match("e"))
-	{
-		addtoken(KONST);
-		addwert(M_E);
-		return;
-	}
-	
-	if( match( QChar(0x221E) ) )
-	{
-		addtoken(KONST);
-		addwert( INFINITY );
-		return;
-	}
+	CHECK_CONSTANT( "pi", M_PI );
+	CHECK_CONSTANT( QChar(960), M_PI );
+	CHECK_CONSTANT( "e", M_E );
+	CHECK_CONSTANT( QChar(0x221E), INFINITY );
 	
 	QStringList variables = m_currentEquation->parameters();
 	uint at = 0;
@@ -818,7 +692,7 @@ void Parser::primary()
 	{
 		if ( match( var ) )
 		{
-			addtoken( VAR );
+			addToken( VAR );
 			adduint( at );
 			return;
 		}
@@ -832,11 +706,32 @@ void Parser::primary()
 	if( lptr != p )
 	{
 		m_evalPos += p-lptr;
-		addtoken(KONST);
-		addwert(w);
+		addConstant(w);
 	}
 	else
 		m_error = SyntaxError;
+}
+
+
+int Parser::readFunctionArguments()
+{
+	int argCount = 0;
+	bool argLeft = true;
+	do
+	{
+		argCount++;
+		primary();
+					
+		argLeft = m_eval.at(m_evalPos-1) == ',';
+		if (argLeft)
+		{
+			addToken(PUSH);
+			m_evalPos--;
+		}
+	}
+	while ( m_error == ParseSuccess && argLeft && !evalRemaining().isEmpty() );
+	
+	return argCount;
 }
 
 
@@ -844,9 +739,6 @@ bool Parser::match( const QString & lit )
 {
 	if ( lit.isEmpty() )
 		return false;
-	
-	while( (m_eval.length() > m_evalPos) && (m_eval[m_evalPos] == ' ') )
-		++m_evalPos;
 	
 	if ( lit != evalRemaining().left( lit.length() ) )
 		return false;
@@ -856,97 +748,28 @@ bool Parser::match( const QString & lit )
 }
 
 
-void Parser::addtoken( Token token )
+void Parser::addToken( Token token )
 {
-	if(stkptr>=stack+STACKSIZE-1)
-	{
-		m_error = StackOverflow;
-		return;
-	}
-
-	if(evalflg==0)
-	{
-		if(mptr>=&mem[MEMSIZE-10])
-			m_error = MemoryOverflow;
-		else
-			*mptr++=token;
-        
-		switch(token)
-		{
-			case PUSH:
-				++stkptr;
-				break;
-			case PLUS:
-			case MINUS:
-			case MULT:
-			case DIV:
-			case POW:
-				--stkptr;
-				break;
-			default:
-				break;
-		}
-	}
-	else switch(token)
-	{
-		case PUSH:
-			++stkptr;
-			break;
-		case PLUS:
-			stkptr[-1]+=*stkptr;
-			--stkptr;
-			break;
-
-		case MINUS:
-			stkptr[-1]-=*stkptr;
-			--stkptr;
-			break;
-		case MULT:
-			stkptr[-1]*=*stkptr;
-			--stkptr;
-			break;
-		case DIV:
-			if(*stkptr==0.)
-				*(--stkptr)=HUGE_VAL;
-			else
-			{
-				stkptr[-1]/=*stkptr;
-				--stkptr;
-			}
-			break;
-                
-		case POW:
-			stkptr[-1]=pow(*(stkptr-1), *stkptr);
-			--stkptr;
-			break;
-		case NEG:
-			*stkptr=-*stkptr;
-			break;
-		case SQRT:
-			*stkptr = sqrt(*stkptr);
-			break;
-		default:
-			break;
-	}
+	if ( mptr>=&mem[MEMSIZE-10] )
+		m_error = MemoryOverflow;
+	else
+		*mptr++=token;
 }
 
 
-void Parser::addwert(double x)
+void Parser::addConstant(double x)
 {
+	addToken(KONST);
+	
 	double *pd=(double*)mptr;
 
-	if(evalflg==0)
-	{
-		if(mptr>=&mem[MEMSIZE-10])
-			m_error = MemoryOverflow;
-		else
-		{
-			*pd++=x;
-			mptr=(unsigned char*)pd;
-		}
-	}
+	if(mptr>=&mem[MEMSIZE-10])
+		m_error = MemoryOverflow;
 	else
-		*stkptr=x;
+	{
+		*pd++=x;
+		mptr=(unsigned char*)pd;
+	}
 }
 
 
@@ -954,15 +777,12 @@ void Parser::adduint(uint x)
 {
 	uint *p=(uint*)mptr;
 
-	if(evalflg==0)
+	if(mptr>=&mem[MEMSIZE-10])
+		m_error = MemoryOverflow;
+	else
 	{
-		if(mptr>=&mem[MEMSIZE-10])
-			m_error = MemoryOverflow;
-		else
-		{
-			*p++=x;
-			mptr=(unsigned char*)p;
-		}
+		*p++=x;
+		mptr=(unsigned char*)p;
 	}
 }
 
@@ -970,30 +790,19 @@ void Parser::adduint(uint x)
 void Parser::addfptr(double(*fadr)(double))
 {
 	double (**pf)(double)=(double(**)(double))mptr;
-	if( evalflg==0 )
-	{
-		if( mptr>=&mem[MEMSIZE-10] )
-			m_error = MemoryOverflow;
-		else
-		{
-			*pf++=fadr;
-			mptr=(unsigned char*)pf;
-		}
-	}
+	
+	if( mptr>=&mem[MEMSIZE-10] )
+		m_error = MemoryOverflow;
 	else
 	{
-// 		kDebug() << k_funcinfo << "*stkptr="<<*stkptr<<endl;
-		*stkptr=(*fadr)(*stkptr);
+		*pf++=fadr;
+		mptr=(unsigned char*)pf;
 	}
 }
 
 
 void Parser::addfptr( double(*fadr)(const DoubleList & ), int argCount )
 {
-	if ( evalflg != 0 )
-		// I'm going to get rid of evalflg soon
-		return;
-	
 	uint *p = (uint*)mptr;
 	*p++ = argCount;
 	mptr = (unsigned char*)p;
@@ -1013,26 +822,15 @@ void Parser::addfptr( double(*fadr)(const DoubleList & ), int argCount )
 void Parser::addfptr( uint id, uint eq_id, uint args )
 {
 	uint *p=(uint*)mptr;
-	if(evalflg==0)
-	{
-		if(mptr>=&mem[MEMSIZE-10])
-			m_error=MemoryOverflow;
-		else
-		{
-			*p++=id;
-			*p++=eq_id;
-			*p++=args;
-			mptr=(unsigned char*)p;
-		}
-	}
+	
+	if(mptr>=&mem[MEMSIZE-10])
+		m_error=MemoryOverflow;
 	else
 	{
-		Function * function = functionWithID( id );
-		if ( function )
-		{
-			/// \todo take into account args
-			*stkptr = fkt( function->eq[eq_id], *stkptr );
-		}
+		*p++=id;
+		*p++=eq_id;
+		*p++=args;
+		mptr=(unsigned char*)p;
 	}
 }
 
@@ -1094,9 +892,6 @@ QString Parser::errorString() const
 			return i18n("Parser error at position %1:\n"
 					"recursive function not allowed.", m_errorPosition+1);
 			
-		case NoSuchConstant:
-			return i18n("Could not find a defined constant at position %1.", m_errorPosition+1);
-			
 		case EmptyFunction:
 			return i18n("Empty function");
 			
@@ -1144,13 +939,13 @@ QString Parser::number( double value )
 {
 	QString str = QString::number( value, 'g', 6 );
 	str.replace( 'e', "*10^" );
-// 	kDebug() << "returning str="<<str<<endl;
 	return str;
 }
 //END class Parser
 
 
 
+//BEGIN predefined mathematical functions
 double ln(double x)
 {
         return log(x);
@@ -1380,6 +1175,8 @@ double mod( const DoubleList & list )
 	
 	return std::sqrt( squared );
 }
+//END predefined mathematical functions
+
 
 
 //BEGIN class Constants
@@ -1414,8 +1211,6 @@ bool Constants::have( QChar name ) const
 
 void Constants::remove( QChar name )
 {
-// 	kDebug() << k_funcinfo << "removing " << name << endl;
-	
 	QVector<Constant>::iterator c = find( name );
 	if ( c != m_constants.end() )
 		m_constants.erase( c );
@@ -1424,8 +1219,6 @@ void Constants::remove( QChar name )
 
 void Constants::add( Constant c )
 {
-// 	kDebug() << k_funcinfo << "adding " << c.constant << endl;
-	
 	remove( c.constant );
 	m_constants.append( c );
 }
@@ -1440,7 +1233,6 @@ bool Constants::isValidName( QChar name )
 	switch ( name.category() )
 	{
 		case QChar::Letter_Uppercase:
-// 		case QChar::Symbol_Math:
 			return true;
 			
 		case QChar::Letter_Lowercase:
@@ -1468,64 +1260,58 @@ QChar Constants::generateUniqueName()
 
 void Constants::load()
 {
-// 	KSimpleConfig conf ("kcalcrc");
-// 	conf.setGroup("UserConstants");
-// 	QString tmp;
-// 	
-// 	for( int i=0; ;i++)
-// 	{
-// 		tmp.setNum(i);
-// 		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
-// 		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
-// // 		kDebug() << "konstant: " << tmp_constant << endl;
-// // 		kDebug() << "value: " << tmp_value << endl;
-// // 		kDebug() << "**************" << endl;
-// 		
-// 		if ( tmp_constant == " " )
-// 			return;
-// 		
-// 		if ( tmp_constant.isEmpty() )
-// 			continue;
-// 			
-// 		double value = m_parser->eval(tmp_value);
-// 		if ( m_parser->parserError(false) )
-// 		{
-// 			kWarning() << k_funcinfo << "Couldn't parse the value " << tmp_value << endl;
-// 			continue;
-// 		}
-// 		
-// 		QChar constant = tmp_constant[0].toUpper();
-// 		
-// 		if ( !isValidName( constant ) || have( constant ) )
-// 			constant = generateUniqueName();
-// 		
-// 		add( Constant(constant, value) );
-// 	}
+	KSimpleConfig conf ("kcalcrc");
+	conf.setGroup("UserConstants");
+	QString tmp;
+	
+	for( int i=0; ;i++)
+	{
+		tmp.setNum(i);
+		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
+		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
+		
+		if ( tmp_constant == " " )
+			return;
+		
+		if ( tmp_constant.isEmpty() )
+			continue;
+			
+		double value = m_parser->eval(tmp_value);
+		if ( m_parser->parserError(false) )
+		{
+			kWarning() << k_funcinfo << "Couldn't parse the value " << tmp_value << endl;
+			continue;
+		}
+		
+		QChar constant = tmp_constant[0].toUpper();
+		
+		if ( !isValidName( constant ) || have( constant ) )
+			constant = generateUniqueName();
+		
+		add( Constant(constant, value) );
+	}
 }
 
 void Constants::save()
 {
-// 	KSimpleConfig conf ("kcalcrc");
-// 	conf.deleteGroup("Constants");
-// 	
-// 	// remove any previously saved constants
-// 	conf.deleteGroup( "UserConstants", KConfigBase::Recursive );
-// 	conf.deleteGroup( "UserConstants", 0 ); /// \todo remove this line when fix bug in kconfigbase
-// 	
-// 	
-// 	conf.setGroup("UserConstants");
-// 	QString tmp;
-// 	
-// 	int i = 0;
-// 	foreach ( Constant c, m_constants )
-// 	{
-// 		tmp.setNum(i);
-// 		conf.writeEntry("nameConstant"+tmp, QString( c.constant ) ) ;
-// 		conf.writeEntry("valueConstant"+tmp, c.value);
-// // 		kDebug() << "wrote constant="<<c.constant<<" value="<<c.value<<endl;
-// 		
-// 		i++;
-// 	}
+	KSimpleConfig conf ("kcalcrc");
+	conf.deleteGroup("Constants");
+	
+	// remove any previously saved constants
+	conf.deleteGroup( "UserConstants" );
+	
+	conf.setGroup("UserConstants");
+	QString tmp;
+	
+	int i = 0;
+	foreach ( Constant c, m_constants )
+	{
+		tmp.setNum(i);
+		conf.writeEntry("nameConstant"+tmp, QString( c.constant ) ) ;
+		conf.writeEntry("valueConstant"+tmp, c.value);
+		
+		i++;
+	}
 }
 //END class Constants
 
@@ -1539,9 +1325,9 @@ ExpressionSanitizer::ExpressionSanitizer( Parser * parser )
 }
 
 
-void ExpressionSanitizer::fixExpression( QString * str, int pos )
+void ExpressionSanitizer::fixExpression( QString * str )
 {
-// 	kDebug() << k_funcinfo << "pos="<<pos<<" str="<<*str<<endl;
+// 	kDebug() << k_funcinfo << "str:   " << *str << endl;
 	
 	m_str = str;
 	
@@ -1559,10 +1345,6 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 	}
 	
 	stripWhiteSpace();
-	
-	m_map.insert( 0, 0 );
-	m_map.insert( m_map.size(), m_map[ m_map.size()-1 ] );
-	*str = ' ' + *str + ' ';
 	
 	// make sure all minus-like signs (including the actual unicode minus sign)
 	// are represented by a dash (unicode 0x002d)
@@ -1605,6 +1387,7 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 	replace( QChar(0x215e), "(7/8)" );
 	
 	// replace e.g. |x+2| with abs(x+2)
+	str->replace( QChar(0x2223), '|' ); // 0x2223 is the unicode math symbol for abs
 	while ( true )
 	{
 		int pos1 = str->indexOf( '|' );
@@ -1616,10 +1399,12 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 		replace( pos1, 1, "abs(" );
 	}
 	
+	str->replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
+	
 	//insert '*' when it is needed
 	QChar ch;
 	bool function = false;
-	for(int i=pos+1; i+1 <  str->length();i++)
+	for(int i=1; i+1 <  str->length();i++)
 	{
 		ch = str->at(i);
 		
@@ -1693,13 +1478,6 @@ void ExpressionSanitizer::fixExpression( QString * str, int pos )
 			i++;
 		}
 	}
-	
-	stripWhiteSpace();
-	
-	QString str_end = str->mid(pos);
-	str_end = str_end.replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
-	str->truncate(pos);
-	str->append(str_end);
 // 	kDebug() << "str:" << *str << endl;
 }
 
@@ -1723,9 +1501,6 @@ void ExpressionSanitizer::stripWhiteSpace()
 
 void ExpressionSanitizer::remove( const QString & str )
 {
-// 	kDebug() << "Before:\n";
-// 	displayMap();
-	
 	int at = 0;
 	
 	do
@@ -1738,9 +1513,6 @@ void ExpressionSanitizer::remove( const QString & str )
 		}
 	}
 	while ( at != -1 );
-	
-// 	kDebug() << "After:\n";
-// 	displayMap();
 }
 
 
@@ -1764,9 +1536,6 @@ void ExpressionSanitizer::replace( QChar before, const QString & after )
 		return;
 	}
 	
-// 	kDebug() << "Before:\n";
-// 	displayMap();
-	
 	int at = 0;
 	
 	do
@@ -1783,50 +1552,29 @@ void ExpressionSanitizer::replace( QChar before, const QString & after )
 		}
 	}
 	while ( at != -1 );
-	
-// 	kDebug() << "After:\n";
-// 	displayMap();
 }
 
 
 void ExpressionSanitizer::replace( int pos, int len, const QString & after )
 {
-// 	kDebug() << "Before:\n";
-// 	displayMap();
-	
 	int before = m_map[pos];
 	m_map.remove( pos, len );
 	m_map.insert( pos, after.length(), before );
 	m_str->replace( pos, len, after );
-	
-// 	kDebug() << "After:\n";
-// 	displayMap();
 }
 
 
 void ExpressionSanitizer::insert( int i, QChar ch )
 {
-// 	kDebug() << "Before:\n";
-// 	displayMap();
-	
 	m_map.insert( i, m_map[i] );
 	m_str->insert( i, ch );
-	
-// 	kDebug() << "After:\n";
-// 	displayMap();
 }
 
 
 void ExpressionSanitizer::append( QChar str )
 {
-// 	kDebug() << "Before:\n";
-// 	displayMap();
-	
 	m_map.insert( m_map.size(), m_map[ m_map.size() - 1 ] );
 	m_str->append( str );
-	
-// 	kDebug() << "After:\n";
-// 	displayMap();
 }
 
 

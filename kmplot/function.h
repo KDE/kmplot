@@ -166,10 +166,9 @@ class Equation
 		 * @see fstr()
 		 * @return whether \p fstr could be parsed correctly. Note that if it
 		 * was not parsed correctly, then this will return false and this class
-		 * will not be updated. If \p force is true, then no checks on the
-		 * validity of the string are performed.
+		 * will not be updated.
 		 */
-		bool setFstr( const QString & fstr, bool force = false );
+		bool setFstr( const QString & fstr );
 		/**
 		 * Sets the start position and value of the integral.
 		 */

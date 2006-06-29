@@ -197,23 +197,9 @@ QStringList Equation::parameters( ) const
 }
 
 
-bool Equation::setFstr( const QString & fstr, bool force  )
+bool Equation::setFstr( const QString & fstr )
 {
 // 	kDebug() << k_funcinfo << "fstr: "<<fstr<<endl;
-	
-	if ( force )
-	{
-		m_fstr = fstr;
-		resetLastIntegralPoint();
-		return true;
-	}
-	
-	if ( !XParser::self()->isFstrValid( fstr ) )
-	{
-		XParser::self()->parserError( false );
-		kDebug() << k_funcinfo << "invalid fstr\n";
-		return false;
-	}
 	
 	QString prevFstr = m_fstr;
 	m_fstr = fstr;
@@ -222,7 +208,7 @@ bool Equation::setFstr( const QString & fstr, bool force  )
 	{
 		m_fstr = prevFstr;
 		XParser::self()->initEquation( this );
-// 		kDebug() << k_funcinfo << "BAD\n";
+// 		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
 		return false;
 	}
 	

@@ -166,10 +166,8 @@ class ExpressionSanitizer
 		 * *-characters, remove spaces, replace the locale .-character with '.',
 		 * etc). This function will initialize m_evalMap.
 		 * \param str The string to be fixed.
-		 * \param pos Is the position to start fixing the expression; text before
-		 * this will not be changed.
 		 */
-		void fixExpression( QString * str, int pos );
+		void fixExpression( QString * str );
 		/**
 		 * \return the position in the input string (as given to fixExpression)
 		 * that corresponds to the outputted string.
@@ -260,7 +258,6 @@ class Parser : public QObject
 			StackOverflow,
 			FunctionNameReused , ///< function name already used
 			RecursiveFunctionCall,
-			NoSuchConstant,
 			EmptyFunction,
 			CapitalInFunctionName, ///< function name contains a capital letter
 			NoSuchFunction,
@@ -287,17 +284,9 @@ class Parser : public QObject
 		double fkt( uint id, uint eq, double x );
 	
 		/**
-		 * Evaluates the given expression.
-		 * \param evalPosOffset This can be set to start evaluating the string
-		 * at a place other than the start, e.g. to avoid "f(x)=" at the start
-		 * of an equation.
-		 * \param fixExpression Whether to pass \p str to the expression fixer.
-		 * If you have already done this, this should be set to false so that
-		 * the mapping in ExpressionSanitizer is not reset.
-		 * \param str The string to be evaluated (any characters before
-		 * \p evalPosOffset are ignored).
+		 * Evaluates the given expression \p str.
 		 */
-		double eval( QString str, unsigned evalPosOffset = 0, bool fixExpression = true );
+		double eval( const QString & str );
 		/**
 		 * Adds a user defined function with the given equation. The new
 		 * function's ID-number is returned.
@@ -340,28 +329,23 @@ class Parser : public QObject
 		 * Sets the angle mode (in which the calculations are performed).
 		 */
 		void setAngleMode( AngleMode mode );
+		/**
+		* Initializes the function for evaluation. Called after the functions
+		* fstr is set.
+		*/
+		void initEquation( Equation * equation );
+		
+		uint getNewId(); /// Returns the next ID-number
+		uint countFunctions(); /// Returns how many functions there are
 	
-	/**
-	 * Checks to see if the function string is valid.
-	 */
-	bool isFstrValid( QString str );
-	/**
-	 * Initializes the function for evaluation. Called after the functions
-	 * fstr is set.
-	 */
-	void initEquation( Equation * equation );
-	
-	uint getNewId(); /// Returns the next ID-number
-	uint countFunctions(); /// Returns how many functions there are
-
-	/// The constants used by the parser
-	Constants * constants() const { return m_constants; }
-	
-	/// @return the function with the given id
-	Function * functionWithID( int id ) const;
-	
-	/// Points to the array of user defined functions, index by their IDs.
-	QMap<int, Function *> m_ufkt;
+		/// The constants used by the parser
+		Constants * constants() const { return m_constants; }
+		
+		/// @return the function with the given id
+		Function * functionWithID( int id ) const;
+		
+		/// Points to the array of user defined functions, index by their IDs.
+		QMap<int, Function *> m_ufkt;
 	
 	signals:
 		/// emitted when a function is deleted
@@ -388,8 +372,8 @@ class Parser : public QObject
 		void heir3();
 		void heir4();
 		void primary();
-		void addtoken( Token token );
-		void addwert(double);
+		void addToken( Token token );
+		void addConstant(double);
 		void adduint(uint);
 		void addfptr(double(*)(double));
 		void addfptr( double(*)(const DoubleList &), int argCount );
@@ -407,29 +391,31 @@ class Parser : public QObject
 		 * is returned.
 		 */
 		bool match( const QString & string );
+		/**
+		 * Continues to read the expression inside a brackets of a vector
+		 * function until get to the end of the argument list.
+		 * \return the number of arguments
+		 */
+		int readFunctionArguments();
         
-	unsigned
-	char evalflg, 		// 0 => String wird tokenisiert
-	                    // 1 => String wird direkt ausgewertet
-	*mem, 			    // Zeiger auf Speicher fr Token
-	*mptr;			    // Zeiger fr Token
-	QString m_eval;
-	int m_evalPos;
-	int m_nextFunctionID;
-	/// @return the m_eval starting at m_evalPos
-	QString evalRemaining() const;
-	Equation * m_currentEquation; // Pointer to the current function
-	Equation * m_ownEquation; ///< used for parsing constants, etc, and ensures that current_item is never null
-	double *stack, 		// Zeiger auf Stackanfang
-	*stkptr;		    // Stackpointer
-	static double m_radiansPerAngleUnit;
-	Constants * m_constants;
-	ExpressionSanitizer m_sanitizer;
+		unsigned char
+			*mem, 			    // Zeiger auf Speicher fr Token
+			*mptr;			    // Zeiger fr Token
+		QString m_eval;
+		int m_evalPos;
+		int m_nextFunctionID;
+		/// @return the m_eval starting at m_evalPos
+		QString evalRemaining() const;
+		Equation * m_currentEquation; // Pointer to the current function
+		Equation * m_ownEquation; ///< used for parsing constants, etc, and ensures that m_currentEquation is never null
+		static double m_radiansPerAngleUnit;
+		Constants * m_constants;
+		ExpressionSanitizer m_sanitizer;
 	
-private:
-	friend class XParser;
-	friend class ExpressionSanitizer;
-	Parser();
+	private:
+		friend class XParser;
+		friend class ExpressionSanitizer;
+		Parser();
 };
 
 #endif	// parser_included

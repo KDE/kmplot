@@ -18,7 +18,7 @@
 * 
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *
 */
 
@@ -223,6 +223,9 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
 
 void XParser::fixFunctionName( QString &str, Equation::Type const type, int const id)
 {
+	// This function is a mess.
+	/// \todo handle function of the form "f(x) = 2" (note the space before the equals sign).
+	
   int p1=str.indexOf('(');
   int p2=str.indexOf(')');
   if( p1>=0 && str.at(p2+1)=='=')

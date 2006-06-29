@@ -18,7 +18,7 @@
 * 
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 *
 */
 
@@ -178,6 +178,8 @@ void EquationEdit::checkTextValidity( )
 		XParser::self()->eval( text );
 		ok = XParser::self()->errorString().isEmpty();
 	}
+	
+	kDebug() << k_funcinfo << "ok="<<ok<<" XParser::self()->errorPosition()="<<XParser::self()->errorPosition()<<endl;
 		
 	if ( ok )
 		setError( QString(), -1 );

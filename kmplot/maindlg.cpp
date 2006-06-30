@@ -41,6 +41,7 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kstandarddirs.h>
 #include <kstdaction.h>
 #include <ktempfile.h>
 #include <ktoolbar.h>
@@ -309,9 +310,15 @@ void MainDlg::setupActions()
 	newImplicit->setIcon( KIcon("newimplicit") );
 	connect( newImplicit, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createImplicit() ) );
 	m_newPlotMenu->addAction( newImplicit );
+        
+	KAction * newDifferential = new KAction( i18n( "Differential Plot" ), actionCollection(), "newdifferential" );
+	newDifferential->setIcon( KIcon("newdifferential") );
+	connect( newDifferential, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createDifferential() ) );
+	m_newPlotMenu->addAction( newDifferential );
 	//END new plots menu
 	
 	
+	kDebug() << "KStandardDirs::resourceDirs( icon )="<<KGlobal::dirs()->resourceDirs( "icon" )<<endl;
 
 	View::self()->m_menuSliderAction = new KToggleAction( i18n( "Show Sliders" ), actionCollection(), "options_configure_show_sliders" );
 	connect( View::self()->m_menuSliderAction, SIGNAL(triggered(bool)), this, SLOT( toggleShowSliders() ) );

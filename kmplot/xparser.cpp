@@ -34,6 +34,7 @@
 #include <QList>
 
 #include <assert.h>
+#include <cmath>
 
 
 XParser * XParser::m_self = 0;
@@ -140,14 +141,19 @@ bool XParser::getext( Function *item, const QString fstr )
 
 double XParser::derivative( int n, Equation * eq, double x, double h )
 {
-	if ( n < 0 )
+// 	kDebug() << k_funcinfo << "n="<<n<<" h="<<h<<" pow(h,n)="<<pow(h,n)<<endl;
+	
+	if ( n < -1 )
 	{
-		kError() << k_funcinfo << "Can't handle derivative < 0\n";
+		kError() << k_funcinfo << "Can't handle derivative < -1\n";
 		return 0.0;
 	}
 	
 	switch ( n )
 	{
+		case -1:
+			return integral( eq, x, h );
+		
 		case 0:
 			return fkt( eq, x );
 			
@@ -200,11 +206,9 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
 // 	  for( QVector<Function>::iterator it = m_ufkt.begin(); it != m_ufkt.end(); ++it)
 	  foreach ( Function * it, m_ufkt )
       {
-		  for ( unsigned i = 0; i < 2; ++i )
+		  foreach ( Equation * eq, it->eq )
 		  {
-			  if ( it->eq[i] &&
-					it->eq[i]->fstr().startsWith(function_name+'(') &&
-							((int)it->id != id) ) //check if the name is free
+			  if ( eq->fstr().startsWith(function_name+'(') && ((int)it->id != id) ) //check if the name is free
 				  ok = false;
 		  }
       }
@@ -242,22 +246,22 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 			if ( int(it->id) == id )
 				continue;
 			
-			for ( unsigned i = 0; i < 2; ++i )
+			foreach ( Equation * eq, it->eq )
 			{
-				if ( it->eq[i] && (it->eq[i]->name() == fname) )
-				{
-					str = str.mid(p1,str.length()-1);
-					QString function_name;
-					if ( type == Equation::ParametricX )
-						function_name = "x";
-					else if ( type == Equation::ParametricY )
-						function_name = "y";
-					else
-						function_name = "f";
-					findFunctionName(function_name, id, type);
-					str.prepend( function_name );
-					return;
-				}
+				if ( eq->name() != fname )
+					continue;
+				
+				str = str.mid(p1,str.length()-1);
+				QString function_name;
+				if ( type == Equation::ParametricX )
+					function_name = "x";
+				else if ( type == Equation::ParametricY )
+					function_name = "y";
+				else
+					function_name = "f";
+				findFunctionName(function_name, id, type);
+				str.prepend( function_name );
+				return;
 			}
 		}
 	}
@@ -356,11 +360,9 @@ QStringList XParser::listFunctionNames()
 	QStringList list;
 	foreach ( Function * it, m_ufkt )
 	{
-		for ( unsigned i = 0; i < 2; ++i )
+		foreach ( Equation * eq, it->eq )
 		{
-			if ( !it->eq[i] )
-				continue;
-			QString fname = it->eq[i]->name();
+			QString fname = eq->name();
 			if ( !fname.isEmpty() )
 				list << fname;
 		}

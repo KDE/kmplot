@@ -85,6 +85,10 @@ class FunctionEditor : public QDockWidget
 		 */
 		void createImplicit();
 		/**
+		 * Creates a new differential function.
+		 */
+		void createDifferential();
+		/**
 		 * Called when the list of functions in the parser changes.
 		 */
 		void functionsChanged();
@@ -123,6 +127,11 @@ class FunctionEditor : public QDockWidget
 		 * implicit function.
 		 */
 		void saveImplicit();
+		/**
+		 * Called when the user edits any of the widgets relating to a
+		 * differential function.
+		 */
+		void saveDifferential();
 		
 	protected:
 		bool eventFilter(QObject *obj, QEvent *ev);
@@ -144,6 +153,10 @@ class FunctionEditor : public QDockWidget
 		 * Initialize the widgets from an implicit function set in m_functionID.
 		 */
 		void initFromImplicit();
+		/**
+		 * Initialize the widgets from a differential function set in m_functionID.
+		 */
+		void initFromDifferential();
 		/**
 		 * Resets all the function editing widgets (i.e. those in the widget
 		 * stack, but not the list of functions).
@@ -193,6 +206,7 @@ class FunctionEditor : public QDockWidget
 		QTimer * m_savePolarTimer;
 		QTimer * m_saveParametricTimer;
 		QTimer * m_saveImplicitTimer;
+		QTimer * m_saveDifferentialTimer;
 		/// @}
 		/**
 		 * Ensure only one update when functions are added or removed, and all

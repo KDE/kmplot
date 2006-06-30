@@ -29,6 +29,7 @@
 #include <QColor>
 #include <QPointF>
 #include <QString>
+#include <QVector>
 
 
 class Equation;
@@ -119,7 +120,8 @@ class Equation
 			ParametricX,
 			ParametricY,
 			Polar,
-			Implicit
+			Implicit,
+			Differential
 		};
 		
 		Equation( Type type, Function * parent );
@@ -274,7 +276,8 @@ class Function
 			Cartesian,
 			Parametric,
 			Polar,
-			Implicit
+			Implicit,
+			Differential
 		};
 		
 		Function( Type type );
@@ -319,7 +322,7 @@ class Function
 		bool copyFrom( const Function & function );
         
 		uint id;
-		Equation * eq[2];
+		QVector<Equation*> eq;
 		/**
 		 * \return A reference to the appearance of the given plot type.
 		 */
@@ -421,6 +424,11 @@ class Plot
 		 * Which derivative.
 		 */
 		Function::PMode plotMode;
+		/**
+		 * Converts the plotMode to the derivative number, e.g.
+		 * Function::Derivative1 -> 1, and Function::Integral -> -1
+		 */
+		int derivativeNumber() const;
 		/**
 		 * Assigned when Function::allPlots() is called. The plots for each
 		 * plotMode are numbered 0 to *.

@@ -71,18 +71,21 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	m_savePolarTimer = new QTimer( this );
 	m_saveParametricTimer = new QTimer( this );
 	m_saveImplicitTimer = new QTimer( this );
+	m_saveDifferentialTimer = new QTimer( this );
 	m_syncFunctionListTimer = new QTimer( this );
 	
 	m_saveCartesianTimer->setSingleShot( true );
 	m_savePolarTimer->setSingleShot( true );
 	m_saveParametricTimer->setSingleShot( true );
 	m_saveImplicitTimer->setSingleShot( true );
+	m_saveDifferentialTimer->setSingleShot( true );
 	m_syncFunctionListTimer->setSingleShot( true );
 	
 	connect( m_saveCartesianTimer, SIGNAL(timeout()), this, SLOT( saveCartesian() ) );
 	connect( m_savePolarTimer, SIGNAL(timeout()), this, SLOT( savePolar() ) );
 	connect( m_saveParametricTimer, SIGNAL(timeout()), this, SLOT( saveParametric() ) );
 	connect( m_saveImplicitTimer, SIGNAL(timeout()), this, SLOT( saveImplicit() ) );
+	connect( m_saveDifferentialTimer, SIGNAL(timeout()), this, SLOT( saveDifferential() ) );
 	connect( m_syncFunctionListTimer, SIGNAL(timeout()), this, SLOT( syncFunctionList() ) );
 	
 	m_editor = new FunctionEditorWidget;
@@ -93,8 +96,9 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	m_editor->parametricX->setInputType( EquationEdit::Function );
 	m_editor->parametricY->setInputType( EquationEdit::Function );
 	m_editor->implicitEquation->setInputType( EquationEdit::Function );
+	m_editor->differentialEquation->setInputType( EquationEdit::Function );
 	
-	for ( unsigned i = 0; i < 4; ++i )
+	for ( unsigned i = 0; i < 5; ++i )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
 	
 	connect( m_editor->deleteButton, SIGNAL(clicked()), this, SLOT(deleteCurrent()) );
@@ -313,6 +317,9 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 		case Function::Implicit:
 			initFromImplicit();
 			break;
+			
+		case Function::Differential:
+			initFromDifferential();
 	}
 	
 	functionItem->update();
@@ -393,7 +400,7 @@ void FunctionEditor::initFromParametric()
 	m_editor->parametricName->setText( name );
 	m_editor->parametricX->setValidatePrefix( parametricXPrefix() );
 	m_editor->parametricX->setText( expression );
-        
+	
 	splitParametricEquation( f->eq[1]->fstr(), & name, & expression );
 	
 	m_editor->parametricY->setValidatePrefix( parametricYPrefix() );
@@ -434,6 +441,30 @@ void FunctionEditor::initFromImplicit()
 }
 
 
+void FunctionEditor::initFromDifferential()
+{
+	Function * f = XParser::self()->functionWithID(m_functionID);
+	
+	if ( !f )
+		return;
+	
+	QString name, expression;
+	
+	// It's not an implicit equation, but it works
+	splitImplicitEquation( f->eq[0]->fstr(), & name, & expression );
+	m_editor->differentialEquation->setValidatePrefix( name + '=' );
+	
+	m_editor->differentialName->setText( name );
+	m_editor->differentialEquation->setText( expression );
+	m_editor->differential_f0->init( f->plotAppearance( Function::Derivative0 ) );
+	
+	m_editor->differentialParameters->init( f->m_parameters );
+	
+	m_editor->stackedWidget->setCurrentIndex( 4 );
+	m_editor->differentialEquation->setFocus();
+}
+
+
 void FunctionEditor::splitParametricEquation( const QString equation, QString * name, QString * expression )
 {
 	int start = 0;
@@ -461,8 +492,8 @@ void FunctionEditor::resetFunctionEditing()
 	
 	m_functionID = -1;
 	
-	// page 4 is an empty page
-	m_editor->stackedWidget->setCurrentIndex( 4 );
+	// page 5 is an empty page
+	m_editor->stackedWidget->setCurrentIndex( 5 );
 	
 	// assume that if there are functions in the list, then one will be selected
 	m_editor->deleteButton->setEnabled( m_functionList->count() != 0 );
@@ -558,6 +589,23 @@ void FunctionEditor::createImplicit()
 }
 
 
+void FunctionEditor::createDifferential()
+{
+	kDebug() << k_funcinfo << endl;
+	
+	m_functionID = -1;
+	
+	// find a name not already used
+	QString fname( "f''(x)=x" );
+	XParser::self()->fixFunctionName( fname, Equation::Differential, -1 );
+	
+	m_functionID = XParser::self()->Parser::addFunction( fname, QString(), Function::Differential );
+	assert( m_functionID != -1 );
+
+	MainDlg::self()->requestSaveCurrentState();
+}
+
+
 void FunctionEditor::save()
 {
 	kDebug() << k_funcinfo << endl;
@@ -582,6 +630,10 @@ void FunctionEditor::save()
 			
 		case Function::Implicit:
 			m_saveImplicitTimer->start( 0 );
+			break;
+			
+		case Function::Differential:
+			m_saveDifferentialTimer->start( 0 );
 			break;
 	}
 }
@@ -865,6 +917,51 @@ void FunctionEditor::saveImplicit()
 }
 
 
+void FunctionEditor::saveDifferential()
+{
+	kDebug() << k_funcinfo << endl;
+	
+	Function * f = XParser::self()->functionWithID( m_functionID );
+	if ( !f )
+		return;
+	
+	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
+	
+	// find a name not already used 
+	if ( m_editor->implicitName->text().isEmpty() )
+	{
+		QString fname;
+		XParser::self()->fixFunctionName(fname, Equation::Differential, f->id );
+		int const pos = fname.indexOf('(');
+		m_editor->implicitName->setText(fname.mid(1,pos-1));
+	}
+	
+	QString prefix = m_editor->differentialName->text() + '=';
+	QString f_str = prefix + m_editor->differentialEquation->text();
+	m_editor->differentialEquation->setValidatePrefix( prefix );
+
+	Function tempFunction( Function::Differential );  // all settings are saved here until we know that no errors have appeared
+	
+	tempFunction.m_parameters = m_editor->differentialParameters->parameterSettings();
+	if (functionListItem)
+		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->implicit_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	
+	if ( !tempFunction.eq[0]->setFstr( f_str ) )
+		return;
+	
+	//save all settings in the function now when we know no errors have appeared
+	bool changed = f->copyFrom( tempFunction );
+	if ( !changed )
+		return;
+
+	kDebug() << "Differential changed, so requesting state save.\n";	
+	MainDlg::self()->requestSaveCurrentState();
+	if ( functionListItem )
+		functionListItem->update();
+	View::self()->drawPlot();
+}
+
+
 QString FunctionEditor::parametricXPrefix() const
 {
 	return 'x' + m_editor->parametricName->text() + '=' + m_editor->parametricX->text();
@@ -974,7 +1071,7 @@ void FunctionListItem::update()
 	}
 	
 	QString text = f->eq[0]->fstr();
-	if ( f->eq[1] )
+	if ( f->eq.size() == 2 )
 		text += ';' + f->eq[1]->fstr();
 // 	text += QString(" id=%1").arg(m_function );
 	setText( text );

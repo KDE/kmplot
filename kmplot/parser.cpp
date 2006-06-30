@@ -398,9 +398,9 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 	
 	Function * temp = new Function( type );
 	
-	for ( unsigned i = 0; i < 2; ++i )
+	for ( int i = 0; i < 2; ++i )
 	{
-		if ( str[i].isEmpty() || !temp->eq[i] )
+		if ( str[i].isEmpty() || temp->eq.size() <= i )
 			continue;
 		
 		if ( !temp->eq[i]->setFstr( str[i] ) )
@@ -638,24 +638,24 @@ void Parser::primary()
 	
 	foreach ( Function * it, m_ufkt )
 	{
-		for ( unsigned i = 0; i < 2; ++i )
+		for ( int i = 0; i < it->eq.size(); ++i )
 		{
-			if ( it->eq[i] && match(it->eq[i]->name()) )
+			if ( !match( it->eq[i]->name()) )
+				continue;
+			
+			if (it->eq[i] == m_currentEquation)
 			{
-				if (it->eq[i] == m_currentEquation)
-				{
-					m_error=RecursiveFunctionCall;
-					return;
-				}
-				
-				int argCount = readFunctionArguments();
-				
-				addToken(UFKT);
-				addfptr( it->id, i, argCount );
-				if ( m_currentEquation->parent() )
-					m_currentEquation->parent()->dep.append( it->id );
+				m_error=RecursiveFunctionCall;
 				return;
 			}
+				
+			int argCount = readFunctionArguments();
+				
+			addToken(UFKT);
+			addfptr( it->id, i, argCount );
+			if ( m_currentEquation->parent() )
+				m_currentEquation->parent()->dep.append( it->id );
+			return;
 		}
 	}
         
@@ -841,9 +841,9 @@ int Parser::fnameToID(const QString &name)
 {
 	foreach ( Function * it, m_ufkt )
 	{
-		for ( unsigned i = 0; i < 2; ++i )
+		foreach ( Equation * eq, it->eq )
 		{
-			if ( it->eq[i] && (name == it->eq[i]->name()) )
+			if ( name == eq->name() )
 				return it->id;
 		}
 	}
@@ -1454,9 +1454,9 @@ void ExpressionSanitizer::fixExpression( QString * str )
 				{
 					for ( int j=i; j>0 && (str->at(j).isLetter() || str->at(j).isNumber() ) ; --j)
 					{
-						for ( uint k=0; k<2; ++k )
+						foreach ( Equation * eq, it->eq )
 						{
-							if ( it->eq[k] && (it->eq[k]->name() == str->mid(j,i-j+1)) )
+							if ( eq->name() == str->mid(j,i-j+1) )
 								function = true;
 						}
 					}

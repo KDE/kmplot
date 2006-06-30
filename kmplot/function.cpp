@@ -258,20 +258,19 @@ Function::Function( Type type )
 	x = y = 0;
 	m_implicitMode = UnfixedXY;
 	
-	eq[0] = eq[1] = 0;
 	usecustomxmin = false;
 	usecustomxmax = false;
 	
 	switch ( m_type )
 	{
 		case Cartesian:
-			eq[0] = new Equation( Equation::Cartesian, this );
+			eq << new Equation( Equation::Cartesian, this );
 			dmin.updateExpression( QString("-")+QChar(960) );
 			dmax.updateExpression( QChar(960) );
 			break;
 			
 		case Polar:
-			eq[0] = new Equation( Equation::Polar, this );
+			eq << new Equation( Equation::Polar, this );
 			dmin.updateExpression( QChar('0') );
 			dmax.updateExpression( QString(QChar('2')) + QChar(960) );
 			usecustomxmin = true;
@@ -279,8 +278,8 @@ Function::Function( Type type )
 			break;
 			
 		case Parametric:
-			eq[0] = new Equation( Equation::ParametricX, this );
-			eq[1] = new Equation( Equation::ParametricY, this );
+			eq << new Equation( Equation::ParametricX, this );
+			eq << new Equation( Equation::ParametricY, this );
 			dmin.updateExpression( QString("-")+QChar(960) );
 			dmax.updateExpression( QChar(960) );
 			usecustomxmin = true;
@@ -288,7 +287,11 @@ Function::Function( Type type )
 			break;
 			
 		case Implicit:
-			eq[0] = new Equation( Equation::Implicit, this );
+			eq << new Equation( Equation::Implicit, this );
+			break;
+			
+		case Differential:
+			eq << new Equation( Equation::Differential, this );
 			break;
 	}
 	
@@ -303,11 +306,8 @@ Function::Function( Type type )
 
 Function::~Function()
 {
-	for ( unsigned i = 0; i < 2; ++i )
-	{
-		delete eq[i];
-		eq[i] = 0;
-	}
+	foreach ( Equation * e, eq )
+		delete e;
 }
 
 
@@ -338,11 +338,8 @@ bool Function::copyFrom( const Function & function )
 	COPY_AND_CHECK( m_parameters );				// 10
 	
 	// handle equations separately
-	for ( int i = 0; i < 2; ++i )
+	for ( int i = 0; i < eq.size(); ++i )
 	{
-		if ( !eq[i] || !function.eq[i] )
-			continue;
-		
 		if ( *eq[i] != *function.eq[i] )
 		{
 			changed = true;
@@ -443,6 +440,9 @@ QString Function::typeToString( Type type )
 			
 		case Implicit:
 			return "implicit";
+			
+		case Differential:
+			return "differential";
 	}
 	
 	kWarning() << "Unknown type " << type << endl;
@@ -463,6 +463,9 @@ Function::Type Function::stringToType( const QString & type )
 	
 	if ( type == "implicit" )
 		return Implicit;
+	
+	if ( type == "differential" )
+		return Differential;
 	
 	kWarning() << "Unknown type " << type << endl;
 	return Cartesian;
@@ -719,5 +722,24 @@ QColor Plot::color( ) const
 	color.setBlueF( b );
 	
 	return color;
+}
+
+
+int Plot::derivativeNumber( ) const
+{
+	switch ( plotMode )
+	{
+		case Function::Integral:
+			return -1;
+		case Function::Derivative0:
+			return 0;
+		case Function::Derivative1:
+			return 1;
+		case Function::Derivative2:
+			return 2;
+	}
+	
+	kWarning() << k_funcinfo << "Unknown derivative number.\n";
+	return 0;
 }
 //END class Plot

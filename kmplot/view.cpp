@@ -880,7 +880,7 @@ void View::drawLabels(QPainter* pDC)
 
 double View::h() const
 {
-	return qMin( (m_xmax-m_xmin)/area.width(), (m_ymax-m_ymin)/area.height() ) * 1e-1;
+	return qMin( (m_xmax-m_xmin)/area.width(), (m_ymax-m_ymin)/area.height() );
 }
 
 
@@ -891,26 +891,8 @@ double View::value( const Plot & plot, int eq, double x, bool updateParameter )
 	
 	if ( updateParameter )
 		plot.updateFunctionParameter();
-
-	Equation * equation = function->eq[ eq ];
-
-	switch ( plot.plotMode )
-	{
-		case Function::Derivative0:
-			return XParser::self()->fkt( equation, x );
-
-		case Function::Derivative1:
-			return XParser::self()->derivative( 1, equation, x, h() );
-
-		case Function::Derivative2:
-			return XParser::self()->derivative( 2, equation, x, h() );
-
-		case Function::Integral:
-			return XParser::self()->integral( equation, x, h() );
-	}
-
-	kWarning() << k_funcinfo << "Unknown mode!\n";
-	return 0.0;
+	
+	return XParser::self()->derivative( plot.derivativeNumber(), function->eq[ eq ], x, h() );
 }
 
 
@@ -979,6 +961,7 @@ double View::getXmin( Function * function )
 				kWarning() << "Probably don't want to do this!\n";
 				// no break
 				
+			case Function::Differential:
 			case Function::Cartesian:
 				min = m_xmin;
 				break;
@@ -1012,6 +995,7 @@ double View::getXmax( Function * function )
 				kWarning() << "Probably don't want to do this!\n";
 				// no break
 				
+			case Function::Differential:
 			case Function::Cartesian:
 				max = m_xmax;
 				break;
@@ -2045,15 +2029,12 @@ void View::drawHeaderTable(QPainter *pDC)
 		int ypos = 380;
 		foreach ( Function * it, XParser::self()->m_ufkt )
 		{
-			for ( unsigned i = 0; i < 2; ++ i )
+			foreach ( Equation * eq, it->eq )
 			{
 				if ( stop_calculating )
 					break;
 
-				if ( !it->eq[i] )
-					continue;
-
-				QString fstr = it->eq[i]->fstr();
+				QString fstr = eq->fstr();
 				if ( fstr.isEmpty() )
 					continue;
 
@@ -2194,22 +2175,7 @@ void View::setupFindRoot( const Plot & plot, RootAccuracy accuracy, double * max
 		*max_f = 1e-10;
 	}
 	
-	*n = 1;
-	switch ( plot.plotMode )
-	{
-		case Function::Derivative0:
-			*n += 0;
-			break;
-		case Function::Derivative1:
-			*n += 1;
-			break;
-		case Function::Derivative2:
-			*n += 2;
-			break;
-		case Function::Integral:
-			*n += -1;
-			break;
-	}
+	*n = 1 + plot.derivativeNumber();
 }
 
 
@@ -2469,9 +2435,6 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 	
 	plot.updateFunctionParameter();
 	
-	Plot diff1 = plot;
-	diff1.differentiate();
-	
 	// For converting from real to pixels
 	double sx = area.width() / (m_xmax - m_xmin);
 	double sy = area.height() / (m_ymax - m_ymin);
@@ -2481,18 +2444,21 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 	
 	double h = this->h();
 	
+	int d0 = plot.derivativeNumber();
+	int d1 = d0+1;
+	
 	switch ( f->type() )
 	{
 		case Function::Cartesian:
 		{
-			double df = value( diff1, 0, x, false );
-			return - arctan( df * (sy/sx) ) - (M_PI/2);
+			double df = XParser::self()->derivative( d1, f->eq[0], x, h );
+			return -arctan( df * (sy/sx) ) - (M_PI/2);
 		}
 		
 		case Function::Implicit:
 		{
-			dx = XParser::self()->partialDerivative( 1, 0, f->eq[0], x, y, h, h ) / sx;
-			dy = XParser::self()->partialDerivative( 0, 1, f->eq[0], x, y, h, h ) / sy;
+			dx = XParser::self()->partialDerivative( d1, d0, f->eq[0], x, y, h, h ) / sx;
+			dy = XParser::self()->partialDerivative( d0, d1, f->eq[0], x, y, h, h ) / sy;
 			
 			double theta = -arctan( dy / dx );
 			
@@ -2506,8 +2472,8 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 		
 		case Function::Polar:
 		{
-			double r =  XParser::self()->derivative( 0, f->eq[0], x, h );
-			double dr = XParser::self()->derivative( 1, f->eq[0], x, h );
+			double r =  XParser::self()->derivative( d0, f->eq[0], x, h );
+			double dr = XParser::self()->derivative( d1, f->eq[0], x, h );
 			
 			dx = (dr * cos(x) - r * sin(x)) * sx;
 			dy = (dr * sin(x) + r * cos(x)) * sy;
@@ -2516,8 +2482,8 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 		
 		case Function::Parametric:
 		{
-			dx = XParser::self()->derivative( 1, f->eq[0], x, h ) * sx;
-			dy = XParser::self()->derivative( 1, f->eq[1], x, h ) * sy;
+			dx = XParser::self()->derivative( d1, f->eq[0], x, h ) * sx;
+			dy = XParser::self()->derivative( d1, f->eq[1], x, h ) * sy;
 			break;
 		}
 	}
@@ -2547,6 +2513,10 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 	
 	double h = this->h();
 	
+	int d0 = plot.derivativeNumber();
+	int d1 = d0+1;
+	int d2 = d0+2;
+	
 	switch ( f->type() )
 	{
 		case Function::Cartesian:
@@ -2554,17 +2524,19 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 			fdx = sx;
 			fddx = 0;
 			
-			fdy = XParser::self()->derivative( 1, f->eq[0], x, h ) * sy;
-			fddy = XParser::self()->derivative( 2, f->eq[0], x, h) * sy;
+			fdy = XParser::self()->derivative( d1, f->eq[0], x, h ) * sy;
+			fddy = XParser::self()->derivative( d2, f->eq[0], x, h) * sy;
+			
+// 			kDebug() << k_funcinfo << "fdy="<<fdy<<" fddy="<<fddy<<endl;
 			
 			break;
 		}
 		
 		case Function::Polar:
 		{
-			double r = XParser::self()->derivative( 0, f->eq[0], x, h );
-			double dr = XParser::self()->derivative( 1, f->eq[0], x, h );
-			double ddr = XParser::self()->derivative( 2, f->eq[0], x, h );
+			double r = XParser::self()->derivative( d0, f->eq[0], x, h );
+			double dr = XParser::self()->derivative( d1, f->eq[0], x, h );
+			double ddr = XParser::self()->derivative( d2, f->eq[0], x, h );
 			
 			fdx = (dr * cos(x) - r * sin(x)) * sx;
 			fdy = (dr * sin(x) + r * cos(x)) * sy;
@@ -2577,24 +2549,24 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 		
 		case Function::Parametric:
 		{
-			fdx = XParser::self()->derivative( 1, f->eq[0], x, h ) * sx;
-			fdy = XParser::self()->derivative( 1, f->eq[1], x, h ) * sy;
+			fdx = XParser::self()->derivative( d1, f->eq[0], x, h ) * sx;
+			fdy = XParser::self()->derivative( d1, f->eq[1], x, h ) * sy;
 			
-			fddx = XParser::self()->derivative( 2, f->eq[0], x, h ) * sx;
-			fddy = XParser::self()->derivative( 2, f->eq[1], x, h ) * sy;
+			fddx = XParser::self()->derivative( d2, f->eq[0], x, h ) * sx;
+			fddy = XParser::self()->derivative( d2, f->eq[1], x, h ) * sy;
 			
 			break;
 		}
 		
 		case Function::Implicit:
 		{
-			fdx =  XParser::self()->partialDerivative( 1, 0, f->eq[0], x, y, h, h ) / sx;
-			fdy =  XParser::self()->partialDerivative( 0, 1, f->eq[0], x, y, h, h ) / sy;
+			fdx =  XParser::self()->partialDerivative( d1, d0, f->eq[0], x, y, h, h ) / sx;
+			fdy =  XParser::self()->partialDerivative( d0, d1, f->eq[0], x, y, h, h ) / sy;
 			
-			fddx = XParser::self()->partialDerivative( 2, 0, f->eq[0], x, y, h, h ) / (sx*sx);
-			fddy = XParser::self()->partialDerivative( 0, 2, f->eq[0], x, y, h, h ) / (sy*sy);
+			fddx = XParser::self()->partialDerivative( d2, d0, f->eq[0], x, y, h, h ) / (sx*sx);
+			fddy = XParser::self()->partialDerivative( d0, d2, f->eq[0], x, y, h, h ) / (sy*sy);
 			
-			fdxy = XParser::self()->partialDerivative( 1, 1, f->eq[0], x, y, h, h ) / (sx*sy);
+			fdxy = XParser::self()->partialDerivative( d1, d1, f->eq[0], x, y, h, h ) / (sx*sy);
 			
 			
 			break;

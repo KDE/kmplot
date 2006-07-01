@@ -25,6 +25,8 @@
 #ifndef EQUATIONEDIT_H
 #define EQUATIONEDIT_H
 
+#include "function.h"
+
 #include <kdialog.h>
 
 #include <QSyntaxHighlighter>
@@ -129,6 +131,10 @@ class EquationEdit : public QWidget
 		 * Hide/show the edit button.
 		 */
 		void showEditButton( bool show );
+		/**
+		 * Changes the equation type.
+		 */
+		void setEquationType( Equation::Type type );
 		
 		QString text() const { return m_equationEditWidget->toPlainText(); }
 		void clear() { m_equationEditWidget->clear(); }

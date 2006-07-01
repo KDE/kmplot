@@ -36,6 +36,7 @@
 #include <QVector>
 
 #include "function.h"
+#include "vector.h"
 
 class Parser;
 
@@ -63,6 +64,7 @@ enum Token
 	ENDE,		// end of function
 	SQRT		// take square root
 };
+
 
 const int legendreCount = 7; // number of legendre polynomials we allow for
 const int ScalarCount = 41+legendreCount;	// number of mathematical scalar functions
@@ -115,10 +117,9 @@ double legendre5(double x);
 double legendre6(double x);
 
 /** Predefined mathematical functions with an indefinite number of variables. */
-typedef QList<double> DoubleList;
-double min( const DoubleList & x );
-double max( const DoubleList & x );
-double mod( const DoubleList & x );
+double min( const Vector & x );
+double max( const Vector & x );
+double mod( const Vector & x );
 
 
 struct ScalarFunction
@@ -131,7 +132,7 @@ struct ScalarFunction
 struct VectorFunction
 {
 	QString name;
-	double (*mfadr)(const DoubleList &);
+	double (*mfadr)(const Vector &);
 };
 
 
@@ -281,7 +282,7 @@ class Parser : public QObject
 		 * of the equation's parameter into x.
 		 */
 		double fkt( Equation * it, double x );
-		double fkt( uint id, uint eq, double x );
+		double fkt( uint id, int eq, double x );
 	
 		/**
 		 * Evaluates the given expression \p str.
@@ -358,7 +359,7 @@ class Parser : public QObject
 		 * Returns the result of a calculation. \p x are parameters for the
 		 * function (which are not necessarily all used).
 		 */
-		double fkt( Equation * it, double x[3] );
+		double fkt( Equation * it, const Vector & x );
 		/** Mathematical function. */
 		static ScalarFunction scalarFunctions[ScalarCount];
 		static VectorFunction vectorFunctions[VectorCount];
@@ -376,7 +377,7 @@ class Parser : public QObject
 		void addConstant(double);
 		void adduint(uint);
 		void addfptr(double(*)(double));
-		void addfptr( double(*)(const DoubleList &), int argCount );
+		void addfptr( double(*)(const Vector &), int argCount );
 		/**
 		 * \p id Id of the function
 		 * \p eq_id Which equation of the function to use

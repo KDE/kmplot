@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>321</width>
-    <height>597</height>
+    <width>395</width>
+    <height>596</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -912,125 +912,161 @@ Example: cos(t)</string>
         <number>6</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox_14" >
-         <property name="title" >
-          <string>Definition</string>
+        <widget class="QTabWidget" name="differentialTabWidget" >
+         <property name="currentIndex" >
+          <number>1</number>
          </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item row="1" column="0" >
-           <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_5" >
-              <property name="text" >
-               <string>f''(x)</string>
+         <widget class="QWidget" name="tab_4" >
+          <attribute name="title" >
+           <string>Function</string>
+          </attribute>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>9</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QGroupBox" name="groupBox_14" >
+             <property name="title" >
+              <string>Definition</string>
+             </property>
+             <layout class="QGridLayout" >
+              <property name="margin" >
+               <number>9</number>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_6" >
-              <property name="text" >
-               <string> =</string>
+              <property name="spacing" >
+               <number>6</number>
               </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="1" >
-           <widget class="EquationEdit" name="differentialEquation" >
-            <property name="toolTip" >
-             <string>enter an expression</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter an expression for the function.
+              <item row="1" column="0" >
+               <layout class="QHBoxLayout" >
+                <property name="margin" >
+                 <number>0</number>
+                </property>
+                <property name="spacing" >
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_5" >
+                  <property name="text" >
+                   <string>f''(x)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_6" >
+                  <property name="text" >
+                   <string> =</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="1" >
+               <widget class="EquationEdit" name="differentialEquation" >
+                <property name="toolTip" >
+                 <string>enter an expression</string>
+                </property>
+                <property name="whatsThis" >
+                 <string>Enter an expression for the function.
 The dummy variable is t.
 Example: cos(t)</string>
-            </property>
-            <property name="text" >
-             <string>2f'+f</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="textLabel4_3" >
-            <property name="text" >
-             <string>Name:</string>
-            </property>
-            <property name="buddy" >
-             <cstring>implicitName</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="KLineEdit" name="differentialName" >
-            <property name="sizePolicy" >
-             <sizepolicy>
-              <hsizetype>7</hsizetype>
-              <vsizetype>0</vsizetype>
-              <horstretch>1</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip" >
-             <string>name of the function</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter the name of the function.
+                </property>
+                <property name="text" >
+                 <string>2f'+f</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" >
+               <widget class="QLabel" name="textLabel4_3" >
+                <property name="text" >
+                 <string>Name:</string>
+                </property>
+                <property name="buddy" >
+                 <cstring>implicitName</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" >
+               <widget class="KLineEdit" name="differentialName" >
+                <property name="sizePolicy" >
+                 <sizepolicy>
+                  <hsizetype>7</hsizetype>
+                  <vsizetype>0</vsizetype>
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip" >
+                 <string>name of the function</string>
+                </property>
+                <property name="whatsThis" >
+                 <string>Enter the name of the function.
 The name of a function must be unique. If you leave this line empty KmPlot will set a default name. You can change it later.</string>
-            </property>
-            <property name="text" >
-             <string>f''(x)</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+                </property>
+                <property name="text" >
+                 <string>f''(x)</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="ParametersWidget" name="differentialParameters" >
+             <property name="title" >
+              <string>Parameters</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="PlotStyleWidget" name="differential_f0" >
+             <property name="title" >
+              <string>Appearance</string>
+             </property>
+             <layout class="QGridLayout" >
+              <property name="margin" >
+               <number>9</number>
+              </property>
+              <property name="spacing" >
+               <number>6</number>
+              </property>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>20</width>
+               <height>21</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="tab_5" >
+          <attribute name="title" >
+           <string>Initial Conditions</string>
+          </attribute>
+          <layout class="QVBoxLayout" >
+           <property name="margin" >
+            <number>9</number>
+           </property>
+           <property name="spacing" >
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="InitialConditionsEditor" name="initialConditions" />
+           </item>
+          </layout>
+         </widget>
         </widget>
-       </item>
-       <item>
-        <widget class="ParametersWidget" name="differentialParameters" >
-         <property name="title" >
-          <string>Parameters</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="PlotStyleWidget" name="differential_f0" >
-         <property name="title" >
-          <string>Appearance</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>21</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
@@ -1042,9 +1078,9 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -1056,9 +1092,16 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
+   <container>0</container>
+   <pixmap></pixmap>
+  </customwidget>
+  <customwidget>
+   <class>InitialConditionsEditor</class>
+   <extends>QGroupBox</extends>
+   <header>functioneditor.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
@@ -1070,16 +1113,16 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
+   <class>FunctionListWidget</class>
+   <extends>QListWidget</extends>
+   <header>functioneditor.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>FunctionListWidget</class>
-   <extends>QListWidget</extends>
-   <header>functioneditor.h</header>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

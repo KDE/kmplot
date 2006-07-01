@@ -220,7 +220,7 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 	tag.setAttribute( "integral-starty", function->eq[0]->integralInitialY().expression() );
 	
 	tag.setAttribute( "type", Function::typeToString( function->type() ) );
-	for ( unsigned i=0; i< function->eq.size(); ++i )
+	for ( int i=0; i< function->eq.size(); ++i )
 	{
 		QString fstr = function->eq[i]->fstr();
 		if ( fstr.isEmpty() )

@@ -123,6 +123,13 @@ EquationEdit::EquationEdit( QWidget * parent )
 }
 
 
+void EquationEdit::setEquationType( Equation::Type type )
+{
+	delete m_equation;
+	m_equation = new Equation( type, 0 );
+}
+
+
 void EquationEdit::showEditButton( bool show )
 {
 	m_editButton->setVisible( show );
@@ -179,7 +186,7 @@ void EquationEdit::checkTextValidity( )
 		ok = XParser::self()->errorString().isEmpty();
 	}
 	
-	kDebug() << k_funcinfo << "ok="<<ok<<" XParser::self()->errorPosition()="<<XParser::self()->errorPosition()<<endl;
+// 	kDebug() << k_funcinfo << "ok="<<ok<<" XParser::self()->errorPosition()="<<XParser::self()->errorPosition()<<endl;
 		
 	if ( ok )
 		setError( QString(), -1 );

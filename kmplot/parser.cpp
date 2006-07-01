@@ -203,21 +203,16 @@ uint Parser::getNewId()
 
 double Parser::eval( const QString & str )
 {
-	QString fname( "f(x)=0" );
-	XParser::self()->fixFunctionName( fname, Equation::Cartesian, -1 );
-	QString name = QString("%1(x)=%2").arg( fname.left( fname.indexOf('(') ) ).arg( str );
-	
-	if ( !m_ownEquation->setFstr( name ) )
+	if ( !m_ownEquation->setFstr( QString( "%1(x)=%2" ).arg( XParser::self()->findFunctionName( "f", -1 ) ).arg( str ) ) )
 		return 0;
 	
-	double var[3] = {0};
-	return fkt( m_ownEquation, var );
+	return fkt( m_ownEquation, Vector() );
 }
 
 
-double Parser::fkt(uint const id, uint eq, double x )
+double Parser::fkt(uint const id, int eq, double x )
 {
-	if ( !m_ufkt.contains( id ) || (eq >= 2) )
+	if ( !m_ufkt.contains( id ) || m_ufkt[id]->eq.size() <= eq )
 	{
 		m_error = NoSuchFunction;
 		return 0;
@@ -231,7 +226,7 @@ double Parser::fkt( Equation * eq, double x )
 {
 	Function * function = eq->parent();
 	
-	double var[3] = {0};
+	Vector var;
 	
 	switch ( function->type() )
 	{
@@ -239,6 +234,7 @@ double Parser::fkt( Equation * eq, double x )
 		case Function::Parametric:
 		case Function::Polar:
 		{
+			var.resize(2);
 			var[0] = x;
 			var[1] = function->k;
 			break;
@@ -246,8 +242,11 @@ double Parser::fkt( Equation * eq, double x )
 			
 		case Function::Implicit:
 		{
+			var.resize(3);
+			
 			// Can only calculate when one of x, y is fixed
 			assert( function->m_implicitMode != Function::UnfixedXY );
+			
 			if ( function->m_implicitMode == Function::FixedX )
 			{
 				var[0] = function->x;
@@ -268,11 +267,11 @@ double Parser::fkt( Equation * eq, double x )
 }
 
 
-double Parser::fkt( Equation * eq, double x[3] )
+double Parser::fkt( Equation * eq, const Vector & x )
 {
 	double *pDouble;
 	double (**pScalarFunction)(double);
-	double (**pVectorFunction)(const DoubleList &);
+	double (**pVectorFunction)(const Vector &);
 	uint *pUint;
 	eq->mptr = eq->mem;
 	double *stack, *stkptr;
@@ -292,7 +291,6 @@ double Parser::fkt( Equation * eq, double x[3] )
 			{
 				pUint = (uint*)eq->mptr;
 				uint var = *pUint++;
-				assert( var < 3 );
 				*stkptr = x[var];
 				eq->mptr = (unsigned char*)pUint;
 				break;
@@ -346,11 +344,11 @@ double Parser::fkt( Equation * eq, double x[3] )
 				int numArgs = *pUint++;
 				eq->mptr = (unsigned char*)pUint;
 						
-				pVectorFunction = (double(**)(const DoubleList &))eq->mptr;
+				pVectorFunction = (double(**)(const Vector &))eq->mptr;
 				
-				DoubleList args;
+				Vector args( numArgs );
 				for ( int i=0; i<numArgs; ++i )
-					args << *(stkptr-numArgs+1+i);
+					args[i] = *(stkptr-numArgs+1+i);
 				
 				stkptr[1-numArgs] = (*pVectorFunction++)(args);
 				stkptr -= numArgs-1;
@@ -366,17 +364,16 @@ double Parser::fkt( Equation * eq, double x[3] )
 				uint id_eq = *pUint++;
 				
 				// The number of arguments being passed to the function
-				int args = *pUint++;
-				assert( 1 <= args && args <= 3 );
+				int numArgs = *pUint++;
+				
+				Vector args( numArgs );
+				for ( int i=0; i<numArgs; ++i )
+					args[i] = *(stkptr-numArgs+1+i);
 				
 				if ( m_ufkt.contains( id ) )
 				{
-					double vars[3] = {0};
-					for ( int i=0; i<args; ++i )
-						vars[i] = *(stkptr-args+1+i);
-					
-					stkptr[1-args] = fkt( m_ufkt[id]->eq[id_eq], vars );
-					stkptr -= args-1;
+					stkptr[1-numArgs] = fkt( m_ufkt[id]->eq[id_eq], args );
+					stkptr -= numArgs-1;
 				}
 				
 				eq->mptr=(unsigned char*)pUint;
@@ -444,7 +441,10 @@ void Parser::initEquation( Equation * eq )
 	heir1();
 	
 	if ( !evalRemaining().isEmpty() && m_error == ParseSuccess )
+	{
+		kDebug() << k_funcinfo << "evalRemaining()=\""<<evalRemaining()<<"\""<<endl;		
 		m_error = SyntaxError;
+	}
 	
 	if ( m_error != ParseSuccess )
 		m_errorPosition = m_sanitizer.realPos( m_evalPos );
@@ -614,6 +614,8 @@ void Parser::primary()
 		return;
 	}
 	
+	
+	//BEGIN is it a predefined function?
 	for ( int i=0; i < ScalarCount; ++i )
 	{
 		if ( match(scalarFunctions[i].name) )
@@ -635,7 +637,33 @@ void Parser::primary()
 			return;
 		}
 	}
+	//END is it a predefined function?
 	
+	
+	//BEGIN Is it a variable?
+	QStringList variables = m_currentEquation->parameters();
+	kDebug() << k_funcinfo << "variables="<<variables<<endl;
+	
+	// Sort the parameters by size, so that when identifying parameters, want to
+	// match e.g. "ab" before "a"
+	typedef QMultiMap <int, QString> ISMap;
+	ISMap sorted;
+	foreach ( QString var, variables )
+		sorted.insert( -var.length(), var );
+	
+	foreach ( QString var, sorted )
+	{
+		if ( match( var ) )
+		{
+			addToken( VAR );
+			adduint( variables.indexOf( var ) );
+			return;
+		}
+	}
+	//END Is it a variable?
+	
+	
+	//BEGIN is it a user-defined function?
 	foreach ( Function * it, m_ufkt )
 	{
 		for ( int i = 0; i < it->eq.size(); ++i )
@@ -658,8 +686,10 @@ void Parser::primary()
 			return;
 		}
 	}
+	//END is it a user-defined function?
         
-	// A constant
+	
+	//BEGIN is it a user-defined constant?
 	if ( (m_eval.length()>m_evalPos) && constants()->have( m_eval[m_evalPos] ) )
 	{
 		QVector<Constant> constants = m_constants->all();
@@ -676,7 +706,10 @@ void Parser::primary()
 		assert( !"Could not find the constant!" ); // Should always be able to find the constant
 		return;
 	}
+	//END is it a user-defined constant?
 	
+	
+	//BEGIN is it a predefined constant?
 #define CHECK_CONSTANT( a, b ) \
 	if ( match(a) ) \
 	{ \
@@ -687,20 +720,9 @@ void Parser::primary()
 	CHECK_CONSTANT( QChar(960), M_PI );
 	CHECK_CONSTANT( "e", M_E );
 	CHECK_CONSTANT( QChar(0x221E), INFINITY );
+	//END is it a predefined constant?
 	
-	QStringList variables = m_currentEquation->parameters();
-	uint at = 0;
-	foreach ( QString var, variables )
-	{
-		if ( match( var ) )
-		{
-			addToken( VAR );
-			adduint( at );
-			return;
-		}
-		at++;
-	}
-
+	
 	QByteArray remaining = evalRemaining().toLatin1();
 	char * lptr = remaining.data();
 	char * p = 0;
@@ -711,7 +733,10 @@ void Parser::primary()
 		addConstant(w);
 	}
 	else
+	{
+		kDebug() << k_funcinfo << "evalRemaining()=\""<<evalRemaining()<<"\""<<endl;
 		m_error = SyntaxError;
+	}
 }
 
 
@@ -803,13 +828,13 @@ void Parser::addfptr(double(*fadr)(double))
 }
 
 
-void Parser::addfptr( double(*fadr)(const DoubleList & ), int argCount )
+void Parser::addfptr( double(*fadr)(const Vector & ), int argCount )
 {
 	uint *p = (uint*)mptr;
 	*p++ = argCount;
 	mptr = (unsigned char*)p;
 	
-	double (**pf)(const DoubleList &) = (double(**)(const DoubleList &))mptr;
+	double (**pf)(const Vector &) = (double(**)(const Vector &))mptr;
 	
 	if( mptr>=&mem[MEMSIZE-10] )
 		m_error = MemoryOverflow;
@@ -944,7 +969,6 @@ QString Parser::number( double value )
 	return str;
 }
 //END class Parser
-
 
 
 //BEGIN predefined mathematical functions
@@ -1144,36 +1168,36 @@ double legendre6( double x )
 	return (231*x*x*x*x*x*x - 315*x*x*x*x + 105*x*x - 5)/16;
 }
 
-double min( const DoubleList & list )
+double min( const Vector & args )
 {
 	double best = HUGE_VAL;
-	foreach ( double x, list )
+	for ( int i=0; i < args.size(); ++i )
 	{
-		if ( x < best )
-			best = x;
+		if ( args[i] < best )
+			best = args[i];
 	}
 	
 	return best;
 }
 
-double max( const DoubleList & list )
+double max( const Vector & args )
 {
 	double best = -HUGE_VAL;
-	foreach ( double x, list )
+	for ( int i=0; i < args.size(); ++i )
 	{
-		if ( x > best )
-			best = x;
+		if ( args[i] > best )
+			best = args[i];
 	}
 	
 	return best;
 }
 
 
-double mod( const DoubleList & list )
+double mod( const Vector & args )
 {
 	double squared = 0;
-	foreach ( double x, list )
-		squared += x*x;
+	for ( int i=0; i < args.size(); ++i )
+		squared += args[i]*args[i];
 	
 	return std::sqrt( squared );
 }
@@ -1587,7 +1611,7 @@ int ExpressionSanitizer::realPos( int evalPos )
 	
 	if ( evalPos >= m_map.size() )
 	{
-		kWarning() << k_funcinfo << "evalPos="<<evalPos<<" is out of range.\n";
+// 		kWarning() << k_funcinfo << "evalPos="<<evalPos<<" is out of range.\n";
 // 		return m_map[ m_map.size() - 1 ];
 		return -1;
 	}

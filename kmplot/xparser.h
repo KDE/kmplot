@@ -61,13 +61,21 @@ class XParser : public Parser
 		 */
 		double integral( Equation * eq, double x, double h );
 		/**
+		 * For differential equations - uses numerical integration to
+		 * calculate value for the given x.
+		 */
+		double differential( Equation * eq, DifferentialState * state, double x, double h );
+		/**
 		 * The settings contain 10 default function colors. This returns the
 		 * (function % 10)th color.
 		 */
 		QColor defaultColor(int function);
 	
-	///Returns an unused function name if it is needed
-	void fixFunctionName(QString &, Equation::Type const = Equation::Cartesian, int const=-1);
+		/// finds a free function name 
+		QString findFunctionName( const QString & preferredName, int id );
+		
+		///Returns an unused function name if it is needed
+		void fixFunctionName(QString &, Equation::Type const = Equation::Cartesian, int const=-1);
         
         /// Interpretates the extended function string (only used by the old file format)
 	bool getext( Function *, const QString );
@@ -134,10 +142,11 @@ class XParser : public Parser
 	Q_SCRIPTABLE QString functionStartYValue(uint id);
 	/// Set the startx and starty values of a graph. Returns true if it succeeds, otherwise false.
 	Q_SCRIPTABLE bool setFunctionStartValue(const QString &x, const QString &y, uint id);
-private:
-        
-	/// finds a free function name 
-	void findFunctionName(QString &, int const, int const);
+	
+	private:
+		/// for use in differential
+		Vector rk4_f( int order, Equation * eq, double x, Vector y );
+		
 	/// indicates if the widget is changed
 	bool & m_modified;
 	

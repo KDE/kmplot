@@ -25,6 +25,7 @@ set(kmplotpart_PART_SRCS
    parameterswidget.cpp
    coordsconfigdialog.cpp
    parameteranimator.cpp
+   vector.cpp
    )
 
 kde4_automoc(${kmplotpart_PART_SRCS})
@@ -44,6 +45,7 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	parameterswidget.ui
 	parameteranimator.ui
 	equationeditor.ui
+	initialconditionswidget.ui
 	)
 
 kde4_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )

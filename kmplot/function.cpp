@@ -30,6 +30,7 @@
 #include "xparser.h"
 
 #include <kdebug.h>
+#include <QMap>
 
 #include <assert.h>
 #include <cmath>
@@ -58,7 +59,7 @@ bool Value::updateExpression( const QString & expression )
 }
 
 
-bool Value::operator == ( const Value & other )
+bool Value::operator == ( const Value & other ) const
 {
 	return m_expression == other.expression();
 }
@@ -154,6 +155,43 @@ Qt::PenStyle PlotAppearance::stringToPenStyle( const QString & style )
 
 
 
+//BEGIN class DifferentialState
+DifferentialState::DifferentialState()
+{
+	x = 0;
+}
+
+
+DifferentialState::DifferentialState( int order )
+{
+	x = 0;
+	setOrder( order );
+}
+
+
+void DifferentialState::setOrder( int order )
+{
+	y.resize( order );
+	y0.resize( order );
+	resetToInitial();
+}
+
+
+void DifferentialState::resetToInitial()
+{
+	x = x0.value();
+	y = y0;
+}
+
+
+bool DifferentialState::operator == ( const DifferentialState & other ) const
+{
+	return (x0 == other.x0) && (x == other.x) && (y0 == other.y0) && (y == other.y);
+}
+//END class DifferentialState
+
+
+
 //BEGIN class Equation
 Equation::Equation( Type type, Function * parent )
 	: m_type( type ),
@@ -161,6 +199,9 @@ Equation::Equation( Type type, Function * parent )
 {
 	mem = new unsigned char [MEMSIZE];
 	mptr = 0;
+	
+// 	if ( type == Differential )
+// 		addDifferentialState();
 }
 
 
@@ -171,7 +212,13 @@ Equation::~ Equation()
 }
 
 
-QString Equation::name( ) const
+int Equation::order( ) const
+{
+	return name(false).count( '\'' );
+}
+
+
+QString Equation::name( bool removePrimes ) const
 {
 	if ( m_fstr.isEmpty() )
 		return QString();
@@ -181,7 +228,12 @@ QString Equation::name( ) const
 	if ( pos == -1 )
 		return QString();
 	
-	return m_fstr.left( pos );
+	QString n = m_fstr.left( pos ).trimmed();
+	
+	if ( removePrimes )
+		n.remove( '\'' );
+	
+	return n;
 }
 
 
@@ -192,25 +244,53 @@ QStringList Equation::parameters( ) const
 	if ( (p1 == -1) || (p2 == -1) )
 		return QStringList();
 	
-	QString parameters = m_fstr.mid( p1+1, p2-p1-1 );
-	return parameters.split( ',' );
+	QStringList parameters = m_fstr.mid( p1+1, p2-p1-1 ).split( ',' );
+	
+	// If we are a differential equation, then add on y, y', etc
+	if ( type() == Differential )
+	{
+		QString n = name();
+		
+		int order = this->order();
+		for ( int i = 0; i < order; ++i )
+		{
+			parameters << n;
+			n += '\'';
+		}
+	}
+	
+	return parameters;
 }
 
 
 bool Equation::setFstr( const QString & fstr )
 {
-// 	kDebug() << k_funcinfo << "fstr: "<<fstr<<endl;
+	kDebug() << k_funcinfo << "fstr: "<<fstr<<" ( type() == Differential )="<<( type() == Differential )<<endl;
 	
 	QString prevFstr = m_fstr;
 	m_fstr = fstr;
+	
+	// require order to be greater than 0 for differential equations
+	if ( (type() == Differential) && (order() < 1) )
+	{
+		m_fstr = prevFstr;
+		kDebug() << "Zero order!\n";
+		return false;
+	}
+	
 	XParser::self()->initEquation( this );
 	if ( XParser::self()->parserError( false ) != Parser::ParseSuccess )
 	{
+		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
+		
 		m_fstr = prevFstr;
 		XParser::self()->initEquation( this );
-// 		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
 		return false;
 	}
+	
+	// If we are a differential equation, then update the order. and reset the other stuff
+	foreach ( DifferentialState state, differentialStates )
+		state.setOrder( order() );
 	
 	resetLastIntegralPoint();
 	return true;
@@ -232,11 +312,19 @@ void Equation::setIntegralStart( const Value & x, const Value & y )
 }
 
 
+DifferentialState * Equation::addDifferentialState( )
+{
+	differentialStates << DifferentialState( order() );
+	return & differentialStates[ differentialStates.size() - 1 ];
+}
+
+
 bool Equation::operator !=( const Equation & other )
 {
 	return (fstr() != other.fstr()) ||
 			(integralInitialX() != other.integralInitialX()) ||
-			(integralInitialY() != other.integralInitialY());
+			(integralInitialY() != other.integralInitialY()) ||
+			(differentialStates != other.differentialStates);
 }
 
 
@@ -244,6 +332,7 @@ Equation & Equation::operator =( const Equation & other )
 {
 	setFstr( other.fstr() );
 	setIntegralStart( other.integralInitialX(), other.integralInitialY() );
+	differentialStates = other.differentialStates;
 	
 	return * this;
 }
@@ -476,33 +565,33 @@ QList< Plot > Function::allPlots( ) const
 {
 	QList< Plot > list;
 	
-	for ( PMode p = Derivative0; p <= Integral; p = PMode(p+1) )
+	Plot plot;
+	plot.setFunctionID( id );
+	plot.plotNumberCount = m_parameters.useList ? m_parameters.list.size() + (m_parameters.useSlider?1:0) : 1;
+	
+	bool singlePlot = (!m_parameters.useList && !m_parameters.useSlider) || m_parameters.animating;
+	
+	if ( singlePlot )
+	{
+		if ( m_parameters.animating )
+			plot.parameter = Parameter( Parameter::Animated );
+		
+		list << plot;
+	}
+	else
 	{
 		int i = 0;
 		
-		if ( !plotAppearance( p ).visible )
-			continue;
-		
-		Plot plot;
-		plot.setFunctionID( id );
-		plot.plotMode = p;
-		plot.plotNumberCount = m_parameters.useList ? m_parameters.list.size() + (m_parameters.useSlider?1:0) : 1;
-		
-		bool usedParameter = false;
-		
-		// Don't use slider or list parameters if animating
-		
-		if ( !m_parameters.animating && m_parameters.useSlider )
+		if ( m_parameters.useSlider )
 		{
 			Parameter param( Parameter::Slider );
 			param.setSliderID( m_parameters.sliderID );
 			plot.parameter = param;
 			plot.plotNumber = i++;
 			list << plot;
-			usedParameter = true;
 		}
 		
-		if ( !m_parameters.animating && m_parameters.useList )
+		if ( m_parameters.useList )
 		{
 			int pos = 0;
 			foreach ( Value v, m_parameters.list )
@@ -512,21 +601,42 @@ QList< Plot > Function::allPlots( ) const
 				plot.parameter = param;
 				plot.plotNumber = i++;
 				list << plot;
-				usedParameter = true;
 			}
 		}
-		
-		if ( m_parameters.animating )
-		{
-			Parameter param( Parameter::Animated );
-			plot.parameter = param;
-		}
-		
-		if ( !usedParameter )
-			list << plot;
 	}
 	
-	return list;
+	
+	// Copy each plot in the list for other variations
+	QList< Plot > duplicated;
+	
+	if ( type() == Cartesian )
+	{
+		for ( PMode p = Derivative0; p <= Integral; p = PMode(p+1) )
+		{
+			foreach ( Plot plot, list )
+			{
+				if ( !plotAppearance(p).visible )
+					continue;
+				plot.plotMode = p;
+				duplicated << plot;
+			}
+		}
+	}
+	else if ( type() == Differential )
+	{
+		for ( int i = 0; i < eq[0]->differentialStates.size(); ++i )
+		{
+			foreach ( Plot plot, list )
+			{
+				plot.state = i;
+				duplicated << plot;
+			}
+		}
+	}
+	else
+		duplicated = list;
+	
+	return duplicated;
 }
 //END class Function
 
@@ -575,6 +685,7 @@ bool Parameter::operator == ( const Parameter & other ) const
 //BEGIN class Plot
 Plot::Plot( )
 {
+	state = -1;
 	plotNumberCount = 1;
 	plotNumber = 0;
 	m_function = 0;
@@ -587,7 +698,8 @@ bool Plot::operator ==( const Plot & other ) const
 {
 	return ( m_functionID == other.functionID() ) &&
 			( plotMode == other.plotMode ) &&
-			( parameter == other.parameter );
+			( parameter == other.parameter ) &&
+			( state == other.state );
 }
 
 

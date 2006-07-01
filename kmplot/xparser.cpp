@@ -188,42 +188,45 @@ double XParser::partialDerivative( int n1, int n2, Equation * eq, double x, doub
 }
 
 
-void XParser::findFunctionName(QString &function_name, int const id, int const type)
+QString XParser::findFunctionName( const QString & preferredName, int id )
 {
-  char last_character;
-  int pos;
-  if ( function_name.length()==2 || type == Equation::ParametricX || type == Equation::ParametricY)
-    pos=1;
-  else
-    pos=0;
-  for ( ; ; ++pos)
-  {
-    last_character = 'f';
-    for (bool ok=true; last_character<'x'; ++last_character)
-    {
-      if ( pos==0 && last_character == 'r') continue;
-      function_name[pos]=last_character;
-// 	  for( QVector<Function>::iterator it = m_ufkt.begin(); it != m_ufkt.end(); ++it)
-	  foreach ( Function * it, m_ufkt )
-      {
-		  foreach ( Equation * eq, it->eq )
-		  {
-			  if ( eq->fstr().startsWith(function_name+'(') && ((int)it->id != id) ) //check if the name is free
-				  ok = false;
-		  }
-      }
-      if ( ok) //a free name was found
-      {
-        //kDebug() << "function_name:" << function_name << endl;
-        return;
-      }
-      ok = true;
-    }
-    function_name[pos]='f';
-    function_name.append('f');
-  }
-  function_name = "e"; //this should never happen
+	// The position of the character attempting to replace
+	int pos = preferredName.length()-1;
+	
+	QString name = preferredName;
+	
+	for ( ; ; ++pos)
+	{
+		for ( QChar lastChar = 'f'; lastChar<'x'; ++lastChar.unicode() )
+		{
+			bool ok = true;
+			name[pos] = lastChar;
+			
+			foreach ( Function * it, m_ufkt )
+			{
+				if ( it->id == id )
+					continue;
+				
+				foreach ( Equation * eq, it->eq )
+				{
+					if ( eq->name() == name )
+						ok = false;
+				}
+				
+				if (!ok)
+					break;
+			}
+			if ( !ok )
+				continue;
+			
+			// Found a free name :)
+			return name;
+		}
+		name[pos]='f';
+		name.append('f');
+	}
 }
+
 
 void XParser::fixFunctionName( QString &str, Equation::Type const type, int const id)
 {
@@ -259,7 +262,7 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 					function_name = "y";
 				else
 					function_name = "f";
-				findFunctionName(function_name, id, type);
+				function_name = findFunctionName( function_name, id );
 				str.prepend( function_name );
 				return;
 			}
@@ -275,9 +278,89 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 		else
 			function_name = "f";
 		str.prepend("(x)=");
-		findFunctionName(function_name, id, type);
+		function_name = findFunctionName( function_name, id );
 		str.prepend( function_name );
 	}
+}
+
+
+Vector XParser::rk4_f( int order, Equation * eq, double x, Vector y )
+{
+	Vector result( order );
+	Vector arg( order+1 );
+	
+	arg[0] = x;
+	
+	for ( int i = 0; i < order; ++i )
+	{
+		arg[i+1] = y[i];
+		if ( i+1 < order )
+			result[i] = y[i+1];
+	}
+	
+	result[order-1] = XParser::fkt( eq, arg );
+	
+	return result;
+}
+
+
+double XParser::differential( Equation * eq, DifferentialState * state, double x_target, double h )
+{
+	if ( eq->order() < 1 )
+	{
+		kWarning() << k_funcinfo << "Zero order!\n";
+		return 0;
+	}
+	
+	h = qAbs(h);
+	assert( h > 0 ); // in case anyone tries to pass us a zero h
+	
+	// the difference between h and dx is that h is only used as a hint for the
+	// stepwidth; dx is made similar to h in size, yet tiles the gap between x
+	// and the previous x perfectly
+	
+	// we use the 2nd degree Newton-Cotes formula (Simpson's rule)
+	
+	// see if the initial integral point in the function is closer to our
+	// required x value than the last one (or the last point is invalid)
+	if ( qAbs( state->x0.value() - x_target ) < qAbs( state->x - x_target ) || !std::isfinite( state->y[0] ) )
+		state->resetToInitial();
+	
+	int order = eq->order();
+	
+	Vector k1( order );
+	Vector k2( order );
+	Vector k3( order );
+	Vector k4( order );
+	
+	double x = state->x;
+	Vector y( state->y );
+	if ( x_target == x )
+		return y[0];
+	
+	int intervals = qMax( qRound( qAbs(x_target-x)/h ), 1 );
+	double dx = (x_target-x) / double(intervals);
+	
+// 	kDebug() << "#####################\n";
+	
+	for ( int i = 0; i < intervals; ++i )
+	{
+		x = state->x + i*dx;
+// 		kDebug() << "i="<<i<<" x="<<x<<" y[0]="<<y[0]<<endl;
+		
+		k1 = rk4_f( order, eq, x,			y );
+		k2 = rk4_f( order, eq, x + dx/2,	y + (dx/2)*k1 );
+		k3 = rk4_f( order, eq, x + dx/2,	y + (dx/2)*k2 );
+		k4 = rk4_f( order, eq, x + dx,		y + dx*k3 );
+		
+		y += (dx/6)*(k1 + 2*k2 + 2*k3 + k4);
+	}
+	
+	state->x = x + dx;
+	state->y = y;
+	
+// 	kDebug() << "Returning y[0]="<<y[0]<<endl;
+	return y[0];
 }
 
 

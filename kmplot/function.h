@@ -26,11 +26,12 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
 
+#include "vector.h"
+
 #include <QColor>
 #include <QPointF>
 #include <QString>
 #include <QVector>
-
 
 class Equation;
 class Function;
@@ -64,11 +65,11 @@ class Value
 		 * This checks if the expression strings (and hence values) are
 		 * identical.
 		 */
-		bool operator == ( const Value & other );
+		bool operator == ( const Value & other ) const;
 		/**
 		 * Checks for inequality.
 		 */
-		bool operator != ( const Value & other ) { return !((*this) == other); }
+		bool operator != ( const Value & other ) const { return !((*this) == other); }
 		
 	protected:
 		QString m_expression;
@@ -106,6 +107,38 @@ class PlotAppearance
 		 */
 		static Qt::PenStyle stringToPenStyle( const QString & style );
 };
+
+
+/**
+ * Used in differential equations; contains the initial conditions and the
+ * currently calculated value (used as a cache).
+ */
+class DifferentialState
+{
+	public:
+		DifferentialState();
+		DifferentialState( int order );
+		
+		/**
+		 * Resizes y, y0. Also calls resetToInitial.
+		 */
+		void setOrder( int order );
+		/**
+		 * Sets y=y0, x=x0.
+		 */
+		void resetToInitial();
+		
+		Value x0; ///< the initial x-value
+		QVector<Value> y0; ///< the value of ( f, f', f'', ...., f^(n) ) at x0
+		double x; ///< the current x value
+		Vector y; ///< the value of ( f, f', f'', ...., f^(n) ) at x
+		
+		/**
+		 * Whether the initial conditions and current state are the same.
+		 */
+		bool operator == ( const DifferentialState & other ) const;
+};
+typedef QVector<DifferentialState> DifferentialStates;
 
 
 /**
@@ -154,7 +187,7 @@ class Equation
 		 * @return the name of the function, e.g. for the cartesian function
 		 * f(x)=x^2, this would return "f".
 		 */
-		QString name() const;
+		QString name( bool removePrimes = true ) const;
 		/**
 		 * \return a list of parameters, e.g. {x} for "f(x)=y", and {x,y,k} for
 		 * "f(x,y,k)=(x+k)(y+k)".
@@ -187,8 +220,21 @@ class Equation
 		 * Resets lastIntegralPoint  to the initial integral point.
 		 */
 		void resetLastIntegralPoint();
+		/**
+		 * \return the order of the differential equations.
+		 */
+		int order() const;
 		
 		QPointF lastIntegralPoint; ///< needed for numeric integration
+		
+		/// For differential equations, all the states
+		DifferentialStates differentialStates;
+		
+		/**
+		 * Adds an initial condition (for differential equations).
+		 * \return a pointer to the state
+		 */
+		DifferentialState * addDifferentialState();
 		
 	protected:
 		/// \note when adding new member variables, make sure to update operator != and operator =
@@ -443,6 +489,10 @@ class Plot
 		 * this plot is for.
 		 */
 		void updateFunctionParameter() const;
+		/**
+		 * For differential equations, which state to draw.
+		 */
+		int state;
 		
 	protected:
 		void updateCached();

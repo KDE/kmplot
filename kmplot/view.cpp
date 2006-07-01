@@ -184,8 +184,10 @@ void View::initDrawLabels()
 
 void View::draw( QPaintDevice * dev, PlotMedium medium )
 {
-// 	kDebug() << k_funcinfo << endl;
-
+	if ( m_isDrawing )
+		return;
+	m_isDrawing=true;
+	
 	double lx, ly;
 	double sf;
 	QRect rc;
@@ -271,7 +273,6 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 
 	area=DC.matrix().mapRect( m_plotArea );
 
-	m_isDrawing=true;
 	updateCursor();
 	stop_calculating = false;
 
@@ -712,12 +713,10 @@ void View::drawLabels(QPainter* pDC)
 	double d;
 	int n;
 
-	//pDC->drawText(x-dx, y+dy, 0, 0, Qt::AlignRight|Qt::AlignVCenter|Qt::TextDontClip, "0");
 	char draw_next=0;
 	QFontMetrics const test(font);
 	int swidth=0;
 
-// 	kDebug() << "tsx="<<tsx<<" xmd="<<xmd<<" ex="<<ex << " (xmd-tsx)/ex="<<(xmd-tsx)/ex<<endl;
 	for(d=tsx, n=(int)ceil(m_xmin/tlgx); d<xmd; d+=tlgx, ++n)
 	{
 		if(n==0 || fabs(d-xmd)<=1.5*tlgx)
@@ -892,7 +891,12 @@ double View::value( const Plot & plot, int eq, double x, bool updateParameter )
 	if ( updateParameter )
 		plot.updateFunctionParameter();
 	
-	return XParser::self()->derivative( plot.derivativeNumber(), function->eq[ eq ], x, h() );
+	Equation * equation = function->eq[eq];
+	
+	if ( plot.function()->type() == Function::Differential )
+		return XParser::self()->differential( equation, & equation->differentialStates[ plot.state ], x, h() );
+	else
+		return XParser::self()->derivative( plot.derivativeNumber(), equation, x, h() );
 }
 
 
@@ -903,6 +907,7 @@ QPointF View::realValue( const Plot & plot, double x, bool updateParameter )
 
 	switch ( function->type() )
 	{
+		case Function::Differential:
 		case Function::Cartesian:
 		{
 			double y = value( plot, 0, x, updateParameter );
@@ -1565,8 +1570,8 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 		{
 			p2 = toPixel( realValue( plot, x, false ), ClipInfinite );
 
-			double min_mod = (ufkt->type() == Function::Cartesian) ? 0.1 : 5e-5;
-			double max_mod = (ufkt->type() == Function::Cartesian) ? 1e+1 : 5e+1;
+			double min_mod = (ufkt->type() == Function::Cartesian || ufkt->type() == Function::Differential) ? 0.1 : 5e-5;
+			double max_mod = (ufkt->type() == Function::Cartesian || ufkt->type() == Function::Differential) ? 1e+1 : 5e+1;
 			bool dxAtMinimum = (dx <= base_dx*min_mod);
 			bool dxAtMaximum = (dx >= base_dx*max_mod);
 			bool dxTooBig = false;
@@ -1790,7 +1795,7 @@ QRect View::usedDiagramRect( QRectF rect ) const
 	int j0 = int( y0 * LabelGridSize );
 	int j1 = int( y1 * LabelGridSize );
 	
-	return QRect( i0, j0, i1-i0+1, j1-j0+1 );
+	return QRect( i0, j0, i1-i0+1, j1-j0+1 ) & QRect( 0, 0, LabelGridSize, LabelGridSize );
 }
 
 
@@ -2764,7 +2769,6 @@ QPointF View::getPlotUnderMouse()
 				
 				distance = std::sqrt( d.x()*d.x() + d.y()*d.y() );
 				cspos = QPointF( x, y );
-				kDebug() << "cspos="<<cspos<<" distance="<<distance<<endl;
 			}
 			else
 			{
@@ -3083,7 +3087,7 @@ bool View::updateCrosshairPosition()
 		}
 		else
 		{
-			// cartesian plot
+			// cartesian or differential plot
 
 			m_crosshairPosition.setY( value( m_currentPlot, 0, m_crosshairPosition.x(), false ) );
 			ptl.setY(yToPixel( m_crosshairPosition.y() ));
@@ -3092,7 +3096,7 @@ bool View::updateCrosshairPosition()
 			{
 				out_of_bounds = true;
 			}
-			else if(fabs(yToReal(ptl.y())) < (m_ymax-m_ymin)/80)
+			else if ( (fabs(yToReal(ptl.y())) < (m_ymax-m_ymin)/80) && (it->type() == Function::Cartesian) )
 			{
 				double x0 = m_crosshairPosition.x();
 				if ( !m_haveRoot && findRoot( &x0, m_currentPlot, PreciseRoot ) )
@@ -3108,7 +3112,7 @@ bool View::updateCrosshairPosition()
 		}
 
 		// For Cartesian plots, only adjust the cursor position if it is not at the ends of the view
-		if ( (it->type() != Function::Cartesian) || area.contains( mousePos ) )
+		if ( (it->type() != Function::Cartesian) || (it->type() != Function::Differential) || area.contains( mousePos ) )
 		{
 			ptl = toPixel( m_crosshairPosition );
 			QPoint globalPos = mapToGlobal( (ptl * wm).toPoint() );
@@ -3491,8 +3495,6 @@ QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin,
 
 		if ( !isnan(x) && !isnan(y) )
 		{
-			kDebug() << "x " << x << endl;
-			kDebug() << "y " << y << endl;
 			if (x>=dmin && x<=dmax)
 			{
 				if ( start )
@@ -3896,7 +3898,7 @@ void View::updateCursor()
 			newCursor = CursorMove;
 			break;
 	}
-
+	
 	if ( newCursor == m_prevCursor )
 		return;
 	m_prevCursor = newCursor;
@@ -3969,6 +3971,7 @@ bool View::event( QEvent * e )
 
 void View::setStatusBar(const QString &text, const int id)
 {
+// 	return;
 #ifdef DEBUG_IMPLICIT
 	return; // Don't want to clutter up stdout with useless messages
 #endif

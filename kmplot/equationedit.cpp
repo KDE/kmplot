@@ -286,7 +286,7 @@ EquationEditor::EquationEditor( const QString & equation, QWidget * parent )
 	setMainWidget( m_widget );
 	
 	setCaption( i18n("Equation Editor") );
-	setButtons( Ok );
+	setButtons( Close );
 	
 	QFont font;
 	font.setPointSizeF( font.pointSizeF() * 1.4 );

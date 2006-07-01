@@ -43,6 +43,7 @@ Comment[tr]=KmPlot Dosyası
 Comment[uk]=Файл KmPlot
 Comment[vi]=Tập tin Đồ thị K
 Comment[zh_CN]=KmPlot 文件
+Comment[zh_TW]=KmPlot 檔案
 Icon=kmplot
 Type=MimeType
 MimeType=application/x-kmplot

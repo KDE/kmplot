@@ -173,12 +173,12 @@ class View : public QWidget
 		 * Convenience function for calculating the value of \p eq using the
 		 * given \p mode
 		 */
-		double value( const Plot & plot, int eq, double x, bool updateParameter );
+		double value( const Plot & plot, int eq, double x, bool updateFunction );
 		/**
 		 * \return the real position of the function (similar to calling
 		 * value(), but returns both coordinates).
 		 */
-		QPointF realValue( const Plot & plot, double x, bool updateParameter );
+		QPointF realValue( const Plot & plot, double x, bool updateFunction );
 		/**
 		 * \return the (signed) curvature (in screen coordinates) of the plot
 		 * at \p x (and \p y for implicit functions).
@@ -390,7 +390,7 @@ class View : public QWidget
 		* Calculates the pixel distance from \p pos to the display point of the
 		* given function at \p x.
 		*/
-		double pixelDistance( const QPointF & pos, const Plot & plot, double x, bool updateFunctionParameter );
+		double pixelDistance( const QPointF & pos, const Plot & plot, double x, bool updateFunction );
 		/**
 		 * \return an appropriate xmin value for the given function
 		 * plotting.

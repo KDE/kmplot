@@ -54,6 +54,7 @@ enum Token
 	PUSH,		// push value to stack
 	PLUS,		// add
 	MINUS,		// subtract
+	PM,			// plus-minus; add or subtract depending on the current signature
 	MULT,		// multiply
 	DIV,		// divide
 	POW,		// exponentiate
@@ -262,7 +263,9 @@ class Parser : public QObject
 			EmptyFunction,
 			CapitalInFunctionName, ///< function name contains a capital letter
 			NoSuchFunction,
-			UserDefinedConstantInExpression ///< evalation expression may not use user defined constants
+			UserDefinedConstantInExpression, ///< evalation expression may not use user defined constants
+			ZeroOrder, ///< zero-order differential
+			TooManyPM ///< too many plus-minus symbols
 		};
 	
 		~Parser();
@@ -318,6 +321,10 @@ class Parser : public QObject
 		 * \return The current error value.
 		 */
 		Error parserError( bool showMessageBox );
+		/**
+		 * Called by e.g. Equation::setFstr before the parser stage is reached.
+		 */
+		void setParserError( Error error ) { m_error = error; }
 		/**
 		 * \return the number of radians per angle-unit that the user has
 		 * selected (i.e. this will return 1.0 if the user has selected
@@ -412,6 +419,7 @@ class Parser : public QObject
 		static double m_radiansPerAngleUnit;
 		Constants * m_constants;
 		ExpressionSanitizer m_sanitizer;
+		int m_pmAt; ///< When parsing an expression, which plus-minus symbol at
 	
 	private:
 		friend class XParser;

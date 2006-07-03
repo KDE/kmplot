@@ -137,10 +137,11 @@ void EquationEdit::showEditButton( bool show )
 
 void EquationEdit::invokeEquationEditor()
 {
-	EquationEditor * edit = new EquationEditor( text(), this );
+	EquationEditor * edit = new EquationEditor( this );
 	edit->m_widget->edit->setInputType( m_inputType );
 	edit->m_widget->edit->setEquationType( m_equation->type() );
 	edit->m_widget->edit->setValidatePrefix( m_validatePrefix );
+	edit->m_widget->edit->setText( text() );
 	
 	edit->exec();
 	
@@ -197,7 +198,7 @@ void EquationEdit::checkTextValidity( )
 
 void EquationEdit::setError( const QString & message, int position )
 {
-	setToolTip( message );
+	m_equationEditWidget->setToolTip( message );
 	m_highlighter->setErrorPosition( position );
 }
 
@@ -284,7 +285,7 @@ void EquationEditWidget::focusOutEvent( QFocusEvent * e )
 
 
 //BEGIN class EquationEditor
-EquationEditor::EquationEditor( const QString & equation, QWidget * parent )
+EquationEditor::EquationEditor( QWidget * parent )
 	: KDialog( parent )
 {	
 	m_widget = new EquationEditorWidget( this );
@@ -299,11 +300,19 @@ EquationEditor::EquationEditor( const QString & equation, QWidget * parent )
 	font.setPointSizeF( font.pointSizeF() * 1.4 );
 	m_widget->edit->m_equationEditWidget->setCurrentFont( font );
 	m_widget->edit->m_equationEditWidget->recalculateGeometry( font );
-	m_widget->edit->setText( equation );
+	
+	QFont buttonFont;
+	buttonFont.setPointSizeF( font.pointSizeF() * 1.1 );
 	
 	QList<QToolButton *> buttons = m_widget->findChildren<QToolButton *>();
 	foreach ( QToolButton * w, buttons )
+	{
 		connect( w, SIGNAL(clicked()), this, SLOT(characterButtonClicked()) );
+		
+		// Also increase the font size, since the fractions, etc are probably not that visible
+		// at the default font size
+		w->setFont( buttonFont );
+	}
 	
 	connect( m_widget->constantsButton, SIGNAL(clicked()), this, SLOT(editConstants()) );
 	connect( m_widget->functionList, SIGNAL(activated(const QString &)), this, SLOT(insertFunction(const QString &)) );

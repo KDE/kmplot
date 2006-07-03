@@ -39,6 +39,13 @@ class Plot;
 
 
 /**
+ * Maximum number of plus-minus-s; each added one doubles the number of combinations
+ * which quickly grows. So put a bound on the number allowed.
+ */
+extern int MAX_PM; 
+
+
+/**
  * This stores a string which evaluates directly to a number (i.e. without any
  * input variables such as x).
  */
@@ -247,11 +254,18 @@ class Equation
 		 * \return the order of the differential equations.
 		 */
 		int order() const;
+		/**
+		 * \return the number of plus-minus symbols in the equation.
+		 */
+		int pmCount() const;
 		
 		QPointF lastIntegralPoint; ///< needed for numeric integration
 		
 		/// For differential equations, all the states
 		DifferentialStates differentialStates;
+		
+		/// The current plus-minus signature (true for plus, false for minus).
+		QVector<bool> pmSignature;
 		
 	protected:
 		/// \note when adding new member variables, make sure to update operator != and operator =
@@ -503,13 +517,21 @@ class Plot
 		int plotNumberCount;
 		/**
 		 * Updates the current working parameter value in the function that
-		 * this plot is for.
+		 * this plot is for and the plus-minus signature for the function's
+		 * equations.
 		 */
-		void updateFunctionParameter() const;
+		void updateFunction() const;
 		/**
 		 * For differential equations, which state to draw.
 		 */
 		int state;
+		/**
+		 * For equations containing a plus-minus symbols, this indicates
+		 * whether to take the plus or the minus for each one. The list is for
+		 * each equation of the function (so typically, the list will only be
+		 * of size one, but parametric functions will have two).
+		 */
+		QList< QVector<bool> > pmSignature;
 		
 	protected:
 		void updateCached();

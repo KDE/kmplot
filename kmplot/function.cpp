@@ -35,6 +35,8 @@
 #include <assert.h>
 #include <cmath>
 
+int MAX_PM = 4;
+
 
 //BEGIN class Value
 Value::Value( const QString & expression )
@@ -255,6 +257,12 @@ int Equation::order( ) const
 }
 
 
+int Equation::pmCount() const
+{
+	return m_fstr.count( QChar( 0xb1 ) );
+}
+
+
 QString Equation::name( bool removePrimes ) const
 {
 	if ( m_fstr.isEmpty() )
@@ -302,8 +310,6 @@ QStringList Equation::parameters( ) const
 
 bool Equation::setFstr( const QString & fstr )
 {
-// 	kDebug() << k_funcinfo << "fstr: "<<fstr<<" ( type() == Differential )="<<( type() == Differential )<<endl;
-	
 	QString prevFstr = m_fstr;
 	m_fstr = fstr;
 	
@@ -311,14 +317,14 @@ bool Equation::setFstr( const QString & fstr )
 	if ( (type() == Differential) && (order() < 1) )
 	{
 		m_fstr = prevFstr;
-		kDebug() << "Zero order!\n";
+		XParser::self()->setParserError( Parser::ZeroOrder );
 		return false;
 	}
 	
 	XParser::self()->initEquation( this );
 	if ( XParser::self()->parserError( false ) != Parser::ParseSuccess )
 	{
-// 		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
+		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
 		
 		m_fstr = prevFstr;
 		XParser::self()->initEquation( this );
@@ -634,10 +640,10 @@ QList< Plot > Function::allPlots( ) const
 	
 	
 	// Copy each plot in the list for other variations
-	QList< Plot > duplicated;
-	
 	if ( type() == Cartesian )
 	{
+		QList< Plot > duplicated;
+		
 		for ( PMode p = Derivative0; p <= Integral; p = PMode(p+1) )
 		{
 			foreach ( Plot plot, list )
@@ -648,9 +654,13 @@ QList< Plot > Function::allPlots( ) const
 				duplicated << plot;
 			}
 		}
+		
+		list = duplicated;
 	}
 	else if ( type() == Differential )
 	{
+		QList< Plot > duplicated;
+		
 		for ( int i = 0; i < eq[0]->differentialStates.size(); ++i )
 		{
 			foreach ( Plot plot, list )
@@ -659,11 +669,55 @@ QList< Plot > Function::allPlots( ) const
 				duplicated << plot;
 			}
 		}
+		
+		list = duplicated;
 	}
-	else
-		duplicated = list;
 	
-	return duplicated;
+	// Do it again for the plus-minus signatures
+	int size = 0;
+	foreach ( Equation * equation, eq )
+		size += equation->pmCount();
+	
+	unsigned max = unsigned( pow( 2, size ) );
+	QVector< QVector<bool> > signatures( max );
+	
+	for ( unsigned i = 0; i < max; ++i )
+	{
+		QVector<bool> sig( size );
+			
+		for ( int j = 0; j < size; ++j )
+			sig[ j ] = i & (1<<j);
+			
+		signatures[i] = sig;
+	}
+	
+	// Generate a plot for each signature in signatures
+	QList< Plot > duplicated;
+	foreach ( QVector<bool> signature, signatures )
+	{
+		int at = 0;
+		QList< QVector<bool> > pmSignature;
+		
+		foreach ( Equation * equation, eq )
+		{
+			int pmCount = equation->pmCount();
+			QVector<bool> sig( pmCount );
+			for ( int i = 0; i < pmCount; ++i )
+				sig[i] = signature[ i + at];
+			at += pmCount;
+			
+			pmSignature << sig;
+		}
+		
+		foreach ( Plot plot, list )
+		{
+			plot.pmSignature = pmSignature;
+			duplicated << plot;
+		}
+	}
+	list = duplicated;
+	
+	return list;
 }
 //END class Function
 
@@ -743,10 +797,18 @@ void Plot::updateCached()
 }
 
 
-void Plot::updateFunctionParameter() const
+void Plot::updateFunction() const
 {
 	if ( !m_function )
 		return;
+	
+	// Update the plus-minus signature
+	assert( pmSignature.size() <= m_function->eq.size() );
+	for ( int i = 0; i < pmSignature.size(); ++i )
+		m_function->eq[i]->pmSignature = pmSignature[i];
+	
+	
+	// Update the parameter
 	
 	double k = 0.0;
 	

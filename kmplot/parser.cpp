@@ -291,6 +291,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			{
 				pUint = (uint*)eq->mptr;
 				uint var = *pUint++;
+				assert( int(var) < x.size() );
 				*stkptr = x[var];
 				eq->mptr = (unsigned char*)pUint;
 				break;
@@ -307,6 +308,25 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				stkptr[-1]-=*stkptr;
 				--stkptr;
 				break;
+				
+			case PM:
+			{
+				pUint = (uint*)eq->mptr;
+				uint whichPM = *pUint++;
+				eq->mptr = (unsigned char*)pUint;
+				
+				assert( int(whichPM) < eq->pmSignature.size() );
+				bool plus = eq->pmSignature[ whichPM ];
+				
+				if ( plus )
+					stkptr[-1] += *stkptr;
+				else
+					stkptr[-1] -= *stkptr;
+				
+				--stkptr;
+				break;
+			}
+			
 			case MULT:
 				stkptr[-1]*=*stkptr;
 				--stkptr;
@@ -341,13 +361,13 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			case FKT_N:
 			{
 				pUint = (uint*)eq->mptr;
-				int numArgs = *pUint++;
+				uint numArgs = *pUint++;
 				eq->mptr = (unsigned char*)pUint;
 						
 				pVectorFunction = (double(**)(const Vector &))eq->mptr;
 				
 				Vector args( numArgs );
-				for ( int i=0; i<numArgs; ++i )
+				for ( int i=0; i < int(numArgs); ++i )
 					args[i] = *(stkptr-numArgs+1+i);
 				
 				stkptr[1-numArgs] = (*pVectorFunction++)(args);
@@ -434,6 +454,7 @@ void Parser::initEquation( Equation * eq )
 	m_error = ParseSuccess;
 	m_currentEquation = eq;
 	mem = mptr = eq->mem;
+	m_pmAt = 0;
 	
 	m_eval = eq->fstr();
 	m_sanitizer.fixExpression( & m_eval );
@@ -488,23 +509,30 @@ void Parser::heir1()
 {
 	QChar c;
 	heir2();
-	if(m_error!=ParseSuccess)
-		return ;
-
+	
+	if (m_error!=ParseSuccess)
+		return;
+	
 	while(1)
 	{
 		if ( m_eval.length() <= m_evalPos )
 			return;
 		
 		c = m_eval[m_evalPos];
+		
 		switch ( c.unicode() )
 		{
 			default:
-				return ;
+				return;
 
-			case ' ':
-				++m_evalPos;
-				continue;
+			case 0xb1:
+				if ( m_pmAt >= MAX_PM )
+				{
+					m_error = TooManyPM;
+					return;
+				}
+				// no break
+				
 			case '+':
 			case '-':
 				++m_evalPos;
@@ -518,8 +546,15 @@ void Parser::heir1()
 			case '+':
 				addToken(PLUS);
 				break;
+				
 			case '-':
 				addToken(MINUS);
+				break;
+				
+			case 0xb1:
+				addToken(PM);
+				adduint( m_pmAt++ );
+				break;
 		}
 	}
 }
@@ -562,9 +597,6 @@ void Parser::heir3()
 		{
 			default:
 				return;
-			case ' ':
-				++m_evalPos;
-				continue;
 			case '*':
 			case '/':
 				++m_evalPos;
@@ -580,6 +612,7 @@ void Parser::heir3()
 				break;
 			case '/':
 				addToken(DIV);
+				break;
 		}
 	}
 }
@@ -639,7 +672,6 @@ void Parser::primary()
 	
 	//BEGIN Is it a variable?
 	QStringList variables = m_currentEquation->parameters();
-// 	kDebug() << k_funcinfo << "variables="<<variables<<endl;
 	
 	// Sort the parameters by size, so that when identifying parameters, want to
 	// match e.g. "ab" before "a"
@@ -729,8 +761,6 @@ void Parser::primary()
 		m_evalPos += p-lptr;
 		addConstant(w);
 	}
-	else
-		m_error = SyntaxError;
 }
 
 
@@ -924,6 +954,12 @@ QString Parser::errorString() const
 			
 		case UserDefinedConstantInExpression:
 			return i18n("The expression must not contain user-defined constants.");
+			
+		case ZeroOrder:
+			return i18n("The differential equation must be at least first-order.");
+			
+		case TooManyPM:
+			return i18n("Too many plus-minus symbols.");
 	}
 	
 	return QString();
@@ -1347,8 +1383,6 @@ ExpressionSanitizer::ExpressionSanitizer( Parser * parser )
 
 void ExpressionSanitizer::fixExpression( QString * str )
 {
-// 	kDebug() << k_funcinfo << "str:   " << *str << endl;
-	
 	m_str = str;
 	
 	m_map.resize( m_str->length() );
@@ -1377,6 +1411,9 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	
 	// replace the unicode middle-dot for multiplication by the star symbol
 	replace( QChar( 0x2219 ), '*' );
+	
+	// minus-plus symbol to plus-minus symbol
+	replace( QChar( 0x2213 ), QChar( 0xb1 ) );
 	
 	// various power symbols
 	replace( QChar(0x00B2), "^2" );

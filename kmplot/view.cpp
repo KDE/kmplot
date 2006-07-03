@@ -883,13 +883,13 @@ double View::h() const
 }
 
 
-double View::value( const Plot & plot, int eq, double x, bool updateParameter )
+double View::value( const Plot & plot, int eq, double x, bool updateFunction )
 {
 	Function * function = plot.function();
 	assert( function );
 	
-	if ( updateParameter )
-		plot.updateFunctionParameter();
+	if ( updateFunction )
+		plot.updateFunction();
 	
 	Equation * equation = function->eq[eq];
 	
@@ -900,7 +900,7 @@ double View::value( const Plot & plot, int eq, double x, bool updateParameter )
 }
 
 
-QPointF View::realValue( const Plot & plot, double x, bool updateParameter )
+QPointF View::realValue( const Plot & plot, double x, bool updateFunction )
 {
 	Function * function = plot.function();
 	assert( function );
@@ -910,20 +910,20 @@ QPointF View::realValue( const Plot & plot, double x, bool updateParameter )
 		case Function::Differential:
 		case Function::Cartesian:
 		{
-			double y = value( plot, 0, x, updateParameter );
+			double y = value( plot, 0, x, updateFunction );
 			return QPointF( x, y );
 		}
 
 		case Function::Polar:
 		{
-			double y = value( plot, 0, x, updateParameter );
+			double y = value( plot, 0, x, updateFunction );
 			return QPointF( y * cos(x), y * sin(x) );
 		}
 
 		case Function::Parametric:
 		{
-			double X = value( plot, 0, x, updateParameter );
-			double Y = value( plot, 1, x, updateParameter );
+			double X = value( plot, 0, x, updateFunction );
+			double Y = value( plot, 1, x, updateFunction );
 			return QPointF( X, Y );
 		}
 		
@@ -932,7 +932,7 @@ QPointF View::realValue( const Plot & plot, double x, bool updateParameter )
 			// Can only calculate the value when either x or y is fixed.
 			assert( function->m_implicitMode != Function::UnfixedXY );
 			
-			double val = value( plot, 0, x, updateParameter );;
+			double val = value( plot, 0, x, updateFunction );
 			
 			if ( function->m_implicitMode == Function::FixedX )
 				return QPointF( function->x, val );
@@ -1261,7 +1261,7 @@ double realModulo( double x, double mod )
 
 void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x, double y, Qt::Orientations orientation, QList<QPointF> * singular )
 {
-	plot.updateFunctionParameter();
+	plot.updateFunction();
 	Plot diff1 = plot;
 	diff1.differentiate();
 	Plot diff2 = diff1;
@@ -1533,7 +1533,7 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 	const QList< Plot > plots = ufkt->allPlots();
 	foreach ( Plot plot, plots )
 	{
-		plot.updateFunctionParameter();
+		plot.updateFunction();
 		
 		bool setAliased = false;
 		if ( plot.parameter.type() == Parameter::Animated )
@@ -2122,7 +2122,7 @@ QList< QPointF > View::findStationaryPoints( const Plot & plot )
 
 	QList< double > roots = findRoots( plot2, getXmin( plot.function() ), getXmax( plot.function() ), RoughRoot );
 
-	plot.updateFunctionParameter();
+	plot.updateFunction();
 	QList< QPointF > stationaryPoints;
 	foreach ( double x, roots )
 	{
@@ -2194,7 +2194,7 @@ QList< double > View::findRoots( const Plot & plot, double min, double max, Root
 
 void View::setupFindRoot( const Plot & plot, RootAccuracy accuracy, double * max_k, double * max_f, int * n )
 {
-	plot.updateFunctionParameter();
+	plot.updateFunction();
 	
 	if ( accuracy == PreciseRoot )
 	{
@@ -2466,7 +2466,7 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 	Function * f = plot.function();
 	assert( f );
 	
-	plot.updateFunctionParameter();
+	plot.updateFunction();
 	
 	// For converting from real to pixels
 	double sx = area.width() / (m_xmax - m_xmin);
@@ -2782,7 +2782,7 @@ QPointF View::getPlotUnderMouse()
 		const QList< Plot > plots = function->allPlots();
 		foreach ( Plot plot, plots )
 		{
-			plot.updateFunctionParameter();
+			plot.updateFunction();
 			
 			double best_x = 0.0, distance;
 			QPointF cspos;
@@ -2828,7 +2828,7 @@ QPointF View::getPlotUnderMouse()
 
 double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 {
-	plot.updateFunctionParameter();
+	plot.updateFunction();
 
 	double best_x = 0.0;
 
@@ -2925,9 +2925,9 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 }
 
 
-double View::pixelDistance( const QPointF & pos, const Plot & plot, double x, bool updateFunctionParameter )
+double View::pixelDistance( const QPointF & pos, const Plot & plot, double x, bool updateFunction )
 {
-	QPointF f = realValue( plot, x, updateFunctionParameter );
+	QPointF f = realValue( plot, x, updateFunction );
 	QPointF df = toPixel( pos, ClipInfinite ) - toPixel( f, ClipInfinite );
 
 	return std::sqrt( df.x()*df.x() + df.y()*df.y() );
@@ -3058,7 +3058,7 @@ bool View::updateCrosshairPosition()
 	QPointF ptl = mousePos * wm.inverted();
 	m_crosshairPosition = toReal( ptl );
 
-	m_currentPlot.updateFunctionParameter();
+	m_currentPlot.updateFunction();
 	Function * it = m_currentPlot.function();
 
 	if ( it && crosshairPositionValid( it ) && (m_popupmenushown != 1) )
@@ -3515,7 +3515,7 @@ QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin,
 
 	x=dmin;
 
-	plot.updateFunctionParameter();
+	plot.updateFunction();
 
 	while ( (x>=dmin && x<=dmax) )
 	{
@@ -3704,7 +3704,7 @@ double View::areaUnderGraph( IntegralDrawSettings s )
 	double calculated_area=0;
 	double x = s.dmin;
 
-	s.plot.updateFunctionParameter();
+	s.plot.updateFunction();
 
 	for ( int i = 0; i <= intervals; ++i )
 	{

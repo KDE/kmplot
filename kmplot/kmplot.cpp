@@ -40,7 +40,7 @@
 #include <ktoolinvocation.h>
 
 #include "kmplotadaptor.h"
-#include <dbus/qdbus.h>
+#include <QtDBus>
 
 KmPlot::KmPlot( KCmdLineArgs* args)
 		: KParts::MainWindow()

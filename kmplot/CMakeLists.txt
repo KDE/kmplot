@@ -8,14 +8,11 @@ set(kmplotpart_PART_SRCS
    plotstylewidget.cpp
    functioneditor.cpp
    parser.cpp 
-   parseradaptor.cpp 
    xparser.cpp 
    equationedit.cpp
    function.cpp
    view.cpp 
-   viewadaptor.cpp 
    maindlg.cpp 
-   maindlgadaptor.cpp 
    kprinterdlg.cpp 
    kconstanteditor.cpp 
    kparametereditor.cpp 
@@ -29,6 +26,7 @@ set(kmplotpart_PART_SRCS
    initialconditionseditor.cpp
    )
 
+qt4_add_dbus_adaptors( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml  org.kde.kmplot.Parser.xml   org.kde.kmplot.View.xml)
 kde4_automoc(${kmplotpart_PART_SRCS})
 
 kde4_add_ui_files(kmplotpart_PART_SRCS
@@ -61,7 +59,8 @@ install_targets(${PLUGIN_INSTALL_DIR} kmplotpart )
 
 ########### next target ###############   
 
-set(kmplot_SRCS main.cpp kmplot.cpp kmplotadaptor.cpp )
+set(kmplot_SRCS main.cpp kmplot.cpp )
+qt4_add_dbus_adaptors(kmplot_SRCS org.kde.kmplot.Kmplot.xml)
 kde4_automoc(${kmplot_SRCS})
 
 # FIXME: it's wrong, but otherwise it does not compile

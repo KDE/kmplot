@@ -109,11 +109,10 @@ EquationEdit::EquationEdit( QWidget * parent )
 	m_equationEditWidget = new EquationEditWidget( this );
 	m_highlighter = new EquationHighlighter( this );
 	m_equation = new Equation( Equation::Cartesian, 0 );
+	m_editButton = new QPushButton( KIcon("edit"), 0, this );
+	setFocusProxy( m_equationEditWidget );
 	
 	connect( m_equationEditWidget, SIGNAL( textChanged() ), this, SLOT( slotTextChanged() ) );
-	
-	m_editButton = new QPushButton( KIcon("edit"), 0, this );
-// 	m_editButton = new QPushButton( "...", this );
 	connect( m_editButton, SIGNAL(clicked()), this, SLOT(invokeEquationEditor()) );
 	
 	QHBoxLayout * layout = new QHBoxLayout( this );
@@ -140,6 +139,7 @@ void EquationEdit::invokeEquationEditor()
 {
 	EquationEditor * edit = new EquationEditor( text(), this );
 	edit->m_widget->edit->setInputType( m_inputType );
+	edit->m_widget->edit->setEquationType( m_equation->type() );
 	edit->m_widget->edit->setValidatePrefix( m_validatePrefix );
 	
 	edit->exec();

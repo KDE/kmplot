@@ -26,6 +26,7 @@ set(kmplotpart_PART_SRCS
    coordsconfigdialog.cpp
    parameteranimator.cpp
    vector.cpp
+   initialconditionseditor.cpp
    )
 
 kde4_automoc(${kmplotpart_PART_SRCS})

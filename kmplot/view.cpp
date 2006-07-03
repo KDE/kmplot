@@ -1585,7 +1585,7 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 			{
 				// Is it an asymtope (i.e. cartesian function, drawing from above top to below bottom)
 				bool asymtope = false;
-				if ( ufkt->type() == Function::Cartesian )
+				if ( ufkt->type() == Function::Cartesian || ufkt->type() == Function::Differential )
 				{
 					bool p1_below = p1.y() > area.bottom();
 					bool p1_above = p1.y() < area.top();
@@ -4009,7 +4009,8 @@ void View::setStatusBar(const QString &text, const int id)
 	}
 	else
 	{
-        QDBusReply<void> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.Kmplot" )->call( QDBusAbstractInterface::NoWaitForReply, "setStatusBarText", text, id );
+		/// \todo uncomment this when kdelibs-snapshot compiles again with qt-dbus
+//         QDBusReply<void> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.Kmplot" )->call( QDBusAbstractInterface::NoWaitForReply, "setStatusBarText", text, id );
 	}
 }
 

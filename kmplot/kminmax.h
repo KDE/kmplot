@@ -26,6 +26,7 @@
 #ifndef KMINMAX_H
 #define KMINMAX_H
 
+#include <kdialog.h>
 #include <QListWidget>
 
 #include "view.h"

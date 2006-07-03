@@ -441,10 +441,7 @@ void Parser::initEquation( Equation * eq )
 	heir1();
 	
 	if ( !evalRemaining().isEmpty() && m_error == ParseSuccess )
-	{
-		kDebug() << k_funcinfo << "evalRemaining()=\""<<evalRemaining()<<"\""<<endl;		
 		m_error = SyntaxError;
-	}
 	
 	if ( m_error != ParseSuccess )
 		m_errorPosition = m_sanitizer.realPos( m_evalPos );
@@ -642,7 +639,7 @@ void Parser::primary()
 	
 	//BEGIN Is it a variable?
 	QStringList variables = m_currentEquation->parameters();
-	kDebug() << k_funcinfo << "variables="<<variables<<endl;
+// 	kDebug() << k_funcinfo << "variables="<<variables<<endl;
 	
 	// Sort the parameters by size, so that when identifying parameters, want to
 	// match e.g. "ab" before "a"
@@ -733,10 +730,7 @@ void Parser::primary()
 		addConstant(w);
 	}
 	else
-	{
-		kDebug() << k_funcinfo << "evalRemaining()=\""<<evalRemaining()<<"\""<<endl;
 		m_error = SyntaxError;
-	}
 }
 
 

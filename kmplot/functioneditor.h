@@ -28,7 +28,6 @@
 #define FUNCTIONEDITOR_H
 
 #include "parser.h"
-#include "ui_initialconditionswidget.h"
 
 #include <QDockWidget>
 #include <QDomDocument>
@@ -257,56 +256,6 @@ class FunctionListItem : public QListWidgetItem
 		int m_function;
 };
 
-
-class InitialConditionsEditor : public QWidget, public Ui::InitialConditionsWidget
-{
-	Q_OBJECT
-			
-	public:
-		InitialConditionsEditor( QWidget * parent );
-		
-		/**
-		 * Extracts the list of differential states from the list widget.
-		 */
-		DifferentialStates differentialStates() const;
-		/**
-		 * Resets the widget.
-		 */
-		void clear();
-		/**
-		 * Initialises the list from the given states in \p function
-		 */
-		void init( Function * function );
-		
-	public slots:
-		/**
-		 * For differential equations, add an initial condtion.
-		 */
-		void add();
-		/**
-		 * For differential equations, remove the selected initial condtion.
-		 */
-		void remove();
-		
-	protected slots:
-		/**
-		 * Called when an initial condition in the list is selected.
-		 */
-		void initialConditionSelected( QListWidgetItem * item );
-		/**
-		 * Called when one of the initial conditions is edited.
-		 */
-		void saveInitialConditions();
-		
-	protected:
-		/**
-		 * Converts the label of a list widget item into an initial state.
-		 */
-		DifferentialState labelToState( const QString & label ) const;
-		void addStateToList( DifferentialState * state, bool alsoSelectState );
-		
-		Function * m_function; ///< current working function
-};
 
 #endif // FUNCTIONEDITOR_H
 

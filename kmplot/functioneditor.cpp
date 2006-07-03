@@ -138,6 +138,8 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	QList<ParametersWidget *> parameters = m_editor->findChildren<ParametersWidget *>();
 	foreach ( ParametersWidget * w, parameters )
 		connect( w, SIGNAL( parameterListChanged() ), this, SLOT(save()) );
+	
+	connect( m_editor->initialConditions, SIGNAL(dataChanged()), this, SLOT(save()) );
 	//END connect up all editing widgets
 	
 	connect( XParser::self(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
@@ -158,8 +160,6 @@ FunctionEditor::~ FunctionEditor()
 
 void FunctionEditor::deleteCurrent()
 {
-	kDebug() << k_funcinfo << endl;
-	
 	FunctionListItem * functionItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	if ( !functionItem )
 	{
@@ -174,7 +174,6 @@ void FunctionEditor::deleteCurrent()
 		return;
 	}
 	
-	kDebug() << "Deleted current, so requestion state save.\n";
 	MainDlg::self()->requestSaveCurrentState();
 	View::self()->drawPlot();
 }
@@ -188,8 +187,6 @@ void FunctionEditor::functionsChanged()
 
 void FunctionEditor::syncFunctionList()
 {
-	kDebug() << k_funcinfo << endl;
-	
 	int oldFunctionCount = m_functionList->count();
 	
 	QListWidgetItem * currentItem = m_functionList->currentItem();
@@ -264,8 +261,6 @@ void FunctionEditor::syncFunctionList()
 
 void FunctionEditor::setCurrentFunction( int functionID )
 {
-	kDebug() << k_funcinfo << endl;
-	
 	for ( int row = 0; row < m_functionList->count(); ++row )
 	{
 		FunctionListItem * item = static_cast<FunctionListItem*>(m_functionList->item( row ));
@@ -280,8 +275,6 @@ void FunctionEditor::setCurrentFunction( int functionID )
 
 void FunctionEditor::functionSelected( QListWidgetItem * item )
 {
-	kDebug() << k_funcinfo << endl;
-	
 	m_editor->deleteButton->setEnabled( item != 0 );
 	if ( !item )
 		return;
@@ -298,8 +291,6 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
 		return;
-	
-	kDebug() << k_funcinfo << "f->type()="<<f->type()<<endl;
 	
 	switch ( f->type() )
 	{
@@ -449,16 +440,9 @@ void FunctionEditor::initFromDifferential()
 	if ( !f )
 		return;
 	
-	QString name, expression;
+	m_editor->differentialEquation->setText( f->eq[0]->fstr());
 	
-	// It's not an implicit equation, but it works
-	splitImplicitEquation( f->eq[0]->fstr(), & name, & expression );
-	m_editor->differentialEquation->setValidatePrefix( name + '=' );
-	
-	m_editor->differentialName->setText( name );
-	m_editor->differentialEquation->setText( expression );
 	m_editor->differential_f0->init( f->plotAppearance( Function::Derivative0 ) );
-	
 	m_editor->differentialParameters->init( f->m_parameters );
 	m_editor->initialConditions->init( f );
 	
@@ -491,8 +475,6 @@ void FunctionEditor::splitImplicitEquation( const QString equation, QString * na
 
 void FunctionEditor::resetFunctionEditing()
 {
-	kDebug() << k_funcinfo << endl;
-	
 	m_functionID = -1;
 	
 	// page 5 is an empty page
@@ -567,7 +549,7 @@ void FunctionEditor::createImplicit()
 void FunctionEditor::createDifferential()
 {
 	QString fname;
-	fname = QString( "%1''(x) = x" ).arg( XParser::self()->findFunctionName( "f", -1 ) );
+	fname = QString( "%1''(x) = -%1" ).arg( XParser::self()->findFunctionName( "f", -1 ) );
 	m_functionID = XParser::self()->Parser::addFunction( fname, QString(), Function::Differential );
 	assert( m_functionID != -1 );
 	
@@ -578,8 +560,6 @@ void FunctionEditor::createDifferential()
 
 void FunctionEditor::save()
 {
-	kDebug() << k_funcinfo << endl;
-	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
 		return;
@@ -611,7 +591,7 @@ void FunctionEditor::save()
 
 void FunctionEditor::saveCartesian()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
@@ -709,7 +689,7 @@ void FunctionEditor::fixCartesianArguments( QString * f_str )
 
 void FunctionEditor::savePolar()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
@@ -751,7 +731,7 @@ void FunctionEditor::savePolar()
 	if ( !changed )
 		return;
 
-	kDebug() << "Polar changed, so requesting state save.\n";	
+// 	kDebug() << "Polar changed, so requesting state save.\n";	
 	MainDlg::self()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
@@ -761,7 +741,7 @@ void FunctionEditor::savePolar()
 
 void FunctionEditor::saveParametric()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
@@ -834,7 +814,7 @@ void FunctionEditor::saveParametric()
 	if ( !changed )
 		return;
 	
-	kDebug() << "Parametric changed, so requesting state save.\n";
+// 	kDebug() << "Parametric changed, so requesting state save.\n";
 	MainDlg::self()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
@@ -844,7 +824,7 @@ void FunctionEditor::saveParametric()
 
 void FunctionEditor::saveImplicit()
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
@@ -879,7 +859,7 @@ void FunctionEditor::saveImplicit()
 	if ( !changed )
 		return;
 
-	kDebug() << "Implicit changed, so requesting state save.\n";	
+// 	kDebug() << "Implicit changed, so requesting state save.\n";	
 	MainDlg::self()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
@@ -889,44 +869,29 @@ void FunctionEditor::saveImplicit()
 
 void FunctionEditor::saveDifferential()
 {
-	kDebug() << k_funcinfo << endl;
-	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f || f->type() != Function::Differential )
 		return;
 	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
-	// find a name not already used 
-	if ( m_editor->differentialName->text().isEmpty() )
-	{
-		QString fname;
-		XParser::self()->fixFunctionName(fname, Equation::Differential, f->id );
-		int const pos = fname.indexOf('(');
-		m_editor->differentialName->setText(fname.mid(1,pos-1));
-	}
-	
-	QString prefix = m_editor->differentialName->text() + " = ";
-	QString f_str = prefix + m_editor->differentialEquation->text();
-	m_editor->differentialEquation->setValidatePrefix( prefix );
-
 	Function tempFunction( Function::Differential );  // all settings are saved here until we know that no errors have appeared
+	QString f_str = m_editor->differentialEquation->text();
+	if ( !tempFunction.eq[0]->setFstr( f_str ) )
+		return;
 	
 	tempFunction.m_parameters = m_editor->differentialParameters->parameterSettings();
 	if (functionListItem)
 		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->differential_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
-	tempFunction.eq[0]->differentialStates = m_editor->initialConditions->differentialStates();
-	
-	if ( !tempFunction.eq[0]->setFstr( f_str ) )
-		return;
+	m_editor->initialConditions->setOrder( tempFunction.eq[0]->order() );
+	tempFunction.eq[0]->differentialStates = *m_editor->initialConditions->differentialStates();
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
 	if ( !changed )
 		return;
-
-	kDebug() << "Differential changed, so requesting state save.\n";	
+	
 	MainDlg::self()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
@@ -1025,9 +990,6 @@ FunctionListItem::FunctionListItem( QListWidget * parent, int function )
 {
 	m_function = function;
 	assert( m_function != -1 );
-	
-// 	setFlags( Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
-	
 	update();
 }
 
@@ -1054,163 +1016,5 @@ void FunctionListItem::update()
 //END class FunctionListItem
 
 
-
-//BEGIN class InitialConditionsEditor
-InitialConditionsEditor::InitialConditionsEditor( QWidget * parent )
-	: QWidget( parent )
-{
-	m_function = 0;
-	
-	setupUi( this );
-	layout()->setMargin( 0 );
-	
-	connect( addButton, SIGNAL(clicked()), this, SLOT(add()) );
-	connect( removeButton, SIGNAL(clicked()), this, SLOT(remove()) );
-	
-	connect( list, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(initialConditionSelected( QListWidgetItem* )) );
-	
-	connect( initial_x, SIGNAL( editingFinished() ), this, SLOT(saveInitialConditions()) );
-	connect( initial_f, SIGNAL( editingFinished() ), this, SLOT(saveInitialConditions()) );
-	connect( initial_df, SIGNAL( editingFinished() ), this, SLOT(saveInitialConditions()) );
-}
-
-
-void InitialConditionsEditor::clear()
-{
-	m_function = 0;
-	list->clear();
-	initial_x->clear();
-	initial_f->clear();
-	initial_df->clear();
-	removeButton->setEnabled( list->count() > 0 );
-}
-
-
-void InitialConditionsEditor::init( Function * function )
-{
-	clear();
-	m_function = function;
-	
-	foreach ( DifferentialState state, function->eq[0]->differentialStates )
-		addStateToList( & state, false );
-}
-
-
-void InitialConditionsEditor::initialConditionSelected( QListWidgetItem * item )
-{
-	if ( !m_function || !item )
-	{
-		clear();
-		return;
-	}
-	
-	DifferentialState state = labelToState( item->text() );
-	
-	initial_x->setText( state.x0.expression() );
-	int order = m_function->eq[0]->order();
-	
-	if ( order >= 1 )
-		initial_f->setText( state.y0[0].expression() );
-	
-	if ( order >= 2 )
-		initial_df->setText( state.y0[1].expression() );
-}
-
-
-DifferentialStates InitialConditionsEditor::differentialStates() const
-{
-	DifferentialStates states;
-	
-	int count = list->count();
-	for ( int i = 0; i < count; ++i )
-	{
-		QString label = list->item( i )->text();
-		states << labelToState( label );
-	}
-	
-	return states;
-}
-
-
-DifferentialState InitialConditionsEditor::labelToState( const QString & label ) const
-{
-	if ( !m_function )
-		return DifferentialState();
-	
-	QStringList split = label.split( ';' );
-		
-	// Should at least have an x and a y(x) value
-	assert( split.size() >= 2 );
-	
-	int order = m_function->eq[0]->order();
-	DifferentialState state( order );
-	state.x0 = split[0];
-	
-	for ( int i = 0; i < qMin( order, split.size()-1 ); ++i )
-		state.y0[i] = split[i+1];
-	
-	state.resetToInitial();
-	return state;
-}
-
-
-void InitialConditionsEditor::add()
-{
-	DifferentialState * state = m_function->eq[0]->addDifferentialState();
-	addStateToList( state, true );
-	View::self()->drawPlot();
-}
-
-
-void InitialConditionsEditor::remove()
-{
-	if ( list->count() == 0 )
-		return;
-	
-	/*delete */list->takeItem( list->currentRow() );
-	removeButton->setEnabled( list->count() > 0 );
-}
-
-
-void InitialConditionsEditor::addStateToList( DifferentialState * state, bool alsoSelectState )
-{
-	int order = state->y0.size();
-	
-	QString label( state->x0.expression() );
-	for ( int i = 0; i < order; ++i )
-		label += ';' + state->y0[i].expression();
-	
-	list->addItem( label );
-	
-	if ( alsoSelectState )
-		list->setCurrentRow( list->count() - 1 );
-	
-	removeButton->setEnabled( list->count() > 0 );
-}
-
-
-void InitialConditionsEditor::saveInitialConditions( )
-{
-	QListWidgetItem * item = list->currentItem();
-	// No item? then add one
-	if ( !item )
-	{
-		add();
-		item = list->currentItem();
-		
-		// It should have been selected by now
-		assert( item );
-	}
-	
-	QString label;
-	
-	label = QString("%1;%2;%3")
-			.arg( initial_x->text() )
-			.arg( initial_f->text() )
-			.arg( initial_df->text() );
-	
-	item->setText( label );
-}
-//END class InitialConditionsEditor
 
 #include "functioneditor.moc"

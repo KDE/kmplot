@@ -400,7 +400,7 @@ void MainDlg::requestSaveCurrentState()
 }
 void MainDlg::saveCurrentState( )
 {
-	kDebug() << k_funcinfo << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	m_redoStack.clear();
 	m_undoStack.push( m_currentState );
@@ -579,7 +579,8 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 // 		stream.setVersion(QDataStream::Qt_3_1);
 // 		stream << url;
 // 		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KUrl)", data);
-      QDBusReply<void> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.Kmplot" )->call( QDBusAbstractInterface::UseEventLoop, "openFileInNewWindow", url.url() );
+		/// \todo uncomment this when kdelibs-snapshot compiles again with qt-dbus
+//       QDBusReply<void> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.Kmplot" )->call( QDBusAbstractInterface::UseEventLoop, "openFileInNewWindow", url.url() );
 		return;
 	}
 

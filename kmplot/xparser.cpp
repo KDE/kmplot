@@ -204,7 +204,7 @@ QString XParser::findFunctionName( const QString & preferredName, int id )
 			
 			foreach ( Function * it, m_ufkt )
 			{
-				if ( it->id == id )
+				if ( int(it->id) == id )
 					continue;
 				
 				foreach ( Equation * eq, it->eq )
@@ -286,14 +286,19 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 
 Vector XParser::rk4_f( int order, Equation * eq, double x, Vector y )
 {
+	bool useParameter = eq->parameters().size() > order+1;
+	
 	Vector result( order );
-	Vector arg( order+1 );
+	Vector arg( order+1 + (useParameter ? 1 : 0) );
 	
 	arg[0] = x;
 	
+	if ( useParameter )
+		arg[1] = eq->parent()->k;
+	
 	for ( int i = 0; i < order; ++i )
 	{
-		arg[i+1] = y[i];
+		arg[i+1 + (useParameter ? 1 : 0) ] = y[i];
 		if ( i+1 < order )
 			result[i] = y[i+1];
 	}
@@ -319,8 +324,6 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	// stepwidth; dx is made similar to h in size, yet tiles the gap between x
 	// and the previous x perfectly
 	
-	// we use the 2nd degree Newton-Cotes formula (Simpson's rule)
-	
 	// see if the initial integral point in the function is closer to our
 	// required x value than the last one (or the last point is invalid)
 	if ( qAbs( state->x0.value() - x_target ) < qAbs( state->x - x_target ) || !std::isfinite( state->y[0] ) )
@@ -341,12 +344,9 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	int intervals = qMax( qRound( qAbs(x_target-x)/h ), 1 );
 	double dx = (x_target-x) / double(intervals);
 	
-// 	kDebug() << "#####################\n";
-	
 	for ( int i = 0; i < intervals; ++i )
 	{
 		x = state->x + i*dx;
-// 		kDebug() << "i="<<i<<" x="<<x<<" y[0]="<<y[0]<<endl;
 		
 		k1 = rk4_f( order, eq, x,			y );
 		k2 = rk4_f( order, eq, x + dx/2,	y + (dx/2)*k1 );
@@ -359,13 +359,14 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	state->x = x + dx;
 	state->y = y;
 	
-// 	kDebug() << "Returning y[0]="<<y[0]<<endl;
 	return y[0];
 }
 
 
 double XParser::integral( Equation * eq, double x, double h )
 {
+	/// \todo merge this with the XParser::differential function
+	
 	h = qAbs(h);
 	assert( h > 0 ); // in case anyone tries to pass us a zero h
 	

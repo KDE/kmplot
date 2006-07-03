@@ -138,7 +138,30 @@ class DifferentialState
 		 */
 		bool operator == ( const DifferentialState & other ) const;
 };
-typedef QVector<DifferentialState> DifferentialStates;
+
+
+class DifferentialStates
+{
+	public:
+		DifferentialStates();
+		
+		void setOrder( int order );
+		DifferentialState * add();
+		int order() const { return m_order; }
+		int size() const { return m_data.size(); }
+		void resetToInitial();
+		
+		bool operator == ( const DifferentialStates & other ) const { return m_data == other.m_data; }
+		bool operator != ( const DifferentialStates & other ) const { return m_data != other.m_data; }
+		DifferentialState & operator[] ( int i ) { return m_data[i]; }
+		const DifferentialState & operator[] ( int i ) const { return m_data[i]; }
+		void remove ( int i ) { m_data.remove(i); }
+		void remove ( int i, int count ) { m_data.remove( i, count ); }
+		
+	protected:
+		QVector<DifferentialState> m_data;
+		int m_order;
+};
 
 
 /**
@@ -229,12 +252,6 @@ class Equation
 		
 		/// For differential equations, all the states
 		DifferentialStates differentialStates;
-		
-		/**
-		 * Adds an initial condition (for differential equations).
-		 * \return a pointer to the state
-		 */
-		DifferentialState * addDifferentialState();
 		
 	protected:
 		/// \note when adding new member variables, make sure to update operator != and operator =

@@ -171,8 +171,14 @@ DifferentialState::DifferentialState( int order )
 
 void DifferentialState::setOrder( int order )
 {
+	bool orderWasZero = (y0.size() == 0);
+	
 	y.resize( order );
 	y0.resize( order );
+	
+	if ( orderWasZero && order >= 1 )
+		y0[0].updateExpression( "1" );
+	
 	resetToInitial();
 }
 
@@ -192,6 +198,37 @@ bool DifferentialState::operator == ( const DifferentialState & other ) const
 
 
 
+//BEGIN class DifferentialStates
+DifferentialStates::DifferentialStates()
+{
+	m_order = 0;
+}
+
+
+void DifferentialStates::setOrder( int order )
+{
+	m_order = order;
+	for ( int i = 0; i < m_data.size(); ++i )
+		m_data[i].setOrder( order );
+}
+
+
+DifferentialState * DifferentialStates::add()
+{
+	m_data << DifferentialState( order() );
+	return & m_data[ size() - 1 ];
+}
+
+
+void DifferentialStates::resetToInitial( )
+{
+	for ( int i = 0; i < m_data.size(); ++i )
+		m_data[i].resetToInitial();
+}
+//END class DifferentialStates
+
+
+
 //BEGIN class Equation
 Equation::Equation( Type type, Function * parent )
 	: m_type( type ),
@@ -200,8 +237,8 @@ Equation::Equation( Type type, Function * parent )
 	mem = new unsigned char [MEMSIZE];
 	mptr = 0;
 	
-// 	if ( type == Differential )
-// 		addDifferentialState();
+	if ( type == Differential )
+		differentialStates.add();
 }
 
 
@@ -265,7 +302,7 @@ QStringList Equation::parameters( ) const
 
 bool Equation::setFstr( const QString & fstr )
 {
-	kDebug() << k_funcinfo << "fstr: "<<fstr<<" ( type() == Differential )="<<( type() == Differential )<<endl;
+// 	kDebug() << k_funcinfo << "fstr: "<<fstr<<" ( type() == Differential )="<<( type() == Differential )<<endl;
 	
 	QString prevFstr = m_fstr;
 	m_fstr = fstr;
@@ -281,17 +318,14 @@ bool Equation::setFstr( const QString & fstr )
 	XParser::self()->initEquation( this );
 	if ( XParser::self()->parserError( false ) != Parser::ParseSuccess )
 	{
-		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
+// 		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
 		
 		m_fstr = prevFstr;
 		XParser::self()->initEquation( this );
 		return false;
 	}
 	
-	// If we are a differential equation, then update the order. and reset the other stuff
-	foreach ( DifferentialState state, differentialStates )
-		state.setOrder( order() );
-	
+	differentialStates.setOrder( order() );
 	resetLastIntegralPoint();
 	return true;
 }
@@ -309,13 +343,6 @@ void Equation::setIntegralStart( const Value & x, const Value & y )
 	m_startY = y;
 	
 	resetLastIntegralPoint();
-}
-
-
-DifferentialState * Equation::addDifferentialState( )
-{
-	differentialStates << DifferentialState( order() );
-	return & differentialStates[ differentialStates.size() - 1 ];
 }
 
 

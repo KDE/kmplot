@@ -152,3 +152,5 @@ kmplot/vector.h
 kmplot/vector.cpp
 kmplot/vector.h
 kmplot/initialconditionswidget.ui
+kmplot/initialconditionseditor.cpp
+kmplot/initialconditionseditor.h

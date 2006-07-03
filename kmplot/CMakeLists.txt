@@ -31,6 +31,7 @@ kde4_automoc(${kmplotpart_PART_SRCS})
 
 kde4_add_ui_files(kmplotpart_PART_SRCS
 	plotstylewidget.ui
+	initialconditionswidget.ui
 	functioneditorwidget.ui
 	editcoords.ui
 	editscaling.ui
@@ -44,7 +45,6 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	parameterswidget.ui
 	parameteranimator.ui
 	equationeditor.ui
-	initialconditionswidget.ui
 	)
 
 kde4_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )

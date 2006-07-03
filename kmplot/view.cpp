@@ -3999,11 +3999,6 @@ bool View::event( QEvent * e )
 
 void View::setStatusBar(const QString &text, const int id)
 {
-// 	return;
-#ifdef DEBUG_IMPLICIT
-	return; // Don't want to clutter up stdout with useless messages
-#endif
-	
 	if ( m_readonly) //if KmPlot is shown as a KPart with e.g Konqueror, it is only possible to change the status bar in one way: to call setStatusBarText
 	{
 		switch (id)
@@ -4037,8 +4032,7 @@ void View::setStatusBar(const QString &text, const int id)
 	}
 	else
 	{
-		/// \todo uncomment this when kdelibs-snapshot compiles again with qt-dbus
-//         QDBusReply<void> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.Kmplot" )->call( QDBusAbstractInterface::NoWaitForReply, "setStatusBarText", text, id );
+        QDBusReply<void> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.Kmplot" ).call( QDBus::NoBlock, "setStatusBarText", text, id );
 	}
 }
 

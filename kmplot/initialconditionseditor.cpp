@@ -156,8 +156,7 @@ QVariant InitialConditionsModel::headerData( int section, Qt::Orientation orient
 	else
 		param = parameters.first();
 	
-// 	param += "<sub>0</sub>";
-	param += QChar( 0x2080 ); // lowercase zero
+	param += QChar( 0x2080 ); // subscript zero
 	
 	if ( section == 0 )
 		return param;

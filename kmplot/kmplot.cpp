@@ -119,8 +119,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
     QDBus::sessionBus().registerObject("/kmplot", this);
 
     QString f = args->getOption("function");
-	/// \todo uncomment this when kdelibs-snapshot compiles again with qt-dbus
-//     QDBusReply<bool> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/parser", "org.kde.kmplot.Parser")->call( QDBusAbstractInterface::UseEventLoop, "addFunction", f, "" );
+	QDBusReply<bool> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/parser", "org.kde.kmplot.Parser").call( QDBus::Block, "addFunction", f, "" );
 }
 
 KmPlot::~KmPlot()
@@ -257,16 +256,14 @@ void KmPlot::openFileInNewWindow(const KUrl url)
 
 bool KmPlot::checkModified()
 {
-	/// \todo uncomment this when kdelibs-snapshot compiles again with qt-dbus
-//     QDBusReply<bool> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg")->call( QDBusAbstractInterface::UseEventLoop, "checkModified" );
-//     return reply.value();
+	QDBusReply<bool> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg").call( QDBus::Block, "checkModified" );
+    return reply.value();
 }
 
 bool KmPlot::isModified()
 {
-	/// \todo uncomment this when kdelibs-snapshot compiles again with qt-dbus
-//     QDBusReply<bool> reply = QDBusInterfacePtr( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg")->call( QDBusAbstractInterface::UseEventLoop, "isModified" );
-//     return reply.value();
+	QDBusReply<bool> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg").call( QDBus::Block, "isModified" );
+    return reply.value();
 }
 
 bool KmPlot::queryClose()

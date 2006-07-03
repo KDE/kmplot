@@ -53,7 +53,8 @@ XParser * XParser::self( bool * modified )
 
 XParser::XParser(bool &mo) : m_modified(mo)
 {
-	// setup slider support
+	differentialFinite = true;
+	differentialDiverge = 0;
 }
 
 XParser::~XParser()
@@ -141,8 +142,6 @@ bool XParser::getext( Function *item, const QString fstr )
 
 double XParser::derivative( int n, Equation * eq, double x, double h )
 {
-// 	kDebug() << k_funcinfo << "n="<<n<<" h="<<h<<" pow(h,n)="<<pow(h,n)<<endl;
-	
 	if ( n < -1 )
 	{
 		kError() << k_funcinfo << "Can't handle derivative < -1\n";
@@ -311,6 +310,8 @@ Vector XParser::rk4_f( int order, Equation * eq, double x, Vector y )
 
 double XParser::differential( Equation * eq, DifferentialState * state, double x_target, double h )
 {
+	differentialFinite = true;
+	
 	if ( eq->order() < 1 )
 	{
 		kWarning() << k_funcinfo << "Zero order!\n";
@@ -326,7 +327,7 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	
 	// see if the initial integral point in the function is closer to our
 	// required x value than the last one (or the last point is invalid)
-	if ( qAbs( state->x0.value() - x_target ) < qAbs( state->x - x_target ) || !std::isfinite( state->y[0] ) )
+	if ( qAbs( state->x0.value() - x_target ) < qAbs( state->x - x_target ) )
 		state->resetToInitial();
 	
 	int order = eq->order();
@@ -346,6 +347,9 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	
 	for ( int i = 0; i < intervals; ++i )
 	{
+		// Update differentialDiverge before y possible becomes infinite
+		differentialDiverge = x;
+		
 		x = state->x + i*dx;
 		
 		k1 = rk4_f( order, eq, x,			y );
@@ -354,6 +358,13 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 		k4 = rk4_f( order, eq, x + dx,		y + dx*k3 );
 		
 		y += (dx/6)*(k1 + 2*k2 + 2*k3 + k4);
+		
+		if ( !std::isfinite(y[0]) )
+		{
+			differentialFinite = false;
+			state->resetToInitial();
+			return 0;
+		}
 	}
 	
 	state->x = x + dx;

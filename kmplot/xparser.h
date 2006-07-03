@@ -62,9 +62,16 @@ class XParser : public Parser
 		double integral( Equation * eq, double x, double h );
 		/**
 		 * For differential equations - uses numerical integration to
-		 * calculate value for the given x.
+		 * calculate value for the given x. Differential equations often have
+		 * the annoying habbit of diverging to infinity rapidly. If this
+		 * happens while trying to calculate the value, then
+		 * XParser::differentialFinite will be set to false, and 
+		 * XParserdifferentialDiverge will be set to the last point where the
+		 * differential value was finite.
 		 */
 		double differential( Equation * eq, DifferentialState * state, double x, double h );
+		bool differentialFinite;
+		double differentialDiverge;
 		/**
 		 * The settings contain 10 default function colors. This returns the
 		 * (function % 10)th color.

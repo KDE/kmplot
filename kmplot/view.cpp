@@ -306,8 +306,8 @@ void View::initDiagram( QPointF Ref, 			    // Bezugspunkt links unten
 {
 	int x, y, h, w;
 	
-	xmd = m_xmax+1e-6;
-	ymd = m_ymax+1e-6;
+	xmd = m_xmax+1e-10;
+	ymd = m_ymax+1e-10;
 	tsx = ceil(m_xmin/tlgx)*tlgx;
 	tsy = ceil(m_ymin/tlgy)*tlgy;
 	skx = lx/(m_xmax-m_xmin);			        // Skalierungsfaktoren berechnen
@@ -1568,7 +1568,21 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 
 		while ( x>=dmin && x<=dmax )
 		{
-			p2 = toPixel( realValue( plot, x, false ), ClipInfinite );
+			QPointF rv = realValue( plot, x, false );
+			
+			// If we are currently plotting a differential equation, and it became infinite,
+			// then skip x forward to a point where it is finite
+			if ( ufkt->type() == Function::Differential && !XParser::self()->differentialFinite )
+			{
+				double new_x = XParser::self()->differentialDiverge;
+				if ( new_x > x )
+				{
+					x = new_x;
+					continue;
+				}
+			}
+			
+			p2 = toPixel( rv, ClipInfinite );
 
 			double min_mod = (ufkt->type() == Function::Cartesian || ufkt->type() == Function::Differential) ? 0.1 : 5e-5;
 			double max_mod = (ufkt->type() == Function::Cartesian || ufkt->type() == Function::Differential) ? 1e+1 : 5e+1;
@@ -1633,6 +1647,20 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 						{
 							if ( asymtope )
 							{
+								// In the case that the line being drawn is very long,
+								// Qt does not handle drawing dashed lines very well (it will
+								// draw each dash without taking into account clipping).
+								// Therefore, we have to pre-clip it.
+								QRectF bounds( pDC->matrix().inverted().mapRect( area ) );
+								QPointF draw[2] = { p1, p2 };
+								for ( int i = 0; i < 2; ++i )
+								{
+									if ( draw[i].y() < bounds.top() )
+										QLineF( draw[i], draw[1-i] ).intersect( QLineF( bounds.topLeft(), bounds.topRight() ), & draw[i] );
+									else if ( draw[i].y() > bounds.bottom() )
+										QLineF( draw[i], draw[1-i] ).intersect( QLineF( bounds.bottomLeft(), bounds.bottomRight() ), & draw[i] );
+								}
+								
 								QPen oldPen = pDC->pen();
 								
 								QPen pen = oldPen;
@@ -1640,7 +1668,7 @@ void View::plotFunction(Function *ufkt, QPainter *pDC)
 								dashes << 6 << 6;
 								pen.setDashPattern( dashes);
 								pDC->setPen( pen );
-								pDC->drawLine( p1, p2 );
+								pDC->drawLine( draw[0], draw[1] );
 								
 								pDC->setPen( oldPen );
 							}

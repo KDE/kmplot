@@ -11,7 +11,7 @@
 #define KMPLOTADAPTOR_H_251211149672234
 
 #include <QtCore/QObject>
-#include <dbus/qdbus.h>
+#include <QtDBus/qdbus.h>
 class QByteArray;
 template<class T> class QList;
 template<class Key, class Value> class QMap;

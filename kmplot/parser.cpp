@@ -315,7 +315,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				uint whichPM = *pUint++;
 				eq->mptr = (unsigned char*)pUint;
 				
-				assert( int(whichPM) < eq->pmSignature().size() );
+				assert( int(whichPM) < eq->pmSignature().size() );				
 				bool plus = eq->pmSignature()[ whichPM ];
 				
 				if ( plus )
@@ -529,6 +529,11 @@ void Parser::heir1()
 				if ( m_pmAt >= MAX_PM )
 				{
 					m_error = TooManyPM;
+					return;
+				}
+				if ( m_currentEquation == m_ownEquation )
+				{
+					m_error = InvalidPM;
 					return;
 				}
 				// no break
@@ -960,6 +965,9 @@ QString Parser::errorString() const
 			
 		case TooManyPM:
 			return i18n("Too many plus-minus symbols.");
+			
+		case InvalidPM:
+			return i18n("Invalid plus-minus symbol (expression must be constant).");
 	}
 	
 	return QString();

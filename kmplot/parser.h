@@ -265,7 +265,8 @@ class Parser : public QObject
 			NoSuchFunction,
 			UserDefinedConstantInExpression, ///< evalation expression may not use user defined constants
 			ZeroOrder, ///< zero-order differential
-			TooManyPM ///< too many plus-minus symbols
+			TooManyPM, ///< too many plus-minus symbols
+			InvalidPM ///< Not allowed to have a plus-minus symbol, e.g. in a constant expression
 		};
 	
 		~Parser();

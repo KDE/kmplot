@@ -45,7 +45,7 @@ static const char description[] =
 static KCmdLineOptions options[] =
 {
 	{ "f", 0, 0 },
-	{ "function <argument>", I18N_NOOP( "Initial functions to plot" ), "default" },
+	{ "function <argument>", I18N_NOOP( "Initial functions to plot" ), "" },
 	{ "+[URL]", I18N_NOOP( "File to open" ), 0 },
 	KCmdLineLastOption
 	// INSERT YOUR COMMANDLINE OPTIONS HERE

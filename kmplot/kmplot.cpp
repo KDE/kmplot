@@ -214,7 +214,7 @@ void KmPlot::fileOpen()
 	// this slot is called whenever the File->Open menu is selected,
 	// the Open shortcut is pressed (usually CTRL+O) or the Open toolbar
 	// button is clicked
-	KUrl const url = KFileDialog::getOpenURL( QDir::currentPath(),
+	KUrl const url = KFileDialog::getOpenUrl( QDir::currentPath(),
 	                 i18n( "*.fkt|KmPlot Files (*.fkt)\n*.*|All Files" ), this, i18n( "Open" ) );
 
 	if ( !url.isEmpty())

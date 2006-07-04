@@ -149,6 +149,7 @@ Parser::~Parser()
 		delete function;
 	delete m_ownEquation;
 	delete m_constants;
+	delete [] m_stack;
 }
 
 

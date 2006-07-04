@@ -385,17 +385,8 @@ void FunctionEditor::initFromParametric()
 	if ( !f )
 		return;
 	
-	QString name, expression;
-	splitParametricEquation( f->eq[0]->fstr(), & name, & expression );
-	
-	m_editor->parametricName->setText( name );
-	m_editor->parametricX->setValidatePrefix( parametricXPrefix() );
-	m_editor->parametricX->setText( expression );
-	
-	splitParametricEquation( f->eq[1]->fstr(), & name, & expression );
-	
-	m_editor->parametricY->setValidatePrefix( parametricYPrefix() );
-	m_editor->parametricY->setText( expression );
+	m_editor->parametricX->setText( f->eq[0]->fstr() );
+	m_editor->parametricY->setText( f->eq[1]->fstr() );
 
 	m_editor->parametricMin->setText( f->dmin.expression() );
 	m_editor->parametricMax->setText( f->dmax.expression() );
@@ -405,7 +396,7 @@ void FunctionEditor::initFromParametric()
 	m_editor->parametric_f0->init( f->plotAppearance( Function::Derivative0 ) );
 	
 	m_editor->stackedWidget->setCurrentIndex( 1 );
-	m_editor->parametricName->setFocus();
+	m_editor->parametricX->setFocus();
 }
 
 
@@ -448,18 +439,6 @@ void FunctionEditor::initFromDifferential()
 	m_editor->differentialTabWidget->setCurrentIndex( 0 );
 	m_editor->stackedWidget->setCurrentIndex( 4 );
 	m_editor->differentialEquation->setFocus();
-}
-
-
-void FunctionEditor::splitParametricEquation( const QString equation, QString * name, QString * expression )
-{
-	int start = 0;
-	if( equation[ 0 ] == 'x' || equation[ 0 ] == 'y' )
-		start++;
-	int length = equation.indexOf( ')' ) - start + 1;
-	
-	*name = equation.mid( start, length ).trimmed();   
-	*expression = equation.section( '=', 1, 1 ).trimmed();
 }
 
 
@@ -516,7 +495,7 @@ void FunctionEditor::createCartesian()
 void FunctionEditor::createParametric()
 {
 	QString name = XParser::self()->findFunctionName( "f", -1 );
-	m_functionID = XParser::self()->Parser::addFunction( QString("x%1(t) = 0").arg( name ), QString("y%1(t) = 0").arg( name ), Function::Parametric ); 
+	m_functionID = XParser::self()->Parser::addFunction( QString("%1_x(t) = 0").arg( name ), QString("%1_y(t) = 0").arg( name ), Function::Parametric ); 
 	assert( m_functionID != -1 );
 	
 	MainDlg::self()->requestSaveCurrentState();
@@ -641,33 +620,6 @@ void FunctionEditor::saveCartesian()
 }
 
 
-bool FunctionEditor::cartesianHasTwoArguments( const QString & function )
-{
-	int const openBracket = function.indexOf( "(" );
-	int const closeBracket = function.indexOf( ")" );
-	return function.mid( openBracket+1, closeBracket-openBracket-1 ).indexOf( "," ) != -1;
-}
-
-
-void FunctionEditor::fixCartesianArguments( QString * f_str )
-{
-	int const openBracket = f_str->indexOf( "(" );
-	int const closeBracket = f_str->indexOf( ")" );
-	char parameter_name;
-	if ( closeBracket-openBracket == 2) //the function atribute is only one character
-	{
-		QChar function_name = f_str->at(openBracket+1);
-		parameter_name = 'a';
-		while ( parameter_name == function_name)
-			parameter_name++;
-	}
-	else
-		parameter_name = 'a';
-	f_str->insert(closeBracket,parameter_name);
-	f_str->insert(closeBracket,',');
-}
-
-
 void FunctionEditor::savePolar()
 {
 // 	kDebug() << k_funcinfo << endl;
@@ -738,29 +690,18 @@ void FunctionEditor::saveParametric()
 		kWarning() << k_funcinfo << "f is not parametric!\n";
 		return;
 	}
-	
-	m_editor->parametricX->setValidatePrefix( parametricXPrefix() );
-	m_editor->parametricY->setValidatePrefix( parametricYPrefix() );
-	
-	if  ( m_editor->parametricX->text().contains('y') != 0 ||
-			 m_editor->parametricY->text().contains('y') != 0)
-	{
-// 		KMessageBox::sorry( this, i18n( "Recursive function not allowed"));
-// 		m_editor->kLineEditXFunction->setFocus();
-// 		m_editor->kLineEditXFunction->selectAll();
-		return;
-	}
-	
-	// find a name not already used 
-	if ( m_editor->parametricName->text().isEmpty() )
-	{
-		QString fname;
-		XParser::self()->fixFunctionName(fname, Equation::ParametricX, f->id );
-		int const pos = fname.indexOf('(');
-		m_editor->parametricName->setText(fname.mid(1,pos-1));
-	}
-                
+	      
 	Function tempFunction( Function::Parametric );
+	
+	QString f_str = m_editor->parametricX->text();
+	XParser::self()->fixFunctionName( f_str, Equation::ParametricX, f->id );
+	if ( !tempFunction.eq[0]->setFstr( f_str ) )
+		return;
+	
+	f_str = m_editor->parametricY->text();
+	XParser::self()->fixFunctionName( f_str, Equation::ParametricY, f->id );
+	if ( !tempFunction.eq[1]->setFstr( f_str ) )
+		return;
 	
 	tempFunction.usecustomxmin = true;
 	bool ok = tempFunction.dmin.updateExpression( m_editor->parametricMin->text() );
@@ -784,18 +725,11 @@ void FunctionEditor::saveParametric()
 	if (functionListItem)
 		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->parametric_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
-	if ( !tempFunction.eq[0]->setFstr( parametricXPrefix() ) )
-		return;
-	
-	if ( !tempFunction.eq[1]->setFstr( parametricYPrefix() ) )
-		return;
-	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
 	if ( !changed )
 		return;
 	
-// 	kDebug() << "Parametric changed, so requesting state save.\n";
 	MainDlg::self()->requestSaveCurrentState();
 	if ( functionListItem )
 		functionListItem->update();
@@ -877,18 +811,6 @@ void FunctionEditor::saveDifferential()
 	if ( functionListItem )
 		functionListItem->update();
 	View::self()->drawPlot();
-}
-
-
-QString FunctionEditor::parametricXPrefix() const
-{
-	return 'x' + m_editor->parametricName->text() + '=' + m_editor->parametricX->text();
-}
-
-
-QString FunctionEditor::parametricYPrefix() const
-{
-	return 'y' + m_editor->parametricName->text() + '=' + m_editor->parametricY->text();
 }
 //END class FunctionEditor
 

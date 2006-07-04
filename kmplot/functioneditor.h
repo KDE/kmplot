@@ -165,32 +165,9 @@ class FunctionEditor : public QDockWidget
 		void resetFunctionEditing();
 		/**
 		 * Extract function \p name and \p expression from the given
-		 * \p equation - for parametric functions.
-		 */
-		void splitParametricEquation( const QString equation, QString * name, QString * expression );
-		/**
-		 * Extract function \p name and \p expression from the given
 		 * \p equation - for implicit functions.
 		 */
 		void splitImplicitEquation( const QString equation, QString * name, QString * expression );
-		/**
-		 * Check, if the cartesian function has 2 arguments (function group).
-		 */
-		bool cartesianHasTwoArguments( const QString & function );
-		/**
-		 * Add an extra argument.
-		 */
-		void fixCartesianArguments( QString * f_str );
-		/**
-		 * \return The prefix (up to and including the '=') for the parametric
-		 * x equation.
-		 */
-		QString parametricXPrefix() const;
-		/**
-		 * \return The prefix (up to and including the '=') for the parametric
-		 * y equation.
-		 */
-		QString parametricYPrefix() const;
 
 		/**
 		 * The main editing widget.

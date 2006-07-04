@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>395</width>
-    <height>596</height>
+    <width>366</width>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -78,7 +78,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>4</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -471,95 +471,13 @@
            <number>6</number>
           </property>
           <item row="0" column="0" >
-           <widget class="QLabel" name="textLabel4" >
+           <widget class="QLabel" name="textLabelX" >
             <property name="text" >
-             <string>Name:</string>
-            </property>
-            <property name="alignment" >
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="buddy" >
-             <cstring>parametricName</cstring>
+             <string>x:</string>
             </property>
            </widget>
           </item>
           <item row="0" column="1" >
-           <widget class="KLineEdit" name="parametricName" >
-            <property name="toolTip" >
-             <string>name of the function</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter the name of the function.
-The name of a function must be unique. If you leave this line empty KmPlot will set a default name. You can change it later.</string>
-            </property>
-            <property name="text" >
-             <string>f(t)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" >
-           <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="textLabelY" >
-              <property name="text" >
-               <string>y</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="textLabelYF" >
-              <property name="text" >
-               <string>f(t)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="textLabelArgY" >
-              <property name="text" >
-               <string> =</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0" >
-           <layout class="QHBoxLayout" >
-            <property name="margin" >
-             <number>0</number>
-            </property>
-            <property name="spacing" >
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="textLabelX" >
-              <property name="text" >
-               <string>x</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="textLabelXF" >
-              <property name="text" >
-               <string>f(t)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="textLabelArgX" >
-              <property name="text" >
-               <string> =</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="1" >
            <widget class="EquationEdit" name="parametricX" >
             <property name="toolTip" >
              <string>enter an expression</string>
@@ -569,9 +487,19 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
 The dummy variable is t.
 Example: cos(t)</string>
             </property>
+            <property name="text" >
+             <string/>
+            </property>
            </widget>
           </item>
-          <item row="2" column="1" >
+          <item row="1" column="0" >
+           <widget class="QLabel" name="textLabelY" >
+            <property name="text" >
+             <string>y:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
            <widget class="EquationEdit" name="parametricY" >
             <property name="toolTip" >
              <string>enter an expression</string>
@@ -1003,19 +931,9 @@ Example: cos(t)</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>FunctionListWidget</class>
-   <extends>QListWidget</extends>
-   <header>functioneditor.h</header>
-  </customwidget>
-  <customwidget>
    <class>InitialConditionsEditor</class>
    <extends>QGroupBox</extends>
    <header>initialconditionseditor.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
@@ -1033,9 +951,19 @@ Example: cos(t)</string>
    <header>equationedit.h</header>
   </customwidget>
   <customwidget>
+   <class>FunctionListWidget</class>
+   <extends>QListWidget</extends>
+   <header>functioneditor.h</header>
+  </customwidget>
+  <customwidget>
    <class>PlotStyleWidget</class>
    <extends>QGroupBox</extends>
    <header>plotstylewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -1054,7 +982,6 @@ Example: cos(t)</string>
   <tabstop>txtInitX</tabstop>
   <tabstop>txtInitY</tabstop>
   <tabstop>customPrecision</tabstop>
-  <tabstop>parametricName</tabstop>
   <tabstop>parametricX</tabstop>
   <tabstop>parametricY</tabstop>
   <tabstop>parametricMin</tabstop>
@@ -1082,22 +1009,6 @@ Example: cos(t)</string>
    </hints>
   </connection>
   <connection>
-   <sender>parametricName</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>textLabelXF</receiver>
-   <slot>setText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>247</x>
-     <y>244</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>51</x>
-     <y>276</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>showDerivative1</sender>
    <signal>toggled(bool)</signal>
    <receiver>cartesian_f1</receiver>
@@ -1110,22 +1021,6 @@ Example: cos(t)</string>
     <hint type="destinationlabel" >
      <x>110</x>
      <y>342</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>parametricName</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>textLabelYF</receiver>
-   <slot>setText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>247</x>
-     <y>244</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>51</x>
-     <y>306</y>
     </hint>
    </hints>
   </connection>

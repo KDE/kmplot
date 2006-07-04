@@ -57,7 +57,7 @@ kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kmplotpart )
 
 target_link_libraries(kmplotpart  ${KDE4_KDE3SUPPORT_LIBS} kdeprint ${QT_QTXML_LIBRARY} )
 
-install_targets(${PLUGIN_INSTALL_DIR} kmplotpart )
+install(TARGETS kmplotpart  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### next target ###############   
 
@@ -76,12 +76,12 @@ install_targets(/bin kmplot )
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES kmplot.desktop )
-install_files( ${KCFG_INSTALL_DIR} FILES kmplot.kcfg )
-install_files( ${SERVICES_INSTALL_DIR} FILES kmplot_part.desktop )
-install_files( ${MIME_INSTALL_DIR}/application FILES x-kmplot.desktop )
-install_files( ${DATA_INSTALL_DIR}/kmplot FILES kmplot_part.rc kmplot_part_readonly.rc )
-install_files( ${DATA_INSTALL_DIR}/kmplot FILES kmplot_shell.rc )
+install( FILES kmplot.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES kmplot.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
+install( FILES kmplot_part.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
+install( FILES x-kmplot.desktop  DESTINATION  ${MIME_INSTALL_DIR}/application )
+install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${DATA_INSTALL_DIR}/kmplot )
+install( FILES kmplot_shell.rc  DESTINATION  ${DATA_INSTALL_DIR}/kmplot )
 
 
 

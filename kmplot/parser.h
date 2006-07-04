@@ -266,7 +266,8 @@ class Parser : public QObject
 			UserDefinedConstantInExpression, ///< evalation expression may not use user defined constants
 			ZeroOrder, ///< zero-order differential
 			TooManyPM, ///< too many plus-minus symbols
-			InvalidPM ///< Not allowed to have a plus-minus symbol, e.g. in a constant expression
+			InvalidPM, ///< Not allowed to have a plus-minus symbol, e.g. in a constant expression
+			TooManyArguments ///< Too many arguments in a function, e.g. "f(x,a,b,c)"
 		};
 	
 		~Parser();

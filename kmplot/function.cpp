@@ -284,6 +284,8 @@ QString Equation::name( bool removePrimes ) const
 
 QStringList Equation::parameters( ) const
 {
+	/// \todo rename this function to arguments()
+	
 	int p1 = m_fstr.indexOf( '(' );
 	int p2 = m_fstr.indexOf( ')' );
 	if ( (p1 == -1) || (p2 == -1) )
@@ -318,6 +320,15 @@ bool Equation::setFstr( const QString & fstr )
 	{
 		m_fstr = prevFstr;
 		XParser::self()->setParserError( Parser::ZeroOrder );
+		return false;
+	}
+	
+	int maxArg = order() + (( type() == Implicit ) ? 3 : 2);
+	if ( parameters().size() > maxArg )
+	{
+		m_fstr = prevFstr;
+		/// \todo indicate the position of the invalid argument?
+		XParser::self()->setParserError( Parser::TooManyArguments );
 		return false;
 	}
 	

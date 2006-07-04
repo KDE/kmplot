@@ -968,6 +968,9 @@ QString Parser::errorString() const
 			
 		case InvalidPM:
 			return i18n("Invalid plus-minus symbol (expression must be constant).");
+			
+		case TooManyArguments:
+			return i18n("The function has too many arguments.");
 	}
 	
 	return QString();

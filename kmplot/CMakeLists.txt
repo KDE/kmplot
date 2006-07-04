@@ -26,7 +26,9 @@ set(kmplotpart_PART_SRCS
    initialconditionseditor.cpp
    )
 
-qt4_add_dbus_adaptors( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml  org.kde.kmplot.Parser.xml   org.kde.kmplot.View.xml)
+qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml maindlg.h MainDlg)
+qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.Parser.xml parser.h Parser)
+qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.View.xml view.h View)
 kde4_automoc(${kmplotpart_PART_SRCS})
 
 kde4_add_ui_files(kmplotpart_PART_SRCS
@@ -60,7 +62,7 @@ install_targets(${PLUGIN_INSTALL_DIR} kmplotpart )
 ########### next target ###############   
 
 set(kmplot_SRCS main.cpp kmplot.cpp )
-qt4_add_dbus_adaptors(kmplot_SRCS org.kde.kmplot.Kmplot.xml)
+qt4_add_dbus_adaptor(kmplot_SRCS org.kde.kmplot.Kmplot.xml kmplot.h KmPlot)
 kde4_automoc(${kmplot_SRCS})
 
 # FIXME: it's wrong, but otherwise it does not compile

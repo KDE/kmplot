@@ -366,7 +366,6 @@ void FunctionEditor::initFromPolar()
 		return;
 	
 	QString function = f->eq[0]->fstr();
-	function = function.mid( 1 );
 	m_editor->polarEquation->setText( function );
 	m_editor->polarMin->setText( f->dmin.expression() );
 	m_editor->polarMax->setText( f->dmax.expression() );
@@ -591,8 +590,6 @@ void FunctionEditor::save()
 
 void FunctionEditor::saveCartesian()
 {
-// 	kDebug() << k_funcinfo << endl;
-	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
 		return;
@@ -626,23 +623,7 @@ void FunctionEditor::saveCartesian()
 	tempFunction.integral_use_precision = m_editor->customPrecision->isChecked();
 	tempFunction.integral_precision = m_editor->precision->value();
 	
-	/// \todo uncomment this?
-// 	if ( f_str.contains('y') != 0 && ( tempFunction.f0.visible || tempFunction.f1.visible || tempFunction.f2.visible) )
-	{
-// 		KMessageBox::sorry( this, i18n( "Recursive function is only allowed when drawing integral graphs") );
-// 		return;
-	}
-	
 	tempFunction.m_parameters = m_editor->cartesianParameters->parameterSettings();
-	
-	/// \todo Work out what this is suppose to do and fix it
-// 	if ( ( (!m_parameters.isEmpty() &&
-// 				m_editor->cartesianParametersList->isChecked() ) ||
-// 				m_editor->cartesianParameterSlider->isChecked() ) &&
-// 			!cartesianHasTwoArguments( f_str ) )
-// 	{
-// 		fixCartesianArguments( & f_str ); //adding an extra argument for the parameter value
-// 	}
 	
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;

@@ -411,6 +411,7 @@ class Parser : public QObject
 		unsigned char
 			*mem, 			    // Zeiger auf Speicher fr Token
 			*mptr;			    // Zeiger fr Token
+		double * m_stack;
 		QString m_eval;
 		int m_evalPos;
 		int m_nextFunctionID;

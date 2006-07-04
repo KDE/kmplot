@@ -45,10 +45,6 @@
 KmPlot::KmPlot( KCmdLineArgs* args)
 		: KParts::MainWindow()
 {
-	/// \todo make this work (atm only returns one function)
-	QByteArrayList functions = args->getOptionList( "function" );
-	kDebug() << k_funcinfo << "functions.size()="<<functions.size()<<" functions="<<functions<<endl;
-	
 	setObjectName( "KmPlot" );
 	
 	// set the shell's ui resource file

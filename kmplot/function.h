@@ -173,6 +173,8 @@ class DifferentialStates
 
 /**
  * This is the non-visual mathematical expression.
+ * \note when adding new member variables, make sure to update operator !=
+ * and operator =.
  */
 class Equation
 {
@@ -219,10 +221,10 @@ class Equation
 		 */
 		QString name( bool removePrimes = true ) const;
 		/**
-		 * \return a list of parameters, e.g. {x} for "f(x)=y", and {x,y,k} for
+		 * \return a list of variables, e.g. {x} for "f(x)=y", and {x,y,k} for
 		 * "f(x,y,k)=(x+k)(y+k)".
 		 */
-		QStringList parameters() const;
+		QStringList variables() const { return m_variables; }
 		/**
 		 * The full function expression, e.g. "f(x,k)=(x+k)(x-k)".
 		 */
@@ -274,12 +276,20 @@ class Equation
 		void setPMSignature( QVector<bool> pmSignature );
 		
 	protected:
-		/// \note when adding new member variables, make sure to update operator != and operator =
+		/**
+		 * Updates m_variables.
+		 */
+		void updateVariables();
+		
 		const Type m_type;
 		QString m_fstr;
 		Function * m_parent;
 		Value m_startX, m_startY;
 		QVector<bool> m_pmSignature;
+		/**
+		 * Cached list of variables. Updated when setFstr is called.
+		 */
+		QStringList m_variables;
 };
 
 

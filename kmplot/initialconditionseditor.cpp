@@ -150,11 +150,11 @@ QVariant InitialConditionsModel::headerData( int section, Qt::Orientation orient
 		return QVariant();
 	
 	QString param;
-	QStringList parameters = eq->parameters();
-	if ( parameters.isEmpty() )
+	QStringList variables = eq->variables();
+	if ( variables.isEmpty() )
 		param = "x";
 	else
-		param = parameters.first();
+		param = variables.first();
 	
 	param += QChar( 0x2080 ); // subscript zero
 	

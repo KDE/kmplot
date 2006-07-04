@@ -282,16 +282,16 @@ QString Equation::name( bool removePrimes ) const
 }
 
 
-QStringList Equation::parameters( ) const
+void Equation::updateVariables()
 {
-	/// \todo rename this function to arguments()
+	m_variables.clear();
 	
 	int p1 = m_fstr.indexOf( '(' );
 	int p2 = m_fstr.indexOf( ')' );
 	if ( (p1 == -1) || (p2 == -1) )
-		return QStringList();
+		return;
 	
-	QStringList parameters = m_fstr.mid( p1+1, p2-p1-1 ).split( ',' );
+	m_variables = m_fstr.mid( p1+1, p2-p1-1 ).split( ',' );
 	
 	// If we are a differential equation, then add on y, y', etc
 	if ( type() == Differential )
@@ -301,12 +301,10 @@ QStringList Equation::parameters( ) const
 		int order = this->order();
 		for ( int i = 0; i < order; ++i )
 		{
-			parameters << n;
+			m_variables << n;
 			n += '\'';
 		}
 	}
-	
-	return parameters;
 }
 
 
@@ -314,19 +312,24 @@ bool Equation::setFstr( const QString & fstr )
 {
 	QString prevFstr = m_fstr;
 	m_fstr = fstr;
+	updateVariables();
 	
 	// require order to be greater than 0 for differential equations
 	if ( (type() == Differential) && (order() < 1) )
 	{
 		m_fstr = prevFstr;
+		updateVariables();
+		
 		XParser::self()->setParserError( Parser::ZeroOrder );
 		return false;
 	}
 	
 	int maxArg = order() + (( type() == Implicit ) ? 3 : 2);
-	if ( parameters().size() > maxArg )
+	if ( variables().size() > maxArg )
 	{
 		m_fstr = prevFstr;
+		updateVariables();
+		
 		/// \todo indicate the position of the invalid argument?
 		XParser::self()->setParserError( Parser::TooManyArguments );
 		return false;

@@ -132,6 +132,7 @@ Parser::Parser()
 	m_errorPosition = -1;
 	m_evalPos = 0;
 	m_nextFunctionID = 0;
+	m_stack = new double [STACKSIZE];
 	m_constants = new Constants( this );
 	
 	m_ownEquation = new Equation( Equation::Cartesian, 0 );
@@ -226,23 +227,22 @@ double Parser::fkt( Equation * eq, double x )
 {
 	Function * function = eq->parent();
 	
-	Vector var;
-	
 	switch ( function->type() )
 	{
 		case Function::Cartesian:
 		case Function::Parametric:
 		case Function::Polar:
 		{
-			var.resize(2);
+			Vector var(2);
 			var[0] = x;
 			var[1] = function->k;
-			break;
+			
+			return fkt( eq, var );
 		}
 			
 		case Function::Implicit:
 		{
-			var.resize(3);
+			Vector var(3);
 			
 			// Can only calculate when one of x, y is fixed
 			assert( function->m_implicitMode != Function::UnfixedXY );
@@ -259,11 +259,13 @@ double Parser::fkt( Equation * eq, double x )
 				var[1] = function->y;
 			}
 			var[2] = function->k;
-			break;
+			
+			return fkt( eq, var );
 		}
 	}
 	
-	return fkt( eq, var );
+	kWarning() << k_funcinfo << "Unknown function type!\n";
+	return 0;
 }
 
 
@@ -274,8 +276,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 	double (**pVectorFunction)(const Vector &);
 	uint *pUint;
 	eq->mptr = eq->mem;
-	double *stack, *stkptr;
-	stack=stkptr= new double [STACKSIZE];
+	double *stkptr = m_stack;
 
 	while(1)
 	{
@@ -401,9 +402,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			}
 			
 			case ENDE:
-				double const erg=*stkptr;
-				delete [] stack;
-				return erg;
+				return *stkptr;
 		}
 	}
 }
@@ -676,7 +675,7 @@ void Parser::primary()
 	
 	
 	//BEGIN Is it a variable?
-	QStringList variables = m_currentEquation->parameters();
+	QStringList variables = m_currentEquation->variables();
 	
 	// Sort the parameters by size, so that when identifying parameters, want to
 	// match e.g. "ab" before "a"

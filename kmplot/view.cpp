@@ -2140,7 +2140,7 @@ QList< double > View::findRoots( const Plot & plot, double min, double max, Root
 	typedef QMap< double, double > DoubleMap;
 	DoubleMap roots;
 	
-	int count = 20; // number of points to (initially) check for roots
+	int count = 10; // number of points to (initially) check for roots
 	
 	int prevNumRoots = 0;
 	while ( count < 1000 )

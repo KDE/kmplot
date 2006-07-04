@@ -315,8 +315,8 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				uint whichPM = *pUint++;
 				eq->mptr = (unsigned char*)pUint;
 				
-				assert( int(whichPM) < eq->pmSignature.size() );
-				bool plus = eq->pmSignature[ whichPM ];
+				assert( int(whichPM) < eq->pmSignature().size() );
+				bool plus = eq->pmSignature()[ whichPM ];
 				
 				if ( plus )
 					stkptr[-1] += *stkptr;

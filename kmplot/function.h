@@ -264,8 +264,14 @@ class Equation
 		/// For differential equations, all the states
 		DifferentialStates differentialStates;
 		
-		/// The current plus-minus signature (true for plus, false for minus).
-		QVector<bool> pmSignature;
+		/**
+		 * The current plus-minus signature (true for plus, false for minus).
+		 */
+		QVector<bool> pmSignature() const { return m_pmSignature; }
+		/**
+		 * \see pmSignature.
+		 */
+		void setPMSignature( QVector<bool> pmSignature );
 		
 	protected:
 		/// \note when adding new member variables, make sure to update operator != and operator =
@@ -273,6 +279,7 @@ class Equation
 		QString m_fstr;
 		Function * m_parent;
 		Value m_startX, m_startY;
+		QVector<bool> m_pmSignature;
 };
 
 

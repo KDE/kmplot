@@ -337,6 +337,13 @@ bool Equation::setFstr( const QString & fstr )
 }
 
 
+void Equation::setPMSignature( QVector< bool > pmSignature )
+{
+	differentialStates.resetToInitial();
+	m_pmSignature = pmSignature;
+}
+
+
 void Equation::resetLastIntegralPoint( )
 {
 	lastIntegralPoint = QPointF( m_startX.value(), m_startY.value() );
@@ -805,7 +812,7 @@ void Plot::updateFunction() const
 	// Update the plus-minus signature
 	assert( pmSignature.size() <= m_function->eq.size() );
 	for ( int i = 0; i < pmSignature.size(); ++i )
-		m_function->eq[i]->pmSignature = pmSignature[i];
+		m_function->eq[i]->setPMSignature( pmSignature[i] );
 	
 	
 	// Update the parameter

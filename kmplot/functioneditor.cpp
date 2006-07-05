@@ -600,6 +600,7 @@ void FunctionEditor::saveCartesian()
 	tempFunction.plotAppearance( Function::Integral ) = m_editor->cartesian_integral->plot( m_editor->showIntegral->isChecked() );
 	
 	DifferentialState * state = & tempFunction.eq[0]->differentialStates[0];
+	state->setOrder( 1 );
 	state->x0.updateExpression( m_editor->txtInitX->text() );
 	state->y0[0].updateExpression( m_editor->txtInitY->text() );
 

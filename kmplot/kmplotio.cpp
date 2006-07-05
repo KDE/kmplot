@@ -213,19 +213,39 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 		addTag( doc, tag, "parameter-list", str_parameters.join( ";" ) );
 	//END parameters
 	
-	
 	tag.setAttribute( "integral-use-precision", function->integral_use_precision );
 	tag.setAttribute( "integral-precision", function->integral_precision );
-	
-	/// \todo save the differential states
 	
 	tag.setAttribute( "type", Function::typeToString( function->type() ) );
 	for ( int i=0; i< function->eq.size(); ++i )
 	{
-		QString fstr = function->eq[i]->fstr();
+		Equation * equation = function->eq[i];
+		
+		QString fstr = equation->fstr();
 		if ( fstr.isEmpty() )
 			continue;
-		addTag( doc, tag, QString("equation-%1").arg(i), fstr );
+		QDomElement element = addTag( doc, tag, QString("equation-%1").arg(i), fstr );
+		
+		for ( int i = 0; i < equation->differentialStates.size(); ++i )
+		{
+			DifferentialState * state = & equation->differentialStates[i];
+			
+			QDomElement condition = doc.createElement( "condition" );
+			element.appendChild( condition );
+			
+			bool first = true;
+			QString ys;
+			foreach ( Value y, state->y0 )
+			{
+				if ( !first )
+					ys += ';';
+				first = false;
+				ys += y.expression();
+			}
+			
+			condition.setAttribute( "x", state->x0.expression() );
+			condition.setAttribute( "y", ys );
+		}
 	}
 
 
@@ -435,6 +455,8 @@ void KmPlotIO::parseScale(const QDomElement & n )
 
 void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 {
+	kDebug() << k_funcinfo << endl;
+	
 	QDomElement equation0 = n.namedItem( "equation-0" ).toElement();
 	QDomElement equation1 = n.namedItem( "equation-1" ).toElement();
 	
@@ -442,6 +464,8 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	QString eq1 = equation1.text();
                 
 	Function::Type type = Function::stringToType( n.attribute( "type" ) );
+	
+	kDebug() << "1: allowRename="<<allowRename<<" eq0: "<<eq0<<endl;
 	
 	if ( allowRename )
 	{
@@ -469,6 +493,8 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 				break;
 		}
 	}
+	
+	kDebug() << "eq0: " << eq0 << endl;
 	
 	int functionID = XParser::self()->Parser::addFunction( eq0, eq1, type );
 	if ( functionID == -1 )

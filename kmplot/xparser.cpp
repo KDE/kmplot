@@ -441,7 +441,7 @@ bool XParser::functionIntVisible(uint id)
 	return m_ufkt.contains(id) ? m_ufkt[id]->plotAppearance( Function::Integral ).visible : false;
 }
 
-bool XParser::setFunctionFVisible(bool visible, uint id)
+bool XParser::setFunctionFVisible(uint id, bool visible)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -449,7 +449,7 @@ bool XParser::setFunctionFVisible(bool visible, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionF1Visible(bool visible, uint id)
+bool XParser::setFunctionF1Visible(uint id, bool visible)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -457,7 +457,7 @@ bool XParser::setFunctionF1Visible(bool visible, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionF2Visible(bool visible, uint id)
+bool XParser::setFunctionF2Visible(uint id, bool visible)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -465,7 +465,7 @@ bool XParser::setFunctionF2Visible(bool visible, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionIntVisible(bool visible, uint id)
+bool XParser::setFunctionIntVisible(uint id, bool visible)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -505,7 +505,7 @@ QColor XParser::functionIntColor(uint id)
 		return QColor();
 	return QColor(m_ufkt[id]->plotAppearance( Function::Integral ).color);
 }
-bool XParser::setFunctionFColor(const QColor &color, uint id)
+bool XParser::setFunctionFColor(uint id, const QColor &color)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -513,7 +513,7 @@ bool XParser::setFunctionFColor(const QColor &color, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionF1Color(const QColor &color, uint id)
+bool XParser::setFunctionF1Color(uint id, const QColor &color)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -521,7 +521,7 @@ bool XParser::setFunctionF1Color(const QColor &color, uint id)
 	m_modified = true;
 	return true;
 }		
-bool XParser::setFunctionF2Color(const QColor &color, uint id)
+bool XParser::setFunctionF2Color(uint id, const QColor &color)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -529,7 +529,7 @@ bool XParser::setFunctionF2Color(const QColor &color, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionIntColor(const QColor &color, uint id)
+bool XParser::setFunctionIntColor(uint id, const QColor &color)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -562,7 +562,7 @@ double XParser::functionIntLineWidth(uint id)
 		return 0;
 	return m_ufkt[id]->plotAppearance( Function::Integral ).lineWidth;
 }
-bool XParser::setFunctionFLineWidth(double linewidth, uint id)
+bool XParser::setFunctionFLineWidth(uint id, double linewidth)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -570,7 +570,7 @@ bool XParser::setFunctionFLineWidth(double linewidth, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionF1LineWidth(double linewidth, uint id)
+bool XParser::setFunctionF1LineWidth(uint id, double linewidth)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -578,7 +578,7 @@ bool XParser::setFunctionF1LineWidth(double linewidth, uint id)
 	m_modified = true;
 	return true;
 }		
-bool XParser::setFunctionF2LineWidth(double linewidth, uint id)
+bool XParser::setFunctionF2LineWidth(uint id, double linewidth)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -586,7 +586,7 @@ bool XParser::setFunctionF2LineWidth(double linewidth, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionIntLineWidth(double linewidth, uint id)
+bool XParser::setFunctionIntLineWidth(uint id, double linewidth)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -602,7 +602,7 @@ QString XParser::functionMinValue(uint id)
   return m_ufkt[id]->dmin.expression();
 }
 
-bool XParser::setFunctionMinValue(const QString &min, uint id)
+bool XParser::setFunctionMinValue(uint id, const QString &min)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -618,7 +618,7 @@ QString XParser::functionMaxValue(uint id)
   return m_ufkt[id]->dmax.expression();
 }
 
-bool XParser::setFunctionMaxValue(const QString &max, uint id)
+bool XParser::setFunctionMaxValue(uint id, const QString &max)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -627,7 +627,7 @@ bool XParser::setFunctionMaxValue(const QString &max, uint id)
   return true;
 }
 
-bool XParser::setFunctionStartValue(const QString &x, const QString &y, uint id)
+bool XParser::setFunctionStartValue(uint id, const QString &x, const QString &y)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -665,7 +665,7 @@ QStringList XParser::functionParameterList(uint id)
 		str_parameter << it.expression();
 	return str_parameter;
 }
-bool XParser::functionAddParameter(const QString &new_parameter, uint id)
+bool XParser::functionAddParameter(uint id, const QString &new_parameter)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -685,7 +685,7 @@ bool XParser::functionAddParameter(const QString &new_parameter, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
+bool XParser::functionRemoveParameter(uint id, const QString &remove_parameter)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
@@ -827,7 +827,7 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	return true;
 }
 
-bool XParser::setFunctionExpression(const QString &f_str, uint id, uint eq)
+bool XParser::setFunctionExpression(uint id, uint eq, const QString &f_str)
 {
 	Function * tmp_ufkt = functionWithID( id );
 	if ( !tmp_ufkt )

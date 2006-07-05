@@ -38,6 +38,7 @@ class PlotStyleDialogWidget : public QWidget, public Ui::PlotStyleWidget
 {
 	public:
 		PlotStyleDialogWidget( QWidget * parent = 0 )
+	: QWidget( parent )
 		{
 			setupUi(this);
 			lineStyle->addItem( i18n("Solid"), Qt::SolidLine );

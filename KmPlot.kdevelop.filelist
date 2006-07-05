@@ -154,3 +154,7 @@ kmplot/vector.h
 kmplot/initialconditionswidget.ui
 kmplot/initialconditionseditor.cpp
 kmplot/initialconditionseditor.h
+kmplot/org.kde.kmplot.KmPlot.xml
+kmplot/org.kde.kmplot.MainDlg.xml
+kmplot/org.kde.kmplot.Parser.xml
+kmplot/org.kde.kmplot.View.xml

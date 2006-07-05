@@ -340,7 +340,7 @@ void EquationEditor::editConstants()
 
 void EquationEditor::insertFunction( const QString & function )
 {
-	m_widget->functionList->setCurrentItem( 0 );
+	m_widget->functionList->setCurrentIndex( 0 );
 	m_widget->edit->insertText( function + "()" );
 }
 

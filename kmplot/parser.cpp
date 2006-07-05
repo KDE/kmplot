@@ -260,6 +260,12 @@ double Parser::fkt( Equation * eq, double x )
 			
 			return fkt( eq, var );
 		}
+		
+		case Function::Differential:
+		{
+			kError() << k_funcinfo << "Do not use this function directly! Instead, call XParser::differential\n";
+			return 0;
+		}
 	}
 	
 	kWarning() << k_funcinfo << "Unknown function type!\n";

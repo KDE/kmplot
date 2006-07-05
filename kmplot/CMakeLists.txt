@@ -6,6 +6,7 @@
 
 set(kmplotpart_PART_SRCS 
    plotstylewidget.cpp
+   initialconditionseditor.cpp
    functioneditor.cpp
    parser.cpp 
    xparser.cpp 
@@ -23,7 +24,6 @@ set(kmplotpart_PART_SRCS
    coordsconfigdialog.cpp
    parameteranimator.cpp
    vector.cpp
-   initialconditionseditor.cpp
    )
 
 qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml maindlg.h MainDlg)

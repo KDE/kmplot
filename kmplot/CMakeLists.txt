@@ -27,7 +27,7 @@ set(kmplotpart_PART_SRCS
    )
 
 qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml maindlg.h MainDlg)
-qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.Parser.xml parser.h Parser)
+qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.Parser.xml xparser.h XParser)
 qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.View.xml view.h View)
 kde4_automoc(${kmplotpart_PART_SRCS})
 

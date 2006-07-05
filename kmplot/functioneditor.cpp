@@ -349,8 +349,10 @@ void FunctionEditor::initFromCartesian()
 	
 	m_editor->showIntegral->setChecked( f->plotAppearance( Function::Integral ).visible );
 	m_editor->customPrecision->setChecked( f->integral_use_precision );
-	m_editor->txtInitX->setText( f->eq[0]->integralInitialX().expression() );
-	m_editor->txtInitY->setText( f->eq[0]->integralInitialY().expression() );
+	
+	DifferentialState state = f->eq[0]->differentialStates[0];
+	m_editor->txtInitX->setText( state.x0.expression() );
+	m_editor->txtInitY->setText( state.y0[0].expression() );
 	
 	m_editor->stackedWidget->setCurrentIndex( 0 );
 	m_editor->tabWidget->setCurrentIndex( 0 );
@@ -597,7 +599,9 @@ void FunctionEditor::saveCartesian()
 	tempFunction.plotAppearance( Function::Derivative2 ) = m_editor->cartesian_f2->plot( m_editor->showDerivative2->isChecked() );
 	tempFunction.plotAppearance( Function::Integral ) = m_editor->cartesian_integral->plot( m_editor->showIntegral->isChecked() );
 	
-	tempFunction.eq[0]->setIntegralStart( m_editor->txtInitX->text(), m_editor->txtInitY->text() );
+	DifferentialState * state = & tempFunction.eq[0]->differentialStates[0];
+	state->x0.updateExpression( m_editor->txtInitX->text() );
+	state->y0[0].updateExpression( m_editor->txtInitY->text() );
 
 	tempFunction.integral_use_precision = m_editor->customPrecision->isChecked();
 	tempFunction.integral_precision = m_editor->precision->value();

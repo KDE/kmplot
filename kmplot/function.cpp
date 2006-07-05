@@ -239,7 +239,7 @@ Equation::Equation( Type type, Function * parent )
 	mem = new unsigned char [MEMSIZE];
 	mptr = 0;
 	
-	if ( type == Differential )
+	if ( type == Differential || type == Cartesian )
 		differentialStates.add();
 }
 
@@ -253,7 +253,13 @@ Equation::~ Equation()
 
 int Equation::order( ) const
 {
-	return name(false).count( '\'' );
+	if ( type() == Cartesian )
+	{
+		// For drawing integrals
+		return 1;
+	}
+	else
+		return name(false).count( '\'' );
 }
 
 
@@ -346,7 +352,6 @@ bool Equation::setFstr( const QString & fstr )
 	}
 	
 	differentialStates.setOrder( order() );
-	resetLastIntegralPoint();
 	return true;
 }
 
@@ -358,26 +363,9 @@ void Equation::setPMSignature( QVector< bool > pmSignature )
 }
 
 
-void Equation::resetLastIntegralPoint( )
-{
-	lastIntegralPoint = QPointF( m_startX.value(), m_startY.value() );
-}
-
-
-void Equation::setIntegralStart( const Value & x, const Value & y )
-{
-	m_startX = x;
-	m_startY = y;
-	
-	resetLastIntegralPoint();
-}
-
-
 bool Equation::operator !=( const Equation & other )
 {
 	return (fstr() != other.fstr()) ||
-			(integralInitialX() != other.integralInitialX()) ||
-			(integralInitialY() != other.integralInitialY()) ||
 			(differentialStates != other.differentialStates);
 }
 
@@ -385,7 +373,6 @@ bool Equation::operator !=( const Equation & other )
 Equation & Equation::operator =( const Equation & other )
 {
 	setFstr( other.fstr() );
-	setIntegralStart( other.integralInitialX(), other.integralInitialY() );
 	differentialStates = other.differentialStates;
 	
 	return * this;

@@ -105,6 +105,9 @@ class MainDlg : public KParts::ReadOnlyPart
 	
 	/// The function editor
 	FunctionEditor * functionEditor() const { return m_functionEditor; }
+	
+	/// Returns true if any changes are done
+	bool isModified(){return m_modified;}
 
 public Q_SLOTS:
     // DBus interface
@@ -157,8 +160,6 @@ private:
 	void setupActions();
 	/// Called when a file is opened. The filename is is m_url
 	virtual bool openFile();
-	/// Returns true if any changes are done
-	bool isModified(){return m_modified;}
 	
 	///The Recent Files action
 	KRecentFilesAction * m_recentFiles;

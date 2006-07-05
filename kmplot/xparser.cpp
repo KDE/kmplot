@@ -22,6 +22,11 @@
 *
 */
 
+
+// local includes
+#include "parseradaptor.h"
+#include "xparser.h"
+
 // KDE includes
 #include <kapplication.h>
 #include <kglobal.h>
@@ -29,8 +34,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-// local includes
-#include "xparser.h"
 #include <QList>
 
 #include <assert.h>
@@ -55,6 +58,9 @@ XParser::XParser(bool &mo) : m_modified(mo)
 {
 	differentialFinite = true;
 	differentialDiverge = 0;
+
+	new ParserAdaptor(this);
+	QDBus::sessionBus().registerObject("/parser", this);
 }
 
 XParser::~XParser()
@@ -151,7 +157,7 @@ double XParser::derivative( int n, Equation * eq, double x, double h )
 	switch ( n )
 	{
 		case -1:
-			return integral( eq, x, h );
+			return differential( eq, & eq->differentialStates[0], x, h );
 		
 		case 0:
 			return fkt( eq, x );
@@ -371,53 +377,6 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	state->y = y;
 	
 	return y[0];
-}
-
-
-double XParser::integral( Equation * eq, double x, double h )
-{
-	/// \todo merge this with the XParser::differential function
-	
-	h = qAbs(h);
-	assert( h > 0 ); // in case anyone tries to pass us a zero h
-	
-	// the difference between h and dx is that h is only used as a hint for the
-	// stepwidth; dx is made similar to h in size, yet tiles the gap between x
-	// and the previous x perfectly
-	
-	// we use the 2nd degree Newton-Cotes formula (Simpson's rule)
-	
-	// see if the initial integral point in the function is closer to our
-	// required x value than the last one
-	if ( qAbs( eq->integralInitialX().value() - x ) < qAbs( eq->lastIntegralPoint.x() - x ) )
-		eq->resetLastIntegralPoint();
-	
-	double a0 = eq->lastIntegralPoint.x();
-	double y = eq->lastIntegralPoint.y();
-	
-	if ( a0 == x )
-		return y;
-	
-	int intervals = qMax( qRound( qAbs(x-a0)/h ), 1 );
-	double dx = (x-a0) / intervals;
-	
-	double f_a = fkt( eq, a0 );
-	
-	for ( int i = 0; i < intervals; ++i )
-	{
-		double b = a0 + (dx*(i+1));
-		double m = b - (dx/2);
-		
-		double f_b = fkt( eq, b );
-		double f_m = fkt( eq, m );
-		
-		y += (dx / 6.0)*(f_a + (4.0 * f_m) + f_b);
-		
-		f_a = f_b;
-	}
-	
-	eq->lastIntegralPoint = QPointF( x, y );
-	return y;
 }
 
 
@@ -672,7 +631,9 @@ bool XParser::setFunctionStartValue(const QString &x, const QString &y, uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-	m_ufkt[id]->eq[0]->setIntegralStart( x, y );
+	DifferentialState * state = & m_ufkt[id]->eq[0]->differentialStates[0];
+	state->x0.updateExpression( x );
+	state->y0[0].updateExpression( y );
 	m_modified = true;
 	return true;
 }
@@ -681,7 +642,8 @@ QString XParser::functionStartXValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->eq[0]->integralInitialX().expression();
+	DifferentialState * state = & m_ufkt[id]->eq[0]->differentialStates[0];
+	return state->x0.expression();
 }
 
 
@@ -689,7 +651,8 @@ QString XParser::functionStartYValue(uint id)
 {
 	if ( !m_ufkt.contains( id ) )
 		return 0;
-	return m_ufkt[id]->eq[0]->integralInitialY().expression();
+	DifferentialState * state = & m_ufkt[id]->eq[0]->differentialStates[0];
+	return state->y0[0].expression();
 }
 
 QStringList XParser::functionParameterList(uint id)
@@ -849,7 +812,9 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	added_function->dmax.updateExpression( str_dmax );
 	added_function->usecustomxmax = !str_dmax.isEmpty();
 	
-	added_function->eq[0]->setIntegralStart( str_startx, str_starty );
+	DifferentialState * state = & added_function->eq[0]->differentialStates[0];
+	state->x0.updateExpression( str_startx );
+	state->y0[0].updateExpression( str_starty );
 	
 	added_function->integral_precision = integral_precision;
 	

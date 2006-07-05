@@ -73,13 +73,13 @@ class KmPlotIO
 		 * Adds a QDomElement for \p function to the given \p document
 		 */
 		void addFunction( QDomDocument & doc, QDomElement & root, Function * function );
-		
 		/**
 		 * Reads function parameters from the node @a n.
 		 * @param n Node containing the options.
 		 * @param allowRename whether to check function names for uniqueness
 		 */
 		void parseFunction( const QDomElement &n, bool allowRename = false );
+		
 	
 	private:
 		/** Esay way to add a tag to the Dom tree
@@ -103,15 +103,31 @@ class KmPlotIO
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
-		void parseParameters( const QDomElement &n, Function &ufkt);
+		void parseParameters( const QDomElement &n, Function * function );
+		/**
+		 * Initializes \p equation from the dom element.
+		 */
+		void parseInitialConditions( const QDomElement & e, Equation * equation );
 		
 		///For KDE <3.3
 		/// This is the same as parseFunction but is made for old Kmplot-files
 		void oldParseFunction( const QDomElement &n );
+		/**
+		 * For KDE <4.0
+		 * Reads function parameters from the node @a n.
+		 * @param n Node containing the options.
+		 * @param allowRename whether to check function names for uniqueness
+		 */
+		void oldParseFunction2( const QDomElement &n );
 		
 		/// \todo make (at least some of) this stuff non-static
 		double lengthScaler; ///< for reading in lengths
-		int version; ///< version of the file currently being opened (0,1,2,3,4,5)
+		/**
+		 * version of the file currently being opened (0,1,2,3,4)
+		 * \li < 3 is for pre-kde4
+		 * \li 4 is for kde4
+		 */
+		int version;
 		QString parametricXEquation; ///< Used when reading in the x part of a parametric equation
 };
 

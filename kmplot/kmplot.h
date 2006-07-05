@@ -33,8 +33,6 @@
 #include <kcmdlineargs.h>
 #include <kparts/mainwindow.h>
 
-#include "kmplotadaptor.h"
-
 class KToggleAction;
 class KToggleFullScreenAction;
 
@@ -83,7 +81,6 @@ protected:
 
 private slots:
 	void fileNew();
-	void fileOpen(const KUrl &url);
 	void applyNewToolbarConfig();
 
 public Q_SLOTS:
@@ -97,6 +94,7 @@ public Q_SLOTS:
 public slots:
 	/// Called when fullscren is enabled/disabled
 	void slotUpdateFullScreen(bool);
+	void fileOpen(const KUrl &url);
 
 private:
 	void setupAccel();

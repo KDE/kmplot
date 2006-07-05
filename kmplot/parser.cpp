@@ -137,9 +137,6 @@ Parser::Parser()
 	
 	m_ownEquation = new Equation( Equation::Cartesian, 0 );
 	m_currentEquation = m_ownEquation;
-
-    new ParserAdaptor(this);
-    QDBus::sessionBus().registerObject("/parser", this);
 }
 
 

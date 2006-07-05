@@ -237,22 +237,6 @@ class Equation
 		 */
 		bool setFstr( const QString & fstr );
 		/**
-		 * Sets the start position and value of the integral.
-		 */
-		void setIntegralStart( const Value & x, const Value & y );
-		/**
-		 * The initial x-value in calculating integrals.
-		 */
-		Value integralInitialX() const { return m_startX; }
-		/**
-		 * The initial y-value in calculating integrals.
-		 */
-		Value integralInitialY() const { return m_startY; }
-		/**
-		 * Resets lastIntegralPoint  to the initial integral point.
-		 */
-		void resetLastIntegralPoint();
-		/**
 		 * \return the order of the differential equations.
 		 */
 		int order() const;
@@ -260,8 +244,6 @@ class Equation
 		 * \return the number of plus-minus symbols in the equation.
 		 */
 		int pmCount() const;
-		
-		QPointF lastIntegralPoint; ///< needed for numeric integration
 		
 		/// For differential equations, all the states
 		DifferentialStates differentialStates;
@@ -284,7 +266,6 @@ class Equation
 		const Type m_type;
 		QString m_fstr;
 		Function * m_parent;
-		Value m_startX, m_startY;
 		QVector<bool> m_pmSignature;
 		/**
 		 * Cached list of variables. Updated when setFstr is called.

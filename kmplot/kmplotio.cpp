@@ -43,7 +43,7 @@
 #include "maindlg.h"
 #include "settings.h"
 
-static QString CurrentVersionString( "5" );
+static QString CurrentVersionString( "4" );
 
 class XParser;
 
@@ -216,8 +216,8 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 	
 	tag.setAttribute( "integral-use-precision", function->integral_use_precision );
 	tag.setAttribute( "integral-precision", function->integral_precision );
-	tag.setAttribute( "integral-startx", function->eq[0]->integralInitialX().expression() );
-	tag.setAttribute( "integral-starty", function->eq[0]->integralInitialY().expression() );
+	
+	/// \todo save the differential states
 	
 	tag.setAttribute( "type", Function::typeToString( function->type() ) );
 	for ( int i=0; i< function->eq.size(); ++i )
@@ -278,8 +278,7 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 	else if ( versionString == "1" ||
 				 versionString == "2" ||
 				 versionString == "3" ||
-				 versionString == "4" ||
-				 versionString == "5" )
+				 versionString == "4" )
 	{
 		MainDlg::oldfileversion = false;
 		version = versionString.toInt();
@@ -294,7 +293,13 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 			if ( n.nodeName() == "scale" )
 				parseScale( n.toElement() );
 			if ( n.nodeName() == "function")
-				parseFunction( n.toElement() );
+			{
+				if ( version < 3 )
+					oldParseFunction2( n.toElement() );
+				else
+					parseFunction( n.toElement() );
+			}
+					
 		}
 	}
 	else
@@ -430,59 +435,13 @@ void KmPlotIO::parseScale(const QDomElement & n )
 
 void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 {
-	kDebug() << k_funcinfo << "version="<<version<<endl;
+	QDomElement equation0 = n.namedItem( "equation-0" ).toElement();
+	QDomElement equation1 = n.namedItem( "equation-1" ).toElement();
 	
-	Function::Type type;
-	QString eq0, eq1;
-	
-	if ( version < 3 )
-	{
-		eq0 = n.namedItem( "equation" ).toElement().text();
-	
-		if ( eq0.isEmpty() )
-		{
-			kWarning() << k_funcinfo << "eq0 is empty!\n";
-			return;
-		}
-		
-		switch ( eq0[0].unicode() )
-		{
-			case 'r':
-				type = Function::Polar;
-				break;
-			
-			case 'x':
-				parametricXEquation = eq0;
-				return;
-			
-			case 'y':
-				type = Function::Parametric;
-				eq1 = eq0;
-				eq0 = parametricXEquation;
-				kDebug() << k_funcinfo << "Parametric: eq0=\""<<eq0<<"\" eq1=\""<<eq1<<"\"\n";
-				break;
-			
-			default:
-				type = Function::Cartesian;
-				break;
-		}
-	}
-	else
-	{
-		eq0 = n.namedItem( "equation-0" ).toElement().text();
-		eq1 = n.namedItem( "equation-1" ).toElement().text();
-		
-		kDebug() << "eq0: "<<eq0<<endl;
-		kDebug() << "eq1: "<<eq1<<endl;
-	
-		if ( eq0.isEmpty() )
-		{
-			kWarning() << k_funcinfo << "eq0 is empty!\n";
-			return;
-		}
-		
-		type = Function::stringToType( n.attribute( "type" ) );
-	}
+	QString eq0 = equation0.text();
+	QString eq1 = equation1.text();
+                
+	Function::Type type = Function::stringToType( n.attribute( "type" ) );
 	
 	if ( allowRename )
 	{
@@ -491,93 +450,209 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 			case Function::Polar:
 				XParser::self()->fixFunctionName( eq0, Equation::Polar, -1 );
 				break;
-				
+                                
 			case Function::Parametric:
 				XParser::self()->fixFunctionName( eq0, Equation::ParametricX, -1 );
-				if ( !eq1.isEmpty() )
-					XParser::self()->fixFunctionName( eq1, Equation::ParametricY, -1 );
+				XParser::self()->fixFunctionName( eq1, Equation::ParametricY, -1 );
 				break;
-				
+                                
 			case Function::Cartesian:
 				XParser::self()->fixFunctionName( eq0, Equation::Cartesian, -1 );
 				break;
-				
+                                
 			case Function::Implicit:
 				XParser::self()->fixFunctionName( eq0, Equation::Implicit, -1 );
 				break;
+                                
+			case Function::Differential:
+				XParser::self()->fixFunctionName( eq0, Equation::Differential, -1 );
+				break;
 		}
+	}
+	
+	int functionID = XParser::self()->Parser::addFunction( eq0, eq1, type );
+	if ( functionID == -1 )
+	{
+		kWarning() << k_funcinfo << "Could not create function!\n";
+		return;
+	}
+	Function * function = XParser::self()->functionWithID( functionID );
+	
+	parseInitialConditions( equation0, function->eq[0] );
+	if ( function->eq.size() > 1 )
+		parseInitialConditions( equation1, function->eq[1] );
+        
+	PlotAppearance * plots[] = { & function->plotAppearance( Function::Derivative0 ),
+		& function->plotAppearance( Function::Derivative1 ),
+		& function->plotAppearance( Function::Derivative2 ),
+		& function->plotAppearance( Function::Integral ) };
+        
+	QString names[] = { "f0", "f1", "f2", "integral" };
+	      
+	for ( int i = 0; i < 4; ++i )
+	{
+		plots[i]->lineWidth = n.attribute( QString("%1-width").arg( names[i] ) ).toDouble() * lengthScaler;
+		plots[i]->color = n.attribute( QString("%1-color").arg( names[i] ) );
+		plots[i]->useGradient = n.attribute( QString("%1-use-gradient").arg( names[i] ) ).toInt();
+		plots[i]->color1 = n.attribute( QString("%1-color1").arg( names[i] ) );
+		plots[i]->color2 = n.attribute( QString("%1-color2").arg( names[i] ) );
+		plots[i]->visible = n.attribute( QString("%1-visible").arg( names[i] ) ).toInt();
+		plots[i]->style = PlotAppearance::stringToPenStyle( n.attribute( QString("%1-style").arg( names[i] ) ) );
+		plots[i]->showExtrema = n.attribute( QString("%1-show-extrema").arg( names[i] ) ).toInt();
+	}
+        
+        
+    //BEGIN parameters
+	parseParameters( n, function );
+    
+	function->m_parameters.useSlider = n.attribute( "use-parameter-slider" ).toInt();
+	function->m_parameters.sliderID = n.attribute( "parameter-slider" ).toInt();        
+	function->m_parameters.useList = n.attribute( "use-parameter-list" ).toInt();
+	//END parameters
+        
+        
+	function->integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
+	function->integral_precision = n.attribute( "integral-precision" ).toInt();
+
+	QDomElement minElement = n.namedItem( "arg-min" ).toElement();
+	QString expression = minElement.text();
+	if ( expression.isEmpty() )
+		function->usecustomxmin = false;
+	else
+	{
+		function->dmin.updateExpression( expression );
+		function->usecustomxmin = minElement.attribute( "use", "1" ).toInt();
+	}
+
+	QDomElement maxElement = n.namedItem( "arg-max" ).toElement();
+	expression = maxElement.text();
+	if ( expression.isEmpty() )
+		function->usecustomxmax = false;
+	else
+	{
+		function->dmax.updateExpression( expression );
+		function->usecustomxmax = maxElement.attribute( "use", "1" ).toInt();
+	}
+}
+
+
+void KmPlotIO::parseParameters( const QDomElement &n, Function * function )
+{
+	QChar separator = (version < 1) ? ',' : ';';
+	QString tagName = (version < 5) ? "parameterlist" : "parameter-list";
+	
+	QStringList str_parameters = n.namedItem( tagName ).toElement().text().split( separator, QString::SkipEmptyParts );
+	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
+		function->m_parameters.list.append( Value( *it ));
+}
+
+
+void KmPlotIO::parseInitialConditions( const QDomElement & n, Equation * equation )
+{
+	QDomNode node = n.firstChild();
+	
+	while (!node.isNull())
+	{
+		if (node.isElement())
+		{
+			QDomElement e = node.toElement();
+			
+			QString x = e.attribute( "x" );
+			QStringList y = e.attribute( "y" ).split( ';' );
+			
+			DifferentialState * state = equation->differentialStates.add();
+			if ( state->y0.size() != y.size() )
+			{
+				kWarning() << k_funcinfo << "Invalid y count!\n";
+				return;
+			}
+			
+			state->x0.updateExpression( x );
+			
+			int at = 0;
+			foreach ( QString f, y )
+				state->y0[at++] = f;
+		}
+		node = node.nextSibling();
+	}
+}
+
+
+void KmPlotIO::oldParseFunction2( const QDomElement & n )
+{
+	Function::Type type;
+	QString eq0, eq1;
+    
+	eq0 = n.namedItem( "equation" ).toElement().text();
+                
+	switch ( eq0[0].unicode() )
+	{
+		case 'r':
+			type = Function::Polar;
+			break;
+                        
+		case 'x':
+			parametricXEquation = eq0;
+			return;
+                        
+		case 'y':
+			type = Function::Parametric;
+			eq1 = eq0;
+			eq0 = parametricXEquation;
+			break;
+                        
+		default:
+			type = Function::Cartesian;
+			break;
 	}
 	
 	Function ufkt( type );
 	ufkt.eq[0]->setFstr( eq0 );
 	if ( !eq1.isEmpty() )
 		ufkt.eq[1]->setFstr( eq1 );
-	
+        
 	PlotAppearance * plots[] = { & ufkt.plotAppearance( Function::Derivative0 ),
 		& ufkt.plotAppearance( Function::Derivative1 ),
 		& ufkt.plotAppearance( Function::Derivative2 ),
 		& ufkt.plotAppearance( Function::Integral ) };
-	
-	if ( version < 4 )
-	{
-		plots[ 0 ]->visible = n.attribute( "visible" ).toInt();
-		plots[ 0 ]->color = QColor( n.attribute( "color" ) );
-		plots[ 0 ]->lineWidth = n.attribute( "width" ).toDouble() * lengthScaler;
+    
+	plots[ 0 ]->visible = n.attribute( "visible" ).toInt();
+	plots[ 0 ]->color = QColor( n.attribute( "color" ) );
+	plots[ 0 ]->lineWidth = n.attribute( "width" ).toDouble() * lengthScaler;
 
-		plots[ 1 ]->visible = n.attribute( "visible-deriv", "0" ).toInt();
-		plots[ 1 ]->color = QColor(n.attribute( "deriv-color" ));
-		plots[ 1 ]->lineWidth = n.attribute( "deriv-width" ).toDouble() * lengthScaler;
-	
-		plots[ 2 ]->visible = n.attribute( "visible-2nd-deriv", "0" ).toInt();
-		plots[ 2 ]->color = QColor(n.attribute( "deriv2nd-color" ));
-		plots[ 2 ]->lineWidth = n.attribute( "deriv2nd-width" ).toDouble() * lengthScaler;
-	
-		plots[ 3 ]->visible = n.attribute( "visible-integral", "0" ).toInt();
-		plots[ 3 ]->color = QColor(n.attribute( "integral-color" ));
-		plots[ 3 ]->lineWidth = n.attribute( "integral-width" ).toDouble() * lengthScaler;
-	}
-	else
-	{
-		QString names[] = { "f0", "f1", "f2", "integral" };
+	plots[ 1 ]->visible = n.attribute( "visible-deriv", "0" ).toInt();
+	plots[ 1 ]->color = QColor(n.attribute( "deriv-color" ));
+	plots[ 1 ]->lineWidth = n.attribute( "deriv-width" ).toDouble() * lengthScaler;
+        
+	plots[ 2 ]->visible = n.attribute( "visible-2nd-deriv", "0" ).toInt();
+	plots[ 2 ]->color = QColor(n.attribute( "deriv2nd-color" ));
+	plots[ 2 ]->lineWidth = n.attribute( "deriv2nd-width" ).toDouble() * lengthScaler;
+        
+	plots[ 3 ]->visible = n.attribute( "visible-integral", "0" ).toInt();
+	plots[ 3 ]->color = QColor(n.attribute( "integral-color" ));
+	plots[ 3 ]->lineWidth = n.attribute( "integral-width" ).toDouble() * lengthScaler;
+         
 		
-		for ( int i = 0; i < 4; ++i )
-		{
-			plots[i]->lineWidth = n.attribute( QString("%1-width").arg( names[i] ) ).toDouble() * lengthScaler;
-			plots[i]->color = n.attribute( QString("%1-color").arg( names[i] ) );
-			plots[i]->useGradient = n.attribute( QString("%1-use-gradient").arg( names[i] ) ).toInt();
-			plots[i]->color1 = n.attribute( QString("%1-color1").arg( names[i] ) );
-			plots[i]->color2 = n.attribute( QString("%1-color2").arg( names[i] ) );
-			plots[i]->visible = n.attribute( QString("%1-visible").arg( names[i] ) ).toInt();
-			plots[i]->style = PlotAppearance::stringToPenStyle( n.attribute( QString("%1-style").arg( names[i] ) ) );
-			plots[i]->showExtrema = n.attribute( QString("%1-show-extrema").arg( names[i] ) ).toInt();
-		}
-	}
-	
-	
-	//BEGIN parameters
-	parseParameters( n, ufkt );
-	
-	if ( version < 5 )
-	{
-		int use_slider = n.attribute( "use-slider" ).toInt();
-		ufkt.m_parameters.useSlider = (use_slider >= 0);
-		ufkt.m_parameters.sliderID = use_slider;
-		
-		ufkt.m_parameters.useList = !ufkt.m_parameters.list.isEmpty();
-	}
-	else
-	{
-		ufkt.m_parameters.useSlider = n.attribute( "use-parameter-slider" ).toInt();
-		ufkt.m_parameters.sliderID = n.attribute( "parameter-slider" ).toInt();
-		
-		ufkt.m_parameters.useList = n.attribute( "use-parameter-list" ).toInt();
-	}
+    //BEGIN parameters
+	parseParameters( n, & ufkt );
+    
+	int use_slider = n.attribute( "use-slider" ).toInt();
+	ufkt.m_parameters.useSlider = (use_slider >= 0);
+	ufkt.m_parameters.sliderID = use_slider;
+                
+	ufkt.m_parameters.useList = !ufkt.m_parameters.list.isEmpty();
 	//END parameters
-	
-	
+        
+        
 	ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
 	ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
-	ufkt.eq[0]->setIntegralStart( n.attribute( "integral-startx" ), n.attribute( "integral-starty" ) );
+	
+	if ( type == Function::Cartesian )
+	{
+		DifferentialState * state = & ufkt.eq[0]->differentialStates[0];
+		state->x0.updateExpression( n.attribute( "integral-startx" ) );
+		state->y0[0].updateExpression( n.attribute( "integral-starty" ) );
+	}
 
 	QDomElement minElement = n.namedItem( "arg-min" ).toElement();
 	QString expression = minElement.text();
@@ -598,7 +673,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		ufkt.dmax.updateExpression( expression );
 		ufkt.usecustomxmax = maxElement.attribute( "use", "1" ).toInt();
 	}
-	
+        
 
 	QString fstr = ufkt.eq[0]->fstr();
 	if ( !fstr.isEmpty() )
@@ -609,29 +684,18 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 			str = fstr;
 		else
 			str = fstr.left( i );
-		
+                
 		int id = XParser::self()->Parser::addFunction( str, eq1, type );
-		
+                
 		Function * added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );
 	}
 }
 
 
-void KmPlotIO::parseParameters( const QDomElement &n, Function &ufkt  )
-{
-	QChar separator = (version < 1) ? ',' : ';';
-	QString tagName = (version < 5) ? "parameterlist" : "parameter-list";
-	
-	QStringList str_parameters = n.namedItem( tagName ).toElement().text().split( separator, QString::SkipEmptyParts );
-	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
-		ufkt.m_parameters.list.append( Value( *it ));
-}
 
 void KmPlotIO::oldParseFunction( const QDomElement & n )
 {
-	kDebug() << "parsing old function" << endl;
-	
 	QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
 	if ( tmp_fstr.isEmpty() )
 	{
@@ -647,7 +711,6 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 			break;
 			
 		case 'x':
-// 			type = Function::ParametricX;
 			parametricXEquation = tmp_fstr;
 			return;
 			

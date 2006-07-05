@@ -56,11 +56,6 @@ class XParser : public Parser
 		 */
 		double partialDerivative( int n1, int n2, Equation * eq, double x, double y, double h1, double h2 );
 		/**
-		 * Calculates the value of the equation using numerical integration
-		 * with the given step size \p h (which is only used as a hint).
-		 */
-		double integral( Equation * eq, double x, double h );
-		/**
 		 * For differential equations - uses numerical integration to
 		 * calculate value for the given x. Differential equations often have
 		 * the annoying habbit of diverging to infinity rapidly. If this

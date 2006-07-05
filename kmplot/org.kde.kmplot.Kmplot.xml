@@ -1,18 +1,18 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
 "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
-  <interface name="org.kde.kmplot.Kmplot">
-    <method name="setStatusBarText">
-    <arg name="text" type="s" direction="in"/>
-    <arg name="id" type="i" direction="in"/>
-    </method>
-    <method name="optionsConfigureKeys"/>
-    <method name="optionsConfigureToolbars"/>
-    <method name="openFileInNewWindow">
-    <arg name="url" type="s" direction="out"/>
-    </method>
-    <method name="fileOpen">
-    <arg name="url" type="s" direction="out"/>
-    </method>
-  </interface>
+	<interface name="org.kde.kmplot.Kmplot">
+		<method name="setStatusBarText">
+			<arg name="text" type="s" direction="in"/>
+			<arg name="id" type="i" direction="in"/>
+		</method>
+		<method name="optionsConfigureKeys"/>
+		<method name="optionsConfigureToolbars"/>
+		<method name="openFileInNewWindow">
+			<arg name="url" type="s" direction="in"/>
+		</method>
+		<method name="fileOpen">
+			<arg name="url" type="s" direction="in"/>
+		</method>
+	</interface>
 </node>

@@ -111,7 +111,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	
 	show();
 
-    new KmplotAdaptor(this);
+    new KmPlotAdaptor(this);
     QDBus::sessionBus().registerObject("/kmplot", this);
 
     QString f = args->getOption("function");

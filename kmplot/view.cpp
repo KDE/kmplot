@@ -110,7 +110,7 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	m_width = m_height = 0.0;
 	m_scaler = 0.0;
 	m_haveRoot = false;
-	tlgx = tlgy = drskalx = drskaly = 0.0;
+	ticSepX = ticSepY = drskalx = drskaly = 0.0;
 	m_ymin = 0.0;
 	m_ymax = 0.0;
 	m_trace_x = 0.0;
@@ -203,8 +203,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		case Screen:
 		{
 			QPointF ref(120, 100);
-			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
-			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
+			lx=((m_xmax-m_xmin)*100.*drskalx/ticSepX);
+			ly=((m_ymax-m_ymin)*100.*drskaly/ticSepY);
 			DC.scale( m_height/(ly+2*ref.y()), m_height/(ly+2*ref.y()));
 			if ( ( QPointF(lx+2*ref.x(), ly) * DC.matrix() ).x() > DC.viewport().right())
 			{
@@ -221,8 +221,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		{
 			sf=72./254.;        // 72dpi
 			QPointF ref(100, 100);
-			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
-			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
+			lx=((m_xmax-m_xmin)*100.*drskalx/ticSepX);
+			ly=((m_ymax-m_ymin)*100.*drskaly/ticSepY);
 			DC.scale(sf, sf);
 			m_scaler = 1.;
 			m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1";
@@ -239,8 +239,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		case SVG:
 		{
 			QPointF ref(0, 0);
-			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
-			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
+			lx=((m_xmax-m_xmin)*100.*drskalx/ticSepX);
+			ly=((m_ymax-m_ymin)*100.*drskaly/ticSepY);
 			initDiagram( ref, lx, ly );
 			DC.translate(-m_frame.left(), -m_frame.top());
 			m_scaler=1.;
@@ -251,8 +251,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		{
 			sf=180./254.;								// 180dpi
 			QPointF ref(0, 0);
-			lx=((m_xmax-m_xmin)*100.*drskalx/tlgx);
-			ly=((m_ymax-m_ymin)*100.*drskaly/tlgy);
+			lx=((m_xmax-m_xmin)*100.*drskalx/ticSepX);
+			ly=((m_ymax-m_ymin)*100.*drskaly/ticSepY);
 			initDiagram( ref, lx, ly );
 			DC.end();
 			*((QPixmap *)dev) = QPixmap( (int)(m_frame.width()*sf), (int)(m_frame.height()*sf) );
@@ -265,14 +265,13 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		}
 	}
 	
-	tsx=ceil(m_xmin/tlgx)*tlgx;
-	tsy=ceil(m_ymin/tlgy)*tlgy;
+	ticStartX = ceil(m_xmin/ticSepX)*ticSepX;
+	ticStartY = ceil(m_ymin/ticSepY)*ticSepY;
+	area = DC.matrix().mapRect( m_plotArea );
 
 	DC.setRenderHint( QPainter::Antialiasing, true );
 	drawDiagram( &DC );
-
-	area=DC.matrix().mapRect( m_plotArea );
-
+	
 	updateCursor();
 	stop_calculating = false;
 
@@ -306,10 +305,8 @@ void View::initDiagram( QPointF Ref, 			    // Bezugspunkt links unten
 {
 	int x, y, h, w;
 	
-	xmd = m_xmax+1e-10;
-	ymd = m_ymax+1e-10;
-	tsx = ceil(m_xmin/tlgx)*tlgx;
-	tsy = ceil(m_ymin/tlgy)*tlgy;
+	ticStartX = ceil(m_xmin/ticSepX)*ticSepX;
+	ticStartY = ceil(m_ymin/ticSepY)*ticSepY;
 	skx = lx/(m_xmax-m_xmin);			        // Skalierungsfaktoren berechnen
 	sky = ly/(m_ymax-m_ymin);
 	ox = Ref.x()-skx*m_xmin+0.5;	        // Ursprungskoordinaten berechnen
@@ -456,7 +453,7 @@ void View::drawDiagram( QPainter * pDC )
 	QColor frameColor = qRgb(0, 0, 0);
 	
 	double borderThickness = 0.2;
-	QPen pen( frameColor, View::self()->mmToPenWidth( borderThickness, true ) );
+	QPen pen( frameColor, mmToPenWidth( borderThickness, true ) );
 
 	drawGrid( pDC ); // draw the grid
 	drawAxes( pDC ); // draw the axes
@@ -487,7 +484,7 @@ void View::drawAxes( QPainter* pDC )	// draw axes
 		int const dx=14;
 		int const dy=8;
 		
-		pDC->setPen( QPen( axesColor, View::self()->mmToPenWidth(axesLineWidth, true) ) );
+		pDC->setPen( QPen( axesColor, mmToPenWidth(axesLineWidth, true) ) );
 		pDC->setBrush( axesColor );
 		
 		a=m_plotArea.right();
@@ -517,13 +514,13 @@ void View::drawAxes( QPainter* pDC )	// draw axes
 		pDC->restore();
 	}
 
-	pDC->setPen( QPen( axesColor, View::self()->mmToPenWidth(ticWidth, true) ) );
+	pDC->setPen( QPen( axesColor, mmToPenWidth(ticWidth, true) ) );
 	if( Settings::showAxes() )
 	{
 		da=oy-(ticLength*10.0);
 		db=oy+(ticLength*10.0);
 		tl= Settings::showFrame()? 0: (ticLength*10.0);
-		d=tsx;
+		d=ticStartX;
 		if(da<(double)m_plotArea.top())
 		{
 			a=m_plotArea.top()-tl;
@@ -540,15 +537,15 @@ void View::drawAxes( QPainter* pDC )	// draw axes
 			b=db;
 		}
 
-		while(d<xmd-tlgx/2.)
+		while(d<m_xmax-ticSepX/2.)
 		{
 			pDC->Linev(xToPixel(d), a, b);
-			d+=tlgx;
+			d+=ticSepX;
 		}
 
 		da=ox-(10.0*ticLength);
 		db=ox+(10.0*ticLength);
-		d=tsy;
+		d=ticStartY;
 		if(da<(double)m_plotArea.left())
 		{
 			a=m_plotArea.left()-tl;
@@ -565,32 +562,32 @@ void View::drawAxes( QPainter* pDC )	// draw axes
 			b=db;
 		}
 
-		while(d<ymd-tlgy/2.)
+		while(d<m_ymax-ticSepY/2.)
 		{
 			pDC->Lineh(a, yToPixel(d), b);
-			d+=tlgy;
+			d+=ticSepY;
 		}
 	}
 	else if( Settings::showFrame() )
 	{
 		a=m_plotArea.bottom()+(ticLength*10.0);
 		b=m_plotArea.top()-(ticLength*10.0);
-		d=tsx;
-		while(d<xmd)
+		d=ticStartX;
+		while(d<m_xmax)
 		{
 			pDC->Linev(xToPixel(d), m_plotArea.bottom(), a);
 			pDC->Linev(xToPixel(d), m_plotArea.top(), b);
-			d+=tlgx;
+			d+=ticSepX;
 		}
 
 		a=m_plotArea.left()+(ticLength*10.0);
 		b=m_plotArea.right()-(ticLength*10.0);
-		d=tsy;
-		while(d<ymd)
+		d=ticStartY;
+		while(d<m_ymax)
 		{
 			pDC->Lineh(m_plotArea.left(), yToPixel(d), a);
 			pDC->Lineh(m_plotArea.right(), yToPixel(d), b);
-			d+=tlgy;
+			d+=ticSepY;
 		}
 	}
 }
@@ -600,12 +597,8 @@ void View::drawGrid( QPainter* pDC )
 {
 	QColor gridColor = Settings::gridColor();
 	
-	double tlgy = View::self()->tlgy;
-	double a, b;
-	double d, x, y;
-	
 	double gridLineWidth = Settings::gridLineWidth();
-	QPen pen( gridColor, View::self()->mmToPenWidth(gridLineWidth, true) );
+	QPen pen( gridColor, mmToPenWidth(gridLineWidth, true) );
 
 	pDC->setPen(pen);
 	
@@ -625,18 +618,11 @@ void View::drawGrid( QPainter* pDC )
 			
 		case GridLines:
 		{
-			d=tsx;
-			while(d<xmd)
-			{
+			for ( double d = ticStartX; d <= m_xmax; d += ticSepX )
 				pDC->Linev(xToPixel(d), m_plotArea.bottom(), m_plotArea.top());
-				d+=tlgx;
-			}
-			d=tsy;
-			while(d<ymd)
-			{
+			
+			for ( double d = ticStartY; d <= m_ymax; d += ticSepY )
 				pDC->Lineh(m_plotArea.left(), yToPixel(d), m_plotArea.right());
-				d+=tlgy;
-			}
 			
 			break;
 		}
@@ -646,12 +632,12 @@ void View::drawGrid( QPainter* pDC )
 			int const dx = 5;
 			int const dy = 5;
 
-			for(x=tsx; x<xmd; x+=tlgx)
+			for( double x = ticStartX; x<m_xmax; x+=ticSepX)
 			{
-				a=xToPixel(x);
-				for(y=tsy; y<ymd; y+=tlgy)
+				double a = xToPixel(x);
+				for( double y=ticStartY; y<m_ymax; y+=ticSepY)
 				{
-					b=yToPixel(y);
+					double b = yToPixel(y);
 					pDC->Lineh(a-dx, b, a+dx);
 					pDC->Linev(a, b-dy, b+dy);
 				}
@@ -660,39 +646,40 @@ void View::drawGrid( QPainter* pDC )
 		
 		case GridPolar:
 		{
-			double y2;
-			double w;
-			QRect const rc=m_plotArea;
-		
-			pDC->setClipRect(rc);
-			double const c=hypot(xmd*skx, ymd*sky);
-			double const xm=(c+ox);
-			double const dr=(skx*tlgx);
-			double const d2r=(2.*skx*tlgx);
-			double x1=ox-dr;
-			double y1=oy-dr;
-			double x2=y2=d2r;
-
-			do
-			{
-				pDC->drawEllipse( QRectF( x1, y1, x2, y2 ) );
-				x1-=dr;
-				y1-=dr;
-				x2+=d2r;
-				y2+=d2r;
-			}
-			while(x2<=xm);
-
-			x1=ox;
-			y1=oy;
-			for(w=0.; w<2.*M_PI; w+=M_PI/12.)
-			{
-				x2=(ox+c*cos(w));
-				y2=(oy+c*sin(w));
-				pDC->Line( QPointF( x1, y1 ), QPointF( x2, y2 ) );
-			}
-			pDC->setClipping( false );
+			// Note: 1.42 \approx sqrt(2)
 			
+			pDC->setClipRect( m_plotArea );
+			
+			double xMax = qMax( qAbs(m_xmin), qAbs(m_xmax) ) * 1.42;
+			double yMax = qMax( qAbs(m_ymin), qAbs(m_ymax) ) * 1.42;
+			
+			// The furthest pixel away from the origin
+			double pixelMax = qMax( xMax*skx, yMax*sky );
+			
+			double x = ticSepX;
+			double y = ticSepY;
+			
+			while ( x <= xMax || y <= yMax )
+			{
+				QRectF r;
+				r.setTopLeft(		toPixel( QPointF( -x, y ), ClipInfinite ) ); 
+				r.setBottomRight(	toPixel( QPointF( x, -y ), ClipInfinite ) );
+				
+				pDC->drawEllipse( r );
+				
+				x += ticSepX;
+				y += ticSepY;
+			}
+			
+			for ( double theta = 0; theta < 2.0*M_PI; theta += M_PI/12.0 )
+			{
+				QPointF start = toPixel( QPointF( 0, 0 ), ClipInfinite );
+				QPointF end = start + QPointF( pixelMax * cos(theta), pixelMax * sin(theta) );
+				
+				pDC->drawLine( start, end );
+			}
+			
+			pDC->setClipping( false );
 			break;
 		}
 	}
@@ -717,9 +704,9 @@ void View::drawLabels(QPainter* pDC)
 	QFontMetrics const test(font);
 	int swidth=0;
 
-	for(d=tsx, n=(int)ceil(m_xmin/tlgx); d<xmd; d+=tlgx, ++n)
+	for(d=ticStartX, n=(int)ceil(m_xmin/ticSepX); d<m_xmax; d+=ticSepX, ++n)
 	{
-		if(n==0 || fabs(d-xmd)<=1.5*tlgx)
+		if(n==0 || fabs(d-m_xmax)<=1.5*ticSepX)
 			continue;
 		
 		QString s;
@@ -728,7 +715,7 @@ void View::drawLabels(QPainter* pDC)
 		bool found = false;
 		for ( unsigned i = 0; i < 3; ++i )
 		{
-			if( fabs(tlgx-M_PI/frac[i])> 1e-3 )
+			if( fabs(ticSepX-M_PI/frac[i])> 1e-3 )
 				continue;
 			
 			s = (n<0) ? '-' : '+';
@@ -752,7 +739,7 @@ void View::drawLabels(QPainter* pDC)
 		
 		if ( !found && (n%5==0 || n==1 || n==-1 || draw_next))
 		{
-			s = View::self()->posToString( n*tlgx, (m_xmax-m_xmin)/4, View::ScientificFormat, axesColor );
+			s = posToString( n*ticSepX, (m_xmax-m_xmin)/4, View::ScientificFormat, axesColor );
 		}
 		
 		if ( !s.isEmpty() )
@@ -797,9 +784,9 @@ void View::drawLabels(QPainter* pDC)
 		drawRect = QRectF( xToPixel(m_xmax)-dx, y+dy, 0, 0 );
 	pDC->drawText( drawRect, Qt::AlignCenter|Qt::TextDontClip, "x" );
 
-	for(d=tsy, n=(int)ceil(m_ymin/tlgy); d<ymd; d+=tlgy, ++n)
+	for(d=ticStartY, n=(int)ceil(m_ymin/ticSepY); d<m_ymax; d+=ticSepY, ++n)
 	{
-		if(n==0 || fabs(d-ymd)<=1.5*tlgy)
+		if(n==0 || fabs(d-m_ymax)<=1.5*ticSepY)
 			continue;
 
 		QString s;
@@ -808,7 +795,7 @@ void View::drawLabels(QPainter* pDC)
 		bool found = false;
 		for ( unsigned i = 0; i < 3; ++i )
 		{
-			if( fabs(tlgy-M_PI/frac[i])> 1e-3 )
+			if( fabs(ticSepY-M_PI/frac[i])> 1e-3 )
 				continue;
 			
 			s = (n<0) ? '-' : '+';
@@ -831,7 +818,7 @@ void View::drawLabels(QPainter* pDC)
 		}
 		if( !found && (n%5==0 || n==1 || n==-1))
 		{
-			s = View::self()->posToString( n*tlgy, (m_ymax-m_ymin)/4, View::ScientificFormat, axesColor );
+			s = posToString( n*ticSepY, (m_ymax-m_ymin)/4, View::ScientificFormat, axesColor );
 		}
 		
 		if ( !s.isEmpty() )
@@ -2029,9 +2016,9 @@ void View::drawHeaderTable(QPainter *pDC)
 		aly="[ "+minStr+" | "+maxStr+" ]";
 		setpi(&alx);
 		setpi(&aly);
-		atx="1E  =  "+tlgxstr;
+		atx="1E  =  "+ticSepXstr;
 		setpi(&atx);
-		aty="1E  =  "+tlgystr;
+		aty="1E  =  "+ticSepYstr;
 		setpi(&aty);
 		dfx="1E  =  "+drskalxstr+" cm";
 		setpi(&dfx);
@@ -3407,6 +3394,7 @@ void View::coordToMinMax( const int koord, const QString &minStr, const QString 
 	case 4:
 		min = XParser::self()->eval( minStr );
 		max = XParser::self()->eval( maxStr );
+		break;
 	}
 }
 
@@ -3419,24 +3407,24 @@ void View::setScaling()
 
 	if( Settings::xScaling() == 8) //automatic x-scaling
     {
-		tlgx = double(m_xmax-m_xmin)/16;
-        tlgxstr = units[ Settings::xScaling() ];
+		ticSepX = double(m_xmax-m_xmin)/16;
+        ticSepXstr = units[ Settings::xScaling() ];
     }
 	else
 	{
-		tlgxstr = units[ Settings::xScaling() ];
-		tlgx = XParser::self()->eval( tlgxstr );
+		ticSepXstr = units[ Settings::xScaling() ];
+		ticSepX = XParser::self()->eval( ticSepXstr );
 	}
 
 	if( Settings::yScaling() == 8)  //automatic y-scaling
     {
-		tlgy = double(m_ymax-m_ymin)/16;
-        tlgystr = units[ Settings::yScaling() ];
+		ticSepY = double(m_ymax-m_ymin)/16;
+        ticSepYstr = units[ Settings::yScaling() ];
     }
 	else
 	{
-		tlgystr = units[ Settings::yScaling() ];
-		tlgy = XParser::self()->eval( tlgystr );
+		ticSepYstr = units[ Settings::yScaling() ];
+		ticSepY = XParser::self()->eval( ticSepYstr );
 	}
 
 	drskalxstr = units[ Settings::xPrinting() ];

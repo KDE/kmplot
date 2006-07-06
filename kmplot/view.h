@@ -164,8 +164,8 @@ class View : public QWidget
 		double m_ymin;
 		double m_ymax;
 		
-		double tlgx, tlgy, drskalx, drskaly;
-		QString tlgxstr, tlgystr, drskalxstr, drskalystr;
+		double ticSepX, ticSepY, drskalx, drskaly;
+		QString ticSepXstr, ticSepYstr, drskalxstr, drskalystr;
 
 		/// trace mode stuff, must be accessible in KMinMax
 		Plot m_currentPlot;
@@ -435,14 +435,11 @@ class View : public QWidget
 	
 		double m_width, m_height;
 		float m_scaler;
-		/// Clip boundage.
-		double xmd, ymd;
 		///Position of the first tic.      
-		double tsx, tsy;
+		double ticStartX, ticStartY;
 		/// Screen coordinates of the coordinate system origin.
 		double ox, oy;
 		/// Transformation factors.
-		/// @see Skal
 		double skx, sky;
 	
 		QPointF m_crosshairPixelCoords;

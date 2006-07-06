@@ -34,6 +34,9 @@
        </property>
        <item row="1" column="1" >
         <widget class="QGroupBox" name="groupBox_2" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
          <property name="title" >
           <string>Custom Y axis</string>
          </property>
@@ -46,9 +49,6 @@
           </property>
           <item row="0" column="1" >
            <widget class="EquationEdit" name="kcfg_YMin" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
             <property name="toolTip" >
              <string>Custom boundary of the plot range</string>
             </property>
@@ -59,9 +59,6 @@
           </item>
           <item row="1" column="1" >
            <widget class="EquationEdit" name="kcfg_YMax" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
             <property name="toolTip" >
              <string>Custom boundary of the plot range</string>
             </property>
@@ -72,9 +69,6 @@
           </item>
           <item row="0" column="0" >
            <widget class="QLabel" name="textLabel4_4" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
             <property name="text" >
              <string>Min:</string>
             </property>
@@ -85,9 +79,6 @@
           </item>
           <item row="1" column="0" >
            <widget class="QLabel" name="textLabel4_3" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
             <property name="text" >
              <string>Max:</string>
             </property>
@@ -429,6 +420,9 @@
        </item>
        <item row="1" column="0" >
         <widget class="QGroupBox" name="groupBox" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
          <property name="title" >
           <string>Custom X axis</string>
          </property>
@@ -441,9 +435,6 @@
           </property>
           <item row="0" column="1" >
            <widget class="EquationEdit" name="kcfg_XMin" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
             <property name="toolTip" >
              <string>Custom boundary of the plot range</string>
             </property>
@@ -454,9 +445,6 @@
           </item>
           <item row="0" column="0" >
            <widget class="QLabel" name="textLabel4" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
             <property name="text" >
              <string>Min:</string>
             </property>
@@ -467,9 +455,6 @@
           </item>
           <item row="1" column="0" >
            <widget class="QLabel" name="textLabel4_2" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
             <property name="text" >
              <string>Max:</string>
             </property>
@@ -480,9 +465,6 @@
           </item>
           <item row="1" column="1" >
            <widget class="EquationEdit" name="kcfg_XMax" >
-            <property name="enabled" >
-             <bool>false</bool>
-            </property>
             <property name="toolTip" >
              <string>Custom boundary of the plot range</string>
             </property>
@@ -674,79 +656,15 @@
   <connection>
    <sender>customX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>textLabel4</receiver>
+   <receiver>groupBox</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>75</x>
-     <y>205</y>
+     <x>74</x>
+     <y>207</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>48</x>
-     <y>227</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>customX</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>kcfg_XMin</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>117</x>
-     <y>205</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>75</x>
-     <y>226</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>customX</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>textLabel4_2</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>130</x>
-     <y>205</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>36</x>
-     <y>255</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>customX</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>kcfg_XMax</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>165</x>
-     <y>205</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>132</x>
-     <y>259</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>customY</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>textLabel4_4</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>345</x>
-     <y>206</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>220</x>
+     <x>74</x>
      <y>232</y>
     </hint>
    </hints>
@@ -754,48 +672,16 @@
   <connection>
    <sender>customY</sender>
    <signal>toggled(bool)</signal>
-   <receiver>textLabel4_3</receiver>
+   <receiver>groupBox_2</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>345</x>
-     <y>206</y>
+     <x>257</x>
+     <y>201</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>206</x>
-     <y>259</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>customY</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>kcfg_YMin</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>345</x>
-     <y>206</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>263</x>
-     <y>226</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>customY</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>kcfg_YMax</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>345</x>
-     <y>206</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>308</x>
-     <y>261</y>
+     <x>258</x>
+     <y>236</y>
     </hint>
    </hints>
   </connection>

@@ -109,12 +109,41 @@ class KGradientEditor : public QWidget
 		virtual void contextMenuEvent( QContextMenuEvent * e );
 		
 	private:
+		/**
+		 * Attempts to get the arrow under the mouse, updating m_currentStop
+		 * to the corresponding stop if an arrow was found.
+		 * \return true if an arrow was under \p mousePos
+		 * \return false if an arrow wasn't under ap mousePos
+		 */
 		bool getGradientStop( const QPoint & mousePos );
+		/**
+		 * Updates the current stop, redraws the widget and emits
+		 * colorSelected.
+		 */
 		void setCurrentStop( const QGradientStop & stop );
+		/**
+		 * Updates m_gradient, redraws the widget and emits gradientChanged.
+		 */
 		void setGradient( const QGradientStops & stops );
+		/**
+		 * Draws the given gradient stop.
+		 */
 		void drawArrow( QPainter * painter, const QGradientStop & stop );
+		/**
+		 * Converts from \p stop (ranging from 0 to 1) to a horizontal or
+		 * vertical (depending on the current orientation) widget coordinate.
+		 */
 		double toArrowPos( double stop ) const;
+		/**
+		 * Inverse of toArrowPos; converts from the widget coordinate \p pos
+		 * to a stop position, which is guaranteed to be between 0 and 1.
+		 */
 		double fromArrowPos( double pos ) const;
+		/**
+		 * Find a gradient stop to be selected. This is called after e.g. the
+		 * currently selected stop is deleted.
+		 */
+		void findGradientStop();
 		
 		double m_clickOffset; // from the center of the arrow
 		bool m_haveArrow; // true when an arrow has been clicked on

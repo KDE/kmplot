@@ -919,9 +919,9 @@ QColor Plot::color( ) const
 	// Is a gradient
 	
 	int x = plotNumber;
-	int l = plotNumberCount - 1;
+	int l = plotNumberCount;
 	
-	QLinearGradient lg( 0, 0, l, 0 );
+	QLinearGradient lg( 0, 0, l-1, 0 );
 	lg.setStops( appearance.gradient.stops() );
 	QImage im( l, 1, QImage::Format_RGB32 );
 	QPainter p(&im);

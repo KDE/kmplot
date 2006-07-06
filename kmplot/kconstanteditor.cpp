@@ -23,6 +23,11 @@
 *
 */
 
+
+#include "kmplotio.h"
+#include "kconstanteditor.h"
+#include "xparser.h"
+
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
@@ -36,9 +41,6 @@
 #include <QVector>
 #include <qdom.h>
 #include <qtreewidget.h>
-
-#include "kmplotio.h"
-#include "kconstanteditor.h"
 
 #include <assert.h>
 

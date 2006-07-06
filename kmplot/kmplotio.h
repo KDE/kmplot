@@ -26,9 +26,12 @@
 #define KMPLOTIO_H
 
 #include <kurl.h>
-#include "xparser.h"
+#include <QGradient>
 
+class Equation;
+class Function;
 class QDomDocument;
+class QDomElement;
 class QString;
 class XParser;
 
@@ -128,6 +131,15 @@ class KmPlotIO
 		 */
 		int version;
 		QString parametricXEquation; ///< Used when reading in the x part of a parametric equation
+		
+		/**
+		 * Converts \p stops to a string representation for saving in a file.
+		 */
+		static QString gradientToString( const QGradientStops & stops );
+		/**
+		 * Inverse of gradientToString function.
+		 */
+		static QGradientStops stringToGradient( const QString & string );
 };
 
 #endif

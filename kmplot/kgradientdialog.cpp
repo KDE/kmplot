@@ -30,6 +30,7 @@
 
 #include <kdebug.h>
 
+#include <QtGlobal>
 #include <QVBoxLayout>
 #include <QLinearGradient>
 #include <QPainter>
@@ -50,6 +51,7 @@ KGradientEditor::KGradientEditor( QWidget * parent )
 	m_haveArrow = false;
 	m_clickOffset = 0;
 	m_orientation = Qt::Horizontal;
+	findGradientStop();
 }
 
 
@@ -63,6 +65,7 @@ void KGradientEditor::setGradient( const QGradient & gradient )
 	if ( m_gradient == gradient )
 		return;
 	setGradient( gradient.stops() );
+	findGradientStop();
 }
 
 
@@ -182,6 +185,7 @@ void KGradientEditor::removeStop()
 	}
 	
 	setGradient( stops );
+	findGradientStop();
 }
 
 
@@ -302,16 +306,39 @@ void KGradientEditor::setOrientation( Qt::Orientation orientation )
 }
 
 
+void KGradientEditor::findGradientStop()
+{
+	QGradientStops stops = m_gradient.stops();
+	
+	// The QGradientStops should always have at least one stop in, since
+	// QGradient returns a Black->White gradient if its stops are empty.
+	Q_ASSERT( !stops.isEmpty() );
+	
+	// Pick a stop in the center
+	setCurrentStop( stops[ stops.size()/2 ] );
+}
+
+
 void KGradientEditor::setCurrentStop( const QGradientStop & stop )
 {
+	if ( m_currentStop == stop )
+		return;
+	
+	bool colorChanged = stop.second != m_currentStop.second;
+	
 	m_currentStop = stop;
 	update();
-	emit colorSelected( stop.second );
+	
+	if ( colorChanged )
+		emit colorSelected( stop.second );
 }
 
 
 void KGradientEditor::setGradient( const QGradientStops & stops )
 {
+	if ( stops == m_gradient.stops() )
+		return;
+	
 	m_gradient.setStops( stops );
 	update();
 	emit gradientChanged( m_gradient );
@@ -345,8 +372,6 @@ double KGradientEditor::fromArrowPos( double pos ) const
 
 
 //BEGIN class KGradientDialog
-
-
 KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 	: KDialog( parent )
 {
@@ -385,6 +410,8 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 	connect( m_gradient, SIGNAL(colorSelected(const QColor &)), m_colorDialog, SLOT(setColor(const QColor &)) );
 	connect( m_colorDialog, SIGNAL(colorSelected(const QColor &)), m_gradient, SLOT(setColor(const QColor &)) );
 	connect( m_gradient, SIGNAL(gradientChanged(const QGradient &)), this, SIGNAL(gradientChanged(const QGradient &)) );
+	
+	m_colorDialog->setColor( m_gradient->color() );
 }
 
 

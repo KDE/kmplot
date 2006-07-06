@@ -21,6 +21,9 @@
    </property>
    <item row="3" column="2" >
     <widget class="QPushButton" name="gradientButton" >
+     <property name="enabled" >
+      <bool>false</bool>
+     </property>
      <property name="text" >
       <string>Edit...</string>
      </property>
@@ -99,5 +102,22 @@
   <tabstop>lineWidth</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>useGradient</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>gradientButton</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>168</x>
+     <y>112</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>293</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

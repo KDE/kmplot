@@ -192,8 +192,7 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 		tag.setAttribute( QString("%1-width").arg( names[i] ), plots[i]->lineWidth );
 		tag.setAttribute( QString("%1-color").arg( names[i] ), QColor( plots[i]->color ).name() );
 		tag.setAttribute( QString("%1-use-gradient").arg( names[i] ), plots[i]->useGradient );
-// 		tag.setAttribute( QString("%1-color1").arg( names[i] ), QColor( plots[i]->color1 ).name() );
-// 		tag.setAttribute( QString("%1-color2").arg( names[i] ), QColor( plots[i]->color2 ).name() );
+		tag.setAttribute( QString("%1-gradient").arg( names[i] ), gradientToString( plots[i]->gradient.stops() ) );
 		tag.setAttribute( QString("%1-visible").arg( names[i] ), plots[i]->visible );
 		tag.setAttribute( QString("%1-style").arg( names[i] ), PlotAppearance::penStyleToString( plots[i]->style ) );
 		tag.setAttribute( QString("%1-show-extrema").arg( names[i] ), plots[i]->showExtrema );
@@ -520,12 +519,13 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		plots[i]->lineWidth = n.attribute( QString("%1-width").arg( names[i] ) ).toDouble() * lengthScaler;
 		plots[i]->color = n.attribute( QString("%1-color").arg( names[i] ) );
 		plots[i]->useGradient = n.attribute( QString("%1-use-gradient").arg( names[i] ) ).toInt();
-// 		plots[i]->color1 = n.attribute( QString("%1-color1").arg( names[i] ) );
-// 		plots[i]->color2 = n.attribute( QString("%1-color2").arg( names[i] ) );
+		plots[i]->gradient.setStops( stringToGradient( n.attribute( QString("%1-gradient").arg( names[i] ) ) ) );
 		plots[i]->visible = n.attribute( QString("%1-visible").arg( names[i] ) ).toInt();
 		plots[i]->style = PlotAppearance::stringToPenStyle( n.attribute( QString("%1-style").arg( names[i] ) ) );
 		plots[i]->showExtrema = n.attribute( QString("%1-show-extrema").arg( names[i] ) ).toInt();
 	}
+	
+	kDebug() << k_funcinfo << "plots[0]->gradient.stops().count()="<<plots[0]->gradient.stops().count()<<endl;
         
         
     //BEGIN parameters
@@ -807,3 +807,39 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 		added_function->copyFrom( ufkt );
 	}
 }
+
+
+// static
+QString KmPlotIO::gradientToString( const QGradientStops & stops )
+{
+	QString string;
+	foreach ( QGradientStop stop, stops )
+		string += QString( "%1;%2," ).arg( stop.first ).arg( stop.second.name() );
+	kDebug() << k_funcinfo << "return "<<string<<endl;
+	return string;
+}
+
+
+// static
+QGradientStops KmPlotIO::stringToGradient( const QString & string )
+{
+	QStringList stopStrings = string.split( ',', QString::SkipEmptyParts );
+	
+	QGradientStops stops;
+	foreach ( QString stopString, stopStrings )
+	{
+		QString pos = stopString.section( ';', 0, 0 );
+		QString color = stopString.section( ';', 1, 1 );
+		
+		kDebug() << "Got stop, pos="<<pos<<" color="<<color<<endl;
+		
+		QGradientStop stop;
+		stop.first = pos.toDouble();
+		stop.second = color;
+		stops << stop;
+	}
+	
+	return stops;
+}
+
+

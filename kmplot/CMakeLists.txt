@@ -72,7 +72,7 @@ kde4_add_executable(kmplot ${kmplot_SRCS})
 
 target_link_libraries(kmplot  ${KDE4_KPARTS_LIBS} kdeprint )
 
-install_targets(/bin kmplot ) 
+install(TARGETS kmplot  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
 

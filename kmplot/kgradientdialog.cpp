@@ -23,7 +23,6 @@
 */
 
 #include "kgradientdialog.h"
-#include "ui_kgradientdialog.h"
 
 #include <kcolordialog.h>
 #include <klocale.h>
@@ -32,6 +31,7 @@
 
 #include <QtGlobal>
 #include <QVBoxLayout>
+#include <QLabel>
 #include <QLinearGradient>
 #include <QPainter>
 #include <QPaintEvent>

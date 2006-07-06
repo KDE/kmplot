@@ -158,3 +158,9 @@ kmplot/org.kde.kmplot.KmPlot.xml
 kmplot/org.kde.kmplot.MainDlg.xml
 kmplot/org.kde.kmplot.Parser.xml
 kmplot/org.kde.kmplot.View.xml
+kmplot/kgradienteditor.cpp
+kgradienteditor.cpp
+kmplot/kgradienteditor.h
+kmplot/kgradientdialog.cpp
+kmplot/kgradientdialog.h
+kmplot/kgradientdialog.ui

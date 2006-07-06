@@ -24,6 +24,7 @@
 #ifndef PLOTSTYLEWIDGET_H
 #define PLOTSTYLEWIDGET_H
 
+#include <QGradient>
 #include <QGroupBox>
 
 class KColorButton;
@@ -61,11 +62,16 @@ class PlotStyleWidget : public QGroupBox
 		 * Called when the user clicks on the "Advanced" button.
 		 */
 		void advancedOptions();
+		/**
+		 * Called when the user clicks on the button for editing gradients.
+		 */
+		void editGradient();
 		
 	protected:
 		KColorButton * m_color;
 		KDialog * m_dialog;
 		PlotStyleDialogWidget * m_dialogWidget;
+		QGradient m_gradient;
 };
 
 #endif

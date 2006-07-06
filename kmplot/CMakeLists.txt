@@ -24,6 +24,7 @@ set(kmplotpart_PART_SRCS
    coordsconfigdialog.cpp
    parameteranimator.cpp
    vector.cpp
+   kgradientdialog.cpp
    )
 
 qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml maindlg.h MainDlg)

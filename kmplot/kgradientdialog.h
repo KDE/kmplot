@@ -1,0 +1,185 @@
+/*
+* KmPlot - a math. function plotter for the KDE-Desktop
+*
+* Copyright (C)      2006  David Saxton <david@bluehaze.org>
+*               
+* This file is part of the KDE Project.
+* KmPlot is part of the KDE-EDU Project.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+* 
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+*
+*/
+
+#ifndef KGRADIENTDIALOG_H
+#define KGRADIENTDIALOG_H
+
+#include <kdialog.h>
+#include <QGradient>
+#include <QWidget>
+
+class QMouseEvent;
+class QPaintEvent;
+
+/**
+ * \short A color-gradient strip with arrows to change the stops.
+ * 
+ * Displays a color gradient for editing. Color stops can be added, removed or
+ * repositioned by the user via the mouse.
+ * 
+ * This widget can't change the colors used in the gradient however. For that,
+ * you should either:
+ * 
+ * \li Use KGradientDialog, or
+ * \li Connect to the colorChanged signal, provide your own color editing
+ *     widgets, and call setCurrentColor as appropriate.
+ * 
+ * \see QGradient
+ */
+class KGradientEditor : public QWidget
+{
+	Q_OBJECT
+	Q_PROPERTY( Qt::Orientation orientation READ orientation WRITE setOrientation )
+	
+	public:
+		KGradientEditor( QWidget * parent = 0 );
+		~KGradientEditor();
+		
+		/**
+		 * \return the current color-gradient.
+		 */
+		QGradient gradient() const { return m_gradient; }
+		/**
+		 * \return the currently selected color.
+		 */
+		QColor color() const { return m_currentStop.second; }
+		/**
+		 * Set the orientation of the gradient strip.
+		 */
+		void setOrientation( Qt::Orientation orientation );
+		/**
+		 * \return the orientation of the gradient strip.
+		 */
+		Qt::Orientation orientation() const { return m_orientation; }
+		
+		virtual QSize minimumSizeHint() const;
+		
+	public Q_SLOTS:
+		/**
+		 * Set the current gradient being edited.
+		 */
+		void setGradient( const QGradient & gradient );
+		/**
+		 * Set the color of the currently selected color-stop.
+		 */
+		void setColor( const QColor & color );
+		/**
+		 * Removes the currently selected stop.
+		 */
+		void removeStop();
+		
+	Q_SIGNALS:
+		/**
+		 * Emitted when a color-stop is selected (e.g. when it is clicked on
+		 * or the previously selected color is removed).
+		 */
+		void colorSelected( const QColor & color );
+		/**
+		 * Emitted when the gradient changes.
+		 */
+		void gradientChanged( const QGradient & gradient );
+		
+	protected:
+		virtual void paintEvent( QPaintEvent * e );
+		virtual void mousePressEvent( QMouseEvent * e );
+		virtual void mouseMoveEvent( QMouseEvent * e );
+		virtual void mouseReleaseEvent( QMouseEvent * e );
+		virtual void mouseDoubleClickEvent( QMouseEvent * e );
+		virtual void contextMenuEvent( QContextMenuEvent * e );
+		
+	private:
+		bool getGradientStop( const QPoint & mousePos );
+		void setCurrentStop( const QGradientStop & stop );
+		void setGradient( const QGradientStops & stops );
+		void drawArrow( QPainter * painter, const QGradientStop & stop );
+		double toArrowPos( double stop ) const;
+		double fromArrowPos( double pos ) const;
+		
+		double m_clickOffset; // from the center of the arrow
+		bool m_haveArrow; // true when an arrow has been clicked on
+		QGradientStop m_currentStop;
+		QGradient m_gradient;
+		Qt::Orientation m_orientation;
+};
+
+
+/**
+ * \short A dialog for getting a QGradient.
+ * 
+ * This dialog contains a KGradientEditor for editing the gradient stops and
+ * a selection of widgets for changing the current color.
+ * 
+ * Example:
+ * 
+ * \code
+ *  QGradient gradient;
+ *  int result = KGradientDialog::getColor( gradient );
+ *  if ( result == KGradientDialog::Accepted )
+ *      ...
+ * \endcode
+ */
+class KGradientDialog : public KDialog
+{
+	Q_OBJECT
+			
+	public:
+		KGradientDialog( QWidget * parent = 0, bool modal = false );
+		~KGradientDialog();
+		
+		/**
+		 * Creates a modal gradient dialog, lets the user choose a gradient,
+		 * and returns when the dialog is closed.
+		 * 
+		 * The initial gradient will be the one passed in \p gradient, and the
+		 * choosen gradient is returned in this argument. If the user Cancels
+		 * the dialog instead of Ok'ing it, then \p gradient will remain
+		 * unchanged.
+		 * 
+		 * \returns QDialog::result()
+		 */
+		static int getGradient( QGradient & gradient, QWidget * parent = 0 );
+		
+		/**
+		 * The current gradient.
+		 */
+		QGradient gradient() const;
+		
+	public Q_SLOTS:
+		/**
+		 * Sets the current gradient.
+		 */
+		void setGradient( const QGradient & gradient );
+		
+	Q_SIGNALS:
+		/**
+		 * Emitted when the current gradient changes.
+		 */
+		void gradientChanged( const QGradient & gradient );
+	
+	private:
+		class KColorDialog * m_colorDialog;
+		KGradientEditor * m_gradient;
+};
+
+#endif // KGRADIENTEDITOR_H

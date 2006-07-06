@@ -29,6 +29,7 @@
 #include "vector.h"
 
 #include <QColor>
+#include <QGradient>
 #include <QPointF>
 #include <QString>
 #include <QVector>
@@ -95,9 +96,8 @@ class PlotAppearance
 		
 		double lineWidth;	///< line width in mm
 		QColor color;		///< color that the plot will be drawn in
-		bool useGradient;	///< for plots with parameters, whether to use a gradient of color1->color2 instead of color
-		QColor color1;		///< for gradients, first color
-		QColor color2;		///< for gradients, second color
+		bool useGradient;	///< for plots with parameters, whether to use gradient instead of color
+		QGradient gradient; ///< the gradient if useGradient is true
 		bool visible;		///< whether to display this plot
 		Qt::PenStyle style;	///< pen style (e.g. dolif, dashes, dotted, etc)
 		bool showExtrema;	///< for cartesian functions, whether to show the extreme values of the function

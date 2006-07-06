@@ -30,7 +30,10 @@
 #include "xparser.h"
 
 #include <kdebug.h>
+#include <QImage>
+#include <QLinearGradient>
 #include <QMap>
+#include <QPainter>
 
 #include <assert.h>
 #include <cmath>
@@ -75,8 +78,6 @@ PlotAppearance::PlotAppearance( )
 	lineWidth = 0.2;
 	color = Qt::black;
 	useGradient = false;
-	color1 = QColor( 0xff, 0xff, 0x00 );
-	color2 = QColor( 0xff, 0x00, 0x00 );
 	visible = false;
 	style = Qt::SolidLine;
 	showExtrema = false;
@@ -89,8 +90,7 @@ bool PlotAppearance::operator !=( const PlotAppearance & other ) const
 			(lineWidth != other.lineWidth) ||
 			(color != other.color) ||
 			(useGradient != other.useGradient) ||
-			(color1 != other.color1) ||
-			(color2 != other.color2) ||
+			(gradient != other.gradient) ||
 			(visible != other.visible) ||
 			(style != other.style) ||
 			(showExtrema != other.showExtrema);
@@ -918,19 +918,16 @@ QColor Plot::color( ) const
 	
 	// Is a gradient
 	
-	double x = plotNumber;
-	double y = plotNumberCount - plotNumber - 1;
+	int x = plotNumber;
+	int l = plotNumberCount - 1;
 	
-	double r = ((appearance.color1.redF() * x ) + (appearance.color2.redF() * y)) / (x+y);
-	double g = ((appearance.color1.greenF() * x ) + (appearance.color2.greenF() * y)) / (x+y);
-	double b = ((appearance.color1.blueF() * x ) + (appearance.color2.blueF() * y)) / (x+y);
-	
-	QColor color;
-	color.setRedF( r );
-	color.setGreenF( g );
-	color.setBlueF( b );
-	
-	return color;
+	QLinearGradient lg( 0, 0, l, 0 );
+	lg.setStops( appearance.gradient.stops() );
+	QImage im( l, 1, QImage::Format_RGB32 );
+	QPainter p(&im);
+	p.setPen( QPen( lg, 1 ) );
+	p.drawLine( 0, 0, l, 0 );
+	return im.pixel( x, 0 );
 }
 
 

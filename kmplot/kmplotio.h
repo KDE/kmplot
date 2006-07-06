@@ -120,7 +120,6 @@ class KmPlotIO
 		 */
 		void oldParseFunction2( const QDomElement &n );
 		
-		/// \todo make (at least some of) this stuff non-static
 		double lengthScaler; ///< for reading in lengths
 		/**
 		 * version of the file currently being opened (0,1,2,3,4)

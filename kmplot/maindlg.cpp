@@ -34,6 +34,7 @@
 #include <kaboutdata.h>
 #include <kapplication.h>
 #include <kconfigdialog.h>
+#include <kconfigdialogmanager.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
 #include <kio/netaccess.h>
@@ -160,7 +161,10 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	connect( m_saveCurrentStateTimer, SIGNAL(timeout()), this, SLOT(saveCurrentState()) );
 	//END undo/redo stuff
 	
-
+	
+	
+	// Allow config manager to read from equation edits
+	KConfigDialogManager::changedMap()->insert( "EquationEdit", SIGNAL(textEdited(const QString &)) );
 	// Let's create a Configure Diloag
 	m_settingsDialog = new KConfigDialog( parentWidget, "settings", Settings::self() );
 	m_settingsDialog->setHelp("general-config");

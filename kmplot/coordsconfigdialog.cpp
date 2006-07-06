@@ -86,13 +86,17 @@ bool CoordsConfigDialog::evalY()
 
 void CoordsConfigDialog::slotOk()
 {
-	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
+	// I've left this here as an example of poor naming (which radio button is which?!) :p
+// 	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
+	
+	
+	if ( !(configAxesDialog->customX->isChecked() && !evalX()) && !(configAxesDialog->customY->isChecked() && !evalY()))
         slotButtonClicked( KDialog::Ok );
 }
 
 void CoordsConfigDialog::slotApply()
 {
-	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
+	if ( !(configAxesDialog->customX->isChecked() && !evalX()) && !(configAxesDialog->customY->isChecked() && !evalY()))
         slotButtonClicked( KDialog::Apply );
 }
 

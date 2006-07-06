@@ -96,6 +96,7 @@ class EquationEditWidget : public QTextEdit
 class EquationEdit : public QWidget
 {
 	Q_OBJECT
+	Q_PROPERTY( QString text READ text WRITE setText USER true );
 	
 	public:
 		enum InputType

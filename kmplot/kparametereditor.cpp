@@ -60,7 +60,6 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	
 	foreach ( Value v, *m_parameter )
 		m_mainWidget->list->addItem( v.expression() );
-	m_mainWidget->list->sortItems();
 	
 	connect( m_mainWidget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
 	connect( m_mainWidget->cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
@@ -128,7 +127,6 @@ void KParameterEditor::cmdDelete_clicked()
 	delete item;
 	
 	m_mainWidget->cmdDelete->setEnabled( m_mainWidget->list->currentItem() != 0 );
-	m_mainWidget->list->sortItems();
 }
 
 
@@ -195,7 +193,6 @@ void KParameterEditor::cmdImport_clicked()
 				if ( !checkTwoOfIt(line) )
 				{
 					m_mainWidget->list->addItem(line);
-					m_mainWidget->list->sortItems();
 				}
 			}
 			else if ( !verbose)

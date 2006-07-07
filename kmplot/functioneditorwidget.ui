@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>366</width>
-    <height>546</height>
+    <width>345</width>
+    <height>517</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -78,7 +78,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -103,13 +103,6 @@
            </property>
            <item>
             <widget class="EquationEdit" name="cartesianEquation" />
-           </item>
-           <item>
-            <widget class="ParametersWidget" name="cartesianParameters" >
-             <property name="title" >
-              <string>Parameters</string>
-             </property>
-            </widget>
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox" >
@@ -176,6 +169,13 @@
                </widget>
               </item>
              </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="ParametersWidget" name="cartesianParameters" >
+             <property name="title" >
+              <string>Parameters</string>
+             </property>
             </widget>
            </item>
            <item>
@@ -515,13 +515,6 @@ Example: sin(t)</string>
         </widget>
        </item>
        <item>
-        <widget class="ParametersWidget" name="parametricParameters" >
-         <property name="title" >
-          <string>Parameters</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QGroupBox" name="groupBox_9" >
          <property name="title" >
           <string>Plot range</string>
@@ -574,6 +567,13 @@ Example: sin(t)</string>
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="ParametersWidget" name="parametricParameters" >
+         <property name="title" >
+          <string>Parameters</string>
+         </property>
         </widget>
        </item>
        <item>
@@ -641,13 +641,6 @@ Example: loop(angle)=ln(angle)</string>
         </widget>
        </item>
        <item>
-        <widget class="ParametersWidget" name="polarParameters" >
-         <property name="title" >
-          <string>Parameters</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QGroupBox" name="groupBox_13" >
          <property name="title" >
           <string>Plot Range</string>
@@ -700,6 +693,13 @@ Example: loop(angle)=ln(angle)</string>
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="ParametersWidget" name="polarParameters" >
+         <property name="title" >
+          <string>Parameters</string>
+         </property>
         </widget>
        </item>
        <item>
@@ -766,17 +766,14 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="textLabel4_2" >
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label_5" >
             <property name="text" >
-             <string>Name:</string>
-            </property>
-            <property name="buddy" >
-             <cstring>implicitName</cstring>
+             <string>Expression:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" colspan="2" >
+          <item row="1" column="1" >
            <widget class="EquationEdit" name="implicitEquation" >
             <property name="toolTip" >
              <string>enter an expression</string>
@@ -785,6 +782,16 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
              <string>Enter an expression for the function.
 The dummy variable is t.
 Example: cos(t)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="textLabel4_2" >
+            <property name="text" >
+             <string>Name:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>implicitName</cstring>
             </property>
            </widget>
           </item>
@@ -931,21 +938,6 @@ Example: cos(t)</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>InitialConditionsEditor</class>
-   <extends>QGroupBox</extends>
-   <header>initialconditionseditor.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ParametersWidget</class>
-   <extends>QGroupBox</extends>
-   <header>parameterswidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>EquationEdit</class>
    <extends>KLineEdit</extends>
    <header>equationedit.h</header>
@@ -956,14 +948,29 @@ Example: cos(t)</string>
    <header>functioneditor.h</header>
   </customwidget>
   <customwidget>
-   <class>PlotStyleWidget</class>
+   <class>ParametersWidget</class>
    <extends>QGroupBox</extends>
-   <header>plotstylewidget.h</header>
+   <header>parameterswidget.h</header>
   </customwidget>
   <customwidget>
    <class>KDoubleNumInput</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PlotStyleWidget</class>
+   <extends>QGroupBox</extends>
+   <header>plotstylewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>InitialConditionsEditor</class>
+   <extends>QGroupBox</extends>
+   <header>initialconditionseditor.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

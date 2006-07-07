@@ -914,7 +914,7 @@ void FunctionListItem::update()
 	
 	QString text = f->eq[0]->fstr();
 	if ( f->eq.size() == 2 )
-		text += ';' + f->eq[1]->fstr();
+		text += '\n' + f->eq[1]->fstr();
 // 	text += QString(" id=%1").arg(m_function );
 	setText( text );
 	

@@ -52,6 +52,12 @@ Value::Value( const QString & expression )
 }
 
 
+Value::Value( double value )
+{
+	updateExpression( value );
+}
+
+
 bool Value::updateExpression( const QString & expression )
 {
 	double newValue = XParser::self()->eval( expression );
@@ -61,6 +67,13 @@ bool Value::updateExpression( const QString & expression )
 	m_value = newValue;
 	m_expression = expression;
 	return true;
+}
+
+
+void Value::updateExpression( double value )
+{
+	m_value = value;
+	m_expression = Parser::number( value );
 }
 
 
@@ -204,6 +217,7 @@ bool DifferentialState::operator == ( const DifferentialState & other ) const
 DifferentialStates::DifferentialStates()
 {
 	m_order = 0;
+	m_step.updateExpression( 0.05 );
 }
 
 
@@ -427,10 +441,8 @@ Function::Function( Type type )
 	
 	id = 0;
 	f0.visible = true;
-	integral_use_precision = false;
 	
 	k = 0;
-	integral_precision = 1.0;
 }
 
 
@@ -455,17 +467,15 @@ bool Function::copyFrom( const Function & function )
 	} \
 	i++;
 	
-	COPY_AND_CHECK( f0 );						// 0
-	COPY_AND_CHECK( f1 );						// 1
-	COPY_AND_CHECK( f2 );						// 2
-	COPY_AND_CHECK( integral );					// 3
-	COPY_AND_CHECK( integral_use_precision );	// 4
-	COPY_AND_CHECK( dmin );						// 5
-	COPY_AND_CHECK( dmax );						// 6
-	COPY_AND_CHECK( integral_precision );		// 7
-	COPY_AND_CHECK( usecustomxmin );			// 8
-	COPY_AND_CHECK( usecustomxmax );			// 9
-	COPY_AND_CHECK( m_parameters );				// 10
+	COPY_AND_CHECK( f0 );
+	COPY_AND_CHECK( f1 );
+	COPY_AND_CHECK( f2 );
+	COPY_AND_CHECK( integral );
+	COPY_AND_CHECK( dmin );
+	COPY_AND_CHECK( dmax );
+	COPY_AND_CHECK( usecustomxmin );
+	COPY_AND_CHECK( usecustomxmax );
+	COPY_AND_CHECK( m_parameters );
 	
 	// handle equations separately
 	for ( int i = 0; i < eq.size(); ++i )
@@ -477,7 +487,6 @@ bool Function::copyFrom( const Function & function )
 		}
 	}
 	
-// 	kDebug() << k_funcinfo << "changed="<<changed<<endl;
 	return changed;
 }
 

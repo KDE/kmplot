@@ -212,9 +212,6 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 		addTag( doc, tag, "parameter-list", str_parameters.join( ";" ) );
 	//END parameters
 	
-	tag.setAttribute( "integral-use-precision", function->integral_use_precision );
-	tag.setAttribute( "integral-precision", function->integral_precision );
-	
 	tag.setAttribute( "type", Function::typeToString( function->type() ) );
 	for ( int i=0; i< function->eq.size(); ++i )
 	{
@@ -224,13 +221,14 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 		if ( fstr.isEmpty() )
 			continue;
 		QDomElement element = addTag( doc, tag, QString("equation-%1").arg(i), fstr );
+		element.setAttribute( "step", equation->differentialStates.step().expression() );
 		
 		for ( int i = 0; i < equation->differentialStates.size(); ++i )
 		{
 			DifferentialState * state = & equation->differentialStates[i];
 			
-			QDomElement condition = doc.createElement( "condition" );
-			element.appendChild( condition );
+			QDomElement differential = doc.createElement( "differential" );
+			element.appendChild( differential );
 			
 			bool first = true;
 			QString ys;
@@ -242,8 +240,8 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 				ys += y.expression();
 			}
 			
-			condition.setAttribute( "x", state->x0.expression() );
-			condition.setAttribute( "y", ys );
+			differential.setAttribute( "x", state->x0.expression() );
+			differential.setAttribute( "y", ys );
 		}
 	}
 
@@ -267,8 +265,6 @@ QDomElement KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const Q
 
 bool KmPlotIO::restore( const QDomDocument & doc )
 {
-	kDebug() << k_funcinfo << endl;
-	
 	// temporary measure: for now, delete all previous functions
 	QList<int> prevFunctionIDs = XParser::self()->m_ufkt.keys();
 	foreach ( int id, prevFunctionIDs )
@@ -454,8 +450,6 @@ void KmPlotIO::parseScale(const QDomElement & n )
 
 void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 {
-	kDebug() << k_funcinfo << endl;
-	
 	QDomElement equation0 = n.namedItem( "equation-0" ).toElement();
 	QDomElement equation1 = n.namedItem( "equation-1" ).toElement();
 	
@@ -463,8 +457,6 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	QString eq1 = equation1.text();
                 
 	Function::Type type = Function::stringToType( n.attribute( "type" ) );
-	
-	kDebug() << "1: allowRename="<<allowRename<<" eq0: "<<eq0<<endl;
 	
 	if ( allowRename )
 	{
@@ -493,8 +485,6 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		}
 	}
 	
-	kDebug() << "eq0: " << eq0 << endl;
-	
 	int functionID = XParser::self()->Parser::addFunction( eq0, eq1, type );
 	if ( functionID == -1 )
 	{
@@ -503,9 +493,9 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	}
 	Function * function = XParser::self()->functionWithID( functionID );
 	
-	parseInitialConditions( equation0, function->eq[0] );
+	parseDifferentialStates( equation0, function->eq[0] );
 	if ( function->eq.size() > 1 )
-		parseInitialConditions( equation1, function->eq[1] );
+		parseDifferentialStates( equation1, function->eq[1] );
         
 	PlotAppearance * plots[] = { & function->plotAppearance( Function::Derivative0 ),
 		& function->plotAppearance( Function::Derivative1 ),
@@ -524,8 +514,6 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		plots[i]->style = PlotAppearance::stringToPenStyle( n.attribute( QString("%1-style").arg( names[i] ) ) );
 		plots[i]->showExtrema = n.attribute( QString("%1-show-extrema").arg( names[i] ) ).toInt();
 	}
-	
-	kDebug() << k_funcinfo << "plots[0]->gradient.stops().count()="<<plots[0]->gradient.stops().count()<<endl;
         
         
     //BEGIN parameters
@@ -535,10 +523,6 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	function->m_parameters.sliderID = n.attribute( "parameter-slider" ).toInt();        
 	function->m_parameters.useList = n.attribute( "use-parameter-list" ).toInt();
 	//END parameters
-        
-        
-	function->integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
-	function->integral_precision = n.attribute( "integral-precision" ).toInt();
 
 	QDomElement minElement = n.namedItem( "arg-min" ).toElement();
 	QString expression = minElement.text();
@@ -573,8 +557,10 @@ void KmPlotIO::parseParameters( const QDomElement &n, Function * function )
 }
 
 
-void KmPlotIO::parseInitialConditions( const QDomElement & n, Equation * equation )
+void KmPlotIO::parseDifferentialStates( const QDomElement & n, Equation * equation )
 {
+	equation->differentialStates.setStep( n.attribute( "step" ) );
+	
 	QDomNode node = n.firstChild();
 	
 	while (!node.isNull())
@@ -668,10 +654,6 @@ void KmPlotIO::oldParseFunction2( const QDomElement & n )
                 
 	ufkt.m_parameters.useList = !ufkt.m_parameters.list.isEmpty();
 	//END parameters
-        
-        
-	ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
-	ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
 	
 	if ( type == Function::Cartesian )
 	{
@@ -815,7 +797,6 @@ QString KmPlotIO::gradientToString( const QGradientStops & stops )
 	QString string;
 	foreach ( QGradientStop stop, stops )
 		string += QString( "%1;%2," ).arg( stop.first ).arg( stop.second.name() );
-	kDebug() << k_funcinfo << "return "<<string<<endl;
 	return string;
 }
 
@@ -831,8 +812,6 @@ QGradientStops KmPlotIO::stringToGradient( const QString & string )
 		QString pos = stopString.section( ';', 0, 0 );
 		QString color = stopString.section( ';', 1, 1 );
 		
-		kDebug() << "Got stop, pos="<<pos<<" color="<<color<<endl;
-		
 		QGradientStop stop;
 		stop.first = pos.toDouble();
 		stop.second = color;
@@ -841,5 +820,3 @@ QGradientStops KmPlotIO::stringToGradient( const QString & string )
 	
 	return stops;
 }
-
-

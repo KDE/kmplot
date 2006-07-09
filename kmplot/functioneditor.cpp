@@ -115,10 +115,6 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	foreach ( EquationEdit * w, equationEdits )
 		connect( w, SIGNAL(editingFinished()), this, SLOT(save()) );
 	
-	QList<QDoubleSpinBox *> doubleSpinBoxes = m_editor->findChildren<QDoubleSpinBox *>();
-	foreach ( QDoubleSpinBox * w, doubleSpinBoxes )
-		connect( w, SIGNAL(valueChanged(double)), this, SLOT(save()) );
-	
 	QList<QCheckBox *> checkBoxes = m_editor->findChildren<QCheckBox *>();
 	foreach ( QCheckBox * w, checkBoxes )
 		connect( w, SIGNAL(stateChanged(int)), this, SLOT(save()) );
@@ -337,8 +333,6 @@ void FunctionEditor::initFromCartesian()
 	m_editor->showDerivative1->setChecked( f->plotAppearance( Function::Derivative1 ).visible );
 	m_editor->showDerivative2->setChecked( f->plotAppearance( Function::Derivative2 ).visible );
 	
-	m_editor->precision->setValue( f->integral_precision );
-	
 	m_editor->cartesianCustomMin->setChecked( f->usecustomxmin );
 	m_editor->cartesianMin->setText( f->dmin.expression() );
 	
@@ -348,7 +342,7 @@ void FunctionEditor::initFromCartesian()
 	m_editor->cartesianParameters->init( f->m_parameters );
 	
 	m_editor->showIntegral->setChecked( f->plotAppearance( Function::Integral ).visible );
-	m_editor->customPrecision->setChecked( f->integral_use_precision );
+	m_editor->integralStep->setText( f->eq[0]->differentialStates.step().expression() );
 	
 	DifferentialState state = f->eq[0]->differentialStates[0];
 	m_editor->txtInitX->setText( state.x0.expression() );
@@ -433,6 +427,7 @@ void FunctionEditor::initFromDifferential()
 		return;
 	
 	m_editor->differentialEquation->setText( f->eq[0]->fstr());
+	m_editor->differentialStep->setText( f->eq[0]->differentialStates.step().expression() );
 	
 	m_editor->differential_f0->init( f->plotAppearance( Function::Derivative0 ) );
 	m_editor->differentialParameters->init( f->m_parameters );
@@ -604,9 +599,7 @@ void FunctionEditor::saveCartesian()
 	state->x0.updateExpression( m_editor->txtInitX->text() );
 	state->y0[0].updateExpression( m_editor->txtInitY->text() );
 
-	tempFunction.integral_use_precision = m_editor->customPrecision->isChecked();
-	tempFunction.integral_precision = m_editor->precision->value();
-	
+	tempFunction.eq[0]->differentialStates.setStep( m_editor->integralStep->text() );
 	tempFunction.m_parameters = m_editor->cartesianParameters->parameterSettings();
 	
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
@@ -806,6 +799,7 @@ void FunctionEditor::saveDifferential()
 	
 	m_editor->initialConditions->setOrder( tempFunction.eq[0]->order() );
 	tempFunction.eq[0]->differentialStates = *m_editor->initialConditions->differentialStates();
+	tempFunction.eq[0]->differentialStates.setStep( m_editor->differentialStep->text() );
 	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );

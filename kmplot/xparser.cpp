@@ -314,7 +314,7 @@ Vector XParser::rk4_f( int order, Equation * eq, double x, Vector y )
 }
 
 
-double XParser::differential( Equation * eq, DifferentialState * state, double x_target, double h )
+double XParser::differential( Equation * eq, DifferentialState * state, double x_target, double max_dx )
 {
 	differentialFinite = true;
 	
@@ -324,8 +324,8 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 		return 0;
 	}
 	
-	h = qAbs(h);
-	assert( h > 0 ); // in case anyone tries to pass us a zero h
+	max_dx = qAbs(max_dx);
+	assert( max_dx > 0 ); // in case anyone tries to pass us a zero h
 	
 	// the difference between h and dx is that h is only used as a hint for the
 	// stepwidth; dx is made similar to h in size, yet tiles the gap between x
@@ -348,7 +348,7 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	if ( x_target == x )
 		return y[0];
 	
-	int intervals = qMax( qRound( qAbs(x_target-x)/h ), 1 );
+	int intervals = int( qAbs(x_target-x)/max_dx + 1 );
 	double dx = (x_target-x) / double(intervals);
 	
 	for ( int i = 0; i < intervals; ++i )
@@ -741,7 +741,7 @@ int XParser::addFunction(const QString &f_str0, const QString &_f_str1)
 	return id;
 }
 
-bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider)
+bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider)
 {
 	QString fstr[2] = { fstr_const0, fstr_const1 };
 	Function::Type type = Function::Cartesian;
@@ -804,8 +804,6 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	appearance.lineWidth = integral_linewidth;
 	added_function->plotAppearance( Function::Integral ) = appearance;
 	
-	added_function->integral_use_precision = integral_use_precision;
-	
 	added_function->dmin.updateExpression( str_dmin );
 	added_function->usecustomxmin = !str_dmin.isEmpty();
 	
@@ -816,7 +814,7 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	state->x0.updateExpression( str_startx );
 	state->y0[0].updateExpression( str_starty );
 	
-	added_function->integral_precision = integral_precision;
+	added_function->eq[0]->differentialStates.setStep( Value( integral_precision ) );
 	
 	added_function->m_parameters.sliderID = use_slider;
 	for( QStringList::Iterator it = str_parameter.begin(); it != str_parameter.end(); ++it )

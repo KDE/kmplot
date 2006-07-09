@@ -25,7 +25,6 @@
 
 #ifndef View_included
 #define View_included
-#undef	 GrayScale
 
 // Qt includes
 #include <qpixmap.h>
@@ -250,7 +249,7 @@ class View : public QWidget
 		/**
 		 * \return an appropriate value to use in numerical differentiation.
 		 */
-		double h() const;
+		double h( const Plot & plot ) const;
 		/**
 		* Print out table with additional information. Only for printing.
 		*/
@@ -268,11 +267,11 @@ class View : public QWidget
 		/**
 		* Draw the function plots (other than implicit).
 		*/
-		void plotFunction(Function *ufkt, QPainter*);
+		void drawPlot( const Plot & plot, QPainter*);
 		/**
 		 * Draw an implicit function.
 		 */
-		void plotImplicit( Function * function, QPainter * );
+		void drawImplicit( Function * function, QPainter * );
 		/**
 		 * Draw the extrema points, function names, etc. This needs to be done
 		 * after the functions have all been drawn so that the label positioning
@@ -293,7 +292,7 @@ class View : public QWidget
 		 * Used by plotImplicit to draw the plot in the square associated with
 		 * the given point.
 		 */
-		void plotImplicitInSquare( const Plot & plot, QPainter *, double x, double y, Qt::Orientations orientation, QList<QPointF> * singular );
+		void drawImplicitInSquare( const Plot & plot, QPainter *, double x, double y, Qt::Orientations orientation, QList<QPointF> * singular );
 		/**
 		* \return whether should draw the pixel from the given line length,
 		* according to the given pen style (used in plotfkt).

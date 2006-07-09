@@ -110,7 +110,7 @@ class KmPlotIO
 		/**
 		 * Initializes \p equation from the dom element.
 		 */
-		void parseInitialConditions( const QDomElement & e, Equation * equation );
+		void parseDifferentialStates( const QDomElement & e, Equation * equation );
 		
 		///For KDE <3.3
 		/// This is the same as parseFunction but is made for old Kmplot-files

@@ -135,8 +135,8 @@ Parser::Parser()
 	m_stack = new double [STACKSIZE];
 	m_constants = new Constants( this );
 	
-	m_ownEquation = new Equation( Equation::Cartesian, 0 );
-	m_currentEquation = m_ownEquation;
+	m_ownEquation = 0;
+	m_currentEquation = 0;
 }
 
 
@@ -202,6 +202,9 @@ uint Parser::getNewId()
 
 double Parser::eval( const QString & str )
 {
+	if ( !m_ownEquation )
+		m_ownEquation = new Equation( Equation::Cartesian, 0 );
+	
 	if ( !m_ownEquation->setFstr( QString( "%1(x)=%2" ).arg( XParser::self()->findFunctionName( "f", -1 ) ).arg( str ) ) )
 		return 0;
 	

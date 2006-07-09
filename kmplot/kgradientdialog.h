@@ -43,7 +43,7 @@ class QPaintEvent;
  * 
  * \li Use KGradientDialog, or
  * \li Connect to the colorChanged signal, provide your own color editing
- *     widgets, and call setCurrentColor as appropriate.
+ *     widgets, and call setColor as appropriate.
  * 
  * \see QGradient
  */
@@ -113,7 +113,7 @@ class KGradientEditor : public QWidget
 		 * Attempts to get the arrow under the mouse, updating m_currentStop
 		 * to the corresponding stop if an arrow was found.
 		 * \return true if an arrow was under \p mousePos
-		 * \return false if an arrow wasn't under ap mousePos
+		 * \return false if an arrow wasn't under \p mousePos
 		 */
 		bool getGradientStop( const QPoint & mousePos );
 		/**

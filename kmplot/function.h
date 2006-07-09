@@ -53,7 +53,16 @@ extern int MAX_PM;
 class Value
 {
 	public:
+		/**
+		 * Initializes Value with \p expression.
+		 * This will have the value 0 if \p expression is empty or unparsable.
+		 */
 		Value( const QString & expression = QString() );
+		/**
+		 * Converts \p value to a string (see Parser::number) and initializes
+		 * this with the \p value.
+		 */
+		explicit Value( double value );
 		
 		/**
 		 * @return The value of the current expression.
@@ -69,6 +78,11 @@ class Value
 		 * true is returned. Otherwise, just returns false.
 		 */
 		bool updateExpression( const QString & expression );
+		/**
+		 * Converts \p value to a string (see Parser::number) and uses it for
+		 * the current expression.
+		 */
+		void updateExpression( double value );
 		/**
 		 * This checks if the expression strings (and hence values) are
 		 * identical.
@@ -152,14 +166,41 @@ class DifferentialStates
 	public:
 		DifferentialStates();
 		
+		/**
+		 * \see order()
+		 */
 		void setOrder( int order );
+		/**
+		 * Creates a differential state.
+		 */
 		DifferentialState * add();
+		/**
+		 * The order of the differential equations, e.g. "f''(x) = -f" is of
+		 * order 2.
+		 */
 		int order() const { return m_order; }
+		/**
+		 * The number of differential states.
+		 */
 		int size() const { return m_data.size(); }
+		/**
+		 * Calls DifferentialState::resetToInitial for each state; i.e. resets
+		 * the cached information about the state of the differential equation.
+		 */
 		void resetToInitial();
+		/**
+		 * The maximum step-size (and hence minimum precision) used in the RK4
+		 * method (see XParser::differential). Of course, a smaller step size
+		 * may be used in the visible section of a differential plot.
+		 */
+		Value step() const { return m_step; }
+		/**
+		 * \see maximumStep();
+		 */
+		void setStep( const Value & step ) { m_step = step; }
 		
-		bool operator == ( const DifferentialStates & other ) const { return m_data == other.m_data; }
-		bool operator != ( const DifferentialStates & other ) const { return m_data != other.m_data; }
+		bool operator == ( const DifferentialStates & other ) const { return (m_data == other.m_data) && (m_step == other.m_step); }
+		bool operator != ( const DifferentialStates & other ) const { return !(*this == other); }
 		DifferentialState & operator[] ( int i ) { return m_data[i]; }
 		const DifferentialState & operator[] ( int i ) const { return m_data[i]; }
 		void remove ( int i ) { m_data.remove(i); }
@@ -168,6 +209,7 @@ class DifferentialStates
 	protected:
 		QVector<DifferentialState> m_data;
 		int m_order;
+		Value m_step;
 };
 
 
@@ -413,10 +455,6 @@ class Function
 		 */
 		bool allPlotsAreHidden() const;
 		/**
-		 * The user can specify an unique precision for numeric prime-functions.
-		 */
-		bool integral_use_precision:1;
-		/**
 		 * Custom plot range, lower boundary.
 		 */
 		Value dmin;
@@ -429,7 +467,6 @@ class Function
 		
 		bool usecustomxmin:1;
 		bool usecustomxmax:1;
-		double integral_precision;
 		// TODO double slider_min, slider_max; ///< extreme values of the slider
 		
 		/**

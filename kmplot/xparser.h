@@ -64,7 +64,7 @@ class XParser : public Parser
 		 * XParserdifferentialDiverge will be set to the last point where the
 		 * differential value was finite.
 		 */
-		double differential( Equation * eq, DifferentialState * state, double x, double h );
+		double differential( Equation * eq, DifferentialState * state, double x, double max_dx );
 		bool differentialFinite;
 		double differentialDiverge;
 		/**
@@ -129,7 +129,7 @@ class XParser : public Parser
 	Q_SCRIPTABLE bool functionAddParameter(uint id, const QString &new_parameter);
 	Q_SCRIPTABLE bool functionRemoveParameter(uint id, const QString &remove_parameter);
 	Q_SCRIPTABLE int addFunction(const QString &f_str0, const QString &f_str1);
-	Q_SCRIPTABLE bool addFunction(const QString &extstr0, const QString &extstr1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool Q_SCRIPTABLE integral_use_precision, double linewidth, double f1linewidth, double f2linewidth, double integrallinewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider);
+	Q_SCRIPTABLE bool addFunction(const QString &extstr0, const QString &extstr1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, double linewidth, double f1linewidth, double f2linewidth, double integrallinewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider);
 	Q_SCRIPTABLE bool setFunctionExpression(uint id, uint eq, const QString &f_str);
 	
 	/// Get the min and max value of a graph

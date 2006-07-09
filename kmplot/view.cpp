@@ -287,9 +287,13 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			break;
 
 		if ( ufkt->type() == Function::Implicit )
-			plotImplicit( ufkt, & DC );
+			drawImplicit( ufkt, & DC );
 		else
-			plotFunction(ufkt, &DC);
+		{
+			QList<Plot> plots = ufkt->allPlots();
+			foreach ( Plot plot, plots )
+				drawPlot( plot, &DC );
+		}
 	}
 	drawFunctionInfo( &DC );
 	DC.setClipping( false );
@@ -864,9 +868,14 @@ void View::drawLabels(QPainter* pDC)
 }
 
 
-double View::h() const
+double View::h( const Plot & plot ) const
 {
-	return qMin( (m_xmax-m_xmin)/area.width(), (m_ymax-m_ymin)/area.height() );
+	if ( (plot.plotMode == Function::Integral) || (plot.function()->type() == Function::Differential) )
+		return plot.function()->eq[0]->differentialStates.step().value();
+	else
+		return qMin( (m_xmax-m_xmin)/area.width(), (m_ymax-m_ymin)/area.height() );
+	
+	
 }
 
 
@@ -880,10 +889,11 @@ double View::value( const Plot & plot, int eq, double x, bool updateFunction )
 	
 	Equation * equation = function->eq[eq];
 	
+	double dx = h( plot );
 	if ( plot.function()->type() == Function::Differential )
-		return XParser::self()->differential( equation, & equation->differentialStates[ plot.state ], x, h() );
+		return XParser::self()->differential( equation, & equation->differentialStates[ plot.state ], x, dx );
 	else
-		return XParser::self()->derivative( plot.derivativeNumber(), equation, x, h() );
+		return XParser::self()->derivative( plot.derivativeNumber(), equation, x, dx );
 }
 
 
@@ -1070,7 +1080,7 @@ double SegmentMax = 6.0;
 // NOTE: it is generally a good idea to make this number prime
 int squares = 19;
 
-void View::plotImplicit( Function * function, QPainter * painter )
+void View::drawImplicit( Function * function, QPainter * painter )
 {
 	assert( function->type() == Function::Implicit );
 	
@@ -1132,7 +1142,7 @@ void View::plotImplicit( Function * function, QPainter * painter )
 #ifdef DEBUG_IMPLICIT
 				painter->setPen( QPen( Qt::red, painter->pen().width() ) );
 #endif
-				plotImplicitInSquare( plot, painter, x, y, Qt::Horizontal, & singular );
+				drawImplicitInSquare( plot, painter, x, y, Qt::Horizontal, & singular );
 			}
 			
 			
@@ -1148,7 +1158,7 @@ void View::plotImplicit( Function * function, QPainter * painter )
 #ifdef DEBUG_IMPLICIT
 				painter->setPen( QPen( Qt::blue, painter->pen().width() ) );
 #endif
-				plotImplicitInSquare( plot, painter, x, y, Qt::Vertical, & singular );
+				drawImplicitInSquare( plot, painter, x, y, Qt::Vertical, & singular );
 			}
 		}
 		
@@ -1192,7 +1202,7 @@ void View::plotImplicit( Function * function, QPainter * painter )
 #endif
 				double x = point.x() + epsilon * cos(t);
 				double y = point.y() + epsilon * sin(t);
-				plotImplicitInSquare( plot, painter, x, y, 0, & singular );
+				drawImplicitInSquare( plot, painter, x, y, 0, & singular );
 			}
 		}
 		
@@ -1246,7 +1256,7 @@ double realModulo( double x, double mod )
 }
 
 
-void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x, double y, Qt::Orientations orientation, QList<QPointF> * singular )
+void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x, double y, Qt::Orientations orientation, QList<QPointF> * singular )
 {
 	plot.updateFunction();
 	Plot diff1 = plot;
@@ -1498,191 +1508,130 @@ void View::plotImplicitInSquare( const Plot & plot, QPainter * painter, double x
 }
 
 
-void View::plotFunction(Function *ufkt, QPainter *pDC)
+void View::drawPlot( const Plot & plot, QPainter *painter )
 {
-	// should use plotImplicit for implicit functions
-	assert( ufkt->type() != Function::Implicit );
+	plot.updateFunction();
+	Function * function = plot.function();
 	
-	double dmin = getXmin( ufkt );
-	double dmax = getXmax( ufkt );
-
+	// should use drawImplicit for implicit functions
+	assert( function->type() != Function::Implicit );
+	
+	bool setAliased = false;
+	if ( (plot.parameter.type() == Parameter::Animated) && (painter->renderHints() & QPainter::Antialiasing) )
+	{
+		// Don't use antialiasing, so that rendering is speeded up
+		setAliased = true;
+		painter->setRenderHint( QPainter::Antialiasing, false );
+	}
+	
+	painter->setPen( penForPlot( plot, painter->renderHints() & QPainter::Antialiasing ) );
+	
+	double dmin = getXmin( function );
+	double dmax = getXmax( function );
+	
+	// the 'middle' dx, which may be increased or decreased
 	double base_dx = (dmax-dmin)/area.width();
-	if ( (ufkt->type() == Function::Parametric) || (ufkt->type() == Function::Polar) )
+	if ( (function->type() == Function::Parametric) || (function->type() == Function::Polar) )
 		base_dx *= 0.01;
 
 	// Increase speed while translating the view
 	bool quickDraw = ( m_zoomMode == Translating );
 	if ( quickDraw )
 		base_dx *= 4.0;
-
+	
 	double dx = base_dx;
-
-	const QList< Plot > plots = ufkt->allPlots();
-	foreach ( Plot plot, plots )
+	
+	bool drawIntegral = m_drawIntegral && (m_integralDrawSettings.plot == plot);
+	double totalLength = 0.0; // total pixel length; used for drawing dotted lines
+	
+	bool p1Set = false;
+	QPointF p1, p2;
+	
+	double x = dmin;
+	do
 	{
-		plot.updateFunction();
+		QPointF rv = realValue( plot, x, false );
+			
+		// If we are currently plotting a differential equation, and it became infinite,
+		// then skip x forward to a point where it is finite
+		if ( function->type() == Function::Differential && !XParser::self()->differentialFinite )
+		{
+			double new_x = XParser::self()->differentialDiverge;
+			if ( new_x > x )
+			{
+				x = new_x;
+				continue;
+			}
+		}
+			
+		p2 = toPixel( rv, ClipInfinite );
+
+		if ( xclipflg || yclipflg || !p1Set )
+		{
+			p1 = p2;
+			x += dx;
+			p1Set = true;
+			continue;
+		}
 		
-		bool setAliased = false;
-		if ( plot.parameter.type() == Parameter::Animated )
+		
+		//BEGIN adjust dx
+		QPointF p1_pixel = p1 * painter->matrix();
+		QPointF p2_pixel = p2 * painter->matrix();
+		QRectF bound = QRectF( p1_pixel, QSizeF( (p2_pixel-p1_pixel).x(), (p2_pixel-p1_pixel).y() ) ).normalized();
+		double length = QLineF( p1_pixel, p2_pixel ).length();
+		totalLength += length;
+
+		double min_mod = (function->type() == Function::Cartesian || function->type() == Function::Differential) ? 0.1 : 5e-5;
+		double max_mod = (function->type() == Function::Cartesian || function->type() == Function::Differential) ? 1e+1 : 5e+1;
+		bool dxAtMinimum = (dx <= base_dx*min_mod);
+		bool dxAtMaximum = (dx >= base_dx*max_mod);
+		bool dxTooBig = false;
+		bool dxTooSmall = false;
+		
+		if ( QRectF( area ).intersects( bound ) )
 		{
-			// Don't use antialiasing, so that rendering is speeded up
-			if ( pDC->renderHints() & QPainter::Antialiasing )
-			{
-				setAliased = true;
-				pDC->setRenderHint( QPainter::Antialiasing, false );
-			}
+			dxTooBig = !dxAtMinimum && (length > (quickDraw ? max_mod : 4.0));
+			dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 10.0 : 1.0));
 		}
-
-		pDC->setPen( penForPlot( plot, pDC->renderHints() & QPainter::Antialiasing ) );
-
-		bool drawIntegral = m_drawIntegral && (m_integralDrawSettings.plot == plot);
-
-		int mflg=2;
-		double x = dmin;
-		dx = base_dx;
-		if ( plot.plotMode == Function::Integral )
+		else
+			dxTooSmall = !dxAtMaximum;
+			
+		if ( dxTooBig )
 		{
-			if ( ufkt->integral_use_precision )
-// 					if ( Settings::useRelativeStepWidth() )
-				dx =  ufkt->integral_precision*(dmax-dmin)/area.width();
-// 					else
-// 						dx =  ufkt->integral_precision;
+			dx *= 0.5;
+			continue;
 		}
-
-		double totalLength = 0.0; // total pixel length; used for drawing dotted lines
-
-		QPointF p1, p2;
-
-		while ( x>=dmin && x<=dmax )
+		
+		if ( dxTooSmall )
+			dx *= 2.0;
+		//END adjust dx
+		
+		
+		if ( drawIntegral && (x >= m_integralDrawSettings.dmin) && (x <= m_integralDrawSettings.dmax) )
 		{
-			QPointF rv = realValue( plot, x, false );
-			
-			// If we are currently plotting a differential equation, and it became infinite,
-			// then skip x forward to a point where it is finite
-			if ( ufkt->type() == Function::Differential && !XParser::self()->differentialFinite )
-			{
-				double new_x = XParser::self()->differentialDiverge;
-				if ( new_x > x )
-				{
-					x = new_x;
-					continue;
-				}
-			}
-			
-			p2 = toPixel( rv, ClipInfinite );
+			double y0 = yToPixel( 0 );
 
-			double min_mod = (ufkt->type() == Function::Cartesian || ufkt->type() == Function::Differential) ? 0.1 : 5e-5;
-			double max_mod = (ufkt->type() == Function::Cartesian || ufkt->type() == Function::Differential) ? 1e+1 : 5e+1;
-			bool dxAtMinimum = (dx <= base_dx*min_mod);
-			bool dxAtMaximum = (dx >= base_dx*max_mod);
-			bool dxTooBig = false;
-			bool dxTooSmall = false;
+			QPointF points[4];
+			points[0] = QPointF( p1.x(), y0 );
+			points[1] = QPointF( p2.x(), y0 );
+			points[2] = QPointF( p2.x(), p2.y() );
+			points[3] = QPointF( p1.x(), p1.y() );
 
-			if ( xclipflg || yclipflg )
-			{
-				p1=p2;
-			}
-			else
-			{
-				// Is it an asymtope (i.e. cartesian function, drawing from above top to below bottom)
-				bool asymtope = false;
-				if ( ufkt->type() == Function::Cartesian || ufkt->type() == Function::Differential )
-				{
-					bool p1_below = p1.y() > area.bottom();
-					bool p1_above = p1.y() < area.top();
-					bool p2_below = p2.y() > area.bottom();
-					bool p2_above = p2.y() < area.top();
-					
-					asymtope = (p1_below && p2_above) || (p1_above && p2_below);
-				}
+			painter->drawPolygon( points, 4 );
+		}
+		else if ( penShouldDraw( totalLength, plot ) )
+			painter->drawLine( p1, p2 );
 				
-				QPointF p1_pixel = p1 * pDC->matrix();
-				QPointF p2_pixel = p2 * pDC->matrix();
-				QRectF bound = QRectF( p1_pixel, QSizeF( (p2_pixel-p1_pixel).x(), (p2_pixel-p1_pixel).y() ) ).normalized();
-				double length = QLineF( p1_pixel, p2_pixel ).length();
-				totalLength += length;
-
-				if ( mflg<=1 && !asymtope )
-				{
-					if ( QRectF( area ).intersects( bound ) )
-					{
-						dxTooBig = !dxAtMinimum && (length > (quickDraw ? max_mod : 4.0));
-						dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 10.0 : 1.0));
-					}
-					else
-						dxTooSmall = !dxAtMaximum;
-				}
-
-				if ( !dxTooBig )
-				{
-					if(mflg<=1)
-					{
-						if ( drawIntegral && (x >= m_integralDrawSettings.dmin) && (x <= m_integralDrawSettings.dmax) )
-						{
-							double y0 = yToPixel( 0 );
-
-							QPointF points[4];
-							points[0] = QPointF( p1.x(), y0 );
-							points[1] = QPointF( p2.x(), y0 );
-							points[2] = QPointF( p2.x(), p2.y() );
-							points[3] = QPointF( p1.x(), p1.y() );
-
-							pDC->drawPolygon( points, 4 );
-// 								pDC->drawRect( QRectF( p1, QSizeF( p2.x()-p1.x(), yToPixel( 0 ) - p2.y() ) ) );
-						}
-						else
-						{
-							if ( asymtope )
-							{
-								// In the case that the line being drawn is very long,
-								// Qt does not handle drawing dashed lines very well (it will
-								// draw each dash without taking into account clipping).
-								// Therefore, we have to pre-clip it.
-								QRectF bounds( pDC->matrix().inverted().mapRect( area ) );
-								QPointF draw[2] = { p1, p2 };
-								for ( int i = 0; i < 2; ++i )
-								{
-									if ( draw[i].y() < bounds.top() )
-										QLineF( draw[i], draw[1-i] ).intersect( QLineF( bounds.topLeft(), bounds.topRight() ), & draw[i] );
-									else if ( draw[i].y() > bounds.bottom() )
-										QLineF( draw[i], draw[1-i] ).intersect( QLineF( bounds.bottomLeft(), bounds.bottomRight() ), & draw[i] );
-								}
-								
-								QPen oldPen = pDC->pen();
-								
-								QPen pen = oldPen;
-								QVector<qreal> dashes;
-								dashes << 6 << 6;
-								pen.setDashPattern( dashes);
-								pDC->setPen( pen );
-								pDC->drawLine( draw[0], draw[1] );
-								
-								pDC->setPen( oldPen );
-							}
-							else if ( penShouldDraw( totalLength, plot ) )
-								pDC->drawLine( p1, p2 );
-						}
-						
-						markDiagramPointUsed( p2 );
-					}
-					p1=p2;
-				}
-				mflg=0;
-			}
-
-			if ( dxTooBig )
-				dx *= 0.5;
-			else
-			{
-				if ( dxTooSmall )
-					dx *= 2.0;
-				x=x+dx;
-			}
-		}
+		markDiagramPointUsed( p2 );
 		
-		if ( setAliased )
-			pDC->setRenderHint( QPainter::Antialiasing, true );
+		p1 = p2;
+		x += dx;
 	}
+	while ( x <= dmax );
+		
+	if ( setAliased )
+		painter->setRenderHint( QPainter::Antialiasing, true );
 }
 
 
@@ -2443,6 +2392,9 @@ void View::paintEvent(QPaintEvent *)
 		p.Lineh( area.left(), m_crosshairPixelCoords.y(), area.right() );
 		p.Linev( m_crosshairPixelCoords.x(), area.bottom(), area.top());
 	}
+	
+// 	if ( m_prevCursor == CursorMagnify )
+// 		p.drawPixmap( m_crosshairPixelCoords.toPoint() - QPoint( 11, 11 ), m_magnifyPixmap );
 
 	p.end();
 }
@@ -2462,7 +2414,7 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 	double dx = 0;
 	double dy = 0;
 	
-	double h = this->h();
+	double h = this->h( plot );
 	
 	int d0 = plot.derivativeNumber();
 	int d1 = d0+1;
@@ -2531,7 +2483,7 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 	double fddy = 0;
 	double fdxy = 0;
 	
-	double h = this->h();
+	double h = this->h( plot );
 	
 	int d0 = plot.derivativeNumber();
 	int d1 = d0+1;
@@ -3447,7 +3399,6 @@ void View::getSettings()
 
 	invertColor(m_backgroundColor,m_invertedBackgroundColor);
 
-// 	setBackgroundColor(m_backgroundColor);
 	QPalette palette;
 	palette.setColor( backgroundRole(), m_backgroundColor );
 	setPalette(palette);
@@ -3472,7 +3423,7 @@ void View::stopDrawing()
 QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin, double dmax )
 {
 	Function * ufkt = plot.function();
-	assert( ufkt->type() == Function::Cartesian );
+	assert( (ufkt->type() == Function::Cartesian) || (ufkt->type() == Function::Differential) );
 
 	double x = 0;
 	double y = 0;
@@ -3480,26 +3431,13 @@ QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin,
 	double result_y = 0;
 	bool start = true;
 
-	double dx;
-	if ( plot.plotMode == Function::Integral )
+	double dx = (dmax-dmin)/area.width();
+	if ( plot.plotMode == Function::Integral || ufkt->type() == Function::Differential )
 	{
-		if ( ufkt->integral_use_precision )
-		{
-			if ( ufkt->integral_use_precision )
-				dx = ufkt->integral_precision*(dmax-dmin)/area.width();
-			else
-				dx = ufkt->integral_precision;
-		}
-		else
-		{
-			if ( ufkt->integral_use_precision )
-				dx = (dmax-dmin)/area.width();
-			else
-				dx = 1.0;
-		}
+		double max_dx = ufkt->eq[0]->differentialStates.step().value();
+		if ( max_dx < dx )
+			dx = max_dx;
 	}
-	else
-		dx = (dmax-dmin)/area.width();
 
 	x=dmin;
 
@@ -3677,11 +3615,13 @@ double View::areaUnderGraph( IntegralDrawSettings s )
 	Function * ufkt = s.plot.function();
 	assert( ufkt );
 
-	double dx;
-	if ( (s.plot.plotMode == Function::Integral) && ufkt->integral_use_precision )
-		dx = ufkt->integral_precision*(s.dmax-s.dmin)/area.width();
-	else
-		dx = (s.dmax-s.dmin)/area.width();
+	double dx = (s.dmax-s.dmin)/area.width();
+	if ( s.plot.plotMode == Function::Integral )
+	{
+		double max_dx = ufkt->eq[0]->differentialStates.step().value();
+		if ( dx > max_dx )
+			dx = max_dx;
+	}
 
 	// Make sure that we calculate the exact area (instead of missing out a
 	// vertical slither at the end) by making sure dx tiles the x-range
@@ -3734,7 +3674,6 @@ void View::updateSliders()
 	}
 
 	// do we need to show any sliders?
-// 	for(QVector<Function>::iterator it=XParser::self()->ufkt.begin(); it!=XParser::self()->ufkt.end(); ++it)
 	foreach ( Function * it, XParser::self()->m_ufkt )
 	{
 		if ( it->m_parameters.useSlider && !it->allPlotsAreHidden() )

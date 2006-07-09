@@ -29,14 +29,16 @@
 
 #include <kdebug.h>
 
-#include <QtGlobal>
-#include <QVBoxLayout>
+#include <QApplication>
 #include <QLabel>
 #include <QLinearGradient>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPushButton>
 #include <QStyleOption>
+#include <QStyleOptionButton>
+#include <QtGlobal>
+#include <QVBoxLayout>
 #include <QWhatsThis>
 
 const double SQRT_3 = 1.732050808;
@@ -448,5 +450,103 @@ QGradient KGradientDialog::gradient() const
 				
 
 
+//BEGIN class KGradientButton
+KGradientButton::KGradientButton( QWidget * parent )
+	: QPushButton( parent )
+{
+	connect( this, SIGNAL(clicked()), this, SLOT(chooseGradient()) );
+}
+
+
+KGradientButton::~KGradientButton()
+{
+}
+
+
+void KGradientButton::initStyleOption( QStyleOptionButton * opt ) const
+{
+	opt->init(this);
+	opt->text.clear();
+	opt->icon = QIcon();
+	opt->features = QStyleOptionButton::None;
+}
+
+
+QSize KGradientButton::sizeHint() const
+{
+	QStyleOptionButton opt;
+	initStyleOption(&opt);
+	return style()->sizeFromContents(QStyle::CT_PushButton, &opt, QSize(40, 15), this).
+			expandedTo(QApplication::globalStrut());
+}
+
+
+void KGradientButton::setGradient( const QGradient & gradient )
+{
+	if ( m_gradient.stops() == gradient.stops() )
+		return;
+	
+	m_gradient.setStops( gradient.stops() );
+	emit gradientChanged( m_gradient );
+}
+
+
+void KGradientButton::chooseGradient()
+{
+	int result = KGradientDialog::getGradient( m_gradient, this );
+	if ( result == KGradientDialog::Accepted )
+		emit gradientChanged( m_gradient );
+}
+
+
+void KGradientButton::paintEvent( QPaintEvent * )
+{
+	// Mostly copied verbatim from KColorButton - thanks! :)
+	
+	QPainter painter(this);
+ 
+	// First, we need to draw the bevel.
+	QStyleOptionButton butOpt;
+	initStyleOption(&butOpt);
+	style()->drawControl( QStyle::CE_PushButtonBevel, &butOpt, &painter, this );
+ 
+	// OK, now we can muck around with drawing out pretty little color box
+	// First, sort out where it goes
+	QRect labelRect = style()->subElementRect( QStyle::SE_PushButtonContents, &butOpt, this );
+	int shift = style()->pixelMetric( QStyle::PM_ButtonMargin );
+	labelRect.adjust(shift, shift, -shift, -shift);
+	int x, y, w, h;
+	labelRect.getRect(&x, &y, &w, &h);
+ 
+	if (isChecked() || isDown())
+	{
+		x += style()->pixelMetric( QStyle::PM_ButtonShiftHorizontal );
+		y += style()->pixelMetric( QStyle::PM_ButtonShiftVertical   );
+	}
+ 
+	qDrawShadePanel( &painter, x, y, w, h, palette(), true, 1, NULL);
+	
+	if ( isEnabled() )
+	{
+		QLinearGradient lg( x+1, 0, x+w-1, 0 );
+		lg.setStops( m_gradient.stops() );
+		painter.setBrush( lg );
+	}
+	else
+		painter.setBrush( palette().color(backgroundRole()) );
+	
+	painter.drawRect( x+1, y+1, w-2, h-2 );
+ 
+	if ( hasFocus() )
+	{
+		QRect focusRect = style()->subElementRect( QStyle::SE_PushButtonFocusRect, &butOpt, this );
+		QStyleOptionFocusRect focusOpt;
+		focusOpt.init(this);
+		focusOpt.rect            = focusRect;
+		focusOpt.backgroundColor = palette().background().color();
+		style()->drawPrimitive( QStyle::PE_FrameFocusRect, &focusOpt, &painter, this );
+	}
+}
+//END class KGradientButton
 
 #include "kgradientdialog.moc"

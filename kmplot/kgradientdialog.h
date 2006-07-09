@@ -27,10 +27,12 @@
 
 #include <kdialog.h>
 #include <QGradient>
+#include <QPushButton>
 #include <QWidget>
 
 class QMouseEvent;
 class QPaintEvent;
+class QStyleOptionButton;
 
 /**
  * \short A color-gradient strip with arrows to change the stops.
@@ -51,6 +53,7 @@ class KGradientEditor : public QWidget
 {
 	Q_OBJECT
 	Q_PROPERTY( Qt::Orientation orientation READ orientation WRITE setOrientation )
+	Q_PROPERTY( QGradient gradient READ gradient WRITE setGradient USER true )
 	
 	public:
 		KGradientEditor( QWidget * parent = 0 );
@@ -190,7 +193,7 @@ class KGradientDialog : public KDialog
 		static int getGradient( QGradient & gradient, QWidget * parent = 0 );
 		
 		/**
-		 * The current gradient.
+		 * \return the current gradient.
 		 */
 		QGradient gradient() const;
 		
@@ -211,4 +214,53 @@ class KGradientDialog : public KDialog
 		KGradientEditor * m_gradient;
 };
 
+
+/**
+ * \short A button to display and edit color gradients
+ * 
+ * The button contains and displays a color gradient (see QGradient). When
+ * clicked on, it creates a KGradientDialog for editing the gradient.
+ */
+class KGradientButton : public QPushButton
+{
+	Q_OBJECT
+	Q_PROPERTY( QGradient gradient READ gradient WRITE setGradient USER true )
+			
+	public:
+		KGradientButton( QWidget * parent = 0 );
+		~KGradientButton();
+		
+		/**
+		 * \return the current gradient.
+		 */
+		QGradient gradient() const { return m_gradient; }
+		
+		QSize sizeHint() const;
+		
+	Q_SIGNALS:
+		/**
+		 * Emitted when the current gradient changes.
+		 */
+		void gradientChanged( const QGradient & gradient );
+		
+	public Q_SLOTS:
+		/**
+		 * Sets the current gradient.
+		 */
+		void setGradient( const QGradient & gradient );
+		
+	protected Q_SLOTS:
+		/**
+		 * Invokes the KGradientDialog for selecting a gradient.
+		 */
+		void chooseGradient();
+		
+	protected:
+		virtual void paintEvent( QPaintEvent *pe );
+		
+	private:
+		void initStyleOption( QStyleOptionButton * opt ) const;
+		QGradient m_gradient;
+};
+ 
 #endif // KGRADIENTEDITOR_H

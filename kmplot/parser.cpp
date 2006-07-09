@@ -369,7 +369,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			case FKT_N:
 			{
 				pUint = (uint*)eq->mptr;
-				uint numArgs = *pUint++;
+				int numArgs = *pUint++;
 				eq->mptr = (unsigned char*)pUint;
 						
 				pVectorFunction = (double(**)(const Vector &))eq->mptr;

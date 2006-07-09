@@ -26,6 +26,7 @@
 
 #include "equationedit.h"
 #include "functioneditor.h"
+#include "kgradientdialog.h"
 #include "kmplotio.h"
 #include "maindlg.h"
 #include "parameterswidget.h"
@@ -107,33 +108,21 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	connect( m_functionList, SIGNAL(itemClicked( QListWidgetItem * )), this, SLOT(save()) ); // user might have checked or unchecked the item
 	
 	//BEGIN connect up all editing widgets
-	QList<QLineEdit *> lineEdits = m_editor->findChildren<QLineEdit *>();
-	foreach ( QLineEdit * w, lineEdits )
-		connect( w, SIGNAL(editingFinished()), this, SLOT(save()) );
+#define CONNECT_WIDGETS( name, signal ) \
+	{ \
+		QList<name *> widgets = m_editor->findChildren<name *>(); \
+		foreach ( name * w, widgets ) \
+			connect( w, SIGNAL(signal), this, SLOT(save()) ); \
+	}
 	
-	QList<EquationEdit *> equationEdits = m_editor->findChildren<EquationEdit *>();
-	foreach ( EquationEdit * w, equationEdits )
-		connect( w, SIGNAL(editingFinished()), this, SLOT(save()) );
-	
-	QList<QCheckBox *> checkBoxes = m_editor->findChildren<QCheckBox *>();
-	foreach ( QCheckBox * w, checkBoxes )
-		connect( w, SIGNAL(stateChanged(int)), this, SLOT(save()) );
-	
-	QList<KColorButton *> colorButtons = m_editor->findChildren<KColorButton *>();
-	foreach ( KColorButton * w, colorButtons )
-		connect( w, SIGNAL(changed(const QColor &)), this, SLOT(save()) );
-	
-	QList<QRadioButton *> radioButtons = m_editor->findChildren<QRadioButton *>();
-	foreach ( QRadioButton * w, radioButtons )
-		connect( w, SIGNAL(toggled(bool)), this, SLOT(save()) );
-	
-	QList<QComboBox *> comboBoxes = m_editor->findChildren<QComboBox *>();
-	foreach ( QComboBox * w, comboBoxes )
-		connect( w, SIGNAL(currentIndexChanged(int)), this, SLOT(save()) );
-	
-	QList<ParametersWidget *> parameters = m_editor->findChildren<ParametersWidget *>();
-	foreach ( ParametersWidget * w, parameters )
-		connect( w, SIGNAL( parameterListChanged() ), this, SLOT(save()) );
+	CONNECT_WIDGETS( QLineEdit, editingFinished() );
+	CONNECT_WIDGETS( EquationEdit, editingFinished() );
+	CONNECT_WIDGETS( QCheckBox, stateChanged(int) );
+	CONNECT_WIDGETS( KColorButton, changed(const QColor &) );
+	CONNECT_WIDGETS( QRadioButton, toggled(bool) );
+	CONNECT_WIDGETS( QComboBox, currentIndexChanged(int) );
+	CONNECT_WIDGETS( ParametersWidget, parameterListChanged() );
+	CONNECT_WIDGETS( KGradientButton, gradientChanged(const QGradient &) );
 	
 	connect( m_editor->initialConditions, SIGNAL(dataChanged()), this, SLOT(save()) );
 	//END connect up all editing widgets

@@ -94,6 +94,7 @@ PlotAppearance::PlotAppearance( )
 	visible = false;
 	style = Qt::SolidLine;
 	showExtrema = false;
+	showTangentField = false;
 }
 
 
@@ -106,7 +107,8 @@ bool PlotAppearance::operator !=( const PlotAppearance & other ) const
 			(gradient != other.gradient) ||
 			(visible != other.visible) ||
 			(style != other.style) ||
-			(showExtrema != other.showExtrema);
+			(showExtrema != other.showExtrema) ||
+			(showTangentField != other.showTangentField);
 }
 
 
@@ -611,7 +613,7 @@ Function::Type Function::stringToType( const QString & type )
 }
 
 
-QList< Plot > Function::allPlots( ) const
+QList< Plot > Function::plots( PlotCombinations combinations ) const
 {
 	QList< Plot > list;
 	
@@ -619,7 +621,9 @@ QList< Plot > Function::allPlots( ) const
 	plot.setFunctionID( id );
 	plot.plotNumberCount = m_parameters.useList ? m_parameters.list.size() + (m_parameters.useSlider?1:0) : 1;
 	
-	bool singlePlot = (!m_parameters.useList && !m_parameters.useSlider) || m_parameters.animating;
+	bool singlePlot = (!m_parameters.useList && !m_parameters.useSlider) ||
+			m_parameters.animating ||
+			(~combinations & DifferentParameters);
 	
 	if ( singlePlot )
 	{
@@ -657,7 +661,7 @@ QList< Plot > Function::allPlots( ) const
 	
 	
 	// Copy each plot in the list for other variations
-	if ( type() == Cartesian )
+	if ( (type() == Cartesian) && (combinations & DifferentDerivatives) )
 	{
 		QList< Plot > duplicated;
 		
@@ -674,7 +678,8 @@ QList< Plot > Function::allPlots( ) const
 		
 		list = duplicated;
 	}
-	else if ( type() == Differential )
+	
+	if ( (type() == Differential) && (combinations & DifferentInitialStates) )
 	{
 		QList< Plot > duplicated;
 		
@@ -690,49 +695,51 @@ QList< Plot > Function::allPlots( ) const
 		list = duplicated;
 	}
 	
-	// Do it again for the plus-minus signatures
-	int size = 0;
-	foreach ( Equation * equation, eq )
-		size += equation->pmCount();
-	
-	unsigned max = unsigned( pow( 2, size ) );
-	QVector< QVector<bool> > signatures( max );
-	
-	for ( unsigned i = 0; i < max; ++i )
+	if ( combinations & DifferentPMSignatures )
 	{
-		QVector<bool> sig( size );
-			
-		for ( int j = 0; j < size; ++j )
-			sig[ j ] = i & (1<<j);
-			
-		signatures[i] = sig;
-	}
-	
-	// Generate a plot for each signature in signatures
-	QList< Plot > duplicated;
-	foreach ( QVector<bool> signature, signatures )
-	{
-		int at = 0;
-		QList< QVector<bool> > pmSignature;
-		
+		int size = 0;
 		foreach ( Equation * equation, eq )
+			size += equation->pmCount();
+	
+		unsigned max = unsigned( pow( 2, size ) );
+		QVector< QVector<bool> > signatures( max );
+	
+		for ( unsigned i = 0; i < max; ++i )
 		{
-			int pmCount = equation->pmCount();
-			QVector<bool> sig( pmCount );
-			for ( int i = 0; i < pmCount; ++i )
-				sig[i] = signature[ i + at];
-			at += pmCount;
+			QVector<bool> sig( size );
 			
-			pmSignature << sig;
+			for ( int j = 0; j < size; ++j )
+				sig[ j ] = i & (1<<j);
+			
+			signatures[i] = sig;
 		}
-		
-		foreach ( Plot plot, list )
+	
+		// Generate a plot for each signature in signatures
+		QList< Plot > duplicated;
+		foreach ( QVector<bool> signature, signatures )
 		{
-			plot.pmSignature = pmSignature;
-			duplicated << plot;
+			int at = 0;
+			QList< QVector<bool> > pmSignature;
+		
+			foreach ( Equation * equation, eq )
+			{
+				int pmCount = equation->pmCount();
+				QVector<bool> sig( pmCount );
+				for ( int i = 0; i < pmCount; ++i )
+					sig[i] = signature[ i + at];
+				at += pmCount;
+			
+				pmSignature << sig;
+			}
+		
+			foreach ( Plot plot, list )
+			{
+				plot.pmSignature = pmSignature;
+				duplicated << plot;
+			}
 		}
+		list = duplicated;
 	}
-	list = duplicated;
 	
 	return list;
 }

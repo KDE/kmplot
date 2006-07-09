@@ -288,6 +288,11 @@ class Parser : public QObject
 		 */
 		double fkt( Equation * it, double x );
 		double fkt( uint id, int eq, double x );
+		/**
+		 * Returns the result of a calculation. \p x are parameters for the
+		 * function (which are not necessarily all used).
+		 */
+		double fkt( Equation * it, const Vector & x );
 	
 		/**
 		 * Evaluates the given expression \p str.
@@ -364,11 +369,6 @@ class Parser : public QObject
 		void functionAdded( int id );
 
 	private:
-		/**
-		 * Returns the result of a calculation. \p x are parameters for the
-		 * function (which are not necessarily all used).
-		 */
-		double fkt( Equation * it, const Vector & x );
 		/** Mathematical function. */
 		static ScalarFunction scalarFunctions[ScalarCount];
 		static VectorFunction vectorFunctions[VectorCount];

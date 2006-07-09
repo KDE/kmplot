@@ -162,9 +162,6 @@ class View : public QWidget
 		/** Current plot range endge. */
 		double m_ymin;
 		double m_ymax;
-		
-		double ticSepX, ticSepY, drskalx, drskaly;
-		QString ticSepXstr, ticSepYstr, drskalxstr, drskalystr;
 
 		/// trace mode stuff, must be accessible in KMinMax
 		Plot m_currentPlot;
@@ -265,9 +262,17 @@ class View : public QWidget
 		/// Write labels.
 		void drawLabels(QPainter*);
 		/**
-		* Draw the function plots (other than implicit).
-		*/
+		 * Draw a non-implicit function.
+		 */
+		void drawFunction( Function * function, QPainter * painter );
+		/**
+		 * Draw the function plots (other than implicit).
+		 */
 		void drawPlot( const Plot & plot, QPainter*);
+		/**
+		 * Draw the tangent field (for a differential function).
+		 */
+		void drawTangentField( const Plot & plot, QPainter * painter );
 		/**
 		 * Draw an implicit function.
 		 */
@@ -434,7 +439,9 @@ class View : public QWidget
 	
 		double m_width, m_height;
 		float m_scaler;
-		///Position of the first tic.      
+		double ticSepX, ticSepY, drskalx, drskaly;
+		QString ticSepXstr, ticSepYstr, drskalxstr, drskalystr;
+		///Position of the first tic.
 		double ticStartX, ticStartY;
 		/// Screen coordinates of the coordinate system origin.
 		double ox, oy;

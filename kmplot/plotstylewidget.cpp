@@ -73,18 +73,21 @@ PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	m_dialog->setMainWidget( m_dialogWidget );
 	m_dialog->setCaption( i18n("Plot Appearance") );
 	m_dialog->setButtons( KDialog::Ok );
-	connect( m_dialogWidget->gradientButton, SIGNAL(clicked()), this, SLOT(editGradient()) );
 }
 
 
-void PlotStyleWidget::init( const PlotAppearance & plot )
+void PlotStyleWidget::init( const PlotAppearance & plot, Function::Type type )
 {
-	m_gradient = plot.gradient;
+	m_dialogWidget->gradientButton->setGradient( plot.gradient );
 	m_dialogWidget->lineWidth->setValue( plot.lineWidth );
 	m_color->setColor( plot.color );
 	m_dialogWidget->useGradient->setChecked( plot.useGradient );
 	setStyle( plot.style );
 	m_dialogWidget->showExtrema->setChecked( plot.showExtrema );
+	
+	// Show/hide stuff as appropriate
+	m_dialogWidget->showExtrema->setVisible( type == Function::Cartesian );
+	m_dialogWidget->showTangentField->setVisible( type == Function::Differential );
 }
 
 
@@ -94,7 +97,8 @@ PlotAppearance PlotStyleWidget::plot( bool visible )
 	p.lineWidth =  m_dialogWidget->lineWidth->value();
 	p.color = m_color->color();
 	p.useGradient = m_dialogWidget->useGradient->isChecked();
-	p.gradient = m_gradient;
+	p.showTangentField = m_dialogWidget->showTangentField->isChecked();
+	p.gradient = m_dialogWidget->gradientButton->gradient();
 	p.visible = visible;
 	p.style = style();
 	p.showExtrema = m_dialogWidget->showExtrema->isChecked();
@@ -117,13 +121,6 @@ void PlotStyleWidget::setStyle( Qt::PenStyle style )
 void PlotStyleWidget::advancedOptions( )
 {
 	m_dialog->show();
-}
-
-
-void PlotStyleWidget::editGradient( )
-{
-	KGradientDialog::getGradient( m_gradient, this );
-		
 }
 //END class PlotStyleWidget
 

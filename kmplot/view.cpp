@@ -289,11 +289,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		if ( ufkt->type() == Function::Implicit )
 			drawImplicit( ufkt, & DC );
 		else
-		{
-			QList<Plot> plots = ufkt->allPlots();
-			foreach ( Plot plot, plots )
-				drawPlot( plot, &DC );
-		}
+			drawFunction( ufkt, & DC );
 	}
 	drawFunctionInfo( &DC );
 	DC.setClipping( false );
@@ -1110,7 +1106,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 	circular.setFunctionID( XParser::self()->Parser::addFunction( fname, 0, Function::Cartesian ) );
 	assert( circular.function() );
 	
-	const QList< Plot > plots = function->allPlots();
+	const QList< Plot > plots = function->plots();
 	foreach ( Plot plot, plots )
 	{
 		bool setAliased = false;
@@ -1508,6 +1504,66 @@ void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x
 }
 
 
+void View::drawFunction( Function * function, QPainter * painter )
+{
+	if ( (function->type() == Function::Differential) &&
+			 (function->eq[0]->order() == 1) &&
+			function->plotAppearance( Function::Derivative0 ).showTangentField )
+	{
+		QList<Plot> plots = function->plots( Function::PlotCombinations(Function::AllCombinations) & ~Function::PlotCombinations(Function::DifferentInitialStates) );
+		foreach ( Plot plot, plots )
+			drawTangentField( plot, painter );
+	}
+	
+	QList<Plot> plots = function->plots();
+	foreach ( Plot plot, plots )
+		drawPlot( plot, painter );
+	
+}
+
+
+void View::drawTangentField( const Plot & plot, QPainter * painter )
+{
+	plot.updateFunction();
+	Function * function = plot.function();
+	
+	assert( function->type() == Function::Differential );
+	// Can only draw tangent fields for first order differential equations
+	assert( function->eq[0]->order() == 1 );
+	
+	painter->setPen( penForPlot( plot, painter->renderHints() & QPainter::Antialiasing ) );
+	
+	bool useParameter = (function->eq[0]->variables().size() >= 3);
+	Vector v( useParameter ? 3 : 2 );
+	
+	if ( useParameter )
+		v[1] = function->k;
+	
+	// For converting from real to pixels
+	double sx = area.width() / (m_xmax - m_xmin);
+	double sy = area.height() / (m_ymax - m_ymin);
+	
+	for ( double x = ticStartX; x <= m_xmax; x += ticSepX )
+	{
+		v[0] = x;
+		for ( double y = ticStartY; y <= m_ymax; y += ticSepY )
+		{
+			v[ useParameter ? 2 : 1 ] = y;
+			
+			double df = XParser::self()->fkt( function->eq[0], v ) * (sy / sx);
+			double theta = std::atan( df );
+			double dx = std::cos( theta ) * (ticSepX / 8.0);
+			double dy = std::sin( theta ) * (ticSepY / 8.0);
+			
+			QPointF mid( x, y );
+			QPointF diff( dx, dy );
+			
+			painter->drawLine( toPixel( mid-diff ), toPixel( mid+diff ) );
+		}
+	}
+}
+
+
 void View::drawPlot( const Plot & plot, QPainter *painter )
 {
 	plot.updateFunction();
@@ -1646,7 +1702,7 @@ void View::drawFunctionInfo( QPainter * painter )
 		if ( stop_calculating )
 			break;
 		
-		foreach ( Plot plot, function->allPlots() )
+		foreach ( Plot plot, function->plots() )
 		{
 			// Draw extrema points?
 			if ( (function->type() == Function::Cartesian) && function->plotAppearance( plot.plotMode ).showExtrema )
@@ -2718,7 +2774,7 @@ QPointF View::getPlotUnderMouse()
 
 	foreach ( Function * function, XParser::self()->m_ufkt )
 	{
-		const QList< Plot > plots = function->allPlots();
+		const QList< Plot > plots = function->plots();
 		foreach ( Plot plot, plots )
 		{
 			plot.updateFunction();
@@ -3425,64 +3481,50 @@ QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin,
 	Function * ufkt = plot.function();
 	assert( (ufkt->type() == Function::Cartesian) || (ufkt->type() == Function::Differential) );
 
-	double x = 0;
 	double y = 0;
 	double result_x = 0;
 	double result_y = 0;
 	bool start = true;
 
 	double dx = (dmax-dmin)/area.width();
-	if ( plot.plotMode == Function::Integral || ufkt->type() == Function::Differential )
-	{
-		double max_dx = ufkt->eq[0]->differentialStates.step().value();
-		if ( max_dx < dx )
-			dx = max_dx;
-	}
-
-	x=dmin;
-
+	
 	plot.updateFunction();
 
-	while ( (x>=dmin && x<=dmax) )
+	for ( double x = dmin; x <= dmax; x += dx )
 	{
 		y = value( plot, 0, x, false );
 
-		if ( !isnan(x) && !isnan(y) )
+		if ( isnan(x) || isnan(y) )
+			continue;
+		
+		if ( start )
 		{
-			if (x>=dmin && x<=dmax)
+			result_x = x;
+			result_y = y;
+			start = false;
+		}
+		else switch ( type )
+		{
+			case Minimum:
 			{
-				if ( start )
+				if ( y <= result_y )
 				{
 					result_x = x;
 					result_y = y;
-					start=false;
 				}
-				else switch ( type )
-				{
-					case Minimum:
-					{
-						if ( y <= result_y )
-						{
-							result_x = x;
-							result_y = y;
-						}
-						break;
-					}
+				break;
+			}
 
-					case Maximum:
-					{
-						if ( y >= result_y )
-						{
-							result_x = x;
-							result_y = y;
-						}
-						break;
-					}
+			case Maximum:
+			{
+				if ( y >= result_y )
+				{
+					result_x = x;
+					result_y = y;
 				}
+				break;
 			}
 		}
-
-		x += dx;
 	}
 
 	return QPointF( result_x, result_y );

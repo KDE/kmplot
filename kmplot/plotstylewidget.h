@@ -24,10 +24,12 @@
 #ifndef PLOTSTYLEWIDGET_H
 #define PLOTSTYLEWIDGET_H
 
-#include <QGradient>
+#include "function.h"
+
 #include <QGroupBox>
 
 class KColorButton;
+class KGradientButton;
 class KDialog;
 class PlotAppearance;
 class PlotStyleDialogWidget;
@@ -40,8 +42,9 @@ class PlotStyleWidget : public QGroupBox
 		
 		/**
 		 * Initializes the contents of the widgets to the settings in \p plot.
+		 * \p type is used to determine which widgets should be shown / hidden.
 		 */
-		void init( const PlotAppearance & plot );
+		void init( const PlotAppearance & plot, Function::Type type );
 		/**
 		 * \return A plot with appearance configured by this widget.
 		 * \param visible Whether the plot is visible (this widget does not
@@ -62,16 +65,11 @@ class PlotStyleWidget : public QGroupBox
 		 * Called when the user clicks on the "Advanced" button.
 		 */
 		void advancedOptions();
-		/**
-		 * Called when the user clicks on the button for editing gradients.
-		 */
-		void editGradient();
 		
 	protected:
 		KColorButton * m_color;
 		KDialog * m_dialog;
 		PlotStyleDialogWidget * m_dialogWidget;
-		QGradient m_gradient;
 };
 
 #endif

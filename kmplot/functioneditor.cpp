@@ -325,10 +325,10 @@ void FunctionEditor::initFromCartesian()
 	}
 	
 	m_editor->cartesianEquation->setText( f->eq[0]->fstr() );
-	m_editor->cartesian_f0->init( f->plotAppearance( Function::Derivative0 ) );
-	m_editor->cartesian_f1->init( f->plotAppearance( Function::Derivative1 ) );
-	m_editor->cartesian_f2->init( f->plotAppearance( Function::Derivative2 ) );
-	m_editor->cartesian_integral->init( f->plotAppearance( Function::Integral ) );
+	m_editor->cartesian_f0->init( f->plotAppearance( Function::Derivative0 ), Function::Cartesian );
+	m_editor->cartesian_f1->init( f->plotAppearance( Function::Derivative1 ), Function::Cartesian );
+	m_editor->cartesian_f2->init( f->plotAppearance( Function::Derivative2 ), Function::Cartesian );
+	m_editor->cartesian_integral->init( f->plotAppearance( Function::Integral ), Function::Cartesian );
 	
 	m_editor->showDerivative1->setChecked( f->plotAppearance( Function::Derivative1 ).visible );
 	m_editor->showDerivative2->setChecked( f->plotAppearance( Function::Derivative2 ).visible );
@@ -365,7 +365,7 @@ void FunctionEditor::initFromPolar()
 	m_editor->polarEquation->setText( function );
 	m_editor->polarMin->setText( f->dmin.expression() );
 	m_editor->polarMax->setText( f->dmax.expression() );
-	m_editor->polar_f0->init( f->plotAppearance( Function::Derivative0 ) );
+	m_editor->polar_f0->init( f->plotAppearance( Function::Derivative0 ), Function::Polar );
 	
 	m_editor->polarParameters->init( f->m_parameters );
 	
@@ -389,7 +389,7 @@ void FunctionEditor::initFromParametric()
 	
 	m_editor->parametricParameters->init( f->m_parameters );
 	
-	m_editor->parametric_f0->init( f->plotAppearance( Function::Derivative0 ) );
+	m_editor->parametric_f0->init( f->plotAppearance( Function::Derivative0 ), Function::Parametric );
 	
 	m_editor->stackedWidget->setCurrentIndex( 1 );
 	m_editor->parametricX->setFocus();
@@ -410,7 +410,7 @@ void FunctionEditor::initFromImplicit()
 	
 	m_editor->implicitName->setText( name );
 	m_editor->implicitEquation->setText( expression );
-	m_editor->implicit_f0->init( f->plotAppearance( Function::Derivative0 ) );
+	m_editor->implicit_f0->init( f->plotAppearance( Function::Derivative0 ), Function::Implicit );
 	
 	m_editor->implicitParameters->init( f->m_parameters );
 	
@@ -429,7 +429,7 @@ void FunctionEditor::initFromDifferential()
 	m_editor->differentialEquation->setText( f->eq[0]->fstr());
 	m_editor->differentialStep->setText( f->eq[0]->differentialStates.step().expression() );
 	
-	m_editor->differential_f0->init( f->plotAppearance( Function::Derivative0 ) );
+	m_editor->differential_f0->init( f->plotAppearance( Function::Derivative0 ), Function::Differential );
 	m_editor->differentialParameters->init( f->m_parameters );
 	m_editor->initialConditions->init( f );
 	

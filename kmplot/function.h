@@ -29,6 +29,7 @@
 #include "vector.h"
 
 #include <QColor>
+#include <QFlags>
 #include <QGradient>
 #include <QPointF>
 #include <QString>
@@ -108,13 +109,18 @@ class PlotAppearance
 	public:
 		PlotAppearance();
 		
-		double lineWidth;	///< line width in mm
-		QColor color;		///< color that the plot will be drawn in
-		bool useGradient;	///< for plots with parameters, whether to use gradient instead of color
-		QGradient gradient; ///< the gradient if useGradient is true
-		bool visible;		///< whether to display this plot
-		Qt::PenStyle style;	///< pen style (e.g. dolif, dashes, dotted, etc)
-		bool showExtrema;	///< for cartesian functions, whether to show the extreme values of the function
+		// NOTE: When adding more members to this class, remember to update
+		// the function PlotAppearance::operator!= and the functions in
+		// KmPlotIO for saving / loading the plot appearance
+
+		double lineWidth;		///< line width in mm
+		QColor color;			///< color that the plot will be drawn in
+		Qt::PenStyle style;		///< pen style (e.g. dolif, dashes, dotted, etc)
+		QGradient gradient;		///< the gradient if useGradient is true
+		bool useGradient:1;		///< for plots with parameters, whether to use gradient instead of color
+		bool showExtrema:1;		///< for cartesian functions, whether to show the extreme values of the function
+		bool showTangentField:1;///< whether to draw the tangent field (for differential equations
+		bool visible:1;			///< whether to display this plot
 		
 		bool operator != ( const PlotAppearance & other ) const;
 		
@@ -400,12 +406,25 @@ class Function
 		Function( Type type );
 		~Function();
 		
-		/// The type of function
-		Type type() const { return m_type; }
 		/**
-		 * \return a list of all plots for this function.
+		 * \return the type of function.
 		 */
-		QList< Plot > allPlots() const;
+		Type type() const { return m_type; }
+		
+		enum PlotCombination
+		{
+			DifferentParameters		= 0x1,		///< For all the different parameters
+			DifferentDerivatives	= 0x2,		///< Derivatives of the function
+			DifferentPMSignatures	= 0x4,		///< Plus-minus combinations
+			DifferentInitialStates	= 0x8,		///< For differential equations; different states
+			AllCombinations			= 0x20-1
+		};
+		typedef QFlags<PlotCombination> PlotCombinations;
+		
+		/**
+		 * \return a list of plots for this function, 
+		 */
+		QList< Plot > plots( PlotCombinations combinations = AllCombinations ) const;
 		/**
 		 * \return A string for displaying to the user that identifies this
 		 * equation, taking into account \p mode.

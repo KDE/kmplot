@@ -865,18 +865,33 @@ Example: cos(t)</string>
             <number>6</number>
            </property>
            <item>
-            <widget class="EquationEdit" name="differentialEquation" >
-             <property name="toolTip" >
-              <string>enter an expression</string>
+            <widget class="QGroupBox" name="groupBox_3" >
+             <property name="title" >
+              <string>Definition</string>
              </property>
-             <property name="whatsThis" >
-              <string>Enter an expression for the function.
+             <layout class="QVBoxLayout" >
+              <property name="margin" >
+               <number>9</number>
+              </property>
+              <property name="spacing" >
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="EquationEdit" name="differentialEquation" >
+                <property name="toolTip" >
+                 <string>enter an expression</string>
+                </property>
+                <property name="whatsThis" >
+                 <string>Enter an expression for the function.
 The dummy variable is t.
 Example: cos(t)</string>
-             </property>
-             <property name="text" >
-              <string>f''(x) = -f</string>
-             </property>
+                </property>
+                <property name="text" >
+                 <string>f''(x) = -f</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
            <item>
@@ -974,19 +989,14 @@ Example: cos(t)</string>
  </widget>
  <customwidgets>
   <customwidget>
+   <class>InitialConditionsEditor</class>
+   <extends>QGroupBox</extends>
+   <header>initialconditionseditor.h</header>
+  </customwidget>
+  <customwidget>
    <class>FunctionListWidget</class>
    <extends>QListWidget</extends>
    <header>functioneditor.h</header>
-  </customwidget>
-  <customwidget>
-   <class>PlotStyleWidget</class>
-   <extends>QGroupBox</extends>
-   <header>plotstylewidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>ParametersWidget</class>
@@ -994,14 +1004,19 @@ Example: cos(t)</string>
    <header>parameterswidget.h</header>
   </customwidget>
   <customwidget>
+   <class>PlotStyleWidget</class>
+   <extends>QGroupBox</extends>
+   <header>plotstylewidget.h</header>
+  </customwidget>
+  <customwidget>
    <class>EquationEdit</class>
    <extends>KLineEdit</extends>
    <header>equationedit.h</header>
   </customwidget>
   <customwidget>
-   <class>InitialConditionsEditor</class>
-   <extends>QGroupBox</extends>
-   <header>initialconditionseditor.h</header>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

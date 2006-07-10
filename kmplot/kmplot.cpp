@@ -2,7 +2,7 @@
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
 * Copyright (C) 2004  Fredrik Edemar <f_edemar@linux.se>
-*               
+*
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
 *
@@ -10,12 +10,12 @@
 * it under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or
 * (at your option) any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -39,6 +39,7 @@
 
 #include "maindlg.h"
 #include <ktoolinvocation.h>
+#include <ktogglefullscreenaction.h>
 
 #include "kmplotadaptor.h"
 #include <QtDBus>
@@ -47,15 +48,15 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 		: KParts::MainWindow()
 {
 	setObjectName( "KmPlot" );
-	
+
 	// set the shell's ui resource file
 	setXMLFile("kmplot_shell.rc");
 	// then, setup our actions
 	setupActions();
-	
+
 	// setup the status bar
 	setupStatusBar();
-	
+
 	// this routine will find and load our Part.  it finds the Part by
 	// name which is a bad idea usually.. but it's alright in this
 	// case since our Part is made for this Shell
@@ -109,7 +110,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 		if (exit)
 			deleteLater(); // couln't open the file, and therefore exit
 	}
-	
+
 	show();
 
     new KmPlotAdaptor(this);
@@ -156,7 +157,7 @@ void KmPlot::setupActions()
 
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
-	
+
 	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 
@@ -245,7 +246,7 @@ void KmPlot::fileOpen(const KUrl &url)
          load( KStandardDirs::realFilePath(url.url())); // we open the file in this window...
 		else
          openFileInNewWindow(url); // we open the file in a new window...
-	}	
+	}
 }
 
 

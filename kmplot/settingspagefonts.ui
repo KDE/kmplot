@@ -30,7 +30,7 @@
     </widget>
    </item>
    <item row="0" column="1" colspan="2" >
-    <widget class="KFontCombo" name="kcfg_HeaderTableFont" >
+    <widget class="QFontComboBox" name="kcfg_HeaderTableFont" >
      <property name="toolTip" >
       <string>the font for the header table</string>
      </property>
@@ -972,7 +972,7 @@
     </widget>
    </item>
    <item row="2" column="1" colspan="2" >
-    <widget class="KFontCombo" name="kcfg_LabelFont" >
+    <widget class="QFontComboBox" name="kcfg_LabelFont" >
      <property name="toolTip" >
       <string>the font for the axis</string>
      </property>
@@ -1876,13 +1876,6 @@
    <class>KIntNumInput</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KFontCombo</class>
-   <extends>KComboBox</extends>
-   <header>kfontcombo.h</header>
    <container>0</container>
    <pixmap></pixmap>
   </customwidget>

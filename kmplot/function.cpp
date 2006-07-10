@@ -407,18 +407,17 @@ Function::Function( Type type )
 	usecustomxmin = false;
 	usecustomxmax = false;
 	
+	dmin.updateExpression( QChar('0') );
+	dmax.updateExpression( QString(QChar('2')) + QChar(960) );
+	
 	switch ( m_type )
 	{
 		case Cartesian:
 			eq << new Equation( Equation::Cartesian, this );
-			dmin.updateExpression( QString("-")+QChar(960) );
-			dmax.updateExpression( QChar(960) );
 			break;
 			
 		case Polar:
 			eq << new Equation( Equation::Polar, this );
-			dmin.updateExpression( QChar('0') );
-			dmax.updateExpression( QString(QChar('2')) + QChar(960) );
 			usecustomxmin = true;
 			usecustomxmax = true;
 			break;
@@ -426,8 +425,6 @@ Function::Function( Type type )
 		case Parametric:
 			eq << new Equation( Equation::ParametricX, this );
 			eq << new Equation( Equation::ParametricY, this );
-			dmin.updateExpression( QString("-")+QChar(960) );
-			dmax.updateExpression( QChar(960) );
 			usecustomxmin = true;
 			usecustomxmax = true;
 			break;

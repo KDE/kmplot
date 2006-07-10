@@ -958,14 +958,11 @@ double View::getXmin( Function * function )
 	{
 		switch ( function->type() )
 		{
+			case Function::Parametric:
 			case Function::Polar:
 				min = 0.0;
 				break;
-
-			case Function::Parametric:
-				min = -M_PI;
-				break;
-
+				
 			case Function::Implicit:
 				kWarning() << "Probably don't want to do this!\n";
 				// no break
@@ -992,14 +989,11 @@ double View::getXmax( Function * function )
 	{
 		switch ( function->type() )
 		{
+			case Function::Parametric:
 			case Function::Polar:
 				max = 2.0*M_PI;
 				break;
-
-			case Function::Parametric:
-				max = M_PI;
-				break;
-
+				
 			case Function::Implicit:
 				kWarning() << "Probably don't want to do this!\n";
 				// no break
@@ -1596,6 +1590,9 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	double dmin = getXmin( function );
 	double dmax = getXmax( function );
 	
+	if ( dmax >= dmin )
+		return;
+	
 	// the 'middle' dx, which may be increased or decreased
 	double base_dx = (dmax-dmin)/area.width();
 	if ( (function->type() == Function::Parametric) || (function->type() == Function::Polar) )
@@ -1693,6 +1690,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		markDiagramPointUsed( p2 );
 		
 		p1 = p2;
+		Q_ASSERT( dx > 0 );
 		x += dx;
 	}
 	while ( x <= dmax );

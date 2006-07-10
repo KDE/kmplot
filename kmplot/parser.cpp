@@ -433,8 +433,6 @@ double Parser::fkt( Equation * eq, const Vector & x )
 
 int Parser::addFunction( const QString & str1, const QString & str2, Function::Type type )
 {
-	kDebug() << k_funcinfo << endl;
-	
 	QString str[2] = { str1, str2 };
 	
 	Function * temp = new Function( type );
@@ -968,64 +966,49 @@ QString Parser::errorString() const
 			return QString();
 			
 		case SyntaxError:
-			return i18n("Parser error at position %1:\n"
-					"Syntax error", m_errorPosition+1);
+			return i18n("Syntax error");
 			
 		case MissingBracket:
-			return i18n("Parser error at position %1:\n"
-					"Missing parenthesis", m_errorPosition+1);
+			return i18n("Missing parenthesis");
 			
 		case UnknownFunction:
-			return i18n("Parser error at position %1:\n"
-					"Function name unknown", m_errorPosition+1);
-			
-		case InvalidFunctionVariable:
-			return i18n("Parser error at position %1:\n"
-					"Void function variable", m_errorPosition+1);
-			
-		case TooManyFunctions:
-			return i18n("Parser error at position %1:\n"
-					"Too many functions", m_errorPosition+1);
+			return i18n("Function name unknown");
 			
 		case MemoryOverflow:
-			return i18n("Parser error at position %1:\n"
-					"Token-memory overflow", m_errorPosition+1);
+			return i18n("Token-memory overflow");
 			
 		case StackOverflow:
-			return i18n("Parser error at position %1:\n"
-					"Stack overflow", m_errorPosition+1);
+			return i18n("Stack overflow");
 			
 		case FunctionNameReused:
-			return i18n("Parser error at position %1:\n"
-					"Name of function not free.", m_errorPosition+1);
+			return i18n("Name of function is not free");
 			
 		case RecursiveFunctionCall:
-			return i18n("Parser error at position %1:\n"
-					"recursive function not allowed.", m_errorPosition+1);
+			return i18n("recursive function not allowed");
 			
 		case EmptyFunction:
 			return i18n("Empty function");
 			
 		case CapitalInFunctionName:
-			return i18n("The function name is not allowed to contain capital letters.");
+			return i18n("The function name is not allowed to contain capital letters");
 			
 		case NoSuchFunction:
-			return i18n("Function could not be found.");
+			return i18n("Function could not be found");
 			
 		case UserDefinedConstantInExpression:
-			return i18n("The expression must not contain user-defined constants.");
+			return i18n("The expression must not contain user-defined constants");
 			
 		case ZeroOrder:
-			return i18n("The differential equation must be at least first-order.");
+			return i18n("The differential equation must be at least first-order");
 			
 		case TooManyPM:
-			return i18n("Too many plus-minus symbols.");
+			return i18n("Too many plus-minus symbols");
 			
 		case InvalidPM:
-			return i18n("Invalid plus-minus symbol (expression must be constant).");
+			return i18n("Invalid plus-minus symbol (expression must be constant)");
 			
 		case TooManyArguments:
-			return i18n("The function has too many arguments.");
+			return i18n("The function has too many arguments");
 	}
 	
 	return QString();

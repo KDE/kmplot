@@ -254,8 +254,6 @@ class Parser : public QObject
 			SyntaxError,
 			MissingBracket,
 			UnknownFunction,
-			InvalidFunctionVariable,
-			TooManyFunctions,
 			MemoryOverflow,
 			StackOverflow,
 			FunctionNameReused , ///< function name already used

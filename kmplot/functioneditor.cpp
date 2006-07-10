@@ -900,11 +900,6 @@ void FunctionListItem::update()
 	QString text = f->eq[0]->fstr();
 	if ( f->eq.size() == 2 )
 		text += '\n' + f->eq[1]->fstr();
-	
-	text += QString(" id:%1 depends:").arg( f->id() );
-	foreach ( int fId, f->m_dependencies )
-		text += QString("%1,").arg(fId);
-	
 	setText( text );
 	
 	setCheckState( f->plotAppearance( Function::Derivative0 ).visible ? Qt::Checked : Qt::Unchecked );

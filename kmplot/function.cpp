@@ -104,7 +104,7 @@ bool PlotAppearance::operator !=( const PlotAppearance & other ) const
 			(lineWidth != other.lineWidth) ||
 			(color != other.color) ||
 			(useGradient != other.useGradient) ||
-			(gradient != other.gradient) ||
+			(gradient.stops() != other.gradient.stops()) ||
 			(visible != other.visible) ||
 			(style != other.style) ||
 			(showExtrema != other.showExtrema) ||
@@ -469,15 +469,15 @@ bool Function::copyFrom( const Function & function )
 	} \
 	i++;
 	
-	COPY_AND_CHECK( f0 );
-	COPY_AND_CHECK( f1 );
-	COPY_AND_CHECK( f2 );
-	COPY_AND_CHECK( integral );
-	COPY_AND_CHECK( dmin );
-	COPY_AND_CHECK( dmax );
-	COPY_AND_CHECK( usecustomxmin );
-	COPY_AND_CHECK( usecustomxmax );
-	COPY_AND_CHECK( m_parameters );
+	COPY_AND_CHECK( f0 );				// 0
+	COPY_AND_CHECK( f1 );				// 1
+	COPY_AND_CHECK( f2 );				// 2
+	COPY_AND_CHECK( integral );			// 3
+	COPY_AND_CHECK( dmin );				// 4
+	COPY_AND_CHECK( dmax );				// 5
+	COPY_AND_CHECK( usecustomxmin );	// 6
+	COPY_AND_CHECK( usecustomxmax );	// 7
+	COPY_AND_CHECK( m_parameters );		// 8
 	
 	// handle equations separately
 	for ( int i = 0; i < eq.size(); ++i )

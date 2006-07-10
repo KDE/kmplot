@@ -246,6 +246,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			break;
 		}
 
+		case Image:
 		case Pixmap:
 		{
 			sf=180./254.;								// 180dpi
@@ -254,8 +255,16 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			ly=((m_ymax-m_ymin)*100.*drskaly/ticSepY);
 			initDiagram( ref, lx, ly );
 			DC.end();
-			*((QPixmap *)dev) = QPixmap( (int)(m_frame.width()*sf), (int)(m_frame.height()*sf) );
-			((QPixmap *)dev)->fill(m_backgroundColor);
+			if ( medium == Pixmap )
+			{
+				*static_cast<QPixmap*>(dev) = QPixmap( (int)(m_frame.width()*sf), (int)(m_frame.height()*sf) );
+				static_cast<QPixmap*>(dev)->fill(m_backgroundColor);
+			}
+			else
+			{
+				*static_cast<QImage*>(dev) = QImage( (int)(m_frame.width()*sf), (int)(m_frame.height()*sf), QImage::Format_RGB32  );
+				static_cast<QImage*>(dev)->fill( m_backgroundColor.rgb() );
+			}
 			DC.begin(dev);
 			DC.translate(-m_frame.left()*sf, -m_frame.top()*sf);
 			DC.scale(sf, sf);
@@ -1590,7 +1599,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	double dmin = getXmin( function );
 	double dmax = getXmax( function );
 	
-	if ( dmax >= dmin )
+	if ( dmin >= dmax )
 		return;
 	
 	// the 'middle' dx, which may be increased or decreased

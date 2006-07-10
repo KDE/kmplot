@@ -492,10 +492,61 @@ void MainDlg::slotSaveas()
 
 void MainDlg::slotExport()
 {
-	KUrl const url = KFileDialog::getSaveUrl(QDir::currentPath(),
-	                 i18n("*.svg|Scalable Vector Graphics (*.svg)\n"
-	                      "*.bmp|Bitmap 180dpi (*.bmp)\n"
-	                      "*.png|Bitmap 180dpi (*.png)"), m_parent, i18n("Export") );
+	struct ImageInfo
+	{
+		QString format;
+		QString ext;
+		QString description;
+		View::PlotMedium medium;
+	};
+	
+	int num = 7;
+	ImageInfo info[num];
+	
+	info[0].format = "SVG";
+	info[0].ext = ".svg";
+	info[0].medium = View::SVG;
+	info[0].description = i18n("Scalable Vector Graphics");
+	
+	info[1].format = "BMP";
+	info[1].ext = ".bmp";
+	info[1].medium = View::Pixmap;
+	info[1].description = i18n("Windows Bitmap");
+	
+	info[2].format = "PNG";
+	info[2].ext = ".png";
+	info[2].medium = View::Pixmap;
+	info[2].description = i18n("Portable Network Graphics");
+	
+	info[3].format = "JPEG";
+	info[3].ext = ".jpg";
+	info[3].medium = View::Image;
+	info[3].description = i18n("Joint Photographic Experts Group");
+	
+	info[4].format = "PPM";
+	info[4].ext = ".ppm";
+	info[4].medium = View::Image;
+	info[4].description = i18n("Portable Pixmap");
+	
+	info[5].format = "XBM";
+	info[5].ext = ".xbm";
+	info[5].medium = View::Image;
+	info[5].description = i18n("X11 Bitmap");
+	
+	info[6].format = "XPM";
+	info[6].ext = ".xpm";
+	info[6].medium = View::Image;
+	info[6].description = i18n("X11 Pixmap");
+	
+	QString fileDescriptions;
+	for ( int i = 0; i < num; ++i )
+	{
+		if ( i > 0 )
+			fileDescriptions += '\n';
+		fileDescriptions += QString("*%1|%2 (*%1)").arg( info[i].ext ).arg( info[i].description );
+	}
+	
+	KUrl const url = KFileDialog::getSaveUrl( QDir::currentPath(), fileDescriptions, m_parent, i18n("Export") );
 	if( url.isEmpty() )
 		return;
 	
@@ -507,52 +558,67 @@ void MainDlg::slotExport()
 		if ( result != KMessageBox::Continue )
 			return;
 	}
-
-	if( url.fileName().right(4).toLower()==".svg")
+	
+	for ( int i = 0; i < num; ++i )
 	{
-		QPicture pic;
-		View::self()->draw(&pic, View::SVG);
-		if (url.isLocalFile() )
-			pic.save( url.path(), "SVG");
-		else
+		if ( url.fileName().right(4).toLower() != info[i].ext )
+			continue;
+		
+		switch ( info[i].medium )
 		{
-			KTempFile tmp;
-			pic.save( tmp.name(), "SVG");
-			if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-				KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
-			tmp.unlink();
-		}
-	}
-
-	else if( url.fileName().right(4).toLower()==".bmp")
-	{
-		QPixmap pic(100, 100);
-		View::self()->draw(&pic, View::Pixmap);
-		if (url.isLocalFile() )
-			pic.save(  url.path(), "BMP");
-		else
-		{
-			KTempFile tmp;
-			pic.save( tmp.name(), "BMP");
-			if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-				KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
-			tmp.unlink();
-		}
-	}
-
-	else if( url.fileName().right(4).toLower()==".png")
-	{
-		QPixmap pic(100, 100);
-		View::self()->draw(&pic, View::Pixmap);
-		if (url.isLocalFile() )
-			pic.save( url.path(), "PNG");
-		else
-		{
-			KTempFile tmp;
-			pic.save( tmp.name(), "PNG");
-			if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-				KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
-			tmp.unlink();
+			case View::SVG:
+			{
+				QPicture pic;
+				View::self()->draw(&pic, info[i].medium);
+				if (url.isLocalFile() )
+					pic.save( url.path(), info[i].format.toAscii().constData() );
+				else
+				{
+					KTempFile tmp;
+					pic.save( tmp.name(), info[i].format.toAscii().constData() );
+					if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+						KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
+					tmp.unlink();
+				}
+				break;
+			}
+			
+			case View::Pixmap:
+			{
+				QPixmap pic;
+				View::self()->draw(&pic, info[i].medium);
+				if (url.isLocalFile() )
+					pic.save(  url.path(), info[i].format.toAscii().constData() );
+				else
+				{
+					KTempFile tmp;
+					pic.save( tmp.name(), info[i].format.toAscii().constData() );
+					if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+						KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
+					tmp.unlink();
+				}
+				break;
+			}
+			
+			case View::Image:
+			{
+				QImage pic;
+				View::self()->draw(&pic, info[i].medium);
+				if (url.isLocalFile() )
+					pic.save(  url.path(), info[i].format.toAscii().constData() );
+				else
+				{
+					KTempFile tmp;
+					pic.save( tmp.name(), info[i].format.toAscii().constData() );
+					if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
+						KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
+					tmp.unlink();
+				}
+				break;
+			}
+			
+			default:
+				break;
 		}
 	}
 }

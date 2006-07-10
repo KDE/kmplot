@@ -99,7 +99,8 @@ class View : public QWidget
 			Screen,
 			Printer,
 			SVG,
-			Pixmap
+			Pixmap,
+			Image
 		};
 		/// Reimplemented to draw all stuff to the view.
 		void draw( QPaintDevice *, PlotMedium medium );

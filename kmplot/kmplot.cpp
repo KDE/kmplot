@@ -32,6 +32,7 @@
 #include <klibloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kmplotprogress.h>
 #include <kstatusbar.h>
 #include <kstdaction.h>
 #include <kurl.h>
@@ -285,6 +286,23 @@ void KmPlot::setupStatusBar()
 	statusBar()->changeItem( "", 1 );
 	statusBar()->changeItem( "", 2 );
 	statusBar()->setItemAlignment( 3, Qt::AlignLeft );
+	
+	m_progressBar = new KmPlotProgress( statusBar() );   
+	m_progressBar->setMaximumHeight( statusBar()->height()-10 );   
+	connect( m_progressBar, SIGNAL (cancelDraw() ), this, SLOT( cancelDraw() ) );   
+	statusBar()->addWidget(m_progressBar);
+}
+
+
+void KmPlot::setDrawProgress( double progress )
+{
+	m_progressBar->setProgress( progress );
+}
+
+
+void KmPlot::cancelDraw()
+{
+	QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "stopDrawing" );
 }
 
 

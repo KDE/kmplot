@@ -62,7 +62,7 @@ install(TARGETS kmplotpart  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### next target ###############   
 
-set(kmplot_SRCS main.cpp kmplot.cpp )
+set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp)
 qt4_add_dbus_adaptor(kmplot_SRCS org.kde.kmplot.KmPlot.xml kmplot.h KmPlot)
 kde4_automoc(${kmplot_SRCS})
 

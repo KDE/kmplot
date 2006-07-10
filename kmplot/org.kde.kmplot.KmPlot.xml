@@ -6,6 +6,9 @@
 			<arg name="text" type="s" direction="in"/>
 			<arg name="id" type="i" direction="in"/>
 		</method>
+		<method name="setDrawProgress">
+			<arg name="progress" type="d" direction="in"/>
+		</method>
 		<method name="optionsConfigureKeys"/>
 		<method name="optionsConfigureToolbars"/>
 		<method name="openFileInNewWindow">

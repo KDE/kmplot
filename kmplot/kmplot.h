@@ -33,6 +33,7 @@
 #include <kcmdlineargs.h>
 #include <kparts/mainwindow.h>
 
+class KmPlotProgress;
 class KToggleAction;
 class KToggleFullScreenAction;
 
@@ -82,6 +83,10 @@ protected:
 private slots:
 	void fileNew();
 	void applyNewToolbarConfig();
+	/**
+	 * Called when the cancel button is clicked in the progress bar.
+	 */
+	void cancelDraw();
 
 public Q_SLOTS:
     // DBus interface
@@ -89,7 +94,15 @@ public Q_SLOTS:
     Q_SCRIPTABLE void optionsConfigureKeys();
     Q_SCRIPTABLE void optionsConfigureToolbars();
     Q_SCRIPTABLE void setStatusBarText(const QString &, int id);
-    Q_SCRIPTABLE void openFileInNewWindow(const KUrl url);
+	Q_SCRIPTABLE void openFileInNewWindow(const KUrl url);
+	/**
+	 * Set the progress of drawing the plots, with \p progress ranging from 0
+	 * to 1. After initially calling this function with \p progress less than
+	 * 1, the progress bar will only be shown after a small delay (to avoid it
+	 * flashing quickly when taking only a short while to draw). If \p progress
+	 * is 1, then the progress bar will be hidden.
+	 */
+	Q_SCRIPTABLE void setDrawProgress( double progress );
 
 public slots:
 	/// Called when fullscren is enabled/disabled
@@ -108,6 +121,8 @@ private:
 	KParts::ReadOnlyPart *m_part;
 	/// The fullscreen action to be plugged/unplegged to the toolbar
 	KToggleFullScreenAction* m_fullScreen;
+	/// The progress bar for drawing functions
+	KmPlotProgress * m_progressBar;
 };
 
 #endif // KMPLOT_H_

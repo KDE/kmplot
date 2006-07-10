@@ -73,7 +73,6 @@
 #include <cmath>
 
 
-
 //BEGIN nan & inf
 #ifdef __osf__
 #include <nan.h>
@@ -273,6 +272,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	drawDiagram( &DC );
 	
 	updateCursor();
+	
+	//BEGIN draw the functions
 	stop_calculating = false;
 
 	// Antialiasing slows down rendering a lot, so turn it off if we are
@@ -281,20 +282,30 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	
 	DC.setClipping( true );
 	DC.setClipRect( m_plotArea );
-	foreach ( Function * ufkt, XParser::self()->m_ufkt )
+	double numPlots = XParser::self()->m_ufkt.size();
+	double at = -1;
+	foreach ( Function * function, XParser::self()->m_ufkt )
 	{
+		at += 1;
+		
 		if ( stop_calculating )
 			break;
+		
+// 		QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setDrawProgress", at/numPlots );
 
-		if ( ufkt->type() == Function::Implicit )
-			drawImplicit( ufkt, & DC );
+		if ( function->type() == Function::Implicit )
+			drawImplicit( function, & DC );
 		else
-			drawFunction( ufkt, & DC );
+			drawFunction( function, & DC );
 	}
+// 	QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setDrawProgress", 1.0 );
+	
 	drawFunctionInfo( &DC );
 	DC.setClipping( false );
-
+	
 	m_isDrawing=false;
+	//END draw the functions
+
 	updateCursor();
 	DC.end();   // painting done
 }
@@ -1309,7 +1320,7 @@ void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x
 	int switchCount = 0;
 	
 	// This is so that the algorithm can "look ahead" to see what is coming up,
-	// before drawing or commiting itself to anything potentially bad
+	// before drawing or committing itself to anything potentially bad
 	QPointF prev2 = toPixel( QPointF( x, y ), ClipInfinite );
 	QPointF prev1 = prev2;
 	
@@ -1317,7 +1328,7 @@ void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x
 	double prev_diff_x = 0;
 	double prev_diff_y = 0;
 	
-	for ( int i = 0; i < 500; ++i ) // allow a maximum of 100 traces (to prevent possibly infinite loop)
+	for ( int i = 0; i < 500; ++i ) // allow a maximum of 500 traces (to prevent possibly infinite loop)
 	{
 		if ( i == 500 - 1 )
 		{
@@ -4001,7 +4012,7 @@ void View::setStatusBar(const QString &text, const int id)
 	}
 	else
 	{
-        QDBusReply<void> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.Kmplot" ).call( QDBus::NoBlock, "setStatusBarText", text, id );
+		QDBusReply<void> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setStatusBarText", text, id );
 	}
 }
 

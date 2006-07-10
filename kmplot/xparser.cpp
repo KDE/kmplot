@@ -209,7 +209,7 @@ QString XParser::findFunctionName( const QString & preferredName, int id )
 			
 			foreach ( Function * it, m_ufkt )
 			{
-				if ( int(it->id) == id )
+				if ( int(it->id()) == id )
 					continue;
 				
 				foreach ( Equation * eq, it->eq )
@@ -251,7 +251,7 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 		QString const fname = str.left(p1);
 		foreach ( Function * it, m_ufkt )
 		{
-			if ( int(it->id) == id )
+			if ( int(it->id()) == id )
 				continue;
 			
 			foreach ( Equation * eq, it->eq )

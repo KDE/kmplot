@@ -3635,7 +3635,7 @@ void View::keyPressEvent( QKeyEvent * e )
 
 				if ( ++it == XParser::self()->m_ufkt.end())
 					it = XParser::self()->m_ufkt.begin();
-				m_currentPlot.functionID = (*it)->id;
+				m_currentPlot.functionID = (*it)->id();
 			}
 		}
 

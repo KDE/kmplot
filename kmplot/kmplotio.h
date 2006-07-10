@@ -113,7 +113,7 @@ class KmPlotIO
 		void parseDifferentialStates( const QDomElement & e, Equation * equation );
 		
 		///For KDE <3.3
-		/// This is the same as parseFunction but is made for old Kmplot-files
+		/// This is the same as parseFunction but is made for old KmPlot-files
 		void oldParseFunction( const QDomElement &n );
 		/**
 		 * For KDE <4.0

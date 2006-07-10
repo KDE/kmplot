@@ -386,6 +386,12 @@ class Parser : public QObject
 		void heir3();
 		void heir4();
 		void primary();
+		bool tryFunction();
+		bool tryPredefinedFunction();
+		bool tryUserFunction();
+		bool tryVariable();
+		bool tryConstant();
+		bool tryNumber();
 		void addToken( Token token );
 		void addConstant(double);
 		void adduint(uint);

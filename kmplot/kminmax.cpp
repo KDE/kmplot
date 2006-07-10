@@ -40,7 +40,7 @@
 class QMinMax : public QWidget, public Ui::QMinMax
 {
     public:
-        QMinMax( QWidget * parent = 0 )
+        QMinMax( QWidget * parent = 0 ) : QWidget( parent )
         { setupUi(this); }
 };
 
@@ -277,7 +277,7 @@ void KMinMax::cmdFind_clicked()
 	{
 		if ( it->eq[0]->fstr().section('(',0,0) == sec_function)
 		{
-			plot.setFunctionID( it->id );
+			plot.setFunctionID( it->id() );
 			break;
 		}
 	}

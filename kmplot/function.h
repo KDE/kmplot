@@ -447,17 +447,34 @@ class Function
 		 */
 		double k;
 		/**
-		 * A list with all functions that this function depends on.
+		 * Clears the list of functions that this function depends on.
 		 */
-		QList<int> dep;
+		void clearFunctionDependencies() { m_dependencies.clear(); }
+		/**
+		 * Adds \p function to the list of functions that this function depends
+		 * on. For example, if this function is "f(x) = 1 + g(x)", then this
+		 * function depends on the function g(x).
+		 */
+		void addFunctionDependency( Function * function );
+		/**
+		 * \return whether this function or any of the functions that this
+		 * function depend on, etc, depend on \p function.
+		 */
+		bool dependsOn( Function * function ) const;
 		/**
 		 * Copies data members across, while avoiding id, mem, mptr type
 		 * variables.
 		 * @return whether any values have changed.
 		 */
 		bool copyFrom( const Function & function );
-        
-		uint id;
+		/**
+		 * \return the function ID, used to identify it from the parser.
+		 */
+		uint id() const { return m_id; }
+		/**
+		 * \see id()
+		 */
+		void setId( uint id ) { m_id = id; }
 		QVector<Equation*> eq;
 		/**
 		 * \return A reference to the appearance of the given plot type.
@@ -507,7 +524,13 @@ class Function
 		 */
 		double y;
 		
+		/**
+		 * A list with all functions that this function depends on.
+		 */
+		QList<int> m_dependencies;
+		
 	protected:
+		uint m_id;
 		const Type m_type;
 		
 		PlotAppearance f0;		///< The actual function - the "zero'th derivative"

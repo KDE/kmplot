@@ -433,6 +433,8 @@ double Parser::fkt( Equation * eq, const Vector & x )
 
 int Parser::addFunction( const QString & str1, const QString & str2, Function::Type type )
 {
+	kDebug() << k_funcinfo << endl;
+	
 	QString str[2] = { str1, str2 };
 	
 	Function * temp = new Function( type );
@@ -458,20 +460,20 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		}
 	}
 	
-	temp->id = getNewId();
-	m_ufkt[ temp->id ] = temp;
+	temp->setId( getNewId() );
+	m_ufkt[ temp->id() ] = temp;
 	
-	temp->plotAppearance( Function::Derivative0 ).color = temp->plotAppearance( Function::Derivative1 ).color = temp->plotAppearance( Function::Derivative2 ).color = temp->plotAppearance( Function::Integral ).color = XParser::self()->defaultColor( temp->id );
+	temp->plotAppearance( Function::Derivative0 ).color = temp->plotAppearance( Function::Derivative1 ).color = temp->plotAppearance( Function::Derivative2 ).color = temp->plotAppearance( Function::Integral ).color = XParser::self()->defaultColor( temp->id() );
 	
-	emit functionAdded( temp->id );
-	return temp->id; //return the unique ID-number for the function
+	emit functionAdded( temp->id() );
+	return temp->id(); //return the unique ID-number for the function
 }
 
 
 void Parser::initEquation( Equation * eq )
 {
 	if ( eq->parent() )
-		eq->parent()->dep.clear();
+		eq->parent()->clearFunctionDependencies();
 	
 	m_error = ParseSuccess;
 	m_currentEquation = eq;
@@ -495,21 +497,21 @@ void Parser::initEquation( Equation * eq )
 
 bool Parser::removeFunction( Function * item )
 {
-	kDebug() << "Deleting id:" << item->id << endl;
+	kDebug() << "Deleting id:" << item->id() << endl;
 	
 	foreach ( Function * it, m_ufkt )
 	{
 		if ( it == item )
 			continue;
 		
-		if ( it->dep.contains( item->id ) )
+		if ( it->dependsOn( item ) )
 		{
 			KMessageBox::sorry(0,i18n("This function is depending on an other function"));
 			return false;
 		}
 	}
 	
-	uint const id = item->id;
+	uint const id = item->id();
 	m_ufkt.remove(id);
 	delete item;
 	
@@ -663,16 +665,27 @@ void Parser::heir4()
 
 void Parser::primary()
 {
-	if ( match("(") || match(",") )
-	{
-		heir1();
-		if ( !match(")") && !match(",") )
-			m_error=MissingBracket;
-		return;
-	}
+	// Note that tryUserFunction has to go after tryVariable since differential
+	// equations treat the function name as a variable
+	
+	tryFunction() || tryPredefinedFunction() || tryVariable() || tryUserFunction() || tryConstant() || tryNumber();
+}
+
+
+bool Parser::tryFunction()
+{
+	if ( !match("(") && !match(",") )
+		return false;
+	
+	heir1();
+	if ( !match(")") && !match(",") )
+		m_error = MissingBracket;
+	return true;
+}
 	
 	
-	//BEGIN is it a predefined function?
+bool Parser::tryPredefinedFunction()
+{
 	for ( int i=0; i < ScalarCount; ++i )
 	{
 		if ( match(scalarFunctions[i].name) )
@@ -680,7 +693,7 @@ void Parser::primary()
 			primary();
 			addToken(FKT_1);
 			addfptr(scalarFunctions[i].mfadr);
-			return;
+			return true;
 		}
 	}
 	for ( int i=0; i < VectorCount; ++i )
@@ -691,13 +704,16 @@ void Parser::primary()
 			
 			addToken(FKT_N);
 			addfptr( vectorFunctions[i].mfadr, argCount );
-			return;
+			return true;
 		}
 	}
-	//END is it a predefined function?
+	
+	return false;
+}
 	
 	
-	//BEGIN Is it a variable?
+bool Parser::tryVariable()
+{
 	QStringList variables = m_currentEquation->variables();
 	
 	// Sort the parameters by size, so that when identifying parameters, want to
@@ -713,13 +729,16 @@ void Parser::primary()
 		{
 			addToken( VAR );
 			adduint( variables.indexOf( var ) );
-			return;
+			return true;
 		}
 	}
-	//END Is it a variable?
 	
+	return false;
+}
 	
-	//BEGIN is it a user-defined function?
+
+bool Parser::tryUserFunction()
+{
 	foreach ( Function * it, m_ufkt )
 	{
 		for ( int i = 0; i < it->eq.size(); ++i )
@@ -727,25 +746,33 @@ void Parser::primary()
 			if ( !match( it->eq[i]->name()) )
 				continue;
 			
-			if (it->eq[i] == m_currentEquation)
-			{
-				m_error=RecursiveFunctionCall;
-				return;
-			}
-				
-			int argCount = readFunctionArguments();
-				
-			addToken(UFKT);
-			addfptr( it->id, i, argCount );
 			if ( m_currentEquation->parent() )
-				m_currentEquation->parent()->dep.append( it->id );
-			return;
+				kDebug() << "it->id()="<<it->id()<<" m_currentEquation->fstr()="<<m_currentEquation->fstr()<<" m_currentEquation->parent()->id()="<<m_currentEquation->parent()->id()<<endl;
+			
+			if ( it->eq[i] == m_currentEquation || (m_currentEquation && it->dependsOn( m_currentEquation->parent() )) )
+			{
+				m_error = RecursiveFunctionCall;
+				return true;
+			}
+			
+			int argCount = readFunctionArguments();
+			
+			addToken(UFKT);
+			addfptr( it->id(), i, argCount );
+			if ( m_currentEquation->parent() )
+				m_currentEquation->parent()->addFunctionDependency( it );
+			
+			return true;
 		}
 	}
-	//END is it a user-defined function?
-        
 	
-	//BEGIN is it a user-defined constant?
+	return false;
+}
+
+
+bool Parser::tryConstant()
+{
+	// Is it a user defined constant?
 	if ( (m_eval.length()>m_evalPos) && constants()->have( m_eval[m_evalPos] ) )
 	{
 		QVector<Constant> constants = m_constants->all();
@@ -755,30 +782,33 @@ void Parser::primary()
 			if ( match( tmp ) )
 			{
 				addConstant(c.value);
-				return;
+				return true;
 			}
 		}
 		
 		assert( !"Could not find the constant!" ); // Should always be able to find the constant
-		return;
+		return true;
 	}
-	//END is it a user-defined constant?
 	
 	
-	//BEGIN is it a predefined constant?
+	// Or a predefined constant?
 #define CHECK_CONSTANT( a, b ) \
 	if ( match(a) ) \
 	{ \
 		addConstant( b ); \
-		return; \
+		return true; \
 	}
 	CHECK_CONSTANT( "pi", M_PI );
 	CHECK_CONSTANT( QChar(960), M_PI );
 	CHECK_CONSTANT( "e", M_E );
 	CHECK_CONSTANT( QChar(0x221E), INFINITY );
-	//END is it a predefined constant?
 	
-	
+	return false;
+}
+
+
+bool Parser::tryNumber()
+{	
 	QByteArray remaining = evalRemaining().toLatin1();
 	char * lptr = remaining.data();
 	char * p = 0;
@@ -787,7 +817,10 @@ void Parser::primary()
 	{
 		m_evalPos += p-lptr;
 		addConstant(w);
+		return true;
 	}
+	
+	return false;
 }
 
 
@@ -920,7 +953,7 @@ int Parser::fnameToID(const QString &name)
 		foreach ( Equation * eq, it->eq )
 		{
 			if ( name == eq->name() )
-				return it->id;
+				return it->id();
 		}
 	}
 	return -1;     // Name not found
@@ -1035,24 +1068,117 @@ QString Parser::number( double value )
 
 
 //BEGIN predefined mathematical functions
-double ln(double x)
-{
-        return log(x);
+double ln(double x) {
+	return log(x);
 }
-
-double llog(double x)
+double llog(double x) {
+	return log10(x);
+}
+double sqr(double x) {
+	return x*x;
+}
+double arsinh(double x) {
+	return log(x+sqrt(x*x+1));
+}
+double arcosh(double x) {
+	return log(x+sqrt(x*x-1));
+}
+double artanh(double x) {
+	return log((1+x)/(1-x))/2;
+}
+double sec(double x) {
+	return (1 / cos(x*Parser::radiansPerAngleUnit()));
+}
+double cosec(double x) {
+	return (1 / sin(x*Parser::radiansPerAngleUnit()));
+}
+double cot(double x) {
+	return (1 / tan(x*Parser::radiansPerAngleUnit()));
+}
+double arcsec(double x) {
+	return acos(1/x)* 1/Parser::radiansPerAngleUnit();
+}
+double arccosec(double x) {
+	return asin(1/x)* 1/Parser::radiansPerAngleUnit();
+}
+double arccot(double x)
 {
-        return log10(x);
+	return atan(1/x)* 1/Parser::radiansPerAngleUnit();
+}
+double sech(double x) {
+	return (1 / cosh(x));
+}
+double cosech(double x) {
+	return (1 / sinh(x));
+}
+double coth(double x) {
+	return (1 / tanh(x));
+}
+double arsech(double x) {
+	return arcosh(1/x);
+}
+double arcosech(double x) {
+	return arsinh(1/x);
+}
+double arcoth(double x) {
+	return artanh(1/x);
+}
+double lcos(double x) {
+	return cos(x*Parser::radiansPerAngleUnit());
+}
+double lsin(double x) {
+	return sin(x*Parser::radiansPerAngleUnit());
+}
+double ltan(double x) {
+	return tan(x*Parser::radiansPerAngleUnit());
+}
+double lcosh(double x) {
+	return cosh(x);
+}
+double lsinh(double x) {
+	return sinh(x);
+}
+double ltanh(double x) {
+	return tanh(x);
+}
+double arccos(double x) {
+	return acos(x) * 1/Parser::radiansPerAngleUnit();
+}
+double arcsin(double x) {
+	return asin(x)* 1/Parser::radiansPerAngleUnit();
+}
+double arctan(double x) {
+	return atan(x)* 1/Parser::radiansPerAngleUnit();
+}
+double legendre0( double ) {
+	return 1.0;
+}
+double legendre1( double x ) {
+	return x;
+}
+double legendre2( double x ) {
+	return (3*x*x-1)/2;
+}
+double legendre3( double x ) {
+	return (5*x*x*x - 3*x)/2;
+}
+double legendre4( double x ) {
+	return (35*x*x*x*x - 30*x*x +3)/8;
+}
+double legendre5( double x ) {
+	return (63*x*x*x*x*x - 70*x*x*x + 15*x)/8;
+}
+double legendre6( double x ) {
+	return (231*x*x*x*x*x*x - 315*x*x*x*x + 105*x*x - 5)/16;
 }
 
 double sign(double x)
 {
-        if(x<0.)
-                return -1.;
-        else
-                if(x>0.)
-                        return 1.;
-        return 0.;
+	if(x<0.)
+		return -1.;
+	else if(x>0.)
+		return 1.;
+	return 0.;
 }
 
 double heaviside( double x )
@@ -1063,172 +1189,6 @@ double heaviside( double x )
 		return 1.0;
 	else
 		return 0.5;
-}
-
-double sqr(double x)
-{
-        return x*x;
-}
-
-double arsinh(double x)
-{
-        return log(x+sqrt(x*x+1));
-}
-
-
-double arcosh(double x)
-{
-        return log(x+sqrt(x*x-1));
-}
-
-
-double artanh(double x)
-{
-        return log((1+x)/(1-x))/2;
-}
-
-// sec, cosec, cot and their inverses
-
-double sec(double x)
-{
-        return (1 / cos(x*Parser::radiansPerAngleUnit()));
-}
-
-double cosec(double x)
-{
-        return (1 / sin(x*Parser::radiansPerAngleUnit()));
-}
-
-double cot(double x)
-{
-        return (1 / tan(x*Parser::radiansPerAngleUnit()));
-}
-
-double arcsec(double x)
-{
-        if ( !Parser::radiansPerAngleUnit() )
-                return ( 1/acos(x)* 180/M_PI );
-        else
-                return acos(1/x);
-}
-
-double arccosec(double x)
-{
-        return asin(1/x)* 1/Parser::radiansPerAngleUnit();
-}
-
-double arccot(double x)
-{
-        return atan(1/x)* 1/Parser::radiansPerAngleUnit();
-}
-
-// sech, cosech, coth and their inverses
-
-
-double sech(double x)
-{
-        return (1 / cosh(x*Parser::radiansPerAngleUnit()));
-}
-
-double cosech(double x)
-{
-        return (1 / sinh(x*Parser::radiansPerAngleUnit()));
-}
-
-double coth(double x)
-{
-        return (1 / tanh(x*Parser::radiansPerAngleUnit()));
-}
-
-double arsech(double x)
-{
-        return arcosh(1/x)* 1/Parser::radiansPerAngleUnit();
-}
-
-double arcosech(double x)
-{
-        return arsinh(1/x)* 1/Parser::radiansPerAngleUnit();
-}
-
-double arcoth(double x)
-{   return artanh(1/x)* 1/Parser::radiansPerAngleUnit();
-}
-
-//basic trigonometry functions
-
-double lcos(double x)
-{
-        return cos(x*Parser::radiansPerAngleUnit());
-}
-double lsin(double x)
-{
-        return sin(x*Parser::radiansPerAngleUnit());
-}
-double ltan(double x)
-{
-        return tan(x*Parser::radiansPerAngleUnit());
-}
-
-double lcosh(double x)
-{
-        return cosh(x*Parser::radiansPerAngleUnit());
-}
-double lsinh(double x)
-{
-        return sinh(x*Parser::radiansPerAngleUnit());
-}
-double ltanh(double x)
-{
-        return tanh(x*Parser::radiansPerAngleUnit());
-}
-
-double arccos(double x)
-{
-        return acos(x) * 1/Parser::radiansPerAngleUnit();
-}
-double arcsin(double x)
-{
-        return asin(x)* 1/Parser::radiansPerAngleUnit();
-}
-
-double arctan(double x)
-{
-        return atan(x)* 1/Parser::radiansPerAngleUnit();
-}
-
-double legendre0( double )
-{
-	return 1.0;
-}
-
-double legendre1( double x )
-{
-	return x;
-}
-
-double legendre2( double x )
-{
-	return (3*x*x-1)/2;
-}
-
-double legendre3( double x )
-{
-	return (5*x*x*x - 3*x)/2;
-}
-
-double legendre4( double x )
-{
-	return (35*x*x*x*x - 30*x*x +3)/8;
-}
-
-double legendre5( double x )
-{
-	return (63*x*x*x*x*x - 70*x*x*x + 15*x)/8;
-}
-
-double legendre6( double x )
-{
-	return (231*x*x*x*x*x*x - 315*x*x*x*x + 105*x*x - 5)/16;
 }
 
 double min( const Vector & args )

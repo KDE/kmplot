@@ -197,15 +197,15 @@ void FunctionEditor::syncFunctionList()
 	{
 		Function * function = *it;
 		
-		if ( currentIDs.contains( function->id ) )
+		if ( currentIDs.contains( function->id() ) )
 		{
 			// already have the function
-			currentFunctionItems.removeAll( currentIDs[ function->id ] );
-			currentIDs.remove( function->id );
+			currentFunctionItems.removeAll( currentIDs[ function->id() ] );
+			currentIDs.remove( function->id() );
 			continue;
 		}
 		
-		toSelect = new FunctionListItem( m_functionList, function->id );
+		toSelect = new FunctionListItem( m_functionList, function->id() );
 		newFunctionCount++;
 	}
 	
@@ -562,10 +562,11 @@ void FunctionEditor::saveCartesian()
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
 	QString f_str( m_editor->cartesianEquation->text() );
-	XParser::self()->fixFunctionName(f_str, Equation::Cartesian, f->id );
+	XParser::self()->fixFunctionName(f_str, Equation::Cartesian, f->id() );
 	
 	//all settings are saved here until we know that no errors have appeared
 	Function tempFunction( Function::Cartesian );
+	tempFunction.setId( f->id() );
 	
 	tempFunction.usecustomxmin = m_editor->cartesianCustomMin->isChecked();
 	bool ok = tempFunction.dmin.updateExpression( m_editor->cartesianMin->text() );
@@ -609,8 +610,6 @@ void FunctionEditor::saveCartesian()
 
 void FunctionEditor::savePolar()
 {
-// 	kDebug() << k_funcinfo << endl;
-	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
 		return;
@@ -619,8 +618,9 @@ void FunctionEditor::savePolar()
 	
 	QString f_str = m_editor->polarEquation->text();
 
-	XParser::self()->fixFunctionName( f_str, Equation::Polar, f->id );
+	XParser::self()->fixFunctionName( f_str, Equation::Polar, f->id() );
 	Function tempFunction( Function::Polar );  // all settings are saved here until we know that no errors have appeared
+	tempFunction.setId( f->id() );
 	
 	bool ok = tempFunction.dmin.updateExpression( m_editor->polarMin->text() );
 	if ( !ok )
@@ -679,14 +679,15 @@ void FunctionEditor::saveParametric()
 	}
 	      
 	Function tempFunction( Function::Parametric );
+	tempFunction.setId( f->id() );
 	
 	QString f_str = m_editor->parametricX->text();
-	XParser::self()->fixFunctionName( f_str, Equation::ParametricX, f->id );
+	XParser::self()->fixFunctionName( f_str, Equation::ParametricX, f->id() );
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
 	
 	f_str = m_editor->parametricY->text();
-	XParser::self()->fixFunctionName( f_str, Equation::ParametricY, f->id );
+	XParser::self()->fixFunctionName( f_str, Equation::ParametricY, f->id() );
 	if ( !tempFunction.eq[1]->setFstr( f_str ) )
 		return;
 	
@@ -726,8 +727,6 @@ void FunctionEditor::saveParametric()
 
 void FunctionEditor::saveImplicit()
 {
-// 	kDebug() << k_funcinfo << endl;
-	
 	Function * f = XParser::self()->functionWithID( m_functionID );
 	if ( !f )
 		return;
@@ -738,7 +737,7 @@ void FunctionEditor::saveImplicit()
 	if ( m_editor->implicitName->text().isEmpty() )
 	{
 		QString fname;
-		XParser::self()->fixFunctionName(fname, Equation::Implicit, f->id );
+		XParser::self()->fixFunctionName(fname, Equation::Implicit, f->id() );
 		int const pos = fname.indexOf('(');
 		m_editor->implicitName->setText(fname.mid(1,pos-1));
 	}
@@ -748,6 +747,7 @@ void FunctionEditor::saveImplicit()
 	m_editor->implicitEquation->setValidatePrefix( prefix );
 
 	Function tempFunction( Function::Implicit );  // all settings are saved here until we know that no errors have appeared
+	tempFunction.setId( f->id() );
 	
 	tempFunction.m_parameters = m_editor->implicitParameters->parameterSettings();
 	if (functionListItem)
@@ -778,6 +778,8 @@ void FunctionEditor::saveDifferential()
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	
 	Function tempFunction( Function::Differential );  // all settings are saved here until we know that no errors have appeared
+	tempFunction.setId( f->id() );
+	
 	QString f_str = m_editor->differentialEquation->text();
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
@@ -898,7 +900,11 @@ void FunctionListItem::update()
 	QString text = f->eq[0]->fstr();
 	if ( f->eq.size() == 2 )
 		text += '\n' + f->eq[1]->fstr();
-// 	text += QString(" id=%1").arg(m_function );
+	
+	text += QString(" id:%1 depends:").arg( f->id() );
+	foreach ( int fId, f->m_dependencies )
+		text += QString("%1,").arg(fId);
+	
 	setText( text );
 	
 	setCheckState( f->plotAppearance( Function::Derivative0 ).visible ? Qt::Checked : Qt::Unchecked );

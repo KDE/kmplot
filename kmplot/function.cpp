@@ -438,7 +438,7 @@ Function::Function( Type type )
 			break;
 	}
 	
-	id = 0;
+	m_id = 0;
 	f0.visible = true;
 	
 	k = 0;
@@ -615,7 +615,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 	QList< Plot > list;
 	
 	Plot plot;
-	plot.setFunctionID( id );
+	plot.setFunctionID( id() );
 	plot.plotNumberCount = m_parameters.useList ? m_parameters.list.size() + (m_parameters.useSlider?1:0) : 1;
 	
 	bool singlePlot = (!m_parameters.useList && !m_parameters.useSlider) ||
@@ -740,6 +740,37 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 	}
 	
 	return list;
+}
+
+
+void Function::addFunctionDependency( Function * function )
+{
+	if ( !function || m_dependencies.contains( function->id() ) )
+		return;
+	
+	Q_ASSERT_X( !function->dependsOn( this ), "addFunctionDependency", "circular dependency" );
+	
+	m_dependencies << function->id();
+}
+
+
+bool Function::dependsOn( Function * function ) const
+{
+	if ( !function )
+		return false;
+	
+	if ( m_dependencies.contains( function->id() ) )
+		return true;
+	
+	foreach ( int functionId, m_dependencies )
+	{
+		Function * f = XParser::self()->functionWithID( functionId );
+		
+		if ( f->dependsOn( function ) )
+			return true;
+	}
+	
+	return false;
 }
 //END class Function
 

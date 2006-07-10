@@ -313,7 +313,7 @@ void Equation::updateVariables()
 	if ( (p1 == -1) || (p2 == -1) )
 		return;
 	
-	m_variables = m_fstr.mid( p1+1, p2-p1-1 ).split( ',' );
+	m_variables = m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts );
 	
 	// If we are a differential equation, then add on y, y', etc
 	if ( type() == Differential )
@@ -620,7 +620,8 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 	
 	bool singlePlot = (!m_parameters.useList && !m_parameters.useSlider) ||
 			m_parameters.animating ||
-			(~combinations & DifferentParameters);
+			(~combinations & DifferentParameters) ||
+			(!m_parameters.useSlider && m_parameters.useList && m_parameters.list.isEmpty());
 	
 	if ( singlePlot )
 	{

@@ -32,10 +32,13 @@
 
 #include <QApplication>
 #include <QHBoxLayout>
+#include <QLocale>
 #include <QPushButton>
 #include <QStyleOptionFrame>
 
 #include <assert.h>
+
+CharMap EquationEdit::m_replaceMap;
 
 
 class EquationEditorWidget : public QWidget, public Ui::EquationEditor
@@ -63,23 +66,113 @@ EquationHighlighter::~ EquationHighlighter( )
 
 void EquationHighlighter::highlightBlock( const QString & text )
 {
+	// Good color defaults borrowed from Abakus - thanks! :)
+	
 	m_parent->checkTextValidity();
 	
-// 	QTextCharFormat number;
-// 	number.setForeground( Qt::darkMagenta );
+	if ( text.isEmpty() )
+		return;
 	
-	QTextCharFormat bracket;
-// 	bracket.setFontWeight( QFont::Bold );
+	QTextCharFormat number;
+	number.setForeground( QColor( 0, 0, 127 ) );
 	
-	QTextCharFormat normal;
+	QTextCharFormat function;
+	function.setForeground( QColor( 85, 0, 0 ) );
+	
+	QTextCharFormat variable;
+	variable.setForeground( QColor( 0, 85, 0 ) );
+	
+	QTextCharFormat matchedParenthesis;
+	matchedParenthesis.setBackground( QColor( 255, 255, 183 ) );
+	
+	QTextCharFormat other;
+	
+	QStringList variables = m_parent->m_equation->variables();
+	QStringList functions = XParser::self()->predefinedFunctions() + XParser::self()->userFunctions();
 	
 	for ( int i = 0; i < text.length(); ++i )
 	{
-// 		if ( text[i].isDigit() || text[i] == '.' )
-// 			setFormat( i, 1, number );
-// 		else
-			setFormat( i, 1, normal );
+		bool found = false;
+		
+		foreach ( QString var, variables )
+		{
+			if ( text.indexOf( var, i ) == i )
+			{
+				setFormat( i, var.length(), variable );
+				i += var.length()-1;
+				found = true;
+				break;
+			}
+		}
+		if ( found )
+			continue;
+		
+		foreach ( QString f, functions )
+		{
+			if ( text.indexOf( f, i ) == i )
+			{
+				setFormat( i, f.length(), function );
+				i += f.length()-1;
+				found = true;
+				break;
+			}
+		}
+		if ( found )
+			continue;
+		
+		ushort u = text[i].unicode();
+		bool isFraction = (u >= 0xbc && u <= 0xbe) || (u >= 0x2153 && u <= 0x215e);
+		bool isPower = (u >= 0xb2 && u <= 0xb3) || (u == 0x2070) || (u >= 0x2074 && u <= 0x2079);
+		bool isDigit = text[i].isDigit();
+		bool isDecimalPoint = text[i] == QLocale().decimalPoint();
+		
+		if ( isFraction || isPower || isDigit || isDecimalPoint )
+			setFormat( i, 1, number );
+		
+		else
+			setFormat( i, 1, other );
 	}
+	
+	
+	//BEGIN highlight matched brackets
+	int cursorPos = m_parent->m_equationEditWidget->textCursor().position();
+	if ( cursorPos < 0 )
+		cursorPos = 0;
+	
+	// Adjust cursorpos to allow for a bracket before the cursor position
+	if ( cursorPos >= text.size() )
+		cursorPos--;
+	else if ( cursorPos > 0 && (text[cursorPos-1] == '(' || text[cursorPos-1] == ')') )
+		cursorPos--;
+	
+	bool haveOpen =  text[cursorPos] == '(';
+	bool haveClose = text[cursorPos] == ')';
+	
+	if ( (haveOpen || haveClose) && m_parent->hasFocus() )
+	{
+		// Search for the other bracket
+		
+		int inc = haveOpen ? 1 : -1; // which direction to search in
+		
+		int level = 0;
+		for ( int i = cursorPos; i >= 0 && i < text.size(); i += inc )
+		{
+			if ( text[i] == ')' )
+				level--;
+			else if ( text[i] == '(' )
+				level++;
+			
+			if ( level == 0 )
+			{
+				// Matched!
+				setFormat( cursorPos, 1, matchedParenthesis );
+				setFormat( i, 1, matchedParenthesis );
+				break;
+			}
+		}
+	}
+	//END highlight matched brackets
+	
 	
 	if ( m_errorPosition != -1 )
 	{
@@ -103,7 +196,9 @@ void EquationHighlighter::setErrorPosition( int position )
 EquationEdit::EquationEdit( QWidget * parent )
 	: QWidget( parent )
 {
+	m_cleaningText = false;
 	m_settingText = false;
+	m_forcingRehighlight = false;
 	m_inputType = Expression;
 	
 	m_equationEditWidget = new EquationEditWidget( this );
@@ -114,6 +209,7 @@ EquationEdit::EquationEdit( QWidget * parent )
 	
 	connect( m_equationEditWidget, SIGNAL( textChanged() ), this, SLOT( slotTextChanged() ) );
 	connect( m_editButton, SIGNAL(clicked()), this, SLOT(invokeEquationEditor()) );
+	connect( m_equationEditWidget, SIGNAL(cursorPositionChanged()), this, SLOT(reHighlight()) );
 	
 	QHBoxLayout * layout = new QHBoxLayout( this );
 	layout->setMargin( 0 );
@@ -132,6 +228,21 @@ void EquationEdit::setEquationType( Equation::Type type )
 void EquationEdit::showEditButton( bool show )
 {
 	m_editButton->setVisible( show );
+}
+
+
+void EquationEdit::reHighlight()
+{
+	if ( m_forcingRehighlight )
+		return;
+	m_forcingRehighlight = true;
+	
+	QTextCursor c( m_equationEditWidget->document() );
+	c.setPosition( text().length() );
+	c.insertText( " " );
+	c.deletePreviousChar();
+	
+	m_forcingRehighlight = false;
 }
 
 
@@ -167,6 +278,39 @@ double EquationEdit::value( )
 
 void EquationEdit::slotTextChanged( )
 {
+	if ( m_forcingRehighlight )
+		return;
+	
+	//BEGIN tidy up mathematical characters
+	if ( m_cleaningText )
+		return;
+	m_cleaningText = true;
+	
+	QTextDocument * doc = m_equationEditWidget->document();
+	
+	if ( m_replaceMap.isEmpty() )
+	{
+// 		m_replaceMap[ '*' ] = QChar(0xd7);
+		m_replaceMap[ '-' ] = QChar(0x2212);
+		m_replaceMap[ '|' ] = QChar(0x2223);
+	}
+	
+	for ( CharMap::iterator i = m_replaceMap.begin(); i != m_replaceMap.end(); ++i )
+	{
+		int at = 0;
+		QTextCursor cursor;
+		while ( !(cursor = doc->find( i.key(), at )).isNull() )
+		{
+			at = cursor.position()+1;
+			cursor.deleteChar();
+			cursor.insertText( i.value() );
+		}
+	}
+	
+	m_cleaningText = false;
+	//END tidy up mathematical characters
+	
+	
 	emit textChanged( text() );
 	if ( !m_settingText )
 		emit textEdited( text() );
@@ -187,8 +331,6 @@ void EquationEdit::checkTextValidity( )
 		ok = XParser::self()->errorString().isEmpty();
 	}
 	
-// 	kDebug() << k_funcinfo << "ok="<<ok<<" XParser::self()->errorPosition()="<<XParser::self()->errorPosition()<<endl;
-		
 	if ( ok )
 		setError( QString(), -1 );
 	else
@@ -207,7 +349,9 @@ void EquationEdit::setText( const QString & text )
 {
 	m_settingText = true;
 	m_equationEditWidget->setPlainText( text );
-	m_equationEditWidget->textCursor().movePosition( QTextCursor::End );
+	QTextCursor cursor( m_equationEditWidget->textCursor() );
+	cursor.movePosition( QTextCursor::End );
+	m_equationEditWidget->setTextCursor( cursor );
 	m_settingText = false;
 }
 
@@ -278,7 +422,18 @@ void EquationEditWidget::keyPressEvent( QKeyEvent * e )
 void EquationEditWidget::focusOutEvent( QFocusEvent * e )
 {
 	QTextEdit::focusOutEvent( e );
+	
+	m_parent->reHighlight();
+	
 	emit m_parent->editingFinished();
+}
+
+
+void EquationEditWidget::focusInEvent( QFocusEvent * e )
+{
+	QTextEdit::focusOutEvent( e );
+	
+	m_parent->reHighlight();
 }
 //END class EquationEdit
 

@@ -78,7 +78,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>4</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -91,7 +91,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget" >
          <property name="currentIndex" >
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab" >
           <attribute name="title" >
@@ -771,14 +771,17 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_5" >
+          <item row="0" column="0" >
+           <widget class="QLabel" name="textLabel4_2" >
             <property name="text" >
-             <string>Expression:</string>
+             <string>Name:</string>
+            </property>
+            <property name="buddy" >
+             <cstring>implicitName</cstring>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
+          <item row="1" column="0" colspan="2" >
            <widget class="EquationEdit" name="implicitEquation" >
             <property name="toolTip" >
              <string>enter an expression</string>
@@ -787,16 +790,6 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
              <string>Enter an expression for the function.
 The dummy variable is t.
 Example: cos(t)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="textLabel4_2" >
-            <property name="text" >
-             <string>Name:</string>
-            </property>
-            <property name="buddy" >
-             <cstring>implicitName</cstring>
             </property>
            </widget>
           </item>
@@ -865,33 +858,18 @@ Example: cos(t)</string>
             <number>6</number>
            </property>
            <item>
-            <widget class="QGroupBox" name="groupBox_3" >
-             <property name="title" >
-              <string>Definition</string>
+            <widget class="EquationEdit" name="differentialEquation" >
+             <property name="toolTip" >
+              <string>enter an expression</string>
              </property>
-             <layout class="QVBoxLayout" >
-              <property name="margin" >
-               <number>9</number>
-              </property>
-              <property name="spacing" >
-               <number>6</number>
-              </property>
-              <item>
-               <widget class="EquationEdit" name="differentialEquation" >
-                <property name="toolTip" >
-                 <string>enter an expression</string>
-                </property>
-                <property name="whatsThis" >
-                 <string>Enter an expression for the function.
+             <property name="whatsThis" >
+              <string>Enter an expression for the function.
 The dummy variable is t.
 Example: cos(t)</string>
-                </property>
-                <property name="text" >
-                 <string>f''(x) = -f</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             </property>
+             <property name="text" >
+              <string>f''(x) = -f</string>
+             </property>
             </widget>
            </item>
            <item>

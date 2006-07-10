@@ -165,6 +165,21 @@ QStringList Parser::predefinedFunctions( ) const
 }
 
 
+QStringList Parser::userFunctions( ) const
+{
+	QStringList names;
+	
+	foreach ( Function * f, m_ufkt )
+	{
+		foreach ( Equation * eq, f->eq )
+			names << eq->name();
+	}
+	
+	names.sort();
+	return names;
+}
+
+
 void Parser::setAngleMode( AngleMode mode )
 {
 	switch ( mode )
@@ -340,7 +355,8 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				--stkptr;
 				break;
 			case DIV:
-				if(*stkptr==0.)*(--stkptr)=HUGE_VAL;
+				if(*stkptr==0.)
+					*(--stkptr)=HUGE_VAL;
 				else
 				{
 					stkptr[-1]/=*stkptr;
@@ -1424,9 +1440,11 @@ void ExpressionSanitizer::fixExpression( QString * str )
 		replace( dashes[i], '-' );
 	
 	// replace the proper unicode divide sign by the forward-slash
+	replace( QChar( 0xf7 ), '/' );
 	replace( QChar( 0x2215 ), '/' );
 	
 	// replace the unicode middle-dot for multiplication by the star symbol
+	replace( QChar( 0xd7 ), '*' );
 	replace( QChar( 0x2219 ), '*' );
 	
 	// minus-plus symbol to plus-minus symbol
@@ -1478,6 +1496,8 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	//insert '*' when it is needed
 	QChar ch;
 	bool function = false;
+	QStringList predefinedFunctions = XParser::self()->predefinedFunctions();
+	
 	for(int i=1; i+1 <  str->length();i++)
 	{
 		ch = str->at(i);
@@ -1500,23 +1520,8 @@ void ExpressionSanitizer::fixExpression( QString * str )
 				--n;
 			}
 			
-			for ( int func = 0; func < ScalarCount; ++func )
-			{
-				if ( str_function == QString( m_parser->scalarFunctions[func].name ) )
-				{
-					function = true;
-					break;
-				}
-			}
-			
-			for ( int func = 0; func < VectorCount; ++func )
-			{
-				if ( str_function == QString( m_parser->vectorFunctions[func].name) )
-				{
-					function = true;
-					break;
-				}
-			}
+			if ( predefinedFunctions.contains( str_function ) )
+				function = true;
 				
 			if ( !function )
 			{
@@ -1683,5 +1688,6 @@ void ExpressionSanitizer::displayMap( )
 	kDebug() << out;
 }
 //END class ExpressionSanitizer
+
 
 #include "parser.moc"

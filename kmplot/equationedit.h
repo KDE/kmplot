@@ -29,6 +29,7 @@
 
 #include <kdialog.h>
 
+#include <QMap>
 #include <QSyntaxHighlighter>
 #include <QTextEdit>
 
@@ -39,6 +40,8 @@ class EquationEditWidget;
 class EquationEditor;
 class EquationEditorWidget;
 class QPushButton;
+
+typedef QMap<QChar, QChar> CharMap;
 
 
 /**
@@ -83,6 +86,7 @@ class EquationEditWidget : public QTextEdit
 		virtual void wheelEvent( QWheelEvent * e );
 		virtual void keyPressEvent( QKeyEvent * e );
 		virtual void focusOutEvent( QFocusEvent * e );
+		virtual void focusInEvent( QFocusEvent * e );
 		
 		EquationEdit * m_parent;
 };
@@ -154,14 +158,16 @@ class EquationEdit : public QWidget
 		void textChanged( const QString & text );
 		void returnPressed();
 		
-	public slots:
+	public Q_SLOTS:
 		void setText( const QString & text );
 		/**
 		 * Launches a dialog for editing the equation.
 		 */
 		void invokeEquationEditor();
 		
-	protected slots:
+		void reHighlight();
+		
+	protected Q_SLOTS:
 		void slotTextChanged();
 		
 	protected:
@@ -169,9 +175,13 @@ class EquationEdit : public QWidget
 		Equation * m_equation;
 		InputType m_inputType;
 		bool m_settingText:1;
+		bool m_cleaningText:1;
+		bool m_forcingRehighlight:1;
 		QString m_validatePrefix;
 		EquationEditWidget * m_equationEditWidget;
 		QPushButton * m_editButton;
+		
+		static CharMap m_replaceMap;
 		
 		friend class EquationEditor;
 		friend class EquationEditWidget;

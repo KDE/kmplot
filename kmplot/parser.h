@@ -49,21 +49,21 @@ class Parser;
 /** Token type. */
 enum Token
 {
-	KONST,		// double value follows
-	VAR,		// get a parameter (e.g. x or k)
-	PUSH,		// push value to stack
-	PLUS,		// add
-	MINUS,		// subtract
-	PM,			// plus-minus; add or subtract depending on the current signature
-	MULT,		// multiply
-	DIV,		// divide
-	POW,		// exponentiate
-	NEG,		// negate
-	FKT_1,		// address to function with 1 argument follows
-	FKT_N,		// address to functions with an indefinite number of arguments follows
-	UFKT,		// address to user defined function follows
-	ENDE,		// end of function
-	SQRT		// take square root
+	KONST,		//  0 - double value follows
+	VAR,		//  1 - get a parameter (e.g. x or k)
+	PUSH,		//  2 - push value to stack
+	PLUS,		//  3 - add
+	MINUS,		//  4 - subtract
+	PM,			//  5 - plus-minus; add or subtract depending on the current signature
+	MULT,		//  6 - multiply
+	DIV,		//  7 - divide
+	POW,		//  8 - exponentiate
+	NEG,		//  9 - negate
+	FKT_1,		// 10 - address to function with 1 argument follows
+	FKT_N,		// 11 - address to functions with an indefinite number of arguments follows
+	UFKT,		// 12 - address to user defined function follows
+	ENDE,		// 13 - end of function
+	SQRT		// 14 - take square root
 };
 
 
@@ -276,6 +276,10 @@ class Parser : public QObject
 		 * \return the list of predefined function names.
 		 */
 		QStringList predefinedFunctions() const;
+		/**
+		 * \return the list of user defined function names.
+		 */
+		QStringList userFunctions() const;
 		/**
 		 * @return A string that is safe to use as a number in a string to be
 		 * parsed. This is needed as e.g. "1.2e-3" is not allowed (e is a

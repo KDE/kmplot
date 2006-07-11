@@ -180,10 +180,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
 	m_settingsDialog->addPage( m_colorSettings, i18n("Colors"), "colorize", i18n("Colors") );
 	m_settingsDialog->addPage( m_fontsSettings, i18n("Fonts"), "font", i18n("Fonts") );
-	/// \todo uncomment this when API of KConfigDialog is updated
-// 	m_constantsPage = m_settingsDialog->addPage( m_constantsSettings, i18n("Constants"), "editconstants", i18n("Constants") );
-	m_constantsPage = 0;
-	m_settingsDialog->addPage( m_constantsSettings, i18n("Constants"), "editconstants", i18n("Constants") );
+	m_constantsPage = m_settingsDialog->addPage( m_constantsSettings, i18n("Constants"), "editconstants", i18n("Constants") );
 	// User edited the configuration - update your local copies of the
 	// configuration data
 	connect( m_settingsDialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT(updateSettings() ) );
@@ -331,6 +328,7 @@ void MainDlg::setupActions()
 
 	//BEGIN function popup menu
 	KAction *mnuHide = new KAction(i18n("&Hide"), actionCollection(),"mnuhide" );
+	m_firstFunctionAction = mnuHide;
 	connect( mnuHide, SIGNAL(triggered(bool)), View::self(), SLOT( mnuHide_clicked() ) );
 	m_popupmenu->addAction( mnuHide );
 
@@ -349,11 +347,6 @@ void MainDlg::setupActions()
 	KAction * animateFunction = new KAction( i18n("Animate Function"), actionCollection(), "animateFunction" );
 	connect( animateFunction, SIGNAL(triggered(bool)), View::self(), SLOT( animateFunction() ) );
 	m_popupmenu->addAction( animateFunction );
-
-	View::self()->m_showFunctionExtrema = new KToggleAction( i18n( "Show Extrema" ), actionCollection(), "showExtrema" );
-	View::self()->m_showFunctionExtrema->setIcon( KIcon( "minimum" ) );
-	connect( View::self()->m_showFunctionExtrema, SIGNAL(triggered(bool)), View::self(), SLOT(showExtrema(bool)) );
-	m_popupmenu->addAction( View::self()->m_showFunctionExtrema );
 
 	m_popupmenu->addAction( mnuYValue );
 	m_popupmenu->addAction( mnuMinValue );
@@ -752,9 +745,8 @@ void MainDlg::slotSettings()
 
 void MainDlg::showConstantsEditor()
 {
-	slotSettings();
-// 	KConfigDialog * dlg = KConfigDialog::exists( "settings" );
-// 	dlg->setCurrentPage( m_constantsPage );
+	KConfigDialog * dlg = KConfigDialog::exists( "settings" );
+	dlg->setCurrentPage( m_constantsPage );
 }
 
 void MainDlg::updateSettings()

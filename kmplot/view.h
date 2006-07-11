@@ -148,8 +148,6 @@ class View : public QWidget
 		QPointer<KSliderWindow> m_sliderWindow;
 		/// Menu actions for the sliders
 		KToggleAction * m_menuSliderAction;
-		/// Menu action for showing function extrema
-		KToggleAction * m_showFunctionExtrema;
 		void updateSliders(); /// show only needed sliders
 		
 		/**
@@ -508,11 +506,22 @@ class View : public QWidget
 		///buffer the current window so all functions don't need to be re-drawed
 		QPixmap buffer;
 		/// the popup menu
-		KMenu *m_popupmenu;
+		KMenu *m_popupMenu;
+		/// The pointer to the popup menu's title
+		QAction *m_popupMenuTitle;
 		/// is set to true if an integral is calculated
 		bool m_isDrawing;
+		/**
+		 * Describes the state of the popup menu.
+		 */
+		enum PopupStatus
+		{
+			NoPopup,
+			Popup,
+			PopupDuringTrace
+		};
 		///status of the popup menu
-		char m_popupmenushown; /// 0==no popup 1==popup 2==popup+trace mode before
+		PopupStatus m_popupMenuStatus;
 		/// true == modifications not saved
 		bool &m_modified;
 		/// False if KmPlot is started as a program, otherwise true

@@ -97,7 +97,7 @@ View * View::m_self = 0;
 View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent, KActionCollection *ac )
 	: QWidget( parent, Qt::WStaticContents ),
 	  buffer( width(), height() ),
-	  m_popupmenu( functionPopup ),
+	  m_popupMenu( functionPopup ),
 	  m_modified( modified ),
 	  m_readonly( readOnly ),
 	  m_ac(ac)
@@ -117,7 +117,7 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	stop_calculating = false;
 	m_minmax = 0;
 	m_isDrawing = false;
-	m_popupmenushown = 0;
+	m_popupMenuStatus = NoPopup;
 	m_zoomMode = Normal;
 	m_prevCursor = CursorArrow;
 	
@@ -138,9 +138,8 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	setMouseTracking( true );
 	m_sliderWindow = 0;
 	updateSliders();
-
-	/// \todo fix title on popup menu (should display function name)
-// 	m_popupmenu->addTitle( " " );
+	
+	m_popupMenuTitle = m_popupMenu->addTitle( "" );
 }
 
 void View::setMinMaxDlg(KMinMax *minmaxdlg)
@@ -2698,7 +2697,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	// In general, we want to update the view
 	update();
 
-	if ( m_popupmenushown>0)
+	if ( m_popupMenuStatus != NoPopup )
 		return;
 
 	if (m_isDrawing)
@@ -2734,14 +2733,14 @@ void View::mousePressEvent(QMouseEvent *e)
 			QString popupTitle( function->prettyName( m_currentPlot.plotMode ) );
 
 			if ( hadFunction )
-				m_popupmenushown = 2;
+				m_popupMenuStatus = PopupDuringTrace;
 			else
-				m_popupmenushown = 1;
+				m_popupMenuStatus = Popup;
 			
-			m_showFunctionExtrema->setChecked( function->plotAppearance( m_currentPlot.plotMode ).showExtrema );
-			
-			m_popupmenu->setTitle( popupTitle );
-			m_popupmenu->exec( QCursor::pos() );
+			m_popupMenu->removeAction( m_popupMenuTitle );
+			m_popupMenuTitle->deleteLater();
+			m_popupMenuTitle = m_popupMenu->addTitle( popupTitle, MainDlg::self()->m_firstFunctionAction );
+			m_popupMenu->exec( QCursor::pos() );
 		}
 		return;
 	}
@@ -3049,12 +3048,12 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	}
 
 	if ( (m_zoomMode == Normal) &&
-			 (m_popupmenushown > 0) &&
-			 !m_popupmenu->isVisible() )
+			 (m_popupMenuStatus != NoPopup) &&
+			 !m_popupMenu->isVisible() )
 	{
-		if ( m_popupmenushown==1)
+		if ( m_popupMenuStatus==Popup)
 			m_currentPlot.setFunctionID( -1 );
-		m_popupmenushown = 0;
+		m_popupMenuStatus = NoPopup;;
 	}
 
 	update();
@@ -3074,7 +3073,7 @@ bool View::updateCrosshairPosition()
 	m_currentPlot.updateFunction();
 	Function * it = m_currentPlot.function();
 
-	if ( it && crosshairPositionValid( it ) && (m_popupmenushown != 1) )
+	if ( it && crosshairPositionValid( it ) && (m_popupMenuStatus != Popup) )
 	{
 		// The user currently has a plot selected, with the mouse in a valid position
 
@@ -3962,7 +3961,7 @@ bool View::shouldShowCrosshairs() const
 			return false;
 	}
 	
-	if ( m_popupmenushown > 0 )
+	if ( m_popupMenuStatus != NoPopup )
 		return false;
 
 	Function * it = m_currentPlot.function();

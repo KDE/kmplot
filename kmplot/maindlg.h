@@ -108,6 +108,9 @@ class MainDlg : public KParts::ReadOnlyPart
 	
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
+	
+	/// For inserting the title in the function popup menu
+	QAction * m_firstFunctionAction;
 
 public Q_SLOTS:
     // DBus interface

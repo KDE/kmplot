@@ -220,7 +220,7 @@ double Parser::eval( const QString & str )
 	if ( !m_ownEquation )
 		m_ownEquation = new Equation( Equation::Cartesian, 0 );
 	
-	if ( !m_ownEquation->setFstr( QString( "%1(x)=%2" ).arg( XParser::self()->findFunctionName( "f", -1 ) ).arg( str ) ) )
+	if ( !m_ownEquation->setFstr( QString( "%1=%2" ).arg( XParser::self()->findFunctionName( "f", -1 ) ).arg( str ) ) )
 		return 0;
 	
 	return fkt( m_ownEquation, Vector() );
@@ -474,6 +474,7 @@ void Parser::initEquation( Equation * eq )
 		eq->parent()->clearFunctionDependencies();
 	
 	m_error = ParseSuccess;
+	m_errorPosition = -1;
 	m_currentEquation = eq;
 	mem = mptr = eq->mem;
 	m_pmAt = 0;

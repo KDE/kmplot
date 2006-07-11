@@ -342,20 +342,18 @@ void EquationEdit::checkTextValidity( )
 {
 	QString text = m_validatePrefix + EquationEdit::text();
 	
-	bool ok = true;
+	Parser::Error error;
+	int errorPosition;
 	
 	if ( m_inputType == Function )
-		ok = m_equation->setFstr( text );
+		m_equation->setFstr( text, (int*)& error, & errorPosition );
 	else
-	{
-		XParser::self()->eval( text );
-		ok = XParser::self()->errorString().isEmpty();
-	}
+		XParser::self()->eval( text, & error, & errorPosition );
 	
-	if ( ok )
+	if ( error == Parser::ParseSuccess )
 		setError( QString(), -1 );
 	else
-		setError( XParser::self()->errorString(), XParser::self()->errorPosition() - m_validatePrefix.length() );
+		setError( XParser::self()->errorString( error ), errorPosition - m_validatePrefix.length() );
 }
 
 
@@ -484,7 +482,6 @@ void EquationEditWidget::focusInEvent( QFocusEvent * e )
 	m_parent->reHighlight();
 	if ( e->reason() == Qt::TabFocusReason )
 		selectAll();
-	
 }
 
 

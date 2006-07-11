@@ -279,11 +279,15 @@ class Equation
 		QString fstr() const { return m_fstr; }
 		/**
 		 * @see fstr()
+		 * @param string the equation
+		 * @param error if non-null, then will be set to the parser error (or
+		 * success).
+		 * @param errorPosition the error position
 		 * @return whether \p fstr could be parsed correctly. Note that if it
 		 * was not parsed correctly, then this will return false and this class
 		 * will not be updated.
 		 */
-		bool setFstr( const QString & fstr );
+		bool setFstr( const QString & string, int * error = 0, int * errorPosition = 0 );
 		/**
 		 * \return the order of the differential equations.
 		 */

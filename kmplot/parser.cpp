@@ -215,13 +215,19 @@ uint Parser::getNewId()
 	}
 }
 
-double Parser::eval( const QString & str )
+double Parser::eval( const QString & str, Error * error, int * errorPosition )
 {
 	if ( !m_ownEquation )
 		m_ownEquation = new Equation( Equation::Cartesian, 0 );
 	
-	if ( !m_ownEquation->setFstr( QString( "%1=%2" ).arg( XParser::self()->findFunctionName( "f", -1 ) ).arg( str ) ) )
+	QString fName = XParser::self()->findFunctionName( "f", -1 );
+	
+	QString eq = QString( "%1=%2" ).arg( fName ).arg( str );
+	if ( !m_ownEquation->setFstr( eq, (int*)error, errorPosition ) )
+	{
+		*errorPosition -= fName.length()+1;
 		return 0;
+	}
 	
 	return fkt( m_ownEquation, Vector() );
 }
@@ -444,7 +450,7 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		
 		if ( !temp->eq[i]->setFstr( str[i] ) )
 		{
-			kDebug() << "could not set fstr to \""<<str[i]<<"\"! error:"<<errorString()<<"\n";
+			kDebug() << "could not set fstr to \""<<str[i]<<"\"! error:"<<errorString(m_error)<<"\n";
 			delete temp;
 			return -1;
 		}
@@ -959,9 +965,10 @@ int Parser::fnameToID(const QString &name)
 }
 
 
-QString Parser::errorString() const
+// static
+QString Parser::errorString( Error error )
 {
-	switch(m_error)
+	switch ( error )
 	{
 		case ParseSuccess:
 			return QString();
@@ -1021,7 +1028,7 @@ Parser::Error Parser::parserError(bool showMessageBox)
 	if (!showMessageBox)
 		return m_error;
 	
-	QString message( errorString() );
+	QString message( errorString(m_error) );
 	if ( !message.isEmpty() )
 		KMessageBox::sorry(0, message, "KmPlot");
 	return m_error;

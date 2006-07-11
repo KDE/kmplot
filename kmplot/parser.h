@@ -295,11 +295,14 @@ class Parser : public QObject
 		 * function (which are not necessarily all used).
 		 */
 		double fkt( Equation * it, const Vector & x );
-	
 		/**
 		 * Evaluates the given expression \p str.
+		 * \param error if non-null, then will be set to the parser error (or
+		 * ParserSuccess if no errors).
+		 * \param errorPosition will be set to the position of the error (if
+		 * there is one).
 		 */
-		double eval( const QString & str );
+		double eval( const QString & str, Error * error = 0, int * errorPosition = 0 );
 		/**
 		 * Adds a user defined function with the given equation. The new
 		 * function's ID-number is returned.
@@ -316,10 +319,9 @@ class Parser : public QObject
 		 */
 		int fnameToID(const QString &name);
 		/**
-		 * \return An error string appropriate for the last error. If there was
-		 * no error, then this will just return an empty string.
+		 * \return An error string appropriate for the given error.
 		 */
-		QString errorString() const;
+		static QString errorString( Error error );
 		/**
 		 * Position where the error occurred.
 		 */

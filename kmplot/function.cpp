@@ -330,8 +330,17 @@ void Equation::updateVariables()
 }
 
 
-bool Equation::setFstr( const QString & fstr )
+bool Equation::setFstr( const QString & fstr, int * error, int * errorPosition )
 {
+	int temp1, temp2;
+	if ( !error )
+		error = & temp1;
+	if ( !errorPosition )
+		errorPosition = & temp2;
+	
+	*error = Parser::ParseSuccess;
+	*errorPosition = -1;
+	
 	QString prevFstr = m_fstr;
 	m_fstr = fstr;
 	updateVariables();
@@ -343,6 +352,8 @@ bool Equation::setFstr( const QString & fstr )
 		updateVariables();
 		
 		XParser::self()->setParserError( Parser::ZeroOrder );
+		*error = Parser::ZeroOrder;
+		*errorPosition = XParser::self()->errorPosition();
 		return false;
 	}
 	
@@ -354,13 +365,18 @@ bool Equation::setFstr( const QString & fstr )
 		
 		/// \todo indicate the position of the invalid argument?
 		XParser::self()->setParserError( Parser::TooManyArguments );
+		*error = Parser::TooManyArguments;
+		*errorPosition = XParser::self()->errorPosition();
 		return false;
 	}
 	
 	XParser::self()->initEquation( this );
 	if ( XParser::self()->parserError( false ) != Parser::ParseSuccess )
 	{
-		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
+		*error = XParser::self()->parserError( false );
+		*errorPosition = XParser::self()->errorPosition();
+		
+// 		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
 		
 		m_fstr = prevFstr;
 		XParser::self()->initEquation( this );

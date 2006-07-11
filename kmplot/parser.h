@@ -265,7 +265,8 @@ class Parser : public QObject
 			ZeroOrder, ///< zero-order differential
 			TooManyPM, ///< too many plus-minus symbols
 			InvalidPM, ///< Not allowed to have a plus-minus symbol, e.g. in a constant expression
-			TooManyArguments ///< Too many arguments in a function, e.g. "f(x,a,b,c)"
+			TooManyArguments, ///< Too many arguments in a function, e.g. "f(x,a,b,c)"
+			IncorrectArgumentCount ///< wrong number of arguments being passed to a function
 		};
 	
 		~Parser();

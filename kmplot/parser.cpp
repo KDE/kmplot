@@ -751,9 +751,6 @@ bool Parser::tryUserFunction()
 			if ( !match( it->eq[i]->name()) )
 				continue;
 			
-			if ( m_currentEquation->parent() )
-				kDebug() << "it->id()="<<it->id()<<" m_currentEquation->fstr()="<<m_currentEquation->fstr()<<" m_currentEquation->parent()->id()="<<m_currentEquation->parent()->id()<<endl;
-			
 			if ( it->eq[i] == m_currentEquation || (m_currentEquation && it->dependsOn( m_currentEquation->parent() )) )
 			{
 				m_error = RecursiveFunctionCall;
@@ -761,6 +758,11 @@ bool Parser::tryUserFunction()
 			}
 			
 			int argCount = readFunctionArguments();
+			if ( argCount != it->eq[i]->variables().size() )
+			{
+				m_error = IncorrectArgumentCount;
+				return true;
+			}
 			
 			addToken(UFKT);
 			addfptr( it->id(), i, argCount );
@@ -831,6 +833,9 @@ bool Parser::tryNumber()
 
 int Parser::readFunctionArguments()
 {
+	if ( !evalRemaining().startsWith( '(' ) )
+		return 0;
+	
 	int argCount = 0;
 	bool argLeft = true;
 	do
@@ -1017,6 +1022,9 @@ QString Parser::errorString( Error error )
 			
 		case TooManyArguments:
 			return i18n("The function has too many arguments");
+			
+		case IncorrectArgumentCount:
+			return i18n("The function does not have the correct number of arguments");
 	}
 	
 	return QString();

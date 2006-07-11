@@ -3487,54 +3487,30 @@ QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin,
 {
 	Function * ufkt = plot.function();
 	assert( (ufkt->type() == Function::Cartesian) || (ufkt->type() == Function::Differential) );
-
-	double y = 0;
-	double result_x = 0;
-	double result_y = 0;
-	bool start = true;
-
-	double dx = (dmax-dmin)/area.width();
 	
 	plot.updateFunction();
-
-	for ( double x = dmin; x <= dmax; x += dx )
+	
+	Plot differentiated = plot;
+	differentiated.differentiate();
+	QList<double> roots = findRoots( differentiated, dmin, dmax, RoughRoot );
+	
+	// The minimum / maximum might occur at the end points
+	roots << dmin << dmax;
+	
+	double best = (type == Maximum) ? -HUGE_VAL : +HUGE_VAL;
+	QPointF bestPoint;
+	
+	foreach ( double root, roots )
 	{
-		y = value( plot, 0, x, false );
-
-		if ( isnan(x) || isnan(y) )
-			continue;
-		
-		if ( start )
+		QPointF rv = realValue( plot, root, false );
+		if ( (type == Maximum && rv.y() > best) || (type == Minimum && rv.y() < best) )
 		{
-			result_x = x;
-			result_y = y;
-			start = false;
-		}
-		else switch ( type )
-		{
-			case Minimum:
-			{
-				if ( y <= result_y )
-				{
-					result_x = x;
-					result_y = y;
-				}
-				break;
-			}
-
-			case Maximum:
-			{
-				if ( y >= result_y )
-				{
-					result_x = x;
-					result_y = y;
-				}
-				break;
-			}
+			best = rv.y();
+			bestPoint = rv;
 		}
 	}
-
-	return QPointF( result_x, result_y );
+	
+	return bestPoint;
 }
 
 

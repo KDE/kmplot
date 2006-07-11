@@ -494,8 +494,7 @@ void MainDlg::slotExport()
 		View::PlotMedium medium;
 	};
 	
-	int num = 7;
-	ImageInfo info[num];
+	ImageInfo info[7];
 	
 	info[0].format = "SVG";
 	info[0].ext = ".svg";
@@ -533,7 +532,7 @@ void MainDlg::slotExport()
 	info[6].description = i18n("X11 Pixmap");
 	
 	QString fileDescriptions;
-	for ( int i = 0; i < num; ++i )
+	for ( int i = 0; i < sizeof(info)/sizeof(ImageInfo); ++i )
 	{
 		if ( i > 0 )
 			fileDescriptions += '\n';
@@ -553,7 +552,7 @@ void MainDlg::slotExport()
 			return;
 	}
 	
-	for ( int i = 0; i < num; ++i )
+	for ( int i = 0; i < sizeof(info)/sizeof(ImageInfo); ++i )
 	{
 		if ( url.fileName().right(4).toLower() != info[i].ext )
 			continue;

@@ -68,31 +68,6 @@ class EquationHighlighter : public QSyntaxHighlighter
 
 
 /**
- * The actual line edit.
- */
-class EquationEditWidget : public QTextEdit
-{
-	Q_OBJECT
-	
-	public:
-		EquationEditWidget( EquationEdit * parent );
-		
-		/**
-		 * Call this after changing font size.
-		 */
-		void recalculateGeometry( const QFont & font );
-		
-	protected:
-		virtual void wheelEvent( QWheelEvent * e );
-		virtual void keyPressEvent( QKeyEvent * e );
-		virtual void focusOutEvent( QFocusEvent * e );
-		virtual void focusInEvent( QFocusEvent * e );
-		
-		EquationEdit * m_parent;
-};
-
-
-/**
  * A line edit for equations that also does syntax highlighting, error checking,
  * etc, and provides a button for invoking an advanced equation editor.
  * \author David Saxton
@@ -141,11 +116,11 @@ class EquationEdit : public QWidget
 		 */
 		void setEquationType( Equation::Type type );
 		
-		QString text() const { return m_equationEditWidget->toPlainText(); }
-		void clear() { m_equationEditWidget->clear(); }
-		void setReadOnly( bool set ) { m_equationEditWidget->setReadOnly(set); }
-		void selectAll() { m_equationEditWidget->selectAll(); }
-		void insertText( const QString & text ) { m_equationEditWidget->insertPlainText( text ); }
+		QString text() const;
+		void clear();
+		void setReadOnly( bool set );
+		void selectAll();
+		void insertText( const QString & text );
 		
 		/**
 		 * Attempts to evaluate the text and return it.

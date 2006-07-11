@@ -41,6 +41,31 @@
 CharMap EquationEdit::m_replaceMap;
 
 
+/**
+ * The actual line edit.
+ */
+class EquationEditWidget : public QTextEdit
+{
+	public:
+		EquationEditWidget( EquationEdit * parent );
+		
+		/**
+		 * Call this after changing font size.
+		 */
+		void recalculateGeometry( const QFont & font );
+		
+	protected:
+		void clearSelection();
+		
+		void wheelEvent( QWheelEvent * e );
+		void keyPressEvent( QKeyEvent * e );
+		void focusOutEvent( QFocusEvent * e );
+		void focusInEvent( QFocusEvent * e );
+		
+		EquationEdit * m_parent;
+};
+
+
 class EquationEditorWidget : public QWidget, public Ui::EquationEditor
 {
 	public:
@@ -235,10 +260,8 @@ void EquationEdit::reHighlight()
 		return;
 	m_forcingRehighlight = true;
 	
-	QTextCursor c( m_equationEditWidget->document() );
-	c.setPosition( text().length() );
-	c.insertText( " " );
-	c.deletePreviousChar();
+	m_highlighter->setDocument( 0 );
+	m_highlighter->setDocument( m_equationEditWidget->document() );
 	
 	m_forcingRehighlight = false;
 }
@@ -359,6 +382,32 @@ void EquationEdit::setValidatePrefix( const QString & prefix )
 	m_validatePrefix = prefix;
 	checkTextValidity();
 }
+
+
+QString EquationEdit::text() const
+{
+	return m_equationEditWidget->toPlainText();
+}
+
+void EquationEdit::clear()
+{
+	m_equationEditWidget->clear();
+}
+
+void EquationEdit::setReadOnly( bool set )
+{
+	m_equationEditWidget->setReadOnly(set);
+}
+
+void EquationEdit::selectAll()
+{
+	m_equationEditWidget->selectAll();
+}
+
+void EquationEdit::insertText( const QString & text )
+{
+	m_equationEditWidget->insertPlainText( text );
+}
 //END class EquationEdit
 
 
@@ -421,6 +470,7 @@ void EquationEditWidget::focusOutEvent( QFocusEvent * e )
 {
 	QTextEdit::focusOutEvent( e );
 	
+	clearSelection();
 	m_parent->reHighlight();
 	
 	emit m_parent->editingFinished();
@@ -430,10 +480,24 @@ void EquationEditWidget::focusOutEvent( QFocusEvent * e )
 void EquationEditWidget::focusInEvent( QFocusEvent * e )
 {
 	QTextEdit::focusOutEvent( e );
-	
+
 	m_parent->reHighlight();
+	if ( e->reason() == Qt::TabFocusReason )
+		selectAll();
+	
 }
-//END class EquationEdit
+
+
+void EquationEditWidget::clearSelection( )
+{
+	QTextCursor cursor = textCursor();
+	if ( !cursor.hasSelection() )
+		return;
+	
+	cursor.clearSelection();
+	setTextCursor( cursor );
+}
+//END class EquationEditWidget
 
 
 
@@ -509,6 +573,4 @@ void EquationEditor::characterButtonClicked()
 //END class EquationEditor
 
 
-
 #include "equationedit.moc"
-

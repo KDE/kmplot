@@ -50,6 +50,7 @@
 #include <krecentfilesaction.h>
 
 // local includes
+#include "functiontools.h"
 #include "functioneditor.h"
 #include "kprinterdlg.h"
 #include "kconstanteditor.h"
@@ -146,8 +147,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 
 	setWidget( View::self() );
 	View::self()->setFocusPolicy(Qt::ClickFocus);
-	minmaxdlg = new KMinMax(m_parent);
-	View::self()->setMinMaxDlg(minmaxdlg);
+	m_functionTools = new FunctionTools(m_parent);
 	setupActions();
 	XParser::self()->constants()->load();
 	kmplotio = new KmPlotIO();
@@ -758,26 +758,26 @@ void MainDlg::updateSettings()
 
 void MainDlg::getYValue()
 {
-	minmaxdlg->init( KMinMax::CalculateY );
-	minmaxdlg->show();
+	m_functionTools->init( FunctionTools::CalculateY );
+	m_functionTools->show();
 }
 
 void MainDlg::findMinimumValue()
 {
-	minmaxdlg->init( KMinMax::FindMinimum );
-	minmaxdlg->show();
+	m_functionTools->init( FunctionTools::FindMinimum );
+	m_functionTools->show();
 }
 
 void MainDlg::findMaximumValue()
 {
-	minmaxdlg->init( KMinMax::FindMaximum );
-	minmaxdlg->show();
+	m_functionTools->init( FunctionTools::FindMaximum );
+	m_functionTools->show();
 }
 
 void MainDlg::graphArea()
 {
-	minmaxdlg->init( KMinMax::CalculateArea );
-	minmaxdlg->show();
+	m_functionTools->init( FunctionTools::CalculateArea );
+	m_functionTools->show();
 }
 
 void MainDlg::toggleShowSliders()

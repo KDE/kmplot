@@ -59,7 +59,7 @@
 
 // local includes
 #include "functioneditor.h"
-#include "kminmax.h"
+#include "functiontools.h"
 #include "settings.h"
 #include "ksliderwindow.h"
 #include "maindlg.h"
@@ -115,7 +115,6 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	m_trace_x = 0.0;
 	m_printHeaderTable = false;
 	stop_calculating = false;
-	m_minmax = 0;
 	m_isDrawing = false;
 	m_popupMenuStatus = NoPopup;
 	m_zoomMode = Normal;
@@ -142,10 +141,6 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	m_popupMenuTitle = m_popupMenu->addTitle( "" );
 }
 
-void View::setMinMaxDlg(KMinMax *minmaxdlg)
-{
-	m_minmax = minmaxdlg;
-}
 
 View::~View()
 {
@@ -2650,8 +2645,6 @@ void View::resizeEvent(QResizeEvent *)
 
 void View::drawPlot()
 {
-	if( m_minmax->isVisible() )
-		m_minmax->updateFunctions();
 	buffer.fill(m_backgroundColor);
 	draw(&buffer, Screen );
 	update();
@@ -2764,10 +2757,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		QPointF ptd( toPixel( closestPoint ) );
 		QPoint globalPos = mapToGlobal( (ptd * wm).toPoint() );
 		QCursor::setPos( globalPos );
-
-		m_minmax->selectItem();
 		setStatusBar( function->prettyName( m_currentPlot.plotMode ), 4 );
-
 		return;
 	}
 
@@ -3669,7 +3659,10 @@ void View::keyPressEvent( QKeyEvent * e )
 
 double View::areaUnderGraph( IntegralDrawSettings s )
 {
-	assert( s.dmin < s.dmax );
+	if ( s.dmax < s.dmin )
+		qSwap( s.dmin, s.dmax );
+	else if ( s.dmax == s.dmin )
+		return 0;
 
 	Function * ufkt = s.plot.function();
 	assert( ufkt );

@@ -26,6 +26,8 @@
 #ifndef View_included
 #define View_included
 
+#include "function.h"
+
 // Qt includes
 #include <qpixmap.h>
 #include <QPointer>
@@ -42,11 +44,6 @@
 #include <kprinter.h>
 #include <kpushbutton.h>
 
-
-#include "function.h"
-
-
-class KMinMax;
 class KSliderWindow;
 class MainDlg;
 class QPaintEvent;
@@ -88,7 +85,6 @@ class View : public QWidget
 	public:
 		/// Contructor sets up the parser, too.
 		View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent, KActionCollection *ac );
-		void setMinMaxDlg(KMinMax *);
 		virtual ~View();
 	
 		/// There is only one view.
@@ -162,7 +158,7 @@ class View : public QWidget
 		double m_ymin;
 		double m_ymax;
 
-		/// trace mode stuff, must be accessible in KMinMax
+		/// trace mode stuff, must be accessible in FunctionTools
 		Plot m_currentPlot;
 		/**
 		 * Convenience function for calculating the value of \p eq using the
@@ -501,8 +497,6 @@ class View : public QWidget
 		QColor m_backgroundColor;
 		/// the inverted background color used by the "Fadenkreuz"
 		QColor m_invertedBackgroundColor;
-		/// pointer to KMinMax
-		KMinMax *m_minmax;
 		///buffer the current window so all functions don't need to be re-drawed
 		QPixmap buffer;
 		/// the popup menu

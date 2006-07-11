@@ -47,12 +47,12 @@
 // local includes
 #include "coordsconfigdialog.h"
 #include "view.h"
-#include "kminmax.h"
 #include "kmplotio.h"
 
 class BrowserExtension;
 class EditScaling;
 class FunctionEditor;
+class FunctionTools;
 class KConfigDialog;
 class KConstantEditor;
 class KToggleFullScreenAction;
@@ -183,7 +183,7 @@ private:
 	KPageWidgetItem * m_constantsPage;
 
 	/// A dialog used by many tools-menu-items
-	KMinMax *minmaxdlg;
+	FunctionTools *m_functionTools;
 	/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
 	KMenu *m_popupmenu;
 	/// the popup that shows when clicking on the new plot button in the function editor

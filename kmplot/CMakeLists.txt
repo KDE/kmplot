@@ -17,7 +17,7 @@ set(kmplotpart_PART_SRCS
    kprinterdlg.cpp 
    kconstanteditor.cpp 
    kparametereditor.cpp 
-   kminmax.cpp 
+   functiontools.cpp 
    kmplotio.cpp 
    ksliderwindow.cpp 
    parameterswidget.cpp
@@ -38,7 +38,7 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	functioneditorwidget.ui
 	editcoords.ui
 	editscaling.ui
-	qminmax.ui
+	functiontools.ui
 	qparametereditor.ui
 	settingspagecolor.ui
 	settingspageconstants.ui

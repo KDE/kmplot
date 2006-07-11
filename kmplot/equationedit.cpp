@@ -133,7 +133,6 @@ void EquationHighlighter::highlightBlock( const QString & text )
 			setFormat( i, 1, other );
 	}
 	
-	
 	//BEGIN highlight matched brackets
 	int cursorPos = m_parent->m_equationEditWidget->textCursor().position();
 	if ( cursorPos < 0 )
@@ -141,7 +140,7 @@ void EquationHighlighter::highlightBlock( const QString & text )
 	
 	// Adjust cursorpos to allow for a bracket before the cursor position
 	if ( cursorPos >= text.size() )
-		cursorPos--;
+		cursorPos = text.size()-1;
 	else if ( cursorPos > 0 && (text[cursorPos-1] == '(' || text[cursorPos-1] == ')') )
 		cursorPos--;
 	
@@ -172,7 +171,6 @@ void EquationHighlighter::highlightBlock( const QString & text )
 		}
 	}
 	//END highlight matched brackets
-	
 	
 	if ( m_errorPosition != -1 )
 	{

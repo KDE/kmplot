@@ -266,6 +266,9 @@ void FunctionTools::findMaximum( const EquationPair & equation )
 
 void FunctionTools::calculateArea( const EquationPair & equation )
 {
+	if ( !equation.first.function() )
+		return;
+	
 	IntegralDrawSettings s;
 	s.plot = equation.first;
 	s.dmin = m_widget->min->value();

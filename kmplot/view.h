@@ -343,8 +343,15 @@ class View : public QWidget
 		QList<double> findRoots( const Plot & plot, double min, double max, RootAccuracy accuracy );
 		///return the inverted color
 		void invertColor(QColor &, QColor &);
+		enum StatusBarSection
+		{
+			XSection		= 1,
+			YSection		= 2,
+			RootSection		= 3,
+			FunctionSection	= 4
+		};
 		/// Changes the text in the statusbar
-		void setStatusBar(const QString &text, const int id);
+		void setStatusBar( const QString &text, StatusBarSection section );
 		/**
 		* \return whether the crosshairs should be shown for the current mouse
 		* position, zoom mode, etc.

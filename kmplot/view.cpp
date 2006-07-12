@@ -656,6 +656,8 @@ void View::drawGrid( QPainter* pDC )
 					pDC->Linev(a, b-dy, b+dy);
 				}
 			}
+			
+			break;
 		}
 		
 		case GridPolar:
@@ -1623,8 +1625,9 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	QPointF p1, p2;
 	
 	double x = dmin;
+	double prevX = x; // the value of x before last adding dx to it
 	do
-	{
+	{	
 		QPointF rv = realValue( plot, x, false );
 			
 		// If we are currently plotting a differential equation, and it became infinite,
@@ -1635,16 +1638,29 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 			if ( new_x > x )
 			{
 				x = new_x;
+				prevX = x;
+				
 				continue;
 			}
 		}
 			
 		p2 = toPixel( rv, ClipInfinite );
 
-		if ( xclipflg || yclipflg || !p1Set )
+		if ( xclipflg || yclipflg )
 		{
-			p1 = p2;
+			prevX = x;
 			x += dx;
+			
+			p1Set = false; // p1 wouldn't be finite (if we had set it)
+			continue;
+		}
+		
+		if ( !p1Set )
+		{
+			prevX = x;
+			x += dx;
+			
+			p1 = p2;
 			p1Set = true;
 			continue;
 		}
@@ -1675,6 +1691,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		if ( dxTooBig )
 		{
 			dx *= 0.5;
+			x = prevX + dx;
 			continue;
 		}
 		
@@ -1702,6 +1719,8 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		
 		p1 = p2;
 		Q_ASSERT( dx > 0 );
+		
+		prevX = x;
 		x += dx;
 	}
 	while ( x <= dmax );
@@ -2746,8 +2765,8 @@ void View::mousePressEvent(QMouseEvent *e)
 	if ( m_currentPlot.functionID() >= 0 ) //disable trace mode if trace mode is enable
 	{
 		m_currentPlot.setFunctionID( -1 );
-		setStatusBar("",3);
-		setStatusBar("",4);
+		setStatusBar( QString(), RootSection );
+		setStatusBar( QString(), FunctionSection );
 		mouseMoveEvent(e);
 		return;
 	}
@@ -2759,7 +2778,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		QPointF ptd( toPixel( closestPoint ) );
 		QPoint globalPos = mapToGlobal( (ptd * wm).toPoint() );
 		QCursor::setPos( globalPos );
-		setStatusBar( function->prettyName( m_currentPlot.plotMode ), 4 );
+		setStatusBar( function->prettyName( m_currentPlot.plotMode ), FunctionSection );
 		return;
 	}
 
@@ -3002,7 +3021,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 
 	bool inBounds = updateCrosshairPosition();
 	if ( !m_haveRoot )
-		setStatusBar("", 3);
+		setStatusBar( QString(), RootSection );
 
 	QString sx, sy;
 
@@ -3014,8 +3033,8 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	else
 		sx = sy = "";
 
-	setStatusBar(sx, 1);
-	setStatusBar(sy, 2);
+	setStatusBar( sx, XSection );
+	setStatusBar( sy, YSection );
 
 	if ( e->buttons() & Qt::LeftButton )
 	{
@@ -3134,8 +3153,8 @@ bool View::updateCrosshairPosition()
 				if ( !m_haveRoot && findRoot( &x0, m_currentPlot, PreciseRoot ) )
 				{
 					QString str="  ";
-					str+=i18n("root");
-					setStatusBar(str+QString().sprintf(":  x0 = %+.5f", x0), 3);
+					str += i18n("root") + ":  x" + QChar(0x2080) + " = ";
+					setStatusBar( str+QString().sprintf("%+.5f", x0), RootSection );
 					m_haveRoot=true;
 				}
 			}
@@ -3405,13 +3424,15 @@ void View::coordToMinMax( const int koord, const QString &minStr, const QString 
 		max = 16.0;
 		break;
 	case 3:
-		min = 0.0;
-		max = 10.0;
-		break;
-	case 4:
 		min = XParser::self()->eval( minStr );
 		max = XParser::self()->eval( maxStr );
 		break;
+	}
+	
+	if ( min >= max )
+	{
+		min = -8;
+		max = 8;
 	}
 }
 
@@ -3611,7 +3632,7 @@ void View::keyPressEvent( QKeyEvent * e )
 		kDebug() << "m_currentPlot.plotMode: " << (int)m_currentPlot.plotMode << endl;
 		kDebug() << "m_currentFunctionParameter: " << m_currentFunctionParameter << endl;
 
-		setStatusBar( (*it)->prettyName( m_currentPlot.plotMode ), 4 );
+		setStatusBar( (*it)->prettyName( m_currentPlot.plotMode ), FunctionSection );
 
 		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint(), Qt::LeftButton, Qt::LeftButton, 0 );
 #endif
@@ -3959,26 +3980,32 @@ bool View::event( QEvent * e )
 }
 
 
-void View::setStatusBar(const QString &text, const int id)
+void View::setStatusBar( const QString & t, StatusBarSection section )
 {
+	QString text;
+	if ( section == FunctionSection )
+		text = " " + t + " ";
+	else
+		text = t;
+	
 	if ( m_readonly) //if KmPlot is shown as a KPart with e.g Konqueror, it is only possible to change the status bar in one way: to call setStatusBarText
 	{
-		switch (id)
+		switch ( section )
 		{
-		case 1:
-			m_statusbartext1 = text;
-			break;
-		case 2:
-			m_statusbartext2 = text;
-			break;
-		case 3:
-			m_statusbartext3 = text;
-			break;
-		case 4:
-			m_statusbartext4 = text;
-			break;
-		default:
-			return;
+			case XSection:
+				m_statusbartext1 = text;
+				break;
+			case YSection:
+				m_statusbartext2 = text;
+				break;
+			case RootSection:
+				m_statusbartext3 = text;
+				break;
+			case FunctionSection:
+				m_statusbartext4 = text;
+				break;
+			default:
+				return;
 		}
 		QString statusbartext = m_statusbartext1;
 		if ( !m_statusbartext1.isEmpty() && !m_statusbartext2.isEmpty() )
@@ -3994,7 +4021,7 @@ void View::setStatusBar(const QString &text, const int id)
 	}
 	else
 	{
-		QDBusReply<void> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setStatusBarText", text, id );
+		QDBusReply<void> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setStatusBarText", text, (int)section );
 	}
 }
 

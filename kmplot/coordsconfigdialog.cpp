@@ -45,8 +45,10 @@ CoordsConfigDialog::CoordsConfigDialog(XParser *p, QWidget *parent)
 	: KConfigDialog(parent, "coords", Settings::self()), m_parser(p)
 {
 	configAxesDialog = new EditCoords( 0 );
+	configAxesDialog->layout()->setMargin( 0 );
 	addPage(configAxesDialog , i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) );
 	setHelp("axes-config");
+	setFaceType( Plain );
 }
 
 CoordsConfigDialog::~CoordsConfigDialog()

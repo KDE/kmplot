@@ -83,14 +83,14 @@ QDomDocument KmPlotIO::currentState()
 	addTag( doc, tag, "show-extra-frame", Settings::showExtraFrame() ? "1" : "-1" );
 
 	addTag( doc, tag, "xcoord", QString::number( Settings::xRange() ) );
-	if( Settings::xRange() == 4 ) // custom plot range
+	if( Settings::xRange() == 3 ) // custom plot range
 	{
 		addTag( doc, tag, "xmin", Settings::xMin() );
 		addTag( doc, tag, "xmax", Settings::xMax() );
 	}
 
 	addTag( doc, tag, "ycoord", QString::number( Settings::yRange() ) );
-	if( Settings::yRange() == 4 ) // custom plot range
+	if( Settings::yRange() == 3 ) // custom plot range
 	{
 		addTag( doc, tag, "ymin", Settings::yMin() );
 		addTag( doc, tag, "ymax", Settings::yMax() );

@@ -61,6 +61,7 @@
 #include "ui_settingspagecolor.h"
 #include "ui_settingspagefonts.h"
 #include "ui_settingspagegeneral.h"
+#include "ui_settingspagediagram.h"
 #include "ksliderwindow.h"
 #include "maindlgadaptor.h"
 
@@ -101,6 +102,14 @@ class SettingsPageGeneral : public QWidget, public Ui::SettingsPageGeneral
         SettingsPageGeneral( QWidget * parent = 0 )
     : QWidget( parent )
         { setupUi(this); }
+};
+
+class SettingsPageDiagram : public QWidget, public Ui::SettingsPageDiagram
+{
+	public:
+		SettingsPageDiagram( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
 };
 
 bool MainDlg::oldfileversion;
@@ -174,10 +183,12 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_generalSettings = new SettingsPageGeneral( View::self() );
 	m_colorSettings = new SettingsPageColor( View::self() );
 	m_fontsSettings = new SettingsPageFonts( View::self() );
+	m_diagramSettings = new SettingsPageDiagram( View::self() );
 	m_constantsSettings = new KConstantEditor( 0 );
 	m_constantsSettings->setObjectName( "constantsSettings" );
 
 	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
+	m_settingsDialog->addPage( m_diagramSettings, i18n("Diagram"), "coords", i18n("Diagram Appearance") );
 	m_settingsDialog->addPage( m_colorSettings, i18n("Colors"), "colorize", i18n("Colors") );
 	m_settingsDialog->addPage( m_fontsSettings, i18n("Fonts"), "font", i18n("Fonts") );
 	m_constantsPage = m_settingsDialog->addPage( m_constantsSettings, i18n("Constants"), "editconstants", i18n("Constants") );
@@ -398,8 +409,6 @@ void MainDlg::requestSaveCurrentState()
 }
 void MainDlg::saveCurrentState( )
 {
-// 	kDebug() << k_funcinfo << endl;
-
 	m_redoStack.clear();
 	m_undoStack.push( m_currentState );
 	m_currentState = kmplotio->currentState();
@@ -532,7 +541,7 @@ void MainDlg::slotExport()
 	info[6].description = i18n("X11 Pixmap");
 	
 	QString fileDescriptions;
-	for ( int i = 0; i < sizeof(info)/sizeof(ImageInfo); ++i )
+	for ( unsigned i = 0; i < sizeof(info)/sizeof(ImageInfo); ++i )
 	{
 		if ( i > 0 )
 			fileDescriptions += '\n';
@@ -552,7 +561,7 @@ void MainDlg::slotExport()
 			return;
 	}
 	
-	for ( int i = 0; i < sizeof(info)/sizeof(ImageInfo); ++i )
+	for ( unsigned i = 0; i < sizeof(info)/sizeof(ImageInfo); ++i )
 	{
 		if ( url.fileName().right(4).toLower() != info[i].ext )
 			continue;
@@ -691,8 +700,10 @@ void MainDlg::editScaling()
 {
 	// create a config dialog and add a scaling page
 	KConfigDialog *scalingDialog = new KConfigDialog( m_parent, "scaling", Settings::self() );
+	scalingDialog->setFaceType( KPageDialog::Plain );
 	scalingDialog->setHelp("scaling-config");
 	EditScaling *es = new EditScaling();
+	es->layout()->setMargin( 0 );
 	es->setObjectName( "scalingSettings" );
 	scalingDialog->addPage( es, i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
 	// User edited the configuration - update your local copies of the

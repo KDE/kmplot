@@ -1,13 +1,19 @@
 <ui version="4.0" >
  <class>EditCoords</class>
  <widget class="QWidget" name="EditCoords" >
+  <property name="enabled" >
+   <bool>true</bool>
+  </property>
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>380</width>
-    <height>575</height>
+    <width>240</width>
+    <height>486</height>
    </rect>
+  </property>
+  <property name="windowTitle" >
+   <string/>
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
@@ -17,588 +23,251 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
-      <number>0</number>
+    <widget class="KButtonGroup" name="kcfg_XRange" >
+     <property name="title" >
+      <string>X axis</string>
      </property>
-     <widget class="QWidget" name="tab_2" >
-      <attribute name="title" >
-       <string>&amp;Axes</string>
-      </attribute>
-      <layout class="QGridLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item row="1" column="1" >
-        <widget class="QGroupBox" name="groupBox_2" >
-         <property name="enabled" >
-          <bool>false</bool>
-         </property>
-         <property name="title" >
-          <string>Custom Y axis</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QRadioButton" name="customXfds" >
+        <property name="toolTip" >
+         <string>Predefined plot ranges</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Select one of the predefined plot ranges.</string>
+        </property>
+        <property name="text" >
+         <string>[-8,8]</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="btn2" >
+        <property name="toolTip" >
+         <string>Predefined plot ranges</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Select one of the predefined plot ranges.</string>
+        </property>
+        <property name="text" >
+         <string>[-5, +5]</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="btn3" >
+        <property name="toolTip" >
+         <string>Predefined plot ranges</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Select one of the predefined plot ranges.</string>
+        </property>
+        <property name="text" >
+         <string>[0 | +16]</string>
+        </property>
+        <property name="checked" >
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="customX" >
+        <property name="text" >
+         <string>Custom:</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="textLabel4_2" >
+          <property name="text" >
+           <string>Max:</string>
           </property>
-          <property name="spacing" >
-           <number>6</number>
+          <property name="buddy" >
+           <cstring>kcfg_XMax</cstring>
           </property>
-          <item row="0" column="1" >
-           <widget class="EquationEdit" name="kcfg_YMin" >
-            <property name="toolTip" >
-             <string>Custom boundary of the plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter a valid expression, for instance 2*pi or e/2.</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="EquationEdit" name="kcfg_YMax" >
-            <property name="toolTip" >
-             <string>Custom boundary of the plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter a valid expression, for instance 2*pi or e/2.</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="textLabel4_4" >
-            <property name="text" >
-             <string>Min:</string>
-            </property>
-            <property name="buddy" >
-             <cstring>kcfg_YMin</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="textLabel4_3" >
-            <property name="text" >
-             <string>Max:</string>
-            </property>
-            <property name="buddy" >
-             <cstring>kcfg_YMax</cstring>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="0" column="1" >
-        <widget class="KButtonGroup" name="kcfg_YRange" >
-         <property name="title" >
-          <string>Y axis</string>
-         </property>
-         <layout class="QVBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="textLabel4" >
+          <property name="text" >
+           <string>Min:</string>
           </property>
-          <property name="spacing" >
-           <number>6</number>
+          <property name="buddy" >
+           <cstring>kcfg_XMin</cstring>
           </property>
-          <item>
-           <widget class="QRadioButton" name="customYkjh" >
-            <property name="toolTip" >
-             <string>Predefined plot ranges</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Select one of the predefined plot ranges.</string>
-            </property>
-            <property name="text" >
-             <string>[-8,8]</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton1_7" >
-            <property name="toolTip" >
-             <string>Predefined plot ranges</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Select one of the predefined plot ranges.</string>
-            </property>
-            <property name="text" >
-             <string>[-5, +5]</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton1_4" >
-            <property name="toolTip" >
-             <string>Predefined plot ranges</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Select one of the predefined plot ranges.</string>
-            </property>
-            <property name="text" >
-             <string>[0 | +16]</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton1_6" >
-            <property name="toolTip" >
-             <string>Predefined plot ranges</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Select one of the predefined plot ranges.</string>
-            </property>
-            <property name="text" >
-             <string>[0 | +10]</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="customY" >
-            <property name="text" >
-             <string>Custom</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="7" column="1" >
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="6" column="0" colspan="2" >
-        <widget class="QCheckBox" name="kcfg_ShowArrows" >
-         <property name="toolTip" >
-          <string>visible arrows at the end of the axes</string>
-         </property>
-         <property name="whatsThis" >
-          <string>Check this if the axes should have arrows at their ends.</string>
-         </property>
-         <property name="text" >
-          <string>Show arrows</string>
-         </property>
-         <property name="checked" >
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2" >
-        <widget class="QCheckBox" name="kcfg_ShowAxes" >
-         <property name="toolTip" >
-          <string>visible axes</string>
-         </property>
-         <property name="whatsThis" >
-          <string>Check this if the axes should be visible.</string>
-         </property>
-         <property name="text" >
-          <string>Show axes</string>
-         </property>
-         <property name="checked" >
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2" >
-        <widget class="QCheckBox" name="kcfg_ShowExtraFrame" >
-         <property name="toolTip" >
-          <string>visible extra frame</string>
-         </property>
-         <property name="whatsThis" >
-          <string>Check this if the plot area should be framed by an extra line.</string>
-         </property>
-         <property name="text" >
-          <string>Show extra frame</string>
-         </property>
-         <property name="checked" >
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2" >
-        <widget class="QCheckBox" name="kcfg_ShowLabel" >
-         <property name="toolTip" >
-          <string>visible tic labels</string>
-         </property>
-         <property name="whatsThis" >
-          <string>Check this if the axes' tics should be labeled.</string>
-         </property>
-         <property name="text" >
-          <string>Show labels</string>
-         </property>
-         <property name="checked" >
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2" >
-        <layout class="QGridLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item row="0" column="0" >
-          <widget class="QLabel" name="textLabel7" >
-           <property name="text" >
-            <string>Axis-line width:</string>
-           </property>
-           <property name="buddy" >
-            <cstring>kcfg_AxesLineWidth</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1" >
-          <widget class="QDoubleSpinBox" name="kcfg_AxesLineWidth" >
-           <property name="alignment" >
-            <set>Qt::AlignRight</set>
-           </property>
-           <property name="suffix" >
-            <string> mm</string>
-           </property>
-           <property name="decimals" >
-            <number>1</number>
-           </property>
-           <property name="minimum" >
-            <double>0.1</double>
-           </property>
-           <property name="singleStep" >
-            <double>0.1</double>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" >
-          <widget class="QLabel" name="textLabel8_4" >
-           <property name="text" >
-            <string>Tic length:</string>
-           </property>
-           <property name="buddy" >
-            <cstring>kcfg_TicLength</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="textLabel9" >
-           <property name="text" >
-            <string>Tic width:</string>
-           </property>
-           <property name="buddy" >
-            <cstring>kcfg_TicWidth</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1" >
-          <widget class="QDoubleSpinBox" name="kcfg_TicWidth" >
-           <property name="alignment" >
-            <set>Qt::AlignRight</set>
-           </property>
-           <property name="suffix" >
-            <string> mm</string>
-           </property>
-           <property name="decimals" >
-            <number>1</number>
-           </property>
-           <property name="minimum" >
-            <double>0.1</double>
-           </property>
-           <property name="singleStep" >
-            <double>0.1</double>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1" >
-          <widget class="QDoubleSpinBox" name="kcfg_TicLength" >
-           <property name="alignment" >
-            <set>Qt::AlignRight</set>
-           </property>
-           <property name="suffix" >
-            <string> mm</string>
-           </property>
-           <property name="decimals" >
-            <number>1</number>
-           </property>
-           <property name="minimum" >
-            <double>0.1</double>
-           </property>
-           <property name="singleStep" >
-            <double>0.1</double>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="0" column="0" >
-        <widget class="KButtonGroup" name="kcfg_XRange" >
-         <property name="title" >
-          <string>X axis</string>
-         </property>
-         <layout class="QVBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="EquationEdit" name="kcfg_XMax" >
+          <property name="toolTip" >
+           <string>Custom boundary of the plot range</string>
           </property>
-          <property name="spacing" >
-           <number>6</number>
+          <property name="whatsThis" >
+           <string>Enter a valid expression, for instance 2*pi or e/2.</string>
           </property>
-          <item>
-           <widget class="QRadioButton" name="customXfds" >
-            <property name="toolTip" >
-             <string>Predefined plot ranges</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Select one of the predefined plot ranges.</string>
-            </property>
-            <property name="text" >
-             <string>[-8,8]</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="btn2" >
-            <property name="toolTip" >
-             <string>Predefined plot ranges</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Select one of the predefined plot ranges.</string>
-            </property>
-            <property name="text" >
-             <string>[-5, +5]</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="btn3" >
-            <property name="toolTip" >
-             <string>Predefined plot ranges</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Select one of the predefined plot ranges.</string>
-            </property>
-            <property name="text" >
-             <string>[0 | +16]</string>
-            </property>
-            <property name="checked" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="btn4" >
-            <property name="toolTip" >
-             <string>Predefined plot ranges</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Select one of the predefined plot ranges.</string>
-            </property>
-            <property name="text" >
-             <string>[0 | +10]</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="customX" >
-            <property name="text" >
-             <string>Custom</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="QGroupBox" name="groupBox" >
-         <property name="enabled" >
-          <bool>false</bool>
-         </property>
-         <property name="title" >
-          <string>Custom X axis</string>
-         </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
-           <number>9</number>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <widget class="EquationEdit" name="kcfg_XMin" >
+          <property name="toolTip" >
+           <string>Custom boundary of the plot range</string>
           </property>
-          <property name="spacing" >
-           <number>6</number>
+          <property name="whatsThis" >
+           <string>Enter a valid expression, for instance 2*pi or e/2.</string>
           </property>
-          <item row="0" column="1" >
-           <widget class="EquationEdit" name="kcfg_XMin" >
-            <property name="toolTip" >
-             <string>Custom boundary of the plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter a valid expression, for instance 2*pi or e/2.</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="textLabel4" >
-            <property name="text" >
-             <string>Min:</string>
-            </property>
-            <property name="buddy" >
-             <cstring>kcfg_XMin</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="textLabel4_2" >
-            <property name="text" >
-             <string>Max:</string>
-            </property>
-            <property name="buddy" >
-             <cstring>kcfg_XMax</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="EquationEdit" name="kcfg_XMax" >
-            <property name="toolTip" >
-             <string>Custom boundary of the plot range</string>
-            </property>
-            <property name="whatsThis" >
-             <string>Enter a valid expression, for instance 2*pi or e/2.</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_3" >
-      <attribute name="title" >
-       <string>&amp;Grid</string>
-      </attribute>
-      <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>9</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item>
-        <widget class="KButtonGroup" name="kcfg_GridStyle" >
-         <property name="title" >
-          <string>Grid Style</string>
-         </property>
-         <layout class="QVBoxLayout" >
-          <property name="margin" >
-           <number>9</number>
-          </property>
-          <property name="spacing" >
-           <number>6</number>
-          </property>
-          <item>
-           <widget class="QRadioButton" name="radioButton11" >
-            <property name="whatsThis" >
-             <string>No Grid will be plotted.</string>
-            </property>
-            <property name="text" >
-             <string>None</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton12" >
-            <property name="whatsThis" >
-             <string>A line for every tic.</string>
-            </property>
-            <property name="text" >
-             <string>Lines</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton13" >
-            <property name="whatsThis" >
-             <string>Only little crosses in the plot area.</string>
-            </property>
-            <property name="text" >
-             <string>Crosses</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton14" >
-            <property name="whatsThis" >
-             <string>Circles around the Origin.</string>
-            </property>
-            <property name="text" >
-             <string>Polar</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
-         <item>
-          <widget class="QLabel" name="textLabel5" >
-           <property name="text" >
-            <string>Line &amp;width:</string>
-           </property>
-           <property name="buddy" >
-            <cstring>kcfg_GridLineWidth</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="kcfg_GridLineWidth" >
-           <property name="alignment" >
-            <set>Qt::AlignRight</set>
-           </property>
-           <property name="suffix" >
-            <string> mm</string>
-           </property>
-           <property name="decimals" >
-            <number>1</number>
-           </property>
-           <property name="minimum" >
-            <double>0.1</double>
-           </property>
-           <property name="singleStep" >
-            <double>0.1</double>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
+   </item>
+   <item>
+    <widget class="KButtonGroup" name="kcfg_YRange" >
+     <property name="title" >
+      <string>Y axis</string>
+     </property>
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QRadioButton" name="customYkjh" >
+        <property name="toolTip" >
+         <string>Predefined plot ranges</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Select one of the predefined plot ranges.</string>
+        </property>
+        <property name="text" >
+         <string>[-8,8]</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioButton1_7" >
+        <property name="toolTip" >
+         <string>Predefined plot ranges</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Select one of the predefined plot ranges.</string>
+        </property>
+        <property name="text" >
+         <string>[-5, +5]</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioButton1_4" >
+        <property name="toolTip" >
+         <string>Predefined plot ranges</string>
+        </property>
+        <property name="whatsThis" >
+         <string>Select one of the predefined plot ranges.</string>
+        </property>
+        <property name="text" >
+         <string>[0 | +16]</string>
+        </property>
+        <property name="checked" >
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="customY" >
+        <property name="text" >
+         <string>Custom:</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="1" >
+         <widget class="EquationEdit" name="kcfg_YMin" >
+          <property name="toolTip" >
+           <string>Custom boundary of the plot range</string>
+          </property>
+          <property name="whatsThis" >
+           <string>Enter a valid expression, for instance 2*pi or e/2.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="EquationEdit" name="kcfg_YMax" >
+          <property name="toolTip" >
+           <string>Custom boundary of the plot range</string>
+          </property>
+          <property name="whatsThis" >
+           <string>Enter a valid expression, for instance 2*pi or e/2.</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="textLabel4_4" >
+          <property name="text" >
+           <string>Min:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>kcfg_YMin</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="textLabel4_3" >
+          <property name="text" >
+           <string>Max:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>kcfg_YMax</cstring>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
@@ -611,40 +280,25 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>KButtonGroup</class>
    <extends>QGroupBox</extends>
    <header>kbuttongroup.h</header>
    <container>1</container>
   </customwidget>
-  <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
-  </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>kcfg_ShowArrows</tabstop>
-  <tabstop>kcfg_TicWidth</tabstop>
-  <tabstop>kcfg_ShowLabel</tabstop>
-  <tabstop>kcfg_AxesLineWidth</tabstop>
   <tabstop>radioButton1_4</tabstop>
-  <tabstop>kcfg_TicLength</tabstop>
   <tabstop>kcfg_XMin</tabstop>
   <tabstop>kcfg_XMax</tabstop>
-  <tabstop>radioButton11</tabstop>
-  <tabstop>radioButton12</tabstop>
-  <tabstop>radioButton13</tabstop>
-  <tabstop>radioButton14</tabstop>
-  <tabstop>kcfg_GridLineWidth</tabstop>
-  <tabstop>kcfg_ShowAxes</tabstop>
-  <tabstop>kcfg_ShowExtraFrame</tabstop>
-  <tabstop>tabWidget</tabstop>
   <tabstop>customX</tabstop>
   <tabstop>btn2</tabstop>
   <tabstop>btn3</tabstop>
-  <tabstop>btn4</tabstop>
   <tabstop>customXfds</tabstop>
-  <tabstop>radioButton1_6</tabstop>
   <tabstop>radioButton1_7</tabstop>
   <tabstop>customY</tabstop>
   <tabstop>customYkjh</tabstop>
@@ -656,32 +310,128 @@
   <connection>
    <sender>customX</sender>
    <signal>toggled(bool)</signal>
-   <receiver>groupBox</receiver>
+   <receiver>textLabel4</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>74</x>
-     <y>207</y>
+     <x>27</x>
+     <y>139</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>74</x>
-     <y>232</y>
+     <x>27</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>customX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>textLabel4_2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>40</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>45</x>
+     <y>191</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>customX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kcfg_XMin</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>84</x>
+     <y>138</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>86</x>
+     <y>165</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>customX</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kcfg_XMax</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>152</x>
+     <y>141</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>158</x>
+     <y>195</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>customY</sender>
    <signal>toggled(bool)</signal>
-   <receiver>groupBox_2</receiver>
+   <receiver>textLabel4_4</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>257</x>
-     <y>201</y>
+     <x>29</x>
+     <y>352</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>258</x>
-     <y>236</y>
+     <x>29</x>
+     <y>378</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>customY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>textLabel4_3</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>44</x>
+     <y>362</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>47</x>
+     <y>416</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>customY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kcfg_YMin</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>82</x>
+     <y>361</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>87</x>
+     <y>382</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>customY</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>kcfg_YMax</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>120</x>
+     <y>365</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>124</x>
+     <y>410</y>
     </hint>
    </hints>
   </connection>

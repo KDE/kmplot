@@ -44,6 +44,7 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	settingspageconstants.ui
 	settingspagefonts.ui
 	settingspagegeneral.ui
+	settingspagediagram.ui
 	sliderwindow.ui
 	parameterswidget.ui
 	parameteranimator.ui

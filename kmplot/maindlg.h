@@ -77,6 +77,7 @@ class SettingsPageColor;
 class SettingsPageConstants;
 class SettingsPageFonts;
 class SettingsPageGeneral;
+class SettingsPageDiagram;
 
 /** @short This is the main window of KmPlot.
  *
@@ -180,6 +181,9 @@ private:
 	SettingsPageFonts * m_fontsSettings;
 	///The Constants page for the Configure KmPlot constants
 	KConstantEditor* m_constantsSettings;
+	/// The diagram config page
+	SettingsPageDiagram* m_diagramSettings;
+	/// The page widget item pointing at the constants page
 	KPageWidgetItem * m_constantsPage;
 
 	/// A dialog used by many tools-menu-items

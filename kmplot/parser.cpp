@@ -133,6 +133,7 @@ Parser::Parser()
 	m_evalPos = 0;
 	m_nextFunctionID = 0;
 	m_stack = new double [STACKSIZE];
+	stkptr = m_stack;
 	m_constants = new Constants( this );
 	
 	m_ownEquation = 0;
@@ -299,22 +300,33 @@ double Parser::fkt( Equation * eq, double x )
 
 double Parser::fkt( Equation * eq, const Vector & x )
 {
+// 	int id = eq->parent() ? int(eq->parent()->id()) : -1;
+// 	kDebug() << "#### id: "<< id << endl;
+	
+	// Consistency check: Make sure that we leave the stkptr at the same place
+	// that we started it
+	double * stkInitial = stkptr;
+	
 	double *pDouble;
 	double (**pScalarFunction)(double);
 	double (**pVectorFunction)(const Vector &);
 	uint *pUint;
 	eq->mptr = eq->mem;
-	double *stkptr = m_stack;
+	memset( stkptr, 0, STACKSIZE * sizeof(double) + (stkptr-m_stack) );
 
 	while(1)
 	{
+// 		kDebug() << "id: "<<id<<" *eq->mptr: "<<int(*eq->mptr)<<endl;
+		
 		switch(*eq->mptr++)
 		{
 			case KONST:
+			{
 				pDouble=(double*)eq->mptr;
 				*stkptr=*pDouble++;
 				eq->mptr=(unsigned char*)pDouble;
 				break;
+			}
 				
 			case VAR:
 			{
@@ -327,16 +339,24 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			}
 				
 			case PUSH:
+			{
 				++stkptr;
 				break;
+			}
+			
 			case PLUS:
+			{
 				stkptr[-1]+=*stkptr;
 				--stkptr;
 				break;
+			}
+			
 			case MINUS:
+			{
 				stkptr[-1]-=*stkptr;
 				--stkptr;
 				break;
+			}
 				
 			case PM:
 			{
@@ -357,10 +377,14 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			}
 			
 			case MULT:
+			{
 				stkptr[-1]*=*stkptr;
 				--stkptr;
 				break;
+			}
+			
 			case DIV:
+			{
 				if(*stkptr==0.)
 					*(--stkptr)=HUGE_VAL;
 				else
@@ -369,16 +393,26 @@ double Parser::fkt( Equation * eq, const Vector & x )
 					--stkptr;
 				}
 				break;
+			}
+			
 			case POW:
+			{
 				stkptr[-1]=pow(*(stkptr-1), *stkptr);
 				--stkptr;
 				break;
+			}
+			
 			case NEG:
+			{
 				*stkptr=-*stkptr;
 				break;
+			}
+			
 			case SQRT:
+			{
 				*stkptr = sqrt(*stkptr);
 				break;
+			}
 				
 			case FKT_1:
 			{
@@ -431,7 +465,13 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			}
 			
 			case ENDE:
+			{
+				// If the stack isn't where we started at, then we've gone
+				// up / down the wrong number of places - definitely a bug (and
+				// will lead to crashes over time as memory rapidly runs out).
+				assert( stkptr == stkInitial );
 				return *stkptr;
+			}
 		}
 	}
 }

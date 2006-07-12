@@ -43,7 +43,7 @@ class Parser;
 // Voreinstellungen bei Verwendung des Standardkonstruktors :
 
 #define	MEMSIZE		500	///< memory size for tokens
-#define	STACKSIZE	50	///< stack depth
+#define	STACKSIZE	100	///< stack depth
 
 //@{
 /** Token type. */
@@ -423,6 +423,7 @@ class Parser : public QObject
 			*mem, 			    // Zeiger auf Speicher fr Token
 			*mptr;			    // Zeiger fr Token
 		double * m_stack;
+		double * stkptr;
 		QString m_eval;
 		int m_evalPos;
 		int m_nextFunctionID;

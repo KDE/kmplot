@@ -78,7 +78,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget" >
      <property name="currentIndex" >
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page" >
       <layout class="QVBoxLayout" >
@@ -485,7 +485,7 @@
           <item row="0" column="1" >
            <widget class="EquationEdit" name="parametricX" >
             <property name="toolTip" >
-             <string>enter an expression</string>
+             <string>Enter an expression</string>
             </property>
             <property name="whatsThis" >
              <string>Enter an expression for the function.
@@ -507,7 +507,7 @@ Example: cos(t)</string>
           <item row="1" column="1" >
            <widget class="EquationEdit" name="parametricY" >
             <property name="toolTip" >
-             <string>enter an expression</string>
+             <string>Enter an expression</string>
             </property>
             <property name="whatsThis" >
              <string>Enter an expression for the function.
@@ -551,7 +551,7 @@ Example: sin(t)</string>
              <bool>true</bool>
             </property>
             <property name="toolTip" >
-             <string>lower boundary of the plot range</string>
+             <string>Lower boundary of the plot range</string>
             </property>
             <property name="whatsThis" >
              <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
@@ -564,7 +564,7 @@ Example: sin(t)</string>
              <bool>true</bool>
             </property>
             <property name="toolTip" >
-             <string>upper boundary of the plot range</string>
+             <string>Upper boundary of the plot range</string>
             </property>
             <property name="whatsThis" >
              <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
@@ -634,7 +634,7 @@ Example: sin(t)</string>
           <item>
            <widget class="EquationEdit" name="polarEquation" >
             <property name="toolTip" >
-             <string>enter an equation, for instance loop(angle)=ln(angle)</string>
+             <string>Enter an equation</string>
             </property>
             <property name="whatsThis" >
              <string>Enter an expression for the function. The prefix "r" will be added automatically.
@@ -660,7 +660,7 @@ Example: loop(angle)=ln(angle)</string>
           <item row="0" column="1" >
            <widget class="EquationEdit" name="polarMin" >
             <property name="toolTip" >
-             <string>lower boundary of the plot range</string>
+             <string>Lower boundary of the plot range</string>
             </property>
             <property name="whatsThis" >
              <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
@@ -670,7 +670,7 @@ Example: loop(angle)=ln(angle)</string>
           <item row="1" column="1" >
            <widget class="EquationEdit" name="polarMax" >
             <property name="toolTip" >
-             <string>upper boundary of the plot range</string>
+             <string>Upper boundary of the plot range</string>
             </property>
             <property name="whatsThis" >
              <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
@@ -760,7 +760,7 @@ Example: loop(angle)=ln(angle)</string>
           <item row="0" column="1" >
            <widget class="KLineEdit" name="implicitName" >
             <property name="toolTip" >
-             <string>name of the function</string>
+             <string>Name of the function</string>
             </property>
             <property name="whatsThis" >
              <string>Enter the name of the function.
@@ -784,12 +784,12 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
           <item row="1" column="0" colspan="2" >
            <widget class="EquationEdit" name="implicitEquation" >
             <property name="toolTip" >
-             <string>enter an expression</string>
+             <string>Enter an expression</string>
             </property>
             <property name="whatsThis" >
              <string>Enter an expression for the function.
 The dummy variable is t.
-Example: cos(t)</string>
+Example: x^2 + y^2 = 25.</string>
             </property>
            </widget>
           </item>
@@ -860,12 +860,12 @@ Example: cos(t)</string>
            <item>
             <widget class="EquationEdit" name="differentialEquation" >
              <property name="toolTip" >
-              <string>enter an expression</string>
+              <string>Enter an expression</string>
              </property>
              <property name="whatsThis" >
               <string>Enter an expression for the function.
 The dummy variable is t.
-Example: cos(t)</string>
+Example: f''(x) = -f</string>
              </property>
              <property name="text" >
               <string>f''(x) = -f</string>
@@ -967,9 +967,9 @@ Example: cos(t)</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>InitialConditionsEditor</class>
-   <extends>QGroupBox</extends>
-   <header>initialconditionseditor.h</header>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>FunctionListWidget</class>
@@ -977,30 +977,30 @@ Example: cos(t)</string>
    <header>functioneditor.h</header>
   </customwidget>
   <customwidget>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
+  </customwidget>
+  <customwidget>
    <class>ParametersWidget</class>
    <extends>QGroupBox</extends>
    <header>parameterswidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>InitialConditionsEditor</class>
+   <extends>QGroupBox</extends>
+   <header>initialconditionseditor.h</header>
   </customwidget>
   <customwidget>
    <class>PlotStyleWidget</class>
    <extends>QGroupBox</extends>
    <header>plotstylewidget.h</header>
   </customwidget>
-  <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>functionList</tabstop>
-  <tabstop>deleteButton</tabstop>
   <tabstop>createNewPlot</tabstop>
+  <tabstop>deleteButton</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>cartesianEquation</tabstop>
   <tabstop>cartesianCustomMin</tabstop>
@@ -1012,6 +1012,7 @@ Example: cos(t)</string>
   <tabstop>showIntegral</tabstop>
   <tabstop>txtInitX</tabstop>
   <tabstop>txtInitY</tabstop>
+  <tabstop>integralStep</tabstop>
   <tabstop>parametricX</tabstop>
   <tabstop>parametricY</tabstop>
   <tabstop>parametricMin</tabstop>
@@ -1019,6 +1020,11 @@ Example: cos(t)</string>
   <tabstop>polarEquation</tabstop>
   <tabstop>polarMin</tabstop>
   <tabstop>polarMax</tabstop>
+  <tabstop>implicitName</tabstop>
+  <tabstop>implicitEquation</tabstop>
+  <tabstop>differentialTabWidget</tabstop>
+  <tabstop>differentialEquation</tabstop>
+  <tabstop>differentialStep</tabstop>
  </tabstops>
  <resources/>
  <connections>

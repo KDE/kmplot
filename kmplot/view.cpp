@@ -109,7 +109,6 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	m_width = m_height = 0.0;
 	m_scaler = 0.0;
 	m_haveRoot = false;
-	ticSepX = ticSepY = drskalx = drskaly = 0.0;
 	m_ymin = 0.0;
 	m_ymax = 0.0;
 	m_trace_x = 0.0;
@@ -196,8 +195,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		case Screen:
 		{
 			QPointF ref(120, 100);
-			lx=((m_xmax-m_xmin)*100.*drskalx/ticSepX);
-			ly=((m_ymax-m_ymin)*100.*drskaly/ticSepY);
+			lx=((m_xmax-m_xmin)*100.*ticPrintX.value()/ticSepX.value());
+			ly=((m_ymax-m_ymin)*100.*ticPrintY.value()/ticSepY.value());
 			DC.scale( m_height/(ly+2*ref.y()), m_height/(ly+2*ref.y()));
 			if ( ( QPointF(lx+2*ref.x(), ly) * DC.matrix() ).x() > DC.viewport().right())
 			{
@@ -214,8 +213,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		{
 			sf=72./254.;        // 72dpi
 			QPointF ref(100, 100);
-			lx=((m_xmax-m_xmin)*100.*drskalx/ticSepX);
-			ly=((m_ymax-m_ymin)*100.*drskaly/ticSepY);
+			lx=((m_xmax-m_xmin)*100.*ticPrintX.value()/ticSepX.value());
+			ly=((m_ymax-m_ymin)*100.*ticPrintY.value()/ticSepY.value());
 			DC.scale(sf, sf);
 			m_scaler = 1.;
 			m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1";
@@ -232,8 +231,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		case SVG:
 		{
 			QPointF ref(0, 0);
-			lx=((m_xmax-m_xmin)*100.*drskalx/ticSepX);
-			ly=((m_ymax-m_ymin)*100.*drskaly/ticSepY);
+			lx=((m_xmax-m_xmin)*100.*ticPrintX.value()/ticSepX.value());
+			ly=((m_ymax-m_ymin)*100.*ticPrintY.value()/ticSepY.value());
 			initDiagram( ref, lx, ly );
 			DC.translate(-m_frame.left(), -m_frame.top());
 			m_scaler=1.;
@@ -245,8 +244,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		{
 			sf=180./254.;								// 180dpi
 			QPointF ref(0, 0);
-			lx=((m_xmax-m_xmin)*100.*drskalx/ticSepX);
-			ly=((m_ymax-m_ymin)*100.*drskaly/ticSepY);
+			lx=((m_xmax-m_xmin)*100.*ticPrintX.value()/ticSepX.value());
+			ly=((m_ymax-m_ymin)*100.*ticPrintY.value()/ticSepY.value());
 			initDiagram( ref, lx, ly );
 			DC.end();
 			if ( medium == Pixmap )
@@ -267,8 +266,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		}
 	}
 	
-	ticStartX = ceil(m_xmin/ticSepX)*ticSepX;
-	ticStartY = ceil(m_ymin/ticSepY)*ticSepY;
+	ticStartX = ceil(m_xmin/ticSepX.value())*ticSepX.value();
+	ticStartY = ceil(m_ymin/ticSepY.value())*ticSepY.value();
 	area = DC.matrix().mapRect( m_plotArea );
 
 	DC.setRenderHint( QPainter::Antialiasing, true );
@@ -319,8 +318,8 @@ void View::initDiagram( QPointF Ref, 			    // Bezugspunkt links unten
 {
 	int x, y, h, w;
 	
-	ticStartX = ceil(m_xmin/ticSepX)*ticSepX;
-	ticStartY = ceil(m_ymin/ticSepY)*ticSepY;
+	ticStartX = ceil(m_xmin/ticSepX.value())*ticSepX.value();
+	ticStartY = ceil(m_ymin/ticSepY.value())*ticSepY.value();
 	skx = lx/(m_xmax-m_xmin);			        // Skalierungsfaktoren berechnen
 	sky = ly/(m_ymax-m_ymin);
 	ox = Ref.x()-skx*m_xmin+0.5;	        // Ursprungskoordinaten berechnen
@@ -551,10 +550,10 @@ void View::drawAxes( QPainter* pDC )	// draw axes
 			b=db;
 		}
 
-		while(d<m_xmax-ticSepX/2.)
+		while(d<m_xmax-ticSepX.value()/2.)
 		{
 			pDC->Linev(xToPixel(d), a, b);
-			d+=ticSepX;
+			d+=ticSepX.value();
 		}
 
 		da=ox-(10.0*ticLength);
@@ -576,10 +575,10 @@ void View::drawAxes( QPainter* pDC )	// draw axes
 			b=db;
 		}
 
-		while(d<m_ymax-ticSepY/2.)
+		while(d<m_ymax-ticSepY.value()/2.)
 		{
 			pDC->Lineh(a, yToPixel(d), b);
-			d+=ticSepY;
+			d+=ticSepY.value();
 		}
 	}
 	else if( Settings::showFrame() )
@@ -591,7 +590,7 @@ void View::drawAxes( QPainter* pDC )	// draw axes
 		{
 			pDC->Linev(xToPixel(d), m_plotArea.bottom(), a);
 			pDC->Linev(xToPixel(d), m_plotArea.top(), b);
-			d+=ticSepX;
+			d+=ticSepX.value();
 		}
 
 		a=m_plotArea.left()+(ticLength*10.0);
@@ -601,7 +600,7 @@ void View::drawAxes( QPainter* pDC )	// draw axes
 		{
 			pDC->Lineh(m_plotArea.left(), yToPixel(d), a);
 			pDC->Lineh(m_plotArea.right(), yToPixel(d), b);
-			d+=ticSepY;
+			d+=ticSepY.value();
 		}
 	}
 }
@@ -632,10 +631,10 @@ void View::drawGrid( QPainter* pDC )
 			
 		case GridLines:
 		{
-			for ( double d = ticStartX; d <= m_xmax; d += ticSepX )
+			for ( double d = ticStartX; d <= m_xmax; d += ticSepX.value() )
 				pDC->Linev(xToPixel(d), m_plotArea.bottom(), m_plotArea.top());
 			
-			for ( double d = ticStartY; d <= m_ymax; d += ticSepY )
+			for ( double d = ticStartY; d <= m_ymax; d += ticSepY.value() )
 				pDC->Lineh(m_plotArea.left(), yToPixel(d), m_plotArea.right());
 			
 			break;
@@ -646,10 +645,10 @@ void View::drawGrid( QPainter* pDC )
 			int const dx = 5;
 			int const dy = 5;
 
-			for( double x = ticStartX; x<m_xmax; x+=ticSepX)
+			for( double x = ticStartX; x<m_xmax; x+=ticSepX.value() )
 			{
 				double a = xToPixel(x);
-				for( double y=ticStartY; y<m_ymax; y+=ticSepY)
+				for( double y=ticStartY; y<m_ymax; y+=ticSepY.value())
 				{
 					double b = yToPixel(y);
 					pDC->Lineh(a-dx, b, a+dx);
@@ -672,8 +671,8 @@ void View::drawGrid( QPainter* pDC )
 			// The furthest pixel away from the origin
 			double pixelMax = qMax( xMax*skx, yMax*sky );
 			
-			double x = ticSepX;
-			double y = ticSepY;
+			double x = ticSepX.value();
+			double y = ticSepY.value();
 			
 			while ( x <= xMax || y <= yMax )
 			{
@@ -683,8 +682,8 @@ void View::drawGrid( QPainter* pDC )
 				
 				pDC->drawEllipse( r );
 				
-				x += ticSepX;
-				y += ticSepY;
+				x += ticSepX.value();
+				y += ticSepY.value();
 			}
 			
 			for ( double theta = 0; theta < 2.0*M_PI; theta += M_PI/12.0 )
@@ -720,9 +719,9 @@ void View::drawLabels(QPainter* pDC)
 	QFontMetrics const test(font);
 	int swidth=0;
 
-	for(d=ticStartX, n=(int)ceil(m_xmin/ticSepX); d<m_xmax; d+=ticSepX, ++n)
+	for(d=ticStartX, n=(int)ceil(m_xmin/ticSepX.value()); d<m_xmax; d+=ticSepX.value(), ++n)
 	{
-		if(n==0 || fabs(d-m_xmax)<=1.5*ticSepX)
+		if(n==0 || fabs(d-m_xmax)<=1.5*ticSepX.value())
 			continue;
 		
 		QString s;
@@ -731,7 +730,7 @@ void View::drawLabels(QPainter* pDC)
 		bool found = false;
 		for ( unsigned i = 0; i < 3; ++i )
 		{
-			if( fabs(ticSepX-M_PI/frac[i])> 1e-3 )
+			if( fabs(ticSepX.value()-M_PI/frac[i])> 1e-3 )
 				continue;
 			
 			s = (n<0) ? '-' : '+';
@@ -759,7 +758,7 @@ void View::drawLabels(QPainter* pDC)
 		
 		if ( !found && (n%5==0 || n==1 || n==-1 || draw_next))
 		{
-			s = posToString( n*ticSepX, (m_xmax-m_xmin)/4, View::ScientificFormat, axesColor );
+			s = posToString( n*ticSepX.value(), (m_xmax-m_xmin)/4, View::ScientificFormat, axesColor );
 		}
 		
 		if ( !s.isEmpty() )
@@ -804,9 +803,9 @@ void View::drawLabels(QPainter* pDC)
 		drawRect = QRectF( xToPixel(m_xmax)-dx, y+dy, 0, 0 );
 	pDC->drawText( drawRect, Qt::AlignCenter|Qt::TextDontClip, "x" );
 
-	for(d=ticStartY, n=(int)ceil(m_ymin/ticSepY); d<m_ymax; d+=ticSepY, ++n)
+	for(d=ticStartY, n=(int)ceil(m_ymin/ticSepY.value()); d<m_ymax; d+=ticSepY.value(), ++n)
 	{
-		if(n==0 || fabs(d-m_ymax)<=1.5*ticSepY)
+		if(n==0 || fabs(d-m_ymax)<=1.5*ticSepY.value())
 			continue;
 
 		QString s;
@@ -815,7 +814,7 @@ void View::drawLabels(QPainter* pDC)
 		bool found = false;
 		for ( unsigned i = 0; i < 3; ++i )
 		{
-			if( fabs(ticSepY-M_PI/frac[i])> 1e-3 )
+			if( fabs(ticSepY.value()-M_PI/frac[i])> 1e-3 )
 				continue;
 			
 			s = (n<0) ? '-' : '+';
@@ -842,7 +841,7 @@ void View::drawLabels(QPainter* pDC)
 		}
 		if( !found && (n%5==0 || n==1 || n==-1))
 		{
-			s = posToString( n*ticSepY, (m_ymax-m_ymin)/4, View::ScientificFormat, axesColor );
+			s = posToString( n*ticSepY.value(), (m_ymax-m_ymin)/4, View::ScientificFormat, axesColor );
 		}
 		
 		if ( !s.isEmpty() )
@@ -1561,17 +1560,17 @@ void View::drawTangentField( const Plot & plot, QPainter * painter )
 	double sx = area.width() / (m_xmax - m_xmin);
 	double sy = area.height() / (m_ymax - m_ymin);
 	
-	for ( double x = ticStartX; x <= m_xmax; x += ticSepX )
+	for ( double x = ticStartX; x <= m_xmax; x += ticSepX.value() )
 	{
 		v[0] = x;
-		for ( double y = ticStartY; y <= m_ymax; y += ticSepY )
+		for ( double y = ticStartY; y <= m_ymax; y += ticSepY.value() )
 		{
 			v[ useParameter ? 2 : 1 ] = y;
 			
 			double df = XParser::self()->fkt( function->eq[0], v ) * (sy / sx);
 			double theta = std::atan( df );
-			double dx = std::cos( theta ) * (ticSepX / 8.0);
-			double dy = std::sin( theta ) * (ticSepY / 8.0);
+			double dx = std::cos( theta ) * (ticSepX.value() / 8.0);
+			double dy = std::sin( theta ) * (ticSepY.value() / 8.0);
 			
 			QPointF mid( x, y );
 			QPointF diff( dx, dy );
@@ -2060,13 +2059,13 @@ void View::drawHeaderTable(QPainter *pDC)
 		aly="[ "+minStr+" | "+maxStr+" ]";
 		setpi(&alx);
 		setpi(&aly);
-		atx="1E  =  "+ticSepXstr;
+		atx="1E  =  "+ticSepX.expression();
 		setpi(&atx);
-		aty="1E  =  "+ticSepYstr;
+		aty="1E  =  "+ticSepY.expression();
 		setpi(&aty);
-		dfx="1E  =  "+drskalxstr+" cm";
+		dfx="1E  =  "+ticPrintX.expression()+" cm";
 		setpi(&dfx);
-		dfy="1E  =  "+drskalystr+" cm";
+		dfy="1E  =  "+ticPrintY.expression()+" cm";
 		setpi(&dfy);
 
 		pDC->drawRect(0, 0, 1500, 230);
@@ -3438,37 +3437,18 @@ void View::coordToMinMax( const int koord, const QString &minStr, const QString 
 
 void View::setScaling()
 {
-	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
-
-	assert( (Settings::xScaling() >= 0) && (Settings::xScaling() < 9) );
-	assert( (Settings::yScaling() >= 0) && (Settings::yScaling() < 9) );
-
-	if( Settings::xScaling() == 8) //automatic x-scaling
-    {
-		ticSepX = double(m_xmax-m_xmin)/16;
-        ticSepXstr = units[ Settings::xScaling() ];
-    }
+	if ( Settings::xScalingMode() == 0 )
+		ticSepX.updateExpression( (m_xmax-m_xmin)/16 ); // automatic x-scaling
 	else
-	{
-		ticSepXstr = units[ Settings::xScaling() ];
-		ticSepX = XParser::self()->eval( ticSepXstr );
-	}
+		ticSepX.updateExpression( Settings::xScaling() );
 
-	if( Settings::yScaling() == 8)  //automatic y-scaling
-    {
-		ticSepY = double(m_ymax-m_ymin)/16;
-        ticSepYstr = units[ Settings::yScaling() ];
-    }
+	if ( Settings::yScalingMode() == 0 )
+		ticSepY.updateExpression( (m_ymax-m_ymin)/16 ); // automatic x-scaling
 	else
-	{
-		ticSepYstr = units[ Settings::yScaling() ];
-		ticSepY = XParser::self()->eval( ticSepYstr );
-	}
-
-	drskalxstr = units[ Settings::xPrinting() ];
-	drskalx = XParser::self()->eval( drskalxstr );
-	drskalystr = units[ Settings::yPrinting() ];
-	drskaly = XParser::self()->eval( drskalystr );
+		ticSepY.updateExpression( Settings::yScaling() );
+	
+	ticPrintX.updateExpression( Settings::xPrinting() );
+	ticPrintY.updateExpression( Settings::yPrinting() );
 }
 
 void View::getSettings()

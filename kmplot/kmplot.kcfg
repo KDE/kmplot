@@ -95,25 +95,35 @@
 	</group>
 	
 	<group name="Scaling">
-		<entry name="XScaling" type="Int"> 
+		<entry name="XScalingMode" type="Int">
+			<label>Whether to use automatic or custom scaling.</label>
+			<whatsthis>Select whether to use automatic or custom scaling.</whatsthis>
+			<default>0</default>
+		</entry>
+		<entry name="YScalingMode" type="Int">
+			<label>Whether to use automatic or custom scaling.</label>
+			<whatsthis>Select whether to use automatic or custom scaling.</whatsthis>
+			<default>0</default>
+		</entry>
+		<entry name="XScaling" type="String"> 
 			<label>Width of a unit from tic to tic</label>
 			<whatsthis>Enter the width of a unit from tic to tic.</whatsthis>
-			<default>8</default>
+			<default>1</default>
 		</entry> 
-		<entry name="YScaling" type="Int"> 
+		<entry name="YScaling" type="String"> 
 			<label>Height of a unit from tic to tic</label>
 			<whatsthis>Enter the height of a unit from tic to tic.</whatsthis>
-			<default>8</default>
+			<default>1</default>
 		</entry> 
-		<entry name="XPrinting" type="Int"> 
+		<entry name="XPrinting" type="String"> 
 			<label>Printed width of 1 unit</label>
 			<whatsthis>Enter the width of a unit in cm.</whatsthis>
-			<default>3</default>
+			<default>1</default>
 		</entry> 
-		<entry name="YPrinting" type="Int"> 
+		<entry name="YPrinting" type="String"> 
 			<label>Printed height of 1 unit</label>
 			<whatsthis>Enter the height of a unit in cm.</whatsthis>
-			<default>3</default>
+			<default>1</default>
 		</entry> 
 	</group> 
 	

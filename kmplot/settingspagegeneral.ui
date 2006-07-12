@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>SettingsPageGeneral</class>
  <widget class="QWidget" name="SettingsPageGeneral" >
   <property name="geometry" >
@@ -13,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Form</string>
+   <string>General</string>
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
@@ -157,14 +154,11 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KIntNumInput</class>
-   <extends></extends>
+   <extends>QWidget</extends>
    <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <resources/>

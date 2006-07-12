@@ -186,6 +186,14 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_diagramSettings = new SettingsPageDiagram( View::self() );
 	m_constantsSettings = new KConstantEditor( 0 );
 	m_constantsSettings->setObjectName( "constantsSettings" );
+	
+	// Make sure the dialog is at a good default size (hmm kdialog should do this automatically?)
+	QSize minSize = m_generalSettings->layout()->minimumSize()
+			.expandedTo( m_colorSettings->layout()->minimumSize() )
+			.expandedTo( m_fontsSettings->layout()->minimumSize() )
+			.expandedTo( m_diagramSettings->layout()->minimumSize() )
+			.expandedTo( m_constantsSettings->layout()->minimumSize() );
+	m_generalSettings->setMinimumSize( minSize );
 
 	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
 	m_settingsDialog->addPage( m_diagramSettings, i18n("Diagram"), "coords", i18n("Diagram Appearance") );
@@ -720,29 +728,29 @@ void MainDlg::slotNames()
 
 void MainDlg::slotCoord1()
 {
+	View::self()->animateZoom( QRectF( -8, -8, 16, 16 ) );
 	Settings::setXRange( 0 );
 	Settings::setYRange( 0 );
 	m_modified = true;
 	View::self()->getSettings();
-	View::self()->drawPlot();
 }
 
 void MainDlg::slotCoord2()
 {
+	View::self()->animateZoom( QRectF( 0, -8, 16, 16 ) );
 	Settings::setXRange( 2 );
 	Settings::setYRange( 0 );
 	m_modified = true;
 	View::self()->getSettings();
-	View::self()->drawPlot();
 }
 
 void MainDlg::slotCoord3()
 {
+	View::self()->animateZoom( QRectF( 0, 0, 16, 16 ) );
 	Settings::setXRange( 2 );
 	Settings::setYRange( 2 );
 	m_modified = true;
 	View::self()->getSettings();
-	View::self()->drawPlot();
 }
 
 void MainDlg::slotSettings()

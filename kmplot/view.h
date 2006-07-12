@@ -180,6 +180,11 @@ class View : public QWidget
 		 * on the screen.
 		 */
 		double pixelNormal( const Plot & plot, double x, double y = 0 );
+		/**
+		 * Animates zooming from the current zoom rect to the one given (in real
+		 * coordinates)
+		 */
+		void animateZoom( const QRectF & newCoords );
 
 	public slots:
 		/// Called when the user want to cancel the drawing
@@ -376,11 +381,6 @@ class View : public QWidget
 		*/
 		void translateView( int dx, int dy );
 		/**
-		* Animates zooming from the current zoom rect to the one given (in real
-		* coordinates)
-		*/
-		void animateZoom( const QRectF & newCoords );
-		/**
 		* Finds the plot (if any) under the last mouse pos as recorded by
 		* updateCrosshairPosition(). This sets csmode, cstype, csparam. If no plot
 		* was found, then csmode is set to -1.
@@ -441,8 +441,10 @@ class View : public QWidget
 	
 		double m_width, m_height;
 		float m_scaler;
-		double ticSepX, ticSepY, drskalx, drskaly;
-		QString ticSepXstr, ticSepYstr, drskalxstr, drskalystr;
+		/// Separation between grid lines
+		Value ticSepX, ticSepY;
+		/// Scaling of grid lines to printed medium
+		Value ticPrintX, ticPrintY;
 		///Position of the first tic.
 		double ticStartX, ticStartY;
 		/// Screen coordinates of the coordinate system origin.

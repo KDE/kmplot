@@ -109,15 +109,12 @@ QDomDocument KmPlotIO::currentState()
 
 	tag = doc.createElement( "scale" );
 
-	QString temp;
-	temp.setNum(Settings::xScaling());
-	addTag( doc, tag, "tic-x", temp );
-	temp.setNum(Settings::yScaling());
-	addTag( doc, tag, "tic-y", temp );
-	temp.setNum(Settings::xPrinting());
-	addTag( doc, tag, "print-tic-x", temp );
-	temp.setNum(Settings::yPrinting());
-	addTag( doc, tag, "print-tic-y", temp);
+	addTag( doc, tag, "tic-x-mode", QString::number( Settings::xScalingMode() ) );
+	addTag( doc, tag, "tic-y-mode", QString::number( Settings::yScalingMode() ) );
+	addTag( doc, tag, "tic-x", Settings::xScaling() );
+	addTag( doc, tag, "tic-y", Settings::yScaling() );
+	addTag( doc, tag, "print-tic-x", Settings::xPrinting() );
+	addTag( doc, tag, "print-tic-y", Settings::yPrinting() );
 
 	root.appendChild( tag );
 	
@@ -430,6 +427,7 @@ int unit2index( const QString unit )
 
 void KmPlotIO::parseScale(const QDomElement & n )
 {
+#if 0
 	if ( version < 1 )
 	{
 		Settings::setXScaling( unit2index( n.namedItem( "tic-x" ).toElement().text() ) );
@@ -439,10 +437,21 @@ void KmPlotIO::parseScale(const QDomElement & n )
 	}
 	else
 	{
-		Settings::setXScaling(  n.namedItem( "tic-x" ).toElement().text().toInt()  );
-		Settings::setYScaling(  n.namedItem( "tic-y" ).toElement().text().toInt() );
-		Settings::setXPrinting(  n.namedItem( "print-tic-x" ).toElement().text().toInt()  );
-		Settings::setYPrinting(  n.namedItem( "print-tic-y" ).toElement().text().toInt() );
+		Settings::setXScaling( n.namedItem( "tic-x" ).toElement().text().toInt() );
+		Settings::setYScaling( n.namedItem( "tic-y" ).toElement().text().toInt() );
+		Settings::setXPrinting( n.namedItem( "print-tic-x" ).toElement().text().toInt()  );
+		Settings::setYPrinting( n.namedItem( "print-tic-y" ).toElement().text().toInt() );
+	}
+#endif
+	
+	if ( version >= 4 )
+	{
+		Settings::setXScalingMode( n.namedItem( "tic-x-mode" ).toElement().text().toInt() );
+		Settings::setYScalingMode( n.namedItem( "tic-y-mode" ).toElement().text().toInt() );
+		Settings::setXScaling( n.namedItem( "tic-x" ).toElement().text() );
+		Settings::setYScaling( n.namedItem( "tic-y" ).toElement().text() );
+		Settings::setXPrinting( n.namedItem( "print-tic-x" ).toElement().text() );
+		Settings::setYPrinting( n.namedItem( "print-tic-y" ).toElement().text() );
 	}
 	
 	View::self()->getSettings();

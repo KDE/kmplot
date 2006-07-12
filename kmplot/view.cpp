@@ -748,6 +748,10 @@ void View::drawLabels(QPainter* pDC)
 				}
 			}
 			
+			// Don't allow just plus or minus
+			if ( s == "+" || s == "-" )
+				s = QString();
+			
 			break;
 		}
 		
@@ -827,6 +831,10 @@ void View::drawLabels(QPainter* pDC)
 					s+=QChar(960);
 				}
 			}
+			
+			// Don't allow just plus or minus
+			if ( s == "+" || s == "-" )
+				s = QString();
 			
 			break;
 		}
@@ -1518,7 +1526,7 @@ void View::drawFunction( Function * function, QPainter * painter )
 			 (function->eq[0]->order() == 1) &&
 			function->plotAppearance( Function::Derivative0 ).showTangentField )
 	{
-		QList<Plot> plots = function->plots( Function::PlotCombinations(Function::AllCombinations) & ~Function::PlotCombinations(Function::DifferentInitialStates) );
+		QList<Plot> plots = function->plots( Function::PlotCombinations(Function::AllCombinations) & ~Function::DifferentInitialStates );
 		foreach ( Plot plot, plots )
 			drawTangentField( plot, painter );
 	}
@@ -2408,14 +2416,11 @@ void View::paintEvent(QPaintEvent *)
 				p.rotate( normalAngle * 180 / M_PI );
 				
 				// draw osculating circle
-// 				pen.setColor( QColor( 0x4f, 0xb3, 0xff ) );
-// 				pen.setColor( Qt::black );
 				pen.setColor( functionColor );
 				p.setPen( pen );
 				p.drawEllipse( QRectF( -QPointF( 1/k, 1/k ), QSizeF( 2/k, 2/k ) ) );
 				
 				// draw normal
-// 				pen.setColor( QColor( 0xff, 0x37, 0x61 ) );
 				pen.setColor( functionColor );
 				p.setPen( pen );
 				p.setBrush( pen.color() );
@@ -2460,9 +2465,6 @@ void View::paintEvent(QPaintEvent *)
 		p.Lineh( area.left(), m_crosshairPixelCoords.y(), area.right() );
 		p.Linev( m_crosshairPixelCoords.x(), area.bottom(), area.top());
 	}
-	
-// 	if ( m_prevCursor == CursorMagnify )
-// 		p.drawPixmap( m_crosshairPixelCoords.toPoint() - QPoint( 11, 11 ), m_magnifyPixmap );
 
 	p.end();
 }
@@ -3635,8 +3637,13 @@ void View::keyPressEvent( QKeyEvent * e )
 
 double View::areaUnderGraph( IntegralDrawSettings s )
 {
+	int sign = 1;
 	if ( s.dmax < s.dmin )
+	{
 		qSwap( s.dmin, s.dmax );
+		sign = -1;
+	}
+	
 	else if ( s.dmax == s.dmin )
 		return 0;
 
@@ -3679,7 +3686,7 @@ double View::areaUnderGraph( IntegralDrawSettings s )
 	m_drawIntegral = true;
 	drawPlot();
 	m_drawIntegral = false;
-	return calculated_area;
+	return calculated_area * sign;
 }
 
 bool View::isCalculationStopped()

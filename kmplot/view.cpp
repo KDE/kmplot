@@ -862,7 +862,7 @@ QPointF View::realValue( const Plot & plot, double x, bool updateFunction )
 		case Function::Polar:
 		{
 			double y = value( plot, 0, x, updateFunction );
-			return QPointF( y * cos(x), y * sin(x) );
+			return QPointF( y * lcos(x), y * lsin(x) );
 		}
 
 		case Function::Parametric:
@@ -1117,18 +1117,18 @@ void View::drawImplicit( Function * function, QPainter * painter )
 			double epsilon = qMin( FuzzyPoint::dx, FuzzyPoint::dy );
 			
 			QString fstr;
-			fstr = QString("%1(x)=%2(%3+%6*cos(x),%4+%6*sin(x),%5)")
+			fstr = QString("%1(x)=%2(%3+%6*cos(x),%4+%6*sin(x)%5)")
 					.arg( circular.function()->eq[0]->name() )
 					.arg( function->eq[0]->name() )
 					.arg( XParser::self()->number( point.x() ) )
 					.arg( XParser::self()->number( point.y() ) )
-					.arg( XParser::self()->number( function->k ) )
+					.arg( (function->eq[0]->variables().size() == 3) ? "," + XParser::self()->number( function->k ) : QString() )
 					.arg( XParser::self()->number( epsilon ) );
 			
 			bool setFstrOk = circular.function()->eq[0]->setFstr( fstr );
 			assert( setFstrOk );
 			
-			QList<double> roots = findRoots( circular, 0, 2*M_PI, PreciseRoot );
+			QList<double> roots = findRoots( circular, 0, 2*M_PI / XParser::self()->radiansPerAngleUnit(), PreciseRoot );
 			
 #ifdef DEBUG_IMPLICIT
 			kDebug() << "Singular point at (x,y)=("<<point.x()<<","<<point.y()<<")\n";
@@ -1141,8 +1141,8 @@ void View::drawImplicit( Function * function, QPainter * painter )
 #ifdef DEBUG_IMPLICIT
 				painter->setPen( QPen( Qt::green, painter->pen().width() ) );
 #endif
-				double x = point.x() + epsilon * cos(t);
-				double y = point.y() + epsilon * sin(t);
+				double x = point.x() + epsilon * lcos(t);
+				double y = point.y() + epsilon * lsin(t);
 				drawImplicitInSquare( plot, painter, x, y, 0, & singular );
 			}
 		}
@@ -1305,7 +1305,7 @@ void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		double tx = -dy/l;
 		double ty = dx/l;
 		
-		double angle = arctan(ty/tx) + ((tx<0) ? M_PI : 0);
+		double angle = atan(ty/tx) + ((tx<0) ? M_PI : 0);
 		double diff = realModulo( angle-prevAngle, 2*M_PI );
 		
 		bool switchedDirection = (i > 0) && (diff > (3./4.)*M_PI) && (diff < (5./4.)*M_PI);
@@ -2389,7 +2389,7 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 		case Function::Cartesian:
 		{
 			double df = XParser::self()->derivative( d1, f->eq[0], x, h );
-			return -arctan( df * (sy/sx) ) - (M_PI/2);
+			return -atan( df * (sy/sx) ) - (M_PI/2);
 		}
 		
 		case Function::Implicit:
@@ -2397,7 +2397,7 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 			dx = XParser::self()->partialDerivative( d1, d0, f->eq[0], x, y, h, h ) / sx;
 			dy = XParser::self()->partialDerivative( d0, d1, f->eq[0], x, y, h, h ) / sy;
 			
-			double theta = -arctan( dy / dx );
+			double theta = -atan( dy / dx );
 			
 			if ( dx < 0 )
 				theta += M_PI;
@@ -2412,8 +2412,8 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 			double r =  XParser::self()->derivative( d0, f->eq[0], x, h );
 			double dr = XParser::self()->derivative( d1, f->eq[0], x, h );
 			
-			dx = (dr * cos(x) - r * sin(x)) * sx;
-			dy = (dr * sin(x) + r * cos(x)) * sy;
+			dx = (dr * lcos(x) - r * lsin(x) * XParser::self()->radiansPerAngleUnit()) * sx;
+			dy = (dr * lsin(x) + r * lcos(x) * XParser::self()->radiansPerAngleUnit()) * sy;
 			break;
 		}
 		
@@ -2425,7 +2425,7 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 		}
 	}
 			
-	double theta = - arctan( dy / dx ) - (M_PI/2);
+	double theta = - atan( dy / dx ) - (M_PI/2);
 			
 	if ( dx < 0 )
 		theta += M_PI;
@@ -2475,11 +2475,13 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 			double dr = XParser::self()->derivative( d1, f->eq[0], x, h );
 			double ddr = XParser::self()->derivative( d2, f->eq[0], x, h );
 			
-			fdx = (dr * cos(x) - r * sin(x)) * sx;
-			fdy = (dr * sin(x) + r * cos(x)) * sy;
+			fdx = (dr * lcos(x) - r * lsin(x) * XParser::self()->radiansPerAngleUnit()) * sx;
+			fdy = (dr * lsin(x) + r * lcos(x) * XParser::self()->radiansPerAngleUnit()) * sy;
 			
-			fddx = (ddr * cos(x) - 2 * dr * sin(x) - r * cos(x)) * sx;
-			fddy = (ddr * sin(x) + 2 * dr * cos(x) - r * sin(x)) * sy;
+			double rpau = XParser::self()->radiansPerAngleUnit();
+			
+			fddx = (ddr * lcos(x) - 2 * dr * lsin(x) * rpau - r * lcos(x) * rpau*rpau) * sx;
+			fddy = (ddr * lsin(x) + 2 * dr * lcos(x) * rpau - r * lsin(x) * rpau*rpau) * sy;
 			
 			break;
 		}

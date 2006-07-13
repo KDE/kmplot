@@ -61,9 +61,9 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"sin", lsin}, 			// Sinus
 	{"cos", lcos}, 			// Cosinus
 	{"tan", ltan}, 			// Tangens
-	{"arcsin", arcsin}, 	// Arcus sinus = inverse of sin
-	{"arccos", arccos}, 	// Arcus cosinus = inverse of cos
-	{"arctan", arctan},		// Arcus tangens = inverse of tan
+	{"arcsin", larcsin}, 	// Arcus sinus = inverse of sin
+	{"arccos", larccos}, 	// Arcus cosinus = inverse of cos
+	{"arctan", larctan},		// Arcus tangens = inverse of tan
 	
 	// Hyperbolic trig
 	{"sinh", lsinh},	 	// Sinus hyperbolicus
@@ -77,12 +77,12 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"artanh", artanh},		// The same as arctanh
 	
 	// Reciprocal-trig
-	{"cosec", cosec},		// Co-Secans = 1/sin
-	{"sec", sec},			// Secans = 1/cos
-	{"cot", cot},			// Co-Tangens = 1/tan
-	{"arccosec", arccosec},	// Arcus co-secans = inverse of cosec
-	{"arcsec", arcsec},		// Arcus secans = inverse of sec
-	{"arccot", arccot},		// Arcus co-tangens = inverse of cotan
+	{"cosec", lcosec},		// Co-Secans = 1/sin
+	{"sec", lsec},			// Secans = 1/cos
+	{"cot", lcot},			// Co-Tangens = 1/tan
+	{"arccosec", larccosec},	// Arcus co-secans = inverse of cosec
+	{"arcsec", larcsec},		// Arcus secans = inverse of sec
+	{"arccot", larccot},		// Arcus co-tangens = inverse of cotan
 	
 	// Reciprocal-hyperbolic
 	{"cosech", cosech},		// Co-Secans hyperbolicus
@@ -1125,23 +1125,22 @@ double arcosh(double x) {
 double artanh(double x) {
 	return log((1+x)/(1-x))/2;
 }
-double sec(double x) {
+double lsec(double x) {
 	return (1 / cos(x*Parser::radiansPerAngleUnit()));
 }
-double cosec(double x) {
+double lcosec(double x) {
 	return (1 / sin(x*Parser::radiansPerAngleUnit()));
 }
-double cot(double x) {
+double lcot(double x) {
 	return (1 / tan(x*Parser::radiansPerAngleUnit()));
 }
-double arcsec(double x) {
+double larcsec(double x) {
 	return acos(1/x)* 1/Parser::radiansPerAngleUnit();
 }
-double arccosec(double x) {
+double larccosec(double x) {
 	return asin(1/x)* 1/Parser::radiansPerAngleUnit();
 }
-double arccot(double x)
-{
+double larccot(double x) {
 	return atan(1/x)* 1/Parser::radiansPerAngleUnit();
 }
 double sech(double x) {
@@ -1180,13 +1179,13 @@ double lsinh(double x) {
 double ltanh(double x) {
 	return tanh(x);
 }
-double arccos(double x) {
+double larccos(double x) {
 	return acos(x) * 1/Parser::radiansPerAngleUnit();
 }
-double arcsin(double x) {
+double larcsin(double x) {
 	return asin(x)* 1/Parser::radiansPerAngleUnit();
 }
-double arctan(double x) {
+double larctan(double x) {
 	return atan(x)* 1/Parser::radiansPerAngleUnit();
 }
 double legendre0( double ) {

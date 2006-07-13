@@ -83,12 +83,12 @@ double arsinh(double x);
 double arcosh(double x);
 double artanh(double x);
 
-double sec(double x);
-double cosec(double x);
-double cot(double x);
-double arcsec(double x);
-double arccosec(double x);
-double arccot(double x);
+double lsec(double x);
+double lcosec(double x);
+double lcot(double x);
+double larcsec(double x);
+double larccosec(double x);
+double larccot(double x);
 
 double sech(double x);
 double cosech(double x);
@@ -105,9 +105,9 @@ double lcosh(double x);
 double lsinh(double x);
 double ltanh(double x);
 
-double arccos(double x);
-double arcsin(double x);
-double arctan(double x);
+double larccos(double x);
+double larcsin(double x);
+double larctan(double x);
 
 double legendre0(double x);
 double legendre1(double x);

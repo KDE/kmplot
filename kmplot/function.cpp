@@ -376,7 +376,7 @@ bool Equation::setFstr( const QString & fstr, int * error, int * errorPosition )
 		*error = XParser::self()->parserError( false );
 		*errorPosition = XParser::self()->errorPosition();
 		
-// 		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< XParser::self()->errorPosition()<< " error="<<XParser::self()->errorString()<< endl;
+		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< *errorPosition<< " error="<<XParser::self()->errorString((Parser::Error)*error)<< endl;
 		
 		m_fstr = prevFstr;
 		XParser::self()->initEquation( this );

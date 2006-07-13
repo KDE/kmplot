@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>284</width>
-    <height>355</height>
+    <width>261</width>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -20,18 +20,18 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="groupBox_2" >
+    <widget class="KButtonGroup" name="kcfg_anglemode" >
      <property name="title" >
       <string>Angle Mode</string>
      </property>
-     <layout class="QGridLayout" >
+     <layout class="QVBoxLayout" >
       <property name="margin" >
        <number>9</number>
       </property>
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="0" column="0" >
+      <item>
        <widget class="QRadioButton" name="radioButton1" >
         <property name="toolTip" >
          <string>Trigonometric functions use radian mode for angles.</string>
@@ -44,7 +44,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
+      <item>
        <widget class="QRadioButton" name="radioButton2" >
         <property name="toolTip" >
          <string>Trigonometric functions use degree mode for angles.</string>
@@ -146,8 +146,8 @@
      </property>
      <property name="sizeHint" >
       <size>
-       <width>21</width>
-       <height>16</height>
+       <width>221</width>
+       <height>31</height>
       </size>
      </property>
     </spacer>
@@ -155,6 +155,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KButtonGroup</class>
+   <extends>QGroupBox</extends>
+   <header>kbuttongroup.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>KIntNumInput</class>
    <extends>QWidget</extends>

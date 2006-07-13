@@ -424,7 +424,10 @@ Function::Function( Type type )
 	usecustomxmax = false;
 	
 	dmin.updateExpression( QChar('0') );
-	dmax.updateExpression( QString(QChar('2')) + QChar(960) );
+	if ( Settings::anglemode() == Parser::Radians )
+		dmax.updateExpression( QString(QChar('2')) + QChar(960) );
+	else
+		dmax.updateExpression( "360" );
 	
 	switch ( m_type )
 	{

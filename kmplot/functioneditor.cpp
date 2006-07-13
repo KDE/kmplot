@@ -792,6 +792,8 @@ void FunctionEditor::saveDifferential()
 	tempFunction.eq[0]->differentialStates = *m_editor->initialConditions->differentialStates();
 	tempFunction.eq[0]->differentialStates.setStep( m_editor->differentialStep->text() );
 	
+	f->eq[0]->differentialStates.resetToInitial();
+	
 	//save all settings in the function now when we know no errors have appeared
 	bool changed = f->copyFrom( tempFunction );
 	if ( !changed )

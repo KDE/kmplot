@@ -54,7 +54,7 @@ FunctionTools::FunctionTools(QWidget *parent )
 	connect( m_widget->xValue, SIGNAL(textChanged(const QString &)), this, SLOT(xChanged()) );
 	connect( m_widget->min, SIGNAL(editingFinished()), this, SLOT(rangeEdited()) );
 	connect( m_widget->max, SIGNAL(editingFinished()), this, SLOT(rangeEdited()) );
-	connect( m_widget->list, SIGNAL(currentRowChanged(int)), this, SLOT(plotSelected(int)) );
+	connect( m_widget->list, SIGNAL(currentRowChanged(int)), this, SLOT(equationSelected(int)) );
 }
 
 

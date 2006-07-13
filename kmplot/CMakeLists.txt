@@ -37,7 +37,6 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	initialconditionswidget.ui
 	functioneditorwidget.ui
 	editcoords.ui
-	editscaling.ui
 	functiontools.ui
 	qparametereditor.ui
 	settingspagecolor.ui

@@ -226,7 +226,8 @@ double Parser::eval( const QString & str, Error * error, int * errorPosition )
 	QString eq = QString( "%1=%2" ).arg( fName ).arg( str );
 	if ( !m_ownEquation->setFstr( eq, (int*)error, errorPosition ) )
 	{
-		*errorPosition -= fName.length()+1;
+		if ( errorPosition )
+			*errorPosition -= fName.length()+1;
 		return 0;
 	}
 	

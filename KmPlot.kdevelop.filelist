@@ -166,3 +166,7 @@ kmplot/kgradientdialog.h
 kmplot/kgradientdialog.ui
 kmplot/kmplotprogress.cpp
 kmplot/kmplotprogress.h
+kmplot/functiontools.cpp
+kmplot/functiontools.h
+kmplot/functiontools.ui
+kmplot/settingspagediagram.ui

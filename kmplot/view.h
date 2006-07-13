@@ -31,7 +31,6 @@
 // Qt includes
 #include <qpixmap.h>
 #include <QPointer>
-#include <QMatrix>
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QKeyEvent>
@@ -98,11 +97,14 @@ class View : public QWidget
 			Pixmap,
 			Image
 		};
-		/// Reimplemented to draw all stuff to the view.
-		void draw( QPaintDevice *, PlotMedium medium );
+		/**
+		 * Draw the plot to \p dev, which is of the given \p medium.
+		 */
+		void draw( QPaintDevice * dev, PlotMedium medium );
 		
 		/// Getting all relevant settings using KConfig XT class Settings.
 		void getSettings();
+		void getScaling();
 		/// Clears all functions in the parser and gets default settings.
 		/// @see getSettings
 		void init();
@@ -149,7 +151,7 @@ class View : public QWidget
 		/**
 		 * Convert a width in mm to a suitable QPen width for drawing.
 		 */
-		double mmToPenWidth( double width_mm, bool antialias ) const;
+		double mmToPenWidth( double width_mm, QPainter * painter ) const;
 
 		/** Current plot range endge. */
 		double m_xmin;
@@ -304,11 +306,9 @@ class View : public QWidget
 		*/
 		bool penShouldDraw( double totalLength, const Plot & plot );
 		/**
-		* \return An appropriate pen for drawing the plot. (\p antialias should be
-		* set to whether the current painter is using antialiasing - this is for
-		* choosing an appropriate pen width).
+		* \return An appropriate pen for drawing the plot.
 		*/
-		QPen penForPlot( const Plot & plot, bool antialias ) const;
+		QPen penForPlot( const Plot & plot, QPainter * painter ) const;
 		/// Gets the greek pi symbol.
 		void setpi(QString *);
 		/**
@@ -437,20 +437,13 @@ class View : public QWidget
 	
 		/// for areadrawing
 		IntegralDrawSettings m_integralDrawSettings;
+		/// Set to true when calculating the area under the graph
 		bool m_drawIntegral;
-	
-		double m_width, m_height;
-		float m_scaler;
+		
 		/// Separation between grid lines
 		Value ticSepX, ticSepY;
-		/// Scaling of grid lines to printed medium
-		Value ticPrintX, ticPrintY;
 		///Position of the first tic.
 		double ticStartX, ticStartY;
-		/// Screen coordinates of the coordinate system origin.
-		double ox, oy;
-		/// Transformation factors.
-		double skx, sky;
 	
 		QPointF m_crosshairPixelCoords;
 		QPointF m_crosshairPosition;	///< in real coordinates
@@ -471,32 +464,7 @@ class View : public QWidget
 
 		/// @return whether cspos is in the range of the view or in the custom range for the given \p plot
 		bool crosshairPositionValid( Function * plot ) const;
-	
-		QRect area;
-		QMatrix wm;
 		
-		/** @name Plotrange
-		* There are 4 predefined plot ranges:
-		* @li 0: -8..8
-		* @li 1: -5..5
-		* @li 2: 0..16
-		* @li 3: 0..10
-		* @li 4: custom
-		*/
-		//@{
-		///Convert axes range predefinition index to boundaries.
-		void getMinMax(int koord, QString &mini, QString &maxi);
-		/** Handle predefiend axes ranges.
-		*
-		* @p koord can have the values 0 to 4 which have the following meanings: 
-		*
-		* In the last case @p minstr and @p maxstr are evaluated.
-		*/
-		void coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
-							double &min, double &max );
-		//@}
-
-		void setScaling();
 		/// represents the KPrinter option app-kmplot-printtable.
 		/// @see KPrinterDlg
 		bool m_printHeaderTable;
@@ -531,8 +499,6 @@ class View : public QWidget
 		bool const m_readonly;
 		/// For drawing diagram labels
 		QFont m_labelFont;
-		QRect m_plotArea;	///< plot area
-		QRect m_frame;		///< frame around the plot
 		
 		/// Indicate which parts of the diagram have content (e.g. axis or
 		/// plots), so that they can be avoided when drawing diagram labels
@@ -545,16 +511,16 @@ class View : public QWidget
 		/**
 		 * Marks the given diagram point (in screen coords) as 'used'.
 		 */
-		void markDiagramPointUsed( QPointF point );
+		void markDiagramPointUsed( const QPointF & point );
 		/**
 		 * \return the m_usedDiagramArea coords for the screen rect.
 		 */
-		QRect usedDiagramRect( QRectF rect ) const;
+		QRect usedDiagramRect( const QRectF & rect ) const;
 		/**
 		 * \return the cost of occupying the given rectangle (as in whether it
 		 * overlaps other diagram content, etc).
 		 */
-		int rectCost( const QRectF & rect ) const;
+		int rectCost( QRectF rect ) const;
 	
 		enum ZoomMode
 		{
@@ -578,6 +544,23 @@ class View : public QWidget
 		QPoint m_prevDragMousePos;
 		/// timer that is started when the mouse is pressed
 		QTime * m_mousePressTimer;
+		
+		/**
+		 * The rectangle (in painter, and hence pixel, coordinates) that the
+		 * plots must be in. This is also the size of the image being drawn to,
+		 * since the painter remains untransformed.
+		 */
+		QRect m_clipRect;
+		/**
+		 * This matrix transforms from real coordinates to painter coordinates.
+		 * (Note that the painter does not have any transformation applied).
+		 */
+		QMatrix m_realToPixel;
+		/**
+		 * The inverse matrix of m_realToPixel; it maps from pixel coordinates
+		 * to real X-Y coordinates.
+		 */
+		QMatrix m_pixelToReal;
 	
 		QString m_statusbartext1;
 		QString m_statusbartext2;

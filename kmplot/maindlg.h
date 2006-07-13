@@ -50,7 +50,6 @@
 #include "kmplotio.h"
 
 class BrowserExtension;
-class EditScaling;
 class FunctionEditor;
 class FunctionTools;
 class KConfigDialog;
@@ -63,26 +62,15 @@ class KPageWidgetItem;
 class KRecentFilesAction;
 class QTimer;
 
-namespace Ui{
-class EditScaling;
-class SettingsPageColor;
-class SettingsPageConstants;
-class SettingsPageFonts;
-class SettingsPageGeneral;
-}
 
-
-class EditScaling;
 class SettingsPageColor;
 class SettingsPageConstants;
 class SettingsPageFonts;
 class SettingsPageGeneral;
 class SettingsPageDiagram;
 
-/** @short This is the main window of KmPlot.
- *
- * Its central widget view contains the parser, accessable via its parser() function.
- * @see View, View::m_parser, View::parser
+/**
+ * @short This is the main window of KmPlot.
  */
 class MainDlg : public KParts::ReadOnlyPart
 {
@@ -122,8 +110,6 @@ public Q_SLOTS:
 public slots:
 	/// Implement the coordinate system edit dialog
 	void editAxes();
-	/// Implement the scaling edit dialog
-	void editScaling();
 	/// Toggle whether the sliders window is shown
 	void toggleShowSliders();
 	/// Revert to the previous document state (in m_undoStack).

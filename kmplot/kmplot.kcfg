@@ -10,7 +10,7 @@
 		<entry name="AxesLineWidth" type="Double"> 
 			<label>Axis-line width</label>
 			<whatsthis>Enter the width of the axis lines.</whatsthis>
-			<default>0.3</default>
+			<default>0.2</default>
 		</entry> 
 		<entry name="ShowLabel" type="Bool"> 
 			<label>Checked if labels are visible</label>
@@ -37,16 +37,6 @@
 			<whatsthis>Choose a suitable grid style.</whatsthis>
 			<default>1</default>
 		</entry>
-		<entry name="ShowFrame" type="Bool"> 
-			<label>Checked if a frame is visible</label>
-			<whatsthis>Check this box if a frame should be drawn around the plot area.</whatsthis>
-			<default>false</default>
-		</entry> 
-		<entry name="ShowExtraFrame" type="Bool"> 
-			<label>Checked if an extra frame is visible</label>
-			<whatsthis>Check this box if an extra frame should be drawn around the plot area.</whatsthis>
-			<default>true</default>
-		</entry> 
 		<entry name="TicLength" type="Double">
 			<label>Tic length</label>
 			<whatsthis>Enter the length of the tic lines</whatsthis>
@@ -56,41 +46,26 @@
 			<label>Tic width</label>
 			<whatsthis>Enter the width of the tic lines.</whatsthis>
 			<default>0.2</default>
-		</entry> 
-		<entry name="PlotLineWidth" type="Double"> 
-			<label>Plot-line width</label>
-			<whatsthis>Enter the width of the plot line.</whatsthis>
-			<default>0.5</default>
-		</entry> 
-		<entry name="XRange" type="Int"> 
-			<label>Predefined x-axis range</label>
-			<whatsthis>Predefined plot area widths.</whatsthis>
-			<default>0</default>
-		</entry> 
-		<entry name="YRange" type="Int"> 
-			<label>Predefined y-axis range</label>
-			<whatsthis>Predefined plot area heights.</whatsthis>
-			<default>0</default>
-		</entry> 
+		</entry>
 		<entry name="XMin" type="String"> 
 			<label>Left boundary</label>
 			<whatsthis>Enter the left boundary of the plotting area.</whatsthis>
-			<default>-2*pi</default>
+			<default>-8</default>
 		</entry> 
 		<entry name="XMax" type="String"> 
 			<label>Right boundary</label>
 			<whatsthis>Enter the right boundary of the plotting area.</whatsthis>
-			<default>2*pi</default>
+			<default>8</default>
 		</entry> 
 		<entry name="YMin" type="String"> 
 			<label>Lower boundary</label>
 			<whatsthis>Enter the lower boundary of the plotting area.</whatsthis>
-			<default>-2*pi</default>
+			<default>-8</default>
 		</entry> 
 		<entry name="YMax" type="String"> 
 			<label>Upper boundary</label>
 			<whatsthis>Enter the upper boundary of the plotting area.</whatsthis>
-			<default>2*pi</default>
+			<default>8</default>
 		</entry> 
 	</group>
 	
@@ -109,22 +84,12 @@
 			<label>Width of a unit from tic to tic</label>
 			<whatsthis>Enter the width of a unit from tic to tic.</whatsthis>
 			<default>1</default>
-		</entry> 
+		</entry>
 		<entry name="YScaling" type="String"> 
 			<label>Height of a unit from tic to tic</label>
 			<whatsthis>Enter the height of a unit from tic to tic.</whatsthis>
 			<default>1</default>
-		</entry> 
-		<entry name="XPrinting" type="String"> 
-			<label>Printed width of 1 unit</label>
-			<whatsthis>Enter the width of a unit in cm.</whatsthis>
-			<default>1</default>
-		</entry> 
-		<entry name="YPrinting" type="String"> 
-			<label>Printed height of 1 unit</label>
-			<whatsthis>Enter the height of a unit in cm.</whatsthis>
-			<default>1</default>
-		</entry> 
+		</entry>
 	</group> 
 	
 	<group name="Fonts">
@@ -136,7 +101,7 @@
 		<entry name="AxesFontSize" type="Int">
 			<label>Font size of the axis labels</label>
 			<whatsthis>Choose a font size for the axis labels.</whatsthis>
-			<default code="true">32</default>
+			<default code="true">KGlobalSettings::generalFont().pointSize()</default>
 		</entry> 
 		<entry name="HeaderTableFont" type="String"> 
 			<label>Font name of the printed header table</label>
@@ -151,7 +116,7 @@
 		<entry name="LabelFontSize" type="Int">
 			<label>Font size of diagram labels</label>
 			<whatsthis>Choose a font size for diagram labels.</whatsthis>
-			<default code="true">24</default>
+			<default code="true">KGlobalSettings::generalFont().pointSize()</default>
 		</entry> 
 	</group>
 	
@@ -159,7 +124,7 @@
 		<entry name="AxesColor" type="Color"> 
 			<label>Axis-line color</label>
 			<whatsthis>Enter the color of the axis lines.</whatsthis>
-			<default>#222222</default>
+			<default>#111111</default>
 		</entry> 
 		<entry name="GridColor" type="Color">
 			<label>Grid Color</label>

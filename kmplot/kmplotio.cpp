@@ -79,22 +79,12 @@ QDomDocument KmPlotIO::currentState()
 	addTag( doc, tag, "show-axes", Settings::showAxes() ? "1" : "-1" );
 	addTag( doc, tag, "show-arrows", Settings::showArrows() ? "1" : "-1" );
 	addTag( doc, tag, "show-label", Settings::showLabel() ? "1" : "-1" );
-	addTag( doc, tag, "show-frame", Settings::showExtraFrame() ? "1" : "-1" );
-	addTag( doc, tag, "show-extra-frame", Settings::showExtraFrame() ? "1" : "-1" );
 
-	addTag( doc, tag, "xcoord", QString::number( Settings::xRange() ) );
-	if( Settings::xRange() == 3 ) // custom plot range
-	{
-		addTag( doc, tag, "xmin", Settings::xMin() );
-		addTag( doc, tag, "xmax", Settings::xMax() );
-	}
+	addTag( doc, tag, "xmin", Settings::xMin() );
+	addTag( doc, tag, "xmax", Settings::xMax() );
 
-	addTag( doc, tag, "ycoord", QString::number( Settings::yRange() ) );
-	if( Settings::yRange() == 3 ) // custom plot range
-	{
-		addTag( doc, tag, "ymin", Settings::yMin() );
-		addTag( doc, tag, "ymax", Settings::yMax() );
-	}
+	addTag( doc, tag, "ymin", Settings::yMin() );
+	addTag( doc, tag, "ymax", Settings::yMax() );
 
 	root.appendChild( tag );
 
@@ -113,8 +103,6 @@ QDomDocument KmPlotIO::currentState()
 	addTag( doc, tag, "tic-y-mode", QString::number( Settings::yScalingMode() ) );
 	addTag( doc, tag, "tic-x", Settings::xScaling() );
 	addTag( doc, tag, "tic-y", Settings::yScaling() );
-	addTag( doc, tag, "print-tic-x", Settings::xPrinting() );
-	addTag( doc, tag, "print-tic-y", Settings::yPrinting() );
 
 	root.appendChild( tag );
 	
@@ -383,22 +371,16 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 		Settings::setShowAxes( true );
 		Settings::setShowArrows( true );
 		Settings::setShowLabel( true );
-		Settings::setShowFrame( true );
-		Settings::setShowExtraFrame( true );
 	}
 	else
 	{
 		Settings::setShowAxes( n.namedItem( "show-axes" ).toElement().text().toInt() == 1 );
 		Settings::setShowArrows( n.namedItem( "show-arrows" ).toElement().text().toInt() == 1 );
 		Settings::setShowLabel( n.namedItem( "show-label" ).toElement().text().toInt() == 1 );
-		Settings::setShowFrame( n.namedItem( "show-frame" ).toElement().text().toInt() == 1 );
-		Settings::setShowExtraFrame( n.namedItem( "show-extra-frame" ).toElement().text().toInt() == 1 );
 	}
 	
-	Settings::setXRange( n.namedItem( "xcoord" ).toElement().text().toInt() );
 	Settings::setXMin( n.namedItem( "xmin" ).toElement().text() );
 	Settings::setXMax( n.namedItem( "xmax" ).toElement().text() );
-	Settings::setYRange( n.namedItem( "ycoord" ).toElement().text().toInt() );
 	Settings::setYMin( n.namedItem( "ymin" ).toElement().text() );
 	Settings::setYMax( n.namedItem( "ymax" ).toElement().text() );
 	
@@ -450,8 +432,6 @@ void KmPlotIO::parseScale(const QDomElement & n )
 		Settings::setYScalingMode( n.namedItem( "tic-y-mode" ).toElement().text().toInt() );
 		Settings::setXScaling( n.namedItem( "tic-x" ).toElement().text() );
 		Settings::setYScaling( n.namedItem( "tic-y" ).toElement().text() );
-		Settings::setXPrinting( n.namedItem( "print-tic-x" ).toElement().text() );
-		Settings::setYPrinting( n.namedItem( "print-tic-y" ).toElement().text() );
 	}
 	
 	View::self()->getSettings();

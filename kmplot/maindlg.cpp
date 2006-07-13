@@ -57,7 +57,6 @@
 
 #include "settings.h"
 #include "maindlg.h"
-#include "ui_editscaling.h"
 #include "ui_settingspagecolor.h"
 #include "ui_settingspagefonts.h"
 #include "ui_settingspagegeneral.h"
@@ -70,15 +69,6 @@
 class XParser;
 class KmPlotIO;
 
-
-
-class EditScaling : public QWidget, public Ui::EditScaling
-{
-    public:
-        EditScaling( QWidget * parent = 0 )
-    : QWidget( parent )
-        { setupUi(this); }
-};
 
 class SettingsPageColor : public QWidget, public Ui::SettingsPageColor
 {
@@ -250,10 +240,6 @@ void MainDlg::setupActions()
 	KAction * editAxes = new KAction( i18n( "&Coordinate System..." ), actionCollection(), "editaxes" );
 	editAxes->setIcon( KIcon("coords.png") );
 	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
-
-	KAction * editScaling = new KAction( i18n( "&Scaling..." ), actionCollection(), "editscaling" );
-	editScaling->setIcon( KIcon("scaling") );
-	connect( editScaling, SIGNAL(triggered(bool)), this, SLOT( editScaling() ) );
 	//END edit menu
 
 
@@ -691,6 +677,7 @@ void MainDlg::slotPrint()
 	}
 }
 
+
 void MainDlg::editAxes()
 {
 	// create a config dialog and add a axes page
@@ -704,21 +691,6 @@ void MainDlg::editAxes()
 	coordsDialog->show();
 }
 
-void MainDlg::editScaling()
-{
-	// create a config dialog and add a scaling page
-	KConfigDialog *scalingDialog = new KConfigDialog( m_parent, "scaling", Settings::self() );
-	scalingDialog->setFaceType( KPageDialog::Plain );
-	scalingDialog->setHelp("scaling-config");
-	EditScaling *es = new EditScaling();
-	es->layout()->setMargin( 0 );
-	es->setObjectName( "scalingSettings" );
-	scalingDialog->addPage( es, i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
-	// User edited the configuration - update your local copies of the
-	// configuration data
-	connect( scalingDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
-	scalingDialog->show();
-}
 
 void MainDlg::slotNames()
 {
@@ -729,28 +701,19 @@ void MainDlg::slotNames()
 void MainDlg::slotCoord1()
 {
 	View::self()->animateZoom( QRectF( -8, -8, 16, 16 ) );
-	Settings::setXRange( 0 );
-	Settings::setYRange( 0 );
 	m_modified = true;
-	View::self()->getSettings();
 }
 
 void MainDlg::slotCoord2()
 {
 	View::self()->animateZoom( QRectF( 0, -8, 16, 16 ) );
-	Settings::setXRange( 2 );
-	Settings::setYRange( 0 );
 	m_modified = true;
-	View::self()->getSettings();
 }
 
 void MainDlg::slotCoord3()
 {
 	View::self()->animateZoom( QRectF( 0, 0, 16, 16 ) );
-	Settings::setXRange( 2 );
-	Settings::setYRange( 2 );
 	m_modified = true;
-	View::self()->getSettings();
 }
 
 void MainDlg::slotSettings()

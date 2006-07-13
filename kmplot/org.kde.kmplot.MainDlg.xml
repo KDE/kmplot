@@ -3,7 +3,6 @@
 <node>
   <interface name="org.kde.kmplot.MainDlg">
     <method name="editAxes"/>
-    <method name="editScaling"/>
     <method name="toggleShowSliders"/>
     <method name="slotSave"/>
     <method name="slotSaveas"/>

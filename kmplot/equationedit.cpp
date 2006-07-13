@@ -158,6 +158,7 @@ void EquationHighlighter::highlightBlock( const QString & text )
 			setFormat( i, 1, other );
 	}
 	
+	
 	//BEGIN highlight matched brackets
 	int cursorPos = m_parent->m_equationEditWidget->textCursor().position();
 	if ( cursorPos < 0 )
@@ -196,6 +197,7 @@ void EquationHighlighter::highlightBlock( const QString & text )
 		}
 	}
 	//END highlight matched brackets
+	
 	
 	if ( m_errorPosition != -1 )
 	{
@@ -378,7 +380,7 @@ void EquationEdit::setText( const QString & text )
 void EquationEdit::setValidatePrefix( const QString & prefix )
 {
 	m_validatePrefix = prefix;
-	checkTextValidity();
+	reHighlight();
 }
 
 

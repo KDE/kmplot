@@ -70,6 +70,8 @@ void KmPlotProgress::showProgressBar()
 
 void KmPlotProgress::setProgress( double progress )
 {
+	kDebug() << k_funcinfo << "progress="<<progress<<endl;
+	
 	Q_ASSERT( progress >= 0 );
 	
 	if ( progress >= 1 )
@@ -82,7 +84,7 @@ void KmPlotProgress::setProgress( double progress )
 		if ( !isVisible() && !m_showTimer->isActive() )
 			m_showTimer->start( 500 );
 		
-		m_progress->setValue( progress * 100 );
+		m_progress->setValue( int(progress * 100) );
 	}
 	
 	QCoreApplication::processEvents( QEventLoop::ExcludeUserInputEvents );

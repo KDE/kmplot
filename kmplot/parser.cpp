@@ -313,7 +313,6 @@ double Parser::fkt( Equation * eq, const Vector & x )
 	double (**pVectorFunction)(const Vector &);
 	uint *pUint;
 	eq->mptr = eq->mem;
-	memset( stkptr, 0, STACKSIZE * sizeof(double) + (stkptr-m_stack) );
 
 	while(1)
 	{

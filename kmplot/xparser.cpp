@@ -289,28 +289,28 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 }
 
 
-Vector XParser::rk4_f( int order, Equation * eq, double x, Vector y )
+Vector XParser::rk4_f( int order, Equation * eq, double x, const Vector & y )
 {
 	bool useParameter = eq->variables().size() > order+1;
 	
-	Vector result( order );
-	Vector arg( order+1 + (useParameter ? 1 : 0) );
+	m_result.resize( order );
+	m_arg.resize( order+1 + (useParameter ? 1 : 0) );
 	
-	arg[0] = x;
+	m_arg[0] = x;
 	
 	if ( useParameter )
-		arg[1] = eq->parent()->k;
+		m_arg[1] = eq->parent()->k;
 	
 	for ( int i = 0; i < order; ++i )
 	{
-		arg[i+1 + (useParameter ? 1 : 0) ] = y[i];
+		m_arg[i+1 + (useParameter ? 1 : 0) ] = y[i];
 		if ( i+1 < order )
-			result[i] = y[i+1];
+			m_result[i] = y[i+1];
 	}
 	
-	result[order-1] = XParser::fkt( eq, arg );
+	m_result[order-1] = XParser::fkt( eq, m_arg );
 	
-	return result;
+	return m_result;
 }
 
 
@@ -338,15 +338,15 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	
 	int order = eq->order();
 	
-	Vector k1( order );
-	Vector k2( order );
-	Vector k3( order );
-	Vector k4( order );
+	m_k1.resize( order );
+	m_k2.resize( order );
+	m_k3.resize( order );
+	m_k4.resize( order );
 	
 	double x = state->x;
-	Vector y( state->y );
+	m_y = state->y;
 	if ( x_target == x )
-		return y[0];
+		return m_y[0];
 	
 	int intervals = int( qAbs(x_target-x)/max_dx + 1 );
 	double dx = (x_target-x) / double(intervals);
@@ -358,14 +358,14 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 		
 		x = state->x + i*dx;
 		
-		k1 = rk4_f( order, eq, x,			y );
-		k2 = rk4_f( order, eq, x + dx/2,	y + (dx/2)*k1 );
-		k3 = rk4_f( order, eq, x + dx/2,	y + (dx/2)*k2 );
-		k4 = rk4_f( order, eq, x + dx,		y + dx*k3 );
+		m_k1 = rk4_f( order, eq, x,			m_y );
+		m_k2 = rk4_f( order, eq, x + dx/2,	m_y + (dx/2)*m_k1 );
+		m_k3 = rk4_f( order, eq, x + dx/2,	m_y + (dx/2)*m_k2 );
+		m_k4 = rk4_f( order, eq, x + dx,	m_y + dx*m_k3 );
 		
-		y += (dx/6)*(k1 + 2*k2 + 2*k3 + k4);
+		m_y += (dx/6)*(m_k1 + 2*m_k2 + 2*m_k3 + m_k4);
 		
-		if ( !std::isfinite(y[0]) )
+		if ( !std::isfinite(m_y[0]) )
 		{
 			differentialFinite = false;
 			state->resetToInitial();
@@ -374,9 +374,9 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	}
 	
 	state->x = x + dx;
-	state->y = y;
+	state->y = m_y;
 	
-	return y[0];
+	return m_y[0];
 }
 
 

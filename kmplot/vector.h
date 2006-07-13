@@ -40,7 +40,7 @@ class Vector
 		Vector( const Vector & other ) : m_data( other.m_data ) {};
 		
 		int size() const { return m_data.size(); }
-		void resize( int size ) { m_data.resize( size ); }
+		void resize( int s ) { if ( size() != s ) m_data.resize( s ); }
 		Vector operator * ( double x ) const;
 		Vector & operator *= ( double x );
 		Vector operator + ( const Vector & other ) const;

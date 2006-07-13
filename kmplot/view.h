@@ -200,7 +200,6 @@ class View : public QWidget
 		void mnuHide_clicked();
 		void mnuRemove_clicked();
 		void mnuEdit_clicked();
-		void showExtrema( bool show );
 		void animateFunction();
 		///Slots for the zoom menu
 		void mnuZoomIn_clicked();

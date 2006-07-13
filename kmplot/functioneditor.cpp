@@ -518,7 +518,6 @@ void FunctionEditor::createDifferential()
 	assert( m_functionID != -1 );
 	
 	MainDlg::self()->requestSaveCurrentState();
-	View::self()->drawPlot();
 }
 
 

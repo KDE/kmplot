@@ -33,6 +33,7 @@
 // local includes
 #include "parser.h"
 #include "settings.h"
+#include "vector.h"
 
 /**
  * @short Extended parser class.
@@ -147,7 +148,8 @@ class XParser : public Parser
 	
 	private:
 		/// for use in differential
-		Vector rk4_f( int order, Equation * eq, double x, Vector y );
+		Vector rk4_f( int order, Equation * eq, double x, const Vector & y );
+		Vector m_k1, m_k2, m_k3, m_k4, m_y, m_result, m_arg;
 		
 	/// indicates if the widget is changed
 	bool & m_modified;

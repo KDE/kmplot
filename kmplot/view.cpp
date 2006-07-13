@@ -2713,7 +2713,7 @@ QPointF View::getPlotUnderMouse()
 			}
 		}
 	}
-
+	
 	if ( best_distance < 10.0 )
 	{
 		m_currentPlot = bestPlot;
@@ -2734,92 +2734,101 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 	Function * function = plot.function();
 	assert( function->type() != Function::Implicit ); // should use findRoot (3D version) for this
 
-	if ( function->type() == Function::Cartesian )
+	switch ( function->type() )
 	{
-		double best_pixel_x = 0.0;
-
-		QPointF pixelPos = toPixel( pos, ClipInfinite );
-
-		double dmin = getXmin( function );
-		double dmax = getXmax( function );
-
-		double stepSize = (m_xmax-m_xmin)/m_clipRect.width();
-
-		// Algorithm in use here: Work out the shortest distance between the
-		// line joining (x0,y0) to (x1,y1) and the given point (real_x,real_y)
-
-		double x = dmin;
-		double y0 = value( plot, 0, x, false );
-
-		double best_distance = 1e20; // a large distance
-
-		while ( x <= dmax )
-		{
-			x += stepSize;
-
-			double y1 = XParser::self()->fkt( function->eq[0], x );
-
-			double _x0 = xToPixel( x-stepSize, ClipInfinite );
-			double _x1 = xToPixel( x, ClipInfinite );
-
-			double _y0 = yToPixel( y0, ClipInfinite );
-			double _y1 = yToPixel( y1, ClipInfinite );
-
-			double k = (_y1-_y0)/(_x1-_x0);
-
-			double closest_x;
-			if ( k == 0 )
-				closest_x = _x0;
-			else
-				closest_x = (pixelPos.y() + pixelPos.x()/k + k*_x0 - _y0) / (k + 1.0/k);
-
-			double closest_y = yToPixel( value( plot, 0, xToReal( closest_x ), false ), ClipInfinite );
-
-			double dfx = qAbs( closest_x - pixelPos.x() );
-			double dfy = qAbs( closest_y - pixelPos.y() );
-
-			double distance = sqrt( dfx*dfx + dfy*dfy );
-			if ( distance < best_distance )
-			{
-				best_distance = distance;
-				best_pixel_x = closest_x;
-			}
-		}
-
-		best_x = xToReal( best_pixel_x );
-	}
-	else
-	{
-		// Either polar or parametric
+		case Function::Implicit:
+			break;
 		
-		double minX = getXmin( function );
-		double maxX = getXmax( function );
-		double stepSize = 0.01;
-
-		while ( stepSize > 0.0000009 )
+		case Function::Differential:
+		case Function::Cartesian:
 		{
+			double best_pixel_x = 0.0;
+	
+			QPointF pixelPos = toPixel( pos, ClipInfinite );
+	
+			double dmin = getXmin( function );
+			double dmax = getXmax( function );
+	
+			double stepSize = (m_xmax-m_xmin)/m_clipRect.width();
+	
+			// Algorithm in use here: Work out the shortest distance between the
+			// line joining (x0,y0) to (x1,y1) and the given point (real_x,real_y)
+	
+			double x = dmin;
+			double y0 = value( plot, 0, x, false );
+	
 			double best_distance = 1e20; // a large distance
-
-			double x = minX;
-			while ( x <= maxX )
+			
+			while ( x <= dmax && (xToPixel(x) < best_pixel_x+best_distance) )
 			{
-				double distance = pixelDistance( pos, plot, x, false );
+				x += stepSize;
+	
+				double y1 = value( plot, 0, x, false );
+	
+				double _x0 = xToPixel( x-stepSize, ClipInfinite );
+				double _x1 = xToPixel( x, ClipInfinite );
+	
+				double _y0 = yToPixel( y0, ClipInfinite );
+				double _y1 = yToPixel( y1, ClipInfinite );
+	
+				double k = (_y1-_y0)/(_x1-_x0);
+	
+				double closest_x;
+				if ( k == 0 )
+					closest_x = _x0;
+				else
+					closest_x = (pixelPos.y() + pixelPos.x()/k + k*_x0 - _y0) / (k + 1.0/k);
+	
+				double closest_y = yToPixel( value( plot, 0, xToReal( closest_x ), false ), ClipInfinite );
+	
+				double dfx = qAbs( closest_x - pixelPos.x() );
+				double dfy = qAbs( closest_y - pixelPos.y() );
+	
+				double distance = sqrt( dfx*dfx + dfy*dfy );
 				if ( distance < best_distance )
 				{
 					best_distance = distance;
-					best_x = x;
+					best_pixel_x = closest_x;
 				}
-
-				x += stepSize;
 			}
-
-			minX = best_x - stepSize;
-			maxX = best_x + stepSize;
-
-			stepSize *= 0.1;
+	
+			best_x = xToReal( best_pixel_x );
+			break;
+		}
+		
+		case Function::Polar:
+		case Function::Parametric:
+		{
+			double minX = getXmin( function );
+			double maxX = getXmax( function );
+			double stepSize = 0.01;
+	
+			while ( stepSize > 0.0000009 )
+			{
+				double best_distance = 1e20; // a large distance
+	
+				double x = minX;
+				while ( x <= maxX )
+				{
+					double distance = pixelDistance( pos, plot, x, false );
+					if ( distance < best_distance )
+					{
+						best_distance = distance;
+						best_x = x;
+					}
+	
+					x += stepSize;
+				}
+	
+				minX = best_x - stepSize;
+				maxX = best_x + stepSize;
+	
+				stepSize *= 0.1;
+			}
+			break;
 		}
 	}
-
+	
 	return best_x;
 }
 
@@ -3636,17 +3645,6 @@ void View::animateFunction()
 	
 	ParameterAnimator * anim = new ParameterAnimator( this, f );
 	anim->show();
-}
-
-
-void View::showExtrema( bool show )
-{
-	Function * f = m_currentPlot.function();
-	if ( !f )
-		return;
-	
-	f->plotAppearance( m_currentPlot.plotMode ).showExtrema = show;
-	drawPlot();
 }
 
 

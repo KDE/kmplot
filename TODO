@@ -13,14 +13,13 @@ TODO
 	* get slope for a x-point
 	* Value table
 * #52887, need to calculate with complex numbers (do we? it wouldn't directly solve the problem for #52887... - david)
-* Selectable options for trace mode:
-	* Tangent to current point (pipesmoker)
-	* Osculating circle
 * Printing (pipesmoker)
       - different paper sizes
 * An export dialog where you can set the size and enable/disable monocrome.
 * More printing options.
 * Move Coordinate System toolbar buttons to one drop-down list
+* More image export options (e.g. encapsulated postscript would be nice for latex).
+* Make line styles work with implicit equations.
 
 IN PROGRESS
 =========================

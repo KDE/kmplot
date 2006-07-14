@@ -2277,7 +2277,7 @@ void View::paintEvent(QPaintEvent *)
 			}
 			//END calculate curvature, normal
 			
-			if ( k > 1e-5 )
+			if ( k > 1e-5 && Settings::detailedTracing() )
 			{
 				p.save();
 				
@@ -2324,10 +2324,6 @@ void View::paintEvent(QPaintEvent *)
 				// Already show osculating circle, etc, so don't draw crosshairs quite so prominently
 				functionColor.setAlpha( 63 );
 				pen.setColor( functionColor );
-			}
-			else
-			{
-				// Curve is practically straight
 			}
 		}
 		else

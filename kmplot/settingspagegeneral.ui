@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>261</width>
-    <height>282</height>
+    <width>342</width>
+    <height>348</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -137,6 +137,13 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="kcfg_DetailedTracing" >
+     <property name="text" >
+      <string>Draw tangent and normal when tracing</string>
+     </property>
     </widget>
    </item>
    <item>

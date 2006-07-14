@@ -26,7 +26,7 @@
 			<label>Checked if arrows are visible</label>
 			<whatsthis>Check this box if axes should have arrows.</whatsthis>
 			<default>true</default>
-		</entry> 
+		</entry>
 		<entry name="GridLineWidth" type="Double">
 			<label>Grid Line Width</label>
 			<whatsthis>Enter the width of the grid lines.</whatsthis>
@@ -199,10 +199,15 @@
 			<whatsthis>The value the zoom-in tool should use</whatsthis>
 			<default>20</default>
 		</entry>
-			<entry name="zoomOutStep" type="Int">
+		<entry name="zoomOutStep" type="Int">
 			<label>Zoom-out step</label>
 			<whatsthis>The value the zoom-out tool should use</whatsthis>
 			<default>25</default>
-		</entry>		
+		</entry>
+		<entry name="DetailedTracing" type="Bool">
+			<label>Extra detail when tracing</label>
+			<whatsthis>Whether to show extra detail such as the tangent and normal when tracing a plot.</whatsthis>
+			<default>false</default>
+		</entry>
 	</group>
 </kcfg>

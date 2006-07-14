@@ -95,6 +95,7 @@ PlotAppearance::PlotAppearance( )
 	style = Qt::SolidLine;
 	showExtrema = false;
 	showTangentField = false;
+	showPlotName = false;
 }
 
 
@@ -108,7 +109,8 @@ bool PlotAppearance::operator !=( const PlotAppearance & other ) const
 			(visible != other.visible) ||
 			(style != other.style) ||
 			(showExtrema != other.showExtrema) ||
-			(showTangentField != other.showTangentField);
+			(showTangentField != other.showTangentField) ||
+			(showPlotName != other.showPlotName);
 }
 
 
@@ -330,6 +332,42 @@ void Equation::updateVariables()
 }
 
 
+bool Equation::usesParameter( ) const
+{
+	int expectedNumVariables = 0;
+	
+	switch ( m_type )
+	{
+		case Cartesian:
+		case ParametricX:
+		case ParametricY:
+		case Polar:
+			expectedNumVariables = 1;
+			break;
+			
+		case Implicit:
+			expectedNumVariables = 2;
+			break;
+			
+		case Differential:
+			expectedNumVariables = order()+1;
+			break;
+	}
+	
+	return variables().size() > expectedNumVariables;
+}
+
+
+QString Equation::parameterName( ) const
+{
+	if ( !usesParameter() )
+		return QString();
+	
+	int parAt = (type() == Implicit) ? 2 : 1;
+	return variables()[parAt];
+}
+
+
 bool Equation::setFstr( const QString & fstr, int * error, int * errorPosition )
 {
 	int temp1, temp2;
@@ -376,7 +414,7 @@ bool Equation::setFstr( const QString & fstr, int * error, int * errorPosition )
 		*error = XParser::self()->parserError( false );
 		*errorPosition = XParser::self()->errorPosition();
 		
-		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< *errorPosition<< " error="<<XParser::self()->errorString((Parser::Error)*error)<< endl;
+// 		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< *errorPosition<< " error="<<XParser::self()->errorString((Parser::Error)*error)<< endl;
 		
 		m_fstr = prevFstr;
 		XParser::self()->initEquation( this );
@@ -509,28 +547,13 @@ bool Function::copyFrom( const Function & function )
 }
 
 
-QString Function::prettyName( Function::PMode mode ) const
+QString Function::name() const
 {
-	if ( type() == Parametric )
-		return eq[0]->fstr() + " ; " + eq[1]->fstr();
+	QString n = eq[0]->fstr();
+	for ( int i = 1; i < eq.size(); ++i )
+		n += '\n' + eq[i]->fstr();
 	
-	switch ( mode )
-	{
-		case Function::Derivative0:
-			return eq[0]->fstr();
-			
-		case Function::Derivative1:
-			return eq[0]->name() + '\'';
-			
-		case Function::Derivative2:
-			return eq[0]->name() + "\'\'";
-			
-		case Function::Integral:
-			return eq[0]->name().toUpper();
-	}
-	
-	kWarning() << k_funcinfo << "Unknown mode!\n";
-	return "???";
+	return n;
 }
 
 
@@ -869,6 +892,20 @@ void Plot::updateCached()
 }
 
 
+QString Plot::name( ) const
+{
+	if ( !m_function )
+		return QString();
+	
+	QString n = m_function->name();
+	
+	if ( m_function->eq[0]->usesParameter() )
+		n += QString( "\n%1 = %2" ).arg( m_function->eq[0]->parameterName() ).arg( Parser::number( parameterValue() ) );
+	
+	return n;
+}
+
+
 void Plot::updateFunction() const
 {
 	if ( !m_function )
@@ -879,15 +916,17 @@ void Plot::updateFunction() const
 	for ( int i = 0; i < pmSignature.size(); ++i )
 		m_function->eq[i]->setPMSignature( pmSignature[i] );
 	
-	
-	// Update the parameter
-	
-	double k = 0.0;
-	
+	if ( parameter.type() != Parameter::Animated )
+		m_function->setParameter( parameterValue() );
+}
+
+
+double Plot::parameterValue() const
+{
 	switch ( parameter.type() )
 	{
 		case Parameter::Unknown:
-			break;
+			return 0;
 			
 		case Parameter::Slider:
 		{
@@ -903,25 +942,23 @@ void Plot::updateFunction() const
 				assert( sw );
 			}
 			
-			k = sw->value( parameter.sliderID() );
-			break;
+			return sw->value( parameter.sliderID() );
 		}
 			
 		case Parameter::List:
 		{
 			if ( (parameter.listPos() >= 0) && (parameter.listPos() < m_function->m_parameters.list.size()) )
-				k = m_function->m_parameters.list[ parameter.listPos() ].value();
-			break;
+				return m_function->m_parameters.list[ parameter.listPos() ].value();
 		}
 		
 		case Parameter::Animated:
 		{
-			// Don't adjust the current function parameter
-			return;
+			kWarning() << k_funcinfo << "Shouldn't use this function for animated parameter!\n";
+			return 0;
 		}
 	}
 	
-	m_function->setParameter( k );
+	return 0;
 }
 
 

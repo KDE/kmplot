@@ -291,7 +291,7 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 
 Vector XParser::rk4_f( int order, Equation * eq, double x, const Vector & y )
 {
-	bool useParameter = eq->variables().size() > order+1;
+	bool useParameter = eq->usesParameter();
 	
 	m_result.resize( order );
 	m_arg.resize( order+1 + (useParameter ? 1 : 0) );

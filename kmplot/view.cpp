@@ -174,6 +174,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		return;
 	m_isDrawing=true;
 	
+	getSettings();
 	updateCursor();
 	initDrawLabels();
 	
@@ -1113,7 +1114,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 					.arg( function->eq[0]->name() )
 					.arg( XParser::self()->number( point.x() ) )
 					.arg( XParser::self()->number( point.y() ) )
-					.arg( (function->eq[0]->variables().size() == 3) ? "," + XParser::self()->number( function->k ) : QString() )
+					.arg( function->eq[0]->usesParameter() ? "," + XParser::self()->number( function->k ) : QString() )
 					.arg( XParser::self()->number( epsilon ) );
 			
 			bool setFstrOk = circular.function()->eq[0]->setFstr( fstr );
@@ -1469,7 +1470,7 @@ void View::drawTangentField( const Plot & plot, QPainter * painter )
 	
 	painter->setPen( penForPlot( plot, painter ) );
 	
-	bool useParameter = (function->eq[0]->variables().size() >= 3);
+	bool useParameter = function->eq[0]->usesParameter();
 	Vector v( useParameter ? 3 : 2 );
 	
 	if ( useParameter )
@@ -1652,6 +1653,16 @@ void View::drawFunctionInfo( QPainter * painter )
 	if ( m_zoomMode == Translating )
 		return;
 	
+	// The names of the plots are drawn around the edge of the view, in a clockwise
+	// direction, starting from the top-right. Picture the positions like this:
+	// 
+	//   7  8  9  0
+	//   6        1
+	//   5  4  3  2
+	
+	// Used for determining where to draw the next label indicating the plot name
+	int plotNameAt = 0;
+	
 	foreach ( Function * function, XParser::self()->m_ufkt )
 	{
 		if ( m_stopCalculating )
@@ -1659,6 +1670,8 @@ void View::drawFunctionInfo( QPainter * painter )
 		
 		foreach ( Plot plot, function->plots() )
 		{
+			plot.updateFunction();
+			
 			// Draw extrema points?
 			if ( (function->type() == Function::Cartesian) && function->plotAppearance( plot.plotMode ).showExtrema )
 			{
@@ -1673,6 +1686,56 @@ void View::drawFunctionInfo( QPainter * painter )
 					
 					drawLabel( painter, plot.color(), realValue, QString( "x = %1   y = %2" ).arg(x).arg(y) );
 				}
+			}
+			
+			// Show the name of the plot?
+			if ( function->plotAppearance( plot.plotMode ).showPlotName )
+			{
+				double x, y;
+				
+				double xmin = m_xmin + 0.1 * (m_xmax-m_xmin);
+				double xmax = m_xmax - 0.1 * (m_xmax-m_xmin);
+				double ymin = m_ymin + 0.1 * (m_ymax-m_ymin);
+				double ymax = m_ymax - 0.1 * (m_ymax-m_ymin);
+				
+				// Find out where on the outer edge of the view to draw it
+				if ( 0 <= plotNameAt && plotNameAt <= 2 )
+				{
+					x = xmax;
+					y = ymax - (ymax-ymin)*plotNameAt/2;
+				}
+				else if ( 3 <= plotNameAt && plotNameAt <= 5 )
+				{
+					x = xmax - (xmax-xmin)*(plotNameAt-2)/3;
+					y = ymin;
+				}
+				else if ( 6 <= plotNameAt && plotNameAt <= 7 )
+				{
+					x = xmin;
+					y = ymin + (ymax-ymin)*(plotNameAt-5)/2;
+				}
+				else
+				{
+					x = xmin + (xmax-xmin)*(plotNameAt-7)/3;
+					y = ymax;
+				}
+				
+				plotNameAt = (plotNameAt+1) % 10;
+				
+				QPointF realPos;
+				
+				if ( function->type() == Function::Implicit )
+				{
+					findRoot( & x, & y, plot, RoughRoot );
+					realPos = QPointF( x, y );
+				}
+				else
+				{
+					double t = getClosestPoint( QPointF( x, y ), plot );
+					realPos = realValue( plot, t, false );
+				}
+				
+				drawLabel( painter, plot.color(), realPos, plot.name() );
 			}
 		}
 	}
@@ -1808,8 +1871,14 @@ int View::rectCost( QRectF rect ) const
 	if ( rect.intersects( m_clipRect ) )
 	{
 		QRectF intersect = (rect & m_clipRect);
-		cost += int(rect.width() * rect.height()) - int(intersect.width() * intersect.height());
+		cost += int(rect.width() * rect.height() - intersect.width() * intersect.height());
 	}
+	else
+	{
+		// The rectangle is completely outside!
+		cost += int(rect.width() * rect.height());
+	}
+	
 	
 	QRect r = usedDiagramRect( rect );
 	
@@ -2599,7 +2668,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		Function * function = m_currentPlot.function();
 		if ( function )
 		{
-			QString popupTitle( function->prettyName( m_currentPlot.plotMode ) );
+			QString popupTitle( m_currentPlot.name() );
 
 			if ( hadFunction )
 				m_popupMenuStatus = PopupDuringTrace;
@@ -2633,7 +2702,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		QPointF ptd( toPixel( closestPoint ) );
 		QPoint globalPos = mapToGlobal( ptd.toPoint() );
 		QCursor::setPos( globalPos );
-		setStatusBar( function->prettyName( m_currentPlot.plotMode ), FunctionSection );
+		setStatusBar( m_currentPlot.name().replace( '\n', " ; " ), FunctionSection );
 		return;
 	}
 

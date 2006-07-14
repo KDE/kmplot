@@ -84,6 +84,7 @@ void PlotStyleWidget::init( const PlotAppearance & plot, Function::Type type )
 	m_dialogWidget->useGradient->setChecked( plot.useGradient );
 	setStyle( plot.style );
 	m_dialogWidget->showExtrema->setChecked( plot.showExtrema );
+	m_dialogWidget->showPlotName->setChecked( plot.showPlotName );
 	
 	// Show/hide stuff as appropriate
 	m_dialogWidget->showExtrema->setVisible( type == Function::Cartesian );
@@ -102,6 +103,7 @@ PlotAppearance PlotStyleWidget::plot( bool visible )
 	p.visible = visible;
 	p.style = style();
 	p.showExtrema = m_dialogWidget->showExtrema->isChecked();
+	p.showPlotName = m_dialogWidget->showPlotName->isChecked();
 	return p;
 }
 

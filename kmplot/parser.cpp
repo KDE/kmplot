@@ -542,8 +542,6 @@ void Parser::initEquation( Equation * eq )
 
 bool Parser::removeFunction( Function * item )
 {
-	kDebug() << "Deleting id:" << item->id() << endl;
-	
 	foreach ( Function * it, m_ufkt )
 	{
 		if ( it == item )

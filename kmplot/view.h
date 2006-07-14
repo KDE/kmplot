@@ -388,8 +388,10 @@ class View : public QWidget
 		*/
 		QPointF getPlotUnderMouse();
 		/**
-		* Finds the closest point to \p pos to the given function.
-		* \return the parametization (angle or t) that gives the closest point.
+		* Finds the closest point to \p pos (which is in real coordinates) to
+		 * the given function.
+		* \return the parametization (angle, x or t) that gives the closest
+		 * point.
 		*/
 		double getClosestPoint( const QPointF & pos, const Plot & plot );
 		/**

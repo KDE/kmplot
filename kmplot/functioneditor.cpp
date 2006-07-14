@@ -898,11 +898,7 @@ void FunctionListItem::update()
 		return;
 	}
 	
-	QString text = f->eq[0]->fstr();
-	if ( f->eq.size() == 2 )
-		text += '\n' + f->eq[1]->fstr();
-	setText( text );
-	
+	setText( f->name() );
 	setCheckState( f->plotAppearance( Function::Derivative0 ).visible ? Qt::Checked : Qt::Unchecked );
 	setTextColor( f->plotAppearance( Function::Derivative0 ).color );
 }

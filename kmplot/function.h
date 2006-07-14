@@ -121,6 +121,7 @@ class PlotAppearance
 		bool showExtrema:1;		///< for cartesian functions, whether to show the extreme values of the function
 		bool showTangentField:1;///< whether to draw the tangent field (for differential equations
 		bool visible:1;			///< whether to display this plot
+		bool showPlotName:1;	///< whether to show the name of the plot on the graph
 		
 		bool operator != ( const PlotAppearance & other ) const;
 		
@@ -273,6 +274,16 @@ class Equation
 		 * "f(x,y,k)=(x+k)(y+k)".
 		 */
 		QStringList variables() const { return m_variables; }
+		/**
+		 * \return whether the function accepts a parameter in addition to the x
+		 * (and possibly y) variables.
+		 */
+		bool usesParameter() const;
+		/**
+		 * \return the name of the parameter variable (or a blank string if a
+		 * parameter is not used).
+		 */
+		QString parameterName() const;
 		/**
 		 * The full function expression, e.g. "f(x,k)=(x+k)(x-k)".
 		 */
@@ -431,9 +442,9 @@ class Function
 		QList< Plot > plots( PlotCombinations combinations = AllCombinations ) const;
 		/**
 		 * \return A string for displaying to the user that identifies this
-		 * equation, taking into account \p mode.
+		 * function. For identifying plots uniquely, see Plot::name()
 		 */
-		QString prettyName( Function::PMode mode ) const;
+		QString name() const;
 		/**
 		 * Converts the type to a string (which is used in save files).
 		 */
@@ -570,6 +581,14 @@ class Plot
 		 * \return a pointer to the function with ID as set by setFunctionID
 		 */
 		Function * function() const { return m_function; }
+		/**
+		 * \return the value of the parameter associated with this plot.
+		 */
+		double parameterValue() const;
+		/**
+		 * Generates a name appropriate for distinguishing the plot from others.
+		 */
+		QString name() const;
 		/**
 		 * The color that the plot should be drawn with.
 		 */

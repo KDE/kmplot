@@ -182,6 +182,7 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 		tag.setAttribute( QString("%1-visible").arg( names[i] ), plots[i]->visible );
 		tag.setAttribute( QString("%1-style").arg( names[i] ), PlotAppearance::penStyleToString( plots[i]->style ) );
 		tag.setAttribute( QString("%1-show-extrema").arg( names[i] ), plots[i]->showExtrema );
+		tag.setAttribute( QString("%1-show-plot-name").arg( names[i] ), plots[i]->showPlotName );
 	}
 	
 
@@ -504,6 +505,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		plots[i]->style = PlotAppearance::stringToPenStyle( n.attribute( QString("%1-style").arg( names[i] ) ) );
 		plots[i]->showExtrema = n.attribute( QString("%1-show-extrema").arg( names[i] ) ).toInt();
 		plots[i]->showTangentField = n.attribute( QString("%1-show-tangent-field").arg( names[i] ) ).toInt();
+		plots[i]->showPlotName = n.attribute( QString("%1-show-plot-name").arg( names[i] ) ).toInt();
 	}
         
         

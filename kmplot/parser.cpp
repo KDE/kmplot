@@ -134,7 +134,7 @@ Parser::Parser()
 	m_nextFunctionID = 0;
 	m_stack = new double [STACKSIZE];
 	stkptr = m_stack;
-	m_constants = new Constants( this );
+	m_constants = new Constants;
 	
 	m_ownEquation = 0;
 	m_currentEquation = 0;
@@ -817,22 +817,14 @@ bool Parser::tryUserFunction()
 
 bool Parser::tryConstant()
 {
-	// Is it a user defined constant?
-	if ( (m_eval.length()>m_evalPos) && constants()->have( m_eval[m_evalPos] ) )
+	ConstantList constants = m_constants->all();
+	for ( ConstantList::iterator i = constants.begin(); i != constants.end(); ++i )
 	{
-		QVector<Constant> constants = m_constants->all();
-		foreach ( Constant c, constants )
+		if ( match( i.key() ) )
 		{
-			QChar tmp = c.constant;
-			if ( match( tmp ) )
-			{
-				addConstant(c.value);
-				return true;
-			}
+			addConstant( i.value().value() );
+			return true;
 		}
-		
-		assert( !"Could not find the constant!" ); // Should always be able to find the constant
-		return true;
 	}
 	
 	
@@ -1265,81 +1257,77 @@ double mod( const Vector & args )
 
 
 //BEGIN class Constants
-Constants::Constants( Parser * parser )
+Constants::Constants()
 {
-	m_parser = parser;
 }
 
 
-QVector< Constant >::iterator Constants::find( QChar name )
+Value Constants::value( const QString & name ) const
 {
-	QVector<Constant>::Iterator it;
-	for ( it = m_constants.begin(); it != m_constants.end(); ++it )
-	{
-		if ( it->constant == name )
-			break;
-	}
-	return it;
+	return m_constants[ name ];
 }
 
 
-bool Constants::have( QChar name ) const
+bool Constants::have( const QString & name ) const
 {
-	for ( QVector<Constant>::ConstIterator it = m_constants.begin(); it != m_constants.end(); ++it )
-	{
-		if ( it->constant == name )
-			return true;
-	}
-	return false;
+	return m_constants.contains( name );
 }
 
 
-void Constants::remove( QChar name )
+void Constants::remove( const QString & name )
 {
-	QVector<Constant>::iterator c = find( name );
-	if ( c != m_constants.end() )
-		m_constants.erase( c );
+	m_constants.remove( name );
 }
 
 
-void Constants::add( Constant c )
+void Constants::add( const QString & name, const Value & value )
 {
-	remove( c.constant );
-	m_constants.append( c );
+	m_constants[name] = value;
 }
 
 
-bool Constants::isValidName( QChar name )
+bool Constants::isValidName( const QString & name ) const
 {
-	// special cases: disallow heaviside step function, pi symbol
-	if ( name == 'H' || name == QChar(960) )
+	// Don't allow empty names
+	if ( name.isEmpty() )
 		return false;
 	
-	switch ( name.category() )
+	// Don't allow constants names that are already used by a function
+	if ( XParser::self()->predefinedFunctions().contains( name ) ||
+			XParser::self()->predefinedFunctions().contains( name ) )
+		return false;
+	
+	// special cases: don't allow predefined constants either
+	if ( name == "pi" || name == QChar(960) || name == "e" || name == QChar(0x221E) )
+		return false;
+	
+	// Now make sure that the constant name contains only letters
+	for ( int i = 0; i < name.length(); ++i )
 	{
-		case QChar::Letter_Uppercase:
-			return true;
-			
-		case QChar::Letter_Lowercase:
-			// don't allow lower case letters of the Roman alphabet
-			return ( (name.unicode() < 'a') || (name.unicode() > 'z') );
-			
-		default:
+		if ( !name.at(i).isLetter() )
 			return false;
 	}
+	
+	// All ok!
+	return true;
 }
 
 
-QChar Constants::generateUniqueName()
+QString Constants::generateUniqueName() const
 {
-	for ( char c = 'A'; c <= 'Z'; ++c )
+	QString name;
+	int at = 0;
+	while (true)
 	{
-		if ( !have( c ) )
-			return c;
+		at++;
+		name.resize( at );
+		for ( char c = 'A'; c <= 'Z'; ++c )
+		{
+			name[at-1] = c;
+			if ( isValidName(name) && !have(name) )
+				return name;
+		}
 	}
-	
-	kWarning() << k_funcinfo << "Could not find a unique constant.\n";
-	return 'C';
 }
 
 
@@ -1352,28 +1340,19 @@ void Constants::load()
 	for( int i=0; ;i++)
 	{
 		tmp.setNum(i);
-		QString tmp_constant = conf.readEntry("nameConstant"+tmp, QString(" "));
-		QString tmp_value = conf.readEntry("valueConstant"+tmp, QString(" "));
+		QString name = conf.readEntry("nameConstant"+tmp, QString(" "));
+		QString value = conf.readEntry("valueConstant"+tmp, QString(" "));
 		
-		if ( tmp_constant == " " )
+		if ( name == " " )
 			return;
 		
-		if ( tmp_constant.isEmpty() )
+		if ( name.isEmpty() )
 			continue;
-			
-		double value = m_parser->eval(tmp_value);
-		if ( m_parser->parserError(false) )
-		{
-			kWarning() << k_funcinfo << "Couldn't parse the value " << tmp_value << endl;
-			continue;
-		}
 		
-		QChar constant = tmp_constant[0].toUpper();
+		if ( !isValidName( name ) || have( name ) )
+			name = generateUniqueName();
 		
-		if ( !isValidName( constant ) || have( constant ) )
-			constant = generateUniqueName();
-		
-		add( Constant(constant, value) );
+		add( name, value );
 	}
 }
 
@@ -1389,11 +1368,11 @@ void Constants::save()
 	QString tmp;
 	
 	int i = 0;
-	foreach ( Constant c, m_constants )
+	for ( ConstantList::iterator it = m_constants.begin(); it != m_constants.end(); ++it )
 	{
 		tmp.setNum(i);
-		conf.writeEntry("nameConstant"+tmp, QString( c.constant ) ) ;
-		conf.writeEntry("valueConstant"+tmp, c.value);
+		conf.writeEntry( "nameConstant"+tmp, it.key() ) ;
+		conf.writeEntry( "valueConstant"+tmp, it.value().expression() );
 		
 		i++;
 	}

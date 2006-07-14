@@ -137,20 +137,6 @@ struct VectorFunction
 };
 
 
-class Constant
-{
-	public:
-		Constant( QChar c='A', double v=0)
-		{
-			constant = c;
-			value = v;
-		};
-	
-		QChar constant;
-		double value;
-};
-
-
 /**
  * Fixes user-entered expressions into a form that can be handled by the
  * parser. Also keeps track of how the string was modified, so that if an error
@@ -206,36 +192,59 @@ class ExpressionSanitizer
 };
 
 
+typedef QMap<QString, Value> ConstantList;
+
+
 /**
  * @short Manages a list of constants.
  */
 class Constants
 {
 	public:
-		Constants( Parser * parser );
+		Constants();
 		
-		/// Loading the constants at the start
+		/**
+		 * Load the constants at the start.
+		 */
 		void load();
-		/// Loading the constants when closing the program
+		/**
+		 * Save the constants when closing the program.
+		 */
 		void save();
-		/// @return if the constant name is valid
-		bool isValidName( QChar name );
-		/// @returns an iterator to the constant with the given name, or constants::end if not found
-		QVector<Constant>::iterator find( QChar name );
-		/// removes the constant with the given name from the constants list
-		void remove( QChar name );
-		/// adds the constant to the internal list (overwriting any previous constant with the same name)
-		void add( Constant c );
-		/// @return whether the constant with the given name exists
-		bool have( QChar name ) const;
-		/// @return a unique (i.e. unused) constant name
-		QChar generateUniqueName();
-		/// @return a copy of the list of constants
-		QVector<Constant> all() const { return m_constants; }
+		/**
+		 * \return if the constant name is valid.
+		 */
+		bool isValidName( const QString & name ) const;
+		/**
+		 * \return the value of the constant with the given name. This will
+		 * return a default Value if the constant does not exist; use
+		 * Constants::have to check for existence.
+		 */
+		Value value( const QString & name ) const;
+		/**
+		 * Removes the constant with the given name from the constants list.
+		 */
+		void remove( const QString & name );
+		/**
+		 * Adds the constant to the internal list (overwriting any previous
+		 * constant with the same name).
+		 */
+		void add( const QString & name, const Value & value );
+		 /**
+		  * \return whether the constant with the given name exists.
+		  */
+		bool have( const QString & name ) const;
+		/**
+		 * \return a unique (i.e. unused) constant name.
+		 */
+		QString generateUniqueName() const;
+		/**
+		 * \return a copy of the list of constants.
+		 */
+		ConstantList all() const { return m_constants; }
 		
 	protected:
-		QVector<Constant> m_constants;
-		Parser * m_parser;
+		ConstantList m_constants;
 };
 
 

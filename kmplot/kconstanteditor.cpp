@@ -49,23 +49,24 @@
 KConstantEditor::KConstantEditor( QWidget * parent )
 	: QWidget( parent )
 {
-	m_previousConstantName = 0;
 	setupUi( this );
+	layout()->setMargin(0);
+	
 	m_constantValidator = new ConstantValidator( this );
 	nameEdit->setValidator( m_constantValidator );
 	
-	QVector<Constant> constants = XParser::self()->constants()->all();
-	foreach ( Constant c, constants )
+	ConstantList constants = XParser::self()->constants()->all();
+	for ( ConstantList::iterator it = constants.begin(); it != constants.end(); ++it )
 	{
-		QString valueAsString;
-		valueAsString.setNum( c.value, 'g', 8 );
 		QTreeWidgetItem * item = new QTreeWidgetItem( constantList );
-		item->setText( 0, QString( c.constant ) );
-		item->setText( 1, valueAsString );
+		item->setText( 0, it.key() );
+		item->setText( 1, it.value().expression() );
 	}
 	
 	connect( nameEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( constantNameEdited( const QString & ) ) );
 	connect( valueEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( saveCurrentConstant() ) );
+	
+	connect( nameEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
 	connect( valueEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
 	
 	connect( cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ) );
@@ -96,24 +97,7 @@ void KConstantEditor::cmdDelete_clicked()
 	if ( !item )
 		return;
 	
-	QString constantText = item->text(0);
-	if ( !constantText.isEmpty() )
-	{
-		QChar currentConstant = constantText[0];
-	
-// 		for( QVector<Function>::iterator it = XParser::self()->ufkt.begin(); it !=  XParser::self()->ufkt.end(); ++it)
-		foreach ( Function * it, XParser::self()->m_ufkt )
-		{
-			QString str = it->eq[0]->fstr();
-			if ( str.indexOf( currentConstant, str.indexOf(')') ) != -1 )
-			{
-				KMessageBox::sorry(this, i18n("A function uses this constant; therefore, it cannot be removed."));
-				return;
-			}
-		}
-	
-		XParser::self()->constants()->remove( currentConstant );
-	}
+	XParser::self()->constants()->remove( item->text(0) );
 	
 	nameEdit->clear();
 	valueEdit->clear();
@@ -131,7 +115,7 @@ void KConstantEditor::selectedConstantChanged( QTreeWidgetItem * current )
 	QString name = current ? current->text(0) : QString::null;
 	QString value = current ? current->text(1) : QString::null;
 	
-	m_previousConstantName = name.isEmpty() ? QChar(0) : name[0];
+	m_previousConstantName = name;
 	m_constantValidator->setWorkingName( m_previousConstantName );
 	
 	nameEdit->setText( name );
@@ -150,10 +134,7 @@ void KConstantEditor::constantNameEdited( const QString & newName )
 	current->setText( 0, newName );
 	constantList->setCurrentItem( current ); // make it the current item if no item was selected before
 	
-	if ( newName.isEmpty() )
-		m_previousConstantName = 0;
-	else
-		m_previousConstantName = newName[0];
+	m_previousConstantName = newName;
 	
 	m_constantValidator->setWorkingName( m_previousConstantName );
 	
@@ -170,17 +151,16 @@ void KConstantEditor::saveCurrentConstant()
 	assert( current );
 	current->setText( 1, valueEdit->text() );
 	
-	QChar currentName = nameEdit->text()[0];
-	double value = XParser::self()->eval( valueEdit->text() );
-	XParser::self()->constants()->add( Constant( currentName, value ) );
+	XParser::self()->constants()->add( nameEdit->text(), valueEdit->text() );
 }
 
 
 bool KConstantEditor::checkValueValid()
 {
-	(double) XParser::self()->eval( valueEdit->text() );
-	bool valid = (XParser::self()->parserError( false ) == 0);
-	valueInvalidLabel->setVisible( !nameEdit->text().isEmpty() && !valid );
+	Parser::Error error;
+	(double) XParser::self()->eval( valueEdit->text(), & error );
+	bool valid = (error == Parser::ParseSuccess) & m_constantValidator->isValid( nameEdit->text() );
+	valueInvalidLabel->setVisible( !valid );
 	return valid;
 }
 //END class KConstantEditor
@@ -191,37 +171,29 @@ bool KConstantEditor::checkValueValid()
 ConstantValidator::ConstantValidator( KConstantEditor * parent )
 	: QValidator( parent )
 {
-	m_workingName = 0;
 }
 
 
-QValidator::State ConstantValidator::validate( QString & input, int & pos ) const
+bool ConstantValidator::isValid( const QString & name ) const
 {
-	(void)pos;
+	bool correct = XParser::self()->constants()->isValidName( name );
+	bool inUse = XParser::self()->constants()->have( name ) && (m_workingName != name);
 	
-	// The input should already be limited to a maximum length of 1
-	assert( input.length() < 2 );
-	if ( input.isEmpty() )
-		return Intermediate;
-	
-	kDebug() << "input[0]="<<input[0]<<"input[0].category()="<<input[0].category()<<endl;
-	
-	// note: don't want to make greek letters uppercase
-	if ( (input[0].unicode() >= 'a') && (input[0].unicode() <= 'z') )
-		input = input.toUpper();
-	
-	// Is the constant name already in use?
-	if ( (input[0] != m_workingName) && XParser::self()->constants()->have( input[0] ) )
-		return Invalid;
-	
-	return XParser::self()->constants()->isValidName( input[0] ) ? Acceptable : Invalid;
+	return correct && !inUse;
 }
 
 
-void ConstantValidator::setWorkingName( QChar name )
+QValidator::State ConstantValidator::validate( QString & input, int & /*pos*/ ) const
+{
+	return isValid( input ) ? Acceptable : Intermediate;
+}
+
+
+void ConstantValidator::setWorkingName( const QString & name )
 {
 	m_workingName = name;
 }
 //END class ConstantValidator
+
 
 #include "kconstanteditor.moc"

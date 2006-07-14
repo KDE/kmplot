@@ -62,7 +62,7 @@ public slots:
 	bool checkValueValid();
 	
 private:
-	QChar m_previousConstantName;
+	QString m_previousConstantName;
 	ConstantValidator * m_constantValidator;
 };
 
@@ -79,17 +79,19 @@ class ConstantValidator : public QValidator
 		
 		virtual State validate( QString & input, int & pos ) const;
 		
+		bool isValid( const QString & name ) const;
+		
 		/**
 		 * There cannot be more than one constant with the same name. So
 		 * this validator checks that the input does not conflict with any
 		 * existing names - except, of course, the name of the constant being
 		 * edited.
 		 */
-		void setWorkingName( QChar name );
+		void setWorkingName( const QString & name );
 		
 	protected:
 		/// @see setWorkingName
-		QChar m_workingName;
+		QString m_workingName;
 };
 
 #endif

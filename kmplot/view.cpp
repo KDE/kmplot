@@ -66,6 +66,7 @@
 #include "parameteranimator.h"
 #include "view.h"
 #include "viewadaptor.h"
+#include "xparser.h"
 
 
 // other includes

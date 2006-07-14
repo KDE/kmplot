@@ -42,6 +42,7 @@
 #include "kmplotio.h"
 #include "maindlg.h"
 #include "settings.h"
+#include "xparser.h"
 
 static QString CurrentVersionString( "4" );
 

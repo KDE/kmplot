@@ -144,8 +144,9 @@ void KParameterEditor::saveCurrentValue()
 bool KParameterEditor::checkValueValid()
 {
 	QString valueText = m_mainWidget->value->text();
-	(double) XParser::self()->eval( valueText );
-	bool valid = (XParser::self()->parserError( false ) == 0);
+	Parser::Error error;
+	(double) XParser::self()->eval( valueText, & error );
+	bool valid = (error == Parser::ParseSuccess);
 	m_mainWidget->valueInvalidLabel->setVisible( !valueText.isEmpty() && !valid );
 	return valid;
 }
@@ -187,8 +188,10 @@ void KParameterEditor::cmdImport_clicked()
 			line = stream.readLine();
 			if (line.isEmpty())
 				continue;
-			XParser::self()->eval( line );
-			if ( XParser::self()->parserError(false) == 0)
+			
+			Parser::Error error;
+			XParser::self()->eval( line, & error );
+			if ( error == Parser::ParseSuccess )
 			{
 				if ( !checkTwoOfIt(line) )
 				{

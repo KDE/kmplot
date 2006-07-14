@@ -333,19 +333,9 @@ class Parser : public QObject
 		 */
 		static QString errorString( Error error );
 		/**
-		 * Position where the error occurred.
+		 * Displays an error dialog appropriate to \p error.
 		 */
-		int errorPosition() const { return m_errorPosition; }
-		/**
-		 * If showMessageBox is true, an error message box will appear if an
-		 * error was found.
-		 * \return The current error value.
-		 */
-		Error parserError( bool showMessageBox );
-		/**
-		 * Called by e.g. Equation::setFstr before the parser stage is reached.
-		 */
-		void setParserError( Error error ) { m_error = error; }
+		void displayErrorDialog( Error error );
 		/**
 		 * \return the number of radians per angle-unit that the user has
 		 * selected (i.e. this will return 1.0 if the user has selected
@@ -362,7 +352,7 @@ class Parser : public QObject
 		* Initializes the function for evaluation. Called after the functions
 		* fstr is set.
 		*/
-		void initEquation( Equation * equation );
+		void initEquation( Equation * equation, Error * error = 0, int * errorPosition = 0 );
 		
 		uint getNewId(); /// Returns the next ID-number
 		uint countFunctions(); /// Returns how many functions there are
@@ -386,10 +376,6 @@ class Parser : public QObject
 		/** Mathematical function. */
 		static ScalarFunction scalarFunctions[ScalarCount];
 		static VectorFunction vectorFunctions[VectorCount];
-	
-		Error m_error;
-		/// Position where the error occurred.
-		int m_errorPosition;
 	
 		void heir1();
 		void heir2();
@@ -444,6 +430,7 @@ class Parser : public QObject
 		Constants * m_constants;
 		ExpressionSanitizer m_sanitizer;
 		int m_pmAt; ///< When parsing an expression, which plus-minus symbol at
+		Error * m_error;
 	
 	private:
 		friend class XParser;

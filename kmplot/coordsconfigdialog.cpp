@@ -28,7 +28,7 @@
 #include <qradiobutton.h>
 
 #include "settings.h"
-
+#include "xparser.h"
 
 #include "coordsconfigdialog.h"
 #include "ui_editcoords.h"
@@ -41,8 +41,8 @@ class EditCoords : public QWidget, public Ui::EditCoords
      { setupUi(this); }
 };
 
-CoordsConfigDialog::CoordsConfigDialog(XParser *p, QWidget *parent)
-	: KConfigDialog(parent, "coords", Settings::self()), m_parser(p)
+CoordsConfigDialog::CoordsConfigDialog(QWidget *parent)
+	: KConfigDialog(parent, "coords", Settings::self())
 {
 	configAxesDialog = new EditCoords( 0 );
 	configAxesDialog->layout()->setMargin( 0 );
@@ -57,12 +57,22 @@ CoordsConfigDialog::~CoordsConfigDialog()
 
 bool CoordsConfigDialog::evalX()
 {
-	double const min = m_parser->eval( configAxesDialog->kcfg_XMin->text() );
-	if ( m_parser->parserError( true )!=0 )
+	Parser::Error error;
+	
+	double const min = XParser::self()->eval( configAxesDialog->kcfg_XMin->text(), & error );
+	if ( error != Parser::ParseSuccess )
+	{
+		XParser::self()->displayErrorDialog( error );
 		return false;
-	double const max = m_parser->eval( configAxesDialog->kcfg_XMax->text() );
-	if ( m_parser->parserError( true )!=0 )
+	}
+	
+	double const max = XParser::self()->eval( configAxesDialog->kcfg_XMax->text(), & error );
+	if ( error != Parser::ParseSuccess )
+	{
+		XParser::self()->displayErrorDialog( error );
 		return false;
+	}
+	
 	if ( min >= max )
 	{
 		KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
@@ -70,14 +80,25 @@ bool CoordsConfigDialog::evalX()
 	}
 	return true;
 }
+
 bool CoordsConfigDialog::evalY()
 {
-	double const min = m_parser->eval( configAxesDialog->kcfg_YMin->text() );
-	if ( m_parser->parserError( true )!=0 )
+	Parser::Error error;
+	
+	double const min = XParser::self()->eval( configAxesDialog->kcfg_YMin->text(), & error );
+	if ( error != Parser::ParseSuccess )
+	{
+		XParser::self()->displayErrorDialog( error );
 		return false;
-	double const max = m_parser->eval( configAxesDialog->kcfg_YMax->text() );
-	if ( m_parser->parserError( true )!=0 )
+	}
+	
+	double const max = XParser::self()->eval( configAxesDialog->kcfg_YMax->text(), & error );
+	if ( error != Parser::ParseSuccess )
+	{
+		XParser::self()->displayErrorDialog( error );
 		return false;
+	}
+	
 	if ( min >= max )
 	{
 		KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));

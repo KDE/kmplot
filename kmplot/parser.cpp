@@ -129,13 +129,13 @@ VectorFunction Parser::vectorFunctions[ VectorCount ]=
 Parser::Parser()
 	: m_sanitizer( this )
 {
-	m_errorPosition = -1;
 	m_evalPos = 0;
 	m_nextFunctionID = 0;
 	m_stack = new double [STACKSIZE];
 	stkptr = m_stack;
 	m_constants = new Constants;
 	
+	m_error = 0;
 	m_ownEquation = 0;
 	m_currentEquation = 0;
 }
@@ -218,6 +218,14 @@ uint Parser::getNewId()
 
 double Parser::eval( const QString & str, Error * error, int * errorPosition )
 {
+	Error t1;
+	if ( ! error )
+		error = & t1;
+	int t2;
+	if ( ! errorPosition )
+		errorPosition = & t2;
+	
+	
 	if ( !m_ownEquation )
 		m_ownEquation = new Equation( Equation::Cartesian, 0 );
 	
@@ -239,7 +247,7 @@ double Parser::fkt(uint const id, int eq, double x )
 {
 	if ( !m_ufkt.contains( id ) || m_ufkt[id]->eq.size() <= eq )
 	{
-		m_error = NoSuchFunction;
+		*m_error = NoSuchFunction;
 		return 0;
 	}
 	
@@ -490,7 +498,7 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		
 		if ( !temp->eq[i]->setFstr( str[i] ) )
 		{
-			kDebug() << "could not set fstr to \""<<str[i]<<"\"! error:"<<errorString(m_error)<<"\n";
+			kDebug() << "could not set fstr to \""<<str[i]<<"\"! error:"<<errorString(*m_error)<<"\n";
 			delete temp;
 			return -1;
 		}
@@ -498,7 +506,7 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		if ( fnameToID( temp->eq[i]->name() ) != -1 )
 		{
 			kDebug() << "function name reused.\n";
-			m_error = FunctionNameReused;
+			*m_error = FunctionNameReused;
 			delete temp;
 			return -1;
 		}
@@ -514,13 +522,24 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 }
 
 
-void Parser::initEquation( Equation * eq )
+void Parser::initEquation( Equation * eq, Error * error, int * errorPosition )
 {
+	Error t1;
+	if ( ! error )
+		error = & t1;
+	int t2;
+	if ( ! errorPosition )
+		errorPosition = & t2;
+	
+	
 	if ( eq->parent() )
 		eq->parent()->clearFunctionDependencies();
 	
-	m_error = ParseSuccess;
-	m_errorPosition = -1;
+	m_error = error;
+	
+	*m_error = ParseSuccess;
+	*errorPosition = -1;
+	
 	m_currentEquation = eq;
 	mem = mptr = eq->mem;
 	m_pmAt = 0;
@@ -530,11 +549,11 @@ void Parser::initEquation( Equation * eq )
 	m_evalPos = m_eval.indexOf( '=' ) + 1;
 	heir1();
 	
-	if ( !evalRemaining().isEmpty() && m_error == ParseSuccess )
-		m_error = SyntaxError;
+	if ( !evalRemaining().isEmpty() && *m_error == ParseSuccess )
+		*m_error = SyntaxError;
 	
-	if ( m_error != ParseSuccess )
-		m_errorPosition = m_sanitizer.realPos( m_evalPos );
+	if ( *m_error != ParseSuccess )
+		*errorPosition = m_sanitizer.realPos( m_evalPos );
 	
 	addToken(ENDE);
 }
@@ -577,7 +596,7 @@ void Parser::heir1()
 	QChar c;
 	heir2();
 	
-	if (m_error!=ParseSuccess)
+	if (*m_error!=ParseSuccess)
 		return;
 	
 	while(1)
@@ -595,12 +614,12 @@ void Parser::heir1()
 			case 0xb1:
 				if ( m_pmAt >= MAX_PM )
 				{
-					m_error = TooManyPM;
+					*m_error = TooManyPM;
 					return;
 				}
 				if ( m_currentEquation == m_ownEquation )
 				{
-					m_error = InvalidPM;
+					*m_error = InvalidPM;
 					return;
 				}
 				// no break
@@ -610,7 +629,7 @@ void Parser::heir1()
 				++m_evalPos;
 				addToken(PUSH);
 				heir2();
-				if(m_error!=ParseSuccess)
+				if(*m_error!=ParseSuccess)
 					return;
 		}
 		switch ( c.unicode() )
@@ -637,14 +656,14 @@ void Parser::heir2()
 	if ( match("-") )
 	{
 		heir2();
-		if(m_error!=ParseSuccess)
+		if(*m_error!=ParseSuccess)
 			return;
 		addToken(NEG);
 	}
 	else if ( match( QChar(0x221a) ) ) // square root symbol
 	{
 		heir2();
-		if(m_error!=ParseSuccess)
+		if(*m_error!=ParseSuccess)
 			return;
 		addToken(SQRT);
 	}
@@ -657,7 +676,7 @@ void Parser::heir3()
 {
 	QChar c;
 	heir4();
-	if(m_error!=ParseSuccess)
+	if(*m_error!=ParseSuccess)
 		return;
 	while(1)
 	{
@@ -674,7 +693,7 @@ void Parser::heir3()
 				++m_evalPos;
 				addToken(PUSH);
 				heir4();
-				if(m_error!=ParseSuccess)
+				if(*m_error!=ParseSuccess)
 					return ;
 		}
 		switch ( c.unicode() )
@@ -693,13 +712,13 @@ void Parser::heir3()
 void Parser::heir4()
 {
 	primary();
-	if(m_error!=ParseSuccess)
+	if(*m_error!=ParseSuccess)
 		return;
 	while(match("^"))
 	{
 		addToken(PUSH);
 		primary();
-		if(m_error!=ParseSuccess)
+		if(*m_error!=ParseSuccess)
 			return;
 		addToken(POW);
 	}
@@ -722,7 +741,7 @@ bool Parser::tryFunction()
 	
 	heir1();
 	if ( !match(")") && !match(",") )
-		m_error = MissingBracket;
+		*m_error = MissingBracket;
 	return true;
 }
 	
@@ -791,14 +810,14 @@ bool Parser::tryUserFunction()
 			
 			if ( it->eq[i] == m_currentEquation || (m_currentEquation && it->dependsOn( m_currentEquation->parent() )) )
 			{
-				m_error = RecursiveFunctionCall;
+				*m_error = RecursiveFunctionCall;
 				return true;
 			}
 			
 			int argCount = readFunctionArguments();
 			if ( argCount != it->eq[i]->variables().size() )
 			{
-				m_error = IncorrectArgumentCount;
+				*m_error = IncorrectArgumentCount;
 				return true;
 			}
 			
@@ -880,7 +899,7 @@ int Parser::readFunctionArguments()
 			m_evalPos--;
 		}
 	}
-	while ( m_error == ParseSuccess && argLeft && !evalRemaining().isEmpty() );
+	while ( *m_error == ParseSuccess && argLeft && !evalRemaining().isEmpty() );
 	
 	return argCount;
 }
@@ -902,7 +921,7 @@ bool Parser::match( const QString & lit )
 void Parser::addToken( Token token )
 {
 	if ( mptr>=&mem[MEMSIZE-10] )
-		m_error = MemoryOverflow;
+		*m_error = MemoryOverflow;
 	else
 		*mptr++=token;
 }
@@ -915,7 +934,7 @@ void Parser::addConstant(double x)
 	double *pd=(double*)mptr;
 
 	if(mptr>=&mem[MEMSIZE-10])
-		m_error = MemoryOverflow;
+		*m_error = MemoryOverflow;
 	else
 	{
 		*pd++=x;
@@ -929,7 +948,7 @@ void Parser::adduint(uint x)
 	uint *p=(uint*)mptr;
 
 	if(mptr>=&mem[MEMSIZE-10])
-		m_error = MemoryOverflow;
+		*m_error = MemoryOverflow;
 	else
 	{
 		*p++=x;
@@ -943,7 +962,7 @@ void Parser::addfptr(double(*fadr)(double))
 	double (**pf)(double)=(double(**)(double))mptr;
 	
 	if( mptr>=&mem[MEMSIZE-10] )
-		m_error = MemoryOverflow;
+		*m_error = MemoryOverflow;
 	else
 	{
 		*pf++=fadr;
@@ -961,7 +980,7 @@ void Parser::addfptr( double(*fadr)(const Vector & ), int argCount )
 	double (**pf)(const Vector &) = (double(**)(const Vector &))mptr;
 	
 	if( mptr>=&mem[MEMSIZE-10] )
-		m_error = MemoryOverflow;
+		*m_error = MemoryOverflow;
 	else
 	{
 		*pf++=fadr;
@@ -975,7 +994,7 @@ void Parser::addfptr( uint id, uint eq_id, uint args )
 	uint *p=(uint*)mptr;
 	
 	if(mptr>=&mem[MEMSIZE-10])
-		m_error=MemoryOverflow;
+		*m_error=MemoryOverflow;
 	else
 	{
 		*p++=id;
@@ -1061,15 +1080,11 @@ QString Parser::errorString( Error error )
 }
 
 
-Parser::Error Parser::parserError(bool showMessageBox)
-{
-	if (!showMessageBox)
-		return m_error;
-	
-	QString message( errorString(m_error) );
+void Parser::displayErrorDialog( Error error )
+{	
+	QString message( errorString(error) );
 	if ( !message.isEmpty() )
 		KMessageBox::sorry(0, message, "KmPlot");
-	return m_error;
 }
 
 

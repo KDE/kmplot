@@ -159,7 +159,7 @@ bool KConstantEditor::checkValueValid()
 {
 	Parser::Error error;
 	(double) XParser::self()->eval( valueEdit->text(), & error );
-	bool valid = (error == Parser::ParseSuccess) & m_constantValidator->isValid( nameEdit->text() );
+	bool valid = (error == Parser::ParseSuccess) && m_constantValidator->isValid( nameEdit->text() );
 	valueInvalidLabel->setVisible( !valid );
 	return valid;
 }

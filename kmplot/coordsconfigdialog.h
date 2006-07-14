@@ -27,8 +27,6 @@
 
 #include <kconfigdialog.h>
 
-#include "xparser.h"
-
 namespace Ui{
 class EditCoords;
 }
@@ -43,7 +41,7 @@ class CoordsConfigDialog : public KConfigDialog
 {
 	Q_OBJECT
 	public:
-		CoordsConfigDialog(XParser *p, QWidget *parent = 0);
+		CoordsConfigDialog(QWidget *parent = 0);
 		~CoordsConfigDialog();
 	protected slots:
 		virtual void slotOk();
@@ -52,7 +50,6 @@ class CoordsConfigDialog : public KConfigDialog
 		bool evalX();
 		bool evalY();
 		
-		Parser *m_parser;
 		EditCoords * configAxesDialog;
 };
 

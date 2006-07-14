@@ -125,7 +125,6 @@ bool XParser::getext( Function *item, const QString fstr )
 			str = str.mid( p2, 1000 );
 			Value value;
 			if ( !value.updateExpression( tstr ) )
-			if ( parserError(false) )
 			{
 				errflg = true;
 				break;

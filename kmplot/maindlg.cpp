@@ -54,6 +54,7 @@
 #include "functioneditor.h"
 #include "kprinterdlg.h"
 #include "kconstanteditor.h"
+#include "xparser.h"
 
 #include "settings.h"
 #include "maindlg.h"
@@ -695,7 +696,7 @@ void MainDlg::editAxes()
 	// create a config dialog and add a axes page
 	if ( !coordsDialog)
 	{
-		coordsDialog = new CoordsConfigDialog( XParser::self(), m_parent);
+		coordsDialog = new CoordsConfigDialog(m_parent);
 		// User edited the configuration - update your local copies of the
 		// configuration data
 		connect( coordsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );

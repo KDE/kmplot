@@ -184,7 +184,7 @@ class KGradientDialog : public KDialog
 		 * and returns when the dialog is closed.
 		 * 
 		 * The initial gradient will be the one passed in \p gradient, and the
-		 * choosen gradient is returned in this argument. If the user Cancels
+		 * chosen gradient is returned in this argument. If the user Cancels
 		 * the dialog instead of Ok'ing it, then \p gradient will remain
 		 * unchanged.
 		 * 

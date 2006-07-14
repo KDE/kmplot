@@ -21,10 +21,15 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *
 */
+
+// local includes
+#include "ksliderwindow.h"
+#include "maindlg.h"
+#include "xparser.h"
+
 // Qt includes
 #include <qcursor.h>
 #include <qslider.h>
-
 #include <QMouseEvent>
 #include <QEvent>
 #include <QCloseEvent>
@@ -41,11 +46,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-// local includes
-#include "ksliderwindow.h"
-#include "xparser.h"
-
-KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
+KSliderWindow::KSliderWindow( QWidget * parent ) :
 	KDialog( parent )
 {
 	setCaption( i18n("Sliders") );
@@ -96,6 +97,8 @@ KSliderWindow::KSliderWindow( QWidget * parent, KActionCollection * ac ) :
 	
 	//BEGIN create popup-menu
 	m_popupmenu = new KMenu(this);
+	
+	KActionCollection * ac = MainDlg::self()->actionCollection();
 	
 	KAction * mnuMinValue = new KAction( i18n("&Change Minimum Value"), ac, "" );
 	connect( mnuMinValue, SIGNAL( triggered(bool) ), this, SLOT( mnuMinValue_clicked() ) );

@@ -94,22 +94,20 @@ int isinf(double x)
 //BEGIN class View
 View * View::m_self = 0;
 
-View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent, KActionCollection *ac )
+View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent )
 	: QWidget( parent, Qt::WStaticContents ),
 	  buffer( width(), height() ),
 	  m_popupMenu( functionPopup ),
 	  m_modified( modified ),
-	  m_readonly( readOnly ),
-	  m_ac(ac)
+	  m_readonly( readOnly )
 {
 	assert( !m_self ); // this class should only be constructed once
 	m_self = this;
 	
-	m_drawIntegral = false;
 	m_haveRoot = false;
 	m_xmin = m_xmax = m_ymin = m_ymax = 0.0;
 	m_printHeaderTable = false;
-	stop_calculating = false;
+	m_stopCalculating = false;
 	m_isDrawing = false;
 	m_popupMenuStatus = NoPopup;
 	m_zoomMode = Normal;
@@ -176,6 +174,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		return;
 	m_isDrawing=true;
 	
+	updateCursor();
 	initDrawLabels();
 	
 	QPainter painter( dev );
@@ -243,13 +242,20 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	ticStartY = ceil(m_ymin/ticSepY.value())*ticSepY.value();
 	//END setup drawing values
 
-	painter.setRenderHint( QPainter::Antialiasing, true );
-	drawDiagram( & painter );
 	
-	updateCursor();
+	//BEGIN draw diagram background stuff
+	painter.setRenderHint( QPainter::Antialiasing, true );
+	
+	drawGrid( &painter );
+	if ( Settings::showAxes() )
+		drawAxes( &painter );
+	if( Settings::showLabel() )
+		drawLabels( &painter );
+	//END draw diagram background stuff
+	
 	
 	//BEGIN draw the functions
-	stop_calculating = false;
+	m_stopCalculating = false;
 
 	// Antialiasing slows down rendering a lot, so turn it off if we are
 	// sliding the view about
@@ -263,7 +269,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	{
 		at += 1;
 		
-		if ( stop_calculating )
+		if ( m_stopCalculating )
 			break;
 		
 // 		QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setDrawProgress", at/numPlots );
@@ -384,21 +390,6 @@ double View::yToReal( double y )
 	return toReal( QPointF( 0, y ) ).y();
 }
 //END coordinate mapping functions
-
-
-void View::drawDiagram( QPainter * pDC )
-{
-	QColor frameColor = qRgb(0, 0, 0);
-	
-	double borderThickness = 0.2;
-	QPen pen( frameColor, mmToPenWidth( borderThickness, pDC ) );
-
-	drawGrid( pDC ); // draw the grid
-	if ( Settings::showAxes() )
-		drawAxes( pDC ); // draw the axes
-	if( Settings::showLabel() )
-		drawLabels(pDC);
-}
 
 
 void View::drawAxes( QPainter* painter )
@@ -1545,7 +1536,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	
 	double dx = base_dx;
 	
-	bool drawIntegral = m_drawIntegral && (m_integralDrawSettings.plot == plot);
+	bool drawIntegral = m_integralDrawSettings.draw && (m_integralDrawSettings.plot == plot);
 	double totalLength = 0.0; // total pixel length; used for drawing dotted lines
 	
 	bool p1Set = false;
@@ -1663,7 +1654,7 @@ void View::drawFunctionInfo( QPainter * painter )
 	
 	foreach ( Function * function, XParser::self()->m_ufkt )
 	{
-		if ( stop_calculating )
+		if ( m_stopCalculating )
 			break;
 		
 		foreach ( Plot plot, function->plots() )
@@ -1958,24 +1949,20 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->setPen(QPen(Qt::black, 0));
 		pDC->setFont(QFont( Settings::headerTableFont(), 30) );
 		puts( Settings::headerTableFont().toLatin1().data() );
-		QString minStr = Settings::xMin();
-		QString maxStr = Settings::xMax();
-		alx="[ "+minStr+" | "+maxStr+" ]";
-		minStr = Settings::yMin();
-		maxStr = Settings::yMax();
-		aly="[ "+minStr+" | "+maxStr+" ]";
-		setpi(&alx);
-		setpi(&aly);
+		alx="[ "+Settings::xMin()+" | "+Settings::xMax()+" ]";
+		aly="[ "+Settings::yMin()+" | "+Settings::yMax()+" ]";
+		alx.replace( "pi", QChar(960) );
+		aly.replace( "pi", QChar(960) );
 		atx="1E  =  "+ticSepX.expression();
-		setpi(&atx);
 		aty="1E  =  "+ticSepY.expression();
-		setpi(&aty);
+		atx.replace( "pi", QChar(960) );
+		aty.replace( "pi", QChar(960) );
 		
 		/// \todo do we want to do something with ticPrint[X/Y] ?
 // 		dfx="1E  =  "+ticPrintX.expression()+" cm";
-// 		setpi(&dfx);
+// 		dfx->replace( "pi", QChar(960) );
 // 		dfy="1E  =  "+ticPrintY.expression()+" cm";
-// 		setpi(&dfy);
+// 		dfy->replace( "pi", QChar(960) );
 
 		pDC->drawRect(0, 0, 1500, 230);
 		pDC->Lineh(0, 100, 1500);
@@ -2003,7 +1990,7 @@ void View::drawHeaderTable(QPainter *pDC)
 		{
 			foreach ( Equation * eq, it->eq )
 			{
-				if ( stop_calculating )
+				if ( m_stopCalculating )
 					break;
 
 				QString fstr = eq->fstr();
@@ -2017,16 +2004,6 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->translate(-60., ypos+100.);
 	}
 	else  pDC->translate(150., 150.);
-}
-
-
-void View::setpi(QString *s)
-{
-	int i;
-	QChar c(960);
-
-	while((i=s->indexOf('p')) != -1)
-		s->replace(i, 2, &c, 1);
 }
 
 
@@ -2354,7 +2331,11 @@ void View::paintEvent(QPaintEvent *)
 			}
 		}
 		else
-			pen.setColor(m_invertedBackgroundColor);
+		{
+			// Use an inverted background color for contrast
+			QColor inverted = QColor( 255-m_backgroundColor.red(), 255-m_backgroundColor.green(), 255-m_backgroundColor.blue() );
+			pen.setColor( inverted );
+		}
 		
 		p.setPen( pen );
 		p.Lineh( 0, m_crosshairPixelCoords.y(), m_clipRect.right() );
@@ -2534,7 +2515,7 @@ void View::resizeEvent(QResizeEvent *)
 {
 	if (m_isDrawing) //stop drawing integrals
 	{
-		stop_calculating = true; //stop drawing
+		m_stopCalculating = true; //stop drawing
 		return;
 	}
 	buffer = QPixmap( size() );
@@ -2594,7 +2575,7 @@ void View::mousePressEvent(QMouseEvent *e)
 
 	if (m_isDrawing)
 	{
-		stop_calculating = true; //stop drawing
+		m_stopCalculating = true; //stop drawing
 		return;
 	}
 
@@ -2853,6 +2834,10 @@ QString View::posToString( double x, double delta, PositionFormatting format, QC
 	QString numberText;
 
 	int decimalPlaces = 1-int(log(delta)/log(10.0));
+	
+	// Avoid exponential format for smallish numbers
+	if ( 0.01 < qAbs(x) && qAbs(x) < 10000 )
+		format = DecimalFormat;
 
 	switch ( format )
 	{
@@ -2888,7 +2873,7 @@ QString View::posToString( double x, double delta, PositionFormatting format, QC
 			if ( decimalPlaces >= 0 )
 				numberText = QString::number( x, 'f', decimalPlaces );
 			else
-				numberText = QString::number( x/(pow(10.0,decimalPlaces)), 'f', 0 ) + QString( -decimalPlaces, '0' );
+				numberText = QString::number( x*(pow(10.0,decimalPlaces)), 'f', 0 ) + QString( -decimalPlaces, '0' );
 
 			if ( x > 0.0 )
 				numberText.prepend('+');
@@ -3252,8 +3237,6 @@ void View::animateZoom( const QRectF & _newCoords )
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
 
-	getScaling();
-
 	drawPlot(); //update all graphs
 
 	m_zoomMode = Normal;
@@ -3275,28 +3258,12 @@ void View::translateView( int dx, int dy )
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
 
-	getScaling();
-
 	drawPlot(); //update all graphs
 }
 
-
-void View::getScaling()
-{
-	if ( Settings::xScalingMode() == 0 )
-		ticSepX.updateExpression( (m_xmax-m_xmin)/16 ); // automatic x-scaling
-	else
-		ticSepX.updateExpression( Settings::xScaling() );
-
-	if ( Settings::yScalingMode() == 0 )
-		ticSepY.updateExpression( (m_ymax-m_ymin)/16 ); // automatic x-scaling
-	else
-		ticSepY.updateExpression( Settings::yScaling() );
-}
-
-
 void View::getSettings()
 {
+	//BEGIN get X/Y range
 	m_xmin = XParser::self()->eval( Settings::xMin() );
 	m_xmax = XParser::self()->eval( Settings::xMax() );
 	if ( m_xmax <= m_xmin )
@@ -3312,20 +3279,34 @@ void View::getSettings()
 		m_ymin = -8;
 		m_ymax = +8;
 	}
+	//END get X/Y range
 	
-	getScaling();
+	
+	//BEGIN get Tic Separation
+	if ( Settings::xScalingMode() == 0 )
+		ticSepX.updateExpression( (m_xmax-m_xmin)/16 ); // automatic x-scaling
+	else
+		ticSepX.updateExpression( Settings::xScaling() );
 
-	XParser::self()->setAngleMode( (Parser::AngleMode)Settings::anglemode() );
-
+	if ( Settings::yScalingMode() == 0 )
+		ticSepY.updateExpression( (m_ymax-m_ymin)/16 ); // automatic x-scaling
+	else
+		ticSepY.updateExpression( Settings::yScaling() );
+	//END get Tic Separation
+	
+	
+	//BEGIN get colours
 	m_backgroundColor = Settings::backgroundcolor();
 	if ( !m_backgroundColor.isValid() )
 		m_backgroundColor = Qt::white;
 
-	invertColor(m_backgroundColor,m_invertedBackgroundColor);
-
 	QPalette palette;
 	palette.setColor( backgroundRole(), m_backgroundColor );
 	setPalette(palette);
+	//END get colours
+
+	
+	XParser::self()->setAngleMode( (Parser::AngleMode)Settings::anglemode() );
 }
 
 void View::init()
@@ -3340,7 +3321,7 @@ void View::init()
 void View::stopDrawing()
 {
 	if (m_isDrawing)
-		stop_calculating = true;
+		m_stopCalculating = true;
 }
 
 
@@ -3388,7 +3369,7 @@ void View::keyPressEvent( QKeyEvent * e )
 
 	if (m_isDrawing)
 	{
-		stop_calculating=true;
+		m_stopCalculating=true;
 		return;
 	}
 
@@ -3542,17 +3523,17 @@ double View::areaUnderGraph( IntegralDrawSettings s )
 	}
 
 	m_integralDrawSettings = s;
-	m_drawIntegral = true;
+	m_integralDrawSettings.draw = true;
 	drawPlot();
-	m_drawIntegral = false;
+	m_integralDrawSettings.draw = false;
 	return calculated_area * sign;
 }
 
 bool View::isCalculationStopped()
 {
-	if ( stop_calculating)
+	if ( m_stopCalculating)
 	{
-		stop_calculating = false;
+		m_stopCalculating = false;
 		return true;
 	}
 	else
@@ -3574,7 +3555,7 @@ void View::updateSliders()
 		{
 			if ( !m_sliderWindow )
 			{
-				m_sliderWindow = new KSliderWindow( this, m_ac );
+				m_sliderWindow = new KSliderWindow( this );
 				connect( m_sliderWindow, SIGNAL( valueChanged() ), this, SLOT( drawPlot() ) );
 				connect( m_sliderWindow, SIGNAL( windowClosed() ), this, SLOT( sliderWindowClosed() ) );
 			}
@@ -3584,7 +3565,7 @@ void View::updateSliders()
 	}
 }
 
-void View::mnuHide_clicked()
+void View::hideCurrentFunction()
 {
 	if ( m_currentPlot.functionID() == -1 )
       return;
@@ -3614,7 +3595,7 @@ void View::mnuHide_clicked()
 		return;
 	}
 }
-void View::mnuRemove_clicked()
+void View::removeCurrentPlot()
 {
 	if ( m_currentPlot.functionID() == -1 )
       return;
@@ -3650,51 +3631,30 @@ void View::animateFunction()
 }
 
 
-void View::mnuEdit_clicked()
+void View::editCurrentPlot()
 {
 	MainDlg::self()->functionEditor()->setCurrentFunction( m_currentPlot.functionID() );
 }
 
 
-void View::mnuZoomIn_clicked()
+void View::zoomIn()
 {
 	m_zoomMode = ZoomIn;
 	updateCursor();
 }
 
 
-void View::mnuZoomOut_clicked()
+void View::zoomOut()
 {
 	m_zoomMode = ZoomOut;
 	updateCursor();
 }
 
 
-void View::mnuTrig_clicked()
+void View::zoomToTrigonometric()
 {
-	if ( Settings::anglemode() == 0 )
-	{
-		//radians
-		animateZoom( QRectF( -(47.0/24.0)*M_PI, -4.0, (47.0/12.0)*M_PI, 8.0 ) );
-	}
-	else
-	{
-		//degrees
-		animateZoom( QRectF( 352.5, -4.0, 705.0, 8.0 ) );
-	}
-}
-
-
-void View::invertColor(QColor &org, QColor &inv)
-{
-	int r = org.red()-255;
-	if ( r<0) r=r*-1;
-	int g = org.green()-255;
-	if ( g<0) g=g*-1;
-	int b = org.blue()-255;
-	if ( b<0) b=b*-1;
-
-	inv.setRgb(r,g,b);
+	double rpau = XParser::self()->radiansPerAngleUnit();
+	animateZoom( QRectF( -(47.0/24.0)*M_PI/rpau, -4.0, (47.0/12.0)*M_PI/rpau, 8.0 ) );
 }
 
 
@@ -3800,7 +3760,7 @@ bool View::event( QEvent * e )
 {
 	if ( e->type() == QEvent::WindowDeactivate && m_isDrawing)
 	{
-		stop_calculating = true;
+		m_stopCalculating = true;
 		return true;
 	}
 	return QWidget::event(e); //send the information further
@@ -3817,34 +3777,21 @@ void View::setStatusBar( const QString & t, StatusBarSection section )
 	
 	if ( m_readonly) //if KmPlot is shown as a KPart with e.g Konqueror, it is only possible to change the status bar in one way: to call setStatusBarText
 	{
-		switch ( section )
+		m_statusBarText[ section - 1 ] = text;
+		
+		QString text;
+		for ( int i = 0; i < 4; ++i )
 		{
-			case XSection:
-				m_statusbartext1 = text;
-				break;
-			case YSection:
-				m_statusbartext2 = text;
-				break;
-			case RootSection:
-				m_statusbartext3 = text;
-				break;
-			case FunctionSection:
-				m_statusbartext4 = text;
-				break;
-			default:
-				return;
+			if ( m_statusBarText[i].isEmpty() )
+				continue;
+			
+			if ( !text.isEmpty() )
+				text.append( "  |  " );
+			
+			text.append( m_statusBarText[i] );
 		}
-		QString statusbartext = m_statusbartext1;
-		if ( !m_statusbartext1.isEmpty() && !m_statusbartext2.isEmpty() )
-			statusbartext.append("   |   ");
-		statusbartext.append(m_statusbartext2);
-		if ( !m_statusbartext2.isEmpty() && !m_statusbartext3.isEmpty() )
-			statusbartext.append("   |   ");
-		statusbartext.append(m_statusbartext3);
-		if ( (!m_statusbartext2.isEmpty() || !m_statusbartext3.isEmpty() ) && !m_statusbartext4.isEmpty() )
-			statusbartext.append("   |   ");
-		statusbartext.append(m_statusbartext4);
-		emit setStatusBarText(statusbartext);
+		
+		emit setStatusBarText(text);
 	}
 	else
 	{
@@ -3865,6 +3812,7 @@ void View::slidersWindowClosed()
 IntegralDrawSettings::IntegralDrawSettings()
 {
 	dmin = dmax = 0.0;
+	draw = false;
 }
 //END class IntegralDrawSettings
 

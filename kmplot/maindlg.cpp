@@ -75,23 +75,32 @@ class SettingsPageColor : public QWidget, public Ui::SettingsPageColor
     public:
         SettingsPageColor( QWidget * parent = 0 )
     : QWidget( parent )
-        { setupUi(this); }
+        {
+			setupUi(this);
+			layout()->setMargin(0);
+		}
 };
 
 class SettingsPageFonts : public QWidget, public Ui::SettingsPageFonts
 {
     public:
         SettingsPageFonts( QWidget * parent = 0 )
-    : QWidget( parent )
-        { setupUi(this); }
+	: QWidget( parent )
+		{
+			setupUi(this);
+			layout()->setMargin(0);
+		}
 };
 
 class SettingsPageGeneral : public QWidget, public Ui::SettingsPageGeneral
 {
     public:
         SettingsPageGeneral( QWidget * parent = 0 )
-    : QWidget( parent )
-        { setupUi(this); }
+	: QWidget( parent )
+		{
+			setupUi(this);
+			layout()->setMargin(0);
+		}
 };
 
 class SettingsPageDiagram : public QWidget, public Ui::SettingsPageDiagram
@@ -99,7 +108,10 @@ class SettingsPageDiagram : public QWidget, public Ui::SettingsPageDiagram
 	public:
 		SettingsPageDiagram( QWidget * parent = 0 )
 	: QWidget( parent )
-		{ setupUi(this); }
+		{
+			setupUi(this);
+			layout()->setMargin(0);
+		}
 };
 
 bool MainDlg::oldfileversion;
@@ -134,7 +146,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	coordsDialog = 0;
 	m_popupmenu = new KMenu( parentWidget );
 	m_newPlotMenu = new KMenu( parentWidget );
-	(void) new View( m_readonly, m_modified, m_popupmenu, parentWidget, actionCollection() );
+	(void) new View( m_readonly, m_modified, m_popupmenu, parentWidget );
 	connect( View::self(), SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 
 	m_functionEditor = 0;
@@ -249,15 +261,15 @@ void MainDlg::setupActions()
 	KAction * zoomIn = new KAction( i18n("Zoom &In"), actionCollection(), "zoom_in" );
 	zoomIn->setShortcut( Qt::ControlModifier | Qt::Key_1 );
 	zoomIn->setIcon( KIcon("viewmag+") );
-	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(mnuZoomIn_clicked()) );
+	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
 
 	KAction * zoomOut = new KAction( i18n("Zoom &Out"), actionCollection(),"zoom_out" );
 	zoomOut->setShortcut( Qt::ControlModifier | Qt::Key_2 );
 	zoomOut->setIcon( KIcon("viewmag-") );
-	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT( mnuZoomOut_clicked() ) );
+	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT( zoomOut() ) );
 
 	KAction * zoomTrig = new KAction( i18n("&Fit Widget to Trigonometric Functions"), actionCollection(), "zoom_trig" );
-	connect( zoomTrig, SIGNAL(triggered(bool)), View::self(), SLOT( mnuTrig_clicked() ) );
+	connect( zoomTrig, SIGNAL(triggered(bool)), View::self(), SLOT( zoomToTrigonometric() ) );
 
 	KAction * coordI = new KAction( i18n( "Coordinate System I" ), actionCollection(), "coord_i" );
 	coordI->setIcon( KIcon("ksys1.png") );
@@ -334,17 +346,17 @@ void MainDlg::setupActions()
 	//BEGIN function popup menu
 	KAction *mnuHide = new KAction(i18n("&Hide"), actionCollection(),"mnuhide" );
 	m_firstFunctionAction = mnuHide;
-	connect( mnuHide, SIGNAL(triggered(bool)), View::self(), SLOT( mnuHide_clicked() ) );
+	connect( mnuHide, SIGNAL(triggered(bool)), View::self(), SLOT( hideCurrentFunction() ) );
 	m_popupmenu->addAction( mnuHide );
 
 	KAction *mnuRemove = new KAction(i18n("&Remove"), actionCollection(),"mnuremove"  );
 	mnuRemove->setIcon( KIcon("editdelete") );
-	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT( mnuRemove_clicked() ) );
+	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT( removeCurrentPlot() ) );
 	m_popupmenu->addAction( mnuRemove );
 
 	KAction *mnuEdit = new KAction(i18n("&Edit"), actionCollection(),"mnuedit"  );
 	mnuEdit->setIcon( KIcon("editplots") );
-	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT( mnuEdit_clicked() ) );
+	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT( editCurrentPlot() ) );
 	m_popupmenu->addAction( mnuEdit );
 
 	m_popupmenu->addSeparator();
@@ -767,7 +779,7 @@ void MainDlg::toggleShowSliders()
 	// create the slider if it not exists already
 	if ( !View::self()->m_sliderWindow )
 	{
-		View::self()->m_sliderWindow = new KSliderWindow( View::self(), actionCollection() );
+		View::self()->m_sliderWindow = new KSliderWindow( View::self() );
 		connect( View::self()->m_sliderWindow, SIGNAL( valueChanged() ), View::self(), SLOT( drawPlot() ) );
 		connect( View::self()->m_sliderWindow, SIGNAL( windowClosed() ), View::self(), SLOT( slidersWindowClosed() ) );
 	}

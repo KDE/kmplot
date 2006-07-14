@@ -69,6 +69,8 @@ class XParser;
 		
 		Plot plot;
 		double dmin, dmax;
+		/// Set to true when calculating the area under the graph
+		bool draw;
 };
 
 
@@ -82,8 +84,8 @@ class View : public QWidget
 {
 	Q_OBJECT
 	public:
-		/// Contructor sets up the parser, too.
-		View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent, KActionCollection *ac );
+		/// Contructor
+		View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent );
 		virtual ~View();
 	
 		/// There is only one view.
@@ -104,7 +106,6 @@ class View : public QWidget
 		
 		/// Getting all relevant settings using KConfig XT class Settings.
 		void getSettings();
-		void getScaling();
 		/// Clears all functions in the parser and gets default settings.
 		/// @see getSettings
 		void init();
@@ -120,7 +121,9 @@ class View : public QWidget
 		* \return the area.
 		*/
 		double areaUnderGraph( IntegralDrawSettings settings );
-		/// the calculation was cancelled by the user
+		/**
+		 * \return if the calculation was cancelled by the user.
+		 */
 		bool isCalculationStopped();
 		/**
 		 * Used in posToString for requesting how the position string is to be
@@ -197,14 +200,14 @@ class View : public QWidget
 		/// Called when the graph should be updated
 		void drawPlot();
 		///Slots for the three first items in popup menu
-		void mnuHide_clicked();
-		void mnuRemove_clicked();
-		void mnuEdit_clicked();
+		void hideCurrentFunction();
+		void removeCurrentPlot();
+		void editCurrentPlot();
 		void animateFunction();
 		///Slots for the zoom menu
-		void mnuZoomIn_clicked();
-		void mnuZoomOut_clicked();
-		void mnuTrig_clicked();
+		void zoomIn();
+		void zoomOut();
+		void zoomToTrigonometric();
 
 	protected slots:
 		void paintEvent(QPaintEvent *);
@@ -241,7 +244,8 @@ class View : public QWidget
 		 * When zoomed in on part of a circle, it looks nearly straight. KmPlot
 		 * uses this to quickly draw curves that are mostly straight. Given the
 		 * curvature, this function returns the maximum length of line that can
-		 * be used to draw a part of a curve with the given curvature.
+		 * be used to draw a part of a curve with the given curvature without
+		 * the curve starting to look jagged.
 		 */
 		static double maxSegmentLength( double curvature );
 		/**
@@ -252,10 +256,6 @@ class View : public QWidget
 		* Print out table with additional information. Only for printing.
 		*/
 		void drawHeaderTable(QPainter *);
-		/**
-		 * Draws the background stuff (grid, axies, etc).
-		 */
-		void drawDiagram( QPainter * painter );
 		/// Draw the coordinate axes.
 		void drawAxes(QPainter*);
 		/// Draw the grid.
@@ -308,8 +308,6 @@ class View : public QWidget
 		* \return An appropriate pen for drawing the plot.
 		*/
 		QPen penForPlot( const Plot & plot, QPainter * painter ) const;
-		/// Gets the greek pi symbol.
-		void setpi(QString *);
 		/**
 		 * Used in findRoot.
 		 */
@@ -345,8 +343,9 @@ class View : public QWidget
 		 * [min,max].
 		 */
 		QList<double> findRoots( const Plot & plot, double min, double max, RootAccuracy accuracy );
-		///return the inverted color
-		void invertColor(QColor &, QColor &);
+		/**
+		 * Which part of the status bar.
+		 */
 		enum StatusBarSection
 		{
 			XSection		= 1,
@@ -354,7 +353,9 @@ class View : public QWidget
 			RootSection		= 3,
 			FunctionSection	= 4
 		};
-		/// Changes the text in the statusbar
+		/**
+		 * Changes the text in the statusbar.
+		 */
 		void setStatusBar( const QString &text, StatusBarSection section );
 		/**
 		* \return whether the crosshairs should be shown for the current mouse
@@ -406,10 +407,6 @@ class View : public QWidget
 		 * plotting.
 		 */
 		double getXmax( Function * function );
-		/**
-		 * Initializes constants needed for drawing the diagram.
-		 */
-		void initDiagram( QPointF Ref, double lx, double ly );
 		
 		/**
 		 * How to behave in the *ToPixel functions.
@@ -420,7 +417,6 @@ class View : public QWidget
 			ClipInfinite	///< Clips only infinite and NaN points going over the edge
 		};
 		/**
-		 * @{
 		 * @name Transformations
 		 * These functions convert real coordinates to pixel coordinates and vice
 		 * versa.
@@ -433,15 +429,18 @@ class View : public QWidget
 		QPointF toReal( const QPointF & pixel );
 		bool xclipflg;	///< clipflg is set to 1 if the plot is out of the plot area.
 		bool yclipflg;	///< clipflg is set to 1 if the plot is out of the plot area.
-	
-		/// for areadrawing
+		/**
+		 * Contains the settings for drawing the area under a graph (when
+		 * calculating the area from function tools.
+		 */
 		IntegralDrawSettings m_integralDrawSettings;
-		/// Set to true when calculating the area under the graph
-		bool m_drawIntegral;
-		
-		/// Separation between grid lines
+		/**
+		 * Separation distance between the grid lines.
+		 */
 		Value ticSepX, ticSepY;
-		///Position of the first tic.
+		/**
+		 * Positions of the first grid line.
+		 */
 		double ticStartX, ticStartY;
 	
 		QPointF m_crosshairPixelCoords;
@@ -468,11 +467,9 @@ class View : public QWidget
 		/// @see KPrinterDlg
 		bool m_printHeaderTable;
 		/// if stop_calculating is true, the user has canceled drawing of an integral graph
-		bool stop_calculating;
+		bool m_stopCalculating;
 		/// the background color of the graph
 		QColor m_backgroundColor;
-		/// the inverted background color used by the "Fadenkreuz"
-		QColor m_invertedBackgroundColor;
 		///buffer the current window so all functions don't need to be re-drawed
 		QPixmap buffer;
 		/// the popup menu
@@ -498,10 +495,14 @@ class View : public QWidget
 		bool const m_readonly;
 		/// For drawing diagram labels
 		QFont m_labelFont;
-		
-		/// Indicate which parts of the diagram have content (e.g. axis or
-		/// plots), so that they can be avoided when drawing diagram labels
+		/**
+		 * The resolution of label positioning.
+		 */
 		static const int LabelGridSize = 50;
+		/**
+		 * Indicate which parts of the diagram have content (e.g. axis or
+		 * plots), so that they can be avoided when drawing diagram labels
+		 */
 		bool m_usedDiagramArea[LabelGridSize][LabelGridSize];
 		/**
 		 * Marks the given diagram rectangle (in screen coords) as 'used'.
@@ -530,7 +531,7 @@ class View : public QWidget
 			ZoomInDrawing,		///< drawing a rectangle for zooming in
 			ZoomOutDrawing,		///< drawing a rectangle for zooming out
 			AboutToTranslate,	///< user has clicked on an empty spot, but hasn't moved the mouse yet
-			Translating		///< dragging the view with the mouse
+			Translating			///< dragging the view with the mouse
 		};
 			
 		/// The current editing status
@@ -561,11 +562,7 @@ class View : public QWidget
 		 */
 		QMatrix m_pixelToReal;
 	
-		QString m_statusbartext1;
-		QString m_statusbartext2;
-		QString m_statusbartext3;
-		QString m_statusbartext4;
-		KActionCollection *m_ac;
+		QString m_statusBarText[4];
 		
 		enum Cursor { CursorWait, CursorBlank, CursorArrow, CursorCross, CursorMagnify, CursorLessen, CursorMove };
 		Cursor m_prevCursor;

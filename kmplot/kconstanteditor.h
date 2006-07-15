@@ -26,18 +26,18 @@
 #ifndef KCONSTANTEDITOR_H
 #define KCONSTANTEDITOR_H
 
-#include "ui_settingspageconstants.h"
-#include "view.h"
-
+#include "kdialog.h"
 #include <QValidator>
 
 class ConstantValidator;
+class ConstantsEditorWidget;
+class QTreeWidgetItem;
 
 /**
-@author Fredrik Edemar, David Saxton
+ * Handles all the constants.
+ * @author Fredrik Edemar, David Saxton
 */
-/// Handles all the constants.
-class KConstantEditor : public QWidget, public Ui::SettingsPageConstants
+class KConstantEditor : public KDialog
 {
 Q_OBJECT
 public:
@@ -64,6 +64,7 @@ public slots:
 private:
 	QString m_previousConstantName;
 	ConstantValidator * m_constantValidator;
+	ConstantsEditorWidget * m_widget;
 };
 
 

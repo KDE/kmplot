@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kmplot" version="12">
+<kpartgui name="kmplot" version="13">
 	<MenuBar>
  		<Menu name="file">
 			<Action name="file_openrecent"/>
@@ -15,6 +15,7 @@
 			<Action name="edit_redo"/>
 			<Separator/>
 			<Action name="editaxes"/>
+			<Action name="editconstants"/>
 		</Menu>
 		<Menu name="view"><text>&amp;View</text>
 			<Action name="zoom_in"/>

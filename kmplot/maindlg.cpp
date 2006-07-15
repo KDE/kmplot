@@ -145,6 +145,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	}
 
 	coordsDialog = 0;
+	m_constantEditor = 0;
 	m_popupmenu = new KMenu( parentWidget );
 	m_newPlotMenu = new KMenu( parentWidget );
 	(void) new View( m_readonly, m_modified, m_popupmenu, parentWidget );
@@ -187,22 +188,18 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_colorSettings = new SettingsPageColor( View::self() );
 	m_fontsSettings = new SettingsPageFonts( View::self() );
 	m_diagramSettings = new SettingsPageDiagram( View::self() );
-	m_constantsSettings = new KConstantEditor( 0 );
-	m_constantsSettings->setObjectName( "constantsSettings" );
 	
 	// Make sure the dialog is at a good default size (hmm kdialog should do this automatically?)
 	QSize minSize = m_generalSettings->layout()->minimumSize()
 			.expandedTo( m_colorSettings->layout()->minimumSize() )
 			.expandedTo( m_fontsSettings->layout()->minimumSize() )
-			.expandedTo( m_diagramSettings->layout()->minimumSize() )
-			.expandedTo( m_constantsSettings->layout()->minimumSize() );
+			.expandedTo( m_diagramSettings->layout()->minimumSize() );
 	m_generalSettings->setMinimumSize( minSize );
 
 	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
 	m_settingsDialog->addPage( m_diagramSettings, i18n("Diagram"), "coords", i18n("Diagram Appearance") );
 	m_settingsDialog->addPage( m_colorSettings, i18n("Colors"), "colorize", i18n("Colors") );
 	m_settingsDialog->addPage( m_fontsSettings, i18n("Fonts"), "font", i18n("Fonts") );
-	m_constantsPage = m_settingsDialog->addPage( m_constantsSettings, i18n("Constants"), "editconstants", i18n("Constants") );
 	// User edited the configuration - update your local copies of the
 	// configuration data
 	connect( m_settingsDialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT(updateSettings() ) );
@@ -253,6 +250,10 @@ void MainDlg::setupActions()
 	KAction * editAxes = new KAction( i18n( "&Coordinate System..." ), actionCollection(), "editaxes" );
 	editAxes->setIcon( KIcon("coords.png") );
 	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
+
+	KAction * editConstants = new KAction( i18n( "&Constants..." ), actionCollection(), "editconstants" );
+	editConstants->setIcon( KIcon("editconstants.png") );
+	connect( editConstants, SIGNAL(triggered(bool)), this, SLOT( editConstants() ) );
 	//END edit menu
 
 
@@ -693,15 +694,21 @@ void MainDlg::slotPrint()
 
 void MainDlg::editAxes()
 {
-	// create a config dialog and add a axes page
 	if ( !coordsDialog)
 	{
 		coordsDialog = new CoordsConfigDialog(m_parent);
-		// User edited the configuration - update your local copies of the
-		// configuration data
 		connect( coordsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
 	}
 	coordsDialog->show();
+}
+
+
+void MainDlg::editConstants()
+{
+	if ( !m_constantEditor)
+		m_constantEditor = new KConstantEditor(m_parent);
+	
+	m_constantEditor->show();
 }
 
 
@@ -735,12 +742,6 @@ void MainDlg::slotSettings()
 	// so we want to display the cached dialog instead of creating
 	// another one
 	KConfigDialog::showDialog( "settings" );
-}
-
-void MainDlg::showConstantsEditor()
-{
-	KConfigDialog * dlg = KConfigDialog::exists( "settings" );
-	dlg->setCurrentPage( m_constantsPage );
 }
 
 void MainDlg::updateSettings()

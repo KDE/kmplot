@@ -64,7 +64,6 @@ class QTimer;
 
 
 class SettingsPageColor;
-class SettingsPageConstants;
 class SettingsPageFonts;
 class SettingsPageGeneral;
 class SettingsPageDiagram;
@@ -110,6 +109,8 @@ public Q_SLOTS:
 public slots:
 	/// Implement the coordinate system edit dialog
 	void editAxes();
+	/// Show the constants editor
+	void editConstants();
 	/// Toggle whether the sliders window is shown
 	void toggleShowSliders();
 	/// Revert to the previous document state (in m_undoStack).
@@ -129,8 +130,6 @@ public slots:
 	void slotExport();
 	///Implement the Configure KmPlot dialog
 	void slotSettings();
-	///Show the constants editor
-	void showConstantsEditor();
 	/// Calls the common function names dialog.
 	void slotNames();
 	/// Change the coordinate systems, shows negative x-values and negative y-values.
@@ -165,12 +164,8 @@ private:
 	SettingsPageColor * m_colorSettings;
 	///The Fonts page for the Configure KmPlot constants
 	SettingsPageFonts * m_fontsSettings;
-	///The Constants page for the Configure KmPlot constants
-	KConstantEditor* m_constantsSettings;
 	/// The diagram config page
 	SettingsPageDiagram* m_diagramSettings;
-	/// The page widget item pointing at the constants page
-	KPageWidgetItem * m_constantsPage;
 
 	/// A dialog used by many tools-menu-items
 	FunctionTools *m_functionTools;
@@ -188,6 +183,8 @@ private:
 	KUrl m_currentfile;
 	/// The axes config dialogs
 	CoordsConfigDialog* coordsDialog;
+	/// The constants editor
+	KConstantEditor * m_constantEditor;
 	/// The function editor
 	FunctionEditor * m_functionEditor;
 	/// The undo stack

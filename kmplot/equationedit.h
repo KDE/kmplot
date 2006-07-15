@@ -182,7 +182,6 @@ class EquationEditor : public KDialog
 		QString text() const;
 		
 	protected slots:
-		void editConstants();
 		void insertFunction( const QString & text );
 		void characterButtonClicked();
 		

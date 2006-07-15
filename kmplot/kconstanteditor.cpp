@@ -31,48 +31,60 @@
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
-#include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
-#include <qpushbutton.h>
 #include <qstringlist.h>
 #include <QVector>
 #include <qdom.h>
-#include <qtreewidget.h>
 
 #include <assert.h>
 
 
+#include "ui_constantseditor.h"
+class ConstantsEditorWidget : public QWidget, public Ui::ConstantsEditor
+{
+	public:
+		ConstantsEditorWidget( QWidget * parent = 0 )
+	: QWidget( parent )
+		{ setupUi(this); }
+};
+
+
+
 //BEGIN class KConstantEditor
 KConstantEditor::KConstantEditor( QWidget * parent )
-	: QWidget( parent )
+	: KDialog( parent )
 {
-	setupUi( this );
-	layout()->setMargin(0);
+	m_widget = new ConstantsEditorWidget( this );
+	m_widget->layout()->setMargin( 0 );
+	setMainWidget( m_widget );
+	setButtons( Close );
+	
+	setCaption( i18n("Constants Editor") );
 	
 	m_constantValidator = new ConstantValidator( this );
-	nameEdit->setValidator( m_constantValidator );
+	m_widget->nameEdit->setValidator( m_constantValidator );
 	
 	ConstantList constants = XParser::self()->constants()->all();
 	for ( ConstantList::iterator it = constants.begin(); it != constants.end(); ++it )
 	{
-		QTreeWidgetItem * item = new QTreeWidgetItem( constantList );
+		QTreeWidgetItem * item = new QTreeWidgetItem( m_widget->constantList );
 		item->setText( 0, it.key() );
 		item->setText( 1, it.value().expression() );
 	}
 	
-	connect( nameEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( constantNameEdited( const QString & ) ) );
-	connect( valueEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( saveCurrentConstant() ) );
+	connect( m_widget->nameEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( constantNameEdited( const QString & ) ) );
+	connect( m_widget->valueEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( saveCurrentConstant() ) );
 	
-	connect( nameEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
-	connect( valueEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
+	connect( m_widget->nameEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
+	connect( m_widget->valueEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
 	
-	connect( cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ) );
-	connect( cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ) );
+	connect( m_widget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ) );
+	connect( m_widget->cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ) );
 	
-	connect( constantList, SIGNAL(currentItemChanged( QTreeWidgetItem *, QTreeWidgetItem * )), this, SLOT(selectedConstantChanged( QTreeWidgetItem * )) );
+	connect( m_widget->constantList, SIGNAL(currentItemChanged( QTreeWidgetItem *, QTreeWidgetItem * )), this, SLOT(selectedConstantChanged( QTreeWidgetItem * )) );
 	
 	checkValueValid();
 }
@@ -85,32 +97,32 @@ KConstantEditor::~KConstantEditor()
 
 void KConstantEditor::cmdNew_clicked()
 {
-	QTreeWidgetItem * item = new QTreeWidgetItem( constantList );
-	constantList->setCurrentItem( item );
-	nameEdit->setFocus();
+	QTreeWidgetItem * item = new QTreeWidgetItem( m_widget->constantList );
+	m_widget->constantList->setCurrentItem( item );
+	m_widget->nameEdit->setFocus();
 }
 
 
 void KConstantEditor::cmdDelete_clicked()
 {
-	QTreeWidgetItem * item = constantList->currentItem();
+	QTreeWidgetItem * item = m_widget->constantList->currentItem();
 	if ( !item )
 		return;
 	
 	XParser::self()->constants()->remove( item->text(0) );
 	
-	nameEdit->clear();
-	valueEdit->clear();
-	constantList->takeTopLevelItem( constantList->indexOfTopLevelItem( item ) );
+	m_widget->nameEdit->clear();
+	m_widget->valueEdit->clear();
+	m_widget->constantList->takeTopLevelItem( m_widget->constantList->indexOfTopLevelItem( item ) );
 	delete item;
 	
-	cmdDelete->setEnabled( constantList->currentItem() != 0 );
+	m_widget->cmdDelete->setEnabled( m_widget->constantList->currentItem() != 0 );
 }
 
 
 void KConstantEditor::selectedConstantChanged( QTreeWidgetItem * current )
 {
-	cmdDelete->setEnabled( current != 0 );
+	m_widget->cmdDelete->setEnabled( current != 0 );
 	
 	QString name = current ? current->text(0) : QString::null;
 	QString value = current ? current->text(1) : QString::null;
@@ -118,21 +130,21 @@ void KConstantEditor::selectedConstantChanged( QTreeWidgetItem * current )
 	m_previousConstantName = name;
 	m_constantValidator->setWorkingName( m_previousConstantName );
 	
-	nameEdit->setText( name );
-	valueEdit->setText( value );
+	m_widget->nameEdit->setText( name );
+	m_widget->valueEdit->setText( value );
 }
 
 
 void KConstantEditor::constantNameEdited( const QString & newName )
 {
-	QTreeWidgetItem * current = constantList->currentItem();
+	QTreeWidgetItem * current = m_widget->constantList->currentItem();
 	if ( !current )
-		current = new QTreeWidgetItem( constantList );
+		current = new QTreeWidgetItem( m_widget->constantList );
 	
 	XParser::self()->constants()->remove( m_previousConstantName );
 	
 	current->setText( 0, newName );
-	constantList->setCurrentItem( current ); // make it the current item if no item was selected before
+	m_widget->constantList->setCurrentItem( current ); // make it the current item if no item was selected before
 	
 	m_previousConstantName = newName;
 	
@@ -144,23 +156,23 @@ void KConstantEditor::constantNameEdited( const QString & newName )
 
 void KConstantEditor::saveCurrentConstant()
 {
-	if ( nameEdit->text().isEmpty() )
+	if ( m_widget->nameEdit->text().isEmpty() )
 		return;
 	
-	QTreeWidgetItem * current = constantList->currentItem();
+	QTreeWidgetItem * current = m_widget->constantList->currentItem();
 	assert( current );
-	current->setText( 1, valueEdit->text() );
+	current->setText( 1, m_widget->valueEdit->text() );
 	
-	XParser::self()->constants()->add( nameEdit->text(), valueEdit->text() );
+	XParser::self()->constants()->add( m_widget->nameEdit->text(), m_widget->valueEdit->text() );
 }
 
 
 bool KConstantEditor::checkValueValid()
 {
 	Parser::Error error;
-	(double) XParser::self()->eval( valueEdit->text(), & error );
-	bool valid = (error == Parser::ParseSuccess) && m_constantValidator->isValid( nameEdit->text() );
-	valueInvalidLabel->setVisible( !valid );
+	(double) XParser::self()->eval( m_widget->valueEdit->text(), & error );
+	bool valid = (error == Parser::ParseSuccess) && m_constantValidator->isValid( m_widget->nameEdit->text() );
+	m_widget->valueInvalidLabel->setVisible( !valid );
 	return valid;
 }
 //END class KConstantEditor

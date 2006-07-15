@@ -15,8 +15,8 @@ set(kmplotpart_PART_SRCS
    view.cpp 
    maindlg.cpp 
    kprinterdlg.cpp 
-   kconstanteditor.cpp 
-   kparametereditor.cpp 
+   kconstanteditor.cpp
+   kparametereditor.cpp
    functiontools.cpp 
    kmplotio.cpp 
    ksliderwindow.cpp 
@@ -39,8 +39,8 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	editcoords.ui
 	functiontools.ui
 	qparametereditor.ui
+	constantseditor.ui
 	settingspagecolor.ui
-	settingspageconstants.ui
 	settingspagefonts.ui
 	settingspagegeneral.ui
 	settingspagediagram.ui

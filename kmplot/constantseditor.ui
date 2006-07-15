@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>SettingsPageConstants</class>
- <widget class="QWidget" name="SettingsPageConstants" >
+ <class>ConstantsEditor</class>
+ <widget class="QWidget" name="ConstantsEditor" >
   <property name="geometry" >
    <rect>
     <x>0</x>
@@ -138,14 +138,14 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

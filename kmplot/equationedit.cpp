@@ -530,7 +530,7 @@ EquationEditor::EquationEditor( QWidget * parent )
 		w->setFont( buttonFont );
 	}
 	
-	connect( m_widget->constantsButton, SIGNAL(clicked()), this, SLOT(editConstants()) );
+	connect( m_widget->constantsButton, SIGNAL(clicked()), MainDlg::self(), SLOT(editConstants()) );
 	connect( m_widget->functionList, SIGNAL(activated(const QString &)), this, SLOT(insertFunction(const QString &)) );
 	
 	m_widget->functionList->addItems( XParser::self()->predefinedFunctions() );
@@ -545,12 +545,6 @@ EquationEditor::EquationEditor( QWidget * parent )
 QString EquationEditor::text() const
 {
 	return m_widget->edit->text();
-}
-
-
-void EquationEditor::editConstants()
-{
-	MainDlg::self()->showConstantsEditor();
 }
 
 

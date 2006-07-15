@@ -409,7 +409,7 @@
        <item row="1" column="0" >
         <widget class="QToolButton" name="toolButton_17" >
          <property name="text" >
-          <string>⅕</string>
+          <string>⅙</string>
          </property>
         </widget>
        </item>
@@ -447,9 +447,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
@@ -457,9 +457,9 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

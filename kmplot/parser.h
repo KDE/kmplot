@@ -69,7 +69,7 @@ enum Token
 
 
 const int legendreCount = 7; // number of legendre polynomials we allow for
-const int ScalarCount = 41+legendreCount;	// number of mathematical scalar functions
+const int ScalarCount = 35+legendreCount;	// number of mathematical scalar functions
 const int VectorCount = 3; // number of vector functions
 //@}
 
@@ -126,7 +126,8 @@ double mod( const Vector & x );
 
 struct ScalarFunction
 {
-	QString name;
+	QString name1;
+	QString name2;
 	double (*mfadr)(double);
 };
 
@@ -226,9 +227,11 @@ class Parser : public QObject
 		~Parser();
 	
 		/**
+		 * \param includeAliases whether to return function aliases (e.g.
+		 * arsinh for arcsinh).
 		 * \return the list of predefined function names.
 		 */
-		QStringList predefinedFunctions() const;
+		QStringList predefinedFunctions( bool includeAliases ) const;
 		/**
 		 * \return the list of user defined function names.
 		 */

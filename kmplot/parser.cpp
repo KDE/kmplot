@@ -58,62 +58,56 @@ double Parser::m_radiansPerAngleUnit = 0;
 ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 {
 	// Trigometric functions
-	{"sin", lsin}, 			// Sinus
-	{"cos", lcos}, 			// Cosinus
-	{"tan", ltan}, 			// Tangens
-	{"arcsin", larcsin}, 	// Arcus sinus = inverse of sin
-	{"arccos", larccos}, 	// Arcus cosinus = inverse of cos
-	{"arctan", larctan},		// Arcus tangens = inverse of tan
+	{"sin", 0, lsin}, 			// Sinus
+	{"cos", 0, lcos}, 			// Cosinus
+	{"tan", 0, ltan}, 			// Tangens
+	{"arcsin", 0, larcsin}, 	// Arcus sinus = inverse of sin
+	{"arccos", 0, larccos}, 	// Arcus cosinus = inverse of cos
+	{"arctan", 0, larctan},		// Arcus tangens = inverse of tan
 	
 	// Hyperbolic trig
-	{"sinh", lsinh},	 	// Sinus hyperbolicus
-	{"cosh", lcosh}, 		// Cosinus hyperbolicus
-	{"tanh", ltanh},		// Tangens hyperbolicus
-	{"arcsinh", arsinh}, 	// Area-sinus hyperbolicus = inverse of sinh
-	{"arccosh", arcosh}, 	// Area-cosinus hyperbolicus = inverse of cosh
-	{"arctanh", artanh}, 	// Area-tangens hyperbolicus = inverse of tanh
-	{"arsinh", arsinh},		// The same as arcsinh
-	{"arcosh", arcosh},		// The same as arccosh
-	{"artanh", artanh},		// The same as arctanh
+	{"sinh", 0, lsinh},	 				// Sinus hyperbolicus
+	{"cosh", 0, lcosh}, 				// Cosinus hyperbolicus
+	{"tanh", 0, ltanh},					// Tangens hyperbolicus
+	{"arcsinh", "arsinh", arsinh},	// Area-sinus hyperbolicus = inverse of sinh
+	{"arccosh", "arcosh", arcosh},		// Area-cosinus hyperbolicus = inverse of cosh
+	{"arctanh", "artanh", artanh}, 		// Area-tangens hyperbolicus = inverse of tanh
 	
 	// Reciprocal-trig
-	{"cosec", lcosec},		// Co-Secans = 1/sin
-	{"sec", lsec},			// Secans = 1/cos
-	{"cot", lcot},			// Co-Tangens = 1/tan
-	{"arccosec", larccosec},	// Arcus co-secans = inverse of cosec
-	{"arcsec", larcsec},		// Arcus secans = inverse of sec
-	{"arccot", larccot},		// Arcus co-tangens = inverse of cotan
+	{"cosec", 0, lcosec},				// Co-Secans = 1/sin
+	{"sec", 0, lsec},					// Secans = 1/cos
+	{"cot", 0, lcot},					// Co-Tangens = 1/tan
+	{"arccosec", "arcosech", larccosec},// Arcus co-secans = inverse of cosec
+	{"arcsec", "arsec", larcsec},		// Arcus secans = inverse of sec
+	{"arccot", "arcot", larccot},		// Arcus co-tangens = inverse of cotan
 	
 	// Reciprocal-hyperbolic
-	{"cosech", cosech},		// Co-Secans hyperbolicus
-	{"sech", sech},			// Secans hyperbolicus
-	{"coth", coth},			// Co-Tangens hyperbolicus
-	{"arccosech", arcosech},// Area-co-secans hyperbolicus = inverse of cosech
-	{"arcsech", arsech},	// Area-secans hyperbolicus = invers of sech
-	{"arccoth", arcoth},	// Area-co-tangens hyperbolicus = inverse of coth
-	{"arcosech", arcosech},	// Same as arccosech
-	{"arsech", arsech},		// Same as arcsech
-	{"arcoth", arcoth},		// Same as arccoth
+	{"cosech", 0, cosech},				// Co-Secans hyperbolicus
+	{"sech", 0, sech},					// Secans hyperbolicus
+	{"coth", 0, coth},					// Co-Tangens hyperbolicus
+	{"arccosech", "arcosech", arcosech},// Area-co-secans hyperbolicus = inverse of cosech
+	{"arcsech", "arsech", arsech},		// Area-secans hyperbolicus = invers of sech
+	{"arccoth", "arcoth", arcoth},		// Area-co-tangens hyperbolicus = inverse of coth
 	
 	// Other
-	{"sqrt", sqrt},			// Square root
-	{"sqr", sqr}, 			// Square
-	{"sign", sign},			// Signum
-	{"H", heaviside},		// Heaviside step function
-	{"log", llog},			// Logarithm base 10
-	{"ln", ln}, 			// Logarithm base e
-	{"exp", exp}, 			// Exponential function base e
-	{"abs", fabs},			// Absolute value
-	{"floor", floor},		// round down to nearest integer
-	{"ceil", ceil},			// round up to nearest integer
-	{"round", round},		// round to nearest integer
-	{"P_0", legendre0},		// lengedre polynomial (n=0)
-	{"P_1", legendre1},		// lengedre polynomial (n=1)
-	{"P_2", legendre2},		// lengedre polynomial (n=2)
-	{"P_3", legendre3},		// lengedre polynomial (n=3)
-	{"P_4", legendre4},		// lengedre polynomial (n=4)
-	{"P_5", legendre5},		// lengedre polynomial (n=5)
-	{"P_6", legendre6},		// lengedre polynomial (n=6)
+	{"sqrt", 0, sqrt},			// Square root
+	{"sqr", 0, sqr}, 			// Square
+	{"sign", 0, sign},			// Signum
+	{"H", 0, heaviside},		// Heaviside step function
+	{"log", 0, llog},			// Logarithm base 10
+	{"ln", 0, ln}, 			// Logarithm base e
+	{"exp", 0, exp}, 			// Exponential function base e
+	{"abs", 0, fabs},			// Absolute value
+	{"floor", 0, floor},		// round down to nearest integer
+	{"ceil", 0, ceil},			// round up to nearest integer
+	{"round", 0, round},		// round to nearest integer
+	{"P_0", 0, legendre0},		// lengedre polynomial (n=0)
+	{"P_1", 0, legendre1},		// lengedre polynomial (n=1)
+	{"P_2", 0, legendre2},		// lengedre polynomial (n=2)
+	{"P_3", 0, legendre3},		// lengedre polynomial (n=3)
+	{"P_4", 0, legendre4},		// lengedre polynomial (n=4)
+	{"P_5", 0, legendre5},		// lengedre polynomial (n=5)
+	{"P_6", 0, legendre6},		// lengedre polynomial (n=6)
 };
 
 VectorFunction Parser::vectorFunctions[ VectorCount ]=
@@ -151,12 +145,16 @@ Parser::~Parser()
 }
 
 
-QStringList Parser::predefinedFunctions( ) const
+QStringList Parser::predefinedFunctions( bool includeAliases ) const
 {
 	QStringList names;
 	
 	for ( int func = 0; func < ScalarCount; ++func )
-		names << scalarFunctions[func].name;
+	{
+		names << scalarFunctions[func].name1;
+		if ( includeAliases && !scalarFunctions[func].name2.isEmpty() )
+			names << scalarFunctions[func].name2;
+	}
 			
 	for ( int func = 0; func < VectorCount; ++func )
 		names << vectorFunctions[func].name;
@@ -750,7 +748,7 @@ bool Parser::tryPredefinedFunction()
 {
 	for ( int i=0; i < ScalarCount; ++i )
 	{
-		if ( match(scalarFunctions[i].name) )
+		if ( match(scalarFunctions[i].name1) || match(scalarFunctions[i].name2) )
 		{
 			primary();
 			addToken(FKT_1);
@@ -1362,7 +1360,7 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	//insert '*' when it is needed
 	QChar ch;
 	bool function = false;
-	QStringList predefinedFunctions = XParser::self()->predefinedFunctions();
+	QStringList predefinedFunctions = XParser::self()->predefinedFunctions( true );
 	
 	for(int i=1; i+1 <  str->length();i++)
 	{

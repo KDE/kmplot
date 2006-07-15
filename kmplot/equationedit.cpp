@@ -113,7 +113,7 @@ void EquationHighlighter::highlightBlock( const QString & text )
 	QTextCharFormat other;
 	
 	QStringList variables = m_parent->m_equation->variables();
-	QStringList functions = XParser::self()->predefinedFunctions() + XParser::self()->userFunctions();
+	QStringList functions = XParser::self()->predefinedFunctions(true) + XParser::self()->userFunctions();
 	
 	for ( int i = 0; i < text.length(); ++i )
 	{
@@ -533,7 +533,7 @@ EquationEditor::EquationEditor( QWidget * parent )
 	connect( m_widget->constantsButton, SIGNAL(clicked()), MainDlg::self(), SLOT(editConstants()) );
 	connect( m_widget->functionList, SIGNAL(activated(const QString &)), this, SLOT(insertFunction(const QString &)) );
 	
-	m_widget->functionList->addItems( XParser::self()->predefinedFunctions() );
+	m_widget->functionList->addItems( XParser::self()->predefinedFunctions(false) );
 	
 	// Constant editing doesn't work atm
 	m_widget->constantsButton->setEnabled( false );

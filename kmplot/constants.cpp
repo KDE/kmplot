@@ -97,8 +97,8 @@ bool Constants::isValidName( const QString & name ) const
 		return false;
 	
 	// Don't allow constants names that are already used by a function
-	if ( XParser::self()->predefinedFunctions().contains( name ) ||
-			XParser::self()->predefinedFunctions().contains( name ) )
+	if ( XParser::self()->predefinedFunctions( true ).contains( name ) ||
+			XParser::self()->userFunctions().contains( name ) )
 		return false;
 	
 	// special cases: don't allow predefined constants either

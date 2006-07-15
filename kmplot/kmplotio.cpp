@@ -109,6 +109,8 @@ QDomDocument KmPlotIO::currentState()
 	
 	foreach ( Function * it, XParser::self()->m_ufkt )
 		addFunction( doc, root, it );
+	
+	addConstants( doc, root );
 
 	tag = doc.createElement( "fonts" );
 	addTag( doc, tag, "axes-font", Settings::axesFont() );
@@ -160,6 +162,20 @@ bool KmPlotIO::save( const KUrl &url )
 		return true;
 	}
 	return true;
+}
+
+
+void KmPlotIO::addConstants( QDomDocument & doc, QDomElement & root )
+{
+	ConstantList constants = XParser::self()->constants()->list( Constant::Document );
+	
+	for ( ConstantList::iterator it = constants.begin(); it != constants.end(); ++it )
+	{
+		QDomElement tag = doc.createElement( "constant" );
+		root.appendChild( tag );
+		tag.setAttribute( "name", it.key() );
+		tag.setAttribute( "value", it.value().value.expression() );
+	}
 }
 
 
@@ -291,11 +307,13 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 		{
 			if ( n.nodeName() == "axes" )
 				parseAxes( n.toElement() );
-			if ( n.nodeName() == "grid" )
+			else if ( n.nodeName() == "grid" )
 				parseGrid( n.toElement() );
-			if ( n.nodeName() == "scale" )
+			else if ( n.nodeName() == "scale" )
 				parseScale( n.toElement() );
-			if ( n.nodeName() == "function")
+			else if ( n.nodeName() == "constant" )
+				parseConstant( n.toElement() );
+			else if ( n.nodeName() == "function")
 			{
 				if ( version < 3 )
 					oldParseFunction2( n.toElement() );
@@ -358,6 +376,23 @@ bool KmPlotIO::load( const KUrl &url )
 	if ( !url.isLocalFile() )
 		KIO::NetAccess::removeTempFile( f.fileName() );
 	return true;
+}
+
+
+void KmPlotIO::parseConstant( const QDomElement & n )
+{
+	QString name = n.attribute( "name" );
+	QString value = n.attribute( "value" );
+	
+	/// \todo how to handle overwriting constants, etc?
+	Constant c;
+	c.value.updateExpression( value );
+	c.type = Constant::Document;
+	
+	if ( XParser::self()->constants()->list( Constant::Global ).contains( name ) )
+		c.type |= Constant::Global;
+	
+	XParser::self()->constants()->add( name, c );
 }
 
 

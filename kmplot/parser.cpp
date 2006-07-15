@@ -836,12 +836,12 @@ bool Parser::tryUserFunction()
 
 bool Parser::tryConstant()
 {
-	ConstantList constants = m_constants->all();
+	ConstantList constants = m_constants->list( Constant::All );
 	for ( ConstantList::iterator i = constants.begin(); i != constants.end(); ++i )
 	{
 		if ( match( i.key() ) )
 		{
-			addConstant( i.value().value() );
+			addConstant( i.value().value.value() );
 			return true;
 		}
 	}
@@ -1269,130 +1269,6 @@ double mod( const Vector & args )
 }
 //END predefined mathematical functions
 
-
-
-//BEGIN class Constants
-Constants::Constants()
-{
-}
-
-
-Value Constants::value( const QString & name ) const
-{
-	return m_constants[ name ];
-}
-
-
-bool Constants::have( const QString & name ) const
-{
-	return m_constants.contains( name );
-}
-
-
-void Constants::remove( const QString & name )
-{
-	m_constants.remove( name );
-}
-
-
-void Constants::add( const QString & name, const Value & value )
-{
-	m_constants[name] = value;
-}
-
-
-bool Constants::isValidName( const QString & name ) const
-{
-	// Don't allow empty names
-	if ( name.isEmpty() )
-		return false;
-	
-	// Don't allow constants names that are already used by a function
-	if ( XParser::self()->predefinedFunctions().contains( name ) ||
-			XParser::self()->predefinedFunctions().contains( name ) )
-		return false;
-	
-	// special cases: don't allow predefined constants either
-	if ( name == "pi" || name == QChar(960) || name == "e" || name == QChar(0x221E) )
-		return false;
-	
-	// Now make sure that the constant name contains only letters
-	for ( int i = 0; i < name.length(); ++i )
-	{
-		if ( !name.at(i).isLetter() )
-			return false;
-	}
-	
-	// All ok!
-	return true;
-}
-
-
-QString Constants::generateUniqueName() const
-{
-	QString name;
-	int at = 0;
-	while (true)
-	{
-		at++;
-		name.resize( at );
-		for ( char c = 'A'; c <= 'Z'; ++c )
-		{
-			name[at-1] = c;
-			if ( isValidName(name) && !have(name) )
-				return name;
-		}
-	}
-}
-
-
-void Constants::load()
-{
-	KSimpleConfig conf ("kcalcrc");
-	conf.setGroup("UserConstants");
-	QString tmp;
-	
-	for( int i=0; ;i++)
-	{
-		tmp.setNum(i);
-		QString name = conf.readEntry("nameConstant"+tmp, QString(" "));
-		QString value = conf.readEntry("valueConstant"+tmp, QString(" "));
-		
-		if ( name == " " )
-			return;
-		
-		if ( name.isEmpty() )
-			continue;
-		
-		if ( !isValidName( name ) || have( name ) )
-			name = generateUniqueName();
-		
-		add( name, value );
-	}
-}
-
-void Constants::save()
-{
-	KSimpleConfig conf ("kcalcrc");
-	conf.deleteGroup("Constants");
-	
-	// remove any previously saved constants
-	conf.deleteGroup( "UserConstants" );
-	
-	conf.setGroup("UserConstants");
-	QString tmp;
-	
-	int i = 0;
-	for ( ConstantList::iterator it = m_constants.begin(); it != m_constants.end(); ++it )
-	{
-		tmp.setNum(i);
-		conf.writeEntry( "nameConstant"+tmp, it.key() ) ;
-		conf.writeEntry( "valueConstant"+tmp, it.value().expression() );
-		
-		i++;
-	}
-}
-//END class Constants
 
 
 //BEGIN class ExpressionSanitizer

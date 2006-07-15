@@ -35,6 +35,7 @@
 #include <QString>
 #include <QVector>
 
+#include "constants.h"
 #include "function.h"
 #include "vector.h"
 
@@ -189,62 +190,6 @@ class ExpressionSanitizer
 		
 		QString m_decimalSymbol;
 		Parser * m_parser;
-};
-
-
-typedef QMap<QString, Value> ConstantList;
-
-
-/**
- * @short Manages a list of constants.
- */
-class Constants
-{
-	public:
-		Constants();
-		
-		/**
-		 * Load the constants at the start.
-		 */
-		void load();
-		/**
-		 * Save the constants when closing the program.
-		 */
-		void save();
-		/**
-		 * \return if the constant name is valid.
-		 */
-		bool isValidName( const QString & name ) const;
-		/**
-		 * \return the value of the constant with the given name. This will
-		 * return a default Value if the constant does not exist; use
-		 * Constants::have to check for existence.
-		 */
-		Value value( const QString & name ) const;
-		/**
-		 * Removes the constant with the given name from the constants list.
-		 */
-		void remove( const QString & name );
-		/**
-		 * Adds the constant to the internal list (overwriting any previous
-		 * constant with the same name).
-		 */
-		void add( const QString & name, const Value & value );
-		 /**
-		  * \return whether the constant with the given name exists.
-		  */
-		bool have( const QString & name ) const;
-		/**
-		 * \return a unique (i.e. unused) constant name.
-		 */
-		QString generateUniqueName() const;
-		/**
-		 * \return a copy of the list of constants.
-		 */
-		ConstantList all() const { return m_constants; }
-		
-	protected:
-		ConstantList m_constants;
 };
 
 

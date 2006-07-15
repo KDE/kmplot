@@ -48,21 +48,28 @@ class KmPlotIO
 		~KmPlotIO();
 		
 		/**
-		 * Store all information about the current saved plot in a xml file with the .fkt extension 
-		 * in the filename file.
+		 * Store all information about the current saved plot in a xml file
+		 * with the .fkt extension in the filename file.
 		 * @param url Name (URL) of the file which will be saved.
+		 * @param exportConstants Whether to save the constants to the file as
+		 * well.
 		 */
 		bool save( const KUrl &url );
 		
 		/**
 		 * @return a QDomDocument describing the current KmPlot state (settings
 		 * and functions).
+		 * @param includeConstants Whether to include the current lists of
+		 * constants in the returned state.
 		 */
 		QDomDocument currentState();
 		
 		/**
-		 * Read a kmpdoc xml file to restore the settings of a previously saved plot
+		 * Read a kmpdoc xml file to restore the settings of a previously saved
+		 * plot.
 		 * @param url Name (URL) of file which will be opened
+		 * @param exportConstants Set to true or false depending on whether the
+		 * opened file had constants saved in it.
 		 */
 		bool load( const KUrl &url );
 		
@@ -70,12 +77,16 @@ class KmPlotIO
 		 * Restore KmPlot to the state described in the given QDomDocument.
 		 * @return success status
 		 */
-		bool restore( const QDomDocument & doc );
+		bool restore( const QDomDocument & doc);
 		
 		/**
 		 * Adds a QDomElement for \p function to the given \p document
 		 */
 		void addFunction( QDomDocument & doc, QDomElement & root, Function * function );
+		/**
+		 * Adds a QDomElement for the Constants (stored in Parser) to \p document
+		 */
+		void addConstants( QDomDocument & doc, QDomElement & root );
 		/**
 		 * Reads function parameters from the node @a n.
 		 * @param n Node containing the options.
@@ -102,6 +113,10 @@ class KmPlotIO
 		/// Reads scale parameters from the node @a n.
 		/// @param n Node containing the options.
 		void parseScale( const QDomElement &n );
+		/**
+		 * Reads in a constant from the node \p n.
+		 */
+		void parseConstant( const QDomElement &n );
 		/// Reads parameter values for a function from the node @a n.
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.

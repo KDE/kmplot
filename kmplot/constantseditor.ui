@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
-    <height>406</height>
+    <width>521</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -89,7 +89,7 @@
       <bool>false</bool>
      </property>
      <property name="columnCount" >
-      <number>2</number>
+      <number>4</number>
      </property>
      <column>
       <property name="text" >
@@ -99,6 +99,16 @@
      <column>
       <property name="text" >
        <string>Value</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Document</string>
+      </property>
+     </column>
+     <column>
+      <property name="text" >
+       <string>Global</string>
       </property>
      </column>
     </widget>

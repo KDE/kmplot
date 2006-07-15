@@ -482,22 +482,28 @@ void MainDlg::slotSaveas()
 		return;
 	const KUrl url = KFileDialog::getSaveUrl( QDir::currentPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
 
-	if ( !url.isEmpty() )
+	if ( url.isEmpty() )
+		return;
+	
+	bool exists = KIO::NetAccess::exists( url,false,m_parent );
+	if ( exists )
 	{
 		// check if file exists and overwriting is ok.
-		if( !KIO::NetAccess::exists( url,false,m_parent ) || KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
-		{
-			if ( !kmplotio->save( url ) )
-				KMessageBox::error(m_parent, i18n("The file could not be saved") );
-			else
-			{
-				m_url = url;
-				m_recentFiles->addUrl( url );
-				setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
-				m_modified = false;
-			}
+		
+		int answer = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) );
+		
+		if ( answer != KMessageBox::Continue )
 			return;
-		}
+	}
+	
+	if ( !kmplotio->save( url ) )
+		KMessageBox::error(m_parent, i18n("The file could not be saved") );
+	else
+	{
+		m_url = url;
+		m_recentFiles->addUrl( url );
+		setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
+		m_modified = false;
 	}
 }
 

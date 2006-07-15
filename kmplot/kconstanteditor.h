@@ -29,6 +29,7 @@
 #include "kdialog.h"
 #include <QValidator>
 
+class Constant;
 class ConstantValidator;
 class ConstantsEditorWidget;
 class QTreeWidgetItem;
@@ -60,6 +61,24 @@ public slots:
 	
 	/// updates whether or not the "value is invalid" label is shown, (and returns the validity of the current value)
 	bool checkValueValid();
+	
+	/**
+	 * Updates the list of constants.
+	 */
+	void updateConstantsList();
+	
+protected slots:
+	/**
+	 * Called when an item is clicked on. This might mean that the check state
+	 * has changed, so will save the constants list.
+	 */
+	void itemClicked();
+	
+protected:
+	/**
+	 * Initializes the values, checkstates, tooltips, etc.
+	 */
+	void init( QTreeWidgetItem * item, const QString & name, const Constant & constant );
 	
 private:
 	QString m_previousConstantName;

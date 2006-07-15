@@ -8,6 +8,7 @@ set(kmplotpart_PART_SRCS
    plotstylewidget.cpp
    initialconditionseditor.cpp
    functioneditor.cpp
+   constants.cpp
    parser.cpp 
    xparser.cpp 
    equationedit.cpp

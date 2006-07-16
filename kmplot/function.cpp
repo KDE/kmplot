@@ -728,7 +728,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 		{
 			foreach ( Plot plot, list )
 			{
-				plot.state = i;
+				plot.stateNumber = i;
 				duplicated << plot;
 			}
 		}
@@ -862,7 +862,7 @@ bool Parameter::operator == ( const Parameter & other ) const
 //BEGIN class Plot
 Plot::Plot( )
 {
-	state = -1;
+	stateNumber = -1;
 	plotNumberCount = 1;
 	plotNumber = 0;
 	m_function = 0;
@@ -876,7 +876,7 @@ bool Plot::operator ==( const Plot & other ) const
 	return ( m_functionID == other.functionID() ) &&
 			( plotMode == other.plotMode ) &&
 			( parameter == other.parameter ) &&
-			( state == other.state );
+			( stateNumber == other.stateNumber );
 }
 
 
@@ -1050,4 +1050,17 @@ int Plot::derivativeNumber( ) const
 	kWarning() << k_funcinfo << "Unknown derivative number.\n";
 	return 0;
 }
+
+
+DifferentialState * Plot::state( ) const
+{
+	if ( !function() || (stateNumber < 0) )
+		return 0;
+	
+	if ( function()->eq[0]->differentialStates.order() <= stateNumber )
+		return 0;
+	
+	return & function()->eq[0]->differentialStates[stateNumber];
+}
 //END class Plot
+

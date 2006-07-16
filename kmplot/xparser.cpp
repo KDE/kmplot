@@ -145,7 +145,7 @@ bool XParser::getext( Function *item, const QString fstr )
 }
 
 
-double XParser::derivative( int n, Equation * eq, double x, double h )
+double XParser::derivative( int n, Equation * eq, DifferentialState * state, double x, double h )
 {
 	if ( n < -1 )
 	{
@@ -159,21 +159,24 @@ double XParser::derivative( int n, Equation * eq, double x, double h )
 			return differential( eq, & eq->differentialStates[0], x, h );
 		
 		case 0:
-			return fkt( eq, x );
+			if ( state )
+				return differential( eq, state, x, h );
+			else
+				return fkt( eq, x );
 			
 		case 1:
-			return ( fkt(eq, x + (h/2) ) - fkt( eq, x - (h/2) ) ) / h;
-			
-		case 2:
-			return ( fkt( eq, x + h ) - 2 * fkt( eq, x ) + fkt( eq, x - h ) ) / (h*h);
+			if ( state )
+				return ( differential(eq, state, x + (h/2), h ) - differential( eq, state, x - (h/2), h ) ) / h;
+			else
+				return ( fkt(eq, x + (h/2) ) - fkt( eq, x - (h/2) ) ) / h;
 			
 		default:
-			return ( derivative( n-1, eq, x+(h/2), (h/4) ) - derivative( n-1, eq, x-(h/2), (h/4) ) ) / h;
+			return ( derivative( n-1, eq, state, x+(h/2), (h/4) ) - derivative( n-1, eq, state, x-(h/2), (h/4) ) ) / h;
 	}
 }
 
 
-double XParser::partialDerivative( int n1, int n2, Equation * eq, double x, double y, double h1, double h2 )
+double XParser::partialDerivative( int n1, int n2, Equation * eq, DifferentialState * state, double x, double y, double h1, double h2 )
 {
 	if ( n1 < 0 || n2 < 0 )
 	{
@@ -182,13 +185,13 @@ double XParser::partialDerivative( int n1, int n2, Equation * eq, double x, doub
 	}
 	
 	if ( n1 > 0 )
-		return ( partialDerivative( n1-1, n2, eq, x+(h1/2), y, (h1/4), h2 ) - partialDerivative( n1-1, n2, eq, x-(h1/2), y, (h1/4), h2 ) ) / h1;
+		return ( partialDerivative( n1-1, n2, eq, state, x+(h1/2), y, (h1/4), h2 ) - partialDerivative( n1-1, n2, eq, state, x-(h1/2), y, (h1/4), h2 ) ) / h1;
 	
 	Function * f = eq->parent();
 	f->m_implicitMode = Function::FixedX;
 	f->x = x;
 	
-	return derivative( n2, eq, y, h2 );
+	return derivative( n2, eq, state, y, h2 );
 }
 
 

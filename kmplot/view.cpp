@@ -831,10 +831,10 @@ double View::value( const Plot & plot, int eq, double x, bool updateFunction )
 	Equation * equation = function->eq[eq];
 	
 	double dx = h( plot );
-	if ( plot.function()->type() == Function::Differential )
-		return XParser::self()->differential( equation, & equation->differentialStates[ plot.state ], x, dx );
-	else
-		return XParser::self()->derivative( plot.derivativeNumber(), equation, x, dx );
+	
+	DifferentialState * state = plot.state();
+	
+	return XParser::self()->derivative( plot.derivativeNumber(), equation, state, x, dx );
 }
 
 
@@ -2185,6 +2185,7 @@ bool View::findRoot( double * x, const Plot & plot, RootAccuracy accuracy )
 	setupFindRoot( plot, accuracy, & max_k, & max_f, & n );
 	
 	Equation * eq = plot.function()->eq[0];
+	DifferentialState * state = plot.state();
 	
 	double h = qMin( m_xmax-m_xmin, m_ymax-m_ymin ) * 1e-5;
 
@@ -2192,7 +2193,7 @@ bool View::findRoot( double * x, const Plot & plot, RootAccuracy accuracy )
 	int k;
 	for ( k=0; k < max_k; ++k )
 	{
-		double df = XParser::self()->derivative( n, eq, *x, h );
+		double df = XParser::self()->derivative( n, eq, state, *x, h );
 		if ( qAbs(df) < 1e-20 )
 			df = 1e-20 * ((df < 0) ? -1 : 1);
 
@@ -2223,6 +2224,7 @@ bool View::findRoot( double * x, double * y, const Plot & plot, RootAccuracy acc
 	
 	Function * function = plot.function();
 	Equation * eq = function->eq[0];
+	DifferentialState * state = plot.state();
 	
 	double hx = (m_xmax-m_xmin) * 1e-5;
 	double hy = (m_ymax-m_ymin) * 1e-5;
@@ -2237,10 +2239,10 @@ bool View::findRoot( double * x, double * y, const Plot & plot, RootAccuracy acc
 		function->y = *y;
 		
 		function->m_implicitMode = Function::FixedY;
-		double dfx = XParser::self()->derivative( n, eq, *x, hx );
+		double dfx = XParser::self()->derivative( n, eq, state, *x, hx );
 		
 		function->m_implicitMode = Function::FixedX;
-		double dfy = XParser::self()->derivative( n, eq, *y, hy );
+		double dfy = XParser::self()->derivative( n, eq, state, *y, hy );
 		
 		double dff = dfx*dfx + dfy*dfy;
 		if ( dff < 1e-20 )
@@ -2333,6 +2335,7 @@ void View::paintEvent(QPaintEvent *)
 					k = pixelCurvature( m_currentPlot, m_trace_x );
 					break;
 					
+				case Function::Differential:
 				case Function::Cartesian:
 				case Function::Implicit:
 					normalAngle = pixelNormal( m_currentPlot, x, y );
@@ -2433,16 +2436,17 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 	
 	switch ( f->type() )
 	{
+		case Function::Differential:
 		case Function::Cartesian:
 		{
-			double df = XParser::self()->derivative( d1, f->eq[0], x, h );
+			double df = XParser::self()->derivative( d1, f->eq[0], plot.state(), x, h );
 			return -atan( df * (sy/sx) ) - (M_PI/2);
 		}
 		
 		case Function::Implicit:
 		{
-			dx = XParser::self()->partialDerivative( d1, d0, f->eq[0], x, y, h, h ) / sx;
-			dy = XParser::self()->partialDerivative( d0, d1, f->eq[0], x, y, h, h ) / sy;
+			dx = XParser::self()->partialDerivative( d1, d0, f->eq[0], 0, x, y, h, h ) / sx;
+			dy = XParser::self()->partialDerivative( d0, d1, f->eq[0], 0, x, y, h, h ) / sy;
 			
 			double theta = -atan( dy / dx );
 			
@@ -2456,8 +2460,8 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 		
 		case Function::Polar:
 		{
-			double r =  XParser::self()->derivative( d0, f->eq[0], x, h );
-			double dr = XParser::self()->derivative( d1, f->eq[0], x, h );
+			double r =  XParser::self()->derivative( d0, f->eq[0], 0, x, h );
+			double dr = XParser::self()->derivative( d1, f->eq[0], 0, x, h );
 			
 			dx = (dr * lcos(x) - r * lsin(x) * XParser::self()->radiansPerAngleUnit()) * sx;
 			dy = (dr * lsin(x) + r * lcos(x) * XParser::self()->radiansPerAngleUnit()) * sy;
@@ -2466,8 +2470,8 @@ double View::pixelNormal( const Plot & plot, double x, double y )
 		
 		case Function::Parametric:
 		{
-			dx = XParser::self()->derivative( d1, f->eq[0], x, h ) * sx;
-			dy = XParser::self()->derivative( d1, f->eq[1], x, h ) * sy;
+			dx = XParser::self()->derivative( d1, f->eq[0], 0, x, h ) * sx;
+			dy = XParser::self()->derivative( d1, f->eq[1], 0, x, h ) * sy;
 			break;
 		}
 	}
@@ -2503,13 +2507,16 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 	
 	switch ( f->type() )
 	{
+		case Function::Differential:
 		case Function::Cartesian:
 		{
+			DifferentialState * state = plot.state();
+			
 			fdx = sx;
 			fddx = 0;
 			
-			fdy = XParser::self()->derivative( d1, f->eq[0], x, h ) * sy;
-			fddy = XParser::self()->derivative( d2, f->eq[0], x, h) * sy;
+			fdy = XParser::self()->derivative( d1, f->eq[0], state, x, h ) * sy;
+			fddy = XParser::self()->derivative( d2, f->eq[0], state, x, h) * sy;
 			
 // 			kDebug() << k_funcinfo << "fdy="<<fdy<<" fddy="<<fddy<<endl;
 			
@@ -2518,9 +2525,9 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 		
 		case Function::Polar:
 		{
-			double r = XParser::self()->derivative( d0, f->eq[0], x, h );
-			double dr = XParser::self()->derivative( d1, f->eq[0], x, h );
-			double ddr = XParser::self()->derivative( d2, f->eq[0], x, h );
+			double r = XParser::self()->derivative( d0, f->eq[0], 0, x, h );
+			double dr = XParser::self()->derivative( d1, f->eq[0], 0, x, h );
+			double ddr = XParser::self()->derivative( d2, f->eq[0], 0, x, h );
 			
 			fdx = (dr * lcos(x) - r * lsin(x) * XParser::self()->radiansPerAngleUnit()) * sx;
 			fdy = (dr * lsin(x) + r * lcos(x) * XParser::self()->radiansPerAngleUnit()) * sy;
@@ -2535,24 +2542,24 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 		
 		case Function::Parametric:
 		{
-			fdx = XParser::self()->derivative( d1, f->eq[0], x, h ) * sx;
-			fdy = XParser::self()->derivative( d1, f->eq[1], x, h ) * sy;
+			fdx = XParser::self()->derivative( d1, f->eq[0], 0, x, h ) * sx;
+			fdy = XParser::self()->derivative( d1, f->eq[1], 0, x, h ) * sy;
 			
-			fddx = XParser::self()->derivative( d2, f->eq[0], x, h ) * sx;
-			fddy = XParser::self()->derivative( d2, f->eq[1], x, h ) * sy;
+			fddx = XParser::self()->derivative( d2, f->eq[0], 0, x, h ) * sx;
+			fddy = XParser::self()->derivative( d2, f->eq[1], 0, x, h ) * sy;
 			
 			break;
 		}
 		
 		case Function::Implicit:
 		{
-			fdx =  XParser::self()->partialDerivative( d1, d0, f->eq[0], x, y, h, h ) / sx;
-			fdy =  XParser::self()->partialDerivative( d0, d1, f->eq[0], x, y, h, h ) / sy;
+			fdx =  XParser::self()->partialDerivative( d1, d0, f->eq[0], 0, x, y, h, h ) / sx;
+			fdy =  XParser::self()->partialDerivative( d0, d1, f->eq[0], 0, x, y, h, h ) / sy;
 			
-			fddx = XParser::self()->partialDerivative( d2, d0, f->eq[0], x, y, h, h ) / (sx*sx);
-			fddy = XParser::self()->partialDerivative( d0, d2, f->eq[0], x, y, h, h ) / (sy*sy);
+			fddx = XParser::self()->partialDerivative( d2, d0, f->eq[0], 0, x, y, h, h ) / (sx*sx);
+			fddy = XParser::self()->partialDerivative( d0, d2, f->eq[0], 0, x, y, h, h ) / (sy*sy);
 			
-			fdxy = XParser::self()->partialDerivative( d1, d1, f->eq[0], x, y, h, h ) / (sx*sy);
+			fdxy = XParser::self()->partialDerivative( d1, d1, f->eq[0], 0, x, y, h, h ) / (sx*sy);
 			
 			
 			break;
@@ -2563,6 +2570,7 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 	
 	switch ( f->type() )
 	{
+		case Function::Differential:
 		case Function::Cartesian:
 		case Function::Parametric:
 		case Function::Polar:
@@ -3084,7 +3092,7 @@ bool View::updateCrosshairPosition()
 			{
 				out_of_bounds = true;
 			}
-			else if ( (fabs(yToReal(mousePos.y())) < (m_ymax-m_ymin)/80) && (it->type() == Function::Cartesian) )
+			else if ( (fabs(yToReal(mousePos.y())) < (m_ymax-m_ymin)/80) && (it->type() == Function::Cartesian || it->type() == Function::Differential) )
 			{
 				double x0 = m_crosshairPosition.x();
 				if ( !m_haveRoot && findRoot( &x0, m_currentPlot, PreciseRoot ) )
@@ -3100,7 +3108,7 @@ bool View::updateCrosshairPosition()
 		}
 
 		// For Cartesian plots, only adjust the cursor position if it is not at the ends of the view
-		if ( (it->type() != Function::Cartesian) || (it->type() != Function::Differential) || m_clipRect.contains( mousePos.toPoint() ) )
+		if ( ((it->type() != Function::Cartesian) && (it->type() != Function::Differential)) || m_clipRect.contains( mousePos.toPoint() ) )
 		{
 			mousePos = toPixel( m_crosshairPosition );
 			QPoint globalPos = mapToGlobal( mousePos.toPoint() );

@@ -622,9 +622,14 @@ class Plot
 		 */
 		void updateFunction() const;
 		/**
-		 * For differential equations, which state to draw.
+		 * For differential equations, which state to draw. It's probably
+		 * easier to use the function differentialState(), however.
 		 */
-		int state;
+		int stateNumber;
+		/**
+		 * \return the differential state for the plot (or 0 if no state).
+		 */
+		DifferentialState * state() const;
 		/**
 		 * For equations containing a plus-minus symbols, this indicates
 		 * whether to take the plus or the minus for each one. The list is for

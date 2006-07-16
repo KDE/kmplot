@@ -51,11 +51,11 @@ class XParser : public Parser
 		 * Evaluates the \p n th derivative of the equation using numerical
 		 * stepsize \p h.
 		 */
-		double derivative( int n, Equation * eq, double x, double h );
+		double derivative( int n, Equation * eq, DifferentialState * state, double x, double h );
 		/**
 		 * For use with functions of two variables.
 		 */
-		double partialDerivative( int n1, int n2, Equation * eq, double x, double y, double h1, double h2 );
+		double partialDerivative( int n1, int n2, Equation * eq, DifferentialState * state, double x, double y, double h1, double h2 );
 		/**
 		 * For differential equations - uses numerical integration to
 		 * calculate value for the given x. Differential equations often have

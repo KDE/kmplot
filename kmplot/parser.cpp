@@ -300,8 +300,7 @@ double Parser::fkt( Equation * eq, double x )
 
 double Parser::fkt( Equation * eq, const Vector & x )
 {
-// 	int id = eq->parent() ? int(eq->parent()->id()) : -1;
-// 	kDebug() << "#### id: "<< id << endl;
+// 	kDebug() << k_funcinfo << endl;
 	
 	// Consistency check: Make sure that we leave the stkptr at the same place
 	// that we started it
@@ -312,10 +311,14 @@ double Parser::fkt( Equation * eq, const Vector & x )
 	double (**pVectorFunction)(const Vector &);
 	uint *pUint;
 	eq->mptr = eq->mem;
+	
+	// Start with zero in our stackpointer
+	// 
+	*stkptr = 0;
 
 	while(1)
 	{
-// 		kDebug() << "id: "<<id<<" *eq->mptr: "<<int(*eq->mptr)<<endl;
+// 		kDebug() << "*eq->mptr: "<<int(*eq->mptr)<<endl;
 		
 		switch(*eq->mptr++)
 		{

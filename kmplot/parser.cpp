@@ -50,36 +50,27 @@ double Parser::m_radiansPerAngleUnit = 0;
 
 /**
  * List of predefined functions.
- * \todo Some of the functions here are just variations of different spellings
- * of the same function (e.g. arccosh, arcosh) - it might be neater to handle
- * these duplications better (in particular, it would prevent duplication in the
- * drop-down list of functions in the EquationEditor dialog).
+ * \note Some function names include other function names (e.g. "sinh" has the
+ * string "sin" in it). The Parser will stop once it has found a matching
+ * function name, so such functions must be in order of longest first.
  */
 ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 {
-	// Trigometric functions
-	{"sin", 0, lsin}, 			// Sinus
-	{"cos", 0, lcos}, 			// Cosinus
-	{"tan", 0, ltan}, 			// Tangens
-	{"arcsin", 0, larcsin}, 	// Arcus sinus = inverse of sin
-	{"arccos", 0, larccos}, 	// Arcus cosinus = inverse of cos
-	{"arctan", 0, larctan},		// Arcus tangens = inverse of tan
-	
 	// Hyperbolic trig
 	{"sinh", 0, lsinh},	 				// Sinus hyperbolicus
 	{"cosh", 0, lcosh}, 				// Cosinus hyperbolicus
 	{"tanh", 0, ltanh},					// Tangens hyperbolicus
-	{"arcsinh", "arsinh", arsinh},	// Area-sinus hyperbolicus = inverse of sinh
+	{"arcsinh", "arsinh", arsinh},		// Area-sinus hyperbolicus = inverse of sinh
 	{"arccosh", "arcosh", arcosh},		// Area-cosinus hyperbolicus = inverse of cosh
 	{"arctanh", "artanh", artanh}, 		// Area-tangens hyperbolicus = inverse of tanh
 	
-	// Reciprocal-trig
-	{"cosec", 0, lcosec},				// Co-Secans = 1/sin
-	{"sec", 0, lsec},					// Secans = 1/cos
-	{"cot", 0, lcot},					// Co-Tangens = 1/tan
-	{"arccosec", "arcosech", larccosec},// Arcus co-secans = inverse of cosec
-	{"arcsec", "arsec", larcsec},		// Arcus secans = inverse of sec
-	{"arccot", "arcot", larccot},		// Arcus co-tangens = inverse of cotan
+	// Trigometric functions
+	{"sin", 0, lsin}, 					// Sinus
+	{"cos", 0, lcos}, 					// Cosinus
+	{"tan", 0, ltan}, 					// Tangens
+	{"arcsin", 0, larcsin}, 			// Arcus sinus = inverse of sin
+	{"arccos", 0, larccos}, 			// Arcus cosinus = inverse of cos
+	{"arctan", 0, larctan},				// Arcus tangens = inverse of tan
 	
 	// Reciprocal-hyperbolic
 	{"cosech", 0, cosech},				// Co-Secans hyperbolicus
@@ -89,25 +80,33 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"arcsech", "arsech", arsech},		// Area-secans hyperbolicus = invers of sech
 	{"arccoth", "arcoth", arcoth},		// Area-co-tangens hyperbolicus = inverse of coth
 	
+	// Reciprocal-trig
+	{"cosec", 0, lcosec},				// Co-Secans = 1/sin
+	{"sec", 0, lsec},					// Secans = 1/cos
+	{"cot", 0, lcot},					// Co-Tangens = 1/tan
+	{"arccosec", "arcosech", larccosec},// Arcus co-secans = inverse of cosec
+	{"arcsec", "arsec", larcsec},		// Arcus secans = inverse of sec
+	{"arccot", "arcot", larccot},		// Arcus co-tangens = inverse of cotan
+	
 	// Other
-	{"sqrt", 0, sqrt},			// Square root
-	{"sqr", 0, sqr}, 			// Square
-	{"sign", 0, sign},			// Signum
-	{"H", 0, heaviside},		// Heaviside step function
-	{"log", 0, llog},			// Logarithm base 10
-	{"ln", 0, ln}, 			// Logarithm base e
-	{"exp", 0, exp}, 			// Exponential function base e
-	{"abs", 0, fabs},			// Absolute value
-	{"floor", 0, floor},		// round down to nearest integer
-	{"ceil", 0, ceil},			// round up to nearest integer
-	{"round", 0, round},		// round to nearest integer
-	{"P_0", 0, legendre0},		// lengedre polynomial (n=0)
-	{"P_1", 0, legendre1},		// lengedre polynomial (n=1)
-	{"P_2", 0, legendre2},		// lengedre polynomial (n=2)
-	{"P_3", 0, legendre3},		// lengedre polynomial (n=3)
-	{"P_4", 0, legendre4},		// lengedre polynomial (n=4)
-	{"P_5", 0, legendre5},		// lengedre polynomial (n=5)
-	{"P_6", 0, legendre6},		// lengedre polynomial (n=6)
+	{"sqrt", 0, sqrt},					// Square root
+	{"sqr", 0, sqr}, 					// Square
+	{"sign", 0, sign},					// Signum
+	{"H", 0, heaviside},				// Heaviside step function
+	{"log", 0, llog},					// Logarithm base 10
+	{"ln", 0, ln}, 						// Logarithm base e
+	{"exp", 0, exp}, 					// Exponential function base e
+	{"abs", 0, fabs},					// Absolute value
+	{"floor", 0, floor},				// round down to nearest integer
+	{"ceil", 0, ceil},					// round up to nearest integer
+	{"round", 0, round},				// round to nearest integer
+	{"P_0", 0, legendre0},				// lengedre polynomial (n=0)
+	{"P_1", 0, legendre1},				// lengedre polynomial (n=1)
+	{"P_2", 0, legendre2},				// lengedre polynomial (n=2)
+	{"P_3", 0, legendre3},				// lengedre polynomial (n=3)
+	{"P_4", 0, legendre4},				// lengedre polynomial (n=4)
+	{"P_5", 0, legendre5},				// lengedre polynomial (n=5)
+	{"P_6", 0, legendre6},				// lengedre polynomial (n=6)
 };
 
 VectorFunction Parser::vectorFunctions[ VectorCount ]=
@@ -191,12 +190,6 @@ void Parser::setAngleMode( AngleMode mode )
 			m_radiansPerAngleUnit = M_PI/180;	
 			break;
 	}
-}
-
-
-double Parser::radiansPerAngleUnit()
-{
-	return m_radiansPerAngleUnit;
 }
 
 

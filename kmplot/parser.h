@@ -289,7 +289,7 @@ class Parser : public QObject
 		 * selected (i.e. this will return 1.0 if the user has selected
 		 * radians; and PI/180 if the user has selected degrees).
 		 */
-		static double radiansPerAngleUnit();
+		static double radiansPerAngleUnit() { return m_radiansPerAngleUnit; }
 		
 		enum AngleMode { Radians = 0, Degrees = 1 };
 		/**

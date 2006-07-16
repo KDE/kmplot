@@ -2893,7 +2893,7 @@ double View::pixelDistance( const QPointF & pos, const Plot & plot, double x, bo
 
 QString View::posToString( double x, double delta, PositionFormatting format, QColor color  ) const
 {
-// 	assert( delta != 0.0 );
+	delta = qAbs(delta);
 	if ( delta == 0 )
 		delta = 1;
 

@@ -96,24 +96,28 @@ void ParameterAnimator::step()
 	// This function shouldn't get called when we aren't actually stepping
 	assert( m_mode != Paused );
 	
-	if ( m_mode == StepBackwards )
+	double dx = m_widget->step->value();
+	
+	bool increasing = ( (m_mode == StepBackwards && (dx < 0)) || (m_mode == StepForwards && (dx > 0)) );
+	bool decreasing = ( (m_mode == StepBackwards && (dx > 0)) || (m_mode == StepForwards && (dx < 0)) );
+	
+	double upper = m_widget->final->value();
+	double lower = m_widget->initial->value();
+	
+	if ( lower > upper )
+		qSwap( lower, upper );
+	
+	if ( (increasing && (m_currentValue >= upper)) ||
+			 (decreasing && (m_currentValue <= lower)) )
 	{
-		if ( m_currentValue <= m_widget->initial->value() )
-		{
-			stopStepping();
-			return;
-		}
-		m_currentValue -= m_widget->step->value();
+		stopStepping();
+		return;
 	}
+	
+	if ( m_mode == StepForwards )
+		m_currentValue += dx;
 	else
-	{
-		if ( m_currentValue >= m_widget->final->value() )
-		{
-			stopStepping();
-			return;
-		}
-		m_currentValue += m_widget->step->value();
-	}
+		m_currentValue -= dx;
 	
 	updateUI();
 	updateFunctionParameter();

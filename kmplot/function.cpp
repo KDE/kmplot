@@ -654,6 +654,9 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 {
 	QList< Plot > list;
 	
+	if ( allPlotsAreHidden() )
+		return list;
+	
 	Plot plot;
 	plot.setFunctionID( id() );
 	plot.plotNumberCount = m_parameters.useList ? m_parameters.list.size() + (m_parameters.useSlider?1:0) : 1;

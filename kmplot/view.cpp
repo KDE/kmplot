@@ -3185,9 +3185,6 @@ void View::zoomIn( const QPoint & mousePos, double zoomFactor )
 	double diffx = (m_xmax-m_xmin)*zoomFactor;
 	double diffy = (m_ymax-m_ymin)*zoomFactor;
 
-	if ( diffx < 1e-12 || diffy < 1e-12 )
-		return;
-
 	animateZoom( QRectF( real.x()-diffx, real.y()-diffy, 2.0*diffx, 2.0*diffy ) );
 }
 
@@ -3205,12 +3202,6 @@ void View::zoomIn( const QRect & zoomRect )
 		qSwap( real1x, real2x );
 	if ( real1y > real2y )
 		qSwap( real1y, real2y );
-
-	//setting new x-boundaries
-	if ( real2x - real1x < 1e-12 )
-		return;
-	if ( real2y - real1y < 1e-12 )
-		return;
 
 	animateZoom( QRectF( QPointF( real1x, real1y ), QSizeF( real2x-real1x, real2y-real1y ) ) );
 }

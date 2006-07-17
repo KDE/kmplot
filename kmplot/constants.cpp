@@ -33,7 +33,9 @@
 //BEGIN class Constant
 Constant::Constant( )
 {
-	type = Document;
+	// By default, have both types
+	// This minimizes loss of information
+	type = Document | Global;
 }
 //END class Constant
 
@@ -137,6 +139,8 @@ QString Constants::generateUniqueName() const
 
 void Constants::load()
 {
+	/// \todo Need more robust way of exchanging constants with kcalc
+	
 	KSimpleConfig conf ("kcalcrc");
 	conf.setGroup("UserConstants");
 	QString tmp;
@@ -145,7 +149,8 @@ void Constants::load()
 	{
 		tmp.setNum(i);
 		QString name = conf.readEntry("nameConstant"+tmp, QString(" "));
-		QString value = conf.readEntry("valueConstant"+tmp, QString(" "));
+		QString expression = conf.readEntry("expressionConstant"+tmp, QString(" "));
+		QString value = conf.readEntry("valueConstant"+tmp, QString(" ") );
 		
 		if ( name == " " )
 			return;
@@ -153,11 +158,17 @@ void Constants::load()
 		if ( name.isEmpty() )
 			continue;
 		
+		if ( expression == " " )
+		{
+			// Old config file
+			expression = value;
+		}
+		
 		if ( !isValidName( name ) || have( name ) )
 			name = generateUniqueName();
 		
 		Constant constant;
-		constant.value = value;
+		constant.value = expression;
 		constant.type = Constant::Global;
 		
 		add( name, constant );
@@ -182,7 +193,8 @@ void Constants::save()
 	{
 		tmp.setNum(i);
 		conf.writeEntry( "nameConstant"+tmp, it.key() ) ;
-		conf.writeEntry( "valueConstant"+tmp, it.value().value.expression() );
+		conf.writeEntry( "expressionConstant"+tmp, it.value().value.expression() );
+		conf.writeEntry( "valueConstant"+tmp, it.value().value.value() );
 		
 		i++;
 	}

@@ -215,14 +215,6 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 				painter.fillRect( m_clipRect,  m_backgroundColor); //draw a colored background
 			break;
 		}
-
-		case Image:
-		{
-			QImage * pic = static_cast<QImage*>(dev);
-			m_clipRect = pic->rect();
-			pic->fill( m_backgroundColor.rgb() );
-			break;
-		}
 		
 		case Pixmap:
 		{

@@ -24,6 +24,7 @@
 */
 
 // Qt includes
+#include <Q3Picture>
 #include <QMainWindow>
 #include <QPainter>
 #include <QPixmap>
@@ -37,6 +38,7 @@
 #include <kconfigdialogmanager.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
+#include <kimageio.h>
 #include <kio/netaccess.h>
 #include <kinstance.h>
 #include <klineedit.h>
@@ -509,135 +511,71 @@ void MainDlg::slotSaveas()
 
 void MainDlg::slotExport()
 {
-	struct ImageInfo
-	{
-		QString format;
-		QString ext;
-		QString description;
-		View::PlotMedium medium;
-	};
+	QString filter = KImageIO::pattern( KImageIO::Writing );
+	filter += i18n("\n*.svg|Scalable Vector Graphics");
 	
-	ImageInfo info[7];
+	KFileDialog * kfd = new KFileDialog( QDir::currentPath(), filter, m_parent );
+	kfd->setCaption( i18n( "Export as Image" ) );
 	
-	info[0].format = "SVG";
-	info[0].ext = ".svg";
-	info[0].medium = View::SVG;
-	info[0].description = i18n("Scalable Vector Graphics");
-	
-	info[1].format = "BMP";
-	info[1].ext = ".bmp";
-	info[1].medium = View::Pixmap;
-	info[1].description = i18n("Windows Bitmap");
-	
-	info[2].format = "PNG";
-	info[2].ext = ".png";
-	info[2].medium = View::Pixmap;
-	info[2].description = i18n("Portable Network Graphics");
-	
-	info[3].format = "JPEG";
-	info[3].ext = ".jpg";
-	info[3].medium = View::Image;
-	info[3].description = i18n("Joint Photographic Experts Group");
-	
-	info[4].format = "PPM";
-	info[4].ext = ".ppm";
-	info[4].medium = View::Image;
-	info[4].description = i18n("Portable Pixmap");
-	
-	info[5].format = "XBM";
-	info[5].ext = ".xbm";
-	info[5].medium = View::Image;
-	info[5].description = i18n("X11 Bitmap");
-	
-	info[6].format = "XPM";
-	info[6].ext = ".xpm";
-	info[6].medium = View::Image;
-	info[6].description = i18n("X11 Pixmap");
-	
-	QString fileDescriptions;
-	for ( unsigned i = 0; i < sizeof(info)/sizeof(ImageInfo); ++i )
-	{
-		if ( i > 0 )
-			fileDescriptions += '\n';
-		fileDescriptions += QString("*%1|%2 (*%1)").arg( info[i].ext ).arg( info[i].description );
-	}
-	
-	KUrl const url = KFileDialog::getSaveUrl( QDir::currentPath(), fileDescriptions, m_parent, i18n("Export") );
-	if( url.isEmpty() )
+	if ( !kfd->exec() )
 		return;
 
-	// check if file exists and overwriting is ok.
-	bool exists = KIO::NetAccess::exists(url,false,m_parent );
-	if ( exists )
-	{
-		int result = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" , url.url() ), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) );
-		if ( result != KMessageBox::Continue )
-			return;
-	}
+	KUrl url = kfd->selectedUrl();
+	delete kfd;
+
+	KMimeType::Ptr mimeType = KMimeType::findByURL( url );
+	kDebug() << k_funcinfo << "mimetype: " << mimeType->name() << endl;
 	
-	for ( unsigned i = 0; i < sizeof(info)/sizeof(ImageInfo); ++i )
+	bool isSvg = mimeType->name() == "image/svg+xml";
+	
+	if ( !KImageIO::isSupported( mimeType->name(), KImageIO::Writing ) && !isSvg )
 	{
-		if ( url.fileName().right(4).toLower() != info[i].ext )
-			continue;
-		
-		switch ( info[i].medium )
+		KMessageBox::sorry( m_parent, i18n( "Sorry, this file format is not supported." ) );
+		return;
+	};
+
+	bool saveOk = true;
+	
+	if ( isSvg )
+	{
+		Q3Picture img;
+		View::self()->draw( &img, View::SVG );
+		if ( url.isLocalFile() )
+			saveOk = img.save( url.path(), "SVG" );
+		else
 		{
-			case View::SVG:
-			{
-				QPicture pic;
-				View::self()->draw(&pic, info[i].medium);
-				if (url.isLocalFile() )
-					pic.save( url.path(), info[i].format.toAscii().constData() );
-				else
-				{
-					KTempFile tmp;
-					pic.save( tmp.name(), info[i].format.toAscii().constData() );
-					if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-						KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
-					tmp.unlink();
-				}
-				break;
-			}
-			
-			case View::Pixmap:
-			{
-				QPixmap pic;
-				View::self()->draw(&pic, info[i].medium);
-				if (url.isLocalFile() )
-					pic.save(  url.path(), info[i].format.toAscii().constData() );
-				else
-				{
-					KTempFile tmp;
-					pic.save( tmp.name(), info[i].format.toAscii().constData() );
-					if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-						KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
-					tmp.unlink();
-				}
-				break;
-			}
-			
-			case View::Image:
-			{
-				QImage pic;
-				View::self()->draw(&pic, info[i].medium);
-				if (url.isLocalFile() )
-					pic.save(  url.path(), info[i].format.toAscii().constData() );
-				else
-				{
-					KTempFile tmp;
-					pic.save( tmp.name(), info[i].format.toAscii().constData() );
-					if ( !KIO::NetAccess::upload(tmp.name(), url, 0) )
-						KMessageBox::error(m_parent, i18n("The URL could not be saved.") );
-					tmp.unlink();
-				}
-				break;
-			}
-			
-			default:
-				break;
+			KTempFile tmp;
+			img.save( tmp.name(), "SVG" );
+			saveOk = KIO::NetAccess::upload(tmp.name(), url, 0);
+			tmp.unlink();
 		}
 	}
+	else
+	{
+		QPixmap img( View::self()->size() );
+		View::self()->draw( & img, View::Pixmap );
+	
+		QStringList types = KImageIO::typeForMime( mimeType->name() );
+		if ( types.isEmpty() )
+			return; // TODO error dialog?
+		
+		if ( url.isLocalFile() )
+			saveOk = img.save( url.path(), types.at(0).toLatin1() );
+		else
+		{
+			KTempFile tmp;
+			img.save( tmp.name(), types.at(0).toLatin1() );
+			saveOk = KIO::NetAccess::upload(tmp.name(), url, 0);
+			tmp.unlink();
+		}
+	}
+	
+	if ( !saveOk )
+		KMessageBox::error( m_parent, i18n( "Sorry, something went wrong while saving to image \"%1\"", url.prettyUrl() ) );
+	
 }
+
+
 bool MainDlg::openFile()
 {
 	View::self()->init();

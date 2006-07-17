@@ -6,8 +6,6 @@ TODO
 	* bessel functions
 	* hermite polynomials
 	* gamma function
-* New plot types:
-	* Differential e.g. f_n(x,y) d^nY/dx^n + ... + f_1(x,y) dY/dx + f_0(x, y) = 0
 * In tool menu:
 	* find "nollställen" ( en: where the function's value is 0) 
 	* get slope for a x-point
@@ -18,7 +16,6 @@ TODO
 * An export dialog where you can set the size and enable/disable monocrome.
 * More printing options.
 * Move Coordinate System toolbar buttons to one drop-down list
-* More image export options (e.g. encapsulated postscript would be nice for latex).
 * Make line styles work with implicit equations.
 
 IN PROGRESS

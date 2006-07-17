@@ -96,8 +96,7 @@ class View : public QWidget
 			Screen,
 			Printer,
 			SVG,
-			Pixmap,
-			Image
+			Pixmap
 		};
 		/**
 		 * Draw the plot to \p dev, which is of the given \p medium.

@@ -807,8 +807,24 @@ double View::h( const Plot & plot ) const
 {
 	if ( (plot.plotMode == Function::Integral) || (plot.function()->type() == Function::Differential) )
 		return plot.function()->eq[0]->differentialStates.step().value();
-	else
-		return qMin( (m_xmax-m_xmin)/m_clipRect.width(), (m_ymax-m_ymin)/m_clipRect.height() );
+	
+	double dx = (m_xmax-m_xmin)/m_clipRect.width();
+	double dy = (m_ymax-m_ymin)/m_clipRect.height();
+	
+	switch ( plot.function()->type() )
+	{
+		case Function::Cartesian:
+		case Function::Differential:
+			return dx;
+			
+		case Function::Polar:
+		case Function::Parametric:
+		case Function::Implicit:
+			return qMin( dx, dy );
+	}
+	
+	kWarning() << k_funcinfo << "Unknown coord\n";
+	return qMin( dx, dy );
 }
 
 
@@ -823,7 +839,6 @@ double View::value( const Plot & plot, int eq, double x, bool updateFunction )
 	Equation * equation = function->eq[eq];
 	
 	double dx = h( plot );
-	
 	DifferentialState * state = plot.state();
 	
 	return XParser::self()->derivative( plot.derivativeNumber(), equation, state, x, dx );

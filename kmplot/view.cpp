@@ -607,6 +607,61 @@ void View::drawGrid( QPainter* painter )
 
 void View::drawLabels(QPainter* pDC)
 {
+	// Determine which letters to use for the axes
+	QString xLabel;
+	QString yLabel;
+	bool xLabelsIdentical = true;
+	bool yLabelsIdentical = true;
+	
+	foreach ( Function * function, XParser::self()->m_ufkt )
+	{
+		QString x, y;
+		
+		switch ( function->type() )
+		{
+			case Function::Cartesian:
+			case Function::Differential:
+				x = function->eq[0]->variables()[0];
+				y = function->eq[0]->name();
+				break;
+				
+			case Function::Implicit:
+				x = function->eq[0]->variables()[0];
+				y = function->eq[0]->variables()[1];
+				break;
+				
+			case Function::Parametric:
+				x = function->eq[0]->name();
+				y = function->eq[1]->name();
+				break;
+				
+			case Function::Polar:
+				break;
+		}
+		
+		if ( !x.isEmpty() )
+		{
+			if ( xLabel.isEmpty() )
+				xLabel = x;
+			else if ( xLabel != x )
+				xLabelsIdentical = false;
+		}
+		
+		if ( !y.isEmpty() )
+		{
+			if ( yLabel.isEmpty() )
+				yLabel = y;
+			else if ( yLabel != y )
+				yLabelsIdentical = false;
+		}
+	}
+	
+	if ( !xLabelsIdentical || xLabel.isEmpty() )
+		xLabel = "x";
+	if ( !yLabelsIdentical || yLabel.isEmpty() )
+		yLabel = "y";
+	
+	
 	QColor axesColor = Settings::axesColor();
 	int const dx=10;
 	int const dy=15;
@@ -717,7 +772,7 @@ void View::drawLabels(QPainter* pDC)
 		drawRect = QRectF( xToPixel(m_xmax)-(3*dx), y+dy, 0, 0 );
 	else
 		drawRect = QRectF( xToPixel(m_xmax)-dx, y+dy, 0, 0 );
-	pDC->drawText( drawRect, Qt::AlignCenter|Qt::TextDontClip, "x" );
+	pDC->drawText( drawRect, Qt::AlignVCenter|Qt::TextDontClip|Qt::AlignRight, xLabel );
 
 	for(d=ticStartY, n=(int)ceil(m_ymin/ticSepY.value()); d<m_ymax; d+=ticSepY.value(), ++n)
 	{
@@ -799,7 +854,7 @@ void View::drawLabels(QPainter* pDC)
 		drawRect = QRectF( x-(2*dx), yToPixel(m_ymax)+dy, 0, 0 );
 	else
 		drawRect = QRectF( x-dx, yToPixel(m_ymax)+dy, 0, 0 );
-	pDC->drawText( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, "y" );
+	pDC->drawText( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, yLabel );
 }
 
 

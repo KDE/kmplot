@@ -60,9 +60,9 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"sinh", 0, sinh},	 				// Sinus hyperbolicus
 	{"cosh", 0, cosh}, 				// Cosinus hyperbolicus
 	{"tanh", 0, tanh},					// Tangens hyperbolicus
-	{"arcsinh", "arsinh", arsinh},		// Area-sinus hyperbolicus = inverse of sinh
-	{"arccosh", "arcosh", arcosh},		// Area-cosinus hyperbolicus = inverse of cosh
-	{"arctanh", "artanh", artanh}, 		// Area-tangens hyperbolicus = inverse of tanh
+	{"arcsinh", "arsinh", asinh},		// Area-sinus hyperbolicus = inverse of sinh
+	{"arccosh", "arcosh", acosh},		// Area-cosinus hyperbolicus = inverse of cosh
+	{"arctanh", "artanh", atanh}, 		// Area-tangens hyperbolicus = inverse of tanh
 	
 	// Trigometric functions
 	{"sin", 0, lsin}, 					// Sinus
@@ -1109,15 +1109,6 @@ QString Parser::number( double value )
 double sqr(double x) {
 	return x*x;
 }
-double arsinh(double x) {
-	return log(x+sqrt(x*x+1));
-}
-double arcosh(double x) {
-	return log(x+sqrt(x*x-1));
-}
-double artanh(double x) {
-	return log((1+x)/(1-x))/2;
-}
 double lsec(double x) {
 	return (1 / cos(x*Parser::radiansPerAngleUnit()));
 }
@@ -1146,13 +1137,13 @@ double coth(double x) {
 	return (1 / tanh(x));
 }
 double arsech(double x) {
-	return arcosh(1/x);
+	return acosh(1/x);
 }
 double arcosech(double x) {
-	return arsinh(1/x);
+	return asinh(1/x);
 }
 double arcoth(double x) {
-	return artanh(1/x);
+	return atanh(1/x);
 }
 double lcos(double x) {
 	return cos(x*Parser::radiansPerAngleUnit());
@@ -1429,7 +1420,7 @@ void ExpressionSanitizer::fixExpression( QString * str )
 			i++;
 		}
 	}
-	kDebug() << "str:" << *str << endl;
+// 	kDebug() << "str:" << *str << endl;
 }
 
 

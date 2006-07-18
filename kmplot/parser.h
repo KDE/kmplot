@@ -78,9 +78,6 @@ const int VectorCount = 3; // number of vector functions
 double sign(double x);
 double heaviside(double x);
 double sqr(double x);
-double arsinh(double x);
-double arcosh(double x);
-double artanh(double x);
 
 double lsec(double x);
 double lcosec(double x);

@@ -57,9 +57,9 @@ double Parser::m_radiansPerAngleUnit = 0;
 ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 {
 	// Hyperbolic trig
-	{"sinh", 0, lsinh},	 				// Sinus hyperbolicus
-	{"cosh", 0, lcosh}, 				// Cosinus hyperbolicus
-	{"tanh", 0, ltanh},					// Tangens hyperbolicus
+	{"sinh", 0, sinh},	 				// Sinus hyperbolicus
+	{"cosh", 0, cosh}, 				// Cosinus hyperbolicus
+	{"tanh", 0, tanh},					// Tangens hyperbolicus
 	{"arcsinh", "arsinh", arsinh},		// Area-sinus hyperbolicus = inverse of sinh
 	{"arccosh", "arcosh", arcosh},		// Area-cosinus hyperbolicus = inverse of cosh
 	{"arctanh", "artanh", artanh}, 		// Area-tangens hyperbolicus = inverse of tanh
@@ -93,8 +93,8 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"sqr", 0, sqr}, 					// Square
 	{"sign", 0, sign},					// Signum
 	{"H", 0, heaviside},				// Heaviside step function
-	{"log", 0, llog},					// Logarithm base 10
-	{"ln", 0, ln}, 						// Logarithm base e
+	{"log", 0, log10},					// Logarithm base 10
+	{"ln", 0, log}, 						// Logarithm base e
 	{"exp", 0, exp}, 					// Exponential function base e
 	{"abs", 0, fabs},					// Absolute value
 	{"floor", 0, floor},				// round down to nearest integer
@@ -1106,12 +1106,6 @@ QString Parser::number( double value )
 
 
 //BEGIN predefined mathematical functions
-double ln(double x) {
-	return log(x);
-}
-double llog(double x) {
-	return log10(x);
-}
 double sqr(double x) {
 	return x*x;
 }
@@ -1168,15 +1162,6 @@ double lsin(double x) {
 }
 double ltan(double x) {
 	return tan(x*Parser::radiansPerAngleUnit());
-}
-double lcosh(double x) {
-	return cosh(x);
-}
-double lsinh(double x) {
-	return sinh(x);
-}
-double ltanh(double x) {
-	return tanh(x);
 }
 double larccos(double x) {
 	return acos(x) * 1/Parser::radiansPerAngleUnit();
@@ -1338,18 +1323,45 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	replace( QChar(0x215d), "(5/8)" );
 	replace( QChar(0x215e), "(7/8)" );
 	
-	// replace e.g. |x+2| with abs(x+2)
+	//BEGIN replace e.g. |x+2| with abs(x+2)
 	str->replace( QChar(0x2223), '|' ); // 0x2223 is the unicode math symbol for abs
-	while ( true )
+	
+	int maxDepth = str->count( '(' );
+	QVector<bool> absAt( maxDepth+1 );
+	for ( int i = 0; i < maxDepth+1; ++i )
+		absAt[i] = false;
+	
+	int depth = 0;
+	
+	for ( int i = 0; i < str->length(); ++i )
 	{
-		int pos1 = str->indexOf( '|' );
-		int pos2 = str->indexOf( '|', pos1+1 );
-		if ( pos1 == -1 || pos2 == -1 )
-			break;
-		
-		replace( pos2, 1, ")" );
-		replace( pos1, 1, "abs(" );
+		if ( str->at(i) == '|' )
+		{
+			if ( absAt[depth] )
+			{
+				// Closing it
+				replace( i, 1, ")" );
+				absAt[depth] = false;
+			}
+			else
+			{
+				// Opening it
+				replace( i, 1, "abs(" );
+				i += 3;
+				absAt[depth] = true;
+			}
+		}
+		else if ( str->at(i) == '(' )
+			depth++;
+		else if ( str->at(i) == ')' )
+		{
+			depth--;
+			if ( depth < 0 )
+				depth = 0;
+		}
 	}
+	//END replace e.g. |x+2| with abs(x+2)
+	
 	
 	str->replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
 	
@@ -1417,7 +1429,7 @@ void ExpressionSanitizer::fixExpression( QString * str )
 			i++;
 		}
 	}
-// 	kDebug() << "str:" << *str << endl;
+	kDebug() << "str:" << *str << endl;
 }
 
 

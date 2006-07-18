@@ -75,8 +75,6 @@ const int VectorCount = 3; // number of vector functions
 
 //@{
 /** Predefined mathematical function with one variable. */
-double ln(double x);
-double llog(double x);
 double sign(double x);
 double heaviside(double x);
 double sqr(double x);
@@ -101,10 +99,6 @@ double arcoth(double x);
 double lcos(double x);
 double lsin(double x);
 double ltan(double x);
-
-double lcosh(double x);
-double lsinh(double x);
-double ltanh(double x);
 
 double larccos(double x);
 double larcsin(double x);

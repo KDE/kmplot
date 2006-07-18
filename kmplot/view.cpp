@@ -672,13 +672,13 @@ void View::drawLabels(QPainter* pDC)
 	double const x=xToPixel(0.);
 	double const y=yToPixel(0.);
 	double d;
-	int n;
+	long long n;
 
 	char draw_next=0;
 	QFontMetrics const test(font);
 	int swidth=0;
 
-	for(d=ticStartX, n=(int)ceil(m_xmin/ticSepX.value()); d<m_xmax; d+=ticSepX.value(), ++n)
+	for(d=ticStartX, n=(long long)ceil(m_xmin/ticSepX.value()); d<m_xmax; d+=ticSepX.value(), ++n)
 	{
 		if(n==0 || fabs(d-m_xmax)<=1.5*ticSepX.value())
 			continue;
@@ -703,7 +703,7 @@ void View::drawLabels(QPainter* pDC)
 					s+=QChar(960);
 				else
 				{
-					s=QString().sprintf("%+d", n/frac[i]);
+					s=QString().sprintf("%+lld", n/frac[i]);
 					s+=QChar(960);
 				}
 			}
@@ -720,50 +720,50 @@ void View::drawLabels(QPainter* pDC)
 			s = posToString( n*ticSepX.value(), (m_xmax-m_xmin)/4, View::ScientificFormat, axesColor );
 		}
 		
-		if ( !s.isEmpty() )
+		if ( s.isEmpty() )
+			continue;
+		
+		swidth = test.width(s);
+		if (  xToPixel(d)-x<swidth && xToPixel(d)-x>-swidth && draw_next==0)
 		{
-			swidth = test.width(s);
-			if (  xToPixel(d)-x<swidth && xToPixel(d)-x>-swidth && draw_next==0)
+			draw_next=1;
+			continue;
+		}
+		if (draw_next>0)
+		{
+			if (draw_next==1)
 			{
-				draw_next=1;
+				draw_next++;
 				continue;
-			}
-			if (draw_next>0)
-			{
-				if (draw_next==1)
-				{
-					draw_next++;
-					continue;
-				}
-				else
-					draw_next=0;
-			}
-			
-			if ( xclipflg )
-				continue;
-			
-			m_textDocument->setHtml( s );
-			QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
-			
-			double x_pos = xToPixel(d)-(br.width()/2);
-			double y_pos;
-			if ( m_ymin < 0 )
-			{
-				y_pos = y+dy-(br.height()/2);
-				
-				double over = m_clipRect.bottom() - (y_pos + br.height());
-				if ( over < 0 )
-					y_pos += over;
 			}
 			else
-				y_pos = y-dy-(br.height()/2);
-				
-			QPointF drawPoint( x_pos, y_pos );
-			
-			pDC->translate( drawPoint );
-			m_textDocument->documentLayout()->draw( pDC, QAbstractTextDocumentLayout::PaintContext() ); 
-			pDC->translate( -drawPoint );
+				draw_next=0;
 		}
+			
+		if ( xclipflg )
+			continue;
+			
+		m_textDocument->setHtml( s );
+		QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
+			
+		double x_pos = xToPixel(d)-(br.width()/2);
+		double y_pos;
+		if ( m_ymin < 0 )
+		{
+			y_pos = y+dy-(br.height()/2);
+				
+			double over = m_clipRect.bottom() - (y_pos + br.height());
+			if ( over < 0 )
+				y_pos += over;
+		}
+		else
+			y_pos = y-dy-(br.height()/2);
+				
+		QPointF drawPoint( x_pos, y_pos );
+			
+		pDC->translate( drawPoint );
+		m_textDocument->documentLayout()->draw( pDC, QAbstractTextDocumentLayout::PaintContext() ); 
+		pDC->translate( -drawPoint );
 	}
 
 	QRectF drawRect;
@@ -774,7 +774,7 @@ void View::drawLabels(QPainter* pDC)
 		drawRect = QRectF( xToPixel(m_xmax)-dx, y+dy, 0, 0 );
 	pDC->drawText( drawRect, Qt::AlignVCenter|Qt::TextDontClip|Qt::AlignRight, xLabel );
 
-	for(d=ticStartY, n=(int)ceil(m_ymin/ticSepY.value()); d<m_ymax; d+=ticSepY.value(), ++n)
+	for(d=ticStartY, n=(long long)ceil(m_ymin/ticSepY.value()); d<m_ymax; d+=ticSepY.value(), ++n)
 	{
 		if(n==0 || fabs(d-m_ymax)<=1.5*ticSepY.value())
 			continue;
@@ -799,7 +799,7 @@ void View::drawLabels(QPainter* pDC)
 					s+=QChar(960);
 				else
 				{
-					s=QString().sprintf("%+d", n/frac[i]);
+					s=QString().sprintf("%+lld", n/frac[i]);
 					s+=QChar(960);
 				}
 			}
@@ -815,36 +815,36 @@ void View::drawLabels(QPainter* pDC)
 			s = posToString( n*ticSepY.value(), (m_ymax-m_ymin)/4, View::ScientificFormat, axesColor );
 		}
 		
-		if ( !s.isEmpty() )
+		if ( s.isEmpty() )
+			continue;
+		
+		m_textDocument->setHtml( s );
+			
+		QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
+			
+		QPointF drawPoint( 0, yToPixel(d)-(br.height()/2) );
+			
+		if (m_xmin>=0)
 		{
-			m_textDocument->setHtml( s );
-			
-			QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
-			
-			QPointF drawPoint( 0, yToPixel(d)-(br.height()/2) );
-			
-			if (m_xmin>=0)
-			{
-				drawPoint.setX( x+dx );
-			}
-			else
-			{
-				drawPoint.setX( x-dx-br.width() );
-				
-				if ( drawPoint.x() < 0 )
-				{
-					// Don't draw off the left edge of the screen
-					drawPoint.setX( 0 );
-				}
-			}
-			
-			if ( yclipflg )
-				continue;
-			
-			pDC->translate( drawPoint );
-			m_textDocument->documentLayout()->draw( pDC, QAbstractTextDocumentLayout::PaintContext() );
-			pDC->translate( -drawPoint );
+			drawPoint.setX( x+dx );
 		}
+		else
+		{
+			drawPoint.setX( x-dx-br.width() );
+				
+			if ( drawPoint.x() < 0 )
+			{
+				// Don't draw off the left edge of the screen
+				drawPoint.setX( 0 );
+			}
+		}
+			
+		if ( yclipflg )
+			continue;
+			
+		pDC->translate( drawPoint );
+		m_textDocument->documentLayout()->draw( pDC, QAbstractTextDocumentLayout::PaintContext() );
+		pDC->translate( -drawPoint );
 	}
 
 	
@@ -3017,7 +3017,7 @@ QString View::posToString( double x, double delta, PositionFormatting format, QC
 			break;
 		}
 	}
-
+	
 	return numberText;
 }
 
@@ -3242,6 +3242,8 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 
 void View::zoomIn( const QPoint & mousePos, double zoomFactor )
 {
+	kDebug() << k_funcinfo << "zoomFactor="<<zoomFactor<<endl;
+	
 	QPointF real = toReal( mousePos );
 
 	double diffx = (m_xmax-m_xmin)*zoomFactor;
@@ -3251,8 +3253,10 @@ void View::zoomIn( const QPoint & mousePos, double zoomFactor )
 }
 
 
-void View::zoomIn( const QRect & zoomRect )
+void View::zoomIn( const QRectF & zoomRect )
 {
+	kDebug() << k_funcinfo << "zoomRect="<<zoomRect<<" zoomRect.topLeft()="<<zoomRect.topLeft()<<" zoomRect.bottomRight()="<<zoomRect.bottomRight()<<endl;
+	
 	QPointF p = zoomRect.topLeft();
 	double real1x = xToReal(p.x() );
 	double real1y = yToReal(p.y() );
@@ -3269,7 +3273,7 @@ void View::zoomIn( const QRect & zoomRect )
 }
 
 
-void View::zoomOut( const QRect & zoomRect )
+void View::zoomOut( const QRectF & zoomRect )
 {
 	QPointF p = zoomRect.topLeft();
 	double _real1x = xToReal(p.x() );
@@ -3295,16 +3299,19 @@ void View::zoomOut( const QRect & zoomRect )
 
 
 void View::animateZoom( const QRectF & _newCoords )
-{
+{	
 	QRectF oldCoords( m_xmin, m_ymin, m_xmax-m_xmin, m_ymax-m_ymin );
 	QRectF newCoords( _newCoords.normalized() );
 
-	if ( oldCoords == newCoords )
+	if ( newCoords.left() == m_xmin &&
+			newCoords.right() == m_xmax &&
+			newCoords.top() == m_ymin &&
+			newCoords.bottom() == m_ymax )
 		return;
 
 	m_zoomMode = AnimatingZoom;
 
-	double oldCoordsArea = oldCoords.width() * oldCoords.height();
+	double oldCoordsArea = (m_xmax-m_xmin) * (m_ymax-m_ymin);
 	double newCoordsArea = newCoords.width() * newCoords.height();
 
 	QPointF beginTL, beginBR, endTL, endBR;
@@ -3314,23 +3321,23 @@ void View::animateZoom( const QRectF & _newCoords )
 		// zooming in
 		beginTL = newCoords.topLeft();
 		beginBR = newCoords.bottomRight();
-		endTL = oldCoords.topLeft();
-		endBR = oldCoords.bottomRight();
+		endTL = QPointF( m_xmin, m_ymin );
+		endBR = QPointF( m_xmax, m_ymax );
 	}
 	else
 	{
 		// zooming out
-		beginTL = oldCoords.topLeft();
-		beginBR = oldCoords.bottomRight();
+		beginTL = QPointF( m_xmin, m_ymin );
+		beginBR = QPointF( m_xmax, m_ymax );
 
-		double kx = ( oldCoords.left() - oldCoords.right() ) / ( newCoords.left() - newCoords.right() );
-		double ky = ( oldCoords.top() - oldCoords.bottom() ) / ( newCoords.top() - newCoords.bottom() );
+		double kx = ( m_xmin - m_xmax ) / ( newCoords.left() - newCoords.right() );
+		double ky = ( m_ymin - m_ymax ) / ( newCoords.top() - newCoords.bottom() );
 
-		double lx = oldCoords.left() - (kx * newCoords.left());
-		double ly = oldCoords.top() - (ky * newCoords.top());
+		double lx = m_xmin - (kx * newCoords.left());
+		double ly = m_ymin - (ky * newCoords.top());
 
-		endTL = QPointF( (kx * oldCoords.left()) + lx, (ky * oldCoords.top()) + ly );
-		endBR = QPointF( (kx * oldCoords.right()) + lx, (ky * oldCoords.bottom()) + ly );
+		endTL = QPointF( (kx * m_xmin) + lx, (ky * m_ymin) + ly );
+		endBR = QPointF( (kx * m_xmax) + lx, (ky * m_ymax) + ly );
 	}
 
 	double MAX = 10;
@@ -3353,7 +3360,7 @@ void View::animateZoom( const QRectF & _newCoords )
 		else while ( t.elapsed() < (ms/MAX) )
 			; // do nothing
 	}
-
+	
 	m_xmin = newCoords.left();
 	m_xmax = newCoords.right();
 	m_ymin = newCoords.top();
@@ -3393,6 +3400,7 @@ void View::getSettings()
 	//BEGIN get X/Y range
 	m_xmin = XParser::self()->eval( Settings::xMin() );
 	m_xmax = XParser::self()->eval( Settings::xMax() );
+	
 	if ( m_xmax <= m_xmin )
 	{
 		m_xmin = -8;

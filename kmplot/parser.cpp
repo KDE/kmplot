@@ -58,7 +58,7 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 {
 	// Hyperbolic trig
 	{"sinh", 0, sinh},	 				// Sinus hyperbolicus
-	{"cosh", 0, cosh}, 				// Cosinus hyperbolicus
+	{"cosh", 0, cosh}, 					// Cosinus hyperbolicus
 	{"tanh", 0, tanh},					// Tangens hyperbolicus
 	{"arcsinh", "arsinh", asinh},		// Area-sinus hyperbolicus = inverse of sinh
 	{"arccosh", "arcosh", acosh},		// Area-cosinus hyperbolicus = inverse of cosh
@@ -94,7 +94,7 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"sign", 0, sign},					// Signum
 	{"H", 0, heaviside},				// Heaviside step function
 	{"log", 0, log10},					// Logarithm base 10
-	{"ln", 0, log}, 						// Logarithm base e
+	{"ln", 0, log}, 					// Logarithm base e
 	{"exp", 0, exp}, 					// Exponential function base e
 	{"abs", 0, fabs},					// Absolute value
 	{"floor", 0, floor},				// round down to nearest integer
@@ -111,9 +111,9 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 
 VectorFunction Parser::vectorFunctions[ VectorCount ]=
 {
-	{"min", min},			// minimum of a set of reals
-	{"max", max},			// maximum of a set of reals
-	{"mod", mod},			// l2 modulus of a set of reals
+	{"min", min},						// minimum of a set of reals
+	{"max", max},						// maximum of a set of reals
+	{"mod", mod},						// l2 modulus of a set of reals
 };
 
 
@@ -830,24 +830,18 @@ bool Parser::tryUserFunction()
 
 bool Parser::tryConstant()
 {
-	ConstantList constants = m_constants->list( Constant::All );
-	for ( ConstantList::iterator i = constants.begin(); i != constants.end(); ++i )
-	{
-		if ( match( i.key() ) )
-		{
-			addConstant( i.value().value.value() );
-			return true;
-		}
-	}
-	
-	
-	// Or a predefined constant?
 #define CHECK_CONSTANT( a, b ) \
 	if ( match(a) ) \
 	{ \
 		addConstant( b ); \
 		return true; \
 	}
+	
+	ConstantList constants = m_constants->list( Constant::All );
+	for ( ConstantList::iterator i = constants.begin(); i != constants.end(); ++i )
+		CHECK_CONSTANT( i.key(), i.value().value.value() );
+	
+	// Or a predefined constant?
 	CHECK_CONSTANT( "pi", M_PI );
 	CHECK_CONSTANT( QChar(960), M_PI );
 	CHECK_CONSTANT( "e", M_E );
@@ -1098,7 +1092,7 @@ Function * Parser::functionWithID( int id ) const
 // static
 QString Parser::number( double value )
 {
-	QString str = QString::number( value, 'g', 6 );
+	QString str = QString::number( value, 'g', 16 );
 	str.replace( 'e', "*10^" );
 	return str;
 }
@@ -1119,13 +1113,13 @@ double lcot(double x) {
 	return (1 / tan(x*Parser::radiansPerAngleUnit()));
 }
 double larcsec(double x) {
-	return acos(1/x)* 1/Parser::radiansPerAngleUnit();
+	return acos(1/x) / Parser::radiansPerAngleUnit();
 }
 double larccosec(double x) {
-	return asin(1/x)* 1/Parser::radiansPerAngleUnit();
+	return asin(1/x) / Parser::radiansPerAngleUnit();
 }
 double larccot(double x) {
-	return atan(1/x)* 1/Parser::radiansPerAngleUnit();
+	return atan(1/x) / Parser::radiansPerAngleUnit();
 }
 double sech(double x) {
 	return (1 / cosh(x));
@@ -1155,13 +1149,13 @@ double ltan(double x) {
 	return tan(x*Parser::radiansPerAngleUnit());
 }
 double larccos(double x) {
-	return acos(x) * 1/Parser::radiansPerAngleUnit();
+	return acos(x) / Parser::radiansPerAngleUnit();
 }
 double larcsin(double x) {
-	return asin(x)* 1/Parser::radiansPerAngleUnit();
+	return asin(x) / Parser::radiansPerAngleUnit();
 }
 double larctan(double x) {
-	return atan(x)* 1/Parser::radiansPerAngleUnit();
+	return atan(x) / Parser::radiansPerAngleUnit();
 }
 double legendre0( double ) {
 	return 1.0;

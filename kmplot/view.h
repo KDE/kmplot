@@ -369,12 +369,12 @@ class View : public QWidget
 		/**
 		* Zooms in from having drawn \p zoomRect (which is in widget coordinates).
 		*/
-		void zoomIn( const QRect & zoomRect );
+		void zoomIn( const QRectF & zoomRect );
 		/**
 		* Zooms out from havoutg drawn \p zoomRect (which is out widget
 		* coordinates).
 		*/
-		void zoomOut( const QRect & zoomRect );
+		void zoomOut( const QRectF & zoomRect );
 		/**
 		* Translates the view by \p dx, \p dy (in widget coordinates).
 		*/

@@ -413,17 +413,7 @@ QColor XParser::defaultColor(int function)
 
 QStringList XParser::listFunctionNames()
 {
-	QStringList list;
-	foreach ( Function * it, m_ufkt )
-	{
-		foreach ( Equation * eq, it->eq )
-		{
-			QString fname = eq->name();
-			if ( !fname.isEmpty() )
-				list << fname;
-		}
-	}
-	return list;	
+	return userFunctions();
 }
 
 bool XParser::functionFVisible(uint id)

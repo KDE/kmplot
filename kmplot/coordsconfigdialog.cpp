@@ -122,4 +122,12 @@ void CoordsConfigDialog::slotApply()
         slotButtonClicked( KDialog::Apply );
 }
 
+void CoordsConfigDialog::updateXYRange( )
+{
+	configAxesDialog->kcfg_XMin->setText( Settings::xMin() );
+	configAxesDialog->kcfg_XMax->setText( Settings::xMax() );
+	configAxesDialog->kcfg_YMin->setText( Settings::yMin() );
+	configAxesDialog->kcfg_YMax->setText( Settings::yMax() );
+}
+
 #include "coordsconfigdialog.moc"

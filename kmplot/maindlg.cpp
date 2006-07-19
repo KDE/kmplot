@@ -121,6 +121,7 @@ bool MainDlg::oldfileversion;
 MainDlg * MainDlg::m_self = 0;
 
 
+//BEGIN class MainDlg
 MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 		KParts::ReadOnlyPart( parent ),
 		m_recentFiles( 0 ),
@@ -146,7 +147,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 		new BrowserExtension(this); // better integration with Konqueror
 	}
 
-	coordsDialog = 0;
+	m_coordsDialog = 0;
 	m_constantEditor = 0;
 	m_popupmenu = new KMenu( parentWidget );
 	m_newPlotMenu = new KMenu( parentWidget );
@@ -638,12 +639,7 @@ void MainDlg::slotPrint()
 
 void MainDlg::editAxes()
 {
-	if ( !coordsDialog)
-	{
-		coordsDialog = new CoordsConfigDialog(m_parent);
-		connect( coordsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
-	}
-	coordsDialog->show();
+	coordsDialog()->show();
 }
 
 
@@ -749,6 +745,19 @@ void MainDlg::optionsConfigureToolbars()
 {
 // 	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureToolbars()", QByteArray());
 }
+
+CoordsConfigDialog * MainDlg::coordsDialog( )
+{
+	if ( !m_coordsDialog)
+	{
+		m_coordsDialog = new CoordsConfigDialog(m_parent);
+		connect( m_coordsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
+	}
+	
+	return m_coordsDialog;
+}
+//END class MainDlg
+
 
 // It's usually safe to leave the factory code alone.. with the
 // notable exception of the KAboutData data

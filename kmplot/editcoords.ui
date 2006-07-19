@@ -240,22 +240,28 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
-  </customwidget>
-  <customwidget>
    <class>KButtonGroup</class>
    <extends>QGroupBox</extends>
    <header>kbuttongroup.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>kcfg_XMin</tabstop>
   <tabstop>kcfg_XMax</tabstop>
-  <tabstop>kcfg_YMax</tabstop>
   <tabstop>kcfg_YMin</tabstop>
+  <tabstop>kcfg_YMax</tabstop>
+  <tabstop>radioButton</tabstop>
+  <tabstop>radioButton_2</tabstop>
+  <tabstop>kcfg_XScaling</tabstop>
+  <tabstop>radioButton_3</tabstop>
+  <tabstop>radioButton_4</tabstop>
+  <tabstop>kcfg_YScaling</tabstop>
  </tabstops>
  <resources/>
  <connections>

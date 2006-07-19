@@ -3376,6 +3376,7 @@ void View::animateZoom( const QRectF & _newCoords )
 	Settings::setXMax( Parser::number( m_xmax ) );
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
+	MainDlg::self()->coordsDialog()->updateXYRange();
 
 	drawPlot(); //update all graphs
 
@@ -3397,6 +3398,7 @@ void View::translateView( int dx, int dy )
 	Settings::setXMax( Parser::number( m_xmax ) );
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
+	MainDlg::self()->coordsDialog()->updateXYRange();
 
 	drawPlot(); //update all graphs
 }

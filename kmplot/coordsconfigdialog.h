@@ -43,9 +43,15 @@ class CoordsConfigDialog : public KConfigDialog
 	public:
 		CoordsConfigDialog(QWidget *parent = 0);
 		~CoordsConfigDialog();
+		/**
+		 * Updates the widgets containing the min/max values.
+		 */
+		void updateXYRange();
+		
 	protected slots:
 		virtual void slotOk();
 		virtual void slotApply();
+		
 	private:
 		bool evalX();
 		bool evalY();

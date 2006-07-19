@@ -94,6 +94,9 @@ class MainDlg : public KParts::ReadOnlyPart
 	/// The function editor
 	FunctionEditor * functionEditor() const { return m_functionEditor; }
 	
+	/// The coords config dialog
+	CoordsConfigDialog* coordsDialog();
+	
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
 	
@@ -182,7 +185,7 @@ private:
 	/// Current file
 	KUrl m_currentfile;
 	/// The axes config dialogs
-	CoordsConfigDialog* coordsDialog;
+	CoordsConfigDialog* m_coordsDialog;
 	/// The constants editor
 	KConstantEditor * m_constantEditor;
 	/// The function editor

@@ -205,9 +205,12 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			double width_cm = 12;
 			double height_cm = 12;
 			
-			double pixelsPerCm = (254.0/100.0) * printer->resolution();
+			double inchesPerCm = (100.0/254.0);
 			
-			m_clipRect = QRect( 0, 0, int(width_cm * pixelsPerCm), int(height_cm * pixelsPerCm) );
+			int pixels_x = int(width_cm * dev->logicalDpiX() * inchesPerCm);
+			int pixels_y = int(height_cm * dev->logicalDpiY() * inchesPerCm);
+			
+			m_clipRect = QRect( 0, 0, pixels_x, pixels_y );
 			
 			m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1";
 			drawHeaderTable( &painter );
@@ -2050,8 +2053,8 @@ QPen View::penForPlot( const Plot & plot, QPainter * painter ) const
 double View::mmToPenWidth( double width_mm, QPainter * painter ) const
 {
 	QPaintDevice * dev = painter->device();
-	assert( dev->physicalDpiX() == dev->physicalDpiY() );
-	double dpi = dev->physicalDpiX();
+	assert( dev->logicalDpiX() == dev->logicalDpiY() );
+	double dpi = dev->logicalDpiX();
 	
 	return dpi * (width_mm/25.4);
 }
@@ -2080,10 +2083,11 @@ void View::drawHeaderTable( QPainter *painter )
 	
 	text += "</ul>";
 	
-	/// \todo this should draw the table above the plot, not on it.
-	/// atm though, I can't test printing, so I've left it like this
 	m_textDocument->setHtml( text );
-	m_textDocument->documentLayout()->draw( painter, QAbstractTextDocumentLayout::PaintContext() ); 
+	m_textDocument->documentLayout()->draw( painter, QAbstractTextDocumentLayout::PaintContext() );
+	
+	QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
+	painter->translate( 0, br.height() );
 }
 
 

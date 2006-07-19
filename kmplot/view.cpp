@@ -286,7 +286,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 
 
 //BEGIN coordinate mapping functions
-QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour )
+QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour, const QPointF & pixelIfNaN )
 {
 	xclipflg = false;
 	yclipflg = false;
@@ -295,9 +295,14 @@ QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour )
 	double x = pixel.x();
 	double y = pixel.y();
 	
-	if ( clipBehaviour == ClipAll )
+	if ( isnan(x) )
 	{
-		if ( isnan(x) || x<0 )
+		xclipflg = true;
+		x = pixelIfNaN.x();
+	}
+	else if ( clipBehaviour == ClipAll )
+	{
+		if ( x<0 )
 		{
 			xclipflg = true;
 			x = 0;
@@ -310,24 +315,21 @@ QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour )
 	}
 	else
 	{
-		if ( isnan(x) )
-		{
-			xclipflg = true;
+		if ( isinf(x) == -1 )
 			x = 0;
-		}
-		else if ( isinf(x) == -1 )
-		{
-			x = 0;
-		}
+			
 		else if ( isinf(x) == 1 )
-		{
 			x = m_clipRect.right();
-		}	
 	}
 	
-	if ( clipBehaviour == ClipAll )
+	if ( isnan(y) )
 	{
-		if ( isnan(y) || y<0 )
+		yclipflg = true;
+		y = pixelIfNaN.y();
+	}
+	else if ( clipBehaviour == ClipAll )
+	{
+		if ( y<0 )
 		{
 			yclipflg = true;
 			y = 0;
@@ -340,32 +342,24 @@ QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour )
 	}
 	else
 	{
-		if ( isnan(y) )
-		{
-			yclipflg = true;
+		if ( isinf(y) == -1 )
 			y = 0;
-		}
-		else if ( isinf(y) == -1 )
-		{
-			y = 0;
-		}
+		
 		else if ( isinf(y) == 1 )
-		{
 			y = m_clipRect.bottom();
-		}	
 	}
 	
 	return QPointF( x, y );
 }
 
-double View::xToPixel( double x, ClipBehaviour clipBehaviour )
+double View::xToPixel( double x, ClipBehaviour clipBehaviour, double xIfNaN )
 {
-	return toPixel( QPointF( x, 0 ), clipBehaviour ).x();
+	return toPixel( QPointF( x, 0 ), clipBehaviour, QPointF( xIfNaN, 0 ) ).x();
 }
 
-double View::yToPixel( double y, ClipBehaviour clipBehaviour )
+double View::yToPixel( double y, ClipBehaviour clipBehaviour, double yIfNaN )
 {
-	return toPixel( QPointF( 0, y ), clipBehaviour ).y();
+	return toPixel( QPointF( 0, y ), clipBehaviour, QPointF( 0, yIfNaN ) ).y();
 }
 
 
@@ -631,29 +625,19 @@ void View::drawLabels(QPainter* pDC)
 				break;
 				
 			case Function::Parametric:
-				x = function->eq[0]->name();
-				y = function->eq[1]->name();
-				break;
-				
 			case Function::Polar:
-				break;
+				continue;
 		}
 		
-		if ( !x.isEmpty() )
-		{
-			if ( xLabel.isEmpty() )
-				xLabel = x;
-			else if ( xLabel != x )
-				xLabelsIdentical = false;
-		}
+		if ( xLabel.isEmpty() )
+			xLabel = x;
+		else if ( xLabel != x )
+			xLabelsIdentical = false;
 		
-		if ( !y.isEmpty() )
-		{
-			if ( yLabel.isEmpty() )
-				yLabel = y;
-			else if ( yLabel != y )
-				yLabelsIdentical = false;
-		}
+		if ( yLabel.isEmpty() )
+			yLabel = y;
+		else if ( yLabel != y )
+			yLabelsIdentical = false;
 	}
 	
 	if ( !xLabelsIdentical || xLabel.isEmpty() )
@@ -2073,73 +2057,33 @@ double View::mmToPenWidth( double width_mm, QPainter * painter ) const
 }
 
 
-void View::drawHeaderTable(QPainter *pDC)
+void View::drawHeaderTable( QPainter *painter )
 {
-	QString alx, aly, atx, aty, dfx, dfy;
-
-	if( m_printHeaderTable )
-	{
-		pDC->translate(250., 150.);
-		/// \todo fix this
-// 		pDC->setPen(QPen(Qt::black, (int)(5.*m_scaler)));
-		pDC->setPen(QPen(Qt::black, 0));
-		pDC->setFont(QFont( Settings::headerTableFont(), 30) );
-		puts( Settings::headerTableFont().toLatin1().data() );
-		alx="[ "+Settings::xMin()+" | "+Settings::xMax()+" ]";
-		aly="[ "+Settings::yMin()+" | "+Settings::yMax()+" ]";
-		alx.replace( "pi", QChar(960) );
-		aly.replace( "pi", QChar(960) );
-		atx="1E  =  "+ticSepX.expression();
-		aty="1E  =  "+ticSepY.expression();
-		atx.replace( "pi", QChar(960) );
-		aty.replace( "pi", QChar(960) );
-		
-		/// \todo do we want to do something with ticPrint[X/Y] ?
-// 		dfx="1E  =  "+ticPrintX.expression()+" cm";
-// 		dfx->replace( "pi", QChar(960) );
-// 		dfy="1E  =  "+ticPrintY.expression()+" cm";
-// 		dfy->replace( "pi", QChar(960) );
-
-		pDC->drawRect(0, 0, 1500, 230);
-		pDC->Lineh(0, 100, 1500);
-		pDC->Linev(300, 0, 230);
-		pDC->Linev(700, 0, 230);
-		pDC->Linev(1100, 0, 230);
-
-		pDC->drawText(0, 0, 300, 100, Qt::AlignCenter, i18n("Parameters:"));
-		pDC->drawText(300, 0, 400, 100, Qt::AlignCenter, i18n("Plotting Area"));
-		pDC->drawText(700, 0, 400, 100, Qt::AlignCenter, i18n("Axes Division"));
-		pDC->drawText(1100, 0, 400, 100, Qt::AlignCenter, i18n("Printing Format"));
-		pDC->drawText(0, 100, 300, 65, Qt::AlignCenter, i18n("x-Axis:"));
-		pDC->drawText(0, 165, 300, 65, Qt::AlignCenter, i18n("y-Axis:"));
-		pDC->drawText(300, 100, 400, 65, Qt::AlignCenter, alx);
-		pDC->drawText(300, 165, 400, 65, Qt::AlignCenter, aly);
-		pDC->drawText(700, 100, 400, 65, Qt::AlignCenter, atx);
-		pDC->drawText(700, 165, 400, 65, Qt::AlignCenter, aty);
-		pDC->drawText(1100, 100, 400, 65, Qt::AlignCenter, dfx);
-		pDC->drawText(1100, 165, 400, 65, Qt::AlignCenter, dfy);
-
-		pDC->drawText(0, 300, i18n("Functions:"));
-		pDC->Lineh(0, 320, 700);
-		int ypos = 380;
-		foreach ( Function * it, XParser::self()->m_ufkt )
-		{
-			foreach ( Equation * eq, it->eq )
-			{
-				if ( m_stopCalculating )
-					break;
-
-				QString fstr = eq->fstr();
-				if ( fstr.isEmpty() )
-					continue;
-
-				pDC->drawText( 100, ypos, fstr );
-				ypos+=60;
-			}
-		}
-		pDC->translate(-60., ypos+100.);
-	}
-	else  pDC->translate(150., 150.);
+	painter->setFont(QFont( Settings::headerTableFont() ) );
+	
+	QString alx = Settings::xMin() + i18n("  to  ") + Settings::xMax();
+	QString aly = Settings::yMin() + i18n("  to  ") + Settings::yMax();
+	
+	QString atx = "1E = " + ticSepX.expression();
+	QString aty = "1E = " + ticSepY.expression();
+	
+	QString text = "<table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">"
+			"<tr><td><b>" + i18n("Parameters") + "</b></td><td><b>" + i18n("Plotting Range") + "</b></td><td><b>" + i18n("Axes Division") + "</b></td></tr>"
+			"<tr><td><b>" + i18n("x-Axis:") + "</b></td><td>" + alx + "</td><td>" + atx + "</td></tr>"
+			"<tr><td><b>" + i18n("y-Axis:") + "</b></td><td>" + aly + "</td><td>" + aty + "</td></tr>"
+			"</table>";
+	
+	text += "<br><br><b>" + i18n("Functions:") + "</b><ul>";
+	
+	foreach ( Function * function, XParser::self()->m_ufkt )
+		text += "<li>" + function->name().replace( '\n', "<br>" ) + "</li>";
+	
+	text += "</ul>";
+	
+	/// \todo this should draw the table above the plot, not on it.
+	/// atm though, I can't test printing, so I've left it like this
+	m_textDocument->setHtml( text );
+	m_textDocument->documentLayout()->draw( painter, QAbstractTextDocumentLayout::PaintContext() ); 
 }
 
 
@@ -2339,7 +2283,7 @@ void View::paintEvent(QPaintEvent *)
 {
 	// Note: it is important to have this function call before we begin painting
 	// as updateCrosshairPosition may set the statusbar text
-	updateCrosshairPosition();
+	bool inBounds = updateCrosshairPosition();
 
 	QPainter p;
 	p.begin(this);
@@ -2416,7 +2360,7 @@ void View::paintEvent(QPaintEvent *)
 			}
 			//END calculate curvature, normal
 			
-			if ( k > 1e-5 && Settings::detailedTracing() )
+			if ( k > 1e-5 && Settings::detailedTracing() && inBounds )
 			{
 				p.save();
 				
@@ -3178,7 +3122,7 @@ bool View::updateCrosshairPosition()
 		// For Cartesian plots, only adjust the cursor position if it is not at the ends of the view
 		if ( ((it->type() != Function::Cartesian) && (it->type() != Function::Differential)) || m_clipRect.contains( mousePos.toPoint() ) )
 		{
-			mousePos = toPixel( m_crosshairPosition );
+			mousePos = toPixel( m_crosshairPosition, ClipAll, mousePos );
 			QPoint globalPos = mapToGlobal( mousePos.toPoint() );
 			QCursor::setPos( globalPos );
 		}
@@ -3248,8 +3192,6 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 
 void View::zoomIn( const QPoint & mousePos, double zoomFactor )
 {
-	kDebug() << k_funcinfo << "zoomFactor="<<zoomFactor<<endl;
-	
 	QPointF real = toReal( mousePos );
 
 	double diffx = (m_xmax-m_xmin)*zoomFactor;
@@ -3261,8 +3203,6 @@ void View::zoomIn( const QPoint & mousePos, double zoomFactor )
 
 void View::zoomIn( const QRectF & zoomRect )
 {
-	kDebug() << k_funcinfo << "zoomRect="<<zoomRect<<" zoomRect.topLeft()="<<zoomRect.topLeft()<<" zoomRect.bottomRight()="<<zoomRect.bottomRight()<<endl;
-	
 	QPointF p = zoomRect.topLeft();
 	double real1x = xToReal(p.x() );
 	double real1y = yToReal(p.y() );

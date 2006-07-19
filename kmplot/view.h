@@ -422,9 +422,9 @@ class View : public QWidget
 		 * These functions convert real coordinates to pixel coordinates and vice
 		 * versa.
 		 */
-		double xToPixel( double x, ClipBehaviour clipBehaviour = ClipAll );
-		double yToPixel( double y, ClipBehaviour clipBehaviour = ClipAll );
-		QPointF toPixel( const QPointF & real, ClipBehaviour clipBehaviour = ClipAll );
+		double xToPixel( double x, ClipBehaviour clipBehaviour = ClipAll, double xIfNaN = 0 );
+		double yToPixel( double y, ClipBehaviour clipBehaviour = ClipAll, double yIfNaN = 0 );
+		QPointF toPixel( const QPointF & real, ClipBehaviour clipBehaviour = ClipAll, const QPointF & pixelIfNaN = QPointF() );
 		double xToReal( double x );
 		double yToReal( double y );
 		QPointF toReal( const QPointF & pixel );

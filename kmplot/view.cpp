@@ -2913,6 +2913,8 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 					best_distance = distance;
 					best_pixel_x = closest_x;
 				}
+				
+				y0 = y1;
 			}
 	
 			best_x = xToReal( best_pixel_x );

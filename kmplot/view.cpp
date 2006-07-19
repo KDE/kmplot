@@ -1798,6 +1798,10 @@ void View::drawFunctionInfo( QPainter * painter )
 					realPos = realValue( plot, t, false );
 				}
 				
+				// If the closest point isn't in the view, then don't draw the label
+				if ( realPos.x() < m_xmin || realPos.x() > m_xmax || realPos.y() < m_ymin || realPos.y() > m_ymax )
+					continue;
+				
 				drawLabel( painter, plot.color(), realPos, plot.name() );
 			}
 		}

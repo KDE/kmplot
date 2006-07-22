@@ -169,18 +169,8 @@ void View::initDrawLabels()
 }
 
 
-void View::draw( QPaintDevice * dev, PlotMedium medium )
+void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 {
-	if ( m_isDrawing )
-		return;
-	m_isDrawing=true;
-	
-	getSettings();
-	updateCursor();
-	initDrawLabels();
-	
-	QPainter painter( dev );
-
 	switch ( medium )
 	{
 		case SVG:
@@ -192,37 +182,30 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 
 		case Printer:
 		{
-			KPrinter * printer = static_cast<KPrinter*>(dev);
+			KPrinter * printer = static_cast<KPrinter*>(device);
 			
 			double width_m = printer->option( "app-kmplot-width" ).toDouble();
 			double height_m = printer->option( "app-kmplot-height" ).toDouble();
 			
-			double inchesPerMeter = (100.0/2.54);
+			double inchesPerMeter = 100.0/2.54;
 			
-			int pixels_x = int(width_m * dev->logicalDpiX() * inchesPerMeter);
-			int pixels_y = int(height_m * dev->logicalDpiY() * inchesPerMeter);
-			
-			kDebug() << "width_m="<<width_m<<" height_m="<<height_m<<" pixels_x="<<pixels_x<<" pixels_y="<<pixels_y<<endl;
-			
-			m_clipRect = QRect( 0, 0, pixels_x, pixels_y );
+			int pixels_x = int(width_m * device->logicalDpiX() * inchesPerMeter);
+			int pixels_y = int(height_m * device->logicalDpiY() * inchesPerMeter);
 			
 			m_printHeaderTable = printer->option( "app-kmplot-printtable" ) != "-1";
-			drawHeaderTable( &painter );
-			if ( printer->option( "app-kmplot-printbackground" ) == "-1" )
-				painter.fillRect( m_clipRect,  m_backgroundColor); //draw a colored background
+			
+			m_clipRect = QRect( 0, 0, pixels_x, pixels_y );
 			break;
 		}
 		
 		case Pixmap:
 		{
-			QPixmap * pic = static_cast<QPixmap*>(dev);
+			QPixmap * pic = static_cast<QPixmap*>(device);
 			m_clipRect = pic->rect();
-			pic->fill(m_backgroundColor);
 			break;
 		}
 	}
 	
-	//BEGIN setup drawing values
 	m_realToPixel.reset();
 	m_realToPixel.scale( m_clipRect.width()/(m_xmax-m_xmin), m_clipRect.height()/(m_ymin-m_ymax) );
 	m_realToPixel.translate( -m_xmin, -m_ymax );
@@ -231,7 +214,48 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	
 	ticStartX = ceil(m_xmin/ticSepX.value())*ticSepX.value();
 	ticStartY = ceil(m_ymin/ticSepY.value())*ticSepY.value();
-	//END setup drawing values
+}
+
+
+void View::draw( QPaintDevice * dev, PlotMedium medium )
+{
+	if ( m_isDrawing )
+		return;
+	m_isDrawing=true;
+	
+	getSettings();
+	updateCursor();
+	initDrawLabels();
+	initDrawing( dev, medium );
+	
+	QPainter painter( dev );
+
+	switch ( medium )
+	{
+		case SVG:
+		case Screen:
+			break;
+
+		case Printer:
+		{
+			KPrinter * printer = static_cast<KPrinter*>(dev);
+			
+			if ( m_printHeaderTable )
+				drawHeaderTable( &painter );
+			
+			if ( printer->option( "app-kmplot-printbackground" ) == "-1" )
+				painter.fillRect( m_clipRect,  m_backgroundColor); //draw a colored background
+			
+			break;
+		}
+		
+		case Pixmap:
+		{
+			QPixmap * pic = static_cast<QPixmap*>(dev);
+			pic->fill(m_backgroundColor);
+			break;
+		}
+	}
 
 	
 	//BEGIN draw diagram background stuff
@@ -274,6 +298,9 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	
 	m_isDrawing=false;
 	//END draw the functions
+	
+	// Reset are stuff back to the screen stuff
+	initDrawing( & buffer, Screen );
 
 	updateCursor();
 }

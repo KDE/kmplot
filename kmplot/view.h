@@ -252,6 +252,11 @@ class View : public QWidget
 		 */
 		double h( const Plot & plot ) const;
 		/**
+		 * Initializes the size, scaling, etc variables from the given paint
+		 * device.
+		 */
+		void initDrawing( QPaintDevice * device, PlotMedium medium );
+		/**
 		* Print out table with additional information. Only for printing.
 		*/
 		void drawHeaderTable(QPainter *);

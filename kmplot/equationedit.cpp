@@ -27,6 +27,7 @@
 #include "ui_equationeditor.h"
 #include "xparser.h"
 
+#include <kacceleratormanager.h>
 #include <kdebug.h>
 #include <kicon.h>
 
@@ -53,6 +54,10 @@ class EquationEditWidget : public QTextEdit
 		 * Call this after changing font size.
 		 */
 		void recalculateGeometry( const QFont & font );
+		/**
+		 * Whether to clear the selection when focus is lost.
+		 */
+		void setClearSelectionOnFocusOut( bool doIt ) { m_clearSelectionOnFocusOut = doIt; }
 		
 	protected:
 		void clearSelection();
@@ -63,6 +68,7 @@ class EquationEditWidget : public QTextEdit
 		void focusInEvent( QFocusEvent * e );
 		
 		EquationEdit * m_parent;
+		bool m_clearSelectionOnFocusOut;
 };
 
 
@@ -384,6 +390,16 @@ void EquationEdit::setValidatePrefix( const QString & prefix )
 }
 
 
+void EquationEdit::wrapSelected( const QString & before, const QString & after )
+{
+	QTextCursor cursor( m_equationEditWidget->textCursor() );
+	QString newText = before + cursor.selectedText() + after;
+	cursor.insertText( newText );
+	cursor.movePosition( QTextCursor::Left, QTextCursor::MoveAnchor, after.length() );
+	m_equationEditWidget->setTextCursor( cursor );
+}
+
+
 QString EquationEdit::text() const
 {
 	return m_equationEditWidget->toPlainText();
@@ -416,6 +432,7 @@ void EquationEdit::insertText( const QString & text )
 EquationEditWidget::EquationEditWidget( EquationEdit * parent )
 	: QTextEdit( parent )
 {
+	m_clearSelectionOnFocusOut = true;
 	m_parent = parent;
 	recalculateGeometry( font() );
 }
@@ -470,7 +487,8 @@ void EquationEditWidget::focusOutEvent( QFocusEvent * e )
 {
 	QTextEdit::focusOutEvent( e );
 	
-	clearSelection();
+	if ( m_clearSelectionOnFocusOut )
+		clearSelection();
 	m_parent->reHighlight();
 	
 	emit m_parent->editingFinished();
@@ -506,11 +524,13 @@ EquationEditor::EquationEditor( QWidget * parent )
 {	
 	m_widget = new EquationEditorWidget( this );
 	m_widget->edit->showEditButton( false );
+	m_widget->edit->m_equationEditWidget->setClearSelectionOnFocusOut( false );
 	m_widget->layout()->setMargin( 0 );
 	setMainWidget( m_widget );
 	
 	setCaption( i18n("Equation Editor") );
 	setButtons( Close );
+	showButtonSeparator( true );
 	
 	QFont font;
 	font.setPointSizeF( font.pointSizeF() * 1.4 );
@@ -523,6 +543,8 @@ EquationEditor::EquationEditor( QWidget * parent )
 	QList<QToolButton *> buttons = m_widget->findChildren<QToolButton *>();
 	foreach ( QToolButton * w, buttons )
 	{
+		KAcceleratorManager::setNoAccel( w );
+		
 		connect( w, SIGNAL(clicked()), this, SLOT(characterButtonClicked()) );
 		
 		// Also increase the font size, since the fractions, etc are probably not that visible
@@ -532,13 +554,36 @@ EquationEditor::EquationEditor( QWidget * parent )
 	
 	connect( m_widget->constantsButton, SIGNAL(clicked()), MainDlg::self(), SLOT(editConstants()) );
 	connect( m_widget->functionList, SIGNAL(activated(const QString &)), this, SLOT(insertFunction(const QString &)) );
+	connect( m_widget->constantList, SIGNAL(activated(int)), this, SLOT(insertConstant(int)) );
 	
 	m_widget->functionList->addItems( XParser::self()->predefinedFunctions(false) );
 	
-	// Constant editing doesn't work atm
-	m_widget->constantsButton->setEnabled( false );
-	
 	connect( m_widget->edit, SIGNAL(returnPressed()), this, SLOT(accept()) );
+	
+	connect( XParser::self()->constants(), SIGNAL(constantsChanged()), this, SLOT(updateConstantList()) );
+	updateConstantList();
+	
+	// Now make the dialog good looking
+	resize( layout()->minimumSize() );
+}
+
+
+void EquationEditor::updateConstantList( )
+{
+	QStringList items;
+	
+	// The first item text is "Insert constant..."
+	items << m_widget->constantList->itemText(0);
+	
+	ConstantList constants = XParser::self()->constants()->list( Constant::All );
+	for ( ConstantList::iterator it = constants.begin(); it != constants.end(); ++it )
+	{
+		QString text = it.key() + " = " + it.value().value.expression();
+		items << text;
+	}
+	
+	m_widget->constantList->clear();
+	m_widget->constantList->addItems( items );
 }
 
 
@@ -551,7 +596,30 @@ QString EquationEditor::text() const
 void EquationEditor::insertFunction( const QString & function )
 {
 	m_widget->functionList->setCurrentIndex( 0 );
-	m_widget->edit->insertText( function + "()" );
+	m_widget->edit->wrapSelected( function + "(", ")" );
+	m_widget->edit->setFocus();
+}
+
+
+void EquationEditor::insertConstant( int index )
+{
+	ConstantList constants = XParser::self()->constants()->list( Constant::All );
+	
+	if ( constants.size() < index )
+		return;
+	
+	// Don't forget that index==0 corresponds to "Insert constant..."
+	
+	ConstantList::iterator it = constants.begin();
+	int at = 0;
+	while ( ++at < index )
+		++it;
+	
+	QString constant = it.key();
+	
+	m_widget->constantList->setCurrentIndex( 0 );
+	m_widget->edit->insertText( constant );
+	m_widget->edit->setFocus();
 }
 
 

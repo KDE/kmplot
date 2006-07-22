@@ -115,6 +115,12 @@ class EquationEdit : public QWidget
 		 * Changes the equation type.
 		 */
 		void setEquationType( Equation::Type type );
+		/**
+		 * For inserting the currently selected text into a function. For
+		 * example, if "2+x" is selected, \p before is "sin(" and \p after is
+		 * ")", then the text will become "sin(2+x)".
+		 */
+		void wrapSelected( const QString & before, const QString & after );
 		
 		QString text() const;
 		void clear();
@@ -183,7 +189,12 @@ class EquationEditor : public KDialog
 		
 	protected slots:
 		void insertFunction( const QString & text );
+		/**
+		 * \p index is the position of the constant in the constants combo box.
+		 */
+		void insertConstant( int index );
 		void characterButtonClicked();
+		void updateConstantList();
 		
 	protected:
 		EquationEditorWidget * m_widget;

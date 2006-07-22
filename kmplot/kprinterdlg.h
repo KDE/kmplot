@@ -27,11 +27,12 @@
 #ifndef kprintdlg_included
 #define kprintdlg_included
 
-// Qt includes
-#include <qcheckbox.h>
-
 // KDE includes
 #include <kdeprint/kprintdialogpage.h>
+
+class QCheckBox;
+class QComboBox;
+class EquationEdit;
 
 /** @short A dialog page for the print dialog.
  *
@@ -46,14 +47,44 @@ public:
 	KPrinterDlg( QWidget *parent = 0 );
 
 	/// Reimplemented.
-	void getOptions( QMap<QString, QString>& opts, bool include_def = false );
+	void getOptions( QMap<QString, QString>& opts, bool includeDefaults = false );
 	/// Reimplemented.
 	void setOptions( const QMap<QString, QString>& opts );
 	/// Reimplemented.
-	bool isValid( const QString& msg ) const;
-	/// The check box for the option.
+	bool isValid( QString& msg ) const;
+	
+protected:
+	enum LengthScaling { Pixels, Inches, Centimeters, Millimeters };
+	/**
+	 * \return the scaling (for converting the width or height to meters via
+	 * multiplication).
+	 */
+	double lengthScaling() const;
+	/**
+	 * Converts the scaling unit to an absolute one in meters.
+	 */
+	static double scalingToMeter( LengthScaling scaling );
+	/**
+	 * Checkbox for whether to print the header table containing plot
+	 * information.
+	 */
 	QCheckBox *printHeaderTable;
+	/**
+	 * Checkbox for whether to print the background.
+	 */
 	QCheckBox *transparent_background;
+	/**
+	 * For the width of the plot.
+	 */
+	EquationEdit *m_widthEdit;
+	/**
+	 * For the height of the plot.
+	 */
+	EquationEdit *m_heightEdit;
+	/**
+	 * The units to use for lengths (such as the width and height).
+	 */
+	QComboBox *m_lengthScalingCombo;
 };
 
 #endif //kprinterdlg_included

@@ -130,8 +130,9 @@ class EquationEdit : public QWidget
 		
 		/**
 		 * Attempts to evaluate the text and return it.
+		 * \a ok Will be set to whether the text could be evaluated as a number.
 		 */
-		double value();
+		double value( bool * ok = 0 );
 		
 	signals:
 		void editingFinished();

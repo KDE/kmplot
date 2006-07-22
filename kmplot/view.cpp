@@ -192,27 +192,21 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 
 		case Printer:
 		{
-			// Pipesmoker: I hope I haven't damanged any printing stuff while rearranging the
-			// diagram appearance! (I promise to fix it once KPrinter works again if so :P).
-			// I intend to have the user specify the height and width of the output image,
-			// instead of specifying the distance between tic marks - hopefully this is
-			// more intuitive.
-			// - David
-			
 			KPrinter * printer = static_cast<KPrinter*>(dev);
 			
-			/// \todo get width, height in cm
-			double width_cm = 12;
-			double height_cm = 12;
+			double width_m = printer->option( "app-kmplot-width" ).toDouble();
+			double height_m = printer->option( "app-kmplot-height" ).toDouble();
 			
-			double inchesPerCm = (100.0/254.0);
+			double inchesPerMeter = (100.0/2.54);
 			
-			int pixels_x = int(width_cm * dev->logicalDpiX() * inchesPerCm);
-			int pixels_y = int(height_cm * dev->logicalDpiY() * inchesPerCm);
+			int pixels_x = int(width_m * dev->logicalDpiX() * inchesPerMeter);
+			int pixels_y = int(height_m * dev->logicalDpiY() * inchesPerMeter);
+			
+			kDebug() << "width_m="<<width_m<<" height_m="<<height_m<<" pixels_x="<<pixels_x<<" pixels_y="<<pixels_y<<endl;
 			
 			m_clipRect = QRect( 0, 0, pixels_x, pixels_y );
 			
-			m_printHeaderTable = ( ( KPrinter* ) dev )->option( "app-kmplot-printtable" ) != "-1";
+			m_printHeaderTable = printer->option( "app-kmplot-printtable" ) != "-1";
 			drawHeaderTable( &painter );
 			if ( printer->option( "app-kmplot-printbackground" ) == "-1" )
 				painter.fillRect( m_clipRect,  m_backgroundColor); //draw a colored background
@@ -258,8 +252,6 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	// sliding the view about
 	painter.setRenderHint( QPainter::Antialiasing, m_zoomMode != Translating );
 	
-	painter.setClipping( true );
-	painter.setClipRect( m_clipRect );
 	double numPlots = XParser::self()->m_ufkt.size();
 	double at = -1;
 	foreach ( Function * function, XParser::self()->m_ufkt )
@@ -269,17 +261,16 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		if ( m_stopCalculating )
 			break;
 		
-// 		QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setDrawProgress", at/numPlots );
+// 		QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::Block, "setDrawProgress", at/numPlots );
 
 		if ( function->type() == Function::Implicit )
 			drawImplicit( function, & painter );
 		else
 			drawFunction( function, & painter );
 	}
-// 	QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setDrawProgress", 1.0 );
+// 	QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::Block, "setDrawProgress", 1.0 );
 	
 	drawFunctionInfo( & painter );
-	painter.setClipping( false );
 	
 	m_isDrawing=false;
 	//END draw the functions
@@ -564,8 +555,6 @@ void View::drawGrid( QPainter* painter )
 		{
 			// Note: 1.42 \approx sqrt(2)
 			
-			painter->setClipRect( m_clipRect );
-			
 			double xMax = qMax( qAbs(m_xmin), qAbs(m_xmax) ) * 1.42;
 			double yMax = qMax( qAbs(m_ymin), qAbs(m_ymax) ) * 1.42;
 			
@@ -595,7 +584,6 @@ void View::drawGrid( QPainter* painter )
 				painter->drawLine( start, end );
 			}
 			
-			painter->setClipping( false );
 			break;
 		}
 	}
@@ -2334,8 +2322,6 @@ void View::paintEvent(QPaintEvent *)
 			
 			double x = m_crosshairPosition.x();
 			double y = m_crosshairPosition.y();
-			
-			p.setClipRect( m_clipRect );
 			
 			//BEGIN calculate curvature, normal
 			double k = 0;

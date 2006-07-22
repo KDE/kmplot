@@ -297,11 +297,17 @@ void EquationEdit::setInputType( InputType type )
 }
 
 
-double EquationEdit::value( )
+double EquationEdit::value( bool * ok )
 {
 	assert( m_inputType == Expression ); // Can't really get a value of a function as that requires an input
 	
-	return XParser::self()->eval( text() );
+	Parser::Error error;
+	double value = XParser::self()->eval( text(), & error );
+	
+	if (ok)
+		*ok = (error == Parser::ParseSuccess);
+	
+	return value;
 }
 
 

@@ -1057,7 +1057,7 @@ DifferentialState * Plot::state( ) const
 	if ( !function() || (stateNumber < 0) )
 		return 0;
 	
-	if ( function()->eq[0]->differentialStates.order() <= stateNumber )
+	if ( function()->eq[0]->differentialStates.size() <= stateNumber )
 		return 0;
 	
 	return & function()->eq[0]->differentialStates[stateNumber];

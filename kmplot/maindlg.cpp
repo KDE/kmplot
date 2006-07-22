@@ -686,7 +686,6 @@ void MainDlg::slotSettings()
 
 void MainDlg::updateSettings()
 {
-	View::self()->getSettings();
 	m_modified = true;
 	View::self()->drawPlot();
 }

@@ -103,10 +103,7 @@ class View : public QWidget
 		 */
 		void draw( QPaintDevice * dev, PlotMedium medium );
 		
-		/// Getting all relevant settings using KConfig XT class Settings.
-		void getSettings();
 		/// Clears all functions in the parser and gets default settings.
-		/// @see getSettings
 		void init();
 		enum ExtremaType { Minimum, Maximum };
 		/**
@@ -151,9 +148,14 @@ class View : public QWidget
 		void updateSliders(); /// show only needed sliders
 		
 		/**
-		 * Convert a width in mm to a suitable QPen width for drawing.
+		 * Convert \p width_mm (millimeters) to the equivalent length when
+		 * drawing using \p painter.
 		 */
-		double mmToPenWidth( double width_mm, QPainter * painter ) const;
+		double millimetersToPixels( double width_mm, QPaintDevice * device ) const;
+		/**
+		 * The inverse of millimetersToPixels().
+		 */
+		double pixelsToMillimeters( double width_pixels, QPaintDevice * device ) const;
 
 		/** Current plot range endge. */
 		double m_xmin;
@@ -239,6 +241,13 @@ class View : public QWidget
 		virtual void focusInEvent( QFocusEvent * );
 	
 	private:
+		/**
+		 * For using in automatic tic spacing. Given \p range (e.g. x_max-x_min)
+		 * and the \p length_mm (in millimeters), it aims to find a "nice"
+		 * spacing distance that is visually pleasing and also fits the base 10
+		 * number system in use (i.e. is a decimal multiple of 1, 2 or 5).
+		 */
+		double niceTicSpacing( double length_mm, double range );
 		/**
 		 * When zoomed in on part of a circle, it looks nearly straight. KmPlot
 		 * uses this to quickly draw curves that are mostly straight. Given the

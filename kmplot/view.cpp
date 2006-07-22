@@ -126,7 +126,6 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 
 	XParser::self( & modified );
 	init();
-	getSettings();
 
 	setMouseTracking( true );
 	m_sliderWindow = 0;
@@ -169,6 +168,36 @@ void View::initDrawLabels()
 }
 
 
+double View::niceTicSpacing( double length_mm, double range )
+{
+	Q_ASSERT_X( length_mm > 0,	"View::niceTicSpacing", "Length must be positive" );
+	Q_ASSERT_X( range > 0,		"View::niceTicSpacing", "Range must be positive" );
+	
+	// Custom case for trigonemtric scaled
+	if ( qFuzzyCompare( range, 4*M_PI ) )
+		return M_PI/2;
+	
+	// Aim to space the tics by at most 2 cm
+	double target = range * 20.0 / length_mm;
+	
+	// The scaling required to bring target to a number between 1 and 10
+	double scale = pow( 10, -std::floor(log(target)/log(10)) );
+	
+	// Calculate the first digit of target, e.g. if target is 0.0352, then leading will be set to 3
+	int leading = int(target * scale);
+	
+	if ( leading == 1 )
+		return 1/scale;
+	else if ( leading >= 2 && leading <= 4 )
+		return 2/scale;
+	else
+		return 5/scale;
+	
+	// Hmm...strange - shouldn't get to here :/
+	return target;
+}
+
+
 void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 {
 	switch ( medium )
@@ -206,14 +235,77 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 		}
 	}
 	
+	
+	//BEGIN get X/Y range
+	m_xmin = XParser::self()->eval( Settings::xMin() );
+	m_xmax = XParser::self()->eval( Settings::xMax() );
+	
+	if ( m_xmax <= m_xmin )
+	{
+		m_xmin = -8;
+		m_xmax = +8;
+	}
+	
+	m_ymin = XParser::self()->eval( Settings::yMin() );
+	m_ymax = XParser::self()->eval( Settings::yMax() );
+	if ( m_ymax <= m_ymin )
+	{
+		m_ymin = -8;
+		m_ymax = +8;
+	}
+	//END get X/Y range
+	
+	
+	
+	//BEGIN calculate scaling matrices
 	m_realToPixel.reset();
 	m_realToPixel.scale( m_clipRect.width()/(m_xmax-m_xmin), m_clipRect.height()/(m_ymin-m_ymax) );
 	m_realToPixel.translate( -m_xmin, -m_ymax );
 	
 	m_pixelToReal = m_realToPixel.inverted();
+	//END calculate scaling matrices
+	
+	
+	
+	//BEGIN get Tic Separation
+	if ( Settings::xScalingMode() == 0 )
+	{
+		double length = pixelsToMillimeters( xToPixel( m_xmax ), device );
+		double spacing = niceTicSpacing( length, m_xmax-m_xmin );
+		ticSepX.updateExpression( spacing );
+	}
+	else
+		ticSepX.updateExpression( Settings::xScaling() );
+
+	if ( Settings::yScalingMode() == 0 )
+	{
+		double length = pixelsToMillimeters( yToPixel( m_ymin ), device );
+		double spacing = niceTicSpacing( length, m_ymax-m_ymin );
+		ticSepY.updateExpression( spacing );
+	}
+	else
+		ticSepY.updateExpression( Settings::yScaling() );
 	
 	ticStartX = ceil(m_xmin/ticSepX.value())*ticSepX.value();
 	ticStartY = ceil(m_ymin/ticSepY.value())*ticSepY.value();
+	//END get Tic Separation
+	
+	
+	
+	//BEGIN get colours
+	m_backgroundColor = Settings::backgroundcolor();
+	if ( !m_backgroundColor.isValid() )
+		m_backgroundColor = Qt::white;
+
+	QPalette palette;
+	palette.setColor( backgroundRole(), m_backgroundColor );
+	setPalette(palette);
+	//END get colours
+
+	
+	XParser::self()->setAngleMode( (Parser::AngleMode)Settings::anglemode() );
+	
+	initDrawLabels();
 }
 
 
@@ -221,11 +313,9 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 {
 	if ( m_isDrawing )
 		return;
-	m_isDrawing=true;
 	
-	getSettings();
+	m_isDrawing = true;
 	updateCursor();
-	initDrawLabels();
 	initDrawing( dev, medium );
 	
 	QPainter painter( dev );
@@ -403,9 +493,9 @@ double View::yToReal( double y )
 
 void View::drawAxes( QPainter* painter )
 {
-	double axesLineWidth = mmToPenWidth( Settings::axesLineWidth(), painter );
-	double ticWidth = mmToPenWidth( Settings::ticWidth(), painter );
-	double ticLength = mmToPenWidth( Settings::ticLength(), painter );
+	double axesLineWidth = millimetersToPixels( Settings::axesLineWidth(), painter->device() );
+	double ticWidth = millimetersToPixels( Settings::ticWidth(), painter->device() );
+	double ticLength = millimetersToPixels( Settings::ticLength(), painter->device() );
 	QColor axesColor = Settings::axesColor();
 	
 	painter->save();
@@ -529,7 +619,7 @@ void View::drawGrid( QPainter* painter )
 {
 	QColor gridColor = Settings::gridColor();
 	
-	double gridLineWidth = mmToPenWidth( Settings::gridLineWidth(), painter );
+	double gridLineWidth = millimetersToPixels( Settings::gridLineWidth(), painter->device() );
 	QPen pen( gridColor, gridLineWidth );
 
 	painter->setPen(pen);
@@ -1743,7 +1833,7 @@ void View::drawFunctionInfo( QPainter * painter )
 				QList<QPointF> stationaryPoints = findStationaryPoints( plot );
 				foreach ( QPointF realValue, stationaryPoints )
 				{
-					painter->setPen( QPen( Qt::black, mmToPenWidth( 1.5, painter ) ) );
+					painter->setPen( QPen( Qt::black, millimetersToPixels( 1.5, painter->device() ) ) );
 					painter->drawPoint( toPixel( realValue ) );
 					
 					QString x = posToString( realValue.x(), (m_xmax-m_xmin)/m_clipRect.width(), View::DecimalFormat );
@@ -2058,20 +2148,24 @@ QPen View::penForPlot( const Plot & plot, QPainter * painter ) const
 	if ( appearance.style == Qt::SolidLine )
 		pen.setCapStyle( Qt::FlatCap );
 
-	double width = mmToPenWidth( lineWidth_mm, painter );
+	double width = millimetersToPixels( lineWidth_mm, painter->device() );
 	pen.setWidthF( width );
 	
 	return pen;
 }
 
 
-double View::mmToPenWidth( double width_mm, QPainter * painter ) const
+double View::millimetersToPixels( double width_mm, QPaintDevice * device ) const
 {
-	QPaintDevice * dev = painter->device();
-	assert( dev->logicalDpiX() == dev->logicalDpiY() );
-	double dpi = dev->logicalDpiX();
-	
-	return dpi * (width_mm/25.4);
+	assert( device->logicalDpiX() == device->logicalDpiY() );
+	return device->logicalDpiX() * (width_mm/25.4);
+}
+
+
+double View::pixelsToMillimeters( double width_pixels, QPaintDevice * device ) const
+{
+	assert( device->logicalDpiX() == device->logicalDpiY() );
+	return (width_pixels * 25.4) / device->logicalDpiX();
 }
 
 
@@ -2626,6 +2720,9 @@ void View::resizeEvent(QResizeEvent *)
 
 void View::drawPlot()
 {
+	if ( buffer.width() == 0 || buffer.height() == 0 )
+		return;
+	
 	buffer.fill(m_backgroundColor);
 	draw(&buffer, Screen );
 	update();
@@ -3360,61 +3457,12 @@ void View::translateView( int dx, int dy )
 	drawPlot(); //update all graphs
 }
 
-void View::getSettings()
-{
-	//BEGIN get X/Y range
-	m_xmin = XParser::self()->eval( Settings::xMin() );
-	m_xmax = XParser::self()->eval( Settings::xMax() );
-	
-	if ( m_xmax <= m_xmin )
-	{
-		m_xmin = -8;
-		m_xmax = +8;
-	}
-	
-	m_ymin = XParser::self()->eval( Settings::yMin() );
-	m_ymax = XParser::self()->eval( Settings::yMax() );
-	if ( m_ymax <= m_ymin )
-	{
-		m_ymin = -8;
-		m_ymax = +8;
-	}
-	//END get X/Y range
-	
-	
-	//BEGIN get Tic Separation
-	if ( Settings::xScalingMode() == 0 )
-		ticSepX.updateExpression( (m_xmax-m_xmin)/16 ); // automatic x-scaling
-	else
-		ticSepX.updateExpression( Settings::xScaling() );
-
-	if ( Settings::yScalingMode() == 0 )
-		ticSepY.updateExpression( (m_ymax-m_ymin)/16 ); // automatic x-scaling
-	else
-		ticSepY.updateExpression( Settings::yScaling() );
-	//END get Tic Separation
-	
-	
-	//BEGIN get colours
-	m_backgroundColor = Settings::backgroundcolor();
-	if ( !m_backgroundColor.isValid() )
-		m_backgroundColor = Qt::white;
-
-	QPalette palette;
-	palette.setColor( backgroundRole(), m_backgroundColor );
-	setPalette(palette);
-	//END get colours
-
-	
-	XParser::self()->setAngleMode( (Parser::AngleMode)Settings::anglemode() );
-}
 
 void View::init()
 {
 	QList<int> functionIDs = XParser::self()->m_ufkt.keys();
 	foreach ( int id, functionIDs )
 		XParser::self()->removeFunction( id );
-	getSettings();
 }
 
 
@@ -3754,7 +3802,7 @@ void View::zoomOut()
 void View::zoomToTrigonometric()
 {
 	double rpau = XParser::self()->radiansPerAngleUnit();
-	animateZoom( QRectF( -(47.0/24.0)*M_PI/rpau, -4.0, (47.0/12.0)*M_PI/rpau, 8.0 ) );
+	animateZoom( QRectF( -2*M_PI/rpau, -4.0, 4*M_PI/rpau, 8.0 ) );
 }
 
 

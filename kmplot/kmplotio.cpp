@@ -420,8 +420,6 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 	Settings::setXMax( n.namedItem( "xmax" ).toElement().text() );
 	Settings::setYMin( n.namedItem( "ymin" ).toElement().text() );
 	Settings::setYMax( n.namedItem( "ymax" ).toElement().text() );
-	
-	View::self()->getSettings();
 }
 
 
@@ -470,8 +468,6 @@ void KmPlotIO::parseScale(const QDomElement & n )
 		Settings::setXScaling( n.namedItem( "tic-x" ).toElement().text() );
 		Settings::setYScaling( n.namedItem( "tic-y" ).toElement().text() );
 	}
-	
-	View::self()->getSettings();
 }
 
 

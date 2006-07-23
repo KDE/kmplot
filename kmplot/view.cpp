@@ -234,6 +234,13 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 	}
 	
 	
+	if ( m_clipRect.width() <= 0 || m_clipRect.height() <= 0 )
+	{
+		kWarning() << k_funcinfo << "Invalid clip rect: m_clipRect="<<m_clipRect<<endl;
+		return;
+	}
+		
+	
 	//BEGIN get X/Y range
 	m_xmin = XParser::self()->eval( Settings::xMin() );
 	m_xmax = XParser::self()->eval( Settings::xMax() );
@@ -252,7 +259,6 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 		m_ymax = +8;
 	}
 	//END get X/Y range
-	
 	
 	
 	//BEGIN calculate scaling matrices
@@ -1658,21 +1664,23 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	// should use drawImplicit for implicit functions
 	assert( function->type() != Function::Implicit );
 	
-	bool setAliased = false;
-	if ( (plot.parameter.type() == Parameter::Animated) && (painter->renderHints() & QPainter::Antialiasing) )
-	{
-		// Don't use antialiasing, so that rendering is speeded up
-		setAliased = true;
-		painter->setRenderHint( QPainter::Antialiasing, false );
-	}
-	
-	painter->setPen( penForPlot( plot, painter ) );
-	
 	double dmin = getXmin( function );
 	double dmax = getXmax( function );
 	
 	if ( dmin >= dmax )
 		return;
+	
+	// Bug in Qt 4.2 TP - QPainter::drawPolyline draws the background as well while printing
+	// So for testing printing, use a brush where one can see the function being drawn
+	painter->setBrush( Qt::white );
+	
+	if ( (plot.parameter.type() == Parameter::Animated) && (painter->renderHints() & QPainter::Antialiasing) )
+	{
+		// Don't use antialiasing, so that rendering is speeded up
+		painter->setRenderHint( QPainter::Antialiasing, false );
+	}
+	
+	painter->setPen( penForPlot( plot, painter ) );
 	
 	// the 'middle' dx, which may be increased or decreased
 	double base_dx = (dmax-dmin)/m_clipRect.width();
@@ -1691,6 +1699,8 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	
 	bool p1Set = false;
 	QPointF p1, p2;
+	
+	QPolygonF drawPoints;
 	
 	double x = dmin;
 	double prevX = x; // the value of x before last adding dx to it
@@ -1770,6 +1780,8 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		{
 			double y0 = yToPixel( 0 );
 
+			/// \todo should draw the shape in one go
+			
 			QPointF points[4];
 			points[0] = QPointF( p1.x(), y0 );
 			points[1] = QPointF( p2.x(), y0 );
@@ -1779,7 +1791,16 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 			painter->drawPolygon( points, 4 );
 		}
 		else if ( penShouldDraw( totalLength, plot ) )
-			painter->drawLine( p1, p2 );
+		{
+			if ( !drawPoints.isEmpty() && drawPoints.last() != p1 )
+			{
+				painter->drawPolyline( drawPoints );
+				drawPoints.clear();
+				drawPoints << p1;
+			}
+			
+			drawPoints << p2;
+		}
 		
 		markDiagramPointUsed( p2 );
 		
@@ -1790,9 +1811,9 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		x += dx;
 	}
 	while ( x <= dmax );
-		
-	if ( setAliased )
-		painter->setRenderHint( QPainter::Antialiasing, true );
+	painter->drawPolyline( drawPoints );
+	
+	painter->restore();
 }
 
 

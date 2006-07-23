@@ -91,6 +91,12 @@ int isinf(double x)
 //END nan & inf
 
 
+// does for real numbers what "%" does for integers
+double realModulo( double x, double mod )
+{
+	return x - floor(x/mod)*mod;
+}
+
 
 //BEGIN class View
 View * View::m_self = 0;
@@ -133,6 +139,12 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	updateSliders();
 	
 	m_popupMenuTitle = m_popupMenu->addTitle( "" );
+	
+	
+	// Do some testing
+	assert( realModulo(0, 1) == 0 );
+	assert( realModulo(-1, 2) == 1 );
+	assert( realModulo(5, 3) == 2 );
 }
 
 
@@ -1335,15 +1347,6 @@ double View::maxSegmentLength( double curvature )
 }
 
 
-// does for real numbers what "%" does for integers
-double realModulo( double x, double mod )
-{
-	x = qAbs(x);
-	mod = qAbs(mod);
-	return x - floor(x/mod)*mod;
-}
-
-
 void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x, double y, Qt::Orientations orientation, QList<QPointF> * singular )
 {
 	plot.updateFunction();
@@ -1656,6 +1659,111 @@ void View::drawTangentField( const Plot & plot, QPainter * painter )
 }
 
 
+/**
+ * Convenience function for drawing lines. Unfortunately, QPainter::drawPolyline
+ * takes a long time to draw the line joins, which is only necessary when we are
+ * using a fat pen. Therefore, draw each line individually if we are using a
+ * thin pen to save time.
+ */
+void drawPolyline( QPainter * painter, const QPolygonF & points )
+{
+	if ( painter->pen().width() > 5 )
+		painter->drawPolyline( points );
+	else if ( points.size() >= 2 )
+	{
+		QPointF prev = points.first();
+		for ( int i = 1; i < points.size(); ++i )
+		{
+// 			QPen pen( painter->pen() );
+// 			pen.setColor( (i%2==0) ? Qt::red : Qt::blue );
+// 			painter->setPen( pen );
+			
+			QPointF next = points[i];
+			painter->drawLine( prev, next );
+			prev = next;
+		}
+	}
+}
+
+/**
+ * 
+ * Speed up drawing by only drawing one line between each straightish section of the curve
+ * These variable are used to determine when the curve can no longer be approximate by a
+ * straight line as the new angle has changed too much
+ */
+class CurveApproximator
+{
+	public:
+		CurveApproximator( const QPolygonF & points )
+		{
+			assert( points.size() >= 2 );
+			reset();
+			
+			QPointF diff = points[ points.size() - 2 ] - points.last();
+			currentAngle = atan2( diff.y(), diff.x() ); 
+			approximatingCurve = true;
+		}
+		
+		CurveApproximator() { reset(); }
+		
+		void reset()
+		{
+			currentAngle = 0;
+			maxClockwise = 0;
+			maxAnticlockwise = 0;
+			maxDistance = 0;
+			approximatingCurve = false;
+		}
+		
+		
+		bool shouldDraw() const
+		{
+			return ((maxAnticlockwise + maxClockwise) * maxDistance) >= 0.5;
+		}
+		
+		
+		void update( const QPolygonF & points )
+		{
+			// Should have at least two points in the list
+			assert( points.size() >= 2 );
+			
+			QPointF p1 = points[ points.size() - 2 ];
+			QPointF p2 = points.last();
+			
+			QPointF diff = p1 - p2;
+			double angle = atan2( diff.y(), diff.x() ); 
+			
+			double lineLength = QLineF( p1, p2 ).length();
+			if ( lineLength > maxDistance )
+				maxDistance = lineLength;
+			
+			double clockwise =		realModulo( currentAngle-angle, 2*M_PI );
+			double anticlockwise =	realModulo( angle-currentAngle, 2*M_PI );
+			
+			bool goingClockwise = (clockwise < anticlockwise);
+			
+			if ( goingClockwise )
+			{
+				// anti-clockwise
+				if ( clockwise > maxClockwise )
+					maxClockwise = clockwise;
+			}
+			else
+			{
+				// clockwise
+				if ( anticlockwise > maxAnticlockwise )
+					maxAnticlockwise = anticlockwise;
+			}
+		}
+		
+		double currentAngle;
+		double maxClockwise;
+		double maxAnticlockwise;
+		double maxDistance;
+		bool approximatingCurve;
+};
+
+
 void View::drawPlot( const Plot & plot, QPainter *painter )
 {
 	plot.updateFunction();
@@ -1670,6 +1778,8 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	if ( dmin >= dmax )
 		return;
 	
+	painter->save();
+	
 	// Bug in Qt 4.2 TP - QPainter::drawPolyline draws the background as well while printing
 	// So for testing printing, use a brush where one can see the function being drawn
 	painter->setBrush( Qt::white );
@@ -1683,16 +1793,16 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	painter->setPen( penForPlot( plot, painter ) );
 	
 	// the 'middle' dx, which may be increased or decreased
-	double base_dx = (dmax-dmin)/m_clipRect.width();
+	double max_dx = (dmax-dmin)/m_clipRect.width();
 	if ( (function->type() == Function::Parametric) || (function->type() == Function::Polar) )
-		base_dx *= 0.01;
+		max_dx *= 0.01;
 
 	// Increase speed while translating the view
 	bool quickDraw = ( m_zoomMode == Translating );
 	if ( quickDraw )
-		base_dx *= 4.0;
+		max_dx *= 4.0;
 	
-	double dx = base_dx;
+	double dx = max_dx;
 	
 	bool drawIntegral = m_integralDrawSettings.draw && (m_integralDrawSettings.plot == plot);
 	double totalLength = 0.0; // total pixel length; used for drawing dotted lines
@@ -1700,6 +1810,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	bool p1Set = false;
 	QPointF p1, p2;
 	
+	CurveApproximator approximator;
 	QPolygonF drawPoints;
 	
 	double x = dmin;
@@ -1749,17 +1860,16 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		double length = QLineF( p1, p2 ).length();
 		totalLength += length;
 
-		double min_mod = (function->type() == Function::Cartesian || function->type() == Function::Differential) ? 0.1 : 5e-5;
-		double max_mod = (function->type() == Function::Cartesian || function->type() == Function::Differential) ? 1e+1 : 5e+1;
-		bool dxAtMinimum = (dx <= base_dx*min_mod);
-		bool dxAtMaximum = (dx >= base_dx*max_mod);
+		double min_mod = (function->type() == Function::Cartesian || function->type() == Function::Differential) ? 1e-2 : 5e-5;
+		bool dxAtMinimum = (dx <= max_dx*min_mod);
+		bool dxAtMaximum = (dx >= max_dx);
 		bool dxTooBig = false;
 		bool dxTooSmall = false;
 		
-		if ( QRectF( m_clipRect ).intersects( bound ) )
+		if ( QRectF(m_clipRect).intersects( bound ) )
 		{
-			dxTooBig = !dxAtMinimum && (length > (quickDraw ? max_mod : 4.0));
-			dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 10.0 : 1.0));
+			dxTooBig = !dxAtMinimum && (length > (quickDraw ? 4.0 : 8.0));
+			dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 2.0 : 4.0));
 		}
 		else
 			dxTooSmall = !dxAtMaximum;
@@ -1792,26 +1902,58 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		}
 		else if ( penShouldDraw( totalLength, plot ) )
 		{
-			if ( !drawPoints.isEmpty() && drawPoints.last() != p1 )
+			if ( drawPoints.isEmpty() )
 			{
-				painter->drawPolyline( drawPoints );
-				drawPoints.clear();
 				drawPoints << p1;
 			}
+			else if ( drawPoints.last() != p1 )
+			{
+				drawPolyline( painter, drawPoints );
+				drawPoints.clear();
+				drawPoints << p1;
+				approximator.approximatingCurve = false;
+			}
 			
-			drawPoints << p2;
+			// The above code should guarantee that drawPoints isn't empty
+			// But check it now in case I do something stupid
+			assert( !drawPoints.isEmpty() );
+			
+			if ( !approximator.approximatingCurve )
+			{
+				// Cool, about to add another point. This defines the working angle of the line
+				// approximation
+				drawPoints << p2;
+				approximator = CurveApproximator( drawPoints );
+			}
+			else
+			{
+				QPointF prev = drawPoints.last();
+				drawPoints.last() = p2;
+				approximator.update( drawPoints );
+				
+				// Allow a maximum deviation (in pixels)
+				if ( approximator.shouldDraw() )
+				{
+					// The apprimxation is too bad; will have to start again now
+					drawPoints.last() = prev;
+					drawPoints << p2;
+					approximator = CurveApproximator( drawPoints );
+				}
+			}
 		}
 		
 		markDiagramPointUsed( p2 );
 		
 		p1 = p2;
-		Q_ASSERT( dx > 0 );
 		
+		Q_ASSERT( dx > 0 );
 		prevX = x;
 		x += dx;
 	}
 	while ( x <= dmax );
-	painter->drawPolyline( drawPoints );
+	
+// 	kDebug() << "drawPoints.size()="<<drawPoints.size()<<endl;
+	drawPolyline( painter, drawPoints );
 	
 	painter->restore();
 }
@@ -3445,6 +3587,7 @@ void View::animateZoom( const QRectF & _newCoords )
 	Settings::setXMax( Parser::number( m_xmax ) );
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
+	Settings::writeConfig();
 	MainDlg::self()->coordsDialog()->updateXYRange();
 
 	drawPlot(); //update all graphs
@@ -3467,6 +3610,7 @@ void View::translateView( int dx, int dy )
 	Settings::setXMax( Parser::number( m_xmax ) );
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
+	Settings::writeConfig();
 	MainDlg::self()->coordsDialog()->updateXYRange();
 
 	drawPlot(); //update all graphs

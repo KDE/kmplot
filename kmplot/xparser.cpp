@@ -241,52 +241,38 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 	int p2 = str.indexOf(')');
 	int p3 = str.indexOf('=');
 	
-	bool hasBeginning = (p1>=0);
+	if ( p1 < 0 )
+		return;
+	
 	for ( int i = p2+1; i < p3; ++i )
 	{
 		if ( !str.at(i).isSpace() )
-			hasBeginning = false;
+			return;
 	}
 	
-	if ( hasBeginning )
+	QString const fname = str.left(p1);
+	foreach ( Function * it, m_ufkt )
 	{
-		QString const fname = str.left(p1);
-		foreach ( Function * it, m_ufkt )
+		if ( int(it->id()) == id )
+			continue;
+		
+		foreach ( Equation * eq, it->eq )
 		{
-			if ( int(it->id()) == id )
+			if ( eq->name() != fname )
 				continue;
 			
-			foreach ( Equation * eq, it->eq )
-			{
-				if ( eq->name() != fname )
-					continue;
-				
-				str = str.mid(p1,str.length()-1);
-				QString function_name;
-				if ( type == Equation::ParametricX )
-					function_name = "x";
-				else if ( type == Equation::ParametricY )
-					function_name = "y";
-				else
-					function_name = "f";
-				function_name = findFunctionName( function_name, id );
-				str.prepend( function_name );
-				return;
-			}
+			str = str.mid(p1,str.length()-1);
+			QString function_name;
+			if ( type == Equation::ParametricX )
+				function_name = "x";
+			else if ( type == Equation::ParametricY )
+				function_name = "y";
+			else
+				function_name = "f";
+			function_name = findFunctionName( function_name, id );
+			str.prepend( function_name );
+			return;
 		}
-	}
-	else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
-	{
-		QString function_name;
-		if ( type == Equation::ParametricX )
-			function_name = "xf";
-		else if ( type == Equation::ParametricY )
-			function_name = "yf";
-		else
-			function_name = "f";
-		str.prepend("(x)=");
-		function_name = findFunctionName( function_name, id );
-		str.prepend( function_name );
 	}
 }
 

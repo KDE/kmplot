@@ -203,8 +203,10 @@ class DifferentialStates
 		Value step() const { return m_step; }
 		/**
 		 * \see maximumStep();
+		 * \return whether could successfully set the step, i.e. that it is
+		 * strictly positive.
 		 */
-		void setStep( const Value & step ) { m_step = step; }
+		bool setStep( const Value & step );
 		
 		bool operator == ( const DifferentialStates & other ) const { return (m_data == other.m_data) && (m_step == other.m_step); }
 		bool operator != ( const DifferentialStates & other ) const { return !(*this == other); }
@@ -299,6 +301,14 @@ class Equation
 		 * will not be updated.
 		 */
 		bool setFstr( const QString & string, int * error = 0, int * errorPosition = 0 );
+		/**
+		 * \return true if the fstr looks like "f(x) = ..."
+		 * \return false if the fstr looks like "y = ..." (note that this
+		 * depends on the type of equation, so if this is a Cartesian equation
+		 * and the fstr looks like "a = ..." (not y) then it'll be considered a
+		 * function, even if it isn't a very useful one.
+		 */
+		bool looksLikeFunction() const;
 		/**
 		 * \return the order of the differential equations.
 		 */

@@ -89,6 +89,9 @@ void PlotStyleWidget::init( const PlotAppearance & plot, Function::Type type )
 	// Show/hide stuff as appropriate
 	m_dialogWidget->showExtrema->setVisible( type == Function::Cartesian );
 	m_dialogWidget->showTangentField->setVisible( type == Function::Differential );
+	
+	layout()->invalidate();
+	resize( layout()->minimumSize() );
 }
 
 

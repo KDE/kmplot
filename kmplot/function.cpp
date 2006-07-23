@@ -203,6 +203,16 @@ void DifferentialState::setOrder( int order )
 }
 
 
+bool DifferentialStates::setStep( const Value & step )
+{
+	if ( step.value() <= 0 )
+		return false;
+	
+	m_step = step;
+	return true;
+}
+
+
 void DifferentialState::resetToInitial()
 {
 	x = x0.value();
@@ -293,10 +303,17 @@ QString Equation::name( bool removePrimes ) const
 	if ( m_fstr.isEmpty() )
 		return QString();
 	
-	int pos = m_fstr.indexOf( '(' );
+	int open = m_fstr.indexOf( '(' );
+	int equals = m_fstr.indexOf( '=' );
 	
-	if ( pos == -1 )
+	if ( (equals == -1) && (open == -1) )
 		return QString();
+	
+	int pos;
+	if ( ((equals > open) && (open != -1)) || (equals == -1) )
+		pos = open;
+	else
+		pos = equals;
 	
 	QString n = m_fstr.left( pos ).trimmed();
 	
@@ -307,16 +324,67 @@ QString Equation::name( bool removePrimes ) const
 }
 
 
+bool Equation::looksLikeFunction( ) const
+{
+	int open = m_fstr.indexOf( '(' );
+	int equals = m_fstr.indexOf( '=' );
+	
+	if ( (open != -1) && (open < equals) )
+		return true;
+	
+	switch ( type() )
+	{
+		case Cartesian:
+		case Differential:
+		case ParametricY:
+			return (name() != "y");
+			
+		case Polar:
+			return (name() != "r");
+		
+		case ParametricX:
+			return (name() != "x");
+		
+		case Implicit:
+			return false;
+	}
+	
+	return true;
+}
+
+
 void Equation::updateVariables()
 {
 	m_variables.clear();
 	
-	int p1 = m_fstr.indexOf( '(' );
-	int p2 = m_fstr.indexOf( ')' );
-	if ( (p1 == -1) || (p2 == -1) )
-		return;
+	if ( looksLikeFunction() )
+	{
+		int p1 = m_fstr.indexOf( '(' );
+		int p2 = m_fstr.indexOf( ')' );
 	
-	m_variables = m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts );
+		if ( (p1 != -1) && (p2 != -1) )
+			m_variables = m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts );
+	}
+	else switch ( type() )
+	{
+		case Cartesian:
+		case Differential:
+			m_variables << "x";
+			break;
+			
+		case Polar:
+			m_variables << QChar( 0x3b8 ); // theta
+			break;
+		
+		case ParametricX:
+		case ParametricY:
+			m_variables << "t";
+			break;
+		
+		case Implicit:
+			m_variables << "x" << "y";
+			break;
+	}
 	
 	// If we are a differential equation, then add on y, y', etc
 	if ( type() == Differential )

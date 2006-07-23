@@ -249,6 +249,7 @@ double Parser::fkt(uint const id, int eq, double x )
 double Parser::fkt( Equation * eq, double x )
 {
 	Function * function = eq->parent();
+	Q_ASSERT_X( function->type() != Function::Differential, "Parser::fkt", "Do not use this function directly! Instead, call XParser::differential" );
 	
 	switch ( function->type() )
 	{
@@ -287,10 +288,7 @@ double Parser::fkt( Equation * eq, double x )
 		}
 		
 		case Function::Differential:
-		{
-			kError() << k_funcinfo << "Do not use this function directly! Instead, call XParser::differential\n";
 			return 0;
-		}
 	}
 	
 	kWarning() << k_funcinfo << "Unknown function type!\n";
@@ -490,14 +488,16 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		if ( str[i].isEmpty() || temp->eq.size() <= i )
 			continue;
 		
-		if ( !temp->eq[i]->setFstr( str[i] ) )
+		Error error;
+		if ( !temp->eq[i]->setFstr( str[i], (int*)(& error) ) )
 		{
-			kDebug() << "could not set fstr to \""<<str[i]<<"\"! error:"<<errorString(*m_error)<<"\n";
+			kDebug() << "could not set fstr to \""<<str[i]<<"\"! error:"<<errorString(error)<<"\n";
 			delete temp;
 			return -1;
 		}
 	
-		if ( fnameToID( temp->eq[i]->name() ) != -1 )
+		bool duplicate = (fnameToID( temp->eq[i]->name() ) != -1);
+		if ( temp->eq[i]->looksLikeFunction() && duplicate )
 		{
 			kDebug() << "function name reused.\n";
 			*m_error = FunctionNameReused;
@@ -999,7 +999,7 @@ int Parser::fnameToID(const QString &name)
 	{
 		foreach ( Equation * eq, it->eq )
 		{
-			if ( name == eq->name() )
+			if ( eq->looksLikeFunction() && (name == eq->name()) )
 				return it->id();
 		}
 	}

@@ -113,6 +113,7 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	m_popupMenuStatus = NoPopup;
 	m_zoomMode = Normal;
 	m_prevCursor = CursorArrow;
+	m_backgroundColor = Settings::backgroundcolor();
 	
 	m_textEdit = new QTextEdit;
 	m_textEdit->setWordWrapMode( QTextOption::NoWrap );
@@ -177,8 +178,8 @@ double View::niceTicSpacing( double length_mm, double range )
 	if ( qFuzzyCompare( range, 4*M_PI ) )
 		return M_PI/2;
 	
-	// Aim to space the tics by at most 2 cm
-	double target = range * 20.0 / length_mm;
+	// Aim to space the tics by around 16 mm
+	double target = range * 16.0 / length_mm;
 	
 	// The scaling required to bring target to a number between 1 and 10
 	double scale = pow( 10, -std::floor(log(target)/log(10)) );
@@ -192,9 +193,6 @@ double View::niceTicSpacing( double length_mm, double range )
 		return 2/scale;
 	else
 		return 5/scale;
-	
-	// Hmm...strange - shouldn't get to here :/
-	return target;
 }
 
 
@@ -296,10 +294,6 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 	m_backgroundColor = Settings::backgroundcolor();
 	if ( !m_backgroundColor.isValid() )
 		m_backgroundColor = Qt::white;
-
-	QPalette palette;
-	palette.setColor( backgroundRole(), m_backgroundColor );
-	setPalette(palette);
 	//END get colours
 
 	

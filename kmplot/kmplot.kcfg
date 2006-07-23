@@ -209,5 +209,12 @@
 			<whatsthis>Whether to show extra detail such as the tangent and normal when tracing a plot.</whatsthis>
 			<default>false</default>
 		</entry>
+		<entry name="DefaultEquationForm" type="Enum">
+			<choices>
+				<choice name="Function"/>
+				<choice name="Implicit"/>
+			</choices>
+			<default>Function</default>
+		</entry>
 	</group>
 </kcfg>

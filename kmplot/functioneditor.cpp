@@ -92,13 +92,25 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	m_editor = new FunctionEditorWidget;
 	m_functionList = m_editor->functionList;
 	
+	//BEGIN initialize equation edits
 	m_editor->cartesianEquation->setInputType( EquationEdit::Function );
+	m_editor->cartesianEquation->setEquationType( Equation::Cartesian );
+	
 	m_editor->polarEquation->setInputType( EquationEdit::Function );
+	m_editor->polarEquation->setEquationType( Equation::Polar );
+	
 	m_editor->parametricX->setInputType( EquationEdit::Function );
+	m_editor->parametricX->setEquationType( Equation::ParametricX );
+	
 	m_editor->parametricY->setInputType( EquationEdit::Function );
+	m_editor->parametricY->setEquationType( Equation::ParametricY );
+	
 	m_editor->implicitEquation->setInputType( EquationEdit::Function );
+	m_editor->implicitEquation->setEquationType( Equation::Implicit );
+	
 	m_editor->differentialEquation->setInputType( EquationEdit::Function );
 	m_editor->differentialEquation->setEquationType( Equation::Differential );
+	//END initialize equation edits
 	
 	for ( unsigned i = 0; i < 5; ++i )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
@@ -468,9 +480,14 @@ void FunctionEditor::createNewPlot()
 
 void FunctionEditor::createCartesian()
 {
-	QString fname;
-	fname = QString( "%1(x) = 0" ).arg( XParser::self()->findFunctionName( "f", -1 ) );
-	m_functionID = XParser::self()->Parser::addFunction( fname, QString(), Function::Cartesian );
+	QString name;
+	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
+		name = XParser::self()->findFunctionName( "f", -1 ) + "(x)";
+	else
+		name = "y";
+	name += " = 0";
+	
+	m_functionID = XParser::self()->Parser::addFunction( name, QString(), Function::Cartesian );
 	assert( m_functionID != -1 );
 	
 	MainDlg::self()->requestSaveCurrentState();
@@ -481,7 +498,24 @@ void FunctionEditor::createCartesian()
 void FunctionEditor::createParametric()
 {
 	QString name = XParser::self()->findFunctionName( "f", -1 );
-	m_functionID = XParser::self()->Parser::addFunction( QString("%1_x(t) = 0").arg( name ), QString("%1_y(t) = 0").arg( name ), Function::Parametric ); 
+	
+	QString name_x, name_y;
+	
+	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
+	{
+		name_x = QString("%1_x(t)").arg( name );
+		name_y = QString("%1_y(t)").arg( name );
+	}
+	else
+	{
+		name_x = "x";
+		name_y = "y";
+	}
+	
+	name_x += " = 0";
+	name_y += " = 0";
+	
+	m_functionID = XParser::self()->Parser::addFunction( name_x, name_y, Function::Parametric ); 
 	assert( m_functionID != -1 );
 	
 	MainDlg::self()->requestSaveCurrentState();
@@ -490,9 +524,14 @@ void FunctionEditor::createParametric()
 
 void FunctionEditor::createPolar()
 {
-	QString fname;
-	fname = QString( "%1(x) = 0" ).arg( XParser::self()->findFunctionName( "f", -1 ) );
-	m_functionID = XParser::self()->Parser::addFunction( fname, QString(), Function::Polar );
+	QString name;
+	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
+		name = XParser::self()->findFunctionName( "f", -1 ) + "(x)";
+	else
+		name = "r";
+	name += " = 0";
+	
+	m_functionID = XParser::self()->Parser::addFunction( name, QString(), Function::Polar );
 	assert( m_functionID != -1 );
 	
 	MainDlg::self()->requestSaveCurrentState();
@@ -501,9 +540,12 @@ void FunctionEditor::createPolar()
 
 void FunctionEditor::createImplicit()
 {
-	QString fname;
-	fname = QString( "%1(x,y) = y*sinx + x*cosy = 1" ).arg( XParser::self()->findFunctionName( "f", -1 ) );
-	m_functionID = XParser::self()->Parser::addFunction( fname, QString(), Function::Implicit );
+	QString name = XParser::self()->findFunctionName( "f", -1 );
+	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
+		name += "(x,y)";
+	name += " = y*sinx + x*cosy = 1";
+	
+	m_functionID = XParser::self()->Parser::addFunction( name, QString(), Function::Implicit );
 	assert( m_functionID != -1 );
 	
 	MainDlg::self()->requestSaveCurrentState();
@@ -512,9 +554,13 @@ void FunctionEditor::createImplicit()
 
 void FunctionEditor::createDifferential()
 {
-	QString fname;
-	fname = QString( "%1''(x) = -%1" ).arg( XParser::self()->findFunctionName( "f", -1 ) );
-	m_functionID = XParser::self()->Parser::addFunction( fname, QString(), Function::Differential );
+	QString name;
+	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
+		name = QString( "%1''(x) = -%1" ).arg( XParser::self()->findFunctionName( "f", -1 ) );
+	else
+		name = "y'' = -y";
+	
+	m_functionID = XParser::self()->Parser::addFunction( name, QString(), Function::Differential );
 	assert( m_functionID != -1 );
 	
 	MainDlg::self()->requestSaveCurrentState();
@@ -554,31 +600,25 @@ void FunctionEditor::save()
 
 void FunctionEditor::saveCartesian()
 {
-	Function * f = XParser::self()->functionWithID( m_functionID );
-	if ( !f )
+	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
+	if ( !functionListItem )
 		return;
 	
-	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
-	
 	QString f_str( m_editor->cartesianEquation->text() );
-	XParser::self()->fixFunctionName(f_str, Equation::Cartesian, f->id() );
+	XParser::self()->fixFunctionName(f_str, Equation::Cartesian, m_functionID );
 	
-	//all settings are saved here until we know that no errors have appeared
 	Function tempFunction( Function::Cartesian );
-	tempFunction.setId( f->id() );
+	tempFunction.setId( m_functionID );
 	
 	tempFunction.usecustomxmin = m_editor->cartesianCustomMin->isChecked();
-	bool ok = tempFunction.dmin.updateExpression( m_editor->cartesianMin->text() );
-	if ( tempFunction.usecustomxmin && !ok )
+	if ( !tempFunction.dmin.updateExpression( m_editor->cartesianMin->text() ) )
 		return;
 	
 	tempFunction.usecustomxmax = m_editor->cartesianCustomMax->isChecked();
-	ok = tempFunction.dmax.updateExpression( m_editor->cartesianMax->text() );
-	if ( tempFunction.usecustomxmax && !ok )
+	if ( !tempFunction.dmax.updateExpression( m_editor->cartesianMax->text() ) )
 		return;
 	
-	if (functionListItem)
-		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->cartesian_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->cartesian_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	tempFunction.plotAppearance( Function::Derivative1 ) = m_editor->cartesian_f1->plot( m_editor->showDerivative1->isChecked() );
 	tempFunction.plotAppearance( Function::Derivative2 ) = m_editor->cartesian_f2->plot( m_editor->showDerivative2->isChecked() );
 	tempFunction.plotAppearance( Function::Integral ) = m_editor->cartesian_integral->plot( m_editor->showIntegral->isChecked() );
@@ -587,159 +627,88 @@ void FunctionEditor::saveCartesian()
 	state->setOrder( 1 );
 	state->x0.updateExpression( m_editor->txtInitX->text() );
 	state->y0[0].updateExpression( m_editor->txtInitY->text() );
-	
-	if ( m_editor->integralStep->value() <= 0 )
-		return;
 
-	tempFunction.eq[0]->differentialStates.setStep( m_editor->integralStep->text() );
+	if ( !tempFunction.eq[0]->differentialStates.setStep( m_editor->integralStep->text() ) )
+		return;
 	tempFunction.m_parameters = m_editor->cartesianParameters->parameterSettings();
 	
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
 	
-	//save all settings in the function now when we know no errors have appeared
-	bool changed = f->copyFrom( tempFunction );
-	if ( !changed )
-		return;
-
-		
-	MainDlg::self()->requestSaveCurrentState();
-	if ( functionListItem )
-		functionListItem->update();
-	View::self()->drawPlot();
+	saveFunction( & tempFunction );
 }
 
 
 void FunctionEditor::savePolar()
 {
-	Function * f = XParser::self()->functionWithID( m_functionID );
-	if ( !f )
-		return;
-	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
+	if ( !functionListItem )
+		return;
 	
 	QString f_str = m_editor->polarEquation->text();
 
-	XParser::self()->fixFunctionName( f_str, Equation::Polar, f->id() );
+	XParser::self()->fixFunctionName( f_str, Equation::Polar, m_functionID );
 	Function tempFunction( Function::Polar );  // all settings are saved here until we know that no errors have appeared
-	tempFunction.setId( f->id() );
+	tempFunction.setId( m_functionID );
 	
-	bool ok = tempFunction.dmin.updateExpression( m_editor->polarMin->text() );
-	if ( !ok )
+	if ( !tempFunction.dmin.updateExpression( m_editor->polarMin->text() ) )
 		return;
-	
-	ok = tempFunction.dmax.updateExpression( m_editor->polarMax->text() );
-	if ( !ok )
+	if ( !tempFunction.dmax.updateExpression( m_editor->polarMax->text() ) )
 		return;
-	
-	if ( tempFunction.usecustomxmin && tempFunction.usecustomxmax && tempFunction.dmin.value() >= tempFunction.dmax.value() )
-	{
-		kWarning() << "min > max\n";
-// 		KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
-// 		m_editor->min->setFocus();
-// 		m_editor->min->selectAll();
-		return;
-	}
 	
 	tempFunction.m_parameters = m_editor->polarParameters->parameterSettings();
-	if (functionListItem)
-		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->polar_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->polar_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
 	
-	//save all settings in the function now when we know no errors have appeared
-	bool changed = f->copyFrom( tempFunction );
-	if ( !changed )
-		return;
-
-// 	kDebug() << "Polar changed, so requesting state save.\n";	
-	MainDlg::self()->requestSaveCurrentState();
-	if ( functionListItem )
-		functionListItem->update();
-	View::self()->drawPlot();
+	saveFunction( & tempFunction );
 }
 
 
 void FunctionEditor::saveParametric()
 {
-// 	kDebug() << k_funcinfo << endl;
-	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
-	
-	Function * f = XParser::self()->functionWithID( m_functionID );
-	
-	if ( !f )
-	{
-		kWarning() << k_funcinfo << "No f!\n";
+	if ( !functionListItem )
 		return;
-	}
-	if ( f->type() != Function::Parametric )
-	{
-		kWarning() << k_funcinfo << "f is not parametric!\n";
-		return;
-	}
-	      
+	
 	Function tempFunction( Function::Parametric );
-	tempFunction.setId( f->id() );
+	tempFunction.setId( m_functionID );
 	
 	QString f_str = m_editor->parametricX->text();
-	XParser::self()->fixFunctionName( f_str, Equation::ParametricX, f->id() );
+	XParser::self()->fixFunctionName( f_str, Equation::ParametricX, m_functionID );
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
 	
 	f_str = m_editor->parametricY->text();
-	XParser::self()->fixFunctionName( f_str, Equation::ParametricY, f->id() );
+	XParser::self()->fixFunctionName( f_str, Equation::ParametricY, m_functionID );
 	if ( !tempFunction.eq[1]->setFstr( f_str ) )
 		return;
 	
-	tempFunction.usecustomxmin = true;
-	bool ok = tempFunction.dmin.updateExpression( m_editor->parametricMin->text() );
-	if ( tempFunction.usecustomxmin && !ok )
+	if ( !tempFunction.dmin.updateExpression( m_editor->parametricMin->text() ) )
 		return;
 	
-	tempFunction.usecustomxmax = true;
-	ok = tempFunction.dmax.updateExpression( m_editor->parametricMax->text() );
-	if ( tempFunction.usecustomxmax && !ok )
+	if ( !tempFunction.dmax.updateExpression( m_editor->parametricMax->text() ) )
 		return;
-	
-	if ( tempFunction.usecustomxmin && tempFunction.usecustomxmax && tempFunction.dmin.value() >= tempFunction.dmax.value() )
-	{
-// 		KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
-// 		m_editor->min->setFocus();
-// 		m_editor->min->selectAll();
-		return;
-	}
 	
 	tempFunction.m_parameters = m_editor->parametricParameters->parameterSettings();
-	if (functionListItem)
-		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->parametric_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->parametric_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
-	//save all settings in the function now when we know no errors have appeared
-	bool changed = f->copyFrom( tempFunction );
-	if ( !changed )
-		return;
-	
-	MainDlg::self()->requestSaveCurrentState();
-	if ( functionListItem )
-		functionListItem->update();
-	View::self()->drawPlot();
+	saveFunction( & tempFunction );
 }
 
 
 void FunctionEditor::saveImplicit()
 {
-	Function * f = XParser::self()->functionWithID( m_functionID );
-	if ( !f )
-		return;
-	
 	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
+	if ( !functionListItem )
+		return;
 	
 	// find a name not already used 
 	if ( m_editor->implicitName->text().isEmpty() )
 	{
 		QString fname;
-		XParser::self()->fixFunctionName(fname, Equation::Implicit, f->id() );
+		XParser::self()->fixFunctionName(fname, Equation::Implicit, m_functionID );
 		int const pos = fname.indexOf('(');
 		m_editor->implicitName->setText(fname.mid(1,pos-1));
 	}
@@ -749,65 +718,68 @@ void FunctionEditor::saveImplicit()
 	m_editor->implicitEquation->setValidatePrefix( prefix );
 
 	Function tempFunction( Function::Implicit );  // all settings are saved here until we know that no errors have appeared
-	tempFunction.setId( f->id() );
+	tempFunction.setId( m_functionID );
 	
 	tempFunction.m_parameters = m_editor->implicitParameters->parameterSettings();
-	if (functionListItem)
-		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->implicit_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->implicit_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
 	
-	//save all settings in the function now when we know no errors have appeared
-	bool changed = f->copyFrom( tempFunction );
-	if ( !changed )
-		return;
-
-// 	kDebug() << "Implicit changed, so requesting state save.\n";	
-	MainDlg::self()->requestSaveCurrentState();
-	if ( functionListItem )
-		functionListItem->update();
-	View::self()->drawPlot();
+	saveFunction( & tempFunction );
 }
 
 
 void FunctionEditor::saveDifferential()
 {
-	Function * f = XParser::self()->functionWithID( m_functionID );
-	if ( !f || f->type() != Function::Differential )
+	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
+	if ( !functionListItem )
 		return;
 	
-	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
-	
 	Function tempFunction( Function::Differential );  // all settings are saved here until we know that no errors have appeared
-	tempFunction.setId( f->id() );
+	tempFunction.setId( m_functionID );
 	
 	QString f_str = m_editor->differentialEquation->text();
 	if ( !tempFunction.eq[0]->setFstr( f_str ) )
 		return;
 	
-	if ( m_editor->differentialStep->value() <= 0 )
-		return;
-	
 	tempFunction.m_parameters = m_editor->differentialParameters->parameterSettings();
-	if (functionListItem)
-		tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->differential_f0->plot( (functionListItem->checkState() == Qt::Checked) );
+	tempFunction.plotAppearance( Function::Derivative0 ) = m_editor->differential_f0->plot( (functionListItem->checkState() == Qt::Checked) );
 	
 	m_editor->initialConditions->setOrder( tempFunction.eq[0]->order() );
 	tempFunction.eq[0]->differentialStates = *m_editor->initialConditions->differentialStates();
-	tempFunction.eq[0]->differentialStates.setStep( m_editor->differentialStep->text() );
+	if ( !tempFunction.eq[0]->differentialStates.setStep( m_editor->differentialStep->text() ) )
+		return;
 	
-	f->eq[0]->differentialStates.resetToInitial();
+	saveFunction( & tempFunction );
+}
+
+
+void FunctionEditor::saveFunction( Function * tempFunction )
+{
+	FunctionListItem * functionListItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
+	Function * f = XParser::self()->functionWithID( m_functionID );
+	if ( !f || !functionListItem )
+		return;
+	
+	foreach ( Equation * eq, f->eq )
+		eq->differentialStates.resetToInitial();
 	
 	//save all settings in the function now when we know no errors have appeared
-	bool changed = f->copyFrom( tempFunction );
+	bool changed = f->copyFrom( *tempFunction );
 	if ( !changed )
 		return;
 	
+	if ( f->eq[0]->looksLikeFunction() )
+		Settings::setDefaultEquationForm( Settings::EnumDefaultEquationForm::Function );
+	else
+		Settings::setDefaultEquationForm( Settings::EnumDefaultEquationForm::Implicit );
+	Settings::self()->writeConfig();
+	
 	MainDlg::self()->requestSaveCurrentState();
-	if ( functionListItem )
-		functionListItem->update();
+	functionListItem->update();
 	View::self()->drawPlot();
+	
 }
 //END class FunctionEditor
 

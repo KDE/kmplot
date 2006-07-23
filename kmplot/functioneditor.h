@@ -168,6 +168,11 @@ class FunctionEditor : public QDockWidget
 		 * \p equation - for implicit functions.
 		 */
 		void splitImplicitEquation( const QString equation, QString * name, QString * expression );
+		/**
+		 * Used at end of the save* functions.
+		 * \a tempFunction is the function to copy the settings from.
+		 */
+		void saveFunction( Function * tempFunction );
 
 		/**
 		 * The main editing widget.

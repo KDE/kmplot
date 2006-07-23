@@ -100,6 +100,10 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"floor", 0, floor},				// round down to nearest integer
 	{"ceil", 0, ceil},					// round up to nearest integer
 	{"round", 0, round},				// round to nearest integer
+	{"gamma", 0, tgamma},			// gamma function
+	{"factorial", 0, factorial},		// factorial
+	
+	// legendre
 	{"P_0", 0, legendre0},				// lengedre polynomial (n=0)
 	{"P_1", 0, legendre1},				// lengedre polynomial (n=1)
 	{"P_2", 0, legendre2},				// lengedre polynomial (n=2)
@@ -413,6 +417,12 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				*stkptr = sqrt(*stkptr);
 				break;
 			}
+			
+			case FACT:
+			{
+				*stkptr = factorial(*stkptr);
+				break;
+			}
 				
 			case FKT_1:
 			{
@@ -708,13 +718,21 @@ void Parser::heir4()
 	primary();
 	if(*m_error!=ParseSuccess)
 		return;
-	while(match("^"))
+	
+	while ( true )
 	{
-		addToken(PUSH);
-		primary();
-		if(*m_error!=ParseSuccess)
+		if ( match("^") )
+		{
+			addToken(PUSH);
+			primary();
+			if(*m_error!=ParseSuccess)
+				return;
+			addToken(POW);
+		}
+		else if ( match("!") )
+			addToken(FACT);
+		else
 			return;
-		addToken(POW);
 	}
 }
 
@@ -1156,6 +1174,9 @@ double larcsin(double x) {
 }
 double larctan(double x) {
 	return atan(x) / Parser::radiansPerAngleUnit();
+}
+double factorial( double x ) {
+	return tgamma(x+1);
 }
 double legendre0( double ) {
 	return 1.0;

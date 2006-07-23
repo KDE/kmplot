@@ -63,13 +63,14 @@ enum Token
 	FKT_1,		// 10 - address to function with 1 argument follows
 	FKT_N,		// 11 - address to functions with an indefinite number of arguments follows
 	UFKT,		// 12 - address to user defined function follows
-	ENDE,		// 13 - end of function
-	SQRT		// 14 - take square root
+	SQRT,		// 13 - take square root
+	FACT,		// 14 - take factorial
+	ENDE		// 15 - end of function
 };
 
 
 const int legendreCount = 7; // number of legendre polynomials we allow for
-const int ScalarCount = 35+legendreCount;	// number of mathematical scalar functions
+const int ScalarCount = 37+legendreCount;	// number of mathematical scalar functions
 const int VectorCount = 3; // number of vector functions
 //@}
 
@@ -108,6 +109,8 @@ double legendre3(double x);
 double legendre4(double x);
 double legendre5(double x);
 double legendre6(double x);
+
+double factorial(double x);
 
 /** Predefined mathematical functions with an indefinite number of variables. */
 double min( const Vector & x );

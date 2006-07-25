@@ -53,7 +53,7 @@ class EquationEditWidget : public QTextEdit
 		/**
 		 * Call this after changing font size.
 		 */
-		void recalculateGeometry( const QFont & font );
+		void recalculateGeometry();
 		/**
 		 * Whether to clear the selection when focus is lost.
 		 */
@@ -330,10 +330,11 @@ void EquationEdit::slotTextChanged( )
 		m_replaceMap[ '|' ] = QChar(0x2223);
 	}
 	
+	QTextCursor cursor;
+	cursor.beginEditBlock();
 	for ( CharMap::iterator i = m_replaceMap.begin(); i != m_replaceMap.end(); ++i )
 	{
 		int at = 0;
-		QTextCursor cursor;
 		while ( !(cursor = doc->find( i.key(), at )).isNull() )
 		{
 			at = cursor.position()+1;
@@ -341,6 +342,7 @@ void EquationEdit::slotTextChanged( )
 			cursor.insertText( i.value() );
 		}
 	}
+	cursor.endEditBlock();
 	
 	m_cleaningText = false;
 	//END tidy up mathematical characters
@@ -440,15 +442,15 @@ EquationEditWidget::EquationEditWidget( EquationEdit * parent )
 {
 	m_clearSelectionOnFocusOut = true;
 	m_parent = parent;
-	recalculateGeometry( font() );
+	recalculateGeometry();
 }
 
 
-void EquationEditWidget::recalculateGeometry( const QFont & font )
+void EquationEditWidget::recalculateGeometry()
 {
 	// Set fixed height
 	ensurePolished();
-	QFontMetrics fm( font );
+	QFontMetrics fm( document()->defaultFont() );
 	int h = qMax(fm.lineSpacing(), 14) + 6;
 	int m = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
 	QStyleOptionFrame opt;
@@ -539,9 +541,10 @@ EquationEditor::EquationEditor( QWidget * parent )
 	showButtonSeparator( true );
 	
 	QFont font;
-	font.setPointSizeF( font.pointSizeF() * 1.4 );
-	m_widget->edit->m_equationEditWidget->setCurrentFont( font );
-	m_widget->edit->m_equationEditWidget->recalculateGeometry( font );
+	double pointSize = font.pointSizeF() * 1.4;
+	font.setPointSizeF( pointSize );
+	m_widget->edit->m_equationEditWidget->document()->setDefaultFont( font );
+	m_widget->edit->m_equationEditWidget->recalculateGeometry();
 	
 	QFont buttonFont;
 	buttonFont.setPointSizeF( font.pointSizeF() * 1.1 );

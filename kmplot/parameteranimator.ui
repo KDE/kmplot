@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ParameterAnimator</class>
  <widget class="QWidget" name="ParameterAnimator" >
   <property name="geometry" >
@@ -311,16 +308,24 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>EquationEdit</class>
    <extends>QLineEdit</extends>
    <header>equationedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>initial</tabstop>
+  <tabstop>final</tabstop>
+  <tabstop>step</tabstop>
+  <tabstop>gotoInitial</tabstop>
+  <tabstop>stepBackwards</tabstop>
+  <tabstop>pause</tabstop>
+  <tabstop>stepForwards</tabstop>
+  <tabstop>gotoFinal</tabstop>
+  <tabstop>speed</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

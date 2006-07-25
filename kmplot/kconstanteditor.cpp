@@ -121,10 +121,10 @@ void KConstantEditor::init( QTreeWidgetItem * item, const QString & name, const 
 {
 	item->setText( 0, name );
 	item->setText( 1, constant.value.expression() );
-	item->setData( 2, Qt::CheckStateRole, constant.type & Constant::Document );
+	item->setData( 2, Qt::CheckStateRole, (constant.type & Constant::Document) ? Qt::Checked : Qt::Unchecked );
 	item->setData( 2, Qt::ToolTipRole, i18n("Check this to have the constant exported when saving.") );
 // 	item->setData( 2, Qt::WhatsThisRole, i18n("Document constants are saved with the documents, and will be loaded again when the document is opened.") );
-	item->setData( 3, Qt::CheckStateRole, constant.type & Constant::Global );
+	item->setData( 3, Qt::CheckStateRole, (constant.type & Constant::Global) ? Qt::Checked : Qt::Unchecked );
 	item->setData( 3, Qt::ToolTipRole, i18n("Check this to have the constant permanently available between instances of KmPlot.") );
 // 	item->setData( 3, Qt::WhatsThisRole, i18n("Global constants are stored in KmPlot's settings. They are not lost when KmPlot is closed.") );
 }

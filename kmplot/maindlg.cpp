@@ -630,10 +630,7 @@ void MainDlg::slotPrint()
 	printdlg->setObjectName( "KmPlot page" );
 	prt.addDialogPage( printdlg );
 	if ( prt.setup( m_parent, i18n( "Print Plot" ) ) )
-	{
-		prt.setFullPage( true );
 		View::self()->draw(&prt, View::Printer);
-	}
 }
 
 

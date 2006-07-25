@@ -3112,10 +3112,11 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 	
 			double best_distance = 1e20; // a large distance
 			
+			int i = 0;
 			while ( x <= dmax && (xToPixel(x) < best_pixel_x+best_distance) )
 			{
 				x += stepSize;
-	
+				
 				double y1 = value( plot, 0, x, false );
 	
 				double _x0 = xToPixel( x-stepSize, ClipInfinite );
@@ -3126,14 +3127,18 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 	
 				double k = (_y1-_y0)/(_x1-_x0);
 	
-				double closest_x;
+				double closest_x, closest_y;
 				if ( k == 0 )
+				{
 					closest_x = _x0;
+					closest_y = _y0;
+				}
 				else
-					closest_x = (pixelPos.y() + pixelPos.x()/k + k*_x0 - _y0) / (k + 1.0/k);
-	
-				double closest_y = yToPixel( value( plot, 0, xToReal( closest_x ), false ), ClipInfinite );
-	
+				{
+					closest_x = (pixelPos.y() + pixelPos.x()/k + _x0*k - _y0) / (k + 1.0/k);
+					closest_y = (pixelPos.x() + pixelPos.y()*k + _y0/k - _x0) / (k + 1.0/k);
+				}
+				
 				double dfx = qAbs( closest_x - pixelPos.x() );
 				double dfy = qAbs( closest_y - pixelPos.y() );
 	

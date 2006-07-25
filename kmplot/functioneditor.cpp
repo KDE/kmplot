@@ -60,7 +60,6 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	: QDockWidget( i18n("Function Editor"), parent )
 {
 	m_functionID = -1;
-	m_createNewPlotsMenu = createNewPlotsMenu;
 	
 	// need a name for saving and restoring the position of this dock widget
 	setObjectName( "FunctionEditor" );
@@ -142,8 +141,7 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	connect( XParser::self(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
 	connect( XParser::self(), SIGNAL(functionRemoved(int)), this, SLOT(functionsChanged()) );
 	
-	m_createNewPlotsMenu->installEventFilter( this );
-	connect( m_editor->createNewPlot, SIGNAL(pressed()), this, SLOT( createNewPlot() ) );
+	m_editor->createNewPlot->setMenu( createNewPlotsMenu );
 	
 	resetFunctionEditing();
 	setWidget( m_editor );
@@ -461,23 +459,6 @@ void FunctionEditor::resetFunctionEditing()
 }
 
 
-bool FunctionEditor::eventFilter( QObject * obj, QEvent * ev )
-{
-	if ( (obj != m_createNewPlotsMenu) || (ev->type() != QEvent::MouseButtonRelease) || !m_createNewPlotsMenu->isVisible() )
-		return QDockWidget::eventFilter( obj, ev );
-	
-	m_editor->createNewPlot->setDown( false );
-	return false;
-}
-
-
-void FunctionEditor::createNewPlot()
-{
-	QPoint popupPos = m_editor->createNewPlot->mapToGlobal( QPoint( 0, m_editor->createNewPlot->height() ) );
-	m_createNewPlotsMenu->exec( popupPos );
-}
-
-
 void FunctionEditor::createCartesian()
 {
 	QString name;
@@ -485,13 +466,8 @@ void FunctionEditor::createCartesian()
 		name = XParser::self()->findFunctionName( "f", -1 ) + "(x)";
 	else
 		name = "y";
-	name += " = 0";
 	
-	m_functionID = XParser::self()->Parser::addFunction( name, QString(), Function::Cartesian );
-	assert( m_functionID != -1 );
-	
-	MainDlg::self()->requestSaveCurrentState();
-	View::self()->drawPlot();
+	createFunction( name + " = 0", QString(), Function::Cartesian );
 }
 
 
@@ -512,13 +488,7 @@ void FunctionEditor::createParametric()
 		name_y = "y";
 	}
 	
-	name_x += " = 0";
-	name_y += " = 0";
-	
-	m_functionID = XParser::self()->Parser::addFunction( name_x, name_y, Function::Parametric ); 
-	assert( m_functionID != -1 );
-	
-	MainDlg::self()->requestSaveCurrentState();
+	createFunction( name_x + " = 0", name_y + " = 0", Function::Parametric );
 }
 
 
@@ -529,12 +499,8 @@ void FunctionEditor::createPolar()
 		name = XParser::self()->findFunctionName( "f", -1 ) + "(x)";
 	else
 		name = "r";
-	name += " = 0";
 	
-	m_functionID = XParser::self()->Parser::addFunction( name, QString(), Function::Polar );
-	assert( m_functionID != -1 );
-	
-	MainDlg::self()->requestSaveCurrentState();
+	createFunction( name + " = 0", QString(), Function::Polar );
 }
 
 
@@ -543,12 +509,8 @@ void FunctionEditor::createImplicit()
 	QString name = XParser::self()->findFunctionName( "f", -1 );
 	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
 		name += "(x,y)";
-	name += " = y*sinx + x*cosy = 1";
 	
-	m_functionID = XParser::self()->Parser::addFunction( name, QString(), Function::Implicit );
-	assert( m_functionID != -1 );
-	
-	MainDlg::self()->requestSaveCurrentState();
+	createFunction( name + " = y*sinx + x*cosy = 1", QString(), Function::Implicit );
 }
 
 
@@ -560,9 +522,14 @@ void FunctionEditor::createDifferential()
 	else
 		name = "y'' = -y";
 	
-	m_functionID = XParser::self()->Parser::addFunction( name, QString(), Function::Differential );
+	createFunction( name, QString(), Function::Differential );
+}
+
+
+void FunctionEditor::createFunction( const QString & eq0, const QString & eq1, Function::Type type )
+{
+	m_functionID = XParser::self()->Parser::addFunction( eq0, eq1, type );
 	assert( m_functionID != -1 );
-	
 	MainDlg::self()->requestSaveCurrentState();
 }
 

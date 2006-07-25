@@ -65,10 +65,6 @@ class FunctionEditor : public QDockWidget
 		 */
 		void deleteCurrent();
 		/**
-		 * Pops up a menu offering a list of plots to create.
-		 */
-		void createNewPlot();
-		/**
 		 * Creates a new cartesian function.
 		 */
 		void createCartesian();
@@ -135,7 +131,6 @@ class FunctionEditor : public QDockWidget
 		
 		
 	protected:
-		bool eventFilter(QObject *obj, QEvent *ev);
 		/**
 		 * Initialize the wdigets from the cartesian function set in
 		 * m_functionID.
@@ -173,6 +168,10 @@ class FunctionEditor : public QDockWidget
 		 * \a tempFunction is the function to copy the settings from.
 		 */
 		void saveFunction( Function * tempFunction );
+		/**
+		 * Called from the create* functions - finishes of saving of the function.
+		 */
+		void createFunction( const QString & eq0, const QString & eq1, Function::Type type );
 
 		/**
 		 * The main editing widget.
@@ -201,10 +200,6 @@ class FunctionEditor : public QDockWidget
 		 * The list of functions.
 		 */
 		FunctionListWidget * m_functionList;
-		/**
-		 * A menu containing a list of actions for creating new plots.
-		 */
-		KMenu * m_createNewPlotsMenu;
 };
 
 

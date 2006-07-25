@@ -69,7 +69,7 @@
      <item row="0" column="0" >
       <widget class="QPushButton" name="createNewPlot" >
        <property name="text" >
-        <string>Create New Plot...</string>
+        <string>Create New Plot</string>
        </property>
       </widget>
      </item>
@@ -967,19 +967,19 @@ Example: f''(x) = -f</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>FunctionListWidget</class>
-   <extends>QListWidget</extends>
-   <header>functioneditor.h</header>
-  </customwidget>
-  <customwidget>
    <class>EquationEdit</class>
    <extends>KLineEdit</extends>
    <header>equationedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PlotStyleWidget</class>
+   <extends>QGroupBox</extends>
+   <header>plotstylewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>ParametersWidget</class>
@@ -992,9 +992,9 @@ Example: f''(x) = -f</string>
    <header>initialconditionseditor.h</header>
   </customwidget>
   <customwidget>
-   <class>PlotStyleWidget</class>
-   <extends>QGroupBox</extends>
-   <header>plotstylewidget.h</header>
+   <class>FunctionListWidget</class>
+   <extends>QListWidget</extends>
+   <header>functioneditor.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

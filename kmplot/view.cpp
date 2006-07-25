@@ -737,7 +737,7 @@ void View::drawGrid( QPainter* painter )
 }
 
 
-void View::drawLabels(QPainter* pDC)
+void View::drawLabels( QPainter *painter )
 {
 	// Determine which letters to use for the axes
 	QString xLabel;
@@ -787,23 +787,101 @@ void View::drawLabels(QPainter* pDC)
 	QColor axesColor = Settings::axesColor();
 	int const dx=10;
 	int const dy=15;
-	QFont const font=QFont( Settings::axesFont(), Settings::axesFontSize() );
-	pDC->setFont(font);
+	QFont const font = QFont( Settings::axesFont(), Settings::axesFontSize() );
+	painter->setFont(font);
 	m_textDocument->setDefaultFont( font );
 	
 	double const x=xToPixel(0.);
 	double const y=yToPixel(0.);
+	
+
+	QRectF drawRect;
+	
+	// Draw x label
+	if ( m_ymax<0 && m_xmax<0 )
+		drawRect = QRectF( xToPixel(m_xmax)-(3*dx), y+dy, 0, 0 );
+	else if (m_ymin>0)
+		drawRect = QRectF( xToPixel(m_xmax)-dx, y-dy, 0, 0 );
+	else
+		drawRect = QRectF( xToPixel(m_xmax)-dx, y+dy, 0, 0 );
+	painter->drawText( drawRect, Qt::AlignVCenter|Qt::TextDontClip|Qt::AlignRight, xLabel );
+	
+	
+	// Draw y label
+	if(m_ymax<0 && m_xmax<0)
+		drawRect = QRectF( x-dx, yToPixel(m_ymax)+(2*dy), 0, 0 );
+	else if (m_xmin>0)
+		drawRect = QRectF( x+(2*dx), yToPixel(m_ymax)+dy, 0, 0 );
+	else
+		drawRect = QRectF( x-dx, yToPixel(m_ymax)+dy, 0, 0 );
+	painter->drawText( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, yLabel );
+	
+	
+	
+	// Draw the numbers on the axes
+	drawXAxisLabels( painter );
+	drawYAxisLabels( painter );
+}
+
+
+void View::drawXAxisLabels( QPainter *painter )
+{
+	QColor axesColor = Settings::axesColor();
+	int const dy = 15;
+	
+	double const y = yToPixel(0.);
+	
+	// Used to ensure that labels aren't drawn too closely together
+	// These numbers contain the pixel position of the left and right endpoints of the last label
+	double last_x_start = -1e3; // (just a large negative number)
+	double last_x_end = -1e3; // (just a large negative number)
+	
+	
+	// The strange label drawing order here is so that the labels eitherside
+	// of zero are always drawn, and then the other labels are drawn if there
+	// is enough space
+	
+	bool first = true;
+	bool forwards = true;
 	double d;
-	long long n;
-
-	char draw_next=0;
-	QFontMetrics const test(font);
-	int swidth=0;
-
-	for(d=ticStartX, n=(long long)ceil(m_xmin/ticSepX.value()); d<m_xmax; d+=ticSepX.value(), ++n)
+	
+	while ( true )
 	{
-		if(n==0 || fabs(d-m_xmax)<=1.5*ticSepX.value())
+		if ( first )
+		{
+			// Draw x>0 first
+			d = qMax( ticSepX.value(), ticStartX );
+			first = false;
+		}
+		else
+		{
+			if ( forwards )
+			{
+				d += ticSepX.value();
+				if ( d > m_xmax )
+				{
+					// Continue on other side
+					d = qMin( -ticSepX.value(), ceil((m_xmax-m_xmin)/ticSepX.value())*ticSepX.value() - ticStartX );
+					forwards = false;
+				}
+			}
+			else
+			{
+				d -= ticSepX.value();
+				if ( d < m_xmin )
+					return;
+			}
+		}
+		
+		// Don't draw too close to the right edge (has x axis label)
+		if ( (m_xmax-d) <= ticSepX.value() )
 			continue;
+		
+		// Don't draw too close to the left edge if the y axis is there
+		if ( m_xmin >= -ticSepX.value() && (d-m_xmin) <= ticSepX.value() )
+			continue;
+		
+		long long n = (long long)ceil(d/ticSepX.value());
 		
 		QString s;
 		
@@ -814,7 +892,7 @@ void View::drawLabels(QPainter* pDC)
 			if( fabs(ticSepX.value()-M_PI/frac[i])> 1e-3 )
 				continue;
 			
-			s = (n<0) ? '-' : '+';
+			s = (d<0) ? '-' : '+';
 			
 			found = true;
 			if(n==-1 || n==1)
@@ -837,38 +915,14 @@ void View::drawLabels(QPainter* pDC)
 			break;
 		}
 		
-		if ( !found && (n%5==0 || n==1 || n==-1 || draw_next))
-		{
+		if ( !found )
 			s = posToString( n*ticSepX.value(), (m_xmax-m_xmin)/4, View::ScientificFormat, axesColor );
-		}
-		
-		if ( s.isEmpty() )
-			continue;
-		
-		swidth = test.width(s);
-		if (  xToPixel(d)-x<swidth && xToPixel(d)-x>-swidth && draw_next==0)
-		{
-			draw_next=1;
-			continue;
-		}
-		if (draw_next>0)
-		{
-			if (draw_next==1)
-			{
-				draw_next++;
-				continue;
-			}
-			else
-				draw_next=0;
-		}
-			
-		if ( xclipflg )
-			continue;
 			
 		m_textDocument->setHtml( s );
 		QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
 			
 		double x_pos = xToPixel(d)-(br.width()/2);
+		
 		double y_pos;
 		if ( m_ymin < 0 )
 		{
@@ -880,25 +934,48 @@ void View::drawLabels(QPainter* pDC)
 		}
 		else
 			y_pos = y-dy-(br.height()/2);
-				
+		
+		double x_start = x_pos;
+		double x_end = x_start + br.width();
+		
+		// Use a minimum spacing between labels
+		if ( (last_x_start < x_start) && pixelsToMillimeters( x_start - last_x_end, painter->device() ) < 7 )
+			continue;
+		if ( (last_x_start > x_start) && pixelsToMillimeters( last_x_start - x_end, painter->device() ) < 7 )
+			continue;
+		
+		last_x_start = x_start;
+		last_x_end = x_end;
+		
 		QPointF drawPoint( x_pos, y_pos );
-			
-		pDC->translate( drawPoint );
-		m_textDocument->documentLayout()->draw( pDC, QAbstractTextDocumentLayout::PaintContext() ); 
-		pDC->translate( -drawPoint );
+		painter->translate( drawPoint );
+		m_textDocument->documentLayout()->draw( painter, QAbstractTextDocumentLayout::PaintContext() ); 
+		painter->translate( -drawPoint );
 	}
+}
 
-	QRectF drawRect;
+
+void View::drawYAxisLabels( QPainter *painter )
+{
+	QColor axesColor = Settings::axesColor();
+	int const dx=10;
 	
-	if ( m_ymax<0 && m_xmax<0 )
-		drawRect = QRectF( xToPixel(m_xmax)-(3*dx), y+dy, 0, 0 );
-	else
-		drawRect = QRectF( xToPixel(m_xmax)-dx, y+dy, 0, 0 );
-	pDC->drawText( drawRect, Qt::AlignVCenter|Qt::TextDontClip|Qt::AlignRight, xLabel );
-
-	for(d=ticStartY, n=(long long)ceil(m_ymin/ticSepY.value()); d<m_ymax; d+=ticSepY.value(), ++n)
+	double const x=xToPixel(0.);
+	
+	double d = ticStartY;
+	long long n = (long long)ceil(m_ymin/ticSepY.value());
+	for( ; d<m_ymax; d += ticSepY.value(), ++n )
 	{
-		if(n==0 || fabs(d-m_ymax)<=1.5*ticSepY.value())
+		// Don't draw zero
+		if ( n == 0 )
+			continue;
+		
+		// Don't draw too close to top
+		if ( (m_ymax-d) <= ticSepY.value() )
+			continue;
+		
+		// Don't draw too close to bottom if the x axis is there
+		if ( m_ymin > -ticSepX.value() && (d-m_ymin) <= ticSepY.value() )
 			continue;
 
 		QString s;
@@ -932,13 +1009,12 @@ void View::drawLabels(QPainter* pDC)
 			
 			break;
 		}
-		if( !found && (n%5==0 || n==1 || n==-1))
-		{
-			s = posToString( n*ticSepY.value(), (m_ymax-m_ymin)/4, View::ScientificFormat, axesColor );
-		}
 		
-		if ( s.isEmpty() )
+		if ( !found && ((n>0 && (n%2 != 1)) || (n<0 && (n%2 != 0))) )
 			continue;
+		
+		if ( !found )
+			s = posToString( n*ticSepY.value(), (m_ymax-m_ymin)/4, View::ScientificFormat, axesColor );
 		
 		m_textDocument->setHtml( s );
 			
@@ -961,22 +1037,10 @@ void View::drawLabels(QPainter* pDC)
 			}
 		}
 			
-		if ( yclipflg )
-			continue;
-			
-		pDC->translate( drawPoint );
-		m_textDocument->documentLayout()->draw( pDC, QAbstractTextDocumentLayout::PaintContext() );
-		pDC->translate( -drawPoint );
+		painter->translate( drawPoint );
+		m_textDocument->documentLayout()->draw( painter, QAbstractTextDocumentLayout::PaintContext() );
+		painter->translate( -drawPoint );
 	}
-
-	
-	if(m_ymax<0 && m_xmax<0)
-		drawRect = QRectF( x-dx, yToPixel(m_ymax)+(2*dy), 0, 0 );
-	else if (m_xmin>0)
-		drawRect = QRectF( x-(2*dx), yToPixel(m_ymax)+dy, 0, 0 );
-	else
-		drawRect = QRectF( x-dx, yToPixel(m_ymax)+dy, 0, 0 );
-	pDC->drawText( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, yLabel );
 }
 
 
@@ -3112,7 +3176,6 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 	
 			double best_distance = 1e20; // a large distance
 			
-			int i = 0;
 			while ( x <= dmax && (xToPixel(x) < best_pixel_x+best_distance) )
 			{
 				x += stepSize;
@@ -3451,6 +3514,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 
 		case Translating:
 			doDrawPlot = true;
+			Settings::writeConfig();
 			break;
 
 		case ZoomIn:
@@ -3630,7 +3694,6 @@ void View::translateView( int dx, int dy )
 	Settings::setXMax( Parser::number( m_xmax ) );
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
-	Settings::writeConfig();
 	MainDlg::self()->coordsDialog()->updateXYRange();
 
 	drawPlot(); //update all graphs

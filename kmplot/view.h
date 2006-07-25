@@ -269,12 +269,26 @@ class View : public QWidget
 		* Print out table with additional information. Only for printing.
 		*/
 		void drawHeaderTable(QPainter *);
-		/// Draw the coordinate axes.
-		void drawAxes(QPainter*);
 		/// Draw the grid.
 		void drawGrid( QPainter* );
-		/// Write labels.
-		void drawLabels(QPainter*);
+		/**
+		 * Draw the axes.
+		 */
+		void drawAxes( QPainter *painter );
+		/**
+		 * Draw the axes' labels.
+		 */
+		void drawLabels( QPainter *painter );
+		/**
+		 * Draw the labels for the x-axis (this function is called from
+		 * drawLabels).
+		 */
+		void drawXAxisLabels( QPainter *painter );
+		/**
+		 * Draw the labels for the y-axis (this function is called from
+		 * drawLabels).
+		 */
+		void drawYAxisLabels( QPainter *painter );
 		/**
 		 * Draw a non-implicit function.
 		 */

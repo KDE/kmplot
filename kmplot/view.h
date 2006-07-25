@@ -413,15 +413,19 @@ class View : public QWidget
 		*/
 		double pixelDistance( const QPointF & pos, const Plot & plot, double x, bool updateFunction );
 		/**
+		 * \param overlapEdge whether to give values that are slightly either
+		 * side of the view; this is useful for thick pens
 		 * \return an appropriate xmin value for the given function
 		 * plotting.
 		 */
-		double getXmin( Function * function );
+		double getXmin( Function * function, bool overlapEdge = false );
 		/**
+		 * \param overlapEdge whether to give values that are slightly either
+		 * side of the view; this is useful for thick pens
 		 * \return an appropriate xmax value for the given function for
 		 * plotting.
 		 */
-		double getXmax( Function * function );
+		double getXmax( Function * function, bool overlapEdge = false );
 		
 		/**
 		 * How to behave in the *ToPixel functions.

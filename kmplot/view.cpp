@@ -358,6 +358,8 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 			break;
 		}
 	}
+	
+	painter.setClipRect( m_clipRect );
 
 	
 	//BEGIN draw diagram background stuff
@@ -1050,65 +1052,63 @@ QPointF View::realValue( const Plot & plot, double x, bool updateFunction )
 }
 
 
-double View::getXmin( Function * function )
+double View::getXmin( Function * function, bool overlapEdge  )
 {
-	double min = function->dmin.value();
-
-	if ( !function->usecustomxmin )
+	switch ( function->type() )
 	{
-		switch ( function->type() )
+		case Function::Parametric:
+		case Function::Polar:
+			return function->dmin.value();
+			
+		case Function::Implicit:
+			kWarning() << "You probably don't want to do this!\n";
+			// fall through
+			
+		case Function::Differential:
+		case Function::Cartesian:
 		{
-			case Function::Parametric:
-			case Function::Polar:
-				min = 0.0;
-				break;
-				
-			case Function::Implicit:
-				kWarning() << "Probably don't want to do this!\n";
-				// no break
-				
-			case Function::Differential:
-			case Function::Cartesian:
-				min = m_xmin;
-				break;
+			double min = m_xmin;
+			if ( overlapEdge )
+				min -= (m_xmax-m_xmin)*0.02;
+			
+			if ( function->usecustomxmin )
+				return qMax( min, function->dmin.value() );
+			else
+				return min;
 		}
 	}
-
-	if ( (function->type() == Function::Cartesian) && (min < m_xmin) )
-		min = m_xmin;
-
-	return min;
+	
+	return 0;
 }
 
 
-double View::getXmax( Function * function )
+double View::getXmax( Function * function, bool overlapEdge )
 {
-	double max = function->dmax.value();
-
-	if ( !function->usecustomxmax )
+	switch ( function->type() )
 	{
-		switch ( function->type() )
+		case Function::Parametric:
+		case Function::Polar:
+			return function->dmax.value();
+			
+		case Function::Implicit:
+			kWarning() << "You probably don't want to do this!\n";
+			// fall through
+			
+		case Function::Differential:
+		case Function::Cartesian:
 		{
-			case Function::Parametric:
-			case Function::Polar:
-				max = 2.0*M_PI;
-				break;
-				
-			case Function::Implicit:
-				kWarning() << "Probably don't want to do this!\n";
-				// no break
-				
-			case Function::Differential:
-			case Function::Cartesian:
-				max = m_xmax;
-				break;
+			double max = m_xmax;
+			if ( overlapEdge )
+				max += (m_xmax-m_xmin)*0.02;
+			
+			if ( function->usecustomxmin )
+				return qMin( max, function->dmax.value() );
+			else
+				return max;
 		}
 	}
-
-	if ( (function->type() == Function::Cartesian) && (max > m_xmax) )
-		max = m_xmax;
-
-	return max;
+	
+	return 0;
 }
 
 // #define DEBUG_IMPLICIT
@@ -1686,7 +1686,6 @@ void drawPolyline( QPainter * painter, const QPolygonF & points )
 }
 
 /**
- * 
  * Speed up drawing by only drawing one line between each straightish section of the curve
  * These variable are used to determine when the curve can no longer be approximate by a
  * straight line as the new angle has changed too much
@@ -1772,8 +1771,8 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	// should use drawImplicit for implicit functions
 	assert( function->type() != Function::Implicit );
 	
-	double dmin = getXmin( function );
-	double dmax = getXmax( function );
+	double dmin = getXmin( function, true );
+	double dmax = getXmax( function, true );
 	
 	if ( dmin >= dmax )
 		return;
@@ -1911,7 +1910,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 				drawPolyline( painter, drawPoints );
 				drawPoints.clear();
 				drawPoints << p1;
-				approximator.approximatingCurve = false;
+				approximator.reset();
 			}
 			
 			// The above code should guarantee that drawPoints isn't empty

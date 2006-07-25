@@ -474,6 +474,22 @@ QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour, const 
 			y = m_clipRect.bottom();
 	}
 	
+	// Make sure that x and y are *reasonably* bounded at least, even if they're not infinite
+	double min_x = -1e3 * m_clipRect.width();
+	double max_x = +1e3 * m_clipRect.width();
+	double min_y = -1e3 * m_clipRect.height();
+	double max_y = +1e3 * m_clipRect.height();
+	
+	if ( x < min_x )
+		x = min_x;
+	else if ( x > max_x )
+		x = max_x;
+	
+	if ( y < min_y )
+		y = min_y;
+	else if ( y > max_y )
+		y = max_y;
+	
 	return QPointF( x, y );
 }
 
@@ -3140,7 +3156,7 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 		{
 			double minX = getXmin( function );
 			double maxX = getXmax( function );
-			double stepSize = 0.01;
+			double stepSize = 0.001;
 	
 			while ( stepSize > 0.0000009 )
 			{

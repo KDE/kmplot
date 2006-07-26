@@ -282,8 +282,10 @@ class View : public QWidget
 		/**
 		 * Draw the labels for the x-axis (this function is called from
 		 * drawLabels).
+		 * \a painter The QPainter to draw the labels with
+		 * \a endLabelWidth_mm the distance of the "x" label from the edge.
 		 */
-		void drawXAxisLabels( QPainter *painter );
+		void drawXAxisLabels( QPainter *painter, double endLabelWidth_mm );
 		/**
 		 * Draw the labels for the y-axis (this function is called from
 		 * drawLabels).

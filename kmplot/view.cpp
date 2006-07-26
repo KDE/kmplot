@@ -797,34 +797,80 @@ void View::drawLabels( QPainter *painter )
 
 	QRectF drawRect;
 	
+	// Whether the x-axis is along the top of the view
+	// and the y-axis is along the right edge of the view
+	bool axesInTopRight = ( m_ymax<ticSepY.value() && m_xmax<ticSepX.value() );
+	
+	// for "x" label
+	double endLabelWidth = 0;
+	
+	int flags = Qt::AlignVCenter|Qt::TextDontClip|Qt::AlignRight;
+	
 	// Draw x label
-	if ( m_ymax<0 && m_xmax<0 )
+	if ( axesInTopRight )
 		drawRect = QRectF( xToPixel(m_xmax)-(3*dx), y+dy, 0, 0 );
-	else if (m_ymin>0)
+	else if (m_ymin>-ticSepY.value())
 		drawRect = QRectF( xToPixel(m_xmax)-dx, y-dy, 0, 0 );
 	else
 		drawRect = QRectF( xToPixel(m_xmax)-dx, y+dy, 0, 0 );
-	painter->drawText( drawRect, Qt::AlignVCenter|Qt::TextDontClip|Qt::AlignRight, xLabel );
+	painter->drawText( drawRect, flags, xLabel );
+	endLabelWidth = m_clipRect.right() - painter->boundingRect( drawRect, flags, xLabel ).right();
 	
 	
 	// Draw y label
-	if(m_ymax<0 && m_xmax<0)
+	if ( axesInTopRight )
 		drawRect = QRectF( x-dx, yToPixel(m_ymax)+(2*dy), 0, 0 );
-	else if (m_xmin>0)
+	else if (m_xmin>-ticSepX.value())
 		drawRect = QRectF( x+(2*dx), yToPixel(m_ymax)+dy, 0, 0 );
 	else
 		drawRect = QRectF( x-dx, yToPixel(m_ymax)+dy, 0, 0 );
-	painter->drawText( drawRect, Qt::AlignVCenter|Qt::AlignRight|Qt::TextDontClip, yLabel );
+	painter->drawText( drawRect, flags, yLabel );
 	
 	
 	
 	// Draw the numbers on the axes
-	drawXAxisLabels( painter );
+	drawXAxisLabels( painter, pixelsToMillimeters( endLabelWidth, painter->device() ) );
 	drawYAxisLabels( painter );
 }
 
 
-void View::drawXAxisLabels( QPainter *painter )
+/**
+ * If \p d is a rational multiple of pi, then return a string appropriate for
+ * displaying it in fraction form.
+ */
+QString tryPiFraction( double d )
+{
+	bool positive = d > 0;
+	
+	d /= M_PI;
+	if ( !positive )
+		d = -d;
+	
+	// Try denominators from 1 to 6
+	for ( int denom = 1; denom <= 6; ++denom )
+	{
+		if ( realModulo( d * denom, 1 ) > 1e-3 )
+			continue;
+		
+		int num = qRound( d * denom );
+		
+		QString s = positive ? "+" : "-";
+		if ( num != 1 )
+			s += QString::number( num );
+		
+		s += QChar(960);
+		
+		if ( denom != 1 )
+			s += '/' + QString::number( denom );
+		
+		return s;
+	}
+	
+	return QString();
+}
+
+
+void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 {
 	QColor axesColor = Settings::axesColor();
 	int const dy = 15;
@@ -861,7 +907,7 @@ void View::drawXAxisLabels( QPainter *painter )
 				if ( d > m_xmax )
 				{
 					// Continue on other side
-					d = qMin( -ticSepX.value(), ceil((m_xmax-m_xmin)/ticSepX.value())*ticSepX.value() - ticStartX );
+					d = qMin( -ticSepX.value(), ticStartX + floor((m_xmax-m_xmin)/ticSepX.value())*ticSepX.value() );
 					forwards = false;
 				}
 			}
@@ -873,50 +919,14 @@ void View::drawXAxisLabels( QPainter *painter )
 			}
 		}
 		
-		// Don't draw too close to the right edge (has x axis label)
-		if ( (m_xmax-d) <= ticSepX.value() )
-			continue;
-		
 		// Don't draw too close to the left edge if the y axis is there
 		if ( m_xmin >= -ticSepX.value() && (d-m_xmin) <= ticSepX.value() )
 			continue;
 		
-		long long n = (long long)ceil(d/ticSepX.value());
+		QString s = tryPiFraction(d);
 		
-		QString s;
-		
-		int frac[] = { 2, 3, 4 };
-		bool found = false;
-		for ( unsigned i = 0; i < 3; ++i )
-		{
-			if( fabs(ticSepX.value()-M_PI/frac[i])> 1e-3 )
-				continue;
-			
-			s = (d<0) ? '-' : '+';
-			
-			found = true;
-			if(n==-1 || n==1)
-				s += QChar(960) + QString("/%1").arg(frac[i]);
-			else if(n%frac[i] == 0)
-			{
-				if ( n == -frac[i] || n == frac[i])
-					s+=QChar(960);
-				else
-				{
-					s=QString().sprintf("%+lld", n/frac[i]);
-					s+=QChar(960);
-				}
-			}
-			
-			// Don't allow just plus or minus
-			if ( s == "+" || s == "-" )
-				s = QString();
-			
-			break;
-		}
-		
-		if ( !found )
-			s = posToString( n*ticSepX.value(), (m_xmax-m_xmin)/4, View::ScientificFormat, axesColor );
+		if ( s.isEmpty() )
+			s = posToString( d, ticSepX.value()*2, View::ScientificFormat, axesColor );
 			
 		m_textDocument->setHtml( s );
 		QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
@@ -924,7 +934,7 @@ void View::drawXAxisLabels( QPainter *painter )
 		double x_pos = xToPixel(d)-(br.width()/2);
 		
 		double y_pos;
-		if ( m_ymin < 0 )
+		if ( m_ymin < -ticSepY.value() )
 		{
 			y_pos = y+dy-(br.height()/2);
 				
@@ -942,6 +952,10 @@ void View::drawXAxisLabels( QPainter *painter )
 		if ( (last_x_start < x_start) && pixelsToMillimeters( x_start - last_x_end, painter->device() ) < 7 )
 			continue;
 		if ( (last_x_start > x_start) && pixelsToMillimeters( last_x_start - x_end, painter->device() ) < 7 )
+			continue;
+		
+		// Don't draw too close to the right edge (has x axis label)
+		if ( pixelsToMillimeters( m_clipRect.right()-x_end, painter->device() ) < endLabelWidth_mm+3 )
 			continue;
 		
 		last_x_start = x_start;
@@ -978,43 +992,15 @@ void View::drawYAxisLabels( QPainter *painter )
 		if ( m_ymin > -ticSepX.value() && (d-m_ymin) <= ticSepY.value() )
 			continue;
 
-		QString s;
+		QString s = tryPiFraction(d);
 		
-		int frac[] = { 2, 3, 4 };
-		bool found = false;
-		for ( unsigned i = 0; i < 3; ++i )
+		if ( s.isEmpty() )
 		{
-			if( fabs(ticSepY.value()-M_PI/frac[i])> 1e-3 )
+			if ( (n>0 && (n%2 != 1)) || (n<0 && (n%2 != 0)) )
 				continue;
 			
-			s = (n<0) ? '-' : '+';
-			
-			found = true;
-			if(n==-1 || n==1)
-				s += QChar(960) + QString("/%1").arg(frac[i]);
-			else if(n%frac[i] == 0)
-			{
-				if ( n == -frac[i] || n == frac[i])
-					s+=QChar(960);
-				else
-				{
-					s=QString().sprintf("%+lld", n/frac[i]);
-					s+=QChar(960);
-				}
-			}
-			
-			// Don't allow just plus or minus
-			if ( s == "+" || s == "-" )
-				s = QString();
-			
-			break;
+			s = posToString( d, ticSepY.value()*2, View::ScientificFormat, axesColor );
 		}
-		
-		if ( !found && ((n>0 && (n%2 != 1)) || (n<0 && (n%2 != 0))) )
-			continue;
-		
-		if ( !found )
-			s = posToString( n*ticSepY.value(), (m_ymax-m_ymin)/4, View::ScientificFormat, axesColor );
 		
 		m_textDocument->setHtml( s );
 			
@@ -1022,7 +1008,7 @@ void View::drawYAxisLabels( QPainter *painter )
 			
 		QPointF drawPoint( 0, yToPixel(d)-(br.height()/2) );
 			
-		if (m_xmin>=0)
+		if ( m_xmin > -ticSepX.value() )
 		{
 			drawPoint.setX( x+dx );
 		}

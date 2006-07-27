@@ -39,6 +39,17 @@
 #include "function.h"
 #include "vector.h"
 
+
+// Various mathematical symbols
+#define PiSymbol 				QChar(0x3c0)
+#define InfinitySymbol			QChar(0x221e)
+#define PmSymbol				QChar(0xb1)
+#define AbsSymbol				QChar(0x2223)
+#define SqrtSymbol				QChar(0x221a)
+#define MinusSymbol				QChar(0x2212)
+#define SubscriptZeroSymbol		QChar(0x2080)
+
+
 class Parser;
 
 // Voreinstellungen bei Verwendung des Standardkonstruktors :

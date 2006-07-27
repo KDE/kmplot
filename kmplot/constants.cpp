@@ -104,7 +104,7 @@ bool Constants::isValidName( const QString & name ) const
 		return false;
 	
 	// special cases: don't allow predefined constants either
-	if ( name == "pi" || name == QChar(960) || name == "e" || name == QChar(0x221E) )
+	if ( name == "pi" || name == PiSymbol || name == "e" || name == InfinitySymbol )
 		return false;
 	
 	// Now make sure that the constant name contains only letters

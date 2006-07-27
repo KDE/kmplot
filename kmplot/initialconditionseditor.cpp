@@ -25,6 +25,7 @@
 
 #include "equationedit.h"
 #include "initialconditionseditor.h"
+#include "parser.h"
 
 #include <QHeaderView>
 #include <assert.h>
@@ -156,7 +157,7 @@ QVariant InitialConditionsModel::headerData( int section, Qt::Orientation orient
 	else
 		param = variables.first();
 	
-	param += QChar( 0x2080 ); // subscript zero
+	param += SubscriptZeroSymbol;
 	
 	if ( section == 0 )
 		return param;

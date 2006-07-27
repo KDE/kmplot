@@ -294,7 +294,7 @@ int Equation::order( ) const
 
 int Equation::pmCount() const
 {
-	return m_fstr.count( QChar( 0xb1 ) );
+	return m_fstr.count( PmSymbol );
 }
 
 
@@ -529,7 +529,7 @@ Function::Function( Type type )
 	
 	dmin.updateExpression( QChar('0') );
 	if ( Settings::anglemode() == Parser::Radians )
-		dmax.updateExpression( QString(QChar('2')) + QChar(960) );
+		dmax.updateExpression( QString(QChar('2')) + PiSymbol );
 	else
 		dmax.updateExpression( "360" );
 	

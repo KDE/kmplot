@@ -183,8 +183,16 @@ void View::initDrawLabels()
 
 double View::niceTicSpacing( double length_mm, double range )
 {
-	Q_ASSERT_X( length_mm > 0,	"View::niceTicSpacing", "Length must be positive" );
 	Q_ASSERT_X( range > 0,		"View::niceTicSpacing", "Range must be positive" );
+	
+	if ( length_mm <= 0 )
+	{
+		// Don't assert, as we can at least handle this situation - and it can
+		// happen with extreme zooms
+		
+		kWarning() << k_funcinfo << "Non-positive length: length_mm="<<length_mm<<endl;
+		length_mm = 120;
+	}
 	
 	// Custom case for trigonemtric scaled
 	if ( qFuzzyCompare( range, 4*M_PI ) )
@@ -257,7 +265,7 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 	m_xmin = XParser::self()->eval( Settings::xMin() );
 	m_xmax = XParser::self()->eval( Settings::xMax() );
 	
-	if ( m_xmax <= m_xmin )
+	if ( m_xmax <= m_xmin || !finite(m_xmin) || !finite(m_xmax) )
 	{
 		m_xmin = -8;
 		m_xmax = +8;
@@ -265,7 +273,7 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 	
 	m_ymin = XParser::self()->eval( Settings::yMin() );
 	m_ymax = XParser::self()->eval( Settings::yMax() );
-	if ( m_ymax <= m_ymin )
+	if ( m_ymax <= m_ymin || !finite(m_ymin) || !finite(m_ymax) )
 	{
 		m_ymin = -8;
 		m_ymax = +8;
@@ -846,6 +854,9 @@ QString tryPiFraction( double d )
 	if ( !positive )
 		d = -d;
 	
+	if ( d < 1e-2 )
+		return QString();
+	
 	// Try denominators from 1 to 6
 	for ( int denom = 1; denom <= 6; ++denom )
 	{
@@ -854,11 +865,11 @@ QString tryPiFraction( double d )
 		
 		int num = qRound( d * denom );
 		
-		QString s = positive ? "+" : "-";
+		QString s = positive ? "+" : QString(MinusSymbol);
 		if ( num != 1 )
 			s += QString::number( num );
 		
-		s += QChar(960);
+		s += PiSymbol;
 		
 		if ( denom != 1 )
 			s += '/' + QString::number( denom );
@@ -2135,7 +2146,7 @@ void View::drawLabel( QPainter * painter, const QColor & color, const QPointF & 
 	QRectF rect( pixelCenter, QSizeF( 1, 1 ) );
 	
 	int flags = Qt::TextSingleLine | Qt::AlignLeft | Qt::AlignTop;
-	rect = painter->boundingRect( rect, flags, text ).adjusted( -8, -4, 4, 2 );
+	rect = painter->boundingRect( rect, flags, text ).adjusted( -7, -3, 4, 2 );
 	
 	// Try and find a nice place for inserting the rectangle
 	int bestCost = int(1e7);
@@ -2163,7 +2174,7 @@ void View::drawLabel( QPainter * painter, const QColor & color, const QPointF & 
 	
 	painter->setBrush( background );
 	painter->setPen( outline );
-	painter->drawRect( rect );
+	painter->drawRoundRect( rect, int(1000/rect.width()), int(1000/rect.height()) );
 	
 	
 	// If the rectangle does not lie over realPos, then draw a line to realPos from the rectangle
@@ -2190,7 +2201,7 @@ void View::drawLabel( QPainter * painter, const QColor & color, const QPointF & 
 	
 	painter->setFont( m_labelFont );
 	painter->setPen( Qt::black );
-	painter->drawText( rect.adjusted( 8, 4, -4, -2 ), flags, text );
+	painter->drawText( rect.adjusted( 7, 3, -4, -2 ), flags, text );
 }
 
 
@@ -3179,7 +3190,7 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 				double closest_x, closest_y;
 				if ( k == 0 )
 				{
-					closest_x = _x0;
+					closest_x = pixelPos.x();
 					closest_y = _y0;
 				}
 				else
@@ -3188,11 +3199,15 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 					closest_y = (pixelPos.x() + pixelPos.y()*k + _y0/k - _x0) / (k + 1.0/k);
 				}
 				
-				double dfx = qAbs( closest_x - pixelPos.x() );
-				double dfy = qAbs( closest_y - pixelPos.y() );
+				bool valid = x-stepSize <= xToReal(closest_x) && xToReal(closest_x) <= x;
+				
+				double dfx = closest_x - pixelPos.x();
+				double dfy = closest_y - pixelPos.y();
 	
 				double distance = sqrt( dfx*dfx + dfy*dfy );
-				if ( distance < best_distance )
+				bool insideView = 0 <= closest_y && closest_y <= m_clipRect.height();
+				
+				if ( distance < best_distance && insideView && valid )
 				{
 					best_distance = distance;
 					best_pixel_x = closest_x;
@@ -3220,7 +3235,9 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 				while ( x <= maxX )
 				{
 					double distance = pixelDistance( pos, plot, x, false );
-					if ( distance < best_distance )
+					bool insideView = QRectF(m_clipRect).contains( toPixel( realValue( plot, x, false ), ClipInfinite ) );
+					
+					if ( distance < best_distance && insideView )
 					{
 						best_distance = distance;
 						best_x = x;
@@ -3281,7 +3298,7 @@ QString View::posToString( double x, double delta, PositionFormatting format, QC
 			{
 				number.remove( "+0" );
 				number.remove( "+" );
-				number.replace( "-0", "-" );
+				number.replace( "-0", MinusSymbol );
 
 				number.replace( 'e', QChar(215) + QString("10<sup>") );
 				number.append( "</sup>" );
@@ -3307,6 +3324,8 @@ QString View::posToString( double x, double delta, PositionFormatting format, QC
 			break;
 		}
 	}
+	
+	numberText.replace( '-', MinusSymbol );
 	
 	return numberText;
 }
@@ -3450,7 +3469,7 @@ bool View::updateCrosshairPosition()
 				if ( !m_haveRoot && findRoot( &x0, m_currentPlot, PreciseRoot ) )
 				{
 					QString str="  ";
-					str += i18n("root") + ":  x" + QChar(0x2080) + " = ";
+					str += i18n("root") + ":  x" + SubscriptZeroSymbol + " = ";
 					setStatusBar( str+QString().sprintf("%+.5f", x0), RootSection );
 					m_haveRoot=true;
 				}

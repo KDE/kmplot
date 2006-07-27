@@ -170,3 +170,6 @@ kmplot/functiontools.cpp
 kmplot/functiontools.h
 kmplot/functiontools.ui
 kmplot/settingspagediagram.ui
+kmplot/constantseditor.ui
+kmplot/constants.cpp
+kmplot/constants.h

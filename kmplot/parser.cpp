@@ -664,7 +664,7 @@ void Parser::heir2()
 			return;
 		addToken(NEG);
 	}
-	else if ( match( QChar(0x221a) ) ) // square root symbol
+	else if ( match( SqrtSymbol ) ) // square root symbol
 	{
 		heir2();
 		if(*m_error!=ParseSuccess)
@@ -861,9 +861,9 @@ bool Parser::tryConstant()
 	
 	// Or a predefined constant?
 	CHECK_CONSTANT( "pi", M_PI );
-	CHECK_CONSTANT( QChar(960), M_PI );
+	CHECK_CONSTANT( PiSymbol, M_PI );
 	CHECK_CONSTANT( "e", M_E );
-	CHECK_CONSTANT( QChar(0x221E), INFINITY );
+	CHECK_CONSTANT( InfinitySymbol, INFINITY );
 	
 	return false;
 }
@@ -1299,7 +1299,7 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	replace( QChar( 0x2219 ), '*' );
 	
 	// minus-plus symbol to plus-minus symbol
-	replace( QChar( 0x2213 ), QChar( 0xb1 ) );
+	replace( QChar( 0x2213 ), PmSymbol );
 	
 	// various power symbols
 	replace( QChar(0x00B2), "^2" );
@@ -1330,7 +1330,7 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	replace( QChar(0x215e), "(7/8)" );
 	
 	//BEGIN replace e.g. |x+2| with abs(x+2)
-	str->replace( QChar(0x2223), '|' ); // 0x2223 is the unicode math symbol for abs
+	str->replace( AbsSymbol, '|' );
 	
 	int maxDepth = str->count( '(' );
 	QVector<bool> absAt( maxDepth+1 );

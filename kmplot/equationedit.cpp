@@ -326,8 +326,8 @@ void EquationEdit::slotTextChanged( )
 	if ( m_replaceMap.isEmpty() )
 	{
 // 		m_replaceMap[ '*' ] = QChar(0xd7);
-		m_replaceMap[ '-' ] = QChar(0x2212);
-		m_replaceMap[ '|' ] = QChar(0x2223);
+		m_replaceMap[ '-' ] = MinusSymbol;
+		m_replaceMap[ '|' ] = AbsSymbol;
 	}
 	
 	QTextCursor cursor;

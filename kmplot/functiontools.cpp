@@ -121,9 +121,15 @@ void FunctionTools::updateEquationList()
 	
 	m_widget->list->clear();
 	m_equations.clear();
+	
+	// Can't e.g. calculate areas for parametric equations
+	bool onlyCartesianLike = (m_mode != CalculateY); 
 
 	foreach ( Function * function, XParser::self()->m_ufkt )
 	{
+		if ( onlyCartesianLike && function->type() != Function::Cartesian && function->type() != Function::Differential )
+			continue;
+		
 		QList<Plot> plots = function->plots();
 		
 		for ( int i = 0; i < function->eq.size(); ++i )
@@ -224,10 +230,9 @@ void FunctionTools::calculateY( const EquationPair & equation )
 	if ( !equation.first.function() )
 		return;
 	
-	equation.first.updateFunction();
-	Equation * eq = equation.first.function()->eq[ equation.second ];
+	double result = View::self()->value( equation.first, equation.second, m_widget->xValue->value(), true );
 	
-	double result = XParser::self()->fkt( eq, m_widget->xValue->value() );
+	Equation * eq = equation.first.function()->eq[ equation.second ];
 	
 	m_widget->yResult->setText( QString( "%1(%2) = %3" )
 			.arg( eq->name() )

@@ -24,7 +24,7 @@
 */
 
 // Qt includes
-#include <Q3Picture>
+#include <QPicture>
 #include <QMainWindow>
 #include <QPainter>
 #include <QPixmap>
@@ -539,7 +539,7 @@ void MainDlg::slotExport()
 	
 	if ( isSvg )
 	{
-		Q3Picture img;
+		QPicture img;
 		View::self()->draw( &img, View::SVG );
 		if ( url.isLocalFile() )
 			saveOk = img.save( url.path(), "SVG" );

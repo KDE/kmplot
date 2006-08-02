@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
-    <height>531</height>
+    <width>517</width>
+    <height>299</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -102,7 +102,7 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>43</width>
+         <width>16</width>
          <height>60</height>
         </size>
        </property>
@@ -116,6 +116,50 @@
        <property name="spacing" >
         <number>6</number>
        </property>
+       <item row="0" column="0" >
+        <widget class="QToolButton" name="toolButton_3" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>0</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>²</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4" >
+        <widget class="QToolButton" name="toolButton_26" >
+         <property name="text" >
+          <string>±</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4" >
+        <widget class="QToolButton" name="toolButton_28" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>0</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>⁶</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3" >
+        <widget class="QToolButton" name="toolButton_20" >
+         <property name="text" >
+          <string>√</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="1" >
         <widget class="QToolButton" name="toolButton_4" >
          <property name="sizePolicy" >
@@ -131,10 +175,32 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="3" >
-        <widget class="QToolButton" name="toolButton_26" >
+       <item row="1" column="2" >
+        <widget class="QToolButton" name="toolButton_18" >
+         <property name="sizePolicy" >
+          <sizepolicy>
+           <hsizetype>7</hsizetype>
+           <vsizetype>0</vsizetype>
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text" >
-          <string>±</string>
+          <string>∣</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QToolButton" name="toolButton_19" >
+         <property name="text" >
+          <string>≥</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QToolButton" name="toolButton_27" >
+         <property name="text" >
+          <string>≤</string>
          </property>
         </widget>
        </item>
@@ -153,43 +219,6 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0" >
-        <widget class="QToolButton" name="toolButton_3" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>7</hsizetype>
-           <vsizetype>0</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text" >
-          <string>²</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2" >
-        <widget class="QToolButton" name="toolButton_20" >
-         <property name="text" >
-          <string>√</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1" >
-        <widget class="QToolButton" name="toolButton_18" >
-         <property name="sizePolicy" >
-          <sizepolicy>
-           <hsizetype>7</hsizetype>
-           <vsizetype>0</vsizetype>
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text" >
-          <string>∣</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="2" >
         <widget class="QToolButton" name="toolButton_5" >
          <property name="sizePolicy" >
@@ -202,13 +231,6 @@
          </property>
          <property name="text" >
           <string>⁴</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" >
-        <widget class="QToolButton" name="toolButton_19" >
-         <property name="text" >
-          <string>^</string>
          </property>
         </widget>
        </item>
@@ -431,7 +453,7 @@
        </property>
        <property name="sizeHint" >
         <size>
-         <width>43</width>
+         <width>16</width>
          <height>60</height>
         </size>
        </property>
@@ -446,8 +468,8 @@
      </property>
      <property name="sizeHint" >
       <size>
-       <width>321</width>
-       <height>191</height>
+       <width>465</width>
+       <height>171</height>
       </size>
      </property>
     </spacer>
@@ -455,6 +477,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>EquationEdit</class>
+   <extends>KLineEdit</extends>
+   <header>equationedit.h</header>
+  </customwidget>
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
@@ -464,11 +491,6 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>EquationEdit</class>
-   <extends>KLineEdit</extends>
-   <header>equationedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

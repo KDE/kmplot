@@ -361,6 +361,34 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				--stkptr;
 				break;
 			}
+			
+			case GT:
+			{
+				stkptr[-1] = (*(stkptr-1) > *stkptr) ? 1 : 0;
+				stkptr--;
+				break;
+			}
+			
+			case GE:
+			{
+				stkptr[-1] = (*(stkptr-1) >= *stkptr) ? 1 : 0;
+				stkptr--;
+				break;
+			}
+			
+			case LT:
+			{
+				stkptr[-1] = (*(stkptr-1) < *stkptr) ? 1 : 0;
+				stkptr--;
+				break;
+			}
+			
+			case LE:
+			{
+				stkptr[-1] = (*(stkptr-1) <= *stkptr) ? 1 : 0;
+				stkptr--;
+				break;
+			}
 				
 			case PM:
 			{
@@ -551,7 +579,7 @@ void Parser::initEquation( Equation * eq, Error * error, int * errorPosition )
 	m_eval = eq->fstr();
 	m_sanitizer.fixExpression( & m_eval );
 	m_evalPos = m_eval.indexOf( '=' ) + 1;
-	heir1();
+	heir0();
 	
 	if ( !evalRemaining().isEmpty() && *m_error == ParseSuccess )
 		*m_error = SyntaxError;
@@ -595,9 +623,58 @@ uint Parser::countFunctions()
 	return m_ufkt.count();
 }
 
+void Parser::heir0()
+{
+	heir1();
+	
+	if (*m_error!=ParseSuccess)
+		return;
+	
+	while(1)
+	{
+		if ( m_eval.length() <= m_evalPos )
+			return;
+		
+		QChar c = m_eval[m_evalPos];
+		
+		switch ( c.unicode() )
+		{
+			default:
+				return;
+				
+			case '<':
+			case '>':
+			case 0x2264: // less than or equal
+			case 0x2265: // greater than or equal
+				++m_evalPos;
+				addToken(PUSH);
+				heir1();
+				if ( *m_error != ParseSuccess )
+					return;
+		}
+		switch ( c.unicode() )
+		{
+			case '<':
+				addToken(LT);
+				break;
+				
+			case '>':
+				addToken(GT);
+				break;
+				
+			case 0x2264: // less than or equal
+				addToken(LE);
+				break;
+				
+			case 0x2265: // greater than or equal
+				addToken(GE);
+				break;
+		}
+	}
+}
+
 void Parser::heir1()
 {
-	QChar c;
 	heir2();
 	
 	if (*m_error!=ParseSuccess)
@@ -608,7 +685,7 @@ void Parser::heir1()
 		if ( m_eval.length() <= m_evalPos )
 			return;
 		
-		c = m_eval[m_evalPos];
+		QChar c = m_eval[m_evalPos];
 		
 		switch ( c.unicode() )
 		{
@@ -751,7 +828,7 @@ bool Parser::tryFunction()
 	if ( !match("(") && !match(",") )
 		return false;
 	
-	heir1();
+	heir0();
 	if ( !match(")") && !match(",") )
 		*m_error = MissingBracket;
 	return true;
@@ -1273,6 +1350,12 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	for ( int i = 0; i < m_str->length(); ++i )
 		m_map[i] = i;
 	
+	// greater-equal, less-equal with proper symbols
+	// note that this must go before the next code for implicit equations, since
+	// it removes the spurious equals signs
+	replace( ">=", GeSymbol );
+	replace( "<=", LeSymbol );
+	
 	// hack for implicit functions: change e.g. "y = x + 2" to "y - (x+2)" so
 	// that they can be evaluated via equality with zero.
 	if ( str->count( '=' ) > 1 )
@@ -1518,6 +1601,14 @@ void ExpressionSanitizer::replace( int pos, int len, const QString & after )
 	m_map.remove( pos, len );
 	m_map.insert( pos, after.length(), before );
 	m_str->replace( pos, len, after );
+}
+
+
+void ExpressionSanitizer::replace( const QString & before, const QString & after )
+{
+	int index;
+	while ( (index = m_str->indexOf(before)) > -1 )
+		replace( index, before.length(), after );
 }
 
 

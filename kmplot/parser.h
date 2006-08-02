@@ -48,6 +48,8 @@
 #define SqrtSymbol				QChar(0x221a)
 #define MinusSymbol				QChar(0x2212)
 #define SubscriptZeroSymbol		QChar(0x2080)
+#define GeSymbol				QChar(0x2265)
+#define LeSymbol				QChar(0x2264)
 
 
 class Parser;
@@ -76,7 +78,11 @@ enum Token
 	UFKT,		// 12 - address to user defined function follows
 	SQRT,		// 13 - take square root
 	FACT,		// 14 - take factorial
-	ENDE		// 15 - end of function
+	GT,			// 15 - greater than
+	GE,			// 16 - greater than or equal
+	LT,			// 17 - less than
+	LE,			// 18 - less than or equal
+	ENDE		// 19 - end of function
 };
 
 
@@ -183,6 +189,7 @@ class ExpressionSanitizer
 		void replace( QChar before, QChar after );
 		void replace( QChar before, const QString & after );
 		void replace( int pos, int len, const QString & after );
+		void replace( const QString & before, const QString & after );
 		void insert( int i, QChar ch );
 		void append( QChar str );
 		void stripWhiteSpace();
@@ -330,6 +337,7 @@ class Parser : public QObject
 		static ScalarFunction scalarFunctions[ScalarCount];
 		static VectorFunction vectorFunctions[VectorCount];
 	
+		void heir0();
 		void heir1();
 		void heir2();
 		void heir3();

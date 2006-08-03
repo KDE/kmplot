@@ -1,200 +1,303 @@
 <chapter id="configuration">
 <title>Configuring &kmplot;</title> 
 <para>To access the &kmplot; configuration
-dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
-&kmplot;...</guimenuitem></menuchoice>. A number of settings (<guimenuitem>Colors...</guimenuitem>,
-<guimenuitem>Coordinate System...</guimenuitem>, <guimenuitem>Scaling...</guimenuitem> and
-<guimenuitem>Fonts...</guimenuitem>) can only be changed
-from the <guimenu>Edit</guimenu> menu. </para>
+	dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
+			&kmplot;...</guimenuitem></menuchoice>.
+	
+	A number of settings (<guimenuitem>Constants...</guimenuitem> and 
+	<guimenuitem>Coordinate System...</guimenuitem>) can only be changed
+	from the <guimenu>Edit</guimenu> menu. </para>
 
 <sect1 id="general-config">
-<title><guilabel>General</guilabel> Configuration</title>
-<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first page you can set calculation-precision, angle-mode (radians and degrees), background color and zoom in and zoom out factors. </para>
-
-<screenshot>
-<screeninfo>screenshot of the &kmplot; settings dialog</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="settingsdlg.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>screenshot of the &kmplot; settings dialog</phrase>
-	  </textobject>
-	</mediaobject>
-</screenshot>
-
-<para>The second page let you define you own constants.  &kmplot; saves the constants in the same file as &kcalc; does. That means you can create a constant in  &kmplot;, close the program and load it in &kcalc; and vice versa.  &kmplot; only supports constant names that consist of one capital character and if you in &kcalc; define a constant name that is not one character, the name will be truncated. E.g, if you already have the constants "apple" and "bananas" in &kcalc;, they will be renamed to "A" and "B" in &kmplot;.</para>
-
+	<title><guilabel>General</guilabel> Configuration</title>
+	
+	<screenshot>
+		<screeninfo>Screenshot of the General Settings dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the General Settings dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first page you can set angle-mode (radians and degrees), zoom in and zoom out factors, and whether to show advanced plot tracing. </para>
 </sect1>
 
+<sect1 id="diagram-config">
+	<title><guilabel>Diagram</guilabel> Configuration</title>
+	
+	<screenshot>
+		<screeninfo>Screenshot of the Diagram Appearance dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Diagram Appearance dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para>You can set the <guilabel>Grid Style</guilabel> to one of four options:
+		<variablelist>
+			
+			<varlistentry>
+				<term><guilabel>None</guilabel></term>
+				<listitem>
+					<para>No gridlines are drawn on the plot area</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Lines</guilabel></term>
+				<listitem>
+					<para>Straight lines form a grid of squares on the plot area.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Crosses</guilabel></term>
+				<listitem>
+					<para>Crosses are drawn to indicate points where x and y have integer values
+						(&eg;, (1,1), (4,2) &etc;).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Polar</guilabel></term>
+				<listitem>
+					<para>Lines of constant radius and of constant angle are drawn on the plot
+						area.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para>Other options for the diagram appearance can also be configured:
+		<variablelist>
+			<varlistentry>
+				<term><guilabel>Axis width:</guilabel></term>
+				<listitem>
+					<para>Sets the width of the lines representing the axes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Line width:</guilabel></term>
+				<listitem>
+					<para>Sets the width of the lines used for drawing the grid.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Tic width:</guilabel></term>
+				<listitem>
+					<para>Sets the width of the lines representing tics on the axes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Tic length:</guilabel></term>
+				<listitem>
+					<para>Sets the length of the lines representing tics on the axes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Show labels</guilabel></term>
+				<listitem>
+					<para>If checked, the names (x, y) of the axes are shown on the plot and the axes' tics are labeled.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Show axes</guilabel></term>
+				<listitem>
+					<para>If checked, the axes are visible.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Show arrows</guilabel></term>
+				<listitem>
+					<para>If checked, the axes are displayed with arrows at their ends.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
 
 <sect1 id="colors-config">
-<title><guilabel>Colors</guilabel> Configuration</title>
-<para>In the <guilabel>Coords</guilabel> tab of the <guilabel>Colors</guilabel>
-configuration dialog, you can change the colors of the axes and grid of the
-main &kmplot; area.</para>
-
-<screenshot>
-<screeninfo>screenshot of the colors configuration dialog</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="settings-colors.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>screenshot of the colors configuration dialog</phrase>
-	  </textobject>
-	</mediaobject>
-</screenshot>
-
-<para>In the <guilabel>Default Function Colors</guilabel> tab, you can change the colors used
-for the graphs of the ten functions allowed in &kmplot;.</para>
-</sect1>
-
-<sect1 id="coords-config">
-<title><guimenuitem>Coordinate System</guimenuitem> Configuration</title>
-
-<sect2 id="axes-config">
-<title>The <guilabel>Axes</guilabel> Configuration</title>
-<para>
-<variablelist>
-
-<varlistentry>
-<term><guilabel>X-Axis</guilabel></term>
-<listitem>
-<para>Sets the range for the x-axis scale. You can choose one of the
-predefined ranges, or select <guilabel>Custom</guilabel> to make your
-own. Note that in the <guilabel>Custom</guilabel> boxes, you can use the
-predefined functions and constants (see <xref linkend="func-predefined"/>) as
-the extremes of the range (&eg;, set <guilabel>Min:</guilabel> to
-<userinput>2*pi</userinput>). You can even use functions you have defined to
-set the extremes of the axis range. For example, if you have defined a function
-<userinput>f(x)=x^2</userinput>, you could set <guilabel>Min:</guilabel> to
-<userinput>f(3)</userinput>, which would make the lower end of the range equal
-to 9.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Y-Axis</guilabel></term>
-<listitem>
-<para>Sets the range for the y-axis. See <quote>X-Axis</quote> above.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Axis-line width:</guilabel></term>
-<listitem>
-<para>Sets the width of the lines representing the axes.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Tic width:</guilabel></term>
-<listitem>
-<para>Sets the width of the lines representing tics on the axes.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Tic length:</guilabel></term>
-<listitem>
-<para>Sets the length of the lines representing tics on the axes.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Show labels</guilabel></term>
-<listitem>
-<para>If checked, the names (x, y) of the axes are shown on the plot and the axes' tics are labeled.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Show extra frame</guilabel></term>
-<listitem>
-<para>If checked, the plot area is framed by an extra line.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Show axes</guilabel></term>
-<listitem>
-<para>If checked, the axes are visible.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Show arrows</guilabel></term>
-<listitem>
-<para>If checked, the axes are displayed with arrows at their ends.</para>
-</listitem>
-</varlistentry>
-
-</variablelist>
-</para>
-
-</sect2>
-
-<sect2 id="grid-config">
-<title>The <guilabel>Grid</guilabel> Configuration</title>
-<para>You can set the <guilabel>Grid Style</guilabel> to one of four options:
-<variablelist>
-
-<varlistentry>
-<term><guilabel>None</guilabel></term>
-<listitem>
-<para>No gridlines are drawn on the plot area</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Lines</guilabel></term>
-<listitem>
-<para>Straight lines form a grid of squares on the plot area.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Crosses</guilabel></term>
-<listitem>
-<para>Crosses are drawn to indicate points where x and y have integer values
-(&eg;, (1,1), (4,2) &etc;).</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><guilabel>Polar</guilabel></term>
-<listitem>
-<para>Lines of constant radius and of constant angle are drawn on the plot
-area.</para>
-</listitem>
-</varlistentry>
-</variablelist>
-</para>
-<para>The <guilabel>Line width</guilabel> option is used to set the width of
-the lines of the grid.</para>
-</sect2>
-
+	<title><guilabel>Colors</guilabel> Configuration</title>
+	
+	<screenshot>
+		<screeninfo>Screenshot of the Colors dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Colors dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para>
+		In the <guilabel>Coords</guilabel> tab of the <guilabel>Colors</guilabel>
+		configuration dialog, you can change the colors of the axes and grid of the
+		main &kmplot; area.
+	</para>
+	
+	<para>The <guilabel>Default Function Colors</guilabel> control which colors are cycled through when creating new functions.</para>
 </sect1>
 
 <sect1 id="font-config">
-<title><guilabel>Fonts</guilabel> Configuration</title>
+	<title><guilabel>Fonts</guilabel> Configuration</title>
+	
+	<screenshot>
+		<screeninfo>Screenshot of the Fonts dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Fonts dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term><guilabel>Axis font</guilabel></term>
+			<listitem>
+				<para>The font used for drawing the axis numbers and x/y labels.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term><guilabel>Label font</guilabel></term>
+			<listitem>
+				<para>The font used for drawing diagram labels (&eg;, those showing the plot name or extreme points.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
 
-<screenshot>
-<screeninfo>screenshot of the fonts configuration dialog</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="settings-fonts.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>screenshot of the fonts configuration dialog</phrase>
-	  </textobject>
-	</mediaobject>
-</screenshot>
 
-<para><guilabel>Header table:</guilabel> sets the font for the information table
-shown in &kmplot; printouts, and <guilabel>Axis font:</guilabel> and <guilabel>Axis font size:</guilabel>
-sets the font and its size used for all labels on the axes in the plot area.</para>
+<sect1 id="coords-config">
+	<title><guimenuitem>Coordinate System</guimenuitem> Configuration</title>
+	
+	<screenshot>
+		<screeninfo>Screenshot of the Coordinate System dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Coordinate System dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<sect2 id="axes-config">
+		<title>The <guilabel>Axes</guilabel> Configuration</title>
+		<para>
+			<variablelist>
+				
+				<varlistentry>
+					<term><guilabel>X-axis Range</guilabel></term>
+					<listitem>
+						<para>Sets the range for the x-axis scale.
+							Note that you can use the
+							predefined functions and constants (see <xref linkend="func-predefined"/>) as
+							the extremes of the range (&eg;, set <guilabel>Min:</guilabel> to
+							<userinput>2*pi</userinput>). You can even use functions you have defined to
+							set the extremes of the axis range. For example, if you have defined a function
+							<userinput>f(x) = x^2</userinput>, you could set <guilabel>Min:</guilabel> to
+							<userinput>f(3)</userinput>, which would make the lower end of the range equal
+							to 9.</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term><guilabel>Y-axis Range</guilabel></term>
+					<listitem>
+						<para>Sets the range for the y-axis. See <quote>X-axis Range</quote> above.</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term><guilabel>X-axis Grid Spacing</guilabel></term>
+					<listitem>
+						<para>This controls the spacing between grid lines in the horizontal direction.
+							If <guilabel>Automatic</guilabel> is selected, then &kmplot; will try to find a grid line spacing of about two centermeters that is also numerically nice.
+							If <guilabel>Custom</guilabel> is selected, then you can enter the horizontal grid spacing. This value will be used regardless of the zoom. For example, if a value of 0.5 is entered, and the x range is 0 to 8, then 16 grid lines will be shown.
+						</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term><guilabel>Y-axis Grid Spacing</guilabel></term>
+					<listitem>
+						<para>This controls the spacing between grid lines in the vertical direction.
+							See <quote>Y-axis Grid Spacing</quote> above.
+						</para>
+					</listitem>
+				</varlistentry>
+				
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title><guimenuitem>Constants</guimenuitem> Configuration</title>
+	
+	<screenshot>
+		<screeninfo>Screenshot of the Constants dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Constants dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para>
+		Constants can be used as part of an expression anywhere inside of &kmplot;. Each constant must have a name and a value. Some names are invalid, however, such as existing function names or existing constants.
+	</para>
+	
+	<para>
+		There are two options that control the scope of a constant:
+		
+		<variablelist>
+			
+			<varlistentry>
+				<term><guilabel>Document</guilabel></term>
+				<listitem>
+					<para>If you select the <guilabel>Document</guilabel> checkbox, then the Constant will be saved along with the current diagram when you save it to file. However, unless you have also selected the <guilabel>Global</guilabel> option, the constant will not be available between instances of &kmplot;.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term><guilabel>Global</guilabel></term>
+				<listitem>
+					<para>If you select the <guilabel>Global</guilabel> checkbox, then the Constant's name and value will be written to &kde; settings (where it can also be used by KCalc). The constant will not be lost when &kmplot; is closed, and will be available again for use when &kmplot; is started again.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</para>
 </sect1>
 
 </chapter>

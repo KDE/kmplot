@@ -426,8 +426,8 @@
 		drawn point by a line.
 	</para>
 	<para>
-		Parametric functions are plotted for parameter values from 0 up to 2&pgr;. 
-		You can set the plotting range in the dialog for the function too.
+		Parametric and polar functions have a default plotting range of 0 to 2&pgr;.
+		This plotting range can also be changed in the <guilabel>Function Editor</guilabel>.
 	</para>
 </sect1>
 

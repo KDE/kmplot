@@ -712,23 +712,21 @@ void View::drawGrid( QPainter* painter )
 			
 			double xMax = qMax( qAbs(m_xmin), qAbs(m_xmax) ) * 1.42;
 			double yMax = qMax( qAbs(m_ymin), qAbs(m_ymax) ) * 1.42;
+			double rMax = qMax( xMax, yMax );
 			
 			// The furthest pixel away from the origin
 			double pixelMax = qMax( xMax*m_realToPixel.m11(), yMax*m_realToPixel.m22() );
 			
-			double x = ticSepX.value();
-			double y = ticSepY.value();
+			double ticSep = qMin( ticSepX.value(), ticSepY.value() );
+			double r = ticSep;
 			
-			while ( x <= xMax || y <= yMax )
+			while ( r < rMax )
 			{
-				QRectF r;
-				r.setTopLeft(		toPixel( QPointF( -x, y ), ClipInfinite ) ); 
-				r.setBottomRight(	toPixel( QPointF( x, -y ), ClipInfinite ) );
-				
-				painter->drawEllipse( r );
-				
-				x += ticSepX.value();
-				y += ticSepY.value();
+				QRectF rect;
+				rect.setTopLeft(		toPixel( QPointF( -r, r ), ClipInfinite ) ); 
+				rect.setBottomRight(	toPixel( QPointF( r, -r ), ClipInfinite ) );
+				painter->drawEllipse( rect );
+				r += ticSep;
 			}
 			
 			for ( double theta = 0; theta < 2.0*M_PI; theta += M_PI/12.0 )

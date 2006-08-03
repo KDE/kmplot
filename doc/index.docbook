@@ -33,6 +33,10 @@
 <author>
 &Philip.Rodrigues; &Philip.Rodrigues.mail;
 </author>
+<author>
+<firstname>David</firstname>
+<surname>Saxton</surname>
+</author>
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
@@ -44,6 +48,11 @@
 <copyright>
 <year>2003</year>
 <holder>&Philip.Rodrigues; &Philip.Rodrigues.mail;</holder>
+</copyright>
+
+<copyright>
+<year>2006</year>
+<holder>David Saxton</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
@@ -65,7 +74,7 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
-<keyword>KMPlot</keyword>
+<keyword>KmPlot</keyword>
 <keyword>EDU</keyword>
 <keyword>edutainment</keyword>
 <keyword>plotting</keyword>

@@ -122,15 +122,6 @@ Displays the <guilabel>Colors</guilabel> Settings dialog box. See
 </varlistentry>
 
 <varlistentry>
-<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Scaling...</guimenuitem>
-</menuchoice></term>
-<listitem><para>Displays the <guilabel>Scale</guilabel> Settings dialog box. See
-<xref linkend="scaling-config"/>.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
 <term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Fonts...</guimenuitem>
 </menuchoice></term>
 <listitem><para>Displays the <guilabel>Fonts</guilabel> Settings dialog box. See

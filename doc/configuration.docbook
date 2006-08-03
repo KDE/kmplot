@@ -177,32 +177,6 @@ the lines of the grid.</para>
 
 </sect1>
 
-<sect1 id="scaling-config">
-<title><guilabel>Scaling</guilabel> Configuration</title>
-
-<screenshot>
-<screeninfo>screenshot of the scaling configuration dialog</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="settings-scaling.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>screenshot of the scaling configuration dialog</phrase>
-	  </textobject>
-	</mediaobject>
-</screenshot>
-
-<para>For each axis, you can set the <guilabel>Scaling:</guilabel> and
-<guilabel>Printing:</guilabel> of one tic.  The <guilabel>Scaling:</guilabel>
-option selects how many units apart the axis tics will be (and therefore, how
-far apart grid lines will be drawn), and the <guilabel>Printing:</guilabel>
-option selects the length of one tic when displayed on the screen or
-printed. In this way, these options can be used to change the size of the graph
-on screen or on a page: For example, doubling the <guilabel>Printing:</guilabel>
-setting whilst keeping the <guilabel>Scaling:</guilabel> setting the same will
-result in the graph doubling in in height or width.</para>
-</sect1>
-
 <sect1 id="font-config">
 <title><guilabel>Fonts</guilabel> Configuration</title>
 

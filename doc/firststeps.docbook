@@ -2,60 +2,48 @@
 <title>First Steps With &kmplot;</title>
 
 <sect1 id="simple-function-plot">
-<title>Simple Function Plot</title>
-
-<para>
-In the main toolbar there is a simple text box in which you can enter
-a function expression. Simply enter:
-<screen><userinput>x^2</userinput></screen> and press &Enter;.  This
-will draw the plot of y=x^2 in the coordinate system. Enter another
-expression in the text box like
-<screen><userinput>5*sin(x)</userinput></screen> and another plot will
-be added.
-</para>
-
-<para>Click on one of the lines you have just plotted. Now the cross
-hair gets the color of the plot and is attached to the plot.  You can
-use the mouse to move the cross hair along the plot.  In the status
-bar at the bottom of the window the coordinates of the current
-position is displayed. Note that if the plot touches the x-axis the
-root will be displayed in the status bar, too.</para>
-
-<para>Click the mouse again and the cross hair will be detached from
-the plot.</para>
+	<title>Simple Function Plot</title>
+	
+	<para>
+		In the sidebar on the left, there is a pushbutton with a drop down menu for creating new plots.
+		Click on it, and select <guilabel>Cartesian Plot</guilabel>. The text box for editing the current equation will be focused. Replace the default text with:
+		<screen><userinput>y = x^2</userinput></screen>
+		and press &Enter;.
+		This will draw the plot of y = x^2 in the coordinate system.
+		Clicking on the <guilabel>Create New Plot</guilabel> button again, select <guilabel>Cartesian Plot</guilabel>, and this time enter
+		<screen><userinput>y = 5sin(x)</userinput></screen>
+		to get another plot.
+	</para>
+	
+	<para>Click on one of the lines you have just plotted. Now the crosshair
+		gets the color of the plot and is attached to the plot.  You can
+		use the mouse to move the crosshair along the plot.  In the status
+		bar at the bottom of the window the coordinates of the current
+		position is displayed. Note that if the plot touches the x-axis the
+		root will be displayed in the status bar, too.</para>
+	
+	<para>Click the mouse again and the crosshair will be detached from
+		the plot.</para>
 </sect1>
 
 <sect1 id="edit-properties">
-<title>Edit Properties</title>
-
-<para>Let us make some changes to the function and change the color of
-the plot.</para>
-
-<para>You can edit all functions with the
-<menuchoice><guimenu>Plot</guimenu><guimenuitem>Edit
-Plots...</guimenuitem> </menuchoice> menu entry. A dialog appears
-which lists all the functions that you have plotted.  Notice that
-&kmplot; has automatically found a unique function name for your
-expressions and completed the expression to a function
-equation.</para>
-
-<para>Select <guilabel>f(x)=x^2</guilabel> in the list. A double click
-or pressing the <guibutton>Edit</guibutton> button will show you a
-dialog window. Here you have access to a lot of options. Let us rename
-the function and move the plot 5 units down. Change the function
-equation to <screen><userinput>parabola(x)=x^2-5</userinput></screen>
-</para>
-
-<para>To select another color for the plot click into the
-<guilabel>Color:</guilabel> box. Finally press
-<guibutton>OK</guibutton> and your changes take effect in the
-coordinate system.</para>
-
-<note><para>All changes can be undone until you press
-<guibutton>OK</guibutton> in the <guilabel>Edit Plots</guilabel>
-dialog.</para>
-</note>
-
+	<title>Edit Properties</title>
+	
+	<para>Let us make some changes to the function and change the color of
+		the plot.</para>
+	
+	<para>The Function Editor lists all the functions that you have plotted.
+		If <guilabel>y = x^2</guilabel> isn't already selected, select it.
+		Here you have access to a lot of options. Let us rename
+		the function and move the plot 5 units down. Change the function
+		equation to <screen><userinput>parabola(x) = x^2 - 5</userinput></screen>
+	</para>
+	
+	<para>To select another color for the plot, click the <guilabel>Appearance</guilabel> button at the bottom of the function editor and select a new color.
+		<note>
+			<para>All changes can be undone via <menuchoice><guimenu>Edit</guimenu><guimenuitem>Undo</guimenuitem> </menuchoice>.</para>
+		</note>
+	</para>
 </sect1>
 </chapter>
 <!--

@@ -231,6 +231,7 @@ bool DifferentialState::operator == ( const DifferentialState & other ) const
 //BEGIN class DifferentialStates
 DifferentialStates::DifferentialStates()
 {
+	m_uniqueState = false;
 	m_order = 0;
 	m_step.updateExpression( 0.05 );
 }
@@ -246,8 +247,21 @@ void DifferentialStates::setOrder( int order )
 
 DifferentialState * DifferentialStates::add()
 {
-	m_data << DifferentialState( order() );
+	if ( !m_uniqueState || m_data.isEmpty() )
+		m_data << DifferentialState( order() );
+	
 	return & m_data[ size() - 1 ];
+}
+
+
+void DifferentialStates::setUniqueState( bool unique )
+{
+	m_uniqueState = unique;
+	if ( m_uniqueState && m_data.size() > 1 )
+	{
+		// Remove any states other than the first
+		m_data.resize( 1 );
+	}
 }
 
 
@@ -269,7 +283,10 @@ Equation::Equation( Type type, Function * parent )
 	mptr = 0;
 	
 	if ( type == Differential || type == Cartesian )
+	{
+		differentialStates.setUniqueState( true );
 		differentialStates.add();
+	}
 }
 
 

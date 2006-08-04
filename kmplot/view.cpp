@@ -137,7 +137,6 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 
 	setMouseTracking( true );
 	m_sliderWindow = 0;
-	updateSliders();
 	
 	m_popupMenuTitle = m_popupMenu->addTitle( "" );
 }
@@ -3954,27 +3953,36 @@ bool View::isCalculationStopped()
 
 void View::updateSliders()
 {
-	if ( m_sliderWindow )
-	{
-		m_sliderWindow->hide();
-		m_menuSliderAction->setChecked( false ); //uncheck the slider-item in the menu
-	}
-
-	// do we need to show any sliders?
+	bool needSliderWindow = false;
 	foreach ( Function * it, XParser::self()->m_ufkt )
 	{
 		if ( it->m_parameters.useSlider && !it->allPlotsAreHidden() )
 		{
-			if ( !m_sliderWindow )
-			{
-				m_sliderWindow = new KSliderWindow( this );
-				connect( m_sliderWindow, SIGNAL( valueChanged() ), this, SLOT( drawPlot() ) );
-				connect( m_sliderWindow, SIGNAL( windowClosed() ), this, SLOT( sliderWindowClosed() ) );
-			}
-			m_sliderWindow->show();
-			m_menuSliderAction->setChecked( false );  //set the slider-item in the menu
+			needSliderWindow = true;
+			break;;
 		}
 	}
+	
+	m_menuSliderAction->setChecked( needSliderWindow );
+	
+	if ( !needSliderWindow )
+	{
+		if ( m_sliderWindow )
+			m_sliderWindow->hide();
+		return;
+	}
+	
+	if ( !m_sliderWindow )
+	{
+		m_sliderWindow = new KSliderWindow( this );
+		connect( m_sliderWindow, SIGNAL( valueChanged() ), this, SLOT( drawPlot() ) );
+		connect( m_sliderWindow, SIGNAL( windowClosed() ), this, SLOT( sliderWindowClosed() ) );
+	}
+}
+
+void View::sliderWindowClosed()
+{
+	m_menuSliderAction->setChecked( false );  //set the slider-item in the menu
 }
 
 void View::hideCurrentFunction()

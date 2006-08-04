@@ -211,6 +211,18 @@ class View : public QWidget
 		void zoomToTrigonometric();
 
 	protected slots:
+		void sliderWindowClosed();
+		/// Restore the mouse cursor when a drawing is finished
+		void updateCursor();
+	
+	signals:
+		void setStatusBarText(const QString &);
+	
+	protected:
+		/// called when focus is lost
+		virtual void focusOutEvent( QFocusEvent * );
+		/// called when focus is gained
+		virtual void focusInEvent( QFocusEvent * );
 		void paintEvent(QPaintEvent *);
 		void resizeEvent(QResizeEvent *);
 		/// Updating the cross hair.
@@ -223,22 +235,11 @@ class View : public QWidget
 		void mouseReleaseEvent ( QMouseEvent * e );
 		/// Is needed to be reimplement so that the user can stop a preview-drawing
 		bool event( QEvent * e );
-		/// Restore the mouse cursor when a drawing is finished
-		void updateCursor();
 		/**
-		* Updates csxpos and csypos from the current mouse position.
-		* @return whether the crosshair is within the bounds of the diagram.
-		*/
+		 * Updates csxpos and csypos from the current mouse position.
+		 * @return whether the crosshair is within the bounds of the diagram.
+		 */
 		bool updateCrosshairPosition();
-	
-	signals:
-		void setStatusBarText(const QString &);
-	
-	protected:
-		/// called when focus is lost
-		virtual void focusOutEvent( QFocusEvent * );
-		/// called when focus is gained
-		virtual void focusInEvent( QFocusEvent * );
 	
 	private:
 		/**

@@ -174,11 +174,18 @@ class DifferentialStates
 		DifferentialStates();
 		
 		/**
+		 * For Cartesian equations, can only have one state (for integrals).
+		 */
+		void setUniqueState( bool unique );
+		/**
 		 * \see order()
 		 */
 		void setOrder( int order );
 		/**
-		 * Creates a differential state.
+		 * Creates a differential state. If this is for a Cartesian equation
+		 * and there is already a differential state, then that will be
+		 * returned instead, since a Cartesian equation can only have one
+		 * differential state.
 		 */
 		DifferentialState * add();
 		/**
@@ -218,6 +225,7 @@ class DifferentialStates
 	protected:
 		QVector<DifferentialState> m_data;
 		int m_order;
+		bool m_uniqueState;
 		Value m_step;
 };
 

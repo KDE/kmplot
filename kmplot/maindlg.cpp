@@ -50,6 +50,7 @@
 #include <ktoolbar.h>
 #include <ktoolinvocation.h>
 #include <krecentfilesaction.h>
+#include <kicon.h>
 
 // local includes
 #include "functiontools.h"

@@ -177,7 +177,13 @@ void KConstantEditor::constantNameEdited( const QString & newName )
 {
 	QTreeWidgetItem * current = m_widget->constantList->currentItem();
 	if ( !current )
+	{
+		Constant constant;
+		constant.value.updateExpression( m_widget->valueEdit->text() );
+		
 		current = new QTreeWidgetItem( m_widget->constantList );
+		init( current, newName, constant );
+	}
 	
 	XParser::self()->constants()->remove( m_previousConstantName );
 	

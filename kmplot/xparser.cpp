@@ -719,7 +719,7 @@ int XParser::addFunction(const QString &f_str0, const QString &_f_str1)
 	return id;
 }
 
-bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, QStringList str_parameter, int use_slider)
+bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, const QStringList & str_parameter, int use_slider)
 {
 	QString fstr[2] = { fstr_const0, fstr_const1 };
 	Function::Type type = Function::Cartesian;
@@ -795,7 +795,7 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	added_function->eq[0]->differentialStates.setStep( Value( integral_precision ) );
 	
 	added_function->m_parameters.sliderID = use_slider;
-	for( QStringList::Iterator it = str_parameter.begin(); it != str_parameter.end(); ++it )
+	for( QStringList::ConstIterator it = str_parameter.begin(); it != str_parameter.end(); ++it )
 	{
 		added_function->m_parameters.list.append( *it );
 	}

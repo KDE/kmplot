@@ -129,7 +129,6 @@ class EquationEdit : public QWidget
 		
 		QString text() const;
 		void clear();
-		void setReadOnly( bool set );
 		void selectAll();
 		void insertText( const QString & text );
 		

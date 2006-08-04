@@ -1359,7 +1359,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 			QList<double> roots = findRoots( circular, 0, 2*M_PI / XParser::self()->radiansPerAngleUnit(), PreciseRoot );
 			
 #ifdef DEBUG_IMPLICIT
-			kDebug() << "Singular point at (x,y)=("<<point.x()<<","<<point.y()<<")\n";
+			kDebug() << "Singular point at (x,y)=("<<point.x()<<','<<point.y()<<")\n";
 			kDebug() << "fstr is    " << fstr << endl;
 			kDebug() << "Found " << roots.size() << " roots.\n";
 #endif
@@ -4191,7 +4191,7 @@ void View::setStatusBar( const QString & t, StatusBarSection section )
 {
 	QString text;
 	if ( section == FunctionSection )
-		text = " " + t + " ";
+		text = ' ' + t + ' ';
 	else
 		text = t;
 	

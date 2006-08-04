@@ -55,7 +55,7 @@ class FunctionTools : public KDialog
 		};
 		
 		/**
-		 * Select the right widget to use in the dialog and initalize the plot
+		 * Select the right widget to use in the dialog and initialize the plot
 		 * list.
 		 */
 		void init( Mode mode );

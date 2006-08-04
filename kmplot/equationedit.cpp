@@ -418,11 +418,6 @@ void EquationEdit::clear()
 	m_equationEditWidget->clear();
 }
 
-void EquationEdit::setReadOnly( bool set )
-{
-	m_equationEditWidget->setReadOnly(set);
-}
-
 void EquationEdit::selectAll()
 {
 	m_equationEditWidget->selectAll();
@@ -605,7 +600,7 @@ QString EquationEditor::text() const
 void EquationEditor::insertFunction( const QString & function )
 {
 	m_widget->functionList->setCurrentIndex( 0 );
-	m_widget->edit->wrapSelected( function + "(", ")" );
+	m_widget->edit->wrapSelected( function + '(', ")" );
 	m_widget->edit->setFocus();
 }
 

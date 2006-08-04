@@ -46,7 +46,8 @@ CoordsConfigDialog::CoordsConfigDialog(QWidget *parent)
 {
 	configAxesDialog = new EditCoords( 0 );
 	configAxesDialog->layout()->setMargin( 0 );
-	addPage(configAxesDialog , i18n( "Coords" ), "coords", i18n( "Edit Coordinate System" ) );
+	addPage(configAxesDialog , i18n( "Coordinates" ), "coords", i18n( "Coordinate System" ) );
+	setCaption( i18n( "Coordinate System" ) );
 	setHelp("axes-config");
 	setFaceType( Plain );
 }

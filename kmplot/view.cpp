@@ -158,7 +158,7 @@ View::~View()
 
 void View::initDrawLabels()
 {
-	m_labelFont = QFont( Settings::labelFont(), Settings::labelFontSize() );
+	m_labelFont = Settings::labelFont();
 	
 	for ( int i = 0; i < LabelGridSize; ++i )
 		for ( int j = 0; j < LabelGridSize; ++j )
@@ -793,7 +793,7 @@ void View::drawLabels( QPainter *painter )
 	QColor axesColor = Settings::axesColor();
 	int const dx=10;
 	int const dy=15;
-	QFont const font = QFont( Settings::axesFont(), Settings::axesFontSize() );
+	QFont const font = Settings::axesFont();
 	painter->setFont(font);
 	m_textDocument->setDefaultFont( font );
 	
@@ -2402,7 +2402,7 @@ double View::pixelsToMillimeters( double width_pixels, QPaintDevice * device ) c
 
 void View::drawHeaderTable( QPainter *painter )
 {
-	painter->setFont(QFont( Settings::headerTableFont() ) );
+	painter->setFont( Settings::headerTableFont() );
 	
 	QString alx = Settings::xMin() + i18n("  to  ") + Settings::xMax();
 	QString aly = Settings::yMin() + i18n("  to  ") + Settings::yMax();

@@ -113,8 +113,9 @@ QDomDocument KmPlotIO::currentState()
 	addConstants( doc, root );
 
 	tag = doc.createElement( "fonts" );
-	addTag( doc, tag, "axes-font", Settings::axesFont() );
-	addTag( doc, tag, "header-table-font", Settings::headerTableFont() );
+	addTag( doc, tag, "axes-font", Settings::axesFont().family() );
+	addTag( doc, tag, "label-font", Settings::labelFont().family() );
+	addTag( doc, tag, "header-table-font", Settings::headerTableFont().family() );
 	root.appendChild( tag );
 	
 	return doc;

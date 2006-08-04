@@ -48,6 +48,7 @@
 
 // KDE includes
 #include <kaction.h>
+#include <kactioncollection.h>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kglobal.h>
@@ -139,12 +140,6 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	updateSliders();
 	
 	m_popupMenuTitle = m_popupMenu->addTitle( "" );
-	
-	
-	// Do some testing
-	assert( realModulo(0, 1) == 0 );
-	assert( realModulo(-1, 2) == 1 );
-	assert( realModulo(5, 3) == 2 );
 }
 
 
@@ -183,7 +178,7 @@ void View::initDrawLabels()
 
 double View::niceTicSpacing( double length_mm, double range )
 {
-	Q_ASSERT_X( range > 0,		"View::niceTicSpacing", "Range must be positive" );
+	Q_ASSERT_X( range > 0, "View::niceTicSpacing", "Range must be positive" );
 	
 	if ( length_mm <= 0 )
 	{
@@ -3029,19 +3024,14 @@ void View::mousePressEvent(QMouseEvent *e)
 	if( !m_readonly && e->button()==Qt::RightButton) //clicking with the right mouse button
 	{
 		getPlotUnderMouse();
-		Function * function = m_currentPlot.function();
-		if ( function )
+		if ( m_currentPlot.function() )
 		{
-			QString popupTitle( m_currentPlot.name() );
-
 			if ( hadFunction )
 				m_popupMenuStatus = PopupDuringTrace;
 			else
 				m_popupMenuStatus = Popup;
 			
-			m_popupMenu->removeAction( m_popupMenuTitle );
-			m_popupMenuTitle->deleteLater();
-			m_popupMenuTitle = m_popupMenu->addTitle( popupTitle, MainDlg::self()->m_firstFunctionAction );
+			fillPopupMenu();
 			m_popupMenu->exec( QCursor::pos() );
 		}
 		return;
@@ -3075,6 +3065,35 @@ void View::mousePressEvent(QMouseEvent *e)
 	m_zoomMode = AboutToTranslate;
 	m_prevDragMousePos = e->pos();
 	updateCursor();
+}
+
+
+void View::fillPopupMenu( )
+{
+	Function * function = m_currentPlot.function();
+	if ( !function )
+		return;
+	
+	QString popupTitle( m_currentPlot.name() );
+			
+	m_popupMenu->removeAction( m_popupMenuTitle );
+	m_popupMenuTitle->deleteLater();
+	m_popupMenuTitle = m_popupMenu->addTitle( popupTitle, MainDlg::self()->m_firstFunctionAction );
+	
+	KAction *calcArea = MainDlg::self()->actionCollection()->action("grapharea");
+	KAction *maxValue = MainDlg::self()->actionCollection()->action("maximumvalue");
+	KAction *minValue = MainDlg::self()->actionCollection()->action("minimumvalue");
+	
+	m_popupMenu->removeAction(calcArea);
+	m_popupMenu->removeAction(maxValue);
+	m_popupMenu->removeAction(minValue);
+	
+	if ( function->type() == Function::Cartesian || function->type() == Function::Differential )
+	{
+		m_popupMenu->addAction(calcArea);
+		m_popupMenu->addAction(maxValue);
+		m_popupMenu->addAction(minValue);
+	}
 }
 
 
@@ -3154,7 +3173,7 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 		case Function::Differential:
 		case Function::Cartesian:
 		{
-			double best_pixel_x = 0.0;
+			double best_pixel_x = m_clipRect.width() / 2;
 	
 			QPointF pixelPos = toPixel( pos, ClipInfinite );
 	
@@ -3197,7 +3216,7 @@ double View::getClosestPoint( const QPointF & pos, const Plot & plot )
 					closest_y = (pixelPos.x() + pixelPos.y()*k + _y0/k - _x0) / (k + 1.0/k);
 				}
 				
-				bool valid = x-stepSize <= xToReal(closest_x) && xToReal(closest_x) <= x;
+				bool valid = (x-1.5*stepSize <= xToReal(closest_x)) && (xToReal(closest_x) <= x+0.5*stepSize);
 				
 				double dfx = closest_x - pixelPos.x();
 				double dfy = closest_y - pixelPos.y();

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kmplot" version="13">
+<kpartgui name="kmplot" version="14">
 	<MenuBar>
  		<Menu name="file">
 			<Action name="file_openrecent"/>
@@ -30,9 +30,9 @@
 		</Menu>
 		<Menu name="tools"><text>&amp;Tools</text>
 			<Action name="yvalue"/>
-			<Action name="minimumvalue"/>
-			<Action name="maximumvalue"/>
 			<Action name="grapharea"/>
+			<Action name="maximumvalue"/>
+			<Action name="minimumvalue"/>
 		</Menu>
         	<Menu name="settings"><text>&amp;Settings</text>
 			<Separator />

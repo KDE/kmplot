@@ -291,19 +291,19 @@ void MainDlg::setupActions()
 
 
 	//BEGIN tools menu
-	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), actionCollection(), "yvalue" );
+	KAction *mnuYValue =  new KAction( i18n( "Plot &Value..." ), actionCollection(), "yvalue" );
 	connect( mnuYValue, SIGNAL(triggered(bool)), this, SLOT( getYValue() ) );
 
-	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value..." ), actionCollection(), "minimumvalue" );
-	mnuMinValue->setIcon( KIcon("minimum") );
-	connect( mnuMinValue, SIGNAL(triggered(bool)), this, SLOT( findMinimumValue() ) );
+	KAction *mnuArea = new KAction( i18n( "Plot &Area..." ), actionCollection(), "grapharea" );
+	connect( mnuArea, SIGNAL(triggered(bool)),this, SLOT( graphArea() )  );
 
-	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value..." ), actionCollection(), "maximumvalue" );
+	KAction *mnuMaxValue = new KAction( i18n( "Find Ma&ximum..." ), actionCollection(), "maximumvalue" );
 	mnuMaxValue->setIcon( KIcon("maximum") );
 	connect( mnuMaxValue, SIGNAL(triggered(bool)), this, SLOT( findMaximumValue() ) );
 
-	KAction *mnuArea = new KAction( i18n( "&Area Under Graph..." ), actionCollection(), "grapharea" );
-	connect( mnuArea, SIGNAL(triggered(bool)),this, SLOT( graphArea() )  );
+	KAction *mnuMinValue = new KAction( i18n( "Find Mi&nimum..." ), actionCollection(), "minimumvalue" );
+	mnuMinValue->setIcon( KIcon("minimum") );
+	connect( mnuMinValue, SIGNAL(triggered(bool)), this, SLOT( findMinimumValue() ) );
 	//END tools menu
 
 
@@ -349,8 +349,13 @@ void MainDlg::setupActions()
 
 
 	//BEGIN function popup menu
+	KAction *mnuEdit = new KAction(i18n("&Edit"), actionCollection(),"mnuedit"  );
+	m_firstFunctionAction = mnuEdit;
+	mnuEdit->setIcon( KIcon("editplots") );
+	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT( editCurrentPlot() ) );
+	m_popupmenu->addAction( mnuEdit );
+	
 	KAction *mnuHide = new KAction(i18n("&Hide"), actionCollection(),"mnuhide" );
-	m_firstFunctionAction = mnuHide;
 	connect( mnuHide, SIGNAL(triggered(bool)), View::self(), SLOT( hideCurrentFunction() ) );
 	m_popupmenu->addAction( mnuHide );
 
@@ -359,16 +364,12 @@ void MainDlg::setupActions()
 	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT( removeCurrentPlot() ) );
 	m_popupmenu->addAction( mnuRemove );
 
-	KAction *mnuEdit = new KAction(i18n("&Edit"), actionCollection(),"mnuedit"  );
-	mnuEdit->setIcon( KIcon("editplots") );
-	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT( editCurrentPlot() ) );
-	m_popupmenu->addAction( mnuEdit );
-
 	m_popupmenu->addSeparator();
 
-	KAction * animateFunction = new KAction( i18n("Animate Function"), actionCollection(), "animateFunction" );
+	KAction * animateFunction = new KAction( i18n("Animate Plot..."), actionCollection(), "animateFunction" );
 	connect( animateFunction, SIGNAL(triggered(bool)), View::self(), SLOT( animateFunction() ) );
 	m_popupmenu->addAction( animateFunction );
+	m_popupmenu->addSeparator();
 
 	m_popupmenu->addAction( mnuYValue );
 	m_popupmenu->addAction( mnuMinValue );

@@ -242,6 +242,10 @@ class View : public QWidget
 	
 	private:
 		/**
+		 * Fills the popup menu according to the currently selected plot.
+		 */
+		void fillPopupMenu();
+		/**
 		 * For using in automatic tic spacing. Given \p range (e.g. x_max-x_min)
 		 * and the \p length_mm (in millimeters), it aims to find a "nice"
 		 * spacing distance that is visually pleasing and also fits the base 10

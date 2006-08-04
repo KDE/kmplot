@@ -94,21 +94,26 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	//BEGIN initialize equation edits
 	m_editor->cartesianEquation->setInputType( EquationEdit::Function );
 	m_editor->cartesianEquation->setEquationType( Equation::Cartesian );
+	m_editor->cartesianParameters->associateEquationEdit( m_editor->cartesianEquation );
 	
 	m_editor->polarEquation->setInputType( EquationEdit::Function );
 	m_editor->polarEquation->setEquationType( Equation::Polar );
+	m_editor->polarParameters->associateEquationEdit( m_editor->polarEquation );
 	
 	m_editor->parametricX->setInputType( EquationEdit::Function );
 	m_editor->parametricX->setEquationType( Equation::ParametricX );
+	m_editor->parametricParameters->associateEquationEdit( m_editor->parametricX );
 	
 	m_editor->parametricY->setInputType( EquationEdit::Function );
 	m_editor->parametricY->setEquationType( Equation::ParametricY );
+	m_editor->parametricParameters->associateEquationEdit( m_editor->parametricY );
 	
 	m_editor->implicitEquation->setInputType( EquationEdit::Function );
 	m_editor->implicitEquation->setEquationType( Equation::Implicit );
 	
 	m_editor->differentialEquation->setInputType( EquationEdit::Function );
 	m_editor->differentialEquation->setEquationType( Equation::Differential );
+	m_editor->differentialParameters->associateEquationEdit( m_editor->differentialEquation );
 	//END initialize equation edits
 	
 	for ( unsigned i = 0; i < 5; ++i )

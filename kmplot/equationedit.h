@@ -116,6 +116,11 @@ class EquationEdit : public QWidget
 		 */
 		void setEquationType( Equation::Type type );
 		/**
+		 * \return a pointer that the equation that this equation edit uses for
+		 * validation, etc.
+		 */
+		Equation * equation() const { return m_equation; }
+		/**
 		 * For inserting the currently selected text into a function. For
 		 * example, if "2+x" is selected, \p before is "sin(" and \p after is
 		 * ")", then the text will become "sin(2+x)".

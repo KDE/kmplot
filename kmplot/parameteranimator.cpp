@@ -60,6 +60,9 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 	m_function->m_parameters.animating = true;
 	m_function->k = m_currentValue;
 	
+	if ( function->eq[0]->usesParameter() )
+		m_widget->warningLabel->hide();
+	
 	m_timer = new QTimer( this );
 	connect( m_timer, SIGNAL(timeout()), this, SLOT(step()) );
 	

@@ -29,6 +29,8 @@
 
 #include "ui_parameterswidget.h"
 
+class EquationEdit;
+
 class ParametersWidget : public QGroupBox, public Ui_ParametersWidget
 {
 	Q_OBJECT
@@ -44,6 +46,14 @@ class ParametersWidget : public QGroupBox, public Ui_ParametersWidget
 		 * \return the current settings as specified in the widgets.
 		 */
 		ParameterSettings parameterSettings() const;
+		/**
+		 * The ParametersWidget can make sure that when the user wants to use
+		 * a parameter (i.e. the Use List checkbox or Use Slider checkbox is
+		 * checked), the function string has a parameter variable. Use this
+		 * to add an EquationEdit for a function string that ParametersWidget
+		 * will update when necessary.
+		 */
+		void associateEquationEdit( EquationEdit * edit );
 		
 	signals:
 		/**
@@ -51,11 +61,15 @@ class ParametersWidget : public QGroupBox, public Ui_ParametersWidget
 		 */
 		void parameterListChanged();
 		
-	public slots:
+	private slots:
 		/**
 		 * Called when the "Edit [parameter] List" button is clicked.
 		 */
 		void editParameterList();
+		/**
+		 * Called when one of the checkboxes is checked.
+		 */
+		void updateEquationEdits();
 		
 	protected:
 		/**
@@ -63,6 +77,10 @@ class ParametersWidget : public QGroupBox, public Ui_ParametersWidget
 		 * to its parameter list.
 		 */
 		QList<Value> m_parameters;
+		/**
+		 * The list of equation edits that may be updated. See sassociateEquationEdit.
+		 */
+		QList<EquationEdit*> m_equationEdits;
 };
 
 #endif

@@ -38,6 +38,8 @@ ParametersWidget::ParametersWidget( QWidget * parent )
 		listOfSliders->addItem( i18n( "Slider No. %1", number +1) );
 	
 	connect( editParameterListButton, SIGNAL(clicked()), this, SLOT(editParameterList()) );
+	connect( useSlider,	SIGNAL(toggled(bool)), this, SLOT(updateEquationEdits()) );
+	connect( useList,	SIGNAL(toggled(bool)), this, SLOT(updateEquationEdits()) );
 }
 
 
@@ -70,6 +72,36 @@ void ParametersWidget::editParameterList()
 	KParameterEditor * dlg = new KParameterEditor( & m_parameters );
 	dlg->exec();
 	emit parameterListChanged();
+}
+
+
+void ParametersWidget::updateEquationEdits( )
+{
+	if ( !useSlider->isChecked() && !useList->isChecked() )
+	{
+		// Don't need to add any parameter variables
+		return;
+	}
+	
+	foreach ( EquationEdit * edit, m_equationEdits )
+	{
+		if ( edit->equation()->usesParameter() || !edit->equation()->looksLikeFunction() )
+			continue;
+		
+		QString text = edit->text();
+		int bracket = text.indexOf( ')' );
+		if ( bracket < 0 )
+			continue;
+		
+		text.replace( bracket, 1, ",k)" );
+		edit->setText( text );
+	}
+}
+
+
+void ParametersWidget::associateEquationEdit( EquationEdit * edit )
+{
+	m_equationEdits << edit;
 }
 //END class ParametersWidget
 

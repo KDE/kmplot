@@ -67,25 +67,20 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	setAllowedAreas( Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea );
 	setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
 	
-	m_saveCartesianTimer = new QTimer( this );
-	m_savePolarTimer = new QTimer( this );
-	m_saveParametricTimer = new QTimer( this );
-	m_saveImplicitTimer = new QTimer( this );
-	m_saveDifferentialTimer = new QTimer( this );
-	m_syncFunctionListTimer = new QTimer( this );
+	for ( int i = 0; i < 5; ++i )
+	{
+		m_saveTimer[i] = new QTimer( this );
+		m_saveTimer[i]->setSingleShot( true );
+	}
 	
-	m_saveCartesianTimer->setSingleShot( true );
-	m_savePolarTimer->setSingleShot( true );
-	m_saveParametricTimer->setSingleShot( true );
-	m_saveImplicitTimer->setSingleShot( true );
-	m_saveDifferentialTimer->setSingleShot( true );
+	m_syncFunctionListTimer = new QTimer( this );
 	m_syncFunctionListTimer->setSingleShot( true );
 	
-	connect( m_saveCartesianTimer, SIGNAL(timeout()), this, SLOT( saveCartesian() ) );
-	connect( m_savePolarTimer, SIGNAL(timeout()), this, SLOT( savePolar() ) );
-	connect( m_saveParametricTimer, SIGNAL(timeout()), this, SLOT( saveParametric() ) );
-	connect( m_saveImplicitTimer, SIGNAL(timeout()), this, SLOT( saveImplicit() ) );
-	connect( m_saveDifferentialTimer, SIGNAL(timeout()), this, SLOT( saveDifferential() ) );
+	connect( m_saveTimer[Function::Cartesian], SIGNAL(timeout()), this, SLOT( saveCartesian() ) );
+	connect( m_saveTimer[Function::Polar], SIGNAL(timeout()), this, SLOT( savePolar() ) );
+	connect( m_saveTimer[Function::Parametric], SIGNAL(timeout()), this, SLOT( saveParametric() ) );
+	connect( m_saveTimer[Function::Implicit], SIGNAL(timeout()), this, SLOT( saveImplicit() ) );
+	connect( m_saveTimer[Function::Differential], SIGNAL(timeout()), this, SLOT( saveDifferential() ) );
 	connect( m_syncFunctionListTimer, SIGNAL(timeout()), this, SLOT( syncFunctionList() ) );
 	
 	m_editor = new FunctionEditorWidget;
@@ -160,6 +155,8 @@ FunctionEditor::~ FunctionEditor()
 
 void FunctionEditor::deleteCurrent()
 {
+	m_editor->initialConditions->init( 0 );
+	
 	FunctionListItem * functionItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	if ( !functionItem )
 	{
@@ -280,10 +277,8 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 		return;
 	
 	// If there are any pending save events, then cancel them
-	m_saveCartesianTimer->stop();
-	m_savePolarTimer->stop();
-	m_saveParametricTimer->stop();
-	m_saveImplicitTimer->stop();
+	for ( int i = 0; i < 5; ++i )
+		m_saveTimer[i]->stop();;
 	
 	FunctionListItem * functionItem = static_cast<FunctionListItem*>(item);
 	
@@ -545,28 +540,7 @@ void FunctionEditor::save()
 	if ( !f )
 		return;
 	
-	switch ( f->type() )
-	{
-		case Function::Cartesian:
-			m_saveCartesianTimer->start( 0 );
-			break;
-			
-		case Function::Polar:
-			m_savePolarTimer->start( 0 );
-			break;
-			
-		case Function::Parametric:
-			m_saveParametricTimer->start( 0 );
-			break;
-			
-		case Function::Implicit:
-			m_saveImplicitTimer->start( 0 );
-			break;
-			
-		case Function::Differential:
-			m_saveDifferentialTimer->start( 0 );
-			break;
-	}
+	m_saveTimer[ f->type() ]->start( 0 );
 }
 
 
@@ -741,6 +715,8 @@ void FunctionEditor::saveFunction( Function * tempFunction )
 	bool changed = f->copyFrom( *tempFunction );
 	if ( !changed )
 		return;
+	
+	kDebug() << k_funcinfo << "Changed\n";
 	
 	if ( f->eq[0]->looksLikeFunction() )
 		Settings::setDefaultEquationForm( Settings::EnumDefaultEquationForm::Function );

@@ -294,8 +294,16 @@ void InitialConditionsEditor::setOrder( int order )
 
 void InitialConditionsEditor::init( Function * function )
 {
-	m_equation = function->eq[0];
-	m_states = m_equation->differentialStates;
+	if ( function )
+	{
+		m_equation = function->eq[0];
+		m_states = m_equation->differentialStates;
+	}
+	else
+	{
+		m_equation = 0;
+	}
+	
 	m_model->reset();
 }
 

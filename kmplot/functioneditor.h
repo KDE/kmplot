@@ -182,14 +182,11 @@ class FunctionEditor : public QDockWidget
 		 */
 		int m_functionID;
 		
-		/// Used to ensure only one update when multiple widgets are changed
-		/// @{
-		QTimer * m_saveCartesianTimer;
-		QTimer * m_savePolarTimer;
-		QTimer * m_saveParametricTimer;
-		QTimer * m_saveImplicitTimer;
-		QTimer * m_saveDifferentialTimer;
-		/// @}
+		/**
+		 * Used to ensure only one update when multiple widgets are changed.
+		 * A timer for each function type.
+		 */
+		QTimer * m_saveTimer[5];
 		/**
 		 * Ensure only one update when functions are added or removed, and all
 		 * the piece of code that is adding or removing a function to make the

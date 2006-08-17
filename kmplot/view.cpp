@@ -838,7 +838,7 @@ void View::drawLabels( QPainter *painter )
  * If \p d is a rational multiple of pi, then return a string appropriate for
  * displaying it in fraction form.
  */
-QString tryPiFraction( double d )
+QString tryPiFraction( double d, double sep )
 {
 	bool positive = d > 0;
 	
@@ -852,7 +852,7 @@ QString tryPiFraction( double d )
 	// Try denominators from 1 to 6
 	for ( int denom = 1; denom <= 6; ++denom )
 	{
-		if ( realModulo( d * denom, 1 ) > 1e-3 )
+		if ( realModulo( d * denom, 1 ) > 1e-3*sep )
 			continue;
 		
 		int num = qRound( d * denom );
@@ -926,7 +926,7 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 		if ( m_xmin >= -ticSepX.value() && (d-m_xmin) <= ticSepX.value() )
 			continue;
 		
-		QString s = tryPiFraction(d);
+		QString s = tryPiFraction( d, ticSepX.value() );
 		
 		if ( s.isEmpty() )
 			s = posToString( d, ticSepX.value()*2, View::ScientificFormat, axesColor );
@@ -992,10 +992,10 @@ void View::drawYAxisLabels( QPainter *painter )
 			continue;
 		
 		// Don't draw too close to bottom if the x axis is there
-		if ( m_ymin > -ticSepX.value() && (d-m_ymin) <= ticSepY.value() )
+		if ( m_ymin > -ticSepY.value() && (d-m_ymin) <= ticSepY.value() )
 			continue;
 
-		QString s = tryPiFraction(d);
+		QString s = tryPiFraction( d, ticSepY.value() );
 		
 		if ( s.isEmpty() )
 		{

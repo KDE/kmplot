@@ -247,8 +247,12 @@ void DifferentialStates::setOrder( int order )
 
 DifferentialState * DifferentialStates::add()
 {
+	kDebug() << k_funcinfo << endl;
+	
 	if ( !m_uniqueState || m_data.isEmpty() )
 		m_data << DifferentialState( order() );
+	else
+		kDebug() << "Unable to add another state!\n";
 	
 	return & m_data[ size() - 1 ];
 }
@@ -284,7 +288,7 @@ Equation::Equation( Type type, Function * parent )
 	
 	if ( type == Differential || type == Cartesian )
 	{
-		differentialStates.setUniqueState( true );
+		differentialStates.setUniqueState( type == Cartesian );
 		differentialStates.add();
 	}
 }

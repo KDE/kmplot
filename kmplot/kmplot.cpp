@@ -116,7 +116,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
     new KmPlotAdaptor(this);
     QDBus::sessionBus().registerObject("/kmplot", this);
 
-    if ( args->isSet("function") )
+    if ( args && args->isSet("function") )
     {
         QString f = args->getOption("function");
         QDBusReply<bool> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/parser", "org.kde.kmplot.Parser").call( QDBus::BlockWithGui, "addFunction", f, "" );

@@ -19,20 +19,18 @@ Program copyright 2000-2002 Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;
   </listitem>
   <listitem>
     <para>Various improvements: Fredrik Edemar <email>f_edemar@linux.se</email></para>
-  </listitem>  
+  </listitem>
 </itemizedlist>
 
-<para>
-Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;.
-</para>
+<para>Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;.</para>
 <para>Documentation extended and updated for &kde; 3.2 by &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
 <para>Documentation extended and updated for &kde; 3.3 by &Philip.Rodrigues; &Philip.Rodrigues.mail; and Fredrik Edemar <email>f_edemar@linux.se</email>.</para>
 <para>Documentation extended and updated for &kde; 3.4 by Fredrik Edemar <email>f_edemar@linux.se</email>.</para>
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
-&underFDL;               <!-- FDL: do not remove. Commercial development should
- -->
-&underGPL;        	 <!-- GPL License -->
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+&underFDL;
+&underGPL;
 
 </chapter>
 

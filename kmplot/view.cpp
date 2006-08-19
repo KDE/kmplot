@@ -1639,8 +1639,8 @@ void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x
 				y = y0;
 				prev_diff_x = 0;
 				prev_diff_y = 0;
-				continue;
 				foundRootPreviously = false;
+				continue;
 			}
 			else
 			{

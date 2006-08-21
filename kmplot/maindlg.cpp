@@ -210,7 +210,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 
 
     new MainDlgAdaptor(this);
-    QDBus::sessionBus().registerObject("/maindlg", this);
+    QDBusConnection::sessionBus().registerObject("/maindlg", this);
 
 }
 
@@ -606,7 +606,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 // 		stream.setVersion(QDataStream::Qt_3_1);
 // 		stream << url;
 // 		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KUrl)", data);
-		QDBusReply<void> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::Block, "openFileInNewWindow", url.url() );
+		QDBusReply<void> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::Block, "openFileInNewWindow", url.url() );
 		return;
 	}
 

@@ -130,7 +130,7 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 	m_mousePressTimer = new QTime();
 
     new ViewAdaptor(this);
-    QDBus::sessionBus().registerObject("/view", this);
+    QDBusConnection::sessionBus().registerObject("/view", this);
 
 	XParser::self( & modified );
 	init();
@@ -4215,7 +4215,7 @@ void View::setStatusBar( const QString & t, StatusBarSection section )
 	}
 	else
 	{
-		QDBusReply<void> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setStatusBarText", text, (int)section );
+		QDBusReply<void> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "setStatusBarText", text, (int)section );
 	}
 }
 

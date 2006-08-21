@@ -114,12 +114,12 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	show();
 
     new KmPlotAdaptor(this);
-    QDBus::sessionBus().registerObject("/kmplot", this);
+    QDBusConnection::sessionBus().registerObject("/kmplot", this);
 
     if ( args && args->isSet("function") )
     {
         QString f = args->getOption("function");
-        QDBusReply<bool> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/parser", "org.kde.kmplot.Parser").call( QDBus::BlockWithGui, "addFunction", f, "" );
+        QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/parser", "org.kde.kmplot.Parser").call( QDBus::BlockWithGui, "addFunction", f, "" );
     }
 }
 
@@ -257,13 +257,13 @@ void KmPlot::openFileInNewWindow(const KUrl url)
 
 bool KmPlot::checkModified()
 {
-	QDBusReply<bool> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg").call( QDBus::BlockWithGui, "checkModified" );
+	QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg").call( QDBus::BlockWithGui, "checkModified" );
     return reply.value();
 }
 
 bool KmPlot::isModified()
 {
-	QDBusReply<bool> reply = QDBusInterface( QDBus::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg").call( QDBus::BlockWithGui, "isModified" );
+	QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg").call( QDBus::BlockWithGui, "isModified" );
     return reply.value();
 }
 
@@ -303,7 +303,7 @@ void KmPlot::setDrawProgress( double progress )
 
 void KmPlot::cancelDraw()
 {
-	QDBusInterface( QDBus::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "stopDrawing" );
+	QDBusInterface( QDBusConnection::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "stopDrawing" );
 }
 
 

@@ -60,7 +60,7 @@ XParser::XParser(bool &mo) : m_modified(mo)
 	differentialDiverge = 0;
 
 	new ParserAdaptor(this);
-	QDBus::sessionBus().registerObject("/parser", this);
+	QDBusConnection::sessionBus().registerObject("/parser", this);
 }
 
 XParser::~XParser()

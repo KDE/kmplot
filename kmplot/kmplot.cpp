@@ -142,7 +142,7 @@ void KmPlot::slotUpdateFullScreen( bool checked)
 
 bool KmPlot::load(const KUrl& url)
 {
-	m_part->openURL( url );
+	m_part->openUrl( url );
   if (m_part->url().isEmpty())
     return false;
   setCaption(url.prettyUrl(KUrl::LeaveTrailingSlash));

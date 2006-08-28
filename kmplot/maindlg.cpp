@@ -526,7 +526,7 @@ void MainDlg::slotExport()
 	KUrl url = kfd->selectedUrl();
 	delete kfd;
 
-	KMimeType::Ptr mimeType = KMimeType::findByURL( url );
+	KMimeType::Ptr mimeType = KMimeType::findByUrl( url );
 	kDebug() << k_funcinfo << "mimetype: " << mimeType->name() << endl;
 	
 	bool isSvg = mimeType->name() == "image/svg+xml";

@@ -206,7 +206,7 @@ void KParameterEditor::cmdImport_clicked()
                                         KIO::NetAccess::removeTempFile( tmpfile );
 					return;
 				}
-				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?"), QString(), i18n("Get Informed"), i18n("Ignore Information") ) == KMessageBox::No)
+				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?"), QString(), KGuiItem(i18n("Get Informed")), KGuiItem(i18n("Ignore Information")) ) == KMessageBox::No)
 					verbose = true;
 			}
 		}

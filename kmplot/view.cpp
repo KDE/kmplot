@@ -1349,7 +1349,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 					.arg( function->eq[0]->name() )
 					.arg( XParser::self()->number( point.x() ) )
 					.arg( XParser::self()->number( point.y() ) )
-					.arg( function->eq[0]->usesParameter() ? "," + XParser::self()->number( function->k ) : QString() )
+					.arg( function->eq[0]->usesParameter() ? ',' + XParser::self()->number( function->k ) : QString() )
 					.arg( XParser::self()->number( epsilon ) );
 			
 			bool setFstrOk = circular.function()->eq[0]->setFstr( fstr );

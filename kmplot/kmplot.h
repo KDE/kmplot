@@ -25,9 +25,7 @@
 #ifndef KMPLOT_H_
 #define KMPLOT_H_
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <kapplication.h>
 #include <kcmdlineargs.h>

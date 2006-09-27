@@ -124,7 +124,7 @@ MainDlg * MainDlg::m_self = 0;
 
 //BEGIN class MainDlg
 MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
-		KParts::ReadOnlyPart( parent ),
+		KParts::ReadWritePart( parent ),
 		m_recentFiles( 0 ),
 		m_modified(false),
 		m_parent(parentWidget)
@@ -597,6 +597,12 @@ bool MainDlg::openFile()
 	return true;
 }
 
+bool MainDlg::saveFile()
+{
+    slotSave();
+    return !isModified();
+}
+
 void MainDlg::slotOpenRecent( const KUrl &url )
 {
  	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
@@ -742,6 +748,11 @@ void MainDlg::optionsConfigureKeys()
 void MainDlg::optionsConfigureToolbars()
 {
 // 	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureToolbars()", QByteArray());
+}
+
+bool MainDlg::queryClose()
+{
+    return checkModified();
 }
 
 CoordsConfigDialog * MainDlg::coordsDialog( )

@@ -76,7 +76,7 @@ protected:
 	void readProperties(KConfig *);
 
 	/// Quits KmPlot after checking if modifications shall be saved.
-	virtual bool queryClose();
+ 	virtual bool queryClose();
 
 private slots:
 	void fileNew();
@@ -111,12 +111,11 @@ private:
 	void setupAccel();
 	void setupActions();
 	void setupStatusBar();
-	bool checkModified();
 	bool isModified();
 
 
 private:
-	KParts::ReadOnlyPart *m_part;
+	KParts::ReadWritePart *m_part;
 	/// The fullscreen action to be plugged/unplegged to the toolbar
 	KToggleFullScreenAction* m_fullScreen;
 	/// The progress bar for drawing functions

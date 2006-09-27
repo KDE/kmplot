@@ -65,7 +65,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	{
 		// now that the Part is loaded, we cast it to a Part to get
 		// our hands on it
-		m_part = static_cast<KParts::ReadOnlyPart *>(factory->create(this,
+		m_part = static_cast<KParts::ReadWritePart *>(factory->create(this,
 		         "MainDlg"));
 		if (m_part)
 		{
@@ -255,12 +255,6 @@ void KmPlot::openFileInNewWindow(const KUrl url)
  KToolInvocation::startServiceByDesktopName("kmplot",url.url());
 }
 
-bool KmPlot::checkModified()
-{
-	QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg").call( QDBus::BlockWithGui, "checkModified" );
-    return reply.value();
-}
-
 bool KmPlot::isModified()
 {
 	QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg").call( QDBus::BlockWithGui, "isModified" );
@@ -269,7 +263,7 @@ bool KmPlot::isModified()
 
 bool KmPlot::queryClose()
 {
-	return checkModified();
+	return m_part->queryClose();
 }
 
 void KmPlot::setStatusBarText(const QString &text, int id)

@@ -71,7 +71,7 @@ class SettingsPageDiagram;
 /**
  * @short This is the main window of KmPlot.
  */
-class MainDlg : public KParts::ReadOnlyPart
+class MainDlg : public KParts::ReadWritePart
 {
 	Q_OBJECT
 
@@ -99,9 +99,12 @@ class MainDlg : public KParts::ReadOnlyPart
 	
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
+
+    virtual bool queryClose();
 	
 	/// For inserting the title in the function popup menu
 	QAction * m_firstFunctionAction;
+
 
 public Q_SLOTS:
     // DBus interface
@@ -152,6 +155,9 @@ private:
 	void setupActions();
 	/// Called when a file is opened. The filename is is m_url
 	virtual bool openFile();
+
+
+    virtual bool saveFile();
 	
 	///The Recent Files action
 	KRecentFilesAction * m_recentFiles;

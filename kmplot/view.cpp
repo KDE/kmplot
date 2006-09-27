@@ -102,7 +102,7 @@ double realModulo( double x, double mod )
 View * View::m_self = 0;
 
 View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent )
-	: QWidget( parent, Qt::WStaticContents ),
+	: QWidget( parent ),
 	  buffer( width(), height() ),
 	  m_popupMenu( functionPopup ),
 	  m_modified( modified ),
@@ -110,6 +110,7 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 {
 	assert( !m_self ); // this class should only be constructed once
 	m_self = this;
+    setAttribute( Qt::WA_StaticContents );
 	
 	m_haveRoot = false;
 	m_xmin = m_xmax = m_ymin = m_ymax = 0.0;
@@ -2381,14 +2382,14 @@ QPen View::penForPlot( const Plot & plot, QPainter * painter ) const
 
 double View::millimetersToPixels( double width_mm, QPaintDevice * device ) const
 {
-	assert( device->logicalDpiX() == device->logicalDpiY() );
+// 	assert( device->logicalDpiX() == device->logicalDpiY() );
 	return device->logicalDpiX() * (width_mm/25.4);
 }
 
 
 double View::pixelsToMillimeters( double width_pixels, QPaintDevice * device ) const
 {
-	assert( device->logicalDpiX() == device->logicalDpiY() );
+// 	assert( device->logicalDpiX() == device->logicalDpiY() );
 	return (width_pixels * 25.4) / device->logicalDpiX();
 }
 

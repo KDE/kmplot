@@ -395,6 +395,7 @@ QColor XParser::defaultColor(int function)
 	}
 	
 	assert( !"Shouldn't happen - XParser::defaultColor" );
+	return QColor();
 }
 
 QStringList XParser::listFunctionNames()

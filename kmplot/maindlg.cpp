@@ -46,7 +46,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kstdaction.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <ktoolbar.h>
 #include <ktoolinvocation.h>
 #include <krecentfilesaction.h>
@@ -547,10 +547,10 @@ void MainDlg::slotExport()
 			saveOk = img.save( url.path(), "SVG" );
 		else
 		{
-			KTempFile tmp;
-			img.save( tmp.name(), "SVG" );
-			saveOk = KIO::NetAccess::upload(tmp.name(), url, 0);
-			tmp.unlink();
+			KTemporaryFile tmp;
+			tmp.open();
+			img.save( tmp.fileName(), "SVG" );
+			saveOk = KIO::NetAccess::upload(tmp.fileName(), url, 0);
 		}
 	}
 	else
@@ -566,10 +566,10 @@ void MainDlg::slotExport()
 			saveOk = img.save( url.path(), types.at(0).toLatin1() );
 		else
 		{
-			KTempFile tmp;
-			img.save( tmp.name(), types.at(0).toLatin1() );
-			saveOk = KIO::NetAccess::upload(tmp.name(), url, 0);
-			tmp.unlink();
+			KTemporaryFile tmp;
+			tmp.open();
+			img.save( tmp.fileName(), types.at(0).toLatin1() );
+			saveOk = KIO::NetAccess::upload(tmp.fileName(), url, 0);
 		}
 	}
 	

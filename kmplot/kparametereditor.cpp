@@ -32,7 +32,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kurl.h>
 #include <qfile.h>
 #include <qtextstream.h>
@@ -230,54 +230,50 @@ void KParameterEditor::cmdExport_clicked()
 
         if( !KIO::NetAccess::exists( url,false,this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
         {
-                QString tmpfile;
-                QFile file;
                 if ( !url.isLocalFile() )
                 {
-                        KTempFile tmpfile;
-                        file.setFileName(tmpfile.name() );
+                        KTemporaryFile tmpfile;
                         
-                        if (file.open( QIODevice::WriteOnly ) )
-                        {
-							QTextStream stream(&file);
-							for ( int i = 0; i < m_mainWidget->list->count(); i++ )
-							{
-								QListWidgetItem * it = m_mainWidget->list->item( i );
-								stream << it->text();
-								if ( i < m_mainWidget->list->count()-1 )
-									stream << endl; //only write a new line if there are more text
-							}
-							file.close();
-                        }
-						else
-							KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
+			if (tmpfile.open() )
+			{
+				QTextStream stream(&tmpfile);
+				for ( int i = 0; i < m_mainWidget->list->count(); i++ )
+				{
+					QListWidgetItem * it = m_mainWidget->list->item( i );
+					stream << it->text();
+					if ( i < m_mainWidget->list->count()-1 )
+						stream << endl; //only write a new line if there are more text
+				}
+				stream.flush();
+			}
+			else
+				KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
                         
-                        if ( !KIO::NetAccess::upload(tmpfile.name(),url, this) )
+                        if ( !KIO::NetAccess::upload(tmpfile.fileName(),url, this) )
                         {
-							KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
-                                tmpfile.unlink();
+				KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
                                 return;
                         }
-                        tmpfile.unlink();
                 }
                 else
                 {
-					kDebug() << "url.path()="<<url.path()<<endl;
-                        file.setFileName(url.path());
-                        if (file.open( QIODevice::WriteOnly ) )
-                        {
-							QTextStream stream(&file);
-							for ( int i = 0; i < m_mainWidget->list->count(); i++ )
-							{
-								QListWidgetItem * it = m_mainWidget->list->item( i );
-								stream << it->text();
-								if ( i < m_mainWidget->list->count()-1 )
-									stream << endl; //only write a new line if there are more text
-							}
-							file.close();
+	                QFile file;
+			kDebug() << "url.path()="<<url.path()<<endl;
+			file.setFileName(url.path());
+			if (file.open( QIODevice::WriteOnly ) )
+			{
+				QTextStream stream(&file);
+				for ( int i = 0; i < m_mainWidget->list->count(); i++ )
+				{
+					QListWidgetItem * it = m_mainWidget->list->item( i );
+					stream << it->text();
+					if ( i < m_mainWidget->list->count()-1 )
+						stream << endl; //only write a new line if there are more text
+				}
+				file.close();
                         }
                         else
-							KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
+				KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
                 }
         }
 

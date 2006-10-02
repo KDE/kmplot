@@ -33,7 +33,7 @@
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 
 // ANSI-C includes
 #include <stdlib.h>
@@ -126,32 +126,27 @@ bool KmPlotIO::save( const KUrl &url )
 {
 	QDomDocument doc = currentState();
 
-	QFile xmlfile;
 	if (!url.isLocalFile() )
 	{
-		KTempFile tmpfile;
-		xmlfile.setFileName( KUrl( tmpfile.name() ).path() );
-		if (!xmlfile.open( QIODevice::WriteOnly ) )
+		KTemporaryFile tmpfile;
+		if ( !tmpfile.open() )
 		{
-			tmpfile.unlink();
-			kWarning() << k_funcinfo << "Could not open " << KUrl( tmpfile.name() ).path() << " for writing.\n";
+			kWarning() << k_funcinfo << "Could not open " << KUrl( tmpfile.fileName() ).path() << " for writing.\n";
 			return false;
 		}
-		QTextStream ts( &xmlfile );
+		QTextStream ts( &tmpfile );
 		doc.save( ts, 4 );
-		xmlfile.close();
+		ts.flush();
 
-		if ( !KIO::NetAccess::upload(tmpfile.name(), url,0))
+		if ( !KIO::NetAccess::upload(tmpfile.fileName(), url,0))
 		{
-			tmpfile.unlink();
 			kWarning() << k_funcinfo << "Could not open " << url.prettyUrl() << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
 			return false;
 		}
-		tmpfile.unlink();
 	}
 	else
 	{
-		xmlfile.setFileName(url.path()  );
+		QFile xmlfile (url.path());
 		if (!xmlfile.open( QIODevice::WriteOnly ) )
 		{
 			kWarning() << k_funcinfo << "Could not open " << url.path() << " for writing.\n";

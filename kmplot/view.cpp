@@ -23,6 +23,16 @@
 *
 */
 
+#ifdef __APPLE__
+// work around an OSX <cmath> bug; is there a proper way to fix this?
+#ifndef isnan
+extern "C" int isnan(double);
+#endif
+#ifndef isinf
+extern "C" int isinf(double);
+#endif
+#endif
+
 // Qt includes
 #include <QAbstractTextDocumentLayout>
 #include <qbitmap.h>

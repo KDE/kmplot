@@ -51,7 +51,7 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	equationeditor.ui
 	)
 
-kde4_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )
+kde4_add_kcfg_files(kmplotpart kmplotpart_PART_SRCS settings.kcfgc )
 
 kde4_add_plugin(kmplotpart WITH_PREFIX ${kmplotpart_PART_SRCS})
 
@@ -68,7 +68,7 @@ qt4_add_dbus_adaptor(kmplot_SRCS org.kde.kmplot.KmPlot.xml kmplot.h KmPlot)
 kde4_automoc(kmplot ${kmplot_SRCS})
 
 # FIXME: it's wrong, but otherwise it does not compile
-kde4_add_kcfg_files(kmplot_SRCS settings.kcfgc )
+kde4_add_kcfg_files(kmplot kmplot_SRCS settings.kcfgc )
 
 kde4_add_executable(kmplot ${kmplot_SRCS})
 

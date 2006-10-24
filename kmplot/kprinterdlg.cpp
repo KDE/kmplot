@@ -101,7 +101,7 @@ void KPrinterDlg::setOptions( const QMap<QString, QString>& opts )
 	m_heightEdit->setText( Parser::number( height ) );
 }
 
-bool KPrinterDlg::isValid( QString &msg ) const
+bool KPrinterDlg::isValid( QString &msg )
 {
 	bool ok;
 	

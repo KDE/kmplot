@@ -51,7 +51,7 @@ public:
 	/// Reimplemented.
 	void setOptions( const QMap<QString, QString>& opts );
 	/// Reimplemented.
-	bool isValid( QString& msg ) const;
+	bool isValid( QString& msg );
 	
 protected:
 	enum LengthScaling { Pixels, Inches, Centimeters, Millimeters };

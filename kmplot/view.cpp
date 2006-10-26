@@ -23,7 +23,7 @@
 *
 */
 
-#ifdef __APPLE__
+#if defined(__APPLE__) || defined(_WIN32)
 // work around an OSX <cmath> bug; is there a proper way to fix this?
 #ifndef isnan
 extern "C" int isnan(double);
@@ -98,6 +98,14 @@ int isinf(double x)
 	return !finite(x) && x==x;
 }
 #endif
+#ifdef _WIN32
+#include <math.h>
+int isinf(double x)
+{
+        return !finite(x) && x==x;
+}
+#endif
+
 //END nan & inf
 
 

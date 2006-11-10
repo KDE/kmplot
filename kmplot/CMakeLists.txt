@@ -55,7 +55,7 @@ kde4_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )
 
 kde4_add_plugin(kmplotpart WITH_PREFIX ${kmplotpart_PART_SRCS})
 
-kde4_install_libtool_file( ${PLUGIN_INSTALL_DIR} kmplotpart )
+
 
 target_link_libraries(kmplotpart  ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KDEPRINT_LIBS} ${QT_QTXML_LIBRARY} )
 

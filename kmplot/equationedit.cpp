@@ -599,6 +599,9 @@ QString EquationEditor::text() const
 
 void EquationEditor::insertFunction( const QString & function )
 {
+	if ( m_widget->functionList->currentIndex() == 0 )
+		return;
+
 	m_widget->functionList->setCurrentIndex( 0 );
 	m_widget->edit->wrapSelected( function + '(', ")" );
 	m_widget->edit->setFocus();
@@ -607,6 +610,9 @@ void EquationEditor::insertFunction( const QString & function )
 
 void EquationEditor::insertConstant( int index )
 {
+	if ( index == 0 )
+		return;
+
 	ConstantList constants = XParser::self()->constants()->list( Constant::All );
 	
 	if ( constants.size() < index )

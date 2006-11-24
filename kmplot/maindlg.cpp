@@ -265,12 +265,12 @@ void MainDlg::setupActions()
 	/// \todo check that new shortcuts work
 
 	KAction * zoomIn = new KAction( i18n("Zoom &In"), actionCollection(), "zoom_in" );
-	zoomIn->setShortcut( Qt::ControlModifier | Qt::Key_1 );
+	zoomIn->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_1) );
 	zoomIn->setIcon( KIcon("viewmag+") );
 	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
 
 	KAction * zoomOut = new KAction( i18n("Zoom &Out"), actionCollection(),"zoom_out" );
-	zoomOut->setShortcut( Qt::ControlModifier | Qt::Key_2 );
+	zoomOut->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_2) );
 	zoomOut->setIcon( KIcon("viewmag-") );
 	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT( zoomOut() ) );
 

@@ -3097,9 +3097,9 @@ void View::fillPopupMenu( )
 	m_popupMenuTitle->deleteLater();
 	m_popupMenuTitle = m_popupMenu->addTitle( popupTitle, MainDlg::self()->m_firstFunctionAction );
 	
-	KAction *calcArea = MainDlg::self()->actionCollection()->action("grapharea");
-	KAction *maxValue = MainDlg::self()->actionCollection()->action("maximumvalue");
-	KAction *minValue = MainDlg::self()->actionCollection()->action("minimumvalue");
+	QAction *calcArea = MainDlg::self()->actionCollection()->action("grapharea");
+	QAction *maxValue = MainDlg::self()->actionCollection()->action("maximumvalue");
+	QAction *minValue = MainDlg::self()->actionCollection()->action("minimumvalue");
 	
 	m_popupMenu->removeAction(calcArea);
 	m_popupMenu->removeAction(maxValue);

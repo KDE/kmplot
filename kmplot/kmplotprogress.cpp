@@ -26,7 +26,7 @@
 #include "kmplotprogress.h"
 
 #include <kdebug.h>
-#include <kiconloader.h>
+#include <kicon.h>
 #include <kpushbutton.h>
 #include <qprogressbar.h>
 
@@ -38,7 +38,7 @@
 KmPlotProgress::KmPlotProgress( QWidget* parent ) : QWidget( parent )
 {
 	m_button = new KPushButton(this);
-	m_button->setIcon( SmallIcon( "cancel" ) );
+	m_button->setIcon( KIcon( "cancel" ) );
 	m_button->setGeometry( QRect( 0, 0, 30, 23 ) );
 	m_button->setMaximumHeight(height()-10);
 	connect( m_button, SIGNAL(clicked()), this, SIGNAL(cancelDraw()) );

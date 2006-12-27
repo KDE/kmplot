@@ -45,7 +45,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <ktemporaryfile.h>
 #include <ktoolbar.h>
 #include <ktoolinvocation.h>
@@ -224,16 +224,16 @@ MainDlg::~MainDlg()
 void MainDlg::setupActions()
 {
 	// standard actions
-	m_recentFiles = KStdAction::openRecent( this, SLOT( slotOpenRecent( const KUrl& ) ), actionCollection(),"file_openrecent");
-	KStdAction::print( this, SLOT( slotPrint() ), actionCollection(),"file_print" );
-	KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
-	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
+	m_recentFiles = KStandardAction::openRecent( this, SLOT( slotOpenRecent( const KUrl& ) ), actionCollection(),"file_openrecent");
+	KStandardAction::print( this, SLOT( slotPrint() ), actionCollection(),"file_print" );
+	KStandardAction::save( this, SLOT( slotSave() ), actionCollection() );
+	KStandardAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 
-	KAction *prefs  = KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
+	KAction *prefs  = KStandardAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 	prefs->setText( i18n( "Configure KmPlot..." ) );
-	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
-	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
+	KStandardAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
+	KStandardAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 
 
 	// KmPlot specific actions
@@ -245,10 +245,10 @@ void MainDlg::setupActions()
 
 
 	//BEGIN edit menu
-	m_undoAction = KStdAction::undo( this, SLOT(undo()), actionCollection() );
+	m_undoAction = KStandardAction::undo( this, SLOT(undo()), actionCollection() );
 	m_undoAction->setEnabled( false );
 
-	m_redoAction = KStdAction::redo( this, SLOT(redo()), actionCollection() );
+	m_redoAction = KStandardAction::redo( this, SLOT(redo()), actionCollection() );
 	m_redoAction->setEnabled( false );
 
 	KAction * editAxes = new KAction( i18n( "&Coordinate System..." ), actionCollection(), "editaxes" );
@@ -442,7 +442,7 @@ bool MainDlg::checkModified()
 	if( m_modified )
 	{
 		int saveit = KMessageBox::warningYesNoCancel( m_parent, i18n( "The plot has been modified.\n"
-		             "Do you want to save it?" ), QString(), KStdGuiItem::save(), KStdGuiItem::discard() );
+		             "Do you want to save it?" ), QString(), KStandardGuiItem::save(), KStandardGuiItem::discard() );
 		switch( saveit )
 		{
 			case KMessageBox::Yes:

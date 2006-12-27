@@ -34,7 +34,7 @@
 #include <kmessagebox.h>
 #include <kmplotprogress.h>
 #include <kstatusbar.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <kurl.h>
 
 #include "maindlg.h"
@@ -151,17 +151,17 @@ bool KmPlot::load(const KUrl& url)
 
 void KmPlot::setupActions()
 {
-	KStdAction::openNew(this, SLOT(fileNew()), actionCollection());
-	KStdAction::open(this, SLOT(fileOpen()), actionCollection());
-	KStdAction::quit(kapp, SLOT(quit()), actionCollection());
+	KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
+	KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
+	KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
 
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
 
-	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
-	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
+	KStandardAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
+	KStandardAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 
-	m_fullScreen = KStdAction::fullScreen( NULL, NULL, actionCollection(), this, "fullscreen");
+	m_fullScreen = KStandardAction::fullScreen( NULL, NULL, actionCollection(), this, "fullscreen");
 	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 }
 

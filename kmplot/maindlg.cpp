@@ -442,7 +442,7 @@ bool MainDlg::checkModified()
 	if( m_modified )
 	{
 		int saveit = KMessageBox::warningYesNoCancel( m_parent, i18n( "The plot has been modified.\n"
-		             "Do you want to save it?" ), QString(), KStdGuiItem::save(), KStdGuiItem::discard() );
+		             "Do you want to save it?" ), QString(), KStandardGuiItem::save(), KStandardGuiItem::discard() );
 		switch( saveit )
 		{
 			case KMessageBox::Yes:

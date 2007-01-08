@@ -36,7 +36,7 @@
 #include <kstatusbar.h>
 #include <kstandardaction.h>
 #include <kurl.h>
-
+#include <kactioncollection.h>
 #include "maindlg.h"
 #include <ktoolinvocation.h>
 #include <ktogglefullscreenaction.h>
@@ -161,7 +161,8 @@ void KmPlot::setupActions()
 	KStandardAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStandardAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 
-	m_fullScreen = KStandardAction::fullScreen( NULL, NULL, actionCollection(), this, "fullscreen");
+	m_fullScreen = KStandardAction::fullScreen( NULL, NULL, actionCollection(), this);
+	actionCollection()->addAction("fullscreen",m_fullScreen);
 	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 }
 

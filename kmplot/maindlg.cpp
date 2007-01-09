@@ -50,6 +50,7 @@
 #include <ktoolbar.h>
 #include <ktoolinvocation.h>
 #include <krecentfilesaction.h>
+#include <kactioncollection.h>
 #include <kicon.h>
 
 // local includes
@@ -192,7 +193,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_colorSettings = new SettingsPageColor( View::self() );
 	m_fontsSettings = new SettingsPageFonts( View::self() );
 	m_diagramSettings = new SettingsPageDiagram( View::self() );
-	
+
 	// Make sure the dialog is at a good default size (hmm kdialog should do this automatically?)
 	QSize minSize = m_generalSettings->layout()->minimumSize()
 			.expandedTo( m_colorSettings->layout()->minimumSize() )
@@ -224,13 +225,14 @@ MainDlg::~MainDlg()
 void MainDlg::setupActions()
 {
 	// standard actions
-	m_recentFiles = KStandardAction::openRecent( this, SLOT( slotOpenRecent( const KUrl& ) ), actionCollection(),"file_openrecent");
-	KStandardAction::print( this, SLOT( slotPrint() ), actionCollection(),"file_print" );
+        m_recentFiles = KStandardAction::openRecent( this, SLOT( slotOpenRecent( const KUrl& ) ), this );
+        actionCollection()->addAction( "file_openrecent", m_recentFiles );
+	actionCollection()->addAction( KStandardAction::Print, "file_print", this, SLOT( slotPrint() ) );
 	KStandardAction::save( this, SLOT( slotSave() ), actionCollection() );
 	KStandardAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
 	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 
-	KAction *prefs  = KStandardAction::preferences( this, SLOT( slotSettings() ), actionCollection());
+	QAction *prefs  = KStandardAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 	prefs->setText( i18n( "Configure KmPlot..." ) );
 	KStandardAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStandardAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
@@ -239,7 +241,8 @@ void MainDlg::setupActions()
 	// KmPlot specific actions
 
 	//BEGIN file menu
-	KAction * exportAction = new KAction( i18n( "E&xport..." ), actionCollection(), "export" );
+	QAction * exportAction = actionCollection()->addAction( "export" );
+        exportAction->setText( i18n( "E&xport..." ) );
 	connect( exportAction, SIGNAL(triggered(bool)), this, SLOT( slotExport() ) );
 	//END file menu
 
@@ -251,11 +254,13 @@ void MainDlg::setupActions()
 	m_redoAction = KStandardAction::redo( this, SLOT(redo()), actionCollection() );
 	m_redoAction->setEnabled( false );
 
-	KAction * editAxes = new KAction( i18n( "&Coordinate System..." ), actionCollection(), "editaxes" );
+	QAction * editAxes = actionCollection()->addAction( "editaxes" );
+        editAxes->setText( i18n( "&Coordinate System..." ) );
 	editAxes->setIcon( KIcon("coords.png") );
 	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
 
-	KAction * editConstants = new KAction( i18n( "&Constants..." ), actionCollection(), "editconstants" );
+	QAction * editConstants = actionCollection()->addAction( "editconstants" );
+        editConstants->setText( i18n( "&Constants..." ) );
 	editConstants->setIcon( KIcon("editconstants.png") );
 	connect( editConstants, SIGNAL(triggered(bool)), this, SLOT( editConstants() ) );
 	//END edit menu
@@ -264,79 +269,95 @@ void MainDlg::setupActions()
 	//BEGIN view menu
 	/// \todo check that new shortcuts work
 
-	KAction * zoomIn = new KAction( i18n("Zoom &In"), actionCollection(), "zoom_in" );
+	QAction * zoomIn = actionCollection()->addAction( "zoom_in" );
+        zoomIn->setText( i18n("Zoom &In") );
 	zoomIn->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_1) );
 	zoomIn->setIcon( KIcon("viewmag+") );
 	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
 
-	KAction * zoomOut = new KAction( i18n("Zoom &Out"), actionCollection(),"zoom_out" );
+	QAction * zoomOut = actionCollection()->addAction( "zoom_out" );
+        zoomOut->setText(i18n("Zoom &Out"));
 	zoomOut->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_2) );
 	zoomOut->setIcon( KIcon("viewmag-") );
 	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT( zoomOut() ) );
 
-	KAction * zoomTrig = new KAction( i18n("&Fit Widget to Trigonometric Functions"), actionCollection(), "zoom_trig" );
+	QAction * zoomTrig = actionCollection()->addAction( "zoom_trig" );
+        zoomTrig->setText( i18n("&Fit Widget to Trigonometric Functions") );
 	connect( zoomTrig, SIGNAL(triggered(bool)), View::self(), SLOT( zoomToTrigonometric() ) );
 
-	KAction * coordI = new KAction( i18n( "Coordinate System I" ), actionCollection(), "coord_i" );
+	QAction * coordI = actionCollection()->addAction( "coord_i" );
+        coordI->setText( i18n( "Coordinate System I" ) );
 	coordI->setIcon( KIcon("ksys1.png") );
 	connect( coordI, SIGNAL(triggered(bool)), this, SLOT( slotCoord1() ) );
 
-	KAction * coordII = new KAction( i18n( "Coordinate System II" ), actionCollection(), "coord_ii" );
+	QAction * coordII = actionCollection()->addAction( "coord_ii" );
+        coordII->setText( i18n( "Coordinate System II" ) );
 	coordII->setIcon( KIcon("ksys2.png") );
 	connect( coordII, SIGNAL(triggered(bool)), this, SLOT( slotCoord2() ) );
 
-	KAction * coordIII = new KAction( i18n( "Coordinate System III" ), actionCollection(), "coord_iii" );
+	QAction * coordIII = actionCollection()->addAction( "coord_iii" );
+        coordIII->setText( i18n( "Coordinate System III" ) );
 	coordIII->setIcon( KIcon("ksys3.png") );
 	connect( coordIII, SIGNAL(triggered(bool)), this, SLOT( slotCoord3() ) );
 	//END view menu
 
 
 	//BEGIN tools menu
-	KAction *mnuYValue =  new KAction( i18n( "Plot &Value..." ), actionCollection(), "yvalue" );
+	QAction *mnuYValue = actionCollection()->addAction( "yvalue" );
+        mnuYValue->setText( i18n( "Plot &Value..." ) );
 	connect( mnuYValue, SIGNAL(triggered(bool)), this, SLOT( getYValue() ) );
 
-	KAction *mnuArea = new KAction( i18n( "Plot &Area..." ), actionCollection(), "grapharea" );
+	QAction *mnuArea = actionCollection()->addAction( "grapharea" );
+        mnuArea->setText( i18n( "Plot &Area..." ) );
 	connect( mnuArea, SIGNAL(triggered(bool)),this, SLOT( graphArea() )  );
 
-	KAction *mnuMaxValue = new KAction( i18n( "Find Ma&ximum..." ), actionCollection(), "maximumvalue" );
+	QAction *mnuMaxValue = actionCollection()->addAction( "maximumvalue" );
+        mnuMaxValue->setText( i18n( "Find Ma&ximum..." ) );
 	mnuMaxValue->setIcon( KIcon("maximum") );
 	connect( mnuMaxValue, SIGNAL(triggered(bool)), this, SLOT( findMaximumValue() ) );
 
-	KAction *mnuMinValue = new KAction( i18n( "Find Mi&nimum..." ), actionCollection(), "minimumvalue" );
+	QAction *mnuMinValue = actionCollection()->addAction( "minimumvalue" );
+        mnuMinValue->setText( i18n( "Find Mi&nimum..." ) );
 	mnuMinValue->setIcon( KIcon("minimum") );
 	connect( mnuMinValue, SIGNAL(triggered(bool)), this, SLOT( findMinimumValue() ) );
 	//END tools menu
 
 
 	//BEGIN help menu
-	KAction * namesAction = new KAction( i18n( "Predefined &Math Functions" ), actionCollection(), "names" );
+	QAction * namesAction = actionCollection()->addAction( "names" );
+        namesAction->setText( i18n( "Predefined &Math Functions" ) );
 	namesAction->setIcon( KIcon("functionhelp") );
 	connect( namesAction, SIGNAL(triggered(bool)), this, SLOT( slotNames() ) );
 	//END help menu
 
 
 	//BEGIN new plots menu
-	KAction * newFunction = new KAction( i18n( "Cartesian Plot" ), actionCollection(), "newcartesian" );
+	QAction * newFunction = actionCollection()->addAction( "newcartesian" );
+        newFunction->setText( i18n( "Cartesian Plot" ) );
 	newFunction->setIcon( KIcon("newfunction") );
 	connect( newFunction, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createCartesian() ) );
 	m_newPlotMenu->addAction( newFunction );
 
-	KAction * newParametric = new KAction( i18n( "Parametric Plot" ), actionCollection(), "newparametric" );
+	QAction * newParametric = actionCollection()->addAction( "newparametric" );
+        newParametric->setText( i18n( "Parametric Plot" ) );
 	newParametric->setIcon( KIcon("newparametric") );
 	connect( newParametric, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createParametric() ) );
 	m_newPlotMenu->addAction( newParametric );
 
-	KAction * newPolar = new KAction( i18n( "Polar Plot" ), actionCollection(), "newpolar" );
+	QAction * newPolar = actionCollection()->addAction( "newpolar" );
+        newPolar->setText( i18n( "Polar Plot" ) );
 	newPolar->setIcon( KIcon("newpolar") );
 	connect( newPolar, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createPolar() ) );
 	m_newPlotMenu->addAction( newPolar );
 
-	KAction * newImplicit = new KAction( i18n( "Implicit Plot" ), actionCollection(), "newimplicit" );
+	QAction * newImplicit = actionCollection()->addAction( "newimplicit" );
+        newImplicit->setText( i18n( "Implicit Plot" ) );
 	newImplicit->setIcon( KIcon("newimplicit") );
 	connect( newImplicit, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createImplicit() ) );
 	m_newPlotMenu->addAction( newImplicit );
 
-	KAction * newDifferential = new KAction( i18n( "Differential Plot" ), actionCollection(), "newdifferential" );
+	QAction * newDifferential = actionCollection()->addAction( "newdifferential" );
+        newDifferential->setText( i18n( "Differential Plot" ) );
 	newDifferential->setIcon( KIcon("newdifferential") );
 	connect( newDifferential, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createDifferential() ) );
 	m_newPlotMenu->addAction( newDifferential );
@@ -345,29 +366,34 @@ void MainDlg::setupActions()
 
 	kDebug() << "KStandardDirs::resourceDirs( icon )="<<KGlobal::dirs()->resourceDirs( "icon" )<<endl;
 
-	View::self()->m_menuSliderAction = new KToggleAction( i18n( "Show Sliders" ), actionCollection(), "options_configure_show_sliders" );
+	View::self()->m_menuSliderAction = actionCollection()->add<KToggleAction>( "options_configure_show_sliders" );
+        View::self()->m_menuSliderAction->setText( i18n( "Show Sliders" ) );
 	connect( View::self()->m_menuSliderAction, SIGNAL(triggered(bool)), this, SLOT( toggleShowSliders() ) );
 
 
 	//BEGIN function popup menu
-	KAction *mnuEdit = new KAction(i18n("&Edit"), actionCollection(),"mnuedit"  );
+	QAction *mnuEdit = actionCollection()->addAction( "mnuedit"  );
+        mnuEdit->setText(i18n("&Edit"));
 	m_firstFunctionAction = mnuEdit;
 	mnuEdit->setIcon( KIcon("editplots") );
 	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT( editCurrentPlot() ) );
 	m_popupmenu->addAction( mnuEdit );
-	
-	KAction *mnuHide = new KAction(i18n("&Hide"), actionCollection(),"mnuhide" );
+
+	QAction *mnuHide = actionCollection()->addAction( "mnuhide" );
+        mnuHide->setText( i18n("&Hide") );
 	connect( mnuHide, SIGNAL(triggered(bool)), View::self(), SLOT( hideCurrentFunction() ) );
 	m_popupmenu->addAction( mnuHide );
 
-	KAction *mnuRemove = new KAction(i18n("&Remove"), actionCollection(),"mnuremove"  );
+	QAction *mnuRemove = actionCollection()->addAction( "mnuremove"  );
+        mnuRemove->setText(i18n("&Remove"));
 	mnuRemove->setIcon( KIcon("editdelete") );
 	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT( removeCurrentPlot() ) );
 	m_popupmenu->addAction( mnuRemove );
 
 	m_popupmenu->addSeparator();
 
-	KAction * animateFunction = new KAction( i18n("Animate Plot..."), actionCollection(), "animateFunction" );
+	QAction * animateFunction = actionCollection()->addAction( "animateFunction" );
+        animateFunction->setText(i18n("Animate Plot..."));
 	connect( animateFunction, SIGNAL(triggered(bool)), View::self(), SLOT( animateFunction() ) );
 	m_popupmenu->addAction( animateFunction );
 	m_popupmenu->addSeparator();
@@ -489,18 +515,18 @@ void MainDlg::slotSaveas()
 
 	if ( url.isEmpty() )
 		return;
-	
+
 	bool exists = KIO::NetAccess::exists( url,false,m_parent );
 	if ( exists )
 	{
 		// check if file exists and overwriting is ok.
-		
+
 		int answer = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) );
-		
+
 		if ( answer != KMessageBox::Continue )
 			return;
 	}
-	
+
 	if ( !kmplotio->save( url ) )
 		KMessageBox::error(m_parent, i18n("The file could not be saved") );
 	else
@@ -516,10 +542,10 @@ void MainDlg::slotExport()
 {
 	QString filter = KImageIO::pattern( KImageIO::Writing );
 	filter += i18n("\n*.svg|Scalable Vector Graphics");
-	
+
 	KFileDialog * kfd = new KFileDialog( QDir::currentPath(), filter, m_parent );
 	kfd->setCaption( i18n( "Export as Image" ) );
-	
+
 	if ( !kfd->exec() )
 		return;
 
@@ -528,9 +554,9 @@ void MainDlg::slotExport()
 
 	KMimeType::Ptr mimeType = KMimeType::findByUrl( url );
 	kDebug() << k_funcinfo << "mimetype: " << mimeType->name() << endl;
-	
+
 	bool isSvg = mimeType->name() == "image/svg+xml";
-	
+
 	if ( !KImageIO::isSupported( mimeType->name(), KImageIO::Writing ) && !isSvg )
 	{
 		KMessageBox::sorry( m_parent, i18n( "Sorry, this file format is not supported." ) );
@@ -538,7 +564,7 @@ void MainDlg::slotExport()
 	};
 
 	bool saveOk = true;
-	
+
 	if ( isSvg )
 	{
 		Q3Picture img;
@@ -557,11 +583,11 @@ void MainDlg::slotExport()
 	{
 		QPixmap img( View::self()->size() );
 		View::self()->draw( & img, View::Pixmap );
-	
+
 		QStringList types = KImageIO::typeForMime( mimeType->name() );
 		if ( types.isEmpty() )
 			return; // TODO error dialog?
-		
+
 		if ( url.isLocalFile() )
 			saveOk = img.save( url.path(), types.at(0).toLatin1() );
 		else
@@ -572,10 +598,10 @@ void MainDlg::slotExport()
 			saveOk = KIO::NetAccess::upload(tmp.fileName(), url, 0);
 		}
 	}
-	
+
 	if ( !saveOk )
 		KMessageBox::error( m_parent, i18n( "Sorry, something went wrong while saving to image \"%1\"", url.prettyUrl() ) );
-	
+
 }
 
 
@@ -652,7 +678,7 @@ void MainDlg::editConstants()
 {
 	if ( !m_constantEditor)
 		m_constantEditor = new KConstantEditor(m_parent);
-	
+
 	m_constantEditor->show();
 }
 
@@ -762,7 +788,7 @@ CoordsConfigDialog * MainDlg::coordsDialog( )
 		m_coordsDialog = new CoordsConfigDialog(m_parent);
 		connect( m_coordsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
 	}
-	
+
 	return m_coordsDialog;
 }
 //END class MainDlg

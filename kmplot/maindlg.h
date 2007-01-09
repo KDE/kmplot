@@ -56,7 +56,7 @@ class KConfigDialog;
 class KConstantEditor;
 class KToggleFullScreenAction;
 class KAboutData;
-class KAction;
+class QAction;
 class KLineEdit;
 class KPageWidgetItem;
 class KRecentFilesAction;
@@ -81,27 +81,27 @@ class MainDlg : public KParts::ReadWritePart
 		 * @param parent parent object
 		 */
 		MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& = QStringList() );
-	
+
 		/// Initialized as a pointer to this MainDlg object on creation
 		static MainDlg * self() { return m_self; }
-		
+
 	/// Cleaning up a bit.
 	virtual ~MainDlg();
 
 	/// Is set to true if a file from an old file format was loaded
 	static bool oldfileversion;
-	
+
 	/// The function editor
 	FunctionEditor * functionEditor() const { return m_functionEditor; }
-	
+
 	/// The coords config dialog
 	CoordsConfigDialog* coordsDialog();
-	
+
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
 
     virtual bool queryClose();
-	
+
 	/// For inserting the title in the function popup menu
 	QAction * m_firstFunctionAction;
 
@@ -125,7 +125,7 @@ public slots:
 	void redo();
 	/// Pushes the previous document state to the undo stack and records the current one
 	void requestSaveCurrentState();
-	
+
 	///Save a plot i.e. save the function name and all the settings for the plot
 	void slotSave();
 	///Save a plot and choose a name for it
@@ -158,7 +158,7 @@ private:
 
 
     virtual bool saveFile();
-	
+
 	///The Recent Files action
 	KRecentFilesAction * m_recentFiles;
 	/// true == modifications not saved
@@ -208,16 +208,16 @@ private:
 	/// Timer to ensure saveCurrentState() is called only once for a set of simultaneous changes
 	QTimer * m_saveCurrentStateTimer;
 	/// The undo action
-	KAction * m_undoAction;
+	QAction * m_undoAction;
 	/// The redo action
-	KAction * m_redoAction;
-	
+	QAction * m_redoAction;
+
 	/// A pointer to ourself
 	static MainDlg * m_self;
 
 protected slots:
 	/**
-	* When you click on a File->Open Recent file, it'll open 
+	* When you click on a File->Open Recent file, it'll open
 	* @param url name of the url to open
 	*/
 	void slotOpenRecent( const KUrl &url );
@@ -239,7 +239,7 @@ class KmPlotPartFactory : public KParts::Factory
 public:
 	KmPlotPartFactory();
 	virtual ~KmPlotPartFactory();
-	virtual KParts::Part* createPartObject( QWidget *parentWidget, 
+	virtual KParts::Part* createPartObject( QWidget *parentWidget,
 	                                        QObject *parent,
 	                                        const char *classname, const QStringList &args );
 	static KInstance* instance();

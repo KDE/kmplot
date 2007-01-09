@@ -36,6 +36,7 @@
 
 // KDE includes
 #include <kaction.h>
+#include <kactioncollection.h>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
@@ -52,59 +53,59 @@ KSliderWindow::KSliderWindow( QWidget * parent ) :
 	setCaption( i18n("Sliders") );
 
 	m_clickedOnSlider = 0l;
-	
+
 	setModal( false );
 	m_mainWidget = new SliderWindow( this );
 	setMainWidget( m_mainWidget );
     setCaption( i18n("Sliders") );
-	
+
 	assert( SLIDER_COUNT == 4 ); // safety check, incase SLIDER_COUNT is increased but not this code
-	
+
 	m_sliders[0] = m_mainWidget->slider0;
 	m_sliders[1] = m_mainWidget->slider1;
 	m_sliders[2] = m_mainWidget->slider2;
 	m_sliders[3] = m_mainWidget->slider3;
-	
+
 	m_minLabels[0] = m_mainWidget->min0;
 	m_minLabels[1] = m_mainWidget->min1;
 	m_minLabels[2] = m_mainWidget->min2;
 	m_minLabels[3] = m_mainWidget->min3;
-	
+
 	m_maxLabels[0] = m_mainWidget->max0;
 	m_maxLabels[1] = m_mainWidget->max1;
 	m_maxLabels[2] = m_mainWidget->max2;
 	m_maxLabels[3] = m_mainWidget->max3;
-	
+
 	KConfig config( "kmplotrc" );
 	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )
 	{
 		m_sliders[i]->setToolTip( i18n( "Slider no. %1", i+1 ));
 		setWhatsThis( i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
-		
+
 		// load the min and max value + the current value
 		config.setGroup( "slider" + QString::number(i) );
 		m_sliders[i]->setMinimum( config.readEntry( "min", 0) );
 		m_sliders[i]->setMaximum( config.readEntry( "max", 100) );
 		m_sliders[i]->setValue( config.readEntry( "value", 50) );
 		m_sliders[i]->setPageStep( (int)ceil((abs(m_sliders[i]->minimum()) + abs(m_sliders[i]->maximum()))/10.) );
-		
+
 		m_sliders[i]->installEventFilter(this);
-		
+
 		connect( m_sliders[i], SIGNAL( valueChanged( int ) ), this, SIGNAL( valueChanged() ) );
 	}
-	
+
 	updateMinMaxValues();
-	
+
 	//BEGIN create popup-menu
 	m_popupmenu = new KMenu(this);
-	
+
 	KActionCollection * ac = MainDlg::self()->actionCollection();
-	
-	KAction * mnuMinValue = new KAction( i18n("&Change Minimum Value"), ac, "" );
+
+	QAction * mnuMinValue = new KAction( i18n("&Change Minimum Value"), this );
 	connect( mnuMinValue, SIGNAL( triggered(bool) ), this, SLOT( mnuMinValue_clicked() ) );
 	m_popupmenu->addAction( mnuMinValue );
-	
-	KAction * mnuMaxValue = new KAction( i18n("&Change Maximum Value"), ac, "" );
+
+	QAction * mnuMaxValue = new KAction( i18n("&Change Maximum Value"), this );
 	connect( mnuMaxValue, SIGNAL( triggered(bool) ), this, SLOT( mnuMaxValue_clicked() ) );
 	m_popupmenu->addAction( mnuMaxValue );
 	//END create popup-menu
@@ -114,7 +115,7 @@ KSliderWindow::~KSliderWindow()
 {
 	// save the min and max value + the current value
 	KConfig config( "kmplotrc" );
-	
+
 	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )
 	{
 		config.setGroup( "slider" + QString::number(i) );
@@ -137,7 +138,7 @@ bool KSliderWindow::eventFilter( QObject *obj, QEvent *ev )
 	QMouseEvent * mouseEvent = 0l;
 	if ( ev->type() == QEvent::MouseButtonPress )
 		mouseEvent = static_cast<QMouseEvent*>(ev);
-	
+
 	if ( mouseEvent &&
 			(mouseEvent->button() == Qt::RightButton) &&
 			(obj->metaObject()->className() == QString( "QSlider" ) ) )
@@ -146,7 +147,7 @@ bool KSliderWindow::eventFilter( QObject *obj, QEvent *ev )
 		m_popupmenu->exec(QCursor::pos());
 		return true;
 	}
-	
+
 	return KDialog::eventFilter( obj, ev );
 }
 
@@ -159,7 +160,7 @@ void KSliderWindow::closeEvent( QCloseEvent * e)
 void KSliderWindow::mnuMinValue_clicked()
 {
 	assert( m_clickedOnSlider );
-	
+
 	bool ok;
 	int const result = KInputDialog::getInteger(i18n("Change Minimum Value"), i18n("Type a new minimum value for the slider:"), m_clickedOnSlider->minimum(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)
@@ -173,7 +174,7 @@ void KSliderWindow::mnuMinValue_clicked()
 void KSliderWindow::mnuMaxValue_clicked()
 {
 	assert( m_clickedOnSlider );
-	
+
 	bool ok;
 	int const result = KInputDialog::getInteger(i18n("Change Maximum Value"), i18n("Type a new maximum value for the slider:"), m_clickedOnSlider->maximum(), INT_MIN, INT_MAX, 1, 10, &ok);
 	if (!ok)

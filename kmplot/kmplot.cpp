@@ -161,8 +161,8 @@ void KmPlot::setupActions()
 	KStandardAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
 	KStandardAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
 
-	m_fullScreen = KStandardAction::fullScreen( NULL, NULL, actionCollection(), this);
-	actionCollection()->addAction("fullscreen",m_fullScreen);
+	m_fullScreen = KStandardAction::fullScreen( NULL, NULL, this, actionCollection());
+	actionCollection()->addAction("fullscreen", m_fullScreen);
 	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 }
 
@@ -282,10 +282,10 @@ void KmPlot::setupStatusBar()
 	statusBar()->changeItem( "", 1 );
 	statusBar()->changeItem( "", 2 );
 	statusBar()->setItemAlignment( 3, Qt::AlignLeft );
-	
-	m_progressBar = new KmPlotProgress( statusBar() );   
-	m_progressBar->setMaximumHeight( statusBar()->height()-10 );   
-	connect( m_progressBar, SIGNAL (cancelDraw() ), this, SLOT( cancelDraw() ) );   
+
+	m_progressBar = new KmPlotProgress( statusBar() );
+	m_progressBar->setMaximumHeight( statusBar()->height()-10 );
+	connect( m_progressBar, SIGNAL (cancelDraw() ), this, SLOT( cancelDraw() ) );
 	statusBar()->addWidget(m_progressBar);
 }
 

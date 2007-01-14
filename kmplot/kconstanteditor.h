@@ -73,6 +73,8 @@ protected slots:
 	 * has changed, so will save the constants list.
 	 */
 	void itemClicked();
+    
+    void dialogFinished();
 	
 protected:
 	/**

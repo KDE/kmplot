@@ -325,6 +325,9 @@ class Parser : public QObject
 		
 		/// Points to the array of user defined functions, index by their IDs.
 		QMap<int, Function *> m_ufkt;
+        
+        /// Reparses all functions, e.g. for when the value of a constant changes
+        void reparseAllFunctions();
 	
 	signals:
 		/// emitted when a function is deleted

@@ -182,6 +182,16 @@ QStringList Parser::userFunctions( ) const
 }
 
 
+void Parser::reparseAllFunctions()
+{
+    foreach ( Function * f, m_ufkt )
+    {
+        foreach ( Equation * eq, f->eq )
+            initEquation( eq );
+    }
+}
+
+
 void Parser::setAngleMode( AngleMode mode )
 {
 	switch ( mode )

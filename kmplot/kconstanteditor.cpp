@@ -26,6 +26,7 @@
 
 #include "kmplotio.h"
 #include "kconstanteditor.h"
+#include "view.h"
 #include "xparser.h"
 
 #include <kapplication.h>
@@ -64,6 +65,8 @@ KConstantEditor::KConstantEditor( QWidget * parent )
 	setButtons( Close );
 	
 	setCaption( i18n("Constants Editor") );
+    
+    connect( this, SIGNAL(finished()), this, SLOT(dialogFinished()) );
 	
 	m_constantValidator = new ConstantValidator( this );
 	m_widget->nameEdit->setValidator( m_constantValidator );
@@ -90,6 +93,13 @@ KConstantEditor::KConstantEditor( QWidget * parent )
 
 KConstantEditor::~KConstantEditor()
 {
+}
+
+
+void KConstantEditor::dialogFinished()
+{
+    XParser::self()->reparseAllFunctions();
+    View::self()->drawPlot();
 }
 
 

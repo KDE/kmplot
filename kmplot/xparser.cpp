@@ -640,7 +640,7 @@ QStringList XParser::functionParameterList(uint id)
 		return QStringList();
 	Function *item = m_ufkt[id];
 	QStringList str_parameter;
-	foreach ( Value it, item->m_parameters.list )
+	foreach ( const Value &it, item->m_parameters.list )
 		str_parameter << it.expression();
 	return str_parameter;
 }
@@ -651,7 +651,7 @@ bool XParser::functionAddParameter(uint id, const QString &new_parameter)
 	Function *tmp_ufkt = m_ufkt[id];
 	
 	//check if the parameter already exists
-	foreach ( Value it, tmp_ufkt->m_parameters.list )
+	foreach ( const Value &it, tmp_ufkt->m_parameters.list )
 	{
 		if ( it.expression() == new_parameter )
 			return false;

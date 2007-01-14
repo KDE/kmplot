@@ -871,10 +871,10 @@ bool Parser::tryVariable()
 	// match e.g. "ab" before "a"
 	typedef QMultiMap <int, QString> ISMap;
 	ISMap sorted;
-	foreach ( QString var, variables )
+	foreach ( const QString &var, variables )
 		sorted.insert( -var.length(), var );
 	
-	foreach ( QString var, sorted )
+	foreach ( const QString &var, sorted )
 	{
 		if ( match( var ) )
 		{

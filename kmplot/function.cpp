@@ -778,7 +778,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 		if ( m_parameters.useList )
 		{
 			int pos = 0;
-			foreach ( Value v, m_parameters.list )
+			foreach ( const Value &v, m_parameters.list )
 			{
 				Parameter param( Parameter::List );
 				param.setListPos( pos++ );
@@ -846,7 +846,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 	
 		// Generate a plot for each signature in signatures
 		QList< Plot > duplicated;
-		foreach ( QVector<bool> signature, signatures )
+		foreach ( const QVector<bool> &signature, signatures )
 		{
 			int at = 0;
 			QList< QVector<bool> > pmSignature;

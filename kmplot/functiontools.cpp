@@ -134,12 +134,12 @@ void FunctionTools::updateEquationList()
 		
 		for ( int i = 0; i < function->eq.size(); ++i )
 		{
-			foreach ( Plot plot, plots )
+			foreach ( const Plot &plot, plots )
 				m_equations << EquationPair( plot, i );
 		}
 	}
 	
-	foreach ( EquationPair eq, m_equations )
+	foreach ( const EquationPair &eq, m_equations )
 	{
 		Equation * equation = eq.first.function()->eq[ eq.second ];
 		QListWidgetItem * item = new QListWidgetItem( equation->fstr(), m_widget->list );

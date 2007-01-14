@@ -58,7 +58,7 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
     setCaption( i18n("Parameter Editor") );
     setButtons(  Ok|Cancel );
 	
-	foreach ( Value v, *m_parameter )
+	foreach ( const Value &v, *m_parameter )
 		m_mainWidget->list->addItem( v.expression() );
 	
 	connect( m_mainWidget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));

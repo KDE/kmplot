@@ -320,7 +320,7 @@ void InitialConditionsEditor::remove()
 	QModelIndexList selected = view->selectionModel()->selectedIndexes();
 	
 	QMap< int, void * > sorted;
-	foreach ( QModelIndex index, selected )
+	foreach ( const QModelIndex &index, selected )
 		sorted.insert( -index.row(), 0l );
 	QList<int> indexes = sorted.keys();
 	

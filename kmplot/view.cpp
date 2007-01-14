@@ -1299,7 +1299,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 	assert( circular.function() );
 	
 	const QList< Plot > plots = function->plots();
-	foreach ( Plot plot, plots )
+	foreach ( const Plot &plot, plots )
 	{
 		bool setAliased = false;
 		if ( plot.parameter.type() == Parameter::Animated )
@@ -1353,11 +1353,11 @@ void View::drawImplicit( Function * function, QPainter * painter )
 		FuzzyPointMap singularSorted;
 		FuzzyPoint::dx = (m_xmax-m_xmin) * SegmentMin * 0.1 / m_clipRect.width();
 		FuzzyPoint::dy = (m_ymax-m_ymin) * SegmentMin * 0.1 / m_clipRect.height();
-		foreach ( QPointF point, singular )
+		foreach ( const QPointF &point, singular )
 			singularSorted.insert( point, point );
 		singular = singularSorted.values();
 		
-		foreach ( QPointF point, singular )
+		foreach ( const QPointF &point, singular )
 		{
 			// radius of circle around singular point
 			double epsilon = qMin( FuzzyPoint::dx, FuzzyPoint::dy );
@@ -1693,12 +1693,12 @@ void View::drawFunction( Function * function, QPainter * painter )
 			function->plotAppearance( Function::Derivative0 ).showTangentField )
 	{
 		QList<Plot> plots = function->plots( Function::PlotCombinations(Function::AllCombinations) & ~Function::DifferentInitialStates );
-		foreach ( Plot plot, plots )
+		foreach ( const Plot &plot, plots )
 			drawTangentField( plot, painter );
 	}
 	
 	QList<Plot> plots = function->plots();
-	foreach ( Plot plot, plots )
+	foreach ( const Plot &plot, plots )
 		drawPlot( plot, painter );
 	
 }
@@ -2066,7 +2066,7 @@ void View::drawFunctionInfo( QPainter * painter )
 		if ( m_stopCalculating )
 			break;
 		
-		foreach ( Plot plot, function->plots() )
+		foreach ( const Plot &plot, function->plots() )
 		{
 			plot.updateFunction();
 			
@@ -2074,7 +2074,7 @@ void View::drawFunctionInfo( QPainter * painter )
 			if ( (function->type() == Function::Cartesian) && function->plotAppearance( plot.plotMode ).showExtrema )
 			{
 				QList<QPointF> stationaryPoints = findStationaryPoints( plot );
-				foreach ( QPointF realValue, stationaryPoints )
+				foreach ( const QPointF &realValue, stationaryPoints )
 				{
 					painter->setPen( QPen( Qt::black, millimetersToPixels( 1.5, painter->device() ) ) );
 					painter->drawPoint( toPixel( realValue ) );
@@ -3127,7 +3127,7 @@ QPointF View::getPlotUnderMouse()
 	foreach ( Function * function, XParser::self()->m_ufkt )
 	{
 		const QList< Plot > plots = function->plots();
-		foreach ( Plot plot, plots )
+		foreach ( const Plot &plot, plots )
 		{
 			plot.updateFunction();
 			

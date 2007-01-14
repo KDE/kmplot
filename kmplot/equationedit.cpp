@@ -125,7 +125,7 @@ void EquationHighlighter::highlightBlock( const QString & text )
 	{
 		bool found = false;
 		
-		foreach ( QString var, variables )
+		foreach ( const QString &var, variables )
 		{
 			if ( text.indexOf( var, i ) == i )
 			{
@@ -138,7 +138,7 @@ void EquationHighlighter::highlightBlock( const QString & text )
 		if ( found )
 			continue;
 		
-		foreach ( QString f, functions )
+		foreach ( const QString &f, functions )
 		{
 			if ( text.indexOf( f, i ) == i )
 			{

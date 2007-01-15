@@ -240,6 +240,7 @@ class Equation
 	public:
 		enum Type
 		{
+            Constant,
 			Cartesian,
 			ParametricX,
 			ParametricY,

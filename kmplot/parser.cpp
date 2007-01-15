@@ -232,7 +232,7 @@ double Parser::eval( const QString & str, Error * error, int * errorPosition )
 	
 	
 	if ( !m_ownEquation )
-		m_ownEquation = new Equation( Equation::Cartesian, 0 );
+		m_ownEquation = new Equation( Equation::Constant, 0 );
 	
 	QString fName = XParser::self()->findFunctionName( "f", -1 );
 	

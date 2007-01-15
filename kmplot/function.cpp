@@ -368,6 +368,9 @@ bool Equation::looksLikeFunction( ) const
 		
 		case Implicit:
 			return false;
+            
+        case Constant:
+            return false;
 	}
 	
 	return true;
@@ -376,6 +379,9 @@ bool Equation::looksLikeFunction( ) const
 
 void Equation::updateVariables()
 {
+    if ( type() == Constant )
+        return;
+    
 	m_variables.clear();
 	
 	if ( looksLikeFunction() )
@@ -405,6 +411,9 @@ void Equation::updateVariables()
 		case Implicit:
 			m_variables << "x" << "y";
 			break;
+            
+        case Constant:
+            break;
 	}
 	
 	// If we are a differential equation, then add on y, y', etc
@@ -442,6 +451,9 @@ bool Equation::usesParameter( ) const
 		case Differential:
 			expectedNumVariables = order()+1;
 			break;
+            
+        case Constant:
+            return false;
 	}
 	
 	return variables().size() > expectedNumVariables;

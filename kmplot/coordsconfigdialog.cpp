@@ -50,6 +50,8 @@ CoordsConfigDialog::CoordsConfigDialog(QWidget *parent)
 	setCaption( i18n( "Coordinate System" ) );
 	setHelp("axes-config");
 	setFaceType( Plain );
+	connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+	connect(this,SIGNAL(applyClicked()),this,SLOT(slotApply()));
 }
 
 CoordsConfigDialog::~CoordsConfigDialog()

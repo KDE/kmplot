@@ -242,10 +242,10 @@ public:
 	virtual KParts::Part* createPartObject( QWidget *parentWidget,
 	                                        QObject *parent,
 	                                        const char *classname, const QStringList &args );
-	static KInstance* instance();
+	static const KComponentData &componentData();
 
 private:
-	static KInstance* s_instance;
+	static KComponentData *s_instance;
 	static KAboutData* s_about;
 };
 

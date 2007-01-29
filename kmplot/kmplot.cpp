@@ -202,7 +202,7 @@ void KmPlot::optionsConfigureKeys()
 
 void KmPlot::optionsConfigureToolbars()
 {
-	saveMainWindowSettings(KGlobal::config() );
+	saveMainWindowSettings(KGlobal::config().data());
 	// use the standard toolbar editor
 	KEditToolbar dlg(factory());
 	connect(&dlg, SIGNAL(newToolbarConfig()), this, SLOT(applyNewToolbarConfig()));
@@ -211,7 +211,7 @@ void KmPlot::optionsConfigureToolbars()
 
 void KmPlot::applyNewToolbarConfig()
 {
-	applyMainWindowSettings(KGlobal::config());
+	applyMainWindowSettings(KGlobal::config().data());
 }
 
 void KmPlot::fileOpen()

@@ -40,7 +40,7 @@
 #include <kedittoolbar.h>
 #include <kimageio.h>
 #include <kio/netaccess.h>
-#include <kinstance.h>
+#include <kcomponentdata.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -134,7 +134,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_self = this;
 
 	// we need an instance
-	setInstance( KmPlotPartFactory::instance() );
+	setComponentData( KmPlotPartFactory::componentData() );
 
 	kDebug() << "parentWidget->objectName():" << parentWidget->objectName() << endl;
 	if ( QString(parentWidget->objectName()).startsWith("KmPlot") )
@@ -170,7 +170,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	XParser::self()->constants()->load();
 	kmplotio = new KmPlotIO();
 	m_config = KGlobal::config();
-	m_recentFiles->loadEntries( m_config );
+	m_recentFiles->loadEntries( m_config.data() );
 
 
 	//BEGIN undo/redo stuff
@@ -217,7 +217,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 
 MainDlg::~MainDlg()
 {
-	m_recentFiles->saveEntries( m_config );
+	m_recentFiles->saveEntries( m_config.data() );
 	XParser::self()->constants()->save();
 	delete kmplotio;
 }
@@ -801,7 +801,7 @@ CoordsConfigDialog * MainDlg::coordsDialog( )
 #include <ktoolinvocation.h>
 #include <kglobal.h>
 
-KInstance*  KmPlotPartFactory::s_instance = 0L;
+KComponentData *KmPlotPartFactory::s_instance = 0L;
 KAboutData* KmPlotPartFactory::s_about = 0L;
 
 KmPlotPartFactory::KmPlotPartFactory()
@@ -825,14 +825,14 @@ KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget,
 	return obj;
 }
 
-KInstance* KmPlotPartFactory::instance()
+const KComponentData &KmPlotPartFactory::componentData()
 {
 	if( !s_instance )
 	{
 		s_about = new KAboutData("kmplot",I18N_NOOP( "KmPlotPart" ), "1");
-		s_instance = new KInstance(s_about);
+		s_instance = new KComponentData(s_about);
 	}
-	return s_instance;
+	return *s_instance;
 }
 
 extern "C"

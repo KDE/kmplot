@@ -37,6 +37,7 @@
 #include <kaction.h>
 #include <kfiledialog.h>
 #include <kmenu.h>
+#include <kconfig.h>
 #include <kstandarddirs.h>
 #include <kparts/browserextension.h>
 #include <kparts/part.h>
@@ -164,7 +165,7 @@ private:
 	/// true == modifications not saved
 	bool m_modified;
 	///An instance of the application config file
-	KConfig* m_config;
+	KSharedConfigPtr m_config;
 	///A Configure KmPlot dialog instance
 	KConfigDialog* m_settingsDialog;
 	///The General page for the Configure KmPlot dialog
@@ -242,10 +243,10 @@ public:
 	virtual KParts::Part* createPartObject( QWidget *parentWidget,
 	                                        QObject *parent,
 	                                        const char *classname, const QStringList &args );
-	static KInstance* instance();
+	static const KComponentData &componentData();
 
 private:
-	static KInstance* s_instance;
+	static KComponentData *s_instance;
 	static KAboutData* s_about;
 };
 

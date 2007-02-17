@@ -166,21 +166,6 @@ void KmPlot::setupActions()
 	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 }
 
-void KmPlot::saveProperties(KConfig* /*config*/)
-{
-	// the 'config' object points to the session managed
-	// config file.  anything you write here will be available
-	// later when this app is restored
-}
-
-void KmPlot::readProperties(KConfig* /*config*/)
-{
-	// the 'config' object points to the session managed
-	// config file.  this function is automatically called whenever
-	// the app is being restored.  read in here whatever you wrote
-	// in 'saveProperties'
-}
-
 void KmPlot::fileNew()
 {
 	// About this function, the style guide (

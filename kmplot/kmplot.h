@@ -60,19 +60,6 @@ public:
 	bool load(const KUrl& url);
 
 protected:
-	/**
-	 * This method is called when it is time for the app to save its
-	 * properties for session management purposes.
-	 */
-	void saveProperties(KConfigGroup &);
-
-	/**
-	 * This method is called when this app is restored.  The KConfig
-	 * object points to the session management config file that was saved
-	 * with @ref saveProperties
-	 */
-	void readProperties(const KConfigGroup &);
-
 	/// Quits KmPlot after checking if modifications shall be saved.
  	virtual bool queryClose();
 

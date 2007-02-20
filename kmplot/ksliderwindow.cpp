@@ -83,10 +83,10 @@ KSliderWindow::KSliderWindow( QWidget * parent ) :
 		setWhatsThis( i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
 
 		// load the min and max value + the current value
-		config.setGroup( "slider" + QString::number(i) );
-		m_sliders[i]->setMinimum( config.readEntry( "min", 0) );
-		m_sliders[i]->setMaximum( config.readEntry( "max", 100) );
-		m_sliders[i]->setValue( config.readEntry( "value", 50) );
+		KConfigGroup group = config.group("slider" + QString::number(i));
+		m_sliders[i]->setMinimum( group.readEntry( "min", 0) );
+		m_sliders[i]->setMaximum( group.readEntry( "max", 100) );
+		m_sliders[i]->setValue( group.readEntry( "value", 50) );
 		m_sliders[i]->setPageStep( (int)ceil((abs(m_sliders[i]->minimum()) + abs(m_sliders[i]->maximum()))/10.) );
 
 		m_sliders[i]->installEventFilter(this);
@@ -118,10 +118,10 @@ KSliderWindow::~KSliderWindow()
 
 	for ( unsigned i = 0; i < SLIDER_COUNT; ++i )
 	{
-		config.setGroup( "slider" + QString::number(i) );
-		config.writeEntry( "min", m_sliders[i]->minimum() );
-		config.writeEntry( "max", m_sliders[i]->maximum() );
-		config.writeEntry( "value", m_sliders[i]->value() );
+		KConfigGroup group = config.group("slider" + QString::number(i) );
+		group.writeEntry( "min", m_sliders[i]->minimum() );
+		group.writeEntry( "max", m_sliders[i]->maximum() );
+		group.writeEntry( "value", m_sliders[i]->value() );
 	}
 }
 

@@ -142,15 +142,15 @@ void Constants::load()
 	/// \todo Need more robust way of exchanging constants with kcalc
 	
 	KConfig conf ("kcalcrc", KConfig::OnlyLocal);
-	conf.setGroup("UserConstants");
+	KConfigGroup group = conf.group("UserConstants");
 	QString tmp;
 	
 	for( int i=0; ;i++)
 	{
 		tmp.setNum(i);
-		QString name = conf.readEntry("nameConstant"+tmp, QString(" "));
-		QString expression = conf.readEntry("expressionConstant"+tmp, QString(" "));
-		QString value = conf.readEntry("valueConstant"+tmp, QString(" ") );
+		QString name = group.readEntry("nameConstant"+tmp, QString(" "));
+		QString expression = group.readEntry("expressionConstant"+tmp, QString(" "));
+		QString value = group.readEntry("valueConstant"+tmp, QString(" ") );
 		
 		if ( name == " " )
 			return;
@@ -183,7 +183,7 @@ void Constants::save()
 	// remove any previously saved constants
 	conf.deleteGroup( "UserConstants" );
 	
-	conf.setGroup("UserConstants");
+	KConfigGroup group = conf.group("UserConstants");
 	QString tmp;
 	
 	ConstantList global = list( Constant::Global );
@@ -192,9 +192,9 @@ void Constants::save()
 	for ( ConstantList::iterator it = global.begin(); it != global.end(); ++it )
 	{
 		tmp.setNum(i);
-		conf.writeEntry( "nameConstant"+tmp, it.key() ) ;
-		conf.writeEntry( "expressionConstant"+tmp, it.value().value.expression() );
-		conf.writeEntry( "valueConstant"+tmp, it.value().value.value() );
+		group.writeEntry( "nameConstant"+tmp, it.key() ) ;
+		group.writeEntry( "expressionConstant"+tmp, it.value().value.expression() );
+		group.writeEntry( "valueConstant"+tmp, it.value().value.value() );
 		
 		i++;
 	}

@@ -166,21 +166,6 @@ void KmPlot::setupActions()
 	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
 }
 
-void KmPlot::saveProperties(KConfig* /*config*/)
-{
-	// the 'config' object points to the session managed
-	// config file.  anything you write here will be available
-	// later when this app is restored
-}
-
-void KmPlot::readProperties(KConfig* /*config*/)
-{
-	// the 'config' object points to the session managed
-	// config file.  this function is automatically called whenever
-	// the app is being restored.  read in here whatever you wrote
-	// in 'saveProperties'
-}
-
 void KmPlot::fileNew()
 {
 	// About this function, the style guide (
@@ -202,7 +187,7 @@ void KmPlot::optionsConfigureKeys()
 
 void KmPlot::optionsConfigureToolbars()
 {
-	saveMainWindowSettings(KGlobal::config().data());
+	saveMainWindowSettings( KGlobal::config()->group( QString() ));
 	// use the standard toolbar editor
 	KEditToolbar dlg(factory());
 	connect(&dlg, SIGNAL(newToolbarConfig()), this, SLOT(applyNewToolbarConfig()));
@@ -211,7 +196,7 @@ void KmPlot::optionsConfigureToolbars()
 
 void KmPlot::applyNewToolbarConfig()
 {
-	applyMainWindowSettings(KGlobal::config().data());
+	applyMainWindowSettings(KGlobal::config()->group( QString() ));
 }
 
 void KmPlot::fileOpen()

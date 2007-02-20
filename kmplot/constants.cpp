@@ -27,7 +27,7 @@
 #include "constants.h"
 #include "xparser.h"
 
-#include <ksimpleconfig.h>
+#include <kconfig.h>
 
 
 //BEGIN class Constant
@@ -141,7 +141,7 @@ void Constants::load()
 {
 	/// \todo Need more robust way of exchanging constants with kcalc
 	
-	KSimpleConfig conf ("kcalcrc");
+	KConfig conf ("kcalcrc", KConfig::OnlyLocal);
 	conf.setGroup("UserConstants");
 	QString tmp;
 	
@@ -177,7 +177,7 @@ void Constants::load()
 
 void Constants::save()
 {
-	KSimpleConfig conf ("kcalcrc");
+	KConfig conf ("kcalcrc", KConfig::OnlyLocal);
 	conf.deleteGroup("Constants");
 	
 	// remove any previously saved constants

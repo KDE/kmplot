@@ -37,7 +37,7 @@
 #include <kaction.h>
 #include <kfiledialog.h>
 #include <kmenu.h>
-#include <kconfig.h>
+#include <ksharedconfig.h>
 #include <kstandarddirs.h>
 #include <kparts/browserextension.h>
 #include <kparts/part.h>

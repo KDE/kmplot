@@ -170,7 +170,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	XParser::self()->constants()->load();
 	kmplotio = new KmPlotIO();
 	m_config = KGlobal::config();
-	m_recentFiles->loadEntries( m_config.data() );
+	m_recentFiles->loadEntries( m_config->group( QString() ) );
 
 
 	//BEGIN undo/redo stuff
@@ -217,7 +217,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 
 MainDlg::~MainDlg()
 {
-	m_recentFiles->saveEntries( m_config.data() );
+        m_recentFiles->saveEntries( m_config->group( QString() ) );
 	XParser::self()->constants()->save();
 	delete kmplotio;
 }

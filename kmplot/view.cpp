@@ -43,7 +43,6 @@ extern "C" int isinf(double);
 #include <QPicture>
 #include <qslider.h>
 #include <qtimer.h>
-#include <qtooltip.h>
 #include <QPixmap>
 #include <QPaintEvent>
 #include <QKeyEvent>

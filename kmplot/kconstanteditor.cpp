@@ -29,7 +29,6 @@
 #include "view.h"
 #include "xparser.h"
 
-#include <kapplication.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
 #include <klocale.h>

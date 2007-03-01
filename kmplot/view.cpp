@@ -59,7 +59,6 @@ extern "C" int isinf(double);
 // KDE includes
 #include <kaction.h>
 #include <kactioncollection.h>
-#include <kapplication.h>
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kiconloader.h>

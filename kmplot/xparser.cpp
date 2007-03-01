@@ -28,7 +28,6 @@
 #include "xparser.h"
 
 // KDE includes
-#include <kapplication.h>
 #include <kglobal.h>
 #include <kinputdialog.h>
 #include <klocale.h>

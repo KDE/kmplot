@@ -25,6 +25,7 @@
 #include "kmplot.h"
 
 #include <kaction.h>
+#include <kapplication.h>
 #include <kconfig.h>
 #include <kedittoolbar.h>
 #include <kkeydialog.h>

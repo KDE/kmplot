@@ -39,7 +39,6 @@
 #include <QStyleOptionButton>
 #include <QtGlobal>
 #include <QVBoxLayout>
-#include <QWhatsThis>
 
 const double SQRT_3 = 1.732050808;
 const double ArrowLength = 8;

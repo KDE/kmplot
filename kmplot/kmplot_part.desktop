@@ -2,6 +2,12 @@
 Encoding=UTF-8
 Icon=kmplot
 Name=KmPlotPart
+Name[cs]=KmPlot part
+Name[et]=KmPloti komponent
+Name[pl]=Część osadzalna KPart programu KmPlot
+Name[pt_BR]=Componente do KmPlot
+Name[sv]=Kmplot-delprogram
+Name[ta]=கேஎம்பிளாட்பகுதி
 Name[x-test]=xxKmPlotPartxx
 MimeType=application/x-kmplot
 ServiceTypes=KParts/ReadOnlyPart

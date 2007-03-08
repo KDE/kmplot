@@ -272,13 +272,13 @@ void MainDlg::setupActions()
 	QAction * zoomIn = actionCollection()->addAction( "zoom_in" );
         zoomIn->setText( i18n("Zoom &In") );
 	zoomIn->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_1) );
-	zoomIn->setIcon( KIcon("viewmag+") );
+	zoomIn->setIcon( KIcon("zoom-in") );
 	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
 
 	QAction * zoomOut = actionCollection()->addAction( "zoom_out" );
         zoomOut->setText(i18n("Zoom &Out"));
 	zoomOut->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_2) );
-	zoomOut->setIcon( KIcon("viewmag-") );
+	zoomOut->setIcon( KIcon("zoom-out") );
 	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT( zoomOut() ) );
 
 	QAction * zoomTrig = actionCollection()->addAction( "zoom_trig" );
@@ -386,7 +386,7 @@ void MainDlg::setupActions()
 
 	QAction *mnuRemove = actionCollection()->addAction( "mnuremove"  );
         mnuRemove->setText(i18n("&Remove"));
-	mnuRemove->setIcon( KIcon("editdelete") );
+	mnuRemove->setIcon( KIcon("edit-delete") );
 	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT( removeCurrentPlot() ) );
 	m_popupmenu->addAction( mnuRemove );
 

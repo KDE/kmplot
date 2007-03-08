@@ -66,11 +66,11 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 	m_timer = new QTimer( this );
 	connect( m_timer, SIGNAL(timeout()), this, SLOT(step()) );
 	
-	m_widget->gotoInitial->setIcon( KIcon( "2leftarrow" ) );
-	m_widget->gotoFinal->setIcon( KIcon( "2rightarrow" ) );
-	m_widget->stepBackwards->setIcon( KIcon( "1leftarrow" ) );
-	m_widget->stepForwards->setIcon( KIcon( "1rightarrow" ) );
-	m_widget->pause->setIcon( KIcon( "player_pause" ) );
+	m_widget->gotoInitial->setIcon( KIcon( "arrow-left-double" ) );
+	m_widget->gotoFinal->setIcon( KIcon( "arrow-right-double" ) );
+	m_widget->stepBackwards->setIcon( KIcon( "arrow-left" ) );
+	m_widget->stepForwards->setIcon( KIcon( "arrow-right" ) );
+	m_widget->pause->setIcon( KIcon( "media-playback-pause" ) );
 	
 	connect( m_widget->gotoInitial, SIGNAL(clicked()), this, SLOT(gotoInitial()) );
 	connect( m_widget->gotoFinal, SIGNAL(clicked()), this, SLOT(gotoFinal()) );

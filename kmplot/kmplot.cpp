@@ -191,7 +191,7 @@ void KmPlot::optionsConfigureToolbars()
 	saveMainWindowSettings( KGlobal::config()->group( QString() ));
 	// use the standard toolbar editor
 	KEditToolbar dlg(factory());
-	connect(&dlg, SIGNAL(newToolbarConfig()), this, SLOT(applyNewToolbarConfig()));
+	connect(&dlg, SIGNAL(newToolBarConfig()), this, SLOT(applyNewToolbarConfig()));
 	dlg.exec();
 }
 

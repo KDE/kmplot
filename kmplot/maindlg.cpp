@@ -488,7 +488,7 @@ void MainDlg::slotSave()
 {
 	if ( !m_modified || m_readonly) //don't save if no changes are made or readonly is enabled
 		return;
-	if ( m_url.isEmpty() )            // if there is no file name set yet
+	if ( url().isEmpty() )            // if there is no file name set yet
 		slotSaveas();
 	else
 	{
@@ -500,7 +500,7 @@ void MainDlg::slotSave()
 			if ( KMessageBox::warningContinueCancel( m_parent, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of KmPlot. Are you sure you want to continue?" ), QString(), KGuiItem(i18n("Save New Format")) ) == KMessageBox::Cancel)
 				return;
 		}
-		kmplotio->save( m_url );
+		kmplotio->save( this->url() );
 		kDebug() << "saved" << endl;
 		m_modified = false;
 	}
@@ -531,9 +531,9 @@ void MainDlg::slotSaveas()
 		KMessageBox::error(m_parent, i18n("The file could not be saved") );
 	else
 	{
-		m_url = url;
+		setUrl(url);
 		m_recentFiles->addUrl( url );
-		setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
+		setWindowCaption( this->url().prettyUrl(KUrl::LeaveTrailingSlash) );
 		m_modified = false;
 	}
 }
@@ -608,15 +608,15 @@ void MainDlg::slotExport()
 bool MainDlg::openFile()
 {
 	View::self()->init();
-	if (m_url==m_currentfile || !kmplotio->load( m_url ) )
+	if (url()==m_currentfile || !kmplotio->load( url() ) )
 	{
-		m_recentFiles->removeUrl(m_url ); //remove the file from the recent-opened-file-list
-		m_url = "";
+		m_recentFiles->removeUrl( url() ); //remove the file from the recent-opened-file-list
+		setUrl(KUrl());
 		return false;
 	}
-	m_currentfile = m_url;
-	m_recentFiles->addUrl( m_url.prettyUrl(KUrl::LeaveTrailingSlash)  );
-	setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
+	m_currentfile = url();
+	m_recentFiles->addUrl( url().prettyUrl(KUrl::LeaveTrailingSlash)  );
+	setWindowCaption( url().prettyUrl(KUrl::LeaveTrailingSlash) );
 	m_modified = false;
 	View::self()->updateSliders();
 	View::self()->drawPlot();
@@ -631,7 +631,7 @@ bool MainDlg::saveFile()
 
 void MainDlg::slotOpenRecent( const KUrl &url )
 {
- 	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
+ 	if( isModified() || !this->url().isEmpty() ) // open the file in a new window
  	{
 // 		QByteArray data;
 // 		QDataStream stream( &data,QIODevice::WriteOnly);
@@ -648,9 +648,10 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 		m_recentFiles->removeUrl(url ); //remove the file from the recent-opened-file-list
 		return;
 	}
-    m_url = m_currentfile = url;
+    m_currentfile = url;
+    setUrl(url);
     m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
-    setWindowCaption( m_url.prettyUrl(KUrl::LeaveTrailingSlash) );
+    setWindowCaption( this->url().prettyUrl(KUrl::LeaveTrailingSlash) );
     m_modified = false;
     View::self()->updateSliders();
     View::self()->drawPlot();

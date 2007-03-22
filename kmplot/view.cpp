@@ -3365,7 +3365,7 @@ QString View::posToString( double x, double delta, PositionFormatting format, QC
 
 void View::mouseMoveEvent(QMouseEvent *e)
 {
-	if ( m_isDrawing )
+	if ( m_isDrawing || !e)
 		return;
 
 	bool inBounds = updateCrosshairPosition();

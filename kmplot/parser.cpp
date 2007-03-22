@@ -101,6 +101,7 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"ceil", 0, ceil},					// round up to nearest integer
 	{"round", 0, round},				// round to nearest integer
 	{"gamma", 0, tgamma},			// gamma function
+	{"lgamma", 0, lgamma},			// log-gamma function
 	{"factorial", 0, factorial},		// factorial
 	
 	// legendre

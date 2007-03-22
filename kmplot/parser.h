@@ -87,7 +87,7 @@ enum Token
 
 
 const int legendreCount = 7; // number of legendre polynomials we allow for
-const int ScalarCount = 37+legendreCount;	// number of mathematical scalar functions
+const int ScalarCount = 38+legendreCount;	// number of mathematical scalar functions
 const int VectorCount = 3; // number of vector functions
 //@}
 

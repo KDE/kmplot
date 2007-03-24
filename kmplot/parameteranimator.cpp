@@ -33,6 +33,11 @@
 #include <cmath>
 using namespace std;
 
+double inline log(int n)
+{
+	return log(double(n));
+}
+
 class ParameterAnimatorWidget : public QWidget, public Ui::ParameterAnimator
 {
 	public:

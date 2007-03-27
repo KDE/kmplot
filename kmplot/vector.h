@@ -35,9 +35,9 @@ class Value;
 class Vector
 {
 	public:
-		Vector() {};
-		Vector( int size ) : m_data(size) {};
-		Vector( const Vector & other ) : m_data( other.m_data ) {};
+		Vector() {}
+		Vector( int size ) : m_data(size) {}
+		Vector( const Vector & other ) : m_data( other.m_data ) {}
 		
 		int size() const { return m_data.size(); }
 		void resize( int s ) { if ( size() != s ) m_data.resize( s ); }

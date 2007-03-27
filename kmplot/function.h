@@ -475,7 +475,7 @@ class Function
 		/**
 		 * Sets the current working parameter (which is used in calculations).
 		 */
-		void setParameter( double p ) { k = p; };
+		void setParameter( double p ) { k = p; }
 		/**
 		 * The function parameter, as set by e.g. a slider.
 		 */

@@ -23,16 +23,6 @@
 *
 */
 
-#if defined(__APPLE__) || defined(_WIN32)
-// work around an OSX <cmath> bug; is there a proper way to fix this?
-#ifndef isnan
-extern "C" int isnan(double);
-#endif
-#ifndef isinf
-extern "C" int isinf(double);
-#endif
-#endif
-
 // Qt includes
 #include <QAbstractTextDocumentLayout>
 #include <qbitmap.h>
@@ -83,6 +73,18 @@ extern "C" int isinf(double);
 
 
 //BEGIN nan & inf
+
+#if defined(__APPLE__) || defined(_WIN32)
+// work around an OSX <cmath> bug; is there a proper way to fix this?
+#ifndef isnan
+extern "C" int isnan(double);
+#endif
+#ifndef isinf
+extern "C" int isinf(double);
+#endif
+#endif
+
+
 #ifdef __osf__
 #include <nan.h>
 #define isnan(x) IsNAN(x)
@@ -103,7 +105,6 @@ int isinf(double x)
         return !finite(x) && x==x;
 }
 #endif
-
 //END nan & inf
 
 
@@ -948,24 +949,25 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 			s = posToString( d, ticSepX.value()*2, View::ScientificFormat, axesColor );
 			
 		m_textDocument->setHtml( s );
-		QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
+		double idealWidth = m_textDocument->idealWidth();
+		double idealHeight = m_textDocument->size().height();
 			
-		double x_pos = xToPixel(d)-(br.width()/2);
+		double x_pos = xToPixel(d)-(idealWidth/2);
 		
 		double y_pos;
 		if ( m_ymin < -ticSepY.value() )
 		{
-			y_pos = y+dy-(br.height()/2);
+			y_pos = y+dy-(idealHeight/2);
 				
-			double over = m_clipRect.bottom() - (y_pos + br.height());
+			double over = m_clipRect.bottom() - (y_pos + idealHeight);
 			if ( over < 0 )
 				y_pos += over;
 		}
 		else
-			y_pos = y-dy-(br.height()/2);
+			y_pos = y-dy-(idealHeight/2);
 		
 		double x_start = x_pos;
-		double x_end = x_start + br.width();
+		double x_end = x_start + idealWidth;
 		
 		// Use a minimum spacing between labels
 		if ( (last_x_start < x_start) && pixelsToMillimeters( x_start - last_x_end, painter->device() ) < 7 )
@@ -1023,9 +1025,10 @@ void View::drawYAxisLabels( QPainter *painter )
 		
 		m_textDocument->setHtml( s );
 			
-		QRectF br = m_textDocument->documentLayout()->frameBoundingRect( m_textDocument->rootFrame() );
+		double idealWidth = m_textDocument->idealWidth();
+		double idealHeight = m_textDocument->size().height();
 			
-		QPointF drawPoint( 0, yToPixel(d)-(br.height()/2) );
+		QPointF drawPoint( 0, yToPixel(d)-(idealHeight/2) );
 			
 		if ( m_xmin > -ticSepX.value() )
 		{
@@ -1033,7 +1036,7 @@ void View::drawYAxisLabels( QPainter *painter )
 		}
 		else
 		{
-			drawPoint.setX( x-dx-br.width() );
+			drawPoint.setX( x-dx-idealWidth );
 				
 			if ( drawPoint.x() < 0 )
 			{
@@ -1186,7 +1189,7 @@ double View::getXmax( Function * function, bool overlapEdge )
 			if ( overlapEdge )
 				max += (m_xmax-m_xmin)*0.02;
 			
-			if ( function->usecustomxmin )
+			if ( function->usecustomxmax )
 				return qMin( max, function->dmax.value() );
 			else
 				return max;

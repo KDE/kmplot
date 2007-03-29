@@ -417,7 +417,7 @@ void Equation::updateVariables()
 	}
 	
 	// If we are a differential equation, then add on y, y', etc
-	if ( type() == Differential )
+	if ( type() == Differential && !name().isEmpty() )
 	{
 		QString n = name();
 		

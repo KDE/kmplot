@@ -28,7 +28,7 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kedittoolbar.h>
-#include <kkeydialog.h>
+#include <kshortcutsdialog.h>
 #include <kfiledialog.h>
 #include <klibloader.h>
 #include <klocale.h>
@@ -182,8 +182,8 @@ void KmPlot::fileNew()
 void KmPlot::optionsConfigureKeys()
 {
 	/// \todo check that configuring keys works
-// 	KKeyDialog::configure(actionCollection(), "kmplot_shell.rc");
-	KKeyDialog::configure( actionCollection() );
+// 	KShortcutsDialog::configure(actionCollection(), "kmplot_shell.rc");
+	KShortcutsDialog::configure( actionCollection() );
 }
 
 void KmPlot::optionsConfigureToolbars()

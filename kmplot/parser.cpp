@@ -604,23 +604,55 @@ void Parser::initEquation( Equation * eq, Error * error, int * errorPosition )
 
 bool Parser::removeFunction( Function * item )
 {
-	foreach ( Function * it, m_ufkt )
+	// Build up a list of functions that need to be removed is this function is removed
+	QList<Function *> toRemove;
+	QStringList otherRemoveNames;
+	QList<Function *> newFunctions; // Added since the last iteration
+	
+	toRemove << item;
+	newFunctions << item;
+	
+	while ( ! newFunctions.isEmpty() )
 	{
-		if ( it == item )
-			continue;
+		QList<Function *> currentFunctions = newFunctions;
+		newFunctions.clear();
 		
-		if ( it->dependsOn( item ) )
+		foreach ( Function *f, currentFunctions )
 		{
-			KMessageBox::sorry(0,i18n("This function is depending on an other function"));
-			return false;
+			foreach ( Function *other, m_ufkt )
+			{
+				if ( (other==f) || toRemove.contains(other) )
+					continue;
+				
+				if ( other->dependsOn( f ) )
+				{
+					toRemove << other;
+					otherRemoveNames << other->name();
+					newFunctions << other;
+				}
+			}
 		}
 	}
 	
-	uint const id = item->id();
-	m_ufkt.remove(id);
-	delete item;
+	if ( toRemove.size() > 1 )
+	{
+		KGuiItem buttonContinue = KStandardGuiItem::cont();
+		buttonContinue.setText( i18n("Remove all") );
+		
+		int answer = KMessageBox::warningContinueCancel( 0, i18n( "The function %1 is depended upon by the following functions: %2. These must be removed in addition.", item->name(), otherRemoveNames.join(", ") ), QString(), buttonContinue );
+		
+		if ( answer == KMessageBox::Cancel )
+			return false;
+	}
 	
-	emit functionRemoved( id );
+	foreach ( Function *f, toRemove )
+	{
+		uint id = f->id();
+		m_ufkt.remove( id );
+		delete f;
+		emit functionRemoved( id );
+	}
+	
 	return true;
 }
 

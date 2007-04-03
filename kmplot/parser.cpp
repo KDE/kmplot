@@ -323,7 +323,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 	double (**pScalarFunction)(double);
 	double (**pVectorFunction)(const Vector &);
 	uint *pUint;
-	eq->mptr = eq->mem;
+	eq->mptr = eq->mem.data();
 	
 	// Start with zero in our stackpointer
 	// 
@@ -339,7 +339,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			{
 				pDouble=(double*)eq->mptr;
 				*stkptr=*pDouble++;
-				eq->mptr=(unsigned char*)pDouble;
+				eq->mptr=(char*)pDouble;
 				break;
 			}
 				
@@ -349,7 +349,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				uint var = *pUint++;
 				assert( int(var) < x.size() );
 				*stkptr = x[var];
-				eq->mptr = (unsigned char*)pUint;
+				eq->mptr = (char*)pUint;
 				break;
 			}
 				
@@ -405,7 +405,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			{
 				pUint = (uint*)eq->mptr;
 				uint whichPM = *pUint++;
-				eq->mptr = (unsigned char*)pUint;
+				eq->mptr = (char*)pUint;
 				
 				assert( int(whichPM) < eq->pmSignature().size() );				
 				bool plus = eq->pmSignature()[ whichPM ];
@@ -467,7 +467,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			{
 				pScalarFunction=(double(**)(double))eq->mptr;
 				*stkptr=(*pScalarFunction++)(*stkptr);
-				eq->mptr=(unsigned char*)pScalarFunction;
+				eq->mptr=(char*)pScalarFunction;
 				break;
 			}
 				
@@ -475,7 +475,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			{
 				pUint = (uint*)eq->mptr;
 				int numArgs = *pUint++;
-				eq->mptr = (unsigned char*)pUint;
+				eq->mptr = (char*)pUint;
 						
 				pVectorFunction = (double(**)(const Vector &))eq->mptr;
 				
@@ -486,7 +486,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				stkptr[1-numArgs] = (*pVectorFunction++)(args);
 				stkptr -= numArgs-1;
 				
-				eq->mptr = (unsigned char*)pVectorFunction;
+				eq->mptr = (char*)pVectorFunction;
 				break;
 			}
 				
@@ -509,7 +509,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 					stkptr -= numArgs-1;
 				}
 				
-				eq->mptr=(unsigned char*)pUint;
+				eq->mptr=(char*)pUint;
 				break;
 			}
 			
@@ -584,7 +584,8 @@ void Parser::initEquation( Equation * eq, Error * error, int * errorPosition )
 	*errorPosition = -1;
 	
 	m_currentEquation = eq;
-	mem = mptr = eq->mem;
+	mem = & eq->mem;
+	mptr = mem->data();
 	m_pmAt = 0;
 	
 	m_eval = eq->fstr();
@@ -1044,12 +1045,18 @@ bool Parser::match( const QString & lit )
 }
 
 
+void Parser::growEqMem( int growth )
+{
+	int pos = mptr - mem->data();
+	mem->resize( mem->size() + growth );
+	mptr = mem->data() + pos;
+}
+
+
 void Parser::addToken( Token token )
 {
-	if ( mptr>=&mem[MEMSIZE-10] )
-		*m_error = MemoryOverflow;
-	else
-		*mptr++=token;
+	growEqMem( sizeof(Token) );
+	*mptr++=token;
 }
 
 
@@ -1057,77 +1064,61 @@ void Parser::addConstant(double x)
 {
 	addToken(KONST);
 	
+	growEqMem( sizeof(double) );
 	double *pd=(double*)mptr;
-
-	if(mptr>=&mem[MEMSIZE-10])
-		*m_error = MemoryOverflow;
-	else
-	{
-		*pd++=x;
-		mptr=(unsigned char*)pd;
-	}
+	
+	*pd++=x;
+	mptr=(char*)pd;
 }
 
 
 void Parser::adduint(uint x)
 {
+	growEqMem( sizeof(uint) );
 	uint *p=(uint*)mptr;
-
-	if(mptr>=&mem[MEMSIZE-10])
-		*m_error = MemoryOverflow;
-	else
-	{
-		*p++=x;
-		mptr=(unsigned char*)p;
-	}
+	*p++=x;
+	mptr=(char*)p;
 }
 
 
-void Parser::addfptr(double(*fadr)(double))
+void Parser::addfptr( double(*fadr)(double) )
 {
-	double (**pf)(double)=(double(**)(double))mptr;
+	typedef double(**sfPtr)(double);
 	
-	if( mptr>=&mem[MEMSIZE-10] )
-		*m_error = MemoryOverflow;
-	else
-	{
-		*pf++=fadr;
-		mptr=(unsigned char*)pf;
-	}
+	growEqMem( sizeof(sfPtr) );
+// 	double (**pf)(double)=(double(**)(double))mptr;
+	
+	sfPtr pf = (sfPtr)mptr;
+	*pf++=fadr;
+	mptr=(char*)pf;
 }
 
 
-void Parser::addfptr( double(*fadr)(const Vector & ), int argCount )
+void Parser::addfptr( double(*fadr)(const Vector &), int argCount )
 {
+	typedef double(**vfPtr)(const Vector &);
+	
+	growEqMem( sizeof(uint) );
 	uint *p = (uint*)mptr;
 	*p++ = argCount;
-	mptr = (unsigned char*)p;
+	mptr = (char*)p;
 	
-	double (**pf)(const Vector &) = (double(**)(const Vector &))mptr;
-	
-	if( mptr>=&mem[MEMSIZE-10] )
-		*m_error = MemoryOverflow;
-	else
-	{
-		*pf++=fadr;
-		mptr=(unsigned char*)pf;
-	}
+	growEqMem( sizeof(vfPtr) );
+	vfPtr pf = (vfPtr)mptr;
+	*pf++=fadr;
+	mptr=(char*)pf;
 }
 
 
 void Parser::addfptr( uint id, uint eq_id, uint args )
 {
-	uint *p=(uint*)mptr;
+	growEqMem( 3*sizeof(uint) );
 	
-	if(mptr>=&mem[MEMSIZE-10])
-		*m_error=MemoryOverflow;
-	else
-	{
-		*p++=id;
-		*p++=eq_id;
-		*p++=args;
-		mptr=(unsigned char*)p;
-	}
+	uint *p=(uint*)mptr;
+	*p++=id;
+	*p++=eq_id;
+	*p++=args;
+	mptr=(char*)p;
 }
 
 
@@ -1161,9 +1152,6 @@ QString Parser::errorString( Error error )
 			
 		case UnknownFunction:
 			return i18n("Function name unknown");
-			
-		case MemoryOverflow:
-			return i18n("Token-memory overflow");
 			
 		case StackOverflow:
 			return i18n("Stack overflow");
@@ -1507,9 +1495,10 @@ void ExpressionSanitizer::fixExpression( QString * str )
 		ch = str->at(i);
 		
 		bool chIsFunctionLetter = false;
-		chIsFunctionLetter |= ch.category()==QChar::Letter_Lowercase;
-		chIsFunctionLetter |= (ch == 'H');
-		chIsFunctionLetter |= (ch == 'P') && (str->at(i+1) == QChar('_'));
+// 		chIsFunctionLetter |= ch.category()==QChar::Letter_Lowercase;
+		chIsFunctionLetter |= ch.isLetter();
+// 		chIsFunctionLetter |= (ch == 'H');
+// 		chIsFunctionLetter |= (ch == 'P') && (str->at(i+1) == QChar('_'));
 		chIsFunctionLetter |= (ch == '_' );
 		chIsFunctionLetter |= (ch.isNumber() && (str->at(i-1) == QChar('_')));
 		

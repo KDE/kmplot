@@ -56,8 +56,7 @@ class Parser;
 
 // Voreinstellungen bei Verwendung des Standardkonstruktors :
 
-#define	MEMSIZE		500	///< memory size for tokens
-#define	STACKSIZE	100	///< stack depth
+#define	STACKSIZE	1000  	///< stack depth
 
 //@{
 /** Token type. */
@@ -221,7 +220,6 @@ class Parser : public QObject
 			SyntaxError,
 			MissingBracket,
 			UnknownFunction,
-			MemoryOverflow,
 			StackOverflow,
 			FunctionNameReused , ///< function name already used
 			RecursiveFunctionCall,
@@ -378,9 +376,9 @@ class Parser : public QObject
 		 */
 		int readFunctionArguments();
         
-		unsigned char
-			*mem, 			    // Zeiger auf Speicher fr Token
-			*mptr;			    // Zeiger fr Token
+		void growEqMem( int growth );
+		QByteArray *mem; ///< Pointer to the array of tokens for the current equation being parsed
+		char *mptr; ///< Pointer to the next position of insertion for the parsed equation data
 		double * m_stack;
 		double * stkptr;
 		QString m_eval;

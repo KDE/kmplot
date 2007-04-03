@@ -283,7 +283,6 @@ Equation::Equation( Type type, Function * parent )
 	: m_type( type ),
 	  m_parent( parent )
 {
-	mem = new unsigned char [MEMSIZE];
 	mptr = 0;
 	
 	if ( type == Differential || type == Cartesian )
@@ -296,8 +295,6 @@ Equation::Equation( Type type, Function * parent )
 
 Equation::~ Equation()
 {
-	delete [] mem;
-	mem = 0;
 }
 
 

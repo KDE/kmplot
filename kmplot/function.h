@@ -28,6 +28,7 @@
 
 #include "vector.h"
 
+#include <QByteArray>
 #include <QColor>
 #include <QFlags>
 #include <QGradient>
@@ -266,11 +267,11 @@ class Equation
 		/**
 		 * Pointer to the allocated memory for the tokens.
 		 */
-		unsigned char *mem;
+		QByteArray mem;
 		/**
-		 * Pointer to the token.
+		 * Array index to the token.
 		 */
-		unsigned char *mptr;
+		char *mptr;
 		/**
 		 * @return a pointer to Function parent of this Equation.
 		 */

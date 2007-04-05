@@ -45,7 +45,7 @@ class EditFunction : public KDialogBase
 		/// @param name of this instance.
 		EditFunction( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
 		/// Nothing special to do.
-		virtual ~EditFunction() {};
+		virtual ~EditFunction() {}
 		/// Fill the dialog's widgets with the properties of the parser function number index.
 		void initDialog( int id = -1 );
 		/// Returns a pointer to the added/updated function

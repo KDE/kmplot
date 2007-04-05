@@ -42,7 +42,7 @@ class KEditParametric : public QEditParametric
 		/// @param name of this instance.
 		KEditParametric( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
 		/// Nothing special to do.
-		virtual ~KEditParametric() {};
+		virtual ~KEditParametric() {}
 		
 		/// Fill the dialog's widgets with the properties of the parser function number id.
 		void initDialog( int x_id = -1, int y_id = -1 );

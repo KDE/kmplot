@@ -103,8 +103,8 @@ class ParameterValueItem
 		{
 			expression = e;
 			value = v;
-		};
-		ParameterValueItem() {;};
+		}
+		ParameterValueItem() {;}
 		QString expression;
 		double value;
 };
@@ -117,7 +117,7 @@ class Ufkt
 		Ufkt();
 		~Ufkt();
 		/// Sets the parameter 
-		void setParameter(double const &p) {k = p; };
+		void setParameter(double const &p) {k = p; }
         
 		uint id;
 		unsigned char *mem;     ///< Pointer to the allocated memory for the tokens.
@@ -163,7 +163,7 @@ public:
 	{
 	constant = c;
 	value = v;
-	};
+	}
 	
 	char constant;
 	double value;

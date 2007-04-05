@@ -42,7 +42,7 @@ class KEditPolar : public QEditPolar
 		/// @param name of this instance.
 		KEditPolar( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
 		/// Nothing special to do.
-		virtual ~KEditPolar() {};
+		virtual ~KEditPolar() {}
 		
 		///Fill the dialog widgets with the properties of the parser function number id.
 		void initDialog( int id = -1 );

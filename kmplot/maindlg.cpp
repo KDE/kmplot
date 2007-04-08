@@ -24,11 +24,11 @@
 */
 
 // Qt includes
-#include <Q3Picture>
 #include <QMainWindow>
 #include <QPainter>
 #include <QPixmap>
-#include <qslider.h>
+#include <QSlider>
+#include <QSvgGenerator>
 #include <QTimer>
 
 // KDE includes
@@ -558,17 +558,27 @@ void MainDlg::slotExport()
 
 	if ( isSvg )
 	{
-		Q3Picture img;
-		View::self()->draw( &img, View::SVG );
+		QSvgGenerator img;
+		img.setSize( View::self()->size() );
+		
+		QFile file;
+		KTemporaryFile tmp;
+		
 		if ( url.isLocalFile() )
-			saveOk = img.save( url.path(), "SVG" );
+		{
+			file.setFileName( url.path() );
+			img.setOutputDevice( &file );
+		}
 		else
 		{
-			KTemporaryFile tmp;
-			tmp.open();
-			img.save( tmp.fileName(), "SVG" );
-			saveOk = KIO::NetAccess::upload(tmp.fileName(), url, 0);
+			tmp.setSuffix( ".svg" );
+			img.setOutputDevice( &tmp );
 		}
+		
+		View::self()->draw( &img, View::SVG );
+		
+		if ( !url.isLocalFile() )
+			saveOk &= KIO::NetAccess::upload(tmp.fileName(), url, 0);
 	}
 	else
 	{

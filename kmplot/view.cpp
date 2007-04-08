@@ -857,6 +857,10 @@ void View::drawLabels( QPainter *painter )
  */
 QString tryPiFraction( double d, double sep )
 {
+	// Avoid strange bug where get pi at large separation
+	if ( sep > 10 )
+		return QString();
+	
 	bool positive = d > 0;
 	
 	d /= M_PI;
@@ -893,7 +897,7 @@ QString tryPiFraction( double d, double sep )
 void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 {
 	QColor axesColor = Settings::axesColor();
-	int const dy = 15;
+	int const dy = 8;
 	
 	double const y = yToPixel(0.);
 	
@@ -952,19 +956,13 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 		double idealWidth = m_textDocument->idealWidth();
 		double idealHeight = m_textDocument->size().height();
 			
-		double x_pos = xToPixel(d)-(idealWidth/2);
+		double x_pos = xToPixel(d)-(idealWidth/2)-4;
+		if ( x_pos < 0 )
+			continue;
 		
-		double y_pos;
-		if ( m_ymin < -ticSepY.value() )
-		{
-			y_pos = y+dy-(idealHeight/2);
-				
-			double over = m_clipRect.bottom() - (y_pos + idealHeight);
-			if ( over < 0 )
-				y_pos += over;
-		}
-		else
-			y_pos = y-dy-(idealHeight/2);
+		double y_pos = y+dy;
+		if ( (y_pos+idealHeight) > m_clipRect.bottom() )
+			y_pos = y-dy-idealHeight;
 		
 		double x_start = x_pos;
 		double x_end = x_start + idealWidth;
@@ -1044,6 +1042,10 @@ void View::drawYAxisLabels( QPainter *painter )
 				drawPoint.setX( 0 );
 			}
 		}
+		
+		// Shouldn't have the label cut off by the bottom of the view
+		if ( drawPoint.y() + idealHeight > m_clipRect.height() )
+			continue;
 			
 		painter->translate( drawPoint );
 		m_textDocument->documentLayout()->draw( painter, QAbstractTextDocumentLayout::PaintContext() );

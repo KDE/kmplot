@@ -80,6 +80,11 @@ class KmPlotIO
 		bool restore( const QDomDocument & doc);
 		
 		/**
+		 * Adds all the functions in such an order that when loading, if a function depends on
+		 * another function, then that other function has already been specified.
+		 */
+		void addFunctions( QDomDocument & doc, QDomElement & root );
+		/**
 		 * Adds a QDomElement for \p function to the given \p document
 		 */
 		void addFunction( QDomDocument & doc, QDomElement & root, Function * function );

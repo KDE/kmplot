@@ -107,9 +107,7 @@ QDomDocument KmPlotIO::currentState()
 
 	root.appendChild( tag );
 	
-	foreach ( Function * it, XParser::self()->m_ufkt )
-		addFunction( doc, root, it );
-	
+	addFunctions( doc, root );
 	addConstants( doc, root );
 
 	tag = doc.createElement( "fonts" );
@@ -171,6 +169,50 @@ void KmPlotIO::addConstants( QDomDocument & doc, QDomElement & root )
 		root.appendChild( tag );
 		tag.setAttribute( "name", it.key() );
 		tag.setAttribute( "value", it.value().value.expression() );
+	}
+}
+
+
+void KmPlotIO::addFunctions( QDomDocument & doc, QDomElement & root )
+{
+	// List of dependent functions that haven't been saved yet
+	typedef QMap< Function*, QList<int> > Dependencies;
+	Dependencies functions;
+	
+	foreach ( Function *f, XParser::self()->m_ufkt )
+		functions[f] = f->m_dependencies;
+	
+	while ( !functions.isEmpty() )
+	{
+		bool removed = false;
+		
+		for ( Dependencies::iterator it = functions.begin(); it != functions.end(); )
+		{
+			if ( !it->isEmpty() )
+			{
+				++it;
+				continue;
+			}
+		
+			Function *f = it.key();
+			it = functions.erase( it );
+			removed = true;
+		
+			addFunction( doc, root, f );
+		
+			for ( Dependencies::iterator it2 = functions.begin(); it2 != functions.end(); ++it2 )
+			{
+				it2->removeAll( f->id() );
+			}
+		}
+		
+		if ( !removed )
+		{
+			kWarning() << k_funcinfo << "Something strange has happened with function dependencies (recursive dependencies?)" << endl;
+			
+			// Avoid infinite recursion
+			return;
+		}
 	}
 }
 

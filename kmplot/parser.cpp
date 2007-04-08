@@ -531,6 +531,7 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 	QString str[2] = { str1, str2 };
 	
 	Function * temp = new Function( type );
+	temp->setId( getNewId() );
 	
 	for ( int i = 0; i < 2; ++i )
 	{
@@ -555,7 +556,6 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		}
 	}
 	
-	temp->setId( getNewId() );
 	m_ufkt[ temp->id() ] = temp;
 	
 	temp->plotAppearance( Function::Derivative0 ).color = temp->plotAppearance( Function::Derivative1 ).color = temp->plotAppearance( Function::Derivative2 ).color = temp->plotAppearance( Function::Integral ).color = XParser::self()->defaultColor( temp->id() );

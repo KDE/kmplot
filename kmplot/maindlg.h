@@ -139,12 +139,8 @@ public slots:
 	void slotSettings();
 	/// Calls the common function names dialog.
 	void slotNames();
-	/// Change the coordinate systems, shows negative x-values and negative y-values.
-	void slotCoord1();
-	/// Change the coordinate systems, shows positive x-values and negative y-values.
-	void slotCoord2();
-	/// Change the coordinate systems, shows positive x-values and positive y-values.
-	void slotCoord3();
+	/// Resets the view
+	void slotResetView();
 	/// Tools menu
 	void getYValue();
 	void findMinimumValue();

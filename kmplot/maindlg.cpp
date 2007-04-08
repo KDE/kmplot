@@ -52,6 +52,7 @@
 #include <krecentfilesaction.h>
 #include <kactioncollection.h>
 #include <kicon.h>
+#include <kiconloader.h>
 
 // local includes
 #include "functiontools.h"
@@ -285,20 +286,10 @@ void MainDlg::setupActions()
         zoomTrig->setText( i18n("&Fit Widget to Trigonometric Functions") );
 	connect( zoomTrig, SIGNAL(triggered(bool)), View::self(), SLOT( zoomToTrigonometric() ) );
 
-	QAction * coordI = actionCollection()->addAction( "coord_i" );
-        coordI->setText( i18n( "Coordinate System I" ) );
-	coordI->setIcon( KIcon("ksys1.png") );
-	connect( coordI, SIGNAL(triggered(bool)), this, SLOT( slotCoord1() ) );
-
-	QAction * coordII = actionCollection()->addAction( "coord_ii" );
-        coordII->setText( i18n( "Coordinate System II" ) );
-	coordII->setIcon( KIcon("ksys2.png") );
-	connect( coordII, SIGNAL(triggered(bool)), this, SLOT( slotCoord2() ) );
-
-	QAction * coordIII = actionCollection()->addAction( "coord_iii" );
-        coordIII->setText( i18n( "Coordinate System III" ) );
-	coordIII->setIcon( KIcon("ksys3.png") );
-	connect( coordIII, SIGNAL(triggered(bool)), this, SLOT( slotCoord3() ) );
+	QAction * resetView = actionCollection()->addAction( "reset_view" );
+	resetView->setText( i18n( "Reset View" ) );
+	resetView->setIcon( KIcon("resetview") );
+	connect( resetView, SIGNAL(triggered(bool)), this, SLOT( slotResetView() ) );
 	//END view menu
 
 
@@ -690,21 +681,9 @@ void MainDlg::slotNames()
 }
 
 
-void MainDlg::slotCoord1()
+void MainDlg::slotResetView()
 {
 	View::self()->animateZoom( QRectF( -8, -8, 16, 16 ) );
-	m_modified = true;
-}
-
-void MainDlg::slotCoord2()
-{
-	View::self()->animateZoom( QRectF( 0, -8, 16, 16 ) );
-	m_modified = true;
-}
-
-void MainDlg::slotCoord3()
-{
-	View::self()->animateZoom( QRectF( 0, 0, 16, 16 ) );
 	m_modified = true;
 }
 

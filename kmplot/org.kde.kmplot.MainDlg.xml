@@ -10,9 +10,7 @@
     <method name="slotExport"/>
     <method name="slotSettings"/>
     <method name="slotNames"/>
-    <method name="slotCoord1"/>
-    <method name="slotCoord2"/>
-    <method name="slotCoord3"/>
+    <method name="slotResetView"/>
     <method name="getYValue"/>
     <method name="findMinimumValue"/>
     <method name="findMaximumValue"/>

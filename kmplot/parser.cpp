@@ -122,6 +122,24 @@ VectorFunction Parser::vectorFunctions[ VectorCount ]=
 };
 
 
+/**
+ * Order by longest string first, useful in parsing since we want to at each point
+ * match the longest string first, so e.g. "sinh(x)" should't be read as "sin(h) * x"
+ */
+class LengthOrderedString : public QString
+{
+	public:
+		LengthOrderedString() {}
+		LengthOrderedString( const QString & s ) : QString(s) {}
+		
+		bool operator <( const LengthOrderedString & other ) const
+		{
+			return (length() > other.length()) ||
+					((length() == other.length()) && (QString::operator<(other)));
+		}
+};
+
+
 
 //BEGIN class Parser
 Parser::Parser()
@@ -977,7 +995,12 @@ bool Parser::tryConstant()
 	}
 	
 	ConstantList constants = m_constants->list( Constant::All );
+	
+	QMap<LengthOrderedString, Constant> orderedConstants;
 	for ( ConstantList::iterator i = constants.begin(); i != constants.end(); ++i )
+		orderedConstants[ i.key() ] = i.value();
+	
+	for ( QMap<LengthOrderedString, Constant>::iterator i = orderedConstants.begin(); i != orderedConstants.end(); ++i )
 		CHECK_CONSTANT( i.key(), i.value().value.value() );
 	
 	// Or a predefined constant?
@@ -1365,6 +1388,9 @@ double mod( const Vector & args )
 
 
 //BEGIN class ExpressionSanitizer
+enum StringType { ConstantString, NumberString, UnknownLetter, FunctionString, Other };
+
+
 ExpressionSanitizer::ExpressionSanitizer( Parser * parser )
 	: m_parser( parser )
 {
@@ -1482,75 +1508,71 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	}
 	//END replace e.g. |x+2| with abs(x+2)
 	
-	
+	/// \TODO This could be a possible bug! I don't know much about other locales
+	/// and decimal points, but if they use commas, then this would screw up functions
+	/// that accept multiple arguments
 	str->replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
 	
-	//insert '*' when it is needed
-	QChar ch;
-	bool function = false;
-	QStringList predefinedFunctions = XParser::self()->predefinedFunctions( true );
+	//BEGIN build up strings
+	QMap< LengthOrderedString, StringType > strings;
 	
-	for(int i=1; i+1 <  str->length();i++)
+	QStringList predefinedFunctions = XParser::self()->predefinedFunctions( true );
+	foreach ( QString f, predefinedFunctions )
+		strings[f] = FunctionString;
+	
+	foreach ( Function * it, m_parser->m_ufkt )
 	{
-		ch = str->at(i);
-		
-		bool chIsFunctionLetter = false;
-// 		chIsFunctionLetter |= ch.category()==QChar::Letter_Lowercase;
-		chIsFunctionLetter |= ch.isLetter();
-// 		chIsFunctionLetter |= (ch == 'H');
-// 		chIsFunctionLetter |= (ch == 'P') && (str->at(i+1) == QChar('_'));
-		chIsFunctionLetter |= (ch == '_' );
-		chIsFunctionLetter |= (ch.isNumber() && (str->at(i-1) == QChar('_')));
-		
-		if ( str->at(i+1)=='(' && chIsFunctionLetter )
-		{
-			// Work backwards to build up the full function name
-			QString str_function(ch);
-			int n=i-1;
-			while (n>0 && ((str->at(n).category() == QChar::Letter_Lowercase) || (str->at(n) == QChar('_')) || (str->at(n) == QChar('P')) && (str->at(n+1) == QChar('_'))) )
-			{
-				str_function.prepend(str->at(n));
-				--n;
-			}
-			
-			if ( predefinedFunctions.contains( str_function ) )
-				function = true;
-				
-			if ( !function )
-			{
-				// Not a predefined function, so search through the user defined functions (e.g. f(x), etc)
-				// to see if it is one of those
-				foreach ( Function * it, m_parser->m_ufkt )
-				{
-					for ( int j=i; j>0 && (str->at(j).isLetter() || str->at(j).isNumber() ) ; --j)
-					{
-						foreach ( Equation * eq, it->eq )
-						{
-							if ( eq->name() == str->mid(j,i-j+1) )
-								function = true;
-						}
-					}
-				}
-			}
-		}
-		else  if (function)
-			function = false;
-		
-		bool chIsNumeric = ((ch.isNumber() && (str->at(i-1) != QChar('_'))) || m_parser->m_constants->have( ch ));
-				
-		if ( chIsNumeric && ( str->at(i-1).isLetter() || str->at(i-1) == ')' ) || (ch.isLetter() && str->at(i-1)==')') )
-		{
-			insert(i,'*');
-// 			kDebug() << "inserted * before\n";
-		}
-		else if( (chIsNumeric || ch == ')') && ( str->at(i+1).isLetter() || str->at(i+1) == '(' ) || (ch.isLetter() && str->at(i+1)=='(' && !function ) )
-		{
-			insert(i+1,'*');
-//  			kDebug() << "inserted * after, function="<<function<<" ch="<<ch<<"\n";
-			i++;
-		}
+		foreach ( Equation * eq, it->eq )
+			strings[eq->name()] = FunctionString;
 	}
-// 	kDebug() << "str:" << *str << endl;
+	
+	QStringList constantNames = m_parser->constants()->names();
+	foreach ( QString name, constantNames )
+		strings[name] = ConstantString;
+	//END build up strings
+	
+	StringType prevType = Other;
+	
+	for(int i=1; i < str->length(); )
+	{
+		int incLength = 1;
+		StringType currentType = Other;
+		QChar ch = str->at(i);
+		
+		QString remaining = str->right( str->length() - i );
+		
+		for ( QMap< LengthOrderedString, StringType >::iterator it = strings.begin(); it != strings.end(); ++it )
+		{
+			if ( !remaining.startsWith( it.key() ) )
+				continue;
+			
+			currentType = it.value();
+			incLength = it.key().length();
+			break;
+		}
+		
+		if ( currentType == Other )
+		{
+			if ( ch.isNumber() || (ch == '.') )
+				currentType = NumberString;
+		}
+		
+		if ( (currentType == Other) )
+		{
+			if ( ch.isLetter() )
+				currentType = UnknownLetter; // probably a variable
+		}
+		
+		if ( ((currentType == FunctionString) || (ch == '(') || (currentType == UnknownLetter) || (currentType == ConstantString)) &&
+					 ((prevType == NumberString) || (prevType == ConstantString) || (prevType == UnknownLetter) || (str->at(i-1) == ')')) )
+		{
+			insert( i, '*' );
+			incLength++;
+		}
+		
+		prevType = currentType;
+		i += incLength;
+	}
 }
 
 

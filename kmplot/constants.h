@@ -116,6 +116,10 @@ class Constants : public QObject
 		 * \return a copy of the list of constants.
 		 */
 		ConstantList list( int type ) const;
+		/**
+		 * \return a list of the constant names.
+		 */
+		QStringList names() const { return m_constants.keys(); }
 		
 	signals:
 		/**

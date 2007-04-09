@@ -55,6 +55,7 @@
 #include <kiconloader.h>
 
 // local includes
+#include "calculator.h"
 #include "functiontools.h"
 #include "functioneditor.h"
 #include "kprinterdlg.h"
@@ -167,6 +168,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	setWidget( View::self() );
 	View::self()->setFocusPolicy(Qt::ClickFocus);
 	m_functionTools = new FunctionTools(m_parent);
+	m_calculator = new Calculator( m_parent );
 	setupActions();
 	XParser::self()->constants()->load();
 	kmplotio = new KmPlotIO();
@@ -294,9 +296,10 @@ void MainDlg::setupActions()
 
 
 	//BEGIN tools menu
-	QAction *mnuYValue = actionCollection()->addAction( "yvalue" );
-        mnuYValue->setText( i18n( "Plot &Value..." ) );
-	connect( mnuYValue, SIGNAL(triggered(bool)), this, SLOT( getYValue() ) );
+	QAction *mnuCalculator = actionCollection()->addAction( "calculator" );
+	mnuCalculator->setText( i18n( "Calculator") );
+	mnuCalculator->setIcon( KIcon("exec") );
+	connect( mnuCalculator, SIGNAL(triggered(bool)), this, SLOT( calculator() ) );
 
 	QAction *mnuArea = actionCollection()->addAction( "grapharea" );
         mnuArea->setText( i18n( "Plot &Area..." ) );
@@ -389,7 +392,7 @@ void MainDlg::setupActions()
 	m_popupmenu->addAction( animateFunction );
 	m_popupmenu->addSeparator();
 
-	m_popupmenu->addAction( mnuYValue );
+	m_popupmenu->addAction( mnuCalculator );
 	m_popupmenu->addAction( mnuMinValue );
 	m_popupmenu->addAction( mnuMaxValue );
 	m_popupmenu->addAction( mnuArea );
@@ -542,6 +545,17 @@ void MainDlg::slotExport()
 
 	KUrl url = kfd->selectedUrl();
 	delete kfd;
+	
+	bool exists = KIO::NetAccess::exists( url,false,m_parent );
+	if ( exists )
+	{
+		// check if file exists and overwriting is ok.
+
+		int answer = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) );
+
+		if ( answer != KMessageBox::Continue )
+			return;
+	}
 
 	KMimeType::Ptr mimeType = KMimeType::findByUrl( url );
 	kDebug() << k_funcinfo << "mimetype: " << mimeType->name() << endl;
@@ -712,10 +726,9 @@ void MainDlg::updateSettings()
 }
 
 
-void MainDlg::getYValue()
+void MainDlg::calculator()
 {
-	m_functionTools->init( FunctionTools::CalculateY );
-	m_functionTools->show();
+	m_calculator->show();
 }
 
 void MainDlg::findMinimumValue()

@@ -194,6 +194,8 @@ class EquationEditor : public KDialog
 		 */
 		QString text() const;
 		
+		EquationEdit *edit() const;
+		
 	protected slots:
 		void insertFunction( const QString & text );
 		/**

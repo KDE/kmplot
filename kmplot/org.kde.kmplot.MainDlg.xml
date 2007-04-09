@@ -11,7 +11,7 @@
     <method name="slotSettings"/>
     <method name="slotNames"/>
     <method name="slotResetView"/>
-    <method name="getYValue"/>
+    <method name="calculator"/>
     <method name="findMinimumValue"/>
     <method name="findMaximumValue"/>
     <method name="graphArea"/>

@@ -325,24 +325,24 @@ void EquationEdit::slotTextChanged( )
 	
 	if ( m_replaceMap.isEmpty() )
 	{
-// 		m_replaceMap[ '*' ] = QChar(0xd7);
+		m_replaceMap[ '*' ] = QChar(0x2219);
 		m_replaceMap[ '-' ] = MinusSymbol;
 		m_replaceMap[ '|' ] = AbsSymbol;
 	}
 	
 	QTextCursor cursor;
-	cursor.beginEditBlock();
 	for ( CharMap::iterator i = m_replaceMap.begin(); i != m_replaceMap.end(); ++i )
 	{
 		int at = 0;
 		while ( !(cursor = doc->find( i.key(), at )).isNull() )
 		{
+			cursor.joinPreviousEditBlock();
 			at = cursor.position()+1;
 			cursor.deleteChar();
 			cursor.insertText( i.value() );
+		 	cursor.endEditBlock();
 		}
 	}
-	cursor.endEditBlock();
 	
 	m_cleaningText = false;
 	//END tidy up mathematical characters
@@ -601,6 +601,12 @@ void EquationEditor::updateConstantList( )
 QString EquationEditor::text() const
 {
 	return m_widget->edit->text();
+}
+
+
+EquationEdit * EquationEditor::edit() const
+{
+	return m_widget->edit;
 }
 
 

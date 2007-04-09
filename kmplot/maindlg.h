@@ -51,6 +51,7 @@
 #include "kmplotio.h"
 
 class BrowserExtension;
+class Calculator;
 class FunctionEditor;
 class FunctionTools;
 class KConfigDialog;
@@ -142,7 +143,7 @@ public slots:
 	/// Resets the view
 	void slotResetView();
 	/// Tools menu
-	void getYValue();
+	void calculator();
 	void findMinimumValue();
 	void findMaximumValue();
 	void graphArea();
@@ -175,6 +176,8 @@ private:
 
 	/// A dialog used by many tools-menu-items
 	FunctionTools *m_functionTools;
+	/// The calculator dialog
+	Calculator *m_calculator;
 	/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
 	KMenu *m_popupmenu;
 	/// the popup that shows when clicking on the new plot button in the function editor

@@ -46,12 +46,9 @@ FunctionTools::FunctionTools(QWidget *parent )
 	
 	// Adjust margins
 	m_widget->layout()->setMargin( 0 );
-	for ( int i = 0; i < 2; ++ i )
-		m_widget->stack->widget( i )->layout()->setMargin( 0 );
 	
-	init( CalculateY );
+	init( CalculateArea );
 	
-	connect( m_widget->xValue, SIGNAL(textChanged(const QString &)), this, SLOT(xChanged()) );
 	connect( m_widget->min, SIGNAL(editingFinished()), this, SLOT(rangeEdited()) );
 	connect( m_widget->max, SIGNAL(editingFinished()), this, SLOT(rangeEdited()) );
 	connect( m_widget->list, SIGNAL(currentRowChanged(int)), this, SLOT(equationSelected(int)) );
@@ -89,26 +86,11 @@ void FunctionTools::init( Mode m )
 			setCaption(i18n("Area Under Graph"));
 			break;
 		}
-		
-		case CalculateY:
-		{
-			setCaption(i18n("Get y-Value"));
-			break;
-		}
 	}
 	
-	if ( m_mode == CalculateY )
-	{
-		m_widget->xValue->setFocus();
-		m_widget->stack->setCurrentIndex( 0 );
-	}
-	else
-	{
-		m_widget->min->setText( XParser::self()->number( View::self()->m_xmin ) );
-		m_widget->max->setText( XParser::self()->number( View::self()->m_xmax ) );
-		m_widget->min->setFocus();
-		m_widget->stack->setCurrentIndex( 1 );
-	}
+	m_widget->min->setText( XParser::self()->number( View::self()->m_xmin ) );
+	m_widget->max->setText( XParser::self()->number( View::self()->m_xmax ) );
+	m_widget->min->setFocus();
 	
 	updateEquationList();
 	setEquation( EquationPair( View::self()->m_currentPlot, 0 ) );
@@ -121,13 +103,10 @@ void FunctionTools::updateEquationList()
 	
 	m_widget->list->clear();
 	m_equations.clear();
-	
-	// Can't e.g. calculate areas for parametric equations
-	bool onlyCartesianLike = (m_mode != CalculateY); 
 
 	foreach ( Function * function, XParser::self()->m_ufkt )
 	{
-		if ( onlyCartesianLike && function->type() != Function::Cartesian && function->type() != Function::Differential )
+		if ( function->type() != Function::Cartesian && function->type() != Function::Differential )
 			continue;
 		
 		QList<Plot> plots = function->plots();
@@ -186,20 +165,10 @@ void FunctionTools::equationSelected( int equation )
 			findMaximum( current );
 			break;
 			
-		case CalculateY:
-			calculateY( current );
-			break;
-			
 		case CalculateArea:
 			calculateArea( current );
 			break;
 	}
-}
-
-
-void FunctionTools::xChanged()
-{
-	calculateY( equation() );
 }
 
 
@@ -218,26 +187,7 @@ void FunctionTools::rangeEdited()
 		case CalculateArea:
 			calculateArea( equation() );
 			break;
-			
-		case CalculateY:
-			return;
 	}
-}
-
-
-void FunctionTools::calculateY( const EquationPair & equation )
-{
-	if ( !equation.first.function() )
-		return;
-	
-	double result = View::self()->value( equation.first, equation.second, m_widget->xValue->value(), true );
-	
-	Equation * eq = equation.first.function()->eq[ equation.second ];
-	
-	m_widget->yResult->setText( QString( "%1(%2) = %3" )
-			.arg( eq->name() )
-			.arg( m_widget->xValue->text() )
-			.arg( XParser::self()->number( result ) ) );
 }
 
 

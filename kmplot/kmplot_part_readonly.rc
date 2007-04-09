@@ -24,7 +24,7 @@
 			<Separator />
 		</Menu>
 		<Menu name="tools"><text>&amp;Tools</text>
-			<Action name="yvalue"/>
+			<Action name="calculator"/>
 			<Action name="grapharea"/>
 			<Action name="maximumvalue"/>
 			<Action name="minimumvalue"/>

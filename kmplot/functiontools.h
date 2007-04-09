@@ -50,7 +50,6 @@ class FunctionTools : public KDialog
 		{
 			FindMinimum,
 			FindMaximum,
-			CalculateY,
 			CalculateArea
 		};
 		
@@ -78,10 +77,6 @@ class FunctionTools : public KDialog
 		 * Called when the min or max range changes.
 		 */
 		void rangeEdited();
-		/**
-		 * Called when the x value in the widget changes.
-		 */
-		void xChanged();
         
 	protected:
 		/**
@@ -102,11 +97,6 @@ class FunctionTools : public KDialog
 		 * Find the area under the graph
 		 */
 		void calculateArea( const EquationPair & equation );
-		/**
-		 * Calculates the value of the selected function for the currently
-		 * entered x value.
-		 */
-		void calculateY( const EquationPair & equation );
 	
 	private:
 		Mode m_mode;

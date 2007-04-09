@@ -47,6 +47,10 @@ public:
     ~KParameterEditor();
     
 public slots:
+	void moveUp();
+	void moveDown();
+	void prev();
+	void next();
     void cmdNew_clicked();
     void cmdDelete_clicked();
     void cmdImport_clicked();

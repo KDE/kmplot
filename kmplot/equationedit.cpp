@@ -481,6 +481,13 @@ void EquationEditWidget::keyPressEvent( QKeyEvent * e )
 	}
 	else
 	{
+		// Still pass these keys to QTextEdit, in case the user has to scroll
+		// up/down the text
+		if ( e->key() == Qt::Key_Up )
+			emit m_parent->upPressed();
+		else if ( e->key() == Qt::Key_Down )
+			emit m_parent->downPressed();
+		
 		QTextEdit::keyPressEvent( e );
 	}
 }

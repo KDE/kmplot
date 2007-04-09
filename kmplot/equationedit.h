@@ -143,6 +143,8 @@ class EquationEdit : public QWidget
 		void textEdited( const QString & text );
 		void textChanged( const QString & text );
 		void returnPressed();
+		void upPressed();
+		void downPressed();
 		
 	public Q_SLOTS:
 		void setText( const QString & text );

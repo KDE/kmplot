@@ -26,6 +26,7 @@
 
 #include <kdebug.h>
 #include <kfiledialog.h>
+#include <KIcon>
 #include <kinputdialog.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
@@ -52,16 +53,28 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	setButtons( Ok | Cancel );
 
 	m_mainWidget = new QParameterEditor( this );
+	m_mainWidget->layout()->setMargin( 0 );
 	setMainWidget( m_mainWidget );
-
-    setCaption( i18n("Parameter Editor") );
-    setButtons(  Ok|Cancel );
+	
+	m_mainWidget->cmdNew->setIcon( KIcon("document-new" ) );
+	m_mainWidget->cmdDelete->setIcon( KIcon("edit-delete" ) );
+	m_mainWidget->moveUp->setIcon( KIcon("go-up") );
+	m_mainWidget->moveDown->setIcon( KIcon("go-down") );
+	m_mainWidget->cmdImport->setIcon( KIcon("document-open") );
+	m_mainWidget->cmdExport->setIcon( KIcon("document-save") );
+	
+	m_mainWidget->list->setFocusPolicy( Qt::NoFocus );
+	
+	connect( m_mainWidget->value, SIGNAL(upPressed()), this, SLOT(prev()) );
+	connect( m_mainWidget->value, SIGNAL(downPressed()), this, SLOT(next()) );
 	
 	foreach ( const Value &v, *m_parameter )
 		m_mainWidget->list->addItem( v.expression() );
 	
 	connect( m_mainWidget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
 	connect( m_mainWidget->cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
+	connect( m_mainWidget->moveUp, SIGNAL(clicked()), this, SLOT(moveUp()) );
+	connect( m_mainWidget->moveDown, SIGNAL(clicked()), this, SLOT(moveDown()) );
 	connect( m_mainWidget->cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
 	connect( m_mainWidget->cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
 	connect( m_mainWidget->list, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(selectedConstantChanged( QListWidgetItem * )) );
@@ -100,11 +113,55 @@ void KParameterEditor::accept()
 }
 
 
+void KParameterEditor::moveUp()
+{
+	int current = m_mainWidget->list->currentRow();
+	
+	if ( current == 0 )
+		return;
+	
+	QListWidgetItem * item = m_mainWidget->list->takeItem( current-1 );
+	m_mainWidget->list->insertItem( current, item );
+}
+
+
+void KParameterEditor::moveDown()
+{
+	int current = m_mainWidget->list->currentRow();
+	
+	if ( current == m_mainWidget->list->count() - 1 )
+		return;
+	
+	QListWidgetItem * item = m_mainWidget->list->takeItem( current+1 );
+	m_mainWidget->list->insertItem( current, item );
+}
+
+
 void KParameterEditor::cmdNew_clicked()
 {
 	QListWidgetItem * item = new QListWidgetItem( m_mainWidget->list );
+	item->setText( "0" );
 	m_mainWidget->list->setCurrentItem( item );
 	m_mainWidget->value->setFocus();
+	m_mainWidget->value->selectAll();
+}
+
+
+void KParameterEditor::prev()
+{
+	int current = m_mainWidget->list->currentRow();
+	if ( current > 0 )
+		m_mainWidget->list->setCurrentRow( current-1 );
+}
+
+
+void KParameterEditor::next()
+{
+	int current = m_mainWidget->list->currentRow();
+	if ( current < m_mainWidget->list->count()-1 )
+		m_mainWidget->list->setCurrentRow( current+1 );
+	else
+		cmdNew_clicked();
 }
 
 
@@ -112,6 +169,7 @@ void KParameterEditor::selectedConstantChanged( QListWidgetItem * current )
 {
 	m_mainWidget->cmdDelete->setEnabled( current != 0 );
 	m_mainWidget->value->setText( current ? current->text() : QString::null );
+	m_mainWidget->value->selectAll();
 }
 
 

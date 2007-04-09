@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>QParameterEditor</class>
  <widget class="QWidget" name="QParameterEditor" >
   <property name="geometry" >
@@ -9,19 +6,16 @@
     <x>0</x>
     <y>0</y>
     <width>381</width>
-    <height>482</height>
+    <height>488</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Parameter Editor</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
-    <number>0</number>
-   </property>
-   <property name="spacing" >
-    <number>6</number>
-   </property>
+   <item row="0" column="0" >
+    <widget class="EquationEdit" name="value" />
+   </item>
    <item row="0" column="1" >
     <widget class="QLabel" name="valueInvalidLabel" >
      <property name="toolTip" >
@@ -32,8 +26,12 @@
      </property>
     </widget>
    </item>
-   <item rowspan="6" row="1" column="0" >
-    <widget class="QListWidget" name="list" />
+   <item rowspan="9" row="1" column="0" >
+    <widget class="QListWidget" name="list" >
+     <property name="selectionBehavior" >
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+    </widget>
    </item>
    <item row="1" column="1" >
     <widget class="KPushButton" name="cmdNew" >
@@ -81,6 +79,36 @@
     </spacer>
    </item>
    <item row="4" column="1" >
+    <widget class="QPushButton" name="moveUp" >
+     <property name="text" >
+      <string>Move Up</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" >
+    <widget class="QPushButton" name="moveDown" >
+     <property name="text" >
+      <string>Move Down</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType" >
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>51</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="7" column="1" >
     <widget class="KPushButton" name="cmdImport" >
      <property name="enabled" >
       <bool>true</bool>
@@ -96,7 +124,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="1" >
+   <item row="8" column="1" >
     <widget class="KPushButton" name="cmdExport" >
      <property name="enabled" >
       <bool>true</bool>
@@ -112,46 +140,31 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1" >
+   <item row="9" column="1" >
     <spacer>
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" >
       <size>
-       <width>71</width>
-       <height>281</height>
+       <width>102</width>
+       <height>121</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="0" column="0" >
-    <widget class="EquationEdit" name="value" />
-   </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
   <customwidget>
    <class>EquationEdit</class>
    <extends>KLineEdit</extends>
    <header>equationedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends></extends>
-   <header>klineedit.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends></extends>
-   <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <resources/>

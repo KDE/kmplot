@@ -536,7 +536,7 @@ EquationEditor::EquationEditor( QWidget * parent )
 	showButtonSeparator( true );
 	
 	QFont font;
-	double pointSize = font.pointSizeF() * 1.4;
+	double pointSize = font.pointSizeF() * 1.1;
 	font.setPointSizeF( pointSize );
 	m_widget->edit->m_equationEditWidget->document()->setDefaultFont( font );
 	m_widget->edit->m_equationEditWidget->recalculateGeometry();

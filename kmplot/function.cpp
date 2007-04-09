@@ -89,7 +89,7 @@ bool Value::operator == ( const Value & other ) const
 //BEGIN class PlotAppearance
 PlotAppearance::PlotAppearance( )
 {
-	lineWidth = 0.2;
+	lineWidth = 0.3;
 	color = Qt::black;
 	useGradient = false;
 	visible = false;
@@ -247,8 +247,6 @@ void DifferentialStates::setOrder( int order )
 
 DifferentialState * DifferentialStates::add()
 {
-	kDebug() << k_funcinfo << endl;
-	
 	if ( !m_uniqueState || m_data.isEmpty() )
 		m_data << DifferentialState( order() );
 	else

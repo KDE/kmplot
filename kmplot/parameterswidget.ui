@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ParametersWidget</class>
  <widget class="QWidget" name="ParametersWidget" >
   <property name="geometry" >
@@ -9,30 +6,42 @@
     <x>0</x>
     <y>0</y>
     <width>555</width>
-    <height>179</height>
+    <height>185</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Parameters</string>
   </property>
   <layout class="QGridLayout" >
-   <property name="margin" >
+   <property name="leftMargin" >
     <number>9</number>
    </property>
-   <property name="spacing" >
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
+   </property>
+   <property name="horizontalSpacing" >
+    <number>6</number>
+   </property>
+   <property name="verticalSpacing" >
     <number>6</number>
    </property>
    <item row="1" column="0" >
     <widget class="QCheckBox" name="useSlider" >
      <property name="text" >
-      <string>Use a slider:</string>
+      <string>Slider:</string>
      </property>
     </widget>
    </item>
    <item row="0" column="0" >
     <widget class="QCheckBox" name="useList" >
      <property name="text" >
-      <string>Use a list:</string>
+      <string>List:</string>
      </property>
     </widget>
    </item>
@@ -67,14 +76,11 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KPushButton</class>
-   <extends></extends>
+   <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <tabstops>

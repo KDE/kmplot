@@ -548,9 +548,9 @@ void View::drawAxes( QPainter* painter )
 	QColor axesColor = Settings::axesColor();
 	
 	painter->save();
-		
-	int const dx=7;
-	int const dy=4;
+	
+	double arrowWidth = ticLength*1.4;
+	double arrowLength = arrowWidth*2.8;
 	
 	painter->setPen( QPen( axesColor, axesLineWidth ) );
 	painter->setBrush( axesColor );
@@ -571,10 +571,12 @@ void View::drawAxes( QPainter* painter )
 	// arrow head
 	if ( Settings::showArrows())
 	{
+		a = m_clipRect.right();
+		
 		QPolygonF p(3);
 		p[0] = QPointF( a, b );
-		p[1] = QPointF( a-dx, b+dy );
-		p[2] = QPointF( a-dx, b-dy );
+		p[1] = QPointF( a-arrowLength, b+arrowWidth );
+		p[2] = QPointF( a-arrowLength, b-arrowWidth );
 		painter->drawPolygon( p );
 	}
 	//END draw x axis
@@ -596,10 +598,12 @@ void View::drawAxes( QPainter* painter )
 	// arrow head
 	if ( Settings::showArrows() )
 	{
+		b = 0;
+		
 		QPolygonF p(3);
 		p[0] = QPointF( a, b );
-		p[1] = QPointF( a-dy, b+dx );
-		p[2] = QPointF( a+dy, b+dx );
+		p[1] = QPointF( a-arrowWidth, b+arrowLength );
+		p[2] = QPointF( a+arrowWidth, b+arrowLength );
 		painter->drawPolygon( p );
 	}
 	//END draw y axis
@@ -921,6 +925,7 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 		{
 			// Draw x>0 first
 			d = qMax( ticSepX.value(), ticStartX );
+			last_x_end = xToPixel(0);
 			first = false;
 		}
 		else
@@ -932,6 +937,7 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 				{
 					// Continue on other side
 					d = qMin( -ticSepX.value(), ticStartX + floor((m_xmax-m_xmin)/ticSepX.value())*ticSepX.value() );
+					last_x_start = xToPixel(0);
 					forwards = false;
 				}
 			}
@@ -950,7 +956,7 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 		QString s = tryPiFraction( d, ticSepX.value() );
 		
 		if ( s.isEmpty() )
-			s = posToString( d, ticSepX.value()*2, View::ScientificFormat, axesColor );
+			s = posToString( d, ticSepX.value()*6, View::ScientificFormat, axesColor );
 			
 		m_textDocument->setHtml( s );
 		double idealWidth = m_textDocument->idealWidth();
@@ -991,7 +997,7 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 void View::drawYAxisLabels( QPainter *painter )
 {
 	QColor axesColor = Settings::axesColor();
-	int const dx=10;
+	int const dx = 12;
 	
 	double const x=xToPixel(0.);
 	
@@ -1004,7 +1010,7 @@ void View::drawYAxisLabels( QPainter *painter )
 			continue;
 		
 		// Don't draw too close to top
-		if ( (m_ymax-d) <= ticSepY.value() )
+		if ( (m_ymax-d) <= ticSepY.value()*0.6 )
 			continue;
 		
 		// Don't draw too close to bottom if the x axis is there
@@ -1014,12 +1020,7 @@ void View::drawYAxisLabels( QPainter *painter )
 		QString s = tryPiFraction( d, ticSepY.value() );
 		
 		if ( s.isEmpty() )
-		{
-			if ( (n>0 && (n%2 != 1)) || (n<0 && (n%2 != 0)) )
-				continue;
-			
-			s = posToString( d, ticSepY.value()*2, View::ScientificFormat, axesColor );
-		}
+			s = posToString( d, ticSepY.value()*6, View::ScientificFormat, axesColor );
 		
 		m_textDocument->setHtml( s );
 			
@@ -1893,6 +1894,9 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	
 	double dx = max_dx;
 	
+	double maxLength = quickDraw ? 8.0 : (function->plotAppearance( plot.plotMode ).style == Qt::SolidLine) ? 4.0 : 1.5;
+	double minLength = maxLength * 0.5;
+	
 	bool drawIntegral = m_integralDrawSettings.draw && (m_integralDrawSettings.plot == plot);
 	double totalLength = 0.0; // total pixel length; used for drawing dotted lines
 	
@@ -1957,8 +1961,8 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		
 		if ( QRectF(m_clipRect).intersects( bound ) )
 		{
-			dxTooBig = !dxAtMinimum && (length > (quickDraw ? 4.0 : 8.0));
-			dxTooSmall = !dxAtMaximum && (length < (quickDraw ? 2.0 : 4.0));
+			dxTooBig = !dxAtMinimum && (length > maxLength);
+			dxTooSmall = !dxAtMaximum && (length < minLength);
 		}
 		else
 			dxTooSmall = !dxAtMaximum;
@@ -1967,6 +1971,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		{
 			dx *= 0.5;
 			x = prevX + dx;
+			totalLength -= length;
 			continue;
 		}
 		
@@ -2774,8 +2779,10 @@ void View::paintEvent(QPaintEvent *)
 		}
 		
 		p.setPen( pen );
-		p.Lineh( 0, m_crosshairPixelCoords.y(), m_clipRect.right() );
-		p.Linev( m_crosshairPixelCoords.x(), m_clipRect.bottom(), 0 );
+		double x = m_crosshairPixelCoords.x();
+		double y = m_crosshairPixelCoords.y();
+		p.drawLine( QPointF( 0, y ), QPointF( m_clipRect.right(), y ) );
+		p.drawLine( QPointF( x, 0 ), QPointF( x, m_clipRect.height() ) );
 	}
 
 	p.end();

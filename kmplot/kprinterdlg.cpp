@@ -97,6 +97,11 @@ void KPrinterDlg::setOptions( const QMap<QString, QString>& opts )
 	double width = opts[ "app-kmplot-width" ].toDouble() / lengthScaling();
 	double height = opts[ "app-kmplot-height" ].toDouble() / lengthScaling();
 	
+	if ( width <= 0 )
+		width = 0.12 / lengthScaling();
+	if ( height <= 0 )
+		height = 0.12 / lengthScaling();
+	
 	m_widthEdit->setText( Parser::number( width ) );
 	m_heightEdit->setText( Parser::number( height ) );
 }

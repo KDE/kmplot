@@ -30,6 +30,7 @@
 #include "xparser.h"
 
 #include <kdebug.h>
+#include <KIcon>
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -62,6 +63,9 @@ KConstantEditor::KConstantEditor( QWidget * parent )
 	m_widget->layout()->setMargin( 0 );
 	setMainWidget( m_widget );
 	setButtons( Close );
+	
+	m_widget->cmdNew->setIcon( KIcon("document-new") );
+	m_widget->cmdDelete->setIcon( KIcon("edit-delete") );
 	
 	setCaption( i18n("Constants Editor") );
     

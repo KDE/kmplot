@@ -1529,7 +1529,10 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	QStringList constantNames = m_parser->constants()->names();
 	foreach ( QString name, constantNames )
 		strings[name] = ConstantString;
+	strings[QString("pi")] = ConstantString;
 	//END build up strings
+	
+	strings.remove( QString() );
 	
 	StringType prevType = Other;
 	

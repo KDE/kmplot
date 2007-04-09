@@ -2,6 +2,7 @@
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
 * Copyright (C) 2005  Fredrik Edemar <f_edemar@linux.se>
+*               2007  David Saxton <david@bluehaze.org>
 *
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -25,60 +26,54 @@
 #ifndef KSLIDERWINDOW_H
 #define KSLIDERWINDOW_H
 
-#include <kmenu.h>
+#include <KDialog>
+#include <QGroupBox>
 
-#include "ui_sliderwindow.h"
-#include <QEvent>
-#include <QCloseEvent>
-
-class KActionCollection;
-class SliderWindow;
+class SliderWidget;
+class QCloseEvent;
 
 /** @short Slider window for changing a parameter value */
 class KSliderWindow : public KDialog
 {
 	Q_OBJECT
 	public:
-		/// @param parent points to the parent widget.
-		/// @param ac KActionCollection to add KActions
-		KSliderWindow(QWidget* parent );
+		KSliderWindow( QWidget* parent );
 		virtual ~KSliderWindow();
 		
-		int value( int slider );
+		double value( int slider );
 
-	private slots:
-		void mnuMinValue_clicked();
-		void mnuMaxValue_clicked();
-
-	signals:
+	Q_SIGNALS:
 		/// emitted when the window has been closed
 		void windowClosed();
 		/// emitted when a slider value changes
 		void valueChanged();
 
-	private:
-		bool eventFilter( QObject *obj, QEvent *ev );
+	protected:
 		void closeEvent( QCloseEvent * );
-		void updateMinMaxValues();
 		
-		KMenu * m_popupmenu;
-		QSlider * m_sliders[4];
-		QLabel * m_minLabels[4];
-		QLabel * m_maxLabels[4];
-		SliderWindow * m_mainWidget;
-		
-		/// this is set to the clicked-on slider when right-clicking on a slider
-		QSlider * m_clickedOnSlider;
+		SliderWidget * m_sliders[4];
 };
 
 
-class SliderWindow : public QWidget, public Ui::SliderWindow
+#include "ui_sliderwidget.h"
+				 
+class SliderWidget : public QGroupBox, public Ui::SliderWidget
 {
+	Q_OBJECT
 	public:
-		SliderWindow( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
+		SliderWidget( QWidget *parent, int number );
+		~SliderWidget();
+		
+		double value();
+		
+	Q_SIGNALS:
+		void valueChanged();
+		
+	protected Q_SLOTS:
+		void updateValue();
+		
+	protected:
+		int m_number;
 };
-
 
 #endif

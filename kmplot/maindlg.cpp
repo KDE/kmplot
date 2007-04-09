@@ -202,10 +202,10 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 			.expandedTo( m_diagramSettings->layout()->minimumSize() );
 	m_generalSettings->setMinimumSize( minSize );
 
-	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "package_settings", i18n("General Settings") );
+	m_settingsDialog->addPage( m_generalSettings, i18n("General"), "tool", i18n("General Settings") );
 	m_settingsDialog->addPage( m_diagramSettings, i18n("Diagram"), "coords", i18n("Diagram Appearance") );
-	m_settingsDialog->addPage( m_colorSettings, i18n("Colors"), "colorize", i18n("Colors") );
-	m_settingsDialog->addPage( m_fontsSettings, i18n("Fonts"), "font", i18n("Fonts") );
+	m_settingsDialog->addPage( m_colorSettings, i18n("Colors"), "colorscm", i18n("Colors") );
+	m_settingsDialog->addPage( m_fontsSettings, i18n("Fonts"), "text", i18n("Fonts") );
 	// User edited the configuration - update your local copies of the
 	// configuration data
 	connect( m_settingsDialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT(updateSettings() ) );

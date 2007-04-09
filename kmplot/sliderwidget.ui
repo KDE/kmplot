@@ -1,0 +1,100 @@
+<ui version="4.0" >
+ <class>SliderWidget</class>
+ <widget class="QWidget" name="SliderWidget" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>748</width>
+    <height>116</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Slider</string>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QSlider" name="slider" >
+       <property name="maximum" >
+        <number>1000</number>
+       </property>
+       <property name="singleStep" >
+        <number>10</number>
+       </property>
+       <property name="pageStep" >
+        <number>100</number>
+       </property>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="valueLabel" >
+       <property name="minimumSize" >
+        <size>
+         <width>50</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>&lt;0></string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="label" >
+       <property name="text" >
+        <string>Min:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="EquationEdit" name="min" />
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2" >
+       <property name="text" >
+        <string>Max:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="EquationEdit" name="max" />
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>EquationEdit</class>
+   <extends>QLineEdit</extends>
+   <header>equationedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

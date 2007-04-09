@@ -774,13 +774,13 @@ void View::drawLabels( QPainter *painter )
 		{
 			case Function::Cartesian:
 			case Function::Differential:
-				x = function->eq[0]->variables()[0];
+				x = function->eq[0]->variables().isEmpty() ? QString() : function->eq[0]->variables()[0];
 				y = function->eq[0]->name();
 				break;
 				
 			case Function::Implicit:
-				x = function->eq[0]->variables()[0];
-				y = function->eq[0]->variables()[1];
+				x = function->eq[0]->variables().isEmpty()  ? QString() : function->eq[0]->variables()[0];
+				y = (function->eq[0]->variables().size()<2) ? QString() : function->eq[0]->variables()[1];
 				break;
 				
 			case Function::Parametric:
@@ -4250,6 +4250,7 @@ void View::setStatusBar( const QString & t, StatusBarSection section )
 
 void View::slidersWindowClosed()
 {
+	kDebug() << k_funcinfo << endl;
 	m_menuSliderAction->setChecked(false);
 }
 //END class View

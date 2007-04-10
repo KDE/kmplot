@@ -286,6 +286,7 @@ Equation::Equation( Type type, Function * parent )
 	if ( type == Differential || type == Cartesian )
 	{
 		differentialStates.setUniqueState( type == Cartesian );
+		differentialStates.setOrder( order() );
 		differentialStates.add();
 	}
 }
@@ -384,27 +385,36 @@ void Equation::updateVariables()
 		int p1 = m_fstr.indexOf( '(' );
 		int p2 = m_fstr.indexOf( ')' );
 	
+		QStringList splitted;
 		if ( (p1 != -1) && (p2 != -1) )
-			m_variables = m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts );
+			splitted = m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts );
+		
+		// Variables shouldn't contain spaces!
+		foreach ( QString s, splitted )
+		{
+			s = s.remove(' ');
+			if ( !s.isEmpty() )
+				m_variables << s;
+		}
 	}
 	else switch ( type() )
 	{
 		case Cartesian:
 		case Differential:
-			m_variables << "x";
+			m_variables << "x" << "k";
 			break;
 			
 		case Polar:
-			m_variables << QChar( 0x3b8 ); // theta
+			m_variables << QChar( 0x3b8 ) << "k"; // (theta)
 			break;
 		
 		case ParametricX:
 		case ParametricY:
-			m_variables << "t";
+			m_variables << "t" << "k";
 			break;
 		
 		case Implicit:
-			m_variables << "x" << "y";
+			m_variables << "x" << "y" << "k";
 			break;
             
         case Constant:

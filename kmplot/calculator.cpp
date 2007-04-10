@@ -59,6 +59,7 @@ Calculator::Calculator( QWidget * parent )
 	connect( m_input->edit(), SIGNAL(returnPressed()), this, SLOT(calculate()) );
 	
 	resize( layout->minimumSize() );
+	m_input->edit()->setFocus();
 }
 
 
@@ -73,12 +74,14 @@ void Calculator::calculate()
 	Parser::Error error;
 	double value = XParser::self()->eval( m_input->text(), & error );
 	
-	m_displayText += m_input->text();
+	m_displayText += m_input->text().replace( '<', "&lt;" );
 	
 	if ( error == Parser::ParseSuccess )
-		m_displayText += " = <b>" + Parser::number( value ) + "</b><br>";
+		m_displayText += " = <b>" + Parser::number( value ) + "</b>";
 	else
 		m_displayText += " = ? <font color=\"blue\">(" + Parser::errorString( error ) + ")</font>";
+	
+	m_displayText += "<br>";
 	
 	m_display->document()->setHtml( m_displayText );
 	m_display->verticalScrollBar()->setValue( m_display->verticalScrollBar()->maximum() );

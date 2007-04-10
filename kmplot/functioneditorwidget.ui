@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>343</width>
-    <height>515</height>
+    <width>317</width>
+    <height>705</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -30,6 +30,12 @@
    </property>
    <item>
     <widget class="FunctionListWidget" name="functionList" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
      <property name="maximumSize" >
       <size>
        <width>16777215</width>
@@ -121,7 +127,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget" >
          <property name="currentIndex" >
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab" >
           <attribute name="title" >
@@ -237,26 +243,6 @@
              <property name="title" >
               <string>Appearance</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
-               <number>9</number>
-              </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>9</number>
-              </property>
-              <property name="horizontalSpacing" >
-               <number>6</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>6</number>
-              </property>
-             </layout>
             </widget>
            </item>
            <item>
@@ -267,7 +253,7 @@
              <property name="sizeHint" >
               <size>
                <width>20</width>
-               <height>40</height>
+               <height>0</height>
               </size>
              </property>
             </spacer>
@@ -315,26 +301,6 @@
              <property name="title" >
               <string>1st derivative</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
-               <number>9</number>
-              </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>9</number>
-              </property>
-              <property name="horizontalSpacing" >
-               <number>6</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>6</number>
-              </property>
-             </layout>
             </widget>
            </item>
            <item>
@@ -358,26 +324,6 @@
              <property name="title" >
               <string>2nd derivative</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
-               <number>9</number>
-              </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>9</number>
-              </property>
-              <property name="horizontalSpacing" >
-               <number>6</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>6</number>
-              </property>
-             </layout>
             </widget>
            </item>
            <item>
@@ -552,26 +498,6 @@
              <property name="title" >
               <string>Appearance</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
-               <number>9</number>
-              </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>9</number>
-              </property>
-              <property name="horizontalSpacing" >
-               <number>6</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>6</number>
-              </property>
-             </layout>
             </widget>
            </item>
            <item>
@@ -757,26 +683,6 @@ Example: sin(t)</string>
          <property name="title" >
           <string>Appearance</string>
          </property>
-         <layout class="QGridLayout" >
-          <property name="leftMargin" >
-           <number>9</number>
-          </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <property name="horizontalSpacing" >
-           <number>6</number>
-          </property>
-          <property name="verticalSpacing" >
-           <number>6</number>
-          </property>
-         </layout>
         </widget>
        </item>
        <item>
@@ -925,26 +831,6 @@ Example: loop(angle)=ln(angle)</string>
          <property name="title" >
           <string>Appearance</string>
          </property>
-         <layout class="QGridLayout" >
-          <property name="leftMargin" >
-           <number>9</number>
-          </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <property name="horizontalSpacing" >
-           <number>6</number>
-          </property>
-          <property name="verticalSpacing" >
-           <number>6</number>
-          </property>
-         </layout>
         </widget>
        </item>
        <item>
@@ -1054,26 +940,6 @@ Example: x^2 + y^2 = 25.</string>
          <property name="title" >
           <string>Appearance</string>
          </property>
-         <layout class="QGridLayout" >
-          <property name="leftMargin" >
-           <number>9</number>
-          </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <property name="horizontalSpacing" >
-           <number>6</number>
-          </property>
-          <property name="verticalSpacing" >
-           <number>6</number>
-          </property>
-         </layout>
         </widget>
        </item>
        <item>
@@ -1200,26 +1066,6 @@ Example: f''(x) = -f</string>
              <property name="title" >
               <string>Appearance</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
-               <number>9</number>
-              </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>9</number>
-              </property>
-              <property name="horizontalSpacing" >
-               <number>6</number>
-              </property>
-              <property name="verticalSpacing" >
-               <number>6</number>
-              </property>
-             </layout>
             </widget>
            </item>
            <item>

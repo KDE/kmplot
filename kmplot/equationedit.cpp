@@ -123,11 +123,13 @@ void EquationHighlighter::highlightBlock( const QString & text )
 	
 	for ( int i = 0; i < text.length(); ++i )
 	{
+		QString remaining = text.right( text.length() - i );
+		
 		bool found = false;
 		
 		foreach ( const QString &var, variables )
 		{
-			if ( text.indexOf( var, i ) == i )
+			if ( remaining.startsWith( var ) )
 			{
 				setFormat( i, var.length(), variable );
 				i += var.length()-1;
@@ -140,7 +142,7 @@ void EquationHighlighter::highlightBlock( const QString & text )
 		
 		foreach ( const QString &f, functions )
 		{
-			if ( text.indexOf( f, i ) == i )
+			if ( remaining.startsWith( f ) )
 			{
 				setFormat( i, f.length(), function );
 				i += f.length()-1;

@@ -956,7 +956,7 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 		QString s = tryPiFraction( d, ticSepX.value() );
 		
 		if ( s.isEmpty() )
-			s = posToString( d, ticSepX.value()*6, View::ScientificFormat, axesColor );
+			s = posToString( d, ticSepX.value()*5, View::ScientificFormat, axesColor );
 			
 		m_textDocument->setHtml( s );
 		double idealWidth = m_textDocument->idealWidth();
@@ -1020,7 +1020,7 @@ void View::drawYAxisLabels( QPainter *painter )
 		QString s = tryPiFraction( d, ticSepY.value() );
 		
 		if ( s.isEmpty() )
-			s = posToString( d, ticSepY.value()*6, View::ScientificFormat, axesColor );
+			s = posToString( d, ticSepY.value()*5, View::ScientificFormat, axesColor );
 		
 		m_textDocument->setHtml( s );
 			
@@ -1953,7 +1953,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 		double length = QLineF( p1, p2 ).length();
 		totalLength += length;
 
-		double min_mod = (function->type() == Function::Cartesian || function->type() == Function::Differential) ? 1e-2 : 5e-5;
+		double min_mod = (function->type() == Function::Cartesian || function->type() == Function::Differential) ? 1e-2 : 5e-4;
 		bool dxAtMinimum = (dx <= max_dx*min_mod);
 		bool dxAtMaximum = (dx >= max_dx);
 		bool dxTooBig = false;

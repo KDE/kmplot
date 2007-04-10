@@ -436,10 +436,10 @@ void KmPlotIO::parseConstant( const QDomElement & n )
 
 void KmPlotIO::parseAxes( const QDomElement &n )
 {
-	Settings::setAxesLineWidth( n.attribute( "width", (version<3) ? "1" : "0.1" ).toDouble() * lengthScaler );
+	Settings::setAxesLineWidth( n.attribute( "width", (version<3) ? "2" : "0.2" ).toDouble() * lengthScaler );
 	Settings::setAxesColor( QColor( n.attribute( "color", "#000000" ) ) );
 	Settings::setTicWidth( n.attribute( "tic-width", (version<3) ? "3" : "0.3" ).toDouble() * lengthScaler );
-	Settings::setTicLength( n.attribute( "tic-length", (version<3) ? "10" : "1.0" ).toDouble() * lengthScaler );
+	Settings::setTicLength( n.attribute( "tic-length", (version<3) ? "5" : "0.5" ).toDouble() * lengthScaler );
 	
 	if ( version < 1 )
 	{

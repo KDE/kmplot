@@ -193,7 +193,10 @@ QStringList Parser::userFunctions( ) const
 	foreach ( Function * f, m_ufkt )
 	{
 		foreach ( Equation * eq, f->eq )
-			names << eq->name();
+		{
+			if ( !eq->name().isEmpty() )
+				names << eq->name();
+		}
 	}
 	
 	names.sort();
@@ -331,7 +334,8 @@ double Parser::fkt( Equation * eq, double x )
 
 double Parser::fkt( Equation * eq, const Vector & x )
 {
-// 	kDebug() << k_funcinfo << endl;
+	if ( eq->mem.isEmpty() )
+		return 0;
 	
 	// Consistency check: Make sure that we leave the stkptr at the same place
 	// that we started it
@@ -365,8 +369,13 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			{
 				pUint = (uint*)eq->mptr;
 				uint var = *pUint++;
-				assert( int(var) < x.size() );
-				*stkptr = x[var];
+				if ( int(var) >= x.size() )
+				{
+					// Assume variable has value zero
+					*stkptr = 0;
+				}
+				else
+					*stkptr = x[var];
 				eq->mptr = (char*)pUint;
 				break;
 			}
@@ -493,6 +502,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			{
 				pUint = (uint*)eq->mptr;
 				int numArgs = *pUint++;
+				
 				eq->mptr = (char*)pUint;
 						
 				pVectorFunction = (double(**)(const Vector &))eq->mptr;
@@ -501,8 +511,9 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				for ( int i=0; i < int(numArgs); ++i )
 					args[i] = *(stkptr-numArgs+1+i);
 				
-				stkptr[1-numArgs] = (*pVectorFunction++)(args);
-				stkptr -= numArgs-1;
+				if ( numArgs > 0 )
+					stkptr += 1-numArgs;
+				*stkptr = (*pVectorFunction++)(args);
 				
 				eq->mptr = (char*)pVectorFunction;
 				break;
@@ -608,6 +619,7 @@ void Parser::initEquation( Equation * eq, Error * error, int * errorPosition )
 	
 	m_eval = eq->fstr();
 	m_sanitizer.fixExpression( & m_eval );
+	m_evalRemaining = m_eval;
 	m_evalPos = m_eval.indexOf( '=' ) + 1;
 	heir0();
 	
@@ -1055,19 +1067,6 @@ int Parser::readFunctionArguments()
 }
 
 
-bool Parser::match( const QString & lit )
-{
-	if ( lit.isEmpty() )
-		return false;
-	
-	if ( lit != evalRemaining().left( lit.length() ) )
-		return false;
-	
-	m_evalPos += lit.length();
-	return true;
-}
-
-
 void Parser::growEqMem( int growth )
 {
 	int pos = mptr - mem->data();
@@ -1173,9 +1172,6 @@ QString Parser::errorString( Error error )
 		case MissingBracket:
 			return i18n("Missing parenthesis");
 			
-		case UnknownFunction:
-			return i18n("Function name unknown");
-			
 		case StackOverflow:
 			return i18n("Stack overflow");
 			
@@ -1188,14 +1184,8 @@ QString Parser::errorString( Error error )
 		case EmptyFunction:
 			return i18n("Empty function");
 			
-		case CapitalInFunctionName:
-			return i18n("The function name is not allowed to contain capital letters");
-			
 		case NoSuchFunction:
 			return i18n("Function could not be found");
-			
-		case UserDefinedConstantInExpression:
-			return i18n("The expression must not contain user-defined constants");
 			
 		case ZeroOrder:
 			return i18n("The differential equation must be at least first-order");
@@ -1225,10 +1215,32 @@ void Parser::displayErrorDialog( Error error )
 }
 
 
-QString Parser::evalRemaining() const
+QString Parser::evalRemaining()
 {
-	QString current( m_eval );
-	return current.right( qMax( 0, current.length() - m_evalPos ) );
+	/// note changing this code may need to change code in match() as well; similar
+	int newLength = qMax( 0, m_eval.length() - m_evalPos );
+	if ( newLength != m_evalRemaining.length() )
+		m_evalRemaining = m_eval.right( newLength );
+	return m_evalRemaining;
+}
+
+
+bool Parser::match( const QString & lit )
+{
+	if ( lit.isEmpty() )
+		return false;
+	
+	/// note changing this code may need to change code in evalRemaining() as well; similar
+	// Do we need to update m_evalRemaining ?
+	int newLength = qMax( 0, m_eval.length() - m_evalPos );
+	if ( newLength != m_evalRemaining.length() )
+		evalRemaining();
+	
+	if ( !m_evalRemaining.startsWith( lit ) )
+		return false;
+	
+	m_evalPos += lit.length();
+	return true;
 }
 
 
@@ -1544,7 +1556,8 @@ void ExpressionSanitizer::fixExpression( QString * str )
 		
 		QString remaining = str->right( str->length() - i );
 		
-		for ( QMap< LengthOrderedString, StringType >::iterator it = strings.begin(); it != strings.end(); ++it )
+		QMap< LengthOrderedString, StringType >::const_iterator end = strings.end();
+		for ( QMap< LengthOrderedString, StringType >::const_iterator it = strings.begin(); it != end; ++it )
 		{
 			if ( !remaining.startsWith( it.key() ) )
 				continue;

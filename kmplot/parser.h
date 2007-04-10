@@ -219,14 +219,11 @@ class Parser : public QObject
 			ParseSuccess,
 			SyntaxError,
 			MissingBracket,
-			UnknownFunction,
 			StackOverflow,
 			FunctionNameReused , ///< function name already used
 			RecursiveFunctionCall,
 			EmptyFunction,
-			CapitalInFunctionName, ///< function name contains a capital letter
 			NoSuchFunction,
-			UserDefinedConstantInExpression, ///< evalation expression may not use user defined constants
 			ZeroOrder, ///< zero-order differential
 			TooManyPM, ///< too many plus-minus symbols
 			InvalidPM, ///< Not allowed to have a plus-minus symbol, e.g. in a constant expression
@@ -385,7 +382,8 @@ class Parser : public QObject
 		int m_evalPos;
 		int m_nextFunctionID;
 		/// @return the m_eval starting at m_evalPos
-		QString evalRemaining() const;
+		QString evalRemaining();
+		QString m_evalRemaining;
 		Equation * m_currentEquation; // Pointer to the current function
 		Equation * m_ownEquation; ///< used for parsing constants, etc, and ensures that m_currentEquation is never null
 		static double m_radiansPerAngleUnit;

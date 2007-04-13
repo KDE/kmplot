@@ -14,7 +14,6 @@
 			<Action name="edit_undo"/>
 			<Action name="edit_redo"/>
 			<Separator/>
-			<Action name="editaxes"/>
 			<Action name="editconstants"/>
 		</Menu>
 		<Menu name="view"><text>&amp;View</text>
@@ -23,6 +22,7 @@
 			<Action name="zoom_trig"/>
 			<Separator/>
 			<Action name="reset_view"/>
+			<Action name="editaxes"/>
 			<Separator/>
 			<Action name="options_configure_show_sliders"/>
 		</Menu>

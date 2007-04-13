@@ -107,7 +107,9 @@ QDomDocument KmPlotIO::currentState()
 
 	root.appendChild( tag );
 	
-	addFunctions( doc, root );
+	foreach ( Function *f, XParser::self()->m_ufkt )
+		addFunction( doc, root, f );
+	
 	addConstants( doc, root );
 
 	tag = doc.createElement( "fonts" );
@@ -169,50 +171,6 @@ void KmPlotIO::addConstants( QDomDocument & doc, QDomElement & root )
 		root.appendChild( tag );
 		tag.setAttribute( "name", it.key() );
 		tag.setAttribute( "value", it.value().value.expression() );
-	}
-}
-
-
-void KmPlotIO::addFunctions( QDomDocument & doc, QDomElement & root )
-{
-	// List of dependent functions that haven't been saved yet
-	typedef QMap< Function*, QList<int> > Dependencies;
-	Dependencies functions;
-	
-	foreach ( Function *f, XParser::self()->m_ufkt )
-		functions[f] = f->m_dependencies;
-	
-	while ( !functions.isEmpty() )
-	{
-		bool removed = false;
-		
-		for ( Dependencies::iterator it = functions.begin(); it != functions.end(); )
-		{
-			if ( !it->isEmpty() )
-			{
-				++it;
-				continue;
-			}
-		
-			Function *f = it.key();
-			it = functions.erase( it );
-			removed = true;
-		
-			addFunction( doc, root, f );
-		
-			for ( Dependencies::iterator it2 = functions.begin(); it2 != functions.end(); ++it2 )
-			{
-				it2->removeAll( f->id() );
-			}
-		}
-		
-		if ( !removed )
-		{
-			kWarning() << k_funcinfo << "Something strange has happened with function dependencies (recursive dependencies?)" << endl;
-			
-			// Avoid infinite recursion
-			return;
-		}
 	}
 }
 
@@ -308,9 +266,7 @@ QDomElement KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const Q
 bool KmPlotIO::restore( const QDomDocument & doc )
 {
 	// temporary measure: for now, delete all previous functions
-	QList<int> prevFunctionIDs = XParser::self()->m_ufkt.keys();
-	foreach ( int id, prevFunctionIDs )
-		XParser::self()->removeFunction( id );
+	XParser::self()->removeAllFunctions();
 	
 	QDomElement element = doc.documentElement();
 	QString versionString = element.attribute( "version" );
@@ -366,6 +322,10 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 		KMessageBox::sorry(0,i18n("The file had an unknown version number"));
 		return false;
 	}
+	
+	// Because we may not have loaded the constants / functions in the right order
+	// to account for dependencies
+	XParser::self()->reparseAllFunctions();
 	
 	return true;
 }
@@ -546,7 +506,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 		}
 	}
 	
-	int functionID = XParser::self()->Parser::addFunction( eq0, eq1, type );
+	int functionID = XParser::self()->Parser::addFunction( eq0, eq1, type, true );
 	if ( functionID == -1 )
 	{
 		kWarning() << k_funcinfo << "Could not create function!\n";
@@ -682,9 +642,9 @@ void KmPlotIO::oldParseFunction2( const QDomElement & n )
 	}
 	
 	Function ufkt( type );
-	ufkt.eq[0]->setFstr( eq0 );
+	ufkt.eq[0]->setFstr( eq0, 0, 0, true );
 	if ( !eq1.isEmpty() )
-		ufkt.eq[1]->setFstr( eq1 );
+		ufkt.eq[1]->setFstr( eq1, 0, 0, true );
         
 	PlotAppearance * plots[] = { & ufkt.plotAppearance( Function::Derivative0 ),
 		& ufkt.plotAppearance( Function::Derivative1 ),
@@ -756,7 +716,7 @@ void KmPlotIO::oldParseFunction2( const QDomElement & n )
 		else
 			str = fstr.left( i );
                 
-		int id = XParser::self()->Parser::addFunction( str, eq1, type );
+		int id = XParser::self()->Parser::addFunction( str, eq1, type, true );
                 
 		Function * added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );
@@ -821,10 +781,10 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 	
 	const int pos = tmp_fstr.indexOf(';');
 	if ( pos == -1 )
-		ufkt.eq[0]->setFstr( tmp_fstr );
+		ufkt.eq[0]->setFstr( tmp_fstr, 0, 0, true );
 	else
 	{
-		ufkt.eq[0]->setFstr( tmp_fstr.left(pos) );
+		ufkt.eq[0]->setFstr( tmp_fstr.left(pos), 0, 0, true );
 		if ( !XParser::self()->getext( &ufkt, tmp_fstr) )
 		{
 			KMessageBox::sorry(0,i18n("The function %1 could not be loaded", ufkt.eq[0]->fstr()));
@@ -844,9 +804,9 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 		
 		int id;
 		if ( type == Function::Parametric )
-			id = XParser::self()->Parser::addFunction( str, parametricXEquation, type );
+			id = XParser::self()->Parser::addFunction( str, parametricXEquation, type, true );
 		else
-			id = XParser::self()->Parser::addFunction( str, 0, type );
+			id = XParser::self()->Parser::addFunction( str, 0, type, true );
 		
 		Function *added_function = XParser::self()->m_ufkt[id];
 		added_function->copyFrom( ufkt );

@@ -350,7 +350,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 	// Start with zero in our stackpointer
 	// 
 	*stkptr = 0;
-
+	
 	while(1)
 	{
 // 		kDebug() << "*eq->mptr: "<<int(*eq->mptr)<<endl;
@@ -534,8 +534,9 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				
 				if ( m_ufkt.contains( id ) )
 				{
-					stkptr[1-numArgs] = fkt( m_ufkt[id]->eq[id_eq], args );
-					stkptr -= numArgs-1;
+					if ( numArgs > 0 )
+						stkptr += 1-numArgs;
+					*stkptr = fkt( m_ufkt[id]->eq[id_eq], args );
 				}
 				
 				eq->mptr=(char*)pUint;
@@ -555,7 +556,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 }
 
 
-int Parser::addFunction( const QString & str1, const QString & str2, Function::Type type )
+int Parser::addFunction( const QString & str1, const QString & str2, Function::Type type, bool force )
 {
 	QString str[2] = { str1, str2 };
 	
@@ -568,7 +569,7 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 			continue;
 		
 		Error error;
-		if ( !temp->eq[i]->setFstr( str[i], (int*)(& error) ) )
+		if ( !temp->eq[i]->setFstr( str[i], (int*)(& error), 0, force ) && !force )
 		{
 			kDebug() << "could not set fstr to \""<<str[i]<<"\"! error:"<<errorString(error)<<"\n";
 			delete temp;
@@ -576,7 +577,7 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		}
 	
 		bool duplicate = (fnameToID( temp->eq[i]->name() ) != -1);
-		if ( temp->eq[i]->looksLikeFunction() && duplicate )
+		if ( temp->eq[i]->looksLikeFunction() && duplicate && !force )
 		{
 			kDebug() << "function name reused.\n";
 			*m_error = FunctionNameReused;
@@ -691,6 +692,20 @@ bool Parser::removeFunction(uint id)
 {
 	return m_ufkt.contains( id ) && removeFunction( m_ufkt[id] );
 }
+
+
+void Parser::removeAllFunctions()
+{
+	while ( !m_ufkt.isEmpty() )
+	{
+		Function *f = *m_ufkt.begin();
+		int id = f->id();
+		m_ufkt.remove( id );
+		delete f;
+		emit functionRemoved( id );
+	}
+}
+
 
 uint Parser::countFunctions()
 {

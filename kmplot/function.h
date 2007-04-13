@@ -306,11 +306,15 @@ class Equation
 		 * @param error if non-null, then will be set to the parser error (or
 		 * success).
 		 * @param errorPosition the error position
+		 * @param force Update the internal equation string even if it could not
+		 * be parsed correctly. Used in opening old files, for example, in case
+		 * something internal to kmplot has changed that results in the equation
+		 * no longer being parsable.
 		 * @return whether \p fstr could be parsed correctly. Note that if it
 		 * was not parsed correctly, then this will return false and this class
 		 * will not be updated.
 		 */
-		bool setFstr( const QString & string, int * error = 0, int * errorPosition = 0 );
+		bool setFstr( const QString & string, int * error = 0, int * errorPosition = 0, bool force = false );
 		/**
 		 * \return true if the fstr looks like "f(x) = ..."
 		 * \return false if the fstr looks like "y = ..." (note that this

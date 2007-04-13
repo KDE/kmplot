@@ -270,14 +270,19 @@ class Parser : public QObject
 		double eval( const QString & str, Error * error = 0, int * errorPosition = 0 );
 		/**
 		 * Adds a user defined function with the given equation. The new
-		 * function's ID-number is returned.
+		 * function's ID-number is returned. \p force is used to force use of
+		 * \p str1, \p str2, even if they cannot be parsed.
 		 */
-		int addFunction( const QString & str1, const QString & str2, Function::Type type );
+		int addFunction( const QString & str1, const QString & str2, Function::Type type, bool force = false );
 		/**
 		 * Removes the function with the given id.
 		 */
 		bool removeFunction( uint id );
 		bool removeFunction( Function *item);
+		/**
+		 * Removes all functions.
+		 */
+		void removeAllFunctions();
 		/**
 		 * Returns the ID-number of the function "name". If the function
 		 * couldn't be found, -1 is returned.

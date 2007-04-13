@@ -475,8 +475,20 @@ QString Equation::parameterName( ) const
 }
 
 
-bool Equation::setFstr( const QString & fstr, int * error, int * errorPosition )
+bool Equation::setFstr( const QString & fstr, int * error, int * errorPosition, bool force )
 {
+#define HANDLE_ERROR \
+	if ( !force ) \
+	{ \
+		m_fstr = prevFstr; \
+		updateVariables(); \
+	} \
+	else \
+	{ \
+		kDebug() << "fstr "<<fstr<<" invalid, but forcing anyway: " << Parser::errorString( Parser::Error(*error) ) << " at position " << *errorPosition << endl; \
+		mem.clear(); \
+	}
+	
 	int temp1, temp2;
 	if ( !error )
 		error = & temp1;
@@ -490,38 +502,37 @@ bool Equation::setFstr( const QString & fstr, int * error, int * errorPosition )
 	m_fstr = fstr;
 	updateVariables();
 	
+	if ( !fstr.contains('=') || QString(fstr).right( fstr.length() - fstr.indexOf('=') - 1).simplified().isEmpty() )
+	{
+		*error = Parser::SyntaxError;
+		HANDLE_ERROR;
+		return false;
+	}
+	
 	// require order to be greater than 0 for differential equations
 	if ( (type() == Differential) && (order() < 1) )
 	{
-		m_fstr = prevFstr;
-		updateVariables();
-		
 		*error = Parser::ZeroOrder;
-		
+		HANDLE_ERROR;
 		/// \todo indicate the position of the error
-		*errorPosition = 0;
 		return false;
 	}
 	
 	int maxArg = order() + (( type() == Implicit ) ? 3 : 2);
 	if ( variables().size() > maxArg )
 	{
-		m_fstr = prevFstr;
-		updateVariables();
-		
-		/// \todo indicate the position of the invalid argument?
 		*error = Parser::TooManyArguments;
-		*errorPosition = -1;
+		HANDLE_ERROR;
+		/// \todo indicate the position of the invalid argument?
 		return false;
 	}
 	
 	XParser::self()->initEquation( this, (Parser::Error*)error, errorPosition );
 	if ( *error != Parser::ParseSuccess )
 	{
-// 		kDebug() << k_funcinfo << "BAD XParser::self()->errorPosition()="<< *errorPosition<< " error="<<XParser::self()->errorString((Parser::Error)*error)<< endl;
-		
-		m_fstr = prevFstr;
-		XParser::self()->initEquation( this );
+		HANDLE_ERROR;
+		if ( !force )
+			XParser::self()->initEquation( this );
 		return false;
 	}
 	
@@ -628,14 +639,17 @@ bool Function::copyFrom( const Function & function )
 	i++;
 	
 	COPY_AND_CHECK( f0 );				// 0
-	COPY_AND_CHECK( f1 );				// 1
-	COPY_AND_CHECK( f2 );				// 2
-	COPY_AND_CHECK( integral );			// 3
-	COPY_AND_CHECK( dmin );				// 4
-	COPY_AND_CHECK( dmax );				// 5
-	COPY_AND_CHECK( usecustomxmin );	// 6
-	COPY_AND_CHECK( usecustomxmax );	// 7
-	COPY_AND_CHECK( m_parameters );		// 8
+	if ( type() == Cartesian )
+	{
+		COPY_AND_CHECK( f1 );				// 1
+		COPY_AND_CHECK( f2 );				// 2
+		COPY_AND_CHECK( integral );			// 3
+	}
+	COPY_AND_CHECK( dmin );				// 4,1
+	COPY_AND_CHECK( dmax );				// 5,2
+	COPY_AND_CHECK( usecustomxmin );	// 6,3
+	COPY_AND_CHECK( usecustomxmax );	// 7,4
+	COPY_AND_CHECK( m_parameters );		// 8,5
 	
 	// handle equations separately
 	for ( int i = 0; i < eq.size(); ++i )

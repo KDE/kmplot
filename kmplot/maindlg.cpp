@@ -155,7 +155,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_constantEditor = 0;
 	m_popupmenu = new KMenu( parentWidget );
 	m_newPlotMenu = new KMenu( parentWidget );
-	(void) new View( m_readonly, m_modified, m_popupmenu, parentWidget );
+	(void) new View( m_readonly, m_popupmenu, parentWidget );
 	connect( View::self(), SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 
 	m_functionEditor = 0;
@@ -210,7 +210,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_settingsDialog->addPage( m_fontsSettings, i18n("Fonts"), "text", i18n("Fonts") );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( m_settingsDialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT(updateSettings() ) );
+	connect( m_settingsDialog, SIGNAL( settingsChanged( const QString &) ), View::self(), SLOT(drawPlot() ) );
 
 
     new MainDlgAdaptor(this);
@@ -457,6 +457,16 @@ void MainDlg::saveCurrentState( )
 }
 
 
+void MainDlg::resetUndoRedo()
+{
+	m_redoStack.clear();
+	m_undoStack.clear();
+	m_currentState = kmplotio->currentState();
+	m_undoAction->setEnabled( false );
+	m_redoAction->setEnabled( false );
+}
+
+
 bool MainDlg::checkModified()
 {
 	if( m_modified )
@@ -616,23 +626,22 @@ void MainDlg::slotExport()
 
 	if ( !saveOk )
 		KMessageBox::error( m_parent, i18n( "Sorry, something went wrong while saving to image \"%1\"", url.prettyUrl() ) );
-
 }
 
 
 bool MainDlg::openFile()
 {
-	View::self()->init();
 	if (url()==m_currentfile || !kmplotio->load( url() ) )
 	{
 		m_recentFiles->removeUrl( url() ); //remove the file from the recent-opened-file-list
 		setUrl(KUrl());
 		return false;
 	}
+	
 	m_currentfile = url();
 	m_recentFiles->addUrl( url().prettyUrl(KUrl::LeaveTrailingSlash)  );
 	setWindowCaption( url().prettyUrl(KUrl::LeaveTrailingSlash) );
-	m_modified = false;
+	resetUndoRedo();
 	View::self()->updateSliders();
 	View::self()->drawPlot();
 	return true;
@@ -648,16 +657,10 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 {
  	if( isModified() || !this->url().isEmpty() ) // open the file in a new window
  	{
-// 		QByteArray data;
-// 		QDataStream stream( &data,QIODevice::WriteOnly);
-// 		stream.setVersion(QDataStream::Qt_3_1);
-// 		stream << url;
-// 		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KUrl)", data);
 		QDBusReply<void> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::Block, "openFileInNewWindow", url.url() );
 		return;
 	}
 
-	View::self()->init();
 	if ( !kmplotio->load( url ) ) //if the loading fails
 	{
 		m_recentFiles->removeUrl(url ); //remove the file from the recent-opened-file-list
@@ -667,7 +670,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
     setUrl(url);
     m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
     setWindowCaption( this->url().prettyUrl(KUrl::LeaveTrailingSlash) );
-    m_modified = false;
+	resetUndoRedo();
     View::self()->updateSliders();
     View::self()->drawPlot();
 }
@@ -708,7 +711,6 @@ void MainDlg::slotNames()
 void MainDlg::slotResetView()
 {
 	View::self()->animateZoom( QRectF( -8, -8, 16, 16 ) );
-	m_modified = true;
 }
 
 void MainDlg::slotSettings()
@@ -717,12 +719,6 @@ void MainDlg::slotSettings()
 	// so we want to display the cached dialog instead of creating
 	// another one
 	KConfigDialog::showDialog( "settings" );
-}
-
-void MainDlg::updateSettings()
-{
-	m_modified = true;
-	View::self()->drawPlot();
 }
 
 
@@ -789,7 +785,7 @@ CoordsConfigDialog * MainDlg::coordsDialog( )
 	if ( !m_coordsDialog)
 	{
 		m_coordsDialog = new CoordsConfigDialog(m_parent);
-		connect( m_coordsDialog, SIGNAL( settingsChanged(const QString &) ), this, SLOT(updateSettings() ) );
+		connect( m_coordsDialog, SIGNAL( settingsChanged(const QString &) ), View::self(), SLOT(drawPlot() ) );
 	}
 
 	return m_coordsDialog;

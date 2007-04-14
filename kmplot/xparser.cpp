@@ -2,6 +2,7 @@
 * KmPlot - a math. function plotter for the KDE-Desktop
 *
 * Copyright (C) 1998, 1999, 2000, 2002  Klaus-Dieter Möller <kd.moeller@t-online.de>
+*               2006, 2007 David Saxton <david@bluehaze.org>
 *               
 * This file is part of the KDE Project.
 * KmPlot is part of the KDE-EDU Project.
@@ -25,6 +26,7 @@
 
 // local includes
 #include "parseradaptor.h"
+#include "maindlg.h"
 #include "xparser.h"
 
 // KDE includes
@@ -41,19 +43,16 @@
 
 XParser * XParser::m_self = 0;
 
-XParser * XParser::self( bool * modified )
+XParser * XParser::self()
 {
 	if ( !m_self )
-	{
-		assert( modified );
-		m_self = new XParser( *modified );
-	}
+		m_self = new XParser();
 	
 	return m_self;
 }
 
 
-XParser::XParser(bool &mo) : m_modified(mo)
+XParser::XParser()
 {
 	differentialFinite = true;
 	differentialDiverge = 0;
@@ -428,7 +427,7 @@ bool XParser::setFunctionFVisible(uint id, bool visible)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Derivative0 ).visible = visible;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 bool XParser::setFunctionF1Visible(uint id, bool visible)
@@ -436,7 +435,7 @@ bool XParser::setFunctionF1Visible(uint id, bool visible)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Derivative1 ).visible = visible;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 bool XParser::setFunctionF2Visible(uint id, bool visible)
@@ -444,7 +443,7 @@ bool XParser::setFunctionF2Visible(uint id, bool visible)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Derivative2 ).visible = visible;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 bool XParser::setFunctionIntVisible(uint id, bool visible)
@@ -452,7 +451,7 @@ bool XParser::setFunctionIntVisible(uint id, bool visible)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Integral ).visible = visible;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 
@@ -492,7 +491,7 @@ bool XParser::setFunctionFColor(uint id, const QColor &color)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Derivative0 ).color = color;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 bool XParser::setFunctionF1Color(uint id, const QColor &color)
@@ -500,7 +499,7 @@ bool XParser::setFunctionF1Color(uint id, const QColor &color)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Derivative1 ).color = color;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }		
 bool XParser::setFunctionF2Color(uint id, const QColor &color)
@@ -508,7 +507,7 @@ bool XParser::setFunctionF2Color(uint id, const QColor &color)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Derivative2 ).color = color;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 bool XParser::setFunctionIntColor(uint id, const QColor &color)
@@ -516,7 +515,7 @@ bool XParser::setFunctionIntColor(uint id, const QColor &color)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Integral ).color = color;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 
@@ -549,7 +548,7 @@ bool XParser::setFunctionFLineWidth(uint id, double linewidth)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Derivative0 ).lineWidth = linewidth;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 bool XParser::setFunctionF1LineWidth(uint id, double linewidth)
@@ -557,7 +556,7 @@ bool XParser::setFunctionF1LineWidth(uint id, double linewidth)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Derivative1 ).lineWidth = linewidth;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }		
 bool XParser::setFunctionF2LineWidth(uint id, double linewidth)
@@ -565,7 +564,7 @@ bool XParser::setFunctionF2LineWidth(uint id, double linewidth)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Derivative2 ).lineWidth = linewidth;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 bool XParser::setFunctionIntLineWidth(uint id, double linewidth)
@@ -573,7 +572,7 @@ bool XParser::setFunctionIntLineWidth(uint id, double linewidth)
 	if ( !m_ufkt.contains( id ) )
 		return false;
 	m_ufkt[id]->plotAppearance( Function::Integral ).lineWidth = linewidth;
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 
@@ -588,8 +587,8 @@ bool XParser::setFunctionMinValue(uint id, const QString &min)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-  m_ufkt[id]->dmin.expression() = min;
-  m_modified = true;
+	m_ufkt[id]->dmin.expression() = min;
+	MainDlg::self()->requestSaveCurrentState();
   return true;
 }
 
@@ -604,8 +603,8 @@ bool XParser::setFunctionMaxValue(uint id, const QString &max)
 {
 	if ( !m_ufkt.contains( id ) )
 		return false;
-  m_ufkt[id]->dmax.expression() = max;
-  m_modified = true;
+	m_ufkt[id]->dmax.expression() = max;
+	MainDlg::self()->requestSaveCurrentState();
   return true;
 }
 
@@ -616,7 +615,7 @@ bool XParser::setFunctionStartValue(uint id, const QString &x, const QString &y)
 	DifferentialState * state = & m_ufkt[id]->eq[0]->differentialStates[0];
 	state->x0.updateExpression( x );
 	state->y0[0].updateExpression( y );
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 
@@ -664,7 +663,7 @@ bool XParser::functionAddParameter(uint id, const QString &new_parameter)
 	if ( !value.updateExpression( new_parameter ) )
 		return false;
 	tmp_ufkt->m_parameters.list.append( value );
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 bool XParser::functionRemoveParameter(uint id, const QString &remove_parameter)
@@ -686,7 +685,7 @@ bool XParser::functionRemoveParameter(uint id, const QString &remove_parameter)
 	if (!found)
 		return false;
 	tmp_ufkt->m_parameters.list.erase(it);
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 int XParser::addFunction(const QString &f_str0, const QString &_f_str1)
@@ -719,7 +718,7 @@ int XParser::addFunction(const QString &f_str0, const QString &_f_str1)
 		Parser::removeFunction( tmp_ufkt );
 		return -1;
 	}
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return id;
 }
 
@@ -803,7 +802,7 @@ bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1
 	{
 		added_function->m_parameters.list.append( *it );
 	}
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	return true;
 }
 

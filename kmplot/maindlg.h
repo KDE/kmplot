@@ -221,10 +221,10 @@ protected slots:
 	* @param url name of the url to open
 	*/
 	void slotOpenRecent( const KUrl &url );
-	///Update settings when there is a change in the Configure KmPlot dialog
-	void updateSettings();
 	/// @see requestSaveCurrentState
 	void saveCurrentState();
+	/// Used when opening a new file
+	void resetUndoRedo();
 
 	void setReadOnlyStatusBarText(const QString &);
 

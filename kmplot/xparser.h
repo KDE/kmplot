@@ -44,7 +44,7 @@
 class XParser : public Parser
 {
 	public:
-		static XParser * self( bool * modified = 0 );
+		static XParser * self();
 		
 		~XParser();
 		/**
@@ -147,16 +147,13 @@ class XParser : public Parser
 	Q_SCRIPTABLE bool setFunctionStartValue(uint id, const QString &x, const QString &y);
 	
 	private:
-		/// for use in differential
 		Vector rk4_f( int order, Equation * eq, double x, const Vector & y );
+		/// for use in differential
 		Vector m_k1, m_k2, m_k3, m_k4, m_y_temp, m_y, m_result, m_arg;
-		
-	/// indicates if the widget is changed
-	bool & m_modified;
 	
 	
 private:
-	XParser( bool & modified );
+	XParser();
 	static XParser * m_self;
 };
 

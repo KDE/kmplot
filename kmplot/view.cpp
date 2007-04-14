@@ -118,11 +118,10 @@ double realModulo( double x, double mod )
 //BEGIN class View
 View * View::m_self = 0;
 
-View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent )
+View::View( bool readOnly, KMenu * functionPopup, QWidget* parent )
 	: QWidget( parent ),
 	  buffer( width(), height() ),
 	  m_popupMenu( functionPopup ),
-	  m_modified( modified ),
 	  m_readonly( readOnly )
 {
 	assert( !m_self ); // this class should only be constructed once
@@ -148,9 +147,6 @@ View::View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* pare
 
     new ViewAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/view", this);
-
-	XParser::self( & modified );
-	init();
 
 	setMouseTracking( true );
 	m_sliderWindow = 0;
@@ -3564,6 +3560,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 		case Translating:
 			doDrawPlot = true;
 			Settings::writeConfig();
+			MainDlg::self()->requestSaveCurrentState();
 			break;
 
 		case ZoomIn:
@@ -3722,6 +3719,7 @@ void View::animateZoom( const QRectF & _newCoords )
 	Settings::setYMax( Parser::number( m_ymax ) );
 	Settings::writeConfig();
 	MainDlg::self()->coordsDialog()->updateXYRange();
+	MainDlg::self()->requestSaveCurrentState();
 
 	drawPlot(); //update all graphs
 
@@ -3746,14 +3744,6 @@ void View::translateView( int dx, int dy )
 	MainDlg::self()->coordsDialog()->updateXYRange();
 
 	drawPlot(); //update all graphs
-}
-
-
-void View::init()
-{
-	QList<int> functionIDs = XParser::self()->m_ufkt.keys();
-	foreach ( int id, functionIDs )
-		XParser::self()->removeFunction( id );
 }
 
 
@@ -4023,7 +4013,7 @@ void View::hideCurrentFunction()
 
 	MainDlg::self()->functionEditor()->functionsChanged();
 	drawPlot();
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 	updateSliders();
 	if ( m_currentPlot.functionID() == -1 )
 		return;
@@ -4064,7 +4054,7 @@ void View::removeCurrentPlot()
 	drawPlot();
 	if ( function_type == Function::Cartesian )
 		updateSliders();
-	m_modified = true;
+	MainDlg::self()->requestSaveCurrentState();
 }
 
 

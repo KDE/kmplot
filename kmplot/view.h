@@ -85,7 +85,7 @@ class View : public QWidget
 	Q_OBJECT
 	public:
 		/// Contructor
-		View( bool readOnly, bool & modified, KMenu * functionPopup, QWidget* parent );
+		View( bool readOnly, KMenu * functionPopup, QWidget* parent );
 		virtual ~View();
 	
 		/// There is only one view.
@@ -103,8 +103,6 @@ class View : public QWidget
 		 */
 		void draw( QPaintDevice * dev, PlotMedium medium );
 		
-		/// Clears all functions in the parser and gets default settings.
-		void init();
 		enum ExtremaType { Minimum, Maximum };
 		/**
 		* Finding the minimum or maximum value.
@@ -529,8 +527,6 @@ class View : public QWidget
 		};
 		///status of the popup menu
 		PopupStatus m_popupMenuStatus;
-		/// true == modifications not saved
-		bool &m_modified;
 		/// False if KmPlot is started as a program, otherwise true
 		bool const m_readonly;
 		/// For drawing diagram labels

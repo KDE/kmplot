@@ -288,12 +288,8 @@ Vector XParser::rk4_f( int order, Equation * eq, double x, const Vector & y )
 	if ( useParameter )
 		m_arg[1] = eq->parent()->k;
 	
-	for ( int i = 0; i < order; ++i )
-	{
-		m_arg[i+1 + (useParameter ? 1 : 0) ] = y[i];
-		if ( i+1 < order )
-			m_result[i] = y[i+1];
-	}
+	memcpy( m_arg.data() + 1 + (useParameter ? 1 : 0), y.data(), order*sizeof(double) );
+	memcpy( m_result.data(), y.data() + 1, (order-1)*sizeof(double) );
 	
 	m_result[order-1] = XParser::fkt( eq, m_arg );
 	
@@ -329,6 +325,7 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	m_k2.resize( order );
 	m_k3.resize( order );
 	m_k4.resize( order );
+	m_y_temp.resize( order );
 	
 	double x = state->x;
 	m_y = state->y;
@@ -345,12 +342,19 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 		
 		x = state->x + i*dx;
 		
-		m_k1 = rk4_f( order, eq, x,			m_y );
-		m_k2 = rk4_f( order, eq, x + dx/2,	m_y + (dx/2)*m_k1 );
-		m_k3 = rk4_f( order, eq, x + dx/2,	m_y + (dx/2)*m_k2 );
-		m_k4 = rk4_f( order, eq, x + dx,	m_y + dx*m_k3 );
 		
-		m_y += (dx/6)*(m_k1 + 2*m_k2 + 2*m_k3 + m_k4);
+		m_k1 = rk4_f( order, eq, x, m_y );
+		
+		m_y_temp.combine( m_y, dx/2, m_k1 );
+		m_k2 = rk4_f( order, eq, x + dx/2, m_y_temp);
+		
+		m_y_temp.combine( m_y, dx/2, m_k2 );
+		m_k3 = rk4_f( order, eq, x + dx/2, m_y_temp );
+		
+		m_y_temp.combine( m_y, dx, m_k3 );
+		m_k4 = rk4_f( order, eq, x + dx, m_y_temp );
+		
+		m_y.addRK4( dx, m_k1, m_k2, m_k3, m_k4 );
 		
 		if ( !std::isfinite(m_y[0]) )
 		{

@@ -222,6 +222,7 @@ class DifferentialStates
 		const DifferentialState & operator[] ( int i ) const { return m_data[i]; }
 		void remove ( int i ) { m_data.remove(i); }
 		void remove ( int i, int count ) { m_data.remove( i, count ); }
+		void removeAll() { m_data.clear(); }
 		
 	protected:
 		QVector<DifferentialState> m_data;
@@ -290,7 +291,7 @@ class Equation
 		 * \return whether the function accepts a parameter in addition to the x
 		 * (and possibly y) variables.
 		 */
-		bool usesParameter() const;
+		bool usesParameter() const { return m_usesParameter; }
 		/**
 		 * \return the name of the parameter variable (or a blank string if a
 		 * parameter is not used).
@@ -350,6 +351,7 @@ class Equation
 		 */
 		void updateVariables();
 		
+		bool m_usesParameter;
 		const Type m_type;
 		QString m_fstr;
 		Function * m_parent;

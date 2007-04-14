@@ -281,6 +281,7 @@ Equation::Equation( Type type, Function * parent )
 	: m_type( type ),
 	  m_parent( parent )
 {
+	m_usesParameter = false;
 	mptr = 0;
 	
 	if ( type == Differential || type == Cartesian )
@@ -433,11 +434,9 @@ void Equation::updateVariables()
 			n += '\'';
 		}
 	}
-}
-
-
-bool Equation::usesParameter( ) const
-{
+	
+	
+	//BEGIN Update whether we accept a parameter or not
 	int expectedNumVariables = 0;
 	
 	switch ( m_type )
@@ -457,11 +456,13 @@ bool Equation::usesParameter( ) const
 			expectedNumVariables = order()+1;
 			break;
             
-        case Constant:
-            return false;
+		case Constant:
+			expectedNumVariables = 0;
+			break;
 	}
 	
-	return variables().size() > expectedNumVariables;
+	m_usesParameter = (variables().size() > expectedNumVariables);
+	//END Update whether we accept a parameter or not
 }
 
 

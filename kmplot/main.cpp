@@ -33,10 +33,9 @@
 
 // KDE includes
 #include <kaboutdata.h>
-#include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
-
+#include <kapplication.h>
 
 
 static const char description[] =

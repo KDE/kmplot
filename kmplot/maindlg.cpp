@@ -33,7 +33,6 @@
 
 // KDE includes
 #include <kaboutdata.h>
-#include <kapplication.h>
 #include <kconfigdialog.h>
 #include <kconfigdialogmanager.h>
 #include <kdebug.h>
@@ -53,6 +52,7 @@
 #include <kactioncollection.h>
 #include <kicon.h>
 #include <kiconloader.h>
+#include <kapplication.h>
 
 // local includes
 #include "calculator.h"

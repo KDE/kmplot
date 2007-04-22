@@ -30,7 +30,7 @@
 #include "function.h"
 
 #include <QMap>
-#include <QString>
+
 
 /**
  * Stores the details of a constant other than its name.

@@ -33,7 +33,7 @@
 #include <QFlags>
 #include <QGradient>
 #include <QPointF>
-#include <QString>
+
 #include <QVector>
 
 class Equation;

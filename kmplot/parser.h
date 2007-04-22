@@ -32,7 +32,7 @@
 #include <QList>
 #include <QMap>
 #include <QObject>
-#include <QString>
+
 #include <QVector>
 
 #include "constants.h"

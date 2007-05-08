@@ -22,9 +22,8 @@
 *
 */
 
-
-#include "equationedit.h"
 #include "initialconditionseditor.h"
+#include "equationedit.h"
 #include "parser.h"
 
 #include <QHeaderView>

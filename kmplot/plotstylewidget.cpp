@@ -21,9 +21,9 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+#include "plotstylewidget.h"
 #include "function.h"
 #include "kgradientdialog.h"
-#include "plotstylewidget.h"
 #include "ui_plotstylewidget.h"
 
 #include <kcolorbutton.h>

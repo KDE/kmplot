@@ -23,9 +23,8 @@
 *
 */
 
-
-#include "kmplotio.h"
 #include "kconstanteditor.h"
+#include "kmplotio.h"
 #include "view.h"
 #include "xparser.h"
 

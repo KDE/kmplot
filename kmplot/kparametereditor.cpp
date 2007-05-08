@@ -23,6 +23,7 @@
 *
 */
 
+#include "kparametereditor.h"
 
 #include <kdebug.h>
 #include <kfiledialog.h>
@@ -38,8 +39,6 @@
 #include <qtextstream.h>
 #include <QList>
 #include <QListWidget>
-
-#include "kparametereditor.h"
 
 #include <assert.h>
 
@@ -168,7 +167,7 @@ void KParameterEditor::next()
 void KParameterEditor::selectedConstantChanged( QListWidgetItem * current )
 {
 	m_mainWidget->cmdDelete->setEnabled( current != 0 );
-	m_mainWidget->value->setText( current ? current->text() : QString::null );
+	m_mainWidget->value->setText( current ? current->text() : QString() );
 	m_mainWidget->value->selectAll();
 }
 

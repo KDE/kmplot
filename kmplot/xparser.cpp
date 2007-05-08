@@ -25,9 +25,9 @@
 
 
 // local includes
+#include "xparser.h"
 #include "parseradaptor.h"
 #include "maindlg.h"
-#include "xparser.h"
 
 // KDE includes
 #include <kglobal.h>

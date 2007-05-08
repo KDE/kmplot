@@ -22,6 +22,8 @@
 *
 */
 
+#include "kprinterdlg.h"
+
 // Qt includes
 #include <QCheckBox>
 #include <QComboBox>
@@ -34,7 +36,6 @@
 
 // local includes
 #include "equationedit.h"
-#include "kprinterdlg.h"
 #include "parser.h"
 
 KPrinterDlg::KPrinterDlg( QWidget *parent )

@@ -28,6 +28,7 @@
 #include <QList>
 
 #include "ui_parameterswidget.h"
+#include "function.h"
 
 class EquationEdit;
 

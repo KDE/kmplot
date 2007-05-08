@@ -24,8 +24,8 @@
 *
 */
 
-#include "equationedit.h"
 #include "functioneditor.h"
+#include "equationedit.h"
 #include "kgradientdialog.h"
 #include "kmplotio.h"
 #include "maindlg.h"

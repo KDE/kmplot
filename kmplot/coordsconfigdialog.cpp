@@ -22,6 +22,8 @@
 *
 */
 
+#include "coordsconfigdialog.h"
+
 #include <klocale.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
@@ -30,7 +32,6 @@
 #include "settings.h"
 #include "xparser.h"
 
-#include "coordsconfigdialog.h"
 #include "ui_editcoords.h"
 
 class EditCoords : public QWidget, public Ui::EditCoords

@@ -23,6 +23,8 @@
 *
 */
 
+#include "maindlg.h"
+
 // Qt includes
 #include <QMainWindow>
 #include <QPainter>
@@ -53,6 +55,7 @@
 #include <kicon.h>
 #include <kiconloader.h>
 #include <kapplication.h>
+#include <kglobal.h>
 
 // local includes
 #include "calculator.h"
@@ -63,7 +66,6 @@
 #include "xparser.h"
 
 #include "settings.h"
-#include "maindlg.h"
 #include "ui_settingspagecolor.h"
 #include "ui_settingspagefonts.h"
 #include "ui_settingspagegeneral.h"
@@ -795,10 +797,6 @@ CoordsConfigDialog * MainDlg::coordsDialog( )
 
 // It's usually safe to leave the factory code alone.. with the
 // notable exception of the KAboutData data
-#include <kaboutdata.h>
-#include <klocale.h>
-#include <ktoolinvocation.h>
-#include <kglobal.h>
 
 KComponentData *KmPlotPartFactory::s_instance = 0L;
 KAboutData* KmPlotPartFactory::s_about = 0L;

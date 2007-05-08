@@ -22,8 +22,8 @@
 *
 */
 
-#include "function.h"
 #include "vector.h"
+#include "function.h"
 
 #include <assert.h>
 #include <string.h>

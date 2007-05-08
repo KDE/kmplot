@@ -23,6 +23,8 @@
 *
 */
 
+#include "view.h"
+
 // Qt includes
 #include <QAbstractTextDocumentLayout>
 #include <qbitmap.h>
@@ -62,7 +64,6 @@
 #include "ksliderwindow.h"
 #include "maindlg.h"
 #include "parameteranimator.h"
-#include "view.h"
 #include "viewadaptor.h"
 #include "xparser.h"
 

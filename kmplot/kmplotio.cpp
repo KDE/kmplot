@@ -22,6 +22,8 @@
 *
 */
 
+#include "kmplotio.h"
+
 // Qt includes
 #include <qdom.h>
 #include <qfile.h>
@@ -39,7 +41,6 @@
 #include <stdlib.h>
 
 // local includes
-#include "kmplotio.h"
 #include "maindlg.h"
 #include "settings.h"
 #include "xparser.h"

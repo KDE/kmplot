@@ -21,9 +21,10 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
+#include "parameterswidget.h"
+
 #include "function.h"
 #include "kparametereditor.h"
-#include "parameterswidget.h"
 #include "xparser.h"
 
 #include <klocale.h>
@@ -69,7 +70,7 @@ ParameterSettings ParametersWidget::parameterSettings() const
 
 void ParametersWidget::editParameterList()
 {
-	KParameterEditor * dlg = new KParameterEditor( & m_parameters );
+	KParameterEditor * dlg = new KParameterEditor( & m_parameters, this );
 	dlg->exec();
 	emit parameterListChanged();
 }

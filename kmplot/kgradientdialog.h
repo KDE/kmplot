@@ -176,7 +176,7 @@ class KGradientDialog : public KDialog
 	Q_OBJECT
 			
 	public:
-		KGradientDialog( QWidget * parent = 0, bool modal = false );
+		KGradientDialog( QWidget * parent, bool modal );
 		~KGradientDialog();
 		
 		/**

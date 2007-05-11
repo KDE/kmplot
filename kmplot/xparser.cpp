@@ -65,7 +65,7 @@ XParser::~XParser()
 {
 }
 
-bool XParser::getext( Function *item, const QString fstr )
+bool XParser::getext( Function *item, const QString &fstr )
 {
   	bool errflg = false;
    	int p1, p2, p3, pe;
@@ -722,7 +722,7 @@ int XParser::addFunction(const QString &f_str0, const QString &_f_str1)
 	return id;
 }
 
-bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, const QStringList & str_parameter, int use_slider)
+bool XParser::addFunction(const QString &fstr_const0, const QString &fstr_const1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, double linewidth, double f1_linewidth, double f2_linewidth, double integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, const QColor &color, const QColor &f1_color, const QColor &f2_color, const QColor &integral_color, const QStringList & str_parameter, int use_slider)
 {
 	QString fstr[2] = { fstr_const0, fstr_const1 };
 	Function::Type type = Function::Cartesian;

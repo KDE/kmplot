@@ -81,7 +81,7 @@ class XParser : public Parser
 		void fixFunctionName(QString &, Equation::Type const = Equation::Cartesian, int const=-1);
         
         /// Interpretates the extended function string (only used by the old file format)
-	bool getext( Function *, const QString );
+	bool getext( Function *, const QString &);
 	
 	/// Functions for the D-BUS interface:
     public Q_SLOTS:
@@ -130,7 +130,7 @@ class XParser : public Parser
 	Q_SCRIPTABLE bool functionAddParameter(uint id, const QString &new_parameter);
 	Q_SCRIPTABLE bool functionRemoveParameter(uint id, const QString &remove_parameter);
 	Q_SCRIPTABLE int addFunction(const QString &f_str0, const QString &f_str1);
-	Q_SCRIPTABLE bool addFunction(const QString &extstr0, const QString &extstr1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, double linewidth, double f1linewidth, double f2linewidth, double integrallinewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QColor color, QColor f1_color, QColor f2_color, QColor integral_color, const QStringList & str_parameter, int use_slider);
+	Q_SCRIPTABLE bool addFunction(const QString &extstr0, const QString &extstr1, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, double linewidth, double f1linewidth, double f2linewidth, double integrallinewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, const QColor &color, const QColor &f1_color, const QColor &f2_color, const QColor &integral_color, const QStringList & str_parameter, int use_slider);
 	Q_SCRIPTABLE bool setFunctionExpression(uint id, uint eq, const QString &f_str);
 	
 	/// Get the min and max value of a graph

@@ -103,7 +103,7 @@ class KmPlotIO
 		 * @param tagValue The data between the opening and cloding tag.
 	 	 * @return The QDomElement that was created.
 		 */
-		QDomElement addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
+		QDomElement addTag( QDomDocument &doc, QDomElement &parentTag, const QString &tagName, const QString &tagValue );
 		/// Reads axes parameters from the node @a n.
 		/// @param n Node containing the options.
 		void parseAxes( const QDomElement &n );

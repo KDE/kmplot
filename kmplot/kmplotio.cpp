@@ -254,7 +254,7 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 }
 
 
-QDomElement KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue )
+QDomElement KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString &tagName, const QString &tagValue )
 {
 	QDomElement tag = doc.createElement( tagName );
 	QDomText value = doc.createTextNode( tagValue );
@@ -431,7 +431,7 @@ void KmPlotIO::parseGrid( const QDomElement & n )
 }
 
 
-int unit2index( const QString unit )
+int unit2index( const QString &unit )
 {
 	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
 	int index = 0;

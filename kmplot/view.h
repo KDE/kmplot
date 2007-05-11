@@ -137,7 +137,7 @@ class View : public QWidget
 		 * \param format How the number should be represented as a string.
 		 * \param color If using scientific mode, the color to format the text.
 		 */
-		QString posToString( double x, double delta, PositionFormatting format, QColor color = Qt::black ) const;
+		QString posToString( double x, double delta, PositionFormatting format, const QColor &color = Qt::black ) const;
 
 		/// Slider controlling parameter values
 		QPointer<KSliderWindow> m_sliderWindow;

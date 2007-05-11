@@ -442,7 +442,7 @@ void FunctionEditor::initFromDifferential()
 }
 
 
-void FunctionEditor::splitImplicitEquation( const QString equation, QString * name, QString * expression )
+void FunctionEditor::splitImplicitEquation( const QString &equation, QString * name, QString * expression )
 {
 	int equalsPos = equation.indexOf( '=' );
 	assert( equalsPos >= 0 );

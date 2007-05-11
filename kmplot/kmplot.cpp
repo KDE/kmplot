@@ -237,7 +237,7 @@ void KmPlot::fileOpen(const KUrl &url)
 }
 
 
-void KmPlot::openFileInNewWindow(const KUrl url)
+void KmPlot::openFileInNewWindow(const KUrl &url)
 {
  KToolInvocation::startServiceByDesktopName("kmplot",url.url());
 }

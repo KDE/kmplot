@@ -76,7 +76,7 @@ public Q_SLOTS:
     Q_SCRIPTABLE void optionsConfigureKeys();
     Q_SCRIPTABLE void optionsConfigureToolbars();
     Q_SCRIPTABLE void setStatusBarText(const QString &, int id);
-	Q_SCRIPTABLE void openFileInNewWindow(const KUrl url);
+	Q_SCRIPTABLE void openFileInNewWindow(const KUrl &url);
 	/**
 	 * Set the progress of drawing the plots, with \p progress ranging from 0
 	 * to 1. After initially calling this function with \p progress less than

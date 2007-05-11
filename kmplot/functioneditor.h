@@ -162,7 +162,7 @@ class FunctionEditor : public QDockWidget
 		 * Extract function \p name and \p expression from the given
 		 * \p equation - for implicit functions.
 		 */
-		void splitImplicitEquation( const QString equation, QString * name, QString * expression );
+		void splitImplicitEquation( const QString &equation, QString * name, QString * expression );
 		/**
 		 * Used at end of the save* functions.
 		 * \a tempFunction is the function to copy the settings from.

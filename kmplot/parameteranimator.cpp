@@ -33,10 +33,12 @@
 #include <cmath>
 using namespace std;
 
+#ifndef KDEWIN_MATH_H
 double inline log(int n)
 {
 	return log(double(n));
 }
+#endif
 
 class ParameterAnimatorWidget : public QWidget, public Ui::ParameterAnimator
 {

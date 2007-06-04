@@ -29,7 +29,6 @@
 #include <kparts/mainwindow.h>
 
 class KmPlotProgress;
-class KToggleAction;
 class KToggleFullScreenAction;
 
 /**

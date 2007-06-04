@@ -56,11 +56,8 @@ class FunctionEditor;
 class FunctionTools;
 class KConfigDialog;
 class KConstantEditor;
-class KToggleFullScreenAction;
 class KAboutData;
 class QAction;
-class KLineEdit;
-class KPageWidgetItem;
 class KRecentFilesAction;
 class QTimer;
 

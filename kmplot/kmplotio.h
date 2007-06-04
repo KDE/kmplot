@@ -33,7 +33,6 @@ class Function;
 class QDomDocument;
 class QDomElement;
 class QString;
-class XParser;
 
 /** @short This class manages the file operations load and save.
  *

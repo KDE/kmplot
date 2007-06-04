@@ -49,7 +49,6 @@ class QPaintEvent;
 class QTextDocument;
 class QTextEdit;
 class QTime;
-class XParser;
 
 //@{
 /// Some abbreviations for horizontal and vertical lines.

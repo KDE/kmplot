@@ -32,7 +32,6 @@
 
 #include <kdialog.h>
 
-class ParameterValueList;
 class QParameterEditor;
 
 /**

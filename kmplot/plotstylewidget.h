@@ -29,7 +29,6 @@
 #include <QGroupBox>
 
 class KColorButton;
-class KGradientButton;
 class KDialog;
 class PlotAppearance;
 class PlotStyleDialogWidget;

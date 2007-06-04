@@ -43,8 +43,6 @@ class FunctionListWidget;
 class KMenu;
 class QTimer;
 class Function;
-class View;
-class XParser;
 
 class FunctionEditor : public QDockWidget
 {

@@ -101,6 +101,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 			else
 				openFileInNewWindow( args->url(i) );
 		}
+		args->clear();
 		if (exit)
 			deleteLater(); // couln't open the file, and therefore exit
 	}

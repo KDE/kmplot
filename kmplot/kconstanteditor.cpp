@@ -36,7 +36,6 @@
 #include <kstandarddirs.h>
 
 #include <qdom.h>
-#include <QStringList>
 #include <QTimer>
 #include <QVector>
 

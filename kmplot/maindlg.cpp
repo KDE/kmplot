@@ -826,7 +826,7 @@ const KComponentData &KmPlotPartFactory::componentData()
 {
 	if( !s_instance )
 	{
-		s_about = new KAboutData("kmplot",I18N_NOOP( "KmPlotPart" ), "1");
+		s_about = new KAboutData("kmplot", 0,ki18n( "KmPlotPart" ), "1");
 		s_instance = new KComponentData(s_about);
 	}
 	return *s_instance;

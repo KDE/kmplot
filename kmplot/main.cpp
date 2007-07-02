@@ -41,39 +41,35 @@
 static const char description[] =
     I18N_NOOP( "Mathematical function plotter for KDE" );
 
-static KCmdLineOptions options[] =
-{
-	{ "f", 0, 0 },
-	{ "function <argument>", I18N_NOOP( "Initial functions to plot" ), "" },
-	{ "+[URL]", I18N_NOOP( "File to open" ), 0 },
-	KCmdLineLastOption
-	// INSERT YOUR COMMANDLINE OPTIONS HERE
-};
-
 
 int main( int argc, char **argv )
 {
 	KAboutData aboutData(
-	    "kmplot",
-	    I18N_NOOP( "KmPlot" ),
-	    KP_VERSION, description, KAboutData::License_GPL,
-	    "(c) 2000-2002, Klaus-Dieter Möller",
-	    0,
+	    "kmplot", 0,
+	    ki18n( "KmPlot" ),
+	    KP_VERSION, ki18n(description), KAboutData::License_GPL,
+	    ki18n("(c) 2000-2002, Klaus-Dieter Möller"),
+	    KLocalizedString(),
 	    "http://edu.kde.org/kmplot/" );
 	
 	aboutData.addAuthor(
-	    "Klaus-Dieter Möller", I18N_NOOP( "Original Author" ) ,
+	    ki18n("Klaus-Dieter Möller"), ki18n( "Original Author" ) ,
 	    "kdmoeller@foni.net" );
 	aboutData.addAuthor(
-	    "Matthias Meßmer", I18N_NOOP( "GUI" ) ,
+	    ki18n("Matthias Meßmer"), ki18n( "GUI" ) ,
 	    "bmlmessmer@web.de" );
-	aboutData.addAuthor( "Fredrik Edemar", I18N_NOOP( "Various improvements" ), "f_edemar@linux.se" );
-	aboutData.addAuthor( "David Saxton", I18N_NOOP( "Porting to Qt 4, UI improvements, features" ), "david@bluehaze.org" );
+	aboutData.addAuthor( ki18n("Fredrik Edemar"), ki18n( "Various improvements" ), "f_edemar@linux.se" );
+	aboutData.addAuthor( ki18n("David Saxton"), ki18n( "Porting to Qt 4, UI improvements, features" ), "david@bluehaze.org" );
 	
-	aboutData.addCredit( "David Vignoni", I18N_NOOP( "svg icon" ), "david80v@tin.it" );
-	aboutData.addCredit( "Albert Astals Cid", I18N_NOOP( "command line options, MIME type" ), "tsdgeos@terra.es" );
+	aboutData.addCredit( ki18n("David Vignoni"), ki18n( "svg icon" ), "david80v@tin.it" );
+	aboutData.addCredit( ki18n("Albert Astals Cid"), ki18n( "command line options, MIME type" ), "tsdgeos@terra.es" );
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
+
+	KCmdLineOptions options;
+	options.add("f");
+	options.add("function <argument>", ki18n( "Initial functions to plot" ));
+	options.add("+[URL]", ki18n( "File to open" ));
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
 	KApplication ka;

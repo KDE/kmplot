@@ -568,10 +568,10 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		if ( str[i].isEmpty() || temp->eq.size() <= i )
 			continue;
 		
-		Error error;
-		if ( !temp->eq[i]->setFstr( str[i], (int*)(& error), 0, force ) && !force )
+		int error;
+		if ( !temp->eq[i]->setFstr( str[i], & error, 0, force ) && !force )
 		{
-			kDebug() << "could not set fstr to \""<<str[i]<<"\"! error:"<<errorString(error)<<"\n";
+			kDebug() << "could not set fstr to \""<<str[i]<<"\"!  error:"<<errorString(Error(error))<<"\n";
 			delete temp;
 			return -1;
 		}

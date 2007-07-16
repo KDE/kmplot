@@ -361,10 +361,12 @@ void EquationEdit::checkTextValidity( )
 	QString text = m_validatePrefix + EquationEdit::text();
 	
 	Parser::Error error;
-	int errorPosition;
+	int intError, errorPosition;
 	
-	if ( m_inputType == Function )
-		m_equation->setFstr( text, (int*)& error, & errorPosition );
+	if ( m_inputType == Function ) {
+		m_equation->setFstr( text, &intError, & errorPosition );
+		error = (Parser::Error) intError;
+	}
 	else
 		XParser::self()->eval( text, & error, & errorPosition );
 	

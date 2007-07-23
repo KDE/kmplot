@@ -77,11 +77,11 @@ install(TARGETS kmplot  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES kmplot.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES kmplot.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES kmplot.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kmplot_part.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${DATA_INSTALL_DIR}/kmplot )
 install( FILES kmplot_shell.rc  DESTINATION  ${DATA_INSTALL_DIR}/kmplot )
-install( FILES org.kde.kmplot.KmPlot.xml org.kde.kmplot.MainDlg.xml org.kde.kmplot.Parser.xml org.kde.kmplot.View.xml DESTINATION ${DBUS_INTERFACES_DIR} )
+install( FILES org.kde.kmplot.KmPlot.xml org.kde.kmplot.MainDlg.xml org.kde.kmplot.Parser.xml org.kde.kmplot.View.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
 
 

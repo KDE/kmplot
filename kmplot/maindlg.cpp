@@ -140,7 +140,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	// we need an instance
 	setComponentData( KmPlotPartFactory::componentData() );
 
-	kDebug() << "parentWidget->objectName():" << parentWidget->objectName() << endl;
+	kDebug() << "parentWidget->objectName():" << parentWidget->objectName();
 	if ( QString(parentWidget->objectName()).startsWith("KmPlot") )
 	{
 		setXMLFile("kmplot_part.rc");
@@ -360,7 +360,7 @@ void MainDlg::setupActions()
 	//END new plots menu
 
 
-	kDebug() << "KStandardDirs::resourceDirs( icon )="<<KGlobal::dirs()->resourceDirs( "icon" )<<endl;
+	kDebug() << "KStandardDirs::resourceDirs( icon )="<<KGlobal::dirs()->resourceDirs( "icon" );
 
 	View::self()->m_menuSliderAction = actionCollection()->add<KToggleAction>( "options_configure_show_sliders" );
         View::self()->m_menuSliderAction->setText( i18n( "Show Sliders" ) );
@@ -404,7 +404,7 @@ void MainDlg::setupActions()
 
 void MainDlg::undo()
 {
-	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo;
 
 	if ( m_undoStack.isEmpty() )
 		return;
@@ -422,7 +422,7 @@ void MainDlg::undo()
 
 void MainDlg::redo()
 {
-	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo;
 
 	if ( m_redoStack.isEmpty() )
 		return;
@@ -507,7 +507,7 @@ void MainDlg::slotSave()
 				return;
 		}
 		kmplotio->save( this->url() );
-		kDebug() << "saved" << endl;
+		kDebug() << "saved";
 		m_modified = false;
 	}
 
@@ -570,7 +570,7 @@ void MainDlg::slotExport()
 	}
 
 	KMimeType::Ptr mimeType = KMimeType::findByUrl( url );
-	kDebug() << k_funcinfo << "mimetype: " << mimeType->name() << endl;
+	kDebug() << k_funcinfo << "mimetype: " << mimeType->name();
 
 	bool isSvg = mimeType->name() == "image/svg+xml";
 

@@ -143,7 +143,7 @@ QString PlotAppearance::penStyleToString( Qt::PenStyle style )
 			break;
 	}
 	
-	kWarning() << k_funcinfo << "Unknown style " << style << endl;
+	kWarning() << k_funcinfo << "Unknown style " << style ;
 	return "SolidLine";
 }
 
@@ -168,7 +168,7 @@ Qt::PenStyle PlotAppearance::stringToPenStyle( const QString & style )
 	if ( style == "DashDotDotLine" )
 		return Qt::DashDotDotLine;
 	
-	kWarning() << k_funcinfo << "Unknown style " << style << endl;
+	kWarning() << k_funcinfo << "Unknown style " << style ;
 	return Qt::SolidLine;
 }
 //END class PlotAppearance
@@ -486,7 +486,7 @@ bool Equation::setFstr( const QString & fstr, int * error, int * errorPosition, 
 	} \
 	else \
 	{ \
-		kDebug() << "fstr "<<fstr<<" invalid, but forcing anyway: " << Parser::errorString( Parser::Error(*error) ) << " at position " << *errorPosition << endl; \
+		kDebug() << "fstr "<<fstr<<" invalid, but forcing anyway: " << Parser::errorString( Parser::Error(*error) ) << " at position " << *errorPosition; \
 		mem.clear(); \
 	}
 	
@@ -744,7 +744,7 @@ QString Function::typeToString( Type type )
 			return "differential";
 	}
 	
-	kWarning() << "Unknown type " << type << endl;
+	kWarning() << "Unknown type " << type ;
 	return "unknown";
 }
 
@@ -766,7 +766,7 @@ Function::Type Function::stringToType( const QString & type )
 	if ( type == "differential" )
 		return Differential;
 	
-	kWarning() << "Unknown type " << type << endl;
+	kWarning() << "Unknown type " << type ;
 	return Cartesian;
 }
 

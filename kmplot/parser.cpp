@@ -353,7 +353,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 	
 	while(1)
 	{
-// 		kDebug() << "*eq->mptr: "<<int(*eq->mptr)<<endl;
+// 		kDebug() << "*eq->mptr: "<<int(*eq->mptr);
 		
 		switch(*eq->mptr++)
 		{

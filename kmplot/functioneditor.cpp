@@ -801,7 +801,7 @@ void FunctionListWidget::dropEvent( QDropEvent * event )
 		if ( n.nodeName() == "function" )
 			io.parseFunction( n.toElement(), true );
 		else
-			kWarning() << k_funcinfo << "Unexpected node with name " << n.nodeName() << endl;
+			kWarning() << k_funcinfo << "Unexpected node with name " << n.nodeName() ;
 	}
 }
 //END class FunctionListWidget

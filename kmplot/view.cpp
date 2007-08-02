@@ -198,7 +198,7 @@ double View::niceTicSpacing( double length_mm, double range )
 		// Don't assert, as we can at least handle this situation - and it can
 		// happen with extreme zooms
 		
-		kWarning() << k_funcinfo << "Non-positive length: length_mm="<<length_mm<<endl;
+		kWarning() << k_funcinfo << "Non-positive length: length_mm="<<length_mm;
 		length_mm = 120;
 	}
 	
@@ -264,7 +264,7 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 	
 	if ( m_clipRect.width() <= 0 || m_clipRect.height() <= 0 )
 	{
-		kWarning() << k_funcinfo << "Invalid clip rect: m_clipRect="<<m_clipRect<<endl;
+		kWarning() << k_funcinfo << "Invalid clip rect: m_clipRect="<<m_clipRect;
 		return;
 	}
 		
@@ -1379,7 +1379,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 			
 #ifdef DEBUG_IMPLICIT
 			kDebug() << "Singular point at (x,y)=("<<point.x()<<','<<point.y()<<")\n";
-			kDebug() << "fstr is    " << fstr << endl;
+			kDebug() << "fstr is    " << fstr;
 			kDebug() << "Found " << roots.size() << " roots.\n";
 #endif
 			
@@ -1401,8 +1401,8 @@ void View::drawImplicit( Function * function, QPainter * painter )
 	
 #ifdef DEBUG_IMPLICIT
 	if ( root_find_requests != 0 )
-		kDebug() << "Average iterations in root finding was " << root_find_iterations/root_find_requests << endl;
-	kDebug() << "Time taken was " << t.elapsed() << endl;
+		kDebug() << "Average iterations in root finding was " << root_find_iterations/root_find_requests;
+	kDebug() << "Time taken was " << t.elapsed();
 #endif
 	
 	XParser::self()->removeFunction( circular.functionID() );
@@ -1527,7 +1527,7 @@ void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		if ( !foundRootPreviously )
 			segment_step = qMin( segment_step/4, SegmentMin );
 		
-// 		kDebug() << "k="<<k<<" segment_step="<<segment_step<<endl;
+// 		kDebug() << "k="<<k<<" segment_step="<<segment_step;
 		
 		QPointF p1 = toPixel( QPointF( x, y ),			ClipInfinite ) * painter->matrix();
 		QPointF p2 = toPixel( QPointF( x+dx, y+dy ),	ClipInfinite ) * painter->matrix();
@@ -1555,7 +1555,7 @@ void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x
 			// switched direction and are already at the smallest step size, then note
 			// the dodgy point for further investigation and give up for now
 			
-// 			kDebug() << "Switched direction: x="<<x<<" switchCount="<<switchCount<<" segment_step="<<segment_step<<" i="<<i<<endl;
+// 			kDebug() << "Switched direction: x="<<x<<" switchCount="<<switchCount<<" segment_step="<<segment_step<<" i="<<i;
 			
 			// Use a step size much smaller than segment min to obtain good accuracy,
 			// needed for investigating the point further
@@ -1581,7 +1581,7 @@ void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x
 			// Reset the stepping adjustment
 			switchCount = qMax( 0, switchCount-1 );
 			prevAngle = angle;
-// 			kDebug() << "Didn't switch - x="<<x<<" segment_step="<<segment_step<<endl;
+// 			kDebug() << "Didn't switch - x="<<x<<" segment_step="<<segment_step;
 		}
 		
 		if ( i == 0 )
@@ -2043,7 +2043,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 	}
 	while ( x <= dmax );
 	
-// 	kDebug() << "drawPoints.size()="<<drawPoints.size()<<endl;
+// 	kDebug() << "drawPoints.size()="<<drawPoints.size();
 	drawPolyline( painter, drawPoints );
 	
 	painter->restore();
@@ -2889,7 +2889,7 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 			fdy = XParser::self()->derivative( d1, f->eq[0], state, x, h ) * sy;
 			fddy = XParser::self()->derivative( d2, f->eq[0], state, x, h) * sy;
 			
-// 			kDebug() << k_funcinfo << "fdy="<<fdy<<" fddy="<<fddy<<endl;
+// 			kDebug() << k_funcinfo << "fdy="<<fdy<<" fddy="<<fddy;
 			
 			break;
 		}
@@ -3836,7 +3836,7 @@ void View::keyPressEvent( QKeyEvent * e )
 					m_currentPlot.plotMode=old_m_currentPlot.plotMode;
 					break;
 				}
-				kDebug() << "m_currentPlot.functionID: " << m_currentPlot.functionID << endl;
+				kDebug() << "m_currentPlot.functionID: " << m_currentPlot.functionID;
 				switch ( (*it)->type() )
 				{
 					case Function::Parametric:
@@ -3856,7 +3856,7 @@ void View::keyPressEvent( QKeyEvent * e )
 									m_currentPlot.plotMode = (Function::PMode)(old_m_currentPlot.plotMode+1);
 								start=false;
 							}
-						kDebug() << "   m_currentPlot.plotMode: " << (int)m_currentPlot.plotMode << endl;
+						kDebug() << "   m_currentPlot.plotMode: " << (int)m_currentPlot.plotMode;
 
 						if ( (*it)->plotAppearance( m_currentPlot.plotMode ).visible )
 							found = true;
@@ -3876,10 +3876,10 @@ void View::keyPressEvent( QKeyEvent * e )
 			}
 		}
 
-		kDebug() << "************************" << endl;
-		kDebug() << "m_currentPlot.functionID: " << (int)m_currentPlot.functionID << endl;
-		kDebug() << "m_currentPlot.plotMode: " << (int)m_currentPlot.plotMode << endl;
-		kDebug() << "m_currentFunctionParameter: " << m_currentFunctionParameter << endl;
+		kDebug() << "************************";
+		kDebug() << "m_currentPlot.functionID: " << (int)m_currentPlot.functionID;
+		kDebug() << "m_currentPlot.plotMode: " << (int)m_currentPlot.plotMode;
+		kDebug() << "m_currentFunctionParameter: " << m_currentFunctionParameter;
 
 		setStatusBar( (*it)->prettyName( m_currentPlot.plotMode ), FunctionSection );
 
@@ -4241,7 +4241,7 @@ void View::setStatusBar( const QString & t, StatusBarSection section )
 
 void View::slidersWindowClosed()
 {
-	kDebug() << k_funcinfo << endl;
+	kDebug() << k_funcinfo;
 	m_menuSliderAction->setChecked(false);
 }
 //END class View

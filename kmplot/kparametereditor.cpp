@@ -314,7 +314,7 @@ void KParameterEditor::cmdExport_clicked()
                 else
                 {
 	                QFile file;
-			kDebug() << "url.path()="<<url.path()<<endl;
+			kDebug() << "url.path()="<<url.path();
 			file.setFileName(url.path());
 			if (file.open( QIODevice::WriteOnly ) )
 			{

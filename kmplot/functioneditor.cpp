@@ -191,7 +191,7 @@ void FunctionEditor::syncFunctionList()
 	int oldFunctionCount = m_functionList->count();
 	
 	QListWidgetItem * currentItem = m_functionList->currentItem();
-	QString currentText = currentItem ? currentItem->text() : QString::null;	//krazy:exclude=nullstrassign for old broken gcc
+	QString currentText = currentItem ? currentItem->text() : QString();
 	
 	// build up a list of IDs that we have
 	QMap< int, FunctionListItem * > currentIDs;

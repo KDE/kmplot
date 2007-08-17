@@ -173,8 +173,8 @@ void KConstantEditor::selectedConstantChanged( QTreeWidgetItem * current )
 {
 	m_widget->cmdDelete->setEnabled( current != 0 );
 	
-	QString name = current ? current->text(0) : QString::null;	//krazy:exclude=nullstrassign for old broken gcc
-	QString value = current ? current->text(1) : QString::null;	//krazy:exclude=nullstrassign for old broken gcc
+	QString name = current ? current->text(0) : QString();
+	QString value = current ? current->text(1) : QString();
 	
 	m_previousConstantName = name;
 	m_constantValidator->setWorkingName( m_previousConstantName );

@@ -338,7 +338,7 @@ bool KmPlotIO::load( const KUrl &url )
 	QFile f;
 	if ( !url.isLocalFile() )
 	{
-		if( !KIO::NetAccess::exists( url, true, 0 ) )
+		if( !KIO::NetAccess::exists( url, KIO::NetAccess::SourceSide, 0 ) )
 		{
 			KMessageBox::sorry(0,i18n("The file does not exist."));
 			return false;

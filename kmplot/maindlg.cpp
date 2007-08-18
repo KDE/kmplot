@@ -522,7 +522,7 @@ void MainDlg::slotSaveas()
 	if ( url.isEmpty() )
 		return;
 
-	bool exists = KIO::NetAccess::exists( url,false,m_parent );
+	bool exists = KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, m_parent );
 	if ( exists )
 	{
 		// check if file exists and overwriting is ok.
@@ -558,7 +558,7 @@ void MainDlg::slotExport()
 	KUrl url = kfd->selectedUrl();
 	delete kfd;
 	
-	bool exists = KIO::NetAccess::exists( url,false,m_parent );
+	bool exists = KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, m_parent );
 	if ( exists )
 	{
 		// check if file exists and overwriting is ok.

@@ -214,7 +214,7 @@ void KParameterEditor::cmdImport_clicked()
 	if ( url.isEmpty() )
 		return;
         
-        if (!KIO::NetAccess::exists(url,true,this) )
+        if (!KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, this) )
         {
 			KMessageBox::sorry(0,i18n("The file does not exist."));
                 return;
@@ -284,7 +284,7 @@ void KParameterEditor::cmdExport_clicked()
         if ( url.isEmpty() )
                 return;
 
-        if( !KIO::NetAccess::exists( url,false,this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
+        if( !KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
         {
                 if ( !url.isLocalFile() )
                 {

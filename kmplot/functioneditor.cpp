@@ -323,7 +323,7 @@ void FunctionEditor::initFromCartesian()
 	
 	if ( !f )
 	{
-		kWarning() << k_funcinfo << "No f! (id="<<m_functionID<<")\n";
+		kWarning() << "No f! (id="<<m_functionID<<")\n";
 		return;
 	}
 	
@@ -720,7 +720,7 @@ void FunctionEditor::saveFunction( Function * tempFunction )
 	if ( !changed )
 		return;
 	
-	kDebug() << k_funcinfo << "Changed\n";
+	kDebug() << "Changed\n";
 	
 	if ( f->eq[0]->looksLikeFunction() )
 		Settings::setDefaultEquationForm( Settings::EnumDefaultEquationForm::Function );
@@ -801,7 +801,7 @@ void FunctionListWidget::dropEvent( QDropEvent * event )
 		if ( n.nodeName() == "function" )
 			io.parseFunction( n.toElement(), true );
 		else
-			kWarning() << k_funcinfo << "Unexpected node with name " << n.nodeName() ;
+			kWarning() << "Unexpected node with name " << n.nodeName() ;
 	}
 }
 //END class FunctionListWidget

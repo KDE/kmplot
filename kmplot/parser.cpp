@@ -327,7 +327,7 @@ double Parser::fkt( Equation * eq, double x )
 			return 0;
 	}
 	
-	kWarning() << k_funcinfo << "Unknown function type!\n";
+	kWarning() << "Unknown function type!\n";
 	return 0;
 }
 
@@ -1718,7 +1718,7 @@ int ExpressionSanitizer::realPos( int evalPos )
 	
 	if ( evalPos >= m_map.size() )
 	{
-// 		kWarning() << k_funcinfo << "evalPos="<<evalPos<<" is out of range.\n";
+// 		kWarning() << "evalPos="<<evalPos<<" is out of range.\n";
 // 		return m_map[ m_map.size() - 1 ];
 		return -1;
 	}

@@ -147,7 +147,7 @@ double XParser::derivative( int n, Equation * eq, DifferentialState * state, dou
 {
 	if ( n < -1 )
 	{
-		kError() << k_funcinfo << "Can't handle derivative < -1\n";
+		kError() << "Can't handle derivative < -1\n";
 		return 0.0;
 	}
 	
@@ -178,7 +178,7 @@ double XParser::partialDerivative( int n1, int n2, Equation * eq, DifferentialSt
 {
 	if ( n1 < 0 || n2 < 0 )
 	{
-		kError() << k_funcinfo << "Can't handle derivative < 0\n";
+		kError() << "Can't handle derivative < 0\n";
 		return 0.0;
 	}
 	
@@ -302,7 +302,7 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	
 	if ( eq->order() < 1 )
 	{
-		kWarning() << k_funcinfo << "Zero order!\n";
+		kWarning() << "Zero order!\n";
 		return 0;
 	}
 	

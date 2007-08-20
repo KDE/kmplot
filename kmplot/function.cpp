@@ -143,7 +143,7 @@ QString PlotAppearance::penStyleToString( Qt::PenStyle style )
 			break;
 	}
 	
-	kWarning() << k_funcinfo << "Unknown style " << style ;
+	kWarning() << "Unknown style " << style ;
 	return "SolidLine";
 }
 
@@ -168,7 +168,7 @@ Qt::PenStyle PlotAppearance::stringToPenStyle( const QString & style )
 	if ( style == "DashDotDotLine" )
 		return Qt::DashDotDotLine;
 	
-	kWarning() << k_funcinfo << "Unknown style " << style ;
+	kWarning() << "Unknown style " << style ;
 	return Qt::SolidLine;
 }
 //END class PlotAppearance
@@ -694,7 +694,7 @@ PlotAppearance & Function::plotAppearance( PMode plot )
 			return integral;
 	}
 	
-	kError() << k_funcinfo << "Unknown plot " << plot << endl;
+	kError() << "Unknown plot " << plot << endl;
 	return f0;
 }
 PlotAppearance Function::plotAppearance( PMode plot ) const
@@ -713,7 +713,7 @@ PlotAppearance Function::plotAppearance( PMode plot ) const
 			return integral;
 	}
 	
-	kError() << k_funcinfo << "Unknown plot " << plot << endl;
+	kError() << "Unknown plot " << plot << endl;
 	return f0;
 }
 
@@ -1075,7 +1075,7 @@ double Plot::parameterValue() const
 		
 		case Parameter::Animated:
 		{
-			kWarning() << k_funcinfo << "Shouldn't use this function for animated parameter!\n";
+			kWarning() << "Shouldn't use this function for animated parameter!\n";
 			return 0;
 		}
 	}
@@ -1101,7 +1101,7 @@ void Plot::differentiate()
 			break;
 
 		case Function::Derivative2:
-			kWarning() << k_funcinfo << "Can't handle this yet!\n";
+			kWarning() << "Can't handle this yet!\n";
 			break;
 	}
 }
@@ -1112,7 +1112,7 @@ void Plot::integrate()
 	switch ( plotMode )
 	{
 		case Function::Integral:
-			kWarning() << k_funcinfo << "Can't handle this yet!\n";
+			kWarning() << "Can't handle this yet!\n";
 			break;
 
 		case Function::Derivative0:
@@ -1168,7 +1168,7 @@ int Plot::derivativeNumber( ) const
 			return 2;
 	}
 	
-	kWarning() << k_funcinfo << "Unknown derivative number.\n";
+	kWarning() << "Unknown derivative number.\n";
 	return 0;
 }
 

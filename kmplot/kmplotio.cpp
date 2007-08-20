@@ -132,7 +132,7 @@ bool KmPlotIO::save( const KUrl &url )
 		KTemporaryFile tmpfile;
 		if ( !tmpfile.open() )
 		{
-			kWarning() << k_funcinfo << "Could not open " << KUrl( tmpfile.fileName() ).path() << " for writing.\n";
+			kWarning() << "Could not open " << KUrl( tmpfile.fileName() ).path() << " for writing.\n";
 			return false;
 		}
 		QTextStream ts( &tmpfile );
@@ -141,7 +141,7 @@ bool KmPlotIO::save( const KUrl &url )
 
 		if ( !KIO::NetAccess::upload(tmpfile.fileName(), url,0))
 		{
-			kWarning() << k_funcinfo << "Could not open " << url.prettyUrl() << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
+			kWarning() << "Could not open " << url.prettyUrl() << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
 			return false;
 		}
 	}
@@ -150,7 +150,7 @@ bool KmPlotIO::save( const KUrl &url )
 		QFile xmlfile (url.path());
 		if (!xmlfile.open( QIODevice::WriteOnly ) )
 		{
-			kWarning() << k_funcinfo << "Could not open " << url.path() << " for writing.\n";
+			kWarning() << "Could not open " << url.path() << " for writing.\n";
 			return false;
 		}
 		QTextStream ts( &xmlfile );
@@ -510,7 +510,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	int functionID = XParser::self()->Parser::addFunction( eq0, eq1, type, true );
 	if ( functionID == -1 )
 	{
-		kWarning() << k_funcinfo << "Could not create function!\n";
+		kWarning() << "Could not create function!\n";
 		return;
 	}
 	Function * function = XParser::self()->functionWithID( functionID );
@@ -599,7 +599,7 @@ void KmPlotIO::parseDifferentialStates( const QDomElement & n, Equation * equati
 			DifferentialState * state = equation->differentialStates.add();
 			if ( state->y0.size() != y.size() )
 			{
-				kWarning() << k_funcinfo << "Invalid y count!\n";
+				kWarning() << "Invalid y count!\n";
 				return;
 			}
 			
@@ -731,7 +731,7 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 	QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
 	if ( tmp_fstr.isEmpty() )
 	{
-		kWarning() << k_funcinfo << "tmp_fstr is empty!\n";
+		kWarning() << "tmp_fstr is empty!\n";
 		return;
 	}
 	

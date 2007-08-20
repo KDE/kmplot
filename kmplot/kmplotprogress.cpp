@@ -70,7 +70,7 @@ void KmPlotProgress::showProgressBar()
 
 void KmPlotProgress::setProgress( double progress )
 {
-	kDebug() << k_funcinfo << "progress="<<progress;
+	kDebug() << "progress="<<progress;
 
 	Q_ASSERT( progress >= 0 );
 

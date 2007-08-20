@@ -404,7 +404,7 @@ void MainDlg::setupActions()
 
 void MainDlg::undo()
 {
-	kDebug() << k_funcinfo;
+	kDebug() ;
 
 	if ( m_undoStack.isEmpty() )
 		return;
@@ -422,7 +422,7 @@ void MainDlg::undo()
 
 void MainDlg::redo()
 {
-	kDebug() << k_funcinfo;
+	kDebug() ;
 
 	if ( m_redoStack.isEmpty() )
 		return;
@@ -570,7 +570,7 @@ void MainDlg::slotExport()
 	}
 
 	KMimeType::Ptr mimeType = KMimeType::findByUrl( url );
-	kDebug() << k_funcinfo << "mimetype: " << mimeType->name();
+	kDebug() << "mimetype: " << mimeType->name();
 
 	bool isSvg = mimeType->name() == "image/svg+xml";
 

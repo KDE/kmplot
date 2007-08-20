@@ -198,7 +198,7 @@ double View::niceTicSpacing( double length_mm, double range )
 		// Don't assert, as we can at least handle this situation - and it can
 		// happen with extreme zooms
 		
-		kWarning() << k_funcinfo << "Non-positive length: length_mm="<<length_mm;
+		kWarning() << "Non-positive length: length_mm="<<length_mm;
 		length_mm = 120;
 	}
 	
@@ -264,7 +264,7 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 	
 	if ( m_clipRect.width() <= 0 || m_clipRect.height() <= 0 )
 	{
-		kWarning() << k_funcinfo << "Invalid clip rect: m_clipRect="<<m_clipRect;
+		kWarning() << "Invalid clip rect: m_clipRect="<<m_clipRect;
 		return;
 	}
 		
@@ -1072,7 +1072,7 @@ double View::h( const Plot & plot ) const
 			return qMin( dx, dy );
 	}
 	
-	kWarning() << k_funcinfo << "Unknown coord\n";
+	kWarning() << "Unknown coord\n";
 	return qMin( dx, dy );
 }
 
@@ -1135,7 +1135,7 @@ QPointF View::realValue( const Plot & plot, double x, bool updateFunction )
 		}
 	}
 
-	kWarning() << k_funcinfo << "Unknown function type!\n";
+	kWarning() << "Unknown function type!\n";
 	return QPointF();
 }
 
@@ -2889,7 +2889,7 @@ double View::pixelCurvature( const Plot & plot, double x, double y )
 			fdy = XParser::self()->derivative( d1, f->eq[0], state, x, h ) * sy;
 			fddy = XParser::self()->derivative( d2, f->eq[0], state, x, h) * sy;
 			
-// 			kDebug() << k_funcinfo << "fdy="<<fdy<<" fddy="<<fddy;
+// 			kDebug() << "fdy="<<fdy<<" fddy="<<fddy;
 			
 			break;
 		}
@@ -4241,7 +4241,7 @@ void View::setStatusBar( const QString & t, StatusBarSection section )
 
 void View::slidersWindowClosed()
 {
-	kDebug() << k_funcinfo;
+	kDebug() ;
 	m_menuSliderAction->setChecked(false);
 }
 //END class View

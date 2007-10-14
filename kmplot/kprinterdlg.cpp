@@ -39,16 +39,16 @@
 #include "parser.h"
 
 KPrinterDlg::KPrinterDlg( QWidget *parent )
-		: KPrintDialogPage( parent )
+		: QWidget( parent )
 {
-	setTitle( i18n( "KmPlot Options" ) );
+	setWindowTitle( i18n( "KmPlot Options" ) );
 	
 	QGridLayout *layout = new QGridLayout( this );
 	layout->setMargin( KDialog::marginHint() );
 	layout->setSpacing( KDialog::spacingHint() );
 
-	printHeaderTable = new QCheckBox( i18n( "Print header table" ), this );
-	transparent_background = new QCheckBox( i18n( "Transparent background" ), this );
+	m_printHeaderTable = new QCheckBox( i18n( "Print header table" ), this );
+	m_transparentBackground = new QCheckBox( i18n( "Transparent background" ), this );
 	
 	m_widthEdit = new EquationEdit( this );
 	m_heightEdit = new EquationEdit( this );
@@ -67,8 +67,8 @@ KPrinterDlg::KPrinterDlg( QWidget *parent )
 	QLabel *widthLabel = new QLabel( i18n("Width:"), this );
 	QLabel *heightLabel = new QLabel( i18n("Height:"), this );
 	
-	layout->addWidget( printHeaderTable, 0, 0, 1, 2 );
-	layout->addWidget( transparent_background, 1, 0, 1, 2 );
+	layout->addWidget( m_printHeaderTable, 0, 0, 1, 2 );
+	layout->addWidget( m_transparentBackground, 1, 0, 1, 2 );
 	layout->addWidget( widthLabel, 2, 0, 1, 1 );
 	layout->addWidget( m_widthEdit, 2, 1, 1, 1 );
 	layout->addWidget( heightLabel, 3, 0, 1, 1 );
@@ -78,32 +78,53 @@ KPrinterDlg::KPrinterDlg( QWidget *parent )
 	layout->setRowStretch( 5, 1 );
 }
 
-void KPrinterDlg::getOptions( QMap<QString, QString>& opts, bool includeDefaults )
+bool KPrinterDlg::printHeaderTable()
 {
-	if ( includeDefaults || !printHeaderTable->isChecked() )
- 		opts[ "app-kmplot-printtable" ] = ( printHeaderTable->isChecked() ? "1" : "-1" );
-	if ( includeDefaults || !transparent_background->isChecked() )
-		opts[ "app-kmplot-printbackground" ] = ( transparent_background->isChecked() ? "1" : "-1" );
-	
-	opts[ "app-kmplot-width" ] = QString::number( m_widthEdit->value() * lengthScaling() );
-	opts[ "app-kmplot-height" ] = QString::number( m_heightEdit->value() * lengthScaling() );
-	
+	return m_printHeaderTable->isChecked();
 }
 
-void KPrinterDlg::setOptions( const QMap<QString, QString>& opts )
+void KPrinterDlg::setPrintHeaderTable( bool status )
 {
-	printHeaderTable->setChecked( opts[ "app-kmplot-printtable" ] != "-1" );
-	transparent_background->setChecked( opts[ "app-kmplot-printbackground" ] != "-1" );
-	
-	double width = opts[ "app-kmplot-width" ].toDouble() / lengthScaling();
-	double height = opts[ "app-kmplot-height" ].toDouble() / lengthScaling();
-	
+	m_printHeaderTable->setChecked( status );
+}
+
+bool KPrinterDlg::printBackground()
+{
+	return !m_transparentBackground->isChecked();
+}
+
+void KPrinterDlg::setPrintBackground( bool status )
+{
+	m_transparentBackground->setChecked( !status );
+}
+
+double KPrinterDlg::printWidth()
+{
+	return m_widthEdit->value() * lengthScaling();
+}
+
+void KPrinterDlg::setPrintWidth( double _width )
+{
+	double width = _width / lengthScaling();
+
 	if ( width <= 0 )
 		width = 0.12 / lengthScaling();
+
+	m_widthEdit->setText( Parser::number( width ) );
+}
+
+double KPrinterDlg::printHeight()
+{
+	return m_heightEdit->value() * lengthScaling();
+}
+
+void KPrinterDlg::setPrintHeight( double _height )
+{
+	double height = _height / lengthScaling();
+
 	if ( height <= 0 )
 		height = 0.12 / lengthScaling();
-	
-	m_widthEdit->setText( Parser::number( width ) );
+
 	m_heightEdit->setText( Parser::number( height ) );
 }
 

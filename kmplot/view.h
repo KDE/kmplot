@@ -40,7 +40,6 @@
 // KDE includes
 #include <kdebug.h>
 #include <kmenu.h>
-#include <kprinter.h>
 #include <kpushbutton.h>
 
 class KSliderWindow;
@@ -188,6 +187,12 @@ class View : public QWidget
 		 * coordinates)
 		 */
 		void animateZoom( const QRectF & newCoords );
+
+		///Methods for the Print Dialog to set options for drawing
+		void setPrintHeaderTable( bool status );
+		void setPrintBackground( bool status );
+		void setPrintWidth( double width );
+		void setPrintHeight( double height );
 
 	public slots:
 		/// Called when the user want to cancel the drawing
@@ -500,9 +505,12 @@ class View : public QWidget
 		/// @return whether cspos is in the range of the view or in the custom range for the given \p plot
 		bool crosshairPositionValid( Function * plot ) const;
 		
-		/// represents the KPrinter option app-kmplot-printtable.
+		/// represents the Printer options set by user in the Print Dialog
 		/// @see KPrinterDlg
 		bool m_printHeaderTable;
+		bool m_printBackground;
+		double m_printWidth;
+		double m_printHeight;
 		/// if stop_calculating is true, the user has canceled drawing of an integral graph
 		bool m_stopCalculating;
 		/// the background color of the graph

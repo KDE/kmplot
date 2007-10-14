@@ -27,8 +27,9 @@
 #ifndef kprintdlg_included
 #define kprintdlg_included
 
+#include <QWidget>
+
 // KDE includes
-#include <kdeprint/kprintdialogpage.h>
 
 class QCheckBox;
 class QComboBox;
@@ -39,17 +40,25 @@ class EquationEdit;
  * It manages the option to print or not to print the header table with addition plot information.
  * It is linked to the app-kmplot-printtable entry in the kmplotrc.
  */
-class KPrinterDlg : public KPrintDialogPage
+class KPrinterDlg : public QWidget
 {
 	Q_OBJECT
 public:
 	/// Getting the common arguments.
 	KPrinterDlg( QWidget *parent = 0 );
 
-	/// Reimplemented.
-	void getOptions( QMap<QString, QString>& opts, bool includeDefaults = false );
-	/// Reimplemented.
-	void setOptions( const QMap<QString, QString>& opts );
+	bool printHeaderTable();
+	void setPrintHeaderTable( bool status );
+
+	bool printBackground();
+	void setPrintBackground( bool status );
+
+	double printWidth();
+	void setPrintWidth( double width );
+
+	double printHeight();
+	void setPrintHeight( double height );
+
 	/// Reimplemented.
 	bool isValid( QString& msg );
 	
@@ -68,11 +77,11 @@ protected:
 	 * Checkbox for whether to print the header table containing plot
 	 * information.
 	 */
-	QCheckBox *printHeaderTable;
+	QCheckBox *m_printHeaderTable;
 	/**
 	 * Checkbox for whether to print the background.
 	 */
-	QCheckBox *transparent_background;
+	QCheckBox *m_transparentBackground;
 	/**
 	 * For the width of the plot.
 	 */

@@ -32,6 +32,8 @@
 #include <QSlider>
 #include <QSvgGenerator>
 #include <QTimer>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
 
 // KDE includes
 #include <kaboutdata.h>
@@ -56,6 +58,7 @@
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <kglobal.h>
+#include <kdeprintdialog.h>
 
 // local includes
 #include "calculator.h"
@@ -679,13 +682,21 @@ void MainDlg::slotOpenRecent( const KUrl &url )
 
 void MainDlg::slotPrint()
 {
-	KPrinter prt( QPrinter::PrinterResolution );
+	QPrinter prt( QPrinter::PrinterResolution );
 	prt.setResolution( 72 );
 	KPrinterDlg* printdlg = new KPrinterDlg( m_parent );
 	printdlg->setObjectName( "KmPlot page" );
-	prt.addDialogPage( printdlg );
-	if ( prt.setup( m_parent, i18n( "Print Plot" ) ) )
+	QPrintDialog *printDialog = KdePrint::createPrintDialog( &prt, QList<QWidget*>() << printdlg, m_parent );
+	printDialog->setWindowTitle( i18n("Print Plot") );
+
+	if (printDialog->exec())
+	{
+		View::self()->setPrintHeaderTable( printdlg->printHeaderTable() );
+		View::self()->setPrintBackground( printdlg->printBackground() );
+		View::self()->setPrintWidth( printdlg->printWidth() );
+		View::self()->setPrintHeight( printdlg->printHeight() );
 		View::self()->draw(&prt, View::Printer);
+	}
 }
 
 

@@ -132,6 +132,9 @@ View::View( bool readOnly, KMenu * functionPopup, QWidget* parent )
 	m_haveRoot = false;
 	m_xmin = m_xmax = m_ymin = m_ymax = 0.0;
 	m_printHeaderTable = false;
+	m_printBackground = false;
+	m_printWidth = 0.0;
+	m_printHeight = 0.0;
 	m_stopCalculating = false;
 	m_isDrawing = false;
 	m_popupMenuStatus = NoPopup;
@@ -237,17 +240,10 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 
 		case Printer:
 		{
-			KPrinter * printer = static_cast<KPrinter*>(device);
-			
-			double width_m = printer->option( "app-kmplot-width" ).toDouble();
-			double height_m = printer->option( "app-kmplot-height" ).toDouble();
-			
 			double inchesPerMeter = 100.0/2.54;
 			
-			int pixels_x = int(width_m * device->logicalDpiX() * inchesPerMeter);
-			int pixels_y = int(height_m * device->logicalDpiY() * inchesPerMeter);
-			
-			m_printHeaderTable = printer->option( "app-kmplot-printtable" ) != "-1";
+			int pixels_x = int(m_printWidth * device->logicalDpiX() * inchesPerMeter);
+			int pixels_y = int(m_printHeight * device->logicalDpiY() * inchesPerMeter);
 			
 			m_clipRect = QRect( 0, 0, pixels_x, pixels_y );
 			break;
@@ -356,12 +352,10 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 
 		case Printer:
 		{
-			KPrinter * printer = static_cast<KPrinter*>(dev);
-			
 			if ( m_printHeaderTable )
 				drawHeaderTable( &painter );
 			
-			if ( printer->option( "app-kmplot-printbackground" ) == "-1" )
+			if ( m_printBackground )
 				painter.fillRect( m_clipRect,  m_backgroundColor); //draw a colored background
 			
 			break;
@@ -4244,6 +4238,28 @@ void View::slidersWindowClosed()
 	kDebug() ;
 	m_menuSliderAction->setChecked(false);
 }
+
+
+void View::setPrintHeaderTable( bool status )
+{
+	m_printHeaderTable = status;
+}
+
+void View::setPrintBackground( bool status )
+{
+	m_printBackground = status;
+}
+
+void View::setPrintWidth( double width )
+{
+	m_printWidth = width;
+}
+
+void View::setPrintHeight( double height )
+{
+	m_printHeight = height;
+}
+
 //END class View
 
 

@@ -141,7 +141,7 @@ void Constants::load()
 {
 	/// \todo Need more robust way of exchanging constants with kcalc
 	
-	KConfig conf ("kcalcrc", KConfig::OnlyLocal);
+	KConfig conf ("kcalcrc", KConfig::SimpleConfig);
 	KConfigGroup group = conf.group("UserConstants");
 	QString tmp;
 	
@@ -177,7 +177,7 @@ void Constants::load()
 
 void Constants::save()
 {
-	KConfig conf ("kcalcrc", KConfig::OnlyLocal);
+	KConfig conf ("kcalcrc", KConfig::SimpleConfig);
 	conf.deleteGroup("Constants");
 	
 	// remove any previously saved constants

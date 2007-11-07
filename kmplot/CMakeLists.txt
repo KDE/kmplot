@@ -69,6 +69,14 @@ qt4_add_dbus_adaptor(kmplot_SRCS org.kde.kmplot.KmPlot.xml kmplot.h KmPlot)
 # FIXME: it's wrong, but otherwise it does not compile
 kde4_add_kcfg_files(kmplot_SRCS settings.kcfgc )
 
+if(MSVC)
+  set(kmplot_SRCS ${kmplot_SRCS} kmplot.rc)
+endif(MSVC)
+
+if(MINGW)
+   KDE_ADD_RESOURCES2(kmplot_SRCS kmplot.rc)
+endif(MINGW)
+
 kde4_add_executable(kmplot ${kmplot_SRCS})
 
 target_link_libraries(kmplot  ${KDE4_KPARTS_LIBS})

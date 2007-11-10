@@ -303,7 +303,7 @@ void MainDlg::setupActions()
 	//BEGIN tools menu
 	QAction *mnuCalculator = actionCollection()->addAction( "calculator" );
 	mnuCalculator->setText( i18n( "Calculator") );
-	mnuCalculator->setIcon( KIcon("exec") );
+	mnuCalculator->setIcon( KIcon("system-run") );
 	connect( mnuCalculator, SIGNAL(triggered(bool)), this, SLOT( calculator() ) );
 
 	QAction *mnuArea = actionCollection()->addAction( "grapharea" );

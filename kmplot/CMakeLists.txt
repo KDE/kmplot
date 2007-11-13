@@ -84,7 +84,7 @@ set(kmplot_icons
     ${CMAKE_CURRENT_SOURCE_DIR}/kmplot/icons/hi64-app-kmplot.png
     ${CMAKE_CURRENT_SOURCE_DIR}/kmplot/icons/hi128-app-kmplot.png
 )
-kde4_add_win32_app_icon(kmplot kmplot_SRCS ${kmplot_icons})
+kde4_add_win32_app_icon(kmplot_SRCS ${kmplot_icons})
 kde4_add_executable(kmplot ${kmplot_SRCS})
 
 target_link_libraries(kmplot  ${KDE4_KPARTS_LIBS})

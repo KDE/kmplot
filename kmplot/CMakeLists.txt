@@ -78,11 +78,11 @@ kde4_add_kcfg_files(kmplot_SRCS settings.kcfgc )
 #    ${CMAKE_INSTALL_PREFIX}/share/icons/oxygen/128x128/apps/kmplot.png
 #)
 set(kmplot_icons
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmplot/icons/hi16-app-kmplot.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmplot/icons/hi32-app-kmplot.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmplot/icons/hi48-app-kmplot.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmplot/icons/hi64-app-kmplot.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/kmplot/icons/hi128-app-kmplot.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi16-app-kmplot.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi32-app-kmplot.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi48-app-kmplot.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi64-app-kmplot.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi128-app-kmplot.png
 )
 kde4_add_win32_app_icon(kmplot_SRCS ${kmplot_icons})
 kde4_add_executable(kmplot ${kmplot_SRCS})

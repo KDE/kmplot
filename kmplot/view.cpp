@@ -100,14 +100,13 @@ int isinf(double x)
 }
 #endif
 #ifdef _WIN32
-#ifndef KDEWIN32_VERSION
-#include <math.h>
+#if !defined(isinf)
 int isinf(double x)
 {
         return !finite(x) && x==x;
 }
 #endif  // KDEWIN32_VERSION
-#endif
+#endif //END _WIN32
 //END nan & inf
 
 

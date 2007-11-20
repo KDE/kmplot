@@ -99,8 +99,9 @@ int isinf(double x)
 	return !finite(x) && x==x;
 }
 #endif
-#ifdef _WIN32
-#if !defined(isinf)
+// only msvc needs this (sometimes)
+#ifdef _MSC_VER
+#ifndef KDEWIN32_VERSION
 int isinf(double x)
 {
         return !finite(x) && x==x;

@@ -72,10 +72,13 @@
 #include <assert.h>
 #include <cmath>
 
+#if defined(Q_CC_MINGW)
+using namespace __gnu_cxx
+#endif
 
 //BEGIN nan & inf
 
-#if defined(__APPLE__) || defined(_WIN32)
+#if defined(__APPLE__) || defined(_MSC_VER)
 // work around an OSX <cmath> bug; is there a proper way to fix this?
 #ifndef isnan
 extern "C" int isnan(double);

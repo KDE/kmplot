@@ -73,7 +73,7 @@
 #include <cmath>
 
 #if defined(Q_CC_MINGW)
-using namespace __gnu_cxx
+using namespace __gnu_cxx;
 #endif
 
 //BEGIN nan & inf

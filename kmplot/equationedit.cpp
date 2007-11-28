@@ -237,7 +237,7 @@ EquationEdit::EquationEdit( QWidget * parent )
 	m_equationEditWidget = new EquationEditWidget( this );
 	m_highlighter = new EquationHighlighter( this );
 	m_equation = new Equation( Equation::Cartesian, 0 );
-	m_editButton = new QPushButton( KIcon("edit"), 0, this );
+	m_editButton = new QPushButton( KIcon("object-edit"), 0, this );
 	setFocusProxy( m_equationEditWidget );
 	
 	connect( m_equationEditWidget, SIGNAL( textChanged() ), this, SLOT( slotTextChanged() ) );

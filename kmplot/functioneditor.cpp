@@ -578,7 +578,7 @@ void FunctionEditor::saveCartesian()
 	state->x0.updateExpression( m_editor->txtInitX->text() );
 	state->y0[0].updateExpression( m_editor->txtInitY->text() );
 
-	if ( !tempFunction.eq[0]->differentialStates.setStep( m_editor->integralStep->text() ) )
+	if ( !tempFunction.eq[0]->differentialStates.setStep( Value( m_editor->integralStep->text().toDouble() ) ) )
 		return;
 	tempFunction.m_parameters = m_editor->cartesianParameters->parameterSettings();
 	

@@ -29,7 +29,6 @@
 #ifndef parser_included
 #define parser_included
  
-#include <QList>
 #include <QMap>
 #include <QObject>
 

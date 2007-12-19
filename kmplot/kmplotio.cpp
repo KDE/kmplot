@@ -27,7 +27,6 @@
 // Qt includes
 #include <qdom.h>
 #include <qfile.h>
-#include <QList>
 #include <QTextStream>
 
 // KDE includes

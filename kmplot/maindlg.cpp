@@ -27,9 +27,7 @@
 
 // Qt includes
 #include <QMainWindow>
-#include <QPainter>
 #include <QPixmap>
-#include <QSlider>
 #include <QSvgGenerator>
 #include <QTimer>
 #include <QtGui/QPrinter>

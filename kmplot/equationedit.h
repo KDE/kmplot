@@ -31,7 +31,6 @@
 
 #include <QMap>
 #include <QSyntaxHighlighter>
-#include <QTextEdit>
 
 
 class Equation;

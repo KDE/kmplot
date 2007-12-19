@@ -37,7 +37,6 @@
 #include <QPushButton>
 #include <QStyleOption>
 #include <QStyleOptionButton>
-#include <QtGlobal>
 #include <QVBoxLayout>
 
 const double SQRT_3 = 1.732050808;

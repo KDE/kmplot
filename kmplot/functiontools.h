@@ -29,7 +29,6 @@
 #include "function.h"
 
 #include <kdialog.h>
-#include <QList>
 #include <QPair>
 
 class FunctionToolsWidget;

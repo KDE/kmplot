@@ -31,7 +31,7 @@
 #include <kdebug.h>
 #include <kicon.h>
 
-#include <QApplication>
+#include <QTextEdit>
 #include <QHBoxLayout>
 #include <QLocale>
 #include <QPushButton>

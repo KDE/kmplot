@@ -32,7 +32,6 @@
 #include <kdebug.h>
 #include <QImage>
 #include <QLinearGradient>
-#include <QMap>
 #include <QPainter>
 
 #include <assert.h>

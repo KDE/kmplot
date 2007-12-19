@@ -30,9 +30,7 @@
 #include <qbitmap.h>
 #include <qcursor.h>
 #include <qdatastream.h>
-#include <QApplication>
 #include <QPainter>
-#include <QPicture>
 #include <qslider.h>
 #include <qtimer.h>
 #include <QPixmap>
@@ -41,9 +39,7 @@
 #include <QEvent>
 #include <QList>
 #include <QResizeEvent>
-#include <QTextDocument>
 #include <QTextEdit>
-#include <QTextLayout>
 #include <QTime>
 #include <QMouseEvent>
 

@@ -30,8 +30,6 @@
 #include "parser.h"
 
 #include <QDockWidget>
-#include <QDomDocument>
-#include <QDomElement>
 #include <QList>
 #include <QListWidget>
 #include <QListWidgetItem>

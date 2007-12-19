@@ -30,7 +30,6 @@
 
 // Qt includes
 #include <QDomDocument>
-#include <QPicture>
 #include <QStack>
 
 // KDE includes

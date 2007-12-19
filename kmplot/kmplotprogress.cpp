@@ -31,7 +31,6 @@
 #include <qprogressbar.h>
 
 #include <QCoreApplication>
-#include <QtGlobal>
 #include <QTimer>
 
 

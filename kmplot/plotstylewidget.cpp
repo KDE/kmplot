@@ -32,7 +32,6 @@
 
 #include <QLabel>
 #include <QHBoxLayout>
-#include <QTimer>
 
 
 class PlotStyleDialogWidget : public QWidget, public Ui::PlotStyleWidget

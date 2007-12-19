@@ -40,7 +40,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <QMenu>
 #include <QRadioButton>
 #include <QTimer>
 

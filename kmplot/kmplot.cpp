@@ -43,7 +43,6 @@
 #include <kapplication.h>
 
 #include "kmplotadaptor.h"
-#include <QtDBus>
 
 KmPlot::KmPlot( KCmdLineArgs* args)
 		: KParts::MainWindow()

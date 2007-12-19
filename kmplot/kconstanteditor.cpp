@@ -37,7 +37,6 @@
 
 #include <qdom.h>
 #include <QTimer>
-#include <QVector>
 
 #include <assert.h>
 

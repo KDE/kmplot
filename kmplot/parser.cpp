@@ -45,6 +45,7 @@
 #include <math.h>
 #include <assert.h>
 #include <cmath>
+#include <locale.h>
 
 double Parser::m_radiansPerAngleUnit = 0;
 
@@ -1045,7 +1046,10 @@ bool Parser::tryNumber()
 	QByteArray remaining = evalRemaining().toLatin1();
 	char * lptr = remaining.data();
 	char * p = 0;
+	// we converted all to "C" format in fixExpression
+	char *oldLocale = setlocale(LC_NUMERIC, "C");
 	double const w = strtod(lptr, &p);
+	setlocale(LC_NUMERIC, oldLocale);
 	if( lptr != p )
 	{
 		m_evalPos += p-lptr;
@@ -1535,9 +1539,6 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	}
 	//END replace e.g. |x+2| with abs(x+2)
 	
-	/// \TODO This could be a possible bug! I don't know much about other locales
-	/// and decimal points, but if they use commas, then this would screw up functions
-	/// that accept multiple arguments
 	str->replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
 	
 	//BEGIN build up strings

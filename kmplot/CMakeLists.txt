@@ -70,21 +70,8 @@ qt4_add_dbus_adaptor(kmplot_SRCS org.kde.kmplot.KmPlot.xml kmplot.h KmPlot)
 kde4_add_kcfg_files(kmplot_SRCS settings.kcfgc )
 
 #uncomment this if oxygen icons for kmplot are available
-#set(kmplot_icons
-#    ${KDE4_ICON_DIR}/oxygen/16x16/apps/kmplot.png
-#    ${KDE4_ICON_DIR}/oxygen/32x32/apps/kmplot.png
-#    ${KDE4_ICON_DIR}/oxygen/48x48/apps/kmplot.png
-#    ${KDE4_ICON_DIR}/oxygen/64x64/apps/kmplot.png
-#    ${KDE4_ICON_DIR}/oxygen/128x128/apps/kmplot.png
-#)
-set(kmplot_icons
-    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi16-app-kmplot.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi32-app-kmplot.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi48-app-kmplot.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi64-app-kmplot.png
-    ${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi128-app-kmplot.png
-)
-kde4_add_win32_app_icon(kmplot_SRCS ${kmplot_icons})
+#kde4_add_app_icon(kmplot_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kmplot.png")
+kde4_add_app_icon(kmplot_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi*-app-kmplot.png")
 kde4_add_executable(kmplot ${kmplot_SRCS})
 
 target_link_libraries(kmplot  ${KDE4_KPARTS_LIBS})

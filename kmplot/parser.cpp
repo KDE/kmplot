@@ -1545,7 +1545,7 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	QMap< LengthOrderedString, StringType > strings;
 	
 	QStringList predefinedFunctions = XParser::self()->predefinedFunctions( true );
-	foreach ( QString f, predefinedFunctions )
+	foreach ( const QString &f, predefinedFunctions )
 		strings[f] = FunctionString;
 	
 	foreach ( Function * it, m_parser->m_ufkt )
@@ -1555,7 +1555,7 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	}
 	
 	QStringList constantNames = m_parser->constants()->names();
-	foreach ( QString name, constantNames )
+	foreach ( const QString &name, constantNames )
 		strings[name] = ConstantString;
 	strings[QString("pi")] = ConstantString;
 	//END build up strings

@@ -62,7 +62,7 @@
 	<para>
 		All the predefined functions and constants that &kmplot; knows can be shown by
 		selecting <menuchoice><guimenu>Help</guimenu><guimenuitem>Predefined Math Functions</guimenuitem>
-		</menuchoice>.
+		</menuchoice>, which displays this page of &kmplot;'s handbook.
 	</para>
 	
 	<para>
@@ -74,7 +74,7 @@
 		<title>Trigonometric Functions</title>
 		
 		<para>
-			By default, the trigonometric functions work in radians. However, this can be changed via <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KmPlot</guimenuitem></menuchoice>.
+			By default, the trigonometric functions work in radians. However, this can be changed via <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kmplot;</guimenuitem></menuchoice>.
 		</para>
 		
 		<variablelist>
@@ -254,7 +254,7 @@
 <sect1 id="func-extension">
 	<title>Extensions</title>
 	<para>An extension for a function is specified by entering a semicolon,
-		followed by the extension, after the function definition. The extension can either be written in the Quick Edit box or by using the &DCOP; method Parser addFunction. None of the extensions are available for parametric functions but N and D[a,b] work for polar functions too. For example:
+		followed by the extension, after the function definition. The extension can either be written in the edit box or by using the DBus method parser addFunction. None of the extensions are available for parametric functions but N and D[a,b] work for polar functions too. For example:
 		<screen>
 			<userinput>
 				f(x)=x^2; A1
@@ -427,7 +427,7 @@
 	</para>
 	<para>
 		Parametric and polar functions have a default plotting range of 0 to 2&pgr;.
-		This plotting range can also be changed in the <guilabel>Function Editor</guilabel>.
+		This plotting range can also be changed in the <guilabel>Functions</guilabel> sidebar.
 	</para>
 </sect1>
 
@@ -440,7 +440,7 @@
 		You can trace a function's values more precisely by clicking onto or next to a graph. The selected function is shown in the status bar in the right column. The crosshair then will be caught and be colored in the same color as the graph. If the graph has the same color as the background color, the crosshair will have the inverted color of the background. When moving the mouse or pressing the keys Left or Right the crosshair will follow the function and you see the current x- and y-value. If the crosshair is close to y-axis, the root-value is shown in the statusbar. You can switch function with the Up and Down keys. A second click anywhere in the window or pressing any non-navigating key will leave this trace mode.
 	</para>
 	<para>
-		For more advanced tracing, open up the Configure KmPlot dialog, and select "Draw tangent and normal when tracing" from the General Settings page. This option will draw the tangent, normal and oscullating circle of the plot currently being traced.
+		For more advanced tracing, open up the configuration dialog, and select <guilabel>Draw tangent and normal when tracing</guilabel> from the <guilabel>General Settings</guilabel> page. This option will draw the tangent, normal and oscullating circle of the plot currently being traced.
 	</para>
 	
 </sect1>

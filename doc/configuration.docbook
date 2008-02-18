@@ -3,10 +3,9 @@
 <para>To access the &kmplot; configuration
 	dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
 			&kmplot;...</guimenuitem></menuchoice>.
-	
-	A number of settings (<guimenuitem>Constants...</guimenuitem> and 
-	<guimenuitem>Coordinate System...</guimenuitem>) can only be changed
-	from the <guimenu>Edit</guimenu> menu. </para>
+	The settings for <guimenuitem>Constants...</guimenuitem> can only be changed
+	from the <guimenu>Edit</guimenu> menu and the <guimenuitem>Coordinate System...</guimenuitem> only
+	from the <guimenu>View</guimenu> menu. </para>
 
 <sect1 id="general-config">
 	<title><guilabel>General</guilabel> Configuration</title>
@@ -23,7 +22,7 @@
 		</mediaobject>
 	</screenshot>
 	
-	<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first page you can set angle-mode (radians and degrees), zoom in and zoom out factors, and whether to show advanced plot tracing. </para>
+	<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. you can set angle-mode (radians and degrees), zoom in and zoom out factors, and whether to show advanced plot tracing. </para>
 </sect1>
 
 <sect1 id="diagram-config">
@@ -148,8 +147,8 @@
 	</screenshot>
 	
 	<para>
-		In the <guilabel>Coords</guilabel> tab of the <guilabel>Colors</guilabel>
-		configuration dialog, you can change the colors of the axes and grid of the
+		In the <guilabel>Coords</guilabel> section of the <guilabel>Colors</guilabel>
+		configuration dialog, you can change the colors of the axes, the grid and the background of the
 		main &kmplot; area.
 	</para>
 	
@@ -174,16 +173,22 @@
 	<variablelist>
 		
 		<varlistentry>
-			<term><guilabel>Axis font</guilabel></term>
+			<term><guilabel>Axis labels</guilabel></term>
 			<listitem>
 				<para>The font used for drawing the axis numbers and x/y labels.</para>
 			</listitem>
 		</varlistentry>
 		
 		<varlistentry>
-			<term><guilabel>Label font</guilabel></term>
+			<term><guilabel>Diagram label</guilabel></term>
 			<listitem>
 				<para>The font used for drawing diagram labels (&eg;, those showing the plot name or extreme points.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><guilabel>Header table</guilabel></term>
+			<listitem>
+				<para>The font used for drawing the header when printing a plot.</para>
 			</listitem>
 		</varlistentry>
 		
@@ -193,7 +198,7 @@
 
 <sect1 id="coords-config">
 	<title><guimenuitem>Coordinate System</guimenuitem> Configuration</title>
-	
+	<para>To open this dialog select <menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System..</guimenuitem></menuchoice> from the menubar.</para>
 	<screenshot>
 		<screeninfo>Screenshot of the Coordinate System dialog</screeninfo>
 		<mediaobject>
@@ -207,7 +212,7 @@
 	</screenshot>
 	
 	<sect2 id="axes-config">
-		<title>The <guilabel>Axes</guilabel> Configuration</title>
+		<title><guilabel>Axes</guilabel> Configuration</title>
 		<para>
 			<variablelist>
 				
@@ -260,6 +265,7 @@
 
 <sect1 id="constants-config">
 	<title><guimenuitem>Constants</guimenuitem> Configuration</title>
+	<para>To open this dialog select <menuchoice><guimenu>Edit</guimenu><guimenuitem>Constants..</guimenuitem></menuchoice> from the menubar.</para>
 	
 	<screenshot>
 		<screeninfo>Screenshot of the Constants dialog</screeninfo>

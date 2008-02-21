@@ -254,7 +254,7 @@
 <sect1 id="func-extension">
 	<title>Extensions</title>
 	<para>An extension for a function is specified by entering a semicolon,
-		followed by the extension, after the function definition. The extension can either be written in the edit box or by using the DBus method parser addFunction. None of the extensions are available for parametric functions but N and D[a,b] work for polar functions too. For example:
+		followed by the extension, after the function definition. The extension can be entered or by using the DBus method parser addFunction. None of the extensions are available for parametric functions but N and D[a,b] work for polar functions too. For example:
 		<screen>
 			<userinput>
 				f(x)=x^2; A1
@@ -312,7 +312,7 @@
 		</variablelist>
 	</para>
 	<para>
-		Please note that you can do all of these operations by using the function editor dialog too.
+		Please note that you can do all of these operations by editing the items in the <guilabel>Derivates</guilabel> tab, the <guilabel>Cusom plot range</guilabel> section and the <guilabel>Parameters</guilabel> section in the <guilabel>Functions</guilabel> sidebar too.
 	</para>
 </sect1>
 

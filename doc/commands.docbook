@@ -35,7 +35,7 @@
 		<varlistentry>
 			<term><menuchoice>
 					<guimenu>File</guimenu>
-					<guimenuitem>Open Recent</guimenuitem>
+					<guisubmenu>Open Recent</guisubmenu>
 				</menuchoice></term>
 			<listitem><para><action>Displays a list of recently opened files.</action>
 					Selecting one from this list plots the functions in the file.</para></listitem>
@@ -80,9 +80,7 @@
 				<menuchoice>
 					<guimenu>File</guimenu>
 					<guimenuitem>Export...</guimenuitem></menuchoice></term>
-			<listitem><para><action>Export values to a textfile. 
-					</action>Every value in the parameter list will be 
-					written to one line in the file.</para></listitem>
+			<listitem><para><action>Exports</action> the plotted graphs to an image file.</para></listitem>
 		</varlistentry>
 		
 		<varlistentry>
@@ -103,23 +101,23 @@
 	
 	<variablelist>
 		<varlistentry>
-			<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Undo</guimenuitem>
+			<term><menuchoice>
+					<shortcut>
+						<keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
+					</shortcut>
+					<guimenu>Edit</guimenu><guimenuitem>Undo</guimenuitem>
 				</menuchoice></term>
 			<listitem><para>Undo the last command.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Redo</guimenuitem>
+			<term><menuchoice>
+					<shortcut>
+						<keycombo action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo>
+					</shortcut>
+					<guimenu>Edit</guimenu><guimenuitem>Redo</guimenuitem>
 				</menuchoice></term>
 			<listitem><para>Redo the last command that was undone.</para>
-			</listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Coordinate System...</guimenuitem>
-				</menuchoice></term>
-			<listitem><para>Displays the <guilabel>Coordinate System</guilabel> dialog box. See <xref linkend="coords-config"/>.
-				</para>
 			</listitem>
 		</varlistentry>
 		
@@ -170,7 +168,7 @@
 		<varlistentry>
 			<term>
 				<menuchoice>
-					<guimenu>Zoom</guimenu>
+					<guimenu>View</guimenu>
 					<guimenuitem>Fit Widget to Trigonometric Functions</guimenuitem>
 				</menuchoice>
 			</term>
@@ -178,7 +176,23 @@
 		</varlistentry>
 		
 		<varlistentry>
-			<term><menuchoice><guimenu>Settings</guimenu>
+			<term><menuchoice><guimenu>View</guimenu><guimenuitem>Reset View</guimenuitem>
+				</menuchoice></term>
+			<listitem><para>Resets the view.
+				</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term><menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System...</guimenuitem>
+				</menuchoice></term>
+			<listitem><para>Displays the <guilabel>Coordinate System</guilabel> dialog box. See <xref linkend="coords-config"/>.
+				</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term><menuchoice><guimenu>View</guimenu>
 					<guimenuitem>Show Sliders</guimenuitem>
 				</menuchoice></term>
 			<listitem>
@@ -186,29 +200,6 @@
 			</listitem>
 		</varlistentry>
 		
-		<varlistentry>
-			<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Coordinate System I</guimenuitem>
-				</menuchoice></term>
-			<listitem><para>Show both positive and negative x- and y-values on the grid.
-				</para>
-			</listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Coordinate System II</guimenuitem>
-				</menuchoice></term>
-			<listitem><para>Show positive and negative y-values, but positive x-values only
-				</para>
-			</listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Coordinate System III</guimenuitem>
-				</menuchoice></term>
-			<listitem><para>Show only positive x- and y-values.
-				</para>
-			</listitem>
-		</varlistentry>
 	</variablelist>
 </sect1>
 
@@ -221,16 +212,27 @@
 		
 		<varlistentry>
 			<term><menuchoice><guimenu>Tools</guimenu>
-					<guimenuitem>Get y-Value...</guimenuitem>
+					<guimenuitem>Calculator</guimenuitem>
 				</menuchoice></term>
 			<listitem>
-				<para>Let the user get the y-value from a specific x-value. Type a value or expression in the text box under "X:". In the list below all the available functions are shown. Press Enter to calculate the function's y-value. The result will be shown in the y-value box.</para>
+				<para>Opens the <guilabel>Calculator</guilabel> dialog.</para>
 			</listitem>
 		</varlistentry>
 		
 		<varlistentry>
 			<term><menuchoice><guimenu>Tools</guimenu>
-					<guimenuitem>Search for Minimum Value...</guimenuitem>
+					<guimenuitem>Plot Area...</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Select a graph and the x-values in the new dialog that appears.
+					Calulates the integral and draws the area between the graph and the x-axis in the 
+					range of the selected x-values in the color of the graph.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term><menuchoice><guimenu>Tools</guimenu>
+					<guimenuitem>Find Minimum...</guimenuitem>
 				</menuchoice></term>
 			<listitem>
 				<para>Find the minimum value of the graph in a specified range.</para>
@@ -239,21 +241,10 @@
 		
 		<varlistentry>
 			<term><menuchoice><guimenu>Tools</guimenu>
-					<guimenuitem>Search for Maximum Value...</guimenuitem>
+					<guimenuitem>Find Maximum...</guimenuitem>
 				</menuchoice></term>
 			<listitem>
 				<para>Find the maximum value of the graph in a specified range.</para>
-			</listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term><menuchoice><guimenu>Tools</guimenu>
-					<guimenuitem>Calculate Integral</guimenuitem>
-				</menuchoice></term>
-			<listitem>
-				<para>Select a graph and the x-values in the new dialog that appears.
-					Calulates the integral and draws the area between the graph and the x-axis in the 
-					range of the selected x-values in the color of the graph.</para>
 			</listitem>
 		</varlistentry>
 		
@@ -266,7 +257,17 @@
 	<variablelist>
 		<varlistentry>
 			<term><menuchoice><guimenu>Settings</guimenu>
-					<guimenuitem>Show/Hide Statusbar</guimenuitem>
+					<guimenuitem>Show Toolbar</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para><action>Toggle on and off the display of the toolbar.</action>
+					The default is on.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term><menuchoice><guimenu>Settings</guimenu>
+					<guimenuitem>Show Statusbar</guimenuitem>
 				</menuchoice></term>
 			<listitem>
 				<para><action>Toggle on and off the display of the status bar at the bottom of
@@ -319,16 +320,6 @@
 			</listitem>
 		</varlistentry>
 		
-		<varlistentry>
-			<term><menuchoice><guimenu>Settings</guimenu>
-					<guimenuitem>Show/Hide Toolbar</guimenuitem>
-				</menuchoice></term>
-			<listitem>
-				<para><action>Toggle on and off the display of the toolbar.</action>
-					The default is on.</para>
-			</listitem>
-		</varlistentry>
-		
 	</variablelist>
 	
 </sect1>
@@ -345,7 +336,7 @@
 					<guimenuitem>Predefined Math Functions...</guimenuitem>
 				</menuchoice></term>
 			<listitem>
-				<para>Opens a window with a list of the predefined function names and constants
+				<para>Opens this handbook with a list of the predefined function names and constants
 					that &kmplot; knows.</para>
 			</listitem>
 		</varlistentry>

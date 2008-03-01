@@ -8,7 +8,7 @@
 	<listitem><para>Parametric plots are similar to Cartesian plots. The x and y coordinates can be entered as equations in t, &eg; <quote>x = sin(t)</quote>, <quote>y = cos(t)</quote>, or as functions, &eg; <quote>f_x(s) = sin(s)</quote>, <quote>f_y(s) = cos(s)</quote>.</para></listitem>
 	<listitem><para>Polar plots are also similar to Cartesian plots. They can be either be entered as an equation in &thgr;, &eg; <quote>r = &thgr;</quote>, or as a function, e.g. <quote>f(x) = x</quote>.</para></listitem>
 	<listitem><para>For implicit plots, the name of the function is entered separetely from the expression relating the x and y coordinates. If the x and y variables are specified via the function name (by entering &eg;<quote>f(a,b)</quote> as the function name), then these variables will be used. Otherwise, the letters x and y will be used for the variables.</para></listitem>
-	<listitem><para>Explicit differential plots are differential equations whereby the highest derivatve is given in terms of the lower derivatives. Differentiatation is denoted by a prime ('). In function form, the equation will look like <quote>f''(x) = f' &minus; f</quote>. In equation form, it will look like <quote>y'' = y' &minus; y</quote>. Note that in both cases, the <quote>(x)</quote> part is not added to the lower order differential terms (so you would enter <quote>f'(x) = &minus;f</quote> and not <quote>f'(x) = &minus;f(x)</quote>).</para></listitem>
+	<listitem><para>Explicit differential plots are differential equations whereby the highest derivatve is given in terms of the lower derivatives. Differentiation is denoted by a prime ('). In function form, the equation will look like <quote>f''(x) = f' &minus; f</quote>. In equation form, it will look like <quote>y'' = y' &minus; y</quote>. Note that in both cases, the <quote>(x)</quote> part is not added to the lower order differential terms (so you would enter <quote>f'(x) = &minus;f</quote> and not <quote>f'(x) = &minus;f(x)</quote>).</para></listitem>
 </itemizedlist>
 
 <para>All the equation entry boxes come with a button on the right. Clicking this invokes the advanced <guilabel>Equation Editor</guilabel> dialog, which provides:
@@ -79,8 +79,8 @@
 			parameter.</para>
 		<para>As an example, suppose you want to draw a circle, which has parametric
 			equations x = sin(t), y = cos(t). After creating a parametric plot, enter the appropriate equations in the x and y boxes, &ie;,
-			<guilabel>xcircle(t) = </guilabel><userinput>sin(t)</userinput> and
-			<guilabel>ycircle(t) = </guilabel><userinput>cos(t)</userinput>.
+			<userinput>f_x(t)=sin(t)</userinput> and
+			<userinput>f_y(t)=cos(t)</userinput>.
 		</para>
 		<para>You can set some further options for the plot in the function editor:
 			<variablelist>
@@ -101,21 +101,22 @@
 		<para>Polar coordinates represent a point by its distance from the origin
 			(usually called r), and the angle a line from the origin to the point makes
 			with the x-axis (usually represented by &thgr; the Greek letter theta). To enter
-			functions in polar coordinates, create a new Polar Plot from the <guilabel>Create New Plot</guilabel> button.
+			functions in polar coordinates, click the <guilabel>Create</guilabel> button and select <guilabel>Polar Plot</guilabel> from the list.
 			In the definition box, complete the
 			function definition, including the name of the theta variable you want
 			to use, &eg;, to draw the Archimedes' spiral r = &thgr;, enter:
-			<screen><userinput>r(theta) = theta</userinput></screen>
-			so that the whole line reads <quote>r(theta) = theta</quote>. Note that
+			<screen><userinput>r(&thgr;) = &thgr;</userinput></screen>. Note that
 			you can use any name for the theta variable, so
-			<quote>r(foo) = foo</quote> will produce exactly the same output.
+			<quote>r(t) = t</quote> or <quote>f(x) = x</quote> will produce exactly the same output.
 		</para>
 	</sect2>
 	
 	<sect2 id="implicit-functions">
 		<title>Implicit Functions</title>
 		
-		<para>An implicit expression relates the x and y coordinates as an equality. To create a circle, for example, create a new Implicit Plot from the <guilabel>Create New Plot</guilabel> button. Then, enter into the equation box (below the function name box) the following:
+		<para>An implicit expression relates the x and y coordinates as an equality. To create a circle, for example, 
+		click the <guilabel>Create</guilabel> button and select <guilabel>Implicit Plot</guilabel> from the list. 
+		Then, enter into the equation box (below the function name box) the following:
 			<screen><userinput>x^2 + y^2 = 25</userinput></screen>
 		</para>
 	</sect2>
@@ -127,7 +128,7 @@
 			y<superscript>(n)</superscript> = F(x,y',y'',...,y<superscript>(n&minus;1)</superscript>), where y<superscript>k</superscript> is the k<superscript>th</superscript> derivative of y(x). &kmplot; can only interpret the derivative order as the number of primes following the function name.
 		
 			To draw a sinusoidal curve, for example, you would use the differential equation
-			y'' = &minus; y.
+			<userinput>y'' = &minus; y</userinput> oder <userinput>f''(x) = −f</userinput>.
 		</para>
 		
 		<para>However, a differential equation on its own isn't enough to determine a plot. Each curve in the diagram is generated by a combination of the differential equation and the initial conditions. You can edit the initial conditions by clicking on the <guilabel>Initial Conditions</guilabel> tab when a differential equation is selected. The number of columns provided for editing the initial conditions is dependent on the order of the differential equation.
@@ -161,8 +162,10 @@
 	<title>Changing the appearance of functions</title>
 	
 	<para>To change the appearance of a function's graph on the main plot
-		window, select the function in the <guilabel>Function Editor</guilabel> sidebar.
-		You can change the plot's line width, color and many other aspects by clicking on the <guilabel>Appearance</guilabel> button at the bottom.
+		window, select the function in the <guilabel>Functions</guilabel> sidebar.
+		You can change the plot's line width, color and many other aspects by clicking on the 
+		<guibutton>Color</guibutton> or <guibutton>Advanced...</guibutton>
+		 button at the bottom of the section <guilabel>Appearance</guilabel>.
 	</para>
 	
 	<para>
@@ -181,6 +184,14 @@
 	
 	<variablelist>
 		<varlistentry>
+			<term><menuchoice><guimenuitem>Edit</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Selects the function in the <guilabel>Functions</guilabel> sidebar for editing.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
 			<term><menuchoice><guimenuitem>Hide</guimenuitem>
 				</menuchoice></term>
 			<listitem>
@@ -195,12 +206,18 @@
 				<para>Removes the function. All its graphs will disappear.</para>
 			</listitem>
 		</varlistentry>
-		
 		<varlistentry>
-			<term><menuchoice><guimenuitem>Edit</guimenuitem>
+			<term><menuchoice><guimenuitem>Animate Plot...</guimenuitem>
 				</menuchoice></term>
 			<listitem>
-				<para>Selects the function in the <guilabel>Function Editor</guilabel> for editing.</para>
+				<para>Displays the <guilabel>Parameter Animator</guilabel> dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Calculator</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Opens the <guilabel>Calculator</guilabel> dialog.</para>
 			</listitem>
 		</varlistentry>
 	</variablelist>
@@ -209,19 +226,18 @@
 	
 	<variablelist>
 		<varlistentry>
-			<term><menuchoice><guimenuitem>Get y-Value</guimenuitem>
+			<term><menuchoice><guimenuitem>Plot Area...</guimenuitem>
 				</menuchoice></term>
 			<listitem>
-				<para>Opens a dialog in which you can find the y-value corresponding to
-					a specific x-value. The selected graph will be highlighted in the
-					dialog. Enter an x value in the <guilabel>X:</guilabel> box, and hit Enter.
-					The corresponding y will be automatically calculated and shown underneath.
+				<para>Select the minimum and maximum x-values for the graph in the new dialog that appears.
+					Calulates the integral and draws the area between the graph and the x-axis in the 
+					selected range in the color of the graph.
 				</para>
 			</listitem>
 		</varlistentry>
 		
 		<varlistentry>
-			<term><menuchoice><guimenuitem>Search for Minimum Value</guimenuitem>
+			<term><menuchoice><guimenuitem>Find Minimum...</guimenuitem>
 				</menuchoice></term>
 			<listitem>
 				<para>
@@ -231,29 +247,19 @@
 					search for a minimum.
 				</para>
 				<para>
-					Note: You can also tell the plot to visually show the extreme points via the plot's <guilabel>Appearance</guilabel> dialog, accessible via the Function Editor.
+					Note: You can also tell the plot to visually show the extreme points in the <guilabel>Plot Appearance</guilabel> dialog, accessible in the <guilabel>Functions</guilabel> sidebar by clicking on <guibutton>Advanced...</guibutton>.
 				</para>
 			</listitem>
 		</varlistentry>
 		
 		<varlistentry>
-			<term><menuchoice><guimenuitem>Search for Maximum Value</guimenuitem>
+			<term><menuchoice><guimenuitem>Find Maximum...</guimenuitem>
 				</menuchoice></term>
 			<listitem>
-				<para>This is the same as <guimenuitem>Search for Minimum
-						Value</guimenuitem> above, but finds the maximum value instead of the minimum value.</para>
+				<para>This is the same as <guimenuitem>Find Minimum...</guimenuitem> above, but finds the maximum value instead of the minimum value.</para>
 			</listitem>
 		</varlistentry>
 		
-		<varlistentry>
-			<term><menuchoice><guimenuitem>Calculate Integral</guimenuitem>
-				</menuchoice></term>
-			<listitem>
-				<para>Select the x-values for the graph in the new dialog that appears.
-					Calulates the integral and draws the area between the graph and the x-axis in the 
-					selected range in the color of the graph.</para>
-			</listitem>
-		</varlistentry>
 	</variablelist>
 </sect1>
 

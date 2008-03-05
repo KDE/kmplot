@@ -113,26 +113,26 @@
 		<variablelist>
 			
 			<varlistentry>
-				<term>sin(x)</term>
-				<term>arcsin(x)</term>
-				<term>cosec(x)</term>
-				<term>arccosec(x)</term>
+				<term>sinh(x)</term>
+				<term>arcsinh(x)</term>
+				<term>cosech(x)</term>
+				<term>arccosech(x)</term>
 				<listitem><para>The hyperbolic sine, inverse sine, cosecant and inverse cosecant respectively.</para></listitem>
 			</varlistentry>
 			
 			<varlistentry>
-				<term>cos(x)</term>
-				<term>arccos(x)</term>
-				<term>sec(x)</term>
-				<term>arcsec(x)</term>
+				<term>cosh(x)</term>
+				<term>arccosh(x)</term>
+				<term>sech(x)</term>
+				<term>arcsech(x)</term>
 				<listitem><para>The hyperbolic cosine, inverse cosine, secant and inverse secant respectively.</para></listitem>
 			</varlistentry>
 			
 			<varlistentry>
-				<term>tan(x)</term>
-				<term>arctan(x)</term>
-				<term>cot(x)</term>
-				<term>arccot(x)</term>
+				<term>tanh(x)</term>
+				<term>arctanh(x)</term>
+				<term>coth(x)</term>
+				<term>arccoth(x)</term>
 				<listitem><para>The hyperbolic tangent, inverse tangent, cotangent and inverse cotangent respectively.</para></listitem>
 			</varlistentry>
 			
@@ -254,7 +254,7 @@
 <sect1 id="func-extension">
 	<title>Extensions</title>
 	<para>An extension for a function is specified by entering a semicolon,
-		followed by the extension, after the function definition. The extension can be entered or by using the DBus method parser addFunction. None of the extensions are available for parametric functions but N and D[a,b] work for polar functions too. For example:
+		followed by the extension, after the function definition. The extension can be entered by using the DBus method parser addFunction. None of the extensions are available for parametric functions but N and D[a,b] work for polar functions too. For example:
 		<screen>
 			<userinput>
 				f(x)=x^2; A1

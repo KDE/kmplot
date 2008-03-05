@@ -182,7 +182,7 @@
 		<varlistentry>
 			<term><guilabel>Diagram label</guilabel></term>
 			<listitem>
-				<para>The font used for drawing diagram labels (&eg;, those showing the plot name or extreme points.</para>
+				<para>The font used for drawing diagram labels (&eg;, those showing the plot name or extreme points).</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>

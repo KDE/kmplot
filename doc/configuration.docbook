@@ -242,7 +242,7 @@
 					<term><guilabel>X-axis Grid Spacing</guilabel></term>
 					<listitem>
 						<para>This controls the spacing between grid lines in the horizontal direction.
-							If <guilabel>Automatic</guilabel> is selected, then &kmplot; will try to find a grid line spacing of about two centermeters that is also numerically nice.
+							If <guilabel>Automatic</guilabel> is selected, then &kmplot; will try to find a grid line spacing of about two centimeters that is also numerically nice.
 							If <guilabel>Custom</guilabel> is selected, then you can enter the horizontal grid spacing. This value will be used regardless of the zoom. For example, if a value of 0.5 is entered, and the x range is 0 to 8, then 16 grid lines will be shown.
 						</para>
 					</listitem>

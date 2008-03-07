@@ -440,7 +440,7 @@
 		You can trace a function's values more precisely by clicking onto or next to a graph. The selected function is shown in the status bar in the right column. The crosshair then will be caught and be colored in the same color as the graph. If the graph has the same color as the background color, the crosshair will have the inverted color of the background. When moving the mouse or pressing the keys Left or Right the crosshair will follow the function and you see the current x- and y-value. If the crosshair is close to y-axis, the root-value is shown in the statusbar. You can switch function with the Up and Down keys. A second click anywhere in the window or pressing any non-navigating key will leave this trace mode.
 	</para>
 	<para>
-		For more advanced tracing, open up the configuration dialog, and select <guilabel>Draw tangent and normal when tracing</guilabel> from the <guilabel>General Settings</guilabel> page. This option will draw the tangent, normal and oscullating circle of the plot currently being traced.
+		For more advanced tracing, open up the configuration dialog, and select <guilabel>Draw tangent and normal when tracing</guilabel> from the <guilabel>General Settings</guilabel> page. This option will draw the tangent, normal and oscillating circle of the plot currently being traced.
 	</para>
 	
 </sect1>

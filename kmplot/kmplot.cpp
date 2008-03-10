@@ -131,12 +131,12 @@ void KmPlot::slotUpdateFullScreen( bool checked)
 {
 	if (checked)
 	{
-		showFullScreen();
+		KToggleFullScreenAction::setFullScreen( this, true )
 		//m_fullScreen->plug( toolBar( "mainToolBar" ) ); deprecated annma 2006-03-01
 	}
 	else
 	{
-		showNormal();
+		KToggleFullScreenAction::setFullScreen( this, false )
 		//m_fullScreen->unplug( toolBar( "mainToolBar" ) ); deprecated annma 2006-03-01
 	}
 }

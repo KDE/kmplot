@@ -272,7 +272,7 @@ double Parser::eval( const QString & str, Error * error, int * errorPosition )
 }
 
 
-double Parser::fkt(uint const id, int eq, double x )
+double Parser::fkt(uint id, int eq, double x )
 {
 	if ( !m_ufkt.contains( id ) || m_ufkt[id]->eq.size() <= eq )
 	{

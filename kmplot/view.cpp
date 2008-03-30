@@ -96,7 +96,7 @@ extern "C" int isinf(double);
 #define isinf(x) IsINF(X)
 #endif
 
-#ifdef USE_SOLARIS
+#ifdef Q_OS_SOLARIS
 #include <ieeefp.h>
 int isinf(double x)
 {

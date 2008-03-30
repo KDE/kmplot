@@ -862,7 +862,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 		foreach ( Equation * equation, eq )
 			size += equation->pmCount();
 	
-		unsigned max = unsigned( pow( 2, size ) );
+		unsigned max = unsigned( std::pow( 2.0, (double)size ) );
 		QVector< QVector<bool> > signatures( max );
 	
 		for ( unsigned i = 0; i < max; ++i )

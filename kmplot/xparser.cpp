@@ -23,6 +23,7 @@
 *
 */
 
+#include "kmplot/config-kmplot.h"
 
 // local includes
 #include "xparser.h"
@@ -39,6 +40,9 @@
 
 #include <assert.h>
 #include <cmath>
+#ifdef HAVE_IEEEFP_H
+#include <ieeefp.h>
+#endif
 
 
 XParser * XParser::m_self = 0;

@@ -45,6 +45,7 @@
 #include <math.h>
 #include <assert.h>
 #include <cmath>
+#include <limits>
 #include <locale.h>
 
 double Parser::m_radiansPerAngleUnit = 0;
@@ -1035,7 +1036,7 @@ bool Parser::tryConstant()
 	CHECK_CONSTANT( "pi", M_PI );
 	CHECK_CONSTANT( PiSymbol, M_PI );
 	CHECK_CONSTANT( "e", M_E );
-	CHECK_CONSTANT( InfinitySymbol, INFINITY );
+	CHECK_CONSTANT( InfinitySymbol, std::numeric_limits<double>::infinity());
 	
 	return false;
 }

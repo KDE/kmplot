@@ -23,6 +23,8 @@
 *
 */
 
+#include "kmplot/config-kmplot.h"
+
 #include "view.h"
 
 // Qt includes
@@ -67,6 +69,9 @@
 // other includes
 #include <assert.h>
 #include <cmath>
+#ifdef HAVE_IEEEFP_H
+#include <ieeefp.h>
+#endif
 
 #if defined(Q_CC_MINGW)
 using namespace __gnu_cxx;
@@ -214,7 +219,7 @@ double View::niceTicSpacing( double length_mm, double range )
 	double target = range * 16.0 / length_mm;
 	
 	// The scaling required to bring target to a number between 1 and 10
-	double scale = pow( 10, -std::floor(log(target)/log(10)) );
+	double scale = pow( 10, -std::floor(log(target)/log(10.0)) );
 	
 	// Calculate the first digit of target, e.g. if target is 0.0352, then leading will be set to 3
 	int leading = int(target * scale);

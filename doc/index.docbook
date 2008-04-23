@@ -94,6 +94,9 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 &credits;
 &install;
 
+<!--TRANS:CREDIT_FOR_TRANSLATORS-->
+&underFDL;
+
 &documentation.index;
 </book>
 <!--

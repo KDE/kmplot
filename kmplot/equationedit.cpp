@@ -579,7 +579,7 @@ EquationEditor::EquationEditor( QWidget * parent )
 	updateConstantList();
 	
 	// Now make the dialog good looking
-	resize( layout()->minimumSize() );
+	//resize( layout()->minimumSize() );
 }
 
 

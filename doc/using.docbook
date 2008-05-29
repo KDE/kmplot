@@ -178,7 +178,18 @@
 
 <sect1 id="popupmenu">
 	<title>Popup menu</title>
-	
+	<screenshot>
+	<screeninfo>Graph right-click popup menu</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase>Graph right-click popup menu</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
 	<para>When right-clicking on a plot function or a single-point parametric plot function a popup menu will appear.
 		In the menu there are three items available:</para>
 	

@@ -577,9 +577,6 @@ EquationEditor::EquationEditor( QWidget * parent )
 	
 	connect( XParser::self()->constants(), SIGNAL(constantsChanged()), this, SLOT(updateConstantList()) );
 	updateConstantList();
-	
-	// Now make the dialog good looking
-	//resize( layout()->minimumSize() );
 }
 
 

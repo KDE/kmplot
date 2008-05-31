@@ -51,7 +51,7 @@ Calculator::Calculator( QWidget * parent )
 	m_display->setSizePolicy( displaySizePolicy );
 	layout->addWidget( m_display );
 	
-	m_input = new EquationEditor( 0 );
+    m_input = new EquationEditor( this );
 	layout->addWidget( m_input->mainWidget() );
 	
 	m_display->setReadOnly( true );

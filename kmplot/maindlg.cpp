@@ -696,6 +696,7 @@ void MainDlg::slotPrint()
 		View::self()->setPrintHeight( printdlg->printHeight() );
 		View::self()->draw(&prt, View::Printer);
 	}
+        delete printDialog;
 }
 
 

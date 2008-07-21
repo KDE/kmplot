@@ -23,10 +23,11 @@
 *
 */
 
-#include "kmplot/config-kmplot.h"
+#include "xparser.h"
+
+#include <kmplot/config-kmplot.h>
 
 // local includes
-#include "xparser.h"
 #include "parseradaptor.h"
 #include "maindlg.h"
 

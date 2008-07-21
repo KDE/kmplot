@@ -23,9 +23,9 @@
 *
 */
 
-#include "kmplot/config-kmplot.h"
-
 #include "view.h"
+
+#include <kmplot/config-kmplot.h>
 
 // Qt includes
 #include <QAbstractTextDocumentLayout>
@@ -97,7 +97,6 @@ extern "C" int isinf(double);
 #endif
 
 #ifdef Q_OS_SOLARIS
-#include <ieeefp.h>
 int isinf(double x)
 {
 	return !finite(x) && x==x;
@@ -3338,7 +3337,7 @@ QString View::posToString( double x, double delta, PositionFormatting format, co
 			if ( number.contains( 'e' ) )
 			{
 				number.remove( "+0" );
-				number.remove( "+" );
+				number.remove( '+' );
 				number.replace( "-0", MinusSymbol );
 
 				number.replace( 'e', QChar(215) + QString("10<sup>") );

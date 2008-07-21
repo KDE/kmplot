@@ -24,15 +24,15 @@
 /** @file kprinterdlg.h 
  * @brief Contains the KPrinterDlg class. */
 
-#ifndef kprintdlg_included
-#define kprintdlg_included
+#ifndef KMPLOT_KPRINTERDLG_H
+#define KMPLOT_KPRINTERDLG_H
 
 #include <QWidget>
 
 // KDE includes
 
 class QCheckBox;
-class QComboBox;
+class KComboBox;
 class EquationEdit;
 
 /** @short A dialog page for the print dialog.
@@ -93,7 +93,7 @@ protected:
 	/**
 	 * The units to use for lengths (such as the width and height).
 	 */
-	QComboBox *m_lengthScalingCombo;
+	KComboBox *m_lengthScalingCombo;
 };
 
-#endif //kprinterdlg_included
+#endif //KMPLOT_KPRINTERDLG_H

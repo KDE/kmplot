@@ -3777,7 +3777,7 @@ QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin,
 		if ( (type == Maximum && rv.y() > best) || (type == Minimum && rv.y() < best) )
 		{
 			best = rv.y();
-			bestPoint = rv;
+			bestPoint = QPointF(rv.x(), rv.y());
 		}
 	}
 	

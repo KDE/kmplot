@@ -23,16 +23,8 @@
 			<Action name="options_configure"/>-->
 			<Separator/>
 		</Menu>
-		<Menu name="help" noMerge="1"><text>&amp;Help</text>
-			<Action name="help_contents"/>
-			<Action name="help_whats_this"/>
-			<Separator/>
-			<Merge/>
-			<Separator/>
-			<Action name="help_report_bug"/>
-			<Separator/>
-			<Action name="help_about_app"/>
-			<Action name="help_about_kde"/>
+		<Menu name="help"><text>&amp;Help</text>
+			<DefineGroup name="names_group" />
 		</Menu>
 	</MenuBar>
 	<ToolBar noMerge="1" name="mainToolBar"><text>Main Toolbar</text>

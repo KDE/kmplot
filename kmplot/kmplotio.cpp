@@ -575,7 +575,7 @@ void KmPlotIO::parseParameters( const QDomElement &n, Function * function )
 	QString tagName = (version < 5) ? "parameterlist" : "parameter-list";
 	
 	QStringList str_parameters = n.namedItem( tagName ).toElement().text().split( separator, QString::SkipEmptyParts );
-	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
+	for( QStringList::const_iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
 		function->m_parameters.list.append( Value( *it ));
 }
 

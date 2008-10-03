@@ -536,6 +536,11 @@
    <extends>KLineEdit</extends>
    <header>equationedit.h</header>
   </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections/>

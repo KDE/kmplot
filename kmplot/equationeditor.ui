@@ -92,7 +92,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QComboBox" name="constantList" >
+      <widget class="KComboBox" name="constantList" >
        <item>
         <property name="text" >
          <string>Insert constant...</string>

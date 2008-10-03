@@ -75,7 +75,7 @@
     </widget>
    </item>
    <item row="1" column="1" colspan="2" >
-    <widget class="QComboBox" name="lineStyle" />
+    <widget class="KComboBox" name="lineStyle" />
    </item>
    <item row="0" column="0" >
     <widget class="QLabel" name="label" >
@@ -113,6 +113,11 @@
    <class>KGradientButton</class>
    <extends>QPushButton</extends>
    <header>kgradientdialog.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -2361,7 +2361,7 @@ bool View::penShouldDraw( double length, const Plot & plot )
 		case Qt::MPenStyle:
 		case Qt::CustomDashLine:
 		{
-			assert( ! "Don't know how to handle this style!" );
+			assert( ! "Do not know how to handle this style!" );
 			return true;
 		}
 	}

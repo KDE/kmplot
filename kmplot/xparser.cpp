@@ -401,7 +401,7 @@ QColor XParser::defaultColor(int function)
 			return Settings::color9();
 	}
 	
-	assert( !"Shouldn't happen - XParser::defaultColor" );
+	assert( !"Should not happen - XParser::defaultColor" );
 	return QColor();
 }
 

@@ -1,6 +1,7 @@
 <chapter id="dcop">
 	<title>Scripting &kmplot;</title>
-	<para>A new feature in &kde; 3.4 is that you can write scripts for &kmplot; using DBus in &kde; 4. For example, if you want to define a new function <userinput>f(x)=2sin x+3cos x</userinput>, set its line width to 20 and then draw it, you type in a console:</para>
+	<para>A new feature in &kde; 3.4 is that you can write scripts for &kmplot; using &DBus; in &kde; 4. For example, if you want to define a new function <userinput>f(x)=2sin x+3cos 
+x</userinput>, set its line width to 20 and then draw it, you type in a console:</para>
 	<para><command>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command>
 		As a result, the new function's id number will be returned, or -1 if the function could not be defined.</para>
 	<para><command>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command>
@@ -352,7 +353,7 @@
 		    /parser org.kde.kmplot.Parser.functionMinValue id
 		  </term>
 		  <listitem>
-		    <para>Returns the minimum plot range value of the function with the ID <parameter>id</parameter>. If the function not exists or if the minimum value is not definied, an empty string is returned.</para>
+		    <para>Returns the minimum plot range value of the function with the ID <parameter>id</parameter>. If the function not exists or if the minimum value is not defined, an empty string is returned.</para>
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
@@ -360,7 +361,7 @@
 		    /parser org.kde.kmplot.Parser.functionMaxValue id
 		  </term>
 		  <listitem>
-		    <para>Returns the maximum plot range value of the function with the ID <parameter>id</parameter>. If the function not exists or if the maximum value is not definied, an empty string is returned.</para>
+		    <para>Returns the maximum plot range value of the function with the ID <parameter>id</parameter>. If the function not exists or if the maximum value is not defined, an empty string is returned.</para>
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
@@ -385,7 +386,7 @@
 		    /parser org.kde.kmplot.Parser.functionStartXValue id
 		  </term>
 		  <listitem>
-		    <para>Returns the initial x point for the integral of the function with the ID <parameter>id</parameter>. If the function not exists or if the x-point-expression is not definied, an empty string is returned.</para>
+		    <para>Returns the initial x point for the integral of the function with the ID <parameter>id</parameter>. If the function not exists or if the x-point-expression is not defined, an empty string is returned.</para>
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
@@ -393,7 +394,7 @@
 		    /parser org.kde.kmplot.Parser.functionStartYValue id
 		  </term>
 		  <listitem>
-		    <para>Returns the initial y point for the integral of the function with the ID <parameter>id</parameter>. If the function not exists or if the y-point-expression is not definied, an empty string is returned.</para>
+		    <para>Returns the initial y point for the integral of the function with the ID <parameter>id</parameter>. If the function not exists or if the y-point-expression is not defined, an empty string is returned.</para>
 		  </listitem>
 		</varlistentry>
 		<varlistentry>

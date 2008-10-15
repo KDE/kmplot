@@ -225,7 +225,7 @@
 				</menuchoice></term>
 			<listitem>
 				<para>Select a graph and the x-values in the new dialog that appears.
-					Calulates the integral and draws the area between the graph and the x-axis in the 
+					Calculates the integral and draws the area between the graph and the x-axis in the 
 					range of the selected x-values in the color of the graph.</para>
 			</listitem>
 		</varlistentry>

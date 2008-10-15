@@ -20,7 +20,7 @@
 
 <para>&kmplot; supports several different types of plots:</para>
 <itemizedlist>
-	<listitem><para>Explicit cartesians plots of the form y = f(x).</para></listitem>
+	<listitem><para>Explicit cartesian plots of the form y = f(x).</para></listitem>
 	<listitem><para>Parametric plots, where the x and y components are specified as functions of an independent variable.</para></listitem>
 	<listitem><para>Polar plots of the form r = r(&thgr;).</para></listitem>
 	<listitem><para>Implicit plots, where the x and y coordinates are related by an expression.</para></listitem>

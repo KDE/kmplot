@@ -502,7 +502,7 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 					<term><guilabel>Y-axis Grid Spacing</guilabel></term>
 					<listitem>
 						<para>This controls the spacing between grid lines in the vertical direction.
-							See <quote>Y-axis Grid Spacing</quote> above.
+							See <quote>X-axis Grid Spacing</quote> above.
 						</para>
 					</listitem>
 				</varlistentry>

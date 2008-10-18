@@ -548,7 +548,8 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 			<varlistentry>
 				<term><guilabel>Global</guilabel></term>
 				<listitem>
-					<para>If you select the <guilabel>Global</guilabel> checkbox, then the Constant's name and value will be written to &kde; settings (where it can also be used by KCalc). The constant will not be lost when &kmplot; is closed, and will be available again for use when &kmplot; is started again.</para>
+					<para>If you select the <guilabel>Global</guilabel> checkbox, then the Constant's name and value will be written to &kde; settings (where it can 
+also be used by &kcalc;). The constant will not be lost when &kmplot; is closed, and will be available again for use when &kmplot; is started again.</para>
 				</listitem>
 			</varlistentry>
 			

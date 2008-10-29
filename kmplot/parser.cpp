@@ -105,6 +105,8 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"gamma", 0, tgamma},			// gamma function
 	{"lgamma", 0, lgamma},			// log-gamma function
 	{"factorial", 0, factorial},		// factorial
+	{"erfc", 0, lerfc},			// error function
+	{"erf", 0, lerf},			// complementary error function
 	
 	// legendre
 	{"P_0", 0, legendre0},				// lengedre polynomial (n=0)
@@ -1415,6 +1417,15 @@ double mod( const Vector & args )
 	
 	return std::sqrt( squared );
 }
+
+double lerf(double x) {
+	return erf(x);
+}
+
+double lerfc(double x) {
+	return erfc(x);
+}
+
 //END predefined mathematical functions
 
 

@@ -85,7 +85,7 @@ enum Token
 
 
 const int legendreCount = 7; // number of legendre polynomials we allow for
-const int ScalarCount = 38+legendreCount;	// number of mathematical scalar functions
+const int ScalarCount = 40+legendreCount;	// number of mathematical scalar functions
 const int VectorCount = 3; // number of vector functions
 //@}
 
@@ -126,6 +126,8 @@ double legendre5(double x);
 double legendre6(double x);
 
 double factorial(double x);
+double lerf(double x);
+double lerfc(double x);
 
 /** Predefined mathematical functions with an indefinite number of variables. */
 double min( const Vector & x );

@@ -276,13 +276,13 @@ void MainDlg::setupActions()
 	//BEGIN view menu
 	/// \todo check that new shortcuts work
 
-	QAction * zoomIn = actionCollection()->addAction( "zoom_in" );
+	KAction * zoomIn = actionCollection()->addAction( "zoom_in" );
         zoomIn->setText( i18n("Zoom &In") );
 	zoomIn->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_1) );
 	zoomIn->setIcon( KIcon("zoom-in") );
 	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
 
-	QAction * zoomOut = actionCollection()->addAction( "zoom_out" );
+	KAction * zoomOut = actionCollection()->addAction( "zoom_out" );
         zoomOut->setText(i18n("Zoom &Out"));
 	zoomOut->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_2) );
 	zoomOut->setIcon( KIcon("zoom-out") );

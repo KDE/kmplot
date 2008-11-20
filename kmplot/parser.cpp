@@ -1584,8 +1584,8 @@ void ExpressionSanitizer::fixExpression( QString * str )
 		
 		QString remaining = str->right( str->length() - i );
 		
-		QMap< LengthOrderedString, StringType >::const_iterator end = strings.end();
-		for ( QMap< LengthOrderedString, StringType >::const_iterator it = strings.begin(); it != end; ++it )
+		QMap< LengthOrderedString, StringType >::const_iterator end = strings.constEnd();
+		for ( QMap< LengthOrderedString, StringType >::const_iterator it = strings.constBegin(); it != end; ++it )
 		{
 			if ( !remaining.startsWith( it.key() ) )
 				continue;

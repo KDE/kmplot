@@ -574,8 +574,8 @@ void KmPlotIO::parseParameters( const QDomElement &n, Function * function )
 	QChar separator = (version < 1) ? ',' : ';';
 	QString tagName = (version < 5) ? "parameterlist" : "parameter-list";
 	
-	QStringList str_parameters = n.namedItem( tagName ).toElement().text().split( separator, QString::SkipEmptyParts );
-	for( QStringList::const_iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
+	const QStringList str_parameters = n.namedItem( tagName ).toElement().text().split( separator, QString::SkipEmptyParts );
+	for( QStringList::const_iterator it = str_parameters.constBegin(); it != str_parameters.constEnd(); ++it )
 		function->m_parameters.list.append( Value( *it ));
 }
 

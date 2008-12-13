@@ -808,8 +808,8 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 		
 		if ( m_parameters.useList )
 		{
-			int pos = 0;
-			foreach ( const Value &v, m_parameters.list )
+			const int listsize = m_parameters.list.size();
+			for ( int pos = 0; pos < listsize; ++pos )
 			{
 				Parameter param( Parameter::List );
 				param.setListPos( pos++ );

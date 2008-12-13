@@ -395,7 +395,6 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	// sliding the view about
 	painter.setRenderHint( QPainter::Antialiasing, m_zoomMode != Translating );
 	
-	double numPlots = XParser::self()->m_ufkt.size();
 	double at = -1;
 	foreach ( Function * function, XParser::self()->m_ufkt )
 	{

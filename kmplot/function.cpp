@@ -812,7 +812,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 			for ( int pos = 0; pos < listsize; ++pos )
 			{
 				Parameter param( Parameter::List );
-				param.setListPos( pos++ );
+				param.setListPos( pos );
 				plot.parameter = param;
 				plot.plotNumber = i++;
 				list << plot;

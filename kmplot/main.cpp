@@ -25,7 +25,7 @@
 /**
  * Version string of KmPlot.
  */
-#define KP_VERSION "1.2.0"
+static const char* version =  "1.2.1";
 
 // local includes
 #include "kmplot.h"
@@ -47,7 +47,7 @@ int main( int argc, char **argv )
 	KAboutData aboutData(
 	    "kmplot", 0,
 	    ki18n( "KmPlot" ),
-	    KP_VERSION, ki18n(description), KAboutData::License_GPL,
+	    version, ki18n(description), KAboutData::License_GPL,
 	    ki18n("(c) 2000-2002, Klaus-Dieter Möller"),
 	    KLocalizedString(),
 	    "http://edu.kde.org/kmplot/" );

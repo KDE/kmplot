@@ -476,7 +476,7 @@ void FunctionEditor::createCartesian()
 
 void FunctionEditor::createParametric()
 {
-	QString name = XParser::self()->findFunctionName( "f", -1 );
+	QString name = XParser::self()->findFunctionName( "f", -1, QStringList() << "%1" << "%1_x" << "%1_y" );
 	
 	QString name_x, name_y;
 	

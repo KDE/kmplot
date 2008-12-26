@@ -198,7 +198,7 @@ double XParser::partialDerivative( int n1, int n2, Equation * eq, DifferentialSt
 }
 
 
-QString XParser::findFunctionName( const QString & preferredName, int id )
+QString XParser::findFunctionName( const QString & preferredName, int id, const QStringList& neededPatterns )
 {
 	// The position of the character attempting to replace
 	int pos = preferredName.length()-1;
@@ -219,8 +219,10 @@ QString XParser::findFunctionName( const QString & preferredName, int id )
 				
 				foreach ( Equation * eq, it->eq )
 				{
-					if ( eq->name() == name )
-						ok = false;
+					foreach ( const QString& pattern, neededPatterns) {
+						if ( eq->name() == pattern.arg(name) )
+							ok = false;
+					}
 				}
 				
 				if (!ok)

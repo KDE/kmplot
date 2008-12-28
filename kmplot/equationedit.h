@@ -151,41 +151,5 @@ class EquationEdit : public QWidget
 		friend class EquationHighlighter;
 };
 
-
-/**
- * A dialog containing an EquationEdit and a variety of buttons to insert
- * special characters.
- * \author David Saxton
- */
-class EquationEditor : public KDialog
-{
-	Q_OBJECT
-			
-	public:
-		EquationEditor( QWidget * parent );
-		
-		/**
-		 * The equation's text, e.g. "f(x) = x^2".
-		 */
-		QString text() const;
-		
-		EquationEdit *edit() const;
-		
-	protected slots:
-		void insertFunction( const QString & text );
-		/**
-		 * \p index is the position of the constant in the constants combo box.
-		 */
-		void insertConstant( int index );
-		void characterButtonClicked();
-		void updateConstantList();
-		
-	protected:
-		EquationEditorWidget * m_widget;
-		
-		friend class EquationEdit;
-};
-
-
 #endif
 

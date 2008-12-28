@@ -15,6 +15,7 @@ set(kmplotpart_PART_SRCS
    equationeditwidget.cpp
    equationhighlighter.cpp
    equationeditorwidget.cpp
+   equationeditor.cpp
    function.cpp
    view.cpp 
    maindlg.cpp 

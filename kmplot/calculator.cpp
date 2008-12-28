@@ -24,6 +24,7 @@
 
 #include "calculator.h"
 #include "equationedit.h"
+#include "equationeditor.h"
 #include "xparser.h"
 
 #include <KLocale>

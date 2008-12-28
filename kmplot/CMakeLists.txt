@@ -12,6 +12,7 @@ set(kmplotpart_PART_SRCS
    parser.cpp 
    xparser.cpp 
    equationedit.cpp
+   equationeditwidget.cpp
    function.cpp
    view.cpp 
    maindlg.cpp 

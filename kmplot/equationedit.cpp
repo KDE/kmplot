@@ -35,41 +35,12 @@
 #include <QHBoxLayout>
 #include <QLocale>
 #include <QPushButton>
-#include <QStyleOptionFrame>
 
 #include <assert.h>
 
+#include "equationeditwidget.h"
+
 CharMap EquationEdit::m_replaceMap;
-
-
-/**
- * The actual line edit.
- */
-class EquationEditWidget : public QTextEdit
-{
-	public:
-		EquationEditWidget( EquationEdit * parent );
-		
-		/**
-		 * Call this after changing font size.
-		 */
-		void recalculateGeometry();
-		/**
-		 * Whether to clear the selection when focus is lost.
-		 */
-		void setClearSelectionOnFocusOut( bool doIt ) { m_clearSelectionOnFocusOut = doIt; }
-		
-	protected:
-		void clearSelection();
-		
-		void wheelEvent( QWheelEvent * e );
-		void keyPressEvent( QKeyEvent * e );
-		void focusOutEvent( QFocusEvent * e );
-		void focusInEvent( QFocusEvent * e );
-		
-		EquationEdit * m_parent;
-		bool m_clearSelectionOnFocusOut;
-};
 
 
 class EquationEditorWidget : public QWidget, public Ui::EquationEditor
@@ -432,103 +403,6 @@ void EquationEdit::insertText( const QString & text )
 	m_equationEditWidget->insertPlainText( text );
 }
 //END class EquationEdit
-
-
-
-//BEGIN class EquationEditWidget
-EquationEditWidget::EquationEditWidget( EquationEdit * parent )
-	: QTextEdit( parent )
-{
-	m_clearSelectionOnFocusOut = true;
-	m_parent = parent;
-	recalculateGeometry();
-}
-
-
-void EquationEditWidget::recalculateGeometry()
-{
-	// Set fixed height
-	ensurePolished();
-	QFontMetrics fm( document()->defaultFont() );
-	int h = qMax(fm.lineSpacing(), 14) + 6;
-	int m = style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-	QStyleOptionFrame opt;
-	opt.rect = rect();
-	opt.palette = palette();
-	opt.state = QStyle::State_None;
-	setFixedHeight( h + (2 * m) );
-	
-	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	setContentsMargins( 0, 0, 0, 0 );
-	setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-	setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-	setWordWrapMode( QTextOption::NoWrap );
-	setLineWrapMode( QTextEdit::NoWrap );
-	setTabChangesFocus( true );
-}
-
-
-void EquationEditWidget::wheelEvent( QWheelEvent * e )
-{
-	e->accept();
-}
-
-
-void EquationEditWidget::keyPressEvent( QKeyEvent * e )
-{
-	if ( (e->key() == Qt::Key_Return) ||
-			 (e->key() == Qt::Key_Enter) )
-	{
-		e->accept();
-		emit m_parent->editingFinished();
-		emit m_parent->returnPressed();
-	}
-	else
-	{
-		// Still pass these keys to QTextEdit, in case the user has to scroll
-		// up/down the text
-		if ( e->key() == Qt::Key_Up )
-			emit m_parent->upPressed();
-		else if ( e->key() == Qt::Key_Down )
-			emit m_parent->downPressed();
-		
-		QTextEdit::keyPressEvent( e );
-	}
-}
-
-
-void EquationEditWidget::focusOutEvent( QFocusEvent * e )
-{
-	QTextEdit::focusOutEvent( e );
-	
-	if ( m_clearSelectionOnFocusOut )
-		clearSelection();
-	m_parent->reHighlight();
-	
-	emit m_parent->editingFinished();
-}
-
-
-void EquationEditWidget::focusInEvent( QFocusEvent * e )
-{
-	QTextEdit::focusOutEvent( e );
-
-	m_parent->reHighlight();
-	if ( e->reason() == Qt::TabFocusReason )
-		selectAll();
-}
-
-
-void EquationEditWidget::clearSelection( )
-{
-	QTextCursor cursor = textCursor();
-	if ( !cursor.hasSelection() )
-		return;
-	
-	cursor.clearSelection();
-	setTextCursor( cursor );
-}
-//END class EquationEditWidget
 
 
 

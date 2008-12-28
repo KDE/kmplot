@@ -25,10 +25,10 @@
 #ifndef EQUATIONEDITORWIDGET_H
 #define EQUATIONEDITORWIDGET_H
 
-#include "ui_equationeditor.h"
+#include "ui_equationeditorwidget.h"
 
 
-class EquationEditorWidget : public QWidget, public Ui::EquationEditor
+class EquationEditorWidget : public QWidget, public Ui::EquationEditorWidget
 {
 	public:
 		EquationEditorWidget(QWidget* parent = 0);

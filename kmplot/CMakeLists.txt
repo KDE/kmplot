@@ -52,7 +52,7 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 	sliderwidget.ui
 	parameterswidget.ui
 	parameteranimator.ui
-	equationeditor.ui
+	equationeditorwidget.ui
 	)
 
 kde4_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )

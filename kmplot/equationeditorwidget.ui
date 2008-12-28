@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>EquationEditor</class>
- <widget class="QWidget" name="EquationEditor" >
+ <class>EquationEditorWidget</class>
+ <widget class="QWidget" name="EquationEditorWidget" >
   <property name="geometry" >
    <rect>
     <x>0</x>

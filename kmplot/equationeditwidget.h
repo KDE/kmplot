@@ -25,7 +25,7 @@
 #ifndef EQUATIONEDITWIDGET_H
 #define EQUATIONEDITWIDGET_H
 
-#include <QtGui/QTextEdit>
+#include <KTextEdit>
 
 class EquationEdit;
 
@@ -33,7 +33,7 @@ class EquationEdit;
 /**
  * The actual line edit.
  */
-class EquationEditWidget : public QTextEdit
+class EquationEditWidget : public KTextEdit
 {
 	public:
 		EquationEditWidget(EquationEdit* parent);

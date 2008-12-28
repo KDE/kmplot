@@ -15,7 +15,7 @@ void EquationEditWidget::setClearSelectionOnFocusOut(bool doIt) {
 
 
 EquationEditWidget::EquationEditWidget(EquationEdit* parent) 
-	: QTextEdit(parent)
+	: KTextEdit(parent)
 {
 	m_clearSelectionOnFocusOut = true;
 	m_parent = parent;
@@ -40,7 +40,7 @@ void EquationEditWidget::recalculateGeometry() {
 	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	setWordWrapMode(QTextOption::NoWrap);
-	setLineWrapMode(QTextEdit::NoWrap);
+	setLineWrapMode(KTextEdit::NoWrap);
 	setTabChangesFocus(true);
 }
 
@@ -56,20 +56,20 @@ void EquationEditWidget::keyPressEvent(QKeyEvent* e) {
 		emit m_parent->editingFinished();
 		emit m_parent->returnPressed();
 	} else {
-		// Still pass these keys to QTextEdit, in case the user has to scroll
+		// Still pass these keys to KTextEdit, in case the user has to scroll
 		// up/down the text
 		if (e->key() == Qt::Key_Up)
 			emit m_parent->upPressed();
 		else if (e->key() == Qt::Key_Down)
 			emit m_parent->downPressed();
 		
-		QTextEdit::keyPressEvent(e);
+		KTextEdit::keyPressEvent(e);
 	}
 }
 
 
 void EquationEditWidget::focusOutEvent(QFocusEvent* e) {
-	QTextEdit::focusOutEvent(e);
+	KTextEdit::focusOutEvent(e);
 	
 	if (m_clearSelectionOnFocusOut)
 		clearSelection();
@@ -80,7 +80,7 @@ void EquationEditWidget::focusOutEvent(QFocusEvent* e) {
 
 
 void EquationEditWidget::focusInEvent(QFocusEvent* e) {
-	QTextEdit::focusOutEvent(e);
+	KTextEdit::focusOutEvent(e);
 
 	m_parent->reHighlight();
 	if (e->reason() == Qt::TabFocusReason)

@@ -28,8 +28,9 @@
 #include "xparser.h"
 
 #include <KLocale>
+#include <KTextEdit>
+
 #include <QScrollBar>
-#include <QTextEdit>
 #include <QVBoxLayout>
 
 //BEGIN class Calculator
@@ -45,7 +46,7 @@ Calculator::Calculator( QWidget * parent )
 	QVBoxLayout *layout = new QVBoxLayout( widget );
 	layout->setMargin( 0 );
 	
-	m_display = new QTextEdit( widget );
+	m_display = new KTextEdit( widget );
 	QSizePolicy displaySizePolicy = m_display->sizePolicy();
 	displaySizePolicy.setVerticalStretch( 10 );
 	displaySizePolicy.setVerticalPolicy( QSizePolicy::MinimumExpanding );

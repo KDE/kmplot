@@ -24,7 +24,6 @@
 
 #include "equationedit.h"
 #include "maindlg.h"
-#include "ui_equationeditor.h"
 #include "xparser.h"
 
 #include <kacceleratormanager.h>
@@ -38,19 +37,11 @@
 
 #include <assert.h>
 
+#include "equationeditorwidget.h"
 #include "equationeditwidget.h"
 #include "equationhighlighter.h"
 
 CharMap EquationEdit::m_replaceMap;
-
-
-class EquationEditorWidget : public QWidget, public Ui::EquationEditor
-{
-	public:
-		EquationEditorWidget( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
-};
 
 
 //BEGIN class EquationEdit
@@ -387,6 +378,3 @@ void EquationEditor::characterButtonClicked()
 	m_widget->edit->insertText( tb->text().remove( '&' ) );
 }
 //END class EquationEditor
-
-
-#include "equationedit.moc"

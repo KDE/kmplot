@@ -32,7 +32,7 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 
-//BEGIN class Calacultor
+//BEGIN class Calculator
 Calculator::Calculator( QWidget * parent )
 	: KDialog( parent )
 {

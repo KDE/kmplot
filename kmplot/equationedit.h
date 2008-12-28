@@ -30,40 +30,16 @@
 #include <kdialog.h>
 
 #include <QMap>
-#include <QSyntaxHighlighter>
-
 
 class Equation;
 class EquationEdit;
 class EquationEditWidget;
 class EquationEditor;
 class EquationEditorWidget;
+class EquationHighlighter;
 class QPushButton;
 
 typedef QMap<QChar, QChar> CharMap;
-
-
-/**
- * \author David Saxton
- */
-class EquationHighlighter : public QSyntaxHighlighter
-{
-	public:
-		EquationHighlighter( EquationEdit * parent );
-		~EquationHighlighter();
-		
-		/**
-		 * This is used to indicate the position where the error occurred.
-		 * If \p position is negative, then no error will be shown.
-		 */
-		void setErrorPosition( int position );
-		
-	protected:
-		virtual void highlightBlock( const QString & text );
-		
-		int m_errorPosition;
-		EquationEdit * m_parent;
-};
 
 
 /**

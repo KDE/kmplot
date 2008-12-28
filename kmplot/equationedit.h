@@ -147,6 +147,7 @@ class EquationEdit : public QWidget
 		static CharMap m_replaceMap;
 		
 		friend class EquationEditor;
+		friend class EquationEditorWidget;
 		friend class EquationEditWidget;
 		friend class EquationHighlighter;
 };

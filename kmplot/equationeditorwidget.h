@@ -30,8 +30,19 @@
 
 class EquationEditorWidget : public QWidget, public Ui::EquationEditorWidget
 {
+	Q_OBJECT
+	
 	public:
 		EquationEditorWidget(QWidget* parent = 0);
+	
+	protected slots:
+		void insertFunction(const QString& text);
+		/**
+		 * \p index is the position of the constant in the constants combo box.
+		 */
+		void insertConstant(int index);
+		void characterButtonClicked();
+		void updateConstantList();
 };
 
 #endif

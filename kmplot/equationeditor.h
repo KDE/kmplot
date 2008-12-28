@@ -50,15 +50,6 @@ class EquationEditor : public KDialog
 		
 		EquationEdit* edit() const;
 		
-	protected slots:
-		void insertFunction(const QString& text);
-		/**
-		 * \p index is the position of the constant in the constants combo box.
-		 */
-		void insertConstant(int index);
-		void characterButtonClicked();
-		void updateConstantList();
-		
 	protected:
 		EquationEditorWidget* m_widget;
 };

@@ -94,10 +94,10 @@ void EquationEdit::reHighlight()
 void EquationEdit::invokeEquationEditor()
 {
 	EquationEditor * edit = new EquationEditor( this );
-	edit->m_widget->edit->setInputType( m_inputType );
-	edit->m_widget->edit->setEquationType( m_equation->type() );
-	edit->m_widget->edit->setValidatePrefix( m_validatePrefix );
-	edit->m_widget->edit->setText( text() );
+	edit->edit()->setInputType( m_inputType );
+	edit->edit()->setEquationType( m_equation->type() );
+	edit->edit()->setValidatePrefix( m_validatePrefix );
+	edit->edit()->setText( text() );
 	
 	edit->exec();
 	

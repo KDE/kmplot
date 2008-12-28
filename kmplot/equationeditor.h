@@ -61,8 +61,6 @@ class EquationEditor : public KDialog
 		
 	protected:
 		EquationEditorWidget* m_widget;
-		
-		friend class EquationEdit;
 };
 
 #endif

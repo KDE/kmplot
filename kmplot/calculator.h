@@ -27,7 +27,7 @@
 
 #include <KDialog>
 
-class EquationEditor;
+class EquationEditorWidget;
 class QTextEdit;
 
 /**
@@ -48,7 +48,7 @@ class Calculator : public KDialog
 		void calculate();
         
 	protected:
-		EquationEditor *m_input;
+		EquationEditorWidget* m_input;
 		QTextEdit *m_display;
 		QString m_displayText;
 };

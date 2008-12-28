@@ -24,7 +24,7 @@
 
 #include "calculator.h"
 #include "equationedit.h"
-#include "equationeditor.h"
+#include "equationeditorwidget.h"
 #include "xparser.h"
 
 #include <KLocale>
@@ -52,15 +52,15 @@ Calculator::Calculator( QWidget * parent )
 	m_display->setSizePolicy( displaySizePolicy );
 	layout->addWidget( m_display );
 	
-    m_input = new EquationEditor( this );
-	layout->addWidget( m_input->mainWidget() );
+    m_input = new EquationEditorWidget( this );
+	layout->addWidget( m_input );
 	
 	m_display->setReadOnly( true );
 	
-	connect( m_input->edit(), SIGNAL(returnPressed()), this, SLOT(calculate()) );
+	connect( m_input->edit, SIGNAL(returnPressed()), this, SLOT(calculate()) );
 	
 	resize( layout->minimumSize() );
-	m_input->edit()->setFocus();
+	m_input->edit->setFocus();
 }
 
 
@@ -73,9 +73,9 @@ Calculator::~Calculator()
 void Calculator::calculate()
 {
 	Parser::Error error;
-	double value = XParser::self()->eval( m_input->text(), & error );
+	double value = XParser::self()->eval( m_input->edit->text(), &error );
 	
-	m_displayText += m_input->text().replace( '<', "&lt;" );
+	m_displayText += m_input->edit->text().replace( '<', "&lt;" );
 	
 	if ( error == Parser::ParseSuccess )
 		m_displayText += " = <b>" + Parser::number( value ) + "</b>";
@@ -86,7 +86,7 @@ void Calculator::calculate()
 	
 	m_display->document()->setHtml( m_displayText );
 	m_display->verticalScrollBar()->setValue( m_display->verticalScrollBar()->maximum() );
-	m_input->edit()->selectAll();
+	m_input->edit->selectAll();
 }
 //END class Calculator
 

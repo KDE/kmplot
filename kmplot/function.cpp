@@ -390,8 +390,7 @@ void Equation::updateVariables()
 			splitted = m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts );
 		
 		// Variables shouldn't contain spaces!
-		foreach ( QString s, splitted )
-		{
+		foreach ( QString s, splitted ) { //krazy:exclude=foreach
 			s = s.remove(' ');
 			if ( !s.isEmpty() )
 				m_variables << s;
@@ -828,8 +827,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 		
 		for ( PMode p = Derivative0; p <= Integral; p = PMode(p+1) )
 		{
-			foreach ( Plot plot, list )
-			{
+			foreach ( Plot plot, list ) { //krazy:exclude=foreach
 				if ( !plotAppearance(p).visible )
 					continue;
 				plot.plotMode = p;
@@ -846,8 +844,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 		
 		for ( int i = 0; i < eq[0]->differentialStates.size(); ++i )
 		{
-			foreach ( Plot plot, list )
-			{
+			foreach ( Plot plot, list ) { //krazy:exclude=foreach
 				plot.stateNumber = i;
 				duplicated << plot;
 			}
@@ -893,8 +890,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 				pmSignature << sig;
 			}
 		
-			foreach ( Plot plot, list )
-			{
+			foreach ( Plot plot, list ) { //krazy:exclude=foreach
 				plot.pmSignature = pmSignature;
 				duplicated << plot;
 			}

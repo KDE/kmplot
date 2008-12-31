@@ -4156,7 +4156,7 @@ void View::updateCursor()
 			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
 			break;
 		case CursorLessen:
-			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
+			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) ); //krazy:exclude=iconnames
 			break;
 		case CursorMove:
 			setCursor( Qt::SizeAllCursor );

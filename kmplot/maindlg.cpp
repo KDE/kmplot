@@ -551,15 +551,10 @@ void MainDlg::slotExport()
 	QString filter = KImageIO::pattern( KImageIO::Writing );
 	filter += i18n("\n*.svg|Scalable Vector Graphics");
 
-	KFileDialog * kfd = new KFileDialog( QDir::currentPath(), filter, m_parent );
-	kfd->setCaption( i18n( "Export as Image" ) );
+	KUrl url = KFileDialog::getSaveUrl( QDir::currentPath(), filter, m_parent, i18n( "Export as Image" ) );
 
-	if ( !kfd->exec() )
+	if ( !url.isValid() )
 		return;
-
-	KUrl url = kfd->selectedUrl();
-	delete kfd;
-	
 	bool exists = KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, m_parent );
 	if ( exists )
 	{

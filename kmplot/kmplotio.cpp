@@ -131,7 +131,7 @@ bool KmPlotIO::save( const KUrl &url )
 		KTemporaryFile tmpfile;
 		if ( !tmpfile.open() )
 		{
-			kWarning() << "Could not open " << KUrl( tmpfile.fileName() ).path() << " for writing.\n";
+			kWarning() << "Could not open " << KUrl( tmpfile.fileName() ).toLocalFile() << " for writing.\n";
 			return false;
 		}
 		QTextStream ts( &tmpfile );

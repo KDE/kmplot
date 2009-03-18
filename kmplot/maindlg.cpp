@@ -589,7 +589,7 @@ void MainDlg::slotExport()
 		
 		if ( url.isLocalFile() )
 		{
-			file.setFileName( url.path() );
+			file.setFileName( url.toLocalFile() );
 			img.setOutputDevice( &file );
 		}
 		else
@@ -613,7 +613,7 @@ void MainDlg::slotExport()
 			return; // TODO error dialog?
 
 		if ( url.isLocalFile() )
-			saveOk = img.save( url.path(), types.at(0).toLatin1() );
+			saveOk = img.save( url.toLocalFile(), types.at(0).toLatin1() );
 		else
 		{
 			KTemporaryFile tmp;

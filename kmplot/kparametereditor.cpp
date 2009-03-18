@@ -233,7 +233,7 @@ void KParameterEditor::cmdImport_clicked()
                 file.setFileName(tmpfile);
         }
         else
-                file.setFileName(url.path() );
+                file.setFileName(url.toLocalFile() );
 	
 	if ( file.open(QIODevice::ReadOnly) )
 	{
@@ -314,8 +314,8 @@ void KParameterEditor::cmdExport_clicked()
                 else
                 {
 	                QFile file;
-			kDebug() << "url.path()="<<url.path();
-			file.setFileName(url.path());
+			kDebug() << "url.path()="<<url.toLocalFile();
+			file.setFileName(url.toLocalFile());
 			if (file.open( QIODevice::WriteOnly ) )
 			{
 				QTextStream stream(&file);

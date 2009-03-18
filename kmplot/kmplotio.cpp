@@ -146,7 +146,7 @@ bool KmPlotIO::save( const KUrl &url )
 	}
 	else
 	{
-		QFile xmlfile (url.path());
+		QFile xmlfile (url.toLocalFile());
 		if (!xmlfile.open( QIODevice::WriteOnly ) )
 		{
 			kWarning() << "Could not open " << url.path() << " for writing.\n";
@@ -351,7 +351,7 @@ bool KmPlotIO::load( const KUrl &url )
 		f.setFileName(tmpfile);
 	}
 	else
-		f.setFileName( url.path() );
+		f.setFileName( url.toLocalFile() );
 
 	if ( !f.open( QIODevice::ReadOnly ) )
 	{

@@ -117,9 +117,10 @@ QVariant InitialConditionsModel::data( const QModelIndex & index, int role ) con
 		case Qt::FontRole:
 		case Qt::UserRole:
 			return QVariant();
+
+		default:
+			return QVariant();
 	}
-	
-	return QVariant();
 }
 
 

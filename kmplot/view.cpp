@@ -74,7 +74,7 @@
 #endif
 
 #if defined(Q_CC_MINGW)
-using namespace __gnu_cxx;
+using namespace std;
 #endif
 
 //BEGIN nan & inf

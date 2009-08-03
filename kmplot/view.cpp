@@ -104,13 +104,13 @@ int isinf(double x)
 #endif
 // only msvc needs this (sometimes)
 #ifdef _MSC_VER
-#ifndef KDEWIN32_VERSION
+#ifndef KDEWIN_VERSION
 int isinf(double x)
 {
         return !finite(x) && x==x;
 }
-#endif  // KDEWIN32_VERSION
-#endif //END _WIN32
+#endif  // KDEWIN_VERSION
+#endif //END _MSC_VER
 //END nan & inf
 
 

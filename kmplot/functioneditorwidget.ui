@@ -1,39 +1,31 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>FunctionEditorWidget</class>
- <widget class="QWidget" name="FunctionEditorWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="FunctionEditorWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>317</width>
-    <height>705</height>
+    <width>348</width>
+    <height>673</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="spacing" >
+  <layout class="QVBoxLayout" stretch="5000,1,100">
+   <property name="spacing">
     <number>6</number>
    </property>
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin">
     <number>9</number>
    </property>
    <item>
-    <widget class="FunctionListWidget" name="functionList" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+    <widget class="FunctionListWidget" name="functionList">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>1</verstretch>
       </sizepolicy>
      </property>
-     <property name="maximumSize" >
+     <property name="maximumSize">
       <size>
        <width>16777215</width>
        <height>300</height>
@@ -42,47 +34,35 @@
     </widget>
    </item>
    <item>
-    <layout class="QGridLayout" >
-     <property name="leftMargin" >
+    <layout class="QGridLayout">
+     <property name="margin">
       <number>0</number>
      </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
-      <number>0</number>
-     </property>
-     <property name="horizontalSpacing" >
+     <property name="spacing">
       <number>6</number>
      </property>
-     <property name="verticalSpacing" >
-      <number>6</number>
-     </property>
-     <item row="0" column="2" >
-      <widget class="QPushButton" name="deleteButton" >
-       <property name="enabled" >
+     <item row="0" column="2">
+      <widget class="QPushButton" name="deleteButton">
+       <property name="enabled">
         <bool>false</bool>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>delete the selected function</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Click here to delete the selected function from the list.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>&amp;Delete</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1" >
+     <item row="0" column="1">
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>140</width>
          <height>20</height>
@@ -90,9 +70,9 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="0" >
-      <widget class="QPushButton" name="createNewPlot" >
-       <property name="text" >
+     <item row="0" column="0">
+      <widget class="QPushButton" name="createNewPlot">
+       <property name="text">
         <string>Create</string>
        </property>
       </widget>
@@ -100,127 +80,97 @@
     </layout>
    </item>
    <item>
-    <widget class="QStackedWidget" name="stackedWidget" >
-     <property name="currentIndex" >
-      <number>0</number>
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="page" >
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+     <widget class="QWidget" name="page">
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
+       <property name="margin">
         <number>9</number>
        </property>
        <item>
-        <widget class="KTabWidget" name="tabWidget" >
-         <property name="currentIndex" >
-          <number>1</number>
+        <widget class="KTabWidget" name="tabWidget">
+         <property name="currentIndex">
+          <number>0</number>
          </property>
-         <widget class="QWidget" name="tab" >
-          <attribute name="title" >
+         <widget class="QWidget" name="tab">
+          <attribute name="title">
            <string>Function</string>
           </attribute>
-          <layout class="QVBoxLayout" >
-           <property name="spacing" >
+          <layout class="QVBoxLayout">
+           <property name="spacing">
             <number>6</number>
            </property>
-           <property name="leftMargin" >
-            <number>9</number>
-           </property>
-           <property name="topMargin" >
-            <number>9</number>
-           </property>
-           <property name="rightMargin" >
-            <number>9</number>
-           </property>
-           <property name="bottomMargin" >
+           <property name="margin">
             <number>9</number>
            </property>
            <item>
-            <widget class="EquationEdit" name="cartesianEquation" />
+            <widget class="EquationEdit" name="cartesianEquation"/>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox" >
-             <property name="title" >
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
               <string>Custom plot range</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
+             <layout class="QGridLayout">
+              <property name="margin">
                <number>9</number>
               </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>9</number>
-              </property>
-              <property name="horizontalSpacing" >
+              <property name="spacing">
                <number>6</number>
               </property>
-              <property name="verticalSpacing" >
-               <number>6</number>
-              </property>
-              <item row="1" column="0" >
-               <widget class="QCheckBox" name="cartesianCustomMax" >
-                <property name="toolTip" >
+              <item row="1" column="0">
+               <widget class="QCheckBox" name="cartesianCustomMax">
+                <property name="toolTip">
                  <string>Customize the maximum plot range</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Check this button and enter the plot range boundarys below.</string>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Max:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="0" >
-               <widget class="QCheckBox" name="cartesianCustomMin" >
-                <property name="toolTip" >
+              <item row="0" column="0">
+               <widget class="QCheckBox" name="cartesianCustomMin">
+                <property name="toolTip">
                  <string>Customize the minimum plot range</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Check this button and enter the plot range boundarys below.</string>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Min:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" >
-               <widget class="EquationEdit" name="cartesianMin" >
-                <property name="enabled" >
+              <item row="0" column="1">
+               <widget class="EquationEdit" name="cartesianMin">
+                <property name="enabled">
                  <bool>false</bool>
                 </property>
-                <property name="toolTip" >
+                <property name="toolTip">
                  <string>lower boundary of the plot range</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" >
-               <widget class="EquationEdit" name="cartesianMax" >
-                <property name="enabled" >
+              <item row="1" column="1">
+               <widget class="EquationEdit" name="cartesianMax">
+                <property name="enabled">
                  <bool>false</bool>
                 </property>
-                <property name="toolTip" >
+                <property name="toolTip">
                  <string>upper boundary of the plot range</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
                 </property>
                </widget>
@@ -229,214 +179,155 @@
             </widget>
            </item>
            <item>
-            <widget class="ParametersWidget" name="cartesianParameters" >
-             <property name="title" >
+            <widget class="ParametersWidget" name="cartesianParameters">
+             <property name="title">
               <string>Parameters</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="PlotStyleWidget" name="cartesian_f0" >
-             <property name="title" >
+            <widget class="PlotStyleWidget" name="cartesian_f0">
+             <property name="title">
               <string>Appearance</string>
              </property>
             </widget>
            </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>0</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_3" >
-          <attribute name="title" >
+         <widget class="QWidget" name="tab_3">
+          <attribute name="title">
            <string>Derivatives</string>
           </attribute>
-          <layout class="QVBoxLayout" >
-           <property name="spacing" >
+          <layout class="QVBoxLayout">
+           <property name="spacing">
             <number>6</number>
            </property>
-           <property name="leftMargin" >
-            <number>9</number>
-           </property>
-           <property name="topMargin" >
-            <number>9</number>
-           </property>
-           <property name="rightMargin" >
-            <number>9</number>
-           </property>
-           <property name="bottomMargin" >
+           <property name="margin">
             <number>9</number>
            </property>
            <item>
-            <widget class="QCheckBox" name="showDerivative1" >
-             <property name="toolTip" >
+            <widget class="QCheckBox" name="showDerivative1">
+             <property name="toolTip">
               <string>Show first derivative</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>If this box is checked, the first derivative will be plotted, too.</string>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Show &amp;1st derivative</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="PlotStyleWidget" name="cartesian_f1" >
-             <property name="enabled" >
+            <widget class="PlotStyleWidget" name="cartesian_f1">
+             <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="title" >
+             <property name="title">
               <string>1st derivative</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="showDerivative2" >
-             <property name="toolTip" >
+            <widget class="QCheckBox" name="showDerivative2">
+             <property name="toolTip">
               <string>Show second derivative</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>If this box is checked, the first derivative will be plotted, too.</string>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Show &amp;2nd derivative</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="PlotStyleWidget" name="cartesian_f2" >
-             <property name="enabled" >
+            <widget class="PlotStyleWidget" name="cartesian_f2">
+             <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="title" >
+             <property name="title">
               <string>2nd derivative</string>
              </property>
             </widget>
            </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>10</width>
-               <height>106</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_2" >
-          <attribute name="title" >
+         <widget class="QWidget" name="tab_2">
+          <attribute name="title">
            <string>Integral</string>
           </attribute>
-          <layout class="QVBoxLayout" >
-           <property name="spacing" >
-            <number>6</number>
-           </property>
-           <property name="leftMargin" >
+          <layout class="QGridLayout" name="gridLayout">
+           <property name="margin">
             <number>9</number>
            </property>
-           <property name="topMargin" >
-            <number>9</number>
-           </property>
-           <property name="rightMargin" >
-            <number>9</number>
-           </property>
-           <property name="bottomMargin" >
-            <number>9</number>
-           </property>
-           <item>
-            <widget class="QCheckBox" name="showIntegral" >
-             <property name="toolTip" >
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="showIntegral">
+             <property name="toolTip">
               <string>hide the plot</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Check this box if you want to hide the plot of the function.</string>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Show integral</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_6" >
-             <property name="enabled" >
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_6">
+             <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>A point on the solution curve</string>
              </property>
-             <property name="title" >
+             <property name="title">
               <string>Initial Point</string>
              </property>
-             <layout class="QGridLayout" >
-              <property name="leftMargin" >
+             <layout class="QGridLayout">
+              <property name="margin">
                <number>9</number>
               </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
-               <number>9</number>
-              </property>
-              <property name="horizontalSpacing" >
+              <property name="spacing">
                <number>6</number>
               </property>
-              <property name="verticalSpacing" >
-               <number>6</number>
-              </property>
-              <item row="0" column="0" >
-               <widget class="QLabel" name="textLabel1_5" >
-                <property name="text" >
+              <item row="0" column="0">
+               <widget class="QLabel" name="textLabel1_5">
+                <property name="text">
                  <string>&amp;x:</string>
                 </property>
-                <property name="buddy" >
+                <property name="buddy">
                  <cstring>txtInitX</cstring>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0" >
-               <widget class="QLabel" name="textLabel1_5_2" >
-                <property name="text" >
+              <item row="1" column="0">
+               <widget class="QLabel" name="textLabel1_5_2">
+                <property name="text">
                  <string>&amp;y:</string>
                 </property>
-                <property name="buddy" >
+                <property name="buddy">
                  <cstring>txtInitY</cstring>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" >
-               <widget class="EquationEdit" name="txtInitX" >
-                <property name="toolTip" >
+              <item row="0" column="1">
+               <widget class="EquationEdit" name="txtInitX">
+                <property name="toolTip">
                  <string>Enter the initial x-point,for instance 2 or pi</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Enter the initial x-value or expression for the integral, for example 2 or pi/2</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" >
-               <widget class="EquationEdit" name="txtInitY" >
-                <property name="toolTip" >
+              <item row="1" column="1">
+               <widget class="EquationEdit" name="txtInitY">
+                <property name="toolTip">
                  <string>enter the initial y-point, eg 2 or pi</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Enter the initial y-value or expression for the integral, for example 2 or pi/2</string>
                 </property>
                </widget>
@@ -444,65 +335,56 @@
              </layout>
             </widget>
            </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_8" >
-             <property name="enabled" >
+           <item row="2" column="0">
+            <widget class="QGroupBox" name="groupBox_8">
+             <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>The maximum step size used in numerically calculating the solution</string>
              </property>
-             <property name="title" >
+             <property name="title">
               <string>Precision</string>
              </property>
-             <layout class="QHBoxLayout" >
-              <property name="spacing" >
+             <layout class="QHBoxLayout">
+              <property name="spacing">
                <number>6</number>
               </property>
-              <property name="leftMargin" >
-               <number>9</number>
-              </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
+              <property name="margin">
                <number>9</number>
               </property>
               <item>
-               <widget class="QLabel" name="label_6" >
-                <property name="text" >
+               <widget class="QLabel" name="label_6">
+                <property name="text">
                  <string>Step:</string>
                 </property>
-                <property name="buddy" >
+                <property name="buddy">
                  <cstring>integralStep</cstring>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="EquationEdit" name="integralStep" />
+               <widget class="EquationEdit" name="integralStep"/>
               </item>
              </layout>
             </widget>
            </item>
-           <item>
-            <widget class="PlotStyleWidget" name="cartesian_integral" >
-             <property name="enabled" >
+           <item row="3" column="0">
+            <widget class="PlotStyleWidget" name="cartesian_integral">
+             <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="title" >
+             <property name="title">
               <string>Appearance</string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="4" column="0">
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
-             <property name="sizeHint" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>10</width>
                <height>79</height>
@@ -516,82 +398,61 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_3" >
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+     <widget class="QWidget" name="page_3">
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
+       <property name="margin">
         <number>9</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox_11" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_11">
+         <property name="title">
           <string>Definition</string>
          </property>
-         <layout class="QGridLayout" >
-          <property name="leftMargin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>9</number>
           </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <property name="horizontalSpacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="verticalSpacing" >
-           <number>6</number>
-          </property>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="textLabelX" >
-            <property name="text" >
+          <item row="0" column="0">
+           <widget class="QLabel" name="textLabelX">
+            <property name="text">
              <string>x:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="EquationEdit" name="parametricX" >
-            <property name="toolTip" >
+          <item row="0" column="1">
+           <widget class="EquationEdit" name="parametricX">
+            <property name="toolTip">
              <string>Enter an expression</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Enter an expression for the function.
 The dummy variable is t.
 Example: cos(t)</string>
             </property>
-            <property name="text" >
+            <property name="text">
              <string/>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="textLabelY" >
-            <property name="text" >
+          <item row="1" column="0">
+           <widget class="QLabel" name="textLabelY">
+            <property name="text">
              <string>y:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="EquationEdit" name="parametricY" >
-            <property name="toolTip" >
+          <item row="1" column="1">
+           <widget class="EquationEdit" name="parametricY">
+            <property name="toolTip">
              <string>Enter an expression</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Enter an expression for the function.
 The dummy variable is t.
 Example: sin(t)</string>
@@ -602,65 +463,53 @@ Example: sin(t)</string>
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_9" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_9">
+         <property name="title">
           <string>Plot range</string>
          </property>
-         <layout class="QGridLayout" >
-          <property name="leftMargin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>9</number>
           </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <property name="horizontalSpacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="verticalSpacing" >
-           <number>6</number>
-          </property>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label" >
-            <property name="text" >
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
              <string>Min:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_2" >
-            <property name="text" >
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
              <string>Max:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="EquationEdit" name="parametricMin" >
-            <property name="enabled" >
+          <item row="0" column="1">
+           <widget class="EquationEdit" name="parametricMin">
+            <property name="enabled">
              <bool>true</bool>
             </property>
-            <property name="toolTip" >
+            <property name="toolTip">
              <string>Lower boundary of the plot range</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="EquationEdit" name="parametricMax" >
-            <property name="enabled" >
+          <item row="1" column="1">
+           <widget class="EquationEdit" name="parametricMax">
+            <property name="enabled">
              <bool>true</bool>
             </property>
-            <property name="toolTip" >
+            <property name="toolTip">
              <string>Upper boundary of the plot range</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
             </property>
            </widget>
@@ -669,79 +518,48 @@ Example: sin(t)</string>
         </widget>
        </item>
        <item>
-        <widget class="ParametersWidget" name="parametricParameters" >
-         <property name="title" >
+        <widget class="ParametersWidget" name="parametricParameters">
+         <property name="title">
           <string>Parameters</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="PlotStyleWidget" name="parametric_f0" >
-         <property name="title" >
+        <widget class="PlotStyleWidget" name="parametric_f0">
+         <property name="title">
           <string>Appearance</string>
          </property>
         </widget>
        </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>10</width>
-           <height>143</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_4" >
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+     <widget class="QWidget" name="page_4">
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
+       <property name="margin">
         <number>9</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox_2" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
           <string>Definition</string>
          </property>
-         <layout class="QVBoxLayout" >
-          <property name="spacing" >
+         <layout class="QVBoxLayout">
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="leftMargin" >
-           <number>9</number>
-          </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
+          <property name="margin">
            <number>9</number>
           </property>
           <item>
-           <widget class="EquationEdit" name="polarEquation" >
-            <property name="toolTip" >
+           <widget class="EquationEdit" name="polarEquation">
+            <property name="toolTip">
              <string>Enter an equation</string>
             </property>
-            <property name="whatsThis" >
-             <string>Enter an expression for the function. The prefix "r" will be added automatically.
+            <property name="whatsThis">
+             <string>Enter an expression for the function. The prefix &quot;r&quot; will be added automatically.
 Example: loop(angle)=ln(angle)</string>
             </property>
            </widget>
@@ -750,65 +568,53 @@ Example: loop(angle)=ln(angle)</string>
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_13" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_13">
+         <property name="title">
           <string>Plot Range</string>
          </property>
-         <layout class="QGridLayout" >
-          <property name="leftMargin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>9</number>
           </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <property name="horizontalSpacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="verticalSpacing" >
-           <number>6</number>
-          </property>
-          <item row="0" column="1" >
-           <widget class="EquationEdit" name="polarMin" >
-            <property name="toolTip" >
+          <item row="0" column="1">
+           <widget class="EquationEdit" name="polarMin">
+            <property name="toolTip">
              <string>Lower boundary of the plot range</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="EquationEdit" name="polarMax" >
-            <property name="toolTip" >
+          <item row="1" column="1">
+           <widget class="EquationEdit" name="polarMax">
+            <property name="toolTip">
              <string>Upper boundary of the plot range</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_3" >
-            <property name="text" >
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
              <string>Min:</string>
             </property>
-            <property name="buddy" >
+            <property name="buddy">
              <cstring>polarMin</cstring>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_4" >
-            <property name="text" >
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
              <string>Max:</string>
             </property>
-            <property name="buddy" >
+            <property name="buddy">
              <cstring>polarMax</cstring>
             </property>
            </widget>
@@ -817,105 +623,71 @@ Example: loop(angle)=ln(angle)</string>
         </widget>
        </item>
        <item>
-        <widget class="ParametersWidget" name="polarParameters" >
-         <property name="title" >
+        <widget class="ParametersWidget" name="polarParameters">
+         <property name="title">
           <string>Parameters</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="PlotStyleWidget" name="polar_f0" >
-         <property name="title" >
+        <widget class="PlotStyleWidget" name="polar_f0">
+         <property name="title">
           <string>Appearance</string>
          </property>
         </widget>
        </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>10</width>
-           <height>10</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_5" >
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+     <widget class="QWidget" name="page_5">
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
+       <property name="margin">
         <number>9</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox_12" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_12">
+         <property name="title">
           <string>Definition</string>
          </property>
-         <layout class="QGridLayout" >
-          <property name="leftMargin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>9</number>
           </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>9</number>
-          </property>
-          <property name="horizontalSpacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="verticalSpacing" >
-           <number>6</number>
-          </property>
-          <item row="0" column="1" >
-           <widget class="KLineEdit" name="implicitName" >
-            <property name="toolTip" >
+          <item row="0" column="1">
+           <widget class="KLineEdit" name="implicitName">
+            <property name="toolTip">
              <string>Name of the function</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Enter the name of the function.
 The name of a function must be unique. If you leave this line empty KmPlot will set a default name. You can change it later.</string>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>f(x,y)</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="textLabel4_2" >
-            <property name="text" >
+          <item row="0" column="0">
+           <widget class="QLabel" name="textLabel4_2">
+            <property name="text">
              <string>Name:</string>
             </property>
-            <property name="buddy" >
+            <property name="buddy">
              <cstring>implicitName</cstring>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" colspan="2" >
-           <widget class="EquationEdit" name="implicitEquation" >
-            <property name="toolTip" >
+          <item row="1" column="0" colspan="2">
+           <widget class="EquationEdit" name="implicitEquation">
+            <property name="toolTip">
              <string>Enter an expression</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Enter an expression for the function.
 The dummy variable is t.
 Example: x^2 + y^2 = 25.</string>
@@ -926,182 +698,117 @@ Example: x^2 + y^2 = 25.</string>
         </widget>
        </item>
        <item>
-        <widget class="ParametersWidget" name="implicitParameters" >
-         <property name="title" >
+        <widget class="ParametersWidget" name="implicitParameters">
+         <property name="title">
           <string>Parameters</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="PlotStyleWidget" name="implicit_f0" >
-         <property name="title" >
+        <widget class="PlotStyleWidget" name="implicit_f0">
+         <property name="title">
           <string>Appearance</string>
          </property>
         </widget>
        </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" >
-          <size>
-           <width>20</width>
-           <height>101</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_6" >
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+     <widget class="QWidget" name="page_6">
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
+       <property name="margin">
         <number>9</number>
        </property>
        <item>
-        <widget class="KTabWidget" name="differentialTabWidget" >
-         <property name="currentIndex" >
-          <number>0</number>
+        <widget class="KTabWidget" name="differentialTabWidget">
+         <property name="currentIndex">
+          <number>1</number>
          </property>
-         <widget class="QWidget" name="tab_4" >
-          <attribute name="title" >
+         <widget class="QWidget" name="tab_4">
+          <attribute name="title">
            <string>Function</string>
           </attribute>
-          <layout class="QVBoxLayout" >
-           <property name="spacing" >
-            <number>6</number>
-           </property>
-           <property name="leftMargin" >
+          <layout class="QGridLayout" name="gridLayout_2">
+           <property name="margin">
             <number>9</number>
            </property>
-           <property name="topMargin" >
-            <number>9</number>
-           </property>
-           <property name="rightMargin" >
-            <number>9</number>
-           </property>
-           <property name="bottomMargin" >
-            <number>9</number>
-           </property>
-           <item>
-            <widget class="EquationEdit" name="differentialEquation" >
-             <property name="toolTip" >
+           <item row="0" column="0">
+            <widget class="EquationEdit" name="differentialEquation">
+             <property name="toolTip">
               <string>Enter an expression</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Enter an expression for the function.
 The dummy variable is t.
 Example: f''(x) = -f</string>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>f''(x) = -f</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_10" >
-             <property name="toolTip" >
+           <item row="1" column="0">
+            <widget class="QGroupBox" name="groupBox_10">
+             <property name="toolTip">
               <string>The maximum step size used in numerically calculating the solution</string>
              </property>
-             <property name="title" >
+             <property name="title">
               <string>Precision</string>
              </property>
-             <layout class="QHBoxLayout" >
-              <property name="spacing" >
+             <layout class="QHBoxLayout">
+              <property name="spacing">
                <number>6</number>
               </property>
-              <property name="leftMargin" >
-               <number>9</number>
-              </property>
-              <property name="topMargin" >
-               <number>9</number>
-              </property>
-              <property name="rightMargin" >
-               <number>9</number>
-              </property>
-              <property name="bottomMargin" >
+              <property name="margin">
                <number>9</number>
               </property>
               <item>
-               <widget class="QLabel" name="label_7" >
-                <property name="text" >
+               <widget class="QLabel" name="label_7">
+                <property name="text">
                  <string>Step:</string>
                 </property>
-                <property name="buddy" >
+                <property name="buddy">
                  <cstring>integralStep</cstring>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="EquationEdit" name="differentialStep" />
+               <widget class="EquationEdit" name="differentialStep"/>
               </item>
              </layout>
             </widget>
            </item>
-           <item>
-            <widget class="ParametersWidget" name="differentialParameters" >
-             <property name="title" >
+           <item row="2" column="0">
+            <widget class="ParametersWidget" name="differentialParameters">
+             <property name="title">
               <string>Parameters</string>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="PlotStyleWidget" name="differential_f0" >
-             <property name="title" >
+           <item row="3" column="0">
+            <widget class="PlotStyleWidget" name="differential_f0">
+             <property name="title">
               <string>Appearance</string>
              </property>
             </widget>
            </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>20</width>
-               <height>21</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tab_5" >
-          <attribute name="title" >
+         <widget class="QWidget" name="tab_5">
+          <attribute name="title">
            <string>Initial Conditions</string>
           </attribute>
-          <layout class="QVBoxLayout" >
-           <property name="spacing" >
+          <layout class="QVBoxLayout">
+           <property name="spacing">
             <number>6</number>
            </property>
-           <property name="leftMargin" >
-            <number>9</number>
-           </property>
-           <property name="topMargin" >
-            <number>9</number>
-           </property>
-           <property name="rightMargin" >
-            <number>9</number>
-           </property>
-           <property name="bottomMargin" >
+           <property name="margin">
             <number>9</number>
            </property>
            <item>
-            <widget class="InitialConditionsEditor" name="initialConditions" />
+            <widget class="InitialConditionsEditor" name="initialConditions"/>
            </item>
           </layout>
          </widget>
@@ -1109,7 +816,7 @@ Example: f''(x) = -f</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2" />
+     <widget class="QWidget" name="page_2"/>
     </widget>
    </item>
   </layout>
@@ -1119,6 +826,12 @@ Example: f''(x) = -f</string>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>ktabwidget.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>EquationEdit</class>
@@ -1147,12 +860,6 @@ Example: f''(x) = -f</string>
    <class>FunctionListWidget</class>
    <extends>QListWidget</extends>
    <header>functioneditor.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -1187,50 +894,34 @@ Example: f''(x) = -f</string>
  <resources/>
  <connections>
   <connection>
-   <sender>showDerivative2</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>cartesian_f2</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>119</x>
-     <y>248</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>255</x>
-     <y>396</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>showDerivative1</sender>
    <signal>toggled(bool)</signal>
    <receiver>cartesian_f1</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>119</x>
      <y>248</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>110</x>
      <y>342</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>showIntegral</sender>
+   <sender>showDerivative2</sender>
    <signal>toggled(bool)</signal>
-   <receiver>groupBox_6</receiver>
+   <receiver>cartesian_f2</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>119</x>
      <y>248</y>
     </hint>
-    <hint type="destinationlabel" >
-     <x>96</x>
-     <y>248</y>
+    <hint type="destinationlabel">
+     <x>255</x>
+     <y>396</y>
     </hint>
    </hints>
   </connection>
@@ -1240,12 +931,28 @@ Example: f''(x) = -f</string>
    <receiver>groupBox_8</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>119</x>
      <y>248</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>119</x>
+     <y>248</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showIntegral</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>groupBox_6</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>119</x>
+     <y>248</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>96</x>
      <y>248</y>
     </hint>
    </hints>
@@ -1256,11 +963,11 @@ Example: f''(x) = -f</string>
    <receiver>cartesian_integral</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>119</x>
      <y>248</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>113</x>
      <y>494</y>
     </hint>
@@ -1272,11 +979,11 @@ Example: f''(x) = -f</string>
    <receiver>cartesianMin</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>88</x>
      <y>332</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>280</x>
      <y>332</y>
     </hint>
@@ -1288,11 +995,11 @@ Example: f''(x) = -f</string>
    <receiver>cartesianMax</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>88</x>
      <y>362</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>280</x>
      <y>363</y>
     </hint>

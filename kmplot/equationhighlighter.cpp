@@ -43,24 +43,29 @@ EquationHighlighter::~ EquationHighlighter() { }
 
 
 void EquationHighlighter::highlightBlock(const QString& text) {
-	// Good color defaults borrowed from Abakus - thanks! :)
-	
 	m_parent->checkTextValidity();
 	
 	if (text.isEmpty())
 		return;
-	
-	QTextCharFormat number;
-	number.setForeground(QColor(0, 0, 127));
-	
-	QTextCharFormat function;
-	function.setForeground(QColor(85, 0, 0));
-	
-	QTextCharFormat variable;
-	variable.setForeground(QColor(0, 85, 0));
-	
-	QTextCharFormat matchedParenthesis;
-	matchedParenthesis.setBackground(QColor(255, 255, 183));
+
+    QTextCharFormat number;
+    QTextCharFormat function;
+    QTextCharFormat variable;
+    QTextCharFormat matchedParenthesis;
+
+    QPalette palette;
+    if (qGray(palette.color(QPalette::Base).rgb()) > 160) {
+        // Good color defaults borrowed from Abakus - thanks! :)
+        number.setForeground(QColor(0, 0, 127));
+        function.setForeground(QColor(85, 0, 0));
+        variable.setForeground(QColor(0, 85, 0));
+        matchedParenthesis.setBackground(QColor(255, 255, 183));
+    } else {
+        number.setForeground(QColor(160, 160, 255));
+        function.setForeground(QColor(255, 160, 160));
+        variable.setForeground(QColor(160, 255, 160));
+        matchedParenthesis.setBackground(QColor(85, 85, 0));
+    }
 	
 	QTextCharFormat other;
 	

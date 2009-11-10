@@ -346,6 +346,7 @@ class Parser : public QObject
 		void heir2();
 		void heir3();
 		void heir4();
+        void heir5();
 		void primary();
 		bool tryFunction();
 		bool tryPredefinedFunction();

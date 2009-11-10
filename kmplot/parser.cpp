@@ -827,14 +827,7 @@ void Parser::heir1()
 
 void Parser::heir2()
 {
-	if ( match("-") )
-	{
-		heir2();
-		if(*m_error!=ParseSuccess)
-			return;
-		addToken(NEG);
-	}
-	else if ( match( SqrtSymbol ) ) // square root symbol
+	if ( match( SqrtSymbol ) ) // square root symbol
 	{
 		heir2();
 		if(*m_error!=ParseSuccess)
@@ -885,6 +878,19 @@ void Parser::heir3()
 
 void Parser::heir4()
 {
+    if (match("-")) {
+        heir5();
+        if (*m_error != ParseSuccess)
+            return;
+        addToken(NEG);
+    } else {
+        heir5();
+    }
+}
+
+
+void Parser::heir5()
+{
 	primary();
 	if(*m_error!=ParseSuccess)
 		return;
@@ -894,7 +900,7 @@ void Parser::heir4()
 		if ( match("^") )
 		{
 			addToken(PUSH);
-			primary();
+			heir4();
 			if(*m_error!=ParseSuccess)
 				return;
 			addToken(POW);

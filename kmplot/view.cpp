@@ -1348,7 +1348,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 			}
 		}
 		
-		// Sort out the imlpicit points
+		// Sort out the implicit points
 		FuzzyPointMap singularSorted;
 		FuzzyPoint::dx = (m_xmax-m_xmin) * SegmentMin * 0.1 / m_clipRect.width();
 		FuzzyPoint::dy = (m_ymax-m_ymin) * SegmentMin * 0.1 / m_clipRect.height();
@@ -1371,6 +1371,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 					.arg( XParser::self()->number( epsilon ) );
 			
 			bool setFstrOk = circular.function()->eq[0]->setFstr( fstr );
+                        kDebug() << "------------ " << setFstrOk << endl;
 			assert( setFstrOk );
 			
 			QList<double> roots = findRoots( circular, 0, 2*M_PI / XParser::self()->radiansPerAngleUnit(), PreciseRoot );

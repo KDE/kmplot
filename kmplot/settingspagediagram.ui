@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>SettingsPageDiagram</class>
- <widget class="QWidget" name="SettingsPageDiagram" >
-  <property name="geometry" >
+ <widget class="QWidget" name="SettingsPageDiagram">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,247 +10,278 @@
     <height>429</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Diagram</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
-   <property name="spacing" >
-    <number>6</number>
-   </property>
-   <item row="8" column="0" >
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" >
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="1" >
-    <widget class="QDoubleSpinBox" name="kcfg_GridLineWidth" >
-     <property name="alignment" >
-      <set>Qt::AlignRight</set>
-     </property>
-     <property name="suffix" >
-      <string> mm</string>
-     </property>
-     <property name="decimals" >
-      <number>1</number>
-     </property>
-     <property name="minimum" >
-      <double>0.1</double>
-     </property>
-     <property name="singleStep" >
-      <double>0.1</double>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" >
-    <widget class="QLabel" name="textLabel5" >
-     <property name="text" >
-      <string>Line &amp;width:</string>
-     </property>
-     <property name="buddy" >
-      <cstring>kcfg_GridLineWidth</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1" >
-    <widget class="QDoubleSpinBox" name="kcfg_TicLength" >
-     <property name="alignment" >
-      <set>Qt::AlignRight</set>
-     </property>
-     <property name="suffix" >
-      <string> mm</string>
-     </property>
-     <property name="decimals" >
-      <number>1</number>
-     </property>
-     <property name="minimum" >
-      <double>0.1</double>
-     </property>
-     <property name="singleStep" >
-      <double>0.1</double>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" >
-    <widget class="QLabel" name="textLabel9" >
-     <property name="text" >
-      <string>Tic width:</string>
-     </property>
-     <property name="buddy" >
-      <cstring>kcfg_TicWidth</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" >
-    <widget class="QLabel" name="textLabel8_4" >
-     <property name="text" >
-      <string>Tic length:</string>
-     </property>
-     <property name="buddy" >
-      <cstring>kcfg_TicLength</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0" colspan="2" >
-    <widget class="QCheckBox" name="kcfg_ShowArrows" >
-     <property name="toolTip" >
-      <string>visible arrows at the end of the axes</string>
-     </property>
-     <property name="whatsThis" >
-      <string>Check this if the axes should have arrows at their ends.</string>
-     </property>
-     <property name="text" >
-      <string>Show arrows</string>
-     </property>
-     <property name="checked" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1" >
-    <widget class="QDoubleSpinBox" name="kcfg_AxesLineWidth" >
-     <property name="alignment" >
-      <set>Qt::AlignRight</set>
-     </property>
-     <property name="suffix" >
-      <string> mm</string>
-     </property>
-     <property name="decimals" >
-      <number>1</number>
-     </property>
-     <property name="minimum" >
-      <double>0.1</double>
-     </property>
-     <property name="singleStep" >
-      <double>0.1</double>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="2" >
-    <widget class="QCheckBox" name="kcfg_ShowAxes" >
-     <property name="toolTip" >
-      <string>visible axes</string>
-     </property>
-     <property name="whatsThis" >
-      <string>Check this if the axes should be visible.</string>
-     </property>
-     <property name="text" >
-      <string>Show axes</string>
-     </property>
-     <property name="checked" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="2" >
-    <widget class="QCheckBox" name="kcfg_ShowLabel" >
-     <property name="toolTip" >
-      <string>visible tic labels</string>
-     </property>
-     <property name="whatsThis" >
-      <string>Check this if the axes' tics should be labeled.</string>
-     </property>
-     <property name="text" >
-      <string>Show labels</string>
-     </property>
-     <property name="checked" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="textLabel7" >
-     <property name="text" >
-      <string>Axis width:</string>
-     </property>
-     <property name="buddy" >
-      <cstring>kcfg_AxesLineWidth</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1" >
-    <widget class="QDoubleSpinBox" name="kcfg_TicWidth" >
-     <property name="alignment" >
-      <set>Qt::AlignRight</set>
-     </property>
-     <property name="suffix" >
-      <string> mm</string>
-     </property>
-     <property name="decimals" >
-      <number>1</number>
-     </property>
-     <property name="minimum" >
-      <double>0.1</double>
-     </property>
-     <property name="singleStep" >
-      <double>0.1</double>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="2" >
-    <widget class="KButtonGroup" name="kcfg_GridStyle" >
-     <property name="title" >
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0" colspan="2">
+    <widget class="KButtonGroup" name="kcfg_GridStyle">
+     <property name="title">
       <string>Grid Style</string>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
-      <property name="spacing" >
+     <layout class="QVBoxLayout">
+      <property name="spacing">
        <number>6</number>
       </property>
+      <property name="margin">
+       <number>9</number>
+      </property>
       <item>
-       <widget class="QRadioButton" name="radioButton11" >
-        <property name="whatsThis" >
+       <widget class="QRadioButton" name="radioButton11">
+        <property name="whatsThis">
          <string>No Grid will be plotted.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>None</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton12" >
-        <property name="whatsThis" >
+       <widget class="QRadioButton" name="radioButton12">
+        <property name="whatsThis">
          <string>A line for every tic.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Lines</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton13" >
-        <property name="whatsThis" >
+       <widget class="QRadioButton" name="radioButton13">
+        <property name="whatsThis">
          <string>Only little crosses in the plot area.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Crosses</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton14" >
-        <property name="whatsThis" >
+       <widget class="QRadioButton" name="radioButton14">
+        <property name="whatsThis">
          <string>Circles around the Origin.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Polar</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Label Axis</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Label to Horizontal Axis: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="kcfg_LabelHorizontalAxis">
+        <property name="text">
+         <string>X</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Label to Vertical Axis:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="kcfg_LabelVerticalAxis">
+        <property name="text">
+         <string>Y</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="textLabel7">
+     <property name="text">
+      <string>Axis width:</string>
+     </property>
+     <property name="buddy">
+      <cstring>kcfg_AxesLineWidth</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QDoubleSpinBox" name="kcfg_AxesLineWidth">
+     <property name="alignment">
+      <set>Qt::AlignRight</set>
+     </property>
+     <property name="suffix">
+      <string> mm</string>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="minimum">
+      <double>0.100000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="textLabel5">
+     <property name="text">
+      <string>Line &amp;width:</string>
+     </property>
+     <property name="buddy">
+      <cstring>kcfg_GridLineWidth</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QDoubleSpinBox" name="kcfg_GridLineWidth">
+     <property name="alignment">
+      <set>Qt::AlignRight</set>
+     </property>
+     <property name="suffix">
+      <string> mm</string>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="minimum">
+      <double>0.100000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="textLabel9">
+     <property name="text">
+      <string>Tic width:</string>
+     </property>
+     <property name="buddy">
+      <cstring>kcfg_TicWidth</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QDoubleSpinBox" name="kcfg_TicWidth">
+     <property name="alignment">
+      <set>Qt::AlignRight</set>
+     </property>
+     <property name="suffix">
+      <string> mm</string>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="minimum">
+      <double>0.100000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="textLabel8_4">
+     <property name="text">
+      <string>Tic length:</string>
+     </property>
+     <property name="buddy">
+      <cstring>kcfg_TicLength</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QDoubleSpinBox" name="kcfg_TicLength">
+     <property name="alignment">
+      <set>Qt::AlignRight</set>
+     </property>
+     <property name="suffix">
+      <string> mm</string>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="minimum">
+      <double>0.100000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="kcfg_ShowLabel">
+     <property name="toolTip">
+      <string>visible tic labels</string>
+     </property>
+     <property name="whatsThis">
+      <string>Check this if the axes' tics should be labeled.</string>
+     </property>
+     <property name="text">
+      <string>Show labels</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="kcfg_ShowAxes">
+     <property name="toolTip">
+      <string>visible axes</string>
+     </property>
+     <property name="whatsThis">
+      <string>Check this if the axes should be visible.</string>
+     </property>
+     <property name="text">
+      <string>Show axes</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QCheckBox" name="kcfg_ShowArrows">
+     <property name="toolTip">
+      <string>visible arrows at the end of the axes</string>
+     </property>
+     <property name="whatsThis">
+      <string>Check this if the axes should have arrows at their ends.</string>
+     </property>
+     <property name="text">
+      <string>Show arrows</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <spacer>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

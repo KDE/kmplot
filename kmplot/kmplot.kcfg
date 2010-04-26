@@ -67,7 +67,17 @@
 			<label>Upper boundary</label>
 			<whatsthis>Enter the upper boundary of the plotting area.</whatsthis>
 			<default>8</default>
-		</entry> 
+                </entry>
+                <entry name="LabelHorizontalAxis" type="String">
+                        <label>Label to Horizontal Axis</label>
+                        <whatsthis>Label to Horizontal Axis.</whatsthis>
+                        <default>X</default>
+                </entry>
+                <entry name="LabelVerticalAxis" type="String">
+                        <label>Label to Vertical Axis</label>
+                        <whatsthis>Label to Vertical Axis.</whatsthis>
+                        <default>Y</default>
+                </entry>
 	</group>
 	
 	<group name="Scaling">
@@ -80,7 +90,7 @@
 			<label>Whether to use automatic or custom scaling.</label>
 			<whatsthis>Select whether to use automatic or custom scaling.</whatsthis>
 			<default>0</default>
-		</entry>
+                </entry>
 		<entry name="XScaling" type="String"> 
 			<label>Width of a unit from tic to tic</label>
 			<whatsthis>Enter the width of a unit from tic to tic.</whatsthis>

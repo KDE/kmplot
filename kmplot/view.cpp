@@ -757,7 +757,7 @@ void View::drawLabels( QPainter *painter )
 {
 	// Determine which letters to use for the axes
 	QString xLabel;
-	QString yLabel;
+        QString yLabel;
 	bool xLabelsIdentical = true;
 	bool yLabelsIdentical = true;
 	
@@ -794,10 +794,10 @@ void View::drawLabels( QPainter *painter )
 			yLabelsIdentical = false;
 	}
 	
-	if ( !xLabelsIdentical || xLabel.isEmpty() )
-		xLabel = "x";
-	if ( !yLabelsIdentical || yLabel.isEmpty() )
-		yLabel = "y";
+//        if ( !xLabelsIdentical || xLabel.isEmpty() )
+        xLabel = Settings::labelHorizontalAxis();
+//        if ( !yLabelsIdentical || yLabel.isEmpty() )
+        yLabel = Settings::labelVerticalAxis();
 	
 	
 	QColor axesColor = Settings::axesColor();

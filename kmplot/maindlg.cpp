@@ -109,7 +109,7 @@ class SettingsPageGeneral : public QWidget, public Ui::SettingsPageGeneral
 	: QWidget( parent )
 		{
 			setupUi(this);
-			layout()->setMargin(0);
+                        layout()->setMargin(0);
 		}
 };
 

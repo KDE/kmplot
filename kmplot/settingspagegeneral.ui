@@ -70,7 +70,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="textLabel1_2">
         <property name="text">
-         <string>Zoom in by:</string>
+         <string>Zoom In by:</string>
         </property>
         <property name="buddy">
          <cstring>kcfg_zoomStep</cstring>
@@ -80,7 +80,7 @@
       <item row="0" column="1">
        <widget class="KIntNumInput" name="kcfg_zoomInStep">
         <property name="whatsThis">
-         <string>The value the zoom-in tool should use.</string>
+         <string>The value the Zoom In tool should use.</string>
         </property>
         <property name="value">
          <number>25</number>
@@ -102,7 +102,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="textLabel1_2_2">
         <property name="text">
-         <string>Zoom out by:</string>
+         <string>Zoom Out by:</string>
         </property>
         <property name="buddy">
          <cstring>kcfg_zoomStep</cstring>
@@ -112,7 +112,7 @@
       <item row="1" column="1">
        <widget class="KIntNumInput" name="kcfg_zoomOutStep">
         <property name="whatsThis">
-         <string>The value the zoom-out tool should use.</string>
+         <string>The value the Zoom Out tool should use.</string>
         </property>
         <property name="value">
          <number>25</number>

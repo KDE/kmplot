@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>307</width>
-    <height>429</height>
+    <height>435</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,13 +72,13 @@
    <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Label Axis</string>
+      <string>Axes Labels</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Label to Horizontal Axis: </string>
+         <string>Horizontal Axis Label: </string>
         </property>
        </widget>
       </item>
@@ -92,7 +92,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Label to Vertical Axis:</string>
+         <string>Vertical Axis Label:</string>
         </property>
        </widget>
       </item>
@@ -109,7 +109,7 @@
    <item row="2" column="0">
     <widget class="QLabel" name="textLabel7">
      <property name="text">
-      <string>Axis width:</string>
+      <string>Axes width:</string>
      </property>
      <property name="buddy">
       <cstring>kcfg_AxesLineWidth</cstring>

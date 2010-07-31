@@ -24,7 +24,7 @@
 */
 
 // Qt includes
-#include <qlayout.h>
+#include <tqlayout.h>
 
 // KDE includes
 #include <kdialog.h>
@@ -33,23 +33,23 @@
 // local includes
 #include "kprinterdlg.h"
 
-KPrinterDlg::KPrinterDlg( QWidget *parent, const char *name )
+KPrinterDlg::KPrinterDlg( TQWidget *parent, const char *name )
 		: KPrintDialogPage( parent, name )
 {
 	setTitle( i18n( "KmPlot Options" ) );
-	QVBoxLayout *layout = new QVBoxLayout( this );
+	TQVBoxLayout *layout = new TQVBoxLayout( this );
 	layout->setMargin( KDialog::marginHint() );
 	layout->setSpacing( KDialog::spacingHint() );
 
 
-	printHeaderTable = new QCheckBox( i18n( "Print header table" ), this );
-	transparent_background = new QCheckBox( i18n( "Transparent background" ), this );
+	printHeaderTable = new TQCheckBox( i18n( "Print header table" ), this );
+	transparent_background = new TQCheckBox( i18n( "Transparent background" ), this );
 	layout->addWidget( printHeaderTable );
 	layout->addWidget( transparent_background );
 	layout->addStretch( 1 );
 }
 
-void KPrinterDlg::getOptions( QMap<QString, QString>& opts, bool include_def )
+void KPrinterDlg::getOptions( TQMap<TQString, TQString>& opts, bool include_def )
 {
  	if ( include_def || !printHeaderTable->isChecked() )
  		opts[ "app-kmplot-printtable" ] = ( printHeaderTable->isChecked() ? "1" : "-1" );
@@ -57,13 +57,13 @@ void KPrinterDlg::getOptions( QMap<QString, QString>& opts, bool include_def )
 		opts[ "app-kmplot-printbackground" ] = ( transparent_background->isChecked() ? "1" : "-1" );
 }
 
-void KPrinterDlg::setOptions( const QMap<QString, QString>& opts )
+void KPrinterDlg::setOptions( const TQMap<TQString, TQString>& opts )
 {
 	printHeaderTable->setChecked( opts[ "app-kmplot-printtable" ] != "-1" );
 	transparent_background->setChecked( opts[ "app-kmplot-printbackground" ] != "-1" );
 }
 
-bool KPrinterDlg::isValid( const QString& )
+bool KPrinterDlg::isValid( const TQString& )
 {
 	return true;
 }

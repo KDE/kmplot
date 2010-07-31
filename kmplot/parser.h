@@ -27,8 +27,8 @@
  * \brief Contains the parser core class Parser. */
  
 // Qt includes
-#include <qstring.h>
-#include <qvaluevector.h>
+#include <tqstring.h>
+#include <tqvaluevector.h>
 
 #include "parseriface.h"
 
@@ -99,13 +99,13 @@ double arctan(double x);
 class ParameterValueItem
 {
 	public:
-		ParameterValueItem(const QString &e, double v)
+		ParameterValueItem(const TQString &e, double v)
 		{
 			expression = e;
 			value = v;
 		}
 		ParameterValueItem() {;}
-		QString expression;
+		TQString expression;
 		double value;
 };
 
@@ -122,13 +122,13 @@ class Ufkt
 		uint id;
 		unsigned char *mem;     ///< Pointer to the allocated memory for the tokens.
 		unsigned char *mptr;    ///< Pointer to the token.
-		QString fname;          ///< Name of the function.
-		QString fvar;           ///< Dummy variable.
-		QString fpar;           ///< Parameter.
-		QString fstr;           ///< Function expression.
+		TQString fname;          ///< Name of the function.
+		TQString fvar;           ///< Dummy variable.
+		TQString fpar;           ///< Parameter.
+		TQString fstr;           ///< Function expression.
 		double k,               ///< Function parameter.
 		oldy;                   ///< The last y-value needed for Euler's method
-		QValueList<int> dep;   /// A list with all functions this function depends on
+		TQValueList<int> dep;   /// A list with all functions this function depends on
         
 		bool f_mode, ///< \a f_mode == 1: draw the plot.
 		f1_mode, ///< \a f1_mode == 1.  draw the 1st derivative, too.
@@ -138,7 +138,7 @@ class Ufkt
 		int linewidth,f1_linewidth,f2_linewidth, integral_linewidth; ///< Line width.
 		/** Number of parameter values. 
 		* @see FktExt::k_liste */
-		QString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
+		TQString str_dmin, str_dmax, str_startx, str_starty ; /// Plot range, input strings.
 		double dmin, ///< Custom plot range, lower boundage.
 		dmax, ///< Custom plot range, upper boundage.
 		/** List of parameter values. 
@@ -151,7 +151,7 @@ class Ufkt
 		QRgb color, ///< current color.
 		f1_color, f2_color, integral_color;
 		int use_slider; ///< -1: none (use list), else: slider number
-		QValueList<ParameterValueItem> parameters; ///< List with parameter for the function
+		TQValueList<ParameterValueItem> parameters; ///< List with parameter for the function
 		bool usecustomxmin, usecustomxmax;
         	// TODO double slider_min, slider_max; ///< extreme values of the slider
 };
@@ -182,24 +182,24 @@ public:
 	/**
        * @return A string that is safe to use as a number in a string to be
        * parsed. This is needed as e.g. "1.2e-3" is not allowed (e is a
-       * constant) - so cannot use the QString::number.
+       * constant) - so cannot use the TQString::number.
        */
-      static QString number( double value );
+      static TQString number( double value );
 	
         /// Returns the result of a calculation
         double fkt(Ufkt *it, double const x);
         double fkt(uint id, double const x);
 	
 	/// Evaluates the given expression.
-	double eval(QString);
+	double eval(TQString);
 	/// Adds a user defined function with the given equation. The new function's ID-number is returned.
-	int addfkt(QString);
+	int addfkt(TQString);
         /// Removes the function with the given id.
 	bool delfkt(uint id);
         bool delfkt( Ufkt *item);
 	
 	/// Returns the ID-number of the function "name". If the function couldn't be found, -1 is returned.
-	int fnameToId(const QString &name);
+	int fnameToId(const TQString &name);
 	/// Returns the current error value. If showMessageBox is true, an error message box will appear if an error was found
 	int parserError(bool showMessageBox=TRUE);
 	
@@ -208,7 +208,7 @@ public:
 	/// Sets the angletype. TRUE is radians and FALSE degrees
 	void setAngleMode(int);
 	/// sets the decimal symbol
-	void setDecimalSymbol(const QString );
+	void setDecimalSymbol(const TQString );
 	
         /// reparse the function. It also do a grammer check for the expression
 	void reparse(int ix);
@@ -219,8 +219,8 @@ public:
         int ixValue(uint const id);/// Converts an ID-numer to an index-value
         uint countFunctions(); /// Returns how many functions there are
 
-	QValueVector<Constant> constant;
-        QValueVector<Ufkt> ufkt;///< Points to the array of user defined functions.
+	TQValueVector<Constant> constant;
+        TQValueVector<Ufkt> ufkt;///< Points to the array of user defined functions.
 
 private:
 	/** Mathematical function. */
@@ -254,7 +254,7 @@ private:
 	///  Position where the error occurred.
         int errpos;
 
-        void fix_expression(QString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
+        void fix_expression(TQString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
         
 	void ps_init(),
 	heir1(),
@@ -279,7 +279,7 @@ private:
 	double *stack, 		// Zeiger auf Stackanfang
 	*stkptr;		    // Stackpointer
 	static double  m_anglemode;
-	QString m_decimalsymbol;
+	TQString m_decimalsymbol;
 };
 
 #endif	// parser_included

@@ -64,36 +64,36 @@ class KmPlotIO
 		 * @param tagName The Name of the tag.
 		 * @param tagValue The data between the opening and cloding tag.
 		 */
-		void addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue );
+		void addTag( TQDomDocument &doc, TQDomElement &parentTag, const TQString tagName, const TQString tagValue );
 		/// Reads axes parameters from the node @a n.
 		/// @param n Node containing the options.
-		void parseAxes( const QDomElement &n );
+		void parseAxes( const TQDomElement &n );
 		/// Reads grid parameters from the node @a n.
 		/// @param n Node containing the options.
-		void parseGrid( const QDomElement &n );
+		void parseGrid( const TQDomElement &n );
 		/// Reads scale parameters from the node @a n.
 		/// @param n Node containing the options.
-		void parseScale( const QDomElement &n );
+		void parseScale( const TQDomElement &n );
 		/// Reads function parameters from the node @a n.
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
-		void parseFunction( XParser *parser, const QDomElement &n );
+		void parseFunction( XParser *parser, const TQDomElement &n );
 		/// Reads parameter values for a function from the node @a n.
 		/// @param parser points to the parser instance.
 		/// @param n Node containing the options.
 		/// @param ix Function index in the parser instance
-		void parseParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
+		void parseParameters( XParser *parser, const TQDomElement &n, Ufkt &ufkt);
 		
 		/// For KDE 3.3
-		void parseThreeDotThreeParameters( XParser *parser, const QDomElement &n, Ufkt &ufkt);
+		void parseThreeDotThreeParameters( XParser *parser, const TQDomElement &n, Ufkt &ufkt);
 		
                 ///For KDE <3.3
                 /// This is the same as parseScale but is made for old Kmplot-files
-                void oldParseScale( const QDomElement & n );
+                void oldParseScale( const TQDomElement & n );
                 /// This is the same as parseFunction but is made for old Kmplot-files
-                void oldParseFunction( XParser *parser, const QDomElement &n );
+                void oldParseFunction( XParser *parser, const TQDomElement &n );
                 /// This is the same as parseAxes but is made for old Kmplot-files
-                void oldParseAxes( const QDomElement &n );
+                void oldParseAxes( const TQDomElement &n );
                 
                 XParser *m_parser;
                 

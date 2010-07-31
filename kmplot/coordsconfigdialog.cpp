@@ -26,13 +26,13 @@
 #include <klocale.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <qradiobutton.h>
+#include <tqradiobutton.h>
 
 #include "settings.h"
 #include "settingspagecoords.h"
 #include "coordsconfigdialog.h"
 
-CoordsConfigDialog::CoordsConfigDialog(XParser *p, QWidget *parent)
+CoordsConfigDialog::CoordsConfigDialog(XParser *p, TQWidget *parent)
 	: KConfigDialog(parent, "coords", Settings::self()), m_parser(p)
 {
 	configAxesDialog = new SettingsPageCoords( 0, "coordsSettings" );

@@ -34,36 +34,36 @@
 #include <kpushbutton.h>
 #include <ktempfile.h>
 #include <kurl.h>
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qvaluelist.h>
+#include <tqfile.h>
+#include <tqtextstream.h>
+#include <tqvaluelist.h>
 
 #include "kparametereditor.h"
 
 class ParameterValueList;
 
-KParameterEditor::KParameterEditor(XParser *m, QValueList<ParameterValueItem> *l, QWidget *parent, const char *name)
+KParameterEditor::KParameterEditor(XParser *m, TQValueList<ParameterValueItem> *l, TQWidget *parent, const char *name)
 	: QParameterEditor(parent,name, true, Qt::WDestructiveClose), m_parameter(l), m_parser(m)
 {
-	for (  QValueList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
+	for (  TQValueList<ParameterValueItem>::Iterator it = m_parameter->begin(); it != m_parameter->end(); ++it )
 		list->insertItem( (*it).expression );
 	list->sort();
 	
-	connect( cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
-	connect( cmdEdit, SIGNAL( clicked() ), this, SLOT( cmdEdit_clicked() ));
-	connect( cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
-	connect( cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
-	connect( cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
-	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
-	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( varlist_doubleClicked( QListBoxItem *) ));
-	connect( list, SIGNAL( clicked ( QListBoxItem * ) ), this, SLOT( varlist_clicked(QListBoxItem *  ) ));
+	connect( cmdNew, TQT_SIGNAL( clicked() ), this, TQT_SLOT( cmdNew_clicked() ));
+	connect( cmdEdit, TQT_SIGNAL( clicked() ), this, TQT_SLOT( cmdEdit_clicked() ));
+	connect( cmdDelete, TQT_SIGNAL( clicked() ), this, TQT_SLOT( cmdDelete_clicked() ));
+	connect( cmdImport, TQT_SIGNAL( clicked() ), this, TQT_SLOT( cmdImport_clicked() ));
+	connect( cmdExport, TQT_SIGNAL( clicked() ), this, TQT_SLOT( cmdExport_clicked() ));
+	connect( cmdClose, TQT_SIGNAL( clicked() ), this, TQT_SLOT( close() ));
+	connect( list, TQT_SIGNAL( doubleClicked( TQListBoxItem * ) ), this, TQT_SLOT( varlist_doubleClicked( TQListBoxItem *) ));
+	connect( list, TQT_SIGNAL( clicked ( TQListBoxItem * ) ), this, TQT_SLOT( varlist_clicked(TQListBoxItem *  ) ));
 	
 }
 
 KParameterEditor::~KParameterEditor()
 {
 	m_parameter->clear();
-	QString item_text;
+	TQString item_text;
 	for (int i = 0; (uint)i <= list->count();i++)
 	{
 		item_text = list->text(i);
@@ -74,7 +74,7 @@ KParameterEditor::~KParameterEditor()
 
 void KParameterEditor::cmdNew_clicked()
 {
-	QString result="";
+	TQString result="";
 	while (1)
 	{
 		bool ok;
@@ -100,7 +100,7 @@ void KParameterEditor::cmdNew_clicked()
 
 void KParameterEditor::cmdEdit_clicked()
 {
-	QString result=list->currentText();
+	TQString result=list->currentText();
 	while (1)
 	{
 		bool ok;
@@ -134,7 +134,7 @@ void KParameterEditor::cmdDelete_clicked()
 
 void KParameterEditor::cmdImport_clicked()
 {
-	KURL url = KFileDialog::getOpenURL( QString::null,i18n("*.txt|Plain Text File "));
+	KURL url = KFileDialog::getOpenURL( TQString::null,i18n("*.txt|Plain Text File "));
 	if ( url.isEmpty() )
 		return;
         
@@ -145,8 +145,8 @@ void KParameterEditor::cmdImport_clicked()
         }
         
 	bool verbose = false;
-        QFile file;
-        QString tmpfile;
+        TQFile file;
+        TQString tmpfile;
         if ( !url.isLocalFile() )
         {
                 if ( !KIO::NetAccess::download(url, tmpfile, this) )
@@ -161,8 +161,8 @@ void KParameterEditor::cmdImport_clicked()
 	
 	if ( file.open(IO_ReadOnly) )
 	{
-		QTextStream stream(&file);
-		QString line;
+		TQTextStream stream(&file);
+		TQString line;
 		for( int i=1; !stream.atEnd();i++ )
 		{
 			line = stream.readLine();
@@ -185,7 +185,7 @@ void KParameterEditor::cmdImport_clicked()
                                         KIO::NetAccess::removeTempFile( tmpfile );
 					return;
 				}
-				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?"), QString::null, i18n("Get Informed"), i18n("Ignore Information") ) == KMessageBox::No)
+				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?"), TQString::null, i18n("Get Informed"), i18n("Ignore Information") ) == KMessageBox::No)
 					verbose = true;
 			}
 		}
@@ -202,14 +202,14 @@ void KParameterEditor::cmdExport_clicked()
 {
         if ( !list->count() )
                 return;
-        KURL url = KFileDialog::getSaveURL( QString::null,i18n("*.txt|Plain Text File "));
+        KURL url = KFileDialog::getSaveURL( TQString::null,i18n("*.txt|Plain Text File "));
         if ( url.isEmpty() )
                 return;
 
         if( !KIO::NetAccess::exists( url,false,this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?" ).arg( url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
         {
-                QString tmpfile;
-                QFile file;
+                TQString tmpfile;
+                TQFile file;
                 if ( !url.isLocalFile() )
                 {
                         KTempFile tmpfile;
@@ -217,8 +217,8 @@ void KParameterEditor::cmdExport_clicked()
                         
                         if (file.open( IO_WriteOnly ) )
                         {
-                                QTextStream stream(&file);
-                                QListBoxItem *it = list->firstItem();
+                                TQTextStream stream(&file);
+                                TQListBoxItem *it = list->firstItem();
                                 while ( 1 )
                                 {
                                         stream << it->text();
@@ -246,8 +246,8 @@ void KParameterEditor::cmdExport_clicked()
                         file.setName(url.prettyURL(0,KURL::StripFileProtocol));
                         if (file.open( IO_WriteOnly ) )
                         {
-                                QTextStream stream(&file);
-                                QListBoxItem *it = list->firstItem();
+                                TQTextStream stream(&file);
+                                TQListBoxItem *it = list->firstItem();
                                 while ( 1 )
                                 {
                                         stream << it->text();
@@ -267,7 +267,7 @@ void KParameterEditor::cmdExport_clicked()
 
 }
 
-void KParameterEditor::varlist_clicked( QListBoxItem * item )
+void KParameterEditor::varlist_clicked( TQListBoxItem * item )
 {
 	if (item)
 	{
@@ -282,12 +282,12 @@ void KParameterEditor::varlist_clicked( QListBoxItem * item )
 }
 
 
-void KParameterEditor::varlist_doubleClicked( QListBoxItem * )
+void KParameterEditor::varlist_doubleClicked( TQListBoxItem * )
 {
 	cmdEdit_clicked();
 }
 
-bool KParameterEditor::checkTwoOfIt(const QString & text)
+bool KParameterEditor::checkTwoOfIt(const TQString & text)
 {
 	if ( list->findItem(text,Qt::ExactMatch) == 0)
 		return false;

@@ -39,7 +39,7 @@ class KmPlotIface : virtual public DCOPObject
 	K_DCOP
 k_dcop:
 	virtual void fileOpen() = 0;
-	virtual void setStatusBarText(const QString &text, int id) = 0;
+	virtual void setStatusBarText(const TQString &text, int id) = 0;
 	virtual void optionsConfigureKeys() = 0;
 	virtual void optionsConfigureToolbars() = 0;
 	virtual void openFileInNewWindow(const KURL url) = 0;

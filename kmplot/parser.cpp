@@ -135,7 +135,7 @@ void Parser::ps_init()
 Parser::~Parser()
 {
         kdDebug() << "Exiting......" << endl;
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
                 kdDebug() << "Deleting something... :-)" << endl;
                 delete [](*it).mem;
@@ -150,7 +150,7 @@ void Parser::setAngleMode(int angle)
 		m_anglemode = M_PI/180;	
 }
 
-void Parser::setDecimalSymbol(const QString c)
+void Parser::setDecimalSymbol(const TQString c)
 {
 	m_decimalsymbol = c;
 }
@@ -168,7 +168,7 @@ uint Parser::getNewId()
         while (1 )
         {
                 found = false;
-                for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                 {
                         if (it->id == i && !it->fname.isEmpty())
                         {
@@ -182,7 +182,7 @@ uint Parser::getNewId()
         }
 }
 
-double Parser::eval(QString str)
+double Parser::eval(TQString str)
 {
 	stack=new double [STACKSIZE];
 	stkptr=stack;
@@ -197,7 +197,7 @@ double Parser::eval(QString str)
 		return 0;
 	}
 	for (uint i=0;i<str.length();i++ )
-		if (str.at(i).category() == QChar::Letter_Uppercase)
+		if (str.at(i).category() == TQChar::Letter_Uppercase)
 		{
 			err=14;
 			delete []stack;
@@ -237,7 +237,7 @@ int Parser::idValue(int const ix)
 int Parser::ixValue(uint const id)
 {
         int ix=0;
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
                 if ( it->id ==id)
                         return ix;
@@ -248,7 +248,7 @@ int Parser::ixValue(uint const id)
 
 double Parser::fkt(uint const id, double const x)
 {
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
         {
                 if ( it->id == id)
                         return fkt(it,x);
@@ -322,7 +322,7 @@ double Parser::fkt(Ufkt *it, double const x)
                         {
                                 puf=(uint*)it->mptr;
                                 uint id = *puf++;
-                                for( QValueVector<Ufkt>::iterator ite = ufkt.begin(); ite != ufkt.end(); ++ite)
+                                for( TQValueVector<Ufkt>::iterator ite = ufkt.begin(); ite != ufkt.end(); ++ite)
                                 {
                                         if ( ite->id == id)
                                         {
@@ -341,9 +341,9 @@ double Parser::fkt(Ufkt *it, double const x)
         }
 }
 
-int Parser::addfkt(QString str)
+int Parser::addfkt(TQString str)
 {
-	QString const extstr = str;
+	TQString const extstr = str;
 	stkptr=stack=0;
 	err=0;
 	errpos=1;
@@ -390,7 +390,7 @@ int Parser::addfkt(QString str)
                 temp.mem=new unsigned char [MEMSIZE];
                 ufkt.append(temp );
         }
-        QString const fname = str.left(p1);
+        TQString const fname = str.left(p1);
         Ufkt *temp = &ufkt.last();
 	temp->fstr=extstr;
         temp->mptr = 0;
@@ -431,7 +431,7 @@ void Parser::reparse(int ix)
 void Parser::reparse(Ufkt *item)
 {
 	kdDebug() << "Reparsing: " << item->fstr << endl;
-	QString str = item->fstr.latin1();
+	TQString str = item->fstr.latin1();
 	err=0;
 	errpos=1;
 
@@ -477,21 +477,21 @@ void Parser::reparse(Ufkt *item)
 	errpos=0;
 }
 
-void Parser::fix_expression(QString &str, int const pos)
+void Parser::fix_expression(TQString &str, int const pos)
 {
         str.remove(" " );
         
         //insert '*' when it is needed
-        QChar ch;
+        TQChar ch;
         bool function = false;
         for(uint i=pos; i <  str.length();i++)
         {
                 ch = str.at(i);
-                if ( str.at(i+1)=='(' && ch.category()==QChar::Letter_Lowercase )
+                if ( str.at(i+1)=='(' && ch.category()==TQChar::Letter_Lowercase )
                 {
-                        QString str_function(ch);
+                        TQString str_function(ch);
                         int n=i-1;
-                        while (n>0 && str.at(n).category() == QChar::Letter_Lowercase )
+                        while (n>0 && str.at(n).category() == TQChar::Letter_Lowercase )
                         {
                                      str_function.prepend(str.at(n));
                                      --n;
@@ -499,7 +499,7 @@ void Parser::fix_expression(QString &str, int const pos)
                         if (str_function == "tanh" || str_function == "tan" || str_function =="sqrt" || str_function =="sqr" || str_function =="sin" || str_function =="sinh" || str_function =="sign" || str_function =="sech" || str_function =="sec" || str_function =="log" || str_function =="ln" || str_function =="exp" || str_function =="coth" || str_function =="cot" || str_function =="cosh" || str_function =="cosech" || str_function =="cosec" || str_function =="cos" || str_function =="artanh" || str_function =="arsinh" || str_function =="arsech" || str_function =="arctan" || str_function =="arcsin" || str_function =="arcsec" || str_function =="arcoth" || str_function =="arcosh" || str_function =="arcosech" || str_function =="arccot" || str_function =="arccosec" || str_function =="arccos" || str_function =="abs" || str_function=="arctanh" || str_function=="arcsinh" || str_function=="arccosh")
                                 function = true;
                         else
-                                for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                                for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                                 {
                                         for ( int j=i; j>0 && (str.at(j).isLetter() || str.at(j).isNumber() ) ; --j)
                                         {
@@ -511,15 +511,15 @@ void Parser::fix_expression(QString &str, int const pos)
                 else  if (function)
                         function = false;
                 
-                if( (ch.isNumber() || ch.category()==QChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
+                if( (ch.isNumber() || ch.category()==TQChar::Letter_Uppercase )&& ( str.at(i-1).isLetter() || str.at(i-1) == ')' ) || (ch.isLetter() && str.at(i-1)==')') )
                         str.insert(i,'*');
-                else if( (ch.isNumber() || ch == ')' || ch.category()==QChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(' && !function ) )
+                else if( (ch.isNumber() || ch == ')' || ch.category()==TQChar::Letter_Uppercase) && ( str.at(i+1).isLetter() || str.at(i+1) == '(' ) || (ch.isLetter() && str.at(i+1)=='(' && !function ) )
                 {
                         str.insert(i+1,'*');
                         i++;
                 }
         }
-        QString str_end = str.mid(pos);
+        TQString str_end = str.mid(pos);
         str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
         str.truncate(pos);
         str.append(str_end);
@@ -534,11 +534,11 @@ bool Parser::delfkt( Ufkt *item)
 	  KMessageBox::error(0,i18n("This function is depending on an other function"));
 	  return false;
 	}
-	for(QValueVector<Ufkt>::iterator it1=ufkt.begin(); it1!=ufkt.end(); ++it1)
+	for(TQValueVector<Ufkt>::iterator it1=ufkt.begin(); it1!=ufkt.end(); ++it1)
 	{
 		if (it1==item)
 			continue;
-		for(QValueList<int>::iterator it2=it1->dep.begin(); it2!=it1->dep.end(); ++it2)
+		for(TQValueList<int>::iterator it2=it1->dep.begin(); it2!=it1->dep.end(); ++it2)
 			if ( (uint)*it2 == item->id )
 				it2 = it1->dep.erase(it2);
 	}
@@ -551,7 +551,7 @@ bool Parser::delfkt( Ufkt *item)
         else
         {
                 //kdDebug() << "Deleting something" << endl;
-		QChar const extstr_c = item->fstr.at(0);
+		TQChar const extstr_c = item->fstr.at(0);
 		uint const id = item->id;
 		delete []item->mem;
                 ufkt.erase(item);
@@ -710,9 +710,9 @@ void Parser::primary()
                         return;
                 }
         }
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
-                if(QString(lptr)=="pi" || QString(lptr)=="e") continue;
+                if(TQString(lptr)=="pi" || TQString(lptr)=="e") continue;
 
 		if( match(it->fname.latin1()) )
 		{
@@ -931,7 +931,7 @@ void Parser::addfptr(uint id)
 	}
 	else
         {
-                for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+                for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
                         if ( it->id == id)
                         {
                                 *stkptr=fkt(it, *stkptr);
@@ -941,9 +941,9 @@ void Parser::addfptr(uint id)
 }
 
 
-int Parser::fnameToId(const QString &name)
+int Parser::fnameToId(const TQString &name)
 {
-        for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+        for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
                 if(name==it->fname)
                         return it->id;
@@ -959,33 +959,33 @@ int Parser::parserError(bool showMessageBox)
         switch(err)
 	{
                 case 1:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "Syntax error").arg(QString::number(errpos)), "KmPlot");
+		                                      "Syntax error").arg(TQString::number(errpos)), "KmPlot");
                         break;
                 case 2:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "Missing parenthesis").arg(QString::number(errpos)), "KmPlot");
+		                                      "Missing parenthesis").arg(TQString::number(errpos)), "KmPlot");
                         break;
                 case 3:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "Function name unknown").arg(QString::number(errpos)), "KmPlot");
+		                                      "Function name unknown").arg(TQString::number(errpos)), "KmPlot");
                         break;
                 case 4:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "Void function variable").arg(QString::number(errpos)), "KmPlot");
+		                                      "Void function variable").arg(TQString::number(errpos)), "KmPlot");
                         break;
                 case 5:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "Too many functions").arg(QString::number(errpos)), "KmPlot");
+		                                      "Too many functions").arg(TQString::number(errpos)), "KmPlot");
                         break;
                 case 6:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "Token-memory overflow").arg(QString::number(errpos)), "KmPlot");
+		                                      "Token-memory overflow").arg(TQString::number(errpos)), "KmPlot");
                         break;
                 case 7:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "Stack overflow").arg(QString::number(errpos)), "KmPlot");
+		                                      "Stack overflow").arg(TQString::number(errpos)), "KmPlot");
                         break;
                 case 8:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "Name of function not free.").arg(QString::number(errpos)), "KmPlot");
+		                                      "Name of function not free.").arg(TQString::number(errpos)), "KmPlot");
                         break;
                 case 9:  KMessageBox::error(0, i18n("Parser error at position %1:\n"
-		                                      "recursive function not allowed.").arg(QString::number(errpos)), "KmPlot");
+		                                      "recursive function not allowed.").arg(TQString::number(errpos)), "KmPlot");
                         break;
-                case 10:  KMessageBox::error(0, i18n("Could not find a defined constant at position %1." ).arg(QString::number(errpos)),
+                case 10:  KMessageBox::error(0, i18n("Could not find a defined constant at position %1." ).arg(TQString::number(errpos)),
                                                                 "KmPlot");
                         break;
                 case 11:  KMessageBox::error(0, i18n("Empty function"), "KmPlot");
@@ -1003,9 +1003,9 @@ int Parser::parserError(bool showMessageBox)
 
 
 // static
-QString Parser::number( double value )
+TQString Parser::number( double value )
 {
-       QString str = QString::number( value, 'g', 6 );
+       TQString str = TQString::number( value, 'g', 6 );
        str.replace( 'e', "*10^" );
 //     kDebug() << "returning str="<<str<<endl;
        return str;

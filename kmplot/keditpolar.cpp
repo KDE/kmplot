@@ -23,7 +23,7 @@
 *
 */
 // Qt includes
-#include <qcheckbox.h>
+#include <tqcheckbox.h>
 
 // KDE includes
 #include <kapplication.h>
@@ -42,11 +42,11 @@
 #include "xparser.h"
 #include "View.h"
 
-KEditPolar::KEditPolar( XParser* parser, QWidget* parent, const char* name ) : 
+KEditPolar::KEditPolar( XParser* parser, TQWidget* parent, const char* name ) : 
 	QEditPolar( parent, name ),m_parser(parser)
 {
-	connect( customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
-	connect( customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
+	connect( customMinRange, TQT_SIGNAL ( toggled(bool) ), this, TQT_SLOT( customMinRange_toggled(bool) ) );
+	connect( customMaxRange, TQT_SIGNAL ( toggled(bool) ), this, TQT_SLOT( customMaxRange_toggled(bool) ) );
 	m_updatedfunction = 0;
 }
 
@@ -72,7 +72,7 @@ void KEditPolar::clearWidgets()
 void KEditPolar::setWidgets()
 {
         Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_id) ];
-	QString function = ufkt->fstr;
+	TQString function = ufkt->fstr;
 	function = function.right( function.length()-1 );
 	kLineEditYFunction->setText( function );
 	checkBoxHide->setChecked( !ufkt->f_mode);
@@ -98,7 +98,7 @@ void KEditPolar::setWidgets()
 
 void KEditPolar::accept()
 {
-	QString f_str = /*"r" + */kLineEditYFunction->text();
+	TQString f_str = /*"r" + */kLineEditYFunction->text();
 
 	if ( m_id!=-1 )
 		m_parser->fixFunctionName(f_str, XParser::Polar, m_id);
@@ -161,7 +161,7 @@ void KEditPolar::accept()
                         return;
                 }
                 added_ufkt =  &m_parser->ufkt[ix];
-                QString const old_fstr = added_ufkt->fstr;
+                TQString const old_fstr = added_ufkt->fstr;
                 added_ufkt->fstr = f_str;
                 m_parser->reparse(added_ufkt); //reparse the funcion
                 if ( m_parser->parserError() != 0)

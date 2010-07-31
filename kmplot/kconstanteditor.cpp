@@ -31,24 +31,24 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <qpushbutton.h>
-#include <qstringlist.h>
-#include <qvaluevector.h>
-#include <qdom.h>
+#include <tqpushbutton.h>
+#include <tqstringlist.h>
+#include <tqvaluevector.h>
+#include <tqdom.h>
 
 #include "kmplotio.h"
 #include "kconstanteditor.h"
 
 
-KConstantEditor::KConstantEditor(View *v, QWidget *parent, const char *name)
+KConstantEditor::KConstantEditor(View *v, TQWidget *parent, const char *name)
 	: QConstantEditor(parent,name), m_view(v)
 {
-	QString str_value;
-	QValueVector<Constant>::iterator it;
+	TQString str_value;
+	TQValueVector<Constant>::iterator it;
 	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() ;++it)
 	{
 		str_value.setNum(it->value);
-		(void) new QListViewItem(varlist, QChar(it->constant), str_value);
+		(void) new TQListViewItem(varlist, TQChar(it->constant), str_value);
 	}
 
 }
@@ -61,7 +61,7 @@ void KConstantEditor::cmdNew_clicked()
 {
 	constant = '0';
 	KEditConstant *dlg = new KEditConstant(m_view->parser(), constant, value);
-	connect( dlg, SIGNAL( finished() ), this,SLOT(newConstantSlot() ) ); 
+	connect( dlg, TQT_SIGNAL( finished() ), this,TQT_SLOT(newConstantSlot() ) ); 
 	dlg->show();
 }
 
@@ -73,7 +73,7 @@ void KConstantEditor::cmdEdit_clicked()
 	value = varlist->currentItem()->text(1);
 		
 	KEditConstant *dlg = new KEditConstant(m_view->parser(), constant, value);
-	connect( dlg, SIGNAL( finished() ), this,SLOT(editConstantSlot() ) );
+	connect( dlg, TQT_SIGNAL( finished() ), this,TQT_SLOT(editConstantSlot() ) );
 	dlg->show();
 }
 
@@ -84,9 +84,9 @@ void KConstantEditor::cmdDelete_clicked()
 
 	constant = varlist->currentItem()->text(0).at(0).latin1();
 	value = varlist->currentItem()->text(1);
-	QString str;
+	TQString str;
         
-        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( TQValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		str =  it->fstr;
 		for (int i=str.find(')'); (uint)i<str.length();i++)
@@ -96,7 +96,7 @@ void KConstantEditor::cmdDelete_clicked()
                              return;
                         }
 	}
-	QValueVector<Constant>::iterator it;
+	TQValueVector<Constant>::iterator it;
 	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end(); ++it)
 	{
 		if ( it->constant == constant)
@@ -113,10 +113,10 @@ void KConstantEditor::cmdDelete_clicked()
 		}
 	}
 	
-	delete varlist->findItem(QChar(constant), 0); //removes the item from the constant list
+	delete varlist->findItem(TQChar(constant), 0); //removes the item from the constant list
 }
 
-void KConstantEditor::varlist_clicked( QListViewItem * item )
+void KConstantEditor::varlist_clicked( TQListViewItem * item )
 {
 	if (item)
 	{
@@ -139,12 +139,12 @@ void KConstantEditor::cmdDuplicate_clicked()
 	constant = varlist->currentItem()->text(0).at(0).latin1();
 	value = varlist->currentItem()->text(1);
 	
-	QStringList list;
+	TQStringList list;
 	bool found;
 	for (char i='A'; i<'Z';i++)
 	{
 		found = false;
-		QValueVector<Constant>::iterator it;
+		TQValueVector<Constant>::iterator it;
 		for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;++it)
 		{
 			if ( it->constant == i || i == constant)
@@ -153,9 +153,9 @@ void KConstantEditor::cmdDuplicate_clicked()
 			}
 		}
 		if (!found)
-			list.append(QChar(i));
+			list.append(TQChar(i));
 	}
-	QStringList result = KInputDialog::getItemList(i18n("Choose Name"),i18n("Choose a name for the constant:"),list, QStringList(), false, &found);
+	TQStringList result = KInputDialog::getItemList(i18n("Choose Name"),i18n("Choose a name for the constant:"),list, TQStringList(), false, &found);
 	if (found)
 	{
 		constant = (*result.begin()).at(0).latin1();
@@ -168,7 +168,7 @@ void KConstantEditor::newConstantSlot()
 {
 	double dvalue = m_view->parser()->eval(value);
 	m_view->parser()->constant.append( Constant(constant, dvalue) );
-	(void) new QListViewItem(varlist, QChar( constant  ), value);
+	(void) new TQListViewItem(varlist, TQChar( constant  ), value);
 	varlist->sort();
 }
 
@@ -176,7 +176,7 @@ void KConstantEditor::editConstantSlot()
 {
 	double dvalue = m_view->parser()->eval(value);
 	bool found = false;
-	QValueVector<Constant>::iterator it;
+	TQValueVector<Constant>::iterator it;
 	for(it = m_view->parser()->constant.begin(); it!= m_view->parser()->constant.end() && !found;++it)
 	{
 		if ( it->constant == constant)
@@ -191,13 +191,13 @@ void KConstantEditor::editConstantSlot()
 		return;
 	}
 
-	QListViewItem *item = varlist->findItem(QChar(constant), 0);
+	TQListViewItem *item = varlist->findItem(TQChar(constant), 0);
 	if (item!=0)
 		item->setText(1,value);
 	
 
         int index = 0;
-        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( TQValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if( it->fstr.contains(constant)!=0 )
 			m_view->parser()->reparse(index); //reparsing the function
@@ -207,7 +207,7 @@ void KConstantEditor::editConstantSlot()
 	m_view->drawPlot();
 }
 
-void KConstantEditor::varlist_doubleClicked( QListViewItem * )
+void KConstantEditor::varlist_doubleClicked( TQListViewItem * )
 {
 	cmdEdit_clicked();
 }

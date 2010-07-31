@@ -23,7 +23,7 @@ void QConstantEditor::cmdDelete_clicked()
 }
 
 
-void QConstantEditor::varlist_clicked( QListViewItem * )
+void QConstantEditor::varlist_clicked( TQListViewItem * )
 {
 }
 
@@ -38,7 +38,7 @@ void QConstantEditor::newNewConstantSlot()
 }
 
 
-void QConstantEditor::varlist_doubleClicked( QListViewItem * )
+void QConstantEditor::varlist_doubleClicked( TQListViewItem * )
 {
 
 }

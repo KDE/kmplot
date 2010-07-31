@@ -40,7 +40,7 @@ class CoordsConfigDialog : public KConfigDialog
 {
 	Q_OBJECT
 	public:
-		CoordsConfigDialog(XParser *p, QWidget *parent = 0);
+		CoordsConfigDialog(XParser *p, TQWidget *parent = 0);
 		~CoordsConfigDialog();
 	protected slots:
 		virtual void slotOk();

@@ -61,7 +61,7 @@ CDiagr::CDiagr()
 CDiagr::~CDiagr()
 {}
 
-void CDiagr::Create(QPoint Ref, 			    // Bezugspunkt links unten
+void CDiagr::Create(TQPoint Ref, 			    // Bezugspunkt links unten
                     int lx, int ly, 			// Achsenl�gen
                     double xmin, double xmax,   // x-Wertebereich
                     double ymin, double ymax) 	// y-Wertebereich
@@ -105,9 +105,9 @@ void CDiagr::Skal( double ex, double ey )
 }
 
 
-void CDiagr::Plot(QPainter* pDC)
+void CDiagr::Plot(TQPainter* pDC)
 {
-	QPen pen(frameColor, borderThickness);
+	TQPen pen(frameColor, borderThickness);
 
 	if( g_mode != GRID_NONE )
 		drawGrid( pDC ); // draw the grid
@@ -221,13 +221,13 @@ double CDiagr::Transy(int y)        // Bildschirmkoordinate
 }
 
 
-void CDiagr::drawAxes( QPainter* pDC )	// draw axes
+void CDiagr::drawAxes( TQPainter* pDC )	// draw axes
 {	int a, b, tl;
 	double d, da, db;
 
 	if( Settings::showAxes() )
 	{  
-		pDC->setPen( QPen( axesColor, axesLineWidth ) );
+		pDC->setPen( TQPen( axesColor, axesLineWidth ) );
                 b = Transy(0.);
                 a = PlotArea.right();
 		pDC->Lineh(PlotArea.left(), b, a);	    // x-Achse
@@ -249,7 +249,7 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 		}
 	}
 
-	pDC->setPen( QPen( axesColor, ticWidth ) );
+	pDC->setPen( TQPen( axesColor, ticWidth ) );
 	if( Settings::showAxes() )
 	{
 		da=oy-ticLength;
@@ -328,11 +328,11 @@ void CDiagr::drawAxes( QPainter* pDC )	// draw axes
 }
 
 
-void CDiagr::drawGrid( QPainter* pDC )
+void CDiagr::drawGrid( TQPainter* pDC )
 {
 	int a, b;
 	double d, x, y;
-	QPen pen( gridColor, gridLineWidth );
+	TQPen pen( gridColor, gridLineWidth );
 
 	pDC->setPen(pen);
 	if( g_mode==GRID_LINES )
@@ -370,7 +370,7 @@ void CDiagr::drawGrid( QPainter* pDC )
 	{
 		int y2;
 		double w;
-		QRect const rc=PlotArea;
+		TQRect const rc=PlotArea;
 
 		pDC->setClipRect(pDC->xForm(rc));
 		double const c=hypot(xmd*skx, ymd*sky);
@@ -404,21 +404,21 @@ void CDiagr::drawGrid( QPainter* pDC )
 }
 
 
-void CDiagr::drawLabels(QPainter* pDC)
+void CDiagr::drawLabels(TQPainter* pDC)
 {
 	int const dx=15;
 	int const dy=40;
-	QFont const font=QFont( Settings::axesFont(), Settings::axesFontSize() );
+	TQFont const font=TQFont( Settings::axesFont(), Settings::axesFontSize() );
 	pDC->setFont(font);
 	int const x=Transx(0.);
 	int const y=Transy(0.);
 	double d;
 	int n;
-	QString s;
+	TQString s;
 
 	//pDC->drawText(x-dx, y+dy, 0, 0, Qt::AlignRight|Qt::AlignVCenter|Qt::DontClip, "0");
 	char draw_next=0;
-	QFontMetrics const test(font);
+	TQFontMetrics const test(font);
 	int swidth=0;
 
 	for(d=tsx, n=(int)ceil(xmin/ex); d<xmd; d+=ex, ++n)
@@ -434,15 +434,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		if(fabs(ex-M_PI/2.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+="pi/2";//s+=QChar(960)+QString("/2");
+				s+="pi/2";//s+=TQChar(960)+TQString("/2");
 			else if(n%2 == 0)
 			{
 				if(n==-2 || n==2)
-					s+="pi";//s+=QChar(960);
+					s+="pi";//s+=TQChar(960);
 				else
 				{
-					s=QString().sprintf("%+d", n/2);
-					s+="pi";//s+=QChar(960);
+					s=TQString().sprintf("%+d", n/2);
+					s+="pi";//s+=TQChar(960);
 				}
 			}
 			else
@@ -468,15 +468,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		else if(fabs(ex-M_PI/3.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+="pi/3";//s+=QChar(960)+QString("/3");
+				s+="pi/3";//s+=TQChar(960)+TQString("/3");
 			else if(n%3==0)
 			{
 				if(n==-3 || n==3)
-					s+="pi";//s+=QChar(960);
+					s+="pi";//s+=TQChar(960);
 				else
 				{
-					s=QString().sprintf("%+d", n/3);
-					s+="pi";//s+=QChar(960);
+					s=TQString().sprintf("%+d", n/3);
+					s+="pi";//s+=TQChar(960);
 				}
 			}
 			else
@@ -502,15 +502,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		else if(fabs(ex-M_PI/4.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+="pi/4";//s+=QChar(960)+QString("/4");
+				s+="pi/4";//s+=TQChar(960)+TQString("/4");
 			else if(n%4==0)
 			{
 				if(n==-4 || n==4)
-					s+="pi";//s+=QChar(960);
+					s+="pi";//s+=TQChar(960);
 				else
 				{
-					s=QString().sprintf("%+d", n/4);
-					s+="pi";//s+=QChar(960);
+					s=TQString().sprintf("%+d", n/4);
+					s+="pi";//s+=TQChar(960);
 				}
 			}
 			else
@@ -535,7 +535,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 		}
 		else if((n%5==0 || n==1 || n==-1 || draw_next))
 		{
-			s=QString().sprintf("%+0.3g", n*ex);
+			s=TQString().sprintf("%+0.3g", n*ex);
 			swidth = test.width(s);
 			if (  Transx(d)-x<swidth && Transx(d)-x>-swidth && draw_next==0)
 			{
@@ -574,15 +574,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		if(fabs(ey-M_PI/2.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+="pi/2";//s+=QChar(960)+QString("/2");
+				s+="pi/2";//s+=TQChar(960)+TQString("/2");
 			else if(n%2==0)
 			{
 				if(n==-2 || n==2)
-					s+="pi";//s+=QChar(960);
+					s+="pi";//s+=TQChar(960);
 				else
 				{
-					s=QString().sprintf("%+d", n/2);
-					s+="pi";//s+=QChar(960);
+					s=TQString().sprintf("%+d", n/2);
+					s+="pi";//s+=TQChar(960);
 				}
 			}
 			else
@@ -595,15 +595,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		else if(fabs(ey-M_PI/3.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+="pi/3";//s+=QChar(960)+QString("/3");
+				s+="pi/3";//s+=TQChar(960)+TQString("/3");
 			else if(n%3==0)
 			{
 				if(n==-3 || n==3)
-					s+="pi";//s+=QChar(960);
+					s+="pi";//s+=TQChar(960);
 				else
 				{
-					s=QString().sprintf("%+d", n/3);
-					s+="pi";//s+=QChar(960);
+					s=TQString().sprintf("%+d", n/3);
+					s+="pi";//s+=TQChar(960);
 				}
 			}
 			else
@@ -616,15 +616,15 @@ void CDiagr::drawLabels(QPainter* pDC)
 		else if(fabs(ey-M_PI/4.)<1e-3)
 		{
 			if(n==-1 || n==1)
-				s+="pi/4";//s+=QChar(960)+QString("/4");
+				s+="pi/4";//s+=TQChar(960)+TQString("/4");
 			else if(n%4==0)
 			{
 				if(n==-4 || n==4)
-					s+="pi";//s+=QChar(960);
+					s+="pi";//s+=TQChar(960);
 				else
 				{
-					s=QString().sprintf("%+d", n/4);
-					s+="pi";//s+=QChar(960);
+					s=TQString().sprintf("%+d", n/4);
+					s+="pi";//s+=TQChar(960);
 				}
 			}
 			else
@@ -636,7 +636,7 @@ void CDiagr::drawLabels(QPainter* pDC)
 		}
 		else if((n%5==0 || n==1 || n==-1))
 		{
-			s=QString().sprintf("%+0.3g", n*ey);
+			s=TQString().sprintf("%+0.3g", n*ey);
 			if (xmin>=0)
 				pDC->drawText(x+dx, Transy(d), 0, 0, Qt::AlignVCenter|Qt::AlignLeft|Qt::DontClip, s);
 			else

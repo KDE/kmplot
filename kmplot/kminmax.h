@@ -37,7 +37,7 @@ class KMinMax : public QMinMax
 {
 Q_OBJECT
 public:
-    KMinMax(View *, QWidget *parent = 0, const char *name = 0);
+    KMinMax(View *, TQWidget *parent = 0, const char *name = 0);
     /// called every time the dialog is opened
     void init(char);
     /// update the list with functions
@@ -53,14 +53,14 @@ public slots:
     /// the selecting a function that uses parameter function from a list the user can choose which paramater value he/she wants to use
     void cmdParameter_clicked();
     /// the button for changing the selected parameter value
-    void list_highlighted(QListBoxItem*);
+    void list_highlighted(TQListBoxItem*);
     /// call cmdParameter_clicked() if parameter values is enabled for that function
-    void list_doubleClicked(QListBoxItem *);
+    void list_doubleClicked(TQListBoxItem *);
         
 private:
     View *m_view;
     char m_mode; //< 0 = minimum, 1 = maximum, 2 = y-point, 3=drawing area
-    QString parameter;
+    TQString parameter;
     
 
 };

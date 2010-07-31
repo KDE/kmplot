@@ -82,7 +82,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	}
 
 	if (!initialGeometrySet())
-		resize( QSize(450, 520).expandedTo(minimumSizeHint()));
+		resize( TQSize(450, 520).expandedTo(minimumSizeHint()));
 
 	// apply the saved mainwindow settings, if any, and ask the mainwindow
 	// to automatically save settings if changed: window size, toolbar
@@ -135,18 +135,18 @@ bool KmPlot::load(const KURL& url)
 
 void KmPlot::setupActions()
 {
-	KStdAction::openNew(this, SLOT(fileNew()), actionCollection());
-	KStdAction::open(this, SLOT(fileOpen()), actionCollection());
-	KStdAction::quit(kapp, SLOT(quit()), actionCollection());
+	KStdAction::openNew(this, TQT_SLOT(fileNew()), actionCollection());
+	KStdAction::open(this, TQT_SLOT(fileOpen()), actionCollection());
+	KStdAction::quit(kapp, TQT_SLOT(quit()), actionCollection());
 
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
 	
-	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
-	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
+	KStdAction::keyBindings(this, TQT_SLOT(optionsConfigureKeys()), actionCollection());
+	KStdAction::configureToolbars(this, TQT_SLOT(optionsConfigureToolbars()), actionCollection());
 
 	m_fullScreen = KStdAction::fullScreen( NULL, NULL, actionCollection(), this, "fullscreen");
-	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
+	connect( m_fullScreen, TQT_SIGNAL( toggled( bool )), this, TQT_SLOT( slotUpdateFullScreen( bool )));
 }
 
 void KmPlot::saveProperties(KConfig* /*config*/)
@@ -210,7 +210,7 @@ void KmPlot::optionsConfigureToolbars()
 	saveMainWindowSettings(KGlobal::config() );
 	// use the standard toolbar editor
 	KEditToolbar dlg(factory());
-	connect(&dlg, SIGNAL(newToolbarConfig()), this, SLOT(applyNewToolbarConfig()));
+	connect(&dlg, TQT_SIGNAL(newToolbarConfig()), this, TQT_SLOT(applyNewToolbarConfig()));
 	dlg.exec();
 }
 
@@ -224,7 +224,7 @@ void KmPlot::fileOpen()
 	// this slot is called whenever the File->Open menu is selected,
 	// the Open shortcut is pressed (usually CTRL+O) or the Open toolbar
 	// button is clicked
-	KURL const url = KFileDialog::getOpenURL( QDir::currentDirPath(),
+	KURL const url = KFileDialog::getOpenURL( TQDir::currentDirPath(),
 	                 i18n( "*.fkt|KmPlot Files (*.fkt)\n*.*|All Files" ), this, i18n( "Open" ) );
 
 	if ( !url.isEmpty())
@@ -263,22 +263,22 @@ void KmPlot::openFileInNewWindow(const KURL url)
 
 bool KmPlot::checkModified()
 {
-	QCString replyType;
-	QByteArray replyData;
-	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","checkModified()", QByteArray(), replyType, replyData, false);
+	TQCString replyType;
+	TQByteArray replyData;
+	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","checkModified()", TQByteArray(), replyType, replyData, false);
 	bool result;
-	QDataStream stream(replyData, IO_ReadOnly);
+	TQDataStream stream(replyData, IO_ReadOnly);
 	stream >> result;
 	return result;
 }
 
 bool KmPlot::isModified()
 {
-	QCString replyType;
-	QByteArray replyData;
-	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","isModified()", QByteArray(), replyType, replyData, false);
+	TQCString replyType;
+	TQByteArray replyData;
+	kapp->dcopClient()->call(kapp->dcopClient()->appId(), "MainDlg","isModified()", TQByteArray(), replyType, replyData, false);
 	bool result;
-	QDataStream stream(replyData, IO_ReadOnly);
+	TQDataStream stream(replyData, IO_ReadOnly);
 	stream >> result;
 	return result;
 }
@@ -288,7 +288,7 @@ bool KmPlot::queryClose()
 	return checkModified();
 }
 
-void KmPlot::setStatusBarText(const QString &text, int id)
+void KmPlot::setStatusBarText(const TQString &text, int id)
 {
 	statusBar()->changeItem(text,id);
 }
@@ -306,13 +306,13 @@ void KmPlot::setupStatusBar()
 
 	m_progressbar = new KmPlotProgress( statusBar() );
 	m_progressbar->setMaximumHeight( statusBar()->height()-10 );
-	connect( m_progressbar->button, SIGNAL (clicked() ), this, SLOT( progressbar_clicked() ) );
+	connect( m_progressbar->button, TQT_SIGNAL (clicked() ), this, TQT_SLOT( progressbar_clicked() ) );
 	statusBar()->addWidget(m_progressbar);
 }
 
 void KmPlot::progressbar_clicked()
 {
-	kapp->dcopClient()->send(kapp->dcopClient()->appId(), "View","stopDrawing()", QByteArray());
+	kapp->dcopClient()->send(kapp->dcopClient()->appId(), "View","stopDrawing()", TQByteArray());
 }
 
 #include "kmplot.moc"

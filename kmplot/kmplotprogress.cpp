@@ -29,15 +29,15 @@
 #include "kmplotprogress.h"
 //#include "kmplotprogress.moc.cpp"
 
-KmPlotProgress::KmPlotProgress( QWidget* parent, const char* name ) : QWidget( parent, name) 
+KmPlotProgress::KmPlotProgress( TQWidget* parent, const char* name ) : TQWidget( parent, name) 
 {
  button = new KPushButton(this);
  button->setPixmap( SmallIcon( "cancel" ) );
- button->setGeometry( QRect( 0, 0, 30, 23 ) );
+ button->setGeometry( TQRect( 0, 0, 30, 23 ) );
  button->setMaximumHeight(height()-10);
  
  progress = new KProgress(this);
- progress->setGeometry( QRect( 30, 0, 124, 23 ) );
+ progress->setGeometry( TQRect( 30, 0, 124, 23 ) );
  progress->setMaximumHeight(height()-10);
  
  hide();

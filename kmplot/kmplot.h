@@ -96,7 +96,7 @@ private slots:
 public slots:
 	/// Called when fullscren is enabled/disabled
 	void slotUpdateFullScreen(bool);
-	void setStatusBarText(const QString &, int id);
+	void setStatusBarText(const TQString &, int id);
 
 private:
 	void setupAccel();

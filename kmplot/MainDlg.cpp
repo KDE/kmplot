@@ -24,8 +24,8 @@
 */
 
 // Qt includes
-#include <qslider.h>
-#include <qtooltip.h>
+#include <tqslider.h>
+#include <tqtooltip.h>
 
 // KDE includes
 #include <dcopclient.h>
@@ -63,13 +63,13 @@ class KmPlotIO;
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent, name ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
+MainDlg::MainDlg(TQWidget *parentWidget, const char *, TQObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent, name ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
 {
 	// we need an instance
 	setInstance( KmPlotPartFactory::instance() );
 
 	kdDebug() << "parentWidget->name():" << parentWidget->name() << endl;
-	if ( QString(parentWidget->name()).startsWith("KmPlot") )
+	if ( TQString(parentWidget->name()).startsWith("KmPlot") )
 	{
 		setXMLFile("kmplot_part.rc");
 		m_readonly = false;
@@ -84,14 +84,14 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	coordsDialog = 0;
 	m_popupmenu = new KPopupMenu(parentWidget);
 	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget );
-	connect( view, SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
+	connect( view, TQT_SIGNAL( setStatusBarText(const TQString &)), this, TQT_SLOT( setReadOnlyStatusBarText(const TQString &) ) );
 	setWidget( view );
-	view->setFocusPolicy(QWidget::ClickFocus);
+	view->setFocusPolicy(TQWidget::ClickFocus);
 	minmaxdlg = new KMinMax(view, m_parent);
 	view->setMinMaxDlg(minmaxdlg);
 	m_quickEdit = new KLineEdit( parentWidget );
 	m_quickEdit->setFocus();
-	QToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
+	TQToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
 	setupActions();
 	loadConstants();
 	kmplotio = new KmPlotIO(view->parser());
@@ -109,8 +109,8 @@ MainDlg::MainDlg(QWidget *parentWidget, const char *, QObject *parent, const cha
 	m_settingsDialog->addPage( m_constantsSettings, i18n("Constants"), "editconstants", i18n("Constants") );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( m_settingsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
-    connect( view, SIGNAL( resetZoom() ), this, SLOT(resetZoom() ) );
+	connect( m_settingsDialog, TQT_SIGNAL( settingsChanged() ), this, TQT_SLOT(updateSettings() ) );
+    connect( view, TQT_SIGNAL( resetZoom() ), this, TQT_SLOT(resetZoom() ) );
 }
 
 MainDlg::~MainDlg()
@@ -123,29 +123,29 @@ MainDlg::~MainDlg()
 void MainDlg::setupActions()
 {
 	// standard actions
-	m_recentFiles = KStdAction::openRecent( this, SLOT( slotOpenRecent( const KURL& ) ), actionCollection(),"file_openrecent");
-	KStdAction::print( this, SLOT( slotPrint() ), actionCollection(),"file_print" );
-	KStdAction::save( this, SLOT( slotSave() ), actionCollection() );
-	KStdAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
-	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
+	m_recentFiles = KStdAction::openRecent( this, TQT_SLOT( slotOpenRecent( const KURL& ) ), actionCollection(),"file_openrecent");
+	KStdAction::print( this, TQT_SLOT( slotPrint() ), actionCollection(),"file_print" );
+	KStdAction::save( this, TQT_SLOT( slotSave() ), actionCollection() );
+	KStdAction::saveAs( this, TQT_SLOT( slotSaveas() ), actionCollection() );
+	connect( kapp, TQT_SIGNAL( lastWindowClosed() ), kapp, TQT_SLOT( quit() ) );
 
-	KAction *prefs  = KStdAction::preferences( this, SLOT( slotSettings() ), actionCollection());
+	KAction *prefs  = KStdAction::preferences( this, TQT_SLOT( slotSettings() ), actionCollection());
 	prefs->setText( i18n( "Configure KmPlot..." ) );
-	KStdAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
-	KStdAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
+	KStdAction::keyBindings(this, TQT_SLOT(optionsConfigureKeys()), actionCollection());
+	KStdAction::configureToolbars(this, TQT_SLOT(optionsConfigureToolbars()), actionCollection());
 
 
 	// KmPlot specific actions
 	// file menu
-	( void ) new KAction( i18n( "E&xport..." ), 0, this, SLOT( slotExport() ), actionCollection(), "export");
+	( void ) new KAction( i18n( "E&xport..." ), 0, this, TQT_SLOT( slotExport() ), actionCollection(), "export");
 
 	//zoom menu
-	m_mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,"CTRL+0",view, SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
-	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &Rectangular"), "viewmagfit", "CTRL+1",view, SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
-	KRadioAction * mnuZoomIn = new KRadioAction(i18n("Zoom &In"), "viewmag+", "CTRL+2",view, SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
-	KRadioAction * mnuZoomOut = new KRadioAction(i18n("Zoom &Out"), "viewmag-", "CTRL+3",view, SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
-	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center Point") ,"CTRL+4",view, SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
-	(void ) new KAction(i18n("&Fit Widget to Trigonometric Functions") ,0,view, SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
+	m_mnuNoZoom = new KRadioAction(i18n("&No Zoom") ,"CTRL+0",view, TQT_SLOT( mnuNoZoom_clicked() ),actionCollection(),"no_zoom" );
+	KRadioAction * mnuRectangular = new KRadioAction(i18n("Zoom &Rectangular"), "viewmagfit", "CTRL+1",view, TQT_SLOT( mnuRectangular_clicked() ),actionCollection(),"zoom_rectangular" );
+	KRadioAction * mnuZoomIn = new KRadioAction(i18n("Zoom &In"), "viewmag+", "CTRL+2",view, TQT_SLOT( mnuZoomIn_clicked() ),actionCollection(),"zoom_in" );
+	KRadioAction * mnuZoomOut = new KRadioAction(i18n("Zoom &Out"), "viewmag-", "CTRL+3",view, TQT_SLOT( mnuZoomOut_clicked() ),actionCollection(),"zoom_out" );
+	KRadioAction * mnuZoomCenter = new KRadioAction(i18n("&Center Point") ,"CTRL+4",view, TQT_SLOT( mnuCenter_clicked() ),actionCollection(),"zoom_center" );
+	(void ) new KAction(i18n("&Fit Widget to Trigonometric Functions") ,0,view, TQT_SLOT( mnuTrig_clicked() ),actionCollection(),"zoom_trig" );
 	m_mnuNoZoom->setExclusiveGroup("zoom_modes");
     m_mnuNoZoom->setChecked(true);
 	mnuRectangular->setExclusiveGroup("zoom_modes");
@@ -154,52 +154,52 @@ void MainDlg::setupActions()
 	mnuZoomCenter->setExclusiveGroup("zoom_modes");
 
 	// help menu
-	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, SLOT( slotNames() ), actionCollection(), "names" );
+	( void ) new KAction( i18n( "Predefined &Math Functions" ), "functionhelp", 0, this, TQT_SLOT( slotNames() ), actionCollection(), "names" );
 
 	// edit menu
-	( void ) new KAction( i18n( "&Colors..." ), "colorize.png", 0, this, SLOT( editColors() ), actionCollection(), "editcolors" );
-	( void ) new KAction( i18n( "&Coordinate System..." ), "coords.png", 0, this, SLOT( editAxes() ), actionCollection(), "editaxes" );
-	//  ( void ) new KAction( i18n( "&Grid..." ), "coords.png", 0, this, SLOT( editGrid() ), actionCollection(), "editgrid" );
-	( void ) new KAction( i18n( "&Scaling..." ), "scaling", 0, this, SLOT( editScaling() ), actionCollection(), "editscaling" );
-	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, SLOT( editFonts() ), actionCollection(), "editfonts" );
+	( void ) new KAction( i18n( "&Colors..." ), "colorize.png", 0, this, TQT_SLOT( editColors() ), actionCollection(), "editcolors" );
+	( void ) new KAction( i18n( "&Coordinate System..." ), "coords.png", 0, this, TQT_SLOT( editAxes() ), actionCollection(), "editaxes" );
+	//  ( void ) new KAction( i18n( "&Grid..." ), "coords.png", 0, this, TQT_SLOT( editGrid() ), actionCollection(), "editgrid" );
+	( void ) new KAction( i18n( "&Scaling..." ), "scaling", 0, this, TQT_SLOT( editScaling() ), actionCollection(), "editscaling" );
+	( void ) new KAction( i18n( "&Fonts..." ), "fonts", 0, this, TQT_SLOT( editFonts() ), actionCollection(), "editfonts" );
 
-	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, SLOT( slotCoord1() ), actionCollection(), "coord_i" );
-	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, SLOT( slotCoord2() ), actionCollection(), "coord_ii" );
-	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, SLOT( slotCoord3() ), actionCollection(), "coord_iii" );
+	( void ) new KAction( i18n( "Coordinate System I" ), "ksys1.png", 0, this, TQT_SLOT( slotCoord1() ), actionCollection(), "coord_i" );
+	( void ) new KAction( i18n( "Coordinate System II" ), "ksys2.png", 0, this, TQT_SLOT( slotCoord2() ), actionCollection(), "coord_ii" );
+	( void ) new KAction( i18n( "Coordinate System III" ), "ksys3.png", 0, this, TQT_SLOT( slotCoord3() ), actionCollection(), "coord_iii" );
 
 	// plot menu
-	( void ) new KAction( i18n( "&New Function Plot..." ), "newfunction", 0, this, SLOT( newFunction() ), actionCollection(), "newfunction" );
-	( void ) new KAction( i18n( "New Parametric Plot..." ), "newparametric", 0, this, SLOT( newParametric() ), actionCollection(), "newparametric" );
-	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, SLOT( newPolar() ), actionCollection(), "newpolar" );
-	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, SLOT( slotEditPlots() ), actionCollection(), "editplots" );
+	( void ) new KAction( i18n( "&New Function Plot..." ), "newfunction", 0, this, TQT_SLOT( newFunction() ), actionCollection(), "newfunction" );
+	( void ) new KAction( i18n( "New Parametric Plot..." ), "newparametric", 0, this, TQT_SLOT( newParametric() ), actionCollection(), "newparametric" );
+	( void ) new KAction( i18n( "New Polar Plot..." ), "newpolar", 0, this, TQT_SLOT( newPolar() ), actionCollection(), "newpolar" );
+	( void ) new KAction( i18n( "Edit Plots..." ), "editplots", 0, this, TQT_SLOT( slotEditPlots() ), actionCollection(), "editplots" );
 
 		// tools menu
-	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), 0, this, SLOT( getYValue() ), actionCollection(), "yvalue" );
-	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value..." ), "minimum", 0, this, SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
-	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value..." ), "maximum", 0, this, SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
-	KAction *mnuArea = new KAction( i18n( "&Calculate Integral" ), 0, this, SLOT( graphArea() ), actionCollection(), "grapharea" );
+	KAction *mnuYValue =  new KAction( i18n( "&Get y-Value..." ), 0, this, TQT_SLOT( getYValue() ), actionCollection(), "yvalue" );
+	KAction *mnuMinValue = new KAction( i18n( "&Search for Minimum Value..." ), "minimum", 0, this, TQT_SLOT( findMinimumValue() ), actionCollection(), "minimumvalue" );
+	KAction *mnuMaxValue = new KAction( i18n( "&Search for Maximum Value..." ), "maximum", 0, this, TQT_SLOT( findMaximumValue() ), actionCollection(), "maximumvalue" );
+	KAction *mnuArea = new KAction( i18n( "&Calculate Integral" ), 0, this, TQT_SLOT( graphArea() ), actionCollection(), "grapharea" );
 
-	connect( m_quickEdit, SIGNAL( returnPressed( const QString& ) ), this, SLOT( slotQuickEdit( const QString& ) ) );
+	connect( m_quickEdit, TQT_SIGNAL( returnPressed( const TQString& ) ), this, TQT_SLOT( slotQuickEdit( const TQString& ) ) );
 	KWidgetAction* quickEditAction =  new KWidgetAction( m_quickEdit, i18n( "Quick Edit" ), 0, this, 0, actionCollection(), "quickedit" );
 	quickEditAction->setWhatsThis( i18n( "Enter a simple function equation here.\n"
 	                                     "For instance: f(x)=x^2\nFor more options use Functions->Edit Plots... menu." ) );
 
-	view->mnuSliders[0] = new KToggleAction( i18n( "Show Slider 1" ), 0, this, SLOT( toggleShowSlider0() ), actionCollection(), QString( "options_configure_show_slider_0" ).latin1() );
-	view->mnuSliders[1] = new KToggleAction( i18n( "Show Slider 2" ), 0, this, SLOT( toggleShowSlider1() ), actionCollection(), QString( "options_configure_show_slider_1" ).latin1() );
-	view->mnuSliders[2] = new KToggleAction( i18n( "Show Slider 3" ), 0, this, SLOT( toggleShowSlider2() ), actionCollection(), QString( "options_configure_show_slider_2" ).latin1() );
-	view->mnuSliders[3] = new KToggleAction( i18n( "Show Slider 4" ), 0, this, SLOT( toggleShowSlider3() ), actionCollection(), QString( "options_configure_show_slider_3" ).latin1() );
+	view->mnuSliders[0] = new KToggleAction( i18n( "Show Slider 1" ), 0, this, TQT_SLOT( toggleShowSlider0() ), actionCollection(), TQString( "options_configure_show_slider_0" ).latin1() );
+	view->mnuSliders[1] = new KToggleAction( i18n( "Show Slider 2" ), 0, this, TQT_SLOT( toggleShowSlider1() ), actionCollection(), TQString( "options_configure_show_slider_1" ).latin1() );
+	view->mnuSliders[2] = new KToggleAction( i18n( "Show Slider 3" ), 0, this, TQT_SLOT( toggleShowSlider2() ), actionCollection(), TQString( "options_configure_show_slider_2" ).latin1() );
+	view->mnuSliders[3] = new KToggleAction( i18n( "Show Slider 4" ), 0, this, TQT_SLOT( toggleShowSlider3() ), actionCollection(), TQString( "options_configure_show_slider_3" ).latin1() );
 
 	// Popup menu
-	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
+	KAction *mnuHide = new KAction(i18n("&Hide") ,0,view, TQT_SLOT( mnuHide_clicked() ),actionCollection(),"mnuhide" );
 	mnuHide->plug(m_popupmenu);
-	KAction *mnuRemove = new KAction(i18n("&Remove"),"editdelete", 0,view, SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
+	KAction *mnuRemove = new KAction(i18n("&Remove"),"editdelete", 0,view, TQT_SLOT( mnuRemove_clicked() ),actionCollection(),"mnuremove"  );
 	mnuRemove->plug(m_popupmenu);
-	KAction *mnuEdit = new KAction(i18n("&Edit"),"editplots", 0,view, SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
+	KAction *mnuEdit = new KAction(i18n("&Edit"),"editplots", 0,view, TQT_SLOT( mnuEdit_clicked() ),actionCollection(),"mnuedit"  );
 	mnuEdit->plug(m_popupmenu);
 	m_popupmenu->insertSeparator();
-	KAction *mnuCopy = new KAction(i18n("&Copy"), 0,view, SLOT( mnuCopy_clicked() ),actionCollection(),"mnucopy"  );
+	KAction *mnuCopy = new KAction(i18n("&Copy"), 0,view, TQT_SLOT( mnuCopy_clicked() ),actionCollection(),"mnucopy"  );
 	mnuCopy->plug(m_popupmenu);
-	KAction *mnuMove = new KAction(i18n("&Move"), 0,view, SLOT( mnuMove_clicked() ),actionCollection(),"mnumove"  );
+	KAction *mnuMove = new KAction(i18n("&Move"), 0,view, TQT_SLOT( mnuMove_clicked() ),actionCollection(),"mnumove"  );
 	mnuMove->plug(m_popupmenu);
 	m_popupmenu->insertSeparator();
 	mnuYValue->plug(m_popupmenu);
@@ -212,7 +212,7 @@ bool MainDlg::checkModified()
 	if( m_modified )
 	{
 		int saveit = KMessageBox::warningYesNoCancel( m_parent, i18n( "The plot has been modified.\n"
-		             "Do you want to save it?" ), QString::null, KStdGuiItem::save(), KStdGuiItem::discard() );
+		             "Do you want to save it?" ), TQString::null, KStdGuiItem::save(), KStdGuiItem::discard() );
 		switch( saveit )
 		{
 			case KMessageBox::Yes:
@@ -249,7 +249,7 @@ void MainDlg::slotSave()
 
 		if ( oldfileversion)
 		{
-			if ( KMessageBox::warningContinueCancel( m_parent, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of Kmplot. Are you sure you want to continue?" ), QString::null, i18n("Save New Format") ) == KMessageBox::Cancel)
+			if ( KMessageBox::warningContinueCancel( m_parent, i18n( "This file is saved with an old file format; if you save it, you cannot open the file with older versions of Kmplot. Are you sure you want to continue?" ), TQString::null, i18n("Save New Format") ) == KMessageBox::Cancel)
 				return;
 		}
 		kmplotio->save( m_url.url() );
@@ -263,7 +263,7 @@ void MainDlg::slotSaveas()
 {
 	if (m_readonly)
 		return;
-	const KURL url = KFileDialog::getSaveURL( QDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
+	const KURL url = KFileDialog::getSaveURL( TQDir::currentDirPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
 
 	if ( !url.isEmpty() )
 	{
@@ -286,7 +286,7 @@ void MainDlg::slotSaveas()
 
 void MainDlg::slotExport()
 {
-	KURL const url = KFileDialog::getSaveURL(QDir::currentDirPath(),
+	KURL const url = KFileDialog::getSaveURL(TQDir::currentDirPath(),
 	                 i18n("*.svg|Scalable Vector Graphics (*.svg)\n"
 	                      "*.bmp|Bitmap 180dpi (*.bmp)\n"
 	                      "*.png|Bitmap 180dpi (*.png)"), m_parent, i18n("Export") );
@@ -297,7 +297,7 @@ void MainDlg::slotExport()
 
 		if( url.fileName().right(4).lower()==".svg")
 		{
-			QPicture pic;
+			TQPicture pic;
 			view->draw(&pic, 2);
 			if (url.isLocalFile() )
 				pic.save( url.prettyURL(0,KURL::StripFileProtocol), "SVG");
@@ -313,7 +313,7 @@ void MainDlg::slotExport()
 
 		else if( url.fileName().right(4).lower()==".bmp")
 		{
-			QPixmap pic(100, 100);
+			TQPixmap pic(100, 100);
 			view->draw(&pic, 3);
 			if (url.isLocalFile() )
 				pic.save(  url.prettyURL(0,KURL::StripFileProtocol), "BMP");
@@ -329,7 +329,7 @@ void MainDlg::slotExport()
 
 		else if( url.fileName().right(4).lower()==".png")
 		{
-			QPixmap pic(100, 100);
+			TQPixmap pic(100, 100);
 			view->draw(&pic, 3);
 			if (url.isLocalFile() )
 				pic.save( url.prettyURL(0,KURL::StripFileProtocol), "PNG");
@@ -366,8 +366,8 @@ void MainDlg::slotOpenRecent( const KURL &url )
 {
 	if( isModified() || !m_url.isEmpty() ) // open the file in a new window
 	{
-		QByteArray data;
-		QDataStream stream(data, IO_WriteOnly);
+		TQByteArray data;
+		TQDataStream stream(data, IO_WriteOnly);
 		stream << url;
 		KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","openFileInNewWindow(KURL)", data);
 		return;
@@ -389,7 +389,7 @@ void MainDlg::slotOpenRecent( const KURL &url )
 
 void MainDlg::slotPrint()
 {
-	KPrinter prt( QPrinter::PrinterResolution );
+	KPrinter prt( TQPrinter::PrinterResolution );
 	prt.setResolution( 72 );
 	prt.addDialogPage( new KPrinterDlg( m_parent, "KmPlot page" ) );
 	if ( prt.setup( m_parent, i18n( "Print Plot" ) ) )
@@ -408,7 +408,7 @@ void MainDlg::editColors()
 
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( colorsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+	connect( colorsDialog, TQT_SIGNAL( settingsChanged() ), this, TQT_SLOT(updateSettings() ) );
 	colorsDialog->show();
 }
 
@@ -420,7 +420,7 @@ void MainDlg::editAxes()
 		coordsDialog = new CoordsConfigDialog( view->parser(), m_parent);
 		// User edited the configuration - update your local copies of the
 		// configuration data
-		connect( coordsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+		connect( coordsDialog, TQT_SIGNAL( settingsChanged() ), this, TQT_SLOT(updateSettings() ) );
 	}
 	coordsDialog->show();
 }
@@ -433,7 +433,7 @@ void MainDlg::editScaling()
 	scalingDialog->addPage( new SettingsPageScaling( 0, "scalingSettings" ), i18n( "Scale" ), "scaling", i18n( "Edit Scaling" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( scalingDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+	connect( scalingDialog, TQT_SIGNAL( settingsChanged() ), this, TQT_SLOT(updateSettings() ) );
 	scalingDialog->show();
 }
 
@@ -445,7 +445,7 @@ void MainDlg::editFonts()
 	fontsDialog->addPage( new SettingsPageFonts( 0, "fontsSettings" ), i18n( "Fonts" ), "fonts", i18n( "Edit Fonts" ) );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( fontsDialog, SIGNAL( settingsChanged() ), this, SLOT(updateSettings() ) );
+	connect( fontsDialog, TQT_SIGNAL( settingsChanged() ), this, TQT_SLOT(updateSettings() ) );
 	fontsDialog->show();
 }
 
@@ -465,7 +465,7 @@ void MainDlg::newFunction()
 	EditFunction* editFunction = new EditFunction( view->parser(), m_parent );
 	editFunction->setCaption(i18n( "New Function Plot" ) );
 	editFunction->initDialog();
-	if ( editFunction->exec() == QDialog::Accepted )
+	if ( editFunction->exec() == TQDialog::Accepted )
 	{
 		m_modified = true;
 		view->updateSliders();
@@ -478,7 +478,7 @@ void MainDlg::newParametric()
 	KEditParametric* editParametric = new KEditParametric( view->parser(), m_parent );
 	editParametric->setCaption(i18n( "New Parametric Plot"));
 	editParametric->initDialog();
-	if ( editParametric->exec() == QDialog::Accepted )
+	if ( editParametric->exec() == TQDialog::Accepted )
 	{
 		m_modified = true;
 		view->drawPlot();
@@ -491,7 +491,7 @@ void MainDlg::newPolar()
 	KEditPolar* editPolar = new KEditPolar( view->parser(), m_parent );
 	editPolar->setCaption(i18n( "New Polar Plot"));
 	editPolar->initDialog();
-	if (  editPolar->exec() == QDialog::Accepted )
+	if (  editPolar->exec() == TQDialog::Accepted )
 	{
 		m_modified = true;
 		view->drawPlot();
@@ -505,7 +505,7 @@ void MainDlg::slotEditPlots()
 	fdlg->getPlots();
 	KTempFile tmpfile;
 	kmplotio->save( tmpfile.name() );
-	if( fdlg->exec() == QDialog::Rejected )
+	if( fdlg->exec() == TQDialog::Rejected )
 	{
 		if ( fdlg->isChanged() )
 		{
@@ -522,10 +522,10 @@ void MainDlg::slotEditPlots()
 	tmpfile.unlink();
 }
 
-void MainDlg::slotQuickEdit(const QString& f_str_const )
+void MainDlg::slotQuickEdit(const TQString& f_str_const )
 {
 	//creates a valid name for the function if the user has forgotten that
-  	QString f_str( f_str_const );
+  	TQString f_str( f_str_const );
 	int const pos = f_str_const.find(';');
 	if (pos!=-1)
 	  f_str = f_str.left(pos);
@@ -557,7 +557,7 @@ void MainDlg::slotQuickEdit(const QString& f_str_const )
 	Ufkt *ufkt = &view->parser()->ufkt.last();
 	view->parser()->prepareAddingFunction(ufkt);
 
-	if ( pos!=-1 && !view->parser()->getext(ufkt, QString(f_str_const)))
+	if ( pos!=-1 && !view->parser()->getext(ufkt, TQString(f_str_const)))
 	{
 		m_quickEdit->setFocus();
 		m_quickEdit->selectAll();
@@ -613,9 +613,9 @@ void MainDlg::loadConstants()
 {
 	KSimpleConfig conf ("kcalcrc");
 	conf.setGroup("UserConstants");
-	QString tmp;
-	QString tmp_constant;
-	QString tmp_value;
+	TQString tmp;
+	TQString tmp_constant;
+	TQString tmp_value;
 	char constant;
 	double value;
 	for( int i=0; ;i++)
@@ -644,7 +644,7 @@ void MainDlg::loadConstants()
 			while (!copy_found)
 			{
 				// go through the constant list
-				QValueVector<Constant>::iterator it =  view->parser()->constant.begin();
+				TQValueVector<Constant>::iterator it =  view->parser()->constant.begin();
 				while (it!= view->parser()->constant.end() && !copy_found)
 				{
 					if (constant == it->constant )
@@ -677,11 +677,11 @@ void MainDlg::saveConstants()
 	KSimpleConfig conf ("kcalcrc");
 	conf.deleteGroup("Constants");
 	conf.setGroup("UserConstants");
-	QString tmp;
+	TQString tmp;
 	for( int i = 0; i< (int)view->parser()->constant.size();i++)
 	{
 		tmp.setNum(i);
-		conf.writeEntry("nameConstant"+tmp, QString( QChar(view->parser()->constant[i].constant) ) ) ;
+		conf.writeEntry("nameConstant"+tmp, TQString( TQChar(view->parser()->constant[i].constant) ) ) ;
 		conf.writeEntry("valueConstant"+tmp, view->parser()->constant[i].value);
 	}
 }
@@ -736,8 +736,8 @@ void MainDlg::toggleShowSlider(int const num)
 	if ( view->sliders[ num ] == 0 )
 	{
 		view->sliders[ num ] = new KSliderWindow( view, num);
-		connect( view->sliders[num]->slider, SIGNAL( valueChanged( int ) ), view, SLOT( drawPlot() ) );
-		connect( view->sliders[num], SIGNAL( windowClosed( int ) ), view, SLOT( sliderWindowClosed(int) ) );
+		connect( view->sliders[num]->slider, TQT_SIGNAL( valueChanged( int ) ), view, TQT_SLOT( drawPlot() ) );
+		connect( view->sliders[num], TQT_SIGNAL( windowClosed( int ) ), view, TQT_SLOT( sliderWindowClosed(int) ) );
 	}
 	if ( !view->sliders[ num ]->isShown() )
 		view->sliders[ num ]->show();
@@ -745,19 +745,19 @@ void MainDlg::toggleShowSlider(int const num)
 		view->sliders[ num ]->hide();
 }
 
-void MainDlg::setReadOnlyStatusBarText(const QString &text)
+void MainDlg::setReadOnlyStatusBarText(const TQString &text)
 {
 	setStatusBarText(text);
 }
 
 void MainDlg::optionsConfigureKeys()
 {
-	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureKeys()", QByteArray());
+	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureKeys()", TQByteArray());
 }
 
 void MainDlg::optionsConfigureToolbars()
 {
-	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureToolbars()", QByteArray());
+	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureToolbars()", TQByteArray());
 }
 
 void MainDlg::resetZoom()
@@ -785,9 +785,9 @@ KmPlotPartFactory::~KmPlotPartFactory()
 	s_instance = 0L;
 }
 
-KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget, const char *widgetName,
-        QObject *parent, const char *name,
-        const char *, const QStringList & )
+KParts::Part* KmPlotPartFactory::createPartObject( TQWidget *parentWidget, const char *widgetName,
+        TQObject *parent, const char *name,
+        const char *, const TQStringList & )
 {
 	// Create an instance of our Part
 	MainDlg* obj = new MainDlg( parentWidget, widgetName, parent, name );

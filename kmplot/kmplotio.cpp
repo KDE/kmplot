@@ -24,8 +24,8 @@
 */
 
 // Qt includes
-#include <qdom.h>
-#include <qfile.h>
+#include <tqdom.h>
+#include <tqfile.h>
 
 // KDE includes
 #include <kio/netaccess.h>
@@ -54,14 +54,14 @@ KmPlotIO::~KmPlotIO()
 bool KmPlotIO::save( const KURL &url )
 {
 	// saving as xml by a QDomDocument
-	QDomDocument doc( "kmpdoc" );
+	TQDomDocument doc( "kmpdoc" );
 	// the root tag
-	QDomElement root = doc.createElement( "kmpdoc" );
+	TQDomElement root = doc.createElement( "kmpdoc" );
 	root.setAttribute( "version", "2" );
 	doc.appendChild( root );
 
 	// the axes tag
-	QDomElement tag = doc.createElement( "axes" );
+	TQDomElement tag = doc.createElement( "axes" );
 
 	tag.setAttribute( "color", Settings::axesColor().name() );
 	tag.setAttribute( "width", Settings::axesLineWidth() );
@@ -74,14 +74,14 @@ bool KmPlotIO::save( const KURL &url )
 	addTag( doc, tag, "show-frame", Settings::showExtraFrame() ? "1" : "-1" );
 	addTag( doc, tag, "show-extra-frame", Settings::showExtraFrame() ? "1" : "-1" );
 
-	addTag( doc, tag, "xcoord", QString::number( Settings::xRange() ) );
+	addTag( doc, tag, "xcoord", TQString::number( Settings::xRange() ) );
 	if( Settings::xRange() == 4 ) // custom plot range
 	{
 		addTag( doc, tag, "xmin", Settings::xMin() );
 		addTag( doc, tag, "xmax", Settings::xMax() );
 	}
 
-	addTag( doc, tag, "ycoord", QString::number( Settings::yRange() ) );
+	addTag( doc, tag, "ycoord", TQString::number( Settings::yRange() ) );
 	if( Settings::yRange() == 4 ) // custom plot range
 	{
 		addTag( doc, tag, "ymin", Settings::yMin() );
@@ -95,13 +95,13 @@ bool KmPlotIO::save( const KURL &url )
 	tag.setAttribute( "color", Settings::gridColor().name() );
 	tag.setAttribute( "width", Settings::gridLineWidth() );
 
-	addTag( doc, tag, "mode", QString::number( Settings::gridStyle() ) );
+	addTag( doc, tag, "mode", TQString::number( Settings::gridStyle() ) );
 
 	root.appendChild( tag );
 
 	tag = doc.createElement( "scale" );
 
-	QString temp;
+	TQString temp;
 	temp.setNum(Settings::xScaling());
 	addTag( doc, tag, "tic-x", temp );
 	temp.setNum(Settings::yScaling());
@@ -114,7 +114,7 @@ bool KmPlotIO::save( const KURL &url )
 	root.appendChild( tag );
 
 
-	for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	for( TQValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
 		if ( !it->fstr.isEmpty() )
 		{
@@ -122,28 +122,28 @@ bool KmPlotIO::save( const KURL &url )
 
 			//tag.setAttribute( "number", ix );
 			tag.setAttribute( "visible", it->f_mode );
-			tag.setAttribute( "color", QColor( it->color ).name() );
+			tag.setAttribute( "color", TQColor( it->color ).name() );
 			tag.setAttribute( "width", it->linewidth );
 			tag.setAttribute( "use-slider", it->use_slider );
 
 			if ( it->f1_mode)
 			{
 				tag.setAttribute( "visible-deriv", it->f1_mode );
-				tag.setAttribute( "deriv-color", QColor( it->f1_color ).name() );
+				tag.setAttribute( "deriv-color", TQColor( it->f1_color ).name() );
 				tag.setAttribute( "deriv-width", it->f1_linewidth );
 			}
 
 			if ( it->f2_mode)
 			{
 				tag.setAttribute( "visible-2nd-deriv", it->f2_mode );
-				tag.setAttribute( "deriv2nd-color", QColor( it->f2_color ).name() );
+				tag.setAttribute( "deriv2nd-color", TQColor( it->f2_color ).name() );
 				tag.setAttribute( "deriv2nd-width", it->f2_linewidth );
 			}
 
 			if ( it->integral_mode)
 			{
 				tag.setAttribute( "visible-integral", "1" );
-				tag.setAttribute( "integral-color", QColor( it->integral_color ).name() );
+				tag.setAttribute( "integral-color", TQColor( it->integral_color ).name() );
 				tag.setAttribute( "integral-width", it->integral_linewidth );
 				tag.setAttribute( "integral-use-precision", it->integral_use_precision );
 				tag.setAttribute( "integral-precision", it->integral_precision );
@@ -153,8 +153,8 @@ bool KmPlotIO::save( const KURL &url )
 
 			addTag( doc, tag, "equation", it->fstr );
 
-			QStringList str_parameters;
-			for ( QValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
+			TQStringList str_parameters;
+			for ( TQValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
 				str_parameters.append( (*k).expression);
 			
 			if( !str_parameters.isEmpty() )
@@ -175,7 +175,7 @@ bool KmPlotIO::save( const KURL &url )
 	addTag( doc, tag, "header-table-font", Settings::headerTableFont() );
 	root.appendChild( tag );
 
-	QFile xmlfile;
+	TQFile xmlfile;
 	if (!url.isLocalFile() )
 	{
 		KTempFile tmpfile;
@@ -185,7 +185,7 @@ bool KmPlotIO::save( const KURL &url )
 			tmpfile.unlink();
 			return false;
 		}
-		QTextStream ts( &xmlfile );
+		TQTextStream ts( &xmlfile );
 		doc.save( ts, 4 );
 		xmlfile.close();
 
@@ -201,7 +201,7 @@ bool KmPlotIO::save( const KURL &url )
 		xmlfile.setName(url.prettyURL(0,KURL::StripFileProtocol)  );
 		if (!xmlfile.open( IO_WriteOnly ) )
 			return false;
-		QTextStream ts( &xmlfile );
+		TQTextStream ts( &xmlfile );
 		doc.save( ts, 4 );
 		xmlfile.close();
 		return true;
@@ -210,18 +210,18 @@ bool KmPlotIO::save( const KURL &url )
 
 }
 
-void KmPlotIO::addTag( QDomDocument &doc, QDomElement &parentTag, const QString tagName, const QString tagValue )
+void KmPlotIO::addTag( TQDomDocument &doc, TQDomElement &parentTag, const TQString tagName, const TQString tagValue )
 {
-	QDomElement tag = doc.createElement( tagName );
-	QDomText value = doc.createTextNode( tagValue );
+	TQDomElement tag = doc.createElement( tagName );
+	TQDomText value = doc.createTextNode( tagValue );
 	tag.appendChild( value );
 	parentTag.appendChild( tag );
 }
 
 bool KmPlotIO::load( const KURL &url )
 {
-	QDomDocument doc( "kmpdoc" );
-	QFile f;
+	TQDomDocument doc( "kmpdoc" );
+	TQFile f;
 	if ( !url.isLocalFile() )
 	{
 		if( !KIO::NetAccess::exists( url, true, 0 ) )
@@ -229,7 +229,7 @@ bool KmPlotIO::load( const KURL &url )
 			KMessageBox::error(0,i18n("The file does not exist."));
 			return false;
 		}
-		QString tmpfile;
+		TQString tmpfile;
 		if( !KIO::NetAccess::download( url, tmpfile, 0 ) )
 		{
 			KMessageBox::error(0,i18n("An error appeared when opening this file"));
@@ -253,12 +253,12 @@ bool KmPlotIO::load( const KURL &url )
 	}
 	f.close();
 
-	QDomElement element = doc.documentElement();
-	QString version = element.attribute( "version" );
+	TQDomElement element = doc.documentElement();
+	TQString version = element.attribute( "version" );
 	if ( version.isNull()) //an old kmplot-file
 	{
 		MainDlg::oldfileversion = true;
-		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
+		for ( TQDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
 		{
 			if ( n.nodeName() == "axes" )
 				oldParseAxes( n.toElement() );
@@ -273,7 +273,7 @@ bool KmPlotIO::load( const KURL &url )
 	else if (version == "1" || version == "2")
 	{
 		MainDlg::oldfileversion = false;
-		for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
+		for ( TQDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
 		{
 			if ( n.nodeName() == "axes" )
 				parseAxes( n.toElement() );
@@ -293,10 +293,10 @@ bool KmPlotIO::load( const KURL &url )
 	return true;
 }
 
-void KmPlotIO::parseAxes( const QDomElement &n )
+void KmPlotIO::parseAxes( const TQDomElement &n )
 {
 	Settings::setAxesLineWidth( n.attribute( "width", "1" ).toInt() );
-	Settings::setAxesColor( QColor( n.attribute( "color", "#000000" ) ) );
+	Settings::setAxesColor( TQColor( n.attribute( "color", "#000000" ) ) );
 	Settings::setTicWidth( n.attribute( "tic-width", "3" ).toInt() );
 	Settings::setTicLength( n.attribute( "tic-length", "10" ).toInt() );
 
@@ -313,17 +313,17 @@ void KmPlotIO::parseAxes( const QDomElement &n )
 	Settings::setYMax( n.namedItem( "ymax" ).toElement().text() );
 }
 
-void KmPlotIO::parseGrid( const QDomElement & n )
+void KmPlotIO::parseGrid( const TQDomElement & n )
 {
-	Settings::setGridColor( QColor( n.attribute( "color", "#c0c0c0" ) ) );
+	Settings::setGridColor( TQColor( n.attribute( "color", "#c0c0c0" ) ) );
 	Settings::setGridLineWidth( n.attribute( "width", "1" ).toInt() );
 
 	Settings::setGridStyle( n.namedItem( "mode" ).toElement().text().toInt() );
 }
 
-int unit2index( const QString unit )
+int unit2index( const TQString unit )
 {
-	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
+	TQString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
 	int index = 0;
 	while( ( index < 9 ) && ( unit!= units[ index ] ) ) index ++;
 	if( index == 9 ) index = -1;
@@ -331,7 +331,7 @@ int unit2index( const QString unit )
 }
 
 
-void KmPlotIO::parseScale(const QDomElement & n )
+void KmPlotIO::parseScale(const TQDomElement & n )
 {
 	Settings::setXScaling(  n.namedItem( "tic-x" ).toElement().text().toInt()  );
 	Settings::setYScaling(  n.namedItem( "tic-y" ).toElement().text().toInt() );
@@ -339,15 +339,15 @@ void KmPlotIO::parseScale(const QDomElement & n )
 	Settings::setYPrinting(  n.namedItem( "print-tic-y" ).toElement().text().toInt() );
 }
 
-void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
+void KmPlotIO::parseFunction( XParser *m_parser, const TQDomElement & n )
 {
-	QString temp;
+	TQString temp;
 	Ufkt ufkt;
 	m_parser->prepareAddingFunction(&ufkt);
 	int const next_index=m_parser->getNextIndex()+1;
 
 	ufkt.f_mode = n.attribute( "visible" ).toInt();
-	ufkt.color = QColor( n.attribute( "color" ) ).rgb();
+	ufkt.color = TQColor( n.attribute( "color" ) ).rgb();
 	ufkt.linewidth = n.attribute( "width" ).toInt();
 	ufkt.use_slider = n.attribute( "use-slider" ).toInt();
 
@@ -355,7 +355,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	if (!temp.isNull())
 	{
 		ufkt.f1_mode = temp.toInt();
-		ufkt.f1_color = QColor(n.attribute( "deriv-color" )).rgb();
+		ufkt.f1_color = TQColor(n.attribute( "deriv-color" )).rgb();
 		ufkt.f1_linewidth = n.attribute( "deriv-width" ).toInt();
 	}
 	else
@@ -369,7 +369,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	if (!temp.isNull())
 	{
 		ufkt.f2_mode = temp.toInt();
-		ufkt.f2_color = QColor(n.attribute( "deriv2nd-color" )).rgb();
+		ufkt.f2_color = TQColor(n.attribute( "deriv2nd-color" )).rgb();
 		ufkt.f2_linewidth = n.attribute( "deriv2nd-width" ).toInt();
 	}
 	else
@@ -383,7 +383,7 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	if (!temp.isNull())
 	{
 		ufkt.integral_mode = temp.toInt();
-		ufkt.integral_color = QColor(n.attribute( "integral-color" )).rgb();
+		ufkt.integral_color = TQColor(n.attribute( "integral-color" )).rgb();
 		ufkt.integral_linewidth = n.attribute( "integral-width" ).toInt();
 		ufkt.integral_use_precision = n.attribute( "integral-use-precision" ).toInt();
 		ufkt.integral_precision = n.attribute( "integral-precision" ).toInt();
@@ -432,11 +432,11 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	else
 		parseParameters( m_parser, n, ufkt );
 
-	QString fstr = ufkt.fstr;
+	TQString fstr = ufkt.fstr;
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.find( ';' );
-		QString str;
+		TQString str;
 		if ( i == -1 )
 			str = fstr;
 		else
@@ -473,27 +473,27 @@ void KmPlotIO::parseFunction( XParser *m_parser, const QDomElement & n )
 	}
 }
 
-void KmPlotIO::parseParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
+void KmPlotIO::parseParameters( XParser *m_parser, const TQDomElement &n, Ufkt &ufkt  )
 {
-	QStringList str_parameters;
-	for ( QValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
+	TQStringList str_parameters;
+	for ( TQValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
 		str_parameters.append( (*it).expression);
-	str_parameters = QStringList::split( ";", n.namedItem( "parameterlist" ).toElement().text() );
-	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
+	str_parameters = TQStringList::split( ";", n.namedItem( "parameterlist" ).toElement().text() );
+	for( TQStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
 		ufkt.parameters.append( ParameterValueItem( *it, m_parser->eval( *it ) ));
 }
 
-void KmPlotIO::parseThreeDotThreeParameters( XParser *m_parser, const QDomElement &n, Ufkt &ufkt  )
+void KmPlotIO::parseThreeDotThreeParameters( XParser *m_parser, const TQDomElement &n, Ufkt &ufkt  )
 {
-	QStringList str_parameters;
-	for ( QValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
+	TQStringList str_parameters;
+	for ( TQValueList<ParameterValueItem>::Iterator it = ufkt.parameters.begin(); it != ufkt.parameters.end(); ++it )
 		str_parameters.append( (*it).expression);
-	str_parameters = QStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
-	for( QStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
+	str_parameters = TQStringList::split( ",", n.namedItem( "parameterlist" ).toElement().text() );
+	for( TQStringList::Iterator it = str_parameters.begin(); it != str_parameters.end(); ++it )
 		ufkt.parameters.append( ParameterValueItem( *it, m_parser->eval( *it ) ));
 }
 
-void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
+void KmPlotIO::oldParseFunction(  XParser *m_parser, const TQDomElement & n )
 {
 	kdDebug() << "parsing old function" << endl;
 	Ufkt ufkt;
@@ -505,7 +505,7 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	ufkt.f2_mode = 0;
 	ufkt.linewidth = n.attribute( "width" ).toInt();
 	ufkt.use_slider = -1;
-	ufkt.color = ufkt.f1_color = ufkt.f2_color = ufkt.integral_color = QColor( n.attribute( "color" ) ).rgb();
+	ufkt.color = ufkt.f1_color = ufkt.f2_color = ufkt.integral_color = TQColor( n.attribute( "color" ) ).rgb();
 
 	ufkt.str_dmin = n.namedItem( "arg-min" ).toElement().text();
 	if( ufkt.str_dmin.isEmpty() )
@@ -529,7 +529,7 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	  ufkt.usecustomxmax = false;
 	}
 	
-	const QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
+	const TQString tmp_fstr = n.namedItem( "equation" ).toElement().text();
 	const int pos = tmp_fstr.find(';');
 	if ( pos == -1 )
 	  ufkt.fstr = tmp_fstr;
@@ -543,11 +543,11 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	  }
 	}
 
-	QString fstr = ufkt.fstr;
+	TQString fstr = ufkt.fstr;
 	if ( !fstr.isEmpty() )
 	{
 		int const i = fstr.find( ';' );
-		QString str;
+		TQString str;
 		if ( i == -1 )
 			str = fstr;
 		else
@@ -584,10 +584,10 @@ void KmPlotIO::oldParseFunction(  XParser *m_parser, const QDomElement & n )
 	}
 }
 
-void KmPlotIO::oldParseAxes( const QDomElement &n )
+void KmPlotIO::oldParseAxes( const TQDomElement &n )
 {
 	Settings::setAxesLineWidth( n.attribute( "width", "1" ).toInt() );
-	Settings::setAxesColor( QColor( n.attribute( "color", "#000000" ) ) );
+	Settings::setAxesColor( TQColor( n.attribute( "color", "#000000" ) ) );
 	Settings::setTicWidth( n.attribute( "tic-width", "3" ).toInt() );
 	Settings::setTicLength( n.attribute( "tic-length", "10" ).toInt() );
 
@@ -604,7 +604,7 @@ void KmPlotIO::oldParseAxes( const QDomElement &n )
 	Settings::setYMax( n.namedItem( "ymax" ).toElement().text() );
 }
 
-void KmPlotIO::oldParseScale( const QDomElement & n )
+void KmPlotIO::oldParseScale( const TQDomElement & n )
 {
 	Settings::setXScaling( unit2index( n.namedItem( "tic-x" ).toElement().text() ) );
 	Settings::setYScaling( unit2index( n.namedItem( "tic-y" ).toElement().text() ) );

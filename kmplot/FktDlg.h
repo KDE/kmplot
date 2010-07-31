@@ -52,7 +52,7 @@ public:
 	 * @param parent Parent widget.
 	 * @param view points to the current view instance.
 	 */
-	FktDlg( QWidget* parent, View* view );
+	FktDlg( TQWidget* parent, View* view );
 	/// Empty destructor.
 	virtual ~FktDlg();
 	/// Fill the widgets with plots contained in the parser instance.
@@ -72,9 +72,9 @@ protected slots:
 	void slotEdit();
 	/// Enables/disables actions if the list has a/no selection.
 	void slotHasSelection();
-	void lb_fktliste_doubleClicked(QListViewItem *, const QPoint &, int);
-	void lb_fktliste_clicked(QListViewItem * item);
-	void lb_fktliste_spacePressed(QListViewItem * item);
+	void lb_fktliste_doubleClicked(TQListViewItem *, const TQPoint &, int);
+	void lb_fktliste_clicked(TQListViewItem * item);
+	void lb_fktliste_spacePressed(TQListViewItem * item);
 	
 	/// Edit a function plot.
 	/// @param id Id of the function plot to edit
@@ -100,13 +100,13 @@ protected slots:
 	
 private:
 	/// Looks up the id of \a f_str in the parser instance.
-	int getId( const QString &f_str );
+	int getId( const TQString &f_str );
 	/// Looks up the indices of the parametric pair of function.
-	int getParamId( const QString &f_str );
+	int getParamId( const TQString &f_str );
 	/// Update the view of the main window.
 	void updateView();
 	/// Called when the dialog is showed
-	void showEvent ( QShowEvent * );
+	void showEvent ( TQShowEvent * );
 	// /// Send a function to an other instance of Kmplot. Returns true if it success, otherwise false
 	// bool sendFunction();
 	

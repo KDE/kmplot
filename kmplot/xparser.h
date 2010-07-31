@@ -51,7 +51,7 @@ public:
 	/// Evaluates the 2nd dreivative of the function with intex \a ix
 	double a2fkt( Ufkt *, double, double h = 1e-3 );
         /// calculate euler's method when drawing a numeric prime-function
-        double euler_method(const double, const QValueVector<Ufkt>::iterator);
+        double euler_method(const double, const TQValueVector<Ufkt>::iterator);
         
         /// Line width default
         int linewidth0;
@@ -59,7 +59,7 @@ public:
 	
 	enum { Function, Polar, ParametricX, ParametricY }; ///types of functions
 	///Returns an unused function name if it is needed
-	void fixFunctionName(QString &, int const = XParser::Function , int const=-1);
+	void fixFunctionName(TQString &, int const = XParser::Function , int const=-1);
         
         /// Returns the index for the next function.
         int getNextIndex();
@@ -67,15 +67,15 @@ public:
         void prepareAddingFunction(Ufkt *item);
         
         /// Interpretates the extended function string (only used by the old file format)
-	bool getext( Ufkt *, const QString );
+	bool getext( Ufkt *, const TQString );
 	
 	/// Send a function to an other instance of Kmplot. Returns true if it success, otherwise false
-	bool sendFunction(int id, const QString &dcopclient_target="");
+	bool sendFunction(int id, const TQString &dcopclient_target="");
 	
 	/// Functions for the DCOP interface:
 
 	/// Returns a list with all functions
-	QStringList listFunctionNames();
+	TQStringList listFunctionNames();
 
 	/// Returns true if the graph is visible, otherwise false.
 	bool functionFVisible(uint id);
@@ -89,19 +89,19 @@ public:
 	bool setFunctionIntVisible(bool visible, uint id);
 	
 	/// Returns the function expression, or an empty string if the function couldn't be found
-	QString functionStr(uint id);
+	TQString functionStr(uint id);
 	/// Returns the complete function string including the extensions of a function, or an empty string if the function couldn't be found
 	
 	/// Get the color of a graph
-	QColor functionFColor(uint id);
-	QColor functionF1Color(uint id);
-	QColor functionF2Color(uint id);
-	QColor functionIntColor(uint id);
+	TQColor functionFColor(uint id);
+	TQColor functionF1Color(uint id);
+	TQColor functionF2Color(uint id);
+	TQColor functionIntColor(uint id);
 	/// Set the color of a graph. Returns true if it succeeds, otherwise false.
-	bool setFunctionFColor(const QColor &color, uint id);
-	bool setFunctionF1Color(const QColor &color, uint id);
-	bool setFunctionF2Color(const QColor &color, uint id);
-	bool setFunctionIntColor(const QColor &color, uint id);
+	bool setFunctionFColor(const TQColor &color, uint id);
+	bool setFunctionF1Color(const TQColor &color, uint id);
+	bool setFunctionF2Color(const TQColor &color, uint id);
+	bool setFunctionIntColor(const TQColor &color, uint id);
 	
 	/// Get the line width of a graph
 	int functionFLineWidth(uint id);
@@ -115,30 +115,30 @@ public:
 	bool setFunctionIntLineWidth(int linewidth, uint id);
 		
 	/// Returns the function's parameter list
-	QStringList functionParameterList(uint id);
-	bool functionAddParameter(const QString &new_parameter, uint id);
-	bool functionRemoveParameter(const QString &remove_parameter, uint id);
-	int addFunction(const QString &f_str);
-	bool addFunction(const QString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider);
-	bool setFunctionExpression(const QString &f_str, uint id);
+	TQStringList functionParameterList(uint id);
+	bool functionAddParameter(const TQString &new_parameter, uint id);
+	bool functionRemoveParameter(const TQString &remove_parameter, uint id);
+	int addFunction(const TQString &f_str);
+	bool addFunction(const TQString &extstr, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const TQString &str_dmin, const TQString &str_dmax, const TQString &str_startx, const TQString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, TQStringList str_parameter, int use_slider);
+	bool setFunctionExpression(const TQString &f_str, uint id);
 	
 	/// Get the min and max value of a graph
-	QString functionMinValue(uint id);
-	QString functionMaxValue(uint id);
+	TQString functionMinValue(uint id);
+	TQString functionMaxValue(uint id);
 	/// Set the min and max values of a graph. Returns true if it succeeds, otherwise false.
-	bool setFunctionMinValue(const QString &min, uint id);
-	bool setFunctionMaxValue(const QString &max, uint id);
+	bool setFunctionMinValue(const TQString &min, uint id);
+	bool setFunctionMaxValue(const TQString &max, uint id);
 	
 	/// Get the startx and starty value of a graph
-	QString functionStartXValue(uint id);
-	QString functionStartYValue(uint id);
+	TQString functionStartXValue(uint id);
+	TQString functionStartYValue(uint id);
 	/// Set the startx and starty values of a graph. Returns true if it succeeds, otherwise false.
-	bool setFunctionStartXValue(const QString &x, uint id);
-	bool setFunctionStartYValue(const QString &y, uint id);
+	bool setFunctionStartXValue(const TQString &x, uint id);
+	bool setFunctionStartYValue(const TQString &y, uint id);
 private:
         
 	/// finds a free function name 
-	void findFunctionName(QString &, int const, int const);
+	void findFunctionName(TQString &, int const, int const);
 	/// indicates if the widget is changed
 	bool &m_modified;
 };

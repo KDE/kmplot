@@ -23,10 +23,10 @@
 *
 */
 // Qt includes
-#include <qcursor.h>
-#include <qslider.h>
-#include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <tqcursor.h>
+#include <tqslider.h>
+#include <tqtooltip.h>
+#include <tqwhatsthis.h>
 
 // KDE includes
 #include <kaction.h>
@@ -42,16 +42,16 @@
 // local includes
 #include "ksliderwindow.h"
 
-KSliderWindow::KSliderWindow(QWidget* parent, int num ) :
+KSliderWindow::KSliderWindow(TQWidget* parent, int num ) :
 	SliderWindow( parent, "", false, Qt::WStyle_Tool-Qt::WStyle_Maximize ), m_num(num)
 {
 	setCaption(i18n( "Slider %1" ).arg( num+1 ) );
-	QToolTip::add( slider, i18n( "Slider no. %1" ).arg( num+1 ));
-	QWhatsThis::add( this, i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
+	TQToolTip::add( slider, i18n( "Slider no. %1" ).arg( num+1 ));
+	TQWhatsThis::add( this, i18n( "Move slider to change the parameter of the function plot connected to this slider." ) );
 	
 	// load the min and max value + the current value
 	KConfig config( "kmplotrc" );
-	config.setGroup( "slider" + QString::number(num) );
+	config.setGroup( "slider" + TQString::number(num) );
 	slider->setMinValue( config.readNumEntry( "min", 0) );
 	slider->setMaxValue( config.readNumEntry( "max", 100) );
 	slider->setValue( config.readNumEntry( "value", 50) );
@@ -61,9 +61,9 @@ KSliderWindow::KSliderWindow(QWidget* parent, int num ) :
 	installEventFilter(this);
 	
 	m_popupmenu = new KPopupMenu(this);
-	KAction *mnuMinValue = new KAction(i18n("&Change Minimum Value") ,0,this, SLOT( mnuMinValue_clicked() ),0);
+	KAction *mnuMinValue = new KAction(i18n("&Change Minimum Value") ,0,this, TQT_SLOT( mnuMinValue_clicked() ),0);
 	mnuMinValue->plug(m_popupmenu);
-	KAction *mnuMaxValue = new KAction(i18n("&Change Maximum Value") ,0,this, SLOT( mnuMaxValue_clicked() ),0 );
+	KAction *mnuMaxValue = new KAction(i18n("&Change Maximum Value") ,0,this, TQT_SLOT( mnuMaxValue_clicked() ),0 );
 	mnuMaxValue->plug(m_popupmenu);
 }
 
@@ -71,26 +71,26 @@ KSliderWindow::~KSliderWindow()
 {
 	// save the min and max value + the current value
 	KConfig config( "kmplotrc" );
-	config.setGroup( "slider" + QString::number(m_num) );
+	config.setGroup( "slider" + TQString::number(m_num) );
 	config.writeEntry( "min", slider->minValue() );
 	config.writeEntry( "max", slider->maxValue() );
 	config.writeEntry( "value", slider->value() );
 }
 
-bool KSliderWindow::eventFilter( QObject *obj, QEvent *ev )
+bool KSliderWindow::eventFilter( TQObject *obj, TQEvent *ev )
 {
-	if (ev->type() == QEvent::MouseButtonPress)
+	if (ev->type() == TQEvent::MouseButtonPress)
 	{
-		QMouseEvent *e = (QMouseEvent *)ev;
+		TQMouseEvent *e = (TQMouseEvent *)ev;
  		if (e->button() != Qt::RightButton)
 			return SliderWindow::eventFilter( obj, ev );
-		m_popupmenu->exec(QCursor::pos());
+		m_popupmenu->exec(TQCursor::pos());
 		return true;
 	}
 	return SliderWindow::eventFilter( obj, ev );
 }
 
-void KSliderWindow::closeEvent( QCloseEvent * e)
+void KSliderWindow::closeEvent( TQCloseEvent * e)
 {
 	emit windowClosed(m_num);
 	e->accept();

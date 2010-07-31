@@ -39,7 +39,7 @@ class KParameterEditor : public QParameterEditor
 {
 Q_OBJECT
 public:
-    KParameterEditor(XParser *, QValueList<ParameterValueItem> *, QWidget *parent = 0, const char *name = 0);
+    KParameterEditor(XParser *, TQValueList<ParameterValueItem> *, TQWidget *parent = 0, const char *name = 0);
     ~KParameterEditor();
     
 public slots:
@@ -48,14 +48,14 @@ public slots:
     void cmdDelete_clicked();
     void cmdImport_clicked();
     void cmdExport_clicked();
-    void varlist_clicked( QListBoxItem *  );
-    void varlist_doubleClicked( QListBoxItem * );
+    void varlist_clicked( TQListBoxItem *  );
+    void varlist_doubleClicked( TQListBoxItem * );
   
     
 private:
     /// Check so that it doesn't exist two equal values
-    bool checkTwoOfIt( const QString & text);
-    QValueList<ParameterValueItem> *m_parameter;
+    bool checkTwoOfIt( const TQString & text);
+    TQValueList<ParameterValueItem> *m_parameter;
     XParser *m_parser;
 };
 

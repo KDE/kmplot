@@ -37,7 +37,7 @@ class KEditConstant : public QEditConstant
 {
 Q_OBJECT
 public:
-    KEditConstant(XParser *p, char &, QString &,QWidget *parent = 0, const char *name = 0);
+    KEditConstant(XParser *p, char &, TQString &,TQWidget *parent = 0, const char *name = 0);
     ~KEditConstant();
    
 public slots:
@@ -50,7 +50,7 @@ signals:
         
 private:
     char &constant;
-    QString &value;
+    TQString &value;
     XParser *m_parser;
     
 

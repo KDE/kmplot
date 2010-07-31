@@ -27,14 +27,14 @@
 
 #include <kprogress.h>
 #include <kpushbutton.h>
-#include <qwidget.h>
+#include <tqwidget.h>
 
 /// The progress-widget in the statusbar which appears when drawing integrals
 class KmPlotProgress: public QWidget
 {
 	Q_OBJECT
 public:
-	KmPlotProgress( QWidget* parent = 0, const char* name = 0 );
+	KmPlotProgress( TQWidget* parent = 0, const char* name = 0 );
 	~KmPlotProgress();
 	void increase();
 

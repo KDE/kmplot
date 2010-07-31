@@ -38,7 +38,7 @@ class KConstantEditor : public QConstantEditor
 {
 Q_OBJECT
 public:
-    KConstantEditor(View *, QWidget *parent = 0, const char *name = 0);
+    KConstantEditor(View *, TQWidget *parent = 0, const char *name = 0);
     ~KConstantEditor();
     
 public slots:
@@ -49,8 +49,8 @@ public slots:
     void cmdDuplicate_clicked();
     
     ///actions for the visible constant list
-    void varlist_clicked( QListViewItem * item );
-    void varlist_doubleClicked( QListViewItem * );
+    void varlist_clicked( TQListViewItem * item );
+    void varlist_doubleClicked( TQListViewItem * );
    
     /// called when a user pressed OK the the new-constant-dialog
     void newConstantSlot();
@@ -60,7 +60,7 @@ public slots:
     
 private:   
    char constant;
-   QString value;
+   TQString value;
    View *m_view;
     
 };

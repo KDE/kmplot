@@ -27,24 +27,24 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <qpushbutton.h>
+#include <tqpushbutton.h>
 
 
 #include "keditconstant.h"
 
-KEditConstant::KEditConstant(XParser *p, char &c, QString &v, QWidget *parent, const char *name)
+KEditConstant::KEditConstant(XParser *p, char &c, TQString &v, TQWidget *parent, const char *name)
 	: QEditConstant(parent, name,Qt::WDestructiveClose), constant(c), value(v), m_parser(p)
 {
 	if ( constant != '0' )
 	{
 		txtConstant->setEnabled(false);
-		txtConstant->setText(QChar(constant));
+		txtConstant->setText(TQChar(constant));
 		txtValue->setText(value);
 		txtValue->setFocus();
 		txtValue->selectAll();
 	}
-	connect( cmdCancel, SIGNAL( clicked() ), this, SLOT( deleteLater() ));
-	connect( cmdOK, SIGNAL( clicked() ), this, SLOT( cmdOK_clicked() ));
+	connect( cmdCancel, TQT_SIGNAL( clicked() ), this, TQT_SLOT( deleteLater() ));
+	connect( cmdOK, TQT_SIGNAL( clicked() ), this, TQT_SLOT( cmdOK_clicked() ));
 }
 
 
@@ -67,7 +67,7 @@ void KEditConstant::cmdOK_clicked()
 	if ( txtConstant->isEnabled() ) //creating, not edit a constant
 	{
 		bool found= false;
-		QValueVector<Constant>::iterator it;
+		TQValueVector<Constant>::iterator it;
 		for(it = m_parser->constant.begin(); it!= m_parser->constant.end() && !found;++it)
 		{
 			if ( it->constant == constant)
@@ -88,7 +88,7 @@ void KEditConstant::cmdOK_clicked()
 	}
 	
 	emit finished();
-	QDialog::accept();
+	TQDialog::accept();
 }
 
 void KEditConstant::txtVariable_lostFocus()

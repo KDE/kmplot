@@ -40,7 +40,7 @@ class KEditParametric : public QEditParametric
 		/// @param parser points to the parser instance.
 		/// @param parent points to the parent widget.
 		/// @param name of this instance.
-		KEditParametric( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
+		KEditParametric( XParser* parser, TQWidget* parent = NULL, const char* name = NULL );
 		/// Nothing special to do.
 		virtual ~KEditParametric() {}
 		
@@ -55,11 +55,11 @@ class KEditParametric : public QEditParametric
 		/// Fill the dialog's widgets with values from the parser
 		void setWidgets();
 		/// Returns the well formed function equation
-		QString xFunction();
+		TQString xFunction();
 		/// Returns the well formed function equation
-		QString yFunction();	
+		TQString yFunction();	
 		/// extract function \a name and \a expression from a given \a equation 
-		void splitEquation( const QString equation, QString &name, QString &expression );
+		void splitEquation( const TQString equation, TQString &name, TQString &expression );
 		/// Pointer to the parser instance.
 		XParser* m_parser;
 		//@{

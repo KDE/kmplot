@@ -24,13 +24,13 @@
 */
 
 // Qt includes
-#include <qbitmap.h>
-#include <qcursor.h>
-#include <qdatastream.h>
-#include <qpicture.h>
-#include <qslider.h>
-#include <qtooltip.h>
-#include <qwhatsthis.h>
+#include <tqbitmap.h>
+#include <tqcursor.h>
+#include <tqdatastream.h>
+#include <tqpicture.h>
+#include <tqslider.h>
+#include <tqtooltip.h>
+#include <tqwhatsthis.h>
 
 // KDE includes
 #include <kaction.h>
@@ -56,7 +56,7 @@ double View::xmin = 0;
 double View::xmax = 0;
 
 
-View::View(bool const r, bool &mo, KPopupMenu *p, QWidget* parent, const char* name ) : DCOPObject("View"), QWidget( parent, name , WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
+View::View(bool const r, bool &mo, KPopupMenu *p, TQWidget* parent, const char* name ) : DCOPObject("View"), TQWidget( parent, name , WStaticContents ),  buffer( width(), height() ), m_popupmenu(p), m_modified(mo), m_readonly(r), m_dcop_client(KApplication::kApplication()->dcopClient())
 {
 	csmode = csparam = -1;
 	cstype = 0;
@@ -115,12 +115,12 @@ XParser* View::parser()
 	return m_parser;
 }
 
-void View::draw(QPaintDevice *dev, int form)
+void View::draw(TQPaintDevice *dev, int form)
 {
 	int lx, ly;
 	float sf;
-	QRect rc;
-	QPainter DC;    // our painter
+	TQRect rc;
+	TQPainter DC;    // our painter
 	DC.begin(dev);    // start painting widget
 	rc=DC.viewport();
 	w=rc.width();
@@ -131,23 +131,23 @@ void View::draw(QPaintDevice *dev, int form)
 
 	if(form==0)          // screen
 	{
-		ref=QPoint(120, 100);
+		ref=TQPoint(120, 100);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
-		if(DC.xForm(QPoint(lx+2*ref.x(), ly)).x() > DC.viewport().right())
+		if(DC.xForm(TQPoint(lx+2*ref.x(), ly)).x() > DC.viewport().right())
 		{
 			DC.resetXForm();
 			DC.scale((float)w/(float)(lx+2*ref.x()), (float)w/(float)(lx+2*ref.x()));
 		}
 		wm=DC.worldMatrix();
-		s=DC.xForm(QPoint(1000, 0)).x()/1000.;
+		s=DC.xForm(TQPoint(1000, 0)).x()/1000.;
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 	}
 	else if(form==1)        // printer
 	{
 		sf=72./254.;        // 72dpi
-		ref=QPoint(100, 100);
+		ref=TQPoint(100, 100);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC.scale(sf, sf);
@@ -158,12 +158,12 @@ void View::draw(QPaintDevice *dev, int form)
 		if ( ( (KPrinter* )dev )->option( "app-kmplot-printbackground" ) == "-1" )
 			DC.fillRect( dgr.GetFrame(),  backgroundcolor); //draw a colored background
 		//DC.end();
-		//((QPixmap *)dev)->fill(QColor("#FF00FF"));
+		//((TQPixmap *)dev)->fill(TQColor("#FF00FF"));
 		//DC.begin(dev);
 	}
 	else if(form==2)								// svg
 	{
-		ref=QPoint(0, 0);
+		ref=TQPoint(0, 0);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
@@ -173,13 +173,13 @@ void View::draw(QPaintDevice *dev, int form)
 	else if(form==3)								// bmp, png
 	{
 		sf=180./254.;								// 180dpi
-		ref=QPoint(0, 0);
+		ref=TQPoint(0, 0);
 		lx=(int)((xmax-xmin)*100.*drskalx/tlgx);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 		DC.end();
-		((QPixmap *)dev)->resize((int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf));
-		((QPixmap *)dev)->fill(backgroundcolor);
+		((TQPixmap *)dev)->resize((int)(dgr.GetFrame().width()*sf), (int)(dgr.GetFrame().height()*sf));
+		((TQPixmap *)dev)->fill(backgroundcolor);
 		DC.begin(dev);
 		DC.translate(-dgr.GetFrame().left()*sf, -dgr.GetFrame().top()*sf);
 		DC.scale(sf, sf);
@@ -213,7 +213,7 @@ void View::draw(QPaintDevice *dev, int form)
 	isDrawing=true;
 	setCursor(Qt::WaitCursor );
 	stop_calculating = false;
-	for(QValueVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
+	for(TQValueVector<Ufkt>::iterator ufkt=m_parser->ufkt.begin(); ufkt!=m_parser->ufkt.end() && !stop_calculating; ++ufkt)
 		if ( !ufkt->fname.isEmpty() )
 			plotfkt(ufkt, &DC);
 
@@ -224,13 +224,13 @@ void View::draw(QPaintDevice *dev, int form)
 }
 
 
-void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
+void View::plotfkt(Ufkt *ufkt, TQPainter *pDC)
 {
 	char p_mode;
 	int iy, k, ke, mflg;
 	double x, y, dmin, dmax;
-	QPoint p1, p2;
-	QPen pen;
+	TQPoint p1, p2;
+	TQPen pen;
 	pen.setCapStyle(Qt::RoundCap);
 	iy=0;
 	y=0.0;
@@ -440,18 +440,18 @@ void View::plotfkt(Ufkt *ufkt, QPainter *pDC)
 			KMessageBox::error(this,i18n("The drawing was cancelled by the user."));
 }
 
-void View::drawHeaderTable(QPainter *pDC)
+void View::drawHeaderTable(TQPainter *pDC)
 {
-	QString alx, aly, atx, aty, dfx, dfy;
+	TQString alx, aly, atx, aty, dfx, dfy;
 
 	if( m_printHeaderTable )
 	{
 		pDC->translate(250., 150.);
-		pDC->setPen(QPen(black, (int)(5.*s)));
-		pDC->setFont(QFont( Settings::headerTableFont(), 30) );
+		pDC->setPen(TQPen(black, (int)(5.*s)));
+		pDC->setFont(TQFont( Settings::headerTableFont(), 30) );
 		puts( Settings::headerTableFont().latin1() );
-		QString minStr = Settings::xMin();
-		QString maxStr = Settings::xMax();
+		TQString minStr = Settings::xMin();
+		TQString maxStr = Settings::xMax();
 		getMinMax( Settings::xRange(), minStr, maxStr);
 		alx="[ "+minStr+" | "+maxStr+" ]";
 		minStr = Settings::yMin();
@@ -492,7 +492,7 @@ void View::drawHeaderTable(QPainter *pDC)
 		pDC->Lineh(0, 320, 700);
 		int ypos = 380;
 		//for(uint ix=0; ix<m_parser->countFunctions() && !stop_calculating; ++ix)
-		for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
+		for(TQValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end() && !stop_calculating; ++it)
 		{
 			pDC->drawText(100, ypos, it->fstr);
 			ypos+=60;
@@ -503,7 +503,7 @@ void View::drawHeaderTable(QPainter *pDC)
 }
 
 
-void View::getMinMax( int koord, QString &mini, QString &maxi )
+void View::getMinMax( int koord, TQString &mini, TQString &maxi )
 {
 	switch(koord)
 	{
@@ -526,10 +526,10 @@ void View::getMinMax( int koord, QString &mini, QString &maxi )
 }
 
 
-void View::setpi(QString *s)
+void View::setpi(TQString *s)
 {
 	int i;
-	QChar c(960);
+	TQChar c(960);
 
 	while((i=s->find('p')) != -1) s->replace(i, 2, &c, 1);
 }
@@ -570,15 +570,15 @@ bool View::root(double *x0, Ufkt *it)
 	}
 }
 
-void View::paintEvent(QPaintEvent *)
+void View::paintEvent(TQPaintEvent *)
 {
-	QPainter p;
+	TQPainter p;
 	p.begin(this);
 	bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
 	p.end();
 }
 
-void View::resizeEvent(QResizeEvent *)
+void View::resizeEvent(TQResizeEvent *)
 {
 	if (isDrawing) //stop drawing integrals
 	{
@@ -595,28 +595,28 @@ void View::drawPlot()
 		m_minmax->updateFunctions();
 	buffer.fill(backgroundcolor);
 	draw(&buffer, 0);
-	QPainter p;
+	TQPainter p;
 	p.begin(this);
 	bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
 	p.end();
 }
 
-void View::mouseMoveEvent(QMouseEvent *e)
+void View::mouseMoveEvent(TQMouseEvent *e)
 {
 	if ( isDrawing)
 		return;
 	if (zoom_mode==4 &&  e->stateAfter() != Qt::NoButton)
 	{
-		QPainter p;
+		TQPainter p;
 		p.begin(this);
 		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
 		p.end();
 
-		QPainter painter(this);
-		QPen pen(Qt::white, 1, Qt::DotLine);
+		TQPainter painter(this);
+		TQPen pen(Qt::white, 1, Qt::DotLine);
 		painter.setRasterOp (Qt::XorROP);
 		painter.setPen(pen);
-		painter.setBackgroundMode (QPainter::OpaqueMode);
+		painter.setBackgroundMode (TQPainter::OpaqueMode);
 		painter.setBackgroundColor (Qt::blue);
 
 		painter.drawRect(rectangle_point.x(), rectangle_point.y(), e->pos().x()-rectangle_point.x(), e->pos().y()-rectangle_point.y());
@@ -641,8 +641,8 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	
 	if(area.contains(e->pos()) || (e->button()==Qt::LeftButton && e->state()==Qt::LeftButton && csxpos>xmin && csxpos<xmax))
 	{
-		QPoint ptd, ptl;
-		QPainter DC;
+		TQPoint ptd, ptl;
+		TQPainter DC;
 		bool out_of_bounds = false;
 
 		DC.begin(this);
@@ -677,9 +677,9 @@ void View::mouseMoveEvent(QMouseEvent *e)
 					double x0;
 					if(root(&x0, it))
 					{
-						QString str="  ";
+						TQString str="  ";
 						str+=i18n("root");
-						setStatusBar(str+QString().sprintf(":  x0= %+.5f", x0), 3);
+						setStatusBar(str+TQString().sprintf(":  x0= %+.5f", x0), 3);
 						rootflg=true;
 					}
 				}
@@ -703,7 +703,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 		}
 		ptd=DC.xForm(ptl);
 		DC.end();
-		QString sx, sy;
+		TQString sx, sy;
 		if (out_of_bounds)
 		{
 		  sx = sy = "";
@@ -718,7 +718,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 			bitBlt(&hline, 0, 0, this, area.left(), fcy=ptd.y(), area.width(), 1);
 			bitBlt(&vline, 0, 0, this, fcx=ptd.x(), area.top(), 1, area.height());
 			// Fadenkreuz zeichnen
-			QPen pen;
+			TQPen pen;
 			if ( csmode == -1)
 				pen.setColor(inverted_backgroundcolor);
 			else
@@ -766,7 +766,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 }
 
 
-void View::mousePressEvent(QMouseEvent *e)
+void View::mousePressEvent(TQMouseEvent *e)
 {
 	if ( m_popupmenushown>0)
 		return;
@@ -785,7 +785,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	}
 	else if (  zoom_mode==Z_ZoomIn ) //zoom in
 	{
-		QPainter DC;
+		TQPainter DC;
 		DC.begin(this);
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
@@ -812,7 +812,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	}
 	else if (  zoom_mode==3 ) //zoom out
 	{
-		QPainter DC;
+		TQPainter DC;
 		DC.begin(this);
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
@@ -839,7 +839,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	}
 	else if (  zoom_mode==5 ) //center
 	{
-		QPainter DC;
+		TQPainter DC;
 		DC.begin(this);
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
@@ -865,7 +865,7 @@ void View::mousePressEvent(QMouseEvent *e)
 	if( !m_readonly && e->button()==RightButton) //clicking with the right mouse button
 	{
 		char function_type;
-		for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+		for( TQValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 		{
 			function_type = it->fstr[0].latin1();
 			if ( function_type=='y' || function_type=='r' || it->fname.isEmpty()) continue;
@@ -889,7 +889,7 @@ void View::mousePressEvent(QMouseEvent *e)
 
 				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.contains('t')==1) //parametric plot
 				{
-					QValueVector<Ufkt>::iterator ufkt_y = it+1;
+					TQValueVector<Ufkt>::iterator ufkt_y = it+1;
 					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->fstr.contains('t')==1)
 					{
 						if ( csmode == -1)
@@ -901,13 +901,13 @@ void View::mousePressEvent(QMouseEvent *e)
 						}
 						else
 							m_popupmenushown = 2;
-						QString y_name( ufkt_y->fstr );
+						TQString y_name( ufkt_y->fstr );
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),false);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),false);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),false);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-4),false);
 						m_popupmenu->changeTitle(10,ufkt_y->fstr+";"+y_name);
-						m_popupmenu->exec(QCursor::pos());
+						m_popupmenu->exec(TQCursor::pos());
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-1),true);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-2),true);
 						m_popupmenu->setItemEnabled(m_popupmenu->idAt(m_popupmenu->count()-3),true);
@@ -927,7 +927,7 @@ void View::mousePressEvent(QMouseEvent *e)
 					else
 						m_popupmenushown = 2;
 					m_popupmenu->changeTitle(10, it->fstr);
-					m_popupmenu->exec(QCursor::pos());
+					m_popupmenu->exec(TQCursor::pos());
 					return;
 				}
 				else if(fabs(csypos-m_parser->a1fkt( it, csxpos))< g && it->f1_mode)
@@ -941,10 +941,10 @@ void View::mousePressEvent(QMouseEvent *e)
 					}
 					else
 						m_popupmenushown = 2;
-					QString function = it->fstr;
+					TQString function = it->fstr;
 					function = function.left(function.find('(')) + '\'';
 					m_popupmenu->changeTitle(10, function);
-					m_popupmenu->exec(QCursor::pos());
+					m_popupmenu->exec(TQCursor::pos());
 					return;
 				}
 				else if(fabs(csypos-m_parser->a2fkt(it, csxpos))< g && it->f2_mode)
@@ -958,10 +958,10 @@ void View::mousePressEvent(QMouseEvent *e)
 					}
 					else
 						m_popupmenushown = 2;
-					QString function = it->fstr;
+					TQString function = it->fstr;
 					function = function.left(function.find('(')) + "\'\'";
 					m_popupmenu->changeTitle(10, function);
-					m_popupmenu->exec(QCursor::pos());
+					m_popupmenu->exec(TQCursor::pos());
 					return;
 				}
 			}
@@ -978,7 +978,7 @@ void View::mousePressEvent(QMouseEvent *e)
 		mouseMoveEvent(e);
 		return ;
 	}
-	for( QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
+	for( TQValueVector<Ufkt>::iterator it = m_parser->ufkt.begin(); it != m_parser->ufkt.end(); ++it)
 	{
 		if (it->fname.isEmpty() )
 			continue;
@@ -1018,7 +1018,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				cstype=1;
 				csparam = k;
 				m_minmax->selectItem();
-				QString function = it->fstr;
+				TQString function = it->fstr;
 				function = function.left(function.find('(')) + '\'';
 				setStatusBar(function,4);
 				mouseMoveEvent(e);
@@ -1030,7 +1030,7 @@ void View::mousePressEvent(QMouseEvent *e)
 				cstype=2;
 				csparam = k;
 				m_minmax->selectItem();
-				QString function = it->fstr;
+				TQString function = it->fstr;
 				function = function.left(function.find('(')) + "\'\'";
 				setStatusBar(function,4);
 				mouseMoveEvent(e);
@@ -1044,7 +1044,7 @@ void View::mousePressEvent(QMouseEvent *e)
 }
 
 
-void View::mouseReleaseEvent ( QMouseEvent * e )
+void View::mouseReleaseEvent ( TQMouseEvent * e )
 {
 	if ( zoom_mode == Z_Center )
 	{
@@ -1055,13 +1055,13 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 			update();
 			return;
 		}
-		QPainter DC;
+		TQPainter DC;
 		DC.begin(this);
 		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
 		DC.setWindow(0, 0, w, h);
 		DC.setWorldMatrix(wm);
 
-		QPoint p=DC.xFormDev(e->pos());
+		TQPoint p=DC.xFormDev(e->pos());
 		double real1x = dgr.Transx(p.x() ) ;
 		double real1y = dgr.Transy(p.y() ) ;
 		p=DC.xFormDev(rectangle_point);
@@ -1109,7 +1109,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	}
 }
 
-void View::coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
+void View::coordToMinMax( const int koord, const TQString &minStr, const TQString &maxStr,
                           double &min, double &max )
 {
 	switch ( koord )
@@ -1144,7 +1144,7 @@ void View::setPlotRange()
 
 void View::setScaling()
 {
-	QString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
+	TQString units[ 9 ] = { "10", "5", "2", "1", "0.5", "pi/2", "pi/3", "pi/4",i18n("automatic") };
 
 	if( Settings::xScaling() == 8) //automatic x-scaling
     {
@@ -1187,7 +1187,7 @@ void View::getSettings()
 void View::init()
 {
 	getSettings();
-	QValueVector<Ufkt>::iterator it = m_parser->ufkt.begin();
+	TQValueVector<Ufkt>::iterator it = m_parser->ufkt.begin();
 	it->fname="";
 	while ( m_parser->ufkt.count() > 1)
 		m_parser->Parser::delfkt( &m_parser->ufkt.last() );
@@ -1200,7 +1200,7 @@ void View::stopDrawing()
 		stop_calculating = true;
 }
 
-void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, double &dmax, const QString &str_parameter)
+void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, double &dmax, const TQString &str_parameter)
 {
 	double x, y = 0;
 	double result_x = 0;
@@ -1210,7 +1210,7 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
-		for ( QValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
+		for ( TQValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
 			if ( (*it).expression == str_parameter)
 			{
@@ -1354,12 +1354,12 @@ void View::findMinMaxValue(Ufkt *ufkt, char p_mode, bool minimum, double &dmin, 
 	}
 }
 
-void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QString &str_parameter)
+void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const TQString &str_parameter)
 {
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
-		for ( QValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
+		for ( TQValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
 			if ( (*it).expression == str_parameter)
 			{
@@ -1447,7 +1447,7 @@ void View::getYValue(Ufkt *ufkt, char p_mode,  double x, double &y, const QStrin
 	}
 }
 
-void View::keyPressEvent( QKeyEvent * e)
+void View::keyPressEvent( TQKeyEvent * e)
 {
     if ( zoom_mode != Z_Normal && e->key() == Qt::Key_Escape )
     {
@@ -1469,14 +1469,14 @@ void View::keyPressEvent( QKeyEvent * e)
 
 	if (csmode==-1 ) return;
 
-	QMouseEvent *event;
+	TQMouseEvent *event;
 	if (e->key() == Qt::Key_Left )
-		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx-1,fcy-1),Qt::LeftButton,Qt::LeftButton);
+		event = new TQMouseEvent(TQEvent::MouseMove,TQPoint(fcx-1,fcy-1),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Right )
-		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
+		event = new TQMouseEvent(TQEvent::MouseMove,TQPoint(fcx+1,fcy+1),Qt::LeftButton,Qt::LeftButton);
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
-		QValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
+		TQValueVector<Ufkt>::iterator it = &m_parser->ufkt[m_parser->ixValue(csmode)];
 		int const ke=it->parameters.count();
 		if (ke>0)
 		{
@@ -1560,31 +1560,31 @@ void View::keyPressEvent( QKeyEvent * e)
 			break;
 		case 1:
 			{
-				QString function = it->fstr;
+				TQString function = it->fstr;
 				function = function.left(function.find('(')) + '\'';
 				setStatusBar(function,4);
 				break;
 			}
 		case 2:
 			{
-				QString function = it->fstr;
+				TQString function = it->fstr;
 				function = function.left(function.find('(')) + "\'\'";
 				setStatusBar(function,4);
 				break;
 			}
 		}
-		event = new QMouseEvent(QEvent::MouseMove,QPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
+		event = new TQMouseEvent(TQEvent::MouseMove,TQPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
 	}
 	else if ( e->key() == Qt::Key_Space  )
 	{
-		event = new QMouseEvent(QEvent::MouseButtonPress,QCursor::pos(),Qt::RightButton,Qt::RightButton);
+		event = new TQMouseEvent(TQEvent::MouseButtonPress,TQCursor::pos(),Qt::RightButton,Qt::RightButton);
 		mousePressEvent(event);
 		delete event;
 		return;
 	}
 	else
 	{
-		event = new QMouseEvent(QEvent::MouseButtonPress,QPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
+		event = new TQMouseEvent(TQEvent::MouseButtonPress,TQPoint(fcx,fcy),Qt::LeftButton,Qt::LeftButton);
 		mousePressEvent(event);
 		delete event;
 		return;
@@ -1593,14 +1593,14 @@ void View::keyPressEvent( QKeyEvent * e)
 	delete event;
 }
 
-void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double &dmax, const QString &str_parameter, QPainter *DC )
+void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double &dmax, const TQString &str_parameter, TQPainter *DC )
 {
 	double x, y = 0;
 	float calculated_area=0;
 	int rectheight;
 	areaMin = dmin;
-	QPoint p;
-	QColor color;
+	TQPoint p;
+	TQColor color;
 	switch(p_mode)
 	{
 	case 0:
@@ -1620,7 +1620,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	{
 		int ly;
 		buffer.fill(backgroundcolor);
-		DC = new QPainter(&buffer);
+		DC = new TQPainter(&buffer);
 		ly=(int)((ymax-ymin)*100.*drskaly/tlgy);
 		DC->scale((float)h/(float)(ly+2*ref.y()), (float)h/(float)(ly+2*ref.y()));
 	}
@@ -1634,7 +1634,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	// TODO: parameter sliders
 	if ( !ufkt->parameters.isEmpty() )
 	{
-		for ( QValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
+		for ( TQValueList<ParameterValueItem>::Iterator it = ufkt->parameters.begin(); it != ufkt->parameters.end(); ++it )
 		{
 			if ( (*it).expression == str_parameter)
 			{
@@ -1657,7 +1657,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 		ufkt->oldyprim = ufkt->integral_precision;
 		//paintEvent(0);
 
-		/*QPainter p;
+		/*TQPainter p;
 		p.begin(this);
 		bitBlt( this, 0, 0, &buffer, 0, 0, width(), height() );
 		p.end();*/
@@ -1832,7 +1832,7 @@ void View::updateSliders()
 		}
 	}
 
-	for(QValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
+	for(TQValueVector<Ufkt>::iterator it=m_parser->ufkt.begin(); it!=m_parser->ufkt.end(); ++it)
 	{
 		if (it->fname.isEmpty() ) continue;
 		if( it->use_slider > -1  &&  (it->f_mode || it->f1_mode || it->f2_mode || it->integral_mode))
@@ -1841,8 +1841,8 @@ void View::updateSliders()
 			if ( sliders[ it->use_slider ] == 0 )
 			{
 				sliders[ it->use_slider ] = new KSliderWindow( this, it->use_slider);
-				connect( sliders[ it->use_slider ]->slider, SIGNAL( valueChanged( int ) ), this, SLOT( drawPlot() ) );
-				connect( sliders[ it->use_slider ], SIGNAL( windowClosed( int ) ), this , SLOT( sliderWindowClosed(int) ) );
+				connect( sliders[ it->use_slider ]->slider, TQT_SIGNAL( valueChanged( int ) ), this, TQT_SLOT( drawPlot() ) );
+				connect( sliders[ it->use_slider ], TQT_SIGNAL( windowClosed( int ) ), this , TQT_SLOT( sliderWindowClosed(int) ) );
 				mnuSliders[ it->use_slider ]->setChecked(true);  //set the slider-item in the menu
 			}
 			sliders[ it->use_slider ]->show();
@@ -1876,14 +1876,14 @@ void View::mnuHide_clicked()
 	if ( !ufkt->f_mode && !ufkt->f1_mode && !ufkt->f2_mode) //all graphs for the function are hidden
 	{
 		csmode=-1;
-		QMouseEvent *event = new QMouseEvent(QMouseEvent::KeyPress,QCursor::pos(),Qt::LeftButton,Qt::LeftButton);
+		TQMouseEvent *event = new TQMouseEvent(TQMouseEvent::KeyPress,TQCursor::pos(),Qt::LeftButton,Qt::LeftButton);
 		mousePressEvent(event); //leave trace mode
 		delete event;
 		return;
 	}
 	else
 	{
-		QKeyEvent *event = new QKeyEvent(QKeyEvent::KeyPress,Qt::Key_Up ,Qt::Key_Up ,0);
+		TQKeyEvent *event = new TQKeyEvent(TQKeyEvent::KeyPress,Qt::Key_Up ,Qt::Key_Up ,0);
 		keyPressEvent(event); //change selected graph
 		delete event;
 		return;
@@ -1894,7 +1894,7 @@ void View::mnuRemove_clicked()
   if ( csmode == -1 )
     return;
   
-	if ( KMessageBox::warningContinueCancel(this,i18n("Are you sure you want to remove this function?"), QString::null, KStdGuiItem::del()) == KMessageBox::Continue )
+	if ( KMessageBox::warningContinueCancel(this,i18n("Are you sure you want to remove this function?"), TQString::null, KStdGuiItem::del()) == KMessageBox::Continue )
 	{
 		Ufkt *ufkt =  &m_parser->ufkt[m_parser->ixValue(csmode)];
 		char const function_type = ufkt->fstr[0].latin1();
@@ -1904,7 +1904,7 @@ void View::mnuRemove_clicked()
 		if (csmode!=-1) // if trace mode is enabled
 		{
 		  csmode=-1;
-		  QMouseEvent *event = new QMouseEvent(QMouseEvent::KeyPress,QCursor::pos(),Qt::LeftButton,Qt::LeftButton);
+		  TQMouseEvent *event = new TQMouseEvent(TQMouseEvent::KeyPress,TQCursor::pos(),Qt::LeftButton,Qt::LeftButton);
 		  mousePressEvent(event); //leave trace mode
 		  delete event;
 		}
@@ -1927,7 +1927,7 @@ void View::mnuEdit_clicked()
 		KEditParametric* editParametric = new KEditParametric( m_parser, this );
 		editParametric->setCaption(i18n( "New Parametric Plot" ));
 		editParametric->initDialog( csmode,y_index );
-		if( editParametric->exec() == QDialog::Accepted )
+		if( editParametric->exec() == TQDialog::Accepted )
 		{
 			drawPlot();
 			m_modified = true;
@@ -1939,7 +1939,7 @@ void View::mnuEdit_clicked()
 		EditFunction* editFunction = new EditFunction( m_parser, this );
 		editFunction->setCaption(i18n( "Edit Function Plot" ));
 		editFunction->initDialog( csmode );
-		if( editFunction->exec() == QDialog::Accepted )
+		if( editFunction->exec() == TQDialog::Accepted )
 		{
 			drawPlot();
 			updateSliders();
@@ -1993,7 +1993,7 @@ void View::mnuZoomIn_clicked()
       resetZoom();
     else
     {
-	   setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+	   setCursor( TQCursor( SmallIcon( "magnify", 32), 10, 10 ) );
 	   zoom_mode = Z_ZoomIn;
     }
 }
@@ -2004,7 +2004,7 @@ void View::mnuZoomOut_clicked()
     resetZoom();
   else
   {
-	setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
+	setCursor( TQCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 	zoom_mode = Z_ZoomOut;
   }
 }
@@ -2037,7 +2037,7 @@ void View::mnuTrig_clicked()
 	Settings::setYRange(4); //custom y-range
 	drawPlot(); //update all graphs
 }
-void View::invertColor(QColor &org, QColor &inv)
+void View::invertColor(TQColor &org, TQColor &inv)
 {
 	int r = org.red()-255;
 	if ( r<0) r=r*-1;
@@ -2059,10 +2059,10 @@ void View::restoreCursor()
 			setCursor(Qt::CrossCursor);
 			break;
 		case Z_ZoomIn: //zoom in
-			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+			setCursor( TQCursor( SmallIcon( "magnify", 32), 10, 10 ) );
 			break;
 		case Z_ZoomOut: //zoom out
-			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) );
+			setCursor( TQCursor( SmallIcon( "lessen", 32), 10, 10 ) );
 			break;
 		case Z_Center: //center a point
 			setCursor(Qt::PointingHandCursor);
@@ -2070,17 +2070,17 @@ void View::restoreCursor()
 	}
 }
 
-bool View::event( QEvent * e )
+bool View::event( TQEvent * e )
 {
-	if ( e->type() == QEvent::WindowDeactivate && isDrawing)
+	if ( e->type() == TQEvent::WindowDeactivate && isDrawing)
 	{
 		stop_calculating = true;
 		return true;
 	}
-	return QWidget::event(e); //send the information further
+	return TQWidget::event(e); //send the information further
 }
 
-void View::setStatusBar(const QString &text, const int id)
+void View::setStatusBar(const TQString &text, const int id)
 {
 	if ( m_readonly) //if KmPlot is shown as a KPart with e.g Konqueror, it is only possible to change the status bar in one way: to call setStatusBarText
 	{
@@ -2101,7 +2101,7 @@ void View::setStatusBar(const QString &text, const int id)
 		default:
 			return;
 		}
-		QString statusbartext = m_statusbartext1;
+		TQString statusbartext = m_statusbartext1;
 		if ( !m_statusbartext1.isEmpty() && !m_statusbartext2.isEmpty() )
 			statusbartext.append("   |   ");
 		statusbartext.append(m_statusbartext2);
@@ -2115,32 +2115,32 @@ void View::setStatusBar(const QString &text, const int id)
 	}
 	else
 	{
-		QByteArray parameters;
-		QDataStream arg( parameters, IO_WriteOnly);
+		TQByteArray parameters;
+		TQDataStream arg( parameters, IO_WriteOnly);
 		arg << text << id;
-		m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","setStatusBarText(QString,int)", parameters);
+		m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","setStatusBarText(TQString,int)", parameters);
 	}
 }
 void View::startProgressBar(int steps)
 {
-	QByteArray data;
-	QDataStream stream(data, IO_WriteOnly);
+	TQByteArray data;
+	TQDataStream stream(data, IO_WriteOnly);
 	stream << steps;
 	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","startProgressBar(int)", data);
 }
 bool View::stopProgressBar()
 {
-	QCString replyType;
-	QByteArray replyData;
-	m_dcop_client->call(m_dcop_client->appId(), "KmPlotShell","stopProgressBar()", QByteArray(), replyType, replyData);
+	TQCString replyType;
+	TQByteArray replyData;
+	m_dcop_client->call(m_dcop_client->appId(), "KmPlotShell","stopProgressBar()", TQByteArray(), replyType, replyData);
 	bool result;
-	QDataStream stream(replyData, IO_ReadOnly);
+	TQDataStream stream(replyData, IO_ReadOnly);
 	stream >> result;
 	return result;
 }
 void View::increaseProgressBar()
 {
-	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","increaseProgressBar()", QByteArray());
+	m_dcop_client->send(m_dcop_client->appId(), "KmPlotShell","increaseProgressBar()", TQByteArray());
 }
 
 void View::sliderWindowClosed(int num)

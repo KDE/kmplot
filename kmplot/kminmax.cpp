@@ -28,23 +28,23 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
-#include <qlabel.h>
-#include <qtooltip.h>
-#include <qwhatsthis.h> 
+#include <tqlabel.h>
+#include <tqtooltip.h>
+#include <tqwhatsthis.h> 
 
 
 #include "kminmax.h"
 #include "xparser.h"
 
-KMinMax::KMinMax(View *v, QWidget *parent, const char *name)
+KMinMax::KMinMax(View *v, TQWidget *parent, const char *name)
 	: QMinMax(parent, name), m_view(v)
 {
 	m_mode=-1;
-	connect( cmdClose, SIGNAL( clicked() ), this, SLOT( close() ));
-	connect( cmdFind, SIGNAL( clicked() ), this, SLOT( cmdFind_clicked() ));
-	connect( cmdParameter, SIGNAL( clicked() ), this, SLOT( cmdParameter_clicked() ));
-	connect( list, SIGNAL( highlighted(QListBoxItem*) ), this, SLOT( list_highlighted(QListBoxItem*) ));
-	connect( list, SIGNAL( doubleClicked( QListBoxItem * ) ), this, SLOT( list_doubleClicked(QListBoxItem *) ));
+	connect( cmdClose, TQT_SIGNAL( clicked() ), this, TQT_SLOT( close() ));
+	connect( cmdFind, TQT_SIGNAL( clicked() ), this, TQT_SLOT( cmdFind_clicked() ));
+	connect( cmdParameter, TQT_SIGNAL( clicked() ), this, TQT_SLOT( cmdParameter_clicked() ));
+	connect( list, TQT_SIGNAL( highlighted(TQListBoxItem*) ), this, TQT_SLOT( list_highlighted(TQListBoxItem*) ));
+	connect( list, TQT_SIGNAL( doubleClicked( TQListBoxItem * ) ), this, TQT_SLOT( list_doubleClicked(TQListBoxItem *) ));
 	parameter="";
 }
 
@@ -63,7 +63,7 @@ void KMinMax::init(char m)
 	if ( m_mode < 2) //find minimum point
 	{
 		max->setReadOnly(false);
-		QString range;
+		TQString range;
 		range.setNum(View::xmin);
 		min->setText( range);
 		range.setNum(View::xmax);
@@ -71,22 +71,22 @@ void KMinMax::init(char m)
 		lblMin->setText(i18n("Search between the x-value:"));
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText(i18n("&Find"));
-		QToolTip::add(min,i18n("Lower boundary of the plot range"));
-		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
-		QToolTip::add(max,i18n("Upper boundary of the plot range"));
-		QWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		TQToolTip::add(min,i18n("Lower boundary of the plot range"));
+		TQWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		TQToolTip::add(max,i18n("Upper boundary of the plot range"));
+		TQWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
 		if ( m_mode == 1) //find maximum point
 		{
 			setCaption(i18n("Find Maximum Point"));
-			QToolTip::add( cmdFind, i18n( "Search for the maximum point in the range you specified" ) );
-			QWhatsThis::add(cmdFind,i18n("Search for the highest y-value in the x-range you specified and show the result in a message box."));
+			TQToolTip::add( cmdFind, i18n( "Search for the maximum point in the range you specified" ) );
+			TQWhatsThis::add(cmdFind,i18n("Search for the highest y-value in the x-range you specified and show the result in a message box."));
 		}
 		else
 		{
 			setCaption(i18n("Find Minimum Point"));
-			QToolTip::add( cmdFind, i18n( "Search for the minimum point in the range you specified" ) );
-			QWhatsThis::add(cmdFind,i18n("Search for the lowest y-value in the x-range you specified and show the result in a message box."));
+			TQToolTip::add( cmdFind, i18n( "Search for the minimum point in the range you specified" ) );
+			TQWhatsThis::add(cmdFind,i18n("Search for the lowest y-value in the x-range you specified and show the result in a message box."));
 		}
 	}
 	else if ( m_mode == 2) //get y-value
@@ -97,35 +97,35 @@ void KMinMax::init(char m)
 		max->setReadOnly(true);
 		min->setText("");
 		max->setText("");
-		QToolTip::add(min,i18n("Lower boundary of the plot range"));
-		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
-		QToolTip::add(max,i18n("No returned y-value yet"));
-		QWhatsThis::add(max,i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
+		TQToolTip::add(min,i18n("Lower boundary of the plot range"));
+		TQWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		TQToolTip::add(max,i18n("No returned y-value yet"));
+		TQWhatsThis::add(max,i18n("Here you will see the y-value which you got from the x-value in the textbox above. To calculate the y-value, press the Calculate button."));
 		
 		cmdFind->setText(i18n("&Calculate"));
-		QToolTip::add( cmdFind, i18n( "Get the y-value from the x-value you typed" ) );
-		QWhatsThis::add(cmdFind,i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
+		TQToolTip::add( cmdFind, i18n( "Get the y-value from the x-value you typed" ) );
+		TQWhatsThis::add(cmdFind,i18n("Get the y-value from the x-value you typed and show it in the y-value box."));
 
 	}
 	else if ( m_mode == 3) //area under a graph
 	{
 		max->setReadOnly(false);
-		QString range;
+		TQString range;
 		range.setNum(View::xmin);
 		min->setText( range);
 		range.setNum(View::xmax);
 		max->setText(range);
-		QToolTip::add(min,i18n("Lower boundary of the plot range"));
-		QWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
-		QToolTip::add(max,i18n("Upper boundary of the plot range"));
-		QWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		TQToolTip::add(min,i18n("Lower boundary of the plot range"));
+		TQWhatsThis::add(min,i18n("Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too."));
+		TQToolTip::add(max,i18n("Upper boundary of the plot range"));
+		TQWhatsThis::add(max,i18n("Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too."));
 		
 		setCaption(i18n("Calculate Integral"));
 		lblMin->setText(i18n("Calculate the integral between the x-values:"));
 		lblMax->setText(i18n("and:"));
 		cmdFind->setText(i18n("&Calculate"));
-		QToolTip::add( cmdFind, i18n( "Calculate the integral between the x-values" ) );
-		QWhatsThis::add(cmdFind,i18n("Calculate the numeric integral between the x-values and draw the result as an area."));
+		TQToolTip::add( cmdFind, i18n( "Calculate the integral between the x-values" ) );
+		TQWhatsThis::add(cmdFind,i18n("Calculate the numeric integral between the x-values and draw the result as an area."));
 		
 	}
 
@@ -135,10 +135,10 @@ void KMinMax::init(char m)
 
 void KMinMax::updateFunctions()
 {
-	QString const selected_item(list->currentText() );
+	TQString const selected_item(list->currentText() );
 	list->clear();
 
-        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( TQValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if( it->fname[0] != 'x' && it->fname[0] != 'y' && it->fname[0] != 'r' && !it->fname.isEmpty())
 		{
@@ -147,7 +147,7 @@ void KMinMax::updateFunctions()
 
 			if ( it->f1_mode ) //1st derivative
 			{
-				QString function (it->fstr);
+				TQString function (it->fstr);
 				int i= function.find('(');
 				function.truncate(i);
 				function +="\'";
@@ -155,7 +155,7 @@ void KMinMax::updateFunctions()
 			}
 			if ( it->f2_mode )//2nd derivative
 			{
-				QString function (it->fstr);
+				TQString function (it->fstr);
 				int i= function.find('(');
 				function.truncate(i);
 				function +="\'\'";
@@ -163,7 +163,7 @@ void KMinMax::updateFunctions()
 			}
 			if ( it->integral_mode )//integral
 			{
-				QString function (it->fstr);
+				TQString function (it->fstr);
 				int i= function.find('(');
 				function.truncate(i);
 				function = function.upper();
@@ -177,7 +177,7 @@ void KMinMax::updateFunctions()
 	else
 		cmdFind->setEnabled(true);
 	selectItem();
-	QListBoxItem *found_item = list->findItem(selected_item,Qt::ExactMatch);
+	TQListBoxItem *found_item = list->findItem(selected_item,Qt::ExactMatch);
 	if ( found_item && m_view->csmode < 0)
 		list->setSelected(found_item,true);
 }
@@ -189,7 +189,7 @@ void KMinMax::selectItem()
 		return;
 	//kdDebug() << "cstype: " << (int)m_view->cstype << endl;
         Ufkt *ufkt = &m_view->parser()->ufkt[m_view->parser()->ixValue(m_view->csmode)];
-	QString function = ufkt->fstr;
+	TQString function = ufkt->fstr;
 	if ( m_view->cstype == 2)
 	{
 		int i= function.find('(');
@@ -203,7 +203,7 @@ void KMinMax::selectItem()
 		function +="\'";
 	}
 	//kdDebug() << "function: " << function << endl;
-	QListBoxItem *item = list->findItem(function,Qt::ExactMatch);
+	TQListBoxItem *item = list->findItem(function,Qt::ExactMatch);
 	list->setSelected(item,true);
 
 	if (  !ufkt->parameters.isEmpty() )
@@ -256,7 +256,7 @@ void KMinMax::cmdFind_clicked()
 	}
 
 
-	QString function( list->currentText() );
+	TQString function( list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
 	{
@@ -270,17 +270,17 @@ void KMinMax::cmdFind_clicked()
 		int pos = function.find('\'');
 		function.remove(pos,2);
 	}
-	else if ( function.at(0).category() == QChar::Letter_Uppercase)
+	else if ( function.at(0).category() == TQChar::Letter_Uppercase)
 	{
 		p_mode = 3;
 		function.at(0) =  function.at(0).lower();
 	}
 
-	QString fname, fstr;
+	TQString fname, fstr;
 	Ufkt *ufkt = 0;
-	QString sec_function = function.section('(',0,0);
+	TQString sec_function = function.section('(',0,0);
 
-        for( QValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
+        for( TQValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
 		if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -321,12 +321,12 @@ void KMinMax::cmdFind_clicked()
 		m_view->getYValue(ufkt,p_mode,dmin,dmax,parameter);
 		if ( !m_view->isCalculationStopped() )
 		{
-			QString tmp;
+			TQString tmp;
 			tmp.setNum(dmax);
 			max->setText(tmp);
 		}
-		QToolTip::add(max,i18n("The returned y-value"));
-		QWhatsThis::add(max,i18n("Here you see the result of the calculation: the returned y-value you got from the x-value in the textbox above"));
+		TQToolTip::add(max,i18n("The returned y-value"));
+		TQWhatsThis::add(max,i18n("Here you see the result of the calculation: the returned y-value you got from the x-value in the textbox above"));
 	}
 	else if ( m_mode == 3)
 	{
@@ -343,14 +343,14 @@ void KMinMax::cmdFind_clicked()
 	if ( m_view->isCalculationStopped() )
 		KMessageBox::error(this,i18n("The operation was cancelled by the user."));
 }
-void KMinMax::list_highlighted(QListBoxItem* item)
+void KMinMax::list_highlighted(TQListBoxItem* item)
 {
 	if ( !item)
 	{
 		cmdParameter->hide();
 		return;
 	}
-	QString function( list->currentText() );
+	TQString function( list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
 	{
@@ -364,13 +364,13 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 		int pos = function.find('\'');
 		function.remove(pos,2);
 	}
-	else if ( function.at(0).category() == QChar::Letter_Uppercase)
+	else if ( function.at(0).category() == TQChar::Letter_Uppercase)
 	{
 		p_mode = 3;
 		function.at(0) =  function.at(0).lower();
 	}
-	QString const sec_function = function.section('(',0,0);
-        for(QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
+	TQString const sec_function = function.section('(',0,0);
+        for(TQValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin(); it!=m_view->parser()->ufkt.end(); ++it)
 	{
                 if ( it->fstr.section('(',0,0) == sec_function)
                 {
@@ -388,7 +388,7 @@ void KMinMax::list_highlighted(QListBoxItem* item)
 }
 void KMinMax::cmdParameter_clicked()
 {
-	QString function( list->currentText() );
+	TQString function( list->currentText() );
 	char p_mode = 0;
 	if ( function.contains('\'') == 1)
 	{
@@ -402,22 +402,22 @@ void KMinMax::cmdParameter_clicked()
 		int pos = function.find('\'');
 		function.remove(pos,2);
 	}
-	else if ( function.at(0).category() == QChar::Letter_Uppercase)
+	else if ( function.at(0).category() == TQChar::Letter_Uppercase)
 	{
 		p_mode = 3;
 		function.at(0) =  function.at(0).lower();
 	}
         
-	QString const sec_function = function.section('(',0,0);
-        for(QValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
+	TQString const sec_function = function.section('(',0,0);
+        for(TQValueVector<Ufkt>::iterator it = m_view->parser()->ufkt.begin() ; it!=m_view->parser()->ufkt.end(); ++it)
 	{
 	       if ( it->fstr.section('(',0,0) == sec_function)
                {
-			QStringList str_parameters;
-		        for ( QValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
+			TQStringList str_parameters;
+		        for ( TQValueList<ParameterValueItem>::Iterator k = it->parameters.begin(); k != it->parameters.end(); ++k )
 			       str_parameters.append( (*k).expression);
                         bool ok;
-                        QStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), str_parameters, QStringList(parameter),false,&ok,this );
+                        TQStringList result = KInputDialog::getItemList( i18n("Choose Parameter"), i18n("Choose a parameter to use:"), str_parameters, TQStringList(parameter),false,&ok,this );
                         if ( ok)
                                 parameter = result.first();
                         break;
@@ -425,7 +425,7 @@ void KMinMax::cmdParameter_clicked()
 	}
 }
 
-void KMinMax::list_doubleClicked(QListBoxItem *)
+void KMinMax::list_doubleClicked(TQListBoxItem *)
 {
  	if ( list->currentItem() == -1)
  		return;

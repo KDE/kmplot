@@ -33,7 +33,7 @@
 #include <stdio.h>
 
 // Qt includes 
-#include <qpainter.h>
+#include <tqpainter.h>
 
 //@{
 /// Some abbreviations for horizontal and vertical lines.
@@ -61,18 +61,18 @@ public:
 	~CDiagr();
 
 	/// Sets all members to current values.
-	void Create( QPoint Ref,
+	void Create( TQPoint Ref,
 	               int lx, int ly,
 	               double xmin, double xmax,
 	               double ymin, double ymax );
 	/// Sets the current values for the scaling factors
 	void Skal( double ex, double ey );
 	/// Draws all requested parts of the diagram (axes, labels, grid e.g.)
-	void Plot( QPainter* pDC );
+	void Plot( TQPainter* pDC );
 	/// Returns the rectangle around the core of the plot area.
-	QRect GetPlotArea() { return PlotArea; }
+	TQRect GetPlotArea() { return PlotArea; }
 	/// Returns the rectangle for the frame around the plot. Extra frame is bigger.
-	QRect GetFrame() { return m_frame; }
+	TQRect GetFrame() { return m_frame; }
 
 	/** @name Transformations */
 	//@{
@@ -104,11 +104,11 @@ public:
 private:
 
 	/// Draw the coordinate axes.
-	void drawAxes(QPainter*);
+	void drawAxes(TQPainter*);
 	/// Draw the grid.
-	void drawGrid( QPainter* );
+	void drawGrid( TQPainter* );
 	/// Write labels.
-	void drawLabels(QPainter*);
+	void drawLabels(TQPainter*);
 	/// Current grid style.
 	int g_mode;
 
@@ -138,8 +138,8 @@ private:
 	double skx, sky;
 	//@}
 	
-	QRect PlotArea;	///< plot area
-	QRect m_frame;	///< frame around the plot
+	TQRect PlotArea;	///< plot area
+	TQRect m_frame;	///< frame around the plot
 };
 
 #endif // diagr_included

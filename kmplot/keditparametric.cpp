@@ -23,7 +23,7 @@
 *
 */
 // Qt includes
-#include <qcheckbox.h>
+#include <tqcheckbox.h>
 
 // KDE includes
 #include <kapplication.h>
@@ -41,11 +41,11 @@
 #include "xparser.h"
 #include "View.h"
 
-KEditParametric::KEditParametric( XParser* parser, QWidget* parent, const char* name ) : 
+KEditParametric::KEditParametric( XParser* parser, TQWidget* parent, const char* name ) : 
 	QEditParametric( parent, name ), m_parser(parser)
 {
-	connect( customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
-	connect( customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
+	connect( customMinRange, TQT_SIGNAL ( toggled(bool) ), this, TQT_SLOT( customMinRange_toggled(bool) ) );
+	connect( customMaxRange, TQT_SIGNAL ( toggled(bool) ), this, TQT_SLOT( customMaxRange_toggled(bool) ) );
 	m_updatedfunction = 0;
 }
 
@@ -74,7 +74,7 @@ void KEditParametric::clearWidgets()
 void KEditParametric::setWidgets()
 {
 	Ufkt *ufkt = &m_parser->ufkt[ m_parser->ixValue(m_x_id) ];
-	QString name, expression;
+	TQString name, expression;
 	splitEquation( ufkt->fstr, name, expression );
 	kLineEditName->setText( name );
 	kLineEditXFunction->setText( expression );
@@ -114,7 +114,7 @@ void KEditParametric::accept()
 	// find a name not already used 
 	if( kLineEditName->text().isEmpty() )
 	{
-		QString fname;
+		TQString fname;
 		m_parser->fixFunctionName(fname, XParser::ParametricX, m_x_id);
 		int const pos = fname.find('(');
 		kLineEditName->setText(fname.mid(1,pos-1));
@@ -178,7 +178,7 @@ void KEditParametric::accept()
                         return;
                 }
                 added_ufkt = &m_parser->ufkt[ix];
-                QString old_fstr = added_ufkt->fstr;
+                TQString old_fstr = added_ufkt->fstr;
                 added_ufkt->fstr = xFunction();
                 m_parser->reparse(added_ufkt); //reparse the funcion
                 if ( m_parser->parserError() != 0)
@@ -237,7 +237,7 @@ void KEditParametric::accept()
         if( m_y_id != -1 )  //when editing a function:
         {
                 added_ufkt = &m_parser->ufkt[m_parser->ixValue(m_y_id)];
-                QString old_fstr = added_ufkt->fstr;
+                TQString old_fstr = added_ufkt->fstr;
                 added_ufkt->fstr = yFunction();
                 m_parser->reparse(added_ufkt); //reparse the funcion
                 if ( m_parser->parserError() != 0) //when something went wrong:
@@ -299,12 +299,12 @@ void KEditParametric::accept()
 	QEditParametric::accept(); //update the function name in FktDlg
 }
     
-QString KEditParametric::xFunction()
+TQString KEditParametric::xFunction()
 {
 	return "x" + kLineEditName->text() + "(t)=" + kLineEditXFunction->text();
 }
 
-void KEditParametric::splitEquation( const QString equation, QString &name, QString &expression )
+void KEditParametric::splitEquation( const TQString equation, TQString &name, TQString &expression )
 {
 	int start = 0;
 	if( equation[ 0 ] == 'x' || equation[ 0 ] == 'y' ) start++;
@@ -314,7 +314,7 @@ void KEditParametric::splitEquation( const QString equation, QString &name, QStr
 	expression = equation.section( '=', 1, 1 );
 }
 
-QString KEditParametric::yFunction()
+TQString KEditParametric::yFunction()
 {
 	return "y" + kLineEditName->text() + "(t)=" + kLineEditYFunction->text();
 }

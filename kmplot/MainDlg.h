@@ -29,7 +29,7 @@
 #define MainDlg_included
 
 // Qt includes
-#include <qpicture.h>
+#include <tqpicture.h>
 
 // KDE includes
 #include <kaction.h>
@@ -77,7 +77,7 @@ public:
 	 * @param parent parent object
 	 * @param name name of this dialog
 	 */
-	MainDlg(QWidget *parentWidget, const char *, QObject *parent, const char *name);
+	MainDlg(TQWidget *parentWidget, const char *, TQObject *parent, const char *name);
 	/// Cleaning up a bit.
 	virtual ~MainDlg();
 	/// This class needs access to private members, too.
@@ -185,7 +185,7 @@ private:
 	/// Set to true if the application is readonly
 	bool m_readonly;
 	/// MainDlg's parent widget
-	QWidget *m_parent;
+	TQWidget *m_parent;
 	/// Current file
 	KURL m_currentfile;
 	/// The axes config dialogs
@@ -204,9 +204,9 @@ protected slots:
 	* Manages the LineEdit content after returnPressed() is emitted.
 	 * @param f_str_const the content of the KLineEdit
 	*/
-	void slotQuickEdit( const QString& f_str_const );
+	void slotQuickEdit( const TQString& f_str_const );
 
-	void setReadOnlyStatusBarText(const QString &);
+	void setReadOnlyStatusBarText(const TQString &);
 
 	/// slots for the settings-menu
 	void optionsConfigureKeys();
@@ -219,9 +219,9 @@ class KmPlotPartFactory : public KParts::Factory
 public:
 	KmPlotPartFactory();
 	virtual ~KmPlotPartFactory();
-	virtual KParts::Part* createPartObject( QWidget *parentWidget, const char *widgetName,
-	                                        QObject *parent, const char *name,
-	                                        const char *classname, const QStringList &args );
+	virtual KParts::Part* createPartObject( TQWidget *parentWidget, const char *widgetName,
+	                                        TQObject *parent, const char *name,
+	                                        const char *classname, const TQStringList &args );
 	static KInstance* instance();
 
 private:

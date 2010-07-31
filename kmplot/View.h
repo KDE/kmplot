@@ -28,7 +28,7 @@
 #undef	 GrayScale
 
 // Qt includes
-#include <qpixmap.h>
+#include <tqpixmap.h>
 
 // KDE includes
 #include <dcopclient.h>
@@ -64,28 +64,28 @@ enum ZoomMode
  * It is the central widget of MainDlg.
  * @see MainDlg, MainDlg::view
  */
-class View : public QWidget, virtual public ViewIface
+class View : public TQWidget, virtual public ViewIface
 {
 	Q_OBJECT
 public:
 	/// Contructor sets up the parser, too.
-  View(bool, bool &, KPopupMenu *, QWidget* parent=NULL, const char* name=NULL );
+  View(bool, bool &, KPopupMenu *, TQWidget* parent=NULL, const char* name=NULL );
 	void setMinMaxDlg(KMinMax *);
 	virtual ~View();
 
 	/// Reimplemented to draw all stuff to the view.
-	void draw(QPaintDevice *, int const);
+	void draw(TQPaintDevice *, int const);
 	/// Getting all relevant settings using KConfig XT class Settings.
 	void getSettings();
 	/// Clears all functions in the parser and gets default settings.
 	/// @see getSettings
 	void init();
 	/// Finding the minimum or maximum value
-	void findMinMaxValue(Ufkt *, char, bool, double &, double &,const QString &);
+	void findMinMaxValue(Ufkt *, char, bool, double &, double &,const TQString &);
 	/// get a y-value from a x-value
-	void getYValue(Ufkt * , char, double , double &,const QString &);
+	void getYValue(Ufkt * , char, double , double &,const TQString &);
 	/// draw and calculate the area between the graph and the x-axis.
-	void areaUnderGraph(Ufkt *, char const, double &, double &, const QString &, QPainter* );
+	void areaUnderGraph(Ufkt *, char const, double &, double &, const TQString &, TQPainter* );
 	/// the calculation was cancelled by the user
 	bool isCalculationStopped();
 
@@ -106,7 +106,7 @@ public:
 	Ufkt * areaUfkt;
 	char areaPMode;
 	double areaMin, areaMax;
-	QString areaParameter;
+	TQString areaParameter;
 
 	/// Slider controlling parameter values
 	KSliderWindow* sliders[ SLIDER_COUNT ];
@@ -137,39 +137,39 @@ public slots:
 	void mnuTrig_clicked();
 
 protected slots:
-	void paintEvent(QPaintEvent *);
-	void resizeEvent(QResizeEvent *);
+	void paintEvent(TQPaintEvent *);
+	void resizeEvent(TQResizeEvent *);
 	/// Updating the cross hair.
-	void mouseMoveEvent(QMouseEvent *);
+	void mouseMoveEvent(TQMouseEvent *);
 	/// Toggles the trace mode if the cursor is near to a plot.
-	void mousePressEvent(QMouseEvent *);
+	void mousePressEvent(TQMouseEvent *);
 	/// when a key is pressed and the graph widget has focus
-	void keyPressEvent(QKeyEvent * );
+	void keyPressEvent(TQKeyEvent * );
 	/// called when a mouse key is released
-	void mouseReleaseEvent ( QMouseEvent * e );
+	void mouseReleaseEvent ( TQMouseEvent * e );
 	/// Is needed to be reimplement so that the user can stop a preview-drawing
-	bool event( QEvent * e );
+	bool event( TQEvent * e );
 
 signals:
-	void setStatusBarText(const QString &);
+	void setStatusBarText(const TQString &);
     void resetZoom();
 
 private:
 	/// Print out table with additional information.
 	/// Only for printing.
-	void drawHeaderTable(QPainter *);
+	void drawHeaderTable(TQPainter *);
 	/// Draw the function plots.
-	void plotfkt(Ufkt *ufkt, QPainter*);
+	void plotfkt(Ufkt *ufkt, TQPainter*);
 	/// Gets the greek pi symbol.
-	void setpi(QString *);
+	void setpi(TQString *);
 	/// in trace mode checks, if the function is (near by) zero
 	bool root(double *, Ufkt *);
 	///return the inverted color
-	void invertColor(QColor &, QColor &);
+	void invertColor(TQColor &, TQColor &);
 	/// Restore the mouse cursor when a drawing is finished
 	void restoreCursor();
 	/// Changes the text in the statusbar
-	void setStatusBar(const QString &text, const int id);
+	void setStatusBar(const TQString &text, const int id);
 	/// Functions for the progressbar
 	bool stopProgressBar();
 	void startProgressBar(int);
@@ -195,15 +195,15 @@ private:
 	bool rootflg;
 
 	CDiagr dgr;	///< Coordinate system
-	QPoint ref;
-	QRect area,
+	TQPoint ref;
+	TQRect area,
 	PlotArea;
-	QPixmap hline,
+	TQPixmap hline,
 	vline;
-	QWMatrix wm;
+	TQWMatrix wm;
 
 	double tlgx, tlgy, drskalx, drskaly;
-	QString tlgxstr, tlgystr, drskalxstr, drskalystr;
+	TQString tlgxstr, tlgystr, drskalxstr, drskalystr;
 	double stepWidth; ///< Absolute step width
 
 	/** @name Plotrange
@@ -216,14 +216,14 @@ private:
 	 */
 	//@{
 	///Convert axes range predefinition index to boundaries.
-	void getMinMax(int koord, QString &mini, QString &maxi);
+	void getMinMax(int koord, TQString &mini, TQString &maxi);
 	/** Handle predefiend axes ranges.
 	*
 	* @p koord can have the values 0 to 4 which have the following meanings: 
 	*
 	* In the last case @p minstr and @p maxstr are evaluated.
 	*/
-	void coordToMinMax( const int koord, const QString &minStr, const QString &maxStr,
+	void coordToMinMax( const int koord, const TQString &minStr, const TQString &maxStr,
 	                    double &min, double &max );
 	/// Sets the plot range from Settings
 	void setPlotRange();
@@ -241,13 +241,13 @@ private:
 	/// if stop_calculating is true, the user has canceled drawing of an integral graph
 	bool stop_calculating;
 	/// the background color of the graph
-	QColor backgroundcolor;
+	TQColor backgroundcolor;
 	/// the inverted background color used by the "Fadenkreuz"
-	QColor inverted_backgroundcolor;
+	TQColor inverted_backgroundcolor;
 	/// pointer to KMinMax
 	KMinMax *m_minmax;
 	///buffer the current window so all functions don't need to be re-drawed
-	QPixmap buffer;
+	TQPixmap buffer;
 	/// the popup menu
 	KPopupMenu *m_popupmenu;
 	/// is set to true if an integral is calculated
@@ -255,7 +255,7 @@ private:
 	///status of the popup menu
 	char m_popupmenushown; /// 0==no popup 1==popup 2==popup+trace mode before
 	/// for zoom-mode
-	QPoint rectangle_point;
+	TQPoint rectangle_point;
 	/*char zoom_mode;*/ ///0=normal 1=rectangular zoom, 2=zoom in, 3=zoom out ,4=drawing a rectangle, 5=center
     ZoomMode zoom_mode;
 	/// true == modifications not saved
@@ -264,10 +264,10 @@ private:
 	bool const m_readonly;
 
 	DCOPClient *m_dcop_client;
-	QString m_statusbartext1;
-	QString m_statusbartext2;
-	QString m_statusbartext3;
-	QString m_statusbartext4;
+	TQString m_statusbartext1;
+	TQString m_statusbartext2;
+	TQString m_statusbartext3;
+	TQString m_statusbartext4;
 };
 
 #endif // View_included

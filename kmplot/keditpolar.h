@@ -40,7 +40,7 @@ class KEditPolar : public QEditPolar
 		/// @param parser points to the parser instance.
 		/// @param parent points to the parent widget.
 		/// @param name of this instance.
-		KEditPolar( XParser* parser, QWidget* parent = NULL, const char* name = NULL );
+		KEditPolar( XParser* parser, TQWidget* parent = NULL, const char* name = NULL );
 		/// Nothing special to do.
 		virtual ~KEditPolar() {}
 		

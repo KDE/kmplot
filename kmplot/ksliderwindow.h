@@ -37,7 +37,7 @@ class KSliderWindow : public SliderWindow
 	public:
 		/// @param parent points to the parent widget.
 		/// @param num number of this instance.
-		KSliderWindow(QWidget* parent, int num );
+		KSliderWindow(TQWidget* parent, int num );
 		virtual ~KSliderWindow();
 
 	private slots:
@@ -49,8 +49,8 @@ class KSliderWindow : public SliderWindow
 		void windowClosed(int);
 
 	private:
-		bool eventFilter( QObject *obj, QEvent *ev );
-		void closeEvent( QCloseEvent * );
+		bool eventFilter( TQObject *obj, TQEvent *ev );
+		void closeEvent( TQCloseEvent * );
 		KPopupMenu *m_popupmenu;
 		int m_num;
 };

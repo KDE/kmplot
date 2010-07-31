@@ -29,7 +29,7 @@
 #define kprintdlg_included
 
 // Qt includes
-#include <qcheckbox.h>
+#include <tqcheckbox.h>
 
 // KDE includes
 #include <kdeprint/kprintdialogpage.h>
@@ -44,17 +44,17 @@ class KPrinterDlg : public KPrintDialogPage
 	Q_OBJECT
 public:
 	/// Getting the common arguments.
-	KPrinterDlg( QWidget *parent = 0, const char *name = 0 );
+	KPrinterDlg( TQWidget *parent = 0, const char *name = 0 );
 
 	/// Reimplemented.
-	void getOptions( QMap<QString, QString>& opts, bool include_def = false );
+	void getOptions( TQMap<TQString, TQString>& opts, bool include_def = false );
 	/// Reimplemented.
-	void setOptions( const QMap<QString, QString>& opts );
+	void setOptions( const TQMap<TQString, TQString>& opts );
 	/// Reimplemented.
-	bool isValid( const QString& msg );
+	bool isValid( const TQString& msg );
 	/// The check box for the option.
-	QCheckBox *printHeaderTable;
-	QCheckBox *transparent_background;
+	TQCheckBox *printHeaderTable;
+	TQCheckBox *transparent_background;
 };
 
 #endif //kprinterdlg_included

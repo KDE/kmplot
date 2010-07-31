@@ -44,11 +44,11 @@ XParser::~XParser()
 {
 }
 
-bool XParser::getext( Ufkt *item, const QString fstr )
+bool XParser::getext( Ufkt *item, const TQString fstr )
 {
   	bool errflg = false;
    	int p1, p2, p3, pe;
-	QString tstr;
+	TQString tstr;
 	pe = fstr.length();
 	if ( fstr.find( 'N' ) != -1 )
 		item->f_mode = false;
@@ -71,7 +71,7 @@ bool XParser::getext( Ufkt *item, const QString fstr )
 	if ( p1 != -1 )
 	{
 		p1 += 2;
-		const QString str = fstr.mid( p1, pe - p1);
+		const TQString str = fstr.mid( p1, pe - p1);
 		p2 = str.find(',');
 		p3 = str.find(']');
 		if ( p2 > 0 && p2 < p3 )
@@ -95,7 +95,7 @@ bool XParser::getext( Ufkt *item, const QString fstr )
 	{
 		int i = 0;
 		p1 += 2;
-		QString str = fstr.mid( p1, 1000);
+		TQString str = fstr.mid( p1, 1000);
 		p3 = str.find( ']' );
 		do
 		{
@@ -134,7 +134,7 @@ double XParser::a2fkt( Ufkt *u_item, double x, double h )
 	return ( fkt( u_item, x + h + h ) - 2 * fkt( u_item, x + h ) + fkt( u_item, x ) ) / h / h;
 }
 
-void XParser::findFunctionName(QString &function_name, int const id, int const type)
+void XParser::findFunctionName(TQString &function_name, int const id, int const type)
 {
   char last_character;
   int pos;
@@ -149,7 +149,7 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
     {
       if ( pos==0 && last_character == 'r') continue;
       function_name.at(pos)=last_character;
-      for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+      for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
       {
         if (it == ufkt.begin() && it->fname.isEmpty() ) continue;
         if ( it->fstr.startsWith(function_name+'(') && (int)it->id!=id) //check if the name is free
@@ -168,13 +168,13 @@ void XParser::findFunctionName(QString &function_name, int const id, int const t
   function_name = "e"; //this should never happen
 }
 
-void XParser::fixFunctionName( QString &str, int const type, int const id)
+void XParser::fixFunctionName( TQString &str, int const type, int const id)
 {
   if ( str.startsWith( "y=" ) ) //we find a free function name
   {
     str.remove( 0, 2 );
     str.prepend("(x)=");
-    QString function_name;
+    TQString function_name;
     findFunctionName(function_name, id, type);
     str.prepend( function_name );
   }
@@ -195,13 +195,13 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
       p1++;
       p2++;
     }
-    QString const fname = str.left(p1);
-    for ( QValueVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
+    TQString const fname = str.left(p1);
+    for ( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it!=ufkt.end(); ++it )
     {
       if (it->fname == fname)
       {
         str = str.mid(p1,str.length()-1);
-        QString function_name;
+        TQString function_name;
         if ( type == XParser::Polar )
           function_name = "rf";
         else if ( type == XParser::ParametricX )
@@ -218,7 +218,7 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
   }
   else if ( p1==-1 || !str.at(p1+1).isLetter() ||  p2==-1 || str.at(p2+1 )!= '=')
   {
-    QString function_name;
+    TQString function_name;
     if ( type == XParser::Polar )
       function_name = "rf";
     else if ( type == XParser::ParametricX )
@@ -233,7 +233,7 @@ void XParser::fixFunctionName( QString &str, int const type, int const id)
   }
 }
 
-double XParser::euler_method(const double x, const QValueVector<Ufkt>::iterator it)
+double XParser::euler_method(const double x, const TQValueVector<Ufkt>::iterator it)
 {
 	double const y = it->oldy + ((x-it->oldx) * it->oldyprim);
 	it->oldy = y;
@@ -303,10 +303,10 @@ int XParser::getNextIndex()
         return getNewId();
 }
 
-QStringList XParser::listFunctionNames()
+TQStringList XParser::listFunctionNames()
 {
-	QStringList list;
-	for( QValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
+	TQStringList list;
+	for( TQValueVector<Ufkt>::iterator it = ufkt.begin(); it != ufkt.end(); ++it)
 	{
 		list.append(it->fname);
 	}
@@ -379,7 +379,7 @@ bool XParser::setFunctionIntVisible(bool visible, uint id)
 	return true;
 }
 
-QString XParser::functionStr(uint id)
+TQString XParser::functionStr(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -387,35 +387,35 @@ QString XParser::functionStr(uint id)
 	return ufkt[ix].fstr;
 }
 
-QColor XParser::functionFColor(uint id)
+TQColor XParser::functionFColor(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
-		return QColor();
-	return QColor(ufkt[ix].color);
+		return TQColor();
+	return TQColor(ufkt[ix].color);
 }
-QColor XParser::functionF1Color(uint id)
+TQColor XParser::functionF1Color(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
-		return QColor();
-	return QColor(ufkt[ix].f1_color);
+		return TQColor();
+	return TQColor(ufkt[ix].f1_color);
 }
-QColor XParser::functionF2Color(uint id)
+TQColor XParser::functionF2Color(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
-		return QColor();
-	return QColor(ufkt[ix].f2_color);
+		return TQColor();
+	return TQColor(ufkt[ix].f2_color);
 }
-QColor XParser::functionIntColor(uint id)
+TQColor XParser::functionIntColor(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
-		return QColor();
-	return QColor(ufkt[ix].integral_color);
+		return TQColor();
+	return TQColor(ufkt[ix].integral_color);
 }
-bool XParser::setFunctionFColor(const QColor &color, uint id)
+bool XParser::setFunctionFColor(const TQColor &color, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -424,7 +424,7 @@ bool XParser::setFunctionFColor(const QColor &color, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionF1Color(const QColor &color, uint id)
+bool XParser::setFunctionF1Color(const TQColor &color, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -433,7 +433,7 @@ bool XParser::setFunctionF1Color(const QColor &color, uint id)
 	m_modified = true;
 	return true;
 }		
-bool XParser::setFunctionF2Color(const QColor &color, uint id)
+bool XParser::setFunctionF2Color(const TQColor &color, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -442,7 +442,7 @@ bool XParser::setFunctionF2Color(const QColor &color, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::setFunctionIntColor(const QColor &color, uint id)
+bool XParser::setFunctionIntColor(const TQColor &color, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -517,7 +517,7 @@ bool XParser::setFunctionIntLineWidth(int linewidth, uint id)
 	return true;
 }
 
-QString XParser::functionMinValue(uint id)
+TQString XParser::functionMinValue(uint id)
 {
   int const ix = ixValue(id);
   if (ix==-1)
@@ -525,7 +525,7 @@ QString XParser::functionMinValue(uint id)
   return ufkt[ix].str_dmin;
 }
 
-bool XParser::setFunctionMinValue(const QString &min, uint id)
+bool XParser::setFunctionMinValue(const TQString &min, uint id)
 {
   int const ix = ixValue(id);
   if (ix==-1)
@@ -535,7 +535,7 @@ bool XParser::setFunctionMinValue(const QString &min, uint id)
   return true;
 }
 
-QString XParser::functionMaxValue(uint id)
+TQString XParser::functionMaxValue(uint id)
 {
   int const ix = ixValue(id);
   if (ix==-1)
@@ -543,7 +543,7 @@ QString XParser::functionMaxValue(uint id)
   return ufkt[ix].str_dmax;
 }
 
-bool XParser::setFunctionMaxValue(const QString &max, uint id)
+bool XParser::setFunctionMaxValue(const TQString &max, uint id)
 {
   int const ix = ixValue(id);
   if (ix==-1)
@@ -553,7 +553,7 @@ bool XParser::setFunctionMaxValue(const QString &max, uint id)
   return true;
 }
 
-QString XParser::functionStartXValue(uint id)
+TQString XParser::functionStartXValue(uint id)
 {
   int const ix = ixValue(id);
   if (ix==-1)
@@ -561,7 +561,7 @@ QString XParser::functionStartXValue(uint id)
   return ufkt[ix].str_startx;
 }
 
-bool XParser::setFunctionStartXValue(const QString &x, uint id)
+bool XParser::setFunctionStartXValue(const TQString &x, uint id)
 {
   int const ix = ixValue(id);
   if (ix==-1)
@@ -571,7 +571,7 @@ bool XParser::setFunctionStartXValue(const QString &x, uint id)
   return true;
 }
 
-QString XParser::functionStartYValue(uint id)
+TQString XParser::functionStartYValue(uint id)
 {
   int const ix = ixValue(id);
   if (ix==-1)
@@ -579,7 +579,7 @@ QString XParser::functionStartYValue(uint id)
   return ufkt[ix].str_starty;
 }
 
-bool XParser::setFunctionStartYValue(const QString &y, uint id)
+bool XParser::setFunctionStartYValue(const TQString &y, uint id)
 {
   int const ix = ixValue(id);
   if (ix==-1)
@@ -589,24 +589,24 @@ bool XParser::setFunctionStartYValue(const QString &y, uint id)
   return true;
 }
 
-QStringList XParser::functionParameterList(uint id)
+TQStringList XParser::functionParameterList(uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
-		return QStringList();
+		return TQStringList();
 	Ufkt *item = &ufkt[ix];
-	QStringList str_parameter;
-	for ( QValueList<ParameterValueItem>::iterator it = item->parameters.begin(); it != item->parameters.end(); ++it)
+	TQStringList str_parameter;
+	for ( TQValueList<ParameterValueItem>::iterator it = item->parameters.begin(); it != item->parameters.end(); ++it)
 		str_parameter.append( (*it).expression);
 	return str_parameter;
 }
-bool XParser::functionAddParameter(const QString &new_parameter, uint id)
+bool XParser::functionAddParameter(const TQString &new_parameter, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
 		return false;
 	Ufkt *tmp_ufkt = &ufkt[ix];
-	for ( QValueList<ParameterValueItem>::iterator it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
+	for ( TQValueList<ParameterValueItem>::iterator it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
 		if ( (*it).expression == new_parameter) //check if the parameter already exists
 			return false;
 
@@ -617,7 +617,7 @@ bool XParser::functionAddParameter(const QString &new_parameter, uint id)
 	m_modified = true;
 	return true;
 }
-bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
+bool XParser::functionRemoveParameter(const TQString &remove_parameter, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
@@ -625,7 +625,7 @@ bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 	Ufkt *tmp_ufkt = &ufkt[ix];
 	
 	bool found = false;
-	QValueList<ParameterValueItem>::iterator it;
+	TQValueList<ParameterValueItem>::iterator it;
 	for ( it = tmp_ufkt->parameters.begin(); it != tmp_ufkt->parameters.end(); ++it)
 		if ( (*it).expression == remove_parameter) //check if the parameter already exists
 		{
@@ -638,9 +638,9 @@ bool XParser::functionRemoveParameter(const QString &remove_parameter, uint id)
 	m_modified = true;
 	return true;
 }
-int XParser::addFunction(const QString &f_str)
+int XParser::addFunction(const TQString &f_str)
 {
-	QString added_function(f_str);
+	TQString added_function(f_str);
 	int const pos = added_function.find(';');
 	if (pos!=-1)
 	  added_function = added_function.left(pos);
@@ -664,9 +664,9 @@ int XParser::addFunction(const QString &f_str)
 	return id;
 }
 
-bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const QString &str_dmin, const QString &str_dmax, const QString &str_startx, const QString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, QStringList str_parameter, int use_slider)
+bool XParser::addFunction(const TQString &fstr_const, bool f_mode, bool f1_mode, bool f2_mode, bool integral_mode, bool integral_use_precision, int linewidth, int f1_linewidth, int f2_linewidth, int integral_linewidth, const TQString &str_dmin, const TQString &str_dmax, const TQString &str_startx, const TQString &str_starty, double integral_precision, QRgb color, QRgb f1_color, QRgb f2_color, QRgb integral_color, TQStringList str_parameter, int use_slider)
 {
-	QString fstr(fstr_const);
+	TQString fstr(fstr_const);
 	switch ( fstr.at(0).latin1() )
 	{
 	  case 'r':
@@ -727,7 +727,7 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 	added_function->f2_color = f2_color;
 	added_function->integral_color = integral_color;
 	added_function->use_slider = use_slider;
-	for( QStringList::Iterator it = str_parameter.begin(); it != str_parameter.end(); ++it )
+	for( TQStringList::Iterator it = str_parameter.begin(); it != str_parameter.end(); ++it )
 	{
 		double result = eval(*it);
 		if ( parserError(false) != 0)
@@ -738,14 +738,14 @@ bool XParser::addFunction(const QString &fstr_const, bool f_mode, bool f1_mode, 
 	return true;
 }
 
-bool XParser::setFunctionExpression(const QString &f_str, uint id)
+bool XParser::setFunctionExpression(const TQString &f_str, uint id)
 {
 	int const ix = ixValue(id);
 	if (ix==-1)
 		return false;
 	Ufkt *tmp_ufkt = &ufkt[ix];
-	QString const old_fstr = tmp_ufkt->fstr;
-	QString const fstr_begin = tmp_ufkt->fstr.left(tmp_ufkt->fstr.find('=')+1);
+	TQString const old_fstr = tmp_ufkt->fstr;
+	TQString const fstr_begin = tmp_ufkt->fstr.left(tmp_ufkt->fstr.find('=')+1);
 	tmp_ufkt->fstr = fstr_begin+f_str;
 	reparse(tmp_ufkt);
 	if ( parserError(false) != 0)
@@ -757,12 +757,12 @@ bool XParser::setFunctionExpression(const QString &f_str, uint id)
 	return true;
 }
 
-bool XParser::sendFunction(int id, const QString &dcopclient_target)
+bool XParser::sendFunction(int id, const TQString &dcopclient_target)
 {
 	QCStringList cstr_list = kapp->dcopClient()->registeredApplications();
-	QStringList str_list;
+	TQStringList str_list;
 	for ( QCStringList::iterator it = cstr_list.begin(); it!=cstr_list.end();++it )
-		if ( QString(*it).startsWith("kmplot") && *it!=kapp->dcopClient()->appId() )
+		if ( TQString(*it).startsWith("kmplot") && *it!=kapp->dcopClient()->appId() )
 			str_list.append(*it);
 	if ( str_list.isEmpty() )
 	{
@@ -772,7 +772,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	
 	Ufkt *item = &ufkt[ixValue(id)];
 	kdDebug() << "Transferring " << item->fname.latin1() << endl;
-	QString str_result;
+	TQString str_result;
 	if ( dcopclient_target.isEmpty() && item->fname.at(0) == 'y' )
 	  	return false;
 	else if ( dcopclient_target.isEmpty() )
@@ -785,30 +785,30 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 	else
 	  str_result = dcopclient_target;
 	
-	QByteArray parameters;
-	QDataStream arg( parameters, IO_WriteOnly);
+	TQByteArray parameters;
+	TQDataStream arg( parameters, IO_WriteOnly);
  
-  QString str_dmin;
+  TQString str_dmin;
   if (!item->usecustomxmin)
     str_dmin = item->str_dmin;
-  QString str_dmax;
+  TQString str_dmax;
   if (!item->usecustomxmax)
     str_dmax = item->str_dmax;
   
-	QStringList str_parameters;
-	for ( QValueList<ParameterValueItem>::Iterator it = item->parameters.begin(); it != item->parameters.end(); ++it )
+	TQStringList str_parameters;
+	for ( TQValueList<ParameterValueItem>::Iterator it = item->parameters.begin(); it != item->parameters.end(); ++it )
 	  	str_parameters.append( (*it).expression);
 	arg << item->fstr << item->f_mode << item->f1_mode << item->f2_mode << item->integral_mode << item->integral_use_precision << item->linewidth << item->f1_linewidth << item->f2_linewidth << item->integral_linewidth << str_dmin << str_dmax << item->str_startx << item->str_starty << item->integral_precision << item->color << item->f1_color << item->f2_color << item->integral_color << str_parameters << item->use_slider;
-	QByteArray replay_data;
-	QCString replay_type;
-	bool ok = kapp->dcopClient()->call( str_result.utf8(), "Parser", "addFunction(QString,bool,bool,bool,bool,bool,int,int,int,int,QString,QString,QString,QString,double,QRgb,QRgb,QRgb,QRgb,QStringList,int)", parameters, replay_type, replay_data, false);
+	TQByteArray replay_data;
+	TQCString replay_type;
+	bool ok = kapp->dcopClient()->call( str_result.utf8(), "Parser", "addFunction(TQString,bool,bool,bool,bool,bool,int,int,int,int,TQString,TQString,TQString,TQString,double,QRgb,QRgb,QRgb,QRgb,TQStringList,int)", parameters, replay_type, replay_data, false);
 	if (!ok)
 	{
 		KMessageBox::error(0, i18n("An error appeared during the transfer"));
 		return false;
 	}
 
-	QDataStream replay_arg(replay_data, IO_ReadOnly);
+	TQDataStream replay_arg(replay_data, IO_ReadOnly);
 	bool result;
 	replay_arg >> result;
 	if (!result)
@@ -817,7 +817,7 @@ bool XParser::sendFunction(int id, const QString &dcopclient_target)
 		return false;
 	}
 	
-	kapp->dcopClient()->send(str_result.utf8(), "View","drawPlot()",QByteArray() ); //update the other window
+	kapp->dcopClient()->send(str_result.utf8(), "View","drawPlot()",TQByteArray() ); //update the other window
 	
 	if (item->fname.at(0) == 'x') // a parametric function
 		return sendFunction(id+1, str_result);

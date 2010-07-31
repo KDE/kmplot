@@ -24,15 +24,15 @@
 */
 
 // Qt includes
-#include <qcheckbox.h>
-#include <qcombobox.h>
-#include <qdialog.h>
-#include <qframe.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qradiobutton.h>
-#include <qstringlist.h>
-#include <qvbox.h>
+#include <tqcheckbox.h>
+#include <tqcombobox.h>
+#include <tqdialog.h>
+#include <tqframe.h>
+#include <tqlabel.h>
+#include <tqlayout.h>
+#include <tqradiobutton.h>
+#include <tqstringlist.h>
+#include <tqvbox.h>
 
 
 // KDE includes
@@ -56,23 +56,23 @@
 #include "editintegralpage.h"
 #include "kparametereditor.h"
 
-EditFunction::EditFunction( XParser* parser, QWidget* parent, const char* name ) : 
+EditFunction::EditFunction( XParser* parser, TQWidget* parent, const char* name ) : 
 	KDialogBase( IconList, "Caption", Help|Ok|Cancel, Ok, parent, name ), m_parser(parser)
 {
-	QVBox *page0 = addVBoxPage( i18n("Function"), i18n( "Function" ), SmallIcon( "func", 32 ) );
+	TQVBox *page0 = addVBoxPage( i18n("Function"), i18n( "Function" ), SmallIcon( "func", 32 ) );
 	editfunctionpage = new EditFunctionPage( page0 );
-	QVBox *page1 = addVBoxPage( i18n("Derivatives"), i18n( "Derivatives" ), SmallIcon( "deriv_func", 32 ) );
+	TQVBox *page1 = addVBoxPage( i18n("Derivatives"), i18n( "Derivatives" ), SmallIcon( "deriv_func", 32 ) );
 	editderivativespage = new EditDerivativesPage( page1 );
-	QVBox *page2 = addVBoxPage( i18n("Integral"), i18n( "Integral" ), SmallIcon( "integral_func", 32 ) );
+	TQVBox *page2 = addVBoxPage( i18n("Integral"), i18n( "Integral" ), SmallIcon( "integral_func", 32 ) );
 	editintegralpage = new EditIntegralPage( page2 );
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 	{
 		editfunctionpage->listOfSliders->insertItem( i18n( "Slider No. %1" ).arg( number +1) );
 	}
-	connect( editfunctionpage->cmdParameter, SIGNAL ( clicked() ), this, SLOT( cmdParameter_clicked() ) );
-	connect( editfunctionpage->useNoParameter, SIGNAL ( toggled(bool) ), this, SLOT( noParameter_toggled(bool) ) );
-	connect( editfunctionpage->customMinRange, SIGNAL ( toggled(bool) ), this, SLOT( customMinRange_toggled(bool) ) );
-	connect( editfunctionpage->customMaxRange, SIGNAL ( toggled(bool) ), this, SLOT( customMaxRange_toggled(bool) ) );
+	connect( editfunctionpage->cmdParameter, TQT_SIGNAL ( clicked() ), this, TQT_SLOT( cmdParameter_clicked() ) );
+	connect( editfunctionpage->useNoParameter, TQT_SIGNAL ( toggled(bool) ), this, TQT_SLOT( noParameter_toggled(bool) ) );
+	connect( editfunctionpage->customMinRange, TQT_SIGNAL ( toggled(bool) ), this, TQT_SLOT( customMinRange_toggled(bool) ) );
+	connect( editfunctionpage->customMaxRange, TQT_SIGNAL ( toggled(bool) ), this, TQT_SLOT( customMaxRange_toggled(bool) ) );
     m_updatedfunction = 0;
 }
 
@@ -169,7 +169,7 @@ void EditFunction::setWidgets()
 
 void EditFunction::accept()
 {
-  QString f_str( editfunctionpage->equation->text() );
+  TQString f_str( editfunctionpage->equation->text() );
         
         if ( m_id!=-1 )
                 m_parser->fixFunctionName(f_str, XParser::Function, m_id);
@@ -312,7 +312,7 @@ void EditFunction::accept()
                         return;
                 }
                 added_ufkt =  &m_parser->ufkt[ix];
-                QString const old_fstr = added_ufkt->fstr;
+                TQString const old_fstr = added_ufkt->fstr;
                 if((  (!m_parameter.isEmpty() && editfunctionpage->useList->isChecked() ) || editfunctionpage->useSlider->isChecked() ) && !functionHas2Arguments() )
                         fixFunctionArguments(f_str); //adding an extra argument for the parameter value
                 added_ufkt->fstr = f_str;
@@ -426,7 +426,7 @@ void EditFunction::customMaxRange_toggled(bool status)
     editfunctionpage->max->setEnabled(false);
 }
 
-void EditFunction::fixFunctionArguments(QString &f_str)
+void EditFunction::fixFunctionArguments(TQString &f_str)
 {
 	int const openBracket = f_str.find( "(" );
 	int const closeBracket = f_str.find( ")" );

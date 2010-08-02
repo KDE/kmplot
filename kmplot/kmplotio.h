@@ -29,7 +29,7 @@
 #include <kurl.h>
 #include "xparser.h"
 
-class QString;
+class TQString;
 class XParser;
 
 /** @short This class manages the file operations load and save.

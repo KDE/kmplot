@@ -264,10 +264,10 @@
            <item row="0" column="0">
             <widget class="QCheckBox" name="showIntegral">
              <property name="toolTip">
-              <string>hide the plot</string>
+              <string>Show integral</string>
              </property>
              <property name="whatsThis">
-              <string>Check this box if you want to hide the plot of the function.</string>
+              <string>If this box is checked, the integral will be plotted, too.</string>
              </property>
              <property name="text">
               <string>Show integral</string>

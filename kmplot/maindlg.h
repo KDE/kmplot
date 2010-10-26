@@ -103,6 +103,9 @@ class MainDlg : public KParts::ReadWritePart
 	/// For inserting the title in the function popup menu
 	QAction * m_firstFunctionAction;
 
+	/// Show the constants editor modal to a parent dialog
+	void editConstantsModal(QWidget *parent);
+
 
 public Q_SLOTS:
     // DBus interface
@@ -189,7 +192,7 @@ private:
 	/// The axes config dialogs
 	CoordsConfigDialog* m_coordsDialog;
 	/// The constants editor
-	KConstantEditor * m_constantEditor;
+	QPointer<KConstantEditor> m_constantEditor;
 	/// The function editor
 	FunctionEditor * m_functionEditor;
 	/// The undo stack

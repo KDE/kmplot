@@ -710,6 +710,15 @@ void MainDlg::editConstants()
 }
 
 
+void MainDlg::editConstantsModal(QWidget *parent)
+{
+	delete m_constantEditor;
+	m_constantEditor = new KConstantEditor(parent);
+
+	m_constantEditor->setModal(true);
+	m_constantEditor->show();
+}
+
 void MainDlg::slotNames()
 {
 	KToolInvocation::invokeHelp( "func-predefined", "kmplot" );

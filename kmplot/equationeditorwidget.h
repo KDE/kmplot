@@ -43,6 +43,7 @@ class EquationEditorWidget : public QWidget, public Ui::EquationEditorWidget
 		void insertConstant(int index);
 		void characterButtonClicked();
 		void updateConstantList();
+		void editConstants();
 };
 
 #endif

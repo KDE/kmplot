@@ -56,7 +56,7 @@ EquationEditorWidget::EquationEditorWidget(QWidget* parent)
 		w->setFont(buttonFont);
 	}
 	
-	connect(constantsButton, SIGNAL(clicked()), MainDlg::self(), SLOT(editConstants()));
+	connect(constantsButton, SIGNAL(clicked()), this, SLOT(editConstants()));
 	connect(functionList, SIGNAL(activated(const QString&)), this, SLOT(insertFunction(const QString&)));
 	connect(constantList, SIGNAL(activated(int)), this, SLOT(insertConstant(int)));
 	
@@ -91,6 +91,12 @@ void EquationEditorWidget::insertFunction(const QString& function) {
 	functionList->setCurrentIndex(0);
 	edit->wrapSelected(function + '(', ")");
 	edit->setFocus();
+}
+
+
+void EquationEditorWidget::editConstants()
+{
+	MainDlg::self()->editConstantsModal(this);
 }
 
 

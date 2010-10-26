@@ -129,7 +129,7 @@
                  <string>Customize the maximum plot range</string>
                 </property>
                 <property name="whatsThis">
-                 <string>Check this button and enter the plot range boundarys below.</string>
+                 <string>Check this button and enter the plot range boundaries below.</string>
                 </property>
                 <property name="text">
                  <string>Max:</string>
@@ -142,7 +142,7 @@
                  <string>Customize the minimum plot range</string>
                 </property>
                 <property name="whatsThis">
-                 <string>Check this button and enter the plot range boundarys below.</string>
+                 <string>Check this button and enter the plot range boundaries below.</string>
                 </property>
                 <property name="text">
                  <string>Min:</string>

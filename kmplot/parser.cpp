@@ -59,63 +59,63 @@ double Parser::m_radiansPerAngleUnit = 0;
 ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 {
 	// Hyperbolic trig
-	{"sinh", 0, sinh},	 				// Sinus hyperbolicus
-	{"cosh", 0, cosh}, 					// Cosinus hyperbolicus
-	{"tanh", 0, tanh},					// Tangens hyperbolicus
+	{"sinh", QString(), sinh},	 				// Sinus hyperbolicus
+	{"cosh", QString(), cosh}, 					// Cosinus hyperbolicus
+	{"tanh", QString(), tanh},					// Tangens hyperbolicus
 	{"arcsinh", "arsinh", asinh},		// Area-sinus hyperbolicus = inverse of sinh
 	{"arccosh", "arcosh", acosh},		// Area-cosinus hyperbolicus = inverse of cosh
 	{"arctanh", "artanh", atanh}, 		// Area-tangens hyperbolicus = inverse of tanh
 	
 	// Trigometric functions
-	{"sin", 0, lsin}, 					// Sinus
-	{"cos", 0, lcos}, 					// Cosinus
-	{"tan", 0, ltan}, 					// Tangens
-	{"arcsin", 0, larcsin}, 			// Arcus sinus = inverse of sin
-	{"arccos", 0, larccos}, 			// Arcus cosinus = inverse of cos
-	{"arctan", 0, larctan},				// Arcus tangens = inverse of tan
+	{"sin", QString(), lsin}, 					// Sinus
+	{"cos", QString(), lcos}, 					// Cosinus
+	{"tan", QString(), ltan}, 					// Tangens
+	{"arcsin", QString(), larcsin}, 			// Arcus sinus = inverse of sin
+	{"arccos", QString(), larccos}, 			// Arcus cosinus = inverse of cos
+	{"arctan", QString(), larctan},				// Arcus tangens = inverse of tan
 	
 	// Reciprocal-hyperbolic
-	{"cosech", 0, cosech},				// Co-Secans hyperbolicus
-	{"sech", 0, sech},					// Secans hyperbolicus
-	{"coth", 0, coth},					// Co-Tangens hyperbolicus
+	{"cosech", QString(), cosech},				// Co-Secans hyperbolicus
+	{"sech", QString(), sech},					// Secans hyperbolicus
+	{"coth", QString(), coth},					// Co-Tangens hyperbolicus
 	{"arccosech", "arcosech", arcosech},// Area-co-secans hyperbolicus = inverse of cosech
 	{"arcsech", "arsech", arsech},		// Area-secans hyperbolicus = invers of sech
 	{"arccoth", "arcoth", arcoth},		// Area-co-tangens hyperbolicus = inverse of coth
 	
 	// Reciprocal-trig
-	{"cosec", 0, lcosec},				// Co-Secans = 1/sin
-	{"sec", 0, lsec},					// Secans = 1/cos
-	{"cot", 0, lcot},					// Co-Tangens = 1/tan
+	{"cosec", QString(), lcosec},				// Co-Secans = 1/sin
+	{"sec", QString(), lsec},					// Secans = 1/cos
+	{"cot", QString(), lcot},					// Co-Tangens = 1/tan
 	{"arccosec", "arcosech", larccosec},// Arcus co-secans = inverse of cosec
 	{"arcsec", "arsec", larcsec},		// Arcus secans = inverse of sec
 	{"arccot", "arcot", larccot},		// Arcus co-tangens = inverse of cotan
 	
 	// Other
-	{"sqrt", 0, sqrt},					// Square root
-	{"sqr", 0, sqr}, 					// Square
-	{"sign", 0, sign},					// Signum
-	{"H", 0, heaviside},				// Heaviside step function
-	{"log", 0, log10},					// Logarithm base 10
-	{"ln", 0, log}, 					// Logarithm base e
-	{"exp", 0, exp}, 					// Exponential function base e
-	{"abs", 0, fabs},					// Absolute value
-	{"floor", 0, floor},				// round down to nearest integer
-	{"ceil", 0, ceil},					// round up to nearest integer
-	{"round", 0, round},				// round to nearest integer
-	{"gamma", 0, tgamma},			// gamma function
-	{"lgamma", 0, lgamma},			// log-gamma function
-	{"factorial", 0, factorial},		// factorial
-	{"erfc", 0, lerfc},			// error function
-	{"erf", 0, lerf},			// complementary error function
+	{"sqrt", QString(), sqrt},					// Square root
+	{"sqr", QString(), sqr}, 					// Square
+	{"sign", QString(), sign},					// Signum
+	{"H", QString(), heaviside},				// Heaviside step function
+	{"log", QString(), log10},					// Logarithm base 10
+	{"ln", QString(), log}, 					// Logarithm base e
+	{"exp", QString(), exp}, 					// Exponential function base e
+	{"abs", QString(), fabs},					// Absolute value
+	{"floor", QString(), floor},				// round down to nearest integer
+	{"ceil", QString(), ceil},					// round up to nearest integer
+	{"round", QString(), round},				// round to nearest integer
+	{"gamma", QString(), tgamma},			// gamma function
+	{"lgamma", QString(), lgamma},			// log-gamma function
+	{"factorial", QString(), factorial},		// factorial
+	{"erfc", QString(), lerfc},			// error function
+	{"erf", QString(), lerf},			// complementary error function
 	
 	// legendre
-	{"P_0", 0, legendre0},				// lengedre polynomial (n=0)
-	{"P_1", 0, legendre1},				// lengedre polynomial (n=1)
-	{"P_2", 0, legendre2},				// lengedre polynomial (n=2)
-	{"P_3", 0, legendre3},				// lengedre polynomial (n=3)
-	{"P_4", 0, legendre4},				// lengedre polynomial (n=4)
-	{"P_5", 0, legendre5},				// lengedre polynomial (n=5)
-	{"P_6", 0, legendre6},				// lengedre polynomial (n=6)
+	{"P_0", QString(), legendre0},				// lengedre polynomial (n=0)
+	{"P_1", QString(), legendre1},				// lengedre polynomial (n=1)
+	{"P_2", QString(), legendre2},				// lengedre polynomial (n=2)
+	{"P_3", QString(), legendre3},				// lengedre polynomial (n=3)
+	{"P_4", QString(), legendre4},				// lengedre polynomial (n=4)
+	{"P_5", QString(), legendre5},				// lengedre polynomial (n=5)
+	{"P_6", QString(), legendre6},				// lengedre polynomial (n=6)
 };
 
 VectorFunction Parser::vectorFunctions[ VectorCount ]=

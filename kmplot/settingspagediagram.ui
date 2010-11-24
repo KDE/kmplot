@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>307</width>
-    <height>435</height>
+    <height>459</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -83,6 +83,9 @@
         <property name="text">
          <string>Horizontal Axis Label: </string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
@@ -100,6 +103,9 @@
         <property name="text">
          <string>Vertical Axis Label:</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
       <item row="1" column="1">
@@ -116,6 +122,9 @@
     <widget class="QLabel" name="textLabel7">
      <property name="text">
       <string>Axis widths:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="buddy">
       <cstring>kcfg_AxesLineWidth</cstring>
@@ -146,6 +155,9 @@
      <property name="text">
       <string>Line &amp;width:</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
      <property name="buddy">
       <cstring>kcfg_GridLineWidth</cstring>
      </property>
@@ -175,6 +187,9 @@
      <property name="text">
       <string>Tic width:</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
      <property name="buddy">
       <cstring>kcfg_TicWidth</cstring>
      </property>
@@ -203,6 +218,9 @@
     <widget class="QLabel" name="textLabel8_4">
      <property name="text">
       <string>Tic length:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="buddy">
       <cstring>kcfg_TicLength</cstring>

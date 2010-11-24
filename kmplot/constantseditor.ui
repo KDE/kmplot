@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ConstantsEditor</class>
- <widget class="QWidget" name="ConstantsEditor" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ConstantsEditor">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,116 +10,122 @@
     <height>442</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Constant Editor</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="margin" >
+  <layout class="QGridLayout">
+   <property name="margin">
     <number>9</number>
    </property>
-   <property name="spacing" >
+   <property name="spacing">
     <number>6</number>
    </property>
-   <item row="0" column="1" >
-    <widget class="QLabel" name="valueInvalidLabel" >
-     <property name="toolTip" >
-      <string>The value must be a number (e.g. "pi^2")</string>
+   <item row="0" column="1">
+    <widget class="QLabel" name="valueInvalidLabel">
+     <property name="toolTip">
+      <string>The value must be a number (e.g. &quot;pi^2&quot;)</string>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>(invalid)</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" >
-    <layout class="QGridLayout" >
-     <property name="margin" >
+   <item row="0" column="0">
+    <layout class="QGridLayout">
+     <property name="margin">
       <number>0</number>
      </property>
-     <property name="spacing" >
+     <property name="spacing">
       <number>6</number>
      </property>
-     <item row="0" column="1" >
-      <widget class="KLineEdit" name="nameEdit" >
-       <property name="whatsThis" >
+     <item row="0" column="1">
+      <widget class="KLineEdit" name="nameEdit">
+       <property name="whatsThis">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="1" column="0" >
-      <widget class="QLabel" name="label_2" >
-       <property name="text" >
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
         <string>Value:</string>
        </property>
-      </widget>
-     </item>
-     <item row="0" column="0" >
-      <widget class="QLabel" name="label" >
-       <property name="text" >
-        <string>Constant:</string>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
-     <item row="1" column="1" >
-      <widget class="EquationEdit" name="valueEdit" >
-       <property name="toolTip" >
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Constant:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="EquationEdit" name="valueEdit">
+       <property name="toolTip">
         <string>Enter an expression that evaluates to a number</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="1" column="1" >
-    <widget class="QPushButton" name="cmdNew" >
-     <property name="toolTip" >
+   <item row="1" column="1">
+    <widget class="QPushButton" name="cmdNew">
+     <property name="toolTip">
       <string>Add a new constant</string>
      </property>
-     <property name="whatsThis" >
+     <property name="whatsThis">
       <string>Click this button to add a new constant.</string>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>&amp;New</string>
      </property>
     </widget>
    </item>
-   <item rowspan="3" row="1" column="0" >
-    <widget class="QTreeWidget" name="constantList" >
-     <property name="rootIsDecorated" >
+   <item row="1" column="0" rowspan="3">
+    <widget class="QTreeWidget" name="constantList">
+     <property name="rootIsDecorated">
       <bool>false</bool>
      </property>
-     <property name="columnCount" >
+     <property name="columnCount">
       <number>4</number>
      </property>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Constant</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Value</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Document</string>
       </property>
      </column>
      <column>
-      <property name="text" >
+      <property name="text">
        <string>Global</string>
       </property>
      </column>
     </widget>
    </item>
-   <item row="3" column="1" >
+   <item row="3" column="1">
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>261</height>
@@ -126,25 +133,25 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="1" >
-    <widget class="QPushButton" name="cmdDelete" >
-     <property name="enabled" >
+   <item row="2" column="1">
+    <widget class="QPushButton" name="cmdDelete">
+     <property name="enabled">
       <bool>false</bool>
      </property>
-     <property name="toolTip" >
+     <property name="toolTip">
       <string>Delete the selected constant</string>
      </property>
-     <property name="whatsThis" >
+     <property name="whatsThis">
       <string>Click here to delete the selected constant; it can only be removed if it is not currently used by a plot.</string>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>&amp;Delete</string>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
-  <customwidgets>
+ <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>

@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>FunctionTools</class>
- <widget class="QWidget" name="FunctionTools" >
-  <property name="geometry" >
+ <widget class="QWidget" name="FunctionTools">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,62 +10,68 @@
     <height>354</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Function Tools</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <layout class="QGridLayout" >
-     <item row="0" column="0" colspan="2" >
-      <widget class="QLabel" name="rangeTitle" >
-       <property name="text" >
-        <string>&lt;>:</string>
+    <layout class="QGridLayout">
+     <item row="0" column="0" colspan="2">
+      <widget class="QLabel" name="rangeTitle">
+       <property name="text">
+        <string>&lt;&gt;:</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0" >
-      <widget class="QLabel" name="label_4" >
-       <property name="text" >
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
         <string>Min:</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
       </widget>
      </item>
-     <item row="1" column="1" >
-      <widget class="EquationEdit" name="min" >
-       <property name="toolTip" >
+     <item row="1" column="1">
+      <widget class="EquationEdit" name="min">
+       <property name="toolTip">
         <string>Lower boundary of the plot range</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Enter the lower boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0" >
-      <widget class="QLabel" name="label_5" >
-       <property name="text" >
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
         <string>Max:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
-     <item row="2" column="1" >
-      <widget class="EquationEdit" name="max" >
-       <property name="toolTip" >
+     <item row="2" column="1">
+      <widget class="EquationEdit" name="max">
+       <property name="toolTip">
         <string>Upper boundary of the plot range</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Enter the upper boundary of the plot range. Expressions like 2*pi are allowed, too.</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="2" >
-      <widget class="QLabel" name="rangeResult" >
-       <property name="text" >
-        <string>&lt;></string>
+     <item row="3" column="0" colspan="2">
+      <widget class="QLabel" name="rangeResult">
+       <property name="text">
+        <string>&lt;&gt;</string>
        </property>
-       <property name="alignment" >
+       <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
-       <property name="textInteractionFlags" >
+       <property name="textInteractionFlags">
         <set>Qt::TextSelectableByMouse</set>
        </property>
       </widget>
@@ -72,9 +79,9 @@
     </layout>
    </item>
    <item>
-    <widget class="QListWidget" name="list" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+    <widget class="QListWidget" name="list">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>1</verstretch>
       </sizepolicy>
@@ -84,6 +91,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
   <customwidget>
    <class>EquationEdit</class>
    <extends>KLineEdit</extends>

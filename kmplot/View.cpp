@@ -140,7 +140,7 @@ void View::draw(TQPaintDevice *dev, int form)
 			DC.resetXForm();
 			DC.scale((float)w/(float)(lx+2*ref.x()), (float)w/(float)(lx+2*ref.x()));
 		}
-		wm=DC.worldMatrix();
+		wm=DC.tqworldMatrix();
 		s=DC.xForm(TQPoint(1000, 0)).x()/1000.;
 		dgr.Create( ref, lx, ly, xmin, xmax, ymin, ymax );
 	}
@@ -531,7 +531,7 @@ void View::setpi(TQString *s)
 	int i;
 	TQChar c(960);
 
-	while((i=s->find('p')) != -1) s->replace(i, 2, &c, 1);
+	while((i=s->find('p')) != -1) s->tqreplace(i, 2, &c, 1);
 }
 
 
@@ -639,7 +639,7 @@ void View::mouseMoveEvent(TQMouseEvent *e)
 		csflg=0;
 	}
 	
-	if(area.contains(e->pos()) || (e->button()==Qt::LeftButton && e->state()==Qt::LeftButton && csxpos>xmin && csxpos<xmax))
+	if(area.tqcontains(e->pos()) || (e->button()==Qt::LeftButton && e->state()==Qt::LeftButton && csxpos>xmin && csxpos<xmax))
 	{
 		TQPoint ptd, ptl;
 		TQPainter DC;
@@ -887,10 +887,10 @@ void View::mousePressEvent(TQMouseEvent *e)
 						it->setParameter( sw->slider->value() );
 				}
 
-				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.contains('t')==1) //parametric plot
+				if ( function_type=='x' &&  fabs(csxpos-m_parser->fkt(it, csxpos))< g && it->fstr.tqcontains('t')==1) //parametric plot
 				{
 					TQValueVector<Ufkt>::iterator ufkt_y = it+1;
-					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->fstr.contains('t')==1)
+					if ( fabs(csypos-m_parser->fkt(ufkt_y, csxpos)<g)  && ufkt_y->fstr.tqcontains('t')==1)
 					{
 						if ( csmode == -1)
 						{
@@ -1681,7 +1681,7 @@ void View::areaUnderGraph( Ufkt *ufkt, char const p_mode,  double &dmin, double 
 	else
 		forward_direction = true;
 	
-	int intervals = qRound((dmax-dmin)/dx);
+	int intervals = tqRound((dmax-dmin)/dx);
 	int at = 0;
 	
 	while ((at<=intervals) ||  (p_mode == 3 && x>=dmin && !forward_direction) || (p_mode == 3 && x<=dmax && forward_direction))

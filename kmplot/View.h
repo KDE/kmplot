@@ -59,7 +59,7 @@ enum ZoomMode
 };
 
 /**
- * @short This class contains the plots. 
+ * @short This class tqcontains the plots. 
  *
  * It is the central widget of MainDlg.
  * @see MainDlg, MainDlg::view

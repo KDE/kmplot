@@ -103,7 +103,7 @@ void KEditParametric::setWidgets()
 
 void KEditParametric::accept()
 {
-	if  ( kLineEditXFunction->text().contains('y') != 0 ||  kLineEditYFunction->text().contains('y') != 0)
+	if  ( kLineEditXFunction->text().tqcontains('y') != 0 ||  kLineEditYFunction->text().tqcontains('y') != 0)
 	{
 		KMessageBox::error( this, i18n( "Recursive function not allowed"));
 		kLineEditXFunction->setFocus();

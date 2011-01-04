@@ -199,7 +199,7 @@ void KConstantEditor::editConstantSlot()
         int index = 0;
         for( TQValueVector<Ufkt>::iterator it =  m_view->parser()->ufkt.begin(); it !=  m_view->parser()->ufkt.end(); ++it)
 	{
-		if( it->fstr.contains(constant)!=0 )
+		if( it->fstr.tqcontains(constant)!=0 )
 			m_view->parser()->reparse(index); //reparsing the function
                 ++index;
 	}

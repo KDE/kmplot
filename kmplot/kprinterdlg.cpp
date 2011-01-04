@@ -37,16 +37,16 @@ KPrinterDlg::KPrinterDlg( TQWidget *parent, const char *name )
 		: KPrintDialogPage( parent, name )
 {
 	setTitle( i18n( "KmPlot Options" ) );
-	TQVBoxLayout *layout = new TQVBoxLayout( this );
-	layout->setMargin( KDialog::marginHint() );
-	layout->setSpacing( KDialog::spacingHint() );
+	TQVBoxLayout *tqlayout = new TQVBoxLayout( this );
+	tqlayout->setMargin( KDialog::marginHint() );
+	tqlayout->setSpacing( KDialog::spacingHint() );
 
 
 	printHeaderTable = new TQCheckBox( i18n( "Print header table" ), this );
 	transparent_background = new TQCheckBox( i18n( "Transparent background" ), this );
-	layout->addWidget( printHeaderTable );
-	layout->addWidget( transparent_background );
-	layout->addStretch( 1 );
+	tqlayout->addWidget( printHeaderTable );
+	tqlayout->addWidget( transparent_background );
+	tqlayout->addStretch( 1 );
 }
 
 void KPrinterDlg::getOptions( TQMap<TQString, TQString>& opts, bool include_def )

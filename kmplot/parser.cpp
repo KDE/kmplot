@@ -190,7 +190,7 @@ double Parser::eval(TQString str)
 	
 	fix_expression(str,0);
         
-	if ( str.contains('y')!=0)
+	if ( str.tqcontains('y')!=0)
 	{
 		err=9;
                 delete []stack;
@@ -520,7 +520,7 @@ void Parser::fix_expression(TQString &str, int const pos)
                 }
         }
         TQString str_end = str.mid(pos);
-        str_end = str_end.replace(m_decimalsymbol, "."); //replace the locale decimal symbol with a '.'
+        str_end = str_end.tqreplace(m_decimalsymbol, "."); //tqreplace the locale decimal symbol with a '.'
         str.truncate(pos);
         str.append(str_end);
         //kdDebug() << "str:" << str << endl;
@@ -1006,7 +1006,7 @@ int Parser::parserError(bool showMessageBox)
 TQString Parser::number( double value )
 {
        TQString str = TQString::number( value, 'g', 6 );
-       str.replace( 'e', "*10^" );
+       str.tqreplace( 'e', "*10^" );
 //     kDebug() << "returning str="<<str<<endl;
        return str;
 }

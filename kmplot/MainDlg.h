@@ -64,7 +64,7 @@ class BrowserExtension;
 
 /** @short This is the main window of KmPlot.
  *
- * Its central widget view contains the parser, accessable via its parser() function.
+ * Its central widget view tqcontains the parser, accessable via its parser() function.
  * @see View, View::m_parser, View::parser
  */
 class MainDlg : public KParts::ReadOnlyPart, virtual public MainDlgIface
@@ -73,11 +73,11 @@ class MainDlg : public KParts::ReadOnlyPart, virtual public MainDlgIface
 
 public:
 	/** Constuctor.
-	 * @param parentWidget parent widget for this part
+	 * @param tqparentWidget parent widget for this part
 	 * @param parent parent object
 	 * @param name name of this dialog
 	 */
-	MainDlg(TQWidget *parentWidget, const char *, TQObject *parent, const char *name);
+	MainDlg(TQWidget *tqparentWidget, const char *, TQObject *parent, const char *name);
 	/// Cleaning up a bit.
 	virtual ~MainDlg();
 	/// This class needs access to private members, too.
@@ -219,7 +219,7 @@ class KmPlotPartFactory : public KParts::Factory
 public:
 	KmPlotPartFactory();
 	virtual ~KmPlotPartFactory();
-	virtual KParts::Part* createPartObject( TQWidget *parentWidget, const char *widgetName,
+	virtual KParts::Part* createPartObject( TQWidget *tqparentWidget, const char *widgetName,
 	                                        TQObject *parent, const char *name,
 	                                        const char *classname, const TQStringList &args );
 	static KInstance* instance();

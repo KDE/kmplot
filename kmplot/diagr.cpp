@@ -45,9 +45,9 @@ int isinf(double x)
 
 CDiagr::CDiagr()
 {
-	frameColor=qRgb(0, 0, 0);
-	axesColor=qRgb(0, 0, 0);
-	gridColor=qRgb(192, 192, 192);
+	frameColor=tqRgb(0, 0, 0);
+	axesColor=tqRgb(0, 0, 0);
+	gridColor=tqRgb(192, 192, 192);
 	borderThickness=2;
 	axesLineWidth = Settings::axesLineWidth();
 	gridLineWidth = Settings::gridLineWidth();

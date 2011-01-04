@@ -63,13 +63,13 @@ class KmPlotIO;
 
 bool MainDlg::oldfileversion;
 
-MainDlg::MainDlg(TQWidget *parentWidget, const char *, TQObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent, name ), m_recentFiles( 0 ), m_modified(false), m_parent(parentWidget)
+MainDlg::MainDlg(TQWidget *tqparentWidget, const char *, TQObject *parent, const char *name) :  DCOPObject( "MainDlg" ), KParts::ReadOnlyPart( parent, name ), m_recentFiles( 0 ), m_modified(false), m_parent(tqparentWidget)
 {
 	// we need an instance
 	setInstance( KmPlotPartFactory::instance() );
 
-	kdDebug() << "parentWidget->name():" << parentWidget->name() << endl;
-	if ( TQString(parentWidget->name()).startsWith("KmPlot") )
+	kdDebug() << "tqparentWidget->name():" << tqparentWidget->name() << endl;
+	if ( TQString(tqparentWidget->name()).startsWith("KmPlot") )
 	{
 		setXMLFile("kmplot_part.rc");
 		m_readonly = false;
@@ -82,14 +82,14 @@ MainDlg::MainDlg(TQWidget *parentWidget, const char *, TQObject *parent, const c
 	}
 	fdlg = 0;
 	coordsDialog = 0;
-	m_popupmenu = new KPopupMenu(parentWidget);
-	view = new View( m_readonly, m_modified, m_popupmenu, parentWidget );
+	m_popupmenu = new KPopupMenu(tqparentWidget);
+	view = new View( m_readonly, m_modified, m_popupmenu, tqparentWidget );
 	connect( view, TQT_SIGNAL( setStatusBarText(const TQString &)), this, TQT_SLOT( setReadOnlyStatusBarText(const TQString &) ) );
 	setWidget( view );
 	view->setFocusPolicy(TQWidget::ClickFocus);
 	minmaxdlg = new KMinMax(view, m_parent);
 	view->setMinMaxDlg(minmaxdlg);
-	m_quickEdit = new KLineEdit( parentWidget );
+	m_quickEdit = new KLineEdit( tqparentWidget );
 	m_quickEdit->setFocus();
 	TQToolTip::add( m_quickEdit, i18n( "Enter a function equation, for example: f(x)=x^2" ) );
 	setupActions();
@@ -99,7 +99,7 @@ MainDlg::MainDlg(TQWidget *parentWidget, const char *, TQObject *parent, const c
 	m_recentFiles->loadEntries( m_config );
 
 	// Let's create a Configure Diloag
-	m_settingsDialog = new KConfigDialog( parentWidget, "settings", Settings::self() );
+	m_settingsDialog = new KConfigDialog( tqparentWidget, "settings", Settings::self() );
 	m_settingsDialog->setHelp("general-config");
 
 	// create and add the page(s)
@@ -538,7 +538,7 @@ void MainDlg::slotQuickEdit(const TQString& f_str_const )
 		KMessageBox::error( m_parent, i18n("Parametric functions must be definied in the \"New Parametric Plot\"-dialog which you can find in the menubar"));
 		return;
 	}
-	if  ( f_str.contains('y') != 0)
+	if  ( f_str.tqcontains('y') != 0)
 	{
 		KMessageBox::error( m_parent, i18n( "Recursive function is not allowed"));
 		m_quickEdit->setFocus();
@@ -785,12 +785,12 @@ KmPlotPartFactory::~KmPlotPartFactory()
 	s_instance = 0L;
 }
 
-KParts::Part* KmPlotPartFactory::createPartObject( TQWidget *parentWidget, const char *widgetName,
+KParts::Part* KmPlotPartFactory::createPartObject( TQWidget *tqparentWidget, const char *widgetName,
         TQObject *parent, const char *name,
         const char *, const TQStringList & )
 {
 	// Create an instance of our Part
-	MainDlg* obj = new MainDlg( parentWidget, widgetName, parent, name );
+	MainDlg* obj = new MainDlg( tqparentWidget, widgetName, parent, name );
 	emit objectCreated( obj );
 	return obj;
 }

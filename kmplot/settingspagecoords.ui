@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>SettingsPageCoords</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -33,7 +33,7 @@
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout23</cstring>
+                            <cstring>tqlayout23</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -131,7 +131,7 @@
                                     </widget>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>layout20</cstring>
+                                            <cstring>tqlayout20</cstring>
                                         </property>
                                         <grid>
                                             <property name="name">
@@ -277,7 +277,7 @@
                                     </widget>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>layout20_2</cstring>
+                                            <cstring>tqlayout20_2</cstring>
                                         </property>
                                         <grid>
                                             <property name="name">
@@ -335,7 +335,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout24</cstring>
+                            <cstring>tqlayout24</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -375,7 +375,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout25</cstring>
+                            <cstring>tqlayout25</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -415,7 +415,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout26</cstring>
+                            <cstring>tqlayout26</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -458,7 +458,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout22</cstring>
+                            <cstring>tqlayout22</cstring>
                         </property>
                         <grid>
                             <property name="name">
@@ -544,7 +544,7 @@
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="sizeHint">
+                        <property name="tqsizeHint">
                             <size>
                                 <width>20</width>
                                 <height>30</height>
@@ -626,7 +626,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout24</cstring>
+                            <cstring>tqlayout24</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -677,7 +677,7 @@
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="sizeHint">
+                        <property name="tqsizeHint">
                             <size>
                                 <width>20</width>
                                 <height>40</height>
@@ -751,7 +751,7 @@
     <tabstop>radioButton14</tabstop>
     <tabstop>kcfg_GridLineWidth</tabstop>
 </tabstops>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>

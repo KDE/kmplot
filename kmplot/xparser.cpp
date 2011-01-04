@@ -648,7 +648,7 @@ int XParser::addFunction(const TQString &f_str)
 	fixFunctionName(added_function);
 	if ( added_function.at(0)== 'x' || added_function.at(0)== 'y') //TODO: Make it possible to define parametric functions
 		return -1;
-	if  ( added_function.contains('y') != 0)
+	if  ( added_function.tqcontains('y') != 0)
 		return -1;
 	int const id = addfkt( added_function );
 	if (id==-1)

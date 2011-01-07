@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>QMinMax</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -51,7 +51,7 @@
                     <property name="text">
                         <string>Search between the x-value:</string>
                     </property>
-                    <property name="tqalignment">
+                    <property name="alignment">
                         <set>AlignCenter</set>
                     </property>
                 </widget>
@@ -62,7 +62,7 @@
                     <property name="text">
                         <string>and:</string>
                     </property>
-                    <property name="tqalignment">
+                    <property name="alignment">
                         <set>AlignCenter</set>
                     </property>
                 </widget>
@@ -138,5 +138,5 @@
         </widget>
     </grid>
 </widget>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

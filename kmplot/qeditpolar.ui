@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>QEditPolar</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -218,7 +218,7 @@ Example: loop(angle)=ln(angle)</string>
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>20</height>
@@ -395,7 +395,7 @@ Example: loop(angle)=ln(angle)</string>
 <slots>
     <slot>slotHelp()</slot>
 </slots>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>kcolorbutton.h</includehint>

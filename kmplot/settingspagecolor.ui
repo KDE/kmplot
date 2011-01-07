@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>SettingsPageColor</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -33,7 +33,7 @@
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout2</cstring>
+                            <cstring>layout2</cstring>
                         </property>
                         <grid>
                             <property name="name">
@@ -101,7 +101,7 @@
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="tqsizeHint">
+                        <property name="sizeHint">
                             <size>
                                 <width>20</width>
                                 <height>40</height>
@@ -123,7 +123,7 @@
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout19</cstring>
+                            <cstring>layout19</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -131,7 +131,7 @@
                             </property>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>tqlayout16</cstring>
+                                    <cstring>layout16</cstring>
                                 </property>
                                 <grid>
                                     <property name="name">
@@ -274,7 +274,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="tqsizeHint">
+                                <property name="sizeHint">
                                     <size>
                                         <width>20</width>
                                         <height>20</height>
@@ -283,7 +283,7 @@
                             </spacer>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>tqlayout17</cstring>
+                                    <cstring>layout17</cstring>
                                 </property>
                                 <grid>
                                     <property name="name">
@@ -428,7 +428,7 @@
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="tqsizeHint">
+                        <property name="sizeHint">
                             <size>
                                 <width>20</width>
                                 <height>40</height>
@@ -455,5 +455,5 @@
     <tabstop>kcfg_Color8</tabstop>
     <tabstop>kcfg_Color9</tabstop>
 </tabstops>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

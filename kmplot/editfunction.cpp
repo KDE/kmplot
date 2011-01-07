@@ -296,7 +296,7 @@ void EditFunction::accept()
 	tmp_ufkt.f2_linewidth = editderivativespage->lineWidthDerivative2->value();
 	tmp_ufkt.f2_color = editderivativespage->colorDerivative2->color().rgb();
 	
-	if ( f_str.tqcontains('y') != 0 && ( tmp_ufkt.f_mode || tmp_ufkt.f1_mode || tmp_ufkt.f2_mode) )
+	if ( f_str.contains('y') != 0 && ( tmp_ufkt.f_mode || tmp_ufkt.f1_mode || tmp_ufkt.f2_mode) )
 	{
 		KMessageBox::error( this, i18n( "Recursive function is only allowed when drawing integral graphs") );
 		return;

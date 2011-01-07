@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>QConstantEditor</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -133,7 +133,7 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>20</width>
                     <height>147</height>
@@ -193,7 +193,7 @@
     <slot>newNewConstantSlot()</slot>
     <slot>varlist_doubleClicked( QListViewItem * )</slot>
 </slots>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klistview.h</includehint>
 </includehints>

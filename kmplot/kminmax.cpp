@@ -258,13 +258,13 @@ void KMinMax::cmdFind_clicked()
 
 	TQString function( list->currentText() );
 	char p_mode = 0;
-	if ( function.tqcontains('\'') == 1)
+	if ( function.contains('\'') == 1)
 	{
 		p_mode = 1;
 		int pos = function.find('\'');
 		function.remove(pos,1);
 	}
-	else if ( function.tqcontains('\'') == 2)
+	else if ( function.contains('\'') == 2)
 	{
 		p_mode = 2;
 		int pos = function.find('\'');
@@ -352,13 +352,13 @@ void KMinMax::list_highlighted(TQListBoxItem* item)
 	}
 	TQString function( list->currentText() );
 	char p_mode = 0;
-	if ( function.tqcontains('\'') == 1)
+	if ( function.contains('\'') == 1)
 	{
 		p_mode = 1;
 		int pos = function.find('\'');
 		function.remove(pos,1);
 	}
-	else if ( function.tqcontains('\'') == 2)
+	else if ( function.contains('\'') == 2)
 	{
 		p_mode = 2;
 		int pos = function.find('\'');
@@ -390,13 +390,13 @@ void KMinMax::cmdParameter_clicked()
 {
 	TQString function( list->currentText() );
 	char p_mode = 0;
-	if ( function.tqcontains('\'') == 1)
+	if ( function.contains('\'') == 1)
 	{
 		p_mode = 1;
 		int pos = function.find('\'');
 		function.remove(pos,1);
 	}
-	else if ( function.tqcontains('\'') == 2)
+	else if ( function.contains('\'') == 2)
 	{
 		p_mode = 2;
 		int pos = function.find('\'');

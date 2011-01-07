@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>SliderWindow</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -23,7 +23,7 @@
             <property name="name">
                 <cstring>slider</cstring>
             </property>
-            <property name="tqminimumSize">
+            <property name="minimumSize">
                 <size>
                     <width>200</width>
                     <height>0</height>
@@ -60,7 +60,7 @@
                     <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
-            <property name="tqminimumSize">
+            <property name="minimumSize">
                 <size>
                     <width>45</width>
                     <height>0</height>
@@ -69,7 +69,7 @@
             <property name="text">
                 <string>0</string>
             </property>
-            <property name="tqalignment">
+            <property name="alignment">
                 <set>AlignVCenter|AlignRight</set>
             </property>
         </widget>
@@ -83,5 +83,5 @@
         <slot>setNum(int)</slot>
     </connection>
 </connections>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

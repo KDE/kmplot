@@ -7,7 +7,7 @@
     <property name="enabled">
         <bool>true</bool>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -366,7 +366,7 @@ Example: f(x)=x^2</string>
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>20</width>
                     <height>20</height>
@@ -418,14 +418,14 @@ Example: f(x)=x^2</string>
         <slot access="public" specifier="">update()</slot>
         <slot access="public" specifier="">update(int,int,int,int)</slot>
         <slot access="public" specifier="">update(const QRect&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint()</slot>
-        <slot access="public" specifier="">tqrepaint(bool)</slot>
-        <slot access="public" specifier="">tqrepaint(int,int,int,int)</slot>
-        <slot access="public" specifier="">tqrepaint(int,int,int,int,bool)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRect&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRect&amp;,bool)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRegion&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRegion&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint()</slot>
+        <slot access="public" specifier="">repaint(bool)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;,bool)</slot>
         <slot access="public" specifier="">show()</slot>
         <slot access="public" specifier="">hide()</slot>
         <slot access="public" specifier="">setShown(bool)</slot>
@@ -466,7 +466,7 @@ Example: f(x)=x^2</string>
         <slot access="public" specifier="">setPalette(const QPalette&amp;)</slot>
         <slot access="public" specifier="">setSelection(int,int)</slot>
         <slot access="public" specifier="">setCursorPosition(int)</slot>
-        <slot access="public" specifier="">tqsetAlignment(int)</slot>
+        <slot access="public" specifier="">setAlignment(int)</slot>
         <slot access="public" specifier="">cut()</slot>
         <slot access="public" specifier="">copy()</slot>
         <slot access="public" specifier="">paste()</slot>
@@ -490,10 +490,10 @@ Example: f(x)=x^2</string>
         <slot access="private" specifier="">setTextWorkaround(const QString&amp;)</slot>
         <property type="CString">name</property>
         <property type="Bool">enabled</property>
-        <property type="Rect">tqgeometry</property>
+        <property type="Rect">geometry</property>
         <property type="SizePolicy">sizePolicy</property>
-        <property type="Size">tqminimumSize</property>
-        <property type="Size">tqmaximumSize</property>
+        <property type="Size">minimumSize</property>
+        <property type="Size">maximumSize</property>
         <property type="Size">sizeIncrement</property>
         <property type="Size">baseSize</property>
         <property type="Color">paletteForegroundColor</property>
@@ -519,7 +519,7 @@ Example: f(x)=x^2</string>
         <property type="Bool">frame</property>
         <property type="EchoMode">echoMode</property>
         <property type="Int">cursorPosition</property>
-        <property type="Alignment">tqalignment</property>
+        <property type="Alignment">alignment</property>
         <property type="Bool">dragEnabled</property>
         <property type="Bool">readOnly</property>
         <property type="String">inputMask</property>
@@ -565,14 +565,14 @@ Example: f(x)=x^2</string>
         <slot access="public" specifier="">update()</slot>
         <slot access="public" specifier="">update(int,int,int,int)</slot>
         <slot access="public" specifier="">update(const QRect&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint()</slot>
-        <slot access="public" specifier="">tqrepaint(bool)</slot>
-        <slot access="public" specifier="">tqrepaint(int,int,int,int)</slot>
-        <slot access="public" specifier="">tqrepaint(int,int,int,int,bool)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRect&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRect&amp;,bool)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRegion&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRegion&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint()</slot>
+        <slot access="public" specifier="">repaint(bool)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;,bool)</slot>
         <slot access="public" specifier="">show()</slot>
         <slot access="public" specifier="">hide()</slot>
         <slot access="public" specifier="">setShown(bool)</slot>
@@ -606,10 +606,10 @@ Example: f(x)=x^2</string>
         <slot access="protected" specifier="">chooseColor()</slot>
         <property type="CString">name</property>
         <property type="Bool">enabled</property>
-        <property type="Rect">tqgeometry</property>
+        <property type="Rect">geometry</property>
         <property type="SizePolicy">sizePolicy</property>
-        <property type="Size">tqminimumSize</property>
-        <property type="Size">tqmaximumSize</property>
+        <property type="Size">minimumSize</property>
+        <property type="Size">maximumSize</property>
         <property type="Size">sizeIncrement</property>
         <property type="Size">baseSize</property>
         <property type="Color">paletteForegroundColor</property>
@@ -671,14 +671,14 @@ Example: f(x)=x^2</string>
         <slot access="public" specifier="">update()</slot>
         <slot access="public" specifier="">update(int,int,int,int)</slot>
         <slot access="public" specifier="">update(const QRect&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint()</slot>
-        <slot access="public" specifier="">tqrepaint(bool)</slot>
-        <slot access="public" specifier="">tqrepaint(int,int,int,int)</slot>
-        <slot access="public" specifier="">tqrepaint(int,int,int,int,bool)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRect&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRect&amp;,bool)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRegion&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRegion&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint()</slot>
+        <slot access="public" specifier="">repaint(bool)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;,bool)</slot>
         <slot access="public" specifier="">show()</slot>
         <slot access="public" specifier="">hide()</slot>
         <slot access="public" specifier="">setShown(bool)</slot>
@@ -713,10 +713,10 @@ Example: f(x)=x^2</string>
         <slot access="private" specifier="">slotEmitRelativeValueChanged(int)</slot>
         <property type="CString">name</property>
         <property type="Bool">enabled</property>
-        <property type="Rect">tqgeometry</property>
+        <property type="Rect">geometry</property>
         <property type="SizePolicy">sizePolicy</property>
-        <property type="Size">tqminimumSize</property>
-        <property type="Size">tqmaximumSize</property>
+        <property type="Size">minimumSize</property>
+        <property type="Size">maximumSize</property>
         <property type="Size">sizeIncrement</property>
         <property type="Size">baseSize</property>
         <property type="Color">paletteForegroundColor</property>
@@ -777,14 +777,14 @@ Example: f(x)=x^2</string>
         <slot access="public" specifier="">update()</slot>
         <slot access="public" specifier="">update(int,int,int,int)</slot>
         <slot access="public" specifier="">update(const QRect&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint()</slot>
-        <slot access="public" specifier="">tqrepaint(bool)</slot>
-        <slot access="public" specifier="">tqrepaint(int,int,int,int)</slot>
-        <slot access="public" specifier="">tqrepaint(int,int,int,int,bool)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRect&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRect&amp;,bool)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRegion&amp;)</slot>
-        <slot access="public" specifier="">tqrepaint(const QRegion&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint()</slot>
+        <slot access="public" specifier="">repaint(bool)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int)</slot>
+        <slot access="public" specifier="">repaint(int,int,int,int,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRect&amp;,bool)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;)</slot>
+        <slot access="public" specifier="">repaint(const QRegion&amp;,bool)</slot>
         <slot access="public" specifier="">show()</slot>
         <slot access="public" specifier="">hide()</slot>
         <slot access="public" specifier="">setShown(bool)</slot>
@@ -818,10 +818,10 @@ Example: f(x)=x^2</string>
         <slot access="private" specifier="">slotSettingsChanged(int)</slot>
         <property type="CString">name</property>
         <property type="Bool">enabled</property>
-        <property type="Rect">tqgeometry</property>
+        <property type="Rect">geometry</property>
         <property type="SizePolicy">sizePolicy</property>
-        <property type="Size">tqminimumSize</property>
-        <property type="Size">tqmaximumSize</property>
+        <property type="Size">minimumSize</property>
+        <property type="Size">maximumSize</property>
         <property type="Size">sizeIncrement</property>
         <property type="Size">baseSize</property>
         <property type="Color">paletteForegroundColor</property>
@@ -897,7 +897,7 @@ Example: f(x)=x^2</string>
     <slot>slotHelp()</slot>
     <slot>customRange_toggled( bool )</slot>
 </slots>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>

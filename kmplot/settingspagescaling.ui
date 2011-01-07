@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>SettingsPageScaling</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -18,7 +18,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout35</cstring>
+                <cstring>layout35</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -396,7 +396,7 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>21</width>
                     <height>91</height>
@@ -411,5 +411,5 @@
     <tabstop>kcfg_YScaling</tabstop>
     <tabstop>kcfg_YPrinting</tabstop>
 </tabstops>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

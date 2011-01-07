@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>QEditParametric</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -48,7 +48,7 @@
                     <property name="text">
                         <string>Name:</string>
                     </property>
-                    <property name="tqalignment">
+                    <property name="alignment">
                         <set>AlignVCenter|AlignRight</set>
                     </property>
                     <property name="buddy" stdset="0">
@@ -93,7 +93,7 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
                 </widget>
                 <widget class="QLayoutWidget" row="2" column="0">
                     <property name="name">
-                        <cstring>tqlayout9</cstring>
+                        <cstring>layout9</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -156,7 +156,7 @@ Example: sin(t)</string>
                 </widget>
                 <widget class="QLayoutWidget" row="1" column="0">
                     <property name="name">
-                        <cstring>tqlayout8</cstring>
+                        <cstring>layout8</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -340,7 +340,7 @@ Example: sin(t)</string>
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>20</height>
@@ -531,7 +531,7 @@ Example: sin(t)</string>
 <slots>
     <slot>slotHelp()</slot>
 </slots>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>

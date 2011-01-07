@@ -246,7 +246,7 @@ private:
 	 * \li  9 => recursive function call
 	 * \li  10 => didn't found the wanted constant
 	 * \li   11 => emtpy function
-	 * \li   12 => function name tqcontains a capital letter
+	 * \li   12 => function name contains a capital letter
 	 * \li   13 => function could not be found
 	 * \li   14 => evalation expression may not use user definded constants
 	 */
@@ -254,7 +254,7 @@ private:
 	///  Position where the error occurred.
         int errpos;
 
-        void fix_expression(TQString &, int const); ///adding extra *-characters, remove spaces and tqreplace the locale .-character with '.'
+        void fix_expression(TQString &, int const); ///adding extra *-characters, remove spaces and replace the locale .-character with '.'
         
 	void ps_init(),
 	heir1(),

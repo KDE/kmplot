@@ -912,7 +912,7 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 	
 	bool first = true;
 	bool forwards = true;
-	double d;
+	double d = 0;
 	
 	while ( true )
 	{

@@ -571,8 +571,8 @@ Example: sin(t)</string>
              <string>Enter an equation</string>
             </property>
             <property name="whatsThis">
-             <string>Enter an expression for the function. The prefix &quot;r&quot; will be added automatically.
-Example: loop(angle)=ln(angle)</string>
+             <string>Enter an expression for the function. 
+Example: loop(a)=ln(a)</string>
             </property>
            </widget>
           </item>
@@ -701,7 +701,6 @@ The name of a function must be unique. If you leave this line empty KmPlot will 
             </property>
             <property name="whatsThis">
              <string>Enter an expression for the function.
-The dummy variable is t.
 Example: x^2 + y^2 = 25.</string>
             </property>
            </widget>
@@ -753,7 +752,6 @@ Example: x^2 + y^2 = 25.</string>
              </property>
              <property name="whatsThis">
               <string>Enter an expression for the function.
-The dummy variable is t.
 Example: f''(x) = -f</string>
              </property>
              <property name="text">

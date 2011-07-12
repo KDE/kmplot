@@ -76,7 +76,7 @@
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
         <property name="buddy">
-         <cstring>kcfg_zoomStep</cstring>
+         <cstring>kcfg_zoomInStep</cstring>
         </property>
        </widget>
       </item>
@@ -89,7 +89,7 @@
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
         <property name="buddy">
-         <cstring>kcfg_zoomStep</cstring>
+         <cstring>kcfg_zoomOutStep</cstring>
         </property>
        </widget>
       </item>

@@ -755,52 +755,9 @@ void View::drawGrid( QPainter* painter )
 
 void View::drawLabels( QPainter *painter )
 {
-	// Determine which letters to use for the axes
-	QString xLabel;
-        QString yLabel;
-	bool xLabelsIdentical = true;
-	bool yLabelsIdentical = true;
+	const QString xLabel = Settings::labelHorizontalAxis();
+	const QString yLabel = Settings::labelVerticalAxis();
 	
-	foreach ( Function * function, XParser::self()->m_ufkt )
-	{
-		QString x, y;
-		
-		switch ( function->type() )
-		{
-			case Function::Cartesian:
-			case Function::Differential:
-				x = function->eq[0]->variables().isEmpty() ? QString() : function->eq[0]->variables()[0];
-				y = function->eq[0]->name();
-				break;
-				
-			case Function::Implicit:
-				x = function->eq[0]->variables().isEmpty()  ? QString() : function->eq[0]->variables()[0];
-				y = (function->eq[0]->variables().size()<2) ? QString() : function->eq[0]->variables()[1];
-				break;
-				
-			case Function::Parametric:
-			case Function::Polar:
-				continue;
-		}
-		
-		if ( xLabel.isEmpty() )
-			xLabel = x;
-		else if ( xLabel != x )
-			xLabelsIdentical = false;
-		
-		if ( yLabel.isEmpty() )
-			yLabel = y;
-		else if ( yLabel != y )
-			yLabelsIdentical = false;
-	}
-	
-//        if ( !xLabelsIdentical || xLabel.isEmpty() )
-        xLabel = Settings::labelHorizontalAxis();
-//        if ( !yLabelsIdentical || yLabel.isEmpty() )
-        yLabel = Settings::labelVerticalAxis();
-	
-	
-	QColor axesColor = Settings::axesColor();
 	int const dx=10;
 	int const dy=15;
 	QFont const font = Settings::axesFont();
@@ -4187,8 +4144,6 @@ bool View::shouldShowCrosshairs() const
 		return false;
 
 	Function * it = m_currentPlot.function();
-
-	QPoint mousePos = mapFromGlobal( QCursor::pos() );
 
 	return ( underMouse() && (!it || crosshairPositionValid( it )) );
 }

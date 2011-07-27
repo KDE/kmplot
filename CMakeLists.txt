@@ -3,6 +3,7 @@ project(kmplot)
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
 include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES})
+add_definitions (-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
 check_include_files(ieeefp.h HAVE_IEEEFP_H)
 configure_file(config-kmplot.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/kmplot/config-kmplot.h)

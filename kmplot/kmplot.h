@@ -72,8 +72,6 @@ private slots:
 public Q_SLOTS:
     // DBus interface
     Q_SCRIPTABLE void fileOpen();
-    Q_SCRIPTABLE void optionsConfigureKeys();
-    Q_SCRIPTABLE void optionsConfigureToolbars();
     Q_SCRIPTABLE void setStatusBarText(const QString &, int id);
 	Q_SCRIPTABLE void openFileInNewWindow(const KUrl &url);
 	/**

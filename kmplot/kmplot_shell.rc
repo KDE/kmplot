@@ -10,19 +10,6 @@
 			<Action name="file_quit"/>
 		</Menu>
 		<Merge/>
-		<Menu noMerge="1" name="settings"><text>&amp;Settings</text>
-			<!--<Action name="options_show_toolbar"/>-->
-			<Merge name="StandardToolBarMenuHandler" />
-			<Action name="options_show_statusbar"/>
-			<Separator/>
-			<Action name="fullscreen" />
-			<Merge/>
-<!--			<Separator/>
-			<Action name="options_configure_keybinding"/>
-			<Action name="options_configure_toolbars"/>
-			<Action name="options_configure"/>-->
-			<Separator/>
-		</Menu>
 		<Menu name="help"><text>&amp;Help</text>
 			<DefineGroup name="names_group" />
 		</Menu>

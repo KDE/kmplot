@@ -29,7 +29,7 @@
 			<Action name="maximumvalue"/>
 			<Action name="minimumvalue"/>
 		</Menu>
-		<Menu name="settings"><text>&amp;Settings</text>
+		<Menu name="settings">
 			<Action name="options_configure"/>
 		</Menu>
 		<Menu name="help"><text>&amp;Help</text>

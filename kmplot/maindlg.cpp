@@ -240,9 +240,6 @@ void MainDlg::setupActions()
 
 	QAction *prefs  = KStandardAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 	prefs->setText( i18n( "Configure KmPlot..." ) );
-	KStandardAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
-	KStandardAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
-
 
 	// KmPlot specific actions
 
@@ -780,16 +777,6 @@ void MainDlg::toggleShowSliders()
 void MainDlg::setReadOnlyStatusBarText(const QString &text)
 {
 	setStatusBarText(text);
-}
-
-void MainDlg::optionsConfigureKeys()
-{
-// 	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureKeys()", QByteArray());
-}
-
-void MainDlg::optionsConfigureToolbars()
-{
-// 	KApplication::kApplication()->dcopClient()->send(KApplication::kApplication()->dcopClient()->appId(), "KmPlotShell","optionsConfigureToolbars()", QByteArray());
 }
 
 bool MainDlg::queryClose()

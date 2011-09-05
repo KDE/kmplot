@@ -226,10 +226,6 @@ protected slots:
 	void resetUndoRedo();
 
 	void setReadOnlyStatusBarText(const QString &);
-
-	/// slots for the settings-menu
-	void optionsConfigureKeys();
-	void optionsConfigureToolbars();
 };
 
 class KmPlotPartFactory : public KParts::Factory

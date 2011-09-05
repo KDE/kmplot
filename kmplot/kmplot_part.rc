@@ -32,10 +32,7 @@
 			<Action name="maximumvalue"/>
 			<Action name="minimumvalue"/>
 		</Menu>
-        	<Menu name="settings"><text>&amp;Settings</text>
-			<Separator />
-			<Action name="options_configure_keybinding"/>
-			<Action name="options_configure_toolbars"/>
+        	<Menu name="settings">
 			<Action name="options_configure"/>
 		</Menu>
 		<Menu name="help"><text>&amp;Help</text>

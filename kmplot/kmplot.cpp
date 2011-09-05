@@ -72,6 +72,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 			setCentralWidget(m_part->widget());
 			//m_part->widget()->setFocus();
 			// and integrate the part's GUI with the shell's
+			setupGUI(Keys | ToolBar | Save);
 			createGUI(m_part);
 		}
 	}
@@ -159,9 +160,6 @@ void KmPlot::setupActions()
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
 
-	KStandardAction::keyBindings(this, SLOT(optionsConfigureKeys()), actionCollection());
-	KStandardAction::configureToolbars(this, SLOT(optionsConfigureToolbars()), actionCollection());
-
 	m_fullScreen = KStandardAction::fullScreen( NULL, NULL, this, actionCollection());
 	actionCollection()->addAction("fullscreen", m_fullScreen);
 	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
@@ -176,23 +174,6 @@ void KmPlot::fileNew()
 	if ( !m_part->url().isEmpty() || isModified() )
 		//KToolInvocation::startServiceByDesktopName("kmplot");
 		KToolInvocation::kdeinitExec("kmplot");
-}
-
-
-void KmPlot::optionsConfigureKeys()
-{
-	/// \todo check that configuring keys works
-// 	KShortcutsDialog::configure(actionCollection(), "kmplot_shell.rc");
-	KShortcutsDialog::configure( actionCollection() );
-}
-
-void KmPlot::optionsConfigureToolbars()
-{
-	saveMainWindowSettings( KGlobal::config()->group( QString() ));
-	// use the standard toolbar editor
-	KEditToolBar dlg(factory());
-	connect(&dlg, SIGNAL(newToolBarConfig()), this, SLOT(applyNewToolbarConfig()));
-	dlg.exec();
 }
 
 void KmPlot::applyNewToolbarConfig()

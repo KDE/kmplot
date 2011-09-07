@@ -106,8 +106,8 @@
 			In the definition box, complete the
 			function definition, including the name of the theta variable you want
 			to use, &eg;, to draw the Archimedes' spiral r = &thgr;, enter:
-			<screen><userinput>r(&thgr;) = &thgr;</userinput></screen>. Note that
-			you can use any name for the theta variable, so
+			<screen><userinput>r(&thgr;) = &thgr;</userinput></screen>
+			Note that you can use any name for the theta variable, so
 			<quote>r(t) = t</quote> or <quote>f(x) = x</quote> will produce exactly the same output.
 		</para>
 	</sect2>

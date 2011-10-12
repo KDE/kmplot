@@ -1307,7 +1307,7 @@ double larccosec(double x) {
 	return asin(1/x) / Parser::radiansPerAngleUnit();
 }
 double larccot(double x) {
-	return atan(1/x) / Parser::radiansPerAngleUnit();
+	return (M_PI/2 - atan(x)) / Parser::radiansPerAngleUnit();
 }
 double sech(double x) {
 	return (1 / cosh(x));

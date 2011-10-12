@@ -60,7 +60,9 @@ EquationEditorWidget::EquationEditorWidget(QWidget* parent)
 	connect(functionList, SIGNAL(activated(const QString&)), this, SLOT(insertFunction(const QString&)));
 	connect(constantList, SIGNAL(activated(int)), this, SLOT(insertConstant(int)));
 	
-	functionList->addItems(XParser::self()->predefinedFunctions(false));
+	QStringList functions = XParser::self()->predefinedFunctions(false);
+	functions.sort();
+	functionList->addItems(functions);
 	
 	connect(XParser::self()->constants(), SIGNAL(constantsChanged()), this, SLOT(updateConstantList()));
 	updateConstantList();

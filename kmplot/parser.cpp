@@ -66,14 +66,6 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"arccosh", "arcosh", acosh},		// Area-cosinus hyperbolicus = inverse of cosh
 	{"arctanh", "artanh", atanh}, 		// Area-tangens hyperbolicus = inverse of tanh
 	
-	// Trigometric functions
-	{"sin", QString(), lsin}, 					// Sinus
-	{"cos", QString(), lcos}, 					// Cosinus
-	{"tan", QString(), ltan}, 					// Tangens
-	{"arcsin", QString(), larcsin}, 			// Arcus sinus = inverse of sin
-	{"arccos", QString(), larccos}, 			// Arcus cosinus = inverse of cos
-	{"arctan", QString(), larctan},				// Arcus tangens = inverse of tan
-	
 	// Reciprocal-hyperbolic
 	{"cosech", QString(), cosech},				// Co-Secans hyperbolicus
 	{"sech", QString(), sech},					// Secans hyperbolicus
@@ -89,6 +81,14 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"arccosec", "arcosech", larccosec},// Arcus co-secans = inverse of cosec
 	{"arcsec", "arsec", larcsec},		// Arcus secans = inverse of sec
 	{"arccot", "arcot", larccot},		// Arcus co-tangens = inverse of cotan
+	
+	// Trigometric functions
+	{"sin", QString(), lsin}, 					// Sinus
+	{"cos", QString(), lcos}, 					// Cosinus
+	{"tan", QString(), ltan}, 					// Tangens
+	{"arcsin", QString(), larcsin}, 			// Arcus sinus = inverse of sin
+	{"arccos", QString(), larccos}, 			// Arcus cosinus = inverse of cos
+	{"arctan", QString(), larctan},				// Arcus tangens = inverse of tan
 	
 	// Other
 	{"sqrt", QString(), sqrt},					// Square root
@@ -185,7 +185,6 @@ QStringList Parser::predefinedFunctions( bool includeAliases ) const
 	for ( int func = 0; func < VectorCount; ++func )
 		names << vectorFunctions[func].name;
 	
-	names.sort();
 	return names;
 }
 

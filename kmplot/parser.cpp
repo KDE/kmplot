@@ -554,6 +554,19 @@ double Parser::fkt( Equation * eq, const Vector & x )
 				assert( stkptr == stkInitial );
 				return *stkptr;
 			}
+			case ERROR:
+			{
+				// something went wrong due to a incorrect formular or
+				// missing const.
+				kDebug()  << "Error in equation " << eq->fstr();
+				// Adjust stack again. Stack is wrong, only if we have a PUSH token
+				// just before the ERROR token, afaik.
+				while( stkptr != stkInitial )
+				{
+					stkptr--;
+				}
+				return *stkptr;
+			}
 		}
 	}
 }
@@ -631,9 +644,13 @@ void Parser::initEquation( Equation * eq, Error * error, int * errorPosition )
 		*m_error = SyntaxError;
 	
 	if ( *m_error != ParseSuccess )
+	{
 		*errorPosition = m_sanitizer.realPos( m_evalPos );
-	
-	addToken(ENDE);
+		kDebug() << "add an error token for " << eq->fstr();
+		// add an error token and let the user decide
+		addToken( ERROR );
+	}
+	addToken( ENDE );
 }
 
 
@@ -914,10 +931,13 @@ void Parser::heir5()
 
 void Parser::primary()
 {
-	// Note that tryUserFunction has to go after tryVariable since differential
-	// equations treat the function name as a variable
+	// Notes:
+	// - tryUserFunction has to go after tryVariable since differential
+	//   equations treat the function name as a variable
+	// - tryConstant has to go before tryUserFunction. This solves a problem,
+	//   when a function and a constant share the same name
 	
-	tryFunction() || tryPredefinedFunction() || tryVariable() || tryUserFunction() || tryConstant() || tryNumber();
+	tryFunction() || tryPredefinedFunction() || tryVariable() || tryConstant() || tryUserFunction() || tryNumber();
 }
 
 

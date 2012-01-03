@@ -76,11 +76,12 @@ enum Token
 	UFKT,		// 12 - address to user defined function follows
 	SQRT,		// 13 - take square root
 	FACT,		// 14 - take factorial
-	GT,			// 15 - greater than
-	GE,			// 16 - greater than or equal
-	LT,			// 17 - less than
-	LE,			// 18 - less than or equal
-	ENDE		// 19 - end of function
+	GT,		// 15 - greater than
+	GE,		// 16 - greater than or equal
+	LT,		// 17 - less than
+	LE,		// 18 - less than or equal
+	ENDE,		// 19 - end of function
+	ERROR		// 20 - error in function
 };
 
 

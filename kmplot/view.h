@@ -197,8 +197,6 @@ class View : public QWidget
 	public slots:
 		/// Called when the user want to cancel the drawing
 		void stopDrawing();
-		/// A slider window has been closed
-		void slidersWindowClosed();
 	
 		/// Called when the graph should be updated
 		void drawPlot();

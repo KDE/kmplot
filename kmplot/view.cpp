@@ -4192,14 +4192,6 @@ void View::setStatusBar( const QString & t, StatusBarSection section )
 	}
 }
 
-
-void View::slidersWindowClosed()
-{
-	kDebug() ;
-	m_menuSliderAction->setChecked(false);
-}
-
-
 void View::setPrintHeaderTable( bool status )
 {
 	m_printHeaderTable = status;

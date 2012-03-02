@@ -766,7 +766,7 @@ void MainDlg::toggleShowSliders()
 	{
 		View::self()->m_sliderWindow = new KSliderWindow( View::self() );
 		connect( View::self()->m_sliderWindow, SIGNAL( valueChanged() ), View::self(), SLOT( drawPlot() ) );
-		connect( View::self()->m_sliderWindow, SIGNAL( windowClosed() ), View::self(), SLOT( slidersWindowClosed() ) );
+		connect( View::self()->m_sliderWindow, SIGNAL( windowClosed() ), View::self(), SLOT( sliderWindowClosed() ) );
 	}
 	if ( !View::self()->m_sliderWindow->isVisible() )
 		View::self()->m_sliderWindow->show();

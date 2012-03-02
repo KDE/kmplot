@@ -572,7 +572,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 void KmPlotIO::parseParameters( const QDomElement &n, Function * function )
 {
 	QChar separator = (version < 1) ? ',' : ';';
-	QString tagName = (version < 5) ? "parameterlist" : "parameter-list";
+	QString tagName = (version < 4) ? "parameterlist" : "parameter-list";
 	
 	const QStringList str_parameters = n.namedItem( tagName ).toElement().text().split( separator, QString::SkipEmptyParts );
 	for( QStringList::const_iterator it = str_parameters.constBegin(); it != str_parameters.constEnd(); ++it )

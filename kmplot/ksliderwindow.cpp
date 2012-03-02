@@ -91,7 +91,7 @@ KSliderWindow::KSliderWindow( QWidget * parent ) :
 	setModal( false );
 	QWidget * widget = new QWidget( this );
 	setMainWidget( widget );
-    setCaption( i18n("Sliders") );
+	setCaption( i18n("Sliders") );
 	setButtons( Close );
 
 	Q_ASSERT( SLIDER_COUNT == 4 ); // safety check, incase SLIDER_COUNT is increased but not this code

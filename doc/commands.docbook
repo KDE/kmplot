@@ -199,7 +199,7 @@
 				<para><action>Toggles</action> the visibility of the slider dialog. 
 				In the dialog move a slider to change the parameter of the function plot connected to it.</para>
 				<para>Enable this on the Function tab and select one of the sliders to change the parameter value dynamically. The values vary from 0 (left) to 10 (right) by default, but can be changed in the slider dialog.</para>
-				<para>For a small tutorial see <ulink url="http://userbase.kde.org/KmPlot/">Using Sliders</ulink>.</para>
+				<para>For a small tutorial see <ulink url="http://userbase.kde.org/KmPlot/Using_Sliders">Using Sliders</ulink>.</para>
 				<!--http://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
 				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
 			</listitem>

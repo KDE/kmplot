@@ -18,7 +18,7 @@
 ]>
 <!-- The language must NOT be changed here. -->
 
-<book lang="&language;">
+<book id="kmplot" lang="&language;">
 
 <bookinfo>
 <title>The &kmplot; Handbook</title>

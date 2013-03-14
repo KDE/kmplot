@@ -62,7 +62,7 @@ int main( int argc, char **argv )
 	aboutData.addAuthor( ki18n("David Saxton"), ki18n( "Porting to Qt 4, UI improvements, features" ), "david@bluehaze.org" );
 	
 	aboutData.addCredit( ki18n("David Vignoni"), ki18n( "svg icon" ), "david80v@tin.it" );
-	aboutData.addCredit( ki18n("Albert Astals Cid"), ki18n( "command line options, MIME type" ), "tsdgeos@terra.es" );
+	aboutData.addCredit( ki18n("Albert Astals Cid"), ki18n( "command line options, MIME type" ), "aacid@kde.org" );
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
 

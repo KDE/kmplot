@@ -19,7 +19,7 @@
 		becomes the color of the current plot and is attached to the it.  You can
 		use the mouse to move the crosshair along the plot.  In the status
 		bar at the bottom of the window the coordinates of the current
-		position is displayed. Note that if the plot touches the x-axis the
+		position is displayed. Note that if the plot touches the  horizontal axis the
 		root will be displayed in the status bar, too.</para>
 	
 	<para>Click the mouse again and the crosshair will be detached from

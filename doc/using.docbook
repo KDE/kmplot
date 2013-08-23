@@ -56,7 +56,7 @@
 				</listitem>
 				
 				<listitem><para>
-						<replaceable>x</replaceable> is the x-coordinate, to be used in the expression
+						<replaceable>x</replaceable> is the horizontal coordinate, to be used in the expression
 						following the equals sign. It is a dummy variable, so you can use any
 						variable name you like to achieve the same effect.</para>
 				</listitem>
@@ -101,7 +101,7 @@
 		
 		<para>Polar coordinates represent a point by its distance from the origin
 			(usually called r), and the angle a line from the origin to the point makes
-			with the x-axis (usually represented by &thgr; the Greek letter theta). To enter
+			with the horizontal axis (usually represented by &thgr; the Greek letter theta). To enter
 			functions in polar coordinates, click the <guilabel>Create</guilabel> button and select <guilabel>Polar Plot</guilabel> from the list.
 			In the definition box, complete the
 			function definition, including the name of the theta variable you want
@@ -241,8 +241,8 @@
 			<term><menuchoice><guimenuitem>Plot Area...</guimenuitem>
 				</menuchoice></term>
 			<listitem>
-				<para>Select the minimum and maximum x-values for the graph in the new dialog that appears.
-					Calculates the integral and draws the area between the graph and the x-axis in the 
+				<para>Select the minimum and maximum horizontal values for the graph in the new dialog that appears.
+					Calculates the integral and draws the area between the graph and the horizontal axis in the 
 					selected range in the color of the graph.
 				</para>
 			</listitem>

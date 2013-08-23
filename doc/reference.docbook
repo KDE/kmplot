@@ -422,7 +422,7 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 <sect1 id="coord-area"><title>Plotting Area</title>
 	<para>
 		By default, explicitly given functions are plotted for the whole of the visible part of the
-		x-axis. You can specify an other range in the edit-dialog for the function.
+		horizontal axis. You can specify an other range in the edit-dialog for the function.
 		If the plotting area contains the resulting point it is connected to the last
 		drawn point by a line.
 	</para>
@@ -438,7 +438,7 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 		While the mouse cursor is over the plotting area the cursor changes to a crosshair. The current coordinates can be seen at the intersections with the coordinate axes and also in the status bar at the bottom of the main window.
 	</para>
 	<para>
-		You can trace a function's values more precisely by clicking onto or next to a graph. The selected function is shown in the status bar in the right column. The crosshair then will be caught and be colored in the same color as the graph. If the graph has the same color as the background color, the crosshair will have the inverted color of the background. When moving the mouse or pressing the keys Left or Right the crosshair will follow the function and you see the current x- and y-value. If the crosshair is close to y-axis, the root-value is shown in the statusbar. You can switch function with the Up and Down keys. A second click anywhere in the window or pressing any non-navigating key will leave this trace mode.
+		You can trace a function's values more precisely by clicking onto or next to a graph. The selected function is shown in the status bar in the right column. The crosshair then will be caught and be colored in the same color as the graph. If the graph has the same color as the background color, the crosshair will have the inverted color of the background. When moving the mouse or pressing the keys Left or Right the crosshair will follow the function and you see the current horizontal and vertical value. If the crosshair is close to  vertical axis, the root-value is shown in the statusbar. You can switch function with the Up and Down keys. A second click anywhere in the window or pressing any non-navigating key will leave this trace mode.
 	</para>
 	<para>
 		For more advanced tracing, open up the configuration dialog, and select <guilabel>Draw tangent and normal when tracing</guilabel> from the <guilabel>General Settings</guilabel> page. This option will draw the tangent, normal and oscillating circle of the plot currently being traced.
@@ -447,8 +447,8 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 </sect1>
 
 <sect1 id="coords-config">
-	<title><guimenuitem>Coordinate System</guimenuitem> Configuration</title>
-	<para>To open this dialog select <menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System..</guimenuitem></menuchoice> from the menubar.</para>
+	<title>Coordinate System Configuration</title>
+	<para>To open this dialog select <menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System...</guimenuitem></menuchoice> from the menubar.</para>
 	<screenshot>
 		<screeninfo>Screenshot of the Coordinate System dialog</screeninfo>
 		<mediaobject>
@@ -462,14 +462,14 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 	</screenshot>
 	
 	<sect2 id="axes-config">
-		<title><guilabel>Axes</guilabel> Configuration</title>
+		<title>>Axes Configuration</title>
 		<para>
 			<variablelist>
 				
 				<varlistentry>
-					<term><guilabel>X-axis Range</guilabel></term>
+					<term><guilabel>Horizontal axis Range</guilabel></term>
 					<listitem>
-						<para>Sets the range for the x-axis scale.
+						<para>Sets the range for the horizontal axis scale.
 							Note that you can use the
 							predefined functions and constants (see <xref linkend="func-predefined"/>) as
 							the extremes of the range (&eg;, set <guilabel>Min:</guilabel> to
@@ -482,14 +482,14 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 				</varlistentry>
 				
 				<varlistentry>
-					<term><guilabel>Y-axis Range</guilabel></term>
+				  <term><guilabel>Vertical axis Range</guilabel></term>
 					<listitem>
-						<para>Sets the range for the y-axis. See <quote>X-axis Range</quote> above.</para>
+						<para>Sets the range for the vertical axis. See <quote>Horizontal axis Range</quote> above.</para>
 					</listitem>
 				</varlistentry>
 				
 				<varlistentry>
-					<term><guilabel>X-axis Grid Spacing</guilabel></term>
+					<term><guilabel>Horizontal axis Grid Spacing</guilabel></term>
 					<listitem>
 						<para>This controls the spacing between grid lines in the horizontal direction.
 							If <guilabel>Automatic</guilabel> is selected, then &kmplot; will try to find a grid line spacing of about two centimeters that is also numerically nice.
@@ -499,10 +499,10 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 				</varlistentry>
 				
 				<varlistentry>
-					<term><guilabel>Y-axis Grid Spacing</guilabel></term>
+					<term><guilabel>Vertical axis Grid Spacing</guilabel></term>
 					<listitem>
 						<para>This controls the spacing between grid lines in the vertical direction.
-							See <quote>X-axis Grid Spacing</quote> above.
+							See <quote>Horizontal axis Grid Spacing</quote> above.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -514,8 +514,8 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 </sect1>
 
 <sect1 id="constants-config">
-	<title><guimenuitem>Constants</guimenuitem> Configuration</title>
-	<para>To open this dialog select <menuchoice><guimenu>Edit</guimenu><guimenuitem>Constants..</guimenuitem></menuchoice> from the menubar.</para>
+	<title>Constants Configuration</title>
+	<para>To open this dialog select <menuchoice><guimenu>Edit</guimenu><guimenuitem>Constants...</guimenuitem></menuchoice> from the menubar.</para>
 	
 	<screenshot>
 		<screeninfo>Screenshot of the Constants dialog</screeninfo>

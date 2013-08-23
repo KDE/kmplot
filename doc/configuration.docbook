@@ -2,13 +2,13 @@
 <title>Configuring &kmplot;</title> 
 <para>To access the &kmplot; configuration
 	dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
-			&kmplot;...</guimenuitem></menuchoice>.
+			&kmplot;...</guimenuitem></menuchoice>
 	The settings for <guimenuitem>Constants...</guimenuitem> can only be changed
 	from the <guimenu>Edit</guimenu> menu and the <guimenuitem>Coordinate System...</guimenuitem> only
 	from the <guimenu>View</guimenu> menu. </para>
 
 <sect1 id="general-config">
-	<title><guilabel>General</guilabel> Configuration</title>
+	<title>General Configuration</title>
 	
 	<screenshot>
 		<screeninfo>Screenshot of the General Settings dialog</screeninfo>
@@ -26,7 +26,7 @@
 </sect1>
 
 <sect1 id="diagram-config">
-	<title><guilabel>Diagram</guilabel> Configuration</title>
+	<title>Diagram Configuration</title>
 	
 	<screenshot>
 		<screeninfo>Screenshot of the Diagram Appearance dialog</screeninfo>
@@ -78,6 +78,13 @@
 	<para>Other options for the diagram appearance can also be configured:
 		<variablelist>
 			<varlistentry>
+				<term><guilabel>Axis Labels</guilabel></term>
+				<listitem>
+					<para>Sets labels for the horizontal and vertical axes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
 				<term><guilabel>Axis width:</guilabel></term>
 				<listitem>
 					<para>Sets the width of the lines representing the axes.</para>
@@ -108,7 +115,7 @@
 			<varlistentry>
 				<term><guilabel>Show labels</guilabel></term>
 				<listitem>
-					<para>If checked, the names (x, y) of the axes are shown on the plot and the axes' tics are labeled.</para>
+					<para>If checked, the names of the axes are shown on the plot and the axes' tics are labeled.</para>
 				</listitem>
 			</varlistentry>
 			
@@ -132,7 +139,7 @@
 </sect1>
 
 <sect1 id="colors-config">
-	<title><guilabel>Colors</guilabel> Configuration</title>
+	<title>Colors Configuration</title>
 	
 	<screenshot>
 		<screeninfo>Screenshot of the Colors dialog</screeninfo>
@@ -156,7 +163,7 @@
 </sect1>
 
 <sect1 id="font-config">
-	<title><guilabel>Fonts</guilabel> Configuration</title>
+	<title>Fonts Configuration</title>
 	
 	<screenshot>
 		<screeninfo>Screenshot of the Fonts dialog</screeninfo>

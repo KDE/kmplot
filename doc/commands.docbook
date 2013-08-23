@@ -1,126 +1,31 @@
 <chapter id="commands">
 <title>Command Reference</title> 
 
-<sect1 id="a-file-menu">
-	<title>The <guimenu>File</guimenu> Menu</title>
-	
+<sect1 id="menu">
+<title>Menu Items</title>
+
+<para>Apart from the common &kde; menus described in the <ulink url="help:/fundamentals/ui.html#menus">Menu</ulink> 
+chapter of the &kde; Fundamentals documentation &kmplot; has these application specific menu entries:
+</para>
+
+<sect2 id="a-file-menu">
+	<title>The File Menu</title>
 	<variablelist>
-		
-		<varlistentry>
-			<term>
-				<menuchoice>
-					<shortcut>
-						<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
-					</shortcut>
-					<guimenu>File</guimenu>
-					<guimenuitem>New</guimenuitem>
-				</menuchoice>
-			</term>
-			<listitem>
-				<para><action>Starts a new Plot by clearing the coordinate system
-						and resetting the function parser.</action></para> 
-			</listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term>
-				<menuchoice><shortcut>
-						<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo></shortcut>
-					<guimenu>File</guimenu>
-					<guimenuitem>Open...</guimenuitem></menuchoice></term>
-			<listitem><para><action>Opens an existing document.</action>
-				</para></listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term><menuchoice>
-					<guimenu>File</guimenu>
-					<guisubmenu>Open Recent</guisubmenu>
-				</menuchoice></term>
-			<listitem><para><action>Displays a list of recently opened files.</action>
-					Selecting one from this list plots the functions in the file.</para></listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term>
-				<menuchoice>
-					<shortcut><keycombo
-									   action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
-					<guimenu>File</guimenu>
-					<guimenuitem>Save</guimenuitem></menuchoice></term>
-			<listitem><para><action>Saves the document.</action></para></listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term>
-				<menuchoice>
-					<guimenu>File</guimenu>
-					<guimenuitem>Save As...</guimenuitem></menuchoice></term>
-			<listitem><para><action>Saves the document under another
-						name.</action></para></listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term>
-				<menuchoice>
-					<shortcut>
-						<keycombo action="simul">&Ctrl;<keycap>P</keycap></keycombo>
-					</shortcut>
-					<guimenu>File</guimenu>
-					<guimenuitem>Print...</guimenuitem>
-				</menuchoice>
-			</term>
-			<listitem>
-				<para><action>Sends the plot to a printer or file.</action></para>
-			</listitem>
-		</varlistentry>
 		
 		<varlistentry>
 			<term>
 				<menuchoice>
 					<guimenu>File</guimenu>
 					<guimenuitem>Export...</guimenuitem></menuchoice></term>
-			<listitem><para><action>Exports</action> the plotted graphs to an image file.</para></listitem>
+			<listitem><para><action>Exports</action> the plotted graphs to an image file in all formats supported by &kde;.</para></listitem>
 		</varlistentry>
 		
-		<varlistentry>
-			<term>
-				<menuchoice>
-					<shortcut><keycombo action="simul">
-							&Ctrl;<keycap>Q</keycap>
-						</keycombo></shortcut>
-					<guimenu>File</guimenu>
-					<guimenuitem>Quit</guimenuitem></menuchoice></term>
-			<listitem><para><action>Exits</action> &kmplot;.</para></listitem>
-		</varlistentry>
 	</variablelist>
-</sect1>
+</sect2>
 
-<sect1 id="a-edit-menu">
-	<title>The <guimenu>Edit</guimenu> Menu</title>
-	
+<sect2 id="a-edit-menu">
+	<title>The Edit Menu</title>
 	<variablelist>
-		<varlistentry>
-			<term><menuchoice>
-					<shortcut>
-						<keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
-					</shortcut>
-					<guimenu>Edit</guimenu><guimenuitem>Undo</guimenuitem>
-				</menuchoice></term>
-			<listitem><para>Undo the last command.</para>
-			</listitem>
-		</varlistentry>
-		<varlistentry>
-			<term><menuchoice>
-					<shortcut>
-						<keycombo action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo>
-					</shortcut>
-					<guimenu>Edit</guimenu><guimenuitem>Redo</guimenuitem>
-				</menuchoice></term>
-			<listitem><para>Redo the last command that was undone.</para>
-			</listitem>
-		</varlistentry>
-		
 		<varlistentry>
 			<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Constants...</guimenuitem>
 				</menuchoice></term>
@@ -129,10 +34,10 @@
 			</listitem>
 		</varlistentry>
 	</variablelist>
-</sect1>
+</sect2>
 
-<sect1 id="a-view-menu">
-	<title>The <guimenu>View</guimenu> Menu</title>
+<sect2 id="a-view-menu">
+	<title>The View Menu</title>
 	<para>The first three items in the menu are related to zooming.</para>
 	
 	<variablelist>
@@ -206,10 +111,10 @@
 		</varlistentry>
 		
 	</variablelist>
-</sect1>
+</sect2>
 
-<sect1 id="a-tools-menu">
-	<title>The <guimenu>Tools</guimenu> Menu</title>
+<sect2 id="a-tools-menu">
+	<title>The Tools Menu</title>
 	
 	<para>This menu contains some tools for the functions that can be useful:</para>
 	
@@ -229,9 +134,9 @@
 					<guimenuitem>Plot Area...</guimenuitem>
 				</menuchoice></term>
 			<listitem>
-				<para>Select a graph and the x-values in the new dialog that appears.
-					Calculates the integral and draws the area between the graph and the x-axis in the 
-					range of the selected x-values in the color of the graph.</para>
+				<para>Select a graph and the values of the horizontal axis in the new dialog that appears.
+					Calculates the integral and draws the area between the graph and the horizontal axis in the 
+					range of the selected values in the color of the graph.</para>
 			</listitem>
 		</varlistentry>
 		
@@ -254,86 +159,12 @@
 		</varlistentry>
 		
 	</variablelist>
-</sect1>
+</sect2>
 
-<sect1 id="a-settings-menu">
-	<title>The <guimenu>Settings</guimenu> Menu</title>
+<sect2 id="a-help-menu">
+	<title>The Help Menu</title>
 	
-	<variablelist>
-		<varlistentry>
-			<term><menuchoice><guimenu>Settings</guimenu>
-					<guimenuitem>Show Toolbar</guimenuitem>
-				</menuchoice></term>
-			<listitem>
-				<para><action>Toggle on and off the display of the toolbar.</action>
-					The default is on.</para>
-			</listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term><menuchoice><guimenu>Settings</guimenu>
-					<guimenuitem>Show Statusbar</guimenuitem>
-				</menuchoice></term>
-			<listitem>
-				<para><action>Toggle on and off the display of the status bar at the bottom of
-						the &kmplot; main window.</action>
-					The default is on.</para>
-			</listitem>
-		</varlistentry>
-		
-		<!-- Is the settings menu the right place for Full Screen Mode, same for Show Sliders ? 
-			 perhaps better a new menu View with Full Screen, Sliders, and Coordinate System I to III 
-			 from the menu Edit, usability bugreport against kmplot?
-			 -->
-		<varlistentry>
-			<term><menuchoice>
-					<shortcut>
-						<keycombo>&Ctrl;&Shift;<keycap>F</keycap></keycombo>
-					</shortcut>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Full Screen Mode</guimenuitem>
-				</menuchoice></term>
-			<listitem><para>With this action you toggle the full screen mode.</para>
-			</listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term><menuchoice><guimenu>Settings</guimenu>
-					<guimenuitem>Configure Shortcuts...</guimenuitem>
-				</menuchoice></term>
-			<listitem>
-				<para><action>Personalize the keybindings</action> for &kmplot;.</para>
-			</listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term><menuchoice><guimenu>Settings</guimenu>
-					<guimenuitem>Configure Toolbars...</guimenuitem>
-				</menuchoice></term>
-			<listitem>
-				<para><action>Personalize the toolbars</action> for &kmplot;.</para>
-			</listitem>
-		</varlistentry>
-		
-		<varlistentry>
-			<term><menuchoice><guimenu>Settings</guimenu>
-					<guimenuitem>Configure &kmplot;...</guimenuitem>
-				</menuchoice></term>
-			<listitem>
-				<para><action>Customize</action> &kmplot;. The options available to
-					you are described in <xref linkend="configuration"/>.</para>
-			</listitem>
-		</varlistentry>
-		
-	</variablelist>
-	
-</sect1>
-
-<sect1 id="a-help-menu">
-	<title>The <guimenu>Help</guimenu> Menu</title>
-	
-	<para>&kmplot; has a standard &kde; <guimenu>Help</guimenu> as described
-		below, with one addition:</para>
+	<para>&kmplot; has a standard &kde; <guimenu>Help</guimenu> with one addition:</para>
 	
 	<variablelist>
 		<varlistentry>
@@ -347,10 +178,7 @@
 		</varlistentry>
 	</variablelist>
 	
-	<para>The standard &kde; <guimenu>Help</guimenu> entries are:</para>
-	
-	&help.menu.documentation;
-
+</sect2>
 </sect1>
 
 

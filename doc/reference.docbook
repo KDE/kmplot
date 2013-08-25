@@ -462,7 +462,7 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 	</screenshot>
 	
 	<sect2 id="axes-config">
-		<title>>Axes Configuration</title>
+		<title>Axes Configuration</title>
 		<para>
 			<variablelist>
 				

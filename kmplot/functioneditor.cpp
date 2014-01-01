@@ -36,7 +36,6 @@
 
 #include <kaction.h>
 #include <kcolorbutton.h>
-#include <KIcon>
 #include <klocale.h>
 #include <kmessagebox.h>
 
@@ -86,8 +85,8 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	m_editor = new FunctionEditorWidget;
 	m_functionList = m_editor->functionList;
 	
-	m_editor->createNewPlot->setIcon( KIcon("document-new") );
-	m_editor->deleteButton->setIcon( KIcon("edit-delete") );
+	m_editor->createNewPlot->setIcon( QIcon::fromTheme("document-new") );
+	m_editor->deleteButton->setIcon( QIcon::fromTheme("edit-delete") );
 	
 	//BEGIN initialize equation edits
 	m_editor->cartesianEquation->setInputType( EquationEdit::Function );

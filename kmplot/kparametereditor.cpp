@@ -27,7 +27,6 @@
 
 #include <kdebug.h>
 #include <kfiledialog.h>
-#include <KIcon>
 #include <kinputdialog.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
@@ -55,12 +54,12 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	m_mainWidget->layout()->setMargin( 0 );
 	setMainWidget( m_mainWidget );
 	
-	m_mainWidget->cmdNew->setIcon( KIcon("document-new" ) );
-	m_mainWidget->cmdDelete->setIcon( KIcon("edit-delete" ) );
-	m_mainWidget->moveUp->setIcon( KIcon("go-up") );
-	m_mainWidget->moveDown->setIcon( KIcon("go-down") );
-	m_mainWidget->cmdImport->setIcon( KIcon("document-open") );
-	m_mainWidget->cmdExport->setIcon( KIcon("document-save") );
+	m_mainWidget->cmdNew->setIcon( QIcon::fromTheme("document-new" ) );
+	m_mainWidget->cmdDelete->setIcon( QIcon::fromTheme("edit-delete" ) );
+	m_mainWidget->moveUp->setIcon( QIcon::fromTheme("go-up") );
+	m_mainWidget->moveDown->setIcon( QIcon::fromTheme("go-down") );
+	m_mainWidget->cmdImport->setIcon( QIcon::fromTheme("document-open") );
+	m_mainWidget->cmdExport->setIcon( QIcon::fromTheme("document-save") );
 	
 	m_mainWidget->list->setFocusPolicy( Qt::NoFocus );
 	

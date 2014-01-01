@@ -37,7 +37,7 @@
 KmPlotProgress::KmPlotProgress( QWidget* parent ) : QWidget( parent )
 {
 	m_button = new KPushButton(this);
-	m_button->setIcon( KIcon( "process-stop" ) );
+	m_button->setIcon( QIcon::fromTheme( "process-stop" ) );
 	m_button->setGeometry( QRect( 0, 0, 30, 23 ) );
 	m_button->setMaximumHeight(height()-10);
 	connect( m_button, SIGNAL(clicked()), this, SIGNAL(cancelDraw()) );

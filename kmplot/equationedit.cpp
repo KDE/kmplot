@@ -51,7 +51,7 @@ EquationEdit::EquationEdit( QWidget * parent )
 	m_equationEditWidget = new EquationEditWidget( this );
 	m_highlighter = new EquationHighlighter( this );
 	m_equation = new Equation( Equation::Cartesian, 0 );
-	m_editButton = new QPushButton( KIcon("document-properties"), 0, this );
+	m_editButton = new QPushButton( QIcon::fromTheme("document-properties"), 0, this );
 	setFocusProxy( m_equationEditWidget );
 	
 	connect( m_equationEditWidget, SIGNAL( textChanged() ), this, SLOT( slotTextChanged() ) );

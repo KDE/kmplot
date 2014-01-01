@@ -246,7 +246,7 @@ void MainDlg::setupActions()
 	//BEGIN file menu
 	QAction * exportAction = actionCollection()->addAction( "export" );
         exportAction->setText( i18n( "E&xport..." ) );
-        exportAction->setIcon( KIcon( "document-export" ) );
+        exportAction->setIcon( QIcon::fromTheme( "document-export" ) );
 	connect( exportAction, SIGNAL(triggered(bool)), this, SLOT( slotExport() ) );
 	//END file menu
 
@@ -260,12 +260,12 @@ void MainDlg::setupActions()
 
 	QAction * editAxes = actionCollection()->addAction( "editaxes" );
         editAxes->setText( i18n( "&Coordinate System..." ) );
-	editAxes->setIcon( KIcon("coords.png") );
+	editAxes->setIcon( QIcon::fromTheme("coords.png") );
 	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
 
 	QAction * editConstants = actionCollection()->addAction( "editconstants" );
         editConstants->setText( i18n( "&Constants..." ) );
-	editConstants->setIcon( KIcon("editconstants.png") );
+	editConstants->setIcon( QIcon::fromTheme("editconstants.png") );
 	connect( editConstants, SIGNAL(triggered(bool)), this, SLOT( editConstants() ) );
 	//END edit menu
 
@@ -276,13 +276,13 @@ void MainDlg::setupActions()
 	KAction * zoomIn = actionCollection()->addAction( "zoom_in" );
         zoomIn->setText( i18n("Zoom &In") );
 	zoomIn->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_1) );
-	zoomIn->setIcon( KIcon("zoom-in") );
+	zoomIn->setIcon( QIcon::fromTheme("zoom-in") );
 	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
 
 	KAction * zoomOut = actionCollection()->addAction( "zoom_out" );
         zoomOut->setText(i18n("Zoom &Out"));
 	zoomOut->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_2) );
-	zoomOut->setIcon( KIcon("zoom-out") );
+	zoomOut->setIcon( QIcon::fromTheme("zoom-out") );
 	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT( zoomOut() ) );
 
 	QAction * zoomTrig = actionCollection()->addAction( "zoom_trig" );
@@ -291,7 +291,7 @@ void MainDlg::setupActions()
 
 	QAction * resetView = actionCollection()->addAction( "reset_view" );
 	resetView->setText( i18n( "Reset View" ) );
-	resetView->setIcon( KIcon("resetview") );
+	resetView->setIcon( QIcon::fromTheme("resetview") );
 	connect( resetView, SIGNAL(triggered(bool)), this, SLOT( slotResetView() ) );
 	//END view menu
 
@@ -299,7 +299,7 @@ void MainDlg::setupActions()
 	//BEGIN tools menu
 	QAction *mnuCalculator = actionCollection()->addAction( "calculator" );
 	mnuCalculator->setText( i18n( "Calculator") );
-	mnuCalculator->setIcon( KIcon("system-run") );
+	mnuCalculator->setIcon( QIcon::fromTheme("system-run") );
 	connect( mnuCalculator, SIGNAL(triggered(bool)), this, SLOT( calculator() ) );
 
 	QAction *mnuArea = actionCollection()->addAction( "grapharea" );
@@ -308,12 +308,12 @@ void MainDlg::setupActions()
 
 	QAction *mnuMaxValue = actionCollection()->addAction( "maximumvalue" );
         mnuMaxValue->setText( i18n( "Find Ma&ximum..." ) );
-	mnuMaxValue->setIcon( KIcon("maximum") );
+	mnuMaxValue->setIcon( QIcon::fromTheme("maximum") );
 	connect( mnuMaxValue, SIGNAL(triggered(bool)), this, SLOT( findMaximumValue() ) );
 
 	QAction *mnuMinValue = actionCollection()->addAction( "minimumvalue" );
         mnuMinValue->setText( i18n( "Find Mi&nimum..." ) );
-	mnuMinValue->setIcon( KIcon("minimum") );
+	mnuMinValue->setIcon( QIcon::fromTheme("minimum") );
 	connect( mnuMinValue, SIGNAL(triggered(bool)), this, SLOT( findMinimumValue() ) );
 	//END tools menu
 
@@ -321,7 +321,7 @@ void MainDlg::setupActions()
 	//BEGIN help menu
 	QAction * namesAction = actionCollection()->addAction( "names" );
         namesAction->setText( i18n( "Predefined &Math Functions" ) );
-	namesAction->setIcon( KIcon("functionhelp") );
+	namesAction->setIcon( QIcon::fromTheme("functionhelp") );
 	connect( namesAction, SIGNAL(triggered(bool)), this, SLOT( slotNames() ) );
 	//END help menu
 
@@ -329,31 +329,31 @@ void MainDlg::setupActions()
 	//BEGIN new plots menu
 	QAction * newFunction = actionCollection()->addAction( "newcartesian" );
         newFunction->setText( i18n( "Cartesian Plot" ) );
-	newFunction->setIcon( KIcon("newfunction") );
+	newFunction->setIcon( QIcon::fromTheme("newfunction") );
 	connect( newFunction, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createCartesian() ) );
 	m_newPlotMenu->addAction( newFunction );
 
 	QAction * newParametric = actionCollection()->addAction( "newparametric" );
         newParametric->setText( i18n( "Parametric Plot" ) );
-	newParametric->setIcon( KIcon("newparametric") );
+	newParametric->setIcon( QIcon::fromTheme("newparametric") );
 	connect( newParametric, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createParametric() ) );
 	m_newPlotMenu->addAction( newParametric );
 
 	QAction * newPolar = actionCollection()->addAction( "newpolar" );
         newPolar->setText( i18n( "Polar Plot" ) );
-	newPolar->setIcon( KIcon("newpolar") );
+	newPolar->setIcon( QIcon::fromTheme("newpolar") );
 	connect( newPolar, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createPolar() ) );
 	m_newPlotMenu->addAction( newPolar );
 
 	QAction * newImplicit = actionCollection()->addAction( "newimplicit" );
         newImplicit->setText( i18n( "Implicit Plot" ) );
-	newImplicit->setIcon( KIcon("newimplicit") );
+	newImplicit->setIcon( QIcon::fromTheme("newimplicit") );
 	connect( newImplicit, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createImplicit() ) );
 	m_newPlotMenu->addAction( newImplicit );
 
 	QAction * newDifferential = actionCollection()->addAction( "newdifferential" );
         newDifferential->setText( i18n( "Differential Plot" ) );
-	newDifferential->setIcon( KIcon("newdifferential") );
+	newDifferential->setIcon( QIcon::fromTheme("newdifferential") );
 	connect( newDifferential, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createDifferential() ) );
 	m_newPlotMenu->addAction( newDifferential );
 	//END new plots menu
@@ -370,7 +370,7 @@ void MainDlg::setupActions()
 	QAction *mnuEdit = actionCollection()->addAction( "mnuedit"  );
         mnuEdit->setText(i18n("&Edit"));
 	m_firstFunctionAction = mnuEdit;
-	mnuEdit->setIcon( KIcon("editplots") );
+	mnuEdit->setIcon( QIcon::fromTheme("editplots") );
 	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT( editCurrentPlot() ) );
 	m_popupmenu->addAction( mnuEdit );
 
@@ -381,7 +381,7 @@ void MainDlg::setupActions()
 
 	QAction *mnuRemove = actionCollection()->addAction( "mnuremove"  );
         mnuRemove->setText(i18n("&Remove"));
-	mnuRemove->setIcon( KIcon("edit-delete") );
+	mnuRemove->setIcon( QIcon::fromTheme("edit-delete") );
 	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT( removeCurrentPlot() ) );
 	m_popupmenu->addAction( mnuRemove );
 

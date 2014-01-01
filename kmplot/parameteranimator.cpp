@@ -73,11 +73,11 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 	m_timer = new QTimer( this );
 	connect( m_timer, SIGNAL(timeout()), this, SLOT(step()) );
 	
-	m_widget->gotoInitial->setIcon( KIcon( "go-first" ) );
-	m_widget->gotoFinal->setIcon( KIcon( "go-last" ) );
-	m_widget->stepBackwards->setIcon( KIcon( "go-previous" ) );
-	m_widget->stepForwards->setIcon( KIcon( "go-next" ) );
-	m_widget->pause->setIcon( KIcon( "media-playback-pause" ) );
+	m_widget->gotoInitial->setIcon( QIcon::fromTheme( "go-first" ) );
+	m_widget->gotoFinal->setIcon( QIcon::fromTheme( "go-last" ) );
+	m_widget->stepBackwards->setIcon( QIcon::fromTheme( "go-previous" ) );
+	m_widget->stepForwards->setIcon( QIcon::fromTheme( "go-next" ) );
+	m_widget->pause->setIcon( QIcon::fromTheme( "media-playback-pause" ) );
 	
 	connect( m_widget->gotoInitial, SIGNAL(clicked()), this, SLOT(gotoInitial()) );
 	connect( m_widget->gotoFinal, SIGNAL(clicked()), this, SLOT(gotoFinal()) );

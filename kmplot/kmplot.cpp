@@ -88,8 +88,9 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 		return;
 	}
 
-	if (!initialGeometrySet())
-		resize( QSize(800, 520).expandedTo(minimumSizeHint()));
+//FIXME port to KF5
+//	if (!initialGeometrySet())
+//		resize( QSize(800, 520).expandedTo(minimumSizeHint()));
 
 	// apply the saved mainwindow settings, if any, and ask the mainwindow
 	// to automatically save settings if changed: window size, toolbar
@@ -237,24 +238,27 @@ bool KmPlot::queryClose()
 
 void KmPlot::setStatusBarText(const QString &text, int id)
 {
- 	statusBar()->changeItem(text,id);
+	static_cast<KStatusBar *>(statusBar())->changeItem(text,id);
 }
 
 
 void KmPlot::setupStatusBar()
 {
-	statusBar()->insertFixedItem( "1234567890123456", 1 );
-	statusBar()->insertFixedItem( "1234567890123456", 2 );
-	statusBar()->insertItem( "", 3, 3 );
-	statusBar()->insertItem( "", 4 );
-	statusBar()->changeItem( "", 1 );
-	statusBar()->changeItem( "", 2 );
-	statusBar()->setItemAlignment( 3, Qt::AlignLeft );
+	KStatusBar *statusBar = new KStatusBar(this);
+	setStatusBar(statusBar);
 
-	m_progressBar = new KmPlotProgress( statusBar() );
-	m_progressBar->setMaximumHeight( statusBar()->height()-10 );
+	statusBar->insertFixedItem( "1234567890123456", 1 );
+	statusBar->insertFixedItem( "1234567890123456", 2 );
+	statusBar->insertItem( "", 3, 3 );
+	statusBar->insertItem( "", 4 );
+	statusBar->changeItem( "", 1 );
+	statusBar->changeItem( "", 2 );
+	statusBar->setItemAlignment( 3, Qt::AlignLeft );
+
+	m_progressBar = new KmPlotProgress( statusBar );
+	m_progressBar->setMaximumHeight( statusBar->height()-10 );
 	connect( m_progressBar, SIGNAL (cancelDraw() ), this, SLOT( cancelDraw() ) );
-	statusBar()->addWidget(m_progressBar);
+	statusBar->addWidget(m_progressBar);
 }
 
 

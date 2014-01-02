@@ -193,7 +193,8 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	KConfigDialogManager::changedMap()->insert( "EquationEdit", SIGNAL(textEdited(const QString &)) );
 	// Let's create a Configure Diloag
 	m_settingsDialog = new KConfigDialog( parentWidget, "settings", Settings::self() );
-	m_settingsDialog->setHelp("general-config");
+//FIXME port to KF5
+//	m_settingsDialog->setHelp("general-config");
 
 	// create and add the page(s)
 	m_generalSettings = new SettingsPageGeneral( View::self() );
@@ -274,13 +275,13 @@ void MainDlg::setupActions()
 	//BEGIN view menu
 	/// \todo check that new shortcuts work
 
-	KAction * zoomIn = actionCollection()->addAction( "zoom_in" );
+	QAction * zoomIn = actionCollection()->addAction( "zoom_in" );
         zoomIn->setText( i18n("Zoom &In") );
 	zoomIn->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_1) );
 	zoomIn->setIcon( QIcon::fromTheme("zoom-in") );
 	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
 
-	KAction * zoomOut = actionCollection()->addAction( "zoom_out" );
+	QAction * zoomOut = actionCollection()->addAction( "zoom_out" );
         zoomOut->setText(i18n("Zoom &Out"));
 	zoomOut->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_2) );
 	zoomOut->setIcon( QIcon::fromTheme("zoom-out") );

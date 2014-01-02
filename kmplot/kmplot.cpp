@@ -26,6 +26,7 @@
 
 #include <kaction.h>
 #include <kconfig.h>
+#include <kconfiggroup.h>
 #include <kedittoolbar.h>
 #include <kshortcutsdialog.h>
 #include <kfiledialog.h>

@@ -45,6 +45,7 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
+#include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <kstandardaction.h>
 #include <ktemporaryfile.h>

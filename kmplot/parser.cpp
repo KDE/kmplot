@@ -139,7 +139,7 @@ class LengthOrderedString : public QString
 		bool operator <( const LengthOrderedString & other ) const
 		{
 			return (length() > other.length()) ||
-					((length() == other.length()) && (QString::operator<(other)));
+					((length() == other.length()) && (static_cast<const QString &>(*this) < static_cast<const QString &>(other)));
 		}
 };
 

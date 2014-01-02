@@ -27,6 +27,7 @@
 
 #include <kcmdlineargs.h>
 #include <kparts/mainwindow.h>
+#include <KUrl>
 
 class KmPlotProgress;
 class KToggleFullScreenAction;

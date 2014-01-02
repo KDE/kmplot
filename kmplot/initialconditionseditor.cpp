@@ -107,7 +107,7 @@ QVariant InitialConditionsModel::data( const QModelIndex & index, int role ) con
 			return Qt::AlignLeft;
 			
 		case Qt::TextColorRole:
-			return Qt::black;
+			return QColor(Qt::black);
 			
 		case Qt::WhatsThisRole:
 		case Qt::AccessibleDescriptionRole:

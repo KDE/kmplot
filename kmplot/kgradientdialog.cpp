@@ -38,6 +38,7 @@
 #include <QStyleOption>
 #include <QStyleOptionButton>
 #include <QVBoxLayout>
+#include <qdrawutil.h>
 
 const double SQRT_3 = 1.732050808;
 const double ArrowLength = 8;

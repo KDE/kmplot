@@ -41,11 +41,11 @@ class PlotStyleDialogWidget : public QWidget, public Ui::PlotStyleWidget
 	: QWidget( parent )
 		{
 			setupUi(this);
-			lineStyle->addItem( i18n("Solid"), Qt::SolidLine );
-			lineStyle->addItem( i18n("Dash"), Qt::DashLine );
-			lineStyle->addItem( i18n("Dot"), Qt::DotLine );
-			lineStyle->addItem( i18n("Dash Dot"), Qt::DashDotLine );
-			lineStyle->addItem( i18n("Dash Dot Dot"), Qt::DashDotDotLine );
+			lineStyle->addItem( i18n("Solid"), int(Qt::SolidLine) );
+			lineStyle->addItem( i18n("Dash"), int(Qt::DashLine) );
+			lineStyle->addItem( i18n("Dot"), int(Qt::DotLine) );
+			lineStyle->addItem( i18n("Dash Dot"), int(Qt::DashDotLine) );
+			lineStyle->addItem( i18n("Dash Dot Dot"), int(Qt::DashDotDotLine) );
 		}
 };
 
@@ -118,7 +118,7 @@ Qt::PenStyle PlotStyleWidget::style( ) const
 
 void PlotStyleWidget::setStyle( Qt::PenStyle style )
 {
-	m_dialogWidget->lineStyle->setCurrentIndex( m_dialogWidget->lineStyle->findData( style ) );
+	m_dialogWidget->lineStyle->setCurrentIndex( m_dialogWidget->lineStyle->findData( int(style) ) );
 }
 
 

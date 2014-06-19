@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<component type="desktop">
+  <id>kmplot.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>KmPlot</name>
+  <summary>Mathematical Function Plotter</summary>
+  <description>
+    <p>KmPlot is a program to plot graphs of functions, their integrals or derivatives. The graphs can be colorized and the view is highly configurable, is scalable, and can be zoomed. The program features a powerful mathematical parser, different plot types (cartesian, parametric, polar, implicit, differential), and provides simple mathematical tools like for finding maximum/minimum of a function. Parametrized functions can be visualized by adjusting the variable parameter via a slider. Plots can be exported as bitmap format pictures (BMP, PNG) and can be printed.</p>
+  </description>
+  <url type="homepage">http://edu.kde.org/kmplot/</url>
+  <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kmplot</url>
+  <url type="help">http://docs.kde.org/stable/en/kdeedu/kmplot/index.html</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>http://edu.kde.org/images/screenshots/kmplot.png</image>
+    </screenshot>
+  </screenshots>
+  <project_group>KDE</project_group>
+  <provides>
+    <binary>kmplot</binary>
+  </provides>
+</component>

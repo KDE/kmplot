@@ -14,3 +14,4 @@ add_subdirectory( doc )
 add_subdirectory( kmplot ) 
 add_subdirectory( icons ) 
 
+install(FILES kmplot.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata/)

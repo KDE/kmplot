@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KmPlot</name>
+  <name xml:lang="cs">KmPlot</name>
   <name xml:lang="es">KmPlot</name>
   <name xml:lang="nds">KmPlot</name>
   <name xml:lang="nl">KmPlot</name>
@@ -15,6 +16,7 @@
   <name xml:lang="uk">KmPlot</name>
   <name xml:lang="x-test">xxKmPlotxx</name>
   <summary>Mathematical Function Plotter</summary>
+  <summary xml:lang="cs">Matematický souřadnicový zapisovač funkcí</summary>
   <summary xml:lang="es">Trazador de funciones matemáticas</summary>
   <summary xml:lang="nds">Mathemaatsch Bagenschriever</summary>
   <summary xml:lang="nl">Plotprogramma voor wiskundige functies</summary>

@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KmPlot</name>
+  <name xml:lang="ca">KmPlot</name>
   <name xml:lang="cs">KmPlot</name>
   <name xml:lang="de">KmPlot</name>
   <name xml:lang="en-GB">KmPlot</name>
@@ -21,6 +22,7 @@
   <name xml:lang="uk">KmPlot</name>
   <name xml:lang="x-test">xxKmPlotxx</name>
   <summary>Mathematical Function Plotter</summary>
+  <summary xml:lang="ca">Traçador de funcions matemàtiques</summary>
   <summary xml:lang="cs">Matematický souřadnicový zapisovač funkcí</summary>
   <summary xml:lang="de">Mathematischer Funktionsplotter</summary>
   <summary xml:lang="en-GB">Mathematical Function Plotter</summary>
@@ -39,6 +41,7 @@
   <summary xml:lang="x-test">xxMathematical Function Plotterxx</summary>
   <description>
     <p>KmPlot is a program to plot graphs of functions, their integrals or derivatives. The graphs can be colorized and the view is highly configurable, is scalable, and can be zoomed. The program features a powerful mathematical parser, different plot types (cartesian, parametric, polar, implicit, differential), and provides simple mathematical tools like for finding maximum/minimum of a function. Parametrized functions can be visualized by adjusting the variable parameter via a slider. Plots can be exported as bitmap format pictures (BMP, PNG) and can be printed.</p>
+    <p xml:lang="ca">El KmPlot és un programa per traçar gràfics o funcions, les seves integrals o derivatives. Els gràfics es poden acolorir i la visualització és molt configurable, es pot escalar, i s'hi pot fer zoom. El program disposa d'un potent analitzador matemàtic, diferents tipus de gràfics (cartesians, paramètrics, polars, implícits, diferencials), i proporciona eines matemàtiques senzilles com la cerca del màxim i mínim d'una funció. Les funcions paramètriques es poden visualitzar ajustant el paràmetre variable des d'un control lliscant. Els gràfics es poden exportar a imatges en format de mapa de bits (BMP, PNG) i es poden imprimir.</p>
     <p xml:lang="en-GB">KmPlot is a program to plot graphs of functions, their integrals or derivatives. The graphs can be colourised and the view is highly configurable, is scalable, and can be zoomed. The program features a powerful mathematical parser, different plot types (cartesian, parametric, polar, implicit, differential), and provides simple mathematical tools like for finding maximum/minimum of a function. Parametrised functions can be visualised by adjusting the variable parameter via a slider. Plots can be exported as bitmap format pictures (BMP, PNG) and can be printed.</p>
     <p xml:lang="es">KmPlot es un programa para dibujar gráficas de funciones, sus integrales o sus derivadas. Las gráficas pueden tener color y contienen muchas opciones de configuración, son escalables y se pueden ampliar. El programa contiene un potente analizador matemático, diferentes tipos de gráficas (cartesiana, paramétrica, polar, implícita, diferencial) y proporciona sencillas herramientas matemáticas, como la que calcula el máximo o el mínimo de una función. Las funciones con parámetros se pueden visualizar ajustando los parámetros variables usando un deslizador. Las gráficas se pueden exportar como imágenes en formato de mapa de bits (BMP o PNG) y también se pueden imprimir.</p>
     <p xml:lang="et">KmPlot on matemaatiliste funktsioonide, nende integraalide ja tuletiste graafikute joonistamise rakendus. Graafikuid saab esitada värviliselt ning kõikvõimalikul moel esitamist seadistada. Rakendus pakub võimsat matemaatikaparserit, mitmesuguseid joonisetüüpe (Descartes'i, parameetrilised, polaarsed, ilmutamata, diferentsiaalsed) ning lihtsamaid matemaatikatööriistu, näiteks funktsiooni maksimumi või miinimumi leidmiseks. Parameetrilisi funktsioone saab visualiseerida otse muutuja parameetrit liuguriga nihutades. Jooniseid saab eksportida bittrastervormingus piltidena (BMP, PNG) ning trükkida.</p>

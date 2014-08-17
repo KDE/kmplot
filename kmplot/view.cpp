@@ -2116,6 +2116,7 @@ void View::drawLabel( QPainter * painter, const QColor & color, const QPointF & 
 	QPointF pixelCenter = toPixel( realPos );
 	QRectF rect( pixelCenter, QSizeF( 1, 1 ) );
 	
+	painter->setFont( m_labelFont );
 	int flags = Qt::TextSingleLine | Qt::AlignLeft | Qt::AlignTop;
 	rect = painter->boundingRect( rect, flags, text ).adjusted( -7, -3, 4, 2 );
 	
@@ -2170,7 +2171,6 @@ void View::drawLabel( QPainter * painter, const QColor & color, const QPointF & 
 	}
 	
 	
-	painter->setFont( m_labelFont );
 	painter->setPen( Qt::black );
 	painter->drawText( rect.adjusted( 7, 3, -4, -2 ), flags, text );
 }

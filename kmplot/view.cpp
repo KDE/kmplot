@@ -232,6 +232,38 @@ double View::niceTicSpacing( double length_mm, double range )
 }
 
 
+double View::validatedTicSpacing( double spacing, double range, double pixels, double minPixels )
+{
+	Q_ASSERT_X( range > 0, "View::validatedTicSpacing", "Range must be positive" );
+	Q_ASSERT_X( minPixels > 0, "View::validatedTicSpacing", "MinPixels must be positive" );
+
+	spacing = qAbs( spacing );
+	if ( qFuzzyCompare( spacing, 0 ) )
+		return 2.0 * range;
+
+	double factor;
+
+	// Make sure spacing between tics is at least minPixels
+	pixels /= range / spacing;
+	factor = pixels / minPixels;
+	if ( factor < 1.0 ) {
+		int exponent;
+		frexp( factor, &exponent );
+		spacing = ldexp( spacing, -exponent + 1 );
+	}
+
+	// Make sure there are at least two tics
+	factor = spacing / range;
+	if ( factor > 0.5 ) {
+		int exponent;
+		frexp( factor, &exponent );
+		spacing = ldexp( spacing, -exponent - 1);
+	}
+
+	return spacing;
+}
+
+
 void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 {
 	switch ( medium )
@@ -301,6 +333,7 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 	
 	
 	//BEGIN get Tic Separation
+	QFontMetricsF fm( Settings::axesFont(), device );
 	if ( Settings::xScalingMode() == 0 )
 	{
 		double length = pixelsToMillimeters( xToPixel( m_xmax ), device );
@@ -308,7 +341,12 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 		ticSepX.updateExpression( spacing );
 	}
 	else
+	{
 		ticSepX.updateExpression( Settings::xScaling() );
+		double spacing = ticSepX.value();
+		spacing = validatedTicSpacing( spacing, m_xmax-m_xmin, xToPixel( m_xmax ), fm.lineSpacing());
+		ticSepX.updateExpression( spacing );
+	}
 
 	if ( Settings::yScalingMode() == 0 )
 	{
@@ -317,7 +355,12 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 		ticSepY.updateExpression( spacing );
 	}
 	else
+	{
 		ticSepY.updateExpression( Settings::yScaling() );
+		double spacing = ticSepY.value();
+		spacing = validatedTicSpacing( spacing, m_ymax-m_ymin, yToPixel( m_ymin ), fm.lineSpacing());
+		ticSepY.updateExpression( spacing );
+	}
 	
 	ticStartX = ceil(m_xmin/ticSepX.value())*ticSepX.value();
 	ticStartY = ceil(m_ymin/ticSepY.value())*ticSepY.value();

@@ -113,6 +113,11 @@ class EquationEdit : public QWidget
 		 */
 		double value( bool * ok = 0 );
 		
+		/**
+		 * @internal workaround for QTBUG-10907
+		 */
+		void setTabChain( QWidget *next );
+		
 	signals:
 		void editingFinished();
 		void textEdited( const QString & text );

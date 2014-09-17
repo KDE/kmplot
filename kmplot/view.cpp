@@ -3542,7 +3542,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	QRect zoomRect = QRect( m_zoomRectangleStart, e->pos() ).normalized();
 	int area = zoomRect.width() * zoomRect.height();
 
-	if ( (area <= 500) && (m_mousePressTimer->elapsed() < 100) )
+	if ( (area <= 500) && (m_mousePressTimer->elapsed() < QApplication::startDragTime()) )
 	{
 		if ( m_zoomMode == ZoomInDrawing )
 			m_zoomMode = ZoomIn;

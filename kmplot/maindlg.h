@@ -40,6 +40,7 @@
 #include <kstandarddirs.h>
 #include <kparts/browserextension.h>
 #include <kparts/part.h>
+#include <kparts/readwritepart.h>
 #include <kparts/factory.h>
 
 #undef  GrayScale
@@ -241,7 +242,7 @@ public:
 
 private:
 	static KComponentData *s_instance;
-	static KAboutData* s_about;
+	static K4AboutData* s_about;
 };
 
 class BrowserExtension : public KParts::BrowserExtension

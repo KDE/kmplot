@@ -48,7 +48,7 @@ CoordsConfigDialog::CoordsConfigDialog(QWidget *parent)
 	configAxesDialog = new EditCoords( 0 );
 	configAxesDialog->layout()->setMargin( 0 );
 	addPage(configAxesDialog , i18n( "Coordinates" ), "coords", i18n( "Coordinate System" ) );
-	setCaption( i18n( "Coordinate System" ) );
+	//setCaption( i18n( "Coordinate System" ) );
 	setHelp("axes-config");
 	setFaceType( Plain );
 }
@@ -114,14 +114,14 @@ void CoordsConfigDialog::slotOk()
 	// I've left this here as an example of poor naming (which radio button is which?!) :p
 // 	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
 	
-	if ( evalX() && evalY() )
-        slotButtonClicked( KDialog::Ok );
+	//if ( evalX() && evalY() )
+//        slotButtonClicked( KDialog::Ok );
 }
 
 void CoordsConfigDialog::slotApply()
 {
-	if ( evalX() && evalY() )
-        slotButtonClicked( KDialog::Apply );
+	//if ( evalX() && evalY() )
+//        slotButtonClicked( KDialog::Apply );
 }
 
 void CoordsConfigDialog::updateXYRange( )

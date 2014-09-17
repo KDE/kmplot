@@ -27,6 +27,7 @@
 
 #include <kcmdlineargs.h>
 #include <kparts/mainwindow.h>
+#include <kparts/readwritepart.h>
 #include <KUrl>
 
 class KmPlotProgress;

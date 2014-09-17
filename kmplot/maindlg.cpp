@@ -34,7 +34,7 @@
 #include <QtGui/QPrintDialog>
 
 // KDE includes
-#include <kaboutdata.h>
+#include <k4aboutdata.h>
 #include <kconfigdialog.h>
 #include <kconfigdialogmanager.h>
 #include <kdebug.h>
@@ -53,6 +53,7 @@
 #include <ktoolinvocation.h>
 #include <krecentfilesaction.h>
 #include <kactioncollection.h>
+#include <khelpclient.h>
 #include <kicon.h>
 #include <kiconloader.h>
 #include <kapplication.h>
@@ -540,7 +541,7 @@ void MainDlg::slotSaveas()
 	{
 		setUrl(url);
 		m_recentFiles->addUrl( url );
-		setWindowCaption( this->url().prettyUrl(KUrl::LeaveTrailingSlash) );
+		setWindowCaption( KUrl(this->url()).prettyUrl(KUrl::LeaveTrailingSlash) );
 		m_modified = false;
 	}
 }
@@ -637,8 +638,8 @@ bool MainDlg::openFile()
 	}
 	
 	m_currentfile = url();
-	m_recentFiles->addUrl( url().prettyUrl(KUrl::LeaveTrailingSlash)  );
-	setWindowCaption( url().prettyUrl(KUrl::LeaveTrailingSlash) );
+	m_recentFiles->addUrl( KUrl(url()).prettyUrl(KUrl::LeaveTrailingSlash)  );
+	setWindowCaption( KUrl(url()).prettyUrl(KUrl::LeaveTrailingSlash) );
 	resetUndoRedo();
 	View::self()->updateSliders();
 	View::self()->drawPlot();
@@ -667,7 +668,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
     m_currentfile = url;
     setUrl(url);
     m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
-    setWindowCaption( this->url().prettyUrl(KUrl::LeaveTrailingSlash) );
+    setWindowCaption( KUrl(this->url()).prettyUrl(KUrl::LeaveTrailingSlash) );
 	resetUndoRedo();
     View::self()->updateSliders();
     View::self()->drawPlot();
@@ -720,7 +721,7 @@ void MainDlg::editConstantsModal(QWidget *parent)
 
 void MainDlg::slotNames()
 {
-	KToolInvocation::invokeHelp( "func-predefined", "kmplot" );
+	KHelpClient::invokeHelp( "func-predefined", "kmplot" );
 }
 
 
@@ -803,7 +804,7 @@ CoordsConfigDialog * MainDlg::coordsDialog( )
 // notable exception of the KAboutData data
 
 KComponentData *KmPlotPartFactory::s_instance = 0L;
-KAboutData* KmPlotPartFactory::s_about = 0L;
+K4AboutData* KmPlotPartFactory::s_about = 0L;
 
 KmPlotPartFactory::KmPlotPartFactory()
 		: KParts::Factory()
@@ -830,7 +831,7 @@ const KComponentData &KmPlotPartFactory::componentData()
 {
 	if( !s_instance )
 	{
-		s_about = new KAboutData("kmplot", 0,ki18n( "KmPlotPart" ), "1");
+		s_about = new K4AboutData("kmplot", 0,ki18n( "KmPlotPart" ), "1");
 		s_instance = new KComponentData(s_about);
 	}
 	return *s_instance;
@@ -838,7 +839,7 @@ const KComponentData &KmPlotPartFactory::componentData()
 
 extern "C"
 {
-	KDE_EXPORT void* init_libkmplotpart()
+	Q_DECL_EXPORT extern void* init_libkmplotpart()
 	{
 		return new KmPlotPartFactory;
 	}

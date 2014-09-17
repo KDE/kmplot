@@ -33,9 +33,9 @@ set(kmplotpart_PART_SRCS
    calculator.cpp
    )
 
-qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml maindlg.h MainDlg)
-qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.Parser.xml xparser.h XParser)
-qt4_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.View.xml view.h View)
+qt5_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml maindlg.h MainDlg)
+qt5_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.Parser.xml xparser.h XParser)
+qt5_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.View.xml view.h View)
 
 kde4_add_ui_files(kmplotpart_PART_SRCS
 	plotstylewidget.ui
@@ -57,11 +57,11 @@ kde4_add_ui_files(kmplotpart_PART_SRCS
 
 kde4_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )
 
-kde4_add_plugin(kmplotpart WITH_PREFIX ${kmplotpart_PART_SRCS})
+add_library(kmplotpart MODULE ${kmplotpart_PART_SRCS})
 
 
 
-target_link_libraries(kmplotpart  ${KDE4_KPARTS_LIBS} ${QT_QTXML_LIBRARY} )
+target_link_libraries(kmplotpart KF5::KDELibs4Support KF5::Parts Qt5::Svg)
 
 install(TARGETS kmplotpart  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
@@ -78,7 +78,7 @@ kde4_add_app_icon(kmplot_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi*-apps-kmp
 
 kde4_add_executable(kmplot ${kmplot_SRCS})
 
-target_link_libraries(kmplot  ${KDE4_KPARTS_LIBS})
+target_link_libraries(kmplot  KF5::KDELibs4Support KF5::Parts)
 
 install(TARGETS kmplot  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
@@ -87,8 +87,8 @@ install(TARGETS kmplot  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install( PROGRAMS kmplot.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES kmplot.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kmplot_part.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
-install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${DATA_INSTALL_DIR}/kmplot )
-install( FILES kmplot_shell.rc  DESTINATION  ${DATA_INSTALL_DIR}/kmplot )
+install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kmplot )
+install( FILES kmplot_shell.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kmplot )
 install( FILES org.kde.kmplot.KmPlot.xml org.kde.kmplot.MainDlg.xml org.kde.kmplot.Parser.xml org.kde.kmplot.View.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
 
 

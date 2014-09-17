@@ -32,7 +32,7 @@ static const char* version =  "1.2.1";
 
 
 // KDE includes
-#include <kaboutdata.h>
+#include <k4aboutdata.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
 #include <kapplication.h>
@@ -44,10 +44,10 @@ static const char description[] =
 
 int main( int argc, char **argv )
 {
-	KAboutData aboutData(
+	K4AboutData aboutData(
 	    "kmplot", 0,
 	    ki18n( "KmPlot" ),
-	    version, ki18n(description), KAboutData::License_GPL,
+	    version, ki18n(description), K4AboutData::License_GPL,
 	    ki18n("(c) 2000-2002, Klaus-Dieter Möller"),
 	    KLocalizedString(),
 	    "http://edu.kde.org/kmplot/" );

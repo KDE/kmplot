@@ -30,8 +30,8 @@
 #include <QPixmap>
 #include <QSvgGenerator>
 #include <QTimer>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
 
 // KDE includes
 #include <k4aboutdata.h>

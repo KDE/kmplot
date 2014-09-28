@@ -30,3 +30,4 @@ configure_file(config-kmplot.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/kmplot/config-k
 add_subdirectory( kmplot )
 #add_subdirectory( icons )
 
+install(FILES kmplot.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata/)

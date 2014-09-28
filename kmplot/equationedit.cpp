@@ -65,6 +65,13 @@ EquationEdit::EquationEdit( QWidget * parent )
 }
 
 
+void EquationEdit::setTabChain( QWidget *next )
+{
+	QWidget::setTabOrder( m_equationEditWidget, m_editButton );
+	QWidget::setTabOrder( m_editButton, next );
+}
+
+
 void EquationEdit::setEquationType( Equation::Type type )
 {
 	delete m_equation;

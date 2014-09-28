@@ -254,6 +254,15 @@ class View : public QWidget
 		 */
 		double niceTicSpacing( double length_mm, double range );
 		/**
+		 * For using in manual tic spacing. Given a size in screen \p pixels for
+		 * the given \p range (e.g. x_max-x_min), make sure the \p spacing distance
+		 * is at least \p minPixels large. If zooming out too far, the spacing is
+		 * doubled until this conditions is met, effectively omitting tics. If zooming in
+		 * too far, the spacing is halved until at least two tics are visible, effectively
+		 * inserting additional tics.
+		*/
+		double validatedTicSpacing( double spacing, double range, double pixels, double minPixels );
+		/**
 		 * When zoomed in on part of a circle, it looks nearly straight. KmPlot
 		 * uses this to quickly draw curves that are mostly straight. Given the
 		 * curvature, this function returns the maximum length of line that can

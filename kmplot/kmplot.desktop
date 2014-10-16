@@ -1,7 +1,7 @@
 # KDE Config File
 [Desktop Entry]
 Type=Application
-Exec=kmplot
+Exec=kmplot %u
 Icon=kmplot
 X-DocPath=kmplot/index.html
 Comment=Function Plotter

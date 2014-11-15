@@ -209,7 +209,7 @@ bool KParameterEditor::checkValueValid()
 
 void KParameterEditor::cmdImport_clicked()
 {
-	KUrl url = KFileDialog::getOpenUrl( QString(),i18n("*.txt|Plain Text File "));
+	QUrl url = KFileDialog::getOpenUrl( QString(),i18n("*.txt|Plain Text File "));
 	if ( url.isEmpty() )
 		return;
         
@@ -279,7 +279,7 @@ void KParameterEditor::cmdExport_clicked()
 {
 	if ( !m_mainWidget->list->count() )
                 return;
-	KUrl url = KFileDialog::getSaveUrl( QString(),i18n("*.txt|Plain Text File "));
+	QUrl url = KFileDialog::getSaveUrl( QString(),i18n("*.txt|Plain Text File "));
         if ( url.isEmpty() )
                 return;
 

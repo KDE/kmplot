@@ -53,7 +53,7 @@ class KmPlotIO
 		 * @param exportConstants Whether to save the constants to the file as
 		 * well.
 		 */
-		bool save( const KUrl &url );
+		bool save( const QUrl &url );
 		
 		/**
 		 * @return a QDomDocument describing the current KmPlot state (settings
@@ -70,7 +70,7 @@ class KmPlotIO
 		 * @param exportConstants Set to true or false depending on whether the
 		 * opened file had constants saved in it.
 		 */
-		bool load( const KUrl &url );
+		bool load( const QUrl &url );
 		
 		/**
 		 * Restore KmPlot to the state described in the given QDomDocument.

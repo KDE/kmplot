@@ -189,7 +189,7 @@ private:
 	/// MainDlg's parent widget
 	QWidget *m_parent;
 	/// Current file
-	KUrl m_currentfile;
+	QUrl m_currentfile;
 	/// The axes config dialogs
 	CoordsConfigDialog* m_coordsDialog;
 	/// The constants editor
@@ -220,7 +220,7 @@ protected slots:
 	* When you click on a File->Open Recent file, it'll open
 	* @param url name of the url to open
 	*/
-	void slotOpenRecent( const KUrl &url );
+	void slotOpenRecent( const QUrl &url );
 	/// @see requestSaveCurrentState
 	void saveCurrentState();
 	/// Used when opening a new file

@@ -234,7 +234,7 @@ MainDlg::~MainDlg()
 void MainDlg::setupActions()
 {
 	// standard actions
-        m_recentFiles = KStandardAction::openRecent( this, SLOT( slotOpenRecent( const KUrl& ) ), this );
+        m_recentFiles = KStandardAction::openRecent( this, SLOT( slotOpenRecent( const QUrl& ) ), this );
         actionCollection()->addAction( "file_openrecent", m_recentFiles );
 	actionCollection()->addAction( KStandardAction::Print, "file_print", this, SLOT( slotPrint() ) );
 	KStandardAction::save( this, SLOT( slotSave() ), actionCollection() );
@@ -519,7 +519,9 @@ void MainDlg::slotSaveas()
 {
 	if (m_readonly)
 		return;
-	const KUrl url = KFileDialog::getSaveUrl( QDir::currentPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
+	const QUrl url = KFileDialog::getSaveUrl( QDir::currentPath(),
+			    i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ),
+			    m_parent, i18n( "Save As" ) );
 
 	if ( url.isEmpty() )
 		return;
@@ -541,7 +543,7 @@ void MainDlg::slotSaveas()
 	{
 		setUrl(url);
 		m_recentFiles->addUrl( url );
-		setWindowCaption( KUrl(this->url()).prettyUrl(KUrl::LeaveTrailingSlash) );
+		setWindowCaption( QUrl(this->url()).toString() );
 		m_modified = false;
 	}
 }
@@ -551,7 +553,7 @@ void MainDlg::slotExport()
 	QString filter = KImageIO::pattern( KImageIO::Writing );
 	filter += i18n("\n*.svg|Scalable Vector Graphics");
 
-	KUrl url = KFileDialog::getSaveUrl( QDir::currentPath(), filter, m_parent, i18n( "Export as Image" ) );
+	QUrl url = KFileDialog::getSaveUrl( QDir::currentPath(), filter, m_parent, i18n( "Export as Image" ) );
 
 	if ( !url.isValid() )
 		return;
@@ -624,7 +626,9 @@ void MainDlg::slotExport()
 	}
 
 	if ( !saveOk )
-		KMessageBox::error( m_parent, i18n( "Sorry, something went wrong while saving to image \"%1\"", url.prettyUrl() ) );
+	    KMessageBox::error(m_parent,
+			       i18n("Sorry, something went wrong while saving to image \"%1\"",
+				    url.toString()));
 }
 
 
@@ -633,13 +637,13 @@ bool MainDlg::openFile()
 	if (url()==m_currentfile || !kmplotio->load( url() ) )
 	{
 		m_recentFiles->removeUrl( url() ); //remove the file from the recent-opened-file-list
-		setUrl(KUrl());
+		setUrl(QUrl());
 		return false;
 	}
 	
 	m_currentfile = url();
-	m_recentFiles->addUrl( KUrl(url()).prettyUrl(KUrl::LeaveTrailingSlash)  );
-	setWindowCaption( KUrl(url()).prettyUrl(KUrl::LeaveTrailingSlash) );
+	m_recentFiles->addUrl( QUrl(url()).toString()  );
+	setWindowCaption( QUrl(url()).toString() );
 	resetUndoRedo();
 	View::self()->updateSliders();
 	View::self()->drawPlot();
@@ -652,7 +656,7 @@ bool MainDlg::saveFile()
     return !isModified();
 }
 
-void MainDlg::slotOpenRecent( const KUrl &url )
+void MainDlg::slotOpenRecent( const QUrl &url )
 {
  	if( isModified() || !this->url().isEmpty() ) // open the file in a new window
  	{
@@ -668,7 +672,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
     m_currentfile = url;
     setUrl(url);
     m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
-    setWindowCaption( KUrl(this->url()).prettyUrl(KUrl::LeaveTrailingSlash) );
+    setWindowCaption( QUrl(this->url()).toString() );
 	resetUndoRedo();
     View::self()->updateSliders();
     View::self()->drawPlot();

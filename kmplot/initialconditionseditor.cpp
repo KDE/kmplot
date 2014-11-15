@@ -330,6 +330,3 @@ void InitialConditionsEditor::remove()
 	emit dataChanged();
 }
 //END class InitialConditionsEditor
-
-
-#include "initialconditionseditor.moc"

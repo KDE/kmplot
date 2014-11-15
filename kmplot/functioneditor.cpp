@@ -831,7 +831,3 @@ void FunctionListItem::update()
 	setTextColor( f->plotAppearance( Function::Derivative0 ).color );
 }
 //END class FunctionListItem
-
-
-
-#include "functioneditor.moc"

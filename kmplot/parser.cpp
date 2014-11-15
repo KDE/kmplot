@@ -1780,6 +1780,3 @@ void ExpressionSanitizer::displayMap( )
 	kDebug() << out;
 }
 //END class ExpressionSanitizer
-
-
-#include "parser.moc"

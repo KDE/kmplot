@@ -127,5 +127,3 @@ void PlotStyleWidget::advancedOptions( )
 	m_dialog->show();
 }
 //END class PlotStyleWidget
-
-#include "plotstylewidget.moc"

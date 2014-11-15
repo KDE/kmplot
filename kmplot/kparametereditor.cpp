@@ -340,5 +340,3 @@ bool KParameterEditor::checkTwoOfIt(const QString & text)
 {
 	return !m_mainWidget->list->findItems(text,Qt::MatchExactly).isEmpty();
 }
-
-#include "kparametereditor.moc"

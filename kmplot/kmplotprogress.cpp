@@ -88,5 +88,3 @@ void KmPlotProgress::setProgress( double progress )
 
 	QCoreApplication::processEvents( QEventLoop::ExcludeUserInputEvents );
 }
-
-#include "kmplotprogress.moc"

@@ -173,5 +173,3 @@ double KPrinterDlg::lengthScaling( ) const
 	LengthScaling scaling = (LengthScaling)m_lengthScalingCombo->currentIndex();
 	return scalingToMeter( scaling );
 }
-
-#include "kprinterdlg.moc"

@@ -127,6 +127,3 @@ void KSliderWindow::closeEvent( QCloseEvent * e)
 	e->accept();
 }
 //END class KSliderWindow
-
-
-#include "ksliderwindow.moc"

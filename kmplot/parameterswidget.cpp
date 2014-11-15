@@ -105,5 +105,3 @@ void ParametersWidget::associateEquationEdit( EquationEdit * edit )
 	m_equationEdits << edit;
 }
 //END class ParametersWidget
-
-#include "parameterswidget.moc"

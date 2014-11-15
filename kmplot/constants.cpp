@@ -200,6 +200,3 @@ void Constants::save()
 	}
 }
 //END class Constants
-
-#include "constants.moc"
-

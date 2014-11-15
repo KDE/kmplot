@@ -90,5 +90,3 @@ void Calculator::calculate()
 	m_input->edit->selectAll();
 }
 //END class Calculator
-
-#include "calculator.moc"

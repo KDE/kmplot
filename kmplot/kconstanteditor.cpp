@@ -275,6 +275,3 @@ void ConstantValidator::setWorkingName( const QString & name )
 	m_workingName = name;
 }
 //END class ConstantValidator
-
-
-#include "kconstanteditor.moc"

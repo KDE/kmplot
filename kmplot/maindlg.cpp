@@ -858,5 +858,3 @@ void BrowserExtension::print()
 {
 	static_cast<MainDlg*>(parent())->slotPrint();
 }
-
-#include "maindlg.moc"

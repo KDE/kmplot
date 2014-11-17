@@ -55,7 +55,7 @@ class FunctionEditorWidget : public QWidget, public Ui::FunctionEditorWidget
 
 
 //BEGIN class FunctionEditor
-FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
+FunctionEditor::FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent )
 	: QDockWidget( i18n("Functions"), parent )
 {
 	m_functionID = -1;

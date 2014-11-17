@@ -28,8 +28,8 @@
 
 #include <QGroupBox>
 
+class QDialog;
 class KColorButton;
-class KDialog;
 class PlotAppearance;
 class PlotStyleDialogWidget;
 
@@ -67,7 +67,7 @@ class PlotStyleWidget : public QGroupBox
 		
 	protected:
 		KColorButton * m_color;
-		KDialog * m_dialog;
+		QDialog * m_dialog;
 		PlotStyleDialogWidget * m_dialogWidget;
 };
 

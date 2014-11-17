@@ -27,11 +27,12 @@
 #include "ui_plotstylewidget.h"
 
 #include <kcolorbutton.h>
-#include <kdialog.h>
 #include <klocale.h>
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QDialog>
+#include <QDialogButtonBox>
 
 
 class PlotStyleDialogWidget : public QWidget, public Ui::PlotStyleWidget
@@ -66,12 +67,22 @@ PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	layout->addWidget( advancedButton );
 	setLayout(layout);
 	
-	m_dialog = new KDialog( this );
+	m_dialog = new QDialog( this );
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	m_dialog->setLayout(mainLayout);
+	m_dialog->setWindowTitle( i18n("Plot Appearance") );
+
 	m_dialogWidget = new PlotStyleDialogWidget( m_dialog );
 	m_dialogWidget->layout()->setMargin( 0 );
-	m_dialog->setMainWidget( m_dialogWidget );
-	m_dialog->setCaption( i18n("Plot Appearance") );
-	m_dialog->setButtons( KDialog::Ok );
+	mainLayout->addWidget(m_dialogWidget);
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), m_dialog, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), m_dialog, SLOT(reject()));
+	mainLayout->addWidget(buttonBox);
 }
 
 

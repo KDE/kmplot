@@ -26,7 +26,7 @@
 #include "kmplotprogress.h"
 
 #include <kdebug.h>
-#include <kicon.h>
+#include <QIcon>
 #include <kpushbutton.h>
 #include <qprogressbar.h>
 

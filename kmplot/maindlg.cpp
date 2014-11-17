@@ -54,7 +54,7 @@
 #include <krecentfilesaction.h>
 #include <kactioncollection.h>
 #include <khelpclient.h>
-#include <kicon.h>
+#include <QIcon>
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <kglobal.h>

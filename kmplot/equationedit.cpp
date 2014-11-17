@@ -25,7 +25,7 @@
 #include "equationedit.h"
 #include "xparser.h"
 
-#include <kicon.h>
+#include <QIcon>
 
 #include <QHBoxLayout>
 #include <QPushButton>

@@ -56,7 +56,6 @@ class FunctionEditor;
 class FunctionTools;
 class KConfigDialog;
 class KConstantEditor;
-class KAboutData;
 class QAction;
 class KRecentFilesAction;
 class QTimer;

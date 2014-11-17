@@ -145,6 +145,7 @@ Name[zh_CN]=KmPlot
 Name[zh_TW]=數學_KmPlot
 Categories=Qt;KDE;Education;Math;
 MimeType=application/x-kmplot;
+X-DBUS-ServiceName=org.kde.kmplot
 GenericName=Mathematical Function Plotter
 GenericName[ast]=Trazador de funciones matemátiques
 GenericName[be]=Маляванне графікаў матэматычных функцый
@@ -207,3 +208,4 @@ GenericName[vi]=Vẽ đồ thị Hàm số Toán học
 GenericName[x-test]=xxMathematical Function Plotterxx
 GenericName[zh_CN]=数学函数绘图器
 GenericName[zh_TW]=函數繪圖程式
+

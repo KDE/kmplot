@@ -84,7 +84,7 @@ install(TARGETS kmplot  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( PROGRAMS kmplot.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS org.kde.kmplot.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES kmplot.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kmplot_part.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kmplot )

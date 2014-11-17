@@ -7,6 +7,7 @@ set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_
 
 include(CheckIncludeFiles)
 include(KDEInstallDirs)
+include(ECMInstallIcons)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
 
@@ -28,6 +29,6 @@ configure_file(config-kmplot.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/kmplot/config-k
 
 #add_subdirectory( doc )
 add_subdirectory( kmplot )
-#add_subdirectory( icons )
+add_subdirectory( icons )
 
 install(FILES kmplot.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata/)

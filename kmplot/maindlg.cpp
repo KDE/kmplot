@@ -30,6 +30,7 @@
 #include <QPixmap>
 #include <QSvgGenerator>
 #include <QTimer>
+#include <QMenu>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
 
@@ -158,8 +159,8 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 
 	m_coordsDialog = 0;
 	m_constantEditor = 0;
-	m_popupmenu = new KMenu( parentWidget );
-	m_newPlotMenu = new KMenu( parentWidget );
+	m_popupmenu = new QMenu( parentWidget );
+	m_newPlotMenu = new QMenu( parentWidget );
 	(void) new View( m_readonly, m_popupmenu, parentWidget );
 	connect( View::self(), SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 

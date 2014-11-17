@@ -43,6 +43,7 @@
 #include <QResizeEvent>
 #include <QTextEdit>
 #include <QTime>
+#include <QMenu>
 #include <QMouseEvent>
 
 // KDE includes
@@ -124,7 +125,7 @@ double realModulo( double x, double mod )
 //BEGIN class View
 View * View::m_self = 0;
 
-View::View( bool readOnly, KMenu * functionPopup, QWidget* parent )
+View::View( bool readOnly, QMenu * functionPopup, QWidget* parent )
 	: QWidget( parent ),
 	  buffer( width(), height() ),
 	  m_popupMenu( functionPopup ),
@@ -160,7 +161,12 @@ View::View( bool readOnly, KMenu * functionPopup, QWidget* parent )
 	setMouseTracking( true );
 	m_sliderWindow = 0;
 	
+#if 0
+	// FIXME: How to get an action out of this?
 	m_popupMenuTitle = m_popupMenu->addTitle( "" );
+#else
+	m_popupMenu->setTitle( "" );
+#endif
 }
 
 
@@ -3101,7 +3107,13 @@ void View::fillPopupMenu( )
 			
 	m_popupMenu->removeAction( m_popupMenuTitle );
 	m_popupMenuTitle->deleteLater();
+#if 0
+	// FIXME: I am not even sure this can be done at all using QMenu
+	//        instead of KMenu.
 	m_popupMenuTitle = m_popupMenu->addTitle( popupTitle, MainDlg::self()->m_firstFunctionAction );
+#else
+	m_popupMenu->setTitle( popupTitle );
+#endif
 	
 	QAction *calcArea = MainDlg::self()->actionCollection()->action("grapharea");
 	QAction *maxValue = MainDlg::self()->actionCollection()->action("maximumvalue");

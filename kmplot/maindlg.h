@@ -31,11 +31,11 @@
 // Qt includes
 #include <QDomDocument>
 #include <QStack>
+#include <QMenu>
 
 // KDE includes
 #include <kaction.h>
 #include <kfiledialog.h>
-#include <kmenu.h>
 #include <ksharedconfig.h>
 #include <kstandarddirs.h>
 #include <kparts/browserextension.h>
@@ -178,9 +178,9 @@ private:
 	/// The calculator dialog
 	Calculator *m_calculator;
 	/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
-	KMenu *m_popupmenu;
+	QMenu *m_popupmenu;
 	/// the popup that shows when clicking on the new plot button in the function editor
-	KMenu * m_newPlotMenu;
+	QMenu * m_newPlotMenu;
 	/// Loads and saves the user's file.
 	KmPlotIO *kmplotio;
 	/// Set to true if the application is readonly

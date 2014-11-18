@@ -46,7 +46,7 @@
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="KPushButton" name="editParameterListButton" >
+    <widget class="QPushButton" name="editParameterListButton" >
      <property name="enabled" >
       <bool>false</bool>
      </property>
@@ -78,7 +78,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

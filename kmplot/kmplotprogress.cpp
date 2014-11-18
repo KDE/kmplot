@@ -25,18 +25,18 @@
 
 #include "kmplotprogress.h"
 
-#include <kdebug.h>
 #include <QIcon>
-#include <kpushbutton.h>
-#include <qprogressbar.h>
-
+#include <QPushButton>
+#include <QProgressBar>
 #include <QCoreApplication>
 #include <QTimer>
+
+#include <kdebug.h>
 
 
 KmPlotProgress::KmPlotProgress( QWidget* parent ) : QWidget( parent )
 {
-	m_button = new KPushButton(this);
+	m_button = new QPushButton(this);
 	m_button->setIcon( QIcon::fromTheme( "process-stop" ) );
 	m_button->setGeometry( QRect( 0, 0, 30, 23 ) );
 	m_button->setMaximumHeight(height()-10);

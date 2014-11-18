@@ -30,12 +30,13 @@ static const char* version =  "1.2.1";
 // local includes
 #include "kmplot.h"
 
+// Qt
+#include <QApplication>
 
 // KDE includes
 #include <k4aboutdata.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
-#include <kapplication.h>
 
 
 static const char description[] =
@@ -72,10 +73,10 @@ int main( int argc, char **argv )
 	options.add("+[URL]", ki18n( "File to open" ));
 	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
 
-	KApplication ka;
+	QApplication qapp(KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv());
 	KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 	new KmPlot( args );
-	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
-	return ka.exec();
+	QObject::connect(&qapp, SIGNAL(lastWindowClosed()), &qapp, SLOT(quit()));
+	return qapp.exec();
 }
 

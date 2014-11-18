@@ -3109,10 +3109,12 @@ void View::fillPopupMenu( )
 	m_popupMenuTitle->deleteLater();
 #if 0
 	// FIXME: I am not even sure this can be done at all using QMenu
-	//        instead of KMenu.
-	m_popupMenuTitle = m_popupMenu->addTitle( popupTitle, MainDlg::self()->m_firstFunctionAction );
+	//        instead of KMenu. I got a tip from Christoph Feck to use
+	//        addSection() instead of addTitle(), but what about the
+	//        second argument?
+	m_popupMenu->addTitle( popupTitle, MainDlg::self()->m_firstFunctionAction );
 #else
-	m_popupMenu->setTitle( popupTitle );
+	m_popupMenu->addSection( popupTitle );
 #endif
 	
 	QAction *calcArea = MainDlg::self()->actionCollection()->action("grapharea");

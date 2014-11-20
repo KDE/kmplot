@@ -1,5 +1,5 @@
 
-
+add_definitions(-DTRANSLATION_DOMAIN=\"kmplot\")
 
 
 ########### next target ###############

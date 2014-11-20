@@ -178,7 +178,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	setupActions();
 	XParser::self()->constants()->load();
 	kmplotio = new KmPlotIO();
-	m_config = KGlobal::config();
+	m_config = KSharedConfig::openConfig();
 	m_recentFiles->loadEntries( m_config->group( QString() ) );
 
 

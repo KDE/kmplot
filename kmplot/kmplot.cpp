@@ -180,7 +180,7 @@ void KmPlot::fileNew()
 
 void KmPlot::applyNewToolbarConfig()
 {
-	applyMainWindowSettings(KGlobal::config()->group( QString() ));
+	applyMainWindowSettings(KSharedConfig::openConfig()->group( QString() ));
 }
 
 void KmPlot::fileOpen()

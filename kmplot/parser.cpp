@@ -1463,7 +1463,7 @@ ExpressionSanitizer::ExpressionSanitizer( Parser * parser )
 	: m_parser( parser )
 {
 	m_str = 0l;
-	m_decimalSymbol = KGlobal::locale()->decimalSymbol();
+	m_decimalSymbol = KLocale::global()->decimalSymbol();
 }
 
 

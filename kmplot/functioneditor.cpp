@@ -724,7 +724,7 @@ void FunctionEditor::saveFunction( Function * tempFunction )
 		Settings::setDefaultEquationForm( Settings::EnumDefaultEquationForm::Function );
 	else
 		Settings::setDefaultEquationForm( Settings::EnumDefaultEquationForm::Implicit );
-	Settings::self()->writeConfig();
+	Settings::self()->save();
 	
 	MainDlg::self()->requestSaveCurrentState();
 	functionListItem->update();

@@ -4,7 +4,7 @@
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   
-        <include>kglobalsettings.h</include>
+        <include>QFontDatabase</include>
 	<kcfgfile name="kmplotrc"/> 
 	
 	<group name="Coordinate System"> 
@@ -107,17 +107,17 @@
 		<entry name="AxesFont" type="Font">
 			<label>Font of the axis labels</label>
 			<whatsthis>Choose a font for the axis labels.</whatsthis>
-			<default code="true">KGlobalSettings::generalFont()</default>
+			<default code="true">QFontDatabase::systemFont(QFontDatabase::GeneralFont)</default>
 		</entry>
 		<entry name="HeaderTableFont" type="Font"> 
 			<label>Font of the printed header table</label>
 			<whatsthis>Choose a font for the table printed at the top of the page.</whatsthis>
-			<default code="true">KGlobalSettings::generalFont()</default>	
+			<default code="true">QFontDatabase::systemFont(QFontDatabase::GeneralFont)</default>	
 		</entry>
 		<entry name="LabelFont" type="Font">
 			<label>Font of diagram labels</label>
 			<whatsthis>Choose a font for diagram labels.</whatsthis>
-			<default code="true">KGlobalSettings::generalFont()</default>
+			<default code="true">QFontDatabase::systemFont(QFontDatabase::GeneralFont)</default>
 		</entry>
 	</group>
 	

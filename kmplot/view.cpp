@@ -3571,7 +3571,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 
 		case Translating:
 			doDrawPlot = true;
-			Settings::self()->writeConfig();
+			Settings::self()->save();
 			MainDlg::self()->requestSaveCurrentState();
 			break;
 
@@ -3729,7 +3729,7 @@ void View::animateZoom( const QRectF & _newCoords )
 	Settings::setXMax( Parser::number( m_xmax ) );
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
-	Settings::self()->writeConfig();
+	Settings::self()->save();
 	MainDlg::self()->coordsDialog()->updateXYRange();
 	MainDlg::self()->requestSaveCurrentState();
 

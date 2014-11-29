@@ -71,7 +71,7 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 		m_widget->warningLabel->hide();
 	
 	m_timer = new QTimer( this );
-	connect( m_timer, SIGNAL(timeout()), this, SLOT(step()) );
+	connect(m_timer, &QTimer::timeout, this, &ParameterAnimator::step);
 	
 	m_widget->gotoInitial->setIcon( QIcon::fromTheme( "go-first" ) );
 	m_widget->gotoFinal->setIcon( QIcon::fromTheme( "go-last" ) );
@@ -79,17 +79,17 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 	m_widget->stepForwards->setIcon( QIcon::fromTheme( "go-next" ) );
 	m_widget->pause->setIcon( QIcon::fromTheme( "media-playback-pause" ) );
 	
-	connect( m_widget->gotoInitial, SIGNAL(clicked()), this, SLOT(gotoInitial()) );
-	connect( m_widget->gotoFinal, SIGNAL(clicked()), this, SLOT(gotoFinal()) );
-	connect( m_widget->stepBackwards, SIGNAL(toggled(bool)), this, SLOT(stepBackwards(bool)) );
-	connect( m_widget->stepForwards, SIGNAL(toggled(bool)), this, SLOT(stepForwards(bool)) );
-	connect( m_widget->pause, SIGNAL(clicked()), this, SLOT(pause()) );
-	connect( m_widget->speed, SIGNAL(valueChanged(int)), this, SLOT(updateSpeed()) );
+	connect(m_widget->gotoInitial, &QToolButton::clicked, this, &ParameterAnimator::gotoInitial);
+	connect(m_widget->gotoFinal, &QToolButton::clicked, this, &ParameterAnimator::gotoFinal);
+	connect(m_widget->stepBackwards, &QToolButton::toggled, this, &ParameterAnimator::stepBackwards);
+	connect(m_widget->stepForwards, &QToolButton::toggled, this, &ParameterAnimator::stepForwards);
+	connect(m_widget->pause, &QToolButton::clicked, this, &ParameterAnimator::pause);
+	connect(m_widget->speed, &QSlider::valueChanged, this, &ParameterAnimator::updateSpeed);
 	
 	updateUI();
 	updateFunctionParameter();
 	
-	connect( this, SIGNAL(finished()), this, SLOT(deleteLater()) );
+	connect(this, &ParameterAnimator::finished, this, &ParameterAnimator::deleteLater);
 }
 
 

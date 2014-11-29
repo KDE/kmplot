@@ -58,7 +58,7 @@ Calculator::Calculator( QWidget * parent )
 	
 	m_display->setReadOnly( true );
 	
-	connect( m_input->edit, SIGNAL(returnPressed()), this, SLOT(calculate()) );
+	connect(m_input->edit, &EquationEdit::returnPressed, this, &Calculator::calculate);
 	
 	resize( layout->minimumSize() );
 	m_input->edit->setFocus();

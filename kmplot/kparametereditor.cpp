@@ -63,22 +63,22 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	
 	m_mainWidget->list->setFocusPolicy( Qt::NoFocus );
 	
-	connect( m_mainWidget->value, SIGNAL(upPressed()), this, SLOT(prev()) );
-	connect( m_mainWidget->value, SIGNAL(downPressed()), this, SLOT(next()) );
+	connect(m_mainWidget->value, &EquationEdit::upPressed, this, &KParameterEditor::prev);
+	connect(m_mainWidget->value, &EquationEdit::downPressed, this, &KParameterEditor::next);
 	
 	foreach ( const Value &v, *m_parameter )
 		m_mainWidget->list->addItem( v.expression() );
 	
-	connect( m_mainWidget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
-	connect( m_mainWidget->cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
-	connect( m_mainWidget->moveUp, SIGNAL(clicked()), this, SLOT(moveUp()) );
-	connect( m_mainWidget->moveDown, SIGNAL(clicked()), this, SLOT(moveDown()) );
-	connect( m_mainWidget->cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
-	connect( m_mainWidget->cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
-	connect( m_mainWidget->list, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(selectedConstantChanged( QListWidgetItem * )) );
+	connect(m_mainWidget->cmdNew, &QPushButton::clicked, this, &KParameterEditor::cmdNew_clicked);
+	connect(m_mainWidget->cmdDelete, &QPushButton::clicked, this, &KParameterEditor::cmdDelete_clicked);
+	connect(m_mainWidget->moveUp, &QPushButton::clicked, this, &KParameterEditor::moveUp);
+	connect(m_mainWidget->moveDown, &QPushButton::clicked, this, &KParameterEditor::moveDown);
+	connect(m_mainWidget->cmdImport, &QPushButton::clicked, this, &KParameterEditor::cmdImport_clicked);
+	connect(m_mainWidget->cmdExport, &QPushButton::clicked, this, &KParameterEditor::cmdExport_clicked);
+	connect(m_mainWidget->list, &QListWidget::currentItemChanged, this, &KParameterEditor::selectedConstantChanged);
 	
-	connect( m_mainWidget->value, SIGNAL( textEdited( const QString & ) ), this, SLOT( saveCurrentValue() ) );
-	connect( m_mainWidget->value, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
+	connect(m_mainWidget->value, &EquationEdit::textEdited, this, &KParameterEditor::saveCurrentValue);
+	connect(m_mainWidget->value, &EquationEdit::textChanged, this, &KParameterEditor::checkValueValid);
 	connect( m_mainWidget->value, SIGNAL( returnPressed() ), m_mainWidget->cmdNew, SLOT( animateClick() ) );
 	
 	checkValueValid();

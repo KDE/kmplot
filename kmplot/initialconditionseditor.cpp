@@ -231,7 +231,7 @@ QWidget * InitialConditionsDelegate::createEditor( QWidget * parent, const QStyl
 		return 0;
 	
 	m_lastEditor = new EquationEdit( parent );
-	connect( m_lastEditor, SIGNAL(returnPressed()), this, SLOT(equationEditDone()) );
+	connect(m_lastEditor, &EquationEdit::returnPressed, this, &InitialConditionsDelegate::equationEditDone);
 	m_lastEditor->setFocus();
 	return m_lastEditor;
 }
@@ -274,14 +274,14 @@ InitialConditionsEditor::InitialConditionsEditor( QWidget * parent )
 	
 	setupUi( this );
 	layout()->setMargin( 0 );
-	connect( addButton, SIGNAL(clicked()), this, SLOT(add()) );
-	connect( removeButton, SIGNAL(clicked()), this, SLOT(remove()) );
+	connect(addButton, &QPushButton::clicked, this, &InitialConditionsEditor::add);
+	connect(removeButton, &QPushButton::clicked, this, &InitialConditionsEditor::remove);
 	
 	m_model = new InitialConditionsModel( this );
 	view->setModel( m_model );
 	view->setItemDelegate( new InitialConditionsDelegate( this ) );
 	
-	connect( m_model, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)), this, SIGNAL(dataChanged()) );
+	connect(m_model, &InitialConditionsModel::dataChanged, this, &InitialConditionsEditor::dataChanged);
 }
 
 

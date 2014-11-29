@@ -49,9 +49,9 @@ FunctionTools::FunctionTools(QWidget *parent )
 	
 	init( CalculateArea );
 	
-	connect( m_widget->min, SIGNAL(editingFinished()), this, SLOT(rangeEdited()) );
-	connect( m_widget->max, SIGNAL(editingFinished()), this, SLOT(rangeEdited()) );
-	connect( m_widget->list, SIGNAL(currentRowChanged(int)), this, SLOT(equationSelected(int)) );
+	connect(m_widget->min, &EquationEdit::editingFinished, this, &FunctionTools::rangeEdited);
+	connect(m_widget->max, &EquationEdit::editingFinished, this, &FunctionTools::rangeEdited);
+	connect(m_widget->list, &QListWidget::currentRowChanged, this, &FunctionTools::equationSelected);
 }
 
 

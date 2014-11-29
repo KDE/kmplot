@@ -164,7 +164,7 @@ void KmPlot::setupActions()
 
 	m_fullScreen = KStandardAction::fullScreen( NULL, NULL, this, actionCollection());
 	actionCollection()->addAction("fullscreen", m_fullScreen);
-	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
+	connect(m_fullScreen, &KToggleFullScreenAction::toggled, this, &KmPlot::slotUpdateFullScreen);
 }
 
 void KmPlot::fileNew()
@@ -258,7 +258,7 @@ void KmPlot::setupStatusBar()
 
 	m_progressBar = new KmPlotProgress( statusBar );
 	m_progressBar->setMaximumHeight( statusBar->height()-10 );
-	connect( m_progressBar, SIGNAL (cancelDraw() ), this, SLOT( cancelDraw() ) );
+	connect(m_progressBar, &KmPlotProgress::cancelDraw, this, &KmPlot::cancelDraw);
 	statusBar->addWidget(m_progressBar);
 }
 

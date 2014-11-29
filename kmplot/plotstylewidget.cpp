@@ -58,7 +58,7 @@ PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	m_color = new KColorButton( this );
 	QPushButton *advancedButton = new QPushButton( this );
 	advancedButton->setText( i18n("Advanced...") );
-	connect( advancedButton, SIGNAL(clicked()), this, SLOT(advancedOptions()) );
+	connect(advancedButton, &QPushButton::clicked, this, &PlotStyleWidget::advancedOptions);
 	
 	QHBoxLayout *layout = new QHBoxLayout;
 	layout->addWidget( new QLabel( i18n("Color:"), this ) );
@@ -80,8 +80,8 @@ PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
 	okButton->setDefault(true);
 	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), m_dialog, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), m_dialog, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::accepted, m_dialog, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, m_dialog, &QDialog::reject);
 	mainLayout->addWidget(buttonBox);
 }
 

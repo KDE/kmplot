@@ -41,7 +41,7 @@ EquationEditor::EquationEditor(QWidget* parent)
 	setButtons(Close);
 	showButtonSeparator(true);
 	
-	connect(m_widget->edit, SIGNAL(returnPressed()), this, SLOT(accept()));
+	connect(m_widget->edit, &EquationEdit::returnPressed, this, &EquationEditor::accept);
 }
 
 

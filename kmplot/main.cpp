@@ -76,7 +76,7 @@ int main( int argc, char **argv )
 	QApplication qapp(KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv());
 	KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 	new KmPlot( args );
-	QObject::connect(&qapp, SIGNAL(lastWindowClosed()), &qapp, SLOT(quit()));
+	QObject::connect(&qapp, &QApplication::lastWindowClosed, &qapp, &QApplication::quit);
 	return qapp.exec();
 }
 

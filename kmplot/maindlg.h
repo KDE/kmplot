@@ -78,7 +78,7 @@ class MainDlg : public KParts::ReadWritePart
 		 * @param parentWidget parent widget for this part
 		 * @param parent parent object
 		 */
-		MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& = QStringList() );
+		MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& = QVariantList() );
 
 		/// Initialized as a pointer to this MainDlg object on creation
 		static MainDlg * self() { return m_self; }
@@ -226,22 +226,6 @@ protected slots:
 	void resetUndoRedo();
 
 	void setReadOnlyStatusBarText(const QString &);
-};
-
-class KmPlotPartFactory : public KParts::Factory
-{
-	Q_OBJECT
-public:
-	KmPlotPartFactory();
-	virtual ~KmPlotPartFactory();
-	virtual KParts::Part* createPartObject( QWidget *parentWidget,
-	                                        QObject *parent,
-	                                        const char *classname, const QStringList &args );
-	static const KComponentData &componentData();
-
-private:
-	static KComponentData *s_instance;
-	static K4AboutData* s_about;
 };
 
 class BrowserExtension : public KParts::BrowserExtension

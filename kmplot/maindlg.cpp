@@ -130,9 +130,10 @@ class SettingsPageDiagram : public QWidget, public Ui::SettingsPageDiagram
 bool MainDlg::oldfileversion;
 MainDlg * MainDlg::m_self = 0;
 
+K_PLUGIN_FACTORY( KmPlotPartFactory, registerPlugin<MainDlg>(); )
 
 //BEGIN class MainDlg
-MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
+MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 		KParts::ReadWritePart( parent ),
 		m_recentFiles( 0 ),
 		m_modified(false),
@@ -142,7 +143,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	m_self = this;
 
 	// we need an instance
-	setComponentData( KmPlotPartFactory::componentData() );
+	setComponentName( "KmPlot", "KmPlot" );
 
 	kDebug() << "parentWidget->objectName():" << parentWidget->objectName();
 	if ( QString(parentWidget->objectName()).startsWith("KmPlot") )
@@ -586,10 +587,10 @@ void MainDlg::slotExport()
 	{
 		QSvgGenerator img;
 		img.setSize( View::self()->size() );
-		
+
 		QFile file;
 		KTemporaryFile tmp;
-		
+
 		if ( url.isLocalFile() )
 		{
 			file.setFileName( url.toLocalFile() );
@@ -600,9 +601,9 @@ void MainDlg::slotExport()
 			tmp.setSuffix( ".svg" );
 			img.setOutputDevice( &tmp );
 		}
-		
+
 		View::self()->draw( &img, View::SVG );
-		
+
 		if ( !url.isLocalFile() )
 			saveOk &= KIO::NetAccess::upload(tmp.fileName(), url, 0);
 	}
@@ -641,7 +642,7 @@ bool MainDlg::openFile()
 		setUrl(QUrl());
 		return false;
 	}
-	
+
 	m_currentfile = url();
 	m_recentFiles->addUrl( QUrl(url()).toString()  );
 	setWindowCaption( QUrl(url()).toString() );
@@ -805,52 +806,6 @@ CoordsConfigDialog * MainDlg::coordsDialog( )
 //END class MainDlg
 
 
-// It's usually safe to leave the factory code alone.. with the
-// notable exception of the KAboutData data
-
-KComponentData *KmPlotPartFactory::s_instance = 0L;
-K4AboutData* KmPlotPartFactory::s_about = 0L;
-
-KmPlotPartFactory::KmPlotPartFactory()
-		: KParts::Factory()
-{}
-
-KmPlotPartFactory::~KmPlotPartFactory()
-{
-	delete s_instance;
-	delete s_about;
-
-	s_instance = 0L;
-}
-
-KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget,
-        QObject *parent, const char *, const QStringList &args )
-{
-	// Create an instance of our Part
-	MainDlg* obj = new MainDlg( parentWidget, parent, args );
-	emit objectCreated( obj );
-	return obj;
-}
-
-const KComponentData &KmPlotPartFactory::componentData()
-{
-	if( !s_instance )
-	{
-		s_about = new K4AboutData("kmplot", 0,ki18n( "KmPlotPart" ), "1");
-		s_instance = new KComponentData(s_about);
-	}
-	return *s_instance;
-}
-
-extern "C"
-{
-	Q_DECL_EXPORT extern void* init_libkmplotpart()
-	{
-		return new KmPlotPartFactory;
-	}
-}
-
-
 /// BrowserExtension class
 BrowserExtension::BrowserExtension(MainDlg* parent)
 		: KParts::BrowserExtension( parent )
@@ -863,3 +818,5 @@ void BrowserExtension::print()
 {
 	static_cast<MainDlg*>(parent())->slotPrint();
 }
+
+#include "maindlg.moc"

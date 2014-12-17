@@ -161,12 +161,7 @@ View::View( bool readOnly, QMenu * functionPopup, QWidget* parent )
 	setMouseTracking( true );
 	m_sliderWindow = 0;
 	
-#if 0
-	// FIXME: How to get an action out of this?
-	m_popupMenuTitle = m_popupMenu->addTitle( "" );
-#else
-	m_popupMenu->setTitle( "" );
-#endif
+	m_popupMenuTitle = m_popupMenu->insertSection( MainDlg::self()->m_firstFunctionAction, "" );
 }
 
 
@@ -3103,19 +3098,7 @@ void View::fillPopupMenu( )
 	if ( !function )
 		return;
 	
-	QString popupTitle( m_currentPlot.name() );
-			
-	m_popupMenu->removeAction( m_popupMenuTitle );
-	m_popupMenuTitle->deleteLater();
-#if 0
-	// FIXME: I am not even sure this can be done at all using QMenu
-	//        instead of KMenu. I got a tip from Christoph Feck to use
-	//        addSection() instead of addTitle(), but what about the
-	//        second argument?
-	m_popupMenu->addTitle( popupTitle, MainDlg::self()->m_firstFunctionAction );
-#else
-	m_popupMenu->addSection( popupTitle );
-#endif
+	m_popupMenuTitle->setText( m_currentPlot.name() );
 	
 	QAction *calcArea = MainDlg::self()->actionCollection()->action("grapharea");
 	QAction *maxValue = MainDlg::self()->actionCollection()->action("maximumvalue");

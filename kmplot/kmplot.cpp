@@ -45,7 +45,7 @@
 
 #include "kmplotadaptor.h"
 
-KmPlot::KmPlot( KCmdLineArgs* args)
+KmPlot::KmPlot( const QCommandLineParser& parser )
 		: KParts::MainWindow()
 {
 	setObjectName( "KmPlot" );
@@ -96,21 +96,22 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	// to automatically save settings if changed: window size, toolbar
 	// position, icon size, etc.
 	setAutoSaveSettings();
-	if (args)
 	{
 		bool exit = false;
-		for (int i=0; i < args->count(); i++ )
+        bool first = true;
+		foreach(const QString& arg, parser.positionalArguments())
 		{
-			if (i==0)
+            QUrl url = QUrl::fromUserInput(arg);
+			if (first)
 			{
-				if (!load(args->url(0) ) )
-					exit = true;
+				exit = !load(url);
 			}
 			else
-				openFileInNewWindow( args->url(i) );
+				openFileInNewWindow( url );
 		}
 		if (exit)
 			deleteLater(); // couln't open the file, and therefore exit
+		first = false;
 	}
 
 	show();
@@ -118,13 +119,11 @@ KmPlot::KmPlot( KCmdLineArgs* args)
     new KmPlotAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/kmplot", this);
 
-    if ( args && args->isSet("function") )
+    if ( parser.isSet("function") )
     {
-        QString f = args->getOption("function");
+        QString f = parser.value("function");
         QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/parser", "org.kde.kmplot.Parser").call( QDBus::BlockWithGui, "addFunction", f, "" );
     }
-    if( args )
-	args->clear();
 }
 
 KmPlot::~KmPlot()

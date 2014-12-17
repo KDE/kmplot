@@ -29,6 +29,7 @@
 #include <kparts/mainwindow.h>
 #include <kparts/readwritepart.h>
 
+class QCommandLineParser;
 class KmPlotProgress;
 class KToggleFullScreenAction;
 
@@ -46,7 +47,7 @@ public:
 	/**
 	 * Default Constructor
 	 */
-	KmPlot( KCmdLineArgs* args);
+	KmPlot( const QCommandLineParser& parser );
 
 	/**
 	 * Default Destructor

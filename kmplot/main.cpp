@@ -32,50 +32,44 @@ static const char* version =  "1.2.1";
 
 // Qt
 #include <QApplication>
+#include <QCommandLineParser>
 
 // KDE includes
-#include <k4aboutdata.h>
-#include <kcmdlineargs.h>
-#include <klocale.h>
-
-
-static const char description[] =
-    I18N_NOOP( "Mathematical function plotter for KDE" );
-
+#include <KAboutData>
+#include <klocalizedstring.h>
 
 int main( int argc, char **argv )
 {
-	K4AboutData aboutData(
-	    "kmplot", 0,
-	    ki18n( "KmPlot" ),
-	    version, ki18n(description), K4AboutData::License_GPL,
-	    ki18n("(c) 2000-2002, Klaus-Dieter Möller"),
-	    KLocalizedString(),
-	    "http://edu.kde.org/kmplot/" );
+	QApplication qapp(argc, argv);
+	KAboutData aboutData(
+	    "kmplot",
+	    i18n( "KmPlot" ),
+	    version, i18n("Mathematical function plotter for KDE"), KAboutLicense::GPL,
+	    i18n("(c) 2000-2002, Klaus-Dieter Möller"),
+	    QString(),
+	    "http://edu.kde.org/kmplot/");
 	
 	aboutData.addAuthor(
-	    ki18n("Klaus-Dieter Möller"), ki18n( "Original Author" ) ,
+	    i18n("Klaus-Dieter Möller"), i18n( "Original Author" ) ,
 	    "kdmoeller@foni.net" );
 	aboutData.addAuthor(
-	    ki18n("Matthias Meßmer"), ki18n( "GUI" ) ,
+	    i18n("Matthias Meßmer"), i18n( "GUI" ) ,
 	    "bmlmessmer@web.de" );
-	aboutData.addAuthor( ki18n("Fredrik Edemar"), ki18n( "Various improvements" ), "f_edemar@linux.se" );
-	aboutData.addAuthor( ki18n("David Saxton"), ki18n( "Porting to Qt 4, UI improvements, features" ), "david@bluehaze.org" );
+	aboutData.addAuthor( i18n("Fredrik Edemar"), i18n( "Various improvements" ), "f_edemar@linux.se" );
+	aboutData.addAuthor( i18n("David Saxton"), i18n( "Porting to Qt 4, UI improvements, features" ), "david@bluehaze.org" );
 	
-	aboutData.addCredit( ki18n("David Vignoni"), ki18n( "svg icon" ), "david80v@tin.it" );
-	aboutData.addCredit( ki18n("Albert Astals Cid"), ki18n( "command line options, MIME type" ), "aacid@kde.org" );
+	aboutData.addCredit( i18n("David Vignoni"), i18n( "svg icon" ), "david80v@tin.it" );
+	aboutData.addCredit( i18n("Albert Astals Cid"), i18n( "command line options, MIME type" ), "aacid@kde.org" );
+	KAboutData::setApplicationData(aboutData);
 
-	KCmdLineArgs::init( argc, argv, &aboutData );
+	QCommandLineParser parser;
+	parser.addOption(QCommandLineOption(QStringList{"function", "f"}, i18n( "Initial functions to plot" ), i18n("argument")));
+	parser.addPositionalArgument("URL", i18n("URLs to open"), "[url...]");
+	aboutData.setupCommandLine(&parser);
+	parser.process(qapp);
+	aboutData.processCommandLine(&parser);
 
-	KCmdLineOptions options;
-	options.add("f");
-	options.add("function <argument>", ki18n( "Initial functions to plot" ));
-	options.add("+[URL]", ki18n( "File to open" ));
-	KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
-
-	QApplication qapp(KCmdLineArgs::qtArgc(), KCmdLineArgs::qtArgv());
-	KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
-	new KmPlot( args );
+	new KmPlot( parser );
 	QObject::connect(&qapp, &QApplication::lastWindowClosed, &qapp, &QApplication::quit);
 	return qapp.exec();
 }

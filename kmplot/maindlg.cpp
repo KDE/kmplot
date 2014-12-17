@@ -142,9 +142,6 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 	assert( !m_self ); // this class should only be constructed once
 	m_self = this;
 
-	// we need an instance
-	setComponentName( "KmPlot", "KmPlot" );
-
 	kDebug() << "parentWidget->objectName():" << parentWidget->objectName();
 	if ( QString(parentWidget->objectName()).startsWith("KmPlot") )
 	{

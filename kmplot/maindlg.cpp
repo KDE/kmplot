@@ -58,7 +58,6 @@
 #include <QIcon>
 #include <kiconloader.h>
 #include <kapplication.h>
-#include <kglobal.h>
 #include <kdeprintdialog.h>
 
 // local includes
@@ -360,8 +359,6 @@ void MainDlg::setupActions()
 	m_newPlotMenu->addAction( newDifferential );
 	//END new plots menu
 
-
-	kDebug() << "KStandardDirs::resourceDirs( icon )="<<KGlobal::dirs()->resourceDirs( "icon" );
 
 	View::self()->m_menuSliderAction = actionCollection()->add<KToggleAction>( "options_configure_show_sliders" );
         View::self()->m_menuSliderAction->setText( i18n( "Show Sliders" ) );

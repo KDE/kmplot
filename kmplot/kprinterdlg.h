@@ -32,7 +32,7 @@
 // KDE includes
 
 class QCheckBox;
-class KComboBox;
+class QComboBox;
 class EquationEdit;
 
 /** @short A dialog page for the print dialog.
@@ -93,7 +93,7 @@ protected:
 	/**
 	 * The units to use for lengths (such as the width and height).
 	 */
-	KComboBox *m_lengthScalingCombo;
+	QComboBox *m_lengthScalingCombo;
 };
 
 #endif //KMPLOT_KPRINTERDLG_H

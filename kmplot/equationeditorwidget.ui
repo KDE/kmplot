@@ -69,7 +69,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="KComboBox" name="constantList">
+      <widget class="QComboBox" name="constantList">
        <item>
         <property name="text">
          <string>Insert constant...</string>
@@ -78,7 +78,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="functionList">
+      <widget class="QComboBox" name="functionList">
        <item>
         <property name="text">
          <string>Insert function...</string>
@@ -462,11 +462,6 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>EquationEdit</class>

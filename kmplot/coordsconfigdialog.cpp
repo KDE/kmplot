@@ -24,6 +24,8 @@
 
 #include "coordsconfigdialog.h"
 
+#include <QPushButton>
+
 #include <klocale.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
@@ -51,80 +53,85 @@ CoordsConfigDialog::CoordsConfigDialog(QWidget *parent)
 	configAxesDialog->kcfg_YMin->setTabChain( configAxesDialog->kcfg_YMax->focusProxy() );
 	configAxesDialog->layout()->setMargin( 0 );
 	addPage(configAxesDialog , i18n( "Coordinates" ), "coords", i18n( "Coordinate System" ) );
-	//setCaption( i18n( "Coordinate System" ) );
+	setWindowTitle( i18n( "Coordinate System" ) );
 	setHelp("axes-config");
 	setFaceType( Plain );
+	connect( configAxesDialog->kcfg_XMin, &EquationEdit::textEdited, this, &CoordsConfigDialog::updateButtons );
+	connect( configAxesDialog->kcfg_XMax, &EquationEdit::textEdited, this, &CoordsConfigDialog::updateButtons );
+	connect( configAxesDialog->kcfg_YMin, &EquationEdit::textEdited, this, &CoordsConfigDialog::updateButtons );
+	connect( configAxesDialog->kcfg_YMax, &EquationEdit::textEdited, this, &CoordsConfigDialog::updateButtons );
 }
 
 CoordsConfigDialog::~CoordsConfigDialog()
 {
 }
 
-bool CoordsConfigDialog::evalX()
+bool CoordsConfigDialog::evalX(bool showError)
 {
 	Parser::Error error;
 	
 	double const min = XParser::self()->eval( configAxesDialog->kcfg_XMin->text(), & error );
 	if ( error != Parser::ParseSuccess )
 	{
-		XParser::self()->displayErrorDialog( error );
+		if ( showError ) XParser::self()->displayErrorDialog( error );
 		return false;
 	}
 	
 	double const max = XParser::self()->eval( configAxesDialog->kcfg_XMax->text(), & error );
 	if ( error != Parser::ParseSuccess )
 	{
-		XParser::self()->displayErrorDialog( error );
+		if ( showError ) XParser::self()->displayErrorDialog( error );
 		return false;
 	}
 	
 	if ( min >= max )
 	{
-		KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
+		if ( showError ) KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
 		return false;
 	}
 	return true;
 }
 
-bool CoordsConfigDialog::evalY()
+bool CoordsConfigDialog::evalY(bool showError)
 {
 	Parser::Error error;
 	
 	double const min = XParser::self()->eval( configAxesDialog->kcfg_YMin->text(), & error );
 	if ( error != Parser::ParseSuccess )
 	{
-		XParser::self()->displayErrorDialog( error );
+		if ( showError ) XParser::self()->displayErrorDialog( error );
 		return false;
 	}
 	
 	double const max = XParser::self()->eval( configAxesDialog->kcfg_YMax->text(), & error );
 	if ( error != Parser::ParseSuccess )
 	{
-		XParser::self()->displayErrorDialog( error );
+		if ( showError ) XParser::self()->displayErrorDialog( error );
 		return false;
 	}
 	
 	if ( min >= max )
 	{
-		KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
+		if ( showError ) KMessageBox::sorry(this,i18n("The minimum range value must be lower than the maximum range value"));
 		return false;
 	}
 	return true;
 }
 
-void CoordsConfigDialog::slotOk()
+void CoordsConfigDialog::updateButtons()
 {
-	// I've left this here as an example of poor naming (which radio button is which?!) :p
-// 	if ( !(configAxesDialog->radioButton1_4->isChecked() && !evalX()) && !(configAxesDialog->radioButton1_4_2->isChecked() && !evalY()))
-	
-	//if ( evalX() && evalY() )
-//        slotButtonClicked( KDialog::Ok );
+	buttonBox()->button( QDialogButtonBox::Apply )->setEnabled( evalX(false) && evalY(false) );
 }
 
-void CoordsConfigDialog::slotApply()
+void CoordsConfigDialog::done(int result)
 {
-	//if ( evalX() && evalY() )
-//        slotButtonClicked( KDialog::Apply );
+	// http://www.qtcentre.org/threads/8048-Validate-Data-in-QDialog
+	if ( result == QDialog::Accepted ) {
+		if ( !evalX() || !evalY() ) {
+			return;
+		}
+	}
+	KConfigDialog::done( result );
 }
 
 void CoordsConfigDialog::updateXYRange( )

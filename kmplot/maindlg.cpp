@@ -232,11 +232,10 @@ void MainDlg::setupActions()
 {
 	// standard actions
         m_recentFiles = KStandardAction::openRecent( this, SLOT( slotOpenRecent( const QUrl& ) ), this );
-        actionCollection()->addAction( "file_openrecent", m_recentFiles );
+        actionCollection()->addAction( "file_open_recent", m_recentFiles );
 	actionCollection()->addAction( KStandardAction::Print, "file_print", this, SLOT( slotPrint() ) );
 	KStandardAction::save( this, SLOT( slotSave() ), actionCollection() );
 	KStandardAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
-	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 
 	QAction *prefs  = KStandardAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 	prefs->setText( i18n( "Configure KmPlot..." ) );
@@ -275,13 +274,13 @@ void MainDlg::setupActions()
 
 	QAction * zoomIn = actionCollection()->addAction( "zoom_in" );
         zoomIn->setText( i18n("Zoom &In") );
-	zoomIn->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_1) );
+	actionCollection()->setDefaultShortcut( zoomIn, QKeySequence(Qt::ControlModifier | Qt::Key_1) );
 	zoomIn->setIcon( QIcon::fromTheme("zoom-in") );
 	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
 
 	QAction * zoomOut = actionCollection()->addAction( "zoom_out" );
         zoomOut->setText(i18n("Zoom &Out"));
-	zoomOut->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_2) );
+	actionCollection()->setDefaultShortcut( zoomOut, QKeySequence(Qt::ControlModifier | Qt::Key_2) );
 	zoomOut->setIcon( QIcon::fromTheme("zoom-out") );
 	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT( zoomOut() ) );
 

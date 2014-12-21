@@ -70,7 +70,6 @@ int main( int argc, char **argv )
 	aboutData.processCommandLine(&parser);
 
 	new KmPlot( parser );
-	QObject::connect(&qapp, &QApplication::lastWindowClosed, &qapp, &QApplication::quit);
 	return qapp.exec();
 }
 

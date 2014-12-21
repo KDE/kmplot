@@ -40,7 +40,6 @@
 #include "maindlg.h"
 #include <ktoolinvocation.h>
 #include <ktogglefullscreenaction.h>
-#include <kapplication.h>
 
 #include "kmplotadaptor.h"
 
@@ -155,7 +154,7 @@ void KmPlot::setupActions()
 {
 	KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
 	KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
-	KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
+	KStandardAction::quit(qApp, SLOT(quit()), actionCollection());
 
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);

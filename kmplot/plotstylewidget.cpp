@@ -27,7 +27,6 @@
 #include "ui_plotstylewidget.h"
 
 #include <kcolorbutton.h>
-#include <klocale.h>
 
 #include <QLabel>
 #include <QHBoxLayout>

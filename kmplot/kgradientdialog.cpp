@@ -25,7 +25,7 @@
 #include "kgradientdialog.h"
 
 #include <kcolordialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <kdebug.h>
 

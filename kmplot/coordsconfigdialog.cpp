@@ -26,7 +26,6 @@
 
 #include <QPushButton>
 
-#include <klocale.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
 #include <qradiobutton.h>

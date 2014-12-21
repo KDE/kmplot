@@ -36,7 +36,6 @@
 
 #include <kaction.h>
 #include <kcolorbutton.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 
 #include <QRadioButton>

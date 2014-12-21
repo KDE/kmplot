@@ -27,7 +27,6 @@
 #include "equationeditorwidget.h"
 #include "xparser.h"
 
-#include <KLocale>
 #include <KTextEdit>
 
 #include <QScrollBar>

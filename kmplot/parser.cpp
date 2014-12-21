@@ -32,7 +32,7 @@
 
 //KDE includes
 #include <kdebug.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
 #include <kconfig.h>
 
@@ -1462,7 +1462,7 @@ ExpressionSanitizer::ExpressionSanitizer( Parser * parser )
 	: m_parser( parser )
 {
 	m_str = 0l;
-	m_decimalSymbol = KLocale::global()->decimalSymbol();
+	m_decimalSymbol = QLocale().decimalPoint();
 }
 
 

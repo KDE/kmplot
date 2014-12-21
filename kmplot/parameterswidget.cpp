@@ -27,8 +27,6 @@
 #include "kparametereditor.h"
 #include "xparser.h"
 
-#include <klocale.h>
-
 //BEGIN class ParametersWidget
 ParametersWidget::ParametersWidget( QWidget * parent )
 	: QGroupBox( parent )

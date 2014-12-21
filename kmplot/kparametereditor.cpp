@@ -29,7 +29,6 @@
 #include <kfiledialog.h>
 #include <kinputdialog.h>
 #include <kio/netaccess.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
 #include <ktemporaryfile.h>

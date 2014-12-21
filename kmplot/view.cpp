@@ -51,7 +51,6 @@
 #include <kactioncollection.h>
 #include <kdebug.h>
 #include <kiconloader.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <kmenu.h>
 

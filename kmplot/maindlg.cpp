@@ -44,7 +44,6 @@
 #include <kio/netaccess.h>
 #include <kcomponentdata.h>
 #include <klineedit.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>

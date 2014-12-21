@@ -31,7 +31,6 @@
 #include <kshortcutsdialog.h>
 #include <kfiledialog.h>
 #include <klibloader.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <kmplotprogress.h>
 #include <kstatusbar.h>

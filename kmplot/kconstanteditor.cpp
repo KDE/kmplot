@@ -30,7 +30,6 @@
 
 #include <kdebug.h>
 #include <kinputdialog.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 

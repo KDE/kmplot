@@ -32,7 +32,6 @@
 // KDE includes
 #include <kdebug.h>
 #include <kio/netaccess.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <ktemporaryfile.h>
 

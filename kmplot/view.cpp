@@ -4149,10 +4149,10 @@ void View::updateCursor()
 			setCursor( Qt::CrossCursor );
 			break;
 		case CursorMagnify:
-			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+			setCursor( QCursor( QIcon::fromTheme( "zoom-in").pixmap(48), 22, 15 ) );
 			break;
 		case CursorLessen:
-			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) ); //krazy:exclude=iconnames
+			setCursor( QCursor( QIcon::fromTheme( "zoom-out").pixmap(48), 22, 15 ) );
 			break;
 		case CursorMove:
 			setCursor( Qt::SizeAllCursor );

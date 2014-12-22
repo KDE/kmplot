@@ -895,10 +895,12 @@ void Parser::heir3()
 void Parser::heir4()
 {
     if (match("-")) {
-        heir5();
+        heir4();
         if (*m_error != ParseSuccess)
             return;
         addToken(NEG);
+    } else if (match("+")) {
+        heir4();
     } else {
         heir5();
     }

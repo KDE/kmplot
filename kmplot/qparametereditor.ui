@@ -157,11 +157,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>EquationEdit</class>
    <extends>KLineEdit</extends>
    <header>equationedit.h</header>

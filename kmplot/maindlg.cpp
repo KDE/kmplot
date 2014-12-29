@@ -57,7 +57,6 @@
 #include <QIcon>
 #include <kiconloader.h>
 #include <kapplication.h>
-#include <kdeprintdialog.h>
 
 // local includes
 #include "calculator.h"
@@ -678,7 +677,8 @@ void MainDlg::slotPrint()
 	prt.setResolution( 72 );
 	KPrinterDlg* printdlg = new KPrinterDlg( m_parent );
 	printdlg->setObjectName( "KmPlot page" );
-	QPrintDialog *printDialog = KdePrint::createPrintDialog( &prt, QList<QWidget*>() << printdlg, m_parent );
+	QPrintDialog *printDialog = new QPrintDialog( &prt, m_parent );
+	printDialog->setOptionTabs( QList<QWidget*>() << printdlg );
 	printDialog->setWindowTitle( i18n("Print Plot") );
 
 	if (printDialog->exec())

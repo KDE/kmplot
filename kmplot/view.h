@@ -228,6 +228,8 @@ class View : public QWidget
 		void resizeEvent(QResizeEvent *);
 		/// Updating the cross hair.
 		void mouseMoveEvent(QMouseEvent *);
+		/// Clearing the cross hair.
+		void leaveEvent(QEvent *);
 		/// Toggles the trace mode if the cursor is near to a plot.
 		void mousePressEvent(QMouseEvent *);
 		/// when a key is pressed and the graph widget has focus

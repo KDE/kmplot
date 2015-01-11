@@ -3424,6 +3424,16 @@ void View::mouseMoveEvent(QMouseEvent *e)
 }
 
 
+void View::leaveEvent(QEvent *)
+{
+	setStatusBar( "", XSection );
+	setStatusBar( "", YSection );
+
+	updateCrosshairPosition();
+	update();
+}
+
+
 bool View::updateCrosshairPosition()
 {
 	QPointF mousePos = mapFromGlobal( QCursor::pos() );

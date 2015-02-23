@@ -220,7 +220,7 @@ void KmPlot::fileOpen(const QUrl &url)
 
 void KmPlot::openFileInNewWindow(const QUrl &url)
 {
- KToolInvocation::startServiceByDesktopName("kmplot",url.url());
+	KToolInvocation::kdeinitExec("kmplot", QStringList() << url.url());
 }
 
 bool KmPlot::isModified()

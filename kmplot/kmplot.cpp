@@ -154,7 +154,7 @@ void KmPlot::setupActions()
 {
 	KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
 	KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
-	KStandardAction::quit(qApp, SLOT(quit()), actionCollection());
+	KStandardAction::quit(this, SLOT(close()), actionCollection());
 
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);

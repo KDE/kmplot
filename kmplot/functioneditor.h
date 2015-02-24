@@ -38,7 +38,7 @@
 class FunctionEditorWidget;
 class FunctionListItem;
 class FunctionListWidget;
-class KMenu;
+class QMenu;
 class QTimer;
 class Function;
 
@@ -47,7 +47,7 @@ class FunctionEditor : public QDockWidget
 	Q_OBJECT
 		
 	public:
-		FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent );
+		FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent );
 		virtual ~ FunctionEditor();
 		
 		/**

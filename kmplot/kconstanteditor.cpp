@@ -29,9 +29,7 @@
 #include "xparser.h"
 
 #include <kdebug.h>
-#include <KIcon>
 #include <kinputdialog.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
@@ -61,8 +59,8 @@ KConstantEditor::KConstantEditor( QWidget * parent )
 	setMainWidget( m_widget );
 	setButtons( Close );
 	
-	m_widget->cmdNew->setIcon( KIcon("document-new") );
-	m_widget->cmdDelete->setIcon( KIcon("edit-delete") );
+	m_widget->cmdNew->setIcon( QIcon::fromTheme("document-new") );
+	m_widget->cmdDelete->setIcon( QIcon::fromTheme("edit-delete") );
 	
 	setCaption( i18n("Constants Editor") );
     
@@ -276,6 +274,3 @@ void ConstantValidator::setWorkingName( const QString & name )
 	m_workingName = name;
 }
 //END class ConstantValidator
-
-
-#include "kconstanteditor.moc"

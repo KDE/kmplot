@@ -93,7 +93,7 @@
         <number>9</number>
        </property>
        <item>
-        <widget class="KTabWidget" name="tabWidget">
+        <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
           <number>0</number>
          </property>
@@ -733,7 +733,7 @@ Example: x^2 + y^2 = 25.</string>
         <number>9</number>
        </property>
        <item>
-        <widget class="KTabWidget" name="differentialTabWidget">
+        <widget class="QTabWidget" name="differentialTabWidget">
          <property name="currentIndex">
           <number>1</number>
          </property>
@@ -836,12 +836,6 @@ Example: f''(x) = -f</string>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>EquationEdit</class>

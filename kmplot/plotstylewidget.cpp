@@ -27,11 +27,11 @@
 #include "ui_plotstylewidget.h"
 
 #include <kcolorbutton.h>
-#include <kdialog.h>
-#include <klocale.h>
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QDialog>
+#include <QDialogButtonBox>
 
 
 class PlotStyleDialogWidget : public QWidget, public Ui::PlotStyleWidget
@@ -41,11 +41,11 @@ class PlotStyleDialogWidget : public QWidget, public Ui::PlotStyleWidget
 	: QWidget( parent )
 		{
 			setupUi(this);
-			lineStyle->addItem( i18n("Solid"), Qt::SolidLine );
-			lineStyle->addItem( i18n("Dash"), Qt::DashLine );
-			lineStyle->addItem( i18n("Dot"), Qt::DotLine );
-			lineStyle->addItem( i18n("Dash Dot"), Qt::DashDotLine );
-			lineStyle->addItem( i18n("Dash Dot Dot"), Qt::DashDotDotLine );
+			lineStyle->addItem( i18n("Solid"), int(Qt::SolidLine) );
+			lineStyle->addItem( i18n("Dash"), int(Qt::DashLine) );
+			lineStyle->addItem( i18n("Dot"), int(Qt::DotLine) );
+			lineStyle->addItem( i18n("Dash Dot"), int(Qt::DashDotLine) );
+			lineStyle->addItem( i18n("Dash Dot Dot"), int(Qt::DashDotDotLine) );
 		}
 };
 
@@ -57,7 +57,7 @@ PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	m_color = new KColorButton( this );
 	QPushButton *advancedButton = new QPushButton( this );
 	advancedButton->setText( i18n("Advanced...") );
-	connect( advancedButton, SIGNAL(clicked()), this, SLOT(advancedOptions()) );
+	connect(advancedButton, &QPushButton::clicked, this, &PlotStyleWidget::advancedOptions);
 	
 	QHBoxLayout *layout = new QHBoxLayout;
 	layout->addWidget( new QLabel( i18n("Color:"), this ) );
@@ -66,12 +66,22 @@ PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	layout->addWidget( advancedButton );
 	setLayout(layout);
 	
-	m_dialog = new KDialog( this );
+	m_dialog = new QDialog( this );
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	m_dialog->setLayout(mainLayout);
+	m_dialog->setWindowTitle( i18n("Plot Appearance") );
+
 	m_dialogWidget = new PlotStyleDialogWidget( m_dialog );
 	m_dialogWidget->layout()->setMargin( 0 );
-	m_dialog->setMainWidget( m_dialogWidget );
-	m_dialog->setCaption( i18n("Plot Appearance") );
-	m_dialog->setButtons( KDialog::Ok );
+	mainLayout->addWidget(m_dialogWidget);
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, &QDialogButtonBox::accepted, m_dialog, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, m_dialog, &QDialog::reject);
+	mainLayout->addWidget(buttonBox);
 }
 
 
@@ -118,7 +128,7 @@ Qt::PenStyle PlotStyleWidget::style( ) const
 
 void PlotStyleWidget::setStyle( Qt::PenStyle style )
 {
-	m_dialogWidget->lineStyle->setCurrentIndex( m_dialogWidget->lineStyle->findData( style ) );
+	m_dialogWidget->lineStyle->setCurrentIndex( m_dialogWidget->lineStyle->findData( int(style) ) );
 }
 
 
@@ -127,5 +137,3 @@ void PlotStyleWidget::advancedOptions( )
 	m_dialog->show();
 }
 //END class PlotStyleWidget
-
-#include "plotstylewidget.moc"

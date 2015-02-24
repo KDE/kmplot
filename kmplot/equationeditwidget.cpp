@@ -26,8 +26,8 @@
 
 #include <QtGui/QFocusEvent>
 #include <QtGui/QKeyEvent>
-#include <QtGui/QStyle>
-#include <QtGui/QStyleOptionFrame>
+#include <QtWidgets/QStyle>
+#include <QtWidgets/QStyleOptionFrame>
 #include <QtGui/QWheelEvent>
 
 #include "equationedit.h"

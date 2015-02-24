@@ -48,13 +48,15 @@ class CoordsConfigDialog : public KConfigDialog
 		 */
 		void updateXYRange();
 		
+	public slots:
+		virtual void done(int result) Q_DECL_OVERRIDE;
+
 	protected slots:
-		virtual void slotOk();
-		virtual void slotApply();
+		void updateButtons();
 		
 	private:
-		bool evalX();
-		bool evalY();
+		bool evalX(bool showError = true);
+		bool evalY(bool showError = true);
 		
 		EditCoords * configAxesDialog;
 };

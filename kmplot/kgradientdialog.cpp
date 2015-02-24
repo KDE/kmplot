@@ -25,7 +25,7 @@
 #include "kgradientdialog.h"
 
 #include <kcolordialog.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <kdebug.h>
 
@@ -38,6 +38,7 @@
 #include <QStyleOption>
 #include <QStyleOptionButton>
 #include <QVBoxLayout>
+#include <qdrawutil.h>
 
 const double SQRT_3 = 1.732050808;
 const double ArrowLength = 8;
@@ -546,5 +547,3 @@ void KGradientButton::paintEvent( QPaintEvent * )
 	}
 }
 //END class KGradientButton
-
-#include "kgradientdialog.moc"

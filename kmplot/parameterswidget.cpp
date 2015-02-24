@@ -27,8 +27,6 @@
 #include "kparametereditor.h"
 #include "xparser.h"
 
-#include <klocale.h>
-
 //BEGIN class ParametersWidget
 ParametersWidget::ParametersWidget( QWidget * parent )
 	: QGroupBox( parent )
@@ -38,9 +36,9 @@ ParametersWidget::ParametersWidget( QWidget * parent )
 	for( int number = 0; number < SLIDER_COUNT; number++ )
 		listOfSliders->addItem( i18n( "Slider No. %1", number +1) );
 	
-	connect( editParameterListButton, SIGNAL(clicked()), this, SLOT(editParameterList()) );
-	connect( useSlider,	SIGNAL(toggled(bool)), this, SLOT(updateEquationEdits()) );
-	connect( useList,	SIGNAL(toggled(bool)), this, SLOT(updateEquationEdits()) );
+	connect(editParameterListButton, &QPushButton::clicked, this, &ParametersWidget::editParameterList);
+	connect(useSlider, &QCheckBox::toggled, this, &ParametersWidget::updateEquationEdits);
+	connect(useList, &QCheckBox::toggled, this, &ParametersWidget::updateEquationEdits);
 }
 
 
@@ -105,5 +103,3 @@ void ParametersWidget::associateEquationEdit( EquationEdit * edit )
 	m_equationEdits << edit;
 }
 //END class ParametersWidget
-
-#include "parameterswidget.moc"

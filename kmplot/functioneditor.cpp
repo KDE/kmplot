@@ -36,8 +36,6 @@
 
 #include <kaction.h>
 #include <kcolorbutton.h>
-#include <KIcon>
-#include <klocale.h>
 #include <kmessagebox.h>
 
 #include <QRadioButton>
@@ -56,7 +54,7 @@ class FunctionEditorWidget : public QWidget, public Ui::FunctionEditorWidget
 
 
 //BEGIN class FunctionEditor
-FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
+FunctionEditor::FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent )
 	: QDockWidget( i18n("Functions"), parent )
 {
 	m_functionID = -1;
@@ -81,13 +79,13 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	connect( m_saveTimer[Function::Parametric], SIGNAL(timeout()), this, SLOT( saveParametric() ) );
 	connect( m_saveTimer[Function::Implicit], SIGNAL(timeout()), this, SLOT( saveImplicit() ) );
 	connect( m_saveTimer[Function::Differential], SIGNAL(timeout()), this, SLOT( saveDifferential() ) );
-	connect( m_syncFunctionListTimer, SIGNAL(timeout()), this, SLOT( syncFunctionList() ) );
+	connect(m_syncFunctionListTimer, &QTimer::timeout, this, &FunctionEditor::syncFunctionList);
 	
 	m_editor = new FunctionEditorWidget;
 	m_functionList = m_editor->functionList;
 	
-	m_editor->createNewPlot->setIcon( KIcon("document-new") );
-	m_editor->deleteButton->setIcon( KIcon("edit-delete") );
+	m_editor->createNewPlot->setIcon( QIcon::fromTheme("document-new") );
+	m_editor->deleteButton->setIcon( QIcon::fromTheme("edit-delete") );
 	
 	//BEGIN initialize equation edits
 	m_editor->cartesianEquation->setInputType( EquationEdit::Function );
@@ -117,9 +115,9 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	for ( unsigned i = 0; i < 5; ++i )
 		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
 	
-	connect( m_editor->deleteButton, SIGNAL(clicked()), this, SLOT(deleteCurrent()) );
-	connect( m_functionList, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(functionSelected( QListWidgetItem* )) );
-	connect( m_functionList, SIGNAL(itemClicked( QListWidgetItem * )), this, SLOT(save()) ); // user might have checked or unchecked the item
+	connect(m_editor->deleteButton, &QPushButton::clicked, this, &FunctionEditor::deleteCurrent);
+	connect(m_functionList, &FunctionListWidget::currentItemChanged, this, &FunctionEditor::functionSelected);
+	connect(m_functionList, &FunctionListWidget::itemClicked, this, &FunctionEditor::save);
 	
 	//BEGIN connect up all editing widgets
 #define CONNECT_WIDGETS( name, signal ) \
@@ -138,11 +136,11 @@ FunctionEditor::FunctionEditor( KMenu * createNewPlotsMenu, QWidget * parent )
 	CONNECT_WIDGETS( ParametersWidget, parameterListChanged() );
 	CONNECT_WIDGETS( KGradientButton, gradientChanged(const QGradient &) );
 	
-	connect( m_editor->initialConditions, SIGNAL(dataChanged()), this, SLOT(save()) );
+	connect(m_editor->initialConditions, &InitialConditionsEditor::dataChanged, this, &FunctionEditor::save);
 	//END connect up all editing widgets
 	
-	connect( XParser::self(), SIGNAL(functionAdded(int)), this, SLOT(functionsChanged()) );
-	connect( XParser::self(), SIGNAL(functionRemoved(int)), this, SLOT(functionsChanged()) );
+	connect(XParser::self(), &XParser::functionAdded, this, &FunctionEditor::functionsChanged);
+	connect(XParser::self(), &XParser::functionRemoved, this, &FunctionEditor::functionsChanged);
 	
 	m_editor->createNewPlot->setMenu( createNewPlotsMenu );
 	
@@ -725,7 +723,7 @@ void FunctionEditor::saveFunction( Function * tempFunction )
 		Settings::setDefaultEquationForm( Settings::EnumDefaultEquationForm::Function );
 	else
 		Settings::setDefaultEquationForm( Settings::EnumDefaultEquationForm::Implicit );
-	Settings::self()->writeConfig();
+	Settings::self()->save();
 	
 	MainDlg::self()->requestSaveCurrentState();
 	functionListItem->update();
@@ -832,7 +830,3 @@ void FunctionListItem::update()
 	setTextColor( f->plotAppearance( Function::Derivative0 ).color );
 }
 //END class FunctionListItem
-
-
-
-#include "functioneditor.moc"

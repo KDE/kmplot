@@ -2,7 +2,7 @@
 <kpartgui name="kmplot" version="15">
 	<MenuBar>
  		<Menu name="file">
-			<Action name="file_openrecent"/>
+			<Action name="file_open_recent"/>
 			<Separator/>
 			<Action name="file_save"/>
 			<Action name="file_save_as"/>

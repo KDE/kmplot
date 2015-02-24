@@ -30,11 +30,12 @@
 #include <QPixmap>
 #include <QSvgGenerator>
 #include <QTimer>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
+#include <QMenu>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
 
 // KDE includes
-#include <kaboutdata.h>
+#include <k4aboutdata.h>
 #include <kconfigdialog.h>
 #include <kconfigdialogmanager.h>
 #include <kdebug.h>
@@ -43,8 +44,8 @@
 #include <kio/netaccess.h>
 #include <kcomponentdata.h>
 #include <klineedit.h>
-#include <klocale.h>
 #include <kmessagebox.h>
+#include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <kstandardaction.h>
 #include <ktemporaryfile.h>
@@ -52,11 +53,10 @@
 #include <ktoolinvocation.h>
 #include <krecentfilesaction.h>
 #include <kactioncollection.h>
-#include <kicon.h>
+#include <khelpclient.h>
+#include <QIcon>
 #include <kiconloader.h>
 #include <kapplication.h>
-#include <kglobal.h>
-#include <kdeprintdialog.h>
 
 // local includes
 #include "calculator.h"
@@ -127,9 +127,10 @@ class SettingsPageDiagram : public QWidget, public Ui::SettingsPageDiagram
 bool MainDlg::oldfileversion;
 MainDlg * MainDlg::m_self = 0;
 
+K_PLUGIN_FACTORY( KmPlotPartFactory, registerPlugin<MainDlg>(); )
 
 //BEGIN class MainDlg
-MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
+MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 		KParts::ReadWritePart( parent ),
 		m_recentFiles( 0 ),
 		m_modified(false),
@@ -137,9 +138,6 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 {
 	assert( !m_self ); // this class should only be constructed once
 	m_self = this;
-
-	// we need an instance
-	setComponentData( KmPlotPartFactory::componentData() );
 
 	kDebug() << "parentWidget->objectName():" << parentWidget->objectName();
 	if ( QString(parentWidget->objectName()).startsWith("KmPlot") )
@@ -156,8 +154,8 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 
 	m_coordsDialog = 0;
 	m_constantEditor = 0;
-	m_popupmenu = new KMenu( parentWidget );
-	m_newPlotMenu = new KMenu( parentWidget );
+	m_popupmenu = new QMenu( parentWidget );
+	m_newPlotMenu = new QMenu( parentWidget );
 	(void) new View( m_readonly, m_popupmenu, parentWidget );
 	connect( View::self(), SIGNAL( setStatusBarText(const QString &)), this, SLOT( setReadOnlyStatusBarText(const QString &) ) );
 
@@ -175,7 +173,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	setupActions();
 	XParser::self()->constants()->load();
 	kmplotio = new KmPlotIO();
-	m_config = KGlobal::config();
+	m_config = KSharedConfig::openConfig();
 	m_recentFiles->loadEntries( m_config->group( QString() ) );
 
 
@@ -192,7 +190,8 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& ) :
 	KConfigDialogManager::changedMap()->insert( "EquationEdit", SIGNAL(textEdited(const QString &)) );
 	// Let's create a Configure Diloag
 	m_settingsDialog = new KConfigDialog( parentWidget, "settings", Settings::self() );
-	m_settingsDialog->setHelp("general-config");
+//FIXME port to KF5
+//	m_settingsDialog->setHelp("general-config");
 
 	// create and add the page(s)
 	m_generalSettings = new SettingsPageGeneral( View::self() );
@@ -231,12 +230,11 @@ MainDlg::~MainDlg()
 void MainDlg::setupActions()
 {
 	// standard actions
-        m_recentFiles = KStandardAction::openRecent( this, SLOT( slotOpenRecent( const KUrl& ) ), this );
-        actionCollection()->addAction( "file_openrecent", m_recentFiles );
+        m_recentFiles = KStandardAction::openRecent( this, SLOT( slotOpenRecent( const QUrl& ) ), this );
+        actionCollection()->addAction( "file_open_recent", m_recentFiles );
 	actionCollection()->addAction( KStandardAction::Print, "file_print", this, SLOT( slotPrint() ) );
 	KStandardAction::save( this, SLOT( slotSave() ), actionCollection() );
 	KStandardAction::saveAs( this, SLOT( slotSaveas() ), actionCollection() );
-	connect( kapp, SIGNAL( lastWindowClosed() ), kapp, SLOT( quit() ) );
 
 	QAction *prefs  = KStandardAction::preferences( this, SLOT( slotSettings() ), actionCollection());
 	prefs->setText( i18n( "Configure KmPlot..." ) );
@@ -246,7 +244,7 @@ void MainDlg::setupActions()
 	//BEGIN file menu
 	QAction * exportAction = actionCollection()->addAction( "export" );
         exportAction->setText( i18n( "E&xport..." ) );
-        exportAction->setIcon( KIcon( "document-export" ) );
+        exportAction->setIcon( QIcon::fromTheme( "document-export" ) );
 	connect( exportAction, SIGNAL(triggered(bool)), this, SLOT( slotExport() ) );
 	//END file menu
 
@@ -260,12 +258,12 @@ void MainDlg::setupActions()
 
 	QAction * editAxes = actionCollection()->addAction( "editaxes" );
         editAxes->setText( i18n( "&Coordinate System..." ) );
-	editAxes->setIcon( KIcon("coords.png") );
+	editAxes->setIcon( QIcon::fromTheme("coords.png") );
 	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT( editAxes() ) );
 
 	QAction * editConstants = actionCollection()->addAction( "editconstants" );
         editConstants->setText( i18n( "&Constants..." ) );
-	editConstants->setIcon( KIcon("editconstants.png") );
+	editConstants->setIcon( QIcon::fromTheme("editconstants.png") );
 	connect( editConstants, SIGNAL(triggered(bool)), this, SLOT( editConstants() ) );
 	//END edit menu
 
@@ -273,16 +271,16 @@ void MainDlg::setupActions()
 	//BEGIN view menu
 	/// \todo check that new shortcuts work
 
-	KAction * zoomIn = actionCollection()->addAction( "zoom_in" );
+	QAction * zoomIn = actionCollection()->addAction( "zoom_in" );
         zoomIn->setText( i18n("Zoom &In") );
-	zoomIn->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_1) );
-	zoomIn->setIcon( KIcon("zoom-in") );
+	actionCollection()->setDefaultShortcut( zoomIn, QKeySequence(Qt::ControlModifier | Qt::Key_1) );
+	zoomIn->setIcon( QIcon::fromTheme("zoom-in") );
 	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
 
-	KAction * zoomOut = actionCollection()->addAction( "zoom_out" );
+	QAction * zoomOut = actionCollection()->addAction( "zoom_out" );
         zoomOut->setText(i18n("Zoom &Out"));
-	zoomOut->setShortcut( QKeySequence(Qt::ControlModifier | Qt::Key_2) );
-	zoomOut->setIcon( KIcon("zoom-out") );
+	actionCollection()->setDefaultShortcut( zoomOut, QKeySequence(Qt::ControlModifier | Qt::Key_2) );
+	zoomOut->setIcon( QIcon::fromTheme("zoom-out") );
 	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT( zoomOut() ) );
 
 	QAction * zoomTrig = actionCollection()->addAction( "zoom_trig" );
@@ -291,7 +289,7 @@ void MainDlg::setupActions()
 
 	QAction * resetView = actionCollection()->addAction( "reset_view" );
 	resetView->setText( i18n( "Reset View" ) );
-	resetView->setIcon( KIcon("resetview") );
+	resetView->setIcon( QIcon::fromTheme("resetview") );
 	connect( resetView, SIGNAL(triggered(bool)), this, SLOT( slotResetView() ) );
 	//END view menu
 
@@ -299,7 +297,7 @@ void MainDlg::setupActions()
 	//BEGIN tools menu
 	QAction *mnuCalculator = actionCollection()->addAction( "calculator" );
 	mnuCalculator->setText( i18n( "Calculator") );
-	mnuCalculator->setIcon( KIcon("system-run") );
+	mnuCalculator->setIcon( QIcon::fromTheme("system-run") );
 	connect( mnuCalculator, SIGNAL(triggered(bool)), this, SLOT( calculator() ) );
 
 	QAction *mnuArea = actionCollection()->addAction( "grapharea" );
@@ -308,12 +306,12 @@ void MainDlg::setupActions()
 
 	QAction *mnuMaxValue = actionCollection()->addAction( "maximumvalue" );
         mnuMaxValue->setText( i18n( "Find Ma&ximum..." ) );
-	mnuMaxValue->setIcon( KIcon("maximum") );
+	mnuMaxValue->setIcon( QIcon::fromTheme("maximum") );
 	connect( mnuMaxValue, SIGNAL(triggered(bool)), this, SLOT( findMaximumValue() ) );
 
 	QAction *mnuMinValue = actionCollection()->addAction( "minimumvalue" );
         mnuMinValue->setText( i18n( "Find Mi&nimum..." ) );
-	mnuMinValue->setIcon( KIcon("minimum") );
+	mnuMinValue->setIcon( QIcon::fromTheme("minimum") );
 	connect( mnuMinValue, SIGNAL(triggered(bool)), this, SLOT( findMinimumValue() ) );
 	//END tools menu
 
@@ -321,7 +319,7 @@ void MainDlg::setupActions()
 	//BEGIN help menu
 	QAction * namesAction = actionCollection()->addAction( "names" );
         namesAction->setText( i18n( "Predefined &Math Functions" ) );
-	namesAction->setIcon( KIcon("functionhelp") );
+	namesAction->setIcon( QIcon::fromTheme("functionhelp") );
 	connect( namesAction, SIGNAL(triggered(bool)), this, SLOT( slotNames() ) );
 	//END help menu
 
@@ -329,37 +327,35 @@ void MainDlg::setupActions()
 	//BEGIN new plots menu
 	QAction * newFunction = actionCollection()->addAction( "newcartesian" );
         newFunction->setText( i18n( "Cartesian Plot" ) );
-	newFunction->setIcon( KIcon("newfunction") );
+	newFunction->setIcon( QIcon::fromTheme("newfunction") );
 	connect( newFunction, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createCartesian() ) );
 	m_newPlotMenu->addAction( newFunction );
 
 	QAction * newParametric = actionCollection()->addAction( "newparametric" );
         newParametric->setText( i18n( "Parametric Plot" ) );
-	newParametric->setIcon( KIcon("newparametric") );
+	newParametric->setIcon( QIcon::fromTheme("newparametric") );
 	connect( newParametric, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createParametric() ) );
 	m_newPlotMenu->addAction( newParametric );
 
 	QAction * newPolar = actionCollection()->addAction( "newpolar" );
         newPolar->setText( i18n( "Polar Plot" ) );
-	newPolar->setIcon( KIcon("newpolar") );
+	newPolar->setIcon( QIcon::fromTheme("newpolar") );
 	connect( newPolar, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createPolar() ) );
 	m_newPlotMenu->addAction( newPolar );
 
 	QAction * newImplicit = actionCollection()->addAction( "newimplicit" );
         newImplicit->setText( i18n( "Implicit Plot" ) );
-	newImplicit->setIcon( KIcon("newimplicit") );
+	newImplicit->setIcon( QIcon::fromTheme("newimplicit") );
 	connect( newImplicit, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createImplicit() ) );
 	m_newPlotMenu->addAction( newImplicit );
 
 	QAction * newDifferential = actionCollection()->addAction( "newdifferential" );
         newDifferential->setText( i18n( "Differential Plot" ) );
-	newDifferential->setIcon( KIcon("newdifferential") );
+	newDifferential->setIcon( QIcon::fromTheme("newdifferential") );
 	connect( newDifferential, SIGNAL(triggered(bool)), m_functionEditor, SLOT( createDifferential() ) );
 	m_newPlotMenu->addAction( newDifferential );
 	//END new plots menu
 
-
-	kDebug() << "KStandardDirs::resourceDirs( icon )="<<KGlobal::dirs()->resourceDirs( "icon" );
 
 	View::self()->m_menuSliderAction = actionCollection()->add<KToggleAction>( "options_configure_show_sliders" );
         View::self()->m_menuSliderAction->setText( i18n( "Show Sliders" ) );
@@ -370,7 +366,7 @@ void MainDlg::setupActions()
 	QAction *mnuEdit = actionCollection()->addAction( "mnuedit"  );
         mnuEdit->setText(i18n("&Edit"));
 	m_firstFunctionAction = mnuEdit;
-	mnuEdit->setIcon( KIcon("editplots") );
+	mnuEdit->setIcon( QIcon::fromTheme("editplots") );
 	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT( editCurrentPlot() ) );
 	m_popupmenu->addAction( mnuEdit );
 
@@ -381,7 +377,7 @@ void MainDlg::setupActions()
 
 	QAction *mnuRemove = actionCollection()->addAction( "mnuremove"  );
         mnuRemove->setText(i18n("&Remove"));
-	mnuRemove->setIcon( KIcon("edit-delete") );
+	mnuRemove->setIcon( QIcon::fromTheme("edit-delete") );
 	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT( removeCurrentPlot() ) );
 	m_popupmenu->addAction( mnuRemove );
 
@@ -516,7 +512,9 @@ void MainDlg::slotSaveas()
 {
 	if (m_readonly)
 		return;
-	const KUrl url = KFileDialog::getSaveUrl( QDir::currentPath(), i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), m_parent, i18n( "Save As" ) );
+	const QUrl url = KFileDialog::getSaveUrl( QDir::currentPath(),
+			    i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ),
+			    m_parent, i18n( "Save As" ) );
 
 	if ( url.isEmpty() )
 		return;
@@ -538,7 +536,7 @@ void MainDlg::slotSaveas()
 	{
 		setUrl(url);
 		m_recentFiles->addUrl( url );
-		setWindowCaption( this->url().prettyUrl(KUrl::LeaveTrailingSlash) );
+		setWindowCaption( QUrl(this->url()).toString() );
 		m_modified = false;
 	}
 }
@@ -548,7 +546,7 @@ void MainDlg::slotExport()
 	QString filter = KImageIO::pattern( KImageIO::Writing );
 	filter += i18n("\n*.svg|Scalable Vector Graphics");
 
-	KUrl url = KFileDialog::getSaveUrl( QDir::currentPath(), filter, m_parent, i18n( "Export as Image" ) );
+	QUrl url = KFileDialog::getSaveUrl( QDir::currentPath(), filter, m_parent, i18n( "Export as Image" ) );
 
 	if ( !url.isValid() )
 		return;
@@ -580,10 +578,10 @@ void MainDlg::slotExport()
 	{
 		QSvgGenerator img;
 		img.setSize( View::self()->size() );
-		
+
 		QFile file;
 		KTemporaryFile tmp;
-		
+
 		if ( url.isLocalFile() )
 		{
 			file.setFileName( url.toLocalFile() );
@@ -594,9 +592,9 @@ void MainDlg::slotExport()
 			tmp.setSuffix( ".svg" );
 			img.setOutputDevice( &tmp );
 		}
-		
+
 		View::self()->draw( &img, View::SVG );
-		
+
 		if ( !url.isLocalFile() )
 			saveOk &= KIO::NetAccess::upload(tmp.fileName(), url, 0);
 	}
@@ -621,7 +619,9 @@ void MainDlg::slotExport()
 	}
 
 	if ( !saveOk )
-		KMessageBox::error( m_parent, i18n( "Sorry, something went wrong while saving to image \"%1\"", url.prettyUrl() ) );
+	    KMessageBox::error(m_parent,
+			       i18n("Sorry, something went wrong while saving to image \"%1\"",
+				    url.toString()));
 }
 
 
@@ -630,13 +630,13 @@ bool MainDlg::openFile()
 	if (url()==m_currentfile || !kmplotio->load( url() ) )
 	{
 		m_recentFiles->removeUrl( url() ); //remove the file from the recent-opened-file-list
-		setUrl(KUrl());
+		setUrl(QUrl());
 		return false;
 	}
-	
+
 	m_currentfile = url();
-	m_recentFiles->addUrl( url().prettyUrl(KUrl::LeaveTrailingSlash)  );
-	setWindowCaption( url().prettyUrl(KUrl::LeaveTrailingSlash) );
+	m_recentFiles->addUrl( QUrl(url()).toString()  );
+	setWindowCaption( QUrl(url()).toString() );
 	resetUndoRedo();
 	View::self()->updateSliders();
 	View::self()->drawPlot();
@@ -649,7 +649,7 @@ bool MainDlg::saveFile()
     return !isModified();
 }
 
-void MainDlg::slotOpenRecent( const KUrl &url )
+void MainDlg::slotOpenRecent( const QUrl &url )
 {
  	if( isModified() || !this->url().isEmpty() ) // open the file in a new window
  	{
@@ -665,7 +665,7 @@ void MainDlg::slotOpenRecent( const KUrl &url )
     m_currentfile = url;
     setUrl(url);
     m_recentFiles->setCurrentItem(-1); //don't select the item in the open-recent menu
-    setWindowCaption( this->url().prettyUrl(KUrl::LeaveTrailingSlash) );
+    setWindowCaption( QUrl(this->url()).toString() );
 	resetUndoRedo();
     View::self()->updateSliders();
     View::self()->drawPlot();
@@ -677,7 +677,8 @@ void MainDlg::slotPrint()
 	prt.setResolution( 72 );
 	KPrinterDlg* printdlg = new KPrinterDlg( m_parent );
 	printdlg->setObjectName( "KmPlot page" );
-	QPrintDialog *printDialog = KdePrint::createPrintDialog( &prt, QList<QWidget*>() << printdlg, m_parent );
+	QPrintDialog *printDialog = new QPrintDialog( &prt, m_parent );
+	printDialog->setOptionTabs( QList<QWidget*>() << printdlg );
 	printDialog->setWindowTitle( i18n("Print Plot") );
 
 	if (printDialog->exec())
@@ -718,7 +719,7 @@ void MainDlg::editConstantsModal(QWidget *parent)
 
 void MainDlg::slotNames()
 {
-	KToolInvocation::invokeHelp( "func-predefined", "kmplot" );
+	KHelpClient::invokeHelp( "func-predefined", "kmplot" );
 }
 
 
@@ -795,52 +796,6 @@ CoordsConfigDialog * MainDlg::coordsDialog( )
 	return m_coordsDialog;
 }
 //END class MainDlg
-
-
-// It's usually safe to leave the factory code alone.. with the
-// notable exception of the KAboutData data
-
-KComponentData *KmPlotPartFactory::s_instance = 0L;
-KAboutData* KmPlotPartFactory::s_about = 0L;
-
-KmPlotPartFactory::KmPlotPartFactory()
-		: KParts::Factory()
-{}
-
-KmPlotPartFactory::~KmPlotPartFactory()
-{
-	delete s_instance;
-	delete s_about;
-
-	s_instance = 0L;
-}
-
-KParts::Part* KmPlotPartFactory::createPartObject( QWidget *parentWidget,
-        QObject *parent, const char *, const QStringList &args )
-{
-	// Create an instance of our Part
-	MainDlg* obj = new MainDlg( parentWidget, parent, args );
-	emit objectCreated( obj );
-	return obj;
-}
-
-const KComponentData &KmPlotPartFactory::componentData()
-{
-	if( !s_instance )
-	{
-		s_about = new KAboutData("kmplot", 0,ki18n( "KmPlotPart" ), "1");
-		s_instance = new KComponentData(s_about);
-	}
-	return *s_instance;
-}
-
-extern "C"
-{
-	KDE_EXPORT void* init_libkmplotpart()
-	{
-		return new KmPlotPartFactory;
-	}
-}
 
 
 /// BrowserExtension class

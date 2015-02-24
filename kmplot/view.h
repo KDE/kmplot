@@ -35,11 +35,11 @@
 #include <QResizeEvent>
 #include <QKeyEvent>
 #include <QEvent>
+#include <QEvent>
 #include <ktoggleaction.h>
 
 // KDE includes
 #include <kdebug.h>
-#include <kmenu.h>
 #include <kpushbutton.h>
 
 class KSliderWindow;
@@ -48,6 +48,7 @@ class QPaintEvent;
 class QTextDocument;
 class QTextEdit;
 class QTime;
+class QMenu;
 
 //@{
 /// Some abbreviations for horizontal and vertical lines.
@@ -83,7 +84,7 @@ class View : public QWidget
 	Q_OBJECT
 	public:
 		/// Contructor
-		View( bool readOnly, KMenu * functionPopup, QWidget* parent );
+		View( bool readOnly, QMenu * functionPopup, QWidget* parent );
 		virtual ~View();
 	
 		/// There is only one view.
@@ -227,6 +228,8 @@ class View : public QWidget
 		void resizeEvent(QResizeEvent *);
 		/// Updating the cross hair.
 		void mouseMoveEvent(QMouseEvent *);
+		/// Clearing the cross hair.
+		void leaveEvent(QEvent *);
 		/// Toggles the trace mode if the cursor is near to a plot.
 		void mousePressEvent(QMouseEvent *);
 		/// when a key is pressed and the graph widget has focus
@@ -525,7 +528,7 @@ class View : public QWidget
 		///buffer the current window so all functions don't need to be re-drawed
 		QPixmap buffer;
 		/// the popup menu
-		KMenu *m_popupMenu;
+		QMenu *m_popupMenu;
 		/// The pointer to the popup menu's title
 		QAction *m_popupMenuTitle;
 		/// is set to true if an integral is calculated

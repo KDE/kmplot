@@ -26,13 +26,13 @@
 
 // Qt includes
 #include <QCheckBox>
+#include <QComboBox>
 #include <QGridLayout>
 #include <QLabel>
 
 // KDE includes
 #include <kdialog.h>
-#include <klocale.h>
-#include <KComboBox>
+#include <KLocalizedString>
 
 // local includes
 #include "equationedit.h"
@@ -56,7 +56,7 @@ KPrinterDlg::KPrinterDlg( QWidget *parent )
 	m_widthEdit->setText( "12" );
 	m_heightEdit->setText( "12" );
 	
-	m_lengthScalingCombo = new KComboBox( this );
+	m_lengthScalingCombo = new QComboBox( this );
 	m_lengthScalingCombo->addItem( i18n("Pixels (1/72nd in)") );
 	m_lengthScalingCombo->addItem( i18n("Inches (in)") );
 	m_lengthScalingCombo->addItem( i18n("Centimeters (cm)") );
@@ -173,5 +173,3 @@ double KPrinterDlg::lengthScaling( ) const
 	LengthScaling scaling = (LengthScaling)m_lengthScalingCombo->currentIndex();
 	return scalingToMeter( scaling );
 }
-
-#include "kprinterdlg.moc"

@@ -25,7 +25,7 @@
 #include "equationedit.h"
 #include "xparser.h"
 
-#include <kicon.h>
+#include <QIcon>
 
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -51,12 +51,12 @@ EquationEdit::EquationEdit( QWidget * parent )
 	m_equationEditWidget = new EquationEditWidget( this );
 	m_highlighter = new EquationHighlighter( this );
 	m_equation = new Equation( Equation::Cartesian, 0 );
-	m_editButton = new QPushButton( KIcon("document-properties"), 0, this );
+	m_editButton = new QPushButton( QIcon::fromTheme("document-properties"), 0, this );
 	setFocusProxy( m_equationEditWidget );
 	
-	connect( m_equationEditWidget, SIGNAL( textChanged() ), this, SLOT( slotTextChanged() ) );
-	connect( m_editButton, SIGNAL(clicked()), this, SLOT(invokeEquationEditor()) );
-	connect( m_equationEditWidget, SIGNAL(cursorPositionChanged()), this, SLOT(reHighlight()) );
+	connect(m_equationEditWidget, &EquationEditWidget::textChanged, this, &EquationEdit::slotTextChanged);
+	connect(m_editButton, &QPushButton::clicked, this, &EquationEdit::invokeEquationEditor);
+	connect(m_equationEditWidget, &EquationEditWidget::cursorPositionChanged, this, &EquationEdit::reHighlight);
 	
 	QHBoxLayout * layout = new QHBoxLayout( this );
 	layout->setMargin( 0 );

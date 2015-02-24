@@ -27,7 +27,9 @@
 
 #include <kcmdlineargs.h>
 #include <kparts/mainwindow.h>
+#include <kparts/readwritepart.h>
 
+class QCommandLineParser;
 class KmPlotProgress;
 class KToggleFullScreenAction;
 
@@ -45,7 +47,7 @@ public:
 	/**
 	 * Default Constructor
 	 */
-	KmPlot( KCmdLineArgs* args);
+	KmPlot( const QCommandLineParser& parser );
 
 	/**
 	 * Default Destructor
@@ -55,7 +57,7 @@ public:
 	/**
 	 * Use this method to load whatever file/URL you have
 	 */
-	bool load(const KUrl& url);
+	bool load(const QUrl& url);
 
 protected:
 	/// Quits KmPlot after checking if modifications shall be saved.
@@ -73,7 +75,7 @@ public Q_SLOTS:
     // DBus interface
     Q_SCRIPTABLE void fileOpen();
     Q_SCRIPTABLE void setStatusBarText(const QString &, int id);
-	Q_SCRIPTABLE void openFileInNewWindow(const KUrl &url);
+	Q_SCRIPTABLE void openFileInNewWindow(const QUrl &url);
 	/**
 	 * Set the progress of drawing the plots, with \p progress ranging from 0
 	 * to 1. After initially calling this function with \p progress less than
@@ -86,7 +88,7 @@ public Q_SLOTS:
 public slots:
 	/// Called when fullscren is enabled/disabled
 	void slotUpdateFullScreen(bool);
-	void fileOpen(const KUrl &url);
+	void fileOpen(const QUrl &url);
 
 private:
 	void setupAccel();

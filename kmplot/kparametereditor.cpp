@@ -27,10 +27,8 @@
 
 #include <kdebug.h>
 #include <kfiledialog.h>
-#include <KIcon>
 #include <kinputdialog.h>
 #include <kio/netaccess.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
 #include <ktemporaryfile.h>
@@ -55,31 +53,31 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	m_mainWidget->layout()->setMargin( 0 );
 	setMainWidget( m_mainWidget );
 	
-	m_mainWidget->cmdNew->setIcon( KIcon("document-new" ) );
-	m_mainWidget->cmdDelete->setIcon( KIcon("edit-delete" ) );
-	m_mainWidget->moveUp->setIcon( KIcon("go-up") );
-	m_mainWidget->moveDown->setIcon( KIcon("go-down") );
-	m_mainWidget->cmdImport->setIcon( KIcon("document-open") );
-	m_mainWidget->cmdExport->setIcon( KIcon("document-save") );
+	m_mainWidget->cmdNew->setIcon( QIcon::fromTheme("document-new" ) );
+	m_mainWidget->cmdDelete->setIcon( QIcon::fromTheme("edit-delete" ) );
+	m_mainWidget->moveUp->setIcon( QIcon::fromTheme("go-up") );
+	m_mainWidget->moveDown->setIcon( QIcon::fromTheme("go-down") );
+	m_mainWidget->cmdImport->setIcon( QIcon::fromTheme("document-open") );
+	m_mainWidget->cmdExport->setIcon( QIcon::fromTheme("document-save") );
 	
 	m_mainWidget->list->setFocusPolicy( Qt::NoFocus );
 	
-	connect( m_mainWidget->value, SIGNAL(upPressed()), this, SLOT(prev()) );
-	connect( m_mainWidget->value, SIGNAL(downPressed()), this, SLOT(next()) );
+	connect(m_mainWidget->value, &EquationEdit::upPressed, this, &KParameterEditor::prev);
+	connect(m_mainWidget->value, &EquationEdit::downPressed, this, &KParameterEditor::next);
 	
 	foreach ( const Value &v, *m_parameter )
 		m_mainWidget->list->addItem( v.expression() );
 	
-	connect( m_mainWidget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ));
-	connect( m_mainWidget->cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ));
-	connect( m_mainWidget->moveUp, SIGNAL(clicked()), this, SLOT(moveUp()) );
-	connect( m_mainWidget->moveDown, SIGNAL(clicked()), this, SLOT(moveDown()) );
-	connect( m_mainWidget->cmdImport, SIGNAL( clicked() ), this, SLOT( cmdImport_clicked() ));
-	connect( m_mainWidget->cmdExport, SIGNAL( clicked() ), this, SLOT( cmdExport_clicked() ));
-	connect( m_mainWidget->list, SIGNAL(currentItemChanged( QListWidgetItem *, QListWidgetItem * )), this, SLOT(selectedConstantChanged( QListWidgetItem * )) );
+	connect(m_mainWidget->cmdNew, &QPushButton::clicked, this, &KParameterEditor::cmdNew_clicked);
+	connect(m_mainWidget->cmdDelete, &QPushButton::clicked, this, &KParameterEditor::cmdDelete_clicked);
+	connect(m_mainWidget->moveUp, &QPushButton::clicked, this, &KParameterEditor::moveUp);
+	connect(m_mainWidget->moveDown, &QPushButton::clicked, this, &KParameterEditor::moveDown);
+	connect(m_mainWidget->cmdImport, &QPushButton::clicked, this, &KParameterEditor::cmdImport_clicked);
+	connect(m_mainWidget->cmdExport, &QPushButton::clicked, this, &KParameterEditor::cmdExport_clicked);
+	connect(m_mainWidget->list, &QListWidget::currentItemChanged, this, &KParameterEditor::selectedConstantChanged);
 	
-	connect( m_mainWidget->value, SIGNAL( textEdited( const QString & ) ), this, SLOT( saveCurrentValue() ) );
-	connect( m_mainWidget->value, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
+	connect(m_mainWidget->value, &EquationEdit::textEdited, this, &KParameterEditor::saveCurrentValue);
+	connect(m_mainWidget->value, &EquationEdit::textChanged, this, &KParameterEditor::checkValueValid);
 	connect( m_mainWidget->value, SIGNAL( returnPressed() ), m_mainWidget->cmdNew, SLOT( animateClick() ) );
 	
 	checkValueValid();
@@ -210,7 +208,7 @@ bool KParameterEditor::checkValueValid()
 
 void KParameterEditor::cmdImport_clicked()
 {
-	KUrl url = KFileDialog::getOpenUrl( QString(),i18n("*.txt|Plain Text File "));
+	QUrl url = KFileDialog::getOpenUrl( QString(),i18n("*.txt|Plain Text File "));
 	if ( url.isEmpty() )
 		return;
         
@@ -280,7 +278,7 @@ void KParameterEditor::cmdExport_clicked()
 {
 	if ( !m_mainWidget->list->count() )
                 return;
-	KUrl url = KFileDialog::getSaveUrl( QString(),i18n("*.txt|Plain Text File "));
+	QUrl url = KFileDialog::getSaveUrl( QString(),i18n("*.txt|Plain Text File "));
         if ( url.isEmpty() )
                 return;
 
@@ -341,5 +339,3 @@ bool KParameterEditor::checkTwoOfIt(const QString & text)
 {
 	return !m_mainWidget->list->findItems(text,Qt::MatchExactly).isEmpty();
 }
-
-#include "kparametereditor.moc"

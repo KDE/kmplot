@@ -49,9 +49,9 @@ SliderWidget::SliderWidget( QWidget *parent, int number )
 	max->setText( group.readEntry( "max", "10" ) );
 	slider->setValue( group.readEntry( "value", 500 ) );
 	
-	connect( slider, SIGNAL(valueChanged(int)), this, SLOT(updateValue()) );
-	connect( min, SIGNAL(editingFinished()), this, SLOT(updateValue()) );
-	connect( max, SIGNAL(editingFinished()), this, SLOT(updateValue()) );
+	connect(slider, &QSlider::valueChanged, this, &SliderWidget::updateValue);
+	connect(min, &EquationEdit::editingFinished, this, &SliderWidget::updateValue);
+	connect(max, &EquationEdit::editingFinished, this, &SliderWidget::updateValue);
 	
 	updateValue();
 }
@@ -127,6 +127,3 @@ void KSliderWindow::closeEvent( QCloseEvent * e)
 	e->accept();
 }
 //END class KSliderWindow
-
-
-#include "ksliderwindow.moc"

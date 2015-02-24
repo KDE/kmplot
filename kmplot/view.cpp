@@ -43,15 +43,14 @@
 #include <QResizeEvent>
 #include <QTextEdit>
 #include <QTime>
+#include <QMenu>
 #include <QMouseEvent>
 
 // KDE includes
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kdebug.h>
-#include <kglobal.h>
 #include <kiconloader.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <kmenu.h>
 
@@ -124,7 +123,7 @@ double realModulo( double x, double mod )
 //BEGIN class View
 View * View::m_self = 0;
 
-View::View( bool readOnly, KMenu * functionPopup, QWidget* parent )
+View::View( bool readOnly, QMenu * functionPopup, QWidget* parent )
 	: QWidget( parent ),
 	  buffer( width(), height() ),
 	  m_popupMenu( functionPopup ),
@@ -160,7 +159,7 @@ View::View( bool readOnly, KMenu * functionPopup, QWidget* parent )
 	setMouseTracking( true );
 	m_sliderWindow = 0;
 	
-	m_popupMenuTitle = m_popupMenu->addTitle( "" );
+	m_popupMenuTitle = m_popupMenu->insertSection( MainDlg::self()->m_firstFunctionAction, "" );
 }
 
 
@@ -3097,11 +3096,7 @@ void View::fillPopupMenu( )
 	if ( !function )
 		return;
 	
-	QString popupTitle( m_currentPlot.name() );
-			
-	m_popupMenu->removeAction( m_popupMenuTitle );
-	m_popupMenuTitle->deleteLater();
-	m_popupMenuTitle = m_popupMenu->addTitle( popupTitle, MainDlg::self()->m_firstFunctionAction );
+	m_popupMenuTitle->setText( m_currentPlot.name() );
 	
 	QAction *calcArea = MainDlg::self()->actionCollection()->action("grapharea");
 	QAction *maxValue = MainDlg::self()->actionCollection()->action("maximumvalue");
@@ -3429,6 +3424,16 @@ void View::mouseMoveEvent(QMouseEvent *e)
 }
 
 
+void View::leaveEvent(QEvent *)
+{
+	setStatusBar( "", XSection );
+	setStatusBar( "", YSection );
+
+	updateCrosshairPosition();
+	update();
+}
+
+
 bool View::updateCrosshairPosition()
 {
 	QPointF mousePos = mapFromGlobal( QCursor::pos() );
@@ -3559,7 +3564,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 
 		case Translating:
 			doDrawPlot = true;
-			Settings::self()->writeConfig();
+			Settings::self()->save();
 			MainDlg::self()->requestSaveCurrentState();
 			break;
 
@@ -3717,7 +3722,7 @@ void View::animateZoom( const QRectF & _newCoords )
 	Settings::setXMax( Parser::number( m_xmax ) );
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
-	Settings::self()->writeConfig();
+	Settings::self()->save();
 	MainDlg::self()->coordsDialog()->updateXYRange();
 	MainDlg::self()->requestSaveCurrentState();
 
@@ -4154,10 +4159,10 @@ void View::updateCursor()
 			setCursor( Qt::CrossCursor );
 			break;
 		case CursorMagnify:
-			setCursor( QCursor( SmallIcon( "magnify", 32), 10, 10 ) );
+			setCursor( QCursor( QIcon::fromTheme( "zoom-in").pixmap(48), 22, 15 ) );
 			break;
 		case CursorLessen:
-			setCursor( QCursor( SmallIcon( "lessen", 32), 10, 10 ) ); //krazy:exclude=iconnames
+			setCursor( QCursor( QIcon::fromTheme( "zoom-out").pixmap(48), 22, 15 ) );
 			break;
 		case CursorMove:
 			setCursor( Qt::SizeAllCursor );
@@ -4266,5 +4271,3 @@ IntegralDrawSettings::IntegralDrawSettings()
 	draw = false;
 }
 //END class IntegralDrawSettings
-
-#include "view.moc"

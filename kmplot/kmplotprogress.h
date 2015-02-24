@@ -28,7 +28,7 @@
 
 #include <QWidget>
 
-class KPushButton;
+class QPushButton;
 class QProgressBar;
 class QTimer;
 
@@ -62,7 +62,7 @@ class KmPlotProgress: public QWidget
 
 	private:
 		QTimer * m_showTimer;
-		KPushButton *m_button;
+		QPushButton *m_button;
 		QProgressBar *m_progress;
 };
 

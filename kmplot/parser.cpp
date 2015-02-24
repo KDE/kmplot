@@ -32,8 +32,7 @@
 
 //KDE includes
 #include <kdebug.h>
-#include <kglobal.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kmessagebox.h>
 #include <kconfig.h>
 
@@ -139,7 +138,7 @@ class LengthOrderedString : public QString
 		bool operator <( const LengthOrderedString & other ) const
 		{
 			return (length() > other.length()) ||
-					((length() == other.length()) && (QString::operator<(other)));
+					((length() == other.length()) && (static_cast<const QString &>(*this) < static_cast<const QString &>(other)));
 		}
 };
 
@@ -1465,7 +1464,7 @@ ExpressionSanitizer::ExpressionSanitizer( Parser * parser )
 	: m_parser( parser )
 {
 	m_str = 0l;
-	m_decimalSymbol = KGlobal::locale()->decimalSymbol();
+	m_decimalSymbol = QLocale().decimalPoint();
 }
 
 
@@ -1782,6 +1781,3 @@ void ExpressionSanitizer::displayMap( )
 	kDebug() << out;
 }
 //END class ExpressionSanitizer
-
-
-#include "parser.moc"

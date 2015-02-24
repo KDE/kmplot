@@ -32,7 +32,6 @@
 // KDE includes
 #include <kdebug.h>
 #include <kio/netaccess.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <ktemporaryfile.h>
 
@@ -122,7 +121,7 @@ QDomDocument KmPlotIO::currentState()
 }
 
 
-bool KmPlotIO::save( const KUrl &url )
+bool KmPlotIO::save( const QUrl &url )
 {
 	QDomDocument doc = currentState();
 
@@ -131,31 +130,31 @@ bool KmPlotIO::save( const KUrl &url )
 		KTemporaryFile tmpfile;
 		if ( !tmpfile.open() )
 		{
-			kWarning() << "Could not open " << KUrl( tmpfile.fileName() ).toLocalFile() << " for writing.\n";
-			return false;
+		    kWarning() << "Could not open " 
+			       << QUrl( tmpfile.fileName() ).toLocalFile() << " for writing.\n";
+		    return false;
 		}
 		QTextStream ts( &tmpfile );
 		doc.save( ts, 4 );
 		ts.flush();
 
-		if ( !KIO::NetAccess::upload(tmpfile.fileName(), url,0))
-		{
-			kWarning() << "Could not open " << url.prettyUrl() << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
-			return false;
+		if ( !KIO::NetAccess::upload(tmpfile.fileName(), url,0)) {
+		    kWarning() << "Could not open " << url.toString() 
+			       << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
+		    return false;
 		}
 	}
-	else
-	{
-		QFile xmlfile (url.toLocalFile());
-		if (!xmlfile.open( QIODevice::WriteOnly ) )
+	else {
+	    QFile xmlfile (url.toLocalFile());
+	    if (!xmlfile.open( QIODevice::WriteOnly ) )
 		{
-			kWarning() << "Could not open " << url.path() << " for writing.\n";
-			return false;
+		    kWarning() << "Could not open " << url.path() << " for writing.\n";
+		    return false;
 		}
-		QTextStream ts( &xmlfile );
-		doc.save( ts, 4 );
-		xmlfile.close();
-		return true;
+	    QTextStream ts( &xmlfile );
+	    doc.save( ts, 4 );
+	    xmlfile.close();
+	    return true;
 	}
 	return true;
 }
@@ -331,7 +330,7 @@ bool KmPlotIO::restore( const QDomDocument & doc )
 }
 
 
-bool KmPlotIO::load( const KUrl &url )
+bool KmPlotIO::load( const QUrl &url )
 {
 	QDomDocument doc( "kmpdoc" );
 	QFile f;

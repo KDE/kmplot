@@ -25,22 +25,22 @@
 
 #include "kmplotprogress.h"
 
-#include <kdebug.h>
-#include <kicon.h>
-#include <kpushbutton.h>
-#include <qprogressbar.h>
-
+#include <QIcon>
+#include <QPushButton>
+#include <QProgressBar>
 #include <QCoreApplication>
 #include <QTimer>
+
+#include <kdebug.h>
 
 
 KmPlotProgress::KmPlotProgress( QWidget* parent ) : QWidget( parent )
 {
-	m_button = new KPushButton(this);
-	m_button->setIcon( KIcon( "process-stop" ) );
+	m_button = new QPushButton(this);
+	m_button->setIcon( QIcon::fromTheme( "process-stop" ) );
 	m_button->setGeometry( QRect( 0, 0, 30, 23 ) );
 	m_button->setMaximumHeight(height()-10);
-	connect( m_button, SIGNAL(clicked()), this, SIGNAL(cancelDraw()) );
+	connect(m_button, &QPushButton::clicked, this, &KmPlotProgress::cancelDraw);
 
 	m_progress = new QProgressBar(this);
 	m_progress->setGeometry( QRect( 30, 0, 124, 23 ) );
@@ -48,7 +48,7 @@ KmPlotProgress::KmPlotProgress( QWidget* parent ) : QWidget( parent )
 
 	m_showTimer = new QTimer( this );
 	m_showTimer->setSingleShot( true );
-	connect( m_showTimer, SIGNAL(timeout()), this, SLOT(showProgressBar()) );
+	connect(m_showTimer, &QTimer::timeout, this, &KmPlotProgress::showProgressBar);
 
 	hide();
 	setMinimumWidth(154);
@@ -88,5 +88,3 @@ void KmPlotProgress::setProgress( double progress )
 
 	QCoreApplication::processEvents( QEventLoop::ExcludeUserInputEvents );
 }
-
-#include "kmplotprogress.moc"

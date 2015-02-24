@@ -46,7 +46,7 @@
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="KPushButton" name="editParameterListButton" >
+    <widget class="QPushButton" name="editParameterListButton" >
      <property name="enabled" >
       <bool>false</bool>
      </property>
@@ -62,7 +62,7 @@
     </widget>
    </item>
    <item row="1" column="1" >
-    <widget class="KComboBox" name="listOfSliders" >
+    <widget class="QComboBox" name="listOfSliders" >
      <property name="enabled" >
       <bool>false</bool>
      </property>
@@ -76,18 +76,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>useList</tabstop>
   <tabstop>editParameterListButton</tabstop>

@@ -26,11 +26,11 @@
 
 #include <kaction.h>
 #include <kconfig.h>
+#include <kconfiggroup.h>
 #include <kedittoolbar.h>
 #include <kshortcutsdialog.h>
 #include <kfiledialog.h>
 #include <klibloader.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 #include <kmplotprogress.h>
 #include <kstatusbar.h>
@@ -40,11 +40,10 @@
 #include "maindlg.h"
 #include <ktoolinvocation.h>
 #include <ktogglefullscreenaction.h>
-#include <kapplication.h>
 
 #include "kmplotadaptor.h"
 
-KmPlot::KmPlot( KCmdLineArgs* args)
+KmPlot::KmPlot( const QCommandLineParser& parser )
 		: KParts::MainWindow()
 {
 	setObjectName( "KmPlot" );
@@ -60,7 +59,7 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 	// this routine will find and load our Part.  it finds the Part by
 	// name which is a bad idea usually.. but it's alright in this
 	// case since our Part is made for this Shell
-    KPluginFactory *factory = KPluginLoader("libkmplotpart").factory();
+    KPluginFactory *factory = KPluginLoader("kmplotpart").factory();
 	if (factory)
 	{
 		// now that the Part is loaded, we cast it to a Part to get
@@ -87,28 +86,30 @@ KmPlot::KmPlot( KCmdLineArgs* args)
 		return;
 	}
 
-	if (!initialGeometrySet())
-		resize( QSize(800, 520).expandedTo(minimumSizeHint()));
+//FIXME port to KF5
+//	if (!initialGeometrySet())
+//		resize( QSize(800, 520).expandedTo(minimumSizeHint()));
 
 	// apply the saved mainwindow settings, if any, and ask the mainwindow
 	// to automatically save settings if changed: window size, toolbar
 	// position, icon size, etc.
 	setAutoSaveSettings();
-	if (args)
 	{
 		bool exit = false;
-		for (int i=0; i < args->count(); i++ )
+        bool first = true;
+		foreach(const QString& arg, parser.positionalArguments())
 		{
-			if (i==0)
+            QUrl url = QUrl::fromUserInput(arg);
+			if (first)
 			{
-				if (!load(args->url(0) ) )
-					exit = true;
+				exit = !load(url);
 			}
 			else
-				openFileInNewWindow( args->url(i) );
+				openFileInNewWindow( url );
 		}
 		if (exit)
 			deleteLater(); // couln't open the file, and therefore exit
+		first = false;
 	}
 
 	show();
@@ -116,13 +117,11 @@ KmPlot::KmPlot( KCmdLineArgs* args)
     new KmPlotAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/kmplot", this);
 
-    if ( args && args->isSet("function") )
+    if ( parser.isSet("function") )
     {
-        QString f = args->getOption("function");
+        QString f = parser.value("function");
         QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/parser", "org.kde.kmplot.Parser").call( QDBus::BlockWithGui, "addFunction", f, "" );
     }
-    if( args )
-	args->clear();
 }
 
 KmPlot::~KmPlot()
@@ -142,27 +141,27 @@ void KmPlot::slotUpdateFullScreen( bool checked)
 	}
 }
 
-bool KmPlot::load(const KUrl& url)
+bool KmPlot::load(const QUrl& url)
 {
-	m_part->openUrl( url );
-  if (m_part->url().isEmpty())
-    return false;
-  setCaption(url.prettyUrl(KUrl::LeaveTrailingSlash));
-  return true;
+    m_part->openUrl( url );
+    if (m_part->url().isEmpty())
+	return false;
+    setCaption(url.toString());	// PrettyDecoded is the default
+    return true;
 }
 
 void KmPlot::setupActions()
 {
 	KStandardAction::openNew(this, SLOT(fileNew()), actionCollection());
 	KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
-	KStandardAction::quit(kapp, SLOT(quit()), actionCollection());
+	KStandardAction::quit(this, SLOT(close()), actionCollection());
 
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled(true);
 
 	m_fullScreen = KStandardAction::fullScreen( NULL, NULL, this, actionCollection());
 	actionCollection()->addAction("fullscreen", m_fullScreen);
-	connect( m_fullScreen, SIGNAL( toggled( bool )), this, SLOT( slotUpdateFullScreen( bool )));
+	connect(m_fullScreen, &KToggleFullScreenAction::toggled, this, &KmPlot::slotUpdateFullScreen);
 }
 
 void KmPlot::fileNew()
@@ -178,7 +177,7 @@ void KmPlot::fileNew()
 
 void KmPlot::applyNewToolbarConfig()
 {
-	applyMainWindowSettings(KGlobal::config()->group( QString() ));
+	applyMainWindowSettings(KSharedConfig::openConfig()->group( QString() ));
 }
 
 void KmPlot::fileOpen()
@@ -186,8 +185,9 @@ void KmPlot::fileOpen()
 	// this slot is called whenever the File->Open menu is selected,
 	// the Open shortcut is pressed (usually CTRL+O) or the Open toolbar
 	// button is clicked
-	KUrl const url = KFileDialog::getOpenUrl( QDir::currentPath(),
-	                 i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ), this, i18n( "Open" ) );
+	QUrl const url = KFileDialog::getOpenUrl( QDir::currentPath(),
+	                 i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ),
+			 this, i18n( "Open" ) );
 
 	if ( !url.isEmpty())
 	{
@@ -202,7 +202,7 @@ void KmPlot::fileOpen()
 	}
 }
 
-void KmPlot::fileOpen(const KUrl &url)
+void KmPlot::fileOpen(const QUrl &url)
 {
 	if ( !url.isEmpty())
 	{
@@ -218,9 +218,9 @@ void KmPlot::fileOpen(const KUrl &url)
 }
 
 
-void KmPlot::openFileInNewWindow(const KUrl &url)
+void KmPlot::openFileInNewWindow(const QUrl &url)
 {
- KToolInvocation::startServiceByDesktopName("kmplot",url.url());
+	KToolInvocation::kdeinitExec("kmplot", QStringList() << url.url());
 }
 
 bool KmPlot::isModified()
@@ -236,24 +236,27 @@ bool KmPlot::queryClose()
 
 void KmPlot::setStatusBarText(const QString &text, int id)
 {
- 	statusBar()->changeItem(text,id);
+	static_cast<KStatusBar *>(statusBar())->changeItem(text,id);
 }
 
 
 void KmPlot::setupStatusBar()
 {
-	statusBar()->insertFixedItem( "1234567890123456", 1 );
-	statusBar()->insertFixedItem( "1234567890123456", 2 );
-	statusBar()->insertItem( "", 3, 3 );
-	statusBar()->insertItem( "", 4 );
-	statusBar()->changeItem( "", 1 );
-	statusBar()->changeItem( "", 2 );
-	statusBar()->setItemAlignment( 3, Qt::AlignLeft );
+	KStatusBar *statusBar = new KStatusBar(this);
+	setStatusBar(statusBar);
 
-	m_progressBar = new KmPlotProgress( statusBar() );
-	m_progressBar->setMaximumHeight( statusBar()->height()-10 );
-	connect( m_progressBar, SIGNAL (cancelDraw() ), this, SLOT( cancelDraw() ) );
-	statusBar()->addWidget(m_progressBar);
+	statusBar->insertFixedItem( "1234567890123456", 1 );
+	statusBar->insertFixedItem( "1234567890123456", 2 );
+	statusBar->insertItem( "", 3, 3 );
+	statusBar->insertItem( "", 4 );
+	statusBar->changeItem( "", 1 );
+	statusBar->changeItem( "", 2 );
+	statusBar->setItemAlignment( 3, Qt::AlignLeft );
+
+	m_progressBar = new KmPlotProgress( statusBar );
+	m_progressBar->setMaximumHeight( statusBar->height()-10 );
+	connect(m_progressBar, &KmPlotProgress::cancelDraw, this, &KmPlot::cancelDraw);
+	statusBar->addWidget(m_progressBar);
 }
 
 
@@ -267,6 +270,3 @@ void KmPlot::cancelDraw()
 {
 	QDBusInterface( QDBusConnection::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "stopDrawing" );
 }
-
-
-#include "kmplot.moc"

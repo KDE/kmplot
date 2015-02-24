@@ -31,15 +31,16 @@
 // Qt includes
 #include <QDomDocument>
 #include <QStack>
+#include <QMenu>
 
 // KDE includes
 #include <kaction.h>
 #include <kfiledialog.h>
-#include <kmenu.h>
 #include <ksharedconfig.h>
 #include <kstandarddirs.h>
 #include <kparts/browserextension.h>
 #include <kparts/part.h>
+#include <kparts/readwritepart.h>
 #include <kparts/factory.h>
 
 #undef  GrayScale
@@ -55,7 +56,6 @@ class FunctionEditor;
 class FunctionTools;
 class KConfigDialog;
 class KConstantEditor;
-class KAboutData;
 class QAction;
 class KRecentFilesAction;
 class QTimer;
@@ -78,7 +78,7 @@ class MainDlg : public KParts::ReadWritePart
 		 * @param parentWidget parent widget for this part
 		 * @param parent parent object
 		 */
-		MainDlg(QWidget *parentWidget, QObject *parent, const QStringList& = QStringList() );
+		MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& = QVariantList() );
 
 		/// Initialized as a pointer to this MainDlg object on creation
 		static MainDlg * self() { return m_self; }
@@ -178,9 +178,9 @@ private:
 	/// The calculator dialog
 	Calculator *m_calculator;
 	/// the popup menu shown when cling with the right mouse button on a graph in the graph widget
-	KMenu *m_popupmenu;
+	QMenu *m_popupmenu;
 	/// the popup that shows when clicking on the new plot button in the function editor
-	KMenu * m_newPlotMenu;
+	QMenu * m_newPlotMenu;
 	/// Loads and saves the user's file.
 	KmPlotIO *kmplotio;
 	/// Set to true if the application is readonly
@@ -188,7 +188,7 @@ private:
 	/// MainDlg's parent widget
 	QWidget *m_parent;
 	/// Current file
-	KUrl m_currentfile;
+	QUrl m_currentfile;
 	/// The axes config dialogs
 	CoordsConfigDialog* m_coordsDialog;
 	/// The constants editor
@@ -219,29 +219,13 @@ protected slots:
 	* When you click on a File->Open Recent file, it'll open
 	* @param url name of the url to open
 	*/
-	void slotOpenRecent( const KUrl &url );
+	void slotOpenRecent( const QUrl &url );
 	/// @see requestSaveCurrentState
 	void saveCurrentState();
 	/// Used when opening a new file
 	void resetUndoRedo();
 
 	void setReadOnlyStatusBarText(const QString &);
-};
-
-class KmPlotPartFactory : public KParts::Factory
-{
-	Q_OBJECT
-public:
-	KmPlotPartFactory();
-	virtual ~KmPlotPartFactory();
-	virtual KParts::Part* createPartObject( QWidget *parentWidget,
-	                                        QObject *parent,
-	                                        const char *classname, const QStringList &args );
-	static const KComponentData &componentData();
-
-private:
-	static KComponentData *s_instance;
-	static KAboutData* s_about;
 };
 
 class BrowserExtension : public KParts::BrowserExtension

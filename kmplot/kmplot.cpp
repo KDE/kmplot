@@ -43,6 +43,18 @@
 
 #include "kmplotadaptor.h"
 
+static QUrl urlFromArg(const QString &arg)
+{
+#if QT_VERSION >= 0x050400
+    return QUrl::fromUserInput(arg, QDir::currentPath(), QUrl::AssumeLocalFile);
+#else
+    // Logic from QUrl::fromUserInput(QString, QString, UserInputResolutionOptions)
+    return (QUrl(arg, QUrl::TolerantMode).isRelative() && !QDir::isAbsolutePath(arg))
+           ? QUrl::fromLocalFile(QDir::current().absoluteFilePath(arg))
+           : QUrl::fromUserInput(arg);
+#endif
+}
+
 KmPlot::KmPlot( const QCommandLineParser& parser )
 		: KParts::MainWindow()
 {
@@ -99,7 +111,7 @@ KmPlot::KmPlot( const QCommandLineParser& parser )
         bool first = true;
 		foreach(const QString& arg, parser.positionalArguments())
 		{
-            QUrl url = QUrl::fromUserInput(arg);
+			QUrl url = urlFromArg(arg);
 			if (first)
 			{
 				exit = !load(url);

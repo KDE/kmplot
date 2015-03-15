@@ -74,7 +74,7 @@ class MainDlg : public KParts::ReadWritePart
 	Q_OBJECT
 
 	public:
-		/** Constuctor.
+		/** Constructor.
 		 * @param parentWidget parent widget for this part
 		 * @param parent parent object
 		 */

@@ -2747,7 +2747,7 @@ void View::paintEvent(QPaintEvent *)
 				
 				// draw tangent
 				double tangent_scale = 1.2; // make the tangent look better
-				p.drawLine( QLineF( -1/k, -qMax( 1/k, 15. ) * tangent_scale, -1/k, qMax( 1/k, 15. ) * tangent_scale ) );
+				p.drawLine( QLineF( -1/k, -qMax( 1/k, qreal(15.) ) * tangent_scale, -1/k, qMax( 1/k, qreal(15.) ) * tangent_scale ) );
 				
 				// draw perpendicular symbol
 				QPolygonF perp(3);

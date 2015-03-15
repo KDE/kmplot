@@ -35,7 +35,6 @@
 #include <QResizeEvent>
 #include <QKeyEvent>
 #include <QEvent>
-#include <QEvent>
 #include <ktoggleaction.h>
 
 // KDE includes

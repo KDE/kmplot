@@ -16,6 +16,7 @@
   <name xml:lang="fi">KmPlot</name>
   <name xml:lang="fr">KmPlot</name>
   <name xml:lang="it">KmPlot</name>
+  <name xml:lang="ko">KmPlot</name>
   <name xml:lang="nds">KmPlot</name>
   <name xml:lang="nl">KmPlot</name>
   <name xml:lang="pl">KmPlot</name>
@@ -40,6 +41,7 @@
   <summary xml:lang="fi">Matemaattisten funktioiden piirturi</summary>
   <summary xml:lang="fr">Traceur de fonction mathématique</summary>
   <summary xml:lang="it">Disegnatore di funzioni matematiche</summary>
+  <summary xml:lang="ko">수학 함수 플로터</summary>
   <summary xml:lang="nds">Mathemaatsch Bagenschriever</summary>
   <summary xml:lang="nl">Plotprogramma voor wiskundige functies</summary>
   <summary xml:lang="pl">Program rysujący funkcje matematyczne</summary>

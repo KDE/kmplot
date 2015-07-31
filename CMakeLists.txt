@@ -7,6 +7,7 @@ set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_
 
 include(CheckIncludeFiles)
 include(KDEInstallDirs)
+include(ECMAddAppIcon)
 include(ECMInstallIcons)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
@@ -16,9 +17,10 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Gui Svg Widge
 find_package (KF5 REQUIRED
     GuiAddons
     I18n
-    KDELibs4Support
     Parts
     WidgetsAddons
+    DocTools
+    KDELibs4Support
 )
 
 include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})

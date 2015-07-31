@@ -39,7 +39,6 @@
 
 // KDE includes
 #include <kdebug.h>
-#include <kpushbutton.h>
 
 class KSliderWindow;
 class MainDlg;

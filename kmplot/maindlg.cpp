@@ -40,6 +40,7 @@
 #include <kconfigdialogmanager.h>
 #include <kdebug.h>
 #include <kedittoolbar.h>
+#include <kfiledialog.h>
 #include <kimageio.h>
 #include <kio/netaccess.h>
 #include <kcomponentdata.h>

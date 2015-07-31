@@ -25,7 +25,6 @@
 #ifndef KMPLOT_H_
 #define KMPLOT_H_
 
-#include <kcmdlineargs.h>
 #include <kparts/mainwindow.h>
 #include <kparts/readwritepart.h>
 

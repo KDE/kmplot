@@ -73,8 +73,8 @@ qt5_add_dbus_adaptor(kmplot_SRCS org.kde.kmplot.KmPlot.xml kmplot.h KmPlot)
 # FIXME: it's wrong, but otherwise it does not compile
 kconfig_add_kcfg_files(kmplot_SRCS settings.kcfgc )
 
-#kde4_add_app_icon(kmplot_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kmplot.png")
-kde4_add_app_icon(kmplot_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/hi*-apps-kmplot.png")
+file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../icons/*-apps-kmplot.png")
+ecm_add_app_icon(kmplot_SRCS ICONS ${ICONS_SRCS})
 
 add_executable(kmplot ${kmplot_SRCS})
 

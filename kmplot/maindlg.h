@@ -34,8 +34,6 @@
 #include <QMenu>
 
 // KDE includes
-#include <kaction.h>
-#include <kfiledialog.h>
 #include <ksharedconfig.h>
 #include <kstandarddirs.h>
 #include <kparts/browserextension.h>

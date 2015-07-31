@@ -27,9 +27,8 @@
 
 #include "function.h"
 
-#include <kdialog.h>
-
 #include <QMap>
+#include <QWidget>
 
 class Equation;
 class EquationEdit;

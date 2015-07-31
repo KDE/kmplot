@@ -24,7 +24,6 @@
 
 #include "kmplot.h"
 
-#include <kaction.h>
 #include <kconfig.h>
 #include <kconfiggroup.h>
 #include <kedittoolbar.h>

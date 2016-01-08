@@ -41,6 +41,9 @@ static const char* version =  "1.2.1";
 int main( int argc, char **argv )
 {
 	QApplication qapp(argc, argv);
+
+	KLocalizedString::setApplicationDomain("kmplot");
+
 	KAboutData aboutData(
 	    "kmplot",
 	    i18n( "KmPlot" ),

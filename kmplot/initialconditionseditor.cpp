@@ -207,8 +207,8 @@ InitialConditionsView::InitialConditionsView( QWidget * parent )
 {
 	setSelectionMode( QAbstractItemView::ExtendedSelection );
 	setSelectionBehavior( QAbstractItemView::SelectRows );
-	horizontalHeader()->setResizeMode( QHeaderView::Stretch );
-	horizontalHeader()->setClickable( false );
+	horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
+	horizontalHeader()->setSectionsClickable( false );
 	verticalHeader()->hide();
 }
 //END class InitialConditionsView
@@ -287,13 +287,16 @@ InitialConditionsEditor::InitialConditionsEditor( QWidget * parent )
 
 void InitialConditionsEditor::setOrder( int order )
 {
+	m_model->beginResetModel();
 	m_states.setOrder( order );
-	m_model->reset();
+	m_model->endResetModel();
 }
 
 
 void InitialConditionsEditor::init( Function * function )
 {
+	m_model->beginResetModel();
+
 	if ( function )
 	{
 		m_equation = function->eq[0];
@@ -304,7 +307,7 @@ void InitialConditionsEditor::init( Function * function )
 		m_equation = 0;
 	}
 	
-	m_model->reset();
+	m_model->endResetModel();
 }
 
 

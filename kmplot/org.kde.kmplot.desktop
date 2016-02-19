@@ -147,6 +147,7 @@ Categories=Qt;KDE;Education;Math;
 MimeType=application/x-kmplot;
 X-DBUS-ServiceName=org.kde.kmplot
 GenericName=Mathematical Function Plotter
+GenericName[ast]=Trazador de funciones matemátiques
 GenericName[be]=Маляванне графікаў матэматычных функцый
 GenericName[bg]=Интерактивна геометрия
 GenericName[bn]=গাণিতিক ফাংশন প্লটার

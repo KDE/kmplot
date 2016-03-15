@@ -37,10 +37,12 @@ static const char* version =  "1.2.1";
 // KDE includes
 #include <KAboutData>
 #include <klocalizedstring.h>
+#include <KCrash>
 
 int main( int argc, char **argv )
 {
 	QApplication qapp(argc, argv);
+    KCrash::initialize();
 
 	KLocalizedString::setApplicationDomain("kmplot");
 

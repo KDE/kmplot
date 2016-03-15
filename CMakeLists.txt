@@ -15,6 +15,7 @@ include(KDECompilerSettings)
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Gui Svg Widgets PrintSupport)
 
 find_package (KF5 REQUIRED
+    Crash
     GuiAddons
     I18n
     Parts

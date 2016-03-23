@@ -476,7 +476,7 @@ QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour, const 
 	double x = pixel.x();
 	double y = pixel.y();
 	
-	if ( isnan(x) )
+	if ( std::isnan(x) )
 	{
 		xclipflg = true;
 		x = pixelIfNaN.x();
@@ -496,14 +496,14 @@ QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour, const 
 	}
 	else
 	{
-		if ( isinf(x) == -1 )
+		if ( std::isinf(x) == -1 )
 			x = 0;
 			
-		else if ( isinf(x) == 1 )
+		else if ( std::isinf(x) == 1 )
 			x = m_clipRect.right();
 	}
 	
-	if ( isnan(y) )
+	if ( std::isnan(y) )
 	{
 		yclipflg = true;
 		y = pixelIfNaN.y();
@@ -523,10 +523,10 @@ QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour, const 
 	}
 	else
 	{
-		if ( isinf(y) == -1 )
+		if ( std::isinf(y) == -1 )
 			y = 0;
 		
-		else if ( isinf(y) == 1 )
+		else if ( std::isinf(y) == 1 )
 			y = m_clipRect.bottom();
 	}
 	

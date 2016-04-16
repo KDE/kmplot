@@ -10,7 +10,7 @@ include(KDEInstallDirs)
 include(ECMAddAppIcon)
 include(ECMInstallIcons)
 include(KDECMakeSettings)
-include(KDECompilerSettings)
+include(KDECompilerSettings NO_POLICY_SCOPE)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Gui Svg Widgets PrintSupport)
 

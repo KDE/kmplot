@@ -78,7 +78,7 @@ ecm_add_app_icon(kmplot_SRCS ICONS ${ICONS_SRCS})
 
 add_executable(kmplot ${kmplot_SRCS})
 
-target_link_libraries(kmplot KF5::Crash KF5::KDELibs4Support KF5::Parts)
+target_link_libraries(kmplot KF5::Crash KF5::KDELibs4Support KF5::Parts KF5::DBusAddons)
 
 install(TARGETS kmplot  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

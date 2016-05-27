@@ -38,6 +38,7 @@ static const char* version =  "1.2.1";
 #include <KAboutData>
 #include <klocalizedstring.h>
 #include <KCrash>
+#include <KDBusService>
 
 int main( int argc, char **argv )
 {
@@ -73,7 +74,7 @@ int main( int argc, char **argv )
 	aboutData.setupCommandLine(&parser);
 	parser.process(qapp);
 	aboutData.processCommandLine(&parser);
-
+	KDBusService service;
 	new KmPlot( parser );
 	return qapp.exec();
 }

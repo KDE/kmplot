@@ -22,6 +22,7 @@ find_package (KF5 REQUIRED
     WidgetsAddons
     DocTools
     KDELibs4Support
+    DBusAddons
 )
 
 include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})

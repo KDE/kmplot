@@ -2,16 +2,6 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
   <!ENTITY kappname "&kmplot;"><!-- replace kmplot here -->
   <!ENTITY package "kdeedu">
-  <!ENTITY introduction SYSTEM "introduction.docbook">
-  <!ENTITY firststeps SYSTEM "firststeps.docbook">
-  <!ENTITY using SYSTEM "using.docbook">
-  <!ENTITY commands SYSTEM "commands.docbook">
-  <!ENTITY developer SYSTEM "developer.docbook">
-  <!ENTITY credits SYSTEM "credits.docbook">
-  <!ENTITY install SYSTEM "install.docbook">
-  <!ENTITY reference SYSTEM "reference.docbook">
-  <!ENTITY configuration SYSTEM "configuration.docbook">
-  <!ENTITY dcop SYSTEM "dcop.docbook">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -82,18 +72,1830 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 
 </bookinfo>
 
-&introduction;
-&firststeps;
-&using;
-&configuration;
-&reference;
-&commands;
-&dcop;
-&developer;
-&credits;
-&install;
+<chapter id="introduction">
+<title>Introduction</title>
+
+<para>&kmplot; is a mathematical function plotter for the &kde;
+	Desktop.  It has a powerful built-in parser.  You can plot different
+	functions simultaneously and combine them to build new
+	functions.</para>
+
+<screenshot>
+	<screeninfo>Examples</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase>Examples</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para>&kmplot; supports several different types of plots:</para>
+<itemizedlist>
+	<listitem><para>Explicit cartesian plots of the form y = f(x).</para></listitem>
+	<listitem><para>Parametric plots, where the x and y components are specified as functions of an independent variable.</para></listitem>
+	<listitem><para>Polar plots of the form r = r(&thgr;).</para></listitem>
+	<listitem><para>Implicit plots, where the x and y coordinates are related by an expression.</para></listitem>
+	<listitem><para>Explicit differential plots.</para></listitem>
+</itemizedlist>
+
+<para>&kmplot; also provides some numerical and visual features like:</para>
+<itemizedlist>
+	<listitem><para>Filling and calculating
+			the area between the plot and the first axis</para>
+	</listitem>
+	<listitem><para>Finding maximum and
+			minimum values</para>
+	</listitem>
+	<listitem><para>Changing function parameters dynamically</para>
+	</listitem>
+	<listitem><para>Plotting
+			derivatives and integral functions.</para>
+	</listitem>
+</itemizedlist>
+
+<para>These features help in learning the
+	relationship between mathematical functions and their graphical
+	representation in a coordinate system.</para>
+
+</chapter>
+
+<chapter id="first-steps">
+<title>First Steps With &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title>Simple Function Plot</title>
+
+	<para>
+		In the sidebar on the left, there is the <guilabel>Create</guilabel> button with a drop down menu for creating new plots.
+		Click on it, and select <guilabel>Cartesian Plot</guilabel>. The text box for editing the current equation will be focused. Replace the default text with
+		<screen><userinput>y = x^2</userinput></screen>
+		and press &Enter;.
+		This will draw the plot of y = x<superscript>2</superscript> in the coordinate system.
+		Clicking on the <guilabel>Create</guilabel> button again, select <guilabel>Cartesian Plot</guilabel>, and this time enter the text
+		<screen><userinput>y = 5sin(x)</userinput></screen>
+		to get another plot.
+	</para>
+
+	<para>Click on one of the lines you have just plotted. Now the crosshair
+		becomes the color of the current plot and is attached to the it.  You can
+		use the mouse to move the crosshair along the plot.  In the status
+		bar at the bottom of the window the coordinates of the current
+		position is displayed. Note that if the plot touches the  horizontal axis the
+		root will be displayed in the status bar, too.</para>
+
+	<para>Click the mouse again and the crosshair will be detached from
+		the plot.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title>Edit Properties</title>
+
+	<para>Let us make some changes to the function and change the color of
+		the plot.</para>
+
+	<para>The <guilabel>Functions</guilabel> sidebar lists all the functions that you have plotted.
+		If <guilabel>y = x^2</guilabel> isn't already selected, select it.
+		Here you have access to a lot of options. Let us rename
+		the function and move the plot 5 units down. Change the function
+		equation to <screen><userinput>parabola(x) = x^2 - 5</userinput></screen> and hit enter.
+		To select another color for the plot, click the <guilabel>Color</guilabel> button in the section
+		<guilabel>Appearance</guilabel> at the bottom of the function sidebar and select a new color.
+		<note>
+			<para>All changes can be undone via <menuchoice><guimenu>Edit</guimenu><guimenuitem>Undo</guimenuitem> </menuchoice>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+
+<chapter id="using-kmplot">
+<title>Using &kmplot;</title>
+
+<para>&kmplot; deals with several different types of functions, which can be written in function form or as an equation:</para>
+
+<itemizedlist>
+	<listitem><para>Cartesian plots can either be written as &eg; <quote>y = x^2</quote>, where x has to be used as the variable; or as &eg; <quote>f(a) = a^2</quote>, where the name of the variable is arbitrary.</para></listitem>
+	<listitem><para>Parametric plots are similar to Cartesian plots. The x and y coordinates can be entered as equations in t, &eg; <quote>x = sin(t)</quote>, <quote>y = cos(t)</quote>, or as functions, &eg; <quote>f_x(s) = sin(s)</quote>, <quote>f_y(s) = cos(s)</quote>.</para></listitem>
+	<listitem><para>Polar plots are also similar to Cartesian plots. They can be either be entered as an equation in &thgr;, &eg; <quote>r = &thgr;</quote>, or as a function, &eg;
+<quote>f(x) = x</quote>.</para></listitem>
+	<listitem><para>For implicit plots, the name of the function is entered separately from the expression relating the x and y coordinates. If the x and y variables are specified via the function name (by entering &eg;<quote>f(a,b)</quote> as the function name), then these variables will be used. Otherwise, the letters x and y will be used for the variables.</para></listitem>
+	<listitem><para>Explicit differential plots are differential equations whereby the highest derivative is given in terms of the lower derivatives. Differentiation is denoted by a prime ('). In function form, the equation will look like <quote>f''(x) = f' &minus; f</quote>. In equation form, it will look like <quote>y'' = y' &minus; y</quote>. Note that in both cases, the <quote>(x)</quote> part is not added to the lower order differential terms (so you would enter <quote>f'(x) = &minus;f</quote> and not <quote>f'(x) = &minus;f(x)</quote>).</para></listitem>
+</itemizedlist>
+
+<para>All the equation entry boxes come with a button on the right. Clicking this invokes the advanced <guilabel>Equation Editor</guilabel> dialog, which provides:
+
+	<itemizedlist>
+		<listitem>
+			<para>A variety of mathematical symbols that can be used in equations, but aren't found on normal keyboards.</para>
+		</listitem>
+		<listitem>
+			<para>The list of user constants and a button for editing them.</para>
+		</listitem>
+		<listitem>
+			<para>The list of predefined functions. Note that if you have text already selected, it will be used as the function argument when a function is inserted. For example, if <quote>1 + x</quote> is selected in the equation <quote>y = 1 + x</quote>, and the sine function is chosen, then the equation will become <quote> y = sin(1+x)</quote>.
+			</para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo>Here is a screenshot of the &kmplot; welcome window</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase>Screenshot</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title>Function Types</title>
+
+	<sect2 id="cartesian-functions">
+		<title>Cartesian Functions</title>
+		<para>To enter an explicit function (&ie;, a function in the form y=f(x)) into &kmplot;, just enter it in the
+			following form:
+			<screen><userinput><replaceable>f</replaceable>(<replaceable>x</replaceable>) = <replaceable>expression</replaceable></userinput></screen>
+			where:
+			<itemizedlist>
+				<listitem><para>
+						<replaceable>f</replaceable> is the name of the function, and can be any
+						string of letters and numbers.</para>
+				</listitem>
+
+				<listitem><para>
+						<replaceable>x</replaceable> is the horizontal coordinate, to be used in the expression
+						following the equals sign. It is a dummy variable, so you can use any
+						variable name you like to achieve the same effect.</para>
+				</listitem>
+
+				<listitem>
+					<para><replaceable>expression</replaceable> is the expression to be plotted,
+						given in the appropriate syntax for &kmplot;. See <xref linkend="math-syntax"/>.
+					</para>
+				</listitem>
+
+			</itemizedlist>
+		</para>
+	</sect2>
+
+	<sect2 id="parametric-functions">
+		<title>Parametric Functions</title>
+		<para>Parametric functions are those in which the x and y coordinates are
+			defined by separate functions of another variable, often called t. To enter a
+			parametric function in &kmplot;, follow the procedure as for a Cartesian
+			function for each of the x and y functions. As with Cartesian functions, you may use any variable name you wish for the
+			parameter.</para>
+		<para>As an example, suppose you want to draw a circle, which has parametric
+			equations x = sin(t), y = cos(t). After creating a parametric plot, enter the appropriate equations in the x and y boxes, &ie;,
+			<userinput>f_x(t)=sin(t)</userinput> and
+			<userinput>f_y(t)=cos(t)</userinput>.
+		</para>
+		<para>You can set some further options for the plot in the function editor:
+			<variablelist>
+				<varlistentry>
+					<term><guilabel>Min</guilabel></term>
+					<term><guilabel>Max</guilabel></term>
+					<listitem>
+						<para>These options control the range of the parameter t for which the function is plotted.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+
+	<sect2 id="polar-functions">
+		<title>Functions in Polar Coordinates</title>
+
+		<para>Polar coordinates represent a point by its distance from the origin
+			(usually called r), and the angle a line from the origin to the point makes
+			with the horizontal axis (usually represented by &thgr; the Greek letter theta). To enter
+			functions in polar coordinates, click the <guilabel>Create</guilabel> button and select <guilabel>Polar Plot</guilabel> from the list.
+			In the definition box, complete the
+			function definition, including the name of the theta variable you want
+			to use, &eg;, to draw the Archimedes' spiral r = &thgr;, enter:
+			<screen><userinput>r(&thgr;) = &thgr;</userinput></screen>
+			Note that you can use any name for the theta variable, so
+			<quote>r(t) = t</quote> or <quote>f(x) = x</quote> will produce exactly the same output.
+		</para>
+	</sect2>
+
+	<sect2 id="implicit-functions">
+		<title>Implicit Functions</title>
+
+		<para>An implicit expression relates the x and y coordinates as an equality. To create a circle, for example,
+		click the <guilabel>Create</guilabel> button and select <guilabel>Implicit Plot</guilabel> from the list.
+		Then, enter into the equation box (below the function name box) the following:
+			<screen><userinput>x^2 + y^2 = 25</userinput></screen>
+		</para>
+	</sect2>
+
+	<sect2 id="differential-functions">
+		<title>Differential Functions</title>
+
+		<para>&kmplot; can plot explicit differential equations. These are equations of the form
+			y<superscript>(n)</superscript> = F(x,y',y'',...,y<superscript>(n&minus;1)</superscript>), where y<superscript>k</superscript> is the k<superscript>th</superscript> derivative of y(x). &kmplot; can only interpret the derivative order as the number of primes following the function name.
+
+			To draw a sinusoidal curve, for example, you would use the differential equation
+			<userinput>y'' = &minus; y</userinput> or <userinput>f''(x) = −f</userinput>.
+		</para>
+
+		<para>However, a differential equation on its own isn't enough to determine a plot. Each curve in the diagram is generated by a combination of the differential equation and the initial conditions. You can edit the initial conditions by clicking on the <guilabel>Initial Conditions</guilabel> tab when a differential equation is selected. The number of columns provided for editing the initial conditions is dependent on the order of the differential equation.
+		</para>
+
+		<para>You can set some further options for the plot in the function editor:
+			<variablelist>
+				<varlistentry>
+					<term><guilabel>Step</guilabel></term>
+					<listitem>
+						<para>The step value in the precision box is used in numerically solving the differential equation (using the Runge Kutta method). Its value is the maximum step size used; a smaller step size may be used if part of the differential plot is zoomed in close enough.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title>Combining Functions</title>
+	<para>Functions can be combined to produce new ones. Simply enter the functions
+		after the equals sign in an expression as if the functions were variables. For
+		example, if you have defined functions f(x) and g(x), you can plot the sum of f
+		and g with:
+		<screen><userinput>sum(x) = f(x) + g(x)</userinput></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title>Changing the appearance of functions</title>
+
+	<para>To change the appearance of a function's graph on the main plot
+		window, select the function in the <guilabel>Functions</guilabel> sidebar.
+		You can change the plot's line width, color and many other aspects by clicking on the
+		<guibutton>Color</guibutton> or <guibutton>Advanced...</guibutton>
+		 button at the bottom of the section <guilabel>Appearance</guilabel>.
+	</para>
+
+	<para>
+		If you are editing a Cartesian function, the function editor will have three tabs.
+		In the first one you specify the equation of the function.
+		The <guilabel>Derivatives</guilabel> tab lets you draw the first and second derivative to the function.
+		With the <guilabel>Integral</guilabel> tab you can draw the integral of the function.
+	</para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title>Popup menu</title>
+	<screenshot>
+	<screeninfo>Graph right-click popup menu</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase>Graph right-click popup menu</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para>When right-clicking on a plot function or a single-point parametric plot function a popup menu will appear.
+		In the menu there are three items available:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Edit</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Selects the function in the <guilabel>Functions</guilabel> sidebar for editing.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Hide</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Hides the selected graph. Other plots of the graph's function will still be shown.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Remove</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Removes the function. All its graphs will disappear.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Animate Plot...</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Displays the <guilabel>Parameter Animator</guilabel> dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Calculator</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Opens the <guilabel>Calculator</guilabel> dialog.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+	<para>Depending on the plot type, there will also be up to four tools available:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Plot Area...</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Select the minimum and maximum horizontal values for the graph in the new dialog that appears.
+					Calculates the integral and draws the area between the graph and the horizontal axis in the
+					selected range in the color of the graph.
+				</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Find Minimum...</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>
+					Find the minimum value of the graph in a specified range. The
+					selected graph will be highlighted in the dialog that appears. Enter
+					the lower and upper boundaries of the region in which you want to
+					search for a minimum.
+				</para>
+				<para>
+					Note: You can also tell the plot to visually show the extreme points in the <guilabel>Plot Appearance</guilabel> dialog, accessible in the <guilabel>Functions</guilabel> sidebar by clicking on <guibutton>Advanced...</guibutton>.
+				</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Find Maximum...</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>This is the same as <guimenuitem>Find Minimum...</guimenuitem> above, but finds the maximum value instead of the minimum value.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="configuration">
+<title>Configuring &kmplot;</title>
+<para>To access the &kmplot; configuration
+	dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
+			&kmplot;...</guimenuitem></menuchoice>
+	The settings for <guimenuitem>Constants...</guimenuitem> can only be changed
+	from the <guimenu>Edit</guimenu> menu and the <guimenuitem>Coordinate System...</guimenuitem> only
+	from the <guimenu>View</guimenu> menu. </para>
+
+<sect1 id="general-config">
+	<title>General Configuration</title>
+
+	<screenshot>
+		<screeninfo>Screenshot of the General Settings dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the General Settings dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. you can set angle-mode (radians and degrees), zoom in and zoom out factors, and whether to show advanced plot tracing. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title>Diagram Configuration</title>
+
+	<screenshot>
+		<screeninfo>Screenshot of the Diagram Appearance dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Diagram Appearance dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para>You can set the <guilabel>Grid Style</guilabel> to one of four options:
+		<variablelist>
+
+			<varlistentry>
+				<term><guilabel>None</guilabel></term>
+				<listitem>
+					<para>No gridlines are drawn on the plot area</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Lines</guilabel></term>
+				<listitem>
+					<para>Straight lines form a grid of squares on the plot area.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Crosses</guilabel></term>
+				<listitem>
+					<para>Crosses are drawn to indicate points where x and y have integer values
+						(&eg;, (1,1), (4,2) &etc;).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Polar</guilabel></term>
+				<listitem>
+					<para>Lines of constant radius and of constant angle are drawn on the plot
+						area.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+
+	<para>Other options for the diagram appearance can also be configured:
+		<variablelist>
+			<varlistentry>
+				<term><guilabel>Axis Labels</guilabel></term>
+				<listitem>
+					<para>Sets labels for the horizontal and vertical axes.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Axis width:</guilabel></term>
+				<listitem>
+					<para>Sets the width of the lines representing the axes.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Line width:</guilabel></term>
+				<listitem>
+					<para>Sets the width of the lines used for drawing the grid.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Tic width:</guilabel></term>
+				<listitem>
+					<para>Sets the width of the lines representing tics on the axes.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Tic length:</guilabel></term>
+				<listitem>
+					<para>Sets the length of the lines representing tics on the axes.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Show labels</guilabel></term>
+				<listitem>
+					<para>If checked, the names of the axes are shown on the plot and the axes' tics are labeled.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Show axes</guilabel></term>
+				<listitem>
+					<para>If checked, the axes are visible.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Show arrows</guilabel></term>
+				<listitem>
+					<para>If checked, the axes are displayed with arrows at their ends.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title>Colors Configuration</title>
+
+	<screenshot>
+		<screeninfo>Screenshot of the Colors dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Colors dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para>
+		In the <guilabel>Coords</guilabel> section of the <guilabel>Colors</guilabel>
+		configuration dialog, you can change the colors of the axes, the grid and the background of the
+		main &kmplot; area.
+	</para>
+
+	<para>The <guilabel>Default Function Colors</guilabel> control which colors are cycled through when creating new functions.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title>Fonts Configuration</title>
+
+	<screenshot>
+		<screeninfo>Screenshot of the Fonts dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Fonts dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<variablelist>
+
+		<varlistentry>
+			<term><guilabel>Axis labels</guilabel></term>
+			<listitem>
+				<para>The font used for drawing the axis numbers and x/y labels.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><guilabel>Diagram label</guilabel></term>
+			<listitem>
+				<para>The font used for drawing diagram labels (&eg;, those showing the plot name or extreme points).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term><guilabel>Header table</guilabel></term>
+			<listitem>
+				<para>The font used for drawing the header when printing a plot.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="reference">
+<title>&kmplot; Reference</title>
+
+<!--
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="kfkt.png" format="PNG"/>
+		</imageobject>
+	</mediaobject>
+
+	<para>This menu entry or toolbar button opens the Functions Editor.  Here
+		you can enter up to 10 functions or
+		function groups.  The parser knows <firstterm>explicit</firstterm> and
+		<firstterm>parametric</firstterm> form.  With specific extensions it
+		is possible to add first and second derivatives and to choose values
+		for the function group parameter.</para>
+	-->
+
+<sect1 id="func-syntax">
+	<title>Function Syntax</title>
+
+	<para>Some syntax rules must be complied with:</para>
+
+	<screen>
+		<userinput>name(var1[, var2])=term [;extensions]</userinput>
+	</screen>
 
 
+	<variablelist>
+		<varlistentry>
+			<term>name</term>
+			<listitem>
+
+				<para>The function name.  If the first character is <quote>r</quote>
+					the parser assumes that you are using polar coordinates.  If the first
+					character is <quote>x</quote> (for instance <quote>xfunc</quote>) the
+					parser expects a second function with a leading <quote>y</quote> (here
+					<quote>yfunc</quote>) to define the function in parametric form.
+				</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>var1</term>
+			<listitem><para>The function's variable</para></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>var2</term>
+			<listitem><para> The function <quote>group parameter</quote>. It must be
+					separated from the function's variable by a comma. You can use the group
+					parameter to, for example, plot a number of graphs from one function. The parameter values can be selected manually or you can choose to have a slider bar that controls one parameter. By changing the value of the slider the value parameter will be changed. The slider can be set to an integer between 0 and 100.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>term</term>
+			<listitem><para>The expression defining the function.</para></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+	<title>Predefined Function Names and Constants</title>
+
+	<para>
+		All the predefined functions and constants that &kmplot; knows can be shown by
+		selecting <menuchoice><guimenu>Help</guimenu><guimenuitem>Predefined Math Functions</guimenuitem>
+		</menuchoice>, which displays this page of &kmplot;'s handbook.
+	</para>
+
+	<para>
+		These functions and constants and even all user defined functions can
+		be used to determine the axes settings as well. See <xref linkend="axes-config"/>.
+	</para>
+
+	<sect2 id="trigonometric-functions">
+		<title>Trigonometric Functions</title>
+
+		<para>
+			By default, the trigonometric functions work in radians. However, this can be changed via <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kmplot;</guimenuitem></menuchoice>.
+		</para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term>sin(x)</term>
+				<term>arcsin(x)</term>
+				<term>cosec(x)</term>
+				<term>arccosec(x)</term>
+				<listitem><para>The sine, inverse sine, cosecant and inverse cosecant respectively.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>cos(x)</term>
+				<term>arccos(x)</term>
+				<term>sec(x)</term>
+				<term>arcsec(x)</term>
+				<listitem><para>The cosine, inverse cosine, secant and inverse secant respectively.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>tan(x)</term>
+				<term>arctan(x)</term>
+				<term>cot(x)</term>
+				<term>arccot(x)</term>
+				<listitem><para>The tangent, inverse tangent, cotangent and inverse cotangent respectively.</para></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="hyperbolic-functions">
+		<title>Hyperbolic Functions</title>
+		<para>The Hyperbolic Functions.</para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term>sinh(x)</term>
+				<term>arcsinh(x)</term>
+				<term>cosech(x)</term>
+				<term>arccosech(x)</term>
+				<listitem><para>The hyperbolic sine, inverse sine, cosecant and inverse cosecant respectively.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>cosh(x)</term>
+				<term>arccosh(x)</term>
+				<term>sech(x)</term>
+				<term>arcsech(x)</term>
+				<listitem><para>The hyperbolic cosine, inverse cosine, secant and inverse secant respectively.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>tanh(x)</term>
+				<term>arctanh(x)</term>
+				<term>coth(x)</term>
+				<term>arccoth(x)</term>
+				<listitem><para>The hyperbolic tangent, inverse tangent, cotangent and inverse cotangent respectively.</para></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="other-functions">
+		<title>Other Functions</title>
+		<variablelist>
+
+			<varlistentry>
+				<term>sqr(x)</term>
+				<listitem><para>The square x^2 of x.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>sqrt(x)</term>
+				<listitem><para>The square root of x.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>sign(x)</term>
+				<listitem><para>The sign of x. Returns 1 if x is positive, 0 if x is zero, or &minus;1 if x is negative.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>H(x)</term>
+				<listitem><para>The Heaviside Step Function. Returns 1 if x is positive, 0.5 if x is zero, or 0 if x is negative.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>exp(x)</term>
+				<listitem><para>The exponent e^x of x.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>ln(x)</term>
+				<listitem><para>The natural logarithm (inverse exponent) of x.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>log(x)</term>
+				<listitem><para>The logarithm of x to base 10.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>abs(x)</term>
+				<listitem><para>The absolute value of x.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>floor(x)</term>
+				<listitem><para>Rounds x to closest integer less than or equal to x.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>ceil(x)</term>
+				<listitem><para>Rounds x to the closest integer greater than or equal to x.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>round(x)</term>
+				<listitem><para>Rounds x to the closest integer.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>gamma(x)</term>
+				<listitem><para>The gamma function.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>factorial(x)</term>
+				<listitem><para>The factorial of x.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>min(x<subscript>1</subscript>,x<subscript>2</subscript>,...,x<subscript>n</subscript>)</term>
+				<listitem><para>Returns the minimum of the set of numbers {x<subscript>1</subscript>,x<subscript>2</subscript>,...,x<subscript>n</subscript>}.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>max(x<subscript>1</subscript>,x<subscript>2</subscript>,...,x<subscript>n</subscript>)</term>
+				<listitem><para>Returns the maximum of the set of numbers {x<subscript>1</subscript>,x<subscript>2</subscript>,...,x<subscript>n</subscript>}.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>mod(x<subscript>1</subscript>,x<subscript>2</subscript>,...,x<subscript>n</subscript>)</term>
+				<listitem><para>Returns the modulus (Euclidean length) of the set of numbers {x<subscript>1</subscript>,x<subscript>2</subscript>,...,x<subscript>n</subscript>}.</para></listitem>
+			</varlistentry>
+
+			<!-- TODO: Legendre polynomials -->
+
+		</variablelist>
+	</sect2>
+
+	<sect2>
+		<title>Predefined Constants</title>
+		<variablelist>
+
+			<varlistentry>
+				<term>pi</term>
+				<term>&pgr;</term>
+				<listitem>
+					<para>Constants representing &pgr; (3.14159...).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>e</term>
+				<listitem>
+					<para>Constant representing Euler's Number e (2.71828...).</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+</sect1>
+
+<sect1 id="func-extension">
+	<title>Extensions</title>
+	<para>An extension for a function is specified by entering a semicolon,
+		followed by the extension, after the function definition. The extension can be entered by using the &DBus; method parser addFunction. None of the extensions are available
+for parametric functions but N and D[a,b] work for polar functions too. For example:
+		<screen>
+			<userinput>
+				f(x)=x^2; A1
+			</userinput>
+		</screen>
+		will show the graph y=x<superscript>2</superscript> with its first
+		derivative. Supported extensions are described below:
+		<variablelist>
+			<varlistentry>
+				<term>N</term>
+				<listitem>
+					<para>
+						The function will be stored but not be drawn.
+						It can be used like any other user-defined or predefined function.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>A1</term>
+				<listitem>
+					<para>
+						The graph of the derivative of the function will be drawn
+						additionally with the same color but less line width.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>A2</term>
+				<listitem>
+					<para>
+						The graph of the second derivative of the function will be
+						drawn additionally with the same color but less line width.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>D[a,b]</term>
+				<listitem>
+					<para>
+						Sets the domain for which the function will be displayed.
+					</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term>P[a{,b...}]</term>
+				<listitem>
+					<para>
+						Give a set of values of a group parameter for which the function should be
+						displayed. For example: <userinput>f(x,k)=k*x;P[1,2,3]</userinput> will plot
+						the functions f(x)=x, f(x)=2*x and f(x)=3*x. You can also use functions as the
+						arguments to the P option.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	<para>
+		Please note that you can do all of these operations by editing the items in the <guilabel>Derivates</guilabel> tab, the <guilabel>Custom plot range</guilabel> section and the <guilabel>Parameters</guilabel> section in the <guilabel>Functions</guilabel> sidebar too.
+	</para>
+</sect1>
+
+<sect1 id="math-syntax">
+	<title>Mathematical Syntax</title>
+	<para>&kmplot; uses a common way of expressing mathematical functions, so you
+		should have no trouble working it out. The operators &kmplot; understands are,
+		in order of decreasing precedence:
+		<variablelist>
+
+			<varlistentry>
+				<term>^</term>
+				<listitem><para>The caret symbol performs exponentiation. &eg;,
+						<userinput>2^4</userinput> returns 16.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>*</term>
+				<term>/</term>
+				<listitem>
+					<para>The asterisk and slash symbols perform multiplication and
+						division . &eg;,
+						<userinput>3*4/2</userinput> returns 6.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>+</term>
+				<term>&minus;</term>
+				<listitem><para>The plus and minus symbols perform addition and
+						subtraction. &eg;, <userinput>1+3&minus;2</userinput> returns 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&lt;</term>
+				<term>&gt;</term>
+				<term>&le;</term>
+				<term>&ge;</term>
+				<listitem><para>Comparison operators. They return 1 if the expression is true, otherwise they return 0.
+						&eg;, <userinput>1 &le; 2</userinput> returns 1.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&radic;</term>
+				<listitem><para>The square root of a number.
+						&eg;, <userinput>&radic;4</userinput> returns 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>|x|</term>
+				<listitem><para>The absolute value of x.  &eg;,
+						<userinput>|&minus;4|</userinput> returns 4.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&plusmn;</term>
+				<term></term>
+				<listitem><para>Each plus-minus sign gives two sets of plots: one in which the plus is taken, and one in which the minus is taken.&eg;.
+						<userinput>y = &plusmn;sqrt(1&minus;x^2)</userinput> will draw a circle.
+						These, therefore, cannot be used in constants. </para>
+				</listitem>
+			</varlistentry>
+
+
+
+		</variablelist>
+	</para>
+	<para>
+		Note the precedence, which means that if parentheses are not used,
+		exponentiation is performed before multiplication/division, which is performed
+		before addition/subtraction. So <userinput>1+2*4^2</userinput> returns 33, and
+		not, say 144. To override this, use parentheses. To use the above example,
+		<userinput>((1+2)*4)^2</userinput> <emphasis>will</emphasis> return 144.
+	</para>
+</sect1>
+
+<!--
+<sect1 id="coord-system">
+	<title>Coordinate Systems</title>
+
+	<para><inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys1.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject></para>
+
+	<para>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys2.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject></para>
+
+	<para>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys3.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject></para>
+	-->
+<sect1 id="coord-area"><title>Plotting Area</title>
+	<para>
+		By default, explicitly given functions are plotted for the whole of the visible part of the
+		horizontal axis. You can specify an other range in the edit-dialog for the function.
+		If the plotting area contains the resulting point it is connected to the last
+		drawn point by a line.
+	</para>
+	<para>
+		Parametric and polar functions have a default plotting range of 0 to 2&pgr;.
+		This plotting range can also be changed in the <guilabel>Functions</guilabel> sidebar.
+	</para>
+</sect1>
+
+<sect1 id="coord-cross">
+	<title>Crosshair Cursor</title>
+	<para>
+		While the mouse cursor is over the plotting area the cursor changes to a crosshair. The current coordinates can be seen at the intersections with the coordinate axes and also in the status bar at the bottom of the main window.
+	</para>
+	<para>
+		You can trace a function's values more precisely by clicking onto or next to a graph. The selected function is shown in the status bar in the right column. The crosshair then will be caught and be colored in the same color as the graph. If the graph has the same color as the background color, the crosshair will have the inverted color of the background. When moving the mouse or pressing the keys Left or Right the crosshair will follow the function and you see the current horizontal and vertical value. If the crosshair is close to  vertical axis, the root-value is shown in the statusbar. You can switch function with the Up and Down keys. A second click anywhere in the window or pressing any non-navigating key will leave this trace mode.
+	</para>
+	<para>
+		For more advanced tracing, open up the configuration dialog, and select <guilabel>Draw tangent and normal when tracing</guilabel> from the <guilabel>General Settings</guilabel> page. This option will draw the tangent, normal and oscillating circle of the plot currently being traced.
+	</para>
+
+</sect1>
+
+<sect1 id="coords-config">
+	<title>Coordinate System Configuration</title>
+	<para>To open this dialog select <menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System...</guimenuitem></menuchoice> from the menubar.</para>
+	<screenshot>
+		<screeninfo>Screenshot of the Coordinate System dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Coordinate System dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<sect2 id="axes-config">
+		<title>Axes Configuration</title>
+		<para>
+			<variablelist>
+
+				<varlistentry>
+					<term><guilabel>Horizontal axis Range</guilabel></term>
+					<listitem>
+						<para>Sets the range for the horizontal axis scale.
+							Note that you can use the
+							predefined functions and constants (see <xref linkend="func-predefined"/>) as
+							the extremes of the range (&eg;, set <guilabel>Min:</guilabel> to
+							<userinput>2*pi</userinput>). You can even use functions you have defined to
+							set the extremes of the axis range. For example, if you have defined a function
+							<userinput>f(x) = x^2</userinput>, you could set <guilabel>Min:</guilabel> to
+							<userinput>f(3)</userinput>, which would make the lower end of the range equal
+							to 9.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+				  <term><guilabel>Vertical axis Range</guilabel></term>
+					<listitem>
+						<para>Sets the range for the vertical axis. See <quote>Horizontal axis Range</quote> above.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term><guilabel>Horizontal axis Grid Spacing</guilabel></term>
+					<listitem>
+						<para>This controls the spacing between grid lines in the horizontal direction.
+							If <guilabel>Automatic</guilabel> is selected, then &kmplot; will try to find a grid line spacing of about two centimeters that is also numerically nice.
+							If <guilabel>Custom</guilabel> is selected, then you can enter the horizontal grid spacing. This value will be used regardless of the zoom. For example, if a value of 0.5 is entered, and the x range is 0 to 8, then 16 grid lines will be shown.
+						</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term><guilabel>Vertical axis Grid Spacing</guilabel></term>
+					<listitem>
+						<para>This controls the spacing between grid lines in the vertical direction.
+							See <quote>Horizontal axis Grid Spacing</quote> above.
+						</para>
+					</listitem>
+				</varlistentry>
+
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title>Constants Configuration</title>
+	<para>To open this dialog select <menuchoice><guimenu>Edit</guimenu><guimenuitem>Constants...</guimenuitem></menuchoice> from the menubar.</para>
+
+	<screenshot>
+		<screeninfo>Screenshot of the Constants dialog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase>Screenshot of the Constants dialog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para>
+		Constants can be used as part of an expression anywhere inside of &kmplot;. Each constant must have a name and a value. Some names are invalid, however, such as existing function names or existing constants.
+	</para>
+
+	<para>
+		There are two options that control the scope of a constant:
+
+		<variablelist>
+
+			<varlistentry>
+				<term><guilabel>Document</guilabel></term>
+				<listitem>
+					<para>If you select the <guilabel>Document</guilabel> checkbox, then the Constant will be saved along with the current diagram when you save it to file. However, unless you have also selected the <guilabel>Global</guilabel> option, the constant will not be available between instances of &kmplot;.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><guilabel>Global</guilabel></term>
+				<listitem>
+					<para>If you select the <guilabel>Global</guilabel> checkbox, then the Constant's name and value will be written to &kde; settings (where it can
+also be used by &kcalc;). The constant will not be lost when &kmplot; is closed, and will be available again for use when &kmplot; is started again.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</para>
+</sect1>
+
+</chapter>
+
+<chapter id="commands">
+<title>Command Reference</title>
+
+<sect1 id="menu">
+<title>Menu Items</title>
+
+<para>Apart from the common &kde; menus described in the <ulink url="help:/fundamentals/ui.html#menus">Menu</ulink>
+chapter of the &kde; Fundamentals documentation &kmplot; has these application specific menu entries:
+</para>
+
+<sect2 id="a-file-menu">
+	<title>The File Menu</title>
+	<variablelist>
+
+		<varlistentry>
+			<term>
+				<menuchoice>
+					<guimenu>File</guimenu>
+					<guimenuitem>Export...</guimenuitem></menuchoice></term>
+			<listitem><para><action>Exports</action> the plotted graphs to an image file in all formats supported by &kde;.</para></listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title>The Edit Menu</title>
+	<variablelist>
+		<varlistentry>
+			<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Constants...</guimenuitem>
+				</menuchoice></term>
+			<listitem><para>Displays the <guilabel>Constants</guilabel> dialog box. See <xref linkend="constants-config"/>.
+				</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title>The View Menu</title>
+	<para>The first three items in the menu are related to zooming.</para>
+
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice>
+					<shortcut>
+						<keycombo action="simul">&Ctrl;<keycap>1</keycap></keycombo>
+					</shortcut>
+					<guimenu>View</guimenu>
+					<guimenuitem>Zoom In</guimenuitem>
+				</menuchoice>
+			</term>
+			<listitem>
+				<para>This tool can be operator in two different manners. To zoom in on a point on the graph, click on it. To zoom in on a specific section of the graph, hold and drag the mouse to form a rectangle, which will be the new axes ranges when the mouse button is released.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice>
+					<shortcut>
+						<keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo>
+					</shortcut>
+					<guimenu>View</guimenu>
+					<guimenuitem>Zoom Out</guimenuitem>
+				</menuchoice>
+			</term>
+			<listitem>
+				<para>The tool can also be used in two different manners. To zoom out and center on a point, click on that point. To fit the existing view into a rectangle, hold and drag the mouse to form that rectangle.</para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice>
+					<guimenu>View</guimenu>
+					<guimenuitem>Fit Widget to Trigonometric Functions</guimenuitem>
+				</menuchoice>
+			</term>
+			<listitem><para>The scale will be adapted to trigonometric functions. This works both for radians and degrees.</para></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenu>View</guimenu><guimenuitem>Reset View</guimenuitem>
+				</menuchoice></term>
+			<listitem><para>Resets the view.
+				</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenu>View</guimenu><guimenuitem>Coordinate System...</guimenuitem>
+				</menuchoice></term>
+			<listitem><para>Displays the <guilabel>Coordinate System</guilabel> dialog box. See <xref linkend="coords-config"/>.
+				</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenu>View</guimenu>
+					<guimenuitem>Show Sliders</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para><action>Toggles</action> the visibility of the slider dialog.
+				In the dialog move a slider to change the parameter of the function plot connected to it.</para>
+				<para>Enable this on the Function tab and select one of the sliders to change the parameter value dynamically. The values vary from 0 (left) to 10 (right) by default, but can be changed in the slider dialog.</para>
+				<para>For a small tutorial see <ulink url="http://userbase.kde.org/KmPlot/Using_Sliders">Using Sliders</ulink>.</para>
+				<!--http://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title>The Tools Menu</title>
+
+	<para>This menu contains some tools for the functions that can be useful:</para>
+
+	<variablelist>
+
+		<varlistentry>
+			<term><menuchoice><guimenu>Tools</guimenu>
+					<guimenuitem>Calculator</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Opens the <guilabel>Calculator</guilabel> dialog.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenu>Tools</guimenu>
+					<guimenuitem>Plot Area...</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Select a graph and the values of the horizontal axis in the new dialog that appears.
+					Calculates the integral and draws the area between the graph and the horizontal axis in the
+					range of the selected values in the color of the graph.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenu>Tools</guimenu>
+					<guimenuitem>Find Minimum...</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Find the minimum value of the graph in a specified range.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenu>Tools</guimenu>
+					<guimenuitem>Find Maximum...</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Find the maximum value of the graph in a specified range.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title>The Help Menu</title>
+
+	<para>&kmplot; has a standard &kde; <guimenu>Help</guimenu> with one addition:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term><menuchoice><guimenu>Help</guimenu>
+					<guimenuitem>Predefined Math Functions...</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Opens this handbook with a list of the predefined function names and constants
+					that &kmplot; knows.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+</sect2>
+</sect1>
+
+
+</chapter>
+
+<chapter id="dcop">
+	<title>Scripting &kmplot;</title>
+	<para>A new feature in &kde; 3.4 is that you can write scripts for &kmplot; using &DBus; in &kde; 4. For example, if you want to define a new function <userinput>f(x)=2sin x+3cos
+x</userinput>, set its line width to 20 and then draw it, you type in a console:</para>
+	<para><command>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command>
+		As a result, the new function's id number will be returned, or -1 if the function could not be defined.</para>
+	<para><command>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command>
+		This command sets the function with the id number ID the line width to 20.</para>
+	<para><command>qdbus org.kde.kmplot-PID /view org.kde.kmplot.View.drawPlot</command>
+	This command repaints the window so that the function get visible.</para>
+<para>
+	A list of the available functions:
+	<variablelist>
+		<varlistentry>
+			<term>
+				/kmplot org.kde.kmplot.KmPlot.fileOpen url
+			</term>
+			<listitem>
+				<para>Load the file <parameter>url</parameter>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.isModified
+			</term>
+			<listitem>
+				<para>Returns true if any changes are done.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.checkModified
+			</term>
+			<listitem>
+				<para>If there are any unsaved changes, a dialog appears to save, discard or cancel the plots.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.editAxes
+			</term>
+			<listitem>
+				<para>Opens the coordinate system edit dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.toggleShowSlider
+			</term>
+			<listitem>
+				<para>Shows/hides parameter slider window.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.slotSave
+			</term>
+			<listitem>
+				<para>Saves the functions (opens the save dialog if it is a new file).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.slotSaveas
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>File</guimenu><guimenuitem>Save As</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.slotPrint
+			</term>
+			<listitem>
+				<para>Opens the print dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.slotResetView
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>View</guimenu><guimenuitem>Reset View</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.slotExport
+			</term>
+			<listitem>
+				<para>Opens the export dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.slotSettings
+			</term>
+			<listitem>
+				<para>Opens the settings dialog.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.slotNames
+			</term>
+			<listitem>
+				<para>Shows the predefined math functions in the handbook.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.findMinimumValue
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Minimum Value...</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.findMaximumValue
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Maximum Value...</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.graphArea
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Plot Area</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/maindlg org.kde.kmplot.MainDlg.calculator
+			</term>
+			<listitem>
+				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Calculator</guimenuitem></menuchoice> in the menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1
+			</term>
+			<listitem>
+				<para>Adds a new function with the expressions <parameter>f_str0</parameter> and <parameter>f_str1</parameter>. If the expression does not contain a function name, it will be auto-generated. The id number of the new function is returned, or -1 if the function could not be defined.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/parser org.kde.kmplot.Parser.removeFunction id
+			</term>
+			<listitem>
+				<para>Removes the function with the id number <parameter>id</parameter>. If the function could not be deleted, false is returned, otherwise true.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/parser org.kde.kmplot.Parser.setFunctionExpression id eq f_str
+			</term>
+			<listitem>
+				<para>Sets the expression for the function with the id number <parameter>id</parameter> to <parameter>f_str</parameter>. Returns true if it succeed, otherwise false.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				/parser org.kde.kmplot.Parser.countFunctions
+			</term>
+			<listitem>
+				<para>Returns the number of functions (parametric functions are calculated as two).</para>
+			</listitem>
+		</varlistentry>
+<!-- method double org.kde.kmplot.Parser.fkt(uint id, uint eq, double eq) what is this?-->
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.listFunctionNames
+		  </term>
+		  <listitem>
+		    <para>Returns a list with all functions.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.fnameToID f_str
+		  </term>
+		  <listitem>
+		    <para>Returns the id number of <parameter>f_str</parameter> or -1 if the function name <parameter>f_str</parameter> was not found.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionFVisible id
+		  </term>
+		  <listitem>
+		    <para>Returns true if the function with the ID <parameter>id</parameter> is visible, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionF1Visible id
+		  </term>
+		  <listitem>
+		    <para>Returns true if the first derivative of the function with the ID <parameter>id</parameter> is visible, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionF2Visible id
+		  </term>
+		  <listitem>
+		    <para>Returns true if the second derivative of the function with the ID <parameter>id</parameter> is visible, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionIntVisible id
+		  </term>
+		  <listitem>
+		    <para>Returns true if the integral of the function with the ID <parameter>id</parameter> is visible, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionFVisible id visible
+		  </term>
+		  <listitem>
+		    <para>Shows the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionF1Visible id visible
+		  </term>
+		  <listitem>
+		    <para>Shows the first derivative of the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionF2Visible id visible
+		  </term>
+		  <listitem>
+		    <para>Shows the second derivative of the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionIntVisible id visible
+		  </term>
+		  <listitem>
+		    <para>Shows the integral of the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionStr id eq <!-- what is eq?-->
+		  </term>
+		  <listitem>
+		    <para>Returns the function expression of the function with the ID <parameter>id</parameter>. If the function not exists, an empty string is returned instead.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionFLineWidth id
+		  </term>
+		  <listitem>
+		    <para>Returns the line width of the function with the ID <parameter>id</parameter>. If the function not exists, 0 is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionF1LineWidth id
+		  </term>
+		  <listitem>
+		    <para>Returns the line width of the first derivative of the function with the ID <parameter>id</parameter>. If the function not exists, 0 is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionF2LineWidth id
+		  </term>
+		  <listitem>
+		    <para>Returns the line width of the second derivative of the function with the ID <parameter>id</parameter>. If the function not exists, 0 is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionIntLineWidth id
+		  </term>
+		  <listitem>
+		    <para>Returns the line width of the integral of the function with the ID <parameter>id</parameter>. If the function not exists, 0 is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionFLineWidth id linewidth
+		  </term>
+		  <listitem>
+		    <para>Sets the line width of the function with the ID <parameter>id</parameter> to <parameter>linewidth</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionF1LineWidth id linewidth
+		  </term>
+		  <listitem>
+		    <para>Sets the line width of the first derivative of the function with the ID <parameter>id</parameter> to <parameter>linewidth</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionF2LineWidth id linewidth
+		  </term>
+		  <listitem>
+		    <para>Sets the line width of the second derivative of the function with the ID <parameter>id</parameter> to <parameter>linewidth</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionIntLineWidth id linewidth
+		  </term>
+		  <listitem>
+		    <para>Sets the line width of the integral of the function with the ID <parameter>id</parameter> to <parameter>linewidth</parameter>. True is returned if the function exists, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionParameterList id
+		  </term>
+		  <listitem>
+		    <para>Returns a list with all the parameter values for the function with the ID <parameter>id</parameter>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionAddParameter id new_parameter
+		  </term>
+		  <listitem>
+		    <para>Adds the parameter value  <parameter>new_parameter</parameter> to the function with the ID <parameter>id</parameter>. True is returned if the operation succeed, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionRemoveParameter id remove_parameter
+		  </term>
+		  <listitem>
+		    <para>Removes the parameter value <parameter>remove_parameter</parameter> from the function with the ID <parameter>id</parameter>. True is returned if the operation succeed, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionMinValue id
+		  </term>
+		  <listitem>
+		    <para>Returns the minimum plot range value of the function with the ID <parameter>id</parameter>. If the function not exists or if the minimum value is not defined, an empty string is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionMaxValue id
+		  </term>
+		  <listitem>
+		    <para>Returns the maximum plot range value of the function with the ID <parameter>id</parameter>. If the function not exists or if the maximum value is not defined, an empty string is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionMinValue id min
+		  </term>
+		  <listitem>
+		    <para>Sets the minimum plot range value of the function with the ID <parameter>id</parameter> to <parameter>min</parameter>. True is returned if the function exists and the expression is valid, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionMaxValue id max
+		  </term>
+		  <listitem>
+		    <para>Sets the maximum plot range value of the function with the ID <parameter>id</parameter> to <parameter>max</parameter>. True is returned if the function exists and the expression is valid, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionStartXValue id
+		  </term>
+		  <listitem>
+		    <para>Returns the initial x point for the integral of the function with the ID <parameter>id</parameter>. If the function not exists or if the x-point-expression is not defined, an empty string is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.functionStartYValue id
+		  </term>
+		  <listitem>
+		    <para>Returns the initial y point for the integral of the function with the ID <parameter>id</parameter>. If the function not exists or if the y-point-expression is not defined, an empty string is returned.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term>
+		    /parser org.kde.kmplot.Parser.setFunctionStartValue id x y
+		  </term>
+		  <listitem>
+		    <para>Sets the initial x and y point for the integral of the function with the ID <parameter>id</parameter> to <parameter>x</parameter> and  <parameter>y</parameter>. True is returned if the function exists and the expression is valid, otherwise false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+			/view org.kde.kmplot.View.stopDrawing
+			</term>
+			<listitem>
+				<para>If &kmplot; currently is drawing a function, the procedure will stop.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+			/view org.kde.kmplot.View.drawPlot
+			</term>
+			<listitem>
+				<para>Redraws all functions.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<chapter id="developers">
+<title>Developer's Guide to &kmplot;</title>
+
+<para>If you want to contribute to &kmplot; feel free to send a mail to
+&Klaus-Dieter.Moeller.mail;, <email>f_edemar@linux.se</email> or <email>david@bluehaze.org</email>. </para>
+</chapter>
+
+<chapter id="credits">
+<title>Credits and License</title>
+
+<para>
+&kmplot;
+</para>
+
+<para>
+Program copyright 2000-2002 Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;
+</para>
+
+<itemizedlist>
+<title>Contributors</title>
+  <listitem>
+    <para><acronym>CVS</acronym>: &Robert.Gogolok; <email>mail@robert-gogoloh.de</email></para>
+  </listitem>
+  <listitem>
+    <para>Porting &GUI; to &kde; 3 and Translating: &Matthias.Messmer; &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para>Various improvements: Fredrik Edemar <email>f_edemar@linux.se</email></para>
+  </listitem>
+  <listitem>
+	<para>Porting to Qt 4, UI improvements, features: David Saxton <email>david@bluehaze.org</email></para>
+  </listitem>
+</itemizedlist>
+
+<para>
+Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;.
+</para>
+<para>Documentation extended and updated for &kde; 3.2 by &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para>Documentation extended and updated for &kde; 3.3 by &Philip.Rodrigues; &Philip.Rodrigues.mail; and Fredrik Edemar <email>f_edemar@linux.se</email>.</para>
+<para>Documentation extended and updated for &kde; 3.4 by Fredrik Edemar <email>f_edemar@linux.se</email>.</para>
+<para>Documentation extended and updated for &kde; 4.0 by David Saxton <email>david@bluehaze.org</email>.</para>
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove. Commercial development should
+ -->
+&underGPL;        	 <!-- GPL License -->
+
+</chapter>
+
+<appendix id="installation">
+<title>Installation</title>
+
+&install.intro.documentation;
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="edu-logo.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+
+<para>&kmplot; itself can be found on the <ulink
+url="http://edu.kde.org/kmplot">&kmplot; home page</ulink> and
+is part of the &kde;-Edu project</para>
+
+&install.compile.documentation;
+
+</appendix>
 
 &documentation.index;
 </book>

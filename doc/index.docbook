@@ -1,11 +1,8 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-  <!ENTITY kappname "&kmplot;"><!-- replace kmplot here -->
-  <!ENTITY package "kdeedu">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
-<!-- The language must NOT be changed here. -->
 
 <book id="kmplot" lang="&language;">
 
@@ -46,14 +43,13 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2013-08-23</date>
-<releaseinfo>1.2.1 (&kde; 4.11)</releaseinfo>
+<date>2016-05-08</date>
+<releaseinfo>1.2.1 (Applications 16.04)</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
 <abstract>
-<para>&kmplot; is a mathematical function plotter for the &kde;
-Desktop.</para>
+<para>&kmplot; is a mathematical function plotter by &kde;.</para>
 <para> <inlinemediaobject><imageobject><imagedata
 fileref="edu-logo.png"
 format="PNG"/></imageobject></inlinemediaobject> &kmplot; is part of
@@ -65,7 +61,7 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 <keyword>KDE</keyword>
 <keyword>KmPlot</keyword>
 <keyword>EDU</keyword>
-<keyword>edutainment</keyword>
+<keyword>education</keyword>
 <keyword>plotting</keyword>
 <keyword>math</keyword>
 </keywordset>
@@ -75,8 +71,8 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 <chapter id="introduction">
 <title>Introduction</title>
 
-<para>&kmplot; is a mathematical function plotter for the &kde;
-	Desktop.  It has a powerful built-in parser.  You can plot different
+<para>&kmplot; is a mathematical function plotter by &kde;.
+	It has a powerful built-in parser.  You can plot different
 	functions simultaneously and combine them to build new
 	functions.</para>
 
@@ -658,21 +654,6 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 <chapter id="reference">
 <title>&kmplot; Reference</title>
 
-<!--
-	<mediaobject>
-		<imageobject>
-			<imagedata fileref="kfkt.png" format="PNG"/>
-		</imageobject>
-	</mediaobject>
-
-	<para>This menu entry or toolbar button opens the Functions Editor.  Here
-		you can enter up to 10 functions or
-		function groups.  The parser knows <firstterm>explicit</firstterm> and
-		<firstterm>parametric</firstterm> form.  With specific extensions it
-		is possible to add first and second derivatives and to choose values
-		for the function group parameter.</para>
-	-->
-
 <sect1 id="func-syntax">
 	<title>Function Syntax</title>
 
@@ -908,7 +889,7 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 	</sect2>
 </sect1>
 
-<sect1 id="func-extension">
+<sect1 id="func-extension"> <!--FIXME does this still work-->
 	<title>Extensions</title>
 	<para>An extension for a function is specified by entering a semicolon,
 		followed by the extension, after the function definition. The extension can be entered by using the &DBus; method parser addFunction. None of the extensions are available
@@ -1052,30 +1033,6 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 	</para>
 </sect1>
 
-<!--
-<sect1 id="coord-system">
-	<title>Coordinate Systems</title>
-
-	<para><inlinemediaobject>
-			<imageobject>
-				<imagedata fileref="ksys1.png" format="PNG"/>
-			</imageobject>
-		</inlinemediaobject></para>
-
-	<para>
-		<inlinemediaobject>
-			<imageobject>
-				<imagedata fileref="ksys2.png" format="PNG"/>
-			</imageobject>
-		</inlinemediaobject></para>
-
-	<para>
-		<inlinemediaobject>
-			<imageobject>
-				<imagedata fileref="ksys3.png" format="PNG"/>
-			</imageobject>
-		</inlinemediaobject></para>
-	-->
 <sect1 id="coord-area"><title>Plotting Area</title>
 	<para>
 		By default, explicitly given functions are plotted for the whole of the visible part of the
@@ -1399,12 +1356,11 @@ chapter of the &kde; Fundamentals documentation &kmplot; has these application s
 </sect2>
 </sect1>
 
-
 </chapter>
 
-<chapter id="dcop">
+<chapter id="dbus">
 	<title>Scripting &kmplot;</title>
-	<para>A new feature in &kde; 3.4 is that you can write scripts for &kmplot; using &DBus; in &kde; 4. For example, if you want to define a new function <userinput>f(x)=2sin x+3cos
+	<para>You can write scripts for &kmplot; using &DBus;. For example, if you want to define a new function <userinput>f(x)=2sin x+3cos
 x</userinput>, set its line width to 20 and then draw it, you type in a console:</para>
 	<para><command>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command>
 		As a result, the new function's id number will be returned, or -1 if the function could not be defined.</para>
@@ -1829,13 +1785,6 @@ x</userinput>, set its line width to 20 and then draw it, you type in a console:
 </para>
 </chapter>
 
-<chapter id="developers">
-<title>Developer's Guide to &kmplot;</title>
-
-<para>If you want to contribute to &kmplot; feel free to send a mail to
-&Klaus-Dieter.Moeller.mail;, <email>f_edemar@linux.se</email> or <email>david@bluehaze.org</email>. </para>
-</chapter>
-
 <chapter id="credits">
 <title>Credits and License</title>
 
@@ -1877,25 +1826,6 @@ Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moe
 &underGPL;        	 <!-- GPL License -->
 
 </chapter>
-
-<appendix id="installation">
-<title>Installation</title>
-
-&install.intro.documentation;
-
-<mediaobject>
-<imageobject>
-<imagedata fileref="edu-logo.png" format="PNG"/>
-</imageobject>
-</mediaobject>
-
-<para>&kmplot; itself can be found on the <ulink
-url="http://edu.kde.org/kmplot">&kmplot; home page</ulink> and
-is part of the &kde;-Edu project</para>
-
-&install.compile.documentation;
-
-</appendix>
 
 &documentation.index;
 </book>

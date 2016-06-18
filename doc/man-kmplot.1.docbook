@@ -5,14 +5,15 @@
 
 <refentry lang="&language;">
 <refentryinfo>
-<title>&kde; User's Manual</title>
+<title>&kmplot; User's Manual</title>
 <author><personname>
 <firstname>Ben</firstname>
 <surname>Burton</surname>
 </personname>
 <email>bab@debian.org</email></author>
-<date>2010-10-06</date>
-<productname>K Desktop Environment</productname>
+<date>2016-05-08</date>
+<releaseinfo>1.2.1 (Applications 16.04)</releaseinfo>
+<productname>KDE Applications</productname>
 </refentryinfo>
 
 <refmeta>
@@ -30,14 +31,12 @@
 <command>kmplot</command>
 <group choice="opt"><option>-f, --function <replaceable>argument</replaceable></option></group>
 <group choice="opt"><option><replaceable>file</replaceable></option></group>
-<arg choice="opt">&kde; Generic Options</arg>
-<arg choice="opt">&Qt; Generic Options</arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 
 <refsect1>
 <title>Description</title>
-<para>&kmplot; is a mathematical function plotter for &kde;.  It has a powerful built-in parser.  You can plot different functions simultaneously and combine them to build new functions.</para><para>&kmplot; supports parametric functions and functions in polar coordinates.  Several grid modes are supported. Plots may be printed with high precision in the correct scale.</para><para>&kmplot; also provides some numerical and visual features, like filling and calculating the area between the plot and the first axis, finding maximum and minimum values, changing function parameters dynamically and plotting derivatives and integral functions.</para><para>&kmplot; is part of the &kde; edutainment module.</para>
+<para>&kmplot; is a mathematical function plotter by &kde;.  It has a powerful built-in parser.  You can plot different functions simultaneously and combine them to build new functions.</para><para>&kmplot; supports parametric functions and functions in polar coordinates.  Several grid modes are supported. Plots may be printed with high precision in the correct scale.</para><para>&kmplot; also provides some numerical and visual features, like filling and calculating the area between the plot and the first axis, finding maximum and minimum values, changing function parameters dynamically and plotting derivatives and integral functions.</para><para>&kmplot; is part of the &kde; Education module.</para>
 </refsect1>
 
 <refsect1>
@@ -52,13 +51,16 @@
 <refsect1>
 <title>See Also</title>
 
-<para>More detailed user documentation is available from <ulink
+<simplelist>
+<member>More detailed user documentation is available from <ulink
 url="help:/kmplot">help:/kmplot</ulink>
 (either enter this <acronym>URL</acronym> into &konqueror;, or run
 <userinput><command>khelpcenter</command>
-<parameter>help:/kmplot</parameter></userinput>).</para>
-
-<para>There is also further information available at <ulink url="http://edu.kde.org/kmplot/">the &kde; edutainment website</ulink>.</para>
+<parameter>help:/kmplot</parameter></userinput>).</member>
+<member>There is also further information available at <ulink url="http://edu.kde.org/kmplot/">the &kde; Education website</ulink>.</member>
+<member>kf5options(1)</member>
+<member>qt5options(1)</member>
+</simplelist>
 </refsect1>
 
 <refsect1>

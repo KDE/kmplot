@@ -513,7 +513,7 @@ void MainDlg::slotSaveas()
 {
 	if (m_readonly)
 		return;
-	const QUrl url = KFileDialog::getSaveUrl( QDir::currentPath(),
+	const QUrl url = KFileDialog::getSaveUrl(QUrl::fromLocalFile(QDir::currentPath()),
 			    i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ),
 			    m_parent, i18n( "Save As" ) );
 
@@ -547,7 +547,7 @@ void MainDlg::slotExport()
 	QString filter = KImageIO::pattern( KImageIO::Writing );
 	filter += i18n("\n*.svg|Scalable Vector Graphics");
 
-	QUrl url = KFileDialog::getSaveUrl( QDir::currentPath(), filter, m_parent, i18n( "Export as Image" ) );
+	QUrl url = KFileDialog::getSaveUrl(QUrl::fromLocalFile(QDir::currentPath()), filter, m_parent, i18n( "Export as Image" ) );
 
 	if ( !url.isValid() )
 		return;
@@ -636,8 +636,8 @@ bool MainDlg::openFile()
 	}
 
 	m_currentfile = url();
-	m_recentFiles->addUrl( QUrl(url()).toString()  );
-	setWindowCaption( QUrl(url()).toString() );
+	m_recentFiles->addUrl( url() );
+	setWindowCaption( url().toDisplayString() );
 	resetUndoRedo();
 	View::self()->updateSliders();
 	View::self()->drawPlot();

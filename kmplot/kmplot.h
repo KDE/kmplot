@@ -71,9 +71,11 @@ private slots:
 	void cancelDraw();
 
 public Q_SLOTS:
-    // DBus interface
-    Q_SCRIPTABLE void fileOpen();
-    Q_SCRIPTABLE void setStatusBarText(const QString &, int id);
+	// DBus interface
+	Q_SCRIPTABLE void fileOpen();
+	Q_SCRIPTABLE void fileOpen(const QString &str) { fileOpen(QUrl(str)); }
+	Q_SCRIPTABLE void setStatusBarText(const QString &, int id);
+	Q_SCRIPTABLE void openFileInNewWindow(const QString &str) { openFileInNewWindow(QUrl(str)); }
 	Q_SCRIPTABLE void openFileInNewWindow(const QUrl &url);
 	/**
 	 * Set the progress of drawing the plots, with \p progress ranging from 0

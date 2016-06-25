@@ -208,16 +208,16 @@ bool KParameterEditor::checkValueValid()
 
 void KParameterEditor::cmdImport_clicked()
 {
-	QUrl url = KFileDialog::getOpenUrl( QString(),i18n("*.txt|Plain Text File "));
+	QUrl url = KFileDialog::getOpenUrl(QUrl(),i18n("*.txt|Plain Text File "));
 	if ( url.isEmpty() )
 		return;
-        
+
         if (!KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, this) )
         {
 			KMessageBox::sorry(0,i18n("The file does not exist."));
                 return;
         }
-        
+
 	bool verbose = false;
         QFile file;
         QString tmpfile;
@@ -278,16 +278,16 @@ void KParameterEditor::cmdExport_clicked()
 {
 	if ( !m_mainWidget->list->count() )
                 return;
-	QUrl url = KFileDialog::getSaveUrl( QString(),i18n("*.txt|Plain Text File "));
+	QUrl url = KFileDialog::getSaveUrl(QUrl(),i18n("*.txt|Plain Text File "));
         if ( url.isEmpty() )
                 return;
 
-        if( !KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
+        if( !KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.toDisplayString()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
         {
                 if ( !url.isLocalFile() )
                 {
                         KTemporaryFile tmpfile;
-                        
+
 			if (tmpfile.open() )
 			{
 				QTextStream stream(&tmpfile);

@@ -154,11 +154,11 @@ void KmPlot::slotUpdateFullScreen( bool checked)
 
 bool KmPlot::load(const QUrl& url)
 {
-    m_part->openUrl( url );
-    if (m_part->url().isEmpty())
-	return false;
-    setCaption(url.toString());	// PrettyDecoded is the default
-    return true;
+	m_part->openUrl( url );
+	if (m_part->url().isEmpty())
+		return false;
+	setCaption(url.toDisplayString());
+	return true;
 }
 
 void KmPlot::setupActions()
@@ -196,7 +196,7 @@ void KmPlot::fileOpen()
 	// this slot is called whenever the File->Open menu is selected,
 	// the Open shortcut is pressed (usually CTRL+O) or the Open toolbar
 	// button is clicked
-	QUrl const url = KFileDialog::getOpenUrl( QDir::currentPath(),
+	QUrl const url = KFileDialog::getOpenUrl( QUrl::fromLocalFile(QDir::currentPath()),
 	                 i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ),
 			 this, i18n( "Open" ) );
 
@@ -222,7 +222,7 @@ void KmPlot::fileOpen(const QUrl &url)
 		// says that it should open a new window if the document is _not_
 		// in its initial state.  This is what we do here..
 		if ( m_part->url().isEmpty() && !isModified() )
-         load( KStandardDirs::realFilePath(url.url())); // we open the file in this window...
+         load(url); // we open the file in this window...
 		else
          openFileInNewWindow(url); // we open the file in a new window...
 	}

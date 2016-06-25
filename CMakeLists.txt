@@ -27,6 +27,7 @@ find_package (KF5 REQUIRED
 
 include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})
 add_definitions (-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
+add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
 check_include_files(ieeefp.h HAVE_IEEEFP_H)
 configure_file(config-kmplot.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/kmplot/config-kmplot.h)

@@ -525,7 +525,7 @@ void MainDlg::slotSaveas()
 	{
 		// check if file exists and overwriting is ok.
 
-		int answer = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) );
+		int answer = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KStandardGuiItem::overwrite() );
 
 		if ( answer != KMessageBox::Continue )
 			return;
@@ -556,7 +556,7 @@ void MainDlg::slotExport()
 	{
 		// check if file exists and overwriting is ok.
 
-		int answer = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) );
+		int answer = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KStandardGuiItem::overwrite() );
 
 		if ( answer != KMessageBox::Continue )
 			return;

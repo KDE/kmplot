@@ -282,7 +282,7 @@ void KParameterEditor::cmdExport_clicked()
         if ( url.isEmpty() )
                 return;
 
-        if( !KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.toDisplayString()), i18n( "Overwrite File?" ), KGuiItem( i18n( "&Overwrite" ) ) ) == KMessageBox::Continue )
+        if( !KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.toDisplayString()), i18n( "Overwrite File?" ), KStandardGuiItem::overwrite() ) == KMessageBox::Continue )
         {
                 if ( !url.isLocalFile() )
                 {

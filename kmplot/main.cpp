@@ -50,7 +50,7 @@ int main( int argc, char **argv )
 	KAboutData aboutData(
 	    "kmplot",
 	    i18n( "KmPlot" ),
-	    version, i18n("Mathematical function plotter for KDE"), KAboutLicense::GPL,
+	    version, i18n("Mathematical function plotter by KDE"), KAboutLicense::GPL,
 	    i18n("(c) 2000-2002, Klaus-Dieter Möller"),
 	    QString(),
 	    "http://edu.kde.org/kmplot/");

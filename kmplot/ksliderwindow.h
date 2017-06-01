@@ -49,7 +49,7 @@ class KSliderWindow : public KDialog
 		void valueChanged();
 
 	protected:
-		void closeEvent( QCloseEvent * );
+		void closeEvent( QCloseEvent * ) Q_DECL_OVERRIDE;
 		
 		SliderWidget * m_sliders[4];
 };

@@ -41,14 +41,14 @@ class InitialConditionsModel : public QAbstractTableModel
 	public:
 		InitialConditionsModel( InitialConditionsEditor * parent );
 		
-		virtual int rowCount( const QModelIndex & parent ) const;
-		virtual int columnCount( const QModelIndex & parent ) const;
-		virtual QVariant data( const QModelIndex & index, int role ) const;
-		virtual QVariant headerData( int section, Qt::Orientation orientation, int role ) const;
-		virtual bool setData( const QModelIndex & index, const QVariant & value, int role );
-		virtual Qt::ItemFlags flags(const QModelIndex &index) const;
-		virtual bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex());
-		virtual bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
+		int rowCount( const QModelIndex & parent ) const Q_DECL_OVERRIDE;
+		int columnCount( const QModelIndex & parent ) const Q_DECL_OVERRIDE;
+		QVariant data( const QModelIndex & index, int role ) const Q_DECL_OVERRIDE;
+		QVariant headerData( int section, Qt::Orientation orientation, int role ) const Q_DECL_OVERRIDE;
+		bool setData( const QModelIndex & index, const QVariant & value, int role ) Q_DECL_OVERRIDE;
+		Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
+		bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) Q_DECL_OVERRIDE;
+		bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) Q_DECL_OVERRIDE;
 		
 	protected:
 		InitialConditionsEditor * m_parent;
@@ -71,10 +71,10 @@ class InitialConditionsDelegate : public QItemDelegate
 	public:
 		InitialConditionsDelegate( InitialConditionsEditor * parent );
 		
-		virtual QWidget * createEditor( QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
-		virtual void setEditorData( QWidget * editor, const QModelIndex & index ) const;
-		virtual void setModelData( QWidget * editor, QAbstractItemModel * model, const QModelIndex & index ) const;
-		virtual void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		QWidget * createEditor( QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index ) const Q_DECL_OVERRIDE;
+		void setEditorData( QWidget * editor, const QModelIndex & index ) const Q_DECL_OVERRIDE;
+		void setModelData( QWidget * editor, QAbstractItemModel * model, const QModelIndex & index ) const Q_DECL_OVERRIDE;
+		void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 	protected slots:
 		void equationEditDone();

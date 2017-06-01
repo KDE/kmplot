@@ -76,7 +76,7 @@ class KGradientEditor : public QWidget
 		 */
 		Qt::Orientation orientation() const { return m_orientation; }
 		
-		virtual QSize minimumSizeHint() const;
+		QSize minimumSizeHint() const Q_DECL_OVERRIDE;
 		
 	public Q_SLOTS:
 		/**
@@ -104,12 +104,12 @@ class KGradientEditor : public QWidget
 		void gradientChanged( const QGradient & gradient );
 		
 	protected:
-		virtual void paintEvent( QPaintEvent * e );
-		virtual void mousePressEvent( QMouseEvent * e );
-		virtual void mouseMoveEvent( QMouseEvent * e );
-		virtual void mouseReleaseEvent( QMouseEvent * e );
-		virtual void mouseDoubleClickEvent( QMouseEvent * e );
-		virtual void contextMenuEvent( QContextMenuEvent * e );
+		void paintEvent( QPaintEvent * e ) Q_DECL_OVERRIDE;
+		void mousePressEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
+		void mouseMoveEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
+		void mouseReleaseEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
+		void mouseDoubleClickEvent( QMouseEvent * e ) Q_DECL_OVERRIDE;
+		void contextMenuEvent( QContextMenuEvent * e ) Q_DECL_OVERRIDE;
 		
 	private:
 		/**
@@ -235,7 +235,7 @@ class KGradientButton : public QPushButton
 		 */
 		QGradient gradient() const { return m_gradient; }
 		
-		QSize sizeHint() const;
+		QSize sizeHint() const Q_DECL_OVERRIDE;
 		
 	Q_SIGNALS:
 		/**
@@ -256,7 +256,7 @@ class KGradientButton : public QPushButton
 		void chooseGradient();
 		
 	protected:
-		virtual void paintEvent( QPaintEvent *pe );
+		void paintEvent( QPaintEvent *pe ) Q_DECL_OVERRIDE;
 		
 	private:
 		void initStyleOption( QStyleOptionButton * opt ) const;

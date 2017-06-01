@@ -50,10 +50,10 @@ class EquationEditWidget : public KTextEdit
 	protected:
 		void clearSelection();
 		
-		void wheelEvent(QWheelEvent* e);
-		void keyPressEvent(QKeyEvent* e);
-		void focusOutEvent(QFocusEvent* e);
-		void focusInEvent(QFocusEvent* e);
+		void wheelEvent(QWheelEvent* e) Q_DECL_OVERRIDE;
+		void keyPressEvent(QKeyEvent* e) Q_DECL_OVERRIDE;
+		void focusOutEvent(QFocusEvent* e) Q_DECL_OVERRIDE;
+		void focusInEvent(QFocusEvent* e) Q_DECL_OVERRIDE;
 		
 		EquationEdit* m_parent;
 		bool m_clearSelectionOnFocusOut;

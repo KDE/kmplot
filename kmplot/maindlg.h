@@ -96,7 +96,7 @@ class MainDlg : public KParts::ReadWritePart
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
 
-    virtual bool queryClose();
+    bool queryClose() Q_DECL_OVERRIDE;
 
 	/// For inserting the title in the function popup menu
 	QAction * m_firstFunctionAction;
@@ -149,10 +149,10 @@ private:
 	/// Settings the standard and non standard actions of the application.
 	void setupActions();
 	/// Called when a file is opened. The filename is is m_url
-	virtual bool openFile();
+	bool openFile() Q_DECL_OVERRIDE;
 
 
-    virtual bool saveFile();
+    bool saveFile() Q_DECL_OVERRIDE;
 
 	///The Recent Files action
 	KRecentFilesAction * m_recentFiles;

@@ -219,23 +219,23 @@ class View : public QWidget
 	
 	protected:
 		/// called when focus is lost
-		virtual void focusOutEvent( QFocusEvent * );
+		void focusOutEvent( QFocusEvent * ) Q_DECL_OVERRIDE;
 		/// called when focus is gained
-		virtual void focusInEvent( QFocusEvent * );
-		void paintEvent(QPaintEvent *);
-		void resizeEvent(QResizeEvent *);
+		void focusInEvent( QFocusEvent * ) Q_DECL_OVERRIDE;
+		void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+		void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
 		/// Updating the cross hair.
-		void mouseMoveEvent(QMouseEvent *);
+		void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
 		/// Clearing the cross hair.
-		void leaveEvent(QEvent *);
+		void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
 		/// Toggles the trace mode if the cursor is near to a plot.
-		void mousePressEvent(QMouseEvent *);
+		void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
 		/// when a key is pressed and the graph widget has focus
-		void keyPressEvent(QKeyEvent * );
+		void keyPressEvent(QKeyEvent * ) Q_DECL_OVERRIDE;
 		/// called when a mouse key is released
-		void mouseReleaseEvent ( QMouseEvent * e );
+		void mouseReleaseEvent ( QMouseEvent * e ) Q_DECL_OVERRIDE;
 		/// Is needed to be reimplement so that the user can stop a preview-drawing
-		bool event( QEvent * e );
+		bool event( QEvent * e ) Q_DECL_OVERRIDE;
 		/**
 		 * Updates csxpos and csypos from the current mouse position.
 		 * @return whether the crosshair is within the bounds of the diagram.

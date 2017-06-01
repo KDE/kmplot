@@ -202,10 +202,10 @@ class FunctionListWidget : public QListWidget
 		FunctionListWidget( QWidget * parent );
 		
 	protected:
-		virtual void dragEnterEvent( QDragEnterEvent * event );
-		virtual void dropEvent( QDropEvent * event );
-		virtual QMimeData * mimeData( const QList<QListWidgetItem *> items ) const;
-		virtual QStringList mimeTypes() const;
+		void dragEnterEvent( QDragEnterEvent * event ) Q_DECL_OVERRIDE;
+		void dropEvent( QDropEvent * event ) Q_DECL_OVERRIDE;
+		QMimeData * mimeData( const QList<QListWidgetItem *> items ) const Q_DECL_OVERRIDE;
+		QStringList mimeTypes() const Q_DECL_OVERRIDE;
 };
 
 

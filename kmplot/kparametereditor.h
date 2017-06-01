@@ -64,7 +64,7 @@ public slots:
 	/// saves the value being edited
 	void saveCurrentValue();
 	
-	virtual void accept();
+	void accept() Q_DECL_OVERRIDE;
   
     
 private:

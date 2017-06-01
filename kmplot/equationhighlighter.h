@@ -47,7 +47,7 @@ class EquationHighlighter : public QSyntaxHighlighter
 		void setErrorPosition(int position);
 		
 	protected:
-		virtual void highlightBlock(const QString& text);
+		void highlightBlock(const QString& text) Q_DECL_OVERRIDE;
 		
 		int m_errorPosition;
 		EquationEdit* m_parent;

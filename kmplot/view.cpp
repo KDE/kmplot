@@ -76,43 +76,6 @@
 using namespace std;
 #endif
 
-//BEGIN nan & inf
-
-#if defined(__APPLE__) || defined(_MSC_VER)
-// work around an OSX <cmath> bug; is there a proper way to fix this?
-#ifndef isnan
-extern "C" int isnan(double);
-#endif
-#ifndef isinf
-extern "C" int isinf(double);
-#endif
-#endif
-
-
-#ifdef __osf__
-#include <nan.h>
-#define isnan(x) IsNAN(x)
-#define isinf(x) IsINF(X)
-#endif
-
-#ifdef Q_OS_SOLARIS
-int isinf(double x)
-{
-	return !finite(x) && x==x;
-}
-#endif
-// only msvc needs this (sometimes)
-#ifdef _MSC_VER
-#ifndef KDEWIN_VERSION
-int isinf(double x)
-{
-        return !finite(x) && x==x;
-}
-#endif  // KDEWIN_VERSION
-#endif //END _WIN32
-//END nan & inf
-
-
 // does for real numbers what "%" does for integers
 double realModulo( double x, double mod )
 {
@@ -305,7 +268,7 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 	m_xmin = XParser::self()->eval( Settings::xMin() );
 	m_xmax = XParser::self()->eval( Settings::xMax() );
 	
-	if ( m_xmax <= m_xmin || !finite(m_xmin) || !finite(m_xmax) )
+	if ( m_xmax <= m_xmin || !std::isfinite(m_xmin) || !std::isfinite(m_xmax) )
 	{
 		m_xmin = -8;
 		m_xmax = +8;
@@ -313,7 +276,7 @@ void View::initDrawing( QPaintDevice * device, PlotMedium medium )
 	
 	m_ymin = XParser::self()->eval( Settings::yMin() );
 	m_ymax = XParser::self()->eval( Settings::yMax() );
-	if ( m_ymax <= m_ymin || !finite(m_ymin) || !finite(m_ymax) )
+	if ( m_ymax <= m_ymin || !std::isfinite(m_ymin) || !std::isfinite(m_ymax) )
 	{
 		m_ymin = -8;
 		m_ymax = +8;

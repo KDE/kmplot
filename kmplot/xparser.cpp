@@ -361,7 +361,7 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 		
 		m_y.addRK4( dx, m_k1, m_k2, m_k3, m_k4 );
 		
-		if ( !finite(m_y[0]) )
+		if ( !std::isfinite(m_y[0]) )
 		{
 			differentialFinite = false;
 			state->resetToInitial();

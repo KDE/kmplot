@@ -36,7 +36,7 @@ class EquationEdit;
 class EquationEditWidget : public KTextEdit
 {
 	public:
-		EquationEditWidget(EquationEdit* parent);
+		explicit EquationEditWidget(EquationEdit* parent);
 		
 		/**
 		 * Call this after changing font size.

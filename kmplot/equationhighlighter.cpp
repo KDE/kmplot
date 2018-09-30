@@ -24,7 +24,7 @@
 
 #include "equationhighlighter.h"
 
-#include <QtCore/QLocale>
+#include <QLocale>
 
 #include "equationedit.h"
 #include "equationeditwidget.h"

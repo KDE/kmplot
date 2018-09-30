@@ -161,7 +161,7 @@ struct VectorFunction
 class ExpressionSanitizer
 {
 	public:
-		ExpressionSanitizer( Parser * parent );
+		explicit ExpressionSanitizer( Parser * parent );
 		
 		/**
 		 * Lots of changes to make it happy for the parser (e.g. adding extra

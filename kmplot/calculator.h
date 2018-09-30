@@ -38,7 +38,7 @@ class Calculator : public KDialog
 {
 	Q_OBJECT
 	public:
-		Calculator( QWidget *parent = 0 );
+		explicit Calculator( QWidget *parent = 0 );
 		~Calculator();
 		
 	protected Q_SLOTS:

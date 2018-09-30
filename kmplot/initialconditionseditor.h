@@ -39,7 +39,7 @@ class InitialConditionsEditor;
 class InitialConditionsModel : public QAbstractTableModel
 {
 	public:
-		InitialConditionsModel( InitialConditionsEditor * parent );
+		explicit InitialConditionsModel( InitialConditionsEditor * parent );
 		
 		int rowCount( const QModelIndex & parent ) const Q_DECL_OVERRIDE;
 		int columnCount( const QModelIndex & parent ) const Q_DECL_OVERRIDE;
@@ -60,7 +60,7 @@ class InitialConditionsModel : public QAbstractTableModel
 class InitialConditionsView : public QTableView
 {
 	public:
-		InitialConditionsView( QWidget * parent );
+		explicit InitialConditionsView( QWidget * parent );
 };
 
 
@@ -69,7 +69,7 @@ class InitialConditionsDelegate : public QItemDelegate
 	Q_OBJECT
 	
 	public:
-		InitialConditionsDelegate( InitialConditionsEditor * parent );
+		explicit InitialConditionsDelegate( InitialConditionsEditor * parent );
 		
 		QWidget * createEditor( QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index ) const Q_DECL_OVERRIDE;
 		void setEditorData( QWidget * editor, const QModelIndex & index ) const Q_DECL_OVERRIDE;
@@ -91,10 +91,10 @@ class InitialConditionsEditor : public QWidget, public Ui::InitialConditionsWidg
 	Q_OBJECT
 			
 	public:
-		InitialConditionsEditor( QWidget * parent );
+		explicit InitialConditionsEditor( QWidget * parent );
 		
 		/**
-		 * Initialises the list from the given states in \p function
+		 * Initializes the list from the given states in \p function
 		 */
 		void init( Function * function );
 		/**

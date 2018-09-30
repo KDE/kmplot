@@ -33,7 +33,7 @@ class EquationEditorWidget : public QWidget, public Ui::EquationEditorWidget
 	Q_OBJECT
 	
 	public:
-		EquationEditorWidget(QWidget* parent = 0);
+		explicit EquationEditorWidget(QWidget* parent = 0);
 	
 	protected slots:
 		void insertFunction(const QString& text);

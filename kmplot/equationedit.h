@@ -58,7 +58,7 @@ class EquationEdit : public QWidget
 			Expression
 		};
 		
-		EquationEdit( QWidget * parent );
+		explicit EquationEdit( QWidget * parent );
 		
 		/**
 		 * Set the current error message and position of the error. This is

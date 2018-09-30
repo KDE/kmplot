@@ -62,7 +62,7 @@ KPrinterDlg::KPrinterDlg( QWidget *parent )
 	m_lengthScalingCombo->addItem( i18n("Centimeters (cm)") );
 	m_lengthScalingCombo->addItem( i18n("Millimeters (mm)") );
 	
-	m_lengthScalingCombo->setCurrentIndex( 2 ); // default of centermeters
+	m_lengthScalingCombo->setCurrentIndex( 2 ); // default of centimeters
 	
 	QLabel *widthLabel = new QLabel( i18n("Width:"), this );
 	QLabel *heightLabel = new QLabel( i18n("Height:"), this );

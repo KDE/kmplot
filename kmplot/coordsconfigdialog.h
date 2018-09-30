@@ -41,7 +41,7 @@ class CoordsConfigDialog : public KConfigDialog
 {
 	Q_OBJECT
 	public:
-		CoordsConfigDialog(QWidget *parent = 0);
+		explicit CoordsConfigDialog(QWidget *parent = 0);
 		~CoordsConfigDialog();
 		/**
 		 * Updates the widgets containing the min/max values.

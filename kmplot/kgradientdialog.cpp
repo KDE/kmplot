@@ -408,9 +408,9 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 	showButtonSeparator( true );
 	setModal( modal );
 	
-	connect( m_gradient, SIGNAL(colorSelected(const QColor &)), m_colorDialog, SLOT(setColor(const QColor &)) );
-	connect( m_colorDialog, SIGNAL(colorSelected(const QColor &)), m_gradient, SLOT(setColor(const QColor &)) );
-	connect( m_gradient, SIGNAL(gradientChanged(const QGradient &)), this, SIGNAL(gradientChanged(const QGradient &)) );
+	connect( m_gradient, SIGNAL(colorSelected(QColor)), m_colorDialog, SLOT(setColor(QColor)) );
+	connect( m_colorDialog, SIGNAL(colorSelected(QColor)), m_gradient, SLOT(setColor(QColor)) );
+	connect( m_gradient, SIGNAL(gradientChanged(QGradient)), this, SIGNAL(gradientChanged(QGradient)) );
 	
 	m_colorDialog->setColor( m_gradient->color() );
 }

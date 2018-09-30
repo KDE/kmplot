@@ -81,7 +81,7 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"arcsec", "arsec", larcsec},		// Arcus secans = inverse of sec
 	{"arccot", "arcot", larccot},		// Arcus co-tangens = inverse of cotan
 	
-	// Trigometric functions
+	// Trigonometric functions
 	{"sin", QString(), lsin}, 					// Sinus
 	{"cos", QString(), lcos}, 					// Cosinus
 	{"tan", QString(), ltan}, 					// Tangens
@@ -127,7 +127,7 @@ VectorFunction Parser::vectorFunctions[ VectorCount ]=
 
 /**
  * Order by longest string first, useful in parsing since we want to at each point
- * match the longest string first, so e.g. "sinh(x)" should't be read as "sin(h) * x"
+ * match the longest string first, so e.g. "sinh(x)" shouldn't be read as "sin(h) * x"
  */
 class LengthOrderedString : public QString
 {

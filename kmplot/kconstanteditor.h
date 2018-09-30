@@ -42,7 +42,7 @@ class KConstantEditor : public KDialog
 {
 Q_OBJECT
 public:
-    KConstantEditor(QWidget *parent = 0);
+    explicit KConstantEditor(QWidget *parent = 0);
     ~KConstantEditor();
     
 public slots:
@@ -97,7 +97,7 @@ proper constant letters are used.
 class ConstantValidator : public QValidator
 {
 	public:
-		ConstantValidator( KConstantEditor * parent );
+		explicit ConstantValidator( KConstantEditor * parent );
 		
 		State validate( QString & input, int & pos ) const Q_DECL_OVERRIDE;
 		

@@ -37,7 +37,7 @@ class KSliderWindow : public KDialog
 {
 	Q_OBJECT
 	public:
-		KSliderWindow( QWidget* parent );
+		explicit KSliderWindow( QWidget* parent );
 		virtual ~KSliderWindow();
 		
 		double value( int slider );

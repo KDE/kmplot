@@ -71,17 +71,17 @@ KConstantEditor::KConstantEditor( QWidget * parent )
 	
 	updateConstantsList();
 	
-	connect( m_widget->nameEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( constantNameEdited( const QString & ) ) );
-	connect( m_widget->valueEdit, SIGNAL( textEdited( const QString & ) ), this, SLOT( saveCurrentConstant() ) );
+	connect( m_widget->nameEdit, SIGNAL(textEdited(QString)), this, SLOT(constantNameEdited(QString)) );
+	connect( m_widget->valueEdit, SIGNAL(textEdited(QString)), this, SLOT(saveCurrentConstant()) );
 	
-	connect( m_widget->nameEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
-	connect( m_widget->valueEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( checkValueValid() ) );
+	connect( m_widget->nameEdit, SIGNAL(textChanged(QString)), this, SLOT(checkValueValid()) );
+	connect( m_widget->valueEdit, SIGNAL(textChanged(QString)), this, SLOT(checkValueValid()) );
 	
-	connect( m_widget->cmdNew, SIGNAL( clicked() ), this, SLOT( cmdNew_clicked() ) );
-	connect( m_widget->cmdDelete, SIGNAL( clicked() ), this, SLOT( cmdDelete_clicked() ) );
+	connect( m_widget->cmdNew, SIGNAL(clicked()), this, SLOT(cmdNew_clicked()) );
+	connect( m_widget->cmdDelete, SIGNAL(clicked()), this, SLOT(cmdDelete_clicked()) );
 	
-	connect( m_widget->constantList, SIGNAL(currentItemChanged( QTreeWidgetItem *, QTreeWidgetItem * )), this, SLOT(selectedConstantChanged( QTreeWidgetItem * )) );
-	connect( m_widget->constantList, SIGNAL(itemClicked( QTreeWidgetItem *, int )), this, SLOT(itemClicked()) );
+	connect( m_widget->constantList, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(selectedConstantChanged(QTreeWidgetItem*)) );
+	connect( m_widget->constantList, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(itemClicked()) );
 	
 	connect( XParser::self()->constants(), SIGNAL(constantsChanged()), this, SLOT(updateConstantsList()) );
 	
@@ -241,7 +241,7 @@ bool KConstantEditor::checkValueValid()
 
 void KConstantEditor::itemClicked()
 {
-	QTimer::singleShot( 0, this, SLOT( saveCurrentConstant() ) );
+	QTimer::singleShot( 0, this, SLOT(saveCurrentConstant()) );
 }
 //END class KConstantEditor
 

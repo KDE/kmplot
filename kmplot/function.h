@@ -145,7 +145,7 @@ class DifferentialState
 {
 	public:
 		DifferentialState();
-		DifferentialState( int order );
+		explicit DifferentialState( int order );
 		
 		/**
 		 * Resizes y, y0. Also calls resetToInitial.
@@ -389,7 +389,7 @@ class Equation
 {
 	public:
 		enum Type { Unknown, Animated, Slider, List };
-		Parameter( Type type = Unknown );
+		explicit Parameter( Type type = Unknown );
 		
 		Type type() const { return m_type; }
 		/**
@@ -422,7 +422,7 @@ class Equation
 };
 
 
-/** Here are all atitrbutes for a function. */
+/** Here are all attributes for a function. */
 class Function
 {
 	public:
@@ -443,7 +443,7 @@ class Function
 			Differential
 		};
 		
-		Function( Type type );
+		explicit Function( Type type );
 		~Function();
 		
 		/**

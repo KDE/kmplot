@@ -77,7 +77,7 @@ private:
 class QParameterEditor : public QWidget, public Ui::QParameterEditor
 {
 	public:
-		QParameterEditor( QWidget * parent = 0 )
+		explicit QParameterEditor( QWidget * parent = 0 )
 	: QWidget( parent )
 		{ setupUi(this); }
 };

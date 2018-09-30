@@ -172,7 +172,7 @@ double View::niceTicSpacing( double length_mm, double range )
 		length_mm = 120;
 	}
 	
-	// Custom case for trigonemtric scaled
+	// Custom case for trigonometric scaled
 	if ( qFuzzyCompare( range, 4*M_PI ) )
 		return M_PI/2;
 	
@@ -1986,7 +1986,7 @@ void View::drawPlot( const Plot & plot, QPainter *painter )
 				// Allow a maximum deviation (in pixels)
 				if ( approximator.shouldDraw() )
 				{
-					// The apprimxation is too bad; will have to start again now
+					// The approximation is too bad; will have to start again now
 					drawPoints.last() = prev;
 					drawPoints << p2;
 					approximator = CurveApproximator( drawPoints );
@@ -3506,7 +3506,7 @@ void View::mouseReleaseEvent ( QMouseEvent * e )
 	bool doDrawPlot = false;
 
 	// avoid zooming in if the zoom rectangle is very small and the mouse was
-	// just pressed, which suggests that the user dragged the mouse accidently
+	// just pressed, which suggests that the user dragged the mouse accidentally
 	QRect zoomRect = QRect( m_zoomRectangleStart, e->pos() ).normalized();
 	int area = zoomRect.width() * zoomRect.height();
 
@@ -3961,8 +3961,8 @@ void View::updateSliders()
 	if ( !m_sliderWindow )
 	{
 		m_sliderWindow = new KSliderWindow( this );
-		connect( m_sliderWindow, SIGNAL( valueChanged() ), this, SLOT( drawPlot() ) );
-		connect( m_sliderWindow, SIGNAL( windowClosed() ), this, SLOT( sliderWindowClosed() ) );
+		connect( m_sliderWindow, SIGNAL(valueChanged()), this, SLOT(drawPlot()) );
+		connect( m_sliderWindow, SIGNAL(windowClosed()), this, SLOT(sliderWindowClosed()) );
 	}
 }
 

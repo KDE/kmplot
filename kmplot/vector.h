@@ -36,7 +36,7 @@ class Vector
 {
 	public:
 		Vector() {}
-		Vector( int size ) : m_data(size) {}
+		explicit Vector( int size ) : m_data(size) {}
 		Vector( const Vector & other ) : m_data( other.m_data ) {}
 		
 		int size() const { return m_data.size(); }
@@ -61,7 +61,7 @@ class Vector
 		 */
 		void combine( const Vector & a, double k, const Vector & b );
 		/**
-		 * Another optimization for use in solving differential equaions.
+		 * Another optimization for use in solving differential equations.
 		 */
 		void addRK4( double dx, const Vector & k1, const Vector & k2, const Vector & k3, const Vector & k4 );
 		

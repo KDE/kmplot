@@ -42,7 +42,7 @@ class FunctionTools : public KDialog
 {
 	Q_OBJECT
 	public:
-		FunctionTools( QWidget *parent = 0 );
+		explicit FunctionTools( QWidget *parent = 0 );
 		~FunctionTools();
 		
 		enum Mode

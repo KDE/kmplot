@@ -81,7 +81,7 @@ class View : public QWidget
 {
 	Q_OBJECT
 	public:
-		/// Contructor
+		/// Constructor
 		View( bool readOnly, QMenu * functionPopup, QWidget* parent );
 		virtual ~View();
 	
@@ -152,10 +152,10 @@ class View : public QWidget
 		 */
 		double pixelsToMillimeters( double width_pixels, QPaintDevice * device ) const;
 
-		/** Current plot range endge. */
+		/** Current plot x-range. */
 		double m_xmin;
 		double m_xmax;
-		/** Current plot range endge. */
+		/** Current plot y-range. */
 		double m_ymin;
 		double m_ymax;
 

@@ -41,7 +41,7 @@ class EquationEditor : public KDialog
 	Q_OBJECT
 			
 	public:
-		EquationEditor(QWidget* parent);
+		explicit EquationEditor(QWidget* parent);
 		
 		/**
 		 * The equation's text, e.g. "f(x) = x^2".

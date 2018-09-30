@@ -119,7 +119,7 @@ KmPlot::KmPlot( const QCommandLineParser& parser )
 				openFileInNewWindow( url );
 		}
 		if (exit)
-			deleteLater(); // couln't open the file, and therefore exit
+			deleteLater(); // couldn't open the file, and therefore exit
 		first = false;
 	}
 

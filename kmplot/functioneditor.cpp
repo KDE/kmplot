@@ -74,11 +74,11 @@ FunctionEditor::FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent )
 	m_syncFunctionListTimer = new QTimer( this );
 	m_syncFunctionListTimer->setSingleShot( true );
 	
-	connect( m_saveTimer[Function::Cartesian], SIGNAL(timeout()), this, SLOT( saveCartesian() ) );
-	connect( m_saveTimer[Function::Polar], SIGNAL(timeout()), this, SLOT( savePolar() ) );
-	connect( m_saveTimer[Function::Parametric], SIGNAL(timeout()), this, SLOT( saveParametric() ) );
-	connect( m_saveTimer[Function::Implicit], SIGNAL(timeout()), this, SLOT( saveImplicit() ) );
-	connect( m_saveTimer[Function::Differential], SIGNAL(timeout()), this, SLOT( saveDifferential() ) );
+	connect( m_saveTimer[Function::Cartesian], SIGNAL(timeout()), this, SLOT(saveCartesian()) );
+	connect( m_saveTimer[Function::Polar], SIGNAL(timeout()), this, SLOT(savePolar()) );
+	connect( m_saveTimer[Function::Parametric], SIGNAL(timeout()), this, SLOT(saveParametric()) );
+	connect( m_saveTimer[Function::Implicit], SIGNAL(timeout()), this, SLOT(saveImplicit()) );
+	connect( m_saveTimer[Function::Differential], SIGNAL(timeout()), this, SLOT(saveDifferential()) );
 	connect(m_syncFunctionListTimer, &QTimer::timeout, this, &FunctionEditor::syncFunctionList);
 	
 	m_editor = new FunctionEditorWidget;
@@ -241,7 +241,7 @@ void FunctionEditor::syncFunctionList()
 	m_functionList->sortItems();
 	
 	// Try and see if there is an item with the same text as was initially selected, if we have
-	// the same number of cuntions
+	// the same number of functions
 	if ( (oldFunctionCount == m_functionList->count()) && !currentText.isEmpty() )
 	{
 		QList<QListWidgetItem *> matchedItems = m_functionList->findItems( currentText, Qt::MatchExactly );

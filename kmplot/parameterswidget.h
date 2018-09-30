@@ -36,7 +36,7 @@ class ParametersWidget : public QGroupBox, public Ui_ParametersWidget
 {
 	Q_OBJECT
 	public:
-		ParametersWidget( QWidget * parent );
+		explicit ParametersWidget( QWidget * parent );
 		
 		/**
 		 * Initializes the contents of the widgets to the settings in

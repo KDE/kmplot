@@ -99,7 +99,7 @@ class KmPlotIO
 		 * @param &doc The document.
 		 * @param parentTag The parent tag to support encapsulated tags.
 		 * @param tagName The Name of the tag.
-		 * @param tagValue The data between the opening and cloding tag.
+		 * @param tagValue The data between the opening and closing tag.
 	 	 * @return The QDomElement that was created.
 		 */
 		QDomElement addTag( QDomDocument &doc, QDomElement &parentTag, const QString &tagName, const QString &tagValue );

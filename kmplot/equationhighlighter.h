@@ -25,7 +25,7 @@
 #ifndef EQUATIONHIGHLIGHTER_H
 #define EQUATIONHIGHLIGHTER_H
 
-#include <QtGui/QSyntaxHighlighter>
+#include <QSyntaxHighlighter>
 
 class EquationEdit;
 class QString;
@@ -37,7 +37,7 @@ class QString;
 class EquationHighlighter : public QSyntaxHighlighter
 {
 	public:
-		EquationHighlighter(EquationEdit* parent);
+		explicit EquationHighlighter(EquationEdit* parent);
 		~EquationHighlighter();
 		
 		/**

@@ -46,7 +46,7 @@ public:
 	/**
 	 * Default Constructor
 	 */
-	KmPlot( const QCommandLineParser& parser );
+	explicit KmPlot( const QCommandLineParser& parser );
 
 	/**
 	 * Default Destructor

@@ -107,7 +107,7 @@ class MainDlg : public KParts::ReadWritePart
 
 public Q_SLOTS:
     // DBus interface
-    /// Asks the user and returns true if modified data shall be dicarded.
+    /// Asks the user and returns true if modified data shall be discarded.
     Q_SCRIPTABLE bool checkModified();
 
 
@@ -230,7 +230,7 @@ class BrowserExtension : public KParts::BrowserExtension
 {
 	Q_OBJECT
 public:
-	BrowserExtension(MainDlg*);
+	explicit BrowserExtension(MainDlg*);
 
 public slots:
 	// Automatically detected by the host.

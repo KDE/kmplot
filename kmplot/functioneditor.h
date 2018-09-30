@@ -128,7 +128,7 @@ class FunctionEditor : public QDockWidget
 		
 	protected:
 		/**
-		 * Initialize the wdigets from the cartesian function set in
+		 * Initialize the widgets from the cartesian function set in
 		 * m_functionID.
 		 */
 		void initFromCartesian();
@@ -199,7 +199,7 @@ class FunctionEditor : public QDockWidget
 class FunctionListWidget : public QListWidget
 {
 	public:
-		FunctionListWidget( QWidget * parent );
+		explicit FunctionListWidget( QWidget * parent );
 		
 	protected:
 		void dragEnterEvent( QDragEnterEvent * event ) Q_DECL_OVERRIDE;

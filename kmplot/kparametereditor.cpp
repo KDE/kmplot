@@ -78,7 +78,7 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	
 	connect(m_mainWidget->value, &EquationEdit::textEdited, this, &KParameterEditor::saveCurrentValue);
 	connect(m_mainWidget->value, &EquationEdit::textChanged, this, &KParameterEditor::checkValueValid);
-	connect( m_mainWidget->value, SIGNAL( returnPressed() ), m_mainWidget->cmdNew, SLOT( animateClick() ) );
+	connect( m_mainWidget->value, SIGNAL(returnPressed()), m_mainWidget->cmdNew, SLOT(animateClick()) );
 	
 	checkValueValid();
 	

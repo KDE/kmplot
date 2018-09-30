@@ -56,7 +56,7 @@ class KGradientEditor : public QWidget
 	Q_PROPERTY( QGradient gradient READ gradient WRITE setGradient USER true )
 	
 	public:
-		KGradientEditor( QWidget * parent );
+		explicit KGradientEditor( QWidget * parent );
 		~KGradientEditor();
 		
 		/**
@@ -227,7 +227,7 @@ class KGradientButton : public QPushButton
 	Q_PROPERTY( QGradient gradient READ gradient WRITE setGradient USER true )
 			
 	public:
-		KGradientButton( QWidget * parent = 0 );
+		explicit KGradientButton( QWidget * parent = 0 );
 		~KGradientButton();
 		
 		/**

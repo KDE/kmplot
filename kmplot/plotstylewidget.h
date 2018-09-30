@@ -37,7 +37,7 @@ class PlotStyleWidget : public QGroupBox
 {
 	Q_OBJECT
 	public:
-		PlotStyleWidget( QWidget * parent );
+		explicit PlotStyleWidget( QWidget * parent );
 		
 		/**
 		 * Initializes the contents of the widgets to the settings in \p plot.

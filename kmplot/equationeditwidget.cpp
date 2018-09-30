@@ -24,11 +24,11 @@
 
 #include "equationeditwidget.h"
 
-#include <QtGui/QFocusEvent>
-#include <QtGui/QKeyEvent>
-#include <QtWidgets/QStyle>
-#include <QtWidgets/QStyleOptionFrame>
-#include <QtGui/QWheelEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
+#include <QStyle>
+#include <QStyleOptionFrame>
+#include <QWheelEvent>
 
 #include "equationedit.h"
 

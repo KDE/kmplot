@@ -37,7 +37,7 @@ class KmPlotProgress: public QWidget
 {
 	Q_OBJECT
 	public:
-		KmPlotProgress( QWidget* parent = 0 );
+		explicit KmPlotProgress( QWidget* parent = 0 );
 		~KmPlotProgress();
 		/**
 		 * Sets proportion done (\p progress should be between 0 and 1). The

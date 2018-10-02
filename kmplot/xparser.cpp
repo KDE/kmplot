@@ -37,6 +37,7 @@
 #include <kmessagebox.h>
 
 #include <QList>
+#include <QDebug>
 
 #include <assert.h>
 #include <cmath>
@@ -151,7 +152,7 @@ double XParser::derivative( int n, Equation * eq, DifferentialState * state, dou
 {
 	if ( n < -1 )
 	{
-		kError() << "Can't handle derivative < -1\n";
+		qCritical() << "Can't handle derivative < -1\n";
 		return 0.0;
 	}
 	
@@ -182,7 +183,7 @@ double XParser::partialDerivative( int n1, int n2, Equation * eq, DifferentialSt
 {
 	if ( n1 < 0 || n2 < 0 )
 	{
-		kError() << "Can't handle derivative < 0\n";
+		qCritical() << "Can't handle derivative < 0\n";
 		return 0.0;
 	}
 	
@@ -308,7 +309,7 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 	
 	if ( eq->order() < 1 )
 	{
-		kWarning() << "Zero order!\n";
+		qWarning() << "Zero order!\n";
 		return 0;
 	}
 	

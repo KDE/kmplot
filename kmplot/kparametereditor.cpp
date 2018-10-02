@@ -25,7 +25,7 @@
 
 #include "kparametereditor.h"
 
-#include <kdebug.h>
+#include <QDebug>
 #include <kfiledialog.h>
 #include <kinputdialog.h>
 #include <kio/netaccess.h>
@@ -92,7 +92,7 @@ KParameterEditor::~KParameterEditor()
 
 void KParameterEditor::accept()
 {
-	kDebug() << "saving\n";
+	qDebug() << "saving\n";
 	m_parameter->clear();
 	QString item_text;
 	for ( int i = 0; i < m_mainWidget->list->count(); i++ )
@@ -312,7 +312,7 @@ void KParameterEditor::cmdExport_clicked()
                 else
                 {
 	                QFile file;
-			kDebug() << "url.path()="<<url.toLocalFile();
+			qDebug() << "url.path()="<<url.toLocalFile();
 			file.setFileName(url.toLocalFile());
 			if (file.open( QIODevice::WriteOnly ) )
 			{

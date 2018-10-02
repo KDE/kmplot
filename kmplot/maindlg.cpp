@@ -38,7 +38,7 @@
 #include <k4aboutdata.h>
 #include <kconfigdialog.h>
 #include <kconfigdialogmanager.h>
-#include <kdebug.h>
+#include <QDebug>
 #include <kedittoolbar.h>
 #include <kfiledialog.h>
 #include <kimageio.h>
@@ -140,7 +140,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 	assert( !m_self ); // this class should only be constructed once
 	m_self = this;
 
-	kDebug() << "parentWidget->objectName():" << parentWidget->objectName();
+	qDebug() << "parentWidget->objectName():" << parentWidget->objectName();
 	if ( QString(parentWidget->objectName()).startsWith("KmPlot") )
 	{
 		setXMLFile("kmplot_part.rc");
@@ -400,7 +400,7 @@ void MainDlg::setupActions()
 
 void MainDlg::undo()
 {
-	kDebug() ;
+	qDebug() ;
 
 	if ( m_undoStack.isEmpty() )
 		return;
@@ -418,7 +418,7 @@ void MainDlg::undo()
 
 void MainDlg::redo()
 {
-	kDebug() ;
+	qDebug() ;
 
 	if ( m_redoStack.isEmpty() )
 		return;
@@ -503,7 +503,7 @@ void MainDlg::slotSave()
 				return;
 		}
 		kmplotio->save( this->url() );
-		kDebug() << "saved";
+		qDebug() << "saved";
 		m_modified = false;
 	}
 
@@ -563,7 +563,7 @@ void MainDlg::slotExport()
 	}
 
 	KMimeType::Ptr mimeType = KMimeType::findByUrl( url );
-	kDebug() << "mimetype: " << mimeType->name();
+	qDebug() << "mimetype: " << mimeType->name();
 
 	bool isSvg = mimeType->name() == "image/svg+xml";
 

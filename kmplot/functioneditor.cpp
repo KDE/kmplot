@@ -40,6 +40,7 @@
 
 #include <QRadioButton>
 #include <QTimer>
+#include <QDebug>
 
 #include <assert.h>
 
@@ -161,13 +162,13 @@ void FunctionEditor::deleteCurrent()
 	FunctionListItem * functionItem = static_cast<FunctionListItem*>(m_functionList->currentItem());
 	if ( !functionItem )
 	{
-		kDebug() << "Nothing currently selected!\n";
+		qDebug() << "Nothing currently selected!\n";
 		return;
 	}
 	
 	if ( !XParser::self()->removeFunction( functionItem->function() ) )
 	{
-		kDebug() << "Couldn't delete function.\n";
+		qDebug() << "Couldn't delete function.\n";
 		// couldn't delete it, as e.g. another function depends on it
 		return;
 	}
@@ -320,7 +321,7 @@ void FunctionEditor::initFromCartesian()
 	
 	if ( !f )
 	{
-		kWarning() << "No f! (id="<<m_functionID<<")\n";
+		qWarning() << "No f! (id="<<m_functionID<<")\n";
 		return;
 	}
 	
@@ -717,7 +718,7 @@ void FunctionEditor::saveFunction( Function * tempFunction )
 	if ( !changed )
 		return;
 	
-	kDebug() << "Changed\n";
+	qDebug() << "Changed\n";
 	
 	if ( f->eq[0]->looksLikeFunction() )
 		Settings::setDefaultEquationForm( Settings::EnumDefaultEquationForm::Function );
@@ -798,7 +799,7 @@ void FunctionListWidget::dropEvent( QDropEvent * event )
 		if ( n.nodeName() == "function" )
 			io.parseFunction( n.toElement(), true );
 		else
-			kWarning() << "Unexpected node with name " << n.nodeName() ;
+			qWarning() << "Unexpected node with name " << n.nodeName() ;
 	}
 }
 //END class FunctionListWidget

@@ -31,7 +31,7 @@
 #include "xparser.h"
 
 //KDE includes
-#include <kdebug.h>
+#include <QDebug>
 #include <KLocalizedString>
 #include <kmessagebox.h>
 #include <kconfig.h>
@@ -329,7 +329,7 @@ double Parser::fkt( Equation * eq, double x )
 			return 0;
 	}
 	
-	kWarning() << "Unknown function type!\n";
+	qWarning() << "Unknown function type!\n";
 	return 0;
 }
 
@@ -355,7 +355,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 	
 	while(1)
 	{
-// 		kDebug() << "*eq->mptr: "<<int(*eq->mptr);
+// 		qDebug() << "*eq->mptr: "<<int(*eq->mptr);
 		
 		switch(*eq->mptr++)
 		{
@@ -557,7 +557,7 @@ double Parser::fkt( Equation * eq, const Vector & x )
 			{
 				// something went wrong due to a incorrect formular or
 				// missing const.
-				kDebug()  << "Error in equation " << eq->fstr();
+				qDebug()  << "Error in equation " << eq->fstr();
 				// Adjust stack again. Stack is wrong, only if we have a PUSH token
 				// just before the ERROR token, afaik.
 				while( stkptr != stkInitial )
@@ -586,7 +586,7 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		int error;
 		if ( !temp->eq[i]->setFstr( str[i], & error, 0, force ) && !force )
 		{
-			kDebug() << "could not set fstr to \""<<str[i]<<"\"!  error:"<<errorString(Error(error))<<"\n";
+			qDebug() << "could not set fstr to \""<<str[i]<<"\"!  error:"<<errorString(Error(error))<<"\n";
 			delete temp;
 			return -1;
 		}
@@ -594,7 +594,7 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 		bool duplicate = (fnameToID( temp->eq[i]->name() ) != -1);
 		if ( temp->eq[i]->looksLikeFunction() && duplicate && !force )
 		{
-			kDebug() << "function name reused.\n";
+			qDebug() << "function name reused.\n";
 			*m_error = FunctionNameReused;
 			delete temp;
 			return -1;
@@ -645,7 +645,7 @@ void Parser::initEquation( Equation * eq, Error * error, int * errorPosition )
 	if ( *m_error != ParseSuccess )
 	{
 		*errorPosition = m_sanitizer.realPos( m_evalPos );
-		kDebug() << "add an error token for " << eq->fstr();
+		qDebug() << "add an error token for " << eq->fstr();
 		// add an error token and let the user decide
 		addToken( ERROR );
 	}
@@ -1757,7 +1757,7 @@ int ExpressionSanitizer::realPos( int evalPos )
 	
 	if ( evalPos >= m_map.size() )
 	{
-// 		kWarning() << "evalPos="<<evalPos<<" is out of range.\n";
+// 		qWarning() << "evalPos="<<evalPos<<" is out of range.\n";
 // 		return m_map[ m_map.size() - 1 ];
 		return -1;
 	}
@@ -1778,6 +1778,6 @@ void ExpressionSanitizer::displayMap( )
 		out += "  " + (*m_str)[i];
 	out += '\n';
 	
-	kDebug() << out;
+	qDebug() << out;
 }
 //END class ExpressionSanitizer

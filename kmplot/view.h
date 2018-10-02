@@ -38,7 +38,7 @@
 #include <ktoggleaction.h>
 
 // KDE includes
-#include <kdebug.h>
+#include <QDebug>
 
 class KSliderWindow;
 class MainDlg;

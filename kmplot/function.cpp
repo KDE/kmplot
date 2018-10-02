@@ -29,7 +29,6 @@
 #include "view.h"
 #include "xparser.h"
 
-#include <kdebug.h>
 #include <QImage>
 #include <QLinearGradient>
 #include <QPainter>
@@ -138,11 +137,11 @@ QString PlotAppearance::penStyleToString( Qt::PenStyle style )
 			
 		case Qt::MPenStyle:
 		case Qt::CustomDashLine:
-			kWarning() << "Unsupported pen style\n";
+			qWarning() << "Unsupported pen style\n";
 			break;
 	}
 	
-	kWarning() << "Unknown style " << style ;
+	qWarning() << "Unknown style " << style ;
 	return "SolidLine";
 }
 
@@ -167,7 +166,7 @@ Qt::PenStyle PlotAppearance::stringToPenStyle( const QString & style )
 	if ( style == "DashDotDotLine" )
 		return Qt::DashDotDotLine;
 	
-	kWarning() << "Unknown style " << style ;
+	qWarning() << "Unknown style " << style ;
 	return Qt::SolidLine;
 }
 //END class PlotAppearance
@@ -249,7 +248,7 @@ DifferentialState * DifferentialStates::add()
 	if ( !m_uniqueState || m_data.isEmpty() )
 		m_data << DifferentialState( order() );
 	else
-		kDebug() << "Unable to add another state!\n";
+		qDebug() << "Unable to add another state!\n";
 	
 	return & m_data[ size() - 1 ];
 }
@@ -484,7 +483,7 @@ bool Equation::setFstr( const QString & fstr, int * error, int * errorPosition, 
 	} \
 	else \
 	{ \
-		kDebug() << "fstr "<<fstr<<" invalid, but forcing anyway: " << Parser::errorString( Parser::Error(*error) ) << " at position " << *errorPosition; \
+		qDebug() << "fstr "<<fstr<<" invalid, but forcing anyway: " << Parser::errorString( Parser::Error(*error) ) << " at position " << *errorPosition; \
 		mem.clear(); \
 	}
 	
@@ -692,7 +691,7 @@ PlotAppearance & Function::plotAppearance( PMode plot )
 			return integral;
 	}
 	
-	kError() << "Unknown plot " << plot << endl;
+	qCritical() << "Unknown plot " << plot << endl;
 	return f0;
 }
 PlotAppearance Function::plotAppearance( PMode plot ) const
@@ -711,7 +710,7 @@ PlotAppearance Function::plotAppearance( PMode plot ) const
 			return integral;
 	}
 	
-	kError() << "Unknown plot " << plot << endl;
+	qCritical() << "Unknown plot " << plot << endl;
 	return f0;
 }
 
@@ -742,7 +741,7 @@ QString Function::typeToString( Type type )
 			return "differential";
 	}
 	
-	kWarning() << "Unknown type " << type ;
+	qWarning() << "Unknown type " << type ;
 	return "unknown";
 }
 
@@ -764,7 +763,7 @@ Function::Type Function::stringToType( const QString & type )
 	if ( type == "differential" )
 		return Differential;
 	
-	kWarning() << "Unknown type " << type ;
+	qWarning() << "Unknown type " << type ;
 	return Cartesian;
 }
 
@@ -1070,7 +1069,7 @@ double Plot::parameterValue() const
 		
 		case Parameter::Animated:
 		{
-			kWarning() << "Shouldn't use this function for animated parameter!\n";
+			qWarning() << "Shouldn't use this function for animated parameter!\n";
 			return 0;
 		}
 	}
@@ -1096,7 +1095,7 @@ void Plot::differentiate()
 			break;
 
 		case Function::Derivative2:
-			kWarning() << "Can't handle this yet!\n";
+			qWarning() << "Can't handle this yet!\n";
 			break;
 	}
 }
@@ -1107,7 +1106,7 @@ void Plot::integrate()
 	switch ( plotMode )
 	{
 		case Function::Integral:
-			kWarning() << "Can't handle this yet!\n";
+			qWarning() << "Can't handle this yet!\n";
 			break;
 
 		case Function::Derivative0:
@@ -1163,7 +1162,7 @@ int Plot::derivativeNumber( ) const
 			return 2;
 	}
 	
-	kWarning() << "Unknown derivative number.\n";
+	qWarning() << "Unknown derivative number.\n";
 	return 0;
 }
 

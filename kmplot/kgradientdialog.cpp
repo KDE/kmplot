@@ -27,7 +27,6 @@
 #include <kcolordialog.h>
 #include <KLocalizedString>
 
-#include <kdebug.h>
 
 #include <QApplication>
 #include <QLabel>

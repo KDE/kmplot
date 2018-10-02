@@ -95,7 +95,7 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 
 ParameterAnimator::~ ParameterAnimator()
 {
-	kDebug() ;
+	qDebug() ;
 	m_function->m_parameters.animating = false;
 	View::self()->drawPlot();
 }

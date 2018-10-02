@@ -28,7 +28,7 @@
 #define SLIDER_COUNT 4
 
 // Qt includes
-#include <kdebug.h>
+#include <QDebug>
 
 // local includes
 #include "parser.h"

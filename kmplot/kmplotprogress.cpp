@@ -31,7 +31,7 @@
 #include <QCoreApplication>
 #include <QTimer>
 
-#include <kdebug.h>
+#include <QDebug>
 
 
 KmPlotProgress::KmPlotProgress( QWidget* parent ) : QWidget( parent )
@@ -69,7 +69,7 @@ void KmPlotProgress::showProgressBar()
 
 void KmPlotProgress::setProgress( double progress )
 {
-	kDebug() << "progress="<<progress;
+	qDebug() << "progress="<<progress;
 
 	Q_ASSERT( progress >= 0 );
 

@@ -28,7 +28,7 @@
 #include "view.h"
 #include "xparser.h"
 
-#include <kdebug.h>
+#include <QDebug>
 #include <kinputdialog.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>

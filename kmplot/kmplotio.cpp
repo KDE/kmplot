@@ -28,9 +28,9 @@
 #include <qdom.h>
 #include <qfile.h>
 #include <QTextStream>
+#include <QDebug>
 
 // KDE includes
-#include <kdebug.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <ktemporaryfile.h>
@@ -130,7 +130,7 @@ bool KmPlotIO::save( const QUrl &url )
 		KTemporaryFile tmpfile;
 		if ( !tmpfile.open() )
 		{
-		    kWarning() << "Could not open " 
+		    qWarning() << "Could not open " 
 			       << QUrl( tmpfile.fileName() ).toLocalFile() << " for writing.\n";
 		    return false;
 		}
@@ -139,7 +139,7 @@ bool KmPlotIO::save( const QUrl &url )
 		ts.flush();
 
 		if ( !KIO::NetAccess::upload(tmpfile.fileName(), url,0)) {
-		    kWarning() << "Could not open " << url.toString() 
+		    qWarning() << "Could not open " << url.toString() 
 			       << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
 		    return false;
 		}
@@ -148,7 +148,7 @@ bool KmPlotIO::save( const QUrl &url )
 	    QFile xmlfile (url.toLocalFile());
 	    if (!xmlfile.open( QIODevice::WriteOnly ) )
 		{
-		    kWarning() << "Could not open " << url.path() << " for writing.\n";
+		    qWarning() << "Could not open " << url.path() << " for writing.\n";
 		    return false;
 		}
 	    QTextStream ts( &xmlfile );
@@ -508,7 +508,7 @@ void KmPlotIO::parseFunction( const QDomElement & n, bool allowRename )
 	int functionID = XParser::self()->Parser::addFunction( eq0, eq1, type, true );
 	if ( functionID == -1 )
 	{
-		kWarning() << "Could not create function!\n";
+		qWarning() << "Could not create function!\n";
 		return;
 	}
 	Function * function = XParser::self()->functionWithID( functionID );
@@ -597,7 +597,7 @@ void KmPlotIO::parseDifferentialStates( const QDomElement & n, Equation * equati
 			DifferentialState * state = equation->differentialStates.add();
 			if ( state->y0.size() != y.size() )
 			{
-				kWarning() << "Invalid y count!\n";
+				qWarning() << "Invalid y count!\n";
 				return;
 			}
 			
@@ -729,7 +729,7 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 	QString tmp_fstr = n.namedItem( "equation" ).toElement().text();
 	if ( tmp_fstr.isEmpty() )
 	{
-		kWarning() << "tmp_fstr is empty!\n";
+		qWarning() << "tmp_fstr is empty!\n";
 		return;
 	}
 	

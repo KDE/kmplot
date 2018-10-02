@@ -49,7 +49,7 @@
 #include <kmimetype.h>
 #include <kstandarddirs.h>
 #include <kstandardaction.h>
-#include <ktemporaryfile.h>
+#include <QTemporaryFile>
 #include <ktoolbar.h>
 #include <ktoolinvocation.h>
 #include <krecentfilesaction.h>
@@ -581,7 +581,7 @@ void MainDlg::slotExport()
 		img.setSize( View::self()->size() );
 
 		QFile file;
-		KTemporaryFile tmp;
+		QTemporaryFile tmp;
 
 		if ( url.isLocalFile() )
 		{
@@ -590,7 +590,7 @@ void MainDlg::slotExport()
 		}
 		else
 		{
-			tmp.setSuffix( ".svg" );
+ 			tmp.setFileTemplate(QDir::tempPath() + QLatin1String("/kmplot_XXXXXX") + QLatin1String(".svg")); 
 			img.setOutputDevice( &tmp );
 		}
 
@@ -612,7 +612,7 @@ void MainDlg::slotExport()
 			saveOk = img.save( url.toLocalFile(), types.at(0).toLatin1() );
 		else
 		{
-			KTemporaryFile tmp;
+			QTemporaryFile tmp;
 			tmp.open();
 			img.save( tmp.fileName(), types.at(0).toLatin1() );
 			saveOk = KIO::NetAccess::upload(tmp.fileName(), url, 0);

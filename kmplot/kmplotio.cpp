@@ -25,15 +25,19 @@
 #include "kmplotio.h"
 
 // Qt includes
-#include <qdom.h>
-#include <qfile.h>
-#include <QTextStream>
 #include <QDebug>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QDomNode>
+#include <QDomText>
+#include <QFile>
+#include <QTextStream>
+#include <QTemporaryFile>
 
 // KDE includes
 #include <kio/netaccess.h>
-#include <kmessagebox.h>
-#include <ktemporaryfile.h>
+#include <KMessageBox>
+#include <KLocalizedString>
 
 // ANSI-C includes
 #include <stdlib.h>
@@ -127,7 +131,7 @@ bool KmPlotIO::save( const QUrl &url )
 
 	if (!url.isLocalFile() )
 	{
-		KTemporaryFile tmpfile;
+		QTemporaryFile tmpfile;
 		if ( !tmpfile.open() )
 		{
 		    qWarning() << "Could not open " 

@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="KButtonGroup" name="kcfg_anglemode">
+    <widget class="QGroupBox" name="kcfg_anglemode">
      <property name="title">
       <string>Angle Mode</string>
      </property>
@@ -94,7 +94,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="KIntNumInput" name="kcfg_zoomOutStep">
+       <widget class="QSpinBox" name="kcfg_zoomOutStep">
         <property name="whatsThis">
          <string>The value the Zoom Out tool should use.</string>
         </property>
@@ -107,16 +107,13 @@
         <property name="maximum">
          <number>100</number>
         </property>
-        <property name="referencePoint">
-         <number>5</number>
-        </property>
         <property name="suffix">
          <string>%</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="KIntNumInput" name="kcfg_zoomInStep">
+       <widget class="QSpinBox" name="kcfg_zoomInStep">
         <property name="whatsThis">
          <string>The value the Zoom In tool should use.</string>
         </property>
@@ -128,9 +125,6 @@
         </property>
         <property name="maximum">
          <number>100</number>
-        </property>
-        <property name="referencePoint">
-         <number>5</number>
         </property>
         <property name="suffix">
          <string>%</string>
@@ -166,19 +160,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KButtonGroup</class>
-   <extends>QGroupBox</extends>
-   <header>kbuttongroup.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -31,7 +31,7 @@
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
-#include <ktemporaryfile.h>
+#include <QTemporaryFile>
 #include <kurl.h>
 #include <qfile.h>
 #include <qtextstream.h>
@@ -286,7 +286,7 @@ void KParameterEditor::cmdExport_clicked()
         {
                 if ( !url.isLocalFile() )
                 {
-                        KTemporaryFile tmpfile;
+                        QTemporaryFile tmpfile;
 
 			if (tmpfile.open() )
 			{

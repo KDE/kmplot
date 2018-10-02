@@ -1627,7 +1627,7 @@ void ExpressionSanitizer::fixExpression( QString * str )
 				currentType = NumberString;
 		}
 		
-		if ( (currentType == Other) )
+		if ( currentType == Other )
 		{
 			if ( ch.isLetter() )
 				currentType = UnknownLetter; // probably a variable

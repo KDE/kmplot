@@ -467,7 +467,7 @@ void FunctionEditor::createCartesian()
 	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
 		name = XParser::self()->findFunctionName( "f", -1 ) + "(x)";
 	else
-		name = "y";
+		name = 'y';
 	
 	createFunction( name + " = 0", QString(), Function::Cartesian );
 }
@@ -486,8 +486,8 @@ void FunctionEditor::createParametric()
 	}
 	else
 	{
-		name_x = "x";
-		name_y = "y";
+		name_x = 'x';
+		name_y = 'y';
 	}
 	
 	createFunction( name_x + " = 0", name_y + " = 0", Function::Parametric );
@@ -500,7 +500,7 @@ void FunctionEditor::createPolar()
 	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
 		name = XParser::self()->findFunctionName( "f", -1 ) + "(x)";
 	else
-		name = "r";
+		name = 'r';
 	
 	createFunction( name + " = 0", QString(), Function::Polar );
 }

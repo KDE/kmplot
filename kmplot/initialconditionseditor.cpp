@@ -153,7 +153,7 @@ QVariant InitialConditionsModel::headerData( int section, Qt::Orientation orient
 	QString param;
 	QStringList variables = eq->variables();
 	if ( variables.isEmpty() )
-		param = "x";
+		param = 'x';
 	else
 		param = variables.first();
 	

@@ -269,11 +269,11 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 			str = str.mid(p1,str.length()-1);
 			QString function_name;
 			if ( type == Equation::ParametricX )
-				function_name = "x";
+				function_name = 'x';
 			else if ( type == Equation::ParametricY )
-				function_name = "y";
+				function_name = 'y';
 			else
-				function_name = "f";
+				function_name = 'f';
 			function_name = findFunctionName( function_name, id );
 			str.prepend( function_name );
 			return;

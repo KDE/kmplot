@@ -44,7 +44,7 @@ Value::Value( const QString & expression )
 {
 	m_value = 0.0;
 	if ( expression.isEmpty() )
-		m_expression = "0";
+		m_expression = '0';
 	else
 		updateExpression( expression );
 }

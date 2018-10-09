@@ -28,7 +28,6 @@
 #include <kconfiggroup.h>
 #include <kedittoolbar.h>
 #include <kshortcutsdialog.h>
-#include <kfiledialog.h>
 #include <klibloader.h>
 #include <kmessagebox.h>
 #include <kmplotprogress.h>

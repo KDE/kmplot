@@ -26,7 +26,6 @@
 #include "kparametereditor.h"
 
 #include <QDebug>
-#include <kfiledialog.h>
 #include <kinputdialog.h>
 #include <kio/netaccess.h>
 #include <KMessageBox>
@@ -292,7 +291,7 @@ void KParameterEditor::cmdExport_clicked()
 {
 	if ( !m_mainWidget->list->count() )
                 return;
-	QUrl url = KFileDialog::getSaveUrl(QUrl(),i18n("*.txt|Plain Text File "));
+	QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save File"), QUrl(), i18n("Plain Text File (*.txt)"));
         if ( url.isEmpty() )
                 return;
 

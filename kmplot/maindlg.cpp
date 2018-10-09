@@ -26,13 +26,16 @@
 #include "maindlg.h"
 
 // Qt includes
+#include <QFileDialog>
+#include <QImageWriter>
 #include <QMainWindow>
+#include <QMenu>
+#include <QMimeDatabase>
 #include <QPixmap>
+#include <QPrintDialog>
+#include <QPrinter>
 #include <QSvgGenerator>
 #include <QTimer>
-#include <QMenu>
-#include <QPrinter>
-#include <QPrintDialog>
 
 // KDE includes
 #include <k4aboutdata.h>
@@ -40,7 +43,6 @@
 #include <kconfigdialogmanager.h>
 #include <QDebug>
 #include <kedittoolbar.h>
-#include <kfiledialog.h>
 #include <kimageio.h>
 #include <kio/netaccess.h>
 #include <kcomponentdata.h>
@@ -513,9 +515,9 @@ void MainDlg::slotSaveas()
 {
 	if (m_readonly)
 		return;
-	const QUrl url = KFileDialog::getSaveUrl(QUrl::fromLocalFile(QDir::currentPath()),
-			    i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ),
-			    m_parent, i18n( "Save As" ) );
+	const QUrl url = QFileDialog::getSaveFileUrl(m_parent, i18n( "Save As" ), QUrl::fromLocalFile(QDir::currentPath()),
+			    i18n( "KmPlot Files (*.fkt);;All Files (*)" )
+			      );
 
 	if ( url.isEmpty() )
 		return;
@@ -544,10 +546,30 @@ void MainDlg::slotSaveas()
 
 void MainDlg::slotExport()
 {
-	QString filter = KImageIO::pattern( KImageIO::Writing );
-	filter += i18n("\n*.svg|Scalable Vector Graphics");
+	QString filters;
+	QMimeDatabase mimeDatabase;
+	foreach (const QByteArray &mimeType, QImageWriter::supportedMimeTypes()) {
+		const QString filter = mimeDatabase.mimeTypeForName(QLatin1String(mimeType)).filterString();
+		if (!filter.isEmpty()) {
+			if (mimeType == QByteArrayLiteral("image/png")) {
+				if (!filters.isEmpty()) {
+					filters.prepend(QStringLiteral(";;"));
+				}
+				filters.prepend(filter);
+			} else {
+				if (!filters.isEmpty()) {
+					filters.append(QStringLiteral(";;"));
+                                }
+				filters.append(filter);
+			}
+		}
+	}
+	if (!filters.isEmpty()) {
+		filters.append(QStringLiteral(";;"));
+	}
+	filters.append(i18n("Scalable Vector Graphics (*.svg)"));
 
-	QUrl url = KFileDialog::getSaveUrl(QUrl::fromLocalFile(QDir::currentPath()), filter, m_parent, i18n( "Export as Image" ) );
+	QUrl url = QFileDialog::getSaveFileUrl(m_parent, i18nc("@title:window", "Export as Image"), QUrl::fromLocalFile(QDir::currentPath()), filters);
 
 	if ( !url.isValid() )
 		return;

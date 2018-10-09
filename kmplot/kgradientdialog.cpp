@@ -411,9 +411,9 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 
 	setModal( modal );
 	
-	connect( m_gradient, SIGNAL(colorSelected(QColor)), m_colorDialog, SLOT(setColor(QColor)) );
-	connect( m_colorDialog, SIGNAL(colorSelected(QColor)), m_gradient, SLOT(setColor(QColor)) );
-	connect( m_gradient, SIGNAL(gradientChanged(QGradient)), this, SIGNAL(gradientChanged(QGradient)) );
+	connect( m_gradient, &KGradientEditor::colorSelected, m_colorDialog, &QColorDialog::setCurrentColor );
+	connect( m_colorDialog, &QColorDialog::currentColorChanged, m_gradient, &KGradientEditor::setColor );
+	connect( m_gradient, &KGradientEditor::gradientChanged, this, &KGradientDialog::gradientChanged );
 	
 	m_colorDialog->setCurrentColor( m_gradient->color() );
 }

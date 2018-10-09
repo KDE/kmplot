@@ -40,6 +40,7 @@
 #include <ktoolinvocation.h>
 #include <ktogglefullscreenaction.h>
 #include <KConfigGroup>
+#include <QFileDialog>
 
 #include "kmplotadaptor.h"
 
@@ -197,9 +198,7 @@ void KmPlot::fileOpen()
 	// this slot is called whenever the File->Open menu is selected,
 	// the Open shortcut is pressed (usually CTRL+O) or the Open toolbar
 	// button is clicked
-	QUrl const url = KFileDialog::getOpenUrl( QUrl::fromLocalFile(QDir::currentPath()),
-	                 i18n( "*.fkt|KmPlot Files (*.fkt)\n*|All Files" ),
-			 this, i18n( "Open" ) );
+	QUrl const url = QFileDialog::getOpenFileUrl(this, i18n( "Open" ), QUrl::fromLocalFile(QDir::currentPath()), i18n( "KmPlot Files (*.fkt);;All Files (*)"));
 
 	if ( !url.isEmpty())
 	{

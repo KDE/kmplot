@@ -43,6 +43,7 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QFileDialog>
 
 class ParameterValueList;
 
@@ -221,7 +222,7 @@ bool KParameterEditor::checkValueValid()
 
 void KParameterEditor::cmdImport_clicked()
 {
-	QUrl url = KFileDialog::getOpenUrl(QUrl(),i18n("*.txt|Plain Text File "));
+	QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Open Parameter File"), QUrl(), i18n("Plain Text File (*.txt)"));
 	if ( url.isEmpty() )
 		return;
 

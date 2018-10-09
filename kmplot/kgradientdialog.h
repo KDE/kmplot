@@ -210,7 +210,7 @@ class KGradientDialog : public QDialog
 		void gradientChanged( const QGradient & gradient );
 	
 	private:
-		class KColorDialog * m_colorDialog;
+		class QColorDialog * m_colorDialog;
 		KGradientEditor * m_gradient;
 };
 

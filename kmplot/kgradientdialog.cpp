@@ -24,11 +24,11 @@
 
 #include "kgradientdialog.h"
 
-#include <kcolordialog.h>
 #include <KLocalizedString>
 
 
 #include <QApplication>
+#include <QColorDialog>
 #include <QLabel>
 #include <QLinearGradient>
 #include <QPainter>
@@ -378,9 +378,10 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 {
 	QWidget * widget = new QWidget( this );
 	m_gradient = new KGradientEditor( widget );
-	m_colorDialog = new KColorDialog( this );
-	m_colorDialog->mainWidget()->setParent( widget );
-	
+	m_colorDialog = new QColorDialog( widget );
+	m_colorDialog->setWindowFlags( Qt::Widget );
+	m_colorDialog->setOptions( QColorDialog::DontUseNativeDialog | QColorDialog::NoButtons );
+
 	QLabel * label = new QLabel( i18n("(Double-click on the gradient to add a stop)"), widget );
 	QPushButton * button = new QPushButton( i18n("Remove stop"), widget );
 	connect( button, SIGNAL(clicked()), m_gradient, SLOT(removeStop()) );
@@ -401,7 +402,7 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 	hLayout->addStretch( 1 );
 	hLayout->addWidget( button );
 	layout->addLayout( hLayout );
-	layout->addWidget( m_colorDialog->mainWidget() );
+	layout->addWidget( m_colorDialog );
 	layout->addWidget( buttonBox );
 	resize( layout->minimumSize() );
 	//END layout widgets
@@ -414,7 +415,7 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 	connect( m_colorDialog, SIGNAL(colorSelected(QColor)), m_gradient, SLOT(setColor(QColor)) );
 	connect( m_gradient, SIGNAL(gradientChanged(QGradient)), this, SIGNAL(gradientChanged(QGradient)) );
 	
-	m_colorDialog->setColor( m_gradient->color() );
+	m_colorDialog->setCurrentColor( m_gradient->color() );
 }
 
 

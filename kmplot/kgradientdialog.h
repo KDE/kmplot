@@ -25,7 +25,7 @@
 #ifndef KGRADIENTDIALOG_H
 #define KGRADIENTDIALOG_H
 
-#include <kdialog.h>
+#include <QDialog>
 #include <QGradient>
 #include <QPushButton>
 #include <QWidget>
@@ -171,7 +171,7 @@ class KGradientEditor : public QWidget
  *      ...
  * \endcode
  */
-class KGradientDialog : public KDialog
+class KGradientDialog : public QDialog
 {
 	Q_OBJECT
 			

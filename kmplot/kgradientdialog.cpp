@@ -38,6 +38,7 @@
 #include <QStyleOptionButton>
 #include <QVBoxLayout>
 #include <qdrawutil.h>
+#include <QDialogButtonBox>
 
 const double SQRT_3 = 1.732050808;
 const double ArrowLength = 8;
@@ -373,7 +374,7 @@ double KGradientEditor::fromArrowPos( double pos ) const
 
 //BEGIN class KGradientDialog
 KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
-	: KDialog( parent )
+	: QDialog( parent )
 {
 	QWidget * widget = new QWidget( this );
 	m_gradient = new KGradientEditor( widget );
@@ -383,7 +384,11 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 	QLabel * label = new QLabel( i18n("(Double-click on the gradient to add a stop)"), widget );
 	QPushButton * button = new QPushButton( i18n("Remove stop"), widget );
 	connect( button, SIGNAL(clicked()), m_gradient, SLOT(removeStop()) );
-	
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(modal ? QDialogButtonBox::Ok|QDialogButtonBox::Cancel : QDialogButtonBox::Close);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &KGradientDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &KGradientDialog::reject);
+
 	//BEGIN layout widgets
 	QVBoxLayout * layout = new QVBoxLayout( widget );
 	layout->setMargin( 0 );
@@ -396,15 +401,13 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 	hLayout->addStretch( 1 );
 	hLayout->addWidget( button );
 	layout->addLayout( hLayout );
-	
 	layout->addWidget( m_colorDialog->mainWidget() );
+	layout->addWidget( buttonBox );
+	resize( layout->minimumSize() );
 	//END layout widgets
 	
-	setMainWidget( widget );
-	
-	setCaption( i18n("Choose a Gradient") );
-	setButtons( modal ? Ok|Cancel : Close );
-	showButtonSeparator( true );
+	setWindowTitle( i18n("Choose a Gradient") );
+
 	setModal( modal );
 	
 	connect( m_gradient, SIGNAL(colorSelected(QColor)), m_colorDialog, SLOT(setColor(QColor)) );

@@ -24,23 +24,24 @@
 
 #include "equationeditor.h"
 
+
+#include <QDialogButtonBox>
 #include "equationeditorwidget.h"
 #include "equationeditwidget.h"
 
-
 EquationEditor::EquationEditor(QWidget* parent)
-	: KDialog(parent)
+	: QDialog(parent)
 {	
 	m_widget = new EquationEditorWidget(this);
 	m_widget->edit->showEditButton(false);
 	m_widget->edit->m_equationEditWidget->setClearSelectionOnFocusOut(false);
 	m_widget->layout()->setMargin(0);
-	setMainWidget(m_widget);
-	
-	setCaption(i18n("Equation Editor"));
-	setButtons(Close);
-	showButtonSeparator(true);
-	
+
+	setWindowTitle(i18n("Equation Editor"));
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &EquationEditor::reject);
+	m_widget->layout()->addWidget(buttonBox);
+
 	connect(m_widget->edit, &EquationEdit::returnPressed, this, &EquationEditor::accept);
 }
 

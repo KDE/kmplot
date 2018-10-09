@@ -28,7 +28,7 @@
 
 #include "function.h"
 
-#include <kdialog.h>
+#include <QDialog>
 #include <QPair>
 
 class FunctionToolsWidget;
@@ -38,7 +38,7 @@ typedef QPair< Plot, int > EquationPair;
 @author Fredrik Edemar, David Saxton
 */
 /// FunctionTools handles all the dialogs for the items in the tool-menu.
-class FunctionTools : public KDialog
+class FunctionTools : public QDialog
 {
 	Q_OBJECT
 	public:

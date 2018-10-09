@@ -31,7 +31,6 @@
 #include <QLabel>
 
 // KDE includes
-#include <kdialog.h>
 #include <KLocalizedString>
 
 // local includes
@@ -44,8 +43,6 @@ KPrinterDlg::KPrinterDlg( QWidget *parent )
 	setWindowTitle( i18n( "KmPlot Options" ) );
 	
 	QGridLayout *layout = new QGridLayout( this );
-	layout->setMargin( KDialog::marginHint() );
-	layout->setSpacing( KDialog::spacingHint() );
 
 	m_printHeaderTable = new QCheckBox( i18n( "Print header table" ), this );
 	m_transparentBackground = new QCheckBox( i18n( "Transparent background" ), this );

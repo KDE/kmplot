@@ -26,7 +26,7 @@
 #ifndef KCONSTANTEDITOR_H
 #define KCONSTANTEDITOR_H
 
-#include "kdialog.h"
+#include <QDialog>
 #include <QValidator>
 
 class Constant;
@@ -38,7 +38,7 @@ class QTreeWidgetItem;
  * Handles all the constants.
  * @author Fredrik Edemar, David Saxton
 */
-class KConstantEditor : public KDialog
+class KConstantEditor : public QDialog
 {
 Q_OBJECT
 public:

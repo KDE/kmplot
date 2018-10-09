@@ -29,29 +29,42 @@
 #include <kfiledialog.h>
 #include <kinputdialog.h>
 #include <kio/netaccess.h>
-#include <kmessagebox.h>
-#include <kpushbutton.h>
+#include <KMessageBox>
+#include <KPushButton>
 #include <QTemporaryFile>
 #include <kurl.h>
-#include <qfile.h>
-#include <qtextstream.h>
+#include <QFile>
+#include <QTextStream>
 #include <QList>
 #include <QListWidget>
 
 #include <assert.h>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 class ParameterValueList;
 
 KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
-	: KDialog( parent ),
+	: QDialog( parent ),
 	  m_parameter(l)
 {
-	setCaption( i18n( "Parameter Editor" ) );
-	setButtons( Ok | Cancel );
-
 	m_mainWidget = new QParameterEditor( this );
-	m_mainWidget->layout()->setMargin( 0 );
-	setMainWidget( m_mainWidget );
+	setWindowTitle( i18n( "Parameter Editor" ) );
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(m_mainWidget);
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	mainLayout->addWidget(buttonBox);
+
+	mainLayout->setMargin( 0 );
 	
 	m_mainWidget->cmdNew->setIcon( QIcon::fromTheme("document-new" ) );
 	m_mainWidget->cmdDelete->setIcon( QIcon::fromTheme("edit-delete" ) );
@@ -106,7 +119,7 @@ void KParameterEditor::accept()
 		}
 	}
 	
-	KDialog::accept();
+	QDialog::accept();
 }
 
 

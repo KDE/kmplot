@@ -27,6 +27,7 @@
 #include "ui_functiontools.h"
 #include "view.h"
 #include "xparser.h"
+#include <QDialogButtonBox>
 
 class FunctionToolsWidget : public QWidget, public Ui::FunctionTools
 {
@@ -38,11 +39,13 @@ class FunctionToolsWidget : public QWidget, public Ui::FunctionTools
 
 //BEGIN class FunctionTools
 FunctionTools::FunctionTools(QWidget *parent )
-	: KDialog( parent )
+	: QDialog( parent )
 {
 	m_widget = new FunctionToolsWidget( this );
-	setMainWidget( m_widget );
-	setButtons( Close );
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &FunctionTools::reject);
+	m_widget->layout()->addWidget(buttonBox);
 	
 	// Adjust margins
 	m_widget->layout()->setMargin( 0 );
@@ -69,21 +72,21 @@ void FunctionTools::init( Mode m )
 		case FindMinimum:
 		{
 			m_widget->rangeTitle->setText( i18n("Search between:") );
-			setCaption(i18n("Find Minimum Point"));
+			setWindowTitle(i18n("Find Minimum Point"));
 			break;
 		}
 		
 		case FindMaximum:
 		{
 			m_widget->rangeTitle->setText( i18n("Search between:") );
-			setCaption(i18n("Find Maximum Point"));
+			setWindowTitle(i18n("Find Maximum Point"));
 			break;
 		}
 		
 		case CalculateArea:
 		{
 			m_widget->rangeTitle->setText( i18n("Calculate the area between:") );
-			setCaption(i18n("Area Under Graph"));
+			setWindowTitle(i18n("Area Under Graph"));
 			break;
 		}
 	}

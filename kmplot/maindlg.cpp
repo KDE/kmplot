@@ -200,7 +200,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 	m_fontsSettings = new SettingsPageFonts( View::self() );
 	m_diagramSettings = new SettingsPageDiagram( View::self() );
 
-	// Make sure the dialog is at a good default size (hmm kdialog should do this automatically?)
+	// Make sure the dialog is at a good default size (hmm QDialog should do this automatically?)
 	QSize minSize = m_generalSettings->layout()->minimumSize()
 			.expandedTo( m_colorSettings->layout()->minimumSize() )
 			.expandedTo( m_fontsSettings->layout()->minimumSize() )

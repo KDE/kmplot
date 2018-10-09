@@ -25,7 +25,7 @@
 #ifndef EQUATIONEDITOR_H
 #define EQUATIONEDITOR_H
 
-#include <KDialog>
+#include <QDialog>
 
 class EquationEdit;
 class EquationEditorWidget;
@@ -36,7 +36,7 @@ class EquationEditorWidget;
  * special characters.
  * \author David Saxton
  */
-class EquationEditor : public KDialog
+class EquationEditor : public QDialog
 {
 	Q_OBJECT
 			

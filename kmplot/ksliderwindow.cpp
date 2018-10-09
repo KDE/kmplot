@@ -31,6 +31,9 @@
 #include <QCloseEvent>
 #include <QGroupBox>
 #include <QVBoxLayout>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 //BEGIN class SliderWidget
 SliderWidget::SliderWidget( QWidget *parent, int number )
@@ -86,17 +89,17 @@ double SliderWidget::value()
 
 //BEGIN class KSliderWindow
 KSliderWindow::KSliderWindow( QWidget * parent ) :
-	KDialog( parent )
+	QDialog( parent )
 {
 	setModal( false );
 	QWidget * widget = new QWidget( this );
-	setMainWidget( widget );
-	setCaption( i18n("Sliders") );
-	setButtons( Close );
-
-	Q_ASSERT( SLIDER_COUNT == 4 ); // safety check, incase SLIDER_COUNT is increased but not this code
-	
+	setWindowTitle( i18n("Sliders") );
 	QVBoxLayout *layout = new QVBoxLayout( widget );
+	setLayout(layout);
+	layout->addWidget(widget);
+
+	Q_ASSERT( SLIDER_COUNT == 4 ); // safety check, in case SLIDER_COUNT is increased but not this code
+	
 	layout->setMargin( 0 );
 	
 	for ( int i = 0; i < SLIDER_COUNT; ++i )
@@ -105,7 +108,10 @@ KSliderWindow::KSliderWindow( QWidget * parent ) :
 		connect( m_sliders[i], SIGNAL(valueChanged()), this, SIGNAL(valueChanged()) );
 		layout->addWidget( m_sliders[i] );
 	}
-	
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	layout->addWidget(buttonBox);
+
 	resize( layout->minimumSize() );
 }
 

@@ -25,7 +25,7 @@
 #ifndef CALCULATOR_H
 #define CALCULATOR_H
 
-#include <KDialog>
+#include <QDialog>
 
 class EquationEditorWidget;
 class KTextEdit;
@@ -34,7 +34,7 @@ class KTextEdit;
  * Mini-calculator for calculating values of functions, etc.
  * @author David Saxton
  */
-class Calculator : public KDialog
+class Calculator : public QDialog
 {
 	Q_OBJECT
 	public:

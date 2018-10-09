@@ -31,17 +31,17 @@
 
 #include <QScrollBar>
 #include <QVBoxLayout>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
 
 //BEGIN class Calculator
 Calculator::Calculator( QWidget * parent )
-	: KDialog( parent )
+	: QDialog( parent )
 {
 	setModal( false );
 	QWidget * widget = new QWidget( this );
-	setMainWidget( widget );
-	setCaption( i18n("Calculator") );
-	setButtons( Close );
-	
+	setWindowTitle( i18n("Calculator") );
+
 	QVBoxLayout *layout = new QVBoxLayout( widget );
 	layout->setMargin( 0 );
 	
@@ -51,16 +51,23 @@ Calculator::Calculator( QWidget * parent )
 	displaySizePolicy.setVerticalPolicy( QSizePolicy::MinimumExpanding );
 	m_display->setSizePolicy( displaySizePolicy );
 	layout->addWidget( m_display );
-	
-    m_input = new EquationEditorWidget( this );
+
+	m_input = new EquationEditorWidget( this );
 	layout->addWidget( m_input );
-	
+
 	m_display->setReadOnly( true );
-	
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	layout->addWidget( buttonBox );
+
 	connect(m_input->edit, &EquationEdit::returnPressed, this, &Calculator::calculate);
-	
-	resize( layout->minimumSize() );
+
+	// Set minimum size and margin to avoid cutting the right side
+	resize( 1.05*layout->minimumSize() );
 	m_input->edit->setFocus();
+
 }
 
 

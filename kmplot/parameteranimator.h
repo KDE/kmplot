@@ -25,7 +25,7 @@
 #ifndef PARAMETERANIMATOR_H
 #define PARAMETERANIMATOR_H
 
-#include <kdialog.h>
+#include <QDialog>
 
 class Function;
 class ParameterAnimatorWidget;
@@ -34,7 +34,7 @@ class QTimer;
 /**
 @author David Saxton
  */
-class ParameterAnimator : public KDialog
+class ParameterAnimator : public QDialog
 {
 	Q_OBJECT
 	public:

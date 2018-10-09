@@ -39,6 +39,7 @@
 #include "maindlg.h"
 #include <ktoolinvocation.h>
 #include <ktogglefullscreenaction.h>
+#include <KConfigGroup>
 
 #include "kmplotadaptor.h"
 
@@ -157,7 +158,7 @@ bool KmPlot::load(const QUrl& url)
 	m_part->openUrl( url );
 	if (m_part->url().isEmpty())
 		return false;
-	setCaption(url.toDisplayString());
+	setWindowTitle(url.toDisplayString());
 	return true;
 }
 

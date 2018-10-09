@@ -26,14 +26,14 @@
 #ifndef KSLIDERWINDOW_H
 #define KSLIDERWINDOW_H
 
-#include <KDialog>
+#include <QDialog>
 #include <QGroupBox>
 
 class SliderWidget;
 class QCloseEvent;
 
 /** @short Slider window for changing a parameter value */
-class KSliderWindow : public KDialog
+class KSliderWindow : public QDialog
 {
 	Q_OBJECT
 	public:

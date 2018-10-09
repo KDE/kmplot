@@ -31,6 +31,9 @@
 
 #include <assert.h>
 #include <cmath>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+
 using namespace std;
 
 #ifndef KDEWIN_MATH_H
@@ -52,16 +55,16 @@ class ParameterAnimatorWidget : public QWidget, public Ui::ParameterAnimator
 
 //BEGIN class ParameterAnimator
 ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
-	: KDialog( parent ),
+	: QDialog( parent ),
 	m_function( function )
 {
 	m_widget = new ParameterAnimatorWidget( this );
-	m_widget->layout()->setMargin( 0 );
-	setMainWidget( m_widget );
-	
-	setCaption( i18n("Parameter Animator") );
-	setButtons( Close );
-	
+
+	setWindowTitle( i18n("Parameter Animator") );
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	m_widget->layout()->addWidget(buttonBox);
+
 	m_mode = Paused;
 	m_currentValue = 0;
 	m_function->m_parameters.animating = true;

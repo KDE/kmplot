@@ -37,6 +37,8 @@
 #include <QTimer>
 
 #include <assert.h>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
 
 
 #include "ui_constantseditor.h"
@@ -52,19 +54,20 @@ class ConstantsEditorWidget : public QWidget, public Ui::ConstantsEditor
 
 //BEGIN class KConstantEditor
 KConstantEditor::KConstantEditor( QWidget * parent )
-	: KDialog( parent )
+	: QDialog( parent )
 {
 	m_widget = new ConstantsEditorWidget( this );
-	m_widget->layout()->setMargin( 0 );
-	setMainWidget( m_widget );
-	setButtons( Close );
-	
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &KConstantEditor::reject);
+	m_widget->gridLayout->addWidget(buttonBox, 4, 1, 1, 1);
+
 	m_widget->cmdNew->setIcon( QIcon::fromTheme("document-new") );
 	m_widget->cmdDelete->setIcon( QIcon::fromTheme("edit-delete") );
 	
-	setCaption( i18n("Constants Editor") );
+	setWindowTitle( i18n("Constants Editor") );
     
-    connect( this, SIGNAL(finished()), this, SLOT(dialogFinished()) );
+	connect( this, SIGNAL(finished()), this, SLOT(dialogFinished()) );
 	
 	m_constantValidator = new ConstantValidator( this );
 	m_widget->nameEdit->setValidator( m_constantValidator );

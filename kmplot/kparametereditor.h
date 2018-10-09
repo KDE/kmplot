@@ -30,7 +30,7 @@
 #include <QList>
 #include "xparser.h"
 
-#include <kdialog.h>
+#include <QDialog>
 
 class QParameterEditor;
 
@@ -38,7 +38,7 @@ class QParameterEditor;
 @author Fredrik Edemar
 */
 /// This class handles the parameter values: it can create, remove, edit and import values.
-class KParameterEditor : public KDialog
+class KParameterEditor : public QDialog
 {
 Q_OBJECT
 public:

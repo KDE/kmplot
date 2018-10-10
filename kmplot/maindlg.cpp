@@ -26,38 +26,39 @@
 #include "maindlg.h"
 
 // Qt includes
+#include <QDebug>
 #include <QFileDialog>
+#include <QIcon>
 #include <QImageWriter>
 #include <QMainWindow>
 #include <QMenu>
 #include <QMimeDatabase>
+#include <QMimeType>
 #include <QPixmap>
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QSvgGenerator>
+#include <QTemporaryFile>
 #include <QTimer>
 
 // KDE includes
 #include <k4aboutdata.h>
 #include <kconfigdialog.h>
 #include <kconfigdialogmanager.h>
-#include <QDebug>
 #include <kedittoolbar.h>
 #include <kimageio.h>
 #include <kio/netaccess.h>
 #include <kcomponentdata.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
-#include <kmimetype.h>
+
 #include <kstandarddirs.h>
 #include <kstandardaction.h>
-#include <QTemporaryFile>
 #include <ktoolbar.h>
 #include <ktoolinvocation.h>
 #include <krecentfilesaction.h>
 #include <kactioncollection.h>
 #include <khelpclient.h>
-#include <QIcon>
 #include <kiconloader.h>
 #include <kapplication.h>
 
@@ -584,12 +585,13 @@ void MainDlg::slotExport()
 			return;
 	}
 
-	KMimeType::Ptr mimeType = KMimeType::findByUrl( url );
-	qDebug() << "mimetype: " << mimeType->name();
+QMimeDatabase db;
+	QMimeType mimeType = db.mimeTypeForUrl( url );
+	qDebug() << "mimetype: " << mimeType.name();
 
-	bool isSvg = mimeType->name() == "image/svg+xml";
+	bool isSvg = mimeType.name() == "image/svg+xml";
 
-	if ( !KImageIO::isSupported( mimeType->name(), KImageIO::Writing ) && !isSvg )
+	if ( !KImageIO::isSupported( mimeType.name(), KImageIO::Writing ) && !isSvg )
 	{
 		KMessageBox::sorry( m_parent, i18n( "Sorry, this file format is not supported." ) );
 		return;
@@ -626,7 +628,7 @@ void MainDlg::slotExport()
 		QPixmap img( View::self()->size() );
 		View::self()->draw( & img, View::Pixmap );
 
-		QStringList types = KImageIO::typeForMime( mimeType->name() );
+		QStringList types = KImageIO::typeForMime( mimeType.name() );
 		if ( types.isEmpty() )
 			return; // TODO error dialog?
 

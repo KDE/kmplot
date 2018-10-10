@@ -459,10 +459,10 @@ QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour, const 
 	}
 	else
 	{
-		if ( std::isinf(x) == -1 )
+		if ( std::isinf(x) && x<0 )
 			x = 0;
 			
-		else if ( std::isinf(x) == 1 )
+		else if ( std::isinf(x) && x>0 )
 			x = m_clipRect.right();
 	}
 	
@@ -486,10 +486,10 @@ QPointF View::toPixel( const QPointF & real, ClipBehaviour clipBehaviour, const 
 	}
 	else
 	{
-		if ( std::isinf(y) == -1 )
+		if ( std::isinf(y) && y<0 )
 			y = 0;
 		
-		else if ( std::isinf(y) == 1 )
+		else if ( std::isinf(y) && y>0 )
 			y = m_clipRect.bottom();
 	}
 	

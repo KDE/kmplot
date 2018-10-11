@@ -35,7 +35,8 @@
 #include <QTemporaryFile>
 
 // KDE includes
-#include <kio/netaccess.h>
+#include <KIO/StoredTransferJob>
+#include <KJobWidgets>
 #include <KMessageBox>
 #include <KLocalizedString>
 
@@ -142,11 +143,16 @@ bool KmPlotIO::save( const QUrl &url )
 		doc.save( ts, 4 );
 		ts.flush();
 
-		if ( !KIO::NetAccess::upload(tmpfile.fileName(), url,0)) {
+		Q_CONSTEXPR int permission = -1;
+		QFile file(tmpfile.fileName());
+		file.open(QIODevice::ReadOnly);
+		KIO::StoredTransferJob *putjob = KIO::storedPut(file.readAll(), url, permission, KIO::JobFlag::Overwrite);
+		if (!putjob->exec()) {
 		    qWarning() << "Could not open " << url.toString() 
-			       << " for writing ("<<KIO::NetAccess::lastErrorString()<<").\n";
+			       << " for writing ("<<putjob->errorString()<<").\n";
 		    return false;
 		}
+		file.close();
 	}
 	else {
 	    QFile xmlfile (url.toLocalFile());
@@ -338,20 +344,27 @@ bool KmPlotIO::load( const QUrl &url )
 {
 	QDomDocument doc( "kmpdoc" );
 	QFile f;
+	bool downloadedFile = false;
 	if ( !url.isLocalFile() )
 	{
-		if( !KIO::NetAccess::exists( url, KIO::NetAccess::SourceSide, 0 ) )
+		if( !MainDlg::fileExists( url ) )
 		{
 			KMessageBox::sorry(0,i18n("The file does not exist."));
 			return false;
 		}
-		QString tmpfile;
-		if( !KIO::NetAccess::download( url, tmpfile, 0 ) )
-		{
-			KMessageBox::sorry(0,i18n("An error appeared when opening this file (%1)", KIO::NetAccess::lastErrorString() ));
-			return false;
+		downloadedFile = true;
+		KIO::StoredTransferJob *transferjob = KIO::storedGet (url);
+		KJobWidgets::setWindow(transferjob, 0);
+		if ( !transferjob->exec() ) {
+		    KMessageBox::sorry(0,i18n("An error appeared when opening this file (%1)", transferjob->errorString() ));
+		    return false;
 		}
-		f.setFileName(tmpfile);
+		QTemporaryFile file;
+		file.setAutoRemove(false);
+		file.open();
+		file.write(transferjob->data());
+		f.setFileName(file.fileName());
+		file.close();
 	}
 	else
 		f.setFileName( url.toLocalFile() );
@@ -374,8 +387,8 @@ bool KmPlotIO::load( const QUrl &url )
 	if ( !restore( doc ) )
 		return false;
 
-	if ( !url.isLocalFile() )
-		KIO::NetAccess::removeTempFile( f.fileName() );
+	if ( downloadedFile )
+		QFile::remove( f.fileName() );
 	return true;
 }
 

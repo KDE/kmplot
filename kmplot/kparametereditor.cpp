@@ -26,23 +26,24 @@
 #include "kparametereditor.h"
 
 #include <QDebug>
-#include <kinputdialog.h>
-#include <kio/netaccess.h>
-#include <KMessageBox>
-#include <KPushButton>
-#include <QTemporaryFile>
-#include <kurl.h>
+#include <QDialogButtonBox>
 #include <QFile>
-#include <QTextStream>
+#include <QFileDialog>
 #include <QList>
 #include <QListWidget>
+#include <QPushButton>
+#include <QTemporaryFile>
+#include <QTextStream>
+#include <QVBoxLayout>
+#include <KConfigGroup>
+#include <KIO/StoredTransferJob>
+#include <KInputDialog>
+#include <KJobWidgets>
+#include <KMessageBox>
+
+#include "maindlg.h"
 
 #include <assert.h>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QFileDialog>
 
 class ParameterValueList;
 
@@ -225,27 +226,32 @@ void KParameterEditor::cmdImport_clicked()
 	if ( url.isEmpty() )
 		return;
 
-        if (!KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, this) )
+        if (!MainDlg::fileExists( url ) )
         {
 			KMessageBox::sorry(0,i18n("The file does not exist."));
-                return;
+			return;
         }
 
 	bool verbose = false;
-        QFile file;
-        QString tmpfile;
-        if ( !url.isLocalFile() )
-        {
-                if ( !KIO::NetAccess::download(url, tmpfile, this) )
-                {
-					KMessageBox::sorry(0,i18n("An error appeared when opening this file"));
-                        return;
-                }
-                file.setFileName(tmpfile);
-        }
-        else
-                file.setFileName(url.toLocalFile() );
-	
+	QFile file;
+	if ( !url.isLocalFile() )
+	{
+		KIO::StoredTransferJob *transferjob = KIO::storedGet (url);
+		KJobWidgets::setWindow(transferjob, 0);
+		if ( !transferjob->exec() ) {
+			KMessageBox::sorry(0,i18n("An error appeared when opening this file: %1", transferjob->errorString() ));
+			return;
+		}
+		QTemporaryFile tmpfile;
+		tmpfile.setAutoRemove(false);
+		tmpfile.open();
+		tmpfile.write(transferjob->data());
+		file.setFileName(tmpfile.fileName());
+		tmpfile.close();
+	}
+	else
+		file.setFileName(url.toLocalFile() );
+
 	if ( file.open(QIODevice::ReadOnly) )
 	{
 		QTextStream stream(&file);
@@ -270,7 +276,7 @@ void KParameterEditor::cmdImport_clicked()
 				if ( KMessageBox::warningContinueCancel(this,i18n("Line %1 is not a valid parameter value and will therefore not be included. Do you want to continue?", i) ) == KMessageBox::Cancel)
 				{
 					file.close();
-                                        KIO::NetAccess::removeTempFile( tmpfile );
+					QFile::remove( file.fileName() );
 					return;
 				}
 				else if (KMessageBox::warningYesNo(this,i18n("Would you like to be informed about other lines that cannot be read?"), QString(), KGuiItem(i18n("Get Informed")), KGuiItem(i18n("Ignore Information")) ) == KMessageBox::No)
@@ -283,7 +289,7 @@ void KParameterEditor::cmdImport_clicked()
 		KMessageBox::sorry(0,i18n("An error appeared when opening this file"));
         
         if ( !url.isLocalFile() )
-                KIO::NetAccess::removeTempFile( tmpfile );
+                QFile::remove( file.fileName() );
 }
 
 
@@ -292,14 +298,14 @@ void KParameterEditor::cmdExport_clicked()
 	if ( !m_mainWidget->list->count() )
                 return;
 	QUrl url = QFileDialog::getSaveFileUrl(this, i18n("Save File"), QUrl(), i18n("Plain Text File (*.txt)"));
-        if ( url.isEmpty() )
-                return;
+	if ( url.isEmpty() )
+		return;
 
-        if( !KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, this ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.toDisplayString()), i18n( "Overwrite File?" ), KStandardGuiItem::overwrite() ) == KMessageBox::Continue )
-        {
-                if ( !url.isLocalFile() )
-                {
-                        QTemporaryFile tmpfile;
+	if( !MainDlg::fileExists( url ) || KMessageBox::warningContinueCancel( this, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.toDisplayString()), i18n( "Overwrite File?" ), KStandardGuiItem::overwrite() ) == KMessageBox::Continue )
+	{
+		if ( !url.isLocalFile() )
+		{
+			QTemporaryFile tmpfile;
 
 			if (tmpfile.open() )
 			{
@@ -315,16 +321,20 @@ void KParameterEditor::cmdExport_clicked()
 			}
 			else
 				KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
-                        
-                        if ( !KIO::NetAccess::upload(tmpfile.fileName(),url, this) )
-                        {
+
+			Q_CONSTEXPR int permission = -1;
+			QFile file(tmpfile.fileName());
+			file.open(QIODevice::ReadOnly);
+			KIO::StoredTransferJob *putjob = KIO::storedPut(file.readAll(), url, permission, KIO::JobFlag::Overwrite);
+			if (!putjob->exec()) {
 				KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
-                                return;
-                        }
-                }
-                else
-                {
-	                QFile file;
+				return;
+			}
+			file.close();
+		}
+		else
+		{
+			QFile file;
 			qDebug() << "url.path()="<<url.toLocalFile();
 			file.setFileName(url.toLocalFile());
 			if (file.open( QIODevice::WriteOnly ) )
@@ -338,7 +348,7 @@ void KParameterEditor::cmdExport_clicked()
 						stream << endl; //only write a new line if there are more text
 				}
 				file.close();
-                        }
+			}
                         else
 				KMessageBox::sorry(0,i18n("An error appeared when saving this file"));
                 }

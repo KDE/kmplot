@@ -96,13 +96,16 @@ class MainDlg : public KParts::ReadWritePart
 	/// Returns true if any changes are done
 	bool isModified(){return m_modified;}
 
-    bool queryClose() Q_DECL_OVERRIDE;
+	bool queryClose() Q_DECL_OVERRIDE;
 
 	/// For inserting the title in the function popup menu
 	QAction * m_firstFunctionAction;
 
 	/// Show the constants editor modal to a parent dialog
 	void editConstantsModal(QWidget *parent);
+
+	/// Check whether the url links to an existing file
+	static bool fileExists(const QUrl &url);
 
 
 public Q_SLOTS:

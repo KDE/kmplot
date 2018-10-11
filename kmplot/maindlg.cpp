@@ -46,8 +46,7 @@
 #include <kconfigdialog.h>
 #include <kconfigdialogmanager.h>
 #include <kedittoolbar.h>
-#include <kimageio.h>
-#include <kio/netaccess.h>
+#include <KIO/StatJob>
 #include <kcomponentdata.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
@@ -523,8 +522,7 @@ void MainDlg::slotSaveas()
 	if ( url.isEmpty() )
 		return;
 
-	bool exists = KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, m_parent );
-	if ( exists )
+	if ( MainDlg::fileExists( url ) )
 	{
 		// check if file exists and overwriting is ok.
 
@@ -574,8 +572,7 @@ void MainDlg::slotExport()
 
 	if ( !url.isValid() )
 		return;
-	bool exists = KIO::NetAccess::exists( url, KIO::NetAccess::DestinationSide, m_parent );
-	if ( exists )
+	if ( MainDlg::fileExists( url ) )
 	{
 		// check if file exists and overwriting is ok.
 
@@ -585,17 +582,10 @@ void MainDlg::slotExport()
 			return;
 	}
 
-QMimeDatabase db;
-	QMimeType mimeType = db.mimeTypeForUrl( url );
+	QMimeType mimeType = mimeDatabase.mimeTypeForUrl( url );
 	qDebug() << "mimetype: " << mimeType.name();
 
 	bool isSvg = mimeType.name() == "image/svg+xml";
-
-	if ( !KImageIO::isSupported( mimeType.name(), KImageIO::Writing ) && !isSvg )
-	{
-		KMessageBox::sorry( m_parent, i18n( "Sorry, this file format is not supported." ) );
-		return;
-	};
 
 	bool saveOk = true;
 
@@ -621,14 +611,21 @@ QMimeDatabase db;
 		View::self()->draw( &img, View::SVG );
 
 		if ( !url.isLocalFile() )
-			saveOk &= KIO::NetAccess::upload(tmp.fileName(), url, 0);
+		{
+		    Q_CONSTEXPR int permission = -1;
+		    QFile file(tmp.fileName());
+		    file.open(QIODevice::ReadOnly);
+		    KIO::StoredTransferJob *putjob = KIO::storedPut(file.readAll(), url, permission, KIO::JobFlag::Overwrite);
+		    saveOk &= putjob->exec();
+		    file.close();
+		}
 	}
 	else
 	{
 		QPixmap img( View::self()->size() );
 		View::self()->draw( & img, View::Pixmap );
 
-		QStringList types = KImageIO::typeForMime( mimeType.name() );
+		QStringList types = mimeType.suffixes();
 		if ( types.isEmpty() )
 			return; // TODO error dialog?
 
@@ -639,7 +636,12 @@ QMimeDatabase db;
 			QTemporaryFile tmp;
 			tmp.open();
 			img.save( tmp.fileName(), types.at(0).toLatin1() );
-			saveOk = KIO::NetAccess::upload(tmp.fileName(), url, 0);
+			Q_CONSTEXPR int permission = -1;
+			QFile file(tmp.fileName());
+			file.open(QIODevice::ReadOnly);
+			KIO::StoredTransferJob *putjob = KIO::storedPut(file.readAll(), url, permission, KIO::JobFlag::Overwrite);
+			saveOk = putjob->exec();
+			file.close();
 		}
 	}
 
@@ -740,6 +742,21 @@ void MainDlg::editConstantsModal(QWidget *parent)
 
 	m_constantEditor->setModal(true);
 	m_constantEditor->show();
+}
+
+bool MainDlg::fileExists(const QUrl &url)
+{
+	bool fileExists = false;
+	if (url.isValid()) {
+		short int detailLevel = 0; // Lowest level: file/dir/symlink/none
+		KIO::StatJob* statjob = KIO::stat(url, KIO::StatJob::SourceSide, detailLevel);
+		bool noerror = statjob->exec();
+		if (noerror) {
+			// We want a file
+			fileExists = !statjob->statResult().isDir();
+		}
+	}
+	return fileExists;
 }
 
 void MainDlg::slotNames()

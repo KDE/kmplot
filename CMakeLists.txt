@@ -21,7 +21,6 @@ find_package (KF5 REQUIRED
     Parts
     WidgetsAddons
     DocTools
-    KDELibs4Support
     DBusAddons
 )
 

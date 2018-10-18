@@ -37,7 +37,6 @@
 #include <QVBoxLayout>
 #include <KConfigGroup>
 #include <KIO/StoredTransferJob>
-#include <KInputDialog>
 #include <KJobWidgets>
 #include <KMessageBox>
 

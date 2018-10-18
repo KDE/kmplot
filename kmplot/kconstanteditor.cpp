@@ -29,16 +29,13 @@
 #include "xparser.h"
 
 #include <QDebug>
-#include <kinputdialog.h>
-#include <kmessagebox.h>
-#include <kstandarddirs.h>
-
-#include <qdom.h>
+#include <QDialogButtonBox>
+#include <QStandardPaths>
 #include <QTimer>
 
 #include <assert.h>
 #include <KConfigGroup>
-#include <QDialogButtonBox>
+#include <KMessageBox>
 
 
 #include "ui_constantseditor.h"

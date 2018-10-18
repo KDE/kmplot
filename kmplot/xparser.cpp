@@ -32,9 +32,8 @@
 #include "maindlg.h"
 
 // KDE includes
-#include <kinputdialog.h>
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include <QList>
 #include <QDebug>

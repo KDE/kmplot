@@ -29,6 +29,7 @@
 #include <kparts/readwritepart.h>
 
 class QCommandLineParser;
+class QLabel;
 class KmPlotProgress;
 class KToggleFullScreenAction;
 
@@ -104,6 +105,8 @@ private:
 	KToggleFullScreenAction* m_fullScreen;
 	/// The progress bar for drawing functions
 	KmPlotProgress * m_progressBar;
+	/// The labels set to show information on the statusbar
+	QList<QLabel *> statusBarLabels;
 };
 
 #endif // KMPLOT_H_

@@ -30,16 +30,16 @@
 
 // Qt includes
 #include <QDomDocument>
-#include <QStack>
 #include <QMenu>
+#include <QStack>
+#include <QStandardPaths>
 
 // KDE includes
-#include <ksharedconfig.h>
-#include <kstandarddirs.h>
-#include <kparts/browserextension.h>
-#include <kparts/part.h>
-#include <kparts/readwritepart.h>
-#include <kparts/factory.h>
+#include <KSharedConfig>
+#include <KParts/BrowserExtension>
+#include <KParts/Part>
+#include <KParts/ReadWritePart>
+#include <KPluginFactory>
 
 #undef  GrayScale
 

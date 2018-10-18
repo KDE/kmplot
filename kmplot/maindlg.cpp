@@ -37,29 +37,23 @@
 #include <QPixmap>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QStandardPaths>
 #include <QSvgGenerator>
 #include <QTemporaryFile>
 #include <QTimer>
 
 // KDE includes
-#include <k4aboutdata.h>
-#include <kconfigdialog.h>
-#include <kconfigdialogmanager.h>
-#include <kedittoolbar.h>
+#include <KActionCollection>
+#include <KConfigDialog>
+#include <KConfigDialogManager>
+#include <KHelpClient>
 #include <KIO/StatJob>
-#include <kcomponentdata.h>
-#include <klineedit.h>
-#include <kmessagebox.h>
-
-#include <kstandarddirs.h>
-#include <kstandardaction.h>
-#include <ktoolbar.h>
-#include <ktoolinvocation.h>
-#include <krecentfilesaction.h>
-#include <kactioncollection.h>
-#include <khelpclient.h>
-#include <kiconloader.h>
-#include <kapplication.h>
+#include <KIO/StoredTransferJob>
+#include <KLineEdit>
+#include <KMessageBox>
+#include <KStandardAction>
+#include <KToolBar>
+#include <KToolInvocation>
 
 // local includes
 #include "calculator.h"

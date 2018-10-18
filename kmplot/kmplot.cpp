@@ -24,24 +24,26 @@
 
 #include "kmplot.h"
 
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <kedittoolbar.h>
-#include <kshortcutsdialog.h>
-#include <klibloader.h>
-#include <kmessagebox.h>
-#include <kmplotprogress.h>
-#include <kstatusbar.h>
-#include <kstandardaction.h>
-#include <kurl.h>
-#include <kactioncollection.h>
-#include "maindlg.h"
-#include <ktoolinvocation.h>
-#include <ktogglefullscreenaction.h>
-#include <KConfigGroup>
 #include <QFileDialog>
+#include <QLabel>
+#include <QStatusBar>
+#include <QUrl>
 
+#include <KActionCollection>
+#include <KConfig>
+#include <KConfigGroup>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KPluginLoader>
+#include <KShortcutsDialog>
+#include <KStandardAction>
+#include <KToggleFullScreenAction>
+#include <KToolInvocation>
+
+#include "maindlg.h"
+#include <kmplotprogress.h>
 #include "kmplotadaptor.h"
+#include "view.h"
 
 static QUrl urlFromArg(const QString &arg)
 {
@@ -246,22 +248,31 @@ bool KmPlot::queryClose()
 
 void KmPlot::setStatusBarText(const QString &text, int id)
 {
-	static_cast<KStatusBar *>(statusBar())->changeItem(text,id);
+	static_cast<QLabel *>(statusBarLabels.at(id))->setText(text);
 }
 
 
 void KmPlot::setupStatusBar()
 {
-	KStatusBar *statusBar = new KStatusBar(this);
+	QStatusBar *statusBar = new QStatusBar(this);
 	setStatusBar(statusBar);
 
-	statusBar->insertFixedItem( "1234567890123456", 1 );
-	statusBar->insertFixedItem( "1234567890123456", 2 );
-	statusBar->insertItem( "", 3, 3 );
-	statusBar->insertItem( "", 4 );
-	statusBar->changeItem( "", 1 );
-	statusBar->changeItem( "", 2 );
-	statusBar->setItemAlignment( 3, Qt::AlignLeft );
+	for (int i = 0; i < View::SectionCount; ++i)
+	{
+		QLabel *label = new QLabel (statusBar);
+		label->setFixedHeight (label->fontMetrics ().height () + 2);
+		/// Labels for coordinates should be of fixed width 16 chars to be the same as for good old KmPlot
+		if ( i < 2) {
+			label->setFixedWidth ( label->fontMetrics ().width (QLatin1Char ('8')) * 16 );
+			label->setAlignment( Qt::AlignCenter );
+		}
+		else {
+			label->setAlignment( Qt::AlignLeft );
+		}
+
+		statusBar->addWidget (label);
+		statusBarLabels.append (label);
+	}
 
 	m_progressBar = new KmPlotProgress( statusBar );
 	m_progressBar->setMaximumHeight( statusBar->height()-10 );

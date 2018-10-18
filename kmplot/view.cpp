@@ -29,30 +29,27 @@
 
 // Qt includes
 #include <QAbstractTextDocumentLayout>
-#include <qbitmap.h>
-#include <qcursor.h>
-#include <qdatastream.h>
-#include <QPainter>
-#include <qslider.h>
-#include <qtimer.h>
-#include <QPixmap>
-#include <QPaintEvent>
-#include <QKeyEvent>
+#include <QBitmap>
+#include <QCursor>
+#include <QDataStream>
+#include <QDebug>
 #include <QEvent>
+#include <QKeyEvent>
 #include <QList>
-#include <QResizeEvent>
-#include <QTextEdit>
-#include <QTime>
 #include <QMenu>
 #include <QMouseEvent>
+#include <QPaintEvent>
+#include <QPainter>
+#include <QPixmap>
+#include <QResizeEvent>
+#include <QSlider>
+#include <QTextEdit>
+#include <QTime>
+#include <QTimer>
 
 // KDE includes
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <QDebug>
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <kmenu.h>
+#include <KActionCollection>
+#include <KMessageBox>
 
 // local includes
 #include "functioneditor.h"

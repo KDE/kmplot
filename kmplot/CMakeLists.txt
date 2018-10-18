@@ -61,7 +61,7 @@ add_library(kmplotpart MODULE ${kmplotpart_PART_SRCS})
 
 
 
-target_link_libraries(kmplotpart KF5::KDELibs4Support KF5::Parts Qt5::Svg)
+target_link_libraries(kmplotpart Qt5::PrintSupport Qt5::Widgets KF5::Parts Qt5::Svg)
 
 install(TARGETS kmplotpart  DESTINATION ${PLUGIN_INSTALL_DIR} )
 
@@ -78,7 +78,7 @@ ecm_add_app_icon(kmplot_SRCS ICONS ${ICONS_SRCS})
 
 add_executable(kmplot ${kmplot_SRCS})
 
-target_link_libraries(kmplot KF5::Crash KF5::KDELibs4Support KF5::Parts KF5::DBusAddons)
+target_link_libraries(kmplot Qt5::PrintSupport Qt5::Widgets KF5::Crash KF5::Parts KF5::DBusAddons)
 
 install(TARGETS kmplot  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

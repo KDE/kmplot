@@ -34,9 +34,8 @@
 #include "view.h"
 #include "xparser.h"
 
-#include <kaction.h>
-#include <kcolorbutton.h>
-#include <kmessagebox.h>
+#include <KColorButton>
+#include <KMessageBox>
 
 #include <QRadioButton>
 #include <QTimer>

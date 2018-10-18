@@ -192,6 +192,18 @@ class View : public QWidget
 		void setPrintBackground( bool status );
 		void setPrintWidth( double width );
 		void setPrintHeight( double height );
+                
+		/**
+		 * Which part of the status bar.
+		 */
+		enum StatusBarSection
+		{
+			XSection		= 0,
+			YSection		= 1,
+			RootSection		= 2,
+			FunctionSection		= 3,
+			SectionCount		= 4
+		};
 
 	public slots:
 		/// Called when the user want to cancel the drawing
@@ -387,16 +399,6 @@ class View : public QWidget
 		 * [min,max].
 		 */
 		QList<double> findRoots( const Plot & plot, double min, double max, RootAccuracy accuracy );
-		/**
-		 * Which part of the status bar.
-		 */
-		enum StatusBarSection
-		{
-			XSection		= 1,
-			YSection		= 2,
-			RootSection		= 3,
-			FunctionSection	= 4
-		};
 		/**
 		 * Changes the text in the statusbar.
 		 */

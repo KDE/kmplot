@@ -2939,7 +2939,7 @@ void View::drawPlot()
 
 void View::focusOutEvent( QFocusEvent * )
 {
-	// Redraw ourself to get rid of the crosshair (if we had it)...
+	// Redraw ourselves to get rid of the crosshair (if we had it)...
 	QTimer::singleShot( 0, this, SLOT(update()) );
 	QTimer::singleShot( 0, this, SLOT(updateCursor()) );
 }
@@ -2947,7 +2947,7 @@ void View::focusOutEvent( QFocusEvent * )
 
 void View::focusInEvent( QFocusEvent * )
 {
-	// Redraw ourself to get the crosshair (if we should have it)...
+	// Redraw ourselves to get the crosshair (if we should have it)...
 	QTimer::singleShot( 0, this, SLOT(update()) );
 	QTimer::singleShot( 0, this, SLOT(updateCursor()) );
 }

@@ -88,7 +88,7 @@ public Q_SLOTS:
 	Q_SCRIPTABLE void setDrawProgress( double progress );
 
 public slots:
-	/// Called when fullscren is enabled/disabled
+	/// Called when fullscreen is enabled/disabled
 	void slotUpdateFullScreen(bool);
 	void fileOpen(const QUrl &url);
 
@@ -101,7 +101,7 @@ private:
 
 private:
 	KParts::ReadWritePart *m_part;
-	/// The fullscreen action to be plugged/unplegged to the toolbar
+	/// The fullscreen action to be plugged/unplugged to the toolbar
 	KToggleFullScreenAction* m_fullScreen;
 	/// The progress bar for drawing functions
 	KmPlotProgress * m_progressBar;

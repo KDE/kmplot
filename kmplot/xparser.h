@@ -59,7 +59,7 @@ class XParser : public Parser
 		/**
 		 * For differential equations - uses numerical integration to
 		 * calculate value for the given x. Differential equations often have
-		 * the annoying habbit of diverging to infinity rapidly. If this
+		 * the annoying habit of diverging to infinity rapidly. If this
 		 * happens while trying to calculate the value, then
 		 * XParser::differentialFinite will be set to false, and 
 		 * XParserdifferentialDiverge will be set to the last point where the

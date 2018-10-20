@@ -185,7 +185,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 
 	// Allow config manager to read from equation edits
 	KConfigDialogManager::changedMap()->insert( "EquationEdit", SIGNAL(textEdited(QString)) );
-	// Let's create a Configure Diloag
+	// Let's create a Configure Dialog
 	m_settingsDialog = new KConfigDialog( parentWidget, "settings", Settings::self() );
 //FIXME port to KF5
 //	m_settingsDialog->setHelp("general-config");

@@ -118,11 +118,11 @@ class InitialConditionsEditor : public QWidget, public Ui::InitialConditionsWidg
 		
 	public slots:
 		/**
-		 * For differential equations, add an initial condtion.
+		 * For differential equations, add an initial condition.
 		 */
 		void add();
 		/**
-		 * For differential equations, remove the selected initial condtion.
+		 * For differential equations, remove the selected initial condition.
 		 */
 		void remove();
 		

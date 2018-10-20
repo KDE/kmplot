@@ -212,7 +212,7 @@ private:
 	/// The redo action
 	QAction * m_redoAction;
 
-	/// A pointer to ourself
+	/// A pointer to ourselves
 	static MainDlg * m_self;
 
 protected slots:

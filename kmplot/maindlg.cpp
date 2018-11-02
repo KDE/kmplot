@@ -516,16 +516,6 @@ void MainDlg::slotSaveas()
 	if ( url.isEmpty() )
 		return;
 
-	if ( MainDlg::fileExists( url ) )
-	{
-		// check if file exists and overwriting is ok.
-
-		int answer = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KStandardGuiItem::overwrite() );
-
-		if ( answer != KMessageBox::Continue )
-			return;
-	}
-
 	if ( !kmplotio->save( url ) )
 		KMessageBox::error(m_parent, i18n("The file could not be saved") );
 	else
@@ -566,15 +556,6 @@ void MainDlg::slotExport()
 
 	if ( !url.isValid() )
 		return;
-	if ( MainDlg::fileExists( url ) )
-	{
-		// check if file exists and overwriting is ok.
-
-		int answer = KMessageBox::warningContinueCancel( m_parent, i18n( "A file named \"%1\" already exists. Are you sure you want to continue and overwrite this file?", url.url()), i18n( "Overwrite File?" ), KStandardGuiItem::overwrite() );
-
-		if ( answer != KMessageBox::Continue )
-			return;
-	}
 
 	QMimeType mimeType = mimeDatabase.mimeTypeForUrl( url );
 	qDebug() << "mimetype: " << mimeType.name();

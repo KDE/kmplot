@@ -375,7 +375,9 @@ bool Equation::looksLikeFunction( ) const
 void Equation::updateVariables()
 {
     if ( type() == Constant )
+    {
         return;
+    }
     
 	m_variables.clear();
 	
@@ -1065,6 +1067,7 @@ double Plot::parameterValue() const
 		{
 			if ( (parameter.listPos() >= 0) && (parameter.listPos() < m_function->m_parameters.list.size()) )
 				return m_function->m_parameters.list[ parameter.listPos() ].value();
+			return 0;
 		}
 		
 		case Parameter::Animated:

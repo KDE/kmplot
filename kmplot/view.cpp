@@ -3723,6 +3723,7 @@ QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin,
 {
 	Function * ufkt = plot.function();
 	assert( (ufkt->type() == Function::Cartesian) || (ufkt->type() == Function::Differential) );
+	Q_UNUSED(ufkt);
 	
 	plot.updateFunction();
 	

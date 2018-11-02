@@ -586,7 +586,7 @@ void MainDlg::slotExport()
 	if ( isSvg )
 	{
 		QSvgGenerator img;
-		img.setSize( View::self()->size() );
+		img.setViewBox( QRect( QPoint(0, 0), View::self()->size() ) );
 
 		QFile file;
 		QTemporaryFile tmp;

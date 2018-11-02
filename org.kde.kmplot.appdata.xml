@@ -90,9 +90,10 @@
   </description>
   <url type="homepage">http://edu.kde.org/kmplot/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kmplot</url>
-  <url type="help">http://docs.kde.org/stable/en/kdeedu/kmplot/index.html</url>
+  <url type="help">https://docs.kde.org/?application=kmplot</url>
   <screenshots>
     <screenshot type="default">
+      <caption>Quadratic function, its derivative and integral plotted with KmPlot</caption>
       <image>http://edu.kde.org/images/screenshots/kmplot.png</image>
     </screenshot>
   </screenshots>

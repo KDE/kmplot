@@ -27,10 +27,10 @@
 #define KPARAMETEREDITOR_H
 
 #include "ui_qparametereditor.h"
-#include <QList>
 #include "xparser.h"
 
 #include <QDialog>
+#include <QList>
 
 class QParameterEditor;
 

@@ -25,13 +25,12 @@
 
 #include "kmplotprogress.h"
 
-#include <QIcon>
-#include <QPushButton>
-#include <QProgressBar>
 #include <QCoreApplication>
-#include <QTimer>
-
 #include <QDebug>
+#include <QIcon>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QTimer>
 
 
 KmPlotProgress::KmPlotProgress( QWidget* parent ) : QWidget( parent )

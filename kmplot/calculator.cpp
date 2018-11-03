@@ -28,11 +28,11 @@
 #include "xparser.h"
 
 #include <KTextEdit>
+#include <KConfigGroup>
 
+#include <QDialogButtonBox>
 #include <QScrollBar>
 #include <QVBoxLayout>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
 
 //BEGIN class Calculator
 Calculator::Calculator( QWidget * parent )

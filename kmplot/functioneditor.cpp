@@ -37,9 +37,9 @@
 #include <KColorButton>
 #include <KMessageBox>
 
+#include <QDebug>
 #include <QRadioButton>
 #include <QTimer>
-#include <QDebug>
 
 #include <assert.h>
 

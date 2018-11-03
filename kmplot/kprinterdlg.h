@@ -29,8 +29,6 @@
 
 #include <QWidget>
 
-// KDE includes
-
 class QCheckBox;
 class QComboBox;
 class EquationEdit;

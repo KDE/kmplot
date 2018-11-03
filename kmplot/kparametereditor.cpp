@@ -35,6 +35,7 @@
 #include <QTemporaryFile>
 #include <QTextStream>
 #include <QVBoxLayout>
+
 #include <KConfigGroup>
 #include <KIO/StoredTransferJob>
 #include <KJobWidgets>

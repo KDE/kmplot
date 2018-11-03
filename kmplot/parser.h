@@ -31,7 +31,6 @@
  
 #include <QMap>
 #include <QObject>
-
 #include <QVector>
 
 #include "constants.h"

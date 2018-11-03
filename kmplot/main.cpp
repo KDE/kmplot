@@ -36,9 +36,9 @@ static const char* version =  "1.2.1";
 
 // KDE includes
 #include <KAboutData>
-#include <klocalizedstring.h>
 #include <KCrash>
 #include <KDBusService>
+#include <KLocalizedString>
 
 int main( int argc, char **argv )
 {

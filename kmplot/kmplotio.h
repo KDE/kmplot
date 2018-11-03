@@ -25,8 +25,8 @@
 #ifndef KMPLOTIO_H
 #define KMPLOTIO_H
 
-#include <QUrl>
 #include <QGradient>
+#include <QUrl>
 
 class Equation;
 class Function;

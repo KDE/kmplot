@@ -29,16 +29,16 @@
 
 #include <QApplication>
 #include <QColorDialog>
+#include <QDialogButtonBox>
 #include <QLabel>
 #include <QLinearGradient>
-#include <QPainter>
 #include <QPaintEvent>
+#include <QPainter>
 #include <QPushButton>
 #include <QStyleOption>
 #include <QStyleOptionButton>
+#include <QTileRules>
 #include <QVBoxLayout>
-#include <qdrawutil.h>
-#include <QDialogButtonBox>
 
 const double SQRT_3 = 1.732050808;
 const double ArrowLength = 8;

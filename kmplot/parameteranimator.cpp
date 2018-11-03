@@ -26,13 +26,14 @@
 #include "ui_parameteranimator.h"
 #include "view.h"
 
+#include <KConfigGroup>
+
+#include <QDialogButtonBox>
 #include <QIcon>
 #include <QTimer>
 
 #include <assert.h>
 #include <cmath>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
 
 using namespace std;
 

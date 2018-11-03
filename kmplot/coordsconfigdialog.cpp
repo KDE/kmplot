@@ -24,11 +24,9 @@
 
 #include "coordsconfigdialog.h"
 
-#include <QPushButton>
+#include <KMessageBox>
 
-#include <klineedit.h>
-#include <kmessagebox.h>
-#include <qradiobutton.h>
+#include <QPushButton>
 
 #include "settings.h"
 #include "xparser.h"

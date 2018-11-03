@@ -27,7 +27,7 @@
 #include "constants.h"
 #include "xparser.h"
 
-#include <kconfig.h>
+#include <KConfig>
 
 
 //BEGIN class Constant

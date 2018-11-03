@@ -28,12 +28,13 @@
 #include "view.h"
 #include "xparser.h"
 
-#include <QCloseEvent>
-#include <QGroupBox>
-#include <QVBoxLayout>
 #include <KConfigGroup>
+
+#include <QCloseEvent>
 #include <QDialogButtonBox>
+#include <QGroupBox>
 #include <QPushButton>
+#include <QVBoxLayout>
 
 //BEGIN class SliderWidget
 SliderWidget::SliderWidget( QWidget *parent, int number )

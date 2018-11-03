@@ -25,7 +25,7 @@
 #ifndef COORDSCONFIGDIALOG_H
 #define COORDSCONFIGDIALOG_H
 
-#include <kconfigdialog.h>
+#include <KConfigDialog>
 
 namespace Ui{
 class EditCoords;

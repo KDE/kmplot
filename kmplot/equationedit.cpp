@@ -26,7 +26,6 @@
 #include "xparser.h"
 
 #include <QIcon>
-
 #include <QHBoxLayout>
 #include <QPushButton>
 

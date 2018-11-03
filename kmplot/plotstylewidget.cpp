@@ -26,12 +26,12 @@
 #include "kgradientdialog.h"
 #include "ui_plotstylewidget.h"
 
-#include <kcolorbutton.h>
+#include <KColorButton>
 
-#include <QLabel>
-#include <QHBoxLayout>
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QHBoxLayout>
+#include <QLabel>
 
 
 class PlotStyleDialogWidget : public QWidget, public Ui::PlotStyleWidget

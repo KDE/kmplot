@@ -32,7 +32,6 @@
 #include <QColor>
 #include <QFlags>
 #include <QGradient>
-
 #include <QVector>
 
 class Equation;

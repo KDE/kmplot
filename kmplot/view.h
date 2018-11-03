@@ -29,16 +29,16 @@
 #include "function.h"
 
 // Qt includes
-#include <qpixmap.h>
-#include <QPointer>
-#include <QMouseEvent>
-#include <QResizeEvent>
-#include <QKeyEvent>
+#include <QDebug>
 #include <QEvent>
-#include <ktoggleaction.h>
+#include <QKeyEvent>
+#include <QMouseEvent>
+#include <QPixmap>
+#include <QPointer>
+#include <QResizeEvent>
 
 // KDE includes
-#include <QDebug>
+#include <KToggleAction>
 
 class KSliderWindow;
 class MainDlg;

@@ -31,11 +31,11 @@
 #include "xparser.h"
 
 //KDE includes
-#include <QDebug>
 #include <KLocalizedString>
-#include <kmessagebox.h>
-#include <kconfig.h>
+#include <KMessageBox>
+#include <KConfig>
 
+#include <QDebug>
 #include <QList>
 
 // standard c(++) includes

@@ -25,8 +25,8 @@
 #ifndef KMPLOT_H_
 #define KMPLOT_H_
 
-#include <kparts/mainwindow.h>
-#include <kparts/readwritepart.h>
+#include <KParts/MainWindow>
+#include <KParts/ReadWritePart>
 
 class QCommandLineParser;
 class QLabel;

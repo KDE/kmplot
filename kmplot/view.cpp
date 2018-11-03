@@ -120,6 +120,7 @@ View::View( bool readOnly, QMenu * functionPopup, QWidget* parent )
 	m_sliderWindow = 0;
 	
 	m_popupMenuTitle = m_popupMenu->insertSection( MainDlg::self()->m_firstFunctionAction, "" );
+	connect(XParser::self(), &XParser::functionRemoved, this, &View::functionRemoved);
 }
 
 
@@ -3967,6 +3968,16 @@ void View::updateSliders()
 void View::sliderWindowClosed()
 {
 	m_menuSliderAction->setChecked( false );  //set the slider-item in the menu
+}
+
+void View::functionRemoved( int id )
+{
+	if ( id == m_currentPlot.functionID() )
+	{
+		m_currentPlot.setFunctionID( -1 );
+		setStatusBar( QString(), RootSection );
+		setStatusBar( QString(), FunctionSection );
+	}
 }
 
 void View::hideCurrentFunction()

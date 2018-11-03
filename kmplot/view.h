@@ -211,6 +211,8 @@ class View : public QWidget
 	
 		/// Called when the graph should be updated
 		void drawPlot();
+		/// Called when a function is deleted
+		void functionRemoved( int id );
 		///Slots for the three first items in popup menu
 		void hideCurrentFunction();
 		void removeCurrentPlot();

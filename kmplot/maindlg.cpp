@@ -679,7 +679,7 @@ void MainDlg::slotPrint()
 	prt.setResolution( 72 );
 	KPrinterDlg* printdlg = new KPrinterDlg( m_parent );
 	printdlg->setObjectName( "KmPlot page" );
-	QPrintDialog *printDialog = new QPrintDialog( &prt, m_parent );
+	QPointer<QPrintDialog> printDialog = new QPrintDialog( &prt, m_parent );
 	printDialog->setOptionTabs( QList<QWidget*>() << printdlg );
 	printDialog->setWindowTitle( i18n("Print Plot") );
 

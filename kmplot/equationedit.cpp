@@ -99,7 +99,7 @@ void EquationEdit::reHighlight()
 
 void EquationEdit::invokeEquationEditor()
 {
-	EquationEditor * edit = new EquationEditor( this );
+	QPointer<EquationEditor> edit = new EquationEditor( this );
 	edit->edit()->setInputType( m_inputType );
 	edit->edit()->setEquationType( m_equation->type() );
 	edit->edit()->setValidatePrefix( m_validatePrefix );

@@ -812,6 +812,7 @@ void Parser::heir1()
 					return;
 				}
 				// no break
+				Q_FALLTHROUGH();
 			case '+':
 			case '-':
 				++m_evalPos;

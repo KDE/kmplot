@@ -3960,8 +3960,8 @@ void View::updateSliders()
 	if ( !m_sliderWindow )
 	{
 		m_sliderWindow = new KSliderWindow( this );
-		connect( m_sliderWindow, SIGNAL(valueChanged()), this, SLOT(drawPlot()) );
-		connect( m_sliderWindow, SIGNAL(windowClosed()), this, SLOT(sliderWindowClosed()) );
+		connect( m_sliderWindow, &KSliderWindow::valueChanged, this, QOverload<>::of(&View::drawPlot) );
+		connect( m_sliderWindow, &KSliderWindow::windowClosed, this, &View::sliderWindowClosed );
 	}
 }
 

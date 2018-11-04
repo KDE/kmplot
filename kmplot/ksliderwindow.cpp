@@ -106,11 +106,11 @@ KSliderWindow::KSliderWindow( QWidget * parent ) :
 	for ( int i = 0; i < SLIDER_COUNT; ++i )
 	{
 		m_sliders[i] = new SliderWidget( widget, i );
-		connect( m_sliders[i], SIGNAL(valueChanged()), this, SIGNAL(valueChanged()) );
+		connect( m_sliders[i], &SliderWidget::valueChanged, this, &KSliderWindow::valueChanged );
 		layout->addWidget( m_sliders[i] );
 	}
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &KSliderWindow::reject);
 	layout->addWidget(buttonBox);
 
 	resize( layout->minimumSize() );

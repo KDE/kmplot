@@ -64,26 +64,26 @@ KConstantEditor::KConstantEditor( QWidget * parent )
 	
 	setWindowTitle( i18n("Constants Editor") );
     
-	connect( this, SIGNAL(finished()), this, SLOT(dialogFinished()) );
+	connect( this, &KConstantEditor::finished, this, &KConstantEditor::dialogFinished );
 	
 	m_constantValidator = new ConstantValidator( this );
 	m_widget->nameEdit->setValidator( m_constantValidator );
 	
 	updateConstantsList();
 	
-	connect( m_widget->nameEdit, SIGNAL(textEdited(QString)), this, SLOT(constantNameEdited(QString)) );
-	connect( m_widget->valueEdit, SIGNAL(textEdited(QString)), this, SLOT(saveCurrentConstant()) );
+	connect( m_widget->nameEdit, &KLineEdit::textEdited, this, &KConstantEditor::constantNameEdited );
+	connect( m_widget->valueEdit, &EquationEdit::textEdited, this, &KConstantEditor::saveCurrentConstant );
 	
-	connect( m_widget->nameEdit, SIGNAL(textChanged(QString)), this, SLOT(checkValueValid()) );
-	connect( m_widget->valueEdit, SIGNAL(textChanged(QString)), this, SLOT(checkValueValid()) );
+	connect( m_widget->nameEdit, &KLineEdit::textChanged, this, &KConstantEditor::checkValueValid );
+	connect( m_widget->valueEdit, &EquationEdit::textChanged, this, &KConstantEditor::checkValueValid );
 	
-	connect( m_widget->cmdNew, SIGNAL(clicked()), this, SLOT(cmdNew_clicked()) );
-	connect( m_widget->cmdDelete, SIGNAL(clicked()), this, SLOT(cmdDelete_clicked()) );
+	connect( m_widget->cmdNew, &QPushButton::clicked, this, &KConstantEditor::cmdNew_clicked );
+	connect( m_widget->cmdDelete, &QPushButton::clicked, this, &KConstantEditor::cmdDelete_clicked );
 	
-	connect( m_widget->constantList, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(selectedConstantChanged(QTreeWidgetItem*)) );
-	connect( m_widget->constantList, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(itemClicked()) );
+	connect( m_widget->constantList, &QTreeWidget::currentItemChanged, this, &KConstantEditor::selectedConstantChanged );
+	connect( m_widget->constantList, &QTreeWidget::itemClicked, this, &KConstantEditor::itemClicked );
 	
-	connect( XParser::self()->constants(), SIGNAL(constantsChanged()), this, SLOT(updateConstantsList()) );
+	connect( XParser::self()->constants(), &Constants::constantsChanged, this, &KConstantEditor::updateConstantsList );
 	
 	checkValueValid();
 }

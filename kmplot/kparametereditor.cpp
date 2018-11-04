@@ -61,8 +61,8 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
 	okButton->setDefault(true);
 	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &KParameterEditor::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &KParameterEditor::reject);
 	mainLayout->addWidget(buttonBox);
 
 	mainLayout->setMargin( 0 );
@@ -92,7 +92,7 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	
 	connect(m_mainWidget->value, &EquationEdit::textEdited, this, &KParameterEditor::saveCurrentValue);
 	connect(m_mainWidget->value, &EquationEdit::textChanged, this, &KParameterEditor::checkValueValid);
-	connect( m_mainWidget->value, SIGNAL(returnPressed()), m_mainWidget->cmdNew, SLOT(animateClick()) );
+	connect(m_mainWidget->value, &EquationEdit::returnPressed, m_mainWidget->cmdNew, &QAbstractButton::click);
 	
 	checkValueValid();
 	

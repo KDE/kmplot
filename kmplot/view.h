@@ -222,9 +222,10 @@ class View : public QWidget
 		void zoomIn();
 		void zoomOut();
 		void zoomToTrigonometric();
+		///Slot for the view menu
+		void sliderWindowClosed();
 
 	protected slots:
-		void sliderWindowClosed();
 		/// Restore the mouse cursor when a drawing is finished
 		void updateCursor();
 	

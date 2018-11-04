@@ -385,7 +385,7 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 
 	QLabel * label = new QLabel( i18n("(Double-click on the gradient to add a stop)"), widget );
 	QPushButton * button = new QPushButton( i18n("Remove stop"), widget );
-	connect( button, SIGNAL(clicked()), m_gradient, SLOT(removeStop()) );
+	connect( button, &QPushButton::clicked, m_gradient, &KGradientEditor::removeStop );
 
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(modal ? QDialogButtonBox::Ok|QDialogButtonBox::Cancel : QDialogButtonBox::Close);
 	connect(buttonBox, &QDialogButtonBox::accepted, this, &KGradientDialog::accept);
@@ -457,7 +457,7 @@ QGradient KGradientDialog::gradient() const
 KGradientButton::KGradientButton( QWidget * parent )
 	: QPushButton( parent )
 {
-	connect( this, SIGNAL(clicked()), this, SLOT(chooseGradient()) );
+	connect( this, &KGradientButton::clicked, this, &KGradientButton::chooseGradient );
 }
 
 

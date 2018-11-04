@@ -154,7 +154,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 	m_popupmenu = new QMenu( parentWidget );
 	m_newPlotMenu = new QMenu( parentWidget );
 	(void) new View( m_readonly, m_popupmenu, parentWidget );
-	connect( View::self(), SIGNAL(setStatusBarText(QString)), this, SLOT(setReadOnlyStatusBarText(QString)) );
+	connect( View::self(), &View::setStatusBarText, this, &MainDlg::setReadOnlyStatusBarText );
 
 	m_functionEditor = 0;
 	if ( !m_readonly )
@@ -178,7 +178,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 	m_currentState = kmplotio->currentState();
 	m_saveCurrentStateTimer = new QTimer( this );
 	m_saveCurrentStateTimer->setSingleShot( true );
-	connect( m_saveCurrentStateTimer, SIGNAL(timeout()), this, SLOT(saveCurrentState()) );
+	connect( m_saveCurrentStateTimer, &QTimer::timeout, this, &MainDlg::saveCurrentState );
 	//END undo/redo stuff
 
 
@@ -209,7 +209,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 	m_settingsDialog->addPage( m_fontsSettings, i18n("Fonts"), "preferences-desktop-font", i18n("Fonts") );
 	// User edited the configuration - update your local copies of the
 	// configuration data
-	connect( m_settingsDialog, SIGNAL(settingsChanged(QString)), View::self(), SLOT(drawPlot()) );
+	connect( m_settingsDialog, &KConfigDialog::settingsChanged, View::self(), QOverload<>::of(&View::drawPlot) );
 
 
     new MainDlgAdaptor(this);
@@ -242,7 +242,7 @@ void MainDlg::setupActions()
 	QAction * exportAction = actionCollection()->addAction( "export" );
         exportAction->setText( i18n( "E&xport..." ) );
         exportAction->setIcon( QIcon::fromTheme( "document-export" ) );
-	connect( exportAction, SIGNAL(triggered(bool)), this, SLOT(slotExport()) );
+	connect( exportAction, &QAction::triggered, this, &MainDlg::slotExport );
 	//END file menu
 
 
@@ -256,12 +256,12 @@ void MainDlg::setupActions()
 	QAction * editAxes = actionCollection()->addAction( "editaxes" );
         editAxes->setText( i18n( "&Coordinate System..." ) );
 	editAxes->setIcon( QIcon::fromTheme("coords.png") );
-	connect( editAxes, SIGNAL(triggered(bool)), this, SLOT(editAxes()) );
+	connect( editAxes, &QAction::triggered, this, &MainDlg::editAxes );
 
 	QAction * editConstants = actionCollection()->addAction( "editconstants" );
         editConstants->setText( i18n( "&Constants..." ) );
 	editConstants->setIcon( QIcon::fromTheme("editconstants.png") );
-	connect( editConstants, SIGNAL(triggered(bool)), this, SLOT(editConstants()) );
+	connect( editConstants, &QAction::triggered, this, &MainDlg::editConstants );
 	//END edit menu
 
 
@@ -272,22 +272,26 @@ void MainDlg::setupActions()
         zoomIn->setText( i18n("Zoom &In") );
 	actionCollection()->setDefaultShortcut( zoomIn, QKeySequence(Qt::ControlModifier | Qt::Key_1) );
 	zoomIn->setIcon( QIcon::fromTheme("zoom-in") );
-	connect( zoomIn, SIGNAL(triggered(bool)), View::self(), SLOT(zoomIn()) );
+	connect( zoomIn, &QAction::triggered, View::self(), QOverload<>::of(&View::zoomIn) );
 
 	QAction * zoomOut = actionCollection()->addAction( "zoom_out" );
         zoomOut->setText(i18n("Zoom &Out"));
 	actionCollection()->setDefaultShortcut( zoomOut, QKeySequence(Qt::ControlModifier | Qt::Key_2) );
 	zoomOut->setIcon( QIcon::fromTheme("zoom-out") );
-	connect( zoomOut, SIGNAL(triggered(bool)), View::self(), SLOT(zoomOut()) );
+	connect( zoomOut, &QAction::triggered, View::self(), QOverload<>::of(&View::zoomOut) );
 
 	QAction * zoomTrig = actionCollection()->addAction( "zoom_trig" );
         zoomTrig->setText( i18n("&Fit Widget to Trigonometric Functions") );
-	connect( zoomTrig, SIGNAL(triggered(bool)), View::self(), SLOT(zoomToTrigonometric()) );
+	connect( zoomTrig, &QAction::triggered, View::self(), &View::zoomToTrigonometric );
 
 	QAction * resetView = actionCollection()->addAction( "reset_view" );
 	resetView->setText( i18n( "Reset View" ) );
 	resetView->setIcon( QIcon::fromTheme("resetview") );
-	connect( resetView, SIGNAL(triggered(bool)), this, SLOT(slotResetView()) );
+	connect( resetView, &QAction::triggered, this, &MainDlg::slotResetView );
+
+	View::self()->m_menuSliderAction = actionCollection()->add<KToggleAction>( "options_configure_show_sliders" );
+	View::self()->m_menuSliderAction->setText( i18n( "Show Sliders" ) );
+	connect( View::self()->m_menuSliderAction, &QAction::triggered, this, &MainDlg::toggleShowSliders );
 	//END view menu
 
 
@@ -295,21 +299,21 @@ void MainDlg::setupActions()
 	QAction *mnuCalculator = actionCollection()->addAction( "calculator" );
 	mnuCalculator->setText( i18n( "Calculator") );
 	mnuCalculator->setIcon( QIcon::fromTheme("system-run") );
-	connect( mnuCalculator, SIGNAL(triggered(bool)), this, SLOT(calculator()) );
+	connect( mnuCalculator, &QAction::triggered, this, &MainDlg::calculator );
 
 	QAction *mnuArea = actionCollection()->addAction( "grapharea" );
         mnuArea->setText( i18n( "Plot &Area..." ) );
-	connect( mnuArea, SIGNAL(triggered(bool)),this, SLOT(graphArea())  );
+	connect( mnuArea, &QAction::triggered, this, &MainDlg::graphArea );
 
 	QAction *mnuMaxValue = actionCollection()->addAction( "maximumvalue" );
         mnuMaxValue->setText( i18n( "Find Ma&ximum..." ) );
 	mnuMaxValue->setIcon( QIcon::fromTheme("maximum") );
-	connect( mnuMaxValue, SIGNAL(triggered(bool)), this, SLOT(findMaximumValue()) );
+	connect( mnuMaxValue, &QAction::triggered, this, &MainDlg::findMaximumValue );
 
 	QAction *mnuMinValue = actionCollection()->addAction( "minimumvalue" );
         mnuMinValue->setText( i18n( "Find Mi&nimum..." ) );
 	mnuMinValue->setIcon( QIcon::fromTheme("minimum") );
-	connect( mnuMinValue, SIGNAL(triggered(bool)), this, SLOT(findMinimumValue()) );
+	connect( mnuMinValue, &QAction::triggered, this, &MainDlg::findMinimumValue );
 	//END tools menu
 
 
@@ -317,7 +321,7 @@ void MainDlg::setupActions()
 	QAction * namesAction = actionCollection()->addAction( "names" );
         namesAction->setText( i18n( "Predefined &Math Functions" ) );
 	namesAction->setIcon( QIcon::fromTheme("functionhelp") );
-	connect( namesAction, SIGNAL(triggered(bool)), this, SLOT(slotNames()) );
+	connect( namesAction, &QAction::triggered, this, &MainDlg::slotNames );
 	//END help menu
 
 
@@ -325,38 +329,33 @@ void MainDlg::setupActions()
 	QAction * newFunction = actionCollection()->addAction( "newcartesian" );
         newFunction->setText( i18n( "Cartesian Plot" ) );
 	newFunction->setIcon( QIcon::fromTheme("newfunction") );
-	connect( newFunction, SIGNAL(triggered(bool)), m_functionEditor, SLOT(createCartesian()) );
+	connect( newFunction, &QAction::triggered, m_functionEditor, &FunctionEditor::createCartesian );
 	m_newPlotMenu->addAction( newFunction );
 
 	QAction * newParametric = actionCollection()->addAction( "newparametric" );
         newParametric->setText( i18n( "Parametric Plot" ) );
 	newParametric->setIcon( QIcon::fromTheme("newparametric") );
-	connect( newParametric, SIGNAL(triggered(bool)), m_functionEditor, SLOT(createParametric()) );
+	connect( newParametric, &QAction::triggered, m_functionEditor, &FunctionEditor::createParametric );
 	m_newPlotMenu->addAction( newParametric );
 
 	QAction * newPolar = actionCollection()->addAction( "newpolar" );
         newPolar->setText( i18n( "Polar Plot" ) );
 	newPolar->setIcon( QIcon::fromTheme("newpolar") );
-	connect( newPolar, SIGNAL(triggered(bool)), m_functionEditor, SLOT(createPolar()) );
+	connect( newPolar, &QAction::triggered, m_functionEditor, &FunctionEditor::createPolar );
 	m_newPlotMenu->addAction( newPolar );
 
 	QAction * newImplicit = actionCollection()->addAction( "newimplicit" );
         newImplicit->setText( i18n( "Implicit Plot" ) );
 	newImplicit->setIcon( QIcon::fromTheme("newimplicit") );
-	connect( newImplicit, SIGNAL(triggered(bool)), m_functionEditor, SLOT(createImplicit()) );
+	connect( newImplicit, &QAction::triggered, m_functionEditor, &FunctionEditor::createImplicit );
 	m_newPlotMenu->addAction( newImplicit );
 
 	QAction * newDifferential = actionCollection()->addAction( "newdifferential" );
         newDifferential->setText( i18n( "Differential Plot" ) );
 	newDifferential->setIcon( QIcon::fromTheme("newdifferential") );
-	connect( newDifferential, SIGNAL(triggered(bool)), m_functionEditor, SLOT(createDifferential()) );
+	connect( newDifferential, &QAction::triggered, m_functionEditor, &FunctionEditor::createDifferential );
 	m_newPlotMenu->addAction( newDifferential );
 	//END new plots menu
-
-
-	View::self()->m_menuSliderAction = actionCollection()->add<KToggleAction>( "options_configure_show_sliders" );
-        View::self()->m_menuSliderAction->setText( i18n( "Show Sliders" ) );
-	connect( View::self()->m_menuSliderAction, SIGNAL(triggered(bool)), this, SLOT(toggleShowSliders()) );
 
 
 	//BEGIN function popup menu
@@ -364,25 +363,25 @@ void MainDlg::setupActions()
         mnuEdit->setText(i18n("&Edit"));
 	m_firstFunctionAction = mnuEdit;
 	mnuEdit->setIcon( QIcon::fromTheme("editplots") );
-	connect(mnuEdit , SIGNAL(triggered(bool)), View::self(), SLOT(editCurrentPlot()) );
+	connect(mnuEdit, &QAction::triggered, View::self(), &View::editCurrentPlot );
 	m_popupmenu->addAction( mnuEdit );
 
 	QAction *mnuHide = actionCollection()->addAction( "mnuhide" );
         mnuHide->setText( i18n("&Hide") );
-	connect( mnuHide, SIGNAL(triggered(bool)), View::self(), SLOT(hideCurrentFunction()) );
+	connect( mnuHide, &QAction::triggered, View::self(), &View::hideCurrentFunction );
 	m_popupmenu->addAction( mnuHide );
 
 	QAction *mnuRemove = actionCollection()->addAction( "mnuremove"  );
         mnuRemove->setText(i18n("&Remove"));
 	mnuRemove->setIcon( QIcon::fromTheme("edit-delete") );
-	connect( mnuRemove, SIGNAL(triggered(bool)), View::self(), SLOT(removeCurrentPlot()) );
+	connect( mnuRemove, &QAction::triggered, View::self(), &View::removeCurrentPlot );
 	m_popupmenu->addAction( mnuRemove );
 
 	m_popupmenu->addSeparator();
 
 	QAction * animateFunction = actionCollection()->addAction( "animateFunction" );
         animateFunction->setText(i18n("Animate Plot..."));
-	connect( animateFunction, SIGNAL(triggered(bool)), View::self(), SLOT(animateFunction()) );
+	connect( animateFunction, &QAction::triggered, View::self(), &View::animateFunction );
 	m_popupmenu->addAction( animateFunction );
 	m_popupmenu->addSeparator();
 
@@ -783,8 +782,8 @@ void MainDlg::toggleShowSliders()
 	if ( !View::self()->m_sliderWindow )
 	{
 		View::self()->m_sliderWindow = new KSliderWindow( View::self() );
-		connect( View::self()->m_sliderWindow, SIGNAL(valueChanged()), View::self(), SLOT(drawPlot()) );
-		connect( View::self()->m_sliderWindow, SIGNAL(windowClosed()), View::self(), SLOT(sliderWindowClosed()) );
+		connect( View::self()->m_sliderWindow, &KSliderWindow::valueChanged, View::self(), QOverload<>::of(&View::drawPlot) );
+		connect( View::self()->m_sliderWindow, &KSliderWindow::windowClosed, View::self(), &View::sliderWindowClosed );
 	}
 	if ( !View::self()->m_sliderWindow->isVisible() )
 		View::self()->m_sliderWindow->show();
@@ -807,7 +806,7 @@ CoordsConfigDialog * MainDlg::coordsDialog( )
 	if ( !m_coordsDialog)
 	{
 		m_coordsDialog = new CoordsConfigDialog(m_parent);
-		connect( m_coordsDialog, SIGNAL(settingsChanged(QString)), View::self(), SLOT(drawPlot()) );
+		connect( m_coordsDialog, &CoordsConfigDialog::settingsChanged, View::self(), QOverload<>::of(&View::drawPlot) );
 	}
 
 	return m_coordsDialog;

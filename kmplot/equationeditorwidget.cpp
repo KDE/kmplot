@@ -49,22 +49,22 @@ EquationEditorWidget::EquationEditorWidget(QWidget* parent)
 	foreach (QToolButton* w, buttons) {
 		KAcceleratorManager::setNoAccel(w);
 		
-		connect(w, SIGNAL(clicked()), this, SLOT(characterButtonClicked()));
+		connect(w, &QToolButton::clicked, this, &EquationEditorWidget::characterButtonClicked);
 		
 		// Also increase the font size, since the fractions, etc are probably not that visible
 		// at the default font size
 		w->setFont(buttonFont);
 	}
 	
-	connect(constantsButton, SIGNAL(clicked()), this, SLOT(editConstants()));
-	connect(functionList, SIGNAL(activated(QString)), this, SLOT(insertFunction(QString)));
-	connect(constantList, SIGNAL(activated(int)), this, SLOT(insertConstant(int)));
+	connect(constantsButton, &QPushButton::clicked, this, &EquationEditorWidget::editConstants);
+	connect(functionList, QOverload<const QString &>::of(&QComboBox::activated), this, &EquationEditorWidget::insertFunction);
+	connect(constantList, QOverload<int>::of(&QComboBox::activated), this, &EquationEditorWidget::insertConstant);
 	
 	QStringList functions = XParser::self()->predefinedFunctions(false);
 	functions.sort();
 	functionList->addItems(functions);
 	
-	connect(XParser::self()->constants(), SIGNAL(constantsChanged()), this, SLOT(updateConstantList()));
+	connect(XParser::self()->constants(), &Constants::constantsChanged, this, &EquationEditorWidget::updateConstantList);
 	updateConstantList();
 }
 

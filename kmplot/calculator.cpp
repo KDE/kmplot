@@ -58,8 +58,8 @@ Calculator::Calculator( QWidget * parent )
 	m_display->setReadOnly( true );
 
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &Calculator::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &Calculator::reject);
 	layout->addWidget( buttonBox );
 
 	connect(m_input->edit, &EquationEdit::returnPressed, this, &Calculator::calculate);

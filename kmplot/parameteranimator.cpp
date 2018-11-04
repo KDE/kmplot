@@ -63,7 +63,7 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 
 	setWindowTitle( i18n("Parameter Animator") );
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &ParameterAnimator::reject);
 	m_widget->layout()->addWidget(buttonBox);
 
 	m_mode = Paused;

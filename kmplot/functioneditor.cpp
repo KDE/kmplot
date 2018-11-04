@@ -74,11 +74,11 @@ FunctionEditor::FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent )
 	m_syncFunctionListTimer = new QTimer( this );
 	m_syncFunctionListTimer->setSingleShot( true );
 	
-	connect( m_saveTimer[Function::Cartesian], SIGNAL(timeout()), this, SLOT(saveCartesian()) );
-	connect( m_saveTimer[Function::Polar], SIGNAL(timeout()), this, SLOT(savePolar()) );
-	connect( m_saveTimer[Function::Parametric], SIGNAL(timeout()), this, SLOT(saveParametric()) );
-	connect( m_saveTimer[Function::Implicit], SIGNAL(timeout()), this, SLOT(saveImplicit()) );
-	connect( m_saveTimer[Function::Differential], SIGNAL(timeout()), this, SLOT(saveDifferential()) );
+	connect( m_saveTimer[Function::Cartesian], &QTimer::timeout, this, &FunctionEditor::saveCartesian );
+	connect( m_saveTimer[Function::Polar], &QTimer::timeout, this, &FunctionEditor::savePolar );
+	connect( m_saveTimer[Function::Parametric], &QTimer::timeout, this, &FunctionEditor::saveParametric );
+	connect( m_saveTimer[Function::Implicit], &QTimer::timeout, this, &FunctionEditor::saveImplicit );
+	connect( m_saveTimer[Function::Differential], &QTimer::timeout, this, &FunctionEditor::saveDifferential );
 	connect(m_syncFunctionListTimer, &QTimer::timeout, this, &FunctionEditor::syncFunctionList);
 	
 	m_editor = new FunctionEditorWidget;

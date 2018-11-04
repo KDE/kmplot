@@ -34,6 +34,7 @@
 #include <QLinearGradient>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QPointer>
 #include <QPushButton>
 #include <QStyleOption>
 #include <QStyleOptionButton>
@@ -427,13 +428,13 @@ KGradientDialog::~KGradientDialog()
 // static
 int KGradientDialog::getGradient( QGradient & gradient, QWidget * parent )
 {
-	KGradientDialog dlg( parent, true );
-	dlg.setGradient( gradient );
+	QPointer<KGradientDialog> dlg = new KGradientDialog( parent, true );
+	dlg->setGradient( gradient );
 	
-	int result = dlg.exec();
+	int result = dlg->exec();
 	if ( result == Accepted )
-		gradient = dlg.gradient();
-	
+		gradient = dlg->gradient();
+	delete dlg;
 	return result;
 }
 

@@ -23,6 +23,7 @@
 
 #include "parameterswidget.h"
 
+#include <QPointer>
 #include "function.h"
 #include "kparametereditor.h"
 #include "xparser.h"
@@ -68,8 +69,9 @@ ParameterSettings ParametersWidget::parameterSettings() const
 
 void ParametersWidget::editParameterList()
 {
-	KParameterEditor * dlg = new KParameterEditor( & m_parameters, 0 );
+	QPointer<KParameterEditor> dlg = new KParameterEditor( & m_parameters, 0 );
 	dlg->exec();
+        delete dlg;
 	emit parameterListChanged();
 }
 

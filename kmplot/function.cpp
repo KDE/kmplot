@@ -386,12 +386,12 @@ void Equation::updateVariables()
 		int p1 = m_fstr.indexOf( '(' );
 		int p2 = m_fstr.indexOf( ')' );
 	
-		QStringList splitted;
+		QStringList listSplit;
 		if ( (p1 != -1) && (p2 != -1) )
-			splitted = m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts );
+			listSplit = m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts );
 		
 		// Variables shouldn't contain spaces!
-		foreach ( QString s, splitted ) { //krazy:exclude=foreach
+		foreach ( QString s, listSplit ) { //krazy:exclude=foreach
 			s = s.remove(' ');
 			if ( !s.isEmpty() )
 				m_variables << s;

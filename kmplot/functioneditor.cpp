@@ -279,7 +279,7 @@ void FunctionEditor::functionSelected( QListWidgetItem * item )
 	
 	// If there are any pending save events, then cancel them
 	for ( int i = 0; i < 5; ++i )
-		m_saveTimer[i]->stop();;
+		m_saveTimer[i]->stop();
 	
 	FunctionListItem * functionItem = static_cast<FunctionListItem*>(item);
 	

@@ -3111,7 +3111,7 @@ QPointF View::getPlotUnderMouse()
 			{
 				best_x = getClosestPoint( m_crosshairPosition, plot );
 				distance = pixelDistance( m_crosshairPosition, plot, best_x, false );
-				cspos = realValue( plot, best_x, false );;
+				cspos = realValue( plot, best_x, false );
 			}
 
 			if ( distance < best_distance )
@@ -3377,7 +3377,7 @@ void View::mouseMoveEvent(QMouseEvent *e)
 	{
 		if ( m_popupMenuStatus==Popup)
 			m_currentPlot.setFunctionID( -1 );
-		m_popupMenuStatus = NoPopup;;
+		m_popupMenuStatus = NoPopup;
 	}
 
 	update();
@@ -3944,16 +3944,15 @@ void View::updateSliders()
 		if ( it->m_parameters.useSlider && !it->allPlotsAreHidden() )
 		{
 			needSliderWindow = true;
-			break;;
+			break;
 		}
 	}
-	
-	m_menuSliderAction->setChecked( needSliderWindow );
 	
 	if ( !needSliderWindow )
 	{
 		if ( m_sliderWindow )
 			m_sliderWindow->hide();
+		m_menuSliderAction->setChecked( false );
 		return;
 	}
 	
@@ -3962,7 +3961,10 @@ void View::updateSliders()
 		m_sliderWindow = new KSliderWindow( this );
 		connect( m_sliderWindow, &KSliderWindow::valueChanged, this, QOverload<>::of(&View::drawPlot) );
 		connect( m_sliderWindow, &KSliderWindow::windowClosed, this, &View::sliderWindowClosed );
+		connect( m_sliderWindow, &KSliderWindow::finished, this, &View::sliderWindowClosed );
 	}
+	if ( m_menuSliderAction->isChecked() )
+		m_sliderWindow->show();
 }
 
 void View::sliderWindowClosed()

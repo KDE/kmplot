@@ -291,7 +291,7 @@ void MainDlg::setupActions()
 
 	View::self()->m_menuSliderAction = actionCollection()->add<KToggleAction>( "options_configure_show_sliders" );
 	View::self()->m_menuSliderAction->setText( i18n( "Show Sliders" ) );
-	connect( View::self()->m_menuSliderAction, &QAction::triggered, this, &MainDlg::toggleShowSliders );
+	connect( View::self()->m_menuSliderAction, &QAction::toggled, this, &MainDlg::toggleShowSliders );
 	//END view menu
 
 
@@ -778,17 +778,7 @@ void MainDlg::graphArea()
 
 void MainDlg::toggleShowSliders()
 {
-	// create the slider if it not exists already
-	if ( !View::self()->m_sliderWindow )
-	{
-		View::self()->m_sliderWindow = new KSliderWindow( View::self() );
-		connect( View::self()->m_sliderWindow, &KSliderWindow::valueChanged, View::self(), QOverload<>::of(&View::drawPlot) );
-		connect( View::self()->m_sliderWindow, &KSliderWindow::windowClosed, View::self(), &View::sliderWindowClosed );
-	}
-	if ( !View::self()->m_sliderWindow->isVisible() )
-		View::self()->m_sliderWindow->show();
-	else
-		View::self()->m_sliderWindow->hide();
+	View::self()->updateSliders();
 }
 
 void MainDlg::setReadOnlyStatusBarText(const QString &text)

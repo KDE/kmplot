@@ -106,7 +106,7 @@ View::View( bool readOnly, QMenu * functionPopup, QWidget* parent )
 	m_prevCursor = CursorArrow;
 	m_backgroundColor = Settings::backgroundcolor();
 	
-	m_textEdit = new QTextEdit;
+	m_textEdit = new KTextEdit;
 	m_textEdit->setWordWrapMode( QTextOption::NoWrap );
 	m_textEdit->setLineWrapMode( QTextEdit::NoWrap );
 	m_textDocument = m_textEdit->document();

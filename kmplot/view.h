@@ -39,12 +39,13 @@
 
 // KDE includes
 #include <KToggleAction>
+#include <KTextEdit>
 
 class KSliderWindow;
 class MainDlg;
 class QPaintEvent;
 class QTextDocument;
-class QTextEdit;
+class KTextEdit;
 class QTime;
 class QMenu;
 
@@ -625,7 +626,7 @@ class View : public QWidget
 		
 		static View * m_self;
 		
-		QTextEdit * m_textEdit; ///< Contains m_textDocument
+		KTextEdit * m_textEdit; ///< Contains m_textDocument
 		QTextDocument * m_textDocument; ///< Used for layout of axis labels
 };
 

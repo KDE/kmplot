@@ -117,7 +117,7 @@ FunctionEditor::FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent )
 	
 	connect(m_editor->deleteButton, &QPushButton::clicked, this, &FunctionEditor::deleteCurrent);
 	connect(m_functionList, &FunctionListWidget::currentItemChanged, this, &FunctionEditor::functionSelected);
-	connect(m_functionList, &FunctionListWidget::itemClicked, this, &FunctionEditor::save);
+	connect(m_functionList, &FunctionListWidget::itemClicked, this, &FunctionEditor::saveItem);
 	
 	//BEGIN connect up all editing widgets
 #define CONNECT_WIDGETS( name, signal ) \
@@ -544,6 +544,23 @@ void FunctionEditor::save()
 	m_saveTimer[ f->type() ]->start( 0 );
 }
 
+// TODO This should be a part of a model. The proper model should be created later.
+void FunctionEditor::saveItem(QListWidgetItem *item)
+{
+	if (item != m_functionList->currentItem())
+	{
+		m_functionList->setCurrentItem(item);
+		if (item->checkState() == Qt::Checked)
+		{
+			item->setCheckState(Qt::Unchecked);
+		} else
+		{
+			item->setCheckState(Qt::Checked);
+		}
+	}
+
+	save();
+}
 
 void FunctionEditor::saveCartesian()
 {

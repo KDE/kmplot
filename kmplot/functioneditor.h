@@ -95,6 +95,10 @@ class FunctionEditor : public QDockWidget
 		 */
 		void save();
 		/**
+		 * Called when the user ticks or unticks an item in the function list.
+		 */
+		void saveItem(QListWidgetItem *item);
+		/**
 		 * Updates the list of functions (called when a function is added or
 		 * removed from Parser).
 		 */

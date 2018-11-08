@@ -602,9 +602,12 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 	}
 	
 	m_ufkt[ temp->id() ] = temp;
-	
-	temp->plotAppearance( Function::Derivative0 ).color = temp->plotAppearance( Function::Derivative1 ).color = temp->plotAppearance( Function::Derivative2 ).color = temp->plotAppearance( Function::Integral ).color = XParser::self()->defaultColor( temp->id() );
-	
+
+	temp->plotAppearance( Function::Derivative0 ).color = XParser::self()->defaultColor( temp->id() );
+	temp->plotAppearance( Function::Derivative1 ).color = QColor::fromRgb( QRandomGenerator::global()->generate() );
+	temp->plotAppearance( Function::Derivative2 ).color = QColor::fromRgb( QRandomGenerator::global()->generate() );
+	temp->plotAppearance( Function::Integral ).color = QColor::fromRgb( QRandomGenerator::global()->generate() );
+
 	emit functionAdded( temp->id() );
 	return temp->id(); //return the unique ID-number for the function
 }

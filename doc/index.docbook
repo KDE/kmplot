@@ -360,7 +360,7 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 	</screenshot>
 
 	<para>When right-clicking on a plot function or a single-point parametric plot function a popup menu will appear.
-		In the menu there are three items available:</para>
+		In the menu there are five items available:</para>
 
 	<variablelist>
 		<varlistentry>
@@ -402,7 +402,7 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 		</varlistentry>
 	</variablelist>
 
-	<para>Depending on the plot type, there will also be up to four tools available:</para>
+	<para>Depending on the plot type, there will also be up to three tools available:</para>
 
 	<variablelist>
 		<varlistentry>

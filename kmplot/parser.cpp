@@ -604,9 +604,10 @@ int Parser::addFunction( const QString & str1, const QString & str2, Function::T
 	m_ufkt[ temp->id() ] = temp;
 
 	temp->plotAppearance( Function::Derivative0 ).color = XParser::self()->defaultColor( temp->id() );
-	temp->plotAppearance( Function::Derivative1 ).color = QColor::fromRgb( QRandomGenerator::global()->generate() );
-	temp->plotAppearance( Function::Derivative2 ).color = QColor::fromRgb( QRandomGenerator::global()->generate() );
-	temp->plotAppearance( Function::Integral ).color = QColor::fromRgb( QRandomGenerator::global()->generate() );
+	// Better use QRandomGenerator::global()->generate() instead of qrand() since Qt 5.10
+	temp->plotAppearance( Function::Derivative1 ).color = QColor::fromRgb( qrand() );
+	temp->plotAppearance( Function::Derivative2 ).color = QColor::fromRgb( qrand() );
+	temp->plotAppearance( Function::Integral ).color = QColor::fromRgb( qrand() );
 
 	emit functionAdded( temp->id() );
 	return temp->id(); //return the unique ID-number for the function

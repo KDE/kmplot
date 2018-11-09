@@ -1581,7 +1581,10 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	}
 	//END replace e.g. |x+2| with abs(x+2)
 	
-	str->replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.'
+	if (m_decimalSymbol == ",")
+		str->replace(QRegularExpression("(\\d),(\\d)"), "\\1.\\2"); //if we use comma as a decimal separator it is reasonable to separate numbers in function arguments by comma with space
+	else
+		str->replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.' otherwise
 	
 	//BEGIN build up strings
 	QMap< LengthOrderedString, StringType > strings;

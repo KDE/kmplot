@@ -3057,7 +3057,7 @@ void View::fillPopupMenu( )
 	if ( !function )
 		return;
 	
-	m_popupMenuTitle->setText( m_currentPlot.name() );
+	m_popupMenuTitle->setText( m_currentPlot.name().replace( '\n', "; " ) );
 	
 	QAction *calcArea = MainDlg::self()->actionCollection()->action("grapharea");
 	QAction *maxValue = MainDlg::self()->actionCollection()->action("maximumvalue");

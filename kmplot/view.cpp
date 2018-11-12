@@ -2380,8 +2380,8 @@ void View::drawHeaderTable( QPainter *painter )
 {
 	painter->setFont( Settings::headerTableFont() );
 	
-	QString alx = Settings::xMin() + i18n("  to  ") + Settings::xMax();
-	QString aly = Settings::yMin() + i18n("  to  ") + Settings::yMax();
+	QString alx = i18nc("%1=minimum value, %2=maximum value", "%1 to %2", Settings::xMin(), Settings::xMax());
+	QString aly = i18nc("%1=minimum value, %2=maximum value", "%1 to %2", Settings::yMin(), Settings::yMax());
 	
 	QString atx = "1E = " + ticSepX.expression();
 	QString aty = "1E = " + ticSepY.expression();

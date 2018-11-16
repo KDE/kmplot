@@ -711,8 +711,12 @@ void MainDlg::editConstants()
 
 void MainDlg::editConstantsModal(QWidget *parent)
 {
-	delete m_constantEditor;
-	m_constantEditor = new KConstantEditor(parent);
+	if (m_constantEditor) {
+		m_constantEditor->hide();
+	}
+	else {
+		m_constantEditor = new KConstantEditor(parent);
+	}
 
 	m_constantEditor->setModal(true);
 	m_constantEditor->show();

@@ -3314,9 +3314,6 @@ QString View::posToString( double x, double delta, PositionFormatting format, co
 			else
 				numberText = QString::number( x*(pow(10.0,decimalPlaces)), 'f', 0 ) + QString( -decimalPlaces, '0' );
 
-			if ( x > 0.0 )
-				numberText.prepend('+');
-
 			break;
 		}
 	}

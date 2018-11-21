@@ -1019,7 +1019,19 @@ QString Plot::name( ) const
 	
 	if ( m_function->eq[0]->usesParameter() )
 		n += QString( "\n%1 = %2" ).arg( m_function->eq[0]->parameterName() ).arg( Parser::number( parameterValue() ) );
-	
+
+	if ( plotMode == Function::Derivative1 )
+		n = n.section('=', 0, 0).replace('(', "\'(");
+
+	if ( plotMode == Function::Derivative2 )
+		n = n.section('=', 0, 0).replace('(', "\'\'(");
+
+	if ( plotMode == Function::Integral )
+	{
+		QString functionName = n.section('=', 0, 0);
+		n = QChar(0x222B) + ' ' + functionName + "d" + functionName.section('(', 1, 1).remove(')').section(',', 0, 0);
+	}
+
 	return n;
 }
 

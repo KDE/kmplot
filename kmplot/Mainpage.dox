@@ -1,0 +1,12 @@
+/**
+
+@mainpage KmPlot
+
+Here you can browse the Doxygen documentation for the [KmPlot](https://userbase.kde.org/KmPlot "KmPlot homepage") source code.
+
+@licenses @gpl
+
+*/
+
+// What is this?
+// DOXYGEN_SET_PROJECT_NAME = KmPlot

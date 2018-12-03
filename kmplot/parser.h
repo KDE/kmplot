@@ -262,7 +262,8 @@ class Parser : public QObject
 		 */
 		double fkt( Equation * it, const Vector & x );
 		/**
-		 * Evaluates the given expression \p str.
+		 * Evaluates the given expression.
+		 * \param str the given expression.
 		 * \param error if non-null, then will be set to the parser error (or
 		 * ParserSuccess if no errors).
 		 * \param errorPosition will be set to the position of the error (if

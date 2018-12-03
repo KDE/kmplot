@@ -50,16 +50,12 @@ class KmPlotIO
 		 * Store all information about the current saved plot in a xml file
 		 * with the .fkt extension in the filename file.
 		 * @param url Name (URL) of the file which will be saved.
-		 * @param exportConstants Whether to save the constants to the file as
-		 * well.
 		 */
 		bool save( const QUrl &url );
 		
 		/**
 		 * @return a QDomDocument describing the current KmPlot state (settings
 		 * and functions).
-		 * @param includeConstants Whether to include the current lists of
-		 * constants in the returned state.
 		 */
 		QDomDocument currentState();
 		
@@ -67,8 +63,6 @@ class KmPlotIO
 		 * Read a kmpdoc xml file to restore the settings of a previously saved
 		 * plot.
 		 * @param url Name (URL) of file which will be opened
-		 * @param exportConstants Set to true or false depending on whether the
-		 * opened file had constants saved in it.
 		 */
 		bool load( const QUrl &url );
 		

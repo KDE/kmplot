@@ -22,7 +22,7 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-/** @file MainDlg.h
+/** @file maindlg.h
  * @brief Contains the main window class MainDlg. */
 
 #ifndef MainDlg_included

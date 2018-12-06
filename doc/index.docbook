@@ -43,8 +43,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2018-11-09</date>
-<releaseinfo>1.2.2 (Applications 18.12)</releaseinfo>
+<date>2018-11-23</date>
+<releaseinfo>1.3.0 (Applications 19.04)</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
@@ -469,7 +469,7 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 		</mediaobject>
 	</screenshot>
 
-	<para>Here you can set global settings which automatic will be saved when you exit &kmplot;. you can set angle-mode (radians and degrees), zoom in and zoom out factors, and whether to show advanced plot tracing. </para>
+    <para>Here you can set global settings which automatic will be saved when you exit &kmplot;. You can set angle-mode (radians and degrees), zoom in and zoom out factors for zooming using &Ctrl; with mouse wheel or the <link linkend="a-view-menu">corresponding menu items</link>, and whether to show advanced plot tracing.</para>
 </sect1>
 
 <sect1 id="diagram-config">
@@ -1214,6 +1214,11 @@ chapter of the &kde; Fundamentals documentation &kmplot; has these application s
 <sect2 id="a-view-menu">
 	<title>The View Menu</title>
 	<para>The first three items in the menu are related to zooming.</para>
+	<note>
+		<para>
+			The mouse wheel can also be used as a zoom control. To zoom in or out using the mouse, hold down the &Ctrl; key while you turn the mouse wheel. Each tick increases or decreases the zoom factor by the value defined in the <link linkend="general-config">&kmplot; General settings</link>.
+		</para>
+	</note>
 
 	<variablelist>
 		<varlistentry>

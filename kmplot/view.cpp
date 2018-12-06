@@ -87,7 +87,9 @@ View::View( bool readOnly, QMenu * functionPopup, QWidget* parent )
 	: QWidget( parent ),
 	  buffer( width(), height() ),
 	  m_popupMenu( functionPopup ),
-	  m_readonly( readOnly )
+	  m_readonly( readOnly ),
+	  m_AccumulatedDelta(0),
+	  m_viewportAnimation( new QPropertyAnimation( this, "viewport" ) )
 {
 	assert( !m_self ); // this class should only be constructed once
 	m_self = this;
@@ -2972,6 +2974,7 @@ bool View::crosshairPositionValid( Function * plot ) const
 
 void View::mousePressEvent(QMouseEvent *e)
 {
+	m_AccumulatedDelta = 0;
 	m_mousePressTimer->start();
 
 	// In general, we want to update the view
@@ -3326,6 +3329,12 @@ QString View::posToString( double x, double delta, PositionFormatting format, co
 
 void View::mouseMoveEvent(QMouseEvent *e)
 {
+	if ( m_previousMouseMovePos != e->globalPos() )
+	{
+		m_AccumulatedDelta = 0;
+	}
+	m_previousMouseMovePos = e->globalPos();
+	m_AccumulatedDelta = 0;
 	if ( m_isDrawing || !e)
 		return;
 
@@ -3389,6 +3398,33 @@ void View::leaveEvent(QEvent *)
 
 	updateCrosshairPosition();
 	update();
+}
+
+
+void View::wheelEvent(QWheelEvent *e)
+{
+	m_AccumulatedDelta += e->delta();
+
+	if (e->modifiers() & Qt::ControlModifier)
+	{
+		if (m_AccumulatedDelta >= QWheelEvent::DefaultDeltasPerStep)
+		{
+			zoomIn( e->pos(), double(Settings::zoomInStep())/100.0 );
+			m_AccumulatedDelta = 0;
+		}
+		else if (m_AccumulatedDelta <= -QWheelEvent::DefaultDeltasPerStep)
+		{
+			zoomIn( e->pos(), (double(Settings::zoomOutStep())/100.0) + 1.0 );
+			m_AccumulatedDelta = 0;
+		}
+		e->accept();
+		return;
+	}
+	else
+	{
+		m_AccumulatedDelta = 0;
+	}
+	QWidget::wheelEvent(e);
 }
 
 
@@ -3621,72 +3657,53 @@ void View::animateZoom( const QRectF & _newCoords )
 
 	m_zoomMode = AnimatingZoom;
 
-	double oldCoordsArea = (m_xmax-m_xmin) * (m_ymax-m_ymin);
-	double newCoordsArea = newCoords.width() * newCoords.height();
-
-	QPointF beginTL, beginBR, endTL, endBR;
-
-	if ( oldCoordsArea > newCoordsArea )
+	if ( style()->styleHint(QStyle::SH_Widget_Animate) && m_viewportAnimation->state() == QAbstractAnimation::Stopped )
 	{
-		// zooming in
-		beginTL = newCoords.topLeft();
-		beginBR = newCoords.bottomRight();
-		endTL = QPointF( m_xmin, m_ymin );
-		endBR = QPointF( m_xmax, m_ymax );
+		m_viewportAnimation->setDuration( 150 );
+		m_viewportAnimation->setEasingCurve( QEasingCurve::OutCubic );
+		m_viewportAnimation->setStartValue( oldCoords );
+		m_viewportAnimation->setEndValue( newCoords );
+		m_viewportAnimation->start();
+		connect(m_viewportAnimation, &QPropertyAnimation::finished, [this, newCoords]
+		{
+			finishAnimation( newCoords );
+		});
 	}
 	else
-	{
-		// zooming out
-		beginTL = QPointF( m_xmin, m_ymin );
-		beginBR = QPointF( m_xmax, m_ymax );
-
-		double kx = ( m_xmin - m_xmax ) / ( newCoords.left() - newCoords.right() );
-		double ky = ( m_ymin - m_ymax ) / ( newCoords.top() - newCoords.bottom() );
-
-		double lx = m_xmin - (kx * newCoords.left());
-		double ly = m_ymin - (ky * newCoords.top());
-
-		endTL = QPointF( (kx * m_xmin) + lx, (ky * m_ymin) + ly );
-		endBR = QPointF( (kx * m_xmax) + lx, (ky * m_ymax) + ly );
+        {
+		finishAnimation( newCoords );
 	}
+	Settings::self()->save();
+}
 
-	double MAX = 10;
-	double ms = MAX*16; // milliseconds to animate for
-
-	for ( int i = 0; i <= MAX; ++i )
-	{
-		QTime t;
-		t.start();
-
-		QPointF tl = (( i*endTL) + ((MAX-i)*beginTL)) / MAX;
-		QPointF br = (( i*endBR) + ((MAX-i)*beginBR)) / MAX;
-
-		m_animateZoomRect = QRectF( tl, QSizeF( br.x()-tl.x(), br.y()-tl.y() ) );
-
-		repaint();
-
-		if ( i == MAX )
-			break;
-		else while ( t.elapsed() < (ms/MAX) )
-			; // do nothing
-	}
-	
-	m_xmin = newCoords.left();
-	m_xmax = newCoords.right();
-	m_ymin = newCoords.top();
-	m_ymax = newCoords.bottom();
+void View::finishAnimation( const QRectF & rect )
+{
+	m_xmin = rect.left();
+	m_xmax = rect.right();
+	m_ymin = rect.top();
+	m_ymax = rect.bottom();
 
 	Settings::setXMin( Parser::number( m_xmin ) );
 	Settings::setXMax( Parser::number( m_xmax ) );
 	Settings::setYMin( Parser::number( m_ymin ) );
 	Settings::setYMax( Parser::number( m_ymax ) );
-	Settings::self()->save();
 	MainDlg::self()->coordsDialog()->updateXYRange();
 	MainDlg::self()->requestSaveCurrentState();
 
 	drawPlot(); //update all graphs
 
 	m_zoomMode = Normal;
+}
+
+const QRectF View::getViewport()
+{
+	return m_animateZoomRect;
+}
+
+void View::setViewport( const QRectF & rect )
+{
+	m_animateZoomRect = rect;
+	repaint();
 }
 
 

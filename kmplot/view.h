@@ -30,11 +30,13 @@
 
 // Qt includes
 #include <QDebug>
+#include <QEasingCurve>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPixmap>
 #include <QPointer>
+#include <QPropertyAnimation>
 #include <QResizeEvent>
 
 // KDE includes
@@ -81,6 +83,7 @@ class QMenu;
 class View : public QWidget
 {
 	Q_OBJECT
+	Q_PROPERTY( QRectF viewport READ getViewport WRITE setViewport )
 	public:
 		/// Constructor
 		View( bool readOnly, QMenu * functionPopup, QWidget* parent );
@@ -250,6 +253,8 @@ class View : public QWidget
 		void keyPressEvent(QKeyEvent * ) Q_DECL_OVERRIDE;
 		/// called when a mouse key is released
 		void mouseReleaseEvent ( QMouseEvent * e ) Q_DECL_OVERRIDE;
+		/// called for zooming with Ctrl+mouse wheel
+		void wheelEvent(QWheelEvent *event);
 		/// Is needed to be reimplement so that the user can stop a preview-drawing
 		bool event( QEvent * e ) Q_DECL_OVERRIDE;
 		/**
@@ -498,7 +503,12 @@ class View : public QWidget
 		 * Positions of the first grid line.
 		 */
 		double ticStartX, ticStartY;
-	
+
+		/**
+		 * Mouse pointer previous for zooming.
+		 */
+		QPoint m_previousMouseMovePos;
+
 		QPointF m_crosshairPixelCoords;
 		QPointF m_crosshairPosition;	///< in real coordinates
 	
@@ -601,6 +611,8 @@ class View : public QWidget
 		QPoint m_prevDragMousePos;
 		/// timer that is started when the mouse is pressed
 		QTime * m_mousePressTimer;
+		/** Current plot viewport. */
+		const QRectF getViewport();
 		
 		/**
 		 * The rectangle (in painter, and hence pixel, coordinates) that the
@@ -628,6 +640,18 @@ class View : public QWidget
 		
 		KTextEdit * m_textEdit; ///< Contains m_textDocument
 		QTextDocument * m_textDocument; ///< Used for layout of axis labels
+
+		/// Accumulates mouse or trackpad scrolling to enable Ctrl+mouse wheel scaling on faulty devices
+		int m_AccumulatedDelta;
+
+		/// Animation for the viewport
+		QPropertyAnimation * m_viewportAnimation;
+
+		/// Finishes animation of the viewport and get the View back to the Normal mode
+		void finishAnimation( const QRectF & rect );
+
+	private slots:
+		void setViewport( const QRectF & rect );
 };
 
 #endif // View_included

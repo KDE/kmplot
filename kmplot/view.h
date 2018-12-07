@@ -254,7 +254,7 @@ class View : public QWidget
 		/// called when a mouse key is released
 		void mouseReleaseEvent ( QMouseEvent * e ) Q_DECL_OVERRIDE;
 		/// called for zooming with Ctrl+mouse wheel
-		void wheelEvent(QWheelEvent *event);
+		void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 		/// Is needed to be reimplement so that the user can stop a preview-drawing
 		bool event( QEvent * e ) Q_DECL_OVERRIDE;
 		/**

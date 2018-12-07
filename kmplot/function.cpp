@@ -1029,7 +1029,7 @@ QString Plot::name( ) const
 	if ( plotMode == Function::Integral )
 	{
 		QString functionName = n.section('=', 0, 0);
-		n = QChar(0x222B) + ' ' + functionName + "d" + functionName.section('(', 1, 1).remove(')').section(',', 0, 0);
+		n = QChar(0x222B) + ' ' + functionName + 'd' + functionName.section('(', 1, 1).remove(')').section(',', 0, 0);
 	}
 
 	return n;

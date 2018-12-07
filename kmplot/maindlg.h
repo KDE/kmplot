@@ -151,11 +151,11 @@ public slots:
 private:
 	/// Settings the standard and non standard actions of the application.
 	void setupActions();
-	/// Called when a file is opened. The filename is is m_url
+	/// Called when a file is opened. The filename is m_url
 	bool openFile() Q_DECL_OVERRIDE;
 
-
-    bool saveFile() Q_DECL_OVERRIDE;
+	/// Called when a file is saved. The filename is m_url
+	bool saveFile() Q_DECL_OVERRIDE;
 
 	///The Recent Files action
 	KRecentFilesAction * m_recentFiles;

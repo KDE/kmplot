@@ -106,6 +106,7 @@
       <caption xml:lang="sv">Kvadratisk funktion, dess derivata och integral uppritade med Kmplot</caption>
       <caption xml:lang="uk">Квадратична функція, її похідна та інтеграл на кресленні KmPlot</caption>
       <caption xml:lang="x-test">xxQuadratic function, its derivative and integral plotted with KmPlotxx</caption>
+      <caption xml:lang="zh-CN">二次函数，其导数和积分用 KmPlot 绘制</caption>
       <caption xml:lang="zh-TW">使用 KmPlot 繪製二次函數、其延伸物和積分</caption>
       <image>http://edu.kde.org/images/screenshots/kmplot.png</image>
     </screenshot>

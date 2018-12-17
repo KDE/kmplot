@@ -188,7 +188,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 	// Let's create a Configure Dialog
 	m_settingsDialog = new KConfigDialog( parentWidget, "settings", Settings::self() );
 
-	// m_settingsDialog->setHelp("configuration", QLatin1String("kmplot"));
+	QMetaObject::invokeMethod(m_settingsDialog, "setHelp", Qt::DirectConnection, Q_ARG(QString, "configuration"), Q_ARG(QString, "kmplot"));
 
 	// create and add the page(s)
 	m_generalSettings = new SettingsPageGeneral( View::self() );

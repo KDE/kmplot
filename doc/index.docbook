@@ -135,6 +135,10 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 		to get another plot.
 	</para>
 
+	<para>
+		Drag and drop the item <userinput>y = 5sin(x)</userinput> in the left sidebar to clone the plot. Replace <userinput>sin</userinput> with <userinput>cos</userinput> to get the cosine plot of the same color.
+	</para>
+
 	<para>Click on one of the lines you have just plotted. Now the crosshair
 		becomes the color of the current plot and is attached to the it.  You can
 		use the mouse to move the crosshair along the plot.  In the status

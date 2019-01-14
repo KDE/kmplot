@@ -26,6 +26,7 @@
 #include "maindlg.h"
 
 // Qt includes
+#include <QClipboard>
 #include <QDebug>
 #include <QFileDialog>
 #include <QIcon>
@@ -131,7 +132,8 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 		KParts::ReadWritePart( parent ),
 		m_recentFiles( 0 ),
 		m_modified(false),
-		m_parent(parentWidget)
+		m_parent(parentWidget),
+		m_rootValue( 0 )
 {
 	assert( !m_self ); // this class should only be constructed once
 	m_self = this;
@@ -389,6 +391,28 @@ void MainDlg::setupActions()
 	m_popupmenu->addAction( mnuMinValue );
 	m_popupmenu->addAction( mnuMaxValue );
 	m_popupmenu->addAction( mnuArea );
+
+	QAction * copyXY = actionCollection()->addAction( "copyXY" );
+	copyXY->setText(i18n("Copy (x, y)"));
+	connect( copyXY, &QAction::triggered, []{
+		QClipboard * cb = QApplication::clipboard();
+		QPointF currentXY = View::self()->getCrosshairPosition();
+		cb->setText( i18nc("Copied pair of coordinates (x, y)", "(%1, %2)", QLocale().toString( currentXY.x(), 'f', 5 ), QLocale().toString( currentXY.y(), 'f', 5 )), QClipboard::Clipboard );
+	} );
+	m_popupmenu->addAction( copyXY );
+
+	QAction * copyRootValue = actionCollection()->addAction( "copyRootValue" );
+	copyRootValue->setText(i18n("Copy Root Value"));
+	connect( View::self(), &View::updateRootValue, [this, copyRootValue]( bool haveRoot, double rootValue ){
+		copyRootValue->setVisible(haveRoot);
+		m_rootValue = rootValue;
+	} );
+	connect( copyRootValue, &QAction::triggered, [this]{
+		QClipboard * cb = QApplication::clipboard();
+		cb->setText( QLocale().toString( m_rootValue, 'f', 5 ), QClipboard::Clipboard );
+	} );
+	m_popupmenu->addAction( copyRootValue );
+
 	//END function popup menu
 }
 

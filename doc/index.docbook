@@ -406,9 +406,31 @@ url="http://edu.kde.org/">http://edu.kde.org/</ulink></para></abstract>
 		</varlistentry>
 	</variablelist>
 
-	<para>Depending on the plot type, there will also be up to three tools available:</para>
+	<para>Depending on the plot type, there will also be up to five tools available:</para>
 
 	<variablelist>
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Copy (x, y)</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+				<para>Copies the current value on the plot to the system clipboard.
+					This tool can be useful for creating tables of function values outside of &kmplot;.
+				</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term><menuchoice><guimenuitem>Copy Root Value</guimenuitem>
+				</menuchoice></term>
+			<listitem>
+                            <para>Copies the root <literal>x</literal> value to the system clipboard.
+					Only up to the first five digits after the decimal point can be copied.
+                                        Use some <ulink url="https://en.wikipedia.org/wiki/Computer_algebra_system">computer algebra system</ulink> to determine this root with arbitrary precision.
+					This tool is only available when the current tracking position is close to a root.
+				</para>
+			</listitem>
+		</varlistentry>
+
 		<varlistentry>
 			<term><menuchoice><guimenuitem>Plot Area...</guimenuitem>
 				</menuchoice></term>

@@ -215,6 +215,9 @@ private:
 	/// A pointer to ourselves
 	static MainDlg * m_self;
 
+	/// Root value for copying into clipboard
+	double m_rootValue;
+
 protected slots:
 	/**
 	* When you click on a File->Open Recent file, it'll open

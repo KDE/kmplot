@@ -209,6 +209,11 @@ class View : public QWidget
 			SectionCount		= 4
 		};
 
+		/**
+		 * Crosshair position in real coordinates
+		 */
+		QPointF getCrosshairPosition() const;
+
 	public slots:
 		/// Called when the user want to cancel the drawing
 		void stopDrawing();
@@ -235,6 +240,7 @@ class View : public QWidget
 	
 	signals:
 		void setStatusBarText(const QString &);
+		void updateRootValue(bool haveRoot, double rootValue);
 	
 	protected:
 		/// called when focus is lost

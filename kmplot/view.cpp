@@ -96,6 +96,7 @@ View::View( bool readOnly, QMenu * functionPopup, QWidget* parent )
     setAttribute( Qt::WA_StaticContents );
 	
 	m_haveRoot = false;
+	emit updateRootValue( false, 0 );
 	m_xmin = m_xmax = m_ymin = m_ymax = 0.0;
 	m_printHeaderTable = false;
 	m_printBackground = false;
@@ -3511,10 +3512,14 @@ bool View::updateCrosshairPosition()
 					str += i18n("root") + ":  x" + SubscriptZeroSymbol + " = ";
 					setStatusBar( str+QString().sprintf("%+.5f", x0), RootSection );
 					m_haveRoot=true;
+					emit updateRootValue( true, x0 );
 				}
 			}
 			else
+			{
 				m_haveRoot=false;
+				emit updateRootValue( false, 0 );
+			}
 		}
 
 		// For Cartesian plots, only adjust the cursor position if it is not at the ends of the view
@@ -4246,6 +4251,11 @@ void View::setPrintWidth( double width )
 void View::setPrintHeight( double height )
 {
 	m_printHeight = height;
+}
+
+QPointF View::getCrosshairPosition() const
+{
+	return m_crosshairPosition;
 }
 
 //END class View

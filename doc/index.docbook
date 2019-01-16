@@ -1220,7 +1220,28 @@ chapter of the &kde; Fundamentals documentation &kmplot; has these application s
 					<guimenuitem>Export...</guimenuitem></menuchoice></term>
 			<listitem><para><action>Exports</action> the plotted graphs to an image file in all formats supported by &kde;.</para></listitem>
 		</varlistentry>
-
+		<varlistentry>
+			<term>
+				<menuchoice>
+					<guimenu>File</guimenu>
+					<guimenuitem>Print...</guimenuitem>
+				</menuchoice>
+			</term>
+			<listitem>
+				<para><action>Opens</action> print configuration window. Press the <guibutton>Options >></guibutton> button then choose the <guilabel>KmPlot Options</guilabel> tab to configure options that are specific for &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice>
+					<guimenu>File</guimenu>
+					<guimenuitem>Print Preview</guimenuitem>
+				</menuchoice>
+			</term>
+			<listitem>
+				<para><action>Shows</action> the preliminary image of the current plot as printed on the current default printer. Press the rightmost button on the toolbar of the print preview window to configure options that are specific for &kmplot;.</para>
+			</listitem>
+		</varlistentry>
 	</variablelist>
 </sect2>
 

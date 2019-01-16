@@ -31,6 +31,7 @@
 // Qt includes
 #include <QDomDocument>
 #include <QMenu>
+#include <QPrinter>
 #include <QStack>
 #include <QStandardPaths>
 
@@ -47,6 +48,7 @@
 #include "coordsconfigdialog.h"
 #include "view.h"
 #include "kmplotio.h"
+#include "kprinterdlg.h"
 
 class BrowserExtension;
 class Calculator;
@@ -134,6 +136,8 @@ public slots:
 	void slotSaveas();
 	///Print the current plot
 	void slotPrint();
+	/// For calling print preview functionality
+	void slotPrintPreview();
 	///Export the current plot as a png, svg or bmp picture
 	void slotExport();
 	///Implement the Configure KmPlot dialog
@@ -151,6 +155,8 @@ public slots:
 private:
 	/// Settings the standard and non standard actions of the application.
 	void setupActions();
+	/// Sets the printer options and draw the plot with the current options.
+	void setupPrinter(KPrinterDlg *printDialog, QPrinter *printer);
 	/// Called when a file is opened. The filename is m_url
 	bool openFile() Q_DECL_OVERRIDE;
 

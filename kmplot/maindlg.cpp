@@ -37,7 +37,8 @@
 #include <QMimeType>
 #include <QPixmap>
 #include <QPrintDialog>
-#include <QPrinter>
+#include <QPrintPreviewDialog>
+#include <QPrintPreviewWidget>
 #include <QStandardPaths>
 #include <QSvgGenerator>
 #include <QTemporaryFile>
@@ -60,7 +61,6 @@
 #include "calculator.h"
 #include "functiontools.h"
 #include "functioneditor.h"
-#include "kprinterdlg.h"
 #include "kconstanteditor.h"
 #include "xparser.h"
 
@@ -232,6 +232,7 @@ void MainDlg::setupActions()
         m_recentFiles = KStandardAction::openRecent( this, SLOT(slotOpenRecent(QUrl)), this );
         actionCollection()->addAction( "file_open_recent", m_recentFiles );
 	actionCollection()->addAction( KStandardAction::Print, "file_print", this, SLOT(slotPrint()) );
+	actionCollection()->addAction( KStandardAction::PrintPreview, "file_print_preview", this, SLOT(slotPrintPreview()) );
 	KStandardAction::save( this, SLOT(slotSave()), actionCollection() );
 	KStandardAction::saveAs( this, SLOT(slotSaveas()), actionCollection() );
 
@@ -708,15 +709,54 @@ void MainDlg::slotPrint()
 
 	if (printDialog->exec())
 	{
-		View::self()->setPrintHeaderTable( printdlg->printHeaderTable() );
-		View::self()->setPrintBackground( printdlg->printBackground() );
-		View::self()->setPrintWidth( printdlg->printWidth() );
-		View::self()->setPrintHeight( printdlg->printHeight() );
-		View::self()->draw(&prt, View::Printer);
+		setupPrinter(printdlg, &prt);
 	}
         delete printDialog;
 }
 
+void MainDlg::slotPrintPreview()
+{
+	QPrinter prt( QPrinter::PrinterResolution );
+	QPointer<QPrintPreviewDialog> preview = new QPrintPreviewDialog( &prt );
+	QPointer<KPrinterDlg> printdlg = new KPrinterDlg( m_parent );
+	QList<QToolBar *> toolbarlist = preview->findChildren<QToolBar *>();
+	if(!toolbarlist.isEmpty())
+	{
+		QAction *printSettings = toolbarlist.first()->addAction( QIcon::fromTheme( "configure" ), i18n("Print Settings") );
+		QList<QPrintPreviewWidget*> previewWidgetsList = preview->findChildren<QPrintPreviewWidget*>();
+		QPrintPreviewWidget *previewWidget = previewWidgetsList.first();
+		connect( printSettings, &QAction::triggered, [preview, previewWidget, printdlg, &prt]{
+			QDialog *printSettingsDialog = new QDialog( preview, Qt::WindowFlags() );
+			printSettingsDialog->setWindowTitle( i18n("Print Settings") );
+			QVBoxLayout *mainLayout = new QVBoxLayout;
+			printSettingsDialog->setLayout(mainLayout);
+			mainLayout->addWidget(printdlg);
+			QDialogButtonBox *buttonBox = new QDialogButtonBox( QDialogButtonBox::Ok|QDialogButtonBox::Cancel );
+			connect(buttonBox, &QDialogButtonBox::accepted, [previewWidget, printSettingsDialog]{
+				previewWidget->updatePreview();
+				printSettingsDialog->close();
+			} );
+			connect(buttonBox, &QDialogButtonBox::rejected, printSettingsDialog, &QDialog::reject);
+			mainLayout->addWidget(buttonBox);
+			printSettingsDialog->show();
+		});
+	}
+	connect(preview, &QPrintPreviewDialog::paintRequested, [this, &printdlg, &prt]{
+		setupPrinter(printdlg, &prt);
+	} );
+	preview->exec();
+	delete printdlg;
+	delete preview;
+}
+
+void MainDlg::setupPrinter(KPrinterDlg *printDialog, QPrinter *printer)
+{
+		View::self()->setPrintHeaderTable( printDialog->printHeaderTable() );
+		View::self()->setPrintBackground( printDialog->printBackground() );
+		View::self()->setPrintWidth( printDialog->printWidth() );
+		View::self()->setPrintHeight( printDialog->printHeight() );
+		View::self()->draw(printer, View::Printer);
+}
 
 void MainDlg::editAxes()
 {

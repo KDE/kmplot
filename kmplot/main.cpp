@@ -25,7 +25,7 @@
 /**
  * Version string of KmPlot.
  */
-static const char* version =  "1.2.2";
+static const char* version =  "1.3.0";
 
 // local includes
 #include "kmplot.h"

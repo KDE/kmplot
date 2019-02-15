@@ -914,7 +914,7 @@ void View::drawXAxisLabels( QPainter *painter, double endLabelWidth_mm )
 		QString s = tryPiFraction( d, ticSepX.value() );
 		
 		if ( s.isEmpty() )
-			s = posToString( d, ticSepX.value()*5, View::ScientificFormat, axesColor );
+			s = posToString( d, ticSepX.value()*5, View::ScientificFormat, axesColor ).replace('.', QLocale().decimalPoint());
 			
 		m_textDocument->setHtml( s );
 		double idealWidth = m_textDocument->idealWidth();
@@ -978,7 +978,7 @@ void View::drawYAxisLabels( QPainter *painter )
 		QString s = tryPiFraction( d, ticSepY.value() );
 		
 		if ( s.isEmpty() )
-			s = posToString( d, ticSepY.value()*5, View::ScientificFormat, axesColor );
+			s = posToString( d, ticSepY.value()*5, View::ScientificFormat, axesColor ).replace('.', QLocale().decimalPoint());
 		
 		m_textDocument->setHtml( s );
 			
@@ -2049,7 +2049,7 @@ void View::drawFunctionInfo( QPainter * painter )
 					QString x = posToString( realValue.x(), (m_xmax-m_xmin)/m_clipRect.width(), View::DecimalFormat );
 					QString y = posToString( realValue.y(), (m_ymax-m_ymin)/m_clipRect.width(), View::DecimalFormat );
 					
-					drawLabel( painter, plot.color(), realValue, QString( "x = %1   y = %2" ).arg(x).arg(y) );
+					drawLabel( painter, plot.color(), realValue, i18nc( "Extrema point", "x = %1   y = %2", x.replace('.', QLocale().decimalPoint()), y.replace('.', QLocale().decimalPoint()) ) );
 				}
 			}
 			
@@ -3347,8 +3347,8 @@ void View::mouseMoveEvent(QMouseEvent *e)
 
 	if ( inBounds )
 	{
-		sx = "x = " + posToString( m_crosshairPosition.x(), (m_xmax-m_xmin)/m_clipRect.width(), View::DecimalFormat );
-		sy = "y = " + posToString( m_crosshairPosition.y(), (m_ymax-m_ymin)/m_clipRect.width(), View::DecimalFormat );
+		sx = i18n( "x = %1", posToString( m_crosshairPosition.x(), (m_xmax-m_xmin)/m_clipRect.width(), View::DecimalFormat ).replace('.', QLocale().decimalPoint()) );
+		sy = i18n( "y = %1", posToString( m_crosshairPosition.y(), (m_ymax-m_ymin)/m_clipRect.width(), View::DecimalFormat ).replace('.', QLocale().decimalPoint()) );
 	}
 	else
 		sx = sy = "";
@@ -3509,8 +3509,8 @@ bool View::updateCrosshairPosition()
 				if ( !m_haveRoot && findRoot( &x0, m_currentPlot, PreciseRoot ) )
 				{
 					QString str="  ";
-					str += i18n("root") + ":  x" + SubscriptZeroSymbol + " = ";
-					setStatusBar( str+QString().sprintf("%+.5f", x0), RootSection );
+					str += i18nc("%1 is a subscript zero symbol", "root: x%1 = ", SubscriptZeroSymbol);
+					setStatusBar( str+QLocale().toString( x0, 'f', 5 ), RootSection );
 					m_haveRoot=true;
 					emit updateRootValue( true, x0 );
 				}

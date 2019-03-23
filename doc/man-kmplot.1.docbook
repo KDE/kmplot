@@ -57,7 +57,7 @@ url="help:/kmplot">help:/kmplot</ulink>
 (either enter this <acronym>URL</acronym> into &konqueror;, or run
 <userinput><command>khelpcenter</command>
 <parameter>help:/kmplot</parameter></userinput>).</member>
-<member>There is also further information available at <ulink url="http://edu.kde.org/kmplot/">the &kde; Education website</ulink>.</member>
+<member>There is also further information available at <ulink url="https://kde.org/applications/education/kmplot">the &kde; Education website</ulink>.</member>
 <member>kf5options(1)</member>
 <member>qt5options(1)</member>
 </simplelist>

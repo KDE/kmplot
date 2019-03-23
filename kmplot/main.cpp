@@ -53,7 +53,7 @@ int main( int argc, char **argv )
 	    version, i18n("Mathematical function plotter by KDE"), KAboutLicense::GPL,
 	    i18n("(c) 2000-2002, Klaus-Dieter Möller"),
 	    QString(),
-	    "http://edu.kde.org/kmplot/");
+	    "https://kde.org/applications/education/kmplot");
 	
 	aboutData.addAuthor(
 	    i18n("Klaus-Dieter Möller"), i18n( "Original Author" ) ,

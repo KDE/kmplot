@@ -85,7 +85,7 @@ class SettingsPageColor : public QWidget, public Ui::SettingsPageColor
     : QWidget( parent )
         {
 			setupUi(this);
-			layout()->setMargin(0);
+			layout()->setContentsMargins(0, 0, 0, 0);
 		}
 };
 
@@ -96,7 +96,7 @@ class SettingsPageFonts : public QWidget, public Ui::SettingsPageFonts
 	: QWidget( parent )
 		{
 			setupUi(this);
-			layout()->setMargin(0);
+			layout()->setContentsMargins(0, 0, 0, 0);
 		}
 };
 
@@ -107,7 +107,7 @@ class SettingsPageGeneral : public QWidget, public Ui::SettingsPageGeneral
 	: QWidget( parent )
 		{
 			setupUi(this);
-                        layout()->setMargin(0);
+                        layout()->setContentsMargins(0, 0, 0, 0);
 		}
 };
 
@@ -118,7 +118,7 @@ class SettingsPageDiagram : public QWidget, public Ui::SettingsPageDiagram
 	: QWidget( parent )
 		{
 			setupUi(this);
-			layout()->setMargin(0);
+			layout()->setContentsMargins(0, 0, 0, 0);
 		}
 };
 

@@ -35,7 +35,7 @@ EquationEditor::EquationEditor(QWidget* parent)
 	m_widget = new EquationEditorWidget(this);
 	m_widget->edit->showEditButton(false);
 	m_widget->edit->m_equationEditWidget->setClearSelectionOnFocusOut(false);
-	m_widget->layout()->setMargin(0);
+	m_widget->layout()->setContentsMargins(0, 0, 0, 0);
 
 	setWindowTitle(i18n("Equation Editor"));
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);

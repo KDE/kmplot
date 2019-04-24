@@ -162,7 +162,7 @@ QVariant InitialConditionsModel::headerData( int section, Qt::Orientation orient
 	if ( section == 0 )
 		return param;
 	else
-		return QString( "%1%2(%3)" )
+		return QStringLiteral( "%1%2(%3)" )
 				.arg( eq->name( true ) )
 				.arg( QString(), section-1, '\'' )
 				.arg( param );

@@ -241,7 +241,7 @@ bool KConstantEditor::checkValueValid()
 
 void KConstantEditor::itemClicked()
 {
-	QTimer::singleShot( 0, this, SLOT(saveCurrentConstant()) );
+	QTimer::singleShot( 0, this, &KConstantEditor::saveCurrentConstant );
 }
 //END class KConstantEditor
 

@@ -48,29 +48,29 @@ int main( int argc, char **argv )
 	KLocalizedString::setApplicationDomain("kmplot");
 
 	KAboutData aboutData(
-	    "kmplot",
+	    QStringLiteral("kmplot"),
 	    i18n( "KmPlot" ),
 	    version, i18n("Mathematical function plotter by KDE"), KAboutLicense::GPL,
 	    i18n("(c) 2000-2002, Klaus-Dieter Möller"),
 	    QString(),
-	    "https://kde.org/applications/education/kmplot");
+	    QStringLiteral("https://kde.org/applications/education/kmplot"));
 	
 	aboutData.addAuthor(
 	    i18n("Klaus-Dieter Möller"), i18n( "Original Author" ) ,
-	    "kdmoeller@foni.net" );
+	    QStringLiteral("kdmoeller@foni.net") );
 	aboutData.addAuthor(
 	    i18n("Matthias Meßmer"), i18n( "GUI" ) ,
-	    "bmlmessmer@web.de" );
-	aboutData.addAuthor( i18n("Fredrik Edemar"), i18n( "Various improvements" ), "f_edemar@linux.se" );
-	aboutData.addAuthor( i18n("David Saxton"), i18n( "Porting to Qt 4, UI improvements, features" ), "david@bluehaze.org" );
+	    QStringLiteral("bmlmessmer@web.de") );
+	aboutData.addAuthor( i18n("Fredrik Edemar"), i18n( "Various improvements" ), QStringLiteral("f_edemar@linux.se") );
+	aboutData.addAuthor( i18n("David Saxton"), i18n( "Porting to Qt 4, UI improvements, features" ), QStringLiteral("david@bluehaze.org") );
 	
-	aboutData.addCredit( i18n("David Vignoni"), i18n( "svg icon" ), "david80v@tin.it" );
-	aboutData.addCredit( i18n("Albert Astals Cid"), i18n( "command line options, MIME type" ), "aacid@kde.org" );
+	aboutData.addCredit( i18n("David Vignoni"), i18n( "svg icon" ), QStringLiteral("david80v@tin.it") );
+	aboutData.addCredit( i18n("Albert Astals Cid"), i18n( "command line options, MIME type" ), QStringLiteral("aacid@kde.org") );
 	KAboutData::setApplicationData(aboutData);
 
 	QCommandLineParser parser;
 	parser.addOption(QCommandLineOption(QStringList{"function", "f"}, i18n( "Initial functions to plot" ), i18n("argument")));
-	parser.addPositionalArgument("URL", i18n("URLs to open"), "[url...]");
+	parser.addPositionalArgument(QStringLiteral("URL"), i18n("URLs to open"), QStringLiteral("[url...]"));
 	aboutData.setupCommandLine(&parser);
 	parser.process(qapp);
 	aboutData.processCommandLine(&parser);

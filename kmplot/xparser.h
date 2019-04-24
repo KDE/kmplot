@@ -75,7 +75,7 @@ class XParser : public Parser
 		QColor defaultColor(int function);
 	
 		/// finds a free function name 
-		QString findFunctionName( const QString & preferredName, int id, const QStringList& neededPatterns = QStringList("%1") );
+		QString findFunctionName( const QString & preferredName, int id, const QStringList& neededPatterns = QStringList(QStringLiteral("%1")) );
 		
 		///Returns an unused function name if it is needed
 		void fixFunctionName(QString &, Equation::Type const = Equation::Cartesian, int const=-1);

@@ -104,7 +104,7 @@ bool Constants::isValidName( const QString & name ) const
 		return false;
 	
 	// special cases: don't allow predefined constants either
-	if ( name == "pi" || name == PiSymbol || name == "e" || name == InfinitySymbol )
+	if ( name == QLatin1String("pi") || name == PiSymbol || name == QLatin1String("e") || name == InfinitySymbol )
 		return false;
 	
 	// Now make sure that the constant name contains only letters
@@ -141,24 +141,24 @@ void Constants::load()
 {
 	/// \todo Need more robust way of exchanging constants with kcalc
 	
-	KConfig conf ("kcalcrc", KConfig::SimpleConfig);
+	KConfig conf (QStringLiteral("kcalcrc"), KConfig::SimpleConfig);
 	KConfigGroup group = conf.group("UserConstants");
 	QString tmp;
 	
 	for( int i=0; ;i++)
 	{
 		tmp.setNum(i);
-		QString name = group.readEntry("nameConstant"+tmp, QString(" "));
-		QString expression = group.readEntry("expressionConstant"+tmp, QString(" "));
-		QString value = group.readEntry("valueConstant"+tmp, QString(" ") );
+		QString name = group.readEntry("nameConstant"+tmp, QStringLiteral(" "));
+		QString expression = group.readEntry("expressionConstant"+tmp, QStringLiteral(" "));
+		QString value = group.readEntry("valueConstant"+tmp, QStringLiteral(" ") );
 		
-		if ( name == " " )
+		if ( name == QLatin1String(" ") )
 			return;
 		
 		if ( name.isEmpty() )
 			continue;
 		
-		if ( expression == " " )
+		if ( expression == QLatin1String(" ") )
 		{
 			// Old config file
 			expression = value;
@@ -177,7 +177,7 @@ void Constants::load()
 
 void Constants::save()
 {
-	KConfig conf ("kcalcrc", KConfig::SimpleConfig);
+	KConfig conf (QStringLiteral("kcalcrc"), KConfig::SimpleConfig);
 	conf.deleteGroup("Constants");
 	
 	// remove any previously saved constants

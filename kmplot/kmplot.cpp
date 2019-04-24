@@ -60,10 +60,10 @@ static QUrl urlFromArg(const QString &arg)
 KmPlot::KmPlot( const QCommandLineParser& parser )
 		: KParts::MainWindow()
 {
-	setObjectName( "KmPlot" );
+	setObjectName( QStringLiteral("KmPlot") );
 
 	// set the shell's ui resource file
-	setXMLFile("kmplot_shell.rc");
+	setXMLFile(QStringLiteral("kmplot_shell.rc"));
 	// then, setup our actions
 	setupActions();
 
@@ -73,7 +73,7 @@ KmPlot::KmPlot( const QCommandLineParser& parser )
 	// this routine will find and load our Part.  it finds the Part by
 	// name which is a bad idea usually.. but it's alright in this
 	// case since our Part is made for this Shell
-    KPluginFactory *factory = KPluginLoader("kmplotpart").factory();
+    KPluginFactory *factory = KPluginLoader(QStringLiteral("kmplotpart")).factory();
 	if (factory)
 	{
 		// now that the Part is loaded, we cast it to a Part to get
@@ -125,12 +125,12 @@ KmPlot::KmPlot( const QCommandLineParser& parser )
 	show();
 
     new KmPlotAdaptor(this);
-    QDBusConnection::sessionBus().registerObject("/kmplot", this);
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/kmplot"), this);
 
-    if ( parser.isSet("function") )
+    if ( parser.isSet(QStringLiteral("function")) )
     {
-        QString f = parser.value("function");
-        QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/parser", "org.kde.kmplot.Parser").call( QDBus::BlockWithGui, "addFunction", f, "" );
+        QString f = parser.value(QStringLiteral("function"));
+        QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), QStringLiteral("/parser"), QStringLiteral("org.kde.kmplot.Parser")).call( QDBus::BlockWithGui, QStringLiteral("addFunction"), f, "" );
     }
 }
 
@@ -170,7 +170,7 @@ void KmPlot::setupActions()
 	setStandardToolBarMenuEnabled(true);
 
 	m_fullScreen = KStandardAction::fullScreen( NULL, NULL, this, actionCollection());
-	actionCollection()->addAction("fullscreen", m_fullScreen);
+	actionCollection()->addAction(QStringLiteral("fullscreen"), m_fullScreen);
 	connect(m_fullScreen, &KToggleFullScreenAction::toggled, this, &KmPlot::slotUpdateFullScreen);
 }
 
@@ -182,7 +182,7 @@ void KmPlot::fileNew()
 	// in its initial state.  This is what we do here..
 	if ( !m_part->url().isEmpty() || isModified() )
 		//KToolInvocation::startServiceByDesktopName("kmplot");
-		KToolInvocation::kdeinitExec("kmplot");
+		KToolInvocation::kdeinitExec(QStringLiteral("kmplot"));
 }
 
 void KmPlot::applyNewToolbarConfig()
@@ -228,12 +228,12 @@ void KmPlot::fileOpen(const QUrl &url)
 
 void KmPlot::openFileInNewWindow(const QUrl &url)
 {
-	KToolInvocation::kdeinitExec("kmplot", QStringList() << url.url());
+	KToolInvocation::kdeinitExec(QStringLiteral("kmplot"), QStringList() << url.url());
 }
 
 bool KmPlot::isModified()
 {
-	QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), "/maindlg", "org.kde.kmplot.MainDlg").call( QDBus::BlockWithGui, "isModified" );
+	QDBusReply<bool> reply = QDBusInterface( QDBusConnection::sessionBus().baseService(), QStringLiteral("/maindlg"), QStringLiteral("org.kde.kmplot.MainDlg")).call( QDBus::BlockWithGui, QStringLiteral("isModified") );
     return reply.value();
 }
 
@@ -285,5 +285,5 @@ void KmPlot::setDrawProgress( double progress )
 
 void KmPlot::cancelDraw()
 {
-	QDBusInterface( QDBusConnection::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot" ).call( QDBus::NoBlock, "stopDrawing" );
+	QDBusInterface( QDBusConnection::sessionBus().baseService(), QStringLiteral("/kmplot"), QStringLiteral("org.kde.kmplot.KmPlot") ).call( QDBus::NoBlock, QStringLiteral("stopDrawing") );
 }

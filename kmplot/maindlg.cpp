@@ -725,7 +725,7 @@ void MainDlg::slotPrintPreview()
 		QAction *printSettings = toolbarlist.first()->addAction( QIcon::fromTheme( "configure" ), i18n("Print Settings") );
 		QList<QPrintPreviewWidget*> previewWidgetsList = preview->findChildren<QPrintPreviewWidget*>();
 		QPrintPreviewWidget *previewWidget = previewWidgetsList.first();
-		connect( printSettings, &QAction::triggered, [preview, previewWidget, printdlg, &prt]{
+		connect( printSettings, &QAction::triggered, [preview, previewWidget, printdlg]{
 			QDialog *printSettingsDialog = new QDialog( preview, Qt::WindowFlags() );
 			printSettingsDialog->setWindowTitle( i18n("Print Settings") );
 			QVBoxLayout *mainLayout = new QVBoxLayout;

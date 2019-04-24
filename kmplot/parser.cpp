@@ -258,9 +258,9 @@ double Parser::eval( const QString & str, Error * error, int * errorPosition )
 	if ( !m_ownEquation )
 		m_ownEquation = new Equation( Equation::Constant, 0 );
 	
-	QString fName = XParser::self()->findFunctionName( "f", -1 );
+	QString fName = XParser::self()->findFunctionName( QStringLiteral("f"), -1 );
 	
-	QString eq = QString( "%1=%2" ).arg( fName ).arg( str );
+	QString eq = QStringLiteral( "%1=%2" ).arg( fName ).arg( str );
 	if ( !m_ownEquation->setFstr( eq, (int*)error, errorPosition ) )
 	{
 		if ( errorPosition )
@@ -897,12 +897,12 @@ void Parser::heir3()
 
 void Parser::heir4()
 {
-    if (match("-")) {
+    if (match(QStringLiteral("-"))) {
         heir4();
         if (*m_error != ParseSuccess)
             return;
         addToken(NEG);
-    } else if (match("+")) {
+    } else if (match(QStringLiteral("+"))) {
         heir4();
     } else {
         heir5();
@@ -918,7 +918,7 @@ void Parser::heir5()
 	
 	while ( true )
 	{
-		if ( match("^") )
+		if ( match(QStringLiteral("^")) )
 		{
 			addToken(PUSH);
 			heir4();
@@ -926,7 +926,7 @@ void Parser::heir5()
 				return;
 			addToken(POW);
 		}
-		else if ( match("!") )
+		else if ( match(QStringLiteral("!")) )
 			addToken(FACT);
 		else
 			return;
@@ -948,11 +948,11 @@ void Parser::primary()
 
 bool Parser::tryFunction()
 {
-	if ( !match("(") && !match(",") )
+	if ( !match(QStringLiteral("(")) && !match(QStringLiteral(",")) )
 		return false;
 	
 	heir0();
-	if ( !match(")") && !match(",") )
+	if ( !match(QStringLiteral(")")) && !match(QStringLiteral(",")) )
 		*m_error = MissingBracket;
 	return true;
 }
@@ -1263,7 +1263,7 @@ void Parser::displayErrorDialog( Error error )
 {	
 	QString message( errorString(error) );
 	if ( !message.isEmpty() )
-		KMessageBox::sorry(0, message, "KmPlot");
+		KMessageBox::sorry(0, message, QStringLiteral("KmPlot"));
 }
 
 
@@ -1306,7 +1306,7 @@ Function * Parser::functionWithID( int id ) const
 QString Parser::number( double value )
 {
 	QString str = QString::number( value, 'g', 16 );
-	str.replace( 'e', "*10^" );
+	str.replace( 'e', QLatin1String("*10^") );
 	return str;
 }
 //END class Parser
@@ -1483,15 +1483,15 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	// greater-equal, less-equal with proper symbols
 	// note that this must go before the next code for implicit equations, since
 	// it removes the spurious equals signs
-	replace( ">=", GeSymbol );
-	replace( "<=", LeSymbol );
+	replace( QStringLiteral(">="), GeSymbol );
+	replace( QStringLiteral("<="), LeSymbol );
 	
 	// hack for implicit functions: change e.g. "y = x + 2" to "y - (x+2)" so
 	// that they can be evaluated via equality with zero.
 	if ( str->count( '=' ) > 1 )
 	{
 		int equalsPos = str->lastIndexOf( '=' );
-		replace( equalsPos, 1, "-(" );
+		replace( equalsPos, 1, QStringLiteral("-(") );
 		append( ')' );
 	}
 	
@@ -1515,32 +1515,32 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	replace( QChar( 0x2213 ), PmSymbol );
 	
 	// various power symbols
-	replace( QChar(0x00B2), "^2" );
-	replace( QChar(0x00B3), "^3" );
-	replace( QChar(0x2070), "^0" );
-	replace( QChar(0x2074), "^4" );
-	replace( QChar(0x2075), "^5" );
-	replace( QChar(0x2076), "^6" );
-	replace( QChar(0x2077), "^7" );
-	replace( QChar(0x2078), "^8" );
-	replace( QChar(0x2079), "^9" );
+	replace( QChar(0x00B2), QStringLiteral("^2") );
+	replace( QChar(0x00B3), QStringLiteral("^3") );
+	replace( QChar(0x2070), QStringLiteral("^0") );
+	replace( QChar(0x2074), QStringLiteral("^4") );
+	replace( QChar(0x2075), QStringLiteral("^5") );
+	replace( QChar(0x2076), QStringLiteral("^6") );
+	replace( QChar(0x2077), QStringLiteral("^7") );
+	replace( QChar(0x2078), QStringLiteral("^8") );
+	replace( QChar(0x2079), QStringLiteral("^9") );
 	
 	// fractions
-	replace( QChar(0x00BC), "(1/4)" );
-	replace( QChar(0x00BD), "(1/2)" );
-	replace( QChar(0x00BE), "(3/4)" );
-	replace( QChar(0x2153), "(1/3)" );
-	replace( QChar(0x2154), "(2/3)" );
-	replace( QChar(0x2155), "(1/5)" );
-	replace( QChar(0x2156), "(2/5)" );
-	replace( QChar(0x2157), "(3/5)" );
-	replace( QChar(0x2158), "(4/5)" );
-	replace( QChar(0x2159), "(1/6)" );
-	replace( QChar(0x215a), "(5/6)" );
-	replace( QChar(0x215b), "(1/8)" );
-	replace( QChar(0x215c), "(3/8)" );
-	replace( QChar(0x215d), "(5/8)" );
-	replace( QChar(0x215e), "(7/8)" );
+	replace( QChar(0x00BC), QStringLiteral("(1/4)") );
+	replace( QChar(0x00BD), QStringLiteral("(1/2)") );
+	replace( QChar(0x00BE), QStringLiteral("(3/4)") );
+	replace( QChar(0x2153), QStringLiteral("(1/3)") );
+	replace( QChar(0x2154), QStringLiteral("(2/3)") );
+	replace( QChar(0x2155), QStringLiteral("(1/5)") );
+	replace( QChar(0x2156), QStringLiteral("(2/5)") );
+	replace( QChar(0x2157), QStringLiteral("(3/5)") );
+	replace( QChar(0x2158), QStringLiteral("(4/5)") );
+	replace( QChar(0x2159), QStringLiteral("(1/6)") );
+	replace( QChar(0x215a), QStringLiteral("(5/6)") );
+	replace( QChar(0x215b), QStringLiteral("(1/8)") );
+	replace( QChar(0x215c), QStringLiteral("(3/8)") );
+	replace( QChar(0x215d), QStringLiteral("(5/8)") );
+	replace( QChar(0x215e), QStringLiteral("(7/8)") );
 	
 	//BEGIN replace e.g. |x+2| with abs(x+2)
 	str->replace( AbsSymbol, '|' );
@@ -1559,13 +1559,13 @@ void ExpressionSanitizer::fixExpression( QString * str )
 			if ( absAt[depth] )
 			{
 				// Closing it
-				replace( i, 1, ")" );
+				replace( i, 1, QStringLiteral(")") );
 				absAt[depth] = false;
 			}
 			else
 			{
 				// Opening it
-				replace( i, 1, "abs(" );
+				replace( i, 1, QStringLiteral("abs(") );
 				i += 3;
 				absAt[depth] = true;
 			}
@@ -1581,10 +1581,10 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	}
 	//END replace e.g. |x+2| with abs(x+2)
 	
-	if (m_decimalSymbol == ",")
-		str->replace(QRegularExpression("(\\d),(\\d)"), "\\1.\\2"); //if we use comma as a decimal separator it is reasonable to separate numbers in function arguments by comma with space
+	if (m_decimalSymbol == QLatin1String(","))
+		str->replace(QRegularExpression(QStringLiteral("(\\d),(\\d)")), "\\1.\\2"); //if we use comma as a decimal separator it is reasonable to separate numbers in function arguments by comma with space
 	else
-		str->replace(m_decimalSymbol, "."); //replace the locale decimal symbol with a '.' otherwise
+		str->replace(m_decimalSymbol, QLatin1String(".")); //replace the locale decimal symbol with a '.' otherwise
 	
 	//BEGIN build up strings
 	QMap< LengthOrderedString, StringType > strings;
@@ -1602,7 +1602,7 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	QStringList constantNames = m_parser->constants()->names();
 	foreach ( const QString &name, constantNames )
 		strings[name] = ConstantString;
-	strings[QString("pi")] = ConstantString;
+	strings[QStringLiteral("pi")] = ConstantString;
 	//END build up strings
 	
 	strings.remove( QString() );
@@ -1778,7 +1778,7 @@ void ExpressionSanitizer::displayMap( )
 	QString out('\n');
 	
 	for ( int i = 0; i < m_map.size(); ++i )
-		out += QString("%1").arg( m_map[i], 3 );
+		out += QStringLiteral("%1").arg( m_map[i], 3 );
 	out += '\n';
 	
 	for ( int i = 0; i < m_str->length(); ++i )

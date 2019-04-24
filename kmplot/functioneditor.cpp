@@ -60,7 +60,7 @@ FunctionEditor::FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent )
 	m_functionID = -1;
 	
 	// need a name for saving and restoring the position of this dock widget
-	setObjectName( "FunctionEditor" );
+	setObjectName( QStringLiteral("FunctionEditor") );
 	
 	setAllowedAreas( Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea );
 	setFeatures( QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable );
@@ -84,8 +84,8 @@ FunctionEditor::FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent )
 	m_editor = new FunctionEditorWidget;
 	m_functionList = m_editor->functionList;
 	
-	m_editor->createNewPlot->setIcon( QIcon::fromTheme("document-new") );
-	m_editor->deleteButton->setIcon( QIcon::fromTheme("edit-delete") );
+	m_editor->createNewPlot->setIcon( QIcon::fromTheme(QStringLiteral("document-new")) );
+	m_editor->deleteButton->setIcon( QIcon::fromTheme(QStringLiteral("edit-delete")) );
 	
 	//BEGIN initialize equation edits
 	m_editor->cartesianEquation->setInputType( EquationEdit::Function );
@@ -464,7 +464,7 @@ void FunctionEditor::createCartesian()
 {
 	QString name;
 	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
-		name = XParser::self()->findFunctionName( "f", -1 ) + "(x)";
+		name = XParser::self()->findFunctionName( QStringLiteral("f"), -1 ) + "(x)";
 	else
 		name = 'y';
 	
@@ -474,14 +474,14 @@ void FunctionEditor::createCartesian()
 
 void FunctionEditor::createParametric()
 {
-	QString name = XParser::self()->findFunctionName( "f", -1, QStringList() << "%1" << "%1_x" << "%1_y" );
+	QString name = XParser::self()->findFunctionName( QStringLiteral("f"), -1, QStringList() << QStringLiteral("%1") << QStringLiteral("%1_x") << QStringLiteral("%1_y") );
 	
 	QString name_x, name_y;
 	
 	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
 	{
-		name_x = QString("%1_x(t)").arg( name );
-		name_y = QString("%1_y(t)").arg( name );
+		name_x = QStringLiteral("%1_x(t)").arg( name );
+		name_y = QStringLiteral("%1_y(t)").arg( name );
 	}
 	else
 	{
@@ -497,7 +497,7 @@ void FunctionEditor::createPolar()
 {
 	QString name;
 	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
-		name = XParser::self()->findFunctionName( "f", -1 ) + "(x)";
+		name = XParser::self()->findFunctionName( QStringLiteral("f"), -1 ) + "(x)";
 	else
 		name = 'r';
 	
@@ -507,9 +507,9 @@ void FunctionEditor::createPolar()
 
 void FunctionEditor::createImplicit()
 {
-	QString name = XParser::self()->findFunctionName( "f", -1 );
+	QString name = XParser::self()->findFunctionName( QStringLiteral("f"), -1 );
 	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
-		name += "(x,y)";
+		name += QLatin1String("(x,y)");
 	
 	createFunction( name + " = y*sinx + x*cosy = 1", QString(), Function::Implicit );
 }
@@ -519,9 +519,9 @@ void FunctionEditor::createDifferential()
 {
 	QString name;
 	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
-		name = QString( "%1''(x) = -%1" ).arg( XParser::self()->findFunctionName( "f", -1 ) );
+		name = QStringLiteral( "%1''(x) = -%1" ).arg( XParser::self()->findFunctionName( QStringLiteral("f"), -1 ) );
 	else
-		name = "y'' = -y";
+		name = QLatin1String("y'' = -y");
 	
 	createFunction( name, QString(), Function::Differential );
 }
@@ -763,8 +763,8 @@ FunctionListWidget::FunctionListWidget( QWidget * parent )
 
 QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items ) const
 {
-	QDomDocument doc( "kmpdoc" );
-	QDomElement root = doc.createElement( "kmpdoc" );
+	QDomDocument doc( QStringLiteral("kmpdoc") );
+	QDomElement root = doc.createElement( QStringLiteral("kmpdoc") );
 	doc.appendChild( root );
 	
 	KmPlotIO io;
@@ -778,7 +778,7 @@ QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items )
 	}
 	
 	QMimeData * md = new QMimeData;
-	md->setData( "text/kmplot", doc.toByteArray() );
+	md->setData( QStringLiteral("text/kmplot"), doc.toByteArray() );
 	
 	return md;
 }
@@ -787,7 +787,7 @@ QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items )
 QStringList FunctionListWidget::mimeTypes() const
 {
 	QStringList mt;
-	mt << "text/kmplot";
+	mt << QStringLiteral("text/kmplot");
 	return mt;
 }
 
@@ -795,7 +795,7 @@ QStringList FunctionListWidget::mimeTypes() const
 void FunctionListWidget::dragEnterEvent( QDragEnterEvent * event )
 {
 	const QMimeData * md = event->mimeData();
-	if ( md->hasFormat( "text/kmplot" ) )
+	if ( md->hasFormat( QStringLiteral("text/kmplot") ) )
 		event->acceptProposedAction();
 }
 
@@ -804,15 +804,15 @@ void FunctionListWidget::dropEvent( QDropEvent * event )
 {
 	const QMimeData * md = event->mimeData();
 	
-	QDomDocument doc( "kmpdoc" );
-	doc.setContent( md->data( "text/kmplot" ) );
+	QDomDocument doc( QStringLiteral("kmpdoc") );
+	doc.setContent( md->data( QStringLiteral("text/kmplot") ) );
 	QDomElement element = doc.documentElement();
 	
 	KmPlotIO io;
 	
 	for ( QDomNode n = element.firstChild(); !n.isNull(); n = n.nextSibling() )
 	{
-		if ( n.nodeName() == "function" )
+		if ( n.nodeName() == QLatin1String("function") )
 			io.parseFunction( n.toElement(), true );
 		else
 			qWarning() << "Unexpected node with name " << n.nodeName() ;

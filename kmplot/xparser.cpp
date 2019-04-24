@@ -62,7 +62,7 @@ XParser::XParser()
 	differentialDiverge = 0;
 
 	new ParserAdaptor(this);
-	QDBusConnection::sessionBus().registerObject("/parser", this);
+	QDBusConnection::sessionBus().registerObject(QStringLiteral("/parser"), this);
 }
 
 XParser::~XParser()
@@ -79,9 +79,9 @@ bool XParser::getext( Function *item, const QString &fstr )
 		item->plotAppearance( Function::Derivative0 ).visible = false;
 	else
 	{
-		if ( fstr.indexOf( "A1" ) != -1 )
+		if ( fstr.indexOf( QLatin1String("A1") ) != -1 )
 			item->plotAppearance( Function::Derivative1 ).visible = true;
-		if ( fstr.indexOf( "A2" ) != -1 )
+		if ( fstr.indexOf( QLatin1String("A2") ) != -1 )
 			item->plotAppearance( Function::Derivative2 ).visible = true;
 	}
 	switch ( fstr[0].unicode() )
@@ -92,7 +92,7 @@ bool XParser::getext( Function *item, const QString &fstr )
 			item->plotAppearance( Function::Derivative1 ).visible = item->plotAppearance( Function::Derivative2 ).visible = false;
 	}
 
-	p1 = fstr.indexOf( "D[" );
+	p1 = fstr.indexOf( QLatin1String("D[") );
 	if ( p1 != -1 )
 	{
 		p1 += 2;
@@ -111,7 +111,7 @@ bool XParser::getext( Function *item, const QString &fstr )
 		else
 			errflg = true;
 	}
-	p1 = fstr.indexOf( "P[" );
+	p1 = fstr.indexOf( QLatin1String("P[") );
 	if ( p1 != -1 )
 	{
 		int i = 0;
@@ -464,7 +464,7 @@ bool XParser::setFunctionIntVisible(uint id, bool visible)
 QString XParser::functionStr(uint id, uint eq)
 {
 	if ( !m_ufkt.contains( id ) || (eq>=2) )
-		return "";
+		return QLatin1String("");
 	return m_ufkt[id]->eq[eq]->fstr();
 }
 

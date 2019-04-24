@@ -50,8 +50,8 @@ KPrinterDlg::KPrinterDlg( QWidget *parent )
 	m_widthEdit = new EquationEdit( this );
 	m_heightEdit = new EquationEdit( this );
 	
-	m_widthEdit->setText( "12" );
-	m_heightEdit->setText( "12" );
+	m_widthEdit->setText( QStringLiteral("12") );
+	m_heightEdit->setText( QStringLiteral("12") );
 	
 	m_lengthScalingCombo = new QComboBox( this );
 	m_lengthScalingCombo->addItem( i18n("Pixels (1/72nd in)") );

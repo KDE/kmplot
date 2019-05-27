@@ -392,7 +392,7 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &KGradientDialog::reject);
 
 	//BEGIN layout widgets
-	QVBoxLayout * layout = new QVBoxLayout( widget );
+	QVBoxLayout * layout = new QVBoxLayout( this );
 	layout->setMargin( 0 );
 	
 	m_gradient->setFixedHeight( 24 );

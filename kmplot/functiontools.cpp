@@ -45,10 +45,9 @@ FunctionTools::FunctionTools(QWidget *parent )
 
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &FunctionTools::reject);
-	m_widget->layout()->addWidget(buttonBox);
-	
-	// Adjust margins
-	m_widget->layout()->setMargin( 0 );
+	QVBoxLayout *dialogLayout = new QVBoxLayout (this);
+	dialogLayout->addWidget (m_widget);
+	dialogLayout->addWidget (buttonBox);
 	
 	init( CalculateArea );
 	

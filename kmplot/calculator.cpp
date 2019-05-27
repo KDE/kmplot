@@ -42,9 +42,8 @@ Calculator::Calculator( QWidget * parent )
 	QWidget * widget = new QWidget( this );
 	setWindowTitle( i18n("Calculator") );
 
-	QVBoxLayout *layout = new QVBoxLayout( widget );
-	layout->setMargin( 0 );
-	
+	QVBoxLayout *layout = new QVBoxLayout( this );
+
 	m_display = new KTextEdit( widget );
 	QSizePolicy displaySizePolicy = m_display->sizePolicy();
 	displaySizePolicy.setVerticalStretch( 10 );

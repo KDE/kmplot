@@ -57,7 +57,9 @@ KConstantEditor::KConstantEditor( QWidget * parent )
 
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &KConstantEditor::reject);
-	m_widget->gridLayout->addWidget(buttonBox, 4, 1, 1, 1);
+	QVBoxLayout *dialogLayout = new QVBoxLayout (this);
+	dialogLayout->addWidget(m_widget);
+	dialogLayout->addWidget(buttonBox);
 
 	m_widget->cmdNew->setIcon( QIcon::fromTheme("document-new") );
 	m_widget->cmdDelete->setIcon( QIcon::fromTheme("edit-delete") );

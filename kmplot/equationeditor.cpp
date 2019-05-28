@@ -40,7 +40,9 @@ EquationEditor::EquationEditor(QWidget* parent)
 	setWindowTitle(i18n("Equation Editor"));
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &EquationEditor::reject);
-	m_widget->layout()->addWidget(buttonBox);
+	QVBoxLayout *dialogLayout = new QVBoxLayout (this);
+	dialogLayout->addWidget (m_widget);
+	dialogLayout->addWidget (buttonBox);
 
 	connect(m_widget->edit, &EquationEdit::returnPressed, this, &EquationEditor::accept);
 }

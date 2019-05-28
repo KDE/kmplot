@@ -95,14 +95,12 @@ KSliderWindow::KSliderWindow( QWidget * parent ) :
 	setModal( false );
 	QWidget * widget = new QWidget( this );
 	setWindowTitle( i18n("Sliders") );
-	QVBoxLayout *layout = new QVBoxLayout( widget );
-	setLayout(layout);
+
+	QVBoxLayout *layout = new QVBoxLayout( this );
 	layout->addWidget(widget);
 
 	Q_ASSERT( SLIDER_COUNT == 4 ); // safety check, in case SLIDER_COUNT is increased but not this code
-	
-	layout->setMargin( 0 );
-	
+
 	for ( int i = 0; i < SLIDER_COUNT; ++i )
 	{
 		m_sliders[i] = new SliderWidget( widget, i );

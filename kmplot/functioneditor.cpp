@@ -511,7 +511,7 @@ void FunctionEditor::createImplicit()
 	if ( Settings::defaultEquationForm() == Settings::EnumDefaultEquationForm::Function )
 		name += "(x,y)";
 	
-	createFunction( name + " = y*sinx + x*cosy = 1", QString(), Function::Implicit );
+	createFunction( name + " = y² = x³ − x + 1", QString(), Function::Implicit );
 }
 
 

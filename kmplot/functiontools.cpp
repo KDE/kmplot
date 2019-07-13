@@ -124,7 +124,7 @@ void FunctionTools::updateEquationList()
 	{
 		Equation * equation = eq.first.function()->eq[ eq.second ];
 		QListWidgetItem * item = new QListWidgetItem( equation->fstr(), m_widget->list );
-		item->setTextColor( eq.first.color() );
+		item->setForeground( eq.first.color() );
 	}
 	
 	setEquation( previousEquation );

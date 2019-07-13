@@ -1491,8 +1491,8 @@ void View::drawImplicitInSquare( const Plot & plot, QPainter * painter, double x
 		
 // 		qDebug() << "k="<<k<<" segment_step="<<segment_step;
 		
-		QPointF p1 = toPixel( QPointF( x, y ),			ClipInfinite ) * painter->matrix();
-		QPointF p2 = toPixel( QPointF( x+dx, y+dy ),	ClipInfinite ) * painter->matrix();
+		QPointF p1 = toPixel( QPointF( x, y ),			ClipInfinite ) * painter->transform();
+		QPointF p2 = toPixel( QPointF( x+dx, y+dy ),	ClipInfinite ) * painter->transform();
 		double l = QLineF( p1, p2 ).length() / segment_step;
 		
 		if ( l == 0 )
@@ -2115,7 +2115,7 @@ void View::drawLabel( QPainter * painter, const QColor & color, const QPointF & 
 {
 	QPalette palette;
 	QColor outline = color;
-	QColor background = outline.light( 500 );
+	QColor background = outline.lighter( 500 );
 	background.setAlpha( 127 );
 	
 	
@@ -2152,7 +2152,7 @@ void View::drawLabel( QPainter * painter, const QColor & color, const QPointF & 
 	
 	painter->setBrush( background );
 	painter->setPen( outline );
-	painter->drawRoundRect( rect, int(1000/rect.width()), int(1000/rect.height()) );
+	painter->drawRoundedRect( rect, int(1000/rect.width()), int(1000/rect.height()) );
 	
 	
 	// If the rectangle does not lie over realPos, then draw a line to realPos from the rectangle

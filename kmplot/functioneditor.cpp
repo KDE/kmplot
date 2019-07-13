@@ -844,6 +844,6 @@ void FunctionListItem::update()
 	
 	setText( f->name() );
 	setCheckState( f->plotAppearance( Function::Derivative0 ).visible ? Qt::Checked : Qt::Unchecked );
-	setTextColor( f->plotAppearance( Function::Derivative0 ).color );
+	setForeground( f->plotAppearance( Function::Derivative0 ).color );
 }
 //END class FunctionListItem

@@ -259,7 +259,7 @@ void KmPlot::setupStatusBar()
 		label->setFixedHeight (label->fontMetrics ().height () + 2);
 		/// Labels for coordinates should be of fixed width 16 chars to be the same as for good old KmPlot
 		if ( i < 2) {
-			label->setFixedWidth ( label->fontMetrics ().width (QLatin1Char ('8')) * 16 );
+			label->setFixedWidth ( label->fontMetrics().boundingRect(QLatin1Char('8')).width() * 16 );
 			label->setAlignment( Qt::AlignCenter );
 		}
 		else {

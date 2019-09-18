@@ -6,10 +6,10 @@
 <refentry lang="&language;">
 <refentryinfo>
 <title>&kmplot; User's Manual</title>
-<author><personname>
+<author>
 <firstname>Ben</firstname>
 <surname>Burton</surname>
-</personname>
+<contrib>KmPlot man page.</contrib>
 <email>bab@debian.org</email></author>
 <date>2019-01-16</date>
 <releaseinfo>1.3.0 (Applications 19.04)</releaseinfo>

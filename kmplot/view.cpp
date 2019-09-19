@@ -2520,7 +2520,7 @@ bool View::findRoot( double * x, const Plot & plot, RootAccuracy accuracy )
 	Equation * eq = plot.function()->eq[0];
 	DifferentialState * state = plot.state();
 	
-	double h = qMin( m_xmax-m_xmin, m_ymax-m_ymin ) * 1e-5;
+	double h = qMin( m_xmax-m_xmin, m_ymax-m_ymin ) * 1e-4;
 
 	double f = value( plot, 0, *x, false );
 	int k;

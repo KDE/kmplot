@@ -643,13 +643,14 @@ bool Function::copyFrom( const Function & function )
 	{
 		COPY_AND_CHECK( f1 );				// 1
 		COPY_AND_CHECK( f2 );				// 2
-		COPY_AND_CHECK( integral );			// 3
+		COPY_AND_CHECK( f3 );				// 3
+		COPY_AND_CHECK( integral );			// 4
 	}
-	COPY_AND_CHECK( dmin );				// 4,1
-	COPY_AND_CHECK( dmax );				// 5,2
-	COPY_AND_CHECK( usecustomxmin );	// 6,3
-	COPY_AND_CHECK( usecustomxmax );	// 7,4
-	COPY_AND_CHECK( m_parameters );		// 8,5
+	COPY_AND_CHECK( dmin );				// 5,1
+	COPY_AND_CHECK( dmax );				// 6,2
+	COPY_AND_CHECK( usecustomxmin );	// 7,3
+	COPY_AND_CHECK( usecustomxmax );	// 8,4
+	COPY_AND_CHECK( m_parameters );		// 9,5
 	
 	// handle equations separately
 	for ( int i = 0; i < eq.size(); ++i )
@@ -685,10 +686,10 @@ PlotAppearance & Function::plotAppearance( PMode plot )
 			return f0;
 		case Function::Derivative1:
 			return f1;
-			
 		case Function::Derivative2:
 			return f2;
-			
+		case Function::Derivative3:
+			return f3;
 		case Function::Integral:
 			return integral;
 	}
@@ -708,6 +709,8 @@ PlotAppearance Function::plotAppearance( PMode plot ) const
 			return f1;
 		case Function::Derivative2:
 			return f2;
+		case Function::Derivative3:
+			return f3;
 		case Function::Integral:
 			return integral;
 	}
@@ -1110,6 +1113,10 @@ void Plot::differentiate()
 			break;
 
 		case Function::Derivative2:
+			plotMode = Function::Derivative3;
+			break;
+
+		case Function::Derivative3:
 			qWarning() << "Can't handle this yet!\n";
 			break;
 	}
@@ -1134,6 +1141,10 @@ void Plot::integrate()
 
 		case Function::Derivative2:
 			plotMode = Function::Derivative1;
+			break;
+
+		case Function::Derivative3:
+			plotMode = Function::Derivative2;
 			break;
 	}
 }
@@ -1175,6 +1186,8 @@ int Plot::derivativeNumber( ) const
 			return 1;
 		case Function::Derivative2:
 			return 2;
+		case Function::Derivative3:
+			return 3;
 	}
 	
 	qWarning() << "Unknown derivative number.\n";

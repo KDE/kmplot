@@ -430,6 +430,7 @@ class Function
 			Derivative0,
 			Derivative1,
 			Derivative2,
+			Derivative3,
 			Integral
 		};
 		
@@ -575,6 +576,7 @@ class Function
 		PlotAppearance f0;		///< The actual function - the "zero'th derivative"
 		PlotAppearance f1;		///< First derivative
 		PlotAppearance f2;		///< Second derivative
+		PlotAppearance f3;		///< Third derivative
 		PlotAppearance integral;	///< integral
 };
 

@@ -1266,7 +1266,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 		bool setAliased = false;
 		if ( plot.parameter.type() == Parameter::Animated )
 		{
-			// Don't use antialiasing, so that rendering is speeded up
+			// Don't use antialiasing, so that rendering is sped up
 			if ( painter->renderHints() & QPainter::Antialiasing )
 			{
 				setAliased = true;
@@ -2686,7 +2686,7 @@ void View::paintEvent(QPaintEvent *)
 				p.save();
 				
 				// Transform the painter so that the center of the osculating circle is the origin,
-				// with the normal line coming in frmo the left.
+				// with the normal line coming in from the left.
 				QPointF center = m_crosshairPixelCoords + (1/k) * QPointF( cos( normalAngle ), sin( normalAngle ) );
 				p.translate( center );
 				p.rotate( normalAngle * 180 / M_PI );

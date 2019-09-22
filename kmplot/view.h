@@ -545,7 +545,7 @@ class View : public QWidget
 		bool m_stopCalculating;
 		/// the background color of the graph
 		QColor m_backgroundColor;
-		///buffer the current window so all functions don't need to be re-drawed
+		///buffer the current window so all functions don't need to be re-drawn
 		QPixmap buffer;
 		/// the popup menu
 		QMenu *m_popupMenu;

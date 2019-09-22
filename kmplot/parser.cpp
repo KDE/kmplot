@@ -70,7 +70,7 @@ ScalarFunction Parser::scalarFunctions[ ScalarCount ]=
 	{"sech", QString(), sech},					// Secans hyperbolicus
 	{"coth", QString(), coth},					// Co-Tangens hyperbolicus
 	{"arccosech", "arcosech", arcosech},// Area-co-secans hyperbolicus = inverse of cosech
-	{"arcsech", "arsech", arsech},		// Area-secans hyperbolicus = invers of sech
+	{"arcsech", "arsech", arsech},		// Area-secans hyperbolicus = inverse of sech
 	{"arccoth", "arcoth", arcoth},		// Area-co-tangens hyperbolicus = inverse of coth
 	
 	// Reciprocal-trig

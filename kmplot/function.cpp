@@ -386,12 +386,10 @@ void Equation::updateVariables()
 		int p1 = m_fstr.indexOf( '(' );
 		int p2 = m_fstr.indexOf( ')' );
 	
-		QStringList listSplit;
-		if ( (p1 != -1) && (p2 != -1) )
-			listSplit = m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts );
+		const QStringList listSplit = ( (p1 != -1) && (p2 != -1) ) ? m_fstr.mid( p1+1, p2-p1-1 ).split( ',', QString::SkipEmptyParts ) : QStringList();
 		
 		// Variables shouldn't contain spaces!
-		foreach ( QString s, listSplit ) { //krazy:exclude=foreach
+		for ( QString s : listSplit ) {
 			s = s.remove(' ');
 			if ( !s.isEmpty() )
 				m_variables << s;
@@ -619,7 +617,7 @@ Function::Function( Type type )
 
 Function::~Function()
 {
-	foreach ( Equation * e, eq )
+	for ( Equation * e : qAsConst(eq) )
 		delete e;
 }
 
@@ -831,7 +829,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 		
 		for ( PMode p = Derivative0; p <= Integral; p = PMode(p+1) )
 		{
-			foreach ( Plot plot, list ) { //krazy:exclude=foreach
+			for ( Plot plot : qAsConst(list) ) {
 				if ( !plotAppearance(p).visible )
 					continue;
 				plot.plotMode = p;
@@ -848,7 +846,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 		
 		for ( int i = 0; i < eq[0]->differentialStates.size(); ++i )
 		{
-			foreach ( Plot plot, list ) { //krazy:exclude=foreach
+			for ( Plot plot : qAsConst(list) ) {
 				plot.stateNumber = i;
 				duplicated << plot;
 			}
@@ -860,7 +858,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 	if ( combinations & DifferentPMSignatures )
 	{
 		int size = 0;
-		foreach ( Equation * equation, eq )
+		for ( Equation * equation : qAsConst(eq) )
 			size += equation->pmCount();
 	
 		unsigned max = unsigned( std::pow( 2.0, (double)size ) );
@@ -878,12 +876,12 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 	
 		// Generate a plot for each signature in signatures
 		QList< Plot > duplicated;
-		foreach ( const QVector<bool> &signature, signatures )
+		for ( const QVector<bool> &signature : qAsConst(signatures) )
 		{
 			int at = 0;
 			QList< QVector<bool> > pmSignature;
 		
-			foreach ( Equation * equation, eq )
+			for ( Equation * equation : qAsConst(eq) )
 			{
 				int pmCount = equation->pmCount();
 				QVector<bool> sig( pmCount );
@@ -894,7 +892,7 @@ QList< Plot > Function::plots( PlotCombinations combinations ) const
 				pmSignature << sig;
 			}
 		
-			foreach ( Plot plot, list ) { //krazy:exclude=foreach
+			for ( Plot plot : qAsConst(list) ) {
 				plot.pmSignature = pmSignature;
 				duplicated << plot;
 			}
@@ -925,7 +923,7 @@ bool Function::dependsOn( Function * function ) const
 	if ( m_dependencies.contains( function->id() ) )
 		return true;
 	
-	foreach ( int functionId, m_dependencies )
+	for ( int functionId : qAsConst(m_dependencies) )
 	{
 		Function * f = XParser::self()->functionWithID( functionId );
 		

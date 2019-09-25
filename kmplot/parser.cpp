@@ -162,7 +162,7 @@ Parser::Parser()
 
 Parser::~Parser()
 {
-	foreach ( Function * function, m_ufkt )
+	for ( Function * function : qAsConst(m_ufkt) )
 		delete function;
 	delete m_ownEquation;
 	delete m_constants;
@@ -192,9 +192,9 @@ QStringList Parser::userFunctions( ) const
 {
 	QStringList names;
 	
-	foreach ( Function * f, m_ufkt )
+	for ( Function * f : qAsConst(m_ufkt) )
 	{
-		foreach ( Equation * eq, f->eq )
+		for ( Equation * eq : qAsConst(f->eq) )
 		{
 			if ( !eq->name().isEmpty() )
 				names << eq->name();
@@ -208,9 +208,9 @@ QStringList Parser::userFunctions( ) const
 
 void Parser::reparseAllFunctions()
 {
-    foreach ( Function * f, m_ufkt )
+    for ( Function * f : m_ufkt )
     {
-        foreach ( Equation * eq, f->eq )
+        for ( Equation * eq : f->eq )
             initEquation( eq );
     }
 }
@@ -669,12 +669,12 @@ bool Parser::removeFunction( Function * item )
 	
 	while ( ! newFunctions.isEmpty() )
 	{
-		QList<Function *> currentFunctions = newFunctions;
+		const QList<Function *> currentFunctions = newFunctions;
 		newFunctions.clear();
 		
-		foreach ( Function *f, currentFunctions )
+		for ( Function *f : currentFunctions )
 		{
-			foreach ( Function *other, m_ufkt )
+			for ( Function *other : qAsConst(m_ufkt) )
 			{
 				if ( (other==f) || toRemove.contains(other) )
 					continue;
@@ -700,7 +700,7 @@ bool Parser::removeFunction( Function * item )
 			return false;
 	}
 	
-	foreach ( Function *f, toRemove )
+	for ( Function *f : qAsConst(toRemove) )
 	{
 		uint id = f->id();
 		m_ufkt.remove( id );
@@ -988,16 +988,16 @@ bool Parser::tryPredefinedFunction()
 	
 bool Parser::tryVariable()
 {
-	QStringList variables = m_currentEquation->variables();
+	const QStringList variables = m_currentEquation->variables();
 	
 	// Sort the parameters by size, so that when identifying parameters, want to
 	// match e.g. "ab" before "a"
 	typedef QMultiMap <int, QString> ISMap;
 	ISMap sorted;
-	foreach ( const QString &var, variables )
+	for ( const QString &var : variables )
 		sorted.insert( -var.length(), var );
 	
-	foreach ( const QString &var, sorted )
+	for ( const QString &var : qAsConst(sorted) )
 	{
 		if ( match( var ) )
 		{
@@ -1013,7 +1013,7 @@ bool Parser::tryVariable()
 
 bool Parser::tryUserFunction()
 {
-	foreach ( Function * it, m_ufkt )
+	for ( Function * it : qAsConst(m_ufkt) )
 	{
 		for ( int i = 0; i < it->eq.size(); ++i )
 		{
@@ -1198,9 +1198,9 @@ void Parser::addfptr( uint id, uint eq_id, uint args )
 
 int Parser::fnameToID(const QString &name)
 {
-	foreach ( Function * it, m_ufkt )
+	for ( Function * it : qAsConst(m_ufkt) )
 	{
-		foreach ( Equation * eq, it->eq )
+		for ( Equation * eq : qAsConst(it->eq) )
 		{
 			if ( eq->looksLikeFunction() && (name == eq->name()) )
 				return it->id();
@@ -1589,18 +1589,18 @@ void ExpressionSanitizer::fixExpression( QString * str )
 	//BEGIN build up strings
 	QMap< LengthOrderedString, StringType > strings;
 	
-	QStringList predefinedFunctions = XParser::self()->predefinedFunctions( true );
-	foreach ( const QString &f, predefinedFunctions )
+	const QStringList predefinedFunctions = XParser::self()->predefinedFunctions( true );
+	for ( const QString &f : predefinedFunctions )
 		strings[f] = FunctionString;
 	
-	foreach ( Function * it, m_parser->m_ufkt )
+	for ( Function * it : qAsConst(m_parser->m_ufkt) )
 	{
-		foreach ( Equation * eq, it->eq )
+		for ( Equation * eq : qAsConst(it->eq) )
 			strings[eq->name()] = FunctionString;
 	}
 	
-	QStringList constantNames = m_parser->constants()->names();
-	foreach ( const QString &name, constantNames )
+	const QStringList constantNames = m_parser->constants()->names();
+	for ( const QString &name : constantNames )
 		strings[name] = ConstantString;
 	strings[QStringLiteral("pi")] = ConstantString;
 	//END build up strings

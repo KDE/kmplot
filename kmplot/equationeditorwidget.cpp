@@ -45,8 +45,8 @@ EquationEditorWidget::EquationEditorWidget(QWidget* parent)
 	QFont buttonFont;
 	buttonFont.setPointSizeF(font.pointSizeF() * 1.1);
 	
-	QList<QToolButton*> buttons = findChildren<QToolButton*>();
-	foreach (QToolButton* w, buttons) {
+	const QList<QToolButton*> buttons = findChildren<QToolButton*>();
+	for (QToolButton* w : buttons) {
 		KAcceleratorManager::setNoAccel(w);
 		
 		connect(w, &QToolButton::clicked, this, &EquationEditorWidget::characterButtonClicked);

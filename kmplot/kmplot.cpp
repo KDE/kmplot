@@ -106,8 +106,9 @@ KmPlot::KmPlot( const QCommandLineParser& parser )
 	setAutoSaveSettings();
 	{
 		bool exit = false;
-        bool first = true;
-		foreach(const QString& arg, parser.positionalArguments())
+		bool first = true;
+		const auto arguments = parser.positionalArguments();
+		for (const QString& arg : arguments)
 		{
 			QUrl url = urlFromArg(arg);
 			if (first)

@@ -69,15 +69,15 @@ void EquationHighlighter::highlightBlock(const QString& text) {
 	
 	QTextCharFormat other;
 	
-	QStringList variables = m_parent->m_equation->variables();
-	QStringList functions = XParser::self()->predefinedFunctions(true) + XParser::self()->userFunctions();
+	const QStringList variables = m_parent->m_equation->variables();
+	const QStringList functions = XParser::self()->predefinedFunctions(true) + XParser::self()->userFunctions();
 	
 	for (int i = 0; i < text.length(); ++i) {
 		QString remaining = text.right(text.length() - i);
 		
 		bool found = false;
 		
-		foreach (const QString& var, variables) {
+		for (const QString& var : variables) {
 			if (remaining.startsWith(var)) {
 				setFormat(i, var.length(), variable);
 				i += var.length() - 1;
@@ -88,7 +88,7 @@ void EquationHighlighter::highlightBlock(const QString& text) {
 		if (found)
 			continue;
 		
-		foreach (const QString& f, functions) {
+		for (const QString& f : functions) {
 			if (remaining.startsWith(f)) {
 				setFormat(i, f.length(), function);
 				i += f.length() - 1;

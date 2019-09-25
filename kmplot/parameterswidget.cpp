@@ -84,7 +84,7 @@ void ParametersWidget::updateEquationEdits( )
 		return;
 	}
 	
-	foreach ( EquationEdit * edit, m_equationEdits )
+	for ( EquationEdit * edit : qAsConst(m_equationEdits) )
 	{
 		if ( edit->equation()->usesParameter() || !edit->equation()->looksLikeFunction() )
 			continue;

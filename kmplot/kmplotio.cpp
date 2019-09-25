@@ -111,7 +111,7 @@ QDomDocument KmPlotIO::currentState()
 
 	root.appendChild( tag );
 	
-	foreach ( Function *f, XParser::self()->m_ufkt )
+	for ( Function *f : qAsConst(XParser::self()->m_ufkt) )
 		addFunction( doc, root, f );
 	
 	addConstants( doc, root );
@@ -214,7 +214,7 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 	
 	tag.setAttribute( "use-parameter-list", function->m_parameters.useList );
 	QStringList str_parameters;
-	foreach ( const Value &k, function->m_parameters.list )
+	for ( const Value &k : qAsConst(function->m_parameters.list) )
 		str_parameters << k.expression();
 			
 	if( !str_parameters.isEmpty() )
@@ -241,7 +241,7 @@ void KmPlotIO::addFunction( QDomDocument & doc, QDomElement & root, Function * f
 			
 			bool first = true;
 			QString ys;
-			foreach ( const Value &y, state->y0 )
+			for ( const Value &y : qAsConst(state->y0) )
 			{
 				if ( !first )
 					ys += ';';
@@ -609,7 +609,7 @@ void KmPlotIO::parseDifferentialStates( const QDomElement & n, Equation * equati
 			QDomElement e = node.toElement();
 			
 			QString x = e.attribute( "x" );
-			QStringList y = e.attribute( "y" ).split( ';' );
+			const QStringList y = e.attribute( "y" ).split( ';' );
 			
 			DifferentialState * state = equation->differentialStates.add();
 			if ( state->y0.size() != y.size() )
@@ -621,7 +621,7 @@ void KmPlotIO::parseDifferentialStates( const QDomElement & n, Equation * equati
 			state->x0.updateExpression( x );
 			
 			int at = 0;
-			foreach ( const QString &f, y )
+			for ( const QString &f : y )
 				state->y0[at++] = f;
 		}
 		node = node.nextSibling();
@@ -834,7 +834,7 @@ void KmPlotIO::oldParseFunction( const QDomElement & n )
 QString KmPlotIO::gradientToString( const QGradientStops & stops )
 {
 	QString string;
-	foreach ( const QGradientStop &stop, stops )
+	for ( const QGradientStop &stop : qAsConst(stops) )
 		string += QString( "%1;%2," ).arg( stop.first ).arg( stop.second.name() );
 	return string;
 }
@@ -843,10 +843,10 @@ QString KmPlotIO::gradientToString( const QGradientStops & stops )
 // static
 QGradientStops KmPlotIO::stringToGradient( const QString & string )
 {
-	QStringList stopStrings = string.split( ',', QString::SkipEmptyParts );
+	const QStringList stopStrings = string.split( ',', QString::SkipEmptyParts );
 	
 	QGradientStops stops;
-	foreach ( const QString &stopString, stopStrings )
+	for ( const QString &stopString : stopStrings )
 	{
 		QString pos = stopString.section( ';', 0, 0 );
 		QString color = stopString.section( ';', 1, 1 );

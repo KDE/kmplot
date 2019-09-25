@@ -106,7 +106,7 @@ void FunctionTools::updateEquationList()
 	m_widget->list->clear();
 	m_equations.clear();
 
-	foreach ( Function * function, XParser::self()->m_ufkt )
+	for ( Function * function : qAsConst(XParser::self()->m_ufkt) )
 	{
 		if ( function->type() != Function::Cartesian && function->type() != Function::Differential )
 			continue;
@@ -115,12 +115,12 @@ void FunctionTools::updateEquationList()
 		
 		for ( int i = 0; i < function->eq.size(); ++i )
 		{
-			foreach ( const Plot &plot, plots )
+			for ( const Plot &plot : qAsConst(plots) )
 				m_equations << EquationPair( plot, i );
 		}
 	}
 	
-	foreach ( const EquationPair &eq, m_equations )
+	for ( const EquationPair &eq : qAsConst(m_equations) )
 	{
 		Equation * equation = eq.first.function()->eq[ eq.second ];
 		QListWidgetItem * item = new QListWidgetItem( equation->fstr(), m_widget->list );

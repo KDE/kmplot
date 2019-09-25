@@ -211,14 +211,14 @@ QString XParser::findFunctionName( const QString & preferredName, int id, const 
 			bool ok = true;
 			name[pos] = lastChar;
 			
-			foreach ( Function * it, m_ufkt )
+			for ( Function * it : qAsConst(m_ufkt) )
 			{
 				if ( int(it->id()) == id )
 					continue;
 				
-				foreach ( Equation * eq, it->eq )
+				for ( Equation * eq : qAsConst(it->eq) )
 				{
-					foreach ( const QString& pattern, neededPatterns) {
+					for ( const QString& pattern : neededPatterns) {
 						if ( eq->name() == pattern.arg(name) )
 							ok = false;
 					}
@@ -255,12 +255,12 @@ void XParser::fixFunctionName( QString &str, Equation::Type const type, int cons
 	}
 	
 	QString const fname = str.left(p1);
-	foreach ( Function * it, m_ufkt )
+	for ( Function * it : qAsConst(m_ufkt) )
 	{
 		if ( int(it->id()) == id )
 			continue;
 		
-		foreach ( Equation * eq, it->eq )
+		for ( Equation * eq : qAsConst(it->eq) )
 		{
 			if ( eq->name() != fname )
 				continue;
@@ -648,7 +648,7 @@ QStringList XParser::functionParameterList(uint id)
 		return QStringList();
 	Function *item = m_ufkt[id];
 	QStringList str_parameter;
-	foreach ( const Value &it, item->m_parameters.list )
+	for ( const Value &it : qAsConst(item->m_parameters.list) )
 		str_parameter << it.expression();
 	return str_parameter;
 }
@@ -659,7 +659,7 @@ bool XParser::functionAddParameter(uint id, const QString &new_parameter)
 	Function *tmp_ufkt = m_ufkt[id];
 	
 	//check if the parameter already exists
-	foreach ( const Value &it, tmp_ufkt->m_parameters.list )
+	for ( const Value &it : qAsConst(tmp_ufkt->m_parameters.list) )
 	{
 		if ( it.expression() == new_parameter )
 			return false;

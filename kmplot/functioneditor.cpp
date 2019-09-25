@@ -123,7 +123,7 @@ FunctionEditor::FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent )
 #define CONNECT_WIDGETS( name, signal ) \
 	{ \
 		QList<name *> widgets = m_editor->findChildren<name *>(); \
-		foreach ( name * w, widgets ) \
+		for ( name * w : qAsConst(widgets) ) \
 			connect( w, SIGNAL(signal), this, SLOT(save()) ); \
 	}
 	
@@ -230,7 +230,7 @@ void FunctionEditor::syncFunctionList()
 	
 	
 	// Now, any IDs left in currentIDs are of functions that have been deleted
-	foreach ( FunctionListItem * item, currentFunctionItems )
+	for ( FunctionListItem * item : qAsConst(currentFunctionItems) )
 	{
 		if ( m_functionID == item->function() )
 			m_functionID = -1;
@@ -726,7 +726,7 @@ void FunctionEditor::saveFunction( Function * tempFunction )
 	if ( !f || !functionListItem )
 		return;
 	
-	foreach ( Equation * eq, f->eq )
+	for ( Equation * eq : qAsConst(f->eq) )
 		eq->differentialStates.resetToInitial();
 	
 	//save all settings in the function now when we know no errors have appeared
@@ -769,7 +769,7 @@ QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items )
 	
 	KmPlotIO io;
 	
-	foreach ( QListWidgetItem * item, items )
+	for ( QListWidgetItem * item : qAsConst(items) )
 	{
 		int f = static_cast<FunctionListItem*>(item)->function();
 		

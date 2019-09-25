@@ -132,8 +132,8 @@ void KGradientEditor::paintEvent( QPaintEvent * )
 	
 	//BEGIN draw arrows
 	painter.setRenderHint( QPainter::Antialiasing, true );
-	QGradientStops stops = m_gradient.stops();
-	foreach ( const QGradientStop &stop, stops )
+	const QGradientStops stops = m_gradient.stops();
+	for ( const QGradientStop &stop : stops )
 		drawArrow( & painter, stop );
 	//END draw arrows
 }

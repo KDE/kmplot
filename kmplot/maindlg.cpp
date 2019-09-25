@@ -555,7 +555,7 @@ void MainDlg::slotExport()
 {
 	QString filters;
 	QMimeDatabase mimeDatabase;
-	foreach (const QByteArray &mimeType, QImageWriter::supportedMimeTypes()) {
+	for (const QByteArray &mimeType : QImageWriter::supportedMimeTypes()) {
 		const QString filter = mimeDatabase.mimeTypeForName(QLatin1String(mimeType)).filterString();
 		if (!filter.isEmpty()) {
 			if (mimeType == QByteArrayLiteral("image/png")) {

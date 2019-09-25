@@ -320,14 +320,14 @@ void InitialConditionsEditor::add()
 		
 void InitialConditionsEditor::remove()
 {
-	QModelIndexList selected = view->selectionModel()->selectedIndexes();
+	const QModelIndexList selected = view->selectionModel()->selectedIndexes();
 	
 	QMap< int, void * > sorted;
-	foreach ( const QModelIndex &index, selected )
+	for ( const QModelIndex &index : selected )
 		sorted.insert( -index.row(), 0l );
-	QList<int> indexes = sorted.keys();
+	const QList<int> indexes = sorted.keys();
 	
-	foreach ( int row, indexes )
+	for ( int row : indexes )
 		m_model->removeRows( -row, 1, QModelIndex() );
 	
 	emit dataChanged();

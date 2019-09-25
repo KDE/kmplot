@@ -402,7 +402,7 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 	painter.setRenderHint( QPainter::Antialiasing, m_zoomMode != Translating );
 	
 	double at = -1;
-	foreach ( Function * function, XParser::self()->m_ufkt )
+	for ( Function * function : qAsConst(XParser::self()->m_ufkt) )
 	{
 		at += 1;
 		
@@ -1261,7 +1261,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 	assert( circular.function() );
 	
 	const QList< Plot > plots = function->plots();
-	foreach ( const Plot &plot, plots )
+	for ( const Plot &plot : plots )
 	{
 		bool setAliased = false;
 		if ( plot.parameter.type() == Parameter::Animated )
@@ -1286,7 +1286,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 			function->m_implicitMode = Function::FixedY;
 			QList<double> roots = findRoots( plot, m_xmin, m_xmax, RoughRoot );
 			
-			foreach ( double x, roots )
+			for ( double x : qAsConst(roots) )
 			{
 #ifdef DEBUG_IMPLICIT
 				painter->setPen( QPen( Qt::red, painter->pen().width() ) );
@@ -1302,7 +1302,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 			function->m_implicitMode = Function::FixedX;
 			roots = findRoots( plot, m_ymin, m_ymax, RoughRoot );
 			
-			foreach ( double y, roots )
+			for ( double y : qAsConst(roots) )
 			{	
 #ifdef DEBUG_IMPLICIT
 				painter->setPen( QPen( Qt::blue, painter->pen().width() ) );
@@ -1315,11 +1315,11 @@ void View::drawImplicit( Function * function, QPainter * painter )
 		FuzzyPointMap singularSorted;
 		FuzzyPoint::dx = (m_xmax-m_xmin) * SegmentMin * 0.1 / m_clipRect.width();
 		FuzzyPoint::dy = (m_ymax-m_ymin) * SegmentMin * 0.1 / m_clipRect.height();
-		foreach ( const QPointF &point, singular )
+		for ( const QPointF &point : qAsConst(singular) )
 			singularSorted.insert( point, point );
 		singular = singularSorted.values();
 		
-		foreach ( const QPointF &point, singular )
+		for ( const QPointF &point : qAsConst(singular) )
 		{
 			// radius of circle around singular point
 			double epsilon = qMin( FuzzyPoint::dx, FuzzyPoint::dy );
@@ -1345,7 +1345,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 			qDebug() << "Found " << roots.size() << " roots.\n";
 #endif
 			
-			foreach ( double t, roots )
+			for ( double t : qAsConst(roots) )
 			{	
 #ifdef DEBUG_IMPLICIT
 				painter->setPen( QPen( Qt::green, painter->pen().width() ) );
@@ -1655,13 +1655,13 @@ void View::drawFunction( Function * function, QPainter * painter )
 			 (function->eq[0]->order() == 1) &&
 			function->plotAppearance( Function::Derivative0 ).showTangentField )
 	{
-		QList<Plot> plots = function->plots( Function::PlotCombinations(Function::AllCombinations) & ~Function::DifferentInitialStates );
-		foreach ( const Plot &plot, plots )
+		const QList<Plot> plots = function->plots( Function::PlotCombinations(Function::AllCombinations) & ~Function::DifferentInitialStates );
+		for ( const Plot &plot : plots )
 			drawTangentField( plot, painter );
 	}
 	
-	QList<Plot> plots = function->plots();
-	foreach ( const Plot &plot, plots )
+	const QList<Plot> plots = function->plots();
+	for ( const Plot &plot : plots )
 		drawPlot( plot, painter );
 	
 }
@@ -2028,20 +2028,20 @@ void View::drawFunctionInfo( QPainter * painter )
 	// Used for determining where to draw the next label indicating the plot name
 	int plotNameAt = 0;
 	
-	foreach ( Function * function, XParser::self()->m_ufkt )
+	for ( Function * function : qAsConst(XParser::self()->m_ufkt) )
 	{
 		if ( m_stopCalculating )
 			break;
 		
-		foreach ( const Plot &plot, function->plots() )
+		for ( const Plot &plot : function->plots() )
 		{
 			plot.updateFunction();
 			
 			// Draw extrema points?
 			if ( (function->type() == Function::Cartesian) && function->plotAppearance( plot.plotMode ).showExtrema )
 			{
-				QList<QPointF> stationaryPoints = findStationaryPoints( plot );
-				foreach ( const QPointF &realValue, stationaryPoints )
+				const QList<QPointF> stationaryPoints = findStationaryPoints( plot );
+				for ( const QPointF &realValue : stationaryPoints )
 				{
 					painter->setPen( QPen( Qt::black, millimetersToPixels( 1.5, painter->device() ) ) );
 					painter->drawPoint( toPixel( realValue ) );
@@ -2397,7 +2397,7 @@ void View::drawHeaderTable( QPainter *painter )
 	
 	text += "<br><br><b>" + i18n("Functions:") + "</b><ul>";
 	
-	foreach ( Function * function, XParser::self()->m_ufkt )
+	for ( Function * function : qAsConst(XParser::self()->m_ufkt) )
 		text += "<li>" + function->name().replace( '\n', "<br>" ) + "</li>";
 	
 	text += "</ul>";
@@ -2415,11 +2415,11 @@ QList< QPointF > View::findStationaryPoints( const Plot & plot )
 	Plot plot2 = plot;
 	plot2.differentiate();
 
-	QList< double > roots = findRoots( plot2, getXmin( plot.function() ), getXmax( plot.function() ), RoughRoot );
+	const QList< double > roots = findRoots( plot2, getXmin( plot.function() ), getXmax( plot.function() ), RoughRoot );
 
 	plot.updateFunction();
 	QList< QPointF > stationaryPoints;
-	foreach ( double x, roots )
+	for ( double x : roots )
 	{
 		QPointF real = realValue( plot, x, false );
 		if ( real.y() >= m_ymin && real.y() <= m_ymax )
@@ -3090,10 +3090,10 @@ QPointF View::getPlotUnderMouse()
 	double best_distance = 1e30; // a nice large number
 	QPointF best_cspos;
 
-	foreach ( Function * function, XParser::self()->m_ufkt )
+	for ( Function * function : qAsConst(XParser::self()->m_ufkt) )
 	{
 		const QList< Plot > plots = function->plots();
-		foreach ( const Plot &plot, plots )
+		for ( const Plot &plot : plots )
 		{
 			plot.updateFunction();
 			
@@ -3757,7 +3757,7 @@ QPointF View::findMinMaxValue( const Plot & plot, ExtremaType type, double dmin,
 	double best = (type == Maximum) ? -HUGE_VAL : +HUGE_VAL;
 	QPointF bestPoint;
 	
-	foreach ( double root, roots )
+	for ( double root : qAsConst(roots) )
 	{
 		QPointF rv = realValue( plot, root, false );
 		if ( (type == Maximum && rv.y() > best) || (type == Minimum && rv.y() < best) )
@@ -3958,7 +3958,7 @@ bool View::isCalculationStopped()
 void View::updateSliders()
 {
 	bool needSliderWindow = false;
-	foreach ( Function * it, XParser::self()->m_ufkt )
+	for ( Function * it : qAsConst(XParser::self()->m_ufkt) )
 	{
 		if ( it->m_parameters.useSlider && !it->allPlotsAreHidden() )
 		{

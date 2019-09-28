@@ -42,6 +42,12 @@ static const char* version =  "1.3.0";
 
 int main( int argc, char **argv )
 {
+	/**
+	* enable high dpi support
+	*/
+	QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+
 	QApplication qapp(argc, argv);
     KCrash::initialize();
 

@@ -48,7 +48,7 @@ CoordsConfigDialog::CoordsConfigDialog(QWidget *parent)
 	configAxesDialog->kcfg_XMin->setTabChain( configAxesDialog->kcfg_XMax->focusProxy() );
 	configAxesDialog->kcfg_XMax->setTabChain( configAxesDialog->kcfg_YMin->focusProxy() );
 	configAxesDialog->kcfg_YMin->setTabChain( configAxesDialog->kcfg_YMax->focusProxy() );
-	configAxesDialog->layout()->setMargin( 0 );
+	configAxesDialog->layout()->setContentsMargins( 0, 0, 0, 0 );
 	addPage(configAxesDialog , i18n( "Coordinates" ), "coords", i18n( "Coordinate System" ) );
 	setWindowTitle( i18n( "Coordinate System" ) );
 	setHelp("axes-config");

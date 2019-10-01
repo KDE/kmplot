@@ -393,7 +393,7 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 
 	//BEGIN layout widgets
 	QVBoxLayout * layout = new QVBoxLayout( this );
-	layout->setMargin( 0 );
+	layout->setContentsMargins( 0, 0, 0, 0 );
 	
 	m_gradient->setFixedHeight( 24 );
 	layout->addWidget( m_gradient );

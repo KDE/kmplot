@@ -48,8 +48,8 @@ class MainDlg;
 class QPaintEvent;
 class QTextDocument;
 class KTextEdit;
-class QTime;
 class QMenu;
+class QElapsedTimer;
 
 //@{
 /// Some abbreviations for horizontal and vertical lines.
@@ -616,7 +616,7 @@ class View : public QWidget
 		/// for translating the view via dragging
 		QPoint m_prevDragMousePos;
 		/// timer that is started when the mouse is pressed
-		QTime * m_mousePressTimer;
+        QElapsedTimer * m_mousePressTimer;
 		/** Current plot viewport. */
 		const QRectF getViewport();
 		

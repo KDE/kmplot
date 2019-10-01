@@ -113,7 +113,7 @@ FunctionEditor::FunctionEditor( QMenu * createNewPlotsMenu, QWidget * parent )
 	//END initialize equation edits
 	
 	for ( unsigned i = 0; i < 5; ++i )
-		m_editor->stackedWidget->widget(i)->layout()->setMargin( 0 );
+		m_editor->stackedWidget->widget(i)->layout()->setContentsMargins( 0, 0, 0, 0 );
 	
 	connect(m_editor->deleteButton, &QPushButton::clicked, this, &FunctionEditor::deleteCurrent);
 	connect(m_functionList, &FunctionListWidget::currentItemChanged, this, &FunctionEditor::functionSelected);

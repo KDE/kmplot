@@ -106,13 +106,13 @@ QVariant InitialConditionsModel::data( const QModelIndex & index, int role ) con
 		case Qt::TextAlignmentRole:
 			return Qt::AlignLeft;
 			
-		case Qt::TextColorRole:
+		case Qt::ForegroundRole:
 			return QColor(Qt::black);
 			
 		case Qt::WhatsThisRole:
 		case Qt::AccessibleDescriptionRole:
 		case Qt::CheckStateRole:
-		case Qt::BackgroundColorRole:
+		case Qt::BackgroundRole:
 		case Qt::SizeHintRole:
 		case Qt::FontRole:
 		case Qt::UserRole:
@@ -273,7 +273,7 @@ InitialConditionsEditor::InitialConditionsEditor( QWidget * parent )
 	m_equation = 0;
 	
 	setupUi( this );
-	layout()->setMargin( 0 );
+	layout()->setContentsMargins( 0, 0, 0, 0 );
 	connect(addButton, &QPushButton::clicked, this, &InitialConditionsEditor::add);
 	connect(removeButton, &QPushButton::clicked, this, &InitialConditionsEditor::remove);
 	

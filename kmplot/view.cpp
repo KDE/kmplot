@@ -44,7 +44,7 @@
 #include <QResizeEvent>
 #include <QSlider>
 #include <QTextEdit>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QTimer>
 
 // KDE includes
@@ -114,7 +114,7 @@ View::View( bool readOnly, QMenu * functionPopup, QWidget* parent )
 	m_textEdit->setLineWrapMode( QTextEdit::NoWrap );
 	m_textDocument = m_textEdit->document();
 
-	m_mousePressTimer = new QTime();
+    m_mousePressTimer = new QElapsedTimer();
 
     new ViewAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/view", this);
@@ -3404,7 +3404,7 @@ void View::leaveEvent(QEvent *)
 
 void View::wheelEvent(QWheelEvent *e)
 {
-	m_AccumulatedDelta += e->delta();
+	m_AccumulatedDelta += e->angleDelta().y();
 
 	if (e->modifiers() & Qt::ControlModifier)
 	{

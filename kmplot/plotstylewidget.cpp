@@ -72,7 +72,7 @@ PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	m_dialog->setWindowTitle( i18n("Plot Appearance") );
 
 	m_dialogWidget = new PlotStyleDialogWidget( m_dialog );
-	m_dialogWidget->layout()->setMargin( 0 );
+	m_dialogWidget->layout()->setContentsMargins( 0, 0, 0, 0 );
 	mainLayout->addWidget(m_dialogWidget);
 
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);

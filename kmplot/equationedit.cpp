@@ -58,7 +58,7 @@ EquationEdit::EquationEdit( QWidget * parent )
 	connect(m_equationEditWidget, &EquationEditWidget::cursorPositionChanged, this, &EquationEdit::reHighlight);
 	
 	QHBoxLayout * layout = new QHBoxLayout( this );
-	layout->setMargin( 0 );
+	layout->setContentsMargins( 0, 0, 0, 0 );
 	layout->addWidget( m_equationEditWidget );
 	layout->addWidget( m_editButton );
 }

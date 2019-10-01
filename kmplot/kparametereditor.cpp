@@ -65,7 +65,7 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &KParameterEditor::reject);
 	mainLayout->addWidget(buttonBox);
 
-	mainLayout->setMargin( 0 );
+	mainLayout->setContentsMargins( 0, 0, 0, 0 );
 	
 	m_mainWidget->cmdNew->setIcon( QIcon::fromTheme("document-new" ) );
 	m_mainWidget->cmdDelete->setIcon( QIcon::fromTheme("edit-delete" ) );

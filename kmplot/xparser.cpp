@@ -361,11 +361,12 @@ double XParser::differential( Equation * eq, DifferentialState * state, double x
 		
 		m_y.addRK4( dx, m_k1, m_k2, m_k3, m_k4 );
 		
-		if ( !std::isfinite(m_y[0]) )
+		// The condition on the total accumulated error (O(dx^5)) should not be violated for rapidly increasing functions￼, e.g. e^x^2
+		if ( !std::isfinite(m_y[0]) || qAbs((state->y[0]-m_y[0])*dx*dx) > 1)
 		{
 			differentialFinite = false;
 			state->resetToInitial();
-			return 0;
+			return 1e200*((m_y[0] > 0) - (m_y[0] < 0));
 		}
 	}
 	

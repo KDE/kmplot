@@ -365,7 +365,9 @@ void View::draw( QPaintDevice * dev, PlotMedium medium )
 		{
 			if ( m_printHeaderTable )
 				drawHeaderTable( &painter );
-			
+
+			painter.translate( (dev->width() - m_clipRect.width()) / 2, 0 );
+
 			if ( m_printBackground )
 				painter.fillRect( m_clipRect,  m_backgroundColor); //draw a colored background
 			
@@ -2389,11 +2391,11 @@ void View::drawHeaderTable( QPainter *painter )
 	QString atx = "1E = " + ticSepX.expression();
 	QString aty = "1E = " + ticSepY.expression();
 	
-	QString text = "<table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">"
+	QString text = "<div style=\"margin: 0 auto;\"><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">"
 			"<tr><td><b>" + i18n("Parameters") + "</b></td><td><b>" + i18n("Plotting Range") + "</b></td><td><b>" + i18n("Axes Division") + "</b></td></tr>"
 			"<tr><td><b>" + i18n("x-Axis:") + "</b></td><td>" + alx + "</td><td>" + atx + "</td></tr>"
 			"<tr><td><b>" + i18n("y-Axis:") + "</b></td><td>" + aly + "</td><td>" + aty + "</td></tr>"
-			"</table>";
+			"</table></div>";
 	
 	text += "<br><br><b>" + i18n("Functions:") + "</b><ul>";
 	

@@ -122,7 +122,7 @@ void CoordsConfigDialog::updateButtons()
 
 void CoordsConfigDialog::done(int result)
 {
-	// http://www.qtcentre.org/threads/8048-Validate-Data-in-QDialog
+	// https://www.qtcentre.org/threads/8048-Validate-Data-in-QDialog
 	if ( result == QDialog::Accepted ) {
 		if ( !evalX() || !evalY() ) {
 			return;

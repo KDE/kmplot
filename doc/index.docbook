@@ -1205,7 +1205,7 @@ also be used by &kcalc;). The constant will not be lost when &kmplot; is closed,
 <sect1 id="menu">
 <title>Menu Items</title>
 
-<para>Apart from the common &kde; menus described in the <ulink url="help:/fundamentals/ui.html#menus">Menu</ulink>
+<para>Apart from the common &kde; menus described in the <ulink url="help:/fundamentals/menus.html">Menu</ulink>
 chapter of the &kde; Fundamentals documentation &kmplot; has these application specific menu entries:
 </para>
 

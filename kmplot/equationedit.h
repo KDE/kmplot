@@ -49,7 +49,7 @@ typedef QMap<QChar, QChar> CharMap;
 class EquationEdit : public QWidget
 {
 	Q_OBJECT
-	Q_PROPERTY( QString text READ text WRITE setText USER true )
+	Q_PROPERTY( QString text READ text WRITE setText NOTIFY textEdited USER true )
 	
 	public:
 		enum InputType

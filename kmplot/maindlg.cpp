@@ -183,10 +183,6 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :
 	connect( m_saveCurrentStateTimer, &QTimer::timeout, this, &MainDlg::saveCurrentState );
 	//END undo/redo stuff
 
-
-
-	// Allow config manager to read from equation edits
-	KConfigDialogManager::changedMap()->insert( "EquationEdit", SIGNAL(textEdited(QString)) );
 	// Let's create a Configure Dialog
 	m_settingsDialog = new KConfigDialog( parentWidget, "settings", Settings::self() );
 

@@ -1,6 +1,7 @@
 project(kmplot)
 cmake_minimum_required (VERSION 3.5 FATAL_ERROR)
-set (QT_MIN_VERSION "5.3.0")
+set (QT_MIN_VERSION "5.6.0")
+set (KF5_MIN_VERSION "5.32.0")
 
 find_package (ECM 1.3.0 REQUIRED NO_MODULE)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
@@ -14,7 +15,7 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Gui Svg Widgets PrintSupport)
 
-find_package (KF5 REQUIRED
+find_package (KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Crash
     GuiAddons
     I18n

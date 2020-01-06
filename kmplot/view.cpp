@@ -1336,7 +1336,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 					.arg( XParser::self()->number( epsilon ) );
 			
 			bool setFstrOk = circular.function()->eq[0]->setFstr( fstr );
-                        qDebug() << "------------ " << setFstrOk << endl;
+                        qDebug() << "------------ " << setFstrOk;
 			assert( setFstrOk );
 			
 			QList<double> roots = findRoots( circular, 0, 2*M_PI / XParser::self()->radiansPerAngleUnit(), PreciseRoot );
@@ -1354,7 +1354,7 @@ void View::drawImplicit( Function * function, QPainter * painter )
 #endif
 				double x = point.x() + epsilon * lcos(t);
 				double y = point.y() + epsilon * lsin(t);
-				drawImplicitInSquare( plot, painter, x, y, 0, & singular );
+				drawImplicitInSquare( plot, painter, x, y, {}, & singular );
 			}
 		}
 		
@@ -3795,9 +3795,9 @@ void View::keyPressEvent( QKeyEvent * e )
 
 	QMouseEvent * event = 0;
 	if (e->key() == Qt::Key_Left )
-		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint() - QPoint(1,1), Qt::LeftButton, Qt::LeftButton, 0 );
+		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint() - QPoint(1,1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
 	else if (e->key() == Qt::Key_Right )
-		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint() + QPoint(1,1), Qt::LeftButton, Qt::LeftButton, 0 );
+		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint() + QPoint(1,1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
 	else if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) //switch graph in trace mode
 	{
 		/// \todo reimplement moving between plots
@@ -3875,14 +3875,14 @@ void View::keyPressEvent( QKeyEvent * e )
 	}
 	else if ( e->key() == Qt::Key_Space  )
 	{
-		event = new QMouseEvent( QEvent::MouseButtonPress, QCursor::pos(), Qt::RightButton, Qt::RightButton, 0 );
+		event = new QMouseEvent( QEvent::MouseButtonPress, QCursor::pos(), Qt::RightButton, Qt::RightButton, Qt::NoModifier );
 		mousePressEvent(event);
 		delete event;
 		return;
 	}
 	else
 	{
-		event = new QMouseEvent( QEvent::MouseButtonPress, m_crosshairPixelCoords.toPoint(), Qt::LeftButton, Qt::LeftButton, 0 );
+		event = new QMouseEvent( QEvent::MouseButtonPress, m_crosshairPixelCoords.toPoint(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
 		mousePressEvent(event);
 		delete event;
 		return;
@@ -4020,14 +4020,14 @@ void View::hideCurrentFunction()
 	if ( ufkt->allPlotsAreHidden() )
 	{
 		m_currentPlot.setFunctionID( -1 );
-		QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, 0 );
+		QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
 		mousePressEvent(event); //leave trace mode
 		delete event;
 		return;
 	}
 	else
 	{
-		QKeyEvent *event = new QKeyEvent( QKeyEvent::KeyPress, Qt::Key_Up, 0 );
+		QKeyEvent *event = new QKeyEvent( QKeyEvent::KeyPress, Qt::Key_Up, Qt::NoModifier );
 		keyPressEvent(event); //change selected graph
 		delete event;
 		return;
@@ -4046,7 +4046,7 @@ void View::removeCurrentPlot()
 	if ( m_currentPlot.functionID() != -1 ) // if trace mode is enabled
 	{
 		m_currentPlot.setFunctionID( -1 );
-		QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, 0 );
+		QMouseEvent *event = new QMouseEvent( QMouseEvent::KeyPress, QCursor::pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
 		mousePressEvent(event); //leave trace mode
 		delete event;
 	}

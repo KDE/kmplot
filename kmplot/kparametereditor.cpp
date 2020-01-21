@@ -315,7 +315,7 @@ void KParameterEditor::cmdExport_clicked()
 					QListWidgetItem * it = m_mainWidget->list->item( i );
 					stream << it->text();
 					if ( i < m_mainWidget->list->count()-1 )
-						stream << endl; //only write a new line if there are more text
+						stream << '\n'; //only write a new line if there are more text
 				}
 				stream.flush();
 			}
@@ -345,7 +345,7 @@ void KParameterEditor::cmdExport_clicked()
 					QListWidgetItem * it = m_mainWidget->list->item( i );
 					stream << it->text();
 					if ( i < m_mainWidget->list->count()-1 )
-						stream << endl; //only write a new line if there are more text
+						stream << '\n'; //only write a new line if there are more text
 				}
 				file.close();
 			}

@@ -692,7 +692,7 @@ PlotAppearance & Function::plotAppearance( PMode plot )
 			return integral;
 	}
 	
-	qCritical() << "Unknown plot " << plot << endl;
+	qCritical() << "Unknown plot " << plot;
 	return f0;
 }
 PlotAppearance Function::plotAppearance( PMode plot ) const
@@ -713,7 +713,7 @@ PlotAppearance Function::plotAppearance( PMode plot ) const
 			return integral;
 	}
 	
-	qCritical() << "Unknown plot " << plot << endl;
+	qCritical() << "Unknown plot " << plot;
 	return f0;
 }
 

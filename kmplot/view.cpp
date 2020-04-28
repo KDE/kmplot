@@ -3871,6 +3871,8 @@ void View::keyPressEvent( QKeyEvent * e )
 		setStatusBar( (*it)->prettyName( m_currentPlot.plotMode ), FunctionSection );
 
 		event = new QMouseEvent( QEvent::MouseMove, m_crosshairPixelCoords.toPoint(), Qt::LeftButton, Qt::LeftButton, 0 );
+#else
+		return;
 #endif
 	}
 	else if ( e->key() == Qt::Key_Space  )

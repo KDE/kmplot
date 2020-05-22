@@ -2927,7 +2927,9 @@ void View::resizeEvent(QResizeEvent *)
 		m_stopCalculating = true; //stop drawing
 		return;
 	}
-	buffer = QPixmap( size() );
+	qreal dpr = devicePixelRatioF();
+	buffer = QPixmap( size() * dpr );
+	buffer.setDevicePixelRatio(dpr);
 	drawPlot();
 }
 

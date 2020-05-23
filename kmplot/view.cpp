@@ -2388,8 +2388,8 @@ void View::drawHeaderTable( QPainter *painter )
 	QString alx = i18nc("%1=minimum value, %2=maximum value", "%1 to %2", Settings::xMin(), Settings::xMax());
 	QString aly = i18nc("%1=minimum value, %2=maximum value", "%1 to %2", Settings::yMin(), Settings::yMax());
 	
-	QString atx = "1E = " + ticSepX.expression();
-	QString aty = "1E = " + ticSepY.expression();
+	QString atx = i18nc("'E' is the distance between ticks on the axis", "1E = ") + ticSepX.expression();
+	QString aty = i18nc("'E' is the distance between ticks on the axis", "1E = ") + ticSepY.expression();
 	
 	QString text = "<div style=\"margin: 0 auto;\"><table border=\"1\" cellpadding=\"4\" cellspacing=\"0\">"
 			"<tr><td><b>" + i18n("Parameters") + "</b></td><td><b>" + i18n("Plotting Range") + "</b></td><td><b>" + i18n("Axes Division") + "</b></td></tr>"

@@ -32,6 +32,7 @@
   <name xml:lang="sv">Kmplot</name>
   <name xml:lang="tr">KmPlot</name>
   <name xml:lang="uk">KmPlot</name>
+  <name xml:lang="x-test">xxKmPlotxx</name>
   <name xml:lang="zh-CN">KmPlot</name>
   <name xml:lang="zh-TW">數學_KmPlot</name>
   <summary>Mathematical Function Plotter</summary>
@@ -62,6 +63,7 @@
   <summary xml:lang="sv">Matematisk funktionsritare</summary>
   <summary xml:lang="tr">Matematiksel Fonksiyon Çizici</summary>
   <summary xml:lang="uk">Графобудівник математичних функцій</summary>
+  <summary xml:lang="x-test">xxMathematical Function Plotterxx</summary>
   <summary xml:lang="zh-CN">数学函数绘图器</summary>
   <summary xml:lang="zh-TW">函數繪圖程式</summary>
   <description>
@@ -89,6 +91,7 @@
     <p xml:lang="sv">Kmplot är ett program för att rita funktionsgrafer, deras integraler eller derivator. Graferna kan färgläggas och visningen är mycket inställningsbar, skalbar och kan zoomas. Programmet innehåller en kraftfull matematisk tolk, olika typer av diagram (kartesiska, parametriserade, polära, implicita, differentiella), och tillhandahåller enkla matematiska verktyg såsom att hitta maximum eller minimum av en funktion. Parametriserade funktioner kan åskådliggöras genom att justera den variabla parametern via ett skjutreglage. Diagram kan exporteras som bilder med bitavbildningsformat (BMP, PNG) och kan skrivas ut.</p>
     <p xml:lang="tr">KmPlot fonksiyonların grafiklerini, integral ve türevlerini çizen bir programdır. Grafikler renklendirilebilir ve çokça yapılandırılabilir, ölçeklenebilir ve yakınlaştırılabilirler. Program güçlü bir matematik ayrıştırıcısı, farklı çizim türleri (kartezyen, parametrik, kutupsal, kesin, türevli) ve bir fonksiyonun en yüksek ve düşük değerlerini bulan basit matematik araçları sunar. Parametrik fonksiyonlar değişken parametreleri kullanılarak görselleştirilebilirler. Çizimler bitmap resim biçimlerinde (BMP, PNG) dışa aktarılabilir ve yazdırılabilirler.</p>
     <p xml:lang="uk">KmPlot — програма для малювання графіків функцій, їхніх первісних або похідних. Передбачено можливість розфарбовування ліній графіків та гнучкі налаштування панелі перегляду з можливістю зміни масштабу та пересування області перегляду на площині. У програмі ви зможете скористатися потужним засобом обробки формул, накреслити графіки декількох типів (у декартовій та полярній системах координат, графіки функцій заданих параметрично, неявно, графіки похідних) та скористатися простими математичними інструментами, зокрема інструментом пошуку мінімумів та максимумів функції. Передбачено можливість роботи з параметризованими функціями, зміну параметра у яких можна здійснювати за допомогою повзунка змінної. Зображення графіків можна експортувати до файлів растрових зображень (BMP, PNG) та друкувати.</p>
+    <p xml:lang="x-test">xxKmPlot is a program to plot graphs of functions, their integrals or derivatives. The graphs can be colorized and the view is highly configurable, is scalable, and can be zoomed. The program features a powerful mathematical parser, different plot types (cartesian, parametric, polar, implicit, differential), and provides simple mathematical tools like for finding maximum/minimum of a function. Parametrized functions can be visualized by adjusting the variable parameter via a slider. Plots can be exported as bitmap format pictures (BMP, PNG) and can be printed.xx</p>
     <p xml:lang="zh-TW">KmPlot 是一套用來繪製函數、函數的積分與微分圖形的程式。圖形可以上色，可以設定檢視模式，也可以縮放調整。這個應用程式中包含了一套強大的數學剖析器，不同的繪圖樣式（直角座標、極座標等），並提供簡單的數學工具，如找出函數最大、最小值等等。函數的參數可以做視覺化，用滑動器來調整參數值。最後繪製的圖形可以匯出為 bmp 或 png 格式的圖檔來列印。</p>
   </description>
   <url type="homepage">https://edu.kde.org/kmplot/</url>
@@ -116,6 +119,7 @@
       <caption xml:lang="sl">Kvadratna funkcija, njen odvod in integral narisan s KmPlot</caption>
       <caption xml:lang="sv">Kvadratisk funktion, dess derivata och integral uppritade med Kmplot</caption>
       <caption xml:lang="uk">Квадратична функція, її похідна та інтеграл на кресленні KmPlot</caption>
+      <caption xml:lang="x-test">xxQuadratic function, its derivative and integral plotted with KmPlotxx</caption>
       <caption xml:lang="zh-CN">二次函数，其导数和积分用 KmPlot 绘制</caption>
       <caption xml:lang="zh-TW">使用 KmPlot 繪製二次函數、其延伸物和積分</caption>
       <image>https://cdn.kde.org/screenshots/kmplot/kmplot.png</image>

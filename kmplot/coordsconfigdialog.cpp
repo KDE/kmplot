@@ -51,7 +51,7 @@ CoordsConfigDialog::CoordsConfigDialog(QWidget *parent)
 	configAxesDialog->layout()->setContentsMargins( 0, 0, 0, 0 );
 	addPage(configAxesDialog , i18n( "Coordinates" ), "coords", i18n( "Coordinate System" ) );
 	setWindowTitle( i18n( "Coordinate System" ) );
-	setHelp("axes-config");
+	setHelp(QString::fromLatin1("axes-config"));
 	setFaceType( Plain );
 	connect( configAxesDialog->kcfg_XMin, &EquationEdit::textEdited, this, &CoordsConfigDialog::updateButtons );
 	connect( configAxesDialog->kcfg_XMax, &EquationEdit::textEdited, this, &CoordsConfigDialog::updateButtons );

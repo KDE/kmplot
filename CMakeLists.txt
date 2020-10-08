@@ -38,5 +38,8 @@ add_subdirectory( kmplot )
 add_subdirectory( icons )
 
 ki18n_install(po)
+if (KF5DocTools_FOUND)
+    kdoctools_install(po)
+endif()
 install(FILES org.kde.kmplot.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

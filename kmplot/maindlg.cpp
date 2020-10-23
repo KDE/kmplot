@@ -32,14 +32,12 @@
 #include <QIcon>
 #include <QImageWriter>
 #include <QMainWindow>
-#include <QMenu>
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QPixmap>
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPrintPreviewWidget>
-#include <QStandardPaths>
 #include <QSvgGenerator>
 #include <QTemporaryFile>
 #include <QTimer>

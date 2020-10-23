@@ -22,7 +22,6 @@
 */
 
 #include "plotstylewidget.h"
-#include "function.h"
 #include "kgradientdialog.h"
 #include "ui_plotstylewidget.h"
 

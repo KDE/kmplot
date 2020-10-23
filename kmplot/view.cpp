@@ -32,16 +32,10 @@
 #include <QBitmap>
 #include <QCursor>
 #include <QDataStream>
-#include <QDebug>
-#include <QEvent>
-#include <QKeyEvent>
 #include <QList>
 #include <QMenu>
-#include <QMouseEvent>
 #include <QPaintEvent>
 #include <QPainter>
-#include <QPixmap>
-#include <QResizeEvent>
 #include <QSlider>
 #include <QTextEdit>
 #include <QElapsedTimer>

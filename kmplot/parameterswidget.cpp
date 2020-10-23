@@ -24,7 +24,6 @@
 #include "parameterswidget.h"
 
 #include <QPointer>
-#include "function.h"
 #include "kparametereditor.h"
 #include "xparser.h"
 

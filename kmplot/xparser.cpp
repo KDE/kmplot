@@ -36,7 +36,6 @@
 #include <KMessageBox>
 
 #include <QList>
-#include <QDebug>
 
 #include <assert.h>
 #include <cmath>

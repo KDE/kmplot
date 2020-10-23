@@ -35,7 +35,6 @@
 #include <QPaintEvent>
 #include <QPainter>
 #include <QPointer>
-#include <QPushButton>
 #include <QStyleOption>
 #include <QStyleOptionButton>
 #include <QTileRules>

@@ -29,7 +29,6 @@
 #include <QDialogButtonBox>
 #include <QFile>
 #include <QFileDialog>
-#include <QList>
 #include <QListWidget>
 #include <QPushButton>
 #include <QTemporaryFile>

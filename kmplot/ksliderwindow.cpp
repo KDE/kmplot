@@ -32,7 +32,6 @@
 
 #include <QCloseEvent>
 #include <QDialogButtonBox>
-#include <QGroupBox>
 #include <QPushButton>
 #include <QVBoxLayout>
 

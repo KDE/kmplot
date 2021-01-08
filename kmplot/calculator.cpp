@@ -40,7 +40,7 @@ Calculator::Calculator( QWidget * parent )
 {
 	setModal( false );
 	QWidget * widget = new QWidget( this );
-	setWindowTitle( i18n("Calculator") );
+	setWindowTitle( i18nc("@title:window", "Calculator") );
 
 	QVBoxLayout *layout = new QVBoxLayout( this );
 

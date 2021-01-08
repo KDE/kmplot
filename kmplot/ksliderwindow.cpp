@@ -93,7 +93,7 @@ KSliderWindow::KSliderWindow( QWidget * parent ) :
 {
 	setModal( false );
 	QWidget * widget = new QWidget( this );
-	setWindowTitle( i18n("Sliders") );
+	setWindowTitle( i18nc("@title:window", "Sliders") );
 
 	QVBoxLayout *layout = new QVBoxLayout( this );
 	layout->addWidget(widget);

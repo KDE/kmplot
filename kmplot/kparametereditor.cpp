@@ -51,7 +51,7 @@ KParameterEditor::KParameterEditor( QList<Value> *l, QWidget *parent )
 	  m_parameter(l)
 {
 	m_mainWidget = new QParameterEditor( this );
-	setWindowTitle( i18n( "Parameter Editor" ) );
+	setWindowTitle( i18nc("@title:window", "Parameter Editor") );
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
 	mainLayout->addWidget(m_mainWidget);

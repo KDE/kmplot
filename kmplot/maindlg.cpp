@@ -316,7 +316,7 @@ void MainDlg::setupActions()
 
 	//BEGIN help menu
 	QAction * namesAction = actionCollection()->addAction( "names" );
-        namesAction->setText( i18n( "Predefined &Math Functions" ) );
+        namesAction->setText( i18nc("@action:inmenu Help", "Predefined &Math Functions") );
 	namesAction->setIcon( QIcon::fromTheme("functionhelp") );
 	connect( namesAction, &QAction::triggered, this, &MainDlg::slotNames );
 	//END help menu
@@ -699,7 +699,7 @@ void MainDlg::slotPrint()
 	printdlg->setObjectName( "KmPlot page" );
 	QPointer<QPrintDialog> printDialog = new QPrintDialog( &prt, m_parent );
 	printDialog->setOptionTabs( QList<QWidget*>() << printdlg );
-	printDialog->setWindowTitle( i18n("Print Plot") );
+	printDialog->setWindowTitle( i18nc("@title:window", "Print Plot") );
 
 	if (printDialog->exec())
 	{
@@ -721,7 +721,7 @@ void MainDlg::slotPrintPreview()
 		QPrintPreviewWidget *previewWidget = previewWidgetsList.first();
 		connect( printSettings, &QAction::triggered, [preview, previewWidget, printdlg]{
 			QDialog *printSettingsDialog = new QDialog( preview, Qt::WindowFlags() );
-			printSettingsDialog->setWindowTitle( i18n("Print Settings") );
+			printSettingsDialog->setWindowTitle( i18nc("@title:window", "Print Settings") );
 			QVBoxLayout *mainLayout = new QVBoxLayout;
 			printSettingsDialog->setLayout(mainLayout);
 			mainLayout->addWidget(printdlg);

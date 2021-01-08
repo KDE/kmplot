@@ -50,7 +50,7 @@ CoordsConfigDialog::CoordsConfigDialog(QWidget *parent)
 	configAxesDialog->kcfg_YMin->setTabChain( configAxesDialog->kcfg_YMax->focusProxy() );
 	configAxesDialog->layout()->setContentsMargins( 0, 0, 0, 0 );
 	addPage(configAxesDialog , i18n( "Coordinates" ), "coords", i18n( "Coordinate System" ) );
-	setWindowTitle( i18n( "Coordinate System" ) );
+	setWindowTitle( i18nc("@title:window", "Coordinate System") );
 	setHelp(QString::fromLatin1("axes-config"));
 	setFaceType( Plain );
 	connect( configAxesDialog->kcfg_XMin, &EquationEdit::textEdited, this, &CoordsConfigDialog::updateButtons );

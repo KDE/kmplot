@@ -61,7 +61,7 @@ ParameterAnimator::ParameterAnimator( QWidget * parent, Function * function )
 {
 	m_widget = new ParameterAnimatorWidget( this );
 
-	setWindowTitle( i18n("Parameter Animator") );
+	setWindowTitle( i18nc("@title:window", "Parameter Animator") );
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &ParameterAnimator::reject);
 

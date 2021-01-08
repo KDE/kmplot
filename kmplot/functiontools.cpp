@@ -71,21 +71,21 @@ void FunctionTools::init( Mode m )
 		case FindMinimum:
 		{
 			m_widget->rangeTitle->setText( i18n("Search between:") );
-			setWindowTitle(i18n("Find Minimum Point"));
+			setWindowTitle(i18nc("@title:window", "Find Minimum Point"));
 			break;
 		}
 		
 		case FindMaximum:
 		{
 			m_widget->rangeTitle->setText( i18n("Search between:") );
-			setWindowTitle(i18n("Find Maximum Point"));
+			setWindowTitle(i18nc("@title:window", "Find Maximum Point"));
 			break;
 		}
 		
 		case CalculateArea:
 		{
 			m_widget->rangeTitle->setText( i18n("Calculate the area between:") );
-			setWindowTitle(i18n("Area Under Graph"));
+			setWindowTitle(i18nc("@title:window", "Area Under Graph"));
 			break;
 		}
 	}

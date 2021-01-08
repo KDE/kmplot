@@ -407,7 +407,7 @@ KGradientDialog::KGradientDialog( QWidget * parent, bool modal )
 	resize( layout->minimumSize() );
 	//END layout widgets
 	
-	setWindowTitle( i18n("Choose a Gradient") );
+	setWindowTitle( i18nc("@title:window", "Choose a Gradient") );
 
 	setModal( modal );
 	

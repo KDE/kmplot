@@ -40,7 +40,7 @@
 KPrinterDlg::KPrinterDlg( QWidget *parent )
 		: QWidget( parent )
 {
-	setWindowTitle( i18n( "KmPlot Options" ) );
+	setWindowTitle( i18nc("@title:window", "KmPlot Options") );
 	
 	QGridLayout *layout = new QGridLayout( this );
 

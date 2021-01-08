@@ -68,7 +68,7 @@ PlotStyleWidget::PlotStyleWidget( QWidget * parent )
 	m_dialog = new QDialog( this );
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	m_dialog->setLayout(mainLayout);
-	m_dialog->setWindowTitle( i18n("Plot Appearance") );
+	m_dialog->setWindowTitle( i18nc("@title:window", "Plot Appearance") );
 
 	m_dialogWidget = new PlotStyleDialogWidget( m_dialog );
 	m_dialogWidget->layout()->setContentsMargins( 0, 0, 0, 0 );

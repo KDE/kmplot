@@ -81,7 +81,7 @@
          <string>Label on horizontal axis.</string>
         </property>
         <property name="text">
-         <string>Horizontal Axis Label: </string>
+         <string>Horizontal axis label:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -101,7 +101,7 @@
          <string>Label on vertical axis.</string>
         </property>
         <property name="text">
-         <string>Vertical Axis Label:</string>
+         <string>Vertical axis label:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -249,7 +249,7 @@
    <item row="6" column="0">
     <widget class="QCheckBox" name="kcfg_ShowLabel">
      <property name="toolTip">
-      <string>visible tic labels</string>
+      <string>Visible tic labels.</string>
      </property>
      <property name="whatsThis">
       <string>Check this if the axes' tics should be labeled.</string>
@@ -265,7 +265,7 @@
    <item row="7" column="0">
     <widget class="QCheckBox" name="kcfg_ShowAxes">
      <property name="toolTip">
-      <string>visible axes</string>
+      <string>Visible axes.</string>
      </property>
      <property name="whatsThis">
       <string>Check this if the axes should be visible.</string>
@@ -281,7 +281,7 @@
    <item row="8" column="0">
     <widget class="QCheckBox" name="kcfg_ShowArrows">
      <property name="toolTip">
-      <string>visible arrows at the end of the axes</string>
+      <string>Visible arrows at the end of the axes.</string>
      </property>
      <property name="whatsThis">
       <string>Check this if the axes should have arrows at their ends.</string>

@@ -64,7 +64,7 @@ KConstantEditor::KConstantEditor( QWidget * parent )
 	m_widget->cmdNew->setIcon( QIcon::fromTheme("document-new") );
 	m_widget->cmdDelete->setIcon( QIcon::fromTheme("edit-delete") );
 	
-	setWindowTitle( i18n("Constants Editor") );
+	setWindowTitle( i18nc("@title:window", "Constants Editor") );
     
 	connect( this, &KConstantEditor::finished, this, &KConstantEditor::dialogFinished );
 	

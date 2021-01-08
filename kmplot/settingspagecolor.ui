@@ -32,7 +32,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Background Color:</string>
+         <string>Background color:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -81,7 +81,7 @@
       <item row="1" column="1">
        <widget class="KColorButton" name="kcfg_AxesColor">
         <property name="toolTip">
-         <string>select color for the axes</string>
+         <string>Select color for the axes.</string>
         </property>
         <property name="whatsThis">
          <string>Specify the color of the axes. The change will appear as soon as you press the OK button.</string>
@@ -94,7 +94,7 @@
       <item row="2" column="1">
        <widget class="KColorButton" name="kcfg_GridColor">
         <property name="toolTip">
-         <string>select color for the grid</string>
+         <string>Select color for the grid.</string>
         </property>
         <property name="whatsThis">
          <string>Specify the color of the grid. The change will appear as soon as you press the OK button.</string>
@@ -130,7 +130,7 @@
         <item row="1" column="1">
          <widget class="KColorButton" name="kcfg_Color1">
           <property name="toolTip">
-           <string>the default color for function number 2</string>
+           <string>The default color for function number 2.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 2. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
@@ -143,7 +143,7 @@
         <item row="4" column="1">
          <widget class="KColorButton" name="kcfg_Color4">
           <property name="toolTip">
-           <string>the default color for function number 5</string>
+           <string>The default color for function number 5.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 5. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
@@ -156,7 +156,7 @@
         <item row="0" column="1">
          <widget class="KColorButton" name="kcfg_Color0">
           <property name="toolTip">
-           <string>the default color for function number 1</string>
+           <string>The default color for function number 1.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 1. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
@@ -182,7 +182,7 @@
         <item row="2" column="1">
          <widget class="KColorButton" name="kcfg_Color2">
           <property name="toolTip">
-           <string>the default color for function number 3</string>
+           <string>The default color for function number 3.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 3. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
@@ -234,7 +234,7 @@
         <item row="3" column="1">
          <widget class="KColorButton" name="kcfg_Color3">
           <property name="toolTip">
-           <string>the default color for function number 4</string>
+           <string>The default color for function number 4.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 4. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
@@ -312,7 +312,7 @@
         <item row="3" column="1">
          <widget class="KColorButton" name="kcfg_Color8">
           <property name="toolTip">
-           <string>the default color for function number 9</string>
+           <string>The default color for function number 9.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 9. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
@@ -338,7 +338,7 @@
         <item row="1" column="1">
          <widget class="KColorButton" name="kcfg_Color6">
           <property name="toolTip">
-           <string>the default color for function number 7</string>
+           <string>The default color for function number 7.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 7. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
@@ -351,7 +351,7 @@
         <item row="2" column="1">
          <widget class="KColorButton" name="kcfg_Color7">
           <property name="toolTip">
-           <string>the default color for function number 8</string>
+           <string>The default color for function number 8.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 8. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
@@ -364,7 +364,7 @@
         <item row="0" column="1">
          <widget class="KColorButton" name="kcfg_Color5">
           <property name="toolTip">
-           <string>the default color for function number 6</string>
+           <string>The default color for function number 6.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 6. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>
@@ -390,7 +390,7 @@
         <item row="4" column="1">
          <widget class="KColorButton" name="kcfg_Color9">
           <property name="toolTip">
-           <string>the default color for function number 10</string>
+           <string>The default color for function number 10.</string>
           </property>
           <property name="whatsThis">
            <string>The default color for function number 10. Please note that this color setting only affects empty functions, so if you have defined a function at number 1 and you change color for that number here, the setting will be shown next time you define a new function at number 1.</string>

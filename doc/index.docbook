@@ -43,8 +43,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2019-01-16</date>
-<releaseinfo>1.3.0 (Applications 19.04)</releaseinfo>
+<date>2021-01-05</date>
+<releaseinfo>1.3.0 (Applications 20.12)</releaseinfo>
 
 <!-- Abstract about this handbook -->
 
@@ -99,17 +99,10 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 
 <para>&kmplot; also provides some numerical and visual features like:</para>
 <itemizedlist>
-	<listitem><para>Filling and calculating
-			the area between the plot and the first axis</para>
-	</listitem>
-	<listitem><para>Finding maximum and
-			minimum values</para>
-	</listitem>
-	<listitem><para>Changing function parameters dynamically</para>
-	</listitem>
-	<listitem><para>Plotting
-			derivatives and integral functions.</para>
-	</listitem>
+	<listitem><para>Filling and calculating the area between the plot and the first axis.</para></listitem>
+	<listitem><para>Finding maximum and minimum values.</para></listitem>
+	<listitem><para>Changing function parameters dynamically.</para></listitem>
+	<listitem><para>Plotting derivatives and integral functions.</para></listitem>
 </itemizedlist>
 
 <para>These features help in learning the
@@ -125,12 +118,12 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 	<title>Simple Function Plot</title>
 
 	<para>
-		In the sidebar on the left, there is the <guilabel>Create</guilabel> button with a drop down menu for creating new plots.
+		In the sidebar on the left, there is the <guibutton>Create</guibutton> button with a drop down menu for creating new plots.
 		Click on it, and select <guilabel>Cartesian Plot</guilabel>. The text box for editing the current equation will be focused. Replace the default text with
 		<screen><userinput>y = x^2</userinput></screen>
 		and press &Enter;.
 		This will draw the plot of y = x<superscript>2</superscript> in the coordinate system.
-		Clicking on the <guilabel>Create</guilabel> button again, select <guilabel>Cartesian Plot</guilabel>, and this time enter the text
+		Clicking on the <guibutton>Create</guibutton> button again, select <guilabel>Cartesian Plot</guilabel>, and this time enter the text
 		<screen><userinput>y = 5sin(x)</userinput></screen>
 		to get another plot.
 	</para>
@@ -162,7 +155,7 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 		the function and move the plot 5 units down. Change the function
 		equation to <screen><userinput>parabola(x) = x^2 - 5</userinput></screen> and hit enter.
 		To select another color for the plot, click the <guilabel>Color</guilabel> button in the section
-		<guilabel>Appearance</guilabel> at the bottom of the function sidebar and select a new color.
+		<guilabel>Appearance</guilabel> at the bottom of the Functions sidebar and select a new color.
 		<note>
 			<para>All changes can be undone via <menuchoice><guimenu>Edit</guimenu><guimenuitem>Undo</guimenuitem> </menuchoice>.</para>
 		</note>
@@ -258,8 +251,8 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 		<para>You can set some further options for the plot in the function editor:
 			<variablelist>
 				<varlistentry>
-					<term><guilabel>Min</guilabel></term>
-					<term><guilabel>Max</guilabel></term>
+					<term><guilabel>Min:</guilabel></term>
+					<term><guilabel>Max:</guilabel></term>
 					<listitem>
 						<para>These options control the range of the parameter t for which the function is plotted.</para>
 					</listitem>
@@ -274,7 +267,7 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 		<para>Polar coordinates represent a point by its distance from the origin
 			(usually called r), and the angle a line from the origin to the point makes
 			with the horizontal axis (usually represented by &thgr; the Greek letter theta). To enter
-			functions in polar coordinates, click the <guilabel>Create</guilabel> button and select <guilabel>Polar Plot</guilabel> from the list.
+			functions in polar coordinates, click the <guibutton>Create</guibutton> button and select <guilabel>Polar Plot</guilabel> from the list.
 			In the definition box, complete the
 			function definition, including the name of the theta variable you want
 			to use, &eg;, to draw the Archimedes' spiral r = &thgr;, enter:
@@ -288,7 +281,7 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 		<title>Implicit Functions</title>
 
 		<para>An implicit expression relates the x and y coordinates as an equality. To create a circle, for example,
-		click the <guilabel>Create</guilabel> button and select <guilabel>Implicit Plot</guilabel> from the list.
+		click the <guibutton>Create</guibutton> button and select <guilabel>Implicit Plot</guilabel> from the list.
 		Then, enter into the equation box (below the function name box) the following:
 			<screen><userinput>x^2 + y^2 = 25</userinput></screen>
 		</para>
@@ -310,7 +303,7 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 		<para>You can set some further options for the plot in the function editor:
 			<variablelist>
 				<varlistentry>
-					<term><guilabel>Step</guilabel></term>
+					<term><guilabel>Step:</guilabel></term>
 					<listitem>
 						<para>The step value in the precision box is used in numerically solving the differential equation (using the Runge Kutta method). Its value is the maximum step size used; a smaller step size may be used if part of the differential plot is zoomed in close enough.</para>
 					</listitem>
@@ -337,7 +330,7 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 	<para>To change the appearance of a function's graph on the main plot
 		window, select the function in the <guilabel>Functions</guilabel> sidebar.
 		You can change the plot's line width, color and many other aspects by clicking on the
-		<guibutton>Color</guibutton> or <guibutton>Advanced...</guibutton>
+		<guibutton>Color:</guibutton> or <guibutton>Advanced...</guibutton>
 		 button at the bottom of the section <guilabel>Appearance</guilabel>.
 	</para>
 
@@ -475,10 +468,10 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 <title>Configuring &kmplot;</title>
 <para>To access the &kmplot; configuration
 	dialog, select <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure
-			&kmplot;...</guimenuitem></menuchoice>
+    &kmplot;...</guimenuitem></menuchoice> menu item.
 	The settings for <guimenuitem>Constants...</guimenuitem> can only be changed
 	from the <guimenu>Edit</guimenu> menu and the <guimenuitem>Coordinate System...</guimenuitem> only
-	from the <guimenu>View</guimenu> menu. </para>
+	from the <guimenu>View</guimenu> menu.</para>
 
 <sect1 id="general-config">
 	<title>General Configuration</title>
@@ -519,7 +512,7 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 			<varlistentry>
 				<term><guilabel>None</guilabel></term>
 				<listitem>
-					<para>No gridlines are drawn on the plot area</para>
+					<para>No gridlines are drawn on the plot area.</para>
 				</listitem>
 			</varlistentry>
 
@@ -553,12 +546,12 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 			<varlistentry>
 				<term><guilabel>Axis Labels</guilabel></term>
 				<listitem>
-					<para>Sets labels for the horizontal and vertical axes.</para>
+					<para>This section sets labels for the horizontal and vertical axes.</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
-				<term><guilabel>Axis width:</guilabel></term>
+				<term><guilabel>Axis widths:</guilabel></term>
 				<listitem>
 					<para>Sets the width of the lines representing the axes.</para>
 				</listitem>
@@ -653,20 +646,20 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 	<variablelist>
 
 		<varlistentry>
-			<term><guilabel>Axis labels</guilabel></term>
+			<term><guilabel>Axes labels:</guilabel></term>
 			<listitem>
 				<para>The font used for drawing the axis numbers and x/y labels.</para>
 			</listitem>
 		</varlistentry>
 
 		<varlistentry>
-			<term><guilabel>Diagram label</guilabel></term>
+			<term><guilabel>Diagram labels:</guilabel></term>
 			<listitem>
 				<para>The font used for drawing diagram labels (&eg;, those showing the plot name or extreme points).</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
-			<term><guilabel>Header table</guilabel></term>
+			<term><guilabel>Header table:</guilabel></term>
 			<listitem>
 				<para>The font used for drawing the header when printing a plot.</para>
 			</listitem>
@@ -705,7 +698,7 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 		</varlistentry>
 		<varlistentry>
 			<term>var1</term>
-			<listitem><para>The function's variable</para></listitem>
+			<listitem><para>The function's variable.</para></listitem>
 		</varlistentry>
 		<varlistentry>
 			<term>var2</term>
@@ -738,7 +731,7 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 		<title>Trigonometric Functions</title>
 
 		<para>
-			By default, the trigonometric functions work in radians. However, this can be changed via <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kmplot;</guimenuitem></menuchoice>.
+			By default, the trigonometric functions work in radians. However, this can be changed via <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kmplot;...</guimenuitem></menuchoice> menu item.
 		</para>
 
 		<variablelist>
@@ -918,7 +911,7 @@ url="https://edu.kde.org/">https://edu.kde.org/</ulink></para></abstract>
 <sect1 id="func-extension"> <!--FIXME does this still work-->
 	<title>Extensions</title>
 	<para>An extension for a function is specified by entering a semicolon,
-		followed by the extension, after the function definition. The extension can be entered by using the &DBus; method parser addFunction. None of the extensions are available
+		followed by the extension, after the function definition. The extension can be entered by using the &DBus; method <quote><methodname>parser addFunction</methodname></quote>. None of the extensions are available
 for parametric functions but N and D[a,b] work for polar functions too. For example:
 		<screen>
 			<userinput>
@@ -977,7 +970,7 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 		</variablelist>
 	</para>
 	<para>
-		Please note that you can do all of these operations by editing the items in the <guilabel>Derivates</guilabel> tab, the <guilabel>Custom plot range</guilabel> section and the <guilabel>Parameters</guilabel> section in the <guilabel>Functions</guilabel> sidebar too.
+		Please note that you can do all of these operations by editing the items in the <guilabel>Derivatives</guilabel> tab, the <guilabel>Custom plot range</guilabel> section and the <guilabel>Parameters</guilabel> section in the <guilabel>Functions</guilabel> sidebar too.
 	</para>
 </sect1>
 
@@ -1042,7 +1035,7 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 				<term></term>
 				<listitem><para>Each plus-minus sign gives two sets of plots: one in which the plus is taken, and one in which the minus is taken.&eg;.
 						<userinput>y = &plusmn;sqrt(1&minus;x^2)</userinput> will draw a circle.
-						These, therefore, cannot be used in constants. </para>
+						These, therefore, cannot be used in constants.</para>
 				</listitem>
 			</varlistentry>
 
@@ -1078,7 +1071,7 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 		While the mouse cursor is over the plotting area the cursor changes to a crosshair. The current coordinates can be seen at the intersections with the coordinate axes and also in the status bar at the bottom of the main window.
 	</para>
 	<para>
-		You can trace a function's values more precisely by clicking onto or next to a graph. The selected function is shown in the status bar in the right column. The crosshair then will be caught and be colored in the same color as the graph. If the graph has the same color as the background color, the crosshair will have the inverted color of the background. When moving the mouse or pressing the keys Left or Right the crosshair will follow the function and you see the current horizontal and vertical value. If the crosshair is close to  vertical axis, the root-value is shown in the statusbar. You can switch function with the Up and Down keys. A second click anywhere in the window or pressing any non-navigating key will leave this trace mode.
+		You can trace a function's values more precisely by clicking onto or next to a graph. The selected function is shown in the status bar in the right column. The crosshair then will be caught and be colored in the same color as the graph. If the graph has the same color as the background color, the crosshair will have the inverted color of the background. When moving the mouse or pressing the keys &Left; or &Right; the crosshair will follow the function and you see the current horizontal and vertical value. If the crosshair is close to  vertical axis, the root-value is shown in the statusbar. You can switch function with the &Up; and &Down; keys. A second click anywhere in the window or pressing any non-navigating key will leave this trace mode.
 	</para>
 	<para>
 		For more advanced tracing, open up the configuration dialog, and select <guilabel>Draw tangent and normal when tracing</guilabel> from the <guilabel>General Settings</guilabel> page. This option will draw the tangent, normal and oscillating circle of the plot currently being traced.
@@ -1133,7 +1126,7 @@ for parametric functions but N and D[a,b] work for polar functions too. For exam
 					<listitem>
 						<para>This controls the spacing between grid lines in the horizontal direction.
 							If <guilabel>Automatic</guilabel> is selected, then &kmplot; will try to find a grid line spacing of about two centimeters that is also numerically nice.
-							If <guilabel>Custom</guilabel> is selected, then you can enter the horizontal grid spacing. This value will be used regardless of the zoom. For example, if a value of 0.5 is entered, and the x range is 0 to 8, then 16 grid lines will be shown.
+							If <guilabel>Custom:</guilabel> is selected, then you can enter the horizontal grid spacing. This value will be used regardless of the zoom. For example, if a value of 0.5 is entered, and the x range is 0 to 8, then 16 grid lines will be shown.
 						</para>
 					</listitem>
 				</varlistentry>
@@ -1251,7 +1244,7 @@ chapter of the &kde; Fundamentals documentation &kmplot; has these application s
 		<varlistentry>
 			<term><menuchoice><guimenu>Edit</guimenu><guimenuitem>Constants...</guimenuitem>
 				</menuchoice></term>
-			<listitem><para>Displays the <guilabel>Constants</guilabel> dialog box. See <xref linkend="constants-config"/>.
+			<listitem><para>Displays the <guilabel>Constants Editor</guilabel> dialog box. See <xref linkend="constants-config"/>.
 				</para>
 			</listitem>
 		</varlistentry>
@@ -1331,7 +1324,7 @@ chapter of the &kde; Fundamentals documentation &kmplot; has these application s
 				<para><action>Toggles</action> the visibility of the slider dialog.
 				In the dialog move a slider to change the parameter of the function plot connected to it.</para>
 				<para>Enable this on the Function tab and select one of the sliders to change the parameter value dynamically. The values vary from 0 (left) to 10 (right) by default, but can be changed in the slider dialog.</para>
-				<para>For a small tutorial see <ulink url="https://userbase.kde.org/KmPlot/Using_Sliders">Using Sliders</ulink>.</para>
+				<para>For a small tutorial see <ulink url="https://userbase.kde.org/Special:MyLanguage/KmPlot/Using_Sliders">Using Sliders</ulink>.</para>
 				<!--https://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
 				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
 			</listitem>
@@ -1476,7 +1469,7 @@ x</userinput>, set its line width to 20 and then draw it, you type in a console:
 				/maindlg org.kde.kmplot.MainDlg.slotSaveas
 			</term>
 			<listitem>
-				<para>The same as choosing <menuchoice><guimenu>File</guimenu><guimenuitem>Save As</guimenuitem></menuchoice> in the menu.</para>
+				<para>The same as choosing the <menuchoice><guimenu>File</guimenu><guimenuitem>Save As...</guimenuitem></menuchoice> in the menu.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
@@ -1540,7 +1533,7 @@ x</userinput>, set its line width to 20 and then draw it, you type in a console:
 				/maindlg org.kde.kmplot.MainDlg.graphArea
 			</term>
 			<listitem>
-				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Plot Area</guimenuitem></menuchoice> in the menu.</para>
+				<para>The same as choosing <menuchoice><guimenu>Tools</guimenu><guimenuitem>Plot Area...</guimenuitem></menuchoice> in the menu.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
@@ -1637,7 +1630,7 @@ x</userinput>, set its line width to 20 and then draw it, you type in a console:
 		    /parser org.kde.kmplot.Parser.setFunctionFVisible id visible
 		  </term>
 		  <listitem>
-		    <para>Shows the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false</para>
+		    <para>Shows the function with the ID <parameter>id</parameter> if <parameter>visible</parameter> is true. If <parameter>visible</parameter> is false, the function will be hidden. True is returned if the function exists, otherwise false.</para>
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
@@ -1845,13 +1838,13 @@ x</userinput>, set its line width to 20 and then draw it, you type in a console:
 </para>
 
 <para>
-Program copyright 2000-2002 Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;
+Program copyright 2000-2002 <personname><firstname>Kaus-Dieter</firstname><surname>M&ouml;ller</surname></personname> &Klaus-Dieter.Moeller.mail;
 </para>
 
 <itemizedlist>
 <title>Contributors</title>
   <listitem>
-    <para><acronym>CVS</acronym>: &Robert.Gogolok; <email>mail@robert-gogoloh.de</email></para>
+    <para><acronym>CVS</acronym>: &Robert.Gogolok; &Robert.Gogolok.mail;</para>
   </listitem>
   <listitem>
     <para>Porting &GUI; to &kde; 3 and Translating: &Matthias.Messmer; &Matthias.Messmer.mail;</para>
@@ -1860,7 +1853,7 @@ Program copyright 2000-2002 Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;
     <para>Various improvements: Fredrik Edemar <email>f_edemar@linux.se</email></para>
   </listitem>
   <listitem>
-	<para>Porting to Qt 4, UI improvements, features: David Saxton <email>david@bluehaze.org</email></para>
+	<para>Porting to &Qt; 4, UI improvements, features: David Saxton <email>david@bluehaze.org</email></para>
   </listitem>
 </itemizedlist>
 

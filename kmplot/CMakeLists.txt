@@ -63,7 +63,7 @@ add_library(kmplotpart MODULE ${kmplotpart_PART_SRCS})
 
 target_link_libraries(kmplotpart Qt5::PrintSupport Qt5::Widgets KF5::Parts Qt5::Svg)
 
-install(TARGETS kmplotpart  DESTINATION ${PLUGIN_INSTALL_DIR} )
+install(TARGETS kmplotpart  DESTINATION ${KDE_INSTALL_PLUGINDIR} )
 
 ########### next target ###############   
 
@@ -80,7 +80,7 @@ add_executable(kmplot ${kmplot_SRCS})
 
 target_link_libraries(kmplot Qt5::PrintSupport Qt5::Widgets KF5::Crash KF5::Parts KF5::DBusAddons)
 
-install(TARGETS kmplot  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS kmplot  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 

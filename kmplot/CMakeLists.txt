@@ -84,11 +84,11 @@ install(TARGETS kmplot  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( PROGRAMS org.kde.kmplot.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-install( FILES kmplot.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
-install( FILES kmplot_part.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
-install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kmplot )
-install( FILES kmplot_shell.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kmplot )
-install( FILES org.kde.kmplot.KmPlot.xml org.kde.kmplot.MainDlg.xml org.kde.kmplot.Parser.xml org.kde.kmplot.View.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
+install( PROGRAMS org.kde.kmplot.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
+install( FILES kmplot.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
+install( FILES kmplot_part.desktop  DESTINATION  ${KDE_INSTALL_KSERVICES5DIR} )
+install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kmplot )
+install( FILES kmplot_shell.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kmplot )
+install( FILES org.kde.kmplot.KmPlot.xml org.kde.kmplot.MainDlg.xml org.kde.kmplot.Parser.xml org.kde.kmplot.View.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR} )
 
 

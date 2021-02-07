@@ -6,5 +6,5 @@ ecm_install_icons( ICONS
                    22-apps-kmplot.png
                    16-apps-kmplot.png
                    sc-apps-kmplot.svgz
-                   DESTINATION  ${ICON_INSTALL_DIR}
+                   DESTINATION  ${KDE_INSTALL_ICONDIR}
                    THEME hicolor   )

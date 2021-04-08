@@ -47,7 +47,6 @@ class KSliderWindow;
 class MainDlg;
 class QPaintEvent;
 class QTextDocument;
-class KTextEdit;
 class QMenu;
 class QElapsedTimer;
 

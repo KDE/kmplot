@@ -66,5 +66,5 @@ Name[zh_CN]=KmPlot 组件
 Name[zh_TW]=KmPlotPart
 MimeType=application/x-kmplot;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart
-X-KDE-Library=libkmplotpart
+X-KDE-Library=kmplotpart
 Type=Service

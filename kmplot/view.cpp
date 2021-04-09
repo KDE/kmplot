@@ -4211,7 +4211,7 @@ void View::setStatusBar( const QString & t, StatusBarSection section )
 	
 	if ( m_readonly) //if KmPlot is shown as a KPart with e.g Konqueror, it is only possible to change the status bar in one way: to call setStatusBarText
 	{
-		m_statusBarText[ section - 1 ] = text;
+		m_statusBarText[ section ] = text;
 		
 		QString text;
 		for ( int i = 0; i < 4; ++i )

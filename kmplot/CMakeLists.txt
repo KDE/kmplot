@@ -58,12 +58,13 @@ ki18n_wrap_ui(kmplotpart_PART_SRCS
 kconfig_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )
 
 add_library(kmplotpart MODULE ${kmplotpart_PART_SRCS})
+kcoreaddons_desktop_to_json(kmplotpart kmplot_part.desktop)
 
 
 
 target_link_libraries(kmplotpart Qt5::PrintSupport Qt5::Widgets KF5::Parts Qt5::Svg)
 
-install(TARGETS kmplotpart  DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+install(TARGETS kmplotpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/parts)
 
 ########### next target ###############   
 

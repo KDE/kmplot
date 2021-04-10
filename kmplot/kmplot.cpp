@@ -73,10 +73,10 @@ KmPlot::KmPlot( const QCommandLineParser& parser )
 	// this routine will find and load our Part.  it finds the Part by
 	// name which is a bad idea usually.. but it's alright in this
 	// case since our Part is made for this Shell
-    KPluginFactory *factory = KPluginLoader(QStringLiteral("kmplotpart")).factory();
+    KPluginFactory *factory = KPluginLoader(QStringLiteral("kf5/parts/kmplotpart")).factory();
 	if (factory)
 	{
-		// now that the Part is loaded, we cast it to a Part to get
+		// ask the factory to create an instance of the part
 		// our hands on it
         m_part = factory->create<KParts::ReadWritePart>(this);
 		if (m_part)

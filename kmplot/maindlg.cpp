@@ -123,7 +123,7 @@ class SettingsPageDiagram : public QWidget, public Ui::SettingsPageDiagram
 bool MainDlg::oldfileversion;
 MainDlg * MainDlg::m_self = 0;
 
-K_PLUGIN_FACTORY( KmPlotPartFactory, registerPlugin<MainDlg>(); )
+K_PLUGIN_CLASS_WITH_JSON(MainDlg, "kmplot_part.json")
 
 //BEGIN class MainDlg
 MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList& ) :

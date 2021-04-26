@@ -23,6 +23,7 @@ find_package (KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     WidgetsAddons
     DocTools
     DBusAddons
+    TextWidgets
 )
 
 include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})

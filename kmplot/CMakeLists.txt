@@ -62,7 +62,7 @@ kcoreaddons_desktop_to_json(kmplotpart kmplot_part.desktop)
 
 
 
-target_link_libraries(kmplotpart Qt5::PrintSupport Qt5::Widgets KF5::Parts Qt5::Svg)
+target_link_libraries(kmplotpart Qt5::PrintSupport Qt5::Widgets KF5::Parts Qt5::Svg KF5::I18n KF5::TextWidgets)
 
 install(TARGETS kmplotpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/parts)
 
@@ -79,7 +79,7 @@ ecm_add_app_icon(kmplot_SRCS ICONS ${ICONS_SRCS})
 
 add_executable(kmplot ${kmplot_SRCS})
 
-target_link_libraries(kmplot Qt5::PrintSupport Qt5::Widgets KF5::Crash KF5::Parts KF5::DBusAddons)
+target_link_libraries(kmplot Qt5::PrintSupport Qt5::Widgets KF5::Crash KF5::Parts KF5::DBusAddons KF5::I18n KF5::TextWidgets)
 
 install(TARGETS kmplot  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 

@@ -1,14 +1,14 @@
 /*
-* KmPlot - a math. function plotter for the KDE-Desktop
-*
-* SPDX-FileCopyrightText: 2004 Fredrik Edemar <f_edemar@linux.se>
- * SPDX-FileCopyrightText: 2006  David Saxton <david@bluehaze.org>
-*
-* This file is part of the KDE Project.
-* KmPlot is part of the KDE-EDU Project.
-*
-* SPDX-License-Identifier: GPL-2.0-or-later
-*
+    KmPlot - a math. function plotter for the KDE-Desktop
+
+    SPDX-FileCopyrightText: 2004 Fredrik Edemar <f_edemar@linux.se>
+    SPDX-FileCopyrightText: 2006 David Saxton <david@bluehaze.org>
+
+    This file is part of the KDE Project.
+    KmPlot is part of the KDE-EDU Project.
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+
 */
 
 #include "kmplotprogress.h"

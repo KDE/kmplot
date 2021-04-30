@@ -1,13 +1,13 @@
 /*
-* KmPlot - a math. function plotter for the KDE-Desktop
-*
-* SPDX-FileCopyrightText: 1998, 1999, 2000, 2002 Klaus-Dieter Möller <kd.moeller@t-online.de>
-*               
-* This file is part of the KDE Project.
-* KmPlot is part of the KDE-EDU Project.
-*
-* SPDX-License-Identifier: GPL-2.0-or-later
-*
+    KmPlot - a math. function plotter for the KDE-Desktop
+
+    SPDX-FileCopyrightText: 1998, 1999, 2000, 2002 Klaus-Dieter Möller <kd.moeller@t-online.de>
+
+    This file is part of the KDE Project.
+    KmPlot is part of the KDE-EDU Project.
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+
 */
 /** @file kprinterdlg.h 
  * @brief Contains the KPrinterDlg class. */

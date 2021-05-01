@@ -1,7 +1,7 @@
 project(kmplot)
 cmake_minimum_required (VERSION 3.5 FATAL_ERROR)
 set (QT_MIN_VERSION "5.6.0")
-set (KF5_MIN_VERSION "5.32.0")
+set (KF5_MIN_VERSION "5.69.0")
 
 find_package (ECM 1.3.0 REQUIRED NO_MODULE)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} )

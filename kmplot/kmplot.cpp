@@ -32,13 +32,14 @@
 #include <KActionCollection>
 #include <KConfig>
 #include <KConfigGroup>
+#include <KDialogJobUiDelegate>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KPluginLoader>
 #include <KShortcutsDialog>
 #include <KStandardAction>
 #include <KToggleFullScreenAction>
-#include <KToolInvocation>
+#include <KIO/CommandLauncherJob>
 
 #include "maindlg.h"
 #include <kmplotprogress.h>
@@ -180,9 +181,11 @@ void KmPlot::fileNew()
 	// About this function, the style guide
 	// says that it should open a new window if the document is _not_
 	// in its initial state.  This is what we do here...
-	if ( !m_part->url().isEmpty() || isModified() )
-		//KToolInvocation::startServiceByDesktopName("kmplot");
-		KToolInvocation::kdeinitExec(QStringLiteral("kmplot"));
+	if ( !m_part->url().isEmpty() || isModified() ) {
+		KIO::CommandLauncherJob *job = new KIO::CommandLauncherJob(QStringLiteral("kmplot"), this);
+		job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+		job->start();
+	}
 }
 
 void KmPlot::applyNewToolbarConfig()
@@ -226,7 +229,9 @@ void KmPlot::fileOpen(const QUrl &url)
 
 void KmPlot::openFileInNewWindow(const QUrl &url)
 {
-	KToolInvocation::kdeinitExec(QStringLiteral("kmplot"), QStringList() << url.url());
+	KIO::CommandLauncherJob *job = new KIO::CommandLauncherJob(QStringLiteral("kmplot"), {url.url()}, this);
+	job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+	job->start();
 }
 
 bool KmPlot::isModified()

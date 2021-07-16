@@ -10,13 +10,9 @@
 
 */
 
-/**
- * Version string of KmPlot.
- */
-static const char* version =  "1.3.0";
-
 // local includes
 #include "kmplot.h"
+#include "kmplot_version.h"
 
 // Qt
 #include <QApplication>
@@ -44,7 +40,7 @@ int main( int argc, char **argv )
 	KAboutData aboutData(
 	    QStringLiteral("kmplot"),
 	    i18n( "KmPlot" ),
-	    version, i18n("Mathematical function plotter by KDE"), KAboutLicense::GPL,
+	    KMPLOT_VERSION_STRING, i18n("Mathematical function plotter by KDE"), KAboutLicense::GPL,
 	    i18n("(c) 2000-2002, Klaus-Dieter Möller"),
 	    QString(),
 	    QStringLiteral("https://kde.org/applications/education/kmplot"));

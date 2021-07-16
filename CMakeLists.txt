@@ -1,5 +1,14 @@
-project(kmplot)
 cmake_minimum_required (VERSION 3.5 FATAL_ERROR)
+
+# KDE Application Version, managed by release script
+set (RELEASE_SERVICE_VERSION_MAJOR "21")
+set (RELEASE_SERVICE_VERSION_MINOR "07")
+set (RELEASE_SERVICE_VERSION_MICRO "80")
+set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
+set (RELEASE_SERVICE_COMPACT_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}${RELEASE_SERVICE_VERSION_MINOR}${RELEASE_SERVICE_VERSION_MICRO}")
+
+project(kmplot VERSION "1.3.${RELEASE_SERVICE_COMPACT_VERSION}")
+
 set (QT_MIN_VERSION "5.6.0")
 set (KF5_MIN_VERSION "5.69.0")
 
@@ -10,6 +19,7 @@ include(CheckIncludeFiles)
 include(KDEInstallDirs)
 include(ECMAddAppIcon)
 include(ECMInstallIcons)
+include(ECMSetupVersion)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 
@@ -32,6 +42,7 @@ add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050d00)
 
 check_include_files(ieeefp.h HAVE_IEEEFP_H)
 configure_file(config-kmplot.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/kmplot/config-kmplot.h)
+ecm_setup_version(${PROJECT_VERSION} VARIABLE_PREFIX KMPLOT VERSION_HEADER kmplot_version.h)
 
 add_subdirectory( doc )
 add_subdirectory( kmplot )

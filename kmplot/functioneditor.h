@@ -196,7 +196,11 @@ class FunctionListWidget : public QListWidget
 	protected:
 		void dragEnterEvent( QDragEnterEvent * event ) Q_DECL_OVERRIDE;
 		void dropEvent( QDropEvent * event ) Q_DECL_OVERRIDE;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 		QMimeData * mimeData( const QList<QListWidgetItem *> items ) const Q_DECL_OVERRIDE;
+#else
+		QMimeData * mimeData(const QList<QListWidgetItem *> &items) const Q_DECL_OVERRIDE;
+#endif
 		QStringList mimeTypes() const Q_DECL_OVERRIDE;
 };
 

@@ -749,7 +749,11 @@ FunctionListWidget::FunctionListWidget( QWidget * parent )
 }
 
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 QMimeData * FunctionListWidget::mimeData( const QList<QListWidgetItem *> items ) const
+#else
+QMimeData * FunctionListWidget::mimeData(const QList<QListWidgetItem *> &items) const
+#endif
 {
 	QDomDocument doc( QStringLiteral("kmpdoc") );
 	QDomElement root = doc.createElement( QStringLiteral("kmpdoc") );

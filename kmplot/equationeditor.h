@@ -18,7 +18,6 @@
 class EquationEdit;
 class EquationEditorWidget;
 
-
 /**
  * A dialog containing an EquationEdit and a variety of buttons to insert
  * special characters.
@@ -26,20 +25,20 @@ class EquationEditorWidget;
  */
 class EquationEditor : public QDialog
 {
-	Q_OBJECT
-			
-	public:
-		explicit EquationEditor(QWidget* parent);
-		
-		/**
-		 * The equation's text, e.g. "f(x) = x^2".
-		 */
-		QString text() const;
-		
-		EquationEdit* edit() const;
-		
-	protected:
-		EquationEditorWidget* m_widget;
+    Q_OBJECT
+
+public:
+    explicit EquationEditor(QWidget *parent);
+
+    /**
+     * The equation's text, e.g. "f(x) = x^2".
+     */
+    QString text() const;
+
+    EquationEdit *edit() const;
+
+protected:
+    EquationEditorWidget *m_widget;
 };
 
 #endif

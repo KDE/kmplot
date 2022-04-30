@@ -21,37 +21,37 @@ class QProgressBar;
 class QTimer;
 
 /// The progress-widget in the statusbar which appears when drawing integrals
-class KmPlotProgress: public QWidget
+class KmPlotProgress : public QWidget
 {
-	Q_OBJECT
-	public:
-		explicit KmPlotProgress( QWidget* parent = 0 );
-		~KmPlotProgress();
-		/**
-		 * Sets proportion done (\p progress should be between 0 and 1). The
-		 * progress bar won't be shown immediately, but only after a small
-		 * delay.
-		 *
-		 * If \p progress is >= 1, then this progress bar will be hidden.
-		 */
-		void setProgress( double progress );
+    Q_OBJECT
+public:
+    explicit KmPlotProgress(QWidget *parent = 0);
+    ~KmPlotProgress();
+    /**
+     * Sets proportion done (\p progress should be between 0 and 1). The
+     * progress bar won't be shown immediately, but only after a small
+     * delay.
+     *
+     * If \p progress is >= 1, then this progress bar will be hidden.
+     */
+    void setProgress(double progress);
 
-	Q_SIGNALS:
-		/**
-		 * Emitted when the stop button is clicked.
-		 */
-		void cancelDraw();
+Q_SIGNALS:
+    /**
+     * Emitted when the stop button is clicked.
+     */
+    void cancelDraw();
 
-	private Q_SLOTS:
-		/**
-		 * Called from timeout of m_showTimer.
-		 */
-		void showProgressBar();
+private Q_SLOTS:
+    /**
+     * Called from timeout of m_showTimer.
+     */
+    void showProgressBar();
 
-	private:
-		QTimer * m_showTimer;
-		QPushButton *m_button;
-		QProgressBar *m_progress;
+private:
+    QTimer *m_showTimer;
+    QPushButton *m_button;
+    QProgressBar *m_progress;
 };
 
 #endif // kmplotprogress_included

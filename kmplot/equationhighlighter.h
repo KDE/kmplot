@@ -18,27 +18,26 @@
 class EquationEdit;
 class QString;
 
-
 /**
  * \author David Saxton
  */
 class EquationHighlighter : public QSyntaxHighlighter
 {
-	public:
-		explicit EquationHighlighter(EquationEdit* parent);
-		~EquationHighlighter();
-		
-		/**
-		 * This is used to indicate the position where the error occurred.
-		 * If \p position is negative, then no error will be shown.
-		 */
-		void setErrorPosition(int position);
-		
-	protected:
-		void highlightBlock(const QString& text) Q_DECL_OVERRIDE;
-		
-		int m_errorPosition;
-		EquationEdit* m_parent;
+public:
+    explicit EquationHighlighter(EquationEdit *parent);
+    ~EquationHighlighter();
+
+    /**
+     * This is used to indicate the position where the error occurred.
+     * If \p position is negative, then no error will be shown.
+     */
+    void setErrorPosition(int position);
+
+protected:
+    void highlightBlock(const QString &text) Q_DECL_OVERRIDE;
+
+    int m_errorPosition;
+    EquationEdit *m_parent;
 };
 
 #endif

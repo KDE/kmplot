@@ -9,7 +9,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
 */
-/** @file kprinterdlg.h 
+/** @file kprinterdlg.h
  * @brief Contains the KPrinterDlg class. */
 
 #ifndef KMPLOT_KPRINTERDLG_H
@@ -28,58 +28,63 @@ class EquationEdit;
  */
 class KPrinterDlg : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	/// Getting the common arguments.
-	explicit KPrinterDlg( QWidget *parent = 0 );
+    /// Getting the common arguments.
+    explicit KPrinterDlg(QWidget *parent = 0);
 
-	bool printHeaderTable();
-	void setPrintHeaderTable( bool status );
+    bool printHeaderTable();
+    void setPrintHeaderTable(bool status);
 
-	bool printBackground();
-	void setPrintBackground( bool status );
+    bool printBackground();
+    void setPrintBackground(bool status);
 
-	double printWidth();
-	void setPrintWidth( double width );
+    double printWidth();
+    void setPrintWidth(double width);
 
-	double printHeight();
-	void setPrintHeight( double height );
+    double printHeight();
+    void setPrintHeight(double height);
 
-	/// Reimplemented.
-	bool isValid( QString& msg );
-	
+    /// Reimplemented.
+    bool isValid(QString &msg);
+
 protected:
-	enum LengthScaling { Pixels, Inches, Centimeters, Millimeters };
-	/**
-	 * \return the scaling (for converting the width or height to meters via
-	 * multiplication).
-	 */
-	double lengthScaling() const;
-	/**
-	 * Converts the scaling unit to an absolute one in meters.
-	 */
-	static double scalingToMeter( LengthScaling scaling );
-	/**
-	 * Checkbox for whether to print the header table containing plot
-	 * information.
-	 */
-	QCheckBox *m_printHeaderTable;
-	/**
-	 * Checkbox for whether to print the background.
-	 */
-	QCheckBox *m_transparentBackground;
-	/**
-	 * For the width of the plot.
-	 */
-	EquationEdit *m_widthEdit;
-	/**
-	 * For the height of the plot.
-	 */
-	EquationEdit *m_heightEdit;
-	/**
-	 * The units to use for lengths (such as the width and height).
-	 */
-	QComboBox *m_lengthScalingCombo;
+    enum LengthScaling {
+        Pixels,
+        Inches,
+        Centimeters,
+        Millimeters,
+    };
+    /**
+     * \return the scaling (for converting the width or height to meters via
+     * multiplication).
+     */
+    double lengthScaling() const;
+    /**
+     * Converts the scaling unit to an absolute one in meters.
+     */
+    static double scalingToMeter(LengthScaling scaling);
+    /**
+     * Checkbox for whether to print the header table containing plot
+     * information.
+     */
+    QCheckBox *m_printHeaderTable;
+    /**
+     * Checkbox for whether to print the background.
+     */
+    QCheckBox *m_transparentBackground;
+    /**
+     * For the width of the plot.
+     */
+    EquationEdit *m_widthEdit;
+    /**
+     * For the height of the plot.
+     */
+    EquationEdit *m_heightEdit;
+    /**
+     * The units to use for lengths (such as the width and height).
+     */
+    QComboBox *m_lengthScalingCombo;
 };
 
-#endif //KMPLOT_KPRINTERDLG_H
+#endif // KMPLOT_KPRINTERDLG_H

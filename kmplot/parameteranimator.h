@@ -24,55 +24,50 @@ class QTimer;
  */
 class ParameterAnimator : public QDialog
 {
-	Q_OBJECT
-	public:
-		ParameterAnimator( QWidget * parent, Function * function );
-		~ParameterAnimator();
-    
-	public slots:
-		void gotoInitial();
-		void gotoFinal();
-		void stepBackwards( bool step );
-		void stepForwards( bool step );
-		void pause();
-		void updateSpeed();
-		
-	protected slots:
-		void step();
-		
-	protected:
-		/**
-		 * Start the timer.
-		 */
-		void startStepping() const;
-		/**
-		 * Stop the timer, update the buttons.
-		 */
-		void stopStepping();
-		/**
-		 * Makes the step buttons toggled / untoggled according to the current
-		 * state, and show the current value.
-		 */
-		void updateUI();
-		/**
-		 * Gives the current parameter value to the function.
-		 */
-		void updateFunctionParameter();
-		
-	private:
-		enum AnimateMode
-		{
-			StepBackwards,
-			StepForwards,
-			Paused
-		};
-		
-		AnimateMode m_mode;
-		double m_currentValue;
-		Function * m_function; ///< The function that we're currently animating
-		
-		ParameterAnimatorWidget *m_widget;
-		QTimer * m_timer; ///< for doing the animation
+    Q_OBJECT
+public:
+    ParameterAnimator(QWidget *parent, Function *function);
+    ~ParameterAnimator();
+
+public slots:
+    void gotoInitial();
+    void gotoFinal();
+    void stepBackwards(bool step);
+    void stepForwards(bool step);
+    void pause();
+    void updateSpeed();
+
+protected slots:
+    void step();
+
+protected:
+    /**
+     * Start the timer.
+     */
+    void startStepping() const;
+    /**
+     * Stop the timer, update the buttons.
+     */
+    void stopStepping();
+    /**
+     * Makes the step buttons toggled / untoggled according to the current
+     * state, and show the current value.
+     */
+    void updateUI();
+    /**
+     * Gives the current parameter value to the function.
+     */
+    void updateFunctionParameter();
+
+private:
+    enum AnimateMode { StepBackwards, StepForwards, Paused };
+
+    AnimateMode m_mode;
+    double m_currentValue;
+    Function *m_function; ///< The function that we're currently animating
+
+    ParameterAnimatorWidget *m_widget;
+    QTimer *m_timer; ///< for doing the animation
 };
 
 #endif

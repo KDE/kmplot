@@ -28,46 +28,47 @@ class QParameterEditor;
 /// This class handles the parameter values: it can create, remove, edit and import values.
 class KParameterEditor : public QDialog
 {
-Q_OBJECT
+    Q_OBJECT
 public:
-	KParameterEditor( QList<Value> *, QWidget *parent );
+    KParameterEditor(QList<Value> *, QWidget *parent);
     ~KParameterEditor();
-    
+
 public slots:
-	void moveUp();
-	void moveDown();
-	void prev();
-	void next();
+    void moveUp();
+    void moveDown();
+    void prev();
+    void next();
     void cmdNew_clicked();
     void cmdDelete_clicked();
     void cmdImport_clicked();
     void cmdExport_clicked();
-    
-    ///actions for the visible constant list
-	void selectedConstantChanged( QListWidgetItem * current );
-	
-	/// updates whether or not the "value is invalid" label is shown, (and returns the validity of the current value)
-	bool checkValueValid();
-	
-	/// saves the value being edited
-	void saveCurrentValue();
-	
-	void accept() Q_DECL_OVERRIDE;
-  
-    
+
+    /// actions for the visible constant list
+    void selectedConstantChanged(QListWidgetItem *current);
+
+    /// updates whether or not the "value is invalid" label is shown, (and returns the validity of the current value)
+    bool checkValueValid();
+
+    /// saves the value being edited
+    void saveCurrentValue();
+
+    void accept() Q_DECL_OVERRIDE;
+
 private:
     /// Check so that it doesn't exist two equal values
-    bool checkTwoOfIt( const QString & text);
+    bool checkTwoOfIt(const QString &text);
     QList<Value> *m_parameter;
-	QParameterEditor * m_mainWidget;
+    QParameterEditor *m_mainWidget;
 };
 
 class QParameterEditor : public QWidget, public Ui::QParameterEditor
 {
-	public:
-		explicit QParameterEditor( QWidget * parent = 0 )
-	: QWidget( parent )
-		{ setupUi(this); }
+public:
+    explicit QParameterEditor(QWidget *parent = 0)
+        : QWidget(parent)
+    {
+        setupUi(this);
+    }
 };
 
 #endif

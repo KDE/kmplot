@@ -15,7 +15,8 @@
 
 #include <KConfigDialog>
 
-namespace Ui{
+namespace Ui
+{
 class EditCoords;
 }
 
@@ -24,29 +25,29 @@ class EditCoords;
 /**
 @author Fredrik Edemar
 */
-/// 
+///
 class CoordsConfigDialog : public KConfigDialog
 {
-	Q_OBJECT
-	public:
-		explicit CoordsConfigDialog(QWidget *parent = 0);
-		~CoordsConfigDialog();
-		/**
-		 * Updates the widgets containing the min/max values.
-		 */
-		void updateXYRange();
-		
-	public slots:
-		virtual void done(int result) Q_DECL_OVERRIDE;
+    Q_OBJECT
+public:
+    explicit CoordsConfigDialog(QWidget *parent = 0);
+    ~CoordsConfigDialog();
+    /**
+     * Updates the widgets containing the min/max values.
+     */
+    void updateXYRange();
 
-	protected slots:
-		void updateButtons();
-		
-	private:
-		bool evalX(bool showError = true);
-		bool evalY(bool showError = true);
-		
-		EditCoords * configAxesDialog;
+public slots:
+    virtual void done(int result) Q_DECL_OVERRIDE;
+
+protected slots:
+    void updateButtons();
+
+private:
+    bool evalX(bool showError = true);
+    bool evalY(bool showError = true);
+
+    EditCoords *configAxesDialog;
 };
 
 #endif

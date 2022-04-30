@@ -24,21 +24,21 @@ class KTextEdit;
  */
 class Calculator : public QDialog
 {
-	Q_OBJECT
-	public:
-		explicit Calculator( QWidget *parent = 0 );
-		~Calculator();
-		
-	protected Q_SLOTS:
-		/**
-		 * The user hit enter from the input box.
-		 */
-		void calculate();
-        
-	protected:
-		EquationEditorWidget* m_input;
-		KTextEdit* m_display;
-		QString m_displayText;
+    Q_OBJECT
+public:
+    explicit Calculator(QWidget *parent = 0);
+    ~Calculator();
+
+protected Q_SLOTS:
+    /**
+     * The user hit enter from the input box.
+     */
+    void calculate();
+
+protected:
+    EquationEditorWidget *m_input;
+    KTextEdit *m_display;
+    QString m_displayText;
 };
 
 #endif

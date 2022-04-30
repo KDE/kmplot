@@ -24,7 +24,7 @@
 #include <KIO/CommandLauncherJob>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KPluginLoader>
+#include <KPluginFactory>
 #include <KShortcutsDialog>
 #include <KStandardAction>
 #include <KToggleFullScreenAction>
@@ -61,19 +61,15 @@ KmPlot::KmPlot(const QCommandLineParser &parser)
     // this routine will find and load our Part.  it finds the Part by
     // name which is a bad idea usually.. but it's alright in this
     // case since our Part is made for this Shell
-    KPluginFactory *factory = KPluginLoader(QStringLiteral("kf5/parts/kmplotpart")).factory();
-    if (factory) {
-        // ask the factory to create an instance of the part
-        // our hands on it
-        m_part = factory->create<KParts::ReadWritePart>(this);
-        if (m_part) {
-            // tell the KParts::MainWindow that this is indeed the main widget
-            setCentralWidget(m_part->widget());
-            // m_part->widget()->setFocus();
-            //  and integrate the part's GUI with the shell's
-            setupGUI(Keys | ToolBar | Save);
-            createGUI(m_part);
-        }
+    const auto result = KPluginFactory::instantiatePlugin<KParts::ReadWritePart>(KPluginMetaData(QStringLiteral("kf5/parts/kmplotpart")), this);
+    if (result) {
+        m_part = result.plugin;
+        // tell the KParts::MainWindow that this is indeed the main widget
+        setCentralWidget(m_part->widget());
+        // m_part->widget()->setFocus();
+        //  and integrate the part's GUI with the shell's
+        setupGUI(Keys | ToolBar | Save);
+        createGUI(m_part);
     } else {
         // if we couldn't find our Part, we exit since the Shell by
         // itself can't do anything useful

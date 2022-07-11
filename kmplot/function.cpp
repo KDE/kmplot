@@ -328,7 +328,7 @@ void Equation::updateVariables()
         int p1 = m_fstr.indexOf('(');
         int p2 = m_fstr.indexOf(')');
 
-        const QStringList listSplit = ((p1 != -1) && (p2 != -1)) ? m_fstr.mid(p1 + 1, p2 - p1 - 1).split(',', QString::SkipEmptyParts) : QStringList();
+        const QStringList listSplit = ((p1 != -1) && (p2 != -1)) ? m_fstr.mid(p1 + 1, p2 - p1 - 1).split(',', Qt::SkipEmptyParts) : QStringList();
 
         // Variables shouldn't contain spaces!
         for (QString s : listSplit) {

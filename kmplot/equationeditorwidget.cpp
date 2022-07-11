@@ -44,7 +44,7 @@ EquationEditorWidget::EquationEditorWidget(QWidget *parent)
     }
 
     connect(constantsButton, &QPushButton::clicked, this, &EquationEditorWidget::editConstants);
-    connect(functionList, QOverload<const QString &>::of(&QComboBox::activated), this, &EquationEditorWidget::insertFunction);
+    connect(functionList, &QComboBox::textActivated, this, &EquationEditorWidget::insertFunction);
     connect(constantList, QOverload<int>::of(&QComboBox::activated), this, &EquationEditorWidget::insertConstant);
 
     QStringList functions = XParser::self()->predefinedFunctions(false);

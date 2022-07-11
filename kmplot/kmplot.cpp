@@ -36,13 +36,7 @@
 
 static QUrl urlFromArg(const QString &arg)
 {
-#if QT_VERSION >= 0x050400
     return QUrl::fromUserInput(arg, QDir::currentPath(), QUrl::AssumeLocalFile);
-#else
-    // Logic from QUrl::fromUserInput(QString, QString, UserInputResolutionOptions)
-    return (QUrl(arg, QUrl::TolerantMode).isRelative() && !QDir::isAbsolutePath(arg)) ? QUrl::fromLocalFile(QDir::current().absoluteFilePath(arg))
-                                                                                      : QUrl::fromUserInput(arg);
-#endif
 }
 
 KmPlot::KmPlot(const QCommandLineParser &parser)

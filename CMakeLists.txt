@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.16 FATAL_ERROR)
 
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "22")
@@ -10,7 +10,7 @@ set (RELEASE_SERVICE_COMPACT_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}${RELEASE_
 project(kmplot VERSION "1.3.${RELEASE_SERVICE_COMPACT_VERSION}")
 
 set (QT_MIN_VERSION "5.15.2")
-set (KF5_MIN_VERSION "5.86.0")
+set (KF5_MIN_VERSION "5.90.0")
 set (KDE_COMPILERSETTINGS_LEVEL "5.82.0")
 
 find_package (ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
@@ -26,7 +26,7 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEClangFormat)
 include(KDEGitCommitHooks)
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Gui Svg Widgets PrintSupport)
+find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Gui Svg Widgets PrintSupport)
 
 find_package (KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Crash

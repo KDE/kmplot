@@ -33,9 +33,9 @@ set(kmplotpart_PART_SRCS
    calculator.cpp
    )
 
-qt5_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml maindlg.h MainDlg)
-qt5_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.Parser.xml xparser.h XParser)
-qt5_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.View.xml view.h View)
+qt_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml maindlg.h MainDlg)
+qt_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.Parser.xml xparser.h XParser)
+qt_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.View.xml view.h View)
 
 ki18n_wrap_ui(kmplotpart_PART_SRCS
 	plotstylewidget.ui
@@ -62,14 +62,14 @@ kcoreaddons_desktop_to_json(kmplotpart kmplot_part.desktop)
 
 
 
-target_link_libraries(kmplotpart Qt5::PrintSupport Qt5::Widgets KF5::Parts Qt5::Svg)
+target_link_libraries(kmplotpart Qt::PrintSupport Qt::Widgets KF5::Parts Qt::Svg)
 
-install(TARGETS kmplotpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/parts)
+install(TARGETS kmplotpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VERSION}/parts)
 
 ########### next target ###############   
 
 set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp)
-qt5_add_dbus_adaptor(kmplot_SRCS org.kde.kmplot.KmPlot.xml kmplot.h KmPlot)
+qt_add_dbus_adaptor(kmplot_SRCS org.kde.kmplot.KmPlot.xml kmplot.h KmPlot)
 
 # FIXME: it's wrong, but otherwise it does not compile
 kconfig_add_kcfg_files(kmplot_SRCS settings.kcfgc )
@@ -79,7 +79,7 @@ ecm_add_app_icon(kmplot_SRCS ICONS ${ICONS_SRCS})
 
 add_executable(kmplot ${kmplot_SRCS})
 
-target_link_libraries(kmplot Qt5::PrintSupport Qt5::Widgets KF5::Crash KF5::Parts KF5::DBusAddons)
+target_link_libraries(kmplot Qt::PrintSupport Qt::Widgets KF5::Crash KF5::Parts KF5::DBusAddons)
 
 install(TARGETS kmplot  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
@@ -87,9 +87,9 @@ install(TARGETS kmplot  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install( PROGRAMS org.kde.kmplot.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
 install( FILES kmplot.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
-install( FILES kmplot_part.desktop  DESTINATION  ${KDE_INSTALL_KSERVICES5DIR} )
-install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kmplot )
-install( FILES kmplot_shell.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kmplot )
+install( FILES kmplot_part.desktop  DESTINATION  ${KDE_INSTALL_KSERVICESDIR} )
+install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${KDE_INSTALL_KXMLGUIDIR}/kmplot )
+install( FILES kmplot_shell.rc  DESTINATION  ${KDE_INSTALL_KXMLGUIDIR}/kmplot )
 install( FILES org.kde.kmplot.KmPlot.xml org.kde.kmplot.MainDlg.xml org.kde.kmplot.Parser.xml org.kde.kmplot.View.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR} )
 
 

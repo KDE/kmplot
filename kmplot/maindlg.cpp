@@ -41,7 +41,6 @@
 #include <KMessageBox>
 #include <KStandardAction>
 #include <KToolBar>
-#include <KToolInvocation>
 
 // local includes
 #include "calculator.h"

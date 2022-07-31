@@ -1130,7 +1130,7 @@ void Parser::displayErrorDialog(Error error)
 {
     QString message(errorString(error));
     if (!message.isEmpty())
-        KMessageBox::sorry(0, message, QStringLiteral("KmPlot"));
+        KMessageBox::error(0, message, QStringLiteral("KmPlot"));
 }
 
 QString Parser::evalRemaining()

@@ -201,7 +201,7 @@ void KParameterEditor::cmdImport_clicked()
         return;
 
     if (!MainDlg::fileExists(url)) {
-        KMessageBox::sorry(0, i18n("The file does not exist."));
+        KMessageBox::error(0, i18n("The file does not exist."));
         return;
     }
 
@@ -211,7 +211,7 @@ void KParameterEditor::cmdImport_clicked()
         KIO::StoredTransferJob *transferjob = KIO::storedGet(url);
         KJobWidgets::setWindow(transferjob, 0);
         if (!transferjob->exec()) {
-            KMessageBox::sorry(0, i18n("An error appeared when opening this file: %1", transferjob->errorString()));
+            KMessageBox::error(0, i18n("An error appeared when opening this file: %1", transferjob->errorString()));
             return;
         }
         QTemporaryFile tmpfile;
@@ -256,7 +256,7 @@ void KParameterEditor::cmdImport_clicked()
         }
         file.close();
     } else
-        KMessageBox::sorry(0, i18n("An error appeared when opening this file"));
+        KMessageBox::error(0, i18n("An error appeared when opening this file"));
 
     if (!url.isLocalFile())
         QFile::remove(file.fileName());
@@ -290,14 +290,14 @@ void KParameterEditor::cmdExport_clicked()
                 }
                 stream.flush();
             } else
-                KMessageBox::sorry(0, i18n("An error appeared when saving this file"));
+                KMessageBox::error(0, i18n("An error appeared when saving this file"));
 
             Q_CONSTEXPR int permission = -1;
             QFile file(tmpfile.fileName());
             file.open(QIODevice::ReadOnly);
             KIO::StoredTransferJob *putjob = KIO::storedPut(file.readAll(), url, permission, KIO::JobFlag::Overwrite);
             if (!putjob->exec()) {
-                KMessageBox::sorry(0, i18n("An error appeared when saving this file"));
+                KMessageBox::error(0, i18n("An error appeared when saving this file"));
                 return;
             }
             file.close();
@@ -315,7 +315,7 @@ void KParameterEditor::cmdExport_clicked()
                 }
                 file.close();
             } else
-                KMessageBox::sorry(0, i18n("An error appeared when saving this file"));
+                KMessageBox::error(0, i18n("An error appeared when saving this file"));
         }
     }
 }

@@ -73,7 +73,7 @@ bool CoordsConfigDialog::evalX(bool showError)
 
     if (min >= max) {
         if (showError)
-            KMessageBox::sorry(this, i18n("The minimum range value must be lower than the maximum range value"));
+            KMessageBox::error(this, i18n("The minimum range value must be lower than the maximum range value"));
         return false;
     }
     return true;
@@ -99,7 +99,7 @@ bool CoordsConfigDialog::evalY(bool showError)
 
     if (min >= max) {
         if (showError)
-            KMessageBox::sorry(this, i18n("The minimum range value must be lower than the maximum range value"));
+            KMessageBox::error(this, i18n("The minimum range value must be lower than the maximum range value"));
         return false;
     }
     return true;

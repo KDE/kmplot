@@ -33,7 +33,6 @@
 // KDE includes
 #include <KActionCollection>
 #include <KConfigDialog>
-#include <KConfigDialogManager>
 #include <KHelpClient>
 #include <KIO/StatJob>
 #include <KIO/StoredTransferJob>

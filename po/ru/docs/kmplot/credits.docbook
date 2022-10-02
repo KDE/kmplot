@@ -1,0 +1,73 @@
+<chapter id="credits">
+<title
+>Авторские права и лицензия</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Разработка (С) 2000-2002 Клаус-Дайтер Мюллер (Klaus-Dieter M&ouml;ller) &Klaus-Dieter.Moeller.mail; </para>
+
+<itemizedlist>
+<title
+>Другие разработчики</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: Робер Гоголок &Robert.Gogolok; <email
+>mail@robert-gogoloh.de</email
+></para>
+  </listitem>
+  <listitem>
+    <para
+>Портирование &GUI; в &kde; 3 и перевод: Маттас Мессмер (&Matthias.Messmer;) &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Различные улучшения: Фредрик Эдемар (Fredrik Edemar) <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>Перенос в Qt 4, улучшения в интерфейсе, новые возможности: Дэвид Сакстон (David Saxton) <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>Документация &copy; 2000--2002 Клаус-Дайтер Мюллер (Klaus-Dieter M&ouml;ller) &Klaus-Dieter.Moeller.mail; </para>
+<para
+>Дополнения и обновления для &kde; 3.2 - Филип Родригез (&Philip.Rodrigues;) &Philip.Rodrigues.mail;.</para>
+<para
+>Дополнения и обновления для &kde; 3.3 - Филип Родригез (&Philip.Rodrigues;) &Philip.Rodrigues.mail;. и Фредрик Эдемар (Fredrik Edemar) <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Дополнения и обновления для &kde; 3.4 - Фредрик Эдемар (Fredrik Edemar) <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Дополнения и обновления для &kde; 4.0 - Дэвид Сакстон (David Saxton) <email
+>david@bluehaze.org</email
+></para>
+<para
+>Перевод на русский - Николай Шафоростов <email
+>shaforostoff@users.sourceforge.net</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+

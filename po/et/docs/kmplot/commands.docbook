@@ -1,0 +1,301 @@
+<chapter id="commands">
+<title
+>Käskude seletused</title
+> 
+
+<sect1 id="menu">
+<title
+>Menüükirjed</title>
+
+<para
+>Lisaks &kde; üldistele menüüdele, mida kirjeldab &kde; põhitõdede käsiraamatu peatükk <ulink url="help:/fundamentals/ui.html#menus"
+>Menüü</ulink
+>, on rakendusel mõned spetsiifilised menüükirjed: </para>
+
+<sect2 id="a-file-menu">
+	<title
+>Menüü Fail</title>
+	<variablelist>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Fail</guimenu
+> <guimenuitem
+>Ekspordi...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Ekspordib</action
+> joonistatud graafiku pildifailina kõigis &kde; toetatud vormingutes.</para
+></listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>Menüü Redigeerimine</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Redigeerimine</guimenu
+><guimenuitem
+>Konstandid...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Avab <guilabel
+>konstantide</guilabel
+> dialoogi. Vaata <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>Menüü Vaade</title>
+	<para
+>Menüü esimesed kolm kirjet on seotud suurendusega.</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Vaade</guimenu
+> <guimenuitem
+>Suurenda</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>See tööriist toimib kahel viisil. Graafiku punkti suurendamiseks klõpsa sellel. Graafiku teatud ala suurendamiseks joonista hiirega lohistades ristkülik, mis kehtestab hiirenupu vabastamisel uue teljevahemiku.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Vaade</guimenu
+> <guimenuitem
+>Vähenda</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Ka see tööriist toimib kahel viisil. Punkti vähendamiseks klõpsa sellel. Olemasoleva vaate mahutamiseks ristkülikusse joonista hiirega lohistades ristkülik.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Vaade</guimenu
+> <guimenuitem
+>Sobita element trigonomeetrilistele funktsioonidele</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>Skaalat kohendatakse trigonomeetriliste funktsioonide järgi. See toimib nii radiaanide kui kraadide puhul.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Lähtesta vaade</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Lähtestab vaate. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Koordinaadistik...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Avab <guilabel
+>koordinaatide süsteemi</guilabel
+> dialoogi. Vaata <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Vaade</guimenu
+> <guimenuitem
+>Liugurite näitamine</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Lülitab</action
+> liugurite dialoogi sisse või välja. Selles dialoogis saab liuguri liigutamisega muuta funktsiooniga seotud parameetrit.</para>
+				<para
+>Lülita see sisse funktsioonikaardil ja vali liugur, millega muuta dünaamiliselt parameetri väärtust. Vaikimisi on väärtused vahemikus 0 (vasakul) kuni 10 (paremal), aga seda saab muuta.</para>
+				<para
+>Põgusa ülevaate ja õpetuse annab (ingliskeelne) materjal <ulink url="http://userbase.kde.org/KmPlot/Using_Sliders"
+>Using Sliders</ulink
+>.</para>
+				<!--http://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>Menüü Tööriistad</title>
+	
+	<para
+>Selles menüüs on mõned funktsioonide abivahendid, mis võivad päris kasuks tulla:</para>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Tööriistad</guimenu
+> <guimenuitem
+>Kalkulaator</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Avab <guilabel
+>kalkulaatori</guilabel
+> dialoogi.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Tööriistad</guimenu
+> <guimenuitem
+>Joonista ala...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Vali ilmuvas dialoogis graafik ja horisontaaltelje väärtused. See arvutab integraali ning joonistab ala graafiku ja horisontaaltelje vahel valitud väärtuste vahemikus graafiku värviga.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Tööriistad</guimenu
+> <guimenuitem
+>Otsi miinimum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Otsib graafiku miinimumväärtust määratud vahemikus.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Tööriistad</guimenu
+> <guimenuitem
+>Otsi maksimum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Otsib graafiku maksimumväärtust määratud vahemikus.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>Menüü Abi</title>
+	
+	<para
+>&kmplot; kasutab tavapärast &kde; <guimenu
+>abi</guimenu
+>menüüd ühe erandiga:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Abi</guimenu
+> <guimenuitem
+>Eelnevalt määratud matemaatikafunktsioonid...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Avab käesoleva käsiraamatu, kus näeb &kmplot;i eelnevalt määratud funktsioonide nimesid ja konstante.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+</sect2>
+</sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

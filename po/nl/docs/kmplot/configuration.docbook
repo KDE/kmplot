@@ -1,0 +1,305 @@
+<chapter id="configuration">
+<title
+>Instellen van &kmplot;</title
+> 
+<para
+>Om in de instellingendialoog te komen van &kmplot;, selecteert u <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>&kmplot; instellen...</guimenuitem
+></menuchoice
+>. De instellingen voor (<guimenuitem
+>Constanten...</guimenuitem
+> kunnen alleen in het menu <guimenu
+>Bewerken</guimenu
+> worden gewijzigd, en het <guimenuitem
+>Coördinatenstelsel...</guimenuitem
+> alleen in het menu <guimenu
+>Beeld</guimenu
+>. </para>
+
+<sect1 id="general-config">
+	<title
+>Algemene instellingen</title>
+	
+	<screenshot>
+		<screeninfo
+>schermbeeld van de algemene instellingendialoog van &kmplot;</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>schermbeeld van de algemene instellingendialoog van &kmplot;</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Hier kunt u de globale instellingen doen die automatisch zullen worden opgeslagen bij het afsluiten van &kmplot;. Op de eerste pagina kunt u de hoekmodus instellen (radialen of graden), de factoren voor het in- en uitzoomen, en of gevorderd volgen van een plot moet worden getoond. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Grafiek instellingen</title>
+	
+	<screenshot>
+		<screeninfo
+>Schermbeeld van de dialoog voor grafieken</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>schermbeeld van de dialoog voor grafieken</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>U kunt de <guilabel
+>Roosterstijl</guilabel
+> instellen op een van vier opties: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Geen</guilabel
+></term>
+				<listitem>
+					<para
+>In het plotgebied worden geen roosterlijnen ingetekend</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Lijnen</guilabel
+></term>
+				<listitem>
+					<para
+>Roosterlijnen worden ingetekend.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Kruisjes</guilabel
+></term>
+				<listitem>
+					<para
+>Op de roosterpunten (dus waar x en y gehele waarden hebben (&eg;, (1,1), (4,2) &etc;) worden kruisjes ingetekend.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Polair</guilabel
+></term>
+				<listitem>
+					<para
+>In de plot worden, uitgaande van de oorsprong (0, 0), cirkels ingetekend, en rechte lijnen die daar loodrecht op staan, die als rooster dienst doen. Dit rooster wordt gebruikt wanneer met poolcoördinaten wordt gewerkt, namelijk een radius (afstand tot (0,0)) en een argument (hoek). Vergelijk met een radarscherm.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para
+>Andere opties met betrekking tot het uiterlijk van een grafiek kunnen ook worden ingesteld: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Teksten bij de assen</guilabel
+></term>
+				<listitem>
+					<para
+>Plaatst teksten bij de horizontale en verticale as.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Lijndikte van de assen:</guilabel
+></term>
+				<listitem>
+					<para
+>Instellen van de lijndikte van de assen.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Lijndikte:</guilabel
+></term>
+				<listitem>
+					<para
+>Instellen van de lijndikte van de assen.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Dikte van de schaalstreepjes:</guilabel
+></term>
+				<listitem>
+					<para
+>Stelt de dikte in van de schaalstreepjes op de assen.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Lengte van de schaalstreepjes:</guilabel
+></term>
+				<listitem>
+					<para
+>Stelt de lengte in van de schaalstreepjes op de assen.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Tonen van teksten</guilabel
+></term>
+				<listitem>
+					<para
+>Indien geselecteerd, worden de namen van de assen in de plot geplaatst en tekst geplaatst bij de schaalstreepjes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Assen weergeven</guilabel
+></term>
+				<listitem>
+					<para
+>Indien geselecteerd zijn de assen zichtbaar.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Pijltjes tonen</guilabel
+></term>
+				<listitem>
+					<para
+>Indien geselecteerd worden de assen weergegeven met pijlpunten aan het eind.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Instellen van de kleuren</title>
+	
+	<screenshot>
+		<screeninfo
+>Schermbeeld van de instellingendialoog voor kleuren</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Schermbeeld van de instellingendialoog voor kleuren</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>In het tabblad <guilabel
+>Coörds</guilabel
+>, in het instellingenscherm voor <guilabel
+> Kleuren</guilabel
+>, kunnen de kleuren van de assen, het rooster en de achtergrond van het plotgebied van &kmplot; worden veranderd. </para>
+	
+	<para
+>In het tabblad <guilabel
+>Standaard Functiekleuren</guilabel
+> kunt u de kleuren veranderen van de grafieken.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Instellen van de lettertypen</title>
+	
+	<screenshot>
+		<screeninfo
+>Schermbeeld van de instellingendialoog voor lettertypen</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Schermbeeld van de instellingendialoog voor lettertypen</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Teksten bij de assen</guilabel
+></term>
+			<listitem>
+				<para
+>Lettertype voor de getallen en x/y-aanduidingen bij de assen.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Tekst bij de grafiek</guilabel
+></term>
+			<listitem>
+				<para
+>Lettertype voor teksten bij de grafiek (bijvoorbeeld voor de naam van de plot en de uiterste waarden).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Koptekst</guilabel
+></term>
+			<listitem>
+				<para
+>Lettertype voor de koptekst, als een plot wordt afgedrukt.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

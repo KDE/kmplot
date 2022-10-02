@@ -1,0 +1,169 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+"dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "&kmplot;"
+><!-- replace kmplot here -->
+  <!ENTITY package "kdeedu">
+  <!ENTITY introduction SYSTEM "introduction.docbook">
+  <!ENTITY firststeps SYSTEM "firststeps.docbook">
+  <!ENTITY using SYSTEM "using.docbook">
+  <!ENTITY commands SYSTEM "commands.docbook">
+  <!ENTITY developer SYSTEM "developer.docbook">
+  <!ENTITY credits SYSTEM "credits.docbook">
+  <!ENTITY install SYSTEM "install.docbook">
+  <!ENTITY reference SYSTEM "reference.docbook">
+  <!ENTITY configuration SYSTEM "configuration.docbook">
+  <!ENTITY dcop SYSTEM "dcop.docbook">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Polish "INCLUDE"
+><!-- change language only here -->
+]>
+<!-- The language must NOT be changed here. -->
+
+<book lang="&language;">
+
+<bookinfo>
+<title
+>Podręcznik &kmplot;</title>
+<authorgroup>
+<author
+><firstname
+>Klaus-Dieter</firstname
+> <surname
+>M&ouml;ller</surname
+> <affiliation
+> <address
+>&Klaus-Dieter.Moeller.mail;</address>
+</affiliation>
+</author>
+<author
+>&Philip.Rodrigues; &Philip.Rodrigues.mail; </author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Saxton</surname
+> </author>
+<othercredit role="translator"
+><firstname
+>Adrian</firstname
+><surname
+>Brosz</surname
+><affiliation
+><address
+><email
+>adriian@wp.pl</email
+></address
+></affiliation
+><contrib
+>Polskie tłumaczenie</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year
+><year
+>2001</year
+><year
+>2002</year>
+<holder
+>Klaus-Dieter M&ouml;ller</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>&Philip.Rodrigues; &Philip.Rodrigues.mail;</holder>
+</copyright>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>David Saxton</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2008-02-09</date>
+<releaseinfo
+>1.2.0</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para
+>&kmplot; jest programem do rysowania wykresów dla środowiska &kde;.</para>
+<para
+> <inlinemediaobject
+><imageobject
+><imagedata
+fileref="edu-logo.png"
+format="PNG"/></imageobject
+></inlinemediaobject
+> &kmplot; jest częścią projektu &kde;-EDU: <ulink url="http://edu.kde.org/"
+>http://edu.kde.org/</ulink
+></para
+></abstract>
+
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>KmPlot</keyword>
+<keyword
+>EDU</keyword>
+<keyword
+>edutainment (nauka przez rozrywkę)</keyword>
+<keyword
+>rysowanie</keyword>
+<keyword
+>matematyka</keyword>
+</keywordset>
+
+</bookinfo>
+
+&introduction;
+&firststeps;
+&using;
+&configuration;
+&reference;
+&commands;
+&dcop;
+&developer;
+&credits;
+&install;
+
+
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

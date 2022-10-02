@@ -1,0 +1,66 @@
+<chapter id="credits">
+<title
+>Credits and Licence</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Program copyright 2000-2002 Klaus-Dieter M&ouml;ller <email
+>kd.moeller@t-online.de</email
+> </para>
+
+<itemizedlist>
+<title
+>Contributors</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: Robert Gogolok <email
+>mail@robert-gogoloh.de</email
+></para>
+  </listitem>
+  <listitem>
+    <para
+>Porting &GUI; to &kde; 3 and Translating: Matthias Messmer <email
+>bmlmessmer@web.de</email
+></para>
+  </listitem>
+  <listitem>
+    <para
+>Various improvements: Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem
+>  
+</itemizedlist>
+
+<para
+>Documentation copyright 2000--2002 by Klaus-Dieter M&ouml;ller <email
+>kd.moeller@t-online.de</email
+>. </para>
+<para
+>Documentation extended and updated for &kde; 3.2 by &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para
+>Documentation extended and updated for &kde; 3.3 by &Philip.Rodrigues; &Philip.Rodrigues.mail; and Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Andrew Coles<email
+>andrew_coles@yahoo.co.uk</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+

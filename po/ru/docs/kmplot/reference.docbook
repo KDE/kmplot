@@ -1,0 +1,388 @@
+<chapter id="reference">
+<title
+>Синтаксис &kmplot;</title>
+
+<!--
+<mediaobject>
+<imageobject>
+<imagedata fileref="kfkt.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+
+<para
+>This menu entry or toolbar button opens the Functions Editor.  Here
+you can enter up to 10 functions or
+function groups.  The parser knows <firstterm
+>explicit</firstterm
+> and
+<firstterm
+>parametric</firstterm
+> form.  With specific extensions it
+is possible to add first and second derivatives and to choose values
+for the function group parameter.</para>
+-->
+
+<sect1 id="func-syntax">
+<title
+>Синтаксис функций</title>
+
+<para
+>Правила:</para>
+
+<screen
+><userinput
+>name(var1[, var2])=term [;extensions]</userinput
+>
+</screen>
+
+
+<variablelist>
+<varlistentry>
+<term
+>name</term>
+<listitem>
+
+<para
+>Имя функции. Наличие в начале буквы <quote
+>r</quote
+>, предполагает использование полярной системы координат. <quote
+>x</quote
+> (например <quote
+>xfunc</quote
+>) &mdash; предполагает наличие второй функции, начинающейся на <quote
+>y</quote
+> (например <quote
+>yfunc</quote
+>), для определения функции в параметрической форме. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+>var1</term>
+<listitem
+><para
+>Переменная функции</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+>var2</term
+> 
+<listitem
+><para
+><quote
+>Групповой параметр</quote
+> функции. Отделяется от переменной через запятую. Вы можете использовать его, например, чтобы построить несколько графиков одной функции. Значения параметра могут быть выбранны вручную или ползунком (значения от 0 до 100).</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+>term</term>
+<listitem
+><para
+>Выражение, определяющее функцию.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+<title
+>Предустановленные имена функций и константы</title>
+
+<para
+>Их можно отобразить, выбрав меню <menuchoice
+><guimenu
+>Справка</guimenu
+><guimenuitem
+>Стандартные функции</guimenuitem
+> </menuchoice
+>. Это: <variablelist>
+
+<varlistentry>
+<term
+>sqr, sqrt</term>
+<listitem>
+<para
+>Возвести в квадрат, взять квадратный корень.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>exp, ln</term>
+<listitem>
+<para
+>Экспонента и натуральный логарифм числа.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>log</term>
+<listitem>
+<para
+>Десятичный логарифм числа.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>sin, arcsin</term>
+<listitem>
+<para
+>Синус и арксинус (обратная функция). Аргумента синуса и возвращаемое значение для арксинуса - в радианах.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>cos, arccos</term>
+<listitem>
+<para
+>Косинус и арккосинус. Также в радианах.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>tan, arctan</term>
+<listitem>
+<para
+>Тангенс и арктангенс.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>sinh, arcsinh</term>
+<listitem>
+<para
+>Гиперболические синус и арксинус.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>cosh, arccosh</term>
+<listitem>
+<para
+>Гиперболические косинус и арккосинус.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>tanh, arctanh</term>
+<listitem>
+<para
+>Гиперболические тангенс и арктангенс.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>sin, arcsin</term>
+<listitem>
+<para
+>Синус и арксинус (обратная функция). Аргумента синуса и возвращаемое значение для арксинуса - в радианах.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>cos, arccos</term>
+<listitem>
+<para
+>Косинус и арккосинус. Также в радианах.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>pi, e</term>
+<listitem>
+<para
+>Постоянные &mdash; &pgr; (3.14159...) и e (2.71828...).</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+<para
+>Эти функции и постоянные, а также все определённые пользователем функции могут использоваться при определении осей. См. <xref linkend="axes-config"/>. </para>
+
+</sect1>
+
+<sect1 id="func-extension">
+  <title
+>Расширения</title>
+  <para
+>Расширение для функции указывается после точки с запятой в её уравнении. Расширение может быть введено в поле "Быстрое редактирование" или через DCOP - "Parser addFunction". Для параметрический функций расширения не доступны, но N и D[a,b] работают для функций в полярной системе координат. Например: <screen>
+      <userinput>
+        f(x)=x^2; A1
+      </userinput>
+    </screen
+> покажет график y=x<superscript
+>2</superscript
+> с его производной первого порядка. Далее описаны поддерживаемые расширения: <variablelist>
+      <varlistentry>
+	<term
+>N</term>
+	<listitem>
+	  <para
+>Запомнить функцию, но не строить её график, так что её можно будет использовать в других функциях. </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term
+>A1</term>
+	<listitem>
+	  <para
+>Также построить график производной первого порядка, таким же цветом, но более тонкой линией. </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term
+>A2</term>
+	<listitem>
+	  <para
+>Построить график производной второго порядка, таким же цветом, но более тонкой линией. </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term
+>D[a,b]</term>
+	<listitem>
+	  <para
+>Область построения. </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term
+>P[a{,b...}]</term>
+	<listitem>
+	  <para
+>Указывает список возможных значений дополнительного параметар. Например: <userinput
+>f(x,k)=k*x;P[1,2,3]</userinput
+> построит графики функций f(x)=x, f(x)=2*x и f(x)=3*x. Вместо чисел также можно указывать выражения. </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </para>
+  <para
+>Работать с расширенями также можно и в диалоге редактора функций. </para>
+</sect1>
+
+<sect1 id="math-syntax">
+<title
+>Математический синтаксис</title>
+<para
+>&kmplot; использует общий метод выражения математических функций. Операторы, предусмотренные в &kmplot; (по приоритету): <variablelist>
+
+<varlistentry>
+<term
+>^</term>
+<listitem
+><para
+>Возведение в степень. Например, <userinput
+>2^4</userinput
+> вернёт 16.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>*, /</term>
+<listitem>
+<para
+>Умножение и деление. Например <userinput
+>3*4/2</userinput
+> вернёт 6.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>+, -</term>
+<listitem
+><para
+>Сложение и вычитание. Например, <userinput
+>1+3-2</userinput
+> вернёт 2.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+<para
+>Следите за приоритетом, например <userinput
+>1+2*4^2</userinput
+> вернёт 33, а не 144. Во избежание неясности, используйте скобки. <userinput
+>((1+2)*4)^2</userinput
+> вернёт 144. </para>
+</sect1>
+
+<!--
+<sect1 id="coord-system">
+<title
+>Coordinate Systems</title>
+
+<para
+><inlinemediaobject>
+<imageobject>
+<imagedata fileref="ksys1.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject
+></para>
+
+<para>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="ksys2.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject
+></para>
+
+<para>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="ksys3.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject
+></para>
+-->
+<sect1 id="coord-area"
+><title
+>Область построения</title>
+<para
+>По умолчанию однозначно задаваемые функции строятся по всей видимой части оси x. &kmplot; подсчитывает значение функции для каждого пиксела на оси x. Если значение вмещается в область построения, текущая и предыдущая точки соединяются линией. </para>
+<para
+>Параметрические функции строятся для значений параметров от 0 до 2&pgr;. Диапазон построения можно также установить в настройках. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+<title
+>Курсор в виде перекрещивающихся линий</title>
+<para
+>При наведении курсора мыши на область построения, он превращается в две перекрещивающиеся линии. Текущие координаты отображаются на панели состояния. </para>
+<para
+>Вы можете проследить значения функций более точно щёлкнув на графике (или рядом с ним). Необходимая вам информация будет отображена на панели состояния. Курсор в виде перекрещивающихся линий приобретёт цвет графика и как бы "прилипнет" к нему. Нажатие любой клавиши, отличной от стрелки вернёт курсор в прежнее состояние. </para>
+<para
+>Это возможно только для явно заданных функций. Координаты всегда отображаются в соответствии с декартовой системой координат. Остальные, в т.ч. производные и заданные в полярной системе координат, не позволяют этого. </para>
+
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

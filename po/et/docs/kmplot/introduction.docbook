@@ -1,0 +1,83 @@
+<chapter id="introduction">
+<title
+>Sissejuhatus</title>
+	
+<para
+>&kmplot; on &kde; töölaua matemaatiliste funktsioonide joonistaja, millel on võimas sisseehitatud parser. Võimalik on joonistada üheaegselt mitme funktsiooni graafikut ning neid omavahel kombineerida uute funktsioonide loomiseks.</para>
+
+<screenshot>
+	<screeninfo
+>Näited</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Näited</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; toetab mitut tüüpi jooniseid:</para>
+<itemizedlist>
+	<listitem
+><para
+>Määratud Descartes'i joonised kujul y = f(x).</para
+></listitem>
+	<listitem
+><para
+>Parameeterjoonised, kus X- ja Y-komponent on määratud sõltumatu muutuja funktsiooniga.</para
+></listitem>
+	<listitem
+><para
+>Polaarjoonised kujul r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Määramata joonised, kus X- ja Y-koordinaadid on seotud avaldisega.</para
+></listitem>
+	<listitem
+><para
+>Määratud diferentsiaaljoonised.</para
+></listitem>
+</itemizedlist>
+
+<para
+>&kmplot; pakub veel mitmeid arvutamis- ja visuaalseid võimalusi:</para>
+<itemizedlist>
+	<listitem
+><para
+>Joonise ja esimese telje vahelise ala täitmine ning arvutamine</para>
+	</listitem>
+	<listitem
+><para
+>Maksimum- ja miinimumväärtuste leidmine</para>
+	</listitem>
+	<listitem
+><para
+>Funktsiooni parameetrite dünaamiline muutmine</para>
+	</listitem>
+	<listitem
+><para
+>Tuletiste ja integraalide graafiline kujutamine</para>
+	</listitem>
+</itemizedlist>
+
+<para
+>Need aitavad paremini mõista ja tundma õppida matemaatiliste funktsioonide ning nende mingis koordinaatide süsteemis graafilise esitamise vahelisi seoseid.</para>
+
+</chapter>
+
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

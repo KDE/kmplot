@@ -1,0 +1,155 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+<!ENTITY % Russian "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Руководство пользователя &kmplot;</title>
+<author
+><firstname
+>Ben</firstname
+> <surname
+>Burton</surname
+> <contrib
+>Man-страница KmPlot.</contrib
+> <email
+>bab@debian.org</email
+></author>
+<date
+>5 января 2021 г.</date>
+<releaseinfo
+>1.3.0 (Приложения KDE 20.12)</releaseinfo>
+<productname
+>Приложения KDE</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kmplot</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kmplot</command
+></refname>
+<refpurpose
+>Программа построения графиков</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kmplot</command
+> <group choice="opt"
+><option
+>-f, --function <replaceable
+>аргумент</replaceable
+></option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>файл</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Описание</title>
+<para
+>&kmplot; — программа рисования графиков математических функций от &kde;. Имеет встроенный мощный синтаксический анализатор. Позволяет рисовать графики нескольких разных функций одновременно и объединять их для построения графиков новых функций.</para
+><para
+>Программа поддерживает параметрические функции, функции в полярных координатах, несколько видов координатной сетки. Графики можно вывести на печать с высокой точностью и правильным масштабом.</para
+><para
+>Программа предлагает несколько численных и визуальных возможностей, таких как закрашивание области между кривой и первой осью координат, вычисление её площади; поиск максимальных и минимальных значений функции; изменение параметров функции динамически; рисование производных и интегральных функций.</para
+><para
+>&kmplot; — часть пакета &kde; «Образование».</para>
+</refsect1>
+
+<refsect1>
+<title
+>Параметры</title>
+<variablelist>
+<varlistentry
+><term
+><option
+>-f, --function <replaceable
+>аргумент</replaceable
+></option
+></term>
+<listitem
+><para
+>Исходная функция на построение.</para
+></listitem
+></varlistentry>
+<varlistentry
+><term
+><option
+><replaceable
+>файл</replaceable
+></option
+></term>
+<listitem
+><para
+>Название открываемого файла.</para
+></listitem
+></varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title
+>Смотрите также</title>
+
+<simplelist>
+<member
+>Более подробная документация доступна по адресу <ulink url="help:/kmplot"
+>help:/kmplot</ulink
+> (введите данный &URL; в адресную строку &konqueror; или выполните команду <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kmplot</parameter
+></userinput
+>).</member>
+<member
+>Дополнительная информация доступна на <ulink url="https://kde.org/applications/education/kmplot"
+>сайте образовательных программ &kde;</ulink
+>.</member>
+<member
+>kf5options(1)</member>
+<member
+>qt5options(1)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Авторы</title>
+<para
+>Программа &kmplot; написана <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>Moeller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail;, &Matthias.Messmer; &Matthias.Messmer.mail; и <personname
+><firstname
+>Fredrik</firstname
+><surname
+>Edemar</surname
+></personname
+> <email
+>f_edemar@linux.se</email
+></para>
+</refsect1>
+
+</refentry>

@@ -1,0 +1,301 @@
+<chapter id="commands">
+<title
+>Kommandoreferens</title
+> 
+
+<sect1 id="menu">
+<title
+>Menyalternativ</title>
+
+<para
+>Förutom de vanliga menyerna i &kde; som beskrivs i kapitlet <ulink url="help:/fundamentals/ui.html#menus"
+>Meny</ulink
+> i dokumentet &kde;:s grunder, har &kmplot; följande programspecifika menyalternativ: </para>
+
+<sect2 id="a-file-menu">
+	<title
+>Menyn Arkiv</title>
+	<variablelist>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Exportera...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Exporterar</action
+> uppritade diagram till en bildfil med alla format som stöds av &kde;.</para
+></listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>Menyn Redigera</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Redigera</guimenu
+><guimenuitem
+>Konstanter...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Visar dialogrutan <guilabel
+>Konstanter</guilabel
+>. Se <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>Menyn Visa</title>
+	<para
+>De tre första alternativen i menyn har att göra med zoomning.</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Zooma in</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Verktyget kan hanteras på två olika sätt. För att zooma in på en punkt i diagrammet, klicka på den. För att zooma in på en viss del av diagrammet, håll nere musknappen och dra musen så att en rektangel formas, vilken bestämmer de nya axelintervallen när musknappen släpps.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Zooma ut</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Det här verktyget kan också användas på två olika sätt. För att zooma ut och centrera omkring en punkt i diagrammet, klicka på punkten. För att passa in den befintliga vyn i en rektangel, håll nere musknappen och dra musen så att en rektangel formas.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Anpassa grafisk komponent till trigonometriska funktioner</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>Skalan anpassas efter trigonometriska funktioner. Det fungerar både för radianer och grader.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+><guimenuitem
+>Återställ vy</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Återställer vyn. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+><guimenuitem
+>Koordinatsystem...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Visar dialogrutan <guilabel
+>Koordinatsystem</guilabel
+>. Se <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Visa skjutreglage</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Ändrar</action
+> synlighet för dialogrutan med skjutreglaget. Flytta skjutreglaget i dialogrutan för att ändra argument i funktionsdiagrammet som är kopplat till reglaget..</para>
+				<para
+>Aktivera den under fliken Funktioner, och välj ett av skjutreglagen för att ändra argumentvärdet dynamiskt. Värden varierar normalt från 0 (vänster) till 10 (höger), men det kan ändras i dialogrutan för skjutreglaget..</para>
+				<para
+>För en kort handledning, se <ulink url="http://userbase.kde.org/KmPlot/Using_Sliders"
+>Använda skjutreglage</ulink
+>.</para>
+				<!--http://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>Menyn Verktyg</title>
+	
+	<para
+>Den här menyn innehåller några verktyg för funktioner som kan vara användbara:</para>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Räknare</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Visar dialogrutan <guilabel
+>Räknare</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Diagramarea...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Välj en kurva och den horisontella axelns värde i den nya dialogrutan som visas. Beräknar integralen och ritar ytan mellan kurvan och den horisontella axeln i det valda intervallet med kurvans färg.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Hitta minimum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Hitta kurvans minimala värde i ett angivet intervall.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Hitta maximum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Hitta kurvans maximala värde i ett angivet intervall.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>Menyn Hjälp</title>
+	
+	<para
+>&kmplot; har &kde;:s vanliga meny <guimenu
+>Hjälp</guimenu
+> med ett tillägg:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hjälp</guimenu
+> <guimenuitem
+>Föredefinierade matematiska funktioner</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Öppnar handboken med en lista över fördefinierade funktionsnamn och konstanter som &kmplot; känner till.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+</sect2>
+</sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

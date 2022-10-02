@@ -1,0 +1,442 @@
+<chapter id="using-kmplot">
+<title
+>&kmplot;i kasutamine</title>
+
+<para
+>&kmplot; tuleb toime mitut laadi funktsioonidega, mida võib kirjutada nii funktsioonina kui ka võrrandina:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Descartes'i jooniseid võib kirjutada &eg; kujul <quote
+>y = x^2</quote
+>, kus x on muutuja, või &eg; <quote
+>f(a) = a^2</quote
+>, kus muutuja nimi võib olla suvaline.</para
+></listitem>
+	<listitem
+><para
+>Parameeterjoonised sarnanevad Descartes'i joonistele. X- ja Y-koordinaadid saab sisestada võrrandina t kujul, &eg; <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+>, või funktsioonina, &eg; <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Polaarjoonised on samuti Descartes'i jooniste moodi. Ka neid saab sisestada nii võrrandina &thgr; kujul, &eg; <quote
+>r = &thgr;</quote
+> kui ka funktsioonina, nt. <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Määramata jooniste korral sisestatakse funktsiooni nimi sõltumatult X- ja Y-koordinaate määravast avaldisest. Kui X- ja Y-muutujad määratakse funktsiooni nimega (sisestades &eg; funktsiooni nimena <quote
+>f(a,b)</quote
+>), siis kasutatakse neid muutujaid. Vastasel juhul kasutatakse muutujatena tähti x ja y.</para
+></listitem>
+	<listitem
+><para
+>Määratud diferentsiaaljoonised on diferentsiaalvõrrandid, kus suurim tuletis on antud väikseimate tuletistena. Seda tähistab vastav märk '. Funktsioonina näeb võrrand välja umbes nii: <quote
+>f''(x) = f' &minus; f</quote
+>. Võrrandina näeb see välja nii: <quote
+>y'' = y' &minus; y</quote
+>. Pane tähele, et kumbkil juhul ei lisata madalamat järku diferentsiaalile <quote
+>(x)</quote
+> (seega tuleb sisestada <quote
+>f'(x) = &minus;f</quote
+>, aga mitte <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>Kõigi võrrandikirjete kastide puhul asub paremal pool nupp, mille klõpsates avaneb täiustatud <guilabel
+>võrrandiredaktor</guilabel
+>, mille võimalused on järgmised: <itemizedlist>
+		<listitem>
+			<para
+>Rida matemaatilisi sümboleid, mida saab võrrandites kasutada, aga mida tavalisel klaviatuuril ei leidu.</para>
+		</listitem>
+		<listitem>
+			<para
+>Kasutaja määratud konstantide nimekiri ja nupp nende redigeerimiseks.</para>
+		</listitem>
+		<listitem>
+			<para
+>Eelmääratud funktsioonide nimekiri. Pane tähele, et kui sul on juba tekst valitud, kasutatakse seda funktsiooni sisestamisel funktsiooni argumendina. Kui näiteks võrrandis <quote
+>y = 1 + x</quote
+> on valitud <quote
+>1 + x</quote
+> ning sa valid siinusfunktsiooni, saab võrrandiks <quote
+> y = sin(1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>&kmplot;i tervitusakna pilt</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Pilt</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Funktsioonitüübid</title>
+	
+	<sect2 id="cartesian-functions">
+		<title
+>Descartes'i funktsioonid</title>
+		<para
+>Määratud funktsiooni (&ie; funktsioon kujul y=f(x)) sisestamiseks &kmplot;i anna see sellisel moel: <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>avaldis</replaceable
+></userinput
+></screen
+> kus: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> on funktsiooni nimi ja võib olla mistahes tähtede ja numbrite kogum.</para>
+				</listitem>
+				
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> on horisontaalne koordinaat, mida kasutatakse võrdusmärgi järel järgnevas avaldises. Tegelikult on see fiktiivne muutaja, nii et sisuliselt võib kasutada mis tahes muutuja nime ning tulemus on ikka sama.</para>
+				</listitem>
+				
+				<listitem>
+					<para
+><replaceable
+>avaldis</replaceable
+> on joonistatav avaldis, mis on antud &kmplot;ile sobivas süntaksis. Vaata <xref linkend="math-syntax"/>. </para>
+				</listitem>
+				
+			</itemizedlist>
+		</para>
+	</sect2>
+	
+	<sect2 id="parametric-functions">
+		<title
+>Parameeterfunktsioonid</title>
+		<para
+>Parameeterfunktsioonid on sellised, kus X- ja Y-koordinaadid on määratud muu muutuja, mis sageli kannab tähistust t, eraldi funktsioonidena. Parameeterfunktsiooni andmiseks &kmplot;is sisesta see samamoodi nagu Descartes'i funktsioon. Nagu Descartes'i funktsiooni korral, võib ka siin parameetri jaoks tarvitada mis tahes muutuja nime.</para>
+		<para
+>Oletame, et soovid joonistada ringjoone parameetervõrranditega x = sin(t), y = cos(t). Parameeterjoonise loomise järel sisesta vajalikud võrrandid X- ja Y kastidesse, &ie;, <userinput
+>f_x(t)=sin(t)</userinput
+> ja <userinput
+>f_y(t)=cos(t)</userinput
+>. </para>
+		<para
+>Funktsiooniredaktoris on joonise kohandamiseks veel mõned võimalused: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Min</guilabel
+></term>
+					<term
+><guilabel
+>Maks</guilabel
+></term>
+					<listitem>
+						<para
+>Need valikud määravad parameetri t vahemiku, mille funktsioon joonistataksegi.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+	
+	<sect2 id="polar-functions">
+		<title
+>Polaarkoordinaatidega funktsioonid</title>
+		
+		<para
+>Polaarkoordinaadid on määratud punkti kaugusega algpunktist (tavaliselt tähistatakse seda tähega r) ning nurgaga alguspunktist algava joone ja horisontaalse telje vahel (tavaliselt tähistatakse seda kreeka tähega teeta &thgr;). Polaarkoordinaatides funktsiooni sisestamiseks klõpsa nupule <guilabel
+>Loo</guilabel
+> ja vali loendist <guilabel
+>Polaarjoonis</guilabel
+>. Kirjuta definitsioonikasti funktsiooni definitsioon, sealhulgas teeta-muutuja nimi, mida soovid kasutada - &eg; Archimedese spiraali r=&thgr; korral sisesta: <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+> et rida omandaks kuju <quote
+>r(teeta)=teeta</quote
+>. Pane tähele, et teeta-muutujal võib kasutada suvalist nime, nii et <quote
+>r(t) = t</quote
+> või <quote
+>f(x) = x</quote
+> annaks tegelikult sama tulemuse. </para>
+	</sect2>
+	
+	<sect2 id="implicit-functions">
+		<title
+>Määramata funktsioonid</title>
+		
+		<para
+>Määramata avaldis käsitleb X- ja Y-koordinaate võrdsena. Näiteks ringjoone loomiseks klõpsa nupule <guilabel
+>Loo</guilabel
+> ja vali loendist <guilabel
+>Määramata joonis</guilabel
+>. Seejärel sisesta võrrandikasti (funktsiooninime all) järgmine tekst: <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+	
+	<sect2 id="differential-functions">
+		<title
+>Diferentsiaalfunktsioonid</title>
+		
+		<para
+>&kmplot; võib joonistada määratud diferentsiaalvõrrandeid. Need on võrrandid kujul y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), kus y<superscript
+>k</superscript
+> on y(x) k järku tuletis. &kmplot; suudab tuletise järku tõlgendada ainult siis, kui number seisab otse funktsiooninime järel. Sinusoidkõvera joonistamiseks tuleb näiteks kasutada diferentsiaalvõrrandit <userinput
+>y'' = &minus; y</userinput
+> või <userinput
+>f''(x) = −f</userinput
+>. </para>
+		
+		<para
+>Siiski ei piisa joonise loomiseks ainuüksi diferentsiaalvõrrandist. Diagrammi iga kõver luuakse diferentsiaalvõrrandi ja algtingimuste kombinatsiooni põhjal. Algtingimusi saab redigeerida klõpsuga kaardile <guilabel
+>Algtingimused</guilabel
+>, mis on kasutatav juhul, kui valid diferentsiaalvõrarndi. Algtingimuste redigeerimiseks ette nähtud veergude arv sõltub diferentsiaalvõrrandi järgust. </para>
+		
+		<para
+>Funktsiooniredaktoris on joonise kohandamiseks veel mõned võimalused: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Samm</guilabel
+></term>
+					<listitem>
+						<para
+>Sammu väärtust kasutatakse diferentsiaalvõrrandi arvulisel lahendamisel (Runge-Kutta meetodi abil). Selle väärtus on maksimaalne kasutatav samm; väiksemat sammu suurust võidakse kasutada, kui diferentsiaalvõrrandi osa suurendatakse piisavalt palju.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Funktsioonide kombineerimine</title>
+	<para
+>Uute funktsioonide loomiseks võib ka olemasolevaid kombineerida. Selleks sisesta funktsioonid võrdusmärgi järel avaldisse, otsekui oleks tegemist muutujatega. Kui näiteks oled määranud funktsioonid f(x) ja g(x), võid joonistada f ja g summa: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Funktsioonide välimuse muutmine</title>
+	
+	<para
+>Funktsiooni graafiku välimuse muutmiseks jooniseaknas vali funktsioon <guilabel
+>funktsioonide</guilabel
+> külgribal. Klõpsates all sektsioonis <guilabel
+>Välimus</guilabel
+> nupule <guibutton
+>Värv</guibutton
+> või <guibutton
+>Muu...</guibutton
+>, saab muuta joonise joonte paksust, värvi ja veel mitmeid asju. </para>
+	
+	<para
+>Kui redigeerid Descartes'i funktsiooni, on dialoogis kolm kaarti. Esimesel saab määrata funktsiooni võrrandi. Kaardil <guilabel
+>Tuletised</guilabel
+> saab lasta joonistada funktsiooni esimese ja teise tuletise. Kaardil <guilabel
+>Integraal</guilabel
+> saab lasta joonistada funktsiooni integraali. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Hüpikmenüü</title>
+	<screenshot>
+	<screeninfo
+>Graafiku paremklõpsu hüpikmenüü</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Graafiku paremklõpsu hüpikmenüü</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Joonisel funktsiooni graafikul või parameetergraafikul hiire parema nupuga klõpsates ilmub kontekstimenüü, milles on kolm kirjet:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Muuda</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Valib funktsiooni redigeerimiseks <guilabel
+>funktsioonide</guilabel
+> külgribal.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Peida</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Peidab valitud graafiku. Graafiku funktsiooni teised joonised jäävad siiski näha.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Eemalda</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Eemaldab funktsiooni. Kaovad kõik selle graafikud.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Animeeri joonis...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Avab <guilabel
+>parameetri animaatori</guilabel
+> dialoogi.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Kalkulaator</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Avab <guilabel
+>kalkulaatori</guilabel
+> dialoogi.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+	<para
+>Sõltuvalt joonise tüübist on kasutada veel neli tööriista:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Joonista ala...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Vali ilmuvas dialoogis graafiku minimaalsed ja maksimaalsed horisontaalsed väärtused. See arvutab integraali ning joonistab ala graafiku ja horisontaalse telje vahel valitud väärtuste vahemikus graafiku värviga. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Otsi miinimum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Otsib määratud vahemikus graafiku miinimumväärtust. Ilmuvas dialoogis on valitud graafik esile tõstetud. Sisesta piirkonna alam- ja ülemraja, mille vahel soovid miinimumi otsida. </para>
+				<para
+>Märkus: joonisel võib lasta näidata ka otspunkte. See on võimalik <guilabel
+>funktsioonide</guilabel
+> külgribal dialoogis <guilabel
+>Joonise välimus</guilabel
+>, mille leiab klõpsuga nupule <guibutton
+>Muu...</guibutton
+> </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Otsi maksimum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Sama, mis <guimenuitem
+>Otsi miinimum...</guimenuitem
+>, ainult et miinimumi asemel otsitakse maksimumväärtust.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

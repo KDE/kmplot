@@ -1,0 +1,305 @@
+<chapter id="configuration">
+<title
+>Configurar &kmplot;</title
+> 
+<para
+>Para acceder al diálogo de configuración de &kmplot;, seleccione <menuchoice
+><guimenu
+>Preferencias</guimenu
+><guimenuitem
+>Configurar &kmplot;...</guimenuitem
+></menuchoice
+>. Las preferencias para <guimenuitem
+>Constantes...</guimenuitem
+> solo se pueden cambiar desde el menú <guimenu
+>Editar</guimenu
+>, y el <guimenuitem
+>Sistema de coordenadas...</guimenuitem
+> desde del menú <guimenu
+>Ver</guimenu
+>. </para>
+
+<sect1 id="general-config">
+	<title
+>Configuración general</title>
+	
+	<screenshot>
+		<screeninfo
+>Captura de pantalla del diálogo de Preferencias Generales</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Captura de pantalla del diálogo de Preferencias Generales</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Aquí es posible seleccionar la configuración global que se guardará automáticamente al salir de &kmplot;. Puede configurar la unidad angular (grados o radianes), los factores de ampliación y cuándo mostrar el trazado de puntos avanzado. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Configuración del diagrama</title>
+	
+	<screenshot>
+		<screeninfo
+>Captura de pantalla del diálogo de aspecto del diagrama</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Captura de pantalla del diálogo de aspecto del diagrama</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Puede fijar el <guilabel
+>Estilo de rejilla</guilabel
+> a una de estas cuatro opciones: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Ninguno</guilabel
+></term>
+				<listitem>
+					<para
+>No se dibujan las líneas de la cuadrícula sobre el área de la representación</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Líneas</guilabel
+></term>
+				<listitem>
+					<para
+>Se forma una cuadrícula con líneas rectas sobre el área de la representación.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Cruces</guilabel
+></term>
+				<listitem>
+					<para
+>Se dibujan cruces para indicar los puntos en los que x e y tienen valores enteros (&eg;, (1,1), (4,2), &etc;).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Polar</guilabel
+></term>
+				<listitem>
+					<para
+>Se dibujan sobre el área de la representación líneas de radio y de ángulo constante.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para
+>Se pueden configurar otras opciones para el aspecto del diagrama: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Etiquetas de los ejes</guilabel
+></term>
+				<listitem>
+					<para
+>Fija las etiquetas para los ejes horizontal y vertical</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Ancho de los ejes:</guilabel
+></term>
+				<listitem>
+					<para
+>Fija la anchura de las líneas que representan los ejes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Ancho de la línea:</guilabel
+></term>
+				<listitem>
+					<para
+>Fija la anchura de las líneas para dibujar la rejilla.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Ancho de la marca:</guilabel
+></term>
+				<listitem>
+					<para
+>Fija la anchura de las líneas que representan las marcas sobre los ejes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Longitud de la marca:</guilabel
+></term>
+				<listitem>
+					<para
+>Fija la longitud de las líneas que representan las marcas sobre los ejes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostrar etiquetas</guilabel
+></term>
+				<listitem>
+					<para
+>Si está marcado, los nombres de los ejes se muestran en la representación y se etiquetan las marcas de los ejes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostrar ejes</guilabel
+></term>
+				<listitem>
+					<para
+>Si está marcado, los ejes son visibles.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostrar flechas</guilabel
+></term>
+				<listitem>
+					<para
+>Si está marcado, los ejes se muestran con flechas en su final.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Configuración de colores</title>
+	
+	<screenshot>
+		<screeninfo
+>Captura de pantalla del diálogo de colores</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Captura de pantalla del diálogo de colores</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>En la sección <guilabel
+>Coordenadas</guilabel
+> del cuadro de diálogo <guilabel
+>Colores</guilabel
+> puede cambiar los colores de los ejes y de la cuadrícula del área principal de &kmplot;. </para>
+	
+	<para
+><guilabel
+>Colores de función predeterminado</guilabel
+> controla qué colores se utilizan cuando se crean funciones nuevas.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Configuración de tipos de letra</title>
+	
+	<screenshot>
+		<screeninfo
+>Captura de pantalla del diálogo de tipos de letra</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Captura de pantalla del diálogo de tipos de letra</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Etiquetas de los ejes</guilabel
+></term>
+			<listitem>
+				<para
+>El tipo de letra utilizado para dibujar los números de los ejes y las etiquetas x/y.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Etiqueta del diagrama</guilabel
+></term>
+			<listitem>
+				<para
+>El tipo de letra utilizado para las etiquetas del diagrama (&eg;, aquellas que muestran el nombre del gráfico o los puntos extremos).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Cabecera de la tabla</guilabel
+></term>
+			<listitem>
+				<para
+>El tipo de letra utilizado en la cabecera de un gráfico.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

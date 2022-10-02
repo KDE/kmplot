@@ -1,0 +1,277 @@
+<chapter id="configuration">
+<title
+>Configuring &kmplot;</title
+> 
+<para
+>To access the &kmplot; configuration dialogue, select <menuchoice
+><guimenu
+>Settings</guimenu
+><guimenuitem
+>Configure KmPlot...</guimenuitem
+></menuchoice
+>. A number of settings can also be changed from options in the <guimenu
+>Edit</guimenu
+> menu, as well. </para>
+
+<note>
+<para
+>Settings changed in the &kmplot; configuration dialogue become the default for &kmplot;, and only take effect when a new plot is started. Settings changed in the <guimenu
+>View</guimenu
+> menu take effect immediately, but do not persist after &kmplot; is exited.</para>
+</note>
+
+<sect1 id="general-config">
+<title
+><guilabel
+>General</guilabel
+> Configuration</title>
+<para
+>Here you can set global settings which automatic will be saved when you exit &kmplot;. In the first tab you can set calculation-precision, angle-mode (radians and degrees), background colour and zoom in and zoom out factors. </para
+><para
+>The second tab let you define you own constants. &kmplot; saves the constains in the same file as KCalc does. That means you can create a constant in &kmplot;, close the program and load it in KCalc and vice versa. &kmplot; only supports constant names that consist one capital character and if you in KCalc define a constant name that is not one character, the name will be truncated. E.g, if you already have the constants "apple" and "bananas" in KCalc, they will be renamed to "A" and "B" in &kmplot;.</para>
+
+<screenshot>
+<screeninfo
+>Here is a screenshot of the &kmplot; welcome window</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="settingsdlg.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Screenshot</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
+</sect1>
+
+
+<sect1 id="colors-config">
+<title
+><guilabel
+>Colours</guilabel
+> Configuration</title>
+<para
+>In the <guilabel
+>Coords</guilabel
+> tab of the <guilabel
+>Colours</guilabel
+> configuration option, you can change the colours of the axes and grid of the main &kmplot; area.</para>
+<para
+>In the <guilabel
+>Functions</guilabel
+> tab, you can change the colours used for the graphs of the ten functions allowed in &kmplot;.</para>
+</sect1>
+
+<sect1 id="coords-config">
+<title
+><guilabel
+>Coords</guilabel
+> Configuration</title>
+
+<sect2 id="axes-config">
+<title
+>The <guilabel
+>Axes</guilabel
+> Configuration</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>X-Axis</guilabel
+></term>
+<listitem>
+<para
+>Sets the range for the x-axis scale. You can choose one of the predefined ranges, or select <guilabel
+>Custom</guilabel
+> to make your own. Note that in the <guilabel
+>Custom</guilabel
+> boxes, you can use the predefined functions and constants (see <xref linkend="func-predefined"/>) as the extremes of the range (&eg;, set <guilabel
+>min:</guilabel
+> to <userinput
+>2*pi</userinput
+>). You can even use functions you have defined to set the extremes of the axis range. For example, if you have defined a function <userinput
+>f(x)=x^2</userinput
+>, you could set <guilabel
+>min:</guilabel
+> to <userinput
+>f(3)</userinput
+>, which would make the lower end of the range equal to 9.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Y-Axis</guilabel
+></term>
+<listitem>
+<para
+>Sets the range for the y-axis. See <quote
+>X-Axis</quote
+> above.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Axes line width</guilabel
+></term>
+<listitem>
+<para
+>Sets the width of the lines representing the axes.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Tic width</guilabel
+></term>
+<listitem>
+<para
+>Sets the width of the lines representing tics on the axes.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Tic length</guilabel
+></term>
+<listitem>
+<para
+>Sets the length of the lines representing tics on the axes.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Labels</guilabel
+></term>
+<listitem>
+<para
+>If checked, the names (x, y) of the axes are shown on the plot.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+</sect2>
+
+<sect2 id="grid-config">
+<title
+>The <guilabel
+>Grid</guilabel
+> Configuration</title>
+<para
+>You can set the <guilabel
+>Grid Style</guilabel
+> to one of four options: <variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>No Grid</guilabel
+></term>
+<listitem>
+<para
+>No gridlines are drawn on the plot area</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Lines</guilabel
+></term>
+<listitem>
+<para
+>Straight lines form a grid of squares on the plot area.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Crosses</guilabel
+></term>
+<listitem>
+<para
+>Crosses are drawn to indicate points where x and y have integer values (&eg;, (1,1), (4,2) &etc;).</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Polar Grid</guilabel
+></term>
+<listitem>
+<para
+>Lines of constant radius and of constant angle are drawn on the plot area.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+<para
+>The <guilabel
+>Line width</guilabel
+> option is used to set the width of the lines of the grid.</para>
+</sect2>
+
+<sect2 id="font-config">
+<title
+>The <guilabel
+>Fonts</guilabel
+> Configuration</title>
+<para
+><guilabel
+>Header table</guilabel
+> sets the font for the information table shown in &kmplot; printouts, and <guilabel
+>Axes labels</guilabel
+> sets the font used for all labels on the axes in the plot area.</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="scaling-config">
+<title
+><guilabel
+>Scaling</guilabel
+> Configuration</title>
+
+<para
+>For each axis, you can set the <guilabel
+>Scaling</guilabel
+> and <guilabel
+>Printing</guilabel
+> of one tic. The <guilabel
+>Scaling</guilabel
+> option selects how many units apart the axis tics will be (and therefore, how far apart grid lines will be drawn), and the <guilabel
+>Printing</guilabel
+> option selects the length of one tic when displayed on the screen or printed. In this way, these options can be used to change the size of the graph on screen or on a page: For example, doubling the <guilabel
+>Printing</guilabel
+> setting whilst keeping the <guilabel
+>Scaling</guilabel
+> setting the same will result in the graph doubling in in height or width.</para>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

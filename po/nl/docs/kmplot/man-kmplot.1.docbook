@@ -1,0 +1,159 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+<!ENTITY % Dutch "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Gebruikershandboek voor &kmplot;</title>
+<author
+><firstname
+>Ben</firstname
+> <surname
+>Burton</surname
+> <contrib
+>KmPlot manpagina.</contrib
+> <email
+>bab@debian.org</email
+></author>
+<date
+>2021-01-05</date>
+<releaseinfo
+>1.3.0 (Applications 20.12)</releaseinfo>
+<productname
+>KDE Applications</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kmplot</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kmplot</command
+></refname>
+<refpurpose
+>Plotprogramma voor wiskundige functies</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kmplot</command
+> <group choice="opt"
+><option
+>-f, --function <replaceable
+>argument</replaceable
+></option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>bestand</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Beschrijving</title>
+<para
+>&kmplot; is een plotprogramma door &kde; voor wiskundige functies. Het heeft een effectief ingebouwd inleesprogramma. U kunt verschillende functies tegelijkertijd plotten en ze combineren tot nieuwe functies.</para
+><para
+>&kmplot; heeft ondersteuning voor parametrische functies en functies in poolcoördinaten. Verschillende roostertypen zijn mogelijk. Plots kunnen met grote nauwkeurigheid op de juiste schaal worden afgedrukt.</para
+><para
+>&kmplot; kent ook enkele numerieke en visuele eigenschappen, zoals het invullen en het berekenen van de oppervlakte tussen de grafiek van een functie en de horizontale as, het vinden van maxima en minima, het dynamisch wijzigen van functieparameters en het plotten van afgeleiden en integralen.</para
+><para
+>&kmplot; maakt deel uit van de onderwijsmodule van &kde;.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Opties</title>
+<variablelist>
+<varlistentry
+><term
+><option
+>-f, --function <replaceable
+>argument</replaceable
+></option
+></term>
+<listitem
+><para
+>De te plotten functie.</para
+></listitem
+></varlistentry>
+<varlistentry
+><term
+><option
+><replaceable
+>bestand</replaceable
+></option
+></term>
+<listitem
+><para
+>Het te openen bestand.</para
+></listitem
+></varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title
+>Zie ook</title>
+
+<simplelist>
+<member
+>U vindt uitvoeriger documentatie in <ulink url="help:/kstars"
+>help:/kmplot</ulink
+> (voer deze <acronym
+>&URL;</acronym
+> in in &konqueror;, of start <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kmplot</parameter
+></userinput
+>).</member>
+<member
+>Verdere informatie vindt u op  <ulink url="https://kde.org/applications/education/kmplot"
+>de educatiewebsite van &kde;</ulink
+>.</member>
+<member
+>kf5options(1)</member>
+<member
+>qt5options(1)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Auteurs</title>
+<para
+>&kmplot; is geschreven door <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> <email
+>kdmoeller@foni.net</email
+>, &Matthias.Messmer; &Matthias.Messmer.mail; en <personname
+><firstname
+>Fredrik</firstname
+><surname
+>Edemar</surname
+></personname
+> <email
+>f_edemar@linux.se</email
+></para>
+</refsect1>
+
+</refentry>

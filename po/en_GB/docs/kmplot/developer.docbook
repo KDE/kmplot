@@ -1,0 +1,24 @@
+<chapter id="developers">
+<title
+>Developer's Guide to &kmplot;</title>
+
+<para
+>If you want to contribute to &kmplot; feel free to send a mail to <email
+>kd.moeller@t-online.de</email
+> or <email
+>f_edemar@linux.se</email
+> </para>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+

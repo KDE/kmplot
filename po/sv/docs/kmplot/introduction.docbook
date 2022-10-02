@@ -1,0 +1,83 @@
+<chapter id="introduction">
+<title
+>Inledning</title>
+	
+<para
+>&kmplot; är en matematisk funktionsritare för &kde;-skrivbordet. Den har en kraftfull inbyggd tolk. Du kan rita upp olika funktioner på samma gång och kombinera funktionstermer för att sätta samman nya funktioner.</para>
+
+<screenshot>
+	<screeninfo
+>Exempel</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Exempel</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; stöder flera olika diagramtyper:</para>
+<itemizedlist>
+	<listitem
+><para
+>Explicita kartesiska diagram på formen y = f(x).</para
+></listitem>
+	<listitem
+><para
+>Parametriska diagram, där x- och y-komponenterna anges som funktioner av en oberoende variabel.</para
+></listitem>
+	<listitem
+><para
+>Polära diagram på formen r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Implicita diagram, där x- och y-koordinaten är relaterade med ett uttryck.</para
+></listitem>
+	<listitem
+><para
+>Explicita differentialdiagram.</para
+></listitem>
+</itemizedlist>
+
+<para
+>&kmplot; tillhandahåller också några numeriska och visuella egenskaper som:</para>
+<itemizedlist>
+	<listitem
+><para
+>Fylla i och beräkna arean mellan kurvan och den första axeln</para>
+	</listitem>
+	<listitem
+><para
+>Hitta minima och maxima</para>
+	</listitem>
+	<listitem
+><para
+>Ändra funktionsargument dynamiskt</para>
+	</listitem>
+	<listitem
+><para
+>Rita upp derivator och integraler.</para>
+	</listitem>
+</itemizedlist>
+
+<para
+>Dessa egenskaper hjälper till vid inlärning av förhållandet mellan matematiska funktioner och deras grafiska representation i ett koordinatsystem.</para>
+
+</chapter>
+
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

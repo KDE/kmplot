@@ -1,0 +1,79 @@
+<chapter id="first-steps">
+<title
+>Esimesed sammud &kmplot;is</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Lihtne funktsioonijoonis</title>
+	
+	<para
+>Vasakul külgribal on rippmenüüga nupp <guilabel
+>Loo</guilabel
+> uute jooniste loomiseks. Klõpsa sellele ja vali <guilabel
+>Descartes'i joonis</guilabel
+>. Fookusse tuleb võrrandi redigeerimise tekstikast. Kirjuta vaikimisi teksti asemele <screen
+><userinput
+>y = x^2</userinput
+></screen
+> ja vajuta klahvi &Enter;. Nüüd joonistatakse y = x<superscript
+>2</superscript
+> graafik. Klõpsa uuesti nupule <guilabel
+>Loo</guilabel
+>, vali <guilabel
+>Descartes'i joonis</guilabel
+> ja sisesta nüüd kasti <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+>, mis loob uue joonise. </para>
+	
+	<para
+>Klõpsa ühele äsja joonistatud joontest. Niitristik omandab nüüd joonise värvi ja seotakse sellega. Hiirega saab niitristikut joonisel liigutada. Akna allosas asuval olekuribal on näha selle hetkeasukoht. Pane tähele, et kui joonis puudutab horisontaaltelge, näidatakse seda ka olekuribal.</para>
+	
+	<para
+>Klõpsa uuesti hiirega ja niitristik haagitakse jooniselt lahti.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Omaduste muutmine</title>
+	
+	<para
+>Teeme funktsioonis mõned muudatused ja vahetame joonise värvi.</para>
+	
+	<para
+><guilabel
+>Funktsioonide</guilabel
+> külgriba toob ära kõik joonistatud funktsioonid. Kui <guilabel
+>y = x^2</guilabel
+> pole juba valitud, vali see. Siin avaneb hulk võimalusi. Nimetame funktsiooni ümber ja liigutame joonise viie ühiku võrra allapoole. Anna funktsioonile võrrand <screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> ja vajuta klahvile Enter. Joonisele muu värvi valimiseks klõpsa funktsiooniredaktori allosas sektsioonis <guilabel
+>Välimus</guilabel
+> nupule <guilabel
+>Värv</guilabel
+> ja vali uus värv. <note
+> <para
+>Kõiki muudatusi saab tagasi võtta menüükäsuga <menuchoice
+><guimenu
+>Redigeerimine</guimenu
+><guimenuitem
+>Võta tagasi</guimenuitem
+></menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

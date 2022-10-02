@@ -1,0 +1,81 @@
+<chapter id="first-steps">
+<title
+>First Steps With &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+<title
+>Simple Function Plot</title>
+
+<para
+>In the main toolbar there is a simple text box in which you can enter a function expression. Simply enter: <screen
+><userinput
+>x^2</userinput
+></screen
+> and press &Enter;. This will draw the plot of y=x^2 in the coordinate system. Enter another expression in the text box like <screen
+><userinput
+>5*sin(x)</userinput
+></screen
+> and another plot will be added. </para>
+
+<para
+>Click on one of the lines you have just plotted. Now the cross hair gets the colour of the plot and is attached to the plot. You can use the mouse to move the cross hair along the plot. In the status bar at the bottom of the window the coordinates of the current position is displayed. Note that if the plot touches the x-axis the root will be displayed in the status bar, too.</para>
+
+<para
+>Click the mouse again and the cross hair will be detached from the plot.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+<title
+>Edit Properties</title>
+
+<para
+>Let us make some changes to the function and change the colour of the plot.</para>
+
+<para
+>You can edit all functions with the <menuchoice
+><guimenu
+>Plot</guimenu
+><guimenuitem
+>Edit Plots...</guimenuitem
+> </menuchoice
+> menu entry. A dialogue appears which lists all the functions that you have plotted. Notice that &kmplot; has automatically found a unique function name for your expressions and completed the expression to a function equation.</para>
+
+<para
+>Select <guilabel
+>f(x)=x^2</guilabel
+> in the list. A double click or pressing the <guibutton
+>Edit</guibutton
+> button will show you a dialogue window. Here you have access to a lot of options. Let us rename the function and move the plot 5 units down. Change the function equation to <screen
+><userinput
+>parabola(x)=x^2-5</userinput
+></screen>
+</para>
+
+<para
+>Select another colour for the plot using the <guibutton
+>Color</guibutton
+> button. Finally press <guibutton
+>OK</guibutton
+> and your changes take effect in the coordinate system.</para>
+
+<note
+><para
+>All changes can be undone until you press <guibutton
+>OK</guibutton
+> in the <guilabel
+>Edit Plots</guilabel
+> dialogue.</para>
+</note>
+
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

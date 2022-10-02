@@ -1,0 +1,77 @@
+<chapter id="first-steps">
+<title
+>Primeiros Passos com o &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Desenho de uma Função Simples</title>
+	
+	<para
+>Na barra lateral à esquerda, existe um botão com uma lista para <guilabel
+>Criar</guilabel
+> gráficos novos. Carregue nela e seleccione a opção <guilabel
+>Gráfico Cartesiano</guilabel
+>. O campo de texto para editar a equação actual ficará em primeiro plano. Substitua o texto actual por <screen
+><userinput
+>y = x^2</userinput
+></screen
+> e carregue em &Enter;. Isto irá desenhar o gráfico de y = x<superscript
+>2</superscript
+> no sistema de coordenadas. Se carregar no botão <guilabel
+>Criar</guilabel
+> de novo, seleccionar <guilabel
+>Gráfico Cartesiano</guilabel
+> e, desta vez, escrever o texto <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+>, irá obter outro gráfico. </para>
+	
+	<para
+>Carregue numa das linhas que acabou de desenhar. Repare que a mira fica agora com a cor do desenho e fica anexada ao mesmo. Você pode usar o rato para mover a mira ao longo do desenho. Na barra de estado por baixo das janelas, são mostradas as coordenadas da posição actual. Repare que, se o desenho tocar no eixo dos X, a raiz será apresentada na barra de estado também.</para>
+	
+	<para
+>Carregue com o rato de novo, para que a mira seja separada do gráfico.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Editar as Propriedades</title>
+	
+	<para
+>Vamos então fazer algumas alterações à função e mudar a cor do gráfico.</para>
+	
+	<para
+>A barra de <guilabel
+>Funções</guilabel
+> lista todas as funções que você desenhou. Se o <guilabel
+>y = x^2</guilabel
+> não estiver já seleccionado, faça-o. Aqui, poderá ter acesso a uma grande quantidade de opções. De seguida, mude o nome da função e desloque o gráfico 5 unidades para baixo. Mude a equação da função para <screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> e carregue em Enter. Para seleccionar outra cor para o gráfico, carregue no botão <guilabel
+>Aparência</guilabel
+>, no fundo do editor de funções, e seleccione uma cor nova. <note
+> <para
+>Todas as alterações poderão ser aniladas com a opção <menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Desfazer</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

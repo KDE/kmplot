@@ -1,0 +1,77 @@
+<chapter id="first-steps">
+<title
+>De första stegen med &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Enkelt funktionsdiagram</title>
+	
+	<para
+>Det finns en knapp med en kombinationsruta för att skapa nya diagram i sidoraden till vänster. Klicka på den och välj <guilabel
+>Kartesiskt diagram</guilabel
+>. Textrutan för att redigera nuvarande ekvation får fokus. Ersätt standardtexten med <screen
+><userinput
+>y = x^2</userinput
+></screen
+> och tryck på returtangenten. Det ritar diagrammet y = x<superscript
+>2</superscript
+> i koordinatsystemet. Klicka på <guilabel
+>Skapa</guilabel
+> igen, välj <guilabel
+>Kartesiskt diagram</guilabel
+> och skriv in texten <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> den här gången, för att få ett annat diagram. </para>
+	
+	<para
+>Klicka på en av linjerna du just har ritat upp. Nu får hårkorset kurvans färg och anslutes till kurvan. Du kan använda musen för att flytta hårkorset längs kurvan. I statusraden längst ner i fönstret visas koordinaterna för den nuvarande positionen. Observera att om kurvan rör vid den horisontella axeln visas också roten i statusraden.</para>
+	
+	<para
+>Klicka på musen igen så kopplas hårkorset loss från diagrammet.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Redigera egenskaper</title>
+	
+	<para
+>Låt oss göra några ändringar av funktionen och ändra färg på diagrammet.</para>
+	
+	<para
+>Sidoraden <guilabel
+>Funktioner</guilabel
+> listar alla funktioner du har ritat upp. Om <guilabel
+>y = x^2</guilabel
+> inte redan är markerat, markera det. Här har du tillgång till en mängd alternativ. Låt oss byta namn på funktionen och flytta diagrammet fem enheter neråt. Ändra funktionens ekvation till <screen
+><userinput
+>parabol(x) = x^2 - 5</userinput
+></screen
+> och tryck på returtangenten. Klicka på knappen <guilabel
+>Färg</guilabel
+> under <guilabel
+>Utseende</guilabel
+> längst ner i sidoraden Funktioner, för att ändra färg på linjen, och välj en ny färg. <note
+> <para
+>Alla ändringar kan ångras via <menuchoice
+><guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Ångra</guimenuitem
+></menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

@@ -1,0 +1,305 @@
+<chapter id="configuration">
+<title
+>&kmplot;i seadistamine</title
+> 
+<para
+>&kmplot;i seadistustedialoogi saab avada menüükäsuga <menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>&kmplot;i seadistamine...</guimenuitem
+></menuchoice
+> <guimenuitem
+>Konstantide</guimenuitem
+> seadistusi saab muuta ainult menüüs <guimenu
+>Redigeerimine</guimenu
+> ja <guimenuitem
+>koordinaadistiku</guimenuitem
+> seadistusi ainult menüüs <guimenu
+>Vaade</guimenu
+> pakutavate võimalustega. </para>
+
+<sect1 id="general-config">
+	<title
+>Üldised seadistused</title>
+	
+	<screenshot>
+		<screeninfo
+>Üldiste seadistuste dialoogi pilt</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Üldiste seadistuste dialoogi pilt</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Siin saab määrata üldisi seadistusi, mis salvestatakse automaatselt &kmplot;ist väljudes. Siin saab paika panna nurgamõõdu (radiaanid ja kraadid), suurendus- ja vähendusteguri ning täiustatud graafiku jälgimise kasutamise. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Diagrammi seadistused</title>
+	
+	<screenshot>
+		<screeninfo
+>Diagrammi välimuse dialoogi pilt</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Diagrammi välimuse  dialoogi pilt</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+><guilabel
+>Alusvõrgu stiil</guilabel
+> võib olla üks neljast: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Puudub</guilabel
+></term>
+				<listitem>
+					<para
+>Joonistusalal ei näidata mingit alusvõrku</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Jooned</guilabel
+></term>
+				<listitem>
+					<para
+>Joonistusala alusvõrgustik koosneb sirgjoontest.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Ristid</guilabel
+></term>
+				<listitem>
+					<para
+>Ristid märgivad punkte, kus x ja y on täisarvulise väärtusega (&eg; (1,1), (4,2) &etc;).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Polaarne</guilabel
+></term>
+				<listitem>
+					<para
+>Joonistusalale tõmmatakse püsiraadiuse ja püsinurgaga jooned.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para
+>Siin saab seadistada ka muidu diagrammi välimust puudutavaid asju: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Teljetähised</guilabel
+></term>
+				<listitem>
+					<para
+>Siin saab määrata horisontaal- ja vertikaaltelje tähised.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Teljejoone laius:</guilabel
+></term>
+				<listitem>
+					<para
+>Määrab telge näitava joone laiuse.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Joone laius:</guilabel
+></term>
+				<listitem>
+					<para
+>Määrab võrgustiku joonte laiuse.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Jaotiskriipsu laius</guilabel
+></term>
+				<listitem>
+					<para
+>Määrab telje jaotisi näitavate kriipsude laiuse.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Jaotiskriipsu pikkus</guilabel
+></term>
+				<listitem>
+					<para
+>Määrab telje jaotisi näitavate kriipsude pikkuse.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Tähiste näitamine</guilabel
+></term>
+				<listitem>
+					<para
+>Märkimisel näidatakse joonisel telgede nimesid.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Telgede näitamine</guilabel
+></term>
+				<listitem>
+					<para
+>Märkimisel näidatakse telgi.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Noolte näitamine</guilabel
+></term>
+				<listitem>
+					<para
+>Märkamisel näidatakse telgede otsades nooli.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Värvide seadistused</title>
+	
+	<screenshot>
+		<screeninfo
+>Värvide dialoogi pilt</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Värvide dialoogi pilt</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+><guilabel
+>Värviseadistuste</guilabel
+> sektsioonis <guilabel
+>Koordinaadid</guilabel
+> saab muuta &kmplot;i joonistusala telgede, alusvõrgu ja tausta värvi. </para>
+	
+	<para
+>Kaardil <guilabel
+>Funktsioonide vaikevärvid</guilabel
+> saab muuta uute funktsioonide loomisel kasutavaid värve.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Fontide seadistused</title>
+	
+	<screenshot>
+		<screeninfo
+>Fontide dialoogi pilt</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Fontide dialoogi pilt</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Teljetähised</guilabel
+></term>
+			<listitem>
+				<para
+>Telje numbrite ja X/Y-telje pealdiste font.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Diagrammi pealdis</guilabel
+></term>
+			<listitem>
+				<para
+>Diagrammi pealdiste font (&eg; joonise nime või otspunktide puhul).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Päis</guilabel
+></term>
+			<listitem>
+				<para
+>Trükkimisel päise puhul kasutatav font.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

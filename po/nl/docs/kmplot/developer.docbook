@@ -1,0 +1,23 @@
+<chapter id="developers">
+<title
+>Handleiding voor ontwikkelaars van &kmplot;</title>
+
+<para
+>Als U wilt meewerken aan &kmplot; aarzel niet en stuur een email naar &Klaus-Dieter.Moeller.mail;, <email
+>f_edemar@linux.se</email
+> of <email
+>david@bluehaze.org</email
+>. </para>
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+

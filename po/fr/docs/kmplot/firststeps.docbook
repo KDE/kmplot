@@ -1,0 +1,79 @@
+<chapter id="first-steps">
+<title
+>Premiers pas avec &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Tracé d'une fonction simple</title>
+	
+	<para
+>Dans la barre latérale sur la gauche est présenté le bouton <guilabel
+>Créer</guilabel
+> avec un menu déroulant pour créer de nouveaux tracés. Cliquez sur le menu et sélectionnez <guilabel
+>Courbe cartésienne</guilabel
+>. La boîte de texte pour l'édition de l'équation courante va prendre le focus. Replacer le texte par défaut avec <screen
+><userinput
+>y = x^2</userinput
+></screen
+> et appuyez sur &Enter;. Ceci va dessiner le tracé de y = x<superscript
+>2</superscript
+> dans le système de coordonnées. Appuyez encore une fois sur le bouton <guilabel
+>Créer</guilabel
+> et sélectionnez <guilabel
+>Courbe cartésienne</guilabel
+>, et cette fois ci saisissez le texte <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> pour créer un autre tracé. </para>
+	
+	<para
+>Cliquez sur une des lignes que vous venez juste de tracer. Maintenant la croix a la couleur de la courbe et est attachée à celle-ci. Vous pouvez utiliser la souris pour déplacer la croix le long de la courbe. Dans la barre d'état en bas de la fenêtre, les coordonnées de la position actuelle sont affichées. Remarquez que si la courbe touche l'axe des abscisses, la racine sera également affichée dans la barre d'état.</para>
+	
+	<para
+>Cliquez à nouveau et la croix sera détachée de la courbe.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Modifier les propriétés</title>
+	
+	<para
+>Faisons quelques modifications à la fonction et changeons la couleur de sa courbe.</para>
+	
+	<para
+>La barre latérale de <guilabel
+>fonctions</guilabel
+> liste toutes les fonctions que vous avez tracées. Si <guilabel
+>y = x^2</guilabel
+> n'est toujours pas sélectionné, sélectionnez le. Vous avez ici accès à une multitude d'options. Renommons la fonction et déplaçons la courbe de 5 unités vers le bas. Modifions la fonction de l'équation pour <screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> et appuyez sur &Enter;. Pour sélectionner une autre couleur pour la courbe, cliquez sur le bouton <guilabel
+>Couleur</guilabel
+> dans la section <guilabel
+>Apparence</guilabel
+> en bas de la barre latérale de fonction et sélectionnez une nouvelle couleur. <note
+> <para
+>Toutes les modifications peuvent être annulées avec <menuchoice
+><guimenu
+>Édition</guimenu
+><guimenuitem
+>Annuler</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

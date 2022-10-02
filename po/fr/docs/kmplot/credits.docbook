@@ -1,0 +1,71 @@
+<chapter id="credits">
+<title
+>Remerciements et licence</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Programme sous copyright 2000-2002 Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail; </para>
+
+<itemizedlist>
+<title
+>Collaborateurs</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+> : &Robert.Gogolok; <email
+>mail@robert-gogoloh.de</email
+></para>
+  </listitem>
+  <listitem>
+    <para
+>Portage de l'interface graphique vers &kde; 3 et traduction : &Matthias.Messmer; &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Améliorations diverses par Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>Portage vers QT 4, améliorations de l'interface graphique, fonctionnalités par David Saxton <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>Documentation sous copyright 2000--2002 par Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail; </para>
+<para
+>Documentation étendue et mise à jour pour &kde; 3.2 par &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para
+>Documentation étendue et mise à jour pour &kde; 3.3 par &Philip.Rodrigues; &Philip.Rodrigues.mail; et Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Documentation étendue et mise à jour pour &kde; 3.4 par Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Documentation étendue et mise à jour pour &kde; 4.0 par David Saxton <email
+>david@bluehaze.org</email
+>.</para>
+<para
+>Traduction française par &LudovicGrossard; et &OlivierDelaune;.</para
+> 
+&underFDL; &underGPL; </chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+

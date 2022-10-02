@@ -1,0 +1,83 @@
+<chapter id="introduction">
+<title
+>Introducción</title>
+	
+<para
+>&kmplot; es un trazador de funciones matemáticas para el escritorio &kde;. Incluye un potente procesador. Puede trazar diferentes funciones de forma simultánea y combinar sus elementos para construir nuevas funciones.</para>
+
+<screenshot>
+	<screeninfo
+>Ejemplos</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Ejemplos</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; soporta varios tipos de gráficos diferentes:</para>
+<itemizedlist>
+	<listitem
+><para
+>Gráficas cartesianas explícitas de la forma y = f(x).</para
+></listitem>
+	<listitem
+><para
+>Gráficas paramétricas, donde los componentes x e y se especifican como funciones de una variable independiente.</para
+></listitem>
+	<listitem
+><para
+>Gráficas polares de la forma r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Gráficas implícitas, donde las coordenadas x e y se relacionan a través de una expresión.</para
+></listitem>
+	<listitem
+><para
+>Gráficos diferenciales explícitos.</para
+></listitem>
+</itemizedlist>
+
+<para
+>&kmplot; también proporciona algunas características numéricas y visuales como:</para>
+<itemizedlist>
+	<listitem
+><para
+>Rellenado y cálculo del área entre el gráfico y el primer eje</para>
+	</listitem>
+	<listitem
+><para
+>Encontrar los valores máximo y mínimo</para>
+	</listitem>
+	<listitem
+><para
+>Cambiar parámetros de la función dinámicamente</para>
+	</listitem>
+	<listitem
+><para
+>Dibujar funciones derivadas e integrales.</para>
+	</listitem>
+</itemizedlist>
+
+<para
+>Estas características ayudan a aprender las relaciones entre las funciones matemáticas y su representación gráfica en un sistema de coordenadas.</para>
+
+</chapter>
+
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

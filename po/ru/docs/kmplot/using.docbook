@@ -1,0 +1,359 @@
+<chapter id="using-kmplot">
+<title
+>Использование &kmplot;</title>
+
+<para
+>&kmplot; строит графики функций. Такие функции должны указываться по правилам декартовых координат (так называемые <quote
+>явно заданные функции</quote
+>), полярных координат, или в параметрическом виде. Чтобы задать функцию, зайдите в <menuchoice
+><guimenu
+>Построение</guimenu
+><guimenuitem
+>Изменить построения</guimenuitem
+> </menuchoice
+>, или просто заполните поле <guilabel
+>Уравнение</guilabel
+> на панели инструментов. Функции должны иметь уникальное имя. Последнее будет автоматически сгенерировано, вы можете его изменить</para>
+
+<para
+>Для подробностей см. <xref linkend="reference"/>. </para>
+
+<screenshot>
+<screeninfo
+>Снимок экрана с главным окном приветсвия &kmplot;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Снимок</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+<title
+>Типы функций</title>
+
+<sect2 id="explicit-functions">
+<title
+>Явно заданные функции</title>
+<para
+>Функции вида y=f(x)) можно вводить в такой форме: <screen>
+<userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>)=<replaceable
+>выражение</replaceable
+></userinput>
+</screen
+> Где: <itemizedlist>
+<listitem
+><para
+><replaceable
+>f</replaceable
+> &mdash; имя функции, может состоять из любого количества букв или цифр, но не может начинаться с букв x, y или r, так как это говорит, что функция будет задаваться в параметрическом или полярном виде.</para>
+</listitem>
+
+<listitem
+><para
+><replaceable
+>x</replaceable
+> &mdash; независимая координата x. Она необязательно должна называться так.</para>
+</listitem>
+
+<listitem>
+<para
+><replaceable
+>выражение</replaceable
+>&mdash; выражение относительно аргумента, записанное согласно синтаксису, принятому в &kmplot;. Для подробностей см. <xref linkend="math-syntax"/>. </para>
+</listitem>
+
+</itemizedlist>
+</para>
+<para
+>Например, чтобы построить график функции y=x<superscript
+>2</superscript
+>+2x, введите в диалоге задания функций следующее: <screen
+>f(x)=x^2+2x
+</screen>
+</para>
+</sect2>
+
+<sect2 id="parametric-functions">
+<title
+>Параметрические функции</title>
+<para
+>Parametric functions are those in which the x and y coordinates are defined by separate functions of another variable, often called t. To enter a parametric function in &kmplot;, follow the procedure as for an explicit function, but prefix the name of the function describing the x-coordinate with the letter x, and the function describing the y-coordinate with the letter y. As with explicit functions, you may use any variable name you wish for the parameter. To draw a parametric function, you must go to <guimenu
+>Plot</guimenu
+><guimenuitem
+>New Parametric Plot...</guimenuitem
+>. A function name will be created automatic if you do not specify one.</para>
+<para
+>Как пример, предположим, выхотите построить окружность, которой отвечают параметрические уравнения x=sin(t), y=cos(t). В диалоге функций: <orderedlist
+> <listitem
+><para
+>Откройте диалог параметрического построения через <menuchoice
+><guimenu
+>Построение</guimenu
+><guimenuitem
+>Новое параметрическое построение...</guimenuitem
+> </menuchoice
+>.</para
+> </listitem
+> <listitem
+><para
+>Введите имя функции, например <userinput
+>circle</userinput
+>. имена функций для x и y изменятся в соответствии с заданным именем: <guilabel
+>xcircle(t)</guilabel
+> и y - <guilabel
+>ycircle(t)</guilabel
+>.</para
+> </listitem
+> <listitem
+> <para
+>Введите уравнения, <guilabel
+>xcircle(t)=</guilabel
+><userinput
+>sin(t)</userinput
+> и<guilabel
+>ycircle(t)=</guilabel
+><userinput
+>cos(t)</userinput
+>.</para
+> </listitem
+> </orderedlist
+> Нажмите <guibutton
+>OK</guibutton
+> и увидите график функции. </para>
+<para
+>Вы также можете установить другие настройки: <variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Скрыть</guilabel
+></term>
+<listitem>
+<para
+>Не строить функцию, а только хранить запись о ней в списке функций, так что вы можете использовать её при определении других функций.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Изменить область построения</guilabel
+></term>
+<listitem>
+<para
+>Вы можете изменить крайние значения параметра t.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Толщина линий</guilabel
+></term>
+<listitem>
+<para
+>С шагом в 0.1 мм.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Цвет</guilabel
+></term>
+<listitem>
+<para
+>Выберите цвет для графика</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2 id="polar-functions">
+<title
+>Задание функций в полярной системе координат</title>
+
+<para
+>Полярная система координат представляет точку по её расстоянию от начала координат (обычно называемому r), и углу между прямой, проходящей через точку и начало координат, и осью абсцисс  (обычно представляемой греческой буквой "тета"). Чтобы ввести функцию в полярной системе кординат, выберите <menuchoice
+><guimenu
+>Построение</guimenu
+><guimenuitem
+>Новое полярное построение...</guimenuitem
+> </menuchoice
+>. В поле <guilabel
+>r</guilabel
+> допишите определение функции, включающее переменную тета. Например, чтобы построить Архимедову спираль r=theta, введите: <screen>
+<userinput>
+(theta)=theta
+</userinput>
+</screen
+>, так что строка целиком будет выглядеть <quote
+>r(theta)=theta</quote
+>. Заметьте, что переменная может называться и по-другому, например <quote
+>r(foo)=foo</quote
+> приведёт к аналогичному построению. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="combining-functions">
+<title
+>Комбинирование функций</title>
+<para
+>Функции можно комбинировать при задании новых. Просто введите их в выражении, после знака равно. Например, если вы определили функции f(x) и g(x), вы можете построить график их сумм: <screen
+><userinput>
+sum(a)=f(a)+g(a)
+</userinput
+>
+</screen>
+</para>
+<para
+>Можно комбинировать функции только одного типа.</para>
+</sect1>
+
+<sect1 id="function-appearance">
+<title
+>Настройка отображения графиков</title>
+
+<para
+>Чтобы настроить отображение графика, в диалоге задания функций выделите функцию и нажмите кнопку <guibutton
+>Изменить</guibutton
+>. </para>
+<para
+>Изменить функцию также можно через контекстное меню её графика.</para>
+
+<para
+>Для подробностей см. <xref linkend="popupmenu"/> </para>
+</sect1>
+
+<sect1 id="popupmenu">
+<title
+>Контекстное меню</title>
+
+<para
+>В контекстном меню содержатся такие пункты:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Скрыть</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Скрыть выделеный график.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Удалить</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Удаляет функцию и все построения, основанные на ней.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Изменить</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Изменить функцию.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+ 
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Получить ординату</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Открыть диалог, в котором вы можете найти значение функции по её аргументу. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Искать минимум</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Найти минимум функции в указанном диапазоне.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Искать максимум</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Найти максимум функции в указанном диапазоне. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Площадь под графиком</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Площадь между графиком и осью абсцисс. Для подробностей см. <xref linkend="a-tools-menu"/>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+
+</sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

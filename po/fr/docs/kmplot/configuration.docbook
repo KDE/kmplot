@@ -1,0 +1,305 @@
+<chapter id="configuration">
+<title
+>Configuration de &kmplot;</title
+> 
+<para
+>Pour accéder à la boîte de dialogue de configuration de &kmplot;, sélectionnez <menuchoice
+><guimenu
+>Configuration</guimenu
+><guimenuitem
+>Configurer &kmplot;...</guimenuitem
+></menuchoice
+>. La configuration des <guimenuitem
+>Constantes</guimenuitem
+> ne peut être modifiée que depuis le menu <guimenu
+>Édition</guimenu
+> et <guimenuitem
+>Système de coordonnées...</guimenuitem
+> uniquement depuis le menu <guimenu
+>Affichage</guimenu
+> </para>
+
+<sect1 id="general-config">
+	<title
+>Configuration générale</title>
+	
+	<screenshot>
+		<screeninfo
+>Capture d'écran de la boîte de dialogue de configuration générale</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Capture d'écran de la boîte de dialogue de configuration générale</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Vous pouvez régler ici la configuration globale qui sera automatiquement enregistrée lorsque vous quittez &kmplot;. Vous pouvez régler l'unité pour les angles (radians ou degrés), la couleur du fond et les facteurs de zoom avant et arrière et les options avancées de tracé doivent être affichées. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Configuration du diagramme</title>
+	
+	<screenshot>
+		<screeninfo
+>Capture d'écran de la boîte de dialogue de l'apparence du graphique</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Capture d'écran de la boîte de dialogue de l'apparence du graphique</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Vous pouvez déterminer le <guilabel
+>style de quadrillage</guilabel
+> parmi quatre options : <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Aucun</guilabel
+></term>
+				<listitem>
+					<para
+>Aucune ligne de quadrillage ne sera dessinée dans la zone de la courbe</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Lignes</guilabel
+></term>
+				<listitem>
+					<para
+>Des lignes droites forment un quadrillage de carrés sur la zone de la courbe.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Croix</guilabel
+></term>
+				<listitem>
+					<para
+>Des croix sont dessinées pour indiquer les points où x et y ont une valeur entière (&pex; (1,1), (4,2), &etc;).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Polaire</guilabel
+></term>
+				<listitem>
+					<para
+>Des lignes de rayon constant et d'angle constant sont dessinées sur la zone de la courbe.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para
+>D'autres options pour l'apparence du graphique peuvent aussi être configurées :  <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Étiquettes des axes</guilabel
+></term>
+				<listitem>
+					<para
+>Déterminez les étiquettes pour l'axe des abscisses et des ordonnées.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Épaisseur des axes : </guilabel
+></term>
+				<listitem>
+					<para
+>Détermine la largeur des lignes qui représentent les axes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Épaisseur de ligne</guilabel
+></term>
+				<listitem>
+					<para
+>Détermine le style des lignes qui représentent les axes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Épaisseur des graduations : </guilabel
+></term>
+				<listitem>
+					<para
+>Détermine l'épaisseur des lignes représentant les graduations sur les axes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Longueur des graduations :</guilabel
+></term>
+				<listitem>
+					<para
+>Détermine la longueur des lignes représentant les graduations sur les axes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Afficher les légendes</guilabel
+></term>
+				<listitem>
+					<para
+>Lorsque coché, les noms des axes sont affichés sur la courbe et les graduations des axes ont des légendes.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Afficher les axes</guilabel
+></term>
+				<listitem>
+					<para
+>Si coché, les lignes des axes sont visibles.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Afficher les flèches</guilabel
+></term>
+				<listitem>
+					<para
+>Si coché, les axes ont des flèches à leur extrémité.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Configuration des couleurs</title>
+	
+	<screenshot>
+		<screeninfo
+>Capture d'écran de la boîte de dialogue des couleurs</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Capture d'écran de la boîte de dialogue des couleurs</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Dans la section <guilabel
+>Coordonnées</guilabel
+> de l'option <guilabel
+>Couleurs</guilabel
+>, vous pouvez modifier les couleurs des axes et du quadrillage de la zone principale de &kmplot;. </para>
+	
+	<para
+>Dans l'onglet <guilabel
+>Couleurs par défaut de la fonction</guilabel
+>, vous pouvez modifier les couleurs utilisées pour les graphes des dix fonctions permises dans &kmplot;.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Configuration des polices</title>
+	
+	<screenshot>
+		<screeninfo
+>Capture d'écran de la boîte de dialogue de configuration des polices</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Capture d'écran de la boîte de dialogue de configuration des polices</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Étiquettes des axes</guilabel
+></term>
+			<listitem>
+				<para
+>La police utilisée pour écrire les nombres des axes et titres x/y.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Étiquettes des diagrammes</guilabel
+></term>
+			<listitem>
+				<para
+>La police utilisée pour dessiner les titres du graphique (&pex; affiche le nom de la courbe ou des points aux extrêmes).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Tableau des en-têtes</guilabel
+></term>
+			<listitem>
+				<para
+>La police utilisée pour dessiner les en-têtes à l'impression d'une courbe.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

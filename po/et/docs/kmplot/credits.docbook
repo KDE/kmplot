@@ -1,0 +1,73 @@
+<chapter id="credits">
+<title
+>Autorid ja litsents</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Rakenduse autoriõigus 2000-2002 Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail; </para>
+
+<itemizedlist>
+<title
+>Kaasautorid</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: &Robert.Gogolok; <email
+>mail@robert-gogoloh.de</email
+></para>
+  </listitem>
+  <listitem>
+    <para
+>Graafilise kasutajaliidese portimine &kde; 3  jaoks ja tõlkimine: &Matthias.Messmer; &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Mitmesugused parandused: Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>Portimine Qt 4, ksautajaliidese parandused, võimalused: David Saxton <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>Dokumentatsiooni autoriõigus 2000--2002: Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;. </para>
+<para
+>Dokumentatsiooni laiendas ja uuendas &kde; 3.2 jaoks: &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para
+>Dokumentatsiooni laiendas ja uuendas &kde; 3.3 jaoks: &Philip.Rodrigues; &Philip.Rodrigues.mail; ja Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Dokumentatsiooni laiendas ja uuendas &kde; 3.4 jaoks: Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Dokumentatsiooni laiendas ja uuendas &kde; 4.0 jaoks: David Saxton <email
+>david@bluehaze.org</email
+>.</para>
+<para
+>Tõlge eesti keelde: Marek Laane <email
+>bald@starman.ee</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+

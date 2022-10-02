@@ -1,0 +1,438 @@
+<chapter id="using-kmplot">
+<title
+>Het gebruik van &kmplot;</title>
+
+<para
+>&kmplot; kent diverse soorten functies, die in de vorm van een functie of als een vergelijking kunnen worden geschreven:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Cartesische plots kunnen bijvoorbeeld als <quote
+>y = x^2</quote
+> worden geschreven, waarin x moet worden gebruikt als de variabele, of als bijvoorbeeld <quote
+>f(a) = a^2</quote
+>, waarin de naam van de variabele willekeurig is.</para
+></listitem>
+	<listitem
+><para
+>Bij parametrische plots gaat het net zo als bij cartesische. De x- en y-coördinaten kunnen worden ingevoerd als vergelijkingen van t, bijv. <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+>, of als functies, bijv. <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Ook bij pooldiagrammen gaat het net zo als bij cartesische plots. Zij kunnen als een vergelijking worden ingevoerd in &thgr;, bijvoorbeeld <quote
+>r = &thgr;</quote
+>, of als eenfunctie, bijvoorbeeld <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Bij impliciete plots wordt de naam van de functie apart ingevoerd van de expressie voor de relatie tussen de x- en y-coördinaten. Indien de x- en y- variabelen worden gegeven via de naam van de functie (door bijvoorbeeld <quote
+>f(a,b)</quote
+> in te voeren als de functienaam), dan worden de hierin genoemde variabelen (hier dus a en b) gebruikt. Anders worden voor de variabelen de letters x en y gebruikt.</para
+></listitem>
+	<listitem
+><para
+>Bij expliciete plots van differentiaalvergelijkingen wordt de hoogste afgeleide uitgedrukt in termen van de lagere afgeleiden. Afgeleiden worden gekenmerkt met een of meer '-tekens. In de vorm van een functie is dit zoiets als <quote
+>f''(x) = f' &minus; f</quote
+>. In de vorm van een vergelijking ziet het eruit als <quote
+>y'' = y' &minus; y</quote
+>. Merk op dat in beide gevallen het <quote
+>(x)</quote
+>-gedeelte niet wordt toegevoegd aan de termen met de lagere afgeleiden (dus is de invoer als <quote
+>f'(x) = &minus;f</quote
+> en niet als <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>U kunt alle invoervakken voor vergelijkingen verkrijgen met een knop rechts. Hierop klikken geeft de geavanceerde dialoog voor de <guilabel
+>Vergelijkingbewerker</guilabel
+> waarin u vindt: <itemizedlist>
+		<listitem>
+			<para
+>Een aantal wiskundige symbolen die u kunt gebruiken in vergelijkingen, maar die u niet zult aantreffen op normale toetsenborden.</para>
+		</listitem>
+		<listitem>
+			<para
+>De lijst van constanten voor de gebruiker, en een knop om ze te kunnen bewerken.</para>
+		</listitem>
+		<listitem>
+			<para
+>De lijst van voorgedefiniëerde functies. Merk op dat al u reeds geselecteerde tekst heeft, deze zal worden gebruikt als het functieargument als er een functie wordt ingevoegd. Bijvoorbeeld, indien <quote
+>1 + x</quote
+> is geselecteerd in de vergelijking <quote
+>y = 1 + x</quote
+>, en daarna de sinusfunctie wordt gekozen,dan wordt de vergelijking <quote
+> y = sin(1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>U ziet hier een afbeelding van het welkomstscherm va &kmplot;</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Schermafdruk</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Functietypes</title>
+	
+	<sect2 id="cartesian-functions">
+		<title
+>Cartesische functies</title>
+		<para
+> U kunt als volgt een expliciete functie (dit is een functie in de vorm y=f(x)) in &kmplot; invoeren,: <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>expressie</replaceable
+></userinput
+></screen
+> waarin: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> de naam is van de functie, die elke rij van tekens en cijfers kan zijn.</para>
+				</listitem>
+				
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> is de x-coördinaat, te gebruiken in de expressie rechts van het =-teken. Het is in een dummyvariabele, u kunt dus elke naam voor de variabele gebruiken die u wilt.</para>
+				</listitem>
+				
+				<listitem>
+					<para
+><replaceable
+>expressie</replaceable
+> de expressie is die moet worden geplot, gegeven in de juiste syntax voor &kmplot;. Zie <xref linkend="math-syntax"/>. </para>
+				</listitem>
+				
+			</itemizedlist>
+		</para>
+	</sect2>
+	
+	<sect2 id="parametric-functions">
+		<title
+>Parametrische functies</title>
+		<para
+>In parametrische functies worden de x- en de y-coördinaten als afzonderlijke functies gedefinieerd van een andere variabele (parameter), vaak t (van: tijd) genoemd. Om in &kmplot; een parametrische functie in te voeren, volgt u dezelfde werkwijze vooor de beide x- en y-functies als voor een cartesische functie. Net als bij cartesische functies kunt u voor de parameter elke naam gebruiken die u wenst.</para>
+		<para
+>Als voorbeeld stellen we dat u een cirkel wilt tekenen, met de parametrische vergelijkingen x=sin(t) en y=cos(t). Na het aanmaken van een parametrische plot voert u deze vergelijkingen in in de juiste x- en y- invoervakken; dus als <userinput
+>f_x(t)=sin(t)</userinput
+> en <userinput
+>f_y(t)=cos(t)</userinput
+>. </para>
+		<para
+>U kunt in deze dialoog nog enkele andere opties voor de plot instellen: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Min</guilabel
+></term>
+					<term
+><guilabel
+>Max</guilabel
+></term>
+					<listitem>
+						<para
+>Met deze opties bepaalt u het interval voor de parameter t waarop de functie wordt geplot.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+	
+	<sect2 id="polar-functions">
+		<title
+>Functies in poolcoördinaten</title>
+		
+		<para
+>In poolcoördinaten wordt een punt gegeven door zijn afstand tot de oorsprong (meestal r genoemd), en de hoek die de lijn, vanuit de oorsprong door het punt getrokken, maakt met de (positieve) x-as (gewoonlijk met de Griekse letter theta (&thgr;)aangeduid). Om functies in poolcoördinaten in te voeren drukt u op  de knop <guilabel
+>Aanmaken</guilabel
+>, en kiest u <guilabel
+>Pooldiagram</guilabel
+> in de lijst. In het het hiervoor bestemde vak voert u de functiedefinitie in, met de door u gewenste naam voor de theta-variabele. &eg;, om de spiraal van Archimedes, r = &thgr;, te tekenen, voert u in <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+>. Merk op dat u voor de theta-variabele iedere willekeurige naam kunt gebruiken, zodat u met <quote
+>r(t)=t</quote
+>,  of <quote
+>f(x) = x</quote
+> precies hetzelfde resultaat krijgt. </para>
+	</sect2>
+	
+	<sect2 id="implicit-functions">
+		<title
+>Impliciete Functions</title>
+		
+		<para
+>In een impliciete relatie wordt een vergelijking gegeven waarin x en y op een gelijkwaardige manier voorkomen. Om een cirkel te maken bijvoorbeeld, maakt u een nieuwe impliciete plot aan met de knop <guilabel
+>Aanmaken</guilabel
+>, en kiest u in de lijst <guilabel
+>Impliciete Plot</guilabel
+>. Daarna voert u de volgende vergelijking in in het invoervak hiervoor (onder dat voor de functienaam): <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+	
+	<sect2 id="differential-functions">
+		<title
+>Differentiële functies</title>
+		
+		<para
+>In &kmplot; kunnen expliciete differentiële functies worden geplot. Dit zijn functies met de vorm y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), waarin y<superscript
+>k</superscript
+> de k<superscript
+>-de</superscript
+> afgeleide is van y(x). &kmplot; kan alleen de orde van de afgeleide functie bepalen aan de hand van het aantal '-tekens achter de naam van de functie. Voor het tekenen van een sinuskromme, bijvoorbeeld, kunt u de differentiaalvergelijking y'' = &minus; y gebruiken (Uitleg: y=sin(x) -> y'=cos(x) -> y''=&minus;sin(x)=&minus;y). </para>
+		
+		<para
+>Maar een differentiaalvergelijking is op zichzelf niet voldoende voor het tekenen van een plot. Elke kromme in de plot wordt gegenereerd door een combinatie van de differentiaalvergelijking en de randvoorwaarden. U kunt de randvoorwaarden bewerken in het tabblad <guilabel
+>Randvoorwaarden</guilabel
+> wanneer u een differentiaalvergelijking selecteert. Het aantal kolommen dat beschikbaar is voor het bewerken van de randvoorwaarden is afhankelijk van de orde van de differentiaalvergelijking. </para>
+		
+		<para
+>U kunt in deze dialoog nog enkele andere opties voor de plot instellen: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Stap</guilabel
+></term>
+					<listitem>
+						<para
+>De stapwaarde in het vak nauwkeurigheid wordt gebruikt bij het numeriek oplossen van de differentiaalvergelijking (met de Runge Kutta methode). Het is de waarde van de grootste stap die wordt gebruikt; een kleinere stap kan worden gebruikt indien er voldoende op een gedeelte van de plot van de differentiaalvergelijking wordt ingezoomd.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Het combineren van functies</title>
+	<para
+>Functies kunnen worden gecombineerd tot nieuwe functies. Voer gewoon de functies na het =-teken in in een expressie alsof de functies gewone variabelen zijn. Bijvoorbeeld, als u de functies f(x) en g(x) heeft gedefinieerd, kunt u de som van f en g plotten met: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Het veranderen van het uiterlijk van de grafieken van functies</title>
+	
+	<para
+>Om het uiterlijk van een grafiek van een functie in het hoofdplotscherm te wijzigen, selecteert u de functie in de zijbalk <guilabel
+>Functies</guilabel
+>. U kunt de lijndikte veranderen, de kleur en vele andere eigenschappen, door op de knop <guibutton
+>Kleur</guibutton
+> te klikken, of op <guibutton
+>Gevorderd...</guibutton
+> onder in de sectie <guilabel
+>Uiterlijk</guilabel
+>. </para>
+	
+	<para
+>Als u een cartesische functie bewerkt, heeft de functiebewerker drie tabbladen. In het eerste kunt u de vergelijking opgeven van de functie. In het tabblad <guilabel
+>Afgeleiden</guilabel
+> kunt u opgeven dat de eerste en tweede afgeleide functies worden getekend. In het tabblad <guilabel
+>Integraal</guilabel
+> kunt u de integraal laten tekenen van de functie. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Contextmenu</title>
+	<screenshot>
+	<screeninfo
+>Contextmenu na rechtsklikken op een grafiek</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Contextmenu na rechtsklikken op een grafiek</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Als u rechtsklikt op de grafiek van een functie of van een parametrische plot van een punt (vert.: ?) verschijnt er een contextmenu. Hierin zijn drie onderwerpen beschikbaar:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Bewerken</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Selecteert de te bewerken functie in de zijbalk <guilabel
+>Functies</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Verbergen</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Verbergt de geselecteerde grafiek. De andere grafieken van de functie blijven gewoon zichtbaar.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Verwijderen</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Verwijdert de functie. Alle grafieken die erbij horen worden gewist.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Plot animeren...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Toont de dialoog voor de <guilabel
+>Parameter animatie</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Rekenmachine</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Opent de dialoog voor de <guilabel
+>Rekenmachine</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+	<para
+>Afhankelijk van het type plot zijn er ook tot vier hulpmiddelen beschikbaar:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Plotgebied...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Selecteer in de nieuwe dialoog de uiterste x-waarden voor de grafiek. Berekent de integraal en tekent de oppervlakte tussen de grafiek en de x-as tussen beide x-waarden, in de kleur van de grafiek. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Minimum bepalen...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Bepaal het minimum van de functie binnen een bepaald interval. De geselecteerde grafiek wordt gemarkeerd in de dialoog die verschijnt. Vul de onder- en bovengrens in van het interval waarbinnen u het minimum wilt vinden. </para>
+				<para
+>Let op: u kunt ook de uiterste waarden visueel in de plot laten tonen met behulp van de dialoog <guilabel
+>Plotuiterlijk</guilabel
+>, dat u verkrijgt via de knop <guibutton
+>Gevorderd...</guibutton
+> in de zijbalk <guilabel
+>Functies</guilabel
+>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Maximum bepalen...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Dit is hetzelfde als <guimenuitem
+>Minimum bepalen...</guimenuitem
+> hier boven, maar nu wordt het maximum in plaats van het minimum bepaald.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

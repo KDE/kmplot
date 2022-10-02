@@ -1,0 +1,305 @@
+<chapter id="configuration">
+<title
+>Anpassa &kmplot;</title
+> 
+<para
+>För att komma åt &kmplot;s inställningsdialogruta, välj <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Anpassa &kmplot;...</guimenuitem
+></menuchoice
+> Inställningarna för <guimenuitem
+>Konstanter...</guimenuitem
+> kan bara ändras från menyn <guimenu
+>Redigera</guimenu
+> och <guimenuitem
+>Koordinatsystem...</guimenuitem
+> kan bara ändras från menyn <guimenu
+>Visa</guimenu
+>. </para>
+
+<sect1 id="general-config">
+	<title
+>Allmän inställning</title>
+	
+	<screenshot>
+		<screeninfo
+>Skärmbild av den allmänna inställningsdialogrutan</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av den allmänna inställningsdialogrutan</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Här kan du ställa in allmänna inställningar som automatiskt sparas när du avslutar &kmplot;. Du kan ställa in vinkelläge (radianer och grader), inzoomnings- och utzoomningsfaktorer, och om avancerad diagramspårning ska visas. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Diagraminställning</title>
+	
+	<screenshot>
+		<screeninfo
+>Skärmbild av inställningsdialogrutan för diagramutseende</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av inställningsdialogrutan  för diagramutseende</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Du kan ställa in <guilabel
+>Rutnätsstil</guilabel
+> till ett av fyra alternativ: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Ingen</guilabel
+></term>
+				<listitem>
+					<para
+>Inget rutnät ritas upp i diagrammet.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Linjer</guilabel
+></term>
+				<listitem>
+					<para
+>Räta linjer formar ett rutnät av fyrkanter i diagrammet.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Kryss</guilabel
+></term>
+				<listitem>
+					<para
+>Kryss ritas för att ange punkter där x och y har heltalsvärden (t.ex. (1,1), (4,2) etc.).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Polär</guilabel
+></term>
+				<listitem>
+					<para
+>Linjer med konstant radie och med konstant vinkel ritas i diagrammet.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para
+>Andra alternativ för diagrammets utseende kan också ställas in: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Axelbeteckningar</guilabel
+></term>
+				<listitem>
+					<para
+>Anger beteckningarna för de horisontella och vertikala axlarna.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Linjebredd för axlar:</guilabel
+></term>
+				<listitem>
+					<para
+>Ställer in linjebredden för linjerna som utgör axlarna.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Linjebredd:</guilabel
+></term>
+				<listitem>
+					<para
+>Ställer in linjebredden för linjerna som används för att rita rutnätet.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Graderingsbredd:</guilabel
+></term>
+				<listitem>
+					<para
+>Ställer in linjebredden för linjerna som utgör graderingen för axlarna.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Graderingslängd:</guilabel
+></term>
+				<listitem>
+					<para
+>Ställer in linjelängden för linjerna som utgör graderingen för axlarna.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Visa beteckningar</guilabel
+></term>
+				<listitem>
+					<para
+>Om markerad, visas axlarnas namn i diagrammet och axlarnas gradering har beteckningar.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Visa axlar</guilabel
+></term>
+				<listitem>
+					<para
+>Om markerad, är axlarna synliga.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Visa pilar</guilabel
+></term>
+				<listitem>
+					<para
+>Om markerad, visas axlarna med pilar i sina ändar.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Färginställning</title>
+	
+	<screenshot>
+		<screeninfo
+>Skärmbild av dialogrutan för färger</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av dialogrutan för färger</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Under fliken <guilabel
+>Koordinater</guilabel
+> i inställningsdialogrutan <guilabel
+>Färger</guilabel
+> kan du ändra färger för axlar, rutnät och bakgrund i &kmplot;s huvudområde. </para>
+	
+	<para
+><guilabel
+>Förvalda funktionsfärger</guilabel
+> styr vilka färger som används cykliskt när nya funktioner skapas.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Teckensnittsinställning</title>
+	
+	<screenshot>
+		<screeninfo
+>Skärmbild av dialogrutan för teckensnitt</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av dialogrutan för teckensnitt</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Axelbeteckningar</guilabel
+></term>
+			<listitem>
+				<para
+>Teckensnittet som används för axlarnas nummer och x/y-beteckningar.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Diagrambeteckning</guilabel
+></term>
+			<listitem>
+				<para
+>Teckensnittet som används för diagrambeteckningar (t.ex. de som visar diagrammets namn eller extremvärden).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Rubriktabell</guilabel
+></term>
+			<listitem>
+				<para
+>Teckensnittet som används för att återge rubriken när ett diagram skrivs ut.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

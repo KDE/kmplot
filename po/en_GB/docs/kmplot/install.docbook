@@ -1,0 +1,38 @@
+<appendix id="installation">
+<title
+>Installation</title>
+
+&install.intro.documentation;
+
+<mediaobject>
+<imageobject
+>			
+<imagedata fileref="edu-logo.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+
+<para
+>&kmplot; is part of the &kde; EDU Project: <ulink url="http://edu.kde.org/"
+>http://edu.kde.org/</ulink
+></para>
+
+<para
+>&kmplot; has its own homepage on <ulink url="http://kmplot.sourceforge.net"
+>SourceForge</ulink
+>. You can also find archives of older versions of &kmplot; there, for example, for &kde; 2.x</para>
+
+&install.compile.documentation;
+
+</appendix>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+
+

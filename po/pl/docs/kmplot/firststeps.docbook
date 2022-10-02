@@ -1,0 +1,79 @@
+<chapter id="first-steps">
+<title
+>Pierwsze kroki z &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Prosty wykres funkcji</title>
+	
+	<para
+>W pasku po lewej stronie ekranu, znajduje się przycisk <guilabel
+>Utwórz</guilabel
+> zawierający rozwijaną listę wyboru z dostępnymi rodzajami wykresów. Po wybraniu z listy<guilabel
+>Wykresu kartezjańskiego</guilabel
+> pojawi pole edycji funkcji do narysowania. Należy teraz wpisać w polu: <screen
+><userinput
+>y = x^2</userinput
+></screen
+> i nacisnąć &Enter;. Spowoduje to narysowanie wykresu funkcji y = x<superscript
+>2</superscript
+> w układzie współrzędnych. Następnie znowu należy nacisnąć przycisk<guilabel
+>Utwórz</guilabel
+>, wybrać <guilabel
+>Wykres kartezjański</guilabel
+>, i wpisać w polu funkcji <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> aby utworzyć następny wykres. </para>
+	
+	<para
+>Kliknij na linii właśnie narysowanego wykresu. Krzyżyk zmieni kolor na taki sam jak wykres i i 'przyklei' się do niego. Możesz teraz używać myszki aby przemieszczać krzyżyk wzdłuż wykresu. W pasku statusu, w dolnej części okna, wyświetlane są współrzędne bieżącej pozycji krzyżyka. Zauważ, że jeśli wykres dotyka osi x,  w pasku statusu wyświetlane jest też miejsce zerowe funkcji.</para>
+	
+	<para
+>Kliknij ponownie i krzyżyk zostanie odłączony od wykresu.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Edycja właściwości</title>
+	
+	<para
+>Dokonajmy zmian w funkcji - zmieńmy kolor wykresu.</para>
+	
+	<para
+>Okno <guilabel
+>Funkcje</guilabel
+> zawiera listę wszystkich narysowanych na wykresie funkcji.Jeżeli funkcja <guilabel
+>y = x^2</guilabel
+> nie jest wybrana, to należy raz kliknąć na nią myszką. Dostępne będą różne opcje. Zmieńmy teraz nazwę funkcji i przesuńmy wykres 5 jednostek w dół. Aby tego dokonać należy zmienić wzór określający funkcję na:<screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> i nacisną enter.Żeby zmienić kolor wykresu, trzeba kliknąć przycisk <guilabel
+>Kolor</guilabel
+> znajdujący się w sekcji <guilabel
+>Wygląd</guilabel
+> w dolnej części paska funkcji, a następnie wybrać nowy kolor. <note
+> <para
+>Wszystkie zmiany mogą być wycofane za pomocą <menuchoice
+><guimenu
+>Edycja</guimenu
+><guimenuitem
+>Cofnij</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

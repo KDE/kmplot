@@ -1,0 +1,622 @@
+<chapter id="commands">
+<title
+>Справочник по командам</title
+> 
+
+<sect1 id="a-file-menu">
+<title
+>Меню <guimenu
+>Файл</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Новый</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+><action
+>Очистить систему координат и установить интерпретатор в начальное состояние.</action
+></para
+> 
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Открыть...</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+><action
+>Открыть существующий документ.</action>
+</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Сохранить</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+><action
+>Сохранить документ.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Сохранить как...</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+><action
+>Сохранить документ под другим именем.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Печать...</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+><action
+>Отправить график на печать или в файл.</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+><keycombo action="simul"
+> &Ctrl;<keycap
+>Q</keycap
+> </keycombo
+></shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Выход</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+><action
+>Выйти</action
+> из &kmplot;.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+
+<sect1 id="a-view-menu">
+<title
+>Меню <guimenu
+>Правка</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Правка</guimenu
+> <guimenuitem
+>Цвета...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Диалог <guilabel
+>Параметры цветов</guilabel
+>. См. <xref linkend="configuration"/>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Система координат...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Диалог <guilabel
+>Система координат</guilabel
+>. См. <xref linkend="configuration"/>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Масштаб...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Диалог <guilabel
+>Масштаб</guilabel
+>. См. <xref linkend="configuration"/>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Шрифты...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Диалог <guilabel
+>Шрифты</guilabel
+>. См. <xref linkend="configuration"/>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Система координат I</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Отображать положительные и отрицательные значения на осях x и y. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Система координат II</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Отображать положительные и отрицательные значения на оси y, только положительные на оси x. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Система координат III</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Отображать только положительные значения на осях y и x. </para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+
+<sect1 id="a-functions-menu">
+<title
+>Меню <guimenu
+>График</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Функции</guimenu
+> <guimenuitem
+>Создать график функции...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Диалог для создания графика функции. См. <xref linkend="using-kmplot"/>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Функции</guimenu
+> <guimenuitem
+>Создать параметрический график...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Диалог создания параметрического графика функции. См. <xref linkend="using-kmplot"/>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Функции</guimenu
+> <guimenuitem
+>Создать график в полярных координатах...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Диалог создания графика в полярных координатах. См. <xref linkend="using-kmplot"/>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Функции</guimenu
+> <guimenuitem
+>Изменить графики...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Диалог задания функций, где их можно добавлять, изменять и удалять. См. <xref linkend="using-kmplot"/>.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="a-zoom-menu">
+<title
+>Меню <guimenu
+>Увеличение</guimenu
+></title>
+<para
+>Первые пять пунктов меню меняют режим увеличения.</para>
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Увеличение</guimenu
+> <guimenuitem
+>Обычный размер</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Отключает увеличение.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Увеличение</guimenu
+><guimenuitem
+>Прямоугольник</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Минимальное и максимальное значение координат будут определяться прямоугольником, нарисованным пользователем.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Увеличение</guimenu
+><guimenuitem
+>Увеличить</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Минимальное и максимальное значение координат сблизятся, а выбранная точка графика - показана по центру.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Увеличение</guimenu
+><guimenuitem
+>Уменьшить</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Минимальное и максимальное значение координат будут разнесены далее друг от друга, а выбранная точка графика - показана по центру.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Увеличение</guimenu
+><guimenuitem
+>Центрировать по точке</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Выбранная точка графика будет показана по центру.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Увеличение</guimenu
+> <guimenuitem
+>Тригонометрические функции</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Масштаб будет привязан к тригонометрическим функциям. Работает как для градусов, так и для радианов.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+
+<sect1 id="a-settings-menu">
+<title
+>Меню <guimenu
+>Параметры</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметры</guimenu
+> <guimenuitem
+>Показать панель инструментов</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Отобразить или скрыть панель инструментов.</action
+> По умолчанию она отображается.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметры</guimenu
+> <guimenuitem
+>Показать строку состояния</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Отобразить или скрыть панель состояния.</action
+> По умолчанию она отображается.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметры</guimenu
+> <guimenuitem
+>Горячие клавиши...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Настроить комбинации горячих клавиш</action
+> для &kmplot;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметры</guimenu
+> <guimenuitem
+>Настроить панели инструментов...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Настроить панели инструментов</action
+> для &kmplot;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметры</guimenu
+> <guimenuitem
+>Настроить &kmplot;</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Настроить</action
+> &kmplot;. Для подробностей см. <xref linkend="configuration"/>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="a-tools-menu">
+<title
+>Меню <guimenu
+>Сервис</guimenu
+></title>
+
+<para
+>Некоторые полезные инструменты для работы с функциями:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Сервис</guimenu
+><guimenuitem
+>Получить значение по оси Y</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Определяет значение для оси Y по заданному значению для оси X. В текущей версии работает только с обычными графиками. Введите выражение в поле рядом с "X:". В списке будут показаны доступные функции. Нажмите кнопку "Вычислить", чтобы определить значение функции. Результат будет показан в поле для Y.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+
+<sect1 id="a-help-menu">
+<title
+>Меню <guimenu
+>Справка</guimenu
+></title>
+
+<para
+>&kmplot; содержит стандартное меню <guimenu
+>Справка</guimenu
+> &kde; с одним дополнением:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Справка</guimenu
+> <guimenuitem
+>Стандартные функции...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Предопределённые имена функций и констант.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Стандартные пункты меню <guimenu
+>Справка</guimenu
+> &kde;:</para>
+&help.menu.documentation; </sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

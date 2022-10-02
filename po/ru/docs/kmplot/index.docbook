@@ -1,0 +1,2811 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Russian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="kmplot" lang="&language;">
+
+<bookinfo>
+<title
+>Руководство пользователя &kmplot;</title>
+<authorgroup>
+<author
+><firstname
+>Klaus-Dieter</firstname
+> <surname
+>M&ouml;ller</surname
+> <affiliation
+> <address
+>&Klaus-Dieter.Moeller.mail;</address>
+</affiliation>
+</author>
+<author
+>&Philip.Rodrigues; &Philip.Rodrigues.mail; </author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Saxton</surname
+> </author>
+<othercredit role="translator"
+><firstname
+>Николай</firstname
+><surname
+>Шафоростов</surname
+><affiliation
+><address
+><email
+>admin@program.net.ua</email
+></address
+></affiliation
+><contrib
+>Перевод на русский</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year
+><year
+>2001</year
+><year
+>2002</year>
+<holder
+>Klaus-Dieter M&ouml;ller</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>&Philip.Rodrigues; &Philip.Rodrigues.mail;</holder>
+</copyright>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>David Saxton</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>5 января 2021 г.</date>
+<releaseinfo
+>1.3.0 (Приложения KDE 20.12)</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para
+>&kmplot; — программа построения графиков от &kde;.</para>
+<para
+> <inlinemediaobject
+><imageobject
+><imagedata
+fileref="edu-logo.png"
+format="PNG"/></imageobject
+></inlinemediaobject
+> &kmplot; является частью проекта &kde;-EDU: <ulink url="https://edu.kde.org/"
+>https://edu.kde.org/</ulink
+></para
+></abstract>
+
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>KmPlot</keyword>
+<keyword
+>EDU</keyword>
+<keyword
+>образование</keyword>
+<keyword
+>графопостроение</keyword>
+<keyword
+>математика</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Введение</title>
+
+<para
+>&kmplot; — программа построения графиков от &kde;. Она имеет встроенный мощный интерпретатор. Возможно обрабатывать одновременно несколько функций, а также комбинировать их выражения для построения графиков новых функций.</para>
+
+<screenshot>
+	<screeninfo
+>Примеры</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Примеры</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; поддерживает несколько различных типов графиков:</para>
+<itemizedlist>
+	<listitem
+><para
+>Графики явных функций в декартовых координатах вида y = f(x).</para
+></listitem>
+	<listitem
+><para
+>Графики параметрических функций, где компоненты x и y указаны как функции другой независимой переменной.</para
+></listitem>
+	<listitem
+><para
+>Графики функций в полярных координатах вида r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Графики неявных функций, где координаты x и y связаны между собой уравнением.</para
+></listitem>
+	<listitem
+><para
+>Графики явных дифференциальных функций.</para
+></listitem>
+</itemizedlist>
+
+<para
+>&kmplot; также предоставляет ряд возможностей, связанных с расчётами и отображением, например:</para>
+<itemizedlist>
+	<listitem
+><para
+>Заполнение и расчёт площади между графиком и осью первой координаты.</para
+></listitem>
+	<listitem
+><para
+>Нахождение максимального и минимального значений.</para
+></listitem>
+	<listitem
+><para
+>Динамическое изменение параметров функции.</para
+></listitem>
+	<listitem
+><para
+>Построение графиков производных и интегральных функций.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Эти возможности помогают изучить взаимосвязь математических функций и их графического представления в системе координат.</para>
+
+</chapter>
+
+<chapter id="first-steps">
+<title
+>Первые шаги с &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Построение графика простой функции</title>
+
+	<para
+>На боковой панели слева доступна кнопка <guibutton
+>Добавить</guibutton
+> с раскрывающимся списком для создания новых графиков. Нажмите её и выберите вариант <guilabel
+>График в декартовых координатах</guilabel
+>. Фокус будет передан текстовому полю для редактирования текущего уравнения. Замените стандартный текст на <screen
+><userinput
+>y = x^2</userinput
+></screen
+> и нажмите клавишу «Ввод». Будет создан график y = x<superscript
+>2</superscript
+> в системе координат. Нажмите кнопку <guibutton
+>Добавить</guibutton
+> ещё раз, выберите вариант <guilabel
+>График в декартовых координатах</guilabel
+> и на этот раз введите текст <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> для получения ещё одного графика. </para>
+
+	<para
+>Чтобы создать копию графика, перетащите в другое место запись <userinput
+>y = 5sin(x)</userinput
+> на левой боковой панели. Замените <userinput
+>sin</userinput
+> на <userinput
+>cos</userinput
+> для получения графика косинуса того же цвета. </para>
+
+	<para
+>Щёлкните левой кнопкой по одной из только что созданных линий. Перекрестие сменит цвет на цвет текущего графика и закрепится на нём. Перемещать перекрестие вдоль графика возможно с помощью мыши. В строке состояния, расположенной в нижней части окна, будут показаны координаты текущей позиции. Обратите внимание: если график пересекает горизонтальную ось, в строке состояния также будет показан корень функции.</para>
+
+	<para
+>Щёлкните ещё раз, и перекрестие отделится от графика.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Изменение свойств</title>
+
+	<para
+>Давайте теперь сделаем несколько изменений функций и построения.</para>
+
+	<para
+>На боковой панели <guilabel
+>Графики</guilabel
+> перечислены все функции, графики которых были построены. Если вариант <guilabel
+>y = x^2</guilabel
+> ещё не выбран, выберите его. Доступно большое количество параметров. Переименуем функцию и переместим график на 5 единиц вниз. Для этого измените уравнение функции на <screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> и нажмите клавишу «Ввод». Чтобы изменить цвет графика, нажмите кнопку <guilabel
+>Цвет</guilabel
+> в разделе <guilabel
+>Внешний вид</guilabel
+>, расположенном в нижней части боковой панели «Графики», и выберите новый цвет. <note
+> <para
+>Все изменения возможно отменить путём выбора пункта меню <menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Отменить</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+
+<chapter id="using-kmplot">
+<title
+>Использование &kmplot;</title>
+
+<para
+>&kmplot; работает с несколькими разными типами функций, которые возможно указывать как в виде функции, так и в виде уравнения:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Функции для построения графиков в декартовой системе координат возможно записывать в виде <quote
+>y = x^2</quote
+>, где x используется как переменная; или в виде <quote
+>f(a) = a^2</quote
+>, где название переменной является обязательным.</para
+></listitem>
+	<listitem
+><para
+>Определения функций, заданных параметрически, похожи на определений функций в декартовых координатах. Координаты x и y можно ввести в виде уравнений относительно переменной t, например <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+>, или в виде функций, например <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Определения функций, заданных в полярных координатах, также похожи на определения функций в декартовых координатах. Их возможно ввести либо в виде уравнения в &thgr;, например <quote
+>r = &thgr;</quote
+>, либо в виде функции, например <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Название функции, заданной неявно, следует вводить отдельно от выражения, связывающего между собой координаты x и y. Если переменные x и y указаны с помощью названия функции (например, если как название функции указано выражение <quote
+>f(a,b)</quote
+>), будут использованы эти переменные. В ином случае для обозначения переменных будут использоваться буквы x и y.</para
+></listitem>
+	<listitem
+><para
+>Функции, задаваемые дифференциальным уравнением, описываются в виде дифференциального уравнения, разрешённого относительно старшей производной. Дифференцирование обозначается штрихом ('). В виде функции уравнение будет выглядеть следующим образом: <quote
+>f''(x) = f' &minus; f</quote
+>. В виде уравнения это будет что-то вроде <quote
+>y'' = y' &minus; y</quote
+>. Обратите внимание, что в обоих случаях часть <quote
+>(x)</quote
+> не следует добавлять в члены низшего порядка (то есть следует вводить <quote
+>f'(x) = &minus;f</quote
+>, а не <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>Справа от всех полей ввода уравнений имеется кнопка. При её нажатии откроется диалоговое окно <guilabel
+>Редактор выражений</guilabel
+>, в котором находится: <itemizedlist>
+		<listitem>
+			<para
+>Ряд отсутствующих на обычной клавиатуре математических символов, которые можно использовать в уравнениях.</para>
+		</listitem>
+		<listitem>
+			<para
+>Список определённых пользователем постоянных и кнопка для их редактирования.</para>
+		</listitem>
+		<listitem>
+			<para
+>Список предустановленных функций. Обратите внимание, что если фрагмент текста уже выбран, то при вставке функции он будет использован в качестве её аргумента. Например, если в уравнении <quote
+>y = 1 + x</quote
+> выбран текст <quote
+>1 + x</quote
+>, а затем указана функция синуса, то уравнение примет вид <quote
+> y = sin(1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>Снимок экрана с главным окном приветствия &kmplot;</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Снимок экрана</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Типы функций</title>
+
+	<sect2 id="cartesian-functions">
+		<title
+>Функции в декартовой системе координат</title>
+		<para
+>Для указания явно заданной функции (например, функции вида y=f(x)) просто введите её в следующем виде: <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>выражение</replaceable
+></userinput
+></screen
+>, где: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> — имя функции, определяемое в виде строки с буквами и цифрами.</para>
+				</listitem>
+
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> — горизонтальная координата для использования в выражении после знака равенства. Это мнимая переменная, поэтому можно использовать любое название переменной, результат останется таким же.</para>
+				</listitem>
+
+				<listitem>
+					<para
+><replaceable
+>выражение</replaceable
+> — выражение для построения графика, записанное согласно синтаксису, принятому в &kmplot;. Подробнее: <xref linkend="math-syntax"/>. </para>
+				</listitem>
+
+			</itemizedlist>
+		</para>
+	</sect2>
+
+	<sect2 id="parametric-functions">
+		<title
+>Параметрические функции</title>
+		<para
+>Параметрическими функциями называются функции, в которых координаты x и y определяются отдельными функциями от другой переменной, обычно называемой t. Чтобы задать параметрическую функцию, выполните для функций x и y те же действия, что и для функции в декартовых координатах. Как и в случае функций в декартовых координатах, для параметра возможно использовать любое название переменной.</para>
+		<para
+>Например, требуется нарисовать круг с параметрическими уравнениями x = sin(t), y = cos(t). После создания параметрического графика укажите соответствующие уравнения в полях для x и y, например <userinput
+>f_x(t)=sin(t)</userinput
+> и <userinput
+>f_y(t)=cos(t)</userinput
+>. </para>
+		<para
+>В редакторе функций возможно установить некоторые дополнительные параметры графика: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Мин.:</guilabel
+></term>
+					<term
+><guilabel
+>Макс.:</guilabel
+></term>
+					<listitem>
+						<para
+>Эти параметры управляют диапазоном параметра t, для которого строится график функции.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+
+	<sect2 id="polar-functions">
+		<title
+>Функции в полярной системе координат</title>
+
+		<para
+>Полярная система координат представляет точку по её расстоянию от начала координат (обычно называемому r) и углу между прямой, проходящей через точку и начало координат, и осью абсцисс (обычно представляемому греческой буквой «тета» — &thgr;). Чтобы ввести функцию в полярной системе координат, нажмите кнопку <guibutton
+>Добавить</guibutton
+> и выберите в списке пункт <guilabel
+>График в полярных координатах</guilabel
+>. В поле определения допишите определение функции, включая название переменной тета, которое следует использовать. Например, чтобы построить Архимедову спираль r = &thgr;, введите: <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+>. Обратите внимание, что переменная тета может называться и по-другому, поэтому при использовании <quote
+>r(t) = t</quote
+> и <quote
+>f(x) = x</quote
+> построение не изменится. </para>
+	</sect2>
+
+	<sect2 id="implicit-functions">
+		<title
+>Неявно заданные функции</title>
+
+		<para
+>Неявное выражение связывает координаты x и y с помощью уравнения. Например, чтобы создать круг, нажмите кнопку <guibutton
+>Добавить</guibutton
+> и выберите в списке пункт <guilabel
+>График неявной функции</guilabel
+>. Затем введите в поле уравнения (под полем названия функции) следующий текст: <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+
+	<sect2 id="differential-functions">
+		<title
+>Дифференциальные функции</title>
+
+		<para
+>&kmplot; позволяет строить графики явных дифференциальных функций. Они заданы уравнениями вида y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), где y<superscript
+>k</superscript
+> — k<superscript
+>-я</superscript
+> производная функции y(x). &kmplot; может устанавливать порядок производной только по количествуштрихов, записанных после названия функции. Например, для построения синусоидальной кривой можно использовать дифференциальное уравнение <userinput
+>y'' = &minus; y</userinput
+> или <userinput
+>f''(x) = −f</userinput
+>. </para>
+
+		<para
+>Тем не менее, самого дифференциального уравнения недостаточно для построения кривой-решения. Каждая кривая в области построения генерируется комбинацией дифференциального уравнения и начальных условий. Чтобы изменить начальные условия, перейдите на вкладку <guilabel
+>Начальные условия</guilabel
+> после задания самого дифференциального уравнения. Количество столбцов доступных для редактирования начальных условий зависит от порядка дифференциального уравнения. </para>
+
+		<para
+>В редакторе функций возможно установить некоторые дополнительные параметры графика: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Шаг:</guilabel
+></term>
+					<listitem>
+						<para
+>Параметр шага в поле точности используется при численном решении дифференциального уравнения (с помощью метода Рунге — Кутты). Его значение — максимальный используемый размер шага; возможно использовать меньшее значение шага при достаточном увеличении части графика.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Комбинирование функций</title>
+	<para
+>Функции можно комбинировать для создания новых. Просто введите их в выражении, после знака равно. Например, если определить функции f(x) и g(x), возможно построить график их суммы: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Настройка отображения графиков</title>
+
+	<para
+>Чтобы изменить внешний вид графика функции в главном окне построения, выберите функцию на боковой панели <guilabel
+>Графики</guilabel
+>. Возможно изменить толщину, цвет и многие другие свойства линии графика; нажмите кнопку <guibutton
+>Цвет:</guibutton
+> или <guibutton
+>Дополнительно...</guibutton
+> в нижней части раздела <guilabel
+>Внешний вид</guilabel
+>. </para>
+
+	<para
+>Если редактируется функция в декартовых координатах, в редакторе функции будут присутствовать три вкладки. На первой указывается уравнение функции. На вкладке <guilabel
+>Производные</guilabel
+> возможно указать программе, что следует построить графики первой и второй производных функции. С помощью вкладки <guilabel
+>Первообразная</guilabel
+> возможно построить график первообразной функции. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Контекстное меню</title>
+	<screenshot>
+	<screeninfo
+>Контекстное меню графика</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Контекстное меню графика</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>При щелчке правой кнопкой мыши по графику функции или точке графика функции, заданной параметрически, появится всплывающее меню. Это меню содержит пять пунктов:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Изменить</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Выбирает функцию на боковой панели <guilabel
+>Графики</guilabel
+> для редактирования.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Скрыть</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Скрывает выделенный график.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Удалить</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Удаляет функцию и все построения, основанные на ней.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Анимация по параметру…</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Открывает диалог <guilabel
+>Анимация по параметру</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Калькулятор</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Открывает диалог <guilabel
+>Калькулятор</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+	<para
+>В зависимости от типа графика, также будет доступно до пяти инструментов:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Копировать (x, y)</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Копирует текущее значение на графике в системный буфер обмена. Этим инструментом можно воспользоваться для создания таблиц значений функций вне &kmplot;. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Копировать корневое значение</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+                            <para
+>Копирует значение <literal
+>x</literal
+> корня в системный буфер обмена. Поддерживается копирование до пяти первых цифр после десятичной запятой. Воспользуйтесь какой-либо <ulink url="https://en.wikipedia.org/wiki/Computer_algebra_system"
+>системой компьютерной алгебры</ulink
+> для определения этого корня с произвольной точностью. Этот инструмент доступен только в том случае, если текущая позиция отслеживания близка к корню. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Площадь под графиком...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>В появившемся диалоге выберите минимальное и максимальное значение координат точек области по горизонтальной оси. Будет вычислен интеграл и заполнена цветом, соответствующим цвету графика, область между графиком и горизонтальной осью в указанном диапазоне. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Найти минимум...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Найти на графике минимальное значение функции в указанном диапазоне. В появившемся диалоговом окне будет выделен выбранный график. В этом диалоговом окне следует указать нижнюю и верхнюю границы области, в которой следует найти минимум. </para>
+				<para
+>Примечание: также возможно указать программе, что точки экстремумов следует выделить визуально. Для этого откройте диалоговое окно <guilabel
+>Внешний вид графика</guilabel
+> (нажмите на боковой панели <guilabel
+>Графики</guilabel
+> кнопку<guibutton
+>Дополнительно...</guibutton
+>). </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Найти максимум...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Аналогично параметру <guimenuitem
+>Найти минимум...</guimenuitem
+> выше, но находит максимальное, а не минимальное значение.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="configuration">
+<title
+>Настройка &kmplot;</title>
+<para
+>Чтобы открыть диалог настройки &kmplot;, выберите пункт меню <menuchoice
+><guimenu
+>Настройка</guimenu
+><guimenuitem
+>Настроить &kmplot;...</guimenuitem
+></menuchoice
+>. Параметры раздела <guimenuitem
+>Константы...</guimenuitem
+> возможно изменить только с помощью меню <guimenu
+>Правка</guimenu
+>, а параметры раздела <guimenuitem
+>Система координат...</guimenuitem
+> — только с помощью меню <guimenu
+>Вид</guimenu
+>.</para>
+
+<sect1 id="general-config">
+	<title
+>Основные параметры</title>
+
+	<screenshot>
+		<screeninfo
+>Диалог «Настройка основных параметров»</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Диалог «Настройка основных параметров»</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+    <para
+>Здесь возможно указать глобальные параметры настройки, которые будут автоматически сохранены при выходе из &kmplot;. Возможно задать единицы для углов (радианы или градусы), коэффициенты увеличения и уменьшения масштаба при прокрутке колеса мыши с зажатой клавишей &Ctrl; или использовании <link linkend="a-view-menu"
+>соответствующих пунктов меню</link
+>, а также указать, следует ли показывать дополнительные способы отслеживания графика.</para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Настройка области построения</title>
+
+	<screenshot>
+		<screeninfo
+>Диалог «Внешний вид области построения»</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Диалог «Внешний вид области построения»</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Параметр <guilabel
+>Стиль сетки</guilabel
+> возможно установить в одно из четырёх значений: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>Без сетки</guilabel
+></term>
+				<listitem>
+					<para
+>Не рисовать сетку.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Прямоугольная сетка</guilabel
+></term>
+				<listitem>
+					<para
+>Прямые линии по всей области построения.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Кресты</guilabel
+></term>
+				<listitem>
+					<para
+>Линии, проходящие через точки, имеющие целые координаты (например (1,1), (4,2)...), и их проекции на оси.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Полярная сетка</guilabel
+></term>
+				<listitem>
+					<para
+>Нарисовать окружности разных диаметров.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+
+	<para
+>Также возможно настроить другие параметры внешнего вида области построения: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Названия осей</guilabel
+></term>
+				<listitem>
+					<para
+>В этом разделе указываются названия горизонтальной и вертикальной осей.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Толщина осей:</guilabel
+></term>
+				<listitem>
+					<para
+>Толщина линий, представляющих оси.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Толщина линии:</guilabel
+></term>
+				<listitem>
+					<para
+>Толщина линий, используемых для начертания сетки.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Толщина делений:</guilabel
+></term>
+				<listitem>
+					<para
+>Толщина линий, представляющих деления на осях.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Длина делений:</guilabel
+></term>
+				<listitem>
+					<para
+>Длина линий, представляющих деления на осях.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Показывать подписи делений</guilabel
+></term>
+				<listitem>
+					<para
+>Если флажок установлен, на графике будут показаны названия осей и деления осей будут подписаны.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Показывать оси</guilabel
+></term>
+				<listitem>
+					<para
+>Если флажок установлен, будут показаны оси.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Показывать стрелки на осях</guilabel
+></term>
+				<listitem>
+					<para
+>Если флажок установлен, на концах осей будут стрелки.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Настройка цветов</title>
+
+	<screenshot>
+		<screeninfo
+>Диалог «Цвета»</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Диалог «Цвета»</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>В разделе <guilabel
+>Координатная сетка</guilabel
+> диалога настройки <guilabel
+>Цвета</guilabel
+> возможно изменить цвета осей, сетки и фона основной области &kmplot;. </para>
+
+	<para
+>На вкладке <guilabel
+>Стандартные цвета графиков</guilabel
+> возможно указать те цвета, которые будут циклически перебираться при создании новых графиков.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Настройка шрифтов</title>
+
+	<screenshot>
+		<screeninfo
+>Диалог «Шрифты»</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Диалог «Шрифты»</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><guilabel
+>Подписи на осях:</guilabel
+></term>
+			<listitem>
+				<para
+>Шрифт, который используется для номеров на осях и подписей x/y.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><guilabel
+>Надписи в области построения:</guilabel
+></term>
+			<listitem>
+				<para
+>Шрифт, который используется для надписей в области построения (например, для названия графика или точек экстремума).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Таблица-шапка при печати:</guilabel
+></term>
+			<listitem>
+				<para
+>Шрифт, используемый для заголовка при печати графика.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="reference">
+<title
+>Список команд &kmplot;</title>
+
+<sect1 id="func-syntax">
+	<title
+>Синтаксис функций</title>
+
+	<para
+>Правила:</para>
+
+	<screen
+><userinput
+>name(var1[, var2])=term [;extensions]</userinput
+>
+        </screen>
+
+
+	<variablelist>
+		<varlistentry>
+			<term
+>name</term>
+			<listitem>
+
+				<para
+>Имя функции. Наличие в начале буквы <quote
+>r</quote
+>, предполагает использование полярной системы координат. <quote
+>x</quote
+> (например <quote
+>xfunc</quote
+>) &mdash; предполагает наличие второй функции, начинающейся на <quote
+>y</quote
+> (например <quote
+>yfunc</quote
+>), для определения функции в параметрической форме. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var1</term>
+			<listitem
+><para
+>Переменная функции.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var2</term>
+			<listitem
+><para
+><quote
+>Групповой параметр</quote
+> функции. Отделяется от переменной запятой. Возможно использовать его, например, чтобы построить несколько графиков одной функции. Значения параметра возможно указать вручную или с помощью ползунка (от 0 до 100).</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>term</term>
+			<listitem
+><para
+>Выражение, определяющее функцию.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+	<title
+>Предустановленные функции и константы</title>
+
+	<para
+>Все известные &kmplot; предустановленные функции и постоянные можно отобразить, выбрав пункт меню <menuchoice
+><guimenu
+>Справка</guimenu
+><guimenuitem
+>Предопределённые математические функции</guimenuitem
+> </menuchoice
+> (будет показана эта страница руководства пользователя &kmplot;). </para>
+
+	<para
+>Эти функции и постоянные, а также все определённые пользователем функции могут использоваться при определении осей. См. <xref linkend="axes-config"/>. </para>
+
+	<sect2 id="trigonometric-functions">
+		<title
+>Тригонометрические функции</title>
+
+		<para
+>По умолчанию для тригонометрических функций используются радианы. Но это возможно изменить с помощью пункта меню <menuchoice
+><guimenu
+>Настройка</guimenu
+><guimenuitem
+>Настроить &kmplot;...</guimenuitem
+></menuchoice
+>. </para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sin(x)</term>
+				<term
+>arcsin(x)</term>
+				<term
+>cosec(x)</term>
+				<term
+>arccosec(x)</term>
+				<listitem
+><para
+>Синус, обратный синус, косеканс и обратный косеканс.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cos(x)</term>
+				<term
+>arccos(x)</term>
+				<term
+>sec(x)</term>
+				<term
+>arcsec(x)</term>
+				<listitem
+><para
+>Косинус, обратный косинус, секанс и обратный секанс.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tan(x)</term>
+				<term
+>arctan(x)</term>
+				<term
+>cot(x)</term>
+				<term
+>arccot(x)</term>
+				<listitem
+><para
+>Тангенс, обратный тангенс, котангенс и обратный котангенс.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="hyperbolic-functions">
+		<title
+>Гиперболические функции</title>
+		<para
+>Гиперболические функции.</para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sinh(x)</term>
+				<term
+>arcsinh(x)</term>
+				<term
+>cosech(x)</term>
+				<term
+>arccosech(x)</term>
+				<listitem
+><para
+>Гиперболические синус, обратный синус, косеканс и обратный косеканс.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cosh(x)</term>
+				<term
+>arccosh(x)</term>
+				<term
+>sech(x)</term>
+				<term
+>arcsech(x)</term>
+				<listitem
+><para
+>Гиперболические косинус, обратный косинус, секанс и обратный секанс.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tanh(x)</term>
+				<term
+>arctanh(x)</term>
+				<term
+>coth(x)</term>
+				<term
+>arccoth(x)</term>
+				<listitem
+><para
+>Гиперболические тангенс, обратный тангенс, котангенс и обратный котангенс.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="other-functions">
+		<title
+>Другие функции</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sqr(x)</term>
+				<listitem
+><para
+>Квадрат (x^2) переменной x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>sqrt(x)</term>
+				<listitem
+><para
+>Квадратный корень из переменной x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>sign(x)</term>
+				<listitem
+><para
+>Знак переменной x. Возвращает 1, если x является положительным числом, 0, если x равняется нулю, или &minus;1, если x является отрицательным числом.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>H(x)</term>
+				<listitem
+><para
+>Ступенчатая функция Хевисайда. Возвращает 1, если x является положительным числом, 0,5, если x равняется нулю, или 0, если x является отрицательным числом.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>exp(x)</term>
+				<listitem
+><para
+>Степень (e^x) переменной x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ln(x)</term>
+				<listitem
+><para
+>Натуральный логарифм (обратная степень) переменной x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>log(x)</term>
+				<listitem
+><para
+>Десятичный логарифм переменной x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>abs(x)</term>
+				<listitem
+><para
+>Модуль переменной x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>floor(x)</term>
+				<listitem
+><para
+>Округляет переменную x до ближайшего целого числа, которое меньше или равно x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ceil(x)</term>
+				<listitem
+><para
+>Округляет переменную x до ближайшего целого числа, которое больше или равно x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>round(x)</term>
+				<listitem
+><para
+>Округляет переменную x до ближайшего целого числа.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>gamma(x)</term>
+				<listitem
+><para
+>Гамма-функция.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>factorial(x)</term>
+				<listitem
+><para
+>Факториал переменной x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>min(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Возвращает минимальное значение из набора чисел {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>max(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Возвращает максимальное значение из набора чисел {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>mod(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Возвращает модуль (евклидову длину) набора чисел {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<!-- TODO: Legendre polynomials -->
+
+		</variablelist>
+	</sect2>
+
+	<sect2>
+		<title
+>Предустановленные константы</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>pi</term>
+				<term
+>&pgr;</term>
+				<listitem>
+					<para
+>Константа, представляющая &pgr; (3,14159...).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>e</term>
+				<listitem>
+					<para
+>Константа, представляющая число Эйлера e (2,71828...).</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+</sect1>
+
+<sect1 id="func-extension"
+> <!--FIXME does this still work-->
+	<title
+>Расширения</title>
+	<para
+>Расширение для функции указывается после точки с запятой в её уравнении. Расширение возможно ввести с помощью метода &DBus; <quote
+><methodname
+>parser addFunction</methodname
+></quote
+>. Для параметрических функций расширения недоступны, но N и D[a,b] работают для функций в полярной системе координат. Например: <screen>
+                        <userinput>
+                                f(x)=x^2; A1
+                        </userinput>
+                </screen
+> покажет график y=x<superscript
+>2</superscript
+> с его производной первого порядка. Далее приводится описание поддерживаемых расширений: <variablelist>
+			<varlistentry>
+				<term
+>N</term>
+				<listitem>
+					<para
+>Функция будет сохранена, но её график не будет построен. Эту функцию возможно использовать так же, как и любую другую определённую пользователем или предустановленную функцию. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A1</term>
+				<listitem>
+					<para
+>Также построить график производной первого порядка, таким же цветом, но более тонкой линией. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A2</term>
+				<listitem>
+					<para
+>Построить график производной второго порядка, таким же цветом, но более тонкой линией. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>D[a,b]</term>
+				<listitem>
+					<para
+>Область построения. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>P[a{,b...}]</term>
+				<listitem>
+					<para
+>Указывает список возможных значений дополнительного параметра. Например: <userinput
+>f(x,k)=k*x;P[1,2,3]</userinput
+> построит графики функций f(x)=x, f(x)=2*x и f(x)=3*x. Вместо чисел также можно указывать выражения. </para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	<para
+>Обратите внимание, что все эти операции также можно выполнять, редактируя элементы на вкладке <guilabel
+>Производные</guilabel
+> в разделе <guilabel
+>Диапазон аргумента</guilabel
+> и в разделе <guilabel
+>Параметры</guilabel
+> боковой панели <guilabel
+>Графики</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="math-syntax">
+	<title
+>Математический синтаксис</title>
+	<para
+>&kmplot; использует общий метод выражения математических функций. Операторы, предусмотренные в &kmplot; (по приоритету): <variablelist>
+
+			<varlistentry>
+				<term
+>^</term>
+				<listitem
+><para
+>Возведение в степень. Например, <userinput
+>2^4</userinput
+> вернёт 16.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>*</term>
+				<term
+>/</term>
+				<listitem>
+					<para
+>Умножение и деление. Например, <userinput
+>3*4/2</userinput
+> вернёт 6.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>+</term>
+				<term
+>&minus;</term>
+				<listitem
+><para
+>Символы плюс и минус выполняют сложение и вычитание. Например, <userinput
+>1+3&minus;2</userinput
+> вернёт 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&lt;</term>
+				<term
+>&gt;</term>
+				<term
+>&le;</term>
+				<term
+>&ge;</term>
+				<listitem
+><para
+>Операторы сравнения. Они возвращают 1, если выражение истинно. В ином случае они возвращают 0. Например, <userinput
+>1 &le; 2</userinput
+> вернёт 1.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&radic;</term>
+				<listitem
+><para
+>Квадратный корень из числа. Например, <userinput
+>&radic;4</userinput
+> вернёт 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>|x|</term>
+				<listitem
+><para
+>Модуль переменной x. Например, <userinput
+>|&minus;4|</userinput
+> вернёт 4.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&plusmn;</term>
+				<term
+></term>
+				<listitem
+><para
+>Каждый знак плюс-минус даёт два набора графиков: для значения, взятого со знаком плюс, и для значения, взятого со знаком минус. Например, <userinput
+>y = &plusmn;sqrt(1&minus;x^2)</userinput
+> построит круг. Но этот символ нельзя использовать в константах.</para>
+				</listitem>
+			</varlistentry>
+
+
+
+		</variablelist>
+	</para>
+	<para
+>Следите за приоритетом, например <userinput
+>1+2*4^2</userinput
+> вернёт 33, а не 144. Во избежание неясности, используйте скобки. <userinput
+>((1+2)*4)^2</userinput
+> вернёт 144. </para>
+</sect1>
+
+<sect1 id="coord-area"
+><title
+>Область построения</title>
+	<para
+>По умолчанию заданные явно функции будут построены на всей видимой части горизонтальной оси. В диалоговом окне изменения функции можно указать другой диапазон. Если в области построения находится сингулярная точка, она будет соединена с последней построенной точкой линией. </para>
+	<para
+>Функции, заданные параметрически и в полярных координатах, имеют стандартный диапазон области построения в пределах от 0 до 2. Этот диапазон также можно изменить на боковой панели <guilabel
+>Графики</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+	<title
+>Указатель в виде перекрестия</title>
+	<para
+>Указатель мыши принимает вид перекрестия при наведении на область построения. Текущие координаты отображаются на пересечениях с осями координат, а также в строке состояния, расположенной в нижней части главного окна. </para>
+	<para
+>Возможно проследить значения функции более точно, щёлкнув по графику или рядом с ним левой кнопкой мыши. Выбранная функция показана в правом столбце строки состояния. Перекрестие будет привязано к графику и перекрашено в его цвет. Если цвет графика совпадает с цветом фона, для перекрестия будет использоваться инвертированный цвет фона. При перемещении мыши или нажатии клавиш со стрелками влево и вправо на клавиатуре перекрестие будет двигаться вдоль функции; будут показаны текущие значения по горизонтальной и вертикальной осям координат. Если перекрестие будет приближаться к вертикальной оси, в строке состояния будет показано значение корня функции. Переключаться между различными функциями возможно с помощью клавиш со стрелками вверх и вниз на клавиатуре. Повторный щелчок в окне или нажатие любой не связанной с навигацией клавиши на клавиатуре отключит режим слежения. </para>
+	<para
+>Чтобы применить дополнительные параметры слежения, откройте диалоговое окно настройки программы и установите флажок <guilabel
+>Показывать касательную и нормаль при обходе кривой</guilabel
+> на странице <guilabel
+>Настройка основных параметров</guilabel
+>. Если включить этот параметр, программа будет показывать касательную, нормаль и колеблющийся круг для текущего отслеживаемого графика. </para>
+
+</sect1>
+
+<sect1 id="coords-config">
+	<title
+>Настройка системы координат</title>
+	<para
+>Чтобы открыть этот диалог, выберите пункт меню <menuchoice
+><guimenu
+>Вид</guimenu
+><guimenuitem
+>Система координат...</guimenuitem
+></menuchoice
+>.</para>
+	<screenshot>
+		<screeninfo
+>Диалог «Система координат»</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Диалог «Система координат»</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<sect2 id="axes-config">
+		<title
+>Настройка осей</title>
+		<para>
+			<variablelist>
+
+				<varlistentry>
+					<term
+><guilabel
+>Диапазон значений по оси X</guilabel
+></term>
+					<listitem>
+						<para
+>Устанавливает диапазон значений для горизонтальной оси. Обратите внимание, что можно воспользоваться предустановленными функциями и постоянными (подробнее: <xref linkend="func-predefined"/>) для ограничения диапазона (например, установить <guilabel
+>Мин.:</guilabel
+> в значение <userinput
+>2*pi</userinput
+>). Для ограничения диапазона на оси можно использовать даже определённые пользователем функции. Например, если определить функцию <userinput
+>f(x) = x^2</userinput
+>, возможно установить <guilabel
+>Мин.:</guilabel
+> в значение <userinput
+>f(3)</userinput
+>, что сделает нижнюю границу диапазона равной 9.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+				  <term
+><guilabel
+>Диапазон значений по оси Y</guilabel
+></term>
+					<listitem>
+						<para
+>Устанавливает диапазон значений для вертикальной оси. Смотрите <quote
+>Диапазон значений по оси X</quote
+> выше.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>Шаг координатной сетки по оси X</guilabel
+></term>
+					<listitem>
+						<para
+>Этот параметр управляет расстоянием между линиями сетки в горизонтальном направлении. Если выбран вариант <guilabel
+>Выбрать автоматически</guilabel
+>, &kmplot; попытается найти расстояние между линиями сетки, равное примерно двум сантиметрам и соответствующее как можно более коротким значениям переменной на оси. Если выбран вариант <guilabel
+>Другой</guilabel
+>, горизонтальный промежуток между линиями сетки можно указать вручную. Это значениебудет использоваться независимо от масштаба. Например, если указано значение 0,5, а диапазон по оси x составляет от 0 до 8, будет показано 16 линий сетки. </para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>Шаг координатной сетки по оси Y</guilabel
+></term>
+					<listitem>
+						<para
+>Этот параметр управляет расстоянием между линиями сетки в вертикальном направлении. Смотрите <quote
+>Шаг координатной сетки по оси X</quote
+> выше. </para>
+					</listitem>
+				</varlistentry>
+
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title
+>Настройка констант</title>
+	<para
+>Чтобы открыть этот диалог, выберите пункт меню <menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Константы...</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Диалог «Константы»</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Диалог «Константы»</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Константы могут использоваться в качестве части выражения где угодно в &kmplot;. Каждая константа должна иметь название и значение. Названия, совпадающие с названиями уже существующих функций или констант, использовать нельзя. </para>
+
+	<para
+>Областью действия константы управляют два параметра: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>В документе</guilabel
+></term>
+				<listitem>
+					<para
+>Если установлен флажок <guilabel
+>В документе</guilabel
+>, при сохранении текущей области построения в файл вместе с ней будет сохранена и константа. Но в том случае, если флажок <guilabel
+>Глобальная</guilabel
+> не был установлен, эта константа не будет доступна в других экземплярах &kmplot;.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Глобальная</guilabel
+></term>
+				<listitem>
+					<para
+>Если установлен флажок <guilabel
+>Глобальная</guilabel
+>, название и значение константы будут записаны в параметры &kde; (она также сможет использоваться программой &kcalc;). Константа не будет потеряна при закрытии программы &kmplot;; она будет доступна для использования при последующем запуске &kmplot;.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</para>
+</sect1>
+
+</chapter>
+
+<chapter id="commands">
+<title
+>Список команд</title>
+
+<sect1 id="menu">
+<title
+>Пункты меню</title>
+
+<para
+>Помимо общих для приложений &kde; меню, описание которых приводится в главе <ulink url="help:/fundamentals/menus.html"
+>Меню</ulink
+> документации «Основы &kde;», в &kmplot; предусмотрены следующие пункты меню: </para>
+
+<sect2 id="a-file-menu">
+	<title
+>Меню «Файл»</title>
+	<variablelist>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Экспорт...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Экспортирует</action
+> построенные графики в файл изображения во всех поддерживаемых &kde; форматах.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Печать...</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Открывает</action
+> диалог настройки печати. Нажмите кнопку <guibutton
+>Параметры 
+>
+></guibutton
+> и перейдите на вкладку <guilabel
+>Параметры KmPlot</guilabel
+> для настройки параметров, связанных с программой &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Предварительный просмотр</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Отображает</action
+> предварительное изображение текущего графика (как он будет напечатан на текущем стандартном принтере). Нажмите крайнюю правую кнопку на панели инструментов окна предварительно просмотра для настройки параметров, связанных с программой &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>Меню «Правка»</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Константы...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Отображает диалоговое окно <guilabel
+>Редактор констант</guilabel
+>. Смотрите <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>Меню «Вид»</title>
+	<para
+>Первые три пункта меню относятся к масштабированию.</para>
+	<note>
+		<para
+>Для управления масштабом также возможно использовать колесо мыши. Чтобы увеличить или уменьшить масштаб, удерживайте клавишу &Ctrl; нажатой при прокрутке колеса мыши. С каждым шагом прокрутки масштаб увеличивается или уменьшается на значение, определённое в разделе <link linkend="general-config"
+>настройки основных параметров &kmplot;</link
+>. </para>
+	</note>
+
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guimenuitem
+>Увеличить масштаб</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Этим инструментом можно воспользоваться двумя способами. Чтобы увеличить область вокруг точки на графике, щёлкните по ней. Чтобы увеличить часть графика, зажмите левую кнопку мыши и переместите указатель для формирования прямоугольника, который определит новые диапазоны по осям после того, как кнопка будет отпущена.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guimenuitem
+>Уменьшить масштаб</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Этот инструмент также возможно использовать двумя разными способами. Чтобы уменьшить масштаб и сделать центром точку, щёлкните по ней. Чтобы вместить существующее представление в прямоугольник, зажмите левую кнопку мыши и переместите указатель для формирования этого прямоугольника.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Вид</guimenu
+> <guimenuitem
+>Настроить масштаб под тригонометрические функции</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>Масштаб будет привязан к тригонометрическим функциям. Работает как для градусов, так и для радианов.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+><guimenuitem
+>Сбросить масштаб</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Сбрасывает масштаб. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+><guimenuitem
+>Система координат...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Отображает диалоговое окно <guilabel
+>Система координат</guilabel
+>. Смотрите <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+> <guimenuitem
+>Окно ползунков</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Включает и отключает</action
+> показ окна ползунков. Чтобы изменить параметр на графике функции, переместите соответствующий ему ползунок в окне.</para>
+				<para
+>Включите эту возможность на вкладке «График» и выберите один из ползунков для динамического изменения значения параметра. По умолчанию значения варьируются от 0 (слева) до 10 (справа), но это возможно изменить в окне ползунков.</para>
+				<para
+>Ознакомьтесь с практической инструкцией <ulink url="https://userbase.kde.org/Special:MyLanguage/KmPlot/Using_Sliders"
+>по использованию ползунков</ulink
+>.</para>
+				<!--https://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>Меню «Сервис»</title>
+
+	<para
+>Это меню содержит инструменты для работы с функциями:</para>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Сервис</guimenu
+> <guimenuitem
+>Калькулятор</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Открывает диалог <guilabel
+>Калькулятор</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Сервис</guimenu
+> <guimenuitem
+>Площадь под графиком...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>В появившемся диалоге выберите график и значения по горизонтальной оси. Будет вычислен интеграл и заполнена цветом, соответствующим цвету графика, область между графиком и горизонтальной осью в указанном диапазоне.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Сервис</guimenu
+> <guimenuitem
+>Найти минимум...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Найти минимальное значение на графике в указанном диапазоне.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Сервис</guimenu
+> <guimenuitem
+>Найти максимум...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Найти максимальное значение на графике в указанном диапазоне.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>Меню «Справка»</title>
+
+	<para
+>&kmplot; содержит стандартное меню <guimenu
+>Справка</guimenu
+> &kde; с одним дополнением:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Справка</guimenu
+> <guimenuitem
+>Предопределённые математические функции...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Открывает это руководство пользователя со списком предопределённых функций и констант, известных программе &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+</sect2>
+</sect1>
+
+</chapter>
+
+<chapter id="dbus">
+	<title
+>Использование сценариев в &kmplot;</title>
+	<para
+>Для &kmplot; возможно писать сценарии с помощью &DBus;. Например, чтобы определить функцию <userinput
+>f(x)=2sin x+3cos x</userinput
+>, установить толщину её линии равной 20 единицам и построить эту функцию, наберите в консоли:</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command
+> После этого будет возвращён номер-идентификатор новой функции или -1 в случае ошибки.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command
+> Эта команда изменяет толщину линии графика функции с номером-идентификатором ID на 20.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /view org.kde.kmplot.View.drawPlot</command
+> Эта команда перерисовывает окно, чтобы график функции стал видимым.</para>
+<para
+>Список доступных функций: <variablelist>
+		<varlistentry>
+			<term
+>/kmplot org.kde.kmplot.KmPlot.fileOpen url </term>
+			<listitem>
+				<para
+>Загрузить файл <parameter
+>url</parameter
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.isModified </term>
+			<listitem>
+				<para
+>Возвращает true, если изменения сделаны после последнего сохранения.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.checkModified </term>
+			<listitem>
+				<para
+>Если имеются несохранённые изменения, появляется диалог, с помощью которого возможно сохранить, сбросить изменения в графиках или отменить выход.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.editAxes </term>
+			<listitem>
+				<para
+>Открывает диалог координатной системы.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.toggleShowSlider </term>
+			<listitem>
+				<para
+>Показать/скрыть окно с ползунком для смены параметра.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSave </term>
+			<listitem>
+				<para
+>Сохранить функции (открыть диалог сохранения, если это новый файл).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSaveas </term>
+			<listitem>
+				<para
+>Аналогично выбору пункта меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Сохранить как...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotPrint </term>
+			<listitem>
+				<para
+>Открывает диалог печати.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotResetView </term>
+			<listitem>
+				<para
+>Аналогично выбору пункта меню <menuchoice
+><guimenu
+>Вид</guimenu
+><guimenuitem
+>Сбросить масштаб</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotExport </term>
+			<listitem>
+				<para
+>Открывает диалог экспорта.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSettings </term>
+			<listitem>
+				<para
+>Открывает диалог настройки.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotNames </term>
+			<listitem>
+				<para
+>Выводит список предопределённых математических функций в руководстве.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMinimumValue </term>
+			<listitem>
+				<para
+>Аналогично выбору пункта меню <menuchoice
+><guimenu
+>Сервис</guimenu
+><guimenuitem
+>Минимальное значение...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMaximumValue </term>
+			<listitem>
+				<para
+>Аналогично выбору пункта меню <menuchoice
+><guimenu
+>Сервис</guimenu
+><guimenuitem
+>Максимальное значение...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.graphArea </term>
+			<listitem>
+				<para
+>Аналогично выбору пункта меню <menuchoice
+><guimenu
+>Сервис</guimenu
+><guimenuitem
+>Площадь под графиком...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.calculator </term>
+			<listitem>
+				<para
+>Аналогично выбору пункта меню <menuchoice
+><guimenu
+>Сервис</guimenu
+><guimenuitem
+>Калькулятор</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1 </term>
+			<listitem>
+				<para
+>Добавить функцию, определяемую выражениями <parameter
+>f_str0</parameter
+> и <parameter
+>f_str1</parameter
+>. Если выражение не содержит имени функции, оно будет сгенерировано автоматически. После этого будет возвращён номер-идентификатор функции или -1 в случае ошибки.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.removeFunction id </term>
+			<listitem>
+				<para
+>Удалить функцию по её номеру <parameter
+>id</parameter
+>. В случае ошибки возвращается false, иначе — true.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.setFunctionExpression id eq f_str </term>
+			<listitem>
+				<para
+>Изменить выражение функции с номером-идентификатором <parameter
+>id</parameter
+> на <parameter
+>f_str</parameter
+>. В случае ошибки возвращается false, иначе — true.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.countFunctions </term>
+			<listitem>
+				<para
+>Возвращает число функций (параметрические считаются за две).</para>
+			</listitem>
+		</varlistentry>
+<!-- method double org.kde.kmplot.Parser.fkt(uint id, uint eq, double eq) what is this?-->
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.listFunctionNames </term>
+		  <listitem>
+		    <para
+>Возвращает список всех функций.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.fnameToID f_str </term>
+		  <listitem>
+		    <para
+>Возвращает номер <parameter
+>f_str</parameter
+> или -1, если функции с именем <parameter
+>f_str</parameter
+> нет.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFVisible id </term>
+		  <listitem>
+		    <para
+>Возвращает true, если функция с номером-идентификатором <parameter
+>id</parameter
+> видима.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1Visible id </term>
+		  <listitem>
+		    <para
+>Возвращает true, если видима производная первого порядка функции с номером-идентификатором <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2Visible id </term>
+		  <listitem>
+		    <para
+>Возвращает true, если видима производная второго порядка функции с номером-идентификатором <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntVisible id </term>
+		  <listitem>
+		    <para
+>Возвращает true, если видима первообразная функции с номером-идентификатором <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFVisible id visible </term>
+		  <listitem>
+		    <para
+>Отображает график функции с идентификатором <parameter
+>id</parameter
+>, если параметр <parameter
+>visible</parameter
+> установлен в значение true. Если параметр <parameter
+>visible</parameter
+> установлен в значение false, эта функция будет скрыта. Возвращает true, если функция существует, в ином случае — false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1Visible id visible </term>
+		  <listitem>
+		    <para
+>Отображает или скрывает первую производную функции с номером-идентификатором <parameter
+>id</parameter
+>. Возвращает false, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2Visible id visible </term>
+		  <listitem>
+		    <para
+>Отображает или скрывает вторую производную функции с номером-идентификатором <parameter
+>id</parameter
+>. Возвращает false, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntVisible id visible </term>
+		  <listitem>
+		    <para
+>Отображает или скрывает первообразную функции с номером-идентификатором <parameter
+>id</parameter
+>. Возвращает false, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStr id eq </term>
+		  <listitem>
+		    <para
+>Возвращает выражение функции с номером-идентификатором <parameter
+>id</parameter
+>. Возвращает false, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFLineWidth id </term>
+		  <listitem>
+		    <para
+>Возвращает толщину линии графика функции с номером-идентификатором <parameter
+>id</parameter
+>. Возвращает 0, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1LineWidth id </term>
+		  <listitem>
+		    <para
+>Возвращает толщину линии графика первой производной функции с номером-идентификатором <parameter
+>id</parameter
+>. Возвращает 0, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2LineWidth id </term>
+		  <listitem>
+		    <para
+>Возвращает толщину линии графика второй производной функции с номером-идентификатором <parameter
+>id</parameter
+>. Возвращает 0, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntLineWidth id </term>
+		  <listitem>
+		    <para
+>Возвращает толщину линии графика первообразной функции с номером-идентификатором <parameter
+>id</parameter
+>. Возвращает 0, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Установить толщину линии графика функции с номером-идентификатором <parameter
+>id</parameter
+> в <parameter
+>linewidth</parameter
+>. Возвращает false, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Установить толщину линии графика первой производной функции с номером-идентификатором <parameter
+>id</parameter
+> в <parameter
+>linewidth</parameter
+>. Возвращает false, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Установить толщину линии графика второй производной функции с номером-идентификатором <parameter
+>id</parameter
+> в <parameter
+>linewidth</parameter
+>. Возвращает false, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Установить толщину линии графика первообразной функции с номером-идентификатором <parameter
+>id</parameter
+> в <parameter
+>linewidth</parameter
+>. Возвращает false, если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionParameterList id </term>
+		  <listitem>
+		    <para
+>Возвращает список всех значений параметра функции с номером-идентификатором <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionAddParameter id new_parameter </term>
+		  <listitem>
+		    <para
+>Добавить значение параметра <parameter
+>new_parameter</parameter
+> функции с номером <parameter
+>id</parameter
+>. Возвращает false в случае ошибки.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionRemoveParameter id remove_parameter </term>
+		  <listitem>
+		    <para
+>Удалить значение параметра <parameter
+>remove_parameter</parameter
+> функции с номером <parameter
+>id</parameter
+>. Возвращает false в случае ошибки.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMinValue id </term>
+		  <listitem>
+		    <para
+>Возвращает минимум диапазона построения функции с номером-идентификатором <parameter
+>id</parameter
+>. Если функция не существует или минимум не определён, возвращается пустая строка.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMaxValue id </term>
+		  <listitem>
+		    <para
+>Возвращает максимум диапазона построения функции с номером-идентификатором <parameter
+>id</parameter
+>. Если функция не существует или максимум не определён, возвращается пустая строка.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMinValue id min </term>
+		  <listitem>
+		    <para
+>Устанавливает минимум области построения функции с номером-идентификатором <parameter
+>id</parameter
+>в <parameter
+>min</parameter
+>. Если функция не существует или выражение недопустимо, возвращается false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMaxValue id max </term>
+		  <listitem>
+		    <para
+>Устанавливает максимум области построения функции с номером-идентификатором <parameter
+>id</parameter
+>в <parameter
+>min</parameter
+>. Если функция не существует или выражение недопустимо, возвращается false.</para>
+		  </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartXValue id </term>
+		  <listitem>
+		    <para
+>Возвращает начальную абсциссу для первообразной функции с номером-идентификатором <parameter
+>id</parameter
+>. Если функция не существует или выражение абсциссы не определено, возвращается пустая строка.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartYValue id </term>
+		  <listitem>
+		    <para
+>Возвращает начальную ординату для первообразной функции с номером-идентификатором <parameter
+>id</parameter
+>. Если функция не существует или выражение ординаты не определено, возвращается пустая строка.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionStartValue id x y </term>
+		  <listitem>
+		    <para
+>Устанавливает начальную абсциссу и ординату для первообразной функции с идентификатором <parameter
+>id</parameter
+> в <parameter
+>x</parameter
+> и <parameter
+>y</parameter
+>. Возвращает true, если функция существует и выражение допустимо, в ином случае — false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.stopDrawing </term>
+			<listitem>
+				<para
+>Если &kmplot; в данный момент рисует график функции, это будет остановлено.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.drawPlot </term>
+			<listitem>
+				<para
+>Перерисовать все графики функций.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<chapter id="credits">
+<title
+>Авторские права и лицензия</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Программа &copy; <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail;, 2000—2002 </para>
+
+<itemizedlist>
+<title
+>Другие разработчики</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: &Robert.Gogolok; &Robert.Gogolok.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Портирование &GUI; в &kde; 3 и перевод: Маттас Мессмер (&Matthias.Messmer;) &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Различные улучшения: Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>Перенос на Qt 4, улучшения в интерфейсе, новые возможности: David Saxton <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>Документация &copy; Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;, 2000—2002 </para>
+<para
+>Дополнение и обновление документации для &kde; 3.2: &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para
+>Дополнение и обновление документации для &kde; 3.3: &Philip.Rodrigues; &Philip.Rodrigues.mail; и Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Дополнение и обновление документации для &kde; 3.4: Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Дополнение и обновление документации для &kde; 4.0: David Saxton <email
+>david@bluehaze.org</email
+></para>
+<para
+>Николай Шафоростов<email
+>admin@program.net.ua</email
+></para
+><para
+>Олеся Герасименко<email
+>translation-team@basealt.ru</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,610 @@
+<chapter id="commands">
+<title
+>Referencia das ordes</title
+> 
+
+<sect1 id="a-file-menu">
+	<title
+>O menú <guimenu
+>Ficheiro</guimenu
+></title>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ficheiro</guimenu
+> <guimenuitem
+>Novo</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Inicia unha representación nova limpando o sistema de coordenadas e reiniciando o procesador de funcións.</action
+></para
+> 
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Ficheiro</guimenu
+> <guimenuitem
+>Abrir...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Abre un documento existente.</action>
+				</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ficheiro</guimenu
+> <guisubmenu
+>Abrir un recente</guisubmenu
+> </menuchoice
+></term>
+			<listitem
+><para
+><action
+>Mostra unha lista de ficheiro abertos recentemente.</action
+> Se escolle un desta lista representará as funcións no ficheiro.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Ficheiro</guimenu
+> <guimenuitem
+>Gardar</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Garda o documento.</action
+></para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Ficheiro</guimenu
+> <guimenuitem
+>Gardar como...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Garda o documento con outro nome.</action
+></para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ficheiro</guimenu
+> <guimenuitem
+>Imprimir...</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Envía a gráfica para unha impresora ou ficheiro.</action
+></para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Ficheiro</guimenu
+> <guimenuitem
+>Exportar...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Exporta</action
+> os gráficos representados a un ficheiro de imaxe.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+><keycombo action="simul"
+> &Ctrl;<keycap
+>Q</keycap
+> </keycombo
+></shortcut
+> <guimenu
+>Ficheiro</guimenu
+> <guimenuitem
+>Saír</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Sae</action
+> do &kmplot;.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="a-edit-menu">
+	<title
+>O menú <guimenu
+>Editar</guimenu
+></title>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+><guimenuitem
+>Desfacer</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Desfai o último comando.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+><guimenuitem
+>Refacer</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Volta a facer o último comando que foi desfeito.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Constantes...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Mostra o diálogo das <guilabel
+>Constantes</guilabel
+>. Consulte <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="a-view-menu">
+	<title
+>O menú <guimenu
+>Ver</guimenu
+></title>
+	<para
+>Os tres primeiros elementos deste menú están relacionados coa ampliación.</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Ampliar</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Esta ferramenta pode ser usada de dúas maneiras diferentes. Para ampliar sobre un ponto da representación, prema sobre el. Para ampliar unha sección específica da gráfica, manteña premido e arrastre o rato para formar un rectángulo, que será o novo intervalo de eixos cando o botón do rato sexa soltado.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Reducir</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Esta ferramente tamén pode ser usada de dous xeitos distintos. Para reducir e centrar nun ponto, prema en tal punto. Para axustar a vista existente nun rectángulo, calque e arrastre o rato para formar ese rectángulo.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Vista</guimenu
+> <guimenuitem
+>Axustar o widget ás funcións trigonométricas</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>A escala será adaptada para funcións trigonométricas. Isto funciona tanto en graos como en radiáns.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Vista</guimenu
+><guimenuitem
+>Restablecer a vista</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Restaura a vista. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Vista</guimenu
+><guimenuitem
+>Sistema de coordenadas...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Mostra o diálogo <guilabel
+>Sistema de Coordenadas</guilabel
+>. Consulte <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Vista</guimenu
+> <guimenuitem
+>Mostrar as barras deslizantes</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Toggles</action
+> the visibility of the slider dialog.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+<sect1 id="a-tools-menu">
+	<title
+>O menú <guimenu
+>Ferramentas</guimenu
+></title>
+	
+	<para
+>Este menú contén algunhas ferramentas para as funcións que poden ser úteis:</para>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ferramentas</guimenu
+> <guimenuitem
+>Calculadora</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Abre o diálogo <guilabel
+>Calculadora</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ferramentas</guimenu
+> <guimenuitem
+>Área de debuxo...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Escolla unha gráfica e os valores x no diálogo que aparece. Calculaa integral e deseña a área entre a gráfica e o eixo x no intervalo de valores x indicados coa cor da gráfica.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ferramentas</guimenu
+> <guimenuitem
+>Procurar o mínimo...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Procura o valor mínimo da representación nun intervalo especificado.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ferramentas</guimenu
+> <guimenuitem
+>Procurar o máximo...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Procura o valor máximo da representación nun intervalo especificado.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+<sect1 id="a-settings-menu">
+	<title
+>O menú <guimenu
+>Configuración</guimenu
+></title>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Configuración</guimenu
+> <guimenuitem
+>Mostrar a barra de ferramentas</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Mostrar ou acochar a barra de ferramentas.</action
+> Por omisión móstraa.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Configuración</guimenu
+> <guimenuitem
+>Mostrar a barra de estado</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Mostra ou acocha a barra de estado ao fondo da xanela principal de &kmplot;.</action
+> Por omisión móstraa.</para>
+			</listitem>
+		</varlistentry>
+		
+		<!-- Is the settings menu the right place for Full Screen Mode, same for Show Sliders ? 
+			 perhaps better a new menu View with Full Screen, Sliders, and Coordinate System I to III 
+			 from the menu Edit, usability bugreport against kmplot?
+			 -->
+		<varlistentry>
+			<term
+><menuchoice
+><shortcut
+> <keycombo
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Configuración</guimenu
+> <guimenuitem
+>Modo a pantalla completa</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Con esta acción conmuta o modo a pantalla completa.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Configuración</guimenu
+> <guimenuitem
+>Configurar os atallos de teclado...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Personaliza os atallos de teclado</action
+> de &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Configuración</guimenu
+> <guimenuitem
+>Configurar as barras de ferramentas...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Personalizar as barras de ferramentas</action
+> do &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Configuración</guimenu
+> <guimenuitem
+>Configurar &kmplot;...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Personaliza</action
+> &kmplot;. As opcións que están ao seu dispor son descritas en <xref linkend="configuration"/>.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+	
+</sect1>
+
+<sect1 id="a-help-menu">
+	<title
+>O menú <guimenu
+>Axuda</guimenu
+></title>
+	
+	<para
+>&kmplot; ten unha <guimenu
+>Axuda</guimenu
+> estándar de &kde; como se describe en baixo, máis un engadido:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Axuda</guimenu
+> <guimenuitem
+>Función matemáticas predefinidas...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Abre este manual cunha listaxe dos nomes de funcións e constantes predefinidas que coñece &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+	<para
+>As entradas de <guimenu
+>Axuda</guimenu
+> estándar de &kde; son:</para>
+&help.menu.documentation; </sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

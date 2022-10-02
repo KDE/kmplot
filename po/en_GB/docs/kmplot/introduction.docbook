@@ -1,0 +1,58 @@
+<chapter id="introduction">
+<title
+>Introduction</title>
+
+<para
+>&kmplot; is a mathematical function plotter for the &kde; Desktop. It has a powerful built-in parser. You can plot different functions simultaneously and combine them to build new functions.</para>
+
+<screenshot>
+<screeninfo
+>Examples</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="threeplots.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Examples</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; supports parametric functions and functions in polar coordinates. Several grid modes are supported. Plots may be printed with high precision in the correct scale.</para>
+
+<para
+>&kmplot; also provides some numerical an visual features like: <itemizedlist
+> <listitem
+><para
+>Filling and calculating the area between the plot and the first axis</para
+> </listitem
+> <listitem
+><para
+>Finding maximum and minimum values</para
+> </listitem
+> <listitem
+><para
+>Changing function parameters dynamically</para
+> </listitem
+> <listitem
+><para
+>Plotting derivatives and integral functions.</para
+> </listitem
+> </itemizedlist
+> These features help in learning the relationship between mathematical functions and their graphical representation in a coordinate system.</para>
+
+</chapter>
+
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

@@ -1,0 +1,587 @@
+<chapter id="dcop">
+	<title
+>&kmplot; ja skriptid</title>
+	<para
+>&kde; 4 üks uusi võimalusi on see, et nüüd saab panna &DBus;i abil ise kirja &kmplot;i skripte. Kui soovid näiteks defineerida uue funktsiooni <userinput
+>f(x)=2sin x+3cos x</userinput
+>, määrata selle graafiku joonelaiuseks 20 ja selle joonistada, võib kirjutada konsoolis:</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command
+> Selle tulemusena tagastatakse uue funktsiooni ID või -1, kui funktsiooni pole defineeritud.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command
+> See käsk määrab funktsiooni ID-ga "ID" graafiku joonelaiuseks 20.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /view org.kde.kmplot.View.drawPlot</command
+> See käsk joonistab vajaliku funktsiooni graafiku aknas.</para>
+<para
+>Saadaolevate funktsioonide nimekiri: <variablelist>
+		<varlistentry>
+			<term
+>/kmplot org.kde.kmplot.KmPlot.fileOpen url </term>
+			<listitem>
+				<para
+>Avab faili <parameter
+>url</parameter
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.isModified </term>
+			<listitem>
+				<para
+>Tagastab "tõene", kui on mingeid muudatusi tehtud.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.checkModified </term>
+			<listitem>
+				<para
+>Kui on salvestamata muudatusi, ilmub dialoog, kus saab joonised salvestada, unustada või dialoogi lihtsalt sulgeda.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.editAxes </term>
+			<listitem>
+				<para
+>Avab koordinaadistiku muutmise dialoogi.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.toggleShowSlider </term>
+			<listitem>
+				<para
+>Näitab või peidab parameetriliuguri akna.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSave </term>
+			<listitem>
+				<para
+>Salvestab funktsioonid (uue faili korral avab salvestamisdialoogi).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSaveas </term>
+			<listitem>
+				<para
+>Sama, mis menüükäsk <menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Salvesta kui</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotPrint </term>
+			<listitem>
+				<para
+>Avab trükkimisdialoogi.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotResetView </term>
+			<listitem>
+				<para
+>Sama, mis menüükäsk <menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Lähtesta vaade</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotExport </term>
+			<listitem>
+				<para
+>Avab eksportimisdialoogi.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSettings </term>
+			<listitem>
+				<para
+>Avab seadistustedialoogi.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotNames </term>
+			<listitem>
+				<para
+>Näitab eelnevalt defineeritud matemaatiliste funktsioone käsiraamatus.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMinimumValue </term>
+			<listitem>
+				<para
+>Sama, mis menüükäsk <menuchoice
+><guimenu
+>Tööriistad</guimenu
+><guimenuitem
+>Miinimumväärtus...</guimenuitem
+></menuchoice
+></para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMaximumValue </term>
+			<listitem>
+				<para
+>Sama, mis menüükäsk <menuchoice
+><guimenu
+>Tööriistad</guimenu
+><guimenuitem
+>Maksimumväärtus...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.graphArea </term>
+			<listitem>
+				<para
+>Sama, mis menüükäsk <menuchoice
+><guimenu
+>Tööriistad</guimenu
+><guimenuitem
+>Joonista ala</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.calculator </term>
+			<listitem>
+				<para
+>Sama, mis menüükäsk <menuchoice
+><guimenu
+>Tööriistad</guimenu
+><guimenuitem
+>Kalkulaator</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1 </term>
+			<listitem>
+				<para
+>Lisab uue funktsiooni avaldistega <parameter
+>f_str0</parameter
+> ja <parameter
+>f_str1</parameter
+>. Kui avaldis ei sisalda funktsiooni nime, genereeritakse see automaatselt. Tagastatakse uue funktsiooni ID või -1, kui funktsiooni pole defineeritud.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.removeFunction id </term>
+			<listitem>
+				<para
+>Eemaldab funktsiooni ID-ga <parameter
+>id</parameter
+>. Kui funktsiooni ei saa kustutada, tagastatakse "väär", muidu "tõene".</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.setFunctionExpression id eq f_str </term>
+			<listitem>
+				<para
+>Määrab funktsiooni ID-ga <parameter
+>id</parameter
+> avaldiseks <parameter
+>f_str</parameter
+>. Õnnestumise korral tagastatakse "tõene", vastasel juhul "väär".</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.countFunctions </term>
+			<listitem>
+				<para
+>Tagastatakse funktsioonide arv (parameeterfunktsioone arvestatakse kahe eest).</para>
+			</listitem>
+		</varlistentry>
+<!-- method double org.kde.kmplot.Parser.fkt(uint id, uint eq, double eq) what is this?-->
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.listFunctionNames </term>
+		  <listitem>
+		    <para
+>Tagastatakse kõigi funktsioonide nimekiri.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.fnameToID f_str </term>
+		  <listitem>
+		    <para
+>Tagastab <parameter
+>f_str</parameter
+> ID või -1, kui funktsiooninime <parameter
+>f_str</parameter
+> ei leita.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFVisible id </term>
+		  <listitem>
+		    <para
+>Tagastab "tõene", kui funktsioon ID-ga <parameter
+>id</parameter
+> on nähtav, vastasel juhul tagastab "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1Visible id </term>
+		  <listitem>
+		    <para
+>Tagastab "tõene", kui funktsiooni ID-ga <parameter
+>id</parameter
+> esimene tuletis on nähtav, vastasel juhul tagastab "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2Visible id </term>
+		  <listitem>
+		    <para
+>Tagastab "tõene", kui funktsiooni ID-ga <parameter
+>id</parameter
+> teine tuletis on nähtav, vastasel juhul tagastab "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntVisible id </term>
+		  <listitem>
+		    <para
+>Tagastab "tõene", kui funktsiooni ID-ga <parameter
+>id</parameter
+> integraal on nähtav, vastasel juhul tagastab "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFVisible id visible </term>
+		  <listitem>
+		    <para
+>Näitab funktsiooni ID-ga <parameter
+>id</parameter
+>, kui <parameter
+>visible</parameter
+> on tõene. Kui <parameter
+>visible</parameter
+> on väär, funktsioon peidetakse. "Tõene" tagastatakse juhul, kui funktsioon on olemas, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1Visible id visible </term>
+		  <listitem>
+		    <para
+>Näitab funktsiooni ID-ga <parameter
+>id</parameter
+> esimest tuletist, kui <parameter
+>visible</parameter
+> on tõene. Kui <parameter
+>visible</parameter
+> on väär, funktsioon peidetakse. "Tõene" tagastatakse juhul, kui funktsioon on olemas, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2Visible id visible </term>
+		  <listitem>
+		    <para
+>Näitab funktsiooni ID-ga <parameter
+>id</parameter
+> teist tuletist, kui <parameter
+>visible</parameter
+> on tõene. Kui <parameter
+>visible</parameter
+> on väär, funktsioon peidetakse. "Tõene" tagastatakse juhul, kui funktsioon on olemas, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntVisible id visible </term>
+		  <listitem>
+		    <para
+>Näitab funktsiooni ID-ga <parameter
+>id</parameter
+> integraali, kui <parameter
+>visible</parameter
+> on tõene. Kui <parameter
+>visible</parameter
+> on väär, funktsioon peidetakse. "Tõene" tagastatakse juhul, kui funktsioon on olemas, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStr id eq </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> funktsiooniavaldise. Kui funktsioon puudub, tagastatakse tühi string.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFLineWidth id </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> graafiku joonelaiuse. Kui funktsioon puudub, tagastatakse 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1LineWidth id </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> esimese tuletise graafiku joonelaiuse. Kui funktsioon puudub, tagastatakse 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2LineWidth id </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> teise tuletise graafiku joonelaiuse. Kui funktsioon puudub, tagastatakse 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntLineWidth id </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> integraali graafiku joonelaiuse. Kui funktsioon puudub, tagastatakse 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Määrab funktsioonile ID-ga <parameter
+>id</parameter
+> argumendiga <parameter
+>linewidth</parameter
+> määratud joonelaiuse. Tagastatakse "tõene", kui funktsioon on olemas, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Määrab funktsiooni ID-ga <parameter
+>id</parameter
+> esimesele tuletisele argumendiga <parameter
+>linewidth</parameter
+> määratud joonelaiuse. Tagastatakse "tõene", kui funktsioon on olemas, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Määrab funktsiooni ID-ga <parameter
+>id</parameter
+> teisele tuletisele argumendiga <parameter
+>linewidth</parameter
+> määratud joonelaiuse. Tagastatakse "tõene", kui funktsioon on olemas, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Määrab funktsiooni ID-ga <parameter
+>id</parameter
+> integraalile argumendiga <parameter
+>linewidth</parameter
+> määratud joonelaiuse. Tagastatakse "tõene", kui funktsioon on olemas, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionParameterList id </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> kõigi parameeterväärtuste nimekirja.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionAddParameter id new_parameter </term>
+		  <listitem>
+		    <para
+>Lisab parameeterväärtuse <parameter
+>new_parameter</parameter
+> funktsioonile ID-ga <parameter
+>id</parameter
+>. Tagastatakse "tõene", kui operatsioon õnnestub, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionRemoveParameter id remove_parameter </term>
+		  <listitem>
+		    <para
+>Eemaldab parameeterväärtuse <parameter
+>remove_parameter</parameter
+> funktsioonilt ID-ga <parameter
+>id</parameter
+>. Tagastatakse "tõene", kui operatsioon õnnestub, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMinValue id </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> joonise minimaalse vahemiku väärtuse. Kui funktsioon puudub või miinimumväärtus pole defineeritud, tagastatakse tühi string.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMaxValue id </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> joonise maksimaalse vahemiku väärtuse. Kui funktsioon puudub või maksimumväärtus pole defineeritud, tagastatakse tühi string.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMinValue id min </term>
+		  <listitem>
+		    <para
+>Määrab funktsioonile ID-ga <parameter
+>id</parameter
+> argumendiga <parameter
+>min</parameter
+> määratud joonise minimaalse vahemiku väärtuse. Tagastatakse "tõene", kui funktsioon on olemas ja avaldis on korrektne, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMaxValue id max </term>
+		  <listitem>
+		    <para
+>Määrab funktsioonile ID-ga <parameter
+>id</parameter
+> argumendiga <parameter
+>min</parameter
+> määratud joonise maksimaalse vahemiku väärtuse. Tagastatakse "tõene", kui funktsioon on olemas ja avaldis on korrektne, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartXValue id </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> integraali X-algpunkti. Kui funktsioon puudub või X-punkti avaldis pole defineeritud, tagastatakse tühi string.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartYValue id </term>
+		  <listitem>
+		    <para
+>Tagastab funktsiooni ID-ga <parameter
+>id</parameter
+> integraali Y-algpunkti. Kui funktsioon puudub või Y-punkti avaldis pole defineeritud, tagastatakse tühi string.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionStartValue id x y </term>
+		  <listitem>
+		    <para
+>Määrab funktsiooni ID-ga <parameter
+>id</parameter
+> integraalile argumentidega <parameter
+>x</parameter
+> ja <parameter
+>y</parameter
+> määratud X- ja Y-algpunkti. Tagastatakse "tõene", kui funktsioon on olemas ja avaldis korrektne, vastasel juhul tagastatakse "väär".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.stopDrawing </term>
+			<listitem>
+				<para
+>Kui &kmplot; joonistab parajasti funktsiooni, peatab selle.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.drawPlot </term>
+			<listitem>
+				<para
+>Joonistab uuesti kõik funktsioonid.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<!--
+    Local Variables:
+    mode: sgml
+    sgml-minimize-attributes:nil
+    sgml-general-insert-case:lower
+    sgml-indent-step:0
+    sgml-indent-data:nil
+    sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+    End:
+    -->

@@ -1,0 +1,83 @@
+<chapter id="introduction">
+<title
+>Introduction</title>
+	
+<para
+>&kmplot; est un traceur de fonctions mathématiques pour l'environnement de bureau &kde;. Il possède un vérificateur interne puissant. Vous pouvez tracer plusieurs fonctions simultanément et les combiner pour en construire de nouvelles.</para>
+
+<screenshot>
+	<screeninfo
+>Exemples</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Exemples</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; gère plusieurs types différents de courbes : </para>
+<itemizedlist>
+	<listitem
+><para
+>Courbes cartésiennes explicites de la forme y = f(x), </para
+></listitem>
+	<listitem
+><para
+>Courbes paramétriques, où les composants x et y sont spécifiés comme des fonctions d'une variable indépendante, </para
+></listitem>
+	<listitem
+><para
+>Courbes polaires de la forme r = r(&thgr;), </para
+></listitem>
+	<listitem
+><para
+>courbes implicites, où les coordonnées x et y sont reliées à une expression, </para
+></listitem>
+	<listitem
+><para
+>Courbes différentielles explicites.</para
+></listitem>
+</itemizedlist>
+
+<para
+>&kmplot; vous fournit aussi des caractéristiques numériques et visuelles comme :</para>
+<itemizedlist>
+	<listitem
+><para
+>Remplir et calculer la surface entre la courbe et l'axe des abscisses, </para>
+	</listitem>
+	<listitem
+><para
+>Trouver les valeurs minimum et maximum, </para>
+	</listitem>
+	<listitem
+><para
+>Modifier les paramètres des fonctions de façon dynamique, </para>
+	</listitem>
+	<listitem
+><para
+>Tracer des dérivées et des intégrales.</para>
+	</listitem>
+</itemizedlist>
+
+<para
+>Ces caractéristiques permettent d'aider dans l'apprentissage de la relation entre les fonctions mathématiques et leur représentation graphique dans un système de coordonnées.</para>
+
+</chapter>
+
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

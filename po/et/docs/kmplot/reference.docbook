@@ -1,0 +1,850 @@
+<chapter id="reference">
+<title
+>&kmplot;i seletused</title>
+	
+<!--
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="kfkt.png" format="PNG"/>
+		</imageobject>
+	</mediaobject>
+	
+	<para
+>This menu entry or toolbar button opens the Functions Editor.  Here
+		you can enter up to 10 functions or
+		function groups.  The parser knows <firstterm
+>explicit</firstterm
+> and
+		<firstterm
+>parametric</firstterm
+> form.  With specific extensions it
+		is possible to add first and second derivatives and to choose values
+		for the function group parameter.</para>
+	-->
+		
+<sect1 id="func-syntax">
+	<title
+>Funktsioonide süntaks</title>
+	
+	<para
+>Arvestama peab mõne süntaksireegliga:</para>
+	
+	<screen
+><userinput
+>nimi(var1[, var2])=liige [;laiendid]</userinput
+>
+        </screen>
+	
+	
+	<variablelist>
+		<varlistentry>
+			<term
+>nimi</term>
+			<listitem>
+				
+				<para
+>Funktsiooni nimi. Kui esimene märk on <quote
+>r</quote
+>, eeldab parser, et kasutatakse polaarseid koordinaate. Kui esimene märk on <quote
+>x</quote
+> (nt. <quote
+>xfunc</quote
+>), eeldab parser, et teise funktsiooni alguses seisab <quote
+>y</quote
+> (antud näite puhul <quote
+>yfunc</quote
+>), mis määrab funktsiooni parameetrivormingus. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var1</term>
+			<listitem
+><para
+>Funktsiooni muutuja</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var2</term
+> 
+			<listitem
+><para
+>Funktsiooni <quote
+>rühmaparameeter</quote
+>. See peab olema eraldatud komaga. Rühmaparameetrit saab kasutada näiteks mitme graafiku joonistamiseks ühe funktsiooni põhjal. Parameetri väärtusi saab valida käsisi või kasutada mõne konkreetse parameetri jaoks liugurit. Liuguri väärtust muutes muudetakse ka parameetrit. Liuguriga saab määrata täisarvu vahemikus 0 kuni 100.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>liige</term>
+			<listitem
+><para
+>Funktsiooni määrav avaldis.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+	<title
+>Eelmääratud funktsiooninimed ja konstandid</title>
+	
+	<para
+>Kõiki &kmplot;ile teada eelnevalt määratud funktsioone ja konstante saab näha menüükäsuga <menuchoice
+><guimenu
+>Abi</guimenu
+><guimenuitem
+>Eelnevalt määratud matemaatikafunktsioonid</guimenuitem
+> </menuchoice
+>, mis avab &kmplot;i käsiraamatu. </para>
+	
+	<para
+>Neid funktsioone ja konstante ning isegi kõiki kasutaja määratud funktsioone saab kasutada ka teljeseadistuste määramisel. Vaata <xref linkend="axes-config"/>. </para>
+	
+	<sect2 id="trigonometric-functions">
+		<title
+>Trigonomeetriafunktsioonid</title>
+		
+		<para
+>Vaikimisi kasutatakse trigonomeetriafunktsioonide puhul radiaane. Seda saab muuta menüükäsuga <menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>&kmplot;i seadistamine</guimenuitem
+> </menuchoice
+>. </para>
+		
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>sin(x)</term>
+				<term
+>arcsin(x)</term>
+				<term
+>cosec(x)</term>
+				<term
+>arccosec(x)</term>
+				<listitem
+><para
+>Vastavalt siinus, arkussiinus, koosekans ja arkuskoosekans.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>cos(x)</term>
+				<term
+>arccos(x)</term>
+				<term
+>sec(x)</term>
+				<term
+>arcsec(x)</term>
+				<listitem
+><para
+>Vastavalt koosinus, arkuskoosinus, seekans ja arkusseekans.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>tan(x)</term>
+				<term
+>arctan(x)</term>
+				<term
+>cot(x)</term>
+				<term
+>arccot(x)</term>
+				<listitem
+><para
+>Vastavalt tangens, arkustangens, kootangens ja arkuskootangens.</para
+></listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</sect2>
+	
+	<sect2 id="hyperbolic-functions">
+		<title
+>Hüperboolfunktsioonid</title>
+		<para
+>Hüperboolfunktsioonid.</para>
+		
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>sinh(x)</term>
+				<term
+>arcsinh(x)</term>
+				<term
+>cosech(x)</term>
+				<term
+>arccosech(x)</term>
+				<listitem
+><para
+>Vastavalt hüperboolne siinus, arkussiinus, koosekans ja arkuskoosekans.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>cosh(x)</term>
+				<term
+>arccosh(x)</term>
+				<term
+>sech(x)</term>
+				<term
+>arcsech(x)</term>
+				<listitem
+><para
+>Vastavalt hüperboolne koosinus, arkuskoosinus, seekans ja arkusseekans.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>tanh(x)</term>
+				<term
+>arctanh(x)</term>
+				<term
+>coth(x)</term>
+				<term
+>arccoth(x)</term>
+				<listitem
+><para
+>Vastavalt hüperboolne tangens, arkustangens, kootangens ja arkuskootangens.</para
+></listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</sect2>
+	
+	<sect2 id="other-functions">
+		<title
+>Muud funktsioonid</title>
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>sqr(x)</term>
+				<listitem
+><para
+>x'i ruut x^2.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>sqrt(x)</term>
+				<listitem
+><para
+>x'i ruutjuur.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>sign(x)</term>
+				<listitem
+><para
+>x'i märk. Tagastab 1, kui x on positiivne, 0, kui x on null, ja &minus;1, kui x on negatiivne.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>H(x)</term>
+				<listitem
+><para
+>Heaviside'i funktsioon. Tagastab 1, kui x on positiivne, 0,5, kui x on null, ja 0, kui x on negatiivne.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>exp(x)</term>
+				<listitem
+><para
+>x'i eksponent e^x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>ln(x)</term>
+				<listitem
+><para
+>x'i naturaallogaritm.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>log(x)</term>
+				<listitem
+><para
+>x'i kümnendlogaritm.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>abs(x)</term>
+				<listitem
+><para
+>x'i absoluutväärtus.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>floor(x)</term>
+				<listitem
+><para
+>x'i ümardamine lähima x'ist väiksema või võrdse täisarvuni.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>ceil(x)</term>
+				<listitem
+><para
+>x'i ümardamine lähima x'ist suurema või võrdse täisarvuni.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>round(x)</term>
+				<listitem
+><para
+>x'i ümardamine lähima täisarvuni.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>gamma(x)</term>
+				<listitem
+><para
+>Gammafunktsioon.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>factorial(x)</term>
+				<listitem
+><para
+>x'i faktoriaal.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>min(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Tagastab antud arvude miinimumi {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>max(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Tagastab antud arvude maksimumi {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>mod(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Tagastab antud arvude kongruentsi {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+			
+			<!-- TODO: Legendre polynomials -->
+			
+		</variablelist>
+	</sect2>
+	
+	<sect2>
+		<title
+>Eelmääratud konstandid</title>
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>pi</term>
+				<term
+>&pgr;</term>
+				<listitem>
+					<para
+>Konstandid, mis esindavad &pgr; (3,14159...).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>e</term>
+				<listitem>
+					<para
+>Konstandid, mis esindavad Euleri arvu e (2,71828...).</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</sect2>
+</sect1>
+
+<sect1 id="func-extension">
+	<title
+>Laiendid</title>
+	<para
+>Funktsiooni laiendi määrab funktsiooni definitsioonile järgnev semikoolon, millele omakorda järgneb laiend. Laiendi võib kirjutada kiirredigeerimise kastis või &DBus;i meetodiga parser addFunction. Parameeterfunktsioonidele ei ole ühtki laiendit, kuid N ja D[a,b] toimivad ka polaarfunktsioonide korral. Näiteks: <screen>
+                        <userinput>
+                                f(x)=x^2; A1
+                        </userinput>
+                </screen
+> näitab graafikut y=x<superscript
+>2</superscript
+> koos selle esimese tuletisega. Järgnevalt kirjeldame toetatud laiendeid: <variablelist>
+			<varlistentry>
+				<term
+>N</term>
+				<listitem>
+					<para
+>Funktsioon salvestatakse, kuid seda ei kujutata, nii et seda saab kasutada nagu iga muud eelnevalt või kasutaja määratud funktsiooni. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A1</term>
+				<listitem>
+					<para
+>Funktsiooni tuletise graafik joonistatakse lisaks samas värvis, kuid peenema joonega. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A2</term>
+				<listitem>
+					<para
+>Funktsiooni teise tuletise graafik joonistatakse samas värvis, kuid peenema joonega. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>D[a,b]</term>
+				<listitem>
+					<para
+>Määrab domeeni, mille funktsiooni näidatakse. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>P[a{,b...}]</term>
+				<listitem>
+					<para
+>Selle laiendiga saab anda väärtuste loendi graafikuna kujutatava funktsioonirühma parameetrile. Näiteks <userinput
+>f(x,k)=k*x;P[1,2,3]</userinput
+> joonista graafiku funktsioonidele f(x)=x, f(x)=2*x and f(x)=3*x. Funktsioone võib kasutada ka P võtme argumentidena. </para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	<para
+>Pane tähele, et kõiki neid toiminguid saab teha, kui redigeerida elemente kaardil <guilabel
+>Tuletised</guilabel
+> sektsioonis <guilabel
+>Kohandatud joonisevahemik</guilabel
+>, samuti sektsioonis <guilabel
+>Parameetrid</guilabel
+> <guilabel
+>funktsioonide</guilabel
+> külgribal. </para>
+</sect1>
+
+<sect1 id="math-syntax">
+	<title
+>Matemaatiline süntaks</title>
+	<para
+>&kmplot; kasutab tavapäraseid matemaatilise funktsiooni väljendamise viise, nii et see ei tohiks raskusi valmistada. Esinemissageduse järjekorras on &kmplot;ile tuntud operaatorid järgmised: <variablelist>
+			
+			<varlistentry>
+				<term
+>^</term>
+				<listitem
+><para
+>Katus tähendab astendamist, &eg; <userinput
+>2^4</userinput
+> tagastab 16.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>*</term>
+				<term
+>/</term>
+				<listitem>
+					<para
+>Tärn ja kaldkriips tähistavad korrutamist ja jagamist, &eg; <userinput
+>3*4/2</userinput
+> tagastab 6.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>+</term>
+				<term
+>&minus;</term>
+				<listitem
+><para
+>Pluss ja miinus tähistavad liitmist ja lahutamist, &eg; <userinput
+>1+3&minus;2</userinput
+> tagastab 2.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>&lt;</term>
+				<term
+>&gt;</term>
+				<term
+>&le;</term>
+				<term
+>&ge;</term>
+				<listitem
+><para
+>Võrdlusoperandid. Tagastavad 1, kui avaldis on tõene, vastasel juhul 0, &eg; <userinput
+>1 &le; 2</userinput
+> tagastab 1.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>&radic;</term>
+				<listitem
+><para
+>Arvu ruutjuur, &eg; <userinput
+>&radic;4</userinput
+> tagastab 2.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>|x|</term>
+				<listitem
+><para
+>x'i absoluutväärtus, &eg; <userinput
+>|&minus;4|</userinput
+> tagastab 4.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>&plusmn;</term>
+				<term
+></term>
+				<listitem
+><para
+>Iga pluss-miinusmärk annab kaks joonist: ühe plussmärgiga ja teise miinusmärgiga, &eg; <userinput
+>y = &plusmn;sqrt(1&minus;x^2)</userinput
+> joonistab ringjoone. Seepärast ei saa neid konstantidena kasutada. </para>
+				</listitem>
+			</varlistentry>
+			
+			
+			
+		</variablelist>
+	</para>
+	<para
+>Pane tähele järjekorda, mis tähendab, et kui sulge ei kasutata, sooritatakse astendamine enne korrutamist/jagamist, mis omakorda sooritatakse enne liitmist/lahutamist. Nii tagastab <userinput
+>1+2*4^2</userinput
+> 33, aga mitte näiteks 144. Selle vältimiseks kasuta sulge. Toodud näite alusel tagastab <userinput
+>((1+2)*4)^2</userinput
+> <emphasis
+>hoopis</emphasis
+> 144. </para>
+</sect1>
+
+<!--
+<sect1 id="coord-system">
+	<title
+>Coordinate Systems</title>
+	
+	<para
+><inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys1.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject
+></para>
+	
+	<para>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys2.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject
+></para>
+	
+	<para>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys3.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject
+></para>
+	-->
+<sect1 id="coord-area"
+><title
+>Joonistamisala</title>
+	<para
+>Vaikimisi joonistatakse otseselt antud funktsioonid horisontaaltelje nähtaval osal. Funktsiooni muutmise dialoogis saab määrata ka mõne muu vahemiku. Kui tulemuseks olev punkt asub joonistusalal, seostatakse see joone abil viimase joonistatud punktiga. </para>
+	<para
+>Parameeter- ja polaarfunktsioonidel on joonise vahemik vaikimisi 0 kuni 2&pgr;. Seda saab küll <guilabel
+>funktsioonide</guilabel
+> külgribal muuta. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+	<title
+>Niitristikkursor</title>
+	<para
+>Kui hiirekursor asub joonistamisalal, muutub kursor niitristikuks. Selle asukoha koordinaate näeb koordinaattelgede lõikekohtadel, samuti olekuribal peaakna allservas. </para>
+	<para
+>Funktsioonide väärtusi saab täpsemalt jälgida, kui klõpsata graafikule või selle kõrvale. Valitud funktsiooni näidatakse olekuriba parempoolses veerus. Niitristik võtab nüüd graafikuga sama värvi. Kui graafik on taustaga samavärvi, omandab niitristik taustavärvi vastandvärvuse. Hiire liigutamisel või vasaku/parema nooleklahvi vajutamisel järgib niitristik funktsiooni ning sa näed aktiivset horisontaal- ja vertikaal-väärtust. Kui niitristik asub vertikaaltelje lähedal, näidatakse olekuribal juurväärtust. Funktsioonide vahel saab liikuda üles/alla nooleklahvidega. Uus klõps kuskil mujal aknas või mõne muu kui nooleklahvi vajutamine lõpetab jälgimise. </para>
+	<para
+>Täpsemaks jälgimiseks ava seadistustedialoog ja märgi <guilabel
+>üldiste seadistuste</guilabel
+> kaardil valik <guilabel
+>Puutuja ja normaali näitamine jälgimisel</guilabel
+>. Nii näidatakse joonisel ka puutujat, normaali ja vilkuvat ringikest parajasti jälgitavas kohas. </para>
+	
+</sect1>
+
+<sect1 id="coords-config">
+	<title
+>Koordinaadistiku seadistamine</title>
+	<para
+>Selle dialoogi avamiseks vali menüükäsk <menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Koordinaadistik...</guimenuitem
+></menuchoice
+></para>
+	<screenshot>
+		<screeninfo
+>Koordinaadistiku dialoog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Koordinaadistiku dialoog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<sect2 id="axes-config">
+		<title
+>Telgede seadistamine</title>
+		<para>
+			<variablelist>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Horisontaaltelje vahemik</guilabel
+></term>
+					<listitem>
+						<para
+>Määrab horisontaaltelje skaalavahemiku. Pane tähele, et vahemiku rajadena võib kasutada eelnevalt määratud funktsioone ja konstante (vt. <xref linkend="func-predefined"/>), &eg;, võib määrata <guilabel
+>Min:</guilabel
+> väärtuseks <userinput
+>2*pi</userinput
+>. Teljevahemiku rajade määramiseks võib kasutada isegi enda defineeritud funktsioone. Kui oled näiteks defineerinud funktsiooni <userinput
+>f(x) = x^2</userinput
+>, võid määrata <guilabel
+>Min:</guilabel
+> väärtuseks <userinput
+>f(3)</userinput
+>, mille puhul vahemiku alumise raja väärtus on 9.</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+				  <term
+><guilabel
+>Vertikaaltelje vahemik</guilabel
+></term>
+					<listitem>
+						<para
+>Määrab vertikaaltelje vahemiku. Vaata eespool <quote
+>horisontaaltelje vahemik</quote
+>.</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Horisontaaltelje alusvõrgu vahed</guilabel
+></term>
+					<listitem>
+						<para
+>See määrab alusvõrgu joonte vahe rõhtsuunas. Kui valida <guilabel
+>Automaatne</guilabel
+>, püüab &kmplot; leida alusvõrgu vahe, mis vastab umbes kahele sentimeetrile, mis on ka arvuliselt kena väärtus. Kui valida <guilabel
+>Kohandatud</guilabel
+>, saab väärtuse ise sisestada. Seda väärtust kasutatakse sõltumata suurendusest. Kui näiteks sisesteada siia 0,5 ning X-vahemik 0 kuni 8, näidatakse 16 alusvõrgu jaotist. </para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Vertikaaltelje alusvõrgu vahed</guilabel
+></term>
+					<listitem>
+						<para
+>See määrab alusvõrgu joonte vahe püstsuunas. Vaata eespool <quote
+>horisontaaltelje alusvõrgu vahed</quote
+>. </para>
+					</listitem>
+				</varlistentry>
+				
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title
+>Konstantide seadistamine</title>
+	<para
+>Selle dialoogi avamiseks vali menüükäsk <menuchoice
+><guimenu
+>Redigeerimine</guimenu
+><guimenuitem
+>Konstandid...</guimenuitem
+></menuchoice
+></para>
+	
+	<screenshot>
+		<screeninfo
+>Konstantide dialoog</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Konstantide dialoog</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Konstante saab kasutada avaldiste osana kõikjal &kmplot;is. Igal konstandil peab olema nimi ja väärtus. Mõned nimed siiski ei sobi, näiteks olemasolevate funktsioonide või konstantide nimed. </para>
+	
+	<para
+>Konstantide mõjuala saab määrata kahe valikuga: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Dokument</guilabel
+></term>
+				<listitem>
+					<para
+>Kui märkida kastike <guilabel
+>Dokument</guilabel
+>, salvestatakse konstant koos aktiivse diagrammiga, kui faili salvestad. Aga kui märgitud pole ka <guilabel
+>Globaalne</guilabel
+>, ei saa seda konstanti &kmplot;i järgmisel käivitamisel enam kasutada.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Globaalne</guilabel
+></term>
+				<listitem>
+					<para
+>Kui valida <guilabel
+>Globaalne</guilabel
+>, kirjutatakse konstandi nimi ja väärtus &kde; seadistustesse (kust seda saab kasutada ka &kcalc;). Konstant ei lähe kaotsi koos &kmplot;i sulgemisega ning on taas kasutatav, kui käivitad &kmplot;i uuesti.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</para>
+</sect1>
+
+</chapter>
+
+<!--
+	Local Variables:
+	mode: sgml
+	sgml-minimize-attributes:nil
+	sgml-general-insert-case:lower
+	sgml-indent-step:0
+	sgml-indent-data:nil
+	sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+	End:
+			-->

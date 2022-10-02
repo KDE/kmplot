@@ -1,0 +1,138 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+<!ENTITY % Polish "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Podręcznik użytkownika &kde;</title>
+<author
+><personname
+> <firstname
+>Ben</firstname
+> <surname
+>Burton</surname
+> </personname
+> <email
+>bab@debian.org</email
+></author>
+<date
+>25 maj 2005</date
+> <productname
+>K Desktop Environment</productname
+> </refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kmplot</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kmplot</command
+></refname>
+<refpurpose
+>Program rysujący funkcje matematyczne</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kmplot</command
+> <group choice="opt"
+><option
+><replaceable
+>plik</replaceable
+></option
+></group
+> <arg choice="opt"
+>Standardowe opcje </arg
+> <arg choice="opt"
+>Standardowe opcje Qt</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Opis</title>
+<para
+>&kmplot; jest programem do rysowania funkcji matematycznych dla środowiska &kde; Zawiera wbudowany parser o dużych możliwościach. Możesz rysować różne funkcje jednocześnie i łączyć je by tworzyć nowe.</para
+><para
+>&kmplot; umożliwia rysowanie funkcji parametrycznych i funkcji o współrzędnych biegunowych. Dostępnych jest wiele trybów siatki. Wykresy mogą być drukowane w wysokiej rozdzielczości i poprawnej skali.</para
+><para
+>Program &kmplot; udostępnia także nieco możliwości numerycznych i graficznych, jak np. wypełnianie i obliczanie pola powierzchni pomiędzy wykresem i osią x, odnajdywanie maksimów i minimów, dynamiczna zmiana parametrów funkcji, rysowanie funkcji pochodnych i całek.</para
+><para
+>&kmplot; stanowi część modułu edukacyjnego środowiska &kde;.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Parametry</title>
+<variablelist>
+<varlistentry
+><term
+><option
+><replaceable
+>plik</replaceable
+></option
+></term>
+<listitem
+><para
+>Plik do otwarcia</para
+></listitem
+></varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title
+>Zobacz także</title>
+
+<para
+>Bardziej szczegółowa dokumentacja dla użytkownika dostępna jest pod adresem <ulink url="help:/kmplot"
+>help:/kmplot</ulink
+> (wpisz ten adres <acronym
+>URL</acronym
+> w &konqueror-narzednik; lub uruchom <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kmplot</parameter
+></userinput
+>).</para>
+
+<para
+>Więcej informacji na temat programu dostępne jest na stronach <ulink url="http://edu.kde.org/kmplot/"
+>środowiska edukacyjnego KDE</ulink
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Autorzy</title>
+<para
+>Autorzy &kmplot;: <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> <email
+>kdmoeller@foni.net</email
+>, &Matthias.Messmer; &Matthias.Messmer.mail; oraz <personname
+><firstname
+>Fredrik</firstname
+><surname
+>Edemar</surname
+></personname
+> <email
+>f_edemar@linux.se</email
+></para>
+</refsect1>
+
+</refentry>

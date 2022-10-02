@@ -1,0 +1,330 @@
+<chapter id="reference">
+<title
+>&kmplot; Reference</title>
+
+<!--
+<mediaobject>
+<imageobject>
+<imagedata fileref="kfkt.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+
+<para
+>This menu entry or toolbar button opens the Functions Editor.  Here
+you can enter up to 10 functions or
+function groups.  The parser knows <firstterm
+>explicit</firstterm
+> and
+<firstterm
+>parametric</firstterm
+> form.  With specific extensions it
+is possible to add first and second derivatives and to choose values
+for the function group parameter.</para>
+-->
+
+<sect1 id="func-syntax">
+<title
+>Function Syntax</title>
+
+<para
+>Some syntax rules must be complied with:</para>
+
+<screen
+><userinput
+>name(var1[, var2])=term [;extensions]</userinput
+>
+</screen>
+
+
+<variablelist>
+<varlistentry>
+<term
+>name</term>
+<listitem>
+
+<para
+>The function name. If the first character is <quote
+>r</quote
+> the parser assumes that you are using polar coordinates. If the first character is <quote
+>x</quote
+> (for instance <quote
+>xfunc</quote
+>) the parser expects a second function with a leading <quote
+>y</quote
+> (here <quote
+>yfunc</quote
+>) to define the function in parametric form. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+>var1</term>
+<listitem
+><para
+>The function's variable</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+>var2</term
+> 
+<listitem
+><para
+>The function <quote
+>group parameter</quote
+>. It must be separated from the function's variable by a comma. You can use the group parameter to, for example, plot a number of graphs from one function. The parameter values can be selected manually or you can choose to have a slider bar that controls one parameter. By changing the value of the slider the value parameter will be changed. The slider can be set to an integer between 0 and 100.</para
+></listitem>
+</varlistentry>
+<varlistentry>
+<term
+>term</term>
+<listitem
+><para
+>The expression defining the function.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+<title
+>Predefined Function Names and Constants</title>
+
+<para
+>All the predefined functions and constants that &kmplot; knows can be shown by selecting <menuchoice
+><guimenu
+>Help</guimenu
+><guimenuitem
+>Names</guimenuitem
+> </menuchoice
+>. They are: <variablelist>
+
+<varlistentry>
+<term
+>sqr, sqrt</term>
+<listitem>
+<para
+>Return the square and square root of a number, respectively.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>exp, ln</term>
+<listitem>
+<para
+>Return the exponential and natural logarithm of a number, respectively.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>log</term>
+<listitem>
+<para
+>Returns the logarithm to base 10 of a number.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>sin, arcsin</term>
+<listitem>
+<para
+>Return the sine and inverse sine of a number, respectively. Note that the argument to sin and the return value of arcsin are in radians.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>cos, arccos</term>
+<listitem>
+<para
+>Return the cosine and inverse cosine of a number, respectively. Also in radians.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>tan, arctan</term>
+<listitem>
+<para
+>Return the tangent and inverse tangent of a number, respectively. Also in radians.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>sinh, arcsinh</term>
+<listitem>
+<para
+>Return the hyperbolic sine and inverse hyperbolic sine of a number, respectively.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>cosh, arccosh</term>
+<listitem>
+<para
+>Return the hyperbolic cosine and inverse hyperbolic cosine of a number, respectively.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>tanh, arctanh</term>
+<listitem>
+<para
+>Return the hyperbolic tangent and inverse hyperbolic tangent of a number, respectively.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>sin, arcsin</term>
+<listitem>
+<para
+>Return the sine and inverse sine of a number, respectively. Note that the argument to sin and the return value of arcsin are in radians.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>cos, arccos</term>
+<listitem>
+<para
+>Return the cosine and inverse cosine of a number, respectively. Also in radians.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>pi, e</term>
+<listitem>
+<para
+>Constants representing &pgr; (3.14159...) and e (2.71828...), respectively.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+<para
+>These functions and constants and even all user defined functions can be used to determine the axes settings as well. See <xref linkend="axes-config"/>. </para>
+
+</sect1>
+
+<sect1 id="math-syntax">
+<title
+>Mathematical Syntax</title>
+<para
+>&kmplot; uses a common way of expressing mathematical functions, so you should have no trouble working it out. The operators &kmplot; understands are, in order of decreasing precedence: <variablelist>
+
+<varlistentry>
+<term
+>^</term>
+<listitem
+><para
+>The caret symbol performs exponentiation. &eg;, <userinput
+>2^4</userinput
+> returns 16.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>*, /</term>
+<listitem>
+<para
+>The asterisk and slash symbols perform multiplication and division . &eg;, <userinput
+>3*4/2</userinput
+> returns 6.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>+, -</term>
+<listitem
+><para
+>The plus and minus symbols perform addition and subtraction. &eg;, <userinput
+>1+3-2</userinput
+> returns 2.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+<para
+>Note the precedence, which means that if parentheses are not used, exponentiation is performed before multiplication/division, which is performed before addition/subtraction. So <userinput
+>1+2*4^2</userinput
+> returns 33, and not, say 144. To override this, use parentheses. To use the above example, <userinput
+>((1+2)*4)^2</userinput
+> <emphasis
+>will</emphasis
+> return 144. </para>
+</sect1>
+
+<!--
+<sect1 id="coord-system">
+<title
+>Coordinate Systems</title>
+
+<para
+><inlinemediaobject>
+<imageobject>
+<imagedata fileref="ksys1.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject
+></para>
+
+<para>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="ksys2.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject
+></para>
+
+<para>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="ksys3.png" format="PNG"/>
+</imageobject>
+</inlinemediaobject
+></para>
+-->
+<sect1 id="coord-area"
+><title
+>Plotting Area</title>
+<para
+>By default, explicitly given functions are plotted for the whole of the visible part of the x-axis. You can specify an other range in the edit-dialogue for the function. For every pixel on the x-axis &kmplot; calculates a function value. If the plotting area contains the resulting point it is connected to the last drawn point by a line. </para>
+<para
+>Parametric functions are plotted for parameter values from 0 up to 2&pgr;. You can set the plotting range in the dialogue for the function too. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+<title
+>Cross Hair Cursor</title>
+<para
+>While the mouse cursor is over the plotting area the cursor changes to a cross hair. The current coordinates can be seen at the intersections with the coordinate axes and also in the status bar at the bottom of the main window. </para>
+<para
+>You can trace a function's values more precisely by clicking onto or next to a graph. The selected function is shown in the statusbar in the right column. The cross hair then will be caught and be coloured in the same colour as the graph. If the graph has the same colour as the background colour, the cross hair will have the inverted colour of the background. When moving the mouse or pressing the keys Left or Right the cross hair will follow the function and you see the current x- and y-value. If the cross hair is close to y-axis, the root-value is shown in the statusbar. You can switch function with the Up and Down keys. A second click anywhere in the window or pressing any non-navigating key will leave this trace mode. </para>
+<para
+>Note that tracing is only possible with explicitly given functions. The coordinates are always displayed according to a Cartesian system of coordinates. Neither non-single-point parametric functions nor functions given in polar coordinates can be traced in this way. </para>
+
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

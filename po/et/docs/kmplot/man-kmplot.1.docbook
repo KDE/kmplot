@@ -1,0 +1,154 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+<!ENTITY % Estonian  "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>&kde; kasutaja käsiraamat</title>
+<author
+><personname
+> <firstname
+>Ben</firstname
+> <surname
+>Burton</surname
+> </personname
+> <email
+>bab@debian.org</email
+></author>
+<date
+>2010-10-06</date>
+<productname
+>KDE töökeskkond</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kmplot</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kmplot</command
+></refname>
+<refpurpose
+>Matemaatiliste funktsioonide joonistaja</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kmplot</command
+> <group choice="opt"
+><option
+>-f, --function <replaceable
+>argument</replaceable
+></option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>fail</replaceable
+></option
+></group
+> <arg choice="opt"
+>&kde; üldised võtmed</arg
+> <arg choice="opt"
+>&Qt; üldised võtmed</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Kirjeldus</title>
+<para
+>&kmplot; on &kde; matemaatiliste funktsioonide joonistaja. Sellel on väga võimas sisseehitatud parser. Korraga võib joonistada erinevaid funktsioone ning neid saab kombineerida uute funktsioonide loomiseks.</para
+><para
+>&kmplot; toetab parameeterfunktsioone ja polaarsete koordinaatidega funktsioone. Toetatud on mitmesugused alusvõrgu tüübid. Jooniseid saab väga täpselt trükkida.</para
+><para
+>&kmplot; pakub ka mõningaid arvutamisega seotud ja visuaalseid omadusi, näiteks joonise ja esimese telje vahel asuva ala täitmine või arvutamine, maksimum- ja miinimumväärtuste leidmine, funktsiooni parameetrite dünaamiline muutmine ning tuletiste ja integraalide joonistamine.</para
+><para
+>&kmplot; kuulub &kde; õppeprogrammide mooduli koosseisu.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Võtmed</title>
+<variablelist>
+<varlistentry
+><term
+><option
+>-f, --function <replaceable
+>argument</replaceable
+></option
+></term>
+<listitem
+><para
+>Algne joonistatav funktsioon</para
+></listitem
+></varlistentry>
+<varlistentry
+><term
+><option
+><replaceable
+>fail</replaceable
+></option
+></term>
+<listitem
+><para
+>Avatav fail</para
+></listitem
+></varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title
+>Vaata ka</title>
+
+<para
+>Põhjalikumat kasutaja dokumentatsiooni pakub <ulink url="help:/kmplot"
+>help:/kmplot</ulink
+> (kirjuta see &URL; &konqueror;i või käivita käsuga <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kmplot</parameter
+></userinput
+>).</para>
+
+<para
+>Täiendavat infot leiab ka <ulink url="http://edu.kde.org/kmplot/"
+>&kde; Edu-projekti koduleheküljelt</ulink
+>.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Autorid</title>
+<para
+>&kmplot;i autorid on <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> <email
+>kdmoeller@foni.net</email
+>, &Matthias.Messmer; &Matthias.Messmer.mail; ja <personname
+><firstname
+>Fredrik</firstname
+><surname
+>Edemar</surname
+></personname
+> <email
+>f_edemar@linux.se</email
+>.</para>
+</refsect1>
+
+</refentry>

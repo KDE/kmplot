@@ -1,0 +1,83 @@
+<chapter id="introduction">
+<title
+>Inleiding</title>
+	
+<para
+>&kmplot; is een programma voor het plotten van wiskundige functies, voor de &kde;-Desktop. Het heeft een ingebouwde functielezer aan boord met veel mogelijkheden. U kunt meerdere functies tegelijk plotten, en die ook gebruiken om nieuwe functies te maken.</para>
+
+<screenshot>
+	<screeninfo
+>Voorbeelden</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Voorbeelden</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>In &kmplot; zijn verschillende soorten van plots mogelijk:</para>
+<itemizedlist>
+	<listitem
+><para
+>Expliciete cartesische plots van de vorm y=f(x).</para
+></listitem>
+	<listitem
+><para
+>Parametrische plots, waarin de x- en y-componenten worden uitgedrukt als functies van een onafhankelijke variabele.</para
+></listitem>
+	<listitem
+><para
+>Pooldiagrammen van de vorm r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Impliciete plots, waarin de relatie tussen de x- en y-coördinaten door een expressie wordt gegeven.</para
+></listitem>
+	<listitem
+><para
+>Expliciete differentiële plots.</para
+></listitem>
+</itemizedlist>
+
+<para
+>In &kmplot; vindt u ook enkele numerieke en visuele zaken zoals:</para>
+<itemizedlist>
+	<listitem
+><para
+>Het opvullen en het berekenen van de oppervlakte tussen de grafiek van de functie en de x-as</para>
+	</listitem>
+	<listitem
+><para
+>Het berekenen van uiterste waarden</para>
+	</listitem>
+	<listitem
+><para
+>Het dynamisch wijzigen van de functieparameters</para>
+	</listitem>
+	<listitem
+><para
+>Het plotten van afgeleide en integrale functies.</para>
+	</listitem>
+</itemizedlist>
+
+<para
+>Met behulp van deze functies wordt het begrip bevorderd van het verband tussen wiskundige functies en hun grafische weergave in een coördinatenstelsel.</para>
+
+</chapter>
+
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

@@ -1,0 +1,622 @@
+<chapter id="commands">
+<title
+>Command Reference</title
+> 
+
+<sect1 id="a-file-menu">
+<title
+>The <guimenu
+>File</guimenu
+> Menu</title>
+
+<variablelist>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>New</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+><action
+>Starts a new Plot by clearing the coordinate system and resetting the function parser.</action
+></para
+> 
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Open...</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+><action
+>Opens an existing document.</action>
+</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Save</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+><action
+>Saves the document.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>File</guimenu
+> <guimenuitem
+>Save As...</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+><action
+>Saves the document under another name.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Print...</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+<para
+><action
+>Sends the plot to a printer or file.</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><shortcut
+><keycombo action="simul"
+> &Ctrl;<keycap
+>Q</keycap
+> </keycombo
+></shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Quit</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+><action
+>Exits</action
+> &kmplot;.</para
+></listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+
+<sect1 id="a-view-menu">
+<title
+>The <guimenu
+>Edit</guimenu
+> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Colours...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Displays the <guilabel
+>Colour Settings</guilabel
+> dialogue box. See <xref linkend="configuration"/>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Coordinate System...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Displays the <guilabel
+>Coordinate System</guilabel
+> dialogue box. See <xref linkend="configuration"/>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Scaling...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Displays the <guilabel
+>Scaling Settings</guilabel
+> dialogue box. See <xref linkend="configuration"/>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Fonts...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Displays the <guilabel
+>Font Settings</guilabel
+> dialogue box. See <xref linkend="configuration"/>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Coordinate System I</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Show both positive and negative x- and y-values on the grid. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Coordinate System II</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Show positive and negative y-values, but positive x-values only </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Coordinate System III</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Show only positive x- and y-values. </para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+
+<sect1 id="a-functions-menu">
+<title
+>The <guimenu
+>Plot</guimenu
+> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Functions</guimenu
+> <guimenuitem
+>New Function Plot...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opens the dialogue for creating a new function plot. See <xref linkend="using-kmplot"/>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Functions</guimenu
+> <guimenuitem
+>New Parametric Plot...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opens the dialogue for creating a new parametric plot. See <xref linkend="using-kmplot"/>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Functions</guimenu
+> <guimenuitem
+>New Polar Plot...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opens the dialogue for creating a new polar plot. See <xref linkend="using-kmplot"/>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Functions</guimenu
+> <guimenuitem
+>Edit Plots...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Displays the functions dialogue. There you can add, edit and remove functions. See <xref linkend="using-kmplot"/>.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="a-zoom-menu">
+<title
+>The <guimenu
+>Zoom</guimenu
+> Menu</title>
+<para
+>The first five items in the menu change zoom-mode.</para>
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Zoom</guimenu
+> <guimenuitem
+>No Zoom</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Disable the zoom-mode.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Zoom</guimenu
+> <guimenuitem
+>Zoom rectangular</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Let the user draw a rectangle. The minimum and maximum values will be set to the coordinates of the rectangle.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Zoom</guimenu
+> <guimenuitem
+>Zoom in</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>The minimum and maximum values will come closer to each other and the selected point in the graph will be centred.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Zoom</guimenu
+> <guimenuitem
+>Zoom out</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>The minimum and maximum values will be more separated from each other and the selected point in the graph will be centred.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Zoom</guimenu
+> <guimenuitem
+>Centre a point</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>The selected point in the graph will be centred.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+<variablelist>
+<varlistentry>
+<term>
+<menuchoice
+><guimenu
+>Zoom</guimenu
+> <guimenuitem
+>Fit widget to trigonometric functions</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>The scale will be adapted to trigonometric functions. This works both for radians and degrees.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+
+<sect1 id="a-settings-menu">
+<title
+>The <guimenu
+>Settings</guimenu
+> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Show Toolbar</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Toggle on and off the display of the toolbar.</action
+> The default is on.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Show Statusbar</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Toggle on and off the display of the statusbar at the bottom of the &kmplot; main window.</action
+> The default is on.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Configure Shortcuts...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Personalise the keybindings</action
+> for &kmplot;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Configure Toolbars...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Personalise the toolbars</action
+> for &kmplot;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Configure &kmplot;</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Customise</action
+> &kmplot;. The options available to you are described in <xref linkend="configuration"/>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="a-tools-menu">
+<title
+>The <guimenu
+>Tools</guimenu
+> Menu</title>
+
+<para
+>This menu constains some tools for the functions that can be useful:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tools</guimenu
+> <guimenuitem
+>Get y-value</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Let the user get the y-value from a specific x-value. At the moment, only plot functions are supported. Type a value or expression in the textbox under "X:". In the list below all the available functions are shown. Press the "Calculate" button to find the function's y-value. The result will be shown in the y-value box.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</sect1>
+
+<sect1 id="a-help-menu">
+<title
+>The <guimenu
+>Help</guimenu
+> Menu</title>
+
+<para
+>&kmplot; has a standard &kde; <guimenu
+>Help</guimenu
+> as described below, with one addition:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Help</guimenu
+> <guimenuitem
+>Names...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Opens a window with a list of the predefined function names and constants that &kmplot; knows.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>The standard &kde; <guimenu
+>Help</guimenu
+> entries are:</para>
+&help.menu.documentation; </sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

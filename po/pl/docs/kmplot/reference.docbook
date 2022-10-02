@@ -1,0 +1,856 @@
+<chapter id="reference">
+<title
+>Leksykon &kmplot;</title>
+	
+<!--
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="kfkt.png" format="PNG"/>
+		</imageobject>
+	</mediaobject>
+	
+	<para
+>This menu entry or toolbar button opens the Functions Editor.  Here
+		you can enter up to 10 functions or
+		function groups.  The parser knows <firstterm
+>explicit</firstterm
+> and
+		<firstterm
+>parametric</firstterm
+> form.  With specific extensions it
+		is possible to add first and second derivatives and to choose values
+		for the function group parameter.</para>
+	-->
+		
+<sect1 id="func-syntax">
+	<title
+>Składnia funkcji</title>
+	
+	<para
+>Niektóre zasady składni muszą być zgodne z:</para>
+	
+	<screen
+><userinput
+>nazwa(zm1[, zm2])=wyraz [;rozszerzenia]</userinput
+>
+        </screen>
+	
+	
+	<variablelist>
+		<varlistentry>
+			<term
+>nazwa</term>
+			<listitem>
+				
+				<para
+>Nazwa funkcji. Jeśli pierwszy znak to <quote
+>r</quote
+> parser przyjmuje, że używasz współrzędnych biegunowych. Jeśli pierwszym znakiem jest <quote
+>x</quote
+> (na przykład <quote
+>xfunc</quote
+>) parser oczekuje drugiej funkcji z pierwszym znakiem <quote
+>y</quote
+> (tutaj <quote
+>yfunc</quote
+>) aby zdefiniowac funkcję w formie parametrycznej. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var1</term>
+			<listitem
+><para
+>Zmienna funkcji</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var2</term
+> 
+			<listitem
+><para
+><quote
+>Parametr grupowy</quote
+> funkcji. Musi być oddzielony od zmiennej  funkcji przecinkiem. Możesz użyć parametru grupowego na przykład do narysowania kilku wykresów z jednej funkcji. Wartości parametru mogą być ustawiane ręcznie, lub wybierane za pomocą suwaka. Zmieniając położenie suwaka, ustawia się warośc parametru. Suwakiem można ustawić liczbę całkowitą z przedziału od 0 do 100.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>term</term>
+			<listitem
+><para
+>Wyrażenie definiujace funkcję.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+	<title
+>Wstępnie zdefiniowane nazwy funkcji i stałe</title>
+	
+	<para
+>Wszystkie wstępnie zdefiniowane funkcje i stałe, które są znane programowi &kmplot; mogą być wyświetlone poprzez wybranie<menuchoice
+><guimenu
+>Pomoc</guimenu
+><guimenuitem
+>Predefiniowane funkcje matematyczne</guimenuitem
+> </menuchoice
+>, co spowoduje wyświetlenie niniejszych stron podręcznika &kmplot; </para>
+	
+	<para
+>Powyższe funkcje i stałe, oraz także wszystkie zdefiniowane przez użytkownika mogą być użyte do ustalenia ustawień osi. Zobacz <xref linkend="axes-config"/>. </para>
+	
+	<sect2 id="trigonometric-functions">
+		<title
+>Funkcje trygonometryczne</title>
+		
+		<para
+>Domyślnie wszystkie funkcje trygonometryczne działają w oparciu o radiany, może to być zmienione za pomocą  <menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guimenuitem
+>Konfiguracja &kmplot;</guimenuitem
+></menuchoice
+>. </para>
+		
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>sin(x)</term>
+				<term
+>arcsin(x)</term>
+				<term
+>cosec(x)</term>
+				<term
+>arccosec(x)</term>
+				<listitem
+><para
+>Zwraca odpowiednio sinus, arcus sinus, cosecans i arcus cosecans liczby.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>cos(x)</term>
+				<term
+>arccos(x)</term>
+				<term
+>sec(x)</term>
+				<term
+>arcsec(x)</term>
+				<listitem
+><para
+>Zwraca odpowiednio cosinus, arcus cosinus, secans i arcus secans liczby.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>tan(x)</term>
+				<term
+>arctan(x)</term>
+				<term
+>cot(x)</term>
+				<term
+>arccot(x)</term>
+				<listitem
+><para
+>Zwraca odpowiednio tangens, arcus tangens, cotangens i arcus cotangens.</para
+></listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</sect2>
+	
+	<sect2 id="hyperbolic-functions">
+		<title
+>Funkcje hiperboliczne</title>
+		<para
+>Funkcje hiperboliczne.</para>
+		
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>sinh(x)</term>
+				<term
+>arcsinh(x)</term>
+				<term
+>cosech(x)</term>
+				<term
+>arccosech(x)</term>
+				<listitem
+><para
+>Zwraca hiperboliczny: sinus, arcus sinus, cosecans i arcus cosecans liczby.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>cosh(x)</term>
+				<term
+>arccosh(x)</term>
+				<term
+>sech(x)</term>
+				<term
+>arcsech(x)</term>
+				<listitem
+><para
+>Zwraca hiperboliczny cosinus, arcus cosinus, secans i arcus secans liczby.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>tanh(x)</term>
+				<term
+>arctanh(x)</term>
+				<term
+>coth(x)</term>
+				<term
+>arccoth(x)</term>
+				<listitem
+><para
+>Zwraca hiperboliczny tangens, arcus tangens, cotangens i arcus cotangens.</para
+></listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</sect2>
+	
+	<sect2 id="other-functions">
+		<title
+>Pozostałe funkcje</title>
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>sqr(x)</term>
+				<listitem
+><para
+>Zwraca x do potęgi 2.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>sqrt(x)</term>
+				<listitem
+><para
+>Zwraca pierwiastek drugiego stopnia z x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>sign(x)</term>
+				<listitem
+><para
+>Zwraca informację o znaku liczby. 1 dla liczb dodatnich, 0 dla zera lub &minus;1 dla liczb ujemnych.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>H(x)</term>
+				<listitem
+><para
+>Funkcja krokowa Heaviside'a. Zwraca wartość 1 dla x dodatniego, 0,5 dla x równego zero, oraz 0 dla x ujemnego.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>exp(x)</term>
+				<listitem
+><para
+>Zwraca wartość funkcji wykładniczej e^x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>ln(x)</term>
+				<listitem
+><para
+>Funkcja zwraca logarytm naturalny z x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>log(x)</term>
+				<listitem
+><para
+>Funkcja zwraca wartość logarytmu dziesiętnego z x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>abs(x)</term>
+				<listitem
+><para
+>Wartość bezwzględna x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>floor(x)</term>
+				<listitem
+><para
+>Zwraca całkowitą część liczby x (odcięcie części ułamkowej).</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>ceil(x)</term>
+				<listitem
+><para
+>Zwraca całkowitą wartość x zaokrągloną w górę.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>round(x)</term>
+				<listitem
+><para
+>Zwraca zaokrągloną liczbę x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>gamma(x)</term>
+				<listitem
+><para
+>Zwraca wartość funkcji gamma.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>factorial(x)</term>
+				<listitem
+><para
+>Zwraca silnię x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>min(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Zwraca najmniejszą liczbę z podanego zbioru {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>max(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Zwraca największą wartość z podanego zbioru: {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>mod(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Zwraca długość euklidesową wektora określonego zbiorem liczb: {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+			
+			<!-- TODO: Legendre polynomials -->
+			
+		</variablelist>
+	</sect2>
+	
+	<sect2>
+		<title
+>Zdefiniowane stałe</title>
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>pi</term>
+				<term
+>&pgr;</term>
+				<listitem>
+					<para
+>Stałe reprezentujące &pgr; (3.14159...).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>e</term>
+				<listitem>
+					<para
+>Stałe reprezentujące liczbę Eulera e (2.71828...).</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</sect2>
+</sect1>
+
+<sect1 id="func-extension">
+	<title
+>Rozszerzenia</title>
+	<para
+>Rozszerzenie funkcji można wprowadzić przez wprowadzenie średnika po definicji wyrażenia, po którym następuje właściwe rozszerzenie. Rozszerzenie może być wprowadzone z wykorzystaniem &DBus; i funkcji addFunction pasera. Żadne z rozszerzeń nie jest dostępne dla funkcji parametrycznych, ale N i D (a,b) działa również dla funkcji biegunowych. Na przykład: <screen>
+      <userinput>
+        f(x)=x^2; A1
+      </userinput>
+    </screen
+> wyświetli wykres y=x<superscript
+>2</superscript
+> razem z pierwszą pochodną. Wspierane rozszerzenia są opisane poniżej: <variablelist>
+			<varlistentry>
+				<term
+>N</term>
+				<listitem>
+					<para
+>Funkcja zostanie zachowana, ale nie będzie narysowana. Może więc być wykorzystana jak każda inna zdefiniowana funkcja. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A1</term>
+				<listitem>
+					<para
+>Zostanie narysowany dodatkowo wykres pierwszej pochodnej, w tym samym kolorze, lecz o mniejszej gruości linii. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A2</term>
+				<listitem>
+					<para
+>Zostanie narysowany dodatkowo wykres drugiej pochodnej, w tym samym kolorze, lecz o mniejszej gruości linii. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>D[a,b]</term>
+				<listitem>
+					<para
+>Ustawia dziedzinę w której będzie wyświetlana funkcja. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>P[a{,b...}]</term>
+				<listitem>
+					<para
+>Podaje zestaw wartości parametru złożonego, dla którego ma być wyświetlona funkcja. Na przykład  <userinput
+>f(x,k)=k*x;P[1,2,3]</userinput
+> narysuje funkcje f(x)=x, f(x)=2*x and f(x)=3*x. Możesz używac również funkcji jako argumentów opcji P. </para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	<para
+>Należy podkreślić, że można wykonać te wszystkie operacje korzystając z zakładki <guilabel
+>Pochodne</guilabel
+>, sekcji <guilabel
+>Dostosuj przedział wykresu</guilabel
+> oraz sekcji <guilabel
+>Parametry</guilabel
+> w zakładce<guilabel
+>Funkcje</guilabel
+> na pasku bocznym. </para>
+</sect1>
+
+<sect1 id="math-syntax">
+	<title
+>Składnia matematyczna</title>
+	<para
+>&kmplot; używa standardowego sposobu zapisu funkcji matemetycznych, więc nie powinienes mieć problemów z ich rozpracowaniem. Operatory jakie &kmplot; rozpoznaje to (w porządku malejącego priorytetu): <variablelist>
+			
+			<varlistentry>
+				<term
+>^</term>
+				<listitem
+><para
+>Używając symbolu "daszka" wykonuje się operację potęgowania. Np. <userinput
+>2^4</userinput
+> zwraca 16.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>*</term>
+				<term
+>/</term>
+				<listitem>
+					<para
+>Symbole gwiazdki i slash'a wykonują mnożenie i dzielenie . Np. <userinput
+>3*4/2</userinput
+> zwraca 6.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>+</term>
+				<term
+>&minus;</term>
+				<listitem
+><para
+>Symbole plusa i minusa odpowiadają za działania dodawania i odejmowania. Np. <userinput
+>1+3&minus;2</userinput
+> zwraca 2.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>&lt;</term>
+				<term
+>&gt;</term>
+				<term
+>&le;</term>
+				<term
+>&ge;</term>
+				<listitem
+><para
+>Operatory porównania. Zwracają 1 jeżeli wyrażenie jest prawdziwe lub zero w przeciwnym wypadku. Przykładowo wyrażenie <userinput
+>1 &le; 2</userinput
+> zwraca 1.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>&radic;</term>
+				<listitem
+><para
+>Pierwiastek kwadratowy z liczby. Np. <userinput
+>&radic;4</userinput
+> zwraca 2.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>|x|</term>
+				<listitem
+><para
+>Wartość bezwzględna x, np. <userinput
+>|&minus;4|</userinput
+> zwraca 4.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>&plusmn;</term>
+				<term
+></term>
+				<listitem
+><para
+>Każdy znak plus-minus powoduje narysowanie zbioru dwóch wykresów: jednego dla którego stosowana jest wartość dodatnia i drugiego dla którego jest stosowana wartość ujemna. Przykładowo: <userinput
+>y = &plusmn;sqrt(1&minus;x^2)</userinput
+> narysuje koło. Znak ten, nie może więc być użyty do definiowania stałych. </para>
+				</listitem>
+			</varlistentry>
+			
+			
+			
+		</variablelist>
+	</para>
+	<para
+>Pamiętaj o kolejności wykonywania działań jeśli nie są używane nawiasy. Potęgowanie jest wykonywane przed mnożeniem i dzieleniem, a te przed dodawaniem i odejmowaniem. Więc <userinput
+>1+2*4^2</userinput
+> zwraca 33, a nie np. 144. Aby zmienić kolejność działań użyj nawiasów. Wtedy <userinput
+>((1+2)*4)^2</userinput
+> <emphasis
+>zwróci</emphasis
+> 144. </para>
+</sect1>
+
+<!--
+<sect1 id="coord-system">
+	<title
+>Coordinate Systems</title>
+	
+	<para
+><inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys1.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject
+></para>
+	
+	<para>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys2.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject
+></para>
+	
+	<para>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys3.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject
+></para>
+	-->
+<sect1 id="coord-area"
+><title
+>Obszar rysowania</title>
+	<para
+>Domyślenie funkcje podane bezpośrednio (y=f(x)) są rysowane na całej widocznej części układu współrzędnych. Możesz podać dowolny inny zakres w oknie dialogowym edycji dla funkcji. Jeśli obszar rysowania zawiera punkt wynikowy, jest on łączony z poprzednio narysowanym za pomocą linii. </para>
+	<para
+>Funkcje parametryczne i biegunowe mają domyślny zakres od 0 do 2&pgr;. Ten zakres może być zmieniony w pasku <guilabel
+>Funkcje</guilabel
+> po lewej stronie wykresu. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+	<title
+>Krzyżyk</title>
+	<para
+>Kiedy kursor myszy jest nad obszarem rysowania, wskaźnik zmienia się w krzyżyk. Bieżące współrzędne krzyżyka pokazywane są na osiach układu współrzędnych jak również w pasku stanu na dole głównego okna. </para>
+	<para
+>Możesz śledzić wartości funkcji bardziej precyzyjnie poprzez kliknięcie na lub w pobliżu linii wykresu funkcji. Wybrana funkcja wyświetla się w pasku stanu w prawej kolumnie. Kursor krzyżykowy będzie miał kolor taki sam jak wykres. Jeśli wykres ma taki sam kolor jak tło, kursor krzyżykowy otrzyma kolor dopełnienia tła (invert). Podczas ruchu myszą lub używania klawiszy Lewy i Prawy, krzyżyk przemieszczał się będzie po wykresie funkcji i wyświetlane będą aktualne wartości współrzędnych x i y. Jeśli kursor zbliży się do osi x wyświetlane będą miejsca zerowe funkcji. Można przełączać się między funkcjami za pomocą klawiszy Góra i Dół. Kliknięcie w dowolny punkt okna, lub naciśnięcie klawisza innego niż nawigacyjne, spowoduje opuszczenie trybu śledzenia. </para>
+	<para
+>Aby włączyć bardziej zaawansowane funkcje śledzenia, należy otworzyć okno konfiguracji i wybrać opcję<guilabel
+>Rysuj tangens i normalną podczas śledzenia</guilabel
+> w zakładce<guilabel
+>Ogólne</guilabel
+>. Spowoduje to, iż w trakcie śledzenia będą widoczne: tangens, linia normalna i oscylujące koło. </para>
+	
+</sect1>
+
+<sect1 id="coords-config">
+	<title
+>Konfiguracja <guimenuitem
+>Układu współrzędnych</guimenuitem
+></title>
+	<para
+>Aby otworzyć to okno dialogowe należy wybrać <menuchoice
+><guimenu
+>Widok</guimenu
+><guimenuitem
+>Układ współrzędnych...</guimenuitem
+></menuchoice
+> z menu.</para>
+	<screenshot>
+		<screeninfo
+>Widok ekranu okna konfiguracji układu współrzędnych</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Widok ekranu okna konfiguracji układu współrzędnych</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<sect2 id="axes-config">
+		<title
+>Konfiguracja <guilabel
+>Osi</guilabel
+></title>
+		<para>
+			<variablelist>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Zakres osi X</guilabel
+></term>
+					<listitem>
+						<para
+>Ustala zakres wyświetlania wartości dla osi x. Można wykorzystać tutaj predefiniowane funkcje i stałe (patrz <xref linkend="func-predefined"/>) jako granice zakresu (przykładowo ustawiając <guilabel
+>Min:</guilabel
+> na <userinput
+>2*pi</userinput
+>). Można także do określenia zakresu osi wykorzystać zdefiniowane funkcje. Przykładowo, jeżeli użytkownik zdefiniował wcześniej funkcję <userinput
+>f(x) = x^2</userinput
+>, to można wpisać w polu <guilabel
+>Min:</guilabel
+> tekst <userinput
+>f(3)</userinput
+>, co ustali dolną granicę zakresu osi na 9.</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Zakres osi Y</guilabel
+></term>
+					<listitem>
+						<para
+>Określa zakres dla osi y. Zobacz <quote
+>Zakres osi x</quote
+> powyżej.</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Odstępy siatki na osi X</guilabel
+></term>
+					<listitem>
+						<para
+>Tutaj można definiować odstęp pomiędzy liniami siatki w kierunku poziomym. Zaznaczenie opcji<guilabel
+>Automatyczne</guilabel
+> spowoduje że program &kmplot; będzie próbował ustalić odstęp szerokości ok. 2 cm. i numerycznie ładnie zaokrąglony. Opcja <guilabel
+>Użytkownika</guilabel
+> pozwala na samodzielne wprowadzenie odstępu linii siatki. Wartość ta nie będzie się zmieniać przy zmianie skali. Na przykład wprowadzenie wartości 0,5, przy zakresie osi x 0 do 8 spowoduje wyświetlenie 16 linii siatki. </para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Odstępy siatki na osi Y</guilabel
+></term>
+					<listitem>
+						<para
+>To ustawienie pozwala na określenie odstępu między liniami siatki w kierunku pionowym. Działanie jest analogiczne jak dla<quote
+>Odstępy siatki na osi X</quote
+>. </para>
+					</listitem>
+				</varlistentry>
+				
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title
+>Konfiguracja <guimenuitem
+>Stałych</guimenuitem
+></title>
+	<para
+>Aby otworzyć to okno dialogowe należy wybrać <menuchoice
+><guimenu
+>Edycja</guimenu
+><guimenuitem
+>Stałe...</guimenuitem
+></menuchoice
+> z menu.</para>
+	
+	<screenshot>
+		<screeninfo
+>Zrzut ekranu okna konfiguracji stałych</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Zrzut ekranu okna konfiguracji stałych</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Stałe mogą być używane w wyrażeniach matematycznych wszędzie w programie &kmplot;. Każda stała musi mieć podaną nazwę i wartość. Niektóre nazwy mogą być jednak zastrzeżone, np. jeżeli są takie same jak istniejące funkcje lub stałe. </para>
+	
+	<para
+>Dostępne są dwa ustawienia definiujące zakres dostępności stałej: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Dokument</guilabel
+></term>
+				<listitem>
+					<para
+>Zaznaczenie opcji <guilabel
+>Dokument</guilabel
+> spowoduje, że stała będzie zachowywana wraz z aktualnym wykresem podczas zapisywania do pliku. Jeżeli jednak nie zaznaczono opcji <guilabel
+>Globalna</guilabel
+>, to stała nie będzie dostępna pomiędzy różnymi oknami programu &kmplot;.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Globalna</guilabel
+></term>
+				<listitem>
+					<para
+>Wybranie opcji <guilabel
+>Globalna</guilabel
+> spowoduje zapisanie stałej do ustawień środowiska &kde; (dzięki temu może być także wykorzystywana w programie &kcalc;). Po zamknięciu programu &kmplot; stała nie będzie tracona, i będzie ją można wykorzystać po ponownym uruchomieniu &kmplot;.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</para>
+</sect1>
+
+</chapter>
+
+<!--
+	Local Variables:
+	mode: sgml
+	sgml-minimize-attributes:nil
+	sgml-general-insert-case:lower
+	sgml-indent-step:0
+	sgml-indent-data:nil
+	sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+	End:
+			-->

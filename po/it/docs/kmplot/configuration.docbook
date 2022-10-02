@@ -1,0 +1,305 @@
+<chapter id="configuration">
+<title
+>Configurazione di &kmplot;</title
+> 
+<para
+>Per accedere alla finestra di configurazione di &kmplot; seleziona <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Configura &kmplot;... </guimenuitem
+></menuchoice
+>. Le impostazioni per le <guimenuitem
+>Costanti...</guimenuitem
+> possono essere modificate solo dal menu <guimenu
+>Modifica</guimenu
+> e quelle per il <guimenuitem
+>Sistema di coordinate...</guimenuitem
+> solo dal menu <guimenu
+>Visualizza</guimenu
+>. </para>
+
+<sect1 id="general-config">
+	<title
+>Configurazione generale</title>
+	
+	<screenshot>
+		<screeninfo
+>Questa immagine mostra la finestra principale di configurazione</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Questa immagine mostra la finestra principale di configurazione </phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Qui puoi modificare le impostazioni globali che verranno salvate automaticamente quando uscirai da &kmplot;. Puoi il formato degli angoli (gradi o radianti), i fattori di ingrandimento e riduzione per lo zoom e tutto quello che riguarda gli aspetti più avanzati del tracciamento di grafici. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Configurazione dei diagrammi</title>
+	
+	<screenshot>
+		<screeninfo
+>Schermata che mostra il modulo di configurazione per l'aspetto dei diagrammi</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Schermata che mostra il modulo di configurazione per l'aspetto dei diagrammi</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Puoi impostare lo <guilabel
+>Stile griglia</guilabel
+> a quattro valori: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Nessuna</guilabel
+></term>
+				<listitem>
+					<para
+>Non viene tracciata alcuna griglia nell'area del grafico.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Linee</guilabel
+></term>
+				<listitem>
+					<para
+>Linee rette formano una griglia di quadrati nell'area del grafico.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Croci</guilabel
+></term>
+				<listitem>
+					<para
+>Delle croci indicano i punti dove le coordinate x e y hanno valori interi (&eg;, (1,1), (4,2) &etc;).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Polare</guilabel
+></term>
+				<listitem>
+					<para
+>Linee di raggio e angolo costante sono tracciate nell'area del grafico.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para
+>Possono essere configurate altre opzioni riguardanti l'aspetto dei diagrammi: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Etichette degli assi</guilabel
+></term>
+				<listitem>
+					<para
+>Imposta le etichette per gli assi orizzontale e verticale.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Spessore assi:</guilabel
+></term>
+				<listitem>
+					<para
+>Imposta lo spessore delle linee che rappresentano gli assi.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Spessore linee:</guilabel
+></term>
+				<listitem>
+					<para
+>Imposta lo spessore delle linee usate per mostrare la griglia.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Spessore tacche:</guilabel
+></term>
+				<listitem>
+					<para
+>Imposta lo spessore delle tacche poste lungo gli assi.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Lunghezza tacche:</guilabel
+></term>
+				<listitem>
+					<para
+>Imposta la lunghezza delle tacche poste lungo gli assi.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostra etichette</guilabel
+></term>
+				<listitem>
+					<para
+>Se marcato, i nomi degli assi sono mostrati sul grafico e le tacche vengono etichettate.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostra gli assi</guilabel
+></term>
+				<listitem>
+					<para
+>Se questa casella è marcata, gli assi sono visibili.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostra frecce</guilabel
+></term>
+				<listitem>
+					<para
+>Se questa casella è marcata, gli assi vengono disegnati con delle frecce alle loro estremità.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Configurazione dei colori</title>
+	
+	<screenshot>
+		<screeninfo
+>Schermata che mostra il modulo per configurare i colori</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Schermata che mostra il modulo per configurare i colori</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Nella sezione <guilabel
+>Coord.</guilabel
+> del modulo di configurazione <guilabel
+>Colori</guilabel
+> puoi modificare i colori degli assi e della griglia e lo sfondo dell'area di lavoro di &kmplot;. </para>
+	
+	<para
+><guilabel
+>Colori predefiniti delle funzioni</guilabel
+> permette di cambiare i colori utilizzati a rotazione quando si tracciano nuove funzioni.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Configurazione dei tipi di carattere</title>
+	
+	<screenshot>
+		<screeninfo
+>Schermata che mostra il modulo per scegliere il tipo di carattere</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Schermata che mostra il modulo per scegliere il tipo di carattere</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Etichette degli assi</guilabel
+></term>
+			<listitem>
+				<para
+>I caratteri utilizzati per numeri e scritte lungo gli assi.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Etichette dei diagrammi</guilabel
+></term>
+			<listitem>
+				<para
+>Caratteri usati per scrivere le etichette dei grafici (&eg; quelle che mostrano il nome del disegno o i punti estremi).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Tabella intestazione</guilabel
+></term>
+			<listitem>
+				<para
+>Tipo di carattere usato per l'intestazione quando si stampa un grafico.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

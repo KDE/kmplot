@@ -1,0 +1,73 @@
+<chapter id="first-steps">
+<title
+>Первые шаги с &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+<title
+>Простое построение функции</title>
+
+<para
+>На главной панели инструментов вы можете найти поле для ввода выражения. Введите следующее: <screen
+><userinput
+>x^2</userinput
+></screen
+>. Это приведёт к построению графика y=x^2 на координатной системе. Введите другое выражение наподобие<screen
+><userinput
+>5*sin(x)</userinput
+></screen
+> и будет добавлен ещё один график. </para>
+
+<para
+>Щёлкните на графике. Теперь скрещивающиеся линии обрели его цвет. Подвигайте мышью. При этом в панели состояния внизу будут отоббражаться сведения о текущей точке функции.</para>
+
+<para
+>Щёлкните ещё раз и скрещивающиеся линии "отлипнут" от графика.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+<title
+>Изменение свойств</title>
+
+<para
+>Давайте теперь сделаем несколько изменений функций и построения.</para>
+
+<para
+>Редактировать функции можно в окне, вызываемом через пункт меню <guimenu
+>Изменить построения...</guimenu
+>.</para>
+
+<para
+>Выделите <guilabel
+>f(x)=x^2</guilabel
+> в списке, щёлкните дважды или нажмите кнопку <guibutton
+>Изменить</guibutton
+>. Появится новое окно со свойствами функции. Давайте её переименуем и переместим ниже на 5 единиц. Смените уравнение функции на <screen
+><userinput
+>parabola(x)=x^2-5</userinput
+></screen>
+</para>
+
+<para
+>Выберите другой цвет соответствующей кнопкой. Нажмите <guibutton
+>Ok</guibutton
+> и увидите что изменения вошли в силу.</para>
+
+<note
+><para
+>До нажатия <guibutton
+>Ok</guibutton
+> все изменения можно отменить.</para>
+</note>
+
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

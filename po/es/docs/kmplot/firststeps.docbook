@@ -1,0 +1,75 @@
+<chapter id="first-steps">
+<title
+>Primeros pasos con &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Dibujar una función simple</title>
+	
+	<para
+>En la barra lateral izquierda, existe un botón <guilabel
+>Crear</guilabel
+> con un menú desplegable para crear gráficos nuevos. Púlselo y seleccione <guilabel
+>Gráfico cartesiano</guilabel
+>. Se enfocará el cuadro para editar el texto. Reemplace el texto predeterminado con <screen
+><userinput
+>y = x^2</userinput
+></screen
+> y pulse &Enter;. Se dibujará el gráfico y = x <superscript
+>2</superscript
+> en el sistema de coordenadas. Pulsando de nuevo el botón <guilabel
+>Crear</guilabel
+>, seleccione <guilabel
+>Gráfico cartesiano</guilabel
+>, pero esta vez escriba <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> para crear otro gráfico. </para>
+	
+	<para
+>Pulse en una de las líneas que se acaban de dibujar. La cruz tomará el color de la gráfica y se asociará a esta. Puede utilizar el ratón para desplazar la cruz a lo largo de la gráfica. En la barra de estado de la parte superior de la ventana de coordenadas se mostrará la posición actual. Tenga en cuenta que si la gráfica toca el eje horizontal, la raíz también se mostrará en la barra de estado.</para>
+	
+	<para
+>Pulse nuevamente y la cruz se separará del gráfico.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Editar propiedades</title>
+	
+	<para
+>Modifiquemos la función, y cambiemos el color de la linea trazada.</para>
+	
+	<para
+>El editor de funciones lista todas las funciones que haya dibujado. Si ya no está seleccionado <guilabel
+>y = x^2</guilabel
+>, selecciónelo. Aquí tendrá acceso a muchas opciones. Vamos a cambiar el nombre de la función y desplazarla 5 unidades hacia abajo. Cambie la ecuación de la función a <screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> y pulse Intro. Para seleccionar otro color para el gráfico, pulse el botón <guilabel
+>Aspecto</guilabel
+> en la parte inferior del editor de funciones y seleccione un color nuevo. <note
+> <para
+>Todos los cambios se pueden deshacer a través de <menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Deshacer</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

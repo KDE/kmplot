@@ -1,0 +1,155 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+<!ENTITY % Italian "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Manuale utente di &kmplot;</title>
+<author
+><firstname
+>Ben</firstname
+> <surname
+>Burton</surname
+> <contrib
+>pagina di manuale di KmPlot.</contrib
+> <email
+>bab@debian.org</email
+></author>
+<date
+>05/01/2021</date>
+<releaseinfo
+>1.3.0 (Applications 20.12)</releaseinfo>
+<productname
+>KDE Applications</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kmplot</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kmplot</command
+></refname>
+<refpurpose
+>Grafici di funzioni matematiche</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kmplot</command
+> <group choice="opt"
+><option
+>-f, --function <replaceable
+>argomento</replaceable
+></option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>file</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Descrizione</title>
+<para
+>&kmplot; è uno strumento per tracciare grafici di funzioni matematiche della comunità &kde;. Possiede un potente analizzatore sintattico integrato. Puoi disegnare più funzioni contemporaneamente e comporle per ottenere nuove funzioni.</para
+><para
+>&kmplot; può disegnare anche funzioni parametriche o in coordinate polari. Sono supportati diversi tipi di griglia. I grafici possono essere stampati con grande precisione nella giusta scala.</para
+><para
+>&kmplot; può compiere anche delle operazioni numeriche e visuali, come colorare e calcolare l'area compresa tra la funzione e il primo asse, trovare i valori di massimo e di minimo, modificare dinamicamente i parametri della funzione e disegnare le funzioni derivata e integrale.</para
+><para
+>&kmplot; fa parte del modulo didattico di &kde;.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Opzioni</title>
+<variablelist>
+<varlistentry
+><term
+><option
+>-f, --function <replaceable
+>argomento</replaceable
+></option
+></term>
+<listitem
+><para
+>Funzione iniziale da disegnare.</para
+></listitem
+></varlistentry>
+<varlistentry
+><term
+><option
+><replaceable
+>file</replaceable
+></option
+></term>
+<listitem
+><para
+>File da aprire.</para
+></listitem
+></varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title
+>Vedi anche</title>
+
+<simplelist>
+<member
+>Una documentazione utente più dettagliata è disponibile in <ulink url="help:/kmplot"
+>help:/kmplot</ulink
+> (puoi inserire l'&URL; in &konqueror; oppure eseguire <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kmplot</parameter
+></userinput
+>).</member>
+<member
+>Altre informazioni sono disponibili sul <ulink url="https://kde.org/applications/education/kmplot"
+>sito web didattico di &kde;</ulink
+>.</member>
+<member
+>kf5options(1)</member>
+<member
+>qt5options(1)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Autori</title>
+<para
+>&kmplot; è stato scritto da <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail;, &Matthias.Messmer; &Matthias.Messmer.mail; and <personname
+><firstname
+>Fredrik</firstname
+><surname
+>Edemar</surname
+></personname
+> <email
+>f_edemar@linux.se</email
+></para>
+</refsect1>
+
+</refentry>

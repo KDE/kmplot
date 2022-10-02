@@ -1,0 +1,440 @@
+<chapter id="using-kmplot">
+<title
+>Att använda &kmplot;</title>
+
+<para
+>&kmplot; hanterar flera olika funktionstyper, som kan skrivas på funktionsform eller som en ekvation:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Kartesiska diagram kan antingen skrivas som t.ex. <quote
+>y = x^2</quote
+>, där x måste användas som variabel, eller som t.ex. <quote
+>f(a) = a^2</quote
+>, där variabelns namn är godtyckligt.</para
+></listitem>
+	<listitem
+><para
+>Parametriska diagram liknar kartesiska diagram. Koordinaterna för x och y kan skrivas in som ekvationer av t, t.ex. <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+>, eller som funktioner, t.ex. <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Polära diagram liknar också kartesiska diagram. De kan antingen skrivas in som en ekvation av &thgr;, t.ex. <quote
+>r = &thgr;</quote
+>, eller som en funktion, t.ex. <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>För implicita diagram skrivs funktionens namn in separat från uttrycket som relaterar x- och y-koordinaterna. Om x- och y-variablerna anges via funktionens namn (genom att t.ex. skriva in <quote
+>f(a,b)</quote
+> som funktionsnamn), används dessa variabler. Annars används bokstäverna x och y som variabler.</para
+></listitem>
+	<listitem
+><para
+>Explicita differentialdiagram är differentialekvationer där den större derivatan anges i termer av de mindre derivatorna. Differentialen anges med prim ('). På funktionsform ser ekvationen ut som <quote
+>f''(x) = f' &minus; f</quote
+>. På ekvationsform ser den ut som <quote
+>y'' = y' &minus; y</quote
+>. Observera att i båda fall läggs inte <quote
+>(x)</quote
+> till i de lägre ordningens differentialtermer (du ska alltså skriva in <quote
+>f'(x) = &minus;f</quote
+> och inte <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>Alla inmatningsrutor för ekvationer har en knapp till höger. Genom att klicka på den visas en avancerad <guilabel
+>Ekvationseditor</guilabel
+>, som tillhandahåller: <itemizedlist>
+		<listitem>
+			<para
+>En mängd matematiska symboler som kan användas i ekvationer, men som inte finns på normala tangentbord.</para>
+		</listitem>
+		<listitem>
+			<para
+>Listan med användarkonstanter och en knapp för att redigera dem.</para>
+		</listitem>
+		<listitem>
+			<para
+>Listan med fördefinierade funktioner. Observera att om du redan har markerat text används den som funktionsargument när en funktion infogas. Om till exempel <quote
+>1 + x</quote
+> är markerat i ekvationen <quote
+>y = 1 + x</quote
+>, och funktionen sinus väljes, blir ekvationen <quote
+>y = sin(1 + x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>Här är en skärmbild av &kmplot;s välkomstfönster</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Skärmbild</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Funktionstyper</title>
+	
+	<sect2 id="cartesian-functions">
+		<title
+>Kartesiska funktioner</title>
+		<para
+>För att skriva in en explicit funktion (dvs. en funktion på formen y=f(x)) i &kmplot;, skriv bara in den på följande form: <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>uttryck</replaceable
+></userinput
+></screen
+>Där: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> är funktionens namn, och kan vara vilken sträng med bokstäver och siffror som helst.</para>
+				</listitem>
+				
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> är den horisontella koordinaten, som ska användas i uttrycket som följer likhetstecknet. Det är i själva verket en godtycklig variabel, så du kan ange vilket variabelnamn du vill, men effekten blir likadan.</para>
+				</listitem>
+				
+				<listitem>
+					<para
+><replaceable
+>uttryck</replaceable
+> är uttrycket som ska ritas upp, angivet i lämplig syntax för &kmplot;. Se <xref linkend="math-syntax"/>. </para>
+				</listitem>
+				
+			</itemizedlist>
+		</para>
+	</sect2>
+	
+	<sect2 id="parametric-functions">
+		<title
+>Parametriska funktioner</title>
+		<para
+>Parametriska funktioner är de där x- och y-koordinaten definieras med skilda funktioner av en annan variabel, som ofta kallas t. För att skriva in en parametrisk funktion i &kmplot;, följ proceduren för en kartesisk funktion för var och en av x- och y-funktionerna. Som för kartesiska funktioner, kan du använda vilket variabelnamn du vill för parametern.</para>
+		<para
+>Antag till exempel att du vill rita en cirkel, som har den parametriska ekvationerna x = sin(t), y = cos(t). Efter du har skapat ett parametriskt diagram, skriv in lämpliga ekvationer i x- och y-rutorna, dvs. <guilabel
+>f_x(t) = </guilabel
+><userinput
+>sin(t)</userinput
+> och <guilabel
+>f_y(t) = </guilabel
+><userinput
+>cos(t)</userinput
+>. </para>
+		<para
+>Du kan ställa in ytterligare några alternativ för diagrammet i funktionseditorn: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Minimalt</guilabel
+></term>
+					<term
+><guilabel
+>Maximalt</guilabel
+></term>
+					<listitem>
+						<para
+>Alternativen styr intervallet för parametern t, som funktionen ritas upp för.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+	
+	<sect2 id="polar-functions">
+		<title
+>Funktioner med polära koordinater</title>
+		
+		<para
+>Polära koordinater representerar en punkt med dess avstånd från origo (oftast benämnd r), och vinkeln en linje från origo till punkten får med den horisontella axeln (oftast representerad med &thgr;, den grekiska bokstaven teta). För att skriva in funktioner med polära koordinater, skapa ett nytt polärt diagram med knappen <guilabel
+>Skapa</guilabel
+>. Fyll i funktionsdefinitionen i definitionsrutan, inklusive namnet på variabeln teta som du vill använda. För att till exempel rita Archimedes spiral r=&thgr;, skriv: <screen
+><userinput
+>r(teta) = teta</userinput
+></screen
+> så att hela raden blir <quote
+>r(teta)=teta</quote
+>. Observera att du kan använda vilket namn som helst på variabeln teta, så <quote
+>r(t)=t</quote
+> skulle ha gett exakt samma kurva. </para>
+	</sect2>
+	
+	<sect2 id="implicit-functions">
+		<title
+>Implicita funktioner</title>
+		
+		<para
+>Ett implicit uttryck relaterar x- och y-koordinaterna som en likhet. För att till exempel skapa en cirkel, skapa ett nytt implicit diagram med knappen <guilabel
+>Skapa</guilabel
+>. Skriv därefter in följande i ekvationsrutan (under funktionsnamnsrutan): <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+	
+	<sect2 id="differential-functions">
+		<title
+>Differentialfunktioner</title>
+		
+		<para
+>&kmplot; kan rita explicita differentialekvationer. Det är ekvationer på formen y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), där y<superscript
+>k</superscript
+> är derivatan av ordningen k till y(x). &kmplot; kan bara tolka derivatans ordning som antalet primtecken som följer funktionsnamnet. För att till exempel rita en sinusformad kurva, skulle du använda differentialekvationen <userinput
+>y'' = &minus; y</userinput
+> eller <userinput
+>f''(x) = −f</userinput
+>. </para>
+		
+		<para
+>Dock är inte en ensam differentialekvation tillräcklig för att bestämma ett diagram. Varje kurva i diagrammet skapas med en kombination av differentialekvation och randvillkor. Du kan redigera randvillkoren genom att klicka på fliken <guilabel
+>Randvillkor</guilabel
+> när en differentialekvation är markerad. Antal kolumner som tillhandahålls för att redigera randvillkoren beror på differentialekvationens ordning. </para>
+		
+		<para
+>Du kan ställa in ytterligare några alternativ för diagrammet i funktionseditorn: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Steg</guilabel
+></term>
+					<listitem>
+						<para
+>Stegvärdet i noggrannhetsrutan används för numerisk lösning av differentialekvationen (med användning av Runge-Kutta metoden). Dess värde är den maximala stegstorleken som används. En mindre stegstorlek kan användas om en del av differentialdiagrammet är inzoomat tillräckligt mycket.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Kombinera funktioner</title>
+	<para
+>Funktioner kan kombineras för att skapa nya. Skriv helt enkelt in funktionerna efter likhetstecknet i ett uttryck som om funktionerna vore variabler. Om du till exempel har definierat funktionerna f(x) och g(x), kan du rita summan av f och g med: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Ändra utseende på funktioner</title>
+	
+	<para
+>För att ändra utseende på en funktions kurva i huvuddiagramfönstret, markera funktionen i sidoraden <guilabel
+>Funktioner</guilabel
+>. Du kan ändra kurvans linjebredd, färg och många andra aspekter genom att klicka på knapparna <guilabel
+>Färg</guilabel
+> eller <guilabel
+>Avancerat...</guilabel
+> längst ner under <guilabel
+>Utseende</guilabel
+>. </para>
+	
+	<para
+>Om du redigerar en kartesisk funktion, har funktionseditorn tre flikar. Under den första anger du funktionens ekvation. Fliken <guilabel
+>Derivator</guilabel
+> låter dig rita funktionens första- och andraderivata. Med fliken <guilabel
+>Integral</guilabel
+> kan du rita funktionens integral. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Sammanhangsberoende meny</title>
+	<screenshot>
+	<screeninfo
+>Diagram-högerklick sammanhangsberoende meny</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Diagram-högerklick sammanhangsberoende meny</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Vid högerklick på en diagramfunktion eller ett parametriskt diagram med en punkt, visas en sammanhangsberoende meny. Det finns tre alternativ tillgängliga i menyn:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Redigera</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Väljer funktion i sidoraden <guilabel
+>Funktioner</guilabel
+> för redigering.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Dölj</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Döljer den markerade kurvan. Andra kurvor av samma funktion visas fortfarande.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Ta bort</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Tar bort funktionen. Alla dess kurvor försvinner.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Animering av diagram...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Visar dialogrutan <guilabel
+>Animering av parameter</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Räknare</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Visar dialogrutan <guilabel
+>Räknare</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+	<para
+>Beroende på diagramtyp, finns också upp till fyra verktyg tillgängliga:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Diagramarea...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Välj minimalt och maximalt horisontellt värde för diagrammet i den nya dialogrutan som visas. Beräknar integralen och ritar ytan mellan kurvan och den horisontella axeln i det valda intervallet med kurvans färg. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Hitta minimum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Sök efter minimalt värde för kurvan i ett angivet område. Den valda kurvan är markerad i dialogrutan som visas. Skriv in nedre och övre gräns för området där du vill söka efter ett minimum. </para>
+				<para
+>Observera: Du kan också tala om att diagrammet ska synliggöra extremvärden via dialogrutan <guilabel
+>Diagramutseende</guilabel
+>, som kan kommas åt via sidoraden <guilabel
+>Funktioner</guilabel
+> genom att klicka på knappen <guibutton
+>Avancerat...</guibutton
+>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Hitta maximum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Det här är samma sak som <guimenuitem
+>Hitta minimum...</guimenuitem
+> ovan, men söker efter maximala värden istället för minimala.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

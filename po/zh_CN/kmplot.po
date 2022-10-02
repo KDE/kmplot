@@ -1,0 +1,3044 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: kdeorg\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"PO-Revision-Date: 2022-09-20 01:56\n"
+"Last-Translator: \n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: kdeorg\n"
+"X-Crowdin-Project-ID: 269464\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /kf5-trunk/messages/kmplot/kmplot.pot\n"
+"X-Crowdin-File-ID: 5098\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "KDE 中国, Guo Yunhe, sd369888, Wordless Echo"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde-china@kde.org, i@guoyunhe.me, sd369888@kde.org, wordless@echo.moe"
+
+#: calculator.cpp:31
+#, kde-format
+msgctxt "@title:window"
+msgid "Calculator"
+msgstr "计算器"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ConstantsEditor)
+#: constantseditor.ui:14
+#, kde-format
+msgid "Constant Editor"
+msgstr "常量编辑器"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, valueInvalidLabel)
+#: constantseditor.ui:26 qparametereditor.ui:22
+#, kde-format
+msgid "The value must be a number (e.g. \"pi^2\")"
+msgstr "此值必须是个数字(如“pi^2”)"
+
+#. i18n: ectx: property (text), widget (QLabel, valueInvalidLabel)
+#: constantseditor.ui:29 qparametereditor.ui:25
+#, kde-format
+msgid "(invalid)"
+msgstr "(不合理)"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: constantseditor.ui:54
+#, kde-format
+msgid "Value:"
+msgstr "值："
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: constantseditor.ui:64
+#, kde-format
+msgid "Constant:"
+msgstr "常量："
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, valueEdit)
+#: constantseditor.ui:74
+#, kde-format
+msgid "Enter an expression that evaluates to a number"
+msgstr "输入用于估算一个数值的表达式"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdNew)
+#: constantseditor.ui:83 qparametereditor.ui:39
+#, kde-format
+msgid "Add a new constant"
+msgstr "添加新常量"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, cmdNew)
+#: constantseditor.ui:86 qparametereditor.ui:42
+#, kde-format
+msgid "Click this button to add a new constant."
+msgstr "单击此按钮可添加一个新常量。"
+
+#. i18n: ectx: property (text), widget (QPushButton, cmdNew)
+#: constantseditor.ui:89 qparametereditor.ui:45
+#, kde-format
+msgid "&New"
+msgstr "新建(&N)"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, constantList)
+#: constantseditor.ui:103
+#, kde-format
+msgid "Constant"
+msgstr "常量"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, constantList)
+#: constantseditor.ui:108
+#, kde-format
+msgid "Value"
+msgstr "值"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, constantList)
+#: constantseditor.ui:113
+#, kde-format
+msgid "Document"
+msgstr "文档"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, constantList)
+#: constantseditor.ui:118
+#, kde-format
+msgid "Global"
+msgstr "全局"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdDelete)
+#: constantseditor.ui:142
+#, kde-format
+msgid "Delete the selected constant"
+msgstr "删除选中的常量"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, cmdDelete)
+#: constantseditor.ui:145 qparametereditor.ui:58
+#, kde-format
+msgid ""
+"Click here to delete the selected constant; it can only be removed if it is "
+"not currently used by a plot."
+msgstr "单击此处删除选中的常量；仅当该常量不被任何图像使用时，才可删除该常量。"
+
+#. i18n: ectx: property (text), widget (QPushButton, cmdDelete)
+#. i18n: ectx: property (text), widget (QPushButton, deleteButton)
+#: constantseditor.ui:148 functioneditorwidget.ui:56 qparametereditor.ui:61
+#, kde-format
+msgid "&Delete"
+msgstr "删除(&D)"
+
+#: coordsconfigdialog.cpp:42
+#, kde-format
+msgid "Coordinates"
+msgstr "坐标系"
+
+#: coordsconfigdialog.cpp:42
+#, kde-format
+msgid "Coordinate System"
+msgstr "坐标系"
+
+#: coordsconfigdialog.cpp:43
+#, kde-format
+msgctxt "@title:window"
+msgid "Coordinate System"
+msgstr "坐标系"
+
+#: coordsconfigdialog.cpp:76 coordsconfigdialog.cpp:102
+#, kde-format
+msgid "The minimum range value must be lower than the maximum range value"
+msgstr "最小范围值必须低于最大范围值"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: editcoords.ui:20
+#, kde-format
+msgid "Horizontal axis Range"
+msgstr "水平轴范围"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel4_2)
+#. i18n: ectx: property (text), widget (QLabel, textLabel4_3)
+#. i18n: ectx: property (text), widget (QCheckBox, cartesianCustomMax)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: editcoords.ui:32 editcoords.ui:116 functioneditorwidget.ui:135
+#: functioneditorwidget.ui:496 functioneditorwidget.ui:627 functiontools.ui:49
+#: sliderwidget.ui:80
+#, kde-format
+msgid "Max:"
+msgstr "最大："
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_XMax)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_XMin)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_YMax)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_YMin)
+#: editcoords.ui:45 editcoords.ui:55 editcoords.ui:93 editcoords.ui:129
+#, kde-format
+msgid "Custom boundary of the plot range"
+msgstr "自定义绘图范围边界"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMin)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_YMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_YMin)
+#: editcoords.ui:48 editcoords.ui:58 editcoords.ui:96 editcoords.ui:132
+#, kde-format
+msgid "Enter a valid expression, for instance 2*pi or e/2."
+msgstr "输入有效的表达式，例如 2*pi 或 e/2。"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel4)
+#. i18n: ectx: property (text), widget (QLabel, textLabel4_4)
+#. i18n: ectx: property (text), widget (QCheckBox, cartesianCustomMin)
+#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: editcoords.ui:65 editcoords.ui:103 functioneditorwidget.ui:148
+#: functioneditorwidget.ui:486 functioneditorwidget.ui:617 functiontools.ui:29
+#: sliderwidget.ui:57
+#, kde-format
+msgid "Min:"
+msgstr "最小："
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: editcoords.ui:81
+#, kde-format
+msgid "Vertical axis Range"
+msgstr "垂直轴范围"
+
+#. i18n: ectx: property (title), widget (QGroupBox, kcfg_XScalingMode)
+#: editcoords.ui:142
+#, kde-format
+msgid "Horizontal axis Grid Spacing"
+msgstr "水平轴网格线间隔"
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton_3)
+#: editcoords.ui:148 editcoords.ui:184
+#, kde-format
+msgid ""
+"Automatic grid spacing is independent of zoom; there will be a fixed number "
+"of tics."
+msgstr "自动网格功能与缩放功能无关；它会有一个固定的刻度。"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
+#: editcoords.ui:151 editcoords.ui:187
+#, kde-format
+msgid "Automatic"
+msgstr "自动"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_4)
+#: editcoords.ui:161 editcoords.ui:197
+#, kde-format
+msgid "Custom:"
+msgstr "自定义："
+
+#. i18n: ectx: property (title), widget (QGroupBox, kcfg_YScalingMode)
+#: editcoords.ui:178
+#, kde-format
+msgid "Vertical axis Grid Spacing"
+msgstr "垂直轴网格线间隔"
+
+#: equationeditor.cpp:27
+#, kde-format
+msgctxt "@title:window"
+msgid "Equation Editor"
+msgstr "公式编辑器："
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: equationeditorwidget.ui:31
+#, kde-format
+msgid "Expression:"
+msgstr "扩展："
+
+#. i18n: ectx: property (text), widget (QPushButton, constantsButton)
+#: equationeditorwidget.ui:54
+#, kde-format
+msgid "Edit Constants..."
+msgstr "编辑常量..."
+
+#. i18n: ectx: property (text), item, widget (QComboBox, constantList)
+#: equationeditorwidget.ui:75
+#, kde-format
+msgid "Insert constant..."
+msgstr "插入常量..."
+
+#. i18n: ectx: property (text), item, widget (QComboBox, functionList)
+#: equationeditorwidget.ui:84
+#, kde-format
+msgid "Insert function..."
+msgstr "插入函数..."
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
+#: equationeditorwidget.ui:129
+#, kde-format
+msgid "²"
+msgstr "²"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_26)
+#: equationeditorwidget.ui:136
+#, kde-format
+msgid "±"
+msgstr "±"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_28)
+#: equationeditorwidget.ui:149
+#, kde-format
+msgid "⁶"
+msgstr "⁶"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_20)
+#: equationeditorwidget.ui:156
+#, kde-format
+msgid "√"
+msgstr "√"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
+#: equationeditorwidget.ui:169
+#, kde-format
+msgid "³"
+msgstr "³"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_18)
+#: equationeditorwidget.ui:182
+#, kde-format
+msgid "∣"
+msgstr "∣"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_19)
+#: equationeditorwidget.ui:189
+#, kde-format
+msgid "≥"
+msgstr "≥"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_27)
+#: equationeditorwidget.ui:196
+#, kde-format
+msgid "≤"
+msgstr "≤"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_25)
+#: equationeditorwidget.ui:209
+#, kde-format
+msgid "⁵"
+msgstr "⁵"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
+#: equationeditorwidget.ui:222
+#, kde-format
+msgid "⁴"
+msgstr "⁴"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
+#: equationeditorwidget.ui:261
+#, kde-format
+msgid "π"
+msgstr "π"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_16)
+#: equationeditorwidget.ui:268
+#, kde-format
+msgid "ω"
+msgstr "ω"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
+#: equationeditorwidget.ui:275
+#, kde-format
+msgid "β"
+msgstr "β"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_14)
+#: equationeditorwidget.ui:282
+#, kde-format
+msgid "α"
+msgstr "α"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton)
+#: equationeditorwidget.ui:295
+#, kde-format
+msgid "λ"
+msgstr "λ"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_13)
+#: equationeditorwidget.ui:308
+#, kde-format
+msgid "μ"
+msgstr "μ"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_15)
+#: equationeditorwidget.ui:315
+#, kde-format
+msgid "φ"
+msgstr "φ"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
+#: equationeditorwidget.ui:328
+#, kde-format
+msgid "θ"
+msgstr "θ"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_24)
+#: equationeditorwidget.ui:361
+#, kde-format
+msgid "⅘"
+msgstr "⅘"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_21)
+#: equationeditorwidget.ui:368
+#, kde-format
+msgid "⅕"
+msgstr "⅕"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
+#: equationeditorwidget.ui:375
+#, kde-format
+msgid "¼"
+msgstr "¼"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
+#: equationeditorwidget.ui:382
+#, kde-format
+msgid "⅔"
+msgstr "⅔"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_22)
+#: equationeditorwidget.ui:389
+#, kde-format
+msgid "⅖"
+msgstr "⅖"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_23)
+#: equationeditorwidget.ui:396
+#, kde-format
+msgid "⅗"
+msgstr "⅗"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
+#: equationeditorwidget.ui:403
+#, kde-format
+msgid "¾"
+msgstr "¾"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
+#: equationeditorwidget.ui:410
+#, kde-format
+msgid "½"
+msgstr "½"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
+#: equationeditorwidget.ui:417
+#, kde-format
+msgid "⅓"
+msgstr "⅓"
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_17)
+#: equationeditorwidget.ui:424
+#, kde-format
+msgid "⅙"
+msgstr "⅙"
+
+#: functioneditor.cpp:46
+#, kde-format
+msgid "Functions"
+msgstr "函数"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, deleteButton)
+#: functioneditorwidget.ui:50
+#, kde-format
+msgid "delete the selected function"
+msgstr "删除选中的函数"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
+#: functioneditorwidget.ui:53
+#, kde-format
+msgid "Click here to delete the selected function from the list."
+msgstr "单击此处从列表中删除选中的函数。"
+
+#. i18n: ectx: property (text), widget (QPushButton, createNewPlot)
+#: functioneditorwidget.ui:76
+#, kde-format
+msgid "Create"
+msgstr "创建"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: functioneditorwidget.ui:102 functioneditorwidget.ui:742
+#, kde-format
+msgid "Function"
+msgstr "函数"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: functioneditorwidget.ui:117
+#, kde-format
+msgid "Custom plot range"
+msgstr "自定义绘图范围"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, cartesianCustomMax)
+#: functioneditorwidget.ui:129
+#, kde-format
+msgid "Customize the maximum plot range"
+msgstr "自定义最大绘图范围"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMax)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMin)
+#: functioneditorwidget.ui:132 functioneditorwidget.ui:145
+#, kde-format
+msgid "Check this button and enter the plot range boundaries below."
+msgstr "选中此按钮并在下方输入绘图的边界范围。"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, cartesianCustomMin)
+#: functioneditorwidget.ui:142
+#, kde-format
+msgid "Customize the minimum plot range"
+msgstr "自定义最小绘图范围"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, cartesianMin)
+#: functioneditorwidget.ui:158
+#, kde-format
+msgid "lower boundary of the plot range"
+msgstr "绘图范围的下边界"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMin)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMin)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, polarMin)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, min)
+#: functioneditorwidget.ui:161 functioneditorwidget.ui:512
+#: functioneditorwidget.ui:600 functiontools.ui:42
+#, kde-format
+msgid ""
+"Enter the lower boundary of the plot range. Expressions like 2*pi are "
+"allowed, too."
+msgstr "输入绘图范围的下边界。也允许像 2*pi 这样的表达式。"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, cartesianMax)
+#: functioneditorwidget.ui:171
+#, kde-format
+msgid "upper boundary of the plot range"
+msgstr "绘图范围的上边界"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, polarMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, max)
+#: functioneditorwidget.ui:174 functioneditorwidget.ui:525
+#: functioneditorwidget.ui:610 functiontools.ui:62
+#, kde-format
+msgid ""
+"Enter the upper boundary of the plot range. Expressions like 2*pi are "
+"allowed, too."
+msgstr "输入绘图范围的上边界。也允许像 2*pi 这样的表达式。"
+
+#. i18n: ectx: property (title), widget (ParametersWidget, cartesianParameters)
+#. i18n: ectx: property (title), widget (ParametersWidget, parametricParameters)
+#. i18n: ectx: property (title), widget (ParametersWidget, polarParameters)
+#. i18n: ectx: property (title), widget (ParametersWidget, implicitParameters)
+#. i18n: ectx: property (title), widget (ParametersWidget, differentialParameters)
+#. i18n: ectx: property (windowTitle), widget (QWidget, ParametersWidget)
+#: functioneditorwidget.ui:184 functioneditorwidget.ui:535
+#: functioneditorwidget.ui:640 functioneditorwidget.ui:714
+#: functioneditorwidget.ui:796 parameterswidget.ui:13 view.cpp:2131
+#, kde-format
+msgid "Parameters"
+msgstr "参数"
+
+#. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f0)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_integral)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, parametric_f0)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, polar_f0)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, implicit_f0)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, differential_f0)
+#: functioneditorwidget.ui:191 functioneditorwidget.ui:378
+#: functioneditorwidget.ui:542 functioneditorwidget.ui:647
+#: functioneditorwidget.ui:721 functioneditorwidget.ui:803
+#, kde-format
+msgid "Appearance"
+msgstr "外观"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
+#: functioneditorwidget.ui:199
+#, kde-format
+msgid "Derivatives"
+msgstr "导函数"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, showDerivative1)
+#: functioneditorwidget.ui:211
+#, kde-format
+msgid "Show first derivative"
+msgstr "显示一阶导函数"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative1)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative2)
+#: functioneditorwidget.ui:214 functioneditorwidget.ui:237
+#, kde-format
+msgid "If this box is checked, the first derivative will be plotted, too."
+msgstr "如果选中此框，也将绘制一阶导函数。"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showDerivative1)
+#: functioneditorwidget.ui:217
+#, kde-format
+msgid "Show &1st derivative"
+msgstr "显示一阶导函数(&1)"
+
+#. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f1)
+#: functioneditorwidget.ui:227
+#, kde-format
+msgid "1st derivative"
+msgstr "一阶导函数"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, showDerivative2)
+#: functioneditorwidget.ui:234
+#, kde-format
+msgid "Show second derivative"
+msgstr "显示二阶导函数"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showDerivative2)
+#: functioneditorwidget.ui:240
+#, kde-format
+msgid "Show &2nd derivative"
+msgstr "显示二阶导函数(&2)"
+
+#. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f2)
+#: functioneditorwidget.ui:250
+#, kde-format
+msgid "2nd derivative"
+msgstr "二阶导函数"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: functioneditorwidget.ui:258
+#, kde-format
+msgid "Integral"
+msgstr "积分"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, showIntegral)
+#. i18n: ectx: property (text), widget (QCheckBox, showIntegral)
+#: functioneditorwidget.ui:267 functioneditorwidget.ui:273
+#, kde-format
+msgid "Show integral"
+msgstr "显示积分"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showIntegral)
+#: functioneditorwidget.ui:270
+#, kde-format
+msgid "If this box is checked, the integral will be plotted, too."
+msgstr "如果选中此框，该函数的积分也会一并绘制。"
+
+#. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_6)
+#: functioneditorwidget.ui:283
+#, kde-format
+msgid "A point on the solution curve"
+msgstr "曲线上的点"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
+#: functioneditorwidget.ui:286
+#, kde-format
+msgid "Initial Point"
+msgstr "起始点"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_5)
+#: functioneditorwidget.ui:298
+#, kde-format
+msgid "&x:"
+msgstr "&x："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2)
+#: functioneditorwidget.ui:308
+#, kde-format
+msgid "&y:"
+msgstr "&y："
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, txtInitX)
+#: functioneditorwidget.ui:318
+#, kde-format
+msgid "Enter the initial x-point,for instance 2 or pi"
+msgstr "输入起始点的 x 值，如 2 或 pi"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitX)
+#: functioneditorwidget.ui:321
+#, kde-format
+msgid ""
+"Enter the initial x-value or expression for the integral, for example 2 or "
+"pi/2"
+msgstr "输入积分起始点的 x 值或表达式，如 2 或 pi/2"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, txtInitY)
+#: functioneditorwidget.ui:328
+#, kde-format
+msgid "enter the initial y-point, eg 2 or pi"
+msgstr "输入起始点的 y 值，如 2 或 pi"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitY)
+#: functioneditorwidget.ui:331
+#, kde-format
+msgid ""
+"Enter the initial y-value or expression for the integral, for example 2 or "
+"pi/2"
+msgstr "输入积分起始点的 y 值或表达式，如 2 或 pi/2"
+
+#. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_8)
+#. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_10)
+#: functioneditorwidget.ui:344 functioneditorwidget.ui:765
+#, kde-format
+msgid "The maximum step size used in numerically calculating the solution"
+msgstr "数值计算时需要的最大间距值"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_10)
+#: functioneditorwidget.ui:347 functioneditorwidget.ui:768
+#, kde-format
+msgid "Precision"
+msgstr "精度"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: functioneditorwidget.ui:359 functioneditorwidget.ui:780
+#: parameteranimator.ui:71
+#, kde-format
+msgid "Step:"
+msgstr "间距："
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_11)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_12)
+#: functioneditorwidget.ui:412 functioneditorwidget.ui:559
+#: functioneditorwidget.ui:664
+#, kde-format
+msgid "Definition"
+msgstr "定义"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabelX)
+#: functioneditorwidget.ui:424
+#, kde-format
+msgid "x:"
+msgstr "x："
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, parametricX)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, parametricY)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, implicitEquation)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, differentialEquation)
+#: functioneditorwidget.ui:434 functioneditorwidget.ui:459
+#: functioneditorwidget.ui:700 functioneditorwidget.ui:751
+#, kde-format
+msgid "Enter an expression"
+msgstr "输入表达式"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricX)
+#: functioneditorwidget.ui:439
+#, kde-format
+msgid ""
+"Enter an expression for the function.\n"
+"The dummy variable is t.\n"
+"Example: cos(t)"
+msgstr ""
+"输入函数表达式。\n"
+"中间变量为 t。\n"
+"如：cos(t)"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabelY)
+#: functioneditorwidget.ui:449
+#, kde-format
+msgid "y:"
+msgstr "y："
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricY)
+#: functioneditorwidget.ui:464
+#, kde-format
+msgid ""
+"Enter an expression for the function.\n"
+"The dummy variable is t.\n"
+"Example: sin(t)"
+msgstr ""
+"输入函数表达式。\n"
+"中间变量为 t。\n"
+"例如：sin(t)"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_9)
+#: functioneditorwidget.ui:474
+#, kde-format
+msgid "Plot range"
+msgstr "绘图范围"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, parametricMin)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, polarMin)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, min)
+#: functioneditorwidget.ui:509 functioneditorwidget.ui:597 functiontools.ui:39
+#, kde-format
+msgid "Lower boundary of the plot range"
+msgstr "绘图范围的下边界"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, parametricMax)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, polarMax)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, max)
+#: functioneditorwidget.ui:522 functioneditorwidget.ui:607 functiontools.ui:59
+#, kde-format
+msgid "Upper boundary of the plot range"
+msgstr "绘图范围的上边界"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, polarEquation)
+#: functioneditorwidget.ui:571
+#, kde-format
+msgid "Enter an equation"
+msgstr "输入方程式"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, polarEquation)
+#: functioneditorwidget.ui:575
+#, kde-format
+msgid ""
+"Enter an expression for the function. \n"
+"Example: loop(a)=ln(a)"
+msgstr ""
+"输入函数表达式。\n"
+"如：loop(a)=ln(a)"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_13)
+#: functioneditorwidget.ui:585
+#, kde-format
+msgid "Plot Range"
+msgstr "绘图范围"
+
+#. i18n: ectx: property (toolTip), widget (KLineEdit, implicitName)
+#: functioneditorwidget.ui:676
+#, kde-format
+msgid "Name of the function"
+msgstr "函数名"
+
+#. i18n: ectx: property (whatsThis), widget (KLineEdit, implicitName)
+#: functioneditorwidget.ui:680
+#, kde-format
+msgid ""
+"Enter the name of the function.\n"
+"The name of a function must be unique. If you leave this line empty KmPlot "
+"will set a default name. You can change it later."
+msgstr ""
+"输入函数名称。\n"
+"函数名称必须唯一。如果您将此行留空，KmPlot 将会设置一个默认名称。您稍后可进行"
+"更改。"
+
+#. i18n: ectx: property (text), widget (KLineEdit, implicitName)
+#: functioneditorwidget.ui:683
+#, kde-format
+msgid "f(x,y)"
+msgstr "f(x,y)"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel4_2)
+#: functioneditorwidget.ui:690
+#, kde-format
+msgid "Name:"
+msgstr "名称："
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, implicitEquation)
+#: functioneditorwidget.ui:704
+#, kde-format
+msgid ""
+"Enter an expression for the function.\n"
+"Example: x^2 + y^2 = 25."
+msgstr ""
+"输入函数表达式。\n"
+"例如： x^2 + y^2 = 25"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, differentialEquation)
+#: functioneditorwidget.ui:755
+#, kde-format
+msgid ""
+"Enter an expression for the function.\n"
+"Example: f''(x) = -f"
+msgstr ""
+"输入函数表达式。\n"
+"例如：f''(x) = -f"
+
+#. i18n: ectx: property (text), widget (EquationEdit, differentialEquation)
+#: functioneditorwidget.ui:758
+#, kde-format
+msgid "f''(x) = -f"
+msgstr "f''(x) = -f"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#. i18n: ectx: property (windowTitle), widget (QWidget, InitialConditionsWidget)
+#: functioneditorwidget.ui:811 initialconditionswidget.ui:13
+#, kde-format
+msgid "Initial Conditions"
+msgstr "初始条件"
+
+#: functiontools.cpp:59 functiontools.cpp:65
+#, kde-format
+msgid "Search between:"
+msgstr "查找范围："
+
+#: functiontools.cpp:60
+#, kde-format
+msgctxt "@title:window"
+msgid "Find Minimum Point"
+msgstr "查找最小值点"
+
+#: functiontools.cpp:66
+#, kde-format
+msgctxt "@title:window"
+msgid "Find Maximum Point"
+msgstr "查找最大值点"
+
+#: functiontools.cpp:71
+#, kde-format
+msgid "Calculate the area between:"
+msgstr "计算面积范围："
+
+#: functiontools.cpp:72
+#, kde-format
+msgctxt "@title:window"
+msgid "Area Under Graph"
+msgstr "图形面积"
+
+#: functiontools.cpp:176
+#, kde-format
+msgid "Minimum is at x = %1, %2(x) = %3"
+msgstr "当 x = %1, %2(x) = %3 时，可取得最小值"
+
+#: functiontools.cpp:186
+#, kde-format
+msgid "Maximum is at x = %1, %2(x) = %3"
+msgstr "当 x = %1, %2(x) = %3 时，可取得最大值"
+
+#: functiontools.cpp:201
+#, kde-format
+msgid "Area is %1"
+msgstr "面积为 %1"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, FunctionTools)
+#: functiontools.ui:14
+#, kde-format
+msgid "Function Tools"
+msgstr "函数工具"
+
+#. i18n: ectx: property (text), widget (QLabel, rangeTitle)
+#: functiontools.ui:22
+#, kde-format
+msgid "<>:"
+msgstr "<>："
+
+#. i18n: ectx: property (text), widget (QLabel, rangeResult)
+#: functiontools.ui:69
+#, kde-format
+msgid "<>"
+msgstr "<>"
+
+#. i18n: ectx: property (text), widget (QPushButton, removeButton)
+#: initialconditionswidget.ui:49
+#, kde-format
+msgid "Remove"
+msgstr "删除"
+
+#. i18n: ectx: property (text), widget (QPushButton, addButton)
+#: initialconditionswidget.ui:56
+#, kde-format
+msgid "Add..."
+msgstr "添加..."
+
+#: kconstanteditor.cpp:54
+#, kde-format
+msgctxt "@title:window"
+msgid "Constants Editor"
+msgstr "常量编辑器"
+
+#: kconstanteditor.cpp:116
+#, kde-format
+msgid "Check this to have the constant exported when saving."
+msgstr "勾选此项后，保存时常数将被导出。"
+
+#: kconstanteditor.cpp:119
+#, kde-format
+msgid ""
+"Check this to have the constant permanently available between instances of "
+"KmPlot."
+msgstr "勾选此项后，在KmPlot中此常数将永久有效。"
+
+#: kgradientdialog.cpp:339
+#, kde-format
+msgid "(Double-click on the gradient to add a stop)"
+msgstr "(在双击斜率以加入停止点)"
+
+#: kgradientdialog.cpp:340
+#, kde-format
+msgid "Remove stop"
+msgstr "移除停止点"
+
+#: kgradientdialog.cpp:364
+#, kde-format
+msgctxt "@title:window"
+msgid "Choose a Gradient"
+msgstr "选择斜率"
+
+#: kmplot.cpp:70
+#, kde-format
+msgid "Could not find KmPlot's part."
+msgstr "找不到 KmPlot 部件。"
+
+#: kmplot.cpp:169 maindlg.cpp:508
+#, kde-format
+msgid "KmPlot Files (*.fkt);;All Files (*)"
+msgstr "KmPlot 文件 (*.fkt);;所有文件 (*)"
+
+#: kmplot.cpp:169
+#, kde-format
+msgid "Open"
+msgstr "打开"
+
+#. i18n: ectx: label, entry (AxesLineWidth), group (Coordinate System)
+#: kmplot.kcfg:12
+#, kde-format
+msgid "Axis-line width"
+msgstr "轴线宽度"
+
+#. i18n: ectx: whatsthis, entry (AxesLineWidth), group (Coordinate System)
+#: kmplot.kcfg:13
+#, kde-format
+msgid "Enter the width of the axis lines."
+msgstr "输入轴线的宽度。"
+
+#. i18n: ectx: label, entry (ShowLabel), group (Coordinate System)
+#: kmplot.kcfg:17
+#, kde-format
+msgid "Checked if labels are visible"
+msgstr "标签是否可见"
+
+#. i18n: ectx: whatsthis, entry (ShowLabel), group (Coordinate System)
+#: kmplot.kcfg:18
+#, kde-format
+msgid "Check this box if the labels at the tics should be shown."
+msgstr "是否在刻度中显示标签。"
+
+#. i18n: ectx: label, entry (ShowAxes), group (Coordinate System)
+#: kmplot.kcfg:22
+#, kde-format
+msgid "Checked if axes are visible"
+msgstr "数轴是否可见"
+
+#. i18n: ectx: whatsthis, entry (ShowAxes), group (Coordinate System)
+#: kmplot.kcfg:23
+#, kde-format
+msgid "Check this box if axes should be shown."
+msgstr "是否显示数轴。"
+
+#. i18n: ectx: label, entry (ShowArrows), group (Coordinate System)
+#: kmplot.kcfg:27
+#, kde-format
+msgid "Checked if arrows are visible"
+msgstr "是否显示箭头"
+
+#. i18n: ectx: whatsthis, entry (ShowArrows), group (Coordinate System)
+#: kmplot.kcfg:28
+#, kde-format
+msgid "Check this box if axes should have arrows."
+msgstr "数轴是否显示箭头。"
+
+#. i18n: ectx: label, entry (GridLineWidth), group (Coordinate System)
+#: kmplot.kcfg:32
+#, kde-format
+msgid "Grid Line Width"
+msgstr "网格线宽度"
+
+#. i18n: ectx: whatsthis, entry (GridLineWidth), group (Coordinate System)
+#: kmplot.kcfg:33
+#, kde-format
+msgid "Enter the width of the grid lines."
+msgstr "输入网格线的宽度。"
+
+#. i18n: ectx: property (title), widget (QGroupBox, kcfg_GridStyle)
+#. i18n: ectx: label, entry (GridStyle), group (Coordinate System)
+#: kmplot.kcfg:37 settingspagediagram.ui:20
+#, kde-format
+msgid "Grid Style"
+msgstr "网格样式"
+
+#. i18n: ectx: whatsthis, entry (GridStyle), group (Coordinate System)
+#: kmplot.kcfg:38
+#, kde-format
+msgid "Choose a suitable grid style."
+msgstr "选择适合的网格样式。"
+
+#. i18n: ectx: label, entry (TicLength), group (Coordinate System)
+#: kmplot.kcfg:42
+#, kde-format
+msgid "Tic length"
+msgstr "刻度线长度"
+
+#. i18n: ectx: whatsthis, entry (TicLength), group (Coordinate System)
+#: kmplot.kcfg:43
+#, kde-format
+msgid "Enter the length of the tic lines"
+msgstr "输入刻度线长度"
+
+#. i18n: ectx: label, entry (TicWidth), group (Coordinate System)
+#: kmplot.kcfg:47
+#, kde-format
+msgid "Tic width"
+msgstr "刻度线宽度"
+
+#. i18n: ectx: whatsthis, entry (TicWidth), group (Coordinate System)
+#: kmplot.kcfg:48
+#, kde-format
+msgid "Enter the width of the tic lines."
+msgstr "输入刻度线宽度。"
+
+#. i18n: ectx: label, entry (XMin), group (Coordinate System)
+#: kmplot.kcfg:52
+#, kde-format
+msgid "Left boundary"
+msgstr "左边界"
+
+#. i18n: ectx: whatsthis, entry (XMin), group (Coordinate System)
+#: kmplot.kcfg:53
+#, kde-format
+msgid "Enter the left boundary of the plotting area."
+msgstr "输入绘图区域的左边界。"
+
+#. i18n: ectx: label, entry (XMax), group (Coordinate System)
+#: kmplot.kcfg:57
+#, kde-format
+msgid "Right boundary"
+msgstr "右边界"
+
+#. i18n: ectx: whatsthis, entry (XMax), group (Coordinate System)
+#: kmplot.kcfg:58
+#, kde-format
+msgid "Enter the right boundary of the plotting area."
+msgstr "输入绘图区域的右边界。"
+
+#. i18n: ectx: label, entry (YMin), group (Coordinate System)
+#: kmplot.kcfg:62
+#, kde-format
+msgid "Lower boundary"
+msgstr "下边界"
+
+#. i18n: ectx: whatsthis, entry (YMin), group (Coordinate System)
+#: kmplot.kcfg:63
+#, kde-format
+msgid "Enter the lower boundary of the plotting area."
+msgstr "输入绘图区域的下边界。"
+
+#. i18n: ectx: label, entry (YMax), group (Coordinate System)
+#: kmplot.kcfg:67
+#, kde-format
+msgid "Upper boundary"
+msgstr "上边界"
+
+#. i18n: ectx: whatsthis, entry (YMax), group (Coordinate System)
+#: kmplot.kcfg:68
+#, kde-format
+msgid "Enter the upper boundary of the plotting area."
+msgstr "输入绘图区域的上边界。"
+
+#. i18n: ectx: label, entry (LabelHorizontalAxis), group (Coordinate System)
+#: kmplot.kcfg:72
+#, kde-format
+msgid "Label to Horizontal Axis"
+msgstr "水平轴的标签"
+
+#. i18n: ectx: whatsthis, entry (LabelHorizontalAxis), group (Coordinate System)
+#: kmplot.kcfg:73
+#, kde-format
+msgid "Label to Horizontal Axis."
+msgstr "水平轴线的标签。"
+
+#. i18n: ectx: label, entry (LabelVerticalAxis), group (Coordinate System)
+#: kmplot.kcfg:77
+#, kde-format
+msgid "Label to Vertical Axis"
+msgstr "垂直轴的标签"
+
+#. i18n: ectx: whatsthis, entry (LabelVerticalAxis), group (Coordinate System)
+#: kmplot.kcfg:78
+#, kde-format
+msgid "Label to Vertical Axis."
+msgstr "垂直轴线的标签。"
+
+#. i18n: ectx: label, entry (XScalingMode), group (Scaling)
+#. i18n: ectx: label, entry (YScalingMode), group (Scaling)
+#: kmplot.kcfg:85 kmplot.kcfg:90
+#, kde-format
+msgid "Whether to use automatic or custom scaling."
+msgstr "是否自动或自定义缩放比例"
+
+#. i18n: ectx: whatsthis, entry (XScalingMode), group (Scaling)
+#. i18n: ectx: whatsthis, entry (YScalingMode), group (Scaling)
+#: kmplot.kcfg:86 kmplot.kcfg:91
+#, kde-format
+msgid "Select whether to use automatic or custom scaling."
+msgstr "选择是否自动或自定义缩放比例"
+
+#. i18n: ectx: label, entry (XScaling), group (Scaling)
+#: kmplot.kcfg:95
+#, kde-format
+msgid "Width of a unit from tic to tic"
+msgstr "刻度之间的宽度单位"
+
+#. i18n: ectx: whatsthis, entry (XScaling), group (Scaling)
+#: kmplot.kcfg:96
+#, kde-format
+msgid "Enter the width of a unit from tic to tic."
+msgstr "输入刻度之间的宽度单位。"
+
+#. i18n: ectx: label, entry (YScaling), group (Scaling)
+#: kmplot.kcfg:100
+#, kde-format
+msgid "Height of a unit from tic to tic"
+msgstr "刻度之间的高度单位"
+
+#. i18n: ectx: whatsthis, entry (YScaling), group (Scaling)
+#: kmplot.kcfg:101
+#, kde-format
+msgid "Enter the height of a unit from tic to tic."
+msgstr "刻度之间的高度单位。"
+
+#. i18n: ectx: label, entry (AxesFont), group (Fonts)
+#: kmplot.kcfg:108
+#, kde-format
+msgid "Font of the axis labels"
+msgstr "数轴标签的字体"
+
+#. i18n: ectx: whatsthis, entry (AxesFont), group (Fonts)
+#: kmplot.kcfg:109
+#, kde-format
+msgid "Choose a font for the axis labels."
+msgstr "为数轴标签选择字体。"
+
+#. i18n: ectx: label, entry (HeaderTableFont), group (Fonts)
+#: kmplot.kcfg:113
+#, kde-format
+msgid "Font of the printed header table"
+msgstr "打印头表格的字体"
+
+#. i18n: ectx: whatsthis, entry (HeaderTableFont), group (Fonts)
+#: kmplot.kcfg:114
+#, kde-format
+msgid "Choose a font for the table printed at the top of the page."
+msgstr "为页面上方打印的表格选择字体。"
+
+#. i18n: ectx: label, entry (LabelFont), group (Fonts)
+#: kmplot.kcfg:118
+#, kde-format
+msgid "Font of diagram labels"
+msgstr "数轴标签的字体"
+
+#. i18n: ectx: whatsthis, entry (LabelFont), group (Fonts)
+#: kmplot.kcfg:119
+#, kde-format
+msgid "Choose a font for diagram labels."
+msgstr "为数轴标签选择字体。"
+
+#. i18n: ectx: label, entry (AxesColor), group (Colors)
+#: kmplot.kcfg:126
+#, kde-format
+msgid "Axis-line color"
+msgstr "轴线颜色"
+
+#. i18n: ectx: whatsthis, entry (AxesColor), group (Colors)
+#: kmplot.kcfg:127
+#, kde-format
+msgid "Enter the color of the axis lines."
+msgstr "输入轴线的颜色。"
+
+#. i18n: ectx: label, entry (GridColor), group (Colors)
+#: kmplot.kcfg:131
+#, kde-format
+msgid "Grid Color"
+msgstr "网格颜色"
+
+#. i18n: ectx: whatsthis, entry (GridColor), group (Colors)
+#: kmplot.kcfg:132
+#, kde-format
+msgid "Choose a color for the grid lines."
+msgstr "选择网格线的颜色。"
+
+#. i18n: ectx: label, entry (Color0), group (Colors)
+#: kmplot.kcfg:136
+#, kde-format
+msgid "Color of function 1"
+msgstr "函数 1 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color0), group (Colors)
+#: kmplot.kcfg:137
+#, kde-format
+msgid "Choose a color for function 1."
+msgstr "选择函数 1 的颜色。"
+
+#. i18n: ectx: label, entry (Color1), group (Colors)
+#: kmplot.kcfg:141
+#, kde-format
+msgid "Color of function 2"
+msgstr "函数 2 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color1), group (Colors)
+#: kmplot.kcfg:142
+#, kde-format
+msgid "Choose a color for function 2."
+msgstr "选择函数 2 的颜色。"
+
+#. i18n: ectx: label, entry (Color2), group (Colors)
+#: kmplot.kcfg:146
+#, kde-format
+msgid "Color of function 3"
+msgstr "函数 3 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color2), group (Colors)
+#: kmplot.kcfg:147
+#, kde-format
+msgid "Choose a color for function 3."
+msgstr "选择函数 3 的颜色。"
+
+#. i18n: ectx: label, entry (Color3), group (Colors)
+#: kmplot.kcfg:151
+#, kde-format
+msgid "Color of function 4"
+msgstr "函数 4 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color3), group (Colors)
+#: kmplot.kcfg:152
+#, kde-format
+msgid "Choose a color for function 4."
+msgstr "选择函数 4 的颜色。"
+
+#. i18n: ectx: label, entry (Color4), group (Colors)
+#: kmplot.kcfg:156
+#, kde-format
+msgid "Color of function 5"
+msgstr "函数 5 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color4), group (Colors)
+#: kmplot.kcfg:157
+#, kde-format
+msgid "Choose a color for function 5."
+msgstr "选择函数 5 的颜色。"
+
+#. i18n: ectx: label, entry (Color5), group (Colors)
+#: kmplot.kcfg:161
+#, kde-format
+msgid "Color of function 6"
+msgstr "函数 6 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color5), group (Colors)
+#: kmplot.kcfg:162
+#, kde-format
+msgid "Choose a color for function 6."
+msgstr "选择函数 6 的颜色。"
+
+#. i18n: ectx: label, entry (Color6), group (Colors)
+#: kmplot.kcfg:166
+#, kde-format
+msgid "Color of function 7"
+msgstr "函数 7 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color6), group (Colors)
+#: kmplot.kcfg:167
+#, kde-format
+msgid "Choose a color for function 7."
+msgstr "选择函数 7 的颜色。"
+
+#. i18n: ectx: label, entry (Color7), group (Colors)
+#: kmplot.kcfg:171
+#, kde-format
+msgid "Color of function 8"
+msgstr "函数 8 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color7), group (Colors)
+#: kmplot.kcfg:172
+#, kde-format
+msgid "Choose a color for function 8."
+msgstr "选择函数 8 的颜色。"
+
+#. i18n: ectx: label, entry (Color8), group (Colors)
+#: kmplot.kcfg:176
+#, kde-format
+msgid "Color of function 9"
+msgstr "函数 9 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color8), group (Colors)
+#: kmplot.kcfg:177
+#, kde-format
+msgid "Choose a color for function 9."
+msgstr "选择函数 9 的颜色。"
+
+#. i18n: ectx: label, entry (Color9), group (Colors)
+#: kmplot.kcfg:181
+#, kde-format
+msgid "Color of function 10"
+msgstr "函数 10 的颜色"
+
+#. i18n: ectx: whatsthis, entry (Color9), group (Colors)
+#: kmplot.kcfg:182
+#, kde-format
+msgid "Choose a color for function 10."
+msgstr "选择函数 10 的颜色。"
+
+#. i18n: ectx: label, entry (anglemode), group (General)
+#: kmplot.kcfg:189
+#, kde-format
+msgid "Radians instead of degrees"
+msgstr "使用弧度而非角度"
+
+#. i18n: ectx: whatsthis, entry (anglemode), group (General)
+#: kmplot.kcfg:190
+#, kde-format
+msgid "Check the box if you want to use radians"
+msgstr "如果您想要使用弧度，请选中此框"
+
+#. i18n: ectx: label, entry (backgroundcolor), group (General)
+#: kmplot.kcfg:194
+#, kde-format
+msgid "Background color"
+msgstr "背景颜色"
+
+#. i18n: ectx: whatsthis, entry (backgroundcolor), group (General)
+#: kmplot.kcfg:195
+#, kde-format
+msgid "The background color for the graph"
+msgstr "图形的背景颜色"
+
+#. i18n: ectx: label, entry (zoomInStep), group (General)
+#: kmplot.kcfg:199
+#, kde-format
+msgid "Zoom-in step"
+msgstr "放大幅度"
+
+#. i18n: ectx: whatsthis, entry (zoomInStep), group (General)
+#: kmplot.kcfg:200
+#, kde-format
+msgid "The value the zoom-in tool should use"
+msgstr "放大工具应该使用的值"
+
+#. i18n: ectx: label, entry (zoomOutStep), group (General)
+#: kmplot.kcfg:204
+#, kde-format
+msgid "Zoom-out step"
+msgstr "缩小幅度"
+
+#. i18n: ectx: whatsthis, entry (zoomOutStep), group (General)
+#: kmplot.kcfg:205
+#, kde-format
+msgid "The value the zoom-out tool should use"
+msgstr "缩小工具应该使用的值"
+
+#. i18n: ectx: label, entry (DetailedTracing), group (General)
+#: kmplot.kcfg:209
+#, kde-format
+msgid "Extra detail when tracing"
+msgstr "跟踪时额外的细节"
+
+#. i18n: ectx: whatsthis, entry (DetailedTracing), group (General)
+#: kmplot.kcfg:210
+#, kde-format
+msgid ""
+"Whether to show extra detail such as the tangent and normal when tracing a "
+"plot."
+msgstr "跟踪绘图时是否显示额外的细节，例如切线等。"
+
+#. i18n: ectx: Menu (edit)
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#, kde-format
+msgid "&Edit"
+msgstr "编辑(&E)"
+
+#. i18n: ectx: Menu (view)
+#: kmplot_part.rc:20 kmplot_part_readonly.rc:15
+#, kde-format
+msgid "&View"
+msgstr "视图(&V)"
+
+#. i18n: ectx: Menu (tools)
+#: kmplot_part.rc:30 kmplot_part_readonly.rc:26
+#, kde-format
+msgid "&Tools"
+msgstr "工具(&T)"
+
+#. i18n: ectx: Menu (help)
+#: kmplot_part.rc:39 kmplot_part_readonly.rc:35 kmplot_shell.rc:13
+#, kde-format
+msgid "&Help"
+msgstr "帮助(&H)"
+
+#. i18n: ectx: Menu (file)
+#: kmplot_shell.rc:4
+#, kde-format
+msgid "&File"
+msgstr "文件(&F)"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: kmplot_shell.rc:17
+#, kde-format
+msgid "Main Toolbar"
+msgstr "主工具栏"
+
+#: kmplotio.cpp:288
+#, kde-format
+msgid "The file had an unknown version number"
+msgstr "文件的版本号未知"
+
+#: kmplotio.cpp:306 kparametereditor.cpp:204
+#, kde-format
+msgid "The file does not exist."
+msgstr "文件不存在。"
+
+#: kmplotio.cpp:313
+#, kde-format
+msgid "An error appeared when opening this file (%1)"
+msgstr "打开此文件(%1)时出错"
+
+#: kmplotio.cpp:326
+#, kde-format
+msgid "%1 could not be opened"
+msgstr "%1 无法被打开"
+
+#: kmplotio.cpp:332
+#, kde-format
+msgid "%1 could not be loaded (%2 at line %3, column %4)"
+msgstr "%1 无法被加载 (第 %3 行，第 %4 列的 %2 )"
+
+#: kmplotio.cpp:395
+#, kde-format
+msgid "automatic"
+msgstr "自动"
+
+#: kmplotio.cpp:720
+#, kde-format
+msgid "The function %1 could not be loaded"
+msgstr "无法加载函数 %1"
+
+#: kparametereditor.cpp:42
+#, kde-format
+msgctxt "@title:window"
+msgid "Parameter Editor"
+msgstr "参数编辑器"
+
+#: kparametereditor.cpp:199
+#, kde-format
+msgid "Open Parameter File"
+msgstr "打开参数文件"
+
+#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#, kde-format
+msgid "Plain Text File (*.txt)"
+msgstr "纯文本文件 (*.txt)"
+
+#: kparametereditor.cpp:214
+#, kde-format
+msgid "An error appeared when opening this file: %1"
+msgstr "打开此文件时出错：%1"
+
+#: kparametereditor.cpp:243
+#, kde-format
+msgid ""
+"Line %1 is not a valid parameter value and will therefore not be included. "
+"Do you want to continue?"
+msgstr "第 %1 行不是有效的参数值，所以也不会包含。您想要继续吗？"
+
+#: kparametereditor.cpp:249
+#, kde-format
+msgid "Would you like to be informed about other lines that cannot be read?"
+msgstr "其他行不可读时是否要通知您？"
+
+#: kparametereditor.cpp:251
+#, kde-format
+msgid "Get Informed"
+msgstr "要通知"
+
+#: kparametereditor.cpp:252
+#, kde-format
+msgid "Ignore Information"
+msgstr "忽略通知"
+
+#: kparametereditor.cpp:259
+#, kde-format
+msgid "An error appeared when opening this file"
+msgstr "打开此文件时出错"
+
+#: kparametereditor.cpp:269
+#, kde-format
+msgid "Save File"
+msgstr "保存文件"
+
+#: kparametereditor.cpp:276
+#, kde-format
+msgid ""
+"A file named \"%1\" already exists. Are you sure you want to continue and "
+"overwrite this file?"
+msgstr "已经存在名为“%1”的文件。您确定要继续并覆盖此文件吗？"
+
+#: kparametereditor.cpp:277
+#, kde-format
+msgid "Overwrite File?"
+msgstr "覆盖文件吗？"
+
+#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#, kde-format
+msgid "An error appeared when saving this file"
+msgstr "保存此文件时出错"
+
+#: kprinterdlg.cpp:31
+#, kde-format
+msgctxt "@title:window"
+msgid "KmPlot Options"
+msgstr "KmPlot 选项"
+
+#: kprinterdlg.cpp:35
+#, kde-format
+msgid "Print header table"
+msgstr "打印头表格"
+
+#: kprinterdlg.cpp:36
+#, kde-format
+msgid "Transparent background"
+msgstr "透明背景"
+
+#: kprinterdlg.cpp:45
+#, kde-format
+msgid "Pixels (1/72nd in)"
+msgstr "像数(1/72 英寸)"
+
+#: kprinterdlg.cpp:46
+#, kde-format
+msgid "Inches (in)"
+msgstr "英寸(in)"
+
+#: kprinterdlg.cpp:47
+#, kde-format
+msgid "Centimeters (cm)"
+msgstr "厘米(cm)"
+
+#: kprinterdlg.cpp:48
+#, kde-format
+msgid "Millimeters (mm)"
+msgstr "毫米(mm)"
+
+#: kprinterdlg.cpp:52
+#, kde-format
+msgid "Width:"
+msgstr "宽度："
+
+#: kprinterdlg.cpp:53
+#, kde-format
+msgid "Height:"
+msgstr "高度："
+
+#: kprinterdlg.cpp:122
+#, kde-format
+msgid "Width is invalid"
+msgstr "宽度值无效"
+
+#: kprinterdlg.cpp:128
+#, kde-format
+msgid "Height is invalid"
+msgstr "高度值无效"
+
+#: ksliderwindow.cpp:28
+#, kde-format
+msgid "Slider %1"
+msgstr "滑块 %1"
+
+#: ksliderwindow.cpp:34
+#, kde-format
+msgid ""
+"Move slider to change the parameter of the function plot connected to this "
+"slider."
+msgstr "移动滑块可以更改与此滑块相关的函数图的参数。"
+
+#: ksliderwindow.cpp:79
+#, kde-format
+msgctxt "@title:window"
+msgid "Sliders"
+msgstr "滑块"
+
+#: main.cpp:42
+#, kde-format
+msgid "KmPlot"
+msgstr "KmPlot"
+
+#: main.cpp:44
+#, kde-format
+msgid "Mathematical function plotter by KDE"
+msgstr "KDE 数学函数绘图器"
+
+#: main.cpp:46
+#, kde-format
+msgid "(c) 2000-2002, Klaus-Dieter Möller"
+msgstr "(c) 2000-2002, Klaus-Dieter Möller"
+
+#: main.cpp:50
+#, kde-format
+msgid "Klaus-Dieter Möller"
+msgstr "Klaus-Dieter Möller"
+
+#: main.cpp:50
+#, kde-format
+msgid "Original Author"
+msgstr "原作者"
+
+#: main.cpp:51
+#, kde-format
+msgid "Matthias Meßmer"
+msgstr "Matthias Meßmer"
+
+#: main.cpp:51
+#, kde-format
+msgid "GUI"
+msgstr "用户图形界面"
+
+#: main.cpp:52
+#, kde-format
+msgid "Fredrik Edemar"
+msgstr "Fredrik Edema"
+
+#: main.cpp:52
+#, kde-format
+msgid "Various improvements"
+msgstr "各种改进"
+
+#: main.cpp:53
+#, kde-format
+msgid "David Saxton"
+msgstr "David Saxton"
+
+#: main.cpp:53
+#, kde-format
+msgid "Porting to Qt 4, UI improvements, features"
+msgstr "移植到 Qt 4,用户界面的改进以及特性"
+
+#: main.cpp:55
+#, kde-format
+msgid "David Vignoni"
+msgstr "David Vignoni"
+
+#: main.cpp:55
+#, kde-format
+msgid "svg icon"
+msgstr "SVG 图标"
+
+#: main.cpp:56
+#, kde-format
+msgid "Albert Astals Cid"
+msgstr "Albert Astals Cid"
+
+#: main.cpp:56
+#, kde-format
+msgid "command line options, MIME type"
+msgstr "命令行选项，MIME 类型"
+
+#: main.cpp:60
+#, kde-format
+msgid "Initial functions to plot"
+msgstr "要绘图的初始函数"
+
+#: main.cpp:60
+#, kde-format
+msgid "argument"
+msgstr "参数"
+
+#: main.cpp:61
+#, kde-format
+msgid "URLs to open"
+msgstr "要打开的 URL"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
+#: maindlg.cpp:187 settingspagegeneral.ui:14
+#, kde-format
+msgid "General"
+msgstr "常规"
+
+#: maindlg.cpp:187
+#, kde-format
+msgid "General Settings"
+msgstr "常规设置"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
+#: maindlg.cpp:188 settingspagediagram.ui:14
+#, kde-format
+msgid "Diagram"
+msgstr "图表"
+
+#: maindlg.cpp:188
+#, kde-format
+msgid "Diagram Appearance"
+msgstr "图表外观"
+
+#: maindlg.cpp:189
+#, kde-format
+msgid "Colors"
+msgstr "颜色"
+
+#: maindlg.cpp:190
+#, kde-format
+msgid "Fonts"
+msgstr "字体"
+
+#: maindlg.cpp:217
+#, kde-format
+msgid "Configure KmPlot..."
+msgstr "配置 KmPlot..."
+
+#: maindlg.cpp:223
+#, kde-format
+msgid "E&xport..."
+msgstr "导出(&X)..."
+
+#: maindlg.cpp:236
+#, kde-format
+msgid "&Coordinate System..."
+msgstr "坐标系(&C)..."
+
+#: maindlg.cpp:241
+#, kde-format
+msgid "&Constants..."
+msgstr "常量(&C)..."
+
+#: maindlg.cpp:250
+#, kde-format
+msgid "Zoom &In"
+msgstr "放大(&I)"
+
+#: maindlg.cpp:256
+#, kde-format
+msgid "Zoom &Out"
+msgstr "缩小(&O)"
+
+#: maindlg.cpp:262
+#, kde-format
+msgid "&Fit Widget to Trigonometric Functions"
+msgstr "调整部件以适合三角函数(&F)"
+
+#: maindlg.cpp:266
+#, kde-format
+msgid "Reset View"
+msgstr "重置视图"
+
+#: maindlg.cpp:271
+#, kde-format
+msgid "Show Sliders"
+msgstr "显示滑块"
+
+#: maindlg.cpp:277
+#, kde-format
+msgid "Calculator"
+msgstr "计算器"
+
+#: maindlg.cpp:282
+#, kde-format
+msgid "Plot &Area..."
+msgstr "绘图区(&A)..."
+
+#: maindlg.cpp:286
+#, kde-format
+msgid "Find Ma&ximum..."
+msgstr "查找最大值点(&X)..."
+
+#: maindlg.cpp:291
+#, kde-format
+msgid "Find Mi&nimum..."
+msgstr "查找最小值点(&N)..."
+
+#: maindlg.cpp:298
+#, kde-format
+msgctxt "@action:inmenu Help"
+msgid "Predefined &Math Functions"
+msgstr "预定义的数学函数(&M)"
+
+#: maindlg.cpp:305
+#, kde-format
+msgid "Cartesian Plot"
+msgstr "笛卡尔绘图"
+
+#: maindlg.cpp:311
+#, kde-format
+msgid "Parametric Plot"
+msgstr "参数绘图"
+
+#: maindlg.cpp:317
+#, kde-format
+msgid "Polar Plot"
+msgstr "极坐标绘图"
+
+#: maindlg.cpp:323
+#, kde-format
+msgid "Implicit Plot"
+msgstr "隐藏绘图"
+
+#: maindlg.cpp:329
+#, kde-format
+msgid "Differential Plot"
+msgstr "微分绘图"
+
+#: maindlg.cpp:344
+#, kde-format
+msgid "&Hide"
+msgstr "隐藏(&H)"
+
+#: maindlg.cpp:349
+#, kde-format
+msgid "&Remove"
+msgstr "删除(&R)"
+
+#: maindlg.cpp:357
+#, kde-format
+msgid "Animate Plot..."
+msgstr "动态绘图..."
+
+#: maindlg.cpp:368
+#, kde-format
+msgid "Copy (x, y)"
+msgstr "复制 (x, y)"
+
+#: maindlg.cpp:373
+#, kde-format
+msgctxt "Copied pair of coordinates (x, y)"
+msgid "(%1, %2)"
+msgstr "(%1, %2)"
+
+#: maindlg.cpp:379
+#, kde-format
+msgid "Copy Root Value"
+msgstr "复制根值"
+
+#: maindlg.cpp:460
+#, kde-format
+msgid ""
+"The plot has been modified.\n"
+"Do you want to save it?"
+msgstr ""
+"绘图已经修改。\n"
+"您想要保存吗？"
+
+#: maindlg.cpp:490
+#, kde-format
+msgid ""
+"This file is saved with an old file format; if you save it, you cannot open "
+"the file with older versions of KmPlot. Are you sure you want to continue?"
+msgstr ""
+"此文件是以旧文件格式保存的；如果您保存的话，您将无法使用旧版本的 KmPlot 打开"
+"该文件。您确定要继续吗？"
+
+#: maindlg.cpp:493
+#, kde-format
+msgid "Save New Format"
+msgstr "保存新格式"
+
+#: maindlg.cpp:508
+#, kde-format
+msgid "Save As"
+msgstr "另存为"
+
+#: maindlg.cpp:514
+#, kde-format
+msgid "The file could not be saved"
+msgstr "无法保存文件"
+
+#: maindlg.cpp:546
+#, kde-format
+msgid "Scalable Vector Graphics (*.svg)"
+msgstr "可缩放矢量图形 (*. svg)"
+
+#: maindlg.cpp:548
+#, kde-format
+msgctxt "@title:window"
+msgid "Export as Image"
+msgstr "导出为图像"
+
+#: maindlg.cpp:609
+#, kde-format
+msgid "Sorry, something went wrong while saving to image \"%1\""
+msgstr "对不起，当保存为图像时出错  \"%1\""
+
+#: maindlg.cpp:666
+#, kde-format
+msgctxt "@title:window"
+msgid "Print Plot"
+msgstr "打印图像"
+
+#: maindlg.cpp:681
+#, kde-format
+msgid "Print Settings"
+msgstr "打印设置"
+
+#: maindlg.cpp:686
+#, kde-format
+msgctxt "@title:window"
+msgid "Print Settings"
+msgstr "打印设置"
+
+#: parameteranimator.cpp:52
+#, kde-format
+msgctxt "@title:window"
+msgid "Parameter Animator"
+msgstr "参数动态化器"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, warningLabel)
+#: parameteranimator.ui:23
+#, kde-format
+msgid ""
+"The function must have an additional variable as a parameter, e.g. f(x,k) "
+"would have k as its parameter"
+msgstr "此函数必须包含一个附加变量作为参数，如 f(x,k) 中的 k 即是它的参数"
+
+#. i18n: ectx: property (text), widget (QLabel, warningLabel)
+#: parameteranimator.ui:29
+#, kde-format
+msgid ""
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:Sans Serif; font-size:9pt; font-"
+"weight:400; font-style:normal; text-decoration:none;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px; font-family:Sans;\"><span "
+"style=\" font-weight:600;\">Warning:</span> The current function does not "
+"have a parameter, and so cannot be animated.</p></body></html>"
+msgstr ""
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:Sans Serif; font-size:9pt; font-"
+"weight:400; font-style:normal; text-decoration:none;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px; font-family:Sans;\"><span "
+"style=\" font-weight:600;\">警告：</span>当前函数没有参数，所以无法让它产生动"
+"画效果。</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: parameteranimator.ui:47
+#, kde-format
+msgid "Final value:"
+msgstr "最终值："
+
+#. i18n: ectx: property (text), widget (EquationEdit, step)
+#: parameteranimator.ui:57
+#, kde-format
+msgid "1"
+msgstr "1"
+
+#. i18n: ectx: property (text), widget (EquationEdit, final)
+#: parameteranimator.ui:64
+#, kde-format
+msgid "10"
+msgstr "10"
+
+#. i18n: ectx: property (text), widget (EquationEdit, initial)
+#. i18n: ectx: property (text), widget (QLabel, currentValue)
+#: parameteranimator.ui:81 parameteranimator.ui:131
+#, kde-format
+msgid "0"
+msgstr "0"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: parameteranimator.ui:88
+#, kde-format
+msgid "Initial value:"
+msgstr "初始值："
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: parameteranimator.ui:124
+#, kde-format
+msgid "Current Value:"
+msgstr "当前值："
+
+#. i18n: ectx: property (text), widget (QToolButton, gotoInitial)
+#: parameteranimator.ui:177
+#, kde-format
+msgid "<<"
+msgstr "<<"
+
+#. i18n: ectx: property (text), widget (QToolButton, stepBackwards)
+#: parameteranimator.ui:184
+#, kde-format
+msgid "<"
+msgstr "<"
+
+#. i18n: ectx: property (text), widget (QToolButton, pause)
+#: parameteranimator.ui:194
+#, kde-format
+msgid "||"
+msgstr "||"
+
+#. i18n: ectx: property (text), widget (QToolButton, stepForwards)
+#: parameteranimator.ui:201
+#, kde-format
+msgid ">"
+msgstr ">"
+
+#. i18n: ectx: property (text), widget (QToolButton, gotoFinal)
+#: parameteranimator.ui:211
+#, kde-format
+msgid ">>"
+msgstr ">>"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: parameteranimator.ui:257
+#, kde-format
+msgid "Speed:"
+msgstr "速度："
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: parameteranimator.ui:304
+#, kde-format
+msgid "Fast"
+msgstr "快"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: parameteranimator.ui:311
+#, kde-format
+msgid "Slow"
+msgstr "慢"
+
+#: parameterswidget.cpp:25
+#, kde-format
+msgid "Slider No. %1"
+msgstr "第 %1 个滑块"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useSlider)
+#: parameterswidget.ui:37
+#, kde-format
+msgid "Slider:"
+msgstr "滑块："
+
+#. i18n: ectx: property (text), widget (QCheckBox, useList)
+#: parameterswidget.ui:44
+#, kde-format
+msgid "List:"
+msgstr "列表："
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, editParameterListButton)
+#: parameterswidget.ui:54
+#, kde-format
+msgid "Edit the list of parameters"
+msgstr "编辑参数列表"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, editParameterListButton)
+#: parameterswidget.ui:57
+#, kde-format
+msgid ""
+"Click here to open a list of parameter values. Here you can add, remove, and "
+"change them."
+msgstr "单击此处可打开参数值列表。您可在此添加、删除或进行更改。"
+
+#. i18n: ectx: property (text), widget (QPushButton, editParameterListButton)
+#: parameterswidget.ui:60
+#, kde-format
+msgid "Edit List..."
+msgstr "编辑列表..."
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, listOfSliders)
+#: parameterswidget.ui:70
+#, kde-format
+msgid "Select a slider"
+msgstr "选择滑块"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, listOfSliders)
+#: parameterswidget.ui:73
+#, kde-format
+msgid ""
+"Select one of the sliders to change the parameter value dynamically. The "
+"values vary from 0 (left) to 100 (right)."
+msgstr ""
+"选择一个滑块，以便动态更改参数值。值的变化范围是 0(最左侧) 到 100(最右侧)。"
+
+#: parser.cpp:615
+#, kde-format
+msgid "Remove all"
+msgstr "全部移除"
+
+#: parser.cpp:619
+#, kde-format
+msgid ""
+"The function %1 is depended upon by the following functions: %2. These must "
+"be removed in addition."
+msgstr "函数 %1 依赖于以下函数：%2。这些函数也必须一起移除。"
+
+#: parser.cpp:1090
+#, kde-format
+msgid "Syntax error"
+msgstr "语法错误"
+
+#: parser.cpp:1093
+#, kde-format
+msgid "Missing parenthesis"
+msgstr "缺少括号"
+
+#: parser.cpp:1096
+#, kde-format
+msgid "Stack overflow"
+msgstr "堆栈溢出"
+
+#: parser.cpp:1099
+#, kde-format
+msgid "Name of function is not free"
+msgstr "函数名不能随便"
+
+#: parser.cpp:1102
+#, kde-format
+msgid "recursive function not allowed"
+msgstr "不允许递归函数"
+
+#: parser.cpp:1105
+#, kde-format
+msgid "Empty function"
+msgstr "空函数"
+
+#: parser.cpp:1108
+#, kde-format
+msgid "Function could not be found"
+msgstr "找不到函数"
+
+#: parser.cpp:1111
+#, kde-format
+msgid "The differential equation must be at least first-order"
+msgstr "微分方程必须是一阶以上"
+
+#: parser.cpp:1114
+#, kde-format
+msgid "Too many plus-minus symbols"
+msgstr "太多的正负符号"
+
+#: parser.cpp:1117
+#, kde-format
+msgid "Invalid plus-minus symbol (expression must be constant)"
+msgstr "不合理的正负符号(表达式必须是常数)"
+
+#: parser.cpp:1120
+#, kde-format
+msgid "The function has too many arguments"
+msgstr "此函数中参数太多"
+
+#: parser.cpp:1123
+#, kde-format
+msgid "The function does not have the correct number of arguments"
+msgstr "此函数中的参数数量不正确"
+
+#: plotstylewidget.cpp:30
+#, kde-format
+msgid "Solid"
+msgstr "立体"
+
+#: plotstylewidget.cpp:31
+#, kde-format
+msgid "Dash"
+msgstr "线"
+
+#: plotstylewidget.cpp:32
+#, kde-format
+msgid "Dot"
+msgstr "点"
+
+#: plotstylewidget.cpp:33
+#, kde-format
+msgid "Dash Dot"
+msgstr "线点相间"
+
+#: plotstylewidget.cpp:34
+#, kde-format
+msgid "Dash Dot Dot"
+msgstr "线-点-点相间"
+
+#: plotstylewidget.cpp:44
+#, kde-format
+msgid "Advanced..."
+msgstr "高级..."
+
+#: plotstylewidget.cpp:48
+#, kde-format
+msgid "Color:"
+msgstr "颜色："
+
+#: plotstylewidget.cpp:57
+#, kde-format
+msgctxt "@title:window"
+msgid "Plot Appearance"
+msgstr "绘图外观"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, PlotStyleWidget)
+#: plotstylewidget.ui:14
+#, kde-format
+msgid "Plot Style"
+msgstr "绘制样式"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showPlotName)
+#: plotstylewidget.ui:26
+#, kde-format
+msgid "Show the plot name"
+msgstr "显示绘图名称"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showExtrema)
+#: plotstylewidget.ui:33
+#, kde-format
+msgid "Show extrema (minimum/maximum points)"
+msgstr "显示极值(最大点/最小点)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showTangentField)
+#: plotstylewidget.ui:53
+#, kde-format
+msgid "Show the tangent field:"
+msgstr "显示相切处："
+
+#. i18n: ectx: property (text), widget (QCheckBox, useGradient)
+#: plotstylewidget.ui:67
+#, kde-format
+msgid "Use a gradient for parameters:"
+msgstr "使用斜率作为参数："
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: plotstylewidget.ui:74
+#, kde-format
+msgid "Line style:"
+msgstr "线条样式："
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: plotstylewidget.ui:87
+#, kde-format
+msgid "Line width:"
+msgstr "线宽："
+
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, lineWidth)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_AxesLineWidth)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_GridLineWidth)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_TicWidth)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_TicLength)
+#: plotstylewidget.ui:103 settingspagediagram.ui:140 settingspagediagram.ui:172
+#: settingspagediagram.ui:204 settingspagediagram.ui:236
+#, kde-format
+msgid " mm"
+msgstr " mm"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, QParameterEditor)
+#: qparametereditor.ui:13
+#, kde-format
+msgid "Parameter Editor"
+msgstr "参数编辑器"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdDelete)
+#: qparametereditor.ui:55
+#, kde-format
+msgid "delete selected constant"
+msgstr "删除选中的常量"
+
+#. i18n: ectx: property (text), widget (QPushButton, moveUp)
+#: qparametereditor.ui:84
+#, kde-format
+msgid "Move Up"
+msgstr "上移"
+
+#. i18n: ectx: property (text), widget (QPushButton, moveDown)
+#: qparametereditor.ui:91
+#, kde-format
+msgid "Move Down"
+msgstr "下移"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdImport)
+#: qparametereditor.ui:117
+#, kde-format
+msgid "Import values from a textfile"
+msgstr "从文本文件导入值"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, cmdImport)
+#: qparametereditor.ui:120
+#, kde-format
+msgid ""
+"Import values from a textfile. Every line in the file is parsed as a value "
+"or expression."
+msgstr "从文本文件导入值。文件的每一行都会被分析为值或表达式。"
+
+#. i18n: ectx: property (text), widget (QPushButton, cmdImport)
+#: qparametereditor.ui:123
+#, kde-format
+msgid "&Import..."
+msgstr "导入(&I)..."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdExport)
+#: qparametereditor.ui:133
+#, kde-format
+msgid "Export values to a textfile"
+msgstr "将值导出为文本文件"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, cmdExport)
+#: qparametereditor.ui:136
+#, kde-format
+msgid ""
+"Export values to a textfile. Every value in the parameter list will be "
+"written to one line in the file."
+msgstr "将值导出为文本文件。参数列表中的每个值都会写入为文件中的一行。"
+
+#. i18n: ectx: property (text), widget (QPushButton, cmdExport)
+#: qparametereditor.ui:139
+#, kde-format
+msgid "&Export..."
+msgstr "导出(&E)..."
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: settingspagecolor.ui:23
+#, kde-format
+msgid "&Coords"
+msgstr "坐标(&C)"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: settingspagecolor.ui:35
+#, kde-format
+msgid "Background color:"
+msgstr "背景色："
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_backgroundcolor)
+#: settingspagecolor.ui:45
+#, kde-format
+msgid "Color for the plot area behind the grid."
+msgstr "网格后绘图区域的颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_backgroundcolor)
+#: settingspagecolor.ui:48
+#, kde-format
+msgid ""
+"Click on the button the choose the color of the background. This option has "
+"no effect on printing nor export."
+msgstr "单击此按钮可选择背景颜色。此选项与打印或导出无关。"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: settingspagecolor.ui:58
+#, kde-format
+msgid "&Axes:"
+msgstr "数轴(&A)："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#: settingspagecolor.ui:71
+#, kde-format
+msgid "&Grid:"
+msgstr "网格(&G)："
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_AxesColor)
+#: settingspagecolor.ui:84
+#, kde-format
+msgid "Select color for the axes."
+msgstr "选择数轴的颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
+#: settingspagecolor.ui:87
+#, kde-format
+msgid ""
+"Specify the color of the axes. The change will appear as soon as you press "
+"the OK button."
+msgstr "指定数轴的颜色。当您单击确定按钮时，更改将会立即生效。"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_GridColor)
+#: settingspagecolor.ui:97
+#, kde-format
+msgid "Select color for the grid."
+msgstr "选择网格的颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_GridColor)
+#: settingspagecolor.ui:100
+#, kde-format
+msgid ""
+"Specify the color of the grid. The change will appear as soon as you press "
+"the OK button."
+msgstr "指定网格的颜色。当您单击确定按钮时，更改将会立即生效。"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: settingspagecolor.ui:113
+#, kde-format
+msgid "&Default Function Colors"
+msgstr "默认函数颜色(&D)"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color1)
+#: settingspagecolor.ui:133
+#, kde-format
+msgid "The default color for function number 2."
+msgstr "第二个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color1)
+#: settingspagecolor.ui:136
+#, kde-format
+msgid ""
+"The default color for function number 2. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"第二个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color4)
+#: settingspagecolor.ui:146
+#, kde-format
+msgid "The default color for function number 5."
+msgstr "第五个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color4)
+#: settingspagecolor.ui:149
+#, kde-format
+msgid ""
+"The default color for function number 5. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"第五个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color0)
+#: settingspagecolor.ui:159
+#, kde-format
+msgid "The default color for function number 1."
+msgstr "第一个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color0)
+#: settingspagecolor.ui:162
+#, kde-format
+msgid ""
+"The default color for function number 1. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"第一个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3)
+#: settingspagecolor.ui:172
+#, kde-format
+msgid "Function &1:"
+msgstr "函数 &1："
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color2)
+#: settingspagecolor.ui:185
+#, kde-format
+msgid "The default color for function number 3."
+msgstr "第三个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color2)
+#: settingspagecolor.ui:188
+#, kde-format
+msgid ""
+"The default color for function number 3. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"第三个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_13)
+#: settingspagecolor.ui:198
+#, kde-format
+msgid "Function &3:"
+msgstr "函数 &3："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_2)
+#: settingspagecolor.ui:211
+#, kde-format
+msgid "Function &2:"
+msgstr "函数 &2："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_12)
+#: settingspagecolor.ui:224
+#, kde-format
+msgid "Function &4:"
+msgstr "函数 &4："
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color3)
+#: settingspagecolor.ui:237
+#, kde-format
+msgid "The default color for function number 4."
+msgstr "第四个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color3)
+#: settingspagecolor.ui:240
+#, kde-format
+msgid ""
+"The default color for function number 4. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"第四个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_11)
+#: settingspagecolor.ui:250
+#, kde-format
+msgid "Function &5:"
+msgstr "函数 &5："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_9)
+#: settingspagecolor.ui:289
+#, kde-format
+msgid "Function &7:"
+msgstr "函数 &7："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_8)
+#: settingspagecolor.ui:302
+#, kde-format
+msgid "Function &8:"
+msgstr "函数 &8："
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color8)
+#: settingspagecolor.ui:315
+#, kde-format
+msgid "The default color for function number 9."
+msgstr "第九个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color8)
+#: settingspagecolor.ui:318
+#, kde-format
+msgid ""
+"The default color for function number 9. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"第九个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_10)
+#: settingspagecolor.ui:328
+#, kde-format
+msgid "Function &6:"
+msgstr "函数 &6："
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color6)
+#: settingspagecolor.ui:341
+#, kde-format
+msgid "The default color for function number 7."
+msgstr "第七个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color6)
+#: settingspagecolor.ui:344
+#, kde-format
+msgid ""
+"The default color for function number 7. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"第七个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color7)
+#: settingspagecolor.ui:354
+#, kde-format
+msgid "The default color for function number 8."
+msgstr "第八个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color7)
+#: settingspagecolor.ui:357
+#, kde-format
+msgid ""
+"The default color for function number 8. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"第八个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color5)
+#: settingspagecolor.ui:367
+#, kde-format
+msgid "The default color for function number 6."
+msgstr "第六个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color5)
+#: settingspagecolor.ui:370
+#, kde-format
+msgid ""
+"The default color for function number 6. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"第六个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_7)
+#: settingspagecolor.ui:380
+#, kde-format
+msgid "Function &9:"
+msgstr "函数 &9："
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color9)
+#: settingspagecolor.ui:393
+#, kde-format
+msgid "The default color for function number 10."
+msgstr "第十个函数的默认颜色。"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color9)
+#: settingspagecolor.ui:396
+#, kde-format
+msgid ""
+"The default color for function number 10. Please note that this color "
+"setting only affects empty functions, so if you have defined a function at "
+"number 1 and you change color for that number here, the setting will be "
+"shown next time you define a new function at number 1."
+msgstr ""
+"第十个函数的默认颜色。请注意，此颜色设置只影响空函数，所以如果您定义了第一个"
+"函数，而您稍后又在此更改了第一个函数的颜色，设置将会在您下次定义第一个函数时"
+"生效。"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_6)
+#: settingspagecolor.ui:406
+#, kde-format
+msgid "Function 1&0:"
+msgstr "函数 1&0："
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton11)
+#: settingspagediagram.ui:32
+#, kde-format
+msgid "No Grid will be plotted."
+msgstr "不绘制网格。"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton11)
+#: settingspagediagram.ui:35
+#, kde-format
+msgid "None"
+msgstr "无"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton12)
+#: settingspagediagram.ui:42
+#, kde-format
+msgid "A line for every tic."
+msgstr "每个刻度绘制直线。"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton12)
+#: settingspagediagram.ui:45
+#, kde-format
+msgid "Lines"
+msgstr "直线"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton13)
+#: settingspagediagram.ui:52
+#, kde-format
+msgid "Only little crosses in the plot area."
+msgstr "仅在绘图区绘制小交叉点。"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton13)
+#: settingspagediagram.ui:55
+#, kde-format
+msgid "Crosses"
+msgstr "格点"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton14)
+#: settingspagediagram.ui:62
+#, kde-format
+msgid "Circles around the Origin."
+msgstr "原点周围的圆。"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton14)
+#: settingspagediagram.ui:65
+#, kde-format
+msgid "Polar"
+msgstr "极坐标"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: settingspagediagram.ui:75
+#, kde-format
+msgid "Axis Labels"
+msgstr "数轴标签"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, label)
+#: settingspagediagram.ui:81
+#, kde-format
+msgid "Label on horizontal axis."
+msgstr "水平轴线的标签。"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: settingspagediagram.ui:84
+#, kde-format
+msgid "Horizontal axis label:"
+msgstr "水平轴标签："
+
+#. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelHorizontalAxis)
+#: settingspagediagram.ui:94
+#, kde-format
+msgid "X"
+msgstr "X"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, label_2)
+#: settingspagediagram.ui:101
+#, kde-format
+msgid "Label on vertical axis."
+msgstr "垂直轴线的标签。"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: settingspagediagram.ui:104
+#, kde-format
+msgid "Vertical axis label:"
+msgstr "垂直轴标签："
+
+#. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelVerticalAxis)
+#: settingspagediagram.ui:114
+#, kde-format
+msgid "Y"
+msgstr "Y"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel7)
+#: settingspagediagram.ui:124
+#, kde-format
+msgid "Axis widths:"
+msgstr "轴线宽度："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel5)
+#: settingspagediagram.ui:156
+#, kde-format
+msgid "Line &width:"
+msgstr "线宽(&W)："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel9)
+#: settingspagediagram.ui:188
+#, kde-format
+msgid "Tic width:"
+msgstr "刻度线宽度："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel8_4)
+#: settingspagediagram.ui:220
+#, kde-format
+msgid "Tic length:"
+msgstr "刻度线长度："
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowLabel)
+#: settingspagediagram.ui:252
+#, kde-format
+msgid "Visible tic labels."
+msgstr "可见的刻度线标签。"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowLabel)
+#: settingspagediagram.ui:255
+#, kde-format
+msgid "Check this if the axes' tics should be labeled."
+msgstr "选中此处代表要为数轴刻度显示标签。"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowLabel)
+#: settingspagediagram.ui:258
+#, kde-format
+msgid "Show labels"
+msgstr "显示标签"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowAxes)
+#: settingspagediagram.ui:268
+#, kde-format
+msgid "Visible axes."
+msgstr "可见数轴。"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAxes)
+#: settingspagediagram.ui:271
+#, kde-format
+msgid "Check this if the axes should be visible."
+msgstr "选中此处代表数轴可见。"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAxes)
+#: settingspagediagram.ui:274
+#, kde-format
+msgid "Show axes"
+msgstr "显示数轴"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowArrows)
+#: settingspagediagram.ui:284
+#, kde-format
+msgid "Visible arrows at the end of the axes."
+msgstr "在数轴尾部显示箭头。"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowArrows)
+#: settingspagediagram.ui:287
+#, kde-format
+msgid "Check this if the axes should have arrows at their ends."
+msgstr "选中此处代表在数轴尾部显示箭头。"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowArrows)
+#: settingspagediagram.ui:290
+#, kde-format
+msgid "Show arrows"
+msgstr "显示箭头"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel10)
+#: settingspagefonts.ui:23
+#, kde-format
+msgid "Axes labels:"
+msgstr "数轴标签："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel10_3)
+#: settingspagefonts.ui:45
+#, kde-format
+msgid "Diagram labels:"
+msgstr "图表标签："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel10_4)
+#: settingspagefonts.ui:67
+#, kde-format
+msgid "Header table:"
+msgstr "头表格："
+
+#. i18n: ectx: property (title), widget (QGroupBox, kcfg_anglemode)
+#: settingspagegeneral.ui:20
+#, kde-format
+msgid "Angle Mode"
+msgstr "角度模式"
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton1)
+#: settingspagegeneral.ui:32
+#, kde-format
+msgid "Trigonometric functions use radian mode for angles."
+msgstr "三角函数的角度使用弧度模式。"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton1)
+#: settingspagegeneral.ui:35
+#, kde-format
+msgid ""
+"Check this button to use radian mode to measure angles. This is important "
+"for trigonometric functions only."
+msgstr "选中此按钮可使用弧度模式度量角度。这只对三角函数非常重要。"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton1)
+#: settingspagegeneral.ui:38
+#, kde-format
+msgid "&Radian"
+msgstr "弧度(&R)"
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton2)
+#: settingspagegeneral.ui:45
+#, kde-format
+msgid "Trigonometric functions use degree mode for angles."
+msgstr "三角函数的角度使用度数模式。"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton2)
+#: settingspagegeneral.ui:48
+#, kde-format
+msgid ""
+"Check this button to use degree mode to measure angles. This is important "
+"for trigonometric functions only."
+msgstr "选中此按钮可使用度数模式以度量角度。这只对三角函数非常重要。"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton2)
+#: settingspagegeneral.ui:51
+#, kde-format
+msgid "&Degree"
+msgstr "度数(&D)"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: settingspagegeneral.ui:61
+#, kde-format
+msgid "Zoom"
+msgstr "缩放"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
+#: settingspagegeneral.ui:73
+#, kde-format
+msgid "Zoom in by:"
+msgstr "放大比例："
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_2_2)
+#: settingspagegeneral.ui:86
+#, kde-format
+msgid "Zoom out by:"
+msgstr "缩小比例："
+
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomOutStep)
+#: settingspagegeneral.ui:99
+#, kde-format
+msgid "The value the Zoom Out tool should use."
+msgstr "缩小工具应使用的值。"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomOutStep)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomInStep)
+#: settingspagegeneral.ui:111 settingspagegeneral.ui:130
+#, no-c-format, kde-format
+msgid "%"
+msgstr "%"
+
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomInStep)
+#: settingspagegeneral.ui:118
+#, kde-format
+msgid "The value the Zoom In tool should use."
+msgstr "放大工具应使用的值。"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DetailedTracing)
+#: settingspagegeneral.ui:144
+#, kde-format
+msgid "Draw tangent and normal when tracing"
+msgstr "跟踪绘图时绘制切线和法线"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, SliderWidget)
+#: sliderwidget.ui:13
+#, kde-format
+msgid "Slider"
+msgstr "滑块"
+
+#. i18n: ectx: property (text), widget (QLabel, valueLabel)
+#: sliderwidget.ui:43
+#, kde-format
+msgid "<0>"
+msgstr "<0>"
+
+#: view.cpp:1829
+#, kde-format
+msgctxt "Extrema point"
+msgid "x = %1   y = %2"
+msgstr "x = %1   y = %2"
+
+#: view.cpp:2124 view.cpp:2125
+#, kde-format
+msgctxt "%1=minimum value, %2=maximum value"
+msgid "%1 to %2"
+msgstr "%1 至 %2"
+
+#: view.cpp:2127 view.cpp:2128
+#, kde-format
+msgctxt "'E' is the distance between ticks on the axis"
+msgid "1E = "
+msgstr "1E = "
+
+#: view.cpp:2131
+#, kde-format
+msgid "Plotting Range"
+msgstr "绘图范围"
+
+#: view.cpp:2131
+#, kde-format
+msgid "Axes Division"
+msgstr "数轴分割"
+
+#: view.cpp:2132
+#, kde-format
+msgid "x-Axis:"
+msgstr "X 轴："
+
+#: view.cpp:2133
+#, kde-format
+msgid "y-Axis:"
+msgstr "Y 轴："
+
+#: view.cpp:2136
+#, kde-format
+msgid "Functions:"
+msgstr "函数："
+
+#: view.cpp:3004
+#, kde-format
+msgid "x = %1"
+msgstr "x = %1"
+
+#: view.cpp:3006
+#, kde-format
+msgid "y = %1"
+msgstr "y = %1"
+
+#: view.cpp:3133
+#, kde-format
+msgctxt "%1 is a subscript zero symbol"
+msgid "root: x%1 = "
+msgstr "root: x%1 = "
+
+#: xparser.cpp:117
+#, kde-format
+msgid "Error in extension."
+msgstr "扩展中出错。"

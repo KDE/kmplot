@@ -1,0 +1,302 @@
+<chapter id="configuration">
+<title
+>Konfiguracja &kmplot;</title
+> 
+<para
+>Aby uzyskać dostęp do okna dialogowego konfiguracji programu &kmplot;, należy wybrać <menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guimenuitem
+>Konfiguracja &kmplot;...</guimenuitem
+></menuchoice
+>. Ustawienia <guimenuitem
+>Stałych...</guimenuitem
+> mogą być zmieniane tylko w menu <guimenu
+>Edycja</guimenu
+> a ustawienia <guimenuitem
+>Układu współrzędnych...</guimenuitem
+> tylko w menu <guimenu
+>Widok</guimenu
+>. </para>
+
+<sect1 id="general-config">
+	<title
+>Konfiguracja: <guilabel
+>Ogólne</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Zrzut ekranu okna konfiguracji</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Zrzut ekranu okna konfiguracji</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Można tutaj zmieniać ustawienia ogólne, automatycznie zapisywane przy wyjściu z &kmplot; W pierwszej sekcji ustawia się tryb zapisu kątów (radiany lub stopnie), w drugiej współczynniki powiększenia i pomniejszenia oraz włącza zaawansowane śledzenie wykresu. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Konfiguracja: <guilabel
+>Diagram</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Zrzut ekranu sekcji konfiguracji diagramu</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Zrzut ekranu sekcji konfiguracji diagramu</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Możesz ustawić <guilabel
+> Styl siatki </guilabel
+> na jedną z czterech wartości: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Brak</guilabel
+></term>
+				<listitem>
+					<para
+>Nie są rysowane żadne linie siatki</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Linie</guilabel
+></term>
+				<listitem>
+					<para
+>Proste linie w formie siatki kwadratów na obszarze rysowania.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Krzyżyki</guilabel
+></term>
+				<listitem>
+					<para
+>Rysowane są krzyżyki oznaczające punkty w których x i y mają wartości całkowite (np. (1,1), (4,2) itp.).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Siatka biegunowa</guilabel
+></term>
+				<listitem>
+					<para
+>Rysowane są linie o stałym promieniu i stałym kącie.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para
+>Inne opcje wyglądu wykresu również mogą zostać zmienione: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Szerokość osi:</guilabel
+></term>
+				<listitem>
+					<para
+>Ustawia szerokość linii reprezentujacych oś.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Szerokość linii:</guilabel
+></term>
+				<listitem>
+					<para
+>Ustawia szerokość linii podziałki.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Szerokość podziałki:</guilabel
+></term>
+				<listitem>
+					<para
+>Ustawia szerokość linii reprezentujących podziałkę na osiach.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Długość podziałki:</guilabel
+></term>
+				<listitem>
+					<para
+>Ustawia długość linii reprezentujących podziałkę na osiach.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Pokaż etykiety</guilabel
+></term>
+				<listitem>
+					<para
+>Jeśli zaznaczony, nazwy osi (x, y) są wyświetlane na wykresie, zaś podziałki na osiach są podpisane.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Pokaż osie</guilabel
+></term>
+				<listitem>
+					<para
+>Jeżeli zaznaczone osie są widoczne.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Pokaż strzałki</guilabel
+></term>
+				<listitem>
+					<para
+>Jeżeli zaznaczone, to na końcach osi widoczne będą strzałki.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Konfiguracja: <guilabel
+>Kolory</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Zrzut ekranu sekcji konfiguracji kolorów</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Zrzut ekranu sekcji konfiguracji kolorów</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>W sekcji <guilabel
+>Współrzędne</guilabel
+> okna konfiguracji <guilabel
+>Kolory</guilabel
+>można zmienić kolory dla rysowanych osi, linii siatki oraz tła obszaru rysowania &kmplot;. </para>
+	
+	<para
+>W zakładce <guilabel
+>Kolory</guilabel
+>, możesz zmienić 10 domyślnych kolorów używanych przez program przy tworzeniu nowych wykresów funkcji.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Konfiguracja: <guilabel
+>Czcionki</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Zrzut ekranu sekcji konfiguracji czcionek</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Zrzut ekranu sekcji konfiguracji czcionek</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Etykiety osi</guilabel
+></term>
+			<listitem>
+				<para
+>Czcionka używana dla nazw osi (x i y) oraz etykiet liczbowych.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Etykieta wykresu</guilabel
+></term>
+			<listitem>
+				<para
+>Czcionka używana do rysowania etykiet na wykresie (służy do wyświetlania np. nazwy wykresu lub ekstremów).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Nagłówek</guilabel
+></term>
+			<listitem>
+				<para
+>Czcionka używana do nagłówka przy drukowaniu wykresu.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

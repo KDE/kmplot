@@ -1,0 +1,446 @@
+<chapter id="using-kmplot">
+<title
+>Usando o &kmplot;</title>
+
+<para
+>O &kmplot; lida com vários tipos diferentes de funções, os quais poderão ser escritos na forma de funções ou de equações:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Os gráficos cartesianos poderão ser escritos como &eg; <quote
+>y = x^2</quote
+>, onde o 'x' terá que ser usado como variável ou como &eg; <quote
+>f(a) = a^2</quote
+>, onde o nome da variável é arbitrário.</para
+></listitem>
+	<listitem
+><para
+>Os gráficos paramétricos são semelhantes aos gráficos Cartesianos. As coordenadas 'x' e 'y' poderão ser inseridas como equações em ordem a 't', &eg; <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+> ou como funções, &eg; <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Os gráficos polares são também semelhantes aos gráficos Cartesianos. Eles poderão tanto ser inseridos como uma equação em ordem a &thgr;, &eg; <quote
+>r = &thgr;</quote
+>, ou como uma função, p.ex. <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Para os gráficos implícitos, o nome da função é inserido separadamente da expressão que relaciona as coordenadas 'x' e 'y'. Se as variáveis 'x' e 'y' forem indicadas através do nome da função (escrevendo &eg;<quote
+>f(a,b)</quote
+> como o nome da função), então estas variáveis serão usadas. Caso contrário, as letras 'x' e 'y' serão usadas para as variáveis.</para
+></listitem>
+	<listitem
+><para
+>Os gráficos diferenciais explícitos são equações diferenciais, onde a derivada maior é indicada em função das derivadas menores. A derivação é indicada através de uma plica ('). No formato da função, a equação ficará algo do tipo <quote
+>f''(x) = f' &minus; f</quote
+>. No formato de equação, ficará algo do tipo <quote
+>y'' = y' &minus; y</quote
+>. Repare que, em ambos os casos, a parte <quote
+>(x)</quote
+> não é adicionada aos termos diferenciais de menor ordem (assim você poderia inserir <quote
+>f'(x) = &minus;f</quote
+> mas não <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>Todos os campos de texto da equação vêm com um botão à direita. Ao clicar neste, será invocada a janela do <guilabel
+>Editor de Equações</guilabel
+> avançado, que oferece: <itemizedlist>
+		<listitem>
+			<para
+>Uma variedade de símbolos matemáticos que poderão ser usados nas equações, mas que não existem nos teclados normais.</para>
+		</listitem>
+		<listitem>
+			<para
+>A lista das constantes do usuário e um botão para editá-las.</para>
+		</listitem>
+		<listitem>
+			<para
+>A lista de funções predefinidas. Lembre-se que, se você tiver algum texto já selecionado, este será usado como argumento da função, quando for inserida uma função. Por exemplo, se tiver selecionado <quote
+>1 + x</quote
+> na equação <quote
+>y = 1 + x</quote
+>, e for selecionada a função seno, a equação irá ficar igual a <quote
+> y = sin(1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>Aqui está uma captura de tela da janela de boas-vindas do &kmplot;</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Captura de tela</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Tipos de funções</title>
+	
+	<sect2 id="cartesian-functions">
+		<title
+>Funções cartesianas</title>
+		<para
+>Para inserir uma função explícita (&ie;, uma função no formato y=f(x)) no &kmplot;, basta indicá-la no formato a seguir:<screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>expressão</replaceable
+></userinput
+></screen
+> Em que: <itemizedlist>
+				<listitem
+><para
+>O <replaceable
+>f</replaceable
+> é o nome da função, e poderá ser qualquer sequência de letras e números que desejar.</para>
+				</listitem>
+				
+				<listitem
+><para
+>O <replaceable
+>x</replaceable
+> é a coordenada horizontal, que pode ser usada na expressão que se segue ao sinal de igualdade. É de fato uma variável inútil, por isso você poderá usar qualquer nome de variável que desejar, embora o efeito será o mesmo.</para>
+				</listitem>
+				
+				<listitem>
+					<para
+>A <replaceable
+>expressão</replaceable
+> é a fórmula propriamente dita a ser desenhada, usando uma sintaxe apropriada para o &kmplot;. Veja a <xref linkend="math-syntax"/>. </para>
+				</listitem>
+				
+			</itemizedlist>
+		</para>
+	</sect2>
+	
+	<sect2 id="parametric-functions">
+		<title
+>Funções paramétricas</title>
+		<para
+>As funções paramétricas são aquelas em que as coordenadas 'x' e 'y' são definidas por funções separadas de outra variável, normalmente chamada de 't'. Para indicar uma função paramétrica no &kmplot;, siga o procedimento usado para uma função cartesiana, mas defina antes o nome da função que descreve a coordenada X com a letra 'x', e a função que descreve a coordenada 'y' com a letra 'y'. Tal como acontece nas funções cartesianas, você poderá usar qualquer nome de variável que desejar como parâmetro.</para>
+		<para
+>Como exemplo, suponha que deseja desenhar uma circunferência, que tem as equações paramétricas 'x = sin(t)', 'y = cos(t)'. Depois de criar um gráfico paramétrico, indique as equações apropriadas nos campos 'x' e 'y', &ie;, <guilabel
+>f_x(t) = </guilabel
+><userinput
+>sin(t)</userinput
+> e <guilabel
+>f_y(t) = </guilabel
+><userinput
+>cos(t)</userinput
+>. </para>
+		<para
+>Você poderá definir mais algumas opções para o gráfico no editor de funções: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Mín</guilabel
+></term>
+					<term
+><guilabel
+>Máx</guilabel
+></term>
+					<listitem>
+						<para
+>Estas opções controlam o intervalo do parâmetro 't', para o qual está desenhada a função.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+	
+	<sect2 id="polar-functions">
+		<title
+>Funções em Coordenadas Polares</title>
+		
+		<para
+>As coordenadas polares representam um ponto pela sua distância à origem (normalmente chamada de 'r'), e pelo ângulo que é feito por uma linha desde a origem até ao ponto em relação ao eixo horizontal (normalmente representado pela letra grega 'theta' - &thgr;). Para indicar as funções em coordenadas polares, use o item do menu <guilabel
+>Criar</guilabel
+> e selecione <guilabel
+>Gráfico Polar...</guilabel
+> na lista. No campo de definição, complete a definição da função, incluindo o nome da variável 'theta' que deseja usar; &eg;, para desenhar a espiral de Arquimedes, r=&thgr;, insira: <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+>. Lembre-se de que você poderá usar qualquer nome para a variável 'theta', por isso, o <quote
+>r(t) = t</quote
+> ou <quote
+>f(x) = x</quote
+> teria dado exatamente o mesmo resultado. </para>
+	</sect2>
+	
+	<sect2 id="implicit-functions">
+		<title
+>Funções Implícitas</title>
+		
+		<para
+>Uma expressão implícita relaciona as coordenadas 'x' e 'y' como uma igualdade. Para criar uma circunferência, por exemplo, crie um Gráfico Implícito novo no botão <guilabel
+>Criar</guilabel
+> e <guilabel
+>Gráfico Implícito</guilabel
+>. Depois, indique no campo da equação (abaixo do campo do nome da função) o seguinte: <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+	
+	<sect2 id="differential-functions">
+		<title
+>Funções diferenciais</title>
+		
+		<para
+>O &kmplot; consegue desenhar equações diferenciais explícitas. Elas são equações no formato y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), onde o y<superscript
+>k</superscript
+> é a k<superscript
+>ésima</superscript
+> derivada de y(x). O &kmplot; só consegue derivar a ordem da derivada como o número de plicas a seguir ao nome da função. Para desenhar uma curva sinusoidal, por exemplo, iria usar a equação diferencial <userinput
+>y'' = &minus; y</userinput
+> ou <userinput
+>f''(x) = -f</userinput
+>. </para>
+		
+		<para
+>Contudo, uma equação diferencial, por si só, não é suficiente para determinar um gráfico. Cada curva do diagrama é gerada através da combinação das equações diferenciais e das condições iniciais. O usuário poderá editar as condições iniciais, clicando na página <guilabel
+>Condições Iniciais</guilabel
+>, quando selecionar uma equação diferencial. O número de colunas oferecido para editar as condições iniciais depende da ordem da equação diferencial. </para>
+		
+		<para
+>Você poderá definir mais algumas opções para o gráfico no editor de funções: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Passo</guilabel
+></term>
+					<listitem>
+						<para
+>O valor do passo, no campo de precisão, é usado para resolver numericamente a equação diferencial (usando o método de Range Kutta). O seu valor é o tamanho máximo do passo usado; um valor menor do passo poderá ser usado se parte do gráfico diferencial estiver ampliada a um valor próximo o suficiente.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Combinando as funções</title>
+	<para
+>As funções podem ser combinadas para produzir funções novas. Basta inserir as funções após o sinal de igualdade numa expressão, como se as funções fossem variáveis. Por exemplo, se você tivesse definido as funções f(x) e g(x), você poderia desenhar a soma de 'f' e 'g' com: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Mudando a aparência das funções</title>
+	
+	<para
+>Para mudar a aparência do gráfico de uma função na janela principal do gráfico, selecione a função na barra lateral das <guilabel
+>Funções</guilabel
+>. Você poderá alterar a espessura do traço do gráfico, a cor e muitos outros aspectos, clicando no botão <guibutton
+>Cor</guibutton
+> ou <guibutton
+>Avançado</guibutton
+> abaixo da seção <guilabel
+>Aparência</guilabel
+>. </para>
+	
+	<para
+>Se você estiver editando uma função explícita, irá ver a janela do editor de funções com três páginas. Na primeira, você irá indicar a equação da função. A página das <guilabel
+>Derivadas</guilabel
+> irá desenhar a primeira e segunda derivadas da função. Com a página <guilabel
+>Integral</guilabel
+> você irá desenhar o integral da função. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Menu de contexto</title>
+	<screenshot>
+	<screeninfo
+>Menu de contexto do botão direito no gráfico</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Menu de contexto do botão direito no gráfico</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Ao clicar com o botão direito num gráfico de uma função ou num ponto de um gráfico paramétrico, irá aparecer um menu de contexto. No menu, existem três itens disponíveis:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Editar</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Selecione a função na barra de <guilabel
+>Funções</guilabel
+> para fins de edição.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Ocultar</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Esconde o gráfico selecionado. Os outros gráficos serão ainda exibidos.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Remover</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Remove a função. Todos os seus gráficos irão desaparecer.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Animar o gráfico...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Mostra a janela de <guilabel
+>Animação dos Parâmetros</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Calculadora</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Abre o diálogo da <guilabel
+>Calculadora</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+	<para
+>Dependendo do tipo de gráfico, poderão existir até quatro ferramentas disponíveis:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Área do Gráfico...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Selecione os valores mínimo e máximo horizontal para o gráfico na nova caixa de diálogo que aparece. Calcula o integral e desenha a área entre o gráfico e o eixo horizontal, no intervalo selecionado, com a cor do gráfico. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Encontrar o mínimo...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Procura o valor mínimo do gráfico num determinado intervalo. O gráfico selecionado será realçado na janela que aparece. Indique os limites inferior e superior da região na qual deseja procura o mínimo. </para>
+				<para
+>Nota: Você poderá indicar também ao gráfico para mostrar visualmente os pontos extremos com a janela de <guilabel
+>Aparência do Gráfico</guilabel
+>, que está acessível através da barra de <guilabel
+>Funções</guilabel
+>, ao clicar em <guibutton
+>Avançado...</guibutton
+>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Encontrar o máximo...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Este é o mesmo que o <guimenuitem
+>Descobrir o Mínimo...</guimenuitem
+> mas procura os valores máximos, em vez dos mínimos.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

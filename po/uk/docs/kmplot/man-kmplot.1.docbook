@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+<!ENTITY % Ukrainian "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Інструкція користувача &kmplot;</title>
+<author
+><firstname
+>Ben</firstname
+> <surname
+>Burton</surname
+> <contrib
+>Сторінка підручника з KmPlot.</contrib
+> <email
+>bab@debian.org</email
+></author>
+<date
+>5 січня 2021 року</date>
+<releaseinfo
+>1.3.0 (Програми 20.12)</releaseinfo>
+<productname
+>Програми KDE</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kmplot</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kmplot</command
+></refname>
+<refpurpose
+>Програма для креслення графіків математичних функцій</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kmplot</command
+> <group choice="opt"
+><option
+>-f, --function <replaceable
+>аргумент</replaceable
+></option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>файл</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Опис</title>
+<para
+>&kmplot; — програма для побудови математичних функцій, створена розробниками &kde;. У програму вбудовано потужні засоби обробки. Ви можете будувати по декілька функцій одночасно, а також створювати з цих функцій комбінації для побудови нових функцій.</para
+><para
+>&kmplot; підтримує функції задані параметрично і функції у полярних координатах. Підтримується декілька режимів сітки. Креслення можна друкувати з високою точністю і у правильному масштабі.</para
+><para
+>&kmplot; також має декілька числових та візуальних можливостей, зокрема, заповнення кольором та обчислення площі між графіком і віссю, відшукання максимуму і мінімуму, динамічна зміна параметрів функції і креслення графіків похідної та інтеграла від функції.</para
+><para
+>&kmplot; є частиною освітнього модуля &kde;.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Параметри</title>
+<variablelist>
+<varlistentry
+><term
+><option
+>-f, --function <replaceable
+>аргумент</replaceable
+></option
+></term>
+<listitem
+><para
+>Початкова функція для побудови.</para
+></listitem
+></varlistentry>
+<varlistentry
+><term
+><option
+><replaceable
+>файл</replaceable
+></option
+></term>
+<listitem
+><para
+>Файл, який слід відкрити.</para
+></listitem
+></varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title
+>Прочитайте також</title>
+
+<simplelist>
+<member
+>Докладніша документація для користувачів доступна за адресою <ulink url="help:/kmplot"
+>help:/kmplot</ulink
+> (або введіть цю адресу <acronym
+>URL</acronym
+> у поле адреси &konqueror;, або виконайте команду <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kmplot</parameter
+></userinput
+>).</member>
+<member
+>Додаткову інформацію розміщено на <ulink url="https://kde.org/applications/education/kmplot"
+>сайті освітнього модуля &kde;</ulink
+>.</member>
+<member
+>kf5options(1)</member>
+<member
+>qt5options(1)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Автори</title>
+<para
+>Авторами &kmplot; є <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail;, &Matthias.Messmer; &Matthias.Messmer.mail; та <personname
+><firstname
+>Fredrik</firstname
+><surname
+>Edemar</surname
+></personname
+> <email
+>f_edemar@linux.se</email
+></para>
+</refsect1>
+
+</refentry>

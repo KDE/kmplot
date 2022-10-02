@@ -1,0 +1,442 @@
+<chapter id="using-kmplot">
+<title
+>Utilisation de &kmplot;</title>
+
+<para
+>&kmplot; traite différents types de fonctions, qui peuvent être écrites soit sous la forme d'une fonction, soit comme une équation : </para>
+
+<itemizedlist>
+	<listitem
+><para
+>Les courbes cartésiennes peuvent être écrites comme &pex; <quote
+>y = x^2</quote
+>, où x est la variable ; ou comme &pex; <quote
+>f(a) = a^2</quote
+>, où le nom de la variable est arbitraire.</para
+></listitem>
+	<listitem
+><para
+>Les courbes paramétriques sont similaires aux courbes cartésiennes. Les coordonnées x et y peuvent être saisis sous forme d'équation en t, &pex; <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+>, ou comme fonctions, &pex; <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Les courbes polaires sont également similaires aux courbes cartésiennes. Elles peuvent être écrites comme une équation de &thgr;, &pex; <quote
+> r = &thgr;</quote
+>, ou comme une fonction, &pex; <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Pour les courbes implicites, le nom de la fonction est saisie séparément de l'expression concernant les coordonnées x et y. Si les variables x et y sont indiquées via le nom de la fonction (en saisissant &pex;<quote
+>f(a,b)</quote
+> comme nom de fonction), alors ces variables seront utilisées. Sinon, les lettres x et y seront utilisées pour les variables.</para
+></listitem>
+	<listitem
+><para
+>Les courbes différentielles explicites sont des équations différentielles selon lesquelles la plus grande dérivée est donnée en terme de dérivées plus petites. La différentielle est symbolisée par un prime ('). Sous forme de fonction, l'équation apparaître comme <quote
+>f''(x) = f' &minus; f </quote
+>. Sous forme d'équation, elle apparaître comme <quote
+>y'' = y' &minus; y</quote
+>. Notez que dans les deux cas, la partie <quote
+>(x) </quote
+> n'est pas ajoutée au terme différentiel le plus petit (donc vous devez écrire <quote
+>f'(x) = &minus;f</quote
+> et non <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>Toutes les boîtes de saisie d'équation disposent d'un bouton sur la droite. Cliquer sur celui-ci affiche la boîte de dialogue <guilabel
+>Éditeur d'équation</guilabel
+>, qui fournit :  <itemizedlist>
+		<listitem>
+			<para
+>divers symboles mathématiques qui peuvent être utilisés dans les équations, mais qui ne sont pas disponibles sur les claviers normaux,</para>
+		</listitem>
+		<listitem>
+			<para
+>la liste des constantes définies par l'utilisateur et un bouton pour les modifier,</para>
+		</listitem>
+		<listitem>
+			<para
+>la liste des fonctions prédéfinies. Notez que si vous avez sélectionné du texte, il sera utilisé comme argument de la fonction lorsqu'une fonction est insérée. Par exemple, si <quote
+>1 + x</quote
+> est sélectionné dans l'équation <quote
+>y = 1 + x</quote
+>, et que la fonction sinus est choisie, alors l'équation sera <quote
+> y = sin(1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>Voici une capture d'écran de l'écran d'accueil de &kmplot;</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Capture d'écran</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Types de fonctions</title>
+	
+	<sect2 id="cartesian-functions">
+		<title
+>Fonctions cartésiennes</title>
+		<para
+>Pour saisir une fonction explicite (&cad; une fonction de la forme y=f(x)) dans &kmplot;, saisissez-la simplement sous la forme suivante : <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>expression</replaceable
+></userinput
+></screen
+> où : <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> est le nom de la fonction, qui peut être n'importe quelle chaîne de caractères et de nombres,</para>
+				</listitem>
+				
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> est la coordonnée X, à utiliser dans l'expression suivant le signe égal. C'est en fait une variable libre, et ainsi, vous pouvez utiliser n'importe quel nom de variable, avec le même effet,</para>
+				</listitem>
+				
+				<listitem>
+					<para
+><replaceable
+>expression</replaceable
+> est l'expression qui est tracée, elle doit être donnée dans une syntaxe appropriée pour &kmplot;. Voir <xref linkend="math-syntax"/>. </para>
+				</listitem>
+				
+			</itemizedlist>
+		</para>
+	</sect2>
+	
+	<sect2 id="parametric-functions">
+		<title
+>Fonctions paramétriques</title>
+		<para
+>Les fonctions paramétriques sont celles dans lesquelles les coordonnées x et y sont définies par des fonctions séparées dépendant d'une autre variable, souvent t. Pour saisir une fonction paramétrique dans &kmplot;, suivez la procédure comme pour une fonction cartésienne, pour chacune des fonctions X et Y. Comme pour les fonctions cartésiennes, vous pouvez utiliser n'importe quel nom de variable pour le paramètre.</para>
+		<para
+>Comme exemple, supposons que vous souhaitez tracer un cercle, qui a pour équations paramétriques x = sin(t), y = cos(t). Après la création de la courbe paramétrique, saisissez les équations appropriées dans les boîtes x et y, &cad;, <userinput
+>f_x(t)=sin(t)</userinput
+> et <userinput
+>f_y(t)=cos(t)</userinput
+>. </para>
+		<para
+>Vous pouvez indiquer d'autres options pour le tracé dans cette boîte de dialogue : <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Min</guilabel
+></term>
+					<term
+><guilabel
+>Max</guilabel
+></term>
+					<listitem>
+						<para
+>Ces options contrôlent la plage de valeurs du paramètre t utilisé pour tracer la fonction.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+	
+	<sect2 id="polar-functions">
+		<title
+>Fonctions en coordonnées polaires</title>
+		
+		<para
+>Les coordonnées polaires représentent un point défini par sa distance par rapport à l'origine (habituellement appelée r), et par l'angle que fait une ligne reliant l'origine à ce point avec l'axe des abscisses (généralement représenté par &thgr;, la lettre grecque theta). Pour saisir des fonctions en coordonnées polaires, cliquez sur le bouton <guilabel
+>Créer</guilabel
+> et sélectionnez <guilabel
+>Courbe polaire</guilabel
+> dans la liste. Dans la boîte de définition, complétez la définition de la fonction, y compris le nom de la variable theta que vous souhaitez utiliser. Par exemple, pour tracer la spirale d'Archimède r=&thgr;, saisissez : <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+>. Notez que vous pouvez utiliser n'importe quel nom pour la variable theta, ainsi <quote
+>r(t) = t</quote
+> ou bien <quote
+>f(x) = x</quote
+> produiront le même résultat. </para>
+	</sect2>
+	
+	<sect2 id="implicit-functions">
+		<title
+>Fonctions implicites</title>
+		
+		<para
+>Une fonction implicite relie les coordonnées x et y par une égalité. Pour créer un cercle, par exemple, cliquez sur le bouton <guilabel
+>Créer </guilabel
+> et sélectionnez <guilabel
+>Courbe implicite</guilabel
+> dans la liste. Ensuite, saisissez dans le boîte d'équation (en-dessous de la boîte nom de la fonction), l'expression suivante :  <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+	
+	<sect2 id="differential-functions">
+		<title
+>Fonctions différentielles</title>
+		
+		<para
+>&kmplot; peut tracer des équations différentielles explicites. Ce sont des équations de la forme y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y <superscript
+>(n&minus;1)</superscript
+>), où y<superscript
+>k </superscript
+> est la k<superscript
+>ième</superscript
+> dérivée de y(x). &kmplot; peut seulement interpréter l'ordre de la dérivée comme le nombre de primes suivant le nom de la fonction. Pour tracer une courbe sinusoïdale, par exemple, vous pourrez utiliser l'équation différentielle <userinput
+>y'' = &minus; y</userinput
+> ou <userinput
+>f''(x) = −f</userinput
+>. </para>
+		
+		<para
+>Cependant, une équation différentielle à elle seule n'est pas suffisante pour tracer une courbe. Chaque courbe présente dans le diagramme est générée par une combinaison de l'équation différentielle et des conditions initiales. Vous pouvez modifier les conditions initiales en cliquant sur l'onglet <guilabel
+>Conditions initiales</guilabel
+> lorsque l'équation différentielle est sélectionnée. Le nombre de colonnes prévues pour modifier les conditions initiales dépend de l'ordre de l'équation différentielle. </para>
+		
+		<para
+>Vous pouvez indiquer d'autres options pour le tracé dans cette boîte de dialogue : <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Pas</guilabel
+></term>
+					<listitem>
+						<para
+>La valeur du pas dans la boîte de précision est utilisée dans la résolution numérique de l'équation différentielle (en utilisant la méthode de Runge-Kutta). Cette valeur correspond à la taille maximale du pas utilisé ; une taille de pas plus petite peut être utilisée si on zoome suffisamment près de la courbe différentielle.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Combinaisons de fonctions</title>
+	<para
+>Les fonctions peuvent être combinées pour en produire de nouvelles. Saisissez simplement les fonctions après le signe égal dans une expression comme si les fonctions étaient des variables. Par exemple, si vous avez défini les fonctions f(x) et g(x), vous pouvez faire la courbe de la somme de f et de g avec : <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Changer l'apparence des fonctions</title>
+	
+	<para
+>Pour modifier l'apparence du graphique d'une fonction sur la fenêtre principale de tracé, sélectionnez la fonction dans le panneau latéral <guilabel
+>Fonctions</guilabel
+>. Vous pouvez modifier la largeur de la ligne qui trace la courbe, sa couleur et bien d'autres aspects en cliquant sur le bouton <guibutton
+>Couleur</guibutton
+> ou <guibutton
+> Avancé...</guibutton
+> de la section <guilabel
+>Apparence</guilabel
+> en bas. </para>
+	
+	<para
+>Si vous modifiez une fonction cartésienne, l'éditeur de fonction aura trois onglets. Dans le premier, vous pouvez indiquer l'équation de la fonction. L'onglet <guilabel
+>Dérivées</guilabel
+> vous permet de tracer les dérivées première et/ou seconde de la fonction. Avec l'onglet <guilabel
+>Primitive </guilabel
+>, vous pouvez tracer la primitive de la fonction. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Menu surgissant</title>
+	<screenshot>
+	<screeninfo
+>Menu contextuel du graphique activé par un clic droit</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Menu contextuel du graphique activé par un clic droit</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Lorsque vous cliquez avec le bouton droit de la souris sur une courbe ou sur une fonction paramétrique à un point, un menu contextuel apparaît. Trois éléments sont disponibles :</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Édition</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Sélectionne la fonction dans le panneau latéral <guilabel
+>Fonctions</guilabel
+> pour la modifier.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Masquer</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Cache la courbe sélectionnée. Les autres tracés du graphique seront toujours affichés.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Supprimer</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Supprime la fonction. Tous ses tracés disparaîtront.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Animer la courbe...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Affiche la boîte de dialogue <guilabel
+>Animateur de paramètre</guilabel
+></para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Calculatrice</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Ouvre la boîte de dialogue <guilabel
+>Calculatrice</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+	<para
+>Selon le type de courbe, il pourra y avoir jusqu'à quatre outils disponibles : </para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Zone de tracé...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Sélectionne les valeurs minimum et maximum de l'axe des abscisses pour la courbe dans la nouvelle boîte de dialogue qui apparaît. Calcule l'intégrale et dessine la surface entre la courbe et l'axe des abscisses dans la plage choisie dans la couleur de la courbe. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Trouver le minimum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Trouve la valeur minimale de la courbe dans une plage spécifiée. La courbe sélectionnée sera mise en surbrillance dans la boîte de dialogue qui apparaît. Saisissez les limites supérieure et inférieure de la région dans laquelle vous voulez chercher le minimum. </para>
+				<para
+>Remarque : vous pouvez également demander à afficher visuellement les extrémités de la courbe dans la boîte de dialogue <guilabel
+>Présentation du graphique</guilabel
+>, accessible depuis le panneau latéral <guilabel
+>Fonctions </guilabel
+> en cliquant sur <guibutton
+>Avancé...</guibutton
+>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Trouver le maximum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>C'est la même chose que <guimenuitem
+>Trouver le minimum</guimenuitem
+> ci-dessus, mais cette fois c'est la valeur maximale qui est recherchée au lieu du minimum.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

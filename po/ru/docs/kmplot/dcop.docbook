@@ -1,0 +1,771 @@
+<chapter id="dcop">
+	<title
+>Использование сценариев в &kmplot;</title>
+	
+	<para
+>A new feature in KDE 3.4 is that you can write scrips for &kmplot; with DCOP. For example, if you want to define a new function <userinput
+>f(x)=2sin x+3cos x</userinput
+>, set its line width to 20 and then draw it, you type in a console:</para>
+	<para
+><command
+>dcop kmplot-PID Parser addFunction "f(x)=2sin x+3cos x"</command
+> As a result, the new function's id number will be returned, or -1 if the function could not be defined.</para>
+	<para
+><command
+>
+>dcop kmplot-PID Parser setFunctionFLineWidth 20 ID</command
+> Эта команда изменяет ширину графика функции с номером ID на 20.</para>
+	<para
+><command
+>
+>dcop kmplot-PID View drawPlot</command
+> Эта команда строит график функции.</para>
+<para
+>Список доступных функций: <variablelist>
+		<varlistentry>
+			<term
+>KmPlotShell fileOpen &amp;url </term>
+			<listitem>
+				<para
+>Загрузить файл <parameter
+>url</parameter
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg isModified </term>
+			<listitem>
+				<para
+>Возвращает true если изменения сделаны после последнего сохранения.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg editColors </term>
+			<listitem>
+				<para
+>Открывает диалог цветов.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg editAxes </term>
+			<listitem>
+				<para
+>Открывает диалог коордниатной системы.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg editScaling </term>
+			<listitem>
+				<para
+>Открывает диалог масштабирования.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg editFonts </term>
+			<listitem>
+				<para
+>Открывает диалог шрифтов.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg editConstants </term>
+			<listitem>
+				<para
+>Открывает диалог констант.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg newFunction </term>
+			<listitem>
+				<para
+>Открывает диалог построения новой функции.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg newParametric </term>
+			<listitem>
+				<para
+>Открывает диалог построения новой паарметрической функции.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg newPolar </term>
+			<listitem>
+				<para
+>Открывает диалог построения новой функции в полярной системе координат.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg toggleShowSlider0 </term>
+			<listitem>
+				<para
+>Показать/скрыть ползунок параметра 1.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg toggleShowSlider1 </term>
+			<listitem>
+				<para
+>Показать/скрыть ползунок параметра 2.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg toggleShowSlider2 </term>
+			<listitem>
+				<para
+>Показать/скрыть ползунок параметра 3.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>MainDlg toggleShowSlider3 </term>
+		  <listitem>
+		    <para
+>Показать/скрыть ползунок параметра 4.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotSave </term>
+			<listitem>
+				<para
+>Сохранить функции (открыть  диалог сохранения если файлы новые).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotSaveas </term>
+			<listitem>
+				<para
+>То же, что и <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Сохранить как</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotEditPlots </term>
+			<listitem>
+				<para
+>Открывает диалог построений.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotPrint </term>
+			<listitem>
+				<para
+>Открывает диалог печати.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotExport </term>
+			<listitem>
+				<para
+>Открывает диалог экспорта.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotSettings </term>
+			<listitem>
+				<para
+>Открывает диалог настроек.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotNames </term>
+			<listitem>
+				<para
+>Выводит список предопределённых функций.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotCoord1 </term>
+			<listitem>
+				<para
+>Система координат I.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotCoord2 </term>
+			<listitem>
+				<para
+>Система координат II.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg slotCoord3 </term>
+			<listitem>
+				<para
+>Система координат III.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg getYValue </term>
+			<listitem>
+				<para
+>То же самое, что и <menuchoice
+><guimenu
+>Сервис</guimenu
+><guimenuitem
+>Получить ординату...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg findMinimumValue </term>
+			<listitem>
+				<para
+>То же самое, что и <menuchoice
+><guimenu
+>Сервис</guimenu
+><guimenuitem
+>Поиск точки минимума...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg findMaximumValue </term>
+			<listitem>
+				<para
+>То же самое, что и <menuchoice
+><guimenu
+>Сервис</guimenu
+><guimenuitem
+>Поиск точки максимума...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>MainDlg graphArea </term>
+			<listitem>
+				<para
+>То же самое, что и <menuchoice
+><guimenu
+>Сервис</guimenu
+><guimenuitem
+>Площадь под графиком...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>Parser addFunction f_str </term>
+			<listitem>
+				<para
+>Добавить функцию, определяемую выражением <parameter
+>f_str</parameter
+>. Если оно не содержит имени функции, оно будет сгенерировано автоматически. В случае ошибки будет возвращено -1, иначе - номер функции.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>Parser delfkt id </term>
+			<listitem>
+				<para
+>Удалить функцию по её номеру <parameter
+>id</parameter
+>. В случае ошибки возвращается false, иначе - true.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>Parser setFunctionExpression f_str id </term>
+			<listitem>
+				<para
+>Изменить выражение функции с номером <parameter
+>id</parameter
+> на <parameter
+>f_str</parameter
+>. В случае ошибки возвращается false, иначе - true.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>Parser countFunctions </term>
+			<listitem>
+				<para
+>Возвращает число функций (параметрические считаются за две).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser listFunctionNames </term>
+		  <listitem>
+		    <para
+>Возвращает список всех функций.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser fnameToId f_str </term>
+		  <listitem>
+		    <para
+>Возвращает номер <parameter
+>f_str</parameter
+> или -1, если функции с именем <parameter
+>f_str</parameter
+> нет.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser id x </term>
+		  <listitem>
+		    <para
+>Вычисляет значение функции с номером <parameter
+>id</parameter
+> для аргумента <parameter
+>x</parameter
+>, если такой функции нет, возвращает 0.0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionFVisible id </term>
+		  <listitem>
+		    <para
+>Возвращает true если функция с номером <parameter
+>id</parameter
+> видима.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionF1Visible id </term>
+		  <listitem>
+		    <para
+>Возвращает true если видна производная первого порядка функции с номером <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionF2Visible id </term>
+		  <listitem>
+		    <para
+>Возвращает true если видна производная второго порядка функции с номером <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionIntVisible id </term>
+		  <listitem>
+		    <para
+>Возвращает true если видна первообразная функции с номером <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionFVisible visible id </term>
+		  <listitem>
+		    <para
+>Отображает или скрывает функцию с номером <parameter
+>id</parameter
+>. Возвращает false если функция не существует</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionF1Visible visible id </term>
+		  <listitem>
+		    <para
+>Отображает или скрывает первую производную функции с номером <parameter
+>id</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionF2Visible visible id </term>
+		  <listitem>
+		    <para
+>Отображает или скрывает вторую производную функции с номером <parameter
+>id</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionIntVisible visible id </term>
+		  <listitem>
+		    <para
+>Отображает или скрывает первообразную функции с номером <parameter
+>id</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionStr id </term>
+		  <listitem>
+		    <para
+>Возвращает выражение функции с номером <parameter
+>id</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionFColor id </term>
+		  <listitem>
+		    <para
+>Возвращает цвет графика функции с номером <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionF1Color id </term>
+		  <listitem>
+		    <para
+>Возвращает цвет графика первой производной функции с номером <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionF2Color id </term>
+		  <listitem>
+		    <para
+>Возвращает цвет графика второй производной функции с номером <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionIntColor id </term>
+		  <listitem>
+		    <para
+>Возвращает цвет графика первообразной функции с номером <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionFColor color id </term>
+		  <listitem>
+		    <para
+>Установить цвет графика функции с номером <parameter
+>id</parameter
+> в <parameter
+>color</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionF1Color color id </term>
+		  <listitem>
+		    <para
+>Установить цвет графика первой производной функции с номером <parameter
+>id</parameter
+> в <parameter
+>color</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionF2Color color id </term>
+		  <listitem>
+		    <para
+>Установить цвет графика второй производной функции с номером <parameter
+>id</parameter
+> в <parameter
+>color</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionIntColor color id </term>
+		  <listitem>
+		    <para
+>Установить цвет графика первообразной функции с номером <parameter
+>id</parameter
+> в <parameter
+>color</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionFLineWidth id </term>
+		  <listitem>
+		    <para
+>Возвращает ширину графика функции с номером <parameter
+>id</parameter
+>. Возвращает 0 если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionF1LineWidth id </term>
+		  <listitem>
+		    <para
+>Возвращает ширину графика первой производной функции с номером <parameter
+>id</parameter
+>. Возвращает 0 если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionF2LineWidth id </term>
+		  <listitem>
+		    <para
+>Возвращает ширину графика первой производной функции с номером <parameter
+>id</parameter
+>. Возвращает 0 если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionIntLineWidth id </term>
+		  <listitem>
+		    <para
+>Возвращает ширину графика первообразной функции с номером <parameter
+>id</parameter
+>. Возвращает 0 если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionFLineWidth linewidth id </term>
+		  <listitem>
+		    <para
+>Установить ширину графика функции с номером <parameter
+>id</parameter
+> в <parameter
+>linewidth</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionF1LineWidth linewidth id </term>
+		  <listitem>
+		    <para
+>Установить ширину графика первой производной функции с номером <parameter
+>id</parameter
+> в <parameter
+>linewidth</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionF2LineWidth linewidth id </term>
+		  <listitem>
+		    <para
+>Установить ширину графика второй производной функции с номером <parameter
+>id</parameter
+> в <parameter
+>linewidth</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionIntLineWidth linewidth id </term>
+		  <listitem>
+		    <para
+>Установить ширину графика первообразной функции с номером <parameter
+>id</parameter
+> в <parameter
+>linewidth</parameter
+>. Возвращает false если функция не существует.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionParameterList id </term>
+		  <listitem>
+		    <para
+>Возвращает список всех значений параметра функции с номером <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionAddParameter new_parameter id </term>
+		  <listitem>
+		    <para
+>Добавить значение параметра <parameter
+>new_parameter</parameter
+> функции с номером <parameter
+>id</parameter
+>. Возвращает false в случае ошибки.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionRemoveParameter remove_parameter id </term>
+		  <listitem>
+		    <para
+>Удалить значение параметра <parameter
+>remove_parameter</parameter
+> функции с номером <parameter
+>id</parameter
+>. Возвращает false в случае ошибки.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionMinValue id </term>
+		  <listitem>
+		    <para
+>Возвращает минимум области построения функции с номером <parameter
+>id</parameter
+>. Если функция не существует или минимум не определён, возвращается пустая строка.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionMaxValue id </term>
+		  <listitem>
+		    <para
+>Возвращает максимум области построения функции с номером <parameter
+>id</parameter
+>. Если функция не существует или максимум не определён, возвращается пустая строка.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionMinValue min id </term>
+		  <listitem>
+		    <para
+>Устанавливает минимум области построения функции с номером <parameter
+>id</parameter
+>в <parameter
+>min</parameter
+>. Если функция не существует или выражение недопустимое, возвращается false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionMaxValue max id </term>
+		  <listitem>
+		    <para
+>Устанавливает максимум области построения функции с номером <parameter
+>id</parameter
+>в <parameter
+>min</parameter
+>. Если функция не существует или выражение недопустимое, возвращается false.</para>
+		  </listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		  <term
+>Parser functionStartXValue id </term>
+		  <listitem>
+		    <para
+>Устанавливает начальную абсциссу для первообразной функции с номером <parameter
+>id</parameter
+>. Если функция не существует или выражение абсциссы не определено, возвращается пустая строка.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser functionStartYValue id </term>
+		  <listitem>
+		    <para
+>Возвращает начальную ординату для первообразной функции с номером <parameter
+>id</parameter
+>. Если функция не существует или выражение ординаты не определено, возвращается пустая строка.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionStartXValue min id </term>
+		  <listitem>
+		    <para
+>Устанавливает начальную абсциссу для первообразной функции с номером <parameter
+>id</parameter
+> в <parameter
+>x</parameter
+>. Если функция не существует или выражение недопустимое, возвращается false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>Parser setFunctionStartYValue max id </term>
+		  <listitem>
+		    <para
+>Устанавливает начальную ординату для первообразной функции с номером <parameter
+>id</parameter
+> в <parameter
+>y</parameter
+>. Если функция не существует или выражение недопустимое, возвращается false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>View stopDrawing </term>
+			<listitem>
+				<para
+>Если &kmplot; в данный момент рисует график функции, это будет остановлено.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>View drawPlot </term>
+			<listitem>
+				<para
+>Перерисовать все графики функций.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<!--
+    Local Variables:
+    mode: sgml
+    sgml-minimize-attributes:nil
+    sgml-general-insert-case:lower
+    sgml-indent-step:0
+    sgml-indent-data:nil
+    sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+    End:
+    -->

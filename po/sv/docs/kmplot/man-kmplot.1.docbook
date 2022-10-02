@@ -1,0 +1,155 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+<!ENTITY % Swedish "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>&kmplot; användarhandbok</title>
+<author
+><firstname
+>Ben</firstname
+> <surname
+>Burton</surname
+> <contrib
+>KmPlot manualsida.</contrib
+> <email
+>bab@debian.org</email
+></author>
+<date
+>2021-01-05</date>
+<releaseinfo
+>1.3.0 (Program 20.12)</releaseinfo>
+<productname
+>KDE-program</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kmplot</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kmplot</command
+></refname>
+<refpurpose
+>Matematisk funktionsritare</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kmplot</command
+> <group choice="opt"
+><option
+>-f, --function <replaceable
+>argument</replaceable
+></option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>fil</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Beskrivning</title>
+<para
+>&kmplot; är en matematisk funktionsritare av &kde;. Den har en kraftfull inbyggd tolk. Du kan rita upp olika funktioner på samma gång och kombinera funktionstermer för att sätta samman nya funktioner.</para
+><para
+>&kmplot; stöder funktioner med argument och funktioner i polära koordinater. Flera rutnätslägen är möjliga. Diagram kan skrivas ut med hög noggrannhet och riktig skalning.</para
+><para
+>&kmplot; tillhandahåller också vissa numeriska och visuella funktioner som att fylla i och beräkna arean mellan kurvan och första axeln, hitta maximum- och minimumvärden, ändra funktionsargument dynamiskt och rita upp derivator och integralfunktioner.</para
+><para
+>&kmplot; är en del av &kde;:s utbildningsmodul.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Väljare</title>
+<variablelist>
+<varlistentry
+><term
+><option
+>-f, --function <replaceable
+>argument</replaceable
+></option
+></term>
+<listitem
+><para
+>Ursprunglig funktion att rita upp.</para
+></listitem
+></varlistentry>
+<varlistentry
+><term
+><option
+><replaceable
+>fil</replaceable
+></option
+></term>
+<listitem
+><para
+>Fil att öppna.</para
+></listitem
+></varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title
+>Se också</title>
+
+<simplelist>
+<member
+>Mer detaljerad användardokumentation är tillgänglig med <ulink url="help:/kmplot"
+>help:/kmplot</ulink
+> (skriv antingen in webbadressen i &konqueror;, eller kör <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kmplot</parameter
+></userinput
+>).</member>
+<member
+>Det finns också ytterligare information tillgänglig på <ulink url="https://edu.kde.org/kmplot/"
+>webbsidan för &kde;:s utbildningsprojekt</ulink
+>.</member>
+<member
+>kf5options(1)</member>
+<member
+>qt5options(1)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Upphovsmän</title>
+<para
+>&kmplot; är skrivet av <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail;, &Matthias.Messmer; &Matthias.Messmer.mail; och <personname
+><firstname
+>Fredrik</firstname
+><surname
+>Edemar</surname
+></personname
+> <email
+>f_edemar@linux.se</email
+></para>
+</refsect1>
+
+</refentry>

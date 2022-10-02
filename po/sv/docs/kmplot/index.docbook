@@ -1,0 +1,2817 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Swedish "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="kmplot" lang="&language;">
+
+<bookinfo>
+<title
+>Handbok &kmplot;</title>
+<authorgroup>
+<author
+><firstname
+>Klaus-Dieter</firstname
+> <surname
+>M&ouml;ller</surname
+> <affiliation
+> <address
+>&Klaus-Dieter.Moeller.mail;</address>
+</affiliation>
+</author>
+<author
+>&Philip.Rodrigues; &Philip.Rodrigues.mail; </author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Saxton</surname
+> </author>
+<othercredit role="translator"
+> <firstname
+>Stefan</firstname
+> <surname
+>Asserhäll</surname
+> <affiliation
+><address
+><email
+>stefan.asserhall@telia.com</email
+></address
+></affiliation
+> <contrib
+>Översättare</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year
+><year
+>2001</year
+><year
+>2002</year>
+<holder
+>Klaus-Dieter M&ouml;ller</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>&Philip.Rodrigues; &Philip.Rodrigues.mail;</holder>
+</copyright>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>David Saxton</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2021-01-05</date>
+<releaseinfo
+>1.3.0 (Program 20.12)</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para
+>&kmplot; är en matematisk funktionsritare av &kde;.</para>
+<para
+> <inlinemediaobject
+><imageobject
+><imagedata
+fileref="edu-logo.png"
+format="PNG"/></imageobject
+></inlinemediaobject
+> &kmplot; är en del av &kde;:s utbildningsprojekt: <ulink url="https://edu.kde.org/"
+>https://edu.kde.org/</ulink
+></para
+></abstract>
+
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>KmPlot</keyword>
+<keyword
+>EDU</keyword>
+<keyword
+>utbildning</keyword>
+<keyword
+>rita</keyword>
+<keyword
+>matematik</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Inledning</title>
+
+<para
+>&kmplot; är en matematisk funktionsritare av &kde;. Den har en kraftfull inbyggd tolk. Du kan rita upp olika funktioner på samma gång och kombinera funktionstermer för att sätta samman nya funktioner.</para>
+
+<screenshot>
+	<screeninfo
+>Exempel</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Exempel</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; stöder flera olika diagramtyper:</para>
+<itemizedlist>
+	<listitem
+><para
+>Explicita kartesiska diagram på formen y = f(x).</para
+></listitem>
+	<listitem
+><para
+>Parametriska diagram, där x- och y-komponenterna anges som funktioner av en oberoende variabel.</para
+></listitem>
+	<listitem
+><para
+>Polära diagram på formen r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Implicita diagram, där x- och y-koordinaten är relaterade med ett uttryck.</para
+></listitem>
+	<listitem
+><para
+>Explicita differentialdiagram.</para
+></listitem>
+</itemizedlist>
+
+<para
+>&kmplot; tillhandahåller också några numeriska och visuella egenskaper som:</para>
+<itemizedlist>
+	<listitem
+><para
+>Fylla i och beräkna arean mellan kurvan och den första axeln.</para
+></listitem>
+	<listitem
+><para
+>Hitta minima och maxima.</para
+></listitem>
+	<listitem
+><para
+>Ändra funktionsargument dynamiskt.</para
+></listitem>
+	<listitem
+><para
+>Rita upp derivator och integraler.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Dessa egenskaper hjälper till vid inlärning av förhållandet mellan matematiska funktioner och deras grafiska representation i ett koordinatsystem.</para>
+
+</chapter>
+
+<chapter id="first-steps">
+<title
+>De första stegen med &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Enkelt funktionsdiagram</title>
+
+	<para
+>Knappen <guibutton
+>Skapa</guibutton
+> med en kombinationsruta för att skapa nya diagram finns i sidoraden till vänster. Klicka på den och välj <guilabel
+>Kartesiskt diagram</guilabel
+>. Textrutan för att redigera nuvarande ekvation får fokus. Ersätt standardtexten med <screen
+><userinput
+>y = x^2</userinput
+></screen
+> och tryck på returtangenten. Det ritar diagrammet y = x<superscript
+>2</superscript
+> i koordinatsystemet. Klicka på <guibutton
+>Skapa</guibutton
+> igen, välj <guilabel
+>Kartesiskt diagram</guilabel
+> och skriv in texten <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> den här gången, för att få ett annat diagram. </para>
+
+	<para
+>Dra och släpp objektet <userinput
+>y = 5sin(x)</userinput
+> i vänstra sidoraden för att duplicera diagrammet. Ersätt <userinput
+>sin</userinput
+> med <userinput
+>cos</userinput
+> för att få cosinusdiagrammet med samma färg. </para>
+
+	<para
+>Klicka på en av linjerna du just har ritat upp. Nu får hårkorset kurvans färg och anslutes till kurvan. Du kan använda musen för att flytta hårkorset längs kurvan. I statusraden längst ner i fönstret visas koordinaterna för den nuvarande positionen. Observera att om kurvan rör vid den horisontella axeln visas också roten i statusraden.</para>
+
+	<para
+>Klicka på musen igen så kopplas hårkorset loss från diagrammet.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Redigera egenskaper</title>
+
+	<para
+>Låt oss göra några ändringar av funktionen och ändra färg på diagrammet.</para>
+
+	<para
+>Sidoraden <guilabel
+>Funktioner</guilabel
+> listar alla funktioner du har ritat upp. Om <guilabel
+>y = x^2</guilabel
+> inte redan är markerat, markera det. Här har du tillgång till en mängd alternativ. Låt oss byta namn på funktionen och flytta diagrammet fem enheter neråt. Ändra funktionens ekvation till <screen
+><userinput
+>parabol(x) = x^2 - 5</userinput
+></screen
+> och tryck på returtangenten. Klicka på knappen <guilabel
+>Färg</guilabel
+> under <guilabel
+>Utseende</guilabel
+> längst ner i sidoraden Funktioner, för att ändra färg på linjen, och välj en ny färg. <note
+> <para
+>Alla ändringar kan ångras via <menuchoice
+><guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Ångra</guimenuitem
+></menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+
+<chapter id="using-kmplot">
+<title
+>Att använda &kmplot;</title>
+
+<para
+>&kmplot; hanterar flera olika funktionstyper, som kan skrivas på funktionsform eller som en ekvation:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Kartesiska diagram kan antingen skrivas som t.ex. <quote
+>y = x^2</quote
+>, där x måste användas som variabel, eller som t.ex. <quote
+>f(a) = a^2</quote
+>, där variabelns namn är godtyckligt.</para
+></listitem>
+	<listitem
+><para
+>Parametriska diagram liknar kartesiska diagram. Koordinaterna för x och y kan skrivas in som ekvationer av t, t.ex. <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+>, eller som funktioner, t.ex. <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Polära diagram liknar också kartesiska diagram. De kan antingen skrivas in som en ekvation av &thgr;, t.ex. <quote
+>r = &thgr;</quote
+>, eller som en funktion, t.ex. <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>För implicita diagram skrivs funktionens namn in separat från uttrycket som relaterar x- och y-koordinaterna. Om x- och y-variablerna anges via funktionens namn (genom att t.ex. skriva in <quote
+>f(a,b)</quote
+> som funktionsnamn), används dessa variabler. Annars används bokstäverna x och y som variabler.</para
+></listitem>
+	<listitem
+><para
+>Explicita differentialdiagram är differentialekvationer där den större derivatan anges i termer av de mindre derivatorna. Differentialen anges med prim ('). På funktionsform ser ekvationen ut som <quote
+>f''(x) = f' &minus; f</quote
+>. På ekvationsform ser den ut som <quote
+>y'' = y' &minus; y</quote
+>. Observera att i båda fall läggs inte <quote
+>(x)</quote
+> till i de lägre ordningens differentialtermer (du ska alltså skriva in <quote
+>f'(x) = &minus;f</quote
+> och inte <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>Alla inmatningsrutor för ekvationer har en knapp till höger. Genom att klicka på den visas en avancerad <guilabel
+>Ekvationseditor</guilabel
+>, som tillhandahåller: <itemizedlist>
+		<listitem>
+			<para
+>En mängd matematiska symboler som kan användas i ekvationer, men som inte finns på normala tangentbord.</para>
+		</listitem>
+		<listitem>
+			<para
+>Listan med användarkonstanter och en knapp för att redigera dem.</para>
+		</listitem>
+		<listitem>
+			<para
+>Listan med fördefinierade funktioner. Observera att om du redan har markerat text används den som funktionsargument när en funktion infogas. Om till exempel <quote
+>1 + x</quote
+> är markerat i ekvationen <quote
+>y = 1 + x</quote
+>, och funktionen sinus väljes, blir ekvationen <quote
+>y = sin(1 + x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>Här är en skärmbild av &kmplot;s välkomstfönster</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Skärmbild</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Funktionstyper</title>
+
+	<sect2 id="cartesian-functions">
+		<title
+>Kartesiska funktioner</title>
+		<para
+>För att skriva in en explicit funktion (dvs. en funktion på formen y=f(x)) i &kmplot;, skriv bara in den på följande form: <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>uttryck</replaceable
+></userinput
+></screen
+>Där: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> är funktionens namn, och kan vara vilken sträng med bokstäver och siffror som helst.</para>
+				</listitem>
+
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> är den horisontella koordinaten, som ska användas i uttrycket som följer likhetstecknet. Det är i själva verket en godtycklig variabel, så du kan ange vilket variabelnamn du vill, men effekten blir likadan.</para>
+				</listitem>
+
+				<listitem>
+					<para
+><replaceable
+>uttryck</replaceable
+> är uttrycket som ska ritas upp, angivet i lämplig syntax för &kmplot;. Se <xref linkend="math-syntax"/>. </para>
+				</listitem>
+
+			</itemizedlist>
+		</para>
+	</sect2>
+
+	<sect2 id="parametric-functions">
+		<title
+>Parametriska funktioner</title>
+		<para
+>Parametriska funktioner är de där x- och y-koordinaten definieras med skilda funktioner av en annan variabel, som ofta kallas t. För att skriva in en parametrisk funktion i &kmplot;, följ proceduren för en kartesisk funktion för var och en av x- och y-funktionerna. Som för kartesiska funktioner, kan du använda vilket variabelnamn du vill för parametern.</para>
+		<para
+>Antag till exempel att du vill rita en cirkel, som har den parametriska ekvationerna x = sin(t), y = cos(t). Efter du har skapat ett parametriskt diagram, skriv in lämpliga ekvationer i x- och y-rutorna, dvs. <guilabel
+>f_x(t) = </guilabel
+><userinput
+>sin(t)</userinput
+> och <guilabel
+>f_y(t) = </guilabel
+><userinput
+>cos(t)</userinput
+>. </para>
+		<para
+>Du kan ställa in ytterligare några alternativ för diagrammet i funktionseditorn: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Min:</guilabel
+></term>
+					<term
+><guilabel
+>Max:</guilabel
+></term>
+					<listitem>
+						<para
+>Alternativen styr intervallet för parametern t, som funktionen ritas upp för.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+
+	<sect2 id="polar-functions">
+		<title
+>Funktioner med polära koordinater</title>
+
+		<para
+>Polära koordinater representerar en punkt med dess avstånd från origo (oftast benämnd r), och vinkeln en linje från origo till punkten får med den horisontella axeln (oftast representerad med &thgr;, den grekiska bokstaven teta). För att skriva in funktioner med polära koordinater, skapa ett nytt polärt diagram med knappen <guibutton
+>Skapa</guibutton
+>. Fyll i funktionsdefinitionen i definitionsrutan, inklusive namnet på variabeln teta som du vill använda. För att till exempel rita Archimedes spiral r=&thgr;, skriv: <screen
+><userinput
+>r(teta) = teta</userinput
+></screen
+> så att hela raden blir <quote
+>r(teta)=teta</quote
+>. Observera att du kan använda vilket namn som helst på variabeln teta, så <quote
+>r(t)=t</quote
+> skulle ha gett exakt samma kurva. </para>
+	</sect2>
+
+	<sect2 id="implicit-functions">
+		<title
+>Implicita funktioner</title>
+
+		<para
+>Ett implicit uttryck relaterar x- och y-koordinaterna som en likhet. För att till exempel skapa en cirkel, skapa ett nytt implicit diagram med knappen <guibutton
+>Skapa</guibutton
+>. Skriv därefter in följande i ekvationsrutan (under funktionsnamnsrutan): <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+
+	<sect2 id="differential-functions">
+		<title
+>Differentialfunktioner</title>
+
+		<para
+>&kmplot; kan rita explicita differentialekvationer. Det är ekvationer på formen y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), där y<superscript
+>k</superscript
+> är derivatan av ordningen k till y(x). &kmplot; kan bara tolka derivatans ordning som antalet primtecken som följer funktionsnamnet. För att till exempel rita en sinusformad kurva, skulle du använda differentialekvationen <userinput
+>y'' = &minus; y</userinput
+> eller <userinput
+>f''(x) = −f</userinput
+>. </para>
+
+		<para
+>Dock är inte en ensam differentialekvation tillräcklig för att bestämma ett diagram. Varje kurva i diagrammet skapas med en kombination av differentialekvation och randvillkor. Du kan redigera randvillkoren genom att klicka på fliken <guilabel
+>Randvillkor</guilabel
+> när en differentialekvation är markerad. Antal kolumner som tillhandahålls för att redigera randvillkoren beror på differentialekvationens ordning. </para>
+
+		<para
+>Du kan ställa in ytterligare några alternativ för diagrammet i funktionseditorn: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Steg:</guilabel
+></term>
+					<listitem>
+						<para
+>Stegvärdet i noggrannhetsrutan används för numerisk lösning av differentialekvationen (med användning av Runge-Kutta metoden). Dess värde är den maximala stegstorleken som används. En mindre stegstorlek kan användas om en del av differentialdiagrammet är inzoomat tillräckligt mycket.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Kombinera funktioner</title>
+	<para
+>Funktioner kan kombineras för att skapa nya. Skriv helt enkelt in funktionerna efter likhetstecknet i ett uttryck som om funktionerna vore variabler. Om du till exempel har definierat funktionerna f(x) och g(x), kan du rita summan av f och g med: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Ändra utseende på funktioner</title>
+
+	<para
+>För att ändra utseende på en funktions kurva i huvuddiagramfönstret, markera funktionen i sidoraden <guilabel
+>Funktioner</guilabel
+>. Du kan ändra kurvans linjebredd, färg och många andra aspekter genom att klicka på knapparna <guilabel
+>Färg:</guilabel
+> eller <guilabel
+>Avancerat...</guilabel
+> längst ner under <guilabel
+>Utseende</guilabel
+>. </para>
+
+	<para
+>Om du redigerar en kartesisk funktion, har funktionseditorn tre flikar. Under den första anger du funktionens ekvation. Fliken <guilabel
+>Derivator</guilabel
+> låter dig rita funktionens första- och andraderivata. Med fliken <guilabel
+>Integral</guilabel
+> kan du rita funktionens integral. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Sammanhangsberoende meny</title>
+	<screenshot>
+	<screeninfo
+>Diagram-högerklick sammanhangsberoende meny</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Diagram-högerklick sammanhangsberoende meny</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Vid högerklick på en diagramfunktion eller ett parametriskt diagram med en punkt, visas en sammanhangsberoende meny. Det finns fem alternativ tillgängliga i menyn:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Redigera</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Väljer funktion i sidoraden <guilabel
+>Funktioner</guilabel
+> för redigering.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Dölj</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Döljer den markerade kurvan. Andra kurvor av samma funktion visas fortfarande.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Ta bort</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Tar bort funktionen. Alla dess kurvor försvinner.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Animering av diagram...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Visar dialogrutan <guilabel
+>Animering av parameter</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Räknare</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Visar dialogrutan <guilabel
+>Räknare</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+	<para
+>Beroende på diagramtyp, finns också upp till fem verktyg tillgängliga:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Kopiera (x, y)</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Kopierar aktuellt värde i diagrammet till systemets klippbord. Verktyget kan vara användbart för att skapa funktionstabeller utanför &kmplot;. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Kopiera rotvärde</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+                            <para
+>Kopierar rotvärdet <literal
+>x</literal
+> till systemets klippbord. Bara upp till de första fem siffrorna efter decimalkommat kan kopieras. Använd ett <ulink url="https://en.wikipedia.org/wiki/Computer_algebra_system"
+>program för datoralgebra</ulink
+> för att bestämma roten med godtycklig precision. Verktyget är bara tillgängligt när aktuell position som följs är nära en rot. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Rita area...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Välj minimalt och maximalt horisontellt värde för kurvan i den nya dialogrutan som visas. Beräknar integralen och ritar ytan mellan kurvan och den horisontella axeln i det valda intervallet med kurvans färg. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Hitta minimum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Sök efter minimalt värde för kurvan i ett angivet område. Den valda kurvan är markerad i dialogrutan som visas. Skriv in nedre och övre gräns för området där du vill söka efter ett minimum. </para>
+				<para
+>Observera: Du kan också tala om att diagrammet ska synliggöra extremvärden via dialogrutan <guilabel
+>Diagramutseende</guilabel
+>, som kan kommas åt via sidoraden <guilabel
+>Funktioner</guilabel
+> genom att klicka på knappen <guibutton
+>Avancerat...</guibutton
+>. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Hitta maximum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Det här är samma sak som <guimenuitem
+>Hitta minimum...</guimenuitem
+> ovan, men söker efter maximala värden istället för minimala.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="configuration">
+<title
+>Anpassa &kmplot;</title>
+<para
+>För att komma åt &kmplot;s inställningsdialogruta, välj menyalternativet <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Anpassa &kmplot;...</guimenuitem
+></menuchoice
+> Inställningarna för <guimenuitem
+>Konstanter...</guimenuitem
+> kan bara ändras från menyn <guimenu
+>Redigera</guimenu
+> och <guimenuitem
+>Koordinatsystem...</guimenuitem
+> kan bara ändras från menyn <guimenu
+>Visa</guimenu
+>.</para>
+
+<sect1 id="general-config">
+	<title
+>Allmän inställning</title>
+
+	<screenshot>
+		<screeninfo
+>Skärmbild av den allmänna inställningsdialogrutan</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av den allmänna inställningsdialogrutan</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+    <para
+>Här kan du ställa in allmänna inställningar som automatiskt sparas när du avslutar &kmplot;. Du kan ställa in vinkelläge (radianer och grader), inzoomnings- och utzoomningsfaktorer för att zooma genom att använda &Ctrl; eller <link linkend="a-view-menu"
+>motsvarande menyalternativ</link
+>, och om avancerad diagramspårning ska visas.</para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Diagraminställning</title>
+
+	<screenshot>
+		<screeninfo
+>Skärmbild av inställningsdialogrutan för diagramutseende</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av inställningsdialogrutan  för diagramutseende</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Du kan ställa in <guilabel
+>Rutnätsstil</guilabel
+> till ett av fyra alternativ: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>Ingen</guilabel
+></term>
+				<listitem>
+					<para
+>Inget rutnät ritas upp i diagrammet.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Linjer</guilabel
+></term>
+				<listitem>
+					<para
+>Räta linjer formar ett rutnät av fyrkanter i diagrammet.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Kryss</guilabel
+></term>
+				<listitem>
+					<para
+>Kryss ritas för att ange punkter där x och y har heltalsvärden (t.ex. (1,1), (4,2) etc.).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Polär</guilabel
+></term>
+				<listitem>
+					<para
+>Linjer med konstant radie och med konstant vinkel ritas i diagrammet.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+
+	<para
+>Andra alternativ för diagrammets utseende kan också ställas in: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Axelbeteckningar</guilabel
+></term>
+				<listitem>
+					<para
+>Anger beteckningarna för de horisontella och vertikala axlarna.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Axelbredder:</guilabel
+></term>
+				<listitem>
+					<para
+>Ställer in linjebredden för linjerna som utgör axlarna.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Linjebredd:</guilabel
+></term>
+				<listitem>
+					<para
+>Ställer in linjebredden för linjerna som används för att rita rutnätet.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Graderingsbredd:</guilabel
+></term>
+				<listitem>
+					<para
+>Ställer in linjebredden för linjerna som utgör graderingen för axlarna.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Graderingslängd:</guilabel
+></term>
+				<listitem>
+					<para
+>Ställer in linjelängden för linjerna som utgör graderingen för axlarna.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Visa beteckningar</guilabel
+></term>
+				<listitem>
+					<para
+>Om markerad, visas axlarnas namn i diagrammet och axlarnas gradering har beteckningar.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Visa axlar</guilabel
+></term>
+				<listitem>
+					<para
+>Om markerad, är axlarna synliga.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Visa pilar</guilabel
+></term>
+				<listitem>
+					<para
+>Om markerad, visas axlarna med pilar i sina ändar.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Färginställning</title>
+
+	<screenshot>
+		<screeninfo
+>Skärmbild av dialogrutan för färger</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av dialogrutan för färger</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Under fliken <guilabel
+>Koordinater</guilabel
+> i inställningsdialogrutan <guilabel
+>Färger</guilabel
+> kan du ändra färger för axlar, rutnät och bakgrund i &kmplot;s huvudområde. </para>
+
+	<para
+><guilabel
+>Förvalda funktionsfärger</guilabel
+> styr vilka färger som används cykliskt när nya funktioner skapas.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Teckensnittsinställning</title>
+
+	<screenshot>
+		<screeninfo
+>Skärmbild av dialogrutan för teckensnitt</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av dialogrutan för teckensnitt</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><guilabel
+>Axelbeteckningar:</guilabel
+></term>
+			<listitem>
+				<para
+>Teckensnittet som används för axlarnas nummer och x/y-beteckningar.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><guilabel
+>Diagrambeteckningar:</guilabel
+></term>
+			<listitem>
+				<para
+>Teckensnittet som används för diagrambeteckningar (t.ex. de som visar diagrammets namn eller extremvärden).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Rubriktabell:</guilabel
+></term>
+			<listitem>
+				<para
+>Teckensnittet som används för att återge rubriken när ett diagram skrivs ut.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="reference">
+<title
+>Referens för &kmplot;</title>
+
+<sect1 id="func-syntax">
+	<title
+>Funktionssyntax</title>
+
+	<para
+>Vissa syntaxregler måste följas:</para>
+
+	<screen
+><userinput
+>namn(var1[, var2])=term [;utökningar]</userinput
+>
+        </screen>
+
+
+	<variablelist>
+		<varlistentry>
+			<term
+>namn</term>
+			<listitem>
+
+				<para
+>Funktionsnamnet. Om det första tecknet är <quote
+>r</quote
+> antar tolken att du använder polära koordinater. Om det första tecknet är <quote
+>x</quote
+> (till exempel <quote
+>xfunk</quote
+>) förväntar sig tolken en andra funktion med ett inledande <quote
+>y</quote
+> (här <quote
+>yfunk</quote
+>) för att definiera funktionen på parametrisk form. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var1</term>
+			<listitem
+><para
+>Funktionsvariabeln.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var2</term>
+			<listitem
+><para
+>Funktionens <quote
+>grupp-parameter</quote
+>. Den måste avskiljas från funktionens variabel med ett kommatecken. Du kan till exempel använda grupp-parametern för att rita ett antal grafer från en funktion. Parametervärden kan väljas manuellt, eller ett skjutreglage som styr en parameter kan väljas. Genom att ändra skjutreglagets värde ändras parameterns värde. Skjutreglaget kan ställas in till ett heltal mellan 0 och 100.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>term</term>
+			<listitem
+><para
+>Uttrycket som definierar funktionen.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+	<title
+>Fördefinierade funktionsnamn och konstanter</title>
+
+	<para
+>Alla fördefinierade funktioner och konstanter som &kmplot; känner till kan visas genom att välja <menuchoice
+><guimenu
+>Hjälp</guimenu
+> <guimenuitem
+>Fördefinierade matematiska funktioner</guimenuitem
+></menuchoice
+>, som visar den här sidan i &kmplot;s handbok. </para>
+
+	<para
+>Funktionerna, konstanterna, och till och med alla användardefinierade funktioner kan dessutom användas för att bestämma axlarnas inställningar. Se <xref linkend="axes-config"/>. </para>
+
+	<sect2 id="trigonometric-functions">
+		<title
+>Trigonometriska funktioner</title>
+
+		<para
+>Normalt fungerar trigonometriska funktioner i radianer. Det kan dock ändras via menyalternativet <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Anpassa &kmplot;</guimenuitem
+></menuchoice
+>. </para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sin(x)</term>
+				<term
+>arcsin(x)</term>
+				<term
+>cosec(x)</term>
+				<term
+>arccosec(x)</term>
+				<listitem
+><para
+>Funktionerna sinus, arcus sinus, cosekant och arcus cosekant.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cos(x)</term>
+				<term
+>arccos(x)</term>
+				<term
+>sec(x)</term>
+				<term
+>arcsec(x)</term>
+				<listitem
+><para
+>Funktionerna cosinus, arcus cosinus, sekant och arcus sekant.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tan(x)</term>
+				<term
+>arctan(x)</term>
+				<term
+>cot(x)</term>
+				<term
+>arccot(x)</term>
+				<listitem
+><para
+>Funktionerna tangens, arcus tangens, cotangens och arcus cotangens.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="hyperbolic-functions">
+		<title
+>Hyperboliska funktioner</title>
+		<para
+>De hyperboliska funktionerna.</para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sinh(x)</term>
+				<term
+>arcsinh(x)</term>
+				<term
+>cosech(x)</term>
+				<term
+>arccosech(x)</term>
+				<listitem
+><para
+>Funktionerna hyperbolisk sinus, arcus hyperbolisk sinus, hyperbolisk cosekant och arcus hyperbolisk cosekant.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cosh(x)</term>
+				<term
+>arccosh(x)</term>
+				<term
+>sech(x)</term>
+				<term
+>arcsech(x)</term>
+				<listitem
+><para
+>Funktionerna hyperbolisk cosinus, arcus hyperbolisk cosinus, hyperbolisk sekant och arcus hyperbolisk sekant.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tanh(x)</term>
+				<term
+>arctanh(x)</term>
+				<term
+>coth(x)</term>
+				<term
+>arccoth(x)</term>
+				<listitem
+><para
+>Funktionerna hyperbolisk tangens, arcus hyperbolisk tangens, hyperbolisk cotangens och arcus hyperbolisk cotangens.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="other-functions">
+		<title
+>Övriga funktioner</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sqr(x)</term>
+				<listitem
+><para
+>Kvadraten x^2 av x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>sqrt(x)</term>
+				<listitem
+><para
+>Kvadratroten av x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>sign(x)</term>
+				<listitem
+><para
+>Tecknet för x. Returnerar 1 om x är positivt, 0 om x är noll, eller &minus;1 om x är negativt.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>H(x)</term>
+				<listitem
+><para
+>Heaviside stegfunktionen. Returnerar 1 om x är positivt, 0,5 om x är noll, eller 0 om x är negativt.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>exp(x)</term>
+				<listitem
+><para
+>Exponenten e^x av x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ln(x)</term>
+				<listitem
+><para
+>Den naturliga logaritmen (omvänd exponent) av x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>log(x)</term>
+				<listitem
+><para
+>Logaritmen av x med bas 10.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>abs(x)</term>
+				<listitem
+><para
+>Absolutbeloppet av x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>floor(x)</term>
+				<listitem
+><para
+>Avrundar x till närmaste heltal mindre än eller lika med x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ceil(x)</term>
+				<listitem
+><para
+>Avrundar x till närmaste heltal större än eller lika med x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>round(x)</term>
+				<listitem
+><para
+>Avrundar x till närmaste heltal.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>gamma(x)</term>
+				<listitem
+><para
+>Gamma-funktionen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>factorial(x)</term>
+				<listitem
+><para
+>Fakulteten av x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>min(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Returnerar det minsta värdet i talmängden {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>max(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Returnerar det största värdet i talmängden {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>mod(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Returnerar modulus (euklidiska längden) för talmängden {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<!-- TODO: Legendre polynomials -->
+
+		</variablelist>
+	</sect2>
+
+	<sect2>
+		<title
+>Fördefinierade konstanter</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>pi</term>
+				<term
+>&pgr;</term>
+				<listitem>
+					<para
+>Konstant som representerar &pgr; (3,14159...).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>e</term>
+				<listitem>
+					<para
+>Konstant som representerar Eulers tal e (2,71828...).</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+</sect1>
+
+<sect1 id="func-extension"
+> <!--FIXME does this still work-->
+	<title
+>Utökningar</title>
+	<para
+>En utökning till en funktion anges genom att skriva in ett semikolon följt av utökningen efter funktionsdefinitionen. Utökningen kan antingen skrivas in i snabbredigeringsrutan eller genom att använda &DBus;-metoden <quote
+><methodname
+>parser addFunction</methodname
+></quote
+>. Ingen av utökningarna är tillgänglig för parametriska funktioner, men N och D[a,b] fungerar också för polära funktioner. Till exempel visar <screen>
+                        <userinput>
+                                f(x)=x^2; A1
+                        </userinput>
+                </screen
+> diagrammet y=x<superscript
+>2</superscript
+> och dess förstaderivata. Utökningar som stöds beskrivs nedan: <variablelist>
+			<varlistentry>
+				<term
+>N</term>
+				<listitem>
+					<para
+>Funktionen lagras men ritas inte upp. Alltså kan den användas som vilken annan användardefinierad eller fördefinierad funktion som helst. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A1</term>
+				<listitem>
+					<para
+>Diagrammet för funktionens derivata ritas dessutom med samma färg men smalare linjebredd. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A2</term>
+				<listitem>
+					<para
+>Diagrammet för funktionens andraderivata ritas dessutom med samma färg men smalare linjebredd. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>D[a,b]</term>
+				<listitem>
+					<para
+>Anger domänen som funktionen visas för. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>P[a{,b...}]</term>
+				<listitem>
+					<para
+>Ange en uppsättning värden för en grupparameter som funktionen ska visas för. Till exempel ritar <userinput
+>f(x,k)=k*x;P[1,2,3]</userinput
+> upp funktionerna  f(x)=x, f(x)=2*x och f(x)=3*x. Du kan också använda funktioner som argument för alternativet P. </para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	<para
+>Observera att du kan göra alla operationer genom att redigera objekt under fliken <guilabel
+>Derivator</guilabel
+>, och dessutom <guilabel
+>Eget diagramintervall</guilabel
+> och <guilabel
+>Argument</guilabel
+> i sidoraden <guilabel
+>Funktioner</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="math-syntax">
+	<title
+>Matematisk syntax</title>
+	<para
+>&kmplot; använder ett vanligt sätt att uttrycka matematiska funktioner, alltså bör du inte ha några svårigheter att komma på det. Operatorerna som &kmplot; förstår är, i minskande prioritetsordning: <variablelist>
+
+			<varlistentry>
+				<term
+>^</term>
+				<listitem
+><para
+>Circumflexsymbolen utför exponentiering, t.ex. <userinput
+>2^4</userinput
+> returnerar 16.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>*</term>
+				<term
+>/</term>
+				<listitem>
+					<para
+>Asterisk- och snedstrecksymbolerna utför multiplikation och division, t. ex. <userinput
+>3*4/2</userinput
+> returnerar 6.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>+</term>
+				<term
+>&minus;</term>
+				<listitem
+><para
+>Plus- och minussymbolerna utför addition och subtraktion, t.ex. returnerar <userinput
+>1+3&minus;2</userinput
+> värdet 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&lt;</term>
+				<term
+>&gt;</term>
+				<term
+>&le;</term>
+				<term
+>&ge;</term>
+				<listitem
+><para
+>Jämförelseoperatorer. De returnerar -1 om uttrycket är sant, annars returnerar den 0, t.ex. returnerar <userinput
+>1 &le; 2</userinput
+> värdet 1.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&radic;</term>
+				<listitem
+><para
+>Kvadratroten av ett tal, t.ex. returnerar <userinput
+>&radic;4</userinput
+> värdet 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>|x|</term>
+				<listitem
+><para
+>Absolutvärdet av x, t.ex. returnerar <userinput
+>|&minus;4|</userinput
+> värdet 4.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&plusmn;</term>
+				<term
+></term>
+				<listitem
+><para
+>Varje plus-minus tecken ger två diagram: ett där plus används, och ett där minus används, t.ex. ritar <userinput
+>y = &plusmn;sqrt(1&minus;x^2)</userinput
+> en cirkel. Dessa kan därför inte användas i konstanter.</para>
+				</listitem>
+			</varlistentry>
+
+
+
+		</variablelist>
+	</para>
+	<para
+>Observera prioriteten, vilket betyder att om parenteser inte används, utförs exponentiering innan multiplikation/division, som utförs innan addition/subtraktion. Alltså returnerar <userinput
+>1+2*4^2</userinput
+> värdet 33, och inte exempelvis 144. För att ändra detta, använd parenteser. För att ta föregående exempel, kommer <userinput
+>((1+2)*4)^2</userinput
+> att returnera 144. </para>
+</sect1>
+
+<sect1 id="coord-area"
+><title
+>Rita area</title>
+	<para
+>Normalt ritas explicit angivna funktioner för hela den synliga delen av den horisontella axeln. Du kan ange ett annat område i funktionens redigeringsdialogruta. Om diagrammet innehåller den resulterande punkten förbinds den med den senast ritade punkten med en linje. </para>
+	<para
+>Parametriska och polära funktioner har det förvalda intervallet 0 till 2&pgr;. Intervallet kan också ändras i sidoraden <guilabel
+>Funktioner</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+	<title
+>Hårkorsmarkör</title>
+	<para
+>Medan muspekaren befinner sig över diagrammet ändrar markören form till ett hårkors. Aktuella koordinater kan ses i skärningspunkten med koordinataxlarna, och dessutom i statusraden längst ner i huvudfönstret. </para>
+	<para
+>Du kan följa en funktions värden mer noggrant genom att klicka på eller intill en kurva. Den markerade funktionen visas i statusraden i höger kolumn. Hårkorset fångas nu och färgas i samma färg som kurvan. Om kurvan har samma färg som bakgrunden får hårkorset inverterad bakgrundsfärg. När musen flyttas och högerpil eller vänsterpil trycks, följer hårkorset funktionen och du ser nuvarande horisontella och  vertikala värde. Om hårkorset är nära den vertikala axeln, visas rotens värde i statusraden. Du kan byta funktion med tangenterna uppåtpil eller neråtpil. Ett andra klick någonstans i fönstret eller ett tryck på en tangent som inte navigerar, lämnar följningsläget. </para>
+	<para
+>Öppna inställningsdialogrutan och välj <guilabel
+>Rita tangent och normallinje vid följning</guilabel
+> på sidan <guilabel
+>Allmänna inställningar</guilabel
+>, för mer avancerad följning. Alternativet ritar tangenten, normallinjen och den oskulerande cirkeln för diagrammet som för närvarande följs. </para>
+
+</sect1>
+
+<sect1 id="coords-config">
+	<title
+>Koordinatsysteminställning</title>
+	<para
+>Använd <menuchoice
+><guimenu
+>Visa</guimenu
+><guimenuitem
+>Koordinatsystem...</guimenuitem
+></menuchoice
+> i menyraden för att visa dialogrutan.</para>
+	<screenshot>
+		<screeninfo
+>Skärmbild av dialogrutan för koordinatsystem</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av dialogrutan för koordinatsystem</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<sect2 id="axes-config">
+		<title
+>Axelinställning</title>
+		<para>
+			<variablelist>
+
+				<varlistentry>
+					<term
+><guilabel
+>Horisontella axelns intervall</guilabel
+></term>
+					<listitem>
+						<para
+>Ställer in den horisontella axelns intervall. Observera att du kan använda de fördefinierade funktionerna och konstanterna (se <xref linkend="func-predefined"/>) som intervallets ändpunkter (ställ t.ex. in <guilabel
+>Min:</guilabel
+>  till <userinput
+>2*pi</userinput
+>). Du kan till och med använda funktioner du har definierat för att ställa in axelns ändpunkter. Om du till exempel har definierat funktionen <userinput
+>f(x) = x^2</userinput
+>, skulle du kunna ställa in <guilabel
+>Min:</guilabel
+> till <userinput
+>f(3)</userinput
+>, vilket skulle göra intervallets lägsta värde lika med 9.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+				  <term
+><guilabel
+>Vertikala axelns intervall</guilabel
+></term>
+					<listitem>
+						<para
+>Ställer in den vertikala axelns intervall. Se <quote
+>Horisontella axelns intervall</quote
+> ovan.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>Horisontella axelns rutnätsmellanrum</guilabel
+></term>
+					<listitem>
+						<para
+>Det här styr mellanrummet mellan rutnätslinjer i horisontell riktning. Om <guilabel
+>Automatisk</guilabel
+> väljes, försöker &kmplot; hitta ett mellanrum för rutnätslinjer på ungefär 2 centimeter som också är bra numeriskt. Om <guilabel
+>Eget:</guilabel
+> är valt kan du skriva in det horisontella rutnätsmellanrummet. Värdet används oberoende av zoomning. Om till exempel värdet 0,5 skrivs in, och x-intervallet är 0 till 8, visas 16 rutnätslinjer. </para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>Vertikala axelns rutnätsmellanrum</guilabel
+></term>
+					<listitem>
+						<para
+>Det här styr mellanrummet mellan rutnätslinjer i vertikal riktning. Se <quote
+>Horisontella axelns rutnätsmellanrum</quote
+> ovan. </para>
+					</listitem>
+				</varlistentry>
+
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title
+>Konstantinställning</title>
+	<para
+>Använd <menuchoice
+><guimenu
+>Redigera</guimenu
+><guimenuitem
+>Konstanter...</guimenuitem
+></menuchoice
+> i menyraden för att visa dialogrutan.</para>
+
+	<screenshot>
+		<screeninfo
+>Skärmbild av dialogrutan för Konstanter</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Skärmbild av dialogrutan för Konstanter</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Konstanter kan användas som en del av ett uttryck var som helst inne i &kmplot;. Varje konstant måste ha ett namn och ett värde. Vissa namn är ogiltiga, såsom befintliga funktionsnamn eller konstanter. </para>
+
+	<para
+>Det finns två alternativ som styr en konstants omfång: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>Dokument</guilabel
+></term>
+				<listitem>
+					<para
+>Om du markerar kryssrutan <guilabel
+>Dokument</guilabel
+>, sparas konstanten med det aktuella diagrammet när du sparar det i en fil. Dock är konstanten inte tillgänglig mellan instanser av &kmplot;, om du inte också har markerat <guilabel
+>Allmän</guilabel
+>.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Allmän</guilabel
+></term>
+				<listitem>
+					<para
+>Om du markerar kryssrutan <guilabel
+>Global</guilabel
+>, skrivs konstantens namn och värde i &kde;:s inställningar (där den också kan användas av &kcalc;). Konstanten går inte förlorad när &kmplot; avslutas, och är tillgänglig att användas igen när &kmplot; startas nästa gång.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</para>
+</sect1>
+
+</chapter>
+
+<chapter id="commands">
+<title
+>Kommandoreferens</title>
+
+<sect1 id="menu">
+<title
+>Menyalternativ</title>
+
+<para
+>Förutom de vanliga menyerna i &kde; som beskrivs i kapitlet <ulink url="help:/fundamentals/menus.html"
+>Meny</ulink
+> i dokumentet &kde;:s grunder, har &kmplot; följande programspecifika menyalternativ: </para>
+
+<sect2 id="a-file-menu">
+	<title
+>Menyn Arkiv</title>
+	<variablelist>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Exportera...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Exporterar</action
+> uppritade diagram till en bildfil med alla format som stöds av &kde;.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Skriv ut...</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Öppnar</action
+> skrivarinställningsfönstret. Klicka på knappen <guibutton
+>Alternativ 
+>
+></guibutton
+> och välj därefter fliken <guilabel
+>Kmplot-alternativ</guilabel
+> för att ställa in alternativ som är specifika för &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Förhandsgranskning av utskrift</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Visar</action
+> en preliminär bild av det aktuella diagrammet som det skrivs ut på nuvarande standardskrivare. Klicka på knappen längst till höger på verktygsraden i förhandsgranskningsfönstret för utskrift för att ställa in alternativ som är specifika för &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>Menyn Redigera</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Redigera</guimenu
+><guimenuitem
+>Konstanter...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Visar dialogrutan <guilabel
+>Konstanteditor</guilabel
+>. Se <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>Menyn Visa</title>
+	<para
+>De tre första alternativen i menyn har att göra med zoomning.</para>
+	<note>
+		<para
+>Mushjulet kan också användas för att kontrollera zoom. Håll nere tangenten &Ctrl; medan mushjulet rörs för att zooma in eller zooma ut. Varje klick ökar eller minskar zoomfaktorn med värdet som definieras av <link linkend="general-config"
+>Allmänna inställningar</link
+> i &kmplot;. </para>
+	</note>
+
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Zooma in</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Verktyget kan hanteras på två olika sätt. För att zooma in på en punkt i diagrammet, klicka på den. För att zooma in på en viss del av diagrammet, håll nere musknappen och dra musen så att en rektangel formas, vilken bestämmer de nya axelintervallen när musknappen släpps.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Zooma ut</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Det här verktyget kan också användas på två olika sätt. För att zooma ut och centrera omkring en punkt i diagrammet, klicka på punkten. För att passa in den befintliga vyn i en rektangel, håll nere musknappen och dra musen så att en rektangel formas.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Anpassa grafisk komponent till trigonometriska funktioner</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>Skalan anpassas efter trigonometriska funktioner. Det fungerar både för radianer och grader.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+><guimenuitem
+>Återställ vy</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Återställer vyn. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+><guimenuitem
+>Koordinatsystem...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Visar dialogrutan <guilabel
+>Koordinatsystem</guilabel
+>. Se <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Visa skjutreglage</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Ändrar</action
+> synlighet för dialogrutan med skjutreglaget. Flytta skjutreglaget i dialogrutan för att ändra argument i funktionsdiagrammet som är kopplat till reglaget..</para>
+				<para
+>Aktivera den under fliken Funktioner, och välj ett av skjutreglagen för att ändra argumentvärdet dynamiskt. Värden varierar normalt från 0 (vänster) till 10 (höger), men det kan ändras i dialogrutan för skjutreglaget..</para>
+				<para
+>För en kort handledning, se <ulink url="https://userbase.kde.org/Special:MyLanguage/KmPlot/Using_Sliders"
+>Använda skjutreglage</ulink
+>.</para>
+				<!--https://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>Menyn Verktyg</title>
+
+	<para
+>Den här menyn innehåller några verktyg för funktioner som kan vara användbara:</para>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Räknare</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Visar dialogrutan <guilabel
+>Räknare</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Diagramarea...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Välj en kurva och den horisontella axelns värde i den nya dialogrutan som visas. Beräknar integralen och ritar ytan mellan kurvan och den horisontella axeln i det valda intervallet med kurvans färg.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Hitta minimum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Hitta kurvans minimala värde i ett angivet intervall.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Hitta maximum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Hitta kurvans maximala värde i ett angivet intervall.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>Menyn Hjälp</title>
+
+	<para
+>&kmplot; har &kde;:s vanliga meny <guimenu
+>Hjälp</guimenu
+> med ett tillägg:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hjälp</guimenu
+> <guimenuitem
+>Föredefinierade matematiska funktioner</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Öppnar handboken med en lista över fördefinierade funktionsnamn och konstanter som &kmplot; känner till.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+</sect2>
+</sect1>
+
+</chapter>
+
+<chapter id="dbus">
+	<title
+>Skapa skript för &kmplot;</title>
+	<para
+>Du kan skriva skript för &kmplot;, med användning av &DBus;. Om du till exempel vill definiera en ny funktion <userinput
+>f(x)=2sin x + 3cos x</userinput
+>, ställa in dess linjebredd till 20 och därefter rita upp den, skriver du följande i en terminal:</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command
+> Som resultat returneras den nya funktionens identifikationsnummer, eller -1 om funktionen inte kunde definieras.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command
+> Det här kommandot ger funktionen med numret ID linjebredden 20.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /view org.kde.kmplot.View.drawPlot</command
+> Det här kommandot ritar om fönstret, så att funktionen blir synlig,</para>
+<para
+>En lista med tillgängliga funktioner: <variablelist>
+		<varlistentry>
+			<term
+>/kmplot org.kde.kmplot.KmPlot.fileOpen url </term>
+			<listitem>
+				<para
+>Laddar filen <parameter
+>webbadress</parameter
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.isModified </term>
+			<listitem>
+				<para
+>Returnerar sant om några ändringar har gjorts.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.checkModified </term>
+			<listitem>
+				<para
+>Om det finns några osparade ändringar, visas en dialogruta för att spara, kasta eller avbryta diagrammen.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.editAxes </term>
+			<listitem>
+				<para
+>Öppnar redigeringsdialogrutan för koordinatsystem.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.toggleShowSlider </term>
+			<listitem>
+				<para
+>Visar eller döljer parameterreglagefönster.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSave </term>
+			<listitem>
+				<para
+>Sparar funktionerna (öppnar dialogrutan för att spara om det är en ny fil).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSaveas </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Arkiv</guimenu
+><guimenuitem
+>Spara som...</guimenuitem
+></menuchoice
+> i menyn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotPrint </term>
+			<listitem>
+				<para
+>Öppnar utskriftsdialogrutan.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotResetView </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Visa</guimenu
+><guimenuitem
+>Återställ vy</guimenuitem
+></menuchoice
+> i menyn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotExport </term>
+			<listitem>
+				<para
+>Öppnar exportdialogrutan.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSettings </term>
+			<listitem>
+				<para
+>Öppnar inställningsdialogrutan.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotNames </term>
+			<listitem>
+				<para
+>Visar de fördefinierade matematiska funktionerna i handboken.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMinimumValue </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Hitta minimum...</guimenuitem
+></menuchoice
+> i menyn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMaximumValue </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Hitta maximum...</guimenuitem
+></menuchoice
+> i menyn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.graphArea </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Diagramarea...</guimenuitem
+></menuchoice
+> i menyn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.calculator </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Verktyg</guimenu
+><guimenuitem
+>Räknare</guimenuitem
+></menuchoice
+> i menyn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1 </term>
+			<listitem>
+				<para
+>Lägger till en ny funktion med uttrycket <parameter
+>f_str0</parameter
+> och <parameter
+>f_str1</parameter
+>. Om uttrycket inte innehåller ett funktionsnamn, skapas det automatiskt. Den nya funktionens ID-nummer returneras, eller -1 om funktionen inte kunde definieras.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.removeFunction id </term>
+			<listitem>
+				<para
+>Tar bort funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte kunde tas bort, returneras falskt, annars sant.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.setFunctionExpression id eq f_str </term>
+			<listitem>
+				<para
+>Sätter uttrycket för funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>f_str</parameter
+>. Returnerar sant om den lyckas, annars falskt.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.countFunctions </term>
+			<listitem>
+				<para
+>Returnerar antalet funktioner (parametriska funktioner räknas som två).</para>
+			</listitem>
+		</varlistentry>
+<!-- method double org.kde.kmplot.Parser.fkt(uint id, uint eq, double eq) what is this?-->
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.listFunctionNames </term>
+		  <listitem>
+		    <para
+>Returnerar en lista med alla funktioner.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.fnameToID f_str </term>
+		  <listitem>
+		    <para
+>Returnerar ID-nummer för <parameter
+>f_str</parameter
+> eller -1 om funktionsnamnet <parameter
+>f_str</parameter
+> inte hittades.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFVisible id </term>
+		  <listitem>
+		    <para
+>Returnerar sant om funktionen med ID-nummer <parameter
+>id</parameter
+> är synlig, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1Visible id </term>
+		  <listitem>
+		    <para
+>Returnerar sant om förstaderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> är synlig, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2Visible id </term>
+		  <listitem>
+		    <para
+>Returnerar sant om andraderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> är synlig, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntVisible id </term>
+		  <listitem>
+		    <para
+>Returnerar sant om integralen av funktionen med ID-nummer <parameter
+>id</parameter
+> är synlig, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFVisible id visible </term>
+		  <listitem>
+		    <para
+>Visar funktionen med ID-nummer <parameter
+>id</parameter
+> om <parameter
+>synlig</parameter
+> är sant. Om <parameter
+>synlig</parameter
+> är falskt, döljs funktionen. Om funktionen finns returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1Visible id visible </term>
+		  <listitem>
+		    <para
+>Visar förstaderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> om <parameter
+>synlig</parameter
+> är sant. Om <parameter
+>synlig</parameter
+> är falskt, döljs funktionen. Om funktionen finns returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2Visible id visible </term>
+		  <listitem>
+		    <para
+>Visar andraderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> om <parameter
+>synlig</parameter
+> är sant. Om <parameter
+>synlig</parameter
+> är falskt, döljs funktionen. Om funktionen finns returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntVisible id visible </term>
+		  <listitem>
+		    <para
+>Visar integralen av funktionen med ID-nummer <parameter
+>id</parameter
+> om <parameter
+>synlig</parameter
+> är sant. Om <parameter
+>synlig</parameter
+> är falskt, döljs funktionen. Om funktionen finns returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStr id eq </term>
+		  <listitem>
+		    <para
+>Returnerar funktionsuttrycket för funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras en tom sträng istället.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFLineWidth id </term>
+		  <listitem>
+		    <para
+>Returnerar linjebredden för funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1LineWidth id </term>
+		  <listitem>
+		    <para
+>Returnerar linjebredden för förstaderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2LineWidth id </term>
+		  <listitem>
+		    <para
+>Returnerar linjebredden för andraderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntLineWidth id </term>
+		  <listitem>
+		    <para
+>Returnerar linjebredden för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Sätter linjebredden för funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>linjebredd</parameter
+>. Returnerar sant om funktionen finns, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Sätter linjebredden för förstaderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>linjebredd</parameter
+>. Returnerar sant om funktionen finns, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Sätter linjebredden för andraderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>linjebredd</parameter
+>. Returnerar sant om funktionen finns, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Sätter linjebredden för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>linjebredd</parameter
+>. Returnerar sant om funktionen finns, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionParameterList id </term>
+		  <listitem>
+		    <para
+>Returnerar en lista med alla parametervärden för funktionen med ID-nummer <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionAddParameter id new_parameter </term>
+		  <listitem>
+		    <para
+>Lägger till parametervärdet <parameter
+>ny_parameter</parameter
+> till funktionen med ID-nummer <parameter
+>id</parameter
+>. Om åtgärden lyckas returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionRemoveParameter id remove_parameter </term>
+		  <listitem>
+		    <para
+>Tar bort parametervärdet <parameter
+>tag_bort_parameter</parameter
+> från funktionen med ID-nummer <parameter
+>id</parameter
+>. Om åtgärden lyckas returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMinValue id </term>
+		  <listitem>
+		    <para
+>Returnerar minimalt diagramområdesvärde för funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, eller om det minimala värdet inte är definierat, returneras en tom sträng.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMaxValue id </term>
+		  <listitem>
+		    <para
+>Returnerar maximalt diagramområdesvärde för funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, eller om det maximala värdet inte är definierat, returneras en tom sträng.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMinValue id min </term>
+		  <listitem>
+		    <para
+>Sätter minimalt diagramområdesvärde för funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>min</parameter
+>. Returnerar sant om funktionen finns och uttrycket är giltigt, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMaxValue id max </term>
+		  <listitem>
+		    <para
+>Sätter maximalt diagramområdesvärde för funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>max</parameter
+>. Returnerar sant om funktionen finns och uttrycket är giltigt, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartXValue id </term>
+		  <listitem>
+		    <para
+>Returnerar ursprunglig X-punkt för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, eller om X-punktsuttrycket inte är definierat, returneras en tom sträng.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartYValue id </term>
+		  <listitem>
+		    <para
+>Returnerar ursprunglig Y-punkt för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, eller om Y-punktsuttrycket inte är definierat, returneras en tom sträng.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionStartValue id x y </term>
+		  <listitem>
+		    <para
+>Sätter ursprunglig X-punkt för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>x</parameter
+> och <parameter
+>y</parameter
+>. Returnerar sant om funktionen finns och uttrycket är giltigt, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.stopDrawing </term>
+			<listitem>
+				<para
+>Om &kmplot; för närvarande ritar upp en funktion, stoppas proceduren.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.drawPlot </term>
+			<listitem>
+				<para
+>Ritar om alla funktioner.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<chapter id="credits">
+<title
+>Tack till och licens</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Program copyright 2000-2002 <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail; </para>
+
+<itemizedlist>
+<title
+>Bidragsgivare</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: &Robert.Gogolok; &Robert.Gogolok.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Överföring av grafiskt gränssnitt till &kde; 3 och översättning: &Matthias.Messmer; &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Diverse förbättringar: Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>Konvertering till &Qt; 4, förbättringar av grafiskt gränssnitt och funktioner: David Saxton <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>Dokumentation copyright 2000--2002 av Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail; </para>
+<para
+>Dokumentation utökad och uppdaterad för &kde; 3.2 av &Philip.Rodrigues; &Philip.Rodrigues.mail;</para>
+<para
+>Dokumentation utökad och uppdaterad för &kde; 3.3 av &Philip.Rodrigues; &Philip.Rodrigues.mail; och Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Dokumentation utökad och uppdaterad för &kde; 3.4 av Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Dokumentation utökad och uppdaterad för &kde; 4.0 av David Saxton <email
+>david@bluehaze.org</email
+>.</para>
+<para
+>Översättning Stefan Asserhäll <email
+>stefan.asserhall@bredband.net</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,2792 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Dutch "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="kmplot" lang="&language;">
+
+<bookinfo>
+<title
+>Het handboek van &kmplot;</title>
+<authorgroup>
+<author
+><firstname
+>Klaus-Dieter</firstname
+> <surname
+>M&ouml;ller</surname
+> <affiliation
+> <address
+>&Klaus-Dieter.Moeller.mail;</address>
+</affiliation>
+</author>
+<author
+>&Philip.Rodrigues; &Philip.Rodrigues.mail; </author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Saxton</surname
+> </author>
+&Jaap.Woldringh; 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year
+><year
+>2001</year
+><year
+>2002</year>
+<holder
+>Klaus-Dieter M&ouml;ller</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>&Philip.Rodrigues; &Philip.Rodrigues.mail;</holder>
+</copyright>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>David Saxton</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2021-01-05</date>
+<releaseinfo
+>1.3.0 (Applications 20.12)</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para
+>&kmplot; is een programma dooor &kde; voor het maken van grafieken van wiskundige functies.</para>
+<para
+> <inlinemediaobject
+><imageobject
+><imagedata
+fileref="edu-logo.png"
+format="PNG"/></imageobject
+></inlinemediaobject
+> &kmplot; maakt deel uit van het &kde;-EDU Project: <ulink url="http://edu.kde.org/"
+>http://edu.kde.org/</ulink
+></para
+></abstract>
+
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>KmPlot</keyword>
+<keyword
+>EDU</keyword>
+<keyword
+>onderwijs</keyword>
+<keyword
+>plotten</keyword>
+<keyword
+>wiskunde</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Inleiding</title>
+
+<para
+>&kmplot; is een programma voor het plotten van wiskundige functies, door &kde;. Het heeft een ingebouwde functielezer aan boord met veel mogelijkheden. U kunt meerdere functies tegelijk plotten, en die ook gebruiken om nieuwe functies te maken.</para>
+
+<screenshot>
+	<screeninfo
+>Voorbeelden</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Voorbeelden</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>In &kmplot; zijn verschillende soorten van plots mogelijk:</para>
+<itemizedlist>
+	<listitem
+><para
+>Expliciete cartesische plots van de vorm y=f(x).</para
+></listitem>
+	<listitem
+><para
+>Parametrische plots, waarin de x- en y-componenten worden uitgedrukt als functies van een onafhankelijke variabele.</para
+></listitem>
+	<listitem
+><para
+>Pooldiagrammen van de vorm r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Impliciete plots, waarin de relatie tussen de x- en y-coördinaten door een expressie wordt gegeven.</para
+></listitem>
+	<listitem
+><para
+>Expliciete differentiële plots.</para
+></listitem>
+</itemizedlist>
+
+<para
+>In &kmplot; vindt u ook enkele numerieke en visuele zaken zoals:</para>
+<itemizedlist>
+	<listitem
+><para
+>Het opvullen en het berekenen van de oppervlakte tussen de grafiek van de functie en de x-as</para
+></listitem>
+	<listitem
+><para
+>Het berekenen van uiterste waarden</para
+></listitem>
+	<listitem
+><para
+>Het dynamisch wijzigen van de functieparameters</para
+></listitem>
+	<listitem
+><para
+>Het plotten van afgeleide en integrale functies.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Met behulp van deze functies wordt het begrip bevorderd van het verband tussen wiskundige functies en hun grafische weergave in een coördinatenstelsel.</para>
+
+</chapter>
+
+<chapter id="first-steps">
+<title
+>De eerste schreden met &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Plotten van een eenvoudige functie</title>
+
+	<para
+>In de zijbalk links vindt u de knop <guilabel
+>Aanmaken</guilabel
+>, met een neerklapmenu voor het aanmaken van nieuwe plots. Klik hierop en selecteer <guilabel
+>Cartesische Plot</guilabel
+>. Het tekstvak waarin u de huidige functie kunt bewerken is nu beschikbaar. Vervang de standaard tekst met <screen
+><userinput
+>y = x^2</userinput
+></screen
+> en druk op &Enter;. Er wordt nu een plot getekend van y = x<superscript
+>2</superscript
+>. Klik nu nog een keer op de knop <guilabel
+>Nieuwe plot</guilabel
+>, selecteer <guilabel
+>Cartesische Plot</guilabel
+>, en voer nu de tekst <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> in, om nog een plot te tekenen. </para>
+
+	<para
+>Met slepen en neerzetten van het object  <userinput
+>y = 5sin(x)</userinput
+> in de zijbalk links krijgt u een kopie van de plot.  Met vervangen van <userinput
+>sin</userinput
+> door <userinput
+>cos</userinput
+> krijgt u een plot van de cosinus in dezelfde kleur. </para>
+
+	<para
+>Klik op een van de grafieken die u zojuist heeft geplot. De kruisdraad krijgt de kleur van deze grafiek en is nu aan de grafiek gekoppeld. U kunt met de muis de kruisdraad langs de grafiek bewegen. In de statusbalk onder in het scherm kunt u de coördinaten van de positie steeds aflezen. Merk op dat als de kruisdraad de x-as raakt ook de wortel (x waarvoor de functie = 0 is) in de statusbalk kan worden afgelezen.</para>
+
+	<para
+>Klik weer met de muis, de kruisdraad wordt nu ontkoppeld van de grafiek.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Bewerken van eigenschappen</title>
+
+	<para
+>Laten we de functie en de kleur van de grafiek veranderen.</para>
+
+	<para
+>In de zijbalk <guilabel
+>Functies</guilabel
+> worden alle functies genoemd die al geplot zijn. Als <guilabel
+>y = x^2</guilabel
+> nog niet is geselecteerd, selecteer het dan nu. U krijgt dan toegang tot een groot aantal opties. We gaan de functie hernoemen en de grafiek 5 eenheden omlaag verplaatsen. Vervang de functievergelijking in <screen
+><userinput
+>parabool(x) = x^2 - 5</userinput
+></screen
+> en druk op Enter. U kunt een andere kleur voor de plot kiezen door op de knop <guilabel
+>Uiterlijk</guilabel
+> onderin de functiebewerker te klikken en een andere kleur te selecteren. <note
+> <para
+>Alle veranderingen kunnen ongedaan worden gemaakt met <menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Ongedaan maken</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+
+<chapter id="using-kmplot">
+<title
+>Het gebruik van &kmplot;</title>
+
+<para
+>&kmplot; kent diverse soorten functies, die in de vorm van een functie of als een vergelijking kunnen worden geschreven:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Cartesische plots kunnen bijvoorbeeld als <quote
+>y = x^2</quote
+> worden geschreven, waarin x moet worden gebruikt als de variabele, of als bijvoorbeeld <quote
+>f(a) = a^2</quote
+>, waarin de naam van de variabele willekeurig is.</para
+></listitem>
+	<listitem
+><para
+>Bij parametrische plots gaat het net zo als bij cartesische. De x- en y-coördinaten kunnen worden ingevoerd als vergelijkingen van t, bijv. <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+>, of als functies, bijv. <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Ook bij pooldiagrammen gaat het net zo als bij cartesische plots. Zij kunnen als een vergelijking worden ingevoerd in &thgr;, bijvoorbeeld <quote
+>r = &thgr;</quote
+>, of als eenfunctie, bijvoorbeeld <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Bij impliciete plots wordt de naam van de functie apart ingevoerd van de expressie voor de relatie tussen de x- en y-coördinaten. Indien de x- en y- variabelen worden gegeven via de naam van de functie (door bijvoorbeeld <quote
+>f(a,b)</quote
+> in te voeren als de functienaam), dan worden de hierin genoemde variabelen (hier dus a en b) gebruikt. Anders worden voor de variabelen de letters x en y gebruikt.</para
+></listitem>
+	<listitem
+><para
+>Bij expliciete plots van differentiaalvergelijkingen wordt de hoogste afgeleide uitgedrukt in termen van de lagere afgeleiden. Afgeleiden worden gekenmerkt met een of meer '-tekens. In de vorm van een functie is dit zoiets als <quote
+>f''(x) = f' &minus; f</quote
+>. In de vorm van een vergelijking ziet het eruit als <quote
+>y'' = y' &minus; y</quote
+>. Merk op dat in beide gevallen het <quote
+>(x)</quote
+>-gedeelte niet wordt toegevoegd aan de termen met de lagere afgeleiden (dus is de invoer als <quote
+>f'(x) = &minus;f</quote
+> en niet als <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>U kunt alle invoervakken voor vergelijkingen verkrijgen met een knop rechts. Hierop klikken geeft de geavanceerde dialoog voor de <guilabel
+>Vergelijkingbewerker</guilabel
+> waarin u vindt: <itemizedlist>
+		<listitem>
+			<para
+>Een aantal wiskundige symbolen die u kunt gebruiken in vergelijkingen, maar die u niet zult aantreffen op normale toetsenborden.</para>
+		</listitem>
+		<listitem>
+			<para
+>De lijst van constanten voor de gebruiker, en een knop om ze te kunnen bewerken.</para>
+		</listitem>
+		<listitem>
+			<para
+>De lijst van voorgedefiniëerde functies. Merk op dat al u reeds geselecteerde tekst heeft, deze zal worden gebruikt als het functieargument als er een functie wordt ingevoegd. Bijvoorbeeld, indien <quote
+>1 + x</quote
+> is geselecteerd in de vergelijking <quote
+>y = 1 + x</quote
+>, en daarna de sinusfunctie wordt gekozen,dan wordt de vergelijking <quote
+> y = sin(1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>U ziet hier een afbeelding van het welkomstscherm va &kmplot;</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Schermafdruk</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Functietypes</title>
+
+	<sect2 id="cartesian-functions">
+		<title
+>Cartesische functies</title>
+		<para
+> U kunt als volgt een expliciete functie (dit is een functie in de vorm y=f(x)) in &kmplot; invoeren,: <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>expressie</replaceable
+></userinput
+></screen
+> waarin: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> de naam is van de functie, die elke rij van tekens en cijfers kan zijn.</para>
+				</listitem>
+
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> is de x-coördinaat, te gebruiken in de expressie rechts van het =-teken. Het is in een dummyvariabele, u kunt dus elke naam voor de variabele gebruiken die u wilt.</para>
+				</listitem>
+
+				<listitem>
+					<para
+><replaceable
+>expressie</replaceable
+> de expressie is die moet worden geplot, gegeven in de juiste syntax voor &kmplot;. Zie <xref linkend="math-syntax"/>. </para>
+				</listitem>
+
+			</itemizedlist>
+		</para>
+	</sect2>
+
+	<sect2 id="parametric-functions">
+		<title
+>Parametrische functies</title>
+		<para
+>In parametrische functies worden de x- en de y-coördinaten als afzonderlijke functies gedefinieerd van een andere variabele (parameter), vaak t (van: tijd) genoemd. Om in &kmplot; een parametrische functie in te voeren, volgt u dezelfde werkwijze vooor de beide x- en y-functies als voor een cartesische functie. Net als bij cartesische functies kunt u voor de parameter elke naam gebruiken die u wenst.</para>
+		<para
+>Als voorbeeld stellen we dat u een cirkel wilt tekenen, met de parametrische vergelijkingen x=sin(t) en y=cos(t). Na het aanmaken van een parametrische plot voert u deze vergelijkingen in in de juiste x- en y- invoervakken; dus als <userinput
+>f_x(t)=sin(t)</userinput
+> en <userinput
+>f_y(t)=cos(t)</userinput
+>. </para>
+		<para
+>U kunt in deze dialoog nog enkele andere opties voor de plot instellen: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Min:</guilabel
+></term>
+					<term
+><guilabel
+>Max:</guilabel
+></term>
+					<listitem>
+						<para
+>Met deze opties bepaalt u het interval voor de parameter t waarop de functie wordt geplot.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+
+	<sect2 id="polar-functions">
+		<title
+>Functies in poolcoördinaten</title>
+
+		<para
+>In poolcoördinaten wordt een punt gegeven door zijn afstand tot de oorsprong (meestal r genoemd), en de hoek die de lijn, vanuit de oorsprong door het punt getrokken, maakt met de (positieve) x-as (gewoonlijk met de Griekse letter theta (&thgr;)aangeduid). Om functies in poolcoördinaten in te voeren drukt u op  de knop <guilabel
+>Aanmaken</guilabel
+>, en kiest u <guilabel
+>Pooldiagram</guilabel
+> in de lijst. In het het hiervoor bestemde vak voert u de functiedefinitie in, met de door u gewenste naam voor de theta-variabele. &eg;, om de spiraal van Archimedes, r = &thgr;, te tekenen, voert u in <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+>. Merk op dat u voor de theta-variabele iedere willekeurige naam kunt gebruiken, zodat u met <quote
+>r(t)=t</quote
+>,  of <quote
+>f(x) = x</quote
+> precies hetzelfde resultaat krijgt. </para>
+	</sect2>
+
+	<sect2 id="implicit-functions">
+		<title
+>Impliciete Functions</title>
+
+		<para
+>In een impliciete relatie wordt een vergelijking gegeven waarin x en y op een gelijkwaardige manier voorkomen. Om een cirkel te maken bijvoorbeeld, maakt u een nieuwe impliciete plot aan met de knop <guilabel
+>Aanmaken</guilabel
+>, en kiest u in de lijst <guilabel
+>Impliciete Plot</guilabel
+>. Daarna voert u de volgende vergelijking in in het invoervak hiervoor (onder dat voor de functienaam): <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+
+	<sect2 id="differential-functions">
+		<title
+>Differentiële functies</title>
+
+		<para
+>In &kmplot; kunnen expliciete differentiële functies worden geplot. Dit zijn functies met de vorm y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), waarin y<superscript
+>k</superscript
+> de k<superscript
+>-de</superscript
+> afgeleide is van y(x). &kmplot; kan alleen de orde van de afgeleide functie bepalen aan de hand van het aantal '-tekens achter de naam van de functie. Voor het tekenen van een sinuskromme, bijvoorbeeld, kunt u de differentiaalvergelijking y'' = &minus; y gebruiken (Uitleg: y=sin(x) -> y'=cos(x) -> y''=&minus;sin(x)=&minus;y). </para>
+
+		<para
+>Maar een differentiaalvergelijking is op zichzelf niet voldoende voor het tekenen van een plot. Elke kromme in de plot wordt gegenereerd door een combinatie van de differentiaalvergelijking en de randvoorwaarden. U kunt de randvoorwaarden bewerken in het tabblad <guilabel
+>Randvoorwaarden</guilabel
+> wanneer u een differentiaalvergelijking selecteert. Het aantal kolommen dat beschikbaar is voor het bewerken van de randvoorwaarden is afhankelijk van de orde van de differentiaalvergelijking. </para>
+
+		<para
+>U kunt in deze dialoog nog enkele andere opties voor de plot instellen: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Stap:</guilabel
+></term>
+					<listitem>
+						<para
+>De stapwaarde in het vak nauwkeurigheid wordt gebruikt bij het numeriek oplossen van de differentiaalvergelijking (met de Runge Kutta methode). Het is de waarde van de grootste stap die wordt gebruikt; een kleinere stap kan worden gebruikt indien er voldoende op een gedeelte van de plot van de differentiaalvergelijking wordt ingezoomd.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Het combineren van functies</title>
+	<para
+>Functies kunnen worden gecombineerd tot nieuwe functies. Voer gewoon de functies na het =-teken in in een expressie alsof de functies gewone variabelen zijn. Bijvoorbeeld, als u de functies f(x) en g(x) heeft gedefinieerd, kunt u de som van f en g plotten met: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Het veranderen van het uiterlijk van de grafieken van functies</title>
+
+	<para
+>Om het uiterlijk van een grafiek van een functie in het hoofdplotscherm te wijzigen, selecteert u de functie in de zijbalk <guilabel
+>Functies</guilabel
+>. U kunt de lijndikte veranderen, de kleur en vele andere eigenschappen, door op de knop <guibutton
+>Kleur</guibutton
+> te klikken, of op <guibutton
+>Gevorderd...</guibutton
+> onder in de sectie <guilabel
+>Uiterlijk</guilabel
+>. </para>
+
+	<para
+>Als u een cartesische functie bewerkt, heeft de functiebewerker drie tabbladen. In het eerste kunt u de vergelijking opgeven van de functie. In het tabblad <guilabel
+>Afgeleiden</guilabel
+> kunt u opgeven dat de eerste en tweede afgeleide functies worden getekend. In het tabblad <guilabel
+>Integraal</guilabel
+> kunt u de integraal laten tekenen van de functie. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Contextmenu</title>
+	<screenshot>
+	<screeninfo
+>Contextmenu na rechtsklikken op een grafiek</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Contextmenu na rechtsklikken op een grafiek</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Als u rechtsklikt op de grafiek van een functie of van een parametrische plot met een enkel punt (vert.: ?) verschijnt er een contextmenu. Hierin zijn vijf onderwerpen beschikbaar:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Bewerken</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Selecteert de te bewerken functie in de zijbalk <guilabel
+>Functies</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Verbergen</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Verbergt de geselecteerde grafiek. De andere grafieken van de functie blijven gewoon zichtbaar.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Verwijderen</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Verwijdert de functie. Alle grafieken die erbij horen worden gewist.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Plot animeren...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Toont de dialoog voor de <guilabel
+>Parameter animatie</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Rekenmachine</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Opent de dialoog voor de <guilabel
+>Rekenmachine</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+	<para
+>Afhankelijk van het type plot zijn er ook tot vijf hulpmiddelen beschikbaar:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Copy (x, y)</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Kopieert de huidige waarde in de plot naar het klembord van het systeem. Hiermee kunt u buiten &kmplot; tabellen aanmaken van functiewaarden. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Waarde wortel kopiëren</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+                            <para
+>Kopieert de wortel <literal
+>x</literal
+> naar het klembord van het systeem. Slechts tot 5 decimalen kunnen worden gekopieerd. U kunt een <ulink url="https://en.wikipedia.org/wiki/Computer_algebra_system"
+>computer algebra systeem</ulink
+> gebruiken om de wortel met een willekeurige nauwkeurigheid te berekenen. Dit kan alleen als de huidige geschatte waarde dicht genoeg is bij een van de wortels. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Plotgebied...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Selecteer in de nieuwe dialoog de uiterste x-waarden voor de grafiek. Berekent de integraal en tekent de oppervlakte tussen de grafiek en de x-as tussen beide x-waarden, in de kleur van de grafiek. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Minimum bepalen...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Bepaal het minimum van de functie binnen een bepaald interval. De geselecteerde grafiek wordt gemarkeerd in de dialoog die verschijnt. Vul de onder- en bovengrens in van het interval waarbinnen u het minimum wilt vinden. </para>
+				<para
+>Let op: u kunt ook de uiterste waarden visueel in de plot laten tonen met behulp van de dialoog <guilabel
+>Plotuiterlijk</guilabel
+>, dat u verkrijgt via de knop <guibutton
+>Gevorderd...</guibutton
+> in de zijbalk <guilabel
+>Functies</guilabel
+>. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Maximum bepalen...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Dit is hetzelfde als <guimenuitem
+>Minimum bepalen...</guimenuitem
+> hier boven, maar nu wordt het maximum in plaats van het minimum bepaald.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="configuration">
+<title
+>Instellen van &kmplot;</title>
+<para
+>Om in de instellingendialoog te komen van &kmplot;, selecteert u <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>&kmplot; instellen...</guimenuitem
+></menuchoice
+>. De instellingen voor (<guimenuitem
+>Constanten...</guimenuitem
+> kunnen alleen in het menu <guimenu
+>Bewerken</guimenu
+> worden gewijzigd, en het <guimenuitem
+>Coördinatenstelsel...</guimenuitem
+> alleen in het menu <guimenu
+>Beeld</guimenu
+>.</para>
+
+<sect1 id="general-config">
+	<title
+>Algemene instellingen</title>
+
+	<screenshot>
+		<screeninfo
+>schermbeeld van de algemene instellingendialoog van &kmplot;</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>schermbeeld van de algemene instellingendialoog van &kmplot;</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+    <para
+>Hier kunt u de globale instellingen doen die automatisch zullen worden opgeslagen bij het afsluiten van &kmplot;. U kunt de hoekmodus instellen (radialen of graden), de factoren voor het in- en uitzoomen, met &Ctrl; in combinatie met het muiswiel, of de <link linkend="a-view-menu"
+>bijbehorende menuonderdelen</link
+>, en of gevorderd volgen in een plot moet worden getoond.</para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Grafiek instellingen</title>
+
+	<screenshot>
+		<screeninfo
+>Schermbeeld van de dialoog voor grafieken</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>schermbeeld van de dialoog voor grafieken</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>U kunt de <guilabel
+>Roosterstijl</guilabel
+> instellen op een van vier opties: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>Geen</guilabel
+></term>
+				<listitem>
+					<para
+>In het plotgebied worden geen roosterlijnen ingetekend.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Lijnen</guilabel
+></term>
+				<listitem>
+					<para
+>Roosterlijnen worden ingetekend.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Kruisjes</guilabel
+></term>
+				<listitem>
+					<para
+>Op de roosterpunten (dus waar x en y gehele waarden hebben (&eg;, (1,1), (4,2) &etc;) worden kruisjes ingetekend.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Polair</guilabel
+></term>
+				<listitem>
+					<para
+>In de plot worden, uitgaande van de oorsprong (0, 0), cirkels ingetekend, en rechte lijnen die daar loodrecht op staan, die als rooster dienst doen. Dit rooster wordt gebruikt wanneer met poolcoördinaten wordt gewerkt, namelijk een radius (afstand tot (0,0)) en een argument (hoek). Vergelijk met een radarscherm.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+
+	<para
+>Andere opties met betrekking tot het uiterlijk van een grafiek kunnen ook worden ingesteld: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Teksten bij de assen</guilabel
+></term>
+				<listitem>
+					<para
+>Plaatst beschrijvingen bij de horizontale en verticale as.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Lijndikte van de assen:</guilabel
+></term>
+				<listitem>
+					<para
+>Instellen van de lijndikte van de assen.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Lijndikte:</guilabel
+></term>
+				<listitem>
+					<para
+>Instellen van de lijndikte van de assen.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Dikte van de schaalstreepjes:</guilabel
+></term>
+				<listitem>
+					<para
+>Stelt de dikte in van de schaalstreepjes op de assen.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Lengte van de schaalstreepjes:</guilabel
+></term>
+				<listitem>
+					<para
+>Stelt de lengte in van de schaalstreepjes op de assen.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Tonen van teksten</guilabel
+></term>
+				<listitem>
+					<para
+>Indien geselecteerd, worden de namen van de assen in de plot geplaatst en tekst geplaatst bij de schaalstreepjes.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Assen weergeven</guilabel
+></term>
+				<listitem>
+					<para
+>Indien geselecteerd zijn de assen zichtbaar.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Pijltjes tonen</guilabel
+></term>
+				<listitem>
+					<para
+>Indien geselecteerd worden de assen weergegeven met pijlpunten aan het eind.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Instellen van de kleuren</title>
+
+	<screenshot>
+		<screeninfo
+>Schermbeeld van de instellingendialoog voor kleuren</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Schermbeeld van de instellingendialoog voor kleuren</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>In het tabblad <guilabel
+>Coörds</guilabel
+>, in het instellingenscherm voor <guilabel
+> Kleuren</guilabel
+>, kunnen de kleuren van de assen, het rooster en de achtergrond van het plotgebied van &kmplot; worden veranderd. </para>
+
+	<para
+>In het tabblad <guilabel
+>Standaard Functiekleuren</guilabel
+> kunt u de kleuren veranderen van de grafieken.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Instellen van de lettertypen</title>
+
+	<screenshot>
+		<screeninfo
+>Schermbeeld van de instellingendialoog voor lettertypen</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Schermbeeld van de instellingendialoog voor lettertypen</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><guilabel
+>Beschrijving bij de assen:</guilabel
+></term>
+			<listitem>
+				<para
+>Lettertype voor de getallen en x/y-aanduidingen bij de assen.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><guilabel
+>Beschrijving bij de grafiek:</guilabel
+></term>
+			<listitem>
+				<para
+>Lettertype voor teksten bij de grafiek (bijvoorbeeld voor de naam van de plot en de uiterste waarden).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Koptekst tabel:</guilabel
+></term>
+			<listitem>
+				<para
+>Lettertype voor de koptekst, als een plot wordt afgedrukt.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="reference">
+<title
+>Overzicht van &kmplot; </title>
+
+<sect1 id="func-syntax">
+	<title
+>Syntaxis van functies</title>
+
+	<para
+>Er zijn enkele syntaxisregels waaraan moet worden voldaan:</para>
+
+	<screen
+><userinput
+>naam(var1[, var2])=term [;extensies]</userinput
+>
+        </screen>
+
+
+	<variablelist>
+		<varlistentry>
+			<term
+>naam</term>
+			<listitem>
+
+				<para
+>De naam van de functie. Als het eerste teken een <quote
+>r</quote
+> is, neemt de functielezer aan dat u poolcoördinaten gebruikt. Is het eerste teken een <quote
+>x</quote
+> (bijvoorbeeld <quote
+>xfunc</quote
+>), dan verwacht de functieleesprogramma nog een functie die met een <quote
+>y</quote
+> begint (hier <quote
+>yfunc</quote
+>), waarmee de functie in parametrische vorm wordt gedefinieerd. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var1</term>
+			<listitem
+><para
+>De functievariabele.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var2</term>
+			<listitem
+><para
+>De <quote
+>groepparameter</quote
+> van de functie. Deze moet door een komma van de functievariabele worden gescheiden. U kunt de groepparameter bijvoorbeeld gebruiken om een aantal grafieken te plotten van dezelfde functie. De waarden van de parameter kunnen met de hand worden gekozen of u kunt een schuifknop hiervoor gebruiken waarmee 1 parameter wordt bestuurd. Door de schuifknop te verschuiven verandert u de waarde van de parameter. De schuifknopwaarden variëren tussen 0 en 100.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>term</term>
+			<listitem
+><para
+>De expressie waarmee de functie wordt gedefinieerd.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+	<title
+>Voorgedefinieerde functienamen en constanten</title>
+
+	<para
+>Alle voorgedefinieerde functies en constanten in &kmplot; kunt u zien in menu <menuchoice
+><guimenu
+>Help</guimenu
+><guimenuitem
+>Voorgedefinieerde Wiskundige Functies</guimenuitem
+> </menuchoice
+>. U ziet dan deze pagina van het handboek van &kmplot;. </para>
+
+	<para
+>U kunt deze functies en constanten, en zelfs alle zelfgedefinieerde functies, ook gebruiken voor de instellingen van de assen. Zie <xref linkend="axes-config"/>. </para>
+
+	<sect2 id="trigonometric-functions">
+		<title
+>Goniometrische functies</title>
+
+		<para
+>Standaard wordt bij goniometrische functies gewerkt in radialen. Dit kunt u veranderen in het menu <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>&kmplot;  Instellen</guimenuitem
+></menuchoice
+>. </para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sin(x)</term>
+				<term
+>arcsin(x)</term>
+				<term
+>cosec(x)</term>
+				<term
+>arccosec(x)</term>
+				<listitem
+><para
+>Dit zijn de sinus, de inverse (of boog-) sinus, de cosecans en de inverse cosecans.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cos(x)</term>
+				<term
+>arccos(x)</term>
+				<term
+>sec(x)</term>
+				<term
+>arcsec(x)</term>
+				<listitem
+><para
+>Dit zijn de cosinus, de inverse (of boog-) cosinus, de secans en de inverse secans.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tan(x)</term>
+				<term
+>arctan(x)</term>
+				<term
+>cot(x)</term>
+				<term
+>arccot(x)</term>
+				<listitem
+><para
+>Dit zijn de tangens, de inverse (of boog-) tangens, de cotangens en de inverse cotangens.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="hyperbolic-functions">
+		<title
+>Hyperbolische functies</title>
+		<para
+>De hyperbolische functies.</para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sinh(x)</term>
+				<term
+>arcsinh(x)</term>
+				<term
+>cosech(x)</term>
+				<term
+>arccosech(x)</term>
+				<listitem
+><para
+>De hyperbolische sinus, -inverse (of boog-) sinus, -cosecans en -inverse cosecans.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cosh(x)</term>
+				<term
+>arccosh(x)</term>
+				<term
+>sech(x)</term>
+				<term
+>arcsech(x)</term>
+				<listitem
+><para
+>De hyperbolische cosinus, -inverse (of boog-) cosinus, -secans en -inverse secans.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tanh(x)</term>
+				<term
+>arctanh(x)</term>
+				<term
+>coth(x)</term>
+				<term
+>arccoth(x)</term>
+				<listitem
+><para
+>De hyperbolische tangens, -inverse (of boog-) tangens, -cotangens en -inverse cotangens.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="other-functions">
+		<title
+>Andere functies</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sqr(x)</term>
+				<listitem
+><para
+>Het kwadraat van x (x^2).</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>sqrt(x)</term>
+				<listitem
+><para
+>De (vierkants)wortel van x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>sign(x)</term>
+				<listitem
+><para
+>Het teken van x: retourneert 1 als x positief is, 0 als x nul is, of &minus;1 als x negatief is.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>H(x)</term>
+				<listitem
+><para
+>De Heavyside stapfunctie: 1 als x positief is, 0,5 als x nul is, en 0 als x negatief is.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>exp(x)</term>
+				<listitem
+><para
+>De exponent van x (e^x).</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ln(x)</term>
+				<listitem
+><para
+>De natuurlijke logaritme van x (of: de inverse exponent van x).</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>log(x)</term>
+				<listitem
+><para
+>De logaritme, met grondtal 10, van x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>abs(x)</term>
+				<listitem
+><para
+>De absolute waarde van x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>floor(x)</term>
+				<listitem
+><para
+>Rond af naar het eerste gehele getal kleiner dan of gelijk aan x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ceil(x)</term>
+				<listitem
+><para
+>Rond af naar het eerste gehele getal groter dan of gelijk aan x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>round(x)</term>
+				<listitem
+><para
+>Rond x af naar het dichtstbijzijnde gehele getal.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>gamma(x)</term>
+				<listitem
+><para
+>De gammafunctie.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>factorial(x)</term>
+				<listitem
+><para
+>x faculteit (x!).</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>min(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Geeft de kleinste waarde terug van een verzameling getallen {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>max(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Geeft de grootste waarde terug van een verzameling getallen {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>mod(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Geeft de modulus terug van een verzameling getallen {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<!-- TODO: Legendre polynomials -->
+
+		</variablelist>
+	</sect2>
+
+	<sect2>
+		<title
+>Voorgedefinieerde constanten</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>pi</term>
+				<term
+>&pgr;</term>
+				<listitem>
+					<para
+>Constanten voor &pgr; (3,14159...).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>e</term>
+				<listitem>
+					<para
+>Constante voor het getal van Euler e (2,71828...).</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+</sect1>
+
+<sect1 id="func-extension"
+> <!--FIXME does this still work-->
+	<title
+>Uitbreidingen</title>
+	<para
+>Een uitbreiding (extension) van een functie wordt opgegeven door een puntkomma, gevolgd door de uitbreiding achter de functiedefinitie. De uitbreiding kan worden ingevoerd met behulp van de &DBus;-methode "parser addFunction". Geen van de uitbreidingen zijn beschikbaar voor parametrische functies, maar N en D[a,b] werken ook voor polaire functies. Bijvoorbeeld: <screen>
+      <userinput>
+        f(x)=x^2; A1
+      </userinput>
+    </screen
+> toont de grafiek van y=x<superscript
+>2</superscript
+> samen met de eerste afgeleide functie. Ondersteunde uitbreidingen worden hieronder beschreven: <variablelist>
+			<varlistentry>
+				<term
+>N</term>
+				<listitem>
+					<para
+>De functie wordt opgeslagen maar de grafiek ervan wordt niet getekend. De functie kan dan net als elke andere functie, voorgedefinieerd of door de gebruiker gedefinieerd, worden gebruikt. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A1</term>
+				<listitem>
+					<para
+>Ook de grafiek van de afgeleide functie zal worden getekend, in dezelfde kleur maar met een kleinere lijndikte. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A2</term>
+				<listitem>
+					<para
+>Ook de grafiek van de tweede afgeleide functie zal worden getekend, in dezelfde kleur maar met een kleinere lijndikte. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>D[a,b]</term>
+				<listitem>
+					<para
+>Bepaalt het domein (interval x- waarden) voor welke de functie zal worden getekend. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>P[a{,b...}]</term>
+				<listitem>
+					<para
+>Geeft een verzameling van parameterwaarden waarvoor de functie zal worden getekend. Bijvoorbeeld: met <userinput
+>f(x,k)=k*x;P[1,2,3]</userinput
+> worden de grafieken getekend van de functies f(x)=x, f(x)=2*x en f(x)=3*x. Met de P-optie kunnen ook functies worden gebruikt als argumenten. </para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	<para
+>Merk op dat u dit alles kunt doen door aanpassingen in het tabblad <guilabel
+>Afgeleiden</guilabel
+>, de sectie <guilabel
+>Plotbereik zelf instellen</guilabel
+>, en in de sectie <guilabel
+>Parameters</guilabel
+> in de zijbalk <guilabel
+>Functies</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="math-syntax">
+	<title
+>Wiskundige syntaxis</title>
+	<para
+>In &kmplot; worden wiskundige functies op de gebruikelijke manier geschreven, dus daar zult u geen moeite mee hebben. De bewerkingen die &kmplot; kent zijn, in de volgorde van afnemende prioriteit: <variablelist>
+
+			<varlistentry>
+				<term
+>^</term>
+				<listitem
+><para
+>Het dakje staat voor machtverheffen. &Bijv;, <userinput
+>2^4</userinput
+> geeft 16.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>*</term>
+				<term
+>/</term>
+				<listitem>
+					<para
+>Het sterretje en de schuine streep staan voor vermenigvuldigen en delen. bijv. <userinput
+>3*4/2</userinput
+> geeft 6 terug.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>+</term>
+				<term
+>&minus;</term>
+				<listitem
+><para
+>De plus- en mintekens staan voor optellen en aftrekken. bijv. <userinput
+>1+3-2</userinput
+> geeft 2 terug.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&lt;</term>
+				<term
+>&gt;</term>
+				<term
+>&le;</term>
+				<term
+>&ge;</term>
+				<listitem
+><para
+>Vergelijkingsbewerkingen. Zij geven 1 terug als de expressie waar is, en anders 0. Bijv. <userinput
+>1 &le; 2</userinput
+> geeft 1 terug.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&radic;</term>
+				<listitem
+><para
+>De (vierkants)wortel van een getal. Bijv. <userinput
+>&radic;4</userinput
+> geeft 2 terug.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>|x|</term>
+				<listitem
+><para
+>De absolute waarde van x. Bijv. <userinput
+>|&minus;4|</userinput
+> geeft 4 terug.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&plusmn;</term>
+				<term
+></term>
+				<listitem
+><para
+>Bij elk plus-minus-teken worden er twee plots getekend, een voor het plusteken, en een voor het minteken. Bijv. met <userinput
+>y = &plusmn;sqrt(1&minus;x^2)</userinput
+> wordt een cirkel getekend. Een plusminus-teken kan dus niet in een constante worden gebruikt.</para>
+				</listitem>
+			</varlistentry>
+
+
+
+		</variablelist>
+	</para>
+	<para
+>Let op de prioriteit, wat betekent dat als er geen haakjes worden gebruikt, machtverheffen voorgaat op vermenigvuldigen/delen, en die worden weer eerder gedaan dan optellen/aftrekken. Dus geeft <userinput
+>1+2*4^2</userinput
+> 33, en niet, zeg maar, 144. Om dit te veranderen moet u haakjes gebruiken. Zie het bovenstaande voorbeeld, <userinput
+>((1+2)*4)^2</userinput
+> <emphasis
+>geeft</emphasis
+> als resultaat 144. </para>
+</sect1>
+
+<sect1 id="coord-area"
+><title
+>Plotgebied</title>
+	<para
+>Standaard worden expliciet gegeven functies geplot voor het gehele zichtbare deel van de x-as. In de bewerkingsdialoog voor de functie kunt u een ander interval opgeven. Als het resulterende punt binnen het plotgebied ligt, wordt het met het laatste punt dat al getekend is verbonden met een lijnstuk. </para>
+	<para
+>Parametrische en polaire functies hebben een standaard plotinterval van 0 tot 2&pgr;. Dit plotinterval kan ook worden gewijzigd in de zijbalk <guilabel
+>Functies</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+	<title
+>Gekruiste draden als aanwijzer</title>
+	<para
+>Als de muisaanwijzer binnen het plotgebied is, verandert de cursor in twee gekruiste draden. De huidige coördinaten kunnen dan worden afgelezen op de assen , en ook in de statusbalk onderaan het hoofdvenster. </para>
+	<para
+>U kunt de waarde van de functie nauwkeuriger volgen (traceren) door op of net naast de grafiek ervan te klikken. De naam van de geselecteerde functie ziet u in de statusbalk in de rechter kolom. De kruisdraad wordt aan de grafiek gekoppeld en krijgt dezelfde kleur als van die grafiek. Als de kleur van de grafiek gelijk is aan de kleur van de achtergrond krijgt de kruisdraad de complementaire (tegengestelde) kleur. Door de muis te verplaatsen of door op de linker- en rechter pijltjestoetsen te drukken volgt de kruisdraad de grafiek en kunt u de huidige waarden voor x en y aflezen. Als de kruisdraad dicht bij de x-as komt kunt u de dichtstbijzijnde wortel (oplossing, waarde van x waarvoor y(x)=0) in de statusbalk aflezen. U kunt van (de grafiek van) de ene naar de andere functie gaan met behulp van de op- en neertoetsen. U komt uit deze volg- (traceer)modus door ergens in het scherm te klikken of op een willekeurige toets te drukken die niet wordt gebruikt voor het navigeren. </para>
+	<para
+>Voor meer gevorderd traceren kunt u de dialoog voor het instellen van &kmplot;openen en in het tabblad <guilabel
+>Algemeen</guilabel
+>, <guilabel
+>Raaklijn en normaal tekenen bij traceren</guilabel
+> selecteren. Met deze optie worden de raaklijn, normaal en ingeschreven cirkel getekend van de getraceerde plot. </para>
+
+</sect1>
+
+<sect1 id="coords-config">
+	<title
+>Instellen van het coördinatenstelsel</title>
+	<para
+>Deze dialoog kunt u openen in het menu <menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Coördinatenstelsel..</guimenuitem
+></menuchoice
+> in de menubalk.</para>
+	<screenshot>
+		<screeninfo
+>Schermbeeld van de dialoog voor het coördinatenstelsel</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Schermbeeld van de dialoog voor het coördinatenstelsel</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<sect2 id="axes-config">
+		<title
+>Instellen van de assen</title>
+		<para>
+			<variablelist>
+
+				<varlistentry>
+					<term
+><guilabel
+>Bereik horizontale as</guilabel
+></term>
+					<listitem>
+						<para
+>Stelt het bereik in voor de horizontale as. Merk op dat u ook de reeds gedefinieerde functies en constanten kunt gebruiken (zie <xref linkend="func-predefined"/>) voor het opgeven van de grenzen van het bereik. (bijvoorbeeld:, geef <guilabel
+>Min:</guilabel
+> de waarde <userinput
+>2*pi</userinput
+>). U kunt zelfs hiervoor door u zelf gedefinieerde functies gebruiken. Bijvoorbeeld, met een door u gedefinieerde functie <userinput
+>f(x) = x^2</userinput
+>, kunt u <guilabel
+>Min:</guilabel
+> instellen op <userinput
+>f(3)</userinput
+>. De ondergrens van het bereik wordt dan 9.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+				  <term
+><guilabel
+>Bereik  verticale as</guilabel
+></term>
+					<listitem>
+						<para
+>Stelt het bereik in voor de  verticale as. Zie <quote
+>Bereik horizontale as</quote
+> hier boven.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>Afstand horizontale roosterlijnen</guilabel
+></term>
+					<listitem>
+						<para
+>Hiermee wordt de horizontale afstand bepaald tussen de roosterlijnen. Wordt <guilabel
+>Automatisch</guilabel
+> geselecteerd, dan zal &kmplot; zelf een afstand tussen de roosterlijnen bepalen van ongeveer twee centimeters, die ook getalsmatig goed uitkomt. Bij de keus <guilabel
+>Aangepast</guilabel
+>, kunt u zelf de horizontale afstand tussen de roosterlijnen invullen. Deze waarde wordt daarna onafhankelijk van de zoom gebruikt. Bijvoorbeeld, vult u de waarde 0,5 in, en het bereik is va 0 tot 8, dan worden er steeds 15 (tussenliggende) roosterlijnen getoond. </para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>Afstand verticale roosterlijnen</guilabel
+></term>
+					<listitem>
+						<para
+>Hiermee wordt de afstand bepaald tussen de verticale roosterlijnen. Zie <quote
+>Afstand horizontale roosterlijnen</quote
+> hier boven. </para>
+					</listitem>
+				</varlistentry>
+
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title
+>Instellen van de constanten</title>
+	<para
+>De dialoog hiervoor vindt u in het menu <menuchoice
+><guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Constanten...</guimenuitem
+></menuchoice
+> in de menubalk.</para>
+
+	<screenshot>
+		<screeninfo
+>Schermbeeld van de dialoog voor Constanten</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Schermbeeld van de dialoog voor Constanten</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Constanten kunnen overal in &kmplot; in een expressie worden gebruikt. Iedere constante moet een naam en een waarde hebben. Sommige namen zijn echter niet toegestaan, zoals die van al bestaande constanten en functies. </para>
+
+	<para
+>Er zijn twee opties die de "scope" (wat dit (hier) betekent volgt uit het volgende) bepalen van een constante: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>Document</guilabel
+></term>
+				<listitem>
+					<para
+>Kiest u <guilabel
+>Document</guilabel
+>, dan wordt de constante samen met het huidige diagram opgeslagen, wanneer dat in een bestand wordt bewaard. Maar, als u niet ook de optie <guilabel
+>Globaal</guilabel
+> selecteert, dan is de constante niet beschikbaar in andere sessies van &kmplot;.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Globaal</guilabel
+></term>
+				<listitem>
+					<para
+>Indien u <guilabel
+>Globaal</guilabel
+> selecteert, worden de naam en de waarde van de constante weggeschreven naar de instellingen van &kde; (waar die ook beschikbaar zijn voor &kcalc;). De constante gaat dan niet verloren wanneer &kmplot; wordt afgesloten, en zal weer beschikbaar zijn wanneer &kmplot; weer wordt gestart.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</para>
+</sect1>
+
+</chapter>
+
+<chapter id="commands">
+<title
+>Opdrachtenoverzicht</title>
+
+<sect1 id="menu">
+<title
+>Menu</title>
+
+<para
+>Naast de gewone menu's van &kde;, zoals beschreven in het hoofdstuk <ulink url="help:/fundamentals/ui.html#menus"
+>Menu</ulink
+> in de basisdocumentatie van &kde;, kent &kmplot; nog de voor deze applicatie specifieke menu-onderdelen: </para>
+
+<sect2 id="a-file-menu">
+	<title
+>Het menu Bestand</title>
+	<variablelist>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Exporteren...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Export</action
+> de geplotte grafieken naar een afbeeldingsbestand, in alle opmaken die door &kde; worden ondersteund.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Afdrukken...</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Opent </action
+> venster voor afdrukinstellingen. Druk op de knop <guibutton
+>Opties
+></guibutton
+> en kies daarna het tabblad <guilabel
+> Opties voor KmPlot</guilabel
+> waarin u de opties kunt instellen specifiek voor &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Afdrukvoorbeeld...</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Toont </action
+> het voorlopige beeld van de huidige plot, als afgedrukt op de huidige standaard printer. Druk op de meest rechtse knop in de taakbalk van het voorbeeldvenster, en stel de  opties in die specifiek zijn voor &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>Het menu Bewerken</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Bewerken</guimenu
+><guimenuitem
+>Constanten...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Toont het dialoogvenster voor de <guilabel
+>Constanten</guilabel
+>. Zie ook <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>Het menu Beeld</title>
+	<para
+>De eerste drie menuonderdelen betreffen zoomen.</para>
+	<note>
+		<para
+>Het muiswiel kan ook worden gebruikt bij het zoomen. Om in- of uit te zoomen met de muis, drukt u op de &Ctrl;-toets terwijl u het muiswiel draait. Bij elke tik neemt de zoomfactor toe of af met een waarde die is ingesteld in  de <link linkend="general-config"
+>algemene instellingen van &kmplot;</link
+>. </para>
+	</note>
+
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Inzoomen</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Dit hulpmiddel kan op twee verschillende manieren worden gebruikt. Om op een punt in de grafiek in te zoomen, klikt u hierop. Om op een bepaald gedeelte van de grafiek in te zoomen kunt u met de muis een rechthoek markeren (klikken , muisknop ingedrukt houden, slepen), op deze rechthoek wordt ingezoomd als de muisknop wordt losgelaten.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Uitzoomen</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Dit hulpmiddel kan op twee verschillende manieren worden gebruikt. Om op een punt in de grafiek uit te zoomen, klikt u hierop. Om op het bestaand grafiekbeeld in een rechthoek in te passen kunt u met de muis een rechthoek markeren (klikken , muisknop ingedrukt houden, slepen).</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Beeld aanpassen aan goniometrische functies</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>De schaal wordt aangepast aan goniometrische functies. Dit geldt voor zowel radialen als graden.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Beeld terugzetten</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Het beeld terugzetten. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Coördinatenstelsel...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Tonen van het dialoogvenster voor het <guilabel
+>Coördinatenstelsel</guilabel
+>. Zie ook <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Schuifknoppen tonen</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Schakelt</action
+> het tonen van de dialoog aan of uit van de schuiven.  Hiermee worden de ermee verbonden parameters voor de functieplot ingesteld.</para>
+				<para
+>Activeer dit op het tabblad voor de functies en selecteer een schuif zodat u de parameter dynamisch een waarde kunt geven. Deze waarden variëren standaard van 0 (links) tot 10 (rechts), maar dit kan in de dialoog voor de schuiven worden gewijzigd.</para>
+				<para
+>Een korte uitleg hiervan vindt u in <ulink url="http://userbase.kde.org/KmPlot/Using_Sliders"
+>Het gebruik van schuiven</ulink
+>.</para>
+				<!--https://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>Het menu Hulpmiddelen</title>
+
+	<para
+>In dit menu vindt u enkele nuttige hulpmiddelen voor de functies:</para>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Rekenmachine</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Opent de dialoog voor de <guilabel
+>Rekenmachine</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Plotgebied...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Selecteer een grafiek en de x-waarden in de dialoog. Berekent de integraal, en tekent de oppervlakte tussen de grafiek en de x-as tussen de geselecteerde x-waarden, in de kleur van de grafiek.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Bepaal minimum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Bepaal de minimum waarde van de functie in een opgegeven interval.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Maximum bepalen...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Bepaal de maximum waarde van de functie in een opgegeven interval.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>Het menu Help</title>
+
+	<para
+>&kmplot; heeft het standaard <guimenu
+>Help</guimenu
+>menu van &kde;, met één toevoeging:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Help</guimenu
+> <guimenuitem
+>Voorgedefinieerde functies ...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Openen van een lijst met namen van voorgedefinieerde functies en constanten die bekend zijn in &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+</sect2>
+</sect1>
+
+</chapter>
+
+<chapter id="dbus">
+	<title
+>Scripts in &kmplot;</title>
+	<para
+>U kunt scripts schrijven voor &kmplot;, met gebruik van DBus. Bijvoorbeeld, als u een nieuwe functie <userinput
+>f(x)=2sin x+3cos x</userinput
+> wilt definiëren, de lijndikte op 20 wilt instellen, en daarna de grafiek wilt tekenen, dan typt u in een terminalvenster het volgende:</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command
+> Het resultaat hiervan is dat het id-getal van de nieuwe functie wordt geretourneerd, of -1 als de functie niet kan worden gedefinieerd.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command
+>. Met deze opdracht wordt de lijndikte voor de functie met id-getal ID op 20 gesteld.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /view org.kde.kmplot.View.drawPlot</command
+>. Met deze opdracht wordt het (plot)venster opnieuw getekend, zodat de grafiek van de functie zichtbaar wordt.</para>
+<para
+>Een lijst van de beschikbare functies: <variablelist>
+		<varlistentry>
+			<term
+>/kmplot org.kde.kmplot.KmPlot.fileOpen url </term>
+			<listitem>
+				<para
+>Inlezen van bestand <parameter
+>url</parameter
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.isModified </term>
+			<listitem>
+				<para
+>Retourneert "true" (waar) als er wijzigingen zijn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.checkModified </term>
+			<listitem>
+				<para
+>Indien er wijzigingen zijn die niet zijn opgeslagen, komt er een dialoogscherm voor het opslaan, verwerpen of afbreken van de plots.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.editAxes </term>
+			<listitem>
+				<para
+>Opent de dialoog voor het bewerken van het coördinatenstelsel.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.toggleShowSlider </term>
+			<listitem>
+				<para
+>Toont/verbergt het venster met de schuifknoppen voor de parameters.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSave </term>
+			<listitem>
+				<para
+>De functies worden opgeslagen (opent de opslaan-dialoog als het een nieuw bestand betreft).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSaveas </term>
+			<listitem>
+				<para
+>Hetzelfde als het kiezen van <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Opslaan als...</guimenuitem
+></menuchoice
+> in het menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotPrint </term>
+			<listitem>
+				<para
+>Opent de dialoog voor het afdrukken.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotResetView </term>
+			<listitem>
+				<para
+>Hetzelfde als het kiezen van <menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Beeld terugzetten</guimenuitem
+></menuchoice
+> in het menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotExport </term>
+			<listitem>
+				<para
+>Opent de dialoog voor het exporteren.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSettings </term>
+			<listitem>
+				<para
+>Opent de dialoog voor de instellingen.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotNames </term>
+			<listitem>
+				<para
+>Toont een lijst van voorgedefinieerde wiskundige functies in het handboek.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMinimumValue </term>
+			<listitem>
+				<para
+>Hetzelfde als het kiezen van <menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Minimum bepalen...</guimenuitem
+></menuchoice
+> in het menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMaximumValue </term>
+			<listitem>
+				<para
+>Hetzelfde als het kiezen van <menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Maximum bepalen...</guimenuitem
+></menuchoice
+> in het menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.graphArea </term>
+			<listitem>
+				<para
+>Hetzelfde als het kiezen van <menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Plotgebied...</guimenuitem
+></menuchoice
+> in het menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.calculator </term>
+			<listitem>
+				<para
+>Hetzelfde als het kiezen van <menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Rekenmachine</guimenuitem
+></menuchoice
+> in het menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1 </term>
+			<listitem>
+				<para
+>Voegt een nieuwe functie toe met de expressie <parameter
+>f_str0</parameter
+> en <parameter
+>f_str1</parameter
+>.  Als er in de expressie geen functienaam voorkomt wordt automatisch een naam toegevoegd. Het id-getal (identificerend getal) van de nieuwe functie wordt geretourneerd, of -1 als de functie niet kon worden gedefinieerd.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.removeFunction id </term>
+			<listitem>
+				<para
+>Verwijdert de functie met id-getal <parameter
+>id</parameter
+>. Als de functie niet kan worden gewist wordt "false" (onwaar, hier dus: mislukt) geretourneerd, en anders "true" (waar, hier dus: gelukt).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.setFunctionExpression id eq f_str </term>
+			<listitem>
+				<para
+>Stelt de expressie voor de functie met id-getal <parameter
+>id</parameter
+> in op <parameter
+>f_str</parameter
+>. Als dit lukt wordt "true" (waar, hier dus: gelukt) geretourneerd, en anders "false" (onwaar, hier dus: mislukt).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.countFunctions </term>
+			<listitem>
+				<para
+>Retourneert het aantal functies (parametrische functies worden als twee functies geteld).</para>
+			</listitem>
+		</varlistentry>
+<!-- method double org.kde.kmplot.Parser.fkt(uint id, uint eq, double eq) what is this?-->
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.listFunctionNames </term>
+		  <listitem>
+		    <para
+>Retourneert een lijst van alle functies.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.fnameToID f_str </term>
+		  <listitem>
+		    <para
+>Retourneert het id-getal van <parameter
+>f_str</parameter
+> of -1 als de functienaam <parameter
+>f_str</parameter
+> niet kon worden gevonden.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFVisible id </term>
+		  <listitem>
+		    <para
+>Retourneert "true" (waar) als de functie met ID <parameter
+>id</parameter
+> zichtbaar is en anders "false" (onwaar).</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1Visible id </term>
+		  <listitem>
+		    <para
+>Retourneert "true" als de eerste afgeleide van de functie met ID <parameter
+>id</parameter
+> zichtbaar is en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2Visible id </term>
+		  <listitem>
+		    <para
+>Retourneert "true" als de tweede afgeleide van de functie met ID <parameter
+>id</parameter
+> zichtbaar is en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntVisible id </term>
+		  <listitem>
+		    <para
+>Retourneert "true" als de integraal van de functie met ID <parameter
+>id</parameter
+> zichtbaar is en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFVisible id visible </term>
+		  <listitem>
+		    <para
+>Toont de grafiek van de functie met ID <parameter
+>id</parameter
+> als <parameter
+>visible</parameter
+> (zichtbaar) "true" (waar) is. Als <parameter
+>visible</parameter
+> "false" (onwaar) is, wordt de grafiek van de functie niet getoond. "True" wordt teruggegeven als de functie bestaat, en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1Visible id visible </term>
+		  <listitem>
+		    <para
+>Toont de grafiek van de eerste afgeleide van de functie met ID <parameter
+>id</parameter
+> als <parameter
+>visible</parameter
+> "true" is. Als <parameter
+>visible</parameter
+> "false" is, wordt deze grafiek niet getoond. "True" wordt geretourneerd als de functie bestaat, en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2Visible id visible </term>
+		  <listitem>
+		    <para
+>Toont de grafiek van de tweede afgeleide van de functie met ID <parameter
+>id</parameter
+> als <parameter
+>visible</parameter
+> "true" is. Als <parameter
+>visible</parameter
+> "false" is, wordt deze grafiek niet getoond. "True" wordt geretourneerd als de functie bestaat, en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntVisible id visible </term>
+		  <listitem>
+		    <para
+>Toont de grafiek van de integraal van de functie met ID <parameter
+>id</parameter
+> als <parameter
+>visible</parameter
+> "true" is. Als <parameter
+>visible</parameter
+> "false" is, wordt deze grafiek niet getoond. "True" wordt geretourneerd als de functie bestaat, en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStr id eq </term>
+		  <listitem>
+		    <para
+>Retourneert de expressie van de functie met ID <parameter
+>id</parameter
+>. Als de functie niet bestaat wordt een lege expressie geretourneerd.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFLineWidth id </term>
+		  <listitem>
+		    <para
+>Retourneert de lijndikte van de grafiek van de functie met ID <parameter
+>id</parameter
+>. Als de functie niet bestaat wordt 0 geretourneerd.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1LineWidth id </term>
+		  <listitem>
+		    <para
+>Retourneert de lijndikte van de grafiek van de eerste afgeleide van de functie met ID <parameter
+>id</parameter
+>. Als de functie niet bestaat wordt 0 geretourneerd.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2LineWidth id </term>
+		  <listitem>
+		    <para
+>Retourneert de lijndikte van de grafiek van de tweede afgeleide van de functie met ID <parameter
+>id</parameter
+>. Als de functie niet bestaat wordt 0 geretourneerd.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntLineWidth id </term>
+		  <listitem>
+		    <para
+>Retourneert de lijndikte van de grafiek van de integraal van de functie met ID <parameter
+>id</parameter
+>. Als de functie niet bestaat wordt 0 geretourneerd.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Stelt de lijndikte in van de grafiek van de functie met ID <parameter
+>id</parameter
+> naar de lijndikte <parameter
+>linewidth</parameter
+>. "True" (waar) wordt geretourneerd als de functie bestaat, en anders "false" (onwaar).</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Stelt de lijndikte in van de grafiek van de eerste afgeleide van de functie met ID <parameter
+>id</parameter
+> naar de lijndikte <parameter
+>linewidth</parameter
+>. "True" wordt geretourneerd als de functie bestaat, en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Stelt de lijndikte in van de grafiek van de tweede afgeleide van de functie met ID <parameter
+>id</parameter
+> naar de lijndikte <parameter
+>linewidth</parameter
+>. "True" wordt geretourneerd als de functie bestaat, en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Stelt de lijndikte in van de grafiek van de integraal van de functie met ID <parameter
+>id</parameter
+> naar de lijndikte <parameter
+>linewidth</parameter
+>. "True" wordt geretourneerd als de functie bestaat, en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionParameterList id </term>
+		  <listitem>
+		    <para
+>Retourneert een lijst van alle parameterwaarden voor de functie met ID <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionAddParameter id new_parameter </term>
+		  <listitem>
+		    <para
+>Voegt de parameterwaarde <parameter
+>new_parameter</parameter
+> toe aan de functie met ID <parameter
+>id</parameter
+>. "True" (waar) wordt geretourneerd als dit is gelukt, en anders "false" (onwaar).</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionRemoveParameter id remove_parameter </term>
+		  <listitem>
+		    <para
+>Verwijdert de parameterwaarde <parameter
+>remove_parameter</parameter
+> van de functie met ID <parameter
+>id</parameter
+>. "True" wordt geretourneerd als dit is gelukt, en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMinValue id </term>
+		  <listitem>
+		    <para
+>Retourneert de ondergrens van het plotinterval van de functie met de naam <parameter
+>id</parameter
+>. Als de functie niet bestaat of als de ondergrens niet is gedefinieerd wordt een lege tekenrij ("empty string") geretourneerd.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMaxValue id </term>
+		  <listitem>
+		    <para
+>Retourneert de bovengrens van het plotinterval van de functie met naam <parameter
+>id</parameter
+>. Als de functie niet bestaat of als de bovengrens niet is gedefinieerd wordt een lege tekenreeks ("empty string") geretourneerd.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMinValue id min </term>
+		  <listitem>
+		    <para
+>Stelt de ondergrens in van het plotinterval van de functie met ID <parameter
+>id</parameter
+> op <parameter
+>min</parameter
+>. "True" (waar) wordt geretourneerd als de functie bestaat en de expressie in orde is, en anders "false" (onwaar).</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMaxValue id max </term>
+		  <listitem>
+		    <para
+>Stelt de bovengrens in van het plotinterval van de functie met ID <parameter
+>id</parameter
+> op <parameter
+>max</parameter
+>. "True" wordt geretourneerd als de functie bestaat en de expressie in orde is, en anders "false".</para>
+		  </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartXValue id </term>
+		  <listitem>
+		    <para
+>Retourneert de beginwaarde voor x van de integraal van de functie met naam <parameter
+>id</parameter
+>. Als de functie niet bestaat of als de expressie voor deze waarde van x niet is gedefinieerd, wordt een lege tekenrij ("empty string") geretourneerd.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartYValue id </term>
+		  <listitem>
+		    <para
+>Retourneert de beginwaarde voor y in van de integraal van de functie met naam <parameter
+>id</parameter
+>. Als de functie niet bestaat of als de expressie voor deze waarde van y niet is gedefinieerd, wordt een lege tekenrij ("empty string") geretourneerd.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionStartValue id x y </term>
+		  <listitem>
+		    <para
+>Stelt de beginwaarde van x in van de integraal van de functie met ID <parameter
+>id</parameter
+> op <parameter
+>x</parameter
+>. "True" (waar) wordt geretourneerd als de functie bestaat en de expressie in orde is, en anders "false" (onwaar).</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.stopDrawing </term>
+			<listitem>
+				<para
+>Als &kmplot; bezig is met het tekenen van de grafiek van een functie zal dit worden beëindigd.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.drawPlot </term>
+			<listitem>
+				<para
+>Opnieuw tekenen van de grafieken van alle functies.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<chapter id="credits">
+<title
+>Dankbetuigingen en Licentie</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Programma copyright 2000-2002 <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail; </para>
+
+<itemizedlist>
+<title
+>Met bijdragen van</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: &Robert.Gogolok; &Robert.Gogolok.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Het overzetten van de &GUI; naar &kde; 3 en de vertaling: Matthias Messmer <email
+>bmlmessmer@web.de</email
+></para>
+  </listitem>
+  <listitem>
+    <para
+>Diverse verbeteringen: Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>Overdragen naar Qt 4, verbeteringen van de gebruikersinterface: David Saxton <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>Documentatie copyright 2000--2002 van Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;. </para>
+<para
+>Documentatie uitgebreid en vernieuwd voor &kde; 3.2 door &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para
+>Documentatie uitgebreid en vernieuwd voor &kde; 3.3 door &Philip.Rodrigues; &Philip.Rodrigues.mail; en Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Documentatie uitgebreid en vernieuwd voor &kde; 3.4 door Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Documentatie uitgebreid en vernieuwd voor &kde; 4.0 door David Saxton <email
+>david@bluehaze.org</email
+>.</para>
+&meld.fouten;&vertaling.freek; &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

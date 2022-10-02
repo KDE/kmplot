@@ -1,0 +1,77 @@
+<chapter id="first-steps">
+<title
+>De eerste schreden met &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Plotten van een eenvoudige functie</title>
+	
+	<para
+>In de zijbalk links vindt u de knop <guilabel
+>Aanmaken</guilabel
+>, met een neerklapmenu voor het aanmaken van nieuwe plots. Klik hierop en selecteer <guilabel
+>Cartesische Plot</guilabel
+>. Het tekstvak waarin u de huidige functie kunt bewerken is nu beschikbaar. Vervang de standaard tekst met <screen
+><userinput
+>y = x^2</userinput
+></screen
+> en druk op &Enter;. Er wordt nu een plot getekend van y = x<superscript
+>2</superscript
+>. Klik nu nog een keer op de knop <guilabel
+>Nieuwe plot</guilabel
+>, selecteer <guilabel
+>Cartesische Plot</guilabel
+>, en voer nu de tekst <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> in, om nog een plot te tekenen. </para>
+	
+	<para
+>Klik op een van de grafieken die u zojuist heeft geplot. De kruisdraad krijgt de kleur van deze grafiek en is nu aan de grafiek gekoppeld. U kunt met de muis de kruisdraad langs de grafiek bewegen. In de statusbalk onder in het scherm kunt u de coördinaten van de positie steeds aflezen. Merk op dat als de kruisdraad de x-as raakt ook de wortel (x waarvoor de functie = 0 is) in de statusbalk kan worden afgelezen.</para>
+	
+	<para
+>Klik weer met de muis, de kruisdraad wordt nu ontkoppeld van de grafiek.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Bewerken van eigenschappen</title>
+	
+	<para
+>Laten we de functie en de kleur van de grafiek veranderen.</para>
+	
+	<para
+>In de zijbalk <guilabel
+>Functies</guilabel
+> worden alle functies genoemd die al geplot zijn. Als <guilabel
+>y = x^2</guilabel
+> nog niet is geselecteerd, selecteer het dan nu. U krijgt dan toegang tot een groot aantal opties. We gaan de functie hernoemen en de grafiek 5 eenheden omlaag verplaatsen. Vervang de functievergelijking in <screen
+><userinput
+>parabool(x) = x^2 - 5</userinput
+></screen
+> en druk op Enter. U kunt een andere kleur voor de plot kiezen door op de knop <guilabel
+>Uiterlijk</guilabel
+> onderin de functiebewerker te klikken en een andere kleur te selecteren. <note
+> <para
+>Alle veranderingen kunnen ongedaan worden gemaakt met <menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Ongedaan maken</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

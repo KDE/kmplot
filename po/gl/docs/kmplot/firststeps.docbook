@@ -1,0 +1,79 @@
+<chapter id="first-steps">
+<title
+>Primeiros pasos co &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Representación de funcións simples</title>
+	
+	<para
+>Na barra lateral da dereira hai un botón <guilabel
+>Crear</guilabel
+> cun menú despregábel para crear gráficas novas. Prémeo e selecciona <guilabel
+>Representación cartesiana</guilabel
+>. Resáltase o campo para modificar a ecuación seleccionada. Substitúe o texto que hai por <screen
+><userinput
+>y = x^2</userinput
+></screen
+> e preme &Enter;. Debúxase a gráfica de y = x<superscript
+>2</superscript
+> no sistema de coordenadas. Ao premer de novo o botón <guilabel
+>Crear</guilabel
+>, selecciona <guilabel
+>Representación cartesiana</guilabel
+> e esta vez introduce o texto <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> para obteres outra representación. </para>
+	
+	<para
+>Preme unha das funcións que acabas de representar. Agora a mira tomará a cor da curva escollida e estará unida a ela. Podes usar o rato para movela ao longo da curva. Na barra de estado ao fondo da xanela aparecen as coordenadas da posición actual. Lembra que se a curva toca o eixo das X, a raíz será mostrada na barra de estado.</para>
+	
+	<para
+>Preme o botón do rato de novo e a mira sepárase do debuxo.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Modificar as propiedades</title>
+	
+	<para
+>Fagamos algunhas mudanzas na función e cambiémoslle a cor.</para>
+	
+	<para
+>A barra lateral <guilabel
+>Funcións</guilabel
+> enumera todas as funcións representadas. Se aínda non está seleccionada <guilabel
+>y = x^2</guilabel
+>, selecciónaa. Aquí pódese acceder as un monte de opcións. Mudémoslle o nome á función e baixemos a representación 5 unidades. Muda a ecuación da función para <screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> e preme Intro. para escoller outra cor para a función, preme o botón <guilabel
+>Cor</guilabel
+> da sección <guilabel
+>Aparencia</guilabel
+> do fondo da barra lateral de funcións e escolle unha cor nova. <note
+> <para
+>Todas as alteración poden ser anuladas mediante <menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Desfacer</guimenuitem
+></menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

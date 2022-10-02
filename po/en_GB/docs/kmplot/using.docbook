@@ -1,0 +1,384 @@
+<chapter id="using-kmplot">
+<title
+>Using &kmplot;</title>
+
+<para
+>&kmplot; deals with named functions, which can be specified in terms of Cartesian coordinates (called <quote
+>explicit functions</quote
+>), polar coordinates or as parametric functions. To enter a function, choose <menuchoice
+><guimenu
+>Plot</guimenu
+><guimenuitem
+>Edit Plots...</guimenuitem
+> </menuchoice
+>. You can also enter new functions in the <guilabel
+>Function equation</guilabel
+> text box in the main &kmplot; window. The text box can handle explicit and polar functions. Each function you enter must have a unique name (&ie;, a name that is not taken by any of the existing functions displayed in the list box). A function name will be automatically generated if you do not specify one.</para>
+
+<para
+>For more information on &kmplot; functions, see <xref linkend="reference"/>. </para>
+
+<screenshot>
+<screeninfo
+>Here is a screenshot of the &kmplot; welcome window</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Screenshot</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+<title
+>Function Types</title>
+
+<sect2 id="explicit-functions">
+<title
+>Explicit Functions</title>
+<para
+>To enter an explicit function (&ie;, a function in the form y=f(x)) into &kmplot;, just enter it in the following form: <screen>
+<userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>)=<replaceable
+>expression</replaceable
+></userinput>
+</screen
+> Where: <itemizedlist>
+<listitem
+><para
+><replaceable
+>f</replaceable
+> is the name of the function, and can be any string of letters and numbers you like, provided it does not start with any of the letters x, y or r (since these are used for parametric and polar functions).</para>
+</listitem>
+
+<listitem
+><para
+><replaceable
+>x</replaceable
+> is the x-coordinate, to be used in the expression following the equals sign. It is in fact a dummy variable, so you can use any variable name you like, but the effect will be the same.</para>
+</listitem>
+
+<listitem>
+<para
+><replaceable
+>expression</replaceable
+> is the expression to be plotted, given in appropriate syntax for &kmplot;. See <xref linkend="math-syntax"/>. </para>
+</listitem>
+
+</itemizedlist>
+</para>
+<para
+>As an example, to draw the graph of y=x<superscript
+>2</superscript
+>+2x, enter the following into the functions dialogue of &kmplot;: <screen
+>f(x)=x^2+2x
+</screen>
+</para>
+</sect2>
+
+<sect2 id="parametric-functions">
+<title
+>Parametric Functions</title>
+<para
+>Parametric functions are those in which the x and y coordinates are defined by separate functions of another variable, often called t. To enter a parametric function in &kmplot;, follow the procedure as for an explicit function, but prefix the name of the function describing the x-coordinate with the letter x, and the function describing the y-coordinate with the letter y. As with explicit functions, you may use any variable name you wish for the parameter. To draw a parametric function, you must go to <guimenu
+>Functions</guimenu
+><guimenuitem
+>New Parametric Plot...</guimenuitem
+>. A function name will be created automatic if you do not specify one.</para>
+<para
+>As an example, suppose you want to draw a circle, which has parametric equations x=sin(t), y=cos(t). In the &kmplot; functions dialogue, do the following: <orderedlist
+> <listitem
+><para
+>Open the parametric plot dialogue with <menuchoice
+><guimenu
+>Plot</guimenu
+><guimenuitem
+>New Parametric Plot...</guimenuitem
+> </menuchoice
+>.</para
+> </listitem
+> <listitem
+><para
+>Enter a name for the function, say, <userinput
+>circle</userinput
+>, in the <guilabel
+>Name</guilabel
+> box. The names of the x and y functions change to match this name: the x function becomes <guilabel
+>xcircle(t)</guilabel
+> and the y function becomes <guilabel
+>ycircle(t)</guilabel
+>.</para
+> </listitem
+> <listitem
+> <para
+>In the x and y boxes, enter the appropriate equations, &ie;, <guilabel
+>xcircle(t)=</guilabel
+><userinput
+>sin(t)</userinput
+> and <guilabel
+>ycircle(t)=</guilabel
+><userinput
+>cos(t)</userinput
+>.</para
+> </listitem
+> </orderedlist
+> Click on <guibutton
+>OK</guibutton
+> and the function will be drawn. </para>
+<para
+>You can set some further options for the plot in this dialogue: <variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Hide</guilabel
+></term>
+<listitem>
+<para
+>If this option is selected, the plot is not drawn, but &kmplot; remembers the function definition, so you can use it to define other functions.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Custom Plot Range</guilabel
+></term>
+<listitem>
+<para
+>If this option is selected, you can change the maximum and minimum values of the parameter t for which the function is plotted using the <guilabel
+>min</guilabel
+> and <guilabel
+>max</guilabel
+> boxes.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Line width</guilabel
+></term>
+<listitem>
+<para
+>With this option you can set the width of the line drawn on the plot area, in units of 0.1mm.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Colour</guilabel
+></term>
+<listitem>
+<para
+>Click on the colour box and pick a colour in the dialogue that appears. The line on the plot will be drawn in this colour.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2 id="polar-functions">
+<title
+>Entering Functions in Polar Coordinates</title>
+
+<para
+>Polar coordinates represent a point by its distance from the origin (usually called r), and the angle a line from the origin to the point makes with the x-axis (usually represented by the Greek letter theta). To enter functions in polar coordinates, use the menu entry <menuchoice
+><guimenu
+>Plot</guimenu
+><guimenuitem
+>New Polar Plot...</guimenuitem
+> </menuchoice
+>. In the box labelled <guilabel
+>r</guilabel
+>, complete the function definition, including the name of the theta variable you want to use, &eg;, to draw the Archimedes' spiral r=theta, enter: <screen>
+<userinput>
+(theta)=theta
+</userinput>
+</screen
+> so that the whole line reads <quote
+>r(theta)=theta</quote
+>. Note that you can use any name for the theta variable, so <quote
+>r(foo)=foo</quote
+> would have produced exactly the same output. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="combining-functions">
+<title
+>Combining Functions</title>
+<para
+>Functions can be combined to produce new ones. Simply enter the functions after the equals sign in an expression as if the functions were variables. For example, if you have defined functions f(x) and g(x), you can plot the sum of f and g with: <screen
+><userinput>
+sum(x)=f(x)+g(x)
+</userinput
+>
+</screen>
+</para>
+<para
+>Note that you can only combine functions of the same type, &eg; an explicit function cannot be combined with a polar function.</para>
+</sect1>
+
+<sect1 id="function-appearance">
+<title
+>Changing the appearance of functions</title>
+
+<para
+>To change the appearance of a function's graph on the main plot window, select the function in the <guilabel
+>Edit Plots</guilabel
+> dialogue, and click on the <guibutton
+>Edit</guibutton
+> button. In the dialogue which appears, you can change the line width in the text box, and the colour of the function's graph by clicking on the colour button at the bottom. If you are editing an explicit function, you will see a dialogue with three tabs. In the first one you specify the equation of the function. The <guilabel
+>Derivatives</guilabel
+> tab lets you draw the first and second derivative to the function. With the <guilabel
+>Integral</guilabel
+> tab you can draw the integral of the function which is calculated using Euler's method. </para>
+<para
+>Another way to edit a function is to right click on the graph. In the popup menu that appears, choose <guibutton
+>Edit</guibutton
+></para>
+
+<para
+>For more information on the popup menu, see <xref linkend="popupmenu"/>. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+<title
+>Popup menu</title>
+
+<para
+>When right-clicking on a plot function or a single-point parametric plot function a popup menu will appear. In the menu there are seven items available:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Hide</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Hides the selected graph. Other plots of the graph's function will still be shown.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Remove</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Removes the function. All its graphs will disappear.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Edit</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Shows the editor dialogue for the selected function.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>For plot functions the following four items are also available:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Get y-value</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Opens a dialogue in which you can find the y-value corresponding to a specific x-value. The selected graph will be highlighted in the dialogue. Enter an x value in the <guilabel
+>X</guilabel
+> box, and click on <guibutton
+>Find</guibutton
+> (or press &Enter;). The corresponding y value will be shown under <guilabel
+>Y</guilabel
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Search for Minimum Value</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Find the minimum value of the graph in a specified range. The selected graph will be highlighted in the dialogue that appears. Enter the lower and upper boundaries of the region in which you want to search for a minimum, and click <guibutton
+>Find</guibutton
+>. The x and y values at the minimum will be shown.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Search for Maximum Value</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>This is the same as <guimenuitem
+>Search for minimum value</guimenuitem
+> above, but finds maximum values instead of minima. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenuitem
+>Area Under Graph</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Draws the area between the graph and the x-axis. The selected graph will be highlighted in the new dialogue that appears. For more information on the Search for Area Under Graph-feature, see <xref linkend="a-tools-menu"/>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+
+</sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

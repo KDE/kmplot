@@ -1,0 +1,83 @@
+<chapter id="introduction">
+<title
+>Wprowadzenie</title>
+	
+<para
+>&kmplot; jest programem do rysowania funkcji matematycznych dla środowiska &kde;. Zawiera wbudowany parser o dużych możliwościach. Możesz rysować różne funkcje jednocześnie i łączyć je by tworzyć nowe.</para>
+
+<screenshot>
+	<screeninfo
+>Przykłady</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Przykłady</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>Program &kmplot; pozwala na rysowanie wielu różnych rodzajów wykresów:</para>
+<itemizedlist>
+	<listitem
+><para
+>Wykresy kartezjańskie w formie y=f(x).</para
+></listitem>
+	<listitem
+><para
+>Wykresy parametryczne, gdzie parametry x i y określane są jako funkcja zmiennej niezależnej.</para
+></listitem>
+	<listitem
+><para
+>Wykresy biegunowe w formie r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Wykresy bezwarunkowe, dla których współrzędne x i y określane są przez wyrażenie.</para
+></listitem>
+	<listitem
+><para
+>Wykresy różnicowe.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Program &kmplot; posiada również kilka funkcji numerycznych i graficznych:</para>
+<itemizedlist>
+	<listitem
+><para
+>Wypełnianie i obliczanie pola powierzchni między wykresem i pierwszą osią</para>
+	</listitem>
+	<listitem
+><para
+>Wyszukiwanie wartości maksimum i minimum</para>
+	</listitem>
+	<listitem
+><para
+>Dynamiczną zmianę parametrów funkcji</para>
+	</listitem>
+	<listitem
+><para
+>Rysowanie funkcji pochodnych i całek.</para>
+	</listitem>
+</itemizedlist>
+
+<para
+>Te możliwości programu pozwalają na poznanie związków pomiędzy funkcją matematyczną, a jej graficzną reprezentacją w układzie współrzędnych.</para>
+
+</chapter>
+
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

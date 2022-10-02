@@ -1,0 +1,302 @@
+<chapter id="configuration">
+<title
+>Configurar o &kmplot;</title
+> 
+<para
+>Para aceder à janela de configuração do &kmplot;, seleccione a opção <menuchoice
+><guimenu
+>Configuração</guimenu
+><guimenuitem
+>Configurar o &kmplot;...</guimenuitem
+></menuchoice
+>. Existe um conjunto de opções (<guimenuitem
+>Constantes...</guimenuitem
+> e <guimenuitem
+>Sistema de Coordenadas...</guimenuitem
+>) que só poderão ser modificados no menu <guimenu
+>Editar</guimenu
+> e <guimenu
+>Ver</guimenu
+>, respectivamente. </para>
+
+<sect1 id="general-config">
+	<title
+>Configuração <guilabel
+>Geral</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>imagem da janela de Configuração Geral</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>imagem da janela de Configuração Geral</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Aqui você poderá definir as opções globais que serão gravadas automaticamente quando você sair do &kmplot;. Na primeira página, você poderá definir a precisão do cálculo, o modo angular (radianos e graus), os factores de ampliação e redução, assim como se deve mostrar o seguimento avançado do gráfico. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Configuração do <guilabel
+>Diagrama</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Imagem da janela de Aparência do Diagrama</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Imagem da janela de Aparência do Diagrama</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Você poderá definir o <guilabel
+>Estilo da Grelha</guilabel
+> para uma das quatro opções: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Nenhum</guilabel
+></term>
+				<listitem>
+					<para
+>Não são desenhadas nenhumas linhas de grelhas na área de desenho</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Linhas</guilabel
+></term>
+				<listitem>
+					<para
+>As linhas a direito formam um grelha de quadrados na área de desenho.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Cruzes</guilabel
+></term>
+				<listitem>
+					<para
+>São desenhadas algumas cruzes para indicar os pontos em que o 'x' e o 'y' têm valores inteiros (&eg;, (1,1), (4,2) &etc;).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Polar</guilabel
+></term>
+				<listitem>
+					<para
+>São desenhadas grelhas de raio e ângulo constantes na área de desenho.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para
+>Poderão ser configuradas outras opções para a aparência do diagrama: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Largura do eixo:</guilabel
+></term>
+				<listitem>
+					<para
+>Define a largura das linhas que representam os eixos.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Largura da linha:</guilabel
+></term>
+				<listitem>
+					<para
+>Define a largura das linhas usadas para desenhar a grelha.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Largura do traço:</guilabel
+></term>
+				<listitem>
+					<para
+>Define a espessura das linhas que representam os traços nos eixos.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Comprimento do traço:</guilabel
+></term>
+				<listitem>
+					<para
+>Define o comprimento das linhas que representam os traços nos eixos.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostrar o texto</guilabel
+></term>
+				<listitem>
+					<para
+>Se estiver assinalado, os nomes (x, y) dos eixos são mostrados no gráfico e os traços dos eixos estão legendados.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostrar os eixos</guilabel
+></term>
+				<listitem>
+					<para
+>Se a opção estiver assinalada, os eixos ficarão visíveis.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostrar setas</guilabel
+></term>
+				<listitem>
+					<para
+>Se a opção estiver assinalada, os eixos são mostrados com setas nos seus extremos.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Configuração das <guilabel
+>Cores</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Imagem da janela de Cores</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Imagem da janela de Cores</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Na página <guilabel
+>Coordenadas</guilabel
+> da opção de configuração <guilabel
+>Cores</guilabel
+>, você poderá modificar as cores dos eixos e a grelha da área principal do &kmplot;. </para>
+	
+	<para
+>As <guilabel
+>Cores Predefinidas das Funções</guilabel
+> permitem alterar as cores usadas para os gráficos das funções, funcionando de forma cíclica.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>A Configuração dos <guilabel
+>Tipos de Letra</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Imagem da janela de Tipos de Letra</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Imagem da janela de Tipos de Letra</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Legendas dos eixos</guilabel
+></term>
+			<listitem>
+				<para
+>O tipo de letra usado para desenhar os números dos eixos e as legendas em X/Y.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Legenda do diagrama</guilabel
+></term>
+			<listitem>
+				<para
+>O tipo de letra usado para desenhar as legendas dos diagramas (&eg;, as que mostram o nome do gráfico e os pontos extremos).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Tabela do cabeçalho</guilabel
+></term>
+			<listitem>
+				<para
+>O tipo de letra usado para desenhar o cabeçalho ao imprimir um gráfico.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

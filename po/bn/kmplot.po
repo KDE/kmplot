@@ -1,0 +1,4145 @@
+# translation of kmplot.po to Bengali
+# Bangla translation of Kmplot.
+# Copyright (C) 2004-2006 KDE Foundation.
+# This file is distributed under the same license as the Kmplot package.
+#
+# Progga <progga@BengaLinux.Org>, 2004-2006.
+# Deepayan Sarkar <deepayan@stat.wisc.edu>, 2005.
+# Deepayan Sarkar <deepayan.sarkar@gmail.com>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: kmplot\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"PO-Revision-Date: 2006-04-24 01:19-0500\n"
+"Last-Translator: Progga <progga@BengaLinux.Org>\n"
+"Language-Team: Bengali <kde-translation@bengalinux.org>\n"
+"Language: bn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "প্রজ্ঞা"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "progga@BengaLinux.Org"
+
+#: calculator.cpp:31
+#, fuzzy, kde-format
+#| msgid "&Calculate"
+msgctxt "@title:window"
+msgid "Calculator"
+msgstr "&গণনা করো"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ConstantsEditor)
+#: constantseditor.ui:14
+#, kde-format
+msgid "Constant Editor"
+msgstr "ধ্রুবক সম্পাদক"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, valueInvalidLabel)
+#: constantseditor.ui:26 qparametereditor.ui:22
+#, kde-format
+msgid "The value must be a number (e.g. \"pi^2\")"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, valueInvalidLabel)
+#: constantseditor.ui:29 qparametereditor.ui:25
+#, kde-format
+msgid "(invalid)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: constantseditor.ui:54
+#, kde-format
+msgid "Value:"
+msgstr "মান"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: constantseditor.ui:64
+#, fuzzy, kde-format
+msgid "Constant:"
+msgstr "ধ্রুবক"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, valueEdit)
+#: constantseditor.ui:74
+#, kde-format
+msgid "Enter an expression that evaluates to a number"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdNew)
+#: constantseditor.ui:83 qparametereditor.ui:39
+#, kde-format
+msgid "Add a new constant"
+msgstr "নতুন ধ্রুবক যোগ করো"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, cmdNew)
+#: constantseditor.ui:86 qparametereditor.ui:42
+#, kde-format
+msgid "Click this button to add a new constant."
+msgstr "নতুন একটি ধ্রুবক যোগ করার জন্য এই বাটনে ক্লিক করুন।"
+
+#. i18n: ectx: property (text), widget (QPushButton, cmdNew)
+#: constantseditor.ui:89 qparametereditor.ui:45
+#, fuzzy, kde-format
+msgid "&New"
+msgstr "&নতুন..."
+
+#. i18n: ectx: property (text), widget (QTreeWidget, constantList)
+#: constantseditor.ui:103
+#, fuzzy, kde-format
+msgid "Constant"
+msgstr "ধ্রুবক"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, constantList)
+#: constantseditor.ui:108
+#, kde-format
+msgid "Value"
+msgstr "মান"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, constantList)
+#: constantseditor.ui:113
+#, kde-format
+msgid "Document"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, constantList)
+#: constantseditor.ui:118
+#, kde-format
+msgid "Global"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdDelete)
+#: constantseditor.ui:142
+#, fuzzy, kde-format
+msgid "Delete the selected constant"
+msgstr "নির্বাচিত ধ্রুবক মুছে ফেলো"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, cmdDelete)
+#: constantseditor.ui:145 qparametereditor.ui:58
+#, kde-format
+msgid ""
+"Click here to delete the selected constant; it can only be removed if it is "
+"not currently used by a plot."
+msgstr ""
+"বাছাইকৃত ধ্রুবকটি মুছে ফেলার জন্য এখানে ক্লিক করুন; তবে এটি শুধুমাত্র তখনি মোছা যাবে "
+"যখন এটি কোন প্লট কর্তৃক ব্যবহৃত হবে না।"
+
+#. i18n: ectx: property (text), widget (QPushButton, cmdDelete)
+#. i18n: ectx: property (text), widget (QPushButton, deleteButton)
+#: constantseditor.ui:148 functioneditorwidget.ui:56 qparametereditor.ui:61
+#, fuzzy, kde-format
+msgid "&Delete"
+msgstr "ডিগ্রি (&ড)"
+
+#: coordsconfigdialog.cpp:42
+#, fuzzy, kde-format
+msgid "Coordinates"
+msgstr "১ম স্থানাঙ্ক পদ্ধতি"
+
+#: coordsconfigdialog.cpp:42
+#, fuzzy, kde-format
+msgid "Coordinate System"
+msgstr "১ম স্থানাঙ্ক পদ্ধতি"
+
+#: coordsconfigdialog.cpp:43
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Coordinate System"
+msgstr "১ম স্থানাঙ্ক পদ্ধতি"
+
+#: coordsconfigdialog.cpp:76 coordsconfigdialog.cpp:102
+#, kde-format
+msgid "The minimum range value must be lower than the maximum range value"
+msgstr "নিম্নসীমার মান উর্ধ্বসীমা অপেক্ষা কম হতে হবে"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: editcoords.ui:20
+#, kde-format
+msgid "Horizontal axis Range"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel4_2)
+#. i18n: ectx: property (text), widget (QLabel, textLabel4_3)
+#. i18n: ectx: property (text), widget (QCheckBox, cartesianCustomMax)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: editcoords.ui:32 editcoords.ui:116 functioneditorwidget.ui:135
+#: functioneditorwidget.ui:496 functioneditorwidget.ui:627 functiontools.ui:49
+#: sliderwidget.ui:80
+#, kde-format
+msgid "Max:"
+msgstr "সর্বোচ্চ:"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_XMax)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_XMin)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_YMax)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_YMin)
+#: editcoords.ui:45 editcoords.ui:55 editcoords.ui:93 editcoords.ui:129
+#, kde-format
+msgid "Custom boundary of the plot range"
+msgstr "স্বনির্বাচিত প্লট সীমা"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMin)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_YMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_YMin)
+#: editcoords.ui:48 editcoords.ui:58 editcoords.ui:96 editcoords.ui:132
+#, kde-format
+msgid "Enter a valid expression, for instance 2*pi or e/2."
+msgstr "একটি বৈধ মান লিখুন, যেমন 2*pi বা e/2 ।"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel4)
+#. i18n: ectx: property (text), widget (QLabel, textLabel4_4)
+#. i18n: ectx: property (text), widget (QCheckBox, cartesianCustomMin)
+#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: editcoords.ui:65 editcoords.ui:103 functioneditorwidget.ui:148
+#: functioneditorwidget.ui:486 functioneditorwidget.ui:617 functiontools.ui:29
+#: sliderwidget.ui:57
+#, kde-format
+msgid "Min:"
+msgstr "সর্বনিম্ন:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: editcoords.ui:81
+#, kde-format
+msgid "Vertical axis Range"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, kcfg_XScalingMode)
+#: editcoords.ui:142
+#, kde-format
+msgid "Horizontal axis Grid Spacing"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton)
+#. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton_3)
+#: editcoords.ui:148 editcoords.ui:184
+#, kde-format
+msgid ""
+"Automatic grid spacing is independent of zoom; there will be a fixed number "
+"of tics."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
+#: editcoords.ui:151 editcoords.ui:187
+#, fuzzy, kde-format
+msgid "Automatic"
+msgstr "স্বয়ংক্রিয়"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_4)
+#: editcoords.ui:161 editcoords.ui:197
+#, kde-format
+msgid "Custom:"
+msgstr "স্বনির্বাচিত:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, kcfg_YScalingMode)
+#: editcoords.ui:178
+#, kde-format
+msgid "Vertical axis Grid Spacing"
+msgstr ""
+
+#: equationeditor.cpp:27
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Equation Editor"
+msgstr "সমীকরণ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: equationeditorwidget.ui:31
+#, fuzzy, kde-format
+msgid "Expression:"
+msgstr "বর্ধিতাংশ"
+
+#. i18n: ectx: property (text), widget (QPushButton, constantsButton)
+#: equationeditorwidget.ui:54
+#, fuzzy, kde-format
+msgid "Edit Constants..."
+msgstr "ধ্রুবক সম্পাদন করো"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, constantList)
+#: equationeditorwidget.ui:75
+#, fuzzy, kde-format
+msgid "Insert constant..."
+msgstr "নতুন ধ্রুবক যোগ করো"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, functionList)
+#: equationeditorwidget.ui:84
+#, fuzzy, kde-format
+msgid "Insert function..."
+msgstr "ফাংশন স্থানান্ত&র করো..."
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
+#: equationeditorwidget.ui:129
+#, kde-format
+msgid "²"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_26)
+#: equationeditorwidget.ui:136
+#, kde-format
+msgid "±"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_28)
+#: equationeditorwidget.ui:149
+#, kde-format
+msgid "⁶"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_20)
+#: equationeditorwidget.ui:156
+#, kde-format
+msgid "√"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_4)
+#: equationeditorwidget.ui:169
+#, kde-format
+msgid "³"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_18)
+#: equationeditorwidget.ui:182
+#, kde-format
+msgid "∣"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_19)
+#: equationeditorwidget.ui:189
+#, kde-format
+msgid "≥"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_27)
+#: equationeditorwidget.ui:196
+#, kde-format
+msgid "≤"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_25)
+#: equationeditorwidget.ui:209
+#, kde-format
+msgid "⁵"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_5)
+#: equationeditorwidget.ui:222
+#, kde-format
+msgid "⁴"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_2)
+#: equationeditorwidget.ui:261
+#, kde-format
+msgid "π"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_16)
+#: equationeditorwidget.ui:268
+#, kde-format
+msgid "ω"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
+#: equationeditorwidget.ui:275
+#, kde-format
+msgid "β"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_14)
+#: equationeditorwidget.ui:282
+#, kde-format
+msgid "α"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton)
+#: equationeditorwidget.ui:295
+#, kde-format
+msgid "λ"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_13)
+#: equationeditorwidget.ui:308
+#, kde-format
+msgid "μ"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_15)
+#: equationeditorwidget.ui:315
+#, kde-format
+msgid "φ"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
+#: equationeditorwidget.ui:328
+#, kde-format
+msgid "θ"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_24)
+#: equationeditorwidget.ui:361
+#, kde-format
+msgid "⅘"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_21)
+#: equationeditorwidget.ui:368
+#, kde-format
+msgid "⅕"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
+#: equationeditorwidget.ui:375
+#, kde-format
+msgid "¼"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
+#: equationeditorwidget.ui:382
+#, kde-format
+msgid "⅔"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_22)
+#: equationeditorwidget.ui:389
+#, kde-format
+msgid "⅖"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_23)
+#: equationeditorwidget.ui:396
+#, kde-format
+msgid "⅗"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
+#: equationeditorwidget.ui:403
+#, kde-format
+msgid "¾"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
+#: equationeditorwidget.ui:410
+#, kde-format
+msgid "½"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
+#: equationeditorwidget.ui:417
+#, kde-format
+msgid "⅓"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_17)
+#: equationeditorwidget.ui:424
+#, kde-format
+msgid "⅙"
+msgstr ""
+
+#: functioneditor.cpp:46
+#, fuzzy, kde-format
+#| msgid "Functions:"
+msgid "Functions"
+msgstr "ফাংশন:"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, deleteButton)
+#: functioneditorwidget.ui:50
+#, kde-format
+msgid "delete the selected function"
+msgstr "নির্বাচিত ফাংশন মুছে ফেলুন"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
+#: functioneditorwidget.ui:53
+#, kde-format
+msgid "Click here to delete the selected function from the list."
+msgstr "তালিকা থেকে নির্বাচিত ফাংশন মুছে ফেলার জন্য এখানে ক্লিক করুন।"
+
+#. i18n: ectx: property (text), widget (QPushButton, createNewPlot)
+#: functioneditorwidget.ui:76
+#, kde-format
+msgid "Create"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: functioneditorwidget.ui:102 functioneditorwidget.ui:742
+#, kde-format
+msgid "Function"
+msgstr "ফাংশন"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: functioneditorwidget.ui:117
+#, fuzzy, kde-format
+msgid "Custom plot range"
+msgstr "প্লটের সীমা স্বনির্বাচন করুন"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, cartesianCustomMax)
+#: functioneditorwidget.ui:129
+#, kde-format
+msgid "Customize the maximum plot range"
+msgstr "প্লটের সর্বোচ্চ-সীমা স্বনির্বাচন করুন"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMax)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMin)
+#: functioneditorwidget.ui:132 functioneditorwidget.ui:145
+#, fuzzy, kde-format
+#| msgid "Check this button and enter the plot range boundarys below."
+msgid "Check this button and enter the plot range boundaries below."
+msgstr "এই বাটনে ক্লিক করুন এবং নিচে প্লটের সীমা লিখুন।"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, cartesianCustomMin)
+#: functioneditorwidget.ui:142
+#, kde-format
+msgid "Customize the minimum plot range"
+msgstr "প্লটের সর্বনিম্ন-সীমা স্বনির্বাচন করুন"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, cartesianMin)
+#: functioneditorwidget.ui:158
+#, kde-format
+msgid "lower boundary of the plot range"
+msgstr "প্লটের নিম্নসীমা"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMin)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMin)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, polarMin)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, min)
+#: functioneditorwidget.ui:161 functioneditorwidget.ui:512
+#: functioneditorwidget.ui:600 functiontools.ui:42
+#, kde-format
+msgid ""
+"Enter the lower boundary of the plot range. Expressions like 2*pi are "
+"allowed, too."
+msgstr "প্লটের নিম্নসীমা লিখুন।  2*pi ধরনের মান লিখলেও কোন সমস্যা নেই।"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, cartesianMax)
+#: functioneditorwidget.ui:171
+#, kde-format
+msgid "upper boundary of the plot range"
+msgstr "প্লটের উর্ধ্বসীমা"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, polarMax)
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, max)
+#: functioneditorwidget.ui:174 functioneditorwidget.ui:525
+#: functioneditorwidget.ui:610 functiontools.ui:62
+#, kde-format
+msgid ""
+"Enter the upper boundary of the plot range. Expressions like 2*pi are "
+"allowed, too."
+msgstr "প্লটের উর্ধ্বসীমা লিখুন।  2*pi ধরনের মান লিখলেও কোন সমস্যা নেই।"
+
+#. i18n: ectx: property (title), widget (ParametersWidget, cartesianParameters)
+#. i18n: ectx: property (title), widget (ParametersWidget, parametricParameters)
+#. i18n: ectx: property (title), widget (ParametersWidget, polarParameters)
+#. i18n: ectx: property (title), widget (ParametersWidget, implicitParameters)
+#. i18n: ectx: property (title), widget (ParametersWidget, differentialParameters)
+#. i18n: ectx: property (windowTitle), widget (QWidget, ParametersWidget)
+#: functioneditorwidget.ui:184 functioneditorwidget.ui:535
+#: functioneditorwidget.ui:640 functioneditorwidget.ui:714
+#: functioneditorwidget.ui:796 parameterswidget.ui:13 view.cpp:2131
+#, fuzzy, kde-format
+msgid "Parameters"
+msgstr "পরামিতি:"
+
+#. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f0)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_integral)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, parametric_f0)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, polar_f0)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, implicit_f0)
+#. i18n: ectx: property (title), widget (PlotStyleWidget, differential_f0)
+#: functioneditorwidget.ui:191 functioneditorwidget.ui:378
+#: functioneditorwidget.ui:542 functioneditorwidget.ui:647
+#: functioneditorwidget.ui:721 functioneditorwidget.ui:803
+#, kde-format
+msgid "Appearance"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
+#: functioneditorwidget.ui:199
+#, kde-format
+msgid "Derivatives"
+msgstr "বৃদ্ধিহার (derivative)"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, showDerivative1)
+#: functioneditorwidget.ui:211
+#, kde-format
+msgid "Show first derivative"
+msgstr "১ম বৃদ্ধিহার (derivative) দেখাও"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative1)
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative2)
+#: functioneditorwidget.ui:214 functioneditorwidget.ui:237
+#, kde-format
+msgid "If this box is checked, the first derivative will be plotted, too."
+msgstr "এই বাক্সে টিক দেওয়া থাকলে প্রথম অন্তরক সহগ (derivative) প্লটও আঁকা হবে।"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showDerivative1)
+#: functioneditorwidget.ui:217
+#, kde-format
+msgid "Show &1st derivative"
+msgstr "১ম বৃদ্ধিহার (derivative) দেখাও (&প)"
+
+#. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f1)
+#: functioneditorwidget.ui:227
+#, fuzzy, kde-format
+msgid "1st derivative"
+msgstr "১ম বৃদ্ধিহার (derivative) দেখাও (&প)"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, showDerivative2)
+#: functioneditorwidget.ui:234
+#, kde-format
+msgid "Show second derivative"
+msgstr "২য় বৃদ্ধিহার (derivative) দেখাও"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showDerivative2)
+#: functioneditorwidget.ui:240
+#, kde-format
+msgid "Show &2nd derivative"
+msgstr "২য় বৃদ্ধিহার (derivative) দেখাও (&দ)"
+
+#. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f2)
+#: functioneditorwidget.ui:250
+#, fuzzy, kde-format
+msgid "2nd derivative"
+msgstr "২য় বৃদ্ধিহার (derivative) দেখাও (&দ)"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: functioneditorwidget.ui:258
+#, kde-format
+msgid "Integral"
+msgstr "যোজিত ফল (integral)"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, showIntegral)
+#. i18n: ectx: property (text), widget (QCheckBox, showIntegral)
+#: functioneditorwidget.ui:267 functioneditorwidget.ui:273
+#, kde-format
+msgid "Show integral"
+msgstr "যোজিত ফল (integral) দেখাও"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, showIntegral)
+#: functioneditorwidget.ui:270
+#, fuzzy, kde-format
+#| msgid "If this box is checked, the first derivative will be plotted, too."
+msgid "If this box is checked, the integral will be plotted, too."
+msgstr "এই বাক্সে টিক দেওয়া থাকলে প্রথম অন্তরক সহগ (derivative) প্লটও আঁকা হবে।"
+
+#. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_6)
+#: functioneditorwidget.ui:283
+#, kde-format
+msgid "A point on the solution curve"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
+#: functioneditorwidget.ui:286
+#, kde-format
+msgid "Initial Point"
+msgstr "প্রাথমিক বিন্দু"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_5)
+#: functioneditorwidget.ui:298
+#, fuzzy, kde-format
+msgid "&x:"
+msgstr "সর্বোচ্চ (&চ):"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2)
+#: functioneditorwidget.ui:308
+#, kde-format
+msgid "&y:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, txtInitX)
+#: functioneditorwidget.ui:318
+#, kde-format
+msgid "Enter the initial x-point,for instance 2 or pi"
+msgstr "প্রাথমিক এক্স-অক্ষীয় মান লিখুন, যেমন 2 বা পাই"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitX)
+#: functioneditorwidget.ui:321
+#, kde-format
+msgid ""
+"Enter the initial x-value or expression for the integral, for example 2 or "
+"pi/2"
+msgstr "প্রাথমিক এক্স-অক্ষীয় মান অথবা যোজিত ফলের মান লিখুন, যেমন 2 বা pi/2"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, txtInitY)
+#: functioneditorwidget.ui:328
+#, kde-format
+msgid "enter the initial y-point, eg 2 or pi"
+msgstr "প্রাথমিক ওয়াই-অক্ষীয় মান লিখুন, যেমন 2 বা পাই"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitY)
+#: functioneditorwidget.ui:331
+#, kde-format
+msgid ""
+"Enter the initial y-value or expression for the integral, for example 2 or "
+"pi/2"
+msgstr "প্রাথমিক ওয়াই-অক্ষীয় মান অথবা যোজিত ফলের রাশি লিখুন, যেমন 2 বা pi/2"
+
+#. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_8)
+#. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_10)
+#: functioneditorwidget.ui:344 functioneditorwidget.ui:765
+#, kde-format
+msgid "The maximum step size used in numerically calculating the solution"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_10)
+#: functioneditorwidget.ui:347 functioneditorwidget.ui:768
+#, kde-format
+msgid "Precision"
+msgstr "নিখুঁত হওয়ার মাত্রা"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: functioneditorwidget.ui:359 functioneditorwidget.ui:780
+#: parameteranimator.ui:71
+#, kde-format
+msgid "Step:"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_11)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_12)
+#: functioneditorwidget.ui:412 functioneditorwidget.ui:559
+#: functioneditorwidget.ui:664
+#, kde-format
+msgid "Definition"
+msgstr "সংজ্ঞা"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabelX)
+#: functioneditorwidget.ui:424
+#, fuzzy, kde-format
+msgid "x:"
+msgstr "x"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, parametricX)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, parametricY)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, implicitEquation)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, differentialEquation)
+#: functioneditorwidget.ui:434 functioneditorwidget.ui:459
+#: functioneditorwidget.ui:700 functioneditorwidget.ui:751
+#, fuzzy, kde-format
+msgid "Enter an expression"
+msgstr "একটি মান লিখুন"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricX)
+#: functioneditorwidget.ui:439
+#, kde-format
+msgid ""
+"Enter an expression for the function.\n"
+"The dummy variable is t.\n"
+"Example: cos(t)"
+msgstr ""
+"ফাংশনের জন্য একটি মান লিখুন।\n"
+"নকল চলকটি হল t ।\n"
+"উদাহরণ: cos(t)"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabelY)
+#: functioneditorwidget.ui:449
+#, fuzzy, kde-format
+msgid "y:"
+msgstr "y"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricY)
+#: functioneditorwidget.ui:464
+#, kde-format
+msgid ""
+"Enter an expression for the function.\n"
+"The dummy variable is t.\n"
+"Example: sin(t)"
+msgstr ""
+"ফাংশনের জন্য একটি মান লিখুন।\n"
+"নকল চলকটি হল t ।\n"
+"উদাহরণ: sin(t)"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_9)
+#: functioneditorwidget.ui:474
+#, fuzzy, kde-format
+msgid "Plot range"
+msgstr "পূর্বনির্ধারিত প্লট সীমা"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, parametricMin)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, polarMin)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, min)
+#: functioneditorwidget.ui:509 functioneditorwidget.ui:597 functiontools.ui:39
+#, kde-format
+msgid "Lower boundary of the plot range"
+msgstr "প্লটের নিম্নসীমা"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, parametricMax)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, polarMax)
+#. i18n: ectx: property (toolTip), widget (EquationEdit, max)
+#: functioneditorwidget.ui:522 functioneditorwidget.ui:607 functiontools.ui:59
+#, kde-format
+msgid "Upper boundary of the plot range"
+msgstr "প্লটের উর্ধ্বসীমা"
+
+#. i18n: ectx: property (toolTip), widget (EquationEdit, polarEquation)
+#: functioneditorwidget.ui:571
+#, fuzzy, kde-format
+msgid "Enter an equation"
+msgstr "একটি মান লিখুন"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, polarEquation)
+#: functioneditorwidget.ui:575
+#, fuzzy, kde-format
+#| msgid ""
+#| "Enter an equation for the function.\n"
+#| "Example: f(x)=x^2"
+msgid ""
+"Enter an expression for the function. \n"
+"Example: loop(a)=ln(a)"
+msgstr ""
+"ফাংশনটির জন্য একটি সমীকরণ লিখুন।\n"
+"উদাহরণ: f(x)=x^2"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_13)
+#: functioneditorwidget.ui:585
+#, fuzzy, kde-format
+msgid "Plot Range"
+msgstr "প্লট ক্ষেত্র"
+
+#. i18n: ectx: property (toolTip), widget (KLineEdit, implicitName)
+#: functioneditorwidget.ui:676
+#, fuzzy, kde-format
+msgid "Name of the function"
+msgstr "ফাংশনের নাম"
+
+#. i18n: ectx: property (whatsThis), widget (KLineEdit, implicitName)
+#: functioneditorwidget.ui:680
+#, kde-format
+msgid ""
+"Enter the name of the function.\n"
+"The name of a function must be unique. If you leave this line empty KmPlot "
+"will set a default name. You can change it later."
+msgstr ""
+"ফাংশনের নাম লিখুন।\n"
+"ফাংশনের নাম হতে হবে অদ্বিতীয়।  এই ঘরটি যদি ফাঁকা রাখেন তবে কে-এমপ্লট নিজ থেকেই "
+"ডিফল্ট নাম হিসেবেকিছু একটা বেছে নিবে।  তবে এই নাম আপনি পরেও পরিবর্তন করতে "
+"পারবেন।"
+
+#. i18n: ectx: property (text), widget (KLineEdit, implicitName)
+#: functioneditorwidget.ui:683
+#, kde-format
+msgid "f(x,y)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel4_2)
+#: functioneditorwidget.ui:690
+#, kde-format
+msgid "Name:"
+msgstr "নাম:"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, implicitEquation)
+#: functioneditorwidget.ui:704
+#, fuzzy, kde-format
+msgid ""
+"Enter an expression for the function.\n"
+"Example: x^2 + y^2 = 25."
+msgstr ""
+"ফাংশনের জন্য একটি মান লিখুন।\n"
+"নকল চলকটি হল t ।\n"
+"উদাহরণ: cos(t)"
+
+#. i18n: ectx: property (whatsThis), widget (EquationEdit, differentialEquation)
+#: functioneditorwidget.ui:755
+#, fuzzy, kde-format
+#| msgid ""
+#| "Enter an equation for the function.\n"
+#| "Example: f(x)=x^2"
+msgid ""
+"Enter an expression for the function.\n"
+"Example: f''(x) = -f"
+msgstr ""
+"ফাংশনটির জন্য একটি সমীকরণ লিখুন।\n"
+"উদাহরণ: f(x)=x^2"
+
+#. i18n: ectx: property (text), widget (EquationEdit, differentialEquation)
+#: functioneditorwidget.ui:758
+#, kde-format
+msgid "f''(x) = -f"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#. i18n: ectx: property (windowTitle), widget (QWidget, InitialConditionsWidget)
+#: functioneditorwidget.ui:811 initialconditionswidget.ui:13
+#, fuzzy, kde-format
+msgid "Initial Conditions"
+msgstr "প্রাথমিক বিন্দু"
+
+#: functiontools.cpp:59 functiontools.cpp:65
+#, fuzzy, kde-format
+msgid "Search between:"
+msgstr "এই এক্স-অক্ষীয়-মানগুলোর মধ্যে খোঁজো:"
+
+#: functiontools.cpp:60
+#, fuzzy, kde-format
+#| msgid "Find Minimum Point"
+msgctxt "@title:window"
+msgid "Find Minimum Point"
+msgstr "সর্বনিম্ন বিন্দু খোঁজো"
+
+#: functiontools.cpp:66
+#, fuzzy, kde-format
+#| msgid "Find Maximum Point"
+msgctxt "@title:window"
+msgid "Find Maximum Point"
+msgstr "সর্বোচ্চ বিন্দু খোঁজো"
+
+#: functiontools.cpp:71
+#, fuzzy, kde-format
+msgid "Calculate the area between:"
+msgstr "এক্স-অক্ষীয় মানদ্বয়ের মধ্যবর্তী যোজিত ফল গণনা করো:"
+
+#: functiontools.cpp:72
+#, kde-format
+msgctxt "@title:window"
+msgid "Area Under Graph"
+msgstr ""
+
+#: functiontools.cpp:176
+#, kde-format
+msgid "Minimum is at x = %1, %2(x) = %3"
+msgstr ""
+
+#: functiontools.cpp:186
+#, kde-format
+msgid "Maximum is at x = %1, %2(x) = %3"
+msgstr ""
+
+#: functiontools.cpp:201
+#, kde-format
+msgid "Area is %1"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, FunctionTools)
+#: functiontools.ui:14
+#, fuzzy, kde-format
+msgid "Function Tools"
+msgstr "ফাংশন:"
+
+#. i18n: ectx: property (text), widget (QLabel, rangeTitle)
+#: functiontools.ui:22
+#, kde-format
+msgid "<>:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, rangeResult)
+#: functiontools.ui:69
+#, kde-format
+msgid "<>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, removeButton)
+#: initialconditionswidget.ui:49
+#, kde-format
+msgid "Remove"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, addButton)
+#: initialconditionswidget.ui:56
+#, kde-format
+msgid "Add..."
+msgstr ""
+
+#: kconstanteditor.cpp:54
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Constants Editor"
+msgstr "ধ্রুবক সম্পাদক"
+
+#: kconstanteditor.cpp:116
+#, kde-format
+msgid "Check this to have the constant exported when saving."
+msgstr ""
+
+#: kconstanteditor.cpp:119
+#, kde-format
+msgid ""
+"Check this to have the constant permanently available between instances of "
+"KmPlot."
+msgstr ""
+
+#: kgradientdialog.cpp:339
+#, kde-format
+msgid "(Double-click on the gradient to add a stop)"
+msgstr ""
+
+#: kgradientdialog.cpp:340
+#, kde-format
+msgid "Remove stop"
+msgstr ""
+
+#: kgradientdialog.cpp:364
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Choose a Gradient"
+msgstr "পরামিতি বেছে নিন"
+
+# FIXME
+#: kmplot.cpp:70
+#, kde-format
+msgid "Could not find KmPlot's part."
+msgstr "কে-এমপ্লট এর অংশ খুঁজে পাওয়া যায় নি।"
+
+#: kmplot.cpp:169 maindlg.cpp:508
+#, fuzzy, kde-format
+#| msgid ""
+#| "*.fkt|KmPlot Files (*.fkt)\n"
+#| "*|All Files"
+msgid "KmPlot Files (*.fkt);;All Files (*)"
+msgstr ""
+"*.fkt|কে-এমপ্লট ফাইল (*.fkt)\n"
+"*|সকল ফাইল"
+
+#: kmplot.cpp:169
+#, kde-format
+msgid "Open"
+msgstr ""
+
+#. i18n: ectx: label, entry (AxesLineWidth), group (Coordinate System)
+#: kmplot.kcfg:12
+#, kde-format
+msgid "Axis-line width"
+msgstr "অক্ষীয় রেখার প্রস্থ"
+
+#. i18n: ectx: whatsthis, entry (AxesLineWidth), group (Coordinate System)
+#: kmplot.kcfg:13
+#, kde-format
+msgid "Enter the width of the axis lines."
+msgstr "অক্ষীয় রেখার প্রস্থ লিখুন।"
+
+#. i18n: ectx: label, entry (ShowLabel), group (Coordinate System)
+#: kmplot.kcfg:17
+#, kde-format
+msgid "Checked if labels are visible"
+msgstr "লেবেল দৃশ্যমান হলে এখানে টিক দেওয়া থাকবে"
+
+#. i18n: ectx: whatsthis, entry (ShowLabel), group (Coordinate System)
+#: kmplot.kcfg:18
+#, kde-format
+msgid "Check this box if the labels at the tics should be shown."
+msgstr "টিক-এর লেবেল প্রদর্শন করতে হলে এই বাক্সে টিক দিন।"
+
+#. i18n: ectx: label, entry (ShowAxes), group (Coordinate System)
+#: kmplot.kcfg:22
+#, kde-format
+msgid "Checked if axes are visible"
+msgstr "অক্ষরেখা দৃশ্যমান হলে এখানে টিক দেওয়া থাকবে"
+
+#. i18n: ectx: whatsthis, entry (ShowAxes), group (Coordinate System)
+#: kmplot.kcfg:23
+#, kde-format
+msgid "Check this box if axes should be shown."
+msgstr "অক্ষরেখা প্রদর্শন করতে হলে এই বাক্সে টিক দিন।"
+
+#. i18n: ectx: label, entry (ShowArrows), group (Coordinate System)
+#: kmplot.kcfg:27
+#, kde-format
+msgid "Checked if arrows are visible"
+msgstr "তীরচিহ্ন দৃশ্যমান হলে এখানে টিক দেওয়া থাকবে"
+
+#. i18n: ectx: whatsthis, entry (ShowArrows), group (Coordinate System)
+#: kmplot.kcfg:28
+#, kde-format
+msgid "Check this box if axes should have arrows."
+msgstr "তীরচিহ্ন প্রদর্শন করতে হলে এই বাক্সে টিক দিন।"
+
+#. i18n: ectx: label, entry (GridLineWidth), group (Coordinate System)
+#: kmplot.kcfg:32
+#, kde-format
+msgid "Grid Line Width"
+msgstr "গ্রীড রেখার প্রস্থ"
+
+#. i18n: ectx: whatsthis, entry (GridLineWidth), group (Coordinate System)
+#: kmplot.kcfg:33
+#, kde-format
+msgid "Enter the width of the grid lines."
+msgstr "গ্রীড রেখার প্রস্থ লিখুন।"
+
+#. i18n: ectx: property (title), widget (QGroupBox, kcfg_GridStyle)
+#. i18n: ectx: label, entry (GridStyle), group (Coordinate System)
+#: kmplot.kcfg:37 settingspagediagram.ui:20
+#, kde-format
+msgid "Grid Style"
+msgstr "গ্রীড-এর ধরন"
+
+#. i18n: ectx: whatsthis, entry (GridStyle), group (Coordinate System)
+#: kmplot.kcfg:38
+#, kde-format
+msgid "Choose a suitable grid style."
+msgstr "একটি মানানসই গ্রীডের ধরন বেছে নিন।"
+
+#. i18n: ectx: label, entry (TicLength), group (Coordinate System)
+#: kmplot.kcfg:42
+#, kde-format
+msgid "Tic length"
+msgstr "টিক-এর দৈর্ঘ্য"
+
+#. i18n: ectx: whatsthis, entry (TicLength), group (Coordinate System)
+#: kmplot.kcfg:43
+#, kde-format
+msgid "Enter the length of the tic lines"
+msgstr "টিক রেখার দৈর্ঘ্য লিখুন"
+
+#. i18n: ectx: label, entry (TicWidth), group (Coordinate System)
+#: kmplot.kcfg:47
+#, kde-format
+msgid "Tic width"
+msgstr "টিক-এর প্রস্থ"
+
+#. i18n: ectx: whatsthis, entry (TicWidth), group (Coordinate System)
+#: kmplot.kcfg:48
+#, kde-format
+msgid "Enter the width of the tic lines."
+msgstr "টিক রেখার প্রস্থ লিখুন।"
+
+#. i18n: ectx: label, entry (XMin), group (Coordinate System)
+#: kmplot.kcfg:52
+#, kde-format
+msgid "Left boundary"
+msgstr "বামপ্রান্তীয় সীমানা"
+
+#. i18n: ectx: whatsthis, entry (XMin), group (Coordinate System)
+#: kmplot.kcfg:53
+#, kde-format
+msgid "Enter the left boundary of the plotting area."
+msgstr "প্লট-ক্ষেত্রের বামপ্রান্তীয় সীমানা লিখুন।"
+
+#. i18n: ectx: label, entry (XMax), group (Coordinate System)
+#: kmplot.kcfg:57
+#, kde-format
+msgid "Right boundary"
+msgstr "ডানপ্রান্তীয় সীমানা"
+
+#. i18n: ectx: whatsthis, entry (XMax), group (Coordinate System)
+#: kmplot.kcfg:58
+#, kde-format
+msgid "Enter the right boundary of the plotting area."
+msgstr "প্লট-ক্ষেত্রের ডানপ্রান্তীয় সীমানা লিখুন।"
+
+#. i18n: ectx: label, entry (YMin), group (Coordinate System)
+#: kmplot.kcfg:62
+#, kde-format
+msgid "Lower boundary"
+msgstr "নিম্ন সীমানা"
+
+#. i18n: ectx: whatsthis, entry (YMin), group (Coordinate System)
+#: kmplot.kcfg:63
+#, kde-format
+msgid "Enter the lower boundary of the plotting area."
+msgstr "প্লট-ক্ষেত্রের নিম্ন সীমানা লিখুন।"
+
+#. i18n: ectx: label, entry (YMax), group (Coordinate System)
+#: kmplot.kcfg:67
+#, kde-format
+msgid "Upper boundary"
+msgstr "উর্ধ্ব সীমানা"
+
+#. i18n: ectx: whatsthis, entry (YMax), group (Coordinate System)
+#: kmplot.kcfg:68
+#, kde-format
+msgid "Enter the upper boundary of the plotting area."
+msgstr "প্লট-ক্ষেত্রের উর্ধ্ব সীমানা লিখুন।"
+
+#. i18n: ectx: label, entry (LabelHorizontalAxis), group (Coordinate System)
+#: kmplot.kcfg:72
+#, kde-format
+msgid "Label to Horizontal Axis"
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (LabelHorizontalAxis), group (Coordinate System)
+#: kmplot.kcfg:73
+#, kde-format
+msgid "Label to Horizontal Axis."
+msgstr ""
+
+#. i18n: ectx: label, entry (LabelVerticalAxis), group (Coordinate System)
+#: kmplot.kcfg:77
+#, kde-format
+msgid "Label to Vertical Axis"
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (LabelVerticalAxis), group (Coordinate System)
+#: kmplot.kcfg:78
+#, kde-format
+msgid "Label to Vertical Axis."
+msgstr ""
+
+#. i18n: ectx: label, entry (XScalingMode), group (Scaling)
+#. i18n: ectx: label, entry (YScalingMode), group (Scaling)
+#: kmplot.kcfg:85 kmplot.kcfg:90
+#, kde-format
+msgid "Whether to use automatic or custom scaling."
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (XScalingMode), group (Scaling)
+#. i18n: ectx: whatsthis, entry (YScalingMode), group (Scaling)
+#: kmplot.kcfg:86 kmplot.kcfg:91
+#, kde-format
+msgid "Select whether to use automatic or custom scaling."
+msgstr ""
+
+#. i18n: ectx: label, entry (XScaling), group (Scaling)
+#: kmplot.kcfg:95
+#, kde-format
+msgid "Width of a unit from tic to tic"
+msgstr "দুটি টিক-এর মধ্যবর্তী প্রতি এককের প্রস্থ"
+
+#. i18n: ectx: whatsthis, entry (XScaling), group (Scaling)
+#: kmplot.kcfg:96
+#, kde-format
+msgid "Enter the width of a unit from tic to tic."
+msgstr "দুটি টিক-এর মধ্যবর্তী প্রতি এককের প্রস্থ লিখুন।"
+
+#. i18n: ectx: label, entry (YScaling), group (Scaling)
+#: kmplot.kcfg:100
+#, kde-format
+msgid "Height of a unit from tic to tic"
+msgstr "দুটি টিক-এর মধ্যবর্তী প্রতি এককের উচ্চতা"
+
+#. i18n: ectx: whatsthis, entry (YScaling), group (Scaling)
+#: kmplot.kcfg:101
+#, kde-format
+msgid "Enter the height of a unit from tic to tic."
+msgstr "দুটি টিক-এর মধ্যবর্তী প্রতি এককের উচ্চতা লিখুন।"
+
+#. i18n: ectx: label, entry (AxesFont), group (Fonts)
+#: kmplot.kcfg:108
+#, fuzzy, kde-format
+msgid "Font of the axis labels"
+msgstr "অক্ষীয় লেবেলে ব্যবহৃত ফন্টের নাম"
+
+#. i18n: ectx: whatsthis, entry (AxesFont), group (Fonts)
+#: kmplot.kcfg:109
+#, fuzzy, kde-format
+msgid "Choose a font for the axis labels."
+msgstr "অক্ষীয় লেবেলে ব্যবহারের জন্য একটি ফন্ট বেছে নিন।"
+
+#. i18n: ectx: label, entry (HeaderTableFont), group (Fonts)
+#: kmplot.kcfg:113
+#, fuzzy, kde-format
+msgid "Font of the printed header table"
+msgstr "মুদ্রিত হেডার সারণীতে ব্যবহৃত ফন্টের নাম"
+
+#. i18n: ectx: whatsthis, entry (HeaderTableFont), group (Fonts)
+#: kmplot.kcfg:114
+#, fuzzy, kde-format
+msgid "Choose a font for the table printed at the top of the page."
+msgstr "পৃষ্ঠার উর্ধ্বাংশে মুদ্রিত সারণীর জন্য একটি ফন্ট বেছে নিন।"
+
+#. i18n: ectx: label, entry (LabelFont), group (Fonts)
+#: kmplot.kcfg:118
+#, fuzzy, kde-format
+msgid "Font of diagram labels"
+msgstr "অক্ষীয় লেবেলে ব্যবহৃত ফন্টের নাম"
+
+#. i18n: ectx: whatsthis, entry (LabelFont), group (Fonts)
+#: kmplot.kcfg:119
+#, fuzzy, kde-format
+msgid "Choose a font for diagram labels."
+msgstr "অক্ষীয় লেবেলে ব্যবহারের জন্য একটি ফন্ট বেছে নিন।"
+
+#. i18n: ectx: label, entry (AxesColor), group (Colors)
+#: kmplot.kcfg:126
+#, kde-format
+msgid "Axis-line color"
+msgstr "অক্ষীয়-রেখার রং"
+
+#. i18n: ectx: whatsthis, entry (AxesColor), group (Colors)
+#: kmplot.kcfg:127
+#, kde-format
+msgid "Enter the color of the axis lines."
+msgstr "অক্ষীয় রেখার রং লিখুন।"
+
+#. i18n: ectx: label, entry (GridColor), group (Colors)
+#: kmplot.kcfg:131
+#, kde-format
+msgid "Grid Color"
+msgstr "গ্রীডের রং"
+
+#. i18n: ectx: whatsthis, entry (GridColor), group (Colors)
+#: kmplot.kcfg:132
+#, kde-format
+msgid "Choose a color for the grid lines."
+msgstr "গ্রীড রেখার জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color0), group (Colors)
+#: kmplot.kcfg:136
+#, kde-format
+msgid "Color of function 1"
+msgstr "১ম ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color0), group (Colors)
+#: kmplot.kcfg:137
+#, kde-format
+msgid "Choose a color for function 1."
+msgstr "১ম ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color1), group (Colors)
+#: kmplot.kcfg:141
+#, kde-format
+msgid "Color of function 2"
+msgstr "২য় ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color1), group (Colors)
+#: kmplot.kcfg:142
+#, kde-format
+msgid "Choose a color for function 2."
+msgstr "২য় ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color2), group (Colors)
+#: kmplot.kcfg:146
+#, kde-format
+msgid "Color of function 3"
+msgstr "৩য় ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color2), group (Colors)
+#: kmplot.kcfg:147
+#, kde-format
+msgid "Choose a color for function 3."
+msgstr "৩য় ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color3), group (Colors)
+#: kmplot.kcfg:151
+#, kde-format
+msgid "Color of function 4"
+msgstr "৪র্থ ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color3), group (Colors)
+#: kmplot.kcfg:152
+#, kde-format
+msgid "Choose a color for function 4."
+msgstr "৪র্থ ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color4), group (Colors)
+#: kmplot.kcfg:156
+#, kde-format
+msgid "Color of function 5"
+msgstr "৫ম ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color4), group (Colors)
+#: kmplot.kcfg:157
+#, kde-format
+msgid "Choose a color for function 5."
+msgstr "৫ম ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color5), group (Colors)
+#: kmplot.kcfg:161
+#, kde-format
+msgid "Color of function 6"
+msgstr "৬ষ্ঠ ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color5), group (Colors)
+#: kmplot.kcfg:162
+#, kde-format
+msgid "Choose a color for function 6."
+msgstr "৬ষ্ঠ ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color6), group (Colors)
+#: kmplot.kcfg:166
+#, kde-format
+msgid "Color of function 7"
+msgstr "৭ম ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color6), group (Colors)
+#: kmplot.kcfg:167
+#, kde-format
+msgid "Choose a color for function 7."
+msgstr "৭ম ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color7), group (Colors)
+#: kmplot.kcfg:171
+#, kde-format
+msgid "Color of function 8"
+msgstr "৮ম ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color7), group (Colors)
+#: kmplot.kcfg:172
+#, kde-format
+msgid "Choose a color for function 8."
+msgstr "৮ম ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color8), group (Colors)
+#: kmplot.kcfg:176
+#, kde-format
+msgid "Color of function 9"
+msgstr "৯ম ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color8), group (Colors)
+#: kmplot.kcfg:177
+#, kde-format
+msgid "Choose a color for function 9."
+msgstr "৯ম ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (Color9), group (Colors)
+#: kmplot.kcfg:181
+#, kde-format
+msgid "Color of function 10"
+msgstr "১০ ফাংশনের রং"
+
+#. i18n: ectx: whatsthis, entry (Color9), group (Colors)
+#: kmplot.kcfg:182
+#, kde-format
+msgid "Choose a color for function 10."
+msgstr "১০ম ফাংশনের জন্য একটি রং বেছে নিন।"
+
+#. i18n: ectx: label, entry (anglemode), group (General)
+#: kmplot.kcfg:189
+#, kde-format
+msgid "Radians instead of degrees"
+msgstr "ডিগ্রির পরিবর্তে রেডিয়ান"
+
+#. i18n: ectx: whatsthis, entry (anglemode), group (General)
+#: kmplot.kcfg:190
+#, kde-format
+msgid "Check the box if you want to use radians"
+msgstr "রেডিয়ান ব্যবহার করতে চাইলে এই বাক্সে টিক দিন"
+
+#. i18n: ectx: label, entry (backgroundcolor), group (General)
+#: kmplot.kcfg:194
+#, kde-format
+msgid "Background color"
+msgstr "পটভূমির রং"
+
+#. i18n: ectx: whatsthis, entry (backgroundcolor), group (General)
+#: kmplot.kcfg:195
+#, kde-format
+msgid "The background color for the graph"
+msgstr "লেখচিত্রের পটভূমির রং"
+
+#. i18n: ectx: label, entry (zoomInStep), group (General)
+#: kmplot.kcfg:199
+#, kde-format
+msgid "Zoom-in step"
+msgstr "বিবর্ধন বৃদ্ধির মাত্রা"
+
+#. i18n: ectx: whatsthis, entry (zoomInStep), group (General)
+#: kmplot.kcfg:200
+#, kde-format
+msgid "The value the zoom-in tool should use"
+msgstr "বিবর্ধনের ক্ষেত্রে যে মান ব্যবহার করা হবে"
+
+#. i18n: ectx: label, entry (zoomOutStep), group (General)
+#: kmplot.kcfg:204
+#, kde-format
+msgid "Zoom-out step"
+msgstr "আকার হ্রাসের মাত্রা"
+
+#. i18n: ectx: whatsthis, entry (zoomOutStep), group (General)
+#: kmplot.kcfg:205
+#, kde-format
+msgid "The value the zoom-out tool should use"
+msgstr "ক্ষুদ্রাকারে প্রদর্শনের ক্ষেত্রে যে মান ব্যবহার করা হবে"
+
+#. i18n: ectx: label, entry (DetailedTracing), group (General)
+#: kmplot.kcfg:209
+#, kde-format
+msgid "Extra detail when tracing"
+msgstr ""
+
+#. i18n: ectx: whatsthis, entry (DetailedTracing), group (General)
+#: kmplot.kcfg:210
+#, kde-format
+msgid ""
+"Whether to show extra detail such as the tangent and normal when tracing a "
+"plot."
+msgstr ""
+
+#. i18n: ectx: Menu (edit)
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#, fuzzy, kde-format
+msgid "&Edit"
+msgstr "&সম্পাদন..."
+
+#. i18n: ectx: Menu (view)
+#: kmplot_part.rc:20 kmplot_part_readonly.rc:15
+#, fuzzy, kde-format
+msgid "&View"
+msgstr "লুকা&ও"
+
+#. i18n: ectx: Menu (tools)
+#: kmplot_part.rc:30 kmplot_part_readonly.rc:26
+#, fuzzy, kde-format
+msgid "&Tools"
+msgstr "স্থানাঙ্ক (&স)"
+
+#. i18n: ectx: Menu (help)
+#: kmplot_part.rc:39 kmplot_part_readonly.rc:35 kmplot_shell.rc:13
+#, fuzzy, kde-format
+msgid "&Help"
+msgstr "লুকা&ও"
+
+#. i18n: ectx: Menu (file)
+#: kmplot_shell.rc:4
+#, fuzzy, kde-format
+msgid "&File"
+msgstr "&অনুসন্ধান"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: kmplot_shell.rc:17
+#, kde-format
+msgid "Main Toolbar"
+msgstr ""
+
+#: kmplotio.cpp:288
+#, kde-format
+msgid "The file had an unknown version number"
+msgstr "ফাইলটিতে একটি অজ্ঞাত সংস্করণ সংখ্যা দেওয়া ছিল"
+
+#: kmplotio.cpp:306 kparametereditor.cpp:204
+#, kde-format
+msgid "The file does not exist."
+msgstr "এ রকম কোন ফাইল নেই।"
+
+#: kmplotio.cpp:313
+#, fuzzy, kde-format
+msgid "An error appeared when opening this file (%1)"
+msgstr "এই ফাইলটি খোলার সময় একটি সমস্যা হয়েছে"
+
+#: kmplotio.cpp:326
+#, fuzzy, kde-format
+msgid "%1 could not be opened"
+msgstr "ফাংশন পাওয়া যায় নি।"
+
+#: kmplotio.cpp:332
+#, kde-format
+msgid "%1 could not be loaded (%2 at line %3, column %4)"
+msgstr ""
+
+#: kmplotio.cpp:395
+#, kde-format
+msgid "automatic"
+msgstr "স্বয়ংক্রিয়"
+
+#: kmplotio.cpp:720
+#, kde-format
+msgid "The function %1 could not be loaded"
+msgstr "%1 ফাংশনটি লোড করা যায় নি"
+
+#: kparametereditor.cpp:42
+#, fuzzy, kde-format
+#| msgid "Parameter Editor"
+msgctxt "@title:window"
+msgid "Parameter Editor"
+msgstr "পরামিতি সম্পাদক"
+
+#: kparametereditor.cpp:199
+#, fuzzy, kde-format
+#| msgid "Parameter Value"
+msgid "Open Parameter File"
+msgstr "পরামিতির মান"
+
+#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#, fuzzy, kde-format
+#| msgid "*.txt|Plain Text File "
+msgid "Plain Text File (*.txt)"
+msgstr "*.txt|সাধারণ টেক্সট ফাইল"
+
+#: kparametereditor.cpp:214
+#, fuzzy, kde-format
+msgid "An error appeared when opening this file: %1"
+msgstr "এই ফাইলটি খোলার সময় একটি সমস্যা হয়েছে"
+
+#: kparametereditor.cpp:243
+#, kde-format
+msgid ""
+"Line %1 is not a valid parameter value and will therefore not be included. "
+"Do you want to continue?"
+msgstr ""
+"%1 লাইনটি কোন বৈধ পরামিতির মান নয় এবং এ কারণে একে আর নতুন করে যোগ করা হবে "
+"না।  এ অবস্থায় আপনি কি এগিয়ে যেতে চান?"
+
+#: kparametereditor.cpp:249
+#, kde-format
+msgid "Would you like to be informed about other lines that cannot be read?"
+msgstr ""
+"অন্যান্য যে সব লাইন পড়া যাচ্ছে না, তাদের ব্যাপারেও কি আপনাকে অবহিত করা হবে?"
+
+#: kparametereditor.cpp:251
+#, kde-format
+msgid "Get Informed"
+msgstr "ওয়াকিবহাল থাকুন"
+
+#: kparametereditor.cpp:252
+#, kde-format
+msgid "Ignore Information"
+msgstr "তথ্য অগ্রাহ্য করুন"
+
+#: kparametereditor.cpp:259
+#, kde-format
+msgid "An error appeared when opening this file"
+msgstr "এই ফাইলটি খোলার সময় একটি সমস্যা হয়েছে"
+
+#: kparametereditor.cpp:269
+#, kde-format
+msgid "Save File"
+msgstr ""
+
+#: kparametereditor.cpp:276
+#, kde-format
+msgid ""
+"A file named \"%1\" already exists. Are you sure you want to continue and "
+"overwrite this file?"
+msgstr ""
+"\"%1\" নামে একটি ফাইল ইতিমধ্যেই বিদ্যমান।  এ অবস্থায় আপনি কি এই ফাইলটির ওপর "
+"দিয়েই লিখতে চান?"
+
+#: kparametereditor.cpp:277
+#, kde-format
+msgid "Overwrite File?"
+msgstr "ফাইলের ওপর দিয়েই লেখা হবে কি?"
+
+#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#, kde-format
+msgid "An error appeared when saving this file"
+msgstr "এই ফাইলটি সংরক্ষণের সময় একটি সমস্যা হয়েছে"
+
+#: kprinterdlg.cpp:31
+#, fuzzy, kde-format
+#| msgid "KmPlot Options"
+msgctxt "@title:window"
+msgid "KmPlot Options"
+msgstr "কে-এমপ্লট-এর অপশন"
+
+#: kprinterdlg.cpp:35
+#, kde-format
+msgid "Print header table"
+msgstr "হেডার সারণী ছাপাও"
+
+#: kprinterdlg.cpp:36
+#, kde-format
+msgid "Transparent background"
+msgstr "স্বচ্ছ পটভূমি"
+
+#: kprinterdlg.cpp:45
+#, kde-format
+msgid "Pixels (1/72nd in)"
+msgstr ""
+
+#: kprinterdlg.cpp:46
+#, kde-format
+msgid "Inches (in)"
+msgstr ""
+
+#: kprinterdlg.cpp:47
+#, kde-format
+msgid "Centimeters (cm)"
+msgstr ""
+
+#: kprinterdlg.cpp:48
+#, kde-format
+msgid "Millimeters (mm)"
+msgstr ""
+
+#: kprinterdlg.cpp:52
+#, fuzzy, kde-format
+msgid "Width:"
+msgstr "টিক-এর প্রস্থ:"
+
+#: kprinterdlg.cpp:53
+#, kde-format
+msgid "Height:"
+msgstr ""
+
+#: kprinterdlg.cpp:122
+#, kde-format
+msgid "Width is invalid"
+msgstr ""
+
+#: kprinterdlg.cpp:128
+#, kde-format
+msgid "Height is invalid"
+msgstr ""
+
+#: ksliderwindow.cpp:28
+#, fuzzy, kde-format
+msgid "Slider %1"
+msgstr "স্লাইডার %1"
+
+#: ksliderwindow.cpp:34
+#, kde-format
+msgid ""
+"Move slider to change the parameter of the function plot connected to this "
+"slider."
+msgstr ""
+"এই স্লাইডারের সাথে ফাংশন প্লটের যে পরামিতি যুক্ত, তা পরিবর্তনের জন্য স্লাইডার সরান।"
+
+#: ksliderwindow.cpp:79
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Sliders"
+msgstr "স্লাইডার"
+
+#: main.cpp:42
+#, kde-format
+msgid "KmPlot"
+msgstr "কে-এমপ্লট"
+
+#: main.cpp:44
+#, fuzzy, kde-format
+#| msgid "Mathematical function plotter for KDE"
+msgid "Mathematical function plotter by KDE"
+msgstr "কে.ডি.ই.'র গাণিতিক ফাংশন প্লটার।"
+
+#: main.cpp:46
+#, kde-format
+msgid "(c) 2000-2002, Klaus-Dieter Möller"
+msgstr ""
+
+#: main.cpp:50
+#, kde-format
+msgid "Klaus-Dieter Möller"
+msgstr ""
+
+#: main.cpp:50
+#, kde-format
+msgid "Original Author"
+msgstr "মূল লেখক"
+
+#: main.cpp:51
+#, kde-format
+msgid "Matthias Meßmer"
+msgstr ""
+
+#: main.cpp:51
+#, kde-format
+msgid "GUI"
+msgstr "জি.ইউ.আই."
+
+#: main.cpp:52
+#, kde-format
+msgid "Fredrik Edemar"
+msgstr ""
+
+#: main.cpp:52
+#, kde-format
+msgid "Various improvements"
+msgstr "বিভিন্ন উন্নতি"
+
+#: main.cpp:53
+#, kde-format
+msgid "David Saxton"
+msgstr ""
+
+#: main.cpp:53
+#, kde-format
+msgid "Porting to Qt 4, UI improvements, features"
+msgstr ""
+
+#: main.cpp:55
+#, kde-format
+msgid "David Vignoni"
+msgstr ""
+
+#: main.cpp:55
+#, kde-format
+msgid "svg icon"
+msgstr "svg আইকন"
+
+#: main.cpp:56
+#, kde-format
+msgid "Albert Astals Cid"
+msgstr ""
+
+#: main.cpp:56
+#, kde-format
+msgid "command line options, MIME type"
+msgstr "কমান্ড লাইন অপশন, মাইম-এর ধরন"
+
+#: main.cpp:60
+#, fuzzy, kde-format
+msgid "Initial functions to plot"
+msgstr "যে সকল ফাংশনের প্লট আঁকা হবে তাদের তালিকা"
+
+#: main.cpp:60
+#, kde-format
+msgid "argument"
+msgstr ""
+
+#: main.cpp:61
+#, fuzzy, kde-format
+#| msgid "File to open"
+msgid "URLs to open"
+msgstr "যে ফাইলটি খোলা হবে"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
+#: maindlg.cpp:187 settingspagegeneral.ui:14
+#, kde-format
+msgid "General"
+msgstr "সাধারণ"
+
+#: maindlg.cpp:187
+#, kde-format
+msgid "General Settings"
+msgstr "সাধারণ বৈশিষ্ট্য"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
+#: maindlg.cpp:188 settingspagediagram.ui:14
+#, kde-format
+msgid "Diagram"
+msgstr ""
+
+#: maindlg.cpp:188
+#, kde-format
+msgid "Diagram Appearance"
+msgstr ""
+
+#: maindlg.cpp:189
+#, kde-format
+msgid "Colors"
+msgstr "রঙ"
+
+#: maindlg.cpp:190
+#, fuzzy, kde-format
+msgid "Fonts"
+msgstr "&ফন্ট..."
+
+#: maindlg.cpp:217
+#, kde-format
+msgid "Configure KmPlot..."
+msgstr "কে-এমপ্লট'কে কনফিগার করো..."
+
+#: maindlg.cpp:223
+#, kde-format
+msgid "E&xport..."
+msgstr "&রপ্তানী..."
+
+#: maindlg.cpp:236
+#, kde-format
+msgid "&Coordinate System..."
+msgstr "স্থানাঙ্ক &পদ্ধতি..."
+
+#: maindlg.cpp:241
+#, fuzzy, kde-format
+msgid "&Constants..."
+msgstr "ধ্রুবক"
+
+#: maindlg.cpp:250
+#, kde-format
+msgid "Zoom &In"
+msgstr "বি&বর্ধন"
+
+#: maindlg.cpp:256
+#, kde-format
+msgid "Zoom &Out"
+msgstr "ক্ষুদ্রাকারে প্র&দর্শন"
+
+#: maindlg.cpp:262
+#, kde-format
+msgid "&Fit Widget to Trigonometric Functions"
+msgstr "&উইজেটকে ত্রিকোণমিতিক ফাংশনে বসাও"
+
+#: maindlg.cpp:266
+#, kde-format
+msgid "Reset View"
+msgstr ""
+
+#: maindlg.cpp:271
+#, fuzzy, kde-format
+msgid "Show Sliders"
+msgstr "স্লাইডার প্রদর্শন করো (&ল)"
+
+#: maindlg.cpp:277
+#, fuzzy, kde-format
+#| msgid "&Calculate"
+msgid "Calculator"
+msgstr "&গণনা করো"
+
+#: maindlg.cpp:282
+#, fuzzy, kde-format
+msgid "Plot &Area..."
+msgstr "প্লট ক্ষেত্র"
+
+#: maindlg.cpp:286
+#, fuzzy, kde-format
+msgid "Find Ma&ximum..."
+msgstr "সর্বোচ্চ বিন্দু খোঁজো"
+
+#: maindlg.cpp:291
+#, fuzzy, kde-format
+msgid "Find Mi&nimum..."
+msgstr "সর্বনিম্ন বিন্দু খোঁজো"
+
+#: maindlg.cpp:298
+#, fuzzy, kde-format
+#| msgid "Predefined &Math Functions"
+msgctxt "@action:inmenu Help"
+msgid "Predefined &Math Functions"
+msgstr "পূর্বনির্ধারিত গাণিতিক ফাংশ&ন"
+
+#: maindlg.cpp:305
+#, fuzzy, kde-format
+msgid "Cartesian Plot"
+msgstr "প্লট ছাপাও"
+
+#: maindlg.cpp:311
+#, fuzzy, kde-format
+msgid "Parametric Plot"
+msgstr "নতুন পরামিতিজনিত প্লট"
+
+#: maindlg.cpp:317
+#, fuzzy, kde-format
+msgid "Polar Plot"
+msgstr "নতুন পোলার প্লট"
+
+#: maindlg.cpp:323
+#, fuzzy, kde-format
+msgid "Implicit Plot"
+msgstr "পোলার প্লট সম্পাদন করো"
+
+#: maindlg.cpp:329
+#, fuzzy, kde-format
+msgid "Differential Plot"
+msgstr "প্রাথমিক বিন্দু"
+
+#: maindlg.cpp:344
+#, kde-format
+msgid "&Hide"
+msgstr "লুকা&ও"
+
+#: maindlg.cpp:349
+#, fuzzy, kde-format
+msgid "&Remove"
+msgstr "স্থানান্তর (&স)"
+
+#: maindlg.cpp:357
+#, fuzzy, kde-format
+msgid "Animate Plot..."
+msgstr "ফাংশন সম্পাদন করো..."
+
+#: maindlg.cpp:368
+#, kde-format
+msgid "Copy (x, y)"
+msgstr ""
+
+#: maindlg.cpp:373
+#, kde-format
+msgctxt "Copied pair of coordinates (x, y)"
+msgid "(%1, %2)"
+msgstr ""
+
+#: maindlg.cpp:379
+#, kde-format
+msgid "Copy Root Value"
+msgstr ""
+
+#: maindlg.cpp:460
+#, kde-format
+msgid ""
+"The plot has been modified.\n"
+"Do you want to save it?"
+msgstr ""
+"প্লট পরিবর্তন করা হয়েছে।\n"
+"আপনি কি এটি সংরক্ষণ করতে চান?"
+
+#: maindlg.cpp:490
+#, fuzzy, kde-format
+msgid ""
+"This file is saved with an old file format; if you save it, you cannot open "
+"the file with older versions of KmPlot. Are you sure you want to continue?"
+msgstr ""
+"এই ফাইলটি পুরনো একটি ফরম্যাট অনুসারে সংরক্ষণ করা হয়েছিল; এখন এটি সংরক্ষণ করা হলে "
+"কে-এমপ্লট এর পুরনো সংস্করণ দিয়ে আর এটি খোলা যাবে না।  এ অবস্থায় আপনি কি ফাইলটি "
+"সংরক্ষণ করার ব্যাপারে নিশ্চিত?"
+
+#: maindlg.cpp:493
+#, kde-format
+msgid "Save New Format"
+msgstr "নতুন ফরম্যাট অনুসারে সংরক্ষণ করো"
+
+#: maindlg.cpp:508
+#, kde-format
+msgid "Save As"
+msgstr ""
+
+#: maindlg.cpp:514
+#, kde-format
+msgid "The file could not be saved"
+msgstr "ফাইলটিকে সংরক্ষণ করা যায় নি"
+
+#: maindlg.cpp:546
+#, kde-format
+msgid "Scalable Vector Graphics (*.svg)"
+msgstr ""
+
+#: maindlg.cpp:548
+#, kde-format
+msgctxt "@title:window"
+msgid "Export as Image"
+msgstr ""
+
+#: maindlg.cpp:609
+#, kde-format
+msgid "Sorry, something went wrong while saving to image \"%1\""
+msgstr ""
+
+#: maindlg.cpp:666
+#, fuzzy, kde-format
+#| msgid "Print Plot"
+msgctxt "@title:window"
+msgid "Print Plot"
+msgstr "প্লট ছাপাও"
+
+#: maindlg.cpp:681
+#, fuzzy, kde-format
+msgid "Print Settings"
+msgstr "সাধারণ বৈশিষ্ট্য"
+
+#: maindlg.cpp:686
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Print Settings"
+msgstr "সাধারণ বৈশিষ্ট্য"
+
+#: parameteranimator.cpp:52
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Parameter Animator"
+msgstr "পরামিতি সম্পাদক"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, warningLabel)
+#: parameteranimator.ui:23
+#, kde-format
+msgid ""
+"The function must have an additional variable as a parameter, e.g. f(x,k) "
+"would have k as its parameter"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, warningLabel)
+#: parameteranimator.ui:29
+#, kde-format
+msgid ""
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:Sans Serif; font-size:9pt; font-"
+"weight:400; font-style:normal; text-decoration:none;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px; font-family:Sans;\"><span "
+"style=\" font-weight:600;\">Warning:</span> The current function does not "
+"have a parameter, and so cannot be animated.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: parameteranimator.ui:47
+#, kde-format
+msgid "Final value:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (EquationEdit, step)
+#: parameteranimator.ui:57
+#, kde-format
+msgid "1"
+msgstr "১"
+
+#. i18n: ectx: property (text), widget (EquationEdit, final)
+#: parameteranimator.ui:64
+#, kde-format
+msgid "10"
+msgstr "১০"
+
+#. i18n: ectx: property (text), widget (EquationEdit, initial)
+#. i18n: ectx: property (text), widget (QLabel, currentValue)
+#: parameteranimator.ui:81 parameteranimator.ui:131
+#, kde-format
+msgid "0"
+msgstr "০"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: parameteranimator.ui:88
+#, kde-format
+msgid "Initial value:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: parameteranimator.ui:124
+#, fuzzy, kde-format
+msgid "Current Value:"
+msgstr "ওয়াই-অক্ষীয়-মান গণনা করো"
+
+#. i18n: ectx: property (text), widget (QToolButton, gotoInitial)
+#: parameteranimator.ui:177
+#, kde-format
+msgid "<<"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, stepBackwards)
+#: parameteranimator.ui:184
+#, kde-format
+msgid "<"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, pause)
+#: parameteranimator.ui:194
+#, kde-format
+msgid "||"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, stepForwards)
+#: parameteranimator.ui:201
+#, kde-format
+msgid ">"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QToolButton, gotoFinal)
+#: parameteranimator.ui:211
+#, kde-format
+msgid ">>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: parameteranimator.ui:257
+#, kde-format
+msgid "Speed:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: parameteranimator.ui:304
+#, kde-format
+msgid "Fast"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: parameteranimator.ui:311
+#, kde-format
+msgid "Slow"
+msgstr ""
+
+#: parameterswidget.cpp:25
+#, kde-format
+msgid "Slider No. %1"
+msgstr "স্লাইডার নং %1"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useSlider)
+#: parameterswidget.ui:37
+#, fuzzy, kde-format
+#| msgid "Slider"
+msgid "Slider:"
+msgstr "স্লাইডার"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useList)
+#: parameterswidget.ui:44
+#, fuzzy, kde-format
+msgid "List:"
+msgstr "রেখার প্রস্থ:"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, editParameterListButton)
+#: parameterswidget.ui:54
+#, kde-format
+msgid "Edit the list of parameters"
+msgstr "পরামিতির তালিকা সম্পাদন করো"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, editParameterListButton)
+#: parameterswidget.ui:57
+#, kde-format
+msgid ""
+"Click here to open a list of parameter values. Here you can add, remove, and "
+"change them."
+msgstr ""
+"পরামিতির মানের একটি তালিকা খোলার জন্য এখানে ক্লিক করুন।  এখানে আপনি মান যোগ, "
+"অপসারণ, এবং পরিবর্তন করতে পারবেন।"
+
+#. i18n: ectx: property (text), widget (QPushButton, editParameterListButton)
+#: parameterswidget.ui:60
+#, kde-format
+msgid "Edit List..."
+msgstr "তালিকা সম্পাদন করো..."
+
+#. i18n: ectx: property (toolTip), widget (QComboBox, listOfSliders)
+#: parameterswidget.ui:70
+#, kde-format
+msgid "Select a slider"
+msgstr "স্লাইডার বেছে নিন"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, listOfSliders)
+#: parameterswidget.ui:73
+#, kde-format
+msgid ""
+"Select one of the sliders to change the parameter value dynamically. The "
+"values vary from 0 (left) to 100 (right)."
+msgstr ""
+"পরামিতির মান সক্রিয়ভাবে (dynamic) পরিবর্তনের জন্য যেকোন একটি স্লাইডার বেছে নিন।  "
+"এই মান ০ (বাম) থেকে ১০০'র (ডান) মধ্যে ওঠানামা করে।"
+
+#: parser.cpp:615
+#, fuzzy, kde-format
+msgid "Remove all"
+msgstr "স্থানান্তর (&স)"
+
+#: parser.cpp:619
+#, kde-format
+msgid ""
+"The function %1 is depended upon by the following functions: %2. These must "
+"be removed in addition."
+msgstr ""
+
+#: parser.cpp:1090
+#, kde-format
+msgid "Syntax error"
+msgstr ""
+
+#: parser.cpp:1093
+#, kde-format
+msgid "Missing parenthesis"
+msgstr ""
+
+#: parser.cpp:1096
+#, kde-format
+msgid "Stack overflow"
+msgstr ""
+
+#: parser.cpp:1099
+#, fuzzy, kde-format
+msgid "Name of function is not free"
+msgstr "ফাংশনের নাম"
+
+#: parser.cpp:1102
+#, fuzzy, kde-format
+msgid "recursive function not allowed"
+msgstr "Recursive ফাংশনের ব্যবহার অনুমোদিত নয়"
+
+#: parser.cpp:1105
+#, kde-format
+msgid "Empty function"
+msgstr "ফাঁকা ফাংশন"
+
+#: parser.cpp:1108
+#, kde-format
+msgid "Function could not be found"
+msgstr "ফাংশন পাওয়া যায় নি।"
+
+#: parser.cpp:1111
+#, kde-format
+msgid "The differential equation must be at least first-order"
+msgstr ""
+
+#: parser.cpp:1114
+#, kde-format
+msgid "Too many plus-minus symbols"
+msgstr ""
+
+#: parser.cpp:1117
+#, kde-format
+msgid "Invalid plus-minus symbol (expression must be constant)"
+msgstr ""
+
+#: parser.cpp:1120
+#, kde-format
+msgid "The function has too many arguments"
+msgstr ""
+
+#: parser.cpp:1123
+#, kde-format
+msgid "The function does not have the correct number of arguments"
+msgstr ""
+
+#: plotstylewidget.cpp:30
+#, fuzzy, kde-format
+msgid "Solid"
+msgstr "স্লাইডার"
+
+#: plotstylewidget.cpp:31
+#, kde-format
+msgid "Dash"
+msgstr ""
+
+#: plotstylewidget.cpp:32
+#, kde-format
+msgid "Dot"
+msgstr ""
+
+#: plotstylewidget.cpp:33
+#, kde-format
+msgid "Dash Dot"
+msgstr ""
+
+#: plotstylewidget.cpp:34
+#, kde-format
+msgid "Dash Dot Dot"
+msgstr ""
+
+#: plotstylewidget.cpp:44
+#, kde-format
+msgid "Advanced..."
+msgstr ""
+
+#: plotstylewidget.cpp:48
+#, kde-format
+msgid "Color:"
+msgstr "রঙ:"
+
+#: plotstylewidget.cpp:57
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Plot Appearance"
+msgstr "পূর্বনির্ধারিত প্লট সীমা"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, PlotStyleWidget)
+#: plotstylewidget.ui:14
+#, fuzzy, kde-format
+msgid "Plot Style"
+msgstr "গ্রীড-এর ধরন"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showPlotName)
+#: plotstylewidget.ui:26
+#, fuzzy, kde-format
+msgid "Show the plot name"
+msgstr "প্লট রেখার প্রস্থ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, showExtrema)
+#: plotstylewidget.ui:33
+#, kde-format
+msgid "Show extrema (minimum/maximum points)"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, showTangentField)
+#: plotstylewidget.ui:53
+#, kde-format
+msgid "Show the tangent field:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, useGradient)
+#: plotstylewidget.ui:67
+#, kde-format
+msgid "Use a gradient for parameters:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: plotstylewidget.ui:74
+#, fuzzy, kde-format
+msgid "Line style:"
+msgstr "রেখার প্রস্থ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: plotstylewidget.ui:87
+#, kde-format
+msgid "Line width:"
+msgstr "রেখার প্রস্থ:"
+
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, lineWidth)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_AxesLineWidth)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_GridLineWidth)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_TicWidth)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_TicLength)
+#: plotstylewidget.ui:103 settingspagediagram.ui:140 settingspagediagram.ui:172
+#: settingspagediagram.ui:204 settingspagediagram.ui:236
+#, fuzzy, kde-format
+msgid " mm"
+msgstr "০.১ মিলিমিটার"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, QParameterEditor)
+#: qparametereditor.ui:13
+#, kde-format
+msgid "Parameter Editor"
+msgstr "পরামিতি সম্পাদক"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdDelete)
+#: qparametereditor.ui:55
+#, kde-format
+msgid "delete selected constant"
+msgstr "নির্বাচিত ধ্রুবক মুছে ফেলো"
+
+#. i18n: ectx: property (text), widget (QPushButton, moveUp)
+#: qparametereditor.ui:84
+#, kde-format
+msgid "Move Up"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, moveDown)
+#: qparametereditor.ui:91
+#, kde-format
+msgid "Move Down"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdImport)
+#: qparametereditor.ui:117
+#, kde-format
+msgid "Import values from a textfile"
+msgstr "টেক্সট-ফাইল থেকে মান আমদানী করো"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, cmdImport)
+#: qparametereditor.ui:120
+#, kde-format
+msgid ""
+"Import values from a textfile. Every line in the file is parsed as a value "
+"or expression."
+msgstr ""
+"টেক্সট-ফাইল থেকে মান আমদানী করো।  ফাইলের প্রতিটি লাইনকে একটি মান বা রাশি "
+"হিসেবে পার্স করা হয়।"
+
+#. i18n: ectx: property (text), widget (QPushButton, cmdImport)
+#: qparametereditor.ui:123
+#, kde-format
+msgid "&Import..."
+msgstr "&আমদানি..."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, cmdExport)
+#: qparametereditor.ui:133
+#, kde-format
+msgid "Export values to a textfile"
+msgstr "টেক্সট-ফাইলে মান রপ্তানি করো"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, cmdExport)
+#: qparametereditor.ui:136
+#, kde-format
+msgid ""
+"Export values to a textfile. Every value in the parameter list will be "
+"written to one line in the file."
+msgstr ""
+"টেক্সট ফাইলে মান রপ্তানি করো।  পরামিতি ফাইলের প্রতিটি মানকে পৃথক একটি লাইনে লেখা "
+"হবে।"
+
+#. i18n: ectx: property (text), widget (QPushButton, cmdExport)
+#: qparametereditor.ui:139
+#, kde-format
+msgid "&Export..."
+msgstr "&রপ্তানি..."
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
+#: settingspagecolor.ui:23
+#, kde-format
+msgid "&Coords"
+msgstr "স্থানাঙ্ক (&স)"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: settingspagecolor.ui:35
+#, fuzzy, kde-format
+#| msgid "Background color"
+msgid "Background color:"
+msgstr "পটভূমির রং"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_backgroundcolor)
+#: settingspagecolor.ui:45
+#, kde-format
+msgid "Color for the plot area behind the grid."
+msgstr "গ্রীডের পেছনে দৃশ্যমান প্লট ক্ষেত্রের রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_backgroundcolor)
+#: settingspagecolor.ui:48
+#, kde-format
+msgid ""
+"Click on the button the choose the color of the background. This option has "
+"no effect on printing nor export."
+msgstr ""
+"পটভূমির রং বেছে নেওয়ার জন্য বাটনটিতে ক্লিক করুন।  মুদ্রণ বা রপ্তানীর (export) ওপর "
+"এই অপশনের কোন প্রভাব নেই।"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: settingspagecolor.ui:58
+#, kde-format
+msgid "&Axes:"
+msgstr "&অক্ষ:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#: settingspagecolor.ui:71
+#, kde-format
+msgid "&Grid:"
+msgstr "গ্রী&ড:"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_AxesColor)
+#: settingspagecolor.ui:84
+#, fuzzy, kde-format
+#| msgid "select color for the axes"
+msgid "Select color for the axes."
+msgstr "অক্ষরেখার রং বেছে নিন"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
+#: settingspagecolor.ui:87
+#, kde-format
+msgid ""
+"Specify the color of the axes. The change will appear as soon as you press "
+"the OK button."
+msgstr "অক্ষরেখার রং উল্লেখ করুন।  'ঠিক আছে' বাটন চাপার পর এই পরিবর্তন কার্যকর হবে।"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_GridColor)
+#: settingspagecolor.ui:97
+#, fuzzy, kde-format
+#| msgid "select color for the grid"
+msgid "Select color for the grid."
+msgstr "গ্রীড রেখার জন্য রং বেছে নিন"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_GridColor)
+#: settingspagecolor.ui:100
+#, kde-format
+msgid ""
+"Specify the color of the grid. The change will appear as soon as you press "
+"the OK button."
+msgstr ""
+"গ্রীড রেখার জন্য রং বেছে নিন।  'ঠিক আছে' বাটন চাপার পর এই পরিবর্তন কার্যকর হবে।"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
+#: settingspagecolor.ui:113
+#, kde-format
+msgid "&Default Function Colors"
+msgstr "ডি&ফল্ট অবস্থায় ফাংশন আঁকতে ব্যবহৃত রং"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color1)
+#: settingspagecolor.ui:133
+#, fuzzy, kde-format
+#| msgid "the default color for function number 2"
+msgid "The default color for function number 2."
+msgstr "২য় ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color1)
+#: settingspagecolor.ui:136
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 2. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"২য় ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেও প্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color4)
+#: settingspagecolor.ui:146
+#, fuzzy, kde-format
+#| msgid "the default color for function number 5"
+msgid "The default color for function number 5."
+msgstr "৫ম ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color4)
+#: settingspagecolor.ui:149
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 5. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"৫ম ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেও প্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color0)
+#: settingspagecolor.ui:159
+#, fuzzy, kde-format
+#| msgid "the default color for function number 1"
+msgid "The default color for function number 1."
+msgstr "১ম ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color0)
+#: settingspagecolor.ui:162
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 1. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"১ম ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেও প্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3)
+#: settingspagecolor.ui:172
+#, kde-format
+msgid "Function &1:"
+msgstr "ফাংশন &১:"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color2)
+#: settingspagecolor.ui:185
+#, fuzzy, kde-format
+#| msgid "the default color for function number 3"
+msgid "The default color for function number 3."
+msgstr "৩য় ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color2)
+#: settingspagecolor.ui:188
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 3. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"৩য় ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেও প্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_13)
+#: settingspagecolor.ui:198
+#, kde-format
+msgid "Function &3:"
+msgstr "ফাংশন &৩:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_2)
+#: settingspagecolor.ui:211
+#, kde-format
+msgid "Function &2:"
+msgstr "ফাংশন &২:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_12)
+#: settingspagecolor.ui:224
+#, kde-format
+msgid "Function &4:"
+msgstr "ফাংশন &৪:"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color3)
+#: settingspagecolor.ui:237
+#, fuzzy, kde-format
+#| msgid "the default color for function number 4"
+msgid "The default color for function number 4."
+msgstr "৪র্থ ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color3)
+#: settingspagecolor.ui:240
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 4. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"৪র্থ ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেও প্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_11)
+#: settingspagecolor.ui:250
+#, kde-format
+msgid "Function &5:"
+msgstr "ফাংশন &৫:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_9)
+#: settingspagecolor.ui:289
+#, kde-format
+msgid "Function &7:"
+msgstr "ফাংশন &৭:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_8)
+#: settingspagecolor.ui:302
+#, kde-format
+msgid "Function &8:"
+msgstr "ফাংশন &৮:"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color8)
+#: settingspagecolor.ui:315
+#, fuzzy, kde-format
+#| msgid "the default color for function number 9"
+msgid "The default color for function number 9."
+msgstr "৯ম ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color8)
+#: settingspagecolor.ui:318
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 9. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"৯ম ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেও প্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_10)
+#: settingspagecolor.ui:328
+#, kde-format
+msgid "Function &6:"
+msgstr "ফাংশন &৬:"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color6)
+#: settingspagecolor.ui:341
+#, fuzzy, kde-format
+#| msgid "the default color for function number 7"
+msgid "The default color for function number 7."
+msgstr "৭ম ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color6)
+#: settingspagecolor.ui:344
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 7. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"৭ম ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেও প্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color7)
+#: settingspagecolor.ui:354
+#, fuzzy, kde-format
+#| msgid "the default color for function number 8"
+msgid "The default color for function number 8."
+msgstr "৮ম ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color7)
+#: settingspagecolor.ui:357
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 8. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"৮ম ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেওপ্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color5)
+#: settingspagecolor.ui:367
+#, fuzzy, kde-format
+#| msgid "the default color for function number 6"
+msgid "The default color for function number 6."
+msgstr "৬ষ্ঠ ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color5)
+#: settingspagecolor.ui:370
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 6. Please note that this color setting "
+"only affects empty functions, so if you have defined a function at number 1 "
+"and you change color for that number here, the setting will be shown next "
+"time you define a new function at number 1."
+msgstr ""
+"৬ষ্ঠ ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেও প্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_7)
+#: settingspagecolor.ui:380
+#, kde-format
+msgid "Function &9:"
+msgstr "ফাংশন &৯:"
+
+#. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color9)
+#: settingspagecolor.ui:393
+#, fuzzy, kde-format
+#| msgid "the default color for function number 10"
+msgid "The default color for function number 10."
+msgstr "১০ম ফাংশনের ডিফল্ট রং"
+
+#. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color9)
+#: settingspagecolor.ui:396
+#, fuzzy, kde-format
+msgid ""
+"The default color for function number 10. Please note that this color "
+"setting only affects empty functions, so if you have defined a function at "
+"number 1 and you change color for that number here, the setting will be "
+"shown next time you define a new function at number 1."
+msgstr ""
+"১০ম ফাংশনের ডিফল্ট রং।  অনুগ্রহপূর্বক লক্ষ করুন যে, রঙের এই বৈশিষ্ট্য শুধুমাত্র ফাঁকা "
+"ফাংশনের ক্ষেত্রেই প্রযোজ্য, ফলে যদি কোন ১ম ফাংশন পূর্বনির্ধারণ করে থাকেন এবং এখানে "
+"তার রং পরিবর্তন করেন, তবে পরবর্তীকালে নতুন করে কোন ১ম ফাংশন নির্ধারণ করলে এই "
+"বৈশিষ্ট্য তার ক্ষেত্রেও প্রদর্শন করা হবে।"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3_6)
+#: settingspagecolor.ui:406
+#, kde-format
+msgid "Function 1&0:"
+msgstr "ফাংশন ১&০:"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton11)
+#: settingspagediagram.ui:32
+#, kde-format
+msgid "No Grid will be plotted."
+msgstr "কোন গ্রীড আঁকা হবে না।"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton11)
+#: settingspagediagram.ui:35
+#, kde-format
+msgid "None"
+msgstr "একটিও নয়"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton12)
+#: settingspagediagram.ui:42
+#, kde-format
+msgid "A line for every tic."
+msgstr "প্রতিটি টিক-এর জন্য একটি রেখা।"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton12)
+#: settingspagediagram.ui:45
+#, kde-format
+msgid "Lines"
+msgstr "রেখা"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton13)
+#: settingspagediagram.ui:52
+#, kde-format
+msgid "Only little crosses in the plot area."
+msgstr "প্লট ক্ষেত্রে শুধুমাত্র ক্ষুদ্র ক্রশচিহ্ন।"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton13)
+#: settingspagediagram.ui:55
+#, kde-format
+msgid "Crosses"
+msgstr "অতিক্রম করে"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton14)
+#: settingspagediagram.ui:62
+#, kde-format
+msgid "Circles around the Origin."
+msgstr "মূলবিন্দুর চারপাশে বৃত্ত।"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton14)
+#: settingspagediagram.ui:65
+#, kde-format
+msgid "Polar"
+msgstr "পোলার"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: settingspagediagram.ui:75
+#, fuzzy, kde-format
+msgid "Axis Labels"
+msgstr "লেবেল প্রদর্শন করো"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, label)
+#: settingspagediagram.ui:81
+#, kde-format
+msgid "Label on horizontal axis."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: settingspagediagram.ui:84
+#, fuzzy, kde-format
+#| msgid "Font size of the axis labels"
+msgid "Horizontal axis label:"
+msgstr "অক্ষীয় লেবেলে ব্যবহৃত ফন্টের আকার"
+
+#. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelHorizontalAxis)
+#: settingspagediagram.ui:94
+#, fuzzy, kde-format
+#| msgid "X:"
+msgid "X"
+msgstr "এক্ষ:"
+
+#. i18n: ectx: property (whatsThis), widget (QLabel, label_2)
+#: settingspagediagram.ui:101
+#, kde-format
+msgid "Label on vertical axis."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: settingspagediagram.ui:104
+#, kde-format
+msgid "Vertical axis label:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelVerticalAxis)
+#: settingspagediagram.ui:114
+#, fuzzy, kde-format
+#| msgid "Y:"
+msgid "Y"
+msgstr "ওয়াই:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel7)
+#: settingspagediagram.ui:124
+#, fuzzy, kde-format
+msgid "Axis widths:"
+msgstr "অক্ষীয়-রেখার প্রস্থ:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel5)
+#: settingspagediagram.ui:156
+#, kde-format
+msgid "Line &width:"
+msgstr "রেখার প্রস্থ (&প):"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel9)
+#: settingspagediagram.ui:188
+#, kde-format
+msgid "Tic width:"
+msgstr "টিক-এর প্রস্থ:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel8_4)
+#: settingspagediagram.ui:220
+#, kde-format
+msgid "Tic length:"
+msgstr "টিক-এর দৈর্ঘ্য:"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowLabel)
+#: settingspagediagram.ui:252
+#, fuzzy, kde-format
+#| msgid "visible tic labels"
+msgid "Visible tic labels."
+msgstr "টিক লেবেল প্রদর্শন করো"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowLabel)
+#: settingspagediagram.ui:255
+#, kde-format
+msgid "Check this if the axes' tics should be labeled."
+msgstr "অক্ষের টিক-এর জন্য লেবেল ব্যবহার করতে হলে এখানে টিক দিন।"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowLabel)
+#: settingspagediagram.ui:258
+#, kde-format
+msgid "Show labels"
+msgstr "লেবেল প্রদর্শন করো"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowAxes)
+#: settingspagediagram.ui:268
+#, fuzzy, kde-format
+#| msgid "visible axes"
+msgid "Visible axes."
+msgstr "অক্ষরেখা প্রদর্শন করো"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAxes)
+#: settingspagediagram.ui:271
+#, kde-format
+msgid "Check this if the axes should be visible."
+msgstr "অক্ষরেখা প্রদর্শন করতে হলে এখানে টিক দিন।"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAxes)
+#: settingspagediagram.ui:274
+#, kde-format
+msgid "Show axes"
+msgstr "অক্ষরেখা প্রদর্শন করো"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowArrows)
+#: settingspagediagram.ui:284
+#, fuzzy, kde-format
+#| msgid "visible arrows at the end of the axes"
+msgid "Visible arrows at the end of the axes."
+msgstr "অক্ষরেখার প্রান্তে তীরচিহ্ন প্রদর্শন করো"
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowArrows)
+#: settingspagediagram.ui:287
+#, kde-format
+msgid "Check this if the axes should have arrows at their ends."
+msgstr "অক্ষরেখার প্রান্তে তীরচিহ্ন প্রদর্শন করতে হলে এটিতে টিক দিন।"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowArrows)
+#: settingspagediagram.ui:290
+#, kde-format
+msgid "Show arrows"
+msgstr "তীরচিহ্ন প্রদর্শন করো"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel10)
+#: settingspagefonts.ui:23
+#, fuzzy, kde-format
+msgid "Axes labels:"
+msgstr "লেবেল প্রদর্শন করো"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel10_3)
+#: settingspagefonts.ui:45
+#, kde-format
+msgid "Diagram labels:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel10_4)
+#: settingspagefonts.ui:67
+#, fuzzy, kde-format
+msgid "Header table:"
+msgstr "হেডা&র সারণী:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, kcfg_anglemode)
+#: settingspagegeneral.ui:20
+#, kde-format
+msgid "Angle Mode"
+msgstr "কোণ মোড"
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton1)
+#: settingspagegeneral.ui:32
+#, kde-format
+msgid "Trigonometric functions use radian mode for angles."
+msgstr "ত্রিকোণমিতিক ফাংশনসমূহ কোণ পরিমাপে রেডিয়ান একক ব্যবহার করে।"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton1)
+#: settingspagegeneral.ui:35
+#, kde-format
+msgid ""
+"Check this button to use radian mode to measure angles. This is important "
+"for trigonometric functions only."
+msgstr ""
+"কোণ পরিমাপের ক্ষেত্রে রেডিয়ান একক ব্যবহার করতে হলে এই বাটনে টিক দিন।  শুধুমাত্র "
+"ত্রিকোণমিতিক ফাংশনের ক্ষেত্রেই এটি গুরুত্বপূর্ণ।"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton1)
+#: settingspagegeneral.ui:38
+#, kde-format
+msgid "&Radian"
+msgstr "রেডিয়া&ন"
+
+#. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton2)
+#: settingspagegeneral.ui:45
+#, kde-format
+msgid "Trigonometric functions use degree mode for angles."
+msgstr "ত্রিকোণমিতিক ফাংশনসমূহ কোণ পরিমাপের জন্য ডিগ্রি একক ব্যবহার করে।"
+
+#. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton2)
+#: settingspagegeneral.ui:48
+#, kde-format
+msgid ""
+"Check this button to use degree mode to measure angles. This is important "
+"for trigonometric functions only."
+msgstr ""
+"কোণ পরিমাপের ক্ষেত্রে ডিগ্রি একক ব্যবহার করতে হলে এই বাটনে টিক দিন।  শুধুমাত্র "
+"ত্রিকোণমিতিক ফাংশনের ক্ষেত্রেই এটি গুরুত্বপূর্ণ।"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton2)
+#: settingspagegeneral.ui:51
+#, kde-format
+msgid "&Degree"
+msgstr "ডিগ্রি (&ড)"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: settingspagegeneral.ui:61
+#, fuzzy, kde-format
+msgid "Zoom"
+msgstr "&পরিবর্তিত আকারে প্রদর্শন করা হবে না"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
+#: settingspagegeneral.ui:73
+#, fuzzy, kde-format
+#| msgid "Zoom in by:"
+msgid "Zoom in by:"
+msgstr "বিবর্ধন মাত্রা:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_2_2)
+#: settingspagegeneral.ui:86
+#, fuzzy, kde-format
+#| msgid "Zoom out by:"
+msgid "Zoom out by:"
+msgstr "ক্ষুদ্রাকারে প্রদর্শনের মাত্রা:"
+
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomOutStep)
+#: settingspagegeneral.ui:99
+#, fuzzy, kde-format
+#| msgid "The value the zoom-out tool should use."
+msgid "The value the Zoom Out tool should use."
+msgstr "ক্ষুদ্রাকারে প্রদর্শনের ক্ষেত্রে যে মান ব্যবহার করা হবে।"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomOutStep)
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomInStep)
+#: settingspagegeneral.ui:111 settingspagegeneral.ui:130
+#, no-c-format, kde-format
+msgid "%"
+msgstr "%"
+
+#. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomInStep)
+#: settingspagegeneral.ui:118
+#, fuzzy, kde-format
+#| msgid "The value the zoom-in tool should use."
+msgid "The value the Zoom In tool should use."
+msgstr "বিবর্ধনের ক্ষেত্রে যে মান ব্যবহার করা হবে।"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_DetailedTracing)
+#: settingspagegeneral.ui:144
+#, kde-format
+msgid "Draw tangent and normal when tracing"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, SliderWidget)
+#: sliderwidget.ui:13
+#, kde-format
+msgid "Slider"
+msgstr "স্লাইডার"
+
+#. i18n: ectx: property (text), widget (QLabel, valueLabel)
+#: sliderwidget.ui:43
+#, kde-format
+msgid "<0>"
+msgstr ""
+
+#: view.cpp:1829
+#, kde-format
+msgctxt "Extrema point"
+msgid "x = %1   y = %2"
+msgstr ""
+
+#: view.cpp:2124 view.cpp:2125
+#, kde-format
+msgctxt "%1=minimum value, %2=maximum value"
+msgid "%1 to %2"
+msgstr ""
+
+#: view.cpp:2127 view.cpp:2128
+#, kde-format
+msgctxt "'E' is the distance between ticks on the axis"
+msgid "1E = "
+msgstr ""
+
+#: view.cpp:2131
+#, fuzzy, kde-format
+msgid "Plotting Range"
+msgstr "প্লট ক্ষেত্র"
+
+#: view.cpp:2131
+#, kde-format
+msgid "Axes Division"
+msgstr "অক্ষীয় বিভাজন"
+
+#: view.cpp:2132
+#, kde-format
+msgid "x-Axis:"
+msgstr "এক্স-অক্ষ:"
+
+#: view.cpp:2133
+#, kde-format
+msgid "y-Axis:"
+msgstr "ওয়াই-অক্ষ"
+
+#: view.cpp:2136
+#, kde-format
+msgid "Functions:"
+msgstr "ফাংশন:"
+
+#: view.cpp:3004
+#, kde-format
+msgid "x = %1"
+msgstr ""
+
+#: view.cpp:3006
+#, kde-format
+msgid "y = %1"
+msgstr ""
+
+#: view.cpp:3133
+#, kde-format
+msgctxt "%1 is a subscript zero symbol"
+msgid "root: x%1 = "
+msgstr ""
+
+#: xparser.cpp:117
+#, kde-format
+msgid "Error in extension."
+msgstr "বর্ধিতাংশে সমস্যা।"
+
+#, fuzzy
+#~ msgid "Background Color:"
+#~ msgstr "পটভূমির রং"
+
+#~ msgid "root"
+#~ msgstr "মূল"
+
+#~ msgid "&Overwrite"
+#~ msgstr "ফাইলের &ওপর দিয়ে লেখো"
+
+#~ msgid "KmPlotPart"
+#~ msgstr "কে-এমপ্লট-পার্ট"
+
+#~ msgid ""
+#~ "Enter an expression for the function. The prefix \"r\" will be added "
+#~ "automatically.\n"
+#~ "Example: loop(angle)=ln(angle)"
+#~ msgstr ""
+#~ "ফাংশনের জন্য একটি মান লিখুন।  উপসর্গ হিসেবে এর সাথে \"r\" স্বয়ংক্রিয়ভাবে যুক্ত "
+#~ "হয়ে যাবে।\n"
+#~ "উদাহরণ: loop(angle)=ln(angle)"
+
+#, fuzzy
+#~ msgid ""
+#~ "Enter an expression for the function.\n"
+#~ "The dummy variable is t.\n"
+#~ "Example: f''(x) = -f"
+#~ msgstr ""
+#~ "ফাংশনের জন্য একটি মান লিখুন।\n"
+#~ "নকল চলকটি হল t ।\n"
+#~ "উদাহরণ: cos(t)"
+
+#~ msgid "hide the plot"
+#~ msgstr "প্লট লুকাও"
+
+#~ msgid "Check this box if you want to hide the plot of the function."
+#~ msgstr "ফাংশনের প্লট লুকাতে চাইলে এই বাক্সে টিক দিন।"
+
+#~ msgid ""
+#~ "*.fkt|KmPlot Files (*.fkt)\n"
+#~ "*.*|All Files"
+#~ msgstr ""
+#~ "*.fkt|কে-এমপ্লট ফাইল (*.fkt)\n"
+#~ "*.*|সকল ফাইল"
+
+#, fuzzy
+#~ msgid "The function name is not allowed to contain capital letters"
+#~ msgstr "ফাংশনের নামে বড় হাতের অক্ষর থাকতে পারবে না।"
+
+#, fuzzy
+#~ msgid "The expression must not contain user-defined constants"
+#~ msgstr "এই রাশিতে ব্যবহারকারী-নির্ধারিত কোন ধ্রুবক থাকতে পারবে না।"
+
+#~ msgid "Slider no. %1"
+#~ msgstr "স্লাইডার নং %1"
+
+#~ msgid "&Change Minimum Value"
+#~ msgstr "সর্বনিম্ন মান &পরিবর্তন করো"
+
+#~ msgid "&Change Maximum Value"
+#~ msgstr "সর্বোচ্চ মান পরি&বর্তন করো"
+
+#~ msgid "Change Minimum Value"
+#~ msgstr "সর্বনিম্ন মান পরিবর্তন করো"
+
+#~ msgid "Type a new minimum value for the slider:"
+#~ msgstr "স্লাইডারের জন্য একটি নতুন সর্বনিম্ন মান লিখুন:"
+
+#~ msgid "Change Maximum Value"
+#~ msgstr "সর্বোচ্চ মান পরিবর্তন করো"
+
+#~ msgid "Type a new maximum value for the slider:"
+#~ msgstr "স্লাইডারের জন্য একটি নতুন সর্বোচ্চ মান লিখুন:"
+
+#~ msgid "Get y-Value"
+#~ msgstr "ওয়াই-অক্ষীয়-মান গণনা করো"
+
+#, fuzzy
+#~ msgid "100"
+#~ msgstr "১০"
+
+#, fuzzy
+#~ msgid "Slider 2"
+#~ msgstr "স্লাইডার"
+
+#, fuzzy
+#~ msgid "Slider 3"
+#~ msgstr "স্লাইডার"
+
+#, fuzzy
+#~ msgid "Slider 4"
+#~ msgstr "স্লাইডার"
+
+#, fuzzy
+#~ msgid "Plot &Value..."
+#~ msgstr "ওয়া&ই-অক্ষীয় মান হিসাব করো..."
+
+#, fuzzy
+#~ msgid "Function Editor"
+#~ msgstr "ফাংশন"
+
+#, fuzzy
+#~ msgid "Create New Plot"
+#~ msgstr "নতুন ফরম্যাট অনুসারে সংরক্ষণ করো"
+
+#, fuzzy
+#~ msgid "Use a slider:"
+#~ msgstr "স্লাইডার বেছে নিন"
+
+#~ msgid "Coordinate System I"
+#~ msgstr "১ম স্থানাঙ্ক পদ্ধতি"
+
+#~ msgid "Coordinate System II"
+#~ msgstr "২য় স্থানাঙ্ক পদ্ধতি"
+
+#~ msgid "Coordinate System III"
+#~ msgstr "৩য় স্থানাঙ্ক পদ্ধতি"
+
+#~ msgid "This function is depending on an other function"
+#~ msgstr "এই ফাংশনটি অপর একটি ফাংশনের ওপর নির্ভরশীল"
+
+#~ msgid "The file could not be loaded"
+#~ msgstr "ফাইলটি লোড করা যায় নি"
+
+#~ msgid ""
+#~ "Parser error at position %1:\n"
+#~ "Syntax error"
+#~ msgstr ""
+#~ "%1 অবস্থানে পার্সার ত্রুটি:\n"
+#~ "সিনটেক্স ত্রুটি"
+
+#~ msgid ""
+#~ "Parser error at position %1:\n"
+#~ "Missing parenthesis"
+#~ msgstr ""
+#~ "%1 অবস্থানে পার্সার ত্রুটি:\n"
+#~ "বন্ধনী (parenthesis) পাওয়া যাচ্ছে না"
+
+#~ msgid ""
+#~ "Parser error at position %1:\n"
+#~ "Function name unknown"
+#~ msgstr ""
+#~ "%1 অবস্থানে পার্সার ত্রুটি:\n"
+#~ "অজ্ঞাত ফাংশন"
+
+#~ msgid ""
+#~ "Parser error at position %1:\n"
+#~ "Void function variable"
+#~ msgstr ""
+#~ "%1 অবস্থানে পার্সার ত্রুটি:\n"
+#~ "ফাঁকা ফাংশন চলক"
+
+#~ msgid ""
+#~ "Parser error at position %1:\n"
+#~ "Too many functions"
+#~ msgstr ""
+#~ "%1 অবস্থানে পার্সার ত্রুটি:\n"
+#~ "অত্যধিক সংখ্যক ফাংশন"
+
+#~ msgid ""
+#~ "Parser error at position %1:\n"
+#~ "Token-memory overflow"
+#~ msgstr ""
+#~ "%1 অবস্থানে পার্সার ত্রুটি:\n"
+#~ "টোকেন-মেমরিতে স্থান সংকুলান হচ্ছে না (overflow)"
+
+#~ msgid ""
+#~ "Parser error at position %1:\n"
+#~ "Stack overflow"
+#~ msgstr ""
+#~ "%1 অবস্থানে পার্সার ত্রুটি:\n"
+#~ "স্ট্যাক-এ স্থান সংকুলান হচ্ছে না (overflow)"
+
+#~ msgid ""
+#~ "Parser error at position %1:\n"
+#~ "Name of function not free."
+#~ msgstr ""
+#~ "%1 অবস্থানে পার্সার ত্রুটি:\n"
+#~ "ফাংশনের নাম ইতিমধ্যেই ব্যবহৃত হচ্ছে।"
+
+#~ msgid ""
+#~ "Parser error at position %1:\n"
+#~ "recursive function not allowed."
+#~ msgstr ""
+#~ "%1 অবস্থানে পার্সার ত্রুটি:\n"
+#~ "Recursive ফাংশনের ব্যবহার অনুমোদিত নয়।"
+
+#~ msgid "Could not find a defined constant at position %1."
+#~ msgstr "%1 অবস্থানে নির্দিষ্টকৃত (defined) কোন ধ্রুবক পাওয়া যায় নি"
+
+#~ msgid "Function could not be found."
+#~ msgstr "ফাংশন পাওয়া যায় নি।"
+
+#~ msgid "Please insert a valid constant name between A and Z."
+#~ msgstr ""
+#~ "অনুগ্রহপূর্বক A থেকে Z এর মধ্যবর্তী যে কোন অক্ষরকে ধ্রবুকের নাম হিসাবে ঢুকিয়ে দিন।"
+
+#~ msgid "The constant already exists."
+#~ msgstr "ধ্রুবকটি ইতিমধ্যেই বিদ্যমান।"
+
+#~ msgid "Enter a new parameter value:"
+#~ msgstr "একটি নতুন পরামিতির মান লিখুন:"
+
+#~ msgid "The value %1 already exists and will therefore not be added."
+#~ msgstr "%1 মানটি ইতিমধ্যেই বিদ্যমান এবং এ কারণে আর নতুন করে যোগ করা হবে না।"
+
+#~ msgid "The value %1 already exists."
+#~ msgstr "%1 মানটি ইতিমধ্যেই বিদ্যমান।"
+
+#~ msgid "and:"
+#~ msgstr "এবং:"
+
+#~ msgid "Search for the maximum point in the range you specified"
+#~ msgstr "আপনার উল্লেখকৃত সীমার মধ্যে সর্বোচ্চ বিন্দু খোঁজো"
+
+#~ msgid ""
+#~ "Search for the highest y-value in the x-range you specified and show the "
+#~ "result in a message box."
+#~ msgstr ""
+#~ "উল্লেখকৃত এক্স-অক্ষীয় সীমার মধ্যে অবস্থিত সর্বোচ্চ ওয়াই-অক্ষীয়-মান খোঁজো ও প্রাপ্ত "
+#~ "ফলাফল একটি বার্তাসূচক বাক্সে প্রদর্শন করো।"
+
+#~ msgid "Search for the minimum point in the range you specified"
+#~ msgstr "উল্লেখকৃত সীমার মধ্যে সর্বনিম্ন বিন্দু খোঁজো"
+
+#~ msgid ""
+#~ "Search for the lowest y-value in the x-range you specified and show the "
+#~ "result in a message box."
+#~ msgstr ""
+#~ "উল্লেখকৃত এক্স-অক্ষীয়-সীমার মধ্যে অবস্থিত সর্বনিম্ন ওয়াই-অক্ষীয়-মান খোঁজো ও প্রাপ্ত "
+#~ "ফলাফল একটি বার্তাসূচক বাক্সে প্রদর্শন করো।"
+
+#~ msgid "No returned y-value yet"
+#~ msgstr "এখন পর্যন্ত কোন ওয়াই-অক্ষীয়-মান ফেরত পাওয়া যায় নি"
+
+#~ msgid ""
+#~ "Here you will see the y-value which you got from the x-value in the "
+#~ "textbox above. To calculate the y-value, press the Calculate button."
+#~ msgstr ""
+#~ "উপরের টেক্সট বাক্সের এক্স-অক্ষীয়-মান থেকে যে ওয়াই-অক্ষীয় মান পেয়েছিলেন, এখানে "
+#~ "তা দেখতে পাবেন।  ওয়াই-অক্ষীয় মান গণনার জন্য 'গণনা' বাটনে চাপ দিন।"
+
+#~ msgid "Get the y-value from the x-value you typed"
+#~ msgstr "এক্স-অক্ষের যে মান আপনি লিখেছেন, তা থেকে ওয়াই-অক্ষীয় মান হিসাব করো"
+
+#~ msgid ""
+#~ "Get the y-value from the x-value you typed and show it in the y-value box."
+#~ msgstr ""
+#~ "এক্স-অক্ষের যে মান আপনি লিখেছেন, তা থেকে ওয়াই-অক্ষীয় মান হিসাব করো ও প্রাপ্ত "
+#~ "মানটি ওয়াই-অক্ষের ঘরে দেখাও"
+
+#~ msgid "Calculate Integral"
+#~ msgstr "যোজিত ফল গণনা করো"
+
+#~ msgid "Calculate the integral between the x-values"
+#~ msgstr "এক্স-অক্ষীয় মানদ্বয়ের মধ্যবর্তী যোজিত ফল গণনা করো"
+
+#~ msgid ""
+#~ "Calculate the numeric integral between the x-values and draw the result "
+#~ "as an area."
+#~ msgstr ""
+#~ "এক্স-অক্ষীয় মানদ্বয়ের মধ্যবর্তী সাংখ্যিক (numeric) যোজিত ফল গণনা করো ও ফলাফলকে "
+#~ "একটি আবদ্ধ ক্ষেত্র (area) হিসেবে আঁকো।"
+
+#~ msgid "Please choose a function"
+#~ msgstr "অনুগ্রহপূর্বক একটি ফাংশনের নাম বেছে নিন"
+
+#~ msgid "Please insert a minimum and maximum range between %1 and %2"
+#~ msgstr "অনুগ্রহপূর্বক %1 ও %2-এর মধ্যবর্তী সর্বনিম্ন ও সর্বোচ্চ সীমা লিখুন (insert)"
+
+#~ msgid "You must choose a parameter for that function"
+#~ msgstr "আপনাকে অবশ্যই ঐ ফাংশনের জন্য একটি পরামিতি বেছে নিতে হবে"
+
+#~ msgid ""
+#~ "Minimum value:\n"
+#~ "x: %1\n"
+#~ "y: %2"
+#~ msgstr ""
+#~ "সর্বনিম্ন মান:\n"
+#~ "এক্স: %1\n"
+#~ "ওয়াই: %2"
+
+#~ msgid ""
+#~ "Maximum value:\n"
+#~ "x: %1\n"
+#~ "y: %2"
+#~ msgstr ""
+#~ "সর্বোচ্চ মান:\n"
+#~ "এক্স: %1\n"
+#~ "ওয়াই: %2"
+
+#~ msgid "The returned y-value"
+#~ msgstr "ফেরত প্রাপ্ত ওয়াই-অক্ষীয় মান"
+
+#~ msgid ""
+#~ "Here you see the result of the calculation: the returned y-value you got "
+#~ "from the x-value in the textbox above"
+#~ msgstr ""
+#~ "এখানে আপনি গণনার ফলাফল দেখতে পাবেন: উপরের টেক্সটবাক্সের এক্স-অক্ষীয় মান থেকে "
+#~ "ফেরত প্রাপ্ত ওয়াই-অক্ষীয় মান"
+
+#~ msgid ""
+#~ "The integral in the interval [%1, %2] is:\n"
+#~ "%3"
+#~ msgstr ""
+#~ "[%1, %2] সীমার মধ্যে যোজিত ফল হল:\n"
+#~ "%3"
+
+#~ msgid "The operation was cancelled by the user."
+#~ msgstr "কাজটি ব্যবহারকারী কর্তৃক বাতিল করা হয়েছে।"
+
+#~ msgid "Choose a parameter to use:"
+#~ msgstr "ব্যবহারের উদ্দেশ্যে একটি পরামিতি বেছে নিন:"
+
+#~ msgid "New Function Plot"
+#~ msgstr "নতুন ফাংশন প্লট"
+
+#~ msgid "Edit Function Plot"
+#~ msgstr "ফাংশন প্লট সম্পাদন করো"
+
+#~ msgid "&Plot"
+#~ msgstr "প্লট (&প)"
+
+#~ msgid "apply the changes and close the dialog"
+#~ msgstr "পরিবর্তন কার্যকর করে ডায়ালগ বন্ধ করো"
+
+#~ msgid "Click here to apply your changes and close this dialog."
+#~ msgstr "পরিবর্তন কার্যকর করে ডায়ালগ বন্ধ করার জন্য এখানে ক্লিক করুন।"
+
+#~ msgid "cancel without any changes"
+#~ msgstr "কোন পরিবর্তন ছাড়াই বাতিল করো"
+
+#~ msgid "Click here to close the dialog without any changes."
+#~ msgstr "কোন পরিবর্তন না করেই ডায়ালগ বন্ধ করার জন্য এখানে ক্লিক করুন।"
+
+#~ msgid ""
+#~ "Here you see the list of all functions to be plotted. The checked "
+#~ "functions are visible, the others are hidden. Click on a checkbox to show "
+#~ "or hide the function."
+#~ msgstr ""
+#~ "যে সকল ফাংশনের প্লট আঁকতে হবে, এখানে তাদের তালিকা দেখা যাচ্ছে।  টিক দেওয়া "
+#~ "ফাংশনের প্লট দৃশ্যমান এবং অন্যান্য ফাংশনের প্লট অদৃশ্য।  কোন ফাংশনের প্লটকে দৃশ্যমান "
+#~ "বা অদৃশ্য করতে হলে তার চেকবাক্সে ক্লিক করুন।"
+
+#~ msgid "edit the selected function"
+#~ msgstr "নির্বাচিত ফাংশন সম্পাদন করুন"
+
+#~ msgid "Click here to edit the selected function."
+#~ msgstr "নির্বাচিত ফাংশন সম্পাদন করার জন্য এখানে ক্লিক করুন।"
+
+#~ msgid "Ne&w Function Plot..."
+#~ msgstr "&নতুন ফাংশন প্লট..."
+
+#~ msgid "define a new function"
+#~ msgstr "একটি নতুন ফাংশন উল্লেখ করুন"
+
+#~ msgid ""
+#~ "Click here to define a new function. There are 3 types of function, "
+#~ "explicit given functions, parametric plots and polar plots. Choose the "
+#~ "appropriate type from the drop down list."
+#~ msgstr ""
+#~ "একটি নতুন ফাংশন উল্লেখ করার জন্য এখানে ক্লিক করুন।  এখানে ফাংশন রয়েছে ৩ ধরনের, "
+#~ "যথা, সুনির্দিষ্টভাবে উল্লেখকৃত ফাংশন, পরামিতিজনিত প্লট এবং পোলার প্লট।  ড্রপ-ডাউন-"
+#~ "লিস্ট থেকে ফাংশনের সঠিক ধরনটি বেছে নিন।"
+
+#~ msgid "New &Parametric Plot..."
+#~ msgstr "নতুন &পরামিতিজনিত প্লট..."
+
+#~ msgid "&New Polar Plot..."
+#~ msgstr "&নতুন পোলার প্লট..."
+
+#~ msgid "Cop&y Function..."
+#~ msgstr "ফাংশন &কপি করো..."
+
+#~ msgid "Edit Derivatives"
+#~ msgstr "প্রথম বৃদ্ধিহার (derivative) সম্পাদন করো"
+
+#~ msgid "color of the plot line"
+#~ msgstr "প্লট রেখার রং"
+
+#~ msgid "Click this button to choose a color for the plot line."
+#~ msgstr "প্লট রেখার রং বেছে নেওয়ার জন্য এই বাটনে ক্লিক করুন।"
+
+#~ msgid "0.1mm"
+#~ msgstr "০.১ মিলিমিটার"
+
+#~ msgid "&Color:"
+#~ msgstr "র&ঙ:"
+
+#~ msgid "Change the width of the plot line in steps of 0.1mm."
+#~ msgstr "প্রতি ধাপে ০.১ মিলিমিটার করে প্লট রেখার প্রস্থ পরিবর্তন করুন।"
+
+#~ msgid "&Line width:"
+#~ msgstr "রেখা&র প্রস্থ:"
+
+#~ msgid "Colo&r:"
+#~ msgstr "র&ঙ:"
+
+#~ msgid "&Equation:"
+#~ msgstr "সমীকর&ণ:"
+
+#~ msgid "enter an equation, for instance f(x)=x^2"
+#~ msgstr "একটি সমীকরণ লিখুন, যেমন, f(x)=x^2"
+
+#~ msgid "Parameter Values"
+#~ msgstr "পরামিতির মান"
+
+#~ msgid "Use"
+#~ msgstr "ব্যবহার"
+
+#~ msgid "change parameter value by moving a slider"
+#~ msgstr "স্লাইডার সরিয়ে পরামিতির মান পরিবর্তন করুন"
+
+#~ msgid ""
+#~ "Check this to change the parameter value by moving a slider. Select the "
+#~ "slider from the list box on the right. The values vary from 0 (left) to "
+#~ "100 (right)."
+#~ msgstr ""
+#~ "স্লাইডার সরিয়ে পরামিতির মান পরিবর্তন করার জন্য এটিতে ক্লিক করুন।  ডানদিকের "
+#~ "লিস্ট-বাক্স থেকে স্লাইডার বেছে নিন।  এর মান ০ (বাম) থেকে ১০০'র (ডান) মধ্যে "
+#~ "ওঠানামা করে।"
+
+#~ msgid "Values from a list"
+#~ msgstr "তালিকাভুক্ত মান"
+
+#~ msgid "read parameter values from a list"
+#~ msgstr "পরামিতির মান তালিকা থেকে পড়"
+
+#~ msgid ""
+#~ "Check this to let KmPlot use parameter values given in a list. Edit this "
+#~ "list by clicking the button on the right."
+#~ msgstr ""
+#~ "কে-এমপ্লট-কে তালিকাভুক্ত পরামিতির মান ব্যবহার করতে দেওয়ার জন্য এটিতে ক্লিক "
+#~ "করুন।  এই তালিকা সম্পাদন করার জন্যন ডানদিকের বাটনের ক্লিক করুন।"
+
+#~ msgid "Disable parameter values"
+#~ msgstr "পরামিতির মান নিষ্ক্রিয় করো"
+
+#~ msgid "Do not use any parameter values"
+#~ msgstr "পরামিতির কোন মান ব্যবহার করবে না"
+
+#~ msgid ""
+#~ "By having this option selected parameter values are disabled in the "
+#~ "function."
+#~ msgstr "এই অপশনটি বেছে নিলে ফাংশনে পরামিতির মান নিষ্ক্রিয় হয়ে যাবে।"
+
+#~ msgid "Custom plot m&inimum-range:"
+#~ msgstr "স্বনির্বাচি&ত প্লটের সর্বনিম্ন-সীমা:"
+
+#~ msgid "&Min:"
+#~ msgstr "সর্বনিম্ন (&ম):"
+
+#~ msgid "Custom plot m&aximum-range:"
+#~ msgstr "স্বনির্বাচি&ত প্লটের সর্বোচ্চ-সীমা:"
+
+#~ msgid "Co&lor:"
+#~ msgstr "র&ঙ:"
+
+#~ msgid "&x-value:"
+#~ msgstr "&এক্স-অক্ষীয় মান:"
+
+#~ msgid "&y-value:"
+#~ msgstr "&ওয়াই-অক্ষীয় মান:"
+
+#~ msgid "P&recision:"
+#~ msgstr "সূক্ষ্মতা (&ত):"
+
+#~ msgid "Custom &precision"
+#~ msgstr "স্বনির্বাচিত সূক্ষ্মতা (&ন)"
+
+#~ msgid "Customize the precision"
+#~ msgstr "সূক্ষ্মতা স্বনির্বাচন করুন"
+
+#~ msgid "&Change Value..."
+#~ msgstr "মান &পরিবর্তন করো..."
+
+#~ msgid "Change the value of a user-defined constant"
+#~ msgstr "ব্যবহারকারী-নির্ধারিত ধ্রুবকের মান পরিবর্তন করো"
+
+#~ msgid ""
+#~ "Click here to edit the value of the selected constant. Its name cannot be "
+#~ "changed."
+#~ msgstr ""
+#~ "বাছাইকৃত ধ্রুবকের মান সম্পাদনের জন্য এখানে ক্লিক করুন।  তবে ধ্রুবকের নাম পরিবর্তন "
+#~ "করা যাবে না।"
+
+#~ msgid "D&uplicate"
+#~ msgstr "&অনুরূপ"
+
+#~ msgid "Duplicate the selected constant"
+#~ msgstr "নির্বাচিত ধ্রুবকের অনুরূপ ধ্রুবক তৈরি করো"
+
+#~ msgid ""
+#~ "Click here to Copy the selected constant to another constant. You can "
+#~ "choose the new name from a list."
+#~ msgstr ""
+#~ "নির্বাচিত ধ্রুবককে অপর একটি ধ্রুবকে কপি করার জন্য এখানে ক্লিক করুন।  তালিকা থেকে "
+#~ "আপনি নতুন (ধ্রুবকের) নাম বেছে নিতে পারবেন।"
+
+#~ msgid "Variable"
+#~ msgstr "চলক"
+
+#~ msgid "List of user-defined constants"
+#~ msgstr "ব্যবহারকারী-নির্ধারিত ধ্রুবকের তালিকা"
+
+#~ msgid "Select a constant to change its value, remove it or duplicate it."
+#~ msgstr "মান পরিবর্তন, অপসারণ বা অনুরূপ ধ্রুবক তৈরির উদ্দেশ্যে একটি ধ্রুবক বেছে নিন।"
+
+#~ msgid "Variable:"
+#~ msgstr "চলক:"
+
+#~ msgid "Name of the constant (only 1 character but \"E\")"
+#~ msgstr "ধ্রুবকের নাম (\"E\" ব্যতীত অপর যে কোন একটি অক্ষর)"
+
+#~ msgid ""
+#~ "Enter the name of the constant here. User-defined constant names only "
+#~ "have 1 character; the constant \"E\" (Euler number) is reserved."
+#~ msgstr ""
+#~ "এখানে ধ্রুবকের নাম লিখুন।  ব্যবহারকারী-নির্ধারিত ধ্রুবকের নামে একটি মাত্র অক্ষর "
+#~ "থাকতে পারে; তবে ধ্রুবক \"E\" (ইউলারের ধ্রুবক) সংরক্ষিত।"
+
+#~ msgid "Enter the constant's value here."
+#~ msgstr "এখানে ধ্রুবকের মান লিখুন।"
+
+#~ msgid ""
+#~ "The value of a constant can be an expression, for instance PI/2 or "
+#~ "sqrt(2)."
+#~ msgstr "ধ্রুবকের মান যে কোন রাশি হতে পারে, যেমন PI/2 বা sqrt(2) ।"
+
+#~ msgid "Edit Parametric Plot"
+#~ msgstr "পরামিতিজনিত প্লট সম্পাদন করুন"
+
+#~ msgid "f"
+#~ msgstr "f"
+
+#~ msgid "(t) ="
+#~ msgstr "(t) ="
+
+#~ msgid "Hide"
+#~ msgstr "আড়াল করো"
+
+#~ msgid "F1"
+#~ msgstr "F1"
+
+#~ msgid "apply changes to the list"
+#~ msgstr "তালিকায় কৃত পরিবর্তন কার্যকর করো"
+
+#~ msgid "Click this button to apply the changes to the list of functions."
+#~ msgstr "ফাংশন তালিকায় কৃত পরিবর্তন কার্যকর করার জন্য এই বাটনে ক্লিক করুন।"
+
+#~ msgid "abort without changing anything"
+#~ msgstr "কোন পরিবর্তন ছাড়াই পরিত্যাগ করো"
+
+#~ msgid "Click here to close the dialog without changing anything."
+#~ msgstr "কোন পরিবর্তন ছাড়াই ডায়ালগটি বন্ধ করার জন্য এখানে ক্লিক করুন।"
+
+#~ msgid "&Max:"
+#~ msgstr "&সর্বোচ্চ:"
+
+#~ msgid "Custom plot maximum t-range:"
+#~ msgstr "স্বনির্বাচিত প্লটের সর্বোচ্চ t-সীমা:"
+
+# FIXME
+#~ msgid "Check this button and enter the plot maximum range boundary below."
+#~ msgstr "এই বাটনে ক্লিক করুন এবং নিচে প্লটের প্রান্তের সর্বোচ্চ সীমা লিখুন।"
+
+#~ msgid "Custom plot minimum t-range:"
+#~ msgstr "স্বনির্বাচিত প্লটের সর্বনিম্ন t-সীমা:"
+
+#~ msgid "Check this button and enter the plot minimum range boundary below."
+#~ msgstr "এই বাটনে ক্লিক করুন এবং নিচে প্লটের প্রান্তের সর্বনিম্ন সীমা লিখুন।"
+
+#~ msgid "Edit Polar Plot"
+#~ msgstr "পোলার প্লট সম্পাদন করুন"
+
+#~ msgid "enter an equation, for instance loop(angle)=ln(angle)"
+#~ msgstr "একটি সমীকরণ লিখুন, উদাহরণস্বরূপ loop(angle)=ln(angle)"
+
+#~ msgid "r"
+#~ msgstr "r"
+
+#~ msgid "Custom plot minimum r-range:"
+#~ msgstr "স্বনির্বাচিত প্লটের সর্বনিম্ন r-সীমা:"
+
+#~ msgid "Custom plot maximum r-range:"
+#~ msgstr "স্বনির্বাচিত প্লটের সর্বোচ্চ r-সীমা:"
+
+#~ msgid "Graph"
+#~ msgstr "লেখচিত্র"
+
+#~ msgid "The available functions you can search in"
+#~ msgstr "অনুসন্ধানযোগ্য ফাংশন"
+
+#~ msgid ""
+#~ "Here you can see all available functions you can use. Select one of them."
+#~ msgstr ""
+#~ "এখানে আপনি ব্যবহারযোগ্য সকল ফাংশন দেখতে পারেন।  এদের যে কোন একটিকে বেছে নিন।"
+
+#~ msgid "close the dialog"
+#~ msgstr "ডায়ালগ বন্ধ করো"
+
+#~ msgid "Close the dialog and return to the main window."
+#~ msgstr "ডায়ালগ বন্ধ করে মূল উইন্ডোতে ফিরে যাও।"
+
+#~ msgid "Choose Parameter Value..."
+#~ msgstr "পরামিতির মান বেছে নিন..."
+
+#~ msgid "select the parameter value you want to use"
+#~ msgstr "আপনি পরামিতির যে মান ব্যবহার করতে চান, তা বেছে নিন"
+
+#~ msgid "If the function has any parameter values you must select it here."
+#~ msgstr ""
+#~ "ফাংশনের কোন পরামিতির মান থাকলে এখানে আপনাকে তা অবশ্যই বাছাই করতে হবে।"
+
+#~ msgid "list of parameter values"
+#~ msgstr "পরামিতির মানসমূহের তালিকা"
+
+#~ msgid "Here you see the list of all parameter values for the function."
+#~ msgstr "এখানে আপনি ফাংশনটির সকল পরামিতির মান দেখতে পারেন।"
+
+#~ msgid "Close the dialog"
+#~ msgstr "ডায়ালগ বন্ধ করো"
+
+#~ msgid "Close the window and return to the function dialog."
+#~ msgstr "উইন্ডো বন্ধ করে ফাংশন ডায়ালগের ফিরে যাও।"
+
+#~ msgid "&Axes"
+#~ msgstr "&অক্ষ"
+
+#~ msgid "&X Axis"
+#~ msgstr "&এক্স অক্ষ"
+
+#~ msgid "[-8 | +8]"
+#~ msgstr "[-৮ | +৮]"
+
+#~ msgid "Select one of the predefined plot ranges."
+#~ msgstr "যে কোন একটি পূর্বনির্ধারিত প্লট সীমা বেছে নিন।"
+
+#~ msgid "[-5 | +5]"
+#~ msgstr "[-৫ | +৫]"
+
+#~ msgid "[0 | +16]"
+#~ msgstr "[০ | +১৬]"
+
+#~ msgid "[0 | +10]"
+#~ msgstr "[০ | +১০]"
+
+#~ msgid "&Y Axis"
+#~ msgstr "&ওয়াই অক্ষ"
+
+#~ msgid "Line width"
+#~ msgstr "রেখার প্রস্থ"
+
+#~ msgid "Length of the tic line"
+#~ msgstr "টিক রেখার দৈর্ঘ্য"
+
+#~ msgid "Enter the length of a tic line."
+#~ msgstr "টিক রেখার দৈর্ঘ্য লিখুন।"
+
+#~ msgid "Show extra frame"
+#~ msgstr "অতিরিক্ত ফ্রেম প্রদর্শন করো"
+
+#~ msgid "visible extra frame"
+#~ msgstr "অতিরিক্ত ফ্রেম প্রদর্শন করো"
+
+#~ msgid "Check this if the plot area should be framed by an extra line."
+#~ msgstr "প্লটক্ষেত্রের চারপাশে অতিরিক্ত একটি রেখা প্রদর্শন করতে হলে এটিতে টিক দিন।"
+
+#~ msgid "&Grid"
+#~ msgstr "গ্রী&ড"
+
+#~ msgid "Grid &Style"
+#~ msgstr "গ্রীডের &ধরন"
+
+#~ msgid "Available grid styles"
+#~ msgstr "ব্যবহারযোগ্য গ্রীডের ধরন"
+
+#~ msgid "Width for the grid lines"
+#~ msgstr "গ্রীড রেখার প্রস্থ"
+
+#~ msgid "Axis &font:"
+#~ msgstr "অক্ষের জন্য &ফন্ট:"
+
+#~ msgid "Axis font &size:"
+#~ msgstr "অক্ষের ফন্টের &আকার:"
+
+#~ msgid "the font for the axis"
+#~ msgstr "অক্ষরেখার ফন্ট"
+
+#~ msgid ""
+#~ "Select the font you want to use for the axis labels. If you cannot see "
+#~ "the labels, check that you have enabled \"Show labels\" in the coordinate "
+#~ "setting dialog."
+#~ msgstr ""
+#~ "অক্ষরেখার লেবেল প্রদর্শনের জন্য যে ফন্ট ব্যবহার করতে চান, তা বেছে নিন।  কোন "
+#~ "লেবেল দেখতে না পেলে, স্থানাংকের বৈশিষ্ট্য নির্ধারক ডায়ালগে \"লেবেল প্রদর্শন করো"
+#~ "\"-কে সক্রিয় করেছেন কিনা তা পরীক্ষা করুন।"
+
+#~ msgid "The font size for the axis"
+#~ msgstr "অক্ষের ফন্টের আকার"
+
+#~ msgid "Here you set the font size for the axis"
+#~ msgstr "এখানে অক্ষের ফন্টের আকার নির্ধারণ করতে পারবেন"
+
+#~ msgid "the font for the header table"
+#~ msgstr "হেডার সারণীর ফন্ট"
+
+#~ msgid ""
+#~ "Select the font you want to use in the header table. The header table can "
+#~ "be included when you are printing a graph."
+#~ msgstr ""
+#~ "হেডার সারণীতে যে ফন্ট ব্যবহার করতে চান, তা বেছে নিন।  লেখচিত্র মুদ্রণের সময় এই "
+#~ "হেডার সারণীকে অন্তর্ভুক্ত করা যাবে।"
+
+#~ msgid "Points per pixel:"
+#~ msgstr "পিক্সেল প্রতি বিন্দু সংখ্যা:"
+
+#~ msgid "How many points per pixel shall be calculated."
+#~ msgstr "পিক্সেল প্রতি কতটি বিন্দু গণনা করা হবে।"
+
+#~ msgid ""
+#~ "Enter the amount of points per pixel which shall be calculated. For slow "
+#~ "computers or very complex plots use higher values."
+#~ msgstr ""
+#~ "পিক্সেল প্রতি যে সংখ্যক বিন্দু গণনা করা হবে তা লিখুন।  ধীর গতির কম্পিউটার হলে বা "
+#~ "অত্যন্ত জটিল প্লট আঁকার সময়, বড় কোন সংখ্যা ব্যবহার করুন।"
+
+# FIXME
+#~ msgid "&Use relative step width"
+#~ msgstr "আপেক্ষিক প্রস্থের ধাপ ব্য&বহার করো"
+
+#~ msgid "Use the same precision independent of the window's size"
+#~ msgstr "উইন্ডোর আকার নির্বিশেষে অভিন্ন সূক্ষ্মতা ব্যবহার করো"
+
+#~ msgid ""
+#~ "If relative step width is set to true, the step width will be adapted to "
+#~ "the size of the window."
+#~ msgstr ""
+#~ "আপেক্ষিক প্রস্থের ধাপ এর মান true হলে প্রতি ধাপের মান উইন্ডোর আকারের সাথে "
+#~ "মানিয়ে নেওয়া হবে।"
+
+#~ msgid "X-Axis"
+#~ msgstr "এক্স-অক্ষ"
+
+#~ msgid "Scaling:"
+#~ msgstr "আকার পরিবর্তনের মাত্রা:"
+
+#~ msgid "Printing:"
+#~ msgstr "ছাপানো হচ্ছে:"
+
+#~ msgid "1 tic ="
+#~ msgstr "১ টিক ="
+
+#~ msgid "5"
+#~ msgstr "৫"
+
+#~ msgid "2"
+#~ msgstr "২"
+
+#~ msgid "0.5"
+#~ msgstr "০.৫"
+
+#~ msgid "pi/2"
+#~ msgstr "pi/2"
+
+#~ msgid "pi/3"
+#~ msgstr "pi/3"
+
+#~ msgid "pi/4"
+#~ msgstr "pi/4"
+
+#~ msgid "set the x-axis' printing scaling"
+#~ msgstr "এক্স-অক্ষীয় মুদ্রণের মাত্রা নির্ধারণ করুন"
+
+#~ msgid ""
+#~ "This is similar to the setting above, but this sets the distance between "
+#~ "two x-axis-grids when printing or drawing on the screen."
+#~ msgstr ""
+#~ "এই বৈশিষ্ট্যটি ওপরেরটির মতই, তবে এটি মুদ্রণ কিংবা পর্দায় কিছু আঁকার সময় এক্স-"
+#~ "অক্ষের দুটি গ্রীডের মধ্যে কী পরিমাণ দূরত্ব বজায় রাখা হবে তা নির্ধারণ করে।"
+
+#~ msgid "cm"
+#~ msgstr "সেন্টিমিটার"
+
+#~ msgid "set the x-axis' scaling"
+#~ msgstr "এক্স-অক্ষের মাত্রা নির্ধারণ করুন"
+
+#~ msgid ""
+#~ "Choose how many units apart the x-axis tics will be, and therefore, how "
+#~ "far apart grid lines will be drawn."
+#~ msgstr ""
+#~ "বেছে নিন যে, এক্স-অক্ষীয় টিকগুলোর মধ্যে কত একক দূরত্ব থাকবে, এবং এরফলে পরস্পর "
+#~ "থেকে কী পরিমাণ দূরত্বে গ্রীড রেখাগুলো আঁকা হবে।"
+
+#~ msgid "Y-Axis"
+#~ msgstr "ওয়াই-অক্ষ"
+
+#~ msgid "set the y-axis' scaling"
+#~ msgstr "ওয়াই-অক্ষীয় মুদ্রণের মাত্রা নির্ধারণ করুন"
+
+#~ msgid ""
+#~ "This is similar to the setting above, but this sets the distance between "
+#~ "two y-axis-grids when printing or drawing on the screen."
+#~ msgstr ""
+#~ "এই বৈশিষ্ট্যটি ওপরেরটির মতই, তবে এটি মুদ্রণ কিংবা পর্দায় কিছু আঁকার সময় ওয়াই-"
+#~ "অক্ষের দুটি গ্রীডের মধ্যে কী পরিমাণ দূরত্ব বজায় রাখা হবে তা নির্ধারণ করে।"
+
+#~ msgid ""
+#~ "Choose how many units apart the y-axis tics will be, and therefore, how "
+#~ "far apart grid lines will be drawn."
+#~ msgstr ""
+#~ "বেছে নিন যে, ওয়াই-অক্ষীয় টিকগুলোর মধ্যে কত একক দূরত্ব থাকবে, এবং এরফলে পরস্পর "
+#~ "থেকে কী পরিমাণ দূরত্বে গ্রীড রেখাগুলো আঁকা হবে।"
+
+#~ msgid "Checked if a frame is visible"
+#~ msgstr "ফ্রেম দৃশ্যমান হলে এখানে টিক দেওয়া থাকবে"
+
+#~ msgid "Check this box if a frame should be drawn around the plot area."
+#~ msgstr "প্লট-ক্ষেত্রের চারপাশে ফ্রেম প্রদর্শন করতে চাইলে এই বাক্সে টিক দিন।"
+
+#~ msgid "Checked if an extra frame is visible"
+#~ msgstr "অতিরিক্ত একটি ফ্রেম দৃশ্যমান হলে এখানে টিক দেওয়া থাকবে"
+
+#~ msgid ""
+#~ "Check this box if an extra frame should be drawn around the plot area."
+#~ msgstr ""
+#~ "প্লট-ক্ষেত্রের চারপাশে অতিরিক্ত একটি ফ্রেম প্রদর্শন করতে হলে এই বাক্সে টিক দিন।"
+
+#~ msgid "Plot-line width"
+#~ msgstr "প্লট-রেখার প্রস্থ"
+
+#~ msgid "Enter the width of the plot line."
+#~ msgstr "প্লট-রেখার প্রস্থ লিখুন।"
+
+#~ msgid "Predefined x-axis range"
+#~ msgstr "এক্স অক্ষের পূর্বনির্ধারিত সীমা"
+
+#~ msgid "Predefined plot area widths."
+#~ msgstr "প্লট-ক্ষেত্রের পূর্বনির্ধারিত প্রস্থ।"
+
+#~ msgid "Predefined y-axis range"
+#~ msgstr "এক্স অক্ষের পূর্বনির্ধারিত সীমা"
+
+#~ msgid "Predefined plot area heights."
+#~ msgstr "প্লট-ক্ষেত্রের পূর্বনির্ধারিত উচ্চতা।"
+
+#~ msgid "Printed width of 1 unit"
+#~ msgstr "প্রতি এককের মুদ্রিত প্রস্থ"
+
+#~ msgid "Enter the width of a unit in cm."
+#~ msgstr "সেন্টিমিটার হিসেবে প্রতি এককের প্রস্থ লিখুন।"
+
+#~ msgid "Printed height of 1 unit"
+#~ msgstr "প্রতি এককের মুদ্রিত প্রস্থ"
+
+#~ msgid "Enter the height of a unit in cm."
+#~ msgstr "সেন্টিমিটার হিসেবে প্রতি এককের উচ্চতা লিখুন।"
+
+#~ msgid "Choose a font size for the axis labels."
+#~ msgstr "অক্ষীয় লেবেলে ব্যবহৃত ফন্টের আকার বেছে নিন।"
+
+#~ msgid "Step width in pixel"
+#~ msgstr "পিক্সেল হিসেবে প্রতি ধাপের প্রস্থ"
+
+#~ msgid ""
+#~ "The greater the step width the faster but the less precise the plot is "
+#~ "done."
+#~ msgstr ""
+#~ "প্রতি ধাপের প্রস্থ যত বেশি হবে, ততই দ্রুত প্লট আঁকা যাবে, কিন্তু সেই সাথে প্লট নিখুঁত "
+#~ "হওয়ার মাত্রাও হ্রাস পাবে।"
+
+#~ msgid "Use relative step width"
+#~ msgstr "আপেক্ষিক ধাপের প্রস্থ ব্যবহার করো"
+
+#~ msgid "The drawing was cancelled by the user."
+#~ msgstr "ব্যবহারকারী চিত্রটি বাতিল করেছেন।"
+
+#~ msgid "Printing Format"
+#~ msgstr "মুদ্রণ ফরম্যাট"
+
+#~ msgid "Are you sure you want to remove this function?"
+#~ msgstr "আপনি কি এই ফাংশনটি অপসারণের ব্যাপারে নিশ্চিত?"
+
+#~ msgid "There are no other Kmplot instances running"
+#~ msgstr "আর কোন কে-এমপ্লট চলছে না"
+
+#~ msgid "kmplot"
+#~ msgstr "কে-এমপ্লট"
+
+#~ msgid ""
+#~ "Choose which KmPlot instance\n"
+#~ "you want to copy the function to:"
+#~ msgstr ""
+#~ "যে কে-এমপ্লট'টিতে ফাংশনটিকে কপি করতে\n"
+#~ "চান তাকে বেছে নিন:"
+
+#~ msgid "An error appeared during the transfer"
+#~ msgstr "স্থানান্তরের সময় একটি সমস্যা হয়েছে"
+
+#~ msgid "A function uses this constant; therefore, it cannot be removed."
+#~ msgstr "এই ধ্রুবকটি কোন একটি ফাংশন ব্যবহার করছে; ফলে এটি অপসারণ করা যাবে না।"
+
+#~ msgid "The item could not be found."
+#~ msgstr "জিনিষটি পাওয়া যায় নি।"
+
+#~ msgid "Choose Name"
+#~ msgstr "নাম বেছে নিন"
+
+#~ msgid "Choose a name for the constant:"
+#~ msgstr "ধ্রুবকের জন্য একটি নাম বেছে নিন:"
+
+#~ msgid "Enter a function equation, for example: f(x)=x^2"
+#~ msgstr "একটি ফাংশনের সমীকরণ লিখুন, যেমন: f(x)=x^2"
+
+#~ msgid "Zoom &Rectangular"
+#~ msgstr "&বর্গক্ষেত্রকে পরিবর্তিত আকারে প্রদর্শন করো"
+
+#~ msgid "&Center Point"
+#~ msgstr "কেন্দ্রবিন্দু (&দ)"
+
+#~ msgid "&Colors..."
+#~ msgstr "&রঙ..."
+
+#~ msgid "&Scaling..."
+#~ msgstr "মাত্রা... (&ম)"
+
+#~ msgid "&New Function Plot..."
+#~ msgstr "&নতুন ফাংশন প্লট..."
+
+#~ msgid "New Parametric Plot..."
+#~ msgstr "নতুন পরামিতিজনিত প্লট..."
+
+#~ msgid "New Polar Plot..."
+#~ msgstr "নতুন পোলার প্লট..."
+
+#~ msgid "&Search for Minimum Value..."
+#~ msgstr "&সর্বনিম্ন মান খোঁজো..."
+
+#~ msgid "&Search for Maximum Value..."
+#~ msgstr "&সর্বোচ্চ মান খোঁজো..."
+
+#~ msgid "&Calculate Integral"
+#~ msgstr "যোজিত ফল &গণনা করো"
+
+#~ msgid "Quick Edit"
+#~ msgstr "ঝটপট সম্পাদন"
+
+#~ msgid ""
+#~ "Enter a simple function equation here.\n"
+#~ "For instance: f(x)=x^2\n"
+#~ "For more options use Functions->Edit Plots... menu."
+#~ msgstr ""
+#~ "এখানে একটি সরল ফাংশনের সমীকরণ লিখুন।\n"
+#~ "যেমন: f(x)=x^2\n"
+#~ "আরো অপশন ব্যবহার করতে চাইলে ফাংশন->প্লট সম্পাদন... মেনু দেখুন।"
+
+#~ msgid "Show Slider 1"
+#~ msgstr "১ম স্লাইডার প্রদর্শন করো"
+
+#~ msgid "Show Slider 2"
+#~ msgstr "২য় স্লাইডার প্রদর্শন করো"
+
+#~ msgid "Show Slider 3"
+#~ msgstr "৩য় স্লাইডার প্রদর্শন করো"
+
+#~ msgid "Show Slider 4"
+#~ msgstr "৪র্থ স্লাইডার প্রদর্শন করো"
+
+#~ msgid ""
+#~ "*.svg|Scalable Vector Graphics (*.svg)\n"
+#~ "*.bmp|Bitmap 180dpi (*.bmp)\n"
+#~ "*.png|Bitmap 180dpi (*.png)"
+#~ msgstr ""
+#~ "*.svg|পরিবর্তনশীল আকারের ভেক্টর গ্রাফিক্স (*.svg)\n"
+#~ "*.bmp|বিটম্যাপ ১৮০ডি.পি.আই.(*.bmp)\n"
+#~ "*.png|বিটম্যাপ ১৮০ডি.পি.আই.(*.png)"
+
+#~ msgid "The URL could not be saved."
+#~ msgstr "ইউ.আর.এল.-টি সংরক্ষণ করা যায় নি"
+
+#~ msgid "Edit Colors"
+#~ msgstr "রঙ সম্পাদন করো"
+
+#~ msgid "Scale"
+#~ msgstr "মাত্রা"
+
+#~ msgid "Edit Scaling"
+#~ msgstr "মাত্রা সম্পাদন করো"
+
+#~ msgid "Edit Fonts"
+#~ msgstr "ফন্ট সম্পাদন"
+
+#~ msgid ""
+#~ "Parametric functions must be definied in the \"New Parametric Plot\"-"
+#~ "dialog which you can find in the menubar"
+#~ msgstr ""
+#~ "পরামিতিজনিত ফাংশনকে \"নতুন পরামিতিজনিত প্লট\" নামক ডায়ালগ থেকে নির্ধারণ করতে "
+#~ "হবে; এই ডায়ালগটি মেনুবার-এ রয়েছে"
+
+#~ msgid "Recursive function is not allowed"
+#~ msgstr "Recursive ফাংশনের ব্যবহার অনুমোদিত নয়"
+
+#~ msgid "Coords"
+#~ msgstr "স্থানাঙ্ক"
+
+#~ msgid "Edit Coordinate System"
+#~ msgstr "স্থানাঙ্ক পদ্ধতি সম্পাদন করো"
+
+#~ msgid "You can only define plot functions in this dialog"
+#~ msgstr "এই ডায়ালগ থেকে শুধুমাত্র প্লট ফাংশন নির্ধারণ করতে পারবেন"
+
+#~ msgid "Please insert a valid x-value"
+#~ msgstr "অনুগ্রহপূর্বক একটি বৈধ এক্স-অক্ষীয় মান লিখুন"
+
+#~ msgid "Please insert a valid y-value"
+#~ msgstr "অনুগ্রহপূর্বক একটি বৈধ ওয়াই-অক্ষীয় মান লিখুন"
+
+#~ msgid "Recursive function is only allowed when drawing integral graphs"
+#~ msgstr "শুধুমাত্র যোজিত ফলের লেখচিত্র আঁকার সময়ই Recursive ফাংশন ব্যবহার করা যায়"

@@ -1,0 +1,33 @@
+<appendix id="installation">
+<title
+>Telepítés</title>
+
+&install.intro.documentation;
+
+<mediaobject>
+<imageobject
+>			
+<imagedata fileref="edu-logo.png" format="PNG"/>
+</imageobject>
+</mediaobject>
+
+<para
+>&kmplot; a következő honlapon található <ulink url="http://edu.kde.org/kmplot"
+>&kmplot; </ulink
+> és része a &kde;-Edu projektnek</para>
+
+&install.compile.documentation;
+
+</appendix>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+
+

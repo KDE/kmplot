@@ -1,0 +1,856 @@
+<chapter id="reference">
+<title
+>Referência do &kmplot;</title>
+	
+<!--
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="kfkt.png" format="PNG"/>
+		</imageobject>
+	</mediaobject>
+	
+	<para
+>This menu entry or toolbar button opens the Functions Editor.  Here
+		you can enter up to 10 functions or
+		function groups.  The parser knows <firstterm
+>explicit</firstterm
+> and
+		<firstterm
+>parametric</firstterm
+> form.  With specific extensions it
+		is possible to add first and second derivatives and to choose values
+		for the function group parameter.</para>
+	-->
+		
+<sect1 id="func-syntax">
+	<title
+>Sintaxe das Funções</title>
+	
+	<para
+>Algumas regras de sintaxe com as quais terá de estar de acordo:</para>
+	
+	<screen
+><userinput
+>nome(var1[, var2])=termo [;extensões]</userinput
+>
+        </screen>
+	
+	
+	<variablelist>
+		<varlistentry>
+			<term
+>nome</term>
+			<listitem>
+				
+				<para
+>O nome da função. Se o primeiro carácter for um <quote
+>r</quote
+>, o analisador irá assumir que você está a usar coordenadas polares. Se o primeiro carácter for um <quote
+>x</quote
+> (como por exemplo <quote
+>xfuncao</quote
+>), o processador irá ficar à espera de uma segunda função com um <quote
+>y</quote
+> inicial (neste caso, <quote
+>yfuncao</quote
+>) para definir a função de forma paramétrica. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var1</term>
+			<listitem
+><para
+>A variável da função</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var2</term
+> 
+			<listitem
+><para
+>O <quote
+>parâmetro de grupo</quote
+> da função. Deverá estar separado da variável da função por uma vírgula. Você poderá usar o parâmetro do grupo para, por exemplo, desenhar um conjunto de gráficos de uma função. Os valores do parâmetro podem ser seleccionados manualmente ou você poderá optar por ter uma barra deslizante que controle um parâmetro. Ao alterar o valor da barra, o valor do parâmetro respectivo irá alterar também. A barra poderá ser configurada para um inteiro entre 0 e 100.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>termo</term>
+			<listitem
+><para
+>A expressão que define a função.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+	<title
+>Nomes de Funções e Constantes Predefinidas</title>
+	
+	<para
+>Todas as funções e constantes predefinidas que o &kmplot; conhece podem ser mostradas se escolher a opção <menuchoice
+><guimenu
+>Ajuda</guimenu
+><guimenuitem
+>Funções Matemáticas Predefinidas</guimenuitem
+></menuchoice
+>, que mostra esta página do manual do &kmplot;. </para>
+	
+	<para
+>Estas funções e constantes e ainda todas as funções definidas pelo utilizador poderão ser usadas para determinar também a configuração dos eixos. Veja a <xref linkend="axes-config"/>. </para>
+	
+	<sect2 id="trigonometric-functions">
+		<title
+>Funções Trigonométricas</title>
+		
+		<para
+>Por omissão, as funções trigonométricas trabalham em radianos. Contudo, isto pode ser alterado através da opção <menuchoice
+><guimenu
+>Configuração</guimenu
+><guimenuitem
+>Configurar o &kmplot;</guimenuitem
+></menuchoice
+>. </para>
+		
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>sin(x)</term>
+				<term
+>arcsin(x)</term>
+				<term
+>cosec(x)</term>
+				<term
+>arccosec(x)</term>
+				<listitem
+><para
+>O seno, arco-seno, co-secante e o arco-cosecante, respectivamente.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>cos(x)</term>
+				<term
+>arccos(x)</term>
+				<term
+>sec(x)</term>
+				<term
+>arcsec(x)</term>
+				<listitem
+><para
+>Devolve o coseno, o coseno inverso (arco-coseno), a secante e a secante inversa (arco-secante) de um número, respectivamente.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>tan(x)</term>
+				<term
+>arctan(x)</term>
+				<term
+>cot(x)</term>
+				<term
+>arccot(x)</term>
+				<listitem
+><para
+>A tangente, a tangente inversa (arco-tangente), a cotangente e a cotangente inversa (arco-cotangente) respectivamente.</para
+></listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</sect2>
+	
+	<sect2 id="hyperbolic-functions">
+		<title
+>Funções Hiperbólicas</title>
+		<para
+>As Funções Hiperbólicas.</para>
+		
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>sinh(x)</term>
+				<term
+>arcsinh(x)</term>
+				<term
+>cosech(x)</term>
+				<term
+>arccosech(x)</term>
+				<listitem
+><para
+>O seno hiperbólico, o seno inverso hiperbólico (arco-seno hiperbólico), a co-secante e a co-secante inversa (arco-cosecante), respectivamente.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>cosh(x)</term>
+				<term
+>arccosh(x)</term>
+				<term
+>sech(x)</term>
+				<term
+>arcsech(x)</term>
+				<listitem
+><para
+>O coseno hiperbólico, o coseno inverso hiperbólico (arco-coseno hiperbólico), a secante e a secante inversa (arco-secante) de um número, respectivamente.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>tanh(x)</term>
+				<term
+>arctanh(x)</term>
+				<term
+>coth(x)</term>
+				<term
+>arccoth(x)</term>
+				<listitem
+><para
+>A tangente hiperbólica, a tangente inversa hiperbólica (arco-tangente hiperbólica), a cotangente e a cotangente inversa (arco-cotangente), respectivamente.</para
+></listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</sect2>
+	
+	<sect2 id="other-functions">
+		<title
+>Outras Funções</title>
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>sqr(x)</term>
+				<listitem
+><para
+>O quadrado x^2 de x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>sqrt(x)</term>
+				<listitem
+><para
+>A raiz quadrada de x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>sign(x)</term>
+				<listitem
+><para
+>O sinal de x. Devolve 1, se o 'x' for positivo, 0 se 'x' for zero e &minus;1 se for negativo.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>H(x)</term>
+				<listitem
+><para
+>A Função de Heaviside. Devolve 1 se o 'x' for positivo, 0,5 se o 'x' for igual a zero ou 0 se o 'x' for negativo.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>exp(x)</term>
+				<listitem
+><para
+>A exponencial e^x de x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>ln(x)</term>
+				<listitem
+><para
+>O logaritmo natural (ou neperiano) de x.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>log(x)</term>
+				<listitem
+><para
+>O logaritmo de base 10 de um número.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>abs(x)</term>
+				<listitem
+><para
+>O valor absoluto ou módulo de 'x'.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>floor(x)</term>
+				<listitem
+><para
+>Arredonda 'x' ao inteiro mais próximo, menor ou igual a 'x'.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>ceil(x)</term>
+				<listitem
+><para
+>Arredonda 'x' ao inteiro mais próximo, maior ou igual a 'x'.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>round(x)</term>
+				<listitem
+><para
+>Arredonda 'x' ao número inteiro mais próximo.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>gamma(x)</term>
+				<listitem
+><para
+>A função 'gamma'.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>factorial(x)</term>
+				<listitem
+><para
+>O factorial de 'x'.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>min(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Devolve o mínimo do conjunto de números {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>max(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Devolve o máximo do conjunto de números {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>mod(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Devolve o módulo (comprimento Euclideano) do conjunto de números {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+			
+			<!-- TODO: Legendre polynomials -->
+			
+		</variablelist>
+	</sect2>
+	
+	<sect2>
+		<title
+>Constantes Predefinidas</title>
+		<variablelist>
+			
+			<varlistentry>
+				<term
+>pi</term>
+				<term
+>&pgr;</term>
+				<listitem>
+					<para
+>As constantes que representam o &pgr; (3,14159...).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>e</term>
+				<listitem>
+					<para
+>A constante que representa o Número de Euler 'e' (2,71828...).</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</sect2>
+</sect1>
+
+<sect1 id="func-extension">
+	<title
+>Extensões</title>
+	<para
+>Uma extensão para uma função é indicada se introduzir um ponto-e-vírgula, seguido da extensão, após a definição da função. A extensão tanto poderá ser escrita no campo de Edição Rápida como usando o método de &DBus; addFunction. Nenhuma das extensões está disponível para as funções paramétricas, mas o N e o D[a,b] funcionam também para as funções polares. Por exemplo: <screen>
+      <userinput>
+        f(x)=x^2; A1
+      </userinput>
+    </screen
+> irá mostrar o gráfico y=x<superscript
+>2</superscript
+> com a sua primeira derivada. As extensões suportadas são descritas em baixo: <variablelist>
+			<varlistentry>
+				<term
+>N</term>
+				<listitem>
+					<para
+>A função será guardada mas não desenhada. Como tal, poderá ser usada como qualquer outra função definida pelo utilizador ou predefinida. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A1</term>
+				<listitem>
+					<para
+>O gráfico da derivada da função será desenhado adicionalmente, com a mesma cor mas com menor largura do traço. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A2</term>
+				<listitem>
+					<para
+>O gráfico da segunda derivada da função será desenhado adicionalmente, com a mesma cor mas com menor largura do traço. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>D[a,b]</term>
+				<listitem>
+					<para
+>Define o domínio para o qual será mostrada a função. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>P[a{,b...}]</term>
+				<listitem>
+					<para
+>Dá um conjunto de valores de um parâmetro de grupo para o qual a função deverá ser mostrada. Por exemplo: <userinput
+>f(x,k)=k*x;P[1,2,3]</userinput
+> irá desenhar as funções f(x)=x, f(x)=2*x e f(x)=3*x. Poderá também usar funções como argumentos para a opção P. </para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	<para
+>Repare por favor que poderá fazer todas estas operações ao editar os itens na página de <guilabel
+>Derivadas</guilabel
+>, na secção <guilabel
+>Intervalo do gráfico personalizado</guilabel
+> e também na secção <guilabel
+>Parâmetros</guilabel
+> da barra lateral das <guilabel
+>Funções</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="math-syntax">
+	<title
+>Sintaxe Matemática</title>
+	<para
+>O &kmplot; usa uma forma comum de exprimir as funções matemáticas, por isso você não deverá ter problemas a usá-la. Os operadores que o &kmplot; compreende são, por ordem decrescente de precedência: <variablelist>
+			
+			<varlistentry>
+				<term
+>^</term>
+				<listitem
+><para
+>O símbolo de acento circunflexo efectua uma potência. &eg;, o <userinput
+>2^4</userinput
+> devolve 16.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>*</term>
+				<term
+>/</term>
+				<listitem>
+					<para
+>Os símbolos do asterisco e da barra efectuam a multiplicação e a divisão. &eg;, <userinput
+>3*4/2</userinput
+> devolve 6.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>+</term>
+				<term
+>&minus;</term>
+				<listitem
+><para
+>O sinal de mais e de menos efectuam a soma e a subtracção. &eg;, <userinput
+>1+3&minus;2</userinput
+> devolve 2.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>&lt;</term>
+				<term
+>&gt;</term>
+				<term
+>&le;</term>
+				<term
+>&ge;</term>
+				<listitem
+><para
+>Operadores de comparação. Estes devolvem 1 se a expressão for verdadeira; caso contrário, devolvem 0. &eg;, <userinput
+>1 &le; 2</userinput
+> devolve 1.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>&radic;</term>
+				<listitem
+><para
+>A raiz quadrada de um número. &eg;, o <userinput
+>&radic;4</userinput
+> devolve 2.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>|x|</term>
+				<listitem
+><para
+>O valor absoluto de 'x'. &eg;, <userinput
+>|&minus;4|</userinput
+> devolve 4.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+>&plusmn;</term>
+				<term
+></term>
+				<listitem
+><para
+>Cada sinal de mais-menos devolve dois conjuntos de gráficos: um em que é usado o sinal de mais e outro em que é usado o sinal de menos. &eg;. <userinput
+>y = &plusmn;sqrt(1&minus;x^2)</userinput
+> irá desenhar uma circunferência. Como tal, estes não poderão ser usados em constantes. </para>
+				</listitem>
+			</varlistentry>
+			
+			
+			
+		</variablelist>
+	</para>
+	<para
+>Repare na precedência, que significa que, se os parêntesis não forem usados, a potência é efectuada antes da multiplicação/divisão, que por sua vez é efectuada antes da soma/subtracção. Por isso, <userinput
+>1+2*4^2</userinput
+> devolve 33 e não, por exemplo, 144. Para alterar isto, use os parêntesis. Para usar o exemplo acima, o valor <userinput
+>((1+2)*4)^2</userinput
+> <emphasis
+>irá</emphasis
+> devolver 144. </para>
+</sect1>
+
+<!--
+<sect1 id="coord-system">
+	<title
+>Coordinate Systems</title>
+	
+	<para
+><inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys1.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject
+></para>
+	
+	<para>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys2.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject
+></para>
+	
+	<para>
+		<inlinemediaobject>
+			<imageobject>
+				<imagedata fileref="ksys3.png" format="PNG"/>
+			</imageobject>
+		</inlinemediaobject
+></para>
+	-->
+<sect1 id="coord-area"
+><title
+>Área de Desenho</title>
+	<para
+>Por omissão, as funções definidas explicitamente são desenhadas para a área inteira de desenho no eixo dos X. Você poderá definir outro intervalo na janela de edição da função. Se a área de desenho contiver o ponto resultante, este estará ligado ao último ponto desenhado por uma linha. </para>
+	<para
+>As funções paramétricas e polares têm um intervalo de desenho predefinido de 0 a 2&pgr;. Este intervalo do gráfico também poderá ser alterado na barra lateral de <guilabel
+>Funções</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+	<title
+>Cursor de Mira</title>
+	<para
+>Enquanto o cursor do rato estiver por cima da área de desenho, este cursor muda para uma mira. As coordenadas actuais podem ser vistas nas intersecções com os eixos de coordenadas e também na barra de estado no fundo da janela principal. </para>
+	<para
+>Você poderá seguir os valores de uma função mais precisamente, se carregar em cima ou próximo de um gráfico. A função seleccionada é mostrada na barra de estado, na coluna da direita. A mira irá ser capturada então e poderá ficar da mesma cor do gráfico. Se o gráfico tiver a mesma cor que o fundo, a mira ficará com a cor invertida do fundo. Ao mover o rato ou ao carregar nos cursores para a Esquerda ou para a Direita, a mira irá seguir a função e você irá ver os valores actuais do X e do Y. Se a mira estiver próxima do eixo dos Y, o valor da raiz é mostrado na barra de estado. Você poderá mudar de funções com os cursores para Cima e para Baixo. Ao carregar uma segunda vez em qualquer lado da janela ou ao carregar em qualquer tecla sem ser de navegação irá abandonar este modo de seguimento. </para>
+	<para
+>Para um seguimento mais avançado, abra a janela de configuração e seleccione a opção <guilabel
+>Desenhar a tangente e a normal ao seguir</guilabel
+> na página de <guilabel
+>Configuração Geral</guilabel
+>. Esta opção irá desenhar a tangente, a normal e o círculo de osculação do gráfico a ser seguido de momento. </para>
+	
+</sect1>
+
+<sect1 id="coords-config">
+	<title
+>Configuração do <guimenuitem
+>Sistema de Coordenadas</guimenuitem
+></title>
+	<para
+>Para abrir esta janela, seleccione a opção <menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Sistema de Coordenadas...</guimenuitem
+></menuchoice
+> do menu.</para>
+	<screenshot>
+		<screeninfo
+>Imagem da janela do Sistema de Coordenadas</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Imagem da janela do Sistema de Coordenadas</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<sect2 id="axes-config">
+		<title
+>Configuração dos <guilabel
+>Eixos</guilabel
+></title>
+		<para>
+			<variablelist>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Intervalo do Eixo dos X</guilabel
+></term>
+					<listitem>
+						<para
+>Define o intervalo da escala no eixo dos X. Lembre-se que poderá usar as funções e constantes predefinidas (veja em <xref linkend="func-predefined"/>) como extremos do intervalo (&eg;, defina o <guilabel
+>Mín:</guilabel
+> como <userinput
+>2*pi</userinput
+>). Poderá até usar funções que tenha definido para usar nos extremos do intervalo do eixo. Por exemplo, se tiver definido uma função <userinput
+>f(x) = x^2</userinput
+>, poderá definir o <guilabel
+>Mín:</guilabel
+> como <userinput
+>f(3)</userinput
+>, o que faria com que o intervalo inferior fosse igual a 9.</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Intervalo no Eixo dos Y</guilabel
+></term>
+					<listitem>
+						<para
+>Define o intervalo para o eixo dos Y. Veja o <quote
+>Intervalo do Eixo dos X</quote
+> acima.</para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Espaço da Grelha no Eixo dos X</guilabel
+></term>
+					<listitem>
+						<para
+>Isto controla o espaço entre as linhas da grelha na direcção horizontal. Se a opção <guilabel
+>Automático</guilabel
+> estiver seleccionada, então o &kmplot; irá tentar encontrar um espaço de linhas da grelha com cerca de dois centímetros, o que também é razoável a nível numérico. Se estiver seleccionada a opção <guilabel
+>Personalizado</guilabel
+>, então poderá introduzir o espaçamento da grelha horizontal. Este valor será usado de forma independente da ampliação. Por exemplo, se for introduzido um valor igual a 0,5, e se o intervalo em X for entre 0 e 8, então serão apresentadas 16 linhas na grelha. </para>
+					</listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term
+><guilabel
+>Espaço da Grelha no Eixo dos Y</guilabel
+></term>
+					<listitem>
+						<para
+>Isto controla o espaço entre as linhas da grelha, na direcção vertical. Veja a opção <quote
+>Espaço da Grelha no Eixo dos X</quote
+> acima. </para>
+					</listitem>
+				</varlistentry>
+				
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title
+>Configuração das <guimenuitem
+>Constantes</guimenuitem
+></title>
+	<para
+>Para abrir esta janela, seleccione a opção <menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Constantes..</guimenuitem
+></menuchoice
+> do menu.</para>
+	
+	<screenshot>
+		<screeninfo
+>Imagem da janela de Constantes</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Imagem da janela de Constantes</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>As constantes poderão ser usadas como parte de qualquer expressão dentro do &kmplot;. Cada constante deverá ter um nome e um valor. Alguns nomes são todavia inválidos, como os nomes das funções ou constantes já existentes. </para>
+	
+	<para
+>Existem duas opções que controlam o âmbito de uma constante: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Documento</guilabel
+></term>
+				<listitem>
+					<para
+>Se seleccionar a opção <guilabel
+>Documento</guilabel
+>, então a Constante será gravada com o diagrama actual, sempre que o gravar num ficheiro. Contudo, a menos que tenha seleccionado a opção <guilabel
+>Global</guilabel
+>, a constante não estará disponível entre as instâncias do &kmplot;.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Global</guilabel
+></term>
+				<listitem>
+					<para
+>Se seleccionar a opção <guilabel
+>Global</guilabel
+>, então o nome e o valor da Constante serão gravados na configuração do &kde; (onde poderá também ser usada pelo &kcalc;). A constante não se irá perder quando o &kmplot; for fechado, e ficará disponível outra vez para ser usada quando se iniciar o &kmplot; de novo.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+	</para>
+</sect1>
+
+</chapter>
+
+<!--
+	Local Variables:
+	mode: sgml
+	sgml-minimize-attributes:nil
+	sgml-general-insert-case:lower
+	sgml-indent-step:0
+	sgml-indent-data:nil
+	sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+	End:
+			-->

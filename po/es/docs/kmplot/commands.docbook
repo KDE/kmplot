@@ -1,0 +1,301 @@
+<chapter id="commands">
+<title
+>Referencia de órdenes</title
+> 
+
+<sect1 id="menu">
+<title
+>Elementos del menú</title>
+
+<para
+>Además de los menús comunes de &kde; descritos en el capítulo <ulink url="help:/fundamentals/ui.html#menus"
+>Menú</ulink
+> de la documentación de los Fundamentos de &kde;, &kmplot; posee las siguientes entradas de menú específicas de la aplicación: </para>
+
+<sect2 id="a-file-menu">
+	<title
+>El menú Archivo</title>
+	<variablelist>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Exportar...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Exporta</action
+> los gráficos trazados a un archivo de imagen de cualquier formato permitido por &kde;.</para
+></listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>El menú Editar</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Constantes...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Muestra el cuadro de diálogo <guilabel
+>Constantes</guilabel
+>. Consulte <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>El menú Ver</title>
+	<para
+>Los tres primeros elementos del menú cambian el modo de ampliación.</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Acercar</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Esta herramienta puede operar de dos formas diferentes. Para ampliar un punto del gráfico, pulse sobre él. Para ampliar una sección específica del gráfico, mantenga pulsado el botón del ratón y arrástrelo para formar un rectángulo, que será el nuevo intervalo de ejes en cuanto suelte el botón.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ampliación</guimenu
+> <guimenuitem
+>Alejar</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>La herramienta también se puede utilizar de dos formas diferentes. Para alejar u centrar un punto, pulse sobre él. Para ajustar la vista existente en un rectángulo, mantenga pulsado el botón del ratón y arrastre el rectángulo que forma.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Ver</guimenu
+> <guimenuitem
+>Ajustar a las funciones trigonométricas</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>La escala se adaptará a funciones trigonométricas. Esto funciona tanto para radianes como para grados.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Reiniciar vista</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Reinicia la vista. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+><guimenuitem
+>Sistema de coordenadas...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Muestra el cuadro de diálogo <guilabel
+>Sistema de Coordenadas</guilabel
+>. Vea <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+> <guimenuitem
+>Mostrar deslizadores</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Conmuta</action
+> la visibilidad del diálogo de deslizadores. Mueva un deslizador en el diálogo para cambiar el parámetro de la función de trazado conectada a él.</para>
+				<para
+>Active esto en la pestaña «Función» y seleccione uno de los deslizadores para cambiar el valor del parámetro de forma dinámica. Los valores varían de 0 (a la izquierda) a 10 (a la derecha) por omisión, pero se pueden modificar en el diálogo de los deslizadores.</para>
+				<para
+>Consulte <ulink url="http://userbase.kde.org/KmPlot/Using_Sliders"
+>Uso de deslizadores</ulink
+> para un corto tutorial.</para>
+				<!--http://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>El menú Herramientas</title>
+	
+	<para
+>Este menú contiene algunas herramientas para las funciones que pueden ser de utilidad:</para>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Calculadora</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Abre el diálogo de la <guilabel
+>Calculadora</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Área del gráfico...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Selecciona un gráfico y los valores del eje horizontal en el nuevo diálogo que se muestra. Calcula la integral y dibuja el área entre el gráfico y el eje horizontal en el intervalo de los valores seleccionados usando el color del gráfico.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Encontrar mínimo...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Busca el valor mínimo del gráfico en un intervalo especificado.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Encontrar máximo...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Buscar el valor máximo del gráfico en un intervalo especificado.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>El menú Ayuda</title>
+	
+	<para
+>&kmplot; posee el menú <guimenu
+>Ayuda</guimenu
+> estándar de &kde; con un añadido:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ayuda</guimenu
+> <guimenuitem
+>Funciones matemáticas predefinidas...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Abre este manual con la lista de los nombres de funciones y constantes predefinidos que conoce &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+</sect2>
+</sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

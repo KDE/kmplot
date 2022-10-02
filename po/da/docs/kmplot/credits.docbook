@@ -1,0 +1,69 @@
+<chapter id="credits">
+<title
+>Medvirkende og licens</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Program ophavsret 2000-2002 Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail; </para>
+
+<itemizedlist>
+<title
+>Bidragydere</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: &Robert.Gogolok; <email
+>mail@robert-gogoloh.de</email
+></para>
+  </listitem>
+  <listitem>
+    <para
+>Overførsel af &GUI; til &kde; 3 og oversættelse: &Matthias.Messmer; &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Forskellige forbedringer: Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>Overførsel til Qt 4, forbedringer af grafisk grænseflade og funktioner: David Saxton <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>Dokumentation ophavsret  2000--2002 ved Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;. </para>
+<para
+>Dokumentation udvidet og opdateret for &kde; 3.2 af &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para
+>Dokumentation udvidet og opdateret for &kde; 3.3 af &Philip.Rodrigues; &Philip.Rodrigues.mail; og Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Dokumentation udvidet og opdateret for &kde; 3.4 af Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Dokumentation udvidet og opdateret for &kde; 4.0 ved David Saxton <email
+>david@bluehaze.org</email
+>.</para>
+&erik.kjaer.pedersen.credit; 
+&underFDL; &underGPL; </chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+

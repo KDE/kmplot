@@ -1,0 +1,269 @@
+<chapter id="configuration">
+<title
+>Настройка &kmplot;</title
+> 
+<para
+>To access the &kmplot; configuration dialog, select <menuchoice
+><guimenu
+>Settings</guimenu
+><guimenuitem
+>Configure &kmplot;...</guimenuitem
+></menuchoice
+>. A number of settings can also be changed from options in the <guimenu
+>Edit</guimenu
+> menu, as well. </para>
+
+<note>
+<para
+>Settings changed in the &kmplot; configuration dialog become the default for &kmplot;, and only take effect when a new plot is started. Settings changed in the <guimenu
+>Edit</guimenu
+> menu take effect immediately, but do not persist after &kmplot; is exited.</para>
+</note>
+
+<sect1 id="general-config">
+<title
+><guilabel
+>Общие</guilabel
+></title>
+<para
+>Здесь вы можете установить глобальные настройки,  как-то: точность расчётов, единицы для углов (радианы или градусы), цвет фона и коэффициенты масштабирования. </para
+><para
+>The second tab let you define you own constants. &kmplot; saves the constans in the same file as KCalc does. That means you can create a constant in &kmplot;, close the program and load it in KCalc and vice versa. &kmplot; only supports constant names that consist of one capital character and if you in KCalc define a constant name that is not one character, the name will be truncated. E.g, if you already have the constants "apple" and "bananas" in KCalc, they will be renamed to "A" and "B" in &kmplot;.</para>
+
+<screenshot>
+<screeninfo
+>Снимок экрана "Добро пожаловать"</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="settingsdlg.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Снимок экрана</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+
+</sect1>
+
+
+<sect1 id="colors-config">
+<title
+><guilabel
+>Цвета</guilabel
+></title>
+<para
+>На вкладке <guilabel
+>Координаты</guilabel
+> в разделе <guilabel
+>Цвета</guilabel
+> вы можете изменить цвета осей и сетки.</para>
+<para
+>In the <guilabel
+>Functions</guilabel
+> tab, you can change the colors used for the graphs of the functions allowed in &kmplot;.</para>
+</sect1>
+
+<sect1 id="coords-config">
+<title
+><guilabel
+>Координаты</guilabel
+></title>
+
+<sect2 id="axes-config">
+<title
+><guilabel
+>Оси</guilabel
+></title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Ось X</guilabel
+></term>
+<listitem>
+<para
+>Установить дипазон отображения оси x. Вы можете выбрать один из предложенных, или выбрать <guilabel
+>другой</guilabel
+>. При этом вы можете использовать встроенные (стандартные) функции (см. <xref linkend="func-predefined"/>), или даже определённые вами, в том числе и для указания масштабов по осям: например, задав функцию <userinput
+>f(x)=x^2</userinput
+>, можно указать <guilabel
+>min:</guilabel
+> как <userinput
+>f(3)</userinput
+>, что будет означать нижний предел по оси равный 9.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Ось Y</guilabel
+></term>
+<listitem>
+<para
+>Установить дипазон отображения оси y. См. тоже  самое для <quote
+>оси X</quote
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Толщина осей</guilabel
+></term>
+<listitem>
+<para
+>Толщина линий, представляющих оси.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Толщина делений</guilabel
+></term>
+<listitem>
+<para
+>Толщина линий, представляющих деления на осях.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Длина делений</guilabel
+></term>
+<listitem>
+<para
+>Длина линий, представляющих деления на осях.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Названия осей</guilabel
+></term>
+<listitem>
+<para
+>Отображать имена осей (x, y) на рисунке.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+</sect2>
+
+<sect2 id="grid-config">
+<title
+><guilabel
+>Сетка</guilabel
+></title>
+<para
+>Возможные <guilabel
+>стили сетки</guilabel
+>: <variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Без сетки</guilabel
+></term>
+<listitem>
+<para
+>Не рисовать сетку</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Линии</guilabel
+></term>
+<listitem>
+<para
+>Прямые линии по всей области построения.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Перекрещивающиеся линии</guilabel
+></term>
+<listitem>
+<para
+>Линии, проходящие через точки, имеющие целые координаты (например (1,1), (4,2)...), и их проекции на оси.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Полярная система координат</guilabel
+></term>
+<listitem>
+<para
+>Нарисовать окружности разных диаметров.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</para>
+<para
+><guilabel
+>Толщина линий</guilabel
+> устанавливает толщину линий сетки.</para>
+</sect2>
+
+<sect2 id="font-config">
+<title
+><guilabel
+>Шрифты</guilabel
+></title>
+<para
+>Шрифт <guilabel
+>заголовка</guilabel
+> с данными построений и <guilabel
+>надписей осей</guilabel
+>.</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="scaling-config">
+<title
+><guilabel
+>Масштаб</guilabel
+></title>
+
+<para
+>Здесь можно выбрать <guilabel
+>масштаб</guilabel
+> и <guilabel
+>прорисовку</guilabel
+> одного деления. <guilabel
+>Масштаб</guilabel
+> определяет количество единиц в одном делении, <guilabel
+>Прорисовка</guilabel
+> определяет длину одного деления при отображении или печати. Таким образом, эти параметры можно использовать для изменения размера графика. Например, удвоение величины <guilabel
+>прорисовки</guilabel
+> приведёт к растяжению графика вдвое, по высоте или длине.</para>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

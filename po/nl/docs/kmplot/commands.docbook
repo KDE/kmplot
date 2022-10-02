@@ -1,0 +1,301 @@
+<chapter id="commands">
+<title
+>Opdrachtenoverzicht</title
+> 
+
+<sect1 id="menu">
+<title
+>Menu</title>
+
+<para
+>Naast de gewone menu's van &kde;, zoals beschreven in het hoofdstuk <ulink url="help:/fundamentals/ui.html#menus"
+>Menu</ulink
+> in de basisdocumentatie van &kde;, kent &kmplot; nog de volgende menu-onderdelen: </para>
+
+<sect2 id="a-file-menu">
+	<title
+>Het menu Bestand</title>
+	<variablelist>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Exporteren...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Export</action
+> de geplotte grafieken naar een afbeeldingsbestand, in alle opmaken die door &kde; worden ondersteund.</para
+></listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>Het menu Bewerken</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Bewerken</guimenu
+><guimenuitem
+>Constanten...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Toont het dialoogvenster voor de <guilabel
+>Constanten</guilabel
+>. Zie ook <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>Het menu Beeld</title>
+	<para
+>De eerste drie menuonderdelen betreffen zoomen.</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Inzoomen</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Dit hulpmiddel kan op twee verschillende manieren worden gebruikt. Om op een punt in de grafiek in te zoomen, klikt u hierop. Om op een bepaald gedeelte van de grafiek in te zoomen kunt u met de muis een rechthoek markeren (klikken , muisknop ingedrukt houden, slepen), op deze rechthoek wordt ingezoomd als de muisknop wordt losgelaten.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Uitzoomen</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Dit hulpmiddel kan op twee verschillende manieren worden gebruikt. Om op een punt in de grafiek uit te zoomen, klikt u hierop. Om op het bestaand grafiekbeeld in een rechthoek in te passen kunt u met de muis een rechthoek markeren (klikken , muisknop ingedrukt houden, slepen).</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Beeld aanpassen aan goniometrische functies</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>De schaal wordt aangepast aan goniometrische functies. Dit geldt voor zowel radialen als graden.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Beeld terugzetten</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Het beeld terugzetten. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Coördinatenstelsel...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Tonen van het dialoogvenster voor het <guilabel
+>Coördinatenstelsel</guilabel
+>. Zie ook <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Schuifknoppen tonen</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Schakelt</action
+> het tonen van de dialoog aan of uit van de schuiven.  Hiermee worden de ermee verbonden parameters voor de functieplot ingesteld.</para>
+				<para
+>Activeer dit op het tabblad voor de functies en selecteer een schuif zodat u de parameter dynamisch een waarde kunt geven. Deze waarden variëren standaard van 0 (links) tot 10 (rechts), maar dit kan in de dialoog voor de schuiven worden gewijzigd.</para>
+				<para
+>Een korte uitleg hiervan vindt u in <ulink url="http://userbase.kde.org/KmPlot/Using_Sliders"
+>Het gebruik van schuiven</ulink
+>.</para>
+				<!--http://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>Het menu Hulpmiddelen</title>
+	
+	<para
+>In dit menu vindt u enkele nuttige hulpmiddelen voor de functies:</para>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Rekenmachine</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Opent de dialoog voor de <guilabel
+>Rekenmachine</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Plotgebied...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Selecteer een grafiek en de x-waarden in de dialoog. Berekent de integraal, en tekent de oppervlakte tussen de grafiek en de x-as tussen de geselecteerde x-waarden, in de kleur van de grafiek.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Bepaal minimum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Bepaal de minimum waarde van de functie in een opgegeven interval.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+><guimenuitem
+>Maximum bepalen...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Bepaal de maximum waarde van de functie in een opgegeven interval.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>Het menu Help</title>
+	
+	<para
+>&kmplot; heeft het standaard <guimenu
+>Help</guimenu
+>menu van &kde;, met één toevoeging:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Help</guimenu
+> <guimenuitem
+>Voorgedefinieerde functies ...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Openen van een lijst met namen van voorgedefinieerde functies en constanten die bekend zijn in &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+</sect2>
+</sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

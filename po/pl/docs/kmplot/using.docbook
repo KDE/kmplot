@@ -1,0 +1,444 @@
+<chapter id="using-kmplot">
+<title
+>Podręcznik &kmplot;</title>
+
+<para
+>&kmplot; obsługuje różne rodzaje funkcji, które mogą być zapisane w formie funkcji lub równania matematycznego:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Wykresy kartezjańskie mogą być wpisane jako np. <quote
+>y = x^2</quote
+>, gdzie x musi być używana jako zmienna, lub jako np. <quote
+>f(a) = a^2</quote
+> gdzie nazwa zmiennej jest dowolna.</para
+></listitem>
+	<listitem
+><para
+>Wykresy parametryczne są podobne do kartezjańskich. Tutaj współrzędne x i y wprowadzane są jako funkcje matematyczne zmiennej t, np. <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+>, lub jako funkcje <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Wykresy biegunowe również są podobne do kartezjańskich. Mogą być one wpisywane jako równania funkcji &thgr;, np.: <quote
+>r = &thgr;</quote
+>, lub jako funkcje, np.: <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Dla wykresów bezwarunkowych, nazwa funkcji jest wpisywano oddzielnie od wyrażenia odnoszącego się do współrzędnych x i y. Jeżeli zmienne x i y są określone w nazwie funkcji (np. przy wprowadzeniu <quote
+>f(a,b)</quote
+> jako nazwy funkcji), wtedy te zmienne będą używane. W przeciwnym wypadku litery x i y będą użyte jako zmienne.</para
+></listitem>
+	<listitem
+><para
+>Wykres różnicowy są określone równaniami różniczkowymi, gdzie najwyższa pochodna jest opisywana zakresem najniższej. Różniczkowanie jest oznaczane apostrofem ('). Równanie w formie funkcji będzie miało postać:<quote
+>f''(x) = f' &minus; f</quote
+>. W formie wyrażenia, będzie takie:<quote
+>y'' = y' &minus; y</quote
+>. W obu przypadkach wyrażenia <quote
+>(x)</quote
+> nie trzeba dodawać do pochodnej niższego rzędu (dlatego wprowadza się <quote
+>f'(x) = &minus;f</quote
+> a nie <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>Wszystkie pola wprowadzania wyrażenia mają przycisk po prawej stronie, którego naciśnięcie otwiera okno zaawansowanego <guilabel
+>Edytora równań</guilabel
+>, które zawiera: <itemizedlist>
+		<listitem>
+			<para
+>Różnorodne symbole matematyczne które mogą być wykorzystane w formułach, lecz nie są dostępne na normalnych klawiaturach.</para>
+		</listitem>
+		<listitem>
+			<para
+>Lista programowalnych stałych użytkownika oraz przycisk do ich zmiany.</para>
+		</listitem>
+		<listitem>
+			<para
+>Lista predefiniowanych funkcji. Uwaga, jeżeli wcześniej zaznaczono jakiś tekst, będzie on użyty jako argument funkcji podczas wklejania. Na przykład, jeżeli w równaniu <quote
+>y = 1 + x</quote
+> zaznaczono fragment<quote
+>1 + x</quote
+> i następnie wybrano funkcję sinus, to równanie zmieni się na: <quote
+> y = sin(1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>Tutaj możesz zobaczyć zrzut ekranu okna powitalnego &kmplot;</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Zrzut ekranu</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Typy funkcji</title>
+	
+	<sect2 id="cartesian-functions">
+		<title
+>Funkcje kartezjańskie</title>
+		<para
+>Aby wprowadzić funkcję w postaci kanonicznej (tzn. funkcję w postaci y=f(x)) do &kmplot;, trzeba wpisać ją w następującej formie <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>)=<replaceable
+>wyrażenie</replaceable
+></userinput
+></screen
+> Gdzie: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> jest nazwą funkcji; może być dowolnym ciągiem liter i cyfr.</para>
+				</listitem>
+				
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> jest współrzędną x używaną w wyrażeniu po znaku równości. W rzeczywistości jest to tylko zmienna domyślna, więc możesz użyć dowolnej nazwy, efekt będzie taki sam.</para>
+				</listitem>
+				
+				<listitem>
+					<para
+><replaceable
+>wyrażenie</replaceable
+> to wyrażenia które ma być narysowane, podane za pomocą odpowiedniej składni dla &kmplot;. Zobacz <xref linkend="math-syntax"/>. </para>
+				</listitem>
+				
+			</itemizedlist>
+		</para>
+	</sect2>
+	
+	<sect2 id="parametric-functions">
+		<title
+>Funkcje parametryczne</title>
+		<para
+>Funkcje parametryczne to takie w których współrzędne X i Y są zdefiniowane poprzez osobne funkcje innej zmiennej, często nazywanej t. Aby wprowadzić funkcję parametryczną w &kmplot;, postępuj zgodnie z procedurą dla wykresu kartezjańskiego dla funkcji x i y. Tak jak w funkcjach kartezjańskich można tutaj wprowadzić dowolną nazwę zmiennej jako parametru.</para>
+		<para
+>Przykładowo, żeby narysować koło, które ma równanie parametryczne w postaci równań: x = sin(t), y = cos(t). Należy w polach x i y równania wykresu parametrycznego wprowadzić: <userinput
+>f_x(t)=sin(t)</userinput
+> and <userinput
+>f_y(t)=cos(t)</userinput
+>. </para>
+		<para
+>Można ustawić kilka dodatkowych opcji dla wykresu w edytorze funkcji: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Min</guilabel
+></term>
+					<term
+><guilabel
+>Max</guilabel
+></term>
+					<listitem>
+						<para
+>Te ustawienia dotyczą zakresu parametru t dla którego funkcja jest rysowana.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+	
+	<sect2 id="polar-functions">
+		<title
+>Funkcje o współrzędnych biegunowych</title>
+		
+		<para
+>Współrzędne biegunowe wyznaczają położenie punktu poprzez jego odległość od środka układu (r), oraz kąt jaki linia od środka do punktu tworzy z osią z (zwykle nazywanym grecką literą theta &thgr;). Aby wprowadzić funkcje we współrzędnych biegunowych należy nacisnąć: <menuchoice
+><guimenu
+>Utwórz</guimenu
+><guimenuitem
+>Wykres biegunowy...</guimenuitem
+> </menuchoice
+>. W sekcji Definicja, należy wprowadzić równanie funkcji, zawierające wybraną nazwę dla zmiennej theta. Przykładowo, aby narysować spiralę Archimedesa należy wpisać: <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+>. Należy zauważyć, że można użyć dowolnej nazwy dla zmiennej theta, tak więc <quote
+>r(t) = t</quote
+> oraz <quote
+>f(x) = x</quote
+> dadzą taki sam rezultat. </para>
+	</sect2>
+	
+	<sect2 id="implicit-functions">
+		<title
+>Funkcje w postaci ogólnej</title>
+		
+		<para
+>Wyrażenie bezwarunkowe ustala związek równości pomiędzy współrzędnymi x i y. Na przykład, po naciśnięciuprzycisku <guilabel
+>Utwórz</guilabel
+> i wybraniu <guilabel
+>Wykres bezwarunkowy</guilabel
+>, należy w polu funkcji wpisać co następuje: <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+	
+	<sect2 id="differential-functions">
+		<title
+>Funkcje różniczkowe</title>
+		
+		<para
+>W programie &kmplot; można rysować wykresy dla równań różniczkowych. Są to równania w formie: y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), gdzie y<superscript
+>k</superscript
+> jestk<superscript
+>tą</superscript
+> pochodną funkcji y(x). Program &kmplot; może ustalić stopień pochodnej jedynie po numerze apostrofów wpisanych po nazwie funkcji. Aby narysować sinusoidę, należy wpisać równanie różniczkowe postaci<userinput
+>y'' = &minus; y</userinput
+> lub<userinput
+>f''(x) = −f</userinput
+>. </para>
+		
+		<para
+>Jednakże samo równanie różniczkowe nie wystarcza do narysowania wykresu. Każda linia na wykresie jest tworzona za pomocą kombinacji równania różniczkowego i warunków początkowych. Edycja warunków początkowych jest możliwa w zakładce <guilabel
+>Warunki początkowe</guilabel
+>. Liczba kolumn dostępnych podczas ustalania warunków początkowych zależy od stopnia pochodnej przyjętej dla równania. </para>
+		
+		<para
+>Można ustawić kilka dodatkowych opcji dla wykresu w edytorze funkcji: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Krok</guilabel
+></term>
+					<listitem>
+						<para
+>Wartość kroku ustalana w polu precyzja, jest wykorzystywana do numerycznego rozwiązywania równania różniczkowego (z wykorzystaniem metody Runge Kutta). W polu wprowadzana jest maksymalna wartość kroku, mniejsza wartość może być przyjęta przez program, jeżeli fragment wykresu równania różniczkowego będzie odpowiednio powiększony.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Składanie funkcji</title>
+	<para
+>Funkcje mogą być składane w celu stworzenia nowych. Po prostu wprowadź funkcje po znaku równości w wyrażeniu tak jakby były zmiennymi. Na przykład, jeśli masz zdefiniowane funkcje f(x) i g(x), możesz narysować sumę f i g poprzez: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Zmiana wyglądu funkcji</title>
+	
+	<para
+>Zmiana wyglądu wykresu funkcji odbywa się za pomocą paska bocznego <guilabel
+>Funkcje</guilabel
+>. Można zmieniać grubość linii wykresu, kolor i wiele innych charakterystyk po kliknięciu na przyciski <guibutton
+>Kolor</guibutton
+> lub <guibutton
+>Zaawansowane...</guibutton
+> w dolnej części sekcji <guilabel
+>Wygląd</guilabel
+>. </para>
+	
+	<para
+>Podczas edytowania wykresu kartezjańskiego, edytor funkcji wyświetli trzy zakładki. W pierwszej z nich można wprowadzić równanie funkcji. Zakładka <guilabel
+>Pochodne</guilabel
+> pozwala włączyć rysowanie pierwszej i drugiej pochodnej. Zakładka <guilabel
+>Całka</guilabel
+> umożliwia rysowanie całki funkcji. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Menu kontekstowe</title>
+	<screenshot>
+	<screeninfo
+>Menu kontekstowe po naciśnięciu prawego przycisku na wykresie</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Menu kontekstowe po naciśnięciu prawego przycisku na wykresie</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Po kliknięciu prawym przyciskiem myszy na wykresie zwykłej, lub parametrycznej funkcji ciągłej pojawi się menu kontekstowe, w którym znajdują się trzy pozycje:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Edytuj</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Wybiera do edycji funkcję w pasku bocznym <guilabel
+>Funkcje</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Ukryj</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Ukrywa wybrany wykres. Pozostałe wykresy tej funkcji będą nadal widoczne.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Usuń</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Usuwa funkcję. Wszystkie jej wykresy znikają.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Animuj wykresy...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Wyświetla okno dialogowe <guilabel
+>Animacja parametrów</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Kalkulator</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Wyświetla okno dialogowe <guilabel
+>Kalkulator</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+	<para
+>W zależności od rodzaju wykresu, dostępne mogę być również nawet cztery narzędzia:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Obszar wykresu...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Należy w otwartym oknie dialogowym określić dolną i górną wartość zakresu x. Spowoduje to obliczenie całki dla wybranej funkcji oraz wypełnienie kolorem obszaru pomiędzy wykresem a osią x dla określonego zakresu. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Znajdź minimum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Znajduje wartość minimalną dla wykresu w określonym zakresie wartości x. Wybrany wykres będzie podświetlony w nowo otwartym oknie dialogowym. Należy tu wpisać dolną i górną granicę zakresu, w którym ma być poszukiwane minimum. </para>
+				<para
+>Uwaga: Można włączyć pokazywanie na wykresie ekstremów (minimów i maksimów) funkcji, w sekcji<guilabel
+>Wygląd</guilabel
+> widocznej na pasku<guilabel
+>Funkcji</guilabel
+> trzeba kliknąć <guibutton
+>Zaawansowane...</guibutton
+>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Znajdź maksimum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Tak samo jak dla <guimenuitem
+>Szukaj wartości minimalnej</guimenuitem
+> opisanej powyżej, lecz wyszukuje wartość maksymalną zamiast minimalnej.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

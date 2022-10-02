@@ -1,0 +1,83 @@
+<chapter id="introduction">
+<title
+>Introduzione</title>
+	
+<para
+>&kmplot; è uno strumento dell'ambiente &kde; per disegnare le funzioni matematiche. Dispone di un potente interprete interno. Ti permette di disegnare diverse funzioni simultaneamente e di combinarle per formare nuove funzioni.</para>
+
+<screenshot>
+	<screeninfo
+>Esempi</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Esempi</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; supporta diversi tipi di grafico:</para>
+<itemizedlist>
+	<listitem
+><para
+>Grafici cartesiani in forma esplicita del tipo y = f(x).</para
+></listitem>
+	<listitem
+><para
+>Grafici parametrici, in cui le ascisse x e y vengono fornite tramite funzioni di una variabile indipendente.</para
+></listitem>
+	<listitem
+><para
+>Grafici polari della forma r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Funzioni implicite, in cui le coordinate x e y sono le soluzioni di un'equazione.</para
+></listitem>
+	<listitem
+><para
+>Grafici differenziali espliciti.</para
+></listitem>
+</itemizedlist>
+
+<para
+>&kmplot; fornisce anche alcuni strumenti grafici e numerici. Dato il grafico di una funzione, sarà possibile:</para>
+<itemizedlist>
+	<listitem
+><para
+>Evidenziare e calcolare l'area compresa tra il grafico e l'asse delle ascisse;</para>
+	</listitem>
+	<listitem
+><para
+>Calcolarne i valori massimi e minimi;</para>
+	</listitem>
+	<listitem
+><para
+>Cambiarne dinamicamente i parametri;</para>
+	</listitem>
+	<listitem
+><para
+>Tracciarne le funzioni derivata ed integrale.</para>
+	</listitem>
+</itemizedlist>
+
+<para
+>Questi strumenti aiutano a comprendere meglio il rapporto tra le funzioni matematiche e la loro rappresentazione grafica in un sistema di coordinate.</para>
+
+</chapter>
+
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

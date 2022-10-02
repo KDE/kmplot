@@ -1,0 +1,301 @@
+<chapter id="commands">
+<title
+>Référence des commandes</title
+> 
+
+<sect1 id="menu">
+<title
+>Éléments du menu</title>
+
+<para
+>En dehors des menu courants de &kde; décrits dans le chapitre <ulink url="help:/fundamentals/ui.html#menus"
+>Menu</ulink
+> des Fondamentaux de &kde;, &kmplot; a ces entrées de menu qui lui sont spécifiques : </para>
+
+<sect2 id="a-file-menu">
+	<title
+>Le menu Fichier</title>
+	<variablelist>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Fichier</guimenu
+><guimenuitem
+>Exporter...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Exporte</action
+> les courbes graphiques vers une image dans tous les formats pris en charge par &kde;.</para
+></listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>Le menu Édition</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Édition</guimenu
+><guimenuitem
+>Constantes</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Affiche la boîte de dialogue des <guilabel
+>Constantes</guilabel
+>. Voyez le <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>Le menu Affichage</title>
+	<para
+>Les cinq premiers éléments dans ce menu sont reliés au mode de zoom.</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Affichage</guimenu
+> <guimenuitem
+>Zoom avant</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Cet outil peut être utilisé de deux façons différentes. Pour zoomer vers l'avant sur un point d'un graphique, cliquez dessus. Pour zoomer en avant sur une section spécifique du graphique, glissez et tirez le pointeur de souris pour former un rectangle, lequel sera les nouvelles coordonnées des axes.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Affichage</guimenu
+> <guimenuitem
+>Zoom arrière</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Cet outil peut être utilisé de deux façons différentes. Pour zoomer vers l'arrière et centrer un point, cliquez sur ce point. Pour adapter la vue existante dans un rectangle, tirez et déplacez le pointeur de souris pour créer un rectangle.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Affichage</guimenu
+> <guimenuitem
+>Adapter la zone de dessin aux fonctions trigonométriques</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>L'échelle sera adaptée aux fonctions trigonométriques. Ceci fonctionne à la fois en radians et en degrés.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Affichage</guimenu
+><guimenuitem
+>Remettre l 'affichage à zéro</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Ré-initialise la vue. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Affichage</guimenu
+><guimenuitem
+>Système de coordonnées...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Affiche la boîte de dialogue <guilabel
+>d'édition du système de coordonnées</guilabel
+>. Voyez <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Affichage</guimenu
+> <guimenuitem
+>Afficher les glissières</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Activer/désactiver</action
+> la visibilité des glissières. Dans la boîte de dialogue, déplacer une glissière pour modifier le paramètre d'une fonction de traçage associé.</para>
+				<para
+>Activer ceci dans l'onglet Fonction et sélectionner l'une des glissières pour modifier la valeur du paramètre dynamiquement. Les valeurs varient de 0 (gauche) à 10 (droite) par défaut, mais peuvent être modifiée dans la boîte de dialogue des glissières.</para>
+				<para
+>Pour un petit tutoriel, vous pouvez consulter <ulink url="http://userbase.kde.org/KmPlot/Using_Sliders/fr"
+>Utilisation des glissières</ulink
+>.</para>
+				<!--http://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>Le menu Outils</title>
+	
+	<para
+>Ce menu contient quelques outils utiles pour les fonctions :</para>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Outils</guimenu
+> <guimenuitem
+>Calculatrice</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Ouvre la boîte de dialogue de la <guilabel
+>Calculatrice</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Outils</guimenu
+> <guimenuitem
+>Zone de tracé</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Sélectionnez une courbe et les abscisses dans la nouvelle boîte de dialogue qui apparaît. Elle calcule l'intégrale et dessine la surface entre la courbe et l'axe des abscisses dans la plage des valeurs des abscisses choisies, dans la couleur de la courbe.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Outils</guimenu
+> <guimenuitem
+>Trouver le minimum</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Trouve la valeur minimale d'une courbe dans un intervalle spécifique.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Outils</guimenu
+> <guimenuitem
+>Trouver le maximum</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Trouve la valeur maximale d'une courbe dans un intervalle spécifique.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>Le menu Aide</title>
+	
+	<para
+>&kmplot; a le menu <guimenu
+>Aide</guimenu
+> standard de &kde; avec un ajout :</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Aide</guimenu
+> <guimenuitem
+>Fonctions mathématiques prédéfinies...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Ouvre ce manuel avec une liste des noms de fonctions et constantes prédéfinies que &kmplot; connaît.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+</sect2>
+</sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

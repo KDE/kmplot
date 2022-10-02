@@ -1,0 +1,610 @@
+<chapter id="commands">
+<title
+>Spis poleceń</title
+> 
+
+<sect1 id="a-file-menu">
+	<title
+>Menu <guimenu
+>Plik</guimenu
+></title>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Nowy</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Rozpoczyna rysowanie nowego wykresu poprzez wyczyszczenie układu współrzędnych oraz zresetowanie parsera funkcji.</action
+></para
+> 
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Otwórz...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Otwiera instniejący dokument.</action>
+				</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+> <guisubmenu
+>Otwórz poprzedni</guisubmenu
+> </menuchoice
+></term>
+			<listitem
+><para
+><action
+>Wyświetla listę ostatnio otwieranych plików.</action
+> Wybranie pozycji z listy, spowoduje narysowanie funkcji wybranej z listy.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Zapisz</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Zapisuje dokument.</action
+></para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Plik</guimenu
+> <guimenuitem
+>Zapisz jako...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Zapisuje dokument pod inną nazwą.</action
+></para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Drukuj...</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Wysyła wykres na drukarkę lub do pliku.</action
+></para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Pliki</guimenu
+> <guimenuitem
+>Exportowanie...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Eksportuje</action
+> narysowany wykres do pliku obrazu rastrowego.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+><keycombo action="simul"
+> &Ctrl;<keycap
+>Q</keycap
+> </keycombo
+></shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Zakończ</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Wychodzi z programu</action
+> &kmplot;.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="a-edit-menu">
+	<title
+>Menu <guimenu
+>Edycja</guimenu
+></title>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Edycja</guimenu
+> <guimenuitem
+>Cofnij</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Cofnij ostatnie polecenie.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Edycja</guimenu
+> <guimenuitem
+>Przywróć</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Przywraca ostatnio cofniętą akcję.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Edytuj</guimenu
+><guimenuitem
+>Stałe...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Wyświetla okno dialogowe <guilabel
+>Stałe</guilabel
+>. Zobacz <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="a-view-menu">
+	<title
+>Menu <guimenu
+>Widok</guimenu
+></title>
+	<para
+>Pierwsze trzy pozycje w menu dotyczą powiększania.</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Widok</guimenu
+> <guimenuitem
+>Powiększ</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Z narzędzia można korzystać na dwa różna sposoby. Aby powiększyć wykres w danym punkcie, wystarcz na niego kliknąć. Aby powiększyć zaś, fragment wykresu, to należy kliknąć i przeciągnąć myszką rysując prostokątny obszar powiększenia. Wysokość i szerokość obszaru stanie się nowym zakresem osi x i y po zwolnieniu przycisku myszy.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Widok</guimenu
+> <guimenuitem
+>Pomniejsz</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>To narzędzie także może być wykorzystywane na dwa sposoby. Aby zmniejszyć powiększenie i wyśrodkować wykres w danym punkcie, należy kliknąć w tym punkcie myszką. Aby zmniejszyć skalę obecnego widoku do narysowanego prostokąta, należy nacisnąć i przeciągnąć myszkę rysując pożądany prostokąt.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Widok</guimenu
+> <guimenuitem
+>Dopasuj widget do funkcji trygonometrycznych</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>Skala zostanie przystosowana do wyświetlania funkcji trygonometrycznych. Działa to zarówno dla radianów jak i stopni.</para
+></listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Widok</guimenu
+><guimenuitem
+>Zresetuj widok</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Resetuje widok. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Widok</guimenu
+><guimenuitem
+>Układ współrzędnych...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Wyświetla okno dialogowe <guilabel
+>Układ współrzędnych</guilabel
+>. Zobacz <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Widok</guimenu
+> <guimenuitem
+>Pokaż suwaki</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Włącza/wyłącza</action
+> okno suwaków.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+<sect1 id="a-tools-menu">
+	<title
+>Menu <guimenu
+>Narzędzia</guimenu
+></title>
+	
+	<para
+>Menu to zawiera kilka użytecznych narzędzi dla funkcji:</para>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Narzędzia</guimenu
+> <guimenuitem
+>Kalkulator</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Wyświetla okno dialogowe <guilabel
+>Kalkulator</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Narzędzia</guimenu
+> <guimenuitem
+>Pole wykresu</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>W wyświetlonym oknie należy wybrać wykres oraz wpisać wartość x (min i max). Spowoduje to obliczenie pola powierzchni dla obszaru pomiędzy wykresem a osią x, dla zakresu wartość x podanego w polach min i max, na wykresie wskazana powierzchnia zostanie wypełniona kolorem wykresu.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Narzędzia</guimenu
+> <guimenuitem
+>Znajdź minimum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Odnajduje minimalną wartość wykresu w określonych granicach.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Narzędzia</guimenu
+> <guimenuitem
+>Znajdź maksimum...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Odnajduje maksymalną wartość wykresu w określonych granicach.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+<sect1 id="a-settings-menu">
+	<title
+>Menu <guimenu
+>Ustawienia</guimenu
+></title>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Pokaż pasek narzędzi</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Pokazuje lub ukrywa pasek narzędzi.</action
+> Domyślnie jest pokazywany.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Wyświetl pasek stanu</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Pokazuje lub ukrywa pasek stanu na dole okna &kmplot;</action
+> Domyślnie pasek stanu jest włączony.</para>
+			</listitem>
+		</varlistentry>
+		
+		<!-- Is the settings menu the right place for Full Screen Mode, same for Show Sliders ? 
+			 perhaps better a new menu View with Full Screen, Sliders, and Coordinate System I to III 
+			 from the menu Edit, usability bugreport against kmplot?
+			 -->
+		<varlistentry>
+			<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Tryb pełnoekranowy</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Komenda włącza tryb pełnoekranowy.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Konfiguracja skrótów...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Pozwala na dostosowanie skrótów klawiszowych</action
+> dla &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Konfiguracja pasków narzędzi...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Pozawala na dostosowanie pasków narzędzi</action
+> dla &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Konfiguracja &kmplot;...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Pozwala na zmianę parametrów</action
+> &kmplot;. Dostępne opcje opisane są w <xref linkend="configuration"/>.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+	
+</sect1>
+
+<sect1 id="a-help-menu">
+	<title
+>Menu <guimenu
+>Pomoc</guimenu
+></title>
+	
+	<para
+>&kmplot; posiada standardową <guimenu
+>Pomoc</guimenu
+> &kde; opisaną poniżej z jednym dodatkiem:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Pomoc</guimenu
+> <guimenuitem
+>Predefinowane funkcje matematyczne...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Otwiera krótki podręcznik z listą obsługiwanych funkcji i stałych dostępnych w programie &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+	<para
+>Standardowe pozycje <guimenu
+>Pomocy</guimenu
+> &kde; to:</para>
+&help.menu.documentation; </sect1>
+
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

@@ -1,0 +1,77 @@
+<chapter id="credits">
+<title
+>Riconoscimenti e licenza</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Copyright 2000-2002 sul programma: Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail; </para>
+
+<itemizedlist>
+<title
+>Hanno contribuito:</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: &Robert.Gogolok; <email
+>mail@robert-gogoloh.de</email
+></para>
+  </listitem>
+  <listitem>
+    <para
+>Adattamento dell'interfaccia grafica a &kde; 3 e supporto per traduzione: Matthias Messmer &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Vari miglioramenti: Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>Migrazione a Qt 4, miglioramenti dell'interfaccia grafica e nuove funzionalità: David Saxton <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>Copyright documentazione 2000--2002 Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;. </para>
+<para
+>Ampliamento e aggiornamento documentazione per &kde; 3.2: &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para
+>Ampliamento e aggiornamento documentazione per &kde; 3.3: &Philip.Rodrigues; &Philip.Rodrigues.mail; e  Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Ampliamento e aggiornamento documentazione per &kde; 3.4: Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Ampliamento e aggiornamento documentazione per &kde; 4: David Saxton <email
+>david@bluehaze.org</email
+>.</para>
+<para
+>Prima traduzione italiana: Davide Rizzo (<email
+>rizzo@merate.mi.astro.it</email
+>)</para
+> <para
+>Aggiornamento traduzione del manuale dal 2004: Andrea Celli (<email
+>andrea.celli@libero.it</email
+>)</para
+> 
+&underFDL; &underGPL; </chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->
+

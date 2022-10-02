@@ -1,0 +1,138 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+<!ENTITY % Galician  "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Manual do usuario do &kde;</title>
+<author
+><personname
+> <firstname
+>Ben</firstname
+> <surname
+>Burton</surname
+> </personname
+> <email
+>bab@debian.org</email
+></author>
+<date
+>May 25, 2005</date>
+<productname
+>Ambiente de Escritorio K</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kmplot</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kmplot</command
+></refname>
+<refpurpose
+>representador de funcións matemáticas</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kmplot</command
+> <group choice="opt"
+><option
+><replaceable
+>file</replaceable
+></option
+></group
+> <arg choice="opt"
+>&kde; Generic Options</arg
+> <arg choice="opt"
+>&Qt; Generic Options</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Descrición</title>
+<para
+>&kmplot; é un representador de funcións matemáticas para o Escritorio &kde;. Incorpora un potente procesador de expresións. Pode representar á vez diferentes funcións e combinalas para construír funcións novas.</para
+><para
+>&kmplot; permite usar funcións paramétricas e funcións en coordenadas polares. Admite varios modos de grella. As gráficas poden ser impresas con precisión alta na escala correcta.</para
+><para
+>&kmplot; tamén fornece algunhas funcionalidades numéricas e visuais, como preencher e calcular a área entre a gráfica e o primeiro eixo, achar valores extremos, alterar dinamicamente parámetros das funcións e representar ecuacións diferenciais e integrais.</para
+><para
+>&kmplot; forma parte do módulo educativo de &kde;.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Opcións</title>
+<variablelist>
+<varlistentry
+><term
+><option
+><replaceable
+>ficheiro</replaceable
+></option
+></term>
+<listitem
+><para
+>Ficheiro para abrir</para
+></listitem
+></varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title
+>Consulte tamén</title>
+
+<para
+>Está dispoñíbel documentación máis detallada para o usuario en <ulink url="help:/kmplot"
+>help:/kmplot</ulink
+> (podes introducir este <acronym
+>URL</acronym
+> en &konqueror;, ou executar <userinput
+><command
+>khelpcenter</command
+><parameter
+>help:/kmplot</parameter
+></userinput
+>).</para>
+
+<para
+>Hai máis información dispoñíbel no <ulink url="http://edu.kde.org/kmplot/"
+>sitio web do proxecto educativo de &kde;</ulink
+>.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Autores</title>
+<para
+>&kmplot; foi escrito por <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> <email
+>kdmoeller@foni.net</email
+>, &Matthias.Messmer; &Matthias.Messmer.mail; e <personname
+><firstname
+>Fredrik</firstname
+><surname
+>Edemar</surname
+></personname
+> <email
+>f_edemar@linux.se</email
+></para>
+</refsect1>
+
+</refentry>

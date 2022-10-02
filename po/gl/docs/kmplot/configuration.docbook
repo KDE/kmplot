@@ -1,0 +1,302 @@
+<chapter id="configuration">
+<title
+>Configuración do &kmplot;</title
+> 
+<para
+>Para acceder ao diálogo de configuración do &kmplot;, selecciona <menuchoice
+><guimenu
+>Configuración</guimenu
+><guimenuitem
+>Configurar o &kmplot;...</guimenuitem
+></menuchoice
+>. As opcións das <guimenuitem
+>Constantes...</guimenuitem
+> só se poden mudar no menú <guimenu
+>Editar</guimenu
+> e o <guimenuitem
+>Sistema de coordenadas...</guimenuitem
+> só no menú <guimenu
+>Vista</guimenu
+>. </para>
+
+<sect1 id="general-config">
+	<title
+>Configuración <guilabel
+>Xeral</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Captura de pantalla do diálogo Configuración Xeral</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Captura de pantalla do diálogo de configuración xeral</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Aquí pódense axustar as opcións xerais, que se gravan automaticamente ao saír do &kmplot;. Pódese establecer o modo dos ángulos (radiáns e graos), as relacións de achegamento e alonxamento e se mostrar o debuxado avanzado. </para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Configuración do <guilabel
+>Diagrama</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Captura de pantalla do diálogo Aparencia da Gráfica</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Captura de pantalla do diálogo Aparencia da Gráfica</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Pode indicar unha entre catro opcións para o <guilabel
+>Estilo da grade</guilabel
+>: <variablelist>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Ningún</guilabel
+></term>
+				<listitem>
+					<para
+>Non se mostra ningunha grade na área de debuxo</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Liñas</guilabel
+></term>
+				<listitem>
+					<para
+>A grade está formada por liñas que forman cadrados na área de debuxo.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Cruces</guilabel
+></term>
+				<listitem>
+					<para
+>Móstranse cruces para indicar os puntos nos que x e y toman valores enteiros (&eg;, (1,1), (4,2) &etc;).</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Polar</guilabel
+></term>
+				<listitem>
+					<para
+>Móstranse liñas de raio constante e de ángulo constante.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	
+	<para
+>Aquí tamén poden ser configuradas outras opción da aparencia do diagrama: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Largo do eixo:</guilabel
+></term>
+				<listitem>
+					<para
+>Configura o largo das liñas dos eixos.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Largo da liña:</guilabel
+></term>
+				<listitem>
+					<para
+>Configura o largo das liñas usadas para debuxar a grade.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Largo do trazo:</guilabel
+></term>
+				<listitem>
+					<para
+>Configura o largo das liñas que gradúan os eixos.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Lonxitude do trazo:</guilabel
+></term>
+				<listitem>
+					<para
+>Configura a lonxitude das liñas que gradúan os eixos.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostrar identificacións</guilabel
+></term>
+				<listitem>
+					<para
+>Se a opción estivese escollida, aparecen os nomes (x, y) dos eixos e as graduacións dos eixos teñen lendas.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostrar os eixos</guilabel
+></term>
+				<listitem>
+					<para
+>Se esta opción estiver sinalada, os eixos son visíbeis.</para>
+				</listitem>
+			</varlistentry>
+			
+			<varlistentry>
+				<term
+><guilabel
+>Mostrar frechas</guilabel
+></term>
+				<listitem>
+					<para
+>Se esta opción estiver sinalada, os eixos teñen pontas de frecha nos extremos.</para>
+				</listitem>
+			</varlistentry>
+			
+		</variablelist>
+		
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Configuración de <guilabel
+>Cores</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Captura de pantalla do diálogo Cores</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Captura de pantalla do diálogo Cores</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<para
+>Na sección <guilabel
+>Coordenadas</guilabel
+> do diálogo de configuración <guilabel
+>Cores</guilabel
+> pódense alterar as cores dos eixos, da grade e do fondo da área principal do &kmplot;. </para>
+	
+	<para
+>A opción <guilabel
+>Cores por omisión da función</guilabel
+> controla as cores que serán escollidas ao crear funcións novas.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Configuración de <guilabel
+>Tipos de Letra</guilabel
+></title>
+	
+	<screenshot>
+		<screeninfo
+>Captura de pantalla do diálogo Tipos de Letra</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Captura de pantalla do diálogo Tipos de Letra</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+	
+	<variablelist>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Lendas dos eixos</guilabel
+></term>
+			<listitem>
+				<para
+>O tipo de letra dos números dos eixos e das marcas x/y.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><guilabel
+>Lendas dos diagramas</guilabel
+></term>
+			<listitem>
+				<para
+>O tipo de letra das lendas dos diagramos (&eg; as que mostran o nome da gráfica ou os puntos extremos).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Táboa de cabeceira</guilabel
+></term>
+			<listitem>
+				<para
+>O tipo de letra da cabeceira das gráficas.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

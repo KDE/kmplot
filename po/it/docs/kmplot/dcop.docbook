@@ -1,0 +1,585 @@
+<chapter id="dcop">
+	<title
+>Script per &kmplot;</title>
+	<para
+>Una nuova funzionalità in KDE 3.4 è la possibilità di preparare degli script per &kmplot; con DBus per &kde; 4. Per esempio, se vuoi definire una nuova funzione <userinput
+>f(x)=2sin x+3cos x</userinput
+>, fissare lo spessore della linea uguale a 20 e disegnarla, puoi scrivere da console:</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command
+>. Come risultato verrà reso il numero ID della nuova funzione o "-1", se la funzione non può essere definita.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command
+>. Questo comando imposta uguale a 20 lo spessore della linea con cui verrà disegnata la funzione con numero identificativo ID.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /view org.kde.kmplot.View.drawPlot</command
+>. Questo comando aggiorna la finestra per rendere visibile la funzione.</para>
+<para
+>Un elenco di funzioni disponibili: <variablelist>
+		<varlistentry>
+			<term
+>/kmplot org.kde.kmplot.KmPlot.fileOpen url </term>
+			<listitem>
+				<para
+>Carica il file <parameter
+>url</parameter
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.isModified </term>
+			<listitem>
+				<para
+>Restituisce vero se sono stati effettuati cambiamenti.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.checkModified </term>
+			<listitem>
+				<para
+>Se ci fossero dei cambiamenti non ancora salvati, verrebbe aperta una finestra per salvarli, scartarli o cancellare i grafici.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.editAxes </term>
+			<listitem>
+				<para
+>Apre la finestra di dialogo per modificare le coordinate.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.toggleShowSlider </term>
+			<listitem>
+				<para
+>Mostra/nasconde la finestra del regolatore.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSave </term>
+			<listitem>
+				<para
+>Salva le funzioni (apre l'apposita finestra per salvarle in un nuovo file).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSaveas </term>
+			<listitem>
+				<para
+>Ha lo stesso effetto della scelta di <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Salva come</guimenuitem
+></menuchoice
+> nel menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotPrint </term>
+			<listitem>
+				<para
+>Apre la finestra di dialogo per la stampa.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotResetView </term>
+			<listitem>
+				<para
+>Ha lo stesso effetto della scelta di <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Azzera vista</guimenuitem
+></menuchoice
+> nel menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotExport </term>
+			<listitem>
+				<para
+>Apre la finestra di dialogo per esportare.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSettings </term>
+			<listitem>
+				<para
+>Apre la finestra di dialogo per le impostazioni.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotNames </term>
+			<listitem>
+				<para
+>Mostra la pagina del manuale con le funzioni matematiche predefinite.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMinimumValue </term>
+			<listitem>
+				<para
+>Ha lo stesso effetto della scelta di <menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Valore minimo...</guimenuitem
+></menuchoice
+> nel menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMaximumValue </term>
+			<listitem>
+				<para
+>Ha lo stesso effetto della scelta di <menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Valore massimo...</guimenuitem
+></menuchoice
+> nel menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.graphArea </term>
+			<listitem>
+				<para
+>Ha lo stesso effetto della scelta di <menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Area del grafico</guimenuitem
+></menuchoice
+> nel menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.calculator </term>
+			<listitem>
+				<para
+>Ha lo stesso effetto della scelta di <menuchoice
+><guimenu
+>Strumenti</guimenu
+><guimenuitem
+>Calcolatrice</guimenuitem
+></menuchoice
+> nel menu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1 </term>
+			<listitem>
+				<para
+>Aggiunge una nuova funzione definita da <parameter
+>f_str</parameter
+> e <parameter
+>f_str1</parameter
+>. Se l'espressione non contiene il nome della funzione, questo sarà attribuito automaticamente. Come risultato verrà reso il numero ID della nuova funzione o "-1", se la funzione non può essere definita.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.removeFunction id </term>
+			<listitem>
+				<para
+>Rimuove la funzione identificata dal numero <parameter
+>id</parameter
+>. Se la funzione non può essere cancellata, viene restituito il valore "false", altrimenti "true".</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.setFunctionExpression id eq f_str </term>
+			<listitem>
+				<para
+>Modifica in <parameter
+>f_str</parameter
+> l'espressione che definisce la funzione identificata dal numero <parameter
+>id</parameter
+>. Ritorna "true" se l'operazione riesce, "false" in caso contrario.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.countFunctions </term>
+			<listitem>
+				<para
+>Restituisce il numero di funzioni (quelle parametriche contano per due).</para>
+			</listitem>
+		</varlistentry>
+<!-- method double org.kde.kmplot.Parser.fkt(uint id, uint eq, double eq) what is this?-->
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.listFunctionNames </term>
+		  <listitem>
+		    <para
+>Restituisce un elenco di tutte le funzioni.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.fnameToID f_str </term>
+		  <listitem>
+		    <para
+>Restituisce il numero identificativo della funzione <parameter
+>f_str</parameter
+> o "-1" se a quel nome non corrisponde nessuna funzione.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFVisible id </term>
+		  <listitem>
+		    <para
+>Restituisce "true" se la funzione con identificativo <parameter
+>id</parameter
+> è visibile, altrimenti restituisce "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1Visible id </term>
+		  <listitem>
+		    <para
+>Restituisce "true" se la derivata prima della funzione con identificativo <parameter
+>id</parameter
+> è visibile, altrimenti restituisce "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2Visible id </term>
+		  <listitem>
+		    <para
+>Restituisce "true" se la derivata seconda della funzione con identificativo <parameter
+>id</parameter
+> è visibile, altrimenti restituisce "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntVisible id </term>
+		  <listitem>
+		    <para
+>Restituisce "true" se l'integrale della funzione con identificativo <parameter
+>id</parameter
+> è visibile, altrimenti restituisce "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFVisible id visible </term>
+		  <listitem>
+		    <para
+>Se <parameter
+>visible</parameter
+> è "true" viene mostrata la funzione con numero identificativo <parameter
+>id</parameter
+>. Se, invece, <parameter
+>visible</parameter
+> è "false", la funzione sarà nascosta. Verrà ritornato il valore "true" o "false" a seconda se la funzione esiste o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1Visible id visible </term>
+		  <listitem>
+		    <para
+>Se <parameter
+>visible</parameter
+> è "true" viene mostrata la derivata prima della funzione con numero identificativo <parameter
+>id</parameter
+>. Se, invece, <parameter
+>visible</parameter
+> è "false", la funzione sarà nascosta. Verrà ritornato il valore "true" o "false" a seconda se la funzione esiste o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2Visible id visible </term>
+		  <listitem>
+		    <para
+>Se <parameter
+>visible</parameter
+> è "true" viene mostrata la derivata seconda della funzione con numero identificativo <parameter
+>id</parameter
+>. Se, invece, <parameter
+>visible</parameter
+> è "false", la funzione sarà nascosta. Verrà ritornato il valore "true" o "false" a seconda se la funzione esiste o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntVisible id visible </term>
+		  <listitem>
+		    <para
+>Se <parameter
+>visible</parameter
+> è "true" viene mostrato l'integrale della funzione con numero identificativo <parameter
+>id</parameter
+>. Se, invece, <parameter
+>visible</parameter
+> è "false", la funzione verrà nascosta. Verrà ritornato il valore "true" o "false" a seconda se la funzione esiste o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStr id eq </term>
+		  <listitem>
+		    <para
+>Restituisce l'espressione che definisce la funzione identificata da <parameter
+>id</parameter
+>. Se la funzione non esiste, verrà restituita una stringa vuota.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFLineWidth id </term>
+		  <listitem>
+		    <para
+>Restituisce lo spessore della linea con cui è tracciata la funzione identificata da <parameter
+>id</parameter
+>. Se la funzione non esiste, viene ritornato il valore 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1LineWidth id </term>
+		  <listitem>
+		    <para
+>Restituisce lo spessore della linea con cui è tracciata la derivata prima della funzione identificata da <parameter
+>id</parameter
+>. Se la funzione non esiste, viene ritornato il valore 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2LineWidth id </term>
+		  <listitem>
+		    <para
+>Restituisce lo spessore della linea con cui è tracciata la derivata seconda della funzione identificata da <parameter
+>id</parameter
+>. Se la funzione non esiste, viene ritornato il valore 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntLineWidth id </term>
+		  <listitem>
+		    <para
+>Restituisce lo spessore della linea con cui è tracciato l'integrale della funzione identificata da <parameter
+>id</parameter
+>. Se la funzione non esiste, viene ritornato il valore 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Utilizza <parameter
+>linewidth</parameter
+> come spessore della linea con cui viene tracciato il grafico della funzione identificata da <parameter
+>id</parameter
+>. Verrà ritornato il valore "true" o "false" a seconda se la funzione esiste o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Utilizza <parameter
+>linewidth</parameter
+> come spessore della linea con cui viene tracciato il grafico della derivata prima della funzione identificata da <parameter
+>id</parameter
+>. Verrà ritornato il valore "true" o "false" a seconda se la funzione esiste o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Utilizza <parameter
+>linewidth</parameter
+> come spessore della linea con cui viene tracciato il grafico della derivata seconda della funzione identificata da <parameter
+>id</parameter
+>. Verrà ritornato il valore "true" o "false" a seconda se la funzione esiste o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Utilizza <parameter
+>linewidth</parameter
+> come spessore della linea con cui viene tracciato il grafico dell'integrale della funzione identificata da <parameter
+>id</parameter
+>. Verrà ritornato il valore "true" o "false" a seconda se la funzione esiste o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionParameterList id </term>
+		  <listitem>
+		    <para
+>Restituisce l'elenco di tutti i valori dei parametri impostati per la funzione identificata da <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionAddParameter id new_parameter </term>
+		  <listitem>
+		    <para
+>Aggiunge il valore parametrico <parameter
+>new_parameter</parameter
+> alla funzione identificata da <parameter
+>id</parameter
+>. Verrà ritornato il valore "true" o "false" a seconda se l'operazione riesce o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionRemoveParameter id remove_parameter </term>
+		  <listitem>
+		    <para
+>Rimuove il valore parametrico <parameter
+>remove_parameter</parameter
+> dalla funzione identificata da <parameter
+>id</parameter
+>. Verrà ritornato il valore "true" o "false" a seconda se l'operazione riesce o no.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMinValue id </term>
+		  <listitem>
+		    <para
+>Restituisce l'estremo inferiore dell'intervallo in cui è rappresentata la funzione individuata dall'identificativo <parameter
+>id</parameter
+>. Se la funzione non esiste o se il minimo non è definito, viene ritornata una stringa vuota.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMaxValue id </term>
+		  <listitem>
+		    <para
+>Restituisce l'estremo superiore dell'intervallo in cui è rappresentata la funzione individuata dall'identificativo <parameter
+>id</parameter
+>. Se la funzione non esiste o se il massimo non è definito, viene ritornata una stringa vuota.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMinValue id min </term>
+		  <listitem>
+		    <para
+>Imposta a <parameter
+>min</parameter
+> l'estremo inferiore dell'intervallo in cui è rappresentata la funzione identificata da <parameter
+>id</parameter
+>. Se la funzione esiste e se l'espressione è valida, verrà ritornato il valore "true". Altrimenti, "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMaxValue id max </term>
+		  <listitem>
+		    <para
+>Imposta a <parameter
+>max</parameter
+> l'estremo superiore dell'intervallo in cui è rappresentata la funzione identificata da <parameter
+>id</parameter
+>. Se la funzione esiste e se l'espressione è valida, verrà ritornato il valore "true". Altrimenti, "false".</para>
+		  </listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartXValue id </term>
+		  <listitem>
+		    <para
+>Restituisce il valore iniziale della x per l'integrale della funzione identificata dall'ID <parameter
+>id</parameter
+>. Se la funzione non esiste o se l'espressione per il punto x non è definita, viene ritornata una stringa vuota.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartYValue id </term>
+		  <listitem>
+		    <para
+>Restituisce il valore iniziale della x per l'integrale della funzione identificata dall'ID <parameter
+>id</parameter
+>. Se la funzione non esiste o se l'espressione per il punto y non è definita, viene ritornata una stringa vuota.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionStartValue id x y </term>
+		  <listitem>
+		    <para
+>Imposta come <parameter
+>x</parameter
+> e <parameter
+>y</parameter
+> il punto e il valore iniziale per l'integrale della funzione identificata da <parameter
+>id</parameter
+>. Se la funzione esiste e se l'espressione è valida, viene restituito "true". Altrimenti, "false".</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.stopDrawing </term>
+			<listitem>
+				<para
+>Se &kmplot; sta disegnando una funzione, il processo viene fermato.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.drawPlot </term>
+			<listitem>
+				<para
+>Ridisegna tutte le funzioni.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<!--
+    Local Variables:
+    mode: sgml
+    sgml-minimize-attributes:nil
+    sgml-general-insert-case:lower
+    sgml-indent-step:0
+    sgml-indent-data:nil
+    sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+    End:
+    -->

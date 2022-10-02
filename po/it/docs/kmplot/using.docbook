@@ -1,0 +1,442 @@
+<chapter id="using-kmplot">
+<title
+>Usare &kmplot;</title>
+
+<para
+>&kmplot; può gestire molti tipi di funzione, sia scritte in forma esplicita che come equazioni:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Per i grafici cartesiani si può scrivere la funzione usando un'espressione del tipo <quote
+>y = x^2</quote
+>, dove x deve essere il nome della variabile, che un'espressione del tipo <quote
+>f(a) = a^2</quote
+>, dove il nome della variabile è arbitrario.</para
+></listitem>
+	<listitem
+><para
+>I grafici parametrici si gestiscono in modo simile a quelli cartesiani. Le coordinate possono essere fornite tramite equazioni in t (&eg; <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+>) o come funzioni (&eg; <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>).</para
+></listitem>
+	<listitem
+><para
+>Anche i grafici polari si gestiscono in modo simile a quelli cartesiani. Possono essere descritti tramite un'equazione in &thgr; (&eg; <quote
+>r = &thgr;</quote
+>) o come una funzione (e.g. <quote
+>f(x) = x</quote
+>).</para
+></listitem>
+	<listitem
+><para
+>Per i grafici di funzioni implicite, il nome della funzione deve essere fornito separatamente dall'espressione che lega le coordinate x e y. Se vengono indicate due lettere nel nome della funzione (&eg; questa è scritta come <quote
+>f(a,b)</quote
+>), allora queste saranno usate come variabili. Altrimenti le variabili saranno indicate con le lettere x e y.</para
+></listitem>
+	<listitem
+><para
+>I grafici differenziali espliciti rappresentano le soluzioni di equazioni differenziali in cui la derivata di grado più alto è espressa in funzione delle derivate di grado inferiore. La differenziazione è indicata con un apostrofo ('). Scrivendola come funzione, l'equazione avrà la forma <quote
+>f''(x) = f' &minus; f</quote
+>. Scrivendola come equazione, essa avrà la forma <quote
+>y'' = y' &minus; y</quote
+>. Nota che in entrambi i casi, la dipendenza da <quote
+>(x)</quote
+> non è mostrata nei termini differenziali di grado inferiore. Ossia, puoi scrivere <quote
+>f'(x) = &minus;f</quote
+>, ma non <quote
+>f'(x) = &minus;f(x)</quote
+>.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Tutte la caselle predisposte per scrivere le equazioni hanno un pulsante sulla destra. Premendolo viene aperto l'<guilabel
+>Editor delle equazioni</guilabel
+> che permette di utilizzare: <itemizedlist>
+		<listitem>
+			<para
+>Moltissimi simboli matematici che possono servire nelle equazioni ma che mancano sulle normali tastiere.</para>
+		</listitem>
+		<listitem>
+			<para
+>L'elenco delle costanti personali e il pulsante per modificarle.</para>
+		</listitem>
+		<listitem>
+			<para
+>L'elenco delle funzioni predefinite. Nota che se hai già selezionato un testo, questo verrà preso come argomento quando attivi una funzione. Per esempio, se hai selezionato <quote
+>1 + x</quote
+> nell'equazione <quote
+>y = 1 + x</quote
+> e poi scegli la funzione seno, l'equazione diventerà <quote
+> y = sin(1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>Questa è un'immagine della finestra di benvenuto di &kmplot;</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Immagine</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Tipi di funzione</title>
+	
+	<sect2 id="cartesian-functions">
+		<title
+>Funzioni cartesiane</title>
+		<para
+>Per inserire una funzione esplicita (&ie; una funzione nella forma  y=f(x)) in &kmplot; è sufficiente scriverla nel modo seguente: <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>espressione</replaceable
+></userinput
+></screen
+>. Dove: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> è il nome della funzione, che può essere qualsiasi stringa di lettere e numeri.</para>
+				</listitem>
+				
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> è la coordinata orizzontale, da usare nell'espressione che segue il segno di uguale. Si tratta di una variabile fittizia, per cui puoi usare un nome qualsiasi e l'effetto rimarrà lo stesso.</para>
+				</listitem>
+				
+				<listitem>
+					<para
+><replaceable
+>espressione</replaceable
+> è l'espressione da visualizzare nel grafico, espressa nella sintassi propria di &kmplot;. Vedi <xref linkend="math-syntax"/>. </para>
+				</listitem>
+				
+			</itemizedlist>
+		</para>
+	</sect2>
+	
+	<sect2 id="parametric-functions">
+		<title
+>Funzioni parametriche</title>
+		<para
+>Le funzioni parametriche sono quelle in cui le coordinate x e y sono definite da funzioni distinte di un'altra variabile, di solito chiamata t. Per inserire una funzione parametrica in &kmplot;, segui la stessa procedura usata per le funzioni cartesiane per ognuna delle due funzioni che descrivono la x e la y. Come per le funzioni cartesiane, puoi usare un nome qualsiasi per il parametro.</para>
+		<para
+>Per esempio, supponiamo che tu voglia disegnare una circonferenza, che ha equazioni parametriche x = sin(t), y = cos(t). Dopo aver aperto un grafico parametrico, inserisci le opportune equazioni negli spazi per x e y , &ie;, <userinput
+>f_x(t)=sin(t)</userinput
+> e <userinput
+>f_y(t)=cos(t)</userinput
+>. </para>
+		<para
+>Nell'editor per le funzioni puoi impostare altre opzioni per il grafico: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Min</guilabel
+></term>
+					<term
+><guilabel
+>Max</guilabel
+></term>
+					<listitem>
+						<para
+>Queste opzioni stabiliscono l'intervallo dei valori del parametro t per i quali viene tracciata la curva.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+	
+	<sect2 id="polar-functions">
+		<title
+>Funzioni in coordinate polari</title>
+		
+		<para
+>Le coordinate polari individuano un punto tramite la sua distanza dall'origine (di solito indicata con r) e l'angolo (di solito indicato con  &thgr;,la lettera greca theta) compreso tra l'asse orizzontale e la semiretta uscente dall'origine e passante per il punto. Per definire delle funzioni in coordinate polari premi il pulsante <guilabel
+>Crea</guilabel
+> e seleziona <guilabel
+>Grafico polare</guilabel
+> nell'elenco.Completa la definizione della funzione nell'apposito riguadro, in particolare specifica il nome che vuoi usare per la variabile theta. &eg;, per disegnare la spirale di Archimede r=&thgr;, devi scrivere: <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+>. Nota che puoi usare qualsiasi nome per la variabile angolare, quindi <quote
+>r(t)=t</quote
+> o <quote
+>f(x) = x</quote
+> produrrebbero esattamente lo stesso grafico. </para>
+	</sect2>
+	
+	<sect2 id="implicit-functions">
+		<title
+>Funzioni implicite</title>
+		
+		<para
+>Una espressione implicita lega le variabili x e y tramite un'eguaglianza. Per esempio, per definire una circonferenza, premi il pulsante <guilabel
+>Crea</guilabel
+> e seleziona <guilabel
+>Grafico implicito</guilabel
+>. Quindi inserisci nella casella per l'equazione (sotto quella con il nome della funzione) questa espressione: <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+	
+	<sect2 id="differential-functions">
+		<title
+>Funzioni differenziali</title>
+		
+		<para
+>&kmplot; può disegnare la soluzione di equazioni differenziali esplicite. Ossia di equazioni sella forma  y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), dove y<superscript
+>k</superscript
+> è la k<superscript
+>sima</superscript
+> derivata di y(x). &kmplot; può leggere l'ordine di derivazione solo tramite il numero di apostrofi (') che seguono il nome della funzione. Per esempio, volendo tracciare una curva sinusoidale, potresti usare una di queste equazioni differenziali <userinput
+>y'' = &minus; y</userinput
+> o <userinput
+>f''(x) = −f</userinput
+>. </para>
+		
+		<para
+>Ovviamente, un'equazione differenziale non è sufficiente per determinare la curva da tracciare. Ogni curva sarà determinata combinando l'equazione differenziale con delle condizioni iniziali. Puoi modificare queste ultime premendo il pulsante <guilabel
+>Condizioni iniziali</guilabel
+> dopo aver selezionato un'equazione. Il numero di colonne attivato per scrivervi le condizioni iniziali dipenderà dall'ordine dell'equazione differenziale. </para>
+		
+		<para
+>Nell'editor per le funzioni puoi impostare altre opzioni per il grafico: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Passo</guilabel
+></term>
+					<listitem>
+						<para
+>Il valore assegnato al passo nel riquadro "precisione" verrà usato nella soluzione numerica dell'equazione differenziale, con il metodo di Runge-Kutta. Questo valore sarà il massimo passo di discretizzazione utilizzato. Potrebbe esserne utilizzato uno più piccolo se si richiede lo zoom della curva su un piccolo intervallo.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+		
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Combinare funzioni</title>
+	<para
+>Le funzioni possono essere combinate per crearne di nuove. È sufficiente inserire le funzioni dopo il segno di uguale in un'espressione, come se si trattasse di variabili. Per esempio, se hai definito le funzioni f(x) e g(x), puoi tracciare il grafico della loro somma con: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Modificare l'aspetto delle funzioni</title>
+	
+	<para
+>Per cambiare l'aspetto del grafico di una funzione nella finestra principale, selezionala nella barra delle <guilabel
+>Funzioni</guilabel
+>. Potrai cambiare lo spessore della linea, il suo colore e molte altre caratteristiche premendo il pulsante  <guibutton
+>Colore</guibutton
+> o <guibutton
+>Avanzate...</guibutton
+> in fondo alla sezione <guilabel
+>Aspetto</guilabel
+>. </para>
+	
+	<para
+>Se stai modificando una funzione cartesiana, avrai a disposizione tre linguette nell'editor delle funzioni. Aprendo la prima puoi modificare la formula che definisce la funzione. La linguetta <guilabel
+>Derivate</guilabel
+>ti permette di disegnare le derivate prima e seconda della funzione. Con la linguetta <guilabel
+>Integrale</guilabel
+> potrai tracciare la curva integrale della funzione. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Menu a comparsa</title>
+	<screenshot>
+	<screeninfo
+>Menu collegato al tasto destro del mouse</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Menu collegato al tasto destro del mouse</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Quando pigi il tasto destro del mouse sul grafico di una funzione esplicita o di una funzione parametrica ad un solo valore, appare un menu contestuale. In questo menu ci sono tre voci:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Modifica</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Seleziona la funzione nella barra <guilabel
+>Funzioni</guilabel
+> per modificarla.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Nascondi</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Nasconde la curva selezionata. Le altre curve del grafico resteranno visibili.</para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Rimuovi</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Rimuove la funzione. Spariscono tutte le curve ad essa collegate.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Anima grafico...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Mostra la finestra <guilabel
+>Animatore dei parametri</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Calcolatrice</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Apre la finestra con <guilabel
+>Calcolatrice</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+	
+	<para
+>A seconda del tipo di grafico, saranno disponibili altri (al massimo 4) strumanti:</para>
+	
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Area del grafico...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Scrivi nella finestra di dialogo che verrà aperta i valori minimo e massimo dell'asse orizzontale tra cui considerare la funzione. In questo intervallo verrà calcolato l'integrale e l'area compresa tra il grafico e l'asse orizzontale sarà riempito con lo stesso colore del grafico. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Trova punto di minimo...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Cerca il minimo della funzione in un intervallo specificato. La curva su cui lavori risulterà evidenziata nella finestra di dialogo. Scrivi gli estremi inferiore e superiore dell'intervallo in cui cerchi il minimo. </para>
+				<para
+>Nota: Puoi anche chiedere di visualizzare i punti di estremo sulla curva, attivando la finestra di dialogo<guilabel
+>Aspetto del grafico</guilabel
+>, accessibile dalla barra <guilabel
+>Funzioni</guilabel
+> con un clic su <guibutton
+>Avanzate...</guibutton
+>. </para>
+			</listitem>
+		</varlistentry>
+		
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Trova punto di massimo...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Si fa esattamente come per <guimenuitem
+>Trova punto di minimo</guimenuitem
+>, solo che verrà trovato il massimo invece del minimo.</para>
+			</listitem>
+		</varlistentry>
+		
+	</variablelist>
+</sect1>
+
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

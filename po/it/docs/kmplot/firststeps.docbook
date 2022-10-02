@@ -1,0 +1,79 @@
+<chapter id="first-steps">
+<title
+>Primi passi in &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Disegnare una semplice funzione</title>
+	
+	<para
+>Nella barra laterale sinistra c'è il pulsante <guilabel
+>Crea</guilabel
+> che apre un menu a comparsa per disegnare nuovi grafici. Premilo e seleziona <guilabel
+>Grafico cartesiano</guilabel
+>.  Verrà attivata la casella di testo per modificare l'equazione. Sostituisci il testo presente con  <screen
+><userinput
+>y = x^2</userinput
+></screen
+> e premi &Enter;. Verrà disegnato il grafico di y = x<superscript
+>2</superscript
+> nel sistema di coordinate. Dopo un altro clic su <guilabel
+>Crea</guilabel
+>, seleziona <guilabel
+>Grafico cartesiano</guilabel
+>, e questa volta inserisci <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> per ottenere un altro grafico. </para>
+	
+	<para
+>Fai clic su una delle curve che hai appena tracciato. La croce che individua il puntatore diventerà dello stesso colore del grafico e gli resterà attaccata. Puoi usare il mouse per spostare la croce lungo il grafico. Nella barra di stato in fondo alla finestra verranno mostrate le coordinate della posizione attuale. Nota che se ti avvicini a dove il grafico incrocia l'asse orizzontale, nella barra di stato verrà mostrata anche la radice.</para>
+	
+	<para
+>Se fai un altro clic, la croce verrà staccata dal grafico.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Modificare le proprietà</title>
+	
+	<para
+>Proviamo a cambiare un po' la funzione e il colore del grafico.</para>
+	
+	<para
+>Nella barra laterale <guilabel
+>Funzioni</guilabel
+> vengono elencate tutte le funzioni che hai tracciato. Seleziona <guilabel
+>y = x^2</guilabel
+>, se non lo è già. Così avrai accesso a parecchie opzioni. Proviamo a cambiare il nome della funzione e a spostare il grafico più in basso di 5 unità. Basterà modificare l'espressione in <screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> e premere invio. Per cambiare il colore della curva, premi il pulsante <guilabel
+>Colore</guilabel
+> nella sezione <guilabel
+>Aspetto</guilabel
+> in fondo alla barra delle funzioni e scegli un nuovo colore. <note
+> <para
+>Tutte le modifiche possono essere annullate tramite <menuchoice
+><guimenu
+>Modifica</guimenu
+> <guimenuitem
+>Annulla</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

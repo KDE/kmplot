@@ -1,0 +1,587 @@
+<chapter id="dcop">
+	<title
+>Skapa skript för &kmplot;</title>
+	<para
+>En ny funktion i &kde; 3.4 är att du kan skriva skript för &kmplot;, med användning av &DBus; i &kde; 4. Om du till exempel vill definiera en ny funktion <userinput
+>f(x)=2sin x + 3cos x</userinput
+>, ställa in dess linjebredd till 20 och därefter rita upp den, skriver du följande i en terminal:</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command
+> Som resultat returneras den nya funktionens identifikationsnummer, eller -1 om funktionen inte kunde definieras.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command
+> Det här kommandot ger funktionen med numret ID linjebredden 20.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /view org.kde.kmplot.View.drawPlot</command
+> Det här kommandot ritar om fönstret, så att funktionen blir synlig,</para>
+<para
+>En lista med tillgängliga funktioner: <variablelist>
+		<varlistentry>
+			<term
+>/kmplot org.kde.kmplot.KmPlot.fileOpen url </term>
+			<listitem>
+				<para
+>Laddar filen <parameter
+>webbadress</parameter
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.isModified </term>
+			<listitem>
+				<para
+>Returnerar sant om några ändringar har gjorts.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.checkModified </term>
+			<listitem>
+				<para
+>Om det finns några osparade ändringar, visas en dialogruta för att spara, kasta eller avbryta diagrammen.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.editAxes </term>
+			<listitem>
+				<para
+>Öppnar redigeringsdialogrutan för koordinatsystem.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.toggleShowSlider </term>
+			<listitem>
+				<para
+>Visar eller döljer parameterreglagefönster.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSave </term>
+			<listitem>
+				<para
+>Sparar funktionerna (öppnar dialogrutan för att spara om det är en ny fil).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSaveas </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Spara som</guimenuitem
+></menuchoice
+> i meny.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotPrint </term>
+			<listitem>
+				<para
+>Öppnar utskriftsdialogrutan.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotResetView </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Återställ vy</guimenuitem
+></menuchoice
+> i menyn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotExport </term>
+			<listitem>
+				<para
+>Öppnar exportdialogrutan.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSettings </term>
+			<listitem>
+				<para
+>Öppnar inställningsdialogrutan.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotNames </term>
+			<listitem>
+				<para
+>Visar de fördefinierade matematiska funktionerna i handboken.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMinimumValue </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Verktyg</guimenu
+> <guimenuitem
+>Hitta minimum...</guimenuitem
+></menuchoice
+> i menyraden.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMaximumValue </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Verktyg</guimenu
+> <guimenuitem
+>Hitta maximum...</guimenuitem
+></menuchoice
+> i menyraden.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.graphArea </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Verktyg</guimenu
+> <guimenuitem
+>Beräkna integral</guimenuitem
+></menuchoice
+> i menyn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.calculator </term>
+			<listitem>
+				<para
+>Samma sak som att välja <menuchoice
+><guimenu
+>Verktyg</guimenu
+> <guimenuitem
+>Räknare</guimenuitem
+></menuchoice
+> i menyn.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1 </term>
+			<listitem>
+				<para
+>Lägger till en ny funktion med uttrycket <parameter
+>f_str0</parameter
+> och <parameter
+>f_str1</parameter
+>. Om uttrycket inte innehåller ett funktionsnamn, skapas det automatiskt. Den nya funktionens ID-nummer returneras, eller -1 om funktionen inte kunde definieras.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.removeFunction id </term>
+			<listitem>
+				<para
+>Tar bort funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte kunde tas bort, returneras falskt, annars sant.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.setFunctionExpression id eq f_str </term>
+			<listitem>
+				<para
+>Sätter uttrycket för funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>f_str</parameter
+>. Returnerar sant om den lyckas, annars falskt.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.countFunctions </term>
+			<listitem>
+				<para
+>Returnerar antalet funktioner (parametriska funktioner räknas som två).</para>
+			</listitem>
+		</varlistentry>
+<!-- method double org.kde.kmplot.Parser.fkt(uint id, uint eq, double eq) what is this?-->
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.listFunctionNames </term>
+		  <listitem>
+		    <para
+>Returnerar en lista med alla funktioner.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.fnameToID f_str </term>
+		  <listitem>
+		    <para
+>Returnerar ID-nummer för <parameter
+>f_str</parameter
+> eller -1 om funktionsnamnet <parameter
+>f_str</parameter
+> inte hittades.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFVisible id </term>
+		  <listitem>
+		    <para
+>Returnerar sant om funktionen med ID-nummer <parameter
+>id</parameter
+> är synlig, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1Visible id </term>
+		  <listitem>
+		    <para
+>Returnerar sant om förstaderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> är synlig, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2Visible id </term>
+		  <listitem>
+		    <para
+>Returnerar sant om andraderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> är synlig, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntVisible id </term>
+		  <listitem>
+		    <para
+>Returnerar sant om integralen av funktionen med ID-nummer <parameter
+>id</parameter
+> är synlig, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFVisible id visible </term>
+		  <listitem>
+		    <para
+>Visar funktionen med ID-nummer <parameter
+>id</parameter
+> om <parameter
+>synlig</parameter
+> är sant. Om <parameter
+>synlig</parameter
+> är falskt, döljs funktionen. Om funktionen finns returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1Visible id visible </term>
+		  <listitem>
+		    <para
+>Visar förstaderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> om <parameter
+>synlig</parameter
+> är sant. Om <parameter
+>synlig</parameter
+> är falskt, döljs funktionen. Om funktionen finns returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2Visible id visible </term>
+		  <listitem>
+		    <para
+>Visar andraderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> om <parameter
+>synlig</parameter
+> är sant. Om <parameter
+>synlig</parameter
+> är falskt, döljs funktionen. Om funktionen finns returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntVisible id visible </term>
+		  <listitem>
+		    <para
+>Visar integralen av funktionen med ID-nummer <parameter
+>id</parameter
+> om <parameter
+>synlig</parameter
+> är sant. Om <parameter
+>synlig</parameter
+> är falskt, döljs funktionen. Om funktionen finns returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStr id eq </term>
+		  <listitem>
+		    <para
+>Returnerar funktionsuttrycket för funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras en tom sträng istället.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFLineWidth id </term>
+		  <listitem>
+		    <para
+>Returnerar linjebredden för funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1LineWidth id </term>
+		  <listitem>
+		    <para
+>Returnerar linjebredden för förstaderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2LineWidth id </term>
+		  <listitem>
+		    <para
+>Returnerar linjebredden för andraderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntLineWidth id </term>
+		  <listitem>
+		    <para
+>Returnerar linjebredden för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, returneras 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Sätter linjebredden för funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>linjebredd</parameter
+>. Returnerar sant om funktionen finns, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Sätter linjebredden för förstaderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>linjebredd</parameter
+>. Returnerar sant om funktionen finns, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Sätter linjebredden för andraderivatan av funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>linjebredd</parameter
+>. Returnerar sant om funktionen finns, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>Sätter linjebredden för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>linjebredd</parameter
+>. Returnerar sant om funktionen finns, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionParameterList id </term>
+		  <listitem>
+		    <para
+>Returnerar en lista med alla parametervärden för funktionen med ID-nummer <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionAddParameter id new_parameter </term>
+		  <listitem>
+		    <para
+>Lägger till parametervärdet <parameter
+>ny_parameter</parameter
+> till funktionen med ID-nummer <parameter
+>id</parameter
+>. Om åtgärden lyckas returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionRemoveParameter id remove_parameter </term>
+		  <listitem>
+		    <para
+>Tar bort parametervärdet <parameter
+>tag_bort_parameter</parameter
+> från funktionen med ID-nummer <parameter
+>id</parameter
+>. Om åtgärden lyckas returneras sant, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMinValue id </term>
+		  <listitem>
+		    <para
+>Returnerar minimalt diagramområdesvärde för funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, eller om det minimala värdet inte är definierat, returneras en tom sträng.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMaxValue id </term>
+		  <listitem>
+		    <para
+>Returnerar maximalt diagramområdesvärde för funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, eller om det maximala värdet inte är definierat, returneras en tom sträng.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMinValue id min </term>
+		  <listitem>
+		    <para
+>Sätter minimalt diagramområdesvärde för funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>min</parameter
+>. Returnerar sant om funktionen finns och uttrycket är giltigt, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMaxValue id max </term>
+		  <listitem>
+		    <para
+>Sätter maximalt diagramområdesvärde för funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>max</parameter
+>. Returnerar sant om funktionen finns och uttrycket är giltigt, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartXValue id </term>
+		  <listitem>
+		    <para
+>Returnerar ursprunglig X-punkt för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, eller om X-punktsuttrycket inte är definierat, returneras en tom sträng.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartYValue id </term>
+		  <listitem>
+		    <para
+>Returnerar ursprunglig Y-punkt för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+>. Om funktionen inte finns, eller om Y-punktsuttrycket inte är definierat, returneras en tom sträng.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionStartValue id x y </term>
+		  <listitem>
+		    <para
+>Sätter ursprunglig X-punkt för integralen av funktionen med ID-nummer <parameter
+>id</parameter
+> till <parameter
+>x</parameter
+> och <parameter
+>y</parameter
+>. Returnerar sant om funktionen finns och uttrycket är giltigt, annars falskt.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.stopDrawing </term>
+			<listitem>
+				<para
+>Om &kmplot; för närvarande ritar upp en funktion, stoppas proceduren.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.drawPlot </term>
+			<listitem>
+				<para
+>Ritar om alla funktioner.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<!--
+    Local Variables:
+    mode: sgml
+    sgml-minimize-attributes:nil
+    sgml-general-insert-case:lower
+    sgml-indent-step:0
+    sgml-indent-data:nil
+    sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+    End:
+    -->

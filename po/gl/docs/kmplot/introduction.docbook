@@ -1,0 +1,83 @@
+<chapter id="introduction">
+<title
+>Introdución</title>
+	
+<para
+>&kmplot; é un representador de funcións matemáticas para o Escritorio &kde;. Incorpora un potente procesador de expresións. Pode representar á vez diferentes funcións e combinalas para construír funcións novas.</para>
+
+<screenshot>
+	<screeninfo
+>Exemplos</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Exemplos</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; admite diferentes tipos de representacións:</para>
+<itemizedlist>
+	<listitem
+><para
+>Gráficos cartesianos explícitos da forma y = f(x).</para
+></listitem>
+	<listitem
+><para
+>Gráficos paramétricos, onde as compoñentes x e y son expresadas como funcións dunha variábel independente.</para
+></listitem>
+	<listitem
+><para
+>Gráficos polares da forma r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Gráficos implícitos, onde as coordenadas x e y están relacionadas por unha expresión.</para
+></listitem>
+	<listitem
+><para
+>Gráficos diferenciais implícitos.</para
+></listitem>
+</itemizedlist>
+
+<para
+>&kmplot; tamén fornece algunhas funcionalidades numéricas e visuais como:</para>
+<itemizedlist>
+	<listitem
+><para
+>Preenchido e cálculo da área entre a gráfica e o primeiro eixo</para>
+	</listitem>
+	<listitem
+><para
+>Determinación de valores máximos e mínimos</para>
+	</listitem>
+	<listitem
+><para
+>Alteración dinámica dos parámetros das funcións</para>
+	</listitem>
+	<listitem
+><para
+>Representación de ecuacións diferenciais e integrais.</para>
+	</listitem>
+</itemizedlist>
+
+<para
+>Estas funcionalidades axudan na aprendizaxe das relacións entre as funcións matemáticas e a súa representación gráfica nun sistema de coordenadas.</para>
+
+</chapter>
+
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:("index.docbook" "BOOK" "CHAPTER")
+End:
+-->

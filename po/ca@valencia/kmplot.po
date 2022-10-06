@@ -1475,7 +1475,7 @@ msgstr "&Edita"
 #: kmplot_part.rc:20 kmplot_part_readonly.rc:15
 #, kde-format
 msgid "&View"
-msgstr "&Visualitza"
+msgstr "Vi&sualitza"
 
 #. i18n: ectx: Menu (tools)
 #: kmplot_part.rc:30 kmplot_part_readonly.rc:26
@@ -1493,7 +1493,7 @@ msgstr "A&juda"
 #: kmplot_shell.rc:4
 #, kde-format
 msgid "&File"
-msgstr "&Fitxer"
+msgstr "Fi&txer"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: kmplot_shell.rc:17

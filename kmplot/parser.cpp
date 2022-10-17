@@ -1381,7 +1381,7 @@ void ExpressionSanitizer::fixExpression(QString *str)
 
     // make sure all minus-like signs (including the actual unicode minus sign)
     // are represented by a dash (unicode 0x002d)
-    QChar dashes[6] = {0x2012, 0x2013, 0x2014, 0x2015, 0x2053, 0x2212};
+    QChar dashes[6] = {QChar(0x2012), QChar(0x2013), QChar(0x2014), QChar(0x2015), QChar(0x2053), QChar(0x2212)};
     for (unsigned i = 0; i < 6; ++i)
         replace(dashes[i], '-');
 

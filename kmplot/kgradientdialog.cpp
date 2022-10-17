@@ -423,7 +423,7 @@ QSize KGradientButton::sizeHint() const
 {
     QStyleOptionButton opt;
     initStyleOption(&opt);
-    return style()->sizeFromContents(QStyle::CT_PushButton, &opt, QSize(40, 15), this).expandedTo(QApplication::globalStrut());
+    return style()->sizeFromContents(QStyle::CT_PushButton, &opt, QSize(40, 15), this);
 }
 
 void KGradientButton::setGradient(const QGradient &gradient)

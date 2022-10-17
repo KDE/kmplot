@@ -3051,10 +3051,10 @@ void View::wheelEvent(QWheelEvent *e)
 
     if (e->modifiers() & Qt::ControlModifier) {
         if (m_AccumulatedDelta >= QWheelEvent::DefaultDeltasPerStep) {
-            zoomIn(e->pos(), double(Settings::zoomInStep()) / 100.0);
+            zoomIn(e->position(), double(Settings::zoomInStep()) / 100.0);
             m_AccumulatedDelta = 0;
         } else if (m_AccumulatedDelta <= -QWheelEvent::DefaultDeltasPerStep) {
-            zoomIn(e->pos(), (double(Settings::zoomOutStep()) / 100.0) + 1.0);
+            zoomIn(e->position(), (double(Settings::zoomOutStep()) / 100.0) + 1.0);
             m_AccumulatedDelta = 0;
         }
         e->accept();
@@ -3209,7 +3209,7 @@ void View::mouseReleaseEvent(QMouseEvent *e)
     updateCursor();
 }
 
-void View::zoomIn(const QPoint &mousePos, double zoomFactor)
+void View::zoomIn(const QPointF &mousePos, double zoomFactor)
 {
     QPointF real = toReal(mousePos);
 

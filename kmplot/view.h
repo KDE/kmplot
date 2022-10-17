@@ -415,7 +415,7 @@ private:
      * Zooms in by amount \p zoomFactor (which will zooming out if less than 1)
      * from clicking at \p mousePos (in widget coordinates).
      */
-    void zoomIn(const QPoint &mousePos, double zoomFactor);
+    void zoomIn(const QPointF &mousePos, double zoomFactor);
     /**
      * Zooms in from having drawn \p zoomRect (which is in widget coordinates).
      */

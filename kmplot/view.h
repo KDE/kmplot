@@ -615,12 +615,12 @@ private:
      * This matrix transforms from real coordinates to painter coordinates.
      * (Note that the painter does not have any transformation applied).
      */
-    QMatrix m_realToPixel;
+    QTransform m_realToPixel;
     /**
      * The inverse matrix of m_realToPixel; it maps from pixel coordinates
      * to real X-Y coordinates.
      */
-    QMatrix m_pixelToReal;
+    QTransform m_pixelToReal;
 
     QString m_statusBarText[4];
 

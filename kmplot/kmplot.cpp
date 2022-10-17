@@ -55,7 +55,9 @@ KmPlot::KmPlot(const QCommandLineParser &parser)
     // this routine will find and load our Part.  it finds the Part by
     // name which is a bad idea usually.. but it's alright in this
     // case since our Part is made for this Shell
-    const auto result = KPluginFactory::instantiatePlugin<KParts::ReadWritePart>(KPluginMetaData(QStringLiteral("kf5/parts/kmplotpart")), this);
+    const auto result =
+        KPluginFactory::instantiatePlugin<KParts::ReadWritePart>(KPluginMetaData(QStringLiteral("kf" QT_STRINGIFY(QT_VERSION_MAJOR) "/parts/kmplotpart")),
+                                                                 this);
     if (result) {
         m_part = result.plugin;
         // tell the KParts::MainWindow that this is indeed the main widget

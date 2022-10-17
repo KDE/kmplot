@@ -40,6 +40,7 @@
 #include <KMessageBox>
 #include <KStandardAction>
 #include <KToolBar>
+#include <kwidgetsaddons_version.h>
 
 // local includes
 #include "calculator.h"
@@ -456,14 +457,22 @@ void MainDlg::resetUndoRedo()
 bool MainDlg::checkModified()
 {
     if (m_modified) {
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 100, 0)
         int saveit = KMessageBox::warningYesNoCancel(m_parent,
+#else
+        int saveit = KMessageBox::warningTwoActionsCancel(m_parent,
+#endif
                                                      i18n("The plot has been modified.\n"
                                                           "Do you want to save it?"),
                                                      QString(),
                                                      KStandardGuiItem::save(),
                                                      KStandardGuiItem::discard());
         switch (saveit) {
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 100, 0)
         case KMessageBox::Yes:
+#else
+        case KMessageBox::PrimaryAction:
+#endif
             slotSave();
             if (m_modified) // the user didn't saved the file
                 return false;

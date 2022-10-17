@@ -27,6 +27,7 @@
 #include <KIO/StoredTransferJob>
 #include <KJobWidgets>
 #include <KMessageBox>
+#include <kwidgetsaddons_version.h>
 
 #include "maindlg.h"
 
@@ -245,12 +246,20 @@ void KParameterEditor::cmdImport_clicked()
                     file.close();
                     QFile::remove(file.fileName());
                     return;
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 100, 0)
                 } else if (KMessageBox::warningYesNo(this,
+#else
+                } else if (KMessageBox::warningTwoActions(this,
+#endif
                                                      i18n("Would you like to be informed about other lines that cannot be read?"),
                                                      QString(),
                                                      KGuiItem(i18n("Get Informed")),
                                                      KGuiItem(i18n("Ignore Information")))
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 100, 0)
                            == KMessageBox::No)
+#else
+                           == KMessageBox::SecondaryAction)
+#endif
                     verbose = true;
             }
         }

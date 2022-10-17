@@ -1923,13 +1923,13 @@ void View::drawLabel(QPainter *painter, const QColor &color, const QPointF &real
         QPointF intersect = bestCenter;
 
         // Where does line intersect the rectangle?
-        if (QLineF(rect.topLeft(), rect.topRight()).intersect(line, &intersect) == QLineF::BoundedIntersection)
+        if (QLineF(rect.topLeft(), rect.topRight()).intersects(line, &intersect) == QLineF::BoundedIntersection)
             lineStart = intersect;
-        else if (QLineF(rect.topRight(), rect.bottomRight()).intersect(line, &intersect) == QLineF::BoundedIntersection)
+        else if (QLineF(rect.topRight(), rect.bottomRight()).intersects(line, &intersect) == QLineF::BoundedIntersection)
             lineStart = intersect;
-        else if (QLineF(rect.bottomRight(), rect.bottomLeft()).intersect(line, &intersect) == QLineF::BoundedIntersection)
+        else if (QLineF(rect.bottomRight(), rect.bottomLeft()).intersects(line, &intersect) == QLineF::BoundedIntersection)
             lineStart = intersect;
-        else if (QLineF(rect.bottomLeft(), rect.topLeft()).intersect(line, &intersect) == QLineF::BoundedIntersection)
+        else if (QLineF(rect.bottomLeft(), rect.topLeft()).intersects(line, &intersect) == QLineF::BoundedIntersection)
             lineStart = intersect;
 
         painter->drawLine(lineStart, pixelCenter);

@@ -743,8 +743,7 @@ bool MainDlg::fileExists(const QUrl &url)
 {
     bool fileExists = false;
     if (url.isValid()) {
-        short int detailLevel = 0; // Lowest level: file/dir/symlink/none
-        KIO::StatJob *statjob = KIO::stat(url, KIO::StatJob::SourceSide, detailLevel);
+        KIO::StatJob *statjob = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatBasic);
         bool noerror = statjob->exec();
         if (noerror) {
             // We want a file

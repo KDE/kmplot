@@ -525,7 +525,7 @@ void KmPlotIO::parseParameters(const QDomElement &n, Function *function)
     QChar separator = (version < 1) ? ',' : ';';
     QString tagName = (version < 4) ? "parameterlist" : "parameter-list";
 
-    const QStringList str_parameters = n.namedItem(tagName).toElement().text().split(separator, QString::SkipEmptyParts);
+    const QStringList str_parameters = n.namedItem(tagName).toElement().text().split(separator, Qt::SkipEmptyParts);
     for (QStringList::const_iterator it = str_parameters.constBegin(); it != str_parameters.constEnd(); ++it)
         function->m_parameters.list.append(Value(*it));
 }
@@ -754,7 +754,7 @@ QString KmPlotIO::gradientToString(const QGradientStops &stops)
 // static
 QGradientStops KmPlotIO::stringToGradient(const QString &string)
 {
-    const QStringList stopStrings = string.split(',', QString::SkipEmptyParts);
+    const QStringList stopStrings = string.split(',', Qt::SkipEmptyParts);
 
     QGradientStops stops;
     for (const QString &stopString : stopStrings) {

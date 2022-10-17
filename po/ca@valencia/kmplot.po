@@ -1775,7 +1775,7 @@ msgstr "argument"
 #: main.cpp:61
 #, kde-format
 msgid "URLs to open"
-msgstr "URL que s'obrirà"
+msgstr "URL que s'ha d'obrir"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
 #: maindlg.cpp:187 settingspagegeneral.ui:14

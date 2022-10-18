@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"POT-Creation-Date: 2022-10-18 00:41+0000\n"
 "PO-Revision-Date: 2006-04-24 01:19-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -992,12 +992,12 @@ msgid "Choose a Gradient"
 msgstr "পরামিতি বেছে নিন"
 
 # FIXME
-#: kmplot.cpp:70
+#: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "কে-এমপ্লট এর অংশ খুঁজে পাওয়া যায় নি।"
 
-#: kmplot.cpp:169 maindlg.cpp:508
+#: kmplot.cpp:171 maindlg.cpp:517
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -1007,7 +1007,7 @@ msgstr ""
 "*.fkt|কে-এমপ্লট ফাইল (*.fkt)\n"
 "*|সকল ফাইল"
 
-#: kmplot.cpp:169
+#: kmplot.cpp:171
 #, kde-format
 msgid "Open"
 msgstr ""
@@ -1462,7 +1462,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
 #, fuzzy, kde-format
 msgid "&Edit"
 msgstr "&সম্পাদন..."
@@ -1502,7 +1502,7 @@ msgstr ""
 msgid "The file had an unknown version number"
 msgstr "ফাইলটিতে একটি অজ্ঞাত সংস্করণ সংখ্যা দেওয়া ছিল"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:204
+#: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
 msgid "The file does not exist."
 msgstr "এ রকম কোন ফাইল নেই।"
@@ -1532,31 +1532,31 @@ msgstr "স্বয়ংক্রিয়"
 msgid "The function %1 could not be loaded"
 msgstr "%1 ফাংশনটি লোড করা যায় নি"
 
-#: kparametereditor.cpp:42
+#: kparametereditor.cpp:43
 #, fuzzy, kde-format
 #| msgid "Parameter Editor"
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "পরামিতি সম্পাদক"
 
-#: kparametereditor.cpp:199
+#: kparametereditor.cpp:200
 #, fuzzy, kde-format
 #| msgid "Parameter Value"
 msgid "Open Parameter File"
 msgstr "পরামিতির মান"
 
-#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, fuzzy, kde-format
 #| msgid "*.txt|Plain Text File "
 msgid "Plain Text File (*.txt)"
 msgstr "*.txt|সাধারণ টেক্সট ফাইল"
 
-#: kparametereditor.cpp:214
+#: kparametereditor.cpp:215
 #, fuzzy, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "এই ফাইলটি খোলার সময় একটি সমস্যা হয়েছে"
 
-#: kparametereditor.cpp:243
+#: kparametereditor.cpp:244
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
@@ -1565,33 +1565,33 @@ msgstr ""
 "%1 লাইনটি কোন বৈধ পরামিতির মান নয় এবং এ কারণে একে আর নতুন করে যোগ করা হবে "
 "না।  এ অবস্থায় আপনি কি এগিয়ে যেতে চান?"
 
-#: kparametereditor.cpp:249
+#: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr ""
 "অন্যান্য যে সব লাইন পড়া যাচ্ছে না, তাদের ব্যাপারেও কি আপনাকে অবহিত করা হবে?"
 
-#: kparametereditor.cpp:251
+#: kparametereditor.cpp:256
 #, kde-format
 msgid "Get Informed"
 msgstr "ওয়াকিবহাল থাকুন"
 
-#: kparametereditor.cpp:252
+#: kparametereditor.cpp:257
 #, kde-format
 msgid "Ignore Information"
 msgstr "তথ্য অগ্রাহ্য করুন"
 
-#: kparametereditor.cpp:259
+#: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "এই ফাইলটি খোলার সময় একটি সমস্যা হয়েছে"
 
-#: kparametereditor.cpp:269
+#: kparametereditor.cpp:278
 #, kde-format
 msgid "Save File"
 msgstr ""
 
-#: kparametereditor.cpp:276
+#: kparametereditor.cpp:285
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
@@ -1600,12 +1600,12 @@ msgstr ""
 "\"%1\" নামে একটি ফাইল ইতিমধ্যেই বিদ্যমান।  এ অবস্থায় আপনি কি এই ফাইলটির ওপর "
 "দিয়েই লিখতে চান?"
 
-#: kparametereditor.cpp:277
+#: kparametereditor.cpp:286
 #, kde-format
 msgid "Overwrite File?"
 msgstr "ফাইলের ওপর দিয়েই লেখা হবে কি?"
 
-#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "এই ফাইলটি সংরক্ষণের সময় একটি সমস্যা হয়েছে"
@@ -1779,167 +1779,167 @@ msgid "URLs to open"
 msgstr "যে ফাইলটি খোলা হবে"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:187 settingspagegeneral.ui:14
+#: maindlg.cpp:188 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "সাধারণ"
 
-#: maindlg.cpp:187
+#: maindlg.cpp:188
 #, kde-format
 msgid "General Settings"
 msgstr "সাধারণ বৈশিষ্ট্য"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:188 settingspagediagram.ui:14
+#: maindlg.cpp:189 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr ""
 
-#: maindlg.cpp:188
+#: maindlg.cpp:189
 #, kde-format
 msgid "Diagram Appearance"
 msgstr ""
 
-#: maindlg.cpp:189
+#: maindlg.cpp:190
 #, kde-format
 msgid "Colors"
 msgstr "রঙ"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:191
 #, fuzzy, kde-format
 msgid "Fonts"
 msgstr "&ফন্ট..."
 
-#: maindlg.cpp:217
+#: maindlg.cpp:218
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "কে-এমপ্লট'কে কনফিগার করো..."
 
-#: maindlg.cpp:223
+#: maindlg.cpp:224
 #, kde-format
 msgid "E&xport..."
 msgstr "&রপ্তানী..."
 
-#: maindlg.cpp:236
+#: maindlg.cpp:237
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "স্থানাঙ্ক &পদ্ধতি..."
 
-#: maindlg.cpp:241
+#: maindlg.cpp:242
 #, fuzzy, kde-format
 msgid "&Constants..."
 msgstr "ধ্রুবক"
 
-#: maindlg.cpp:250
+#: maindlg.cpp:251
 #, kde-format
 msgid "Zoom &In"
 msgstr "বি&বর্ধন"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:257
 #, kde-format
 msgid "Zoom &Out"
 msgstr "ক্ষুদ্রাকারে প্র&দর্শন"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:263
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "&উইজেটকে ত্রিকোণমিতিক ফাংশনে বসাও"
 
-#: maindlg.cpp:266
+#: maindlg.cpp:267
 #, kde-format
 msgid "Reset View"
 msgstr ""
 
-#: maindlg.cpp:271
+#: maindlg.cpp:272
 #, fuzzy, kde-format
 msgid "Show Sliders"
 msgstr "স্লাইডার প্রদর্শন করো (&ল)"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:278
 #, fuzzy, kde-format
 #| msgid "&Calculate"
 msgid "Calculator"
 msgstr "&গণনা করো"
 
-#: maindlg.cpp:282
+#: maindlg.cpp:283
 #, fuzzy, kde-format
 msgid "Plot &Area..."
 msgstr "প্লট ক্ষেত্র"
 
-#: maindlg.cpp:286
+#: maindlg.cpp:287
 #, fuzzy, kde-format
 msgid "Find Ma&ximum..."
 msgstr "সর্বোচ্চ বিন্দু খোঁজো"
 
-#: maindlg.cpp:291
+#: maindlg.cpp:292
 #, fuzzy, kde-format
 msgid "Find Mi&nimum..."
 msgstr "সর্বনিম্ন বিন্দু খোঁজো"
 
-#: maindlg.cpp:298
+#: maindlg.cpp:299
 #, fuzzy, kde-format
 #| msgid "Predefined &Math Functions"
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "পূর্বনির্ধারিত গাণিতিক ফাংশ&ন"
 
-#: maindlg.cpp:305
+#: maindlg.cpp:306
 #, fuzzy, kde-format
 msgid "Cartesian Plot"
 msgstr "প্লট ছাপাও"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:312
 #, fuzzy, kde-format
 msgid "Parametric Plot"
 msgstr "নতুন পরামিতিজনিত প্লট"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:318
 #, fuzzy, kde-format
 msgid "Polar Plot"
 msgstr "নতুন পোলার প্লট"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:324
 #, fuzzy, kde-format
 msgid "Implicit Plot"
 msgstr "পোলার প্লট সম্পাদন করো"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:330
 #, fuzzy, kde-format
 msgid "Differential Plot"
 msgstr "প্রাথমিক বিন্দু"
 
-#: maindlg.cpp:344
+#: maindlg.cpp:345
 #, kde-format
 msgid "&Hide"
 msgstr "লুকা&ও"
 
-#: maindlg.cpp:349
+#: maindlg.cpp:350
 #, fuzzy, kde-format
 msgid "&Remove"
 msgstr "স্থানান্তর (&স)"
 
-#: maindlg.cpp:357
+#: maindlg.cpp:358
 #, fuzzy, kde-format
 msgid "Animate Plot..."
 msgstr "ফাংশন সম্পাদন করো..."
 
-#: maindlg.cpp:368
+#: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:373
+#: maindlg.cpp:374
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:379
+#: maindlg.cpp:380
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:460
+#: maindlg.cpp:465
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1948,7 +1948,7 @@ msgstr ""
 "প্লট পরিবর্তন করা হয়েছে।\n"
 "আপনি কি এটি সংরক্ষণ করতে চান?"
 
-#: maindlg.cpp:490
+#: maindlg.cpp:499
 #, fuzzy, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1958,50 +1958,50 @@ msgstr ""
 "কে-এমপ্লট এর পুরনো সংস্করণ দিয়ে আর এটি খোলা যাবে না।  এ অবস্থায় আপনি কি ফাইলটি "
 "সংরক্ষণ করার ব্যাপারে নিশ্চিত?"
 
-#: maindlg.cpp:493
+#: maindlg.cpp:502
 #, kde-format
 msgid "Save New Format"
 msgstr "নতুন ফরম্যাট অনুসারে সংরক্ষণ করো"
 
-#: maindlg.cpp:508
+#: maindlg.cpp:517
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: maindlg.cpp:514
+#: maindlg.cpp:523
 #, kde-format
 msgid "The file could not be saved"
 msgstr "ফাইলটিকে সংরক্ষণ করা যায় নি"
 
-#: maindlg.cpp:546
+#: maindlg.cpp:555
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr ""
 
-#: maindlg.cpp:548
+#: maindlg.cpp:557
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr ""
 
-#: maindlg.cpp:609
+#: maindlg.cpp:618
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr ""
 
-#: maindlg.cpp:666
+#: maindlg.cpp:675
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "প্লট ছাপাও"
 
-#: maindlg.cpp:681
+#: maindlg.cpp:690
 #, fuzzy, kde-format
 msgid "Print Settings"
 msgstr "সাধারণ বৈশিষ্ট্য"
 
-#: maindlg.cpp:686
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
@@ -2177,74 +2177,74 @@ msgstr ""
 "পরামিতির মান সক্রিয়ভাবে (dynamic) পরিবর্তনের জন্য যেকোন একটি স্লাইডার বেছে নিন।  "
 "এই মান ০ (বাম) থেকে ১০০'র (ডান) মধ্যে ওঠানামা করে।"
 
-#: parser.cpp:615
+#: parser.cpp:614
 #, fuzzy, kde-format
 msgid "Remove all"
 msgstr "স্থানান্তর (&স)"
 
-#: parser.cpp:619
+#: parser.cpp:618
 #, kde-format
 msgid ""
 "The function %1 is depended upon by the following functions: %2. These must "
 "be removed in addition."
 msgstr ""
 
-#: parser.cpp:1090
+#: parser.cpp:1089
 #, kde-format
 msgid "Syntax error"
 msgstr ""
 
-#: parser.cpp:1093
+#: parser.cpp:1092
 #, kde-format
 msgid "Missing parenthesis"
 msgstr ""
 
-#: parser.cpp:1096
+#: parser.cpp:1095
 #, kde-format
 msgid "Stack overflow"
 msgstr ""
 
-#: parser.cpp:1099
+#: parser.cpp:1098
 #, fuzzy, kde-format
 msgid "Name of function is not free"
 msgstr "ফাংশনের নাম"
 
-#: parser.cpp:1102
+#: parser.cpp:1101
 #, fuzzy, kde-format
 msgid "recursive function not allowed"
 msgstr "Recursive ফাংশনের ব্যবহার অনুমোদিত নয়"
 
-#: parser.cpp:1105
+#: parser.cpp:1104
 #, kde-format
 msgid "Empty function"
 msgstr "ফাঁকা ফাংশন"
 
-#: parser.cpp:1108
+#: parser.cpp:1107
 #, kde-format
 msgid "Function could not be found"
 msgstr "ফাংশন পাওয়া যায় নি।"
 
-#: parser.cpp:1111
+#: parser.cpp:1110
 #, kde-format
 msgid "The differential equation must be at least first-order"
 msgstr ""
 
-#: parser.cpp:1114
+#: parser.cpp:1113
 #, kde-format
 msgid "Too many plus-minus symbols"
 msgstr ""
 
-#: parser.cpp:1117
+#: parser.cpp:1116
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
 msgstr ""
 
-#: parser.cpp:1120
+#: parser.cpp:1119
 #, kde-format
 msgid "The function has too many arguments"
 msgstr ""
 
-#: parser.cpp:1123
+#: parser.cpp:1122
 #, kde-format
 msgid "The function does not have the correct number of arguments"
 msgstr ""

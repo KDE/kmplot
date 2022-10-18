@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"POT-Creation-Date: 2022-10-18 00:41+0000\n"
 "PO-Revision-Date: 2012-07-16 15:01+0700\n"
 "Last-Translator: Sok Sophea <sophea@khmeros.info>\n"
 "Language-Team: Khmer <>\n"
@@ -983,12 +983,12 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "ជ្រើស​ជម្រាល"
 
-#: kmplot.cpp:70
+#: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "មិន​អាច​រក​ផ្នែក​របស់ KmPlot បាន​ឡើយ ។"
 
-#: kmplot.cpp:169 maindlg.cpp:508
+#: kmplot.cpp:171 maindlg.cpp:517
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -998,7 +998,7 @@ msgstr ""
 "*.fkt|KmPlot Files (*.fkt)\n"
 "*|All Files"
 
-#: kmplot.cpp:169
+#: kmplot.cpp:171
 #, kde-format
 msgid "Open"
 msgstr "បើក"
@@ -1453,7 +1453,7 @@ msgid ""
 msgstr "ថាតើ​ត្រូវ​បង្ហាញ​សេចក្ដី​លម្អិត​បន្ថែម​ ដូច​ជា​តង់សង់ និង​ច្បាប់​ណ័រម៉ាល់​នៅពេល​​​ដាក់​ដាន​គ្រោង ។"
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
 #, kde-format
 msgid "&Edit"
 msgstr "កែ​សម្រួល"
@@ -1493,7 +1493,7 @@ msgstr "របារ​ឧបករណ៍​មេ"
 msgid "The file had an unknown version number"
 msgstr "ឯកសារ​មាន​លេខកំណែ​ដែលមិនស្គាល់"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:204
+#: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
 msgid "The file does not exist."
 msgstr "មិនមាន​ឯកសារទេ ។"
@@ -1523,32 +1523,32 @@ msgstr "ស្វ័យ​ប្រវត្តិ"
 msgid "The function %1 could not be loaded"
 msgstr "មិនអាច​ផ្ទុក​អនុគមន៍ %1 បានឡើយ"
 
-#: kparametereditor.cpp:42
+#: kparametereditor.cpp:43
 #, fuzzy, kde-format
 #| msgid "Parameter Editor"
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "កម្មវិធី​និពន្ធ​ប៉ារ៉ាម៉ែត្រ"
 
-#: kparametereditor.cpp:199
+#: kparametereditor.cpp:200
 #, fuzzy, kde-format
 #| msgid "Parameter Editor"
 msgid "Open Parameter File"
 msgstr "កម្មវិធី​និពន្ធ​ប៉ារ៉ាម៉ែត្រ"
 
-#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, fuzzy, kde-format
 #| msgid "*.txt|Plain Text File "
 msgid "Plain Text File (*.txt)"
 msgstr "ឯកសារ​អត្ថបទ *.txt|Plain "
 
-#: kparametereditor.cpp:214
+#: kparametereditor.cpp:215
 #, fuzzy, kde-format
 #| msgid "An error appeared when opening this file (%1)"
 msgid "An error appeared when opening this file: %1"
 msgstr "មាន​កំហុស នៅពេល​បើក​ឯកសារ​នេះ (%1)"
 
-#: kparametereditor.cpp:243
+#: kparametereditor.cpp:244
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
@@ -1557,45 +1557,45 @@ msgstr ""
 "បន្ទាត់ %1 មិនមែន​ជា​តម្លៃ​ប៉ារ៉ាម៉ែត្រ​ត្រឹមត្រូវទេ ហើយ​ដូច្នេះ វានឹងមិនត្រូវបាន​រួមបញ្ចូល​ឡើយ ។ តើអ្នក​ចង់​"
 "បន្តទេ ?"
 
-#: kparametereditor.cpp:249
+#: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "តើ​ចង់ឲ្យ​ប្រាប់​អ្នក​អំពី​បន្ទាត់​ដែល​មិនអាច​អាន​បាន​មែនទេ ?"
 
-#: kparametereditor.cpp:251
+#: kparametereditor.cpp:256
 #, kde-format
 msgid "Get Informed"
 msgstr "ប្រាប់"
 
-#: kparametereditor.cpp:252
+#: kparametereditor.cpp:257
 #, kde-format
 msgid "Ignore Information"
 msgstr "មិន​អើពើ​និង​ព័ត៌មាន"
 
-#: kparametereditor.cpp:259
+#: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "មានកំហុស​នៅពេល​បើក​ឯកសារ​នេះ"
 
-#: kparametereditor.cpp:269
+#: kparametereditor.cpp:278
 #, fuzzy, kde-format
 #| msgid "Save As"
 msgid "Save File"
 msgstr "រក្សា​ទុក​​ជា"
 
-#: kparametereditor.cpp:276
+#: kparametereditor.cpp:285
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
 msgstr "មាន​ឯកសារ​ឈ្មោះ \"%1\" រួចហើយ ។ តើអ្នក​ពិតជាចង់​បន្ត និង​សរសេរ​ជាន់​លើឯកសារនេះ​ឬ ?"
 
-#: kparametereditor.cpp:277
+#: kparametereditor.cpp:286
 #, kde-format
 msgid "Overwrite File?"
 msgstr "សរសេរ​ជាន់​លើ​ឯកសារ​ឬ?"
 
-#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "កំហុស​មួយ​កើតឡើង​នៅ​ពេល​រក្សាទុក​ឯកសារ​នេះ"
@@ -1770,166 +1770,166 @@ msgid "URLs to open"
 msgstr "ឯកសារ​ដែល​ត្រូវ​បើក"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:187 settingspagegeneral.ui:14
+#: maindlg.cpp:188 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "ទូទៅ"
 
-#: maindlg.cpp:187
+#: maindlg.cpp:188
 #, kde-format
 msgid "General Settings"
 msgstr "ការ​កំណត់​ទូទៅ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:188 settingspagediagram.ui:14
+#: maindlg.cpp:189 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "ដ្យាក្រាម"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:189
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "រូបរាង​ដ្យាក្រាម"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:190
 #, kde-format
 msgid "Colors"
 msgstr "ពណ៌"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:191
 #, kde-format
 msgid "Fonts"
 msgstr "ពុម្ពអក្សរ"
 
-#: maindlg.cpp:217
+#: maindlg.cpp:218
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "កំណត់​រចនា​សម្ព័ន្ធ KmPlot..."
 
-#: maindlg.cpp:223
+#: maindlg.cpp:224
 #, kde-format
 msgid "E&xport..."
 msgstr "នាំចេញ..."
 
-#: maindlg.cpp:236
+#: maindlg.cpp:237
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "ប្រព័ន្ធ​កូអរដោណេ..."
 
-#: maindlg.cpp:241
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Constants..."
 msgstr "ចំនួន​ថេរ..."
 
-#: maindlg.cpp:250
+#: maindlg.cpp:251
 #, kde-format
 msgid "Zoom &In"
 msgstr "​ពង្រីក"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:257
 #, kde-format
 msgid "Zoom &Out"
 msgstr "​បង្រួម"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:263
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "ធ្វើ​ឲ្យ​ធាតុ​ក្រាហ្វិក​សម​ទៅ​និង​អនុគមន៍​ត្រីកោណមាត្រ"
 
-#: maindlg.cpp:266
+#: maindlg.cpp:267
 #, kde-format
 msgid "Reset View"
 msgstr "កំណត់​ទិដ្ឋភាព​ឡើង​វិញ"
 
-#: maindlg.cpp:271
+#: maindlg.cpp:272
 #, kde-format
 msgid "Show Sliders"
 msgstr "បង្ហាញ​គ្រាប់រំកិល"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:278
 #, kde-format
 msgid "Calculator"
 msgstr "ម៉ាស៊ីនគិត​លេខ"
 
-#: maindlg.cpp:282
+#: maindlg.cpp:283
 #, kde-format
 msgid "Plot &Area..."
 msgstr "ផ្ទៃ​គ្រោង..."
 
-#: maindlg.cpp:286
+#: maindlg.cpp:287
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "រក​ចំណុច​អតិបរមា..."
 
-#: maindlg.cpp:291
+#: maindlg.cpp:292
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "រក​ចំណុច​អប្បបរមា..."
 
-#: maindlg.cpp:298
+#: maindlg.cpp:299
 #, fuzzy, kde-format
 #| msgid "Predefined &Math Functions"
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "អនុគមន៍​គណិត​វិទ្យា​ដែល​បាន​កំណត់​ជាមុន"
 
-#: maindlg.cpp:305
+#: maindlg.cpp:306
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "គ្រោង Cartesian"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:312
 #, kde-format
 msgid "Parametric Plot"
 msgstr "គ្រោង​ប៉ារ៉ាម៉ែត្រ"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:318
 #, kde-format
 msgid "Polar Plot"
 msgstr "គ្រោង​ប៉ូល"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:324
 #, kde-format
 msgid "Implicit Plot"
 msgstr "គ្រោង​ទាំងស្រុង"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:330
 #, kde-format
 msgid "Differential Plot"
 msgstr "គ្រោង​ផ្សេង"
 
-#: maindlg.cpp:344
+#: maindlg.cpp:345
 #, kde-format
 msgid "&Hide"
 msgstr "លាក់"
 
-#: maindlg.cpp:349
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Remove"
 msgstr "យក​ចេញ​"
 
-#: maindlg.cpp:357
+#: maindlg.cpp:358
 #, kde-format
 msgid "Animate Plot..."
 msgstr "ធ្វើ​ឲ្យ​គ្រោង​មាន​ចលនា..."
 
-#: maindlg.cpp:368
+#: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:373
+#: maindlg.cpp:374
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:379
+#: maindlg.cpp:380
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:460
+#: maindlg.cpp:465
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1938,7 +1938,7 @@ msgstr ""
 "បាន​កែប្រែ​គ្រោង ។\n"
 "តើ​អ្នក​ចង់​រក្សា​វា​ទុក​ឬ ។"
 
-#: maindlg.cpp:490
+#: maindlg.cpp:499
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1947,22 +1947,22 @@ msgstr ""
 "ឯកសារ​នេះ​ត្រូវ​បាន​រក្សាទុក​ជា​មួយនឹង​ទ្រង់ទ្រាយ​​ឯកសារ​ចាស់ ប្រសិនបើ​​​អ្នក​រក្សា​វា​ទុក អ្នក​មិន​អាច​បើក​ឯកសារ​"
 "ជា​មួយ​កំណែ​របស់ KmPlot ចាស់​ទេ ។ តើអ្នក​ប្រាកដ​ជា​ចង់​បន្តឬ ?"
 
-#: maindlg.cpp:493
+#: maindlg.cpp:502
 #, kde-format
 msgid "Save New Format"
 msgstr "រក្សា​ទុក​ទ្រង់ទ្រាយ​ថ្មី"
 
-#: maindlg.cpp:508
+#: maindlg.cpp:517
 #, kde-format
 msgid "Save As"
 msgstr "រក្សា​ទុក​​ជា"
 
-#: maindlg.cpp:514
+#: maindlg.cpp:523
 #, kde-format
 msgid "The file could not be saved"
 msgstr "មិន​អាច​រក្សា​ទុក​ឯកសារ​បាន​ទេ"
 
-#: maindlg.cpp:546
+#: maindlg.cpp:555
 #, fuzzy, kde-format
 #| msgid ""
 #| "\n"
@@ -1972,32 +1972,32 @@ msgstr ""
 "\n"
 "*.svg|Scalable Vector Graphics"
 
-#: maindlg.cpp:548
+#: maindlg.cpp:557
 #, fuzzy, kde-format
 #| msgid "Export as Image"
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "នាំ​ចេញ​ជា​រូបភាព"
 
-#: maindlg.cpp:609
+#: maindlg.cpp:618
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "សូម​ទោស មាន​កំហុស​ខណៈ​ពេល​រក្សា​ទុក​រូបភាព \"%1\""
 
-#: maindlg.cpp:666
+#: maindlg.cpp:675
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "បោះពុម្ព​គ្រោង"
 
-#: maindlg.cpp:681
+#: maindlg.cpp:690
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Print Settings"
 msgstr "ការ​កំណត់"
 
-#: maindlg.cpp:686
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgctxt "@title:window"
@@ -2183,74 +2183,74 @@ msgstr ""
 "ជ្រើស​គ្រាប់​រំកិល​មួយ ដើម្បី​ផ្លាស់ប្ដូរ​តម្លៃ​ប៉ារ៉ាម៉ែត្ររហូត ។ តម្លៃ​ប្រែប្រួល​ពី ០ (នៅខាងឆ្វេង) ១០០ "
 "(នៅខាងស្ដាំ) ។"
 
-#: parser.cpp:615
+#: parser.cpp:614
 #, kde-format
 msgid "Remove all"
 msgstr "ផ្លាស់​ទី​ទាំងអស់"
 
-#: parser.cpp:619
+#: parser.cpp:618
 #, kde-format
 msgid ""
 "The function %1 is depended upon by the following functions: %2. These must "
 "be removed in addition."
 msgstr "អនុគមន៍ %1 អាស្រ័យ​នឹង​អនុគមន៍​ដូចខាងក្រោម ៖ %2 ។ វា​ត្រូវ​តែ​យក​ចេញ​បន្ថែម ។"
 
-#: parser.cpp:1090
+#: parser.cpp:1089
 #, kde-format
 msgid "Syntax error"
 msgstr "កំហុស​វាក្យ​សម្ព័ន្ធ"
 
-#: parser.cpp:1093
+#: parser.cpp:1092
 #, kde-format
 msgid "Missing parenthesis"
 msgstr "បង់​វង់ក្រចក"
 
-#: parser.cpp:1096
+#: parser.cpp:1095
 #, kde-format
 msgid "Stack overflow"
 msgstr "លើស​ចំណុះ​ជង់"
 
-#: parser.cpp:1099
+#: parser.cpp:1098
 #, kde-format
 msgid "Name of function is not free"
 msgstr "ឈ្មោះ​អនុគមន៍​មិនទំនេរ​ទេ"
 
-#: parser.cpp:1102
+#: parser.cpp:1101
 #, kde-format
 msgid "recursive function not allowed"
 msgstr "មិន​អនុញ្ញាត​អនុគមន៍​ហៅខ្លួនឯង"
 
-#: parser.cpp:1105
+#: parser.cpp:1104
 #, kde-format
 msgid "Empty function"
 msgstr "គ្មានអនុគមន៍ទេ"
 
-#: parser.cpp:1108
+#: parser.cpp:1107
 #, kde-format
 msgid "Function could not be found"
 msgstr "មិនអាច​រក​អនុគមន៍​ឃើញ​ទេ"
 
-#: parser.cpp:1111
+#: parser.cpp:1110
 #, kde-format
 msgid "The differential equation must be at least first-order"
 msgstr "សមីការ​ផ្សេង​ត្រូវ​តែ​មានលំដាប់បំបូង"
 
-#: parser.cpp:1114
+#: parser.cpp:1113
 #, kde-format
 msgid "Too many plus-minus symbols"
 msgstr "និមិត្ត​សញ្ញា បូក ដក ច្រើន​ពេក"
 
-#: parser.cpp:1117
+#: parser.cpp:1116
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
 msgstr "និមិត្ត​សញ្ញា បូក ដក មិន​ត្រឹមត្រូវ (កន្សោម​ត្រូវ​តែ​ជា​ចំនួន​ថេរ)"
 
-#: parser.cpp:1120
+#: parser.cpp:1119
 #, kde-format
 msgid "The function has too many arguments"
 msgstr "អនុគមន៍​មាន​អាគុយម៉ង់​ច្រើន​ពេក"
 
-#: parser.cpp:1123
+#: parser.cpp:1122
 #, kde-format
 msgid "The function does not have the correct number of arguments"
 msgstr "អនុគមន៍​មិន​មាន​ចំនួន​អាគុយម៉ង់​ត្រឹមត្រូវ"

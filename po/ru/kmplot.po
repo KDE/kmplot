@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"POT-Creation-Date: 2022-10-18 00:41+0000\n"
 "PO-Revision-Date: 2021-11-29 16:13+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -1007,17 +1007,17 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "Выбор градиента"
 
-#: kmplot.cpp:70
+#: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "Не удалось найти компонент KmPlot."
 
-#: kmplot.cpp:169 maindlg.cpp:508
+#: kmplot.cpp:171 maindlg.cpp:517
 #, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr "Файлы KmPlot (*.fkt);;Все файлы (*)"
 
-#: kmplot.cpp:169
+#: kmplot.cpp:171
 #, kde-format
 msgid "Open"
 msgstr "Открытие файла"
@@ -1477,7 +1477,7 @@ msgid ""
 msgstr "Показывать касательную и нормаль при фиксации курсора мыши на кривой."
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
 #, kde-format
 msgid "&Edit"
 msgstr "&Правка"
@@ -1517,7 +1517,7 @@ msgstr "Основная панель инструментов"
 msgid "The file had an unknown version number"
 msgstr "Файл имеет неизвестный номер версии"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:204
+#: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
 msgid "The file does not exist."
 msgstr "Файл не существует."
@@ -1547,28 +1547,28 @@ msgstr "автоматически"
 msgid "The function %1 could not be loaded"
 msgstr "Не удалось загрузить график %1"
 
-#: kparametereditor.cpp:42
+#: kparametereditor.cpp:43
 #, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "Редактор параметров"
 
-#: kparametereditor.cpp:199
+#: kparametereditor.cpp:200
 #, kde-format
 msgid "Open Parameter File"
 msgstr "Открыть файл параметров"
 
-#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, kde-format
 msgid "Plain Text File (*.txt)"
 msgstr "Текстовые файлы (*.txt)"
 
-#: kparametereditor.cpp:214
+#: kparametereditor.cpp:215
 #, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "При открытии этого файла произошла ошибка: %1"
 
-#: kparametereditor.cpp:243
+#: kparametereditor.cpp:244
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
@@ -1577,44 +1577,44 @@ msgstr ""
 "Строка %1 не является допустимым значением параметра и будет пропущена. "
 "Продолжить?"
 
-#: kparametereditor.cpp:249
+#: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "Сообщать о таких строках в будущем?"
 
-#: kparametereditor.cpp:251
+#: kparametereditor.cpp:256
 #, kde-format
 msgid "Get Informed"
 msgstr "Сообщать"
 
-#: kparametereditor.cpp:252
+#: kparametereditor.cpp:257
 #, kde-format
 msgid "Ignore Information"
 msgstr "Не сообщать"
 
-#: kparametereditor.cpp:259
+#: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "Не удалось открыть файл"
 
-#: kparametereditor.cpp:269
+#: kparametereditor.cpp:278
 #, kde-format
 msgid "Save File"
 msgstr "Сохранить файл"
 
-#: kparametereditor.cpp:276
+#: kparametereditor.cpp:285
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
 msgstr "Файл с именем «%1» уже существует. Заменить его?"
 
-#: kparametereditor.cpp:277
+#: kparametereditor.cpp:286
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Заменить файл?"
 
-#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "Не удалось сохранить файл"
@@ -1786,166 +1786,166 @@ msgid "URLs to open"
 msgstr "Открываемые адреса URL"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:187 settingspagegeneral.ui:14
+#: maindlg.cpp:188 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "Основное"
 
-#: maindlg.cpp:187
+#: maindlg.cpp:188
 #, kde-format
 msgid "General Settings"
 msgstr "Настройка основных параметров"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:188 settingspagediagram.ui:14
+#: maindlg.cpp:189 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "Область построения"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:189
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "Внешний вид области построения"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:190
 #, kde-format
 msgid "Colors"
 msgstr "Цвета"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:191
 #, kde-format
 msgid "Fonts"
 msgstr "Шрифты"
 
-#: maindlg.cpp:217
+#: maindlg.cpp:218
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "Настроить KmPlot..."
 
-#: maindlg.cpp:223
+#: maindlg.cpp:224
 #, kde-format
 msgid "E&xport..."
 msgstr "&Экспорт..."
 
-#: maindlg.cpp:236
+#: maindlg.cpp:237
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "&Система координат..."
 
-#: maindlg.cpp:241
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Constants..."
 msgstr "&Константы..."
 
-#: maindlg.cpp:250
+#: maindlg.cpp:251
 #, kde-format
 msgid "Zoom &In"
 msgstr "У&величить масштаб"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:257
 #, kde-format
 msgid "Zoom &Out"
 msgstr "&Уменьшить масштаб"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:263
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "&Настроить масштаб под тригонометрические функции"
 
-#: maindlg.cpp:266
+#: maindlg.cpp:267
 #, kde-format
 msgid "Reset View"
 msgstr "Сбросить масштаб"
 
-#: maindlg.cpp:271
+#: maindlg.cpp:272
 #, kde-format
 msgid "Show Sliders"
 msgstr "Окно ползунков"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:278
 #, kde-format
 msgid "Calculator"
 msgstr "Калькулятор"
 
-#: maindlg.cpp:282
+#: maindlg.cpp:283
 #, kde-format
 msgid "Plot &Area..."
 msgstr "&Площадь под графиком..."
 
-#: maindlg.cpp:286
+#: maindlg.cpp:287
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Найти м&аксимум..."
 
-#: maindlg.cpp:291
+#: maindlg.cpp:292
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Найти м&инимум..."
 
-#: maindlg.cpp:298
+#: maindlg.cpp:299
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "Предопределённые &математические функции"
 
-#: maindlg.cpp:305
+#: maindlg.cpp:306
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "График в декартовых координатах"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:312
 #, kde-format
 msgid "Parametric Plot"
 msgstr "График параметрической кривой"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:318
 #, kde-format
 msgid "Polar Plot"
 msgstr "График в полярных координатах"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:324
 #, kde-format
 msgid "Implicit Plot"
 msgstr "График неявной функции"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:330
 #, kde-format
 msgid "Differential Plot"
 msgstr "Интегральные кривые"
 
-#: maindlg.cpp:344
+#: maindlg.cpp:345
 #, kde-format
 msgid "&Hide"
 msgstr "&Скрыть"
 
-#: maindlg.cpp:349
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Remove"
 msgstr "&Удалить"
 
 # ?
-#: maindlg.cpp:357
+#: maindlg.cpp:358
 #, kde-format
 msgid "Animate Plot..."
 msgstr "Анимация по параметру..."
 
-#: maindlg.cpp:368
+#: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
 msgstr "Копировать (x, y)"
 
-#: maindlg.cpp:373
+#: maindlg.cpp:374
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: maindlg.cpp:379
+#: maindlg.cpp:380
 #, kde-format
 msgid "Copy Root Value"
 msgstr "Копировать корневое значение"
 
-#: maindlg.cpp:460
+#: maindlg.cpp:465
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1954,7 +1954,7 @@ msgstr ""
 "Построение было изменено.\n"
 "Сохранить его?"
 
-#: maindlg.cpp:490
+#: maindlg.cpp:499
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1963,49 +1963,49 @@ msgstr ""
 "Файл был сохранён в старом формате. Если вы его сохраните, то уже не сможете "
 "открыть в более ранних версиях программы KmPlot. Продолжить?"
 
-#: maindlg.cpp:493
+#: maindlg.cpp:502
 #, kde-format
 msgid "Save New Format"
 msgstr "Сохранить в новом формате"
 
-#: maindlg.cpp:508
+#: maindlg.cpp:517
 #, kde-format
 msgid "Save As"
 msgstr "Сохранение в файл"
 
-#: maindlg.cpp:514
+#: maindlg.cpp:523
 #, kde-format
 msgid "The file could not be saved"
 msgstr "Не удалось сохранить файл"
 
-#: maindlg.cpp:546
+#: maindlg.cpp:555
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr "Векторные изображения SVG (*.svg)"
 
-#: maindlg.cpp:548
+#: maindlg.cpp:557
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Экспорт в изображение"
 
-#: maindlg.cpp:609
+#: maindlg.cpp:618
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Не удалось сохранить изображение «%1»."
 
-#: maindlg.cpp:666
+#: maindlg.cpp:675
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Печать построения"
 
-#: maindlg.cpp:681
+#: maindlg.cpp:690
 #, kde-format
 msgid "Print Settings"
 msgstr "Параметры печати"
 
-#: maindlg.cpp:686
+#: maindlg.cpp:695
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
@@ -2191,75 +2191,75 @@ msgstr ""
 "Выберите один из ползунков, который будет связан со значением параметра. "
 "Значения варьируются от 0 (слева) до 100 (справа)."
 
-#: parser.cpp:615
+#: parser.cpp:614
 #, kde-format
 msgid "Remove all"
 msgstr "Удалить все"
 
-#: parser.cpp:619
+#: parser.cpp:618
 #, kde-format
 msgid ""
 "The function %1 is depended upon by the following functions: %2. These must "
 "be removed in addition."
 msgstr "Функция %1 зависит от следующих функций: %2. Их тоже нужно удалить."
 
-#: parser.cpp:1090
+#: parser.cpp:1089
 #, kde-format
 msgid "Syntax error"
 msgstr "Синтаксическая ошибка"
 
-#: parser.cpp:1093
+#: parser.cpp:1092
 #, kde-format
 msgid "Missing parenthesis"
 msgstr "Не хватает скобки"
 
-#: parser.cpp:1096
+#: parser.cpp:1095
 #, kde-format
 msgid "Stack overflow"
 msgstr "Переполнение стека"
 
-#: parser.cpp:1099
+#: parser.cpp:1098
 #, kde-format
 msgid "Name of function is not free"
 msgstr "Это название функции уже используется"
 
-#: parser.cpp:1102
+#: parser.cpp:1101
 #, kde-format
 msgid "recursive function not allowed"
 msgstr "Рекурсивные функции запрещены"
 
-#: parser.cpp:1105
+#: parser.cpp:1104
 #, kde-format
 msgid "Empty function"
 msgstr "Пустая функция"
 
-#: parser.cpp:1108
+#: parser.cpp:1107
 #, kde-format
 msgid "Function could not be found"
 msgstr "Не удалось найти функцию"
 
-#: parser.cpp:1111
+#: parser.cpp:1110
 #, kde-format
 msgid "The differential equation must be at least first-order"
 msgstr "Дифференциальное уравнение должно быть как минимум первого порядка"
 
-#: parser.cpp:1114
+#: parser.cpp:1113
 #, kde-format
 msgid "Too many plus-minus symbols"
 msgstr "Слишком много знаков сложения и вычитания"
 
-#: parser.cpp:1117
+#: parser.cpp:1116
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
 msgstr ""
 "Недопустимый символ плюс-минус (выражение должно иметь определённое значение)"
 
-#: parser.cpp:1120
+#: parser.cpp:1119
 #, kde-format
 msgid "The function has too many arguments"
 msgstr "Функция имеет слишком много аргументов"
 
-#: parser.cpp:1123
+#: parser.cpp:1122
 #, kde-format
 msgid "The function does not have the correct number of arguments"
 msgstr "Функция имеет неправильное количество аргументов"

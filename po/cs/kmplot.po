@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"POT-Creation-Date: 2022-10-18 00:41+0000\n"
 "PO-Revision-Date: 2021-04-23 14:51+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -982,17 +982,17 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "Zvolte gradient"
 
-#: kmplot.cpp:70
+#: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "Nelze najít část KmPlot."
 
-#: kmplot.cpp:169 maindlg.cpp:508
+#: kmplot.cpp:171 maindlg.cpp:517
 #, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr "Soubory KmPlot (*.fkt);;Všechny soubory (*)"
 
-#: kmplot.cpp:169
+#: kmplot.cpp:171
 #, kde-format
 msgid "Open"
 msgstr "Otevřít"
@@ -1452,7 +1452,7 @@ msgstr ""
 "zákresu."
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
 #, kde-format
 msgid "&Edit"
 msgstr "&Upravit"
@@ -1492,7 +1492,7 @@ msgstr "Hlavní panel nástrojů"
 msgid "The file had an unknown version number"
 msgstr "Soubor má neznámé číslo verze"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:204
+#: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
 msgid "The file does not exist."
 msgstr "Soubor neexistuje."
@@ -1522,28 +1522,28 @@ msgstr "automaticky"
 msgid "The function %1 could not be loaded"
 msgstr "Funkci %1 nelze načíst"
 
-#: kparametereditor.cpp:42
+#: kparametereditor.cpp:43
 #, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "Editor pomocných proměnných (parametrů)"
 
-#: kparametereditor.cpp:199
+#: kparametereditor.cpp:200
 #, kde-format
 msgid "Open Parameter File"
 msgstr ""
 
-#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, kde-format
 msgid "Plain Text File (*.txt)"
 msgstr "Prostý text (*.txt)"
 
-#: kparametereditor.cpp:214
+#: kparametereditor.cpp:215
 #, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "Při otevírání souboru došlo k chybě: %1"
 
-#: kparametereditor.cpp:243
+#: kparametereditor.cpp:244
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
@@ -1552,32 +1552,32 @@ msgstr ""
 "Řádek %1 není platnou hodnotou pomocné proměnné (parametru), a proto nebude "
 "zahrnut. Pokračovat?"
 
-#: kparametereditor.cpp:249
+#: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "Přejete si být informování o dalších řádcích, které nelze číst?"
 
-#: kparametereditor.cpp:251
+#: kparametereditor.cpp:256
 #, kde-format
 msgid "Get Informed"
 msgstr "Být informován"
 
-#: kparametereditor.cpp:252
+#: kparametereditor.cpp:257
 #, kde-format
 msgid "Ignore Information"
 msgstr "Informací si nevšímat"
 
-#: kparametereditor.cpp:259
+#: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "Při otevírání souboru došlo k chybě"
 
-#: kparametereditor.cpp:269
+#: kparametereditor.cpp:278
 #, kde-format
 msgid "Save File"
 msgstr "Uložit soubor"
 
-#: kparametereditor.cpp:276
+#: kparametereditor.cpp:285
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
@@ -1586,12 +1586,12 @@ msgstr ""
 "Soubor \"%1\" již existuje. Jste si jistí, že si přejete pokračovat a soubor "
 "přepsat?"
 
-#: kparametereditor.cpp:277
+#: kparametereditor.cpp:286
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Přepsat soubor?"
 
-#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "Při ukládání souboru došlo k chybě"
@@ -1763,165 +1763,165 @@ msgid "URLs to open"
 msgstr "URL k otevření"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:187 settingspagegeneral.ui:14
+#: maindlg.cpp:188 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "Obecné"
 
-#: maindlg.cpp:187
+#: maindlg.cpp:188
 #, kde-format
 msgid "General Settings"
 msgstr "Obecná nastavení"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:188 settingspagediagram.ui:14
+#: maindlg.cpp:189 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "Nákres"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:189
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "Vzhled nákresu"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:190
 #, kde-format
 msgid "Colors"
 msgstr "Barvy"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:191
 #, kde-format
 msgid "Fonts"
 msgstr "Písma"
 
-#: maindlg.cpp:217
+#: maindlg.cpp:218
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "Přizpůsobit: KmPlot..."
 
-#: maindlg.cpp:223
+#: maindlg.cpp:224
 #, kde-format
 msgid "E&xport..."
 msgstr "E&xport..."
 
-#: maindlg.cpp:236
+#: maindlg.cpp:237
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "&Systém souřadnic..."
 
-#: maindlg.cpp:241
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Constants..."
 msgstr "&Konstanty..."
 
-#: maindlg.cpp:250
+#: maindlg.cpp:251
 #, kde-format
 msgid "Zoom &In"
 msgstr "&Přiblížit"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:257
 #, kde-format
 msgid "Zoom &Out"
 msgstr "O&ddálit"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:263
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "&Umístit ke goniometrickým funkcím zařízení"
 
-#: maindlg.cpp:266
+#: maindlg.cpp:267
 #, kde-format
 msgid "Reset View"
 msgstr "Přenastavit pohled"
 
-#: maindlg.cpp:271
+#: maindlg.cpp:272
 #, kde-format
 msgid "Show Sliders"
 msgstr "Zobrazit posuvníky"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:278
 #, kde-format
 msgid "Calculator"
 msgstr "Kalkulačka"
 
-#: maindlg.cpp:282
+#: maindlg.cpp:283
 #, kde-format
 msgid "Plot &Area..."
 msgstr "Oblast &zákresu..."
 
-#: maindlg.cpp:286
+#: maindlg.cpp:287
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Najít &maximum..."
 
-#: maindlg.cpp:291
+#: maindlg.cpp:292
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Najít mi&nimum..."
 
-#: maindlg.cpp:298
+#: maindlg.cpp:299
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "Přednastavené &matematické funkce"
 
-#: maindlg.cpp:305
+#: maindlg.cpp:306
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "Kartézský zákres"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:312
 #, kde-format
 msgid "Parametric Plot"
 msgstr "Parametrický zákres (s pomocnými proměnnými)"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:318
 #, kde-format
 msgid "Polar Plot"
 msgstr "Polární zákres"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:324
 #, kde-format
 msgid "Implicit Plot"
 msgstr "Zákres implicitní funkce"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:330
 #, kde-format
 msgid "Differential Plot"
 msgstr "Diferenciální zákres"
 
-#: maindlg.cpp:344
+#: maindlg.cpp:345
 #, kde-format
 msgid "&Hide"
 msgstr "&Skrýt"
 
-#: maindlg.cpp:349
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Remove"
 msgstr "Od&stranit"
 
-#: maindlg.cpp:357
+#: maindlg.cpp:358
 #, kde-format
 msgid "Animate Plot..."
 msgstr "Kreslit zákres..."
 
-#: maindlg.cpp:368
+#: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
 msgstr "Kopírovat (x, y)"
 
-#: maindlg.cpp:373
+#: maindlg.cpp:374
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: maindlg.cpp:379
+#: maindlg.cpp:380
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:460
+#: maindlg.cpp:465
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1930,7 +1930,7 @@ msgstr ""
 "Zákres byl upraven.\n"
 "Přejete si jej uložit?"
 
-#: maindlg.cpp:490
+#: maindlg.cpp:499
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1940,49 +1940,49 @@ msgstr ""
 "nebudete tento soubor moci otevřít se staršími verzemi programu KmPlot. Jste "
 "si jist, že si přejete pokračovat?"
 
-#: maindlg.cpp:493
+#: maindlg.cpp:502
 #, kde-format
 msgid "Save New Format"
 msgstr "Uložit pod novým formátem"
 
-#: maindlg.cpp:508
+#: maindlg.cpp:517
 #, kde-format
 msgid "Save As"
 msgstr "Uložit jako"
 
-#: maindlg.cpp:514
+#: maindlg.cpp:523
 #, kde-format
 msgid "The file could not be saved"
 msgstr "Soubor nelze uložit"
 
-#: maindlg.cpp:546
+#: maindlg.cpp:555
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr "Scalable vector graphics (*.svg)"
 
-#: maindlg.cpp:548
+#: maindlg.cpp:557
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Exportovat jako obrázek"
 
-#: maindlg.cpp:609
+#: maindlg.cpp:618
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Promiňte, při ukládání obrázku \"%1\" došlo k chybě"
 
-#: maindlg.cpp:666
+#: maindlg.cpp:675
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Tisk zákresu"
 
-#: maindlg.cpp:681
+#: maindlg.cpp:690
 #, kde-format
 msgid "Print Settings"
 msgstr "Nastavení tisku"
 
-#: maindlg.cpp:686
+#: maindlg.cpp:695
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
@@ -2168,12 +2168,12 @@ msgstr ""
 "Vyberte jeden z posuvníků pro dynamickou změnu hodnoty pomocné proměnné. "
 "Hodnoty se mění od 0 (vlevo) po 100 (vpravo)."
 
-#: parser.cpp:615
+#: parser.cpp:614
 #, kde-format
 msgid "Remove all"
 msgstr "Odstranit vše"
 
-#: parser.cpp:619
+#: parser.cpp:618
 #, kde-format
 msgid ""
 "The function %1 is depended upon by the following functions: %2. These must "
@@ -2182,62 +2182,62 @@ msgstr ""
 "Funkce %1 závisí na následujících funkcích: %2. Tyto funkce musí být při "
 "sčítání odstraněny."
 
-#: parser.cpp:1090
+#: parser.cpp:1089
 #, kde-format
 msgid "Syntax error"
 msgstr "Syntaktická chyba"
 
-#: parser.cpp:1093
+#: parser.cpp:1092
 #, kde-format
 msgid "Missing parenthesis"
 msgstr "Chybí kulaté závorky"
 
-#: parser.cpp:1096
+#: parser.cpp:1095
 #, kde-format
 msgid "Stack overflow"
 msgstr "Přetečení zásobníku"
 
-#: parser.cpp:1099
+#: parser.cpp:1098
 #, kde-format
 msgid "Name of function is not free"
 msgstr "Název funkce není volný"
 
-#: parser.cpp:1102
+#: parser.cpp:1101
 #, kde-format
 msgid "recursive function not allowed"
 msgstr "Neomezeně opakovatelná funkce (rekurzivní) není povolená"
 
-#: parser.cpp:1105
+#: parser.cpp:1104
 #, kde-format
 msgid "Empty function"
 msgstr "Prostá funkce"
 
-#: parser.cpp:1108
+#: parser.cpp:1107
 #, kde-format
 msgid "Function could not be found"
 msgstr "Funkci nelze nalézt"
 
-#: parser.cpp:1111
+#: parser.cpp:1110
 #, kde-format
 msgid "The differential equation must be at least first-order"
 msgstr "Diferenciální rovnice musí být alespoň prvního řádu"
 
-#: parser.cpp:1114
+#: parser.cpp:1113
 #, kde-format
 msgid "Too many plus-minus symbols"
 msgstr "Příliš mnoho symbolů plus/mínus"
 
-#: parser.cpp:1117
+#: parser.cpp:1116
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
 msgstr "Neplatný symbol plus/mínus (výraz musí být neměnný)"
 
-#: parser.cpp:1120
+#: parser.cpp:1119
 #, kde-format
 msgid "The function has too many arguments"
 msgstr "Funkce má příliš mnoho nezávisle proměnných"
 
-#: parser.cpp:1123
+#: parser.cpp:1122
 #, kde-format
 msgid "The function does not have the correct number of arguments"
 msgstr "Funkce nemá správný počet nezávisle proměnných"

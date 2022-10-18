@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"POT-Creation-Date: 2022-10-18 00:41+0000\n"
 "PO-Revision-Date: 2007-09-12 13:41+0545\n"
 "Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1007,12 +1007,12 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "ग्रेडियन्ट छनौट गर्नुहोस्"
 
-#: kmplot.cpp:70
+#: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "KmPlot को भाग फेला पार्न सकेन ।"
 
-#: kmplot.cpp:169 maindlg.cpp:508
+#: kmplot.cpp:171 maindlg.cpp:517
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -1022,7 +1022,7 @@ msgstr ""
 "*.fkt|KmPlot फाइल (*.fkt)\n"
 "*|सबै फाइल"
 
-#: kmplot.cpp:169
+#: kmplot.cpp:171
 #, kde-format
 msgid "Open"
 msgstr "खोल्नुहोस्"
@@ -1481,7 +1481,7 @@ msgid ""
 msgstr "प्लोट खोज्दा ट्यान्जेन्ट वा सामान्य रूपमा अतिरिक्त विवरण देखाउने या नदेखाउने ।"
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
 #, kde-format
 msgid "&Edit"
 msgstr "सम्पादन"
@@ -1521,7 +1521,7 @@ msgstr "मुख्य उपकरणपट्टी"
 msgid "The file had an unknown version number"
 msgstr "फाइलमा अज्ञात संस्करण नम्बर थियो"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:204
+#: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
 msgid "The file does not exist."
 msgstr "फाइल अवस्थित छैन ।"
@@ -1551,32 +1551,32 @@ msgstr "स्वचालित"
 msgid "The function %1 could not be loaded"
 msgstr "%1 प्रकार्य लोड गर्न सकेन"
 
-#: kparametereditor.cpp:42
+#: kparametereditor.cpp:43
 #, fuzzy, kde-format
 #| msgid "Parameter Editor"
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "परिमिति सम्पादक"
 
-#: kparametereditor.cpp:199
+#: kparametereditor.cpp:200
 #, fuzzy, kde-format
 #| msgid "Parameter Editor"
 msgid "Open Parameter File"
 msgstr "परिमिति सम्पादक"
 
-#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, fuzzy, kde-format
 #| msgid "*.txt|Plain Text File "
 msgid "Plain Text File (*.txt)"
 msgstr "*.txt|सादा पाठ फाइल "
 
-#: kparametereditor.cpp:214
+#: kparametereditor.cpp:215
 #, fuzzy, kde-format
 #| msgid "An error appeared when opening this file (%1)"
 msgid "An error appeared when opening this file: %1"
 msgstr "यो फाइल (%1) खोल्दा एउटा त्रुटि देखापर्यो"
 
-#: kparametereditor.cpp:243
+#: kparametereditor.cpp:244
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
@@ -1584,33 +1584,33 @@ msgid ""
 msgstr ""
 "%1 रेखा वैध परिमिति मान होइन त्यसैले यो समावेश गरिदैन । तपाईँले जारी राख्न चाहनुहुन्छ ?"
 
-#: kparametereditor.cpp:249
+#: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "पढ्न नसकिने अन्य रेखाका बारेमा जानकारी हुन चाहनुहुन्छ ?"
 
-#: kparametereditor.cpp:251
+#: kparametereditor.cpp:256
 #, kde-format
 msgid "Get Informed"
 msgstr "जानकारी प्राप्त गर्नुहोस्"
 
-#: kparametereditor.cpp:252
+#: kparametereditor.cpp:257
 #, kde-format
 msgid "Ignore Information"
 msgstr "जानकारी उपेक्षा गर्नुहोस्"
 
-#: kparametereditor.cpp:259
+#: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "यो फाइल खोल्दा त्रुटि देखा पर्यो"
 
-#: kparametereditor.cpp:269
+#: kparametereditor.cpp:278
 #, fuzzy, kde-format
 #| msgid "Save As"
 msgid "Save File"
 msgstr "यस रूपमा बचत गर्नुहोस्"
 
-#: kparametereditor.cpp:276
+#: kparametereditor.cpp:285
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
@@ -1619,12 +1619,12 @@ msgstr ""
 "\"%1\" फाइल नाम पहिल्यै अवस्थित छ । तपाईँले यसलाई जारी राख्न वा यो फाइल अधिलेखन गर्न "
 "यकीन हुनुहुन्छ ?"
 
-#: kparametereditor.cpp:277
+#: kparametereditor.cpp:286
 #, kde-format
 msgid "Overwrite File?"
 msgstr "फाइल अधिलेखन गर्नुहुन्छ ?"
 
-#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "यो फाइल बचत गर्दा त्रुटि देखियो"
@@ -1800,166 +1800,166 @@ msgid "URLs to open"
 msgstr "खोल्नका लागि फाइल"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:187 settingspagegeneral.ui:14
+#: maindlg.cpp:188 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "साधारण"
 
-#: maindlg.cpp:187
+#: maindlg.cpp:188
 #, kde-format
 msgid "General Settings"
 msgstr "साधारण सेटिङ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:188 settingspagediagram.ui:14
+#: maindlg.cpp:189 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "रेखाचित्र"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:189
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "रेखाचित्र देखावट"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:190
 #, kde-format
 msgid "Colors"
 msgstr "रङ"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:191
 #, kde-format
 msgid "Fonts"
 msgstr "फन्ट"
 
-#: maindlg.cpp:217
+#: maindlg.cpp:218
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "KmPlot कन्फिगर गर्नुहोस्..."
 
-#: maindlg.cpp:223
+#: maindlg.cpp:224
 #, kde-format
 msgid "E&xport..."
 msgstr "निर्यात गर्नुहोस्..."
 
-#: maindlg.cpp:236
+#: maindlg.cpp:237
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "समकक्ष प्रणाली..."
 
-#: maindlg.cpp:241
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Constants..."
 msgstr "अचल..."
 
-#: maindlg.cpp:250
+#: maindlg.cpp:251
 #, kde-format
 msgid "Zoom &In"
 msgstr "जुम बढाउनुहोस्"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:257
 #, kde-format
 msgid "Zoom &Out"
 msgstr "जुम घटाउनुहोस्"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:263
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "त्रिकोणमितीय प्रकार्यमा विजार्ड मिलाउनुहोस्"
 
-#: maindlg.cpp:266
+#: maindlg.cpp:267
 #, kde-format
 msgid "Reset View"
 msgstr "दृश्य रिसेट गर्नुहोस्"
 
-#: maindlg.cpp:271
+#: maindlg.cpp:272
 #, kde-format
 msgid "Show Sliders"
 msgstr "स्लाइडर देखाउनुहोस्"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:278
 #, kde-format
 msgid "Calculator"
 msgstr "गणकयन्त्र"
 
-#: maindlg.cpp:282
+#: maindlg.cpp:283
 #, kde-format
 msgid "Plot &Area..."
 msgstr "प्लोट क्षेत्र..."
 
-#: maindlg.cpp:286
+#: maindlg.cpp:287
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "अधिकतम फेला पार्नुहोस्..."
 
-#: maindlg.cpp:291
+#: maindlg.cpp:292
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "न्यूनतम फेला पार्नुहोस्..."
 
-#: maindlg.cpp:298
+#: maindlg.cpp:299
 #, fuzzy, kde-format
 #| msgid "Predefined &Math Functions"
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "पूर्वपरिभाषित गणित प्रकार्य"
 
-#: maindlg.cpp:305
+#: maindlg.cpp:306
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "कार्टेसियन प्लोट"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:312
 #, kde-format
 msgid "Parametric Plot"
 msgstr "पारामेट्रिक प्लोट"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:318
 #, kde-format
 msgid "Polar Plot"
 msgstr "पोलार प्लोट"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:324
 #, kde-format
 msgid "Implicit Plot"
 msgstr "अन्तरनिर्हित प्लोट"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:330
 #, kde-format
 msgid "Differential Plot"
 msgstr "भिन्न प्लोट"
 
-#: maindlg.cpp:344
+#: maindlg.cpp:345
 #, kde-format
 msgid "&Hide"
 msgstr "लुकाउनुहोस्"
 
-#: maindlg.cpp:349
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Remove"
 msgstr "हटाउनुहोस्"
 
-#: maindlg.cpp:357
+#: maindlg.cpp:358
 #, kde-format
 msgid "Animate Plot..."
 msgstr "प्लोट एनिमेट गर्नुहोस्..."
 
-#: maindlg.cpp:368
+#: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:373
+#: maindlg.cpp:374
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:379
+#: maindlg.cpp:380
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:460
+#: maindlg.cpp:465
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1968,7 +1968,7 @@ msgstr ""
 "प्लोट परिमार्जन गरिएको छ ।\n"
 "तपाईँले यसलाई बचत गर्न चाहनुहुन्छ ?"
 
-#: maindlg.cpp:490
+#: maindlg.cpp:499
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1977,22 +1977,22 @@ msgstr ""
 "यो फाइल पुरानो फाइल ढाँचामा बचत गरिएको छ; यदि तपाईँले यसलाई बचत गर्नुभएमा, Kmplot "
 "को पुरानो संस्करणबाट फाइल खोल्न सकिदैन । तपाईँ जारी राख्न यकीन हुनुहुन्छ ?"
 
-#: maindlg.cpp:493
+#: maindlg.cpp:502
 #, kde-format
 msgid "Save New Format"
 msgstr "नयाँ ढाँचा बचत गर्नुहोस्"
 
-#: maindlg.cpp:508
+#: maindlg.cpp:517
 #, kde-format
 msgid "Save As"
 msgstr "यस रूपमा बचत गर्नुहोस्"
 
-#: maindlg.cpp:514
+#: maindlg.cpp:523
 #, kde-format
 msgid "The file could not be saved"
 msgstr "फाइल बचत गर्न सकेन"
 
-#: maindlg.cpp:546
+#: maindlg.cpp:555
 #, fuzzy, kde-format
 #| msgid ""
 #| "\n"
@@ -2002,32 +2002,32 @@ msgstr ""
 "\n"
 "*.svg|मापनयोग्य भेक्टर ग्राफिक्स"
 
-#: maindlg.cpp:548
+#: maindlg.cpp:557
 #, fuzzy, kde-format
 #| msgid "Export as Image"
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "छविको रूपमा निर्यात गर्नुहोस्"
 
-#: maindlg.cpp:609
+#: maindlg.cpp:618
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "माफ गर्नुहोस्, छवि \"%1\" मा बचत गर्दा केही गल्ति भयो"
 
-#: maindlg.cpp:666
+#: maindlg.cpp:675
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "प्लोट मुद्रण गर्नुहोस्"
 
-#: maindlg.cpp:681
+#: maindlg.cpp:690
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Print Settings"
 msgstr "सेटिङ"
 
-#: maindlg.cpp:686
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgctxt "@title:window"
@@ -2215,74 +2215,74 @@ msgstr ""
 "परिमिति मान नाटकीय रूपमा परिवर्तन गर्न कुनै स्लाइडर चयन गर्नुहोस् । मानहरू ० (बायाँ) "
 "बाट १०० (दायाँ) मा फरक पर्दछ ।"
 
-#: parser.cpp:615
+#: parser.cpp:614
 #, kde-format
 msgid "Remove all"
 msgstr "सबै हटाउनुहोस्"
 
-#: parser.cpp:619
+#: parser.cpp:618
 #, kde-format
 msgid ""
 "The function %1 is depended upon by the following functions: %2. These must "
 "be removed in addition."
 msgstr "प्रकार्य %1 निम्न प्रकार्यद्वारा माथि निर्भर रहेको हुन्छ: %2 । यी थपमा मेटनुपर्छ ।"
 
-#: parser.cpp:1090
+#: parser.cpp:1089
 #, kde-format
 msgid "Syntax error"
 msgstr "वाक्यसंरचना त्रुटि"
 
-#: parser.cpp:1093
+#: parser.cpp:1092
 #, kde-format
 msgid "Missing parenthesis"
 msgstr "हराइरहेका प्यारेन्थेसिस"
 
-#: parser.cpp:1096
+#: parser.cpp:1095
 #, kde-format
 msgid "Stack overflow"
 msgstr "थाक अधिप्रवाह"
 
-#: parser.cpp:1099
+#: parser.cpp:1098
 #, kde-format
 msgid "Name of function is not free"
 msgstr "प्रकार्यको नाम निशुल्क होइन"
 
-#: parser.cpp:1102
+#: parser.cpp:1101
 #, kde-format
 msgid "recursive function not allowed"
 msgstr "पुनरावृत्तिक प्रकार्यलाई अनुमति दिदैन"
 
-#: parser.cpp:1105
+#: parser.cpp:1104
 #, kde-format
 msgid "Empty function"
 msgstr "खाली प्रकार्य"
 
-#: parser.cpp:1108
+#: parser.cpp:1107
 #, kde-format
 msgid "Function could not be found"
 msgstr "प्रकार्य फेला पार्न सकेन"
 
-#: parser.cpp:1111
+#: parser.cpp:1110
 #, kde-format
 msgid "The differential equation must be at least first-order"
 msgstr "भिन्न समीकरण कम्तिमा पहिलो क्रममा हुनुपर्छ"
 
-#: parser.cpp:1114
+#: parser.cpp:1113
 #, kde-format
 msgid "Too many plus-minus symbols"
 msgstr "अति धेरै जोड-घटाउ प्रतीक"
 
-#: parser.cpp:1117
+#: parser.cpp:1116
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
 msgstr "अवैध जोड-घटाउ प्रतीक (अभिव्यक्ति स्थिर हुनुपर्छ)"
 
-#: parser.cpp:1120
+#: parser.cpp:1119
 #, kde-format
 msgid "The function has too many arguments"
 msgstr "प्रकार्यसँग अति धेरै तर्कहरू छन्"
 
-#: parser.cpp:1123
+#: parser.cpp:1122
 #, kde-format
 msgid "The function does not have the correct number of arguments"
 msgstr "प्रकार्यसँग सही सङ्ख्याको तर्कहरू छैनन"

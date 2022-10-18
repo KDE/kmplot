@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"POT-Creation-Date: 2022-10-18 00:41+0000\n"
 "PO-Revision-Date: 2019-02-16 21:22+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -987,17 +987,17 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "選擇斜度"
 
-#: kmplot.cpp:70
+#: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "找不到 KmPlot 部件。"
 
-#: kmplot.cpp:169 maindlg.cpp:508
+#: kmplot.cpp:171 maindlg.cpp:517
 #, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr "KmPlot 檔案 (*.fkt);;所有檔案 (*)"
 
-#: kmplot.cpp:169
+#: kmplot.cpp:171
 #, kde-format
 msgid "Open"
 msgstr "開啟"
@@ -1452,7 +1452,7 @@ msgid ""
 msgstr "追蹤繪圖時是否顯示額外的詳情，如切線或法線。"
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
 #, kde-format
 msgid "&Edit"
 msgstr "編輯(&E)"
@@ -1492,7 +1492,7 @@ msgstr "主工具列"
 msgid "The file had an unknown version number"
 msgstr "檔案的版本號未知"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:204
+#: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
 msgid "The file does not exist."
 msgstr "檔案不存在。"
@@ -1522,73 +1522,73 @@ msgstr "自動"
 msgid "The function %1 could not be loaded"
 msgstr "無法載入函數 %1"
 
-#: kparametereditor.cpp:42
+#: kparametereditor.cpp:43
 #, fuzzy, kde-format
 #| msgid "Parameter Editor"
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "參數編輯器"
 
-#: kparametereditor.cpp:199
+#: kparametereditor.cpp:200
 #, kde-format
 msgid "Open Parameter File"
 msgstr "開啟參數檔"
 
-#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, kde-format
 msgid "Plain Text File (*.txt)"
 msgstr "純文字檔案 (*.txt)"
 
-#: kparametereditor.cpp:214
+#: kparametereditor.cpp:215
 #, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "開啟此檔案時發生錯誤：%1"
 
-#: kparametereditor.cpp:243
+#: kparametereditor.cpp:244
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
 "Do you want to continue?"
 msgstr "第 %1 行不是有效的參數值，所以不會被引入。您要繼續嗎？"
 
-#: kparametereditor.cpp:249
+#: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "其它行不可讀時是否要通知您？"
 
-#: kparametereditor.cpp:251
+#: kparametereditor.cpp:256
 #, kde-format
 msgid "Get Informed"
 msgstr "要通知"
 
-#: kparametereditor.cpp:252
+#: kparametereditor.cpp:257
 #, kde-format
 msgid "Ignore Information"
 msgstr "不要通知"
 
-#: kparametereditor.cpp:259
+#: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "開啟此檔案時發生錯誤"
 
-#: kparametereditor.cpp:269
+#: kparametereditor.cpp:278
 #, kde-format
 msgid "Save File"
 msgstr "儲存檔案"
 
-#: kparametereditor.cpp:276
+#: kparametereditor.cpp:285
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
 msgstr "檔案 %1 已存在。您要繼續並覆寫此檔案嗎？"
 
-#: kparametereditor.cpp:277
+#: kparametereditor.cpp:286
 #, kde-format
 msgid "Overwrite File?"
 msgstr "要覆寫檔案嗎？"
 
-#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "儲存檔案時發生錯誤"
@@ -1760,166 +1760,166 @@ msgid "URLs to open"
 msgstr "要開啟的網址"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:187 settingspagegeneral.ui:14
+#: maindlg.cpp:188 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "常規"
 
-#: maindlg.cpp:187
+#: maindlg.cpp:188
 #, kde-format
 msgid "General Settings"
 msgstr "一般設定"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:188 settingspagediagram.ui:14
+#: maindlg.cpp:189 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "圖表"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:189
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "圖表外觀"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:190
 #, kde-format
 msgid "Colors"
 msgstr "顏色"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:191
 #, kde-format
 msgid "Fonts"
 msgstr "字型"
 
-#: maindlg.cpp:217
+#: maindlg.cpp:218
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "設定 KmPlot..."
 
-#: maindlg.cpp:223
+#: maindlg.cpp:224
 #, kde-format
 msgid "E&xport..."
 msgstr "匯出(&X)..."
 
-#: maindlg.cpp:236
+#: maindlg.cpp:237
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "座標系(&C)..."
 
-#: maindlg.cpp:241
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Constants..."
 msgstr "常數(&C)..."
 
-#: maindlg.cpp:250
+#: maindlg.cpp:251
 #, kde-format
 msgid "Zoom &In"
 msgstr "放大(&I)"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:257
 #, kde-format
 msgid "Zoom &Out"
 msgstr "縮小(&O)"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:263
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "調整元件配合三角函數(&F)"
 
-#: maindlg.cpp:266
+#: maindlg.cpp:267
 #, kde-format
 msgid "Reset View"
 msgstr "重置檢視"
 
-#: maindlg.cpp:271
+#: maindlg.cpp:272
 #, kde-format
 msgid "Show Sliders"
 msgstr "顯示滑動器"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:278
 #, kde-format
 msgid "Calculator"
 msgstr "計算機"
 
-#: maindlg.cpp:282
+#: maindlg.cpp:283
 #, kde-format
 msgid "Plot &Area..."
 msgstr "繪圖區(&A)..."
 
-#: maindlg.cpp:286
+#: maindlg.cpp:287
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "尋找最大值點(&X)..."
 
-#: maindlg.cpp:291
+#: maindlg.cpp:292
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "尋找最小值點(&N)..."
 
-#: maindlg.cpp:298
+#: maindlg.cpp:299
 #, fuzzy, kde-format
 #| msgid "Predefined &Math Functions"
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "預先定義的數學函數(&M)"
 
-#: maindlg.cpp:305
+#: maindlg.cpp:306
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "笛卡兒繪圖"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:312
 #, kde-format
 msgid "Parametric Plot"
 msgstr "參數繪圖"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:318
 #, kde-format
 msgid "Polar Plot"
 msgstr "極座標繪圖"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:324
 #, kde-format
 msgid "Implicit Plot"
 msgstr "隱式繪圖"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:330
 #, kde-format
 msgid "Differential Plot"
 msgstr "微分繪圖"
 
-#: maindlg.cpp:344
+#: maindlg.cpp:345
 #, kde-format
 msgid "&Hide"
 msgstr "隱藏(&H)"
 
-#: maindlg.cpp:349
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Remove"
 msgstr "移除(&R)"
 
-#: maindlg.cpp:357
+#: maindlg.cpp:358
 #, kde-format
 msgid "Animate Plot..."
 msgstr "動畫繪圖..."
 
-#: maindlg.cpp:368
+#: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
 msgstr "複製 (x, y)"
 
-#: maindlg.cpp:373
+#: maindlg.cpp:374
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: maindlg.cpp:379
+#: maindlg.cpp:380
 #, kde-format
 msgid "Copy Root Value"
 msgstr "複製根數值"
 
-#: maindlg.cpp:460
+#: maindlg.cpp:465
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1928,7 +1928,7 @@ msgstr ""
 "繪圖已經修改。\n"
 "您想要儲存嗎？"
 
-#: maindlg.cpp:490
+#: maindlg.cpp:499
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1937,50 +1937,50 @@ msgstr ""
 "此檔案是以舊檔案格式儲存的；如果您儲存的話，您將無法使用舊版本的 KmPlot 開啟"
 "該檔案。您確定想要繼續嗎？"
 
-#: maindlg.cpp:493
+#: maindlg.cpp:502
 #, kde-format
 msgid "Save New Format"
 msgstr "儲存新格式"
 
-#: maindlg.cpp:508
+#: maindlg.cpp:517
 #, kde-format
 msgid "Save As"
 msgstr "另存新檔"
 
-#: maindlg.cpp:514
+#: maindlg.cpp:523
 #, kde-format
 msgid "The file could not be saved"
 msgstr "無法儲存檔案"
 
-#: maindlg.cpp:546
+#: maindlg.cpp:555
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr "可調整向量圖形 (*.svg)"
 
-#: maindlg.cpp:548
+#: maindlg.cpp:557
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "匯出為影像"
 
-#: maindlg.cpp:609
+#: maindlg.cpp:618
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "抱歉，儲存影像 %1 時發生問題"
 
-#: maindlg.cpp:666
+#: maindlg.cpp:675
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "列印圖像"
 
-#: maindlg.cpp:681
+#: maindlg.cpp:690
 #, kde-format
 msgid "Print Settings"
 msgstr "列印設定"
 
-#: maindlg.cpp:686
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 #| msgid "Print Settings"
 msgctxt "@title:window"
@@ -2163,74 +2163,74 @@ msgid ""
 msgstr ""
 "選擇滑動器之一，以便動態更改參數值。值的變化範圍是 0(最左側) 到 100(最右側)。"
 
-#: parser.cpp:615
+#: parser.cpp:614
 #, kde-format
 msgid "Remove all"
 msgstr "全部移除"
 
-#: parser.cpp:619
+#: parser.cpp:618
 #, kde-format
 msgid ""
 "The function %1 is depended upon by the following functions: %2. These must "
 "be removed in addition."
 msgstr "函數 %1 相依於以下的函數：%2。這些函數也必須一起移除。"
 
-#: parser.cpp:1090
+#: parser.cpp:1089
 #, kde-format
 msgid "Syntax error"
 msgstr "語法錯誤"
 
-#: parser.cpp:1093
+#: parser.cpp:1092
 #, kde-format
 msgid "Missing parenthesis"
 msgstr "遺失括號"
 
-#: parser.cpp:1096
+#: parser.cpp:1095
 #, kde-format
 msgid "Stack overflow"
 msgstr "堆疊溢位"
 
-#: parser.cpp:1099
+#: parser.cpp:1098
 #, kde-format
 msgid "Name of function is not free"
 msgstr "函數名稱不自由"
 
-#: parser.cpp:1102
+#: parser.cpp:1101
 #, kde-format
 msgid "recursive function not allowed"
 msgstr "不允許遞迴函數"
 
-#: parser.cpp:1105
+#: parser.cpp:1104
 #, kde-format
 msgid "Empty function"
 msgstr "空函數"
 
-#: parser.cpp:1108
+#: parser.cpp:1107
 #, kde-format
 msgid "Function could not be found"
 msgstr "找不到函數"
 
-#: parser.cpp:1111
+#: parser.cpp:1110
 #, kde-format
 msgid "The differential equation must be at least first-order"
 msgstr "微分方程式必須至少一階"
 
-#: parser.cpp:1114
+#: parser.cpp:1113
 #, kde-format
 msgid "Too many plus-minus symbols"
 msgstr "太多正負符號"
 
-#: parser.cpp:1117
+#: parser.cpp:1116
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
 msgstr "不合法的正負符號（表示式必須是常數）"
 
-#: parser.cpp:1120
+#: parser.cpp:1119
 #, kde-format
 msgid "The function has too many arguments"
 msgstr "此函數參數太多"
 
-#: parser.cpp:1123
+#: parser.cpp:1122
 #, kde-format
 msgid "The function does not have the correct number of arguments"
 msgstr "此函數未含正確的參數數目"

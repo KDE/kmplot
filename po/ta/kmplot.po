@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"POT-Creation-Date: 2022-10-18 00:41+0000\n"
 "PO-Revision-Date: 2004-12-27 04:33-0800\n"
 "Last-Translator: Tamil PC <tamilpc@ambalam.com>\n"
 "Language-Team:  <ta@li.org>\n"
@@ -991,12 +991,12 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "அளபுரு-மதிப்பை தேர்ந்தெடு"
 
-#: kmplot.cpp:70
+#: kmplot.cpp:72
 #, fuzzy, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "கேஎம் ப்ளாட்டின் பகுதி காணப்படவில்லை."
 
-#: kmplot.cpp:169 maindlg.cpp:508
+#: kmplot.cpp:171 maindlg.cpp:517
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -1006,7 +1006,7 @@ msgstr ""
 "*.fkt|KmPlot கோப்புகள் (*.fkt)\n"
 "*|எல்லா கோப்புகள்"
 
-#: kmplot.cpp:169
+#: kmplot.cpp:171
 #, kde-format
 msgid "Open"
 msgstr ""
@@ -1461,7 +1461,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
 #, fuzzy, kde-format
 msgid "&Edit"
 msgstr "&திருத்து..."
@@ -1501,7 +1501,7 @@ msgstr ""
 msgid "The file had an unknown version number"
 msgstr "இந்த கோப்பில் தெரியாத பதிப்பு எண் உள்ளது"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:204
+#: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
 msgid "The file does not exist."
 msgstr "கோப்பு இல்லை."
@@ -1531,63 +1531,63 @@ msgstr "தானியங்கி"
 msgid "The function %1 could not be loaded"
 msgstr "செயல் %1ஐ ஏற்றமுடியவில்லை"
 
-#: kparametereditor.cpp:42
+#: kparametereditor.cpp:43
 #, fuzzy, kde-format
 #| msgid "Parameter Editor"
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "அளவுருக்களின் திருத்தி"
 
-#: kparametereditor.cpp:199
+#: kparametereditor.cpp:200
 #, fuzzy, kde-format
 #| msgid "Parameter Value"
 msgid "Open Parameter File"
 msgstr "அளவுரு மதிப்பு"
 
-#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, fuzzy, kde-format
 #| msgid "*.txt|Plain Text File "
 msgid "Plain Text File (*.txt)"
 msgstr "*.txt| உரை கோப்பு"
 
-#: kparametereditor.cpp:214
+#: kparametereditor.cpp:215
 #, fuzzy, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "இந்த கோப்பினை திறக்கும்போது பிழை ஏற்படுகிறது"
 
-#: kparametereditor.cpp:243
+#: kparametereditor.cpp:244
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
 "Do you want to continue?"
 msgstr "வரி %1 செல்லுபடியாகாத அளபுறு மதிப்பு அதனால் சேர்க்கப்படாது. தொடரவேண்டுமா?"
 
-#: kparametereditor.cpp:249
+#: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "படிக்கமுடியாத மற்ற வரிகளை உங்களுக்கு தெரிவிக்கவேண்டுமா?"
 
-#: kparametereditor.cpp:251
+#: kparametereditor.cpp:256
 #, kde-format
 msgid "Get Informed"
 msgstr ""
 
-#: kparametereditor.cpp:252
+#: kparametereditor.cpp:257
 #, kde-format
 msgid "Ignore Information"
 msgstr ""
 
-#: kparametereditor.cpp:259
+#: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "இந்த கோப்பினை திறக்கும்போது பிழை ஏற்படுகிறது"
 
-#: kparametereditor.cpp:269
+#: kparametereditor.cpp:278
 #, kde-format
 msgid "Save File"
 msgstr ""
 
-#: kparametereditor.cpp:276
+#: kparametereditor.cpp:285
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
@@ -1596,12 +1596,12 @@ msgstr ""
 "கோப்பு பெயர்\"%1\"ஏற்கனவே இருக்கிறது. உங்களுக்கு இதை கோப்பின் மேல் எழுதவும் தொடரவும் "
 "வேண்டுமா?"
 
-#: kparametereditor.cpp:277
+#: kparametereditor.cpp:286
 #, kde-format
 msgid "Overwrite File?"
 msgstr "கோப்பினை மேலெழுதவா?"
 
-#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "இந்த கோப்பினை சேமிக்கும்போது பிழை ஏற்பட்டது"
@@ -1774,167 +1774,167 @@ msgid "URLs to open"
 msgstr "திறக்கவேண்டிய கோப்பு"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:187 settingspagegeneral.ui:14
+#: maindlg.cpp:188 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "பொது"
 
-#: maindlg.cpp:187
+#: maindlg.cpp:188
 #, kde-format
 msgid "General Settings"
 msgstr "பொது அமைவுகள்"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:188 settingspagediagram.ui:14
+#: maindlg.cpp:189 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr ""
 
-#: maindlg.cpp:188
+#: maindlg.cpp:189
 #, kde-format
 msgid "Diagram Appearance"
 msgstr ""
 
-#: maindlg.cpp:189
+#: maindlg.cpp:190
 #, kde-format
 msgid "Colors"
 msgstr "நிறங்கள்"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:191
 #, fuzzy, kde-format
 msgid "Fonts"
 msgstr "&எழுத்துருக்கள்..."
 
-#: maindlg.cpp:217
+#: maindlg.cpp:218
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr ""
 
-#: maindlg.cpp:223
+#: maindlg.cpp:224
 #, kde-format
 msgid "E&xport..."
 msgstr "ஏற்றுமதி..."
 
-#: maindlg.cpp:236
+#: maindlg.cpp:237
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "ஒருங்கிணைப்பின் முறைமை... "
 
-#: maindlg.cpp:241
+#: maindlg.cpp:242
 #, fuzzy, kde-format
 msgid "&Constants..."
 msgstr "மாறிலி"
 
-#: maindlg.cpp:250
+#: maindlg.cpp:251
 #, kde-format
 msgid "Zoom &In"
 msgstr "உள்ளே பெரிதாக்கு"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:257
 #, kde-format
 msgid "Zoom &Out"
 msgstr "வெளியே பெரிதாக்கு"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:263
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "முக்கோணவியல் செயல்களுக்கு சாளரத்தைப் பொருத்து"
 
-#: maindlg.cpp:266
+#: maindlg.cpp:267
 #, kde-format
 msgid "Reset View"
 msgstr ""
 
-#: maindlg.cpp:271
+#: maindlg.cpp:272
 #, fuzzy, kde-format
 msgid "Show Sliders"
 msgstr "நகர்த்தியை காட்டு"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:278
 #, fuzzy, kde-format
 #| msgid "&Calculate"
 msgid "Calculator"
 msgstr "&கணி"
 
-#: maindlg.cpp:282
+#: maindlg.cpp:283
 #, fuzzy, kde-format
 msgid "Plot &Area..."
 msgstr "தேர்ந்தெடுக்கப்பட்ட இடம்"
 
-#: maindlg.cpp:286
+#: maindlg.cpp:287
 #, fuzzy, kde-format
 msgid "Find Ma&ximum..."
 msgstr "அதிகபட்ச புள்ளியை தேடவும்"
 
-#: maindlg.cpp:291
+#: maindlg.cpp:292
 #, fuzzy, kde-format
 msgid "Find Mi&nimum..."
 msgstr "குறைந்தபட்ச புள்ளியை தேடவும்"
 
-#: maindlg.cpp:298
+#: maindlg.cpp:299
 #, fuzzy, kde-format
 #| msgid "Predefined &Math Functions"
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "முன் விவரிக்கப்பட்ட மாத பணிகள்"
 
-#: maindlg.cpp:305
+#: maindlg.cpp:306
 #, fuzzy, kde-format
 msgid "Cartesian Plot"
 msgstr "வரையை அச்சிடு"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:312
 #, fuzzy, kde-format
 msgid "Parametric Plot"
 msgstr "புதிய அளவுருக்களை வரைதல்"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:318
 #, fuzzy, kde-format
 msgid "Polar Plot"
 msgstr "புதிய முனைநிலை வரை"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:324
 #, fuzzy, kde-format
 msgid "Implicit Plot"
 msgstr "வரைதலை தொகு"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:330
 #, fuzzy, kde-format
 msgid "Differential Plot"
 msgstr "துவக்கப் புள்ளி"
 
-#: maindlg.cpp:344
+#: maindlg.cpp:345
 #, kde-format
 msgid "&Hide"
 msgstr "&மறை"
 
-#: maindlg.cpp:349
+#: maindlg.cpp:350
 #, fuzzy, kde-format
 msgid "&Remove"
 msgstr "நகர்த்து"
 
-#: maindlg.cpp:357
+#: maindlg.cpp:358
 #, fuzzy, kde-format
 msgid "Animate Plot..."
 msgstr "வரையை மாற்று"
 
-#: maindlg.cpp:368
+#: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:373
+#: maindlg.cpp:374
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:379
+#: maindlg.cpp:380
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:460
+#: maindlg.cpp:465
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1943,7 +1943,7 @@ msgstr ""
 "வரை மாற்றப்பட்டுள்ளது \n"
 "நீங்கள் அதை சேமிக்க வேண்டுமா?"
 
-#: maindlg.cpp:490
+#: maindlg.cpp:499
 #, fuzzy, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1952,50 +1952,50 @@ msgstr ""
 "கோப்பு பழைய வடிவத்தோடு சேமிக்கப்பட்டது. நீங்கள் சேமித்தால், உங்களால் பழைய பதிப்போடு திறக்க "
 "முடியாது. நீங்கள் தொடர விரும்புகிறீரா?"
 
-#: maindlg.cpp:493
+#: maindlg.cpp:502
 #, kde-format
 msgid "Save New Format"
 msgstr ""
 
-#: maindlg.cpp:508
+#: maindlg.cpp:517
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: maindlg.cpp:514
+#: maindlg.cpp:523
 #, kde-format
 msgid "The file could not be saved"
 msgstr "இந்த கோப்பை சேமிக்க முடியவில்லை"
 
-#: maindlg.cpp:546
+#: maindlg.cpp:555
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr ""
 
-#: maindlg.cpp:548
+#: maindlg.cpp:557
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr ""
 
-#: maindlg.cpp:609
+#: maindlg.cpp:618
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr ""
 
-#: maindlg.cpp:666
+#: maindlg.cpp:675
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "வரையை அச்சிடு"
 
-#: maindlg.cpp:681
+#: maindlg.cpp:690
 #, fuzzy, kde-format
 msgid "Print Settings"
 msgstr "பொது அமைவுகள்"
 
-#: maindlg.cpp:686
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
@@ -2171,74 +2171,74 @@ msgstr ""
 "அளபுரு மதிப்பு தானாக மாற்ற சட்டத்தின் ஒன்றை தேர்ந்தெடுக்கவும். மதிப்பு 0 (இடது) லிருந்து "
 "100 (வலது) வரை மாறுபடும்."
 
-#: parser.cpp:615
+#: parser.cpp:614
 #, fuzzy, kde-format
 msgid "Remove all"
 msgstr "நகர்த்து"
 
-#: parser.cpp:619
+#: parser.cpp:618
 #, kde-format
 msgid ""
 "The function %1 is depended upon by the following functions: %2. These must "
 "be removed in addition."
 msgstr ""
 
-#: parser.cpp:1090
+#: parser.cpp:1089
 #, kde-format
 msgid "Syntax error"
 msgstr ""
 
-#: parser.cpp:1093
+#: parser.cpp:1092
 #, kde-format
 msgid "Missing parenthesis"
 msgstr ""
 
-#: parser.cpp:1096
+#: parser.cpp:1095
 #, kde-format
 msgid "Stack overflow"
 msgstr ""
 
-#: parser.cpp:1099
+#: parser.cpp:1098
 #, fuzzy, kde-format
 msgid "Name of function is not free"
 msgstr "செயல்கூறின் பெயர்"
 
-#: parser.cpp:1102
+#: parser.cpp:1101
 #, fuzzy, kde-format
 msgid "recursive function not allowed"
 msgstr "தன்னையே அழைக்கும் செயல்கூறு அனுமதிக்கப்படவில்லை"
 
-#: parser.cpp:1105
+#: parser.cpp:1104
 #, kde-format
 msgid "Empty function"
 msgstr "காலியான பணி"
 
-#: parser.cpp:1108
+#: parser.cpp:1107
 #, kde-format
 msgid "Function could not be found"
 msgstr "செயல் காணப்படவில்லை"
 
-#: parser.cpp:1111
+#: parser.cpp:1110
 #, kde-format
 msgid "The differential equation must be at least first-order"
 msgstr ""
 
-#: parser.cpp:1114
+#: parser.cpp:1113
 #, kde-format
 msgid "Too many plus-minus symbols"
 msgstr ""
 
-#: parser.cpp:1117
+#: parser.cpp:1116
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
 msgstr ""
 
-#: parser.cpp:1120
+#: parser.cpp:1119
 #, kde-format
 msgid "The function has too many arguments"
 msgstr ""
 
-#: parser.cpp:1123
+#: parser.cpp:1122
 #, kde-format
 msgid "The function does not have the correct number of arguments"
 msgstr ""

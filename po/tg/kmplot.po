@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-08-10 00:42+0000\n"
+"POT-Creation-Date: 2022-10-18 00:41+0000\n"
 "PO-Revision-Date: 2021-09-09 23:33-0700\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik Language Support\n"
@@ -993,12 +993,12 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "Интихоби параметр"
 
-#: kmplot.cpp:70
+#: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr ""
 
-#: kmplot.cpp:169 maindlg.cpp:508
+#: kmplot.cpp:171 maindlg.cpp:517
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -1008,7 +1008,7 @@ msgstr ""
 "*.fkt|Файлҳои KmPlot (*.fkt)\n"
 "*|Ҳамаи файлҳо"
 
-#: kmplot.cpp:169
+#: kmplot.cpp:171
 #, kde-format
 msgid "Open"
 msgstr ""
@@ -1474,7 +1474,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
 #, fuzzy, kde-format
 msgid "&Edit"
 msgstr "&Таъғир додан..."
@@ -1514,7 +1514,7 @@ msgstr ""
 msgid "The file had an unknown version number"
 msgstr "Файл бо раванди рақами номаълум буд"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:204
+#: kmplotio.cpp:306 kparametereditor.cpp:205
 #, fuzzy, kde-format
 msgid "The file does not exist."
 msgstr "Натавонистам файлро пурбор кунам "
@@ -1544,31 +1544,31 @@ msgstr "автоматикӣ"
 msgid "The function %1 could not be loaded"
 msgstr "Натавонистам файлро пурбор кунам "
 
-#: kparametereditor.cpp:42
+#: kparametereditor.cpp:43
 #, fuzzy, kde-format
 #| msgid "Parameter Editor"
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "Муҳаррири параметрҳо"
 
-#: kparametereditor.cpp:199
+#: kparametereditor.cpp:200
 #, fuzzy, kde-format
 #| msgid "Parameter Value"
 msgid "Open Parameter File"
 msgstr "Маънои параметр"
 
-#: kparametereditor.cpp:199 kparametereditor.cpp:269
+#: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, fuzzy, kde-format
 #| msgid "*.txt|Plain Text File "
 msgid "Plain Text File (*.txt)"
 msgstr "*.txt|Матни оддӣ"
 
-#: kparametereditor.cpp:214
+#: kparametereditor.cpp:215
 #, fuzzy, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "Ҳангоми боз кардани файл хатогӣ рӯй дод"
 
-#: kparametereditor.cpp:243
+#: kparametereditor.cpp:244
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
@@ -1577,44 +1577,44 @@ msgstr ""
 "Сатри %1 аҳамияти иҷозатии параметр намебошад ва гузаронида мешавад. Оё "
 "мехоҳед идома диҳед?"
 
-#: kparametereditor.cpp:249
+#: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "Оиди чунин сатрҳо дар оянда иттилоъ диҳам?"
 
-#: kparametereditor.cpp:251
+#: kparametereditor.cpp:256
 #, kde-format
 msgid "Get Informed"
 msgstr ""
 
-#: kparametereditor.cpp:252
+#: kparametereditor.cpp:257
 #, kde-format
 msgid "Ignore Information"
 msgstr ""
 
-#: kparametereditor.cpp:259
+#: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "Ҳангоми боз кардани файл хатогӣ рӯй дод"
 
-#: kparametereditor.cpp:269
+#: kparametereditor.cpp:278
 #, kde-format
 msgid "Save File"
 msgstr ""
 
-#: kparametereditor.cpp:276
+#: kparametereditor.cpp:285
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
 msgstr "Файл бо номи \"%1\"аллакай вуҷуд дорад. Вайро иваз кардан?"
 
-#: kparametereditor.cpp:277
+#: kparametereditor.cpp:286
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Файлро иваз кардан?"
 
-#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
+#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, fuzzy, kde-format
 msgid "An error appeared when saving this file"
 msgstr "Ҳангоми боз кардани файл хатогӣ рӯй дод"
@@ -1787,166 +1787,166 @@ msgid "URLs to open"
 msgstr "Файлро кушодан "
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:187 settingspagegeneral.ui:14
+#: maindlg.cpp:188 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "Умумӣ"
 
-#: maindlg.cpp:187
+#: maindlg.cpp:188
 #, kde-format
 msgid "General Settings"
 msgstr "Танзимоти умумӣ"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:188 settingspagediagram.ui:14
+#: maindlg.cpp:189 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr ""
 
-#: maindlg.cpp:188
+#: maindlg.cpp:189
 #, kde-format
 msgid "Diagram Appearance"
 msgstr ""
 
-#: maindlg.cpp:189
+#: maindlg.cpp:190
 #, kde-format
 msgid "Colors"
 msgstr "Рангҳо"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:191
 #, fuzzy, kde-format
 msgid "Fonts"
 msgstr "&Ҳарфҳо..."
 
-#: maindlg.cpp:217
+#: maindlg.cpp:218
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr ""
 
-#: maindlg.cpp:223
+#: maindlg.cpp:224
 #, kde-format
 msgid "E&xport..."
 msgstr "Со&дирот..."
 
-#: maindlg.cpp:236
+#: maindlg.cpp:237
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "&Системаи координатӣ..."
 
-#: maindlg.cpp:241
+#: maindlg.cpp:242
 #, fuzzy, kde-format
 msgid "&Constants..."
 msgstr "Доимиҳо"
 
-#: maindlg.cpp:250
+#: maindlg.cpp:251
 #, kde-format
 msgid "Zoom &In"
 msgstr "&Калон кардан масштаб"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:257
 #, kde-format
 msgid "Zoom &Out"
 msgstr "&Камтар кардани масштаб"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:263
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "&Танзимкунии андоза ба зери функсияҳои тригонометрӣ"
 
-#: maindlg.cpp:266
+#: maindlg.cpp:267
 #, kde-format
 msgid "Reset View"
 msgstr ""
 
-#: maindlg.cpp:271
+#: maindlg.cpp:272
 #, fuzzy, kde-format
 msgid "Show Sliders"
 msgstr "Намоиши &ҷадвали лағжанда"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:278
 #, fuzzy, kde-format
 msgid "Calculator"
 msgstr "Дубора &кардан"
 
-#: maindlg.cpp:282
+#: maindlg.cpp:283
 #, fuzzy, kde-format
 msgid "Plot &Area..."
 msgstr "Тамоми график"
 
-#: maindlg.cpp:286
+#: maindlg.cpp:287
 #, fuzzy, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Ҷустуҷӯи нуқтаи максимум"
 
-#: maindlg.cpp:291
+#: maindlg.cpp:292
 #, fuzzy, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Ёфтани нуқтаи минимум "
 
-#: maindlg.cpp:298
+#: maindlg.cpp:299
 #, fuzzy, kde-format
 #| msgid "Predefined &Math Functions"
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "Пешмуайянкунандаи &функсияи математикӣ"
 
-#: maindlg.cpp:305
+#: maindlg.cpp:306
 #, fuzzy, kde-format
 msgid "Cartesian Plot"
 msgstr "Сафбандро чоп кардан"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:312
 #, fuzzy, kde-format
 msgid "Parametric Plot"
 msgstr "Сафбандии параметрикии нав"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:318
 #, fuzzy, kde-format
 msgid "Polar Plot"
 msgstr "Сафбандии қутбии нав"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:324
 #, fuzzy, kde-format
 msgid "Implicit Plot"
 msgstr "Таъғири сафбандӣ"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:330
 #, fuzzy, kde-format
 msgid "Differential Plot"
 msgstr "Нуқтаи аввал"
 
-#: maindlg.cpp:344
+#: maindlg.cpp:345
 #, kde-format
 msgid "&Hide"
 msgstr "&Пинҳон кардан"
 
-#: maindlg.cpp:349
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Remove"
 msgstr ""
 
-#: maindlg.cpp:357
+#: maindlg.cpp:358
 #, fuzzy, kde-format
 msgid "Animate Plot..."
 msgstr "Тағйири сафбандҳо..."
 
-#: maindlg.cpp:368
+#: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:373
+#: maindlg.cpp:374
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:379
+#: maindlg.cpp:380
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:460
+#: maindlg.cpp:465
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1955,57 +1955,57 @@ msgstr ""
 "Сафбанд тағйир додашуда аст.\n"
 "Вайро нигоҳ доштан?"
 
-#: maindlg.cpp:490
+#: maindlg.cpp:499
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
 "the file with older versions of KmPlot. Are you sure you want to continue?"
 msgstr ""
 
-#: maindlg.cpp:493
+#: maindlg.cpp:502
 #, kde-format
 msgid "Save New Format"
 msgstr ""
 
-#: maindlg.cpp:508
+#: maindlg.cpp:517
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: maindlg.cpp:514
+#: maindlg.cpp:523
 #, fuzzy, kde-format
 msgid "The file could not be saved"
 msgstr "Натавонистам файлро пурбор кунам "
 
-#: maindlg.cpp:546
+#: maindlg.cpp:555
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr ""
 
-#: maindlg.cpp:548
+#: maindlg.cpp:557
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr ""
 
-#: maindlg.cpp:609
+#: maindlg.cpp:618
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr ""
 
-#: maindlg.cpp:666
+#: maindlg.cpp:675
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Сафбандро чоп кардан"
 
-#: maindlg.cpp:681
+#: maindlg.cpp:690
 #, fuzzy, kde-format
 msgid "Print Settings"
 msgstr "Танзимоти умумӣ"
 
-#: maindlg.cpp:686
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
@@ -2181,74 +2181,74 @@ msgstr ""
 "Интихоб намоед яке аз слайдерҳоро барои иваз намудани қиммати параметорро "
 "серҳаракатона.Қимматҳо аз 0 (чап) ба 100 (рост) иваз мешаванд."
 
-#: parser.cpp:615
+#: parser.cpp:614
 #, kde-format
 msgid "Remove all"
 msgstr ""
 
-#: parser.cpp:619
+#: parser.cpp:618
 #, kde-format
 msgid ""
 "The function %1 is depended upon by the following functions: %2. These must "
 "be removed in addition."
 msgstr ""
 
-#: parser.cpp:1090
+#: parser.cpp:1089
 #, kde-format
 msgid "Syntax error"
 msgstr ""
 
-#: parser.cpp:1093
+#: parser.cpp:1092
 #, kde-format
 msgid "Missing parenthesis"
 msgstr ""
 
-#: parser.cpp:1096
+#: parser.cpp:1095
 #, kde-format
 msgid "Stack overflow"
 msgstr ""
 
-#: parser.cpp:1099
+#: parser.cpp:1098
 #, fuzzy, kde-format
 msgid "Name of function is not free"
 msgstr "номи функсия"
 
-#: parser.cpp:1102
+#: parser.cpp:1101
 #, fuzzy, kde-format
 msgid "recursive function not allowed"
 msgstr "Функсияҳои рекурсивӣ иҷозат дода нашудаанд."
 
-#: parser.cpp:1105
+#: parser.cpp:1104
 #, kde-format
 msgid "Empty function"
 msgstr "Функсияи холӣ"
 
-#: parser.cpp:1108
+#: parser.cpp:1107
 #, fuzzy, kde-format
 msgid "Function could not be found"
 msgstr "Наметавонам ҷузъро ёбам."
 
-#: parser.cpp:1111
+#: parser.cpp:1110
 #, kde-format
 msgid "The differential equation must be at least first-order"
 msgstr ""
 
-#: parser.cpp:1114
+#: parser.cpp:1113
 #, kde-format
 msgid "Too many plus-minus symbols"
 msgstr ""
 
-#: parser.cpp:1117
+#: parser.cpp:1116
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
 msgstr ""
 
-#: parser.cpp:1120
+#: parser.cpp:1119
 #, kde-format
 msgid "The function has too many arguments"
 msgstr ""
 
-#: parser.cpp:1123
+#: parser.cpp:1122
 #, kde-format
 msgid "The function does not have the correct number of arguments"
 msgstr ""

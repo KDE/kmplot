@@ -1765,7 +1765,7 @@ msgstr "opcions de línia d'ordres, tipus MIME"
 #: main.cpp:60
 #, kde-format
 msgid "Initial functions to plot"
-msgstr "Funcions inicials a dibuixar"
+msgstr "Funcions inicials que s'han de dibuixar"
 
 #: main.cpp:60
 #, kde-format

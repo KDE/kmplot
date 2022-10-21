@@ -21,6 +21,7 @@
   <name xml:lang="gl">KmPlot</name>
   <name xml:lang="id">KmPlot</name>
   <name xml:lang="it">KmPlot</name>
+  <name xml:lang="ka">KmPlot</name>
   <name xml:lang="ko">KmPlot</name>
   <name xml:lang="nds">KmPlot</name>
   <name xml:lang="nl">KmPlot</name>
@@ -54,6 +55,7 @@
   <summary xml:lang="gl">Representación gráfica de funcións</summary>
   <summary xml:lang="id">Plotter Fungsi Matematika</summary>
   <summary xml:lang="it">Disegnatore di funzioni matematiche</summary>
+  <summary xml:lang="ka">მათემატიკური ფუნქციების დახაზვა</summary>
   <summary xml:lang="ko">수학 함수 플로터</summary>
   <summary xml:lang="nds">Mathemaatsch Bagenschriever</summary>
   <summary xml:lang="nl">Wiskundige functieplotter</summary>

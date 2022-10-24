@@ -810,7 +810,7 @@ format="PNG"/></imageobject
 ></term>
 				<listitem>
 					<para
->Es dibuixen creus per a indicar els punts on «x» i «y» tenen valors sencers (&pex;, (1,1), (4,2) &etc;).</para>
+>Es dibuixen creus per a indicar els punts on «x» i «y» tenen valors enters (&pex;, (1,1), (4,2) &etc;).</para>
 				</listitem>
 			</varlistentry>
 

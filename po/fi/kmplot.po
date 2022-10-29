@@ -3,7 +3,7 @@
 # Mikko Ikola <kola@netikka.fi>, 2003.
 # Ilpo Kantonen <ilpo@iki.fi>, 2005.
 # Mikko Piippo <piippo@cc.helsinki.fi>, 2008.
-# Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015.
+# Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2022.
 # Tommi Nieminen <translator@legisign.org>, 2018, 2019, 2020, 2022.
 # Copyright © 2010, 2011, 2012 This_file_is_part_of_KDE
 #
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2022-08-02 22:56+0300\n"
-"Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
+"PO-Revision-Date: 2022-10-28 22:31+0300\n"
+"Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2012-12-01 22:23:18+0000\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1913,7 +1913,7 @@ msgstr "Animoi kuvaaja…"
 #: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
-msgstr ""
+msgstr "Kopioi (x, y)"
 
 #: maindlg.cpp:374
 #, kde-format

@@ -2445,7 +2445,7 @@ msgid ""
 "Click on the button the choose the color of the background. This option has "
 "no effect on printing nor export."
 msgstr ""
-"Feu clic sobre el botó per a escollir el color del fons. Esta opció no té "
+"Feu clic damunt del botó per a escollir el color del fons. Esta opció no té "
 "efecte ni en la impressió ni en l'exportació."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)

@@ -9,6 +9,6 @@ Dependencies:
     'frameworks/kguiaddons': '@stable'
     'frameworks/ki18n': '@stable'
     'frameworks/kparts': '@stable'
-    'frameworks/kwidgetaddons': '@stable'
+    'frameworks/kwidgetsaddons': '@stable'
     'frameworks/kdoctools': '@stable'
     'frameworks/kdbusaddons': '@stable'

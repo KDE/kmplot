@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdeedu-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2022-11-21 22:15+0300\n"
+"PO-Revision-Date: 2022-12-10 18:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1215,37 +1215,37 @@ msgstr "Tikten tike bir birimin yüksekliğini girin."
 #: kmplot.kcfg:108
 #, kde-format
 msgid "Font of the axis labels"
-msgstr "Eksen etiketlerinin yazı tipi"
+msgstr "Eksen etiketlerinin yazıtipi"
 
 #. i18n: ectx: whatsthis, entry (AxesFont), group (Fonts)
 #: kmplot.kcfg:109
 #, kde-format
 msgid "Choose a font for the axis labels."
-msgstr "Eksen etiketleri için bir yazı tipi seçin."
+msgstr "Eksen etiketleri için bir yazıtipi seçin."
 
 #. i18n: ectx: label, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:113
 #, kde-format
 msgid "Font of the printed header table"
-msgstr "Yazdırılan başlık tablosunun yazı tipi"
+msgstr "Yazdırılan başlık tablosunun yazıtipi"
 
 #. i18n: ectx: whatsthis, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:114
 #, kde-format
 msgid "Choose a font for the table printed at the top of the page."
-msgstr "Sayfanın en üstünde yazdırılan başlık tablosunun yazı tipini seçin."
+msgstr "Sayfanın en üstünde yazdırılan başlık tablosunun yazıtipini seçin."
 
 #. i18n: ectx: label, entry (LabelFont), group (Fonts)
 #: kmplot.kcfg:118
 #, kde-format
 msgid "Font of diagram labels"
-msgstr "Diyagram etiketlerinin yazı tipi"
+msgstr "Diyagram etiketlerinin yazıtipi"
 
 #. i18n: ectx: whatsthis, entry (LabelFont), group (Fonts)
 #: kmplot.kcfg:119
 #, kde-format
 msgid "Choose a font for diagram labels."
-msgstr "Diyagram etiketleri için bir yazı tipi seçin."
+msgstr "Diyagram etiketleri için bir yazıtipi seçin."
 
 #. i18n: ectx: label, entry (AxesColor), group (Colors)
 #: kmplot.kcfg:126
@@ -1407,13 +1407,13 @@ msgstr "Radyan kullanmak istiyorsanız bu kutuyu işaretleyin"
 #: kmplot.kcfg:194
 #, kde-format
 msgid "Background color"
-msgstr "Arkaplan rengi"
+msgstr "Arka plan rengi"
 
 #. i18n: ectx: whatsthis, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:195
 #, kde-format
 msgid "The background color for the graph"
-msgstr "Grafik için arkaplan rengi"
+msgstr "Grafik arka plan rengi"
 
 #. i18n: ectx: label, entry (zoomInStep), group (General)
 #: kmplot.kcfg:199
@@ -1614,7 +1614,7 @@ msgstr "Başlık tablosunu yazdır"
 #: kprinterdlg.cpp:36
 #, kde-format
 msgid "Transparent background"
-msgstr "Saydam arkaplan"
+msgstr "Saydam arka plan"
 
 #: kprinterdlg.cpp:45
 #, kde-format
@@ -1796,7 +1796,7 @@ msgstr "Renkler"
 #: maindlg.cpp:191
 #, kde-format
 msgid "Fonts"
-msgstr "Yazı Tipleri"
+msgstr "Yazıtipleri"
 
 #: maindlg.cpp:218
 #, kde-format
@@ -2432,8 +2432,8 @@ msgid ""
 "Click on the button the choose the color of the background. This option has "
 "no effect on printing nor export."
 msgstr ""
-"Arkaplanın rengini ayarlamak için bu düğmeye tıklayın. Bu seçeneğin yazdırma "
-"ya da aktarma üzerinde etkisi yoktur."
+"Arka planın rengini ayarlamak için bu düğmeye tıklayın. Bu seçeneğin "
+"yazdırma veya dışa aktarma üzerinde etkisi yoktur."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: settingspagecolor.ui:58

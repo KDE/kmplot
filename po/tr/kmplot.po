@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdeedu-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2022-12-10 18:39+0300\n"
+"PO-Revision-Date: 2022-12-11 20:16+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1553,7 +1553,7 @@ msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
 "Do you want to continue?"
 msgstr ""
-"%1 satırı geçerli bir parametre değil, bu nedenle eklenmeyecek. Devam etmek "
+"%1 satırı geçerli bir parametre değil, bu nedenle eklenmeyecek. Sürdürmek "
 "istiyor musunuz?"
 
 #: kparametereditor.cpp:254
@@ -1587,8 +1587,8 @@ msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
 msgstr ""
-"\"%1\" adlı bir dosya zaten var. Devam edip üzerine yazmak istediğinizden "
-"emin misiniz?"
+"\"%1\" adlı bir dosya zaten var. Sürdürüp üzerine yazmak istediğinizden emin "
+"misiniz?"
 
 #: kparametereditor.cpp:286
 #, kde-format
@@ -1940,9 +1940,9 @@ msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
 "the file with older versions of KmPlot. Are you sure you want to continue?"
 msgstr ""
-"Bu dosya eski bir dosya biçimiyle kaydedilmiş; şimdi kaydederseniz, dosyayı "
-"Kmplot uygulamasının eksi sürümleriyle açamazsınız. Devam etmek "
-"istediğinizden emin misiniz?"
+"Bu dosya eski bir dosya biçimiyle kaydedilmiş; şimdi kaydederseniz dosyayı "
+"Kmplot uygulamasının eski sürümleriyle açamazsınız. Sürdürmek istediğinizden "
+"emin misiniz?"
 
 #: maindlg.cpp:502
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2022-10-10 10:12+0200\n"
+"PO-Revision-Date: 2023-01-17 00:54+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -613,14 +613,14 @@ msgstr ""
 #: functioneditorwidget.ui:258
 #, kde-format
 msgid "Integral"
-msgstr ""
+msgstr "ინტეგრალი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, showIntegral)
 #. i18n: ectx: property (text), widget (QCheckBox, showIntegral)
 #: functioneditorwidget.ui:267 functioneditorwidget.ui:273
 #, kde-format
 msgid "Show integral"
-msgstr ""
+msgstr "ინტეგრალის ჩვენება"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showIntegral)
 #: functioneditorwidget.ui:270
@@ -638,7 +638,7 @@ msgstr ""
 #: functioneditorwidget.ui:286
 #, kde-format
 msgid "Initial Point"
-msgstr ""
+msgstr "საწყისი წერტილი"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5)
 #: functioneditorwidget.ui:298
@@ -726,7 +726,7 @@ msgstr "x:"
 #: functioneditorwidget.ui:700 functioneditorwidget.ui:751
 #, kde-format
 msgid "Enter an expression"
-msgstr ""
+msgstr "შეიყვანეთ გამოსახულება"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricX)
 #: functioneditorwidget.ui:439
@@ -819,7 +819,7 @@ msgstr "f(x,y)"
 #: functioneditorwidget.ui:690
 #, kde-format
 msgid "Name:"
-msgstr ""
+msgstr "სახელი:"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, implicitEquation)
 #: functioneditorwidget.ui:704
@@ -1231,7 +1231,7 @@ msgstr ""
 #: kmplot.kcfg:131
 #, kde-format
 msgid "Grid Color"
-msgstr ""
+msgstr "ბადის ფერი"
 
 #. i18n: ectx: whatsthis, entry (GridColor), group (Colors)
 #: kmplot.kcfg:132
@@ -1475,7 +1475,7 @@ msgstr ""
 #: kmplotio.cpp:326
 #, kde-format
 msgid "%1 could not be opened"
-msgstr ""
+msgstr "%1-ის გახსნა შეუძლებელია"
 
 #: kmplotio.cpp:332
 #, kde-format
@@ -1566,7 +1566,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "KmPlot Options"
-msgstr ""
+msgstr "KmPlot -ის მორგება"
 
 #: kprinterdlg.cpp:35
 #, kde-format
@@ -2217,7 +2217,7 @@ msgstr "დამატებით..."
 #: plotstylewidget.cpp:48
 #, kde-format
 msgid "Color:"
-msgstr ""
+msgstr "ფერი:"
 
 #: plotstylewidget.cpp:57
 #, kde-format
@@ -2259,7 +2259,7 @@ msgstr ""
 #: plotstylewidget.ui:74
 #, kde-format
 msgid "Line style:"
-msgstr ""
+msgstr "ხაზის სტილი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: plotstylewidget.ui:87
@@ -2346,7 +2346,7 @@ msgstr "&გატანა..."
 #: settingspagecolor.ui:23
 #, kde-format
 msgid "&Coords"
-msgstr ""
+msgstr "&კოორდინატები"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagecolor.ui:35
@@ -2372,7 +2372,7 @@ msgstr ""
 #: settingspagecolor.ui:58
 #, kde-format
 msgid "&Axes:"
-msgstr ""
+msgstr "&ღერძები:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: settingspagecolor.ui:71
@@ -2516,7 +2516,7 @@ msgid ""
 "only affects empty functions, so if you have defined a function at number 1 "
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
-msgstr ""
+msgstr "ნაგულისხმები ფერი ნომერი 2 ფუნქციისთვის."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_11)
 #: settingspagecolor.ui:250
@@ -2782,7 +2782,7 @@ msgstr ""
 #: settingspagediagram.ui:274
 #, kde-format
 msgid "Show axes"
-msgstr ""
+msgstr "ღერძების ჩვენება"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:284
@@ -2952,12 +2952,12 @@ msgstr ""
 #: view.cpp:2132
 #, kde-format
 msgid "x-Axis:"
-msgstr ""
+msgstr "x-ღერძი:"
 
 #: view.cpp:2133
 #, kde-format
 msgid "y-Axis:"
-msgstr ""
+msgstr "y-ღერძი:"
 
 #: view.cpp:2136
 #, kde-format

@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdeedu-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2023-01-18 22:31+0300\n"
+"PO-Revision-Date: 2023-01-27 20:00+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1443,7 +1443,7 @@ msgstr "Uzaklaşma aracının kullanması gereken değer"
 #: kmplot.kcfg:209
 #, kde-format
 msgid "Extra detail when tracing"
-msgstr "Kopyalama esnasında daha fazla detay"
+msgstr "Kopyalama sırasında daha fazla detay"
 
 #. i18n: ectx: whatsthis, entry (DetailedTracing), group (General)
 #: kmplot.kcfg:210
@@ -1452,7 +1452,7 @@ msgid ""
 "Whether to show extra detail such as the tangent and normal when tracing a "
 "plot."
 msgstr ""
-"Çizim kopyalaması esnasında tanjant ve dikey gibi daha fazla detayın "
+"Çizim kopyalaması sırasında tanjant ve dikey gibi daha fazla detayın "
 "gösterilip gösterilmeyeceği."
 
 #. i18n: ectx: Menu (edit)

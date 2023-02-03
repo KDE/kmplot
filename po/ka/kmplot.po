@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2022-10-10 10:12+0200\n"
+"PO-Revision-Date: 2023-02-02 13:31+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -44,7 +44,7 @@ msgstr "კონსტანტის რედაქტორი"
 #: constantseditor.ui:26 qparametereditor.ui:22
 #, kde-format
 msgid "The value must be a number (e.g. \"pi^2\")"
-msgstr ""
+msgstr "მნიშვნელობა რიცხვს უნდა წარმოადგენდეს (მაგ: \"pi^2\")"
 
 #. i18n: ectx: property (text), widget (QLabel, valueInvalidLabel)
 #: constantseditor.ui:29 qparametereditor.ui:25
@@ -68,7 +68,7 @@ msgstr "კონსტანტა:"
 #: constantseditor.ui:74
 #, kde-format
 msgid "Enter an expression that evaluates to a number"
-msgstr ""
+msgstr "შეიყვანეთ გამოსახულება, რომელსაც რიცხვითი მნიშვნელობა გააჩნია"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdNew)
 #: constantseditor.ui:83 qparametereditor.ui:39
@@ -80,7 +80,7 @@ msgstr "ახალი კონსტანტის დამატება"
 #: constantseditor.ui:86 qparametereditor.ui:42
 #, kde-format
 msgid "Click this button to add a new constant."
-msgstr ""
+msgstr "ეს ღილაკი ახალი მუდმივის დასამატებლად გამოიყენება."
 
 #. i18n: ectx: property (text), widget (QPushButton, cmdNew)
 #: constantseditor.ui:89 qparametereditor.ui:45
@@ -116,7 +116,7 @@ msgstr "გლობალური"
 #: constantseditor.ui:142
 #, kde-format
 msgid "Delete the selected constant"
-msgstr ""
+msgstr "მონიშნული მუდმივის წაშლა"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, cmdDelete)
 #: constantseditor.ui:145 qparametereditor.ui:58
@@ -158,7 +158,7 @@ msgstr ""
 #: editcoords.ui:20
 #, kde-format
 msgid "Horizontal axis Range"
-msgstr ""
+msgstr "ჰორიზონტალური ღერძის დიაპაზონი"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4_2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel4_3)
@@ -180,7 +180,7 @@ msgstr "მაქს:"
 #: editcoords.ui:45 editcoords.ui:55 editcoords.ui:93 editcoords.ui:129
 #, kde-format
 msgid "Custom boundary of the plot range"
-msgstr ""
+msgstr "ხაზვის დიაპაზონის ხელით მითითებული ზღვრები"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMax)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMin)
@@ -208,13 +208,13 @@ msgstr "მინ:"
 #: editcoords.ui:81
 #, kde-format
 msgid "Vertical axis Range"
-msgstr ""
+msgstr "ვერტიკალური ღერძის დიაპაზონი"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_XScalingMode)
 #: editcoords.ui:142
 #, kde-format
 msgid "Horizontal axis Grid Spacing"
-msgstr ""
+msgstr "კოორდინატების ბადის ბიჯი X ღერძზე"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton_3)
@@ -243,7 +243,7 @@ msgstr "ხელით მითითებული:"
 #: editcoords.ui:178
 #, kde-format
 msgid "Vertical axis Grid Spacing"
-msgstr ""
+msgstr "კოორდინატების ბადის ბიჯი Y ღერძზე"
 
 #: equationeditor.cpp:27
 #, kde-format
@@ -452,7 +452,7 @@ msgstr "ფუნქციები"
 #: functioneditorwidget.ui:50
 #, kde-format
 msgid "delete the selected function"
-msgstr ""
+msgstr "მონიშნული ფუნქციის წაშლა"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
 #: functioneditorwidget.ui:53
@@ -477,13 +477,13 @@ msgstr "ფუნქცია"
 #: functioneditorwidget.ui:117
 #, kde-format
 msgid "Custom plot range"
-msgstr ""
+msgstr "ხაზვის ხელით მითითებული დიაპაონი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cartesianCustomMax)
 #: functioneditorwidget.ui:129
 #, kde-format
 msgid "Customize the maximum plot range"
-msgstr ""
+msgstr "მაქსიმალური ხაზვის დიაპაზონის მორჩება"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMax)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMin)
@@ -496,13 +496,13 @@ msgstr ""
 #: functioneditorwidget.ui:142
 #, kde-format
 msgid "Customize the minimum plot range"
-msgstr ""
+msgstr "მინიმალური ხაზვის დიაპაზონის მორჩება"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, cartesianMin)
 #: functioneditorwidget.ui:158
 #, kde-format
 msgid "lower boundary of the plot range"
-msgstr ""
+msgstr "ხაზვის დიაპაზონის ქვედა ზღვარი"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMin)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMin)
@@ -520,7 +520,7 @@ msgstr ""
 #: functioneditorwidget.ui:171
 #, kde-format
 msgid "upper boundary of the plot range"
-msgstr ""
+msgstr "ხაზვის დიაპაზონის ზედა ზღვარი"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMax)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMax)
@@ -564,13 +564,13 @@ msgstr "გარემოს იერსახე"
 #: functioneditorwidget.ui:199
 #, kde-format
 msgid "Derivatives"
-msgstr ""
+msgstr "ნაწარმოებები"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, showDerivative1)
 #: functioneditorwidget.ui:211
 #, kde-format
 msgid "Show first derivative"
-msgstr ""
+msgstr "პირველი წარმოებულის ჩვენება"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative1)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative2)
@@ -583,44 +583,44 @@ msgstr ""
 #: functioneditorwidget.ui:217
 #, kde-format
 msgid "Show &1st derivative"
-msgstr ""
+msgstr "პირველი წარმოებულის &ჩვენება"
 
 #. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f1)
 #: functioneditorwidget.ui:227
 #, kde-format
 msgid "1st derivative"
-msgstr ""
+msgstr "წარმოებულის &ჩვენება"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, showDerivative2)
 #: functioneditorwidget.ui:234
 #, kde-format
 msgid "Show second derivative"
-msgstr ""
+msgstr "მეორე წარმოებულის ჩვენება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDerivative2)
 #: functioneditorwidget.ui:240
 #, kde-format
 msgid "Show &2nd derivative"
-msgstr ""
+msgstr "მეორე წარმოებულის &ჩვენება"
 
 #. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f2)
 #: functioneditorwidget.ui:250
 #, kde-format
 msgid "2nd derivative"
-msgstr ""
+msgstr "მეორე წარმოებული"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: functioneditorwidget.ui:258
 #, kde-format
 msgid "Integral"
-msgstr ""
+msgstr "ინტეგრალი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, showIntegral)
 #. i18n: ectx: property (text), widget (QCheckBox, showIntegral)
 #: functioneditorwidget.ui:267 functioneditorwidget.ui:273
 #, kde-format
 msgid "Show integral"
-msgstr ""
+msgstr "ინტეგრალის ჩვენება"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showIntegral)
 #: functioneditorwidget.ui:270
@@ -638,7 +638,7 @@ msgstr ""
 #: functioneditorwidget.ui:286
 #, kde-format
 msgid "Initial Point"
-msgstr ""
+msgstr "საწყისი წერტილი"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5)
 #: functioneditorwidget.ui:298
@@ -726,7 +726,7 @@ msgstr "x:"
 #: functioneditorwidget.ui:700 functioneditorwidget.ui:751
 #, kde-format
 msgid "Enter an expression"
-msgstr ""
+msgstr "შეიყვანეთ გამოსახულება"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricX)
 #: functioneditorwidget.ui:439
@@ -756,7 +756,7 @@ msgstr ""
 #: functioneditorwidget.ui:474
 #, kde-format
 msgid "Plot range"
-msgstr ""
+msgstr "არგუმენტის დიაპაზონი"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, parametricMin)
 #. i18n: ectx: property (toolTip), widget (EquationEdit, polarMin)
@@ -764,7 +764,7 @@ msgstr ""
 #: functioneditorwidget.ui:509 functioneditorwidget.ui:597 functiontools.ui:39
 #, kde-format
 msgid "Lower boundary of the plot range"
-msgstr ""
+msgstr "არგუმენტის მინიმალური მნიშვნელობა"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, parametricMax)
 #. i18n: ectx: property (toolTip), widget (EquationEdit, polarMax)
@@ -772,13 +772,13 @@ msgstr ""
 #: functioneditorwidget.ui:522 functioneditorwidget.ui:607 functiontools.ui:59
 #, kde-format
 msgid "Upper boundary of the plot range"
-msgstr ""
+msgstr "არგუმენტის მაქსიმალური მნიშვნელობა"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, polarEquation)
 #: functioneditorwidget.ui:571
 #, kde-format
 msgid "Enter an equation"
-msgstr ""
+msgstr "შეიყვანეთ განტოლება"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, polarEquation)
 #: functioneditorwidget.ui:575
@@ -792,13 +792,13 @@ msgstr ""
 #: functioneditorwidget.ui:585
 #, kde-format
 msgid "Plot Range"
-msgstr ""
+msgstr "არგუმენტის დიაპაზონი"
 
 #. i18n: ectx: property (toolTip), widget (KLineEdit, implicitName)
 #: functioneditorwidget.ui:676
 #, kde-format
 msgid "Name of the function"
-msgstr ""
+msgstr "ფუნქციის სახელი"
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, implicitName)
 #: functioneditorwidget.ui:680
@@ -819,7 +819,7 @@ msgstr "f(x,y)"
 #: functioneditorwidget.ui:690
 #, kde-format
 msgid "Name:"
-msgstr ""
+msgstr "სახელი:"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, implicitEquation)
 #: functioneditorwidget.ui:704
@@ -848,56 +848,56 @@ msgstr "f''(x) = -f"
 #: functioneditorwidget.ui:811 initialconditionswidget.ui:13
 #, kde-format
 msgid "Initial Conditions"
-msgstr ""
+msgstr "საწყისი პირობები"
 
 #: functiontools.cpp:59 functiontools.cpp:65
 #, kde-format
 msgid "Search between:"
-msgstr ""
+msgstr "ძებნის დიაპაზონი:"
 
 #: functiontools.cpp:60
 #, kde-format
 msgctxt "@title:window"
 msgid "Find Minimum Point"
-msgstr ""
+msgstr "მინიმუმის წერტილის პოვნა"
 
 #: functiontools.cpp:66
 #, kde-format
 msgctxt "@title:window"
 msgid "Find Maximum Point"
-msgstr ""
+msgstr "მაქსიმუმის წერტილის პოვნა"
 
 #: functiontools.cpp:71
 #, kde-format
 msgid "Calculate the area between:"
-msgstr ""
+msgstr "ფართობის გამოთვლა ორ წერტილს შორის:"
 
 #: functiontools.cpp:72
 #, kde-format
 msgctxt "@title:window"
 msgid "Area Under Graph"
-msgstr ""
+msgstr "ფართობი გრაფიკის ქვეშ"
 
 #: functiontools.cpp:176
 #, kde-format
 msgid "Minimum is at x = %1, %2(x) = %3"
-msgstr ""
+msgstr "მინიმალურია x = %1, %2(x) = %3"
 
 #: functiontools.cpp:186
 #, kde-format
 msgid "Maximum is at x = %1, %2(x) = %3"
-msgstr ""
+msgstr "მაქსიმალურია x = %1, %2(x) = %3"
 
 #: functiontools.cpp:201
 #, kde-format
 msgid "Area is %1"
-msgstr ""
+msgstr "ფართობია %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, FunctionTools)
 #: functiontools.ui:14
 #, kde-format
 msgid "Function Tools"
-msgstr ""
+msgstr "ფუნქციის ხელსაწყოები"
 
 #. i18n: ectx: property (text), widget (QLabel, rangeTitle)
 #: functiontools.ui:22
@@ -927,7 +927,7 @@ msgstr "დამატება..."
 #, kde-format
 msgctxt "@title:window"
 msgid "Constants Editor"
-msgstr ""
+msgstr "მუდმივების რედაქტორი"
 
 #: kconstanteditor.cpp:116
 #, kde-format
@@ -949,18 +949,18 @@ msgstr ""
 #: kgradientdialog.cpp:340
 #, kde-format
 msgid "Remove stop"
-msgstr ""
+msgstr "გაჩერების წაშლა"
 
 #: kgradientdialog.cpp:364
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose a Gradient"
-msgstr ""
+msgstr "აირჩიეთ გრადიენტი"
 
 #: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
-msgstr ""
+msgstr "KmPlot-ის ნაწილი ვერ ვიპოვე."
 
 #: kmplot.cpp:171 maindlg.cpp:517
 #, kde-format
@@ -976,104 +976,104 @@ msgstr "გახსნა"
 #: kmplot.kcfg:12
 #, kde-format
 msgid "Axis-line width"
-msgstr ""
+msgstr "ღერძის ხაზის სიგანე"
 
 #. i18n: ectx: whatsthis, entry (AxesLineWidth), group (Coordinate System)
 #: kmplot.kcfg:13
 #, kde-format
 msgid "Enter the width of the axis lines."
-msgstr ""
+msgstr "შეიყვანეთ ღერძის ხაზების სიგანე."
 
 #. i18n: ectx: label, entry (ShowLabel), group (Coordinate System)
 #: kmplot.kcfg:17
 #, kde-format
 msgid "Checked if labels are visible"
-msgstr ""
+msgstr "ჩართულია, თუ ჭდეები ხილულია"
 
 #. i18n: ectx: whatsthis, entry (ShowLabel), group (Coordinate System)
 #: kmplot.kcfg:18
 #, kde-format
 msgid "Check this box if the labels at the tics should be shown."
-msgstr ""
+msgstr "ჩართეთ, თუ გნებავთ, ჭდეები ხილული იყოს."
 
 #. i18n: ectx: label, entry (ShowAxes), group (Coordinate System)
 #: kmplot.kcfg:22
 #, kde-format
 msgid "Checked if axes are visible"
-msgstr ""
+msgstr "ჩართულია, თუ ღერძები ხილულია"
 
 #. i18n: ectx: whatsthis, entry (ShowAxes), group (Coordinate System)
 #: kmplot.kcfg:23
 #, kde-format
 msgid "Check this box if axes should be shown."
-msgstr ""
+msgstr "ჩართეთ, თუ გნებავთ, ღერძები ხილული იყოს."
 
 #. i18n: ectx: label, entry (ShowArrows), group (Coordinate System)
 #: kmplot.kcfg:27
 #, kde-format
 msgid "Checked if arrows are visible"
-msgstr ""
+msgstr "ჩართულია, თუ ისრები ხილულია"
 
 #. i18n: ectx: whatsthis, entry (ShowArrows), group (Coordinate System)
 #: kmplot.kcfg:28
 #, kde-format
 msgid "Check this box if axes should have arrows."
-msgstr ""
+msgstr "ჩართეთ, თუ გნებავთ, ღერძებს ისრები უნდა გააჩნდეს."
 
 #. i18n: ectx: label, entry (GridLineWidth), group (Coordinate System)
 #: kmplot.kcfg:32
 #, kde-format
 msgid "Grid Line Width"
-msgstr ""
+msgstr "ბადის ხაზის სიგანე"
 
 #. i18n: ectx: whatsthis, entry (GridLineWidth), group (Coordinate System)
 #: kmplot.kcfg:33
 #, kde-format
 msgid "Enter the width of the grid lines."
-msgstr ""
+msgstr "შეიყვანეთ ბადის ხაზების სიგანე."
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_GridStyle)
 #. i18n: ectx: label, entry (GridStyle), group (Coordinate System)
 #: kmplot.kcfg:37 settingspagediagram.ui:20
 #, kde-format
 msgid "Grid Style"
-msgstr ""
+msgstr "ბადის სტილი"
 
 #. i18n: ectx: whatsthis, entry (GridStyle), group (Coordinate System)
 #: kmplot.kcfg:38
 #, kde-format
 msgid "Choose a suitable grid style."
-msgstr ""
+msgstr "აირჩიეთ სასურველი ბადის სტილი."
 
 #. i18n: ectx: label, entry (TicLength), group (Coordinate System)
 #: kmplot.kcfg:42
 #, kde-format
 msgid "Tic length"
-msgstr ""
+msgstr "გამყოფის სიგრძე"
 
 #. i18n: ectx: whatsthis, entry (TicLength), group (Coordinate System)
 #: kmplot.kcfg:43
 #, kde-format
 msgid "Enter the length of the tic lines"
-msgstr ""
+msgstr "შეიყვანეთ გამყოფი ხაზების სიგრძე"
 
 #. i18n: ectx: label, entry (TicWidth), group (Coordinate System)
 #: kmplot.kcfg:47
 #, kde-format
 msgid "Tic width"
-msgstr ""
+msgstr "გამყოფის სიგანე"
 
 #. i18n: ectx: whatsthis, entry (TicWidth), group (Coordinate System)
 #: kmplot.kcfg:48
 #, kde-format
 msgid "Enter the width of the tic lines."
-msgstr ""
+msgstr "შეიყვანეთ გამყოფი ხაზების სიგანე."
 
 #. i18n: ectx: label, entry (XMin), group (Coordinate System)
 #: kmplot.kcfg:52
 #, kde-format
 msgid "Left boundary"
-msgstr ""
+msgstr "მარცხენა საზღვარი"
 
 #. i18n: ectx: whatsthis, entry (XMin), group (Coordinate System)
 #: kmplot.kcfg:53
@@ -1085,7 +1085,7 @@ msgstr ""
 #: kmplot.kcfg:57
 #, kde-format
 msgid "Right boundary"
-msgstr ""
+msgstr "მარჯვენა საზღვარი"
 
 #. i18n: ectx: whatsthis, entry (XMax), group (Coordinate System)
 #: kmplot.kcfg:58
@@ -1097,7 +1097,7 @@ msgstr ""
 #: kmplot.kcfg:62
 #, kde-format
 msgid "Lower boundary"
-msgstr ""
+msgstr "ქვედა საზღვარი"
 
 #. i18n: ectx: whatsthis, entry (YMin), group (Coordinate System)
 #: kmplot.kcfg:63
@@ -1109,7 +1109,7 @@ msgstr ""
 #: kmplot.kcfg:67
 #, kde-format
 msgid "Upper boundary"
-msgstr ""
+msgstr "ზედა საზღვარი"
 
 #. i18n: ectx: whatsthis, entry (YMax), group (Coordinate System)
 #: kmplot.kcfg:68
@@ -1121,25 +1121,25 @@ msgstr ""
 #: kmplot.kcfg:72
 #, kde-format
 msgid "Label to Horizontal Axis"
-msgstr ""
+msgstr "ჰორიზონტალური ღერძის ჭდე"
 
 #. i18n: ectx: whatsthis, entry (LabelHorizontalAxis), group (Coordinate System)
 #: kmplot.kcfg:73
 #, kde-format
 msgid "Label to Horizontal Axis."
-msgstr ""
+msgstr "ჰორიზონტალური ღერძის ჭდე."
 
 #. i18n: ectx: label, entry (LabelVerticalAxis), group (Coordinate System)
 #: kmplot.kcfg:77
 #, kde-format
 msgid "Label to Vertical Axis"
-msgstr ""
+msgstr "ვერტიკალური ღერძის ჭდე"
 
 #. i18n: ectx: whatsthis, entry (LabelVerticalAxis), group (Coordinate System)
 #: kmplot.kcfg:78
 #, kde-format
 msgid "Label to Vertical Axis."
-msgstr ""
+msgstr "ვერტიკალური ღერძის ჭდე."
 
 #. i18n: ectx: label, entry (XScalingMode), group (Scaling)
 #. i18n: ectx: label, entry (YScalingMode), group (Scaling)
@@ -1183,19 +1183,19 @@ msgstr ""
 #: kmplot.kcfg:108
 #, kde-format
 msgid "Font of the axis labels"
-msgstr ""
+msgstr "ღერძის ჭდეების ფონტი"
 
 #. i18n: ectx: whatsthis, entry (AxesFont), group (Fonts)
 #: kmplot.kcfg:109
 #, kde-format
 msgid "Choose a font for the axis labels."
-msgstr ""
+msgstr "აირჩიეთ ღერძის ჭდეების ფონტი."
 
 #. i18n: ectx: label, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:113
 #, kde-format
 msgid "Font of the printed header table"
-msgstr ""
+msgstr "დაბეჭდილი თავსართის ცხრილის ფონტი"
 
 #. i18n: ectx: whatsthis, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:114
@@ -1207,169 +1207,169 @@ msgstr ""
 #: kmplot.kcfg:118
 #, kde-format
 msgid "Font of diagram labels"
-msgstr ""
+msgstr "დიაგრამის ჭდეების ფონტი"
 
 #. i18n: ectx: whatsthis, entry (LabelFont), group (Fonts)
 #: kmplot.kcfg:119
 #, kde-format
 msgid "Choose a font for diagram labels."
-msgstr ""
+msgstr "აირჩიეთ დიაგრამის ჭდეების ფონტი."
 
 #. i18n: ectx: label, entry (AxesColor), group (Colors)
 #: kmplot.kcfg:126
 #, kde-format
 msgid "Axis-line color"
-msgstr ""
+msgstr "ღერძის ხაზის ფერი"
 
 #. i18n: ectx: whatsthis, entry (AxesColor), group (Colors)
 #: kmplot.kcfg:127
 #, kde-format
 msgid "Enter the color of the axis lines."
-msgstr ""
+msgstr "შეიყვანეთ ღერძის ხაზების ფერი."
 
 #. i18n: ectx: label, entry (GridColor), group (Colors)
 #: kmplot.kcfg:131
 #, kde-format
 msgid "Grid Color"
-msgstr ""
+msgstr "ბადის ფერი"
 
 #. i18n: ectx: whatsthis, entry (GridColor), group (Colors)
 #: kmplot.kcfg:132
 #, kde-format
 msgid "Choose a color for the grid lines."
-msgstr ""
+msgstr "აირჩიეთ ბადის ხაზების ფერი."
 
 #. i18n: ectx: label, entry (Color0), group (Colors)
 #: kmplot.kcfg:136
 #, kde-format
 msgid "Color of function 1"
-msgstr ""
+msgstr "ფუნქცია 1-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color0), group (Colors)
 #: kmplot.kcfg:137
 #, kde-format
 msgid "Choose a color for function 1."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 1."
 
 #. i18n: ectx: label, entry (Color1), group (Colors)
 #: kmplot.kcfg:141
 #, kde-format
 msgid "Color of function 2"
-msgstr ""
+msgstr "ფუნქცია 2-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color1), group (Colors)
 #: kmplot.kcfg:142
 #, kde-format
 msgid "Choose a color for function 2."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 2."
 
 #. i18n: ectx: label, entry (Color2), group (Colors)
 #: kmplot.kcfg:146
 #, kde-format
 msgid "Color of function 3"
-msgstr ""
+msgstr "ფუნქცია 3-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color2), group (Colors)
 #: kmplot.kcfg:147
 #, kde-format
 msgid "Choose a color for function 3."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 3."
 
 #. i18n: ectx: label, entry (Color3), group (Colors)
 #: kmplot.kcfg:151
 #, kde-format
 msgid "Color of function 4"
-msgstr ""
+msgstr "ფუნქცია 4-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color3), group (Colors)
 #: kmplot.kcfg:152
 #, kde-format
 msgid "Choose a color for function 4."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 4."
 
 #. i18n: ectx: label, entry (Color4), group (Colors)
 #: kmplot.kcfg:156
 #, kde-format
 msgid "Color of function 5"
-msgstr ""
+msgstr "ფუნქცია 5-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color4), group (Colors)
 #: kmplot.kcfg:157
 #, kde-format
 msgid "Choose a color for function 5."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 5."
 
 #. i18n: ectx: label, entry (Color5), group (Colors)
 #: kmplot.kcfg:161
 #, kde-format
 msgid "Color of function 6"
-msgstr ""
+msgstr "ფუნქცია 6-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color5), group (Colors)
 #: kmplot.kcfg:162
 #, kde-format
 msgid "Choose a color for function 6."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 6."
 
 #. i18n: ectx: label, entry (Color6), group (Colors)
 #: kmplot.kcfg:166
 #, kde-format
 msgid "Color of function 7"
-msgstr ""
+msgstr "ფუნქცია 7-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color6), group (Colors)
 #: kmplot.kcfg:167
 #, kde-format
 msgid "Choose a color for function 7."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 7."
 
 #. i18n: ectx: label, entry (Color7), group (Colors)
 #: kmplot.kcfg:171
 #, kde-format
 msgid "Color of function 8"
-msgstr ""
+msgstr "ფუნქცია 8-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color7), group (Colors)
 #: kmplot.kcfg:172
 #, kde-format
 msgid "Choose a color for function 8."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 8."
 
 #. i18n: ectx: label, entry (Color8), group (Colors)
 #: kmplot.kcfg:176
 #, kde-format
 msgid "Color of function 9"
-msgstr ""
+msgstr "ფუნქცია 9-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color8), group (Colors)
 #: kmplot.kcfg:177
 #, kde-format
 msgid "Choose a color for function 9."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 9."
 
 #. i18n: ectx: label, entry (Color9), group (Colors)
 #: kmplot.kcfg:181
 #, kde-format
 msgid "Color of function 10"
-msgstr ""
+msgstr "ფუნქცია 10-ის ფერი"
 
 #. i18n: ectx: whatsthis, entry (Color9), group (Colors)
 #: kmplot.kcfg:182
 #, kde-format
 msgid "Choose a color for function 10."
-msgstr ""
+msgstr "არჩიეთ ფერი ფუნქციისთვის 10."
 
 #. i18n: ectx: label, entry (anglemode), group (General)
 #: kmplot.kcfg:189
 #, kde-format
 msgid "Radians instead of degrees"
-msgstr ""
+msgstr "რადიანები გრადუსების მაგიერ"
 
 #. i18n: ectx: whatsthis, entry (anglemode), group (General)
 #: kmplot.kcfg:190
 #, kde-format
 msgid "Check the box if you want to use radians"
-msgstr ""
+msgstr "ჩართეთ, თუ გნებავთ, რადიანები გამოიყენოთ"
 
 #. i18n: ectx: label, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:194
@@ -1381,13 +1381,13 @@ msgstr "ფონის ფერი"
 #: kmplot.kcfg:195
 #, kde-format
 msgid "The background color for the graph"
-msgstr ""
+msgstr "გრაფის ფონის ფერი"
 
 #. i18n: ectx: label, entry (zoomInStep), group (General)
 #: kmplot.kcfg:199
 #, kde-format
 msgid "Zoom-in step"
-msgstr ""
+msgstr "გადიდების ბიჯი"
 
 #. i18n: ectx: whatsthis, entry (zoomInStep), group (General)
 #: kmplot.kcfg:200
@@ -1399,7 +1399,7 @@ msgstr ""
 #: kmplot.kcfg:204
 #, kde-format
 msgid "Zoom-out step"
-msgstr ""
+msgstr "დაპატარავების ბიჯი"
 
 #. i18n: ectx: whatsthis, entry (zoomOutStep), group (General)
 #: kmplot.kcfg:205
@@ -1460,7 +1460,7 @@ msgstr "ხელსაწყოთა მთავარი ზოლი"
 #: kmplotio.cpp:288
 #, kde-format
 msgid "The file had an unknown version number"
-msgstr ""
+msgstr "ფაილის ვერსიის ნომერი უცნობია"
 
 #: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
@@ -1475,7 +1475,7 @@ msgstr ""
 #: kmplotio.cpp:326
 #, kde-format
 msgid "%1 could not be opened"
-msgstr ""
+msgstr "%1-ის გახსნა შეუძლებელია"
 
 #: kmplotio.cpp:332
 #, kde-format
@@ -1496,17 +1496,17 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
-msgstr ""
+msgstr "პარამეტრის რედაქტორი"
 
 #: kparametereditor.cpp:200
 #, kde-format
 msgid "Open Parameter File"
-msgstr ""
+msgstr "პარამეტრების ფაილის გახსნა"
 
 #: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, kde-format
 msgid "Plain Text File (*.txt)"
-msgstr ""
+msgstr "უბრალო ტექსტური ფაილი (*.txt)"
 
 #: kparametereditor.cpp:215
 #, kde-format
@@ -1528,12 +1528,12 @@ msgstr ""
 #: kparametereditor.cpp:256
 #, kde-format
 msgid "Get Informed"
-msgstr ""
+msgstr "შეტყობინება"
 
 #: kparametereditor.cpp:257
 #, kde-format
 msgid "Ignore Information"
-msgstr ""
+msgstr "ინფორმაციის იგნორი"
 
 #: kparametereditor.cpp:268
 #, kde-format
@@ -1566,17 +1566,17 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "KmPlot Options"
-msgstr ""
+msgstr "KmPlot -ის მორგება"
 
 #: kprinterdlg.cpp:35
 #, kde-format
 msgid "Print header table"
-msgstr ""
+msgstr "თავსართების ცხრილის დაბეჭდვა"
 
 #: kprinterdlg.cpp:36
 #, kde-format
 msgid "Transparent background"
-msgstr ""
+msgstr "გამჭვირვალე ფონი"
 
 #: kprinterdlg.cpp:45
 #, kde-format
@@ -1611,17 +1611,17 @@ msgstr "სიმაღლე:"
 #: kprinterdlg.cpp:122
 #, kde-format
 msgid "Width is invalid"
-msgstr ""
+msgstr "სიგანე არასწორია"
 
 #: kprinterdlg.cpp:128
 #, kde-format
 msgid "Height is invalid"
-msgstr ""
+msgstr "სიმაღლე არასწორია"
 
 #: ksliderwindow.cpp:28
 #, kde-format
 msgid "Slider %1"
-msgstr ""
+msgstr "ცოცია %1"
 
 #: ksliderwindow.cpp:34
 #, kde-format
@@ -1649,12 +1649,12 @@ msgstr ""
 #: main.cpp:46
 #, kde-format
 msgid "(c) 2000-2002, Klaus-Dieter Möller"
-msgstr ""
+msgstr "(c) 2000-2002, Klaus-Dieter Möller"
 
 #: main.cpp:50
 #, kde-format
 msgid "Klaus-Dieter Möller"
-msgstr ""
+msgstr "Klaus-Dieter Möller"
 
 #: main.cpp:50
 #, kde-format
@@ -1664,7 +1664,7 @@ msgstr "საწყისი ავტორი"
 #: main.cpp:51
 #, kde-format
 msgid "Matthias Meßmer"
-msgstr ""
+msgstr "Matthias Meßmer"
 
 #: main.cpp:51
 #, kde-format
@@ -1674,7 +1674,7 @@ msgstr "ინტერფეისი"
 #: main.cpp:52
 #, kde-format
 msgid "Fredrik Edemar"
-msgstr ""
+msgstr "Fredrik Edemar"
 
 #: main.cpp:52
 #, kde-format
@@ -1724,7 +1724,7 @@ msgstr "არგუმენტი"
 #: main.cpp:61
 #, kde-format
 msgid "URLs to open"
-msgstr ""
+msgstr "გასახსნელი URL-ები"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
 #: maindlg.cpp:188 settingspagegeneral.ui:14
@@ -1746,7 +1746,7 @@ msgstr "დიაგრამა"
 #: maindlg.cpp:189
 #, kde-format
 msgid "Diagram Appearance"
-msgstr ""
+msgstr "გრაფიკის გარეგნობა"
 
 #: maindlg.cpp:190
 #, kde-format
@@ -1761,7 +1761,7 @@ msgstr "ფონტები"
 #: maindlg.cpp:218
 #, kde-format
 msgid "Configure KmPlot..."
-msgstr ""
+msgstr "KmPlot-ის მორგება..."
 
 #: maindlg.cpp:224
 #, kde-format
@@ -1771,12 +1771,12 @@ msgstr "გატანა..."
 #: maindlg.cpp:237
 #, kde-format
 msgid "&Coordinate System..."
-msgstr ""
+msgstr "&კოორდინატების სისტემა..."
 
 #: maindlg.cpp:242
 #, kde-format
 msgid "&Constants..."
-msgstr ""
+msgstr "&მუდმივები..."
 
 #: maindlg.cpp:251
 #, kde-format
@@ -1801,7 +1801,7 @@ msgstr "ხედის საწყის მნიშვნელობაზ�
 #: maindlg.cpp:272
 #, kde-format
 msgid "Show Sliders"
-msgstr ""
+msgstr "ჩოჩიების ჩვენება"
 
 #: maindlg.cpp:278
 #, kde-format
@@ -1811,48 +1811,48 @@ msgstr "კალკულატორი"
 #: maindlg.cpp:283
 #, kde-format
 msgid "Plot &Area..."
-msgstr ""
+msgstr "გრაფიკის &ფართობი..."
 
 #: maindlg.cpp:287
 #, kde-format
 msgid "Find Ma&ximum..."
-msgstr ""
+msgstr "&მაქსიმუმის პოვნა..."
 
 #: maindlg.cpp:292
 #, kde-format
 msgid "Find Mi&nimum..."
-msgstr ""
+msgstr "მინიმუმის &პოვნა..."
 
 #: maindlg.cpp:299
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
-msgstr ""
+msgstr "წინასწარ აღწერილი &მათემატიკური ფუნქციები"
 
 #: maindlg.cpp:306
 #, kde-format
 msgid "Cartesian Plot"
-msgstr ""
+msgstr "გრაფიკი დეკარტის კოორდნატებში"
 
 #: maindlg.cpp:312
 #, kde-format
 msgid "Parametric Plot"
-msgstr ""
+msgstr "პარამეტრული მრუდის გრაფიკი"
 
 #: maindlg.cpp:318
 #, kde-format
 msgid "Polar Plot"
-msgstr ""
+msgstr "გრაფიკი პოლარულ კოორდინაებში"
 
 #: maindlg.cpp:324
 #, kde-format
 msgid "Implicit Plot"
-msgstr ""
+msgstr "არაცხადი ფუნქციის გრაფიკი"
 
 #: maindlg.cpp:330
 #, kde-format
 msgid "Differential Plot"
-msgstr ""
+msgstr "ინტეგრალური მრუდები"
 
 #: maindlg.cpp:345
 #, kde-format
@@ -1862,17 +1862,17 @@ msgstr "&დამალვა"
 #: maindlg.cpp:350
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "&წაშლა"
 
 #: maindlg.cpp:358
 #, kde-format
 msgid "Animate Plot..."
-msgstr ""
+msgstr "პარამეტრის ანიმაცია..."
 
 #: maindlg.cpp:369
 #, kde-format
 msgid "Copy (x, y)"
-msgstr ""
+msgstr "კოპირება (x, y)"
 
 #: maindlg.cpp:374
 #, kde-format
@@ -1883,7 +1883,7 @@ msgstr "(%1, %2)"
 #: maindlg.cpp:380
 #, kde-format
 msgid "Copy Root Value"
-msgstr ""
+msgstr "ფესვის მნიშვნელობის კოპირება"
 
 #: maindlg.cpp:465
 #, kde-format
@@ -1902,22 +1902,22 @@ msgstr ""
 #: maindlg.cpp:502
 #, kde-format
 msgid "Save New Format"
-msgstr ""
+msgstr "ახალი ფორმატის შენახვა"
 
 #: maindlg.cpp:517
 #, kde-format
 msgid "Save As"
-msgstr ""
+msgstr "შენახვა, როგორც"
 
 #: maindlg.cpp:523
 #, kde-format
 msgid "The file could not be saved"
-msgstr ""
+msgstr "ფაილის შენახვა შეუძლებელია"
 
 #: maindlg.cpp:555
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
-msgstr ""
+msgstr "გადიდებადი ვექტორული გრაფიკა (*.svg *.SVG)"
 
 #: maindlg.cpp:557
 #, kde-format
@@ -1934,7 +1934,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
-msgstr ""
+msgstr "გრაფიკის დაბეჭდვა"
 
 #: maindlg.cpp:690
 #, kde-format
@@ -1951,7 +1951,7 @@ msgstr "ბეჭდვის მორგება"
 #, kde-format
 msgctxt "@title:window"
 msgid "Parameter Animator"
-msgstr ""
+msgstr "პარამეტრით ანიმაცია"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, warningLabel)
 #: parameteranimator.ui:23
@@ -2064,13 +2064,13 @@ msgstr "ნელი"
 #: parameterswidget.cpp:25
 #, kde-format
 msgid "Slider No. %1"
-msgstr ""
+msgstr "ცოცია # %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSlider)
 #: parameterswidget.ui:37
 #, kde-format
 msgid "Slider:"
-msgstr ""
+msgstr "ცოცია:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useList)
 #: parameterswidget.ui:44
@@ -2082,7 +2082,7 @@ msgstr "სია:"
 #: parameterswidget.ui:54
 #, kde-format
 msgid "Edit the list of parameters"
-msgstr ""
+msgstr "პარამეტრების სიის ჩასწორება"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, editParameterListButton)
 #: parameterswidget.ui:57
@@ -2096,13 +2096,13 @@ msgstr ""
 #: parameterswidget.ui:60
 #, kde-format
 msgid "Edit List..."
-msgstr ""
+msgstr "სის ჩასწორება..."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, listOfSliders)
 #: parameterswidget.ui:70
 #, kde-format
 msgid "Select a slider"
-msgstr ""
+msgstr "აირჩიეთ ცოცია"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, listOfSliders)
 #: parameterswidget.ui:73
@@ -2132,32 +2132,32 @@ msgstr "სინტაქსური შეცდომა"
 #: parser.cpp:1092
 #, kde-format
 msgid "Missing parenthesis"
-msgstr ""
+msgstr "ფრჩხილი აკლია"
 
 #: parser.cpp:1095
 #, kde-format
 msgid "Stack overflow"
-msgstr ""
+msgstr "სტეკის გადავსება"
 
 #: parser.cpp:1098
 #, kde-format
 msgid "Name of function is not free"
-msgstr ""
+msgstr "ფუნქციის სახელი დაკავებულია"
 
 #: parser.cpp:1101
 #, kde-format
 msgid "recursive function not allowed"
-msgstr ""
+msgstr "რეკურსიული ფუნქცია დაუშვებელია"
 
 #: parser.cpp:1104
 #, kde-format
 msgid "Empty function"
-msgstr ""
+msgstr "ცარიელი ფუნქცია"
 
 #: parser.cpp:1107
 #, kde-format
 msgid "Function could not be found"
-msgstr ""
+msgstr "ფუნქცია ვერ ვიპოვე"
 
 #: parser.cpp:1110
 #, kde-format
@@ -2167,7 +2167,7 @@ msgstr ""
 #: parser.cpp:1113
 #, kde-format
 msgid "Too many plus-minus symbols"
-msgstr ""
+msgstr "მიმატება/გამოკლების მეტისმეტად ბევრი სიმბოლო"
 
 #: parser.cpp:1116
 #, kde-format
@@ -2177,7 +2177,7 @@ msgstr ""
 #: parser.cpp:1119
 #, kde-format
 msgid "The function has too many arguments"
-msgstr ""
+msgstr "ფუნქციის მეტისმეტად ბევრი არგუმენტი"
 
 #: parser.cpp:1122
 #, kde-format
@@ -2217,25 +2217,25 @@ msgstr "დამატებით..."
 #: plotstylewidget.cpp:48
 #, kde-format
 msgid "Color:"
-msgstr ""
+msgstr "ფერი:"
 
 #: plotstylewidget.cpp:57
 #, kde-format
 msgctxt "@title:window"
 msgid "Plot Appearance"
-msgstr ""
+msgstr "გრაფიკის გარეგნობა"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlotStyleWidget)
 #: plotstylewidget.ui:14
 #, kde-format
 msgid "Plot Style"
-msgstr ""
+msgstr "გრაფიკის სტილი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showPlotName)
 #: plotstylewidget.ui:26
 #, kde-format
 msgid "Show the plot name"
-msgstr ""
+msgstr "გრაფიკის სახელის ჩვენება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showExtrema)
 #: plotstylewidget.ui:33
@@ -2247,19 +2247,19 @@ msgstr ""
 #: plotstylewidget.ui:53
 #, kde-format
 msgid "Show the tangent field:"
-msgstr ""
+msgstr "მხებების ველის ჩვენება:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useGradient)
 #: plotstylewidget.ui:67
 #, kde-format
 msgid "Use a gradient for parameters:"
-msgstr ""
+msgstr "პარამეტრებისთვის გრადიენტის გამოყენება:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: plotstylewidget.ui:74
 #, kde-format
 msgid "Line style:"
-msgstr ""
+msgstr "ხაზის სტილი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: plotstylewidget.ui:87
@@ -2282,13 +2282,13 @@ msgstr " მმ"
 #: qparametereditor.ui:13
 #, kde-format
 msgid "Parameter Editor"
-msgstr ""
+msgstr "პარამეტრის რედაქტორი"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdDelete)
 #: qparametereditor.ui:55
 #, kde-format
 msgid "delete selected constant"
-msgstr ""
+msgstr "მონიშნული მუდმივის წაშლა"
 
 #. i18n: ectx: property (text), widget (QPushButton, moveUp)
 #: qparametereditor.ui:84
@@ -2306,7 +2306,7 @@ msgstr "ჩამოწევა"
 #: qparametereditor.ui:117
 #, kde-format
 msgid "Import values from a textfile"
-msgstr ""
+msgstr "მნიშვნელობების შემოტანა ტექსტური ფაილიდან"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, cmdImport)
 #: qparametereditor.ui:120
@@ -2326,7 +2326,7 @@ msgstr "&იმპორტი..."
 #: qparametereditor.ui:133
 #, kde-format
 msgid "Export values to a textfile"
-msgstr ""
+msgstr "მნიშვნელობების გატანა ტექსტურ ფაილში"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, cmdExport)
 #: qparametereditor.ui:136
@@ -2346,7 +2346,7 @@ msgstr "&გატანა..."
 #: settingspagecolor.ui:23
 #, kde-format
 msgid "&Coords"
-msgstr ""
+msgstr "&კოორდინატები"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagecolor.ui:35
@@ -2372,7 +2372,7 @@ msgstr ""
 #: settingspagecolor.ui:58
 #, kde-format
 msgid "&Axes:"
-msgstr ""
+msgstr "&ღერძები:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: settingspagecolor.ui:71
@@ -2384,7 +2384,7 @@ msgstr "&ბადე:"
 #: settingspagecolor.ui:84
 #, kde-format
 msgid "Select color for the axes."
-msgstr ""
+msgstr "აირჩიეთ ღერძის ფერი."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:87
@@ -2398,7 +2398,7 @@ msgstr ""
 #: settingspagecolor.ui:97
 #, kde-format
 msgid "Select color for the grid."
-msgstr ""
+msgstr "აირჩიეთ ბადის ფერი."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:100
@@ -2412,7 +2412,7 @@ msgstr ""
 #: settingspagecolor.ui:113
 #, kde-format
 msgid "&Default Function Colors"
-msgstr ""
+msgstr "&ფუნქცის ნაგულისხმები ფერები"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color1)
 #: settingspagecolor.ui:133
@@ -2516,7 +2516,7 @@ msgid ""
 "only affects empty functions, so if you have defined a function at number 1 "
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
-msgstr ""
+msgstr "ნაგულისხმები ფერი ნომერი 2 ფუნქციისთვის."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_11)
 #: settingspagecolor.ui:250
@@ -2650,7 +2650,7 @@ msgstr "არაფერი"
 #: settingspagediagram.ui:42
 #, kde-format
 msgid "A line for every tic."
-msgstr ""
+msgstr "ხაზი ყოველი გამყოფისთვის."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton12)
 #: settingspagediagram.ui:45
@@ -2668,7 +2668,7 @@ msgstr ""
 #: settingspagediagram.ui:55
 #, kde-format
 msgid "Crosses"
-msgstr ""
+msgstr "ჯვრები"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton14)
 #: settingspagediagram.ui:62
@@ -2686,19 +2686,19 @@ msgstr "პოლარული"
 #: settingspagediagram.ui:75
 #, kde-format
 msgid "Axis Labels"
-msgstr ""
+msgstr "ღერძის ჭდეები"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label)
 #: settingspagediagram.ui:81
 #, kde-format
 msgid "Label on horizontal axis."
-msgstr ""
+msgstr "ჭდე ჰორიზონტალური ღერძზე."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagediagram.ui:84
 #, kde-format
 msgid "Horizontal axis label:"
-msgstr ""
+msgstr "ჰორიზონტალური ღერძის ჭდე:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelHorizontalAxis)
 #: settingspagediagram.ui:94
@@ -2710,13 +2710,13 @@ msgstr "X"
 #: settingspagediagram.ui:101
 #, kde-format
 msgid "Label on vertical axis."
-msgstr ""
+msgstr "ჭდე ვერტიკალური ღერძზე."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: settingspagediagram.ui:104
 #, kde-format
 msgid "Vertical axis label:"
-msgstr ""
+msgstr "ვერტიკალური ღერძის ჭდე:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelVerticalAxis)
 #: settingspagediagram.ui:114
@@ -2728,7 +2728,7 @@ msgstr "Y"
 #: settingspagediagram.ui:124
 #, kde-format
 msgid "Axis widths:"
-msgstr ""
+msgstr "ღერძის სიგანეები:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: settingspagediagram.ui:156
@@ -2740,19 +2740,19 @@ msgstr "ხაზის &სიგანე:"
 #: settingspagediagram.ui:188
 #, kde-format
 msgid "Tic width:"
-msgstr ""
+msgstr "გამყოფის სიგანე:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8_4)
 #: settingspagediagram.ui:220
 #, kde-format
 msgid "Tic length:"
-msgstr ""
+msgstr "გამყოფის სიგრძე:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:252
 #, kde-format
 msgid "Visible tic labels."
-msgstr ""
+msgstr "ხილული გამყოფის ჭდეები."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:255
@@ -2770,7 +2770,7 @@ msgstr "ჭდეების ჩვენება"
 #: settingspagediagram.ui:268
 #, kde-format
 msgid "Visible axes."
-msgstr ""
+msgstr "ხილული ღერძები."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:271
@@ -2782,7 +2782,7 @@ msgstr ""
 #: settingspagediagram.ui:274
 #, kde-format
 msgid "Show axes"
-msgstr ""
+msgstr "ღერძების ჩვენება"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:284
@@ -2800,31 +2800,31 @@ msgstr ""
 #: settingspagediagram.ui:290
 #, kde-format
 msgid "Show arrows"
-msgstr ""
+msgstr "ისრების ჩვენება"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: settingspagefonts.ui:23
 #, kde-format
 msgid "Axes labels:"
-msgstr ""
+msgstr "ღერძის ჭდეები:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10_3)
 #: settingspagefonts.ui:45
 #, kde-format
 msgid "Diagram labels:"
-msgstr ""
+msgstr "დიაგრამის ჭდეები:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10_4)
 #: settingspagefonts.ui:67
 #, kde-format
 msgid "Header table:"
-msgstr ""
+msgstr "თავსართების ცხრილი:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_anglemode)
 #: settingspagegeneral.ui:20
 #, kde-format
 msgid "Angle Mode"
-msgstr ""
+msgstr "კუთხის რეჟიმი"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:32
@@ -2864,7 +2864,7 @@ msgstr ""
 #: settingspagegeneral.ui:51
 #, kde-format
 msgid "&Degree"
-msgstr ""
+msgstr "&გრადუსი"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: settingspagegeneral.ui:61
@@ -2942,22 +2942,22 @@ msgstr "1E = "
 #: view.cpp:2131
 #, kde-format
 msgid "Plotting Range"
-msgstr ""
+msgstr "ხაზვის დიაპაზონი"
 
 #: view.cpp:2131
 #, kde-format
 msgid "Axes Division"
-msgstr ""
+msgstr "გაყოფის ფასი"
 
 #: view.cpp:2132
 #, kde-format
 msgid "x-Axis:"
-msgstr ""
+msgstr "x-ღერძი:"
 
 #: view.cpp:2133
 #, kde-format
 msgid "y-Axis:"
-msgstr ""
+msgstr "y-ღერძი:"
 
 #: view.cpp:2136
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2023-01-31 10:32+0100\n"
+"PO-Revision-Date: 2023-02-08 08:23+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -180,7 +180,7 @@ msgstr "მაქს:"
 #: editcoords.ui:45 editcoords.ui:55 editcoords.ui:93 editcoords.ui:129
 #, kde-format
 msgid "Custom boundary of the plot range"
-msgstr ""
+msgstr "ხაზვის დიაპაზონის ხელით მითითებული ზღვრები"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMax)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMin)
@@ -477,13 +477,13 @@ msgstr "ფუნქცია"
 #: functioneditorwidget.ui:117
 #, kde-format
 msgid "Custom plot range"
-msgstr ""
+msgstr "ხაზვის ხელით მითითებული დიაპაონი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cartesianCustomMax)
 #: functioneditorwidget.ui:129
 #, kde-format
 msgid "Customize the maximum plot range"
-msgstr ""
+msgstr "მაქსიმალური ხაზვის დიაპაზონის მორჩება"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMax)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMin)
@@ -496,13 +496,13 @@ msgstr ""
 #: functioneditorwidget.ui:142
 #, kde-format
 msgid "Customize the minimum plot range"
-msgstr ""
+msgstr "მინიმალური ხაზვის დიაპაზონის მორჩება"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, cartesianMin)
 #: functioneditorwidget.ui:158
 #, kde-format
 msgid "lower boundary of the plot range"
-msgstr ""
+msgstr "ხაზვის დიაპაზონის ქვედა ზღვარი"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMin)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMin)
@@ -520,7 +520,7 @@ msgstr ""
 #: functioneditorwidget.ui:171
 #, kde-format
 msgid "upper boundary of the plot range"
-msgstr ""
+msgstr "ხაზვის დიაპაზონის ზედა ზღვარი"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMax)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMax)
@@ -881,12 +881,12 @@ msgstr "ფართობი გრაფიკის ქვეშ"
 #: functiontools.cpp:176
 #, kde-format
 msgid "Minimum is at x = %1, %2(x) = %3"
-msgstr ""
+msgstr "მინიმალურია x = %1, %2(x) = %3"
 
 #: functiontools.cpp:186
 #, kde-format
 msgid "Maximum is at x = %1, %2(x) = %3"
-msgstr ""
+msgstr "მაქსიმალურია x = %1, %2(x) = %3"
 
 #: functiontools.cpp:201
 #, kde-format
@@ -1189,13 +1189,13 @@ msgstr "ღერძის ჭდეების ფონტი"
 #: kmplot.kcfg:109
 #, kde-format
 msgid "Choose a font for the axis labels."
-msgstr ""
+msgstr "აირჩიეთ ღერძის ჭდეების ფონტი."
 
 #. i18n: ectx: label, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:113
 #, kde-format
 msgid "Font of the printed header table"
-msgstr ""
+msgstr "დაბეჭდილი თავსართის ცხრილის ფონტი"
 
 #. i18n: ectx: whatsthis, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:114
@@ -1369,7 +1369,7 @@ msgstr "რადიანები გრადუსების მაგი�
 #: kmplot.kcfg:190
 #, kde-format
 msgid "Check the box if you want to use radians"
-msgstr ""
+msgstr "ჩართეთ, თუ გნებავთ, რადიანები გამოიყენოთ"
 
 #. i18n: ectx: label, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:194
@@ -1381,7 +1381,7 @@ msgstr "ფონის ფერი"
 #: kmplot.kcfg:195
 #, kde-format
 msgid "The background color for the graph"
-msgstr ""
+msgstr "გრაფის ფონის ფერი"
 
 #. i18n: ectx: label, entry (zoomInStep), group (General)
 #: kmplot.kcfg:199
@@ -1460,7 +1460,7 @@ msgstr "ხელსაწყოთა მთავარი ზოლი"
 #: kmplotio.cpp:288
 #, kde-format
 msgid "The file had an unknown version number"
-msgstr ""
+msgstr "ფაილის ვერსიის ნომერი უცნობია"
 
 #: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
@@ -2412,7 +2412,7 @@ msgstr ""
 #: settingspagecolor.ui:113
 #, kde-format
 msgid "&Default Function Colors"
-msgstr ""
+msgstr "&ფუნქცის ნაგულისხმები ფერები"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color1)
 #: settingspagecolor.ui:133

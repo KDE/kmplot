@@ -1660,7 +1660,7 @@ msgstr "الراسم"
 #, fuzzy, kde-format
 #| msgid "Mathematical function plotter for KDE"
 msgid "Mathematical function plotter by KDE"
-msgstr "رسام الدوال الرياضية لكدي"
+msgstr "رسام الدوال الرياضية لكِيدِي"
 
 #: main.cpp:46
 #, kde-format

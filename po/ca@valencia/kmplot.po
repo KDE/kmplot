@@ -500,8 +500,7 @@ msgstr "Personalitza l'abast màxim del gràfic"
 #: functioneditorwidget.ui:132 functioneditorwidget.ui:145
 #, kde-format
 msgid "Check this button and enter the plot range boundaries below."
-msgstr ""
-"Marqueu este botó i introduïu al dessota els límits de l'abast del gràfic."
+msgstr "Marqueu este botó i introduïu davall els límits de l'abast del gràfic."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cartesianCustomMin)
 #: functioneditorwidget.ui:142

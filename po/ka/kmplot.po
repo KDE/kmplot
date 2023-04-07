@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2023-02-02 13:31+0100\n"
+"PO-Revision-Date: 2023-04-06 06:08+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -189,7 +189,7 @@ msgstr "ხაზვის დიაპაზონის ხელით მი
 #: editcoords.ui:48 editcoords.ui:58 editcoords.ui:96 editcoords.ui:132
 #, kde-format
 msgid "Enter a valid expression, for instance 2*pi or e/2."
-msgstr ""
+msgstr "შეიყვანეთ სწორი გამოსახულება. მაგ: 2*pi ან /2."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #. i18n: ectx: property (text), widget (QLabel, textLabel4_4)
@@ -632,7 +632,7 @@ msgstr ""
 #: functioneditorwidget.ui:283
 #, kde-format
 msgid "A point on the solution curve"
-msgstr ""
+msgstr "წერტილი ამოხსნის მრუდზე"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
 #: functioneditorwidget.ui:286
@@ -1644,7 +1644,7 @@ msgstr "KmPlot"
 #: main.cpp:44
 #, kde-format
 msgid "Mathematical function plotter by KDE"
-msgstr ""
+msgstr "მათემატიკური ფუნქციების გრაფიკების ამგები KDE-სთვის"
 
 #: main.cpp:46
 #, kde-format
@@ -1891,6 +1891,8 @@ msgid ""
 "The plot has been modified.\n"
 "Do you want to save it?"
 msgstr ""
+"გრაფიკი შეიცვალა.\n"
+"გნებავთ ცვლილებების შენახვა?"
 
 #: maindlg.cpp:499
 #, kde-format
@@ -2876,13 +2878,13 @@ msgstr "გადიდება"
 #: settingspagegeneral.ui:73
 #, kde-format
 msgid "Zoom in by:"
-msgstr ""
+msgstr "გადიდება:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_2)
 #: settingspagegeneral.ui:86
 #, kde-format
 msgid "Zoom out by:"
-msgstr ""
+msgstr "დაპატარავება:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomOutStep)
 #: settingspagegeneral.ui:99

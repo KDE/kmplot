@@ -4,13 +4,13 @@
 # Xosé <xosecalvo@gmail.com>, 2010, 2012.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2014.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2019-11-17 09:27+0100\n"
+"PO-Revision-Date: 2023-05-11 23:59+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.03.70\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31,8 +31,7 @@ msgid "Your emails"
 msgstr "mvillarino@users.sourceforge.net, xosecalvo@gmail.com"
 
 #: calculator.cpp:31
-#, fuzzy, kde-format
-#| msgid "Calculator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Calculator"
 msgstr "Calculadora"
@@ -149,8 +148,7 @@ msgid "Coordinate System"
 msgstr "Sistema de coordenadas"
 
 #: coordsconfigdialog.cpp:43
-#, fuzzy, kde-format
-#| msgid "Coordinate System"
+#, kde-format
 msgctxt "@title:window"
 msgid "Coordinate System"
 msgstr "Sistema de coordenadas"
@@ -254,8 +252,7 @@ msgid "Vertical axis Grid Spacing"
 msgstr "Separación da grade no eixo vertical"
 
 #: equationeditor.cpp:27
-#, fuzzy, kde-format
-#| msgid "Equation Editor"
+#, kde-format
 msgctxt "@title:window"
 msgid "Equation Editor"
 msgstr "Editor de ecuacións"
@@ -888,15 +885,13 @@ msgid "Search between:"
 msgstr "Busca entre:"
 
 #: functiontools.cpp:60
-#, fuzzy, kde-format
-#| msgid "Find Minimum Point"
+#, kde-format
 msgctxt "@title:window"
 msgid "Find Minimum Point"
 msgstr "Atopar un mínimo"
 
 #: functiontools.cpp:66
-#, fuzzy, kde-format
-#| msgid "Find Maximum Point"
+#, kde-format
 msgctxt "@title:window"
 msgid "Find Maximum Point"
 msgstr "Atopar un máximo"
@@ -907,8 +902,7 @@ msgid "Calculate the area between:"
 msgstr "Calcular a área entre:"
 
 #: functiontools.cpp:72
-#, fuzzy, kde-format
-#| msgid "Area Under Graph"
+#, kde-format
 msgctxt "@title:window"
 msgid "Area Under Graph"
 msgstr "A área baixo o gráfico"
@@ -959,8 +953,7 @@ msgid "Add..."
 msgstr "Engadir…"
 
 #: kconstanteditor.cpp:54
-#, fuzzy, kde-format
-#| msgid "Constants Editor"
+#, kde-format
 msgctxt "@title:window"
 msgid "Constants Editor"
 msgstr "Editor de constantes"
@@ -990,8 +983,7 @@ msgid "Remove stop"
 msgstr "Retirar a parada"
 
 #: kgradientdialog.cpp:364
-#, fuzzy, kde-format
-#| msgid "Choose a Gradient"
+#, kde-format
 msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "Escoller unha gradación"
@@ -1536,8 +1528,7 @@ msgid "The function %1 could not be loaded"
 msgstr "Non se puido cargar a función %1"
 
 #: kparametereditor.cpp:43
-#, fuzzy, kde-format
-#| msgid "Parameter Editor"
+#, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "Editor de parámetros"
@@ -1611,8 +1602,7 @@ msgid "An error appeared when saving this file"
 msgstr "Ocorreu un erro ao gardar este ficheiro"
 
 #: kprinterdlg.cpp:31
-#, fuzzy, kde-format
-#| msgid "KmPlot Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "KmPlot Options"
 msgstr "Configuración de KmPlot"
@@ -1635,7 +1625,7 @@ msgstr "Píxeles (1/72 pol)"
 #: kprinterdlg.cpp:46
 #, kde-format
 msgid "Inches (in)"
-msgstr "Polegadas (pol)"
+msgstr "Polgadas (pol)"
 
 #: kprinterdlg.cpp:47
 #, kde-format
@@ -1670,7 +1660,7 @@ msgstr "O alto é incorrecto"
 #: ksliderwindow.cpp:28
 #, kde-format
 msgid "Slider %1"
-msgstr "Barra deslizante %1"
+msgstr "Desprazador %1"
 
 #: ksliderwindow.cpp:34
 #, kde-format
@@ -1678,15 +1668,14 @@ msgid ""
 "Move slider to change the parameter of the function plot connected to this "
 "slider."
 msgstr ""
-"Mova a barra deslizante para cambiar o parámetro do gráfico da función "
-"ligado a esta barra."
+"Mova o desprazador para cambiar o parámetro do gráfico da función ligado a "
+"esta barra."
 
 #: ksliderwindow.cpp:79
-#, fuzzy, kde-format
-#| msgid "Sliders"
+#, kde-format
 msgctxt "@title:window"
 msgid "Sliders"
-msgstr "Barras deslizantes"
+msgstr "Desprazadores"
 
 #: main.cpp:42
 #, kde-format
@@ -1853,7 +1842,7 @@ msgstr "Restaurar a vista"
 #: maindlg.cpp:272
 #, kde-format
 msgid "Show Sliders"
-msgstr "Mostrar as barras deslizantes"
+msgstr "Mostrar os desprazadores"
 
 #: maindlg.cpp:278
 #, kde-format
@@ -1876,8 +1865,7 @@ msgid "Find Mi&nimum..."
 msgstr "Atopar o mí&nimo…"
 
 #: maindlg.cpp:299
-#, fuzzy, kde-format
-#| msgid "Predefined &Math Functions"
+#, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "Funcións &matemáticas predefinidas"
@@ -1988,8 +1976,7 @@ msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Fallou algo ao gardar a imaxe «%1»"
 
 #: maindlg.cpp:675
-#, fuzzy, kde-format
-#| msgid "Print Plot"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Imprimir o gráfico"
@@ -2000,15 +1987,13 @@ msgid "Print Settings"
 msgstr "Configuración da impresión"
 
 #: maindlg.cpp:695
-#, fuzzy, kde-format
-#| msgid "Print Settings"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
 msgstr "Configuración da impresión"
 
 #: parameteranimator.cpp:52
-#, fuzzy, kde-format
-#| msgid "Parameter Animator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Parameter Animator"
 msgstr "Editor de parámetros"
@@ -2135,13 +2120,13 @@ msgstr "Lenta"
 #: parameterswidget.cpp:25
 #, kde-format
 msgid "Slider No. %1"
-msgstr "Barra deslizante nº %1"
+msgstr "Desprazador n°. %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSlider)
 #: parameterswidget.ui:37
 #, kde-format
 msgid "Slider:"
-msgstr "Barra deslizante:"
+msgstr "Desprazador:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useList)
 #: parameterswidget.ui:44
@@ -2184,7 +2169,7 @@ msgid ""
 "Select one of the sliders to change the parameter value dynamically. The "
 "values vary from 0 (left) to 100 (right)."
 msgstr ""
-"Escolla unha das barras deslizantes para cambiar dinamicamente o valor do "
+"Seleccione un dos desprazadores para cambiar dinamicamente o valor do "
 "parámetro. Os valores varían entre 0 (á esquerda) e 100 (á dereita)."
 
 #: parser.cpp:614
@@ -2296,8 +2281,7 @@ msgid "Color:"
 msgstr "Cor:"
 
 #: plotstylewidget.cpp:57
-#, fuzzy, kde-format
-#| msgid "Plot Appearance"
+#, kde-format
 msgctxt "@title:window"
 msgid "Plot Appearance"
 msgstr "Aparencia do gráfico"
@@ -2431,10 +2415,9 @@ msgstr "&Coordenadas"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagecolor.ui:35
-#, fuzzy, kde-format
-#| msgid "Background color"
+#, kde-format
 msgid "Background color:"
-msgstr "Cor de fondo"
+msgstr "Cor de fondo:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_backgroundcolor)
 #: settingspagecolor.ui:45
@@ -2466,10 +2449,9 @@ msgstr "&Grade:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:84
-#, fuzzy, kde-format
-#| msgid "select color for the axes"
+#, kde-format
 msgid "Select color for the axes."
-msgstr "escoller a cor dos eixos"
+msgstr "Escoller a cor dos eixos."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:87
@@ -2482,10 +2464,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:97
-#, fuzzy, kde-format
-#| msgid "select color for the grid"
+#, kde-format
 msgid "Select color for the grid."
-msgstr "escoller a cor da grade"
+msgstr "Escoller a cor da grade."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:100
@@ -2504,10 +2485,9 @@ msgstr "Cores pre&determinadas da función"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color1)
 #: settingspagecolor.ui:133
-#, fuzzy, kde-format
-#| msgid "the default color for function number 2"
+#, kde-format
 msgid "The default color for function number 2."
-msgstr "a cor predeterminada da función 2"
+msgstr "A cor predeterminada da función 2."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color1)
 #: settingspagecolor.ui:136
@@ -2525,10 +2505,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color4)
 #: settingspagecolor.ui:146
-#, fuzzy, kde-format
-#| msgid "the default color for function number 5"
+#, kde-format
 msgid "The default color for function number 5."
-msgstr "a cor predeterminada da función 5"
+msgstr "A cor predeterminada da función 5."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color4)
 #: settingspagecolor.ui:149
@@ -2546,10 +2525,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color0)
 #: settingspagecolor.ui:159
-#, fuzzy, kde-format
-#| msgid "the default color for function number 1"
+#, kde-format
 msgid "The default color for function number 1."
-msgstr "a cor predeterminada da función 1"
+msgstr "A cor predeterminada da función 1."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color0)
 #: settingspagecolor.ui:162
@@ -2573,10 +2551,9 @@ msgstr "Función &1:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color2)
 #: settingspagecolor.ui:185
-#, fuzzy, kde-format
-#| msgid "the default color for function number 3"
+#, kde-format
 msgid "The default color for function number 3."
-msgstr "a cor predeterminada da función 3"
+msgstr "A cor predeterminada da función 3."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color2)
 #: settingspagecolor.ui:188
@@ -2612,10 +2589,9 @@ msgstr "Función &4:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color3)
 #: settingspagecolor.ui:237
-#, fuzzy, kde-format
-#| msgid "the default color for function number 4"
+#, kde-format
 msgid "The default color for function number 4."
-msgstr "a cor predeterminada da función 4"
+msgstr "A cor predeterminada da función 4."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color3)
 #: settingspagecolor.ui:240
@@ -2651,10 +2627,9 @@ msgstr "Función &8:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color8)
 #: settingspagecolor.ui:315
-#, fuzzy, kde-format
-#| msgid "the default color for function number 9"
+#, kde-format
 msgid "The default color for function number 9."
-msgstr "a cor predeterminada da función 9"
+msgstr "A cor predeterminada da función 9."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color8)
 #: settingspagecolor.ui:318
@@ -2678,10 +2653,9 @@ msgstr "Función &6:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color6)
 #: settingspagecolor.ui:341
-#, fuzzy, kde-format
-#| msgid "the default color for function number 7"
+#, kde-format
 msgid "The default color for function number 7."
-msgstr "a cor predeterminada da función 7"
+msgstr "A cor predeterminada da función 7."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color6)
 #: settingspagecolor.ui:344
@@ -2699,10 +2673,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color7)
 #: settingspagecolor.ui:354
-#, fuzzy, kde-format
-#| msgid "the default color for function number 8"
+#, kde-format
 msgid "The default color for function number 8."
-msgstr "a cor predeterminada da función 8"
+msgstr "A cor predeterminada da función 8."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color7)
 #: settingspagecolor.ui:357
@@ -2720,10 +2693,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color5)
 #: settingspagecolor.ui:367
-#, fuzzy, kde-format
-#| msgid "the default color for function number 6"
+#, kde-format
 msgid "The default color for function number 6."
-msgstr "a cor predeterminada da función 6"
+msgstr "A cor predeterminada da función 6."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color5)
 #: settingspagecolor.ui:370
@@ -2747,10 +2719,9 @@ msgstr "Función &9:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color9)
 #: settingspagecolor.ui:393
-#, fuzzy, kde-format
-#| msgid "the default color for function number 10"
+#, kde-format
 msgid "The default color for function number 10."
-msgstr "a cor predeterminada da función 10"
+msgstr "A cor predeterminada da función 10."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color9)
 #: settingspagecolor.ui:396
@@ -2834,10 +2805,9 @@ msgstr "Lenda no eixo horizontal."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagediagram.ui:84
-#, fuzzy, kde-format
-#| msgid "Horizontal Axis Label: "
+#, kde-format
 msgid "Horizontal axis label:"
-msgstr "Lenda no eixo horizontal: "
+msgstr "Lenda no eixo horizontal:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelHorizontalAxis)
 #: settingspagediagram.ui:94
@@ -2853,8 +2823,7 @@ msgstr "Lenda no eixo vertical."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: settingspagediagram.ui:104
-#, fuzzy, kde-format
-#| msgid "Vertical Axis Label:"
+#, kde-format
 msgid "Vertical axis label:"
 msgstr "Lenda no eixo vertical:"
 
@@ -2890,10 +2859,9 @@ msgstr "Lonxitude do trazo:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:252
-#, fuzzy, kde-format
-#| msgid "visible tic labels"
+#, kde-format
 msgid "Visible tic labels."
-msgstr "lendas do trazo visíbeis"
+msgstr "Lendas do trazo visíbeis"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:255
@@ -2909,10 +2877,9 @@ msgstr "Mostrar as lendas"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:268
-#, fuzzy, kde-format
-#| msgid "visible axes"
+#, kde-format
 msgid "Visible axes."
-msgstr "eixos visíbeis"
+msgstr "Eixos visíbeis"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:271
@@ -2928,10 +2895,9 @@ msgstr "Mostrar os eixos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:284
-#, fuzzy, kde-format
-#| msgid "visible arrows at the end of the axes"
+#, kde-format
 msgid "Visible arrows at the end of the axes."
-msgstr "frechas visíbeis nos extremos dos eixos"
+msgstr "Frechas visíbeis nos extremos dos eixos"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:287
@@ -3022,17 +2988,15 @@ msgstr "Ampliación"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: settingspagegeneral.ui:73
-#, fuzzy, kde-format
-#| msgid "Zoom In by:"
+#, kde-format
 msgid "Zoom in by:"
-msgstr "Achegar:"
+msgstr "Achegar un:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_2)
 #: settingspagegeneral.ui:86
-#, fuzzy, kde-format
-#| msgid "Zoom Out by:"
+#, kde-format
 msgid "Zoom out by:"
-msgstr "Afastar:"
+msgstr "Afastar un:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomOutStep)
 #: settingspagegeneral.ui:99
@@ -3063,7 +3027,7 @@ msgstr "Debuxar a tanxente e a normal cando se delinee"
 #: sliderwidget.ui:13
 #, kde-format
 msgid "Slider"
-msgstr "Barra deslizante"
+msgstr "Desprazador"
 
 #. i18n: ectx: property (text), widget (QLabel, valueLabel)
 #: sliderwidget.ui:43
@@ -3087,7 +3051,7 @@ msgstr "De %1 a %2"
 #, kde-format
 msgctxt "'E' is the distance between ticks on the axis"
 msgid "1E = "
-msgstr ""
+msgstr "1E = "
 
 #: view.cpp:2131
 #, kde-format

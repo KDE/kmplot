@@ -2367,13 +2367,13 @@ msgstr "elimina la constant seleccionada"
 #: qparametereditor.ui:84
 #, kde-format
 msgid "Move Up"
-msgstr "Mou amunt"
+msgstr "Mou cap amunt"
 
 #. i18n: ectx: property (text), widget (QPushButton, moveDown)
 #: qparametereditor.ui:91
 #, kde-format
 msgid "Move Down"
-msgstr "Mou avall"
+msgstr "Mou cap avall"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdImport)
 #: qparametereditor.ui:117

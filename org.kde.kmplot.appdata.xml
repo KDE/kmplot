@@ -13,6 +13,7 @@
   <name xml:lang="de">KmPlot</name>
   <name xml:lang="el">KmPlot</name>
   <name xml:lang="en-GB">KmPlot</name>
+  <name xml:lang="eo">KmPlot</name>
   <name xml:lang="es">KmPlot</name>
   <name xml:lang="et">KmPlot</name>
   <name xml:lang="eu">KmPlot</name>
@@ -47,6 +48,7 @@
   <summary xml:lang="de">Mathematischer Funktionsplotter</summary>
   <summary xml:lang="el">Γραφική παράσταση συναρτήσεων</summary>
   <summary xml:lang="en-GB">Mathematical Function Plotter</summary>
+  <summary xml:lang="eo">Grafikilo por Matematikaj Funkcioj</summary>
   <summary xml:lang="es">Trazador de funciones matemáticas</summary>
   <summary xml:lang="et">Matemaatiliste funktsioonide joonistaja</summary>
   <summary xml:lang="eu">Funtzio matematikoen grafiko-marrazlea</summary>
@@ -119,6 +121,7 @@
       <caption xml:lang="de">Quadratische Funktion, ihre Ableitung und das Integral mit KmPlot gezeichnet</caption>
       <caption xml:lang="el">Η τετραγωνική συνάρτηση, η παράγωγός της και το ολοκλήρωμα σχεδιάζονται με το KmPlot</caption>
       <caption xml:lang="en-GB">Quadratic function, its derivative and integral plotted with KmPlot</caption>
+      <caption xml:lang="eo">Kvadratika funkcio, ĝia derivaĵo kaj integralo grafikita per KmPlot</caption>
       <caption xml:lang="es">Función cuadrática, su derivada e integral dibujadas con KmPlot</caption>
       <caption xml:lang="et">Ruutfunktsioon, selle tuletis ja integraal KmPlotis</caption>
       <caption xml:lang="eu">Funtzio koadratiko, bere deribatua eta integrala KmPlot-ekin marraztua</caption>

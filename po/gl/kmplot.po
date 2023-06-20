@@ -580,7 +580,7 @@ msgstr "Derivadas"
 #: functioneditorwidget.ui:211
 #, kde-format
 msgid "Show first derivative"
-msgstr "Mostrar a primeira derivada"
+msgstr "Amosar a primeira derivada"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative1)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative2)
@@ -593,7 +593,7 @@ msgstr "Se marca esta opción, tamén se representará a primeira derivada."
 #: functioneditorwidget.ui:217
 #, kde-format
 msgid "Show &1st derivative"
-msgstr "Mostrar a &1ª derivada"
+msgstr "Amosar a &1ª derivada"
 
 #. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f1)
 #: functioneditorwidget.ui:227
@@ -605,13 +605,13 @@ msgstr "1ª derivada"
 #: functioneditorwidget.ui:234
 #, kde-format
 msgid "Show second derivative"
-msgstr "Mostrar a segunda derivada"
+msgstr "Amosar a segunda derivada"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDerivative2)
 #: functioneditorwidget.ui:240
 #, kde-format
 msgid "Show &2nd derivative"
-msgstr "Mostrar a &2ª derivada"
+msgstr "Amosar a &2ª derivada"
 
 #. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f2)
 #: functioneditorwidget.ui:250
@@ -630,7 +630,7 @@ msgstr "Integral"
 #: functioneditorwidget.ui:267 functioneditorwidget.ui:273
 #, kde-format
 msgid "Show integral"
-msgstr "Mostrar a integral"
+msgstr "Amosar a integral"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showIntegral)
 #: functioneditorwidget.ui:270
@@ -1025,7 +1025,7 @@ msgstr "Se marca esta opción, as lendas serán visíbeis"
 #: kmplot.kcfg:18
 #, kde-format
 msgid "Check this box if the labels at the tics should be shown."
-msgstr "Marque esta opción se queres que se mostren as lendas nos trazos."
+msgstr "Marque esta opción se queres que se amosen as lendas nos trazos."
 
 #. i18n: ectx: label, entry (ShowAxes), group (Coordinate System)
 #: kmplot.kcfg:22
@@ -1177,16 +1177,14 @@ msgstr "Lenda do eixo vertical."
 #: kmplot.kcfg:85 kmplot.kcfg:90
 #, kde-format
 msgid "Whether to use automatic or custom scaling."
-msgstr ""
-"Indica se queres empregar unha escala automática ou unha personalizada."
+msgstr "Indica se queres usar unha escala automática ou unha personalizada."
 
 #. i18n: ectx: whatsthis, entry (XScalingMode), group (Scaling)
 #. i18n: ectx: whatsthis, entry (YScalingMode), group (Scaling)
 #: kmplot.kcfg:86 kmplot.kcfg:91
 #, kde-format
 msgid "Select whether to use automatic or custom scaling."
-msgstr ""
-"Indica se queres empregar unha escala automática ou unha personalizada."
+msgstr "Indica se queres usar unha escala automática ou unha personalizada."
 
 #. i18n: ectx: label, entry (XScaling), group (Scaling)
 #: kmplot.kcfg:95
@@ -1402,7 +1400,7 @@ msgstr "Radiáns no canto de graos"
 #: kmplot.kcfg:190
 #, kde-format
 msgid "Check the box if you want to use radians"
-msgstr "Marque esta opción se quere empregar radiáns"
+msgstr "Marque esta opción se quere usar radiáns"
 
 #. i18n: ectx: label, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:194
@@ -1426,7 +1424,7 @@ msgstr "Paso da ampliación"
 #: kmplot.kcfg:200
 #, kde-format
 msgid "The value the zoom-in tool should use"
-msgstr "O valor a empregar pola ferramenta de ampliación"
+msgstr "O valor a usar pola ferramenta de ampliación"
 
 #. i18n: ectx: label, entry (zoomOutStep), group (General)
 #: kmplot.kcfg:204
@@ -1438,7 +1436,7 @@ msgstr "Paso da redución"
 #: kmplot.kcfg:205
 #, kde-format
 msgid "The value the zoom-out tool should use"
-msgstr "O valor a empregar pola ferramenta de redución"
+msgstr "O valor a usar pola ferramenta de redución"
 
 #. i18n: ectx: label, entry (DetailedTracing), group (General)
 #: kmplot.kcfg:209
@@ -1453,7 +1451,7 @@ msgid ""
 "Whether to show extra detail such as the tangent and normal when tracing a "
 "plot."
 msgstr ""
-"Indica se debe mostrar detalles adicionais como a tanxente e a normal cando "
+"Indica se debe amosar detalles adicionais como a tanxente e a normal cando "
 "se delinea unha gráfica."
 
 #. i18n: ectx: Menu (edit)
@@ -1842,7 +1840,7 @@ msgstr "Restaurar a vista"
 #: maindlg.cpp:272
 #, kde-format
 msgid "Show Sliders"
-msgstr "Mostrar os desprazadores"
+msgstr "Amosar os desprazadores"
 
 #: maindlg.cpp:278
 #, kde-format
@@ -2296,25 +2294,25 @@ msgstr "Estilo da gráfica"
 #: plotstylewidget.ui:26
 #, kde-format
 msgid "Show the plot name"
-msgstr "Mostrar o nome da gráfica"
+msgstr "Amosar o nome da gráfica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showExtrema)
 #: plotstylewidget.ui:33
 #, kde-format
 msgid "Show extrema (minimum/maximum points)"
-msgstr "Mostrar os extremos (puntos mínimo/máximo)"
+msgstr "Amosar os extremos (puntos mínimo/máximo)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showTangentField)
 #: plotstylewidget.ui:53
 #, kde-format
 msgid "Show the tangent field:"
-msgstr "Mostrar o campo tanxente:"
+msgstr "Amosar o campo tanxente:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useGradient)
 #: plotstylewidget.ui:67
 #, kde-format
 msgid "Use a gradient for parameters:"
-msgstr "Empregar unha gradación para os parámetros:"
+msgstr "Usar unha gradación para os parámetros:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: plotstylewidget.ui:74
@@ -2500,7 +2498,7 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 2. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambia aquí a cor dese número, a configuración mostrarase a "
+"no número 1 e se cambia aquí a cor dese número, a configuración amosarase a "
 "vindeira vez que se defina unha función nova no número 1."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color4)
@@ -2520,8 +2518,8 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 5. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambias aquí a cor dese número, a configuración mostrarase "
-"a vindeira vez que se defina unha función nova no número 1."
+"no número 1 e se cambias aquí a cor dese número, a configuración amosarase a "
+"vindeira vez que se defina unha función nova no número 1."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color0)
 #: settingspagecolor.ui:159
@@ -2540,8 +2538,8 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 1. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambias aquí a cor dese número, a configuración mostrarase "
-"a vindeira vez que definas unha función nova no número 1."
+"no número 1 e se cambias aquí a cor dese número, a configuración amosarase a "
+"vindeira vez que definas unha función nova no número 1."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: settingspagecolor.ui:172
@@ -2566,7 +2564,7 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 3. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambia aquí a cor dese número, a configuración mostrarase a "
+"no número 1 e se cambia aquí a cor dese número, a configuración amosarase a "
 "vindeira vez que definas unha función nova no número 1."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_13)
@@ -2604,7 +2602,7 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 4. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambia aquí a cor dese número, a configuración mostrarase a "
+"no número 1 e se cambia aquí a cor dese número, a configuración amosarase a "
 "vindeira vez que definas unha función nova no número 1."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_11)
@@ -2642,7 +2640,7 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 9. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambia aquí a cor dese número, a configuración mostrarase a "
+"no número 1 e se cambia aquí a cor dese número, a configuración amosarase a "
 "vindeira vez que se defina unha función nova no número 1."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_10)
@@ -2668,7 +2666,7 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 7. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambia aquí a cor dese número, a configuración mostrarase a "
+"no número 1 e se cambia aquí a cor dese número, a configuración amosarase a "
 "vindeira vez que se defina unha función nova no número 1."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color7)
@@ -2688,7 +2686,7 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 8. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambia aquí a cor dese número, a configuración mostrarase a "
+"no número 1 e se cambia aquí a cor dese número, a configuración amosarase a "
 "vindeira vez que se defina unha función nova no número 1."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color5)
@@ -2708,7 +2706,7 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 6. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambia aquí a cor dese número, a configuración mostrarase a "
+"no número 1 e se cambia aquí a cor dese número, a configuración amosarase a "
 "vindeira vez que se defina unha función nova no número 1."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_7)
@@ -2734,7 +2732,7 @@ msgid ""
 msgstr ""
 "A cor predeterminada para a función número 10. Lembra que esta configuración "
 "de cor só afecta ás funcións baleiras, por iso, se definiches unha función "
-"no número 1 e se cambia aquí a cor dese número, a configuración mostrarase a "
+"no número 1 e se cambia aquí a cor dese número, a configuración amosarase a "
 "vindeira vez que se defina unha función nova no número 1."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_6)
@@ -2873,7 +2871,7 @@ msgstr "Marque isto se queres que os trazos dos eixos estean identificados."
 #: settingspagediagram.ui:258
 #, kde-format
 msgid "Show labels"
-msgstr "Mostrar as lendas"
+msgstr "Amosar as lendas"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:268
@@ -2891,7 +2889,7 @@ msgstr "Marque isto se queres que os eixos sexan visíbeis."
 #: settingspagediagram.ui:274
 #, kde-format
 msgid "Show axes"
-msgstr "Mostrar os eixos"
+msgstr "Amosar os eixos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:284
@@ -2909,7 +2907,7 @@ msgstr "Marque isto se queres que os eixos teñan frechas nos extremos."
 #: settingspagediagram.ui:290
 #, kde-format
 msgid "Show arrows"
-msgstr "Mostrar frechas"
+msgstr "Amosar frechas"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: settingspagefonts.ui:23
@@ -2939,8 +2937,7 @@ msgstr "Modo do ángulo"
 #: settingspagegeneral.ui:32
 #, kde-format
 msgid "Trigonometric functions use radian mode for angles."
-msgstr ""
-"As funcións trigonométricas empregan o modo en radiáns para os ángulos."
+msgstr "As funcións trigonométricas usan o modo en radiáns para os ángulos."
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:35

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-18 00:41+0000\n"
-"PO-Revision-Date: 2023-05-11 23:59+0200\n"
+"PO-Revision-Date: 2023-06-24 13:00+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -46,7 +46,7 @@ msgstr "Editor de constantes"
 #: constantseditor.ui:26 qparametereditor.ui:22
 #, kde-format
 msgid "The value must be a number (e.g. \"pi^2\")"
-msgstr "O valor debe ser un número (p.ex. «pi^2»)"
+msgstr "O valor debe ser un número (p.ex. «pi^2»)."
 
 #. i18n: ectx: property (text), widget (QLabel, valueInvalidLabel)
 #: constantseditor.ui:29 qparametereditor.ui:25
@@ -70,13 +70,13 @@ msgstr "Constante:"
 #: constantseditor.ui:74
 #, kde-format
 msgid "Enter an expression that evaluates to a number"
-msgstr "Insira unha expresión que se avalíe a un número"
+msgstr "Insira unha expresión que se avalíe a un número."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdNew)
 #: constantseditor.ui:83 qparametereditor.ui:39
 #, kde-format
 msgid "Add a new constant"
-msgstr "Engadir unha nova constante"
+msgstr "Engadir unha nova constante."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, cmdNew)
 #: constantseditor.ui:86 qparametereditor.ui:42
@@ -118,7 +118,7 @@ msgstr "Global"
 #: constantseditor.ui:142
 #, kde-format
 msgid "Delete the selected constant"
-msgstr "Eliminar a constante escollida"
+msgstr "Eliminar a constante escollida."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, cmdDelete)
 #: constantseditor.ui:145 qparametereditor.ui:58
@@ -184,7 +184,7 @@ msgstr "Máximo:"
 #: editcoords.ui:45 editcoords.ui:55 editcoords.ui:93 editcoords.ui:129
 #, kde-format
 msgid "Custom boundary of the plot range"
-msgstr "Límite personalizado do intervalo do gráfico"
+msgstr "Límite personalizado do intervalo do gráfico."
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMax)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, kcfg_XMin)
@@ -458,7 +458,7 @@ msgstr "Funcións"
 #: functioneditorwidget.ui:50
 #, kde-format
 msgid "delete the selected function"
-msgstr "eliminar a función escollida"
+msgstr "eliminar a función escollida."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
 #: functioneditorwidget.ui:53
@@ -489,7 +489,7 @@ msgstr "Intervalo de gráfico personalizado"
 #: functioneditorwidget.ui:129
 #, kde-format
 msgid "Customize the maximum plot range"
-msgstr "Personalizar o intervalo máximo do gráfico"
+msgstr "Personalizar o intervalo máximo do gráfico."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMax)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMin)
@@ -502,13 +502,13 @@ msgstr "Marque este botón e insira embaixo os límites do intervalo do gráfico
 #: functioneditorwidget.ui:142
 #, kde-format
 msgid "Customize the minimum plot range"
-msgstr "Personalizar o intervalo mínimo do gráfico"
+msgstr "Personalizar o intervalo mínimo do gráfico."
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, cartesianMin)
 #: functioneditorwidget.ui:158
 #, kde-format
 msgid "lower boundary of the plot range"
-msgstr "límite inferior do intervalo do gráfico"
+msgstr "límite inferior do intervalo do gráfico."
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMin)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMin)
@@ -528,7 +528,7 @@ msgstr ""
 #: functioneditorwidget.ui:171
 #, kde-format
 msgid "upper boundary of the plot range"
-msgstr "límite superior do intervalo do gráfico"
+msgstr "límite superior do intervalo do gráfico."
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMax)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMax)
@@ -580,7 +580,7 @@ msgstr "Derivadas"
 #: functioneditorwidget.ui:211
 #, kde-format
 msgid "Show first derivative"
-msgstr "Amosar a primeira derivada"
+msgstr "Amosar a primeira derivada."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative1)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative2)
@@ -605,7 +605,7 @@ msgstr "1ª derivada"
 #: functioneditorwidget.ui:234
 #, kde-format
 msgid "Show second derivative"
-msgstr "Amosar a segunda derivada"
+msgstr "Amosar a segunda derivada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDerivative2)
 #: functioneditorwidget.ui:240
@@ -630,7 +630,7 @@ msgstr "Integral"
 #: functioneditorwidget.ui:267 functioneditorwidget.ui:273
 #, kde-format
 msgid "Show integral"
-msgstr "Amosar a integral"
+msgstr "Amosar a integral."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showIntegral)
 #: functioneditorwidget.ui:270
@@ -642,7 +642,7 @@ msgstr "Se marca esta opción, tamén se representa a integral."
 #: functioneditorwidget.ui:283
 #, kde-format
 msgid "A point on the solution curve"
-msgstr "Un punto na curva da solución"
+msgstr "Un punto na curva da solución."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
 #: functioneditorwidget.ui:286
@@ -666,7 +666,7 @@ msgstr "&y:"
 #: functioneditorwidget.ui:318
 #, kde-format
 msgid "Enter the initial x-point,for instance 2 or pi"
-msgstr "Insire o punto x inicial, por exemplo 2 ou pi"
+msgstr "Insire o punto x inicial, por exemplo 2 ou pi."
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitX)
 #: functioneditorwidget.ui:321
@@ -682,7 +682,7 @@ msgstr ""
 #: functioneditorwidget.ui:328
 #, kde-format
 msgid "enter the initial y-point, eg 2 or pi"
-msgstr "insira o punto y inicial, por exemplo 2 ou pi"
+msgstr "insira o punto y inicial, por exemplo 2 ou pi."
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitY)
 #: functioneditorwidget.ui:331
@@ -699,7 +699,7 @@ msgstr ""
 #: functioneditorwidget.ui:344 functioneditorwidget.ui:765
 #, kde-format
 msgid "The maximum step size used in numerically calculating the solution"
-msgstr "O tamaño máximo do paso empregado no cálculo numérico da solución"
+msgstr "O tamaño máximo do paso usado no cálculo numérico da solución."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_10)
@@ -740,7 +740,7 @@ msgstr "x:"
 #: functioneditorwidget.ui:700 functioneditorwidget.ui:751
 #, kde-format
 msgid "Enter an expression"
-msgstr "Insire unha expresión"
+msgstr "Insire unha expresión."
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricX)
 #: functioneditorwidget.ui:439
@@ -784,7 +784,7 @@ msgstr "Intervalo do gráfico"
 #: functioneditorwidget.ui:509 functioneditorwidget.ui:597 functiontools.ui:39
 #, kde-format
 msgid "Lower boundary of the plot range"
-msgstr "Límite inferior do intervalo do gráfico"
+msgstr "Límite inferior do intervalo do gráfico."
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, parametricMax)
 #. i18n: ectx: property (toolTip), widget (EquationEdit, polarMax)
@@ -792,13 +792,13 @@ msgstr "Límite inferior do intervalo do gráfico"
 #: functioneditorwidget.ui:522 functioneditorwidget.ui:607 functiontools.ui:59
 #, kde-format
 msgid "Upper boundary of the plot range"
-msgstr "Límite superior do intervalo do gráfico"
+msgstr "Límite superior do intervalo do gráfico."
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, polarEquation)
 #: functioneditorwidget.ui:571
 #, kde-format
 msgid "Enter an equation"
-msgstr "Insire unha expresión"
+msgstr "Insire unha expresión."
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, polarEquation)
 #: functioneditorwidget.ui:575
@@ -820,7 +820,7 @@ msgstr "Intervalo do gráfico"
 #: functioneditorwidget.ui:676
 #, kde-format
 msgid "Name of the function"
-msgstr "Nome da función"
+msgstr "Nome da función."
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, implicitName)
 #: functioneditorwidget.ui:680
@@ -1558,7 +1558,7 @@ msgstr ""
 #: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
-msgstr "Desexa informarse das outras liñas que non poidan lerse?"
+msgstr "Quere informarse das outras liñas que non poidan lerse?"
 
 #: kparametereditor.cpp:256
 #, kde-format
@@ -1592,7 +1592,7 @@ msgstr ""
 #: kparametereditor.cpp:286
 #, kde-format
 msgid "Overwrite File?"
-msgstr "Desexas substituír este ficheiro?"
+msgstr "Quere substituír o ficheiro?"
 
 #: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
@@ -1658,7 +1658,7 @@ msgstr "O alto é incorrecto"
 #: ksliderwindow.cpp:28
 #, kde-format
 msgid "Slider %1"
-msgstr "Desprazador %1"
+msgstr "Control esvaradío %1"
 
 #: ksliderwindow.cpp:34
 #, kde-format
@@ -1666,14 +1666,14 @@ msgid ""
 "Move slider to change the parameter of the function plot connected to this "
 "slider."
 msgstr ""
-"Mova o desprazador para cambiar o parámetro do gráfico da función ligado a "
-"esta barra."
+"Mova o control esvaradío para cambiar o parámetro do gráfico da función "
+"ligado a esta barra."
 
 #: ksliderwindow.cpp:79
 #, kde-format
 msgctxt "@title:window"
 msgid "Sliders"
-msgstr "Desprazadores"
+msgstr "Controis esvaradíos"
 
 #: main.cpp:42
 #, kde-format
@@ -1698,7 +1698,7 @@ msgstr "Klaus-Dieter Möller"
 #: main.cpp:50
 #, kde-format
 msgid "Original Author"
-msgstr "Autor orixinal"
+msgstr "Persoa autora orixinal"
 
 #: main.cpp:51
 #, kde-format
@@ -1840,7 +1840,7 @@ msgstr "Restaurar a vista"
 #: maindlg.cpp:272
 #, kde-format
 msgid "Show Sliders"
-msgstr "Amosar os desprazadores"
+msgstr "Amosar os controis esvaradíos"
 
 #: maindlg.cpp:278
 #, kde-format
@@ -2003,8 +2003,8 @@ msgid ""
 "The function must have an additional variable as a parameter, e.g. f(x,k) "
 "would have k as its parameter"
 msgstr ""
-"A función debe ter unha variábel adicional como parámetro, p.ex. f(x,k) debe "
-"ter k como parámetro"
+"A función debe ter unha variábel adicional como parámetro, p. ex. f(x,k) "
+"debe ter k como parámetro."
 
 #. i18n: ectx: property (text), widget (QLabel, warningLabel)
 #: parameteranimator.ui:29
@@ -2118,13 +2118,13 @@ msgstr "Lenta"
 #: parameterswidget.cpp:25
 #, kde-format
 msgid "Slider No. %1"
-msgstr "Desprazador n°. %1"
+msgstr "Control esvaradío n°. %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSlider)
 #: parameterswidget.ui:37
 #, kde-format
 msgid "Slider:"
-msgstr "Desprazador:"
+msgstr "Control esvaradío:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useList)
 #: parameterswidget.ui:44
@@ -2136,7 +2136,7 @@ msgstr "Lista:"
 #: parameterswidget.ui:54
 #, kde-format
 msgid "Edit the list of parameters"
-msgstr "Editar a lista de parámetros"
+msgstr "Editar a lista de parámetros."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, editParameterListButton)
 #: parameterswidget.ui:57
@@ -2158,7 +2158,7 @@ msgstr "Editar a lista…"
 #: parameterswidget.ui:70
 #, kde-format
 msgid "Select a slider"
-msgstr "Escolle unha barra"
+msgstr "Escolle un control esvaradío."
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, listOfSliders)
 #: parameterswidget.ui:73
@@ -2167,7 +2167,7 @@ msgid ""
 "Select one of the sliders to change the parameter value dynamically. The "
 "values vary from 0 (left) to 100 (right)."
 msgstr ""
-"Seleccione un dos desprazadores para cambiar dinamicamente o valor do "
+"Seleccione un dos controis esvaradíos para cambiar dinamicamente o valor do "
 "parámetro. Os valores varían entre 0 (á esquerda) e 100 (á dereita)."
 
 #: parser.cpp:614
@@ -2347,7 +2347,7 @@ msgstr "Editor de parámetros"
 #: qparametereditor.ui:55
 #, kde-format
 msgid "delete selected constant"
-msgstr "eliminar a constante escollida"
+msgstr "eliminar a constante escollida."
 
 #. i18n: ectx: property (text), widget (QPushButton, moveUp)
 #: qparametereditor.ui:84
@@ -2365,7 +2365,7 @@ msgstr "Baixar"
 #: qparametereditor.ui:117
 #, kde-format
 msgid "Import values from a textfile"
-msgstr "Importar os valores dun ficheiro de texto"
+msgstr "Importar os valores dun ficheiro de texto."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, cmdImport)
 #: qparametereditor.ui:120
@@ -2387,7 +2387,7 @@ msgstr "&Importar…"
 #: qparametereditor.ui:133
 #, kde-format
 msgid "Export values to a textfile"
-msgstr "Exportar os valores a un ficheiro de texto"
+msgstr "Exportar os valores a un ficheiro de texto."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, cmdExport)
 #: qparametereditor.ui:136
@@ -2859,7 +2859,7 @@ msgstr "Lonxitude do trazo:"
 #: settingspagediagram.ui:252
 #, kde-format
 msgid "Visible tic labels."
-msgstr "Lendas do trazo visíbeis"
+msgstr "Lendas do trazo visíbeis."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:255
@@ -2877,7 +2877,7 @@ msgstr "Amosar as lendas"
 #: settingspagediagram.ui:268
 #, kde-format
 msgid "Visible axes."
-msgstr "Eixos visíbeis"
+msgstr "Eixes visíbeis."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:271
@@ -2895,7 +2895,7 @@ msgstr "Amosar os eixos"
 #: settingspagediagram.ui:284
 #, kde-format
 msgid "Visible arrows at the end of the axes."
-msgstr "Frechas visíbeis nos extremos dos eixos"
+msgstr "Frechas visíbeis nos extremos dos eixes."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:287
@@ -3024,7 +3024,7 @@ msgstr "Debuxar a tanxente e a normal cando se delinee"
 #: sliderwidget.ui:13
 #, kde-format
 msgid "Slider"
-msgstr "Desprazador"
+msgstr "Control esvaradío"
 
 #. i18n: ectx: property (text), widget (QLabel, valueLabel)
 #: sliderwidget.ui:43

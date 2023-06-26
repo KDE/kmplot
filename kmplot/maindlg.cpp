@@ -112,8 +112,13 @@ MainDlg *MainDlg::m_self = 0;
 K_PLUGIN_CLASS_WITH_JSON(MainDlg, "kmplot_part.json")
 
 // BEGIN class MainDlg
+#if QT_VERSION_MAJOR == 5
 MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList &)
     : KParts::ReadWritePart(parent)
+#else
+MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const KPluginMetaData &data)
+    : KParts::ReadWritePart(parent, data)
+#endif
     , m_recentFiles(0)
     , m_modified(false)
     , m_parent(parentWidget)
@@ -831,7 +836,11 @@ CoordsConfigDialog *MainDlg::coordsDialog()
 
 /// BrowserExtension class
 BrowserExtension::BrowserExtension(MainDlg *parent)
+#if QT_VERSION_MAJOR == 5
     : KParts::BrowserExtension(parent)
+#else
+    : KParts::NavigationExtension(parent)
+#endif
 {
     emit enableAction("print", true);
     setURLDropHandlingEnabled(true);

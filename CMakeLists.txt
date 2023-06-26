@@ -10,10 +10,10 @@ set (RELEASE_SERVICE_COMPACT_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}${RELEASE_
 project(kmplot VERSION "1.3.${RELEASE_SERVICE_COMPACT_VERSION}")
 
 set (QT_MIN_VERSION "5.15.2")
-set (KF5_MIN_VERSION "5.90.0")
+set (KF${QT_MAJOR_VERSION}_MIN_VERSION "5.90.0")
 set (KDE_COMPILERSETTINGS_LEVEL "5.82.0")
 
-find_package (ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+find_package (ECM ${KF${QT_MAJOR_VERSION}_MIN_VERSION} REQUIRED NO_MODULE)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} )
 
 include(CheckIncludeFiles)
@@ -28,7 +28,7 @@ include(KDEGitCommitHooks)
 
 find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Gui Svg Widgets PrintSupport)
 
-find_package (KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package (KF${QT_MAJOR_VERSION} ${KF${QT_MAJOR_VERSION}_MIN_VERSION} REQUIRED COMPONENTS
     Crash
     GuiAddons
     I18n
@@ -52,7 +52,7 @@ add_subdirectory( kmplot )
 add_subdirectory( icons )
 
 ki18n_install(po)
-if (KF5DocTools_FOUND)
+if (KF${QT_MAJOR_VERSION}DocTools_FOUND)
     kdoctools_install(po)
 endif()
 install(FILES org.kde.kmplot.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})

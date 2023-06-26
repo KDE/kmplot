@@ -334,7 +334,7 @@ format="PNG"/></imageobject
 
 <screenshot>
 	<screeninfo
->U ziet hier een afbeelding van het welkomstscherm va &kmplot;</screeninfo>
+>U ziet hier een afbeelding van het welkomstscherm van &kmplot;</screeninfo>
 	<mediaobject>
 		<imageobject>
 			<imagedata fileref="main.png" format="PNG"/>
@@ -1706,7 +1706,7 @@ format="PNG"/></imageobject
 >Automatisch</guilabel
 > geselecteerd, dan zal &kmplot; zelf een afstand tussen de roosterlijnen bepalen van ongeveer twee centimeters, die ook getalsmatig goed uitkomt. Bij de keus <guilabel
 >Aangepast</guilabel
->, kunt u zelf de horizontale afstand tussen de roosterlijnen invullen. Deze waarde wordt daarna onafhankelijk van de zoom gebruikt. Bijvoorbeeld, vult u de waarde 0,5 in, en het bereik is va 0 tot 8, dan worden er steeds 15 (tussenliggende) roosterlijnen getoond. </para>
+>, kunt u zelf de horizontale afstand tussen de roosterlijnen invullen. Deze waarde wordt daarna onafhankelijk van de zoom gebruikt. Bijvoorbeeld, vult u de waarde 0,5 in, en het bereik is van 0 tot 8, dan worden er steeds 15 (tussenliggende) roosterlijnen getoond. </para>
 					</listitem>
 				</varlistentry>
 

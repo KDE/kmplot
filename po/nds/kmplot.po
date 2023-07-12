@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-18 00:41+0000\n"
+"POT-Creation-Date: 2023-07-12 00:42+0000\n"
 "PO-Revision-Date: 2011-08-24 06:54+0200\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -999,7 +999,7 @@ msgstr "Övergang utsöken"
 msgid "Could not find KmPlot's part."
 msgstr "KmPlot-Komponent lett sik nich finnen."
 
-#: kmplot.cpp:171 maindlg.cpp:517
+#: kmplot.cpp:171 maindlg.cpp:522
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -1467,7 +1467,7 @@ msgstr ""
 "oder de Normale wiest warrt"
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
 #, kde-format
 msgid "&Edit"
 msgstr "&Bewerken..."
@@ -1788,166 +1788,166 @@ msgid "URLs to open"
 msgstr "Datei, de Du opmaken wullt"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:188 settingspagegeneral.ui:14
+#: maindlg.cpp:193 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "Allgemeen"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:193
 #, kde-format
 msgid "General Settings"
 msgstr "Allgemeen Instellen"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:189 settingspagediagram.ui:14
+#: maindlg.cpp:194 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "Diagramm"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:194
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "Diagrammutsehn"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:195
 #, kde-format
 msgid "Colors"
 msgstr "Klören"
 
-#: maindlg.cpp:191
+#: maindlg.cpp:196
 #, kde-format
 msgid "Fonts"
 msgstr "Schriftoorden"
 
-#: maindlg.cpp:218
+#: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "KmPlot instellen..."
 
-#: maindlg.cpp:224
+#: maindlg.cpp:229
 #, kde-format
 msgid "E&xport..."
 msgstr "&Exporteren..."
 
-#: maindlg.cpp:237
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "&Koordinatensysteem..."
 
-#: maindlg.cpp:242
+#: maindlg.cpp:247
 #, kde-format
 msgid "&Constants..."
 msgstr "&Konstanten..."
 
-#: maindlg.cpp:251
+#: maindlg.cpp:256
 #, kde-format
 msgid "Zoom &In"
 msgstr "&Grötter"
 
-#: maindlg.cpp:257
+#: maindlg.cpp:262
 #, kde-format
 msgid "Zoom &Out"
 msgstr "&Lütter"
 
-#: maindlg.cpp:263
+#: maindlg.cpp:268
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "&Finster op trigonometersch Funkschonen topassen"
 
-#: maindlg.cpp:267
+#: maindlg.cpp:272
 #, kde-format
 msgid "Reset View"
 msgstr "Ansicht torüchsetten"
 
-#: maindlg.cpp:272
+#: maindlg.cpp:277
 #, kde-format
 msgid "Show Sliders"
 msgstr "Schuvers wiesen"
 
-#: maindlg.cpp:278
+#: maindlg.cpp:283
 #, kde-format
 msgid "Calculator"
 msgstr "Taschenreekner"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:288
 #, kde-format
 msgid "Plot &Area..."
 msgstr "Teken&rebeet..."
 
-#: maindlg.cpp:287
+#: maindlg.cpp:292
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Hoo&chpunkt söken..."
 
-#: maindlg.cpp:292
+#: maindlg.cpp:297
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Sie&tpunkt söken..."
 
-#: maindlg.cpp:299
+#: maindlg.cpp:304
 #, fuzzy, kde-format
 #| msgid "Predefined &Math Functions"
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "Vörinstellt &mathemaatsch Funkschonen"
 
-#: maindlg.cpp:306
+#: maindlg.cpp:311
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "Karteesch Utgaav"
 
-#: maindlg.cpp:312
+#: maindlg.cpp:317
 #, kde-format
 msgid "Parametric Plot"
 msgstr "Parametersch Utgaav"
 
-#: maindlg.cpp:318
+#: maindlg.cpp:323
 #, kde-format
 msgid "Polar Plot"
 msgstr "Polaarsch Utgaav"
 
-#: maindlg.cpp:324
+#: maindlg.cpp:329
 #, kde-format
 msgid "Implicit Plot"
 msgstr "Implizeert Utgaav"
 
-#: maindlg.cpp:330
+#: maindlg.cpp:335
 #, kde-format
 msgid "Differential Plot"
 msgstr "Differenz-Utgaav"
 
-#: maindlg.cpp:345
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Hide"
 msgstr "&Versteken"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:355
 #, kde-format
 msgid "&Remove"
 msgstr "&Wegmaken"
 
-#: maindlg.cpp:358
+#: maindlg.cpp:363
 #, kde-format
 msgid "Animate Plot..."
 msgstr "Utgaven animeren..."
 
-#: maindlg.cpp:369
+#: maindlg.cpp:374
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:374
+#: maindlg.cpp:379
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:380
+#: maindlg.cpp:385
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:465
+#: maindlg.cpp:470
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1956,7 +1956,7 @@ msgstr ""
 "De Utgaav wöör ännert.\n"
 "Wullt Du ehr sekern?"
 
-#: maindlg.cpp:499
+#: maindlg.cpp:504
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1966,22 +1966,22 @@ msgstr ""
 "sik mit öller Verschonen vun KmPlot nich mehr opmaken. Wullt Du redig "
 "wiedermaken?"
 
-#: maindlg.cpp:502
+#: maindlg.cpp:507
 #, kde-format
 msgid "Save New Format"
 msgstr "Mit nieg Formaat sekern"
 
-#: maindlg.cpp:517
+#: maindlg.cpp:522
 #, kde-format
 msgid "Save As"
 msgstr "Sekern as"
 
-#: maindlg.cpp:523
+#: maindlg.cpp:528
 #, kde-format
 msgid "The file could not be saved"
 msgstr "De Datei lett sik nich sekern"
 
-#: maindlg.cpp:555
+#: maindlg.cpp:560
 #, fuzzy, kde-format
 #| msgid ""
 #| "\n"
@@ -1991,32 +1991,32 @@ msgstr ""
 "\n"
 "*.svg|Skaleerbor Vektorgrafiken"
 
-#: maindlg.cpp:557
+#: maindlg.cpp:562
 #, fuzzy, kde-format
 #| msgid "Export as Image"
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "As Bild exporteren"
 
-#: maindlg.cpp:618
+#: maindlg.cpp:623
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Bi't Sekern as Bild \"%1\" geev dat en Fehler."
 
-#: maindlg.cpp:675
+#: maindlg.cpp:680
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Bagen drucken"
 
-#: maindlg.cpp:690
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Print Settings"
 msgstr "&Instellen"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:700
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgctxt "@title:window"

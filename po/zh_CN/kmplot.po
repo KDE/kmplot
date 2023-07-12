@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-18 00:41+0000\n"
+"POT-Creation-Date: 2023-07-12 00:42+0000\n"
 "PO-Revision-Date: 2023-07-03 11:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -976,7 +976,7 @@ msgstr "选择斜率"
 msgid "Could not find KmPlot's part."
 msgstr "找不到 KmPlot 部件。"
 
-#: kmplot.cpp:171 maindlg.cpp:517
+#: kmplot.cpp:171 maindlg.cpp:522
 #, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr "KmPlot 文件 (*.fkt);;所有文件 (*)"
@@ -1436,7 +1436,7 @@ msgid ""
 msgstr "跟踪绘图时是否显示额外的细节，例如切线等。"
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
 #, kde-format
 msgid "&Edit"
 msgstr "编辑(&E)"
@@ -1741,165 +1741,165 @@ msgid "URLs to open"
 msgstr "要打开的 URL"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:188 settingspagegeneral.ui:14
+#: maindlg.cpp:193 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "常规"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:193
 #, kde-format
 msgid "General Settings"
 msgstr "常规设置"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:189 settingspagediagram.ui:14
+#: maindlg.cpp:194 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "图表"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:194
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "图表外观"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:195
 #, kde-format
 msgid "Colors"
 msgstr "颜色"
 
-#: maindlg.cpp:191
+#: maindlg.cpp:196
 #, kde-format
 msgid "Fonts"
 msgstr "字体"
 
-#: maindlg.cpp:218
+#: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "配置 KmPlot..."
 
-#: maindlg.cpp:224
+#: maindlg.cpp:229
 #, kde-format
 msgid "E&xport..."
 msgstr "导出(&X)..."
 
-#: maindlg.cpp:237
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "坐标系(&C)..."
 
-#: maindlg.cpp:242
+#: maindlg.cpp:247
 #, kde-format
 msgid "&Constants..."
 msgstr "常量(&C)..."
 
-#: maindlg.cpp:251
+#: maindlg.cpp:256
 #, kde-format
 msgid "Zoom &In"
 msgstr "放大(&I)"
 
-#: maindlg.cpp:257
+#: maindlg.cpp:262
 #, kde-format
 msgid "Zoom &Out"
 msgstr "缩小(&O)"
 
-#: maindlg.cpp:263
+#: maindlg.cpp:268
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "调整部件以适合三角函数(&F)"
 
-#: maindlg.cpp:267
+#: maindlg.cpp:272
 #, kde-format
 msgid "Reset View"
 msgstr "重置视图"
 
-#: maindlg.cpp:272
+#: maindlg.cpp:277
 #, kde-format
 msgid "Show Sliders"
 msgstr "显示滑块"
 
-#: maindlg.cpp:278
+#: maindlg.cpp:283
 #, kde-format
 msgid "Calculator"
 msgstr "计算器"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:288
 #, kde-format
 msgid "Plot &Area..."
 msgstr "绘图区(&A)..."
 
-#: maindlg.cpp:287
+#: maindlg.cpp:292
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "查找最大值点(&X)..."
 
-#: maindlg.cpp:292
+#: maindlg.cpp:297
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "查找最小值点(&N)..."
 
-#: maindlg.cpp:299
+#: maindlg.cpp:304
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "预定义的数学函数(&M)"
 
-#: maindlg.cpp:306
+#: maindlg.cpp:311
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "笛卡尔绘图"
 
-#: maindlg.cpp:312
+#: maindlg.cpp:317
 #, kde-format
 msgid "Parametric Plot"
 msgstr "参数绘图"
 
-#: maindlg.cpp:318
+#: maindlg.cpp:323
 #, kde-format
 msgid "Polar Plot"
 msgstr "极坐标绘图"
 
-#: maindlg.cpp:324
+#: maindlg.cpp:329
 #, kde-format
 msgid "Implicit Plot"
 msgstr "隐藏绘图"
 
-#: maindlg.cpp:330
+#: maindlg.cpp:335
 #, kde-format
 msgid "Differential Plot"
 msgstr "微分绘图"
 
-#: maindlg.cpp:345
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Hide"
 msgstr "隐藏(&H)"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:355
 #, kde-format
 msgid "&Remove"
 msgstr "删除(&R)"
 
-#: maindlg.cpp:358
+#: maindlg.cpp:363
 #, kde-format
 msgid "Animate Plot..."
 msgstr "动态绘图..."
 
-#: maindlg.cpp:369
+#: maindlg.cpp:374
 #, kde-format
 msgid "Copy (x, y)"
 msgstr "复制 (x, y)"
 
-#: maindlg.cpp:374
+#: maindlg.cpp:379
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: maindlg.cpp:380
+#: maindlg.cpp:385
 #, kde-format
 msgid "Copy Root Value"
 msgstr "复制根值"
 
-#: maindlg.cpp:465
+#: maindlg.cpp:470
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1908,7 +1908,7 @@ msgstr ""
 "绘图已经修改。\n"
 "您想要保存吗？"
 
-#: maindlg.cpp:499
+#: maindlg.cpp:504
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1917,49 +1917,49 @@ msgstr ""
 "此文件是以旧文件格式保存的；如果您保存的话，您将无法使用旧版本的 KmPlot 打开"
 "该文件。您确定要继续吗？"
 
-#: maindlg.cpp:502
+#: maindlg.cpp:507
 #, kde-format
 msgid "Save New Format"
 msgstr "保存新格式"
 
-#: maindlg.cpp:517
+#: maindlg.cpp:522
 #, kde-format
 msgid "Save As"
 msgstr "另存为"
 
-#: maindlg.cpp:523
+#: maindlg.cpp:528
 #, kde-format
 msgid "The file could not be saved"
 msgstr "无法保存文件"
 
-#: maindlg.cpp:555
+#: maindlg.cpp:560
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr "可缩放矢量图形 (*. svg)"
 
-#: maindlg.cpp:557
+#: maindlg.cpp:562
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "导出为图像"
 
-#: maindlg.cpp:618
+#: maindlg.cpp:623
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "对不起，当保存为图像时出错  \"%1\""
 
-#: maindlg.cpp:675
+#: maindlg.cpp:680
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "打印图像"
 
-#: maindlg.cpp:690
+#: maindlg.cpp:695
 #, kde-format
 msgid "Print Settings"
 msgstr "打印设置"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:700
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

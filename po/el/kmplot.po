@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-18 00:41+0000\n"
+"POT-Creation-Date: 2023-07-12 00:42+0000\n"
 "PO-Revision-Date: 2021-06-29 09:45+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -1005,7 +1005,7 @@ msgstr "Επιλέξτε μια κλίση"
 msgid "Could not find KmPlot's part."
 msgstr "Αδύνατη η εύρεση του κομματιού του KmPlot."
 
-#: kmplot.cpp:171 maindlg.cpp:517
+#: kmplot.cpp:171 maindlg.cpp:522
 #, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr "Αρχεία KmPlot (*.fkt);;Όλα τα αρχεία (*)"
@@ -1471,7 +1471,7 @@ msgstr ""
 "διάνυσμα κατά την ανίχνευση του σχεδίου."
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
 #, kde-format
 msgid "&Edit"
 msgstr "&Επεξεργασία"
@@ -1784,165 +1784,165 @@ msgid "URLs to open"
 msgstr "URL δεσμοί προς άνοιγμα"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:188 settingspagegeneral.ui:14
+#: maindlg.cpp:193 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "Γενικά"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:193
 #, kde-format
 msgid "General Settings"
 msgstr "Γενικές ρυθμίσεις"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:189 settingspagediagram.ui:14
+#: maindlg.cpp:194 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "Διάγραμμα"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:194
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "Εμφάνιση διαγράμματος"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:195
 #, kde-format
 msgid "Colors"
 msgstr "Χρώματα"
 
-#: maindlg.cpp:191
+#: maindlg.cpp:196
 #, kde-format
 msgid "Fonts"
 msgstr "Γραμματοσειρές"
 
-#: maindlg.cpp:218
+#: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "Διαμόρφωση του KmPlot..."
 
-#: maindlg.cpp:224
+#: maindlg.cpp:229
 #, kde-format
 msgid "E&xport..."
 msgstr "Ε&ξαγωγή..."
 
-#: maindlg.cpp:237
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "&Σύστημα συντεταγμένων..."
 
-#: maindlg.cpp:242
+#: maindlg.cpp:247
 #, kde-format
 msgid "&Constants..."
 msgstr "&Σταθερές..."
 
-#: maindlg.cpp:251
+#: maindlg.cpp:256
 #, kde-format
 msgid "Zoom &In"
 msgstr "&Μεγέθυνση"
 
-#: maindlg.cpp:257
+#: maindlg.cpp:262
 #, kde-format
 msgid "Zoom &Out"
 msgstr "&Απομάκρυνση"
 
-#: maindlg.cpp:263
+#: maindlg.cpp:268
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "&Γέμισμα γραφικού συστατικού στις τριγωνομετρικές συναρτήσεις"
 
-#: maindlg.cpp:267
+#: maindlg.cpp:272
 #, kde-format
 msgid "Reset View"
 msgstr "Επαναφορά προβολής"
 
-#: maindlg.cpp:272
+#: maindlg.cpp:277
 #, kde-format
 msgid "Show Sliders"
 msgstr "Εμφάνιση κυλίσεων"
 
-#: maindlg.cpp:278
+#: maindlg.cpp:283
 #, kde-format
 msgid "Calculator"
 msgstr "Αrιθμομηχανή"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:288
 #, kde-format
 msgid "Plot &Area..."
 msgstr "&Περιοχή σχεδίασης..."
 
-#: maindlg.cpp:287
+#: maindlg.cpp:292
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Εύρεση &μέγιστου..."
 
-#: maindlg.cpp:292
+#: maindlg.cpp:297
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Εύρεση ε&λάχιστου..."
 
-#: maindlg.cpp:299
+#: maindlg.cpp:304
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "Προκαθορισμένες &μαθηματικές συναρτήσεις"
 
-#: maindlg.cpp:306
+#: maindlg.cpp:311
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "Καρτεσιανό σχέδιο"
 
-#: maindlg.cpp:312
+#: maindlg.cpp:317
 #, kde-format
 msgid "Parametric Plot"
 msgstr "Παραμετρικό σχέδιο"
 
-#: maindlg.cpp:318
+#: maindlg.cpp:323
 #, kde-format
 msgid "Polar Plot"
 msgstr "Πολικό σχέδιο"
 
-#: maindlg.cpp:324
+#: maindlg.cpp:329
 #, kde-format
 msgid "Implicit Plot"
 msgstr "Πεπλεγμένο σχέδιο"
 
-#: maindlg.cpp:330
+#: maindlg.cpp:335
 #, kde-format
 msgid "Differential Plot"
 msgstr "Διαφορικό σχέδιο"
 
-#: maindlg.cpp:345
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Hide"
 msgstr "Α&πόκρυψη"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:355
 #, kde-format
 msgid "&Remove"
 msgstr "Α&φαίρεση"
 
-#: maindlg.cpp:358
+#: maindlg.cpp:363
 #, kde-format
 msgid "Animate Plot..."
 msgstr "Κίνηση σχεδίου..."
 
-#: maindlg.cpp:369
+#: maindlg.cpp:374
 #, kde-format
 msgid "Copy (x, y)"
 msgstr "Αντιγραφή (x, y)"
 
-#: maindlg.cpp:374
+#: maindlg.cpp:379
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: maindlg.cpp:380
+#: maindlg.cpp:385
 #, kde-format
 msgid "Copy Root Value"
 msgstr "Αντιγραφή τιμής ρίζας"
 
-#: maindlg.cpp:465
+#: maindlg.cpp:470
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1951,7 +1951,7 @@ msgstr ""
 "Το σχέδιο έχει τροποποιηθεί.\n"
 "Επιθυμείτε την αποθήκευσή του;"
 
-#: maindlg.cpp:499
+#: maindlg.cpp:504
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1961,50 +1961,50 @@ msgstr ""
 "αποθηκεύσετε δε θα μπορείτε να ανοίξετε το αρχείο με παλαιότερες εκδόσεις "
 "του Kmplot. Επιθυμείτε σίγουρα τη συνέχεια;"
 
-#: maindlg.cpp:502
+#: maindlg.cpp:507
 #, kde-format
 msgid "Save New Format"
 msgstr "Αποθήκευση νέου τύπου"
 
-#: maindlg.cpp:517
+#: maindlg.cpp:522
 #, kde-format
 msgid "Save As"
 msgstr "Αποθήκευση ως"
 
-#: maindlg.cpp:523
+#: maindlg.cpp:528
 #, kde-format
 msgid "The file could not be saved"
 msgstr "Αδύνατη η αποθήκευση του αρχείου"
 
-#: maindlg.cpp:555
+#: maindlg.cpp:560
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr "Κλιμακούμενα διανυσματικά γραφικά (*.svg)"
 
-#: maindlg.cpp:557
+#: maindlg.cpp:562
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Εξαγωγή ως εικόνα"
 
-#: maindlg.cpp:618
+#: maindlg.cpp:623
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr ""
 "Δυστυχώς, κάτι δε λειτούργησε σωστά κατά την αποθήκευση της εικόνας \"%1\""
 
-#: maindlg.cpp:675
+#: maindlg.cpp:680
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Εκτύπωση σχεδίου"
 
-#: maindlg.cpp:690
+#: maindlg.cpp:695
 #, kde-format
 msgid "Print Settings"
 msgstr "Ρυθμίσεις εκτύπωσης"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:700
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

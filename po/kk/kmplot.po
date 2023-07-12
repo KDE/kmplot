@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-18 00:41+0000\n"
+"POT-Creation-Date: 2023-07-12 00:42+0000\n"
 "PO-Revision-Date: 2013-09-15 06:54+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -992,7 +992,7 @@ msgstr "Градиентті таңдау"
 msgid "Could not find KmPlot's part."
 msgstr "KmPlot бөлшегі табылмады."
 
-#: kmplot.cpp:171 maindlg.cpp:517
+#: kmplot.cpp:171 maindlg.cpp:522
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -1459,7 +1459,7 @@ msgid ""
 msgstr "Аралағанда жанаспасын мен нормалін салу сияқты қосымшалары."
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
 #, kde-format
 msgid "&Edit"
 msgstr "Ө&згерту"
@@ -1778,166 +1778,166 @@ msgid "URLs to open"
 msgstr "Ашатын файлы"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:188 settingspagegeneral.ui:14
+#: maindlg.cpp:193 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "Жалпы"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:193
 #, kde-format
 msgid "General Settings"
 msgstr "Жалпы баптаулары"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:189 settingspagediagram.ui:14
+#: maindlg.cpp:194 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "Диаграмма"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:194
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "Диаграмма көрінісі"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:195
 #, kde-format
 msgid "Colors"
 msgstr "Түстер"
 
-#: maindlg.cpp:191
+#: maindlg.cpp:196
 #, kde-format
 msgid "Fonts"
 msgstr "Қаріптер"
 
-#: maindlg.cpp:218
+#: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "KmPlot баптауы.."
 
-#: maindlg.cpp:224
+#: maindlg.cpp:229
 #, kde-format
 msgid "E&xport..."
 msgstr "Э&кспорт..."
 
-#: maindlg.cpp:237
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "&Координат жүйесі..."
 
-#: maindlg.cpp:242
+#: maindlg.cpp:247
 #, kde-format
 msgid "&Constants..."
 msgstr "&Тұрақтылар..."
 
-#: maindlg.cpp:251
+#: maindlg.cpp:256
 #, kde-format
 msgid "Zoom &In"
 msgstr "Ү&лкейту"
 
-#: maindlg.cpp:257
+#: maindlg.cpp:262
 #, kde-format
 msgid "Zoom &Out"
 msgstr "К&ішірейту"
 
-#: maindlg.cpp:263
+#: maindlg.cpp:268
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "&Виджет тригонометриялық функцияларға шақталсын"
 
-#: maindlg.cpp:267
+#: maindlg.cpp:272
 #, kde-format
 msgid "Reset View"
 msgstr "Ысырып тастау"
 
-#: maindlg.cpp:272
+#: maindlg.cpp:277
 #, kde-format
 msgid "Show Sliders"
 msgstr "Жүгірткілерді көрсету"
 
-#: maindlg.cpp:278
+#: maindlg.cpp:283
 #, kde-format
 msgid "Calculator"
 msgstr "Калькулятор"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:288
 #, kde-format
 msgid "Plot &Area..."
 msgstr "График &аумағы..."
 
-#: maindlg.cpp:287
+#: maindlg.cpp:292
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Ма&ксимумын табу..."
 
-#: maindlg.cpp:292
+#: maindlg.cpp:297
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Ми&нимумын табу..."
 
-#: maindlg.cpp:299
+#: maindlg.cpp:304
 #, fuzzy, kde-format
 #| msgid "Predefined &Math Functions"
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "Дайын &матем. функциялар"
 
-#: maindlg.cpp:306
+#: maindlg.cpp:311
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "Декарт жүйесіндегі график"
 
-#: maindlg.cpp:312
+#: maindlg.cpp:317
 #, kde-format
 msgid "Parametric Plot"
 msgstr "Параметрлік сызықтың графигі"
 
-#: maindlg.cpp:318
+#: maindlg.cpp:323
 #, kde-format
 msgid "Polar Plot"
 msgstr "Полярлық жүйедегі график"
 
-#: maindlg.cpp:324
+#: maindlg.cpp:329
 #, kde-format
 msgid "Implicit Plot"
 msgstr "Айқындалмаған функция графигі"
 
-#: maindlg.cpp:330
+#: maindlg.cpp:335
 #, kde-format
 msgid "Differential Plot"
 msgstr "Дифференциалдық сызық графигі"
 
-#: maindlg.cpp:345
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Hide"
 msgstr "&Жасыру"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:355
 #, kde-format
 msgid "&Remove"
 msgstr "&Өшіру"
 
-#: maindlg.cpp:358
+#: maindlg.cpp:363
 #, kde-format
 msgid "Animate Plot..."
 msgstr "Графикті анимациялау..."
 
-#: maindlg.cpp:369
+#: maindlg.cpp:374
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:374
+#: maindlg.cpp:379
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:380
+#: maindlg.cpp:385
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:465
+#: maindlg.cpp:470
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1946,7 +1946,7 @@ msgstr ""
 "График өзгертілген.\n"
 "Сақтауды қалайсыз ба?"
 
-#: maindlg.cpp:499
+#: maindlg.cpp:504
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1955,22 +1955,22 @@ msgstr ""
 "Бұл файл ескі пішімінде сақталған еді. Қазір сақтасаңыз, оны кейін ескі "
 "KmPlot-тарымен аша алмайсыз. Сонда да жалғастырмақсыз ба?"
 
-#: maindlg.cpp:502
+#: maindlg.cpp:507
 #, kde-format
 msgid "Save New Format"
 msgstr "Жаңа пішімде сақтау"
 
-#: maindlg.cpp:517
+#: maindlg.cpp:522
 #, kde-format
 msgid "Save As"
 msgstr "Былай сақтау"
 
-#: maindlg.cpp:523
+#: maindlg.cpp:528
 #, kde-format
 msgid "The file could not be saved"
 msgstr "Файл сақталмады"
 
-#: maindlg.cpp:555
+#: maindlg.cpp:560
 #, fuzzy, kde-format
 #| msgid ""
 #| "\n"
@@ -1980,32 +1980,32 @@ msgstr ""
 "\n"
 "*.svg|Векторлы SVG графика"
 
-#: maindlg.cpp:557
+#: maindlg.cpp:562
 #, fuzzy, kde-format
 #| msgid "Export as Image"
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Кескін кылып сақтау"
 
-#: maindlg.cpp:618
+#: maindlg.cpp:623
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Ғафу етіңіз, \"%1\" кескінін сақтағанда бірдемесі дұрыс шықпады"
 
-#: maindlg.cpp:675
+#: maindlg.cpp:680
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Басып шығару"
 
-#: maindlg.cpp:690
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 #| msgid "General Settings"
 msgid "Print Settings"
 msgstr "Жалпы баптаулары"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:700
 #, fuzzy, kde-format
 #| msgid "General Settings"
 msgctxt "@title:window"

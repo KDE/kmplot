@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-18 00:41+0000\n"
+"POT-Creation-Date: 2023-07-12 00:42+0000\n"
 "PO-Revision-Date: 2006-06-02 15:26+0930\n"
 "Last-Translator: Trần Thế Trung <tttrung@hotmail.com>\n"
 "Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
@@ -992,7 +992,7 @@ msgstr "Chọn Tham số"
 msgid "Could not find KmPlot's part."
 msgstr "Không tìm thấy các thành phần của KmPlot."
 
-#: kmplot.cpp:171 maindlg.cpp:517
+#: kmplot.cpp:171 maindlg.cpp:522
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -1458,7 +1458,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
 #, fuzzy, kde-format
 msgid "&Edit"
 msgstr "&Soạn..."
@@ -1774,166 +1774,166 @@ msgid "URLs to open"
 msgstr "Tệp để mở"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:188 settingspagegeneral.ui:14
+#: maindlg.cpp:193 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "Chung"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:193
 #, kde-format
 msgid "General Settings"
 msgstr "Cài đặt Chung"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:189 settingspagediagram.ui:14
+#: maindlg.cpp:194 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr ""
 
-#: maindlg.cpp:189
+#: maindlg.cpp:194
 #, kde-format
 msgid "Diagram Appearance"
 msgstr ""
 
-#: maindlg.cpp:190
+#: maindlg.cpp:195
 #, kde-format
 msgid "Colors"
 msgstr "Màu"
 
-#: maindlg.cpp:191
+#: maindlg.cpp:196
 #, fuzzy, kde-format
 msgid "Fonts"
 msgstr "&Phông chữ..."
 
-#: maindlg.cpp:218
+#: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "Cấu hình KmPlot..."
 
-#: maindlg.cpp:224
+#: maindlg.cpp:229
 #, kde-format
 msgid "E&xport..."
 msgstr "&Xuất..."
 
-#: maindlg.cpp:237
+#: maindlg.cpp:242
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "&Hệ Toạ độ..."
 
-#: maindlg.cpp:242
+#: maindlg.cpp:247
 #, fuzzy, kde-format
 msgid "&Constants..."
 msgstr "Hằng số"
 
-#: maindlg.cpp:251
+#: maindlg.cpp:256
 #, kde-format
 msgid "Zoom &In"
 msgstr "&Phóng đại"
 
-#: maindlg.cpp:257
+#: maindlg.cpp:262
 #, kde-format
 msgid "Zoom &Out"
 msgstr "&Thu nhỏ"
 
-#: maindlg.cpp:263
+#: maindlg.cpp:268
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "&Khớp Ô điều khiển vào Hàm Lượng giác"
 
-#: maindlg.cpp:267
+#: maindlg.cpp:272
 #, kde-format
 msgid "Reset View"
 msgstr ""
 
-#: maindlg.cpp:272
+#: maindlg.cpp:277
 #, fuzzy, kde-format
 msgid "Show Sliders"
 msgstr "Hiển thị Con &trượt"
 
-#: maindlg.cpp:278
+#: maindlg.cpp:283
 #, fuzzy, kde-format
 msgid "Calculator"
 msgstr "&Tính"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:288
 #, fuzzy, kde-format
 msgid "Plot &Area..."
 msgstr "Vùng vẽ"
 
-#: maindlg.cpp:287
+#: maindlg.cpp:292
 #, fuzzy, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Tìm Điểm Cực đại"
 
-#: maindlg.cpp:292
+#: maindlg.cpp:297
 #, fuzzy, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Tìm Điểm Cực tiểu"
 
-#: maindlg.cpp:299
+#: maindlg.cpp:304
 #, fuzzy, kde-format
 #| msgid "Predefined &Math Functions"
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "&Hàm Toán học Định sẵn"
 
-#: maindlg.cpp:306
+#: maindlg.cpp:311
 #, fuzzy, kde-format
 msgid "Cartesian Plot"
 msgstr "In Đồ thị"
 
-#: maindlg.cpp:312
+#: maindlg.cpp:317
 #, fuzzy, kde-format
 msgid "Parametric Plot"
 msgstr "Vẽ Đồ thị Tham số Mới"
 
-#: maindlg.cpp:318
+#: maindlg.cpp:323
 #, fuzzy, kde-format
 msgid "Polar Plot"
 msgstr "Vẽ Đồ thị Cực Mới"
 
-#: maindlg.cpp:324
+#: maindlg.cpp:329
 #, fuzzy, kde-format
 msgid "Implicit Plot"
 msgstr "Soạn Đồ thị"
 
-#: maindlg.cpp:330
+#: maindlg.cpp:335
 #, fuzzy, kde-format
 msgid "Differential Plot"
 msgstr "Điểm Ban đầu"
 
-#: maindlg.cpp:345
+#: maindlg.cpp:350
 #, kde-format
 msgid "&Hide"
 msgstr "&Giấu"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:355
 #, fuzzy, kde-format
 msgid "&Remove"
 msgstr "&Di chuyển"
 
-#: maindlg.cpp:358
+#: maindlg.cpp:363
 #, fuzzy, kde-format
 msgid "Animate Plot..."
 msgstr "Soạn Đồ thị..."
 
-#: maindlg.cpp:369
+#: maindlg.cpp:374
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:374
+#: maindlg.cpp:379
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:380
+#: maindlg.cpp:385
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:465
+#: maindlg.cpp:470
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1942,7 +1942,7 @@ msgstr ""
 "Đồ thị đã bị thay đổi.\n"
 "Bạn có muốn lưu nó không?"
 
-#: maindlg.cpp:499
+#: maindlg.cpp:504
 #, fuzzy, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1951,50 +1951,50 @@ msgstr ""
 "Tệp đang có định dạng cũ; nếu bạn lưu nó, bạn sẽ không thể mở nó bằng các "
 "phiên bản cũ của Kmplot. Bạn có chắc là muố tiếp tục không?"
 
-#: maindlg.cpp:502
+#: maindlg.cpp:507
 #, kde-format
 msgid "Save New Format"
 msgstr "Lưu Định dạng Mới"
 
-#: maindlg.cpp:517
+#: maindlg.cpp:522
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: maindlg.cpp:523
+#: maindlg.cpp:528
 #, kde-format
 msgid "The file could not be saved"
 msgstr "Tệp không lưu được"
 
-#: maindlg.cpp:555
+#: maindlg.cpp:560
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr ""
 
-#: maindlg.cpp:557
+#: maindlg.cpp:562
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr ""
 
-#: maindlg.cpp:618
+#: maindlg.cpp:623
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr ""
 
-#: maindlg.cpp:675
+#: maindlg.cpp:680
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "In Đồ thị"
 
-#: maindlg.cpp:690
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 msgid "Print Settings"
 msgstr "Cài đặt Chung"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:700
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

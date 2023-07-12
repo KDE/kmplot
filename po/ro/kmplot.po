@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-18 00:41+0000\n"
+"POT-Creation-Date: 2023-07-12 00:42+0000\n"
 "PO-Revision-Date: 2012-12-22 11:43+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -1013,7 +1013,7 @@ msgstr "Alegeți un degrade "
 msgid "Could not find KmPlot's part."
 msgstr "Nu s-a putut gasi partea KmPlot-ului"
 
-#: kmplot.cpp:171 maindlg.cpp:517
+#: kmplot.cpp:171 maindlg.cpp:522
 #, fuzzy, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr ""
@@ -1478,7 +1478,7 @@ msgstr ""
 "trasează un grafic"
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:338
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
 #, fuzzy, kde-format
 msgid "&Edit"
 msgstr "&Modifică"
@@ -1789,165 +1789,165 @@ msgid "URLs to open"
 msgstr "Fișier de deschis"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:188 settingspagegeneral.ui:14
+#: maindlg.cpp:193 settingspagegeneral.ui:14
 #, fuzzy, kde-format
 msgid "General"
 msgstr "General"
 
-#: maindlg.cpp:188
+#: maindlg.cpp:193
 #, fuzzy, kde-format
 msgid "General Settings"
 msgstr "Setări generale"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:189 settingspagediagram.ui:14
+#: maindlg.cpp:194 settingspagediagram.ui:14
 #, fuzzy, kde-format
 msgid "Diagram"
 msgstr "Diagrama"
 
-#: maindlg.cpp:189
+#: maindlg.cpp:194
 #, fuzzy, kde-format
 msgid "Diagram Appearance"
 msgstr "Aspectul diagramei"
 
-#: maindlg.cpp:190
+#: maindlg.cpp:195
 #, fuzzy, kde-format
 msgid "Colors"
 msgstr "Culori"
 
-#: maindlg.cpp:191
+#: maindlg.cpp:196
 #, fuzzy, kde-format
 msgid "Fonts"
 msgstr "Fonturi"
 
-#: maindlg.cpp:218
+#: maindlg.cpp:223
 #, fuzzy, kde-format
 msgid "Configure KmPlot..."
 msgstr "Configurează KmPlot..."
 
-#: maindlg.cpp:224
+#: maindlg.cpp:229
 #, fuzzy, kde-format
 msgid "E&xport..."
 msgstr "&Exportă..."
 
-#: maindlg.cpp:237
+#: maindlg.cpp:242
 #, fuzzy, kde-format
 msgid "&Coordinate System..."
 msgstr "Sistem de &coordonate..."
 
-#: maindlg.cpp:242
+#: maindlg.cpp:247
 #, fuzzy, kde-format
 msgid "&Constants..."
 msgstr "&Constante..."
 
-#: maindlg.cpp:251
+#: maindlg.cpp:256
 #, fuzzy, kde-format
 msgid "Zoom &In"
 msgstr "Măr&ire"
 
-#: maindlg.cpp:257
+#: maindlg.cpp:262
 #, fuzzy, kde-format
 msgid "Zoom &Out"
 msgstr "Micșo&rare"
 
-#: maindlg.cpp:263
+#: maindlg.cpp:268
 #, fuzzy, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "Con&trol potrivit pentru funcțiile trigonometrice"
 
-#: maindlg.cpp:267
+#: maindlg.cpp:272
 #, fuzzy, kde-format
 msgid "Reset View"
 msgstr "Resetează vizualizarea"
 
-#: maindlg.cpp:272
+#: maindlg.cpp:277
 #, fuzzy, kde-format
 msgid "Show Sliders"
 msgstr "Arată glisoare"
 
-#: maindlg.cpp:278
+#: maindlg.cpp:283
 #, fuzzy, kde-format
 msgid "Calculator"
 msgstr "Calculator"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:288
 #, fuzzy, kde-format
 msgid "Plot &Area..."
 msgstr "&Domeniu de desenare..."
 
-#: maindlg.cpp:287
+#: maindlg.cpp:292
 #, fuzzy, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Găsește ma&ximul..."
 
-#: maindlg.cpp:292
+#: maindlg.cpp:297
 #, fuzzy, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Găsește mi&nimul..."
 
-#: maindlg.cpp:299
+#: maindlg.cpp:304
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "Funcții &Matematice predefinite"
 
-#: maindlg.cpp:306
+#: maindlg.cpp:311
 #, fuzzy, kde-format
 msgid "Cartesian Plot"
 msgstr "Cartesian Plot"
 
-#: maindlg.cpp:312
+#: maindlg.cpp:317
 #, fuzzy, kde-format
 msgid "Parametric Plot"
 msgstr "Grafic parametric"
 
-#: maindlg.cpp:318
+#: maindlg.cpp:323
 #, fuzzy, kde-format
 msgid "Polar Plot"
 msgstr "Domeniu polar"
 
-#: maindlg.cpp:324
+#: maindlg.cpp:329
 #, fuzzy, kde-format
 msgid "Implicit Plot"
 msgstr "Domeniu implicit"
 
-#: maindlg.cpp:330
+#: maindlg.cpp:335
 #, fuzzy, kde-format
 msgid "Differential Plot"
 msgstr "Domeniu diferențial"
 
-#: maindlg.cpp:345
+#: maindlg.cpp:350
 #, fuzzy, kde-format
 msgid "&Hide"
 msgstr "A&scunde"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:355
 #, fuzzy, kde-format
 msgid "&Remove"
 msgstr "Elimin&ă"
 
-#: maindlg.cpp:358
+#: maindlg.cpp:363
 #, fuzzy, kde-format
 msgid "Animate Plot..."
 msgstr "Domeniu animat"
 
-#: maindlg.cpp:369
+#: maindlg.cpp:374
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:374
+#: maindlg.cpp:379
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:380
+#: maindlg.cpp:385
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:465
+#: maindlg.cpp:470
 #, fuzzy, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1956,7 +1956,7 @@ msgstr ""
 "Domeniul a fost modificat.\n"
 "Doriți sa salvați?"
 
-#: maindlg.cpp:499
+#: maindlg.cpp:504
 #, fuzzy, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1966,51 +1966,51 @@ msgstr ""
 "deschis cu o versiune mai veche de KmPlot. Sunteți sigur ca vreți sa "
 "continuați?"
 
-#: maindlg.cpp:502
+#: maindlg.cpp:507
 #, fuzzy, kde-format
 msgid "Save New Format"
 msgstr "Salvează format nou"
 
-#: maindlg.cpp:517
+#: maindlg.cpp:522
 #, fuzzy, kde-format
 msgid "Save As"
 msgstr "Salvează ca"
 
-#: maindlg.cpp:523
+#: maindlg.cpp:528
 #, fuzzy, kde-format
 msgid "The file could not be saved"
 msgstr "Fișierul nu a putut fi salvat"
 
-#: maindlg.cpp:555
+#: maindlg.cpp:560
 #, fuzzy, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr ""
 "\n"
 "*.svg|Grafic redimensionabil de vector"
 
-#: maindlg.cpp:557
+#: maindlg.cpp:562
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Exportă ca imagine"
 
-#: maindlg.cpp:618
+#: maindlg.cpp:623
 #, fuzzy, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Scuze, ceva nu a funcționat când se salva in imaginea \"%1\""
 
-#: maindlg.cpp:675
+#: maindlg.cpp:680
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Domeniu de printare"
 
-#: maindlg.cpp:690
+#: maindlg.cpp:695
 #, fuzzy, kde-format
 msgid "Print Settings"
 msgstr "&Setări"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:700
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

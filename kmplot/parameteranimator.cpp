@@ -224,3 +224,5 @@ void ParameterAnimator::stopStepping()
     updateUI();
 }
 // END class ParameterAnimator
+
+#include "moc_parameteranimator.cpp"

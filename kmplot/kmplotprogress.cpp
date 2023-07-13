@@ -69,3 +69,5 @@ void KmPlotProgress::setProgress(double progress)
 
     QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 }
+
+#include "moc_kmplotprogress.cpp"

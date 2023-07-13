@@ -1636,3 +1636,5 @@ void ExpressionSanitizer::displayMap()
     qDebug() << out;
 }
 // END class ExpressionSanitizer
+
+#include "moc_parser.cpp"

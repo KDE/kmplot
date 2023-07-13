@@ -782,3 +782,5 @@ void FunctionListItem::update()
     setForeground(f->plotAppearance(Function::Derivative0).color);
 }
 // END class FunctionListItem
+
+#include "moc_functioneditor.cpp"

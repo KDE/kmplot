@@ -254,3 +254,5 @@ void KmPlot::cancelDraw()
     QDBusInterface(QDBusConnection::sessionBus().baseService(), QStringLiteral("/kmplot"), QStringLiteral("org.kde.kmplot.KmPlot"))
         .call(QDBus::NoBlock, QStringLiteral("stopDrawing"));
 }
+
+#include "moc_kmplot.cpp"

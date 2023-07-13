@@ -119,3 +119,5 @@ void EquationEditorWidget::characterButtonClicked()
     // Get rid of it.
     edit->insertText(tb->text().remove('&'));
 }
+
+#include "moc_equationeditorwidget.cpp"

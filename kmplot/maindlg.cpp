@@ -852,3 +852,5 @@ void BrowserExtension::print()
 }
 
 #include "maindlg.moc"
+
+#include "moc_maindlg.cpp"

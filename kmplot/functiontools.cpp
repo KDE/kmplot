@@ -201,3 +201,5 @@ void FunctionTools::calculateArea(const EquationPair &equation)
     m_widget->rangeResult->setText(i18n("Area is %1", area));
 }
 // END class FunctionTools
+
+#include "moc_functiontools.cpp"

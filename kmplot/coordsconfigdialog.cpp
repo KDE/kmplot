@@ -128,3 +128,5 @@ void CoordsConfigDialog::updateXYRange()
     configAxesDialog->kcfg_YMin->setText(Settings::yMin());
     configAxesDialog->kcfg_YMax->setText(Settings::yMax());
 }
+
+#include "moc_coordsconfigdialog.cpp"

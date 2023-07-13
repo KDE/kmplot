@@ -289,3 +289,5 @@ void InitialConditionsEditor::remove()
     emit dataChanged();
 }
 // END class InitialConditionsEditor
+
+#include "moc_initialconditionseditor.cpp"

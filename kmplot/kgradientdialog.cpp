@@ -487,3 +487,5 @@ void KGradientButton::paintEvent(QPaintEvent *)
     }
 }
 // END class KGradientButton
+
+#include "moc_kgradientdialog.cpp"

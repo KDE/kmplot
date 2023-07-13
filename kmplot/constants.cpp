@@ -167,3 +167,5 @@ void Constants::save()
     }
 }
 // END class Constants
+
+#include "moc_constants.cpp"

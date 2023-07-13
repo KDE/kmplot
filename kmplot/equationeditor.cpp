@@ -43,3 +43,5 @@ EquationEdit *EquationEditor::edit() const
 {
     return m_widget->edit;
 }
+
+#include "moc_equationeditor.cpp"

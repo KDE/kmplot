@@ -3830,3 +3830,5 @@ IntegralDrawSettings::IntegralDrawSettings()
     draw = false;
 }
 // END class IntegralDrawSettings
+
+#include "moc_view.cpp"

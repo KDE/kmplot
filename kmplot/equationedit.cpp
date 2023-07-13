@@ -219,3 +219,5 @@ void EquationEdit::insertText(const QString &text)
 {
     m_equationEditWidget->insertPlainText(text);
 }
+
+#include "moc_equationedit.cpp"

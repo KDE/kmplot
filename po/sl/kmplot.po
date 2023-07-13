@@ -10,17 +10,17 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-12 00:42+0000\n"
-"PO-Revision-Date: 2021-01-10 12:36+0100\n"
+"PO-Revision-Date: 2023-07-12 09:26+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 20.08.1\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
+"Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2450,7 +2450,7 @@ msgstr "Mreža:"
 #: settingspagecolor.ui:84
 #, kde-format
 msgid "Select color for the axes."
-msgstr "izberite barvo osi."
+msgstr "Izberite barvo osi."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:87
@@ -2465,7 +2465,7 @@ msgstr ""
 #: settingspagecolor.ui:97
 #, kde-format
 msgid "Select color for the grid."
-msgstr "izberite barvo mreže."
+msgstr "Izberite barvo mreže."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:100
@@ -2807,7 +2807,7 @@ msgstr "Oznaka na vodoravni osi."
 #: settingspagediagram.ui:84
 #, kde-format
 msgid "Horizontal axis label:"
-msgstr "Oznaka vodoravne osi: "
+msgstr "Oznaka vodoravne osi:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelHorizontalAxis)
 #: settingspagediagram.ui:94

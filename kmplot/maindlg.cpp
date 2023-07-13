@@ -65,7 +65,7 @@ class KmPlotIO;
 class SettingsPageColor : public QWidget, public Ui::SettingsPageColor
 {
 public:
-    SettingsPageColor(QWidget *parent = 0)
+    SettingsPageColor(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);
@@ -76,7 +76,7 @@ public:
 class SettingsPageFonts : public QWidget, public Ui::SettingsPageFonts
 {
 public:
-    SettingsPageFonts(QWidget *parent = 0)
+    SettingsPageFonts(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);
@@ -87,7 +87,7 @@ public:
 class SettingsPageGeneral : public QWidget, public Ui::SettingsPageGeneral
 {
 public:
-    SettingsPageGeneral(QWidget *parent = 0)
+    SettingsPageGeneral(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);
@@ -98,7 +98,7 @@ public:
 class SettingsPageDiagram : public QWidget, public Ui::SettingsPageDiagram
 {
 public:
-    SettingsPageDiagram(QWidget *parent = 0)
+    SettingsPageDiagram(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);
@@ -107,7 +107,7 @@ public:
 };
 
 bool MainDlg::oldfileversion;
-MainDlg *MainDlg::m_self = 0;
+MainDlg *MainDlg::m_self = nullptr;
 
 K_PLUGIN_CLASS_WITH_JSON(MainDlg, "kmplot_part.json")
 
@@ -119,7 +119,7 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList &)
 MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const KPluginMetaData &data)
     : KParts::ReadWritePart(parent, data)
 #endif
-    , m_recentFiles(0)
+    , m_recentFiles(nullptr)
     , m_modified(false)
     , m_parent(parentWidget)
     , m_rootValue(0)
@@ -137,14 +137,14 @@ MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const KPluginMetaData &
         new BrowserExtension(this); // better integration with Konqueror
     }
 
-    m_coordsDialog = 0;
-    m_constantEditor = 0;
+    m_coordsDialog = nullptr;
+    m_constantEditor = nullptr;
     m_popupmenu = new QMenu(parentWidget);
     m_newPlotMenu = new QMenu(parentWidget);
     (void)new View(m_readonly, m_popupmenu, parentWidget);
     connect(View::self(), &View::setStatusBarText, this, &MainDlg::setReadOnlyStatusBarText);
 
-    m_functionEditor = 0;
+    m_functionEditor = nullptr;
     if (!m_readonly) {
         m_functionEditor = new FunctionEditor(m_newPlotMenu, parentWidget);
         static_cast<QMainWindow *>(parentWidget)->addDockWidget(Qt::LeftDockWidgetArea, m_functionEditor);

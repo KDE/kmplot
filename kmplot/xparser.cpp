@@ -31,7 +31,7 @@
 #include <ieeefp.h>
 #endif
 
-XParser *XParser::m_self = 0;
+XParser *XParser::m_self = nullptr;
 
 XParser *XParser::self()
 {
@@ -114,7 +114,7 @@ bool XParser::getext(Function *item, const QString &fstr)
     }
 
     if (errflg) {
-        KMessageBox::error(0, i18n("Error in extension."));
+        KMessageBox::error(nullptr, i18n("Error in extension."));
         return false;
     } else
         return true;
@@ -540,7 +540,7 @@ bool XParser::setFunctionIntLineWidth(uint id, double linewidth)
 QString XParser::functionMinValue(uint id)
 {
     if (!m_ufkt.contains(id))
-        return 0;
+        return nullptr;
     return m_ufkt[id]->dmin.expression();
 }
 
@@ -556,7 +556,7 @@ bool XParser::setFunctionMinValue(uint id, const QString &min)
 QString XParser::functionMaxValue(uint id)
 {
     if (!m_ufkt.contains(id))
-        return 0;
+        return nullptr;
     return m_ufkt[id]->dmax.expression();
 }
 
@@ -583,7 +583,7 @@ bool XParser::setFunctionStartValue(uint id, const QString &x, const QString &y)
 QString XParser::functionStartXValue(uint id)
 {
     if (!m_ufkt.contains(id))
-        return 0;
+        return nullptr;
     DifferentialState *state = &m_ufkt[id]->eq[0]->differentialStates[0];
     return state->x0.expression();
 }
@@ -591,7 +591,7 @@ QString XParser::functionStartXValue(uint id)
 QString XParser::functionStartYValue(uint id)
 {
     if (!m_ufkt.contains(id))
-        return 0;
+        return nullptr;
     DifferentialState *state = &m_ufkt[id]->eq[0]->differentialStates[0];
     return state->y0[0].expression();
 }

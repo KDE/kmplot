@@ -36,8 +36,8 @@ EquationEdit::EquationEdit(QWidget *parent)
 
     m_equationEditWidget = new EquationEditWidget(this);
     m_highlighter = new EquationHighlighter(this);
-    m_equation = new Equation(Equation::Cartesian, 0);
-    m_editButton = new QPushButton(QIcon::fromTheme(QStringLiteral("document-properties")), 0, this);
+    m_equation = new Equation(Equation::Cartesian, nullptr);
+    m_editButton = new QPushButton(QIcon::fromTheme(QStringLiteral("document-properties")), nullptr, this);
     setFocusProxy(m_equationEditWidget);
 
     connect(m_equationEditWidget, &EquationEditWidget::textChanged, this, &EquationEdit::slotTextChanged);
@@ -59,7 +59,7 @@ void EquationEdit::setTabChain(QWidget *next)
 void EquationEdit::setEquationType(Equation::Type type)
 {
     delete m_equation;
-    m_equation = new Equation(type, 0);
+    m_equation = new Equation(type, nullptr);
 }
 
 void EquationEdit::showEditButton(bool show)
@@ -73,7 +73,7 @@ void EquationEdit::reHighlight()
         return;
     m_forcingRehighlight = true;
 
-    m_highlighter->setDocument(0);
+    m_highlighter->setDocument(nullptr);
     m_highlighter->setDocument(m_equationEditWidget->document());
 
     m_forcingRehighlight = false;

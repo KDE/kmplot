@@ -99,7 +99,7 @@ public:
      * Attempts to evaluate the text and return it.
      * \a ok Will be set to whether the text could be evaluated as a number.
      */
-    double value(bool *ok = 0);
+    double value(bool *ok = nullptr);
 
     /**
      * @internal workaround for QTBUG-10907

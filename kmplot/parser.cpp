@@ -140,9 +140,9 @@ Parser::Parser()
     stkptr = m_stack;
     m_constants = new Constants;
 
-    m_error = 0;
-    m_ownEquation = 0;
-    m_currentEquation = 0;
+    m_error = nullptr;
+    m_ownEquation = nullptr;
+    m_currentEquation = nullptr;
 }
 
 Parser::~Parser()
@@ -228,7 +228,7 @@ double Parser::eval(const QString &str, Error *error, int *errorPosition)
         errorPosition = &t2;
 
     if (!m_ownEquation)
-        m_ownEquation = new Equation(Equation::Constant, 0);
+        m_ownEquation = new Equation(Equation::Constant, nullptr);
 
     QString fName = XParser::self()->findFunctionName(QStringLiteral("f"), -1);
 
@@ -515,7 +515,7 @@ int Parser::addFunction(const QString &str1, const QString &str2, Function::Type
             continue;
 
         int error;
-        if (!temp->eq[i]->setFstr(str[i], &error, 0, force) && !force) {
+        if (!temp->eq[i]->setFstr(str[i], &error, nullptr, force) && !force) {
             qDebug() << "could not set fstr to \"" << str[i] << "\"!  error:" << errorString(Error(error)) << "\n";
             delete temp;
             return -1;
@@ -614,7 +614,7 @@ bool Parser::removeFunction(Function *item)
         buttonContinue.setText(i18n("Remove all"));
 
         int answer =
-            KMessageBox::warningContinueCancel(0,
+            KMessageBox::warningContinueCancel(nullptr,
                                                i18n("The function %1 is depended upon by the following functions: %2. These must be removed in addition.",
                                                     item->name(),
                                                     otherRemoveNames.join(", ")),
@@ -962,7 +962,7 @@ bool Parser::tryNumber()
 {
     QByteArray remaining = evalRemaining().toLatin1();
     char *lptr = remaining.data();
-    char *p = 0;
+    char *p = nullptr;
     // we converted all to "C" format in fixExpression
     char *oldLocale = setlocale(LC_NUMERIC, "C");
     double const w = strtod(lptr, &p);
@@ -1129,7 +1129,7 @@ void Parser::displayErrorDialog(Error error)
 {
     QString message(errorString(error));
     if (!message.isEmpty())
-        KMessageBox::error(0, message, QStringLiteral("KmPlot"));
+        KMessageBox::error(nullptr, message, QStringLiteral("KmPlot"));
 }
 
 QString Parser::evalRemaining()
@@ -1161,7 +1161,7 @@ bool Parser::match(const QString &lit)
 
 Function *Parser::functionWithID(int id) const
 {
-    return m_ufkt.contains(id) ? m_ufkt[id] : 0;
+    return m_ufkt.contains(id) ? m_ufkt[id] : nullptr;
 }
 
 // static
@@ -1351,7 +1351,7 @@ enum StringType { ConstantString, NumberString, UnknownLetter, FunctionString, O
 ExpressionSanitizer::ExpressionSanitizer(Parser *parser)
     : m_parser(parser)
 {
-    m_str = 0l;
+    m_str = nullptr;
     m_decimalSymbol = QLocale().decimalPoint();
 }
 

@@ -61,7 +61,7 @@ double realModulo(double x, double mod)
 }
 
 // BEGIN class View
-View *View::m_self = 0;
+View *View::m_self = nullptr;
 
 View::View(bool readOnly, QMenu *functionPopup, QWidget *parent)
     : QWidget(parent)
@@ -100,7 +100,7 @@ View::View(bool readOnly, QMenu *functionPopup, QWidget *parent)
     QDBusConnection::sessionBus().registerObject("/view", this);
 
     setMouseTracking(true);
-    m_sliderWindow = 0;
+    m_sliderWindow = nullptr;
 
     m_popupMenuTitle = m_popupMenu->insertSection(MainDlg::self()->m_firstFunctionAction, "");
     connect(XParser::self(), &XParser::functionRemoved, this, &View::functionRemoved);
@@ -1111,7 +1111,7 @@ void View::drawImplicit(Function *function, QPainter *painter)
     Plot circular;
     QString fname("f(x)=0");
     XParser::self()->fixFunctionName(fname, Equation::Cartesian, -1);
-    circular.setFunctionID(XParser::self()->Parser::addFunction(fname, 0, Function::Cartesian));
+    circular.setFunctionID(XParser::self()->Parser::addFunction(fname, nullptr, Function::Cartesian));
     assert(circular.function());
 
     const QList<Plot> plots = function->plots();
@@ -1417,7 +1417,7 @@ void View::drawImplicitInSquare(const Plot &plot, QPainter *painter, double x, d
         plot.function()->x = x;
         plot.function()->y = y;
 
-        double *coord = 0;
+        double *coord = nullptr;
         if (qAbs(tx) > qAbs(ty)) {
             plot.function()->m_implicitMode = Function::FixedX;
             coord = &y;
@@ -2485,8 +2485,8 @@ double View::pixelNormal(const Plot &plot, double x, double y)
     }
 
     case Function::Implicit: {
-        dx = XParser::self()->partialDerivative(d1, d0, f->eq[0], 0, x, y, h, h) / sx;
-        dy = XParser::self()->partialDerivative(d0, d1, f->eq[0], 0, x, y, h, h) / sy;
+        dx = XParser::self()->partialDerivative(d1, d0, f->eq[0], nullptr, x, y, h, h) / sx;
+        dy = XParser::self()->partialDerivative(d0, d1, f->eq[0], nullptr, x, y, h, h) / sy;
 
         double theta = -atan(dy / dx);
 
@@ -2499,8 +2499,8 @@ double View::pixelNormal(const Plot &plot, double x, double y)
     }
 
     case Function::Polar: {
-        double r = XParser::self()->derivative(d0, f->eq[0], 0, x, h);
-        double dr = XParser::self()->derivative(d1, f->eq[0], 0, x, h);
+        double r = XParser::self()->derivative(d0, f->eq[0], nullptr, x, h);
+        double dr = XParser::self()->derivative(d1, f->eq[0], nullptr, x, h);
 
         dx = (dr * lcos(x) - r * lsin(x) * XParser::self()->radiansPerAngleUnit()) * sx;
         dy = (dr * lsin(x) + r * lcos(x) * XParser::self()->radiansPerAngleUnit()) * sy;
@@ -2508,8 +2508,8 @@ double View::pixelNormal(const Plot &plot, double x, double y)
     }
 
     case Function::Parametric: {
-        dx = XParser::self()->derivative(d1, f->eq[0], 0, x, h) * sx;
-        dy = XParser::self()->derivative(d1, f->eq[1], 0, x, h) * sy;
+        dx = XParser::self()->derivative(d1, f->eq[0], nullptr, x, h) * sx;
+        dy = XParser::self()->derivative(d1, f->eq[1], nullptr, x, h) * sy;
         break;
     }
     }
@@ -2559,9 +2559,9 @@ double View::pixelCurvature(const Plot &plot, double x, double y)
     }
 
     case Function::Polar: {
-        double r = XParser::self()->derivative(d0, f->eq[0], 0, x, h);
-        double dr = XParser::self()->derivative(d1, f->eq[0], 0, x, h);
-        double ddr = XParser::self()->derivative(d2, f->eq[0], 0, x, h);
+        double r = XParser::self()->derivative(d0, f->eq[0], nullptr, x, h);
+        double dr = XParser::self()->derivative(d1, f->eq[0], nullptr, x, h);
+        double ddr = XParser::self()->derivative(d2, f->eq[0], nullptr, x, h);
 
         fdx = (dr * lcos(x) - r * lsin(x) * XParser::self()->radiansPerAngleUnit()) * sx;
         fdy = (dr * lsin(x) + r * lcos(x) * XParser::self()->radiansPerAngleUnit()) * sy;
@@ -2575,23 +2575,23 @@ double View::pixelCurvature(const Plot &plot, double x, double y)
     }
 
     case Function::Parametric: {
-        fdx = XParser::self()->derivative(d1, f->eq[0], 0, x, h) * sx;
-        fdy = XParser::self()->derivative(d1, f->eq[1], 0, x, h) * sy;
+        fdx = XParser::self()->derivative(d1, f->eq[0], nullptr, x, h) * sx;
+        fdy = XParser::self()->derivative(d1, f->eq[1], nullptr, x, h) * sy;
 
-        fddx = XParser::self()->derivative(d2, f->eq[0], 0, x, h) * sx;
-        fddy = XParser::self()->derivative(d2, f->eq[1], 0, x, h) * sy;
+        fddx = XParser::self()->derivative(d2, f->eq[0], nullptr, x, h) * sx;
+        fddy = XParser::self()->derivative(d2, f->eq[1], nullptr, x, h) * sy;
 
         break;
     }
 
     case Function::Implicit: {
-        fdx = XParser::self()->partialDerivative(d1, d0, f->eq[0], 0, x, y, h, h) / sx;
-        fdy = XParser::self()->partialDerivative(d0, d1, f->eq[0], 0, x, y, h, h) / sy;
+        fdx = XParser::self()->partialDerivative(d1, d0, f->eq[0], nullptr, x, y, h, h) / sx;
+        fdy = XParser::self()->partialDerivative(d0, d1, f->eq[0], nullptr, x, y, h, h) / sy;
 
-        fddx = XParser::self()->partialDerivative(d2, d0, f->eq[0], 0, x, y, h, h) / (sx * sx);
-        fddy = XParser::self()->partialDerivative(d0, d2, f->eq[0], 0, x, y, h, h) / (sy * sy);
+        fddx = XParser::self()->partialDerivative(d2, d0, f->eq[0], nullptr, x, y, h, h) / (sx * sx);
+        fddy = XParser::self()->partialDerivative(d0, d2, f->eq[0], nullptr, x, y, h, h) / (sy * sy);
 
-        fdxy = XParser::self()->partialDerivative(d1, d1, f->eq[0], 0, x, y, h, h) / (sx * sy);
+        fdxy = XParser::self()->partialDerivative(d1, d1, f->eq[0], nullptr, x, y, h, h) / (sx * sy);
 
         break;
     }
@@ -3387,7 +3387,7 @@ void View::keyPressEvent(QKeyEvent *e)
     if (m_currentPlot.functionID() == -1)
         return;
 
-    QMouseEvent *event = 0;
+    QMouseEvent *event = nullptr;
     if (e->key() == Qt::Key_Left)
         event = new QMouseEvent(QEvent::MouseMove, m_crosshairPixelCoords.toPoint() - QPoint(1, 1), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
     else if (e->key() == Qt::Key_Right)

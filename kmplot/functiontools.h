@@ -30,7 +30,7 @@ class FunctionTools : public QDialog
 {
     Q_OBJECT
 public:
-    explicit FunctionTools(QWidget *parent = 0);
+    explicit FunctionTools(QWidget *parent = nullptr);
     ~FunctionTools();
 
     enum Mode { FindMinimum, FindMaximum, CalculateArea };

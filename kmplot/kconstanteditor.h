@@ -30,7 +30,7 @@ class KConstantEditor : public QDialog
 {
     Q_OBJECT
 public:
-    explicit KConstantEditor(QWidget *parent = 0);
+    explicit KConstantEditor(QWidget *parent = nullptr);
     ~KConstantEditor();
 
 public slots:

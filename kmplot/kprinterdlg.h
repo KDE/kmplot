@@ -31,7 +31,7 @@ class KPrinterDlg : public QWidget
     Q_OBJECT
 public:
     /// Getting the common arguments.
-    explicit KPrinterDlg(QWidget *parent = 0);
+    explicit KPrinterDlg(QWidget *parent = nullptr);
 
     bool printHeaderTable();
     void setPrintHeaderTable(bool status);

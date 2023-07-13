@@ -141,7 +141,7 @@ void KmPlot::setupActions()
     createStandardStatusBarAction();
     setStandardToolBarMenuEnabled(true);
 
-    m_fullScreen = KStandardAction::fullScreen(NULL, NULL, this, actionCollection());
+    m_fullScreen = KStandardAction::fullScreen(nullptr, nullptr, this, actionCollection());
     actionCollection()->addAction(QStringLiteral("fullscreen"), m_fullScreen);
     connect(m_fullScreen, &KToggleFullScreenAction::toggled, this, &KmPlot::slotUpdateFullScreen);
 }

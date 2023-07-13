@@ -466,7 +466,7 @@ void KGradientButton::paintEvent(QPaintEvent *)
         y += style()->pixelMetric(QStyle::PM_ButtonShiftVertical);
     }
 
-    qDrawShadePanel(&painter, x, y, w, h, palette(), true, 1, NULL);
+    qDrawShadePanel(&painter, x, y, w, h, palette(), true, 1, nullptr);
 
     if (isEnabled()) {
         QLinearGradient lg(x + 1, 0, x + w - 1, 0);

@@ -29,7 +29,7 @@
 class ConstantsEditorWidget : public QWidget, public Ui::ConstantsEditor
 {
 public:
-    ConstantsEditorWidget(QWidget *parent = 0)
+    ConstantsEditorWidget(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);
@@ -143,12 +143,12 @@ void KConstantEditor::cmdDelete_clicked()
     m_widget->constantList->takeTopLevelItem(m_widget->constantList->indexOfTopLevelItem(item));
     delete item;
 
-    m_widget->cmdDelete->setEnabled(m_widget->constantList->currentItem() != 0);
+    m_widget->cmdDelete->setEnabled(m_widget->constantList->currentItem() != nullptr);
 }
 
 void KConstantEditor::selectedConstantChanged(QTreeWidgetItem *current)
 {
-    m_widget->cmdDelete->setEnabled(current != 0);
+    m_widget->cmdDelete->setEnabled(current != nullptr);
 
     QString name = current ? current->text(0) : QString();
     QString value = current ? current->text(1) : QString();

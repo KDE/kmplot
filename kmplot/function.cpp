@@ -234,7 +234,7 @@ Equation::Equation(Type type, Function *parent)
     , m_parent(parent)
 {
     m_usesParameter = false;
-    mptr = 0;
+    mptr = nullptr;
 
     if (type == Differential || type == Cartesian) {
         differentialStates.setUniqueState(type == Cartesian);
@@ -860,7 +860,7 @@ Plot::Plot()
     stateNumber = -1;
     plotNumberCount = 1;
     plotNumber = 0;
-    m_function = 0;
+    m_function = nullptr;
     m_functionID = -1;
     plotMode = Function::Derivative0;
 }
@@ -1050,10 +1050,10 @@ int Plot::derivativeNumber() const
 DifferentialState *Plot::state() const
 {
     if (!function() || (stateNumber < 0))
-        return 0;
+        return nullptr;
 
     if (function()->eq[0]->differentialStates.size() <= stateNumber)
-        return 0;
+        return nullptr;
 
     return &function()->eq[0]->differentialStates[stateNumber];
 }

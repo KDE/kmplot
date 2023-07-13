@@ -26,7 +26,7 @@ class Calculator : public QDialog
 {
     Q_OBJECT
 public:
-    explicit Calculator(QWidget *parent = 0);
+    explicit Calculator(QWidget *parent = nullptr);
     ~Calculator();
 
 protected Q_SLOTS:

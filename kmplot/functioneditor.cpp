@@ -34,7 +34,7 @@
 class FunctionEditorWidget : public QWidget, public Ui::FunctionEditorWidget
 {
 public:
-    FunctionEditorWidget(QWidget *parent = 0)
+    FunctionEditorWidget(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);
@@ -141,7 +141,7 @@ FunctionEditor::~FunctionEditor()
 
 void FunctionEditor::deleteCurrent()
 {
-    m_editor->initialConditions->init(0);
+    m_editor->initialConditions->init(nullptr);
 
     FunctionListItem *functionItem = static_cast<FunctionListItem *>(m_functionList->currentItem());
     if (!functionItem) {
@@ -183,7 +183,7 @@ void FunctionEditor::syncFunctionList()
         item->update();
     }
 
-    FunctionListItem *toSelect = 0l;
+    FunctionListItem *toSelect = nullptr;
     int newFunctionCount = 0;
 
     for (QMap<int, Function *>::iterator it = XParser::self()->m_ufkt.begin(); it != XParser::self()->m_ufkt.end(); ++it) {
@@ -202,7 +202,7 @@ void FunctionEditor::syncFunctionList()
 
     if (newFunctionCount != 1) {
         // only select a new functionlistitem if there was precisely one added
-        toSelect = 0l;
+        toSelect = nullptr;
     }
 
     // Now, any IDs left in currentIDs are of functions that have been deleted
@@ -244,7 +244,7 @@ void FunctionEditor::setCurrentFunction(int functionID)
 
 void FunctionEditor::functionSelected(QListWidgetItem *item)
 {
-    m_editor->deleteButton->setEnabled(item != 0);
+    m_editor->deleteButton->setEnabled(item != nullptr);
     if (!item)
         return;
 

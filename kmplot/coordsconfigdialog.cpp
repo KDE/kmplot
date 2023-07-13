@@ -24,7 +24,7 @@
 class EditCoords : public QWidget, public Ui::EditCoords
 {
 public:
-    EditCoords(QWidget *parent = 0)
+    EditCoords(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);
@@ -34,7 +34,7 @@ public:
 CoordsConfigDialog::CoordsConfigDialog(QWidget *parent)
     : KConfigDialog(parent, "coords", Settings::self())
 {
-    configAxesDialog = new EditCoords(0);
+    configAxesDialog = new EditCoords(nullptr);
     configAxesDialog->kcfg_XMin->setTabChain(configAxesDialog->kcfg_XMax->focusProxy());
     configAxesDialog->kcfg_XMax->setTabChain(configAxesDialog->kcfg_YMin->focusProxy());
     configAxesDialog->kcfg_YMin->setTabChain(configAxesDialog->kcfg_YMax->focusProxy());

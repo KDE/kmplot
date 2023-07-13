@@ -186,7 +186,7 @@ public:
      *
      * \returns QDialog::result()
      */
-    static int getGradient(QGradient &gradient, QWidget *parent = 0);
+    static int getGradient(QGradient &gradient, QWidget *parent = nullptr);
 
     /**
      * \return the current gradient.
@@ -222,7 +222,7 @@ class KGradientButton : public QPushButton
     Q_PROPERTY(QGradient gradient READ gradient WRITE setGradient USER true)
 
 public:
-    explicit KGradientButton(QWidget *parent = 0);
+    explicit KGradientButton(QWidget *parent = nullptr);
     ~KGradientButton();
 
     /**

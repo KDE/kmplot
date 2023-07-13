@@ -157,7 +157,7 @@ void KParameterEditor::next()
 
 void KParameterEditor::selectedConstantChanged(QListWidgetItem *current)
 {
-    m_mainWidget->cmdDelete->setEnabled(current != 0);
+    m_mainWidget->cmdDelete->setEnabled(current != nullptr);
     m_mainWidget->value->setText(current ? current->text() : QString());
     m_mainWidget->value->selectAll();
 }
@@ -172,7 +172,7 @@ void KParameterEditor::cmdDelete_clicked()
     m_mainWidget->list->takeItem(m_mainWidget->list->currentRow());
     delete item;
 
-    m_mainWidget->cmdDelete->setEnabled(m_mainWidget->list->currentItem() != 0);
+    m_mainWidget->cmdDelete->setEnabled(m_mainWidget->list->currentItem() != nullptr);
 }
 
 void KParameterEditor::saveCurrentValue()
@@ -202,7 +202,7 @@ void KParameterEditor::cmdImport_clicked()
         return;
 
     if (!MainDlg::fileExists(url)) {
-        KMessageBox::error(0, i18n("The file does not exist."));
+        KMessageBox::error(nullptr, i18n("The file does not exist."));
         return;
     }
 
@@ -210,9 +210,9 @@ void KParameterEditor::cmdImport_clicked()
     QFile file;
     if (!url.isLocalFile()) {
         KIO::StoredTransferJob *transferjob = KIO::storedGet(url);
-        KJobWidgets::setWindow(transferjob, 0);
+        KJobWidgets::setWindow(transferjob, nullptr);
         if (!transferjob->exec()) {
-            KMessageBox::error(0, i18n("An error appeared when opening this file: %1", transferjob->errorString()));
+            KMessageBox::error(nullptr, i18n("An error appeared when opening this file: %1", transferjob->errorString()));
             return;
         }
         QTemporaryFile tmpfile;
@@ -265,7 +265,7 @@ void KParameterEditor::cmdImport_clicked()
         }
         file.close();
     } else
-        KMessageBox::error(0, i18n("An error appeared when opening this file"));
+        KMessageBox::error(nullptr, i18n("An error appeared when opening this file"));
 
     if (!url.isLocalFile())
         QFile::remove(file.fileName());
@@ -299,14 +299,14 @@ void KParameterEditor::cmdExport_clicked()
                 }
                 stream.flush();
             } else
-                KMessageBox::error(0, i18n("An error appeared when saving this file"));
+                KMessageBox::error(nullptr, i18n("An error appeared when saving this file"));
 
             Q_CONSTEXPR int permission = -1;
             QFile file(tmpfile.fileName());
             file.open(QIODevice::ReadOnly);
             KIO::StoredTransferJob *putjob = KIO::storedPut(file.readAll(), url, permission, KIO::JobFlag::Overwrite);
             if (!putjob->exec()) {
-                KMessageBox::error(0, i18n("An error appeared when saving this file"));
+                KMessageBox::error(nullptr, i18n("An error appeared when saving this file"));
                 return;
             }
             file.close();
@@ -324,7 +324,7 @@ void KParameterEditor::cmdExport_clicked()
                 }
                 file.close();
             } else
-                KMessageBox::error(0, i18n("An error appeared when saving this file"));
+                KMessageBox::error(nullptr, i18n("An error appeared when saving this file"));
         }
     }
 }

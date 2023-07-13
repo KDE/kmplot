@@ -23,7 +23,7 @@
 class PlotStyleDialogWidget : public QWidget, public Ui::PlotStyleWidget
 {
 public:
-    PlotStyleDialogWidget(QWidget *parent = 0)
+    PlotStyleDialogWidget(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);

@@ -285,7 +285,7 @@ bool KmPlotIO::restore(const QDomDocument &doc)
             }
         }
     } else {
-        KMessageBox::error(0, i18n("The file had an unknown version number"));
+        KMessageBox::error(nullptr, i18n("The file had an unknown version number"));
         return false;
     }
 
@@ -303,14 +303,14 @@ bool KmPlotIO::load(const QUrl &url)
     bool downloadedFile = false;
     if (!url.isLocalFile()) {
         if (!MainDlg::fileExists(url)) {
-            KMessageBox::error(0, i18n("The file does not exist."));
+            KMessageBox::error(nullptr, i18n("The file does not exist."));
             return false;
         }
         downloadedFile = true;
         KIO::StoredTransferJob *transferjob = KIO::storedGet(url);
-        KJobWidgets::setWindow(transferjob, 0);
+        KJobWidgets::setWindow(transferjob, nullptr);
         if (!transferjob->exec()) {
-            KMessageBox::error(0, i18n("An error appeared when opening this file (%1)", transferjob->errorString()));
+            KMessageBox::error(nullptr, i18n("An error appeared when opening this file (%1)", transferjob->errorString()));
             return false;
         }
         QTemporaryFile file;
@@ -323,13 +323,13 @@ bool KmPlotIO::load(const QUrl &url)
         f.setFileName(url.toLocalFile());
 
     if (!f.open(QIODevice::ReadOnly)) {
-        KMessageBox::error(0, i18n("%1 could not be opened", f.fileName()));
+        KMessageBox::error(nullptr, i18n("%1 could not be opened", f.fileName()));
         return false;
     }
     QString errorMessage;
     int errorLine, errorColumn;
     if (!doc.setContent(&f, &errorMessage, &errorLine, &errorColumn)) {
-        KMessageBox::error(0, i18n("%1 could not be loaded (%2 at line %3, column %4)", f.fileName(), errorMessage, errorLine, errorColumn));
+        KMessageBox::error(nullptr, i18n("%1 could not be loaded (%2 at line %3, column %4)", f.fileName(), errorMessage, errorLine, errorColumn));
         f.close();
         return false;
     }
@@ -587,9 +587,9 @@ void KmPlotIO::oldParseFunction2(const QDomElement &n)
     }
 
     Function ufkt(type);
-    ufkt.eq[0]->setFstr(eq0, 0, 0, true);
+    ufkt.eq[0]->setFstr(eq0, nullptr, nullptr, true);
     if (!eq1.isEmpty())
-        ufkt.eq[1]->setFstr(eq1, 0, 0, true);
+        ufkt.eq[1]->setFstr(eq1, nullptr, nullptr, true);
 
     PlotAppearance *plots[] = {&ufkt.plotAppearance(Function::Derivative0),
                                &ufkt.plotAppearance(Function::Derivative1),
@@ -713,11 +713,11 @@ void KmPlotIO::oldParseFunction(const QDomElement &n)
 
     const int pos = tmp_fstr.indexOf(';');
     if (pos == -1)
-        ufkt.eq[0]->setFstr(tmp_fstr, 0, 0, true);
+        ufkt.eq[0]->setFstr(tmp_fstr, nullptr, nullptr, true);
     else {
-        ufkt.eq[0]->setFstr(tmp_fstr.left(pos), 0, 0, true);
+        ufkt.eq[0]->setFstr(tmp_fstr.left(pos), nullptr, nullptr, true);
         if (!XParser::self()->getext(&ufkt, tmp_fstr)) {
-            KMessageBox::error(0, i18n("The function %1 could not be loaded", ufkt.eq[0]->fstr()));
+            KMessageBox::error(nullptr, i18n("The function %1 could not be loaded", ufkt.eq[0]->fstr()));
             return;
         }
     }
@@ -735,7 +735,7 @@ void KmPlotIO::oldParseFunction(const QDomElement &n)
         if (type == Function::Parametric)
             id = XParser::self()->Parser::addFunction(str, parametricXEquation, type, true);
         else
-            id = XParser::self()->Parser::addFunction(str, 0, type, true);
+            id = XParser::self()->Parser::addFunction(str, nullptr, type, true);
 
         Function *added_function = XParser::self()->m_ufkt[id];
         added_function->copyFrom(ufkt);

@@ -24,10 +24,10 @@
 DifferentialState *differentialState(DifferentialStates *states, int row)
 {
     if (!states)
-        return 0;
+        return nullptr;
 
     if (row < 0 || row >= states->size())
-        return 0;
+        return nullptr;
 
     return &(*states)[row];
 }
@@ -39,7 +39,7 @@ Value *value(DifferentialStates *states, int row, int column)
 {
     DifferentialState *state = differentialState(states, row);
     if (!state)
-        return 0;
+        return nullptr;
 
     if (column == 0)
         return &state->x0;
@@ -190,14 +190,14 @@ InitialConditionsDelegate::InitialConditionsDelegate(InitialConditionsEditor *pa
     : QItemDelegate(parent)
 {
     m_parent = parent;
-    m_lastEditor = 0;
+    m_lastEditor = nullptr;
 }
 
 QWidget *InitialConditionsDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem & /*option*/, const QModelIndex &index) const
 {
     Value *v = value(m_parent->differentialStates(), index.row(), index.column());
     if (!v)
-        return 0;
+        return nullptr;
 
     m_lastEditor = new EquationEdit(parent);
     connect(m_lastEditor, &EquationEdit::returnPressed, this, &InitialConditionsDelegate::equationEditDone);
@@ -233,7 +233,7 @@ void InitialConditionsDelegate::updateEditorGeometry(QWidget *editor, const QSty
 InitialConditionsEditor::InitialConditionsEditor(QWidget *parent)
     : QWidget(parent)
 {
-    m_equation = 0;
+    m_equation = nullptr;
 
     setupUi(this);
     layout()->setContentsMargins(0, 0, 0, 0);
@@ -262,7 +262,7 @@ void InitialConditionsEditor::init(Function *function)
         m_equation = function->eq[0];
         m_states = m_equation->differentialStates;
     } else {
-        m_equation = 0;
+        m_equation = nullptr;
     }
 
     m_model->endResetModel();
@@ -280,7 +280,7 @@ void InitialConditionsEditor::remove()
 
     QMap<int, void *> sorted;
     for (const QModelIndex &index : selected)
-        sorted.insert(-index.row(), 0l);
+        sorted.insert(-index.row(), nullptr);
     const QList<int> indexes = sorted.keys();
 
     for (int row : indexes)

@@ -35,7 +35,7 @@ double inline log(int n)
 class ParameterAnimatorWidget : public QWidget, public Ui::ParameterAnimator
 {
 public:
-    ParameterAnimatorWidget(QWidget *parent = 0)
+    ParameterAnimatorWidget(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);

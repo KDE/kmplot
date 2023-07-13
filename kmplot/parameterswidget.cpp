@@ -53,7 +53,7 @@ ParameterSettings ParametersWidget::parameterSettings() const
 
 void ParametersWidget::editParameterList()
 {
-    QPointer<KParameterEditor> dlg = new KParameterEditor(&m_parameters, 0);
+    QPointer<KParameterEditor> dlg = new KParameterEditor(&m_parameters, nullptr);
     dlg->exec();
     delete dlg;
     emit parameterListChanged();

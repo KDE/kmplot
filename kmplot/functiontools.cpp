@@ -20,7 +20,7 @@
 class FunctionToolsWidget : public QWidget, public Ui::FunctionTools
 {
 public:
-    FunctionToolsWidget(QWidget *parent = 0)
+    FunctionToolsWidget(QWidget *parent = nullptr)
         : QWidget(parent)
     {
         setupUi(this);

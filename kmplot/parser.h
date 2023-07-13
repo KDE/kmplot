@@ -245,7 +245,7 @@ public:
      * \param errorPosition will be set to the position of the error (if
      * there is one).
      */
-    double eval(const QString &str, Error *error = 0, int *errorPosition = 0);
+    double eval(const QString &str, Error *error = nullptr, int *errorPosition = nullptr);
     /**
      * Adds a user defined function with the given equation. The new
      * function's ID-number is returned. \p force is used to force use of
@@ -293,7 +293,7 @@ public:
      * Initializes the function for evaluation. Called after the functions
      * fstr is set.
      */
-    void initEquation(Equation *equation, Error *error = 0, int *errorPosition = 0);
+    void initEquation(Equation *equation, Error *error = nullptr, int *errorPosition = nullptr);
 
     uint getNewId(); /// Returns the next ID-number
     uint countFunctions(); /// Returns how many functions there are

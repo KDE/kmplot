@@ -348,7 +348,7 @@ public:
      * was not parsed correctly, then this will return false and this class
      * will not be updated.
      */
-    bool setFstr(const QString &string, int *error = 0, int *errorPosition = 0, bool force = false);
+    bool setFstr(const QString &string, int *error = nullptr, int *errorPosition = nullptr, bool force = false);
     /**
      * \return true if the fstr looks like "f(x) = ..."
      * \return false if the fstr looks like "y = ..." (note that this

@@ -432,7 +432,7 @@
 	<title
 >Extensions</title>
 	<para
->Une extension pour une fonction est spécifiée en saisissant un point-virgule, suivi de l'extension, après la définition de la fonction. L'extension peut être écrite en utilisant la méthode &DCOP; Parser addFunction. Aucune des extensions n'est disponible pour les fonctions paramétriques mais N et D[a,b] fonctionnent pour les fonctions polaires. Par exemple : <screen>
+>Une extension pour une fonction est spécifiée en saisissant un point-virgule, suivi de l'extension, après la définition de la fonction. L'extension peut être écrite en utilisant la méthode DCOP Parser addFunction. Aucune des extensions n'est disponible pour les fonctions paramétriques mais N et D[a,b] fonctionnent pour les fonctions polaires. Par exemple : <screen>
                         <userinput>
                                 f(x)=x^2; A1
                         </userinput>

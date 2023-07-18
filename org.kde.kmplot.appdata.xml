@@ -13,6 +13,7 @@
   <name xml:lang="de">KmPlot</name>
   <name xml:lang="el">KmPlot</name>
   <name xml:lang="en-GB">KmPlot</name>
+  <name xml:lang="eo">KmPlot</name>
   <name xml:lang="es">KmPlot</name>
   <name xml:lang="et">KmPlot</name>
   <name xml:lang="eu">KmPlot</name>
@@ -47,6 +48,7 @@
   <summary xml:lang="de">Mathematischer Funktionsplotter</summary>
   <summary xml:lang="el">Γραφική παράσταση συναρτήσεων</summary>
   <summary xml:lang="en-GB">Mathematical Function Plotter</summary>
+  <summary xml:lang="eo">Grafikilo por Matematikaj Funkcioj</summary>
   <summary xml:lang="es">Trazador de funciones matemáticas</summary>
   <summary xml:lang="et">Matemaatiliste funktsioonide joonistaja</summary>
   <summary xml:lang="eu">Funtzio matematikoen grafiko-marrazlea</summary>
@@ -81,6 +83,7 @@
     <p xml:lang="de">KmPlot ist ein Programm zum Plotten von Graphen von Funktionen, deren Integralen oder Ableitungen. Die Graphen können eingefärbt werden und die Darstellung kann vielfältig angepasst werden, zum Beispiel die Skalierung und Vergrößerung. Das Programm bietet einen leistungsfähigen mathematischen Parser, verschiedene Diagrammtypen (kartesisch, parametrisch, polar, implizit, differentiell), und bietet einfache mathematische Werkzeuge zum Auffinden von Maximum/Minimum einer Funktion. Parametrisierte Funktionen können visualisiert werden, indem der variable Parameter über einen Schieberegler eingestellt wird. Diagramme können als Bilder in Bitmap-Formaten (BMP, PNG) exportiert und ausgedruckt werden.</p>
     <p xml:lang="el">Το KmPlot είναι ένα πρόγραμμα για το σχεδιασμό γραφικών παραστάσεων συναρτήσεων, των ολοκληρωμάτων ή των παραγώγων τους. Οι γραφικές παραστάσεις χρωματίζονται και η προβολή είναι πλήρως διαμορφώσιμη, επεκτάσιμη και με δυνατότητα ζουμαρίσματος. Το πρόγραμμα περιλαμβάνει έναν ισχυρό εργαλείο μαθηματικής ανάλυσης, διαφορετικούς τύπους παραστάσεων (καρτεσιανή, παραμετρική, πολική, πεπλεγμένη, διαφορική) και παρέχει απλά μαθηματικά εργαλεία όπως για την εύρεση του μέγιστου/ελάχιστου της συνάρτησης. Η οπτικοποίηση των παραμετρικών συναρτήσεων γίνεται με την προσαρμογή της μεταβλητής με ένα κουμπί κύλισης. Μπορεί να γίνει εξαγωγή των παραστάσεων σε τύπο αποθήκευσης bitmap (BMP, PNG) και εκτύπωσή τους.</p>
     <p xml:lang="en-GB">KmPlot is a program to plot graphs of functions, their integrals or derivatives. The graphs can be colourised and the view is highly configurable, is scalable, and can be zoomed. The program features a powerful mathematical parser, different plot types (cartesian, parametric, polar, implicit, differential), and provides simple mathematical tools like for finding maximum/minimum of a function. Parametrised functions can be visualised by adjusting the variable parameter via a slider. Plots can be exported as bitmap format pictures (BMP, PNG) and can be printed.</p>
+    <p xml:lang="eo">KmPlot estas programo por bildigi grafeojn de funkcioj, iliajn integralojn aŭ derivaĵojn. La grafikaĵoj povas esti kolorigitaj kaj la vido estas tre agordebla, estas skalebla kaj povas esti zomita. La programo prezentas potencan matematikan analizilon, malsamajn diagramtipojn (kartezia, parametrika, polusa, implica, diferenciala), kaj disponigas simplajn matematikajn ilojn kiel por trovi maksimumon/minimumon de funkcio. Parametrizitaj funkcioj povas esti bildigitaj ĝustigante la varian parametron per glitilo. Grafikoj povas esti eksportitaj kiel bitmapformataj bildoj (BMP, PNG) kaj povas esti presitaj.</p>
     <p xml:lang="es">KmPlot es un programa para dibujar gráficas de funciones, sus integrales o sus derivadas. Las gráficas pueden tener color y contienen muchas opciones de configuración, son escalables y se pueden ampliar. El programa contiene un potente analizador matemático, diferentes tipos de gráficas (cartesiana, paramétrica, polar, implícita, diferencial) y proporciona sencillas herramientas matemáticas, como la que calcula el máximo o el mínimo de una función. Las funciones con parámetros se pueden visualizar ajustando los parámetros variables usando un deslizador. Las gráficas se pueden exportar como imágenes en formato de mapa de bits (BMP o PNG) y también se pueden imprimir.</p>
     <p xml:lang="et">KmPlot on matemaatiliste funktsioonide, nende integraalide ja tuletiste graafikute joonistamise rakendus. Graafikuid saab esitada värviliselt ning kõikvõimalikul moel esitamist seadistada. Rakendus pakub võimsat matemaatikaparserit, mitmesuguseid joonisetüüpe (Descartes'i, parameetrilised, polaarsed, ilmutamata, diferentsiaalsed) ning lihtsamaid matemaatikatööriistu, näiteks funktsiooni maksimumi või miinimumi leidmiseks. Parameetrilisi funktsioone saab visualiseerida otse muutuja parameetrit liuguriga nihutades. Jooniseid saab eksportida bittrastervormingus piltidena (BMP, PNG) ning trükkida.</p>
     <p xml:lang="eu">KmPlot, funtzioen, haien integralen edo deribatuen grafikoak marrazteko programa bat da. Grafikoak koloreztatu egin daitezke eta ikuspegia oso konfiguragarria da, eskalagarria, eta zoom egin daiteke. Programak matematika-analizatzaile ahaltsua du, trazu mota ezberdinak (kartesiarra, parametrikoa, polarra, inplizitua eta diferentziala), eta matematika-tresna sinpleak eskaintzen ditu, funtzio baten maximoa/minimoa aurkitzekoa esaterako. Parametrodun funtzioak, parametro aldagaia graduatzaile baten bidez doituz irudika daiteke. Trazu-marrazkiak bit-mapa formatuko (BMP, PNG) irudi gisa inportatu eta inprima daitezke.</p>
@@ -119,6 +122,7 @@
       <caption xml:lang="de">Quadratische Funktion, ihre Ableitung und das Integral mit KmPlot gezeichnet</caption>
       <caption xml:lang="el">Η τετραγωνική συνάρτηση, η παράγωγός της και το ολοκλήρωμα σχεδιάζονται με το KmPlot</caption>
       <caption xml:lang="en-GB">Quadratic function, its derivative and integral plotted with KmPlot</caption>
+      <caption xml:lang="eo">Kvadratika funkcio, ĝia derivaĵo kaj integralo grafikita per KmPlot</caption>
       <caption xml:lang="es">Función cuadrática, su derivada e integral dibujadas con KmPlot</caption>
       <caption xml:lang="et">Ruutfunktsioon, selle tuletis ja integraal KmPlotis</caption>
       <caption xml:lang="eu">Funtzio koadratiko, bere deribatua eta integrala KmPlot-ekin marraztua</caption>
@@ -127,6 +131,7 @@
       <caption xml:lang="gl">Función cuadrática, coa súa derivada e integral representadas con KmPlot.</caption>
       <caption xml:lang="id">Fungsi kuadrat, turunan dan integralnya diplot dengan KmPlot</caption>
       <caption xml:lang="it">Funzione quadratica, la sua derivata e la sua integrata disegnati on KmPlot</caption>
+      <caption xml:lang="ka">კვადრატული ფუნქცია, მისი ნაწარმოებები და ინტეგრალი, დახატული KmPlot-ის მიერ</caption>
       <caption xml:lang="ko">KmPlot으로 플롯한 함수, 도함수, 적분</caption>
       <caption xml:lang="nl">Kwadratische functie, zijn afgeleide en integraal geplot met KmPlot</caption>
       <caption xml:lang="nn">KmPlot-plott som viser ein kvadratisk funksjon og den deriverte og integralet av funksjonen</caption>

@@ -12,6 +12,7 @@ Dependencies:
     'frameworks/kwidgetsaddons': '@stable'
     'frameworks/kdoctools': '@stable'
     'frameworks/kdbusaddons': '@stable'
+    'frameworks/ktextwidgets': '@stable'
 
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6']
   'require':
@@ -23,3 +24,4 @@ Dependencies:
     'frameworks/kwidgetsaddons': '@latest-kf6'
     'frameworks/kdoctools': '@latest-kf6'
     'frameworks/kdbusaddons': '@latest-kf6'
+    'frameworks/ktextwidgets': '@latest-kf6'

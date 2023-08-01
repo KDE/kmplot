@@ -36,6 +36,7 @@ find_package (KF${QT_MAJOR_VERSION} ${KF${QT_MAJOR_VERSION}_MIN_VERSION} REQUIRE
     WidgetsAddons
     DocTools
     DBusAddons
+    TextWidgets
 )
 
 include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR})

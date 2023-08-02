@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdeedu-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-12 00:42+0000\n"
-"PO-Revision-Date: 2023-05-15 22:40+0300\n"
+"PO-Revision-Date: 2023-08-02 00:50+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.03.70\n"
+"X-Generator: Lokalize 23.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -261,7 +261,7 @@ msgstr "Dikey eksen Izgara Aralığı"
 #, kde-format
 msgctxt "@title:window"
 msgid "Equation Editor"
-msgstr "Eşitlik Düzenleyici"
+msgstr "Denklem Düzenleyicisi"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: equationeditorwidget.ui:31
@@ -800,7 +800,7 @@ msgstr "Çizim aralığı üst sınırı"
 #: functioneditorwidget.ui:571
 #, kde-format
 msgid "Enter an equation"
-msgstr "Bir eşitlik girin"
+msgstr "Bir denklem girin"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, polarEquation)
 #: functioneditorwidget.ui:575
@@ -958,7 +958,7 @@ msgstr "Ekle..."
 #, kde-format
 msgctxt "@title:window"
 msgid "Constants Editor"
-msgstr "Sabit Düzenleyici"
+msgstr "Sabit Düzenleyicisi"
 
 #: kconstanteditor.cpp:116
 #, kde-format
@@ -1530,7 +1530,7 @@ msgstr "%1 fonksiyonu yüklenemedi"
 #, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
-msgstr "Parametre Düzenleyici"
+msgstr "Parametre Düzenleyicisi"
 
 #: kparametereditor.cpp:200
 #, kde-format
@@ -2223,7 +2223,7 @@ msgstr "İşlev bulunamadı"
 #: parser.cpp:1110
 #, kde-format
 msgid "The differential equation must be at least first-order"
-msgstr "Türevsel eşitlik en azından ilk-girilen olmalıdır"
+msgstr "Türevsel denklem en azından ilk-girilen olmalıdır"
 
 #: parser.cpp:1113
 #, kde-format
@@ -2343,7 +2343,7 @@ msgstr " mm"
 #: qparametereditor.ui:13
 #, kde-format
 msgid "Parameter Editor"
-msgstr "Parametre Düzenleyici"
+msgstr "Parametre Düzenleyicisi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdDelete)
 #: qparametereditor.ui:55

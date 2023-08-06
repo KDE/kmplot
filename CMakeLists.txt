@@ -29,13 +29,17 @@ include(KDEGitCommitHooks)
 find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS Core Gui Svg Widgets PrintSupport)
 
 find_package (KF${QT_MAJOR_VERSION} ${KF${QT_MAJOR_VERSION}_MIN_VERSION} REQUIRED COMPONENTS
+    Completion
+    Config
     Crash
+    DBusAddons
+    DocTools
     GuiAddons
     I18n
+    JobWidgets
+    KIO
     Parts
     WidgetsAddons
-    DocTools
-    DBusAddons
     TextWidgets
 )
 

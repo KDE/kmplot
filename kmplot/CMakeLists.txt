@@ -31,6 +31,8 @@ set(kmplotpart_PART_SRCS
    vector.cpp
    kgradientdialog.cpp
    calculator.cpp
+
+   kmplot_part.qrc
    )
 
 qt_add_dbus_adaptor( kmplotpart_PART_SRCS org.kde.kmplot.MainDlg.xml maindlg.h MainDlg)
@@ -65,7 +67,13 @@ install(TARGETS kmplotpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VER
 
 ########### next target ###############   
 
-set(kmplot_SRCS main.cpp kmplot.cpp kmplotprogress.cpp)
+set(kmplot_SRCS
+   main.cpp
+   kmplot.cpp
+   kmplotprogress.cpp
+
+   kmplot.qrc
+)
 qt_add_dbus_adaptor(kmplot_SRCS org.kde.kmplot.KmPlot.xml kmplot.h KmPlot)
 
 # FIXME: it's wrong, but otherwise it does not compile
@@ -84,8 +92,6 @@ install(TARGETS kmplot  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install( PROGRAMS org.kde.kmplot.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
 install( FILES kmplot.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
-install( FILES kmplot_part.rc kmplot_part_readonly.rc  DESTINATION  ${KDE_INSTALL_KXMLGUIDIR}/kmplot )
-install( FILES kmplot_shell.rc  DESTINATION  ${KDE_INSTALL_KXMLGUIDIR}/kmplot )
 install( FILES org.kde.kmplot.KmPlot.xml org.kde.kmplot.MainDlg.xml org.kde.kmplot.Parser.xml org.kde.kmplot.View.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR} )
 
 if (QT_MAJOR_VERSION STREQUAL "5")

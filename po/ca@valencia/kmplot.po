@@ -50,7 +50,7 @@ msgstr "Editor de constants"
 #: constantseditor.ui:26 qparametereditor.ui:22
 #, kde-format
 msgid "The value must be a number (e.g. \"pi^2\")"
-msgstr "El valor ha de ser un nombre (p. ex. «pi^2»)"
+msgstr "El valor ha de ser un nombre (p. ex., «pi^2»)"
 
 #. i18n: ectx: property (text), widget (QLabel, valueInvalidLabel)
 #: constantseditor.ui:29 qparametereditor.ui:25
@@ -688,7 +688,7 @@ msgstr ""
 #: functioneditorwidget.ui:328
 #, kde-format
 msgid "enter the initial y-point, eg 2 or pi"
-msgstr "introduïu el punt y inicial, p. ex. 2 o pi"
+msgstr "introduïu el punt y inicial, p. ex., 2 o pi"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitY)
 #: functioneditorwidget.ui:331

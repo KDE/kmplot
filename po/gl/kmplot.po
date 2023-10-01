@@ -991,7 +991,7 @@ msgstr "Escoller unha gradación"
 #: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
-msgstr "Non se puido atopar a compoñente de KmPlot."
+msgstr "Non foi posíbel atopar a compoñente de KmPlot."
 
 #: kmplot.cpp:171 maindlg.cpp:522
 #, kde-format
@@ -1508,12 +1508,12 @@ msgstr "Ocorreu un erro ao abrir este ficheiro (%1)"
 #: kmplotio.cpp:326
 #, kde-format
 msgid "%1 could not be opened"
-msgstr "Non se puido abrir %1"
+msgstr "Non foi posíbel abrir %1"
 
 #: kmplotio.cpp:332
 #, kde-format
 msgid "%1 could not be loaded (%2 at line %3, column %4)"
-msgstr "Non se puido abrir %1 (%2 na liña %3, columna %4)"
+msgstr "Non foi posíbel abrir %1 (%2 na liña %3, columna %4)"
 
 #: kmplotio.cpp:395
 #, kde-format
@@ -1523,7 +1523,7 @@ msgstr "automático"
 #: kmplotio.cpp:720
 #, kde-format
 msgid "The function %1 could not be loaded"
-msgstr "Non se puido cargar a función %1"
+msgstr "Non foi posíbel cargar a función %1"
 
 #: kparametereditor.cpp:43
 #, kde-format
@@ -1955,7 +1955,7 @@ msgstr "Gardar como"
 #: maindlg.cpp:528
 #, kde-format
 msgid "The file could not be saved"
-msgstr "Non se puido gardar o ficheiro"
+msgstr "Non foi posíbel gardar o ficheiro"
 
 #: maindlg.cpp:560
 #, kde-format
@@ -2216,7 +2216,7 @@ msgstr "Función baleira"
 #: parser.cpp:1107
 #, kde-format
 msgid "Function could not be found"
-msgstr "Non se puido atopar a función"
+msgstr "Non foi posíbel atopar a función"
 
 #: parser.cpp:1110
 #, kde-format

@@ -1995,13 +1995,13 @@ msgstr "Impressió del gràfic"
 #: maindlg.cpp:695
 #, kde-format
 msgid "Print Settings"
-msgstr "Configuració de la impressió"
+msgstr "Configureu la impressió"
 
 #: maindlg.cpp:700
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
-msgstr "Configuració de la impressió"
+msgstr "Configureu la impressió"
 
 #: parameteranimator.cpp:52
 #, kde-format

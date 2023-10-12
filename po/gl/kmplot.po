@@ -1503,7 +1503,7 @@ msgstr "O ficheiro non existe."
 #: kmplotio.cpp:313
 #, kde-format
 msgid "An error appeared when opening this file (%1)"
-msgstr "Ocorreu un erro ao abrir este ficheiro (%1)"
+msgstr "Produciuse un erro ao abrir este ficheiro (%1)"
 
 #: kmplotio.cpp:326
 #, kde-format
@@ -1544,7 +1544,7 @@ msgstr "Ficheiro te texto simple (*.txt)"
 #: kparametereditor.cpp:215
 #, kde-format
 msgid "An error appeared when opening this file: %1"
-msgstr "Ocorreu un erro ao abrir este ficheiro: %1"
+msgstr "Produciuse un erro ao abrir este ficheiro: %1"
 
 #: kparametereditor.cpp:244
 #, kde-format
@@ -1573,7 +1573,7 @@ msgstr "Ignorar a información"
 #: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
-msgstr "Ocorreu un erro ao abrir o ficheiro"
+msgstr "Produciuse un erro ao abrir o ficheiro"
 
 #: kparametereditor.cpp:278
 #, kde-format
@@ -1597,7 +1597,7 @@ msgstr "Quere substituír o ficheiro?"
 #: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
 msgid "An error appeared when saving this file"
-msgstr "Ocorreu un erro ao gardar este ficheiro"
+msgstr "Produciuse un erro ao gardar este ficheiro"
 
 #: kprinterdlg.cpp:31
 #, kde-format

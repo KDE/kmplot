@@ -66,6 +66,7 @@
         "Name[ug]": "KmPlotPart",
         "Name[uk]": "KmPlotPart",
         "Name[vi]": "Phần Đồ thị K",
+        "Name[x-test]": "xxKmPlotPartxx",
         "Name[zh_CN]": "KmPlot 组件",
         "Name[zh_TW]": "KmPlotPart",
         "ServiceTypes": [

@@ -592,7 +592,7 @@ msgstr "Mostra la primera derivada"
 #: functioneditorwidget.ui:214 functioneditorwidget.ui:237
 #, kde-format
 msgid "If this box is checked, the first derivative will be plotted, too."
-msgstr "Si activeu esta casella, es dibuixarà també la primera derivada."
+msgstr "Si seleccioneu esta casella, es dibuixarà també la primera derivada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDerivative1)
 #: functioneditorwidget.ui:217
@@ -642,7 +642,7 @@ msgstr "Mostra la integral"
 #: functioneditorwidget.ui:270
 #, kde-format
 msgid "If this box is checked, the integral will be plotted, too."
-msgstr "Si activeu esta casella, es dibuixarà també la integral."
+msgstr "Si seleccioneu esta casella, es dibuixarà també la integral."
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_6)
 #: functioneditorwidget.ui:283
@@ -967,7 +967,7 @@ msgstr "Editor de constants"
 #: kconstanteditor.cpp:116
 #, kde-format
 msgid "Check this to have the constant exported when saving."
-msgstr "Marqueu la casella si voleu exportar la constant en guardar."
+msgstr "Seleccioneu la casella si voleu exportar la constant en guardar."
 
 #: kconstanteditor.cpp:119
 #, kde-format
@@ -975,8 +975,8 @@ msgid ""
 "Check this to have the constant permanently available between instances of "
 "KmPlot."
 msgstr ""
-"Marqueu la casella si voleu que la constant estiga disponible permanentment "
-"entre instàncies de KmPlot."
+"Seleccioneu la casella si voleu que la constant estiga disponible "
+"permanentment entre instàncies de KmPlot."
 
 #: kgradientdialog.cpp:339
 #, kde-format
@@ -1032,8 +1032,8 @@ msgstr "Marcat si les etiquetes són visibles"
 #, kde-format
 msgid "Check this box if the labels at the tics should be shown."
 msgstr ""
-"Marqueu esta casella si s'han de mostrar les etiquetes a les marques dels "
-"eixos."
+"Seleccioneu esta casella si s'han de mostrar les etiquetes a les marques "
+"dels eixos."
 
 #. i18n: ectx: label, entry (ShowAxes), group (Coordinate System)
 #: kmplot.kcfg:22
@@ -1045,7 +1045,7 @@ msgstr "Marcat si els eixos són visibles"
 #: kmplot.kcfg:23
 #, kde-format
 msgid "Check this box if axes should be shown."
-msgstr "Marqueu esta casella si s'han de mostrar els eixos."
+msgstr "Seleccioneu esta casella si s'han de mostrar els eixos."
 
 #. i18n: ectx: label, entry (ShowArrows), group (Coordinate System)
 #: kmplot.kcfg:27
@@ -1057,7 +1057,7 @@ msgstr "Marcat si les fletxes són visibles"
 #: kmplot.kcfg:28
 #, kde-format
 msgid "Check this box if axes should have arrows."
-msgstr "Marqueu esta casella si els eixos han de tindre fletxes."
+msgstr "Seleccioneu esta casella si els eixos han de tindre fletxes."
 
 #. i18n: ectx: label, entry (GridLineWidth), group (Coordinate System)
 #: kmplot.kcfg:32
@@ -1410,7 +1410,7 @@ msgstr "Radians en comptes de graus"
 #: kmplot.kcfg:190
 #, kde-format
 msgid "Check the box if you want to use radians"
-msgstr "Marqueu esta casella si voleu utilitzar radians"
+msgstr "Seleccioneu esta casella si voleu utilitzar radians"
 
 #. i18n: ectx: label, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:194

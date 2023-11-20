@@ -1,13 +1,14 @@
 # translation of kmplot.po to esperanto
 # Copyright (C) 2007 Free Software Foundation, Inc.
 # Pierre-Marie Pédrot <pedrotpmx@wanadoo.fr>, 2007.
+# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:23+0000\n"
-"PO-Revision-Date: 2023-03-22 19:14+0100\n"
+"PO-Revision-Date: 2023-11-19 11:25+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -161,7 +162,7 @@ msgstr ""
 #: editcoords.ui:20
 #, kde-format
 msgid "Horizontal axis Range"
-msgstr ""
+msgstr "Horizontal-aksa Gamo"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4_2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel4_3)
@@ -211,13 +212,13 @@ msgstr "Min:"
 #: editcoords.ui:81
 #, kde-format
 msgid "Vertical axis Range"
-msgstr ""
+msgstr "Vertikal-aksa Gamo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_XScalingMode)
 #: editcoords.ui:142
 #, kde-format
 msgid "Horizontal axis Grid Spacing"
-msgstr ""
+msgstr "Horizontal-aksa Krad-Interspaco"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton_3)
@@ -247,7 +248,7 @@ msgstr "Propra:"
 #: editcoords.ui:178
 #, kde-format
 msgid "Vertical axis Grid Spacing"
-msgstr ""
+msgstr "Vertikal-aksa Krad-Interspaco"
 
 #: equationeditor.cpp:27
 #, kde-format
@@ -494,7 +495,7 @@ msgstr "Proprigi la maksimuman desegnan intervalon"
 #: functioneditorwidget.ui:132 functioneditorwidget.ui:145
 #, kde-format
 msgid "Check this button and enter the plot range boundaries below."
-msgstr ""
+msgstr "Kontrolu ĉi tiun butonon kaj enigu la limojn de la grafiko malsupre."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cartesianCustomMin)
 #: functioneditorwidget.ui:142
@@ -635,7 +636,7 @@ msgstr "Montri la integralon"
 #: functioneditorwidget.ui:270
 #, kde-format
 msgid "If this box is checked, the integral will be plotted, too."
-msgstr ""
+msgstr "Se ĉi tiu skatolo estas markita, ankaŭ la integralo estos grafika."
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_6)
 #: functioneditorwidget.ui:283
@@ -767,7 +768,7 @@ msgid ""
 msgstr ""
 "Enmetu esprimon por la funkcio.\n"
 "La loka variablo estas t.\n"
-"Ekzemple: cos(t)"
+"Ekzemple: sin(t)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_9)
 #: functioneditorwidget.ui:474
@@ -804,6 +805,8 @@ msgid ""
 "Enter an expression for the function. \n"
 "Example: loop(a)=ln(a)"
 msgstr ""
+"Enigu esprimon por la funkcio. \n"
+"Ekzemplo: loop(a)=ln(a)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_13)
 #: functioneditorwidget.ui:585
@@ -848,6 +851,8 @@ msgid ""
 "Enter an expression for the function.\n"
 "Example: x^2 + y^2 = 25."
 msgstr ""
+"Enigu esprimon por la funkcio.\n"
+"Ekzemplo: x^2 + y^2 = 25."
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, differentialEquation)
 #: functioneditorwidget.ui:755
@@ -856,6 +861,8 @@ msgid ""
 "Enter an expression for the function.\n"
 "Example: f''(x) = -f"
 msgstr ""
+"Enigu esprimon por la funkcio.\n"
+"Ekzemplo: f''(x) = -f"
 
 #. i18n: ectx: property (text), widget (EquationEdit, differentialEquation)
 #: functioneditorwidget.ui:758
@@ -917,7 +924,7 @@ msgstr "La areo estas %1"
 #: functiontools.ui:14
 #, kde-format
 msgid "Function Tools"
-msgstr "Funkciloj"
+msgstr "Funkciiloj"
 
 #. i18n: ectx: property (text), widget (QLabel, rangeTitle)
 #: functiontools.ui:22
@@ -985,7 +992,7 @@ msgstr "Ne eblis trovi la KmPlot modulon."
 #: kmplot.cpp:171 maindlg.cpp:522
 #, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
-msgstr ""
+msgstr "KmPlot-Dosieroj (*.fkt);;Ĉiuj Dosieroj (*)"
 
 #: kmplot.cpp:171
 #, kde-format
@@ -1141,25 +1148,25 @@ msgstr "Enmetu la supran limon de la desegnejo."
 #: kmplot.kcfg:72
 #, kde-format
 msgid "Label to Horizontal Axis"
-msgstr ""
+msgstr "Etikedo al Horizontala Akso"
 
 #. i18n: ectx: whatsthis, entry (LabelHorizontalAxis), group (Coordinate System)
 #: kmplot.kcfg:73
 #, kde-format
 msgid "Label to Horizontal Axis."
-msgstr ""
+msgstr "Etikedo al Horizontala Akso."
 
 #. i18n: ectx: label, entry (LabelVerticalAxis), group (Coordinate System)
 #: kmplot.kcfg:77
 #, kde-format
 msgid "Label to Vertical Axis"
-msgstr ""
+msgstr "Etikedo al Vertikala Akso"
 
 #. i18n: ectx: whatsthis, entry (LabelVerticalAxis), group (Coordinate System)
 #: kmplot.kcfg:78
 #, kde-format
 msgid "Label to Vertical Axis."
-msgstr ""
+msgstr "Etikedo al Vertikala Akso."
 
 #. i18n: ectx: label, entry (XScalingMode), group (Scaling)
 #. i18n: ectx: label, entry (YScalingMode), group (Scaling)
@@ -1446,7 +1453,7 @@ msgstr ""
 #: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
 #, kde-format
 msgid "&Edit"
-msgstr "&Redakti"
+msgstr "R&edakti"
 
 #. i18n: ectx: Menu (view)
 #: kmplot_part.rc:20 kmplot_part_readonly.rc:15
@@ -1522,12 +1529,12 @@ msgstr "Parametra redaktilo"
 #: kparametereditor.cpp:200
 #, kde-format
 msgid "Open Parameter File"
-msgstr ""
+msgstr "Malfermi Parametran Dosieron"
 
 #: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, kde-format
 msgid "Plain Text File (*.txt)"
-msgstr ""
+msgstr "Simpla Teksta Dosiero (*.txt)"
 
 #: kparametereditor.cpp:215
 #, kde-format
@@ -1566,7 +1573,7 @@ msgstr "Eraro okazis malfermante ĉi tiun dosieron"
 #: kparametereditor.cpp:278
 #, kde-format
 msgid "Save File"
-msgstr ""
+msgstr "Konservi Dosieron"
 
 #: kparametereditor.cpp:285
 #, kde-format
@@ -1671,7 +1678,7 @@ msgstr "KmPlot"
 #: main.cpp:44
 #, kde-format
 msgid "Mathematical function plotter by KDE"
-msgstr ""
+msgstr "Matematika funkcio-grafikilo de KDE"
 
 #: main.cpp:46
 #, kde-format
@@ -1746,12 +1753,12 @@ msgstr "Komencaj desegnendaj funkcioj"
 #: main.cpp:60
 #, kde-format
 msgid "argument"
-msgstr ""
+msgstr "argumento"
 
 #: main.cpp:61
 #, kde-format
 msgid "URLs to open"
-msgstr ""
+msgstr "URLoj por malfermi"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
 #: maindlg.cpp:193 settingspagegeneral.ui:14
@@ -1899,18 +1906,18 @@ msgstr "Animi la kurbon..."
 #: maindlg.cpp:374
 #, kde-format
 msgid "Copy (x, y)"
-msgstr ""
+msgstr "Kopii (x, y)"
 
 #: maindlg.cpp:379
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
-msgstr ""
+msgstr "(%1, %2)"
 
 #: maindlg.cpp:385
 #, kde-format
 msgid "Copy Root Value"
-msgstr ""
+msgstr "Kopii Radikan Valoron"
 
 #: maindlg.cpp:470
 #, kde-format
@@ -1949,13 +1956,13 @@ msgstr "La dosiero ne konserveblis"
 #: maindlg.cpp:560
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
-msgstr ""
+msgstr "Skaleblaj Vektoraj Grafikoj (*.svg)"
 
 #: maindlg.cpp:562
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
-msgstr "Eksporti kiel bildon"
+msgstr "Eksporti kiel bildo"
 
 #: maindlg.cpp:623
 #, kde-format
@@ -1971,13 +1978,13 @@ msgstr "Printi la grafikaĵon"
 #: maindlg.cpp:695
 #, kde-format
 msgid "Print Settings"
-msgstr ""
+msgstr "Presaj Agordoj"
 
 #: maindlg.cpp:700
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
-msgstr ""
+msgstr "Presaj Agordoj"
 
 #: parameteranimator.cpp:52
 #, kde-format
@@ -2438,7 +2445,7 @@ msgstr "&Krado:"
 #: settingspagecolor.ui:84
 #, kde-format
 msgid "Select color for the axes."
-msgstr ""
+msgstr "Elektu koloron por la aksoj."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:87
@@ -2454,7 +2461,7 @@ msgstr ""
 #: settingspagecolor.ui:97
 #, kde-format
 msgid "Select color for the grid."
-msgstr ""
+msgstr "Elektu koloron por la krado."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:100
@@ -2476,7 +2483,7 @@ msgstr "&Defaŭltaj funkciaj koloroj"
 #: settingspagecolor.ui:133
 #, kde-format
 msgid "The default color for function number 2."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 2."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color1)
 #: settingspagecolor.ui:136
@@ -2496,7 +2503,7 @@ msgstr ""
 #: settingspagecolor.ui:146
 #, kde-format
 msgid "The default color for function number 5."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 5."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color4)
 #: settingspagecolor.ui:149
@@ -2516,7 +2523,7 @@ msgstr ""
 #: settingspagecolor.ui:159
 #, kde-format
 msgid "The default color for function number 1."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 1."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color0)
 #: settingspagecolor.ui:162
@@ -2542,7 +2549,7 @@ msgstr "Funkcio &1:"
 #: settingspagecolor.ui:185
 #, kde-format
 msgid "The default color for function number 3."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 3."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color2)
 #: settingspagecolor.ui:188
@@ -2580,7 +2587,7 @@ msgstr "Funkcio &4:"
 #: settingspagecolor.ui:237
 #, kde-format
 msgid "The default color for function number 4."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 4."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color3)
 #: settingspagecolor.ui:240
@@ -2618,7 +2625,7 @@ msgstr "Funkcio &8:"
 #: settingspagecolor.ui:315
 #, kde-format
 msgid "The default color for function number 9."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 9."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color8)
 #: settingspagecolor.ui:318
@@ -2644,7 +2651,7 @@ msgstr "Funkcio &6:"
 #: settingspagecolor.ui:341
 #, kde-format
 msgid "The default color for function number 7."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 7."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color6)
 #: settingspagecolor.ui:344
@@ -2664,7 +2671,7 @@ msgstr ""
 #: settingspagecolor.ui:354
 #, kde-format
 msgid "The default color for function number 8."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 8."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color7)
 #: settingspagecolor.ui:357
@@ -2684,7 +2691,7 @@ msgstr ""
 #: settingspagecolor.ui:367
 #, kde-format
 msgid "The default color for function number 6."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 6."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color5)
 #: settingspagecolor.ui:370
@@ -2710,7 +2717,7 @@ msgstr "Funkcio &9:"
 #: settingspagecolor.ui:393
 #, kde-format
 msgid "The default color for function number 10."
-msgstr ""
+msgstr "La defaŭlta koloro por funkcio numero 10."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color9)
 #: settingspagecolor.ui:396
@@ -2784,19 +2791,19 @@ msgstr "Polusa"
 #: settingspagediagram.ui:75
 #, kde-format
 msgid "Axis Labels"
-msgstr ""
+msgstr "Aksaj Etikedoj"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label)
 #: settingspagediagram.ui:81
 #, kde-format
 msgid "Label on horizontal axis."
-msgstr ""
+msgstr "Etikedo sur horizontala akso."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagediagram.ui:84
 #, kde-format
 msgid "Horizontal axis label:"
-msgstr ""
+msgstr "Etikedo de horizontala akso:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelHorizontalAxis)
 #: settingspagediagram.ui:94
@@ -2808,13 +2815,13 @@ msgstr "X"
 #: settingspagediagram.ui:101
 #, kde-format
 msgid "Label on vertical axis."
-msgstr ""
+msgstr "Etikedo sur vertikala akso."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: settingspagediagram.ui:104
 #, kde-format
 msgid "Vertical axis label:"
-msgstr ""
+msgstr "Etikedo de vertikala akso:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelVerticalAxis)
 #: settingspagediagram.ui:114
@@ -2826,7 +2833,7 @@ msgstr "Y"
 #: settingspagediagram.ui:124
 #, kde-format
 msgid "Axis widths:"
-msgstr ""
+msgstr "Aksaj larĝoj:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: settingspagediagram.ui:156
@@ -2850,7 +2857,7 @@ msgstr "Skalera longo:"
 #: settingspagediagram.ui:252
 #, kde-format
 msgid "Visible tic labels."
-msgstr ""
+msgstr "Videblaj skaler-etikedoj."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:255
@@ -2868,7 +2875,7 @@ msgstr "Montri la etikedojn"
 #: settingspagediagram.ui:268
 #, kde-format
 msgid "Visible axes."
-msgstr ""
+msgstr "Videblaj aksoj."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:271
@@ -2886,7 +2893,7 @@ msgstr "Montri la aksojn"
 #: settingspagediagram.ui:284
 #, kde-format
 msgid "Visible arrows at the end of the axes."
-msgstr ""
+msgstr "Videblaj sagoj ĉe la fino de la aksoj."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:287
@@ -2978,19 +2985,19 @@ msgstr "Zomo"
 #: settingspagegeneral.ui:73
 #, kde-format
 msgid "Zoom in by:"
-msgstr ""
+msgstr "Zomi per:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_2)
 #: settingspagegeneral.ui:86
 #, kde-format
 msgid "Zoom out by:"
-msgstr ""
+msgstr "Malzomi per:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomOutStep)
 #: settingspagegeneral.ui:99
 #, kde-format
 msgid "The value the Zoom Out tool should use."
-msgstr ""
+msgstr "La valoro, kiun la Malzom-ilo devus uzi."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomOutStep)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomInStep)
@@ -3003,7 +3010,7 @@ msgstr "%"
 #: settingspagegeneral.ui:118
 #, kde-format
 msgid "The value the Zoom In tool should use."
-msgstr ""
+msgstr "La valoro kiun la Zom-ilo devus uzi."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DetailedTracing)
 #: settingspagegeneral.ui:144
@@ -3027,19 +3034,19 @@ msgstr "<0>"
 #, kde-format
 msgctxt "Extrema point"
 msgid "x = %1   y = %2"
-msgstr ""
+msgstr "x = %1   y = %2"
 
 #: view.cpp:2124 view.cpp:2125
 #, kde-format
 msgctxt "%1=minimum value, %2=maximum value"
 msgid "%1 to %2"
-msgstr ""
+msgstr "%1 ĝis %2"
 
 #: view.cpp:2127 view.cpp:2128
 #, kde-format
 msgctxt "'E' is the distance between ticks on the axis"
 msgid "1E = "
-msgstr ""
+msgstr "1E ="
 
 #: view.cpp:2131
 #, kde-format
@@ -3069,18 +3076,18 @@ msgstr "Funkcioj:"
 #: view.cpp:3004
 #, kde-format
 msgid "x = %1"
-msgstr ""
+msgstr "x = %1"
 
 #: view.cpp:3006
 #, kde-format
 msgid "y = %1"
-msgstr ""
+msgstr "y = %1"
 
 #: view.cpp:3133
 #, kde-format
 msgctxt "%1 is a subscript zero symbol"
 msgid "root: x%1 = "
-msgstr ""
+msgstr "radiko: x%1 ="
 
 #: xparser.cpp:117
 #, kde-format

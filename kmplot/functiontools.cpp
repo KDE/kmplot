@@ -171,7 +171,11 @@ void FunctionTools::findMinimum(const EquationPair &equation)
     if (!equation.first.function())
         return;
 
-    QPointF extremum = View::self()->findMinMaxValue(equation.first, View::Minimum, m_widget->min->value(), m_widget->max->value());
+    auto f = equation.first.function();
+    auto minimum = f->usecustomxmin ? std::max(m_widget->min->value(), equation.first.function()->dmin.value()) : m_widget->min->value();
+    auto maximum = f->usecustomxmax ? std::min(m_widget->max->value(), equation.first.function()->dmax.value()) : m_widget->max->value();
+
+    QPointF extremum = View::self()->findMinMaxValue(equation.first, View::Minimum, minimum, maximum);
 
     m_widget->rangeResult->setText(i18n("Minimum is at x = %1, %2(x) = %3", extremum.x(), equation.first.function()->eq[0]->name(), extremum.y()));
 }
@@ -181,7 +185,11 @@ void FunctionTools::findMaximum(const EquationPair &equation)
     if (!equation.first.function())
         return;
 
-    QPointF extremum = View::self()->findMinMaxValue(equation.first, View::Maximum, m_widget->min->value(), m_widget->max->value());
+    auto f = equation.first.function();
+    auto minimum = f->usecustomxmin ? std::max(m_widget->min->value(), equation.first.function()->dmin.value()) : m_widget->min->value();
+    auto maximum = f->usecustomxmax ? std::min(m_widget->max->value(), equation.first.function()->dmax.value()) : m_widget->max->value();
+
+    QPointF extremum = View::self()->findMinMaxValue(equation.first, View::Maximum, minimum, maximum);
 
     m_widget->rangeResult->setText(i18n("Maximum is at x = %1, %2(x) = %3", extremum.x(), equation.first.function()->eq[0]->name(), extremum.y()));
 }
@@ -193,8 +201,13 @@ void FunctionTools::calculateArea(const EquationPair &equation)
 
     IntegralDrawSettings s;
     s.plot = equation.first;
-    s.dmin = m_widget->min->value();
-    s.dmax = m_widget->max->value();
+
+    auto f = equation.first.function();
+    auto minimum = f->usecustomxmin ? std::max(m_widget->min->value(), equation.first.function()->dmin.value()) : m_widget->min->value();
+    auto maximum = f->usecustomxmax ? std::min(m_widget->max->value(), equation.first.function()->dmax.value()) : m_widget->max->value();
+
+    s.dmin = minimum;
+    s.dmax = maximum;
 
     double area = View::self()->areaUnderGraph(s);
 

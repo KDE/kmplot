@@ -529,6 +529,12 @@ public:
      */
     QString name() const;
     /**
+     * The full description of the function given by index
+     * including domain range, e.g. "f(x,k)=(x+k)(x-k) [0;1]".
+     */
+    // I'm not sure if index is needed. name() above defaults to 0.
+    QString description(int index = 0) const;
+    /**
      * Converts the type to a string (which is used in save files).
      */
     static QString typeToString(Type type);

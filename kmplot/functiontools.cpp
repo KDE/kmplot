@@ -102,8 +102,8 @@ void FunctionTools::updateEquationList()
     }
 
     for (const EquationPair &eq : qAsConst(m_equations)) {
-        Equation *equation = eq.first.function()->eq[eq.second];
-        QListWidgetItem *item = new QListWidgetItem(equation->fstr(), m_widget->list);
+        QString equation = eq.first.function()->description(eq.second);
+        QListWidgetItem *item = new QListWidgetItem(equation, m_widget->list);
         item->setForeground(eq.first.color());
     }
 

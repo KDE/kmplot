@@ -591,6 +591,26 @@ QString Function::name() const
     return n;
 }
 
+QString Function::description(int index) const
+{
+    QString s = eq[index]->fstr();
+    if (usecustomxmin || usecustomxmax)
+    {
+        s += " [";
+        if (usecustomxmin)
+            s += dmin.expression();
+        else
+            s += "-∞";
+        s += ";";
+        if (usecustomxmax)
+            s += dmax.expression();
+        else
+            s += "∞";
+        s += "]";
+    }
+    return s;
+}
+
 PlotAppearance &Function::plotAppearance(PMode plot)
 {
     // NOTE: This function is identical to the const one, so changes to this should be applied to both

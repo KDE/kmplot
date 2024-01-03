@@ -757,7 +757,11 @@ bool MainDlg::fileExists(const QUrl &url)
 {
     bool fileExists = false;
     if (url.isValid()) {
+#if QT_VERSION_MAJOR < 6
         KIO::StatJob *statjob = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatBasic);
+#else
+        KIO::StatJob *statjob = KIO::stat(url, KIO::StatJob::SourceSide, KIO::StatBasic);
+#endif
         bool noerror = statjob->exec();
         if (noerror) {
             // We want a file

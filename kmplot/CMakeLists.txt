@@ -88,6 +88,19 @@ target_link_libraries(kmplot Qt::PrintSupport Qt::Widgets KF${QT_MAJOR_VERSION}:
 
 install(TARGETS kmplot  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
+if(APPLE)
+    set_target_properties(kmplot PROPERTIES
+        MACOSX_BUNDLE_DISPLAY_NAME "KmPlot"
+        MACOSX_BUNDLE_BUNDLE_NAME "KmPlot"
+        MACOSX_BUNDLE_LONG_VERSION_STRING "KmPlot ${RELEASE_SERVICE_VERSION}"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}"
+        MACOSX_BUNDLE_BUNDLE_VERSION "${RELEASE_SERVICE_VERSION}"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.kmplot"
+        MACOSX_BUNDLE_COPYRIGHT "2000-2024 The KmPlot Developers")
+
+endif()
+
+
 ########### install files ###############
 
 install( PROGRAMS org.kde.kmplot.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )

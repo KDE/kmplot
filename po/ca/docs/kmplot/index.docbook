@@ -155,7 +155,7 @@ format="PNG"/></imageobject
 ></listitem>
 	<listitem
 ><para
->Trobar els valors màxim i mínim.</para
+>Trobar el valor màxim i mínim.</para
 ></listitem>
 	<listitem
 ><para
@@ -492,7 +492,7 @@ format="PNG"/></imageobject
 ></term>
 					<listitem>
 						<para
->El valor del pas en el quadre de precisió s'utilitza per resoldre numèricament l'equació diferencial (utilitzant el mètode de Runge Kutta). El seu valor és la mida de pas màxim utilitzat. Es pot utilitzar una mida de pas més petita si s'amplia prou una part del gràfic diferencial.</para>
+>El valor del pas en el quadre de precisió s'utilitza per a resoldre numèricament l'equació diferencial (utilitzant el mètode de Runge Kutta). El seu valor és la mida de pas màxim utilitzat. Es pot utilitzar una mida de pas més petita si s'amplia prou una part del gràfic diferencial.</para>
 					</listitem>
 				</varlistentry>
 			</variablelist>
@@ -669,7 +669,7 @@ format="PNG"/></imageobject
 ></term>
 			<listitem>
 				<para
->Selecciona els valors horitzontals mínim i màxim per al graf en el nou diàleg que apareix. Calcula la integral i dibuixa l'àrea entre el graf i l'eix horitzontal en l'interval dels valors seleccionats en el color del graf. </para>
+>Selecciona els valors horitzontals mínim i màxim per al graf en el diàleg nou que apareix. Calcula la integral i dibuixa l'àrea entre el graf i l'eix horitzontal en l'interval dels valors seleccionats en el color del graf. </para>
 			</listitem>
 		</varlistentry>
 
@@ -950,7 +950,7 @@ format="PNG"/></imageobject
 	<para
 >Els <guilabel
 >Colors predeterminats de les funcions</guilabel
-> controla quins colors s'utilitzaran quan es creïn noves funcions.</para>
+> controla quins colors s'utilitzaran quan es creïn funcions noves.</para>
 </sect1>
 
 <sect1 id="font-config">
@@ -1098,7 +1098,7 @@ format="PNG"/></imageobject
 >Funcions trigonomètriques</title>
 
 		<para
->De manera predeterminada, les funcions trigonomètriques es calculen en radiants. No obstant això, això es pot canviar mitjançant l'element de menú <menuchoice
+>De manera predeterminada, les funcions trigonomètriques es calculen en radiants. Tanmateix, això es pot canviar mitjançant l'element de menú <menuchoice
 ><guimenu
 >Arranjament</guimenu
 ><guimenuitem
@@ -1931,7 +1931,7 @@ format="PNG"/></imageobject
 			</term>
 			<listitem>
 				<para
->Aquesta eina pot operar de dues maneres diferents. Per a ampliar sobre un punt del graf, feu clic sobre aquest. Per a apropar una secció específica del graf, manteniu premut el botó del ratolí i arrossegueu per a formar un rectangle, aquest serà l'abast dels nous eixos quan deixeu anar el botó del ratolí.</para>
+>Aquesta eina pot operar de dues maneres diferents. Per a ampliar sobre un punt del graf, feu clic sobre aquest. Per a apropar una secció específica del graf, manteniu premut el botó del ratolí i arrossegueu per a formar un rectangle, aquest serà l'abast dels eixos nous quan deixeu anar el botó del ratolí.</para>
 			</listitem>
 		</varlistentry>
 
@@ -2068,7 +2068,7 @@ format="PNG"/></imageobject
 ></term>
 			<listitem>
 				<para
->Selecciona un graf i els valors de l'eix horitzontal en el nou diàleg que apareix. Calcula la integral i dibuixa l'àrea entre el graf i l'eix horitzontal en l'interval dels valors seleccionats en el color del graf.</para>
+>Selecciona un graf i els valors de l'eix horitzontal en el diàleg nou que apareix. Calcula la integral i dibuixa l'àrea entre el graf i l'eix horitzontal en l'interval dels valors seleccionats en el color del graf.</para>
 			</listitem>
 		</varlistentry>
 
@@ -2140,13 +2140,13 @@ format="PNG"/></imageobject
 	<title
 >Crear scripts del &kmplot;</title>
 	<para
->Podeu escriure scripts per al &kmplot; utilitzant &DBus;. Per exemple, si voleu definir una nova funció <userinput
+>Podeu escriure scripts per al &kmplot; utilitzant &DBus;. Per exemple, si voleu definir una funció nova <userinput
 >f(x)=2sin x+3cos x</userinput
 >, primer establiu l'amplada de la línia a 20 i després dibuixeu-la, escriviu en una consola:</para>
 	<para
 ><command
 >qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command
-> Com a resultat, es retornarà el nombre d'identificació de la nova funció, o -1 si la funció no s'ha pogut definir.</para>
+> Com a resultat, es retornarà el nombre d'identificació de la funció nova, o -1 si la funció no s'ha pogut definir.</para>
 	<para
 ><command
 >qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command
@@ -2328,11 +2328,11 @@ format="PNG"/></imageobject
 >/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1 </term>
 			<listitem>
 				<para
->Afegeix una nova funció amb les expressions <parameter
+>Afegeix una funció nova amb les expressions <parameter
 >f_str0</parameter
 > i <parameter
 >f_str1</parameter
->. Si l'expressió no conté un nom de funció, es generarà automàticament. Es retornarà el número d'identificació de la nova funció, o -1 si la funció no pot ser definida.</para>
+>. Si l'expressió no conté un nom de funció, es generarà automàticament. Es retornarà el número d'identificació de la funció nova, o -1 si la funció no es pot definir.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>

@@ -1,24 +1,24 @@
 # translation of kmplot.po to galician
 #
+# SPDX-FileCopyrightText: 2024 Adrián Chaves (Gallaecio)
 # mvillarino <mvillarino@users.sourceforge.net>, 2006, 2008, 2009.
 # Xosé <xosecalvo@gmail.com>, 2010, 2012.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2014.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:23+0000\n"
-"PO-Revision-Date: 2023-06-24 13:00+0200\n"
+"PO-Revision-Date: 2024-03-02 21:08+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
-"Language-Team: Galician <proxecto@trasno.gal>\n"
+"Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1013,7 +1013,7 @@ msgstr "Anchura das liñas de eixo"
 #: kmplot.kcfg:13
 #, kde-format
 msgid "Enter the width of the axis lines."
-msgstr "Insire a anchura das liñas dos eixos."
+msgstr "Insire a anchura das liñas dos eixes."
 
 #. i18n: ectx: label, entry (ShowLabel), group (Coordinate System)
 #: kmplot.kcfg:17
@@ -1031,13 +1031,13 @@ msgstr "Marque esta opción se queres que se amosen as lendas nos trazos."
 #: kmplot.kcfg:22
 #, kde-format
 msgid "Checked if axes are visible"
-msgstr "Se a marca, os eixos serán visíbeis"
+msgstr "Se a marca, os eixes serán visíbeis"
 
 #. i18n: ectx: whatsthis, entry (ShowAxes), group (Coordinate System)
 #: kmplot.kcfg:23
 #, kde-format
 msgid "Check this box if axes should be shown."
-msgstr "Se marca esta opción, os eixos deben debuxarse."
+msgstr "Se marca esta opción, os eixes deben debuxarse."
 
 #. i18n: ectx: label, entry (ShowArrows), group (Coordinate System)
 #: kmplot.kcfg:27
@@ -1049,7 +1049,7 @@ msgstr "Se marca esta opción, as frechas serán visíbeis"
 #: kmplot.kcfg:28
 #, kde-format
 msgid "Check this box if axes should have arrows."
-msgstr "Marque esta opción se quere que os eixos teñan frechas nos extremos."
+msgstr "Marque esta opción se quere que os eixes teñan frechas nos extremos."
 
 #. i18n: ectx: label, entry (GridLineWidth), group (Coordinate System)
 #: kmplot.kcfg:32
@@ -1220,7 +1220,7 @@ msgstr "Fonte das lendas do eixo"
 #: kmplot.kcfg:109
 #, kde-format
 msgid "Choose a font for the axis labels."
-msgstr "Escolle unha fonte para as lendas dos eixos."
+msgstr "Escolle unha fonte para as lendas dos eixes."
 
 #. i18n: ectx: label, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:113
@@ -1244,19 +1244,19 @@ msgstr "Fonte das lendas do eixo"
 #: kmplot.kcfg:119
 #, kde-format
 msgid "Choose a font for diagram labels."
-msgstr "Escolle unha fonte para as lendas dos eixos."
+msgstr "Escolle unha fonte para as lendas dos eixes."
 
 #. i18n: ectx: label, entry (AxesColor), group (Colors)
 #: kmplot.kcfg:126
 #, kde-format
 msgid "Axis-line color"
-msgstr "Cor das liñas dos eixos"
+msgstr "Cor das liñas dos eixes"
 
 #. i18n: ectx: whatsthis, entry (AxesColor), group (Colors)
 #: kmplot.kcfg:127
 #, kde-format
 msgid "Enter the color of the axis lines."
-msgstr "Insire a cor das liñas dos eixos."
+msgstr "Insire a cor das liñas dos eixes."
 
 #. i18n: ectx: label, entry (GridColor), group (Colors)
 #: kmplot.kcfg:131
@@ -2437,7 +2437,7 @@ msgstr ""
 #: settingspagecolor.ui:58
 #, kde-format
 msgid "&Axes:"
-msgstr "Eix&os:"
+msgstr "Eix&es:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: settingspagecolor.ui:71
@@ -2449,7 +2449,7 @@ msgstr "&Grade:"
 #: settingspagecolor.ui:84
 #, kde-format
 msgid "Select color for the axes."
-msgstr "Escoller a cor dos eixos."
+msgstr "Escoller a cor dos eixes."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:87
@@ -2458,7 +2458,7 @@ msgid ""
 "Specify the color of the axes. The change will appear as soon as you press "
 "the OK button."
 msgstr ""
-"Indique a cor dos eixos. Os cambios veranse en canto prema o botón «Aceptar»."
+"Indique a cor dos eixes. Os cambios veranse en canto prema o botón «Aceptar»."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:97
@@ -2793,7 +2793,7 @@ msgstr "Polar"
 #: settingspagediagram.ui:75
 #, kde-format
 msgid "Axis Labels"
-msgstr "Lendas dos eixos"
+msgstr "Lendas dos eixes"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label)
 #: settingspagediagram.ui:81
@@ -2835,7 +2835,7 @@ msgstr "Y"
 #: settingspagediagram.ui:124
 #, kde-format
 msgid "Axis widths:"
-msgstr "Anchura dos eixos:"
+msgstr "Anchura dos eixes:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: settingspagediagram.ui:156
@@ -2865,7 +2865,7 @@ msgstr "Lendas do trazo visíbeis."
 #: settingspagediagram.ui:255
 #, kde-format
 msgid "Check this if the axes' tics should be labeled."
-msgstr "Marque isto se queres que os trazos dos eixos estean identificados."
+msgstr "Marque isto se queres que os trazos dos eixes estean identificados."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:258
@@ -2883,13 +2883,13 @@ msgstr "Eixes visíbeis."
 #: settingspagediagram.ui:271
 #, kde-format
 msgid "Check this if the axes should be visible."
-msgstr "Marque isto se queres que os eixos sexan visíbeis."
+msgstr "Marque isto se queres que os eixes sexan visíbeis."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:274
 #, kde-format
 msgid "Show axes"
-msgstr "Amosar os eixos"
+msgstr "Amosar os eixes"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:284
@@ -2901,7 +2901,7 @@ msgstr "Frechas visíbeis nos extremos dos eixes."
 #: settingspagediagram.ui:287
 #, kde-format
 msgid "Check this if the axes should have arrows at their ends."
-msgstr "Marque isto se queres que os eixos teñan frechas nos extremos."
+msgstr "Marque isto se queres que os eixes teñan frechas nos extremos."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:290
@@ -2913,7 +2913,7 @@ msgstr "Amosar frechas"
 #: settingspagefonts.ui:23
 #, kde-format
 msgid "Axes labels:"
-msgstr "Lendas dos eixos:"
+msgstr "Lendas dos eixes:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10_3)
 #: settingspagefonts.ui:45
@@ -3058,7 +3058,7 @@ msgstr "Intervalo de debuxo"
 #: view.cpp:2131
 #, kde-format
 msgid "Axes Division"
-msgstr "División dos eixos"
+msgstr "División dos eixes"
 
 #: view.cpp:2132
 #, kde-format

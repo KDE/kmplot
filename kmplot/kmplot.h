@@ -50,7 +50,7 @@ public:
 
 protected:
     /// Quits KmPlot after checking if modifications shall be saved.
-    bool queryClose() Q_DECL_OVERRIDE;
+    bool queryClose() override;
 
 private slots:
     void fileNew();

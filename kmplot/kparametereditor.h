@@ -52,7 +52,7 @@ public slots:
     /// saves the value being edited
     void saveCurrentValue();
 
-    void accept() Q_DECL_OVERRIDE;
+    void accept() override;
 
 private:
     /// Check so that it doesn't exist two equal values

@@ -102,7 +102,7 @@ public:
         return m_modified;
     }
 
-    bool queryClose() Q_DECL_OVERRIDE;
+    bool queryClose() override;
 
     /// For inserting the title in the function popup menu
     QAction *m_firstFunctionAction;
@@ -160,10 +160,10 @@ private:
     /// Sets the printer options and draw the plot with the current options.
     void setupPrinter(KPrinterDlg *printDialog, QPrinter *printer);
     /// Called when a file is opened. The filename is m_url
-    bool openFile() Q_DECL_OVERRIDE;
+    bool openFile() override;
 
     /// Called when a file is saved. The filename is m_url
-    bool saveFile() Q_DECL_OVERRIDE;
+    bool saveFile() override;
 
     /// The Recent Files action
     KRecentFilesAction *m_recentFiles;

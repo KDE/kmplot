@@ -34,7 +34,7 @@ public:
     void setErrorPosition(int position);
 
 protected:
-    void highlightBlock(const QString &text) Q_DECL_OVERRIDE;
+    void highlightBlock(const QString &text) override;
 
     int m_errorPosition;
     EquationEdit *m_parent;

@@ -37,7 +37,7 @@ Q_SIGNALS:
     void valueChanged();
 
 protected:
-    void closeEvent(QCloseEvent *) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *) override;
 
     SliderWidget *m_sliders[4];
 };

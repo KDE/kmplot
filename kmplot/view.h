@@ -233,25 +233,25 @@ signals:
 
 protected:
     /// called when focus is lost
-    void focusOutEvent(QFocusEvent *) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent *) override;
     /// called when focus is gained
-    void focusInEvent(QFocusEvent *) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
+    void focusInEvent(QFocusEvent *) override;
+    void paintEvent(QPaintEvent *) override;
+    void resizeEvent(QResizeEvent *) override;
     /// Updating the cross hair.
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *) override;
     /// Clearing the cross hair.
-    void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *) override;
     /// Toggles the trace mode if the cursor is near to a plot.
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *) override;
     /// when a key is pressed and the graph widget has focus
-    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *) override;
     /// called when a mouse key is released
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *e) override;
     /// called for zooming with Ctrl+mouse wheel
-    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) override;
     /// Is needed to be reimplement so that the user can stop a preview-drawing
-    bool event(QEvent *e) Q_DECL_OVERRIDE;
+    bool event(QEvent *e) override;
     /**
      * Updates csxpos and csypos from the current mouse position.
      * @return whether the crosshair is within the bounds of the diagram.

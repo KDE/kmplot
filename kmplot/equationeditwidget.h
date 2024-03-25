@@ -37,10 +37,10 @@ public:
 protected:
     void clearSelection();
 
-    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-    void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
-    void focusInEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *e) override;
+    void keyPressEvent(QKeyEvent *e) override;
+    void focusOutEvent(QFocusEvent *e) override;
+    void focusInEvent(QFocusEvent *e) override;
 
     EquationEdit *m_parent;
     bool m_clearSelectionOnFocusOut;

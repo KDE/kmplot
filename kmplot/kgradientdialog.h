@@ -73,7 +73,7 @@ public:
         return m_orientation;
     }
 
-    QSize minimumSizeHint() const Q_DECL_OVERRIDE;
+    QSize minimumSizeHint() const override;
 
 public Q_SLOTS:
     /**
@@ -101,12 +101,12 @@ Q_SIGNALS:
     void gradientChanged(const QGradient &gradient);
 
 protected:
-    void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
+    void contextMenuEvent(QContextMenuEvent *e) override;
 
 private:
     /**
@@ -233,7 +233,7 @@ public:
         return m_gradient;
     }
 
-    QSize sizeHint() const Q_DECL_OVERRIDE;
+    QSize sizeHint() const override;
 
 Q_SIGNALS:
     /**
@@ -254,7 +254,7 @@ protected Q_SLOTS:
     void chooseGradient();
 
 protected:
-    void paintEvent(QPaintEvent *pe) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *pe) override;
 
 private:
     void initStyleOption(QStyleOptionButton *opt) const;

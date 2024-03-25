@@ -86,7 +86,7 @@ class ConstantValidator : public QValidator
 public:
     explicit ConstantValidator(KConstantEditor *parent);
 
-    State validate(QString &input, int &pos) const Q_DECL_OVERRIDE;
+    State validate(QString &input, int &pos) const override;
 
     bool isValid(const QString &name) const;
 

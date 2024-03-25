@@ -192,14 +192,14 @@ public:
     explicit FunctionListWidget(QWidget *parent);
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QMimeData *mimeData(const QList<QListWidgetItem *> items) const Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QList<QListWidgetItem *> items) const override;
 #else
-    QMimeData *mimeData(const QList<QListWidgetItem *> &items) const Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QList<QListWidgetItem *> &items) const override;
 #endif
-    QStringList mimeTypes() const Q_DECL_OVERRIDE;
+    QStringList mimeTypes() const override;
 };
 
 class FunctionListItem : public QListWidgetItem

@@ -1,6 +1,12 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
+    <!-- for KF5 -->
     <qresource prefix="/kxmlgui5/kmplot">
+        <file>kmplot_part.rc</file>
+        <file>kmplot_part_readonly.rc</file>
+    </qresource>
+    <!-- for KF6 -->
+    <qresource prefix="/kxmlgui5/kmplotpart">
         <file>kmplot_part.rc</file>
         <file>kmplot_part_readonly.rc</file>
     </qresource>

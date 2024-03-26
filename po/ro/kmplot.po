@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:23+0000\n"
+"POT-Creation-Date: 2024-03-26 01:58+0000\n"
 "PO-Revision-Date: 2012-12-22 11:43+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@ase.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -928,17 +928,17 @@ msgctxt "@title:window"
 msgid "Area Under Graph"
 msgstr "Zonă sub grafic"
 
-#: functiontools.cpp:176
+#: functiontools.cpp:180
 #, fuzzy, kde-format
 msgid "Minimum is at x = %1, %2(x) = %3"
 msgstr "Minimul este la x=%1,%2(x)=%3"
 
-#: functiontools.cpp:186
+#: functiontools.cpp:194
 #, fuzzy, kde-format
 msgid "Maximum is at x = %1, %2(x) = %3"
 msgstr "Maximul este la x=%1,%2(x)=%3"
 
-#: functiontools.cpp:201
+#: functiontools.cpp:214
 #, fuzzy, kde-format
 msgid "Area is %1"
 msgstr "Aria este %1"

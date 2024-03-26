@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:23+0000\n"
+"POT-Creation-Date: 2024-03-26 01:58+0000\n"
 "PO-Revision-Date: 2021-11-29 16:13+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -925,17 +925,17 @@ msgctxt "@title:window"
 msgid "Area Under Graph"
 msgstr "Площадь под графиком"
 
-#: functiontools.cpp:176
+#: functiontools.cpp:180
 #, kde-format
 msgid "Minimum is at x = %1, %2(x) = %3"
 msgstr "Точка минимума: x = %1, %2(x) = %3"
 
-#: functiontools.cpp:186
+#: functiontools.cpp:194
 #, kde-format
 msgid "Maximum is at x = %1, %2(x) = %3"
 msgstr "Точка максимума: x = %1, %2(x) = %3"
 
-#: functiontools.cpp:201
+#: functiontools.cpp:214
 #, kde-format
 msgid "Area is %1"
 msgstr "Площадь равна %1"

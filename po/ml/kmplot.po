@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:23+0000\n"
+"POT-Creation-Date: 2024-03-26 01:58+0000\n"
 "PO-Revision-Date: 2019-12-12 21:39+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: Swathanthra Malayalam Computing/സ്വതന്ത്ര മലയാളം കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -915,17 +915,17 @@ msgctxt "@title:window"
 msgid "Area Under Graph"
 msgstr "ഗ്രാഫിന്റെ താഴെയുള്ള വിസ്തീര്‍ണ്ണം"
 
-#: functiontools.cpp:176
+#: functiontools.cpp:180
 #, kde-format
 msgid "Minimum is at x = %1, %2(x) = %3"
 msgstr "ഏറ്റവും കുറഞ്ഞ ബിന്ദു x = %1, %2(x) = %3"
 
-#: functiontools.cpp:186
+#: functiontools.cpp:194
 #, kde-format
 msgid "Maximum is at x = %1, %2(x) = %3"
 msgstr "ഏറ്റവും കൂടിയ ബിന്ദു x = %1, %2(x) = %3"
 
-#: functiontools.cpp:201
+#: functiontools.cpp:214
 #, kde-format
 msgid "Area is %1"
 msgstr "വിസ്തീര്‍ണ്ണം = %1"

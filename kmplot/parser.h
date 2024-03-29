@@ -27,6 +27,7 @@
 
 // Various mathematical symbols
 #define PiSymbol QChar(0x3c0)
+#define TauSymbol QChar(0x3c4)
 #define InfinitySymbol QChar(0x221e)
 #define PmSymbol QChar(0xb1)
 #define AbsSymbol QChar(0x2223)

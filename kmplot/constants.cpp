@@ -79,7 +79,7 @@ bool Constants::isValidName(const QString &name) const
         return false;
 
     // special cases: don't allow predefined constants either
-    if (name == QLatin1String("pi") || name == PiSymbol || name == QLatin1String("e") || name == InfinitySymbol)
+    if (name == QLatin1String("pi") || name == PiSymbol || name == QLatin1String("tau") || name == TauSymbol || name == QLatin1String("e") || name == InfinitySymbol)
         return false;
 
     // Now make sure that the constant name contains only letters

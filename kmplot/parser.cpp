@@ -952,6 +952,8 @@ bool Parser::tryConstant()
     // Or a predefined constant?
     CHECK_CONSTANT("pi", M_PI);
     CHECK_CONSTANT(PiSymbol, M_PI);
+    CHECK_CONSTANT("tau", M_PI * 2.0);
+    CHECK_CONSTANT(TauSymbol, M_PI * 2.0);
     CHECK_CONSTANT("e", M_E);
     CHECK_CONSTANT(InfinitySymbol, std::numeric_limits<double>::infinity());
 
@@ -1478,6 +1480,7 @@ void ExpressionSanitizer::fixExpression(QString *str)
     for (const QString &name : constantNames)
         strings[name] = ConstantString;
     strings[QStringLiteral("pi")] = ConstantString;
+    strings[QStringLiteral("tau")] = ConstantString;
     // END build up strings
 
     strings.remove(QString());

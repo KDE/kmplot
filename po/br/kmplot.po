@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 01:58+0000\n"
+"POT-Creation-Date: 2024-04-08 01:42+0000\n"
 "PO-Revision-Date: 2004-05-25 15:21+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -340,104 +340,110 @@ msgstr ""
 msgid "π"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QToolButton, toolButton_29)
+#: equationeditorwidget.ui:274
+#, kde-format
+msgid "τ"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_16)
-#: equationeditorwidget.ui:268
+#: equationeditorwidget.ui:281
 #, kde-format
 msgid "ω"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
-#: equationeditorwidget.ui:275
+#: equationeditorwidget.ui:288
 #, kde-format
 msgid "β"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_14)
-#: equationeditorwidget.ui:282
+#: equationeditorwidget.ui:295
 #, kde-format
 msgid "α"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton)
-#: equationeditorwidget.ui:295
+#: equationeditorwidget.ui:308
 #, kde-format
 msgid "λ"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_13)
-#: equationeditorwidget.ui:308
+#: equationeditorwidget.ui:321
 #, kde-format
 msgid "μ"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_15)
-#: equationeditorwidget.ui:315
+#: equationeditorwidget.ui:328
 #, kde-format
 msgid "φ"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
-#: equationeditorwidget.ui:328
+#: equationeditorwidget.ui:341
 #, kde-format
 msgid "θ"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_24)
-#: equationeditorwidget.ui:361
+#: equationeditorwidget.ui:374
 #, kde-format
 msgid "⅘"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_21)
-#: equationeditorwidget.ui:368
+#: equationeditorwidget.ui:381
 #, kde-format
 msgid "⅕"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
-#: equationeditorwidget.ui:375
+#: equationeditorwidget.ui:388
 #, kde-format
 msgid "¼"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
-#: equationeditorwidget.ui:382
+#: equationeditorwidget.ui:395
 #, kde-format
 msgid "⅔"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_22)
-#: equationeditorwidget.ui:389
+#: equationeditorwidget.ui:402
 #, kde-format
 msgid "⅖"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_23)
-#: equationeditorwidget.ui:396
+#: equationeditorwidget.ui:409
 #, kde-format
 msgid "⅗"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
-#: equationeditorwidget.ui:403
+#: equationeditorwidget.ui:416
 #, kde-format
 msgid "¾"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
-#: equationeditorwidget.ui:410
+#: equationeditorwidget.ui:423
 #, kde-format
 msgid "½"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
-#: equationeditorwidget.ui:417
+#: equationeditorwidget.ui:430
 #, kde-format
 msgid "⅓"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_17)
-#: equationeditorwidget.ui:424
+#: equationeditorwidget.ui:437
 #, kde-format
 msgid "⅙"
 msgstr ""
@@ -2143,62 +2149,62 @@ msgid ""
 "be removed in addition."
 msgstr ""
 
-#: parser.cpp:1089
+#: parser.cpp:1091
 #, kde-format
 msgid "Syntax error"
 msgstr "Fazi ereadurezh"
 
-#: parser.cpp:1092
+#: parser.cpp:1094
 #, kde-format
 msgid "Missing parenthesis"
 msgstr ""
 
-#: parser.cpp:1095
+#: parser.cpp:1097
 #, kde-format
 msgid "Stack overflow"
 msgstr ""
 
-#: parser.cpp:1098
+#: parser.cpp:1100
 #, kde-format
 msgid "Name of function is not free"
 msgstr ""
 
-#: parser.cpp:1101
+#: parser.cpp:1103
 #, kde-format
 msgid "recursive function not allowed"
 msgstr ""
 
-#: parser.cpp:1104
+#: parser.cpp:1106
 #, kde-format
 msgid "Empty function"
 msgstr "Fonksion goullo"
 
-#: parser.cpp:1107
+#: parser.cpp:1109
 #, kde-format
 msgid "Function could not be found"
 msgstr "N'em eus ket kavout ar fonksion"
 
-#: parser.cpp:1110
+#: parser.cpp:1112
 #, kde-format
 msgid "The differential equation must be at least first-order"
 msgstr ""
 
-#: parser.cpp:1113
+#: parser.cpp:1115
 #, kde-format
 msgid "Too many plus-minus symbols"
 msgstr ""
 
-#: parser.cpp:1116
+#: parser.cpp:1118
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
 msgstr ""
 
-#: parser.cpp:1119
+#: parser.cpp:1121
 #, kde-format
 msgid "The function has too many arguments"
 msgstr ""
 
-#: parser.cpp:1122
+#: parser.cpp:1124
 #, kde-format
 msgid "The function does not have the correct number of arguments"
 msgstr ""

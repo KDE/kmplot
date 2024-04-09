@@ -10,13 +10,13 @@
 # obsoleteman <tulliana@gmail.com>, 2008-2009.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
 # Zerrin Cakmakkaya <zerrin@uludag.org.tr>, 2005.
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-08 01:42+0000\n"
-"PO-Revision-Date: 2023-08-02 00:50+0300\n"
+"PO-Revision-Date: 2024-04-08 13:23+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 24.04.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -52,7 +52,7 @@ msgstr "Sabit Düzenleyici"
 #: constantseditor.ui:26 qparametereditor.ui:22
 #, kde-format
 msgid "The value must be a number (e.g. \"pi^2\")"
-msgstr "Değer bir sayı olmalıdır (mesela.\"pi^2\")"
+msgstr "Değer bir sayı olmalıdır (örneğin, “pi^2”)"
 
 #. i18n: ectx: property (text), widget (QLabel, valueInvalidLabel)
 #: constantseditor.ui:29 qparametereditor.ui:25
@@ -181,7 +181,7 @@ msgstr "Yatay eksen Aralığı"
 #: sliderwidget.ui:80
 #, kde-format
 msgid "Max:"
-msgstr "Azami:"
+msgstr "En yüksek:"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_XMax)
 #. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_XMin)
@@ -212,7 +212,7 @@ msgstr "Geçerli bir ifade girin, çrneğin 2*pi ya da e/2."
 #: sliderwidget.ui:57
 #, kde-format
 msgid "Min:"
-msgstr "Asgari:"
+msgstr "En düşük:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: editcoords.ui:81
@@ -273,19 +273,19 @@ msgstr "Açıklama:"
 #: equationeditorwidget.ui:54
 #, kde-format
 msgid "Edit Constants..."
-msgstr "Sabitleri Düzenle..."
+msgstr "Sabitleri Düzenle…"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, constantList)
 #: equationeditorwidget.ui:75
 #, kde-format
 msgid "Insert constant..."
-msgstr "Sabit gir..."
+msgstr "Sabit gir…"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, functionList)
 #: equationeditorwidget.ui:84
 #, kde-format
 msgid "Insert function..."
-msgstr "İşlev gir..."
+msgstr "İşlev gir…"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
 #: equationeditorwidget.ui:129
@@ -357,7 +357,7 @@ msgstr "π"
 #: equationeditorwidget.ui:274
 #, kde-format
 msgid "τ"
-msgstr ""
+msgstr "τ"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_16)
 #: equationeditorwidget.ui:281
@@ -470,13 +470,13 @@ msgstr "İşlevler"
 #: functioneditorwidget.ui:50
 #, kde-format
 msgid "delete the selected function"
-msgstr "seçilen fonksiyonu sil"
+msgstr "seçili işlevi sil"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
 #: functioneditorwidget.ui:53
 #, kde-format
 msgid "Click here to delete the selected function from the list."
-msgstr "Seçilen fonksiyonu listeden silmek için buraya tıklayın."
+msgstr "Seçili işlevi listeden silmek için buraya tıklayın."
 
 #. i18n: ectx: property (text), widget (QPushButton, createNewPlot)
 #: functioneditorwidget.ui:76
@@ -918,12 +918,12 @@ msgstr "Grafik Altında Alan"
 #: functiontools.cpp:180
 #, kde-format
 msgid "Minimum is at x = %1, %2(x) = %3"
-msgstr "x'te en az = %1, %2(x) = %3"
+msgstr "x’te en az = %1, %2(x) = %3"
 
 #: functiontools.cpp:194
 #, kde-format
 msgid "Maximum is at x = %1, %2(x) = %3"
-msgstr "x'te en fazla = %1, %2(x) = %3"
+msgstr "x’te en fazla = %1, %2(x) = %3"
 
 #: functiontools.cpp:214
 #, kde-format
@@ -958,7 +958,7 @@ msgstr "Kaldır"
 #: initialconditionswidget.ui:56
 #, kde-format
 msgid "Add..."
-msgstr "Ekle..."
+msgstr "Ekle…"
 
 #: kconstanteditor.cpp:54
 #, kde-format
@@ -998,7 +998,7 @@ msgstr "Bir Gradyan Seçin"
 #: kmplot.cpp:72
 #, kde-format
 msgid "Could not find KmPlot's part."
-msgstr "KmPlot'un parçası bulunamadı."
+msgstr "KmPlot’un parçası bulunamadı."
 
 #: kmplot.cpp:171 maindlg.cpp:522
 #, kde-format
@@ -1281,31 +1281,31 @@ msgstr "Izgara çubuğu çizgileri için renk seçin."
 #: kmplot.kcfg:136
 #, kde-format
 msgid "Color of function 1"
-msgstr "1. fonksiyonun rengi"
+msgstr "1. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color0), group (Colors)
 #: kmplot.kcfg:137
 #, kde-format
 msgid "Choose a color for function 1."
-msgstr "1. fonksiyon için bir renk seçin."
+msgstr "1. işlev için bir renk seçin."
 
 #. i18n: ectx: label, entry (Color1), group (Colors)
 #: kmplot.kcfg:141
 #, kde-format
 msgid "Color of function 2"
-msgstr "2. fonksiyonun rengi"
+msgstr "2. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color1), group (Colors)
 #: kmplot.kcfg:142
 #, kde-format
 msgid "Choose a color for function 2."
-msgstr "2. fonksiyon için bir renk seçin."
+msgstr "2. işlev için bir renk seçin."
 
 #. i18n: ectx: label, entry (Color2), group (Colors)
 #: kmplot.kcfg:146
 #, kde-format
 msgid "Color of function 3"
-msgstr "3. fonksiyonun rengi"
+msgstr "3. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color2), group (Colors)
 #: kmplot.kcfg:147
@@ -1317,55 +1317,55 @@ msgstr "3. fonksyon için bir renk seçin."
 #: kmplot.kcfg:151
 #, kde-format
 msgid "Color of function 4"
-msgstr "4. fonksiyonun rengi"
+msgstr "4. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color3), group (Colors)
 #: kmplot.kcfg:152
 #, kde-format
 msgid "Choose a color for function 4."
-msgstr "4. fonksiyon için bir renk seçin."
+msgstr "4. işlev için bir renk seçin."
 
 #. i18n: ectx: label, entry (Color4), group (Colors)
 #: kmplot.kcfg:156
 #, kde-format
 msgid "Color of function 5"
-msgstr "5. fonksiyonun rengi"
+msgstr "5. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color4), group (Colors)
 #: kmplot.kcfg:157
 #, kde-format
 msgid "Choose a color for function 5."
-msgstr "5. fonksiyon için bir renk seçin."
+msgstr "5. işlev için bir renk seçin."
 
 #. i18n: ectx: label, entry (Color5), group (Colors)
 #: kmplot.kcfg:161
 #, kde-format
 msgid "Color of function 6"
-msgstr "6. fonksiyonun rengi"
+msgstr "6. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color5), group (Colors)
 #: kmplot.kcfg:162
 #, kde-format
 msgid "Choose a color for function 6."
-msgstr "6. fonksiyon için bir renk seçin."
+msgstr "6. işlev için bir renk seçin."
 
 #. i18n: ectx: label, entry (Color6), group (Colors)
 #: kmplot.kcfg:166
 #, kde-format
 msgid "Color of function 7"
-msgstr "7. fonksiyonun rengi"
+msgstr "7. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color6), group (Colors)
 #: kmplot.kcfg:167
 #, kde-format
 msgid "Choose a color for function 7."
-msgstr "7. fonksiyon için bir renk seçin."
+msgstr "7. işlev için bir renk seçin."
 
 #. i18n: ectx: label, entry (Color7), group (Colors)
 #: kmplot.kcfg:171
 #, kde-format
 msgid "Color of function 8"
-msgstr "8. fonksiyonun rengi"
+msgstr "8. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color7), group (Colors)
 #: kmplot.kcfg:172
@@ -1377,7 +1377,7 @@ msgstr "8. İşlev için bir renk seçin."
 #: kmplot.kcfg:176
 #, kde-format
 msgid "Color of function 9"
-msgstr "9. fonksiyonun rengi"
+msgstr "9. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color8), group (Colors)
 #: kmplot.kcfg:177
@@ -1389,7 +1389,7 @@ msgstr "9. İşlev için bir renk seçin."
 #: kmplot.kcfg:181
 #, kde-format
 msgid "Color of function 10"
-msgstr "10. fonksiyonun rengi"
+msgstr "10. işlevin rengi"
 
 #. i18n: ectx: whatsthis, entry (Color9), group (Colors)
 #: kmplot.kcfg:182
@@ -1530,7 +1530,7 @@ msgstr "otomatik"
 #: kmplotio.cpp:720
 #, kde-format
 msgid "The function %1 could not be loaded"
-msgstr "%1 fonksiyonu yüklenemedi"
+msgstr "%1 işlev yüklenemedi"
 
 #: kparametereditor.cpp:43
 #, kde-format
@@ -1593,8 +1593,8 @@ msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
 msgstr ""
-"\"%1\" adlı bir dosya zaten var. Sürdürüp üzerine yazmak istediğinizden emin "
-"misiniz?"
+"“%1” adlı bir dosya halihazırda var. Sürdürüp üzerine yazmak istediğinizden "
+"emin misiniz?"
 
 #: kparametereditor.cpp:286
 #, kde-format
@@ -1625,12 +1625,12 @@ msgstr "Saydam arka plan"
 #: kprinterdlg.cpp:45
 #, kde-format
 msgid "Pixels (1/72nd in)"
-msgstr "Pikseller (1/72'nci in)"
+msgstr "Pikseller (1/72. inç)"
 
 #: kprinterdlg.cpp:46
 #, kde-format
 msgid "Inches (in)"
-msgstr "inç'ler (in)"
+msgstr "İnç (in)"
 
 #: kprinterdlg.cpp:47
 #, kde-format
@@ -1665,7 +1665,7 @@ msgstr "Geçersiz yükseklik"
 #: ksliderwindow.cpp:28
 #, kde-format
 msgid "Slider %1"
-msgstr "Kaydırma Çubuğu %1"
+msgstr "Sürgü %1"
 
 #: ksliderwindow.cpp:34
 #, kde-format
@@ -1673,14 +1673,14 @@ msgid ""
 "Move slider to change the parameter of the function plot connected to this "
 "slider."
 msgstr ""
-"Bu kaydırma çubuğuna bağlı fonksiyon çiziminin parametresini değiştirmek "
-"için kaydırma çubuğunu hareket ettirin."
+"Bu sürgüye bağlı işlev çiziminin parametresini değiştirmek için sürgüyü "
+"sürün."
 
 #: ksliderwindow.cpp:79
 #, kde-format
 msgctxt "@title:window"
 msgid "Sliders"
-msgstr "Kaydırıcılar"
+msgstr "Sürgüler"
 
 #: main.cpp:42
 #, kde-format
@@ -1690,17 +1690,17 @@ msgstr "KmPlot"
 #: main.cpp:44
 #, kde-format
 msgid "Mathematical function plotter by KDE"
-msgstr "KDE'nin matematiksel fonksiyonlar için çizicisi"
+msgstr "KDE’nin matematiksel işlev çizdiricisi"
 
 #: main.cpp:46
 #, kde-format
 msgid "(c) 2000-2002, Klaus-Dieter Möller"
-msgstr "(c) 2000-2002, Klaus-Dieter Möller"
+msgstr "(c) 2000–2002, Klaus-Dieter Möller"
 
 #: main.cpp:50
 #, kde-format
 msgid "Klaus-Dieter Möller"
-msgstr "Klaus-Dieter Möller"
+msgstr "Klaus–Dieter Möller"
 
 #: main.cpp:50
 #, kde-format
@@ -1735,7 +1735,7 @@ msgstr "David Saxton"
 #: main.cpp:53
 #, kde-format
 msgid "Porting to Qt 4, UI improvements, features"
-msgstr "Qt 4'e işaret ediliyor, Kullanıcı Arayüzü gelişimleri, özellikler"
+msgstr "Qt4 geçişi, arayüz iyileştirmeleri, özellikler"
 
 #: main.cpp:55
 #, kde-format
@@ -1760,7 +1760,7 @@ msgstr "komut satırı seçenekleri, MIME türü"
 #: main.cpp:60
 #, kde-format
 msgid "Initial functions to plot"
-msgstr "Çizim için başlangıç fonksiyonu"
+msgstr "Çizim için başlangıç işlevi"
 
 #: main.cpp:60
 #, kde-format
@@ -1770,7 +1770,7 @@ msgstr "argüman"
 #: main.cpp:61
 #, kde-format
 msgid "URLs to open"
-msgstr "Açılacak URL'ler"
+msgstr "Açılacak URL’ler"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
 #: maindlg.cpp:193 settingspagegeneral.ui:14
@@ -1807,22 +1807,22 @@ msgstr "Yazıtipleri"
 #: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
-msgstr "KmPlot'u Yapılandır..."
+msgstr "KmPlot’u Yapılandır…"
 
 #: maindlg.cpp:229
 #, kde-format
 msgid "E&xport..."
-msgstr "A&ktar..."
+msgstr "Dışa A&ktar…"
 
 #: maindlg.cpp:242
 #, kde-format
 msgid "&Coordinate System..."
-msgstr "K&oordinat Sistemi..."
+msgstr "K&oordinat Sistemi…"
 
 #: maindlg.cpp:247
 #, kde-format
 msgid "&Constants..."
-msgstr "&Sabitler..."
+msgstr "&Sabitler…"
 
 #: maindlg.cpp:256
 #, kde-format
@@ -1847,7 +1847,7 @@ msgstr "Görünümü Sıfırla"
 #: maindlg.cpp:277
 #, kde-format
 msgid "Show Sliders"
-msgstr "Kaydırma Çubuklarını Göster"
+msgstr "Sürgüleri Göster"
 
 #: maindlg.cpp:283
 #, kde-format
@@ -1857,17 +1857,17 @@ msgstr "Hesap Makinesi"
 #: maindlg.cpp:288
 #, kde-format
 msgid "Plot &Area..."
-msgstr "&Çizim Alanı..."
+msgstr "&Çizim Alanı…"
 
 #: maindlg.cpp:292
 #, kde-format
 msgid "Find Ma&ximum..."
-msgstr "En &Büyüğü Bul..."
+msgstr "En &Büyüğü Bul…"
 
 #: maindlg.cpp:297
 #, kde-format
 msgid "Find Mi&nimum..."
-msgstr "En &Küçüğü Bul..."
+msgstr "En &Küçüğü Bul…"
 
 #: maindlg.cpp:304
 #, kde-format
@@ -1913,7 +1913,7 @@ msgstr "&Kaldır"
 #: maindlg.cpp:363
 #, kde-format
 msgid "Animate Plot..."
-msgstr "Çizim Canlandır..."
+msgstr "Çizimi Canlandır…"
 
 #: maindlg.cpp:374
 #, kde-format
@@ -1979,7 +1979,7 @@ msgstr "Görsel Olarak Dışa Aktar"
 #: maindlg.cpp:623
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
-msgstr "Üzgünüm, \"%1\" resim dosyasına kaydederken bir hata oluştu"
+msgstr "Üzgünüm, “%1” görseline kaydederken bir hata oluştu"
 
 #: maindlg.cpp:680
 #, kde-format
@@ -2035,7 +2035,7 @@ msgstr ""
 "weight:400; font-style:normal; text-decoration:none;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px; font-family:Sans;\"><span "
-"style=\" font-weight:600;\">Uyarı:</span> Şu anki fonksiyon bir parametre "
+"style=\" font-weight:600;\">Uyarı:</span> Geçerli işlev bir parametre "
 "içermiyor, bu yüzden canlandırma yapılamadı.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -2126,13 +2126,13 @@ msgstr "Yavaş"
 #: parameterswidget.cpp:25
 #, kde-format
 msgid "Slider No. %1"
-msgstr "Kaydırma Çubuğu No. %1"
+msgstr "Sürgü  № %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useSlider)
 #: parameterswidget.ui:37
 #, kde-format
 msgid "Slider:"
-msgstr "Kaydırma Çubuğu:"
+msgstr "Sürgü:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useList)
 #: parameterswidget.ui:44
@@ -2160,13 +2160,13 @@ msgstr ""
 #: parameterswidget.ui:60
 #, kde-format
 msgid "Edit List..."
-msgstr "Listeyi Düzenle..."
+msgstr "Listeyi Düzenle…"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, listOfSliders)
 #: parameterswidget.ui:70
 #, kde-format
 msgid "Select a slider"
-msgstr "Bir kaydırma çubuğu seçin"
+msgstr "Bir sürgü seç"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, listOfSliders)
 #: parameterswidget.ui:73
@@ -2175,8 +2175,8 @@ msgid ""
 "Select one of the sliders to change the parameter value dynamically. The "
 "values vary from 0 (left) to 100 (right)."
 msgstr ""
-"Parametre değerini dinamik olarak değiştirmek için kaydırma çubuklarından "
-"birini seçin. Değerler 0 (sol) ile 100 (sağ) arasındadır."
+"Parametre değerini dinamik olarak değiştirmek için sürgülerden birini seçin. "
+"Değerler 0 (sol) ile 100 (sağ) arasındadır."
 
 #: parser.cpp:614
 #, kde-format
@@ -2214,12 +2214,12 @@ msgstr "İşlevin adı boş değil"
 #: parser.cpp:1103
 #, kde-format
 msgid "recursive function not allowed"
-msgstr "özyinelemeli fonksiyonlara izin verilmiyor"
+msgstr "özyinelemeli işlevlere izin verilmiyor"
 
 #: parser.cpp:1106
 #, kde-format
 msgid "Empty function"
-msgstr "Boş fonksiyon"
+msgstr "Boş işlev"
 
 #: parser.cpp:1109
 #, kde-format
@@ -2229,17 +2229,17 @@ msgstr "İşlev bulunamadı"
 #: parser.cpp:1112
 #, kde-format
 msgid "The differential equation must be at least first-order"
-msgstr "Türevsel denklem en azından ilk-girilen olmalıdır"
+msgstr "Türevsel denklem en azından ilk girilen olmalıdır"
 
 #: parser.cpp:1115
 #, kde-format
 msgid "Too many plus-minus symbols"
-msgstr "Çok fazla artı-eksi işareti"
+msgstr "Çok fazla artı–eksi işareti"
 
 #: parser.cpp:1118
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
-msgstr "geçersiz artı-eksi işareti (tanım sabit olmalı)"
+msgstr "geçersiz artı–eksi işareti (tanım sabit olmalı)"
 
 #: parser.cpp:1121
 #, kde-format
@@ -2279,7 +2279,7 @@ msgstr "Tire Nokta Nokta"
 #: plotstylewidget.cpp:44
 #, kde-format
 msgid "Advanced..."
-msgstr "Gelişmiş..."
+msgstr "Gelişmiş…"
 
 #: plotstylewidget.cpp:48
 #, kde-format
@@ -2389,7 +2389,7 @@ msgstr ""
 #: qparametereditor.ui:123
 #, kde-format
 msgid "&Import..."
-msgstr "&Al..."
+msgstr "İçe &Aktar…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdExport)
 #: qparametereditor.ui:133
@@ -2411,7 +2411,7 @@ msgstr ""
 #: qparametereditor.ui:139
 #, kde-format
 msgid "&Export..."
-msgstr "&Aktar..."
+msgstr "Dışa &Aktar…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: settingspagecolor.ui:23
@@ -2506,10 +2506,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"2. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"2. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
+"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
+"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
+"tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color4)
 #: settingspagecolor.ui:146
@@ -2526,10 +2526,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"5. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"5. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
+"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
+"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
+"tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color0)
 #: settingspagecolor.ui:159
@@ -2546,10 +2546,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"1. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"1. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
+"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
+"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
+"tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: settingspagecolor.ui:172
@@ -2572,10 +2572,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"3. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"3. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
+"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
+"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
+"tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_13)
 #: settingspagecolor.ui:198
@@ -2610,10 +2610,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"4. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"4. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
+"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
+"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
+"tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_11)
 #: settingspagecolor.ui:250
@@ -2648,10 +2648,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"9. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"9. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
+"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
+"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
+"tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_10)
 #: settingspagecolor.ui:328
@@ -2674,10 +2674,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"7. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"7. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
+"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
+"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
+"tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color7)
 #: settingspagecolor.ui:354
@@ -2694,10 +2694,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"8. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"8. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
+"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
+"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
+"tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color5)
 #: settingspagecolor.ui:367
@@ -2714,10 +2714,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"6. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"6. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
+"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
+"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
+"tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_7)
 #: settingspagecolor.ui:380
@@ -2740,10 +2740,10 @@ msgid ""
 "number 1 and you change color for that number here, the setting will be "
 "shown next time you define a new function at number 1."
 msgstr ""
-"10. fonksiyon için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
-"fonksiyonları etkilediğini unutmayın, bu nedenle 1. de bir fonksiyon "
-"tanımladıysanız ve bu numaranın rengini burada değiştirirseniz, bu ayar 1 "
-"numarada yeni bir fonksiyon tanımladığınızda uygulanır."
+"10. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_6)
 #: settingspagecolor.ui:406
@@ -2947,7 +2947,7 @@ msgstr "Açı Kipi"
 #: settingspagegeneral.ui:32
 #, kde-format
 msgid "Trigonometric functions use radian mode for angles."
-msgstr "Trigonometrik fonksiyonlar açılar için radyan kipini kullansın."
+msgstr "Trigonometrik işlevler açılar için radyan kipini kullansın."
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:35
@@ -2957,7 +2957,7 @@ msgid ""
 "for trigonometric functions only."
 msgstr ""
 "Açıları hesaplamak için radyan kipini kullanmak için bunu işaretleyin. Bu "
-"yalnızca trigonometrik fonksiyonlar için önemlidir."
+"yalnızca trigonometrik işlevler için önemlidir."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:38
@@ -2969,7 +2969,7 @@ msgstr "&Radyan"
 #: settingspagegeneral.ui:45
 #, kde-format
 msgid "Trigonometric functions use degree mode for angles."
-msgstr "Trigonometrik fonksiyonlar açılar için derece kipini kullansın."
+msgstr "Trigonometrik işlevler, açılar için derece kipini kullanır."
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton2)
 #: settingspagegeneral.ui:48
@@ -2979,7 +2979,7 @@ msgid ""
 "for trigonometric functions only."
 msgstr ""
 "Açıları hesaplamak için derece kipini kullanmak için bunu işaretleyin. Bu "
-"yalnızca trigonometrik fonksiyonlar için önemlidir."
+"yalnızca trigonometrik işlevler için önemlidir."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton2)
 #: settingspagegeneral.ui:51
@@ -3034,7 +3034,7 @@ msgstr "Kopyalama yaparken tanjant ve dikey çiz"
 #: sliderwidget.ui:13
 #, kde-format
 msgid "Slider"
-msgstr "Kaydırma Çubuğu"
+msgstr "Sürgü"
 
 #. i18n: ectx: property (text), widget (QLabel, valueLabel)
 #: sliderwidget.ui:43
@@ -3073,12 +3073,12 @@ msgstr "Eksen Bölümü"
 #: view.cpp:2132
 #, kde-format
 msgid "x-Axis:"
-msgstr "x-Ekseni:"
+msgstr "x ekseni:"
 
 #: view.cpp:2133
 #, kde-format
 msgid "y-Axis:"
-msgstr "y-Ekseni:"
+msgstr "y ekseni:"
 
 #: view.cpp:2136
 #, kde-format

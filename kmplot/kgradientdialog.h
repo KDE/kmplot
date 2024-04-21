@@ -257,7 +257,7 @@ protected:
     void paintEvent(QPaintEvent *pe) override;
 
 private:
-    void initStyleOption(QStyleOptionButton *opt) const;
+    void initStyleOption(QStyleOptionButton *opt) const override;
     QGradient m_gradient;
 };
 

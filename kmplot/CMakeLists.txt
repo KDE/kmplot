@@ -61,9 +61,9 @@ kconfig_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )
 
 add_library(kmplotpart MODULE ${kmplotpart_PART_SRCS})
 
-target_link_libraries(kmplotpart Qt::PrintSupport Qt::Widgets KF${QT_MAJOR_VERSION}::I18n KF${QT_MAJOR_VERSION}::TextWidgets KF${QT_MAJOR_VERSION}::Parts KF${QT_MAJOR_VERSION}::JobWidgets KF${QT_MAJOR_VERSION}::Completion Qt::Svg)
+target_link_libraries(kmplotpart Qt::PrintSupport Qt::Widgets KF6::I18n KF6::TextWidgets KF6::Parts KF6::JobWidgets KF6::Completion Qt::Svg)
 
-install(TARGETS kmplotpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VERSION}/parts)
+install(TARGETS kmplotpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf6/parts)
 
 ########### next target ###############   
 
@@ -84,7 +84,7 @@ ecm_add_app_icon(kmplot_SRCS ICONS ${ICONS_SRCS})
 
 add_executable(kmplot ${kmplot_SRCS})
 
-target_link_libraries(kmplot Qt::PrintSupport Qt::Widgets KF${QT_MAJOR_VERSION}::I18n KF${QT_MAJOR_VERSION}::TextWidgets KF${QT_MAJOR_VERSION}::Crash KF${QT_MAJOR_VERSION}::Parts KF${QT_MAJOR_VERSION}::DBusAddons KF${QT_MAJOR_VERSION}::JobWidgets KF${QT_MAJOR_VERSION}::Completion KF${QT_MAJOR_VERSION}::KIOGui)
+target_link_libraries(kmplot Qt::PrintSupport Qt::Widgets KF6::I18n KF6::TextWidgets KF6::Crash KF6::Parts KF6::DBusAddons KF6::JobWidgets KF6::Completion KF6::KIOGui)
 
 install(TARGETS kmplot  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
@@ -106,7 +106,3 @@ endif()
 install( PROGRAMS org.kde.kmplot.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
 install( FILES kmplot.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
 install( FILES org.kde.kmplot.KmPlot.xml org.kde.kmplot.MainDlg.xml org.kde.kmplot.Parser.xml org.kde.kmplot.View.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR} )
-
-if (QT_MAJOR_VERSION STREQUAL "5")
-   install( FILES kmplot_part.desktop  DESTINATION  ${KDE_INSTALL_KSERVICESDIR} )
-endif()

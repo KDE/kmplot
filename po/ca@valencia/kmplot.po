@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-08 01:42+0000\n"
-"PO-Revision-Date: 2024-04-08 10:44+0200\n"
+"PO-Revision-Date: 2024-04-23 15:00+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -598,7 +598,7 @@ msgstr "Mostra la primera derivada"
 #: functioneditorwidget.ui:214 functioneditorwidget.ui:237
 #, kde-format
 msgid "If this box is checked, the first derivative will be plotted, too."
-msgstr "Si seleccioneu esta casella, es dibuixarà també la primera derivada."
+msgstr "Si marqueu esta casella, es dibuixarà també la primera derivada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDerivative1)
 #: functioneditorwidget.ui:217
@@ -648,7 +648,7 @@ msgstr "Mostra la integral"
 #: functioneditorwidget.ui:270
 #, kde-format
 msgid "If this box is checked, the integral will be plotted, too."
-msgstr "Si seleccioneu esta casella, es dibuixarà també la integral."
+msgstr "Si marqueu esta casella, es dibuixarà també la integral."
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_6)
 #: functioneditorwidget.ui:283
@@ -973,7 +973,7 @@ msgstr "Editor de constants"
 #: kconstanteditor.cpp:116
 #, kde-format
 msgid "Check this to have the constant exported when saving."
-msgstr "Seleccioneu la casella si voleu exportar la constant en guardar."
+msgstr "Marqueu la casella si voleu exportar la constant en guardar."
 
 #: kconstanteditor.cpp:119
 #, kde-format
@@ -981,8 +981,8 @@ msgid ""
 "Check this to have the constant permanently available between instances of "
 "KmPlot."
 msgstr ""
-"Seleccioneu la casella si voleu que la constant estiga disponible "
-"permanentment entre instàncies de KmPlot."
+"Marqueu la casella si voleu que la constant estiga disponible permanentment "
+"entre instàncies de KmPlot."
 
 #: kgradientdialog.cpp:339
 #, kde-format
@@ -1038,8 +1038,8 @@ msgstr "Marcat si les etiquetes són visibles"
 #, kde-format
 msgid "Check this box if the labels at the tics should be shown."
 msgstr ""
-"Seleccioneu esta casella si s'han de mostrar les etiquetes a les marques "
-"dels eixos."
+"Marqueu esta casella si s'han de mostrar les etiquetes a les marques dels "
+"eixos."
 
 #. i18n: ectx: label, entry (ShowAxes), group (Coordinate System)
 #: kmplot.kcfg:22
@@ -1051,7 +1051,7 @@ msgstr "Marcat si els eixos són visibles"
 #: kmplot.kcfg:23
 #, kde-format
 msgid "Check this box if axes should be shown."
-msgstr "Seleccioneu esta casella si s'han de mostrar els eixos."
+msgstr "Marqueu esta casella si s'han de mostrar els eixos."
 
 #. i18n: ectx: label, entry (ShowArrows), group (Coordinate System)
 #: kmplot.kcfg:27
@@ -1063,7 +1063,7 @@ msgstr "Marcat si les fletxes són visibles"
 #: kmplot.kcfg:28
 #, kde-format
 msgid "Check this box if axes should have arrows."
-msgstr "Seleccioneu esta casella si els eixos han de tindre fletxes."
+msgstr "Marqueu esta casella si els eixos han de tindre fletxes."
 
 #. i18n: ectx: label, entry (GridLineWidth), group (Coordinate System)
 #: kmplot.kcfg:32
@@ -1228,39 +1228,38 @@ msgstr "Introduïu l'alçària d'una unitat de marca a marca."
 #: kmplot.kcfg:108
 #, kde-format
 msgid "Font of the axis labels"
-msgstr "Tipus de lletra de les etiquetes dels eixos"
+msgstr "Lletra de les etiquetes dels eixos"
 
 #. i18n: ectx: whatsthis, entry (AxesFont), group (Fonts)
 #: kmplot.kcfg:109
 #, kde-format
 msgid "Choose a font for the axis labels."
-msgstr "Escolliu un tipus de lletra per a les etiquetes dels eixos."
+msgstr "Escolliu una lletra per a les etiquetes dels eixos."
 
 #. i18n: ectx: label, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:113
 #, kde-format
 msgid "Font of the printed header table"
-msgstr "Tipus de lletra de la taula de la capçalera impresa"
+msgstr "Lletra de la taula de la capçalera impresa"
 
 #. i18n: ectx: whatsthis, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:114
 #, kde-format
 msgid "Choose a font for the table printed at the top of the page."
 msgstr ""
-"Escolliu un tipus de lletra per a la taula impresa a la part superior de la "
-"pàgina."
+"Escolliu una lletra per a la taula impresa a la part superior de la pàgina."
 
 #. i18n: ectx: label, entry (LabelFont), group (Fonts)
 #: kmplot.kcfg:118
 #, kde-format
 msgid "Font of diagram labels"
-msgstr "Tipus de lletra de les etiquetes del diagrama"
+msgstr "Lletra de les etiquetes del diagrama"
 
 #. i18n: ectx: whatsthis, entry (LabelFont), group (Fonts)
 #: kmplot.kcfg:119
 #, kde-format
 msgid "Choose a font for diagram labels."
-msgstr "Escolliu un tipus de lletra de les etiquetes del diagrama."
+msgstr "Escolliu una lletra per a les etiquetes del diagrama."
 
 #. i18n: ectx: label, entry (AxesColor), group (Colors)
 #: kmplot.kcfg:126
@@ -1416,7 +1415,7 @@ msgstr "Radians en comptes de graus"
 #: kmplot.kcfg:190
 #, kde-format
 msgid "Check the box if you want to use radians"
-msgstr "Seleccioneu esta casella si voleu utilitzar radians"
+msgstr "Marqueu esta casella si voleu utilitzar radians"
 
 #. i18n: ectx: label, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:194
@@ -1812,7 +1811,7 @@ msgstr "Colors"
 #: maindlg.cpp:196
 #, kde-format
 msgid "Fonts"
-msgstr "Tipus de lletra"
+msgstr "Lletres"
 
 #: maindlg.cpp:223
 #, kde-format
@@ -2898,7 +2897,7 @@ msgstr "Etiquetes de les marques visibles."
 #: settingspagediagram.ui:255
 #, kde-format
 msgid "Check this if the axes' tics should be labeled."
-msgstr "Activeu si les marques dels eixos han d'estar etiquetades."
+msgstr "Marqueu-la si les marques dels eixos han d'estar etiquetades."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:258
@@ -2916,7 +2915,7 @@ msgstr "Eixos visibles."
 #: settingspagediagram.ui:271
 #, kde-format
 msgid "Check this if the axes should be visible."
-msgstr "Activeu si els eixos han de ser visibles."
+msgstr "Marqueu-la si els eixos han de ser visibles."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:274
@@ -2934,7 +2933,7 @@ msgstr "Fletxes visibles al final dels eixos."
 #: settingspagediagram.ui:287
 #, kde-format
 msgid "Check this if the axes should have arrows at their ends."
-msgstr "Activeu si els eixos han de tindre fletxes als extrems."
+msgstr "Marqueu-la si els eixos han de tindre fletxes als extrems."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:290

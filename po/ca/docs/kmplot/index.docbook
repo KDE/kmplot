@@ -261,51 +261,23 @@ format="PNG"/></imageobject
 <itemizedlist>
 	<listitem
 ><para
->Els gràfics cartesians es poden escriure com &pex; <quote
->y = x^2</quote
->, on «x» s'utilitzarà com la variable, o com &pex; <quote
->f(a) = a^2</quote
->, on el nom de la variable és arbitrari.</para
+>Els gràfics cartesians es poden escriure com &pex; «y = x^2», on «x» s'utilitzarà com la variable, o com &pex; «f(a) = a^2», on el nom de la variable és arbitrari.</para
 ></listitem>
 	<listitem
 ><para
->Els gràfics paramètrics són similars als gràfics cartesians. Les coordenades «x» i «y» es poden introduir com a equacions en «t», &pex; <quote
->x = sin(t)</quote
->, <quote
->y = cos(t)</quote
->, o com a funcions, &pex; <quote
->f_x(s) = sin(s)</quote
->, <quote
->f_y(s) = cos(s)</quote
->.</para
+>Els gràfics paramètrics són similars als gràfics cartesians. Les coordenades «x» i «y» es poden introduir com a equacions en «t», &pex; «x = sin(t)», «y = cos(t)», o com a funcions, &pex; «f_x(s) = sin(s)», «f_y(s) = cos(s)».</para
 ></listitem>
 	<listitem
 ><para
->Els gràfics polars també són similars als gràfics cartesians. Poden introduir-se com a una equació en «&thgr;», &pex; <quote
->r = &thgr;</quote
->, o com a una funció, &pex; <quote
->f(x) = x</quote
->.</para
+>Els gràfics polars també són similars als gràfics cartesians. Poden introduir-se com a una equació en «&thgr;», &pex; «r = &thgr;», o com a una funció, &pex; «f(x) = x».</para
 ></listitem>
 	<listitem
 ><para
->Per als gràfics implícits, el nom de la funció s'introdueix per separat en l'expressió relativa de les coordenades «x» i «y». Si les variables «x» i «y» s'especifiquen mitjançant el nom de la funció (&pex; introduint <quote
->f(a,b)</quote
-> com a nom de la funció), llavors s'utilitzaran aquestes variables. En cas contrari, s'utilitzaran les lletres «x» i «y» com a variables.</para
+>Per als gràfics implícits, el nom de la funció s'introdueix per separat en l'expressió relativa de les coordenades «x» i «y». Si les variables «x» i «y» s'especifiquen mitjançant el nom de la funció (&pex; introduint «f(a,b)» com a nom de la funció), llavors s'utilitzaran aquestes variables. En cas contrari, s'utilitzaran les lletres «x» i «y» com a variables.</para
 ></listitem>
 	<listitem
 ><para
->Els gràfics diferencials explícits són equacions diferencials a través de la derivada superior que se li va assignar en termes de les derivades inferiors. La diferenciació es denota com una prima ('). En forma de funció, l'equació es veurà com <quote
->f''(x) = f' &minus; f</quote
->. En forma d'equació, es veurà com <quote
->y'' = y' &minus; y</quote
->. Cal tenir en compte que en ambdós casos, la part <quote
->(x)</quote
-> no s'afegirà als termes diferencials d'ordre inferior (pel que haureu d'escriure <quote
->f'(x) = &minus;f</quote
-> i no <quote
->f'(x) = &minus;f(x)</quote
->).</para
+>Els gràfics diferencials explícits són equacions diferencials a través de la derivada superior que se li va assignar en termes de les derivades inferiors. La diferenciació es denota com una prima ('). En forma de funció, l'equació es veurà com «f''(x) = f' &minus; f». En forma d'equació, es veurà com «y'' = y' &minus; y». Cal tenir en compte que en ambdós casos, la part «(x)» no s'afegirà als termes diferencials d'ordre inferior (pel que haureu d'escriure «f'(x) = &minus;f» i no «f'(x) = &minus;f(x)»).</para
 ></listitem>
 </itemizedlist>
 
@@ -323,13 +295,7 @@ format="PNG"/></imageobject
 		</listitem>
 		<listitem>
 			<para
->La llista de funcions predefinides. Cal tenir en compte que si ja heu seleccionat text, s'utilitzarà com a argument de la funció quan s'insereixi una funció. Per exemple, si heu seleccionat <quote
->1 + x</quote
-> en l'equació <quote
->y = 1 + x</quote
->, i s'ha escollit la funció sinus, llavors l'equació es convertirà en <quote
-> y = sin(1+x)</quote
->. </para>
+>La llista de funcions predefinides. Cal tenir en compte que si ja heu seleccionat text, s'utilitzarà com a argument de la funció quan s'insereixi una funció. Per exemple, si heu seleccionat «1 + x» en l'equació «y = 1 + x», i s'ha escollit la funció sinus, llavors l'equació es convertirà en « y = sin(1+x)». </para>
 		</listitem>
 	</itemizedlist>
 </para>
@@ -436,11 +402,7 @@ format="PNG"/></imageobject
 ><userinput
 >r(&thgr;) = &thgr;</userinput
 ></screen
-> Cal tenir en compte que podeu utilitzar qualsevol nom per a la variable zeta, de manera que <quote
->r(t) = t</quote
-> o <quote
->f(x) = x</quote
-> produiran exactament el mateix resultat. </para>
+> Cal tenir en compte que podeu utilitzar qualsevol nom per a la variable zeta, de manera que «r(t) = t» o «f(x) = x» produiran exactament el mateix resultat. </para>
 	</sect2>
 
 	<sect2 id="implicit-functions">
@@ -955,18 +917,18 @@ format="PNG"/></imageobject
 
 <sect1 id="font-config">
 	<title
->Configurar els Tipus de lletra</title>
+>Configurar les lletres</title>
 
 	<screenshot>
 		<screeninfo
->Captura de pantalla del diàleg Tipus de lletra</screeninfo>
+>Captura de pantalla del diàleg Lletres</screeninfo>
 		<mediaobject>
 			<imageobject>
 				<imagedata fileref="settings-fonts.png" format="PNG"/>
 			</imageobject>
 			<textobject>
 				<phrase
->Captura de pantalla del diàleg Tipus de lletra</phrase>
+>Captura de pantalla del diàleg Lletres</phrase>
 			</textobject>
 		</mediaobject>
 	</screenshot>
@@ -980,7 +942,7 @@ format="PNG"/></imageobject
 ></term>
 			<listitem>
 				<para
->El tipus de lletra utilitzat per a dibuixar els números i les etiquetes dels eixos «x/y».</para>
+>La lletra utilitzada per a dibuixar els números i les etiquetes dels eixos «x/y».</para>
 			</listitem>
 		</varlistentry>
 
@@ -991,7 +953,7 @@ format="PNG"/></imageobject
 ></term>
 			<listitem>
 				<para
->El tipus de lletra utilitzat per a dibuixar les etiquetes del diagrama (&pex;, les que mostren el nom del gràfic o dels punts extrems).</para>
+>La lletra utilitzada per a dibuixar les etiquetes del diagrama (&pex;, les que mostren el nom del gràfic o dels punts extrems).</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
@@ -1001,7 +963,7 @@ format="PNG"/></imageobject
 ></term>
 			<listitem>
 				<para
->El tipus de lletra utilitzat per a dibuixar la capçalera en imprimir un gràfic.</para>
+>La lletra utilitzada per a dibuixar la capçalera en imprimir un gràfic.</para>
 			</listitem>
 		</varlistentry>
 
@@ -1035,17 +997,7 @@ format="PNG"/></imageobject
 			<listitem>
 
 				<para
->El nom de la funció. Si el primer caràcter és <quote
->r</quote
-> l'analitzador assumirà que esteu utilitzant coordenades polars. Si el primer caràcter és <quote
->x</quote
-> (per exemple, <quote
->xfunc</quote
->), l'analitzador esperarà una segona funció amb un líder <quote
->y</quote
-> (aquí <quote
->yfunc</quote
->) per a definir la funció en forma paramètrica. </para>
+>El nom de la funció. Si el primer caràcter és «r» l'analitzador assumirà que esteu utilitzant coordenades polars. Si el primer caràcter és «x» (per exemple, «xfunc»), l'analitzador esperarà una segona funció amb un líder «y» (aquí «yfunc») per a definir la funció en forma paramètrica. </para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>
@@ -1061,9 +1013,7 @@ format="PNG"/></imageobject
 >var2</term>
 			<listitem
 ><para
->La funció <quote
->paràmetre de grup</quote
->. Hi ha d'haver una coma per a separar-lo de la variable de la funció. Podeu utilitzar el paràmetre de grup per a, per exemple, representar un nombre de grafs des d'una funció. Els valors del paràmetre es poden seleccionar manualment o podeu optar per tenir un control lliscant que controli un paràmetre. En canviar el valor del control lliscant es canviarà el valor del paràmetre. El control lliscant es pot establir a un enter entre 0 i 100.</para
+>La funció «paràmetre de grup». Hi ha d'haver una coma per a separar-lo de la variable de la funció. Podeu utilitzar el paràmetre de grup per a, per exemple, representar un nombre de grafs des d'una funció. Els valors del paràmetre es poden seleccionar manualment o podeu optar per tenir un control lliscant que controli un paràmetre. En canviar el valor del control lliscant es canviarà el valor del paràmetre. El control lliscant es pot establir a un enter entre 0 i 100.</para
 ></listitem>
 		</varlistentry>
 		<varlistentry>
@@ -1436,11 +1386,9 @@ format="PNG"/></imageobject
 	<title
 >Extensions</title>
 	<para
->Una extensió per a una funció s'especifica introduint un punt i coma, seguit de l'extensió, després de la definició de la funció. L'extensió es pot escriure utilitzant el mètode <quote
-><methodname
+>Una extensió per a una funció s'especifica introduint un punt i coma, seguit de l'extensió, després de la definició de la funció. L'extensió es pot escriure utilitzant el mètode «<methodname
 >parser addFunction</methodname
-></quote
-> de &DBus;. Cap de les extensions estaran disponibles per a les funcions paramètriques, però N i D[a,b] funcionen també per a les funcions polars. Per exemple:<screen>
+>» de &DBus;. Cap de les extensions estaran disponibles per a les funcions paramètriques, però N i D[a,b] funcionen també per a les funcions polars. Per exemple:<screen>
             <userinput>
                 f(x)=x^2; A1
             </userinput>
@@ -1697,9 +1645,7 @@ format="PNG"/></imageobject
 ></term>
 					<listitem>
 						<para
->Estableix l'abast per a l'eix vertical. Vegeu <quote
->Abast de l'eix horitzontal</quote
-> a sobre.</para>
+>Estableix l'abast per a l'eix vertical. Vegeu «Abast de l'eix horitzontal» a sobre.</para>
 					</listitem>
 				</varlistentry>
 
@@ -1725,9 +1671,7 @@ format="PNG"/></imageobject
 ></term>
 					<listitem>
 						<para
->Això controla l'espaiat entre les línies de quadrícula en la direcció vertical. Vegeu <quote
->Espaiat a la quadrícula de l'eix horitzontal</quote
->. </para>
+>Això controla l'espaiat entre les línies de quadrícula en la direcció vertical. Vegeu «Espaiat a la quadrícula de l'eix horitzontal». </para>
 					</listitem>
 				</varlistentry>
 

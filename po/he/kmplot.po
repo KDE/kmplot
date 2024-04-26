@@ -16,19 +16,20 @@
 # Diego Iastrubni <elcuco@kde.org>, 2005.
 # tahmar1900 <tahmar1900@gmail.com>, 2006.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
+# SPDX-FileCopyrightText: 2024 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-08 01:42+0000\n"
-"PO-Revision-Date: 2017-05-16 06:59-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: hebrew <kde-l10n-he@kde.org>\n"
+"PO-Revision-Date: 2024-04-24 20:32+0300\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 
@@ -88,13 +89,13 @@ msgstr ""
 #: constantseditor.ui:83 qparametereditor.ui:39
 #, kde-format
 msgid "Add a new constant"
-msgstr "הוסף קבוע חדש"
+msgstr "הוספת קבוע חדש"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, cmdNew)
 #: constantseditor.ui:86 qparametereditor.ui:42
 #, kde-format
 msgid "Click this button to add a new constant."
-msgstr "לחץ על כפתור זה כדי להוסיף קבוע חדש."
+msgstr "לחיצה על הכפתור הזה תוסיף קבוע חדש."
 
 #. i18n: ectx: property (text), widget (QPushButton, cmdNew)
 #: constantseditor.ui:89 qparametereditor.ui:45
@@ -2976,7 +2977,7 @@ msgstr ""
 #: settingspagegeneral.ui:51
 #, kde-format
 msgid "&Degree"
-msgstr "&מעלות"
+msgstr "מ&עלות"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: settingspagegeneral.ui:61

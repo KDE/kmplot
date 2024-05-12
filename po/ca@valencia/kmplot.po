@@ -271,19 +271,19 @@ msgstr "Expressió:"
 #: equationeditorwidget.ui:54
 #, kde-format
 msgid "Edit Constants..."
-msgstr "Edita les constants..."
+msgstr "Edita les constants…"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, constantList)
 #: equationeditorwidget.ui:75
 #, kde-format
 msgid "Insert constant..."
-msgstr "Afig una constant..."
+msgstr "Afig una constant…"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, functionList)
 #: equationeditorwidget.ui:84
 #, kde-format
 msgid "Insert function..."
-msgstr "Inserix una funció..."
+msgstr "Inserix una funció…"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
 #: equationeditorwidget.ui:129
@@ -598,7 +598,7 @@ msgstr "Mostra la primera derivada"
 #: functioneditorwidget.ui:214 functioneditorwidget.ui:237
 #, kde-format
 msgid "If this box is checked, the first derivative will be plotted, too."
-msgstr "Si seleccioneu esta casella, es dibuixarà també la primera derivada."
+msgstr "Si marqueu esta casella, es dibuixarà també la primera derivada."
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDerivative1)
 #: functioneditorwidget.ui:217
@@ -648,7 +648,7 @@ msgstr "Mostra la integral"
 #: functioneditorwidget.ui:270
 #, kde-format
 msgid "If this box is checked, the integral will be plotted, too."
-msgstr "Si seleccioneu esta casella, es dibuixarà també la integral."
+msgstr "Si marqueu esta casella, es dibuixarà també la integral."
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_6)
 #: functioneditorwidget.ui:283
@@ -962,7 +962,7 @@ msgstr "Elimina"
 #: initialconditionswidget.ui:56
 #, kde-format
 msgid "Add..."
-msgstr "Afig..."
+msgstr "Afig…"
 
 #: kconstanteditor.cpp:54
 #, kde-format
@@ -973,7 +973,7 @@ msgstr "Editor de constants"
 #: kconstanteditor.cpp:116
 #, kde-format
 msgid "Check this to have the constant exported when saving."
-msgstr "Seleccioneu la casella si voleu exportar la constant en guardar."
+msgstr "Marqueu la casella si voleu exportar la constant en guardar."
 
 #: kconstanteditor.cpp:119
 #, kde-format
@@ -981,8 +981,8 @@ msgid ""
 "Check this to have the constant permanently available between instances of "
 "KmPlot."
 msgstr ""
-"Seleccioneu la casella si voleu que la constant estiga disponible "
-"permanentment entre instàncies de KmPlot."
+"Marqueu la casella si voleu que la constant estiga disponible permanentment "
+"entre instàncies de KmPlot."
 
 #: kgradientdialog.cpp:339
 #, kde-format
@@ -1038,8 +1038,8 @@ msgstr "Marcat si les etiquetes són visibles"
 #, kde-format
 msgid "Check this box if the labels at the tics should be shown."
 msgstr ""
-"Seleccioneu esta casella si s'han de mostrar les etiquetes a les marques "
-"dels eixos."
+"Marqueu esta casella si s'han de mostrar les etiquetes a les marques dels "
+"eixos."
 
 #. i18n: ectx: label, entry (ShowAxes), group (Coordinate System)
 #: kmplot.kcfg:22
@@ -1051,7 +1051,7 @@ msgstr "Marcat si els eixos són visibles"
 #: kmplot.kcfg:23
 #, kde-format
 msgid "Check this box if axes should be shown."
-msgstr "Seleccioneu esta casella si s'han de mostrar els eixos."
+msgstr "Marqueu esta casella si s'han de mostrar els eixos."
 
 #. i18n: ectx: label, entry (ShowArrows), group (Coordinate System)
 #: kmplot.kcfg:27
@@ -1063,7 +1063,7 @@ msgstr "Marcat si les fletxes són visibles"
 #: kmplot.kcfg:28
 #, kde-format
 msgid "Check this box if axes should have arrows."
-msgstr "Seleccioneu esta casella si els eixos han de tindre fletxes."
+msgstr "Marqueu esta casella si els eixos han de tindre fletxes."
 
 #. i18n: ectx: label, entry (GridLineWidth), group (Coordinate System)
 #: kmplot.kcfg:32
@@ -1416,7 +1416,7 @@ msgstr "Radians en comptes de graus"
 #: kmplot.kcfg:190
 #, kde-format
 msgid "Check the box if you want to use radians"
-msgstr "Seleccioneu esta casella si voleu utilitzar radians"
+msgstr "Marqueu esta casella si voleu utilitzar radians"
 
 #. i18n: ectx: label, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:194
@@ -1817,22 +1817,22 @@ msgstr "Tipus de lletra"
 #: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
-msgstr "Configura KmPlot..."
+msgstr "Configura KmPlot…"
 
 #: maindlg.cpp:229
 #, kde-format
 msgid "E&xport..."
-msgstr "E&xporta..."
+msgstr "E&xporta…"
 
 #: maindlg.cpp:242
 #, kde-format
 msgid "&Coordinate System..."
-msgstr "&Sistema de coordenades..."
+msgstr "&Sistema de coordenades…"
 
 #: maindlg.cpp:247
 #, kde-format
 msgid "&Constants..."
-msgstr "&Constants..."
+msgstr "&Constants…"
 
 #: maindlg.cpp:256
 #, kde-format
@@ -1868,17 +1868,17 @@ msgstr "Calculadora"
 #: maindlg.cpp:288
 #, kde-format
 msgid "Plot &Area..."
-msgstr "Dibuixa una àre&a..."
+msgstr "Dibuixa una àre&a…"
 
 #: maindlg.cpp:292
 #, kde-format
 msgid "Find Ma&ximum..."
-msgstr "Troba el mà&xim..."
+msgstr "Troba el mà&xim…"
 
 #: maindlg.cpp:297
 #, kde-format
 msgid "Find Mi&nimum..."
-msgstr "Troba el mí&nim..."
+msgstr "Troba el mí&nim…"
 
 #: maindlg.cpp:304
 #, kde-format
@@ -1924,7 +1924,7 @@ msgstr "&Elimina"
 #: maindlg.cpp:363
 #, kde-format
 msgid "Animate Plot..."
-msgstr "Anima el gràfic..."
+msgstr "Anima el gràfic…"
 
 #: maindlg.cpp:374
 #, kde-format
@@ -2171,7 +2171,7 @@ msgstr ""
 #: parameterswidget.ui:60
 #, kde-format
 msgid "Edit List..."
-msgstr "Edita la llista..."
+msgstr "Edita la llista…"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, listOfSliders)
 #: parameterswidget.ui:70
@@ -2291,7 +2291,7 @@ msgstr "Guió-punt-punt"
 #: plotstylewidget.cpp:44
 #, kde-format
 msgid "Advanced..."
-msgstr "Avançat..."
+msgstr "Avançat…"
 
 #: plotstylewidget.cpp:48
 #, kde-format
@@ -2401,7 +2401,7 @@ msgstr ""
 #: qparametereditor.ui:123
 #, kde-format
 msgid "&Import..."
-msgstr "&Importa..."
+msgstr "&Importa…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdExport)
 #: qparametereditor.ui:133
@@ -2423,7 +2423,7 @@ msgstr ""
 #: qparametereditor.ui:139
 #, kde-format
 msgid "&Export..."
-msgstr "E&xporta..."
+msgstr "E&xporta…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: settingspagecolor.ui:23
@@ -2898,7 +2898,7 @@ msgstr "Etiquetes de les marques visibles."
 #: settingspagediagram.ui:255
 #, kde-format
 msgid "Check this if the axes' tics should be labeled."
-msgstr "Activeu si les marques dels eixos han d'estar etiquetades."
+msgstr "Marqueu-la si les marques dels eixos han d'estar etiquetades."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:258
@@ -2916,7 +2916,7 @@ msgstr "Eixos visibles."
 #: settingspagediagram.ui:271
 #, kde-format
 msgid "Check this if the axes should be visible."
-msgstr "Activeu si els eixos han de ser visibles."
+msgstr "Marqueu-la si els eixos han de ser visibles."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:274
@@ -2934,7 +2934,7 @@ msgstr "Fletxes visibles al final dels eixos."
 #: settingspagediagram.ui:287
 #, kde-format
 msgid "Check this if the axes should have arrows at their ends."
-msgstr "Activeu si els eixos han de tindre fletxes als extrems."
+msgstr "Marqueu-la si els eixos han de tindre fletxes als extrems."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:290

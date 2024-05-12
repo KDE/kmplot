@@ -271,19 +271,19 @@ msgstr "Expressió:"
 #: equationeditorwidget.ui:54
 #, kde-format
 msgid "Edit Constants..."
-msgstr "Edita les constants..."
+msgstr "Edita les constants…"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, constantList)
 #: equationeditorwidget.ui:75
 #, kde-format
 msgid "Insert constant..."
-msgstr "Afig una constant..."
+msgstr "Afig una constant…"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, functionList)
 #: equationeditorwidget.ui:84
 #, kde-format
 msgid "Insert function..."
-msgstr "Inserix una funció..."
+msgstr "Inserix una funció…"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
 #: equationeditorwidget.ui:129
@@ -962,7 +962,7 @@ msgstr "Elimina"
 #: initialconditionswidget.ui:56
 #, kde-format
 msgid "Add..."
-msgstr "Afig..."
+msgstr "Afig…"
 
 #: kconstanteditor.cpp:54
 #, kde-format
@@ -1816,22 +1816,22 @@ msgstr "Lletres"
 #: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
-msgstr "Configura KmPlot..."
+msgstr "Configura KmPlot…"
 
 #: maindlg.cpp:229
 #, kde-format
 msgid "E&xport..."
-msgstr "E&xporta..."
+msgstr "E&xporta…"
 
 #: maindlg.cpp:242
 #, kde-format
 msgid "&Coordinate System..."
-msgstr "&Sistema de coordenades..."
+msgstr "&Sistema de coordenades…"
 
 #: maindlg.cpp:247
 #, kde-format
 msgid "&Constants..."
-msgstr "&Constants..."
+msgstr "&Constants…"
 
 #: maindlg.cpp:256
 #, kde-format
@@ -1867,17 +1867,17 @@ msgstr "Calculadora"
 #: maindlg.cpp:288
 #, kde-format
 msgid "Plot &Area..."
-msgstr "Dibuixa una àre&a..."
+msgstr "Dibuixa una àre&a…"
 
 #: maindlg.cpp:292
 #, kde-format
 msgid "Find Ma&ximum..."
-msgstr "Troba el mà&xim..."
+msgstr "Troba el mà&xim…"
 
 #: maindlg.cpp:297
 #, kde-format
 msgid "Find Mi&nimum..."
-msgstr "Troba el mí&nim..."
+msgstr "Troba el mí&nim…"
 
 #: maindlg.cpp:304
 #, kde-format
@@ -1923,7 +1923,7 @@ msgstr "&Elimina"
 #: maindlg.cpp:363
 #, kde-format
 msgid "Animate Plot..."
-msgstr "Anima el gràfic..."
+msgstr "Anima el gràfic…"
 
 #: maindlg.cpp:374
 #, kde-format
@@ -2170,7 +2170,7 @@ msgstr ""
 #: parameterswidget.ui:60
 #, kde-format
 msgid "Edit List..."
-msgstr "Edita la llista..."
+msgstr "Edita la llista…"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, listOfSliders)
 #: parameterswidget.ui:70
@@ -2290,7 +2290,7 @@ msgstr "Guió-punt-punt"
 #: plotstylewidget.cpp:44
 #, kde-format
 msgid "Advanced..."
-msgstr "Avançat..."
+msgstr "Avançat…"
 
 #: plotstylewidget.cpp:48
 #, kde-format
@@ -2400,7 +2400,7 @@ msgstr ""
 #: qparametereditor.ui:123
 #, kde-format
 msgid "&Import..."
-msgstr "&Importa..."
+msgstr "&Importa…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdExport)
 #: qparametereditor.ui:133
@@ -2422,7 +2422,7 @@ msgstr ""
 #: qparametereditor.ui:139
 #, kde-format
 msgid "&Export..."
-msgstr "E&xporta..."
+msgstr "E&xporta…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: settingspagecolor.ui:23

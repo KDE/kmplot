@@ -61,7 +61,7 @@ kconfig_add_kcfg_files(kmplotpart_PART_SRCS settings.kcfgc )
 
 add_library(kmplotpart MODULE ${kmplotpart_PART_SRCS})
 
-target_link_libraries(kmplotpart Qt::PrintSupport Qt::Widgets KF${QT_MAJOR_VERSION}::I18n KF${QT_MAJOR_VERSION}::TextWidgets KF${QT_MAJOR_VERSION}::Parts KF${QT_MAJOR_VERSION}::JobWidgets KF${QT_MAJOR_VERSION}::Completion Qt::Svg)
+target_link_libraries(kmplotpart Qt::PrintSupport Qt::Widgets KF${QT_MAJOR_VERSION}::I18n KF${QT_MAJOR_VERSION}::TextWidgets KF${QT_MAJOR_VERSION}::Parts KF${QT_MAJOR_VERSION}::JobWidgets KF${QT_MAJOR_VERSION}::Completion Qt::Svg Qt::DBus)
 
 install(TARGETS kmplotpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VERSION}/parts)
 

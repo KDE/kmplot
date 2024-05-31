@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-08 01:42+0000\n"
-"PO-Revision-Date: 2024-05-21 10:35+0200\n"
+"PO-Revision-Date: 2024-05-30 11:08+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -569,56 +569,56 @@ msgstr "Apparentia"
 #: functioneditorwidget.ui:199
 #, kde-format
 msgid "Derivatives"
-msgstr ""
+msgstr "Derivatos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, showDerivative1)
 #: functioneditorwidget.ui:211
 #, kde-format
 msgid "Show first derivative"
-msgstr ""
+msgstr "Monstra derivato prime"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative1)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showDerivative2)
 #: functioneditorwidget.ui:214 functioneditorwidget.ui:237
 #, kde-format
 msgid "If this box is checked, the first derivative will be plotted, too."
-msgstr ""
+msgstr "Si iste cassa es marcate, anque le derivato prime essera monstrate."
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDerivative1)
 #: functioneditorwidget.ui:217
 #, kde-format
 msgid "Show &1st derivative"
-msgstr ""
+msgstr "Monstra derivato &1me"
 
 #. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f1)
 #: functioneditorwidget.ui:227
 #, kde-format
 msgid "1st derivative"
-msgstr ""
+msgstr "Derivato 1me"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, showDerivative2)
 #: functioneditorwidget.ui:234
 #, kde-format
 msgid "Show second derivative"
-msgstr ""
+msgstr "Monstra derivato secunde"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDerivative2)
 #: functioneditorwidget.ui:240
 #, kde-format
 msgid "Show &2nd derivative"
-msgstr ""
+msgstr "Monstra derivato &2de"
 
 #. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f2)
 #: functioneditorwidget.ui:250
 #, kde-format
 msgid "2nd derivative"
-msgstr ""
+msgstr "Derivato 2de"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: functioneditorwidget.ui:258
 #, kde-format
 msgid "Integral"
-msgstr ""
+msgstr "Integral"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, showIntegral)
 #. i18n: ectx: property (text), widget (QCheckBox, showIntegral)
@@ -643,7 +643,7 @@ msgstr ""
 #: functioneditorwidget.ui:286
 #, kde-format
 msgid "Initial Point"
-msgstr ""
+msgstr "Puncto Initial"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5)
 #: functioneditorwidget.ui:298
@@ -761,7 +761,7 @@ msgstr ""
 #: functioneditorwidget.ui:474
 #, kde-format
 msgid "Plot range"
-msgstr ""
+msgstr "Extension de Traciar (Plot)"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, parametricMin)
 #. i18n: ectx: property (toolTip), widget (EquationEdit, polarMin)
@@ -783,7 +783,7 @@ msgstr ""
 #: functioneditorwidget.ui:571
 #, kde-format
 msgid "Enter an equation"
-msgstr ""
+msgstr "Inserta un equation"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, polarEquation)
 #: functioneditorwidget.ui:575
@@ -792,12 +792,14 @@ msgid ""
 "Enter an expression for the function. \n"
 "Example: loop(a)=ln(a)"
 msgstr ""
+"Inserta un expression per le function. \n"
+"Exemplo: loop(a)=ln(a)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_13)
 #: functioneditorwidget.ui:585
 #, kde-format
 msgid "Plot Range"
-msgstr ""
+msgstr "Extension de Traciar (Plot)"
 
 #. i18n: ectx: property (toolTip), widget (KLineEdit, implicitName)
 #: functioneditorwidget.ui:676
@@ -846,7 +848,7 @@ msgstr ""
 #: functioneditorwidget.ui:758
 #, kde-format
 msgid "f''(x) = -f"
-msgstr ""
+msgstr "f''(x) = -f"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #. i18n: ectx: property (windowTitle), widget (QWidget, InitialConditionsWidget)
@@ -1054,7 +1056,7 @@ msgstr ""
 #: kmplot.kcfg:42
 #, kde-format
 msgid "Tic length"
-msgstr ""
+msgstr "Longitude de Tic"
 
 #. i18n: ectx: whatsthis, entry (TicLength), group (Coordinate System)
 #: kmplot.kcfg:43
@@ -1066,7 +1068,7 @@ msgstr ""
 #: kmplot.kcfg:47
 #, kde-format
 msgid "Tic width"
-msgstr ""
+msgstr "Largessa de Tic"
 
 #. i18n: ectx: whatsthis, entry (TicWidth), group (Coordinate System)
 #: kmplot.kcfg:48
@@ -1398,7 +1400,7 @@ msgstr ""
 #: kmplot.kcfg:200
 #, kde-format
 msgid "The value the zoom-in tool should use"
-msgstr ""
+msgstr "Le valor que le instrumento de Zoom In (Aggrandir) deberea usar"
 
 #. i18n: ectx: label, entry (zoomOutStep), group (General)
 #: kmplot.kcfg:204
@@ -1410,7 +1412,7 @@ msgstr ""
 #: kmplot.kcfg:205
 #, kde-format
 msgid "The value the zoom-out tool should use"
-msgstr ""
+msgstr "Le valor que le instrumento de  Zoom Out (Diminuer) deberea usar"
 
 #. i18n: ectx: label, entry (DetailedTracing), group (General)
 #: kmplot.kcfg:209
@@ -1654,12 +1656,12 @@ msgstr ""
 #: main.cpp:46
 #, kde-format
 msgid "(c) 2000-2002, Klaus-Dieter Möller"
-msgstr ""
+msgstr "(c) 2000-2002, Klaus-Dieter Möller"
 
 #: main.cpp:50
 #, kde-format
 msgid "Klaus-Dieter Möller"
-msgstr ""
+msgstr "Klaus-Dieter Möller"
 
 #: main.cpp:50
 #, kde-format
@@ -2643,7 +2645,7 @@ msgstr "Function 1&0:"
 #: settingspagediagram.ui:32
 #, kde-format
 msgid "No Grid will be plotted."
-msgstr ""
+msgstr "Nulle grullia essera traciate (plotted)."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton11)
 #: settingspagediagram.ui:35
@@ -2655,7 +2657,7 @@ msgstr "Necun"
 #: settingspagediagram.ui:42
 #, kde-format
 msgid "A line for every tic."
-msgstr ""
+msgstr "Un linea per cata tic."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton12)
 #: settingspagediagram.ui:45
@@ -2667,13 +2669,13 @@ msgstr "Lineas"
 #: settingspagediagram.ui:52
 #, kde-format
 msgid "Only little crosses in the plot area."
-msgstr ""
+msgstr "Solmente parve cruces in le area de traciar (plot)."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton13)
 #: settingspagediagram.ui:55
 #, kde-format
 msgid "Crosses"
-msgstr ""
+msgstr "Cruces"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton14)
 #: settingspagediagram.ui:62
@@ -2685,25 +2687,25 @@ msgstr ""
 #: settingspagediagram.ui:65
 #, kde-format
 msgid "Polar"
-msgstr ""
+msgstr "Polar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: settingspagediagram.ui:75
 #, kde-format
 msgid "Axis Labels"
-msgstr ""
+msgstr "Etiquettas de Axes"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label)
 #: settingspagediagram.ui:81
 #, kde-format
 msgid "Label on horizontal axis."
-msgstr ""
+msgstr "Etiquetta sur axes horizontal."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagediagram.ui:84
 #, kde-format
 msgid "Horizontal axis label:"
-msgstr ""
+msgstr "Etiquetta de axes horizontal:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelHorizontalAxis)
 #: settingspagediagram.ui:94
@@ -2715,13 +2717,13 @@ msgstr "X"
 #: settingspagediagram.ui:101
 #, kde-format
 msgid "Label on vertical axis."
-msgstr ""
+msgstr "Etiquetat sur axes vertical."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: settingspagediagram.ui:104
 #, kde-format
 msgid "Vertical axis label:"
-msgstr ""
+msgstr "Etiquetta de Axes Vertical:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelVerticalAxis)
 #: settingspagediagram.ui:114
@@ -2733,7 +2735,7 @@ msgstr "Y"
 #: settingspagediagram.ui:124
 #, kde-format
 msgid "Axis widths:"
-msgstr ""
+msgstr "Largessas de Axes:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: settingspagediagram.ui:156
@@ -2745,25 +2747,25 @@ msgstr "Largessa de &linea:"
 #: settingspagediagram.ui:188
 #, kde-format
 msgid "Tic width:"
-msgstr ""
+msgstr "Largessa de Tic:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8_4)
 #: settingspagediagram.ui:220
 #, kde-format
 msgid "Tic length:"
-msgstr ""
+msgstr "Longitude de Tic:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:252
 #, kde-format
 msgid "Visible tic labels."
-msgstr ""
+msgstr "Etiquettas de tic visibile."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:255
 #, kde-format
 msgid "Check this if the axes' tics should be labeled."
-msgstr ""
+msgstr "Marca isto si le tics del axes deberea esser etiquettate."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:258
@@ -2775,13 +2777,13 @@ msgstr "Monstra etiquettas"
 #: settingspagediagram.ui:268
 #, kde-format
 msgid "Visible axes."
-msgstr ""
+msgstr "Axes Visibile."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:271
 #, kde-format
 msgid "Check this if the axes should be visible."
-msgstr ""
+msgstr "Marca isto si le axes deberea esser visibile."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:274
@@ -2793,19 +2795,19 @@ msgstr "Monstra axes"
 #: settingspagediagram.ui:284
 #, kde-format
 msgid "Visible arrows at the end of the axes."
-msgstr ""
+msgstr "Flecha visibile al fin del axes."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:287
 #, kde-format
 msgid "Check this if the axes should have arrows at their ends."
-msgstr ""
+msgstr "Marca isto si le axes deberea haber flechas a lor fin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:290
 #, kde-format
 msgid "Show arrows"
-msgstr ""
+msgstr "Monstra flechas"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: settingspagefonts.ui:23
@@ -2817,25 +2819,25 @@ msgstr "Etiquettas de Axes"
 #: settingspagefonts.ui:45
 #, kde-format
 msgid "Diagram labels:"
-msgstr ""
+msgstr "Etiquettas de Diagramma:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10_4)
 #: settingspagefonts.ui:67
 #, kde-format
 msgid "Header table:"
-msgstr ""
+msgstr "Tabella de Capite:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_anglemode)
 #: settingspagegeneral.ui:20
 #, kde-format
 msgid "Angle Mode"
-msgstr ""
+msgstr "Modo de Angulo"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:32
 #, kde-format
 msgid "Trigonometric functions use radian mode for angles."
-msgstr ""
+msgstr "Functiones trigonometric usa modo de radiante per angulos."
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:35
@@ -2844,6 +2846,8 @@ msgid ""
 "Check this button to use radian mode to measure angles. This is important "
 "for trigonometric functions only."
 msgstr ""
+"Marca iste button a usar modo de radiante per mesurar angulos. Isto es "
+"importante solmente per functiones trigonometric."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:38
@@ -2855,7 +2859,7 @@ msgstr "&Radiante"
 #: settingspagegeneral.ui:45
 #, kde-format
 msgid "Trigonometric functions use degree mode for angles."
-msgstr ""
+msgstr "Functiones trigonometric usa modo de grado per angulos."
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton2)
 #: settingspagegeneral.ui:48
@@ -2864,6 +2868,8 @@ msgid ""
 "Check this button to use degree mode to measure angles. This is important "
 "for trigonometric functions only."
 msgstr ""
+"Marca iste button a usar modo de grado per mesurar angulos. Isto es "
+"importante solmente per functiones trigonometric."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton2)
 #: settingspagegeneral.ui:51
@@ -2912,7 +2918,7 @@ msgstr "Le valor que le instrumento de Zoom In (Aggrandir) deberea usar."
 #: settingspagegeneral.ui:144
 #, kde-format
 msgid "Draw tangent and normal when tracing"
-msgstr ""
+msgstr "Designa tangente e normal quando traciante"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SliderWidget)
 #: sliderwidget.ui:13

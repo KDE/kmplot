@@ -285,11 +285,11 @@ void View::initDrawing(QPaintDevice *device, PlotMedium medium)
     ticStartY = ceil(m_ymin / ticSepY.value()) * ticSepY.value();
     // END get Tic Separation
 
-    // BEGIN get colours
+    // BEGIN get colors
     m_backgroundColor = Settings::backgroundcolor();
     if (!m_backgroundColor.isValid())
         m_backgroundColor = Qt::white;
-    // END get colours
+    // END get colors
 
     XParser::self()->setAngleMode((Parser::AngleMode)Settings::anglemode());
 

@@ -22,14 +22,14 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-08 01:42+0000\n"
-"PO-Revision-Date: 2024-04-26 09:19+0300\n"
+"PO-Revision-Date: 2024-07-02 14:51+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.05.1\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 
@@ -1050,7 +1050,7 @@ msgstr "סימון התיבה הזאת יציג צירים."
 #: kmplot.kcfg:27
 #, kde-format
 msgid "Checked if arrows are visible"
-msgstr "מסומן אם החצים גלויים"
+msgstr "מסומן אם החיצים גלויים"
 
 #. i18n: ectx: whatsthis, entry (ShowArrows), group (Coordinate System)
 #: kmplot.kcfg:28

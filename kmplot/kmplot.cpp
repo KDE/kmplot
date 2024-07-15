@@ -46,11 +46,12 @@ KmPlot::KmPlot(const QCommandLineParser &parser)
 
     // set the shell's ui resource file
     setXMLFile(QStringLiteral("kmplot_shell.rc"));
-    // then, setup our actions
-    setupActions();
 
     // setup the status bar
     setupStatusBar();
+
+    // then, setup our actions
+    setupActions();
 
     // this routine will find and load our Part.  it finds the Part by
     // name which is a bad idea usually.. but it's alright in this

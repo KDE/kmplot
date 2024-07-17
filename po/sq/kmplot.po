@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-08 01:42+0000\n"
+"POT-Creation-Date: 2024-07-17 00:36+0000\n"
 "PO-Revision-Date: 2009-07-24 03:05+0000\n"
 "Last-Translator: Vilson Gjeci <vilsongjeci@gmail.com>\n"
 "Language-Team: Albanian <sq@li.org>\n"
@@ -1015,12 +1015,12 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr ""
 
-#: kmplot.cpp:72
+#: kmplot.cpp:73
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "Nuk mundi ta gjejë pjesën e Kmplot."
 
-#: kmplot.cpp:171 maindlg.cpp:522
+#: kmplot.cpp:172 maindlg.cpp:522
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -1030,7 +1030,7 @@ msgstr ""
 "*.fkt|KmPlot skedarët (*.fkt)\n"
 "*|Të gjithë skedarët"
 
-#: kmplot.cpp:171
+#: kmplot.cpp:172
 #, kde-format
 msgid "Open"
 msgstr "Hape"

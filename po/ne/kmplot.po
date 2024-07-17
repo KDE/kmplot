@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-08 01:42+0000\n"
+"POT-Creation-Date: 2024-07-17 00:36+0000\n"
 "PO-Revision-Date: 2007-09-12 13:41+0545\n"
 "Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1013,12 +1013,12 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "ग्रेडियन्ट छनौट गर्नुहोस्"
 
-#: kmplot.cpp:72
+#: kmplot.cpp:73
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "KmPlot को भाग फेला पार्न सकेन ।"
 
-#: kmplot.cpp:171 maindlg.cpp:522
+#: kmplot.cpp:172 maindlg.cpp:522
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -1028,7 +1028,7 @@ msgstr ""
 "*.fkt|KmPlot फाइल (*.fkt)\n"
 "*|सबै फाइल"
 
-#: kmplot.cpp:171
+#: kmplot.cpp:172
 #, kde-format
 msgid "Open"
 msgstr "खोल्नुहोस्"

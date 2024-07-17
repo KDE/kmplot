@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-08 01:42+0000\n"
+"POT-Creation-Date: 2024-07-17 00:36+0000\n"
 "PO-Revision-Date: 2007-03-02 11:20+0730\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -963,12 +963,12 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "Pilih secara manual"
 
-#: kmplot.cpp:72
+#: kmplot.cpp:73
 #, fuzzy, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "Tidak dapat mencari bahagian KDevDesigner."
 
-#: kmplot.cpp:171 maindlg.cpp:522
+#: kmplot.cpp:172 maindlg.cpp:522
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -978,7 +978,7 @@ msgstr ""
 "*.fkt|Fail KmPlot (*.fkt)\n"
 "*|Semua Fail"
 
-#: kmplot.cpp:171
+#: kmplot.cpp:172
 #, kde-format
 msgid "Open"
 msgstr ""

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-08 01:42+0000\n"
+"POT-Creation-Date: 2024-07-17 00:36+0000\n"
 "PO-Revision-Date: 2007-04-15 09:07+0000\n"
 "Last-Translator: Zlatko Popov <zlatkopopov@fsa-bg.org>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
@@ -985,19 +985,19 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "Избор на параметър"
 
-#: kmplot.cpp:72
+#: kmplot.cpp:73
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "Не може да бъде намерен компонент на KmPlot."
 
-#: kmplot.cpp:171 maindlg.cpp:522
+#: kmplot.cpp:172 maindlg.cpp:522
 #, fuzzy, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr ""
 "*.fkt|Файлове KmPlot (*.fkt)\n"
 "*|Всички файлове"
 
-#: kmplot.cpp:171
+#: kmplot.cpp:172
 #, kde-format
 msgid "Open"
 msgstr ""

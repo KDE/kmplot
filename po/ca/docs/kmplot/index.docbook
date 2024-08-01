@@ -2286,7 +2286,7 @@ format="PNG"/></imageobject
 				<para
 >Elimina la funció amb el número d'identificació <parameter
 >id</parameter
->. Si la funció no pot ser eliminada, es retornarà «false» (fals), «true» (vertader) en cas contrari.</para>
+>. Si la funció no es pot suprimir, es retornarà «false» (fals), «true» (vertader) en cas contrari.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry>

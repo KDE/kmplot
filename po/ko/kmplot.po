@@ -1,11 +1,11 @@
+# SPDX-FileCopyrightText: 2015, 2020, 2021, 2022, 2024 Shinjo Park <kde@peremen.name>
 # Jin-Hwan Jeong <yongdoria@gmail.com>, 2009.
-# Shinjo Park <kde@peremen.name>, 2015, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-17 00:36+0000\n"
-"PO-Revision-Date: 2022-05-07 02:12+0200\n"
+"PO-Revision-Date: 2024-08-19 23:30+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -346,7 +346,7 @@ msgstr "π"
 #: equationeditorwidget.ui:274
 #, kde-format
 msgid "τ"
-msgstr ""
+msgstr "τ"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_16)
 #: equationeditorwidget.ui:281

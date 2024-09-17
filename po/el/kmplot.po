@@ -2465,7 +2465,7 @@ msgstr ""
 #: settingspagecolor.ui:58
 #, kde-format
 msgid "&Axes:"
-msgstr "&Άξονες:"
+msgstr "Ά&ξονες:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: settingspagecolor.ui:71

@@ -7,20 +7,21 @@
 # Toussis Manolis <manolis@koppermind.homelinux.org>, 2007.
 # Dimitris Kardarakos <dimkard@gmail.com>, 2012.
 # Stelios <sstavra@gmail.com>, 2017, 2020, 2021.
+# SPDX-FileCopyrightText: 2024 Antonis Geralis <capoiosct@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-17 00:36+0000\n"
-"PO-Revision-Date: 2021-06-29 09:45+0300\n"
-"Last-Translator: Stelios <sstavra@gmail.com>\n"
+"PO-Revision-Date: 2024-09-19 22:15+0300\n"
+"Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1869,7 +1870,7 @@ msgstr "Εμφάνιση κυλίσεων"
 #: maindlg.cpp:283
 #, kde-format
 msgid "Calculator"
-msgstr "Αrιθμομηχανή"
+msgstr "Αριθμομηχανή"
 
 #: maindlg.cpp:288
 #, kde-format
@@ -2030,7 +2031,7 @@ msgid ""
 "would have k as its parameter"
 msgstr ""
 "Η συνάρτηση αυτή θα έπρεπε να έχει μια επιπλέον μεταβλητή ως παράμετρο, π.χ. "
-"η f(x,k) θα έχει την k ως παράμετρό της"
+"η f(x,k) θα έχει την k ως παράμετρο της"
 
 #. i18n: ectx: property (text), widget (QLabel, warningLabel)
 #: parameteranimator.ui:29

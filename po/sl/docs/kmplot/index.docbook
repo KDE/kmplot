@@ -1,0 +1,2821 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Slovenian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="kmplot" lang="&language;">
+
+<bookinfo>
+<title
+>&kmplot; Priročnik</title>
+<authorgroup>
+<author
+><firstname
+>Klaus-Dieter</firstname
+> <surname
+>M&ouml;ller</surname
+> <affiliation
+> <address
+>&Klaus-Dieter.Moeller.mail;</address>
+</affiliation>
+</author>
+<author
+>&Philip.Rodrigues; &Philip.Rodrigues.mail; </author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Saxton</surname
+> </author>
+<othercredit role="translator"
+><firstname
+>Matjaž</firstname
+><surname
+>Jeran</surname
+><affiliation
+><address
+><email
+>matjaz.jeran@amis.net</email
+></address
+></affiliation
+><contrib
+>Prevod</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year
+><year
+>2001</year
+><year
+>2002</year>
+<holder
+>Klaus-Dieter M&ouml;ller</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>&Philip.Rodrigues; &Philip.Rodrigues.mail;</holder>
+</copyright>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>David Saxton</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>05.01.2021</date>
+<releaseinfo
+>1.3.0 (Aplikacije 20.12)</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para
+>&kmplot; je &kde; načrtovalnik matematičnih funkcij.</para>
+<para
+> <inlinemediaobject
+><imageobject
+><imagedata
+fileref="edu-logo.png"
+format="PNG"/></imageobject
+></inlinemediaobject
+> &kmplot; je del projekta &kde;-EDU: <ulink url="https://edu.kde.org/"
+>https://edu.kde.org/</ulink
+></para
+></abstract>
+
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>KmPlot</keyword>
+<keyword
+>EDU</keyword>
+<keyword
+>izobraževanje</keyword>
+<keyword
+>načrtovanje</keyword>
+<keyword
+>matematika</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Uvod</title>
+
+<para
+>&kmplot; je &kde; risalnik matematičnih funkcij. Ima zmogljiv vgrajen razčlenjevalec. Hkrati lahko narišete različne funkcije in jih kombinirate, da ustvarite nove funkcije.</para>
+
+<screenshot>
+	<screeninfo
+>Primeri</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Primeri</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>&kmplot; podpira več različnih vrst ploskev:</para>
+<itemizedlist>
+	<listitem
+><para
+>Eksplicitni kartezični diagrami oblike y = f(x).</para
+></listitem>
+	<listitem
+><para
+>Parametrične ploskve, kjer sta komponenti x in y določeni kot funkciji neodvisne spremenljivke.</para
+></listitem>
+	<listitem
+><para
+>Polarne grafike oblike r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>Implicitni izrisi, kjer sta koordinati x in y povezani z izrazom.</para
+></listitem>
+	<listitem
+><para
+>Eksplicitne diferencialne ploskve.</para
+></listitem>
+</itemizedlist>
+
+<para
+>&kmplot; ponuja tudi nekaj numeričnih in vizualnih funkcij, kot so:</para>
+<itemizedlist>
+	<listitem
+><para
+>Zapolnitev in izračun površine med parcelo in prvo osjo.</para
+></listitem>
+	<listitem
+><para
+>Iskanje največjih in najmanjših vrednosti.</para
+></listitem>
+	<listitem
+><para
+>Dinamično spreminjanje funkcijskih parametrov.</para
+></listitem>
+	<listitem
+><para
+>Risanje odvodov in integralnih funkcij.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Te funkcije pomagajo pri učenju odnosa med matematičnimi funkcijami in njihovo grafično predstavitvijo v koordinatnem sistemu.</para>
+
+</chapter>
+
+<chapter id="first-steps">
+<title
+>Prvi koraki z &kmplot;</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>Enostavna grafična funkcija</title>
+
+	<para
+>V stranski vrstici na levi je gumb <guibutton
+>Ustvari</guibutton
+> s spustnim menijem za ustvarjanje novih risb. Kliknite nanj in izberite <guilabel
+>Kartezijski izris</guilabel
+>. Besedilno polje za urejanje trenutne enačbe bo osredotočeno. Zamenjajte privzeto besedilo z <screen
+><userinput
+>y = x^2</userinput
+></screen
+> in pritisnite &Enter;. To bo narisalo graf y = x<superscript
+>2</superscript
+> v koordinatnem sistemu. S ponovnim klikom na gumb <guibutton
+>Ustvari</guibutton
+> izberite <guilabel
+>Kartezijski izris</guilabel
+> in tokrat vnesite besedilo <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen 
+> dobiti drugo parcelo. </para>
+
+	<para
+>Povlecite in spustite element <userinput
+>y = 5sin(x)</userinput
+> v levi stranski vrstici, da klonirate graf. Zamenjajte <userinput
+>sin</userinput
+> z <userinput
+>cos</userinput
+>, da dobite graf kosinusa enake barve. </para>
+
+	<para
+>Kliknite eno od črt, ki ste jih pravkar narisali. Zdaj postane križec barve trenutne risbe in je pritrjen nanjo. Z miško lahko premikate križec po risbi. V statusni vrstici na dnu okna so prikazane koordinate trenutnega položaja. Upoštevajte, da če se graf dotika vodoravne osi, bo koren prikazan tudi v statusni vrstici.</para>
+
+	<para
+>Ponovno kliknite miško in križec se bo ločil od risbe.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>Uredi lastnosti</title>
+
+	<para
+>Naredimo nekaj sprememb v funkciji in spremenimo barvo risbe.</para>
+
+	<para
+>Stranska vrstica <guilabel
+>Funkcije</guilabel
+> navaja vse funkcije, ki ste jih izrisali. Če <guilabel
+>y = x^2</guilabel
+> še ni izbran, ga izberite. Tukaj imate dostop do številnih možnosti. Preimenujmo funkcijo in premaknimo graf 5 enot navzdol. Enačbo funkcije spremenite v <screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> in pritisnite tipko enter. Če želite izbrati drugo barvo za izris, kliknite gumb <guilabel
+>Barva</guilabel
+> v razdelku <guilabel
+>Videz</guilabel
+> na dnu stranske vrstice s funkcijami in izberite novo barvo. <note
+> <para
+>Vse spremembe je mogoče razveljaviti prek <menuchoice
+><guimenu
+>Uredi</guimenu
+><guimenuitem
+>Razveljavi</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+
+<chapter id="using-kmplot">
+<title
+>Uporaba &kmplot;</title>
+
+<para
+>&kmplot; obravnava več različnih vrst funkcij, ki jih lahko zapišemo v funkcijski obliki ali kot enačbo:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>Kartezične ploskve lahko zapišemo kot &eg; <quote
+>y = x^2</quote
+>, kjer je treba x uporabiti kot spremenljivko; ali kot &eg; <quote
+>f(a) = a^2</quote
+>, kjer je ime spremenljivke poljubno.</para
+></listitem>
+	<listitem
+><para
+>Parametrične ploskve so podobne kartezičnim grafom. Koordinate x in y lahko vnesete kot enačbe v t, &eg; <quote
+>x = sin(t)</quote
+>, <quote
+>y = cos(t)</quote
+> ali kot funkcije, &eg; <quote
+>f_x(s) = sin(s)</quote
+>, <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Polarne ploskve so prav tako podobne kartezičnim grafom. Lahko jih bodisi vnesete kot enačbo v &thgr;, &eg; <quote
+>r = &thgr;</quote
+> ali kot funkcija, &eg; <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>Pri implicitnih grafih se ime funkcije vnese ločeno od izraza, ki se nanaša na koordinate x in y. Če sta spremenljivki x in y podani prek imena funkcije (z vnosom &eg;<quote
+>f(a,b)</quote
+> kot ime funkcije), bosta uporabljeni ti spremenljivki. V nasprotnem primeru bosta za spremenljivke uporabljeni črki x in y.</para
+></listitem>
+	<listitem
+><para
+>Eksplicitni diferencialni diagrami so diferencialne enačbe, pri katerih je najvišji odvod podan v smislu nižjih odvodov. Diferenciacijo označujemo s praštevilo ('). V obliki funkcije bo enačba videti kot <quote
+>f''(x) = f' &minus; f</quote
+>. V obliki enačbe bo videti kot <quote
+>y'' = y' &minus; y</quote
+>. Upoštevajte, da v obeh primerih del <quote
+>(x)</quote
+> ni dodan diferencialnim členom nižjega reda (zato bi vnesli <quote
+>f'(x) = &minus;f</quote
+> in ne <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>Vsa polja za vnos enačb imajo gumb na desni. S klikom na to se odpre napredno pogovorno okno <guilabel
+>Urejevalnik enačb</guilabel
+>, ki ponuja: <itemizedlist>
+		<listitem>
+			<para
+>Različni matematični simboli, ki jih je mogoče uporabiti v enačbah, vendar jih ni na običajnih tipkovnicah.</para>
+		</listitem>
+		<listitem>
+			<para
+>Seznam uporabniških konstant in gumb za njihovo urejanje.</para>
+		</listitem>
+		<listitem>
+			<para
+>Seznam vnaprej določenih funkcij. Upoštevajte, da če ste besedilo že izbrali, bo uporabljeno kot argument funkcije, ko je funkcija vstavljena. Na primer, če je izbran <quote
+>1 + x</quote
+> v enačbi <quote
+>y = 1 + x</quote
+> in je izbrana sinusna funkcija, bo enačba postala <quote
+> y = sin (1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>Tukaj je posnetek zaslona &kmplot; pozdravno okno</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Posnetek zaslona</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>Vrste funkcij</title>
+
+	<sect2 id="cartesian-functions">
+		<title
+>Kartezične funkcije</title>
+		<para
+>Če želite vnesti eksplicitno funkcijo (&ie; funkcijo v obliki y=f(x)) v &kmplot;, jo preprosto vnesite v naslednji obliki: <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable 
+>x</replaceable
+>) = <replaceable
+>izraz</replaceable
+></userinput
+></screen
+> kjer je: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> je ime funkcije in je lahko poljuben niz črk in številk.</para>
+				</listitem>
+
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> je vodoravna koordinata, ki jo je treba uporabiti v izrazu za znakom enačaja. To je navidezna spremenljivka, zato lahko uporabite poljubno ime spremenljivke, da dosežete enak učinek.</para>
+				</listitem>
+
+				<listitem>
+					<para
+><replaceable
+>expression</replaceable
+> je izraz, ki ga je treba narisati, podan v ustrezni sintaksi za &kmplot;. Glejte <xref linkend="math-syntax"/>. </para>
+				</listitem>
+
+			</itemizedlist>
+		</para>
+	</sect2>
+
+	<sect2 id="parametric-functions">
+		<title
+>Parametrične funkcije</title>
+		<para
+>Parametrične funkcije so tiste, pri katerih sta koordinati x in y definirani z ločenima funkcijama druge spremenljivke, ki se pogosto imenuje t. Če želite v &kmplot; vnesti parametrično funkcijo, sledite postopku kot za kartezično funkcijo za vsako od funkcij x in y. Tako kot pri kartezičnih funkcijah lahko tudi za parameter uporabite poljubno ime spremenljivke.</para>
+		<para
+>Recimo, da želite narisati krog, ki ima parametrične enačbe x = sin(t), y = cos(t). Ko ustvarite parametrični diagram, vnesite ustrezne enačbe v polji x in y, &ie;, <userinput
+>f_x(t)=sin(t)</userinput
+> in <userinput
+>f_y(t)=cos(t)</userinput
+>. </para>
+		<para
+>V urejevalniku funkcij lahko nastavite nekaj dodatnih možnosti za izris: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Min:</guilabel
+></term>
+					<term
+><guilabel
+>Max:</guilabel
+></term>
+					<listitem>
+						<para
+>Te možnosti nadzorujejo obseg parametra t, za katerega je funkcija narisana.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+
+	<sect2 id="polar-functions">
+		<title
+>Funkcije v polarnih koordinatah</title>
+
+		<para
+>Polarne koordinate predstavljajo točko z njeno oddaljenostjo od izhodišča (običajno imenovano r) in kotom, ki ga črta od izhodišča do točke tvori z vodoravno osjo (običajno predstavljeno z &thgr; grško črko theta). Za vnos funkcij v polarnih koordinatah kliknite gumb <guibutton
+>Ustvari</guibutton
+> in s seznama izberite <guilabel
+>Polarni izris</guilabel
+>. V polju za definicijo dokončajte definicijo funkcije, vključno z imenom theta spremenljivke, ki jo želite uporabiti, &eg;, da narišete Arhimedovo spiralo r = &thgr;, vnesite: <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+> Upoštevajte, da lahko uporabite poljubno ime za spremenljivko theta, torej <quote
+>r(t) = t</quote
+> ali <quote
+>f(x) = x</quote
+> bo ustvaril popolnoma enak izhod. </para>
+	</sect2>
+
+	<sect2 id="implicit-functions">
+		<title
+>Implicitne funkcije</title>
+
+		<para
+>Implicitni izraz povezuje koordinate x in y kot enakost. Če želite na primer ustvariti krog, kliknite gumb <guibutton
+>Ustvari</guibutton
+> in s seznama izberite <guilabel
+>Implicitni izris</guilabel
+>. Nato v polje z enačbo (pod poljem z imenom funkcije) vnesite naslednje: <screen
+><userinput
+>x^2 y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+
+	<sect2 id="differential-functions">
+		<title
+>Diferencialne funkcije</title>
+
+		<para
+>&kmplot; zna narisati eksplicitne diferencialne enačbe. To so enačbe v obliki y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>), kjer je y <superscript
+>k</superscript
+> je k<superscript
+>th</superscript
+> izpeljanka y(x). &kmplot; lahko interpretira vrstni red izpeljave le kot število praštevil, ki sledijo imenu funkcije. Za risanje sinusne krivulje bi na primer uporabili diferencialno enačbo <userinput
+>y'' = &minus; y</userinput
+> ali <userinput
+>f''(x) = −f</userinput
+>. </para>
+
+		<para
+>Vendar diferencialna enačba sama po sebi ni dovolj za določitev grafa. Vsaka krivulja v diagramu je ustvarjena s kombinacijo diferencialne enačbe in začetnih pogojev. Začetne pogoje lahko uredite s klikom na zavihek <guilabel
+>Začetni pogoji</guilabel
+>, ko je izbrana diferencialna enačba. Število stolpcev, ki so na voljo za urejanje začetnih pogojev, je odvisno od vrstnega reda diferencialne enačbe. </para>
+
+		<para
+>V urejevalniku funkcij lahko nastavite nekaj dodatnih možnosti za izris: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>Korak:</guilabel
+></term>
+					<listitem>
+						<para
+>Vrednost koraka v polju za natančnost se uporablja pri numeričnem reševanju diferencialne enačbe (z uporabo metode Runge Kutta). Njegova vrednost je največja uporabljena velikost koraka; manjša velikost koraka se lahko uporabi, če je del diferencialnega grafa dovolj povečan.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>Združevanje funkcij</title>
+	<para
+>Funkcije je mogoče združiti za ustvarjanje novih. Preprosto vnesite funkcije za znakom enačaja v izraz, kot da bi bile funkcije spremenljivke. Na primer, če ste definirali funkciji f(x) in g(x), lahko narišete vsoto f in g z: <screen
+><userinput
+>vsota(x) = f(x) g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>Spreminjanje videza funkcij</title>
+
+	<para
+>Če želite spremeniti videz grafa funkcije v glavnem oknu grafa, izberite funkcijo v stranski vrstici <guilabel
+>Funkcije</guilabel
+>. S klikom na gumb <guibutton
+>Barva:</guibutton
+> ali <guibutton
+>Napredno...</guibutton
+> na dnu razdelka <guilabel
+>Videz</guilabel
+> lahko spremenite širino črte izrisa, barvo in številne druge vidike. </para>
+
+	<para
+>Če urejate kartezično funkcijo, bo imel urejevalnik funkcij tri zavihke. V prvem določite enačbo funkcije. Zavihek <guilabel
+>Izpeljanke</guilabel
+> vam omogoča, da narišete prvi in drugi odvod v funkciji. Z zavihkom <guilabel
+>Integral</guilabel
+> lahko narišete integral funkcije. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>Pojavni meni</title>
+	<screenshot>
+	<screeninfo
+>Pojavni meni desnega klika grafa</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>Pojavni meni desnega klika grafa</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>Ko z desno miškino tipko kliknete funkcijo izrisa ali funkcijo parametričnega izrisa z eno točko, se prikaže pojavni meni. V meniju je na voljo pet elementov:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Uredi</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Izbere funkcijo v stranski vrstici <guilabel
+>Funkcije</guilabel
+> za urejanje.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Skrij</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Skrije izbrani graf. Drugi diagrami funkcije grafa bodo še vedno prikazani.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Odstrani</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Odstrani funkcijo. Vsi njeni grafi bodo izginili.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Animiraj zaplet ...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Prikaže pogovorno okno <guilabel
+>Animator parametrov</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Kalkulator</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Odpre pogovorno okno <guilabel
+>Kalkulator</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+	<para
+>Odvisno od vrste ploskve bo na voljo tudi do pet orodij:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Kopiraj (x, y)</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Kopira trenutno vrednost na grafu v sistemsko odložišče. To orodje je lahko uporabno za ustvarjanje tabel funkcijskih vrednosti zunaj &kmplot;. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Kopiraj korensko vrednost</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+                            <para
+>Kopira korensko vrednost <literal
+>x</literal
+> v sistemsko odložišče. Kopirate lahko le do prvih pet števk za decimalno vejico. Uporabite <ulink url="https://en.wikipedia.org/wiki/Computer_algebra_system"
+>sistem računalniške algebre</ulink
+>, da določite ta koren s poljubno natančnostjo. To orodje je na voljo le, če je trenutni položaj sledenja blizu korena. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Območje parcele...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>V novem pogovornem oknu, ki se prikaže, izberite najmanjšo in največjo vodoravno vrednost za graf. Izračuna integral in nariše območje med grafom in vodoravno osjo v izbranem območju v barvi grafa. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Najdi minimum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>Poiščite najmanjšo vrednost grafa v določenem območju. Izbrani graf bo označen v pogovornem oknu, ki se prikaže. Vnesite spodnjo in zgornjo mejo regije, v kateri želite iskati minimum. </para>
+				<para
+>Opomba: grafu lahko tudi naročite, naj vizualno prikaže skrajne točke v pogovornem oknu <guilabel
+>Videz grafa</guilabel
+>, ki je dostopen v stranski vrstici <guilabel
+>Funkcije</guilabel
+> s klikom na <guibutton
+>Napredno...</guibutton
+>. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>Najdi maximum...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>To je enako kot <guimenuitem
+>Poišči minimum...</guimenuitem
+> zgoraj, vendar najde največjo vrednost namesto najmanjše vrednosti.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="configuration">
+<title
+>Konfiguriranje &kmplot;</title>
+<para
+>Za dostop do &kmplot; konfiguracijsko pogovorno okno izberite <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guimenuitem
+>Konfiguriraj &kmplot;...</guimenuitem
+></menuchoice
+> menijski element. Nastavitve za <guimenuitem
+>Konstante ...</guimenuitem
+> lahko spremenite le v meniju <guimenu
+>Uredi</guimenu
+> in <guimenuitem
+>Koordinatni sistem...</guimenuitem
+> samo v <guimenu
+>Pogledu </guimenu
+> meni.</para>
+
+<sect1 id="general-config">
+	<title
+>Splošna konfiguracija</title>
+
+	<screenshot>
+		<screeninfo
+>Posnetek zaslona pogovornega okna s splošnimi nastavitvami</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Posnetek zaslona pogovornega okna s splošnimi nastavitvami</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+    <para
+>Tukaj lahko nastavite globalne nastavitve, ki se samodejno shranijo, ko zapustite &kmplot;. Z &Ctrl; z miškinim koleščkom ali <link linkend="a-view-menu"
+>ustreznimi elementi menija</link
+> in ali prikazati napredno sledenje izrisu.</para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>Konfiguracija diagrama</title>
+
+	<screenshot>
+		<screeninfo
+>Posnetek zaslona pogovornega okna Videz diagrama</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Posnetek zaslona pogovornega okna Videz diagrama</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Nastavite lahko <guilabel
+>Slog mreže</guilabel
+> na eno od štirih možnosti: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>Nič</guilabel
+></term>
+				<listitem>
+					<para
+>Na območju risbe ni narisana nobena mrežna črta.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Vrstice</guilabel
+></term>
+				<listitem>
+					<para
+>Ravne črte tvorijo mrežo kvadratov na območju ploskve.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Križi</guilabel
+></term>
+				<listitem>
+					<para
+>Narisani so križci, ki označujejo točke, kjer imata x in y celoštevilske vrednosti (&eg; (1,1), (4,2) &etc;).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Polaren</guilabel
+></term>
+				<listitem>
+					<para
+>Na površino ploskve so narisane črte s konstantnim radijem in s konstantnim kotom.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+
+	<para
+>Konfigurirate lahko tudi druge možnosti za videz diagrama: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>Oznake osi</guilabel
+></term>
+				<listitem>
+					<para
+>Ta razdelek nastavi oznake za vodoravno in navpično os.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Širine osi:</guilabel
+></term>
+				<listitem>
+					<para
+>Nastavi širino črt, ki predstavljajo osi.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Širina črte:</guilabel
+></term>
+				<listitem>
+					<para
+>Nastavi širino črt, ki se uporabljajo za risanje mreže.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Tic širina:</guilabel
+></term>
+				<listitem>
+					<para
+>Nastavi širino črt, ki predstavljajo tike na oseh.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Tic dolžina:</guilabel
+></term>
+				<listitem>
+					<para
+>Nastavi dolžino črt, ki predstavljajo tike na oseh.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Pokaži oznake</guilabel
+></term>
+				<listitem>
+					<para
+>Če je označeno, so imena osi prikazana na grafu in oznake osi so označene.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Pokaži osi</guilabel
+></term>
+				<listitem>
+					<para
+>Če je označeno, so osi vidne.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Prikaži puščice</guilabel
+></term>
+				<listitem>
+					<para
+>Če je označeno, so osi prikazane s puščicami na koncih.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>Konfiguracija barv</title>
+
+	<screenshot>
+		<screeninfo
+>Posnetek zaslona pogovornega okna Barve</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Posnetek zaslona pogovornega okna Barve</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>V razdelku <guilabel
+>Koorde</guilabel
+> konfiguracijskega pogovornega okna <guilabel
+>Barve</guilabel
+> lahko spremenite barve osi, mreže in ozadja glavnega &kmplot; območje. </para>
+
+	<para
+><guilabel
+>Privzete barvne funkcije</guilabel
+> določajo, katere barve se krožijo med ustvarjanjem novih funkcij.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>Konfiguracija pisav</title>
+
+	<screenshot>
+		<screeninfo
+>Posnetek zaslona pogovornega okna Pisave</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Posnetek zaslona pogovornega okna Pisave</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><guilabel
+>Oznake osi:</guilabel
+></term>
+			<listitem>
+				<para
+>Pisava, ki se uporablja za risanje številk osi in oznak x/y.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><guilabel
+>Oznake diagramov:</guilabel
+></term>
+			<listitem>
+				<para
+>Pisava, uporabljena za risanje oznak diagramov (&eg; tistih, ki prikazujejo ime ploskve ali skrajne točke).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>Tabela glave:</guilabel
+></term>
+			<listitem>
+				<para
+>Pisava, uporabljena za risanje glave pri tiskanju izrisa.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="reference">
+<title
+>&kmplot; Referenca</title>
+
+<sect1 id="func-syntax">
+	<title
+>Sintaksa funkcije</title>
+
+	<para
+>Upoštevati je treba nekatera sintaksna pravila:</para>
+
+	<screen
+><userinput
+>ime(var1[, var2])=term [;razširitve]</userinput
+>
+        </screen>
+
+
+	<variablelist>
+		<varlistentry>
+			<term
+>ime</term>
+			<listitem>
+
+				<para
+>Ime funkcije. Če je prvi znak <quote
+>r</quote
+>, razčlenjevalnik predpostavlja, da uporabljate polarne koordinate. Če je prvi znak <quote
+>x</quote
+> (na primer <quote
+>xfunc</quote
+>), razčlenjevalnik pričakuje drugo funkcijo z začetnim <quote
+>y</quote
+> (tukaj <quote
+>yfunc</quote
+>), da definirate funkcijo v parametrični obliki. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>spr1</term>
+			<listitem
+><para
+>Funkcijska spremenljivka.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>spr2</term>
+			<listitem
+><para
+>Funkcija <quote
+>parameter skupine</quote
+>. Od spremenljivke funkcije mora biti ločena z vejico. Parameter skupine lahko uporabite za na primer risanje številnih grafov iz ene funkcije. Vrednosti parametrov lahko izberete ročno ali pa izberete drsnik, ki nadzoruje en parameter. Če spremenite vrednost drsnika, se spremeni parameter vrednosti. Drsnik lahko nastavite na celo število med 0 in 100.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>pogoj</term>
+			<listitem
+><para
+>Izraz, ki definira funkcijo.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+	<title
+>Vnaprej določena imena funkcij in konstante</title>
+
+	<para
+>Vse vnaprej določene funkcije in konstante, ki jih &kmplot; ve lahko prikažete tako, da izberete <menuchoice
+><guimenu
+>Pomoč</guimenu
+><guimenuitem
+>Prednastavljene matematične funkcije</guimenuitem
+> </menuchoice
+>, ki prikaže to stran priročnika &kmplot;. </para>
+
+	<para
+>Te funkcije in konstante ter celo vse uporabniško določene funkcije je mogoče uporabiti tudi za določanje nastavitev osi. Glejte <xref linkend="axes-config"/>. </para>
+
+	<sect2 id="trigonometric-functions">
+		<title
+>Trigonometrične funkcije</title>
+
+		<para
+>Trigonometrične funkcije privzeto delujejo v radianih. Vendar pa je to mogoče spremeniti z menijsko postavko <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guimenuitem
+>Konfiguriraj &kmplot;...</guimenuitem
+></menuchoice
+>. </para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sin(x)</term>
+				<term
+>arcsin(x)</term>
+				<term
+>cosec(x)</term>
+				<term
+>arccosec(x)</term>
+				<listitem
+><para
+>Sinus, inverzni sinus, kosekanta in inverzni kosekante.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cos(x)</term>
+				<term
+>arccos(x)</term>
+				<term
+>sec(x)</term>
+				<term
+>arcsec(x)</term>
+				<listitem
+><para
+>Kosinus, inverz kosinus, sekans in inverz sekans.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tan (x)</term>
+				<term
+>arctan(x)</term>
+				<term
+>cot(x)</term>
+				<term
+>arccot(x)</term>
+				<listitem
+><para
+>Tangens, inverzni tangens, kotangens in inverzni kotangens.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="hyperbolic-functions">
+		<title
+>Hiperbolične funkcije</title>
+		<para
+>Hiperbolične funkcije.</para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sinh(x)</term>
+				<term
+>arcsinh(x)</term>
+				<term
+>cosech(x)</term>
+				<term
+>arccosech(x)</term>
+				<listitem
+><para
+>Hiperbolični sinus, inverzni sinus, kosekans in inverzni kosekans.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cosh(x)</term>
+				<term
+>arccosh(x)</term>
+				<term
+>sech(x)</term>
+				<term
+>arcsech(x)</term>
+				<listitem
+><para
+>Hiperbolični kosinus, inverzni kosinus, sekans in inverzni sekans.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tanh(x)</term>
+				<term
+>arctanh(x)</term>
+				<term
+>coth(x)</term>
+				<term
+>arccoth(x)</term>
+				<listitem
+><para
+>Hiperbolični tangens, inverzni tangens, kotangens in inverzni kotangens.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="other-functions">
+		<title
+>Druge funkcije</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sqr(x)</term>
+				<listitem
+><para
+>Kvadrat x^2 od x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>sqrt(x)</term>
+				<listitem
+><para
+>Kvadratni koren iz x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>znak(x)</term>
+				<listitem
+><para
+>Znak x. Vrne 1, če je x pozitiven, 0, če je x enak nič, ali &minus;1, če je x negativen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>H(x)</term>
+				<listitem
+><para
+>Funkcija koraka Heaviside. Vrne 1, če je x pozitiven, 0,5, če je x enak nič, ali 0, če je x negativen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>exp(x)</term>
+				<listitem
+><para
+>Eksponent e^x od x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ln(x)</term>
+				<listitem
+><para
+>Naravni logaritem (inverzni eksponent) x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>log(x)</term>
+				<listitem
+><para
+>Logaritem x na osnovo 10.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>abs(x)</term>
+				<listitem
+><para
+>Absolutna vrednost x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>floor(x)</term>
+				<listitem
+><para
+>Zaokroži x na najbližje celo število, manjše ali enako x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ceil(x)</term>
+				<listitem
+><para
+>Zaokroži x na najbližje celo število, večje ali enako x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>round(x)</term>
+				<listitem
+><para
+>Zaokroži x na najbližje celo število.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>gama(x)</term>
+				<listitem
+><para
+>Funkcija gama.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>faktorial(x)</term>
+				<listitem
+><para
+>Faktoriel x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>min(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Vrne najmanjši niz števil {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>max(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Vrne največje število nabora števil {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>mod(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>Vrne modul (evklidsko dolžino) nabora števil {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<!-- TODO: Legendre polynomials -->
+
+		</variablelist>
+	</sect2>
+
+	<sect2>
+		<title
+>Vnaprej določene konstante</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>pi</term>
+				<term
+>&pgr;</term>
+				<listitem>
+					<para
+>Konstante, ki predstavljajo &pgr; (3,14159...).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>e</term>
+				<listitem>
+					<para
+>Konstanta, ki predstavlja Eulerjevo število e (2,71828 ...).</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+</sect1>
+
+<sect1 id="func-extension"
+> <!--FIXME does this still work-->
+	<title
+>Razširitve</title>
+	<para
+>Pripono za funkcijo določite tako, da za definicijo funkcije vnesete podpičje, ki mu sledi razširitev. Končnico lahko vnesete z &DBus; metoda <quote
+><methodname
+>parser addFunction</methodname
+></quote
+>. Nobena od razširitev ni na voljo za parametrične funkcije, vendar N in D[a,b] delujeta tudi za polarne funkcije. Na primer: <screen>
+                         <userinput>
+                                 f(x)=x^2; A1
+                         </userinput>
+                 </screen
+> bo prikazal graf y=x<superscript
+>2</superscript
+> s prvim odvodom. Podprte razširitve so opisane spodaj: <variablelist>
+			<varlistentry>
+				<term
+>N</term>
+				<listitem>
+					<para
+>Funkcija bo shranjena, vendar ne bo narisana. Uporablja se lahko kot katera koli druga uporabniško določena ali vnaprej določena funkcija. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A1</term>
+				<listitem>
+					<para
+>Graf odvoda funkcije bo dodatno narisan z isto barvo, vendar z manjšo črto. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A2</term>
+				<listitem>
+					<para
+>Graf drugega odvoda funkcije bo dodatno narisan z isto barvo, vendar z manjšo širino črte. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>D[a,b]</term>
+				<listitem>
+					<para
+>Nastavi domeno, za katero bo prikazana funkcija. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>P[a{,b...}]</term>
+				<listitem>
+					<para
+>Podajte nabor vrednosti skupinskega parametra, za katerega naj bo prikazana funkcija. Na primer: <userinput
+>f(x,k)=k*x;P[1,2,3]</userinput
+> bo izrisal funkcije f(x)=x, f(x)=2*x in f (x)=3*x. Funkcije lahko uporabite tudi kot argumente možnosti P. </para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	<para
+>Upoštevajte, da lahko vse te operacije izvedete tako, da uredite elemente na zavihku <guilabel
+>Izpeljanke</guilabel
+>, razdelku <guilabel
+>Razpon izrisa po meri</guilabel
+> in razdelku <guilabel
+>Parametri</guilabel
+> v tudi stransko vrstico <guilabel
+>Funkcije</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="math-syntax">
+	<title
+>Matematična sintaksa</title>
+	<para
+>&kmplot; uporablja običajen način izražanja matematičnih funkcij, tako da ne bi smeli imeti težav pri izdelavi. Operaterja &kmplot; razume, so po padajočem vrstnem redu: <variablelist>
+
+			<varlistentry>
+				<term
+>^</term>
+				<listitem
+><para
+>Simbol kazalke izvaja potenciranje. &eg;, <userinput
+>2^4</userinput
+> vrne 16.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>*</term>
+				<term
+>/</term>
+				<listitem>
+					<para
+>Simboli zvezdice in poševnice izvajajo množenje in deljenje. &eg;, <userinput
+>3*4/2</userinput
+> vrne 6.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>+</term>
+				<term
+>&minus;</term>
+				<listitem
+><para
+>Simbola plus in minus izvajata seštevanje in odštevanje. &eg;, <userinput
+>1+3&minus;2</userinput
+> vrne 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&lt;</term>
+				<term
+>&gt;</term>
+				<term
+>&le;</term>
+				<term
+>&ge;</term>
+				<listitem
+><para
+>Operatorji primerjave. Vrnejo 1, če je izraz resničen, sicer vrnejo 0. &eg;, <userinput
+>1 &le; 2</userinput
+> vrne 1.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&radic;</term>
+				<listitem
+><para
+>Kvadratni koren števila. &eg;, <userinput
+>&radic;4</userinput
+> vrne 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>|x|</term>
+				<listitem
+><para
+>Absolutna vrednost x. &eg;, <userinput
+>|&minus;4|</userinput
+> vrne 4.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&plusmn;</term>
+				<term
+></term>
+				<listitem
+><para
+>Vsak znak plus-minus daje dva niza grafov: enega, v katerem je vzet plus, in drugega, v katerem je vzet minus.&eg;. <userinput
+>y = &plusmn;sqrt(1&minus;x^2)</userinput
+> bo narisal krog. Teh torej ni mogoče uporabiti v konstantah.</para>
+				</listitem>
+			</varlistentry>
+
+
+
+		</variablelist>
+	</para>
+	<para
+>Upoštevajte prednost, kar pomeni, da če oklepaji niso uporabljeni, se potenciranje izvede pred množenjem/deljenjem, ki se izvede pred seštevanjem/odštevanjem. Torej <userinput
+>1+2*4^2</userinput
+> vrne 33 in ne recimo 144. Če želite to preglasiti, uporabite oklepaje. Če želite uporabiti zgornji primer, bo <userinput
+>((1+2)*4)^2</userinput
+> <emphasis
+></emphasis
+> vrnil 144. </para>
+</sect1>
+
+<sect1 id="coord-area"
+><title
+>Območje načrtovanja</title>
+	<para
+>Eksplicitno podane funkcije so privzeto izrisane za celoten vidni del vodoravne osi. Za funkcijo lahko v pogovornem oknu za urejanje določite drug obseg. Če območje risanja vsebuje nastalo točko, je povezana z zadnjo narisano točko s črto. </para>
+	<para
+>Parametrične in polarne funkcije imajo privzeto območje izrisa od 0 do 2&pgr;. Ta obseg izrisa lahko spremenite tudi v stranski vrstici <guilabel
+>Funkcije</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+	<title
+>Kazalka s križcem</title>
+	<para
+>Medtem ko je kazalka miške nad območjem risanja, se kazalka spremeni v križec. Trenutne koordinate so vidne na sečiščih s koordinatnimi osemi in tudi v statusni vrstici na dnu glavnega okna. </para>
+	<para
+>Vrednosti funkcije lahko natančneje sledite s klikom na graf ali poleg njega. Izbrana funkcija je prikazana v vrstici stanja v desnem stolpcu. Nitni križec bo nato ujet in obarvan v isto barvo kot graf. Če ima graf enako barvo kot barva ozadja, bo imel križec obrnjeno barvo ozadja. Ko premikate miško ali pritiskate tipke &Left; ali &Right; križec bo sledil funkciji in videli boste trenutno vodoravno in navpično vrednost. Če je križec blizu navpične osi, je korenska vrednost prikazana v vrstici stanja. Funkcijo lahko preklopite s tipko &Up; in &Down; ključi. Drugi klik kjer koli v oknu ali pritisk katere koli nenavigacijske tipke zapusti ta način sledenja. </para>
+	<para
+>Za bolj napredno sledenje odprite konfiguracijsko pogovorno okno in izberite <guilabel
+>Nariši tangento in normalo pri sledenju</guilabel
+> na strani <guilabel
+>Splošne nastavitve</guilabel
+>. Ta možnost bo narisala tangento, normalo in nihajočo krožnico risbe, ki se trenutno sledi. </para>
+
+</sect1>
+
+<sect1 id="coords-config">
+	<title
+>Konfiguracija koordinatnega sistema</title>
+	<para
+>Če želite odpreti to pogovorno okno, v menijski vrstici izberite <menuchoice
+><guimenu
+>Pogled</guimenu
+><guimenuitem
+>Koordinatni sistem ...</guimenuitem
+></menuchoice
+>.</para>
+	<screenshot>
+		<screeninfo
+>Posnetek zaslona pogovornega okna koordinatnega sistema</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Posnetek zaslona pogovornega okna koordinatnega sistema</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<sect2 id="axes-config">
+		<title
+>Konfiguracija osi</title>
+		<para>
+			<variablelist>
+
+				<varlistentry>
+					<term
+><guilabel
+>Razpon vodoravne osi</guilabel
+></term>
+					<listitem>
+						<para
+>Nastavi obseg za merilo vodoravne osi. Upoštevajte, da lahko uporabite vnaprej določene funkcije in konstante (glejte <xref linkend="func-predefined"/>) kot skrajne vrednosti obsega (&eg; nastavite <guilabel
+>Min:</guilabel
+> na <userinput
+>2* pi</userinput
+>). Uporabite lahko celo funkcije, ki ste jih definirali, da nastavite skrajne vrednosti obsega osi. Na primer, če ste definirali funkcijo <userinput
+>f(x) = x^2</userinput
+>, lahko nastavite <guilabel
+>Min:</guilabel
+> na <userinput
+>f(3)</userinput
+>, zaradi česar bi bila spodnja meja razpona enaka 9.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+				  <term
+><guilabel
+>Razpon navpične osi</guilabel
+></term>
+					<listitem>
+						<para
+>Nastavi obseg za navpično os. Glejte <quote
+>Razpon vodoravne osi</quote
+> zgoraj.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>Razmik mreže vodoravne osi</guilabel
+></term>
+					<listitem>
+						<para
+>To nadzira razmik med mrežnimi črtami v vodoravni smeri. Če je izbrano <guilabel
+>Samodejno</guilabel
+>, potem &kmplot; bo poskušal najti razmik mrežnih črt približno dva centimetra, ki je tudi številčno dober. Če je izbrano <guilabel
+>Po meri:</guilabel
+>, lahko vnesete vodoravni razmik mreže. Ta vrednost bo uporabljena ne glede na povečavo. Če je na primer vnesena vrednost 0,5 in je obseg x od 0 do 8, bo prikazanih 16 mrežnih črt. </para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>Razmik mreže navpične osi</guilabel
+></term>
+					<listitem>
+						<para
+>To nadzoruje razmik med črtami mreže v navpični smeri. Glejte <quote
+>Razmik mreže vodoravne osi</quote
+> zgoraj. </para>
+					</listitem>
+				</varlistentry>
+
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title
+>Konfiguracija konstant</title>
+	<para
+>Če želite odpreti to pogovorno okno, izberite <menuchoice
+><guimenu
+>Uredi</guimenu
+><guimenuitem
+>Konstante ...</guimenuitem
+></menuchoice
+> v menijski vrstici.</para>
+
+	<screenshot>
+		<screeninfo
+>Posnetek zaslona pogovornega okna Konstante</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Posnetek zaslona pogovornega okna Konstante</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Konstante lahko uporabite kot del izraza kjer koli znotraj &kmplot;. Vsaka konstanta mora imeti ime in vrednost. Nekatera imena pa so neveljavna, na primer obstoječa imena funkcij ali obstoječe konstante. </para>
+
+	<para
+>Obstajata dve možnosti, ki nadzorujeta obseg konstante: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>Dokument</guilabel
+></term>
+				<listitem>
+					<para
+>Če izberete potrditveno polje <guilabel
+>Dokument</guilabel
+>, bo konstanta shranjena skupaj s trenutnim diagramom, ko jo shranite v datoteko. Vendar, razen če ste izbrali tudi možnost <guilabel
+>Globalno</guilabel
+>, konstanta ne bo na voljo med primerki &kmplot;.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>Globalno</guilabel
+></term>
+				<listitem>
+					<para
+>Če izberete potrditveno polje <guilabel
+>Globalno</guilabel
+>, bosta ime in vrednost konstante zapisana v &kde; nastavitve (kjer ga lahko uporablja tudi &kcalc;). Konstanta ne bo izgubljena, ko &kmplot; je zaprt in bo znova na voljo za uporabo, ko &kmplot; se začne znova.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</para>
+</sect1>
+
+</chapter>
+
+<chapter id="commands">
+<title
+>Referenca ukazov</title>
+
+<sect1 id="menu">
+<title
+>Elementi menija</title>
+
+<para
+>Poleg običajnega &kde; meniji, opisani v poglavju <ulink url="help:/fundamentals/menus.html"
+>Meni</ulink
+> v &kde; Dokumentacija o osnovah &kmplot; ima te menijske vnose za posamezne aplikacije: </para>
+
+<sect2 id="a-file-menu">
+	<title
+>Meni Datoteka</title>
+	<variablelist>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Datoteka</guimenu
+> <guimenuitem
+>Izvoz ...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>Izvozi</action
+> izrisane grafe v slikovno datoteko v vseh formatih, ki jih podpira &kde;.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Datoteka</guimenu
+> <guimenuitem
+>Natisni ...</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Odpre</action
+> okno za konfiguracijo tiskanja. Pritisnite gumb <guibutton
+>Možnosti 
+>
+></guibutton
+> in nato izberite zavihek <guilabel
+>Možnosti KmPlot</guilabel
+>, da konfigurirate možnosti, ki so specifične za &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Datoteka</guimenu
+> <guimenuitem
+>Predogled tiskanja</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>Prikaže</action
+> predhodno sliko trenutnega izrisa, kot je natisnjena na trenutnem privzetem tiskalniku. Pritisnite skrajni desni gumb v orodni vrstici okna za predogled tiskanja, da konfigurirate možnosti, ki so specifične za &kmplot;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>Meni Urejanje</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Uredi</guimenu
+><guimenuitem
+>Konstante ...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Prikaže pogovorno okno <guilabel
+>Urejevalnik konstant</guilabel
+>. Glejte <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>Meni Pogled</title>
+	<para
+>Prvi trije elementi v meniju so povezani s povečavo.</para>
+	<note>
+		<para
+>Kolesce miške lahko uporabite tudi kot nadzor povečave. Če želite z miško povečati ali pomanjšati, pridržite &Ctrl; tipko, medtem ko vrtite kolesce miške. Vsaka kljukica poveča ali zmanjša faktor povečave za vrednost, določeno v <link linkend="general-config"
+>&kmplot; Splošne nastavitve</link
+>. </para>
+	</note>
+
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Pogled</guimenu
+> <guimenuitem
+>Povečaj</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>To orodje lahko upravljate na dva različna načina. Če želite povečati točko na grafu, kliknite nanjo. Če želite povečati določen odsek grafa, pridržite in povlecite miško, da oblikujete pravokotnik, ki bo nova razpona osi, ko spustite gumb miške.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Pogled</guimenu
+> <guimenuitem
+>Pomanjšaj</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>Orodje se lahko uporablja tudi na dva različna načina. Za pomanjšanje in centriranje točke kliknite to točko. Če želite obstoječi pogled prilagoditi pravokotniku, pridržite in povlecite miško, da oblikujete ta pravokotnik.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>Pogled</guimenu
+> <guimenuitem
+>Prilagodi gradnik trigonometričnim funkcijam</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>Lestvica bo prilagojena trigonometričnim funkcijam. To deluje tako za radiane kot stopinje.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Pogled</guimenu
+><guimenuitem
+>Ponastavi pogled</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Ponastavi pogled. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Pogled</guimenu
+><guimenuitem
+>Koordinatni sistem ...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>Prikaže pogovorno okno <guilabel
+>Koordinatni sistem</guilabel
+>. Glejte <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Pogled</guimenu
+> <guimenuitem
+>Prikaži drsnike</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>Preklopi</action
+> vidnost pogovornega okna drsnika. V pogovornem oknu premaknite drsnik, da spremenite parameter grafa funkcije, ki je z njim povezan.</para>
+				<para
+>Omogočite to na zavihku Funkcija in izberite enega od drsnikov, da dinamično spremenite vrednost parametra. Vrednosti se privzeto razlikujejo od 0 (levo) do 10 (desno), vendar jih je mogoče spremeniti v pogovornem oknu drsnika.</para>
+				<para
+>Za majhno vadnico glejte <ulink url="https://userbase.kde.org/Special:MyLanguage/KmPlot/Using_Sliders"
+>Uporaba drsnikov</ulink
+>.</para>
+				<!--https://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>Meni Orodja</title>
+
+	<para
+>Ta meni vsebuje nekaj orodij za funkcije, ki so lahko koristne:</para>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Orodja</guimenu
+> <guimenuitem
+>Kalkulator</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Odpre pogovorno okno <guilabel
+>Kalkulator</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Orodja</guimenu
+> <guimenuitem
+>Območje izrisa ...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>V novem pogovornem oknu, ki se prikaže, izberite graf in vrednosti vodoravne osi. Izračuna integral in nariše območje med grafom in vodoravno osjo v območju izbranih vrednosti v barvi grafa.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Orodja</guimenu
+> <guimenuitem
+>Poišči minimum ...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Poiščite najmanjšo vrednost grafa v določenem obsegu.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Orodja</guimenu
+> <guimenuitem
+>Poišči največ ...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Poiščite največjo vrednost grafa v podanem območju.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>Meni Pomoč</title>
+
+	<para
+>&kmplot; ima standardni &kde; <guimenu
+>Pomoč</guimenu
+> z enim dodatkom:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>Pomoč</guimenu
+> <guimenuitem
+>Prednastavljene matematične funkcije ...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>Odpre ta priročnik s seznamom vnaprej določenih imen funkcij in konstant, ki jih &kmplot; ve.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+</sect2>
+</sect1>
+
+</chapter>
+
+<chapter id="dbus">
+	<title
+>Skriptiranje &kmplot;</title>
+	<para
+>Lahko pišete skripte za &kmplot; z &DBus;. Na primer, če želite definirati novo funkcijo <userinput
+>f(x)=2sin x+3cos x</userinput
+>, nastaviti njeno širino črte na 20 in jo nato narisati, v konzolo vnesete:</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command
+> Posledično bo ID številka nove funkcije ali -1, če funkcije ni bilo mogoče definirati.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command
+> Ta ukaz nastavi funkcijo z ID številko ID širino vrstice na 20.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /view org.kde.kmplot.View.drawPlot</command
+> Ta ukaz prebarva okno, tako da postane funkcija vidna.</para>
+<para
+>Seznam razpoložljivih funkcij: <variablelist>
+		<varlistentry>
+			<term
+>/kmplot org.kde.kmplot.KmPlot.fileOdpri url </term>
+			<listitem>
+				<para
+>Naloži datoteko <parameter
+>url</parameter
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.isModified </term>
+			<listitem>
+				<para
+>Vrne true, če so bile izvedene kakršne koli spremembe.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.checkModified </term>
+			<listitem>
+				<para
+>Če obstajajo neshranjene spremembe, se prikaže pogovorno okno za shranjevanje, zavrženje ali preklic izrisov.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.editAxes </term>
+			<listitem>
+				<para
+>Odpre pogovorno okno za urejanje koordinatnega sistema.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.toggleShowSlider </term>
+			<listitem>
+				<para
+>Prikaže/skrije okno drsnika parametrov.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSave </term>
+			<listitem>
+				<para
+>Shrani funkcije (odpre pogovorno okno za shranjevanje, če gre za novo datoteko).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSaveas </term>
+			<listitem>
+				<para
+>Enako kot če bi v meniju izbrali <menuchoice
+><guimenu
+>Datoteka</guimenu
+><guimenuitem
+>Shrani kot...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotPrint </term>
+			<listitem>
+				<para
+>Odpre pogovorno okno za tiskanje.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotResetView </term>
+			<listitem>
+				<para
+>Enako kot bi v meniju izbrali <menuchoice
+><guimenu
+>Pogled</guimenu
+><guimenuitem
+>Ponastavi pogled</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotExport </term>
+			<listitem>
+				<para
+>Odpre pogovorno okno za izvoz.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSettings </term>
+			<listitem>
+				<para
+>Odpre pogovorno okno z nastavitvami.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotNames </term>
+			<listitem>
+				<para
+>Prikaže vnaprej določene matematične funkcije v priročniku.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMinimumValue </term>
+			<listitem>
+				<para
+>Enako kot če bi v meniju izbrali <menuchoice
+><guimenu
+>Orodja</guimenu
+><guimenuitem
+>Najmanjša vrednost ...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMaximumValue </term>
+			<listitem>
+				<para
+>Enako kot če bi v meniju izbrali <menuchoice
+><guimenu
+>Orodja</guimenu
+><guimenuitem
+>Največja vrednost ...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.graphArea </term>
+			<listitem>
+				<para
+>Enako kot če bi v meniju izbrali <menuchoice
+><guimenu
+>Orodja</guimenu
+><guimenuitem
+>Območje izrisa ...</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.calculator </term>
+			<listitem>
+				<para
+>Enako kot če bi v meniju izbrali <menuchoice
+><guimenu
+>Orodja</guimenu
+><guimenuitem
+>Kalkulator</guimenuitem
+></menuchoice
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1 </term>
+			<listitem>
+				<para
+>Doda novo funkcijo z izrazoma <parameter
+>f_str0</parameter
+> in <parameter
+>f_str1</parameter
+>. Če izraz ne vsebuje imena funkcije, bo samodejno ustvarjen. Vrne se ID številka nove funkcije ali -1, če funkcije ni bilo mogoče definirati.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.removeFunction id </term>
+			<listitem>
+				<para
+>Odstrani funkcijo z ID številko <parameter
+>id</parameter
+>. Če funkcije ni bilo mogoče izbrisati, je vrnjena vrednost false, sicer pa vrednost true.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.setFunctionExpression id eq f_str </term>
+			<listitem>
+				<para
+>Nastavi izraz za funkcijo s številko ID <parameter
+>id</parameter
+> na <parameter
+>f_str</parameter
+>. Vrne true, če je uspešen, sicer false.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.countFunctions </term>
+			<listitem>
+				<para
+>Vrne število funkcij (parametrične funkcije se izračunajo kot dve).</para>
+			</listitem>
+		</varlistentry>
+<!-- method double org.kde.kmplot.Parser.fkt(uint id, uint eq, double eq) what is this?-->
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.listFunctionNames </term>
+		  <listitem>
+		    <para
+>Vrne seznam z vsemi funkcijami.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.fnameToID f_str </term>
+		  <listitem>
+		    <para
+>Vrne številko id <parameter
+>f_str</parameter
+> ali -1, če ime funkcije <parameter
+>f_str</parameter
+> ni bilo najdeno.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFVisible id </term>
+		  <listitem>
+		    <para
+>Vrne true, če je funkcija z ID-jem <parameter
+>id</parameter
+> vidna, sicer false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1Viden id </term>
+		  <listitem>
+		    <para
+>Vrne true, če je vidna prva izpeljanka funkcije z ID-jem <parameter
+>id</parameter
+>, sicer false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2Viden id </term>
+		  <listitem>
+		    <para
+>Vrne true, če je vidna druga izpeljanka funkcije z ID-jem <parameter
+>id</parameter
+>, sicer pa false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntVisible id </term>
+		  <listitem>
+		    <para
+>Vrne true, če je integral funkcije z ID-jem <parameter
+>id</parameter
+> viden, sicer false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFVisible ID viden </term>
+		  <listitem>
+		    <para
+>Prikaže funkcijo z ID-jem <parameter
+>id</parameter
+>, če je <parameter
+>viden</parameter
+> resničen. Če je <parameter
+>viden</parameter
+> nastavljen na false, bo funkcija skrita. Če funkcija obstaja, se vrne vrednost True, sicer pa vrednost false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1Visible ID viden </term>
+		  <listitem>
+		    <para
+>Prikaže prvo izpeljanko funkcije z ID-jem <parameter
+>id</parameter
+>, če je <parameter
+>viden</parameter
+> resničen. Če je <parameter
+>viden</parameter
+> nastavljen na false, bo funkcija skrita. Če funkcija obstaja, se vrne vrednost True, sicer pa vrednost false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2Visible ID viden </term>
+		  <listitem>
+		    <para
+>Prikaže drugo izpeljanko funkcije z ID-jem <parameter
+>id</parameter
+>, če je <parameter
+>viden</parameter
+> resničen. Če je <parameter
+>viden</parameter
+> nastavljen na false, bo funkcija skrita. Če funkcija obstaja, se vrne vrednost True, sicer pa vrednost false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntVisible ID viden </term>
+		  <listitem>
+		    <para
+>Prikaže integral funkcije z ID-jem <parameter
+>id</parameter
+>, če je <parameter
+>viden</parameter
+> resničen. Če je <parameter
+>viden</parameter
+> nastavljen na false, bo funkcija skrita. Če funkcija obstaja, se vrne vrednost True, sicer pa vrednost false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStr id eq </term>
+		  <listitem>
+		    <para
+>Vrne funkcijski izraz funkcije z ID-jem <parameter
+>id</parameter
+>. Če funkcija ne obstaja, se vrne prazen niz.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFLineWidth id </term>
+		  <listitem>
+		    <para
+>Vrne širino vrstice funkcije z ID-jem <parameter
+>id</parameter
+>. Če funkcija ne obstaja, se vrne 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1LineWidth id </term>
+		  <listitem>
+		    <para
+>Vrne širino črte prve izpeljanke funkcije z ID-jem <parameter
+>id</parameter
+>. Če funkcija ne obstaja, se vrne 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2LineWidth id </term>
+		  <listitem>
+		    <para
+>Vrne širino črte druge izpeljanke funkcije z ID-jem <parameter
+>id</parameter
+>. Če funkcija ne obstaja, se vrne 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntLineWidth id </term>
+		  <listitem>
+		    <para
+>Vrne širino črte integrala funkcije z ID-jem <parameter
+>id</parameter
+>. Če funkcija ne obstaja, se vrne 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFLineWidth id širina vrstice </term>
+		  <listitem>
+		    <para
+>Nastavi širino črte funkcije z ID-jem <parameter
+>id</parameter
+> na <parameter
+>širina črte</parameter
+>. Če funkcija obstaja, se vrne vrednost True, sicer pa vrednost false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1LineWidth id širina vrstice </term>
+		  <listitem>
+		    <para
+>Nastavi širino črte prve izpeljanke funkcije z ID-jem <parameter
+>id</parameter
+> na <parameter
+>širina črte</parameter
+>. Če funkcija obstaja, se vrne vrednost True, sicer pa vrednost false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2LineWidth id širina vrstice </term>
+		  <listitem>
+		    <para
+>Nastavi širino črte druge izpeljanke funkcije z ID-jem <parameter
+>id</parameter
+> na <parameter
+>širina črte</parameter
+>. Če funkcija obstaja, se vrne vrednost True, sicer pa vrednost false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntLineWidth id širina vrstice </term>
+		  <listitem>
+		    <para
+>Nastavi širino črte integrala funkcije z ID-jem <parameter
+>id</parameter
+> na <parameter
+>širina črte</parameter
+>. Če funkcija obstaja, se vrne vrednost True, sicer pa vrednost false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionParameterList id </term>
+		  <listitem>
+		    <para
+>Vrne seznam z vsemi vrednostmi parametrov za funkcijo z ID-jem <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionAddParameter id nov_parameter </term>
+		  <listitem>
+		    <para
+>Doda vrednost parametra <parameter
+>nov_parameter</parameter
+> funkciji z ID-jem <parameter
+>id</parameter
+>. Če je operacija uspešna, se vrne True, sicer pa false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionRemoveParameter id remove_parameter </term>
+		  <listitem>
+		    <para
+>Odstrani vrednost parametra <parameter
+>odstrani_parameter</parameter
+> iz funkcije z ID-jem <parameter
+>id</parameter
+>. Če je operacija uspešna, se vrne True, sicer pa false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMinValue id </term>
+		  <listitem>
+		    <para
+>Vrne najmanjšo vrednost obsega izrisa funkcije z ID-jem <parameter
+>id</parameter
+>. Če funkcija ne obstaja ali če najmanjša vrednost ni definirana, se vrne prazen niz.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMaxValue id </term>
+		  <listitem>
+		    <para
+>Vrne največjo vrednost obsega izrisa funkcije z ID-jem <parameter
+>id</parameter
+>. Če funkcija ne obstaja ali če največja vrednost ni definirana, se vrne prazen niz.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMinValue id min </term>
+		  <listitem>
+		    <para
+>Nastavi najmanjšo vrednost obsega izrisa funkcije z ID-jem <parameter
+>id</parameter
+> na <parameter
+>min</parameter
+>. True je vrnjen, če funkcija obstaja in je izraz veljaven, sicer pa false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMaxValue id max </term>
+		  <listitem>
+		    <para
+>Nastavi največjo vrednost obsega izrisa funkcije z ID-jem <parameter
+>id</parameter
+> na <parameter
+>max</parameter
+>. True je vrnjen, če funkcija obstaja in je izraz veljaven, sicer pa false.</para>
+		  </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartXValue id </term>
+		  <listitem>
+		    <para
+>Vrne začetno točko x za integral funkcije z ID-jem <parameter
+>id</parameter
+>. Če funkcija ne obstaja ali če izraz točke x ni definiran, je vrnjen prazen niz.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartYValue id </term>
+		  <listitem>
+		    <para
+>Vrne začetno točko y za integral funkcije z ID-jem <parameter
+>id</parameter
+>. Če funkcija ne obstaja ali če izraz točke y ni definiran, je vrnjen prazen niz.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionStartValue id x y </term>
+		  <listitem>
+		    <para
+>Nastavi začetno točko x in y za integral funkcije z ID-jem <parameter
+>id</parameter
+> na <parameter
+>x</parameter
+> in <parameter
+>y</parameter
+>. True je vrnjen, če funkcija obstaja in je izraz veljaven, sicer pa false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.stopDrawing </term>
+			<listitem>
+				<para
+>Če &kmplot; trenutno riše funkcijo, postopek se bo ustavil.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.drawPlot </term>
+			<listitem>
+				<para
+>Ponovno nariše vse funkcije.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<chapter id="credits">
+<title
+>Zasluge in licenca</title>
+
+<para
+>&kmplot; </para>
+
+<para
+>Avtorske pravice za program 2000-2002 <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail; </para>
+
+<itemizedlist>
+<title
+>Sodelujoči</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: &Robert.Gogolok; &Robert.Gogolok.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Prenos &GUI; v &kde; 3 in prevod: &Matthias.Messmer; &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>Različne izboljšave: Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>Prenos v &Qt; 4, izboljšave uporabniškega vmesnika, funkcije: David Saxton <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>Avtorske pravice za dokumentacijo 2000--2002 Klaus-Dieter Möller &Klaus-Dieter.Moeller.mail;. </para>
+<para
+>Razširjena in posodobljena dokumentacija za &kde; 3.2 od &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para
+>Razširjena in posodobljena dokumentacija za &kde; 3.3 od &Philip.Rodrigues; &Philip.Rodrigues.mail; in Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Razširjena in posodobljena dokumentacija za &kde; 3.4 avtor Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>Razširjena in posodobljena dokumentacija za &kde; 4.0 avtor David Saxton <email
+>david@bluehaze.org</email
+>.</para>
+<para
+>Prevod: Matjaž Jeran <email
+>matjaz.jeran@amis.net</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

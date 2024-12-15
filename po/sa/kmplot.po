@@ -3,28 +3,31 @@
 # This file is distributed under the same license as the kmplot package.
 # Kali <EMAIL@ADDRESS>, 2024.
 #
+# SPDX-FileCopyrightText: 2024 kali <skkalwar999@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-17 00:36+0000\n"
-"PO-Revision-Date: 2024-12-13 19:09+0530\n"
-"Last-Translator: Kali <EMAIL@ADDRESS>\n"
-"Language-Team: Sanskrit\n"
+"PO-Revision-Date: 2024-12-14 01:10+0530\n"
+"Last-Translator: kali <skkalwar999@gmail.com>\n"
+"Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "भवतः नामानि"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "भवतः ईमेलपत्राणि"
 
 #: calculator.cpp:31
 #, kde-format
@@ -249,7 +252,7 @@ msgstr "ऊर्ध्वाधर अक्ष जाल अन्तराल
 #, kde-format
 msgctxt "@title:window"
 msgid "Equation Editor"
-msgstr ""
+msgstr "समीकरण सम्पादक"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: equationeditorwidget.ui:31
@@ -884,13 +887,13 @@ msgstr "मध्ये अन्वेषणं कुर्वन्तु:"
 #, kde-format
 msgctxt "@title:window"
 msgid "Find Minimum Point"
-msgstr ""
+msgstr "न्यूनतमं बिन्दुं ज्ञातव्यम्"
 
 #: functiontools.cpp:66
 #, kde-format
 msgctxt "@title:window"
 msgid "Find Maximum Point"
-msgstr ""
+msgstr "अधिकतमं बिन्दुं ज्ञातव्यम्"
 
 #: functiontools.cpp:71
 #, kde-format
@@ -901,7 +904,7 @@ msgstr "मध्ये क्षेत्रफलं गणयन्तु : �
 #, kde-format
 msgctxt "@title:window"
 msgid "Area Under Graph"
-msgstr ""
+msgstr "आलेखस्य अन्तर्गतक्षेत्रम्"
 
 #: functiontools.cpp:180
 #, kde-format
@@ -952,7 +955,7 @@ msgstr "संयोजयति..."
 #, kde-format
 msgctxt "@title:window"
 msgid "Constants Editor"
-msgstr ""
+msgstr "नित्य सम्पादक"
 
 #: kconstanteditor.cpp:116
 #, kde-format
@@ -980,7 +983,7 @@ msgstr "स्टॉपं निष्कासयन्तु"
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose a Gradient"
-msgstr ""
+msgstr "एकं Gradient इति चिनोतु"
 
 #: kmplot.cpp:73
 #, kde-format
@@ -1594,7 +1597,7 @@ msgstr "एतां सञ्चिकां रक्षन्ते सति
 #, kde-format
 msgctxt "@title:window"
 msgid "KmPlot Options"
-msgstr ""
+msgstr "KmPlot विकल्पाः"
 
 #: kprinterdlg.cpp:35
 #, kde-format
@@ -1664,7 +1667,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Sliders"
-msgstr ""
+msgstr "स्लाइडर"
 
 #: main.cpp:42
 #, kde-format
@@ -1857,7 +1860,7 @@ msgstr "Find Mi&no..."
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
-msgstr ""
+msgstr "पूर्वनिर्धारित &Math Functions"
 
 #: maindlg.cpp:311
 #, kde-format
@@ -1908,7 +1911,7 @@ msgstr "प्रतिलिपि (x, y) ९."
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
-msgstr ""
+msgstr "(%1, %2) २."
 
 #: maindlg.cpp:385
 #, kde-format
@@ -1958,7 +1961,7 @@ msgstr "स्केलेबल सदिश ग्राफिक्स (*.svg
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
-msgstr ""
+msgstr "प्रतिबिम्बरूपेण निर्यातयन्तु"
 
 #: maindlg.cpp:623
 #, kde-format
@@ -1969,7 +1972,7 @@ msgstr "क्षम्यतां, \"%1\" प्रतिबिम्बे �
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
-msgstr ""
+msgstr "मुद्रण कथानक"
 
 #: maindlg.cpp:695
 #, kde-format
@@ -1986,7 +1989,7 @@ msgstr "मुद्रण सेटिंग्स्"
 #, kde-format
 msgctxt "@title:window"
 msgid "Parameter Animator"
-msgstr ""
+msgstr "पैरामीटर एनिमेटर"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, warningLabel)
 #: parameteranimator.ui:23
@@ -2273,7 +2276,7 @@ msgstr "वर्ण:"
 #, kde-format
 msgctxt "@title:window"
 msgid "Plot Appearance"
-msgstr ""
+msgstr "कथानक स्वरूप"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlotStyleWidget)
 #: plotstylewidget.ui:14
@@ -3023,19 +3026,19 @@ msgstr "<0> इति"
 #, kde-format
 msgctxt "Extrema point"
 msgid "x = %1   y = %2"
-msgstr ""
+msgstr "x = %1 y = %2"
 
 #: view.cpp:2124 view.cpp:2125
 #, kde-format
 msgctxt "%1=minimum value, %2=maximum value"
 msgid "%1 to %2"
-msgstr ""
+msgstr "%1 तः %2 पर्यन्तम्"
 
 #: view.cpp:2127 view.cpp:2128
 #, kde-format
 msgctxt "'E' is the distance between ticks on the axis"
 msgid "1E = "
-msgstr ""
+msgstr "१ई = "
 
 #: view.cpp:2131
 #, kde-format
@@ -3076,7 +3079,7 @@ msgstr "य = %1"
 #, kde-format
 msgctxt "%1 is a subscript zero symbol"
 msgid "root: x%1 = "
-msgstr ""
+msgstr "मूल: x%1 = "
 
 #: xparser.cpp:117
 #, kde-format

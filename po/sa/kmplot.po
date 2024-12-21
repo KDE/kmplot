@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-17 00:36+0000\n"
-"PO-Revision-Date: 2024-12-14 01:10+0530\n"
+"PO-Revision-Date: 2024-12-20 22:01+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -174,7 +174,7 @@ msgstr "क्षैतिज अक्ष श्रेणी"
 #: sliderwidget.ui:80
 #, kde-format
 msgid "Max:"
-msgstr "अधिकतमः : १."
+msgstr "अधिकतमः :"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_XMax)
 #. i18n: ectx: property (toolTip), widget (EquationEdit, kcfg_XMin)
@@ -205,7 +205,7 @@ msgstr "वैधं व्यञ्जनं प्रविशन्तु, �
 #: sliderwidget.ui:57
 #, kde-format
 msgid "Min:"
-msgstr "न्यूनतमः : १."
+msgstr "न्यूनतमः :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: editcoords.ui:81
@@ -837,7 +837,7 @@ msgstr ""
 #: functioneditorwidget.ui:683
 #, kde-format
 msgid "f(x,y)"
-msgstr "च(क्स,य) २."
+msgstr "च(क्स,य)"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4_2)
 #: functioneditorwidget.ui:690
@@ -898,7 +898,7 @@ msgstr "अधिकतमं बिन्दुं ज्ञातव्यम�
 #: functiontools.cpp:71
 #, kde-format
 msgid "Calculate the area between:"
-msgstr "मध्ये क्षेत्रफलं गणयन्तु : १."
+msgstr "मध्ये क्षेत्रफलं गणयन्तु :"
 
 #: functiontools.cpp:72
 #, kde-format
@@ -1534,7 +1534,7 @@ msgstr "पैरामीटर् सञ्चिकां उद्घाट�
 #: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, kde-format
 msgid "Plain Text File (*.txt)"
-msgstr "सादा पाठसञ्चिका (*.txt) २."
+msgstr "सादा पाठसञ्चिका (*.txt)"
 
 #: kparametereditor.cpp:215
 #, kde-format
@@ -1612,22 +1612,22 @@ msgstr "पारदर्शी पृष्ठभूमि"
 #: kprinterdlg.cpp:45
 #, kde-format
 msgid "Pixels (1/72nd in)"
-msgstr "पिक्सेल (१/७२ इञ्च) २."
+msgstr "पिक्सेल (१/७२ इञ्च)"
 
 #: kprinterdlg.cpp:46
 #, kde-format
 msgid "Inches (in)"
-msgstr "इञ्च् (इञ्च) २."
+msgstr "इञ्च् (इञ्च)"
 
 #: kprinterdlg.cpp:47
 #, kde-format
 msgid "Centimeters (cm)"
-msgstr "सेन्टिमीटर् (से.मी.) २."
+msgstr "सेन्टिमीटर् (से.मी.)"
 
 #: kprinterdlg.cpp:48
 #, kde-format
 msgid "Millimeters (mm)"
-msgstr "मिलीमीटर् (मि.मी.) २."
+msgstr "मिलीमीटर् (मि.मी.)"
 
 #: kprinterdlg.cpp:52
 #, kde-format
@@ -1905,13 +1905,13 @@ msgstr "सजीव कथानक..."
 #: maindlg.cpp:374
 #, kde-format
 msgid "Copy (x, y)"
-msgstr "प्रतिलिपि (x, y) ९."
+msgstr "प्रतिलिपि (x, y)"
 
 #: maindlg.cpp:379
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
-msgstr "(%1, %2) २."
+msgstr "(%1, %2)"
 
 #: maindlg.cpp:385
 #, kde-format
@@ -2029,7 +2029,7 @@ msgstr ""
 #: parameteranimator.ui:47
 #, kde-format
 msgid "Final value:"
-msgstr "अन्तिममूल्यम् : १."
+msgstr "अन्तिममूल्यम् :"
 
 #. i18n: ectx: property (text), widget (EquationEdit, step)
 #: parameteranimator.ui:57
@@ -2054,13 +2054,13 @@ msgstr "०"
 #: parameteranimator.ui:88
 #, kde-format
 msgid "Initial value:"
-msgstr "प्रारम्भिकं मूल्यम् : १."
+msgstr "प्रारम्भिकं मूल्यम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: parameteranimator.ui:124
 #, kde-format
 msgid "Current Value:"
-msgstr "वर्तमान मूल्य : १."
+msgstr "वर्तमान मूल्य :"
 
 #. i18n: ectx: property (text), widget (QToolButton, gotoInitial)
 #: parameteranimator.ui:177
@@ -2119,7 +2119,7 @@ msgstr "स्लाइडर संख्या %1"
 #: parameterswidget.ui:37
 #, kde-format
 msgid "Slider:"
-msgstr "स्लाइडर : १."
+msgstr "स्लाइडर :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useList)
 #: parameterswidget.ui:44
@@ -2300,7 +2300,7 @@ msgstr "extrema (न्यूनतम/अधिकतमबिन्दवः) 
 #: plotstylewidget.ui:53
 #, kde-format
 msgid "Show the tangent field:"
-msgstr "स्पर्शरेखां दर्शयतु : १."
+msgstr "स्पर्शरेखां दर्शयतु :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useGradient)
 #: plotstylewidget.ui:67
@@ -2312,13 +2312,13 @@ msgstr "पैरामीटर् कृते ढालस्य उपयो
 #: plotstylewidget.ui:74
 #, kde-format
 msgid "Line style:"
-msgstr "रेखाशैली : १."
+msgstr "रेखाशैली :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: plotstylewidget.ui:87
 #, kde-format
 msgid "Line width:"
-msgstr "रेखाविस्तारः : १."
+msgstr "रेखाविस्तारः :"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, lineWidth)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, kcfg_AxesLineWidth)
@@ -2409,7 +2409,7 @@ msgstr "&कोर्ड्स"
 #: settingspagecolor.ui:35
 #, kde-format
 msgid "Background color:"
-msgstr "पृष्ठभूमिवर्णः : १."
+msgstr "पृष्ठभूमिवर्णः :"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_backgroundcolor)
 #: settingspagecolor.ui:45
@@ -2429,7 +2429,7 @@ msgstr "पृष्ठभूमिस्य वर्णं चिनोतु 
 #: settingspagecolor.ui:58
 #, kde-format
 msgid "&Axes:"
-msgstr "&अक्षाः : १."
+msgstr "&अक्षाः :"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: settingspagecolor.ui:71
@@ -2729,7 +2729,7 @@ msgstr ""
 #: settingspagecolor.ui:406
 #, kde-format
 msgid "Function 1&0:"
-msgstr "कार्यम् १&०: १."
+msgstr "कार्यम् १&०:"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton11)
 #: settingspagediagram.ui:32
@@ -2795,7 +2795,7 @@ msgstr "क्षैतिज अक्षे लेबलं कुर्वन
 #: settingspagediagram.ui:84
 #, kde-format
 msgid "Horizontal axis label:"
-msgstr "क्षैतिज अक्ष लेबल : १."
+msgstr "क्षैतिज अक्ष लेबल :"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelHorizontalAxis)
 #: settingspagediagram.ui:94
@@ -2813,7 +2813,7 @@ msgstr "ऊर्ध्वाधर-अक्षे लेबलं कुर्
 #: settingspagediagram.ui:104
 #, kde-format
 msgid "Vertical axis label:"
-msgstr "ऊर्ध्वाधर अक्ष लेबल : १."
+msgstr "ऊर्ध्वाधर अक्ष लेबल :"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelVerticalAxis)
 #: settingspagediagram.ui:114
@@ -2825,25 +2825,25 @@ msgstr "तथा"
 #: settingspagediagram.ui:124
 #, kde-format
 msgid "Axis widths:"
-msgstr "अक्षविस्ताराः : १."
+msgstr "अक्षविस्ताराः :"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: settingspagediagram.ui:156
 #, kde-format
 msgid "Line &width:"
-msgstr "रेखा &विस्तारः : १."
+msgstr "रेखा &विस्तारः :"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9)
 #: settingspagediagram.ui:188
 #, kde-format
 msgid "Tic width:"
-msgstr "टिक चौड़ाई : १."
+msgstr "टिक चौड़ाई :"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8_4)
 #: settingspagediagram.ui:220
 #, kde-format
 msgid "Tic length:"
-msgstr "टिक लम्बाई : १."
+msgstr "टिक लम्बाई :"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:252
@@ -2903,19 +2903,19 @@ msgstr "बाणान् दर्शयतु"
 #: settingspagefonts.ui:23
 #, kde-format
 msgid "Axes labels:"
-msgstr "अक्षाः लेबलाः : १."
+msgstr "अक्षाः लेबलाः :"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10_3)
 #: settingspagefonts.ui:45
 #, kde-format
 msgid "Diagram labels:"
-msgstr "आरेख लेबलाः : १."
+msgstr "आरेख लेबलाः :"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10_4)
 #: settingspagefonts.ui:67
 #, kde-format
 msgid "Header table:"
-msgstr "शीर्षकसारणी : १."
+msgstr "शीर्षकसारणी :"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_anglemode)
 #: settingspagegeneral.ui:20
@@ -3053,17 +3053,17 @@ msgstr "अक्षविभागः"
 #: view.cpp:2132
 #, kde-format
 msgid "x-Axis:"
-msgstr "x-अक्षः : १."
+msgstr "x-अक्षः :"
 
 #: view.cpp:2133
 #, kde-format
 msgid "y-Axis:"
-msgstr "य-अक्षः : १."
+msgstr "य-अक्षः :"
 
 #: view.cpp:2136
 #, kde-format
 msgid "Functions:"
-msgstr "कार्याणि : १."
+msgstr "कार्याणि :"
 
 #: view.cpp:3004
 #, kde-format

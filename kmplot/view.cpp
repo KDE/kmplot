@@ -2986,10 +2986,10 @@ QString View::posToString(double x, double delta, PositionFormatting format, con
 
 void View::mouseMoveEvent(QMouseEvent *e)
 {
-    if (m_previousMouseMovePos != e->globalPos()) {
+    if (m_previousMouseMovePos != e->globalPosition().toPoint()) {
         m_AccumulatedDelta = 0;
     }
-    m_previousMouseMovePos = e->globalPos();
+    m_previousMouseMovePos = e->globalPosition().toPoint();
     m_AccumulatedDelta = 0;
     if (m_isDrawing || !e)
         return;

@@ -147,7 +147,7 @@ Parser::Parser()
 
 Parser::~Parser()
 {
-    for (Function *function : qAsConst(m_ufkt))
+    for (Function *function : std::as_const(m_ufkt))
         delete function;
     delete m_ownEquation;
     delete m_constants;
@@ -174,8 +174,8 @@ QStringList Parser::userFunctions() const
 {
     QStringList names;
 
-    for (Function *f : qAsConst(m_ufkt)) {
-        for (Equation *eq : qAsConst(f->eq)) {
+    for (Function *f : std::as_const(m_ufkt)) {
+        for (Equation *eq : std::as_const(f->eq)) {
             if (!eq->name().isEmpty())
                 names << eq->name();
         }
@@ -596,7 +596,7 @@ bool Parser::removeFunction(Function *item)
         newFunctions.clear();
 
         for (Function *f : currentFunctions) {
-            for (Function *other : qAsConst(m_ufkt)) {
+            for (Function *other : std::as_const(m_ufkt)) {
                 if ((other == f) || toRemove.contains(other))
                     continue;
 
@@ -625,7 +625,7 @@ bool Parser::removeFunction(Function *item)
             return false;
     }
 
-    for (Function *f : qAsConst(toRemove)) {
+    for (Function *f : std::as_const(toRemove)) {
         uint id = f->id();
         m_ufkt.remove(id);
         delete f;
@@ -891,7 +891,7 @@ bool Parser::tryVariable()
     for (const QString &var : variables)
         sorted.insert(-var.length(), var);
 
-    for (const QString &var : qAsConst(sorted)) {
+    for (const QString &var : std::as_const(sorted)) {
         if (match(var)) {
             addToken(VAR);
             adduint(variables.indexOf(var));
@@ -904,7 +904,7 @@ bool Parser::tryVariable()
 
 bool Parser::tryUserFunction()
 {
-    for (Function *it : qAsConst(m_ufkt)) {
+    for (Function *it : std::as_const(m_ufkt)) {
         for (int i = 0; i < it->eq.size(); ++i) {
             if (!match(it->eq[i]->name()))
                 continue;
@@ -1071,8 +1071,8 @@ void Parser::addfptr(uint id, uint eq_id, uint args)
 
 int Parser::fnameToID(const QString &name)
 {
-    for (Function *it : qAsConst(m_ufkt)) {
-        for (Equation *eq : qAsConst(it->eq)) {
+    for (Function *it : std::as_const(m_ufkt)) {
+        for (Equation *eq : std::as_const(it->eq)) {
             if (eq->looksLikeFunction() && (name == eq->name()))
                 return it->id();
         }
@@ -1471,8 +1471,8 @@ void ExpressionSanitizer::fixExpression(QString *str)
     for (const QString &f : predefinedFunctions)
         strings[f] = FunctionString;
 
-    for (Function *it : qAsConst(m_parser->m_ufkt)) {
-        for (Equation *eq : qAsConst(it->eq))
+    for (Function *it : std::as_const(m_parser->m_ufkt)) {
+        for (Equation *eq : std::as_const(it->eq))
             strings[eq->name()] = FunctionString;
     }
 

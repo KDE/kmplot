@@ -541,7 +541,7 @@ Function::Function(Type type)
 
 Function::~Function()
 {
-    for (Equation *e : qAsConst(eq))
+    for (Equation *e : std::as_const(eq))
         delete e;
 }
 
@@ -748,7 +748,7 @@ QList<Plot> Function::plots(PlotCombinations combinations) const
         QList<Plot> duplicated;
 
         for (PMode p = Derivative0; p <= Integral; p = PMode(p + 1)) {
-            for (Plot plot : qAsConst(list)) {
+            for (Plot plot : std::as_const(list)) {
                 if (!plotAppearance(p).visible)
                     continue;
                 plot.plotMode = p;
@@ -763,7 +763,7 @@ QList<Plot> Function::plots(PlotCombinations combinations) const
         QList<Plot> duplicated;
 
         for (int i = 0; i < eq[0]->differentialStates.size(); ++i) {
-            for (Plot plot : qAsConst(list)) {
+            for (Plot plot : std::as_const(list)) {
                 plot.stateNumber = i;
                 duplicated << plot;
             }
@@ -774,7 +774,7 @@ QList<Plot> Function::plots(PlotCombinations combinations) const
 
     if (combinations & DifferentPMSignatures) {
         int size = 0;
-        for (Equation *equation : qAsConst(eq))
+        for (Equation *equation : std::as_const(eq))
             size += equation->pmCount();
 
         unsigned max = unsigned(std::pow(2.0, (double)size));
@@ -791,11 +791,11 @@ QList<Plot> Function::plots(PlotCombinations combinations) const
 
         // Generate a plot for each signature in signatures
         QList<Plot> duplicated;
-        for (const QVector<bool> &signature : qAsConst(signatures)) {
+        for (const QVector<bool> &signature : std::as_const(signatures)) {
             int at = 0;
             QList<QVector<bool>> pmSignature;
 
-            for (Equation *equation : qAsConst(eq)) {
+            for (Equation *equation : std::as_const(eq)) {
                 int pmCount = equation->pmCount();
                 QVector<bool> sig(pmCount);
                 for (int i = 0; i < pmCount; ++i)
@@ -805,7 +805,7 @@ QList<Plot> Function::plots(PlotCombinations combinations) const
                 pmSignature << sig;
             }
 
-            for (Plot plot : qAsConst(list)) {
+            for (Plot plot : std::as_const(list)) {
                 plot.pmSignature = pmSignature;
                 duplicated << plot;
             }
@@ -834,7 +834,7 @@ bool Function::dependsOn(Function *function) const
     if (m_dependencies.contains(function->id()))
         return true;
 
-    for (int functionId : qAsConst(m_dependencies)) {
+    for (int functionId : std::as_const(m_dependencies)) {
         Function *f = XParser::self()->functionWithID(functionId);
 
         if (f->dependsOn(function))

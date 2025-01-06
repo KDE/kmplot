@@ -97,7 +97,7 @@ QDomDocument KmPlotIO::currentState()
 
     root.appendChild(tag);
 
-    for (Function *f : qAsConst(XParser::self()->m_ufkt))
+    for (Function *f : std::as_const(XParser::self()->m_ufkt))
         addFunction(doc, root, f);
 
     addConstants(doc, root);
@@ -188,7 +188,7 @@ void KmPlotIO::addFunction(QDomDocument &doc, QDomElement &root, Function *funct
 
     tag.setAttribute("use-parameter-list", function->m_parameters.useList);
     QStringList str_parameters;
-    for (const Value &k : qAsConst(function->m_parameters.list))
+    for (const Value &k : std::as_const(function->m_parameters.list))
         str_parameters << k.expression();
 
     if (!str_parameters.isEmpty())
@@ -213,7 +213,7 @@ void KmPlotIO::addFunction(QDomDocument &doc, QDomElement &root, Function *funct
 
             bool first = true;
             QString ys;
-            for (const Value &y : qAsConst(state->y0)) {
+            for (const Value &y : std::as_const(state->y0)) {
                 if (!first)
                     ys += ';';
                 first = false;
@@ -746,7 +746,7 @@ void KmPlotIO::oldParseFunction(const QDomElement &n)
 QString KmPlotIO::gradientToString(const QGradientStops &stops)
 {
     QString string;
-    for (const QGradientStop &stop : qAsConst(stops))
+    for (const QGradientStop &stop : std::as_const(stops))
         string += QString("%1;%2,").arg(stop.first).arg(stop.second.name());
     return string;
 }

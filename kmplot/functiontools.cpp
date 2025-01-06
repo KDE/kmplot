@@ -89,19 +89,19 @@ void FunctionTools::updateEquationList()
     m_widget->list->clear();
     m_equations.clear();
 
-    for (Function *function : qAsConst(XParser::self()->m_ufkt)) {
+    for (Function *function : std::as_const(XParser::self()->m_ufkt)) {
         if (function->type() != Function::Cartesian && function->type() != Function::Differential)
             continue;
 
         QList<Plot> plots = function->plots();
 
         for (int i = 0; i < function->eq.size(); ++i) {
-            for (const Plot &plot : qAsConst(plots))
+            for (const Plot &plot : std::as_const(plots))
                 m_equations << EquationPair(plot, i);
         }
     }
 
-    for (const EquationPair &eq : qAsConst(m_equations)) {
+    for (const EquationPair &eq : std::as_const(m_equations)) {
         QString equation = eq.first.function()->description(eq.second);
         QListWidgetItem *item = new QListWidgetItem(equation, m_widget->list);
         item->setForeground(eq.first.color());

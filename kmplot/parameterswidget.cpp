@@ -66,7 +66,7 @@ void ParametersWidget::updateEquationEdits()
         return;
     }
 
-    for (EquationEdit *edit : qAsConst(m_equationEdits)) {
+    for (EquationEdit *edit : std::as_const(m_equationEdits)) {
         if (edit->equation()->usesParameter() || !edit->equation()->looksLikeFunction())
             continue;
 

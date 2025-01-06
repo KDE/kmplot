@@ -110,7 +110,7 @@ FunctionEditor::FunctionEditor(QMenu *createNewPlotsMenu, QWidget *parent)
 #define CONNECT_WIDGETS(name, signal)                                                                                                                          \
     {                                                                                                                                                          \
         QList<name *> widgets = m_editor->findChildren<name *>();                                                                                              \
-        for (name * w : qAsConst(widgets))                                                                                                                     \
+        for (name * w : std::as_const(widgets))                                                                                                                \
             connect(w, SIGNAL(signal), this, SLOT(save()));                                                                                                    \
     }
 
@@ -206,7 +206,7 @@ void FunctionEditor::syncFunctionList()
     }
 
     // Now, any IDs left in currentIDs are of functions that have been deleted
-    for (FunctionListItem *item : qAsConst(currentFunctionItems)) {
+    for (FunctionListItem *item : std::as_const(currentFunctionItems)) {
         if (m_functionID == item->function())
             m_functionID = -1;
 
@@ -670,7 +670,7 @@ void FunctionEditor::saveFunction(Function *tempFunction)
     if (!f || !functionListItem)
         return;
 
-    for (Equation *eq : qAsConst(f->eq))
+    for (Equation *eq : std::as_const(f->eq))
         eq->differentialStates.resetToInitial();
 
     // save all settings in the function now when we know no errors have appeared
@@ -713,7 +713,7 @@ QMimeData *FunctionListWidget::mimeData(const QList<QListWidgetItem *> &items) c
 
     KmPlotIO io;
 
-    for (QListWidgetItem *item : qAsConst(items)) {
+    for (QListWidgetItem *item : std::as_const(items)) {
         int f = static_cast<FunctionListItem *>(item)->function();
 
         if (Function *function = XParser::self()->functionWithID(f))

@@ -67,7 +67,7 @@ KParameterEditor::KParameterEditor(QList<Value> *l, QWidget *parent)
     connect(m_mainWidget->value, &EquationEdit::upPressed, this, &KParameterEditor::prev);
     connect(m_mainWidget->value, &EquationEdit::downPressed, this, &KParameterEditor::next);
 
-    for (const Value &v : qAsConst(*m_parameter))
+    for (const Value &v : std::as_const(*m_parameter))
         m_mainWidget->list->addItem(v.expression());
 
     connect(m_mainWidget->cmdNew, &QPushButton::clicked, this, &KParameterEditor::cmdNew_clicked);

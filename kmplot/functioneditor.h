@@ -194,11 +194,7 @@ public:
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QMimeData *mimeData(const QList<QListWidgetItem *> items) const override;
-#else
     QMimeData *mimeData(const QList<QListWidgetItem *> &items) const override;
-#endif
     QStringList mimeTypes() const override;
 };
 

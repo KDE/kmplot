@@ -203,7 +203,7 @@ public:
      */
     QPointF getCrosshairPosition() const;
 
-public slots:
+public Q_SLOTS:
     /// Called when the user want to cancel the drawing
     void stopDrawing();
 
@@ -221,13 +221,13 @@ public slots:
     void zoomOut();
     void zoomToTrigonometric();
 
-protected slots:
+protected Q_SLOTS:
     /// Unchecks menu item when the slider window is closed
     void sliderWindowClosed();
     /// Restore the mouse cursor when a drawing is finished
     void updateCursor();
 
-signals:
+Q_SIGNALS:
     void setStatusBarText(const QString &);
     void updateRootValue(bool haveRoot, double rootValue);
 
@@ -649,7 +649,7 @@ private:
     /// Finishes animation of the viewport and get the View back to the Normal mode
     void finishAnimation(const QRectF &rect);
 
-private slots:
+private Q_SLOTS:
     void setViewport(const QRectF &rect);
 };
 

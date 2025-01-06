@@ -108,7 +108,7 @@ public:
         return m_constants.keys();
     }
 
-signals:
+Q_SIGNALS:
     /**
      * Emitted when a constant is added or removed, or the value of an
      * existing constant has changed.

@@ -44,13 +44,13 @@ public:
      */
     void associateEquationEdit(EquationEdit *edit);
 
-signals:
+Q_SIGNALS:
     /**
      * Emitted when the user edits the list of parameters.
      */
     void parameterListChanged();
 
-private slots:
+private Q_SLOTS:
     /**
      * Called when the "Edit [parameter] List" button is clicked.
      */

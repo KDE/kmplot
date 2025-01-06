@@ -37,10 +37,10 @@ public:
      */
     void updateXYRange();
 
-public slots:
+public Q_SLOTS:
     void done(int result) override;
 
-protected slots:
+protected Q_SLOTS:
     void updateButtons();
 
 private:

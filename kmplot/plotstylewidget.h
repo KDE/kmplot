@@ -47,7 +47,7 @@ public:
      */
     void setStyle(Qt::PenStyle style);
 
-protected slots:
+protected Q_SLOTS:
     /**
      * Called when the user clicks on the "Advanced" button.
      */

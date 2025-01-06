@@ -33,7 +33,7 @@ public:
     KParameterEditor(QList<Value> *, QWidget *parent);
     ~KParameterEditor();
 
-public slots:
+public Q_SLOTS:
     void moveUp();
     void moveDown();
     void prev();

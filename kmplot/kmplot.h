@@ -52,7 +52,7 @@ protected:
     /// Quits KmPlot after checking if modifications shall be saved.
     bool queryClose() override;
 
-private slots:
+private Q_SLOTS:
     void fileNew();
     void applyNewToolbarConfig();
     /**
@@ -82,7 +82,7 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE void setDrawProgress(double progress);
 
-public slots:
+public Q_SLOTS:
     /// Called when fullscreen is enabled/disabled
     void slotUpdateFullScreen(bool);
     void fileOpen(const QUrl &url);

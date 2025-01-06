@@ -106,7 +106,7 @@ public:
      */
     void setTabChain(QWidget *next);
 
-signals:
+Q_SIGNALS:
     void editingFinished();
     void textEdited(const QString &text);
     void textChanged(const QString &text);

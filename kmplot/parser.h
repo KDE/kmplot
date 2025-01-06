@@ -314,7 +314,7 @@ public:
     /// Reparses all functions, e.g. for when the value of a constant changes
     void reparseAllFunctions();
 
-signals:
+Q_SIGNALS:
     /// emitted when a function is deleted
     void functionRemoved(int id);
     /// emitted when a function is added

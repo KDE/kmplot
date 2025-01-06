@@ -118,7 +118,7 @@ public Q_SLOTS:
     /// Asks the user and returns true if modified data shall be discarded.
     Q_SCRIPTABLE bool checkModified();
 
-public slots:
+public Q_SLOTS:
     /// Implement the coordinate system edit dialog
     void editAxes();
     /// Show the constants editor
@@ -226,7 +226,7 @@ private:
     /// Root value for copying into clipboard
     double m_rootValue;
 
-protected slots:
+protected Q_SLOTS:
     /**
      * When you click on a File->Open Recent file, it'll open
      * @param url name of the url to open
@@ -250,7 +250,7 @@ class BrowserExtension : public KParts::NavigationExtension
 public:
     explicit BrowserExtension(MainDlg *);
 
-public slots:
+public Q_SLOTS:
     // Automatically detected by the host.
     void print();
 };

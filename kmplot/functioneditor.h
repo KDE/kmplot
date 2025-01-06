@@ -43,7 +43,7 @@ public:
      */
     void setCurrentFunction(int functionID);
 
-public slots:
+public Q_SLOTS:
     /**
      * Deletes the current selected function.
      */
@@ -73,7 +73,7 @@ public slots:
      */
     void functionsChanged();
 
-protected slots:
+protected Q_SLOTS:
     /**
      * Called when a function in the list is selected.
      */

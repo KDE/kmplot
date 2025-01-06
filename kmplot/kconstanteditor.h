@@ -33,7 +33,7 @@ public:
     explicit KConstantEditor(QWidget *parent = nullptr);
     ~KConstantEditor();
 
-public slots:
+public Q_SLOTS:
     /// actions for the buttons
     void cmdNew_clicked();
     void cmdDelete_clicked();
@@ -55,7 +55,7 @@ public slots:
      */
     void updateConstantsList();
 
-protected slots:
+protected Q_SLOTS:
     /**
      * Called when an item is clicked on. This might mean that the check state
      * has changed, so will save the constants list.

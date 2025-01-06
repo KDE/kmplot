@@ -62,7 +62,7 @@ public:
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
-protected slots:
+protected Q_SLOTS:
     void equationEditDone();
 
 protected:
@@ -105,10 +105,10 @@ public:
         return m_equation;
     }
 
-signals:
+Q_SIGNALS:
     void dataChanged();
 
-public slots:
+public Q_SLOTS:
     /**
      * For differential equations, add an initial condition.
      */

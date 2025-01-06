@@ -29,7 +29,7 @@ public:
     ParameterAnimator(QWidget *parent, Function *function);
     ~ParameterAnimator();
 
-public slots:
+public Q_SLOTS:
     void gotoInitial();
     void gotoFinal();
     void stepBackwards(bool step);
@@ -37,7 +37,7 @@ public slots:
     void pause();
     void updateSpeed();
 
-protected slots:
+protected Q_SLOTS:
     void step();
 
 protected:

@@ -22,7 +22,7 @@ class EquationEditorWidget : public QWidget, public Ui::EquationEditorWidget
 public:
     explicit EquationEditorWidget(QWidget *parent = nullptr);
 
-protected slots:
+protected Q_SLOTS:
     void insertFunction(const QString &text);
     /**
      * \p index is the position of the constant in the constants combo box.

@@ -115,7 +115,7 @@ bool InitialConditionsModel::setData(const QModelIndex &index, const QVariant &v
         return false;
 
     v->updateExpression(variant.toString());
-    emit dataChanged(index, index);
+    Q_EMIT dataChanged(index, index);
     return true;
 }
 
@@ -207,8 +207,8 @@ QWidget *InitialConditionsDelegate::createEditor(QWidget *parent, const QStyleOp
 
 void InitialConditionsDelegate::equationEditDone()
 {
-    emit commitData(m_lastEditor);
-    emit closeEditor(m_lastEditor);
+    Q_EMIT commitData(m_lastEditor);
+    Q_EMIT closeEditor(m_lastEditor);
 }
 
 void InitialConditionsDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
@@ -271,7 +271,7 @@ void InitialConditionsEditor::init(Function *function)
 void InitialConditionsEditor::add()
 {
     m_model->insertRows(0, 1, QModelIndex());
-    emit dataChanged();
+    Q_EMIT dataChanged();
 }
 
 void InitialConditionsEditor::remove()
@@ -286,7 +286,7 @@ void InitialConditionsEditor::remove()
     for (int row : indexes)
         m_model->removeRows(-row, 1, QModelIndex());
 
-    emit dataChanged();
+    Q_EMIT dataChanged();
 }
 // END class InitialConditionsEditor
 

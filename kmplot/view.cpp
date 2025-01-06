@@ -76,7 +76,7 @@ View::View(bool readOnly, QMenu *functionPopup, QWidget *parent)
     setAttribute(Qt::WA_StaticContents);
 
     m_haveRoot = false;
-    emit updateRootValue(false, 0);
+    Q_EMIT updateRootValue(false, 0);
     m_xmin = m_xmax = m_ymin = m_ymax = 0.0;
     m_printHeaderTable = false;
     m_printBackground = false;
@@ -3133,11 +3133,11 @@ bool View::updateCrosshairPosition()
                     str += i18nc("%1 is a subscript zero symbol", "root: x%1 = ", SubscriptZeroSymbol);
                     setStatusBar(str + QLocale().toString(x0, 'f', 5), RootSection);
                     m_haveRoot = true;
-                    emit updateRootValue(true, x0);
+                    Q_EMIT updateRootValue(true, x0);
                 }
             } else {
                 m_haveRoot = false;
-                emit updateRootValue(false, 0);
+                Q_EMIT updateRootValue(false, 0);
             }
         }
 
@@ -3791,7 +3791,7 @@ void View::setStatusBar(const QString &t, StatusBarSection section)
             text.append(m_statusBarText[i]);
         }
 
-        emit setStatusBarText(text);
+        Q_EMIT setStatusBarText(text);
     } else {
         QDBusReply<void> reply = QDBusInterface(QDBusConnection::sessionBus().baseService(), "/kmplot", "org.kde.kmplot.KmPlot")
                                      .call(QDBus::NoBlock, "setStatusBarText", text, (int)section);

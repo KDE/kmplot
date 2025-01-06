@@ -537,7 +537,7 @@ int Parser::addFunction(const QString &str1, const QString &str2, Function::Type
     temp->plotAppearance(Function::Derivative2).color = QColor::fromRgb(QRandomGenerator::global()->generate());
     temp->plotAppearance(Function::Integral).color = QColor::fromRgb(QRandomGenerator::global()->generate());
 
-    emit functionAdded(temp->id());
+    Q_EMIT functionAdded(temp->id());
     return temp->id(); // return the unique ID-number for the function
 }
 
@@ -629,7 +629,7 @@ bool Parser::removeFunction(Function *item)
         uint id = f->id();
         m_ufkt.remove(id);
         delete f;
-        emit functionRemoved(id);
+        Q_EMIT functionRemoved(id);
     }
 
     return true;
@@ -647,7 +647,7 @@ void Parser::removeAllFunctions()
         int id = f->id();
         m_ufkt.remove(id);
         delete f;
-        emit functionRemoved(id);
+        Q_EMIT functionRemoved(id);
     }
 }
 

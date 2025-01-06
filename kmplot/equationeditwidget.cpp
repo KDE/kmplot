@@ -64,15 +64,15 @@ void EquationEditWidget::keyPressEvent(QKeyEvent *e)
 {
     if ((e->key() == Qt::Key_Return) || (e->key() == Qt::Key_Enter)) {
         e->accept();
-        emit m_parent->editingFinished();
-        emit m_parent->returnPressed();
+        Q_EMIT m_parent->editingFinished();
+        Q_EMIT m_parent->returnPressed();
     } else {
         // Still pass these keys to KTextEdit, in case the user has to scroll
         // up/down the text
         if (e->key() == Qt::Key_Up)
-            emit m_parent->upPressed();
+            Q_EMIT m_parent->upPressed();
         else if (e->key() == Qt::Key_Down)
-            emit m_parent->downPressed();
+            Q_EMIT m_parent->downPressed();
 
         KTextEdit::keyPressEvent(e);
     }
@@ -86,7 +86,7 @@ void EquationEditWidget::focusOutEvent(QFocusEvent *e)
         clearSelection();
     m_parent->reHighlight();
 
-    emit m_parent->editingFinished();
+    Q_EMIT m_parent->editingFinished();
 }
 
 void EquationEditWidget::focusInEvent(QFocusEvent *e)

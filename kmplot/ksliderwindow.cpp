@@ -60,7 +60,7 @@ SliderWidget::~SliderWidget()
 void SliderWidget::updateValue()
 {
     valueLabel->setText(View::self()->posToString(value(), 0.001 * (max->value() - min->value()), View::DecimalFormat));
-    emit valueChanged();
+    Q_EMIT valueChanged();
 }
 
 double SliderWidget::value()
@@ -107,7 +107,7 @@ double KSliderWindow::value(int slider)
 
 void KSliderWindow::closeEvent(QCloseEvent *e)
 {
-    emit windowClosed();
+    Q_EMIT windowClosed();
     e->accept();
 }
 // END class KSliderWindow

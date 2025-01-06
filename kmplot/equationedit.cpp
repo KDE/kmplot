@@ -91,7 +91,7 @@ void EquationEdit::invokeEquationEditor()
 
     setText(edit->text());
     edit->deleteLater();
-    emit editingFinished();
+    Q_EMIT editingFinished();
 }
 
 void EquationEdit::setInputType(InputType type)
@@ -145,9 +145,9 @@ void EquationEdit::slotTextChanged()
     m_cleaningText = false;
     // END tidy up mathematical characters
 
-    emit textChanged(text());
+    Q_EMIT textChanged(text());
     if (!m_settingText)
-        emit textEdited(text());
+        Q_EMIT textEdited(text());
 }
 
 void EquationEdit::checkTextValidity()

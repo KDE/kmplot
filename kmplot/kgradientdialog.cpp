@@ -290,7 +290,7 @@ void KGradientEditor::setCurrentStop(const QGradientStop &stop)
     update();
 
     if (colorChanged)
-        emit colorSelected(stop.second);
+        Q_EMIT colorSelected(stop.second);
 }
 
 void KGradientEditor::setGradient(const QGradientStops &stops)
@@ -300,7 +300,7 @@ void KGradientEditor::setGradient(const QGradientStops &stops)
 
     m_gradient.setStops(stops);
     update();
-    emit gradientChanged(m_gradient);
+    Q_EMIT gradientChanged(m_gradient);
 }
 
 double KGradientEditor::toArrowPos(double stop) const
@@ -432,14 +432,14 @@ void KGradientButton::setGradient(const QGradient &gradient)
         return;
 
     m_gradient.setStops(gradient.stops());
-    emit gradientChanged(m_gradient);
+    Q_EMIT gradientChanged(m_gradient);
 }
 
 void KGradientButton::chooseGradient()
 {
     int result = KGradientDialog::getGradient(m_gradient, this);
     if (result == KGradientDialog::Accepted)
-        emit gradientChanged(m_gradient);
+        Q_EMIT gradientChanged(m_gradient);
 }
 
 void KGradientButton::paintEvent(QPaintEvent *)

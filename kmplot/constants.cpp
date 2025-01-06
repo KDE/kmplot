@@ -47,13 +47,13 @@ bool Constants::have(const QString &name) const
 void Constants::remove(const QString &name)
 {
     if (m_constants.remove(name) > 0)
-        emit constantsChanged();
+        Q_EMIT constantsChanged();
 }
 
 void Constants::add(const QString &name, const Constant &constant)
 {
     m_constants[name] = constant;
-    emit constantsChanged();
+    Q_EMIT constantsChanged();
 }
 
 ConstantList Constants::list(int type) const

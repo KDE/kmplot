@@ -846,7 +846,7 @@ BrowserExtension::BrowserExtension(MainDlg *parent)
     : KParts::NavigationExtension(parent)
 #endif
 {
-    emit enableAction("print", true);
+    Q_EMIT enableAction("print", true);
     setURLDropHandlingEnabled(true);
 }
 

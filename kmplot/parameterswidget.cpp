@@ -56,7 +56,7 @@ void ParametersWidget::editParameterList()
     QPointer<KParameterEditor> dlg = new KParameterEditor(&m_parameters, nullptr);
     dlg->exec();
     delete dlg;
-    emit parameterListChanged();
+    Q_EMIT parameterListChanged();
 }
 
 void ParametersWidget::updateEquationEdits()

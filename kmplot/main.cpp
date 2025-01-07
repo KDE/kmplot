@@ -48,6 +48,7 @@ int main(int argc, char **argv)
     aboutData.addCredit(i18n("David Vignoni"), i18n("svg icon"), QStringLiteral("david80v@tin.it"));
     aboutData.addCredit(i18n("Albert Astals Cid"), i18n("command line options, MIME type"), QStringLiteral("aacid@kde.org"));
     KAboutData::setApplicationData(aboutData);
+    QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("kmplot")));
 
     QCommandLineParser parser;
     parser.addOption(QCommandLineOption(QStringList{"function", "f"}, i18n("Initial functions to plot"), i18n("argument")));

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-17 00:36+0000\n"
+"POT-Creation-Date: 2025-01-08 00:37+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1656,92 +1656,92 @@ msgctxt "@title:window"
 msgid "Sliders"
 msgstr "滑块"
 
-#: main.cpp:42
+#: main.cpp:35
 #, kde-format
 msgid "KmPlot"
 msgstr "KmPlot"
 
-#: main.cpp:44
+#: main.cpp:37
 #, kde-format
 msgid "Mathematical function plotter by KDE"
 msgstr "KDE 数学函数绘图器"
 
-#: main.cpp:46
+#: main.cpp:39
 #, kde-format
 msgid "(c) 2000-2002, Klaus-Dieter Möller"
 msgstr "(c) 2000-2002, Klaus-Dieter Möller"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Klaus-Dieter Möller"
 msgstr "Klaus-Dieter Möller"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Original Author"
 msgstr "原作者"
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "Matthias Meßmer"
 msgstr "Matthias Meßmer"
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "GUI"
 msgstr "用户图形界面"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Fredrik Edemar"
 msgstr "Fredrik Edema"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Various improvements"
 msgstr "各种改进"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "David Saxton"
 msgstr "David Saxton"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "Porting to Qt 4, UI improvements, features"
 msgstr "移植到 Qt 4,用户界面的改进以及特性"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "David Vignoni"
 msgstr "David Vignoni"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "svg icon"
 msgstr "SVG 图标"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "Albert Astals Cid"
 msgstr "Albert Astals Cid"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "command line options, MIME type"
 msgstr "命令行选项，MIME 类型"
 
-#: main.cpp:60
+#: main.cpp:54
 #, kde-format
 msgid "Initial functions to plot"
 msgstr "要绘图的初始函数"
 
-#: main.cpp:60
+#: main.cpp:54
 #, kde-format
 msgid "argument"
 msgstr "参数"
 
-#: main.cpp:61
+#: main.cpp:55
 #, kde-format
 msgid "URLs to open"
 msgstr "要打开的 URL"

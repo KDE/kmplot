@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-17 00:36+0000\n"
+"POT-Creation-Date: 2025-01-08 00:37+0000\n"
 "PO-Revision-Date: 2013-09-15 06:54+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -1690,94 +1690,94 @@ msgctxt "@title:window"
 msgid "Sliders"
 msgstr "Жүгірткілер"
 
-#: main.cpp:42
+#: main.cpp:35
 #, kde-format
 msgid "KmPlot"
 msgstr "KmPlot"
 
-#: main.cpp:44
+#: main.cpp:37
 #, fuzzy, kde-format
 #| msgid "Mathematical function plotter for KDE"
 msgid "Mathematical function plotter by KDE"
 msgstr "KDE-де математикалық функцияның графигін салу"
 
-#: main.cpp:46
+#: main.cpp:39
 #, kde-format
 msgid "(c) 2000-2002, Klaus-Dieter Möller"
 msgstr "(c) 2000-2002, Klaus-Dieter Möller"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Klaus-Dieter Möller"
 msgstr "Klaus-Dieter Möller"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Original Author"
 msgstr "Бастапқы авторы"
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "Matthias Meßmer"
 msgstr " "
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "GUI"
 msgstr "Графикалық интерфейс"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Fredrik Edemar"
 msgstr "Fredrik Edemar"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Various improvements"
 msgstr "Түрлі жақсартулар"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "David Saxton"
 msgstr "David Saxton"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "Porting to Qt 4, UI improvements, features"
 msgstr "Qt4-ке бейімдеу, интерфейсінің жақсартуы, мүмкіндіктері"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "David Vignoni"
 msgstr "David Vignoni"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "svg icon"
 msgstr "svg таңбашасы"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "Albert Astals Cid"
 msgstr "Albert Astals Cid"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "command line options, MIME type"
 msgstr "команда жолының параметрлері, MIME түрі"
 
-#: main.cpp:60
+#: main.cpp:54
 #, kde-format
 msgid "Initial functions to plot"
 msgstr "Салатын бастапқы функциялар"
 
-#: main.cpp:60
+#: main.cpp:54
 #, fuzzy, kde-format
 #| msgid "Document"
 msgid "argument"
 msgstr "Құжат"
 
-#: main.cpp:61
+#: main.cpp:55
 #, fuzzy, kde-format
 #| msgid "File to open"
 msgid "URLs to open"

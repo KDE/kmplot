@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-17 00:36+0000\n"
+"POT-Creation-Date: 2025-01-08 00:37+0000\n"
 "PO-Revision-Date: 2024-07-31 12:17+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1691,93 +1691,93 @@ msgctxt "@title:window"
 msgid "Sliders"
 msgstr "Controls lliscants"
 
-#: main.cpp:42
+#: main.cpp:35
 #, kde-format
 msgid "KmPlot"
 msgstr "KmPlot"
 
-#: main.cpp:44
+#: main.cpp:37
 #, kde-format
 msgid "Mathematical function plotter by KDE"
 msgstr "Traçador de funcions matemàtiques, creat per la comunitat KDE"
 
-#: main.cpp:46
+#: main.cpp:39
 #, kde-format
 msgid "(c) 2000-2002, Klaus-Dieter Möller"
 msgstr "(c) 2000-2002, Klaus-Dieter Möller"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Klaus-Dieter Möller"
 msgstr "Klaus-Dieter Möller"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Original Author"
 msgstr "Autor original"
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "Matthias Meßmer"
 msgstr "Matthias Meßmer"
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "GUI"
 msgstr "IGU"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Fredrik Edemar"
 msgstr "Fredrik Edemar"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Various improvements"
 msgstr "Diverses millores"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "David Saxton"
 msgstr "David Saxton"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "Porting to Qt 4, UI improvements, features"
 msgstr "Adaptació a les Qt 4, millores a la IU, característiques"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "David Vignoni"
 msgstr "David Vignoni"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "svg icon"
 msgstr "icona svg"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "Albert Astals Cid"
 msgstr "Albert Astals Cid"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "command line options, MIME type"
 msgstr "opcions de línia d'ordres, tipus MIME"
 
 # skip-rule: t-sc-plot
-#: main.cpp:60
+#: main.cpp:54
 #, kde-format
 msgid "Initial functions to plot"
 msgstr "Funcions inicials a dibuixar"
 
-#: main.cpp:60
+#: main.cpp:54
 #, kde-format
 msgid "argument"
 msgstr "argument"
 
-#: main.cpp:61
+#: main.cpp:55
 #, kde-format
 msgid "URLs to open"
 msgstr "URL a obrir"

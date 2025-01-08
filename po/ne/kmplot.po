@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-17 00:36+0000\n"
+"POT-Creation-Date: 2025-01-08 00:37+0000\n"
 "PO-Revision-Date: 2007-09-12 13:41+0545\n"
 "Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1712,94 +1712,94 @@ msgctxt "@title:window"
 msgid "Sliders"
 msgstr "स्लाइडर"
 
-#: main.cpp:42
+#: main.cpp:35
 #, kde-format
 msgid "KmPlot"
 msgstr "KmPlot"
 
-#: main.cpp:44
+#: main.cpp:37
 #, fuzzy, kde-format
 #| msgid "Mathematical function plotter for KDE"
 msgid "Mathematical function plotter by KDE"
 msgstr "केडीईका लागि गणितिय प्रकार्य प्लोटर"
 
-#: main.cpp:46
+#: main.cpp:39
 #, kde-format
 msgid "(c) 2000-2002, Klaus-Dieter Möller"
 msgstr "(c) 2000-2002, क्लाउस-डियटर मोलर"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Klaus-Dieter Möller"
 msgstr "क्लाउस-डियटर मोलर"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Original Author"
 msgstr "मौलिक लेखक"
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "Matthias Meßmer"
 msgstr "माथियस मेबमर"
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "GUI"
 msgstr "जीयूआई"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Fredrik Edemar"
 msgstr "फ्रेड्रिक इडेमर"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Various improvements"
 msgstr "विविध सुधार"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "David Saxton"
 msgstr "डेभिड साक्सटन"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "Porting to Qt 4, UI improvements, features"
 msgstr "Qt 4 मा पोर्ट गर्दै, यूआई सुधार, विशेषता"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "David Vignoni"
 msgstr "डेभिड भिग्नोनी"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "svg icon"
 msgstr "svg प्रतिमा"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "Albert Astals Cid"
 msgstr "अल्बर्ट एस्टल्स सिड"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "command line options, MIME type"
 msgstr "आदेश रेखा विकल्प, माइम प्रकार"
 
-#: main.cpp:60
+#: main.cpp:54
 #, kde-format
 msgid "Initial functions to plot"
 msgstr "प्लट गर्न थालनी प्रकार्य"
 
-#: main.cpp:60
+#: main.cpp:54
 #, fuzzy, kde-format
 #| msgid "Document"
 msgid "argument"
 msgstr "कागजात"
 
-#: main.cpp:61
+#: main.cpp:55
 #, fuzzy, kde-format
 #| msgid "File to open"
 msgid "URLs to open"

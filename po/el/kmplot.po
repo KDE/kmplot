@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-17 00:36+0000\n"
+"POT-Creation-Date: 2025-01-08 00:37+0000\n"
 "PO-Revision-Date: 2024-09-19 22:15+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -1700,92 +1700,92 @@ msgctxt "@title:window"
 msgid "Sliders"
 msgstr "Κυλίσεις"
 
-#: main.cpp:42
+#: main.cpp:35
 #, kde-format
 msgid "KmPlot"
 msgstr "KmPlot"
 
-#: main.cpp:44
+#: main.cpp:37
 #, kde-format
 msgid "Mathematical function plotter by KDE"
 msgstr "Σχεδιαστής μαθηματικών συναρτήσεων από το KDE"
 
-#: main.cpp:46
+#: main.cpp:39
 #, kde-format
 msgid "(c) 2000-2002, Klaus-Dieter Möller"
 msgstr "(c) 2000-2002, Klaus-Dieter Möller"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Klaus-Dieter Möller"
 msgstr "Klaus-Dieter Möller"
 
-#: main.cpp:50
+#: main.cpp:43
 #, kde-format
 msgid "Original Author"
 msgstr "Αρχικός συγγραφέας"
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "Matthias Meßmer"
 msgstr "Matthias Meßmer"
 
-#: main.cpp:51
+#: main.cpp:44
 #, kde-format
 msgid "GUI"
 msgstr "Γραφικό περιβάλλον"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Fredrik Edemar"
 msgstr "Fredrik Edemar"
 
-#: main.cpp:52
+#: main.cpp:45
 #, kde-format
 msgid "Various improvements"
 msgstr "Διάφορες βελτιώσεις"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "David Saxton"
 msgstr "David Saxton"
 
-#: main.cpp:53
+#: main.cpp:46
 #, kde-format
 msgid "Porting to Qt 4, UI improvements, features"
 msgstr "Μεταφορά στο Qt 4, Βελτιώσεις UI, διάφορα χαρακτηριστικά"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "David Vignoni"
 msgstr "David Vignoni"
 
-#: main.cpp:55
+#: main.cpp:48
 #, kde-format
 msgid "svg icon"
 msgstr "εικονίδιο svg"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "Albert Astals Cid"
 msgstr "Albert Astals Cid"
 
-#: main.cpp:56
+#: main.cpp:49
 #, kde-format
 msgid "command line options, MIME type"
 msgstr "επιλογές γραμμής εντολών, τύπος MIME"
 
-#: main.cpp:60
+#: main.cpp:54
 #, kde-format
 msgid "Initial functions to plot"
 msgstr "Αρχικές συναρτήσεις προς σχεδίαση"
 
-#: main.cpp:60
+#: main.cpp:54
 #, kde-format
 msgid "argument"
 msgstr "όρισμα"
 
-#: main.cpp:61
+#: main.cpp:55
 #, kde-format
 msgid "URLs to open"
 msgstr "URL δεσμοί προς άνοιγμα"

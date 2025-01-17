@@ -498,9 +498,9 @@ msgstr "عين نطاق  الرسم الأقصى"
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMax)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, cartesianCustomMin)
 #: functioneditorwidget.ui:132 functioneditorwidget.ui:145
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check this button and enter the plot range boundaries below."
-msgstr "اختر هذا الزر ثم ادخل نطاق الرسم  الأدنى"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cartesianCustomMin)
 #: functioneditorwidget.ui:142
@@ -634,9 +634,9 @@ msgstr "عرض التكامل"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, showIntegral)
 #: functioneditorwidget.ui:270
-#, fuzzy, kde-format
+#, kde-format
 msgid "If this box is checked, the integral will be plotted, too."
-msgstr "إذا علم المربع ، سيتم طباعة المشتقة الأولة "
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_6)
 #: functioneditorwidget.ui:283
@@ -664,39 +664,31 @@ msgstr "&y:"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, txtInitX)
 #: functioneditorwidget.ui:318
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enter the initial x-point,for instance 2 or pi"
 msgstr ""
-"إدخال إبتدائي\n"
-"بدائي x نقطة لـ مرة أو pi"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitX)
 #: functioneditorwidget.ui:321
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enter the initial x-value or expression for the integral, for example 2 or "
 "pi/2"
 msgstr ""
-"إدخال إبتدائي\n"
-"بدائي x قيمة أو تعبير لـ مدمج لـ أو pi 2"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, txtInitY)
 #: functioneditorwidget.ui:328
-#, fuzzy, kde-format
+#, kde-format
 msgid "enter the initial y-point, eg 2 or pi"
 msgstr ""
-"أدخل إبتدائي\n"
-"بدائي ن نقطة أو pi"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitY)
 #: functioneditorwidget.ui:331
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enter the initial y-value or expression for the integral, for example 2 or "
 "pi/2"
 msgstr ""
-"إدخال إبتدائي\n"
-"بدائي ن قيمة أو تعبير لـ مدمج لـ أو pi 2"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_8)
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_10)
@@ -748,12 +740,12 @@ msgstr "إدخال وصف"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricX)
 #: functioneditorwidget.ui:439
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enter an expression for the function.\n"
 "The dummy variable is t.\n"
 "Example: cos(t)"
-msgstr "إدخال تعبير لـ الدالة زائف متغير هو t COS t"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelY)
 #: functioneditorwidget.ui:449
@@ -763,12 +755,12 @@ msgstr "y:"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricY)
 #: functioneditorwidget.ui:464
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enter an expression for the function.\n"
 "The dummy variable is t.\n"
 "Example: sin(t)"
-msgstr "إدخال تعبير لـ الدالة زائف متغير هو t SIN t"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_9)
 #: functioneditorwidget.ui:474
@@ -800,11 +792,11 @@ msgstr "ادخل معادلة"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, polarEquation)
 #: functioneditorwidget.ui:575
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enter an expression for the function. \n"
 "Example: loop(a)=ln(a)"
-msgstr "إدخال تعبير لـ الدالة زائف متغير هو t COS t"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_13)
 #: functioneditorwidget.ui:585
@@ -820,14 +812,12 @@ msgstr "اسم الدالة"
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, implicitName)
 #: functioneditorwidget.ui:680
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enter the name of the function.\n"
 "The name of a function must be unique. If you leave this line empty KmPlot "
 "will set a default name. You can change it later."
 msgstr ""
-"إدخال الاسم من الدالة الاسم من a الدالة فريد إذا سطر فارغ المخطط set a "
-"افتراضي الاسم أنت تغيير الإيطالية."
 
 #. i18n: ectx: property (text), widget (KLineEdit, implicitName)
 #: functioneditorwidget.ui:683
@@ -843,19 +833,19 @@ msgstr "الاسم:"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, implicitEquation)
 #: functioneditorwidget.ui:704
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enter an expression for the function.\n"
 "Example: x^2 + y^2 = 25."
-msgstr "إدخال تعبير لـ الدالة زائف متغير هو t x ن."
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, differentialEquation)
 #: functioneditorwidget.ui:755
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enter an expression for the function.\n"
 "Example: f''(x) = -f"
-msgstr "إدخال تعبير لـ الدالة زائف متغير هو t f x f"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (EquationEdit, differentialEquation)
 #: functioneditorwidget.ui:758
@@ -950,21 +940,21 @@ msgid "Constants Editor"
 msgstr "محرر الثوابت"
 
 #: kconstanteditor.cpp:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check this to have the constant exported when saving."
-msgstr "كِش إلى ثابت."
+msgstr ""
 
 #: kconstanteditor.cpp:119
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Check this to have the constant permanently available between instances of "
 "KmPlot."
-msgstr "كِش إلى ثابت متوفّر بين من المخطط."
+msgstr ""
 
 #: kgradientdialog.cpp:339
-#, fuzzy, kde-format
+#, kde-format
 msgid "(Double-click on the gradient to add a stop)"
-msgstr "مزدوج انقر يعمل تدرّج إلى اضف a قف"
+msgstr ""
 
 #: kgradientdialog.cpp:340
 #, kde-format
@@ -983,9 +973,9 @@ msgid "Could not find KmPlot's part."
 msgstr "لم يتم ايجاد  find KmPlot's part."
 
 #: kmplot.cpp:172 maindlg.cpp:522
-#, fuzzy, kde-format
+#, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
-msgstr "المخطط ملفات n الكل ملفات"
+msgstr ""
 
 #: kmplot.cpp:172
 #, kde-format
@@ -1012,9 +1002,9 @@ msgstr "تأكد من إخفاء التسمية"
 
 #. i18n: ectx: whatsthis, entry (ShowLabel), group (Coordinate System)
 #: kmplot.kcfg:18
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check this box if the labels at the tics should be shown."
-msgstr "كِش مربّع IF عند."
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowAxes), group (Coordinate System)
 #: kmplot.kcfg:22
@@ -1067,27 +1057,27 @@ msgstr "اختر نمط شبكة مناسب"
 
 #. i18n: ectx: label, entry (TicLength), group (Coordinate System)
 #: kmplot.kcfg:42
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tic length"
-msgstr "التشنج اللاإرادي الطول"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TicLength), group (Coordinate System)
 #: kmplot.kcfg:43
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enter the length of the tic lines"
-msgstr "إدخال الطول من سطور"
+msgstr ""
 
 #. i18n: ectx: label, entry (TicWidth), group (Coordinate System)
 #: kmplot.kcfg:47
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tic width"
-msgstr "التشنج اللاإرادي العرض"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (TicWidth), group (Coordinate System)
 #: kmplot.kcfg:48
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enter the width of the tic lines."
-msgstr "إدخال العرض من سطور."
+msgstr ""
 
 #. i18n: ectx: label, entry (XMin), group (Coordinate System)
 #: kmplot.kcfg:52
@@ -1177,27 +1167,27 @@ msgstr "اختر  هل تريد استخدام مقاس افتراضي أم مخ
 
 #. i18n: ectx: label, entry (XScaling), group (Scaling)
 #: kmplot.kcfg:95
-#, fuzzy, kde-format
+#, kde-format
 msgid "Width of a unit from tic to tic"
-msgstr "العرض من a وحدة من إلى"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (XScaling), group (Scaling)
 #: kmplot.kcfg:96
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enter the width of a unit from tic to tic."
-msgstr "إدخال العرض من a وحدة من إلى."
+msgstr ""
 
 #. i18n: ectx: label, entry (YScaling), group (Scaling)
 #: kmplot.kcfg:100
-#, fuzzy, kde-format
+#, kde-format
 msgid "Height of a unit from tic to tic"
-msgstr "الارتفاع من a وحدة من إلى"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (YScaling), group (Scaling)
 #: kmplot.kcfg:101
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enter the height of a unit from tic to tic."
-msgstr "إدخال الارتفاع من a وحدة من إلى."
+msgstr ""
 
 #. i18n: ectx: label, entry (AxesFont), group (Fonts)
 #: kmplot.kcfg:108
@@ -1411,21 +1401,21 @@ msgstr "كبرة خطوة"
 
 #. i18n: ectx: whatsthis, entry (zoomInStep), group (General)
 #: kmplot.kcfg:200
-#, fuzzy, kde-format
+#, kde-format
 msgid "The value the zoom-in tool should use"
-msgstr "الـ قيمة كبِّر :: تكبير بوصة أداة استخدام"
+msgstr ""
 
 #. i18n: ectx: label, entry (zoomOutStep), group (General)
 #: kmplot.kcfg:204
-#, fuzzy, kde-format
+#, kde-format
 msgid "Zoom-out step"
-msgstr "تكبير خارج خطوة"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (zoomOutStep), group (General)
 #: kmplot.kcfg:205
-#, fuzzy, kde-format
+#, kde-format
 msgid "The value the zoom-out tool should use"
-msgstr "الـ قيمة كبِّر :: تكبير خارج أداة استخدام"
+msgstr ""
 
 #. i18n: ectx: label, entry (DetailedTracing), group (General)
 #: kmplot.kcfg:209
@@ -1645,11 +1635,11 @@ msgid "Slider %1"
 msgstr "منزلق %1"
 
 #: ksliderwindow.cpp:34
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Move slider to change the parameter of the function plot connected to this "
 "slider."
-msgstr "نقل مزلق إلى تغيير معلمة من الدالة إلى مزلق."
+msgstr ""
 
 #: ksliderwindow.cpp:79
 #, kde-format
@@ -1663,10 +1653,9 @@ msgid "KmPlot"
 msgstr "الراسم"
 
 #: main.cpp:37
-#, fuzzy, kde-format
-#| msgid "Mathematical function plotter for KDE"
+#, kde-format
 msgid "Mathematical function plotter by KDE"
-msgstr "رسام الدوال الرياضية لكِيدِي"
+msgstr ""
 
 #: main.cpp:39
 #, kde-format
@@ -1709,9 +1698,9 @@ msgid "David Saxton"
 msgstr "David Saxton"
 
 #: main.cpp:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "Porting to Qt 4, UI improvements, features"
-msgstr "تحويل للأنظمة إلى Qt UI"
+msgstr ""
 
 #: main.cpp:48
 #, kde-format
@@ -1811,9 +1800,9 @@ msgid "Zoom &Out"
 msgstr "ت&صغير"
 
 #: maindlg.cpp:268
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
-msgstr "ملائمة كائن إلى Trigonometric دالات"
+msgstr ""
 
 #: maindlg.cpp:272
 #, kde-format
@@ -1846,11 +1835,10 @@ msgid "Find Mi&nimum..."
 msgstr "اوجد الأدنى."
 
 #: maindlg.cpp:304
-#, fuzzy, kde-format
-#| msgid "Predefined &Math Functions"
+#, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
-msgstr "دوال معرفة رياضية"
+msgstr ""
 
 #: maindlg.cpp:311
 #, kde-format
@@ -1980,15 +1968,15 @@ msgstr "محرك المعامل"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, warningLabel)
 #: parameteranimator.ui:23
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The function must have an additional variable as a parameter, e.g. f(x,k) "
 "would have k as its parameter"
-msgstr "الـ الدالة متغير a معلمة e g f x k k معلمة"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, warningLabel)
 #: parameteranimator.ui:29
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
 "\">\n"
@@ -2000,14 +1988,6 @@ msgid ""
 "style=\" font-weight:600;\">Warning:</span> The current function does not "
 "have a parameter, and so cannot be animated.</p></body></html>"
 msgstr ""
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\"> أبيض فراغ\n"
-"</style></head><body style=\" font-family:Sans Serif; font-size:9pt; font-"
-"weight:400; font-style:normal; text-decoration:none;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px; font-family:Sans;\"><span "
-"style=\" font-weight:600;\"> تحذير</span> الـ الحالي الدالة ليس a معلمة و "
-"متحركة</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: parameteranimator.ui:47
@@ -2155,11 +2135,11 @@ msgid "Remove all"
 msgstr "إزالة االكل"
 
 #: parser.cpp:618
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The function %1 is depended upon by the following functions: %2. These must "
 "be removed in addition."
-msgstr "الـ الدالة هو أداء متابعة هذه بوصة."
+msgstr ""
 
 #: parser.cpp:1091
 #, kde-format
@@ -2207,19 +2187,19 @@ msgid "Too many plus-minus symbols"
 msgstr "كثير من رموز زائد - ناقص"
 
 #: parser.cpp:1118
-#, fuzzy, kde-format
+#, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
-msgstr "غير صحيح زائد ناقص رمز تعبير ثابت"
+msgstr ""
 
 #: parser.cpp:1121
-#, fuzzy, kde-format
+#, kde-format
 msgid "The function has too many arguments"
-msgstr "الـ الدالة المعاملات"
+msgstr ""
 
 #: parser.cpp:1124
-#, fuzzy, kde-format
+#, kde-format
 msgid "The function does not have the correct number of arguments"
-msgstr "الـ الدالة ليس صح رقم من المعاملات"
+msgstr ""
 
 #: plotstylewidget.cpp:30
 #, kde-format
@@ -2422,10 +2402,9 @@ msgstr "&شبكة:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:84
-#, fuzzy, kde-format
-#| msgid "select color for the axes"
+#, kde-format
 msgid "Select color for the axes."
-msgstr "حدد لّون االمحاور"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:87
@@ -2437,10 +2416,9 @@ msgstr "حدّد لّون المحاور .ستشاهد التغيير بعد ض�
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:97
-#, fuzzy, kde-format
-#| msgid "select color for the grid"
+#, kde-format
 msgid "Select color for the grid."
-msgstr "تحديد لّون الشبكة"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:100
@@ -2458,10 +2436,9 @@ msgstr "لون الدالة الافتراضي"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color1)
 #: settingspagecolor.ui:133
-#, fuzzy, kde-format
-#| msgid "the default color for function number 2"
+#, kde-format
 msgid "The default color for function number 2."
-msgstr "اللون الافتراضي للدالة 2"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color1)
 #: settingspagecolor.ui:136
@@ -2478,10 +2455,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color4)
 #: settingspagecolor.ui:146
-#, fuzzy, kde-format
-#| msgid "the default color for function number 5"
+#, kde-format
 msgid "The default color for function number 5."
-msgstr "defined"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color4)
 #: settingspagecolor.ui:149
@@ -2498,10 +2474,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color0)
 #: settingspagecolor.ui:159
-#, fuzzy, kde-format
-#| msgid "the default color for function number 1"
+#, kde-format
 msgid "The default color for function number 1."
-msgstr "اللون الافتراضي للدالة 1"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color0)
 #: settingspagecolor.ui:162
@@ -2524,10 +2499,9 @@ msgstr "دالة &1:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color2)
 #: settingspagecolor.ui:185
-#, fuzzy, kde-format
-#| msgid "the default color for function number 3"
+#, kde-format
 msgid "The default color for function number 3."
-msgstr "اللون الافتراضي للدالة رقم 3"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color2)
 #: settingspagecolor.ui:188
@@ -2562,10 +2536,9 @@ msgstr "دالة &4:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color3)
 #: settingspagecolor.ui:237
-#, fuzzy, kde-format
-#| msgid "the default color for function number 4"
+#, kde-format
 msgid "The default color for function number 4."
-msgstr "اللون الافتراضي للدالة رقم 4"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color3)
 #: settingspagecolor.ui:240
@@ -2600,10 +2573,9 @@ msgstr "دالة &8:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color8)
 #: settingspagecolor.ui:315
-#, fuzzy, kde-format
-#| msgid "the default color for function number 9"
+#, kde-format
 msgid "The default color for function number 9."
-msgstr "اللون الافتراضي للدالة رقم 9"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color8)
 #: settingspagecolor.ui:318
@@ -2626,10 +2598,9 @@ msgstr "دالة &6:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color6)
 #: settingspagecolor.ui:341
-#, fuzzy, kde-format
-#| msgid "the default color for function number 7"
+#, kde-format
 msgid "The default color for function number 7."
-msgstr "اللون الافتراضي للدالة رقم 7"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color6)
 #: settingspagecolor.ui:344
@@ -2646,10 +2617,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color7)
 #: settingspagecolor.ui:354
-#, fuzzy, kde-format
-#| msgid "the default color for function number 8"
+#, kde-format
 msgid "The default color for function number 8."
-msgstr "اللون الافتراضي للدالة رقم 8"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color7)
 #: settingspagecolor.ui:357
@@ -2666,10 +2636,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color5)
 #: settingspagecolor.ui:367
-#, fuzzy, kde-format
-#| msgid "the default color for function number 6"
+#, kde-format
 msgid "The default color for function number 6."
-msgstr "اللون الافتراضي للدالة رقم 6"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color5)
 #: settingspagecolor.ui:370
@@ -2692,10 +2661,9 @@ msgstr "دالة &9:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color9)
 #: settingspagecolor.ui:393
-#, fuzzy, kde-format
-#| msgid "the default color for function number 10"
+#, kde-format
 msgid "The default color for function number 10."
-msgstr "اللون الافتراضي للدالة رقم 10"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color9)
 #: settingspagecolor.ui:396
@@ -2730,9 +2698,9 @@ msgstr "لا شيء"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton12)
 #: settingspagediagram.ui:42
-#, fuzzy, kde-format
+#, kde-format
 msgid "A line for every tic."
-msgstr "A سطر لـ كل."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton12)
 #: settingspagediagram.ui:45
@@ -2742,21 +2710,21 @@ msgstr "خطوط"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton13)
 #: settingspagediagram.ui:52
-#, fuzzy, kde-format
+#, kde-format
 msgid "Only little crosses in the plot area."
-msgstr "فقط بوصة منطقة."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton13)
 #: settingspagediagram.ui:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Crosses"
-msgstr "الصلبان"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton14)
 #: settingspagediagram.ui:62
-#, fuzzy, kde-format
+#, kde-format
 msgid "Circles around the Origin."
-msgstr "دوائر الأصل."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton14)
 #: settingspagediagram.ui:65
@@ -2820,27 +2788,27 @@ msgstr "&عرض الخطّ:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9)
 #: settingspagediagram.ui:188
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tic width:"
-msgstr "التشنج اللاإرادي العرض:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8_4)
 #: settingspagediagram.ui:220
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tic length:"
-msgstr "التشنج اللاإرادي الطول:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:252
-#, fuzzy, kde-format
+#, kde-format
 msgid "Visible tic labels."
-msgstr "مرئي"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:255
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check this if the axes' tics should be labeled."
-msgstr "كِش IF."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowLabel)
 #: settingspagediagram.ui:258
@@ -2850,10 +2818,9 @@ msgstr "عرض المسميات"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:268
-#, fuzzy, kde-format
-#| msgid "visible axes"
+#, kde-format
 msgid "Visible axes."
-msgstr "إخفاء المحاور"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAxes)
 #: settingspagediagram.ui:271
@@ -2869,10 +2836,9 @@ msgstr "إظهار المحاور"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:284
-#, fuzzy, kde-format
-#| msgid "visible arrows at the end of the axes"
+#, kde-format
 msgid "Visible arrows at the end of the axes."
-msgstr "إخفار الاسهم في نهاية المحاور"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:287
@@ -2912,9 +2878,9 @@ msgstr "وضع الزوايا"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:32
-#, fuzzy, kde-format
+#, kde-format
 msgid "Trigonometric functions use radian mode for angles."
-msgstr "Trigonometric استخدام نمط لـ."
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:35
@@ -2934,17 +2900,17 @@ msgstr "راديان"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton2)
 #: settingspagegeneral.ui:45
-#, fuzzy, kde-format
+#, kde-format
 msgid "Trigonometric functions use degree mode for angles."
-msgstr "Trigonometric استخدام درجة نمط لـ."
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton2)
 #: settingspagegeneral.ui:48
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Check this button to use degree mode to measure angles. This is important "
 "for trigonometric functions only."
-msgstr "كِش زر إلى استخدام درجة نمط إلى قياس هذا هو مهم لـ."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton2)
 #: settingspagegeneral.ui:51
@@ -2972,9 +2938,9 @@ msgstr "صغّر بـ:"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomOutStep)
 #: settingspagegeneral.ui:99
-#, fuzzy, kde-format
+#, kde-format
 msgid "The value the Zoom Out tool should use."
-msgstr "الـ قيمة كبِّر :: تكبير خارج أداة استخدام."
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomOutStep)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomInStep)
@@ -2985,15 +2951,15 @@ msgstr "٪"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomInStep)
 #: settingspagegeneral.ui:118
-#, fuzzy, kde-format
+#, kde-format
 msgid "The value the Zoom In tool should use."
-msgstr "الـ قيمة كبِّر :: تكبير بوصة أداة استخدام."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DetailedTracing)
 #: settingspagegeneral.ui:144
-#, fuzzy, kde-format
+#, kde-format
 msgid "Draw tangent and normal when tracing"
-msgstr "رسم و عادي"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SliderWidget)
 #: sliderwidget.ui:13
@@ -3008,22 +2974,22 @@ msgid "<0>"
 msgstr "<0>"
 
 #: view.cpp:1829
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Extrema point"
 msgid "x = %1   y = %2"
-msgstr "x<sup>y</sup>"
+msgstr ""
 
 #: view.cpp:2124 view.cpp:2125
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "%1=minimum value, %2=maximum value"
 msgid "%1 to %2"
-msgstr "%1 إلى %2"
+msgstr ""
 
 #: view.cpp:2127 view.cpp:2128
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "'E' is the distance between ticks on the axis"
 msgid "1E = "
-msgstr "شر"
+msgstr ""
 
 #: view.cpp:2131
 #, kde-format
@@ -3089,32 +3055,8 @@ msgstr "خطأ في اللاحقة"
 #~ msgid "KmPlotPart"
 #~ msgstr "KmPlotPart"
 
-#, fuzzy
-#~ msgid ""
-#~ "Enter an expression for the function. The prefix \"r\" will be added "
-#~ "automatically.\n"
-#~ "Example: loop(angle)=ln(angle)"
-#~ msgstr ""
-#~ "إدخال تعبير لـ الدالة الـ r ينفذ بتكرار\n"
-#~ "حلقة\n"
-#~ "يكرر زاوية زاوية"
-
 #~ msgid "hide the plot"
 #~ msgstr "إخفاء الرسم"
 
 #~ msgid "Check this box if you want to hide the plot of the function."
 #~ msgstr "علم هذا المربع إذا اردت عدم طباعة الدالة"
-
-#, fuzzy
-#~ msgid "Y-axis Range"
-#~ msgstr "ص محور مدى"
-
-#, fuzzy
-#~ msgid "Y-axis Grid Spacing"
-#~ msgstr "ص محور الشبكة التباعد"
-
-#, fuzzy
-#~ msgid ""
-#~ "*.fkt|KmPlot Files (*.fkt)\n"
-#~ "*.*|All Files"
-#~ msgstr "المخطط ملفات n الكل ملفات"

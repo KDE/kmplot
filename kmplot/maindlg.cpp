@@ -600,16 +600,12 @@ void MainDlg::slotExport()
         QPixmap img(View::self()->size());
         View::self()->draw(&img, View::Pixmap);
 
-        QStringList types = mimeType.suffixes();
-        if (types.isEmpty())
-            return; // TODO error dialog?
-
         if (url.isLocalFile())
-            saveOk = img.save(url.toLocalFile(), types.at(0).toLatin1());
+            saveOk = img.save(url.toLocalFile());
         else {
-            QTemporaryFile tmp;
+            QTemporaryFile tmp("XXXXXX" + url.fileName());
             tmp.open();
-            img.save(tmp.fileName(), types.at(0).toLatin1());
+            img.save(tmp.fileName());
             Q_CONSTEXPR int permission = -1;
             QFile file(tmp.fileName());
             file.open(QIODevice::ReadOnly);

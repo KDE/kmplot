@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-08 00:37+0000\n"
+"POT-Creation-Date: 2025-02-19 00:38+0000\n"
 "PO-Revision-Date: 2011-08-08 20:18+0300\n"
 "Last-Translator: Remigijus Jarmalavičius <remigijus@jarmalavicius.lt>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -2024,25 +2024,25 @@ msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Eksportuoti kaip paveikslėlį"
 
-#: maindlg.cpp:623
+#: maindlg.cpp:619
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Įrašant paveikslą „%1“, kažkas pakrypo ne ta linkme"
 
-#: maindlg.cpp:680
+#: maindlg.cpp:676
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Spausdinti grafiką"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:691
 #, fuzzy, kde-format
 #| msgid "General Settings"
 msgid "Print Settings"
 msgstr "Bendrosios nuostatos"
 
-#: maindlg.cpp:700
+#: maindlg.cpp:696
 #, fuzzy, kde-format
 #| msgid "General Settings"
 msgctxt "@title:window"

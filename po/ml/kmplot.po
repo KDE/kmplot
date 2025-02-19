@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-08 00:37+0000\n"
+"POT-Creation-Date: 2025-02-19 00:38+0000\n"
 "PO-Revision-Date: 2019-12-12 21:39+0000\n"
 "Last-Translator: Vivek KJ Pazhedath <vivekkj2004@gmail.com>\n"
 "Language-Team: Swathanthra Malayalam Computing/സ്വതന്ത്ര മലയാളം കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -1991,25 +1991,25 @@ msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "ചിത്രമായിട്ട് export ചെയ്യുക"
 
-#: maindlg.cpp:623
+#: maindlg.cpp:619
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr ""
 "ക്ഷമിക്കണം, ചിത്രമാക്കി സൂക്ഷിക്കുവാന്‍ ശ്രമിച്ചപ്പോള്‍ എന്തോ പിശക്  സംഭവിച്ചിരിക്കുന്നു\"%1\""
 
-#: maindlg.cpp:680
+#: maindlg.cpp:676
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "പ്ലോട്ട് അച്ചടിക്കുക"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:691
 #, fuzzy, kde-format
 msgid "Print Settings"
 msgstr "&സജ്ജീകരണങ്ങള്‍"
 
-#: maindlg.cpp:700
+#: maindlg.cpp:696
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

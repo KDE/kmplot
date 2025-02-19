@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-08 00:37+0000\n"
+"POT-Creation-Date: 2025-02-19 00:38+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -1941,24 +1941,24 @@ msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "سۈرەت سۈپىتىدە ئېكسپورت قىلىش"
 
-#: maindlg.cpp:623
+#: maindlg.cpp:619
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "كەچۈرۈڭ، سۈرەت «%1» نى ساقلاۋاتقاندا مەسىلە كۆرۈلدى."
 
-#: maindlg.cpp:680
+#: maindlg.cpp:676
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr ""
 
-#: maindlg.cpp:695
+#: maindlg.cpp:691
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Print Settings"
 msgstr "تەڭشەك(&S)"
 
-#: maindlg.cpp:700
+#: maindlg.cpp:696
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgctxt "@title:window"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-08 00:37+0000\n"
+"POT-Creation-Date: 2025-02-19 00:38+0000\n"
 "PO-Revision-Date: 2024-04-08 12:24+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -1987,23 +1987,23 @@ msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Exportar como imagen"
 
-#: maindlg.cpp:623
+#: maindlg.cpp:619
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Disculpe, se produjeron errores al guardar la imagen «%1»"
 
-#: maindlg.cpp:680
+#: maindlg.cpp:676
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Imprimir gráfico"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:691
 #, kde-format
 msgid "Print Settings"
 msgstr "Preferencias de impresión"
 
-#: maindlg.cpp:700
+#: maindlg.cpp:696
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

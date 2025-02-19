@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-08 00:37+0000\n"
+"POT-Creation-Date: 2025-02-19 00:38+0000\n"
 "PO-Revision-Date: 2013-10-18 20:27+0000\n"
 "Last-Translator: Vedran Ljubovic <vljubovic@smartnet.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -2004,25 +2004,25 @@ msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Izvezi kao sliku"
 
-#: maindlg.cpp:623
+#: maindlg.cpp:619
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Žalim, doslo je do greske prilikom snimanja u sliku \"%1\""
 
-#: maindlg.cpp:680
+#: maindlg.cpp:676
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Štampaj crtež"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:691
 #, fuzzy, kde-format
 #| msgid "General Settings"
 msgid "Print Settings"
 msgstr "Opšta podešavanja"
 
-#: maindlg.cpp:700
+#: maindlg.cpp:696
 #, fuzzy, kde-format
 #| msgid "General Settings"
 msgctxt "@title:window"

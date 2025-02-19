@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu/kmplot.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-08 00:37+0000\n"
+"POT-Creation-Date: 2025-02-19 00:38+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -1958,25 +1958,25 @@ msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Easpórtáil mar Íomhá"
 
-#: maindlg.cpp:623
+#: maindlg.cpp:619
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Tá brón orm, tharla earráid agus íomhá á sábháil i \"%1\""
 
-#: maindlg.cpp:680
+#: maindlg.cpp:676
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Priontáil Breacadh"
 
-#: maindlg.cpp:695
+#: maindlg.cpp:691
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Print Settings"
 msgstr "&Socruithe"
 
-#: maindlg.cpp:700
+#: maindlg.cpp:696
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgctxt "@title:window"

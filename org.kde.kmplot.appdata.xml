@@ -30,6 +30,7 @@
   <name xml:lang="it">KmPlot</name>
   <name xml:lang="ka">KmPlot</name>
   <name xml:lang="ko">KmPlot</name>
+  <name xml:lang="lv">KmPlot</name>
   <name xml:lang="nds">KmPlot</name>
   <name xml:lang="nl">KmPlot</name>
   <name xml:lang="nn">KmPlot</name>
@@ -68,6 +69,7 @@
   <summary xml:lang="it">Disegnatore di funzioni matematiche</summary>
   <summary xml:lang="ka">მათემატიკური ფუნქციების დახაზვა</summary>
   <summary xml:lang="ko">수학 함수 플로터</summary>
+  <summary xml:lang="lv">Matemātisko funkciju grafiku veidotājs</summary>
   <summary xml:lang="nds">Mathemaatsch Bagenschriever</summary>
   <summary xml:lang="nl">Wiskundige functieplotter</summary>
   <summary xml:lang="nn">Plotteprogram for matematiske funksjonar</summary>
@@ -105,6 +107,7 @@
     <p xml:lang="it">KmPlot è un programma per disegnare i grafici di funzioni, i loro integrali e le loro derivate. I grafici possono essere colorati e l'area di visualizzazione è estremamente configurabile, può essere scalata e ingrandita. Il programma include un potente analizzatore matematico, diversi tipi di grafici (cartesiani, parametrici, polari, impliciti e differenziali) e fornisce semplici strumenti matematici, ad esempio la ricerca dei punti di massimo e minimo di una funzione. Le funzioni con parametri possono essere mostrate modificando il parametro variabile usando un regolatore. I grafici possono essere esportati come immagini (BMP, PNG) e stampati.</p>
     <p xml:lang="ka">KmPlot პროგრამაა ფუნქციების, მათ ინტეგრალების ან წარმოებულების გრაფიკების დასახაზად. გრაფიკები შეიძლება ფერადიც იყოს, ხედი კი საკმაოდ მორგებადი, მასშტაბირებადი და გადიდებადია. პროგრამას ძლიერი მათემატიკური დამმუშავებელი გააჩნია სხვადასხვა გრაფიკის ტიპებისთვის (კარტეზული, პარამეტრული, პოლარულ, არაპირდაპირი, დიფერენციული) და მოგაწვდით მარტივ მათემატიკურ ხელსაწყოებს, როგორიცაა ფუნქციის მინ/მაქს მნიშვნელობების პოვნა. პარამეტრიზებული ფუნქციების ვიზუალიზაცია ცვლადი პარამეტრის ჩოჩიით მორგებით შეგიძლიათ. გრაფიკები შეგიძლიათ, ბიტური რუკის ფორმატში (BMP, PNG) გაიტანოთ, ან დაბეჭდოთ.</p>
     <p xml:lang="ko">KmPlot은 함수, 도함수, 적분 함수의 그래프를 플롯하는 도구입니다. 그래프에는 색상을 입힐 수 있으며 보기를 자유롭게 설정할 수 있습니다. 보기는 자유롭게 확대/축소가 가능합니다. 프로그램에는 강력한 수식 파서, 다중 좌표계(직교 좌표, 매개 변수 좌표, 극좌표, 음함수, 미분 방정식), 최댓값/최솟값 찾기 등 간단한 수식 도구가 있습니다. 추가 인수가 있는 함수는 인수를 슬라이더로 조정하면서 플롯할 수 있습니다. 함수 플롯은 비트맵 형식 그림(BMP, PNG)으로 내보내거나 인쇄할 수 있습니다.</p>
+    <p xml:lang="lv">„KmPlot“ ir programma, kas paredzēta funkciju, to integrāļu un atvasinājumu grafiku zīmēšanai. Grafikus iespējams krāsot, bet skati ir plaši konfigurējami, mērogojami un tuvināmi/tālināmi. Programma piedāvā jaudīgu matemātisku parseri, dažādus grafiku veidus (Dekarta, parametrisko, polāro, implicīto un diferenciālo), kā arī sniedz vienkāršus matemātiskus rīkus, piemēram, funkcijas maksimālās un minimālās vērtības atrašanai. Parametrizētas funkcijas iespējams vizualizēt, ar slīdni pielāgojot mainīgo parametru. Grafikus ar „KmPlot“ varat eksportēt kā attēlus (BMP, PNG), kā arī varat izdrukāt.</p>
     <p xml:lang="nds">Mit KmPlot laat sik se rutkamen Bagens vun Funkschonen un ehr Intrgralen un Afledden utgeven. De Bagens laat sik infarven un de Ansicht lett sik goot topassen, ok in de Grött. Dat Programm hett en deegt mathemaatsch Inleser, en Reeg verscheden Utgaavtypen (karteesch, parametersch, polaar, inbett, differenschell) un stellt en poor eenfache mathemaatsche Warktüüch praat, so as en Maximum/Minimum-Söker. Bi parametreert Funkschonen lett sik de Parameter mit en Schuver ännern. Utreekt Bagens laat sik as Pixelbiller (BMP, PNG) exporteren un drucken.</p>
     <p xml:lang="nl">KmPlot is een programma voor het plotten van grafieken van functies, hun integralen en afgeleiden. De grafieken kunnen worden gekleurd, en het beeld is in hoge mate te configureren, schaalbaar en er kan in worden gezoomd. Het programma kan heel goed wiskundige formules lezen, kent diverse plottypes (cartesisch, parametrisch, polair, impliciet, differentieel), en heeft enkele eenvoudige wiskundige hulpmiddelen aan boord voor het vinden van de uiterste waarden (minimum en maximum) van een functie. Parametrische functies kunnen worden bekeken door de variabele parameter te wijzigen met behulp van een schuifbalk. Plots kunnen worden geëxporteerd als bitmaps (BMP, PNG), en kunnen worden afgedrukt.</p>
     <p xml:lang="nn">KmPlot er eit program for plotting av matematiske funksjonar samt den deriverte og integrerte av funksjonane. Grafane kan fargeleggjast, og oppteikninga kan tilpassast på mange måtar, med skalering og forstørring/forminsking. Programmet forstår kompliserte matematiske uttrykk, støttar forskjellige typar plott (kartesiske, parametriske, polare, implisitte, differensial­baserte) og har enkle matematiske verktøy for å finna maksimum og minimum til funksjonar. Parametriserte funksjonar kan visualisert ved å justera parametrar via ein glidebrytar. Plott kan eksporterast som punkt­grafikk (BMP, PNG) og skrivast ut.</p>
@@ -147,6 +150,7 @@
       <caption xml:lang="it">Funzione quadratica, la sua derivata e la sua integrata disegnati on KmPlot</caption>
       <caption xml:lang="ka">კვადრატული ფუნქცია, მისი ნაწარმოებები და ინტეგრალი, დახატული KmPlot-ის მიერ</caption>
       <caption xml:lang="ko">KmPlot으로 플롯한 함수, 도함수, 적분</caption>
+      <caption xml:lang="lv">Kvadrātiskā funkcija, tās atvasinājums un integrālis programmā „KmPlot“</caption>
       <caption xml:lang="nl">Kwadratische functie, zijn afgeleide en integraal geplot met KmPlot</caption>
       <caption xml:lang="nn">KmPlot-plott som viser ein kvadratisk funksjon og den deriverte og integralet av funksjonen</caption>
       <caption xml:lang="pl">Funkcja kwadratowa, jej różniczka i całka narysowane w KmPlot</caption>

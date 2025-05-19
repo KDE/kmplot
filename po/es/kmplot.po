@@ -1,19 +1,19 @@
-# translation of kmplot.po to Spanish
-# translation of kmplot.po to
-# Copyright (C) 2002,2003, 2004, 2005, 2007 Free Software Foundation, Inc.
+# Spanish translations for kmplot.po package.
+# Copyright (C) 2002-2025 This file is copyright:
+# This file is distributed under the same license as the kmplot package.
 #
-# Miguel Revilla Rodríguez <yo@miguelrevilla.com>, 2002,2003.
-# Pablo de Vicente <p.devicente@wanadoo.es>, 2004.
-# Rafael Beccar <rafael.beccar@kdemail.net>, 2004, 2005.
-# SPDX-FileCopyrightText: 2005, 2009, 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2024 Eloy Cuadra <ecuadra@eloihr.net>
-# Pablo de Vicente <pablo.devicente@gmail.com>, 2005.
-# Santiago Fernández Sancho <santi@kde-es.org>, 2007.
+# SPDX-FileCopyrightText: 2002, 2003 Miguel Revilla Rodríguez <yo@miguelrevilla.com>
+# SPDX-FileCopyrightText: 2004 Pablo de Vicente <p.devicente@wanadoo.es>
+# SPDX-FileCopyrightText: 2004, 2005 Rafael Beccar <rafael.beccar@kdemail.net>
+# SPDX-FileCopyrightText: 2005, 2009, 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2024, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2005 Pablo de Vicente <pablo.devicente@gmail.com>
+# SPDX-FileCopyrightText: 2007 Santiago Fernández Sancho <santi@kde-es.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-19 00:38+0000\n"
-"PO-Revision-Date: 2024-04-08 12:24+0200\n"
+"PO-Revision-Date: 2025-05-18 13:03+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -272,19 +272,19 @@ msgstr "Expresión:"
 #: equationeditorwidget.ui:54
 #, kde-format
 msgid "Edit Constants..."
-msgstr "Editar constantes..."
+msgstr "Editar constantes…"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, constantList)
 #: equationeditorwidget.ui:75
 #, kde-format
 msgid "Insert constant..."
-msgstr "Insertar constante..."
+msgstr "Insertar constante…"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, functionList)
 #: equationeditorwidget.ui:84
 #, kde-format
 msgid "Insert function..."
-msgstr "Insertar función..."
+msgstr "Insertar función…"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_3)
 #: equationeditorwidget.ui:129
@@ -965,7 +965,7 @@ msgstr "Eliminar"
 #: initialconditionswidget.ui:56
 #, kde-format
 msgid "Add..."
-msgstr "Añadir..."
+msgstr "Añadir…"
 
 #: kconstanteditor.cpp:54
 #, kde-format
@@ -1818,22 +1818,22 @@ msgstr "Tipo de letra"
 #: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
-msgstr "Configurar KmPlot..."
+msgstr "Configurar KmPlot…"
 
 #: maindlg.cpp:229
 #, kde-format
 msgid "E&xport..."
-msgstr "E&xportar..."
+msgstr "E&xportar…"
 
 #: maindlg.cpp:242
 #, kde-format
 msgid "&Coordinate System..."
-msgstr "&Sistema de coordenadas..."
+msgstr "&Sistema de coordenadas…"
 
 #: maindlg.cpp:247
 #, kde-format
 msgid "&Constants..."
-msgstr "&Constantes..."
+msgstr "&Constantes…"
 
 #: maindlg.cpp:256
 #, kde-format
@@ -1868,17 +1868,17 @@ msgstr "Calculadora"
 #: maindlg.cpp:288
 #, kde-format
 msgid "Plot &Area..."
-msgstr "Áre&a del gráfico..."
+msgstr "Áre&a del gráfico…"
 
 #: maindlg.cpp:292
 #, kde-format
 msgid "Find Ma&ximum..."
-msgstr "Encontrar má&ximo..."
+msgstr "Encontrar má&ximo…"
 
 #: maindlg.cpp:297
 #, kde-format
 msgid "Find Mi&nimum..."
-msgstr "Encontrar mí&nimo..."
+msgstr "Encontrar mí&nimo…"
 
 #: maindlg.cpp:304
 #, kde-format
@@ -1924,7 +1924,7 @@ msgstr "Elimina&r"
 #: maindlg.cpp:363
 #, kde-format
 msgid "Animate Plot..."
-msgstr "Animar gráfico..."
+msgstr "Animar gráfico…"
 
 #: maindlg.cpp:374
 #, kde-format
@@ -2171,7 +2171,7 @@ msgstr ""
 #: parameterswidget.ui:60
 #, kde-format
 msgid "Edit List..."
-msgstr "Editar lista..."
+msgstr "Editar lista…"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, listOfSliders)
 #: parameterswidget.ui:70
@@ -2292,7 +2292,7 @@ msgstr "Raya punto punto"
 #: plotstylewidget.cpp:44
 #, kde-format
 msgid "Advanced..."
-msgstr "Avanzada..."
+msgstr "Avanzada…"
 
 #: plotstylewidget.cpp:48
 #, kde-format
@@ -2402,7 +2402,7 @@ msgstr ""
 #: qparametereditor.ui:123
 #, kde-format
 msgid "&Import..."
-msgstr "&Importar..."
+msgstr "&Importar…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdExport)
 #: qparametereditor.ui:133
@@ -2424,7 +2424,7 @@ msgstr ""
 #: qparametereditor.ui:139
 #, kde-format
 msgid "&Export..."
-msgstr "&Exportar..."
+msgstr "&Exportar…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: settingspagecolor.ui:23
@@ -3128,21 +3128,3 @@ msgstr "raíz: x%1 = "
 #, kde-format
 msgid "Error in extension."
 msgstr "Error en la extensión."
-
-#~ msgid "Background Color:"
-#~ msgstr "Color de fondo:"
-
-#~ msgid "root"
-#~ msgstr "raíz"
-
-#~ msgid "  to  "
-#~ msgstr "  a  "
-
-#~ msgid "Sorry, this file format is not supported."
-#~ msgstr "Este formato de archivo no está soportado."
-
-#~ msgid "&Overwrite"
-#~ msgstr "&Sobrescribir"
-
-#~ msgid "KmPlotPart"
-#~ msgstr "KmPlotPart"

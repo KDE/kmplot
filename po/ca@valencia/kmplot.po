@@ -86,7 +86,7 @@ msgstr "Afig una nova constant"
 #: constantseditor.ui:86 qparametereditor.ui:42
 #, kde-format
 msgid "Click this button to add a new constant."
-msgstr "Feu clic en este botó per a afegir una constant nova."
+msgstr "Cliqueu damunt d'este botó per a afegir una constant nova."
 
 #. i18n: ectx: property (text), widget (QPushButton, cmdNew)
 #: constantseditor.ui:89 qparametereditor.ui:45
@@ -131,8 +131,8 @@ msgid ""
 "Click here to delete the selected constant; it can only be removed if it is "
 "not currently used by a plot."
 msgstr ""
-"Feu clic ací per a suprimir la constant seleccionada. Només pot ser "
-"eliminada si no l'utilitza cap gràfic."
+"Cliqueu ací per a suprimir la constant seleccionada. Només pot ser eliminada "
+"si no l'utilitza cap gràfic."
 
 #. i18n: ectx: property (text), widget (QPushButton, cmdDelete)
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
@@ -474,7 +474,7 @@ msgstr "suprimix la funció seleccionada"
 #: functioneditorwidget.ui:53
 #, kde-format
 msgid "Click here to delete the selected function from the list."
-msgstr "Feu clic ací per a suprimir la funció seleccionada de la llista."
+msgstr "Cliqueu ací per a suprimir la funció seleccionada de la llista."
 
 #. i18n: ectx: property (text), widget (QPushButton, createNewPlot)
 #: functioneditorwidget.ui:76
@@ -987,7 +987,7 @@ msgstr ""
 #: kgradientdialog.cpp:339
 #, kde-format
 msgid "(Double-click on the gradient to add a stop)"
-msgstr "(Feu doble clic en el gradient per a afegir una parada)"
+msgstr "(Feu doble clic damunt del gradient per a afegir una parada)"
 
 #: kgradientdialog.cpp:340
 #, kde-format
@@ -998,7 +998,7 @@ msgstr "Elimina una parada"
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose a Gradient"
-msgstr "Escolliu un gradient"
+msgstr "Trieu un gradient"
 
 #: kmplot.cpp:73
 #, kde-format
@@ -1088,7 +1088,7 @@ msgstr "Estil de la quadrícula"
 #: kmplot.kcfg:38
 #, kde-format
 msgid "Choose a suitable grid style."
-msgstr "Escolliu un estil de quadrícula apropiat."
+msgstr "Trieu un estil de quadrícula apropiat."
 
 #. i18n: ectx: label, entry (TicLength), group (Coordinate System)
 #: kmplot.kcfg:42
@@ -1234,7 +1234,7 @@ msgstr "Lletra de les etiquetes dels eixos"
 #: kmplot.kcfg:109
 #, kde-format
 msgid "Choose a font for the axis labels."
-msgstr "Escolliu una lletra per a les etiquetes dels eixos."
+msgstr "Trieu una lletra per a les etiquetes dels eixos."
 
 #. i18n: ectx: label, entry (HeaderTableFont), group (Fonts)
 #: kmplot.kcfg:113
@@ -1247,7 +1247,7 @@ msgstr "Lletra de la taula de la capçalera impresa"
 #, kde-format
 msgid "Choose a font for the table printed at the top of the page."
 msgstr ""
-"Escolliu una lletra per a la taula impresa a la part superior de la pàgina."
+"Trieu una lletra per a la taula impresa a la part superior de la pàgina."
 
 #. i18n: ectx: label, entry (LabelFont), group (Fonts)
 #: kmplot.kcfg:118
@@ -1259,7 +1259,7 @@ msgstr "Lletra de les etiquetes del diagrama"
 #: kmplot.kcfg:119
 #, kde-format
 msgid "Choose a font for diagram labels."
-msgstr "Escolliu una lletra per a les etiquetes del diagrama."
+msgstr "Trieu una lletra per a les etiquetes del diagrama."
 
 #. i18n: ectx: label, entry (AxesColor), group (Colors)
 #: kmplot.kcfg:126
@@ -1283,7 +1283,7 @@ msgstr "Color de la quadrícula"
 #: kmplot.kcfg:132
 #, kde-format
 msgid "Choose a color for the grid lines."
-msgstr "Escolliu un color per a les línies de la quadrícula."
+msgstr "Trieu un color per a les línies de la quadrícula."
 
 #. i18n: ectx: label, entry (Color0), group (Colors)
 #: kmplot.kcfg:136
@@ -1295,7 +1295,7 @@ msgstr "Color de la funció 1"
 #: kmplot.kcfg:137
 #, kde-format
 msgid "Choose a color for function 1."
-msgstr "Escolliu un color per a la funció 1."
+msgstr "Trieu un color per a la funció 1."
 
 #. i18n: ectx: label, entry (Color1), group (Colors)
 #: kmplot.kcfg:141
@@ -1307,7 +1307,7 @@ msgstr "Color de la funció 2"
 #: kmplot.kcfg:142
 #, kde-format
 msgid "Choose a color for function 2."
-msgstr "Escolliu un color per a la funció 2."
+msgstr "Trieu un color per a la funció 2."
 
 #. i18n: ectx: label, entry (Color2), group (Colors)
 #: kmplot.kcfg:146
@@ -1319,7 +1319,7 @@ msgstr "Color de la funció 3"
 #: kmplot.kcfg:147
 #, kde-format
 msgid "Choose a color for function 3."
-msgstr "Escolliu un color per a la funció 3."
+msgstr "Trieu un color per a la funció 3."
 
 #. i18n: ectx: label, entry (Color3), group (Colors)
 #: kmplot.kcfg:151
@@ -1331,7 +1331,7 @@ msgstr "Color de la funció 4"
 #: kmplot.kcfg:152
 #, kde-format
 msgid "Choose a color for function 4."
-msgstr "Escolliu un color per a la funció 4."
+msgstr "Trieu un color per a la funció 4."
 
 #. i18n: ectx: label, entry (Color4), group (Colors)
 #: kmplot.kcfg:156
@@ -1343,7 +1343,7 @@ msgstr "Color de la funció 5"
 #: kmplot.kcfg:157
 #, kde-format
 msgid "Choose a color for function 5."
-msgstr "Escolliu un color per a la funció 5."
+msgstr "Trieu un color per a la funció 5."
 
 #. i18n: ectx: label, entry (Color5), group (Colors)
 #: kmplot.kcfg:161
@@ -1355,7 +1355,7 @@ msgstr "Color de la funció 6"
 #: kmplot.kcfg:162
 #, kde-format
 msgid "Choose a color for function 6."
-msgstr "Escolliu un color per a la funció 6."
+msgstr "Trieu un color per a la funció 6."
 
 #. i18n: ectx: label, entry (Color6), group (Colors)
 #: kmplot.kcfg:166
@@ -1367,7 +1367,7 @@ msgstr "Color de la funció 7"
 #: kmplot.kcfg:167
 #, kde-format
 msgid "Choose a color for function 7."
-msgstr "Escolliu un color per a la funció 7."
+msgstr "Trieu un color per a la funció 7."
 
 #. i18n: ectx: label, entry (Color7), group (Colors)
 #: kmplot.kcfg:171
@@ -1379,7 +1379,7 @@ msgstr "Color de la funció 8"
 #: kmplot.kcfg:172
 #, kde-format
 msgid "Choose a color for function 8."
-msgstr "Escolliu un color per a la funció 8."
+msgstr "Trieu un color per a la funció 8."
 
 #. i18n: ectx: label, entry (Color8), group (Colors)
 #: kmplot.kcfg:176
@@ -1391,7 +1391,7 @@ msgstr "Color de la funció 9"
 #: kmplot.kcfg:177
 #, kde-format
 msgid "Choose a color for function 9."
-msgstr "Escolliu un color per a la funció 9."
+msgstr "Trieu un color per a la funció 9."
 
 #. i18n: ectx: label, entry (Color9), group (Colors)
 #: kmplot.kcfg:181
@@ -1403,7 +1403,7 @@ msgstr "Color de la funció 10"
 #: kmplot.kcfg:182
 #, kde-format
 msgid "Choose a color for function 10."
-msgstr "Escolliu un color per a la funció 10."
+msgstr "Trieu un color per a la funció 10."
 
 #. i18n: ectx: label, entry (anglemode), group (General)
 #: kmplot.kcfg:189
@@ -2163,7 +2163,7 @@ msgid ""
 "Click here to open a list of parameter values. Here you can add, remove, and "
 "change them."
 msgstr ""
-"Feu clic ací per a obrir una llista de valors de paràmetre. Ací els podeu "
+"Cliqueu ací per a obrir una llista de valors de paràmetre. Ací els podeu "
 "afegir, eliminar i canviar."
 
 #. i18n: ectx: property (text), widget (QPushButton, editParameterListButton)
@@ -2176,7 +2176,7 @@ msgstr "Edita la llista…"
 #: parameterswidget.ui:70
 #, kde-format
 msgid "Select a slider"
-msgstr "Escolliu un control lliscant"
+msgstr "Trieu un control lliscant"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, listOfSliders)
 #: parameterswidget.ui:73
@@ -2185,7 +2185,7 @@ msgid ""
 "Select one of the sliders to change the parameter value dynamically. The "
 "values vary from 0 (left) to 100 (right)."
 msgstr ""
-"Escolliu un dels controls lliscants per a canviar dinàmicament el valor del "
+"Trieu un dels controls lliscants per a canviar dinàmicament el valor del "
 "paràmetre. Els valors varien de 0 (esquerra) fins a 100 (dreta)."
 
 #: parser.cpp:614
@@ -2449,7 +2449,7 @@ msgid ""
 "Click on the button the choose the color of the background. This option has "
 "no effect on printing nor export."
 msgstr ""
-"Feu clic damunt del botó per a escollir el color del fons. Esta opció no té "
+"Cliqueu damunt del botó per a escollir el color del fons. Esta opció no té "
 "efecte ni en la impressió ni en l'exportació."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -2468,7 +2468,7 @@ msgstr "&Quadrícula:"
 #: settingspagecolor.ui:84
 #, kde-format
 msgid "Select color for the axes."
-msgstr "Escolliu el color per als eixos."
+msgstr "Trieu el color per als eixos."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:87
@@ -2484,7 +2484,7 @@ msgstr ""
 #: settingspagecolor.ui:97
 #, kde-format
 msgid "Select color for the grid."
-msgstr "Escolliu el color per a la quadrícula."
+msgstr "Trieu el color per a la quadrícula."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:100

@@ -85,6 +85,20 @@
 ><contrib
 >Traductor</contrib
 ></othercredit
+><othercredit role="translator"
+><firstname
+>Eloy</firstname
+> <surname
+>Cuadra</surname
+><affiliation
+> <address
+><email
+>ecuadra@eloihr.net</email
+></address
+></affiliation
+><contrib
+>Traductor</contrib
+></othercredit
 > 
 </authorgroup>
 
@@ -480,7 +494,7 @@ format="PNG"/></imageobject
 		<para
 >&kmplot; puede dibujar ecuaciones diferenciales. Estas son ecuaciones de la forma y<superscript
 >(n)</superscript
-> = F(x,y',y'',...,y<superscript
+> = F(x,y',y'',…,y<superscript
 >(n&minus;1)</superscript
 >), donde y<superscript
 >k</superscript
@@ -536,7 +550,7 @@ format="PNG"/></imageobject
 >. Puede cambiar el ancho de la línea, su color y varios elementos más pulsando los botones <guibutton
 >Color:</guibutton
 > y <guibutton
->Avanzado...</guibutton
+>Avanzado…</guibutton
 > que hay en la parte inferior de la sección <guilabel
 >Aspecto</guilabel
 >. </para>
@@ -614,7 +628,7 @@ format="PNG"/></imageobject
 			<term
 ><menuchoice
 ><guimenuitem
->Animar gráfico...</guimenuitem>
+>Animar gráfico…</guimenuitem>
 				</menuchoice
 ></term>
 			<listitem>
@@ -678,7 +692,7 @@ format="PNG"/></imageobject
 			<term
 ><menuchoice
 ><guimenuitem
->Área del gráfico...</guimenuitem>
+>Área del gráfico…</guimenuitem>
 				</menuchoice
 ></term>
 			<listitem>
@@ -691,7 +705,7 @@ format="PNG"/></imageobject
 			<term
 ><menuchoice
 ><guimenuitem
->Encontrar mínimo...</guimenuitem>
+>Encontrar mínimo…</guimenuitem>
 				</menuchoice
 ></term>
 			<listitem>
@@ -703,7 +717,7 @@ format="PNG"/></imageobject
 >, al que acceder en la barra lateral <guilabel
 >Funciones</guilabel
 >, pulsando en <guibutton
->Avanzado...</guibutton
+>Avanzado…</guibutton
 >. </para>
 			</listitem>
 		</varlistentry>
@@ -712,13 +726,13 @@ format="PNG"/></imageobject
 			<term
 ><menuchoice
 ><guimenuitem
->Encontrar máximo...</guimenuitem>
+>Encontrar máximo…</guimenuitem>
 				</menuchoice
 ></term>
 			<listitem>
 				<para
 >Actúa de la misma forma que <guimenuitem
->Encontrar mínimo...</guimenuitem
+>Encontrar mínimo…</guimenuitem
 >, pero busca el valor máximo en lugar del mínimo.</para>
 			</listitem>
 		</varlistentry>
@@ -736,14 +750,14 @@ format="PNG"/></imageobject
 ><guimenu
 >Preferencias</guimenu
 ><guimenuitem
->Configurar &kmplot;...</guimenuitem
+>Configurar &kmplot;…</guimenuitem
 ></menuchoice
 >. Las preferencias para <guimenuitem
->Constantes...</guimenuitem
+>Constantes…</guimenuitem
 > solo se pueden cambiar desde el menú <guimenu
 >Editar</guimenu
 >, y el <guimenuitem
->Sistema de coordenadas...</guimenuitem
+>Sistema de coordenadas…</guimenuitem
 > desde del menú <guimenu
 >Ver</guimenu
 >.</para>
@@ -1342,7 +1356,7 @@ format="PNG"/></imageobject
 >1</subscript
 >,x<subscript
 >2</subscript
->,...,x<subscript
+>,…,x<subscript
 >n</subscript
 >)</term>
 				<listitem
@@ -1351,7 +1365,7 @@ format="PNG"/></imageobject
 >1</subscript
 >,x<subscript
 >2</subscript
->,...,x<subscript
+>,…,x<subscript
 >n</subscript
 >}.</para
 ></listitem>
@@ -1363,7 +1377,7 @@ format="PNG"/></imageobject
 >1</subscript
 >,x<subscript
 >2</subscript
->,...,x<subscript
+>,…,x<subscript
 >n</subscript
 >)</term>
 				<listitem
@@ -1372,7 +1386,7 @@ format="PNG"/></imageobject
 >1</subscript
 >,x<subscript
 >2</subscript
->,...,x<subscript
+>,…,x<subscript
 >n</subscript
 >}.</para
 ></listitem>
@@ -1384,7 +1398,7 @@ format="PNG"/></imageobject
 >1</subscript
 >,x<subscript
 >2</subscript
->,...,x<subscript
+>,…,x<subscript
 >n</subscript
 >)</term>
 				<listitem
@@ -1393,7 +1407,7 @@ format="PNG"/></imageobject
 >1</subscript
 >,x<subscript
 >2</subscript
->,...,x<subscript
+>,…,x<subscript
 >n</subscript
 >}.</para
 ></listitem>
@@ -1416,7 +1430,7 @@ format="PNG"/></imageobject
 >&pgr;</term>
 				<listitem>
 					<para
->Constantes que representan &pgr; (3.14159...).</para>
+>Constantes que representan &pgr; (3.14159…).</para>
 				</listitem>
 			</varlistentry>
 
@@ -1425,7 +1439,7 @@ format="PNG"/></imageobject
 >e</term>
 				<listitem>
 					<para
->Constante que representa el número de Euler e (2.71828...).</para>
+>Constante que representa el número de Euler e (2.71828…).</para>
 				</listitem>
 			</varlistentry>
 
@@ -1482,7 +1496,7 @@ format="PNG"/></imageobject
 			</varlistentry>
 			<varlistentry>
 				<term
->P[a{,b...}]</term>
+>P[a{,b…}]</term>
 				<listitem>
 					<para
 >Indica el conjunto de valores de un grupo de parámetros para los que la función debería mostrarse. Por ejemplo: <userinput
@@ -1648,7 +1662,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Ver</guimenu
 ><guimenuitem
->Sistema de coordenadas...</guimenuitem
+>Sistema de coordenadas…</guimenuitem
 ></menuchoice
 > en la barra de menú.</para>
 	<screenshot>
@@ -1743,7 +1757,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Editar</guimenu
 ><guimenuitem
->Constantes...</guimenuitem
+>Constantes…</guimenuitem
 ></menuchoice
 > en la barra de menú.</para>
 
@@ -1825,7 +1839,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Archivo</guimenu
 > <guimenuitem
->Exportar...</guimenuitem
+>Exportar…</guimenuitem
 ></menuchoice
 ></term>
 			<listitem
@@ -1841,7 +1855,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Archivo</guimenu
 > <guimenuitem
->Imprimir...</guimenuitem
+>Imprimir…</guimenuitem
 > </menuchoice>
 			</term>
 			<listitem>
@@ -1861,7 +1875,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Archivo</guimenu
 > <guimenuitem
->Vista previa de la impresión...</guimenuitem
+>Vista previa de la impresión…</guimenuitem
 > </menuchoice>
 			</term>
 			<listitem>
@@ -1884,7 +1898,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Editar</guimenu
 ><guimenuitem
->Constantes...</guimenuitem
+>Constantes…</guimenuitem
 > </menuchoice
 ></term>
 			<listitem
@@ -1988,7 +2002,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Ver</guimenu
 ><guimenuitem
->Sistema de coordenadas...</guimenuitem
+>Sistema de coordenadas…</guimenuitem
 > </menuchoice
 ></term>
 			<listitem
@@ -2059,7 +2073,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Herramientas</guimenu
 > <guimenuitem
->Área del gráfico...</guimenuitem
+>Área del gráfico…</guimenuitem
 > </menuchoice
 ></term>
 			<listitem>
@@ -2074,7 +2088,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Herramientas</guimenu
 > <guimenuitem
->Encontrar mínimo...</guimenuitem
+>Encontrar mínimo…</guimenuitem
 > </menuchoice
 ></term>
 			<listitem>
@@ -2089,7 +2103,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Herramientas</guimenu
 > <guimenuitem
->Encontrar máximo...</guimenuitem
+>Encontrar máximo…</guimenuitem
 > </menuchoice
 ></term>
 			<listitem>
@@ -2117,7 +2131,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Ayuda</guimenu
 > <guimenuitem
->Funciones matemáticas predefinidas...</guimenuitem
+>Funciones matemáticas predefinidas…</guimenuitem
 > </menuchoice
 ></term>
 			<listitem>
@@ -2212,7 +2226,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Archivo</guimenu
 ><guimenuitem
->Guardar como...</guimenuitem
+>Guardar como…</guimenuitem
 ></menuchoice
 > en el menú.</para>
 			</listitem>
@@ -2272,7 +2286,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Herramientas</guimenu
 ><guimenuitem
->Valor mínimo...</guimenuitem
+>Valor mínimo…</guimenuitem
 ></menuchoice
 > en el menú.</para>
 			</listitem>
@@ -2286,7 +2300,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Herramientas</guimenu
 ><guimenuitem
->Valor máximo...</guimenuitem
+>Valor máximo…</guimenuitem
 ></menuchoice
 > en el menú.</para>
 			</listitem>
@@ -2300,7 +2314,7 @@ format="PNG"/></imageobject
 ><guimenu
 >Herramientas</guimenu
 > <guimenuitem
->Área del gráfico...</guimenuitem
+>Área del gráfico…</guimenuitem
 ></menuchoice
 > en el menú.</para>
 			</listitem>
@@ -2769,7 +2783,15 @@ format="PNG"/></imageobject
 >david@bluehaze.org</email
 >.</para>
 <para
->Traducido por Eloy Cuadra <email
+>Traducido por Miguel Revilla Rodríguez <email
+>yo@miguelrevilla.com</email
+>, Juan Manuel García Molina <email
+>juanma@superiodico.net</email
+>, Rafael Beccar <email
+>rafael.beccar@kdemail.net</email
+>, Santiago Fernández Sancho <email
+>santi@kde-es.org</email
+> y Eloy Cuadra <email
 >ecuadra@eloihr.net</email
 >.</para
 > &underFDL; &underGPL; </chapter>

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-19 00:38+0000\n"
-"PO-Revision-Date: 2025-08-04 18:30+0400\n"
+"PO-Revision-Date: 2025-08-09 20:02+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -82,7 +82,7 @@ msgstr "اضف ثابت جديد"
 #: constantseditor.ui:86 qparametereditor.ui:42
 #, kde-format
 msgid "Click this button to add a new constant."
-msgstr "إضغط على هذا الزر لإضافة ثابت جديد"
+msgstr "اضغط على هذا الزر لإضافة ثابت جديد"
 
 #. i18n: ectx: property (text), widget (QPushButton, cmdNew)
 #: constantseditor.ui:89 qparametereditor.ui:45
@@ -127,7 +127,7 @@ msgid ""
 "Click here to delete the selected constant; it can only be removed if it is "
 "not currently used by a plot."
 msgstr ""
-"انقر هنا لحذف الثابت المحدد ، يمكن حذفه فقط إذا لم يكن مستخدماً من قبل آخرين"
+"انقر هنا لحذف الثابت المحدد، يمكن حذفه فقط إذا لم يكن مستخدماً من قبل آخرين"
 
 #. i18n: ectx: property (text), widget (QPushButton, cmdDelete)
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
@@ -161,7 +161,7 @@ msgstr "قيمة الحد الأدنى يجب أن تكون أقل من قيمة
 #: editcoords.ui:20
 #, kde-format
 msgid "Horizontal axis Range"
-msgstr "حدود المحور الافقي"
+msgstr "حدود المحور الأفقي"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4_2)
 #. i18n: ectx: property (text), widget (QLabel, textLabel4_3)
@@ -217,7 +217,7 @@ msgstr "حدود المحور الرأسي"
 #: editcoords.ui:142
 #, kde-format
 msgid "Horizontal axis Grid Spacing"
-msgstr "المسافة بين خطوط الشبكة الافقية"
+msgstr "المسافة بين خطوط الشبكة الأفقية"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, radioButton_3)
@@ -226,8 +226,7 @@ msgstr "المسافة بين خطوط الشبكة الافقية"
 msgid ""
 "Automatic grid spacing is independent of zoom; there will be a fixed number "
 "of tics."
-msgstr ""
-"آليّاً غير المسافة بين خطوط الشبكة عند التكبير ، سيكون رقم المتغير ثابت ."
+msgstr "آليّاً غير المسافة بين خطوط الشبكة عند التكبير، سيكون رقم المتغير ثابت ."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
@@ -247,7 +246,7 @@ msgstr "مخصص:"
 #: editcoords.ui:178
 #, kde-format
 msgid "Vertical axis Grid Spacing"
-msgstr "تباعد خطوطالشبكة رأسياً"
+msgstr "تباعد خطوط الشبكة رأسياً"
 
 #: equationeditor.cpp:27
 #, kde-format
@@ -506,7 +505,7 @@ msgstr ""
 #: functioneditorwidget.ui:142
 #, kde-format
 msgid "Customize the minimum plot range"
-msgstr "خصص نطاق الرسم  الاصغر"
+msgstr "خصص نطاق الرسم  الأصغر"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, cartesianMin)
 #: functioneditorwidget.ui:158
@@ -524,7 +523,7 @@ msgstr "نطاق الرسم السفلي"
 msgid ""
 "Enter the lower boundary of the plot range. Expressions like 2*pi are "
 "allowed, too."
-msgstr "إدخال نطاق الرسم الأدنى ، الوصف مثل 2*pi  مقبولة أيضاَ."
+msgstr "إدخال نطاق الرسم الأدنى، الوصف مثل 2*pi  مقبولة أيضاَ."
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, cartesianMax)
 #: functioneditorwidget.ui:171
@@ -542,7 +541,7 @@ msgstr "حدود  نطاق الرسم  العلوي"
 msgid ""
 "Enter the upper boundary of the plot range. Expressions like 2*pi are "
 "allowed, too."
-msgstr "إدخال نطاق الرسم الأعلى ، الوصف مثل 2*pi  مقبولة أيضاَ."
+msgstr "إدخال نطاق الرسم الأعلى، الوصف مثل 2*pi  مقبولة أيضاَ."
 
 #. i18n: ectx: property (title), widget (ParametersWidget, cartesianParameters)
 #. i18n: ectx: property (title), widget (ParametersWidget, parametricParameters)
@@ -587,7 +586,7 @@ msgstr "اعرض المشتقة الأولى"
 #: functioneditorwidget.ui:214 functioneditorwidget.ui:237
 #, kde-format
 msgid "If this box is checked, the first derivative will be plotted, too."
-msgstr "إذا علم المربع ، سيتم طباعة المشتقة الأولة "
+msgstr "إذا حددت المربع، ستطبع المشتقة الأولى كذلك."
 
 #. i18n: ectx: property (text), widget (QCheckBox, showDerivative1)
 #: functioneditorwidget.ui:217
@@ -599,7 +598,7 @@ msgstr "عرض المشتقة الأولى"
 #: functioneditorwidget.ui:227
 #, kde-format
 msgid "1st derivative"
-msgstr "المشتقة الاولى"
+msgstr "المشتقة الأولي"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, showDerivative2)
 #: functioneditorwidget.ui:234
@@ -648,7 +647,7 @@ msgstr "نقطة على لمنحنى الحل"
 #: functioneditorwidget.ui:286
 #, kde-format
 msgid "Initial Point"
-msgstr "النقطة الإبتدائية"
+msgstr "النقطة الابتدائية"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5)
 #: functioneditorwidget.ui:298
@@ -858,7 +857,7 @@ msgstr "f''(x) = -f"
 #: functioneditorwidget.ui:811 initialconditionswidget.ui:13
 #, kde-format
 msgid "Initial Conditions"
-msgstr "الشرطالابتدائي"
+msgstr "الشروط الابتدائية"
 
 #: functiontools.cpp:59 functiontools.cpp:65
 #, kde-format
@@ -891,12 +890,12 @@ msgstr "مساحة تحت رسم بياني"
 #: functiontools.cpp:180
 #, kde-format
 msgid "Minimum is at x = %1, %2(x) = %3"
-msgstr "الاقل عند  x = %1, %2(x) = %3"
+msgstr "الأقل عند  x = %1, %2(x) = %3"
 
 #: functiontools.cpp:194
 #, kde-format
 msgid "Maximum is at x = %1, %2(x) = %3"
-msgstr "الاعلى عند x = %1, %2(x) = %3"
+msgstr "الأعلى عند x = %1, %2(x) = %3"
 
 #: functiontools.cpp:214
 #, kde-format
@@ -970,7 +969,7 @@ msgstr "اختر تدريجاً"
 #: kmplot.cpp:73
 #, kde-format
 msgid "Could not find KmPlot's part."
-msgstr "لم يتم ايجاد  find KmPlot's part."
+msgstr "لم يعثر على جزء KmPlot's."
 
 #: kmplot.cpp:172 maindlg.cpp:522
 #, kde-format
@@ -1089,7 +1088,7 @@ msgstr "الحد الأيسر"
 #: kmplot.kcfg:53
 #, kde-format
 msgid "Enter the left boundary of the plotting area."
-msgstr "ادخل النظاق الايسر لمنطقة الرسم"
+msgstr "ادخل الحد الأيسر لمنطقة الرسم"
 
 #. i18n: ectx: label, entry (XMax), group (Coordinate System)
 #: kmplot.kcfg:57
@@ -1101,7 +1100,7 @@ msgstr "الحد الأيمن"
 #: kmplot.kcfg:58
 #, kde-format
 msgid "Enter the right boundary of the plotting area."
-msgstr "ادخل النظاق الأيمن لمنطقة الرسم"
+msgstr "ادخل الحد الأيمن لمنطقة الرسم"
 
 #. i18n: ectx: label, entry (YMin), group (Coordinate System)
 #: kmplot.kcfg:62
@@ -1113,7 +1112,7 @@ msgstr "الحد الأدنى"
 #: kmplot.kcfg:63
 #, kde-format
 msgid "Enter the lower boundary of the plotting area."
-msgstr "ادخل النظاق الاسفل لمنطقة الرسم"
+msgstr "ادخل الحد الأسفل لمنطقة الرسم"
 
 #. i18n: ectx: label, entry (YMax), group (Coordinate System)
 #: kmplot.kcfg:67
@@ -1125,7 +1124,7 @@ msgstr "الحد الأعلى"
 #: kmplot.kcfg:68
 #, kde-format
 msgid "Enter the upper boundary of the plotting area."
-msgstr "ادخل النظاق الأعلى لمنطقة الرسم"
+msgstr "ادخل الحد الأعلى لمنطقة الرسم"
 
 #. i18n: ectx: label, entry (LabelHorizontalAxis), group (Coordinate System)
 #: kmplot.kcfg:72
@@ -1193,7 +1192,7 @@ msgstr ""
 #: kmplot.kcfg:108
 #, kde-format
 msgid "Font of the axis labels"
-msgstr "خط عنوان المحاورالخط من محور"
+msgstr "خط عنوان المحاور"
 
 #. i18n: ectx: whatsthis, entry (AxesFont), group (Fonts)
 #: kmplot.kcfg:109
@@ -1379,7 +1378,7 @@ msgstr "استبدل الدرجات بالراديان"
 #: kmplot.kcfg:190
 #, kde-format
 msgid "Check the box if you want to use radians"
-msgstr "علم  المربع لإستخدام الراديان بدلاً من الدرجات"
+msgstr "علم  المربع لاستخدام الراديان بدلاً من الدرجات"
 
 #. i18n: ectx: label, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:194
@@ -1391,7 +1390,7 @@ msgstr "لون الخلفية"
 #: kmplot.kcfg:195
 #, kde-format
 msgid "The background color for the graph"
-msgstr "لون االخلفية للرسم"
+msgstr "لون الخلفية للرسم"
 
 #. i18n: ectx: label, entry (zoomInStep), group (General)
 #: kmplot.kcfg:199
@@ -1528,13 +1527,12 @@ msgstr "يبدو أن خطأ حدث أثناء فتح هذا الملف: %1"
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
 "Do you want to continue?"
-msgstr ""
-"قيمة السطر %1 غير صالحة للمعالجة ، لن يتم احتسابها . هل تريد الاستمرار؟"
+msgstr "قيمة السطر %1 غير صالحة للمعالجة، فلن تضمن. هل تريد الاستمرار؟"
 
 #: kparametereditor.cpp:254
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
-msgstr "هل تريد معرفة الخطوط الاخرى التي لا يمكن قراءتها؟"
+msgstr "هل تريد معرفة الخطوط الأخرى التي لا يمكن قراءتها؟"
 
 #: kparametereditor.cpp:256
 #, kde-format
@@ -1607,7 +1605,7 @@ msgstr "سنتيمترات (سم)"
 #: kprinterdlg.cpp:48
 #, kde-format
 msgid "Millimeters (mm)"
-msgstr "مليميترات (مم)"
+msgstr "مليمترات (مم)"
 
 #: kprinterdlg.cpp:52
 #, kde-format
@@ -1772,7 +1770,7 @@ msgstr "خطوط"
 #: maindlg.cpp:223
 #, kde-format
 msgid "Configure KmPlot..."
-msgstr "إضبط  KmPlot..."
+msgstr "اضبط  KmPlot..."
 
 #: maindlg.cpp:229
 #, kde-format
@@ -1832,7 +1830,7 @@ msgstr "أوجد الأقصى"
 #: maindlg.cpp:297
 #, kde-format
 msgid "Find Mi&nimum..."
-msgstr "اوجد الأدنى."
+msgstr "جِد الأدنى."
 
 #: maindlg.cpp:304
 #, kde-format
@@ -1848,7 +1846,7 @@ msgstr "رسم ديكارتي"
 #: maindlg.cpp:317
 #, kde-format
 msgid "Parametric Plot"
-msgstr "رسم بارامتري"
+msgstr "رسم بارومتري"
 
 #: maindlg.cpp:323
 #, kde-format
@@ -1901,7 +1899,9 @@ msgstr ""
 msgid ""
 "The plot has been modified.\n"
 "Do you want to save it?"
-msgstr "تم تعديل الرسم./nهل تريد الحفظ ؟"
+msgstr ""
+"عُدل الرسم.\n"
+" هل تريد الحفظ ؟"
 
 #: maindlg.cpp:504
 #, kde-format
@@ -1909,8 +1909,8 @@ msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
 "the file with older versions of KmPlot. Are you sure you want to continue?"
 msgstr ""
-"هذا الملف محفوظ بصيغة قديمة ، إذا قمت بحفظه لن تستطيع فتحه بالنسخة القديمة "
-"من برنامج KmPlot هل تريد الاستمرار ؟"
+"هذا الملف محفوظ بصيغة قديمة، إذا قمت بحفظه لن تستطيع فتحه بالنسخة القديمة من "
+"برنامج KmPlot هل تريد الاستمرار ؟"
 
 #: maindlg.cpp:507
 #, kde-format
@@ -2095,7 +2095,7 @@ msgstr "القائمة:"
 #: parameterswidget.ui:54
 #, kde-format
 msgid "Edit the list of parameters"
-msgstr "تحرير قائمة من البارامترات"
+msgstr "تحرير قائمة المعاملات"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, editParameterListButton)
 #: parameterswidget.ui:57
@@ -2104,8 +2104,8 @@ msgid ""
 "Click here to open a list of parameter values. Here you can add, remove, and "
 "change them."
 msgstr ""
-"علم هنا لفتح قائمة من قيم البارامترات . تستطيع هنا إضافة وإزالة وتغيير "
-"البارامترات"
+"علم هنا لفتح قائمة من قيم المعاملات . تستطيع هنا إضافة وإزالة وتغيير "
+"المعاملات"
 
 #. i18n: ectx: property (text), widget (QPushButton, editParameterListButton)
 #: parameterswidget.ui:60
@@ -2126,13 +2126,13 @@ msgid ""
 "Select one of the sliders to change the parameter value dynamically. The "
 "values vary from 0 (left) to 100 (right)."
 msgstr ""
-"اختر أحد المنزلقات لتغيير قيمة البارامتر آليّا. القيمة من 0 (لليسار) إلى 100 "
+"اختر أحد المنزلقات لتغيير قيمة المعامل آليّا. القيمة من 0 (لليسار) إلى 100 "
 "(لليمين)"
 
 #: parser.cpp:614
 #, kde-format
 msgid "Remove all"
-msgstr "إزالة االكل"
+msgstr "أزل الكل"
 
 #: parser.cpp:618
 #, kde-format
@@ -2149,7 +2149,7 @@ msgstr "خطأ بنيوي"
 #: parser.cpp:1094
 #, kde-format
 msgid "Missing parenthesis"
-msgstr "باراميتر مفقود"
+msgstr "قوس مفقود"
 
 #: parser.cpp:1097
 #, kde-format
@@ -2270,7 +2270,7 @@ msgstr "عرض مجال المماس"
 #: plotstylewidget.ui:67
 #, kde-format
 msgid "Use a gradient for parameters:"
-msgstr "استخدم نسبة ميل الباراميتر:"
+msgstr "استخدم تدرجًا للمعاملات:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: plotstylewidget.ui:74
@@ -2351,8 +2351,7 @@ msgstr "صدر القيمة إلى ملف نصي"
 msgid ""
 "Export values to a textfile. Every value in the parameter list will be "
 "written to one line in the file."
-msgstr ""
-"صدر القيمة إلى ملف نصي . قيمة كل الباراميترات ستكتب إلى سطر واحد في الملف."
+msgstr "صدر القيمة إلى ملف نصي . قيمة كل معامل ستكتب إلى سطر واحد في الملف."
 
 #. i18n: ectx: property (text), widget (QPushButton, cmdExport)
 #: qparametereditor.ui:139
@@ -2385,7 +2384,7 @@ msgid ""
 "Click on the button the choose the color of the background. This option has "
 "no effect on printing nor export."
 msgstr ""
-"إضغط على الزر لتختار لون الخلفية. هذا الإعداد ليس له تأثير على التصدير أو "
+"اضغط على الزر لتختار لون الخلفية. هذا الإعداد ليس له تأثير على التصدير أو "
 "الطباعة"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -2450,7 +2449,7 @@ msgid ""
 "time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 2.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color4)
@@ -2469,7 +2468,7 @@ msgid ""
 "time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 5.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color0)
@@ -2488,7 +2487,7 @@ msgid ""
 "time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 1.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
@@ -2513,7 +2512,7 @@ msgid ""
 "time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 3.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_13)
@@ -2550,7 +2549,7 @@ msgid ""
 "time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 4.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_11)
@@ -2587,7 +2586,7 @@ msgid ""
 "time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 9.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_10)
@@ -2612,7 +2611,7 @@ msgid ""
 "time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 7.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color7)
@@ -2631,7 +2630,7 @@ msgid ""
 "time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 8.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color5)
@@ -2650,7 +2649,7 @@ msgid ""
 "time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 6.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_7)
@@ -2675,7 +2674,7 @@ msgid ""
 "shown next time you define a new function at number 1."
 msgstr ""
 "اللون المبدئي للدالة 10.الرجاء ملاحظة أن إعداد اللون فقط على الدوال الخالية. "
-"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا ، فإن الإعداد سيظهر مرة "
+"لذلك إذا عرفت الدالة 1 ثم غيرت اللون لهذا الرقم هنا، فإن الإعداد سيظهر مرة "
 "أخرى إذا أنشأت دالة برقم 1"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_6)
@@ -2706,7 +2705,7 @@ msgstr ""
 #: settingspagediagram.ui:45
 #, kde-format
 msgid "Lines"
-msgstr "خطوط"
+msgstr "السطور"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton13)
 #: settingspagediagram.ui:52
@@ -2844,7 +2843,7 @@ msgstr ""
 #: settingspagediagram.ui:287
 #, kde-format
 msgid "Check this if the axes should have arrows at their ends."
-msgstr "علم هنا إذا اردت وضع اسهم في نهاية المحاور"
+msgstr "علم هنا إذا أردت وضع اسهم في نهاية المحاور"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowArrows)
 #: settingspagediagram.ui:290
@@ -2856,7 +2855,7 @@ msgstr "عرض الأسهم"
 #: settingspagefonts.ui:23
 #, kde-format
 msgid "Axes labels:"
-msgstr "اسماء المحاور:"
+msgstr "أسماء المحاور:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10_3)
 #: settingspagefonts.ui:45
@@ -2868,7 +2867,7 @@ msgstr "اسم الرسم البياني:"
 #: settingspagefonts.ui:67
 #, kde-format
 msgid "Header table:"
-msgstr "رأس الجدول"
+msgstr "رأس الجدول:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_anglemode)
 #: settingspagegeneral.ui:20
@@ -2889,7 +2888,7 @@ msgid ""
 "Check this button to use radian mode to measure angles. This is important "
 "for trigonometric functions only."
 msgstr ""
-"علم هنا لاستخدام نظام الراديان لقياس الزوايا ، هذا هام عند استخدام دوال "
+"علم هنا لاستخدام نظام الراديان لقياس الزوايا، هذا هام عند استخدام دوال "
 "المثلثات فقط"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton1)
@@ -3004,12 +3003,12 @@ msgstr "تقسيم المحاور"
 #: view.cpp:2132
 #, kde-format
 msgid "x-Axis:"
-msgstr "محور -X:"
+msgstr "محور -س:"
 
 #: view.cpp:2133
 #, kde-format
 msgid "y-Axis:"
-msgstr "محور -Y:"
+msgstr "محور -ص:"
 
 #: view.cpp:2136
 #, kde-format

@@ -1198,7 +1198,7 @@ msgstr "Si s'utilitza escalat automàtic o personalitzat."
 #: kmplot.kcfg:86 kmplot.kcfg:91
 #, kde-format
 msgid "Select whether to use automatic or custom scaling."
-msgstr "Seleccioneu si voleu utilitzar escalat automàtic o personalitzat."
+msgstr "Trieu si voleu utilitzar escalat automàtic o personalitzat."
 
 #. i18n: ectx: label, entry (XScaling), group (Scaling)
 #: kmplot.kcfg:95

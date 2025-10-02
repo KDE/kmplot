@@ -8,20 +8,20 @@
 # pan93412 <pan93412@gmail.com>, 2018, 2019.
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2006, 2010.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007.
-# SPDX-FileCopyrightText: 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2024, 2025 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-19 00:38+0000\n"
-"PO-Revision-Date: 2024-05-03 03:32+0900\n"
+"PO-Revision-Date: 2025-10-01 21:53+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.04.70\n"
+"X-Generator: Lokalize 25.11.70\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -29,12 +29,14 @@ msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "簡體中文：Sarah Smith,Funda Wang,繁體中文轉換與修改：Frank Weng (a.k.a. "
-"Franklin)"
+"Franklin),Kisaragi Hiu"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "sarahs@redhat.com,fandawang@linux.net.cn,fundawang@linux.net.cn"
+msgstr ""
+"sarahs@redhat.com,fundawang@linux.net.cn,franklin@nospam.goodhorse.idv.tw,"
+"mail@kisaragi-hiu.com"
 
 #: calculator.cpp:31
 #, kde-format
@@ -58,7 +60,7 @@ msgstr "此值必須是個數字（如 \"pi ^2\"）"
 #: constantseditor.ui:29 qparametereditor.ui:25
 #, kde-format
 msgid "(invalid)"
-msgstr "（不合法）"
+msgstr "（無效）"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: constantseditor.ui:54
@@ -76,7 +78,7 @@ msgstr "常數："
 #: constantseditor.ui:74
 #, kde-format
 msgid "Enter an expression that evaluates to a number"
-msgstr "輸入估計數字的表示式"
+msgstr "輸入計算結果為數字的表示式"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdNew)
 #: constantseditor.ui:83 qparametereditor.ui:39
@@ -124,7 +126,7 @@ msgstr "全域"
 #: constantseditor.ui:142
 #, kde-format
 msgid "Delete the selected constant"
-msgstr "刪除選中的常數"
+msgstr "刪除所選的常數"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, cmdDelete)
 #: constantseditor.ui:145 qparametereditor.ui:58
@@ -132,7 +134,7 @@ msgstr "刪除選中的常數"
 msgid ""
 "Click here to delete the selected constant; it can only be removed if it is "
 "not currently used by a plot."
-msgstr "單擊此處刪除選中的常數；僅當該常數不被任何圖像使用時，才可刪除該常數。"
+msgstr "單擊此處刪除所選的常數；僅當該常數不被任何繪圖使用時，才可刪除該常數。"
 
 #. i18n: ectx: property (text), widget (QPushButton, cmdDelete)
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
@@ -466,13 +468,13 @@ msgstr "函數"
 #: functioneditorwidget.ui:50
 #, kde-format
 msgid "delete the selected function"
-msgstr "刪除選中的函數"
+msgstr "刪除所選的函數"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
 #: functioneditorwidget.ui:53
 #, kde-format
 msgid "Click here to delete the selected function from the list."
-msgstr "單擊此處從列表中刪除選中的函數。"
+msgstr "單擊此處從列表中刪除所選的函數。"
 
 #. i18n: ectx: property (text), widget (QPushButton, createNewPlot)
 #: functioneditorwidget.ui:76
@@ -1489,7 +1491,7 @@ msgstr "主工具列"
 #: kmplotio.cpp:288
 #, kde-format
 msgid "The file had an unknown version number"
-msgstr "檔案的版本號未知"
+msgstr "檔案的版本編號未知"
 
 #: kmplotio.cpp:306 kparametereditor.cpp:205
 #, kde-format
@@ -1640,12 +1642,12 @@ msgstr "高度："
 #: kprinterdlg.cpp:122
 #, kde-format
 msgid "Width is invalid"
-msgstr "寬度不合法"
+msgstr "寬度無效"
 
 #: kprinterdlg.cpp:128
 #, kde-format
 msgid "Height is invalid"
-msgstr "高度不合法"
+msgstr "高度無效"
 
 #: ksliderwindow.cpp:28
 #, kde-format
@@ -1759,7 +1761,7 @@ msgstr "要開啟的網址"
 #: maindlg.cpp:193 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
-msgstr "常規"
+msgstr "一般"
 
 #: maindlg.cpp:193
 #, kde-format
@@ -1825,7 +1827,7 @@ msgstr "調整元件配合三角函數(&F)"
 #: maindlg.cpp:272
 #, kde-format
 msgid "Reset View"
-msgstr "重置檢視"
+msgstr "重設檢視"
 
 #: maindlg.cpp:277
 #, kde-format
@@ -2175,7 +2177,7 @@ msgstr "語法錯誤"
 #: parser.cpp:1094
 #, kde-format
 msgid "Missing parenthesis"
-msgstr "遺失括號"
+msgstr "缺乏括號"
 
 #: parser.cpp:1097
 #, kde-format
@@ -2185,7 +2187,7 @@ msgstr "堆疊溢位"
 #: parser.cpp:1100
 #, kde-format
 msgid "Name of function is not free"
-msgstr "函數名稱不自由"
+msgstr "函數名稱已被使用"
 
 #: parser.cpp:1103
 #, kde-format
@@ -2215,7 +2217,7 @@ msgstr "太多正負符號"
 #: parser.cpp:1118
 #, kde-format
 msgid "Invalid plus-minus symbol (expression must be constant)"
-msgstr "不合法的正負符號（表示式必須是常數）"
+msgstr "無效的正負符號（表示式必須是常數）"
 
 #: parser.cpp:1121
 #, kde-format
@@ -2284,7 +2286,7 @@ msgstr "顯示繪圖名稱"
 #: plotstylewidget.ui:33
 #, kde-format
 msgid "Show extrema (minimum/maximum points)"
-msgstr "顯示極大極小點"
+msgstr "顯示極值（最大點/最小點）"
 
 #. i18n: ectx: property (text), widget (QCheckBox, showTangentField)
 #: plotstylewidget.ui:53
@@ -2331,7 +2333,7 @@ msgstr "參數編輯器"
 #: qparametereditor.ui:55
 #, kde-format
 msgid "delete selected constant"
-msgstr "刪除選中的常數"
+msgstr "刪除所選的常數"
 
 #. i18n: ectx: property (text), widget (QPushButton, moveUp)
 #: qparametereditor.ui:84
@@ -2911,7 +2913,7 @@ msgstr "三角函數的角度使用弧度模式。"
 msgid ""
 "Check this button to use radian mode to measure angles. This is important "
 "for trigonometric functions only."
-msgstr "選中此按鈕可使用弧度模式度量角度。這只對三角函數非常重要。"
+msgstr "勾選此按鈕以使用弧度模式來量側角度。這只對三角函數非常重要。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:38
@@ -2931,7 +2933,7 @@ msgstr "三角函數的角度使用度數模式。"
 msgid ""
 "Check this button to use degree mode to measure angles. This is important "
 "for trigonometric functions only."
-msgstr "選中此按鈕可使用度數模式度量角度。這只對三角函數非常重要。"
+msgstr "勾選此按鈕以使用度數模式來量測角度。這只對三角函數非常重要。"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton2)
 #: settingspagegeneral.ui:51

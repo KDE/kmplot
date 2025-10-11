@@ -1,17 +1,17 @@
 # SPDX-FileCopyrightText: 2024 Frank Steinmetzger <dev-kde@felsenfleischer.de>
-# Thomas Diehl <thd@kde.org>, 2003.
-# Stephan Johach <hunsum@gmx.de>, 2005.
-# Sebastian Stein <seb.stein@hpfsc.de>, 2005.
-# Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2006, 2007, 2008.
-# Burkhard Lück <lueck@hube-lueck.de>, 2006, 2008, 2013, 2014, 2015, 2017, 2018, 2019, 2021.
-# Thorsten Mürell <thorsten@muerell.de>, 2002-2007.
-# Martin Ereth <martin.ereth@arcor.de>, 2008.
-# Frederik Schwarzer <schwarzer@kde.org>, 2010, 2012.
-# Panagiotis Papadopoulos <pano_90@gmx.net>, 2010.
-# Michael Skiba <trans@michael-skiba.de>, 2010.
-# Peter Rüthemann <peter.ruethemann@gmx.ch>, 2010.
-# Kai Uwe Broulik <KaiUweBroulik2@hotmail.com>, 2011.
-# Rolf Eike Beer <kde@opensource.sf-tec.de>, 2011.
+# SPDX-FileCopyrightText: 2003 Thomas Diehl <thd@kde.org>
+# SPDX-FileCopyrightText: 2005 Stephan Johach <hunsum@gmx.de>
+# SPDX-FileCopyrightText: 2005 Sebastian Stein <seb.stein@hpfsc.de>
+# SPDX-FileCopyrightText: 2005, 2006, 2007, 2008 Thomas Reitelbach <tr@erdfunkstelle.de>
+# SPDX-FileCopyrightText: 2006, 2008, 2013, 2014, 2015, 2017, 2018, 2019, 2021 Burkhard Lück <lueck@hube-lueck.de>
+# SPDX-FileCopyrightText: 2002-2007 Thorsten Mürell <thorsten@muerell.de>
+# SPDX-FileCopyrightText: 2008 Martin Ereth <martin.ereth@arcor.de>
+# SPDX-FileCopyrightText: 2010, 2012 Frederik Schwarzer <schwarzer@kde.org>
+# SPDX-FileCopyrightText: 2010 Panagiotis Papadopoulos <pano_90@gmx.net>
+# SPDX-FileCopyrightText: 2010 Michael Skiba <trans@michael-skiba.de>
+# SPDX-FileCopyrightText: 2010 Peter Rüthemann <peter.ruethemann@gmx.ch>
+# SPDX-FileCopyrightText: 2011 Kai Uwe Broulik <KaiUweBroulik2@hotmail.com>
+# SPDX-FileCopyrightText: 2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"

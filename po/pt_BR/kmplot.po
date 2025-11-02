@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-19 00:38+0000\n"
-"PO-Revision-Date: 2025-02-05 23:46-0300\n"
+"PO-Revision-Date: 2025-10-30 22:30-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 25.08.2\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #, kde-format
@@ -986,7 +986,7 @@ msgstr ""
 #: kgradientdialog.cpp:339
 #, kde-format
 msgid "(Double-click on the gradient to add a stop)"
-msgstr "(Dê um duplo clique no gradiente para adicionar uma parada)"
+msgstr "(Dê um clique duplo no gradiente para adicionar uma parada)"
 
 #: kgradientdialog.cpp:340
 #, kde-format

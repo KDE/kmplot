@@ -18,9 +18,9 @@
 >bab@debian.org</email
 ></author>
 <date
->16/01/2019</date>
+>05/01/2021</date>
 <releaseinfo
->1.3.0 (Applications 19.04)</releaseinfo>
+>1.3.0 (Applications 20.12)</releaseinfo>
 <productname
 >KDE Applications</productname>
 </refentryinfo>
@@ -40,7 +40,7 @@
 >kmplot</command
 ></refname>
 <refpurpose
->desenhador de função matemáticas</refpurpose>
+>Desenhador de função matemáticas</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
@@ -88,7 +88,7 @@
 ></term>
 <listitem
 ><para
->Função inicial para desenhar</para
+>Função inicial para desenhar.</para
 ></listitem
 ></varlistentry>
 <varlistentry
@@ -100,7 +100,7 @@
 ></term>
 <listitem
 ><para
->Arquivo a abrir</para
+>Arquivo a abrir.</para
 ></listitem
 ></varlistentry>
 </variablelist>
@@ -113,9 +113,7 @@
 <member
 >A documentação mais detalhada para o usuário está disponível em <ulink url="help:/kmplot"
 >help:/kmplot</ulink
-> (tanto poderá inserir esta <acronym
->URL</acronym
-> no &konqueror;, como executar o comando <userinput
+> (tanto poderá inserir esta &URL; no &konqueror;, como executar o comando <userinput
 ><command
 >khelpcenter</command
 > <parameter
@@ -143,9 +141,7 @@
 ><surname
 >M&ouml;ller</surname
 ></personname
-> <email
->kdmoeller@foni.net</email
->, &Matthias.Messmer; &Matthias.Messmer.mail; e <personname
+> &Klaus-Dieter.Moeller.mail;, &Matthias.Messmer; &Matthias.Messmer.mail; e <personname
 ><firstname
 >Fredrik</firstname
 ><surname

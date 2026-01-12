@@ -1518,7 +1518,7 @@ msgstr "El fitxer no existix."
 #: kmplotio.cpp:313
 #, kde-format
 msgid "An error appeared when opening this file (%1)"
-msgstr "S'ha produït un error en obrir este fitxer (%1)"
+msgstr "S'ha produït un error mentre s'obria este fitxer (%1)"
 
 #: kmplotio.cpp:326
 #, kde-format
@@ -1559,7 +1559,7 @@ msgstr "Fitxer de text net (*.txt)"
 #: kparametereditor.cpp:215
 #, kde-format
 msgid "An error appeared when opening this file: %1"
-msgstr "S'ha produït un error en obrir este fitxer: %1"
+msgstr "S'ha produït un error mentre s'obria este fitxer: %1"
 
 #: kparametereditor.cpp:244
 #, kde-format
@@ -1588,7 +1588,7 @@ msgstr "Ignora la informació"
 #: kparametereditor.cpp:268
 #, kde-format
 msgid "An error appeared when opening this file"
-msgstr "S'ha produït un error en obrir este fitxer"
+msgstr "S'ha produït un error mentre s'obria este fitxer"
 
 #: kparametereditor.cpp:278
 #, kde-format
@@ -1612,7 +1612,7 @@ msgstr "Voleu sobreescriure el fitxer?"
 #: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
 #, kde-format
 msgid "An error appeared when saving this file"
-msgstr "S'ha produït un error en guardar este fitxer"
+msgstr "S'ha produït un error mentre es guardava este fitxer"
 
 #: kprinterdlg.cpp:31
 #, kde-format

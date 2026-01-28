@@ -1638,7 +1638,7 @@ msgstr "Píxels (1/72u in)"
 #: kprinterdlg.cpp:46
 #, kde-format
 msgid "Inches (in)"
-msgstr "Polzades (in)"
+msgstr "Polzades (polzades)"
 
 #: kprinterdlg.cpp:47
 #, kde-format

@@ -28,11 +28,10 @@ msgid "Your emails"
 msgstr "seoc@iolfree.ie,kscanne@gmail.com"
 
 #: calculator.cpp:31
-#, fuzzy, kde-format
-#| msgid "Calculator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Calculator"
-msgstr "Áireamhán"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ConstantsEditor)
 #: constantseditor.ui:14
@@ -144,11 +143,10 @@ msgid "Coordinate System"
 msgstr "Córas Comhordanáidí"
 
 #: coordsconfigdialog.cpp:43
-#, fuzzy, kde-format
-#| msgid "Coordinate System"
+#, kde-format
 msgctxt "@title:window"
 msgid "Coordinate System"
-msgstr "Córas Comhordanáidí"
+msgstr ""
 
 #: coordsconfigdialog.cpp:76 coordsconfigdialog.cpp:102
 #, kde-format
@@ -247,11 +245,10 @@ msgid "Vertical axis Grid Spacing"
 msgstr ""
 
 #: equationeditor.cpp:27
-#, fuzzy, kde-format
-#| msgid "&Equation:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Equation Editor"
-msgstr "&Cothromóid:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: equationeditorwidget.ui:31
@@ -932,11 +929,10 @@ msgid "Add..."
 msgstr "Cuir Leis..."
 
 #: kconstanteditor.cpp:54
-#, fuzzy, kde-format
-#| msgid "Constant"
+#, kde-format
 msgctxt "@title:window"
 msgid "Constants Editor"
-msgstr "Tairiseach"
+msgstr ""
 
 #: kconstanteditor.cpp:116
 #, kde-format
@@ -961,11 +957,10 @@ msgid "Remove stop"
 msgstr ""
 
 #: kgradientdialog.cpp:364
-#, fuzzy, kde-format
-#| msgid "Choose a Gradient"
+#, kde-format
 msgctxt "@title:window"
 msgid "Choose a Gradient"
-msgstr "Roghnaigh Grádán"
+msgstr ""
 
 #: kmplot.cpp:73
 #, kde-format
@@ -973,14 +968,9 @@ msgid "Could not find KmPlot's part."
 msgstr ""
 
 #: kmplot.cpp:172 maindlg.cpp:522
-#, fuzzy, kde-format
-#| msgid ""
-#| "*.fkt|KmPlot Files (*.fkt)\n"
-#| "*|All Files"
+#, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr ""
-"*.fkt|Comhaid KmPlot (*.fkt)\n"
-"*|Gach Comhad"
 
 #: kmplot.cpp:172
 #, kde-format
@@ -1508,29 +1498,25 @@ msgid "The function %1 could not be loaded"
 msgstr "Níorbh fhéidir feidhm %1 a luchtú"
 
 #: kparametereditor.cpp:43
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
-msgstr "Paraiméadair"
+msgstr ""
 
 #: kparametereditor.cpp:200
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Open Parameter File"
-msgstr "Paraiméadair"
+msgstr ""
 
 #: kparametereditor.cpp:200 kparametereditor.cpp:278
-#, fuzzy, kde-format
-#| msgid "*.txt|Plain Text File "
+#, kde-format
 msgid "Plain Text File (*.txt)"
-msgstr "*.txt|Comhad Gnáth-Théacs "
+msgstr ""
 
 #: kparametereditor.cpp:215
-#, fuzzy, kde-format
-#| msgid "An error appeared when opening this file (%1)"
+#, kde-format
 msgid "An error appeared when opening this file: %1"
-msgstr "Tharla earráid agus an comhad seo á oscailt (%1)"
+msgstr ""
 
 #: kparametereditor.cpp:244
 #, kde-format
@@ -1560,10 +1546,9 @@ msgid "An error appeared when opening this file"
 msgstr "Tharla earráid le linn oscailt an chomhaid seo"
 
 #: kparametereditor.cpp:278
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save File"
-msgstr "Sábháil Mar"
+msgstr ""
 
 #: kparametereditor.cpp:285
 #, kde-format
@@ -1583,11 +1568,10 @@ msgid "An error appeared when saving this file"
 msgstr ""
 
 #: kprinterdlg.cpp:31
-#, fuzzy, kde-format
-#| msgid "KmPlot Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "KmPlot Options"
-msgstr "Roghanna KmPlot"
+msgstr ""
 
 #: kprinterdlg.cpp:35
 #, kde-format
@@ -1652,11 +1636,10 @@ msgid ""
 msgstr ""
 
 #: ksliderwindow.cpp:79
-#, fuzzy, kde-format
-#| msgid "Sliders"
+#, kde-format
 msgctxt "@title:window"
 msgid "Sliders"
-msgstr "Barraí Sleamhnáin"
+msgstr ""
 
 #: main.cpp:35
 #, kde-format
@@ -1664,10 +1647,9 @@ msgid "KmPlot"
 msgstr "KmPlot"
 
 #: main.cpp:37
-#, fuzzy, kde-format
-#| msgid "Mathematical function plotter for KDE"
+#, kde-format
 msgid "Mathematical function plotter by KDE"
-msgstr "Breacaire feidhmeanna matamaiticiúla le haghaidh KDE"
+msgstr ""
 
 #: main.cpp:39
 #, kde-format
@@ -1740,16 +1722,14 @@ msgid "Initial functions to plot"
 msgstr ""
 
 #: main.cpp:54
-#, fuzzy, kde-format
-#| msgid "Document"
+#, kde-format
 msgid "argument"
-msgstr "Cáipéis"
+msgstr ""
 
 #: main.cpp:55
-#, fuzzy, kde-format
-#| msgid "File to open"
+#, kde-format
 msgid "URLs to open"
-msgstr "Comhad le hoscailt"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
 #: maindlg.cpp:193 settingspagegeneral.ui:14
@@ -1849,11 +1829,10 @@ msgid "Find Mi&nimum..."
 msgstr ""
 
 #: maindlg.cpp:304
-#, fuzzy, kde-format
-#| msgid "Predefined &Math Functions"
+#, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
-msgstr "Feidhmeanna Réamhshainithe &Matamaitice"
+msgstr ""
 
 #: maindlg.cpp:311
 #, kde-format
@@ -1940,23 +1919,16 @@ msgstr "Sábháil Mar"
 msgid "The file could not be saved"
 msgstr "Ní féidir an comhad a shábháil"
 
-# focal.ie
 #: maindlg.cpp:560
-#, fuzzy, kde-format
-#| msgid ""
-#| "\n"
-#| "*.svg|Scalable Vector Graphics"
+#, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr ""
-"\n"
-"*.svg|Grafaic Inscálaithe Veicteoireach"
 
 #: maindlg.cpp:562
-#, fuzzy, kde-format
-#| msgid "Export as Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
-msgstr "Easpórtáil mar Íomhá"
+msgstr ""
 
 #: maindlg.cpp:619
 #, kde-format
@@ -1964,31 +1936,27 @@ msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "Tá brón orm, tharla earráid agus íomhá á sábháil i \"%1\""
 
 #: maindlg.cpp:676
-#, fuzzy, kde-format
-#| msgid "Print Plot"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
-msgstr "Priontáil Breacadh"
+msgstr ""
 
 #: maindlg.cpp:691
-#, fuzzy, kde-format
-#| msgid "&Settings"
+#, kde-format
 msgid "Print Settings"
-msgstr "&Socruithe"
+msgstr ""
 
 #: maindlg.cpp:696
-#, fuzzy, kde-format
-#| msgid "&Settings"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
-msgstr "&Socruithe"
+msgstr ""
 
 #: parameteranimator.cpp:52
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgctxt "@title:window"
 msgid "Parameter Animator"
-msgstr "Paraiméadair"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, warningLabel)
 #: parameteranimator.ui:23
@@ -2261,11 +2229,10 @@ msgid "Color:"
 msgstr "Dath:"
 
 #: plotstylewidget.cpp:57
-#, fuzzy, kde-format
-#| msgid "Appearance"
+#, kde-format
 msgctxt "@title:window"
 msgid "Plot Appearance"
-msgstr "Cuma"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlotStyleWidget)
 #: plotstylewidget.ui:14
@@ -2392,10 +2359,9 @@ msgstr "&Comhordanáidí"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagecolor.ui:35
-#, fuzzy, kde-format
-#| msgid "Background color"
+#, kde-format
 msgid "Background color:"
-msgstr "Dath an chúlra"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_backgroundcolor)
 #: settingspagecolor.ui:45
@@ -2425,10 +2391,9 @@ msgstr "&Greille:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:84
-#, fuzzy, kde-format
-#| msgid "select color for the grid"
+#, kde-format
 msgid "Select color for the axes."
-msgstr "roghnaigh dath na greille"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_AxesColor)
 #: settingspagecolor.ui:87
@@ -2440,10 +2405,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:97
-#, fuzzy, kde-format
-#| msgid "select color for the grid"
+#, kde-format
 msgid "Select color for the grid."
-msgstr "roghnaigh dath na greille"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_GridColor)
 #: settingspagecolor.ui:100
@@ -2741,10 +2705,9 @@ msgstr "Lipéad ar an ais chothrománach."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagediagram.ui:84
-#, fuzzy, kde-format
-#| msgid "Horizontal axis Range"
+#, kde-format
 msgid "Horizontal axis label:"
-msgstr "Raon na haise chothrománaí"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelHorizontalAxis)
 #: settingspagediagram.ui:94
@@ -2760,10 +2723,9 @@ msgstr "Lipéad ar an ais ingearach."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: settingspagediagram.ui:104
-#, fuzzy, kde-format
-#| msgid "Vertical axis Range"
+#, kde-format
 msgid "Vertical axis label:"
-msgstr "Raon na haise ingearaí"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelVerticalAxis)
 #: settingspagediagram.ui:114
@@ -2921,17 +2883,15 @@ msgstr "Súmáil"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: settingspagegeneral.ui:73
-#, fuzzy, kde-format
-#| msgid "Zoom &In"
+#, kde-format
 msgid "Zoom in by:"
-msgstr "Súmáil &Isteach"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_2)
 #: settingspagegeneral.ui:86
-#, fuzzy, kde-format
-#| msgid "Zoom &Out"
+#, kde-format
 msgid "Zoom out by:"
-msgstr "Súmáil &Amach"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomOutStep)
 #: settingspagegeneral.ui:99
@@ -3033,345 +2993,3 @@ msgstr ""
 #, kde-format
 msgid "Error in extension."
 msgstr ""
-
-#~ msgid "Background Color:"
-#~ msgstr "Dath an Chúlra:"
-
-#~ msgid "root"
-#~ msgstr "fréamh"
-
-#~ msgid "  to  "
-#~ msgstr "  go  "
-
-#~ msgid "Sorry, this file format is not supported."
-#~ msgstr "Tá brón orm, ní thacaítear leis an bhformáid seo."
-
-#~ msgid "&Overwrite"
-#~ msgstr "F&orscríobh"
-
-#~ msgid "KmPlotPart"
-#~ msgstr "KmPlotPart"
-
-#~ msgid "hide the plot"
-#~ msgstr "folaigh an breacadh"
-
-#~ msgid ""
-#~ "*.fkt|KmPlot Files (*.fkt)\n"
-#~ "*.*|All Files"
-#~ msgstr ""
-#~ "*.fkt|Comhaid KmPlot (*.fkt)\n"
-#~ "*.*|Gach Comhad"
-
-#~ msgid "Form"
-#~ msgstr "Foirm"
-
-#~ msgid "Slider no. %1"
-#~ msgstr "Barra Sleamhnáin Uimh. %1"
-
-#~ msgid "The file could not be loaded"
-#~ msgstr "Níorbh fhéidir an comhad a luchtú"
-
-#~ msgid ""
-#~ "Parser error at position %1:\n"
-#~ "Syntax error"
-#~ msgstr ""
-#~ "Earráid pharsálaí ag %1:\n"
-#~ "Earráid chomhréire"
-
-#~ msgid ""
-#~ "Parser error at position %1:\n"
-#~ "Missing parenthesis"
-#~ msgstr ""
-#~ "Earráid pharsálaí ag %1:\n"
-#~ "Lúibín ar iarraidh"
-
-#~ msgid ""
-#~ "Parser error at position %1:\n"
-#~ "Function name unknown"
-#~ msgstr ""
-#~ "Earráid pharsálaí ag %1:\n"
-#~ "Ainm anaithnid ar fheidhm"
-
-#~ msgid ""
-#~ "Parser error at position %1:\n"
-#~ "Too many functions"
-#~ msgstr ""
-#~ "Earráid pharsálaí ag %1:\n"
-#~ "An iomarca feidhmeanna"
-
-#~ msgid ""
-#~ "Parser error at position %1:\n"
-#~ "Token-memory overflow"
-#~ msgstr ""
-#~ "Earráid pharsálaí ag %1:\n"
-#~ "Cuimhne chomhartha thar maoil"
-
-#~ msgid ""
-#~ "Parser error at position %1:\n"
-#~ "Stack overflow"
-#~ msgstr ""
-#~ "Earráid pharsálaí ag %1:\n"
-#~ "Cruach thar maoil"
-
-#~ msgid "Function could not be found."
-#~ msgstr "Ní féidir an fheidhm a aimsiú."
-
-#~ msgid "Enter a new parameter value:"
-#~ msgstr "Iontráil luach nua ar an bparaiméadar:"
-
-#~ msgid "The value %1 already exists."
-#~ msgstr "Tá luach %1 ann cheana."
-
-#~ msgid "and:"
-#~ msgstr "agus:"
-
-#~ msgid "Calculate Integral"
-#~ msgstr "Ríomh Suimeálaí"
-
-#~ msgid "Calculate the integral between the x-values"
-#~ msgstr "Ríomh an suimeálaí idir na x-luachanna"
-
-#~ msgid "Please choose a function"
-#~ msgstr "Roghnaigh feidhm le do thoil"
-
-#~ msgid ""
-#~ "Minimum value:\n"
-#~ "x: %1\n"
-#~ "y: %2"
-#~ msgstr ""
-#~ "Íosmhéid:\n"
-#~ "x: %1\n"
-#~ "y: %2"
-
-#~ msgid ""
-#~ "Maximum value:\n"
-#~ "x: %1\n"
-#~ "y: %2"
-#~ msgstr ""
-#~ "Uasmhéid:\n"
-#~ "x: %1\n"
-#~ "y: %2"
-
-#~ msgid "New Function Plot"
-#~ msgstr "Breacadh Nua Feidhme"
-
-#~ msgid "&Plot"
-#~ msgstr "&Breac"
-
-#~ msgid "apply the changes and close the dialog"
-#~ msgstr "cuir na hathruithe i bhfeidhm agus dún an dialóg"
-
-#~ msgid "edit the selected function"
-#~ msgstr "cuir an fheidhm roghnaithe in eagar"
-
-#~ msgid "Click here to edit the selected function."
-#~ msgstr "Cliceáil anseo chun an fheidhm roghnaithe a chur in eagar."
-
-#~ msgid "Ne&w Function Plot..."
-#~ msgstr "Breacadh &Nua Feidhme..."
-
-#~ msgid "define a new function"
-#~ msgstr "sainmhínigh feidhm nua"
-
-#~ msgid "New &Parametric Plot..."
-#~ msgstr "Breacadh Nua &Paraiméadrach..."
-
-#~ msgid "&New Polar Plot..."
-#~ msgstr "Breacadh &Nua Polach..."
-
-#~ msgid "Cop&y Function..."
-#~ msgstr "&Cóipeáil Feidhm..."
-
-#~ msgid "0.1mm"
-#~ msgstr "0.1mm"
-
-#~ msgid "&Color:"
-#~ msgstr "&Dath:"
-
-#~ msgid "&Line width:"
-#~ msgstr "&Leithead líne:"
-
-#~ msgid "Colo&r:"
-#~ msgstr "&Dath:"
-
-#~ msgid "Use"
-#~ msgstr "Úsáid"
-
-#~ msgid "&Min:"
-#~ msgstr "Í&os:"
-
-#~ msgid "Co&lor:"
-#~ msgstr "&Dath:"
-
-#~ msgid "P&recision:"
-#~ msgstr "C&ruinneas::"
-
-#~ msgid "D&uplicate"
-#~ msgstr "&Dúblach"
-
-#~ msgid "Variable"
-#~ msgstr "Athróg"
-
-#~ msgid "Edit Parametric Plot"
-#~ msgstr "Cuir Breacadh Paraiméadrach in Eagar"
-
-# Ctrl+F, Ctrl+G as find, find again transcend language?
-# also "Foirmeacha" on "Eolas Leathanaigh"  (so no tweaking needed)
-#~ msgid "f"
-#~ msgstr "f"
-
-#~ msgid "(t) ="
-#~ msgstr "(t) ="
-
-#~ msgid "Hide"
-#~ msgstr "Folaigh"
-
-# #-#-#-#-#  firefox-1.0_pre.ga.po (firefox 1.0_pre)  #-#-#-#-#
-# LOCALIZATION NOTE : FILE This file contains the application's labels for keys on the keyboard.
-#                     If you decide to translate this file, you should translate it based on
-#                     the prevelant kind of keyboard for your target user.
-# LOCALIZATION NOTE : There are two types of keys, those w/ text on their labels
-#                     and those w/ glyphs.
-# LOCALIZATION NOTE : VK_<...> represents a key on the keyboard.
-#
-# For more information please see bugzilla bug 90888.
-# F1..F10 should probably not be translated unless there are keyboards that actually have other labels
-# F11..F20 might be something else, but are really keyboard specific and not region/language specific
-# there are actually two different F11/F12 keys, I don't know which one these labels represent.
-# eg, F13..F20 on a sparc keyboard are labeled Props, Again .. Find, Cut
-# sparc also has Stop, Again and F11/F12. VK_F11/VK_F12 probably map to Stop/Again
-# LOCALIZATION NOTE : BLOCK Do not translate the next block
-# #-#-#-#-#  tmp.XXXXPnLGJo (firefox 1.0_pre)  #-#-#-#-#
-# LOCALIZATION NOTE : FILE This file contains the application's labels for keys on the keyboard.
-#                     If you decide to translate this file, you should translate it based on
-#                     the prevelant kind of keyboard for your target user.
-# LOCALIZATION NOTE : There are two types of keys, those w/ text on their labels
-#                     and those w/ glyphs.
-# LOCALIZATION NOTE : VK_<...> represents a key on the keyboard.
-#
-# For more information please see bugzilla bug 90888.
-# F1..F10 should probably not be translated unless there are keyboards that actually have other labels
-# F11..F20 might be something else, but are really keyboard specific and not region/language specific
-# there are actually two different F11/F12 keys, I don't know which one these labels represent.
-# eg, F13..F20 on a sparc keyboard are labeled Props, Again .. Find, Cut
-# sparc also has Stop, Again and F11/F12. VK_F11/VK_F12 probably map to Stop/Again
-# LOCALIZATION NOTE : BLOCK Do not translate the next block
-#~ msgid "F1"
-#~ msgstr "F1"
-
-#~ msgid "apply changes to the list"
-#~ msgstr "cuir athruithe i bhfeidhm ar an liosta"
-
-#~ msgid "&Max:"
-#~ msgstr "&Uas:"
-
-#~ msgid "Edit Polar Plot"
-#~ msgstr "Cuir Breacadh Polach in Eagar"
-
-#~ msgid "r"
-#~ msgstr "r"
-
-#~ msgid "Graph"
-#~ msgstr "Graf"
-
-#~ msgid "close the dialog"
-#~ msgstr "dún an dialóg"
-
-#~ msgid "Close the dialog"
-#~ msgstr "Dún an dialóg"
-
-#~ msgid "&Axes"
-#~ msgstr "&Aiseanna"
-
-#~ msgid "&X Axis"
-#~ msgstr "&X-Ais"
-
-#~ msgid "[-8 | +8]"
-#~ msgstr "[-8 | +8]"
-
-#~ msgid "[-5 | +5]"
-#~ msgstr "[-5 | +5]"
-
-#~ msgid "[0 | +16]"
-#~ msgstr "[0 | +16]"
-
-#~ msgid "[0 | +10]"
-#~ msgstr "[0 | +10]"
-
-#~ msgid "&Y Axis"
-#~ msgstr "&Y-Ais"
-
-#~ msgid "Show extra frame"
-#~ msgstr "Taispeáin fráma breise"
-
-#~ msgid "&Grid"
-#~ msgstr "&Greille"
-
-#~ msgid "X-Axis"
-#~ msgstr "X-Ais"
-
-#~ msgid "Scaling:"
-#~ msgstr "Scálú:"
-
-#~ msgid "Printing:"
-#~ msgstr "Priontáil:"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "2"
-#~ msgstr "2"
-
-#~ msgid "0.5"
-#~ msgstr "0.5"
-
-#~ msgid "cm"
-#~ msgstr "cm"
-
-#~ msgid "Y-Axis"
-#~ msgstr "Y-Ais"
-
-#~ msgid "kmplot"
-#~ msgstr "kmPlot"
-
-#~ msgid "Choose Name"
-#~ msgstr "Roghnaigh Ainm"
-
-#~ msgid "&Colors..."
-#~ msgstr "&Dathanna..."
-
-#~ msgid "&Scaling..."
-#~ msgstr "Á &Scálú..."
-
-#~ msgid "&New Function Plot..."
-#~ msgstr "Breacadh &Nua Feidhme..."
-
-#~ msgid "New Parametric Plot..."
-#~ msgstr "Breacadh Nua Paraiméadrach..."
-
-#~ msgid "New Polar Plot..."
-#~ msgstr "Breacadh Nua Polach..."
-
-#~ msgid "&Calculate Integral"
-#~ msgstr "&Ríomh Suimeálaí"
-
-#~ msgid "Show Slider 2"
-#~ msgstr "Taispeáin Barra Sleamhnáin 2"
-
-#~ msgid "Show Slider 3"
-#~ msgstr "Taispeáin Barra Sleamhnáin 3"
-
-#~ msgid "Show Slider 4"
-#~ msgstr "Taispeáin Barra Sleamhnáin 4"
-
-#~ msgid "The URL could not be saved."
-#~ msgstr "Ní féidir an URL a shábháil."
-
-#~ msgid "Scale"
-#~ msgstr "Scála"
-
-#~ msgid "Edit Scaling"
-#~ msgstr "Cuir Scálú in Eagar"
-
-#~ msgid "Edit Fonts"
-#~ msgstr "Cuir Clónna in Eagar"

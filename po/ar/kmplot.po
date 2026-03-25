@@ -3,13 +3,13 @@
 # Isam Bayazidi <bayazidi@arabeyes.org>, 2002.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # محمد الحرقان <malham1@gmail.com>, 2010.
-# SPDX-FileCopyrightText: 2022, 2024, 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2022, 2024, 2025, 2026 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:48+0000\n"
-"PO-Revision-Date: 2025-10-01 20:38+0400\n"
+"PO-Revision-Date: 2026-03-24 10:41+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -211,7 +211,7 @@ msgstr "الحد الأدنى:"
 #: editcoords.ui:81
 #, kde-format
 msgid "Vertical axis Range"
-msgstr "حدود المحور الرأسي"
+msgstr "حدود المحور العمودي"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_XScalingMode)
 #: editcoords.ui:142
@@ -246,7 +246,7 @@ msgstr "مخصص:"
 #: editcoords.ui:178
 #, kde-format
 msgid "Vertical axis Grid Spacing"
-msgstr "تباعد خطوط الشبكة رأسياً"
+msgstr "تباعد خطوط الشبكة عموديًا"
 
 #: equationeditor.cpp:27
 #, kde-format
@@ -1157,13 +1157,13 @@ msgstr "تسمية على المحور الأفقي."
 #: kmplot.kcfg:77
 #, kde-format
 msgid "Label to Vertical Axis"
-msgstr "تسمية على المحور الرأسي"
+msgstr "تسمية على المحور العمودي"
 
 #. i18n: ectx: whatsthis, entry (LabelVerticalAxis), group (Coordinate System)
 #: kmplot.kcfg:78
 #, kde-format
 msgid "Label to Vertical Axis."
-msgstr "تسمية على المحور الرأسي"
+msgstr "تسمية على المحور العمودي"
 
 #. i18n: ectx: label, entry (XScalingMode), group (Scaling)
 #. i18n: ectx: label, entry (YScalingMode), group (Scaling)
@@ -2784,13 +2784,13 @@ msgstr "س"
 #: settingspagediagram.ui:101
 #, kde-format
 msgid "Label on vertical axis."
-msgstr "لصيقة على المحور الرأسي"
+msgstr "لصيقة على المحور العمودي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: settingspagediagram.ui:104
 #, kde-format
 msgid "Vertical axis label:"
-msgstr "لصيقة المحور الرأسي:"
+msgstr "لصيقة المحور العمودي:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_LabelVerticalAxis)
 #: settingspagediagram.ui:114

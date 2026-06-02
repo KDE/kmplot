@@ -8,28 +8,28 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:48+0000\n"
-"PO-Revision-Date: 2013-09-08 07:05+0900\n"
-"Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
+"PO-Revision-Date: 2026-05-31 19:05-0400\n"
+"Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "ئابدۇقادىر ئابلىز, غەيرەت كەنجى"
+msgstr "ئابدۇقادىر ئابلىز، غەيرەت كەنجى"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "sahran.ug@gmail.com,  gheyret@gmail.com"
+msgstr "sahranbay@gmail.com, gheyret@gmail.com"
 
 #: calculator.cpp:31
-#, fuzzy, kde-format
-#| msgid "Calculator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Calculator"
 msgstr "ھېسابلىغۇچ"
@@ -110,7 +110,7 @@ msgstr "پۈتۈك"
 #: constantseditor.ui:118
 #, kde-format
 msgid "Global"
-msgstr "ئومۇمىي دائىرىلىك"
+msgstr "ئومۇمىيەت"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdDelete)
 #: constantseditor.ui:142
@@ -144,8 +144,7 @@ msgid "Coordinate System"
 msgstr "كوئوردېنات سىستېمىسى"
 
 #: coordsconfigdialog.cpp:43
-#, fuzzy, kde-format
-#| msgid "Coordinate System"
+#, kde-format
 msgctxt "@title:window"
 msgid "Coordinate System"
 msgstr "كوئوردېنات سىستېمىسى"
@@ -453,7 +452,7 @@ msgstr ""
 #: functioneditor.cpp:46
 #, kde-format
 msgid "Functions"
-msgstr "فۇنكسىيىلەر"
+msgstr "فۇنكسىيە"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, deleteButton)
 #: functioneditorwidget.ui:50
@@ -552,7 +551,7 @@ msgstr ""
 #: functioneditorwidget.ui:796 parameterswidget.ui:13 view.cpp:2131
 #, kde-format
 msgid "Parameters"
-msgstr "پارامېتىرلار"
+msgstr "پارامېتىر"
 
 #. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_f0)
 #. i18n: ectx: property (title), widget (PlotStyleWidget, cartesian_integral)
@@ -565,7 +564,7 @@ msgstr "پارامېتىرلار"
 #: functioneditorwidget.ui:721 functioneditorwidget.ui:803
 #, kde-format
 msgid "Appearance"
-msgstr "كۆرۈنۈشى"
+msgstr "قىياپەت"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: functioneditorwidget.ui:199
@@ -916,7 +915,7 @@ msgstr ""
 #: functiontools.ui:69
 #, kde-format
 msgid "<>"
-msgstr "<>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeButton)
 #: initialconditionswidget.ui:49
@@ -931,11 +930,10 @@ msgid "Add..."
 msgstr "قوش…"
 
 #: kconstanteditor.cpp:54
-#, fuzzy, kde-format
-#| msgid "Constant"
+#, kde-format
 msgctxt "@title:window"
 msgid "Constants Editor"
-msgstr "تۇراقلىق سان"
+msgstr ""
 
 #: kconstanteditor.cpp:116
 #, kde-format
@@ -1445,7 +1443,7 @@ msgstr "كۆرۈنۈش(&V)"
 #: kmplot_part.rc:30 kmplot_part_readonly.rc:26
 #, kde-format
 msgid "&Tools"
-msgstr "قوراللار(&T)"
+msgstr "قورال(&T)"
 
 #. i18n: ectx: Menu (help)
 #: kmplot_part.rc:39 kmplot_part_readonly.rc:35 kmplot_shell.rc:13
@@ -1501,17 +1499,15 @@ msgid "The function %1 could not be loaded"
 msgstr ""
 
 #: kparametereditor.cpp:43
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
-msgstr "پارامېتىرلار"
+msgstr ""
 
 #: kparametereditor.cpp:200
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Open Parameter File"
-msgstr "پارامېتىرلار"
+msgstr ""
 
 #: kparametereditor.cpp:200 kparametereditor.cpp:278
 #, kde-format
@@ -1551,10 +1547,9 @@ msgid "An error appeared when opening this file"
 msgstr ""
 
 #: kparametereditor.cpp:278
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Save File"
-msgstr "باشقا ئاتتا ساقلا"
+msgstr "ھۆججەت ساقلا"
 
 #: kparametereditor.cpp:285
 #, kde-format
@@ -1574,11 +1569,10 @@ msgid "An error appeared when saving this file"
 msgstr ""
 
 #: kprinterdlg.cpp:31
-#, fuzzy, kde-format
-#| msgid "KmPlot"
+#, kde-format
 msgctxt "@title:window"
 msgid "KmPlot Options"
-msgstr "KmPlot"
+msgstr ""
 
 #: kprinterdlg.cpp:35
 #, kde-format
@@ -1643,16 +1637,15 @@ msgid ""
 msgstr ""
 
 #: ksliderwindow.cpp:79
-#, fuzzy, kde-format
-#| msgid "Slider"
+#, kde-format
 msgctxt "@title:window"
 msgid "Sliders"
-msgstr "سۈرگۈچ"
+msgstr "سىيرىغۇچ"
 
 #: main.cpp:35
 #, kde-format
 msgid "KmPlot"
-msgstr "KmPlot"
+msgstr ""
 
 #: main.cpp:37
 #, kde-format
@@ -1672,7 +1665,7 @@ msgstr ""
 #: main.cpp:43
 #, kde-format
 msgid "Original Author"
-msgstr "ئەسلى ئاپتور"
+msgstr "ئەسلى يازغۇچى"
 
 #: main.cpp:44
 #, kde-format
@@ -1682,7 +1675,7 @@ msgstr ""
 #: main.cpp:44
 #, kde-format
 msgid "GUI"
-msgstr "GUI"
+msgstr ""
 
 #: main.cpp:45
 #, kde-format
@@ -1707,7 +1700,7 @@ msgstr ""
 #: main.cpp:48
 #, kde-format
 msgid "David Vignoni"
-msgstr "David Vignoni"
+msgstr ""
 
 #: main.cpp:48
 #, kde-format
@@ -1730,16 +1723,14 @@ msgid "Initial functions to plot"
 msgstr ""
 
 #: main.cpp:54
-#, fuzzy, kde-format
-#| msgid "Document"
+#, kde-format
 msgid "argument"
-msgstr "پۈتۈك"
+msgstr ""
 
 #: main.cpp:55
-#, fuzzy, kde-format
-#| msgid "File to open"
+#, kde-format
 msgid "URLs to open"
-msgstr "ئاچىدىغان ھۆججەت"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
 #: maindlg.cpp:193 settingspagegeneral.ui:14
@@ -1766,12 +1757,12 @@ msgstr ""
 #: maindlg.cpp:195
 #, kde-format
 msgid "Colors"
-msgstr "رەڭلەر"
+msgstr "رەڭ"
 
 #: maindlg.cpp:196
 #, kde-format
 msgid "Fonts"
-msgstr "خەت نۇسخىلىرى"
+msgstr "خەت نۇسخا"
 
 #: maindlg.cpp:223
 #, kde-format
@@ -1796,12 +1787,12 @@ msgstr ""
 #: maindlg.cpp:256
 #, kde-format
 msgid "Zoom &In"
-msgstr "چوڭايت(&I)"
+msgstr "يېقىنلات(&I)"
 
 #: maindlg.cpp:262
 #, kde-format
 msgid "Zoom &Out"
-msgstr "كىچىكلەت(&O)"
+msgstr "يىراقلات(&O)"
 
 #: maindlg.cpp:268
 #, kde-format
@@ -1893,7 +1884,7 @@ msgstr ""
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
-msgstr ""
+msgstr "(%1، %2)"
 
 #: maindlg.cpp:385
 #, kde-format
@@ -1935,8 +1926,7 @@ msgid "Scalable Vector Graphics (*.svg)"
 msgstr ""
 
 #: maindlg.cpp:562
-#, fuzzy, kde-format
-#| msgid "Export as Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "سۈرەت سۈپىتىدە ئېكسپورت قىلىش"
@@ -1953,24 +1943,21 @@ msgid "Print Plot"
 msgstr ""
 
 #: maindlg.cpp:691
-#, fuzzy, kde-format
-#| msgid "&Settings"
+#, kde-format
 msgid "Print Settings"
-msgstr "تەڭشەك(&S)"
+msgstr ""
 
 #: maindlg.cpp:696
-#, fuzzy, kde-format
-#| msgid "&Settings"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"
-msgstr "تەڭشەك(&S)"
+msgstr ""
 
 #: parameteranimator.cpp:52
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgctxt "@title:window"
 msgid "Parameter Animator"
-msgstr "پارامېتىرلار"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, warningLabel)
 #: parameteranimator.ui:23
@@ -2011,7 +1998,7 @@ msgstr "1"
 #: parameteranimator.ui:64
 #, kde-format
 msgid "10"
-msgstr "10"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (EquationEdit, initial)
 #. i18n: ectx: property (text), widget (QLabel, currentValue)
@@ -2036,31 +2023,31 @@ msgstr ""
 #: parameteranimator.ui:177
 #, kde-format
 msgid "<<"
-msgstr "<<"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, stepBackwards)
 #: parameteranimator.ui:184
 #, kde-format
 msgid "<"
-msgstr "<"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, pause)
 #: parameteranimator.ui:194
 #, kde-format
 msgid "||"
-msgstr "||"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, stepForwards)
 #: parameteranimator.ui:201
 #, kde-format
 msgid ">"
-msgstr ">"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, gotoFinal)
 #: parameteranimator.ui:211
 #, kde-format
 msgid ">>"
-msgstr ">>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: parameteranimator.ui:257
@@ -2146,7 +2133,7 @@ msgstr ""
 #: parser.cpp:1091
 #, kde-format
 msgid "Syntax error"
-msgstr "گرامماتىكىلىق خاتالىق"
+msgstr "گىرامماتىكىلىق خاتالىق"
 
 #: parser.cpp:1094
 #, kde-format
@@ -2206,7 +2193,7 @@ msgstr ""
 #: plotstylewidget.cpp:30
 #, kde-format
 msgid "Solid"
-msgstr "لىق تولغان"
+msgstr "ئۇيۇل"
 
 #: plotstylewidget.cpp:31
 #, kde-format
@@ -2239,11 +2226,10 @@ msgid "Color:"
 msgstr "رەڭ:"
 
 #: plotstylewidget.cpp:57
-#, fuzzy, kde-format
-#| msgid "Appearance"
+#, kde-format
 msgctxt "@title:window"
 msgid "Plot Appearance"
-msgstr "كۆرۈنۈشى"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, PlotStyleWidget)
 #: plotstylewidget.ui:14
@@ -2296,7 +2282,7 @@ msgstr "قۇر كەڭلىكى:"
 #: settingspagediagram.ui:204 settingspagediagram.ui:236
 #, kde-format
 msgid " mm"
-msgstr " mm"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, QParameterEditor)
 #: qparametereditor.ui:13
@@ -2320,7 +2306,7 @@ msgstr "ئۈستىگە"
 #: qparametereditor.ui:91
 #, kde-format
 msgid "Move Down"
-msgstr "پەسكە"
+msgstr "ئاستىغا"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, cmdImport)
 #: qparametereditor.ui:117
@@ -2370,10 +2356,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: settingspagecolor.ui:35
-#, fuzzy, kde-format
-#| msgid "Background color"
+#, kde-format
 msgid "Background color:"
-msgstr "تەگلىك رەڭگى"
+msgstr "تەگلىك رەڭگى:"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_backgroundcolor)
 #: settingspagecolor.ui:45
@@ -2725,7 +2710,7 @@ msgstr ""
 #: settingspagediagram.ui:94
 #, kde-format
 msgid "X"
-msgstr "X"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_2)
 #: settingspagediagram.ui:101
@@ -2891,21 +2876,19 @@ msgstr ""
 #: settingspagegeneral.ui:61
 #, kde-format
 msgid "Zoom"
-msgstr "كېڭەيت-تارايت"
+msgstr "نىسبەت"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: settingspagegeneral.ui:73
-#, fuzzy, kde-format
-#| msgid "Zoom &In"
+#, kde-format
 msgid "Zoom in by:"
-msgstr "چوڭايت(&I)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_2)
 #: settingspagegeneral.ui:86
-#, fuzzy, kde-format
-#| msgid "Zoom &Out"
+#, kde-format
 msgid "Zoom out by:"
-msgstr "كىچىكلەت(&O)"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomOutStep)
 #: settingspagegeneral.ui:99
@@ -2954,7 +2937,7 @@ msgstr ""
 #, kde-format
 msgctxt "%1=minimum value, %2=maximum value"
 msgid "%1 to %2"
-msgstr ""
+msgstr "%1 دىن %2"
 
 #: view.cpp:2127 view.cpp:2128
 #, kde-format

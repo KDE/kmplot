@@ -40,7 +40,6 @@
 #include <KMessageBox>
 #include <KStandardAction>
 #include <KToolBar>
-#include <kwidgetsaddons_version.h>
 
 // local includes
 #include "calculator.h"
@@ -112,13 +111,8 @@ MainDlg *MainDlg::m_self = nullptr;
 K_PLUGIN_CLASS_WITH_JSON(MainDlg, "kmplot_part.json")
 
 // BEGIN class MainDlg
-#if QT_VERSION_MAJOR == 5
-MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList &)
-    : KParts::ReadWritePart(parent)
-#else
 MainDlg::MainDlg(QWidget *parentWidget, QObject *parent, const KPluginMetaData &data)
     : KParts::ReadWritePart(parent, data)
-#endif
     , m_recentFiles(nullptr)
     , m_modified(false)
     , m_parent(parentWidget)
@@ -462,22 +456,14 @@ void MainDlg::resetUndoRedo()
 bool MainDlg::checkModified()
 {
     if (m_modified) {
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 100, 0)
-        int saveit = KMessageBox::warningYesNoCancel(m_parent,
-#else
         int saveit = KMessageBox::warningTwoActionsCancel(m_parent,
-#endif
-                                                     i18n("The plot has been modified.\n"
-                                                          "Do you want to save it?"),
-                                                     QString(),
-                                                     KStandardGuiItem::save(),
-                                                     KStandardGuiItem::discard());
+                                                          i18n("The plot has been modified.\n"
+                                                               "Do you want to save it?"),
+                                                          QString(),
+                                                          KStandardGuiItem::save(),
+                                                          KStandardGuiItem::discard());
         switch (saveit) {
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 100, 0)
-        case KMessageBox::Yes:
-#else
         case KMessageBox::PrimaryAction:
-#endif
             slotSave();
             if (m_modified) // the user didn't saved the file
                 return false;
@@ -753,11 +739,7 @@ bool MainDlg::fileExists(const QUrl &url)
 {
     bool fileExists = false;
     if (url.isValid()) {
-#if QT_VERSION_MAJOR < 6
-        KIO::StatJob *statjob = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatBasic);
-#else
         KIO::StatJob *statjob = KIO::stat(url, KIO::StatJob::SourceSide, KIO::StatBasic);
-#endif
         bool noerror = statjob->exec();
         if (noerror) {
             // We want a file
@@ -836,11 +818,7 @@ CoordsConfigDialog *MainDlg::coordsDialog()
 
 /// BrowserExtension class
 BrowserExtension::BrowserExtension(MainDlg *parent)
-#if QT_VERSION_MAJOR == 5
-    : KParts::BrowserExtension(parent)
-#else
     : KParts::NavigationExtension(parent)
-#endif
 {
     Q_EMIT enableAction("print", true);
     setURLDropHandlingEnabled(true);

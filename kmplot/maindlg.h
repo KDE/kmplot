@@ -24,11 +24,7 @@
 #include <QStandardPaths>
 
 // KDE includes
-#if QT_VERSION_MAJOR == 5
-#include <KParts/BrowserExtension>
-#else
 #include <KParts/NavigationExtension>
-#endif
 #include <KParts/Part>
 #include <KParts/ReadWritePart>
 #include <KPluginFactory>
@@ -69,11 +65,7 @@ public:
      * @param parentWidget parent widget for this part
      * @param parent parent object
      */
-#if QT_VERSION_MAJOR == 5
-    MainDlg(QWidget *parentWidget, QObject *parent, const QVariantList & = QVariantList());
-#else
     MainDlg(QWidget *parentWidget, QObject *parent, const KPluginMetaData &data);
-#endif
 
     /// Initialized as a pointer to this MainDlg object on creation
     static MainDlg *self()
@@ -240,11 +232,7 @@ protected Q_SLOTS:
     void setReadOnlyStatusBarText(const QString &);
 };
 
-#if QT_VERSION_MAJOR == 5
-class BrowserExtension : public KParts::BrowserExtension
-#else
 class BrowserExtension : public KParts::NavigationExtension
-#endif
 {
     Q_OBJECT
 public:

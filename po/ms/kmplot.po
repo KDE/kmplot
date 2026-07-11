@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:48+0000\n"
+"POT-Creation-Date: 2026-07-11 00:39+0000\n"
 "PO-Revision-Date: 2007-03-02 11:20+0730\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -963,12 +963,12 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "Pilih secara manual"
 
-#: kmplot.cpp:73
+#: kmplot.cpp:71
 #, fuzzy, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "Tidak dapat mencari bahagian KDevDesigner."
 
-#: kmplot.cpp:172 maindlg.cpp:522
+#: kmplot.cpp:170 maindlg.cpp:508
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.fkt|KmPlot Files (*.fkt)\n"
@@ -978,7 +978,7 @@ msgstr ""
 "*.fkt|Fail KmPlot (*.fkt)\n"
 "*|Semua Fail"
 
-#: kmplot.cpp:172
+#: kmplot.cpp:170
 #, kde-format
 msgid "Open"
 msgstr ""
@@ -1433,7 +1433,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
 #, fuzzy, kde-format
 msgid "&Edit"
 msgstr "&Sunting..."
@@ -1473,7 +1473,7 @@ msgstr ""
 msgid "The file had an unknown version number"
 msgstr "fail tidak diketahui versi"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:205
+#: kmplotio.cpp:306 kparametereditor.cpp:204
 #, kde-format
 msgid "The file does not exist."
 msgstr "Fail tidak wujud."
@@ -1503,72 +1503,72 @@ msgstr "Automatik"
 msgid "The function %1 could not be loaded"
 msgstr "Jurupacu %s tidak dapat dimuatkan."
 
-#: kparametereditor.cpp:43
+#: kparametereditor.cpp:42
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "&Tetap Penyunting..."
 
-#: kparametereditor.cpp:200
+#: kparametereditor.cpp:199
 #, fuzzy, kde-format
 msgid "Open Parameter File"
 msgstr "Nilai tidak sah"
 
-#: kparametereditor.cpp:200 kparametereditor.cpp:278
+#: kparametereditor.cpp:199 kparametereditor.cpp:269
 #, fuzzy, kde-format
 msgid "Plain Text File (*.txt)"
 msgstr "Penukar format fail teks"
 
-#: kparametereditor.cpp:215
+#: kparametereditor.cpp:214
 #, fuzzy, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "Ralat berlaku apabila membuka fail ini"
 
-#: kparametereditor.cpp:244
+#: kparametereditor.cpp:243
 #, fuzzy, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
 "Do you want to continue?"
 msgstr "Garis ialah dan hingga?"
 
-#: kparametereditor.cpp:254
+#: kparametereditor.cpp:249
 #, fuzzy, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "seperti hingga?"
 
-#: kparametereditor.cpp:256
+#: kparametereditor.cpp:251
 #, fuzzy, kde-format
 msgid "Get Informed"
 msgstr "Bantuan"
 
-#: kparametereditor.cpp:257
+#: kparametereditor.cpp:252
 #, kde-format
 msgid "Ignore Information"
 msgstr "Abai Maklumat"
 
-#: kparametereditor.cpp:268
+#: kparametereditor.cpp:259
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "Ralat berlaku apabila membuka fail ini"
 
-#: kparametereditor.cpp:278
+#: kparametereditor.cpp:269
 #, kde-format
 msgid "Save File"
 msgstr ""
 
-#: kparametereditor.cpp:285
+#: kparametereditor.cpp:276
 #, fuzzy, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
 msgstr "A fail hingga dan fail?"
 
-#: kparametereditor.cpp:286
+#: kparametereditor.cpp:277
 #, fuzzy, kde-format
 msgid "Overwrite File?"
 msgstr "Fail Wujud"
 
-#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
+#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
 #, fuzzy, kde-format
 msgid "An error appeared when saving this file"
 msgstr "fail"
@@ -1739,223 +1739,223 @@ msgid "URLs to open"
 msgstr "Fail hendak dibuka"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:193 settingspagegeneral.ui:14
+#: maindlg.cpp:187 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "Umum"
 
-#: maindlg.cpp:193
+#: maindlg.cpp:187
 #, fuzzy, kde-format
 msgid "General Settings"
 msgstr "Tetapan Lain-lain"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:194 settingspagediagram.ui:14
+#: maindlg.cpp:188 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr ""
 
-#: maindlg.cpp:194
+#: maindlg.cpp:188
 #, kde-format
 msgid "Diagram Appearance"
 msgstr ""
 
-#: maindlg.cpp:195
+#: maindlg.cpp:189
 #, kde-format
 msgid "Colors"
 msgstr "Warna"
 
-#: maindlg.cpp:196
+#: maindlg.cpp:190
 #, fuzzy, kde-format
 msgid "Fonts"
 msgstr "Font"
 
-#: maindlg.cpp:223
+#: maindlg.cpp:217
 #, fuzzy, kde-format
 msgid "Configure KmPlot..."
 msgstr "&Tetap Penyunting..."
 
-#: maindlg.cpp:229
+#: maindlg.cpp:223
 #, kde-format
 msgid "E&xport..."
 msgstr "&Eksport..."
 
-#: maindlg.cpp:242
+#: maindlg.cpp:236
 #, fuzzy, kde-format
 msgid "&Coordinate System..."
 msgstr "Sistem Koordinat"
 
-#: maindlg.cpp:247
+#: maindlg.cpp:241
 #, fuzzy, kde-format
 msgid "&Constants..."
 msgstr "Pemalar"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:250
 #, fuzzy, kde-format
 msgid "Zoom &In"
 msgstr "Sedang dilaksanakan...   "
 
-#: maindlg.cpp:262
+#: maindlg.cpp:256
 #, fuzzy, kde-format
 msgid "Zoom &Out"
 msgstr "Memori tidak cukup."
 
-#: maindlg.cpp:268
+#: maindlg.cpp:262
 #, fuzzy, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "hingga Trigonometri &Fungsi"
 
-#: maindlg.cpp:272
+#: maindlg.cpp:266
 #, kde-format
 msgid "Reset View"
 msgstr ""
 
-#: maindlg.cpp:277
+#: maindlg.cpp:271
 #, fuzzy, kde-format
 msgid "Show Sliders"
 msgstr "Papar penanda"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:277
 #, fuzzy, kde-format
 #| msgid "&Calculate"
 msgid "Calculator"
 msgstr "&Kira"
 
-#: maindlg.cpp:288
+#: maindlg.cpp:282
 #, fuzzy, kde-format
 msgid "Plot &Area..."
 msgstr "Kawasan Boleh Imej"
 
-#: maindlg.cpp:292
+#: maindlg.cpp:286
 #, fuzzy, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Tidak dapat mencari bahagian KDevDesigner."
 
-#: maindlg.cpp:297
+#: maindlg.cpp:291
 #, fuzzy, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Tidak dapat mencari bahagian KDevDesigner."
 
-#: maindlg.cpp:304
+#: maindlg.cpp:298
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "OpenOffice.org Math"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:305
 #, fuzzy, kde-format
 msgid "Cartesian Plot"
 msgstr "Cetak Plot"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:311
 #, fuzzy, kde-format
 msgid "Parametric Plot"
 msgstr "Tajuk laman baru"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:317
 #, fuzzy, kde-format
 msgid "Polar Plot"
 msgstr "Tajuk laman baru"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:323
 #, fuzzy, kde-format
 msgid "Implicit Plot"
 msgstr "Ubah sambungan..."
 
-#: maindlg.cpp:335
+#: maindlg.cpp:329
 #, fuzzy, kde-format
 msgid "Differential Plot"
 msgstr "Titik Lekapan"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:344
 #, fuzzy, kde-format
 msgid "&Hide"
 msgstr "Sembunyi _Bantuan"
 
-#: maindlg.cpp:355
+#: maindlg.cpp:349
 #, fuzzy, kde-format
 msgid "&Remove"
 msgstr "Pindah"
 
-#: maindlg.cpp:363
+#: maindlg.cpp:357
 #, fuzzy, kde-format
 msgid "Animate Plot..."
 msgstr "Ubah sambungan..."
 
-#: maindlg.cpp:374
+#: maindlg.cpp:368
 #, kde-format
 msgid "Copy (x, y)"
 msgstr ""
 
-#: maindlg.cpp:379
+#: maindlg.cpp:373
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr ""
 
-#: maindlg.cpp:385
+#: maindlg.cpp:379
 #, kde-format
 msgid "Copy Root Value"
 msgstr ""
 
-#: maindlg.cpp:470
+#: maindlg.cpp:460
 #, fuzzy, kde-format
 msgid ""
 "The plot has been modified.\n"
 "Do you want to save it?"
 msgstr "telah diubah hingga?"
 
-#: maindlg.cpp:504
+#: maindlg.cpp:490
 #, fuzzy, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
 "the file with older versions of KmPlot. Are you sure you want to continue?"
 msgstr "fail ialah fail fail bagi hingga?"
 
-#: maindlg.cpp:507
+#: maindlg.cpp:493
 #, fuzzy, kde-format
 msgid "Save New Format"
 msgstr "Tajuk laman baru"
 
-#: maindlg.cpp:522
+#: maindlg.cpp:508
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: maindlg.cpp:528
+#: maindlg.cpp:514
 #, kde-format
 msgid "The file could not be saved"
 msgstr "Fail tidak dapat disimpan"
 
-#: maindlg.cpp:560
+#: maindlg.cpp:546
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr ""
 
-#: maindlg.cpp:562
+#: maindlg.cpp:548
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr ""
 
-#: maindlg.cpp:619
+#: maindlg.cpp:605
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr ""
 
-#: maindlg.cpp:676
+#: maindlg.cpp:662
 #, fuzzy, kde-format
 #| msgid "Print Plot"
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Cetak Plot"
 
-#: maindlg.cpp:691
+#: maindlg.cpp:677
 #, fuzzy, kde-format
 msgid "Print Settings"
 msgstr "Tetapan Lain-lain"
 
-#: maindlg.cpp:696
+#: maindlg.cpp:682
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

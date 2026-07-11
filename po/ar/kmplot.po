@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:48+0000\n"
+"POT-Creation-Date: 2026-07-11 00:39+0000\n"
 "PO-Revision-Date: 2026-06-22 18:10+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -981,17 +981,17 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "اختر تدريجاً"
 
-#: kmplot.cpp:73
+#: kmplot.cpp:71
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "لم يعثر على جزء KmPlot's."
 
-#: kmplot.cpp:172 maindlg.cpp:522
+#: kmplot.cpp:170 maindlg.cpp:508
 #, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr "ملفات الراسم KmPlot ‏(*.fkt);;كل الملفات (*)"
 
-#: kmplot.cpp:172
+#: kmplot.cpp:170
 #, kde-format
 msgid "Open"
 msgstr "افتح"
@@ -1446,7 +1446,7 @@ msgid ""
 msgstr "اظهر معلومات كاملة مثل مثل المماس عند إنشاء رسم"
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
 #, kde-format
 msgid "&Edit"
 msgstr "&حرّر"
@@ -1486,7 +1486,7 @@ msgstr "شريط الأدوات الرئيسي"
 msgid "The file had an unknown version number"
 msgstr "ملفّ مجهول رقم النسخة"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:205
+#: kmplotio.cpp:306 kparametereditor.cpp:204
 #, kde-format
 msgid "The file does not exist."
 msgstr "الملف غير موجود."
@@ -1516,72 +1516,72 @@ msgstr "آليّ"
 msgid "The function %1 could not be loaded"
 msgstr "لا يمكن تحميل %1 الدالة"
 
-#: kparametereditor.cpp:43
+#: kparametereditor.cpp:42
 #, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "محرر العلامات"
 
-#: kparametereditor.cpp:200
+#: kparametereditor.cpp:199
 #, kde-format
 msgid "Open Parameter File"
 msgstr "محرر ملف المعاملات"
 
-#: kparametereditor.cpp:200 kparametereditor.cpp:278
+#: kparametereditor.cpp:199 kparametereditor.cpp:269
 #, kde-format
 msgid "Plain Text File (*.txt)"
 msgstr "نصّ صِرف (*.txt)"
 
-#: kparametereditor.cpp:215
+#: kparametereditor.cpp:214
 #, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "يبدو أن خطأ حدث أثناء فتح هذا الملف: %1"
 
-#: kparametereditor.cpp:244
+#: kparametereditor.cpp:243
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
 "Do you want to continue?"
 msgstr "قيمة السطر %1 غير صالحة للمعالجة، فلن تضمن. هل تريد الاستمرار؟"
 
-#: kparametereditor.cpp:254
+#: kparametereditor.cpp:249
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "هل تريد معرفة الخطوط الأخرى التي لا يمكن قراءتها؟"
 
-#: kparametereditor.cpp:256
+#: kparametereditor.cpp:251
 #, kde-format
 msgid "Get Informed"
 msgstr "تبليغ"
 
-#: kparametereditor.cpp:257
+#: kparametereditor.cpp:252
 #, kde-format
 msgid "Ignore Information"
 msgstr "تجاهل المعلومات"
 
-#: kparametereditor.cpp:268
+#: kparametereditor.cpp:259
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "يبدو أن خطأ حدث أثناء فتح هذا الملف"
 
-#: kparametereditor.cpp:278
+#: kparametereditor.cpp:269
 #, kde-format
 msgid "Save File"
 msgstr "احفظ الملفّ"
 
-#: kparametereditor.cpp:285
+#: kparametereditor.cpp:276
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
 msgstr "اسم الملف  \"%1\" موجود مسبقاً . هل تريد الكتابة عليه والاستمرار ؟"
 
-#: kparametereditor.cpp:286
+#: kparametereditor.cpp:277
 #, kde-format
 msgid "Overwrite File?"
 msgstr "الكتابة فوق الملف ؟"
 
-#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
+#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "خطأ أثناء حفظ الملف."
@@ -1751,165 +1751,165 @@ msgid "URLs to open"
 msgstr "العناوين لفتحِها"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:193 settingspagegeneral.ui:14
+#: maindlg.cpp:187 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "عام"
 
-#: maindlg.cpp:193
+#: maindlg.cpp:187
 #, kde-format
 msgid "General Settings"
 msgstr "إعدادات عامة"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:194 settingspagediagram.ui:14
+#: maindlg.cpp:188 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "رسم بياني"
 
-#: maindlg.cpp:194
+#: maindlg.cpp:188
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "بشكل رسم بياني"
 
-#: maindlg.cpp:195
+#: maindlg.cpp:189
 #, kde-format
 msgid "Colors"
 msgstr "الألوان"
 
-#: maindlg.cpp:196
+#: maindlg.cpp:190
 #, kde-format
 msgid "Fonts"
 msgstr "خطوط"
 
-#: maindlg.cpp:223
+#: maindlg.cpp:217
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "اضبط  KmPlot..."
 
-#: maindlg.cpp:229
+#: maindlg.cpp:223
 #, kde-format
 msgid "E&xport..."
 msgstr "ص&در..."
 
-#: maindlg.cpp:242
+#: maindlg.cpp:236
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "إحداثية النظام."
 
-#: maindlg.cpp:247
+#: maindlg.cpp:241
 #, kde-format
 msgid "&Constants..."
 msgstr "&ثوابت."
 
-#: maindlg.cpp:256
+#: maindlg.cpp:250
 #, kde-format
 msgid "Zoom &In"
 msgstr "&قرّب"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:256
 #, kde-format
 msgid "Zoom &Out"
 msgstr "ب&عّد"
 
-#: maindlg.cpp:268
+#: maindlg.cpp:262
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "اضبط الودجة لـ &للدوال المثلثية"
 
-#: maindlg.cpp:272
+#: maindlg.cpp:266
 #, kde-format
 msgid "Reset View"
 msgstr "صفّر العرض"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:271
 #, kde-format
 msgid "Show Sliders"
 msgstr "اعرض المنزلق"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:277
 #, kde-format
 msgid "Calculator"
 msgstr "آلة حاسبة"
 
-#: maindlg.cpp:288
+#: maindlg.cpp:282
 #, kde-format
 msgid "Plot &Area..."
 msgstr "منطقة الرسم"
 
-#: maindlg.cpp:292
+#: maindlg.cpp:286
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "أوجد الأقصى"
 
-#: maindlg.cpp:297
+#: maindlg.cpp:291
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "جِد الأدنى."
 
-#: maindlg.cpp:304
+#: maindlg.cpp:298
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "دوال &رياضية مبدئية"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:305
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "رسم ديكارتي"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:311
 #, kde-format
 msgid "Parametric Plot"
 msgstr "رسم بارومتري"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:317
 #, kde-format
 msgid "Polar Plot"
 msgstr "رسم قطبي"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:323
 #, kde-format
 msgid "Implicit Plot"
 msgstr "رسم ضمني"
 
-#: maindlg.cpp:335
+#: maindlg.cpp:329
 #, kde-format
 msgid "Differential Plot"
 msgstr "رسم تفاضلي"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:344
 #, kde-format
 msgid "&Hide"
 msgstr "إ&خفاء"
 
-#: maindlg.cpp:355
+#: maindlg.cpp:349
 #, kde-format
 msgid "&Remove"
 msgstr "أ&زل"
 
-#: maindlg.cpp:363
+#: maindlg.cpp:357
 #, kde-format
 msgid "Animate Plot..."
 msgstr "رسم نشط"
 
-#: maindlg.cpp:374
+#: maindlg.cpp:368
 #, kde-format
 msgid "Copy (x, y)"
 msgstr "انسخ (س، ص)"
 
-#: maindlg.cpp:379
+#: maindlg.cpp:373
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1، %2)"
 
-#: maindlg.cpp:385
+#: maindlg.cpp:379
 #, kde-format
 msgid "Copy Root Value"
 msgstr "انسخ قيمة الجذر"
 
-#: maindlg.cpp:470
+#: maindlg.cpp:460
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1918,7 +1918,7 @@ msgstr ""
 "عُدل الرسم.\n"
 " هل تريد الحفظ ؟"
 
-#: maindlg.cpp:504
+#: maindlg.cpp:490
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1927,49 +1927,49 @@ msgstr ""
 "هذا الملف محفوظ بصيغة قديمة، إذا حفظته لن تستطيع فتحه بالنسخة القديمة من "
 "برنامج KmPlot هل تريد الاستمرار ؟"
 
-#: maindlg.cpp:507
+#: maindlg.cpp:493
 #, kde-format
 msgid "Save New Format"
 msgstr "احفظ تنسيق جديد"
 
-#: maindlg.cpp:522
+#: maindlg.cpp:508
 #, kde-format
 msgid "Save As"
 msgstr "احفظ باسم"
 
-#: maindlg.cpp:528
+#: maindlg.cpp:514
 #, kde-format
 msgid "The file could not be saved"
 msgstr "لا يمكن حفظ الملف"
 
-#: maindlg.cpp:560
+#: maindlg.cpp:546
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr "رسومات موجهة قابلة للتحجيم (* .svg)"
 
-#: maindlg.cpp:562
+#: maindlg.cpp:548
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "صدِّر كصورة"
 
-#: maindlg.cpp:619
+#: maindlg.cpp:605
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "عذراً هناك خطأ حدث أثناء حفظ الصورة \"%1\""
 
-#: maindlg.cpp:676
+#: maindlg.cpp:662
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "اطبع الرسم"
 
-#: maindlg.cpp:691
+#: maindlg.cpp:677
 #, kde-format
 msgid "Print Settings"
 msgstr "اطبع الإعدادات"
 
-#: maindlg.cpp:696
+#: maindlg.cpp:682
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

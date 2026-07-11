@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:48+0000\n"
+"POT-Creation-Date: 2026-07-11 00:39+0000\n"
 "PO-Revision-Date: 2025-08-02 21:16+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -995,17 +995,17 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "בחירת גרדיאנט"
 
-#: kmplot.cpp:73
+#: kmplot.cpp:71
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "לא ניתן למצוא חלק של KmPlot."
 
-#: kmplot.cpp:172 maindlg.cpp:522
+#: kmplot.cpp:170 maindlg.cpp:508
 #, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr "קובצי KmPlot‏ (‎*.fkt);;כל הקבצים (*)"
 
-#: kmplot.cpp:172
+#: kmplot.cpp:170
 #, kde-format
 msgid "Open"
 msgstr "פתיחה"
@@ -1460,7 +1460,7 @@ msgid ""
 msgstr "האם להציג פרט נוסף כגון משיק ונורמל בעת חקירת פונקציה."
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
 #, kde-format
 msgid "&Edit"
 msgstr "ע&ריכה"
@@ -1500,7 +1500,7 @@ msgstr "סרגל כלים ראשי"
 msgid "The file had an unknown version number"
 msgstr "מספר הגרסה של הקובץ לא מוכר"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:205
+#: kmplotio.cpp:306 kparametereditor.cpp:204
 #, kde-format
 msgid "The file does not exist."
 msgstr "הקובץ לא קיים."
@@ -1530,72 +1530,72 @@ msgstr "אוטומטי"
 msgid "The function %1 could not be loaded"
 msgstr "לא ניתן לטעון את הפונקציה %1"
 
-#: kparametereditor.cpp:43
+#: kparametereditor.cpp:42
 #, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "עורך משתנים"
 
-#: kparametereditor.cpp:200
+#: kparametereditor.cpp:199
 #, kde-format
 msgid "Open Parameter File"
 msgstr "פתיחת קובץ משתנים"
 
-#: kparametereditor.cpp:200 kparametereditor.cpp:278
+#: kparametereditor.cpp:199 kparametereditor.cpp:269
 #, kde-format
 msgid "Plain Text File (*.txt)"
 msgstr "קובץ טקסט פשוט (‎*.txt)"
 
-#: kparametereditor.cpp:215
+#: kparametereditor.cpp:214
 #, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "אירעה שגיאה בפתיחת הקובץ הזה: %1"
 
-#: kparametereditor.cpp:244
+#: kparametereditor.cpp:243
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
 "Do you want to continue?"
 msgstr "שורה %1 אינה ערך משתנה תקין ולכן לא תצורף. להמשיך?"
 
-#: kparametereditor.cpp:254
+#: kparametereditor.cpp:249
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "ליידע אותך על שורות אחרות שלא ניתן לקרוא?"
 
-#: kparametereditor.cpp:256
+#: kparametereditor.cpp:251
 #, kde-format
 msgid "Get Informed"
 msgstr "קבלת מידע"
 
-#: kparametereditor.cpp:257
+#: kparametereditor.cpp:252
 #, kde-format
 msgid "Ignore Information"
 msgstr "התעלמות מהפרטים"
 
-#: kparametereditor.cpp:268
+#: kparametereditor.cpp:259
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "אירעה שגיאה בפתיחת הקובץ"
 
-#: kparametereditor.cpp:278
+#: kparametereditor.cpp:269
 #, kde-format
 msgid "Save File"
 msgstr "שמירת קובץ"
 
-#: kparametereditor.cpp:285
+#: kparametereditor.cpp:276
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
 msgstr "כבר יש קובץ בשם „%1”. להחליף אותו?"
 
-#: kparametereditor.cpp:286
+#: kparametereditor.cpp:277
 #, kde-format
 msgid "Overwrite File?"
 msgstr "להחליף את הקובץ?"
 
-#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
+#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "אירעה שגיאה בשמירת הקובץ"
@@ -1767,165 +1767,165 @@ msgid "URLs to open"
 msgstr "כתובות לפתיחה"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:193 settingspagegeneral.ui:14
+#: maindlg.cpp:187 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "כללי"
 
-#: maindlg.cpp:193
+#: maindlg.cpp:187
 #, kde-format
 msgid "General Settings"
 msgstr "הגדרות כלליות"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:194 settingspagediagram.ui:14
+#: maindlg.cpp:188 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "תרשים"
 
-#: maindlg.cpp:194
+#: maindlg.cpp:188
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "מראה תרשים"
 
-#: maindlg.cpp:195
+#: maindlg.cpp:189
 #, kde-format
 msgid "Colors"
 msgstr "צבעים"
 
-#: maindlg.cpp:196
+#: maindlg.cpp:190
 #, kde-format
 msgid "Fonts"
 msgstr "גופנים"
 
-#: maindlg.cpp:223
+#: maindlg.cpp:217
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "הגדרות KmPlot…"
 
-#: maindlg.cpp:229
+#: maindlg.cpp:223
 #, kde-format
 msgid "E&xport..."
 msgstr "יי&צוא…"
 
-#: maindlg.cpp:242
+#: maindlg.cpp:236
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "&מערכת צירים…"
 
-#: maindlg.cpp:247
+#: maindlg.cpp:241
 #, kde-format
 msgid "&Constants..."
 msgstr "&קבועים…"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:250
 #, kde-format
 msgid "Zoom &In"
 msgstr "הת&קרבות"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:256
 #, kde-format
 msgid "Zoom &Out"
 msgstr "הת&רחקות"
 
-#: maindlg.cpp:268
+#: maindlg.cpp:262
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "התאמה לפונקציות טריגונומטריות"
 
-#: maindlg.cpp:272
+#: maindlg.cpp:266
 #, kde-format
 msgid "Reset View"
 msgstr "איפוס תצוגה"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:271
 #, kde-format
 msgid "Show Sliders"
 msgstr "הצגת מחווני גלילה"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:277
 #, kde-format
 msgid "Calculator"
 msgstr "מחשבון"
 
-#: maindlg.cpp:288
+#: maindlg.cpp:282
 #, kde-format
 msgid "Plot &Area..."
 msgstr "&אזור שרטוט…"
 
-#: maindlg.cpp:292
+#: maindlg.cpp:286
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "איתור המ&קסימום…"
 
-#: maindlg.cpp:297
+#: maindlg.cpp:291
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "איתור ה&מינימום…"
 
-#: maindlg.cpp:304
+#: maindlg.cpp:298
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "פונקציות מתמטיות שהוגדרו מ&ראש"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:305
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "שרטוט קרטזי"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:311
 #, kde-format
 msgid "Parametric Plot"
 msgstr "שרטוט לפי משתנים"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:317
 #, kde-format
 msgid "Polar Plot"
 msgstr "שרטוט קוטבי"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:323
 #, kde-format
 msgid "Implicit Plot"
 msgstr "שרטוט מרומז"
 
-#: maindlg.cpp:335
+#: maindlg.cpp:329
 #, kde-format
 msgid "Differential Plot"
 msgstr "שרטוט דיפרנציאלי"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:344
 #, kde-format
 msgid "&Hide"
 msgstr "ה&סתרה"
 
-#: maindlg.cpp:355
+#: maindlg.cpp:349
 #, kde-format
 msgid "&Remove"
 msgstr "ה&סרה"
 
-#: maindlg.cpp:363
+#: maindlg.cpp:357
 #, kde-format
 msgid "Animate Plot..."
 msgstr "הנפשת שרטוט…"
 
-#: maindlg.cpp:374
+#: maindlg.cpp:368
 #, kde-format
 msgid "Copy (x, y)"
 msgstr "העתקה (x, y)"
 
-#: maindlg.cpp:379
+#: maindlg.cpp:373
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: maindlg.cpp:385
+#: maindlg.cpp:379
 #, kde-format
 msgid "Copy Root Value"
 msgstr "העתקת ערך שורש"
 
-#: maindlg.cpp:470
+#: maindlg.cpp:460
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1934,7 +1934,7 @@ msgstr ""
 "השרטוט השתנה.\n"
 "לשמור אותו?"
 
-#: maindlg.cpp:504
+#: maindlg.cpp:490
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1943,49 +1943,49 @@ msgstr ""
 "הקובץ שמור בתסדיר ישן. שמירתו לא תאפשר לפתוח אותו בגרסאות קודמות של KmPlot. "
 "להמשיך?"
 
-#: maindlg.cpp:507
+#: maindlg.cpp:493
 #, kde-format
 msgid "Save New Format"
 msgstr "שמירת תסדיר חדש"
 
-#: maindlg.cpp:522
+#: maindlg.cpp:508
 #, kde-format
 msgid "Save As"
 msgstr "שמירה בשם"
 
-#: maindlg.cpp:528
+#: maindlg.cpp:514
 #, kde-format
 msgid "The file could not be saved"
 msgstr "לא ניתן לשמור את הקובץ"
 
-#: maindlg.cpp:560
+#: maindlg.cpp:546
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr "גרפיקת וקטורים נמתחת (‎*.svg)"
 
-#: maindlg.cpp:562
+#: maindlg.cpp:548
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "ייצוא כתמונה"
 
-#: maindlg.cpp:619
+#: maindlg.cpp:605
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr "משהו השתבש במהלך השמירה לתמונה „%1”, עמך הסליחה"
 
-#: maindlg.cpp:676
+#: maindlg.cpp:662
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "הדפסת שרטוט"
 
-#: maindlg.cpp:691
+#: maindlg.cpp:677
 #, kde-format
 msgid "Print Settings"
 msgstr "הגדרות הדפסה"
 
-#: maindlg.cpp:696
+#: maindlg.cpp:682
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:48+0000\n"
+"POT-Creation-Date: 2026-07-11 00:39+0000\n"
 "PO-Revision-Date: 2024-07-31 12:17+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1000,17 +1000,17 @@ msgctxt "@title:window"
 msgid "Choose a Gradient"
 msgstr "Trieu un gradient"
 
-#: kmplot.cpp:73
+#: kmplot.cpp:71
 #, kde-format
 msgid "Could not find KmPlot's part."
 msgstr "No s'ha pogut trobar el «part» de KmPlot."
 
-#: kmplot.cpp:172 maindlg.cpp:522
+#: kmplot.cpp:170 maindlg.cpp:508
 #, kde-format
 msgid "KmPlot Files (*.fkt);;All Files (*)"
 msgstr "Fitxers KmPlot (*.fkt);;Tots els fitxers (*)"
 
-#: kmplot.cpp:172
+#: kmplot.cpp:170
 #, kde-format
 msgid "Open"
 msgstr "Obri"
@@ -1470,7 +1470,7 @@ msgstr ""
 "traça un gràfic."
 
 #. i18n: ectx: Menu (edit)
-#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:343
+#: kmplot_part.rc:14 kmplot_part_readonly.rc:9 maindlg.cpp:337
 #, kde-format
 msgid "&Edit"
 msgstr "&Edita"
@@ -1510,7 +1510,7 @@ msgstr "Barra d'eines principal"
 msgid "The file had an unknown version number"
 msgstr "El fitxer té un número de versió desconegut"
 
-#: kmplotio.cpp:306 kparametereditor.cpp:205
+#: kmplotio.cpp:306 kparametereditor.cpp:204
 #, kde-format
 msgid "The file does not exist."
 msgstr "El fitxer no existix."
@@ -1540,28 +1540,28 @@ msgstr "automàtic"
 msgid "The function %1 could not be loaded"
 msgstr "La funció %1 no s'ha pogut carregar"
 
-#: kparametereditor.cpp:43
+#: kparametereditor.cpp:42
 #, kde-format
 msgctxt "@title:window"
 msgid "Parameter Editor"
 msgstr "Editor de paràmetres"
 
-#: kparametereditor.cpp:200
+#: kparametereditor.cpp:199
 #, kde-format
 msgid "Open Parameter File"
 msgstr "Obri el fitxer de paràmetres"
 
-#: kparametereditor.cpp:200 kparametereditor.cpp:278
+#: kparametereditor.cpp:199 kparametereditor.cpp:269
 #, kde-format
 msgid "Plain Text File (*.txt)"
 msgstr "Fitxer de text net (*.txt)"
 
-#: kparametereditor.cpp:215
+#: kparametereditor.cpp:214
 #, kde-format
 msgid "An error appeared when opening this file: %1"
 msgstr "S'ha produït un error mentre s'obria este fitxer: %1"
 
-#: kparametereditor.cpp:244
+#: kparametereditor.cpp:243
 #, kde-format
 msgid ""
 "Line %1 is not a valid parameter value and will therefore not be included. "
@@ -1570,32 +1570,32 @@ msgstr ""
 "La línia %1 no és un valor de paràmetre vàlid i, per tant, no s'afegirà. "
 "Voleu continuar?"
 
-#: kparametereditor.cpp:254
+#: kparametereditor.cpp:249
 #, kde-format
 msgid "Would you like to be informed about other lines that cannot be read?"
 msgstr "Voleu informació sobre altres línies que no es poden llegir?"
 
-#: kparametereditor.cpp:256
+#: kparametereditor.cpp:251
 #, kde-format
 msgid "Get Informed"
 msgstr "Informa-me'n"
 
-#: kparametereditor.cpp:257
+#: kparametereditor.cpp:252
 #, kde-format
 msgid "Ignore Information"
 msgstr "Ignora la informació"
 
-#: kparametereditor.cpp:268
+#: kparametereditor.cpp:259
 #, kde-format
 msgid "An error appeared when opening this file"
 msgstr "S'ha produït un error mentre s'obria este fitxer"
 
-#: kparametereditor.cpp:278
+#: kparametereditor.cpp:269
 #, kde-format
 msgid "Save File"
 msgstr "Guarda el fitxer"
 
-#: kparametereditor.cpp:285
+#: kparametereditor.cpp:276
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
@@ -1604,12 +1604,12 @@ msgstr ""
 "Ja existix un fitxer anomenat «%1». Segur que voleu continuar i "
 "sobreescriure'l?"
 
-#: kparametereditor.cpp:286
+#: kparametereditor.cpp:277
 #, kde-format
 msgid "Overwrite File?"
 msgstr "Voleu sobreescriure el fitxer?"
 
-#: kparametereditor.cpp:302 kparametereditor.cpp:309 kparametereditor.cpp:327
+#: kparametereditor.cpp:293 kparametereditor.cpp:300 kparametereditor.cpp:318
 #, kde-format
 msgid "An error appeared when saving this file"
 msgstr "S'ha produït un error mentre es guardava este fitxer"
@@ -1782,166 +1782,166 @@ msgid "URLs to open"
 msgstr "URL que s'ha d'obrir"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageGeneral)
-#: maindlg.cpp:193 settingspagegeneral.ui:14
+#: maindlg.cpp:187 settingspagegeneral.ui:14
 #, kde-format
 msgid "General"
 msgstr "General"
 
-#: maindlg.cpp:193
+#: maindlg.cpp:187
 #, kde-format
 msgid "General Settings"
 msgstr "Configuració general"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SettingsPageDiagram)
-#: maindlg.cpp:194 settingspagediagram.ui:14
+#: maindlg.cpp:188 settingspagediagram.ui:14
 #, kde-format
 msgid "Diagram"
 msgstr "Diagrama"
 
-#: maindlg.cpp:194
+#: maindlg.cpp:188
 #, kde-format
 msgid "Diagram Appearance"
 msgstr "Aparença del diagrama"
 
-#: maindlg.cpp:195
+#: maindlg.cpp:189
 #, kde-format
 msgid "Colors"
 msgstr "Colors"
 
-#: maindlg.cpp:196
+#: maindlg.cpp:190
 #, kde-format
 msgid "Fonts"
 msgstr "Lletres"
 
-#: maindlg.cpp:223
+#: maindlg.cpp:217
 #, kde-format
 msgid "Configure KmPlot..."
 msgstr "Configura KmPlot…"
 
-#: maindlg.cpp:229
+#: maindlg.cpp:223
 #, kde-format
 msgid "E&xport..."
 msgstr "E&xporta…"
 
-#: maindlg.cpp:242
+#: maindlg.cpp:236
 #, kde-format
 msgid "&Coordinate System..."
 msgstr "&Sistema de coordenades…"
 
-#: maindlg.cpp:247
+#: maindlg.cpp:241
 #, kde-format
 msgid "&Constants..."
 msgstr "&Constants…"
 
-#: maindlg.cpp:256
+#: maindlg.cpp:250
 #, kde-format
 msgid "Zoom &In"
 msgstr "&Acosta"
 
-#: maindlg.cpp:262
+#: maindlg.cpp:256
 #, kde-format
 msgid "Zoom &Out"
 msgstr "A&llunya"
 
-#: maindlg.cpp:268
+#: maindlg.cpp:262
 #, kde-format
 msgid "&Fit Widget to Trigonometric Functions"
 msgstr "Ajusta el giny a les &funcions trigonomètriques"
 
-#: maindlg.cpp:272
+#: maindlg.cpp:266
 #, kde-format
 msgid "Reset View"
 msgstr "Restaura la vista"
 
-#: maindlg.cpp:277
+#: maindlg.cpp:271
 #, kde-format
 msgid "Show Sliders"
 msgstr "Mostra els controls lliscants"
 
-#: maindlg.cpp:283
+#: maindlg.cpp:277
 #, kde-format
 msgid "Calculator"
 msgstr "Calculadora"
 
 # skip-rule: t-sc-plot
-#: maindlg.cpp:288
+#: maindlg.cpp:282
 #, kde-format
 msgid "Plot &Area..."
 msgstr "Dibuixa una àre&a…"
 
-#: maindlg.cpp:292
+#: maindlg.cpp:286
 #, kde-format
 msgid "Find Ma&ximum..."
 msgstr "Troba el mà&xim…"
 
-#: maindlg.cpp:297
+#: maindlg.cpp:291
 #, kde-format
 msgid "Find Mi&nimum..."
 msgstr "Troba el mí&nim…"
 
-#: maindlg.cpp:304
+#: maindlg.cpp:298
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
 msgstr "Funcions &matemàtiques predefinides"
 
-#: maindlg.cpp:311
+#: maindlg.cpp:305
 #, kde-format
 msgid "Cartesian Plot"
 msgstr "Gràfic cartesià"
 
-#: maindlg.cpp:317
+#: maindlg.cpp:311
 #, kde-format
 msgid "Parametric Plot"
 msgstr "Gràfic paramètric"
 
-#: maindlg.cpp:323
+#: maindlg.cpp:317
 #, kde-format
 msgid "Polar Plot"
 msgstr "Gràfic polar"
 
-#: maindlg.cpp:329
+#: maindlg.cpp:323
 #, kde-format
 msgid "Implicit Plot"
 msgstr "Gràfic implícit"
 
-#: maindlg.cpp:335
+#: maindlg.cpp:329
 #, kde-format
 msgid "Differential Plot"
 msgstr "Gràfic diferencial"
 
-#: maindlg.cpp:350
+#: maindlg.cpp:344
 #, kde-format
 msgid "&Hide"
 msgstr "Ocu&lta"
 
-#: maindlg.cpp:355
+#: maindlg.cpp:349
 #, kde-format
 msgid "&Remove"
 msgstr "&Elimina"
 
-#: maindlg.cpp:363
+#: maindlg.cpp:357
 #, kde-format
 msgid "Animate Plot..."
 msgstr "Anima el gràfic…"
 
-#: maindlg.cpp:374
+#: maindlg.cpp:368
 #, kde-format
 msgid "Copy (x, y)"
 msgstr "Copia (x, y)"
 
-#: maindlg.cpp:379
+#: maindlg.cpp:373
 #, kde-format
 msgctxt "Copied pair of coordinates (x, y)"
 msgid "(%1, %2)"
 msgstr "(%1, %2)"
 
-#: maindlg.cpp:385
+#: maindlg.cpp:379
 #, kde-format
 msgid "Copy Root Value"
 msgstr "Copia el valor de l'arrel"
 
-#: maindlg.cpp:470
+#: maindlg.cpp:460
 #, kde-format
 msgid ""
 "The plot has been modified.\n"
@@ -1950,7 +1950,7 @@ msgstr ""
 "S'ha modificat el gràfic.\n"
 "Voleu guardar-lo?"
 
-#: maindlg.cpp:504
+#: maindlg.cpp:490
 #, kde-format
 msgid ""
 "This file is saved with an old file format; if you save it, you cannot open "
@@ -1959,50 +1959,50 @@ msgstr ""
 "Este fitxer s'ha guardat amb un format de fitxer antic; si el guardeu, no "
 "podreu obrir-lo amb versions de KmPlot antigues. Segur que voleu continuar?"
 
-#: maindlg.cpp:507
+#: maindlg.cpp:493
 #, kde-format
 msgid "Save New Format"
 msgstr "Guarda en el nou format"
 
-#: maindlg.cpp:522
+#: maindlg.cpp:508
 #, kde-format
 msgid "Save As"
 msgstr "Anomena i guarda"
 
-#: maindlg.cpp:528
+#: maindlg.cpp:514
 #, kde-format
 msgid "The file could not be saved"
 msgstr "No s'ha pogut guardar el fitxer"
 
-#: maindlg.cpp:560
+#: maindlg.cpp:546
 #, kde-format
 msgid "Scalable Vector Graphics (*.svg)"
 msgstr "Gràfics vectorials escalables (*.svg)"
 
-#: maindlg.cpp:562
+#: maindlg.cpp:548
 #, kde-format
 msgctxt "@title:window"
 msgid "Export as Image"
 msgstr "Exporta com una imatge"
 
-#: maindlg.cpp:619
+#: maindlg.cpp:605
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
 msgstr ""
 "Ho sentim, alguna cosa ha anat malament mentre es guardava la imatge «%1»"
 
-#: maindlg.cpp:676
+#: maindlg.cpp:662
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Plot"
 msgstr "Impressió del gràfic"
 
-#: maindlg.cpp:691
+#: maindlg.cpp:677
 #, kde-format
 msgid "Print Settings"
 msgstr "Configureu la impressió"
 
-#: maindlg.cpp:696
+#: maindlg.cpp:682
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Settings"

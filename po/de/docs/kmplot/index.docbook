@@ -270,14 +270,14 @@ format="PNG"/></imageobject
 >Arbeiten mit &kmplot;</title>
 
 <para
->In &kmplot; können Sie mit unterschiedliche Arten von Funktionen benutzen, dabei können Sie sie als Funktion oder als Ausdruck eingeben.</para>
+>In &kmplot; können Sie mit unterschiedliche Arten von Funktionen verwenden, dabei können Sie sie als Funktion oder als Ausdruck eingeben.</para>
 
 <itemizedlist>
 	<listitem
 ><para
 >Kartesische Funktionen können Sie entweder als &eg; <quote
 >y = x^2</quote
->, dabei muss x als Name der Variable benutzt werden, oder als &eg; <quote
+>, dabei muss x als Name der Variable verwendet werden, oder als &eg; <quote
 >f(a) = a^2</quote
 > eingeben, dabei können Sie einen beliebigen Namen für die Variable verwenden.</para
 ></listitem>
@@ -305,7 +305,7 @@ format="PNG"/></imageobject
 ><para
 >Bei impliziten Funktionen kann der Name der Funktion getrennt von dem Ausdruck für die x- und y-Koordinaten eingegeben werden. Wenn die Variablen x und y über den Funktionsnamen festgelegt werden (&eg; mit <quote
 >f(a,b)</quote
-> als Name der Funktion), dann werden diese Variablen a und b verwendet. Ansonsten werden die Buchstaben x und y für die Variablen benutzt.</para
+> als Name der Funktion), dann werden diese Variablen a und b verwendet. Ansonsten werden die Buchstaben x und y für die Variablen verwendet.</para
 ></listitem>
 	<listitem
 ><para
@@ -339,7 +339,7 @@ format="PNG"/></imageobject
 		</listitem>
 		<listitem>
 			<para
->Eine Liste vordefinierter Funktionen. Wenn Sie bereits Text markiert haben, wird dieser Text als Argument benutzt, wenn Sie eine Funktion einfügen. Ist zum Beispiel <quote
+>Eine Liste vordefinierter Funktionen. Wenn Sie bereits Text markiert haben, wird dieser Text als Argument verwendet, wenn Sie eine Funktion einfügen. Ist zum Beispiel <quote
 >1 + x</quote
 > in der Gleichung <quote
 >y = 1 + x</quote
@@ -394,7 +394,7 @@ format="PNG"/></imageobject
 ><para
 ><replaceable
 >x</replaceable
-> die waagerechte Koordinate, die im Ausdruck benutzt wird, der nach dem Gleichheitszeichen folgt. Das ist ein Platzhalter, also können Sie jeden beliebigen Namen verwenden, das Ergebnis ist das Gleiche.</para>
+> die waagerechte Koordinate, die im Ausdruck verwendet wird, der nach dem Gleichheitszeichen folgt. Das ist ein Platzhalter, also können Sie jeden beliebigen Namen verwenden, das Ergebnis ist das Gleiche.</para>
 				</listitem>
 
 				<listitem>
@@ -508,7 +508,7 @@ format="PNG"/></imageobject
 ></term>
 					<listitem>
 						<para
->Die Schrittweite im Feld Genauigkeit wird zur numerischen Lösung der Differentialgleichung mit der Runge-Kutta-Methode benutzt. Der Wert bestimmt die maximale Schrittweite, bei Vergrößerung der Zeichnung wird mit einer kleineren Schrittweite gerechnet.</para>
+>Die Schrittweite im Feld Genauigkeit wird zur numerischen Lösung der Differentialgleichung mit der Runge-Kutta-Methode verwendet. Der Wert bestimmt die maximale Schrittweite, bei Vergrößerung der Zeichnung wird mit einer kleineren Schrittweite gerechnet.</para>
 					</listitem>
 				</varlistentry>
 			</variablelist>
@@ -1053,7 +1053,7 @@ format="PNG"/></imageobject
 				<para
 >Der Funktionsname. Falls der erste Buchstabe ein <quote
 >r</quote
-> ist, nimmt der Funktionsanalysierer an, dass Sie polare Koordinaten benutzen. Falls der erste Buchstabe ein <quote
+> ist, nimmt der Funktionsanalysierer an, dass Sie polare Koordinaten verwenden. Falls der erste Buchstabe ein <quote
 >x</quote
 > ist (zum Beispiel <quote
 >xfunc</quote
@@ -1079,7 +1079,7 @@ format="PNG"/></imageobject
 ><para
 >Der <quote
 >Scharparameter</quote
-> der Funktion. Er muss durch ein Komma von der Funktionsvariable abgetrennt werden. Sie können einen Scharparameter zum Beispiel dafür benutzen, um mehrere Graphen einer Funktion zu zeichnen. Die Werte der Parameter können Sie direkt eingeben oder über einen Schieberegler bestimmen. Bewegen Sie den Schieberegler, so ändert sich der Wert des Parameters entsprechend. Den Schieberegler können sie auf ganzzahlige Werte zwischen 0 und 100 einstellen.</para
+> der Funktion. Er muss durch ein Komma von der Funktionsvariable abgetrennt werden. Sie können einen Scharparameter zum Beispiel dafür verwenden, um mehrere Graphen einer Funktion zu zeichnen. Die Werte der Parameter können Sie direkt eingeben oder über einen Schieberegler bestimmen. Bewegen Sie den Schieberegler, so ändert sich der Wert des Parameters entsprechend. Den Schieberegler können sie auf ganzzahlige Werte zwischen 0 und 100 einstellen.</para
 ></listitem>
 		</varlistentry>
 		<varlistentry>
@@ -1503,7 +1503,7 @@ format="PNG"/></imageobject
 					<para
 >Gibt eine Anzahl von Werten für einen Scharparameter an, für den die Funktion gezeichnet werden soll. Zum Beispiel: <userinput
 >f(x,k)=k*x;P[1,2,]</userinput
-> zeichnet die Funktionen f(x)=x, f(x)=2*x und f(x)=3*x. Sie können auch Funktionen für die Werte von P benutzen. </para>
+> zeichnet die Funktionen f(x)=x, f(x)=2*x und f(x)=3*x. Sie können auch Funktionen für die Werte von P verwenden. </para>
 				</listitem>
 			</varlistentry>
 		</variablelist>
@@ -1524,7 +1524,7 @@ format="PNG"/></imageobject
 	<title
 >Mathematische Syntax</title>
 	<para
->&kmplot; benutzt den üblichen Methode, um mathematische Funktionen zu schreiben, sie sollten keine Probleme haben, damit zu arbeiten. Die Rechenoperationen, die &kmplot; versteht, sind in absteigender Reihenfolge der Auswertung: <variablelist>
+>&kmplot; verwendet den üblichen Methode, um mathematische Funktionen zu schreiben, sie sollten keine Probleme haben, damit zu arbeiten. Die Rechenoperationen, die &kmplot; versteht, sind in absteigender Reihenfolge der Auswertung: <variablelist>
 
 			<varlistentry>
 				<term
@@ -1620,9 +1620,9 @@ format="PNG"/></imageobject
 		</variablelist>
 	</para>
 	<para
->Beachten Sie die Reihenfolge der Auswertung, wenn Sie also keine Klammern benutzen, wird die Potenzierung vor der Multiplikation/Division ausgeführt, diese wiederum vor der Addition/Subtraktion. So ergibt <userinput
+>Beachten Sie die Reihenfolge der Auswertung, wenn Sie also keine Klammern verwenden, wird die Potenzierung vor der Multiplikation/Division ausgeführt, diese wiederum vor der Addition/Subtraktion. So ergibt <userinput
 >1+2*4^2</userinput
-> 33 und nicht &eg; 144. Um die Reihenfolge der Auswertung festzulegen, benutzen Sie Klammern. Für das vorherige Beispiel ergibt <userinput
+> 33 und nicht &eg; 144. Um die Reihenfolge der Auswertung festzulegen, verwenden Sie Klammern. Für das vorherige Beispiel ergibt <userinput
 >((1+2)*4)^2</userinput
 > <emphasis
 >sicher</emphasis
@@ -1646,7 +1646,7 @@ format="PNG"/></imageobject
 	<para
 >Während sich die Maus über der Zeichenfläche befindet, verändert sich der Zeiger zu einem Fadenkreuz. Die aktuellen Koordinaten werden an den Schnittpunkten mit den Koordinatenachsen und in der Statusleiste am unteren Rand des Hauptfensters angezeigt. </para>
 	<para
->Sie können die Werte einer Funktion genauer verfolgen, indem Sie auf oder in die Nähe des Graphen klicken. Die ausgewählte Funktion wird in der rechten Spalte der Statuszeile angezeigt. Das Fadenkreuz wird mit dem Graphen verbunden und in der gleichen Farbe dargestellt. Wenn der Graph in der Hintergrundfarbe gezeichnet wurde, erhält das Fadenkreuz die umgekehrte Farbe. Wenn Sie jetzt den Mauszeiger bewegen oder die Tasten &Left; oder &Right; drücken, bewegt sich das Fadenkreuz auf dem Graphen der Funktion und der aktuelle waagerechte und senkrechte Wert wird angezeigt. Wenn das Fadenkreuz die senkrechte Achse berührt, wird die Nullstelle in der Statusleiste angezeigt. Die Funktionen können Sie mit den Tasten &Up; und &Down; wechseln. Ein zweiter Mausklick irgendwo in das Zeichenfeld oder der Druck auf eine Taste, die nicht zur Navigation benutzt wird, beendet diesen Modus.  </para>
+>Sie können die Werte einer Funktion genauer verfolgen, indem Sie auf oder in die Nähe des Graphen klicken. Die ausgewählte Funktion wird in der rechten Spalte der Statuszeile angezeigt. Das Fadenkreuz wird mit dem Graphen verbunden und in der gleichen Farbe dargestellt. Wenn der Graph in der Hintergrundfarbe gezeichnet wurde, erhält das Fadenkreuz die umgekehrte Farbe. Wenn Sie jetzt den Mauszeiger bewegen oder die Tasten &Left; oder &Right; drücken, bewegt sich das Fadenkreuz auf dem Graphen der Funktion und der aktuelle waagerechte und senkrechte Wert wird angezeigt. Wenn das Fadenkreuz die senkrechte Achse berührt, wird die Nullstelle in der Statusleiste angezeigt. Die Funktionen können Sie mit den Tasten &Up; und &Down; wechseln. Ein zweiter Mausklick irgendwo in das Zeichenfeld oder der Druck auf eine Taste, die nicht zur Navigation verwendet wird, beendet diesen Modus.  </para>
 	<para
 >Im Einrichtungsdialog finden Sie auf der Seite <guilabel
 >Allgemeine Einstellungen</guilabel
@@ -1698,7 +1698,7 @@ format="PNG"/></imageobject
 >Min</guilabel
 > den Wert <userinput
 >2*pi</userinput
->) eingeben. Auch selbst definierte Funktionen können als Wertebereich für die waagerechte Achse benutzt werden. Wenn Sie zum Beispiel die Funktion <userinput
+>) eingeben. Auch selbst definierte Funktionen können als Wertebereich für die waagerechte Achse verwendet werden. Wenn Sie zum Beispiel die Funktion <userinput
 >f(x) = x^2</userinput
 > definiert haben, können Sie für <guilabel
 >Min</guilabel
@@ -1732,7 +1732,7 @@ format="PNG"/></imageobject
 >Automatisch</guilabel
 > verwendet &kmplot; einen gerundeten Wert von etwa zwei Zentimetern. Wählen Sie <guilabel
 >Benutzerdefiniert</guilabel
->, um einen bestimmten Abstand direkt einzugeben. Dieser Wert wird dann bei jeder beliebigen Vergrößerung der Ansicht benutzt. Wenn Sie zum Beispiel einen Wert von 0,5 eingeben, werden 16 Rasterlinien bei einem Wertebereich der X-Achse von 0 bis 8 gezeichnet. </para>
+>, um einen bestimmten Abstand direkt einzugeben. Dieser Wert wird dann bei jeder beliebigen Vergrößerung der Ansicht verwendet. Wenn Sie zum Beispiel einen Wert von 0,5 eingeben, werden 16 Rasterlinien bei einem Wertebereich der X-Achse von 0 bis 8 gezeichnet. </para>
 					</listitem>
 				</varlistentry>
 
@@ -1798,7 +1798,7 @@ format="PNG"/></imageobject
 >Dokument</guilabel
 > wird der Name und der Wert der Konstanten zusammen mit der aktuellen Zeichnung gespeichert. Haben Sie zusätzlich auch <guilabel
 >Global</guilabel
-> ausgewählt, kann diese Konstante auch in anderen Instanzen von &kmplot; benutzt werden.</para>
+> ausgewählt, kann diese Konstante auch in anderen Instanzen von &kmplot; verwendet werden.</para>
 				</listitem>
 			</varlistentry>
 
@@ -2160,7 +2160,7 @@ format="PNG"/></imageobject
 	<para
 >Sie können auch Skripte für &kmplot; mit &DBus; schreiben. Wenn Sie zum Beispiel eine neue Funktion <userinput
 >f(x)=2sin x+3cos x</userinput
-> definieren, die Linienbreite auf 20 Einheiten einstellen und den Graphen dieser Funktion zeichnen wollen, geben Sie in einer Konsole folgendes ein:</para>
+> definieren, die Linienbreite auf 20 Einheiten einstellen und den Graphen dieser Funktion zeichnen möchten, geben Sie in einer Konsole folgendes ein:</para>
 	<para
 ><command
 >qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x"</command

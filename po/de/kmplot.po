@@ -53,7 +53,7 @@ msgstr "Konstanteneditor"
 #: constantseditor.ui:26 qparametereditor.ui:22
 #, kde-format
 msgid "The value must be a number (e.g. \"pi^2\")"
-msgstr "Der Wert muss eine Zahl sein (z. B. „pi^2“)"
+msgstr "Der Wert muss eine Zahl sein (z. B. „pi^2“)"
 
 #. i18n: ectx: property (text), widget (QLabel, valueInvalidLabel)
 #: constantseditor.ui:29 qparametereditor.ui:25
@@ -200,7 +200,7 @@ msgstr "Benutzerdefinierte Grenzen des Zeichenbereichs"
 #: editcoords.ui:48 editcoords.ui:58 editcoords.ui:96 editcoords.ui:132
 #, kde-format
 msgid "Enter a valid expression, for instance 2*pi or e/2."
-msgstr "Geben Sie einen gültigen Ausdruck ein, z. B. 2*pi oder e/2."
+msgstr "Geben Sie einen gültigen Ausdruck ein, z. B. 2*pi oder e/2."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #. i18n: ectx: property (text), widget (QLabel, textLabel4_4)
@@ -683,7 +683,7 @@ msgstr "&y:"
 #: functioneditorwidget.ui:318
 #, kde-format
 msgid "Enter the initial x-point,for instance 2 or pi"
-msgstr "Geben Sie den Startpunkt auf der x-Achse ein, z. B. 2 oder pi"
+msgstr "Geben Sie den Startpunkt auf der x-Achse ein, z. B. 2 oder pi"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitX)
 #: functioneditorwidget.ui:321
@@ -693,13 +693,13 @@ msgid ""
 "pi/2"
 msgstr ""
 "Geben Sie den Startpunkt auf der x-Achse oder einen Ausdruck für das "
-"Integral ein, z. B. 2 oder pi/2"
+"Integral ein, z. B. 2 oder pi/2"
 
 #. i18n: ectx: property (toolTip), widget (EquationEdit, txtInitY)
 #: functioneditorwidget.ui:328
 #, kde-format
 msgid "enter the initial y-point, eg 2 or pi"
-msgstr "Geben Sie den Startpunkt auf der y-Achse ein, z. B. 2 oder pi"
+msgstr "Geben Sie den Startpunkt auf der y-Achse ein, z. B. 2 oder pi"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitY)
 #: functioneditorwidget.ui:331
@@ -708,7 +708,7 @@ msgid ""
 "Enter the initial y-value or expression for the integral, for example 2 or "
 "pi/2"
 msgstr ""
-"Geben Sie den Startpunkt auf der y-Achse oder einen Ausdruck ein, z. B. 2 "
+"Geben Sie den Startpunkt auf der y-Achse oder einen Ausdruck ein, z. B. 2 "
 "oder pi/2"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox_8)
@@ -850,7 +850,7 @@ msgid ""
 msgstr ""
 "Geben Sie einen Namen für die Funktion ein.\n"
 "Der Name der Funktion muss eindeutig sein. Wenn Sie diese Zeile leer lassen, "
-"benutzt KmPlot einen Standardnamen. Sie können ihn später ändern."
+"verwendet KmPlot einen Standardnamen. Sie können ihn später ändern."
 
 #. i18n: ectx: property (text), widget (KLineEdit, implicitName)
 #: functioneditorwidget.ui:683
@@ -1424,7 +1424,7 @@ msgstr "Bogenmaß anstelle von Grad"
 #: kmplot.kcfg:190
 #, kde-format
 msgid "Check the box if you want to use radians"
-msgstr "Aktivieren Sie das Feld, wenn Sie Bogenmaß benutzen möchten."
+msgstr "Aktivieren Sie das Feld, wenn Sie Bogenmaß verwenden möchten."
 
 #. i18n: ectx: label, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:194
@@ -1448,7 +1448,7 @@ msgstr "Vergrößerungsstufe"
 #: kmplot.kcfg:200
 #, kde-format
 msgid "The value the zoom-in tool should use"
-msgstr "Der Wert, den das Vergrößerungswerkzeug benutzen soll"
+msgstr "Der Wert, den das Vergrößerungswerkzeug verwenden soll"
 
 #. i18n: ectx: label, entry (zoomOutStep), group (General)
 #: kmplot.kcfg:204
@@ -1460,7 +1460,7 @@ msgstr "Verkleinerungsstufe"
 #: kmplot.kcfg:205
 #, kde-format
 msgid "The value the zoom-out tool should use"
-msgstr "Der Wert, den das Verkleinerungswerkzeug benutzen soll"
+msgstr "Der Wert, den das Verkleinerungswerkzeug verwenden soll"
 
 #. i18n: ectx: label, entry (DetailedTracing), group (General)
 #: kmplot.kcfg:209
@@ -1475,7 +1475,7 @@ msgid ""
 "Whether to show extra detail such as the tangent and normal when tracing a "
 "plot."
 msgstr ""
-"Ob Extradetails beim Verfolgen einer Zeichnung angezeigt werden, wie z. B. "
+"Ob Extradetails beim Verfolgen einer Zeichnung angezeigt werden, wie z. B. "
 "die Tangente oder die Normale."
 
 #. i18n: ectx: Menu (edit)
@@ -2029,7 +2029,7 @@ msgid ""
 "The function must have an additional variable as a parameter, e.g. f(x,k) "
 "would have k as its parameter"
 msgstr ""
-"Die Funktion benötigt eine zusätzliche Variable als Parameter, z. B. hat f(x,"
+"Die Funktion benötigt eine zusätzliche Variable als Parameter, z. B. hat f(x,"
 "k) „k“ als Parameter."
 
 #. i18n: ectx: property (text), widget (QLabel, warningLabel)
@@ -2976,7 +2976,7 @@ msgstr "Winkelmodus"
 #: settingspagegeneral.ui:32
 #, kde-format
 msgid "Trigonometric functions use radian mode for angles."
-msgstr "Trigonometrische Funktionen benutzen den Bogenmaßmodus für Winkel."
+msgstr "Trigonometrische Funktionen verwenden den Bogenmaßmodus für Winkel."
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton1)
 #: settingspagegeneral.ui:35
@@ -2985,7 +2985,7 @@ msgid ""
 "Check this button to use radian mode to measure angles. This is important "
 "for trigonometric functions only."
 msgstr ""
-"Wählen Sie dies, wenn Sie das Bogenmaß zum Messen von Winkeln benutzen. Das "
+"Wählen Sie dies, wenn Sie das Bogenmaß zum Messen von Winkeln verwenden. Das "
 "ist nur für die trigonometrischen Funktionen wichtig."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton1)
@@ -2998,7 +2998,7 @@ msgstr "&Bogenmaß"
 #: settingspagegeneral.ui:45
 #, kde-format
 msgid "Trigonometric functions use degree mode for angles."
-msgstr "Trigonometrische Funktionen benutzen Grad für Winkel."
+msgstr "Trigonometrische Funktionen verwenden Grad für Winkel."
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, radioButton2)
 #: settingspagegeneral.ui:48
@@ -3007,7 +3007,7 @@ msgid ""
 "Check this button to use degree mode to measure angles. This is important "
 "for trigonometric functions only."
 msgstr ""
-"Wählen Sie diesen Knopf, um den Gradmodus zum Winkelmessen zu benutzen. Das "
+"Wählen Sie diesen Knopf, um den Gradmodus zum Winkelmessen zu verwenden. Das "
 "ist nur für trigonometrische Funktionen wichtig."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton2)
@@ -3038,7 +3038,7 @@ msgstr "Verkleinern um:"
 #: settingspagegeneral.ui:99
 #, kde-format
 msgid "The value the Zoom Out tool should use."
-msgstr "Der Wert, den das Verkleinerungswerkzeug benutzen soll."
+msgstr "Der Wert, den das Verkleinerungswerkzeug verwenden soll."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomOutStep)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_zoomInStep)
@@ -3051,7 +3051,7 @@ msgstr " %"
 #: settingspagegeneral.ui:118
 #, kde-format
 msgid "The value the Zoom In tool should use."
-msgstr "Der Wert, den das Vergrößerungswerkzeug benutzen soll."
+msgstr "Der Wert, den das Vergrößerungswerkzeug verwenden soll."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DetailedTracing)
 #: settingspagegeneral.ui:144

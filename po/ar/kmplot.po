@@ -46,7 +46,7 @@ msgstr "محرر ثابت"
 #: constantseditor.ui:26 qparametereditor.ui:22
 #, kde-format
 msgid "The value must be a number (e.g. \"pi^2\")"
-msgstr "القيمة يجب أن تكون رقماً (e.g. \"pi^2\")"
+msgstr "القيمة يجب أن تكون رقمًا (e.g. \"pi^2\")"
 
 #. i18n: ectx: property (text), widget (QLabel, valueInvalidLabel)
 #: constantseditor.ui:29 qparametereditor.ui:25
@@ -127,7 +127,7 @@ msgid ""
 "Click here to delete the selected constant; it can only be removed if it is "
 "not currently used by a plot."
 msgstr ""
-"انقر هنا لحذف الثابت المحدد، يمكن حذفه فقط إذا لم يكن مستخدماً من قبل آخرين"
+"انقر هنا لحذف الثابت المحدد، يمكن حذفه فقط إذا لم يكن مستخدمًا من قبل آخرين"
 
 #. i18n: ectx: property (text), widget (QPushButton, cmdDelete)
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
@@ -226,7 +226,7 @@ msgstr "المسافة بين خطوط الشبكة الأفقية"
 msgid ""
 "Automatic grid spacing is independent of zoom; there will be a fixed number "
 "of tics."
-msgstr "آليّاً غير المسافة بين خطوط الشبكة عند التكبير، سيكون رقم المتغير ثابت ."
+msgstr "آليًّا غير المسافة بين خطوط الشبكة عند التكبير، سيكون رقم المتغير ثابت ."
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
@@ -979,7 +979,7 @@ msgstr "احذف إيقاف"
 #, kde-format
 msgctxt "@title:window"
 msgid "Choose a Gradient"
-msgstr "اختر تدريجاً"
+msgstr "اختر تدريجًا"
 
 #: kmplot.cpp:71
 #, kde-format
@@ -1393,7 +1393,7 @@ msgstr "استبدل الدرجات بالراديان"
 #: kmplot.kcfg:190
 #, kde-format
 msgid "Check the box if you want to use radians"
-msgstr "علم  المربع لاستخدام الراديان بدلاً من الدرجات"
+msgstr "علم  المربع لاستخدام الراديان بدلًا من الدرجات"
 
 #. i18n: ectx: label, entry (backgroundcolor), group (General)
 #: kmplot.kcfg:194
@@ -1574,7 +1574,7 @@ msgstr "احفظ الملفّ"
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to continue and "
 "overwrite this file?"
-msgstr "اسم الملف  \"%1\" موجود مسبقاً . هل تريد الكتابة عليه والاستمرار ؟"
+msgstr "اسم الملف  \"%1\" موجود مسبقًا . هل تريد الكتابة عليه والاستمرار ؟"
 
 #: kparametereditor.cpp:277
 #, kde-format
@@ -1956,7 +1956,7 @@ msgstr "صدِّر كصورة"
 #: maindlg.cpp:605
 #, kde-format
 msgid "Sorry, something went wrong while saving to image \"%1\""
-msgstr "عذراً هناك خطأ حدث أثناء حفظ الصورة \"%1\""
+msgstr "عذرًا هناك خطأ حدث أثناء حفظ الصورة \"%1\""
 
 #: maindlg.cpp:662
 #, kde-format

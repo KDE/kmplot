@@ -128,6 +128,9 @@
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kmplot</url>
   <url type="help">https://docs.kde.org/?application=kmplot</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kmplot&amp;source=appdata</url>
+  <custom>
+    <value key="KDE::mailinglist">kde-edu@kde.org</value>
+  </custom>
   <screenshots>
     <screenshot type="default">
       <caption>Quadratic function, its derivative and integral plotted with KmPlot</caption>

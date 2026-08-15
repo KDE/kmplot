@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:48+0000\n"
-"PO-Revision-Date: 2026-07-27 23:54+0200\n"
+"PO-Revision-Date: 2026-08-14 11:52+0200\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -513,7 +513,7 @@ msgstr "Přizpůsobit nejmenší rozsah zákresu"
 #: functioneditorwidget.ui:158
 #, kde-format
 msgid "lower boundary of the plot range"
-msgstr "Spodní hranice rozsahu zákresu"
+msgstr "spodní hranice rozsahu zákresu"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMin)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMin)
@@ -532,7 +532,7 @@ msgstr ""
 #: functioneditorwidget.ui:171
 #, kde-format
 msgid "upper boundary of the plot range"
-msgstr "Vrchní hranice rozsahu zákresu"
+msgstr "vrchní hranice rozsahu zákresu"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, cartesianMax)
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, parametricMax)
@@ -684,7 +684,7 @@ msgstr "Zadejte počáteční bod x, nebo výraz pro integrál; příklad: 2 neb
 #: functioneditorwidget.ui:328
 #, kde-format
 msgid "enter the initial y-point, eg 2 or pi"
-msgstr "Zadejte počáteční bod y; příklad: 2 nebo pí"
+msgstr "zadejte počáteční bod y; příklad: 2 nebo pí"
 
 #. i18n: ectx: property (whatsThis), widget (EquationEdit, txtInitY)
 #: functioneditorwidget.ui:331
@@ -1742,7 +1742,7 @@ msgstr "David Vignoni"
 #: main.cpp:48
 #, kde-format
 msgid "svg icon"
-msgstr "SVG ikona"
+msgstr "svg ikona"
 
 #: main.cpp:49
 #, kde-format
@@ -2212,7 +2212,7 @@ msgstr "Název funkce není volný"
 #: parser.cpp:1103
 #, kde-format
 msgid "recursive function not allowed"
-msgstr "Neomezeně opakovatelná funkce (rekurzivní) není povolená"
+msgstr "neomezeně opakovatelná funkce (rekurzivní) není povolená"
 
 #: parser.cpp:1106
 #, kde-format
@@ -2353,7 +2353,7 @@ msgstr "Editor pomocných proměnných (parametrů)"
 #: qparametereditor.ui:55
 #, kde-format
 msgid "delete selected constant"
-msgstr "Smazat vybranou stálou hodnotu (konstantu)"
+msgstr "smazat vybranou stálou hodnotu (konstantu)"
 
 #. i18n: ectx: property (text), widget (QPushButton, moveUp)
 #: qparametereditor.ui:84

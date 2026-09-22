@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: 2015, 2020, 2021, 2022, 2024 Shinjo Park <kde@peremen.name>
 # Jin-Hwan Jeong <yongdoria@gmail.com>, 2009.
+# SPDX-FileCopyrightText: 2015, 2020, 2021, 2022, 2024 Shinjo Park <kde@peremen.name>
 msgid ""
 msgstr ""
 "Project-Id-Version: kmplot\n"

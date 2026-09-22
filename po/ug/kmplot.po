@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: kmplot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-11 00:39+0000\n"
-"PO-Revision-Date: 2026-05-31 19:05-0400\n"
+"PO-Revision-Date: 2026-09-22 18:03+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
-"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
+"Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1710,7 +1710,7 @@ msgstr "svg سىنبەلگە"
 #: main.cpp:49
 #, kde-format
 msgid "Albert Astals Cid"
-msgstr "Albert Astals Cid"
+msgstr ""
 
 #: main.cpp:49
 #, kde-format
@@ -1992,7 +1992,7 @@ msgstr ""
 #: parameteranimator.ui:57
 #, kde-format
 msgid "1"
-msgstr "1"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (EquationEdit, final)
 #: parameteranimator.ui:64
@@ -2005,7 +2005,7 @@ msgstr ""
 #: parameteranimator.ui:81 parameteranimator.ui:131
 #, kde-format
 msgid "0"
-msgstr "0"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: parameteranimator.ui:88
@@ -2728,7 +2728,7 @@ msgstr ""
 #: settingspagediagram.ui:114
 #, kde-format
 msgid "Y"
-msgstr "Y"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: settingspagediagram.ui:124
@@ -2901,7 +2901,7 @@ msgstr ""
 #: settingspagegeneral.ui:111 settingspagegeneral.ui:130
 #, no-c-format, kde-format
 msgid "%"
-msgstr "%"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_zoomInStep)
 #: settingspagegeneral.ui:118

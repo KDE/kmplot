@@ -1,0 +1,155 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+<!ENTITY % Arabic "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>دليل مستخدم الراسم</title>
+<author
+><firstname
+>Ben</firstname
+> <surname
+>Burton</surname
+> <contrib
+>KmPlot man page.</contrib
+> <email
+>bab@debian.org</email
+></author>
+<date
+>2021-01-05</date>
+<releaseinfo
+>1.3.0 (التّطبيقات 20.12)</releaseinfo>
+<productname
+>تطبيقات كِيدِي</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kmplot</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kmplot</command
+></refname>
+<refpurpose
+>راسم الدوال الرياضية</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kmplot</command
+> <group choice="opt"
+><option
+>-f, --function <replaceable
+>argument</replaceable
+></option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>file</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>الوصف</title>
+<para
+>الراسم هو راسم دوال رياضية من كيدي. يحتوي على محلل مدمج قوي. يمكنك رسم دوال مختلفة في آن واحد ودمجها لبناء دوال جديدة.</para
+><para
+>يدعم الراسم الدوال البارامترية والدوال في الإحداثيات القطبية. تُدعم عدة أنماط للشبكات. يمكن طباعة الرسوم بدقة عالية بالمقياس الصحيح.</para
+><para
+>يوفر الراسم أيضًا بعض الميزات العددية والبصرية، مثل التعبئة وحساب المساحة بين الرسم والمحور الأول، وإيجاد القيم العظمى والصغرى، وتغيير معاملات الدوال ديناميكيًا، ورسم المشتقات ودوال التكامل.</para
+><para
+>الراسم هو جزء من وحدة التعليم في كيدي.</para>
+</refsect1>
+
+<refsect1>
+<title
+>خيارات</title>
+<variablelist>
+<varlistentry
+><term
+><option
+>-f, --function <replaceable
+>argument</replaceable
+></option
+></term>
+<listitem
+><para
+>دالة أولية لرسمها.</para
+></listitem
+></varlistentry>
+<varlistentry
+><term
+><option
+><replaceable
+>ملف</replaceable
+></option
+></term>
+<listitem
+><para
+>الملف المراد فتحه.</para
+></listitem
+></varlistentry>
+</variablelist>
+</refsect1>
+<refsect1>
+<title
+>انظر أيضًا</title>
+
+<simplelist>
+<member
+>وثائق المستخدم الأكثر تفصيلًا متوفرة من <ulink url="help:/kmplot"
+>help:/kmplot</ulink
+> (إما أدخل هذا &URL; في &konqueror;، أو شغّل <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kmplot</parameter
+></userinput
+>).</member>
+<member
+>تتوفر أيضًا معلومات إضافية على <ulink url="https://kde.org/applications/education/kmplot"
+>موقع كيدي التعليمي</ulink
+>.</member>
+<member
+>kf5options(1)</member>
+<member
+>qt5options(1)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>المؤلفون</title>
+<para
+>كتب الراسم كل من <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail; و&Matthias.Messmer; &Matthias.Messmer.mail; و<personname
+><firstname
+>Fredrik</firstname
+><surname
+>Edemar</surname
+></personname
+> <email
+>f_edemar@linux.se</email
+></para>
+</refsect1>
+
+</refentry>

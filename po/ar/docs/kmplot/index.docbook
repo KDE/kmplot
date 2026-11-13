@@ -1,0 +1,2819 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Arabic "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="kmplot" lang="&language;">
+
+<bookinfo>
+<title
+>دليل الراسم</title>
+<authorgroup>
+<author
+><firstname
+>Klaus-Dieter</firstname
+> <surname
+>M&ouml;ller</surname
+> <affiliation
+> <address
+>&Klaus-Dieter.Moeller.mail;</address>
+</affiliation>
+</author>
+<author
+>&Philip.Rodrigues; &Philip.Rodrigues.mail; </author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Saxton</surname
+> </author>
+<othercredit role="translator"
+><firstname
+>زايد</firstname
+><surname
+>السعيدي</surname
+><affiliation
+><address
+><email
+>zayed.alsaidi@gmail.com</email
+></address
+></affiliation
+><contrib
+>التّرجمة العربيّة</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year
+><year
+>2001</year
+><year
+>2002</year>
+<holder
+>Klaus-Dieter M&ouml;ller</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>&Philip.Rodrigues; &Philip.Rodrigues.mail;</holder>
+</copyright>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>David Saxton</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2021-01-05</date>
+<releaseinfo
+>1.3.0 (التطبيقات 20.12)</releaseinfo>
+
+<!-- Abstract about this handbook -->
+
+<abstract>
+<para
+>الراسم هو راسم دوال رياضية من كيدي.</para>
+<para
+> <inlinemediaobject
+><imageobject
+><imagedata
+fileref="edu-logo.png"
+format="PNG"/></imageobject
+></inlinemediaobject
+> الراسم هو جزء من مشروع كيدي-EDU: <ulink url="https://edu.kde.org/"
+>https://edu.kde.org/</ulink
+></para
+></abstract>
+
+
+<keywordset>
+<keyword
+>كيدي</keyword>
+<keyword
+>الراسم</keyword>
+<keyword
+>EDU</keyword>
+<keyword
+>تعليم</keyword>
+<keyword
+>الرسم البياني</keyword>
+<keyword
+>رياضيات</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>مقدمة</title>
+
+<para
+>الراسم هو راسم دوال رياضية من كيدي. يمتلك محللًا مدمجًا قويًا. يمكنك رسم دوال مختلفة في آن واحد ودمجها لبناء دوال جديدة.</para>
+
+<screenshot>
+	<screeninfo
+>أمثلة</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="threeplots.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>أمثلة</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<para
+>يدعم الراسم عدة أنواع مختلفة من الرسوم:</para>
+<itemizedlist>
+	<listitem
+><para
+>رسوم ديكارتية صريحة من الصيغة y = f(x).</para
+></listitem>
+	<listitem
+><para
+>رسوم وسيطية، حيث يُحدد المكونان x وy كدوال لمتغير مستقل.</para
+></listitem>
+	<listitem
+><para
+>رسوم قطبية من الصيغة r = r(&thgr;).</para
+></listitem>
+	<listitem
+><para
+>رسوم ضمنية، حيث يرتبط الإحداثيان x وy بتعبير رياضي.</para
+></listitem>
+	<listitem
+><para
+>رسوم تفاضلية صريحة.</para
+></listitem>
+</itemizedlist>
+
+<para
+>يوفر الراسم أيضًا بعض الميزات العددية والمرئية مثل:</para>
+<itemizedlist>
+	<listitem
+><para
+>تعبئة وحساب المساحة بين الرسم والمحور الأول.</para
+></listitem>
+	<listitem
+><para
+>إيجاد القيم العظمى والصغرى.</para
+></listitem>
+	<listitem
+><para
+>تغيير وسائط الدالة ديناميكيًا.</para
+></listitem>
+	<listitem
+><para
+>رسم المشتقات ودوال التكامل.</para
+></listitem>
+</itemizedlist>
+
+<para
+>تساعد هذه الميزات في تعلم العلاقة بين الدوال الرياضية وتمثيلها البياني في نظام إحداثي.</para>
+
+</chapter>
+
+<chapter id="first-steps">
+<title
+>الخطوات الأولى مع الراسم</title>
+
+<sect1 id="simple-function-plot">
+	<title
+>رسم دالة بسيطة</title>
+
+	<para
+>في الشريط الجانبي الأيسر، يوجد الزر <guibutton
+>أنشئ</guibutton
+> بقائمة منسدلة لإنشاء رسوم جديدة. انقر عليه، واختر <guilabel
+>رسم ديكارتي</guilabel
+>. سيُركز مربع النص لتحرير المعادلة الحالية. استبدل النص المبدئي بـ <screen
+><userinput
+>y = x^2</userinput
+></screen
+> واضغط &Enter;. سيرسم هذا الرسم البياني لـ y = x<superscript
+>2</superscript
+> في نظام الإحداثيات. بالنقر على الزر <guibutton
+>أنشئ</guibutton
+> مرة أخرى، اختر <guilabel
+>رسم ديكارتي</guilabel
+>، وهذه المرة أدخل النص <screen
+><userinput
+>y = 5sin(x)</userinput
+></screen
+> للحصول على رسم آخر. </para>
+
+	<para
+>اسحب وأفلت العنصر <userinput
+>y = 5sin(x)</userinput
+> في الشريط الجانبي الأيسر لاستنساخ الرسم. استبدل <userinput
+>sin</userinput
+> بـ <userinput
+>cos</userinput
+> للحصول على رسم جيب التمام بنفس اللون. </para>
+
+	<para
+>انقر على أحد الخطوط التي رسمتها للتو. الآن يصبح التقاطع لون الرسم الحالي ويُربط به. يمكنك استخدام الفأرة لتحريك التقاطع على طول الرسم. في شريط الحالة أسفل النافذة، تُعرض إحداثيات الموضع الحالي. لاحظ أنه إذا لامس الرسم المحور الأفقي، فسيُعرض الجذر أيضًا في شريط الحالة.</para>
+
+	<para
+>انقر بالفأرة مرة أخرى وسينفصل التقاطع عن الرسم.</para>
+</sect1>
+
+<sect1 id="edit-properties">
+	<title
+>تحرير الخصائص</title>
+
+	<para
+>لنقم ببعض التغييرات على الدالة ونغير لون الرسم.</para>
+
+	<para
+>يسرد الشريط الجانبي <guilabel
+>الدوال</guilabel
+> جميع الدوال التي رسمتها. إذا لم يكن <guilabel
+>y = x^2</guilabel
+> محددًا بالفعل، فحدده. هنا لديك إمكانية الوصول إلى العديد من الخيارات. دعنا نعيد تسمية الدالة وننقل الرسم 5 وحدات لأسفل. غير معادلة الدالة إلى <screen
+><userinput
+>parabola(x) = x^2 - 5</userinput
+></screen
+> واضغط إدخال. لاختيار لون آخر للرسم، انقر على الزر <guilabel
+>اللون</guilabel
+> في القسم <guilabel
+>المظهر</guilabel
+> أسفل الشريط الجانبي للدوال واختر لونًا جديدًا. <note
+> <para
+>يمكن التراجع عن جميع التغييرات عبر <menuchoice
+><guimenu
+>تحرير</guimenu
+><guimenuitem
+>تراجع</guimenuitem
+> </menuchoice
+>.</para>
+		</note>
+	</para>
+</sect1>
+</chapter>
+
+<chapter id="using-kmplot">
+<title
+>استخدام الراسم</title>
+
+<para
+>يتعامل الراسم مع عدة أنواع مختلفة من الدوال، التي يمكن كتابتها في صيغة دالة أو كمعادلة:</para>
+
+<itemizedlist>
+	<listitem
+><para
+>يمكن كتابة الرسوم الديكارتية إما كـ &eg; <quote
+>y = x^2</quote
+>، حيث يجب استخدام x كمتغير؛ أو كـ &eg; <quote
+>f(a) = a^2</quote
+>، حيث اسم المتغير اختياري.</para
+></listitem>
+	<listitem
+><para
+>الرسوم الوسيطية مشابهة للرسوم الديكارتية. يمكن إدخال الإحداثيين x وy كمعادلات في t، &eg; <quote
+>x = sin(t)</quote
+>، <quote
+>y = cos(t)</quote
+>، أو كدوال، &eg; <quote
+>f_x(s) = sin(s)</quote
+>، <quote
+>f_y(s) = cos(s)</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>الرسوم القطبية مشابهة أيضًا للرسوم الديكارتية. يمكن إدخالها إما كمعادلة في &thgr;، &eg; <quote
+>r = &thgr;</quote
+>، أو كدالة، &eg; <quote
+>f(x) = x</quote
+>.</para
+></listitem>
+	<listitem
+><para
+>بالنسبة للرسوم الضمنية، يُدخل اسم الدالة بشكل منفصل عن العبارة التي تربط الإحداثيين x و y. إذا تم تحديد المتغيرين x و y عبر اسم الدالة (بإدخال &eg;<quote
+>f(a,b)</quote
+> كاسم للدالة)، فسيُستخدمان. وإلا، فسيُستخدمان الحرفان x و y كمتغيرين.</para
+></listitem>
+	<listitem
+><para
+>الرسوم التفاضلية الصريحة هي معادلات تفاضلية حيث يُعطى المشتق الأعلى بدلالة المشتقات الأدنى. يُرمز للتفاضل بعلامة الفاصلة العليا ('). في شكل دالة، ستبدو المعادلة كـ <quote
+>f''(x) = f' &minus; f</quote
+>. في شكل معادلة، ستبدو كـ <quote
+>y'' = y' &minus; y</quote
+>. لاحظ أنه في كلتا الحالتين، لا يُضاف الجزء <quote
+>(x)</quote
+> إلى حدود التفاضل الأدنى (لذا ستُدخل <quote
+>f'(x) = &minus;f</quote
+> وليس <quote
+>f'(x) = &minus;f(x)</quote
+>).</para
+></listitem>
+</itemizedlist>
+
+<para
+>جميع مربعات إدخال المعادلة تأتي مع زر على اليمين. يؤدي النقر عليه إلى استدعاء حوار <guilabel
+>محرر المعادلات</guilabel
+> المتقدم، الذي يوفر: <itemizedlist>
+		<listitem>
+			<para
+>مجموعة متنوعة من الرموز الرياضية التي يمكن استخدامها في المعادلات، ولكنها غير موجودة على لوحات المفاتيح العادية.</para>
+		</listitem>
+		<listitem>
+			<para
+>قائمة الثوابت المعرفة من المستخدم وزر لتحريرها.</para>
+		</listitem>
+		<listitem>
+			<para
+>قائمة الدوال المعرفة مسبقًا. لاحظ أنه إذا كان لديك نص محدد بالفعل، فسيُستخدم كوسيط للدالة عند إدراج دالة. على سبيل المثال، إذا كان <quote
+>1 + x</quote
+> محددًا في المعادلة <quote
+>y = 1 + x</quote
+>، وتم اختيار دالة الجيب، فستصبح المعادلة <quote
+> y = sin(1+x)</quote
+>. </para>
+		</listitem>
+	</itemizedlist>
+</para>
+
+<screenshot>
+	<screeninfo
+>هذه لقطة شاشة لنافذة الترحيب في الراسم</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="main.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>لقطة شاشة</phrase>
+		</textobject>
+	</mediaobject>
+</screenshot>
+
+<sect1 id="function-types">
+	<title
+>أنواع الدوال</title>
+
+	<sect2 id="cartesian-functions">
+		<title
+>الدوال الكارتيزية</title>
+		<para
+>لإدخال دالة صريحة (&ie;، دالة بالصيغة y=f(x)) في الراسم، أدخلها بالشكل التالي: <screen
+><userinput
+><replaceable
+>f</replaceable
+>(<replaceable
+>x</replaceable
+>) = <replaceable
+>expression</replaceable
+></userinput
+></screen
+> حيث: <itemizedlist>
+				<listitem
+><para
+><replaceable
+>f</replaceable
+> هو اسم الدالة، ويمكن أن يكون أي سلسلة من الحروف والأرقام.</para>
+				</listitem>
+
+				<listitem
+><para
+><replaceable
+>x</replaceable
+> هو الإحداثي الأفقي، ليُستخدم في العبارة التي تلي علامة المساواة. إنه متغير وهمي، لذا يمكنك استخدام أي اسم متغير تريده لتحقيق نفس التأثير.</para>
+				</listitem>
+
+				<listitem>
+					<para
+><replaceable
+>expression</replaceable
+> هي العبارة التي سيتم رسمها، معطاة بالصيغة المناسبة لـ الراسم. انظر <xref linkend="math-syntax"/>. </para>
+				</listitem>
+
+			</itemizedlist>
+		</para>
+	</sect2>
+
+	<sect2 id="parametric-functions">
+		<title
+>الدوال البارامترية</title>
+		<para
+>الدوال البارامترية هي تلك التي يُعرف فيها الإحداثيان x و y بدوال منفصلة لمتغير آخر، يُسمى غالبًا t. لإدخال دالة بارامترية في الراسم، اتبع الإجراء كما هو الحال بالنسبة للدالة الكارتيزية لكل من دالتي x و y. كما هو الحال مع الدوال الكارتيزية، يمكنك استخدام أي اسم متغير تريده للبارامتر.</para>
+		<para
+>كمثال، افترض أنك تريد رسم دائرة، التي لها معادلات بارامترية x = sin(t), y = cos(t). بعد إنشاء رسم بارامتري، أدخل المعادلات المناسبة في مربعي x و y، &ie;، <userinput
+>f_x(t)=sin(t)</userinput
+> و <userinput
+>f_y(t)=cos(t)</userinput
+>. </para>
+		<para
+>يمكنك تعيين بعض الخيارات الإضافية للرسم في محرر الدوال: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>الأدنى:</guilabel
+></term>
+					<term
+><guilabel
+>الأقصى:</guilabel
+></term>
+					<listitem>
+						<para
+>تتحكم هذه الخيارات في نطاق البارامتر t الذي يُرسم له الدالة.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+	</sect2>
+
+	<sect2 id="polar-functions">
+		<title
+>الدوال في الإحداثيات القطبية</title>
+
+		<para
+>تمثل الإحداثيات القطبية نقطة ببعدها عن الأصل (يُسمى عادة r)، والزاوية التي يصنعها خط من الأصل إلى النقطة مع المحور الأفقي (يُرمز لها عادة بـ &thgr; الحرف اليوناني ثيتا). لإدخال دوال في الإحداثيات القطبية، انقر الزر <guibutton
+>إنشاء</guibutton
+> واختر <guilabel
+>رسم قطبي</guilabel
+> من القائمة. في مربع التعريف، أكمل تعريف الدالة، بما في ذلك اسم متغير ثيتا الذي تريد استخدامه، &eg;، لرسم دوامة أرخميدس r = &thgr;، أدخل: <screen
+><userinput
+>r(&thgr;) = &thgr;</userinput
+></screen
+> لاحظ أنه يمكنك استخدام أي اسم لمتغير ثيتا، لذا فإن <quote
+>r(t) = t</quote
+> أو <quote
+>f(x) = x</quote
+> سينتجان نفس المخرجات تمامًا. </para>
+	</sect2>
+
+	<sect2 id="implicit-functions">
+		<title
+>الدوال الضمنية</title>
+
+		<para
+>عبارة ضمنية تربط الإحداثيين x و y كمساواة. لإنشاء دائرة، على سبيل المثال، انقر الزر <guibutton
+>إنشاء</guibutton
+> واختر <guilabel
+>رسم ضمني</guilabel
+> من القائمة. ثم، أدخل في مربع المعادلة (أسفل مربع اسم الدالة) ما يلي: <screen
+><userinput
+>x^2 + y^2 = 25</userinput
+></screen>
+		</para>
+	</sect2>
+
+	<sect2 id="differential-functions">
+		<title
+>الدوال التفاضلية</title>
+
+		<para
+>يمكن لـ الراسم رسم معادلات تفاضلية صريحة. هذه معادلات بالصيغة y<superscript
+>(n)</superscript
+> = F(x,y',y'',...,y<superscript
+>(n&minus;1)</superscript
+>)، حيث y<superscript
+>k</superscript
+> هو المشتق k<superscript
+>th</superscript
+> لـ y(x). يمكن لـ الراسم تفسير رتبة المشتق فقط كعدد الفواصل العليا التي تلي اسم الدالة. لرسم منحنى جيبي، على سبيل المثال، ستستخدم المعادلة التفاضلية <userinput
+>y'' = &minus; y</userinput
+> أو <userinput
+>f''(x) = −f</userinput
+>. </para>
+
+		<para
+>ومع ذلك، فإن المعادلة التفاضلية وحدها لا تكفي لتحديد رسم. كل منحنى في المخطط يُنشأ بمزيج من المعادلة التفاضلية والشروط الابتدائية. يمكنك تحرير الشروط الابتدائية بالنقر على علامة التبويب <guilabel
+>الشروط الابتدائية</guilabel
+> عند تحديد معادلة تفاضلية. عدد الأعمدة المقدمة لتحرير الشروط الابتدائية يعتمد على رتبة المعادلة التفاضلية. </para>
+
+		<para
+>يمكنك تعيين بعض الخيارات الإضافية للرسم في محرر الدوال: <variablelist
+> <varlistentry>
+					<term
+><guilabel
+>خطوة:</guilabel
+></term>
+					<listitem>
+						<para
+>قيمة الخطوة في مربع الدقة تُستخدم في حل المعادلة التفاضلية عدديًا (باستخدام طريقة رونج-كوتا). قيمتها هي أقصى حجم خطوة يُستخدم؛ قد يُستخدم حجم خطوة أصغر إذا كان جزء من الرسم التفاضلي مكبّرًا بدرجة كافية.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="combining-functions">
+	<title
+>دمج الدوال</title>
+	<para
+>يمكن دمج الدوال لإنتاج دوال جديدة. ببساطة أدخل الدوال بعد علامة المساواة في عبارة كما لو كانت الدوال متغيرات. على سبيل المثال، إذا كنت قد عرّفت دالتين f(x) و g(x)، يمكنك رسم مجموع f و g بـ: <screen
+><userinput
+>sum(x) = f(x) + g(x)</userinput
+></screen>
+	</para>
+</sect1>
+
+<sect1 id="function-appearance">
+	<title
+>تغيير مظهر الدوال</title>
+
+	<para
+>لتغيير مظهر رسم دالة في نافذة الرسم الرئيسة، اختر الدالة في الشريط الجانبي <guilabel
+>الدوال</guilabel
+>. يمكنك تغيير عرض خط الرسم ولونه وجوانب أخرى كثيرة بالنقر على الزر <guibutton
+>اللون:</guibutton
+> أو <guibutton
+>متقدم...</guibutton
+> في أسفل القسم <guilabel
+>المظهر</guilabel
+>. </para>
+
+	<para
+>إذا كنت تحرر دالة ديكارتية، فسيحتوي محرر الدوال على ثلاث لسانات. في اللسانة الأولى تحدد معادلة الدالة. تتيح لك اللسانة <guilabel
+>المشتقات</guilabel
+> رسم المشتقة الأولى والثانية للدالة. باستخدام اللسانة <guilabel
+>التكامل</guilabel
+> يمكنك رسم تكامل الدالة. </para>
+</sect1>
+
+<sect1 id="popupmenu">
+	<title
+>قائمة منبثقة</title>
+	<screenshot>
+	<screeninfo
+>قائمة منبثقة عند النقر بالزر الأيمن على الرسم</screeninfo>
+	<mediaobject>
+		<imageobject>
+			<imagedata fileref="popup.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+			<phrase
+>قائمة منبثقة عند النقر بالزر الأيمن على الرسم</phrase>
+		</textobject>
+	</mediaobject>
+	</screenshot>
+
+	<para
+>عند النقر بالزر الأيمن على دالة مرسومة أو دالة بارامترية بنقطة واحدة، ستظهر قائمة منبثقة. تحتوي القائمة على خمسة عناصر متاحة:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>حرّر</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>يختار الدالة في الشريط الجانبي <guilabel
+>الدوال</guilabel
+> لتحريرها.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>أخفِ</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>يخفي الرسم المحدد. ستظل الرسوم الأخرى للدالة معروضة.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>أزل</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>يزيل الدالة. ستختفي جميع رسومها.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>رسم نشط</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>يعرض حوار <guilabel
+>محاكي البارامتر</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>آلة حاسبة</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>يفتح حوار <guilabel
+>الحاسبة</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+	<para
+>اعتمادًا على نوع الرسم، سيكون هناك أيضًا ما يصل إلى خمس أدوات متاحة:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>انسخ (س، ص)</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>ينسخ القيمة الحالية على الرسم إلى حافظة النظام. يمكن أن تكون هذه الأداة مفيدة لإنشاء جداول قيم الدوال خارج الراسم. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>انسخ قيمة الجذر</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+                            <para
+>ينسخ قيمة الجذر <literal
+>x</literal
+> إلى حافظة النظام. يمكن نسخ ما يصل إلى أول خمسة أرقام بعد الفاصلة العشرية فقط. استخدم <ulink url="https://en.wikipedia.org/wiki/Computer_algebra_system"
+>نظام جبر حاسوبي</ulink
+> لتحديد هذا الجذر بدقة تعسفية. هذه الأداة متاحة فقط عندما يكون موضع التتبع الحالي قريبًا من جذر. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>منطقة الرسم...</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>اختر القيمتين الأفقيتين الصغرى والكبرى للرسم في الحوار الجديد الذي يظهر. يحسب التكامل ويرسم المساحة بين الرسم والمحور الأفقي في النطاق المحدد بلون الرسم. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>جِد الأدنى…</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>أوجد القيمة الصغرى للرسم في نطاق محدد. سيُبرز الرسم المحدد في الحوار الذي يظهر. أدخل الحدين الأدنى والأعلى للمنطقة التي تريد البحث فيها عن قيمة صغرى. </para>
+				<para
+>ملاحظة: يمكنك أيضًا إخبار الرسم بإظهار النقاط القصوى بصريًا في حوار <guilabel
+>مظهر الرسم</guilabel
+>، الذي يمكن الوصول إليه في الشريط الجانبي <guilabel
+>الدوال</guilabel
+> بالنقر على <guibutton
+>متقدم...</guibutton
+>. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenuitem
+>جِد الأقصى…</guimenuitem>
+				</menuchoice
+></term>
+			<listitem>
+				<para
+>هذا هو نفسه <guimenuitem
+>أوجد قيمة صغرى...</guimenuitem
+> أعلاه، لكنه يجد القيمة العظمى بدلًا من القيمة الصغرى.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="configuration">
+<title
+>ضبط الراسم</title>
+<para
+>للوصول إلى حوار ضبط الراسم، اختر عنصر القائمة <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guimenuitem
+>اضبط الراسم...</guimenuitem
+></menuchoice
+>. يمكن تغيير إعدادات <guimenuitem
+>الثوابت...</guimenuitem
+> فقط من قائمة <guimenu
+>تحرير</guimenu
+> و<guimenuitem
+>نظام الإحداثيات...</guimenuitem
+> فقط من قائمة <guimenu
+>عرض</guimenu
+>.</para>
+
+<sect1 id="general-config">
+	<title
+>ضبط عام</title>
+
+	<screenshot>
+		<screeninfo
+>لقطة شاشة لحوار الإعدادات العامة</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-general.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>لقطة شاشة لحوار الإعدادات العامة</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+    <para
+>هنا يمكنك ضبط إعدادات عامة ستُحفظ آلي عند خروجك من الراسم. يمكنك ضبط وضع الزاوية (راديان ودرجات)، وعوامل التكبير والتصغير للتكبير باستخدام &Ctrl; مع عجلة الفأرة أو <link linkend="a-view-menu"
+>عناصر القائمة المقابلة</link
+>، وما إذا كان سيتم إظهار تتبع الرسم المتقدم.</para>
+</sect1>
+
+<sect1 id="diagram-config">
+	<title
+>ضبط المخطط</title>
+
+	<screenshot>
+		<screeninfo
+>لقطة شاشة لحوار مظهر المخطط</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-diagram.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>لقطة شاشة لحوار مظهر المخطط</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>يمكنك ضبط <guilabel
+>نمط الشبكة</guilabel
+> على أحد أربعة خيارات: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>لا شيء</guilabel
+></term>
+				<listitem>
+					<para
+>لا تُرسم خطوط شبكة على منطقة الرسم.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>الخطوط</guilabel
+></term>
+				<listitem>
+					<para
+>تشكل الخطوط المستقيمة شبكة من المربعات على منطقة الرسم.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>صلبان</guilabel
+></term>
+				<listitem>
+					<para
+>تُرسم علامات تقاطع للإشارة إلى النقاط التي تكون فيها x وy قيمتين صحيحتين (مثل، (1,1)، (4,2) إلخ…).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>قطبي</guilabel
+></term>
+				<listitem>
+					<para
+>تُرسم خطوط نصف قطر ثابت وزاوية ثابتة على منطقة الرسم.</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+
+	<para
+>يمكن ضبط خيارات أخرى لمظهر المخطط: <variablelist>
+			<varlistentry>
+				<term
+><guilabel
+>لصائق المحاور</guilabel
+></term>
+				<listitem>
+					<para
+>يضبط هذا القسم لصائق المحورين الأفقي والعمودي.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>عرض المحاور:</guilabel
+></term>
+				<listitem>
+					<para
+>يضبط عرض الخطوط الممثلة للمحورين.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>عرض الخطّ:</guilabel
+></term>
+				<listitem>
+					<para
+>يضبط عرض الخطوط المستخدمة لرسم الشبكة.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>عرض علامة المحور:</guilabel
+></term>
+				<listitem>
+					<para
+>يضبط عرض الخطوط الممثلة للعلامات على المحورين.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>طول علامة المحور:</guilabel
+></term>
+				<listitem>
+					<para
+>يضبط طول الخطوط الممثلة للعلامات على المحورين.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>أظهر اللصائق</guilabel
+></term>
+				<listitem>
+					<para
+>إذا كان محددًا، تُعرض أسماء المحورين على المخطط وتُوسم علامات المحورين.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>أظهر المحاور</guilabel
+></term>
+				<listitem>
+					<para
+>إذا كان محددًا، يكون المحوران مرئيين.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>عرض الأسهم</guilabel
+></term>
+				<listitem>
+					<para
+>إذا كان محددًا، يُعرض المحوران بسهمين في نهايتيهما.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+
+	</para>
+</sect1>
+
+<sect1 id="colors-config">
+	<title
+>ضبط الألوان</title>
+
+	<screenshot>
+		<screeninfo
+>لقطة شاشة لحوار الألوان</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-colors.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>لقطة شاشة لحوار الألوان</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>في قسم <guilabel
+>الإحداثيات</guilabel
+> من حوار ضبط <guilabel
+>الألوان</guilabel
+>، يمكنك تغيير ألوان المحورين والشبكة وخلفية المساحة الرئيسة لـالراسم. </para>
+
+	<para
+>تتحكم <guilabel
+>ألوان الدوال المبدئية</guilabel
+> في الألوان التي يُتنقل بينها عند إنشاء دوال جديدة.</para>
+</sect1>
+
+<sect1 id="font-config">
+	<title
+>ضبط الخطوط</title>
+
+	<screenshot>
+		<screeninfo
+>لقطة شاشة لحوار الخطوط</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-fonts.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>لقطة شاشة لحوار الخطوط</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><guilabel
+>أسماء المحاور:</guilabel
+></term>
+			<listitem>
+				<para
+>الخط المستخدم لرسم أرقام المحورين ولصائق س/ص.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><guilabel
+>اسم الرسم البياني:</guilabel
+></term>
+			<listitem>
+				<para
+>الخط المستخدم لرسم لصائق المخطط (مثلًا، تلك التي تظهر اسم المخطط أو النقاط القصوى).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+><guilabel
+>رأس الجدول:</guilabel
+></term>
+			<listitem>
+				<para
+>الخط المستخدم لرأس الترويسة عند طباعة مخطط.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="reference">
+<title
+>مرجع الراسم</title>
+
+<sect1 id="func-syntax">
+	<title
+>صيغة الدوال</title>
+
+	<para
+>يجب الامتثال لبعض قواعد الصياغة:</para>
+
+	<screen
+><userinput
+>الاسم(المتغير1[, المتغير2])=الحد [;الامتدادات]</userinput
+>
+        </screen>
+
+
+	<variablelist>
+		<varlistentry>
+			<term
+>الاسم</term>
+			<listitem>
+
+				<para
+>اسم الدالة. إذا كان الحرف الأول <quote
+>r</quote
+> يفترض المحلل اللغوي أنك تستخدم إحداثيات قطبية. إذا كان الحرف الأول <quote
+>x</quote
+> (مثلًا <quote
+>xfunc</quote
+>) يتوقع المحلل اللغوي دالة ثانية بحرف أول <quote
+>y</quote
+> (هنا <quote
+>yfunc</quote
+>) لتعريف الدالة بصيغة وسيطية. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var1</term>
+			<listitem
+><para
+>متغير الدالة.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>var2</term>
+			<listitem
+><para
+>معامل مجموعة الدالة. يجب فصله عن متغير الدالة بفاصلة. يمكنك استخدام معامل المجموعة، على سبيل المثال، لرسم عدد من الرسوم البيانية من دالة واحدة. يمكن اختيار قيم المعامل يدويًا أو يمكنك اختيار وجود شريط تمرير يتحكم في معامل واحد. بتغيير قيمة شريط التمرير ستتغير قيمة المعامل. يمكن ضبط شريط التمرير على عدد صحيح بين 0 و100.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>مصطلح</term>
+			<listitem
+><para
+>التعبير المعرف للدالة.</para
+></listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="func-predefined">
+	<title
+>أسماء الدوال والثوابت المعرفة مسبقًا</title>
+
+	<para
+>يمكن عرض جميع الدوال والثوابت المعرفة مسبقًا التي يعرفها الراسم باختيار <menuchoice
+><guimenu
+>مساعدة</guimenu
+><guimenuitem
+>الدوال الرياضية المعرفة مسبقًا</guimenuitem
+> </menuchoice
+>، الذي يعرض صفحة دليل الراسم هذه. </para>
+
+	<para
+>يمكن استخدام هذه الدوال والثوابت وحتى جميع الدوال المعرفة من قبل المستخدم لتحديد إعدادات المحاور أيضًا. انظر <xref linkend="axes-config"/>. </para>
+
+	<sect2 id="trigonometric-functions">
+		<title
+>دوال مثلثية</title>
+
+		<para
+>افتراضيًا، تعمل الدوال المثلثية بالتقدير الدائري. ومع ذلك، يمكن تغيير ذلك عبر عنصر القائمة <menuchoice
+><guimenu
+>الإعدادات</guimenu
+><guimenuitem
+>اضبط الراسم...</guimenuitem
+></menuchoice
+>. </para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sin(x)</term>
+				<term
+>arcsin(x)</term>
+				<term
+>cosec(x)</term>
+				<term
+>arccosec(x)</term>
+				<listitem
+><para
+>الجيب، وجيب التمام العكسي، وقاطع التمام، وقاطع التمام العكسي على التوالي.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cos(x)</term>
+				<term
+>arccos(x)</term>
+				<term
+>sec(x)</term>
+				<term
+>arcsec(x)</term>
+				<listitem
+><para
+>جيب التمام، وجيب التمام العكسي، والقاطع، والقاطع العكسي على التوالي.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tan(x)</term>
+				<term
+>arctan(x)</term>
+				<term
+>cot(x)</term>
+				<term
+>arccot(x)</term>
+				<listitem
+><para
+>الظل، والظل العكسي، وظل التمام، وظل التمام العكسي على التوالي.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="hyperbolic-functions">
+		<title
+>دوال زائدية</title>
+		<para
+>الدوال الزائدية.</para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sinh(x)</term>
+				<term
+>arcsinh(x)</term>
+				<term
+>cosech(x)</term>
+				<term
+>arccosech(x)</term>
+				<listitem
+><para
+>الجيب الزائدي، والجيب الزائدي العكسي، وقاطع التمام الزائدي، وقاطع التمام الزائدي العكسي على التوالي.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>cosh(x)</term>
+				<term
+>arccosh(x)</term>
+				<term
+>sech(x)</term>
+				<term
+>arcsech(x)</term>
+				<listitem
+><para
+>جيب التمام الزائدي، وجيب التمام الزائدي العكسي، والقاطع الزائدي، والقاطع الزائدي العكسي على التوالي.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>tanh(x)</term>
+				<term
+>arctanh(x)</term>
+				<term
+>coth(x)</term>
+				<term
+>arccoth(x)</term>
+				<listitem
+><para
+>الظل الزائدي، والظل الزائدي العكسي، وظل التمام الزائدي، وظل التمام الزائدي العكسي على التوالي.</para
+></listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+
+	<sect2 id="other-functions">
+		<title
+>دوال أخرى</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>sqr(x)</term>
+				<listitem
+><para
+>مربع x^2 للعدد x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>sqrt(x)</term>
+				<listitem
+><para
+>الجذر التربيعي للعدد x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>sign(x)</term>
+				<listitem
+><para
+>إشارة العدد x. تُرجع 1 إذا كان x موجبًا، و0 إذا كان x صفرًا، أو &minus;1 إذا كان x سالبًا.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>H(x)</term>
+				<listitem
+><para
+>دالة خطوة هيفيسايد. تُرجع 1 إذا كان x موجبًا، و0.5 إذا كان x صفرًا، أو 0 إذا كان x سالبًا.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>exp(x)</term>
+				<listitem
+><para
+>الأس e^x للعدد x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ln(x)</term>
+				<listitem
+><para
+>اللوغاريتم الطبيعي (الأس العكسي) للعدد x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>log(x)</term>
+				<listitem
+><para
+>لوغاريتم العدد x للأساس 10.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>abs(x)</term>
+				<listitem
+><para
+>القيمة المطلقة للعدد x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>floor(x)</term>
+				<listitem
+><para
+>يقرّب x إلى أقرب عدد صحيح أصغر من أو يساوي x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>ceil(x)</term>
+				<listitem
+><para
+>يقرّب x إلى أقرب عدد صحيح أكبر من أو يساوي x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>round(x)</term>
+				<listitem
+><para
+>يقرّب x إلى أقرب عدد صحيح.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>gamma(x)</term>
+				<listitem
+><para
+>دالة غاما.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>factorial(x)</term>
+				<listitem
+><para
+>مضروب العدد x.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>min(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>تُرجع الحد الأدنى لمجموعة الأعداد {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>max(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>تُرجع الحد الأقصى لمجموعة الأعداد {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>mod(x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>)</term>
+				<listitem
+><para
+>تُرجع المعامل (الطول الإقليدي) لمجموعة الأعداد {x<subscript
+>1</subscript
+>,x<subscript
+>2</subscript
+>,...,x<subscript
+>n</subscript
+>}.</para
+></listitem>
+			</varlistentry>
+
+			<!-- TODO: Legendre polynomials -->
+
+		</variablelist>
+	</sect2>
+
+	<sect2>
+		<title
+>ثوابت معرفة مسبقًا</title>
+		<variablelist>
+
+			<varlistentry>
+				<term
+>pi</term>
+				<term
+>&pgr;</term>
+				<listitem>
+					<para
+>ثوابت تمثل &pgr; (3.14159...).</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>e</term>
+				<listitem>
+					<para
+>ثابت يمثل عدد أويلر e (2.71828...).</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</sect2>
+</sect1>
+
+<sect1 id="func-extension"
+> <!--FIXME does this still work-->
+	<title
+>الامتدادات</title>
+	<para
+>يُحدد امتداد لدالة بإدخال فاصلة منقوطة، متبوعة بالامتداد، بعد تعريف الدالة. يمكن إدخال الامتداد باستخدام طريقة &DBus; <quote
+><methodname
+>parser addFunction</methodname
+></quote
+>. لا تتوفر أي من الامتدادات للدوال الوسيطية ولكن N و D[a,b] تعمل للدوال القطبية أيضًا. على سبيل المثال: <screen
+>                         <userinput>
+                                f(x)=x^2; A1
+                        </userinput>
+                </screen
+>سيعرض الرسم البياني y=x<superscript
+>2</superscript
+> مع مشتقته الأولى. الامتدادات المدعومة موضحة أدناه: <variablelist>
+			<varlistentry>
+				<term
+>N</term>
+				<listitem>
+					<para
+>ستُخزَن الدالة لكن لن تُرسَم. يمكن استخدامها مثل أي دالة أخرى معرفة من المستخدم أو معرفة مسبقًا. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A1</term>
+				<listitem>
+					<para
+>سيُرسَم منحنى مشتقة الدالة إضافيًا بنفس اللون لكن بعرض خط أقل. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>A2</term>
+				<listitem>
+					<para
+>سيُرسَم منحنى المشتقة الثانية للدالة إضافيًا بنفس اللون لكن بعرض خط أقل. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>D[a,b]</term>
+				<listitem>
+					<para
+>يضبط المجال الذي ستُعرَض فيه الدالة. </para>
+				</listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+>P[a{,b...}]</term>
+				<listitem>
+					<para
+>أعط مجموعة من قيم وسيط مجموعة لتُعرَض الدالة من أجلها. مثال: <userinput
+>f(x,k)=k*x;P[1,2,3]</userinput
+> سيرسم الدوال f(x)=x و f(x)=2*x و f(x)=3*x. يمكنك أيضًا استخدام دوال كوسائط لخيار P. </para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</para>
+	<para
+>يرجى ملاحظة أنه يمكنك إجراء كل هذه العمليات بتحرير العناصر في لسان <guilabel
+>المشتقات</guilabel
+> وقسم <guilabel
+>نطاق الرسم المخصص</guilabel
+> وقسم <guilabel
+>الوسائط</guilabel
+> في الشريط الجانبي <guilabel
+>الدوال</guilabel
+> أيضًا. </para>
+</sect1>
+
+<sect1 id="math-syntax">
+	<title
+>الصياغة الرياضية</title>
+	<para
+>يستخدم الراسم طريقة شائعة للتعبير عن الدوال الرياضية، لذا لا ينبغي أن تواجه مشكلة في فهمها. العوامل التي يفهمها الراسم هي، بترتيب تنازلي للأولوية: <variablelist>
+
+			<varlistentry>
+				<term
+>^</term>
+				<listitem
+><para
+>رمز الإقحام ينفذ عملية الرفع إلى أس. مثال: <userinput
+>2^4</userinput
+> يُرجع 16.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>*</term>
+				<term
+>/</term>
+				<listitem>
+					<para
+>رمزا النجمة والشرطة المائلة ينفذان الضرب والقسمة. مثال: <userinput
+>3*4/2</userinput
+> يُرجع 6.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>+</term>
+				<term
+>&minus;</term>
+				<listitem
+><para
+>رمزا الجمع والطرح ينفذان الجمع والطرح. مثال: <userinput
+>1+3&minus;2</userinput
+> يُرجع 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&lt;</term>
+				<term
+>&gt;</term>
+				<term
+>&le;</term>
+				<term
+>&ge;</term>
+				<listitem
+><para
+>عوامل المقارنة. تُرجع 1 إذا كان التعبير صحيحًا، وإلا تُرجع 0. مثال: <userinput
+>1 &le; 2</userinput
+> يُرجع 1.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&radic;</term>
+				<listitem
+><para
+>الجذر التربيعي لعدد. مثال: <userinput
+>&radic;4</userinput
+> يُرجع 2.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>|x|</term>
+				<listitem
+><para
+>القيمة المطلقة لـ x. مثال: <userinput
+>|&minus;4|</userinput
+> تُرجع 4.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+>&plusmn;</term>
+				<term
+></term>
+				<listitem
+><para
+>كل علامة زائد-ناقص تعطي مجموعتين من الرسوم: واحدة يُؤخذ فيها الزائد، وأخرى يُؤخذ فيها الناقص. مثال: <userinput
+>y = &plusmn;sqrt(1&minus;x^2)</userinput
+> سيرسم دائرة. لذلك، لا يمكن استخدامها في الثوابت.</para>
+				</listitem>
+			</varlistentry>
+
+
+
+		</variablelist>
+	</para>
+	<para
+>لاحظ الأولوية، مما يعني أنه إذا لم تُستخدم الأقواس، فإن الرفع إلى أس يُنفذ قبل الضرب/القسمة، الذي يُنفذ قبل الجمع/الطرح. لذا <userinput
+>1+2*4^2</userinput
+> يُرجع 33، وليس 144 مثلًا. لتجاوز هذا، استخدم الأقواس. لاستخدام المثال أعلاه، <userinput
+>((1+2)*4)^2</userinput
+> <emphasis
+>سوف</emphasis
+> يُرجع 144. </para>
+</sect1>
+
+<sect1 id="coord-area"
+><title
+>منطقة الرسم</title>
+	<para
+>افتراضيًا، تُرسَم الدوال المعطاة صراحةً للجزء المرئي بأكمله من المحور الأفقي. يمكنك تحديد نطاق آخر في مربع حوار التحرير للدالة. إذا احتوت منطقة الرسم على النقطة الناتجة، فإنها تُوصَل بآخر نقطة مرسومة بخط. </para>
+	<para
+>للدوال البارامترية والقطبية نطاق رسم افتراضي من 0 إلى 2&pgr;. يمكن تغيير نطاق الرسم هذا أيضًا في الشريط الجانبي <guilabel
+>الدوال</guilabel
+>. </para>
+</sect1>
+
+<sect1 id="coord-cross">
+	<title
+>مؤشر التقاطع</title>
+	<para
+>بينما يكون مؤشر الفأرة فوق منطقة الرسم، يتغير المؤشر إلى تقاطع. يمكن رؤية الإحداثيات الحالية عند التقاطعات مع محوري الإحداثيات وأيضًا في شريط الحالة في أسفل النافذة الرئيسة. </para>
+	<para
+>يمكنك تتبع قيم دالة بدقة أكبر بالنقر على رسم بياني أو بجانبه. تُعرَض الدالة المحددة في شريط الحالة في العمود الأيمن. سيُلتقط التقاطع بعد ذلك ويُلون بنفس لون الرسم البياني. إذا كان للرسم البياني نفس لون لون الخلفية، فسيكون للتقاطع اللون المعكوس للخلفية. عند تحريك الفأرة أو الضغط على المفتاحين &Left; أو &Right;، سيتبع التقاطع الدالة وترى القيمة الأفقية والعمودية الحالية. إذا كان التقاطع قريبًا من المحور العمودي، تُعرَض قيمة الجذر في شريط الحالة. يمكنك تبديل الدالة بالمفتاحين &Up; و &Down;. نقرة ثانية في أي مكان في النافذة أو الضغط على أي مفتاح غير تنقلي سيخرج من وضع التتبع هذا. </para>
+	<para
+>لتتبع أكثر تقدمًا، افتح مربع حوار الإعدادات، واختر <guilabel
+>ارسم المماس والعمودي عند التتبع</guilabel
+> من صفحة <guilabel
+>الإعدادات العامة</guilabel
+>. سيرسم هذا الخيار المماس والعمودي ودائرة التذبذب للرسم البياني الذي يجري تتبعه حاليًا. </para>
+
+</sect1>
+
+<sect1 id="coords-config">
+	<title
+>إعدادات نظام الإحداثيات</title>
+	<para
+>لفتح مربع الحوار هذا، اختر <menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>نظام الإحداثيات...</guimenuitem
+></menuchoice
+> من شريط القوائم.</para>
+	<screenshot>
+		<screeninfo
+>لقطة شاشة لمربع حوار نظام الإحداثيات</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-coords.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>لقطة شاشة لمربع حوار نظام الإحداثيات</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<sect2 id="axes-config">
+		<title
+>إعدادات المحاور</title>
+		<para>
+			<variablelist>
+
+				<varlistentry>
+					<term
+><guilabel
+>حدود المحور الأفقي</guilabel
+></term>
+					<listitem>
+						<para
+>يضبط نطاق مقياس المحور الأفقي. لاحظ أنه يمكنك استخدام الدوال والثوابت المعرفة مسبقًا (انظر <xref linkend="func-predefined"/>) كأطراف النطاق (مثال: اضبط <guilabel
+>الحد الأدنى:</guilabel
+> إلى <userinput
+>2*pi</userinput
+>). يمكنك حتى استخدام دوال عرّفتها لضبط أطراف نطاق المحور. على سبيل المثال، إذا عرّفت دالة <userinput
+>f(x) = x^2</userinput
+>، يمكنك ضبط <guilabel
+>الحد الأدنى:</guilabel
+> إلى <userinput
+>f(3)</userinput
+>، مما سيجعل الطرف الأدنى للنطاق يساوي 9.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+				  <term
+><guilabel
+>حدود المحور العمودي</guilabel
+></term>
+					<listitem>
+						<para
+>يضبط نطاق المحور العمودي. انظر <quote
+>نطاق المحور الأفقي</quote
+> أعلاه.</para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>المسافة بين خطوط الشبكة الأفقية</guilabel
+></term>
+					<listitem>
+						<para
+>يتحكم هذا في التباعد بين خطوط الشبكة في الاتجاه الأفقي. إذا اختير <guilabel
+>آلي</guilabel
+>، فسيحاول الراسم إيجاد تباعد لخطوط الشبكة يبلغ حوالي سنتيمترين ويكون مناسبًا عدديًا أيضًا. إذا اختير <guilabel
+>مخصص:</guilabel
+>، فيمكنك إدخال التباعد الأفقي للشبكة. ستُستخدم هذه القيمة بغض النظر عن التكبير/التصغير. على سبيل المثال، إذا أُدخلت قيمة 0.5، وكان المدى السيني من 0 إلى 8، فستُعرض 16 خط شبكة. </para>
+					</listitem>
+				</varlistentry>
+
+				<varlistentry>
+					<term
+><guilabel
+>تباعد خطوط الشبكة عموديًا</guilabel
+></term>
+					<listitem>
+						<para
+>يتحكم هذا في التباعد بين خطوط الشبكة في الاتجاه العمودي. انظر <quote
+>تباعد شبكة المحور الأفقي</quote
+> أعلاه. </para>
+					</listitem>
+				</varlistentry>
+
+			</variablelist>
+		</para>
+
+	</sect2>
+</sect1>
+
+<sect1 id="constants-config">
+	<title
+>ضبط الثوابت</title>
+	<para
+>لفتح هذا الحوار اختر <menuchoice
+><guimenu
+>تحرير</guimenu
+><guimenuitem
+>ثوابت...</guimenuitem
+></menuchoice
+> من شريط القوائم.</para>
+
+	<screenshot>
+		<screeninfo
+>لقطة شاشة لحوار الثوابت</screeninfo>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="settings-constants.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>لقطة شاشة لحوار الثوابت</phrase>
+			</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>يمكن استخدام الثوابت كجزء من تعبير في أي مكان داخل الراسم. يجب أن يكون لكل ثابت اسم وقيمة. بعض الأسماء غير صالحة، مثل أسماء الدوال الموجودة أو الثوابت الموجودة. </para>
+
+	<para
+>يوجد خياران يتحكمان في نطاق الثابت: <variablelist>
+
+			<varlistentry>
+				<term
+><guilabel
+>مستند</guilabel
+></term>
+				<listitem>
+					<para
+>إذا حددت خانة الاختيار <guilabel
+>مستند</guilabel
+>، فسيُحفظ الثابت مع المخطط الحالي عند حفظه في ملف. ومع ذلك، ما لم تختر أيضًا الخيار <guilabel
+>عام</guilabel
+>، فلن يكون الثابت متاحًا بين جلسات الراسم.</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term
+><guilabel
+>عام</guilabel
+></term>
+				<listitem>
+					<para
+>إذا حددت خانة الاختيار <guilabel
+>عام</guilabel
+>، فسيُكتب اسم الثابت وقيمته إلى إعدادات كيدي (حيث يمكن استخدامه أيضًا بواسطة &kcalc;). لن يُفقد الثابت عند إغلاق الراسم، وسيكون متاحًا للاستخدام مرة أخرى عند بدء الراسم من جديد.</para>
+				</listitem>
+			</varlistentry>
+
+		</variablelist>
+	</para>
+</sect1>
+
+</chapter>
+
+<chapter id="commands">
+<title
+>مرجع الأوامر</title>
+
+<sect1 id="menu">
+<title
+>عناصر القائمة</title>
+
+<para
+>بالإضافة إلى قوائم كيدي الشائعة الموصوفة في فصل <ulink url="help:/fundamentals/menus.html"
+>القوائم</ulink
+> من وثائق أساسيات كيدي، يحتوي الراسم على إدخالات القوائم الخاصة بالتطبيق التالية: </para>
+
+<sect2 id="a-file-menu">
+	<title
+>قائمة ملف</title>
+	<variablelist>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>ملف</guimenu
+> <guimenuitem
+>صَدِّر...</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+><action
+>يُصدر</action
+> الرسوم البيانية المخططة إلى ملف صورة بجميع الصيغ المدعومة من كيدي.</para
+></listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>ملف</guimenu
+> <guimenuitem
+>طباعة...</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>يفتح</action
+> نافذة ضبط الطباعة. اضغط الزر <guibutton
+>خيارات 
+>
+></guibutton
+> ثم اختر اللسان <guilabel
+>خيارات KmPlot</guilabel
+> لضبط الخيارات الخاصة بـ الراسم.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>ملف</guimenu
+> <guimenuitem
+>معاينة الطباعة</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+><action
+>يُظهر</action
+> الصورة الأولية للمخطط الحالي كما ستُطبع على الطابعة المبدئية الحالية. اضغط الزر الموجود في أقصى اليمين على شريط أدوات نافذة معاينة الطباعة لضبط الخيارات الخاصة بـ الراسم.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-edit-menu">
+	<title
+>قائمة حرر</title>
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>تحرير</guimenu
+><guimenuitem
+>ثوابت...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>يعرض مربع حوار <guilabel
+>محرر الثوابت</guilabel
+>. انظر <xref linkend="constants-config"/>. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect2>
+
+<sect2 id="a-view-menu">
+	<title
+>قائمة عرض</title>
+	<para
+>العناصر الثلاثة الأولى في القائمة متعلقة بالتكبير/التصغير.</para>
+	<note>
+		<para
+>يمكن أيضًا استخدام عجلة الفأرة كأداة تحكم في التكبير/التصغير. للتكبير أو التصغير باستخدام الفأرة، اضغط مع الاستمرار على مفتاح &Ctrl; أثناء تدوير عجلة الفأرة. كل نقرة تزيد أو تقلل عامل التكبير/التصغير بالقيمة المحددة في <link linkend="general-config"
+>إعدادات الراسم العامة</link
+>. </para>
+	</note>
+
+	<variablelist>
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>عرض</guimenu
+><guimenuitem
+>قرب</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>يمكن استخدام هذه الأداة بطريقتين مختلفتين. للتكبير على نقطة في الرسم البياني، انقر عليها. للتكبير على قسم معين من الرسم البياني، اضغط مع الاستمرار واسحب الفأرة لتشكيل مستطيل، سيكون هو نطاقات المحاور الجديدة عند تحرير زر الفأرة.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+></shortcut
+><guimenu
+>عرض</guimenu
+> <guimenuitem
+>بعد</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem>
+				<para
+>يمكن أيضًا استخدام الأداة بطريقتين مختلفتين. للتصغير والتمركز على نقطة، انقر على تلك النقطة. لملاءمة العرض الحالي داخل مستطيل، اضغط مع الاستمرار واسحب الفأرة لتشكيل ذلك المستطيل.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term>
+				<menuchoice
+><guimenu
+>عرض</guimenu
+> <guimenuitem
+>ملاءمة الأداة للدوال المثلثية</guimenuitem
+> </menuchoice>
+			</term>
+			<listitem
+><para
+>سيُكيف المقياس ليتناسب مع الدوال المثلثية. يعمل هذا لكل من الراديان والدرجات.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>إعادة ضبط العرض</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>يعيد ضبط العرض. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>نظام الإحداثيات...</guimenuitem
+> </menuchoice
+></term>
+			<listitem
+><para
+>يعرض مربع حوار <guilabel
+>نظام الإحداثيات</guilabel
+>. انظر <xref linkend="coords-config"/>. </para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>عرض</guimenu
+> <guimenuitem
+>إظهار المنزلقات</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+><action
+>يبدّل</action
+> رؤية حوار المنزلقات. في الحوار، حرّك منزلقًا لتغيير معامل اتصال دالة المخطط به.</para>
+				<para
+>فعّل هذا على لسان الدالة واختر أحد المنزلقات لتغيير قيمة المعامل ديناميكيًا. تتراوح القيم من 0 (يسار) إلى 10 (يمين) مبدئيًا، ولكن يمكن تغييرها في حوار المنزلقات.</para>
+				<para
+>للحصول على دليل صغير، انظر <ulink url="https://userbase.kde.org/Special:MyLanguage/KmPlot/Using_Sliders"
+>استخدام المنزلقات</ulink
+>.</para>
+				<!--https://forum.kde.org/viewtopic.php?f=21&t=90183 kmplot slider examples
+				KmPlot supports only one parameter. Feature request on bugs.kde.org: https://bugs.kde.org/show_bug.cgi?id=139097-->
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-tools-menu">
+	<title
+>قائمة أدوات</title>
+
+	<para
+>تحتوي هذه القائمة على بعض الأدوات للدوال التي قد تكون مفيدة:</para>
+
+	<variablelist>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>أدوات</guimenu
+> <guimenuitem
+>آلة حاسبة</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>يفتح حوار <guilabel
+>الحاسبة</guilabel
+>.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>أدوات</guimenu
+> <guimenuitem
+>مساحة رسم...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>اختر رسمًا بيانيًا وقيم المحور الأفقي في الحوار الجديد الذي يظهر. يحسب التكامل ويرسم المساحة بين الرسم البياني والمحور الأفقي في نطاق القيم المحددة بلون الرسم البياني.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>أدوات</guimenu
+> <guimenuitem
+>إيجاد أدنى قيمة...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>أوجد أدنى قيمة للرسم البياني في نطاق محدد.</para>
+			</listitem>
+		</varlistentry>
+
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>أدوات</guimenu
+> <guimenuitem
+>إيجاد أعلى قيمة...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>أوجد أعلى قيمة للرسم البياني في نطاق محدد.</para>
+			</listitem>
+		</varlistentry>
+
+	</variablelist>
+</sect2>
+
+<sect2 id="a-help-menu">
+	<title
+>قائمة مساعدة</title>
+
+	<para
+>يحتوي الراسم على قائمة <guimenu
+>مساعدة</guimenu
+> قياسية في كيدي مع إضافة واحدة:</para>
+
+	<variablelist>
+		<varlistentry>
+			<term
+><menuchoice
+><guimenu
+>مساعدة</guimenu
+> <guimenuitem
+>دوال رياضية معرفة مسبقًا...</guimenuitem
+> </menuchoice
+></term>
+			<listitem>
+				<para
+>يفتح هذا الدليل بقائمة بأسماء الدوال والثوابت المعرفة مسبقًا التي يعرفها الراسم.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+
+</sect2>
+</sect1>
+
+</chapter>
+
+<chapter id="dbus">
+	<title
+>برمجة الراسم نصيًا</title>
+	<para
+>يمكنك كتابة نصوص برمجية لـ الراسم باستخدام &DBus;. على سبيل المثال، إذا أردت تعريف دالة جديدة <userinput
+>f(x)=2sin x+3cos x</userinput
+>، وضبط عرض خطها إلى 20 ثم رسمها، اكتب في وحدة التحكم:</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.addFunction "f(x)=2sin x+3cos x" ""</command
+> كنتيجة، سيُعاد رقم معرف الدالة الجديدة، أو -1 إذا تعذر تعريف الدالة.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /parser org.kde.kmplot.Parser.setFunctionFLineWidth ID 20</command
+> يضبط هذا الأمر عرض خط الدالة ذات رقم المعرف ID إلى 20.</para>
+	<para
+><command
+>qdbus org.kde.kmplot-PID /view org.kde.kmplot.View.drawPlot</command
+> يعيد هذا الأمر طلاء النافذة بحيث تصبح الدالة مرئية.</para>
+<para
+>قائمة بالدوال المتاحة: <variablelist>
+		<varlistentry>
+			<term
+>/kmplot org.kde.kmplot.KmPlot.fileOpen url </term>
+			<listitem>
+				<para
+>حمل الملف <parameter
+>url</parameter
+>.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.isModified </term>
+			<listitem>
+				<para
+>يعيد صحيحًا إذا أُجريت أي تغييرات.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.checkModified </term>
+			<listitem>
+				<para
+>إذا كانت هناك أي تغييرات غير محفوظة، يظهر حوار لحفظ أو تجاهل أو إلغاء الرسوم البيانية.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.editAxes </term>
+			<listitem>
+				<para
+>يفتح حوار تحرير نظام الإحداثيات.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.toggleShowSlider </term>
+			<listitem>
+				<para
+>يُظهر/يُخفي نافذة منزلق المعاملات.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSave </term>
+			<listitem>
+				<para
+>يحفظ الدوال (يفتح حوار الحفظ إذا كان ملفًا جديدًا).</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSaveas </term>
+			<listitem>
+				<para
+>مثل اختيار <menuchoice
+><guimenu
+>ملف</guimenu
+><guimenuitem
+>حفظ باسم...</guimenuitem
+></menuchoice
+> في القائمة.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotPrint </term>
+			<listitem>
+				<para
+>يفتح حوار الطباعة.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotResetView </term>
+			<listitem>
+				<para
+>مثل اختيار <menuchoice
+><guimenu
+>عرض</guimenu
+><guimenuitem
+>إعادة ضبط العرض</guimenuitem
+></menuchoice
+> في القائمة.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotExport </term>
+			<listitem>
+				<para
+>يفتح حوار التصدير.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotSettings </term>
+			<listitem>
+				<para
+>يفتح حوار الإعدادات.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.slotNames </term>
+			<listitem>
+				<para
+>يعرض الدوال الرياضية المعرفة مسبقًا في الدليل.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMinimumValue </term>
+			<listitem>
+				<para
+>مثل اختيار <menuchoice
+><guimenu
+>أدوات</guimenu
+><guimenuitem
+>القيمة الصغرى...</guimenuitem
+></menuchoice
+> في القائمة.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.findMaximumValue </term>
+			<listitem>
+				<para
+>مثل اختيار <menuchoice
+><guimenu
+>أدوات</guimenu
+><guimenuitem
+>القيمة العظمى...</guimenuitem
+></menuchoice
+> في القائمة.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.graphArea </term>
+			<listitem>
+				<para
+>مثل اختيار <menuchoice
+><guimenu
+>أدوات</guimenu
+><guimenuitem
+>مساحة الرسم...</guimenuitem
+></menuchoice
+> في القائمة.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/maindlg org.kde.kmplot.MainDlg.calculator </term>
+			<listitem>
+				<para
+>مثل اختيار <menuchoice
+><guimenu
+>أدوات</guimenu
+><guimenuitem
+>آلة حاسبة</guimenuitem
+></menuchoice
+> في القائمة.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.addFunction f_str0 f_fstr1 </term>
+			<listitem>
+				<para
+>يضيف دالة جديدة بالتعبيرين <parameter
+>f_str0</parameter
+> و<parameter
+>f_str1</parameter
+>. إذا لم يحتوي التعبير على اسم دالة، فسيُولد آليًا. يُعاد رقم تعريف الدالة الجديدة، أو -1 إذا تعذر تعريف الدالة.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.removeFunction id </term>
+			<listitem>
+				<para
+>يزيل الدالة ذات رقم التعريف <parameter
+>id</parameter
+>. إذا تعذر حذف الدالة، يُعاد false، وإلا يُعاد true.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.setFunctionExpression id eq f_str </term>
+			<listitem>
+				<para
+>يضبط التعبير للدالة ذات رقم التعريف <parameter
+>id</parameter
+> إلى <parameter
+>f_str</parameter
+>. يُعاد true إذا نجح، وإلا false.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/parser org.kde.kmplot.Parser.countFunctions </term>
+			<listitem>
+				<para
+>يُعيد عدد الدوال (تُحسب الدوال الوسيطية كاثنتين).</para>
+			</listitem>
+		</varlistentry>
+<!-- method double org.kde.kmplot.Parser.fkt(uint id, uint eq, double eq) what is this?-->
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.listFunctionNames </term>
+		  <listitem>
+		    <para
+>يُعيد قائمة بجميع الدوال.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.fnameToID f_str </term>
+		  <listitem>
+		    <para
+>يُعيد رقم تعريف <parameter
+>f_str</parameter
+> أو -1 إذا لم يُعثر على اسم الدالة <parameter
+>f_str</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFVisible id </term>
+		  <listitem>
+		    <para
+>يُعيد true إذا كانت الدالة ذات المعرف <parameter
+>id</parameter
+> مرئية، وإلا false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1Visible id </term>
+		  <listitem>
+		    <para
+>يُعيد true إذا كان المشتق الأول للدالة ذات المعرف <parameter
+>id</parameter
+> مرئيًا، وإلا false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2Visible id </term>
+		  <listitem>
+		    <para
+>يُعيد true إذا كان المشتق الثاني للدالة ذات المعرف <parameter
+>id</parameter
+> مرئيًا، وإلا false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntVisible id </term>
+		  <listitem>
+		    <para
+>يُعيد true إذا كان تكامل الدالة ذات المعرف <parameter
+>id</parameter
+> مرئيًا، وإلا false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFVisible id visible </term>
+		  <listitem>
+		    <para
+>يُظهر الدالة ذات المعرف <parameter
+>id</parameter
+> إذا كان <parameter
+>visible</parameter
+> true. إذا كان <parameter
+>visible</parameter
+> false، فستُخفى الدالة. يُعاد true إذا كانت الدالة موجودة، وإلا false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1Visible id visible </term>
+		  <listitem>
+		    <para
+>يُظهر المشتق الأول للدالة ذات المعرف <parameter
+>id</parameter
+> إذا كان <parameter
+>visible</parameter
+> true. إذا كان <parameter
+>visible</parameter
+> false، فستُخفى الدالة. يُعاد true إذا كانت الدالة موجودة، وإلا false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2Visible id visible </term>
+		  <listitem>
+		    <para
+>يُظهر المشتق الثاني للدالة ذات المعرف <parameter
+>id</parameter
+> إذا كان <parameter
+>visible</parameter
+> true. إذا كان <parameter
+>visible</parameter
+> false، فستُخفى الدالة. يُعاد true إذا كانت الدالة موجودة، وإلا false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntVisible id visible </term>
+		  <listitem>
+		    <para
+>يُظهر تكامل الدالة ذات المعرف <parameter
+>id</parameter
+> إذا كان <parameter
+>visible</parameter
+> true. إذا كان <parameter
+>visible</parameter
+> false، فستُخفى الدالة. يُعاد true إذا كانت الدالة موجودة، وإلا false.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStr id eq </term>
+		  <listitem>
+		    <para
+>يُعيد تعبير الدالة للدالة ذات المعرف <parameter
+>id</parameter
+>. إذا لم تكن الدالة موجودة، يُعاد سلسلة فارغة بدلًا من ذلك.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionFLineWidth id </term>
+		  <listitem>
+		    <para
+>يُعيد عرض خط الدالة ذات المعرف <parameter
+>id</parameter
+>. إذا لم تكن الدالة موجودة، يُعاد 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF1LineWidth id </term>
+		  <listitem>
+		    <para
+>يُعيد عرض خط المشتق الأول للدالة ذات المعرف <parameter
+>id</parameter
+>. إذا لم تكن الدالة موجودة، يُعاد 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionF2LineWidth id </term>
+		  <listitem>
+		    <para
+>يرجع عرض خط المشتقة الثانية للدالة ذات المُعرّف <parameter
+>id</parameter
+>. إذا لم توجد الدالة، يُرجع 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionIntLineWidth id </term>
+		  <listitem>
+		    <para
+>يرجع عرض خط تكامل الدالة ذات المُعرّف <parameter
+>id</parameter
+>. إذا لم توجد الدالة، يُرجع 0.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionFLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>يضبط عرض خط الدالة ذات المُعرّف <parameter
+>id</parameter
+> إلى <parameter
+>linewidth</parameter
+>. يُرجع صواب إذا وُجدت الدالة، وإلا خطأ.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF1LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>يضبط عرض خط المشتقة الأولى للدالة ذات المُعرّف <parameter
+>id</parameter
+> إلى <parameter
+>linewidth</parameter
+>. يُرجع صواب إذا وُجدت الدالة، وإلا خطأ.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionF2LineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>يضبط عرض خط المشتقة الثانية للدالة ذات المُعرّف <parameter
+>id</parameter
+> إلى <parameter
+>linewidth</parameter
+>. يُرجع صواب إذا وُجدت الدالة، وإلا خطأ.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionIntLineWidth id linewidth </term>
+		  <listitem>
+		    <para
+>يضبط عرض خط تكامل الدالة ذات المُعرّف <parameter
+>id</parameter
+> إلى <parameter
+>linewidth</parameter
+>. يُرجع صواب إذا وُجدت الدالة، وإلا خطأ.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionParameterList id </term>
+		  <listitem>
+		    <para
+>يرجع قائمة بكل قيم الوسائط للدالة ذات المُعرّف <parameter
+>id</parameter
+>.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionAddParameter id new_parameter </term>
+		  <listitem>
+		    <para
+>يُضيف قيمة الوسيط <parameter
+>new_parameter</parameter
+> إلى الدالة ذات المُعرّف <parameter
+>id</parameter
+>. يُرجع صواب إذا نجحت العملية، وإلا خطأ.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionRemoveParameter id remove_parameter </term>
+		  <listitem>
+		    <para
+>يزيل قيمة الوسيط <parameter
+>remove_parameter</parameter
+> من الدالة ذات المُعرّف <parameter
+>id</parameter
+>. يُرجع صواب إذا نجحت العملية، وإلا خطأ.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMinValue id </term>
+		  <listitem>
+		    <para
+>يرجع قيمة مدى الرسم البياني الدنيا للدالة ذات المُعرّف <parameter
+>id</parameter
+>. إذا لم توجد الدالة أو لم تُعرّف القيمة الدنيا، يُرجع سلسلة فارغة.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionMaxValue id </term>
+		  <listitem>
+		    <para
+>يرجع قيمة مدى الرسم البياني القصوى للدالة ذات المُعرّف <parameter
+>id</parameter
+>. إذا لم توجد الدالة أو لم تُعرّف القيمة القصوى، يُرجع سلسلة فارغة.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMinValue id min </term>
+		  <listitem>
+		    <para
+>يضبط قيمة مدى الرسم البياني الدنيا للدالة ذات المُعرّف <parameter
+>id</parameter
+> إلى <parameter
+>min</parameter
+>. يُرجع صواب إذا وُجدت الدالة وكان التعبير صحيحًا، وإلا خطأ.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionMaxValue id max </term>
+		  <listitem>
+		    <para
+>يضبط قيمة مدى الرسم البياني القصوى للدالة ذات المُعرّف <parameter
+>id</parameter
+> إلى <parameter
+>max</parameter
+>. يُرجع صواب إذا وُجدت الدالة وكان التعبير صحيحًا، وإلا خطأ.</para>
+		  </listitem>
+		</varlistentry>
+
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartXValue id </term>
+		  <listitem>
+		    <para
+>يرجع نقطة x الابتدائية لتكامل الدالة ذات المُعرّف <parameter
+>id</parameter
+>. إذا لم توجد الدالة أو لم يُعرّف تعبير النقطة x، يُرجع سلسلة فارغة.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.functionStartYValue id </term>
+		  <listitem>
+		    <para
+>يرجع نقطة y الابتدائية لتكامل الدالة ذات المُعرّف <parameter
+>id</parameter
+>. إذا لم توجد الدالة أو لم يُعرّف تعبير النقطة y، يُرجع سلسلة فارغة.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term
+>/parser org.kde.kmplot.Parser.setFunctionStartValue id x y </term>
+		  <listitem>
+		    <para
+>يضبط نقطتي x و y الابتدائيتين لتكامل الدالة ذات المُعرّف <parameter
+>id</parameter
+> إلى <parameter
+>x</parameter
+> و <parameter
+>y</parameter
+>. يُرجع صواب إذا وُجدت الدالة وكان التعبير صحيحًا، وإلا خطأ.</para>
+		  </listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.stopDrawing </term>
+			<listitem>
+				<para
+>إذا كان الراسم يرسم دالة حاليًا، ستتوقف الإجراء.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term
+>/view org.kde.kmplot.View.drawPlot </term>
+			<listitem>
+				<para
+>يعيد رسم كل الدوال.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</para>
+</chapter>
+
+<chapter id="credits">
+<title
+>الحقوق والترخيص</title>
+
+<para
+>الراسم </para>
+
+<para
+>حقوق نشر البرنامج 2000-2002 <personname
+><firstname
+>Klaus-Dieter</firstname
+><surname
+>M&ouml;ller</surname
+></personname
+> &Klaus-Dieter.Moeller.mail; </para>
+
+<itemizedlist>
+<title
+>المساهمون</title>
+  <listitem>
+    <para
+><acronym
+>CVS</acronym
+>: &Robert.Gogolok; &Robert.Gogolok.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>نقل &GUI; إلى كيدي 3 والترجمة: &Matthias.Messmer; &Matthias.Messmer.mail;</para>
+  </listitem>
+  <listitem>
+    <para
+>تحسينات متنوعة: Fredrik Edemar <email
+>f_edemar@linux.se</email
+></para>
+  </listitem>
+  <listitem>
+	<para
+>النقل إلى &Qt; 4، تحسينات واجهة المستخدم، ميزات: David Saxton <email
+>david@bluehaze.org</email
+></para>
+  </listitem>
+</itemizedlist>
+
+<para
+>حقوق نشر التوثيق 2000--2002 بقلم Klaus-Dieter M&ouml;ller &Klaus-Dieter.Moeller.mail;. </para>
+<para
+>تم توسيع وتحديث التوثيق لـ كيدي 3.2 بقلم &Philip.Rodrigues; &Philip.Rodrigues.mail;.</para>
+<para
+>تم توسيع وتحديث التوثيق لـ كيدي 3.3 بقلم &Philip.Rodrigues; &Philip.Rodrigues.mail; و Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>تم توسيع وتحديث التوثيق لـ كيدي 3.4 بقلم Fredrik Edemar <email
+>f_edemar@linux.se</email
+>.</para>
+<para
+>تم توسيع وتحديث التوثيق لـ كيدي 4.0 بقلم David Saxton <email
+>david@bluehaze.org</email
+>.</para>
+<para
+>الترجمة: زايد السعيدي <email
+>zayed.alsaidi@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

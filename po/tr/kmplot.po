@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kdeedu-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 02:53+0000\n"
-"PO-Revision-Date: 2026-11-15 20:17+0300\n"
+"PO-Revision-Date: 2026-11-23 18:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -839,8 +839,8 @@ msgid ""
 "will set a default name. You can change it later."
 msgstr ""
 "İşlevin adını girin.\n"
-"İşlevin adı benzersiz olmalıdır, bu satırı boş bırakırsanız KmPlot öntanımlı "
-"bir ad ayarlar. Bunu daha sonra değiştirebilirsiniz."
+"İşlevin adı benzersiz olmalıdır, bu satırı boş bırakırsanız KmPlot "
+"varsayılan bir ad ayarlar. Bunu daha sonra değiştirebilirsiniz."
 
 #. i18n: ectx: property (text), widget (KLineEdit, implicitName)
 #: functioneditorwidget.ui:683
@@ -1873,7 +1873,7 @@ msgstr "En &Küçüğü Bul…"
 #, kde-format
 msgctxt "@action:inmenu Help"
 msgid "Predefined &Math Functions"
-msgstr "Öntanımlı &Matematik İşlevleri"
+msgstr "Varsayılan &Matematik İşlevleri"
 
 #: maindlg.cpp:305
 #, kde-format
@@ -2489,13 +2489,13 @@ msgstr ""
 #: settingspagecolor.ui:113
 #, kde-format
 msgid "&Default Function Colors"
-msgstr "Ö&ntanımlı İşlev Renkleri"
+msgstr "&Varsayılan İşlev Renkleri"
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color1)
 #: settingspagecolor.ui:133
 #, kde-format
 msgid "The default color for function number 2."
-msgstr "2. işlev için öntanımlı renk."
+msgstr "2. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color1)
 #: settingspagecolor.ui:136
@@ -2506,16 +2506,16 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"2. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
-"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
-"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
-"tanımladığınızda uygulanır."
+"2. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color4)
 #: settingspagecolor.ui:146
 #, kde-format
 msgid "The default color for function number 5."
-msgstr "5. işlev için öntanımlı renk."
+msgstr "5. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color4)
 #: settingspagecolor.ui:149
@@ -2526,16 +2526,16 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"5. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
-"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
-"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
-"tanımladığınızda uygulanır."
+"5. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color0)
 #: settingspagecolor.ui:159
 #, kde-format
 msgid "The default color for function number 1."
-msgstr "1. işlev için öntanımlı renk."
+msgstr "1. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color0)
 #: settingspagecolor.ui:162
@@ -2546,10 +2546,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"1. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
-"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
-"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
-"tanımladığınızda uygulanır."
+"1. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: settingspagecolor.ui:172
@@ -2561,7 +2561,7 @@ msgstr "&1. İşlev:"
 #: settingspagecolor.ui:185
 #, kde-format
 msgid "The default color for function number 3."
-msgstr "3. işlev için öntanımlı renk."
+msgstr "3. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color2)
 #: settingspagecolor.ui:188
@@ -2572,10 +2572,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"3. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
-"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
-"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
-"tanımladığınızda uygulanır."
+"3. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_13)
 #: settingspagecolor.ui:198
@@ -2599,7 +2599,7 @@ msgstr "&4. İşlev:"
 #: settingspagecolor.ui:237
 #, kde-format
 msgid "The default color for function number 4."
-msgstr "4. işlev için öntanımlı renk."
+msgstr "4. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color3)
 #: settingspagecolor.ui:240
@@ -2610,10 +2610,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"4. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
-"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
-"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
-"tanımladığınızda uygulanır."
+"4. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_11)
 #: settingspagecolor.ui:250
@@ -2637,7 +2637,7 @@ msgstr "&8. İşlev:"
 #: settingspagecolor.ui:315
 #, kde-format
 msgid "The default color for function number 9."
-msgstr "9. işlev için öntanımlı renk."
+msgstr "9. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color8)
 #: settingspagecolor.ui:318
@@ -2648,10 +2648,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"9. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
-"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
-"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
-"tanımladığınızda uygulanır."
+"9. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_10)
 #: settingspagecolor.ui:328
@@ -2663,7 +2663,7 @@ msgstr "&6. İşlev:"
 #: settingspagecolor.ui:341
 #, kde-format
 msgid "The default color for function number 7."
-msgstr "7. işlev için öntanımlı renk."
+msgstr "7. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color6)
 #: settingspagecolor.ui:344
@@ -2674,16 +2674,16 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"7. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
-"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
-"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
-"tanımladığınızda uygulanır."
+"7. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color7)
 #: settingspagecolor.ui:354
 #, kde-format
 msgid "The default color for function number 8."
-msgstr "8. işlev için öntanımlı renk."
+msgstr "8. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color7)
 #: settingspagecolor.ui:357
@@ -2694,16 +2694,16 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"8. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
-"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
-"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
-"tanımladığınızda uygulanır."
+"8. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_Color5)
 #: settingspagecolor.ui:367
 #, kde-format
 msgid "The default color for function number 6."
-msgstr "6. işlev için öntanımlı renk."
+msgstr "6. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color5)
 #: settingspagecolor.ui:370
@@ -2714,10 +2714,10 @@ msgid ""
 "and you change color for that number here, the setting will be shown next "
 "time you define a new function at number 1."
 msgstr ""
-"6. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş işlevleri "
-"etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız ve bu "
-"numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir işlev "
-"tanımladığınızda uygulanır."
+"6. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
+"işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
+"ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
+"işlev tanımladığınızda uygulanır."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3_7)
 #: settingspagecolor.ui:380
@@ -2729,7 +2729,7 @@ msgstr "&9. İşlev:"
 #: settingspagecolor.ui:393
 #, kde-format
 msgid "The default color for function number 10."
-msgstr "10. işlev için öntanımlı renk."
+msgstr "10. işlev için varsayılan renk."
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, kcfg_Color9)
 #: settingspagecolor.ui:396
@@ -2740,7 +2740,7 @@ msgid ""
 "number 1 and you change color for that number here, the setting will be "
 "shown next time you define a new function at number 1."
 msgstr ""
-"10. işlev için öntanımlı renk. Lütfen bu renk ayarının yalnızca boş "
+"10. işlev için varsayılan renk. Lütfen bu renk ayarının yalnızca boş "
 "işlevleri etkilediğini unutmayın, bu nedenle 1. de bir işlev tanımladıysanız "
 "ve bu numaranın rengini burada değiştirirseniz bu ayar 1 numarada yeni bir "
 "işlev tanımladığınızda uygulanır."
